@@ -2,81 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90646526DBD
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 03:16:20 +0200 (CEST)
-Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CECA526DBC
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 03:14:57 +0200 (CEST)
+Received: from localhost ([::1]:33758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npgOJ-0003jm-Md
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 21:16:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41828)
+	id 1npgMy-0002nY-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 21:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1npg8Z-0002G7-Bo
- for qemu-devel@nongnu.org; Fri, 13 May 2022 21:00:03 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1npg8V-0008UF-CP
- for qemu-devel@nongnu.org; Fri, 13 May 2022 21:00:03 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id a19so8753591pgw.6
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 17:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sNR0XFHg8nOFyD/okexidlo28c+xwasNHBdex9dNqEc=;
- b=ghAPw6csOqoMUjvek1KjGaMpvQUdedSCIQTRFk4Wz7R8mpIlvTX5+QM6Yur20vdBPO
- ZgWHGI3mixK/nBZGsmKwN21iBreLZ0nw9iob87VV7XLGoXqg++O3wE2aNLEOQBfRE5ZC
- 4yKVTCk9lC2bZIQle+VVP0u1IiOHScYpoO1JepkKn7YNTcHv9E5qIYPMTvzU3JEFvetH
- iYGqU5y5QtrkK7/edgRKDZUk6l7whRUZwNJdZkq9DoqHo5nyarVBWgHmidiMb7dvVLyb
- 7G4iX6zS+14mUUm8tk7DcXCbj9qBlIDzaM66Y/dvU+stJ9a2U3W3bCjtSJmA/6r5NKBb
- caOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sNR0XFHg8nOFyD/okexidlo28c+xwasNHBdex9dNqEc=;
- b=hhcztSJQNTm9zOoTyVB+3qRIoM6tlHs+iH8lwUCcrtjocAnF7KqqU+Djrf3b4/AWvm
- TQRQFh3IoRoxuLNIHh7gtVPutFTc24sNBqmSrHxLyRouQVPrheBUdNTT4dRSWnGwMA6I
- FbaO77DVFWIpKKL7F4jv/Q64rCwK/juH4yK9ejl5hLAjrV/6Fs6gADl3lby2ciGLXaQj
- VqqPLNT5SIdvFikBa/Xf8Z15yVx1PxAyum52OjtuM2nfLX2aCyW4i5nWugocQ2Y6CPsW
- A8SOxksaenjLxROi381Tpj7gCACYSgRWaYMQrJTSFXtCdTzeBuJYJ9NeGP8OiIYQEKu/
- 6z3Q==
-X-Gm-Message-State: AOAM533KGMsvuXRWneR9wP/fGHQTPzV2R6eTOaxthmlD82eWc8CzPnzt
- Ts7TsEmHI5AlaNjnjhb8UWzMwA==
-X-Google-Smtp-Source: ABdhPJyuzZlhqmytOT0oyd9JSr/jrs0W8THeZOBij389VycNh6FHIiSCpYBdg98ZRaShSsn34IL+7g==
-X-Received: by 2002:aa7:8215:0:b0:4f7:125a:c88c with SMTP id
- k21-20020aa78215000000b004f7125ac88cmr6969579pfi.70.1652489997907; 
- Fri, 13 May 2022 17:59:57 -0700 (PDT)
-Received: from always-x1.www.tendawifi.com ([139.177.225.239])
- by smtp.gmail.com with ESMTPSA id
- t24-20020a170902b21800b0015e8d4eb1dbsm2466125plr.37.2022.05.13.17.59.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 17:59:57 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: mst@redhat.com,
-	arei.gonglei@huawei.com,
-	berrange@redhat.com
-Cc: qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org, helei.sig11@bytedance.com,
- jasowang@redhat.com, pizhenwei@bytedance.com, cohuck@redhat.com
-Subject: [PATCH v6 9/9] crypto: Introduce RSA algorithm
-Date: Sat, 14 May 2022 08:55:04 +0800
-Message-Id: <20220514005504.1042884-10-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220514005504.1042884-1-pizhenwei@bytedance.com>
-References: <20220514005504.1042884-1-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1npgKx-0000vW-9B
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 21:12:51 -0400
+Received: from sysprogs.com ([45.79.83.98]:50272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1npgKr-0002BB-Fk
+ for qemu-devel@nongnu.org; Fri, 13 May 2022 21:12:48 -0400
+Received: from sys2 (unknown [174.1.100.17])
+ by sysprogs.com (Postfix) with ESMTPSA id AB18111A203;
+ Sat, 14 May 2022 01:12:42 +0000 (UTC)
+From: "Ivan Shcherbakov" <ivan@sysprogs.com>
+To: <qemu-devel@nongnu.org>
+Cc: "'Paolo Bonzini'" <pbonzini@redhat.com>
+Subject: [PATCH] whpx: Added support for saving/restoring VM state
+Date: Fri, 13 May 2022 18:12:40 -0700
+Message-ID: <002301d8672f$b65a88a0$230f99e0$@sysprogs.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52a.google.com
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_000_0024_01D866F5.0A03C6F0"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdhnL6gp4OueTRnQRWGhdRJS9Pbryw==
+Content-Language: en-us
+Received-SPF: pass client-ip=45.79.83.98; envelope-from=ivan@sysprogs.com;
+ helo=sysprogs.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,1328 +55,1510 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two parts in this patch:
-1, support akcipher service by cryptodev-builtin driver
-2, virtio-crypto driver supports akcipher service
+This is a multipart message in MIME format.
 
-In principle, we should separate this into two patches, to avoid
-compiling error, merge them into one.
+------=_NextPart_000_0024_01D866F5.0A03C6F0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Then virtio-crypto gets request from guest side, and forwards the
-request to builtin driver to handle it.
+This patch adds support for the savevm/loadvm commands when using WHPX.
 
-Test with a guest linux:
-1, The self-test framework of crypto layer works fine in guest kernel
-2, Test with Linux guest(with asym support), the following script
-test(note that pkey_XXX is supported only in a newer version of keyutils):
-  - both public key & private key
-  - create/close session
-  - encrypt/decrypt/sign/verify basic driver operation
-  - also test with kernel crypto layer(pkey add/query)
+ 
 
-All the cases work fine.
+It saves the XSAVE state and the relevant internal registers that were
 
-Run script in guest:
-rm -rf *.der *.pem *.pfx
-modprobe pkcs8_key_parser # if CONFIG_PKCS8_PRIVATE_KEY_PARSER=m
-rm -rf /tmp/data
-dd if=/dev/random of=/tmp/data count=1 bs=20
+not otherwise captured into a separate "whpx/cpustate" object in the
 
-openssl req -nodes -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -subj "/C=CN/ST=BJ/L=HD/O=qemu/OU=dev/CN=qemu/emailAddress=qemu@qemu.org"
-openssl pkcs8 -in key.pem -topk8 -nocrypt -outform DER -out key.der
-openssl x509 -in cert.pem -inform PEM -outform DER -out cert.der
+snapshot, and restores them when the snapshot is loaded.
 
-PRIV_KEY_ID=`cat key.der | keyctl padd asymmetric test_priv_key @s`
-echo "priv key id = "$PRIV_KEY_ID
-PUB_KEY_ID=`cat cert.der | keyctl padd asymmetric test_pub_key @s`
-echo "pub key id = "$PUB_KEY_ID
+ 
 
-keyctl pkey_query $PRIV_KEY_ID 0
-keyctl pkey_query $PUB_KEY_ID 0
+Note that due to the XSAVE format differences between the WHPX API and
 
-echo "Enc with priv key..."
-keyctl pkey_encrypt $PRIV_KEY_ID 0 /tmp/data enc=pkcs1 >/tmp/enc.priv
-echo "Dec with pub key..."
-keyctl pkey_decrypt $PRIV_KEY_ID 0 /tmp/enc.priv enc=pkcs1 >/tmp/dec
-cmp /tmp/data /tmp/dec
+QEMU, the XSAVE state captured from WHPX is not reflected in the X86CPU
 
-echo "Sign with priv key..."
-keyctl pkey_sign $PRIV_KEY_ID 0 /tmp/data enc=pkcs1 hash=sha1 > /tmp/sig
-echo "Verify with pub key..."
-keyctl pkey_verify $PRIV_KEY_ID 0 /tmp/data /tmp/sig enc=pkcs1 hash=sha1
+structure, and is instead saved to the snapshots "as is".
 
-echo "Enc with pub key..."
-keyctl pkey_encrypt $PUB_KEY_ID 0 /tmp/data enc=pkcs1 >/tmp/enc.pub
-echo "Dec with priv key..."
-keyctl pkey_decrypt $PRIV_KEY_ID 0 /tmp/enc.pub enc=pkcs1 >/tmp/dec
-cmp /tmp/data /tmp/dec
+ 
 
-echo "Verify with pub key..."
-keyctl pkey_verify $PUB_KEY_ID 0 /tmp/data /tmp/sig enc=pkcs1 hash=sha1
+Signed-off-by: Ivan Shcherbakov <ivan@sysprogs.com>
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-Signed-off-by: lei he <helei.sig11@bytedance.com
 ---
- backends/cryptodev-builtin.c      | 272 +++++++++++++++++++++----
- backends/cryptodev-vhost-user.c   |  34 +++-
- backends/cryptodev.c              |  32 ++-
- hw/virtio/virtio-crypto.c         | 323 ++++++++++++++++++++++++------
- include/hw/virtio/virtio-crypto.h |   5 +-
- include/sysemu/cryptodev.h        |  83 ++++++--
- 6 files changed, 604 insertions(+), 145 deletions(-)
 
-diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
-index 0671bf9f3e..388aedd8df 100644
---- a/backends/cryptodev-builtin.c
-+++ b/backends/cryptodev-builtin.c
-@@ -26,6 +26,7 @@
- #include "qapi/error.h"
- #include "standard-headers/linux/virtio_crypto.h"
- #include "crypto/cipher.h"
-+#include "crypto/akcipher.h"
- #include "qom/object.h"
+target/i386/cpu.h                |   2 +-
+
+target/i386/whpx/whpx-all.c      | 205 +++++++++++++++++++++++++++++--
+
+target/i386/whpx/whpx-internal.h |   7 +-
+
+3 files changed, 201 insertions(+), 13 deletions(-)
+
  
- 
-@@ -41,11 +42,12 @@ OBJECT_DECLARE_SIMPLE_TYPE(CryptoDevBackendBuiltin, CRYPTODEV_BACKEND_BUILTIN)
- typedef struct CryptoDevBackendBuiltinSession {
-     QCryptoCipher *cipher;
-     uint8_t direction; /* encryption or decryption */
--    uint8_t type; /* cipher? hash? aead? */
-+    uint8_t type; /* cipher? hash? aead? akcipher? */
-+    QCryptoAkCipher *akcipher;
-     QTAILQ_ENTRY(CryptoDevBackendBuiltinSession) next;
- } CryptoDevBackendBuiltinSession;
- 
--/* Max number of symmetric sessions */
-+/* Max number of symmetric/asymmetric sessions */
- #define MAX_NUM_SESSIONS 256
- 
- #define CRYPTODEV_BUITLIN_MAX_AUTH_KEY_LEN    512
-@@ -80,15 +82,17 @@ static void cryptodev_builtin_init(
-     backend->conf.crypto_services =
-                          1u << VIRTIO_CRYPTO_SERVICE_CIPHER |
-                          1u << VIRTIO_CRYPTO_SERVICE_HASH |
--                         1u << VIRTIO_CRYPTO_SERVICE_MAC;
-+                         1u << VIRTIO_CRYPTO_SERVICE_MAC |
-+                         1u << VIRTIO_CRYPTO_SERVICE_AKCIPHER;
-     backend->conf.cipher_algo_l = 1u << VIRTIO_CRYPTO_CIPHER_AES_CBC;
-     backend->conf.hash_algo = 1u << VIRTIO_CRYPTO_HASH_SHA1;
-+    backend->conf.akcipher_algo = 1u << VIRTIO_CRYPTO_AKCIPHER_RSA;
-     /*
-      * Set the Maximum length of crypto request.
-      * Why this value? Just avoid to overflow when
-      * memory allocation for each crypto request.
+
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+
+index 9661f9fbd1..9c16199679 100644
+
+--- a/target/i386/cpu.h
+
++++ b/target/i386/cpu.h
+
+@@ -1698,7 +1698,7 @@ typedef struct CPUArchState {
+
+     int64_t user_tsc_khz; /* for sanity check only */
+
+     uint64_t apic_bus_freq;
+
+     uint64_t tsc;
+
+-#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
+
++#if defined(CONFIG_KVM) || defined(CONFIG_HVF) || defined(CONFIG_WHPX)
+
+     void *xsave_buf;
+
+     uint32_t xsave_buf_len;
+
+#endif
+
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+
+index b22a3314b4..6f95e9c780 100644
+
+--- a/target/i386/whpx/whpx-all.c
+
++++ b/target/i386/whpx/whpx-all.c
+
+@@ -26,6 +26,9 @@
+
+#include "qapi/qapi-types-common.h"
+
+#include "qapi/qapi-visit-common.h"
+
+#include "migration/blocker.h"
+
++#include "migration/register.h"
+
++#include "migration/qemu-file-types.h"
+
++#include "qemu/memalign.h"
+
+#include <winerror.h>
+
+ #include "whpx-internal.h"
+
+@@ -242,6 +245,10 @@ struct whpx_vcpu {
+
+     WHV_RUN_VP_EXIT_CONTEXT exit_ctx;
+
+};
+
++enum {
+
++    WHPX_XSAVE_AREA_ALIGNMENT = 4096,
+
++};
+
++
+
+static bool whpx_allowed;
+
+static bool whp_dispatch_initialized;
+
+static HMODULE hWinHvPlatform, hWinHvEmulation;
+
+@@ -251,6 +258,29 @@ static WHV_PROCESSOR_XSAVE_FEATURES whpx_xsave_cap;
+
+struct whpx_state whpx_global;
+
+struct WHPDispatch whp_dispatch;
+
++static void whpx_xsave_save(QEMUFile *f, void *opaque);
+
++static int whpx_xsave_load(QEMUFile *f, void *opaque, int version_id);
+
++
+
++/*
+
++ * As of Windows 10 21H1, the layout of the XSAVE data returned by the WHPX
+API
+
++ * does not match the layout used by QEMU.
+
++ *
+
++ * Specifically, trying to pass the state returned by
+x86_cpu_xsave_all_areas()
+
++ * to WHvSetVirtualProcessorXsaveState() causes it to return an error.
+
++ *
+
++ * As a result, we do not reflect the captured XSAVE state in the X86CPU
+
++ * structure, and instead manually save it to the snapshots via the
+
++ * whpx_xsave_xxxx() callbacks.
+
++ *
+
++ * Note that unlike the device drivers that can use the new
+VMStateDescription
+
++ * mechanism via 'DeviceClass::vmsd' field, AccelClass objects cannot
+easily
+
++ * do it. Hence, we rely on the legacy state management API.
+
++ */
+
++static SaveVMHandlers savevm_whpx = {
+
++    .save_state = whpx_xsave_save,
+
++    .load_state = whpx_xsave_load,
+
++};
+
++
+
+static bool whpx_has_xsave(void)
+
+{
+
+     return whpx_xsave_cap.XsaveSupport;
+
+@@ -307,18 +337,35 @@ static SegmentCache whpx_seg_h2q(const
+WHV_X64_SEGMENT_REGISTER *hs)
+
+}
+
+ /* X64 Extended Control Registers */
+
+-static void whpx_set_xcrs(CPUState *cpu)
+
++static void whpx_set_xsave(CPUState *cpu)
+
+{
+
+     CPUX86State *env = cpu->env_ptr;
+
+     HRESULT hr;
+
+     struct whpx_state *whpx = &whpx_global;
+
+     WHV_REGISTER_VALUE xcr0;
+
+     WHV_REGISTER_NAME xcr0_name = WHvX64RegisterXCr0;
+
++    void *xsave = X86_CPU(cpu)->env.xsave_buf;
+
++    uint32_t xsave_len = X86_CPU(cpu)->env.xsave_buf_len;
+
+     if (!whpx_has_xsave()) {
+
+         return;
+
+     }
+
++    if (xsave) {
+
++        /*
+
++         *  See the comment on 'savevm_whpx' for an explanation why
+
++         *  we cannot do this:
+
++         *      x86_cpu_xsave_all_areas(X86_CPU(cpu), xsave, xsave_len);
+
++         */
+
++
+
++        hr = whp_dispatch.WHvSetVirtualProcessorXsaveState(
+
++            whpx->partition, cpu->cpu_index, xsave, xsave_len);
+
++
+
++        if (FAILED(hr)) {
+
++            error_report("WHPX: Failed to set xsave state, hr=%08lx", hr);
+
++        }
+
++    }
+
++
+
+     /* Only xcr0 is supported by the hypervisor currently */
+
+     xcr0.Reg64 = env->xcr0;
+
+     hr = whp_dispatch.WHvSetVirtualProcessorRegisters(
+
+@@ -326,6 +373,7 @@ static void whpx_set_xcrs(CPUState *cpu)
+
+     if (FAILED(hr)) {
+
+         error_report("WHPX: Failed to set register xcr0, hr=%08lx", hr);
+
+     }
+
++
+
+}
+
+ static int whpx_set_tsc(CPUState *cpu)
+
+@@ -474,7 +522,7 @@ static void whpx_set_registers(CPUState *cpu, int level)
+
+      * Extended control registers needs to be handled separately depending
+
+      * on whether xsave is supported/enabled or not.
+
       */
--    backend->conf.max_size = LONG_MAX - sizeof(CryptoDevBackendSymOpInfo);
-+    backend->conf.max_size = LONG_MAX - sizeof(CryptoDevBackendOpInfo);
-     backend->conf.max_cipher_key_len = CRYPTODEV_BUITLIN_MAX_CIPHER_KEY_LEN;
-     backend->conf.max_auth_key_len = CRYPTODEV_BUITLIN_MAX_AUTH_KEY_LEN;
- 
-@@ -148,6 +152,53 @@ err:
-    return -1;
- }
- 
-+static int cryptodev_builtin_get_rsa_hash_algo(
-+    int virtio_rsa_hash, Error **errp)
-+{
-+    switch (virtio_rsa_hash) {
-+    case VIRTIO_CRYPTO_RSA_MD5:
-+        return QCRYPTO_HASH_ALG_MD5;
-+
-+    case VIRTIO_CRYPTO_RSA_SHA1:
-+        return QCRYPTO_HASH_ALG_SHA1;
-+
-+    case VIRTIO_CRYPTO_RSA_SHA256:
-+        return QCRYPTO_HASH_ALG_SHA256;
-+
-+    case VIRTIO_CRYPTO_RSA_SHA512:
-+        return QCRYPTO_HASH_ALG_SHA512;
-+
-+    default:
-+        error_setg(errp, "Unsupported rsa hash algo: %d", virtio_rsa_hash);
-+        return -1;
-+    }
-+}
-+
-+static int cryptodev_builtin_set_rsa_options(
-+                    int virtio_padding_algo,
-+                    int virtio_hash_algo,
-+                    QCryptoAkCipherOptionsRSA *opt,
-+                    Error **errp)
-+{
-+    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_PKCS1_PADDING) {
-+        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_PKCS1;
-+        opt->hash_alg =
-+            cryptodev_builtin_get_rsa_hash_algo(virtio_hash_algo, errp);
-+        if (opt->hash_alg < 0) {
-+            return -1;
-+        }
-+        return 0;
-+    }
-+
-+    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_RAW_PADDING) {
-+        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_RAW;
-+        return 0;
-+    }
-+
-+    error_setg(errp, "Unsupported rsa padding algo: %d", virtio_padding_algo);
-+    return -1;
-+}
-+
- static int cryptodev_builtin_create_cipher_session(
-                     CryptoDevBackendBuiltin *builtin,
-                     CryptoDevBackendSymSessionInfo *sess_info,
-@@ -240,26 +291,89 @@ static int cryptodev_builtin_create_cipher_session(
-     return index;
- }
- 
--static int64_t cryptodev_builtin_sym_create_session(
-+static int cryptodev_builtin_create_akcipher_session(
-+                    CryptoDevBackendBuiltin *builtin,
-+                    CryptoDevBackendAsymSessionInfo *sess_info,
-+                    Error **errp)
-+{
-+    CryptoDevBackendBuiltinSession *sess;
-+    QCryptoAkCipher *akcipher;
-+    int index;
-+    QCryptoAkCipherKeyType type;
-+    QCryptoAkCipherOptions opts;
-+
-+    switch (sess_info->algo) {
-+    case VIRTIO_CRYPTO_AKCIPHER_RSA:
-+        opts.alg = QCRYPTO_AKCIPHER_ALG_RSA;
-+        if (cryptodev_builtin_set_rsa_options(sess_info->u.rsa.padding_algo,
-+            sess_info->u.rsa.hash_algo, &opts.u.rsa, errp) != 0) {
-+            return -1;
-+        }
-+        break;
-+
-+    /* TODO support DSA&ECDSA until qemu crypto framework support these */
-+
-+    default:
-+        error_setg(errp, "Unsupported akcipher alg %u", sess_info->algo);
-+        return -1;
-+    }
-+
-+    switch (sess_info->keytype) {
-+    case VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PUBLIC:
-+        type = QCRYPTO_AKCIPHER_KEY_TYPE_PUBLIC;
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PRIVATE:
-+        type = QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE;
-+        break;
-+
-+    default:
-+        error_setg(errp, "Unsupported akcipher keytype %u", sess_info->keytype);
-+        return -1;
-+    }
-+
-+    index = cryptodev_builtin_get_unused_session_index(builtin);
-+    if (index < 0) {
-+        error_setg(errp, "Total number of sessions created exceeds %u",
-+                   MAX_NUM_SESSIONS);
-+        return -1;
-+    }
-+
-+    akcipher = qcrypto_akcipher_new(&opts, type, sess_info->key,
-+                                    sess_info->keylen, errp);
-+    if (!akcipher) {
-+        return -1;
-+    }
-+
-+    sess = g_new0(CryptoDevBackendBuiltinSession, 1);
-+    sess->akcipher = akcipher;
-+
-+    builtin->sessions[index] = sess;
-+
-+    return index;
-+}
-+
-+static int64_t cryptodev_builtin_create_session(
-            CryptoDevBackend *backend,
--           CryptoDevBackendSymSessionInfo *sess_info,
-+           CryptoDevBackendSessionInfo *sess_info,
-            uint32_t queue_index, Error **errp)
- {
-     CryptoDevBackendBuiltin *builtin =
-                       CRYPTODEV_BACKEND_BUILTIN(backend);
--    int64_t session_id = -1;
--    int ret;
-+    CryptoDevBackendSymSessionInfo *sym_sess_info;
-+    CryptoDevBackendAsymSessionInfo *asym_sess_info;
- 
-     switch (sess_info->op_code) {
-     case VIRTIO_CRYPTO_CIPHER_CREATE_SESSION:
--        ret = cryptodev_builtin_create_cipher_session(
--                           builtin, sess_info, errp);
--        if (ret < 0) {
--            return ret;
--        } else {
--            session_id = ret;
--        }
--        break;
-+        sym_sess_info = &sess_info->u.sym_sess_info;
-+        return cryptodev_builtin_create_cipher_session(
-+                           builtin, sym_sess_info, errp);
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_CREATE_SESSION:
-+        asym_sess_info = &sess_info->u.asym_sess_info;
-+        return cryptodev_builtin_create_akcipher_session(
-+                           builtin, asym_sess_info, errp);
-+
-     case VIRTIO_CRYPTO_HASH_CREATE_SESSION:
-     case VIRTIO_CRYPTO_MAC_CREATE_SESSION:
-     default:
-@@ -268,50 +382,44 @@ static int64_t cryptodev_builtin_sym_create_session(
-         return -1;
-     }
- 
--    return session_id;
-+    return -1;
- }
- 
--static int cryptodev_builtin_sym_close_session(
-+static int cryptodev_builtin_close_session(
-            CryptoDevBackend *backend,
-            uint64_t session_id,
-            uint32_t queue_index, Error **errp)
- {
-     CryptoDevBackendBuiltin *builtin =
-                       CRYPTODEV_BACKEND_BUILTIN(backend);
-+    CryptoDevBackendBuiltinSession *session;
- 
-     assert(session_id < MAX_NUM_SESSIONS && builtin->sessions[session_id]);
- 
--    qcrypto_cipher_free(builtin->sessions[session_id]->cipher);
--    g_free(builtin->sessions[session_id]);
-+    session = builtin->sessions[session_id];
-+    if (session->cipher) {
-+        qcrypto_cipher_free(session->cipher);
-+    } else if (session->akcipher) {
-+        qcrypto_akcipher_free(session->akcipher);
-+    }
-+
-+    g_free(session);
-     builtin->sessions[session_id] = NULL;
+
+-    whpx_set_xcrs(cpu);
+
++    whpx_set_xsave(cpu);
+
+     /* 16 XMM registers */
+
+     assert(whpx_register_names[idx] == WHvX64RegisterXmm0);
+
+@@ -582,28 +630,57 @@ static int whpx_get_tsc(CPUState *cpu)
+
      return 0;
- }
- 
- static int cryptodev_builtin_sym_operation(
--                 CryptoDevBackend *backend,
--                 CryptoDevBackendSymOpInfo *op_info,
--                 uint32_t queue_index, Error **errp)
-+                 CryptoDevBackendBuiltinSession *sess,
-+                 CryptoDevBackendSymOpInfo *op_info, Error **errp)
- {
--    CryptoDevBackendBuiltin *builtin =
--                      CRYPTODEV_BACKEND_BUILTIN(backend);
--    CryptoDevBackendBuiltinSession *sess;
+
+}
+
+-/* X64 Extended Control Registers */
+
+-static void whpx_get_xcrs(CPUState *cpu)
+
++/* X64 Extended Control Registers & XSAVE state */
+
++static void whpx_get_xsave(CPUState *cpu)
+
+{
+
+     CPUX86State *env = cpu->env_ptr;
+
+     HRESULT hr;
+
+     struct whpx_state *whpx = &whpx_global;
+
+     WHV_REGISTER_VALUE xcr0;
+
+     WHV_REGISTER_NAME xcr0_name = WHvX64RegisterXCr0;
+
++    void *xsave = X86_CPU(cpu)->env.xsave_buf;
+
++    uint32_t xsave_len = X86_CPU(cpu)->env.xsave_buf_len;
+
++    uint32_t xsave_done;
+
+     if (!whpx_has_xsave()) {
+
+         return;
+
+     }
+
++    if (!xsave) {
+
++        hr = whp_dispatch.WHvGetVirtualProcessorXsaveState(
+
++            whpx->partition, cpu->cpu_index, NULL, 0, &xsave_done);
+
++
+
++        if (hr != WHV_E_INSUFFICIENT_BUFFER || !xsave_done) {
+
++            error_report("WHPX: Failed to get xsave area size, hr=%08lx",
+hr);
+
++        } else {
+
++            X86_CPU(cpu)->env.xsave_buf_len = xsave_len = xsave_done;
+
++            X86_CPU(cpu)->env.xsave_buf = xsave =
+
++                qemu_memalign(WHPX_XSAVE_AREA_ALIGNMENT,
+
++                    X86_CPU(cpu)->env.xsave_buf_len);
+
++        }
+
++    }
+
++
+
+     /* Only xcr0 is supported by the hypervisor currently */
+
+     hr = whp_dispatch.WHvGetVirtualProcessorRegisters(
+
+         whpx->partition, cpu->cpu_index, &xcr0_name, 1, &xcr0);
+
+     if (FAILED(hr)) {
+
+         error_report("WHPX: Failed to get register xcr0, hr=%08lx", hr);
+
+-        return;
+
+     }
+
+     env->xcr0 = xcr0.Reg64;
+
++
+
++    hr = whp_dispatch.WHvGetVirtualProcessorXsaveState(
+
++        whpx->partition, cpu->cpu_index, xsave, xsave_len, &xsave_done);
+
++
+
++    if (FAILED(hr)) {
+
++        error_report("WHPX: Failed to get xsave state, hr=%08lx", hr);
+
++    }
+
++
+
++    /*
+
++     * See the comment on 'savevm_whpx' for an explanation why
+
++     *  we cannot do this:
+
++     *      x86_cpu_xrstor_all_areas(X86_CPU(cpu), xsave, xsave_len);
+
++     */
+
+}
+
+ static void whpx_get_registers(CPUState *cpu)
+
+@@ -703,7 +780,7 @@ static void whpx_get_registers(CPUState *cpu)
+
+      * Extended control registers needs to be handled separately depending
+
+      * on whether xsave is supported/enabled or not.
+
+      */
+
+-    whpx_get_xcrs(cpu);
+
++    whpx_get_xsave(cpu);
+
+     /* 16 XMM registers */
+
+     assert(whpx_register_names[idx] == WHvX64RegisterXmm0);
+
+@@ -2164,10 +2241,15 @@ int whpx_init_vcpu(CPUState *cpu)
+
+     UINT64 freq = 0;
+
      int ret;
- 
--    if (op_info->session_id >= MAX_NUM_SESSIONS ||
--              builtin->sessions[op_info->session_id] == NULL) {
--        error_setg(errp, "Cannot find a valid session id: %" PRIu64 "",
--                   op_info->session_id);
--        return -VIRTIO_CRYPTO_INVSESS;
--    }
--
-     if (op_info->op_type == VIRTIO_CRYPTO_SYM_OP_ALGORITHM_CHAINING) {
-         error_setg(errp,
-                "Algorithm chain is unsupported for cryptdoev-builtin");
-         return -VIRTIO_CRYPTO_NOTSUPP;
-     }
- 
--    sess = builtin->sessions[op_info->session_id];
--
-     if (op_info->iv_len > 0) {
-         ret = qcrypto_cipher_setiv(sess->cipher, op_info->iv,
-                                    op_info->iv_len, errp);
-@@ -333,9 +441,95 @@ static int cryptodev_builtin_sym_operation(
-             return -VIRTIO_CRYPTO_ERR;
-         }
-     }
+
+-    /* Add migration blockers for all unsupported features of the
+
+-     * Windows Hypervisor Platform
+
+-     */
+
+-    if (whpx_migration_blocker == NULL) {
+
++    ret = register_savevm_live("whpx/cpustate", cpu->cpu_index,
+
++        1, &savevm_whpx, cpu);
+
 +
-+    return VIRTIO_CRYPTO_OK;
-+}
+
++    if (ret && whpx_migration_blocker == NULL) {
+
++        /*
+
++         * Failed to register the callbacks for saving the CPU state.
+
++         * Add migration blockers for all unsupported features of the
+
++         * Windows Hypervisor Platform
+
++         */
+
+         error_setg(&whpx_migration_blocker,
+
+                "State blocked due to non-migratable CPUID feature support,"
+
+                "dirty memory tracking support, and XSAVE/XRSTOR support");
+
+@@ -2300,10 +2382,16 @@ void whpx_destroy_vcpu(CPUState *cpu)
+
+{
+
+     struct whpx_state *whpx = &whpx_global;
+
+     struct whpx_vcpu *vcpu = get_whpx_vcpu(cpu);
+
++    void *xsave = X86_CPU(cpu)->env.xsave_buf;
+
+     whp_dispatch.WHvDeleteVirtualProcessor(whpx->partition,
+cpu->cpu_index);
+
+     whp_dispatch.WHvEmulatorDestroyEmulator(vcpu->emulator);
+
+     g_free(cpu->hax_vcpu);
+
 +
-+static int cryptodev_builtin_asym_operation(
-+                 CryptoDevBackendBuiltinSession *sess, uint32_t op_code,
-+                 CryptoDevBackendAsymOpInfo *op_info, Error **errp)
-+{
-+    int ret;
-+
-+    switch (op_code) {
-+    case VIRTIO_CRYPTO_AKCIPHER_ENCRYPT:
-+        ret = qcrypto_akcipher_encrypt(sess->akcipher,
-+                                       op_info->src, op_info->src_len,
-+                                       op_info->dst, op_info->dst_len, errp);
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_DECRYPT:
-+        ret = qcrypto_akcipher_decrypt(sess->akcipher,
-+                                       op_info->src, op_info->src_len,
-+                                       op_info->dst, op_info->dst_len, errp);
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_SIGN:
-+        ret = qcrypto_akcipher_sign(sess->akcipher,
-+                                    op_info->src, op_info->src_len,
-+                                    op_info->dst, op_info->dst_len, errp);
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_VERIFY:
-+        ret = qcrypto_akcipher_verify(sess->akcipher,
-+                                      op_info->src, op_info->src_len,
-+                                      op_info->dst, op_info->dst_len, errp);
-+    break;
-+
-+    default:
-+        return -VIRTIO_CRYPTO_ERR;
+
++    if (xsave) {
+
++        qemu_vfree(xsave);
+
 +    }
+
 +
-+    if (ret < 0) {
-+        if (op_code == VIRTIO_CRYPTO_AKCIPHER_VERIFY) {
-+            return -VIRTIO_CRYPTO_KEY_REJECTED;
+
+     return;
+
+}
+
+@@ -2799,4 +2887,101 @@ error:
+
+     return false;
+
+}
+
++static void whpx_xsave_save(QEMUFile *f, void *opaque)
+
++{
+
++    CPUState *cpu = (CPUState *)opaque;
+
++    X86CPU *x86_cpu = X86_CPU(cpu);
+
++    void *xsave = x86_cpu->env.xsave_buf;
+
++    uint32_t xsave_len = x86_cpu->env.xsave_buf_len;
+
++    int i;
+
++
+
++    /*
+
++     * Initially, all WHPX CPUs except #0 start suspended (with
+
++     * WHV_INTERNAL_ACTIVITY_REGISTER::StartupSuspend set).
+
++     * Restoring a snapshot with multiple active CPUs will not
+
++     * automatically start them unless we explicitly reset this
+
++     * flag (or preserve it in the snapshot).
+
++     */
+
++    WHV_REGISTER_NAME savedRegisters[] = {
+
++        WHvRegisterInternalActivityState
+
++    };
+
++
+
++    if (xsave && xsave_len) {
+
++        qemu_put_be32(f, xsave_len);
+
++        qemu_put_buffer(f, xsave, xsave_len);
+
++    } else {
+
++        qemu_put_be32(f, 0);
+
++    }
+
++
+
++    /* Save 0 or more [name]=[value] pairs followed by [0] */
+
++    for (i = 0; i < sizeof(savedRegisters) / sizeof(savedRegisters[0]);
+i++) {
+
++        HRESULT hr;
+
++        WHV_REGISTER_NAME name = savedRegisters[i];
+
++        WHV_REGISTER_VALUE value;
+
++
+
++        /* 0 marks the end of saved register list */
+
++        assert(name != 0);
+
++
+
++        hr = whp_dispatch.WHvGetVirtualProcessorRegisters(
+
++            whpx_global.partition, cpu->cpu_index,
+
++            &name, 1, &value);
+
++
+
++        if (SUCCEEDED(hr)) {
+
++            qemu_put_be32(f, name);
+
++            qemu_put_buffer(f, (uint8_t *)&value, sizeof(value));
+
 +        }
-+        return -VIRTIO_CRYPTO_ERR;
+
 +    }
+
 +
-+    /* Buffer is too short */
-+    if (unlikely(ret > op_info->dst_len)) {
-+        return -VIRTIO_CRYPTO_ERR;
-+    }
-+
-+    op_info->dst_len = ret;
-+
-     return VIRTIO_CRYPTO_OK;
- }
- 
-+static int cryptodev_builtin_operation(
-+                 CryptoDevBackend *backend,
-+                 CryptoDevBackendOpInfo *op_info,
-+                 uint32_t queue_index, Error **errp)
-+{
-+    CryptoDevBackendBuiltin *builtin =
-+                      CRYPTODEV_BACKEND_BUILTIN(backend);
-+    CryptoDevBackendBuiltinSession *sess;
-+    CryptoDevBackendSymOpInfo *sym_op_info;
-+    CryptoDevBackendAsymOpInfo *asym_op_info;
-+    enum CryptoDevBackendAlgType algtype = op_info->algtype;
-+    int ret = -VIRTIO_CRYPTO_ERR;
-+
-+    if (op_info->session_id >= MAX_NUM_SESSIONS ||
-+              builtin->sessions[op_info->session_id] == NULL) {
-+        error_setg(errp, "Cannot find a valid session id: %" PRIu64 "",
-+                   op_info->session_id);
-+        return -VIRTIO_CRYPTO_INVSESS;
-+    }
-+
-+    sess = builtin->sessions[op_info->session_id];
-+    if (algtype == CRYPTODEV_BACKEND_ALG_SYM) {
-+        sym_op_info = op_info->u.sym_op_info;
-+        ret = cryptodev_builtin_sym_operation(sess, sym_op_info, errp);
-+    } else if (algtype == CRYPTODEV_BACKEND_ALG_ASYM) {
-+        asym_op_info = op_info->u.asym_op_info;
-+        ret = cryptodev_builtin_asym_operation(sess, op_info->op_code,
-+                                               asym_op_info, errp);
-+    }
-+
-+    return ret;
+
++    qemu_put_be32(f, 0);
+
 +}
+
 +
- static void cryptodev_builtin_cleanup(
-              CryptoDevBackend *backend,
-              Error **errp)
-@@ -348,7 +542,7 @@ static void cryptodev_builtin_cleanup(
- 
-     for (i = 0; i < MAX_NUM_SESSIONS; i++) {
-         if (builtin->sessions[i] != NULL) {
--            cryptodev_builtin_sym_close_session(backend, i, 0, &error_abort);
-+            cryptodev_builtin_close_session(backend, i, 0, &error_abort);
-         }
-     }
- 
-@@ -370,9 +564,9 @@ cryptodev_builtin_class_init(ObjectClass *oc, void *data)
- 
-     bc->init = cryptodev_builtin_init;
-     bc->cleanup = cryptodev_builtin_cleanup;
--    bc->create_session = cryptodev_builtin_sym_create_session;
--    bc->close_session = cryptodev_builtin_sym_close_session;
--    bc->do_sym_op = cryptodev_builtin_sym_operation;
-+    bc->create_session = cryptodev_builtin_create_session;
-+    bc->close_session = cryptodev_builtin_close_session;
-+    bc->do_op = cryptodev_builtin_operation;
- }
- 
- static const TypeInfo cryptodev_builtin_info = {
-diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
-index bedb452474..5443a59153 100644
---- a/backends/cryptodev-vhost-user.c
-+++ b/backends/cryptodev-vhost-user.c
-@@ -259,7 +259,33 @@ static int64_t cryptodev_vhost_user_sym_create_session(
-     return -1;
- }
- 
--static int cryptodev_vhost_user_sym_close_session(
-+static int64_t cryptodev_vhost_user_create_session(
-+           CryptoDevBackend *backend,
-+           CryptoDevBackendSessionInfo *sess_info,
-+           uint32_t queue_index, Error **errp)
+
++static int whpx_xsave_load(QEMUFile *f, void *opaque, int version_id)
+
 +{
-+    uint32_t op_code = sess_info->op_code;
-+    CryptoDevBackendSymSessionInfo *sym_sess_info;
+
++    CPUState *cpu = (CPUState *)opaque;
+
++    X86CPU *x86_cpu = X86_CPU(cpu);
+
 +
-+    switch (op_code) {
-+    case VIRTIO_CRYPTO_CIPHER_CREATE_SESSION:
-+    case VIRTIO_CRYPTO_HASH_CREATE_SESSION:
-+    case VIRTIO_CRYPTO_MAC_CREATE_SESSION:
-+    case VIRTIO_CRYPTO_AEAD_CREATE_SESSION:
-+        sym_sess_info = &sess_info->u.sym_sess_info;
-+        return cryptodev_vhost_user_sym_create_session(backend, sym_sess_info,
-+                   queue_index, errp);
-+    default:
-+        error_setg(errp, "Unsupported opcode :%" PRIu32 "",
-+                   sess_info->op_code);
-+        return -1;
-+
-+    }
-+
-+    return -1;
-+}
-+
-+static int cryptodev_vhost_user_close_session(
-            CryptoDevBackend *backend,
-            uint64_t session_id,
-            uint32_t queue_index, Error **errp)
-@@ -351,9 +377,9 @@ cryptodev_vhost_user_class_init(ObjectClass *oc, void *data)
- 
-     bc->init = cryptodev_vhost_user_init;
-     bc->cleanup = cryptodev_vhost_user_cleanup;
--    bc->create_session = cryptodev_vhost_user_sym_create_session;
--    bc->close_session = cryptodev_vhost_user_sym_close_session;
--    bc->do_sym_op = NULL;
-+    bc->create_session = cryptodev_vhost_user_create_session;
-+    bc->close_session = cryptodev_vhost_user_close_session;
-+    bc->do_op = NULL;
- 
-     object_class_property_add_str(oc, "chardev",
-                                   cryptodev_vhost_user_get_chardev,
-diff --git a/backends/cryptodev.c b/backends/cryptodev.c
-index 2b105e433c..33eb4e1a70 100644
---- a/backends/cryptodev.c
-+++ b/backends/cryptodev.c
-@@ -72,9 +72,9 @@ void cryptodev_backend_cleanup(
-     }
- }
- 
--int64_t cryptodev_backend_sym_create_session(
-+int64_t cryptodev_backend_create_session(
-            CryptoDevBackend *backend,
--           CryptoDevBackendSymSessionInfo *sess_info,
-+           CryptoDevBackendSessionInfo *sess_info,
-            uint32_t queue_index, Error **errp)
- {
-     CryptoDevBackendClass *bc =
-@@ -87,7 +87,7 @@ int64_t cryptodev_backend_sym_create_session(
-     return -1;
- }
- 
--int cryptodev_backend_sym_close_session(
-+int cryptodev_backend_close_session(
-            CryptoDevBackend *backend,
-            uint64_t session_id,
-            uint32_t queue_index, Error **errp)
-@@ -102,16 +102,16 @@ int cryptodev_backend_sym_close_session(
-     return -1;
- }
- 
--static int cryptodev_backend_sym_operation(
-+static int cryptodev_backend_operation(
-                  CryptoDevBackend *backend,
--                 CryptoDevBackendSymOpInfo *op_info,
-+                 CryptoDevBackendOpInfo *op_info,
-                  uint32_t queue_index, Error **errp)
- {
-     CryptoDevBackendClass *bc =
-                       CRYPTODEV_BACKEND_GET_CLASS(backend);
- 
--    if (bc->do_sym_op) {
--        return bc->do_sym_op(backend, op_info, queue_index, errp);
-+    if (bc->do_op) {
-+        return bc->do_op(backend, op_info, queue_index, errp);
-     }
- 
-     return -VIRTIO_CRYPTO_ERR;
-@@ -123,20 +123,18 @@ int cryptodev_backend_crypto_operation(
-                  uint32_t queue_index, Error **errp)
- {
-     VirtIOCryptoReq *req = opaque;
-+    CryptoDevBackendOpInfo *op_info = &req->op_info;
-+    enum CryptoDevBackendAlgType algtype = req->flags;
- 
--    if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
--        CryptoDevBackendSymOpInfo *op_info;
--        op_info = req->u.sym_op_info;
--
--        return cryptodev_backend_sym_operation(backend,
--                         op_info, queue_index, errp);
--    } else {
-+    if ((algtype != CRYPTODEV_BACKEND_ALG_SYM)
-+        && (algtype != CRYPTODEV_BACKEND_ALG_ASYM)) {
-         error_setg(errp, "Unsupported cryptodev alg type: %" PRIu32 "",
--                   req->flags);
--       return -VIRTIO_CRYPTO_NOTSUPP;
-+                   algtype);
-+
-+        return -VIRTIO_CRYPTO_NOTSUPP;
-     }
- 
--    return -VIRTIO_CRYPTO_ERR;
-+    return cryptodev_backend_operation(backend, op_info, queue_index, errp);
- }
- 
- static void
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index dcd80b904d..a98105d9e9 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -83,7 +83,8 @@ virtio_crypto_create_sym_session(VirtIOCrypto *vcrypto,
-                struct iovec *iov, unsigned int out_num)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
--    CryptoDevBackendSymSessionInfo info;
-+    CryptoDevBackendSessionInfo info;
-+    CryptoDevBackendSymSessionInfo *sym_info;
-     int64_t session_id;
-     int queue_index;
-     uint32_t op_type;
-@@ -92,11 +93,13 @@ virtio_crypto_create_sym_session(VirtIOCrypto *vcrypto,
- 
-     memset(&info, 0, sizeof(info));
-     op_type = ldl_le_p(&sess_req->op_type);
--    info.op_type = op_type;
-     info.op_code = opcode;
- 
-+    sym_info = &info.u.sym_sess_info;
-+    sym_info->op_type = op_type;
-+
-     if (op_type == VIRTIO_CRYPTO_SYM_OP_CIPHER) {
--        ret = virtio_crypto_cipher_session_helper(vdev, &info,
-+        ret = virtio_crypto_cipher_session_helper(vdev, sym_info,
-                            &sess_req->u.cipher.para,
-                            &iov, &out_num);
-         if (ret < 0) {
-@@ -105,47 +108,47 @@ virtio_crypto_create_sym_session(VirtIOCrypto *vcrypto,
-     } else if (op_type == VIRTIO_CRYPTO_SYM_OP_ALGORITHM_CHAINING) {
-         size_t s;
-         /* cipher part */
--        ret = virtio_crypto_cipher_session_helper(vdev, &info,
-+        ret = virtio_crypto_cipher_session_helper(vdev, sym_info,
-                            &sess_req->u.chain.para.cipher_param,
-                            &iov, &out_num);
-         if (ret < 0) {
-             goto err;
-         }
-         /* hash part */
--        info.alg_chain_order = ldl_le_p(
-+        sym_info->alg_chain_order = ldl_le_p(
-                                      &sess_req->u.chain.para.alg_chain_order);
--        info.add_len = ldl_le_p(&sess_req->u.chain.para.aad_len);
--        info.hash_mode = ldl_le_p(&sess_req->u.chain.para.hash_mode);
--        if (info.hash_mode == VIRTIO_CRYPTO_SYM_HASH_MODE_AUTH) {
--            info.hash_alg = ldl_le_p(&sess_req->u.chain.para.u.mac_param.algo);
--            info.auth_key_len = ldl_le_p(
-+        sym_info->add_len = ldl_le_p(&sess_req->u.chain.para.aad_len);
-+        sym_info->hash_mode = ldl_le_p(&sess_req->u.chain.para.hash_mode);
-+        if (sym_info->hash_mode == VIRTIO_CRYPTO_SYM_HASH_MODE_AUTH) {
-+            sym_info->hash_alg =
-+                ldl_le_p(&sess_req->u.chain.para.u.mac_param.algo);
-+            sym_info->auth_key_len = ldl_le_p(
-                              &sess_req->u.chain.para.u.mac_param.auth_key_len);
--            info.hash_result_len = ldl_le_p(
-+            sym_info->hash_result_len = ldl_le_p(
-                            &sess_req->u.chain.para.u.mac_param.hash_result_len);
--            if (info.auth_key_len > vcrypto->conf.max_auth_key_len) {
-+            if (sym_info->auth_key_len > vcrypto->conf.max_auth_key_len) {
-                 error_report("virtio-crypto length of auth key is too big: %u",
--                             info.auth_key_len);
-+                             sym_info->auth_key_len);
-                 ret = -VIRTIO_CRYPTO_ERR;
-                 goto err;
-             }
-             /* get auth key */
--            if (info.auth_key_len > 0) {
--                DPRINTF("auth_keylen=%" PRIu32 "\n", info.auth_key_len);
--                info.auth_key = g_malloc(info.auth_key_len);
--                s = iov_to_buf(iov, out_num, 0, info.auth_key,
--                               info.auth_key_len);
--                if (unlikely(s != info.auth_key_len)) {
-+            if (sym_info->auth_key_len > 0) {
-+                sym_info->auth_key = g_malloc(sym_info->auth_key_len);
-+                s = iov_to_buf(iov, out_num, 0, sym_info->auth_key,
-+                               sym_info->auth_key_len);
-+                if (unlikely(s != sym_info->auth_key_len)) {
-                     virtio_error(vdev,
-                           "virtio-crypto authenticated key incorrect");
-                     ret = -EFAULT;
-                     goto err;
-                 }
--                iov_discard_front(&iov, &out_num, info.auth_key_len);
-+                iov_discard_front(&iov, &out_num, sym_info->auth_key_len);
-             }
--        } else if (info.hash_mode == VIRTIO_CRYPTO_SYM_HASH_MODE_PLAIN) {
--            info.hash_alg = ldl_le_p(
-+        } else if (sym_info->hash_mode == VIRTIO_CRYPTO_SYM_HASH_MODE_PLAIN) {
-+            sym_info->hash_alg = ldl_le_p(
-                              &sess_req->u.chain.para.u.hash_param.algo);
--            info.hash_result_len = ldl_le_p(
-+            sym_info->hash_result_len = ldl_le_p(
-                         &sess_req->u.chain.para.u.hash_param.hash_result_len);
-         } else {
-             /* VIRTIO_CRYPTO_SYM_HASH_MODE_NESTED */
-@@ -161,13 +164,10 @@ virtio_crypto_create_sym_session(VirtIOCrypto *vcrypto,
-     }
- 
-     queue_index = virtio_crypto_vq2q(queue_id);
--    session_id = cryptodev_backend_sym_create_session(
-+    session_id = cryptodev_backend_create_session(
-                                      vcrypto->cryptodev,
-                                      &info, queue_index, &local_err);
-     if (session_id >= 0) {
--        DPRINTF("create session_id=%" PRIu64 " successfully\n",
--                session_id);
--
-         ret = session_id;
-     } else {
-         if (local_err) {
-@@ -177,11 +177,78 @@ virtio_crypto_create_sym_session(VirtIOCrypto *vcrypto,
-     }
- 
- err:
--    g_free(info.cipher_key);
--    g_free(info.auth_key);
-+    g_free(sym_info->cipher_key);
-+    g_free(sym_info->auth_key);
-     return ret;
- }
- 
-+static int64_t
-+virtio_crypto_create_asym_session(VirtIOCrypto *vcrypto,
-+               struct virtio_crypto_akcipher_create_session_req *sess_req,
-+               uint32_t queue_id, uint32_t opcode,
-+               struct iovec *iov, unsigned int out_num)
-+{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
-+    CryptoDevBackendSessionInfo info = {0};
-+    CryptoDevBackendAsymSessionInfo *asym_info;
-+    int64_t session_id;
-+    int queue_index;
-+    uint32_t algo, keytype, keylen;
-+    g_autofree uint8_t *key = NULL;
-+    Error *local_err = NULL;
-+
-+    algo = ldl_le_p(&sess_req->para.algo);
-+    keytype = ldl_le_p(&sess_req->para.keytype);
-+    keylen = ldl_le_p(&sess_req->para.keylen);
-+
-+    if ((keytype != VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PUBLIC)
-+         && (keytype != VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PRIVATE)) {
-+        error_report("unsupported asym keytype: %d", keytype);
-+        return -VIRTIO_CRYPTO_NOTSUPP;
-+    }
-+
-+    if (keylen) {
-+        key = g_malloc(keylen);
-+        if (iov_to_buf(iov, out_num, 0, key, keylen) != keylen) {
-+            virtio_error(vdev, "virtio-crypto asym key incorrect");
-+            return -EFAULT;
-+        }
-+        iov_discard_front(&iov, &out_num, keylen);
-+    }
-+
-+    info.op_code = opcode;
-+    asym_info = &info.u.asym_sess_info;
-+    asym_info->algo = algo;
-+    asym_info->keytype = keytype;
-+    asym_info->keylen = keylen;
-+    asym_info->key = key;
-+    switch (asym_info->algo) {
-+    case VIRTIO_CRYPTO_AKCIPHER_RSA:
-+        asym_info->u.rsa.padding_algo =
-+            ldl_le_p(&sess_req->para.u.rsa.padding_algo);
-+        asym_info->u.rsa.hash_algo =
-+            ldl_le_p(&sess_req->para.u.rsa.hash_algo);
-+        break;
-+
-+    /* TODO DSA&ECDSA handling */
-+
-+    default:
-+        return -VIRTIO_CRYPTO_ERR;
-+    }
-+
-+    queue_index = virtio_crypto_vq2q(queue_id);
-+    session_id = cryptodev_backend_create_session(vcrypto->cryptodev, &info,
-+                     queue_index, &local_err);
-+    if (session_id < 0) {
-+        if (local_err) {
-+            error_report_err(local_err);
-+        }
-+        return -VIRTIO_CRYPTO_ERR;
-+    }
-+
-+    return session_id;
-+}
-+
- static uint8_t
- virtio_crypto_handle_close_session(VirtIOCrypto *vcrypto,
-          struct virtio_crypto_destroy_session_req *close_sess_req,
-@@ -195,7 +262,7 @@ virtio_crypto_handle_close_session(VirtIOCrypto *vcrypto,
-     session_id = ldq_le_p(&close_sess_req->session_id);
-     DPRINTF("close session, id=%" PRIu64 "\n", session_id);
- 
--    ret = cryptodev_backend_sym_close_session(
-+    ret = cryptodev_backend_close_session(
-               vcrypto->cryptodev, session_id, queue_id, &local_err);
-     if (ret == 0) {
-         status = VIRTIO_CRYPTO_OK;
-@@ -260,13 +327,22 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         opcode = ldl_le_p(&ctrl.header.opcode);
-         queue_id = ldl_le_p(&ctrl.header.queue_id);
- 
-+        memset(&input, 0, sizeof(input));
-         switch (opcode) {
-         case VIRTIO_CRYPTO_CIPHER_CREATE_SESSION:
--            memset(&input, 0, sizeof(input));
-             session_id = virtio_crypto_create_sym_session(vcrypto,
-                              &ctrl.u.sym_create_session,
-                              queue_id, opcode,
-                              out_iov, out_num);
-+            goto check_session;
-+
-+        case VIRTIO_CRYPTO_AKCIPHER_CREATE_SESSION:
-+            session_id = virtio_crypto_create_asym_session(vcrypto,
-+                             &ctrl.u.akcipher_create_session,
-+                             queue_id, opcode,
-+                             out_iov, out_num);
-+
-+check_session:
-             /* Serious errors, need to reset virtio crypto device */
-             if (session_id == -EFAULT) {
-                 virtqueue_detach_element(vq, elem, 0);
-@@ -290,10 +366,12 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-             virtqueue_push(vq, elem, sizeof(input));
-             virtio_notify(vdev, vq);
-             break;
-+
-         case VIRTIO_CRYPTO_CIPHER_DESTROY_SESSION:
-         case VIRTIO_CRYPTO_HASH_DESTROY_SESSION:
-         case VIRTIO_CRYPTO_MAC_DESTROY_SESSION:
-         case VIRTIO_CRYPTO_AEAD_DESTROY_SESSION:
-+        case VIRTIO_CRYPTO_AKCIPHER_DESTROY_SESSION:
-             status = virtio_crypto_handle_close_session(vcrypto,
-                    &ctrl.u.destroy_session, queue_id);
-             /* The status only occupy one byte, we can directly use it */
-@@ -311,7 +389,6 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         case VIRTIO_CRYPTO_AEAD_CREATE_SESSION:
-         default:
-             error_report("virtio-crypto unsupported ctrl opcode: %d", opcode);
--            memset(&input, 0, sizeof(input));
-             stl_le_p(&input.status, VIRTIO_CRYPTO_NOTSUPP);
-             s = iov_from_buf(in_iov, in_num, 0, &input, sizeof(input));
-             if (unlikely(s != sizeof(input))) {
-@@ -339,28 +416,39 @@ static void virtio_crypto_init_request(VirtIOCrypto *vcrypto, VirtQueue *vq,
-     req->in_num = 0;
-     req->in_len = 0;
-     req->flags = CRYPTODEV_BACKEND_ALG__MAX;
--    req->u.sym_op_info = NULL;
-+    memset(&req->op_info, 0x00, sizeof(req->op_info));
- }
- 
- static void virtio_crypto_free_request(VirtIOCryptoReq *req)
- {
--    if (req) {
--        if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
--            size_t max_len;
--            CryptoDevBackendSymOpInfo *op_info = req->u.sym_op_info;
--
--            max_len = op_info->iv_len +
--                      op_info->aad_len +
--                      op_info->src_len +
--                      op_info->dst_len +
--                      op_info->digest_result_len;
--
--            /* Zeroize and free request data structure */
--            memset(op_info, 0, sizeof(*op_info) + max_len);
-+    if (!req) {
-+        return;
-+    }
-+
-+    if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
-+        size_t max_len;
-+        CryptoDevBackendSymOpInfo *op_info = req->op_info.u.sym_op_info;
-+
-+        max_len = op_info->iv_len +
-+                  op_info->aad_len +
-+                  op_info->src_len +
-+                  op_info->dst_len +
-+                  op_info->digest_result_len;
-+
-+        /* Zeroize and free request data structure */
-+        memset(op_info, 0, sizeof(*op_info) + max_len);
-+        g_free(op_info);
-+    } else if (req->flags == CRYPTODEV_BACKEND_ALG_ASYM) {
-+        CryptoDevBackendAsymOpInfo *op_info = req->op_info.u.asym_op_info;
-+        if (op_info) {
-+            g_free(op_info->src);
-+            g_free(op_info->dst);
-+            memset(op_info, 0, sizeof(*op_info));
-             g_free(op_info);
-         }
--        g_free(req);
-     }
-+
-+    g_free(req);
- }
- 
- static void
-@@ -397,6 +485,35 @@ virtio_crypto_sym_input_data_helper(VirtIODevice *vdev,
-     }
- }
- 
-+static void
-+virtio_crypto_akcipher_input_data_helper(VirtIODevice *vdev,
-+        VirtIOCryptoReq *req, int32_t status,
-+        CryptoDevBackendAsymOpInfo *asym_op_info)
-+{
-+    size_t s, len;
-+
-+    if (status != VIRTIO_CRYPTO_OK) {
-+        return;
-+    }
-+
-+    len = asym_op_info->dst_len;
-+    if (!len) {
-+        return;
-+    }
-+
-+    s = iov_from_buf(req->in_iov, req->in_num, 0, asym_op_info->dst, len);
-+    if (s != len) {
-+        virtio_error(vdev, "virtio-crypto asym dest data incorrect");
-+        return;
-+    }
-+
-+    iov_discard_front(&req->in_iov, &req->in_num, len);
-+
-+    /* For akcipher, dst_len may be changed after operation */
-+    req->in_len = sizeof(struct virtio_crypto_inhdr) + asym_op_info->dst_len;
-+}
-+
-+
- static void virtio_crypto_req_complete(VirtIOCryptoReq *req, uint8_t status)
- {
-     VirtIOCrypto *vcrypto = req->vcrypto;
-@@ -404,7 +521,10 @@ static void virtio_crypto_req_complete(VirtIOCryptoReq *req, uint8_t status)
- 
-     if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
-         virtio_crypto_sym_input_data_helper(vdev, req, status,
--                                            req->u.sym_op_info);
-+                                            req->op_info.u.sym_op_info);
-+    } else if (req->flags == CRYPTODEV_BACKEND_ALG_ASYM) {
-+        virtio_crypto_akcipher_input_data_helper(vdev, req, status,
-+                                             req->op_info.u.asym_op_info);
-     }
-     stb_p(&req->in->status, status);
-     virtqueue_push(req->vq, &req->elem, req->in_len);
-@@ -543,41 +663,100 @@ err:
- static int
- virtio_crypto_handle_sym_req(VirtIOCrypto *vcrypto,
-                struct virtio_crypto_sym_data_req *req,
--               CryptoDevBackendSymOpInfo **sym_op_info,
-+               CryptoDevBackendOpInfo *op_info,
-                struct iovec *iov, unsigned int out_num)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
-+    CryptoDevBackendSymOpInfo *sym_op_info;
-     uint32_t op_type;
--    CryptoDevBackendSymOpInfo *op_info;
- 
-     op_type = ldl_le_p(&req->op_type);
--
-     if (op_type == VIRTIO_CRYPTO_SYM_OP_CIPHER) {
--        op_info = virtio_crypto_sym_op_helper(vdev, &req->u.cipher.para,
-+        sym_op_info = virtio_crypto_sym_op_helper(vdev, &req->u.cipher.para,
-                                               NULL, iov, out_num);
--        if (!op_info) {
-+        if (!sym_op_info) {
-             return -EFAULT;
-         }
--        op_info->op_type = op_type;
-     } else if (op_type == VIRTIO_CRYPTO_SYM_OP_ALGORITHM_CHAINING) {
--        op_info = virtio_crypto_sym_op_helper(vdev, NULL,
-+        sym_op_info = virtio_crypto_sym_op_helper(vdev, NULL,
-                                               &req->u.chain.para,
-                                               iov, out_num);
--        if (!op_info) {
-+        if (!sym_op_info) {
-             return -EFAULT;
-         }
--        op_info->op_type = op_type;
-     } else {
-         /* VIRTIO_CRYPTO_SYM_OP_NONE */
-         error_report("virtio-crypto unsupported cipher type");
-         return -VIRTIO_CRYPTO_NOTSUPP;
-     }
- 
--    *sym_op_info = op_info;
-+    sym_op_info->op_type = op_type;
-+    op_info->u.sym_op_info = sym_op_info;
- 
-     return 0;
- }
- 
-+static int
-+virtio_crypto_handle_asym_req(VirtIOCrypto *vcrypto,
-+               struct virtio_crypto_akcipher_data_req *req,
-+               CryptoDevBackendOpInfo *op_info,
-+               struct iovec *iov, unsigned int out_num)
-+{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
-+    CryptoDevBackendAsymOpInfo *asym_op_info;
-+    uint32_t src_len;
-+    uint32_t dst_len;
-+    uint32_t len;
-+    uint8_t *src = NULL;
-+    uint8_t *dst = NULL;
-+
-+    asym_op_info = g_malloc0(sizeof(CryptoDevBackendAsymOpInfo));
-+    src_len = ldl_le_p(&req->para.src_data_len);
-+    dst_len = ldl_le_p(&req->para.dst_data_len);
-+
-+    if (src_len > 0) {
-+        src = g_malloc0(src_len);
-+        len = iov_to_buf(iov, out_num, 0, src, src_len);
-+        if (unlikely(len != src_len)) {
-+            virtio_error(vdev, "virtio-crypto asym src data incorrect"
-+                         "expected %u, actual %u", src_len, len);
-+            goto err;
-+        }
-+
-+        iov_discard_front(&iov, &out_num, src_len);
-+    }
-+
-+    if (dst_len > 0) {
-+        dst = g_malloc0(dst_len);
-+
-+        if (op_info->op_code == VIRTIO_CRYPTO_AKCIPHER_VERIFY) {
-+            len = iov_to_buf(iov, out_num, 0, dst, dst_len);
-+            if (unlikely(len != dst_len)) {
-+                virtio_error(vdev, "virtio-crypto asym dst data incorrect"
-+                             "expected %u, actual %u", dst_len, len);
-+                goto err;
+
++    uint32_t saved_xsave_len = qemu_get_be32(f);
+
++    if (saved_xsave_len) {
+
++        if (saved_xsave_len != x86_cpu->env.xsave_buf_len) {
+
++            if (x86_cpu->env.xsave_buf) {
+
++                qemu_vfree(x86_cpu->env.xsave_buf);
+
 +            }
+
 +
-+            iov_discard_front(&iov, &out_num, dst_len);
+
++            x86_cpu->env.xsave_buf_len = saved_xsave_len;
+
++            x86_cpu->env.xsave_buf =
+qemu_memalign(WHPX_XSAVE_AREA_ALIGNMENT,
+
++                x86_cpu->env.xsave_buf_len);
+
 +        }
+
++
+
++        qemu_get_buffer(f, x86_cpu->env.xsave_buf, saved_xsave_len);
+
++    } else if (x86_cpu->env.xsave_buf) {
+
++        qemu_vfree(x86_cpu->env.xsave_buf);
+
++        x86_cpu->env.xsave_buf = NULL;
+
++        x86_cpu->env.xsave_buf_len = 0;
+
 +    }
+
 +
-+    asym_op_info->src_len = src_len;
-+    asym_op_info->dst_len = dst_len;
-+    asym_op_info->src = src;
-+    asym_op_info->dst = dst;
-+    op_info->u.asym_op_info = asym_op_info;
+
++    for (;;) {
+
++        HRESULT hr;
+
++        WHV_REGISTER_NAME name = qemu_get_be32(f);
+
++        WHV_REGISTER_VALUE value;
+
 +
+
++        if (name == 0) {
+
++            break;
+
++        }
+
++
+
++        qemu_get_buffer(f, (uint8_t *)&value, sizeof(value));
+
++
+
++        hr = whp_dispatch.WHvSetVirtualProcessorRegisters(
+
++            whpx_global.partition, cpu->cpu_index,
+
++            &name, 1, &value);
+
++
+
++        if (FAILED(hr)) {
+
++            error_report("WHPX: Failed to restore register #%08x,
+hr=%08lx",
+
++                name, hr);
+
++        }
+
++    }
+
++
+
 +    return 0;
-+
-+ err:
-+    g_free(asym_op_info);
-+    g_free(src);
-+    g_free(dst);
-+
-+    return -EFAULT;
+
 +}
+
 +
- static int
- virtio_crypto_handle_request(VirtIOCryptoReq *request)
- {
-@@ -595,8 +774,7 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
-     unsigned out_num;
-     uint32_t opcode;
-     uint8_t status = VIRTIO_CRYPTO_ERR;
--    uint64_t session_id;
--    CryptoDevBackendSymOpInfo *sym_op_info = NULL;
-+    CryptoDevBackendOpInfo *op_info = &request->op_info;
-     Error *local_err = NULL;
- 
-     if (elem->out_num < 1 || elem->in_num < 1) {
-@@ -639,15 +817,28 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
-     request->in_iov = in_iov;
- 
-     opcode = ldl_le_p(&req.header.opcode);
--    session_id = ldq_le_p(&req.header.session_id);
-+    op_info->session_id = ldq_le_p(&req.header.session_id);
-+    op_info->op_code = opcode;
- 
-     switch (opcode) {
-     case VIRTIO_CRYPTO_CIPHER_ENCRYPT:
-     case VIRTIO_CRYPTO_CIPHER_DECRYPT:
-+        op_info->algtype = request->flags = CRYPTODEV_BACKEND_ALG_SYM;
-         ret = virtio_crypto_handle_sym_req(vcrypto,
--                         &req.u.sym_req,
--                         &sym_op_info,
-+                         &req.u.sym_req, op_info,
-+                         out_iov, out_num);
-+        goto check_result;
+
 +
-+    case VIRTIO_CRYPTO_AKCIPHER_ENCRYPT:
-+    case VIRTIO_CRYPTO_AKCIPHER_DECRYPT:
-+    case VIRTIO_CRYPTO_AKCIPHER_SIGN:
-+    case VIRTIO_CRYPTO_AKCIPHER_VERIFY:
-+        op_info->algtype = request->flags = CRYPTODEV_BACKEND_ALG_ASYM;
-+        ret = virtio_crypto_handle_asym_req(vcrypto,
-+                         &req.u.akcipher_req, op_info,
-                          out_iov, out_num);
-+
-+check_result:
-         /* Serious errors, need to reset virtio crypto device */
-         if (ret == -EFAULT) {
-             return -1;
-@@ -655,11 +846,8 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
-             virtio_crypto_req_complete(request, VIRTIO_CRYPTO_NOTSUPP);
-             virtio_crypto_free_request(request);
-         } else {
--            sym_op_info->session_id = session_id;
- 
-             /* Set request's parameter */
--            request->flags = CRYPTODEV_BACKEND_ALG_SYM;
--            request->u.sym_op_info = sym_op_info;
-             ret = cryptodev_backend_crypto_operation(vcrypto->cryptodev,
-                                     request, queue_index, &local_err);
-             if (ret < 0) {
-@@ -674,6 +862,7 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
-             virtio_crypto_free_request(request);
-         }
-         break;
-+
-     case VIRTIO_CRYPTO_HASH:
-     case VIRTIO_CRYPTO_MAC:
-     case VIRTIO_CRYPTO_AEAD_ENCRYPT:
-@@ -779,6 +968,7 @@ static void virtio_crypto_init_config(VirtIODevice *vdev)
-     vcrypto->conf.mac_algo_l = vcrypto->conf.cryptodev->conf.mac_algo_l;
-     vcrypto->conf.mac_algo_h = vcrypto->conf.cryptodev->conf.mac_algo_h;
-     vcrypto->conf.aead_algo = vcrypto->conf.cryptodev->conf.aead_algo;
-+    vcrypto->conf.akcipher_algo = vcrypto->conf.cryptodev->conf.akcipher_algo;
-     vcrypto->conf.max_cipher_key_len =
-                   vcrypto->conf.cryptodev->conf.max_cipher_key_len;
-     vcrypto->conf.max_auth_key_len =
-@@ -891,6 +1081,7 @@ static void virtio_crypto_get_config(VirtIODevice *vdev, uint8_t *config)
-     stl_le_p(&crypto_cfg.max_cipher_key_len, c->conf.max_cipher_key_len);
-     stl_le_p(&crypto_cfg.max_auth_key_len, c->conf.max_auth_key_len);
-     stq_le_p(&crypto_cfg.max_size, c->conf.max_size);
-+    stl_le_p(&crypto_cfg.akcipher_algo, c->conf.akcipher_algo);
- 
-     memcpy(config, &crypto_cfg, c->config_size);
- }
-diff --git a/include/hw/virtio/virtio-crypto.h b/include/hw/virtio/virtio-crypto.h
-index a2228d7b2e..348749f5d5 100644
---- a/include/hw/virtio/virtio-crypto.h
-+++ b/include/hw/virtio/virtio-crypto.h
-@@ -50,6 +50,7 @@ typedef struct VirtIOCryptoConf {
-     uint32_t mac_algo_l;
-     uint32_t mac_algo_h;
-     uint32_t aead_algo;
-+    uint32_t akcipher_algo;
- 
-     /* Maximum length of cipher key */
-     uint32_t max_cipher_key_len;
-@@ -71,9 +72,7 @@ typedef struct VirtIOCryptoReq {
-     size_t in_len;
-     VirtQueue *vq;
-     struct VirtIOCrypto *vcrypto;
--    union {
--        CryptoDevBackendSymOpInfo *sym_op_info;
--    } u;
-+    CryptoDevBackendOpInfo op_info;
- } VirtIOCryptoReq;
- 
- typedef struct VirtIOCryptoQueue {
-diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
-index f4d4057d4d..37c3a360fd 100644
---- a/include/sysemu/cryptodev.h
-+++ b/include/sysemu/cryptodev.h
-@@ -50,13 +50,13 @@ typedef struct CryptoDevBackendClient
- 
- enum CryptoDevBackendAlgType {
-     CRYPTODEV_BACKEND_ALG_SYM,
-+    CRYPTODEV_BACKEND_ALG_ASYM,
-     CRYPTODEV_BACKEND_ALG__MAX,
- };
- 
- /**
-  * CryptoDevBackendSymSessionInfo:
-  *
-- * @op_code: operation code (refer to virtio_crypto.h)
-  * @cipher_alg: algorithm type of CIPHER
-  * @key_len: byte length of cipher key
-  * @hash_alg: algorithm type of HASH/MAC
-@@ -74,7 +74,6 @@ enum CryptoDevBackendAlgType {
-  */
- typedef struct CryptoDevBackendSymSessionInfo {
-     /* corresponding with virtio crypto spec */
--    uint32_t op_code;
-     uint32_t cipher_alg;
-     uint32_t key_len;
-     uint32_t hash_alg;
-@@ -89,11 +88,36 @@ typedef struct CryptoDevBackendSymSessionInfo {
-     uint8_t *auth_key;
- } CryptoDevBackendSymSessionInfo;
- 
-+/**
-+ * CryptoDevBackendAsymSessionInfo:
-+ */
-+typedef struct CryptoDevBackendRsaPara {
-+    uint32_t padding_algo;
-+    uint32_t hash_algo;
-+} CryptoDevBackendRsaPara;
-+
-+typedef struct CryptoDevBackendAsymSessionInfo {
-+    /* corresponding with virtio crypto spec */
-+    uint32_t algo;
-+    uint32_t keytype;
-+    uint32_t keylen;
-+    uint8_t *key;
-+    union {
-+        CryptoDevBackendRsaPara rsa;
-+    } u;
-+} CryptoDevBackendAsymSessionInfo;
-+
-+typedef struct CryptoDevBackendSessionInfo {
-+    uint32_t op_code;
-+    union {
-+        CryptoDevBackendSymSessionInfo sym_sess_info;
-+        CryptoDevBackendAsymSessionInfo asym_sess_info;
-+    } u;
-+} CryptoDevBackendSessionInfo;
-+
- /**
-  * CryptoDevBackendSymOpInfo:
-  *
-- * @session_id: session index which was previously
-- *              created by cryptodev_backend_sym_create_session()
-  * @aad_len: byte length of additional authenticated data
-  * @iv_len: byte length of initialization vector or counter
-  * @src_len: byte length of source data
-@@ -119,7 +143,6 @@ typedef struct CryptoDevBackendSymSessionInfo {
-  *
-  */
- typedef struct CryptoDevBackendSymOpInfo {
--    uint64_t session_id;
-     uint32_t aad_len;
-     uint32_t iv_len;
-     uint32_t src_len;
-@@ -138,6 +161,33 @@ typedef struct CryptoDevBackendSymOpInfo {
-     uint8_t data[];
- } CryptoDevBackendSymOpInfo;
- 
-+
-+/**
-+ * CryptoDevBackendAsymOpInfo:
-+ *
-+ * @src_len: byte length of source data
-+ * @dst_len: byte length of destination data
-+ * @src: point to the source data
-+ * @dst: point to the destination data
-+ *
-+ */
-+typedef struct CryptoDevBackendAsymOpInfo {
-+    uint32_t src_len;
-+    uint32_t dst_len;
-+    uint8_t *src;
-+    uint8_t *dst;
-+} CryptoDevBackendAsymOpInfo;
-+
-+typedef struct CryptoDevBackendOpInfo {
-+    enum CryptoDevBackendAlgType algtype;
-+    uint32_t op_code;
-+    uint64_t session_id;
-+    union {
-+        CryptoDevBackendSymOpInfo *sym_op_info;
-+        CryptoDevBackendAsymOpInfo *asym_op_info;
-+    } u;
-+} CryptoDevBackendOpInfo;
-+
- struct CryptoDevBackendClass {
-     ObjectClass parent_class;
- 
-@@ -145,13 +195,13 @@ struct CryptoDevBackendClass {
-     void (*cleanup)(CryptoDevBackend *backend, Error **errp);
- 
-     int64_t (*create_session)(CryptoDevBackend *backend,
--                       CryptoDevBackendSymSessionInfo *sess_info,
-+                       CryptoDevBackendSessionInfo *sess_info,
-                        uint32_t queue_index, Error **errp);
-     int (*close_session)(CryptoDevBackend *backend,
-                            uint64_t session_id,
-                            uint32_t queue_index, Error **errp);
--    int (*do_sym_op)(CryptoDevBackend *backend,
--                     CryptoDevBackendSymOpInfo *op_info,
-+    int (*do_op)(CryptoDevBackend *backend,
-+                     CryptoDevBackendOpInfo *op_info,
-                      uint32_t queue_index, Error **errp);
- };
- 
-@@ -190,6 +240,7 @@ struct CryptoDevBackendConf {
-     uint32_t mac_algo_l;
-     uint32_t mac_algo_h;
-     uint32_t aead_algo;
-+    uint32_t akcipher_algo;
-     /* Maximum length of cipher key */
-     uint32_t max_cipher_key_len;
-     /* Maximum length of authenticated key */
-@@ -247,34 +298,34 @@ void cryptodev_backend_cleanup(
-            Error **errp);
- 
- /**
-- * cryptodev_backend_sym_create_session:
-+ * cryptodev_backend_create_session:
-  * @backend: the cryptodev backend object
-  * @sess_info: parameters needed by session creating
-  * @queue_index: queue index of cryptodev backend client
-  * @errp: pointer to a NULL-initialized error object
-  *
-- * Create a session for symmetric algorithms
-+ * Create a session for symmetric/symmetric algorithms
-  *
-  * Returns: session id on success, or -1 on error
-  */
--int64_t cryptodev_backend_sym_create_session(
-+int64_t cryptodev_backend_create_session(
-            CryptoDevBackend *backend,
--           CryptoDevBackendSymSessionInfo *sess_info,
-+           CryptoDevBackendSessionInfo *sess_info,
-            uint32_t queue_index, Error **errp);
- 
- /**
-- * cryptodev_backend_sym_close_session:
-+ * cryptodev_backend_close_session:
-  * @backend: the cryptodev backend object
-  * @session_id: the session id
-  * @queue_index: queue index of cryptodev backend client
-  * @errp: pointer to a NULL-initialized error object
-  *
-- * Close a session for symmetric algorithms which was previously
-- * created by cryptodev_backend_sym_create_session()
-+ * Close a session for which was previously
-+ * created by cryptodev_backend_create_session()
-  *
-  * Returns: 0 on success, or Negative on error
-  */
--int cryptodev_backend_sym_close_session(
-+int cryptodev_backend_close_session(
-            CryptoDevBackend *backend,
-            uint64_t session_id,
-            uint32_t queue_index, Error **errp);
+
+type_init(whpx_type_init);
+
+diff --git a/target/i386/whpx/whpx-internal.h
+b/target/i386/whpx/whpx-internal.h
+
+index 06429d8ccd..157443f60c 100644
+
+--- a/target/i386/whpx/whpx-internal.h
+
++++ b/target/i386/whpx/whpx-internal.h
+
+@@ -46,10 +46,11 @@ struct whpx_state {
+
+extern struct whpx_state whpx_global;
+
+void whpx_apic_get(DeviceState *s);
+
+-#define WHV_E_UNKNOWN_CAPABILITY 0x80370300L
+
++#define WHV_E_UNKNOWN_CAPABILITY  0x80370300L
+
+ /* This should eventually come from the Windows SDK */
+
+-#define WHV_E_UNKNOWN_PROPERTY 0x80370302
+
++#define WHV_E_UNKNOWN_PROPERTY    0x80370302L
+
++#define WHV_E_INSUFFICIENT_BUFFER 0x80370301L
+
+ #define LIST_WINHVPLATFORM_FUNCTIONS(X) \
+
+   X(HRESULT, WHvGetCapability, (WHV_CAPABILITY_CODE CapabilityCode, VOID*
+CapabilityBuffer, UINT32 CapabilityBufferSizeInBytes, UINT32*
+WrittenSizeInBytes)) \
+
+@@ -67,6 +68,8 @@ void whpx_apic_get(DeviceState *s);
+
+   X(HRESULT, WHvCancelRunVirtualProcessor, (WHV_PARTITION_HANDLE Partition,
+UINT32 VpIndex, UINT32 Flags)) \
+
+   X(HRESULT, WHvGetVirtualProcessorRegisters, (WHV_PARTITION_HANDLE
+Partition, UINT32 VpIndex, const WHV_REGISTER_NAME* RegisterNames, UINT32
+RegisterCount, WHV_REGISTER_VALUE* RegisterValues)) \
+
+   X(HRESULT, WHvSetVirtualProcessorRegisters, (WHV_PARTITION_HANDLE
+Partition, UINT32 VpIndex, const WHV_REGISTER_NAME* RegisterNames, UINT32
+RegisterCount, const WHV_REGISTER_VALUE* RegisterValues)) \
+
++  X(HRESULT, WHvGetVirtualProcessorXsaveState, (WHV_PARTITION_HANDLE
+Partition, UINT32 VpIndex, VOID *Buffer, UINT32 BufferSizeInBytes, UINT32
+*BytesWritten)) \
+
++  X(HRESULT, WHvSetVirtualProcessorXsaveState, (WHV_PARTITION_HANDLE
+Partition, UINT32 VpIndex, const VOID *Buffer, UINT32 BufferSizeInBytes)) \
+
+ /*
+
+  * These are supplemental functions that may not be present
+
 -- 
-2.20.1
+
+ 
+
+
+------=_NextPart_000_0024_01D866F5.0A03C6F0
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal><span lang=3DEN-CA>This patch =
+adds support for the savevm/loadvm commands when using =
+WHPX.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>It saves the XSAVE state and the relevant internal =
+registers that were<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>not otherwise captured into a separate =
+&quot;whpx/cpustate&quot; object in the<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>snapshot, and restores them when =
+the snapshot is loaded.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>Note that due to the XSAVE format differences between the =
+WHPX API and<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>QEMU, the XSAVE state captured from WHPX is not reflected =
+in the X86CPU<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>structure, and is instead saved to the snapshots &quot;as =
+is&quot;.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>Signed-off-by: Ivan Shcherbakov =
+&lt;ivan@sysprogs.com&gt;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>---<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> =
+target/i386/cpu.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; 2 =
++-<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+target/i386/whpx/whpx-all.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 205 =
++++++++++++++++++++++++++++++--<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> target/i386/whpx/whpx-internal.h =
+|&nbsp;&nbsp; 7 +-<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> 3 files changed, 201 insertions(+), 13 =
+deletions(-)<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>diff --git a/target/i386/cpu.h =
+b/target/i386/cpu.h<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>index 9661f9fbd1..9c16199679 100644<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>--- =
+a/target/i386/cpu.h<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+++ b/target/i386/cpu.h<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -1698,7 +1698,7 @@ typedef =
+struct CPUArchState {<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; int64_t user_tsc_khz; /* for =
+sanity check only */<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; uint64_t =
+apic_bus_freq;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; uint64_t =
+tsc;<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>-#if =
+defined(CONFIG_KVM) || defined(CONFIG_HVF)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+#if defined(CONFIG_KVM) || =
+defined(CONFIG_HVF) || defined(CONFIG_WHPX)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; void =
+*xsave_buf;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; uint32_t =
+xsave_buf_len;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> #endif<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>diff --git a/target/i386/whpx/whpx-all.c =
+b/target/i386/whpx/whpx-all.c<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>index b22a3314b4..6f95e9c780 =
+100644<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>--- =
+a/target/i386/whpx/whpx-all.c<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+++ =
+b/target/i386/whpx/whpx-all.c<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -26,6 +26,9 =
+@@<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+#include &quot;qapi/qapi-types-common.h&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> #include =
+&quot;qapi/qapi-visit-common.h&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> #include =
+&quot;migration/blocker.h&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+#include =
+&quot;migration/register.h&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+#include =
+&quot;migration/qemu-file-types.h&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+#include =
+&quot;qemu/memalign.h&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> #include =
+&lt;winerror.h&gt;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> <o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;#include =
+&quot;whpx-internal.h&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -242,6 +245,10 @@ struct =
+whpx_vcpu {<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; WHV_RUN_VP_EXIT_CONTEXT =
+exit_ctx;<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+};<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+enum =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; WHPX_XSAVE_AREA_ALIGNMENT =3D =
+4096,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+};<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> static bool whpx_allowed;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> static bool =
+whp_dispatch_initialized;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> static HMODULE hWinHvPlatform, =
+hWinHvEmulation;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>@@ -251,6 +258,29 @@ static WHV_PROCESSOR_XSAVE_FEATURES =
+whpx_xsave_cap;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> struct whpx_state whpx_global;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> struct WHPDispatch =
+whp_dispatch;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> <o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+static void whpx_xsave_save(QEMUFile *f, void =
+*opaque);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+static int whpx_xsave_load(QEMUFile *f, void *opaque, int =
+version_id);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+/*<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+ * As of Windows 10 21H1, the layout of the XSAVE data =
+returned by the WHPX API<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+ * does not match the layout used by =
+QEMU.<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ =
+*<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ * =
+Specifically, trying to pass the state returned by =
+x86_cpu_xsave_all_areas()<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+ * to =
+WHvSetVirtualProcessorXsaveState() causes it to return an =
+error.<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ =
+*<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ * As a =
+result, we do not reflect the captured XSAVE state in the =
+X86CPU<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ * =
+structure, and instead manually save it to the snapshots via =
+the<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ * =
+whpx_xsave_xxxx() callbacks.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+ *<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+ * Note that unlike the device =
+drivers that can use the new VMStateDescription<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+ * mechanism via =
+'DeviceClass::vmsd' field, AccelClass objects cannot =
+easily<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ * =
+do it. Hence, we rely on the legacy state management =
+API.<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+ =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+static =
+SaveVMHandlers savevm_whpx =3D {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; .save_state =3D =
+whpx_xsave_save,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; .load_state =3D =
+whpx_xsave_load,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+};<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> static bool whpx_has_xsave(void)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; return =
+whpx_xsave_cap.XsaveSupport;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -307,18 +337,35 @@ static =
+SegmentCache whpx_seg_h2q(const WHV_X64_SEGMENT_REGISTER =
+*hs)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>&nbsp;/* =
+X64 Extended Control Registers */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>-static void whpx_set_xcrs(CPUState =
+*cpu)<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+static void whpx_set_xsave(CPUState =
+*cpu)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; CPUX86State *env =3D =
+cpu-&gt;env_ptr;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; HRESULT =
+hr;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; struct whpx_state *whpx =3D =
+&amp;whpx_global;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; WHV_REGISTER_VALUE =
+xcr0;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; WHV_REGISTER_NAME xcr0_name =3D =
+WHvX64RegisterXCr0;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; void *xsave =3D =
+X86_CPU(cpu)-&gt;env.xsave_buf;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; uint32_t =
+xsave_len =3D =
+X86_CPU(cpu)-&gt;env.xsave_buf_len;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if =
+(!whpx_has_xsave()) {<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+return;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; if (xsave) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+/*<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *&nbsp; =
+See the comment on 'savevm_whpx' for an explanation =
+why<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *&nbsp; =
+we cannot do this:<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x86_cpu_xsave_all_areas(X86_CPU(cpu), =
+xsave, xsave_len);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hr =3D =
+whp_dispatch.WHvSetVirtualProcessorXsaveState(<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; whpx-&gt;partition, cpu-&gt;cpu_index, xsave, =
+xsave_len);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (FAILED(hr)) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; &nbsp;error_report(&quot;WHPX: Failed to set xsave state, =
+hr=3D%08lx&quot;, hr);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; /* Only =
+xcr0 is supported by the hypervisor currently */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; xcr0.Reg64 =
+=3D env-&gt;xcr0;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; hr =3D =
+whp_dispatch.WHvSetVirtualProcessorRegisters(<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -326,6 +373,7 @@ static void =
+whpx_set_xcrs(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; if =
+(FAILED(hr)) {<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+error_report(&quot;WHPX: Failed to set register xcr0, hr=3D%08lx&quot;, =
+hr);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;static int =
+whpx_set_tsc(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -474,7 +522,7 @@ static void =
+whpx_set_registers(CPUState *cpu, int level)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * =
+Extended control registers needs to be handled separately =
+depending<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * on whether xsave is =
+supported/enabled or not.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>-&nbsp;&nbsp;&nbsp; =
+whpx_set_xcrs(cpu);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; =
+whpx_set_xsave(cpu);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> <o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* 16 XMM registers =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; assert(whpx_register_names[idx] =
+=3D=3D WHvX64RegisterXmm0);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -582,28 +630,57 @@ static int =
+whpx_get_tsc(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; return =
+0;<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>-/* X64 =
+Extended Control Registers */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>-static void whpx_get_xcrs(CPUState =
+*cpu)<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+/* =
+X64 Extended Control Registers &amp; XSAVE state =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+static =
+void whpx_get_xsave(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; =
+CPUX86State *env =3D cpu-&gt;env_ptr;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; HRESULT =
+hr;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; struct whpx_state *whpx =3D =
+&amp;whpx_global;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; WHV_REGISTER_VALUE =
+xcr0;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; WHV_REGISTER_NAME xcr0_name =3D =
+WHvX64RegisterXCr0;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; void *xsave =3D =
+X86_CPU(cpu)-&gt;env.xsave_buf;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; uint32_t =
+xsave_len =3D =
+X86_CPU(cpu)-&gt;env.xsave_buf_len;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; uint32_t =
+xsave_done;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> <o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!whpx_has_xsave()) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+return;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; if (!xsave) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hr =3D =
+whp_dispatch.WHvGetVirtualProcessorXsaveState(<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; whpx-&gt;partition, cpu-&gt;cpu_index, NULL, 0, =
+&amp;xsave_done);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (hr !=3D =
+WHV_E_INSUFFICIENT_BUFFER || !xsave_done) {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; error_report(&quot;WHPX: Failed to get xsave area size, =
+hr=3D%08lx&quot;, hr);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; X86_CPU(cpu)-&gt;env.xsave_buf_len =3D xsave_len =3D =
+xsave_done;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; X86_CPU(cpu)-&gt;env.xsave_buf =3D xsave =
+=3D<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_memalign(WHPX_XSAVE_AREA_ALIGNMENT,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+X86_CPU(cpu)-&gt;env.xsave_buf_len);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; /* Only =
+xcr0 is supported by the hypervisor currently */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; hr =3D =
+whp_dispatch.WHvGetVirtualProcessorRegisters(<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+whpx-&gt;partition, cpu-&gt;cpu_index, &amp;xcr0_name, 1, =
+&amp;xcr0);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; if (FAILED(hr)) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+error_report(&quot;WHPX: Failed to get register xcr0, hr=3D%08lx&quot;, =
+hr);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+return;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;env-&gt;xcr0 =3D =
+xcr0.Reg64;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; hr =3D =
+whp_dispatch.WHvGetVirtualProcessorXsaveState(<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+whpx-&gt;partition, cpu-&gt;cpu_index, xsave, xsave_len, =
+&amp;xsave_done);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; if (FAILED(hr)) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+error_report(&quot;WHPX: Failed to get xsave state, hr=3D%08lx&quot;, =
+hr);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; =
+/*<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; * See the comment on =
+'savevm_whpx' for an explanation why<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; *&nbsp; =
+we cannot do this:<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+x86_cpu_xrstor_all_areas(X86_CPU(cpu), xsave, =
+xsave_len);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;static void =
+whpx_get_registers(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -703,7 +780,7 @@ static void =
+whpx_get_registers(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * =
+Extended control registers needs to be handled separately =
+depending<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * on whether xsave is =
+supported/enabled or not.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>-&nbsp;&nbsp;&nbsp; =
+whpx_get_xcrs(cpu);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; =
+whpx_get_xsave(cpu);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> <o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* 16 XMM registers =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; assert(whpx_register_names[idx] =
+=3D=3D WHvX64RegisterXmm0);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -2164,10 +2241,15 @@ int =
+whpx_init_vcpu(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; UINT64 =
+freq =3D 0;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; int ret;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>-&nbsp;&nbsp;&nbsp; /* Add =
+migration blockers for all unsupported features of =
+the<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>- =
+&nbsp;&nbsp;&nbsp;&nbsp;* Windows Hypervisor =
+Platform<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>-&nbsp;&nbsp;&nbsp;&nbsp; */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>-&nbsp;&nbsp;&nbsp; if =
+(whpx_migration_blocker =3D=3D NULL) {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; ret =3D =
+register_savevm_live(&quot;whpx/cpustate&quot;, =
+cpu-&gt;cpu_index,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1, =
+&amp;savevm_whpx, cpu);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; if (ret &amp;&amp; =
+whpx_migration_blocker =3D=3D NULL) {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+/*<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;* Failed =
+to register the callbacks for saving the CPU =
+state.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Add =
+migration blockers for all unsupported features of =
+the<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Windows =
+Hypervisor Platform<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+*/<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+error_setg(&amp;whpx_migration_blocker,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;State blocked due to non-migratable =
+CPUID feature support,&quot;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;dirty memory tracking support, and =
+XSAVE/XRSTOR support&quot;);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -2300,10 +2382,16 @@ void =
+whpx_destroy_vcpu(CPUState *cpu)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; struct =
+whpx_state *whpx =3D &amp;whpx_global;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; struct =
+whpx_vcpu *vcpu =3D get_whpx_vcpu(cpu);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; void *xsave =3D =
+X86_CPU(cpu)-&gt;env.xsave_buf;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;whp_dispatch.WHvDeleteVirtualP=
+rocessor(whpx-&gt;partition, cpu-&gt;cpu_index);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; =
+whp_dispatch.WHvEmulatorDestroyEmulator(vcpu-&gt;emulator);<o:p></o:p></s=
+pan></p><p class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; =
+g_free(cpu-&gt;hax_vcpu);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; if (xsave) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_vfree(xsave);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; =
+return;<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>@@ -2799,4 =
++2887,101 @@ error:<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp;&nbsp;&nbsp; return =
+false;<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>+static =
+void whpx_xsave_save(QEMUFile *f, void *opaque)<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+{<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp; &nbsp;&nbsp;CPUState *cpu =
+=3D (CPUState *)opaque;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; X86CPU *x86_cpu =3D =
+X86_CPU(cpu);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; void *xsave =3D =
+x86_cpu-&gt;env.xsave_buf;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; uint32_t =
+xsave_len =3D x86_cpu-&gt;env.xsave_buf_len;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; int =
+i;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; /*<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; * =
+Initially, all WHPX CPUs except #0 start suspended =
+(with<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; * =
+WHV_INTERNAL_ACTIVITY_REGISTER::StartupSuspend =
+set).<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; * Restoring a snapshot with =
+multiple active CPUs will not<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; * =
+automatically start them unless we explicitly reset =
+this<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; * flag (or preserve it in the =
+snapshot).<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp; */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; =
+WHV_REGISTER_NAME savedRegisters[] =3D {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+WHvRegisterInternalActivityState<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; =
+};<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; if (xsave &amp;&amp; xsave_len) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_put_be32(f, xsave_len);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_put_buffer(f, xsave, xsave_len);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; } else =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_put_be32(f, 0);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; /* Save 0 or =
+more [name]=3D[value] pairs followed by [0] */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; for (i =3D 0; i =
+&lt; sizeof(savedRegisters) / sizeof(savedRegisters[0]); i++) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HRESULT =
+hr;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+WHV_REGISTER_NAME name =3D savedRegisters[i];<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+WHV_REGISTER_VALUE value;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 0 marks the =
+end of saved register list */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; assert(name =
+!=3D 0);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hr =3D =
+whp_dispatch.WHvGetVirtualProcessorRegisters(<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; whpx_global.partition, =
+cpu-&gt;cpu_index,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; &amp;name, 1, &amp;value);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if =
+(SUCCEEDED(hr)) {<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; qemu_put_be32(f, name);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; qemu_put_buffer(f, (uint8_t *)&amp;value, =
+sizeof(value));<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; =
+qemu_put_be32(f, 0);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+static int whpx_xsave_load(QEMUFile *f, void *opaque, int =
+version_id)<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; CPUState *cpu =3D (CPUState =
+*)opaque;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; X86CPU *x86_cpu =3D =
+X86_CPU(cpu);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; uint32_t saved_xsave_len =3D =
+qemu_get_be32(f);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; if (saved_xsave_len) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if =
+(saved_xsave_len !=3D x86_cpu-&gt;env.xsave_buf_len) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; if (x86_cpu-&gt;env.xsave_buf) {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_vfree(x86_cpu-&gt;env.xsave_buf);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; }<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; x86_cpu-&gt;env.xsave_buf_len =3D =
+saved_xsave_len;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; x86_cpu-&gt;env.xsave_buf =3D =
+qemu_memalign(WHPX_XSAVE_AREA_ALIGNMENT,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+x86_cpu-&gt;env.xsave_buf_len);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_get_buffer(f, x86_cpu-&gt;env.xsave_buf, =
+saved_xsave_len);<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; } else if (x86_cpu-&gt;env.xsave_buf) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_vfree(x86_cpu-&gt;env.xsave_buf);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+x86_cpu-&gt;env.xsave_buf =3D NULL;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+x86_cpu-&gt;env.xsave_buf_len =3D 0;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; for (;;) {<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HRESULT =
+hr;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+WHV_REGISTER_NAME name =3D qemu_get_be32(f);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+WHV_REGISTER_VALUE value;<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (name =3D=3D =
+0) {<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; break;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+qemu_get_buffer(f, (uint8_t *)&amp;value, =
+sizeof(value));<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hr =3D =
+whp_dispatch.WHvSetVirtualProcessorRegisters(<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; whpx_global.partition, =
+cpu-&gt;cpu_index,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; &amp;name, 1, &amp;value);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (FAILED(hr)) =
+{<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; error_report(&quot;WHPX: Failed to restore register #%08x, =
+hr=3D%08lx&quot;,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name, hr);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; }<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp;&nbsp;&nbsp; return =
+0;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+}<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> type_init(whpx_type_init);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>diff --git =
+a/target/i386/whpx/whpx-internal.h =
+b/target/i386/whpx/whpx-internal.h<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>index 06429d8ccd..157443f60c =
+100644<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>--- =
+a/target/i386/whpx/whpx-internal.h<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+++ =
+b/target/i386/whpx/whpx-internal.h<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>@@ -46,10 +46,11 @@ struct =
+whpx_state {<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> extern struct whpx_state =
+whpx_global;<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> void whpx_apic_get(DeviceState =
+*s);<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA> =
+<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>-#define =
+WHV_E_UNKNOWN_CAPABILITY 0x80370300L<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+#define =
+WHV_E_UNKNOWN_CAPABILITY&nbsp; 0x80370300L<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;/* This should eventually =
+come from the Windows SDK */<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>-#define WHV_E_UNKNOWN_PROPERTY =
+0x80370302<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+#define WHV_E_UNKNOWN_PROPERTY&nbsp;&nbsp;&nbsp; =
+0x80370302L<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+#define WHV_E_INSUFFICIENT_BUFFER =
+0x80370301L<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA> <o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;#define LIST_WINHVPLATFORM_FUNCTIONS(X) =
+\<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>&nbsp;&nbsp; X(HRESULT, WHvGetCapability, =
+(WHV_CAPABILITY_CODE CapabilityCode, VOID* CapabilityBuffer, UINT32 =
+CapabilityBufferSizeInBytes, UINT32* WrittenSizeInBytes)) =
+\<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-CA>@@ -67,6 =
++68,8 @@ void whpx_apic_get(DeviceState *s);<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp; X(HRESULT, =
+WHvCancelRunVirtualProcessor, (WHV_PARTITION_HANDLE Partition, UINT32 =
+VpIndex, UINT32 Flags)) \<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp; X(HRESULT, =
+WHvGetVirtualProcessorRegisters, (WHV_PARTITION_HANDLE Partition, UINT32 =
+VpIndex, const WHV_REGISTER_NAME* RegisterNames, UINT32 RegisterCount, =
+WHV_REGISTER_VALUE* RegisterValues)) \<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;&nbsp; X(HRESULT, =
+WHvSetVirtualProcessorRegisters, (WHV_PARTITION_HANDLE Partition, UINT32 =
+VpIndex, const WHV_REGISTER_NAME* RegisterNames, UINT32 RegisterCount, =
+const WHV_REGISTER_VALUE* RegisterValues)) \<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>+&nbsp; X(HRESULT, =
+WHvGetVirtualProcessorXsaveState, (WHV_PARTITION_HANDLE Partition, =
+UINT32 VpIndex, VOID *Buffer, UINT32 BufferSizeInBytes, UINT32 =
+*BytesWritten)) \<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-CA>+&nbsp; X(HRESULT, WHvSetVirtualProcessorXsaveState, =
+(WHV_PARTITION_HANDLE Partition, UINT32 VpIndex, const VOID *Buffer, =
+UINT32 BufferSizeInBytes)) \<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA> <o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp;/*<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>&nbsp; * These are supplemental =
+functions that may not be present<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-CA>-- <o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-CA><o:p>&nbsp;</o:p></span></p></div></body></html>
+------=_NextPart_000_0024_01D866F5.0A03C6F0--
 
 
