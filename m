@@ -2,84 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6EB526E4B
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 08:10:36 +0200 (CEST)
-Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13458526E55
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 08:42:51 +0200 (CEST)
+Received: from localhost ([::1]:35026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npkz5-000870-Nr
-	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 02:10:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51428)
+	id 1nplUH-0002t4-JF
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 02:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npku4-0005kO-Aw
- for qemu-devel@nongnu.org; Sat, 14 May 2022 02:05:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22989)
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1nplHw-000766-R3; Sat, 14 May 2022 02:30:05 -0400
+Received: from mail-sender-0.a4lg.com
+ ([2401:2500:203:30b:4000:6bfe:4757:0]:48374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1npku1-00078R-E9
- for qemu-devel@nongnu.org; Sat, 14 May 2022 02:05:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652508320;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HbXuoKgFMK8+YZhLN1m76ki//xYuz8s9DmNhEQf7244=;
- b=ARxdYgycMDZU9pM6FFDBseb6EyBZR9xghVaPdtdv5eWbvW/J7PujMaxHl3tEfCzRdJV0+j
- a/xg1deepllvDQTbrh9s4RCyCWKfsE5hh+dR70Cbm8FBvL0Q0gIC48qGaGQm91iiRdf7qI
- zA43jGQjOudrccp4fa2nzJJWUJFTvS0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-88-h0CkNBa6P8WfdKvlAB-BBw-1; Sat, 14 May 2022 02:05:19 -0400
-X-MC-Unique: h0CkNBa6P8WfdKvlAB-BBw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h6-20020a7bc926000000b0039470bcb9easo3821054wml.1
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 23:05:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HbXuoKgFMK8+YZhLN1m76ki//xYuz8s9DmNhEQf7244=;
- b=a/+lnDqw9UeJ2479P7/9FoqSAU5cBThp7TGZmgfA5QFvwF12P/DArC85woNcD7GBu0
- BfBeITcLnH+j32DSimz3AAOH/atvktTW3jzZy9wpb1V1XJjrrFDzGO+rfEUm5hRVMPVA
- CaEUCX1x0RhIVU+Wg7O+o4xn1tIU6FBTYxqHL6KtvGm9894q7zWrGu+gJ25560U8knU8
- 3C4+RjgwH7eJM+8wL5wj0p1NA1VNLEzrKNPDLjyaqtkiLT5ODPtdjuCeuNpEwjjxRf7E
- 1uPPWK8YzXvcZ6vRtMaep2NMbkPD11meNoYQqohkP2On/C1N5pgo/pdV7yRbmn5zZBP6
- Tkgw==
-X-Gm-Message-State: AOAM532RyodgVpFVKDfq9bx//FElkjnRt9iqb1VSsP8lpqAOMNn2kXJZ
- 3QeRem63x0L8n6QK+6d5VSjQqSuoshdpTrWvoBgKUrzj0KWb0U809ICnRMXF61xUqZflAhoa/aG
- Mw/j+s2FISvPF4kYh9Z9YSWo26J2R3Z9WG/gqtF3Gdwxpk9Kg8SelmoQFbXt3AL9Lvvs=
-X-Received: by 2002:a5d:5911:0:b0:20d:4d:a996 with SMTP id
- v17-20020a5d5911000000b0020d004da996mr246794wrd.129.1652508317402; 
- Fri, 13 May 2022 23:05:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwa4wDmpei0rZ4/wmso7buxN+F6jIBpqrEI14nnme2P/GTGt3Uki6IUd3mhHgPOxnC2brsoPA==
-X-Received: by 2002:a5d:5911:0:b0:20d:4d:a996 with SMTP id
- v17-20020a5d5911000000b0020d004da996mr246775wrd.129.1652508317081; 
- Fri, 13 May 2022 23:05:17 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- x25-20020adfae19000000b0020c5253d90esm4346126wrc.90.2022.05.13.23.05.16
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 23:05:16 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: remove duplicate help messages
-Date: Sat, 14 May 2022 08:05:14 +0200
-Message-Id: <20220514060514.1147856-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.0
-MIME-Version: 1.0
-Content-Type: text/plain
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1nplHu-0007fA-AM; Sat, 14 May 2022 02:30:04 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id DAA4B300089;
+ Sat, 14 May 2022 06:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
+ s=2017s01; t=1652509791;
+ bh=/P19jFyyWx9h+oEi/y9EZljCHmTyp1k3AEue49z7HHs=;
+ h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+ Mime-Version:Content-Transfer-Encoding;
+ b=U6MetrtygF/Jw6TwmpHAtbLNHtFR02lEM4Bu8OmKiZsFw7VnKgp1BYKYt22TFQB5O
+ i7vZ3tVaVlfU/aADIZesQVmgWP3imawp3U56bhOymBqldoMLnd/GIsVu4MmlTqT6VB
+ t50Yh7lmBUNDjqB8be5i6XcgIs0cB5+ikJuIO7c4=
+From: Tsukasa OI <research_trasio@irq.a4lg.com>
+To: Tsukasa OI <research_trasio@irq.a4lg.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ Frank Chang <frank.chang@sifive.com>
+Cc: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 0/2] hw/riscv: Make CPU config error handling generous
+Date: Sat, 14 May 2022 15:29:39 +0900
+Message-Id: <cover.1652509778.git.research_trasio@irq.a4lg.com>
+In-Reply-To: <cover.1652435235.git.research_trasio@irq.a4lg.com>
+References: <cover.1652435235.git.research_trasio@irq.a4lg.com>
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
+ envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,29 +65,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These messages are already emitted by scripts/meson-parse-buildoptions.sh.
+c.f.
+<https://lists.gnu.org/archive/html/qemu-riscv/2022-05/msg00229.html>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 4 ----
- 1 file changed, 4 deletions(-)
+This patchset is functionally equivalent to v1 but fixes commit titles.
 
-diff --git a/configure b/configure
-index dda25f05bf..0cc8c876f7 100755
---- a/configure
-+++ b/configure
-@@ -1043,10 +1043,6 @@ Advanced options (experts only):
-   --enable-tsan            enable thread sanitizer
-   --disable-werror         disable compilation abort on warning
-   --disable-stack-protector disable compiler-provided stack protection
--  --audio-drv-list=LIST    set audio drivers to try if -audiodev is not used
--  --block-drv-whitelist=L  Same as --block-drv-rw-whitelist=L
--  --with-trace-file=NAME   Full PATH,NAME of file to store traces
--                           Default:trace-<pid>
-   --cpu=CPU                Build for host CPU [$cpu]
-   --with-coroutine=BACKEND coroutine backend. Supported options:
-                            ucontext, sigaltstack, windows
+
+
+
+Tsukasa OI (2):
+  hw/riscv: Make CPU config error handling generous (virt/spike)
+  hw/riscv: Make CPU config error handling generous
+    (sifive_e/u/opentitan)
+
+ hw/riscv/opentitan.c | 2 +-
+ hw/riscv/sifive_e.c  | 2 +-
+ hw/riscv/sifive_u.c  | 4 ++--
+ hw/riscv/spike.c     | 2 +-
+ hw/riscv/virt.c      | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+
+
+base-commit: 178bacb66d98d9ee7a702b9f2a4dfcd88b72a9ab
 -- 
-2.36.0
+2.34.1
 
 
