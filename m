@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA67B526E09
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 06:17:54 +0200 (CEST)
-Received: from localhost ([::1]:52298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF68526E05
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 06:14:50 +0200 (CEST)
+Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npjE2-00072e-0H
-	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 00:17:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39118)
+	id 1npjB3-0002xA-DX
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 00:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1npj7g-0000Fk-OE
+ id 1npj7g-0000Fb-K3
  for qemu-devel@nongnu.org; Sat, 14 May 2022 00:11:20 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3941)
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1npj7a-0002bl-R1
+ id 1npj7b-0002d1-S7
  for qemu-devel@nongnu.org; Sat, 14 May 2022 00:11:20 -0400
-Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L0X9r2SKYzgYxP;
- Sat, 14 May 2022 12:10:40 +0800 (CST)
+Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L0X9s1VGvzgYxx;
+ Sat, 14 May 2022 12:10:41 +0800 (CST)
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 14 May 2022 12:11:10 +0800
+ 15.1.2375.24; Sat, 14 May 2022 12:11:11 +0800
 To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
  <sgarzare@redhat.com>
 CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
  <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
  <longpeng2@huawei.com>
-Subject: [PATCH v6 resend 0/4] add generic vDPA device support
-Date: Sat, 14 May 2022 12:11:03 +0800
-Message-ID: <20220514041107.1980-1-longpeng2@huawei.com>
+Subject: [PATCH v6 resend 1/4] linux-headers: Update headers to Linux 5.18-rc6
+Date: Sat, 14 May 2022 12:11:04 +0800
+Message-ID: <20220514041107.1980-2-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
+In-Reply-To: <20220514041107.1980-1-longpeng2@huawei.com>
+References: <20220514041107.1980-1-longpeng2@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -69,90 +71,29 @@ From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
 From: Longpeng <longpeng2@huawei.com>
 
-Hi guys,
+Update headers to 5.18-rc6. I need latest vhost changes.
 
-With the generic vDPA device, QEMU won't need to touch the device
-types any more, such like vfio.
+Signed-off-by: Longpeng <longpeng2@huawei.com>
+---
+ linux-headers/linux/vhost.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-We can use the generic vDPA device as follow:
-  -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
-  Or
-  -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
-  vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
-
-I've done some simple tests on Huawei's offloading card (net, 0.95).
-
-Changes v5 -> v6:
-  Patch 2:
-    - Turn to the original approach in the RFC to initialize the
-      virtio_pci_id_info array. [Michael]
-	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
-  Patch 3:
-    - Fix logical error of exception handler around the post_init.
-      [Stefano]
-    - Fix some coding style warnings. [Stefano]
-  Patch 4:
-    - Fix some coding style warnings. [Stefano]
-
-Changes v4 -> v5:
-  Patch 3:
-    - remove vhostfd [Jason]
-    - support virtio-mmio [Jason]
-
-Changes v3 -> v4:
-  v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
-  - reorganize the series [Stefano]
-  - fix some typos [Stefano]
-  - fix logical error in vhost_vdpa_device_realize [Stefano]
-
-Changes v2 -> v3
-  Patch 4 & 5:
-    - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
-    - s/VQS_NUM/VQS_COUNT  [Stefano]
-    - check both vdpa_dev_fd and vdpa_dev [Stefano]
-  Patch 6:
-    - move all steps into vhost_vdpa_device_unrealize. [Stefano]
-
-Changes RFC -> v2
-  Patch 1:
-    - rename 'pdev_id' to 'trans_devid'  [Michael]
-    - only use transitional device id for the devices
-      listed in the spec  [Michael]
-    - use macros to make the id_info table clearer  [Longpeng]
-    - add some modern devices in the id_info table  [Longpeng]
-  Patch 2:
-    - remove the GET_VECTORS_NUM command  [Jason]
-  Patch 4:
-    - expose vdpa_dev_fd as a QOM preperty  [Stefan]
-    - introduce vhost_vdpa_device_get_u32 as a common
-      function to make the code clearer  [Stefan]
-    - fix the misleading description of 'dc->desc'  [Stefano]
-  Patch 5:
-    - check returned number of virtqueues  [Stefan]
-  Patch 6:
-    - init s->num_queues  [Stefano]
-    - free s->dev.vqs  [Stefano]
-
-
-Longpeng (Mike) (4):
-  linux-headers: Update headers to Linux 5.18-rc6
-  virtio: get class_id and pci device id by the virtio id
-  vdpa: add vdpa-dev support
-  vdpa: add vdpa-dev-pci support
-
- hw/virtio/Kconfig            |   5 +
- hw/virtio/meson.build        |   2 +
- hw/virtio/vdpa-dev-pci.c     | 102 ++++++++++
- hw/virtio/vdpa-dev.c         | 377 +++++++++++++++++++++++++++++++++++
- hw/virtio/virtio-pci.c       |  88 ++++++++
- hw/virtio/virtio-pci.h       |   5 +
- include/hw/virtio/vdpa-dev.h |  43 ++++
- linux-headers/linux/vhost.h  |   7 +
- 8 files changed, 629 insertions(+)
- create mode 100644 hw/virtio/vdpa-dev-pci.c
- create mode 100644 hw/virtio/vdpa-dev.c
- create mode 100644 include/hw/virtio/vdpa-dev.h
-
+diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
+index c998860d7b..5d99e7c242 100644
+--- a/linux-headers/linux/vhost.h
++++ b/linux-headers/linux/vhost.h
+@@ -150,4 +150,11 @@
+ /* Get the valid iova range */
+ #define VHOST_VDPA_GET_IOVA_RANGE	_IOR(VHOST_VIRTIO, 0x78, \
+ 					     struct vhost_vdpa_iova_range)
++
++/* Get the config size */
++#define VHOST_VDPA_GET_CONFIG_SIZE	_IOR(VHOST_VIRTIO, 0x79, __u32)
++
++/* Get the count of all virtqueues */
++#define VHOST_VDPA_GET_VQS_COUNT	_IOR(VHOST_VIRTIO, 0x80, __u32)
++
+ #endif
 -- 
 2.23.0
 
