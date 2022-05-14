@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B06526E61
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 09:08:46 +0200 (CEST)
-Received: from localhost ([::1]:55004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3B0526F97
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 09:34:40 +0200 (CEST)
+Received: from localhost ([::1]:39164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1npltN-0000ZL-MN
-	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 03:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34890)
+	id 1npmIQ-0002sr-C1
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 03:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nplkv-00068W-HW
- for qemu-devel@nongnu.org; Sat, 14 May 2022 03:00:05 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:43715)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nplkt-0000ML-OB
- for qemu-devel@nongnu.org; Sat, 14 May 2022 03:00:01 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- l38-20020a05600c1d2600b00395b809dfbaso5506182wms.2
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 23:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SrFdkfeomMv6zHaXWDpfb3VJqFRtE5eD3xklr16LlI0=;
- b=QmzgbufOF9zHr7ufBd9Mgns47uPYzpHvWmS4ULTZyfC3RYMQixHpNyYc3uEwIiY7M3
- NI8O1pdG1IJOe/eoLIs/yww3rw8s7IZim2bL8PyfSxW2mzUwf0mUTgt6eygqkfr3KpJO
- jDoF8Z6McMIiEq/L59rF8BSjOAD9wfd+mkzcECy41QRDjTP/+Vwmo7d1P3qlTfscOVUT
- g8N6ACtCGRzdJ9qWPzEyZaAQW8l7d1G3rht6XemANyCScelnI+MQGk3HpXYt2jzqaM7+
- PdT6s4DRME/aENz6fvZU2Z4NTm9CQoZmGRXlt/MGAsxu6o6oLMjH6Iqq0fTPjvnGzpbN
- Y1DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SrFdkfeomMv6zHaXWDpfb3VJqFRtE5eD3xklr16LlI0=;
- b=bgpIoJE29S3NQ1p0982TlYWpO193NdFo7HQslPD63d6tZQIpX8wT/wHxLsDnfa55iv
- W8WpBB/QswZSUoTanO0sCx1uvJWUjdfCxkqEQ6NBfwoaCa9mreckbrEY+7XZUW8yihAQ
- /xApJCrlVOMb5QkbciFctDaDRiN8+z+SGQsmClxXh7mHy6tgoneF5q2D6K19kxYQ6WSY
- AWAIrn2/Wigd3B6LIt4vLzeuNJE1wMK/4eJLts0xx2m3jwr2OdPjMsbwR6v9RkJ8yIr8
- sOyQZ0z+ANO39Rl2O46YAX8JxDM54+B59Zp42sYTqLERakHEUt3lB+hsr7iJlZ8a9Ccg
- ci3A==
-X-Gm-Message-State: AOAM533NDW/RBjO33YU4AhlkcqFPeOiCaiOKGbko+yMdYlCfNgmFeIaX
- 7BZQk/ZaFoaMvQcqp13uUi4=
-X-Google-Smtp-Source: ABdhPJxM/we+lfmxKYZAjOI0/MSMbpxMxaIEsnBVIku7+yLZn1j7lDeTTL5z+zYxL62d+cDZGdgVtw==
-X-Received: by 2002:a05:600c:1f0e:b0:396:8a52:bbc4 with SMTP id
- bd14-20020a05600c1f0e00b003968a52bbc4mr5339906wmb.119.1652511597243; 
- Fri, 13 May 2022 23:59:57 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- h7-20020a05600c350700b0039456c00ba7sm8807522wmq.1.2022.05.13.23.59.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 23:59:56 -0700 (PDT)
-Message-ID: <e1229b1f-d94e-6529-311e-30999741fadc@redhat.com>
-Date: Sat, 14 May 2022 08:59:55 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1npmEW-0001bW-7B
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 03:30:36 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:38313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1npmET-0005y9-H3
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 03:30:35 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.27])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 7F1EC2348E;
+ Sat, 14 May 2022 07:30:29 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Sat, 14 May
+ 2022 09:30:28 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00520789420-35f2-4651-93e0-02bfd5341618,
+ E18F6C3BC2EC4AF86CA0BD7024908CDDB092B269) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <bcc23f78-e81c-f4b7-3dae-17c216eb9afd@kaod.org>
+Date: Sat, 14 May 2022 09:30:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] whpx: Added support for saving/restoring VM state
+Subject: Re: [PATCH 2/2] hw: aspeed: Init all UART's with serial devices
 Content-Language: en-US
-To: Ivan Shcherbakov <ivan@sysprogs.com>, qemu-devel@nongnu.org
-References: <004101d86732$0d33bd70$279b3850$@sysprogs.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <004101d86732$0d33bd70$279b3850$@sysprogs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+To: Peter Delevoryas <pdel@fb.com>
+CC: Iris Chen <irischenlj@fb.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+ qemu-arm <qemu-arm@nongnu.org>, Cameron Esfahani via <qemu-devel@nongnu.org>, 
+ "zev@bewilderbeest.net" <zev@bewilderbeest.net>, OpenBMC List
+ <openbmc@lists.ozlabs.org>, Andrew Jeffery <andrew@aj.id.au>, Peter Maydell
+ <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
+References: <20220513040220.3657135-1-pdel@fb.com>
+ <20220513040220.3657135-3-pdel@fb.com>
+ <443933f2-069f-df96-ec62-76c21fc644b2@kaod.org>
+ <05F5C72F-8424-476C-82B7-7D30BA48CDEB@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <05F5C72F-8424-476C-82B7-7D30BA48CDEB@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 57e97edc-71ff-4a63-bf08-061c88653e66
+X-Ovh-Tracer-Id: 6527123237723933618
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrhedtgdduudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,34 +80,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/22 03:29, Ivan Shcherbakov wrote:
-> +/*
-> + * As of Windows 10 21H1, the layout of the XSAVE data returned by the WHPX
-> API
-> + * does not match the layout used by QEMU.
-> + *
-> + * Specifically, trying to pass the state returned by
-> x86_cpu_xsave_all_areas()
-> + * to WHvSetVirtualProcessorXsaveState() causes it to return an error.
-> + *
-> + * As a result, we do not reflect the captured XSAVE state in the X86CPU
-> + * structure, and instead manually save it to the snapshots via the
-> + * whpx_xsave_xxxx() callbacks.
-> + *
-> + * Note that unlike the device drivers that can use the new
-> VMStateDescription
-> + * mechanism via 'DeviceClass::vmsd' field, AccelClass objects cannot
-> easily
-> + * do it. Hence, we rely on the legacy state management API.
-> + */
-> +static SaveVMHandlers savevm_whpx = {
-> +    .save_state = whpx_xsave_save,
-> +    .load_state = whpx_xsave_load,
-> +};
-> +
+On 5/13/22 23:08, Peter Delevoryas wrote:
+> 
+> 
+>> On May 12, 2022, at 10:31 PM, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> On 5/13/22 06:02, Peter Delevoryas wrote:
+>>> Usually, QEMU users just provide one serial device on the command line,
+>>> either through "-nographic" or "-serial stdio -display none", or just using
+>>> VNC and popping up a window. We try to match what the user expects, which is
+>>> to connect the first (and usually only) serial device to the UART a board is
+>>> using as serial0.
+>>> Most Aspeed machines in hw/arm/aspeed.c use UART5 for serial0 in their
+>>> device tree, so we connect UART5 to the first serial device. Some machines
+>>> use UART1 though, or UART3, so the uart_default property lets us specify
+>>> that in a board definition.
+>>> In order to specify a nonstandard serial0 UART, a user basically *must* add
+>>> a new board definition in hw/arm/aspeed.c. There's no way to do this without
+>>> recompiling QEMU, besides constructing the machine completely from scratch
+>>> on the command line.
+>>> To provide more flexibility, we can also support the user specifying more
+>>> serial devices, and connect them to the UART memory regions if possible.
+>>> Even if a user doesn't specify any extra serial devices, it's useful to
+>>> initialize these memory regions as UART's, so that they respond to the guest
+>>> OS more naturally. At the moment, they will just always return zero's for
+>>> everything, and some UART registers have a default non-zero state.
+>>> With this change, if a new OpenBMC image uses UART3 or some other
+>>> nonstandard UART for serial0, you can still use it with the EVB without
+>>> recompiling QEMU, even though uart-default=UART5 for the EVB.
+>>> For example, Facebook's Wedge100 BMC uses UART3: you can fetch an image from
+>>> Github[1] and get the serial console output even while running the palmetto
+>>> machine type, because we explicitly specify that we want UART3 to be
+>>> connected to stdio.
+>>> qemu-system-arm -machine palmetto-bmc \
+>>> -drive file=wedge100.mtd,format=raw,if=mtd \
+>>> -serial null -serial null -serial null -serial stdio -display none
+>>> Similarly, you can boot a Fuji BMC image[2], which uses UART1, using the
+>>> AST2600 EVB machine:
+>>> qemu-system-arm -machine ast2600-evb \
+>>> -drive file=fuji.mtd,format=raw,if=mtd \
+>>> -serial null -serial stdio -display none
+>>> This is kind of complicated, of course: it might be more natural to get rid
+>>> of the uart_default attribute completely, and initialize UART's
+>>> sequentially. But, keeping backward compatibility and the way most users
+>>> know how to use QEMU in mind, this seems to make the most sense.
+>>> [1] https://github.com/facebook/openbmc/releases/download/v2021.49.0/wedge100.mtd
+>>> [2] https://github.com/facebook/openbmc/releases/download/v2021.49.0/fuji.mtd
+>>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+>>> ---
+>>> hw/arm/aspeed_ast10x0.c | 14 +++++++++++---
+>>> hw/arm/aspeed_ast2600.c | 10 +++++++++-
+>>> hw/arm/aspeed_soc.c | 10 +++++++++-
+>>> 3 files changed, 29 insertions(+), 5 deletions(-)
+>>> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+>>> index f65dc139da..5e6f3a8fed 100644
+>>> --- a/hw/arm/aspeed_ast10x0.c
+>>> +++ b/hw/arm/aspeed_ast10x0.c
+>>> @@ -215,10 +215,18 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>>> qdev_get_gpio_in(DEVICE(&s->armv7m),
+>>> sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_kcs_4));
+>>> - /* UART5 - attach an 8250 to the IO space as our UART */
+>>> - serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+>>> - aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+>>> + /* UART - attach 8250's to the IO space for each UART */
+>>> + serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
+>>> + aspeed_soc_get_irq(s, s->uart_default),
+>>
+>> That's a fix for aspeed_ast10x0 that should come first.
+> 
+> Good point, I’ll separate this into another patch in the series instead
+> of doing it right here.
+> 
+>>
+>>> 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>>> + for (int i = 1, uart = ASPEED_DEV_UART1; i < 13; i++, uart++) {
+>>
+>> '13' should be a AspeecSoCClass attribute. The number of uarts varies
+>> depending on the SoC model and we might want to model that one day.
+> 
+> True, I’ll add a patch to the series that includes that.
+> 
+>>
+>>> + if (uart == s->uart_default) {
+>>> + uart++;
+>>> + }
+>>
+>> Shouldn't we test serial_hd(i) validity ?
+> 
+> I was actually intentionally skipping that. If serial_hd(i)
+> doesn’t exist, the function will return NULL.
+> 
+> Chardev *serial_hd(int i)
+> {
+>      assert(i >= 0);
+>      if (i < num_serial_hds) {
+>          return serial_hds[i];
+>      }
+>      return NULL;
+> }
+> 
+> So then, the serial device’s CharBackend’s “Chardev *chr”
+> will be initialized as NULL. Looking at all of the
+> usage of this attribute in “hw/char/serial.c”, I think
+> that’s ok, the read/write functions will just be no-ops.
+> They all have guards for “chr == NULL”. Take this one
+> as an example:
+> 
+> int qemu_chr_fe_write(CharBackend *be, const uint8_t *buf, int len)
+> {
+>      Chardev *s = be->chr;
+> 
+>      if (!s) {
+>          return 0;
+>      }
+> 
+>      return qemu_chr_write(s, buf, len, false);
+> }
+> 
+> On the other hand, most of the rest of the serial device
+> code will run, include setting and clearing the line
+> status register and stuff like that. In some FB code[1] using
+> UART’s, processes will actually go to 100% CPU usage in QEMU
+> polling the line status register if it doesn’t have the
+> transmitter-empty bit set, mostly because the author didn’t write
+> fault-tolerant code, but also because it doesn’t align with how
+> the hardware behaves by default (I think). So, that was my
+> motivation for initializing serial devices, but not always
+> connecting a chardev backend. But I’m open to other
+> interpretations of how things should be setup too.
+> 
+> If you’d like me to only initialize a UART if a chardev backend
+> is provided for it, then to satisfy my use case, I would
+> just always make sure our test infrastructure runs QEMU
+> with all serial devices connected to chardevs. So, either way,
+> this change is still useful, and will satisfy my requirements.
 
-What are the differences?  Is it using the XSAVEC/XSAVES ("compacted") 
-format?
+The problem is that it is breaking compatibility with previous QEMUs.
+We can not change the command line to :
 
-Paolo
+     qemu-system-arm -machine palmetto-bmc \
+         -drive file=wedge100.mtd,format=raw,if=mtd \
+         -serial null -serial null -serial null -serial stdio -display none
+
+What about adding a machine "uart" option ? like we did for the fmc/spi
+models
+
+Thanks,
+
+C.
 
