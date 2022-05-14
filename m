@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C877526DDD
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 04:23:04 +0200 (CEST)
-Received: from localhost ([::1]:47216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D247526DFE
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 May 2022 06:08:19 +0200 (CEST)
+Received: from localhost ([::1]:36312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nphQs-0001AA-PK
-	for lists+qemu-devel@lfdr.de; Fri, 13 May 2022 22:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53890)
+	id 1npj4k-00048a-8F
+	for lists+qemu-devel@lfdr.de; Sat, 14 May 2022 00:08:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nphPd-0008Pa-KC
- for qemu-devel@nongnu.org; Fri, 13 May 2022 22:21:45 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nphPb-0004jy-TR
- for qemu-devel@nongnu.org; Fri, 13 May 2022 22:21:45 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id s11so8091143edy.6
- for <qemu-devel@nongnu.org>; Fri, 13 May 2022 19:21:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D7Cjve6oVbvbq4mfrf+2D8PGe71UvGWRoO0r4pyFkJM=;
- b=C9/BT/hQXYCTbyBsf4lNX8znSockOzmbO1NmtvwFjD/F+GmTQCzl1Wif+bbtZhAYcx
- 5UylEb22pXLzHheFspy1cmdxLToRwPgfJKJHyw7jhiWo/AJ1DuY4ppLhjrt57bIMLifG
- BmbMJkTEMtltLJSBeBgWpQ+YMg4nyEDg53ho8WD/hikh9e4oigyCNme/g4lXxHMY7bNv
- iQ08qBm29yUYvkHSKll+yaXZ8TdLsrKl4zG27fGUwFquwXy2N8Fi2XArFrjkN27kWlm2
- WIwSEn082rDKXywLMHDmUmPyD6WkYd/5JoR92jql9ZzKjFh+9jewNZ5CmggvWEN26BYg
- 9R+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=D7Cjve6oVbvbq4mfrf+2D8PGe71UvGWRoO0r4pyFkJM=;
- b=Z/fdq0GVMUwIx/+n9fhZVNte1Cs2pixH6tyVVcCcW9HMCUzJqaCY6pwcdHAsiaY2Cz
- M3IGD9kcOk2c0fw8NZPUCR2H0ZbwVxEznPhK9PjQHuyneViZsgZuFB/dpI5bUyu+e2Xz
- zYlTP+UA4Q+RSygWwrqm9i2TM4z475ho1Easw2ujBRoT0kMBLIRH9GY/OFSlkPEZdN0j
- tuPbm9HnLOS2oP7OgKE3d+mCuw8bxbo99b3xcTNcgqK8faX2/dDhAGW9XQV3DSy0w+cr
- bF1NFORSgoXLMymcaA9iulNEiJDkheEwuYCXq73WmzesyzrYiNPwHXebMnHYMZzwFM0O
- W0Hg==
-X-Gm-Message-State: AOAM530Zj25X/6FG3qTLu1axJRd8Y67QNn8ygDZfa1NavrCAh/TeW9Lz
- 1+feNps5/BZMVx+FIRcu+yvPR3vhZvFbRlllFo5eQA==
-X-Google-Smtp-Source: ABdhPJzeYAxkhgz90+cV4xzjxuYXWK3FMvXNU8unx1ubipJguwj8JbmG3y6hvp2zYCNQbarkufBVgQCknZhoyDkaBMo=
-X-Received: by 2002:a05:6402:ca9:b0:425:ff4d:f6fd with SMTP id
- cn9-20020a0564020ca900b00425ff4df6fdmr1539826edb.405.1652494901250; Fri, 13
- May 2022 19:21:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1npj2J-00021Z-Mn
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 00:05:48 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1npj2G-0001V1-V0
+ for qemu-devel@nongnu.org; Sat, 14 May 2022 00:05:46 -0400
+Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L0X3G0sV8zgYdj;
+ Sat, 14 May 2022 12:04:58 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 14 May 2022 12:05:28 +0800
+To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+ <sgarzare@redhat.com>
+CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
+ <longpeng2@huawei.com>
+Subject: [PATCH v6 0/4] add generic vDPA device support
+Date: Sat, 14 May 2022 12:05:20 +0800
+Message-ID: <20220514040524.1929-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-References: <20220513221458.1192933-1-atishp@rivosinc.com>
-In-Reply-To: <20220513221458.1192933-1-atishp@rivosinc.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sat, 14 May 2022 10:21:30 +0800
-Message-ID: <CAE_xrPiG6a1oH8UC1sr7cPqrJFQTMBHj+d-Tzs1TjaRtY2p2NA@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc: Pass correct hartid while updating mtimecmp
-To: Atish Patra <atishp@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Anup Patel <anup.patel@wdc.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- dylan@rivosinc.com, 
- Bin Meng <bmeng.cn@gmail.com>, Jim Shu <jim.shu@sifive.com>
-Content-Type: multipart/alternative; boundary="0000000000009520b505deef7303"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=frank.chang@sifive.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500025.china.huawei.com (7.221.188.170)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,95 +64,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
+From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
---0000000000009520b505deef7303
-Content-Type: text/plain; charset="UTF-8"
+From: Longpeng <longpeng2@huawei.com>
 
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+i guys,
 
-On Sat, May 14, 2022 at 6:15 AM Atish Patra <atishp@rivosinc.com> wrote:
+With the generic vDPA device, QEMU won't need to touch the device
+types any more, such like vfio.
 
-> timecmp update function should be invoked with hartid for which
-> timecmp is being updated. The following patch passes the incorrect
-> hartid to the update function.
->
-> Fixes: e2f01f3c2e13 ("hw/intc: Make RISC-V ACLINT mtime MMIO register
-> writable")
->
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  hw/intc/riscv_aclint.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
-> index 0412edc98257..e6bceceefdbc 100644
-> --- a/hw/intc/riscv_aclint.c
-> +++ b/hw/intc/riscv_aclint.c
-> @@ -233,7 +233,8 @@ static void riscv_aclint_mtimer_write(void *opaque,
-> hwaddr addr,
->                  continue;
->              }
->              riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu),
-> -                                              i, env->timecmp);
-> +                                              mtimer->hartid_base + i,
-> +                                              env->timecmp);
->          }
->          return;
->      }
-> --
-> 2.25.1
->
->
+We can use the generic vDPA device as follow:
+  -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+  Or
+  -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+  vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
 
---0000000000009520b505deef7303
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I've done some simple tests on Huawei's offloading card (net, 0.95).
 
-<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
-@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, May 14, 2022 at 6:15 AM =
-Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com">atishp@rivosinc.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">t=
-imecmp update function should be invoked with hartid for which<br>
-timecmp is being updated. The following patch passes the incorrect<br>
-hartid to the update function.<br>
-<br>
-Fixes: e2f01f3c2e13 (&quot;hw/intc: Make RISC-V ACLINT mtime MMIO register =
-writable&quot;)<br>
-<br>
-Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" targe=
-t=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
----<br>
-=C2=A0hw/intc/riscv_aclint.c | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c<br>
-index 0412edc98257..e6bceceefdbc 100644<br>
---- a/hw/intc/riscv_aclint.c<br>
-+++ b/hw/intc/riscv_aclint.c<br>
-@@ -233,7 +233,8 @@ static void riscv_aclint_mtimer_write(void *opaque, hwa=
-ddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0riscv_aclint_mtimer_write_t=
-imecmp(mtimer, RISCV_CPU(cpu),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 i, env-&gt;timecmp);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 mtimer-&gt;hartid_base + i,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 env-&gt;timecmp);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div>
+Changes v5 -> v6:
+  Patch 2:
+    - Turn to the original approach in the RFC to initialize the
+      virtio_pci_id_info array. [Michael]
+	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+  Patch 3:
+    - Fix logical error of exception handler around the post_init.
+	  [Stefano]
+	- Fix some coding style warnings. [Stefano]
+  Patch 4:
+    - Fix some coding style warnings. [Stefano]
 
---0000000000009520b505deef7303--
+Changes v4 -> v5:
+  Patch 3:
+    - remove vhostfd [Jason]
+	- support virtio-mmio [Jason]
+
+Changes v3 -> v4:
+  v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+  - reorganize the series [Stefano]
+  - fix some typos [Stefano]
+  - fix logical error in vhost_vdpa_device_realize [Stefano]
+
+Changes v2 -> v3
+  Patch 4 & 5:
+    - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+    - s/VQS_NUM/VQS_COUNT  [Stefano]
+    - check both vdpa_dev_fd and vdpa_dev [Stefano]
+  Patch 6:
+    - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+
+Changes RFC -> v2
+  Patch 1:
+    - rename 'pdev_id' to 'trans_devid'  [Michael]
+    - only use transitional device id for the devices
+      listed in the spec  [Michael]
+    - use macros to make the id_info table clearer  [Longpeng]
+    - add some modern devices in the id_info table  [Longpeng]
+  Patch 2:
+    - remove the GET_VECTORS_NUM command  [Jason]
+  Patch 4:
+    - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+    - introduce vhost_vdpa_device_get_u32 as a common
+      function to make the code clearer  [Stefan]
+    - fix the misleading description of 'dc->desc'  [Stefano]
+  Patch 5:
+    - check returned number of virtqueues  [Stefan]
+  Patch 6:
+    - init s->num_queues  [Stefano]
+    - free s->dev.vqs  [Stefano]
+
+
+Longpeng (Mike) (4):
+  linux-headers: Update headers to Linux 5.18-rc6
+  virtio: get class_id and pci device id by the virtio id
+  vdpa: add vdpa-dev support
+  vdpa: add vdpa-dev-pci support
+
+ hw/virtio/Kconfig            |   5 +
+ hw/virtio/meson.build        |   2 +
+ hw/virtio/vdpa-dev-pci.c     | 102 ++++++++++
+ hw/virtio/vdpa-dev.c         | 377 +++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-pci.c       | 101 ++++++++++
+ hw/virtio/virtio-pci.h       |   5 +
+ include/hw/virtio/vdpa-dev.h |  43 ++++
+ linux-headers/linux/vhost.h  |   7 +
+ 8 files changed, 642 insertions(+)
+ create mode 100644 hw/virtio/vdpa-dev-pci.c
+ create mode 100644 hw/virtio/vdpa-dev.c
+ create mode 100644 include/hw/virtio/vdpa-dev.h
+
+-- 
+2.23.0
+
 
