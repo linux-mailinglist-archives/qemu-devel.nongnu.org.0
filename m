@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C555276C4
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 May 2022 11:57:06 +0200 (CEST)
-Received: from localhost ([::1]:59618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB543527820
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 May 2022 16:42:00 +0200 (CEST)
+Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqAzo-0003qa-FQ
-	for lists+qemu-devel@lfdr.de; Sun, 15 May 2022 05:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53128)
+	id 1nqFRX-0003vF-Dt
+	for lists+qemu-devel@lfdr.de; Sun, 15 May 2022 10:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
- id 1nqAyI-00035s-Ab
- for qemu-devel@nongnu.org; Sun, 15 May 2022 05:55:31 -0400
-Received: from [106.39.185.57] (port=52506 helo=smtp.cecloud.com)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nqFNA-0002XZ-O7; Sun, 15 May 2022 10:37:28 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:33634 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luzhipeng@cestc.cn>) id 1nqAyF-0005oZ-1J
- for qemu-devel@nongnu.org; Sun, 15 May 2022 05:55:29 -0400
-Received: from localhost (localhost [127.0.0.1])
- by smtp.cecloud.com (Postfix) with ESMTP id DCAED100002DD;
- Sun, 15 May 2022 17:54:58 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ANTISPAM-LEVEL: 2
-X-ABS-CHECKED: 0
-Received: from localhost.localdomain (unknown [111.48.58.11])
- by smtp.cecloud.com (postfix) whith ESMTP id
- P3903393T281470748848496S1652608497488307_; 
- Sun, 15 May 2022 17:54:58 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <db32ff110eb9ec479d12f2877131089e>
-X-RL-SENDER: luzhipeng@cestc.cn
-X-SENDER: luzhipeng@cestc.cn
-X-LOGIN-NAME: luzhipeng@cestc.cn
-X-FST-TO: qemu-devel@nongnu.org
-X-RCPT-COUNT: 7
-X-SENDER-IP: 111.48.58.11
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: luzhipeng <luzhipeng@cestc.cn>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Michael Roth <michael.roth@amd.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>, luzhipeng <luzhipeng@cestc.cn>
-Subject: [PATCH v3] qga: add guest-get-diskstats command for Linux guests
-Date: Sun, 15 May 2022 17:54:37 +0800
-Message-Id: <20220515095437.1291-1-luzhipeng@cestc.cn>
-X-Mailer: git-send-email 2.34.0.windows.1
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nqFN8-00073j-4B; Sun, 15 May 2022 10:37:28 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowAC3v4caEIFi+fgKBw--.6757S2;
+ Sun, 15 May 2022 22:37:14 +0800 (CST)
+Subject: Re: [PATCH v2 4/5] target/riscv: FP extension requirements
+To: Tsukasa OI <research_trasio@irq.a4lg.com>,
+ Alistair Francis <alistair23@gmail.com>, Frank Chang <frank.chang@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <cover.1652435138.git.research_trasio@irq.a4lg.com>
+ <cover.1652583332.git.research_trasio@irq.a4lg.com>
+ <00e7b1c6060dab32ac7d49813b1ca84d3eb63298.1652583332.git.research_trasio@irq.a4lg.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <be76b33b-4999-6760-cc78-2fb5109b50aa@iscas.ac.cn>
+Date: Sun, 15 May 2022 22:37:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <00e7b1c6060dab32ac7d49813b1ca84d3eb63298.1652583332.git.research_trasio@irq.a4lg.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.57 (failed)
-Received-SPF: pass client-ip=106.39.185.57; envelope-from=luzhipeng@cestc.cn;
- helo=smtp.cecloud.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: qwCowAC3v4caEIFi+fgKBw--.6757S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFW5AFyxArWrZFWDCr45ZFb_yoW8ur4Upr
+ 4UGa90krWDJr17C3yfZF1jk3W5ur1ku3ySg39agw17WrW7Gr93Jw1vkw17WF4Fqws5Za1f
+ uF1DWr1DursrCa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21lc7CjxVAKzI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
+ 3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
+ VFxhVjvjDU0xZFpf9x0JU2LvtUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,250 +79,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new 'guest-get-diskstats' command for report disk io statistics
-for Linux guests. This can be usefull for getting io flow or handling
-IO fault, no need to enter guests.
 
-Signed-off-by: luzhipeng <luzhipeng@cestc.cn>
----
-Changes v2->v3:
- bugfix for memory leak
-Changes v1->v2:
- v1:https://patchew.org/QEMU/20220512011930.214-1-luzhipeng@cestc.cn/
- 
- qga/commands-posix.c | 99 ++++++++++++++++++++++++++++++++++++++++++++
- qga/commands-win32.c |  6 +++
- qga/qapi-schema.json | 86 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 191 insertions(+)
+在 2022/5/15 上午10:56, Tsukasa OI 写道:
+> QEMU allowed inconsistent configurations that made floating point
+> arithmetic effectively unusable.
+>
+> This commit adds certain checks for consistent FP arithmetic:
+>
+> -   F requires Zicsr
+> -   Zfinx requires Zicsr
+> -   Zfh/Zfhmin require F
+> -   D requires F
+> -   V requires D
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 69f209af87..1d89be8a83 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2783,6 +2783,98 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
-     return info;
- }
- 
-+#define MAX_NAME_LEN 128
-+static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)
-+{
-+#ifdef CONFIG_LINUX
-+    GuestDiskStatsInfoList *head = NULL, **tail = &head;
-+    const char *diskstats = "/proc/diskstats";
-+    FILE *fp;
-+    size_t n;
-+    char *line = NULL;
-+    char dev_name[MAX_NAME_LEN];
-+    int i;
-+    unsigned int ios_pgr, tot_ticks, rq_ticks, wr_ticks, dc_ticks, fl_ticks;
-+    unsigned long rd_ios, rd_merges_or_rd_sec, rd_ticks_or_wr_sec, wr_ios;
-+    unsigned long wr_merges, rd_sec_or_wr_ios, wr_sec;
-+    unsigned long dc_ios, dc_merges, dc_sec, fl_ios;
-+    unsigned int major, minor;
-+
-+    fp = fopen(diskstats, "r");
-+    if (fp  == NULL) {
-+        error_setg_errno(errp, errno, "open(\"%s\")", diskstats);
-+        return NULL;
-+    }
-+    while (getline(&line, &n, fp) != -1) {
-+        GuestDiskStatsInfo *diskstatinfo;
-+        GuestDiskStats *diskstat;
-+        i = sscanf(line, "%u %u %s %lu %lu %lu"
-+                   "%lu %lu %lu %lu %u %u %u %u"
-+                   "%lu %lu %lu %u %lu %u",
-+                  &major, &minor, dev_name,
-+                  &rd_ios, &rd_merges_or_rd_sec, &rd_sec_or_wr_ios,
-+                  &rd_ticks_or_wr_sec, &wr_ios, &wr_merges, &wr_sec,
-+                  &wr_ticks, &ios_pgr, &tot_ticks, &rq_ticks,
-+                  &dc_ios, &dc_merges, &dc_sec, &dc_ticks,
-+                  &fl_ios, &fl_ticks);
-+
-+        diskstatinfo = g_new0(GuestDiskStatsInfo, 1);
-+        diskstat = g_new0(GuestDiskStats, 1);
-+        if (i < 7) {
-+            g_free(diskstat);
-+            g_free(diskstatinfo);
-+            continue;
-+        }
-+        diskstatinfo->name = g_strdup(dev_name);
-+        diskstatinfo->major = major;
-+        diskstatinfo->minor = minor;
-+        if (i == 7) {
-+            diskstat->read_ios = rd_ios;
-+            diskstat->read_sectors = rd_merges_or_rd_sec;
-+            diskstat->write_ios = rd_sec_or_wr_ios;
-+            diskstat->write_sectors = rd_ticks_or_wr_sec;
-+        }
-+        if (i >= 14) {
-+            diskstat->read_ios = rd_ios;
-+            diskstat->read_sectors = rd_sec_or_wr_ios;
-+            diskstat->read_merges = rd_merges_or_rd_sec;
-+            diskstat->read_ticks = rd_ticks_or_wr_sec;
-+            diskstat->write_ios = wr_ios;
-+            diskstat->write_sectors = wr_sec;
-+            diskstat->write_merges = wr_merges;
-+            diskstat->write_ticks = wr_ticks;
-+            diskstat->ios_pgr = ios_pgr;
-+            diskstat->total_ticks = tot_ticks;
-+            diskstat->weight_ticks = rq_ticks;
-+        }
-+        if (i >= 18) {
-+            diskstat->discard_ios = dc_ios;
-+            diskstat->discard_merges = dc_merges;
-+            diskstat->discard_sectors = dc_sec;
-+            diskstat->discard_ticks = dc_ticks;
-+        }
-+        if (i >= 20) {
-+            diskstat->flush_ios = fl_ios;
-+            diskstat->flush_ticks = fl_ticks;
-+        }
-+
-+        diskstatinfo->stats = diskstat;
-+        QAPI_LIST_APPEND(tail, diskstatinfo);
-+    }
-+    g_free(line);
-+    fclose(fp);
-+    return head;
-+#else
-+    g_debug("disk stats reporting available only for Linux");
-+    return NULL;
-+#endif
-+}
-+
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-+{
-+    return guest_get_diskstats(errp);
-+}
-+
- #else /* defined(__linux__) */
- 
- void qmp_guest_suspend_disk(Error **errp)
-@@ -3131,6 +3223,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-     return NULL;
- }
- 
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+
- #endif /* CONFIG_FSFREEZE */
- 
- #if !defined(CONFIG_FSTRIM)
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index d56b5fd2a7..dcdeb76a68 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)
- 
-     return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
- }
-+
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 4d8e506c9e..94aad4f2ae 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1490,3 +1490,89 @@
- { 'command': 'guest-ssh-remove-authorized-keys',
-   'data': { 'username': 'str', 'keys': ['str'] },
-   'if': 'CONFIG_POSIX' }
-+
-+##
-+# @GuestDiskStats:
-+#
-+# @read-sectors: sectors read
-+#
-+# @write-sectors: sectors written
-+#
-+# @discard-sectors: sectors discarded
-+#
-+# @read-ios: reads completed successfully
-+#
-+# @read-merges: Number of read requests merged
-+#
-+# @write-ios: writes completed
-+#
-+# @write-merges: Number of write requests merged
-+#
-+# @discard-ios: Number of discards completed successfully
-+#
-+# @discard-merges: NUmber of discard requests merged
-+#
-+# @flush-ios: Number of flush requests completed successfully
-+#
-+# @read-ticks: time spent reading(ms)
-+#
-+# @write-ticks: time spent writing(ms)
-+#
-+# @discard-ticks: time spent discarding(ms)
-+#
-+# @flush-ticks: time spent flushing(ms)
-+#
-+# @ios-pgr: Number of I/Os currently in flight
-+#
-+# @total-ticks: time spent doing I/Os (ms)
-+#
-+# @weight-ticks: weighted time spent doing I/Os since the last update of this field(ms)
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'GuestDiskStats',
-+  'data': {'read-sectors': 'uint64',
-+            'write-sectors': 'uint64',
-+            'discard-sectors': 'uint64',
-+            'read-ios': 'uint64',
-+            'read-merges': 'uint64',
-+            'write-ios': 'uint64',
-+            'write-merges': 'uint64',
-+            'discard-ios': 'uint64',
-+            'discard-merges': 'uint64',
-+            'flush-ios': 'uint64',
-+            'read-ticks': 'uint64',
-+            'write-ticks': 'uint64',
-+            'discard-ticks': 'uint64',
-+            'flush-ticks': 'uint64',
-+            'ios-pgr': 'uint64',
-+            'total-ticks': 'uint64',
-+            'weight-ticks': 'uint64'
-+           } }
-+
-+##
-+# @GuestDiskStatsInfo:
-+#
-+# @name disk name
-+#
-+# @major major of disk
-+#
-+# @minor minor of disk
-+##
-+{ 'struct': 'GuestDiskStatsInfo',
-+  'data': {'name': 'str',
-+           'major': 'uint64',
-+           'minor': 'uint64',
-+           'stats': 'GuestDiskStats' } }
-+
-+##
-+# @guest-get-diskstats:
-+#
-+# Retrieve information about disk stats.
-+# Returns: List of disk stats of guest.
-+#
-+# Since: 7.1
-+##
-+{ 'command': 'guest-get-diskstats',
-+  'returns': ['GuestDiskStatsInfo']
-+}
--- 
-2.31.1
+Why 'V requires D'? I know partial vector instructions require D, 
+However,  I think they  just like c.fsd
 
+instruction requires D, not 'C requires D' or 'D requires C'. Is there 
+any rvv spec change I don't know?
 
+Regards.
+
+Weiwei Li
+
+>
+> Because F/D/Zicsr are enabled by default (and an error will not occur unless
+> we manually disable one or more of prerequisites), this commit just enforces
+> the user to give consistent combinations.
+>
+> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+> ---
+>   target/riscv/cpu.c | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 0854ca9103..f910a41407 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -610,11 +610,36 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>               cpu->cfg.ext_ifencei = true;
+>           }
+>   
+> +        if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
+> +            error_setg(errp, "F extension requires Zicsr");
+> +            return;
+> +        }
+> +
+> +        if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f) {
+> +            error_setg(errp, "Zfh/Zfhmin extensions require F extension");
+> +            return;
+> +        }
+> +
+> +        if (cpu->cfg.ext_d && !cpu->cfg.ext_f) {
+> +            error_setg(errp, "D extension requires F extension");
+> +            return;
+> +        }
+> +
+> +        if (cpu->cfg.ext_v && !cpu->cfg.ext_d) {
+> +            error_setg(errp, "V extension requires D extension");
+> +            return;
+> +        }
+> +
+>           if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
+>               cpu->cfg.ext_zhinxmin) {
+>               cpu->cfg.ext_zfinx = true;
+>           }
+>   
+> +        if (cpu->cfg.ext_zfinx && !cpu->cfg.ext_icsr) {
+> +            error_setg(errp, "Zfinx extension requires Zicsr");
+> +            return;
+> +        }
+> +
+>           if (cpu->cfg.ext_zk) {
+>               cpu->cfg.ext_zkn = true;
+>               cpu->cfg.ext_zkr = true;
 
 
