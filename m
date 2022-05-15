@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF67752786B
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 May 2022 17:24:58 +0200 (CEST)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BB9527A4D
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 May 2022 23:12:22 +0200 (CEST)
+Received: from localhost ([::1]:35372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqG77-0001FI-Hr
-	for lists+qemu-devel@lfdr.de; Sun, 15 May 2022 11:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43854)
+	id 1nqLXJ-0001mV-Mu
+	for lists+qemu-devel@lfdr.de; Sun, 15 May 2022 17:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nqG5z-0000Rz-T8; Sun, 15 May 2022 11:23:47 -0400
-Received: from smtp23.cstnet.cn ([159.226.251.23]:54574 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nqG5w-0001Nm-Uz; Sun, 15 May 2022 11:23:47 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowACHTeL2GoFiJ2rsBg--.7531S2;
- Sun, 15 May 2022 23:23:35 +0800 (CST)
-Subject: Re: [PATCH v2 4/5] target/riscv: FP extension requirements
-To: Tsukasa OI <research_trasio@irq.a4lg.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, Alistair Francis <alistair23@gmail.com>,
- Frank Chang <frank.chang@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <cover.1652435138.git.research_trasio@irq.a4lg.com>
- <cover.1652583332.git.research_trasio@irq.a4lg.com>
- <00e7b1c6060dab32ac7d49813b1ca84d3eb63298.1652583332.git.research_trasio@irq.a4lg.com>
- <be76b33b-4999-6760-cc78-2fb5109b50aa@iscas.ac.cn>
- <cf6c14de-d373-a623-8e76-7dc18f621281@irq.a4lg.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <3dd957f8-e26e-3df6-1a4f-4c0bee986737@iscas.ac.cn>
-Date: Sun, 15 May 2022 23:23:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <SRS0=B2sr=VX=kaod.org=clg@ozlabs.org>)
+ id 1nqLW2-00009y-J3; Sun, 15 May 2022 17:11:02 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:44871
+ helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <SRS0=B2sr=VX=kaod.org=clg@ozlabs.org>)
+ id 1nqLW0-0006s7-Av; Sun, 15 May 2022 17:11:02 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4L1ZmT0ZY6z4xXG;
+ Mon, 16 May 2022 07:10:49 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4L1ZmP6D4gz4xVP;
+ Mon, 16 May 2022 07:10:45 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>
+Subject: [PATCH] aspeed: Introduce a get_irq AspeedSoCClass method
+Date: Sun, 15 May 2022 23:10:42 +0200
+Message-Id: <20220515211042.2332192-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <cf6c14de-d373-a623-8e76-7dc18f621281@irq.a4lg.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: rQCowACHTeL2GoFiJ2rsBg--.7531S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXr13Zw1DCry8KF4Uuw47XFb_yoWrJryxpr
- 1kJa90kryUJr18Gw1UXF1jyFyUur18Aa17X348X3W7Jr47Gr12qr1jqr1qgr1UJrs5Jr43
- Xr1UGrnrZrsxJ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
- AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
- rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
- v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWU
- JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5W
- lkUUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=SRS0=B2sr=VX=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,98 +64,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+and make routine aspeed_soc_get_irq() common to all SoCs. This will be
+useful to share code.
 
-在 2022/5/15 下午10:45, Tsukasa OI 写道:
-> On 2022/05/15 23:37, Weiwei Li wrote:
->> 在 2022/5/15 上午10:56, Tsukasa OI 写道:
->>> QEMU allowed inconsistent configurations that made floating point
->>> arithmetic effectively unusable.
->>>
->>> This commit adds certain checks for consistent FP arithmetic:
->>>
->>> -   F requires Zicsr
->>> -   Zfinx requires Zicsr
->>> -   Zfh/Zfhmin require F
->>> -   D requires F
->>> -   V requires D
->> Why 'V requires D'? I know partial vector instructions require D, However,  I think they  just like c.fsd
->>
->> instruction requires D, not 'C requires D' or 'D requires C'. Is there any rvv spec change I don't know?
-> I thought it was crystal-clear.
->
-> RISC-V "V" Vector Extension Version 1.0 (riscv-v-spec-1.0.pdf)
-> 18.3. V: Vector Extension for Application Processors
-> Page 94:
->
->> The V extension requires the scalar processor implements the F and D
->> extensions, and implements all vector floating-point instructions
->> (Section Vector Floating-Point Instructions) for floating-point operands
->> with EEW=32 or EEW=64 (including widening instructions and conversions
->> between FP32 and FP64).
-> c.f. <https://github.com/riscv/riscv-v-spec/releases/tag/v1.0>
->
-> Thanks,
->
-> Tsukasa
+Cc: Jamin Lin <jamin_lin@aspeedtech.com>
+Cc: Peter Delevoryas <pdel@fb.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ include/hw/arm/aspeed_soc.h |  3 +++
+ hw/arm/aspeed_ast10x0.c     |  3 ++-
+ hw/arm/aspeed_ast2600.c     |  3 ++-
+ hw/arm/aspeed_soc.c         | 11 +++++++++--
+ 4 files changed, 16 insertions(+), 4 deletions(-)
 
-OK. Thanks.
-
-Regards,
-
-Weiwei Li
-
->
->> Regards.
->>
->> Weiwei Li
->>
->>> Because F/D/Zicsr are enabled by default (and an error will not occur unless
->>> we manually disable one or more of prerequisites), this commit just enforces
->>> the user to give consistent combinations.
->>>
->>> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
->>> ---
->>>    target/riscv/cpu.c | 25 +++++++++++++++++++++++++
->>>    1 file changed, 25 insertions(+)
->>>
->>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->>> index 0854ca9103..f910a41407 100644
->>> --- a/target/riscv/cpu.c
->>> +++ b/target/riscv/cpu.c
->>> @@ -610,11 +610,36 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>>                cpu->cfg.ext_ifencei = true;
->>>            }
->>>    +        if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
->>> +            error_setg(errp, "F extension requires Zicsr");
->>> +            return;
->>> +        }
->>> +
->>> +        if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f) {
->>> +            error_setg(errp, "Zfh/Zfhmin extensions require F extension");
->>> +            return;
->>> +        }
->>> +
->>> +        if (cpu->cfg.ext_d && !cpu->cfg.ext_f) {
->>> +            error_setg(errp, "D extension requires F extension");
->>> +            return;
->>> +        }
->>> +
->>> +        if (cpu->cfg.ext_v && !cpu->cfg.ext_d) {
->>> +            error_setg(errp, "V extension requires D extension");
->>> +            return;
->>> +        }
->>> +
->>>            if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
->>>                cpu->cfg.ext_zhinxmin) {
->>>                cpu->cfg.ext_zfinx = true;
->>>            }
->>>    +        if (cpu->cfg.ext_zfinx && !cpu->cfg.ext_icsr) {
->>> +            error_setg(errp, "Zfinx extension requires Zicsr");
->>> +            return;
->>> +        }
->>> +
->>>            if (cpu->cfg.ext_zk) {
->>>                cpu->cfg.ext_zkn = true;
->>>                cpu->cfg.ext_zkr = true;
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index e13af374b923..3789f38603e5 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -94,6 +94,7 @@ struct AspeedSoCClass {
+     const int *irqmap;
+     const hwaddr *memmap;
+     uint32_t num_cpus;
++    qemu_irq (*get_irq)(AspeedSoCState *s, int dev);
+ };
+ 
+ 
+@@ -153,4 +154,6 @@ enum {
+     ASPEED_DEV_I3C,
+ };
+ 
++qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
++
+ #endif /* ASPEED_SOC_H */
+diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+index 427154928254..ddec5706f3c1 100644
+--- a/hw/arm/aspeed_ast10x0.c
++++ b/hw/arm/aspeed_ast10x0.c
+@@ -61,7 +61,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
+     [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
+ };
+ 
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+@@ -280,6 +280,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+     sc->irqmap = aspeed_soc_ast1030_irqmap;
+     sc->memmap = aspeed_soc_ast1030_memmap;
+     sc->num_cpus = 1;
++    sc->get_irq = aspeed_soc_ast1030_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast1030_type_info = {
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index eedda7badc37..255dbc6b95ab 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -114,7 +114,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+     [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
+ };
+ 
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast2600_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+@@ -572,6 +572,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2600_irqmap;
+     sc->memmap       = aspeed_soc_ast2600_memmap;
+     sc->num_cpus     = 2;
++    sc->get_irq      = aspeed_soc_ast2600_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2600_type_info = {
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 58714cb2a01d..15b641da9a36 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -121,7 +121,7 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+ 
+ #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
+ 
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast2400_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+@@ -487,6 +487,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2400_irqmap;
+     sc->memmap       = aspeed_soc_ast2400_memmap;
+     sc->num_cpus     = 1;
++    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2400_type_info = {
+@@ -512,6 +513,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2500_irqmap;
+     sc->memmap       = aspeed_soc_ast2500_memmap;
+     sc->num_cpus     = 1;
++    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2500_type_info = {
+@@ -528,4 +530,9 @@ static void aspeed_soc_register_types(void)
+     type_register_static(&aspeed_soc_ast2500_type_info);
+ };
+ 
+-type_init(aspeed_soc_register_types)
++type_init(aspeed_soc_register_types);
++
++qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
++{
++    return ASPEED_SOC_GET_CLASS(s)->get_irq(s, ctrl);
++}
+-- 
+2.35.1
 
 
