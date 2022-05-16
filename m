@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A28C528364
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:38:10 +0200 (CEST)
-Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48FA528374
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:45:24 +0200 (CEST)
+Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZ3B-0000hD-3r
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:38:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48844)
+	id 1nqZAB-0006ke-Ua
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7W-00086U-BN
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51908)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7b-0008MC-Sf
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7U-0005Va-LZ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7a-0005Vu-4S
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697512;
+ s=mimecast20190719; t=1652697516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Jj+1GdC5ed9RjG2w4YTgAyI/dqT/LcafZe1Q5l3sISU=;
- b=Gx6h7orFnV/c73D2Q/hlV/Ot6KSXY/dsgRbcIUAGM8r6iC/gQCWCw7OTqjYtrI7/GdSE+f
- n5Sa/Of09ixNip68IxxNzptOuAdgsNwm9KurglIjri40ekzlz0t56SrDuw6fO5R9CizaRd
- yZBqzG6RkYy6rBMbnM1znZjMpShhs10=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8OlH2GLBbAl/C+yvBw7JgW0DdlcImx+GvEu27J9RNL0=;
+ b=UH9FrYtow7XLe0VGB3PqNcNJfIMX9diOrnaS+8cUD/CHJ7bvR6TiBmTE7S4Id1YPmmmaWT
+ RTfzRJ/G1ZvD2NSqr6pgHZx2Hv9SWL3pL5pW78XDNvBHOK4HEAy/bk19zSSlRLcahheFYS
+ cYoTj4VKeJSPop0JH5yjqzaJs7FkAvs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-248-3wRuHJnNMP2lNPczy9IpGQ-1; Mon, 16 May 2022 06:38:30 -0400
-X-MC-Unique: 3wRuHJnNMP2lNPczy9IpGQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg7-20020a05600c3c8700b0039468585269so6563068wmb.3
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:30 -0700 (PDT)
+ us-mta-367-SN77qxyNOgevQyms_mp_sg-1; Mon, 16 May 2022 06:38:35 -0400
+X-MC-Unique: SN77qxyNOgevQyms_mp_sg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k35-20020a05600c1ca300b003946a9764baso10155713wms.1
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Jj+1GdC5ed9RjG2w4YTgAyI/dqT/LcafZe1Q5l3sISU=;
- b=BtRclhhdUZSYAEN36L8zM91RTbGrz5RMdLnYJaN0F8bHRnNir/uCxTtUWOe+zraR6s
- K0NJnmaITfG8pZ91M7JR0a5mCMoUO+fbwxRIrVjpLiYJ4CeswdvMLSR4w7xhuZQQFVEy
- PWnYThC1wodEn7dn73UD7ful+g4aRDzRF/JpUmOmMDSj+DGDU+I5OruWegBORf8DkTNA
- ASnTX7y3WELxPGooZ0i+3RzDjtx4a54Tf4EhnKMozU6bvkg5mUnbgEoutls1WbYinmON
- i8tXqR+D0OGf/O7lFIDcw6X41Vfz6oVCzy06MgP2s2orvMUWs5p9g086Ga9ijb4ioPZz
- 4HUw==
-X-Gm-Message-State: AOAM533zSWIQsSjpoBTb7oV96DA311Vi6v+/Tw1QAcgoXSYkXIKZaBFT
- o4a7j81iVmnnDkLU7kyl17NAIrw9BpMS4Ay9u3RVzqU/iyh7ZBXVM+NaxdnaUmMGCcd/qSZhgtk
- jbEGCWjzJw2iDWmViCDi1EagYiyHKhdHLplXc8Pd1EE2luEBmvgB83VvnTk/q
-X-Received: by 2002:a5d:55cd:0:b0:20d:743:6078 with SMTP id
- i13-20020a5d55cd000000b0020d07436078mr4512169wrw.240.1652697509371; 
- Mon, 16 May 2022 03:38:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwuLIC5azL1kewoTfpBvgMX057eM6Y2+fItaWzmV/QKn2K7lZmZOohxOfmDTBkOuxEGXGLOtQ==
-X-Received: by 2002:a5d:55cd:0:b0:20d:743:6078 with SMTP id
- i13-20020a5d55cd000000b0020d07436078mr4512145wrw.240.1652697509132; 
- Mon, 16 May 2022 03:38:29 -0700 (PDT)
+ bh=8OlH2GLBbAl/C+yvBw7JgW0DdlcImx+GvEu27J9RNL0=;
+ b=74TBPbgrKfRnBZQH8Csq6WGiMYkELpWxIuLNJmhiyiG0rCNx+fcHUGY6qMyH/64LHn
+ C0+OlQ+OOja4LynqsDQVWWJJEFW/VtVaAFUx5nm4kc/3HcPzYI82ZN20uDXlPwSzQKcD
+ svqJEQyvcNVtht6FWbtLyOZDFZ1iyc4TzcJvdhPPWegFAD8po79iw1aSR+yi92z73lM9
+ KHQ9UvaWgNhMXSTAfQ8SwR/QY4i1b0UrzJZIuk8SxAQ2Tg43AZv5CchqSnvWHA8OSTTX
+ 8QCA1w2dbkQIgH6/EWTexfaA08x35OlovLfhg6WV5s8LBrhx+0+ISSr0hnwLEI5+mi55
+ wABw==
+X-Gm-Message-State: AOAM533aCmN5qOHsS8fdUQqQVKxipoDTglVMzlrQPpXlxE8/Una6j3Rs
+ pedgljl/5pKlb/rlHBEs59VAvnD8dzWUbTlPNtx7U+w276o+D6vTWBeSYATSInS8LvlrUAfbMVH
+ Hsh9kCIEI8Rnhz1ryJrrcGTet2KaAaNp+jUsE8xPTMRBBw6SHkn/m8qFJB8Bn
+X-Received: by 2002:a05:600c:3584:b0:394:5870:2c44 with SMTP id
+ p4-20020a05600c358400b0039458702c44mr16285233wmq.4.1652697514217; 
+ Mon, 16 May 2022 03:38:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGmy7mDXA5XY8JG6/TlKrpHIxexDz703dTLNUAMsZvAiOZZueEFy+y/n2qBQTOj1hPhBn9Ag==
+X-Received: by 2002:a05:600c:3584:b0:394:5870:2c44 with SMTP id
+ p4-20020a05600c358400b0039458702c44mr16285205wmq.4.1652697513977; 
+ Mon, 16 May 2022 03:38:33 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- k20-20020a05600c1c9400b003942a244f38sm13893788wms.17.2022.05.16.03.38.27
+ i12-20020adfb64c000000b0020d07e7895csm3080209wre.59.2022.05.16.03.38.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:38:28 -0700 (PDT)
-Date: Mon, 16 May 2022 06:38:25 -0400
+ Mon, 16 May 2022 03:38:33 -0700 (PDT)
+Date: Mon, 16 May 2022 06:38:29 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Woodhouse <dwmw2@infradead.org>, Claudio Fontana <cfontana@suse.de>,
+ David Woodhouse <dwmw@amazon.co.uk>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org
-Subject: [PULL 49/91] target/i386: Fix sanity check on max APIC ID / X2APIC
- enablement
-Message-ID: <20220516095448.507876-50-mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 50/91] intel_iommu: Support IR-only mode without DMA translation
+Message-ID: <20220516095448.507876-51-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -79,7 +78,7 @@ Content-Disposition: inline
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,95 +102,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Woodhouse <dwmw2@infradead.org>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-The check on x86ms->apic_id_limit in pc_machine_done() had two problems.
+By setting none of the SAGAW bits we can indicate to a guest that DMA
+translation isn't supported. Tested by booting Windows 10, as well as
+Linux guests with the fix at https://git.kernel.org/torvalds/c/c40aaaac10
 
-Firstly, we need KVM to support the X2APIC API in order to allow IRQ
-delivery to APICs >= 255. So we need to call/check kvm_enable_x2apic(),
-which was done elsewhere in *some* cases but not all.
-
-Secondly, microvm needs the same check. So move it from pc_machine_done()
-to x86_cpus_init() where it will work for both.
-
-The check in kvm_cpu_instance_init() is now redundant and can be dropped.
-
-Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-Acked-by: Claudio Fontana <cfontana@suse.de>
-Message-Id: <20220314142544.150555-1-dwmw2@infradead.org>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20220314142544.150555-2-dwmw2@infradead.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc.c              |  8 --------
- hw/i386/x86.c             | 16 ++++++++++++++++
- target/i386/kvm/kvm-cpu.c |  2 +-
- 3 files changed, 17 insertions(+), 9 deletions(-)
+ include/hw/i386/intel_iommu.h |  1 +
+ hw/i386/intel_iommu.c         | 14 ++++++++++----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 312eb9e400..15f37d8dc6 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -744,14 +744,6 @@ void pc_machine_done(Notifier *notifier, void *data)
-         /* update FW_CFG_NB_CPUS to account for -device added CPUs */
-         fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
+diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+index bfa982a419..67653b0f9b 100644
+--- a/include/hw/i386/intel_iommu.h
++++ b/include/hw/i386/intel_iommu.h
+@@ -267,6 +267,7 @@ struct IntelIOMMUState {
+     bool buggy_eim;                 /* Force buggy EIM unless eim=off */
+     uint8_t aw_bits;                /* Host/IOVA address width (in bits) */
+     bool dma_drain;                 /* Whether DMA r/w draining enabled */
++    bool dma_translation;           /* Whether DMA translation supported */
+ 
+     /*
+      * Protects IOMMU states in general.  Currently it protects the
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index e05d69a2c0..b22376a45d 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -2214,7 +2214,7 @@ static void vtd_handle_gcmd_write(IntelIOMMUState *s)
+     uint32_t changed = status ^ val;
+ 
+     trace_vtd_reg_write_gcmd(status, val);
+-    if (changed & VTD_GCMD_TE) {
++    if ((changed & VTD_GCMD_TE) && s->dma_translation) {
+         /* Translation enable/disable */
+         vtd_handle_gcmd_te(s, val & VTD_GCMD_TE);
      }
--
--
--    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
--        !kvm_irqchip_in_kernel()) {
--        error_report("current -smp configuration requires kernel "
--                     "irqchip support.");
--        exit(EXIT_FAILURE);
--    }
- }
+@@ -3122,6 +3122,7 @@ static Property vtd_properties[] = {
+     DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
+     DEFINE_PROP_BOOL("snoop-control", IntelIOMMUState, snoop_control, false),
+     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
++    DEFINE_PROP_BOOL("dma-translation", IntelIOMMUState, dma_translation, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- void pc_guest_info_init(PCMachineState *pcms)
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 79ebdface6..f79e720cc2 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -38,6 +38,7 @@
- #include "sysemu/replay.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/cpu-timers.h"
-+#include "sysemu/xen.h"
- #include "trace.h"
- 
- #include "hw/i386/x86.h"
-@@ -122,6 +123,21 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
-      */
-     x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
-                                                       ms->smp.max_cpus - 1) + 1;
-+
-+    /*
-+     * Can we support APIC ID 255 or higher?
-+     *
-+     * Under Xen: yes.
-+     * With userspace emulated lapic: no
-+     * With KVM's in-kernel lapic: only if X2APIC API is enabled.
-+     */
-+    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
-+        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
-+        error_report("current -smp configuration requires kernel "
-+                     "irqchip and X2APIC API support.");
-+        exit(EXIT_FAILURE);
-+    }
-+
-     possible_cpus = mc->possible_cpu_arch_ids(ms);
-     for (i = 0; i < ms->smp.cpus; i++) {
-         x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index 5eb955ce9a..7237378a7d 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -171,7 +171,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
-         /* only applies to builtin_x86_defs cpus */
-         if (!kvm_irqchip_in_kernel()) {
-             x86_cpu_change_kvm_default("x2apic", "off");
--        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
-+        } else if (kvm_irqchip_is_split()) {
-             x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
-         }
+@@ -3627,12 +3628,17 @@ static void vtd_init(IntelIOMMUState *s)
+     s->next_frcd_reg = 0;
+     s->cap = VTD_CAP_FRO | VTD_CAP_NFR | VTD_CAP_ND |
+              VTD_CAP_MAMV | VTD_CAP_PSI | VTD_CAP_SLLPS |
+-             VTD_CAP_SAGAW_39bit | VTD_CAP_MGAW(s->aw_bits);
++             VTD_CAP_MGAW(s->aw_bits);
+     if (s->dma_drain) {
+         s->cap |= VTD_CAP_DRAIN;
+     }
+-    if (s->aw_bits == VTD_HOST_AW_48BIT) {
+-        s->cap |= VTD_CAP_SAGAW_48bit;
++    if (s->dma_translation) {
++            if (s->aw_bits >= VTD_HOST_AW_39BIT) {
++                    s->cap |= VTD_CAP_SAGAW_39bit;
++            }
++            if (s->aw_bits >= VTD_HOST_AW_48BIT) {
++                    s->cap |= VTD_CAP_SAGAW_48bit;
++            }
+     }
+     s->ecap = VTD_ECAP_QI | VTD_ECAP_IRO;
  
 -- 
 MST
