@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E05C528A92
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:34:51 +0200 (CEST)
-Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA35528AAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:37:12 +0200 (CEST)
+Received: from localhost ([::1]:37736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqdgI-00032a-7l
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:34:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40090)
+	id 1nqdiZ-00007B-8s
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqd4u-0001H2-5t
+ id 1nqd4u-0001Lh-6O
  for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25130)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqd4r-0003JZ-5y
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:10 -0400
+ id 1nqd4s-0003Js-Gj
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652716567;
+ s=mimecast20190719; t=1652716569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XvPMULj8H2XDc1ynn7UY9nkZ4VGal7Q5H/aGCRLDnNQ=;
- b=Ow11fFDjxGEHef7Y4yfFgQA185hgA4hXZ1xsT5Hdz7MJLVdnKbx+hQXG3C0e3kxKrbw7s6
- mHLRCbe4IFPpuMX/8fmrktWCEYSxCy7CTT8nIB9La1lRZCCnNXIPKvvkEtodA8szs+kwdW
- 5liL96h/WXwXHnqkErDNiK7nVUWRvxk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wBEsT3r31ofu46HxbD7Amv+tNDwSCFB3+Wv+gV0TRLY=;
+ b=AGXT/acHBq2CMGiP38Dwga/CHvoCKMtLVeFTLKdAogF1coxDkdQJp8o9/6kProcu2JB1gx
+ 6vUSAcivXE/DIDSiwykBBpUfyP7ZB/SFP3HdzmYoFBR/ZaZWivntEbP1M7I2Hp+m6vqelc
+ 1pT5+Im3mFINbgh0auQhWu4iTE7QfEM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-J3ZF-9arMDOZeRPKEIhc5w-1; Mon, 16 May 2022 11:56:06 -0400
-X-MC-Unique: J3ZF-9arMDOZeRPKEIhc5w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- bk16-20020a170906b0d000b006fe34a2e598so1076559ejb.0
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:56:06 -0700 (PDT)
+ us-mta-569-Sgw1qdHSOeKkhdgq3H6Iiw-1; Mon, 16 May 2022 11:56:08 -0400
+X-MC-Unique: Sgw1qdHSOeKkhdgq3H6Iiw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b3-20020aa7d483000000b004282ca95814so9973980edr.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:56:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XvPMULj8H2XDc1ynn7UY9nkZ4VGal7Q5H/aGCRLDnNQ=;
- b=ZBzQOYQ/cWrlMWl1GNo2HKRMdpeCRIHg1B1CNwhoMJxKQm9AUX5UKo1ir+GDj9F48D
- 8sGZrW0w73lbP/+QVGMQ+3vM1fDcb47cYQ2kYZSarGCnbgfZhU8OTEWtGnb5JP0seuOA
- o77rqhWhI2g7Ptt89nl1CJoDFiuqOc93LgEpKXYP6iG2VCx2AgHFdZzdqTDmf6n37gA4
- yXoxwwAxjJVJvVyVSNDVljIsDdOUIuOklKK0U/ax0LPtRXmQjBS9qmmC8G3QrCbCkCBj
- N3DqCbU3nZ6xbGajwA8AoSGygRWtWIb1vymrtUrNpMhbz3YVcSG02RpAkYlMsgdA5uzD
- uwWQ==
-X-Gm-Message-State: AOAM531warvJck3zEmIHCgwRyUmTSbZhzWRdCbKjzy0/ezD5WyRH0yFt
- BrpfOYbg3P3A/oh4JvLeSLjEYVEjrYysHyRJEvnTjwFo/Dl9qO0eiO6okIyJnTmge7rxyAliDDE
- HOiQ92anBAievRnSPBymqldACTz/OgMGu6K+vHVgaoW57EAF5UmmpWWiMYgWobZId82w=
-X-Received: by 2002:a17:907:3f8d:b0:6fa:6a00:b405 with SMTP id
- hr13-20020a1709073f8d00b006fa6a00b405mr15575353ejc.742.1652716565115; 
- Mon, 16 May 2022 08:56:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/j2CeLeIInmXS75sPewMPGpX3HgnHA+43jyD3+TsepLWT7ojlo6qy61JO12yQDHcYrXolPw==
-X-Received: by 2002:a17:907:3f8d:b0:6fa:6a00:b405 with SMTP id
- hr13-20020a1709073f8d00b006fa6a00b405mr15575327ejc.742.1652716564698; 
- Mon, 16 May 2022 08:56:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wBEsT3r31ofu46HxbD7Amv+tNDwSCFB3+Wv+gV0TRLY=;
+ b=PlpJ4GoJdD44HNFWeyBLHDcOIaWu+PBa8ENzTL79hk1wKq3nSNT4RnumOF+LTqDiYw
+ E9IGasrlytqUU1E+07KCfX4SOIHDs0cFeooZeVOMda7GUT1elXhXKLN1IaGo8LKvpnxo
+ Gq6iWQzcPPUVx28O3CRE+0YU9RsgqUGbxdnZxJzsdHeYbpOXJ9t3zVf7+5nW+lUs2uwM
+ 6HoFsWK7qqu6jhkvBxEU5m3NADC18R+zYztb94b6xmgUr6rXocnbhzIswv5bepbLx58a
+ 3sQMfyBkL2z8a49zs+fYJzyiaBgakhBQLbX4tHRlAd+8Tovi8Me56LJ9/tj9IBdSSFfA
+ Qs8w==
+X-Gm-Message-State: AOAM532ioE7H7G7bzPCQ5pvGsLr70AejnBj7KP50bhAwaT9Gz+mqhSma
+ 0o3sSbHLQ6+3t0AvscVZMnyZ6UPjmJKnqHiBxPywa1n+uSu589rmgiyacagSfpDdCxfvN6mpcyo
+ HleNiRg98sQYD/0f1MK4I4NO22iBFz5sXDQuigfVGTKrNbnfKaJVdI8Dz2WHMwII2DPU=
+X-Received: by 2002:aa7:c849:0:b0:427:d464:e66f with SMTP id
+ g9-20020aa7c849000000b00427d464e66fmr13959722edt.411.1652716566594; 
+ Mon, 16 May 2022 08:56:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyu8I2qfGFbSMKxXlAlQRPfpbWO09S6P0bVUMr+6UWrZ4Q2ni1b51FIZXXj+Wn6+nDiS5ZgBg==
+X-Received: by 2002:aa7:c849:0:b0:427:d464:e66f with SMTP id
+ g9-20020aa7c849000000b00427d464e66fmr13959700edt.411.1652716566354; 
+ Mon, 16 May 2022 08:56:06 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- p2-20020a17090664c200b006f3ef214de9sm46282ejn.79.2022.05.16.08.56.03
- for <qemu-devel@nongnu.org>
+ hg22-20020a1709072cd600b006f5294986besm43354ejc.111.2022.05.16.08.56.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 08:56:04 -0700 (PDT)
+ Mon, 16 May 2022 08:56:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/23] Misc QEMU patches for 2022-05-16
-Date: Mon, 16 May 2022 17:55:40 +0200
-Message-Id: <20220516155603.1234712-1-pbonzini@redhat.com>
+Cc: Ivan Shcherbakov <ivan@sysprogs.com>
+Subject: [PULL 01/23] WHPX: fixed TPR/CR8 translation issues affecting VM
+ debugging
+Date: Mon, 16 May 2022 17:55:41 +0200
+Message-Id: <20220516155603.1234712-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220516155603.1234712-1-pbonzini@redhat.com>
+References: <20220516155603.1234712-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -97,86 +100,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 48de9b0916ef60d5a6bd6ca9288832deff8ee1ee:
+From: Ivan Shcherbakov <ivan@sysprogs.com>
 
-  Merge tag 'linux-headers-v5.18-rc6' of https://gitlab.com/alex.williamson/qemu into staging (2022-05-13 09:45:17 -0700)
+This patch fixes the following error that would occur when trying to resume
+a WHPX-accelerated VM from a breakpoint:
 
-are available in the Git repository at:
+    qemu: WHPX: Failed to set interrupt state registers, hr=c0350005
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+The error arises from an incorrect CR8 value being passed to
+WHvSetVirtualProcessorRegisters() that doesn't match the
+value set via WHvSetVirtualProcessorInterruptControllerState2().
 
-for you to fetch changes up to 8eccdb9eb84615291faef1257d5779ebfef7a0d0:
+Signed-off-by: Ivan Shcherbakov <ivan@sysprogs.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/whpx/whpx-all.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-  configure: remove duplicate help messages (2022-05-14 12:33:45 +0200)
-
-----------------------------------------------------------------
-* fix WHPX debugging
-* misc qga-vss fixes
-* remove the deprecated CPU model 'Icelake-Client'
-* support for x86 architectural LBR
-* remove deprecated properties
-* replace deprecated -soundhw with -audio
-
-----------------------------------------------------------------
-Ivan Shcherbakov (1):
-      WHPX: fixed TPR/CR8 translation issues affecting VM debugging
-
-Konstantin Kostiuk (2):
-      qga-vss: Add auto generated headers to dependencies
-      qga-vss: Use the proper operator to free memory
-
-Paolo Bonzini (11):
-      target/i386: introduce helper to access supported CPUID
-      crypto: make loaded property read-only
-      rng: make opened property read-only
-      soundhw: remove ability to create multiple soundcards
-      soundhw: extract soundhw help to a separate function
-      soundhw: unify initialization for ISA and PCI soundhw
-      soundhw: move help handling to vl.c
-      introduce -audio as a replacement for -soundhw
-      build: remove useless dependency
-      configure: remove another dead variable
-      configure: remove duplicate help messages
-
-Robert Hoo (1):
-      i386/cpu: Remove the deprecated cpu model 'Icelake-Client'
-
-Yang Weijiang (8):
-      qdev-properties: Add a new macro with bitmask check for uint64_t property
-      target/i386: Add lbr-fmt vPMU option to support guest LBR
-      target/i386: Add kvm_get_one_msr helper
-      target/i386: Enable support for XSAVES based features
-      target/i386: Add XSAVES support for Arch LBR
-      target/i386: Add MSR access interface for Arch LBR
-      target/i386: Enable Arch LBR migration states in vmstate
-      target/i386: Support Arch LBR in CPUID enumeration
-
- Makefile                        |   3 -
- audio/audio.c                   |   8 +-
- audio/audio.h                   |   1 +
- backends/rng.c                  |  18 +--
- configure                       |   5 -
- crypto/secret_common.c          |  84 +++++-----
- crypto/tlscredsanon.c           |  20 +--
- crypto/tlscredspsk.c            |  20 +--
- crypto/tlscredsx509.c           |  20 +--
- docs/about/deprecated.rst       |  34 -----
- docs/about/removed-features.rst |  28 ++++
- hw/audio/intel-hda.c            |   5 +-
- hw/audio/soundhw.c              | 136 ++++++++---------
- hw/core/qdev-properties.c       |  19 +++
- include/hw/audio/soundhw.h      |   5 +-
- include/hw/qdev-properties.h    |  12 ++
- qemu-options.hx                 |  51 +++----
- qga/vss-win32/meson.build       |   2 +-
- qga/vss-win32/requester.cpp     |   4 +-
- softmmu/vl.c                    |  30 +++-
- target/i386/cpu.c               | 331 ++++++++++++++++++++--------------------
- target/i386/cpu.h               |  57 ++++++-
- target/i386/kvm/kvm.c           | 113 +++++++++++---
- target/i386/machine.c           |  38 +++++
- target/i386/whpx/whpx-all.c     |  13 +-
- 25 files changed, 600 insertions(+), 457 deletions(-)
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index 23ae639b23..b22a3314b4 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -373,6 +373,8 @@ static int whpx_set_tsc(CPUState *cpu)
+  *
+  * This mechanism is described in section 10.8.6.1 of Volume 3 of Intel 64
+  * and IA-32 Architectures Software Developer's Manual.
++ *
++ * The functions below translate the value of CR8 to TPR and vice versa.
+  */
+ 
+ static uint64_t whpx_apic_tpr_to_cr8(uint64_t tpr)
+@@ -380,6 +382,11 @@ static uint64_t whpx_apic_tpr_to_cr8(uint64_t tpr)
+     return tpr >> 4;
+ }
+ 
++static uint64_t whpx_cr8_to_apic_tpr(uint64_t cr8)
++{
++    return cr8 << 4;
++}
++
+ static void whpx_set_registers(CPUState *cpu, int level)
+ {
+     struct whpx_state *whpx = &whpx_global;
+@@ -687,7 +694,7 @@ static void whpx_get_registers(CPUState *cpu)
+     tpr = vcxt.values[idx++].Reg64;
+     if (tpr != vcpu->tpr) {
+         vcpu->tpr = tpr;
+-        cpu_set_apic_tpr(x86_cpu->apic_state, tpr);
++        cpu_set_apic_tpr(x86_cpu->apic_state, whpx_cr8_to_apic_tpr(tpr));
+     }
+ 
+     /* 8 Debug Registers - Skipped */
+@@ -1547,7 +1554,7 @@ static void whpx_vcpu_pre_run(CPUState *cpu)
+      }
+ 
+     /* Sync the TPR to the CR8 if was modified during the intercept */
+-    tpr = cpu_get_apic_tpr(x86_cpu->apic_state);
++    tpr = whpx_apic_tpr_to_cr8(cpu_get_apic_tpr(x86_cpu->apic_state));
+     if (tpr != vcpu->tpr) {
+         vcpu->tpr = tpr;
+         reg_values[reg_count].Reg64 = tpr;
+@@ -1596,7 +1603,7 @@ static void whpx_vcpu_post_run(CPUState *cpu)
+     if (vcpu->tpr != tpr) {
+         vcpu->tpr = tpr;
+         qemu_mutex_lock_iothread();
+-        cpu_set_apic_tpr(x86_cpu->apic_state, vcpu->tpr);
++        cpu_set_apic_tpr(x86_cpu->apic_state, whpx_cr8_to_apic_tpr(vcpu->tpr));
+         qemu_mutex_unlock_iothread();
+     }
+ 
 -- 
 2.36.0
 
