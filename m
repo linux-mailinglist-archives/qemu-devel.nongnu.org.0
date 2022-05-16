@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CC8528451
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:40:28 +0200 (CEST)
-Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF49528438
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:32:29 +0200 (CEST)
+Received: from localhost ([::1]:60564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqa1S-0004Bp-VT
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:40:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50086)
+	id 1nqZtk-0002Bv-Pd
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9j-0002uj-Io
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24700)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9n-0002ut-0U
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9i-0005pg-3o
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:51 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9l-00060P-Cy
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697649;
+ s=mimecast20190719; t=1652697652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UHGGaFTQEvvsEKv7hmkjH6Y6C6gtUrxY2Yx4FiVtqx4=;
- b=XBki13ubVE20aO9ekNFjAWFJrVu6TKXdZoCn0DS/pfr3WgsOPdLqqA/yhdXD9o0hbEtiMj
- ju9UAKtkXxENazojjv2WHcnkVX97v5j9tXMET0dqfQc930HxYxMZEf/rDu+3dAaCfuAYZu
- Z4lP5IWsT1pZL7MnvpnhMouk1uRpblM=
+ bh=wQIFTLb45zQSJrTKig5KtDJeZj1urlocFpW9itg9ENo=;
+ b=I+QBWmzx7xcjIheRSSZPbgPGxfZGtp0TSw8xYpl/wowqy7nZgvAqAsGUB2sSR6E/1LfsZ2
+ nJ24L/yGNrmp9GTww4LBg0wrMDDgpeLNV2003Lm+OtvczajcZBEYrSZG883XHglmjd12yf
+ a8XRi2pdeFJAFnHrA0g79SuOZIqmhY8=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-leIANNP_PaymM9WborPhiw-1; Mon, 16 May 2022 06:40:48 -0400
-X-MC-Unique: leIANNP_PaymM9WborPhiw-1
+ us-mta-166-FtwotPr2O6ONPS_GCnJB5A-1; Mon, 16 May 2022 06:40:51 -0400
+X-MC-Unique: FtwotPr2O6ONPS_GCnJB5A-1
 Received: by mail-wm1-f71.google.com with SMTP id
- r186-20020a1c2bc3000000b00396fee62505so641742wmr.0
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:48 -0700 (PDT)
+ g14-20020a1c4e0e000000b0039425ef54d6so5438902wmh.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UHGGaFTQEvvsEKv7hmkjH6Y6C6gtUrxY2Yx4FiVtqx4=;
- b=k/lkn+WN3deGM93H08Urn/GQ3Gs6ph02Lgp7zht3k857puHjwMe4ADiAaYWiKEdFTF
- xFcoBzXLmSesd2vt+SLNAywob9kK5mwZbTKzVBEnc/E8o1yzOJwqBZONSzVTuc8rREW/
- Q+F5Jb+Fy2rk2U/LGMpO0GPtQwTKKl3UAPy8wJpc1+3+pU/v/sHEnYwpzPKcaZUtB5x0
- 1EmI68vAobjyA/UdrxneCtgTpACyQgLCRd3P4cU6+sk38cwyjPxsxk563idKMPBuvVkr
- +U4+sZDuRvVvbBk4mIE6JT1jlwy0fD6f85id1PghUi8qavdtPkr3RFRqd3bzdvS1NHbf
- r1eA==
-X-Gm-Message-State: AOAM5319029ji9pwL9O1oMPNYafXZqrVbIkzrEqbUwhm3QjKxqLExnYD
- YuxnXxCuR5rLb9z1WyqEcO7YBArn6PzfKSyOycaQhiiVmtBJzB0Z9abklBxyZfbIwujyK7qIh+4
- SvAy2sML22MvoD5i4+SPkfYlmA3a50YEMvnSF61aoIN7O/7jbtopYXNmYha8d
-X-Received: by 2002:a7b:c8c7:0:b0:394:9e02:baa with SMTP id
- f7-20020a7bc8c7000000b003949e020baamr25728082wml.26.1652697647093; 
- Mon, 16 May 2022 03:40:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOlPk4sUxR4WgSgs1aw58hUsDP/X/1TgAZmuwelxFU4ThapP7ybxF3j693yZmRbgK4QqVmvw==
-X-Received: by 2002:a7b:c8c7:0:b0:394:9e02:baa with SMTP id
- f7-20020a7bc8c7000000b003949e020baamr25728066wml.26.1652697646873; 
- Mon, 16 May 2022 03:40:46 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wQIFTLb45zQSJrTKig5KtDJeZj1urlocFpW9itg9ENo=;
+ b=Zd1mDrchJaUrcupsKWqTGwxV97vcLX08NGLJWTZseAoAc1r5AkTEHyZWuLknhgGTEm
+ xc7oytebwp4PHSg5CwS/0PddYOD4og8vCvRkhTLBCMgKo6TyZvYbWyazhoNK10lZVGbq
+ 3+t9LV3+CX4EFmeaw+Cb3lz/RQGvRTF13uMv9qhseyF1y2S8i0eWo46t6BDRU6oJ8nBx
+ NvsWHgqnjj0h4AvsgV5r3V6f7/imEhNB3GdUPAJvpFnIsXdJELOqNh6fY7jEA1H1SFqk
+ +GIftc4LjjpwQhutpyNlQFkZEF633mWkukw9gKBxWcB/ZpnPx7KECadQtzZkh7a3S7r4
+ O89A==
+X-Gm-Message-State: AOAM5313vnfVZoh4glsPpVyCQ5ROLnPzMTys4FcCZiDeA8/TShWldm8v
+ cRi5mc9Rph3asZ1k4mvoFDwQUS2KYNXVXPR2vJnfSdXDGkBJPnHz4vJ3LjqEMP0zu1qa4w4MkGK
+ rqV7vPpxoLtbBCoAaq8/pqBxAYk8U3ARxhWYdq1lhcQ8xX4QieQBQ5fRKqnvN
+X-Received: by 2002:a7b:cf36:0:b0:396:f50c:da05 with SMTP id
+ m22-20020a7bcf36000000b00396f50cda05mr9564499wmg.90.1652697650370; 
+ Mon, 16 May 2022 03:40:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2sPhTVcKKeSsGzQ571FHJxrD5fGckDA92cV9aNbPXLu5rGOiXDNK2JqhhSsYYviZ/jhUCPw==
+X-Received: by 2002:a7b:cf36:0:b0:396:f50c:da05 with SMTP id
+ m22-20020a7bcf36000000b00396f50cda05mr9564479wmg.90.1652697650104; 
+ Mon, 16 May 2022 03:40:50 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- i7-20020adfa507000000b0020d012692dbsm6439866wrb.18.2022.05.16.03.40.45
+ e9-20020adfc849000000b0020c5253d8basm9706733wrh.6.2022.05.16.03.40.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:40:46 -0700 (PDT)
-Date: Mon, 16 May 2022 06:40:44 -0400
+ Mon, 16 May 2022 03:40:49 -0700 (PDT)
+Date: Mon, 16 May 2022 06:40:47 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Si-Wei Liu <si-wei.liu@oracle.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 88/91] vhost-net: fix improper cleanup in vhost_net_start
-Message-ID: <20220516095448.507876-89-mst@redhat.com>
+ Si-Wei Liu <si-wei.liu@oracle.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
+Subject: [PULL 89/91] vhost-vdpa: backend feature should set only once
+Message-ID: <20220516095448.507876-90-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,41 +104,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Si-Wei Liu <si-wei.liu@oracle.com>
 
-vhost_net_start() missed a corresponding stop_one() upon error from
-vhost_set_vring_enable(). While at it, make the error handling for
-err_start more robust. No real issue was found due to this though.
+The vhost_vdpa_one_time_request() branch in
+vhost_vdpa_set_backend_cap() incorrectly sends down
+ioctls on vhost_dev with non-zero index. This may
+end up with multiple VHOST_SET_BACKEND_FEATURES
+ioctl calls sent down on the vhost-vdpa fd that is
+shared between all these vhost_dev's.
 
+To fix it, send down ioctl only once via the first
+vhost_dev with index 0. Toggle the polarity of the
+vhost_vdpa_one_time_request() test should do the
+trick.
+
+Fixes: 4d191cfdc7de ("vhost-vdpa: classify one time request")
 Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <1651890498-24478-5-git-send-email-si-wei.liu@oracle.com>
+Acked-by: Eugenio Pérez <eperezma@redhat.com>
+Message-Id: <1651890498-24478-6-git-send-email-si-wei.liu@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/vhost_net.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-vdpa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index df0f050548..ccac5b7a64 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -381,6 +381,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-             r = vhost_set_vring_enable(peer, peer->vring_enable);
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index ed106bff47..870ab74b04 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -667,7 +667,7 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
  
-             if (r < 0) {
-+                vhost_net_stop_one(get_vhost_net(peer), dev);
-                 goto err_start;
-             }
-         }
-@@ -390,7 +391,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     features &= f;
  
- err_start:
-     while (--i >= 0) {
--        peer = qemu_get_peer(ncs , i);
-+        peer = qemu_get_peer(ncs, i < data_queue_pairs ?
-+                                  i : n->max_queue_pairs);
-         vhost_net_stop_one(get_vhost_net(peer), dev);
-     }
-     e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
+-    if (vhost_vdpa_one_time_request(dev)) {
++    if (!vhost_vdpa_one_time_request(dev)) {
+         r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
+         if (r) {
+             return -EFAULT;
 -- 
 MST
 
