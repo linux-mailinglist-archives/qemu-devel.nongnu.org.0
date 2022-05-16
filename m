@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A1B529344
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:59:38 +0200 (CEST)
-Received: from localhost ([::1]:34014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62656529304
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:41:41 +0200 (CEST)
+Received: from localhost ([::1]:34992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqikb-000058-2r
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59752)
+	id 1nqiTE-0004A5-EZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhkW-0003QG-JM
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30888)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhko-0003e0-CS
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhkV-00073R-4n
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhkm-000774-R5
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734526;
+ s=mimecast20190719; t=1652734543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RGmB4zsjFa00mhjv069N1K/klVxvRGM4udUUjgkD3LM=;
- b=Nsv2WMQBsY4cBfhXL9HTQK5TaVpPAKUWuNnjPQSa7t95FEwfql4Q6HamRlXy41jTNlF3FS
- NGKbDAS3KxdP8nkHVXaNZKZgY9iEb803MWoZxxKLxamYOQH/TBA9jDs0AAHkmS7uI+gySA
- 7BJrHw0D/Gob4aOlLQTofFx7OELo2Qo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ykKNvWWeKNqjpuuIQ4HE4Tn62sQweh+Zh0RPTlHsSLs=;
+ b=P7SS9AFA4rRGh27Fg4M07dkB4nZEyvL+JoPkRBGBjoneJwHyLsGIy7YPDvvSDN3L/M/dcd
+ I3c1fEr/sw7SLOAt3vYsWxG595nLnUIZ44KEl0ja/8nMgT1p/1dLWKlZ8dl+jORon+0S9r
+ 4HamIOmDAHXy/fKRDc/dQdNtNIgw6zs=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-PqTZF1pxORuffXEd9EfS6Q-1; Mon, 16 May 2022 16:55:25 -0400
-X-MC-Unique: PqTZF1pxORuffXEd9EfS6Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- f20-20020a50d554000000b0042abba35e60so1410688edj.15
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:25 -0700 (PDT)
+ us-mta-466-aLp_OQjbOM-kg5jDgj2TSQ-1; Mon, 16 May 2022 16:55:42 -0400
+X-MC-Unique: aLp_OQjbOM-kg5jDgj2TSQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ l18-20020aa7d952000000b0042ab7be9adaso1914545eds.21
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RGmB4zsjFa00mhjv069N1K/klVxvRGM4udUUjgkD3LM=;
- b=mLGRNa/w1x8m/zPzLyh4bwIbwAsNs4NH+ig3s5XxQzJjs65q8UX3e7ybGy89lgg+OV
- Rve2kJ2f6aYmv/4yDXupkIUi1hwPqPBoR5LyvKiaDWDm/AvHXNFM7/+G+M7DVLK/ijJW
- W3DiIJGCFZX5VbMLkq6VnWPF8+0Xa8sOJQruqeebpzIpqTy73qa24ONNWIJqPZfY5t3i
- wWM3e5GY0wjJ74GJ+C35YaUytuf1fxURxcmO4oprByp/j6V8ffXbcAMeRHGBI275JFkl
- zwdc5T99KOv3OGDy4K4msL4neOSURhBumDMJlTn/E/S/ac43/cpkTBSMlnsMamw5X9u/
- RDag==
-X-Gm-Message-State: AOAM530OqkqoY/fvvNi7yFWDj+q2drd2fLBcPp7OeJ42OUPkF5lve4aD
- RhUnwXj3JybKbQie31YfCldtJN38HkpXCZL4mn7mdHfmY7CnZra/QXEAAHvpuJl+3jMpIPaU1q5
- 6W4J4HRcSmWCV9Zsb2Tzjb5yJiukuSXqDeDUcPZ0lD4VD+xOUFuM9QFmkqzsd
-X-Received: by 2002:a17:906:6a0e:b0:6f5:30c9:7c7d with SMTP id
- qw14-20020a1709066a0e00b006f530c97c7dmr16389292ejc.63.1652734523856; 
- Mon, 16 May 2022 13:55:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzsAzrFoZXXuHAqZ0hW4PJQ5IZua6hlsAcsmSGZh0lZKpiXIhL3iNIA7qxd7izebMExiZMOSg==
-X-Received: by 2002:a17:906:6a0e:b0:6f5:30c9:7c7d with SMTP id
- qw14-20020a1709066a0e00b006f530c97c7dmr16389277ejc.63.1652734523558; 
- Mon, 16 May 2022 13:55:23 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=ykKNvWWeKNqjpuuIQ4HE4Tn62sQweh+Zh0RPTlHsSLs=;
+ b=10V3LtE8+VuidfkefmN/3Ih7d0XzDyjPfBEq6lS3MInzJ7rDEIM9dRa6WlSCbZIG/p
+ 2dQzlCH6taYvDDOrt5EWbL3mZalHvCvkpQwsSXIqqN2vh9xVmo6XvYtCSCAQS/aYwf85
+ QdHSqiVUdgWGe6+CdmOGYdf+UbtlnDNbxS5mssYrCnT4A4zzwtaChgSrOwYSceQXBG3G
+ JJ9BHxiThtqIWzLQSH9jeOz7jdGRoea2QLRlbUbJSs+5pkPYYBgEcQL2z0gHZwEVc97q
+ 8gpv3OrLDvtKbQcCGhtWbJELyqMHrZIhWbMZn7HZEMjNHGPTJNevFuBOQBIsdUMNELRI
+ pfqw==
+X-Gm-Message-State: AOAM533YTjfDQtMQGhCkFuWpqMNaZV2c/N9tn88AhSvuPeWWwpJbGpWN
+ DcEXmLQ4nUbKxUscGsD7vCURSzWqQ76A9sWk0SMPOYIp5qobU04EIpBfNvC18FdY11jVwsBtQxo
+ B641aOMkgdnkSJzYuiJkUp7A+9KHMHQ79J2D9cXTqOPC3GupUxQTvbXwfjrOY
+X-Received: by 2002:a17:906:9c43:b0:6f3:a8be:af46 with SMTP id
+ fg3-20020a1709069c4300b006f3a8beaf46mr16419709ejc.271.1652734540511; 
+ Mon, 16 May 2022 13:55:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDRks9gemuxJzSYNjHuHi27IfjUekY4fas3I/8oglkB4vW7aTnpOeXXMy3vNGnmOoWjKAtFQ==
+X-Received: by 2002:a17:906:9c43:b0:6f3:a8be:af46 with SMTP id
+ fg3-20020a1709069c4300b006f3a8beaf46mr16419697ejc.271.1652734540276; 
+ Mon, 16 May 2022 13:55:40 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- gz15-20020a170907a04f00b006f3ef214dddsm176011ejc.67.2022.05.16.13.55.22
+ gz15-20020a170907a04f00b006f5294986besm167622ejc.111.2022.05.16.13.55.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:55:23 -0700 (PDT)
-Date: Mon, 16 May 2022 16:55:21 -0400
+ Mon, 16 May 2022 13:55:39 -0700 (PDT)
+Date: Mon, 16 May 2022 16:55:37 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL v2 75/86] include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX
-Message-ID: <20220516204913.542894-76-mst@redhat.com>
+ Si-Wei Liu <si-wei.liu@oracle.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL v2 79/86] virtio-net: setup vhost_dev and notifiers for cvq
+ only when feature is negotiated
+Message-ID: <20220516204913.542894-80-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516204913.542894-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -101,37 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
+From: Si-Wei Liu <si-wei.liu@oracle.com>
 
-According to 7.2.2 in [1] bit 27 is the last bit that can be part of the
-bus number, this makes the ECAM max size equal to '1 << 28'. This patch
-restores back this value into the PCIE_MMCFG_SIZE_MAX define (which was
-changed in commit 58d5b22bbd5 ("ppc4xx: Add device models found in PPC440
-core SoCs")).
+When the control virtqueue feature is absent or not negotiated,
+vhost_net_start() still tries to set up vhost_dev and install
+vhost notifiers for the control virtqueue, which results in
+erroneous ioctl calls with incorrect queue index sending down
+to driver. Do that only when needed.
 
-[1] PCI Express® Base Specification Revision 5.0 Version 1.0
-
-Signed-off-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Message-Id: <20220411221836.17699-3-frasse.iglesias@gmail.com>
+Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
+Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <1651890498-24478-2-git-send-email-si-wei.liu@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pcie_host.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/net/virtio-net.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
-index b3c8ce973c..82d92177da 100644
---- a/include/hw/pci/pcie_host.h
-+++ b/include/hw/pci/pcie_host.h
-@@ -65,7 +65,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
-  * bit 12 - 14: function number
-  * bit  0 - 11: offset in configuration space of a given device
-  */
--#define PCIE_MMCFG_SIZE_MAX             (1ULL << 29)
-+#define PCIE_MMCFG_SIZE_MAX             (1ULL << 28)
- #define PCIE_MMCFG_SIZE_MIN             (1ULL << 20)
- #define PCIE_MMCFG_BUS_BIT              20
- #define PCIE_MMCFG_BUS_MASK             0xff
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index a788f1c5c7..7545a16ed7 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -245,7 +245,8 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
+     NetClientState *nc = qemu_get_queue(n->nic);
+     int queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
+-    int cvq = n->max_ncs - n->max_queue_pairs;
++    int cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
++              n->max_ncs - n->max_queue_pairs : 0;
+ 
+     if (!get_vhost_net(nc->peer)) {
+         return;
 -- 
 MST
 
