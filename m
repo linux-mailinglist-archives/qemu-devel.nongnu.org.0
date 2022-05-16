@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1175288DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:30:41 +0200 (CEST)
-Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA445288FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:36:20 +0200 (CEST)
+Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqcgC-0000wk-UL
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:30:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60536)
+	id 1nqclf-0003hB-Gt
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nqccB-0003hI-MK; Mon, 16 May 2022 11:26:31 -0400
-Received: from mga05.intel.com ([192.55.52.43]:43066)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nqccO-0004Hz-1y
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nqcc9-0006BY-HY; Mon, 16 May 2022 11:26:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652714789; x=1684250789;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=5LmfFQbK5AmriOtbblYySUuukJa5rYjOXtSOzU8xV1s=;
- b=VxLJqCtP5XTXP7vAZkpNMiqxEiUiAZ3DX5hFsOXCVfV4qBIkd2s7AyS4
- ifE32QPDccwx/ClYMWm3gA0qgn3UR/PULLu57xgYxc9zIn7VNkWzqJ8rJ
- kLbfjo/Bkrd6OsitX2VaaBPQi9BX9l6gZvBlwXKMoWN2kqzub7FbAC7K2
- AINLbrZjkELFU4GyTjGGPj7ozwR8sGIokh/b1sgDkp5udKxsE7ohnkirB
- V2r6DmLGimLXaz7C0qwYfkGq5tXON/BTSQIanp+iZRKIfevBUPkYk9bR+
- vT1RS73mF2phu0Ss5CG8hZ3CGcSa/it+cKMZVhn0y0iWBzxTXCSoQoxat A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="357277135"
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; d="scan'208";a="357277135"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 May 2022 08:26:01 -0700
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; d="scan'208";a="713417582"
-Received: from pbrzezix-mobl.ger.corp.intel.com ([10.213.20.224])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 May 2022 08:25:57 -0700
-Date: Mon, 16 May 2022 17:25:51 +0200
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nqccM-0006HL-EY
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652714801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NbVHPJqq/z5jQz81E2lUZdsO4OVYTDbEprgMq518NKM=;
+ b=ivfL7pdUTi39R7EM5tHZlr+TmOKip4HrIgkJMNAfls90c0cV2edr2+dEEc0mo4LcdATCn6
+ HAqT1wDvuWu2OKzvj0GtgmsQPkHjPtLpMm6t/kjZtE9NweHoNy8gGtpqVCYaVYDuXMJbgu
+ 16fW0JGN7hzUxbspaBuZqB8ezISeGKo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-310-uroVF_y_Nl-An5OCEe3krw-1; Mon, 16 May 2022 11:26:37 -0400
+X-MC-Unique: uroVF_y_Nl-An5OCEe3krw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35BD59483E3;
+ Mon, 16 May 2022 15:26:37 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1EB13401DBE;
+ Mon, 16 May 2022 15:26:36 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, ani@anisinha.ca, armbru@redhat.com,
- f4bug@amsat.org, fam@euphon.net, hreitz@redhat.com,
- imammedo@redhat.com, its@irrelevant.dk, kbusch@kernel.org,
- k.jensen@samsung.com, kwolf@redhat.com,
- lukasz.gieryk@linux.intel.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, stefanha@redhat.com, xypron.glpk@gmx.de
-Subject: Re: [PATCH v8 00/12] hw/nvme: SR-IOV with Virtualization Enhancements
-Message-ID: <YoJs//DV4ZTW9tDv@pbrzezix-mobl.ger.corp.intel.com>
-References: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
+Cc: mst@redhat.com, ani@anisinha.ca, minyard@acm.org,
+ stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
+Subject: [PATCH 18/35] tests: acpi: white-list to be re-factored pc/q35 DSDT
+Date: Mon, 16 May 2022 11:25:53 -0400
+Message-Id: <20220516152610.1963435-19-imammedo@redhat.com>
+In-Reply-To: <20220516152610.1963435-1-imammedo@redhat.com>
+References: <20220516152610.1963435-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,50 +81,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 09, 2022 at 04:16:08PM +0200, Lukasz Maniak wrote:
-> Changes since v7:
-> - Fixed description of hw/acpi: Make the PCI hot-plug aware of SR-IOV
-> - Added description to docs: Add documentation for SR-IOV and
->   Virtualization Enhancements
-> - Added Reviewed-by and Acked-by tags
-> - Rebased on master
-> 
-> Lukasz Maniak (4):
->   hw/nvme: Add support for SR-IOV
->   hw/nvme: Add support for Primary Controller Capabilities
->   hw/nvme: Add support for Secondary Controller List
->   docs: Add documentation for SR-IOV and Virtualization Enhancements
-> 
-> Łukasz Gieryk (8):
->   hw/nvme: Implement the Function Level Reset
->   hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
->   hw/nvme: Remove reg_size variable and update BAR0 size calculation
->   hw/nvme: Calculate BAR attributes in a function
->   hw/nvme: Initialize capability structures for primary/secondary
->     controllers
->   hw/nvme: Add support for the Virtualization Management command
->   hw/nvme: Update the initalization place for the AER queue
->   hw/acpi: Make the PCI hot-plug aware of SR-IOV
-> 
->  docs/system/devices/nvme.rst |  82 +++++
->  hw/acpi/pcihp.c              |   6 +-
->  hw/nvme/ctrl.c               | 673 ++++++++++++++++++++++++++++++++---
->  hw/nvme/ns.c                 |   2 +-
->  hw/nvme/nvme.h               |  55 ++-
->  hw/nvme/subsys.c             |  75 +++-
->  hw/nvme/trace-events         |   6 +
->  include/block/nvme.h         |  65 ++++
->  include/hw/pci/pci_ids.h     |   1 +
->  9 files changed, 909 insertions(+), 56 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 31 +++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Hi Klaus,
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..d95f4b25c4 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,32 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpierst",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.roothp",
++"tests/data/acpi/pc/DSDT.hpbrroot",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.acpierst",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/q35/DSDT.nohpet",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/DSDT.viot",
++"tests/data/acpi/q35/DSDT.xapic",
++"tests/data/acpi/q35/DSDT.ipmismbus",
+-- 
+2.31.1
 
-Should we consider this series ready to merge?
-
-Thanks,
-Lukasz
 
