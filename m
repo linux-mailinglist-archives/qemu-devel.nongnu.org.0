@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898C9529359
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 00:07:49 +0200 (CEST)
-Received: from localhost ([::1]:49166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF0F529362
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 00:09:46 +0200 (CEST)
+Received: from localhost ([::1]:55656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqisW-00033M-Dq
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 18:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59882)
+	id 1nqiuQ-0007ik-1i
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 18:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhkk-0003bm-2J
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53182)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhks-0003iF-4f
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhki-000769-CZ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhkp-00077b-R1
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734539;
+ s=mimecast20190719; t=1652734547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Bx3yjI8J96Ow3fL/flNwsTWaDHNvQ6trt+wn+Q4QM50=;
- b=aKjsJOb/k98wX8Xc9IrgRKRSfO2HyTvbGfkCpDZryd7VYgVUa1v0KBiJXSGjgrVgxl8QBC
- UdsDqGO1YthK8YYOIK2AgNpGdXy/iOKJYfyprd0mxa2YHqtFfwkxhhbxiLhMPTpqZ6EId8
- 1Ug/NLpmQpOTsEe4KyIcFprRkRcmgP4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2U6nu0PeOfVApPP2ohRjcoN1Q5IaLX0N9Wz0iqJcU9Q=;
+ b=ZREMnyqNlSGp/SqOEQeApCUS2VdnsERcaCGibHLKB3TN77e1H0XPkv/pudM5xQWRc5M+6P
+ AzbDJjHXOK4v/k8wMWVEKK524wvzOVS/Jvhk8T94Yn3gZgGNNXVy4Slb02sbu0BUNnrqgQ
+ 6gbJs8AqoEkMM196g6YDH8RAAAy43Fw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-226-KyzaqODeNGuR200voPKE8Q-1; Mon, 16 May 2022 16:55:38 -0400
-X-MC-Unique: KyzaqODeNGuR200voPKE8Q-1
-Received: by mail-ej1-f71.google.com with SMTP id
- x2-20020a1709065ac200b006d9b316257fso6373836ejs.12
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:38 -0700 (PDT)
+ us-mta-668-yZnEOJTLMaaCERzlx8rn-w-1; Mon, 16 May 2022 16:55:46 -0400
+X-MC-Unique: yZnEOJTLMaaCERzlx8rn-w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ay24-20020a056402203800b0042a96a76ba5so4447176edb.20
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Bx3yjI8J96Ow3fL/flNwsTWaDHNvQ6trt+wn+Q4QM50=;
- b=f4u/bE3J6de/lhhxf+g/S7NTglwtosfe/hbV7mFJiIk2i4AWs4qE68of3LCxXq9lMW
- Xb3pZtEO7AfJC/rzkwAWygoAA2bpmdrq0a1GZAnxdFgsnkQioTbvsbduoVJrJAfPdTib
- Jsm46pIVfls3/PKxg7vgkvfKP+tgf4E6iCykqWQspSjItEKZzaOYUBQfE6XLa/0ix7bt
- KF8Pd4GAcNGE407an8vFgYZxBc/XI8oOUuizhreh7tT7xsrJzfvXgRO7RSndeSQF5t9v
- sExSlYxMUoOquI49qpVcEdSCtBeReExFKTwVTbexXfQDAgCQGCnxxmgw0/xfNaWrqz54
- IiOQ==
-X-Gm-Message-State: AOAM532bWQCkKUhKBTxd/4uYVDXWf8f/+kDC5h18tCFw+B6X2YhrdjOA
- 9jer2GcVCZq4NqREHbMiVv6Ehq4Zj8rMy9HxxqYnNh2jrQy9RNYa1NXVMpQy8an3ACvS3/CvsGu
- 96moFIUA+IYNaIQZO0tDkTz+fwbubf2u7TMC+BG09/nLOmgAa6PaclI+uP003
-X-Received: by 2002:a50:8a99:0:b0:42a:8c56:1904 with SMTP id
- j25-20020a508a99000000b0042a8c561904mr13391140edj.214.1652734537073; 
- Mon, 16 May 2022 13:55:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhtjB5FB8DMRtVpcF7KvBzDMzn1H2fG577MQnbQEyz0MCXZUDzfwjEzaW4Eiaf7LKJKUpUYg==
-X-Received: by 2002:a50:8a99:0:b0:42a:8c56:1904 with SMTP id
- j25-20020a508a99000000b0042a8c561904mr13391111edj.214.1652734536812; 
- Mon, 16 May 2022 13:55:36 -0700 (PDT)
+ bh=2U6nu0PeOfVApPP2ohRjcoN1Q5IaLX0N9Wz0iqJcU9Q=;
+ b=dhCEPlTLNJAFwrIiaFeiQGJpSlUwsbC8EJ7cHxD89PPGvI9fbkFiCsynUJFTzAFUVY
+ Lj/o27dsIy4dkbvBMod9G1OnZXq1Bm4Y2GFjps2NhwU06u74EZYHA5EDwDW82M+ypLYV
+ 3Rf2fdX3HD0cnnk6OCm/FJCZz1cgwcuW8g1qlGLQA/xHFi8dWNPlCN7A996OmbdkPtKl
+ P9NOre1zzaoZ4c3nPQulwwwAEOIdP+ziFazkQqUsDnT2eGQIw/yfdHkrUjFP8GcoxmVd
+ VlKJm7SxN6zEXBnQ8veUjqgsxnerjALiWloG8IBALKT+IVDui2oKPAzcfCQoSuez0XUR
+ RtLg==
+X-Gm-Message-State: AOAM531QTC+XAwTM4mshY4O+5jGp02si/mHJvjCUrFso9rcLmaq0hMld
+ ouUkOdxOvffGx6UXnUCX/XwsmHzs8MEAg5P3od2iepPTicPYU9cbfrVDCScXOtvvL3Zn+j1h20M
+ 8ISXCQeOfbSUzcCuUs20tHhmRyb9Txnp9S4h9H84ejLfsd51Km0JyvBDpU85q
+X-Received: by 2002:a05:6402:3682:b0:42a:c348:7248 with SMTP id
+ ej2-20020a056402368200b0042ac3487248mr969045edb.197.1652734544317; 
+ Mon, 16 May 2022 13:55:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMqWW2IiANP2QDv1AiOnkk4An88jsHYKr0LJPrCvv6Lk/HfvfbsD6zLRgcVgGsYit/bflBeA==
+X-Received: by 2002:a05:6402:3682:b0:42a:c348:7248 with SMTP id
+ ej2-20020a056402368200b0042ac3487248mr969022edb.197.1652734544082; 
+ Mon, 16 May 2022 13:55:44 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- y17-20020a170906519100b006f3ef214e37sm165148ejk.157.2022.05.16.13.55.34
+ v24-20020a17090651d800b006f3ef214e15sm169354ejk.123.2022.05.16.13.55.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:55:36 -0700 (PDT)
-Date: Mon, 16 May 2022 16:55:33 -0400
+ Mon, 16 May 2022 13:55:43 -0700 (PDT)
+Date: Mon, 16 May 2022 16:55:40 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Wei Huang <wei.huang2@amd.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL v2 78/86] hw/i386/amd_iommu: Fix IOMMU event log encoding errors
-Message-ID: <20220516204913.542894-79-mst@redhat.com>
+ Si-Wei Liu <si-wei.liu@oracle.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL v2 80/86] virtio-net: align ctrl_vq index for non-mq guest for
+ vhost_vdpa
+Message-ID: <20220516204913.542894-81-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,108 +98,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Huang <wei.huang2@amd.com>
+From: Si-Wei Liu <si-wei.liu@oracle.com>
 
-Coverity issues several UNINIT warnings against amd_iommu.c [1]. This
-patch fixes them by clearing evt before encoding. On top of it, this
-patch changes the event log size to 16 bytes per IOMMU specification,
-and fixes the event log entry format in amdvi_encode_event().
+With MQ enabled vdpa device and non-MQ supporting guest e.g.
+booting vdpa with mq=on over OVMF of single vqp, below assert
+failure is seen:
 
-[1] CID 1487116/1487200/1487190/1487232/1487115/1487258
+../hw/virtio/vhost-vdpa.c:560: vhost_vdpa_get_vq_index: Assertion `idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs' failed.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Wei Huang <wei.huang2@amd.com>
-Message-Id: <20220422055146.3312226-1-wei.huang2@amd.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+0  0x00007f8ce3ff3387 in raise () at /lib64/libc.so.6
+1  0x00007f8ce3ff4a78 in abort () at /lib64/libc.so.6
+2  0x00007f8ce3fec1a6 in __assert_fail_base () at /lib64/libc.so.6
+3  0x00007f8ce3fec252 in  () at /lib64/libc.so.6
+4  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:563
+5  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:558
+6  0x0000558f52d7329a in vhost_virtqueue_mask (hdev=0x558f55c01800, vdev=0x558f568f91f0, n=2, mask=<optimized out>) at ../hw/virtio/vhost.c:1557
+7  0x0000558f52c6b89a in virtio_pci_set_guest_notifier (d=d@entry=0x558f568f0f60, n=n@entry=2, assign=assign@entry=true, with_irqfd=with_irqfd@entry=false)
+   at ../hw/virtio/virtio-pci.c:974
+8  0x0000558f52c6c0d8 in virtio_pci_set_guest_notifiers (d=0x558f568f0f60, nvqs=3, assign=true) at ../hw/virtio/virtio-pci.c:1019
+9  0x0000558f52bf091d in vhost_net_start (dev=dev@entry=0x558f568f91f0, ncs=0x558f56937cd0, data_queue_pairs=data_queue_pairs@entry=1, cvq=cvq@entry=1)
+   at ../hw/net/vhost_net.c:361
+10 0x0000558f52d4e5e7 in virtio_net_set_status (status=<optimized out>, n=0x558f568f91f0) at ../hw/net/virtio-net.c:289
+11 0x0000558f52d4e5e7 in virtio_net_set_status (vdev=0x558f568f91f0, status=15 '\017') at ../hw/net/virtio-net.c:370
+12 0x0000558f52d6c4b2 in virtio_set_status (vdev=vdev@entry=0x558f568f91f0, val=val@entry=15 '\017') at ../hw/virtio/virtio.c:1945
+13 0x0000558f52c69eff in virtio_pci_common_write (opaque=0x558f568f0f60, addr=<optimized out>, val=<optimized out>, size=<optimized out>) at ../hw/virtio/virtio-pci.c:1292
+14 0x0000558f52d15d6e in memory_region_write_accessor (mr=0x558f568f19d0, addr=20, value=<optimized out>, size=1, shift=<optimized out>, mask=<optimized out>, attrs=...)
+   at ../softmmu/memory.c:492
+15 0x0000558f52d127de in access_with_adjusted_size (addr=addr@entry=20, value=value@entry=0x7f8cdbffe748, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x558f52d15cf0 <memory_region_write_accessor>, mr=0x558f568f19d0, attrs=...) at ../softmmu/memory.c:554
+16 0x0000558f52d157ef in memory_region_dispatch_write (mr=mr@entry=0x558f568f19d0, addr=20, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...)
+   at ../softmmu/memory.c:1504
+17 0x0000558f52d078e7 in flatview_write_continue (fv=fv@entry=0x7f8accbc3b90, addr=addr@entry=103079215124, attrs=..., ptr=ptr@entry=0x7f8ce6300028, len=len@entry=1, addr1=<optimized out>, l=<optimized out>, mr=0x558f568f19d0) at /home/opc/qemu-upstream/include/qemu/host-utils.h:165
+18 0x0000558f52d07b06 in flatview_write (fv=0x7f8accbc3b90, addr=103079215124, attrs=..., buf=0x7f8ce6300028, len=1) at ../softmmu/physmem.c:2822
+19 0x0000558f52d0b36b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>)
+   at ../softmmu/physmem.c:2914
+20 0x0000558f52d0b3da in address_space_rw (as=<optimized out>, addr=<optimized out>, attrs=...,
+   attrs@entry=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>, is_write=<optimized out>) at ../softmmu/physmem.c:2924
+21 0x0000558f52dced09 in kvm_cpu_exec (cpu=cpu@entry=0x558f55c2da60) at ../accel/kvm/kvm-all.c:2903
+22 0x0000558f52dcfabd in kvm_vcpu_thread_fn (arg=arg@entry=0x558f55c2da60) at ../accel/kvm/kvm-accel-ops.c:49
+23 0x0000558f52f9f04a in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:556
+24 0x00007f8ce4392ea5 in start_thread () at /lib64/libpthread.so.0
+25 0x00007f8ce40bb9fd in clone () at /lib64/libc.so.6
+
+The cause for the assert failure is due to that the vhost_dev index
+for the ctrl vq was not aligned with actual one in use by the guest.
+Upon multiqueue feature negotiation in virtio_net_set_multiqueue(),
+if guest doesn't support multiqueue, the guest vq layout would shrink
+to a single queue pair, consisting of 3 vqs in total (rx, tx and ctrl).
+This results in ctrl_vq taking a different vhost_dev group index than
+the default. We can map vq to the correct vhost_dev group by checking
+if MQ is supported by guest and successfully negotiated. Since the
+MQ feature is only present along with CTRL_VQ, we ensure the index
+2 is only meant for the control vq while MQ is not supported by guest.
+
+Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
+Suggested-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <1651890498-24478-3-git-send-email-si-wei.liu@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/amd_iommu.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ hw/net/virtio-net.c | 33 +++++++++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index ea8eaeb330..725f69095b 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -201,15 +201,18 @@ static void amdvi_setevent_bits(uint64_t *buffer, uint64_t value, int start,
- /*
-  * AMDVi event structure
-  *    0:15   -> DeviceID
-- *    55:63  -> event type + miscellaneous info
-- *    63:127 -> related address
-+ *    48:63  -> event type + miscellaneous info
-+ *    64:127 -> related address
-  */
- static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
-                                uint16_t info)
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 7545a16ed7..1ea524ff09 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -14,6 +14,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/atomic.h"
+ #include "qemu/iov.h"
++#include "qemu/log.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "hw/virtio/virtio.h"
+@@ -3172,8 +3173,22 @@ static NetClientInfo net_virtio_info = {
+ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
  {
-+    evt[0] = 0;
-+    evt[1] = 0;
-+
-     amdvi_setevent_bits(evt, devid, 0, 16);
--    amdvi_setevent_bits(evt, info, 55, 8);
--    amdvi_setevent_bits(evt, addr, 63, 64);
-+    amdvi_setevent_bits(evt, info, 48, 16);
-+    amdvi_setevent_bits(evt, addr, 64, 64);
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    NetClientState *nc;
+     assert(n->vhost_started);
++    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
++        /* Must guard against invalid features and bogus queue index
++         * from being set by malicious guest, or penetrated through
++         * buggy migration stream.
++         */
++        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: bogus vq index ignored\n", __func__);
++            return false;
++        }
++        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
++    } else {
++        nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    }
+     return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
  }
- /* log an error encountered during a page walk
-  *
-@@ -218,7 +221,7 @@ static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
- static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
-                              hwaddr addr, uint16_t info)
+ 
+@@ -3181,8 +3196,22 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+                                            bool mask)
  {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_IOPF_I | AMDVI_EVENT_IOPF;
-     amdvi_encode_event(evt, devid, addr, info);
-@@ -234,7 +237,7 @@ static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
- static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
-                                    hwaddr devtab, uint16_t info)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_DEV_TAB_HW_ERROR;
- 
-@@ -248,7 +251,8 @@ static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
-  */
- static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
- {
--    uint64_t evt[4], info = AMDVI_EVENT_COMMAND_HW_ERROR;
-+    uint64_t evt[2];
-+    uint16_t info = AMDVI_EVENT_COMMAND_HW_ERROR;
- 
-     amdvi_encode_event(evt, 0, addr, info);
-     amdvi_log_event(s, evt);
-@@ -261,7 +265,7 @@ static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
- static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
-                                        hwaddr addr)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_ILLEGAL_COMMAND_ERROR;
-     amdvi_encode_event(evt, 0, addr, info);
-@@ -276,7 +280,7 @@ static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
- static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
-                                           hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_ILLEGAL_DEVTAB_ENTRY;
-     amdvi_encode_event(evt, devid, addr, info);
-@@ -288,7 +292,7 @@ static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
- static void amdvi_log_pagetab_error(AMDVIState *s, uint16_t devid,
-                                     hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_PAGE_TAB_HW_ERROR;
-     amdvi_encode_event(evt, devid, addr, info);
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    NetClientState *nc;
+     assert(n->vhost_started);
++    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
++        /* Must guard against invalid features and bogus queue index
++         * from being set by malicious guest, or penetrated through
++         * buggy migration stream.
++         */
++        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: bogus vq index ignored\n", __func__);
++            return;
++        }
++        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
++    } else {
++        nc = qemu_get_subqueue(n->nic, vq2q(idx));
++    }
+     vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+                              vdev, idx, mask);
+ }
 -- 
 MST
 
