@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E02528832
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:13:44 +0200 (CEST)
-Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDC75287D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:02:35 +0200 (CEST)
+Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqcPn-0003rV-5h
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49690)
+	id 1nqcF0-000300-3P
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:02:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqbzc-0004XL-Nr
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:46:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqbmr-0005Qc-C0
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:33:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652711593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HKPBgWBFtYsFKbNO8Ry0dcI/s2YyGwnSLBbOytNVTtA=;
- b=MhLNINpeTPCqZBJyupO5ooscUyTCjEWqfTPl4yJRlYQ9cy/nyXeHgER+sWYeqQp7T0NYCH
- PY9cEkpjoHGoH44ZJZOw+ftdmd2C3HbF4gpmvruEVZJjVRo+Tn/FVofK7TL7S+j7YjQB06
- S48f2qmElIp1fyuWnTBqQujop2Z7ejQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-ieNqI1oqP72Tvnhbj8nm8w-1; Mon, 16 May 2022 10:33:11 -0400
-X-MC-Unique: ieNqI1oqP72Tvnhbj8nm8w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p24-20020a1c5458000000b003945d2ffc6eso6851907wmi.5
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 07:33:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqbzX-0004Ra-59
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:46:35 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:40625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqbpM-0005qE-Q2
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:36:22 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2fedd26615cso42783057b3.7
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 07:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WMcjIgElQDVcaYvGyWsgGoL90MTN8Yg8FxN68fhVkSQ=;
+ b=epEAkGNTrucXFX9mUmqzEF0ZHx+UwBx8tShMXRGQYBza7bG5O5tjrJOrMiSRz5/UsR
+ Rfjpsm3unUdjf2pABkSkIwrxQgZEdxJQvN/HnPcG1D0uaA3sq5yqhvvSMoFTo1P2JQC1
+ 90kjUPqWbnRZwV9dUy169YXnavDcnbUkUwBUELZez44OwdPZUF4+qGqbvxAck83nyqYi
+ 1n1zs1455NF4HX0EGVBWufz3/5d+xi1uAvcKdS83Jihp/zO+PJI11tcXp9byVojVSVUg
+ 6+36z8N/3ZqL6PIRoUTZOWma232Oco86mNDt9n/Brhni3RYU3VLtt7OT5Swx9Zx7e3WY
+ oelQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HKPBgWBFtYsFKbNO8Ry0dcI/s2YyGwnSLBbOytNVTtA=;
- b=a8jJueNd2eu15ZIlRKN/vfvYu5hrRqUI8FGqjwYqIhZ3Z9IIjS2CW1d+35ItaYk4Gm
- uw/T4nzz2ucUytkX5ZPOZbVly7Kd3FDwVzRpO3mRck5uiAIRJjcFA82zLCLHtAgtilil
- JtJIgyUbqMqGT+6+G0f+Isc0DtBP5X/gavNwRuKydUqQFKaknp7r687YdcF5T0ir2Jpc
- R0zAtrlcvp1LmRgNYzUONsGAICwcaVY8Z4VDzqCpxampg8XQQ5aKWjnQqWA1QxAd3gUz
- p9Eo24laSwO86OMLUdEhoH/G8L4wX3Oj4YV8MikyxkM0zU3jGpRTuXAhqBoBb9+yaLPi
- Ab+Q==
-X-Gm-Message-State: AOAM530kyiOsVW8jrVDMVOqHqAQjgdtyIovWTsFMqIk/StsovS+kO1YX
- gvidO/vN91cBWQr4rRONAdpmASPUcLN23PFiZgWPa6ROU8grfZ5m8dRW2ZnP/GOnH2Kudqa7jY1
- 2M12bdWTsCBJqLwE=
-X-Received: by 2002:a05:600c:3d8c:b0:396:fad3:6c2f with SMTP id
- bi12-20020a05600c3d8c00b00396fad36c2fmr8510497wmb.45.1652711590801; 
- Mon, 16 May 2022 07:33:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYw13OeyOWTVk/jOz07g3AFSBfVxuJuAfthiFC4cDyfkNMMQcx45+4itAmUBWXpUp/dHSpNw==
-X-Received: by 2002:a05:600c:3d8c:b0:396:fad3:6c2f with SMTP id
- bi12-20020a05600c3d8c00b00396fad36c2fmr8510467wmb.45.1652711590490; 
- Mon, 16 May 2022 07:33:10 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-178-142.web.vodafone.de.
- [109.43.178.142]) by smtp.gmail.com with ESMTPSA id
- k21-20020a05600c1c9500b003942a244ebesm10754908wms.3.2022.05.16.07.33.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 07:33:10 -0700 (PDT)
-Message-ID: <2d9f4a3c-aae5-f407-e8ea-2762de5ad4a2@redhat.com>
-Date: Mon, 16 May 2022 16:33:08 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WMcjIgElQDVcaYvGyWsgGoL90MTN8Yg8FxN68fhVkSQ=;
+ b=0NE+RX+LPAiWJs60YcyVtzUoVL7DYmTC4ocR6OwiRgfbo6LuA17zkVUnOGRKIidhsc
+ FrSV+ZBE04/0UtqQIleA1I34dQm75Jo/Wt6SVf5lm7rnvnXsD2u7AjVB3fbl+/QDIRAN
+ lWQ+U1TYfArt3lL2o3fyiFuw5l/bdMeTrXm8OAxJSWZFrw4kW7npD9YrsnVMm5BJjhyh
+ wWno1DiqW1RJSXhmp3UA9b4FvYSb+9Nc6K+HGF2ux6I+nKMEm/cYhxgpSC4d4s+n0Pec
+ /FCUTYXf9HL20Zp2eRcqvl5INcwcAlmXG5Pkgmsn4peQwc3r2G29nMfQuEpRNXXmYSCP
+ 7kmg==
+X-Gm-Message-State: AOAM533cAoqEu+aM+vC/igPSVrePFh8lk8yC/woRcR2iml4vq1e7Mx/G
+ IHKrVwy8sPvYxELsGxZ55bial4m4aupjjtLp/qsYxw==
+X-Google-Smtp-Source: ABdhPJwJZB3gM8czSWJt0Bc4U2ER39LOlNTG28dZLLrBNsHO1D9qx2PmUr9WcELR7LvpxQGqqeYdj2iWlPJd5yveXow=
+X-Received: by 2002:a81:3685:0:b0:2fb:947b:5247 with SMTP id
+ d127-20020a813685000000b002fb947b5247mr19562933ywa.64.1652711736626; Mon, 16
+ May 2022 07:35:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3] mos6522: fix linking error when CONFIG_MOS6522 is not
- set
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, mopsfelder@gmail.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220510235439.54775-1-muriloo@linux.ibm.com>
- <aca5b885-daea-bb59-e79e-3317e3854cf3@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <aca5b885-daea-bb59-e79e-3317e3854cf3@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <CAFEAcA_SSJ9BBryV0iuXi1G30e6HoMeuNbSpKDh4_+y2oxTLJw@mail.gmail.com>
+ <5132a3d1-de12-a306-c64e-56cfd2c40a42@redhat.com>
+In-Reply-To: <5132a3d1-de12-a306-c64e-56cfd2c40a42@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 May 2022 15:35:25 +0100
+Message-ID: <CAFEAcA_5ouMzMx=1da0VFHXWvMsOoYJ_zZCA6Q_LjwNNO4WwOQ@mail.gmail.com>
+Subject: Re: Getting rid of the last bits of QEMU's 'ad-hoc CI' for merges
+To: Thomas Huth <thuth@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
 X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01,
+ DKIM_SIGNED=0.1, T_SCC_BODY_TEXT_LINE=-0.01, T_SPF_HELO_TEMPERROR=0.01,
  T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,34 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/05/2022 16.14, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 5/10/22 20:54, Murilo Opsfelder Araujo wrote:
->> When CONFIG_MOS6522 is not set, building ppc64-softmmu target fails:
->>
->>      /usr/bin/ld: 
->> libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): undefined 
->> reference to `hmp_info_via'
->>
->> Make devices configuration available in hmp-commands*.hx and check for
->> CONFIG_MOS6522.
->>
->> Fixes: 409e9f7131e5 (mos6522: add "info via" HMP command for debugging)
->> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
->> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Cc: Fabiano Rosas <farosas@linux.ibm.com>
->> Cc: Thomas Huth <thuth@redhat.com>
->> ---
-> 
-> Thomas,
-> 
-> 
-> Are you going to pick this up via your misc patches tree? If not I can take it
-> via ppc64.
+On Mon, 16 May 2022 at 15:30, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 16/05/2022 14.43, Peter Maydell wrote:
+> > For the BSDs, the ad-hoc CI is just running the tests/vm
+> > "make vm-build-netbsd" etc. Is there some way we can get
+> > coverage of this into the gitlab CI setup? (I think we
+> > have FreeBSD via Cirrus CI, so I have not listed that one.)
+>
+> A simple setup is already there, running NetBSD and OpenBSD via KVM on the
+> Cirrus-CI, see e.g.:
+>
+>   https://gitlab.com/thuth/qemu/-/jobs/2411943817#L1973
+>
+> Caveats:
+> - The jobs are currently marked as "manual only" since the double
+>    indirect setup (via cirrus-run and KVM) is not that reliable.
+>    Also we can not run that many cirrus-ci jobs in parallel, so
+>    we likely don't want to enable these by default.
+> - Compilation is not very fast, the jobs often run longer than
+>    1h, though the --target-list is very short already.
+>
+> Anyway, this should show that running NetBSD and OpenBSD is very well
+> possible in our CI - we just need a more powerful x86 host with KVM enabled
+> for this.
 
-I didn't queue it yet, so please take through your ppc branch.
+Yes, if we have an x86 machine we can use as a private CI runner
+for these jobs that would work.
 
-  Thomas
-
+-- PMM
 
