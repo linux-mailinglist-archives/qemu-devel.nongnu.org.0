@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01CAA5286A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 16:13:23 +0200 (CEST)
-Received: from localhost ([::1]:58802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20915286A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 16:13:41 +0200 (CEST)
+Received: from localhost ([::1]:59648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqbTN-0000yk-Kf
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 10:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41924)
+	id 1nqbTg-0001X0-S3
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 10:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqbRQ-00085W-HN
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:11:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59671)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nqbRw-0000A5-Td
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:11:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqbRM-0002JC-TP
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:11:18 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nqbRv-0002Kx-0T
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:11:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652710275;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1652710309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PQITtdr4+TT4jxBl3r7Oy4wvX1g1+yMdwiiza13qe5g=;
- b=C2xdAaFdbZwGZ6rTe6VdGBrJGHbXTy0qyO7WRRoCHZO2LmeXIOCRhs2W1xXPyzIyZc/y3k
- KuitUK5U714lZ4l7Bba99XMwx2guPfLgO7q2ArUuEmwpE+Vs2SHbE0FVHI9KuRsj9mReNF
- kElmlR1JvvUmnzDei5dxW6slochG2Go=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PeDz/i24vuBNodi9Nsniz+YebC590vDMgeTaJafMdPQ=;
+ b=fPlvGlgZpbJsiBtT6s82JlyoSEkmIAsNloWd9MSusobITaxuY36W6s8Z1OqVYRaQtaQqZw
+ lLcGsxJl+ZubUz8vCQcepKGcXaTdyGfmdwVzAHGf5A8WJMFq93y4dUxaNVraDfL2sXKerP
+ VfEHGehfdrSCrFDy0uIEYccj9aVFIsU=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-88-GRmv3EfxP-imRfMoo2X_IA-1; Mon, 16 May 2022 10:11:12 -0400
-X-MC-Unique: GRmv3EfxP-imRfMoo2X_IA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFEC529ABA1C;
- Mon, 16 May 2022 14:11:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DE0240CF8E2;
- Mon, 16 May 2022 14:11:10 +0000 (UTC)
-Date: Mon, 16 May 2022 15:11:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Fam Zheng <fam@euphon.net>,
- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Subject: Re: [PATCH v2] Remove Ubuntu 18.04 conatiner support from the
- repository
-Message-ID: <YoJbezGc0eVlh94d@redhat.com>
-References: <20220516115912.120951-1-thuth@redhat.com>
+ us-mta-423-VXOZnQEFMwiwKol1M_9OuQ-1; Mon, 16 May 2022 10:11:48 -0400
+X-MC-Unique: VXOZnQEFMwiwKol1M_9OuQ-1
+Received: by mail-io1-f72.google.com with SMTP id
+ m22-20020a0566022e9600b0065dd0511560so7588280iow.2
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 07:11:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PeDz/i24vuBNodi9Nsniz+YebC590vDMgeTaJafMdPQ=;
+ b=qclP+oDMcRiYgX0beROfk8D5X3ShOAd1scXWiXAzwlViYazdk2PlJ9yZFD6XQSFlGh
+ 7sIwKHkcMdJIlCn84cIvt14TvNWF9RYn6/e1uU6mG0CDvLyTst08WacJ9iQgYBQME6GA
+ I8N4W+FeyzMA65i56M3kEBQ6E/pSg1swNU+uAsqof0HNjlK1E4hs5PvmzZkY1n7H76TF
+ vdzmBBm20Die7LNOKLmjPVpXZXv3kHGAxfhjix4dXhVcJZBMJDe57u6ZH9NUBzDqM+Lr
+ KBzFP3ZICrfs/TsF0vNUi7CkORc20/xQWcqjeIOT6WivtaseLV6k6OmXWMA9GCGrC2CK
+ 9Qig==
+X-Gm-Message-State: AOAM532KUi58p44MXU8n66boH2tNEZTm1rJa4YZUbFrARuE+wIbEV+mK
+ hlUP9yhs5RwakTJEHNirTJM3xJuXTlh8cL7PQi7XS5ORv4NP5tB26XnGXrkMC2PuXP3Dqr+NJdO
+ QrteWc80dJmuO1O8=
+X-Received: by 2002:a05:6602:3c9:b0:65a:f371:a65b with SMTP id
+ g9-20020a05660203c900b0065af371a65bmr7765381iov.21.1652710307813; 
+ Mon, 16 May 2022 07:11:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8H8lxSRWuUB94Rxr8MEHLmmEgsJ2M6Ecdjb2owQGPcE5lSqoSEDt0aW9/kuNJbLuIaoqxCw==
+X-Received: by 2002:a05:6602:3c9:b0:65a:f371:a65b with SMTP id
+ g9-20020a05660203c900b0065af371a65bmr7765368iov.21.1652710307537; 
+ Mon, 16 May 2022 07:11:47 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ u14-20020a056e02110e00b002cf846fe476sm2588469ilk.77.2022.05.16.07.11.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 07:11:46 -0700 (PDT)
+Date: Mon, 16 May 2022 10:11:45 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v5 13/21] migration: Postcopy recover with preempt enabled
+Message-ID: <YoJboZoJdPwWpeFe@xz-m1.local>
+References: <20220425233847.10393-1-peterx@redhat.com>
+ <20220425233847.10393-14-peterx@redhat.com>
+ <922cf9fc-e15d-ad86-ba95-05aabbb00f5f@nutanix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220516115912.120951-1-thuth@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <922cf9fc-e15d-ad86-ba95-05aabbb00f5f@nutanix.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,36 +98,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 01:59:12PM +0200, Thomas Huth wrote:
-> According to our "Supported build platforms" policy, we now do not support
-> Ubuntu 18.04 anymore. Remove the related container files and entries from
-> our CI.
+Hi, Manish,
+
+On Mon, May 16, 2022 at 07:01:35PM +0530, manish.mishra wrote:
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v2: Omit the VM images from tests/vm/ for now, Philippe wants to rework them
+> On 26/04/22 5:08 am, Peter Xu wrote:
+> LGTM,
+> Peter, I wanted to give review-tag for this and ealier patch too. I am new
+> to qemu
+> review process so not sure how give review-tag, did not find any reference
+> on
+> google too. So if you please let me know how to do it.
+
+It's here:
+
+https://git.qemu.org/?p=qemu.git;a=blob;f=docs/devel/submitting-a-patch.rst;hb=HEAD#l492
+
+Since afaict QEMU is mostly following what Linux does, you can also
+reference to this one with more context:
+
+https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+
+But since you're still having question regarding this patch, no rush on
+providing your R-bs; let's finish the discussion first.
+
+[...]
+
+> > +static void postcopy_pause_ram_fast_load(MigrationIncomingState *mis)
+> > +{
+> > +    trace_postcopy_pause_fast_load();
+> > +    qemu_mutex_unlock(&mis->postcopy_prio_thread_mutex);
 > 
->  .gitlab-ci.d/containers.yml                   |   5 -
->  .../custom-runners/ubuntu-20.04-aarch32.yml   |   2 +-
->  .../custom-runners/ubuntu-20.04-aarch64.yml   |   2 +-
->  scripts/ci/setup/build-environment.yml        |  14 +-
->  tests/docker/dockerfiles/ubuntu1804.docker    | 144 ------------------
->  tests/lcitool/refresh                         |   7 -
->  6 files changed, 4 insertions(+), 170 deletions(-)
->  delete mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
+> I may have misunderstood synchronisation here but very very rare chance,
+> 
+> as both threads are working independently is it possible qemu_sem_post on
+> 
+> postcopy_pause_sem_fast_load is called by main thread even before we go
+> 
+> to qemu_sem_wait in next line, causing some kind of deadlock. That's should
+> 
+> not be possible as i understand it requires manually calling
+> qmp_migration_recover
+> 
+> so chances are almost impossible. Just wanted to confirm it.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Sorry I don't quite get the question, could you elaborate?  E.g., when the
+described deadlock happened, what is both main thread and preempt load
+thread doing?  What are they waiting at?
 
+Note: we have already released mutex before waiting on sem.
 
-With regards,
-Daniel
+> 
+> > +    qemu_sem_wait(&mis->postcopy_pause_sem_fast_load);
+> 
+> Just wanted to confirm why postcopy_pause_incoming is not called here
+> itself.
+
+postcopy_pause_incoming() is only used in the main ram load thread, while
+this function (postcopy_pause_ram_fast_load) is only called by the preempt
+load thread.
+
+> 
+> Is it based on assumption that if there is error in any of the channel it
+> will
+> 
+> eventually be paused on source side, closing both channels, resulting
+> 
+> postcopy_pause_incoming will be called from main thread on destination?
+
+Yes.
+
+> 
+> Usually it should be good to call as early as possible. It is left to main
+> 
+> thread default path so that we do not have any synchronisation overhead?
+
+What's the sync overhead you mentioned? What we want to do here is simply
+to put all the dest QEMU migration threads into a halted state rather than
+quitting, so that they can be continued when necessary.
+
+> 
+> Also Peter, i was trying to understand postcopy recovery model so is use
+> case
+> 
+> of qmp_migrate_pause just for debugging purpose?
+
+Yes.  It's also a way to cleanly stop using the network (comparing to force
+unplug the nic ports?) for whatever reason with a shutdown() syscall upon
+the socket.  I just don't know whether there's any real use case of that in
+reality.
+
+Thanks,
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Peter Xu
 
 
