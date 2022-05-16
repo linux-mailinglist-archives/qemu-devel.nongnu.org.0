@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26445282B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:57:00 +0200 (CEST)
-Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E33528298
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:51:09 +0200 (CEST)
+Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYPL-0001bw-Pr
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47952)
+	id 1nqYJg-0003dl-Ij
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5I-0005xu-D6
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37525)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5K-0005yi-Jb
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5F-0005AU-Fr
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:15 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5I-0005An-4E
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697372;
+ s=mimecast20190719; t=1652697375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iLEPVbhly/sJ9gkFSi3H6cGCXHWwu/4fK5qVGB2iO4Q=;
- b=Awzo2BpfTfMU/9G6a9X1SO+HRh+VdjR4dztYJTaOGRFf0RchNfVdlk1wDA9hdknTPXrOR7
- 9H8TzX6PIPs7hh+kIKVQm97QaiiTcBDHh05J0we1eALC0fA+UuX9WGRjW6lRxpNjF7GbdR
- r/bhfE5wkim9z4oXQ1JX3cUbdS1la1w=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EVeb92muGpGF+5fS1YTFGba+yxQKZdSBlvAWWWx2YjA=;
+ b=ACQmzBDZz1mdx6LDtEQagbu1tipBS6pnddCg2+0kVY4jztYEz9iOOD/9T8Fb9uRZxzBMyR
+ Flfc9yYAvz+EaWILi0JFS6OCgU3c0C6WKJ0gOdQkCuBuX9bsAi5wozJRPabbI4LtKN1U84
+ XNnp7SXJ0eaUOqDka/T58uJ12no1VHI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-i8U24pjbNO62P2LkG8TVSw-1; Mon, 16 May 2022 06:36:11 -0400
-X-MC-Unique: i8U24pjbNO62P2LkG8TVSw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- u3-20020a05600c210300b0039430c7665eso5448634wml.2
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:11 -0700 (PDT)
+ us-mta-551-nsR7TaAwNrSZoumz4BCi7Q-1; Mon, 16 May 2022 06:36:14 -0400
+X-MC-Unique: nsR7TaAwNrSZoumz4BCi7Q-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ba21-20020a0560001c1500b0020ca6a45dfcso3798251wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=iLEPVbhly/sJ9gkFSi3H6cGCXHWwu/4fK5qVGB2iO4Q=;
- b=tD4cDtIWoce+2ziaQgn5O1bEuIahoLMhrzUnCEd0BYmGbB5HWFeTJa8OPan0/bQbVP
- 75U+LgD2i3K7BFCx+m4GUNb4wVHse3UHvYD5uQjWISd0k9mTlQmF/64D7t4U0cOlY6Ri
- G0BGVls0UtE+kDLV3UKDozfkXUKZSWgX+VxqhjPCh0oAYXRqUsHEzwLxCuqxlRbrw+rw
- NYYJD2Gn93hvbhI0gCceqVwL/tdmx48Yhfd3JXF7avrcDe2roEVYn/grtrix/w+IHiWu
- xh+B8hJINGYESSG5n+6zI7CvlqxgW/YPkOtRJdnkvjFmxeCOoYt2JKHrEAmLv2apD3N1
- 0TJg==
-X-Gm-Message-State: AOAM530oE7vlE3DakEydrHWqFEUinnRJXttfelgJYfokn4AKsP6SJAeo
- t9cHe+5rbXx6mOFshyOvXXCkTG9MXnD4crqkWXD3R1s1Q/x2vSf9Hk23BcamhYEhTyswsvM1zy/
- 1odie/PuCyK+Qme/vPFixhTPV7I4i1J8r/xZjM8vtBsT8QHB+bJSB1TBRnAh1
-X-Received: by 2002:a05:6000:1845:b0:20c:5b3c:bde8 with SMTP id
- c5-20020a056000184500b0020c5b3cbde8mr13636129wri.186.1652697370203; 
- Mon, 16 May 2022 03:36:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfIqvmEOsnqRUDqIA4l0Wj40Cr9l1EEeUPjWOJidGO22NWCTkqTuArDPfXhR7u9YVmnCz2Tg==
-X-Received: by 2002:a05:6000:1845:b0:20c:5b3c:bde8 with SMTP id
- c5-20020a056000184500b0020c5b3cbde8mr13636105wri.186.1652697369913; 
- Mon, 16 May 2022 03:36:09 -0700 (PDT)
+ bh=EVeb92muGpGF+5fS1YTFGba+yxQKZdSBlvAWWWx2YjA=;
+ b=26I0nWcI3kVneRwsqsbWdSo8ICZvr2NwfHKTr7qAv+ZPiig0JJxSw7oqhF4AJeqIcc
+ USBUtQbeo0dyb/PwsHrXaqZo4hOIfpuUzkuRGxmcl+usr5xOwt6tn/tdLVLD4A3HmKJe
+ qYwGiCaaim0pgsaNC9gh3qWm93qBbIsbK8842ezAi2sa+baZ4AICj4ejgUBCl4wOCjYr
+ 7fPWFSTBRlIc5KtfxfivtrDc4lrNpmDkqIW4/Nl/AMl+5mHlrNE/UFlEuTwui+5EdP+p
+ u6lwbK6788Ej9KlSYdexgBBsNDtO2W24hTmcAs5XbG729Ar96P2WmmgeJHk5hH+WTz00
+ d3qQ==
+X-Gm-Message-State: AOAM532Kn7oOSwV9C38/F1r6M6st+qCyR+amlPi3HL/d/0EnWdWB2xxn
+ +CSYZlHM9IkGTSbbhw3Spsalb3ynZObB/vfsd+PFRAGI4U2MyCctmuqCUD96Dd+mgxQ5zwRCDrZ
+ RQb+eZm22CGpb0oFgClKQ65Cqay6Ed6l0mxkMm5O5+zltw77hf40/eWmc5JDY
+X-Received: by 2002:a05:6000:1445:b0:20c:731c:c1d4 with SMTP id
+ v5-20020a056000144500b0020c731cc1d4mr13826775wrx.76.1652697372943; 
+ Mon, 16 May 2022 03:36:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZj34TMvhQzRePmRA1nsSCS2hZ1j9ul9/lNuTOigviLlLz3yNH9RRJzPWlmt+CKBOTDi6Nmw==
+X-Received: by 2002:a05:6000:1445:b0:20c:731c:c1d4 with SMTP id
+ v5-20020a056000144500b0020c731cc1d4mr13826759wrx.76.1652697372675; 
+ Mon, 16 May 2022 03:36:12 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- u4-20020a7bc044000000b003942a244ee2sm9623068wmc.39.2022.05.16.03.36.08
+ o19-20020adfca13000000b0020c5253d8e1sm10975885wrh.45.2022.05.16.03.36.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:36:09 -0700 (PDT)
-Date: Mon, 16 May 2022 06:36:07 -0400
+ Mon, 16 May 2022 03:36:12 -0700 (PDT)
+Date: Mon, 16 May 2022 06:36:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Ben Widawsky <ben.widawsky@intel.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 09/91] hw/cxl/device: Add memory device utilities
-Message-ID: <20220516095448.507876-10-mst@redhat.com>
+Subject: [PULL 10/91] hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+Message-ID: <20220516095448.507876-11-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -78,7 +78,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,156 +104,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-Memory devices implement extra capabilities on top of CXL devices. This
-adds support for that.
-
-A large part of memory devices is the mailbox/command interface. All of
-the mailbox handling is done in the mailbox-utils library. Longer term,
-new CXL devices that are being emulated may want to handle commands
-differently, and therefore would need a mechanism to opt in/out of the
-specific generic handlers. As such, this is considered sufficient for
-now, but may need more depth in the future.
+Using the previously implemented stubbed helpers, it is now possible to
+easily add the missing, required commands to the implementation.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220429144110.25167-8-Jonathan.Cameron@huawei.com>
+Message-Id: <20220429144110.25167-9-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl_device.h | 21 +++++++++++++++++---
- hw/cxl/cxl-device-utils.c   | 38 ++++++++++++++++++++++++++++++++++++-
- 2 files changed, 55 insertions(+), 4 deletions(-)
+ hw/cxl/cxl-mailbox-utils.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 35489f635a..954205653e 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -72,15 +72,20 @@
- #define CXL_MAILBOX_REGISTERS_LENGTH \
-     (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index 2557f41f61..fb1f53f48e 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -38,6 +38,14 @@
+  *  a register interface that already deals with it.
+  */
  
--#define CXL_MMIO_SIZE                                           \
--    (CXL_DEVICE_CAP_REG_SIZE + CXL_DEVICE_STATUS_REGISTERS_LENGTH + \
--     CXL_MAILBOX_REGISTERS_LENGTH)
-+#define CXL_MEMORY_DEVICE_REGISTERS_OFFSET \
-+    (CXL_MAILBOX_REGISTERS_OFFSET + CXL_MAILBOX_REGISTERS_LENGTH)
-+#define CXL_MEMORY_DEVICE_REGISTERS_LENGTH 0x8
-+
-+#define CXL_MMIO_SIZE                                                   \
-+    (CXL_DEVICE_CAP_REG_SIZE + CXL_DEVICE_STATUS_REGISTERS_LENGTH +     \
-+     CXL_MAILBOX_REGISTERS_LENGTH + CXL_MEMORY_DEVICE_REGISTERS_LENGTH)
- 
- typedef struct cxl_device_state {
-     MemoryRegion device_registers;
- 
-     /* mmio for device capabilities array - 8.2.8.2 */
-     MemoryRegion device;
-+    MemoryRegion memory_device;
-     struct {
-         MemoryRegion caps;
-         union {
-@@ -153,6 +158,9 @@ REG64(CXL_DEV_CAP_ARRAY, 0) /* Documented as 128 bit register but 64 byte access
- CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE_STATUS, CXL_DEVICE_CAP_HDR1_OFFSET)
- CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
-                                                CXL_DEVICE_CAP_REG_SIZE)
-+CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MEMORY_DEVICE,
-+                                      CXL_DEVICE_CAP_HDR1_OFFSET +
-+                                          CXL_DEVICE_CAP_REG_SIZE * 2)
- 
- int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
- void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
-@@ -209,4 +217,11 @@ REG64(CXL_DEV_BG_CMD_STS, 0x18)
- /* CXL 2.0 8.2.8.4.8 Command Payload Registers */
- REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
- 
-+REG64(CXL_MEM_DEV_STS, 0)
-+    FIELD(CXL_MEM_DEV_STS, FATAL, 0, 1)
-+    FIELD(CXL_MEM_DEV_STS, FW_HALT, 1, 1)
-+    FIELD(CXL_MEM_DEV_STS, MEDIA_STATUS, 2, 2)
-+    FIELD(CXL_MEM_DEV_STS, MBOX_READY, 4, 1)
-+    FIELD(CXL_MEM_DEV_STS, RESET_NEEDED, 5, 3)
-+
- #endif
-diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-index f6c3e0f095..687759b301 100644
---- a/hw/cxl/cxl-device-utils.c
-+++ b/hw/cxl/cxl-device-utils.c
-@@ -131,6 +131,31 @@ static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
-     }
- }
- 
-+static uint64_t mdev_reg_read(void *opaque, hwaddr offset, unsigned size)
-+{
-+    uint64_t retval = 0;
-+
-+    retval = FIELD_DP64(retval, CXL_MEM_DEV_STS, MEDIA_STATUS, 1);
-+    retval = FIELD_DP64(retval, CXL_MEM_DEV_STS, MBOX_READY, 1);
-+
-+    return retval;
-+}
-+
-+static const MemoryRegionOps mdev_ops = {
-+    .read = mdev_reg_read,
-+    .write = NULL, /* memory device register is read only */
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 8,
-+        .unaligned = false,
-+    },
-+    .impl = {
-+        .min_access_size = 8,
-+        .max_access_size = 8,
-+    },
++enum {
++    EVENTS      = 0x01,
++        #define GET_RECORDS   0x0
++        #define CLEAR_RECORDS   0x1
++        #define GET_INTERRUPT_POLICY   0x2
++        #define SET_INTERRUPT_POLICY   0x3
 +};
 +
- static const MemoryRegionOps mailbox_ops = {
-     .read = mailbox_reg_read,
-     .write = mailbox_reg_write,
-@@ -188,6 +213,9 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
-                           "device-status", CXL_DEVICE_STATUS_REGISTERS_LENGTH);
-     memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_dstate,
-                           "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
-+    memory_region_init_io(&cxl_dstate->memory_device, obj, &mdev_ops,
-+                          cxl_dstate, "memory device caps",
-+                          CXL_MEMORY_DEVICE_REGISTERS_LENGTH);
+ /* 8.2.8.4.5.1 Command Return Codes */
+ typedef enum {
+     CXL_MBOX_SUCCESS = 0x0,
+@@ -93,9 +101,26 @@ struct cxl_cmd {
+         return CXL_MBOX_SUCCESS;                                          \
+     }
  
-     memory_region_add_subregion(&cxl_dstate->device_registers, 0,
-                                 &cxl_dstate->caps);
-@@ -197,6 +225,9 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
-     memory_region_add_subregion(&cxl_dstate->device_registers,
-                                 CXL_MAILBOX_REGISTERS_OFFSET,
-                                 &cxl_dstate->mailbox);
-+    memory_region_add_subregion(&cxl_dstate->device_registers,
-+                                CXL_MEMORY_DEVICE_REGISTERS_OFFSET,
-+                                &cxl_dstate->memory_device);
- }
- 
- static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
-@@ -209,10 +240,12 @@ static void mailbox_reg_init_common(CXLDeviceState *cxl_dstate)
-     cxl_dstate->payload_size = CXL_MAILBOX_MAX_PAYLOAD_SIZE;
- }
- 
-+static void memdev_reg_init_common(CXLDeviceState *cxl_dstate) { }
++DEFINE_MAILBOX_HANDLER_ZEROED(events_get_records, 0x20);
++DEFINE_MAILBOX_HANDLER_NOP(events_clear_records);
++DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
++DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
 +
- void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+ static QemuUUID cel_uuid;
+ 
+-static struct cxl_cmd cxl_cmd_set[256][256] = {};
++#define IMMEDIATE_CONFIG_CHANGE (1 << 1)
++#define IMMEDIATE_LOG_CHANGE (1 << 4)
++
++static struct cxl_cmd cxl_cmd_set[256][256] = {
++    [EVENTS][GET_RECORDS] = { "EVENTS_GET_RECORDS",
++        cmd_events_get_records, 1, 0 },
++    [EVENTS][CLEAR_RECORDS] = { "EVENTS_CLEAR_RECORDS",
++        cmd_events_clear_records, ~0, IMMEDIATE_LOG_CHANGE },
++    [EVENTS][GET_INTERRUPT_POLICY] = { "EVENTS_GET_INTERRUPT_POLICY",
++        cmd_events_get_interrupt_policy, 0, 0 },
++    [EVENTS][SET_INTERRUPT_POLICY] = { "EVENTS_SET_INTERRUPT_POLICY",
++        cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
++};
+ 
+ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
  {
-     uint64_t *cap_hdrs = cxl_dstate->caps_reg_state64;
--    const int cap_count = 2;
-+    const int cap_count = 3;
- 
-     /* CXL Device Capabilities Array Register */
-     ARRAY_FIELD_DP64(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
-@@ -225,5 +258,8 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-     cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
-     mailbox_reg_init_common(cxl_dstate);
- 
-+    cxl_device_cap_init(cxl_dstate, MEMORY_DEVICE, 0x4000);
-+    memdev_reg_init_common(cxl_dstate);
-+
-     assert(cxl_initialize_mailbox(cxl_dstate) == 0);
- }
 -- 
 MST
 
