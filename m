@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30FC528BA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:12:15 +0200 (CEST)
-Received: from localhost ([::1]:53706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71992528BB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:14:04 +0200 (CEST)
+Received: from localhost ([::1]:33862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqeGV-0007XL-2s
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40436)
+	id 1nqeIF-0004kO-0H
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqd5R-0002pK-UU
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53000)
+ id 1nqd5S-0002q2-D2
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqd5P-0003Q2-HP
+ id 1nqd5Q-0003Q9-Fj
  for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652716602;
+ s=mimecast20190719; t=1652716603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8wKsk7Jk3lA9O2ukpSpr1c+d355y3PcTPWwFRjEq2/g=;
- b=Wy61vRfMh829kJiTUT0UtXV4ts8Z1HGXwMjwGRfzRHVjssndPvHFVAJX3avmlglQIYdyTE
- CR5z1GNo4bp0yelbXXB9Lfm9t8CVlIfZBjm0GPHWpoJOwnQxlRatt01/Kxmu1yQZfXGtgB
- i/mGvPo91to3SauDJTNVAxhAcrPkMDo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Lw2i3zBYqODw1azDWWx+BDtCSLGMBU4VmzNLOJxP3OA=;
+ b=ZhTP/P/8Y7zANBw/gcVwc7D7+JqXp3GG/3Bekc5rm5KEl6HV2Hs5Yg4uD/irnRy2EANo5D
+ qiIe/EMePXPEm786BML5rMyfXGSrnhsb9m2Kle9C3gLzRAsINy7OvcpZBo1bo2leTPaMfA
+ 9orfrZbIf1O/xzMlG31Q1WQyUs776Xo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-QRXIbpj_O9OeO02QkqPJgQ-1; Mon, 16 May 2022 11:56:40 -0400
-X-MC-Unique: QRXIbpj_O9OeO02QkqPJgQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- ch28-20020a0564021bdc00b00425cb227ab4so10047611edb.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:56:40 -0700 (PDT)
+ us-mta-568-ScdsVJfbOAWD1i5BsMNPSg-1; Mon, 16 May 2022 11:56:42 -0400
+X-MC-Unique: ScdsVJfbOAWD1i5BsMNPSg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ i22-20020aa7dd16000000b0042a9f9e2272so3732543edv.6
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:56:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8wKsk7Jk3lA9O2ukpSpr1c+d355y3PcTPWwFRjEq2/g=;
- b=ToH2iT0VVUXJB8xz9CCWpXA4p79q8cIMLpkdNEt/obLH9zr7yIsni3B30vL59LT7cf
- u+Xq1QXpsfdiY7h8gmeOMqZeu+ZLGP8r4+3lFHRdAjKje8WhkrBb6+eLACinQtbLD+5H
- lh9gZ7pN46AegjZ5pa/euk21/7xNmwN4nfcnRVZopuSVdejOF2QeZdIzugRHm5bow5C8
- Xw450Nug5zUkgxv0DNIBijTe6OtPIrp/0O4G5ZtZR4KfIoxY7h0AAtCGNlWEy8iWc5F2
- v0oIJWHprcGC6TM8HAwZbaYXF4KURaM4pVKHJUFcxGq/7hgJygIauHESfS2fy7EuIOCI
- MsAw==
-X-Gm-Message-State: AOAM531M2mUBblIoEjwitPyJ77p9mpoAdLrrqxQarw5ElMF22BZMfQ2P
- feDJ34eysHi+9KkcEDfPlBYymYm6e+PXA5ZQzc2raKpEe0Yhf0LEmcQTe17E7sX/QVXkCcOpDXU
- YQwpAY6oDHZQwxOP+Rgp+sj0zfdH52WCLrJmY65pL3ngT3Jocm9KM4GAlPUls7SYV/iA=
-X-Received: by 2002:a05:6402:cae:b0:42a:ba8f:9d05 with SMTP id
- cn14-20020a0564020cae00b0042aba8f9d05mr3005182edb.277.1652716599468; 
- Mon, 16 May 2022 08:56:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxPwqpFEBH49Us7Zf6gaZuPsOVWoxn9Bnfy3KcJnlahhHRWKviIRNhm6LuTwSKrd/xjzWY2JA==
-X-Received: by 2002:a05:6402:cae:b0:42a:ba8f:9d05 with SMTP id
- cn14-20020a0564020cae00b0042aba8f9d05mr3005154edb.277.1652716599096; 
- Mon, 16 May 2022 08:56:39 -0700 (PDT)
+ bh=Lw2i3zBYqODw1azDWWx+BDtCSLGMBU4VmzNLOJxP3OA=;
+ b=tvRJulbZ2B6qlDBY0am+OZM2w3HmD5eVIDQGq+Z4VvD2hZLvJCD1U5mPrenxn41OmX
+ NWanxsFTVW8hcYE2UuBj9Df5d1HFh11irDpT1dAEGl6tz8Zx80ZlIMC5pACi08RxjC4+
+ BSpsPTRtalapaEalZ2DtokYJMVKU0QgSQT/1bye8w/FwHDGyqbUhWVHJtyQSKh058Px7
+ i0IVvN47j3RYPRyM+PEUu95FiX0YCzagQvD3twsdDybpwT6fa3/StkMvXd9QyTFyytBH
+ pzfkg9fAUqiQI4lmmt6CvFmLGPvMzxaFKDO40ATv/25cm0LHOYGxrIMzu6o+w65rwaLl
+ JPcw==
+X-Gm-Message-State: AOAM532y6g348KuNAh4Hk2b/S8bZlcknZP1Csj5AcqI4WGGukWGpkfWF
+ aDp++O3xlM/VEv+a0BRc7+c+0KhC7sRxXt7YQEdXQ2eteqNJ8UiyxS6oNgDTWPrM7t3vYW1UVJY
+ 8iWt+izZqyQQ8ghYfLspQ78mp8O5Pl7Qe4GkTqsUxDyVFLXoY4gJlOzYJ7xS/Z2wz7oE=
+X-Received: by 2002:a17:907:1c06:b0:6df:b257:cbb3 with SMTP id
+ nc6-20020a1709071c0600b006dfb257cbb3mr16144325ejc.631.1652716600938; 
+ Mon, 16 May 2022 08:56:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUPBbC7C17yVWGNfcQEZ4IRnL4lVNfy05tqhnZaIVYj3M0Fv76JESUmuOW6uW7HMTcJ3UkNg==
+X-Received: by 2002:a17:907:1c06:b0:6df:b257:cbb3 with SMTP id
+ nc6-20020a1709071c0600b006dfb257cbb3mr16144311ejc.631.1652716600602; 
+ Mon, 16 May 2022 08:56:40 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- y24-20020aa7ccd8000000b0042617ba6397sm5480896edt.33.2022.05.16.08.56.38
+ g25-20020a056402115900b0042aaacd4edasm2687745edw.26.2022.05.16.08.56.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 08:56:38 -0700 (PDT)
+ Mon, 16 May 2022 08:56:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/23] soundhw: unify initialization for ISA and PCI soundhw
-Date: Mon, 16 May 2022 17:55:58 +0200
-Message-Id: <20220516155603.1234712-19-pbonzini@redhat.com>
+Subject: [PULL 19/23] soundhw: move help handling to vl.c
+Date: Mon, 16 May 2022 17:55:59 +0200
+Message-Id: <20220516155603.1234712-20-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220516155603.1234712-1-pbonzini@redhat.com>
 References: <20220516155603.1234712-1-pbonzini@redhat.com>
@@ -99,57 +99,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use qdev_new instead of distinguishing isa_create_simple/pci_create_simple.
+This will allow processing "-audio model=help" even if the backend
+part of the option is missing.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/audio/soundhw.c | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+ hw/audio/soundhw.c | 24 +++++++++---------------
+ softmmu/vl.c       |  4 ++++
+ 2 files changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
-index 0fb64bdc8f..a1558dab3a 100644
+index a1558dab3a..ebbd0958ba 100644
 --- a/hw/audio/soundhw.c
 +++ b/hw/audio/soundhw.c
-@@ -114,25 +114,30 @@ void soundhw_init(void)
-     struct soundhw *c = selected;
-     ISABus *isa_bus = (ISABus *) object_resolve_path_type("", TYPE_ISA_BUS, NULL);
-     PCIBus *pci_bus = (PCIBus *) object_resolve_path_type("", TYPE_PCI_BUS, NULL);
-+    BusState *bus;
- 
-     if (!c) {
-         return;
+@@ -89,23 +89,17 @@ void select_soundhw(const char *optarg)
+         error_setg(&error_fatal, "only one -soundhw option is allowed");
      }
--    if (c->typename) {
--        warn_report("'-soundhw %s' is deprecated, "
--                    "please use '-device %s' instead",
--                    c->name, c->typename);
--        if (c->isa) {
--            isa_create_simple(isa_bus, c->typename);
--        } else {
--            pci_create_simple(pci_bus, -1, c->typename);
-+    if (c->isa) {
-+        if (!isa_bus) {
-+            error_report("ISA bus not available for %s", c->name);
-+            exit(1);
-         }
-+        bus = BUS(isa_bus);
-     } else {
--        assert(!c->isa);
-         if (!pci_bus) {
-             error_report("PCI bus not available for %s", c->name);
-             exit(1);
-         }
-+        bus = BUS(pci_bus);
-+    }
-+
-+    if (c->typename) {
-+        DeviceState *dev = qdev_new(c->typename);
-+        qdev_realize_and_unref(dev, bus, &error_fatal);
-+    } else {
-+        assert(!c->isa);
-         c->init_pci(pci_bus);
+ 
+-    if (is_help_option(optarg)) {
+-        show_valid_soundhw();
+-        exit(0);
++    for (c = soundhw; c->name; ++c) {
++        if (g_str_equal(c->name, optarg)) {
++            selected = c;
++            break;
++        }
+     }
+-    else {
+-        for (c = soundhw; c->name; ++c) {
+-            if (g_str_equal(c->name, optarg)) {
+-                selected = c;
+-                break;
+-            }
+-        }
+ 
+-        if (!c->name) {
+-            error_report("Unknown sound card name `%s'", optarg);
+-            show_valid_soundhw();
+-            exit(1);
+-        }
++    if (!c->name) {
++        error_report("Unknown sound card name `%s'", optarg);
++        show_valid_soundhw();
++        exit(1);
      }
  }
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 817d515783..0363cbd9b4 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2931,6 +2931,10 @@ void qemu_init(int argc, char **argv, char **envp)
+                 audio_parse_option(optarg);
+                 break;
+             case QEMU_OPTION_soundhw:
++                if (is_help_option(optarg)) {
++                    show_valid_soundhw();
++                    exit(0);
++                }
+                 select_soundhw (optarg);
+                 break;
+             case QEMU_OPTION_h:
 -- 
 2.36.0
 
