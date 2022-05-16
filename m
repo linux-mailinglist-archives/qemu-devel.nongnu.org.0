@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86F75288EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:33:22 +0200 (CEST)
-Received: from localhost ([::1]:45988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1175288DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:30:41 +0200 (CEST)
+Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqcin-0006EI-OI
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:33:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
+	id 1nqcgC-0000wk-UL
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:30:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqccJ-00047l-SZ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48933)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nqccB-0003hI-MK; Mon, 16 May 2022 11:26:31 -0400
+Received: from mga05.intel.com ([192.55.52.43]:43066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqccI-0006Gf-Ae
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652714797;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rb1eUdKMH3aAd+J8cxifsP/i75QINdc9GKcLd6uAaU0=;
- b=DXpWUN7mx8iO/9//0EPfdSus6bKZsL+eUyDFW20nUsqGKgKa7BIaHRwiSjuxh4mr4XvOzG
- avq+NeGhJOqz99u3JzmYu9PMhvYMcnV2dOI1swQzAsrPPmGtuu9o41ou93xfblCtdc4TVA
- sbt4RLCmE1xqoWhU2IUaBOqnBRnFagQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615--31JlRLRPTGnaH2hm2R4hA-1; Mon, 16 May 2022 11:26:34 -0400
-X-MC-Unique: -31JlRLRPTGnaH2hm2R4hA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40244185A7BA;
- Mon, 16 May 2022 15:26:33 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 282F8492C14;
- Mon, 16 May 2022 15:26:32 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nqcc9-0006BY-HY; Mon, 16 May 2022 11:26:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652714789; x=1684250789;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=5LmfFQbK5AmriOtbblYySUuukJa5rYjOXtSOzU8xV1s=;
+ b=VxLJqCtP5XTXP7vAZkpNMiqxEiUiAZ3DX5hFsOXCVfV4qBIkd2s7AyS4
+ ifE32QPDccwx/ClYMWm3gA0qgn3UR/PULLu57xgYxc9zIn7VNkWzqJ8rJ
+ kLbfjo/Bkrd6OsitX2VaaBPQi9BX9l6gZvBlwXKMoWN2kqzub7FbAC7K2
+ AINLbrZjkELFU4GyTjGGPj7ozwR8sGIokh/b1sgDkp5udKxsE7ohnkirB
+ V2r6DmLGimLXaz7C0qwYfkGq5tXON/BTSQIanp+iZRKIfevBUPkYk9bR+
+ vT1RS73mF2phu0Ss5CG8hZ3CGcSa/it+cKMZVhn0y0iWBzxTXCSoQoxat A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="357277135"
+X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; d="scan'208";a="357277135"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2022 08:26:01 -0700
+X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; d="scan'208";a="713417582"
+Received: from pbrzezix-mobl.ger.corp.intel.com ([10.213.20.224])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2022 08:25:57 -0700
+Date: Mon, 16 May 2022 17:25:51 +0200
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, ani@anisinha.ca, minyard@acm.org,
- stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
-Subject: [PATCH 15/35] acpi: ich9-smb: add support for AcpiDevAmlIf interface
-Date: Mon, 16 May 2022 11:25:50 -0400
-Message-Id: <20220516152610.1963435-16-imammedo@redhat.com>
-In-Reply-To: <20220516152610.1963435-1-imammedo@redhat.com>
-References: <20220516152610.1963435-1-imammedo@redhat.com>
+Cc: qemu-block@nongnu.org, ani@anisinha.ca, armbru@redhat.com,
+ f4bug@amsat.org, fam@euphon.net, hreitz@redhat.com,
+ imammedo@redhat.com, its@irrelevant.dk, kbusch@kernel.org,
+ k.jensen@samsung.com, kwolf@redhat.com,
+ lukasz.gieryk@linux.intel.com, marcel.apfelbaum@gmail.com,
+ mst@redhat.com, stefanha@redhat.com, xypron.glpk@gmx.de
+Subject: Re: [PATCH v8 00/12] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <YoJs//DV4ZTW9tDv@pbrzezix-mobl.ger.corp.intel.com>
+References: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga05.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,76 +79,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-wire AcpiDevAmlIf interface to build ich9-smb and its slave
-devices AML. It will be used by followup patches to switch
-from creating AML in ad-hoc way to a more systematic one
-that will scan present devices and ask them to provide
-their AML code like it's done with ISA devices.
+On Mon, May 09, 2022 at 04:16:08PM +0200, Lukasz Maniak wrote:
+> Changes since v7:
+> - Fixed description of hw/acpi: Make the PCI hot-plug aware of SR-IOV
+> - Added description to docs: Add documentation for SR-IOV and
+>   Virtualization Enhancements
+> - Added Reviewed-by and Acked-by tags
+> - Rebased on master
+> 
+> Lukasz Maniak (4):
+>   hw/nvme: Add support for SR-IOV
+>   hw/nvme: Add support for Primary Controller Capabilities
+>   hw/nvme: Add support for Secondary Controller List
+>   docs: Add documentation for SR-IOV and Virtualization Enhancements
+> 
+> Łukasz Gieryk (8):
+>   hw/nvme: Implement the Function Level Reset
+>   hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
+>   hw/nvme: Remove reg_size variable and update BAR0 size calculation
+>   hw/nvme: Calculate BAR attributes in a function
+>   hw/nvme: Initialize capability structures for primary/secondary
+>     controllers
+>   hw/nvme: Add support for the Virtualization Management command
+>   hw/nvme: Update the initalization place for the AER queue
+>   hw/acpi: Make the PCI hot-plug aware of SR-IOV
+> 
+>  docs/system/devices/nvme.rst |  82 +++++
+>  hw/acpi/pcihp.c              |   6 +-
+>  hw/nvme/ctrl.c               | 673 ++++++++++++++++++++++++++++++++---
+>  hw/nvme/ns.c                 |   2 +-
+>  hw/nvme/nvme.h               |  55 ++-
+>  hw/nvme/subsys.c             |  75 +++-
+>  hw/nvme/trace-events         |   6 +
+>  include/block/nvme.h         |  65 ++++
+>  include/hw/pci/pci_ids.h     |   1 +
+>  9 files changed, 909 insertions(+), 56 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
 
-This patch is a partial conversion, as it only fetches
-AML from slave devices attached to its I2C bus.
+Hi Klaus,
 
-The conversion will be completed when PCI bus is
-switched to use AcpiDevAmlIf and build_smb0() could be
-dropped.
+Should we consider this series ready to merge?
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/i2c/smbus_ich9.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
-index 44dd5653b7..ee50ba1f2c 100644
---- a/hw/i2c/smbus_ich9.c
-+++ b/hw/i2c/smbus_ich9.c
-@@ -29,6 +29,7 @@
- 
- #include "hw/i386/ich9.h"
- #include "qom/object.h"
-+#include "hw/acpi/acpi_aml_interface.h"
- 
- OBJECT_DECLARE_SIMPLE_TYPE(ICH9SMBState, ICH9_SMB_DEVICE)
- 
-@@ -94,10 +95,22 @@ static void ich9_smbus_realize(PCIDevice *d, Error **errp)
-                      &s->smb.io);
- }
- 
-+static void build_ich9_smb_aml(AcpiDevAmlIf *adev, Aml *scope)
-+{
-+    BusChild *kid;
-+    ICH9SMBState *s = ICH9_SMB_DEVICE(adev);
-+    BusState *bus = BUS(s->smb.smbus);
-+
-+    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-+            call_dev_aml_func(DEVICE(kid->child), scope);
-+    }
-+}
-+
- static void ich9_smb_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
- 
-     k->vendor_id = PCI_VENDOR_ID_INTEL;
-     k->device_id = PCI_DEVICE_ID_INTEL_ICH9_6;
-@@ -112,6 +125,7 @@ static void ich9_smb_class_init(ObjectClass *klass, void *data)
-      * pc_q35_init()
-      */
-     dc->user_creatable = false;
-+    adevc->build_dev_aml = build_ich9_smb_aml;
- }
- 
- static void ich9_smb_set_irq(PMSMBus *pmsmb, bool enabled)
-@@ -143,6 +157,7 @@ static const TypeInfo ich9_smb_info = {
-     .class_init = ich9_smb_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { TYPE_ACPI_DEV_AML_IF },
-         { },
-     },
- };
--- 
-2.31.1
-
+Thanks,
+Lukasz
 
