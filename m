@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2535F52822A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:33:58 +0200 (CEST)
-Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC2F52824E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:40:25 +0200 (CEST)
+Received: from localhost ([::1]:41138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqY32-00045j-MQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46396)
+	id 1nqY9I-0000FB-3W
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqY0J-0002Ms-UU
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:31:07 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqY0F-0004Gj-6a
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:31:07 -0400
-Received: by mail-wr1-x436.google.com with SMTP id j24so4622897wrb.1
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:31:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=33wIKmukBZWBx0IiXiXd/lT2EfDXkdMd0jCk53T6Hhk=;
- b=DMBcqctSP6P/IwT85pzewb0SPbtwQNz0Zo4Cp2WiTNW2vSTji+p1T0I8GF5+ETQrkF
- XtUAojFia4VrQegdEvD1Yc4gOV8SOsgnBtAuNArrwhA2IGFbP9OEAASy8x/Bhyaiu8Zv
- KLQnGHKQkYEprLz4VVbXd1vApP2D91G0NcxemkgmrSqzkVmjYyH6OiHJD3Qi4KCG1hiH
- O8nSoRRzdl+UaWRKaOYvBKk7zfJcTTx+7shgncqaU9pQVGbMyTyBbZLYnWK+UsM3aJB2
- t3b3QK/+QJgKQnrRjDLkfXCUdG2Oj12wyZTCQBxml22BiRYKHEHG+/j3JHSLYHaWBOIS
- /zSA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY4r-0005fK-9k
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:35:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY4k-000521-5y
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:35:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652697340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cCW5YpjCtTWH00BSGYbemLyZ40FEJWoqbADD++lqY2s=;
+ b=HoZpwf/oorOghlm4rwY29TYyPLS8EK6Eb6XyDS1Wr7ghhUYp+5fdn1BVB1RUZ9QZRq6UQY
+ DIibRE7y9HTX6PJEhQvaXTaV2JtbmCykSOWlSVjTIegGHRFloWeefGOgBgCac8A8//7bvM
+ WPe1fiyIS+g+WMB091LT1pEteAeWvZE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-64-orhKr9WzPcSl5DLsXmIUuQ-1; Mon, 16 May 2022 06:35:39 -0400
+X-MC-Unique: orhKr9WzPcSl5DLsXmIUuQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bg7-20020a05600c3c8700b0039468585269so6560067wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:35:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=33wIKmukBZWBx0IiXiXd/lT2EfDXkdMd0jCk53T6Hhk=;
- b=fiptqC4NzhE0cgscOXOd+SbeLied9AnsaNOH2yKL/HbHctMuqKjP7OEDi8QTMIGV0J
- X205QV4Di8ZyFr23aeDVODF9pCTfn55yhPjxEGL0V+Qw5EZ+K+A7RXzZVeGNJ7o0EiIH
- uNHyWiZaY+odqMcpJQ5reAuhWpUZus8qPQqPhzKpdOJiCYPloK4jU0WlC9T26RFmGrNg
- KameZRHM+/8axsaSi8Kcr7FN2WiGTr/IhLuVfCl3pP1Fvzwb8zXicA10082G42juBc78
- JwK/sJFjVxbO1eu+Q7R1mvQaNbc68EFAOFnfYMXfpuO4z88KlqvArOxxnvmBIHkVWDJJ
- XocQ==
-X-Gm-Message-State: AOAM530r2fyjRFdKexFms5LtHMuRvKPxX06veFeWe6twXm7jj5280RKE
- iT4ci4Ywwvrfp2E8FgdWk3zj5A==
-X-Google-Smtp-Source: ABdhPJxO8NZzquC+mCmf93EhewmkP6n/XhusFG7xENbPeCVnyKYWHlEBVuAR7yuZv4BkD0ctqparJw==
-X-Received: by 2002:a5d:56d2:0:b0:20d:fbf:5b70 with SMTP id
- m18-20020a5d56d2000000b0020d0fbf5b70mr1124306wrw.34.1652697061143; 
- Mon, 16 May 2022 03:31:01 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- d8-20020adf9c88000000b0020d106c0386sm665042wre.89.2022.05.16.03.31.00
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=cCW5YpjCtTWH00BSGYbemLyZ40FEJWoqbADD++lqY2s=;
+ b=syTou91GraEYMqwjVzFKPWSH7DNCX73GWIb3xaQZ71slmHVye2w3/0sfSQw1F5PeZT
+ tvKyVDnECC4sLkhZgOTuOFYDySQUmN0yRnguR/AeCCZyq5wJfLYZzCKCnjxWihtpEske
+ SWPogYmYX4CDgSoVCD6hdnRG0JiDUCZdxV1wSqvSFeByQKB3xLkX4NKYQkbUfkzjODnq
+ /XN5xqOEo7QOaNWth9hV1lwrZqUCbWtCZEJaExEWgnGJH5TD9hU5mzy94SiEuaPO3yTW
+ cbDQyuIUiWRfOOjqaGanEK6KscKL8rCt9+UP6SrrLw7C3bAsX+/80SVce39o7PnfZ0b2
+ FjZQ==
+X-Gm-Message-State: AOAM532+syN3n/u/FyiW65RxYzL+Y9FaHx0ZLgbzQbcpXIh6kL4NRHaY
+ 6z048KSmv7CGfGaj6hX8G04s/Mbttl4OeQlgowrnNH/zt07R37tfbiNkeVFjhGFy/2w7R6eOdyc
+ vNVk+hSOLSkOg37v/3NN/150r7a3WUbEXnuG0XbVGm/9L8/r5i646q9E6CPtv
+X-Received: by 2002:a5d:620f:0:b0:20c:c1ba:cf8e with SMTP id
+ y15-20020a5d620f000000b0020cc1bacf8emr13465815wru.426.1652697337888; 
+ Mon, 16 May 2022 03:35:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiQOwOhgbhPUGwLqb32tYIbkHUrX4bGtDLBBcezNJu5GWVsOaelJN3TJZLOKOwnR/p7NgLKQ==
+X-Received: by 2002:a5d:620f:0:b0:20c:c1ba:cf8e with SMTP id
+ y15-20020a5d620f000000b0020cc1bacf8emr13465784wru.426.1652697337452; 
+ Mon, 16 May 2022 03:35:37 -0700 (PDT)
+Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
+ i6-20020adfa506000000b0020d0931b48asm2570678wrb.37.2022.05.16.03.35.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:31:00 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: [PATCH] ptimer: Rename PTIMER_POLICY_DEFAULT to PTIMER_POLICY_LEGACY
-Date: Mon, 16 May 2022 11:30:58 +0100
-Message-Id: <20220516103058.162280-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ Mon, 16 May 2022 03:35:37 -0700 (PDT)
+Date: Mon, 16 May 2022 06:35:35 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/91] virtio,pc,pci: fixes,cleanups,features
+Message-ID: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,436 +95,319 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The traditional ptimer behaviour includes a collection of weird edge
-case behaviours.  In 2016 we improved the ptimer implementation to
-fix these and generally make the behaviour more flexible, with
-ptimers opting in to the new behaviour by passing an appropriate set
-of policy flags to ptimer_init().  For backwards-compatibility, we
-defined PTIMER_POLICY_DEFAULT (which sets no flags) to give the old
-weird behaviour.
+The following changes since commit 9de5f2b40860c5f8295e73fea9922df6f0b8d89a:
 
-This turns out to be a poor choice of name, because people writing
-new devices which use ptimers are misled into thinking that the
-default is probably a sensible choice of flags, when in fact it is
-almost always not what you want.  Rename PTIMER_POLICY_DEFAULT to
-PTIMER_POLICY_LEGACY and beef up the comment to more clearly say that
-new devices should not be using it.
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-05-12 10:52:15 -0700)
 
-The code-change part of this commit was produced by
-  sed -i -e 's/PTIMER_POLICY_DEFAULT/PTIMER_POLICY_LEGACY/g' $(git grep -l PTIMER_POLICY_DEFAULT)
+are available in the Git repository at:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/ptimer.h          | 16 ++++++++++++----
- hw/arm/musicpal.c            |  2 +-
- hw/dma/xilinx_axidma.c       |  2 +-
- hw/dma/xlnx_csu_dma.c        |  2 +-
- hw/m68k/mcf5206.c            |  2 +-
- hw/m68k/mcf5208.c            |  2 +-
- hw/net/can/xlnx-zynqmp-can.c |  2 +-
- hw/net/fsl_etsec/etsec.c     |  2 +-
- hw/net/lan9118.c             |  2 +-
- hw/rtc/exynos4210_rtc.c      |  4 ++--
- hw/timer/allwinner-a10-pit.c |  2 +-
- hw/timer/altera_timer.c      |  2 +-
- hw/timer/arm_timer.c         |  2 +-
- hw/timer/digic-timer.c       |  2 +-
- hw/timer/etraxfs_timer.c     |  6 +++---
- hw/timer/exynos4210_mct.c    |  6 +++---
- hw/timer/exynos4210_pwm.c    |  2 +-
- hw/timer/grlib_gptimer.c     |  2 +-
- hw/timer/imx_epit.c          |  4 ++--
- hw/timer/imx_gpt.c           |  2 +-
- hw/timer/mss-timer.c         |  2 +-
- hw/timer/sh_timer.c          |  2 +-
- hw/timer/slavio_timer.c      |  2 +-
- hw/timer/xilinx_timer.c      |  2 +-
- tests/unit/ptimer-test.c     |  4 ++--
- 25 files changed, 43 insertions(+), 35 deletions(-)
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-diff --git a/include/hw/ptimer.h b/include/hw/ptimer.h
-index c443218475b..4dc02b0de47 100644
---- a/include/hw/ptimer.h
-+++ b/include/hw/ptimer.h
-@@ -33,9 +33,17 @@
-  * to stderr when the guest attempts to enable the timer.
-  */
- 
--/* The default ptimer policy retains backward compatibility with the legacy
-- * timers. Custom policies are adjusting the default one. Consider providing
-- * a correct policy for your timer.
-+/*
-+ * The 'legacy' ptimer policy retains backward compatibility with the
-+ * traditional ptimer behaviour from before policy flags were introduced.
-+ * It has several weird behaviours which don't match typical hardware
-+ * timer behaviour. For a new device using ptimers, you should not
-+ * use PTIMER_POLICY_LEGACY, but instead check the actual behaviour
-+ * that you need and specify the right set of policy flags to get that.
-+ *
-+ * If you are overhauling an existing device that uses PTIMER_POLICY_LEGACY
-+ * and are in a position to check or test the real hardware behaviour,
-+ * consider updating it to specify the right policy flags.
-  *
-  * The rough edges of the default policy:
-  *  - Starting to run with a period = 0 emits error message and stops the
-@@ -54,7 +62,7 @@
-  *    since the last period, effectively restarting the timer with a
-  *    counter = counter value at the moment of change (.i.e. one less).
-  */
--#define PTIMER_POLICY_DEFAULT               0
-+#define PTIMER_POLICY_LEGACY                0
- 
- /* Periodic timer counter stays with "0" for a one period before wrapping
-  * around.  */
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index 7c840fb4283..b65c020115a 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -464,7 +464,7 @@ static void mv88w8618_timer_init(SysBusDevice *dev, mv88w8618_timer_state *s,
-     sysbus_init_irq(dev, &s->irq);
-     s->freq = freq;
- 
--    s->ptimer = ptimer_init(mv88w8618_timer_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(mv88w8618_timer_tick, s, PTIMER_POLICY_LEGACY);
- }
- 
- static uint64_t mv88w8618_pit_read(void *opaque, hwaddr offset,
-diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index bc383f53cca..cbb8f0f1696 100644
---- a/hw/dma/xilinx_axidma.c
-+++ b/hw/dma/xilinx_axidma.c
-@@ -552,7 +552,7 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
- 
-         st->dma = s;
-         st->nr = i;
--        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
-+        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(st->ptimer);
-         ptimer_set_freq(st->ptimer, s->freqhz);
-         ptimer_transaction_commit(st->ptimer);
-diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
-index 60ada3286b4..1ce52ea5a2b 100644
---- a/hw/dma/xlnx_csu_dma.c
-+++ b/hw/dma/xlnx_csu_dma.c
-@@ -666,7 +666,7 @@ static void xlnx_csu_dma_realize(DeviceState *dev, Error **errp)
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- 
-     s->src_timer = ptimer_init(xlnx_csu_dma_src_timeout_hit,
--                               s, PTIMER_POLICY_DEFAULT);
-+                               s, PTIMER_POLICY_LEGACY);
- 
-     s->attr = MEMTXATTRS_UNSPECIFIED;
- 
-diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-index 6d93d761a5e..2ab1b4f0593 100644
---- a/hw/m68k/mcf5206.c
-+++ b/hw/m68k/mcf5206.c
-@@ -152,7 +152,7 @@ static m5206_timer_state *m5206_timer_init(qemu_irq irq)
-     m5206_timer_state *s;
- 
-     s = g_new0(m5206_timer_state, 1);
--    s->timer = ptimer_init(m5206_timer_trigger, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(m5206_timer_trigger, s, PTIMER_POLICY_LEGACY);
-     s->irq = irq;
-     m5206_timer_reset(s);
-     return s;
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index 655207e393d..be1033f84f8 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -197,7 +197,7 @@ static void mcf5208_sys_init(MemoryRegion *address_space, qemu_irq *pic)
-     /* Timers.  */
-     for (i = 0; i < 2; i++) {
-         s = g_new0(m5208_timer_state, 1);
--        s->timer = ptimer_init(m5208_timer_trigger, s, PTIMER_POLICY_DEFAULT);
-+        s->timer = ptimer_init(m5208_timer_trigger, s, PTIMER_POLICY_LEGACY);
-         memory_region_init_io(&s->iomem, NULL, &m5208_timer_ops, s,
-                               "m5208-timer", 0x00004000);
-         memory_region_add_subregion(address_space, 0xfc080000 + 0x4000 * i,
-diff --git a/hw/net/can/xlnx-zynqmp-can.c b/hw/net/can/xlnx-zynqmp-can.c
-index 22bb8910fa8..82ac48cee24 100644
---- a/hw/net/can/xlnx-zynqmp-can.c
-+++ b/hw/net/can/xlnx-zynqmp-can.c
-@@ -1079,7 +1079,7 @@ static void xlnx_zynqmp_can_realize(DeviceState *dev, Error **errp)
- 
-     /* Allocate a new timer. */
-     s->can_timer = ptimer_init(xlnx_zynqmp_can_ptimer_cb, s,
--                               PTIMER_POLICY_DEFAULT);
-+                               PTIMER_POLICY_LEGACY);
- 
-     ptimer_transaction_begin(s->can_timer);
- 
-diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
-index 6d50c395439..4e6cc708dec 100644
---- a/hw/net/fsl_etsec/etsec.c
-+++ b/hw/net/fsl_etsec/etsec.c
-@@ -393,7 +393,7 @@ static void etsec_realize(DeviceState *dev, Error **errp)
-                               object_get_typename(OBJECT(dev)), dev->id, etsec);
-     qemu_format_nic_info_str(qemu_get_queue(etsec->nic), etsec->conf.macaddr.a);
- 
--    etsec->ptimer = ptimer_init(etsec_timer_hit, etsec, PTIMER_POLICY_DEFAULT);
-+    etsec->ptimer = ptimer_init(etsec_timer_hit, etsec, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(etsec->ptimer);
-     ptimer_set_freq(etsec->ptimer, 100);
-     ptimer_transaction_commit(etsec->ptimer);
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index 6aff424cbe5..456ae38107b 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -1363,7 +1363,7 @@ static void lan9118_realize(DeviceState *dev, Error **errp)
-     s->pmt_ctrl = 1;
-     s->txp = &s->tx_packet;
- 
--    s->timer = ptimer_init(lan9118_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(lan9118_tick, s, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(s->timer);
-     ptimer_set_freq(s->timer, 10000);
-     ptimer_set_limit(s->timer, 0xffff, 1);
-diff --git a/hw/rtc/exynos4210_rtc.c b/hw/rtc/exynos4210_rtc.c
-index ae67641de66..d1620c7a2ac 100644
---- a/hw/rtc/exynos4210_rtc.c
-+++ b/hw/rtc/exynos4210_rtc.c
-@@ -564,14 +564,14 @@ static void exynos4210_rtc_init(Object *obj)
-     Exynos4210RTCState *s = EXYNOS4210_RTC(obj);
-     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
- 
--    s->ptimer = ptimer_init(exynos4210_rtc_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(exynos4210_rtc_tick, s, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(s->ptimer);
-     ptimer_set_freq(s->ptimer, RTC_BASE_FREQ);
-     exynos4210_rtc_update_freq(s, 0);
-     ptimer_transaction_commit(s->ptimer);
- 
-     s->ptimer_1Hz = ptimer_init(exynos4210_rtc_1Hz_tick,
--                                s, PTIMER_POLICY_DEFAULT);
-+                                s, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(s->ptimer_1Hz);
-     ptimer_set_freq(s->ptimer_1Hz, RTC_BASE_FREQ);
-     ptimer_transaction_commit(s->ptimer_1Hz);
-diff --git a/hw/timer/allwinner-a10-pit.c b/hw/timer/allwinner-a10-pit.c
-index c3fc2a4daaf..971f78462ab 100644
---- a/hw/timer/allwinner-a10-pit.c
-+++ b/hw/timer/allwinner-a10-pit.c
-@@ -275,7 +275,7 @@ static void a10_pit_init(Object *obj)
- 
-         tc->container = s;
-         tc->index = i;
--        s->timer[i] = ptimer_init(a10_pit_timer_cb, tc, PTIMER_POLICY_DEFAULT);
-+        s->timer[i] = ptimer_init(a10_pit_timer_cb, tc, PTIMER_POLICY_LEGACY);
-     }
- }
- 
-diff --git a/hw/timer/altera_timer.c b/hw/timer/altera_timer.c
-index c6e02d2b5a7..0f1f54206a3 100644
---- a/hw/timer/altera_timer.c
-+++ b/hw/timer/altera_timer.c
-@@ -185,7 +185,7 @@ static void altera_timer_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    t->ptimer = ptimer_init(timer_hit, t, PTIMER_POLICY_DEFAULT);
-+    t->ptimer = ptimer_init(timer_hit, t, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(t->ptimer);
-     ptimer_set_freq(t->ptimer, t->freq_hz);
-     ptimer_transaction_commit(t->ptimer);
-diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
-index 84cf2726bb3..69c88634722 100644
---- a/hw/timer/arm_timer.c
-+++ b/hw/timer/arm_timer.c
-@@ -180,7 +180,7 @@ static arm_timer_state *arm_timer_init(uint32_t freq)
-     s->freq = freq;
-     s->control = TIMER_CTRL_IE;
- 
--    s->timer = ptimer_init(arm_timer_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(arm_timer_tick, s, PTIMER_POLICY_LEGACY);
-     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_arm_timer, s);
-     return s;
- }
-diff --git a/hw/timer/digic-timer.c b/hw/timer/digic-timer.c
-index e3aae4a45a4..d5186f44549 100644
---- a/hw/timer/digic-timer.c
-+++ b/hw/timer/digic-timer.c
-@@ -139,7 +139,7 @@ static void digic_timer_init(Object *obj)
- {
-     DigicTimerState *s = DIGIC_TIMER(obj);
- 
--    s->ptimer = ptimer_init(digic_timer_tick, NULL, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(digic_timer_tick, NULL, PTIMER_POLICY_LEGACY);
- 
-     /*
-      * FIXME: there is no documentation on Digic timer
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index 139e5b86a44..ecc2831bafb 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -370,9 +370,9 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
-     ETRAXTimerState *t = ETRAX_TIMER(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
- 
--    t->ptimer_t0 = ptimer_init(timer0_hit, t, PTIMER_POLICY_DEFAULT);
--    t->ptimer_t1 = ptimer_init(timer1_hit, t, PTIMER_POLICY_DEFAULT);
--    t->ptimer_wd = ptimer_init(watchdog_hit, t, PTIMER_POLICY_DEFAULT);
-+    t->ptimer_t0 = ptimer_init(timer0_hit, t, PTIMER_POLICY_LEGACY);
-+    t->ptimer_t1 = ptimer_init(timer1_hit, t, PTIMER_POLICY_LEGACY);
-+    t->ptimer_wd = ptimer_init(watchdog_hit, t, PTIMER_POLICY_LEGACY);
- 
-     sysbus_init_irq(sbd, &t->irq);
-     sysbus_init_irq(sbd, &t->nmi);
-diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
-index d0e53439968..e175a9f5b9b 100644
---- a/hw/timer/exynos4210_mct.c
-+++ b/hw/timer/exynos4210_mct.c
-@@ -1503,17 +1503,17 @@ static void exynos4210_mct_init(Object *obj)
- 
-     /* Global timer */
-     s->g_timer.ptimer_frc = ptimer_init(exynos4210_gfrc_event, s,
--                                        PTIMER_POLICY_DEFAULT);
-+                                        PTIMER_POLICY_LEGACY);
-     memset(&s->g_timer.reg, 0, sizeof(struct gregs));
- 
-     /* Local timers */
-     for (i = 0; i < 2; i++) {
-         s->l_timer[i].tick_timer.ptimer_tick =
-             ptimer_init(exynos4210_ltick_event, &s->l_timer[i],
--                        PTIMER_POLICY_DEFAULT);
-+                        PTIMER_POLICY_LEGACY);
-         s->l_timer[i].ptimer_frc =
-             ptimer_init(exynos4210_lfrc_event, &s->l_timer[i],
--                        PTIMER_POLICY_DEFAULT);
-+                        PTIMER_POLICY_LEGACY);
-         s->l_timer[i].id = i;
-     }
- 
-diff --git a/hw/timer/exynos4210_pwm.c b/hw/timer/exynos4210_pwm.c
-index 220088120ee..02924a9e5b3 100644
---- a/hw/timer/exynos4210_pwm.c
-+++ b/hw/timer/exynos4210_pwm.c
-@@ -400,7 +400,7 @@ static void exynos4210_pwm_init(Object *obj)
-         sysbus_init_irq(dev, &s->timer[i].irq);
-         s->timer[i].ptimer = ptimer_init(exynos4210_pwm_tick,
-                                          &s->timer[i],
--                                         PTIMER_POLICY_DEFAULT);
-+                                         PTIMER_POLICY_LEGACY);
-         s->timer[i].id = i;
-         s->timer[i].parent = s;
-     }
-diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
-index d5118901097..5c4923c1e09 100644
---- a/hw/timer/grlib_gptimer.c
-+++ b/hw/timer/grlib_gptimer.c
-@@ -383,7 +383,7 @@ static void grlib_gptimer_realize(DeviceState *dev, Error **errp)
- 
-         timer->unit   = unit;
-         timer->ptimer = ptimer_init(grlib_gptimer_hit, timer,
--                                    PTIMER_POLICY_DEFAULT);
-+                                    PTIMER_POLICY_LEGACY);
-         timer->id     = i;
- 
-         /* One IRQ line for each timer */
-diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index ebd58254d15..2bf8c754b21 100644
---- a/hw/timer/imx_epit.c
-+++ b/hw/timer/imx_epit.c
-@@ -347,9 +347,9 @@ static void imx_epit_realize(DeviceState *dev, Error **errp)
-                           0x00001000);
-     sysbus_init_mmio(sbd, &s->iomem);
- 
--    s->timer_reload = ptimer_init(imx_epit_reload, s, PTIMER_POLICY_DEFAULT);
-+    s->timer_reload = ptimer_init(imx_epit_reload, s, PTIMER_POLICY_LEGACY);
- 
--    s->timer_cmp = ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_DEFAULT);
-+    s->timer_cmp = ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
- }
- 
- static void imx_epit_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
-index 5c0d9a269ce..80b83026399 100644
---- a/hw/timer/imx_gpt.c
-+++ b/hw/timer/imx_gpt.c
-@@ -505,7 +505,7 @@ static void imx_gpt_realize(DeviceState *dev, Error **errp)
-                           0x00001000);
-     sysbus_init_mmio(sbd, &s->iomem);
- 
--    s->timer = ptimer_init(imx_gpt_timeout, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(imx_gpt_timeout, s, PTIMER_POLICY_LEGACY);
- }
- 
- static void imx_gpt_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/timer/mss-timer.c b/hw/timer/mss-timer.c
-index fe0ca905f3c..ee7438f1684 100644
---- a/hw/timer/mss-timer.c
-+++ b/hw/timer/mss-timer.c
-@@ -232,7 +232,7 @@ static void mss_timer_init(Object *obj)
-     for (i = 0; i < NUM_TIMERS; i++) {
-         struct Msf2Timer *st = &t->timers[i];
- 
--        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
-+        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(st->ptimer);
-         ptimer_set_freq(st->ptimer, t->freq_hz);
-         ptimer_transaction_commit(st->ptimer);
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index c72c327bfaf..77889397669 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -239,7 +239,7 @@ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
-     s->enabled = 0;
-     s->irq = irq;
- 
--    s->timer = ptimer_init(sh_timer_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(sh_timer_tick, s, PTIMER_POLICY_LEGACY);
- 
-     sh_timer_write(s, OFFSET_TCOR >> 2, s->tcor);
-     sh_timer_write(s, OFFSET_TCNT >> 2, s->tcnt);
-diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
-index 90fdce4c442..8c4f6eb06b6 100644
---- a/hw/timer/slavio_timer.c
-+++ b/hw/timer/slavio_timer.c
-@@ -405,7 +405,7 @@ static void slavio_timer_init(Object *obj)
-         tc->timer_index = i;
- 
-         s->cputimer[i].timer = ptimer_init(slavio_timer_irq, tc,
--                                           PTIMER_POLICY_DEFAULT);
-+                                           PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(s->cputimer[i].timer);
-         ptimer_set_period(s->cputimer[i].timer, TIMER_PERIOD);
-         ptimer_transaction_commit(s->cputimer[i].timer);
-diff --git a/hw/timer/xilinx_timer.c b/hw/timer/xilinx_timer.c
-index 1eb927eb847..c7f17cd6460 100644
---- a/hw/timer/xilinx_timer.c
-+++ b/hw/timer/xilinx_timer.c
-@@ -223,7 +223,7 @@ static void xilinx_timer_realize(DeviceState *dev, Error **errp)
- 
-         xt->parent = t;
-         xt->nr = i;
--        xt->ptimer = ptimer_init(timer_hit, xt, PTIMER_POLICY_DEFAULT);
-+        xt->ptimer = ptimer_init(timer_hit, xt, PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(xt->ptimer);
-         ptimer_set_freq(xt->ptimer, t->freq_hz);
-         ptimer_transaction_commit(xt->ptimer);
-diff --git a/tests/unit/ptimer-test.c b/tests/unit/ptimer-test.c
-index 9176b96c1ce..22ef1ccb3a0 100644
---- a/tests/unit/ptimer-test.c
-+++ b/tests/unit/ptimer-test.c
-@@ -768,7 +768,7 @@ static void add_ptimer_tests(uint8_t policy)
-     char policy_name[256] = "";
-     char *tmp;
- 
--    if (policy == PTIMER_POLICY_DEFAULT) {
-+    if (policy == PTIMER_POLICY_LEGACY) {
-         g_sprintf(policy_name, "default");
-     }
- 
-@@ -862,7 +862,7 @@ static void add_ptimer_tests(uint8_t policy)
- static void add_all_ptimer_policies_comb_tests(void)
- {
-     int last_policy = PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT;
--    int policy = PTIMER_POLICY_DEFAULT;
-+    int policy = PTIMER_POLICY_LEGACY;
- 
-     for (; policy < (last_policy << 1); policy++) {
-         if ((policy & PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT) &&
--- 
-2.25.1
+for you to fetch changes up to baebc5a4ab3ceef940887e3cc2f1d0e48cee53dc:
+
+  virtio-net: don't handle mq request in userspace handler for vhost-vdpa (2022-05-16 04:38:40 -0400)
+
+----------------------------------------------------------------
+virtio,pc,pci: fixes,cleanups,features
+
+most of CXL support
+virtio introspection commands
+fixes, cleanups all over the place
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Alex Bennée (9):
+      hw/virtio: move virtio-pci.h into shared include space
+      virtio-pci: add notification trace points
+      hw/virtio: add vhost_user_[read|write] trace points
+      vhost-user.rst: add clarifying language about protocol negotiation
+      libvhost-user: expose vu_request_to_string
+      docs/devel: start documenting writing VirtIO devices
+      include/hw: start documenting the vhost API
+      hw/virtio/vhost-user: don't suppress F_CONFIG when supported
+      virtio/vhost-user: dynamically assign VhostUserHostNotifiers
+
+Ben Widawsky (24):
+      hw/pci/cxl: Add a CXL component type (interface)
+      hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+      hw/cxl/device: Introduce a CXL device (8.2.8)
+      hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+      hw/cxl/device: Implement basic mailbox (8.2.8.4)
+      hw/cxl/device: Add memory device utilities
+      hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+      hw/cxl/device: Timestamp implementation (8.2.9.3)
+      hw/cxl/device: Add log commands (8.2.9.4) + CEL
+      hw/pxb: Use a type for realizing expanders
+      hw/pci/cxl: Create a CXL bus type
+      hw/pxb: Allow creation of a CXL PXB (host bridge)
+      hw/cxl/rp: Add a root port
+      hw/cxl/device: Add a memory device (8.2.8.5)
+      hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+      hw/cxl/device: Add some trivial commands
+      hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
+      hw/cxl/device: Implement get/set Label Storage Area (LSA)
+      hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+      acpi/cxl: Add _OSC implementation (9.14.2)
+      acpi/cxl: Create the CEDT (9.14.1)
+      acpi/cxl: Introduce CFMWS structures in CEDT
+      hw/cxl/component Add a dumb HDM decoder handler
+      qtest/cxl: Add more complex test cases with CFMWs
+
+David Woodhouse (4):
+      target/i386: Fix sanity check on max APIC ID / X2APIC enablement
+      intel_iommu: Support IR-only mode without DMA translation
+      intel_iommu: Only allow interrupt remapping to be enabled if it's supported
+      intel_iommu: Fix irqchip / X2APIC configuration checks
+
+Eugenio Pérez (5):
+      vhost: Track descriptor chain in private at SVQ
+      vhost: Fix device's used descriptor dequeue
+      vdpa: Fix bad index calculus at vhost_vdpa_get_vring_base
+      vdpa: Fix index calculus at vhost_vdpa_svqs_start
+      vhost: Fix element in vhost_svq_add failure
+
+Francisco Iglesias (2):
+      include/hw/pci/pcie_host: Correct PCIE_MMCFG_BUS_MASK
+      include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX
+
+Halil Pasic (1):
+      virtio: fix feature negotiation for ACCESS_PLATFORM
+
+Ilya Maximets (1):
+      vhost_net: Print feature masks in hex
+
+Jason Wang (5):
+      intel-iommu: correct the value used for error_setg_errno()
+      intel-iommu: remove VTD_FR_RESERVED_ERR
+      intel-iommu: block output address in interrupt address range
+      intel-iommu: update root_scalable before switching as during post_load
+      intel-iommu: update iq_dw during post load
+
+Jonah Palmer (2):
+      virtio: drop name parameter for virtio_init()
+      virtio: add vhost support for virtio devices
+
+Jonathan Cameron (16):
+      MAINTAINERS: Add entry for Compute Express Link Emulation
+      cxl: Machine level control on whether CXL support is enabled
+      qtest/cxl: Introduce initial test for pxb-cxl only.
+      qtests/cxl: Add initial root port and CXL type3 tests
+      hw/cxl/component: Add utils for interleave parameter encoding/decoding
+      hw/cxl/host: Add support for CXL Fixed Memory Windows.
+      hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
+      pci/pcie_port: Add pci_find_port_by_pn()
+      CXL/cxl_component: Add cxl_get_hb_cstate()
+      mem/cxl_type3: Add read and write functions for associated hostmem.
+      cxl/cxl-host: Add memops for CFMWS region.
+      i386/pc: Enable CXL fixed memory windows
+      tests/acpi: q35: Allow addition of a CXL test.
+      qtests/bios-tables-test: Add a test for CXL emulation.
+      tests/acpi: Add tables for CXL emulation.
+      docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
+
+Kevin Wolf (1):
+      docs/vhost-user: Clarifications for VHOST_USER_ADD/REM_MEM_REG
+
+Laurent Vivier (6):
+      qmp: add QMP command x-query-virtio
+      qmp: add QMP command x-query-virtio-status
+      qmp: decode feature & status bits in virtio-status
+      qmp: add QMP commands for virtio/vhost queue-status
+      qmp: add QMP command x-query-virtio-queue-element
+      hmp: add virtio commands
+
+Michael S. Tsirkin (1):
+      vhost-user: more master/slave things
+
+Paolo Bonzini (3):
+      docs: vhost-user: clean up request/reply description
+      docs: vhost-user: rewrite section on ring state machine
+      docs: vhost-user: replace master/slave with front-end/back-end
+
+Philippe Mathieu-Daudé (1):
+      hw/virtio: Replace g_memdup() by g_memdup2()
+
+Si-Wei Liu (7):
+      virtio-net: setup vhost_dev and notifiers for cvq only when feature is negotiated
+      virtio-net: align ctrl_vq index for non-mq guest for vhost_vdpa
+      vhost-vdpa: fix improper cleanup in net_init_vhost_vdpa
+      vhost-net: fix improper cleanup in vhost_net_start
+      vhost-vdpa: backend feature should set only once
+      vhost-vdpa: change name and polarity for vhost_vdpa_one_time_request()
+      virtio-net: don't handle mq request in userspace handler for vhost-vdpa
+
+Wei Huang (1):
+      hw/i386/amd_iommu: Fix IOMMU event log encoding errors
+
+Xiaoyao Li (2):
+      hw/i386: Make pit a property of common x86 base machine type
+      hw/i386: Make pic a property of common x86 base machine type
+
+ qapi/machine.json                         |  21 +
+ qapi/qapi-schema.json                     |   1 +
+ qapi/virtio.json                          | 841 ++++++++++++++++++++++++++++++
+ hw/i386/intel_iommu_internal.h            |   9 +-
+ hw/virtio/vhost-shadow-virtqueue.h        |   6 +
+ include/hw/acpi/cxl.h                     |  28 +
+ include/hw/boards.h                       |   2 +
+ include/hw/cxl/cxl.h                      |  61 +++
+ include/hw/cxl/cxl_component.h            | 223 ++++++++
+ include/hw/cxl/cxl_device.h               | 268 ++++++++++
+ include/hw/cxl/cxl_pci.h                  | 167 ++++++
+ include/hw/i386/intel_iommu.h             |   1 +
+ include/hw/i386/microvm.h                 |   4 -
+ include/hw/i386/pc.h                      |   2 -
+ include/hw/i386/x86.h                     |   4 +
+ include/hw/pci/pci.h                      |  14 +
+ include/hw/pci/pci_bridge.h               |  20 +
+ include/hw/pci/pci_bus.h                  |   7 +
+ include/hw/pci/pci_ids.h                  |   1 +
+ include/hw/pci/pcie_host.h                |   6 +-
+ include/hw/pci/pcie_port.h                |   2 +
+ include/hw/virtio/vhost-user.h            |  43 +-
+ include/hw/virtio/vhost-vsock-common.h    |   2 +-
+ include/hw/virtio/vhost.h                 | 135 ++++-
+ include/hw/virtio/virtio-gpu.h            |   3 +-
+ {hw => include/hw}/virtio/virtio-pci.h    |   0
+ include/hw/virtio/virtio.h                |  27 +-
+ include/monitor/hmp.h                     |   5 +
+ subprojects/libvhost-user/libvhost-user.h |   9 +
+ hw/9pfs/virtio-9p-device.c                |   2 +-
+ hw/acpi/cxl-stub.c                        |  12 +
+ hw/acpi/cxl.c                             | 257 +++++++++
+ hw/block/vhost-user-blk.c                 |   9 +-
+ hw/block/virtio-blk.c                     |  31 +-
+ hw/char/virtio-serial-bus.c               |  14 +-
+ hw/core/machine.c                         |  28 +
+ hw/cxl/cxl-component-utils.c              | 396 ++++++++++++++
+ hw/cxl/cxl-device-utils.c                 | 265 ++++++++++
+ hw/cxl/cxl-host-stubs.c                   |  16 +
+ hw/cxl/cxl-host.c                         | 222 ++++++++
+ hw/cxl/cxl-mailbox-utils.c                | 478 +++++++++++++++++
+ hw/display/vhost-user-gpu.c               |   7 +
+ hw/display/virtio-gpu-base.c              |   2 +-
+ hw/display/virtio-gpu.c                   |  18 +
+ hw/i386/acpi-build.c                      |  57 +-
+ hw/i386/amd_iommu.c                       |  24 +-
+ hw/i386/intel_iommu.c                     |  95 ++--
+ hw/i386/microvm.c                         |  54 +-
+ hw/i386/pc.c                              |  89 ++--
+ hw/i386/pc_piix.c                         |   4 +-
+ hw/i386/pc_q35.c                          |   4 +-
+ hw/i386/x86.c                             |  66 +++
+ hw/input/vhost-user-input.c               |   7 +
+ hw/input/virtio-input.c                   |  13 +-
+ hw/mem/cxl_type3.c                        | 371 +++++++++++++
+ hw/net/vhost_net.c                        |   8 +-
+ hw/net/virtio-net.c                       | 110 +++-
+ hw/pci-bridge/cxl_root_port.c             | 236 +++++++++
+ hw/pci-bridge/pci_expander_bridge.c       | 168 +++++-
+ hw/pci-bridge/pcie_root_port.c            |   6 +-
+ hw/pci-host/gpex-acpi.c                   |  20 +-
+ hw/pci/pci.c                              |  21 +-
+ hw/pci/pcie_port.c                        |  25 +
+ hw/scsi/vhost-scsi.c                      |   8 +
+ hw/scsi/vhost-user-scsi.c                 |   1 +
+ hw/scsi/virtio-scsi.c                     |  20 +-
+ hw/virtio/vhost-scsi-pci.c                |   2 +-
+ hw/virtio/vhost-shadow-virtqueue.c        |  35 +-
+ hw/virtio/vhost-user-blk-pci.c            |   2 +-
+ hw/virtio/vhost-user-fs-pci.c             |   2 +-
+ hw/virtio/vhost-user-fs.c                 |  20 +-
+ hw/virtio/vhost-user-i2c-pci.c            |   2 +-
+ hw/virtio/vhost-user-i2c.c                |  19 +-
+ hw/virtio/vhost-user-input-pci.c          |   2 +-
+ hw/virtio/vhost-user-rng-pci.c            |   2 +-
+ hw/virtio/vhost-user-rng.c                |   9 +-
+ hw/virtio/vhost-user-scsi-pci.c           |   2 +-
+ hw/virtio/vhost-user-vsock-pci.c          |   2 +-
+ hw/virtio/vhost-user-vsock.c              |   2 +-
+ hw/virtio/vhost-user.c                    | 131 +++--
+ hw/virtio/vhost-vdpa.c                    |  29 +-
+ hw/virtio/vhost-vsock-common.c            |  22 +-
+ hw/virtio/vhost-vsock-pci.c               |   2 +-
+ hw/virtio/vhost-vsock.c                   |   2 +-
+ hw/virtio/vhost.c                         |   4 +-
+ hw/virtio/virtio-9p-pci.c                 |   2 +-
+ hw/virtio/virtio-balloon-pci.c            |   2 +-
+ hw/virtio/virtio-balloon.c                |  17 +-
+ hw/virtio/virtio-blk-pci.c                |   2 +-
+ hw/virtio/virtio-bus.c                    |  22 +-
+ hw/virtio/virtio-crypto.c                 |  28 +-
+ hw/virtio/virtio-input-host-pci.c         |   2 +-
+ hw/virtio/virtio-input-pci.c              |   2 +-
+ hw/virtio/virtio-iommu-pci.c              |   2 +-
+ hw/virtio/virtio-iommu.c                  |  17 +-
+ hw/virtio/virtio-mem.c                    |  14 +-
+ hw/virtio/virtio-net-pci.c                |   2 +-
+ hw/virtio/virtio-pci.c                    |   5 +-
+ hw/virtio/virtio-pmem.c                   |   3 +-
+ hw/virtio/virtio-rng-pci.c                |   2 +-
+ hw/virtio/virtio-rng.c                    |   2 +-
+ hw/virtio/virtio-scsi-pci.c               |   2 +-
+ hw/virtio/virtio-serial-pci.c             |   2 +-
+ hw/virtio/virtio-stub.c                   |  42 ++
+ hw/virtio/virtio.c                        | 747 +++++++++++++++++++++++++-
+ monitor/hmp-cmds.c                        | 311 +++++++++++
+ net/vhost-vdpa.c                          |   4 +-
+ softmmu/vl.c                              |  47 ++
+ subprojects/libvhost-user/libvhost-user.c |   2 +-
+ target/i386/kvm/kvm-cpu.c                 |   2 +-
+ tests/qtest/bios-tables-test.c            |  44 ++
+ tests/qtest/cxl-test.c                    | 151 ++++++
+ tests/qtest/qmp-cmd-test.c                |   1 +
+ MAINTAINERS                               |   7 +
+ docs/devel/index-internals.rst            |   1 +
+ docs/devel/virtio-backends.rst            | 214 ++++++++
+ docs/interop/vhost-user-gpu.rst           |  10 +-
+ docs/interop/vhost-user.rst               | 579 ++++++++++----------
+ docs/system/device-emulation.rst          |   1 +
+ docs/system/devices/cxl.rst               | 302 +++++++++++
+ hmp-commands-info.hx                      |  70 +++
+ hw/Kconfig                                |   1 +
+ hw/acpi/Kconfig                           |   5 +
+ hw/acpi/meson.build                       |   4 +-
+ hw/arm/Kconfig                            |   1 +
+ hw/cxl/Kconfig                            |   3 +
+ hw/cxl/meson.build                        |  12 +
+ hw/mem/Kconfig                            |   5 +
+ hw/mem/meson.build                        |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-bridge/Kconfig                     |   5 +
+ hw/pci-bridge/meson.build                 |   1 +
+ hw/virtio/meson.build                     |   2 +
+ hw/virtio/trace-events                    |  10 +-
+ qapi/meson.build                          |   1 +
+ qemu-options.hx                           |  38 ++
+ scripts/device-crash-test                 |   1 +
+ tests/data/acpi/q35/CEDT.cxl              | Bin 0 -> 184 bytes
+ tests/data/acpi/q35/DSDT.cxl              | Bin 0 -> 9615 bytes
+ tests/qtest/meson.build                   |   4 +
+ 140 files changed, 7550 insertions(+), 575 deletions(-)
+ create mode 100644 qapi/virtio.json
+ create mode 100644 include/hw/acpi/cxl.h
+ create mode 100644 include/hw/cxl/cxl.h
+ create mode 100644 include/hw/cxl/cxl_component.h
+ create mode 100644 include/hw/cxl/cxl_device.h
+ create mode 100644 include/hw/cxl/cxl_pci.h
+ rename {hw => include/hw}/virtio/virtio-pci.h (100%)
+ create mode 100644 hw/acpi/cxl-stub.c
+ create mode 100644 hw/acpi/cxl.c
+ create mode 100644 hw/cxl/cxl-component-utils.c
+ create mode 100644 hw/cxl/cxl-device-utils.c
+ create mode 100644 hw/cxl/cxl-host-stubs.c
+ create mode 100644 hw/cxl/cxl-host.c
+ create mode 100644 hw/cxl/cxl-mailbox-utils.c
+ create mode 100644 hw/mem/cxl_type3.c
+ create mode 100644 hw/pci-bridge/cxl_root_port.c
+ create mode 100644 hw/virtio/virtio-stub.c
+ create mode 100644 tests/qtest/cxl-test.c
+ create mode 100644 docs/devel/virtio-backends.rst
+ create mode 100644 docs/system/devices/cxl.rst
+ create mode 100644 hw/cxl/Kconfig
+ create mode 100644 hw/cxl/meson.build
+ create mode 100644 tests/data/acpi/q35/CEDT.cxl
+ create mode 100644 tests/data/acpi/q35/DSDT.cxl
 
 
