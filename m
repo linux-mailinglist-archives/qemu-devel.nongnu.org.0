@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755BA52834E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:33:24 +0200 (CEST)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E7A528317
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:23:51 +0200 (CEST)
+Received: from localhost ([::1]:51430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYyZ-0008Qk-GU
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48556)
+	id 1nqYpK-0006qj-RV
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6p-0007P4-Ge
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24770)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6p-0007Ob-AY
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6k-0005PA-06
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6n-0005PI-Ep
  for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697461;
+ s=mimecast20190719; t=1652697465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pmVq+W5XP/ZNjQ6Qj57CQFFTS9MrHI10KyMuHzrabf8=;
- b=VhWasIVtzivW+R16Wlaf0zSesQSiO9UO363A+dstXhrOdJTBmANWrTyi6TIbqJM9LqfdRi
- g5HJZUoEdK6P1zoZm/95kPbiJU63Oc5FOhypFy0vb+DzVvjZK+u7KbsRmMyoNi61pmT/a9
- V0ZOtlRqDyMwTxVvBABYUKkjsSSE29A=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S2qvH2iwGRbR0l3WdxvqsX8jcbdTaa6VQl5+Rxg2li4=;
+ b=dhrnhcE02Y8EI/ZHnAC8mkRn3/6dpcOwIkac2oSnk5SG7W7KdgQpI3H1CeQqaTU/5Al1xV
+ RzTg38zKZGbMmcLbFqViV2a1quKKBo6eduBsVEEtVa9UHbMiFyq7utT+7TrPbCZDTS+M0J
+ /aDeOxLcgM/kI2FMhVS25h46vYvScPE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-194-ElWdXtleMqeOrw6UmhmqlA-1; Mon, 16 May 2022 06:37:40 -0400
-X-MC-Unique: ElWdXtleMqeOrw6UmhmqlA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- i131-20020a1c3b89000000b00393fbb0718bso10162556wma.0
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:37:40 -0700 (PDT)
+ us-mta-438-sN9YbVZxPkyHKaiXXh1rQw-1; Mon, 16 May 2022 06:37:44 -0400
+X-MC-Unique: sN9YbVZxPkyHKaiXXh1rQw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg7-20020a05600c3c8700b0039468585269so6562284wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:37:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=pmVq+W5XP/ZNjQ6Qj57CQFFTS9MrHI10KyMuHzrabf8=;
- b=Lxc1dmbLv0tq1IC4yRFRu5f7HmnNRgWnxpDGWNzshfkv0+QLf1TPc8b/8Hw5tTsbp1
- InG8GW7Op25j5xjxuLDgrjUB2kDOBSiqnV5GwhbaYcD25HP6ye7C+qJL7vu9rnHas/Ih
- pa3igwwsytguI5DtcFKl2WqpQITiqcL2soUL8f67T1S4tDr/n4+J+dqLqEWuvXd5J8l0
- O0wot57KE88xIWolwpUnE6rH9F8mBRn0yBqlkQtcw1Sfj7ViSqRh0eey7iofWmpz4acu
- WWQpivK4kIqR7t8KSv3Fz7NgZtceQSgBCYdKEcIKyDvkG9U78Fs/fnc+MuPCK8yKG/n1
- PyHw==
-X-Gm-Message-State: AOAM531VwzC0Aw7ROfZXG9vwWadFucAn25yCH7g/8Y+FTVO8pe/jod/O
- rJBtexMMDWgFaqn5uMlUS+KbtNjP9Qbu/zUunMVYD2LHA6Vua7Orv4eCd0VRX5wmj6RNBWPXzke
- HocGbgqkln+LfiWM45QZjOlPwr5JA5mktq5nrmWuYEgP9wQXXLd67ILYgP8nJ
-X-Received: by 2002:a7b:c446:0:b0:394:3293:a88f with SMTP id
- l6-20020a7bc446000000b003943293a88fmr16009148wmi.22.1652697459255; 
- Mon, 16 May 2022 03:37:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwB+YqTL8sLdh+eld6t9rrGq31I1Owmr/PpE8pxx8lTNB1NnfzLC2FYX6tYkL77Iue/7WJrUQ==
-X-Received: by 2002:a7b:c446:0:b0:394:3293:a88f with SMTP id
- l6-20020a7bc446000000b003943293a88fmr16009119wmi.22.1652697458953; 
- Mon, 16 May 2022 03:37:38 -0700 (PDT)
+ bh=S2qvH2iwGRbR0l3WdxvqsX8jcbdTaa6VQl5+Rxg2li4=;
+ b=LdLtK2owKuPyJFuAoQnvAgQ+IUaUCAnQv7SkzKYyuZjyeNDWGYBn0vIya8tyd3SnEp
+ Nznl8niwlTQq1JcIxlO9K6x4m6VKraLGdIXv2wBtnPIYs2nnftAuTa9gsWVaTcGp3Msd
+ l8BpYUMbyp3PrV995nHXcQnWpAD7/B8xqP6tVHOWwXKmHa9Xhk6AkXAYmzJ0DD7MIMwC
+ PHyJcQZDLudP+0+mroGZ3POB1uFZdWLBYdCJPWquTjFf7WSXj9Grpii2Ai6jPGswVfRw
+ wLXj/JsjCz1+P5emYEpRnVPrDKkWlCiRYeBu5kPymYmKocnY5voL1pCPyn5QMU13dto3
+ HAGw==
+X-Gm-Message-State: AOAM531qPuGTuGCDey/83/Usg5y6w25Fa2BNUuiGsEfpZ7PnMpKII3PE
+ T3jc2J8nvNf0iARhRSipLyOecJN+UwRbqJxG9rsuy0eVviJR6fdUOFVOkVBmWJgVWUwjU17oTbg
+ jFFF6sNu3qNs0sg17eHK2uErXczYbPDy5NOCIjyfp0ptsgnbfQzlENqM1VTIk
+X-Received: by 2002:a05:6000:2cf:b0:20d:c9f:63d0 with SMTP id
+ o15-20020a05600002cf00b0020d0c9f63d0mr1925565wry.45.1652697462795; 
+ Mon, 16 May 2022 03:37:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJC3yVpKcBbxZApc51E1HpVixQ5w4WYigf0uky5mvWKL/K7wjdRuwj/7d8rQ3K88XMZaRKkg==
+X-Received: by 2002:a05:6000:2cf:b0:20d:c9f:63d0 with SMTP id
+ o15-20020a05600002cf00b0020d0c9f63d0mr1925538wry.45.1652697462447; 
+ Mon, 16 May 2022 03:37:42 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- c3-20020adfc6c3000000b0020c5253d8dasm9345890wrh.38.2022.05.16.03.37.37
+ r14-20020adfa14e000000b0020c5253d8cesm9193105wrr.26.2022.05.16.03.37.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:37:38 -0700 (PDT)
-Date: Mon, 16 May 2022 06:37:36 -0400
+ Mon, 16 May 2022 03:37:42 -0700 (PDT)
+Date: Mon, 16 May 2022 06:37:39 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <jonathan.cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL 34/91] mem/cxl_type3: Add read and write functions for
- associated hostmem.
-Message-ID: <20220516095448.507876-35-mst@redhat.com>
+Subject: [PULL 35/91] cxl/cxl-host: Add memops for CFMWS region.
+Message-ID: <20220516095448.507876-36-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -102,167 +100,192 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Once a read or write reaches a CXL type 3 device, the HDM decoders
-on the device are used to establish the Device Physical Address
-which should be accessed.  These functions peform the required maths
-and then use a device specific address space to access the
-hostmem->mr to fullfil the actual operation.  Note that failed writes
-are silent, but failed reads return poison.  Note this is based
-loosely on:
+These memops perform interleave decoding, walking down the
+CXL topology from CFMWS described host interleave
+decoder via CXL host bridge HDM decoders, through the CXL
+root ports and finally call CXL type 3 specific read and write
+functions.
 
-https://lore.kernel.org/qemu-devel/20200817161853.593247-6-f4bug@amsat.org/
-[RFC PATCH 0/9] hw/misc: Add support for interleaved memory accesses
+Note that, whilst functional the current implementation does
+not support:
+* switches
+* multiple HDM decoders at a given level.
+* unaligned accesses across the interleave boundaries
 
-Only lightly tested so far.  More complex test cases yet to be written.
-
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20220429144110.25167-33-Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Message-Id: <20220429144110.25167-34-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl_device.h |  6 +++
- hw/mem/cxl_type3.c          | 91 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 97 insertions(+)
+ include/hw/cxl/cxl.h    |   2 +
+ hw/cxl/cxl-host-stubs.c |   2 +
+ hw/cxl/cxl-host.c       | 128 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 132 insertions(+)
 
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 4285fbda08..1e141b6621 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -239,6 +239,7 @@ struct CXLType3Dev {
-     HostMemoryBackend *lsa;
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index dce38124db..21d28ca110 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -56,4 +56,6 @@ void cxl_fixed_memory_window_config(MachineState *ms,
+                                     Error **errp);
+ void cxl_fixed_memory_window_link_targets(Error **errp);
  
-     /* State */
-+    AddressSpace hostmem_as;
-     CXLComponentState cxl_cstate;
-     CXLDeviceState cxl_dstate;
- };
-@@ -259,4 +260,9 @@ struct CXLType3Class {
-                     uint64_t offset);
- };
- 
-+MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
-+                           unsigned size, MemTxAttrs attrs);
-+MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
-+                            unsigned size, MemTxAttrs attrs);
++extern const MemoryRegionOps cfmws_ops;
 +
  #endif
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 6c6ed9a776..3bf2869573 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -97,7 +97,9 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+diff --git a/hw/cxl/cxl-host-stubs.c b/hw/cxl/cxl-host-stubs.c
+index f8fd278d5d..24465a52ab 100644
+--- a/hw/cxl/cxl-host-stubs.c
++++ b/hw/cxl/cxl-host-stubs.c
+@@ -12,3 +12,5 @@ void cxl_fixed_memory_window_config(MachineState *ms,
+                                     Error **errp) {};
  
- static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
- {
-+    DeviceState *ds = DEVICE(ct3d);
-     MemoryRegion *mr;
-+    char *name;
- 
-     if (!ct3d->hostmem) {
-         error_setg(errp, "memdev property must be set");
-@@ -112,6 +114,15 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-     memory_region_set_nonvolatile(mr, true);
-     memory_region_set_enabled(mr, true);
-     host_memory_backend_set_mapped(ct3d->hostmem, true);
+ void cxl_fixed_memory_window_link_targets(Error **errp) {};
 +
-+    if (ds->id) {
-+        name = g_strdup_printf("cxl-type3-dpa-space:%s", ds->id);
-+    } else {
-+        name = g_strdup("cxl-type3-dpa-space");
-+    }
-+    address_space_init(&ct3d->hostmem_as, mr, name);
-+    g_free(name);
-+
-     ct3d->cxl_dstate.pmem_size = ct3d->hostmem->size;
++const MemoryRegionOps cfmws_ops;
+diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
+index ec5a75cbf5..469b3c4ced 100644
+--- a/hw/cxl/cxl-host.c
++++ b/hw/cxl/cxl-host.c
+@@ -15,6 +15,10 @@
  
-     if (!ct3d->lsa) {
-@@ -167,6 +178,86 @@ static void ct3_exit(PCIDevice *pci_dev)
-     ComponentRegisters *regs = &cxl_cstate->crb;
+ #include "qapi/qapi-visit-machine.h"
+ #include "hw/cxl/cxl.h"
++#include "hw/pci/pci_bus.h"
++#include "hw/pci/pci_bridge.h"
++#include "hw/pci/pci_host.h"
++#include "hw/pci/pcie_port.h"
  
-     g_free(regs->special_ops);
-+    address_space_destroy(&ct3d->hostmem_as);
-+}
+ void cxl_fixed_memory_window_config(MachineState *ms,
+                                     CXLFixedMemoryWindowOptions *object,
+@@ -92,3 +96,127 @@ void cxl_fixed_memory_window_link_targets(Error **errp)
+         }
+     }
+ }
 +
-+/* TODO: Support multiple HDM decoders and DPA skip */
-+static bool cxl_type3_dpa(CXLType3Dev *ct3d, hwaddr host_addr, uint64_t *dpa)
++/* TODO: support, multiple hdm decoders */
++static bool cxl_hdm_find_target(uint32_t *cache_mem, hwaddr addr,
++                                uint8_t *target)
 +{
-+    uint32_t *cache_mem = ct3d->cxl_cstate.crb.cache_mem_registers;
-+    uint64_t decoder_base, decoder_size, hpa_offset;
-+    uint32_t hdm0_ctrl;
-+    int ig, iw;
++    uint32_t ctrl;
++    uint32_t ig_enc;
++    uint32_t iw_enc;
++    uint32_t target_reg;
++    uint32_t target_idx;
 +
-+    decoder_base = (((uint64_t)cache_mem[R_CXL_HDM_DECODER0_BASE_HI] << 32) |
-+                    cache_mem[R_CXL_HDM_DECODER0_BASE_LO]);
-+    if ((uint64_t)host_addr < decoder_base) {
++    ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
++    if (!FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
 +        return false;
 +    }
 +
-+    hpa_offset = (uint64_t)host_addr - decoder_base;
++    ig_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IG);
++    iw_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IW);
++    target_idx = (addr / cxl_decode_ig(ig_enc)) % (1 << iw_enc);
 +
-+    decoder_size = ((uint64_t)cache_mem[R_CXL_HDM_DECODER0_SIZE_HI] << 32) |
-+        cache_mem[R_CXL_HDM_DECODER0_SIZE_LO];
-+    if (hpa_offset >= decoder_size) {
-+        return false;
++    if (target_idx > 4) {
++        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
++        target_reg >>= target_idx * 8;
++    } else {
++        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
++        target_reg >>= (target_idx - 4) * 8;
 +    }
-+
-+    hdm0_ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
-+    iw = FIELD_EX32(hdm0_ctrl, CXL_HDM_DECODER0_CTRL, IW);
-+    ig = FIELD_EX32(hdm0_ctrl, CXL_HDM_DECODER0_CTRL, IG);
-+
-+    *dpa = (MAKE_64BIT_MASK(0, 8 + ig) & hpa_offset) |
-+        ((MAKE_64BIT_MASK(8 + ig + iw, 64 - 8 - ig - iw) & hpa_offset) >> iw);
++    *target = target_reg & 0xff;
 +
 +    return true;
 +}
 +
-+MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
-+                           unsigned size, MemTxAttrs attrs)
++static PCIDevice *cxl_cfmws_find_device(CXLFixedWindow *fw, hwaddr addr)
 +{
-+    CXLType3Dev *ct3d = CXL_TYPE3(d);
-+    uint64_t dpa_offset;
-+    MemoryRegion *mr;
++    CXLComponentState *hb_cstate;
++    PCIHostState *hb;
++    int rb_index;
++    uint32_t *cache_mem;
++    uint8_t target;
++    bool target_found;
++    PCIDevice *rp, *d;
 +
-+    /* TODO support volatile region */
-+    mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    if (!mr) {
-+        return MEMTX_ERROR;
++    /* Address is relative to memory region. Convert to HPA */
++    addr += fw->base;
++
++    rb_index = (addr / cxl_decode_ig(fw->enc_int_gran)) % fw->num_targets;
++    hb = PCI_HOST_BRIDGE(fw->target_hbs[rb_index]->cxl.cxl_host_bridge);
++    if (!hb || !hb->bus || !pci_bus_is_cxl(hb->bus)) {
++        return NULL;
 +    }
 +
-+    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
-+        return MEMTX_ERROR;
++    hb_cstate = cxl_get_hb_cstate(hb);
++    if (!hb_cstate) {
++        return NULL;
 +    }
 +
-+    if (dpa_offset > int128_get64(mr->size)) {
-+        return MEMTX_ERROR;
++    cache_mem = hb_cstate->crb.cache_mem_registers;
++
++    target_found = cxl_hdm_find_target(cache_mem, addr, &target);
++    if (!target_found) {
++        return NULL;
 +    }
 +
-+    return address_space_read(&ct3d->hostmem_as, dpa_offset, attrs, data, size);
++    rp = pcie_find_port_by_pn(hb->bus, target);
++    if (!rp) {
++        return NULL;
++    }
++
++    d = pci_bridge_get_sec_bus(PCI_BRIDGE(rp))->devices[0];
++
++    if (!d || !object_dynamic_cast(OBJECT(d), TYPE_CXL_TYPE3)) {
++        return NULL;
++    }
++
++    return d;
 +}
 +
-+MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
-+                            unsigned size, MemTxAttrs attrs)
++static MemTxResult cxl_read_cfmws(void *opaque, hwaddr addr, uint64_t *data,
++                                  unsigned size, MemTxAttrs attrs)
 +{
-+    CXLType3Dev *ct3d = CXL_TYPE3(d);
-+    uint64_t dpa_offset;
-+    MemoryRegion *mr;
++    CXLFixedWindow *fw = opaque;
++    PCIDevice *d;
 +
-+    mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    if (!mr) {
++    d = cxl_cfmws_find_device(fw, addr);
++    if (d == NULL) {
++        *data = 0;
++        /* Reads to invalid address return poison */
++        return MEMTX_ERROR;
++    }
++
++    return cxl_type3_read(d, addr + fw->base, data, size, attrs);
++}
++
++static MemTxResult cxl_write_cfmws(void *opaque, hwaddr addr,
++                                   uint64_t data, unsigned size,
++                                   MemTxAttrs attrs)
++{
++    CXLFixedWindow *fw = opaque;
++    PCIDevice *d;
++
++    d = cxl_cfmws_find_device(fw, addr);
++    if (d == NULL) {
++        /* Writes to invalid address are silent */
 +        return MEMTX_OK;
 +    }
 +
-+    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
-+        return MEMTX_OK;
-+    }
++    return cxl_type3_write(d, addr + fw->base, data, size, attrs);
++}
 +
-+    if (dpa_offset > int128_get64(mr->size)) {
-+        return MEMTX_OK;
-+    }
-+    return address_space_write(&ct3d->hostmem_as, dpa_offset, attrs,
-+                               &data, size);
- }
- 
- static void ct3d_reset(DeviceState *dev)
++const MemoryRegionOps cfmws_ops = {
++    .read_with_attrs = cxl_read_cfmws,
++    .write_with_attrs = cxl_write_cfmws,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = true,
++    },
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = true,
++    },
++};
 -- 
 MST
 
