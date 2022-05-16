@@ -2,94 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E01528532
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 15:22:00 +0200 (CEST)
-Received: from localhost ([::1]:46702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B7B528615
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 15:57:06 +0200 (CEST)
+Received: from localhost ([::1]:41210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqaff-0004Tu-CW
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 09:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53712)
+	id 1nqbDd-0005CR-Iz
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 09:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nqaYp-0005K4-DM
- for qemu-devel@nongnu.org; Mon, 16 May 2022 09:14:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30069)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nqaYm-0008Py-DN
- for qemu-devel@nongnu.org; Mon, 16 May 2022 09:14:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652706891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iyEI+1Z3FVAAG6OfathKXQFnPmsNgHdueUGZUwmTsh8=;
- b=cbg35uAn303RuP5+9XbhsMzuq0aX3rxgjZh8rLDIRO53fQoHqqJxYNz61+PGcmpbGLOWhG
- U/xJqJ8gEn0U1unzy6gyoFwWpjybkOSV3ULTaa4WI/x2mD9neaIgQxtcxLH6t3/E9lmqEi
- /bhknVrUvKUQwPuDfw0wfi2Ua6VTwPQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-672-Xu8NKftyP0-IpG_EOOdznA-1; Mon, 16 May 2022 09:14:42 -0400
-X-MC-Unique: Xu8NKftyP0-IpG_EOOdznA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r186-20020a1c44c3000000b00393f52ed5ceso10343458wma.7
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 06:14:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=iyEI+1Z3FVAAG6OfathKXQFnPmsNgHdueUGZUwmTsh8=;
- b=wZJnkr4Vo+XJB8AUk3+qIB5hpZGiE90CIfaPMR0Eb1DZCo/PPKwNXXR/JbhcJReFwG
- 6OQvlaFaNcbCGW9n7rhtJ/jKCUv/j8NYJ/hAWlif0UMLxnLl0997/BNzWMiGqBiD7JQa
- vQUu9R1FksoIiII7KsNmoOIn/D8Ul5uUGXbmfQhce+G1s1DRA9akBgYpaiVPfotetS59
- Yzvc3fT5SkSz4Z9+rDcAP2cGiftnH6hnhcU96p9gWWBwWDBMINxKegCovDGKZPFY91rz
- e3KwCwglV5XVWOzk3zh1w1zb31AjeMutvgOVe0FlLZQ6m/eeM9+CTGKvc99LWqkLmTJC
- akvQ==
-X-Gm-Message-State: AOAM530w9uPGxGqTFUiYoO5ZbK9J0qkIi/XPfle/mUzfzQc5H+EBAB/u
- Fk2nryw1nMqtnZ81NQtVpak5greQ08xkEN16FN/gqbm0uVn5Wn7iva09oVUSPpLssApMbZNENLQ
- MFLzHXdOUq+ZP6Wk=
-X-Received: by 2002:a05:6000:1e09:b0:20c:dbc7:e391 with SMTP id
- bj9-20020a0560001e0900b0020cdbc7e391mr14221502wrb.218.1652706881546; 
- Mon, 16 May 2022 06:14:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8IEnLvLbyPdHi5exG+nzbwD+2YtW6P0M4KZO2Oo/vAeTp1NBqrJtfGz+JJM+dGzwy/BWZeg==
-X-Received: by 2002:a05:6000:1e09:b0:20c:dbc7:e391 with SMTP id
- bj9-20020a0560001e0900b0020cdbc7e391mr14221477wrb.218.1652706881233; 
- Mon, 16 May 2022 06:14:41 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- j15-20020adfb30f000000b0020d042efd11sm4856987wrd.61.2022.05.16.06.14.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 06:14:40 -0700 (PDT)
-Date: Mon, 16 May 2022 14:14:38 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v6 01/13] multifd: Document the locking of
- MultiFD{Send/Recv}Params
-Message-ID: <YoJOPlRGJFIDcWoN@work-vm>
-References: <20220510224220.5912-1-quintela@redhat.com>
- <20220510224220.5912-2-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangliang40@baidu.com>)
+ id 1nqaZR-00061Y-QK
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 09:15:35 -0400
+Received: from mx21.baidu.com ([220.181.3.85]:33222 helo=baidu.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <wangliang40@baidu.com>) id 1nqaZK-0000FX-EN
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 09:15:30 -0400
+Received: from BC-Mail-Ex11.internal.baidu.com (unknown [172.31.51.51])
+ by Forcepoint Email with ESMTPS id 1023731372F36320929D;
+ Mon, 16 May 2022 21:15:14 +0800 (CST)
+Received: from bjkjy-mail-ex28.internal.baidu.com (172.31.50.44) by
+ BC-Mail-Ex11.internal.baidu.com (172.31.51.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Mon, 16 May 2022 21:15:14 +0800
+Received: from BJHW-MAIL-EX28.internal.baidu.com (10.127.64.43) by
+ bjkjy-mail-ex28.internal.baidu.com (172.31.50.44) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.18; Mon, 16 May 2022 21:15:09 +0800
+Received: from BJHW-MAIL-EX28.internal.baidu.com ([169.254.129.92]) by
+ BJHW-MAIL-EX28.internal.baidu.com ([169.254.129.92]) with mapi id
+ 15.01.2308.020; Mon, 16 May 2022 21:15:09 +0800
+From: "Wang,Liang(ACG CCN01)" <wangliang40@baidu.com>
+To: "mst@redhat.com" <mst@redhat.com>, "marcel.apfelbaum@gmail.com"
+ <marcel.apfelbaum@gmail.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: [PATCH] xio3130_downstream: Add ACS (Access Control Services)
+ capability
+Thread-Topic: [PATCH] xio3130_downstream: Add ACS (Access Control Services)
+ capability
+Thread-Index: AQHYaSbEC40ux3tuI0mx62i5C8IrJw==
+Date: Mon, 16 May 2022 13:15:09 +0000
+Message-ID: <41ad928a29254bde80bef091fef72d36@baidu.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.14.117.44]
+Content-Type: multipart/alternative;
+ boundary="_000_41ad928a29254bde80bef091fef72d36baiducom_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220510224220.5912-2-quintela@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=220.181.3.85; envelope-from=wangliang40@baidu.com;
+ helo=baidu.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 16 May 2022 09:52:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,171 +75,255 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Reorder the structures so we can know if the fields are:
-> - Read only
-> - Their own locking (i.e. sems)
-> - Protected by 'mutex'
-> - Only for the multifd channel
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  migration/multifd.h | 86 +++++++++++++++++++++++++++------------------
->  1 file changed, 51 insertions(+), 35 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 7d0effcb03..f1f88c6737 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -65,7 +65,9 @@ typedef struct {
->  } MultiFDPages_t;
->  
->  typedef struct {
-> -    /* this fields are not changed once the thread is created */
-> +    /* Fiields are only written at creating/deletion time */
-> +    /* No lock required for them, they are read only */
-> +
->      /* channel number */
->      uint8_t id;
->      /* channel thread name */
-> @@ -74,37 +76,45 @@ typedef struct {
->      QemuThread thread;
->      /* communication channel */
->      QIOChannel *c;
-> -    /* sem where to wait for more work */
-> -    QemuSemaphore sem;
-> -    /* this mutex protects the following parameters */
-> -    QemuMutex mutex;
-> -    /* is this channel thread running */
-> -    bool running;
-> -    /* should this thread finish */
-> -    bool quit;
->      /* is the yank function registered */
->      bool registered_yank;
-> +    /* packet allocated len */
-> +    uint32_t packet_len;
-> +
-> +    /* sem where to wait for more work */
-> +    QemuSemaphore sem;
-> +    /* syncs main thread and channels */
-> +    QemuSemaphore sem_sync;
-> +
-> +    /* this mutex protects the following parameters */
-> +    QemuMutex mutex;
-> +    /* is this channel thread running */
-> +    bool running;
-> +    /* should this thread finish */
-> +    bool quit;
-> +    /* multifd flags for each packet */
-> +    uint32_t flags;
-> +    /* global number of generated multifd packets */
-> +    uint64_t packet_num;
+--_000_41ad928a29254bde80bef091fef72d36baiducom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Is there a way to explain why packet_num, being global, is inside
-SendParams?  I understand why num_packets is - because
-that's per channel; so why is a global isnide the params
-(and having two things with almost the same name is very confusing!)
+V2hlbiB2ZmlvLXBjaSBkZXZpY2VzIGFyZSBhdHRhY2hlZCB0byB0aGUgZG93bnN0cmVhbSwgcGNp
+ZSBhY3MNCg0KY2FwYWJpbGl0eSBtYXkgYmUgbmVlZGVkLCBDb25zaXN0ZW50IHdpdGggcGh5c2lj
+YWwgbWFjaGluZS4NCg0KDQpJdCBoYXMgYmVlbiB0ZXN0ZWQgaW4gb3VyIGVudmlyb25tZW50LCBh
+bmQgcGNpZSBhY3MgY2FwYWJpbGl0eQ0KDQppcyByZXF1aXJlZCBpbiBzb21lIHNjZW5hcmlvcy4N
+Cg0KDQpTaWduZWQtb2ZmLWJ5OiB3YW5nbGlhbmcgPHdhbmdsaWFuZzQwQGJhaWR1LmNvbT4NCg0K
+LS0tDQoNCiBody9wY2ktYnJpZGdlL3hpbzMxMzBfZG93bnN0cmVhbS5jIHwgNCArKysrDQoNCiAx
+IGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspDQoNCg0KZGlmZiAtLWdpdCBhL2h3L3BjaS1i
+cmlkZ2UveGlvMzEzMF9kb3duc3RyZWFtLmMgYi9ody9wY2ktYnJpZGdlL3hpbzMxMzBfZG93bnN0
+cmVhbS5jDQoNCmluZGV4IDA1ZTJiMDZjMGMuLjZhYjEzYjQ3ZTIgMTAwNjQ0DQoNCi0tLSBhL2h3
+L3BjaS1icmlkZ2UveGlvMzEzMF9kb3duc3RyZWFtLmMNCg0KKysrIGIvaHcvcGNpLWJyaWRnZS94
+aW8zMTMwX2Rvd25zdHJlYW0uYw0KDQpAQCAtNDAsNiArNDAsOCBAQA0KDQogI2RlZmluZSBYSU8z
+MTMwX1NTVklEX1NTSUQgICAgICAgICAgICAgIDANCg0KICNkZWZpbmUgWElPMzEzMF9FWFBfT0ZG
+U0VUICAgICAgICAgICAgICAweDkwDQoNCiAjZGVmaW5lIFhJTzMxMzBfQUVSX09GRlNFVCAgICAg
+ICAgICAgICAgMHgxMDANCg0KKyNkZWZpbmUgWElPMzEzMF9BQ1NfT0ZGU0VUIFwNCg0KKyAgICAg
+ICAgKFhJTzMxMzBfQUVSX09GRlNFVCArIFBDSV9FUlJfU0laRU9GKQ0KDQoNCiBzdGF0aWMgdm9p
+ZCB4aW8zMTMwX2Rvd25zdHJlYW1fd3JpdGVfY29uZmlnKFBDSURldmljZSAqZCwgdWludDMyX3Qg
+YWRkcmVzcywNCg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWlu
+dDMyX3QgdmFsLCBpbnQgbGVuKQ0KDQpAQCAtMTExLDYgKzExMyw4IEBAIHN0YXRpYyB2b2lkIHhp
+bzMxMzBfZG93bnN0cmVhbV9yZWFsaXplKFBDSURldmljZSAqZCwgRXJyb3IgKiplcnJwKQ0KDQog
+ICAgICAgICBnb3RvIGVycjsNCg0KICAgICB9DQoNCg0KKw0KDQorICAgIHBjaWVfYWNzX2luaXQo
+ZCwgWElPMzEzMF9BQ1NfT0ZGU0VUKTsNCg0KICAgICByZXR1cm47DQoNCg0KIGVycjoNCg0KLS0N
+Cg0KMi4yNC4zIChBcHBsZSBHaXQtMTI4KQ0KDQo=
 
-Dave
+--_000_41ad928a29254bde80bef091fef72d36baiducom_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
->      /* thread has work to do */
->      int pending_job;
-> -    /* array of pages to sent */
-> +    /* array of pages to sent.
-> +     * The owner of 'pages' depends of 'pending_job' value:
-> +     * pending_job == 0 -> migration_thread can use it.
-> +     * pending_job != 0 -> multifd_channel can use it.
-> +     */
->      MultiFDPages_t *pages;
-> -    /* packet allocated len */
-> -    uint32_t packet_len;
-> +
-> +    /* thread local variables. No locking required */
-> +
->      /* pointer to the packet */
->      MultiFDPacket_t *packet;
-> -    /* multifd flags for each packet */
-> -    uint32_t flags;
->      /* size of the next packet that contains pages */
->      uint32_t next_packet_size;
-> -    /* global number of generated multifd packets */
-> -    uint64_t packet_num;
-> -    /* thread local variables */
->      /* packets sent through this channel */
->      uint64_t num_packets;
->      /* non zero pages sent through this channel */
->      uint64_t total_normal_pages;
-> -    /* syncs main thread and channels */
-> -    QemuSemaphore sem_sync;
->      /* buffers to send */
->      struct iovec *iov;
->      /* number of iovs used */
-> @@ -118,7 +128,9 @@ typedef struct {
->  }  MultiFDSendParams;
->  
->  typedef struct {
-> -    /* this fields are not changed once the thread is created */
-> +    /* Fiields are only written at creating/deletion time */
-> +    /* No lock required for them, they are read only */
-> +
->      /* channel number */
->      uint8_t id;
->      /* channel thread name */
-> @@ -127,31 +139,35 @@ typedef struct {
->      QemuThread thread;
->      /* communication channel */
->      QIOChannel *c;
-> +    /* packet allocated len */
-> +    uint32_t packet_len;
-> +
-> +    /* syncs main thread and channels */
-> +    QemuSemaphore sem_sync;
-> +
->      /* this mutex protects the following parameters */
->      QemuMutex mutex;
->      /* is this channel thread running */
->      bool running;
->      /* should this thread finish */
->      bool quit;
-> +    /* multifd flags for each packet */
-> +    uint32_t flags;
-> +    /* global number of generated multifd packets */
-> +    uint64_t packet_num;
-> +
-> +    /* thread local variables. No locking required */
-> +
-> +    /* pointer to the packet */
-> +    MultiFDPacket_t *packet;
-> +    /* size of the next packet that contains pages */
-> +    uint32_t next_packet_size;
-> +    /* packets sent through this channel */
-> +    uint64_t num_packets;
->      /* ramblock host address */
->      uint8_t *host;
-> -    /* packet allocated len */
-> -    uint32_t packet_len;
-> -    /* pointer to the packet */
-> -    MultiFDPacket_t *packet;
-> -    /* multifd flags for each packet */
-> -    uint32_t flags;
-> -    /* global number of generated multifd packets */
-> -    uint64_t packet_num;
-> -    /* thread local variables */
-> -    /* size of the next packet that contains pages */
-> -    uint32_t next_packet_size;
-> -    /* packets sent through this channel */
-> -    uint64_t num_packets;
->      /* non zero pages recv through this channel */
->      uint64_t total_normal_pages;
-> -    /* syncs main thread and channels */
-> -    QemuSemaphore sem_sync;
->      /* buffers to recv */
->      struct iovec *iov;
->      /* Pages that are not zero */
-> -- 
-> 2.35.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
+n-bottom:0;} --></style>
+</head>
+<body dir=3D"ltr">
+<div id=3D"divtagdefaultwrapper" style=3D"font-size:12pt;color:#000000;font=
+-family:Calibri,Helvetica,sans-serif;" dir=3D"ltr">
+<p></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">W=
+hen vfio-pci devices are attached to the downstream, pcie acs</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">c=
+apability may be needed, Consistent with physical machine.</span></p>
+<p class=3D"p2" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo; min-height: 13px;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+/span><br>
+</p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">I=
+t has been tested in our environment, and pcie acs capability</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">i=
+s required in some scenarios.</span></p>
+<p class=3D"p2" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo; min-height: 13px;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+/span><br>
+</p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">S=
+igned-off-by: wangliang &lt;wangliang40@baidu.com&gt;</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">-=
+--</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;</span>hw/pci-bridge/xio3130_dow=
+nstream.c | 4 &#43;&#43;&#43;&#43;</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;</span>1 file changed, 4 inserti=
+ons(&#43;)</span></p>
+<p class=3D"p2" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo; min-height: 13px;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+/span><br>
+</p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">d=
+iff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_down=
+stream.c</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">i=
+ndex 05e2b06c0c..6ab13b47e2 100644</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">-=
+-- a/hw/pci-bridge/xio3130_downstream.c</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">&=
+#43;&#43;&#43; b/hw/pci-bridge/xio3130_downstream.c</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">@=
+@ -40,6 &#43;40,8 @@</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;</span>#define XIO3130_SSVID_SSI=
+D<span class=3D"Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp;
+</span>0</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;</span>#define XIO3130_EXP_OFFSE=
+T<span class=3D"Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp;
+</span>0x90</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;</span>#define XIO3130_AER_OFFSE=
+T<span class=3D"Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp;
+</span>0x100</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">&=
+#43;#define XIO3130_ACS_OFFSET \</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">&=
+#43;<span class=3D"Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp;
+</span>(XIO3130_AER_OFFSET &#43; PCI_ERR_SIZEOF)</span></p>
+<p class=3D"p2" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo; min-height: 13px;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+/span><br>
+</p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;</span>static void xio3130_downs=
+tream_write_config(PCIDevice *d, uint32_t address,</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+</span>uint32_t val, int len)</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">@=
+@ -111,6 &#43;113,8 @@ static void xio3130_downstream_realize(PCIDevice *d,=
+ Error **errp)</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+</span>goto err;</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;&nbsp; &nbsp;
+</span>}</span></p>
+<p class=3D"p2" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo; min-height: 13px;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+/span><br>
+</p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">&=
+#43;</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">&=
+#43;<span class=3D"Apple-converted-space">&nbsp; &nbsp;
+</span>pcie_acs_init(d, XIO3130_ACS_OFFSET);</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;&nbsp; &nbsp;
+</span>return;</span></p>
+<p class=3D"p2" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo; min-height: 13px;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+/span><br>
+</p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;"><=
+span class=3D"Apple-converted-space">&nbsp;</span>err:</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">-=
+-</span></p>
+<p class=3D"p1" style=3D"margin-right: 0px; margin-left: 0px; font-variant-=
+numeric: normal; font-variant-east-asian: normal; font-stretch: normal; fon=
+t-size: 11px; line-height: normal; font-family: Menlo;">
+<span class=3D"s1" style=3D"font-variant-ligatures: no-common-ligatures;">2=
+.24.3 (Apple Git-128)</span></p>
+<br>
+<p></p>
+</div>
+</body>
+</html>
 
+--_000_41ad928a29254bde80bef091fef72d36baiducom_--
 
