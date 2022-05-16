@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882B25292EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:34:32 +0200 (CEST)
-Received: from localhost ([::1]:49512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A626529283
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:16:29 +0200 (CEST)
+Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqiMJ-000348-L2
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58848)
+	id 1nqi4q-0002vh-IP
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhhy-0006pr-9l
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28392)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhi1-00070A-S6
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhhw-0006YR-Mj
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:50 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhi0-0006Z8-8x
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734368;
+ s=mimecast20190719; t=1652734371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZopsPpcgukJyCzYerQLzG0FpbYI+ukciaJmZd8n96bI=;
- b=iGw3mfCJZu3YOWg/WJXuXnR+OQoNtgJ5mqfP2aKO1O7k6dH6yEveEvDDLgxDmSozxEzmef
- U1Nk/wTe6xK8CR9rRrGNUvZHHTXPUwzZ+gjwnwEgop9eLA8pkeuRLPvqPqhCVwBhOBRTCc
- i1pkH44+y2v9xF6ClCrH20lbcvBsjQ8=
+ bh=qHG11zW9ytEGJcq0NxBwMU6ZJLK9QPAgcxuYNK5gE5g=;
+ b=cpO2Klo7sty/gXtVSPFwAGvFEOJvbLxr4kU3/JdyDD51o9xnEbJI6aTx9sqBc6s4W6y0kk
+ WS2C38GN+8lc1mt1gn7066xpgEjDKNjOUhlrDXS0Q3Pd4bCIbaDOzeYgy7OFjWN2jIoZwE
+ Dg4w+w3n4EKyY7ip9iAtMC7X2Di+2/0=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-PZaWhItLNieWR2mPS2wsNg-1; Mon, 16 May 2022 16:52:47 -0400
-X-MC-Unique: PZaWhItLNieWR2mPS2wsNg-1
+ us-mta-571-v7n8lRuMP66CqvgaZiwqPg-1; Mon, 16 May 2022 16:52:50 -0400
+X-MC-Unique: v7n8lRuMP66CqvgaZiwqPg-1
 Received: by mail-ed1-f70.google.com with SMTP id
- ch28-20020a0564021bdc00b00425cb227ab4so10491321edb.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:52:46 -0700 (PDT)
+ w5-20020a056402128500b0042aa2647eb6so4043103edv.12
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:52:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ZopsPpcgukJyCzYerQLzG0FpbYI+ukciaJmZd8n96bI=;
- b=D/FTQdT1LD836xdekM175wxGWcfJzQAjxo0vNowoqORaqFagVr8+t1eRBK1EK+3cmL
- wGa5tnIoCiAGP+TZdLRlSegeKmpYaZWwhjhEkCD5Q9WPLyldzJ4jHRQTTt8BNclIT15a
- 0zVO87Sfl+2gitDi4Lrbg71XBNUJTpUYLZuUtHoYlnNFBT7BpctJ6X9LsZSe54I0s+qk
- ZZcbMWaTdD43YKnNesIjLOYyelgH8cRG/hhP2mQLIdj2MMyR2sW4odlMmbkCxzPD6spi
- 3HB6tuZwKP/A5slLyvgm4/PWD1mAxZ8wr7smbzSeJrBl+3oYL+WIy/NA/FaPae+ZuWdF
- r2TQ==
-X-Gm-Message-State: AOAM533EmDPbXUD63YxdK/0SxUyoydlARHmZwNLZ5NbIC7X6ahkZtnH7
- dusw62WJfHtf+/mx/y72bgVvESON78Wu5+NSCBfOBgfgkm8EEzV0wbZk8O/5aWIgzz0oI5sfKkf
- 1B4ZQ8W4QyIkstMHc9B19976OGL6KbQKMkt5suRFvKvrU6FXgdbmm1XdaHy1s
-X-Received: by 2002:a17:906:ed1:b0:6f4:ebc2:da8a with SMTP id
- u17-20020a1709060ed100b006f4ebc2da8amr16668092eji.126.1652734365602; 
- Mon, 16 May 2022 13:52:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9K6KN5Q0PP4cAZz+QkvJYiIgNF3n4KdW3tYuAdoXKStn49fDELRd1p5kIc1d3RP8RgykmFw==
-X-Received: by 2002:a17:906:ed1:b0:6f4:ebc2:da8a with SMTP id
- u17-20020a1709060ed100b006f4ebc2da8amr16668073eji.126.1652734365372; 
- Mon, 16 May 2022 13:52:45 -0700 (PDT)
+ bh=qHG11zW9ytEGJcq0NxBwMU6ZJLK9QPAgcxuYNK5gE5g=;
+ b=GCtNOvs1QVNLKSERsECVg6pM1O+0RjzLnUC3KlnsnEju0zlM5otbReKiXKFxY+mXR7
+ utkYax7qNdzYS9WgYZYq45ISjrgfvrQII++itOXOkgl32O0azROjh+o/mee4y9Vov9zw
+ J83QF3pJKzOCd2nMMwdniQqnALsoMkG5PzOwL5MZYqvDbuUWUtiyksHzk7flRkPgIRRi
+ Foul3anAE6oL6dZ4LKrJVCgQAPC6M8TK5oiaeAxaG6yYr1kxWCD2oRT8lzgHcsSeSABF
+ vD87le34SxP58aMjpFmz/DF+lovupw14BKAYtcqhNMueI9MVugDaawwslQoxJXYhYsCP
+ 2KYw==
+X-Gm-Message-State: AOAM530eMs6VySjoYvVsbotafXYnvGEy5C4TS8fPSNWagKnxYddfUWcz
+ Z+R1l8Aja5hJClAzWt7266TSEAG0IZo89cDuSoFhNSmEVCqMEt+j1y0OkL4vVk2H/DvHX+FakOX
+ 1ZVCkDuvzktCmI4oKpjlPMDavmkIPrhTLu+Y/Y7fk7b+/HHmvAyI9bwrjZwBI
+X-Received: by 2002:a17:907:7e92:b0:6f4:c553:c734 with SMTP id
+ qb18-20020a1709077e9200b006f4c553c734mr16997639ejc.286.1652734369177; 
+ Mon, 16 May 2022 13:52:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyU6x1Z7htMQ4ImhvZz23KKTzCwr+gD2qQehvaLXIEYazg1OdozcjRJG4OzKlVtg9Qjpdhncw==
+X-Received: by 2002:a17:907:7e92:b0:6f4:c553:c734 with SMTP id
+ qb18-20020a1709077e9200b006f4c553c734mr16997623ejc.286.1652734368960; 
+ Mon, 16 May 2022 13:52:48 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- u20-20020aa7d554000000b0042ac2705444sm389199edr.58.2022.05.16.13.52.42
+ zd20-20020a17090698d400b006f3ef214e46sm155413ejb.172.2022.05.16.13.52.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:52:44 -0700 (PDT)
-Date: Mon, 16 May 2022 16:52:41 -0400
+ Mon, 16 May 2022 13:52:48 -0700 (PDT)
+Date: Mon, 16 May 2022 16:52:45 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL v2 37/86] i386/pc: Enable CXL fixed memory windows
-Message-ID: <20220516204913.542894-38-mst@redhat.com>
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL v2 38/86] tests/acpi: q35: Allow addition of a CXL test.
+Message-ID: <20220516204913.542894-39-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,82 +98,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Add the CFMWs memory regions to the memorymap and adjust the
-PCI window to avoid hitting the same memory.
+Add exceptions for the DSDT and the new CEDT tables
+specific to a new CXL test in the following patch.
 
-Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-Message-Id: <20220429144110.25167-36-Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Message-Id: <20220429144110.25167-37-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc.c | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ tests/data/acpi/q35/CEDT.cxl                | 0
+ tests/data/acpi/q35/DSDT.cxl                | 0
+ 3 files changed, 2 insertions(+)
+ create mode 100644 tests/data/acpi/q35/CEDT.cxl
+ create mode 100644 tests/data/acpi/q35/DSDT.cxl
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 03d14f6564..312eb9e400 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -817,7 +817,7 @@ void pc_memory_init(PCMachineState *pcms,
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
--    hwaddr cxl_base;
-+    hwaddr cxl_base, cxl_resv_end = 0;
- 
-     assert(machine->ram_size == x86ms->below_4g_mem_size +
-                                 x86ms->above_4g_mem_size);
-@@ -925,6 +925,24 @@ void pc_memory_init(PCMachineState *pcms,
-         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
-         memory_region_add_subregion(system_memory, cxl_base, mr);
-+        cxl_resv_end = cxl_base + cxl_size;
-+        if (machine->cxl_devices_state->fixed_windows) {
-+            hwaddr cxl_fmw_base;
-+            GList *it;
-+
-+            cxl_fmw_base = ROUND_UP(cxl_base + cxl_size, 256 * MiB);
-+            for (it = machine->cxl_devices_state->fixed_windows; it; it = it->next) {
-+                CXLFixedWindow *fw = it->data;
-+
-+                fw->base = cxl_fmw_base;
-+                memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
-+                                      "cxl-fixed-memory-region", fw->size);
-+                memory_region_add_subregion(system_memory, fw->base, &fw->mr);
-+                e820_add_entry(fw->base, fw->size, E820_RESERVED);
-+                cxl_fmw_base += fw->size;
-+                cxl_resv_end = cxl_fmw_base;
-+            }
-+        }
-     }
- 
-     /* Initialize PC system firmware */
-@@ -954,6 +972,10 @@ void pc_memory_init(PCMachineState *pcms,
-         if (!pcmc->broken_reserved_end) {
-             res_mem_end += memory_region_size(&machine->device_memory->mr);
-         }
-+
-+        if (machine->cxl_devices_state->is_enabled) {
-+            res_mem_end = cxl_resv_end;
-+        }
-         *val = cpu_to_le64(ROUND_UP(res_mem_end, 1 * GiB));
-         fw_cfg_add_file(fw_cfg, "etc/reserved-memory-end", val, sizeof(*val));
-     }
-@@ -990,6 +1012,13 @@ uint64_t pc_pci_hole64_start(void)
-     if (ms->cxl_devices_state->host_mr.addr) {
-         hole64_start = ms->cxl_devices_state->host_mr.addr +
-             memory_region_size(&ms->cxl_devices_state->host_mr);
-+        if (ms->cxl_devices_state->fixed_windows) {
-+            GList *it;
-+            for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
-+                CXLFixedWindow *fw = it->data;
-+                hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
-+            }
-+        }
-     } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
-         hole64_start = ms->device_memory->base;
-         if (!pcmc->broken_reserved_end) {
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..7c7f9fbc44 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.cxl",
++"tests/data/acpi/q35/CEDT.cxl",
+diff --git a/tests/data/acpi/q35/CEDT.cxl b/tests/data/acpi/q35/CEDT.cxl
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
+new file mode 100644
+index 0000000000..e69de29bb2
 -- 
 MST
 
