@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EB75282F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:15:33 +0200 (CEST)
-Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786EE528305
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:20:05 +0200 (CEST)
+Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYhI-00045h-1H
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:15:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48104)
+	id 1nqYlg-0001kM-Cw
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5a-0006Ib-Sl
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42043)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5n-0006RK-2y
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5Z-0005GA-1A
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5k-0005JE-Cc
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697392;
+ s=mimecast20190719; t=1652697403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dfCW3nhFWGiKDdrFS6KcMLbjRvhVTdngWAjxQhHu0b8=;
- b=hf6vif0f4sbYYKmqISg61aBWfv2o72kEIiNCiUzN4obqA0LXY4PFwmu11WULOwpj1olHxN
- 9CB/yNYnvus+sIn/1KqsSvvKC0E9P6WXkBTkGYieEn5xvQlQEQnaA1Ddl1WmjpnghdKKW2
- RfjYB2+Tpwiq0alF/Ykjp47rPvUDIKE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UpQuvyJLH+nQ64Jd2wTqiT7NLVxMdxuRmwjxSAFXTe0=;
+ b=HruLHksH0XhRKVUS0ufm8XX1mpLsNlGmpBdPoF7iSlMZDqqbHj0GcUrwV699eoYbGCZM1B
+ 7atOqLUdIjYmlRw8RcC48TdYaDulpqbVbzsADnHgfXkqyG7eu3gKxSare7fWbjNWWiFGiH
+ OKv3PRXdoXUMzADZT4z1LWzoOOnwov8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-Q1k-Q3anNK2fYGyGVhDiSw-1; Mon, 16 May 2022 06:36:31 -0400
-X-MC-Unique: Q1k-Q3anNK2fYGyGVhDiSw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 205-20020a1c02d6000000b003928cd3853aso10132961wmc.9
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:31 -0700 (PDT)
+ us-mta-518-DoCXZahyPBycEiMyCAFlxg-1; Mon, 16 May 2022 06:36:35 -0400
+X-MC-Unique: DoCXZahyPBycEiMyCAFlxg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k5-20020a05600c0b4500b003941ca130f9so6565600wmr.0
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=dfCW3nhFWGiKDdrFS6KcMLbjRvhVTdngWAjxQhHu0b8=;
- b=mLosXIwtkV5XpzaYnuV0FU+zHURq/RAquoXb5KiXgironKtwrsltWKyyI8FyR0QsVE
- M7hVadbRndk/rqt30BRE7O8UGbGckc7cI8YrZnvaN4KjVnlHKk1qDvnCKGUxu4ic+nwc
- 25trRrXF+AZdp4DNJ847ClZV6VEqqe1umbT8OralvwxOL0qMzZka++7FjvZn0+UjAc+P
- PNSFImVx5EbrFPN8/eTYSJXs2q1gwG2JhCg2ga3vfJxqHmwtr1MBfgJ7y7Wpof4IRmTv
- z7aM6DImemSgxTFW+U0RNN17nJm1C1FlTfM/xNjZKO8oJEdGH4I9PV3ASCLNmbLUYIb8
- EHVA==
-X-Gm-Message-State: AOAM530tE/hC/d2cqpFhYmNQ1g/AfUqWC20d8c5NyWPLXK5vA86cGB1m
- o8YasBILO30PzOKiuWuuRdMzl8ZehMxWmJTJYUUZr3TgFqZsuKTvFap9kEvoubI5nvxM6c/djL1
- ZGFoDwvQFdJDp6YQljAzYa/5KQ+zKiLJEqpACdVFf/+LfeG0p4OjX4LtEutMw
-X-Received: by 2002:a05:600c:6022:b0:394:81cb:8c9 with SMTP id
- az34-20020a05600c602200b0039481cb08c9mr16193466wmb.111.1652697390055; 
- Mon, 16 May 2022 03:36:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxn8anBRmfLcXJnQmv8xEUN1shGs2vmE5H+CW1A8500vu+w53F8ShOvvRJmiAn2HvYUQPrDzg==
-X-Received: by 2002:a05:600c:6022:b0:394:81cb:8c9 with SMTP id
- az34-20020a05600c602200b0039481cb08c9mr16193428wmb.111.1652697389700; 
- Mon, 16 May 2022 03:36:29 -0700 (PDT)
+ bh=UpQuvyJLH+nQ64Jd2wTqiT7NLVxMdxuRmwjxSAFXTe0=;
+ b=Ld2vEhXuvcWJDOkCmWYAvnjSU/k6N8TSzaHj4JifeqCqeaVeAH21uFj0Sfa1vAGghN
+ g79tMuoqQTmRq4MyWb+w2Le9hpY9oTNiEGT6epO6X/7ZVO99OdxxRhozw8sGlagw0pAy
+ 7Js9NIClfju/OqIB3U/os0SNMWPYh0W/ncqOC8nNYzoxIGYgo7z25FdC81SUj7V2DrWb
+ YlsDInfmTKY/BngLoAkqvS5F+xRbUVX/CX2UWCrFVPVFt7UC3Ph7bdwFU7tJOkSu59Gv
+ hcX36NAr8tGP9iA7ITQnvy/vUSDpHNCNwmeKLSqU4AheDccX6F6HszSdRjU3vTZGbTDu
+ xing==
+X-Gm-Message-State: AOAM531tpf0s3YVVwD9mJ/8ArVLqStRks3IhYPdxUpHcnd177j/c9nmU
+ Hz0KWF8EPRaQxXxBZiKj3h40Mc7KOh/et1pOkuuNiu3xzeXx98aO/orkxx090oNkszgNApqbvde
+ v9nM4rZNSoaapgKcI1YLlXv1nDSyIMpGYEjazhx0S1B4s9W5x4q2MPw+qbzWm
+X-Received: by 2002:a05:600c:1d08:b0:394:54ee:c994 with SMTP id
+ l8-20020a05600c1d0800b0039454eec994mr16075283wms.137.1652697393694; 
+ Mon, 16 May 2022 03:36:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy98uGfaUx38RhKJoVleVMRiF4YUkabFjnykJoLBeUktqj3I7bWlZYyhMvBodYr5HX5ytSlSQ==
+X-Received: by 2002:a05:600c:1d08:b0:394:54ee:c994 with SMTP id
+ l8-20020a05600c1d0800b0039454eec994mr16075258wms.137.1652697393311; 
+ Mon, 16 May 2022 03:36:33 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- l16-20020a1ced10000000b00396f8c79d22sm6043107wmh.11.2022.05.16.03.36.26
+ a21-20020a05600c225500b00395b809dfd3sm10383747wmm.12.2022.05.16.03.36.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:36:29 -0700 (PDT)
-Date: Mon, 16 May 2022 06:36:25 -0400
+ Mon, 16 May 2022 03:36:32 -0700 (PDT)
+Date: Mon, 16 May 2022 06:36:30 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Ben Widawsky <ben.widawsky@intel.com>,
+ "Jonathan . Cameron" <Jonathan.Cameron@huawei.com>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL 15/91] cxl: Machine level control on whether CXL support is
- enabled
-Message-ID: <20220516095448.507876-16-mst@redhat.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 16/91] hw/pxb: Allow creation of a CXL PXB (host bridge)
+Message-ID: <20220516095448.507876-17-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -108,136 +103,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
+From: Ben Widawsky <ben.widawsky@intel.com>
 
-There are going to be some potential overheads to CXL enablement,
-for example the host bridge region reserved in memory maps.
-Add a machine level control so that CXL is disabled by default.
+This works like adding a typical pxb device, except the name is
+'pxb-cxl' instead of 'pxb-pcie'. An example command line would be as
+follows:
+  -device pxb-cxl,id=cxl.0,bus="pcie.0",bus_nr=1
 
-Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+A CXL PXB is backward compatible with PCIe. What this means in practice
+is that an operating system that is unaware of CXL should still be able
+to enumerate this topology as if it were PCIe.
+
+One can create multiple CXL PXB host bridges, but a host bridge can only
+be connected to the main root bus. Host bridges cannot appear elsewhere
+in the topology.
+
+Note that as of this patch, the ACPI tables needed for the host bridge
+(specifically, an ACPI object in _SB named ACPI0016 and the CEDT) aren't
+created. So while this patch internally creates it, it cannot be
+properly used by an operating system or other system software.
+
+Also necessary is to add an exception to scripts/device-crash-test
+similar to that for exiting pxb as both must created on a PCIexpress
+host bus.
+
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Signed-off-by: Jonathan.Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220429144110.25167-14-Jonathan.Cameron@huawei.com>
+Message-Id: <20220429144110.25167-15-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/boards.h  |  2 ++
- include/hw/cxl/cxl.h |  4 ++++
- hw/core/machine.c    | 28 ++++++++++++++++++++++++++++
- hw/i386/pc.c         |  1 +
- 4 files changed, 35 insertions(+)
+ include/hw/pci/pci.h                |  6 ++
+ hw/pci-bridge/pci_expander_bridge.c | 86 ++++++++++++++++++++++++++++-
+ hw/pci/pci.c                        |  7 +++
+ scripts/device-crash-test           |  1 +
+ 4 files changed, 98 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 7b416c9787..fa57bac4fb 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -269,6 +269,7 @@ struct MachineClass {
-     bool ignore_boot_device_suffixes;
-     bool smbus_no_migration_support;
-     bool nvdimm_supported;
-+    bool cxl_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
-     SMPCompatProps smp_props;
-@@ -359,6 +360,7 @@ struct MachineState {
-     CPUArchIdList *possible_cpus;
-     CpuTopology smp;
-     struct NVDIMMState *nvdimms_state;
-+    struct CXLState *cxl_devices_state;
-     struct NumaState *numa_state;
- };
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 98f0d1b844..44dacfa224 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -408,6 +408,7 @@ typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
+ #define TYPE_PCI_BUS "PCI"
+ OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
+ #define TYPE_PCIE_BUS "PCIE"
++#define TYPE_CXL_BUS "CXL"
  
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 554ad93b6b..31af92fd5e 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -17,4 +17,8 @@
- #define CXL_COMPONENT_REG_BAR_IDX 0
- #define CXL_DEVICE_REG_BAR_IDX 2
- 
-+typedef struct CXLState {
-+    bool is_enabled;
-+} CXLState;
-+
- #endif
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 3264c1e11d..b03d9192ba 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -33,6 +33,7 @@
- #include "sysemu/qtest.h"
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
-+#include "hw/cxl/cxl.h"
- #include "migration/global_state.h"
- #include "migration/vmstate.h"
- #include "exec/confidential-guest-support.h"
-@@ -625,6 +626,20 @@ static void machine_set_nvdimm_persistence(Object *obj, const char *value,
-     nvdimms_state->persistence_string = g_strdup(value);
+ typedef void (*pci_bus_dev_fn)(PCIBus *b, PCIDevice *d, void *opaque);
+ typedef void (*pci_bus_fn)(PCIBus *b, void *opaque);
+@@ -770,6 +771,11 @@ static inline void pci_irq_pulse(PCIDevice *pci_dev)
+     pci_irq_deassert(pci_dev);
  }
  
-+static bool machine_get_cxl(Object *obj, Error **errp)
++static inline int pci_is_cxl(const PCIDevice *d)
 +{
-+    MachineState *ms = MACHINE(obj);
-+
-+    return ms->cxl_devices_state->is_enabled;
++    return d->cap_present & QEMU_PCIE_CAP_CXL;
 +}
 +
-+static void machine_set_cxl(Object *obj, bool value, Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+
-+    ms->cxl_devices_state->is_enabled = value;
-+}
-+
- void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
+ static inline int pci_is_express(const PCIDevice *d)
  {
-     QAPI_LIST_PREPEND(mc->allowed_dynamic_sysbus_devices, g_strdup(type));
-@@ -911,6 +926,8 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_size = 128 * MiB;
-     mc->rom_file_has_mr = true;
+     return d->cap_present & QEMU_PCI_CAP_EXPRESS;
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index a6caa1e7b5..f762eb4a6e 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -17,6 +17,7 @@
+ #include "hw/pci/pci_host.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/pci/pci_bridge.h"
++#include "hw/cxl/cxl.h"
+ #include "qemu/range.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+@@ -56,6 +57,16 @@ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_DEV,
+ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
+                          TYPE_PXB_PCIE_DEVICE)
  
-+    /* Few machines support CXL, so default to off */
-+    mc->cxl_supported = false;
-     /* numa node memory size aligned on 8MB by default.
-      * On Linux, each node's border has to be 8MB aligned
-      */
-@@ -1071,6 +1088,16 @@ static void machine_initfn(Object *obj)
-                                         "Valid values are cpu, mem-ctrl");
-     }
- 
-+    if (mc->cxl_supported) {
-+        Object *obj = OBJECT(ms);
++#define TYPE_PXB_CXL_DEVICE "pxb-cxl"
++DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
++                         TYPE_PXB_CXL_DEVICE)
 +
-+        ms->cxl_devices_state = g_new0(CXLState, 1);
-+        object_property_add_bool(obj, "cxl", machine_get_cxl, machine_set_cxl);
-+        object_property_set_description(obj, "cxl",
-+                                        "Set on/off to enable/disable "
-+                                        "CXL instantiation");
++typedef struct CXLHost {
++    PCIHostState parent_obj;
++
++    CXLComponentState cxl_cstate;
++} CXLHost;
++
+ struct PXBDev {
+     /*< private >*/
+     PCIDevice parent_obj;
+@@ -68,6 +79,11 @@ struct PXBDev {
+ 
+ static PXBDev *convert_to_pxb(PCIDevice *dev)
+ {
++    /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PXB_CXL_DEVICE)) {
++        return PXB_CXL_DEV(dev);
 +    }
 +
-     if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
-         ms->numa_state = g_new0(NumaState, 1);
-         object_property_add_bool(obj, "hmat",
-@@ -1108,6 +1135,7 @@ static void machine_finalize(Object *obj)
-     g_free(ms->device_memory);
-     g_free(ms->nvdimms_state);
-     g_free(ms->numa_state);
-+    g_free(ms->cxl_devices_state);
+     return pci_bus_is_express(pci_get_bus(dev))
+         ? PXB_PCIE_DEV(dev) : PXB_DEV(dev);
+ }
+@@ -112,11 +128,20 @@ static const TypeInfo pxb_pcie_bus_info = {
+     .class_init    = pxb_bus_class_init,
+ };
+ 
++static const TypeInfo pxb_cxl_bus_info = {
++    .name          = TYPE_PXB_CXL_BUS,
++    .parent        = TYPE_CXL_BUS,
++    .instance_size = sizeof(PXBBus),
++    .class_init    = pxb_bus_class_init,
++};
++
+ static const char *pxb_host_root_bus_path(PCIHostState *host_bridge,
+                                           PCIBus *rootbus)
+ {
+-    PXBBus *bus = pci_bus_is_express(rootbus) ?
+-                  PXB_PCIE_BUS(rootbus) : PXB_BUS(rootbus);
++    PXBBus *bus = pci_bus_is_cxl(rootbus) ?
++                      PXB_CXL_BUS(rootbus) :
++                      pci_bus_is_express(rootbus) ? PXB_PCIE_BUS(rootbus) :
++                                                    PXB_BUS(rootbus);
+ 
+     snprintf(bus->bus_path, 8, "0000:%02x", pxb_bus_num(rootbus));
+     return bus->bus_path;
+@@ -218,6 +243,10 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
+     return pin - PCI_SLOT(pxb->devfn);
  }
  
- bool machine_usb(MachineState *machine)
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 305d2c0820..45e2d6092f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1761,6 +1761,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported = true;
-     mc->smp_props.dies_supported = true;
-+    mc->cxl_supported = true;
-     mc->default_ram_id = "pc.ram";
++static void pxb_dev_reset(DeviceState *dev)
++{
++}
++
+ static gint pxb_compare(gconstpointer a, gconstpointer b)
+ {
+     const PXBDev *pxb_a = a, *pxb_b = b;
+@@ -389,13 +418,66 @@ static const TypeInfo pxb_pcie_dev_info = {
+     },
+ };
  
-     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
++static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    /* A CXL PXB's parent bus is still PCIe */
++    if (!pci_bus_is_express(pci_get_bus(dev))) {
++        error_setg(errp, "pxb-cxl devices cannot reside on a PCI bus");
++        return;
++    }
++    if (!ms->cxl_devices_state->is_enabled) {
++        error_setg(errp, "Machine does not have cxl=on");
++        return;
++    }
++
++    pxb_dev_realize_common(dev, CXL, errp);
++    pxb_dev_reset(DEVICE(dev));
++}
++
++static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc   = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize             = pxb_cxl_dev_realize;
++    k->exit                = pxb_dev_exitfn;
++    /*
++     * XXX: These types of bridges don't actually show up in the hierarchy so
++     * vendor, device, class, etc. ids are intentionally left out.
++     */
++
++    dc->desc = "CXL Host Bridge";
++    device_class_set_props(dc, pxb_dev_properties);
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++
++    /* Host bridges aren't hotpluggable. FIXME: spec reference */
++    dc->hotpluggable = false;
++    dc->reset = pxb_dev_reset;
++}
++
++static const TypeInfo pxb_cxl_dev_info = {
++    .name          = TYPE_PXB_CXL_DEVICE,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(PXBDev),
++    .class_init    = pxb_cxl_dev_class_init,
++    .interfaces =
++        (InterfaceInfo[]){
++            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++            {},
++        },
++};
++
+ static void pxb_register_types(void)
+ {
+     type_register_static(&pxb_bus_info);
+     type_register_static(&pxb_pcie_bus_info);
++    type_register_static(&pxb_cxl_bus_info);
+     type_register_static(&pxb_host_info);
+     type_register_static(&pxb_dev_info);
+     type_register_static(&pxb_pcie_dev_info);
++    type_register_static(&pxb_cxl_dev_info);
+ }
+ 
+ type_init(pxb_register_types)
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index eb884adef9..6c0656f604 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -228,6 +228,12 @@ static const TypeInfo pcie_bus_info = {
+     .class_init = pcie_bus_class_init,
+ };
+ 
++static const TypeInfo cxl_bus_info = {
++    .name       = TYPE_CXL_BUS,
++    .parent     = TYPE_PCIE_BUS,
++    .class_init = pcie_bus_class_init,
++};
++
+ static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
+ static void pci_update_mappings(PCIDevice *d);
+ static void pci_irq_handler(void *opaque, int irq_num, int level);
+@@ -2946,6 +2952,7 @@ static void pci_register_types(void)
+ {
+     type_register_static(&pci_bus_info);
+     type_register_static(&pcie_bus_info);
++    type_register_static(&cxl_bus_info);
+     type_register_static(&conventional_pci_interface_info);
+     type_register_static(&cxl_interface_info);
+     type_register_static(&pcie_interface_info);
+diff --git a/scripts/device-crash-test b/scripts/device-crash-test
+index 4bfc68c008..a203b3fdea 100755
+--- a/scripts/device-crash-test
++++ b/scripts/device-crash-test
+@@ -93,6 +93,7 @@ ERROR_RULE_LIST = [
+     {'device':'pci-bridge', 'expected':True},              # Bridge chassis not specified. Each bridge is required to be assigned a unique chassis id > 0.
+     {'device':'pci-bridge-seat', 'expected':True},         # Bridge chassis not specified. Each bridge is required to be assigned a unique chassis id > 0.
+     {'device':'pxb', 'expected':True},                     # Bridge chassis not specified. Each bridge is required to be assigned a unique chassis id > 0.
++    {'device':'pxb-cxl', 'expected':True},                 # pxb-cxl devices cannot reside on a PCI bus.
+     {'device':'scsi-block', 'expected':True},              # drive property not set
+     {'device':'scsi-generic', 'expected':True},            # drive property not set
+     {'device':'scsi-hd', 'expected':True},                 # drive property not set
 -- 
 MST
 
