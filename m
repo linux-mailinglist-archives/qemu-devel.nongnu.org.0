@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2C352936D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 00:13:17 +0200 (CEST)
-Received: from localhost ([::1]:35616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2667D52935B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 00:08:13 +0200 (CEST)
+Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqixo-00057y-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 18:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59964)
+	id 1nqist-0004Jh-UN
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 18:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhku-0003jV-Du
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23410)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhl3-00047l-94
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:56:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhkt-00077v-11
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhl1-0007D5-Mk
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:56:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734550;
+ s=mimecast20190719; t=1652734559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0GTH59JWKOeRS7zqFMCuFUwNlALdgVyHqFli+h6OjD8=;
- b=greGScmkHdZaeh/U3oLsc8Jgj4eoDy2m6aJPX1XdT1qphgCIS9ZT+V1Lr8zK/ibn9FdrtA
- IDwtpnlcVXrXUwwJiPSXY77Dwh1j6/L7d32dyvf21oNXkyqbpX8Jdr+zPmHtrP89GHdTSu
- Ef7b3hynAEznNDKTUqMn09bS+AdUBvE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UHGGaFTQEvvsEKv7hmkjH6Y6C6gtUrxY2Yx4FiVtqx4=;
+ b=N6/3hT1Le980h+Ak5z0WJdmOGVCqyfKlz194ScaJYvtriaPMeE608Kd4NpeTbp3LJvFOHy
+ VEQGeFfOZSKkK2pZ9N8Xwk/D61xz4EWX4rB66iKElNp7qKKzjlNoz7uVFMt2u9hWnxwZZ9
+ /Jo0Dha6yWGBbdLBxNd2L+nzvN1dGKk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-d1gBLSsVNZCvK-GwPE0OXg-1; Mon, 16 May 2022 16:55:49 -0400
-X-MC-Unique: d1gBLSsVNZCvK-GwPE0OXg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- re25-20020a170906d8d900b006f50701fbefso6354566ejb.23
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:49 -0700 (PDT)
+ us-mta-176-DY8CTYmDNsOizj-gyTD8Xg-1; Mon, 16 May 2022 16:55:52 -0400
+X-MC-Unique: DY8CTYmDNsOizj-gyTD8Xg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ jx8-20020a170906ca4800b006f88b28f2f6so6351602ejb.11
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0GTH59JWKOeRS7zqFMCuFUwNlALdgVyHqFli+h6OjD8=;
- b=jI0hCqdiZ4YWDtHSeFVLaQ6MwMcLtGy38KvIj8oq0B/8WDO4JE6ioRH4EkrWRG/OaF
- dZ2vdvt2kS7YCRfiwSGUAkHehun9B45aCdle9MB6NBa1NzIz87T7DvEYs8LoLjY5l+k9
- g6s4gOc3SM8QoAFs+8a5/Z8dicVtqn5CfXtICgaRqNRAUU9uRtqEeYmTY4cu2PPmkn2C
- skrYJ4aWJriF67/qCOFzmRiT4aiOR2eYLiv3s1GcX9VxZA1DisM7nbFBlygpCknR11JV
- Cez5P8hJX1aXHCE84yU4MEYZUIpjno1Ccr62Mv6cz7gV6NgyTS4unfr4Wf1nHfOtibJo
- saiQ==
-X-Gm-Message-State: AOAM530XKoXNudrd1B1Im9mNuDlaI1Y45DfYiFQOBUxnWjcklq9GJhgt
- PfCjYoySOH9cN7gNieFLB6tkIEGmChKDxtNQPBsRi1lfJ55GF+5bfrEl2yvp9JDu9rumzDAnE/P
- CuCekMhIuGzTeIEOttsug2TQTj/5nWk3nA5y3SdQfzUsnrcKCmwn1anrOAqvm
-X-Received: by 2002:a17:907:6e1d:b0:6f4:60e6:9fa6 with SMTP id
- sd29-20020a1709076e1d00b006f460e69fa6mr17225709ejc.184.1652734547840; 
- Mon, 16 May 2022 13:55:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBBAMNY6EeOvg/iX7gDfq2pxJZQtkacmLL600AjHr11SkMyxEozmRekYmq5Sr7rzDgR3G5gg==
-X-Received: by 2002:a17:907:6e1d:b0:6f4:60e6:9fa6 with SMTP id
- sd29-20020a1709076e1d00b006f460e69fa6mr17225692ejc.184.1652734547626; 
- Mon, 16 May 2022 13:55:47 -0700 (PDT)
+ bh=UHGGaFTQEvvsEKv7hmkjH6Y6C6gtUrxY2Yx4FiVtqx4=;
+ b=r89j6WOUpLeMbLof00dCV5aP1/JCRTti/MDoysRtIdIADmkg5srQdyHLEHaYolk018
+ TJ2y5cvpUIYwxTIU3nSDAGtccelSaex97TlFiF/7gOtn3jIRaR9WFXN70edeGGuM9TAX
+ WY4I0pqQ1XCgnmfdmwetJ7AB3iRyvhEGN5LYCbcZFbiALxEeBXhwlEY/O66ll6kJ0Tzw
+ PSBgADrB74EKVFWQwbhyt5X40smTgmtJHVzi+OgkzKK56EXu4qzsV8MYHp5CoNN+dAlg
+ BASnXxQFR5c8T2yDYFSDsArD01KFHVaHWkksTD1BFHHLBZQ0bEDzTc0J0SphSaFMgVtD
+ s95w==
+X-Gm-Message-State: AOAM532GY0Qu2RnamKfqXULZFpUTWwAeX2+zNqT4ZM7m5mqMHzl227vi
+ yC/yVVKMliEPmZRPsNX499OuTg6n573Ox+blg46zYThO6jvYR9C62L2CPZUWKIhr6Qve72nwveT
+ CneZLyYhLfx76BSXzwMsnJZrEgGuszzsiVD5RdvlqfMe+gIqA5pdRZRdbdSbK
+X-Received: by 2002:a17:907:7ea7:b0:6f4:7a72:da92 with SMTP id
+ qb39-20020a1709077ea700b006f47a72da92mr16569399ejc.348.1652734551158; 
+ Mon, 16 May 2022 13:55:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmqzpL4S4YKjjvBKH2xte7SAYjpabQn5qBWcOU9RiA7tgI7LREmES2/l7q9/wkL2pcG3NRbQ==
+X-Received: by 2002:a17:907:7ea7:b0:6f4:7a72:da92 with SMTP id
+ qb39-20020a1709077ea700b006f47a72da92mr16569387ejc.348.1652734550953; 
+ Mon, 16 May 2022 13:55:50 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- el3-20020a056402360300b0042aba7ed532sm1127621edb.41.2022.05.16.13.55.46
+ h11-20020aa7c94b000000b00428a42815aasm5768998edt.0.2022.05.16.13.55.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:55:47 -0700 (PDT)
-Date: Mon, 16 May 2022 16:55:44 -0400
+ Mon, 16 May 2022 13:55:50 -0700 (PDT)
+Date: Mon, 16 May 2022 16:55:47 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Si-Wei Liu <si-wei.liu@oracle.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL v2 81/86] vhost-vdpa: fix improper cleanup in
- net_init_vhost_vdpa
-Message-ID: <20220516204913.542894-82-mst@redhat.com>
+Subject: [PULL v2 82/86] vhost-net: fix improper cleanup in vhost_net_start
+Message-ID: <20220516204913.542894-83-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -100,33 +99,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Si-Wei Liu <si-wei.liu@oracle.com>
 
-... such that no memory leaks on dangling net clients in case of
-error.
+vhost_net_start() missed a corresponding stop_one() upon error from
+vhost_set_vring_enable(). While at it, make the error handling for
+err_start more robust. No real issue was found due to this though.
 
 Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <1651890498-24478-4-git-send-email-si-wei.liu@oracle.com>
+Message-Id: <1651890498-24478-5-git-send-email-si-wei.liu@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/vhost-vdpa.c | 4 +++-
+ hw/net/vhost_net.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 1e9fe47c03..df1e69ee72 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -306,7 +306,9 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index df0f050548..ccac5b7a64 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -381,6 +381,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+             r = vhost_set_vring_enable(peer, peer->vring_enable);
  
- err:
-     if (i) {
--        qemu_del_net_client(ncs[0]);
-+        for (i--; i >= 0; i--) {
-+            qemu_del_net_client(ncs[i]);
-+        }
+             if (r < 0) {
++                vhost_net_stop_one(get_vhost_net(peer), dev);
+                 goto err_start;
+             }
+         }
+@@ -390,7 +391,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+ 
+ err_start:
+     while (--i >= 0) {
+-        peer = qemu_get_peer(ncs , i);
++        peer = qemu_get_peer(ncs, i < data_queue_pairs ?
++                                  i : n->max_queue_pairs);
+         vhost_net_stop_one(get_vhost_net(peer), dev);
      }
-     qemu_close(vdpa_device_fd);
- 
+     e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
 -- 
 MST
 
