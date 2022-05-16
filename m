@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD3352810D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 11:51:42 +0200 (CEST)
-Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0805452811F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 11:58:40 +0200 (CEST)
+Received: from localhost ([::1]:47824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqXO9-0006XZ-E7
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 05:51:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36374)
+	id 1nqXUs-0000Hx-NB
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 05:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nqXL1-0005kn-0p
- for qemu-devel@nongnu.org; Mon, 16 May 2022 05:48:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nqXKz-0005pH-2q
- for qemu-devel@nongnu.org; Mon, 16 May 2022 05:48:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652694502;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type; bh=9yyK63bE8UUfmi0idqaI1cyB5A5o2KAaM3zb1+pGdNI=;
- b=DCsJbcKsSK60FRcNxPPDpQBrDR8qnUGhuJ4IWO59uRM2giDJ5mOsAxtm987DjFWXDStvPD
- rlLoI0/jIt09G3XP0LyZCNFgE7f0JxXtSsj8zwGMYpPIwJ+xZ6/36EDO86riyAp75Bkf7p
- y7wBHO3i0GH4IVIKIU2yhLRw2FSzk+s=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-522-20AndjnqNyqzX3Sevkrb2Q-1; Mon, 16 May 2022 05:48:21 -0400
-X-MC-Unique: 20AndjnqNyqzX3Sevkrb2Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- z23-20020a05600c221700b003942fd37764so10078376wml.8
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 02:48:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqXTD-0007pc-10
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 05:56:55 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:43882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqXTB-00079u-8g
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 05:56:54 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id q135so6796830ybg.10
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 02:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c8EIGS2nVOc0XSdyXWOHPBJ/hGuVI9gJsq80KdT/kqE=;
+ b=YZXie1JySzS7Bnk3mJLaIOHvKF10zKtaEB2GG50HfG4F8jRy4QIO+wbm23b8HW+O/e
+ nchAQQfaLQrhb/N9NxWeviXSr9KL16Sr+bNxxiTuFK1wjsBT2b+XvHHWjWNXBN49VtfG
+ dXbTH85g9r4Tz5+eoU5L+ELIxEvbFJOfcMMF/LUI4uDeL9aXbYSLWcTnZQiiP4guxViS
+ 0yIVmLQAki0PnmFoFIYURR4cH6EG6R4UOy3V+3dZgg8Dc8S/uZuuWob5RJHaYsSfGsBM
+ kXmV3O1QWBH8WIrPfP3YVngaNJ3H+XHkI9Ps8qmZJQ7brJi1gEhegl6f7Y61ZI2uTIEe
+ Pqng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:user-agent:reply-to:date
- :message-id:mime-version;
- bh=9yyK63bE8UUfmi0idqaI1cyB5A5o2KAaM3zb1+pGdNI=;
- b=aBp40msAhQ521CFEr2T+R0HlsqNOD/3Q2opcuh8fGv8U05Gjseq0iNlmsVdxHFKx5j
- yFpJ3BQ+RID28NzYQySGWNYixDF4x69PHAHqanXNS0flz/luJOsV9rU3i4WPH5kSV1B0
- QMX/M7myye1hqxPc1n5oCDq5Vg3a38xjndce7cH9OBGN40xda8un8RUM0gDzMCb1E0nG
- 1hIc6l6pXl+LQZ0YrNr7BJYElmHh6u4/uPxPw2Lt8JXz/JybTCyTxDXWdjffA1kQ+foI
- 5uGWXkobRYeaxIT0HITStjs555Z2iU13pEta4Hx+FM8Q1Cx8JK384xFMc++GMraPpN55
- Mhbw==
-X-Gm-Message-State: AOAM533+cBA6nKSR42AAzA/zIpkSeDrGNxb+gl++SUX8Gk0nltHKg9mq
- tv6z0xVdYixvw5bpSRtF7wc+R5k8nH1a2Y9o4XunP+DJ8vPp6nuoRUdNuA2p1vTTcjjt/JeT73U
- ChqAIrnUM4i+DghvOzgNOuPqTTk4S2ioy8WuFuVyb4LsF0QDWkDNEpKyjFBRG1wKMSkQ=
-X-Received: by 2002:adf:ed4e:0:b0:20a:c805:1d62 with SMTP id
- u14-20020adfed4e000000b0020ac8051d62mr13569417wro.134.1652694499941; 
- Mon, 16 May 2022 02:48:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymaqWr/G7KrL4LFQxY9QTJQsqvU8CCyfA43+hENKCPT1TaV8DUnCZZX7Bg1PQHr4cTbZf81w==
-X-Received: by 2002:adf:ed4e:0:b0:20a:c805:1d62 with SMTP id
- u14-20020adfed4e000000b0020ac8051d62mr13569388wro.134.1652694499557; 
- Mon, 16 May 2022 02:48:19 -0700 (PDT)
-Received: from localhost (static-211-115-85-188.ipcom.comunitel.net.
- [188.85.115.211]) by smtp.gmail.com with ESMTPSA id
- n6-20020a1c2706000000b003942a244ec0sm11677612wmn.5.2022.05.16.02.48.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 02:48:19 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org, kvm-devel <kvm@vger.kernel.org>
-Subject: KVM call for 2022-05-17th
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 16 May 2022 11:48:18 +0200
-Message-ID: <878rr1u7tp.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c8EIGS2nVOc0XSdyXWOHPBJ/hGuVI9gJsq80KdT/kqE=;
+ b=QXvXdo4R6JZzMDiJ8+6GwvFdbytjrkACfBY+YfRDv74dWQWYBnZHi3q/WNVk/PfCcr
+ fTHQk9/Bevw8CQoN5qf/RQaQuCZdjJOWBtuj6BH5IK+cH2sedsdUOieJWW63Udq5LMUN
+ GfEyEsmE9P8SGCILwWfgNEIl1nfnrVDPkZwKY1BiW+nXzYSDO9UX5bP3r3GDAzzUCUZo
+ Afu1NQPUGyp4HuWUQgCl1gxRquMx3P3V1ZbCjfvN6Iq2mhzbB6AsT8hWYJEHbknhodLY
+ LtWOI3XbyY4IxWjXMRtr6yCrSM/j/sjKTOuivg2LLif/iurYx7sf61Q3vOziKmwjrJWl
+ cMUw==
+X-Gm-Message-State: AOAM532cNN5KJciHm7d1GAMAWjISSfLwwI7IEOvoftBLJSz7VETzyUOd
+ 0GGqivUHZhqajQ+VDkqVrY0mC4oZj7W5N70LP1BSaw==
+X-Google-Smtp-Source: ABdhPJw1FieDk9pUMJhCP90KmvDycgsRmVUtIRX6w2fEdBXRHF1Jmie40aheHGhghOYSt72FJa/5qWteB7gH3+t+h/0=
+X-Received: by 2002:a5b:b10:0:b0:64d:ab18:2e41 with SMTP id
+ z16-20020a5b0b10000000b0064dab182e41mr4006760ybp.288.1652695011948; Mon, 16
+ May 2022 02:56:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220503152545.1100386-1-fkonrad@xilinx.com>
+ <20220503152545.1100386-3-fkonrad@xilinx.com>
+In-Reply-To: <20220503152545.1100386-3-fkonrad@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 May 2022 10:56:40 +0100
+Message-ID: <CAFEAcA-x+7Gm9Jo9oPdcXZ0DpeT=PmfXogxZkjVZC_SL3gHNGg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] xlnx_dp: Introduce a vblank signal
+To: frederic.konrad@xilinx.com
+Cc: qemu-devel@nongnu.org, alistair@alistair23.me, edgar.iglesias@gmail.com, 
+ qemu-arm@nongnu.org, sai.pavan.boddu@xilinx.com, edgari@xilinx.com, 
+ fkonrad@amd.com, Sai Pavan Boddu <saipava@xilinx.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,37 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 3 May 2022 at 16:27, <frederic.konrad@xilinx.com> wrote:
+>
+> From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+>
+> Add a periodic timer which raises vblank at a frequency of 30Hz.
+>
+> Signed-off-by: Sai Pavan Boddu <saipava@xilinx.com>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Changes by fkonrad:
+>   - Switched to transaction-based ptimer API.
+>   - Added the DP_INT_VBLNK_START macro.
+> Signed-off-by: Frederic Konrad <fkonrad@amd.com>
+> ---
 
 
-Hi
+> @@ -1309,6 +1323,10 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
+>                                             &as);
+>      AUD_set_volume_out(s->amixer_output_stream, 0, 255, 255);
+>      xlnx_dp_audio_activate(s);
+> +    s->vblank = ptimer_init(vblank_hit, s, PTIMER_POLICY_DEFAULT);
+> +    ptimer_transaction_begin(s->vblank);
+> +    ptimer_set_freq(s->vblank, 30);
+> +    ptimer_transaction_commit(s->vblank);
 
-I know it is a bit late for the call for topics, but it appears that
-there are people who wants to discuss live migration improvements.  If
-we got an agenda, can we have a call tomorrow?
+The ptimer documentation (in include/hw/ptimer.h) says
+ * The default ptimer policy retains backward compatibility with the legacy
+ * timers. Custom policies are adjusting the default one. Consider providing
+ * a correct policy for your timer.
 
-Please, send any topic that you are interested in covering.
+and goes on to describe various weird behaviours of the default
+policy. You almost certainly don't want to use PTIMER_POLICY_DEFAULT
+for a new timer -- instead figure out the behaviour you actually
+want and specify the appropriate flags.
 
-At the end of Monday I will send an email with the agenda or the
-cancellation of the call, so hurry up.
-
-After discussions on the QEMU Summit, we are going to have always open a
-KVM call where you can add topics.
-
- Call details:
-
-By popular demand, a google calendar public entry with it
-
-  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-
-(Let me know if you have any problems with the calendar entry.  I just
-gave up about getting right at the same time CEST, CET, EDT and DST).
-
-If you need phone number details,  contact me privately
-
-Thanks, Juan.
-
+thanks
+-- PMM
 
