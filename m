@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA445288FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:36:20 +0200 (CEST)
-Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1406528954
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:57:24 +0200 (CEST)
+Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqclf-0003hB-Gt
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
+	id 1nqd63-0001oS-Qg
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqccO-0004Hz-1y
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29490)
+ id 1nqccQ-0004Qp-JC
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqccM-0006HL-EY
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:43 -0400
+ id 1nqccO-0006Hs-R7
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652714801;
+ s=mimecast20190719; t=1652714804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NbVHPJqq/z5jQz81E2lUZdsO4OVYTDbEprgMq518NKM=;
- b=ivfL7pdUTi39R7EM5tHZlr+TmOKip4HrIgkJMNAfls90c0cV2edr2+dEEc0mo4LcdATCn6
- HAqT1wDvuWu2OKzvj0GtgmsQPkHjPtLpMm6t/kjZtE9NweHoNy8gGtpqVCYaVYDuXMJbgu
- 16fW0JGN7hzUxbspaBuZqB8ezISeGKo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6002ILqTONKWHZ2+CW0gmA0hy0dAuNSoaH2zvgzC25c=;
+ b=JNJHbmuuQtG9KYbzCgjnUFH+alXtOyurNHrr4u6QjbGhgbO8aB/LWqqQXzlvMb/Cenm0OK
+ besmXoFTP+o0jJ1XhQ8ET8oHteHK8K/mZvR1sMa8sXHTyBp61Iff027rsMz8kE2yDtZJOE
+ nsbaNDvdxl6OT/27lTx2jpJ8jnT5KX0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-uroVF_y_Nl-An5OCEe3krw-1; Mon, 16 May 2022 11:26:37 -0400
-X-MC-Unique: uroVF_y_Nl-An5OCEe3krw-1
+ us-mta-294-sWQ5E0qdMMuco6v1NCnIbA-1; Mon, 16 May 2022 11:26:40 -0400
+X-MC-Unique: sWQ5E0qdMMuco6v1NCnIbA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35BD59483E3;
- Mon, 16 May 2022 15:26:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D274F3802B9A;
+ Mon, 16 May 2022 15:26:39 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1EB13401DBE;
- Mon, 16 May 2022 15:26:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BAD5C492C14;
+ Mon, 16 May 2022 15:26:38 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, ani@anisinha.ca, minyard@acm.org,
  stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
-Subject: [PATCH 18/35] tests: acpi: white-list to be re-factored pc/q35 DSDT
-Date: Mon, 16 May 2022 11:25:53 -0400
-Message-Id: <20220516152610.1963435-19-imammedo@redhat.com>
+Subject: [PATCH 20/35] acpi: q35: isa bridge: use AcpiDevAmlIf interface to
+ build ISA device descriptors
+Date: Mon, 16 May 2022 11:25:55 -0400
+Message-Id: <20220516152610.1963435-21-imammedo@redhat.com>
 In-Reply-To: <20220516152610.1963435-1-imammedo@redhat.com>
 References: <20220516152610.1963435-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,48 +82,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+replaces adhoc build_isa_devices_aml() with generic AcpiDevAmlIf
+way to build bridge AML including all devices that are attached
+to its ISA bus.
+
+Later when PCI is converted to AcpiDevAmlIf, build_q35_isa_bridge()
+will also be dropped since PCI parts itself will take care of
+building device prologue/epilogue AML for each enumerated PCI device.
+
+Expected AML change is contextual, where ISA devices are moved from
+separately declared _SB.PCI0.ISA scope, directly under Device(ISA)
+node.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 31 +++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ hw/i386/acpi-build.c | 30 +++++++++++-------------------
+ hw/isa/lpc_ich9.c    | 19 +++++++++++++++++++
+ 2 files changed, 30 insertions(+), 19 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..d95f4b25c4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,32 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.xapic",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index a5dd3e4fee..33ee5bfcfb 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -861,20 +861,6 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
+     return dev;
+ }
+ 
+-static void build_isa_devices_aml(Aml *table)
+-{
+-    bool ambiguous;
+-    Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
+-    Aml *scope;
+-
+-    assert(obj && !ambiguous);
+-
+-    scope = aml_scope("_SB.PCI0.ISA");
+-    isa_build_aml(ISA_BUS(obj), scope);
+-
+-    aml_append(table, scope);
+-}
+-
+ static void build_dbg_aml(Aml *table)
+ {
+     Aml *field;
+@@ -1260,15 +1246,22 @@ static void build_q35_isa_bridge(Aml *table)
+ {
+     Aml *dev;
+     Aml *scope;
++    Object *obj;
++    bool ambiguous;
++
++    /*
++     * temporarily fish out isa bridge, build_q35_isa_bridge() will be dropped
++     * once PCI is converted to AcpiDevAmlIf and would be ble to generate
++     * AML for bridge itself
++     */
++    obj = object_resolve_path_type("", TYPE_ICH9_LPC_DEVICE, &ambiguous);
++    assert(obj && !ambiguous);
+ 
+     scope =  aml_scope("_SB.PCI0");
+     dev = aml_device("ISA");
+     aml_append(dev, aml_name_decl("_ADR", aml_int(0x001F0000)));
+ 
+-    /* ICH9 PCI to ISA irq remapping */
+-    aml_append(dev, aml_operation_region("PIRQ", AML_PCI_CONFIG,
+-                                         aml_int(0x60), 0x0C));
+-
++    call_dev_aml_func(DEVICE(obj), dev);
+     aml_append(scope, dev);
+     aml_append(table, scope);
+ }
+@@ -1511,7 +1504,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_hpet_aml(dsdt);
+         }
+         build_q35_isa_bridge(dsdt);
+-        build_isa_devices_aml(dsdt);
+         if (pm->pcihp_bridge_en) {
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+         }
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 5f143dca17..4553b5925b 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -50,6 +50,7 @@
+ #include "hw/core/cpu.h"
+ #include "hw/nvram/fw_cfg.h"
+ #include "qemu/cutils.h"
++#include "hw/acpi/acpi_aml_interface.h"
+ 
+ /*****************************************************************************/
+ /* ICH9 LPC PCI to ISA bridge */
+@@ -803,12 +804,28 @@ static void ich9_send_gpe(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
+     acpi_send_gpe_event(&s->pm.acpi_regs, s->pm.irq, ev);
+ }
+ 
++static void build_ich9_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
++{
++    BusChild *kid;
++    ICH9LPCState *s = ICH9_LPC_DEVICE(adev);
++    BusState *bus = BUS(s->isa_bus);
++
++    /* ICH9 PCI to ISA irq remapping */
++    aml_append(scope, aml_operation_region("PIRQ", AML_PCI_CONFIG,
++                                           aml_int(0x60), 0x0C));
++
++    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++            call_dev_aml_func(DEVICE(kid->child), scope);
++    }
++}
++
+ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
+     AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_CLASS(klass);
++    AcpiDevAmlIfClass *amldevc = ACPI_DEV_AML_IF_CLASS(klass);
+ 
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->reset = ich9_lpc_reset;
+@@ -833,6 +850,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
+     adevc->ospm_status = ich9_pm_ospm_status;
+     adevc->send_event = ich9_send_gpe;
+     adevc->madt_cpu = pc_madt_cpu_entry;
++    amldevc->build_dev_aml = build_ich9_isa_aml;
+ }
+ 
+ static const TypeInfo ich9_lpc_info = {
+@@ -845,6 +863,7 @@ static const TypeInfo ich9_lpc_info = {
+         { TYPE_HOTPLUG_HANDLER },
+         { TYPE_ACPI_DEVICE_IF },
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { TYPE_ACPI_DEV_AML_IF },
+         { }
+     }
+ };
 -- 
 2.31.1
 
