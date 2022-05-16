@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414FB52837F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:48:06 +0200 (CEST)
-Received: from localhost ([::1]:33490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406FA528352
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:34:09 +0200 (CEST)
+Received: from localhost ([::1]:37676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZCn-0001iI-AJ
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48712)
+	id 1nqYzI-00016v-A2
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7D-0007mJ-1s
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59082)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7G-0007qS-JE
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7B-0005TP-9x
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:14 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7E-0005Th-1t
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697492;
+ s=mimecast20190719; t=1652697495;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2D8zJoKITBIvDeR7b/dV2fYboZZQxIF/D34DE4tt2Q8=;
- b=UVtHZFGGxv6Lv89M8LbvKvuZ/g/g4dop8yADiopTNQeaLmG+H/FCXAxxdWqIl+WuXItHoW
- W+FD4qjzWFruJsByz5ce4QDvajJnGHt5fOyIKmMQEaex335U+8C/NJwSQYwF3VKj38sXbH
- byix7xhAiyz2W/JgFOh6uLktcQc1igY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2MX7GRtcGWhweVhH9nwZohY+y+oXcbntcjH/J+Q42jg=;
+ b=Pu+3Puz7TBksPD+wkY6PZaqqJ1GjISWzwImOh3nHCewW3TIqJzfdz8ChuAZQcDl3fAkGnx
+ Nm8fefaL8frfn29i6RH7L8dQvpvwGpjtU/Vw31agb4E6ordgdN3/Q/SY23faoZKi+IWLbP
+ PFEiJgrrAJS2TEzTocuEYaLfrH2IYQQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-k2U7CMBlMnK-_hkCDmT0PQ-1; Mon, 16 May 2022 06:38:11 -0400
-X-MC-Unique: k2U7CMBlMnK-_hkCDmT0PQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c62-20020a1c3541000000b0038ec265155fso10141431wma.6
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:11 -0700 (PDT)
+ us-mta-665-0FpJq-VVOZajDDWJtKI34A-1; Mon, 16 May 2022 06:38:14 -0400
+X-MC-Unique: 0FpJq-VVOZajDDWJtKI34A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g14-20020a1c4e0e000000b0039425ef54d6so5435975wmh.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=2D8zJoKITBIvDeR7b/dV2fYboZZQxIF/D34DE4tt2Q8=;
- b=IyhZbYCJUnM7vu8iASJarxXO1X6DYJ+/wIxahHyziSLDA+zyrfr08XkCGnq6oJuAIq
- hsDdUSZNSDnVf0SWCrrxYwfacMOPnWP09SUH1lwFfl4hkvKkfwoXbyrft/HR8gVKVFPc
- Kb4ZOcpr9GSTFIkcnxsLWSOtSaYpk9JOcpkFNrjVuCB7BxL2zabBs18m9R6cHHXJczTL
- z3as65+SEu4/minv2xD8SZmes5g9JDNguv2oRjejGZb5tquJIaBexxsuwMcjM+PnXst3
- wR4iCDl3OWzg2TvmACqzniksV4Rv6Oa5i6lHWlwh5pp6LB4igPBrwydOsrg4M7b0qhjp
- Swwg==
-X-Gm-Message-State: AOAM531j+cQhT2he5PqO5Y106X0tj8KCxeBra96smaBuN0B3pJljfwMO
- SPxuQZd4XGp4zQaHj4rQOBDk/GM9RAEsAduHB1+SxFp3R2O/vCGMEDKAK/HlKbNJcfce8nLHtDu
- npGR5x0xKQKhmQY8NMmQV+UW0Na38jrL3YFRyXAnaudypvpN6XUIHPrJHuNKB
-X-Received: by 2002:adf:fd4b:0:b0:20d:80e:395f with SMTP id
- h11-20020adffd4b000000b0020d080e395fmr3924799wrs.81.1652697489980; 
- Mon, 16 May 2022 03:38:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwi/QczLDg6uOWdQXFskybR5FmlWJoH4TK0IqvNIn4UNV6Auv6wTBdtNmcsggEj1PEmjaWLPA==
-X-Received: by 2002:adf:fd4b:0:b0:20d:80e:395f with SMTP id
- h11-20020adffd4b000000b0020d080e395fmr3924775wrs.81.1652697489645; 
- Mon, 16 May 2022 03:38:09 -0700 (PDT)
+ bh=2MX7GRtcGWhweVhH9nwZohY+y+oXcbntcjH/J+Q42jg=;
+ b=aESe3Z3LSUGukdn6utI3v9B6fBjw4qqWvVG5OvF3Fv8zXc7wmUE1BbPlLPzxpiymuv
+ QYAGcYkHMBVQl157c7or42/zsvgzPpdxnso4zT3585b8k/DLETRrTxOHanECg4YXx6Ro
+ QMGx2qDYcrTDYm/lzJA5tKGbxn25EWSInt1dfffu43lhXeXSKuVHs8P1jXDmDGK0r0cM
+ hDxCwDTA3E7p9zNrpLngiYjW//ZbuZc0tSdIDAzIpcG8qJ90AEib4tYfL8AfKqTl581l
+ 0LSZP+/Or/Yh+/4Nsbb11nvzHMs96FV9r3LNeUXYL8F4Na9t2Ny8tLDoS8oMjhRHbjWE
+ GMzQ==
+X-Gm-Message-State: AOAM532TmFj0e91yQp2V04SWAV6grfVHfMgMI29nJvjShEfStw3saFPf
+ egKZvqBIFUcYbi8L3lZgp8l0sknRdLUsImTC4tB7rIWROaTu1l73ZukOBENmGvS760I0slsqvDt
+ JIp5A3N4tB5DZOeEC0Zr0obTO+VsAvFDzj0S8g3ozLWs6ktxJ0a8sG5hFI6bh
+X-Received: by 2002:a05:600c:5113:b0:394:800c:4c36 with SMTP id
+ o19-20020a05600c511300b00394800c4c36mr16350822wms.93.1652697492784; 
+ Mon, 16 May 2022 03:38:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuH1f32gX7zp8qZoQG+UcmE48Mo4k6E8mOKfd2YL5xUjXFP/vU85dTRuhs0XhWV5tG1QTceA==
+X-Received: by 2002:a05:600c:5113:b0:394:800c:4c36 with SMTP id
+ o19-20020a05600c511300b00394800c4c36mr16350801wms.93.1652697492573; 
+ Mon, 16 May 2022 03:38:12 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- e9-20020adfc849000000b0020c5253d926sm9566792wrh.114.2022.05.16.03.38.08
+ i13-20020adfb64d000000b0020ce1c1cf31sm9145785wre.21.2022.05.16.03.38.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:38:09 -0700 (PDT)
-Date: Mon, 16 May 2022 06:38:06 -0400
+ Mon, 16 May 2022 03:38:12 -0700 (PDT)
+Date: Mon, 16 May 2022 06:38:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
-Subject: [PULL 43/91] vhost: Track descriptor chain in private at SVQ
-Message-ID: <20220516095448.507876-44-mst@redhat.com>
+Subject: [PULL 44/91] vhost: Fix device's used descriptor dequeue
+Message-ID: <20220516095448.507876-45-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -102,98 +102,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-The device could have access to modify them, and it definitely have
-access when we implement packed vq. Harden SVQ maintaining a private
-copy of the descriptor chain. Other fields like buffer addresses are
-already maintained sepparatedly.
+Only the first one of them were properly enqueued back.
+
+Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Message-Id: <20220512175747.142058-2-eperezma@redhat.com>
+Message-Id: <20220512175747.142058-3-eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  6 ++++++
- hw/virtio/vhost-shadow-virtqueue.c | 12 +++++++-----
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index e5e24c536d..c132c994e9 100644
---- a/hw/virtio/vhost-shadow-virtqueue.h
-+++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -53,6 +53,12 @@ typedef struct VhostShadowVirtqueue {
-     /* Next VirtQueue element that guest made available */
-     VirtQueueElement *next_guest_avail_elem;
- 
-+    /*
-+     * Backup next field for each descriptor so we can recover securely, not
-+     * needing to trust the device access.
-+     */
-+    uint16_t *desc_next;
-+
-     /* Next head to expose to the device */
-     uint16_t shadow_avail_idx;
- 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 1e5cfe2af6..1d6552b0fe 100644
+index 1d6552b0fe..a8376ef82b 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -138,6 +138,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-     for (n = 0; n < num; n++) {
-         if (more_descs || (n + 1 < num)) {
-             descs[i].flags = flags | cpu_to_le16(VRING_DESC_F_NEXT);
-+            descs[i].next = cpu_to_le16(svq->desc_next[i]);
-         } else {
-             descs[i].flags = flags;
-         }
-@@ -145,10 +146,10 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-         descs[i].len = cpu_to_le32(iovec[n].iov_len);
- 
-         last = i;
--        i = cpu_to_le16(descs[i].next);
-+        i = cpu_to_le16(svq->desc_next[i]);
-     }
- 
--    svq->free_head = le16_to_cpu(descs[last].next);
-+    svq->free_head = le16_to_cpu(svq->desc_next[last]);
+@@ -334,12 +334,22 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+     svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
  }
  
- static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-@@ -336,7 +337,6 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
++static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
++                                             uint16_t num, uint16_t i)
++{
++    for (uint16_t j = 0; j < (num - 1); ++j) {
++        i = le16_to_cpu(svq->desc_next[i]);
++    }
++
++    return i;
++}
++
  static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
                                             uint32_t *len)
  {
--    vring_desc_t *descs = svq->vring.desc;
      const vring_used_t *used = svq->vring.used;
      vring_used_elem_t used_elem;
-     uint16_t last_used;
-@@ -365,7 +365,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+-    uint16_t last_used;
++    uint16_t last_used, last_used_chain, num;
+ 
+     if (!vhost_svq_more_used(svq)) {
+         return NULL;
+@@ -365,7 +375,10 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
          return NULL;
      }
  
--    descs[used_elem.id].next = svq->free_head;
-+    svq->desc_next[used_elem.id] = svq->free_head;
+-    svq->desc_next[used_elem.id] = svq->free_head;
++    num = svq->ring_id_maps[used_elem.id]->in_num +
++          svq->ring_id_maps[used_elem.id]->out_num;
++    last_used_chain = vhost_svq_last_desc_of_chain(svq, num, used_elem.id);
++    svq->desc_next[last_used_chain] = svq->free_head;
      svq->free_head = used_elem.id;
  
      *len = used_elem.len;
-@@ -540,8 +540,9 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
-     svq->vring.used = qemu_memalign(qemu_real_host_page_size(), device_size);
-     memset(svq->vring.used, 0, device_size);
-     svq->ring_id_maps = g_new0(VirtQueueElement *, svq->vring.num);
-+    svq->desc_next = g_new0(uint16_t, svq->vring.num);
-     for (unsigned i = 0; i < svq->vring.num - 1; i++) {
--        svq->vring.desc[i].next = cpu_to_le16(i + 1);
-+        svq->desc_next[i] = cpu_to_le16(i + 1);
-     }
- }
- 
-@@ -574,6 +575,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-         virtqueue_detach_element(svq->vq, next_avail_elem, 0);
-     }
-     svq->vq = NULL;
-+    g_free(svq->desc_next);
-     g_free(svq->ring_id_maps);
-     qemu_vfree(svq->vring.desc);
-     qemu_vfree(svq->vring.used);
 -- 
 MST
 
