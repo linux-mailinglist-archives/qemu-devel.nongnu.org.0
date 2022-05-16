@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64530527DBD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:44:38 +0200 (CEST)
-Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BF8527E82
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 09:25:07 +0200 (CEST)
+Received: from localhost ([::1]:57180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqUT5-0002qY-NT
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:44:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
+	id 1nqV6H-000589-N5
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 03:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqUMW-0000MV-Sh
- for qemu-devel@nongnu.org; Mon, 16 May 2022 02:37:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47739)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nqV0H-0002XZ-7v
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 03:18:53 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:57409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqUMU-0001IP-2m
- for qemu-devel@nongnu.org; Mon, 16 May 2022 02:37:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652683064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TnwDm15htdPZxpNQdxfQLU0DE0JPEnFE8W0eoCpfWas=;
- b=bIger7nbkMbpTlFxTLCUpsFRL6yVoLtVF9Zzk+pkGdWxwBIKsINLPj8cEr318Gf+XPznU/
- XYDjr3JrpHaT2YGmBDStREtzW1D2BHyB1GvwYs9nsmYC2AH8HH6FqV6R8khcXYSNXDwxSA
- mY6gp0an7Ctr0xwvMpLz5X3kKHl/Wgs=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-bGM1QpSgPvakzN77NM8ebA-1; Mon, 16 May 2022 02:37:43 -0400
-X-MC-Unique: bGM1QpSgPvakzN77NM8ebA-1
-Received: by mail-il1-f198.google.com with SMTP id
- a3-20020a92c543000000b002d1108788a1so1002930ilj.4
- for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:37:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TnwDm15htdPZxpNQdxfQLU0DE0JPEnFE8W0eoCpfWas=;
- b=ZAjJMnIaa0rdOjzcMAB0RJ1Sj9iPBXiG126+YphVqJKyI+W+n+ZUHmphNjDzj6IUXt
- q18+DTpSe60/RLJyBHZj8JjdD3AbghaCdANEUPadhJwKSs2GMuBGMGEFsTJkQhee8wOe
- qsP75S5WX0vfUclkTtl+FPJVsGFnTofncdvx7GAXQWqYZle1tKdI10v6IFkDkg/5kT6A
- +S2j0eU4Ng3IZNH07JAP5CA29VG9A+8LMU+1nawjURqa01r4bQaP/P1OZ4f6O/pzAbuU
- OvFA9LNGIRcsWRgZirATYm5MbxaoYD/mElQh6OTHcw5HzANbiqKabR8u7W6ND/QlSPIz
- +toA==
-X-Gm-Message-State: AOAM5312kgKTfYOEEr6Zko92Icb/tXG+LVtdEmZHOSxmdVN29vJdTW4D
- zLqDsDdqC3zP8GU6x+FT/Y4rFRqoXKDktw4F5tg6nSc5quCLbbhMzB0vCIj2Mzgc8MN130OVjrP
- FylhfcfN2IdNIWvtaRRL1fGAM+QENZ+s=
-X-Received: by 2002:a6b:b4c6:0:b0:65b:48b5:9908 with SMTP id
- d189-20020a6bb4c6000000b0065b48b59908mr7357163iof.171.1652683062503; 
- Sun, 15 May 2022 23:37:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxumuWff73ggMZDg88g7ka91WUS7GR+8gd7GiSIfP2f01nVm73a/2cOv/yb4AZOoSV39+tD2U4uV5HbRrwNj8g=
-X-Received: by 2002:a6b:b4c6:0:b0:65b:48b5:9908 with SMTP id
- d189-20020a6bb4c6000000b0065b48b59908mr7357157iof.171.1652683062285; Sun, 15
- May 2022 23:37:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nqV0E-0007ki-LV
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 03:18:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.132])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BE80D10028BA5;
+ Mon, 16 May 2022 09:18:47 +0200 (CEST)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Mon, 16 May
+ 2022 09:18:47 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004414e1081-a4cc-42b5-a69a-8b30e13c60b0,
+ 182B8575423FAF1F37CDABDABB9637A2CFA4B440) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b978e205-66f7-e585-4cf0-6f3946fd1050@kaod.org>
+Date: Mon, 16 May 2022 09:18:46 +0200
 MIME-Version: 1.0
-References: <20220514102958.1163922-1-pbonzini@redhat.com>
-In-Reply-To: <20220514102958.1163922-1-pbonzini@redhat.com>
-From: Alberto Faria <afaria@redhat.com>
-Date: Mon, 16 May 2022 07:37:06 +0100
-Message-ID: <CAELaAXykgoFirkxxcwN1GRrBZeJXf_s5zDaWg-x4Mj+RQmMPmA@mail.gmail.com>
-Subject: Re: [PATCH] block/nvme: separate nvme_get_free_req cases for
- coroutine/non-coroutine context
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 0/5] hw: aspeed: Init all UART's with serial devices
+Content-Language: en-US
+To: Peter Delevoryas <pdel@fb.com>
+CC: <irischenlj@fb.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
+ <zev@bewilderbeest.net>, <openbmc@lists.ozlabs.org>, <andrew@aj.id.au>,
+ <peter.maydell@linaro.org>, <joel@jms.id.au>, Jamin Lin
+ <jamin_lin@aspeedtech.com>
+References: <20220516062328.298336-1-pdel@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220516062328.298336-1-pdel@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 094042a1-8b3c-4f36-9b88-f7553e5c10c3
+X-Ovh-Tracer-Id: 18074915631893023666
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrheeggdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihedvvedtteeutdfgvedtudffveetueeiieefgfefkeehvdelhfeuvdfhjedthfenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhm
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,103 +76,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 14, 2022 at 11:31 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> nvme_get_free_req has very difference semantics when called in
-> coroutine context (when it waits) and in non-coroutine context
-> (when it doesn't).  Split the two cases to make it clear what
-> is being requested.
->
-> Cc: qemu-block@nongnu.org
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block/nvme.c | 48 ++++++++++++++++++++++++++++--------------------
->  1 file changed, 28 insertions(+), 20 deletions(-)
->
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 01fb28aa63..092c1f2f8e 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -293,34 +293,42 @@ static void nvme_kick(NVMeQueuePair *q)
->      q->need_kick = 0;
->  }
->
-> -/* Find a free request element if any, otherwise:
-> - * a) if in coroutine context, try to wait for one to become available;
-> - * b) if not in coroutine, return NULL;
-> - */
-> -static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-> +static NVMeRequest *nvme_get_free_req_nofail_locked(NVMeQueuePair *q)
->  {
->      NVMeRequest *req;
->
-> -    qemu_mutex_lock(&q->lock);
-> -
-> -    while (q->free_req_head == -1) {
-> -        if (qemu_in_coroutine()) {
-> -            trace_nvme_free_req_queue_wait(q->s, q->index);
-> -            qemu_co_queue_wait(&q->free_req_queue, &q->lock);
-> -        } else {
-> -            qemu_mutex_unlock(&q->lock);
-> -            return NULL;
-> -        }
-> -    }
-> -
->      req = &q->reqs[q->free_req_head];
->      q->free_req_head = req->free_req_next;
->      req->free_req_next = -1;
-> -
-> -    qemu_mutex_unlock(&q->lock);
->      return req;
->  }
->
-> +/* Return a free request element if any, otherwise return NULL.  */
-> +static NVMeRequest *nvme_get_free_req_nowait(NVMeQueuePair *q)
-> +{
-> +    QEMU_LOCK_GUARD(&q->lock);
-> +    if (q->free_req_head == -1) {
-> +        return NULL;
-> +    }
-> +    return nvme_get_free_req_nofail_locked(q);
-> +}
-> +
-> +/*
-> + * Return a free request element if any, otherwise wait
-> + * for one to become available
-> + */
+On 5/16/22 08:23, Peter Delevoryas wrote:
+> v2:
+> - Rebased on Cedric's irq proposal. [1]
+> - Added "Introduce common UART init function" patch
+> - Added "Add uarts_num SoC attribute" patch
+> - Rewrote last commit's message for clarity
 
-Might be a bit more precise as: "Wait for a free request to become
-available and return it."
+Looks good to me.
 
-> +static coroutine_fn NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-> +{
-> +    QEMU_LOCK_GUARD(&q->lock);
-> +
-> +    while (q->free_req_head == -1) {
-> +       trace_nvme_free_req_queue_wait(q->s, q->index);
-> +       qemu_co_queue_wait(&q->free_req_queue, &q->lock);
-> +    }
-> +
-> +    return nvme_get_free_req_nofail_locked(q);
-> +}
-> +
->  /* With q->lock */
->  static void nvme_put_free_req_locked(NVMeQueuePair *q, NVMeRequest *req)
->  {
-> @@ -506,7 +514,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
->      AioContext *aio_context = bdrv_get_aio_context(bs);
->      NVMeRequest *req;
->      int ret = -EINPROGRESS;
-> -    req = nvme_get_free_req(q);
-> +    req = nvme_get_free_req_nowait(q);
->      if (!req) {
->          return -EBUSY;
->      }
-> --
-> 2.36.0
->
->
+> I tried testing this by running acceptance tests, particularly the
+> boot_linux_console.py file, but I had to disable the raspi2_initrd case.
+> It's not related to my changes (A/B tested and it fails on upstream/master
+> too), but thought I would mention that.>
+> I also manually tested several machines:
+> 
+> AST2400: https://github.com/facebook/openbmc/releases/download/v2021.49.0/wedge100.mtd
+> AST2500: https://github.com/facebook/openbmc/releases/download/v2021.49.0/fby3.mtd
+> AST2600: https://github.com/facebook/openbmc/releases/download/v2021.49.0/fuji.mtd
+> AST1030: https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
+> 
+> [1] https://lore.kernel.org/qemu-devel/20220516055620.2380197-1-clg@kaod.org/
+I have quite a few images which I run manually. OpenBMC is providing
+images, Aspeed also. Joel did a small tool for the IBM rainier :
 
-Reviewed-by: Alberto Faria <afaria@redhat.com>
+   https://github.com/shenki/qemu-boot-test
+
+Having an automated framework for Aspeed machines pulling images
+from different places would be nice but we cannot put all under
+QEMU.
+
+
+I like the buildroot CI using the QEMU boards. See a pipeline example:
+
+   https://gitlab.com/legoater/buildroot/-/pipelines/539559209
+
+but that's buildroot only and integrating a custom uboot might be
+difficult.
+
+For my ppc needs, I did a quick-and-dirty non-regression test suite :
+
+   https://github.com/legoater/qemu-ppc-boot
+
+
+Anyway, I haven't found a solution nor spent much time on it but
+I am interested !
+
+
+C.
+
+
+
+
+> 
+> Peter Delevoryas (5):
+>    hw: aspeed: Add missing UART's
+>    hw: aspeed: Add uarts_num SoC attribute
+>    hw: aspeed: Ensure AST1030 respects uart-default
+>    hw: aspeed: Introduce common UART init function
+>    hw: aspeed: Init all UART's with serial devices
+> 
+>   hw/arm/aspeed_ast10x0.c     | 32 +++++++++++++++++++++++++++-----
+>   hw/arm/aspeed_ast2600.c     | 27 ++++++++++++++++++++++-----
+>   hw/arm/aspeed_soc.c         | 33 +++++++++++++++++++++++++++++----
+>   include/hw/arm/aspeed_soc.h | 10 ++++++++++
+>   4 files changed, 88 insertions(+), 14 deletions(-)
+> 
 
 
