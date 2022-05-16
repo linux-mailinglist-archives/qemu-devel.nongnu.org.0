@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91781528A23
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:18:34 +0200 (CEST)
-Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20391528A37
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:24:16 +0200 (CEST)
+Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqdQW-0006sU-TX
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
+	id 1nqdW3-0007bo-5h
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:24:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nqcfl-0001s5-73
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:30:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nqcfj-0006wE-Bx
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:30:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652715010;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5rF9yWBK0Vfln3WaVAiivXda/27+1IyDsRIZakWhXOI=;
- b=CfabHaF02CjditmG775TAV998ZCuao5UOnqgJdZ8e1l5Y/uYPemQesLrmOaM8Gv/ynIh0K
- QPWK5NEsCdDb8hKHef0stmNNwzSLNDFNF53nNPRJfo5QhEq1zUi3HU8pEtD8XxlG8Z5EK/
- oG3PdeYSzKIAqqbMC3cqCWroCWuDvTU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412--8Zh_XX5OJ6-DuBU_sg5Pw-1; Mon, 16 May 2022 11:30:09 -0400
-X-MC-Unique: -8Zh_XX5OJ6-DuBU_sg5Pw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E23DA85A5BE
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 15:30:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79DBC40C1421;
- Mon, 16 May 2022 15:30:08 +0000 (UTC)
-Date: Mon, 16 May 2022 16:30:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Leonardo Bras Soares Passos <leobras@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: Re: [PULL 00/16] migration queue
-Message-ID: <YoJt/6S0t3xFS6b/@stefanha-x1.localdomain>
-References: <20220510083355.92738-1-dgilbert@redhat.com>
- <Yno3RvWhwSDZjI7o@work-vm> <Yno8NV5bQPUlqvcx@redhat.com>
- <YnpB4vg2ozbBzUCg@work-vm>
- <CAJ6HWG5Mgaqt9dOVH-0-Y78x96HO5c-TevYeuN5xMvSQqj7W8Q@mail.gmail.com>
- <YoIQgCndgjW1s58k@stefanha-x1.localdomain>
- <YoIb/+zknFIWLyMK@redhat.com> <YoIi01eSEK38R03/@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqchM-0004sj-0g
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:31:52 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:42861)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqchG-0007Gs-3y
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:31:51 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id i11so27593141ybq.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BhwFkIfQNAq5yHXxfV9Lh2OTcOD/RlLclh9meXl9u88=;
+ b=XsovlgD/7D1sS6Kx6EmsFx3zjKNgyg4m3oASzGWo2kyIarbWiwcLcI7i0iaPADyhdW
+ eQWJzS+xM8ugHeQ1bdvku6+dnisE2YFolbnWfcayqo2Qoar50HEmS5FHHgSv5L8pupqS
+ heRE7fl6DYK51B8Eo7/1VZN8VuS+j0+EsycBXjurn+9/srXh8HuKD4dDr6BeAL6gYad2
+ ox7pF4EZsHx7cN4kvPMT5aMxzL0VQLB7SrMx/+D7annSJi/NTYUmV2dpxyvReGEFPbg8
+ 3tVeC9kbJeHWFzFgOYCt30mJNMOmuKWynUMBb2I8d7Pn0srnPu/BiLiKV9mqZ2QhQfzL
+ W6BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BhwFkIfQNAq5yHXxfV9Lh2OTcOD/RlLclh9meXl9u88=;
+ b=4SLcQgZ+Zok3iyxCxQ1PqUHkz2YgwPke0aSZ0xQRbd/oZ4Mo/O4RUMBl3UnMQoKl3h
+ IoEuxrCJHRyL9kWn06zyhVWmDkU403TNzKUZEabrs8bSiTOSPF4q3aq8roO594RfZGEb
+ QfomEwqJLNVfi+ToSjuTW1mFO1Cn9tQ9NSnTZUC1A2RiNg4a2m9c+h9rHVaJflG9urTj
+ vYcWCx+6IRBwv4ZWj8AhhtFttuSzGeTqBjwTq0a0yXyr3m3+40LP48fykqPLHrAuoBv9
+ A54JkHUJATOSSOhsTNUF88eemEmMsCutA8Rx6TkOrvUJzWCfR7/uAVqz++OO4lfUBmTc
+ iPEg==
+X-Gm-Message-State: AOAM530TKKJsJPiNXW2YZC9lHj7nHt/r6t9QXHgEPCTqquQa17kWwJ3M
+ Q4T0WAfW1+OxktuE9W5qmxAR7BUi5IaAzvTXMuSI+g==
+X-Google-Smtp-Source: ABdhPJxiOC2AcQh+GBpHprfeawhjmCrUtKhfP8LP0o+PocIqMMS2e7kj0rubvHTHtX5t1pEUM6JnP4m2GhFrJrmbNUg=
+X-Received: by 2002:a25:2e06:0:b0:64d:b6a5:261a with SMTP id
+ u6-20020a252e06000000b0064db6a5261amr4537045ybu.140.1652715104938; Mon, 16
+ May 2022 08:31:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gGTsbjLD5uCGZSHc"
-Content-Disposition: inline
-In-Reply-To: <YoIi01eSEK38R03/@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220503194843.1379101-1-richard.henderson@linaro.org>
+ <20220503194843.1379101-10-richard.henderson@linaro.org>
+In-Reply-To: <20220503194843.1379101-10-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 May 2022 16:31:33 +0100
+Message-ID: <CAFEAcA_c1FwZoAFx9S533W6RZPGrvUTN9_jL6rkK=9uxfXF4Sg@mail.gmail.com>
+Subject: Re: [PATCH v2 09/74] semihosting: Return void from
+ do_common_semihosting
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,72 +83,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 3 May 2022 at 20:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Perform the cleanup in the FIXME comment in common_semi_gdb_syscall.
+> Do not modify guest registers until the syscall is complete,
+> which in the gdbstub case is asynchronous.
+>
+> In the synchronous non-gdbstub case, use common_semi_set_ret
+> to set the result.  Merge set_swi_errno into common_semi_cb.
+> Rely on the latter for combined return value / errno setting.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  semihosting/common-semi.h     |   2 +-
+>  linux-user/aarch64/cpu_loop.c |   2 +-
+>  linux-user/arm/cpu_loop.c     |   2 +-
+>  linux-user/riscv/cpu_loop.c   |   2 +-
+>  semihosting/arm-compat-semi.c | 571 ++++++++++++++++------------------
+>  target/arm/helper.c           |   4 +-
+>  target/arm/m_helper.c         |   2 +-
+>  target/riscv/cpu_helper.c     |   2 +-
+>  8 files changed, 278 insertions(+), 309 deletions(-)
 
---gGTsbjLD5uCGZSHc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Oof, this is a big patch. I get that to some extent the
+switch from "return the x0 value for callers to set" to
+"leaf functions set x0, everything returns void" has to
+be done as one patch. But for instance this bit:
 
-On Mon, May 16, 2022 at 11:09:23AM +0100, Daniel P. Berrang=E9 wrote:
-> On Mon, May 16, 2022 at 10:40:15AM +0100, Daniel P. Berrang=E9 wrote:
-> > On Mon, May 16, 2022 at 09:51:12AM +0100, Stefan Hajnoczi wrote:
-> > > On Wed, May 11, 2022 at 12:40:07AM -0300, Leonardo Bras Soares Passos=
- wrote:
-> > > > From a previous thread:
-> > > >=20
-> > > > On Thu, Apr 28, 2022 at 1:20 PM Dr. David Alan Gilbert
-> > > > <dgilbert@redhat.com> wrote:
-> > > > >
-> > > > > Leo:
-> > > > >   Unfortunately this is failing a couple of CI tests; the MSG_ZER=
-OCOPY
-> > > > > one I guess is the simpler one; I think Stefanha managed to find =
-the
-> > > > > liburing fix for the __kernel_timespec case, but that looks like =
-a bit
-> > > > > more fun!
-> > > > >
-> > > > > Dave
-> > > >=20
-> > > > I thought Stefanha had fixed this bug, and we were just waiting for=
- a
-> > > > new alpine rootfs/image with that fixed.
-> > > > Is that correct?
-> > >=20
-> > > I didn't fix the liburing __kernel_timespec issue on alpine Linux. It=
-'s
-> > > probably a packaging bug and I gave Dave the email address of the
-> > > package maintainer. I'm not sure if the package maintainer has been
-> > > contacted or released a fixed liburing package.
-> >=20
-> > It was prety easy to bisect the problem with liburing so I filed a
-> > bug pointing to the fix needed:
-> >=20
-> >   https://gitlab.alpinelinux.org/alpine/aports/-/issues/13813
->=20
-> Alpine win the prize for quickest distro bug fix response. The liburing
-> problem is now fixed in all current Alpine release streams, just minutes
-> after I filed the above bug.
+> -static inline uint32_t set_swi_errno(CPUState *cs, uint32_t code)
+> -{
+> -    if (code == (uint32_t)-1) {
+> -#ifdef CONFIG_USER_ONLY
+> -        TaskState *ts = cs->opaque;
+> -
+> -        ts->swi_errno = errno;
+> -#else
+> -        syscall_err = errno;
+> -#endif
+> -    }
+> -    return code;
+> -}
+> -
+>  static inline uint32_t get_swi_errno(CPUState *cs)
+>  {
+>  #ifdef CONFIG_USER_ONLY
+> @@ -290,28 +276,29 @@ static target_ulong common_semi_syscall_len;
+>
+>  static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
+>  {
+> -    target_ulong reg0 = common_semi_arg(cs, 0);
+> -
+>      if (ret == (target_ulong)-1) {
+> -        errno = err;
+> -        set_swi_errno(cs, -1);
+> -        reg0 = ret;
+> +#ifdef CONFIG_USER_ONLY
+> +        TaskState *ts = cs->opaque;
+> +        ts->swi_errno = err;
+> +#else
+> +        syscall_err = err;
+> +#endif
+>      } else {
+>          /* Fixup syscalls that use nonstardard return conventions.  */
+> +        target_ulong reg0 = common_semi_arg(cs, 0);
+>          switch (reg0) {
+>          case TARGET_SYS_WRITE:
+>          case TARGET_SYS_READ:
+> -            reg0 = common_semi_syscall_len - ret;
+> +            ret = common_semi_syscall_len - ret;
+>              break;
+>          case TARGET_SYS_SEEK:
+> -            reg0 = 0;
+> +            ret = 0;
+>              break;
+>          default:
+> -            reg0 = ret;
+>              break;
+>          }
+>      }
+> -    common_semi_set_ret(cs, reg0);
+> +    common_semi_set_ret(cs, ret);
+>  }
 
-Awesome, thank you for identifying the issue and filing the issue!
+seems like it's just inlining a function, renaming a variable,
+moving the point where we initialize it around a little.
+That could be its own patch, right?
 
-Stefan
-
---gGTsbjLD5uCGZSHc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKCbf8ACgkQnKSrs4Gr
-c8giIQf/RpI2Qz7HAUEcQx0uXwKsbj68ervr2qKSzBuWCGDQv6HrR/pnC5Ei2InJ
-SXJjwsiNDhb0ea4npruuyywf1YX16fKLz8eYd68hXt9BLXVCdN4Sm+q2zhU6havn
-tG/be3Cc8T0aBdhz3XIpXclXyNaaENF8AaFAZiryHRSZiwhpF6Wd6vsPHX5/umr9
-uRTgU1jAWbx6Y6oC5EKftKWbThxU5LWQprt83iMFjRYMLhb8bVD1iAhcS1uzdRQX
-SBceLCV32wOoQi3UpP2EM4xDkphh5CUUtMDetQ5VP3Z9s3i9uZSnZWcnbwWLmbmS
-UASmzgPPs8E/uO3R7yh+NfwISNlBBQ==
-=X8kF
------END PGP SIGNATURE-----
-
---gGTsbjLD5uCGZSHc--
-
+thanks
+-- PMM
 
