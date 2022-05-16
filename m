@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8C7528614
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 15:56:00 +0200 (CEST)
-Received: from localhost ([::1]:37158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABED528629
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 15:58:42 +0200 (CEST)
+Received: from localhost ([::1]:45212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqbCY-0002FK-Nx
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 09:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
+	id 1nqbFB-0007st-Ru
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 09:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nqb87-0001TX-V9
- for qemu-devel@nongnu.org; Mon, 16 May 2022 09:51:23 -0400
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:33701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nqb85-0007RO-HT
- for qemu-devel@nongnu.org; Mon, 16 May 2022 09:51:23 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.158])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 2CABD2621C;
- Mon, 16 May 2022 13:51:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Mon, 16 May
- 2022 15:51:16 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0062fc95aee-1932-4d73-8eed-cb6be73ce4ef,
- 182B8575423FAF1F37CDABDABB9637A2CFA4B440) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b89bb57d-bf00-806c-52e6-9e55c24257a8@kaod.org>
-Date: Mon, 16 May 2022 15:51:15 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqbCL-0003ul-9r
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 09:55:45 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:46222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqbCJ-000897-Oz
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 09:55:44 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2fb9a85a124so150559007b3.13
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 06:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Cfak1sCmnJrnV1Yo+NxsxHZCqNDIlqraMOFrcarHYaY=;
+ b=fHAX9WzopvS1YRo5O+t/JwrnH2SkHDcM7Ez++PQ80K4+KJniaAZo0OwN6mu0wOfgWP
+ IJkMO9GsUpNijA97pcx0AMVbLtQCIEhRj8AFlDHYoTpN3onNoGh4o0KLjcSnpODV34NM
+ TEqaJs3WzzMiQiizgFIBQ1we4TdNNlSvTNeDzkUJbESfkRr1pTP0gNr2V97d5nBm9ZKp
+ 7epeYI9pRbANX7DPF2uMXh3P3uH1wJpd+nxgEhXmJJHpkmwgopN5cF3+IaAnsHerkCo4
+ dR60LezUFuPhtKH8iLeYnS6Tihbs1LZQlRNwpj2EM7oShds52KFETK6czOURYP3fVaPr
+ etEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Cfak1sCmnJrnV1Yo+NxsxHZCqNDIlqraMOFrcarHYaY=;
+ b=OuwyGLU7iVJndj4fnZL8vFKgpSgO7FJF7Fv4cXBmh+kztMcSew4syAcZ3rz2giNcIf
+ gJgZE5Kk76Q98nP4baLmuxRrK1Bu00DlWA7M1O7ukk4kLX0qMwrdxmiZ+pNdP9GxUafF
+ S+SV3oUVSvb5fY1JxJnuYoh9/8gmmNuitWebEJ+up+2+20MhqEWzPvUkB1l+2mrWhR1X
+ 6eSE4Az7BzaKrIrVm4TrseIjiWSw1JhuLj4cP8zPKXur+5S4oTFoUDU4wMzzEdYCJaEV
+ remab6pUoK74o/19rhHmXQbZcFtdViFEdauHDNDsfQOwNIXWYtcX4tyycxiApQfBq143
+ sysQ==
+X-Gm-Message-State: AOAM531dpT82NbaZQiEQPhUailzcH7KWGnLqnHMjgh1tlBl/TgsRhgs/
+ bZwK7WV9G+RehPdWinZU5Z4Qhx9DGhxS6krGdYJ1rQ==
+X-Google-Smtp-Source: ABdhPJwMf9vJicoSMjUBZD1g3mNrjeIuQjrxjwj0rrEYkruAGLAwAppiBccuCLUI+0TB8EZ4srJHQtf0Cf2JoJOcCho=
+X-Received: by 2002:a81:1dcf:0:b0:2fa:d094:14ff with SMTP id
+ d198-20020a811dcf000000b002fad09414ffmr20033137ywd.10.1652709342628; Mon, 16
+ May 2022 06:55:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: Getting rid of the last bits of QEMU's 'ad-hoc CI' for merges
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, QEMU Developers
- <qemu-devel@nongnu.org>
-CC: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>, Daniel
- Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Thomas Huth
- <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
 References: <CAFEAcA_SSJ9BBryV0iuXi1G30e6HoMeuNbSpKDh4_+y2oxTLJw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA_SSJ9BBryV0iuXi1G30e6HoMeuNbSpKDh4_+y2oxTLJw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 43a4fd21-5de8-42ee-8210-fa8f66b84860
-X-Ovh-Tracer-Id: 6256625783632530354
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrheehgdeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsghlvggrlhesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ <b89bb57d-bf00-806c-52e6-9e55c24257a8@kaod.org>
+In-Reply-To: <b89bb57d-bf00-806c-52e6-9e55c24257a8@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 May 2022 14:55:31 +0100
+Message-ID: <CAFEAcA-nA4sKyPyRwc-MZbUt14y_4OJrhT3=momO2Cqi8r_9tA@mail.gmail.com>
+Subject: Re: Getting rid of the last bits of QEMU's 'ad-hoc CI' for merges
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,46 +93,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 14:43, Peter Maydell wrote:
-> We've made pretty good progress on transitioning our pre-merge CI
-> from running ad-hoc on machines the person doing the merge has access to
-> to all CI being driven by the Gitlab CI infrastructure. For this (7.1) release
-> cycle I think ideally we should try to get rid of the last few bits
-> of ad-hoc CI so that for 7.2 we are using only the gitlab CI. (This
-> will help in handing over merge request management to Stefan for 7.2.)
-> 
-> I think the last setups I have been using ad-hoc scripting for are:
-> 
-> (1) PPC64 big-endian Linux
-> (2) NetBSD (x86)
-> (3) OpenBSD (x86)
-> 
-> I think we can get away with just dropping ppc64be -- we have
-> coverage for it as a cross-compile setup, and hopefully the
-> s390x CI runner will catch the various "fails tests on big-endian host"
-> issues. (Alternatively if anybody has a ppc64be machine they'd like
-> to let us run a gitlab CI runner on, we could do that :-))
+On Mon, 16 May 2022 at 14:51, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> On 5/16/22 14:43, Peter Maydell wrote:
+> > I think we can get away with just dropping ppc64be -- we have
+> > coverage for it as a cross-compile setup, and hopefully the
+> > s390x CI runner will catch the various "fails tests on big-endian host"
+> > issues. (Alternatively if anybody has a ppc64be machine they'd like
+> > to let us run a gitlab CI runner on, we could do that :-))
+>
+> No recent HW (P8 and above) would run a PPC64 BE distro if LE is
+> supported by HW.
 
-No recent HW (P8 and above) would run a PPC64 BE distro if LE is
-supported by HW.
-  
-The only BE-only HW would be a G5 (970) or a P7 (with OPAL).
-These are really scarce now and I doubt they would be accessible
-for external jobs.
+FWIW, the machine I use for ad-hoc CI is one in the gcc compile
+farm, which is supposedly a "IBM POWER8 8284-22A", running Debian sid.
 
-The simplest would be to run a pseries KVM guest or PowerVM LPAR
-with a debian sid, which still supports BE. Where is the question.
+If BE PPC is fading away then that's another argument for
+living with the loss of CI coverage, I guess.
 
-C.
-
-> 
-> For the BSDs, the ad-hoc CI is just running the tests/vm
-> "make vm-build-netbsd" etc. Is there some way we can get
-> coverage of this into the gitlab CI setup? (I think we
-> have FreeBSD via Cirrus CI, so I have not listed that one.)
-> 
-> thanks
-> -- PMM
-> 
-
+thanks
+-- PMM
 
