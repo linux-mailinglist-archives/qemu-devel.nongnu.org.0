@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10CE5283E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:10:55 +0200 (CEST)
-Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87ED5283FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:17:43 +0200 (CEST)
+Received: from localhost ([::1]:34576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZYq-0002gc-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49184)
+	id 1nqZfS-00009V-Nr
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8H-00016s-TQ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20142)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8H-00016t-Tg
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8D-0005c7-N1
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:19 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8F-0005cK-MQ
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697556;
+ s=mimecast20190719; t=1652697559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EVwXFO1hJL47BNFzbCVhsJOhFL0tZuoDDouWV+nNtcc=;
- b=RmpU9rO+SuOXsd0qu3wG93WU+Ns/SroA79vZjRrl8wmG0Obd+EGKr1olFD1RiMlqqXwhjK
- 4RJg3CBR95Up8mLVK7plEtMX/IQbPn9vS0+JHX16O4ije9DBONK7i/mZkhSrFX+qtevg8b
- 3FMHEAalByAUaqm5+yHg07aTWmgah3A=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=A0NLu4LYJzZO/vmTGecGB8oVWtwmF8SbX1Whz2eHDck=;
+ b=IANaA1Yv8g2Fa0nB6AxU0LMAIVFGwRhIUpAMYHGeRvir+2yiYe5YAJ01LBG7TM+7nplqDu
+ xFGtfhPy0GHFlUiDrmmkulGaldmcgv7nto0t/oFCYsTZfCL+XyTnN//rQuGZPZmdhdmqvz
+ SmeEwAcs6i5T09yCupQ/b1c2myJIvDA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-XkH9GMl-OKOILAHnd9cbSw-1; Mon, 16 May 2022 06:39:15 -0400
-X-MC-Unique: XkH9GMl-OKOILAHnd9cbSw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e11-20020adffc4b000000b0020d059c2347so413748wrs.18
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:39:15 -0700 (PDT)
+ us-mta-65-4fEYv-rSM2K59Xn62WkwBQ-1; Mon, 16 May 2022 06:39:17 -0400
+X-MC-Unique: 4fEYv-rSM2K59Xn62WkwBQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 26-20020a05600c021a00b003940660c053so6566708wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:39:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=EVwXFO1hJL47BNFzbCVhsJOhFL0tZuoDDouWV+nNtcc=;
- b=FmT05L+5CyPcaeZZFxfVQE76sJGHC7jtCGNrcIwu0fJ22Qp9XwB4T8iqj8KeqEM8OT
- 8873CMB/l5FyD5zuG4DeLohhurHJereyJN8AGISIiGdiCzBbm7mzJAcWyrbSZ5/21QZQ
- Rv9ltuiypVdcY3EbFtFTvzJW/slJ/LvZ+gzHrz68GJ9af9MSTb+3WkgnGxmrUNIZmIBD
- SmtIXMsyGmtM59qAXy0LcXJB1aZ/uucGGLIy+6YDCHlhivfLev9kbWRwfThur8CI0wwk
- yvvF34W/eDIB8GnGMp68FmfQgrrxoZGv/mhgp6COapctEGPjHUwF438gO2aQj7lP717y
- o1Eg==
-X-Gm-Message-State: AOAM531KgWPdZ+kWadT6Ni5+hselBdkUmC1QdVjSobjScc0wBOfnT5Tc
- t8FUR389enKUSIoOqud4V2A8UAg2mWSswp5IA+WCQ5WhGcF5cJsSVbIBTMn9GG+Q5jc0EnHAT+d
- K5Qbp5McIM9ufOnJqujDI8D0YGuIZ7JRNxALvlONUsfOfLozFwWIJZdptsu/J
-X-Received: by 2002:a05:600c:354e:b0:394:89ba:e211 with SMTP id
- i14-20020a05600c354e00b0039489bae211mr26262609wmq.86.1652697554199; 
- Mon, 16 May 2022 03:39:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZ5VfmINnG8K/4Q++yi5qK7SyK1qIMgJ4PxrxZtLuwQrKm/7AXzFsRoCeoCanjQkN5TY1p5w==
-X-Received: by 2002:a05:600c:354e:b0:394:89ba:e211 with SMTP id
- i14-20020a05600c354e00b0039489bae211mr26262564wmq.86.1652697553615; 
- Mon, 16 May 2022 03:39:13 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=A0NLu4LYJzZO/vmTGecGB8oVWtwmF8SbX1Whz2eHDck=;
+ b=JNsO5c2c2r4R0brBI1JnqQTCeT+TiFdLyJ95BsJVu15SnoOu+wr8e0lfZbKvdkPtm6
+ jBWBJQeF5Ypu2RXcbuOMzBpjhHvvbhyNMc9XtnyxG9GA+Rd0DMtRofZkmXSvaoL/UH7q
+ D4OL5DZju3wsCFKY1b5cErm2rQAPDvYZyG6Aco5EwcxmBtrOYV+jTDbF2p8jsYWt17xd
+ meMWXXBUVujLe+l6JEQXVKnNu2Ayhg5VPq9vRKR7q6olTBJuy4SA+pnAd6iq58mmIHk+
+ O1vvbGWkN48jU2GzKL7Su4m/lkLXcicPyL7/2G2G2Ku7AU3LfJMyqpRrKVG4TQyT+p1u
+ ckLQ==
+X-Gm-Message-State: AOAM530ZEm2RKIbjB8VjO0t8sNfk5V5Gy2o0RG+jg1mMzuKb+ucVMlC8
+ WcndQyNIoDP8YTa6hkHvLv+rZ9vqaCJ+38DXtOqGiVR7mz68puXGD/ltJn9V1vm13jERZGNUW8f
+ 7vZQ7wSiWzAKh2KDkOZFxzJ+Y1TAApOVS9qSgPAVKuDro3wr6sDOQ/Iq0M1Wi
+X-Received: by 2002:a5d:47c9:0:b0:20c:80bb:a296 with SMTP id
+ o9-20020a5d47c9000000b0020c80bba296mr13428130wrc.384.1652697556424; 
+ Mon, 16 May 2022 03:39:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuOINeDPnVSVDbDOhQVbIWbhVhOyaetnINaxcSoDCVQ6KW0LiLOo+HFOPm17QQL6qKbUO8qA==
+X-Received: by 2002:a5d:47c9:0:b0:20c:80bb:a296 with SMTP id
+ o9-20020a5d47c9000000b0020c80bba296mr13428112wrc.384.1652697556124; 
+ Mon, 16 May 2022 03:39:16 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- r15-20020a7bc08f000000b00394615cf468sm12863041wmh.28.2022.05.16.03.39.12
+ h16-20020adf9cd0000000b0020c5253d8casm9028208wre.22.2022.05.16.03.39.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:39:13 -0700 (PDT)
-Date: Mon, 16 May 2022 06:39:11 -0400
+ Mon, 16 May 2022 03:39:15 -0700 (PDT)
+Date: Mon, 16 May 2022 06:39:13 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 61/91] docs: vhost-user: clean up request/reply description
-Message-ID: <20220516095448.507876-62-mst@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 62/91] docs: vhost-user: rewrite section on ring state machine
+Message-ID: <20220516095448.507876-63-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -103,513 +99,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-It is not necessary to mention which side is sending/receiving
-each payload; it is more interesting to say which is the request
-and which is the reply.  This also matches what vhost-user-gpu.rst
-already does.
+This section is using the word "back-end" to refer to the
+"slave's back-end", and talking about the "client" for
+what the rest of the document calls the "slave".
 
-While at it, ensure that all messages list both the request and
-the reply payload.
+Rework it to free the use of the term "back-end", which in
+the next patch will replace "slave".
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210226143413.188046-2-pbonzini@redhat.com>
-Message-Id: <20220321153037.3622127-5-alex.bennee@linaro.org>
+Message-Id: <20210226143413.188046-3-pbonzini@redhat.com>
+Message-Id: <20220321153037.3622127-6-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- docs/interop/vhost-user.rst | 163 +++++++++++++++++++++---------------
- 1 file changed, 95 insertions(+), 68 deletions(-)
+ docs/interop/vhost-user.rst | 46 +++++++++++++++++--------------------
+ 1 file changed, 21 insertions(+), 25 deletions(-)
 
 diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index f9e721ba5f..1039e7a34e 100644
+index 1039e7a34e..1151326d6f 100644
 --- a/docs/interop/vhost-user.rst
 +++ b/docs/interop/vhost-user.rst
-@@ -866,8 +866,8 @@ Master message types
- ``VHOST_USER_GET_FEATURES``
-   :id: 1
-   :equivalent ioctl: ``VHOST_GET_FEATURES``
--  :master payload: N/A
--  :slave payload: ``u64``
-+  :request payload: N/A
-+  :reply payload: ``u64``
+@@ -332,40 +332,36 @@ bit was dedicated for this purpose::
  
-   Get from the underlying vhost implementation the features bitmask.
-   Feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` signals slave support
-@@ -877,7 +877,8 @@ Master message types
- ``VHOST_USER_SET_FEATURES``
-   :id: 2
-   :equivalent ioctl: ``VHOST_SET_FEATURES``
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
+   #define VHOST_USER_F_PROTOCOL_FEATURES 30
  
-   Enable features in the underlying vhost implementation using a
-   bitmask.  Feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` signals
-@@ -887,8 +888,8 @@ Master message types
- ``VHOST_USER_GET_PROTOCOL_FEATURES``
-   :id: 15
-   :equivalent ioctl: ``VHOST_GET_FEATURES``
--  :master payload: N/A
--  :slave payload: ``u64``
-+  :request payload: N/A
-+  :reply payload: ``u64``
+-Starting and stopping rings
+----------------------------
++Ring states
++-----------
  
-   Get the protocol feature bitmask from the underlying vhost
-   implementation.  Only legal if feature bit
-@@ -903,7 +904,8 @@ Master message types
- ``VHOST_USER_SET_PROTOCOL_FEATURES``
-   :id: 16
-   :equivalent ioctl: ``VHOST_SET_FEATURES``
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
+-Client must only process each ring when it is started.
++Rings can be in one of three states:
  
-   Enable protocol features in the underlying vhost implementation.
+-Client must only pass data between the ring and the backend, when the
+-ring is enabled.
++* stopped: the slave must not process the ring at all.
  
-@@ -917,7 +919,8 @@ Master message types
- ``VHOST_USER_SET_OWNER``
-   :id: 3
-   :equivalent ioctl: ``VHOST_SET_OWNER``
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
+-If ring is started but disabled, client must process the ring without
+-talking to the backend.
++* started but disabled: the slave must process the ring without
++  causing any side effects.  For example, for a networking device,
++  in the disabled state the slave must not supply any new RX packets,
++  but must process and discard any TX packets.
  
-   Issued when a new connection is established. It sets the current
-   *master* as an owner of the session. This can be used on the *slave*
-@@ -925,7 +928,8 @@ Master message types
- 
- ``VHOST_USER_RESET_OWNER``
-   :id: 4
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
- 
- .. admonition:: Deprecated
- 
-@@ -938,8 +942,8 @@ Master message types
- ``VHOST_USER_SET_MEM_TABLE``
-   :id: 5
-   :equivalent ioctl: ``VHOST_SET_MEM_TABLE``
--  :master payload: memory regions description
--  :slave payload: (postcopy only) memory regions description
-+  :request payload: memory regions description
-+  :reply payload: (postcopy only) memory regions description
- 
-   Sets the memory map regions on the slave so it can translate the
-   vring addresses. In the ancillary data there is an array of file
-@@ -962,8 +966,8 @@ Master message types
- ``VHOST_USER_SET_LOG_BASE``
-   :id: 6
-   :equivalent ioctl: ``VHOST_SET_LOG_BASE``
--  :master payload: u64
--  :slave payload: N/A
-+  :request payload: u64
-+  :reply payload: N/A
- 
-   Sets logging shared memory space.
- 
-@@ -975,44 +979,48 @@ Master message types
- ``VHOST_USER_SET_LOG_FD``
-   :id: 7
-   :equivalent ioctl: ``VHOST_SET_LOG_FD``
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
- 
-   Sets the logging file descriptor, which is passed as ancillary data.
- 
- ``VHOST_USER_SET_VRING_NUM``
-   :id: 8
-   :equivalent ioctl: ``VHOST_SET_VRING_NUM``
--  :master payload: vring state description
-+  :request payload: vring state description
-+  :reply payload: N/A
- 
-   Set the size of the queue.
- 
- ``VHOST_USER_SET_VRING_ADDR``
-   :id: 9
-   :equivalent ioctl: ``VHOST_SET_VRING_ADDR``
--  :master payload: vring address description
--  :slave payload: N/A
-+  :request payload: vring address description
-+  :reply payload: N/A
- 
-   Sets the addresses of the different aspects of the vring.
- 
- ``VHOST_USER_SET_VRING_BASE``
-   :id: 10
-   :equivalent ioctl: ``VHOST_SET_VRING_BASE``
--  :master payload: vring state description
-+  :request payload: vring state description
-+  :reply payload: N/A
- 
-   Sets the base offset in the available vring.
- 
- ``VHOST_USER_GET_VRING_BASE``
-   :id: 11
-   :equivalent ioctl: ``VHOST_USER_GET_VRING_BASE``
--  :master payload: vring state description
--  :slave payload: vring state description
-+  :request payload: vring state description
-+  :reply payload: vring state description
- 
-   Get the available vring base offset.
- 
- ``VHOST_USER_SET_VRING_KICK``
-   :id: 12
-   :equivalent ioctl: ``VHOST_SET_VRING_KICK``
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
- 
-   Set the event file descriptor for adding buffers to the vring. It is
-   passed in the ancillary data.
-@@ -1030,7 +1038,8 @@ Master message types
- ``VHOST_USER_SET_VRING_CALL``
-   :id: 13
-   :equivalent ioctl: ``VHOST_SET_VRING_CALL``
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
- 
-   Set the event file descriptor to signal when buffers are used. It is
-   passed in the ancillary data.
-@@ -1048,7 +1057,8 @@ Master message types
- ``VHOST_USER_SET_VRING_ERR``
-   :id: 14
-   :equivalent ioctl: ``VHOST_SET_VRING_ERR``
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
- 
-   Set the event file descriptor to signal when error occurs. It is
-   passed in the ancillary data.
-@@ -1065,8 +1075,8 @@ Master message types
- ``VHOST_USER_GET_QUEUE_NUM``
-   :id: 17
-   :equivalent ioctl: N/A
--  :master payload: N/A
--  :slave payload: u64
-+  :request payload: N/A
-+  :reply payload: u64
- 
-   Query how many queues the backend supports.
- 
-@@ -1077,7 +1087,8 @@ Master message types
- ``VHOST_USER_SET_VRING_ENABLE``
-   :id: 18
-   :equivalent ioctl: N/A
--  :master payload: vring state description
-+  :request payload: vring state description
-+  :reply payload: N/A
- 
-   Signal slave to enable or disable corresponding vring.
- 
-@@ -1087,7 +1098,8 @@ Master message types
- ``VHOST_USER_SEND_RARP``
-   :id: 19
-   :equivalent ioctl: N/A
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
- 
-   Ask vhost user backend to broadcast a fake RARP to notify the migration
-   is terminated for guest that does not support GUEST_ANNOUNCE.
-@@ -1102,7 +1114,8 @@ Master message types
- ``VHOST_USER_NET_SET_MTU``
-   :id: 20
-   :equivalent ioctl: N/A
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
- 
-   Set host MTU value exposed to the guest.
- 
-@@ -1119,7 +1132,8 @@ Master message types
- ``VHOST_USER_SET_SLAVE_REQ_FD``
-   :id: 21
-   :equivalent ioctl: N/A
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
- 
-   Set the socket file descriptor for slave initiated requests. It is passed
-   in the ancillary data.
-@@ -1134,8 +1148,8 @@ Master message types
- ``VHOST_USER_IOTLB_MSG``
-   :id: 22
-   :equivalent ioctl: N/A (equivalent to ``VHOST_IOTLB_MSG`` message type)
--  :master payload: ``struct vhost_iotlb_msg``
--  :slave payload: ``u64``
-+  :request payload: ``struct vhost_iotlb_msg``
-+  :reply payload: ``u64``
- 
-   Send IOTLB messages with ``struct vhost_iotlb_msg`` as payload.
- 
-@@ -1149,7 +1163,8 @@ Master message types
- ``VHOST_USER_SET_VRING_ENDIAN``
-   :id: 23
-   :equivalent ioctl: ``VHOST_SET_VRING_ENDIAN``
--  :master payload: vring state description
-+  :request payload: vring state description
-+  :reply payload: N/A
- 
-   Set the endianness of a VQ for legacy devices. Little-endian is
-   indicated with state.num set to 0 and big-endian is indicated with
-@@ -1164,8 +1179,8 @@ Master message types
- ``VHOST_USER_GET_CONFIG``
-   :id: 24
-   :equivalent ioctl: N/A
--  :master payload: virtio device config space
--  :slave payload: virtio device config space
-+  :request payload: virtio device config space
-+  :reply payload: virtio device config space
- 
-   When ``VHOST_USER_PROTOCOL_F_CONFIG`` is negotiated, this message is
-   submitted by the vhost-user master to fetch the contents of the
-@@ -1178,8 +1193,8 @@ Master message types
- ``VHOST_USER_SET_CONFIG``
-   :id: 25
-   :equivalent ioctl: N/A
--  :master payload: virtio device config space
--  :slave payload: N/A
-+  :request payload: virtio device config space
-+  :reply payload: N/A
- 
-   When ``VHOST_USER_PROTOCOL_F_CONFIG`` is negotiated, this message is
-   submitted by the vhost-user master when the Guest changes the virtio
-@@ -1191,8 +1206,8 @@ Master message types
- ``VHOST_USER_CREATE_CRYPTO_SESSION``
-   :id: 26
-   :equivalent ioctl: N/A
--  :master payload: crypto session description
--  :slave payload: crypto session description
-+  :request payload: crypto session description
-+  :reply payload: crypto session description
- 
-   Create a session for crypto operation. The server side must return
-   the session id, 0 or positive for success, negative for failure.
-@@ -1204,7 +1219,8 @@ Master message types
- ``VHOST_USER_CLOSE_CRYPTO_SESSION``
-   :id: 27
-   :equivalent ioctl: N/A
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
- 
-   Close a session for crypto operation which was previously
-   created by ``VHOST_USER_CREATE_CRYPTO_SESSION``.
-@@ -1216,8 +1232,8 @@ Master message types
- 
- ``VHOST_USER_POSTCOPY_ADVISE``
-   :id: 28
--  :master payload: N/A
--  :slave payload: userfault fd
-+  :request payload: N/A
-+  :reply payload: userfault fd
- 
-   When ``VHOST_USER_PROTOCOL_F_PAGEFAULT`` is supported, the master
-   advises slave that a migration with postcopy enabled is underway,
-@@ -1226,7 +1242,8 @@ Master message types
- 
- ``VHOST_USER_POSTCOPY_LISTEN``
-   :id: 29
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
- 
-   Master advises slave that a transition to postcopy mode has
-   happened.  The slave must ensure that shared memory is registered
-@@ -1237,10 +1254,11 @@ Master message types
- 
- ``VHOST_USER_POSTCOPY_END``
-   :id: 30
--  :slave payload: ``u64``
-+  :request payload: N/A
-+  :reply payload: ``u64``
- 
-   Master advises that postcopy migration has now completed.  The slave
--  must disable the userfaultfd. The response is an acknowledgement
-+  must disable the userfaultfd. The reply is an acknowledgement
-   only.
- 
-   When ``VHOST_USER_PROTOCOL_F_PAGEFAULT`` is supported, this message
-@@ -1252,7 +1270,8 @@ Master message types
- ``VHOST_USER_GET_INFLIGHT_FD``
-   :id: 31
-   :equivalent ioctl: N/A
--  :master payload: inflight description
-+  :request payload: inflight description
-+  :reply payload: N/A
- 
-   When ``VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD`` protocol feature has
-   been successfully negotiated, this message is submitted by master to
-@@ -1263,7 +1282,8 @@ Master message types
- ``VHOST_USER_SET_INFLIGHT_FD``
-   :id: 32
-   :equivalent ioctl: N/A
--  :master payload: inflight description
-+  :request payload: inflight description
-+  :reply payload: N/A
- 
-   When ``VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD`` protocol feature has
-   been successfully negotiated, this message is submitted by master to
-@@ -1273,7 +1293,8 @@ Master message types
- ``VHOST_USER_GPU_SET_SOCKET``
-   :id: 33
-   :equivalent ioctl: N/A
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
- 
-   Sets the GPU protocol socket file descriptor, which is passed as
-   ancillary data. The GPU protocol is used to inform the master of
-@@ -1282,8 +1303,8 @@ Master message types
- ``VHOST_USER_RESET_DEVICE``
-   :id: 34
-   :equivalent ioctl: N/A
--  :master payload: N/A
--  :slave payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
- 
-   Ask the vhost user backend to disable all rings and reset all
-   internal device state to the initial state, ready to be
-@@ -1296,8 +1317,8 @@ Master message types
- ``VHOST_USER_VRING_KICK``
-   :id: 35
-   :equivalent ioctl: N/A
--  :slave payload: vring state description
--  :master payload: N/A
-+  :request payload: vring state description
-+  :reply payload: N/A
- 
-   When the ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` protocol
-   feature has been successfully negotiated, this message may be
-@@ -1310,7 +1331,8 @@ Master message types
- ``VHOST_USER_GET_MAX_MEM_SLOTS``
-   :id: 36
-   :equivalent ioctl: N/A
--  :slave payload: u64
-+  :request payload: N/A
-+  :reply payload: u64
- 
-   When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
-   feature has been successfully negotiated, this message is submitted
-@@ -1323,7 +1345,8 @@ Master message types
- ``VHOST_USER_ADD_MEM_REG``
-   :id: 37
-   :equivalent ioctl: N/A
--  :slave payload: single memory region description
-+  :request payload: N/A
-+  :reply payload: single memory region description
- 
-   When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
-   feature has been successfully negotiated, this message is submitted
-@@ -1346,7 +1369,8 @@ Master message types
- ``VHOST_USER_REM_MEM_REG``
-   :id: 38
-   :equivalent ioctl: N/A
--  :slave payload: single memory region description
-+  :request payload: N/A
-+  :reply payload: single memory region description
- 
-   When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
-   feature has been successfully negotiated, this message is submitted
-@@ -1369,8 +1393,8 @@ Master message types
- ``VHOST_USER_SET_STATUS``
-   :id: 39
-   :equivalent ioctl: VHOST_VDPA_SET_STATUS
--  :slave payload: N/A
--  :master payload: ``u64``
-+  :request payload: ``u64``
-+  :reply payload: N/A
- 
-   When the ``VHOST_USER_PROTOCOL_F_STATUS`` protocol feature has been
-   successfully negotiated, this message is submitted by the master to
-@@ -1380,8 +1404,8 @@ Master message types
- ``VHOST_USER_GET_STATUS``
-   :id: 40
-   :equivalent ioctl: VHOST_VDPA_GET_STATUS
--  :slave payload: ``u64``
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: ``u64``
- 
-   When the ``VHOST_USER_PROTOCOL_F_STATUS`` protocol feature has been
-   successfully negotiated, this message is submitted by the master to
-@@ -1392,11 +1416,14 @@ Master message types
- Slave message types
- -------------------
- 
-+For this type of message, the request is sent by the slave and the reply
-+is sent by the master.
+-For example, for a networking device, in the disabled state client
+-must not supply any new RX packets, but must process and discard any
+-TX packets.
++* started and enabled.
 +
- ``VHOST_USER_SLAVE_IOTLB_MSG``
-   :id: 1
-   :equivalent ioctl: N/A (equivalent to ``VHOST_IOTLB_MSG`` message type)
--  :slave payload: ``struct vhost_iotlb_msg``
--  :master payload: N/A
-+  :request payload: ``struct vhost_iotlb_msg``
-+  :reply payload: N/A
++Each ring is initialized in a stopped state.  The slave must start
++ring upon receiving a kick (that is, detecting that file descriptor is
++readable) on the descriptor specified by ``VHOST_USER_SET_VRING_KICK``
++or receiving the in-band message ``VHOST_USER_VRING_KICK`` if negotiated,
++and stop ring upon receiving ``VHOST_USER_GET_VRING_BASE``.
++
++Rings can be enabled or disabled by ``VHOST_USER_SET_VRING_ENABLE``.
  
-   Send IOTLB messages with ``struct vhost_iotlb_msg`` as payload.
-   Slave sends such requests to notify of an IOTLB miss, or an IOTLB
-@@ -1410,8 +1437,8 @@ Slave message types
- ``VHOST_USER_SLAVE_CONFIG_CHANGE_MSG``
-   :id: 2
-   :equivalent ioctl: N/A
--  :slave payload: N/A
--  :master payload: N/A
-+  :request payload: N/A
-+  :reply payload: N/A
+ If ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been negotiated, the
+-ring is initialized in an enabled state.
++ring starts directly in the enabled state.
  
-   When ``VHOST_USER_PROTOCOL_F_CONFIG`` is negotiated, vhost-user
-   slave sends such messages to notify that the virtio device's
-@@ -1425,8 +1452,8 @@ Slave message types
- ``VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG``
-   :id: 3
-   :equivalent ioctl: N/A
--  :slave payload: vring area description
--  :master payload: N/A
-+  :request payload: vring area description
-+  :reply payload: N/A
+ If ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, the ring is
+-initialized in a disabled state. Client must not pass data to/from the
+-backend until ring is enabled by ``VHOST_USER_SET_VRING_ENABLE`` with
+-parameter 1, or after it has been disabled by
+-``VHOST_USER_SET_VRING_ENABLE`` with parameter 0.
++initialized in a disabled state and is enabled by
++``VHOST_USER_SET_VRING_ENABLE`` with parameter 1.
  
-   Sets host notifier for a specified queue. The queue index is
-   contained in the ``u64`` field of the vring area description. The
-@@ -1448,8 +1475,8 @@ Slave message types
- ``VHOST_USER_SLAVE_VRING_CALL``
-   :id: 4
-   :equivalent ioctl: N/A
--  :slave payload: vring state description
--  :master payload: N/A
-+  :request payload: vring state description
-+  :reply payload: N/A
+-Each ring is initialized in a stopped state, client must not process
+-it until ring is started, or after it has been stopped.
+-
+-Client must start ring upon receiving a kick (that is, detecting that
+-file descriptor is readable) on the descriptor specified by
+-``VHOST_USER_SET_VRING_KICK`` or receiving the in-band message
+-``VHOST_USER_VRING_KICK`` if negotiated, and stop ring upon receiving
+-``VHOST_USER_GET_VRING_BASE``.
+-
+-While processing the rings (whether they are enabled or not), client
++While processing the rings (whether they are enabled or not), the slave
+ must support changing some configuration aspects on the fly.
  
-   When the ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` protocol
-   feature has been successfully negotiated, this message may be
-@@ -1462,8 +1489,8 @@ Slave message types
- ``VHOST_USER_SLAVE_VRING_ERR``
-   :id: 5
-   :equivalent ioctl: N/A
--  :slave payload: vring state description
--  :master payload: N/A
-+  :request payload: vring state description
-+  :reply payload: N/A
- 
-   When the ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` protocol
-   feature has been successfully negotiated, this message may be
-@@ -1489,7 +1516,7 @@ client MUST respond with a Payload ``VhostUserMsg`` indicating success
- or failure. The payload should be set to zero on success or non-zero
- on failure, unless the message already has an explicit reply body.
- 
--The response payload gives QEMU a deterministic indication of the result
-+The reply payload gives QEMU a deterministic indication of the result
- of the command. Today, QEMU is expected to terminate the main vhost-user
- loop upon receiving such errors. In future, qemu could be taught to be more
- resilient for selective requests.
+ Multiple queue support
 -- 
 MST
 
