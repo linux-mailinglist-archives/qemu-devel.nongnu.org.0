@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B07528173
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:07:20 +0200 (CEST)
-Received: from localhost ([::1]:52418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0CD528188
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:12:07 +0200 (CEST)
+Received: from localhost ([::1]:58424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqXdH-0003yO-Mm
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39938)
+	id 1nqXht-00087Z-BG
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nqXaS-0002HB-3w
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:04:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60845)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nqXfR-0007KE-7S
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:09:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nqXaQ-00089w-1P
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:04:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nqXfO-0000at-1b
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:09:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652695461;
+ s=mimecast20190719; t=1652695768;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=kMhIwRRwdbg/YyCc6w6eMiaZ4MIBkbV+8Gx15fqbuBM=;
- b=QQklECoYATTmxok+piX2AH5dhSIECl1bHBfkHiAV+bFSXqqlz+i5+IXCQWdfrnkTbRT/m+
- p1gacYsJv7U737E28QZey4CcjycjJld46AUSPOx2tPv3GgmXql/Im8apWdGDvteGw008qO
- VuGM9CPjfgNmzjXHyo0mGNGytWNT668=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GOvn9y/zpGUMdl9jAaBAaTLm0u/ADvYpuj19XZ02r64=;
+ b=GEEevkJSHj5N3NCUm4hxvRzQe6Dp83CGuLmJ1W/JUdgNF6YaRhqfcR8NosI7UicdfwxDWm
+ eDeKrvrVR5cO4oWml5pTpc1gczq+/25ZZjUv7oSokzrUOjq1c35FSvK8YXUXtbDPjwgivq
+ daulYyMj5IdTRHqUCAjal8TSFGFEF9c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-142-roKZLJVaMrOYQBuyFVxpNQ-1; Mon, 16 May 2022 06:04:20 -0400
-X-MC-Unique: roKZLJVaMrOYQBuyFVxpNQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- e6-20020adfef06000000b0020d08e465e2so325237wro.3
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:04:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=kMhIwRRwdbg/YyCc6w6eMiaZ4MIBkbV+8Gx15fqbuBM=;
- b=LD9duOgutNOWwxJ6bjLNj+2u3mW7LxTrpW938q6aSMoUITEfyT4yDxuF+ETVwmXADJ
- PZ11xdcHdadyciVatxdhkuLjgU2KB3EjYpGVVklrfZ5YFnkMr25RTcilCrXUyOJw6O2i
- 9Tci5Ha2itl9blzSFzwpbJqp4msl/F7fFAHq6zNOkCnQRTjugwgQ22UpWbTpjP8I5PHn
- 0acCKTUayoU3sH2nEfNKRcruNkELOJPLI+0pepFOispNJY1pT/2iIqKaUbvxMGDilQFl
- TZD0t2luo1wD1q+Up1XmOWBx4kejY2uKjnhxDhVcTf55v3fT7gnKnql/w6Pe/mQuC+iU
- Nt0Q==
-X-Gm-Message-State: AOAM533EjucWCvat/GY/FLDeDs4eh/VKYAqFBPRHU4ULdNAGQr21EI0e
- YV7YqzwRxo5TU9D8TkWdkwnjfPif1g4W6JlkH0DPCqjofwK4P/lWuC5Uva3JXHa+CrK60NGOXAZ
- vba3YAPdg19LMI7E=
-X-Received: by 2002:a05:600c:3584:b0:394:5870:2c44 with SMTP id
- p4-20020a05600c358400b0039458702c44mr16147962wmq.4.1652695458755; 
- Mon, 16 May 2022 03:04:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOZewgohhEoywoHGlOptCihOeIDlrMiG4fNMl2XPZ4IHP3SE9RL0BoJOubHqlznDyGCLg0HQ==
-X-Received: by 2002:a05:600c:3584:b0:394:5870:2c44 with SMTP id
- p4-20020a05600c358400b0039458702c44mr16147940wmq.4.1652695458490; 
- Mon, 16 May 2022 03:04:18 -0700 (PDT)
-Received: from localhost (static-211-115-85-188.ipcom.comunitel.net.
- [188.85.115.211]) by smtp.gmail.com with ESMTPSA id
- c13-20020adfa70d000000b0020c5253d8f7sm9352980wrd.67.2022.05.16.03.04.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:04:18 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/2] migration: Calculate ram size once
-In-Reply-To: <94da21f4-60df-9cf9-3317-b762760ecf80@redhat.com> (David
- Hildenbrand's message of "Wed, 11 May 2022 11:22:30 +0200")
-References: <20220510231708.7197-1-quintela@redhat.com>
- <20220510231708.7197-3-quintela@redhat.com>
- <94da21f4-60df-9cf9-3317-b762760ecf80@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 16 May 2022 12:04:17 +0200
-Message-ID: <874k1pu732.fsf@secure.mitica>
+ us-mta-427-PAqTk7wtP_qJhUK11CQ2gw-1; Mon, 16 May 2022 06:09:27 -0400
+X-MC-Unique: PAqTk7wtP_qJhUK11CQ2gw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26AA01C3E984
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 10:09:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 178E3492C14;
+ Mon, 16 May 2022 10:09:25 +0000 (UTC)
+Date: Mon, 16 May 2022 11:09:23 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ Leonardo Bras Soares Passos <leobras@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
+Subject: Re: [PULL 00/16] migration queue
+Message-ID: <YoIi01eSEK38R03/@redhat.com>
+References: <20220510083355.92738-1-dgilbert@redhat.com>
+ <Yno3RvWhwSDZjI7o@work-vm> <Yno8NV5bQPUlqvcx@redhat.com>
+ <YnpB4vg2ozbBzUCg@work-vm>
+ <CAJ6HWG5Mgaqt9dOVH-0-Y78x96HO5c-TevYeuN5xMvSQqj7W8Q@mail.gmail.com>
+ <YoIQgCndgjW1s58k@stefanha-x1.localdomain>
+ <YoIb/+zknFIWLyMK@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YoIb/+zknFIWLyMK@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,80 +87,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Hildenbrand <david@redhat.com> wrote:
-> On 11.05.22 01:17, Juan Quintela wrote:
->> We are recalculating ram size continously, when we know that it don't
->> change during migration.  Create a field in RAMState to track it.
+On Mon, May 16, 2022 at 10:40:15AM +0100, Daniel P. Berrangé wrote:
+> On Mon, May 16, 2022 at 09:51:12AM +0100, Stefan Hajnoczi wrote:
+> > On Wed, May 11, 2022 at 12:40:07AM -0300, Leonardo Bras Soares Passos wrote:
+> > > From a previous thread:
+> > > 
+> > > On Thu, Apr 28, 2022 at 1:20 PM Dr. David Alan Gilbert
+> > > <dgilbert@redhat.com> wrote:
+> > > >
+> > > > Leo:
+> > > >   Unfortunately this is failing a couple of CI tests; the MSG_ZEROCOPY
+> > > > one I guess is the simpler one; I think Stefanha managed to find the
+> > > > liburing fix for the __kernel_timespec case, but that looks like a bit
+> > > > more fun!
+> > > >
+> > > > Dave
+> > > 
+> > > I thought Stefanha had fixed this bug, and we were just waiting for a
+> > > new alpine rootfs/image with that fixed.
+> > > Is that correct?
+> > 
+> > I didn't fix the liburing __kernel_timespec issue on alpine Linux. It's
+> > probably a packaging bug and I gave Dave the email address of the
+> > package maintainer. I'm not sure if the package maintainer has been
+> > contacted or released a fixed liburing package.
+> 
+> It was prety easy to bisect the problem with liburing so I filed a
+> bug pointing to the fix needed:
+> 
+>   https://gitlab.alpinelinux.org/alpine/aports/-/issues/13813
 
-Hi
+Alpine win the prize for quickest distro bug fix response. The liburing
+problem is now fixed in all current Alpine release streams, just minutes
+after I filed the above bug.
 
-> We do have resizable RAM, which triggers ram_mig_ram_block_resized() on
-> resizes when changing block->used_length.
-
-Yeap.
-
-The problem is this bit of the patch:
-
-@@ -2259,7 +2261,7 @@ static int ram_find_and_save_block(RAMState *rs)
-     bool again, found;
- 
-     /* No dirty page as there is zero RAM */
--    if (!ram_bytes_total()) {
-+    if (!rs->ram_bytes_total) {
-         return pages;
-     }
- 
-On 1TB guest, we moved form
-
-75.8 seconds to 70.0 seconds total time just with this change.  This is
-a idle guest full of zero pages.  If thue guest is busier, the effect is
-less noticiable because we spend more time sending pages.
-
-This effect is even more noticeable if you put this series on top of my
-zero page detection series that I sent before.  With that, we end having
-ram_bytes_total_common() as the second function that uses more CPU.
-
-As you can see for the perf profile that I sent, with upstream we get:
-
-
-  10.42%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
-   3.71%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
-
-(I have deleted the functions that are not reletade to this code path.
-ram_find_and_save_block() is the function that calls
-ram_bytes_total_common()).
-
-After the patch, we move to:
-
-  11.32%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
-
-And ram_bytes_total_common() don't even exist.  Notice that my series
-only remove one call to it.  The CPU utilization here is higher for
-ram_find_and_save_block() because:
-
-- Meassuring things is difficult (TM)
-- With this patch, migration goes faster, and then we call
-  ram_find_and_save_block() more times in the same period of time.
-
-> ram_mig_ram_block_resized() aborts migration when we detect a resize on
-> the source. I assume that is what you care about here, right?
-
-Ouch.  Hadn't noticed that we could change the ramsize during
-migration.  Anyways, as you said, if ram size change, we cancel
-migration, so we can still cache the size value. Actually, I have just
-put it on ram_state_init(), because there is where we setup the bitmaps,
-so if we change the bitmap, we change also the ram_size cached value.
-
-Thanks, Juan.
-
-
-
-
-
-
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
