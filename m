@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612FF527DAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:38:07 +0200 (CEST)
-Received: from localhost ([::1]:40114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D9A527D98
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:29:28 +0200 (CEST)
+Received: from localhost ([::1]:32940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqUMo-0007Qx-5U
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51914)
+	id 1nqUER-0002LH-65
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=6135bb9a91=pdel@fb.com>)
- id 1nqU94-0007It-2h
- for qemu-devel@nongnu.org; Mon, 16 May 2022 02:23:56 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:42036)
+ id 1nqU8v-00075T-LF
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 02:23:45 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:22766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=6135bb9a91=pdel@fb.com>)
- id 1nqU92-0007RS-D3
- for qemu-devel@nongnu.org; Mon, 16 May 2022 02:23:53 -0400
+ id 1nqU8s-0007Ok-R3
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 02:23:45 -0400
 Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24G0QTe8028791
- for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:23:51 -0700
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24FMaBnI018359
+ for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:23:41 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=MhV2WzQFftexu84+S3Sz45mHbW9FTIjUzPcUF4rPqx8=;
- b=nmPPW2Wj5Js2ejrFTyIapeFUNOmSdAE8gkDlsNn//8AX62VyZp3puMU6StWh/eId23g7
- rs3eRhPoxwQhYnpZbnAHQzVPSqT8LFHBkc3EcWrVE+uTEpUceV4+lYJKcHCIZspNGtJK
- ZBpHSyOPGe7dnZMt/FayY95HI4zWAR0rZ88= 
+ bh=x4FXEitBRDcPcuntXgCai+9tBY2HrXWzc+iu8zmQfKE=;
+ b=BajbWczbaut8DgTgRjLXODOFpyDpejY41h9ntFHVvxt/3FtwytLoRNl//DqsWjBJRum+
+ DUKKkEbvEtS6yDjGhJFqHIE70S1SXYOIdwUjwySMGu8NyfdVF9LhlqRKdWhcV9C4VElO
+ 8HNyffh1gKRd09KoWF9Evv+YrYsuIPe1r+g= 
 Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3g28fk7mdv-1
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3g28fk7mdd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:23:51 -0700
-Received: from twshared31479.05.prn5.facebook.com (2620:10d:c0a8:1b::d) by
+ for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:23:41 -0700
+Received: from twshared6447.05.prn5.facebook.com (2620:10d:c0a8:1b::d) by
  mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sun, 15 May 2022 23:23:49 -0700
+ 15.1.2375.24; Sun, 15 May 2022 23:23:39 -0700
 Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
- id 0CDC764DCAC6; Sun, 15 May 2022 23:23:30 -0700 (PDT)
+ id 1373B64DCAC8; Sun, 15 May 2022 23:23:30 -0700 (PDT)
 From: Peter Delevoryas <pdel@fb.com>
 To: 
 CC: <pdel@fb.com>, <irischenlj@fb.com>, <qemu-arm@nongnu.org>,
  <qemu-devel@nongnu.org>, <clg@kaod.org>, <zev@bewilderbeest.net>,
  <openbmc@lists.ozlabs.org>, <andrew@aj.id.au>,
  <peter.maydell@linaro.org>, <joel@jms.id.au>
-Subject: [PATCH v2 2/5] hw: aspeed: Add uarts_num SoC attribute
-Date: Sun, 15 May 2022 23:23:25 -0700
-Message-ID: <20220516062328.298336-3-pdel@fb.com>
+Subject: [PATCH v2 3/5] hw: aspeed: Ensure AST1030 respects uart-default
+Date: Sun, 15 May 2022 23:23:26 -0700
+Message-ID: <20220516062328.298336-4-pdel@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220516062328.298336-1-pdel@fb.com>
 References: <20220516062328.298336-1-pdel@fb.com>
@@ -56,8 +56,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: jJ4-n3vLZI2tXMcSmjy91zpOIjw6HGuX
-X-Proofpoint-GUID: jJ4-n3vLZI2tXMcSmjy91zpOIjw6HGuX
+X-Proofpoint-ORIG-GUID: 2CzuV1PDPZ7_5c7460njDH5G3XnDTg3T
+X-Proofpoint-GUID: 2CzuV1PDPZ7_5c7460njDH5G3XnDTg3T
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-05-15_11,2022-05-13_01,2022-02-23_01
@@ -86,76 +86,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AST2400 and AST2500 have 5 UART's, while the AST2600 and AST1030 have 13.
+The AST1030 machine initialization was not respecting the Aspeed SoC
+property "uart-default", which specifies which UART should be connected t=
+o
+the first serial device, it was just always connecting UART5. This doesn'=
+t
+change any behavior, because the default value for "uart-default" is UART=
+5,
+but it makes it possible to override this in new machine definitions usin=
+g
+the AST1030.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- hw/arm/aspeed_ast10x0.c     | 1 +
- hw/arm/aspeed_ast2600.c     | 1 +
- hw/arm/aspeed_soc.c         | 2 ++
- include/hw/arm/aspeed_soc.h | 1 +
- 4 files changed, 5 insertions(+)
+ hw/arm/aspeed_ast10x0.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index fa2cc4406c..bb8177e86c 100644
+index bb8177e86c..faafb800f3 100644
 --- a/hw/arm/aspeed_ast10x0.c
 +++ b/hw/arm/aspeed_ast10x0.c
-@@ -301,6 +301,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass=
- *klass, void *data)
-     sc->ehcis_num =3D 0;
-     sc->wdts_num =3D 4;
-     sc->macs_num =3D 1;
-+    sc->uarts_num =3D 13;
-     sc->irqmap =3D aspeed_soc_ast1030_irqmap;
-     sc->memmap =3D aspeed_soc_ast1030_memmap;
-     sc->num_cpus =3D 1;
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index f3ecc0f3b7..a9523074a0 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -588,6 +588,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass=
- *oc, void *data)
-     sc->ehcis_num    =3D 2;
-     sc->wdts_num     =3D 4;
-     sc->macs_num     =3D 4;
-+    sc->uarts_num    =3D 13;
-     sc->irqmap       =3D aspeed_soc_ast2600_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2600_memmap;
-     sc->num_cpus     =3D 2;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 96bc060680..7008cd1af7 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -490,6 +490,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass=
- *oc, void *data)
-     sc->ehcis_num    =3D 1;
-     sc->wdts_num     =3D 2;
-     sc->macs_num     =3D 2;
-+    sc->uarts_num    =3D 5;
-     sc->irqmap       =3D aspeed_soc_ast2400_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2400_memmap;
-     sc->num_cpus     =3D 1;
-@@ -516,6 +517,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass=
- *oc, void *data)
-     sc->ehcis_num    =3D 2;
-     sc->wdts_num     =3D 3;
-     sc->macs_num     =3D 2;
-+    sc->uarts_num    =3D 5;
-     sc->irqmap       =3D aspeed_soc_ast2500_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2500_memmap;
-     sc->num_cpus     =3D 1;
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 709a78285b..669bc49855 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -91,6 +91,7 @@ struct AspeedSoCClass {
-     int ehcis_num;
-     int wdts_num;
-     int macs_num;
-+    int uarts_num;
-     const int *irqmap;
-     const hwaddr *memmap;
-     uint32_t num_cpus;
+@@ -215,9 +215,9 @@ static void aspeed_soc_ast1030_realize(DeviceState *d=
+ev_soc, Error **errp)
+                        qdev_get_gpio_in(DEVICE(&s->armv7m),
+                                 sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_=
+kcs_4));
+=20
+-    /* UART5 - attach an 8250 to the IO space as our UART */
+-    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+-                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
++    /* UART - attach an 8250 to the IO space as our UART */
++    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
++                   aspeed_soc_get_irq(s, s->uart_default),
+                    38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+=20
+     /* Timer */
 --=20
 2.30.2
 
