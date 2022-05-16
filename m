@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAA852826D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:44:23 +0200 (CEST)
-Received: from localhost ([::1]:49730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5422052829B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:51:28 +0200 (CEST)
+Received: from localhost ([::1]:58986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYD8-0006KC-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47850)
+	id 1nqYJz-0004Lv-90
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY56-0005se-Cb
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30820)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5A-0005vR-7M
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY54-00055l-D5
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:04 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY58-000580-6c
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697361;
+ s=mimecast20190719; t=1652697365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MOCVgiXEcu6OglfDOU3kAOpp8Pbt/gv9dnvBwmvk6A4=;
- b=BXqEdN4e8c5qPJXccpDahzgG+X6r4heaA9vLtgbpwXrd84khf5HQ8jMGq1oR/ab6szL6CO
- QxIW2Y4SCnLdysOfzVXVk1UZttTDT+SAxDDO31RbLCRENr/5L+99hbgCLfQUO2oLEnLqEp
- LGcZcO4PixPbDZWIFr4NWjyL+mBCjng=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M4UBxdcKxuszpgF5ZZmRIY9Zu8EYEhLz3E45PYU63gM=;
+ b=F2AnRhWkpb+U3WmyPprlFC5hv+13mCGDnT4Mt6httA5koHkNhv+LwwDAUO18Fu75g+5Wk+
+ D8W3OKscpMqd0P//uBzMTzWPne47xgvwxA6YUfyxGPluPI1fHexWPlEzK0qq3TZJ+okB1i
+ lDwubFO3oJgm+MmKi8jW8+PX5ognsqY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-342-Hhsi98bFNt20bZHPMOYopQ-1; Mon, 16 May 2022 06:36:00 -0400
-X-MC-Unique: Hhsi98bFNt20bZHPMOYopQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m124-20020a1c2682000000b00393fcd2722dso5440948wmm.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:00 -0700 (PDT)
+ us-mta-328-TIwaaIB6N5KOKCRoXvzPpQ-1; Mon, 16 May 2022 06:36:04 -0400
+X-MC-Unique: TIwaaIB6N5KOKCRoXvzPpQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a18-20020adffb92000000b0020cff565b91so504291wrr.4
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=MOCVgiXEcu6OglfDOU3kAOpp8Pbt/gv9dnvBwmvk6A4=;
- b=l8oMOAh4b3kn3vNap6PvEGoGBHdBzX5EBQY2ZgM16+WxiJDzLrlV05k4glROYmjqw9
- itC3HUQCiGtyTE8965MngTnsC/7//f5KtZYC4IQfQQoBWXi3qdL4vatHn/bVcMt/nhiG
- V2Hmm+rqb+6DDyqMdybvILU2mlgLx/hDAkiSbUlKNBdLPK5zDJ1SWv1KVivmrCmAXvOH
- QOPdsTmZz/PsZLiRbnbGS2LIu3fARtQEpBqt0STZC8PkVgq95CjeibPfhqrMZsKex2ST
- Ed+NyjWXfG6LN9413wJaYUNo9qoksOc5SeFYuXqNcxf068BBafUN9elGjf86O43Kc61L
- 58kw==
-X-Gm-Message-State: AOAM53105XlK2YKMwklVdLiGIYQlaJ6Le0ZGG/mcOVTxO+xCSAaL9nwe
- GzsMGmGw5VDGRoyLnN+XpmhcSzDW5wnA6/znZsXOK4FtrUDazZS3PsC/b9a5nCmUbw7Wr/Smnnp
- jL6LcDDLKJL/6sGP66Bpc1ZtQoquYkD8bQi2Xgj4ryqA2HZwdt4SZaxr7L7cT
-X-Received: by 2002:a05:6000:1f8c:b0:20c:b1cf:2a1c with SMTP id
- bw12-20020a0560001f8c00b0020cb1cf2a1cmr13747565wrb.368.1652697359373; 
- Mon, 16 May 2022 03:35:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsc5Wffpixwf46g3vJb8uc1BTOtVFLG6+LVWuvs6MSv6dqkCPccle6MPTCllqIFUxoM6t+lw==
-X-Received: by 2002:a05:6000:1f8c:b0:20c:b1cf:2a1c with SMTP id
- bw12-20020a0560001f8c00b0020cb1cf2a1cmr13747536wrb.368.1652697359077; 
- Mon, 16 May 2022 03:35:59 -0700 (PDT)
+ bh=M4UBxdcKxuszpgF5ZZmRIY9Zu8EYEhLz3E45PYU63gM=;
+ b=qQZQ6tBEVfNCDyJrx4o+Tw64H4rgrfIixP0Wj+eoyYUtIYvCK/IdyX9AS/NPW7rZTs
+ nlzmX2XBwJZ6peVziIQm1oP2sn2tk6n5gn06YJFsZsXDgHRhe/SiG538GqNPRTwym6Oo
+ q8h8mwk0iCV3jtVyJCfXXe2O+S80osPL1LPwW3wFXN0Bzc4yjPGlJ+udMDONTK4b41Jy
+ girl7xvKQfg+EqIskimljpf3+zf2iwA9Wvu7WpGZuJ9dhnlUa1zlrpZzPPIqc5LyfXxx
+ XvMe4OHfl9nAx8RPi8otQmezN1p+xnziPc/kA0Xv8Ch5aiq79NLjVxBqr/93Dqfi8u3+
+ cjoQ==
+X-Gm-Message-State: AOAM530DEJhkbcQlBP07D8E119jTzD8ZaYWtI+UBKALnQqhYJy+dcXNn
+ sT3huhxSOQ+fgCSIR/wWd4UlSAYIkjfHHh9FMzbDNjdfoQtcIlaq38fbrl9dyvxoMBG630lLZnc
+ B1v2m27VOR/yObYM/x5n5klCP2G4lAea3HVqTOUY//XLTSDQiY3tGjnbO7jVQ
+X-Received: by 2002:a7b:c76e:0:b0:394:8be3:a83c with SMTP id
+ x14-20020a7bc76e000000b003948be3a83cmr27060482wmk.41.1652697363104; 
+ Mon, 16 May 2022 03:36:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPRTXv1EGWd7pyd704T62DwTY6E6k5LdOFKA6GFRvqJzcz4ydgxeIsqQOKRRAH7CDot6Ulrw==
+X-Received: by 2002:a7b:c76e:0:b0:394:8be3:a83c with SMTP id
+ x14-20020a7bc76e000000b003948be3a83cmr27060446wmk.41.1652697362796; 
+ Mon, 16 May 2022 03:36:02 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- h12-20020adf9ccc000000b0020adc114136sm11287475wre.0.2022.05.16.03.35.57
+ x10-20020adfbb4a000000b0020d0435c97bsm4465625wrg.92.2022.05.16.03.36.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:35:58 -0700 (PDT)
-Date: Mon, 16 May 2022 06:35:55 -0400
+ Mon, 16 May 2022 03:36:02 -0700 (PDT)
+Date: Mon, 16 May 2022 06:35:59 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Ben Widawsky <ben.widawsky@intel.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Adam Manzanares <a.manzanares@samsung.com>
-Subject: [PULL 06/91] hw/cxl/device: Introduce a CXL device (8.2.8)
-Message-ID: <20220516095448.507876-7-mst@redhat.com>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 07/91] hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+Message-ID: <20220516095448.507876-8-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -105,211 +104,212 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-A CXL device is a type of CXL component. Conceptually, a CXL device
-would be a leaf node in a CXL topology. From an emulation perspective,
-CXL devices are the most complex and so the actual implementation is
-reserved for discrete commits.
+This implements all device MMIO up to the first capability. That
+includes the CXL Device Capabilities Array Register, as well as all of
+the CXL Device Capability Header Registers. The latter are filled in as
+they are implemented in the following patches.
 
-This new device type is specifically catered towards the eventual
-implementation of a Type3 CXL.mem device, 8.2.8.5 in the CXL 2.0
-specification.
+Endianness and alignment are managed by softmmu memory core.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Adam Manzanares <a.manzanares@samsung.com>
-Message-Id: <20220429144110.25167-5-Jonathan.Cameron@huawei.com>
+Message-Id: <20220429144110.25167-6-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl.h        |   1 +
- include/hw/cxl/cxl_device.h | 166 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 167 insertions(+)
- create mode 100644 include/hw/cxl/cxl_device.h
+ include/hw/cxl/cxl_device.h |  31 +++++++++-
+ hw/cxl/cxl-device-utils.c   | 109 ++++++++++++++++++++++++++++++++++++
+ hw/cxl/meson.build          |   1 +
+ 3 files changed, 140 insertions(+), 1 deletion(-)
+ create mode 100644 hw/cxl/cxl-device-utils.c
 
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 8c738c7a2b..b9d1ac3fad 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -12,5 +12,6 @@
- 
- #include "cxl_pci.h"
- #include "cxl_component.h"
-+#include "cxl_device.h"
- 
- #endif
 diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-new file mode 100644
-index 0000000000..9513aaac77
---- /dev/null
+index 9513aaac77..599c887616 100644
+--- a/include/hw/cxl/cxl_device.h
 +++ b/include/hw/cxl/cxl_device.h
-@@ -0,0 +1,166 @@
+@@ -58,6 +58,8 @@
+ #define CXL_DEVICE_CAP_HDR1_OFFSET 0x10 /* Figure 138 */
+ #define CXL_DEVICE_CAP_REG_SIZE 0x10 /* 8.2.8.2 */
+ #define CXL_DEVICE_CAPS_MAX 4 /* 8.2.8.2.1 + 8.2.8.5 */
++#define CXL_CAPS_SIZE \
++    (CXL_DEVICE_CAP_REG_SIZE * (CXL_DEVICE_CAPS_MAX + 1)) /* +1 for header */
+ 
+ #define CXL_DEVICE_STATUS_REGISTERS_OFFSET 0x80 /* Read comment above */
+ #define CXL_DEVICE_STATUS_REGISTERS_LENGTH 0x8 /* 8.2.8.3.1 */
+@@ -70,12 +72,22 @@
+ #define CXL_MAILBOX_REGISTERS_LENGTH \
+     (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
+ 
++#define CXL_MMIO_SIZE                                           \
++    (CXL_DEVICE_CAP_REG_SIZE + CXL_DEVICE_STATUS_REGISTERS_LENGTH + \
++     CXL_MAILBOX_REGISTERS_LENGTH)
++
+ typedef struct cxl_device_state {
+     MemoryRegion device_registers;
+ 
+     /* mmio for device capabilities array - 8.2.8.2 */
+     MemoryRegion device;
+-    MemoryRegion caps;
++    struct {
++        MemoryRegion caps;
++        union {
++            uint32_t caps_reg_state32[CXL_CAPS_SIZE / 4];
++            uint64_t caps_reg_state64[CXL_CAPS_SIZE / 8];
++        };
++    };
+ 
+     /* mmio for the mailbox registers 8.2.8.4 */
+     MemoryRegion mailbox;
+@@ -128,6 +140,23 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE_STATUS, CXL_DEVICE_CAP_HDR1_OFFSET)
+ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
+                                                CXL_DEVICE_CAP_REG_SIZE)
+ 
++#define cxl_device_cap_init(dstate, reg, cap_id)                           \
++    do {                                                                   \
++        uint32_t *cap_hdrs = dstate->caps_reg_state32;                     \
++        int which = R_CXL_DEV_##reg##_CAP_HDR0;                            \
++        cap_hdrs[which] =                                                  \
++            FIELD_DP32(cap_hdrs[which], CXL_DEV_##reg##_CAP_HDR0,          \
++                       CAP_ID, cap_id);                                    \
++        cap_hdrs[which] = FIELD_DP32(                                      \
++            cap_hdrs[which], CXL_DEV_##reg##_CAP_HDR0, CAP_VERSION, 1);    \
++        cap_hdrs[which + 1] =                                              \
++            FIELD_DP32(cap_hdrs[which + 1], CXL_DEV_##reg##_CAP_HDR1,      \
++                       CAP_OFFSET, CXL_##reg##_REGISTERS_OFFSET);          \
++        cap_hdrs[which + 2] =                                              \
++            FIELD_DP32(cap_hdrs[which + 2], CXL_DEV_##reg##_CAP_HDR2,      \
++                       CAP_LENGTH, CXL_##reg##_REGISTERS_LENGTH);          \
++    } while (0)
++
+ /* CXL 2.0 8.2.8.4.3 Mailbox Capabilities Register */
+ REG32(CXL_DEV_MAILBOX_CAP, 0)
+     FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
+diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+new file mode 100644
+index 0000000000..241f9f82e3
+--- /dev/null
++++ b/hw/cxl/cxl-device-utils.c
+@@ -0,0 +1,109 @@
 +/*
-+ * QEMU CXL Devices
++ * CXL Utility library for devices
 + *
-+ * Copyright (c) 2020 Intel
++ * Copyright(C) 2020 Intel Corporation.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2. See the
 + * COPYING file in the top-level directory.
 + */
 +
-+#ifndef CXL_DEVICE_H
-+#define CXL_DEVICE_H
-+
-+#include "hw/register.h"
-+
-+/*
-+ * The following is how a CXL device's Memory Device registers are laid out.
-+ * The only requirement from the spec is that the capabilities array and the
-+ * capability headers start at offset 0 and are contiguously packed. The headers
-+ * themselves provide offsets to the register fields. For this emulation, the
-+ * actual registers  * will start at offset 0x80 (m == 0x80). No secondary
-+ * mailbox is implemented which means that the offset of the start of the
-+ * mailbox payload (n) is given by
-+ * n = m + sizeof(mailbox registers) + sizeof(device registers).
-+ *
-+ *                       +---------------------------------+
-+ *                       |                                 |
-+ *                       |    Memory Device Registers      |
-+ *                       |                                 |
-+ * n + PAYLOAD_SIZE_MAX  -----------------------------------
-+ *                  ^    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |         Mailbox Payload         |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  n    -----------------------------------
-+ *                  ^    |       Mailbox Registers         |
-+ *                  |    |                                 |
-+ *                  |    -----------------------------------
-+ *                  |    |                                 |
-+ *                  |    |        Device Registers         |
-+ *                  |    |                                 |
-+ *                  m    ---------------------------------->
-+ *                  ^    |  Memory Device Capability Header|
-+ *                  |    -----------------------------------
-+ *                  |    |     Mailbox Capability Header   |
-+ *                  |    -----------------------------------
-+ *                  |    |     Device Capability Header    |
-+ *                  |    -----------------------------------
-+ *                  |    |     Device Cap Array Register   |
-+ *                  0    +---------------------------------+
-+ *
-+ */
-+
-+#define CXL_DEVICE_CAP_HDR1_OFFSET 0x10 /* Figure 138 */
-+#define CXL_DEVICE_CAP_REG_SIZE 0x10 /* 8.2.8.2 */
-+#define CXL_DEVICE_CAPS_MAX 4 /* 8.2.8.2.1 + 8.2.8.5 */
-+
-+#define CXL_DEVICE_STATUS_REGISTERS_OFFSET 0x80 /* Read comment above */
-+#define CXL_DEVICE_STATUS_REGISTERS_LENGTH 0x8 /* 8.2.8.3.1 */
-+
-+#define CXL_MAILBOX_REGISTERS_OFFSET \
-+    (CXL_DEVICE_STATUS_REGISTERS_OFFSET + CXL_DEVICE_STATUS_REGISTERS_LENGTH)
-+#define CXL_MAILBOX_REGISTERS_SIZE 0x20 /* 8.2.8.4, Figure 139 */
-+#define CXL_MAILBOX_PAYLOAD_SHIFT 11
-+#define CXL_MAILBOX_MAX_PAYLOAD_SIZE (1 << CXL_MAILBOX_PAYLOAD_SHIFT)
-+#define CXL_MAILBOX_REGISTERS_LENGTH \
-+    (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
-+
-+typedef struct cxl_device_state {
-+    MemoryRegion device_registers;
-+
-+    /* mmio for device capabilities array - 8.2.8.2 */
-+    MemoryRegion device;
-+    MemoryRegion caps;
-+
-+    /* mmio for the mailbox registers 8.2.8.4 */
-+    MemoryRegion mailbox;
-+
-+    /* memory region for persistent memory, HDM */
-+    uint64_t pmem_size;
-+} CXLDeviceState;
-+
-+/* Initialize the register block for a device */
-+void cxl_device_register_block_init(Object *obj, CXLDeviceState *dev);
-+
-+/* Set up default values for the register block */
-+void cxl_device_register_init_common(CXLDeviceState *dev);
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "hw/cxl/cxl.h"
 +
 +/*
-+ * CXL 2.0 - 8.2.8.1 including errata F4
-+ * Documented as a 128 bit register, but 64 bit accesses and the second
-+ * 64 bits are currently reserved.
++ * Device registers have no restrictions per the spec, and so fall back to the
++ * default memory mapped register rules in 8.2:
++ *   Software shall use CXL.io Memory Read and Write to access memory mapped
++ *   register defined in this section. Unless otherwise specified, software
++ *   shall restrict the accesses width based on the following:
++ *   • A 32 bit register shall be accessed as a 1 Byte, 2 Bytes or 4 Bytes
++ *     quantity.
++ *   • A 64 bit register shall be accessed as a 1 Byte, 2 Bytes, 4 Bytes or 8
++ *     Bytes
++ *   • The address shall be a multiple of the access width, e.g. when
++ *     accessing a register as a 4 Byte quantity, the address shall be
++ *     multiple of 4.
++ *   • The accesses shall map to contiguous bytes.If these rules are not
++ *     followed, the behavior is undefined
 + */
-+REG64(CXL_DEV_CAP_ARRAY, 0) /* Documented as 128 bit register but 64 byte accesses */
-+    FIELD(CXL_DEV_CAP_ARRAY, CAP_ID, 0, 16)
-+    FIELD(CXL_DEV_CAP_ARRAY, CAP_VERSION, 16, 8)
-+    FIELD(CXL_DEV_CAP_ARRAY, CAP_COUNT, 32, 16)
 +
-+/*
-+ * Helper macro to initialize capability headers for CXL devices.
-+ *
-+ * In the 8.2.8.2, this is listed as a 128b register, but in 8.2.8, it says:
-+ * > No registers defined in Section 8.2.8 are larger than 64-bits wide so that
-+ * > is the maximum access size allowed for these registers. If this rule is not
-+ * > followed, the behavior is undefined
-+ *
-+ * CXL 2.0 Errata F4 states futher that the layouts in the specification are
-+ * shown as greater than 128 bits, but implementations are expected to
-+ * use any size of access up to 64 bits.
-+ *
-+ * Here we've chosen to make it 4 dwords. The spec allows any pow2 multiple
-+ * access to be used for a register up to 64 bits.
-+ */
-+#define CXL_DEVICE_CAPABILITY_HEADER_REGISTER(n, offset)  \
-+    REG32(CXL_DEV_##n##_CAP_HDR0, offset)                 \
-+        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_ID, 0, 16)      \
-+        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_VERSION, 16, 8) \
-+    REG32(CXL_DEV_##n##_CAP_HDR1, offset + 4)             \
-+        FIELD(CXL_DEV_##n##_CAP_HDR1, CAP_OFFSET, 0, 32)  \
-+    REG32(CXL_DEV_##n##_CAP_HDR2, offset + 8)             \
-+        FIELD(CXL_DEV_##n##_CAP_HDR2, CAP_LENGTH, 0, 32)
++static uint64_t caps_reg_read(void *opaque, hwaddr offset, unsigned size)
++{
++    CXLDeviceState *cxl_dstate = opaque;
 +
-+CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE_STATUS, CXL_DEVICE_CAP_HDR1_OFFSET)
-+CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
-+                                               CXL_DEVICE_CAP_REG_SIZE)
++    if (size == 4) {
++        return cxl_dstate->caps_reg_state32[offset / sizeof(*cxl_dstate->caps_reg_state32)];
++    } else {
++        return cxl_dstate->caps_reg_state64[offset / sizeof(*cxl_dstate->caps_reg_state64)];
++    }
++}
 +
-+/* CXL 2.0 8.2.8.4.3 Mailbox Capabilities Register */
-+REG32(CXL_DEV_MAILBOX_CAP, 0)
-+    FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
-+    FIELD(CXL_DEV_MAILBOX_CAP, INT_CAP, 5, 1)
-+    FIELD(CXL_DEV_MAILBOX_CAP, BG_INT_CAP, 6, 1)
-+    FIELD(CXL_DEV_MAILBOX_CAP, MSI_N, 7, 4)
++static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned size)
++{
++    return 0;
++}
 +
-+/* CXL 2.0 8.2.8.4.4 Mailbox Control Register */
-+REG32(CXL_DEV_MAILBOX_CTRL, 4)
-+    FIELD(CXL_DEV_MAILBOX_CTRL, DOORBELL, 0, 1)
-+    FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
-+    FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
++static const MemoryRegionOps dev_ops = {
++    .read = dev_reg_read,
++    .write = NULL, /* status register is read only */
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = false,
++    },
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++    },
++};
 +
-+/* CXL 2.0 8.2.8.4.5 Command Register */
-+REG64(CXL_DEV_MAILBOX_CMD, 8)
-+    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
-+    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
-+    FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
++static const MemoryRegionOps caps_ops = {
++    .read = caps_reg_read,
++    .write = NULL, /* caps registers are read only */
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = false,
++    },
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
++};
 +
-+/* CXL 2.0 8.2.8.4.6 Mailbox Status Register */
-+REG64(CXL_DEV_MAILBOX_STS, 0x10)
-+    FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
-+    FIELD(CXL_DEV_MAILBOX_STS, ERRNO, 32, 16)
-+    FIELD(CXL_DEV_MAILBOX_STS, VENDOR_ERRNO, 48, 16)
++void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
++{
++    /* This will be a BAR, so needs to be rounded up to pow2 for PCI spec */
++    memory_region_init(&cxl_dstate->device_registers, obj, "device-registers",
++                       pow2ceil(CXL_MMIO_SIZE));
 +
-+/* CXL 2.0 8.2.8.4.7 Background Command Status Register */
-+REG64(CXL_DEV_BG_CMD_STS, 0x18)
-+    FIELD(CXL_DEV_BG_CMD_STS, OP, 0, 16)
-+    FIELD(CXL_DEV_BG_CMD_STS, PERCENTAGE_COMP, 16, 7)
-+    FIELD(CXL_DEV_BG_CMD_STS, RET_CODE, 32, 16)
-+    FIELD(CXL_DEV_BG_CMD_STS, VENDOR_RET_CODE, 48, 16)
++    memory_region_init_io(&cxl_dstate->caps, obj, &caps_ops, cxl_dstate,
++                          "cap-array", CXL_CAPS_SIZE);
++    memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
++                          "device-status", CXL_DEVICE_STATUS_REGISTERS_LENGTH);
 +
-+/* CXL 2.0 8.2.8.4.8 Command Payload Registers */
-+REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
++    memory_region_add_subregion(&cxl_dstate->device_registers, 0,
++                                &cxl_dstate->caps);
++    memory_region_add_subregion(&cxl_dstate->device_registers,
++                                CXL_DEVICE_STATUS_REGISTERS_OFFSET,
++                                &cxl_dstate->device);
++}
 +
-+#endif
++static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
++
++void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
++{
++    uint64_t *cap_hdrs = cxl_dstate->caps_reg_state64;
++    const int cap_count = 1;
++
++    /* CXL Device Capabilities Array Register */
++    ARRAY_FIELD_DP64(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
++    ARRAY_FIELD_DP64(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_VERSION, 1);
++    ARRAY_FIELD_DP64(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_COUNT, cap_count);
++
++    cxl_device_cap_init(cxl_dstate, DEVICE_STATUS, 1);
++    device_reg_init_common(cxl_dstate);
++}
+diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+index 3231b5de1e..dd7c6f8e5a 100644
+--- a/hw/cxl/meson.build
++++ b/hw/cxl/meson.build
+@@ -1,4 +1,5 @@
+ softmmu_ss.add(when: 'CONFIG_CXL',
+                if_true: files(
+                    'cxl-component-utils.c',
++                   'cxl-device-utils.c',
+                ))
 -- 
 MST
 
