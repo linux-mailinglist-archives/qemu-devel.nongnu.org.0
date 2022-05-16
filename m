@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE5B5282BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:59:43 +0200 (CEST)
-Received: from localhost ([::1]:45710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DCF95282EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:14:24 +0200 (CEST)
+Received: from localhost ([::1]:34318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYRy-0006RQ-N5
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:59:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48426)
+	id 1nqYgB-0002I1-Ac
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6O-0006wG-Cg
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25376)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6Q-0006wL-Uq
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6K-0005NE-Vq
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:24 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6O-0005Nc-4t
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697439;
+ s=mimecast20190719; t=1652697443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EEgSR6tbca74I2wlIJXCuwDC2wn22ybNhlG/UtFK7+0=;
- b=cYsZiM3b2aTaJjF6SvITaBAaZ/a2dx1rsdz3Li8VGA1HnHLygJRh/WcJjg2XN/TWPiNP0m
- zrvBVc5yO78w/xpp0YaXlLnPlaUAu0gJWa0HLmZHFFWABtQ6+E1CoJJ1Qv1y+yAso2JcrR
- ZjfBQzP4myC4tbIhetyAAfI7baTkodc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EwacSxVVq5DCqrJ0MGG9nUZJJ6qFhoC3LDigYbXEkyg=;
+ b=HQ4G9kraBwOedWP5/nWi548lWmoLD7yODar7GufSig1aGTIk2wsOXpK00tX3WYP2uvpyWs
+ lIXv0sA8Z61Utpw4BS3avc5wdv4GIma3RJkauZzAsdusIDlkhegzDjugkhlP88wVR/QKXm
+ ygx5mdN/AMrVmfEeZguiDxN3KZCIAc8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-226-g9CdfnHWOdGo82ZvXKoAdA-1; Mon, 16 May 2022 06:37:18 -0400
-X-MC-Unique: g9CdfnHWOdGo82ZvXKoAdA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v124-20020a1cac82000000b003948b870a8dso10155073wme.2
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:37:18 -0700 (PDT)
+ us-mta-636-1altLerVNvKQ5WgXjD3EhQ-1; Mon, 16 May 2022 06:37:22 -0400
+X-MC-Unique: 1altLerVNvKQ5WgXjD3EhQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m186-20020a1c26c3000000b003943e12185dso6562514wmm.7
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:37:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=EEgSR6tbca74I2wlIJXCuwDC2wn22ybNhlG/UtFK7+0=;
- b=b/c/8zv/kP68qPjaPV7maApdGx0GVPRealKCuXdMNAAeYSrTs2LPJ/B5dEBt4QgApX
- ZbeQPZM9hztsmjipF8F9MH3wPZSk1jZ+zUIF8ubE2BOYq3GAtDKSbGKMX7VHNO4hj9fa
- Zl8sHHNKWS/wH2sNj4a4Eh0t22dSzzmlTGFpXCD20i3NAwqUniXKuNLwp/HyiA/3oU8l
- kt3lebc72qmmFlWXt5a+3W5moe3BiS2ez/+V3o+TvN4li6kbrXBLkHZe47MyenXzWQWa
- 4/OHdI3BTuy7ZBlilJl4f8uI6kmtY8Ttar18xaE5LIq8BnGxAsFp0W14zoUej3wI1wO4
- HCrw==
-X-Gm-Message-State: AOAM532P4Ug6ebuBC1y8jX9GOHt3B8+aaEjjgi9HjDsNqGjaCQXoSSZW
- 0LUSAomxykHX6up/4kweqHyDyvx4T4p5rRq76bd9SMgG5oINz9Dn6a3223/n3EORke/aIiK7WC5
- 3zLIYb5Se80J5mIX4kqEMbeHCVDflIImj2lK6SZvj+BazpYcvmRD6N7RCsH26
-X-Received: by 2002:a7b:c156:0:b0:395:b669:5c83 with SMTP id
- z22-20020a7bc156000000b00395b6695c83mr25178063wmi.141.1652697437353; 
- Mon, 16 May 2022 03:37:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGgxAcWdYRtN+KszuMDa+nnv4bElk25NjXAT31a4pm61qVKZ9bFNRo+18YGRYI9cWSssH9Xw==
-X-Received: by 2002:a7b:c156:0:b0:395:b669:5c83 with SMTP id
- z22-20020a7bc156000000b00395b6695c83mr25178043wmi.141.1652697437128; 
- Mon, 16 May 2022 03:37:17 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=EwacSxVVq5DCqrJ0MGG9nUZJJ6qFhoC3LDigYbXEkyg=;
+ b=NAREJ/bpfYqp9nZW7nCx6sEOJK1/4odeB7xX299ZHjr3FKrbVf4mbhw+0j4vJ0b5Rc
+ g0L0CHObVcK/YeTEU49q9ov3+mcp7LkjjNUkt3PtmzCbVOlWQegO4yALDbtDl52aC0T7
+ X68c1ro6ZnCbf1ucOwDWrsV/2USf1fLakxVmIBCxdudxsj5PljEvua57CLWnwaUEkNVC
+ 9VDkihMbyFZbo1IYtk/hREr2MKEhFXN5/89X6ed8WoLv0ka0x9R4qIzotbU4VRwB2KS7
+ btvu8aZx59XDRS47mSFadMvIbc5BtfudXXyUx9r5iQzwgdp9YRaI9WUc9yTeqeZjr6NL
+ 9S/g==
+X-Gm-Message-State: AOAM533ZTnbTxXvXUY+ijtDRT0gD2N0zEVcVZ1bl34miX2KQ1Gk9LLl7
+ vmv1PsPMI0QqLxtsQghKiX5Hr6UpE/zvUcBdI5RWBuUpbtbszDxg+pNMCL9fsgj6c3lrl4YNeUL
+ iguADPcnSeP4k4QQc8ymKUgt8Vx6DJ2Tuoa9/MPOCCFkhFrnHQO8c5ZnoLZmO
+X-Received: by 2002:a1c:35c1:0:b0:38e:c4f6:1931 with SMTP id
+ c184-20020a1c35c1000000b0038ec4f61931mr15924308wma.161.1652697440889; 
+ Mon, 16 May 2022 03:37:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxxuioue6EZnXsrzcbIwyRxeurW8wvAYtIFQ2eus0l3OAUHWHri+acMeCN8CB1mbwcWbthA6Q==
+X-Received: by 2002:a1c:35c1:0:b0:38e:c4f6:1931 with SMTP id
+ c184-20020a1c35c1000000b0038ec4f61931mr15924259wma.161.1652697440383; 
+ Mon, 16 May 2022 03:37:20 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- o15-20020a05600c510f00b003970eea5a21sm1270836wms.40.2022.05.16.03.37.15
+ x16-20020adfbb50000000b0020d11ee1bcesm190747wrg.82.2022.05.16.03.37.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:37:16 -0700 (PDT)
-Date: Mon, 16 May 2022 06:37:14 -0400
+ Mon, 16 May 2022 03:37:20 -0700 (PDT)
+Date: Mon, 16 May 2022 06:37:17 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL 28/91] hw/cxl/component: Add utils for interleave parameter
- encoding/decoding
-Message-ID: <20220516095448.507876-29-mst@redhat.com>
+ Markus Armbruster <armbru@redhat.com>,
+ Ben Widawsky <ben.widawsky@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 29/91] hw/cxl/host: Add support for CXL Fixed Memory Windows.
+Message-ID: <20220516095448.507876-30-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -105,88 +106,448 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Both registers and the CFMWS entries in CDAT use simple encodings
-for the number of interleave ways and the interleave granularity.
-Introduce simple conversion functions to/from the unencoded
-number / size.  So far the iw decode has not been needed so is
-it not implemented.
+The concept of these is introduced in [1] in terms of the
+description the CEDT ACPI table. The principal is more general.
+Unlike once traffic hits the CXL root bridges, the host system
+memory address routing is implementation defined and effectively
+static once observable by standard / generic system software.
+Each CXL Fixed Memory Windows (CFMW) is a region of PA space
+which has fixed system dependent routing configured so that
+accesses can be routed to the CXL devices below a set of target
+root bridges. The accesses may be interleaved across multiple
+root bridges.
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220429144110.25167-27-Jonathan.Cameron@huawei.com>
+For QEMU we could have fully specified these regions in terms
+of a base PA + size, but as the absolute address does not matter
+it is simpler to let individual platforms place the memory regions.
+
+ExampleS:
+-cxl-fixed-memory-window targets.0=cxl.0,size=128G
+-cxl-fixed-memory-window targets.0=cxl.1,size=128G
+-cxl-fixed-memory-window targets.0=cxl0,targets.1=cxl.1,size=256G,interleave-granularity=2k
+
+Specifies
+* 2x 128G regions not interleaved across root bridges, one for each of
+  the root bridges with ids cxl.0 and cxl.1
+* 256G region interleaved across root bridges with ids cxl.0 and cxl.1
+with a 2k interleave granularity.
+
+When system software enumerates the devices below a given root bridge
+it can then decide which CFMW to use. If non interleave is desired
+(or possible) it can use the appropriate CFMW for the root bridge in
+question.  If there are suitable devices to interleave across the
+two root bridges then it may use the 3rd CFMS.
+
+A number of other designs were considered but the following constraints
+made it hard to adapt existing QEMU approaches to this particular problem.
+1) The size must be known before a specific architecture / board brings
+   up it's PA memory map.  We need to set up an appropriate region.
+2) Using links to the host bridges provides a clean command line interface
+   but these links cannot be established until command line devices have
+   been added.
+
+Hence the two step process used here of first establishing the size,
+interleave-ways and granularity + caching the ids of the host bridges
+and then, once available finding the actual host bridges so they can
+be used later to support interleave decoding.
+
+[1] CXL 2.0 ECN: CEDT CFMWS & QTG DSM (computeexpresslink.org / specifications)
+
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Acked-by: Markus Armbruster <armbru@redhat.com> # QAPI Schema
+Message-Id: <20220429144110.25167-28-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl_component.h |  8 ++++++++
- hw/cxl/cxl-component-utils.c   | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 42 insertions(+)
+ qapi/machine.json       | 21 +++++++++
+ include/hw/cxl/cxl.h    | 21 +++++++++
+ hw/cxl/cxl-host-stubs.c | 14 ++++++
+ hw/cxl/cxl-host.c       | 94 +++++++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c            | 47 +++++++++++++++++++++
+ hw/cxl/meson.build      |  6 +++
+ qemu-options.hx         | 38 +++++++++++++++++
+ 7 files changed, 241 insertions(+)
+ create mode 100644 hw/cxl/cxl-host-stubs.c
+ create mode 100644 hw/cxl/cxl-host.c
 
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 7d8f395cbe..4f69688c47 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -210,4 +210,12 @@ static inline int cxl_decoder_count_enc(int count)
-     return 0;
- }
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 92480d4044..3f1eab3482 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -502,6 +502,27 @@
+    'dst': 'uint16',
+    'val': 'uint8' }}
  
-+uint8_t cxl_interleave_ways_enc(int iw, Error **errp);
-+uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp);
++##
++# @CXLFixedMemoryWindowOptions:
++#
++# Create a CXL Fixed Memory Window
++#
++# @size: Size of the Fixed Memory Window in bytes. Must be a multiple
++#        of 256MiB.
++# @interleave-granularity: Number of contiguous bytes for which
++#                          accesses will go to a given interleave target.
++#                          Accepted values [256, 512, 1k, 2k, 4k, 8k, 16k]
++# @targets: Target root bridge IDs from -device ...,id=<ID> for each root
++#           bridge.
++#
++# Since 7.1
++##
++{ 'struct': 'CXLFixedMemoryWindowOptions',
++  'data': {
++      'size': 'size',
++      '*interleave-granularity': 'size',
++      'targets': ['str'] }}
 +
-+static inline hwaddr cxl_decode_ig(int ig)
-+{
-+    return 1 << (ig + 8);
-+}
+ ##
+ # @X86CPURegister32:
+ #
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 8d1a7245d0..dce38124db 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -10,6 +10,9 @@
+ #ifndef CXL_H
+ #define CXL_H
+ 
++
++#include "qapi/qapi-types-machine.h"
++#include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pci_host.h"
+ #include "cxl_pci.h"
+ #include "cxl_component.h"
+@@ -20,10 +23,23 @@
+ 
+ #define CXL_WINDOW_MAX 10
+ 
++typedef struct CXLFixedWindow {
++    uint64_t size;
++    char **targets;
++    struct PXBDev *target_hbs[8];
++    uint8_t num_targets;
++    uint8_t enc_int_ways;
++    uint8_t enc_int_gran;
++    /* Todo: XOR based interleaving */
++    MemoryRegion mr;
++    hwaddr base;
++} CXLFixedWindow;
++
+ typedef struct CXLState {
+     bool is_enabled;
+     MemoryRegion host_mr;
+     unsigned int next_mr_idx;
++    GList *fixed_windows;
+ } CXLState;
+ 
+ struct CXLHost {
+@@ -35,4 +51,9 @@ struct CXLHost {
+ #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+ OBJECT_DECLARE_SIMPLE_TYPE(CXLHost, PXB_CXL_HOST)
+ 
++void cxl_fixed_memory_window_config(MachineState *ms,
++                                    CXLFixedMemoryWindowOptions *object,
++                                    Error **errp);
++void cxl_fixed_memory_window_link_targets(Error **errp);
 +
  #endif
-diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-index afc97b17c2..69cb07171c 100644
---- a/hw/cxl/cxl-component-utils.c
-+++ b/hw/cxl/cxl-component-utils.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
+diff --git a/hw/cxl/cxl-host-stubs.c b/hw/cxl/cxl-host-stubs.c
+new file mode 100644
+index 0000000000..f8fd278d5d
+--- /dev/null
++++ b/hw/cxl/cxl-host-stubs.c
+@@ -0,0 +1,14 @@
++/*
++ * CXL host parameter parsing routine stubs
++ *
++ * Copyright (c) 2022 Huawei
++ */
++#include "qemu/osdep.h"
 +#include "qapi/error.h"
- #include "hw/pci/pci.h"
- #include "hw/cxl/cxl.h"
++#include "hw/cxl/cxl.h"
++
++void cxl_fixed_memory_window_config(MachineState *ms,
++                                    CXLFixedMemoryWindowOptions *object,
++                                    Error **errp) {};
++
++void cxl_fixed_memory_window_link_targets(Error **errp) {};
+diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
+new file mode 100644
+index 0000000000..ec5a75cbf5
+--- /dev/null
++++ b/hw/cxl/cxl-host.c
+@@ -0,0 +1,94 @@
++/*
++ * CXL host parameter parsing routines
++ *
++ * Copyright (c) 2022 Huawei
++ * Modeled loosely on the NUMA options handling in hw/core/numa.c
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qemu/bitmap.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++#include "sysemu/qtest.h"
++#include "hw/boards.h"
++
++#include "qapi/qapi-visit-machine.h"
++#include "hw/cxl/cxl.h"
++
++void cxl_fixed_memory_window_config(MachineState *ms,
++                                    CXLFixedMemoryWindowOptions *object,
++                                    Error **errp)
++{
++    CXLFixedWindow *fw = g_malloc0(sizeof(*fw));
++    strList *target;
++    int i;
++
++    for (target = object->targets; target; target = target->next) {
++        fw->num_targets++;
++    }
++
++    fw->enc_int_ways = cxl_interleave_ways_enc(fw->num_targets, errp);
++    if (*errp) {
++        return;
++    }
++
++    fw->targets = g_malloc0_n(fw->num_targets, sizeof(*fw->targets));
++    for (i = 0, target = object->targets; target; i++, target = target->next) {
++        /* This link cannot be resolved yet, so stash the name for now */
++        fw->targets[i] = g_strdup(target->value);
++    }
++
++    if (object->size % (256 * MiB)) {
++        error_setg(errp,
++                   "Size of a CXL fixed memory window must my a multiple of 256MiB");
++        return;
++    }
++    fw->size = object->size;
++
++    if (object->has_interleave_granularity) {
++        fw->enc_int_gran =
++            cxl_interleave_granularity_enc(object->interleave_granularity,
++                                           errp);
++        if (*errp) {
++            return;
++        }
++    } else {
++        /* Default to 256 byte interleave */
++        fw->enc_int_gran = 0;
++    }
++
++    ms->cxl_devices_state->fixed_windows =
++        g_list_append(ms->cxl_devices_state->fixed_windows, fw);
++
++    return;
++}
++
++void cxl_fixed_memory_window_link_targets(Error **errp)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    if (ms->cxl_devices_state && ms->cxl_devices_state->fixed_windows) {
++        GList *it;
++
++        for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
++            CXLFixedWindow *fw = it->data;
++            int i;
++
++            for (i = 0; i < fw->num_targets; i++) {
++                Object *o;
++                bool ambig;
++
++                o = object_resolve_path_type(fw->targets[i],
++                                             TYPE_PXB_CXL_DEVICE,
++                                             &ambig);
++                if (!o) {
++                    error_setg(errp, "Could not resolve CXLFM target %s",
++                               fw->targets[i]);
++                    return;
++                }
++                fw->target_hbs[i] = PXB_CXL_DEV(o);
++            }
++        }
++    }
++}
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 817d515783..2390c13fb6 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -93,6 +93,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu/qemu-options.h"
+ #include "qemu/main-loop.h"
++#include "hw/cxl/cxl.h"
+ #ifdef CONFIG_VIRTFS
+ #include "fsdev/qemu-fsdev.h"
+ #endif
+@@ -118,6 +119,7 @@
+ #include "qapi/qapi-events-run-state.h"
+ #include "qapi/qapi-visit-block-core.h"
+ #include "qapi/qapi-visit-compat.h"
++#include "qapi/qapi-visit-machine.h"
+ #include "qapi/qapi-visit-ui.h"
+ #include "qapi/qapi-commands-block-core.h"
+ #include "qapi/qapi-commands-migration.h"
+@@ -143,6 +145,12 @@ typedef struct BlockdevOptionsQueueEntry {
  
-@@ -329,3 +330,36 @@ void cxl_component_create_dvsec(CXLComponentState *cxl,
-     range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
-     cxl->dvsec_offset += length;
+ typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
+ 
++typedef struct CXLFMWOptionQueueEntry {
++    CXLFixedMemoryWindowOptions *opts;
++    Location loc;
++    QSIMPLEQ_ENTRY(CXLFMWOptionQueueEntry) entry;
++} CXLFMWOptionQueueEntry;
++
+ typedef struct ObjectOption {
+     ObjectOptions *opts;
+     QTAILQ_ENTRY(ObjectOption) next;
+@@ -169,6 +177,8 @@ static int snapshot;
+ static bool preconfig_requested;
+ static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+ static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
++static QSIMPLEQ_HEAD(, CXLFMWOptionQueueEntry) CXLFMW_opts =
++    QSIMPLEQ_HEAD_INITIALIZER(CXLFMW_opts);
+ static bool nographic = false;
+ static int mem_prealloc; /* force preallocation of physical target memory */
+ static const char *vga_model = NULL;
+@@ -1153,6 +1163,24 @@ static void parse_display(const char *p)
+     }
  }
-+
-+uint8_t cxl_interleave_ways_enc(int iw, Error **errp)
+ 
++static void parse_cxl_fixed_memory_window(const char *optarg)
 +{
-+    switch (iw) {
-+    case 1: return 0x0;
-+    case 2: return 0x1;
-+    case 4: return 0x2;
-+    case 8: return 0x3;
-+    case 16: return 0x4;
-+    case 3: return 0x8;
-+    case 6: return 0x9;
-+    case 12: return 0xa;
-+    default:
-+        error_setg(errp, "Interleave ways: %d not supported", iw);
-+        return 0;
++    CXLFMWOptionQueueEntry *cfmws_entry;
++    Visitor *v;
++
++    v = qobject_input_visitor_new_str(optarg, "cxl-fixed-memory-window",
++                                      &error_fatal);
++    cfmws_entry = g_new(CXLFMWOptionQueueEntry, 1);
++    visit_type_CXLFixedMemoryWindowOptions(v, NULL, &cfmws_entry->opts,
++                                           &error_fatal);
++    if (!cfmws_entry->opts) {
++        exit(1);
++    }
++    visit_free(v);
++    loc_save(&cfmws_entry->loc);
++    QSIMPLEQ_INSERT_TAIL(&CXLFMW_opts, cfmws_entry, entry);
++}
++
+ static inline bool nonempty_str(const char *str)
+ {
+     return str && *str;
+@@ -2015,6 +2043,20 @@ static void qemu_create_late_backends(void)
+     qemu_semihosting_console_init();
+ }
+ 
++static void cxl_set_opts(void)
++{
++    while (!QSIMPLEQ_EMPTY(&CXLFMW_opts)) {
++        CXLFMWOptionQueueEntry *cfmws_entry = QSIMPLEQ_FIRST(&CXLFMW_opts);
++
++        loc_restore(&cfmws_entry->loc);
++        QSIMPLEQ_REMOVE_HEAD(&CXLFMW_opts, entry);
++        cxl_fixed_memory_window_config(current_machine, cfmws_entry->opts,
++                                       &error_fatal);
++        qapi_free_CXLFixedMemoryWindowOptions(cfmws_entry->opts);
++        g_free(cfmws_entry);
 +    }
 +}
 +
-+uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp)
-+{
-+    switch (gran) {
-+    case 256: return 0;
-+    case 512: return 1;
-+    case 1024: return 2;
-+    case 2048: return 3;
-+    case 4096: return 4;
-+    case 8192: return 5;
-+    case 16384: return 6;
-+    default:
-+        error_setg(errp, "Interleave granularity: %" PRIu64 " invalid", gran);
-+        return 0;
-+    }
-+}
+ static void qemu_resolve_machine_memdev(void)
+ {
+     if (ram_memdev_id) {
+@@ -2661,6 +2703,7 @@ void qmp_x_exit_preconfig(Error **errp)
+ 
+     qemu_init_board();
+     qemu_create_cli_devices();
++    cxl_fixed_memory_window_link_targets(errp);
+     qemu_machine_creation_done();
+ 
+     if (loadvm) {
+@@ -2841,6 +2884,9 @@ void qemu_init(int argc, char **argv, char **envp)
+                     exit(1);
+                 }
+                 break;
++            case QEMU_OPTION_cxl_fixed_memory_window:
++                parse_cxl_fixed_memory_window(optarg);
++                break;
+             case QEMU_OPTION_display:
+                 parse_display(optarg);
+                 break;
+@@ -3652,6 +3698,7 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     qemu_resolve_machine_memdev();
+     parse_numa_opts(current_machine);
++    cxl_set_opts();
+ 
+     if (vmstate_dump_file) {
+         /* dump and exit */
+diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+index e68eea2358..f117b99949 100644
+--- a/hw/cxl/meson.build
++++ b/hw/cxl/meson.build
+@@ -3,4 +3,10 @@ softmmu_ss.add(when: 'CONFIG_CXL',
+                    'cxl-component-utils.c',
+                    'cxl-device-utils.c',
+                    'cxl-mailbox-utils.c',
++                   'cxl-host.c',
++               ),
++               if_false: files(
++                   'cxl-host-stubs.c',
+                ))
++
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('cxl-host-stubs.c'))
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 796229c433..315bb18595 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -467,6 +467,44 @@ SRST
+         -numa hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
+ ERST
+ 
++DEF("cxl-fixed-memory-window", HAS_ARG, QEMU_OPTION_cxl_fixed_memory_window,
++    "-cxl-fixed-memory-window targets.0=firsttarget,targets.1=secondtarget,size=size[,interleave-granularity=granularity]\n",
++    QEMU_ARCH_ALL)
++SRST
++``-cxl-fixed-memory-window targets.0=firsttarget,targets.1=secondtarget,size=size[,interleave-granularity=granularity]``
++    Define a CXL Fixed Memory Window (CFMW).
++
++    Described in the CXL 2.0 ECN: CEDT CFMWS & QTG _DSM.
++
++    They are regions of Host Physical Addresses (HPA) on a system which
++    may be interleaved across one or more CXL host bridges.  The system
++    software will assign particular devices into these windows and
++    configure the downstream Host-managed Device Memory (HDM) decoders
++    in root ports, switch ports and devices appropriately to meet the
++    interleave requirements before enabling the memory devices.
++
++    ``targets.X=firsttarget`` provides the mapping to CXL host bridges
++    which may be identified by the id provied in the -device entry.
++    Multiple entries are needed to specify all the targets when
++    the fixed memory window represents interleaved memory. X is the
++    target index from 0.
++
++    ``size=size`` sets the size of the CFMW. This must be a multiple of
++    256MiB. The region will be aligned to 256MiB but the location is
++    platform and configuration dependent.
++
++    ``interleave-granularity=granularity`` sets the granularity of
++    interleave. Default 256KiB. Only 256KiB, 512KiB, 1024KiB, 2048KiB
++    4096KiB, 8192KiB and 16384KiB granularities supported.
++
++    Example:
++
++    ::
++
++        -cxl-fixed-memory-window targets.0=cxl.0,targets.1=cxl.1,size=128G,interleave-granularity=512k
++
++ERST
++
+ DEF("add-fd", HAS_ARG, QEMU_OPTION_add_fd,
+     "-add-fd fd=fd,set=set[,opaque=opaque]\n"
+     "                Add 'fd' to fd 'set'\n", QEMU_ARCH_ALL)
 -- 
 MST
 
