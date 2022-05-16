@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13807529327
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:49:51 +0200 (CEST)
-Received: from localhost ([::1]:35528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B81529334
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:56:33 +0200 (CEST)
+Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqib8-00076M-6G
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59334)
+	id 1nqihb-0001jh-Tv
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:56:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhjd-0001Vh-1c
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:54:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51150)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhjS-00019V-Ij
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:54:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhjV-0006kk-Gy
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:54:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhjQ-0006kL-V7
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:54:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734465;
+ s=mimecast20190719; t=1652734460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dTl414t0bLnqbbbHPkJ++SqYY30ITC7Eof+Drpd+b/U=;
- b=erlz2nTqT9Tz47834/zBvMrhd2QxTlo5SxpG64K9gsv/UWRaCtMJn+0cN2kcOo+J4EwN0a
- 5//tjQAd18lLrXpDMEqtEy5GVCfFdUfSrRcyxmG/OyZwjE15AoHbojFvcUMh0nuhzHVVAk
- YxGNQyoTLnRVZ7NMirrHNRIlpjRIVUo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n6WXp9xMmKMm1v0MT4LZmWjQcAIeqsOeuNoimR/qMv4=;
+ b=TKwDyJbJvGvnYvoWjz70xWK6WTsF2A8+2RxbqHnZdkQHpVJF1l19KkmaWK2u1zovyi5jjE
+ d1olM8uCTJEeerY5f8V1Enof0OZ+NeSTvc9ge/IIiQU5Mln4FibgfzEnCn4lND8rCPZtEY
+ JZWLywCM4tFN82J3EPOqCmeeYmNwkVU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-fDpLrJpVPV-DeUxITSzJYQ-1; Mon, 16 May 2022 16:54:16 -0400
-X-MC-Unique: fDpLrJpVPV-DeUxITSzJYQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y1-20020a056402170100b0042aa8f679fdso3611681edu.1
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:54:15 -0700 (PDT)
+ us-mta-169-5919fSliM3aCN7LMqn5kUg-1; Mon, 16 May 2022 16:54:18 -0400
+X-MC-Unique: 5919fSliM3aCN7LMqn5kUg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ sc20-20020a1709078a1400b006f4a358c817so6339354ejc.16
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:54:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=dTl414t0bLnqbbbHPkJ++SqYY30ITC7Eof+Drpd+b/U=;
- b=GPBQ2FCNnuj0Z6xt4RnwQHBMV3/6hFGOrAfczEvKqEq1+WMX9mijhTwzuwgw4etaon
- dTW63RcpMToPRq+D8WyuRZiYsPIVQKQEDiavAikeXyzP2XZBbKgdiBr/KELQ4YmcRHP+
- TaO0yK3wcGiOWlGgWw0+hVhIEi6thuJBZe5tUN+HRDh6NIZkTNOV7Gt4zkdA3fvLE7pf
- Y+zAZbsG13F3mRDuh6nWzRHM4ZTwErTRbuUZFmmfKoJRy3WhUmRclOp2p3aqxNCm/su7
- GiAochWaZKuz1u6Er7KKRI/jIntoBKiXsFv5DOPQzLQJYQO2qElFIigHee1qps0Vkd1Q
- H8RA==
-X-Gm-Message-State: AOAM533DOlV1rhOKa2fdYHlIFBjmhKKjGfRZnRg7qU72NLOuIK4a++md
- P8aq1Wk7ysEI6v7eU/Fl/Wr2kqjtEJhrR/uQCohvyZsGniVSK8XJE71MZnb96sOiqvEkBrIjR30
- NPqNxwypsuU17yNHmjEdGwNWz3cFEeeclEJx1x82eCfjGe6V8aVEzjSvAyWPV
-X-Received: by 2002:a17:907:c27:b0:6fe:5636:6020 with SMTP id
- ga39-20020a1709070c2700b006fe56366020mr2304318ejc.730.1652734453897; 
- Mon, 16 May 2022 13:54:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcxlzhimru/F0mwmI1D9rDxMG8fvR0J14GsPce7s2RsdX88+mOn5EQYcsTeeTf0zkLNXzh3Q==
-X-Received: by 2002:a17:907:c27:b0:6fe:5636:6020 with SMTP id
- ga39-20020a1709070c2700b006fe56366020mr2304296ejc.730.1652734453479; 
- Mon, 16 May 2022 13:54:13 -0700 (PDT)
+ bh=n6WXp9xMmKMm1v0MT4LZmWjQcAIeqsOeuNoimR/qMv4=;
+ b=Tb3UWhUfkdw0Ya4Knpws2ehEFVic41daVBD6JgtRFqOO94gGPMLNYN4C8rRSZaxbHB
+ HJdQ6DPi8Ptv8lbm0PqVqcimyJzTLhWmdx/2yNFWSECcrSd647+/MFSWaS1tkAPW9Rrb
+ +7dyhcQoxxjvFVm12JBZ7HUcjLzj+jTbUUeB2uv4HCRyUUoIyUUc7hn8/mfyYociTizK
+ P+NmP+m/JqxKh398IzVMfHJ63sZl4P/lkOIR7Rm4MPzvRao9qazATiumPOv0H0FuLnDK
+ lgVkNK5rSzYf6Oxhv4PkhrZTuzkv8xpzpftllPeWLxpDs5RdvViRmkvS4L0rteXm9UF4
+ knfQ==
+X-Gm-Message-State: AOAM531sCyh/BtJ29pz8l8Wr7zxtslEmqYeHNgD8/M31m5mE1HA6JYa7
+ WPTEU0k+ph79ioJMycDEnUp/e0d1kvjKfPr5pb++NyyOnwUW+q5YmOjW0BDwOd8BpW5yPn+Mv2B
+ jfCG8TawxI5uZNFy9ekx9w5XJO3UedCXzmKLsFCWc5eXQlSp7BKLQ3VAFevhL
+X-Received: by 2002:a05:6402:294e:b0:425:f016:24e7 with SMTP id
+ ed14-20020a056402294e00b00425f01624e7mr15343419edb.111.1652734457310; 
+ Mon, 16 May 2022 13:54:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFVGRfkOIk2ntCbAZvsDUYpnrMnjjbO2li4j16mdG/fyISUS5w1EyLQGb5WZGtTrd5KSZWrg==
+X-Received: by 2002:a05:6402:294e:b0:425:f016:24e7 with SMTP id
+ ed14-20020a056402294e00b00425f01624e7mr15343395edb.111.1652734457048; 
+ Mon, 16 May 2022 13:54:17 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- hg23-20020a1709072cd700b006f3ef214decsm171219ejc.82.2022.05.16.13.54.10
+ h16-20020a056402095000b0042ac43be19dsm156054edz.3.2022.05.16.13.54.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:54:13 -0700 (PDT)
-Date: Mon, 16 May 2022 16:54:09 -0400
+ Mon, 16 May 2022 13:54:16 -0700 (PDT)
+Date: Mon, 16 May 2022 16:54:13 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, virtio-fs@redhat.com
-Subject: [PULL v2 58/86] hw/virtio: move virtio-pci.h into shared include space
-Message-ID: <20220516204913.542894-59-mst@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [PULL v2 59/86] virtio-pci: add notification trace points
+Message-ID: <20220516204913.542894-60-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -82,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516204913.542894-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -108,305 +103,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-This allows other device classes that will be exposed via PCI to be
-able to do so in the appropriate hw/ directory. I resisted the
-temptation to re-order headers to be more aesthetically pleasing.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200925125147.26943-4-alex.bennee@linaro.org>
-
-Message-Id: <20220321153037.3622127-2-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200925125147.26943-6-alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220321153037.3622127-3-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- {hw => include/hw}/virtio/virtio-pci.h | 0
- hw/virtio/vhost-scsi-pci.c             | 2 +-
- hw/virtio/vhost-user-blk-pci.c         | 2 +-
- hw/virtio/vhost-user-fs-pci.c          | 2 +-
- hw/virtio/vhost-user-i2c-pci.c         | 2 +-
- hw/virtio/vhost-user-input-pci.c       | 2 +-
- hw/virtio/vhost-user-rng-pci.c         | 2 +-
- hw/virtio/vhost-user-scsi-pci.c        | 2 +-
- hw/virtio/vhost-user-vsock-pci.c       | 2 +-
- hw/virtio/vhost-vsock-pci.c            | 2 +-
- hw/virtio/virtio-9p-pci.c              | 2 +-
- hw/virtio/virtio-balloon-pci.c         | 2 +-
- hw/virtio/virtio-blk-pci.c             | 2 +-
- hw/virtio/virtio-input-host-pci.c      | 2 +-
- hw/virtio/virtio-input-pci.c           | 2 +-
- hw/virtio/virtio-iommu-pci.c           | 2 +-
- hw/virtio/virtio-net-pci.c             | 2 +-
- hw/virtio/virtio-pci.c                 | 2 +-
- hw/virtio/virtio-rng-pci.c             | 2 +-
- hw/virtio/virtio-scsi-pci.c            | 2 +-
- hw/virtio/virtio-serial-pci.c          | 2 +-
- 21 files changed, 20 insertions(+), 20 deletions(-)
- rename {hw => include/hw}/virtio/virtio-pci.h (100%)
+ hw/virtio/virtio-pci.c | 3 +++
+ hw/virtio/trace-events | 7 ++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-similarity index 100%
-rename from hw/virtio/virtio-pci.h
-rename to include/hw/virtio/virtio-pci.h
-diff --git a/hw/virtio/vhost-scsi-pci.c b/hw/virtio/vhost-scsi-pci.c
-index cb71a294fa..08980bc23b 100644
---- a/hw/virtio/vhost-scsi-pci.c
-+++ b/hw/virtio/vhost-scsi-pci.c
-@@ -21,7 +21,7 @@
- #include "hw/virtio/vhost-scsi.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qom/object.h"
- 
- typedef struct VHostSCSIPCI VHostSCSIPCI;
-diff --git a/hw/virtio/vhost-user-blk-pci.c b/hw/virtio/vhost-user-blk-pci.c
-index 33b404d8a2..eef8641a98 100644
---- a/hw/virtio/vhost-user-blk-pci.c
-+++ b/hw/virtio/vhost-user-blk-pci.c
-@@ -26,7 +26,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qom/object.h"
- 
- typedef struct VHostUserBlkPCI VHostUserBlkPCI;
-diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-index 2ed8492b3f..6829b8b743 100644
---- a/hw/virtio/vhost-user-fs-pci.c
-+++ b/hw/virtio/vhost-user-fs-pci.c
-@@ -14,7 +14,7 @@
- #include "qemu/osdep.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost-user-fs.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qom/object.h"
- 
- struct VHostUserFSPCI {
-diff --git a/hw/virtio/vhost-user-i2c-pci.c b/hw/virtio/vhost-user-i2c-pci.c
-index 70b7b65fd9..00ac10941f 100644
---- a/hw/virtio/vhost-user-i2c-pci.c
-+++ b/hw/virtio/vhost-user-i2c-pci.c
-@@ -9,7 +9,7 @@
- #include "qemu/osdep.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost-user-i2c.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- 
- struct VHostUserI2CPCI {
-     VirtIOPCIProxy parent_obj;
-diff --git a/hw/virtio/vhost-user-input-pci.c b/hw/virtio/vhost-user-input-pci.c
-index c9d3e9113a..b858898a36 100644
---- a/hw/virtio/vhost-user-input-pci.c
-+++ b/hw/virtio/vhost-user-input-pci.c
-@@ -9,7 +9,7 @@
- #include "hw/virtio/virtio-input.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qom/object.h"
- 
- typedef struct VHostUserInputPCI VHostUserInputPCI;
-diff --git a/hw/virtio/vhost-user-rng-pci.c b/hw/virtio/vhost-user-rng-pci.c
-index c83dc86813..f64935453b 100644
---- a/hw/virtio/vhost-user-rng-pci.c
-+++ b/hw/virtio/vhost-user-rng-pci.c
-@@ -9,7 +9,7 @@
- #include "qemu/osdep.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost-user-rng.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- 
- struct VHostUserRNGPCI {
-     VirtIOPCIProxy parent_obj;
-diff --git a/hw/virtio/vhost-user-scsi-pci.c b/hw/virtio/vhost-user-scsi-pci.c
-index d5343412a1..75882e3cf9 100644
---- a/hw/virtio/vhost-user-scsi-pci.c
-+++ b/hw/virtio/vhost-user-scsi-pci.c
-@@ -30,7 +30,7 @@
- #include "hw/pci/msix.h"
- #include "hw/loader.h"
- #include "sysemu/kvm.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qom/object.h"
- 
- typedef struct VHostUserSCSIPCI VHostUserSCSIPCI;
-diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
-index 72a96199cd..e5a86e8013 100644
---- a/hw/virtio/vhost-user-vsock-pci.c
-+++ b/hw/virtio/vhost-user-vsock-pci.c
-@@ -10,7 +10,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost-user-vsock.h"
- #include "qom/object.h"
-diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
-index 205da8d1f5..9f34414d38 100644
---- a/hw/virtio/vhost-vsock-pci.c
-+++ b/hw/virtio/vhost-vsock-pci.c
-@@ -13,7 +13,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost-vsock.h"
- #include "qemu/module.h"
-diff --git a/hw/virtio/virtio-9p-pci.c b/hw/virtio/virtio-9p-pci.c
-index e07adcd9ea..94c14f0b98 100644
---- a/hw/virtio/virtio-9p-pci.c
-+++ b/hw/virtio/virtio-9p-pci.c
-@@ -15,7 +15,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/9pfs/virtio-9p.h"
- #include "hw/qdev-properties.h"
- #include "qemu/module.h"
-diff --git a/hw/virtio/virtio-balloon-pci.c b/hw/virtio/virtio-balloon-pci.c
-index 79a3ba979a..ce2645ba71 100644
---- a/hw/virtio/virtio-balloon-pci.c
-+++ b/hw/virtio/virtio-balloon-pci.c
-@@ -14,7 +14,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-balloon.h"
- #include "qapi/error.h"
-diff --git a/hw/virtio/virtio-blk-pci.c b/hw/virtio/virtio-blk-pci.c
-index 9d5795810c..9743bee965 100644
---- a/hw/virtio/virtio-blk-pci.c
-+++ b/hw/virtio/virtio-blk-pci.c
-@@ -19,7 +19,7 @@
- 
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-blk.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "qom/object.h"
-diff --git a/hw/virtio/virtio-input-host-pci.c b/hw/virtio/virtio-input-host-pci.c
-index 0ac360de4f..cf8a9cf9e8 100644
---- a/hw/virtio/virtio-input-host-pci.c
-+++ b/hw/virtio/virtio-input-host-pci.c
-@@ -8,7 +8,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/virtio/virtio-input.h"
- #include "qemu/module.h"
- #include "qom/object.h"
-diff --git a/hw/virtio/virtio-input-pci.c b/hw/virtio/virtio-input-pci.c
-index 48e9ff38e2..a9d0992389 100644
---- a/hw/virtio/virtio-input-pci.c
-+++ b/hw/virtio/virtio-input-pci.c
-@@ -8,7 +8,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-input.h"
- #include "qemu/module.h"
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index 6a1df7fe50..844d647704 100644
---- a/hw/virtio/virtio-iommu-pci.c
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -11,7 +11,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
-index aa0b3caecb..e03543a70a 100644
---- a/hw/virtio/virtio-net-pci.c
-+++ b/hw/virtio/virtio-net-pci.c
-@@ -19,7 +19,7 @@
- 
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-net.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "qom/object.h"
 diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 7cf1231c1c..602be7f83d 100644
+index 602be7f83d..0566ad7d00 100644
 --- a/hw/virtio/virtio-pci.c
 +++ b/hw/virtio/virtio-pci.c
-@@ -33,7 +33,7 @@
- #include "hw/pci/msix.h"
- #include "hw/loader.h"
- #include "sysemu/kvm.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qemu/range.h"
+@@ -38,6 +38,7 @@
  #include "hw/virtio/virtio-bus.h"
  #include "qapi/visitor.h"
-diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
-index c1f916268b..151ece6f94 100644
---- a/hw/virtio/virtio-rng-pci.c
-+++ b/hw/virtio/virtio-rng-pci.c
-@@ -11,7 +11,7 @@
+ #include "sysemu/replay.h"
++#include "trace.h"
  
- #include "qemu/osdep.h"
+ #define VIRTIO_PCI_REGION_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_present(dev))
  
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/virtio/virtio-rng.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.c
-index 97fab74236..e8e3442f38 100644
---- a/hw/virtio/virtio-scsi-pci.c
-+++ b/hw/virtio/virtio-scsi-pci.c
-@@ -18,7 +18,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-scsi.h"
- #include "qemu/module.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qom/object.h"
+@@ -1380,6 +1381,7 @@ static void virtio_pci_notify_write(void *opaque, hwaddr addr,
+     unsigned queue = addr / virtio_pci_queue_mem_mult(proxy);
  
- typedef struct VirtIOSCSIPCI VirtIOSCSIPCI;
-diff --git a/hw/virtio/virtio-serial-pci.c b/hw/virtio/virtio-serial-pci.c
-index 35bcd961c9..cea31adcc4 100644
---- a/hw/virtio/virtio-serial-pci.c
-+++ b/hw/virtio/virtio-serial-pci.c
-@@ -20,7 +20,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-serial.h"
- #include "qemu/module.h"
--#include "virtio-pci.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "qom/object.h"
+     if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
++        trace_virtio_pci_notify_write(addr, val, size);
+         virtio_queue_notify(vdev, queue);
+     }
+ }
+@@ -1393,6 +1395,7 @@ static void virtio_pci_notify_write_pio(void *opaque, hwaddr addr,
+     unsigned queue = val;
  
- typedef struct VirtIOSerialPCI VirtIOSerialPCI;
+     if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
++        trace_virtio_pci_notify_write_pio(addr, val, size);
+         virtio_queue_notify(vdev, queue);
+     }
+ }
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 333348d9d5..7a6576d833 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -89,7 +89,12 @@ virtio_mmio_guest_page(uint64_t size, int shift) "guest page size 0x%" PRIx64 "
+ virtio_mmio_queue_write(uint64_t value, int max_size) "mmio_queue write 0x%" PRIx64 " max %d"
+ virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
+ 
+-# virtio-iommu.c
++# virtio-pci.c
++virtio_pci_notify(uint16_t vector) "virtio_pci_notify vec 0x%x"
++virtio_pci_notify_write(uint64_t addr, uint64_t val, unsigned int size) "0x%" PRIx64" = 0x%" PRIx64 " (%d)"
++virtio_pci_notify_write_pio(uint64_t addr, uint64_t val, unsigned int size) "0x%" PRIx64" = 0x%" PRIx64 " (%d)"
++
++# hw/virtio/virtio-iommu.c
+ virtio_iommu_device_reset(void) "reset!"
+ virtio_iommu_system_reset(void) "system reset!"
+ virtio_iommu_get_features(uint64_t features) "device supports features=0x%"PRIx64
 -- 
 MST
 
