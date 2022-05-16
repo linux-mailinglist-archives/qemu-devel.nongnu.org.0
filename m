@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34D15291F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 22:54:19 +0200 (CEST)
-Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC415291FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 22:54:21 +0200 (CEST)
+Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqhjO-00077v-W2
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 16:54:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58012)
+	id 1nqhjQ-0007F6-6o
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 16:54:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhfM-00046h-00
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:50:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48754)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhfP-000485-Cl
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:50:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhfJ-000657-IS
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:50:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhfN-00065i-Ce
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:50:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734204;
+ s=mimecast20190719; t=1652734208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AeVOSIOjFzTKq5R9zeJ3PGp7vn6QDcr0H631MPRTkxw=;
- b=h0rGCW+HQNI1k/tOOFmzIc+UvFO9tGjC9z0AfHxDwSqGdE+8n8WaMMTtEOqtnWiP2EjRXq
- omNITNdjitDfb/I45vLE2W4Pp2hqXGSihVBDou7UJiX6BTRGVPVZbbaFmQRUfepiZHHrdQ
- jg9Mg5Ec/DpHziSgVURgJzgZNBka56k=
+ in-reply-to:in-reply-to:references:references;
+ bh=hujmOXIeib1MXC792mUHaQ3b6Dw/BEMKcjVBpMYvJUk=;
+ b=SzzoQF69AIcvYYUdRbbPK8B0NywABMUmjCh7q95AWkTDxdVwJU4/f3wP/IsJIHMfJNQQhW
+ QT19HMRDdMCGkOY4A+6wgh2slSCkW7BM6yy+Yo8w6kjBlWu8rKi6bmEfoq0wEzhWuXXgI8
+ EmNamw5xeB2d1E/fr37qrHSqmiXrAFc=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-US8DcddXOw-IG4qfsOqvaA-1; Mon, 16 May 2022 16:50:03 -0400
-X-MC-Unique: US8DcddXOw-IG4qfsOqvaA-1
+ us-mta-497-AD6sTxSVMnG8MD1gU2NP0Q-1; Mon, 16 May 2022 16:50:07 -0400
+X-MC-Unique: AD6sTxSVMnG8MD1gU2NP0Q-1
 Received: by mail-ed1-f72.google.com with SMTP id
- w14-20020a50fa8e000000b0042ab142d677so2641344edr.11
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:50:02 -0700 (PDT)
+ b3-20020aa7d483000000b004282ca95814so10413021edr.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:50:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=AeVOSIOjFzTKq5R9zeJ3PGp7vn6QDcr0H631MPRTkxw=;
- b=dgyLahRERvd1sjNVzzBs0iMIriK+7FNqOqf59EId5FEQCgn7s8h1JtWCqoHjqb/EZD
- LZDGy9h4cL0QTQ9aJhNT7LaaVj7B+54kY3n3qV527/PkFWmEt4vY252pUbKH9zMh4nG5
- 8+YXKKnHqt0+vYjHb/7cgfpOPHX8MUQNvLjvO8J6JeHJvu6R+QdhA2ia0FPcEi4ve8Ka
- gNPgMZLFNeDXG4K+BEktcOhe7ZO/wU/uTHTl4T2SwhRpoi5coIiYbYGXbavAeFTSEmK4
- 2w+YnNvxUXnUAtTX2hG6uMhQ4rrF4z8DKTyuZRXuFlL4i1sBCw6ItrgikeoydgB7pS6h
- oFww==
-X-Gm-Message-State: AOAM530F1O+ri6aayesSh1H9QKBF9SgrScfhRrnhtz647Bf73dyJ8bc6
- l/zX4afnjbbKFfVSEX8nXu5TnJTZ67OA81Vz8bLFMKPApwDZ/mLW7oQjDlFb59oSKdb2HmYG2zA
- 8nMzbLCQKJLn9+uRhfT6nXldyXPgVHN6itJNY3m7mO0aYM3EGCw6GfcesNKc0
-X-Received: by 2002:a05:6402:11cb:b0:427:7e52:eba5 with SMTP id
- j11-20020a05640211cb00b004277e52eba5mr15430443edw.17.1652734201242; 
- Mon, 16 May 2022 13:50:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCtPMDYKS5QuyXN+Q8cPv+2Xuv/yLT/1/5iwDpRWA3MEAylWw2AAuMQYmKYplX1xU/Wc84jg==
-X-Received: by 2002:a05:6402:11cb:b0:427:7e52:eba5 with SMTP id
- j11-20020a05640211cb00b004277e52eba5mr15430415edw.17.1652734200862; 
- Mon, 16 May 2022 13:50:00 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hujmOXIeib1MXC792mUHaQ3b6Dw/BEMKcjVBpMYvJUk=;
+ b=y9m99yIKmlpjJ6W9VnRk+u8ei6Hfqir22KjjOEB8x4tdo7Q8zN2i9/Fi38LspFPWqU
+ FK1Rzv2ssMxmzpgfuI/ZSCDEHIwLyumO2lNeYwBFACb3Q4vOIdhJ4Nm/DslcMPaOHrVR
+ VQ8ymi51gHp48jGIQ4JMOEeb5h+Iz2Cv4+VyFW94r9w4Q5IpL+hltqgsR3ZwEDuAGDry
+ +BOI/ZQeEm1JuHt3JLKKGxSAaL3H0WyMo8bU92w0MXuVj7n1nIBafzW2e0wLquqvZVYp
+ 7nRzhV/gImRUDPoMtPxP49oNVKT812H+7pNZXfbygOgZBdgpV68QQcZh64q6ILrOgXSU
+ wdEQ==
+X-Gm-Message-State: AOAM532iHBZLby4ZiuktU1kCNNu185BIgbrstdDeXuMLTl7lKOf70D7s
+ n1hB/xhXZJzWURLH1qxm/Q0NZXcWQ6fSL8Lx21A8jDpYuV8HAT3F6K/pF8ALaF6Uh+f8gxF2gsc
+ Wi1ErJK5iXDfMm5yPTXp2jhcF2d68S14gKr0n8m2GvKnyLqw9FHqZ0ZZdypPP
+X-Received: by 2002:a05:6402:783:b0:42a:b251:6a9d with SMTP id
+ d3-20020a056402078300b0042ab2516a9dmr6846010edy.315.1652734205713; 
+ Mon, 16 May 2022 13:50:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlAqJ+PROMn2IW5sOSitijj+POS0+dWBiUPRkOW0A1kEhXRrRhbF4ej/THN4dirmHOUbvc7Q==
+X-Received: by 2002:a05:6402:783:b0:42a:b251:6a9d with SMTP id
+ d3-20020a056402078300b0042ab2516a9dmr6845988edy.315.1652734205458; 
+ Mon, 16 May 2022 13:50:05 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- b27-20020a170906729b00b006f3ef214e33sm153201ejl.153.2022.05.16.13.49.59
+ w26-20020a170907271a00b006f3ef214e25sm154889ejk.139.2022.05.16.13.50.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:50:00 -0700 (PDT)
-Date: Mon, 16 May 2022 16:49:58 -0400
+ Mon, 16 May 2022 13:50:04 -0700 (PDT)
+Date: Mon, 16 May 2022 16:50:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 00/86] virtio,pc,pci: fixes,cleanups,features
-Message-ID: <20220516204913.542894-1-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
+Subject: [PULL v2 01/86] virtio: fix feature negotiation for ACCESS_PLATFORM
+Message-ID: <20220516204913.542894-2-mst@redhat.com>
+References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220516204913.542894-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
@@ -95,306 +97,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Halil Pasic <pasic@linux.ibm.com>
 
-Changes from pull v1:
-    dropped introspection patches from the pull
+Unlike most virtio features ACCESS_PLATFORM is considered mandatory by
+QEMU, i.e. the driver must accept it if offered by the device. The
+virtio specification says that the driver SHOULD accept the
+ACCESS_PLATFORM feature if offered, and that the device MAY fail to
+operate if ACCESS_PLATFORM was offered but not negotiated.
 
-The following changes since commit 9de5f2b40860c5f8295e73fea9922df6f0b8d89a:
+While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+the device when the driver fences ACCESS_PLATFORM. With commit
+2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
+decision to do so whenever the get_dma_as() callback is implemented (by
+the bus), which in practice means for the entirety of virtio-pci.
 
-  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-05-12 10:52:15 -0700)
+That means, if the device needs to translate I/O addresses, then
+ACCESS_PLATFORM is mandatory. The aforementioned commit tells us in the
+commit message that this is for security reasons. More precisely if we
+were to allow a less then trusted driver (e.g. an user-space driver, or
+a nested guest) to make the device bypass the IOMMU by not negotiating
+ACCESS_PLATFORM, then the guest kernel would have no ability to
+control/police (by programming the IOMMU) what pieces of guest memory
+the driver may manipulate using the device. Which would break security
+assumptions within the guest.
 
-are available in the Git repository at:
+If ACCESS_PLATFORM is offered not because we want the device to utilize
+an IOMMU and do address translation, but because the device does not
+have access to the entire guest RAM, and needs the driver to grant
+access to the bits it needs access to (e.g. confidential guest support),
+we still require the guest to have the corresponding logic and to accept
+ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
+things are bound to go wrong, and we may see failures much less graceful
+than failing the device because the driver didn't negotiate
+ACCESS_PLATFORM.
 
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+So let us make ACCESS_PLATFORM mandatory for the driver regardless
+of whether the get_dma_as() callback is implemented or not.
 
-for you to fetch changes up to 6852c21db229c4bf4c1db772444bdfbbd027e5b8:
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
 
-  vhost-user-scsi: avoid unlink(NULL) with fd passing (2022-05-16 16:48:35 -0400)
-
-----------------------------------------------------------------
-virtio,pc,pci: fixes,cleanups,features
-
-most of CXL support
-fixes, cleanups all over the place
-
+Message-Id: <20220307112939.2780117-1-pasic@linux.ibm.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/virtio/virtio-bus.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-----------------------------------------------------------------
-Alex Bennée (9):
-      hw/virtio: move virtio-pci.h into shared include space
-      virtio-pci: add notification trace points
-      hw/virtio: add vhost_user_[read|write] trace points
-      vhost-user.rst: add clarifying language about protocol negotiation
-      libvhost-user: expose vu_request_to_string
-      docs/devel: start documenting writing VirtIO devices
-      include/hw: start documenting the vhost API
-      hw/virtio/vhost-user: don't suppress F_CONFIG when supported
-      virtio/vhost-user: dynamically assign VhostUserHostNotifiers
-
-Ben Widawsky (24):
-      hw/pci/cxl: Add a CXL component type (interface)
-      hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
-      hw/cxl/device: Introduce a CXL device (8.2.8)
-      hw/cxl/device: Implement the CAP array (8.2.8.1-2)
-      hw/cxl/device: Implement basic mailbox (8.2.8.4)
-      hw/cxl/device: Add memory device utilities
-      hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
-      hw/cxl/device: Timestamp implementation (8.2.9.3)
-      hw/cxl/device: Add log commands (8.2.9.4) + CEL
-      hw/pxb: Use a type for realizing expanders
-      hw/pci/cxl: Create a CXL bus type
-      hw/pxb: Allow creation of a CXL PXB (host bridge)
-      hw/cxl/rp: Add a root port
-      hw/cxl/device: Add a memory device (8.2.8.5)
-      hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
-      hw/cxl/device: Add some trivial commands
-      hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
-      hw/cxl/device: Implement get/set Label Storage Area (LSA)
-      hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
-      acpi/cxl: Add _OSC implementation (9.14.2)
-      acpi/cxl: Create the CEDT (9.14.1)
-      acpi/cxl: Introduce CFMWS structures in CEDT
-      hw/cxl/component Add a dumb HDM decoder handler
-      qtest/cxl: Add more complex test cases with CFMWs
-
-David Woodhouse (4):
-      target/i386: Fix sanity check on max APIC ID / X2APIC enablement
-      intel_iommu: Support IR-only mode without DMA translation
-      intel_iommu: Only allow interrupt remapping to be enabled if it's supported
-      intel_iommu: Fix irqchip / X2APIC configuration checks
-
-Eugenio Pérez (5):
-      vhost: Track descriptor chain in private at SVQ
-      vhost: Fix device's used descriptor dequeue
-      vdpa: Fix bad index calculus at vhost_vdpa_get_vring_base
-      vdpa: Fix index calculus at vhost_vdpa_svqs_start
-      vhost: Fix element in vhost_svq_add failure
-
-Francisco Iglesias (2):
-      include/hw/pci/pcie_host: Correct PCIE_MMCFG_BUS_MASK
-      include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX
-
-Halil Pasic (1):
-      virtio: fix feature negotiation for ACCESS_PLATFORM
-
-Ilya Maximets (1):
-      vhost_net: Print feature masks in hex
-
-Jason Wang (5):
-      intel-iommu: correct the value used for error_setg_errno()
-      intel-iommu: remove VTD_FR_RESERVED_ERR
-      intel-iommu: block output address in interrupt address range
-      intel-iommu: update root_scalable before switching as during post_load
-      intel-iommu: update iq_dw during post load
-
-Jonah Palmer (2):
-      virtio: drop name parameter for virtio_init()
-      virtio: add vhost support for virtio devices
-
-Jonathan Cameron (16):
-      MAINTAINERS: Add entry for Compute Express Link Emulation
-      cxl: Machine level control on whether CXL support is enabled
-      qtest/cxl: Introduce initial test for pxb-cxl only.
-      qtests/cxl: Add initial root port and CXL type3 tests
-      hw/cxl/component: Add utils for interleave parameter encoding/decoding
-      hw/cxl/host: Add support for CXL Fixed Memory Windows.
-      hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
-      pci/pcie_port: Add pci_find_port_by_pn()
-      CXL/cxl_component: Add cxl_get_hb_cstate()
-      mem/cxl_type3: Add read and write functions for associated hostmem.
-      cxl/cxl-host: Add memops for CFMWS region.
-      i386/pc: Enable CXL fixed memory windows
-      tests/acpi: q35: Allow addition of a CXL test.
-      qtests/bios-tables-test: Add a test for CXL emulation.
-      tests/acpi: Add tables for CXL emulation.
-      docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
-
-Kevin Wolf (1):
-      docs/vhost-user: Clarifications for VHOST_USER_ADD/REM_MEM_REG
-
-Michael S. Tsirkin (1):
-      vhost-user: more master/slave things
-
-Paolo Bonzini (3):
-      docs: vhost-user: clean up request/reply description
-      docs: vhost-user: rewrite section on ring state machine
-      docs: vhost-user: replace master/slave with front-end/back-end
-
-Philippe Mathieu-Daudé (1):
-      hw/virtio: Replace g_memdup() by g_memdup2()
-
-Si-Wei Liu (7):
-      virtio-net: setup vhost_dev and notifiers for cvq only when feature is negotiated
-      virtio-net: align ctrl_vq index for non-mq guest for vhost_vdpa
-      vhost-vdpa: fix improper cleanup in net_init_vhost_vdpa
-      vhost-net: fix improper cleanup in vhost_net_start
-      vhost-vdpa: backend feature should set only once
-      vhost-vdpa: change name and polarity for vhost_vdpa_one_time_request()
-      virtio-net: don't handle mq request in userspace handler for vhost-vdpa
-
-Stefan Hajnoczi (1):
-      vhost-user-scsi: avoid unlink(NULL) with fd passing
-
-Wei Huang (1):
-      hw/i386/amd_iommu: Fix IOMMU event log encoding errors
-
-Xiaoyao Li (2):
-      hw/i386: Make pit a property of common x86 base machine type
-      hw/i386: Make pic a property of common x86 base machine type
-
- qapi/machine.json                         |  21 ++
- hw/i386/intel_iommu_internal.h            |   9 +-
- hw/virtio/vhost-shadow-virtqueue.h        |   6 +
- include/hw/acpi/cxl.h                     |  28 ++
- include/hw/boards.h                       |   2 +
- include/hw/cxl/cxl.h                      |  61 ++++
- include/hw/cxl/cxl_component.h            | 223 ++++++++++++
- include/hw/cxl/cxl_device.h               | 268 ++++++++++++++
- include/hw/cxl/cxl_pci.h                  | 167 +++++++++
- include/hw/i386/intel_iommu.h             |   1 +
- include/hw/i386/microvm.h                 |   4 -
- include/hw/i386/pc.h                      |   2 -
- include/hw/i386/x86.h                     |   4 +
- include/hw/pci/pci.h                      |  14 +
- include/hw/pci/pci_bridge.h               |  20 ++
- include/hw/pci/pci_bus.h                  |   7 +
- include/hw/pci/pci_ids.h                  |   1 +
- include/hw/pci/pcie_host.h                |   6 +-
- include/hw/pci/pcie_port.h                |   2 +
- include/hw/virtio/vhost-user.h            |  43 ++-
- include/hw/virtio/vhost-vsock-common.h    |   2 +-
- include/hw/virtio/vhost.h                 | 132 ++++++-
- include/hw/virtio/virtio-gpu.h            |   3 +-
- {hw => include/hw}/virtio/virtio-pci.h    |   0
- include/hw/virtio/virtio.h                |   7 +-
- subprojects/libvhost-user/libvhost-user.h |   9 +
- contrib/vhost-user-scsi/vhost-user-scsi.c |   5 +-
- hw/9pfs/virtio-9p-device.c                |   2 +-
- hw/acpi/cxl-stub.c                        |  12 +
- hw/acpi/cxl.c                             | 257 +++++++++++++
- hw/block/vhost-user-blk.c                 |   9 +-
- hw/block/virtio-blk.c                     |   2 +-
- hw/char/virtio-serial-bus.c               |   3 +-
- hw/core/machine.c                         |  28 ++
- hw/cxl/cxl-component-utils.c              | 396 ++++++++++++++++++++
- hw/cxl/cxl-device-utils.c                 | 265 ++++++++++++++
- hw/cxl/cxl-host-stubs.c                   |  16 +
- hw/cxl/cxl-host.c                         | 222 ++++++++++++
- hw/cxl/cxl-mailbox-utils.c                | 478 ++++++++++++++++++++++++
- hw/display/vhost-user-gpu.c               |   7 +
- hw/display/virtio-gpu-base.c              |   2 +-
- hw/i386/acpi-build.c                      |  57 ++-
- hw/i386/amd_iommu.c                       |  24 +-
- hw/i386/intel_iommu.c                     |  95 +++--
- hw/i386/microvm.c                         |  54 +--
- hw/i386/pc.c                              |  89 +++--
- hw/i386/pc_piix.c                         |   4 +-
- hw/i386/pc_q35.c                          |   4 +-
- hw/i386/x86.c                             |  66 ++++
- hw/input/vhost-user-input.c               |   7 +
- hw/input/virtio-input.c                   |   3 +-
- hw/mem/cxl_type3.c                        | 371 +++++++++++++++++++
- hw/net/vhost_net.c                        |   8 +-
- hw/net/virtio-net.c                       |  63 +++-
- hw/pci-bridge/cxl_root_port.c             | 236 ++++++++++++
- hw/pci-bridge/pci_expander_bridge.c       | 168 ++++++++-
- hw/pci-bridge/pcie_root_port.c            |   6 +-
- hw/pci-host/gpex-acpi.c                   |  20 +-
- hw/pci/pci.c                              |  21 +-
- hw/pci/pcie_port.c                        |  25 ++
- hw/scsi/vhost-scsi.c                      |   8 +
- hw/scsi/vhost-user-scsi.c                 |   1 +
- hw/scsi/virtio-scsi.c                     |   3 +-
- hw/virtio/vhost-scsi-pci.c                |   2 +-
- hw/virtio/vhost-shadow-virtqueue.c        |  35 +-
- hw/virtio/vhost-user-blk-pci.c            |   2 +-
- hw/virtio/vhost-user-fs-pci.c             |   2 +-
- hw/virtio/vhost-user-fs.c                 |  10 +-
- hw/virtio/vhost-user-i2c-pci.c            |   2 +-
- hw/virtio/vhost-user-i2c.c                |   7 +-
- hw/virtio/vhost-user-input-pci.c          |   2 +-
- hw/virtio/vhost-user-rng-pci.c            |   2 +-
- hw/virtio/vhost-user-rng.c                |   9 +-
- hw/virtio/vhost-user-scsi-pci.c           |   2 +-
- hw/virtio/vhost-user-vsock-pci.c          |   2 +-
- hw/virtio/vhost-user-vsock.c              |   2 +-
- hw/virtio/vhost-user.c                    | 131 +++++--
- hw/virtio/vhost-vdpa.c                    |  29 +-
- hw/virtio/vhost-vsock-common.c            |  12 +-
- hw/virtio/vhost-vsock-pci.c               |   2 +-
- hw/virtio/vhost-vsock.c                   |   2 +-
- hw/virtio/vhost.c                         |   4 +-
- hw/virtio/virtio-9p-pci.c                 |   2 +-
- hw/virtio/virtio-balloon-pci.c            |   2 +-
- hw/virtio/virtio-balloon.c                |   3 +-
- hw/virtio/virtio-blk-pci.c                |   2 +-
- hw/virtio/virtio-bus.c                    |  22 +-
- hw/virtio/virtio-crypto.c                 |  18 +-
- hw/virtio/virtio-input-host-pci.c         |   2 +-
- hw/virtio/virtio-input-pci.c              |   2 +-
- hw/virtio/virtio-iommu-pci.c              |   2 +-
- hw/virtio/virtio-iommu.c                  |   3 +-
- hw/virtio/virtio-mem.c                    |   3 +-
- hw/virtio/virtio-net-pci.c                |   2 +-
- hw/virtio/virtio-pci.c                    |   5 +-
- hw/virtio/virtio-pmem.c                   |   3 +-
- hw/virtio/virtio-rng-pci.c                |   2 +-
- hw/virtio/virtio-rng.c                    |   2 +-
- hw/virtio/virtio-scsi-pci.c               |   2 +-
- hw/virtio/virtio-serial-pci.c             |   2 +-
- hw/virtio/virtio.c                        |  56 ++-
- net/vhost-vdpa.c                          |   4 +-
- softmmu/vl.c                              |  47 +++
- subprojects/libvhost-user/libvhost-user.c |   2 +-
- target/i386/kvm/kvm-cpu.c                 |   2 +-
- tests/qtest/bios-tables-test.c            |  44 +++
- tests/qtest/cxl-test.c                    | 151 ++++++++
- MAINTAINERS                               |   7 +
- docs/devel/index-internals.rst            |   1 +
- docs/devel/virtio-backends.rst            | 214 +++++++++++
- docs/interop/vhost-user-gpu.rst           |  10 +-
- docs/interop/vhost-user.rst               | 579 ++++++++++++++++--------------
- docs/system/device-emulation.rst          |   1 +
- docs/system/devices/cxl.rst               | 302 ++++++++++++++++
- hw/Kconfig                                |   1 +
- hw/acpi/Kconfig                           |   5 +
- hw/acpi/meson.build                       |   4 +-
- hw/arm/Kconfig                            |   1 +
- hw/cxl/Kconfig                            |   3 +
- hw/cxl/meson.build                        |  12 +
- hw/mem/Kconfig                            |   5 +
- hw/mem/meson.build                        |   1 +
- hw/meson.build                            |   1 +
- hw/pci-bridge/Kconfig                     |   5 +
- hw/pci-bridge/meson.build                 |   1 +
- hw/virtio/trace-events                    |  10 +-
- qemu-options.hx                           |  38 ++
- scripts/device-crash-test                 |   1 +
- tests/data/acpi/q35/CEDT.cxl              | Bin 0 -> 184 bytes
- tests/data/acpi/q35/DSDT.cxl              | Bin 0 -> 9615 bytes
- tests/qtest/meson.build                   |   4 +
- 131 files changed, 5352 insertions(+), 577 deletions(-)
- create mode 100644 include/hw/acpi/cxl.h
- create mode 100644 include/hw/cxl/cxl.h
- create mode 100644 include/hw/cxl/cxl_component.h
- create mode 100644 include/hw/cxl/cxl_device.h
- create mode 100644 include/hw/cxl/cxl_pci.h
- rename {hw => include/hw}/virtio/virtio-pci.h (100%)
- create mode 100644 hw/acpi/cxl-stub.c
- create mode 100644 hw/acpi/cxl.c
- create mode 100644 hw/cxl/cxl-component-utils.c
- create mode 100644 hw/cxl/cxl-device-utils.c
- create mode 100644 hw/cxl/cxl-host-stubs.c
- create mode 100644 hw/cxl/cxl-host.c
- create mode 100644 hw/cxl/cxl-mailbox-utils.c
- create mode 100644 hw/mem/cxl_type3.c
- create mode 100644 hw/pci-bridge/cxl_root_port.c
- create mode 100644 tests/qtest/cxl-test.c
- create mode 100644 docs/devel/virtio-backends.rst
- create mode 100644 docs/system/devices/cxl.rst
- create mode 100644 hw/cxl/Kconfig
- create mode 100644 hw/cxl/meson.build
- create mode 100644 tests/data/acpi/q35/CEDT.cxl
- create mode 100644 tests/data/acpi/q35/DSDT.cxl
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index 0f69d1c742..d7ec023adf 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -78,17 +78,23 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+         return;
+     }
+ 
+-    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+-    if (klass->get_dma_as != NULL && has_iommu) {
++    vdev->dma_as = &address_space_memory;
++    if (has_iommu) {
++        vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
++        /*
++         * Present IOMMU_PLATFORM to the driver iff iommu_plattform=on and
++         * device operational. If the driver does not accept IOMMU_PLATFORM
++         * we fail the device.
++         */
+         virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+-        vdev->dma_as = klass->get_dma_as(qbus->parent);
+-        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+-            error_setg(errp,
++        if (klass->get_dma_as) {
++            vdev->dma_as = klass->get_dma_as(qbus->parent);
++            if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
++                error_setg(errp,
+                        "iommu_platform=true is not supported by the device");
+-            return;
++                return;
++            }
+         }
+-    } else {
+-        vdev->dma_as = &address_space_memory;
+     }
+ }
+ 
+-- 
+MST
 
 
