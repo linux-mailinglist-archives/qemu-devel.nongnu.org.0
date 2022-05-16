@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8672352830D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:21:02 +0200 (CEST)
-Received: from localhost ([::1]:47116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9887C528306
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:20:13 +0200 (CEST)
+Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYmb-0003h8-6G
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48452)
+	id 1nqYlo-00027X-H0
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6T-0006wi-Ju
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26215)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6X-0006xh-QJ
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6S-0005O1-1q
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY6W-0005OI-67
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:37:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697447;
+ s=mimecast20190719; t=1652697451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ffHa/fT6FD5ALi+KFZhbi+0qweg5bNEW0JFNey8KOhE=;
- b=iiurwRm5DiXkuIQ6jhxryLT/w8kihoTBCLYruG1aSERGXnwUDLwavyAMZxwtRcj1Cof7GM
- psiMi2MjI+BunJrE0pCA1TbXWFg4TyhfilZarS9hx9/tYOa2SHZLTHP5WzytPLN2aqNW+z
- bovSsF8x3HEH20VHxTqci+Lzk0EJb/4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5AC5uF/WZuTpqfGs+Ddsx5o6audS2NY0UkboNjUXSC4=;
+ b=b/akkovGRNTEvLQRVPWntm2VixACIwrTERzh/FBKbLQNsfb6+6U91T1zGymrgCqI0YXWwO
+ y8d7Y79Dy9APlva9mu4KO8ezbAPotW1kJHx0oV228HDyNgW9b9BHSApLp9+RZzq/zHR9xV
+ CHQ4lePWgmR2uIi3pUkaCyghZbJig2E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-S0rygvHhNraSRBYhbWPIXQ-1; Mon, 16 May 2022 06:37:26 -0400
-X-MC-Unique: S0rygvHhNraSRBYhbWPIXQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k35-20020a05600c1ca300b003946a9764baso10154314wms.1
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:37:26 -0700 (PDT)
+ us-mta-641-mvs6L7DRP_eqfom0ZDE-8w-1; Mon, 16 May 2022 06:37:30 -0400
+X-MC-Unique: mvs6L7DRP_eqfom0ZDE-8w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o24-20020a05600c379800b003943412e81dso5440208wmr.6
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:37:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=ffHa/fT6FD5ALi+KFZhbi+0qweg5bNEW0JFNey8KOhE=;
- b=k432J1Zj+bmJhGbBCHdQacZOyK1y7bAdbOxxMpfLKeP9/yPAG8NoxRqi1/YeGT4Esh
- oISQ7mwLuPr4rC3XQAUihKhpIdx8tcI10TzVT/Gn/8yxX4jbVbwdgu3NRlDYNL0d2XbE
- D51pMHr76SkEOqgbfrb1mnn6UTNgMm7J8IRpui+i+ZyL0c20ZeJEEOlOslxH61Yb4d+4
- NdsZExGQ3gX884djf3twB9aLnopVecHyK4AZ50jVeX/H8Rr75axLXm6nurH7mW27EeFC
- Vb0bb0vHywJk149w9Jp66iVWwRxZ3+9KqCu0EM9tT/ifzXkvDVR1o9FZfm9HArm4jLOD
- Ul0A==
-X-Gm-Message-State: AOAM532Yd+g85+9Xi/QwALe9UafsDn2rUAdjoXte1pmywJgbgm8EGZjo
- bzYApAikngRIzsVH77hOudViiS3wqtHOWxqB+GH0in6wWxSkhYw7PoD8yFqHPQJdBosGupub+Nq
- rjvjSY0h+Fng7IdYLPh5sHc2hKKxEDltCitDZ8rR2hpgDRT+FSPWtUKy9wMP/
-X-Received: by 2002:a05:6000:1f1a:b0:20c:d84b:5863 with SMTP id
- bv26-20020a0560001f1a00b0020cd84b5863mr13693095wrb.277.1652697444993; 
- Mon, 16 May 2022 03:37:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy97HOLB+FNcexGsbnHfGsWt++77SO2qv77daEjxo8hN3ay93hd2kmUE2B5qmMTc7TQtPvqwQ==
-X-Received: by 2002:a05:6000:1f1a:b0:20c:d84b:5863 with SMTP id
- bv26-20020a0560001f1a00b0020cd84b5863mr13693069wrb.277.1652697444708; 
- Mon, 16 May 2022 03:37:24 -0700 (PDT)
+ bh=5AC5uF/WZuTpqfGs+Ddsx5o6audS2NY0UkboNjUXSC4=;
+ b=04eY8mWkL/ZhN+atJvSIdpV8TvAUyEKGr3pSTMuOMZEF9kmjitERgzJzAmUnW7Mv3D
+ 4CZfHgFMEKgUGx+ncgnazLjR9js0gAZIT5iiwNWJPWdZP0LeeKkrp695YArdbXKaIBAw
+ gCKJ7Velq4e5Mv+VKO+mAfO2RGpehYvVB5mk2gAzKrJkKLbjMqsKPowNBlL8YeiT90Hx
+ 6fgAF83Sl10qYGSUHxQN9WN4MK8onjo2zfSBBBS4Mz5v8f1BSBJqDaImGzPxcOsIqs4L
+ CGhd21n2+p+8tWlIVJHPkSpxk7owat0i1POqcrmigSx97zSp2LK62162wsdzBhZK4pMs
+ KW+g==
+X-Gm-Message-State: AOAM531bf9C97G2kwbHrBQEgeP2Dny7fMfT+4bGhq3Y2i9QElwRtiVph
+ oMe4d1P1fUKdJtSxLl2S7EPl8Q6e1McnPVPXvYSqbDYGTf7XamM8KqacshvlyA12cYvge1ITy+v
+ IDKUbng8gmzWtvT0LDA0+Wnsp9KHTB19Uz1Q7eah26tMrQ9GTDqWvMTTXKwQZ
+X-Received: by 2002:adf:f504:0:b0:20c:734f:d39d with SMTP id
+ q4-20020adff504000000b0020c734fd39dmr13767115wro.717.1652697448864; 
+ Mon, 16 May 2022 03:37:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJ6dRgiTpTvQVOzErV6u1i2qN280IwC2zdPiMbjDhaN3+Ae8u5DZMod5CEnoMyiZIhWSxCTA==
+X-Received: by 2002:adf:f504:0:b0:20c:734f:d39d with SMTP id
+ q4-20020adff504000000b0020c734fd39dmr13767097wro.717.1652697448640; 
+ Mon, 16 May 2022 03:37:28 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- h7-20020a05600c350700b0039456c00ba7sm15464724wmq.1.2022.05.16.03.37.22
+ w12-20020a7bc10c000000b003942a244ee1sm9629511wmi.38.2022.05.16.03.37.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:37:24 -0700 (PDT)
-Date: Mon, 16 May 2022 06:37:20 -0400
+ Mon, 16 May 2022 03:37:28 -0700 (PDT)
+Date: Mon, 16 May 2022 06:37:25 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 30/91] acpi/cxl: Introduce CFMWS structures in CEDT
-Message-ID: <20220516095448.507876-31-mst@redhat.com>
+ Ben Widawsky <ben.widawsky@intel.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org
+Subject: [PULL 31/91] hw/pci-host/gpex-acpi: Add support for dsdt
+ construction for pxb-cxl
+Message-ID: <20220516095448.507876-32-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -80,7 +79,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,101 +103,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-The CEDT CXL Fixed Window Memory Window Structures (CFMWs)
-define regions of the host phyiscal address map which
-(via an impdef means) are configured such that they have
-a particular interleave setup across one or more CXL Host Bridges.
+This adds code to instantiate the slightly extended ACPI root port
+description in DSDT as per the CXL 2.0 specification.
 
-Reported-by: Alison Schofield <alison.schofield@intel.com>
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Basically a cut and paste job from the i386/pc code.
+
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220429144110.25167-29-Jonathan.Cameron@huawei.com>
+Message-Id: <20220429144110.25167-30-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/cxl.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+ hw/pci-host/gpex-acpi.c | 20 +++++++++++++++++---
+ hw/arm/Kconfig          |  1 +
+ 2 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-index aa4af86a4c..31d5235136 100644
---- a/hw/acpi/cxl.c
-+++ b/hw/acpi/cxl.c
-@@ -60,6 +60,64 @@ static void cedt_build_chbs(GArray *table_data, PXBDev *cxl)
-     build_append_int_noprefix(table_data, memory_region_size(mr), 8);
- }
+diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+index e7e162a00a..7c7316bc96 100644
+--- a/hw/pci-host/gpex-acpi.c
++++ b/hw/pci-host/gpex-acpi.c
+@@ -5,6 +5,7 @@
+ #include "hw/pci/pci_bus.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pcie_host.h"
++#include "hw/acpi/cxl.h"
  
-+/*
-+ * CFMWS entries in CXL 2.0 ECN: CEDT CFMWS & QTG _DSM.
-+ * Interleave ways encoding in CXL 2.0 ECN: 3, 6, 12 and 16-way memory
-+ * interleaving.
-+ */
-+static void cedt_build_cfmws(GArray *table_data, MachineState *ms)
-+{
-+    CXLState *cxls = ms->cxl_devices_state;
-+    GList *it;
-+
-+    for (it = cxls->fixed_windows; it; it = it->next) {
-+        CXLFixedWindow *fw = it->data;
-+        int i;
-+
-+        /* Type */
-+        build_append_int_noprefix(table_data, 1, 1);
-+
-+        /* Reserved */
-+        build_append_int_noprefix(table_data, 0, 1);
-+
-+        /* Record Length */
-+        build_append_int_noprefix(table_data, 36 + 4 * fw->num_targets, 2);
-+
-+        /* Reserved */
-+        build_append_int_noprefix(table_data, 0, 4);
-+
-+        /* Base HPA */
-+        build_append_int_noprefix(table_data, fw->mr.addr, 8);
-+
-+        /* Window Size */
-+        build_append_int_noprefix(table_data, fw->size, 8);
-+
-+        /* Host Bridge Interleave Ways */
-+        build_append_int_noprefix(table_data, fw->enc_int_ways, 1);
-+
-+        /* Host Bridge Interleave Arithmetic */
-+        build_append_int_noprefix(table_data, 0, 1);
-+
-+        /* Reserved */
-+        build_append_int_noprefix(table_data, 0, 2);
-+
-+        /* Host Bridge Interleave Granularity */
-+        build_append_int_noprefix(table_data, fw->enc_int_gran, 4);
-+
-+        /* Window Restrictions */
-+        build_append_int_noprefix(table_data, 0x0f, 2); /* No restrictions */
-+
-+        /* QTG ID */
-+        build_append_int_noprefix(table_data, 0, 2);
-+
-+        /* Host Bridge List (list of UIDs - currently bus_nr) */
-+        for (i = 0; i < fw->num_targets; i++) {
-+            g_assert(fw->target_hbs[i]);
-+            build_append_int_noprefix(table_data, fw->target_hbs[i]->bus_nr, 4);
-+        }
-+    }
-+}
-+
- static int cxl_foreach_pxb_hb(Object *obj, void *opaque)
+ static void acpi_dsdt_add_pci_route_table(Aml *dev, uint32_t irq)
  {
-     Aml *cedt = opaque;
-@@ -86,6 +144,7 @@ void cxl_build_cedt(MachineState *ms, GArray *table_offsets, GArray *table_data,
-     /* reserve space for CEDT header */
+@@ -139,6 +140,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+         QLIST_FOREACH(bus, &bus->child, sibling) {
+             uint8_t bus_num = pci_bus_num(bus);
+             uint8_t numa_node = pci_bus_numa_node(bus);
++            bool is_cxl = pci_bus_is_cxl(bus);
  
-     object_child_foreach_recursive(object_get_root(), cxl_foreach_pxb_hb, cedt);
-+    cedt_build_cfmws(cedt->buf, ms);
+             if (!pci_bus_is_root(bus)) {
+                 continue;
+@@ -154,8 +156,16 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+             }
  
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, cedt->buf->data, cedt->buf->len);
+             dev = aml_device("PC%.02X", bus_num);
+-            aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
+-            aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
++            if (is_cxl) {
++                struct Aml *pkg = aml_package(2);
++                aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0016")));
++                aml_append(pkg, aml_eisaid("PNP0A08"));
++                aml_append(pkg, aml_eisaid("PNP0A03"));
++                aml_append(dev, aml_name_decl("_CID", pkg));
++            } else {
++                aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
++                aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
++            }
+             aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
+             aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+             aml_append(dev, aml_name_decl("_STR", aml_unicode("pxb Device")));
+@@ -175,7 +185,11 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+                             cfg->pio.base, 0, 0, 0);
+             aml_append(dev, aml_name_decl("_CRS", crs));
+ 
+-            acpi_dsdt_add_pci_osc(dev);
++            if (is_cxl) {
++                build_cxl_osc_method(dev);
++            } else {
++                acpi_dsdt_add_pci_osc(dev);
++            }
+ 
+             aml_append(scope, dev);
+         }
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 97f3b38019..219262a8da 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -29,6 +29,7 @@ config ARM_VIRT
+     select ACPI_APEI
+     select ACPI_VIOT
+     select VIRTIO_MEM_SUPPORTED
++    select ACPI_CXL
+ 
+ config CHEETAH
+     bool
 -- 
 MST
 
