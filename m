@@ -2,52 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05744528DD6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 21:21:15 +0200 (CEST)
-Received: from localhost ([::1]:44342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DB3528DE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 21:23:55 +0200 (CEST)
+Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqgHI-0003KR-Ol
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 15:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43078)
+	id 1nqgJu-0005nY-Md
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 15:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nqgEg-0002P8-KW
- for qemu-devel@nongnu.org; Mon, 16 May 2022 15:18:31 -0400
-Received: from [187.72.171.209] (port=56579 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>) id 1nqgEe-0008P2-NT
- for qemu-devel@nongnu.org; Mon, 16 May 2022 15:18:30 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 16 May 2022 16:18:19 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 006BD800048;
- Mon, 16 May 2022 16:18:18 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gan Qixin <ganqixin@huawei.com>,
- "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [RFC PATCH] scripts/checkpatch.pl: Change line limit warning
-Date: Mon, 16 May 2022 16:18:17 -0300
-Message-Id: <20220516191817.136735-1-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqgIU-0004vh-K8
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 15:22:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqgIQ-0000iE-Ox
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 15:22:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652728941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0/UmoQg/Yq9pVvqXmb7XCTnZpGjxces/wCzWHGOkoyk=;
+ b=Px24qBYCAUK94yzNpJQgPaKOn9+nhOczbWWjDfvMIHlgX8Y82MA1BbhoDmcREIydUQPfI8
+ Fn2fKv8rTCc2uNeiEujO7MhEZQN39GhpYXy0XMzXIzopwE0Vi/PgfkcjBNUjz4C85zDztT
+ kFoOOF24TogSK3b3XXjEhQwq8Smq664=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-265-fY_EzUj1MwS-szV0MskELw-1; Mon, 16 May 2022 15:22:20 -0400
+X-MC-Unique: fY_EzUj1MwS-szV0MskELw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ s9-20020aa7c549000000b0042ab6ab62f0so1879597edr.14
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 12:22:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0/UmoQg/Yq9pVvqXmb7XCTnZpGjxces/wCzWHGOkoyk=;
+ b=pcq4Vkeb1Vhp+V1msYGbTJbJUjAmrxhoOLV7glfnIoHS9Tvy8bZdzcT/T5x0d4qdsU
+ r5FwSbH6WRH8Oe8/uZR1lh7exAqRHzG0vBJhMPFvX1F6JS0necy4K2gODhKzO4TnHIaD
+ D4L3ukhV6kmaD36cgUvFuXI6DwFNTzId0fWmYe6RPAO2w/UXmUr8GNl9P7Z2Mp6SoZrK
+ GgnBtoySgfabebkcTfgVWHGRveR4s6odnGzVFM0zMTBg2DnspUw2yyjI7bXhLHJ14yoZ
+ 6wZGQaJy/dStZcs6vVrDL0tkwQ+1+d24ZPcVcYlaBOshyJU7MPFgQBVVWFBtFD8fhTAZ
+ Gk3w==
+X-Gm-Message-State: AOAM5316qBKoaT5SuoYOfjh8VhrGTRbn3mrWMxtpatJ70mslWNuMtyeA
+ RS0P8OOLMreM/9zHrNYLP8PzJRRJYsJejmsjaYny4RlRcgVqMySE6B7ywSi2oJxcjmQyx7TmhQa
+ kcW7HfBfky5qsxT4=
+X-Received: by 2002:aa7:c14a:0:b0:42a:9ddd:2019 with SMTP id
+ r10-20020aa7c14a000000b0042a9ddd2019mr12311488edp.43.1652728939182; 
+ Mon, 16 May 2022 12:22:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmR8iQE0RVoxmK0EPQwbnHqQH4c1umw48Zt/t3LSc8rwX4vvnrvGe3I9BGINk//+0OFx8cBQ==
+X-Received: by 2002:aa7:c14a:0:b0:42a:9ddd:2019 with SMTP id
+ r10-20020aa7c14a000000b0042a9ddd2019mr12311464edp.43.1652728938929; 
+ Mon, 16 May 2022 12:22:18 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
+ [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
+ j13-20020a508a8d000000b0042617ba63cbsm5549863edj.85.2022.05.16.12.22.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 May 2022 12:22:18 -0700 (PDT)
+Message-ID: <f8cd57a9-d560-b483-c9ff-8ffde755e80e@redhat.com>
+Date: Mon, 16 May 2022 21:22:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 16 May 2022 19:18:19.0254 (UTC)
- FILETIME=[B3891160:01D86959]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/3] capstone: Allow version 3.0.5 again
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220516145823.148450-1-thuth@redhat.com>
+ <20220516145823.148450-3-thuth@redhat.com>
+ <CAFEAcA-RBUX5iXV__1AMrex21DJK7hx8mygksJa6xynJRCEW4g@mail.gmail.com>
+ <02b0c561-c93c-2ac8-7579-6c456c37771c@linaro.org>
+ <CAFEAcA_Fqm7VL-ZoEuzmoQUDHqbOxKCG9s53GVy8hzDuET82yA@mail.gmail.com>
+ <be93a9aa-4edf-3152-c225-19abc291afd2@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <be93a9aa-4edf-3152-c225-19abc291afd2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,72 +107,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU documentation mentions that lines should be up to 80
-characters and that the script checkpatch will warn at 100 characters,
-but the script warns at 80 characters and throw and error at 90, so
-this commit changes to warn at 100.
-
-As to why extend, the argument that resulted in the change of the
-docs was that trying to always wrap to 80 columns could result in less
-readable code, so sometimes not wrapping was the better choice and in
-those circumstances checkpatch could nudge people into creating less
-readable code.
-
-A 132 error limit is put to catch overly big lines.
-
-Based-on: 20201105154208.12442-1-ganqixin@huawei.com
-Signed-off-by: Lucas Mateus Castro(alqotel) <lucas.araujo@eldorado.org.br>
----
-Currently there's a disagreement between the checkpatch code and the
-documentation, this RFC just changes the checkpatch to match the
-documentation.
-But there was a discussion in 2020 as the best way to deal with this,
-some alternatives mentioned are: change the warning to remind people to
-not blindly wrap just because of the warning, change to warn at 90 columns
-(which would mean changing the column limit for the error as well). If any
-of those are preferred I'll send a next version updating the documentation
-as well as changing checkpatch.pl to the preferred behavior.
----
- scripts/checkpatch.pl | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index d900d18048..2c2d7b31ab 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1639,12 +1639,12 @@ sub process {
- 		if ($line =~ /^\+/ &&
- 		    !($line =~ /^\+\s*"[^"]*"\s*(?:\s*|,|\)\s*;)\s*$/) &&
- 		    !($rawline =~ /^[^[:alnum:]]*https?:\S*$/) &&
--		    $length > 80)
-+		    $length > 100)
- 		{
--			if ($length > 90) {
--				ERROR("line over 90 characters\n" . $herecurr);
-+			if ($length > 132) {
-+				ERROR("line over 132 characters\n" . $herecurr);
- 			} else {
--				WARN("line over 80 characters\n" . $herecurr);
-+				WARN("line over 100 characters\n" . $herecurr);
- 			}
- 		}
- 
-@@ -1838,13 +1838,8 @@ sub process {
- 			#print "realcnt<$realcnt> ctx_cnt<$ctx_cnt>\n";
- 			#print "pre<$pre_ctx>\nline<$line>\nctx<$ctx>\nnext<$lines[$ctx_ln - 1]>\n";
- 
--			# The length of the "previous line" is checked against 80 because it
--			# includes the + at the beginning of the line (if the actual line has
--			# 79 or 80 characters, it is no longer possible to add a space and an
--			# opening brace there)
- 			if ($#ctx == 0 && $ctx !~ /{\s*/ &&
--			    defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*\{/ &&
--			    defined($lines[$ctx_ln - 2]) && length($lines[$ctx_ln - 2]) < 80) {
-+			    defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*\{/) {
- 				ERROR("that open brace { should be on the previous line\n" .
- 					"$here\n$ctx\n$rawlines[$ctx_ln - 1]\n");
- 			}
--- 
-2.25.1
+T24gMTYvMDUvMjAyMiAyMS4xNCwgUmljaGFyZCBIZW5kZXJzb24gd3JvdGU6DQo+IE9uIDUv
+MTYvMjIgMDk6NTMsIFBldGVyIE1heWRlbGwgd3JvdGU6DQo+Pj4gaHR0cHM6Ly9saXN0cy5n
+bnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjAtMDkvbXNnMDc1NDIuaHRtbA0K
+Pj4NCj4+IElzIHRoYXQgdGhpcyBvbmU/DQo+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9x
+ZW11LWRldmVsLzg3d28wbm8wd3ouZnNmQGxpbmFyby5vcmcvDQo+IA0KPiBDb3VsZCB3ZWxs
+IGJlLg0KPiANCj4+DQo+PiBEaWQgd2UgZmluZCBvdXQgd2h5IFVidW50dSdzIGNhcHN0b25l
+IGluIHBhcnRpY3VsYXIgZmVsbCBvdmVyID8NCj4gDQo+IEkgdmFndWVseSByZWNhbGwgdGhh
+dCBpdCB3YXMgYSBzbmFwc2hvdCBvZiBhIGNhcHN0b25lIHByaW9yIHRvIHRoZSA0LjAgDQo+
+IHJlbGVhc2UuwqAgVGhlIGVycm9yIG1lc3NhZ2UgeW91IHF1b3RlIGFib3ZlIGlzIGJlY2F1
+c2UgQ0FQU1RPTkVfQVBJIGlzIG5vdCANCj4gZGVmaW5lZCB0byBzb21ldGhpbmcgcmVhc29u
+YWJsZS7CoCBJIGRvbid0IGhhdmUgYW4gdWJ1bnR1IDE4IHN5c3RlbSB0byANCj4gcXVpY2ts
+eSBsb29rIGF0Lg0KDQpJIGp1c3QgaGFkIGEgdHJ5IHdpdGggb3VyIFVidW50dSAxOC4wNCBk
+b2NrZXIgY29udGFpbmVyIChhcyBpdCBoYXMgbm90IGJlZW4NCnJlbW92ZWQgeWV0KSBhbmQg
+bXkgcGF0Y2hlcyBhcHBsaWVkOg0KDQokIG1ha2UgZG9ja2VyLXRlc3QtYnVpbGRAdWJ1bnR1
+MTgwNCBcDQogICBFWFRSQV9DT05GSUdVUkVfT1BUUz0tLWVuYWJsZS1jYXBzdG9uZQ0KICAg
+Li4uDQogICBEZXBlbmRlbmNpZXMNCiAgICAgLi4uDQogICAgIGNhcHN0b25lICAgICAgICAg
+ICAgICAgICAgICAgOiBZRVMgMy4wLjQNCiAgICAgLi4uDQpbMTAyMy8zMzAxXSBDb21waWxp
+bmcgQyBvYmplY3QgbGliY29tbW9uLmZhLnAvZGlzYXNfY2Fwc3RvbmUuYy5vDQpGQUlMRUQ6
+IGxpYmNvbW1vbi5mYS5wL2Rpc2FzX2NhcHN0b25lLmMubw0KY2MgLW02NCAtbWN4MTYgLUls
+aWJjb21tb24uZmEucCAtSS4uL3NyYy9jb21tb24tdXNlci9ob3N0L3g4Nl82NCAtSS4uL3Ny
+Yy9kdGMvbGliZmR0IC1JLi4vc3JjL3NsaXJwIC1JLi4vc3JjL3NsaXJwL3NyYyAtSS91c3Iv
+aW5jbHVkZS9jYXBzdG9uZSAtSS91c3IvaW5jbHVkZS9waXhtYW4tMSAtSS91c3IvaW5jbHVk
+ZS9saWJwbmcxNiAtSS91c3IvaW5jbHVkZS9zcGljZS1zZXJ2ZXIgLUkvdXNyL2luY2x1ZGUv
+c3BpY2UtMSAtSS91c3IvaW5jbHVkZS9wMTEta2l0LTEgLUkvdXNyL2luY2x1ZGUvbGlidXNi
+LTEuMCAtSS91c3IvaW5jbHVkZS9TREwyIC1JL3Vzci9pbmNsdWRlL2dsaWItMi4wIC1JL3Vz
+ci9saWIveDg2XzY0LWxpbnV4LWdudS9nbGliLTIuMC9pbmNsdWRlIC1JL3Vzci9pbmNsdWRl
+L2dpby11bml4LTIuMC8gLUkvdXNyL2luY2x1ZGUvYWxzYSAtSS91c3IvaW5jbHVkZS92aXJn
+bCAtSS91c3IvaW5jbHVkZS9uY3Vyc2VzdyAtSS91c3IvaW5jbHVkZS9ndGstMy4wIC1JL3Vz
+ci9pbmNsdWRlL3BhbmdvLTEuMCAtSS91c3IvaW5jbHVkZS9jYWlybyAtSS91c3IvaW5jbHVk
+ZS9mcmVldHlwZTIgLUkvdXNyL2luY2x1ZGUvaGFyZmJ1enogLUkvdXNyL2luY2x1ZGUvZ2Rr
+LXBpeGJ1Zi0yLjAgLUkvdXNyL2luY2x1ZGUvYXRrLTEuMCAtSS91c3IvaW5jbHVkZS9hdC1z
+cGkyLWF0ay8yLjAgLUkvdXNyL2luY2x1ZGUvYXQtc3BpLTIuMCAtSS91c3IvaW5jbHVkZS9k
+YnVzLTEuMCAtSS91c3IvbGliL3g4Nl82NC1saW51eC1nbnUvZGJ1cy0xLjAvaW5jbHVkZSAt
+SS91c3IvaW5jbHVkZS92dGUtMi45MSAtZmRpYWdub3N0aWNzLWNvbG9yPWF1dG8gLVdhbGwg
+LVdpbnZhbGlkLXBjaCAtV2Vycm9yIC1zdGQ9Z251MTEgLU8yIC1nIC1pc3lzdGVtIC90bXAv
+cWVtdS10ZXN0L3NyYy9saW51eC1oZWFkZXJzIC1pc3lzdGVtIGxpbnV4LWhlYWRlcnMgLWlx
+dW90ZSAuIC1pcXVvdGUgL3RtcC9xZW11LXRlc3Qvc3JjIC1pcXVvdGUgL3RtcC9xZW11LXRl
+c3Qvc3JjL2luY2x1ZGUgLWlxdW90ZSAvdG1wL3FlbXUtdGVzdC9zcmMvZGlzYXMvbGlidml4
+bCAtaXF1b3RlIC90bXAvcWVtdS10ZXN0L3NyYy90Y2cvaTM4NiAtcHRocmVhZCAtVV9GT1JU
+SUZZX1NPVVJDRSAtRF9GT1JUSUZZX1NPVVJDRT0yIC1EX0ZJTEVfT0ZGU0VUX0JJVFM9NjQg
+LURfTEFSR0VGSUxFX1NPVVJDRSAtV3N0cmljdC1wcm90b3R5cGVzIC1XcmVkdW5kYW50LWRl
+Y2xzIC1XdW5kZWYgLVd3cml0ZS1zdHJpbmdzIC1XbWlzc2luZy1wcm90b3R5cGVzIC1mbm8t
+c3RyaWN0LWFsaWFzaW5nIC1mbm8tY29tbW9uIC1md3JhcHYgLVdvbGQtc3R5bGUtZGVjbGFy
+YXRpb24gLVdvbGQtc3R5bGUtZGVmaW5pdGlvbiAtV3R5cGUtbGltaXRzIC1XZm9ybWF0LXNl
+Y3VyaXR5IC1XZm9ybWF0LXkyayAtV2luaXQtc2VsZiAtV2lnbm9yZWQtcXVhbGlmaWVycyAt
+V2VtcHR5LWJvZHkgLVduZXN0ZWQtZXh0ZXJucyAtV2VuZGlmLWxhYmVscyAtV2V4cGFuc2lv
+bi10by1kZWZpbmVkIC1XaW1wbGljaXQtZmFsbHRocm91Z2g9MiAtV25vLW1pc3NpbmctaW5j
+bHVkZS1kaXJzIC1Xbm8tc2hpZnQtbmVnYXRpdmUtdmFsdWUgLVduby1wc2FiaSAtZnN0YWNr
+LXByb3RlY3Rvci1zdHJvbmcgLWZQSUUgLURfR05VX1NPVVJDRSAtRF9ERUZBVUxUX1NPVVJD
+RSAtRE5DVVJTRVNfV0lERUNIQVI9MSAtRF9SRUVOVFJBTlQgLVduby11bmRlZiAtRFNUUlVD
+VF9JT1ZFQ19ERUZJTkVEIC1NRCAtTVEgbGliY29tbW9uLmZhLnAvZGlzYXNfY2Fwc3RvbmUu
+Yy5vIC1NRiBsaWJjb21tb24uZmEucC9kaXNhc19jYXBzdG9uZS5jLm8uZCAtbyBsaWJjb21t
+b24uZmEucC9kaXNhc19jYXBzdG9uZS5jLm8gLWMgLi4vc3JjL2Rpc2FzL2NhcHN0b25lLmMN
+Ci4uL3NyYy9kaXNhcy9jYXBzdG9uZS5jOjI1OjE6IGVycm9yOiBleHBlY3RlZCDigJg94oCZ
+LCDigJgs4oCZLCDigJg74oCZLCDigJhhc23igJkgb3Ig4oCYX19hdHRyaWJ1dGVfX+KAmSBi
+ZWZvcmUg4oCYY2FwX3NraXBkYXRhX3MzOTB4X2Ni4oCZDQogIGNhcF9za2lwZGF0YV9zMzkw
+eF9jYihjb25zdCB1aW50OF90ICpjb2RlLCBzaXplX3QgY29kZV9zaXplLA0KICBefn5+fn5+
+fn5+fn5+fn5+fn5+fn4NCi4uL3NyYy9kaXNhcy9jYXBzdG9uZS5jOjQ5OjE3OiBlcnJvcjog
+4oCYY2FwX3NraXBkYXRhX3MzOTB4X2Ni4oCZIHVuZGVjbGFyZWQgaGVyZSAobm90IGluIGEg
+ZnVuY3Rpb24pOyBkaWQgeW91IG1lYW4g4oCYY2FwX3NraXBkYXRhX3MzOTB44oCZPw0KICAg
+ICAgLmNhbGxiYWNrID0gY2FwX3NraXBkYXRhX3MzOTB4X2NiDQogICAgICAgICAgICAgICAg
+ICBefn5+fn5+fn5+fn5+fn5+fn5+fn4NCiAgICAgICAgICAgICAgICAgIGNhcF9za2lwZGF0
+YV9zMzkweA0KbmluamE6IGJ1aWxkIHN0b3BwZWQ6IHN1YmNvbW1hbmQgZmFpbGVkLg0KTWFr
+ZWZpbGU6MTYzOiByZWNpcGUgZm9yIHRhcmdldCAncnVuLW5pbmphJyBmYWlsZWQNCg0KU28g
+aXQgc2VlbXMgbGlrZSByZWFsbHkgb25seSB0aGUgY2Fwc3RvbmUgMy4wLjQgZnJvbSBVYnVu
+dHUgMTguMDQgaXMgYnJva2VuLA0Kd2hpbGUgdGhpcyBjb21waWxlcyBmaW5lIHdpdGggdGhl
+IGNhcHN0b25lIDMuMC41IGZyb20gVWJ1bnR1IDIwLjA0Lg0KDQpJIHRoaW5rIG15IHBhdGNo
+ZXMgc2hvdWxkIGJlIG9rIHRvIGFwcGx5IG5vdyB0aGF0IHdlIGRyb3BwZWQgc3VwcG9ydA0K
+Zm9yIFVidW50dSAxOC4wNC4NCg0KICBUaG9tYXMNCg==
 
 
