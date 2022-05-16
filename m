@@ -2,144 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E925282C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:01:00 +0200 (CEST)
-Received: from localhost ([::1]:46838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EB75282F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:15:33 +0200 (CEST)
+Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYTD-0007DI-Tv
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:00:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
+	id 1nqYhI-00045h-1H
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:15:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1nqY5Z-0006GU-MF; Mon, 16 May 2022 06:36:34 -0400
-Received: from mail-bn8nam11on20614.outbound.protection.outlook.com
- ([2a01:111:f400:7eae::614]:13472
- helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5a-0006Ib-Sl
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1nqY5W-0005E2-Ic; Mon, 16 May 2022 06:36:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pbe0UnbLVeenL4v6lOr46lrKn6yFjhj1DUcfUTym8Rzt8UBNaD0otg4zQnfq1g9BcrFhPBuAyrh84xI7GV7C2pxnkHkhzAY/QbWJq8qJGNy8ciovVxAjCzqmWHTqdReRJQuOnqu+QLTgpDSGN6YuQFFlA1rEWPY0NdedPo2CJ9zwk2xeXJRm4H9p5VSp5aCHyBP1TzpNJwNDX63tz14JcPi7HLHUYOW+r66PfwBE2HzWiRa+dxoow7vSPVTFt+aI/Bs1biYt60/kwkAdqUpVVUWTu4NWYrpOzkERD5FSCoNSU0+QCeKkr02kzEShnYK30WU3TWFphckFIPS1s0GPkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y6fEpHSL5qtglrqnm4JzeRbrFwq0yfmlhboKmLdGIeA=;
- b=Y3KlG1L/EZwWPK274El20LNvo3MGaDuUG5zHNEm4BtGfoykhXgsu4521eYPSo+GbFpJyjpsT+9T22yftOJ7TOxYdFgpqTadGIzuurjQ4AoOFm1OOti7FNYajpq0L2VVy7ij08O3l/SKTmHcRLLWGX4XoLW7OZC9FgQ3DwpRRPm+11Iqxdpfl4j4+rMxIQaUYzuGQ63cBeeZVEvRh5x7Qdo712+ZmSuJMfWZPWCRE5eNeIcLXBHkJ5fObgnv1pNWviWXpuORF3dcp/tDq7czOF9Gh9P0Q9hOYMi2Rdbm3UfrCn6tmw3RC+hb2VEvfQqCBCUx3jwirOZMyFRM0dnewgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y6fEpHSL5qtglrqnm4JzeRbrFwq0yfmlhboKmLdGIeA=;
- b=RQt7gM9fFhkcLzsrNfKqw7D7QWmKJGbVKGGEfVUy6BKMXp/x6BjR21bR25O5AlNEcUD15Dz04LXIA4bvnvmXkFc9LCuPmImZZR9JyoNASALEGlXWZL/qKa2cBxgaf8b1+L9BftAmjvpw37ngvWCOoZzlxNDB0B95SElG82rTm38=
-Received: from BY5PR02MB6354.namprd02.prod.outlook.com (2603:10b6:a03:1fd::12)
- by BN8PR02MB5858.namprd02.prod.outlook.com (2603:10b6:408:bc::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Mon, 16 May
- 2022 10:36:26 +0000
-Received: from BY5PR02MB6354.namprd02.prod.outlook.com
- ([fe80::4840:6c2:8dd7:947f]) by BY5PR02MB6354.namprd02.prod.outlook.com
- ([fe80::4840:6c2:8dd7:947f%6]) with mapi id 15.20.5250.018; Mon, 16 May 2022
- 10:36:23 +0000
-From: Frederic Konrad <fkonrad@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "alistair@alistair23.me"
- <alistair@alistair23.me>, "edgar.iglesias@gmail.com"
- <edgar.iglesias@gmail.com>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Sai
- Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>,
- "fkonrad@amd.com" <fkonrad@amd.com>, Sai Pavan Boddu <saipava@xilinx.com>,
- Edgar Iglesias <edgari@xilinx.com>
-Subject: RE: [PATCH v1 2/4] xlnx_dp: Introduce a vblank signal
-Thread-Topic: [PATCH v1 2/4] xlnx_dp: Introduce a vblank signal
-Thread-Index: AQHYXwJMc+k7a4F28Um7KBhRgce3la0hWHUAgAAFOdA=
-Date: Mon, 16 May 2022 10:36:23 +0000
-Message-ID: <BY5PR02MB635470A06CB87A0288FE5AC4CCCF9@BY5PR02MB6354.namprd02.prod.outlook.com>
-References: <20220503152545.1100386-1-fkonrad@xilinx.com>
- <20220503152545.1100386-3-fkonrad@xilinx.com>
- <CAFEAcA-x+7Gm9Jo9oPdcXZ0DpeT=PmfXogxZkjVZC_SL3gHNGg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-x+7Gm9Jo9oPdcXZ0DpeT=PmfXogxZkjVZC_SL3gHNGg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=xilinx.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 72f3c1d4-0dfa-4a25-23a7-08da3727ec7a
-x-ms-traffictypediagnostic: BN8PR02MB5858:EE_
-x-microsoft-antispam-prvs: <BN8PR02MB58582D6C7708BAF312293536CCCF9@BN8PR02MB5858.namprd02.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MnEO3gMWzN2IGnR/2SePxfb2vhSFQKZRURsVAemPkt1GcVVQXmH4GCdkvw4gVNADLgtJ01zg31xn3lPeLINRk56yunTk5liLJZT3V4+BPR7EpyGFQVNTGfkstFd9IBIOqXbfndatreE0vtLkYxIIDA+6wD6c9GrSRib+YdtjZskDutzQ9w0g2fTbd88vIxzk7s6Z+v4zDyku8ygGg2i6I3zSpKaX33P55MCw/nJD4oiPQR9gzbP+nwiTvlWKV/ZpfwZNKrUCThqBx+l0Ugjdas5DcaFWrMGh+vC+LP+GIiSn274TxNfg79/7zFi3nSBbHCimcDwVYRp/jOTEsQlZzemoRdI8Y+d6tc9+TjXGAWCPhsk3/xLO1wvFW33BxoYMBSQIzXJVhX6ozW67t6uJcQaJnIJGO2/MOss5KPQelMADTviIg/N5U/SnSVE1jywA7P5wYILzM4oTYZbnTPNgWzksDfzoQXtOv8kCP2PnXBe6qjR/LUr1XWChmjfkO9qp3ZAEhvJtKskHzEKuP/49zV3XJVuCnp1x5/qCnPFOmQs/CIpnxhRsfk9IeKxVfYxsIiCG2oR8Gd7LAMNI1WIqWdr8LAIIpYa8UqajcZTJ0IqvpMq+xUMCJJoneUOc+ok1DelwBmTHVLV3nHq7QRJ1f9pdQithPuINmv1Pj4wm3HiSeTFEnNjCo5/hpaAnRVcQeLtJQKDjteaTQPFnSVpSiw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6354.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(64756008)(8676002)(122000001)(33656002)(2906002)(71200400001)(4326008)(38100700002)(66476007)(66556008)(86362001)(76116006)(66946007)(5660300002)(186003)(8936002)(508600001)(38070700005)(66446008)(55016003)(53546011)(83380400001)(316002)(26005)(9686003)(54906003)(6916009)(52536014)(107886003)(7696005)(6506007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dXF2TXNNOWowR2FxQi9JRDhhaEVEcVgvcTY2VEhDcnlyMGZ6RWdJQjBSM1JP?=
- =?utf-8?B?VmlMTXR1TVFKeFNxTGlzZ1JTZDZsT2I2cnhsVm8zc3JmYjhtNVVQek96ZG9X?=
- =?utf-8?B?Nm5RZ1pBdEFueEc2ZXJYNEYvczN0eUk0RUJTWGhSMWJsSWNjM003ZjhlZW5n?=
- =?utf-8?B?ckZuaUM0UW83dkpHaUYwbUlkOGtINGNDb00zVkhhenRSbVFKTVYwMFM0SlFH?=
- =?utf-8?B?STVzQUV5MHdqK0FRMjFuS1ArRURxVzVwbytoRXlwdHJyZ1Mra3dpY0ZEUDdK?=
- =?utf-8?B?dk1pa3NiVEN1WnBadUpnOGR1SU0wWjNoQkJIWHM1MSs2Z1BxWnozcWNHRmt2?=
- =?utf-8?B?Kzd5aFFqVmZIUTc1VGdPQ0V2aGxIOHVMTGNldFhrWmlEWHBicjA1SWdRK1hC?=
- =?utf-8?B?Q25RY2tlVkxCQW4zMVhZa1I3N2RhNHpoWkVFQ3RRNkhPNkphTm1KeFpMRzFh?=
- =?utf-8?B?MmhMZ0Z6azdqRElFc3hCYVBJdkZVZzRVMElROHR4Sm5pYnpiRUVzcng3Wmxz?=
- =?utf-8?B?NDFCTlJyOGx1V2lmV1cvNnU5N3p1Z1JJd2NjWEF3Z2M5dC9pdlVVMWd2cVdm?=
- =?utf-8?B?Z3hEZnNtNFk0NWlFVHhvcXduK3BOZUN2T2xnYVhUSnRXTWcxOU45aGFyWG1s?=
- =?utf-8?B?QVdVL25jbm5YTFFRZ2V0dFdvKzU4RUpJVnZuZkFPaWZtYnFqVlZRUVBtVDA5?=
- =?utf-8?B?Qzh6S2VmWEZYN3RUdklmalpTcHJza21TOGV0cnBsd215aHFsdU54VzkrTTBR?=
- =?utf-8?B?YnFLSEk2ZlNYM29DRWxqdCtzejRUOFVFcWl2RmpWbTZuL2MvK2xjODU2Qkc3?=
- =?utf-8?B?eFhlOWFkQy9JZzRPS0kxbUY3c1MyblEwdWMwWUJhNmNoZ0VlZTJkMU5EU2lQ?=
- =?utf-8?B?N1lqS3QrZHFaczdGcGN5L0pBZ0JwL2hNS3BFTXVPNkVXWEU1WWRMeHppM3VL?=
- =?utf-8?B?enFKMGgrd0wvWGZWS1FGRVkvalk1NjFrQ3AzSG9YMXQrSGZTVUpEeDdZR3A5?=
- =?utf-8?B?dTlxeThDdzI2QkRqNnIvTm15Y1A3ZERZV29sUXBDVm05Wjd6MlhUUjV2ekxZ?=
- =?utf-8?B?cXQ5a3dwZnVFOUxCRXpsZlBHOGVveGJST2wrRE4zZjNTLzdRVHh2QmdxSENS?=
- =?utf-8?B?b3VheEpUckNQSVh6WTg4M2piRnYrQS9KQll4Z0dmeEVFQkxFeWNCYzQrQlR5?=
- =?utf-8?B?SFc3dDZvOFhzK01tbW85VVpJMzdwSlNvdXVSNjZ5dFdxZnNqbTExWGQwUmJh?=
- =?utf-8?B?ZjFVeklvbmFFSS9IUWNzcStjekNqUzVpNEQyQ1pUQjFPVzFaU1A2WXRHM25L?=
- =?utf-8?B?U0tsWUsxTXp5MFcxZU5rK2JTdDYwRjZXQUFIT1ZrT2Z1eVp1dHpvVjlaQWww?=
- =?utf-8?B?R0tiRWc4cngrdndPcG5qczA5YUZjU29UelB3R0R2WkxWZkhlNHhUREYwMUMw?=
- =?utf-8?B?TzRNcC9wdFZqb3pMUnBoK2xhSUI3YzFvRWdzU2tsMjNpOUs1T0J3VEs1d09T?=
- =?utf-8?B?TlZ0Yi9GWmhmc1JGRlBhVU95ZTVLQnpFT3dmQ0lMOUZjdFZoSUJhWGZUSTd4?=
- =?utf-8?B?UklhZTMvOHEzdXdwbTJBY1lhVHNOUHZHbHFFTmFIc09hZWtFZkRUeXBhMjZi?=
- =?utf-8?B?Y0h5bkEvZnhhdzBoS1hoeWdFQVFMd2RVRDhHWnFMeDRJcXhPNmtLQVU1dDh6?=
- =?utf-8?B?ZVk3RmdrdEQ0M2ttK0hDeTFpR2hWRmtVdDdMdzZyL05CTk1janVPNzJUUkRY?=
- =?utf-8?B?RDM5NGUzOVZrTURQZm5ubnB1U2pqMzRZTUVWS29sZ2ZHSS8xRVErNUpucUdG?=
- =?utf-8?B?WmJOSUY2TDNtSzJVUHhWOEVEaGJURERTZUN2ZTBUMU1oZlBjamIwTnhhcUwv?=
- =?utf-8?B?V3d0b3ZhL2JVcmV1V0ZyRXdDSks2L2xMd1lTNEZNWDBrNUFyN0ZNWHdlRllX?=
- =?utf-8?B?RFNOR2dqUHNnRzJxaWNPSXBDSTBCazUzUXlBR044U3ZFOTFKYUhvSDZwcXRI?=
- =?utf-8?B?U241WFNpWlJqc1lWZGcwdU5IUXZSbUNLa2dpVWF0MG9uOEhaRGMrcE5PemNv?=
- =?utf-8?B?amg3MzNISXR2cmJkNGwrTk1vRDl3cU5XazRmc2JDeHhtQllDaWVPMmt5VVBM?=
- =?utf-8?B?dTlIcTlpOWhaTlB5SFJ1V2prbjAvMzNLaFlmc2lDWEw5NXg1KzVVdUFDKzJ4?=
- =?utf-8?B?TEZtREk2cDVRRGN0eTF5ZmkxZGdvSkJncUNEVW1xV0tyWjNsSmpwM212SnNl?=
- =?utf-8?B?QUl0cnlzVG1nSnJ4NXQ5Y3ltc1lVamhUYlR6OFRFeS9tZTJIamVaQjNIdmQz?=
- =?utf-8?B?QmhVK2Jkem9ZQnM0WVVWMmdTdFdYSVV3bzFEVUNvaGtYdHE3ZDQ4UT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5Z-0005GA-1A
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652697392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dfCW3nhFWGiKDdrFS6KcMLbjRvhVTdngWAjxQhHu0b8=;
+ b=hf6vif0f4sbYYKmqISg61aBWfv2o72kEIiNCiUzN4obqA0LXY4PFwmu11WULOwpj1olHxN
+ 9CB/yNYnvus+sIn/1KqsSvvKC0E9P6WXkBTkGYieEn5xvQlQEQnaA1Ddl1WmjpnghdKKW2
+ RfjYB2+Tpwiq0alF/Ykjp47rPvUDIKE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-404-Q1k-Q3anNK2fYGyGVhDiSw-1; Mon, 16 May 2022 06:36:31 -0400
+X-MC-Unique: Q1k-Q3anNK2fYGyGVhDiSw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 205-20020a1c02d6000000b003928cd3853aso10132961wmc.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=dfCW3nhFWGiKDdrFS6KcMLbjRvhVTdngWAjxQhHu0b8=;
+ b=mLosXIwtkV5XpzaYnuV0FU+zHURq/RAquoXb5KiXgironKtwrsltWKyyI8FyR0QsVE
+ M7hVadbRndk/rqt30BRE7O8UGbGckc7cI8YrZnvaN4KjVnlHKk1qDvnCKGUxu4ic+nwc
+ 25trRrXF+AZdp4DNJ847ClZV6VEqqe1umbT8OralvwxOL0qMzZka++7FjvZn0+UjAc+P
+ PNSFImVx5EbrFPN8/eTYSJXs2q1gwG2JhCg2ga3vfJxqHmwtr1MBfgJ7y7Wpof4IRmTv
+ z7aM6DImemSgxTFW+U0RNN17nJm1C1FlTfM/xNjZKO8oJEdGH4I9PV3ASCLNmbLUYIb8
+ EHVA==
+X-Gm-Message-State: AOAM530tE/hC/d2cqpFhYmNQ1g/AfUqWC20d8c5NyWPLXK5vA86cGB1m
+ o8YasBILO30PzOKiuWuuRdMzl8ZehMxWmJTJYUUZr3TgFqZsuKTvFap9kEvoubI5nvxM6c/djL1
+ ZGFoDwvQFdJDp6YQljAzYa/5KQ+zKiLJEqpACdVFf/+LfeG0p4OjX4LtEutMw
+X-Received: by 2002:a05:600c:6022:b0:394:81cb:8c9 with SMTP id
+ az34-20020a05600c602200b0039481cb08c9mr16193466wmb.111.1652697390055; 
+ Mon, 16 May 2022 03:36:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxn8anBRmfLcXJnQmv8xEUN1shGs2vmE5H+CW1A8500vu+w53F8ShOvvRJmiAn2HvYUQPrDzg==
+X-Received: by 2002:a05:600c:6022:b0:394:81cb:8c9 with SMTP id
+ az34-20020a05600c602200b0039481cb08c9mr16193428wmb.111.1652697389700; 
+ Mon, 16 May 2022 03:36:29 -0700 (PDT)
+Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
+ l16-20020a1ced10000000b00396f8c79d22sm6043107wmh.11.2022.05.16.03.36.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 03:36:29 -0700 (PDT)
+Date: Mon, 16 May 2022 06:36:25 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>
+Subject: [PULL 15/91] cxl: Machine level control on whether CXL support is
+ enabled
+Message-ID: <20220516095448.507876-16-mst@redhat.com>
+References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6354.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72f3c1d4-0dfa-4a25-23a7-08da3727ec7a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2022 10:36:23.6557 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: otCF0fly5ZHEHz0xJD9hWDJwfFDE+vTo9LaNOVKktYi2tFnpTa7lmXthI1zI0hEQgqNN3ESWBgxOtQd8QoOOfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR02MB5858
-Received-SPF: pass client-ip=2a01:111:f400:7eae::614;
- envelope-from=fkonrad@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -156,44 +108,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgTWF5ZGVsbCA8
-cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiBTZW50OiAxNiBNYXkgMjAyMiAxMDo1Nw0KPiBU
-bzogRnJlZGVyaWMgS29ucmFkIDxma29ucmFkQHhpbGlueC5jb20+DQo+IENjOiBxZW11LWRldmVs
-QG5vbmdudS5vcmc7IGFsaXN0YWlyQGFsaXN0YWlyMjMubWU7DQo+IGVkZ2FyLmlnbGVzaWFzQGdt
-YWlsLmNvbTsgcWVtdS1hcm1Abm9uZ251Lm9yZzsgU2FpIFBhdmFuIEJvZGR1DQo+IDxzYWlwYXZh
-QHhpbGlueC5jb20+OyBFZGdhciBJZ2xlc2lhcyA8ZWRnYXJpQHhpbGlueC5jb20+Ow0KPiBma29u
-cmFkQGFtZC5jb207IFNhaSBQYXZhbiBCb2RkdSA8c2FpcGF2YUB4aWxpbnguY29tPjsgRWRnYXIg
-SWdsZXNpYXMNCj4gPGVkZ2FyaUB4aWxpbnguY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYx
-IDIvNF0geGxueF9kcDogSW50cm9kdWNlIGEgdmJsYW5rIHNpZ25hbA0KPiANCj4gT24gVHVlLCAz
-IE1heSAyMDIyIGF0IDE2OjI3LCA8ZnJlZGVyaWMua29ucmFkQHhpbGlueC5jb20+IHdyb3RlOg0K
-PiA+DQo+ID4gRnJvbTogU2FpIFBhdmFuIEJvZGR1IDxzYWkucGF2YW4uYm9kZHVAeGlsaW54LmNv
-bT4NCj4gPg0KPiA+IEFkZCBhIHBlcmlvZGljIHRpbWVyIHdoaWNoIHJhaXNlcyB2YmxhbmsgYXQg
-YSBmcmVxdWVuY3kgb2YgMzBIei4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFNhaSBQYXZhbiBC
-b2RkdSA8c2FpcGF2YUB4aWxpbnguY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEVkZ2FyIEUuIEln
-bGVzaWFzIDxlZGdhci5pZ2xlc2lhc0B4aWxpbnguY29tPg0KPiA+IENoYW5nZXMgYnkgZmtvbnJh
-ZDoNCj4gPiAgIC0gU3dpdGNoZWQgdG8gdHJhbnNhY3Rpb24tYmFzZWQgcHRpbWVyIEFQSS4NCj4g
-PiAgIC0gQWRkZWQgdGhlIERQX0lOVF9WQkxOS19TVEFSVCBtYWNyby4NCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBGcmVkZXJpYyBLb25yYWQgPGZrb25yYWRAYW1kLmNvbT4NCj4gPiAtLS0NCj4gDQo+IA0K
-PiA+IEBAIC0xMzA5LDYgKzEzMjMsMTAgQEAgc3RhdGljIHZvaWQgeGxueF9kcF9yZWFsaXplKERl
-dmljZVN0YXRlICpkZXYsDQo+IEVycm9yICoqZXJycCkNCj4gPiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICZhcyk7DQo+ID4gICAgICBBVURfc2V0X3ZvbHVtZV9v
-dXQocy0+YW1peGVyX291dHB1dF9zdHJlYW0sIDAsIDI1NSwgMjU1KTsNCj4gPiAgICAgIHhsbnhf
-ZHBfYXVkaW9fYWN0aXZhdGUocyk7DQo+ID4gKyAgICBzLT52YmxhbmsgPSBwdGltZXJfaW5pdCh2
-YmxhbmtfaGl0LCBzLCBQVElNRVJfUE9MSUNZX0RFRkFVTFQpOw0KPiA+ICsgICAgcHRpbWVyX3Ry
-YW5zYWN0aW9uX2JlZ2luKHMtPnZibGFuayk7DQo+ID4gKyAgICBwdGltZXJfc2V0X2ZyZXEocy0+
-dmJsYW5rLCAzMCk7DQo+ID4gKyAgICBwdGltZXJfdHJhbnNhY3Rpb25fY29tbWl0KHMtPnZibGFu
-ayk7DQo+IA0KPiBUaGUgcHRpbWVyIGRvY3VtZW50YXRpb24gKGluIGluY2x1ZGUvaHcvcHRpbWVy
-LmgpIHNheXMNCj4gICogVGhlIGRlZmF1bHQgcHRpbWVyIHBvbGljeSByZXRhaW5zIGJhY2t3YXJk
-IGNvbXBhdGliaWxpdHkgd2l0aCB0aGUgbGVnYWN5DQo+ICAqIHRpbWVycy4gQ3VzdG9tIHBvbGlj
-aWVzIGFyZSBhZGp1c3RpbmcgdGhlIGRlZmF1bHQgb25lLiBDb25zaWRlciBwcm92aWRpbmcNCj4g
-ICogYSBjb3JyZWN0IHBvbGljeSBmb3IgeW91ciB0aW1lci4NCj4gDQo+IGFuZCBnb2VzIG9uIHRv
-IGRlc2NyaWJlIHZhcmlvdXMgd2VpcmQgYmVoYXZpb3VycyBvZiB0aGUgZGVmYXVsdA0KPiBwb2xp
-Y3kuIFlvdSBhbG1vc3QgY2VydGFpbmx5IGRvbid0IHdhbnQgdG8gdXNlIFBUSU1FUl9QT0xJQ1lf
-REVGQVVMVA0KPiBmb3IgYSBuZXcgdGltZXIgLS0gaW5zdGVhZCBmaWd1cmUgb3V0IHRoZSBiZWhh
-dmlvdXIgeW91IGFjdHVhbGx5DQo+IHdhbnQgYW5kIHNwZWNpZnkgdGhlIGFwcHJvcHJpYXRlIGZs
-YWdzLg0KDQpIaSBQZXRlciwNCg0KVGhhbmtzIGZvciB5b3VyIGZlZWRiYWNrLg0KDQpZZXMsIEkg
-dGhpbmssIEkgY2FuIGp1c3QgdXNlIENPTlRJTlVPVVNfVFJJR0dFUiBhbmQgTk9fSU1NRURJQVRF
-X1RSSUdHRVINCmluc3RlYWQgb2YgZm9yY2luZyB0aGUgZGVjcmVtZW50ZXIgLyByZWxvYWQgdmFs
-dWUgdG8gMS4gIFdvdWxkIHRoYXQgYmUgY2xlYW5lcj8NCg0KVGhhbmtzLA0KRnJlZA0KDQo+IA0K
-PiB0aGFua3MNCj4gLS0gUE1NDQo=
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+
+There are going to be some potential overheads to CXL enablement,
+for example the host bridge region reserved in memory maps.
+Add a machine level control so that CXL is disabled by default.
+
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220429144110.25167-14-Jonathan.Cameron@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/boards.h  |  2 ++
+ include/hw/cxl/cxl.h |  4 ++++
+ hw/core/machine.c    | 28 ++++++++++++++++++++++++++++
+ hw/i386/pc.c         |  1 +
+ 4 files changed, 35 insertions(+)
+
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 7b416c9787..fa57bac4fb 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -269,6 +269,7 @@ struct MachineClass {
+     bool ignore_boot_device_suffixes;
+     bool smbus_no_migration_support;
+     bool nvdimm_supported;
++    bool cxl_supported;
+     bool numa_mem_supported;
+     bool auto_enable_numa;
+     SMPCompatProps smp_props;
+@@ -359,6 +360,7 @@ struct MachineState {
+     CPUArchIdList *possible_cpus;
+     CpuTopology smp;
+     struct NVDIMMState *nvdimms_state;
++    struct CXLState *cxl_devices_state;
+     struct NumaState *numa_state;
+ };
+ 
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 554ad93b6b..31af92fd5e 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -17,4 +17,8 @@
+ #define CXL_COMPONENT_REG_BAR_IDX 0
+ #define CXL_DEVICE_REG_BAR_IDX 2
+ 
++typedef struct CXLState {
++    bool is_enabled;
++} CXLState;
++
+ #endif
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 3264c1e11d..b03d9192ba 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -33,6 +33,7 @@
+ #include "sysemu/qtest.h"
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
++#include "hw/cxl/cxl.h"
+ #include "migration/global_state.h"
+ #include "migration/vmstate.h"
+ #include "exec/confidential-guest-support.h"
+@@ -625,6 +626,20 @@ static void machine_set_nvdimm_persistence(Object *obj, const char *value,
+     nvdimms_state->persistence_string = g_strdup(value);
+ }
+ 
++static bool machine_get_cxl(Object *obj, Error **errp)
++{
++    MachineState *ms = MACHINE(obj);
++
++    return ms->cxl_devices_state->is_enabled;
++}
++
++static void machine_set_cxl(Object *obj, bool value, Error **errp)
++{
++    MachineState *ms = MACHINE(obj);
++
++    ms->cxl_devices_state->is_enabled = value;
++}
++
+ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
+ {
+     QAPI_LIST_PREPEND(mc->allowed_dynamic_sysbus_devices, g_strdup(type));
+@@ -911,6 +926,8 @@ static void machine_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = 128 * MiB;
+     mc->rom_file_has_mr = true;
+ 
++    /* Few machines support CXL, so default to off */
++    mc->cxl_supported = false;
+     /* numa node memory size aligned on 8MB by default.
+      * On Linux, each node's border has to be 8MB aligned
+      */
+@@ -1071,6 +1088,16 @@ static void machine_initfn(Object *obj)
+                                         "Valid values are cpu, mem-ctrl");
+     }
+ 
++    if (mc->cxl_supported) {
++        Object *obj = OBJECT(ms);
++
++        ms->cxl_devices_state = g_new0(CXLState, 1);
++        object_property_add_bool(obj, "cxl", machine_get_cxl, machine_set_cxl);
++        object_property_set_description(obj, "cxl",
++                                        "Set on/off to enable/disable "
++                                        "CXL instantiation");
++    }
++
+     if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
+         ms->numa_state = g_new0(NumaState, 1);
+         object_property_add_bool(obj, "hmat",
+@@ -1108,6 +1135,7 @@ static void machine_finalize(Object *obj)
+     g_free(ms->device_memory);
+     g_free(ms->nvdimms_state);
+     g_free(ms->numa_state);
++    g_free(ms->cxl_devices_state);
+ }
+ 
+ bool machine_usb(MachineState *machine)
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 305d2c0820..45e2d6092f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1761,6 +1761,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = true;
+     mc->smp_props.dies_supported = true;
++    mc->cxl_supported = true;
+     mc->default_ram_id = "pc.ram";
+ 
+     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
+-- 
+MST
+
 
