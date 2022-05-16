@@ -2,69 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69270527F45
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:09:16 +0200 (CEST)
-Received: from localhost ([::1]:50510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7CB527FC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:34:15 +0200 (CEST)
+Received: from localhost ([::1]:48732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqVn1-0007IT-Fu
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37902)
+	id 1nqWBB-00010Z-Ni
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGN-0000qS-Ue
- for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGJ-0001s2-QO
- for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652686527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=88WZoYleZt78cyWHcWlBnun10sJcL+SURQ+YQ+Uh1cw=;
- b=CBypNZN6moaFETUwJkuYgtYMsz9TUDTm87PF+6CXD4uq68EPRoCl8TzxJpR8uq4FEOFRVB
- ixI3YWuGjuyQijV9fO6qCofvzKrSy4gjAikzADKa3++YN07GSVYEmggA8RE3k59KueYtQO
- USSs41l/BRCvQ3g6sZU4jAlf6hL4R60=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-f95bxNEJP3WrQNm_WqibNg-1; Mon, 16 May 2022 03:35:25 -0400
-X-MC-Unique: f95bxNEJP3WrQNm_WqibNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A6651815CF7;
- Mon, 16 May 2022 07:35:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E3DB155F6B2;
- Mon, 16 May 2022 07:35:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E1B3421E693E; Mon, 16 May 2022 09:35:22 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, Andrea Bolognani <abologna@redhat.com>,
- Eric Blake <eblake@redhat.com>
-Subject: [PULL 08/11] qapi: Stop using whitespace for alignment in comments
-Date: Mon, 16 May 2022 09:35:19 +0200
-Message-Id: <20220516073522.3880774-9-armbru@redhat.com>
-In-Reply-To: <20220516073522.3880774-1-armbru@redhat.com>
-References: <20220516073522.3880774-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nqVLr-0006qe-Ud; Mon, 16 May 2022 03:41:12 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nqVLq-0002su-0Z; Mon, 16 May 2022 03:41:11 -0400
+Received: by mail-ed1-x533.google.com with SMTP id s3so1945100edr.9;
+ Mon, 16 May 2022 00:41:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iy55AIvdLNSIG3p8wIo+mNP/tzyfOhABGh8S2xtpUjI=;
+ b=NqGkSgI4GUxZgIRgKOm7plA/6I6YBSs9BotqhbQUtGvYkZO3PrVhpt6UkBnxmmTtf9
+ w/Y5GotZKeRhIqd2Ii11xKIBqGygCXoq6z59kQ6HEAI1EqIR94+Raat/o/4Fl5+rgPXQ
+ qh8MHUNl3hVWUEAFJBGycN2Nr7Rk1/pS7sDY+6c6J9FQ4aFLRn9Yhg3r3KYRQGtCV6LH
+ IMH6aAwSDuIGD0cNjw5PvogQz6xV8EIq2yCO7XHe8CIdwuRVLaKAUaejlodZY1kqErJ6
+ a85KPbKJHJvmwQOdZx4LUUmDYSyatyAq8PJAGXPO3/PTLFJHHJi7jMkuKxv7hhAnjJE0
+ 1nnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iy55AIvdLNSIG3p8wIo+mNP/tzyfOhABGh8S2xtpUjI=;
+ b=1sYAcC7FLTa2QtkBAdX3xGXJB8LYdB0QbZy+n7I4eFwyt0zgFG07KX+i+y+pedMfd9
+ rzi+H+viML50hnq9ew6TjFLej03QDrhZYnEb7KZrTQw6BLUCjgwaor5AxcpjWsmtSesO
+ BfK2gIrK/p3KI91y/ZJCxd2Qs8l9bewKI7qxjn0WxBzZpDFcmUTkJU/TmU+pwKUZgINW
+ pE1HJ0MOZXfGa0DGEHLsMnUXX/rJ7Dg9GqZZ3/vi+mw+OiXvMPR46p5OwDPE8umHPyfn
+ J4vWMymIH4hdFC+FVCq7t28xjLAyp/+aOptCA0hPNwYonpWGJHvHWP6WYRub0BYGwI5d
+ 0N9w==
+X-Gm-Message-State: AOAM530/lXMZMl/h3CtUbl8XtUXg7mHS1EYgKSOVBtKQncvuN//Q/EO/
+ De4AA9mp6xUSo8pLGYUQrEA=
+X-Google-Smtp-Source: ABdhPJwc07aF0qoxjOEl/T2g3Gu/cCDM31xgc+a3P9Odu/UyLYCI1FhtRWlAbNpiVurgd5T5VwtWPw==
+X-Received: by 2002:a05:6402:4010:b0:42a:6266:3f14 with SMTP id
+ d16-20020a056402401000b0042a62663f14mr11818611eda.417.1652686867322; 
+ Mon, 16 May 2022 00:41:07 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ h11-20020aa7c94b000000b00428a42815aasm4833264edt.0.2022.05.16.00.41.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 May 2022 00:41:06 -0700 (PDT)
+Message-ID: <15a9d6cb-e7c6-98f0-4b6f-766600b36274@redhat.com>
+Date: Mon, 16 May 2022 09:41:05 +0200
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH 9/9] iotests: use tests/venv for running tests
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220513000609.197906-1-jsnow@redhat.com>
+ <20220513000609.197906-10-jsnow@redhat.com>
+ <ab6d4171-74f0-3b6c-9ffc-1ed8f4fb0493@redhat.com>
+ <CAFn=p-b19dDshg7ShuNqhH+1h_ptYL4qpZSkTvnVnZOPT3g8HQ@mail.gmail.com>
+ <b30dd93b-0ced-0aea-5e84-57fa4294f4ad@redhat.com>
+ <CAFn=p-bqbcXBLLmT3Fqu1b7Y0Hu=M6B5oKT7J9idXn=tmrt4UA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFn=p-bqbcXBLLmT3Fqu1b7Y0Hu=M6B5oKT7J9idXn=tmrt4UA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,353 +104,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrea Bolognani <abologna@redhat.com>
+On 5/14/22 17:55, John Snow wrote:
+> On Fri, May 13, 2022, 11:33 AM Paolo Bonzini <pbonzini@redhat.com 
+> <mailto:pbonzini@redhat.com>> wrote:
+>     IIRC we have some cases (FreeBSD?) where only the python3.x executable
+>     is available.  This is why we 1) default to Meson's Python 3 if neither
+>     --meson nor --python are passed, and 2) use the shebang you mention but
+>     with *non-executable* files, which Meson treats magically as "invoke
+>     with the Python interpreter that was used to launch me".
+> 
+> pkg install python3 on fbsd 13.0-R gives you /usr/bin/python3 fwiw. do 
+> you know in what circumstances you get only a point release binary?
 
-Perfectly aligned things look pretty, but keeping them that
-way as the schema evolves requires churn, and in some cases
-newly-added lines are not aligned properly.
+Aha, tests/vm/freebsd installs python37, not python3.  But I guess it's 
+still a plausible configuration for this packaging setup.
 
-Overall, trying to align things is just not worth the trouble.
+Paolo
 
-Signed-off-by: Andrea Bolognani <abologna@redhat.com>
-Message-Id: <20220503073737.84223-8-abologna@redhat.com>
-Message-Id: <20220503073737.84223-9-abologna@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Two patches squashed together]
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/block-core.json | 53 ++++++++++++++++++++++----------------------
- qapi/block.json      |  6 ++---
- qapi/char.json       |  6 ++---
- qapi/control.json    | 10 ++++-----
- qapi/crypto.json     | 42 +++++++++++++++++------------------
- qapi/migration.json  |  8 +++----
- qapi/sockets.json    |  4 ++--
- qapi/ui.json         | 17 +++++++-------
- 8 files changed, 72 insertions(+), 74 deletions(-)
-
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e110af2f1d..f0383c7925 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -337,9 +337,9 @@
- #
- # Cache mode information for a block device
- #
--# @writeback:   true if writeback mode is enabled
--# @direct:      true if the host page cache is bypassed (O_DIRECT)
--# @no-flush:    true if flush requests are ignored for the device
-+# @writeback: true if writeback mode is enabled
-+# @direct: true if the host page cache is bypassed (O_DIRECT)
-+# @no-flush: true if flush requests are ignored for the device
- #
- # Since: 2.3
- ##
-@@ -3333,15 +3333,14 @@
- ##
- # @BlockdevOptionsSsh:
- #
--# @server:              host address
-+# @server: host address
- #
--# @path:                path to the image on the host
-+# @path: path to the image on the host
- #
--# @user:                user as which to connect, defaults to current
--#                       local user name
-+# @user: user as which to connect, defaults to current local user name
- #
--# @host-key-check:      Defines how and what to check the host key against
--#                       (default: known_hosts)
-+# @host-key-check: Defines how and what to check the host key against
-+#                  (default: known_hosts)
- #
- # Since: 2.9
- ##
-@@ -4662,18 +4661,18 @@
- #
- # Subformat options for VMDK images
- #
--# @monolithicSparse:     Single file image with sparse cluster allocation
-+# @monolithicSparse: Single file image with sparse cluster allocation
- #
--# @monolithicFlat:       Single flat data image and a descriptor file
-+# @monolithicFlat: Single flat data image and a descriptor file
- #
- # @twoGbMaxExtentSparse: Data is split into 2GB (per virtual LBA) sparse extent
- #                        files, in addition to a descriptor file
- #
--# @twoGbMaxExtentFlat:   Data is split into 2GB (per virtual LBA) flat extent
--#                        files, in addition to a descriptor file
-+# @twoGbMaxExtentFlat: Data is split into 2GB (per virtual LBA) flat extent
-+#                      files, in addition to a descriptor file
- #
--# @streamOptimized:      Single file image sparse cluster allocation, optimized
--#                        for streaming over network.
-+# @streamOptimized: Single file image sparse cluster allocation, optimized
-+#                   for streaming over network.
- #
- # Since: 4.0
- ##
-@@ -4764,7 +4763,7 @@
- # @BlockdevVhdxSubformat:
- #
- # @dynamic: Growing image file
--# @fixed:   Preallocated fixed-size image file
-+# @fixed: Preallocated fixed-size image file
- #
- # Since: 2.12
- ##
-@@ -4802,7 +4801,7 @@
- # @BlockdevVpcSubformat:
- #
- # @dynamic: Growing image file
--# @fixed:   Preallocated fixed-size image file
-+# @fixed: Preallocated fixed-size image file
- #
- # Since: 2.12
- ##
-@@ -4865,9 +4864,9 @@
- # Starts a job to create an image format on a given node. The job is
- # automatically finalized, but a manual job-dismiss is required.
- #
--# @job-id:          Identifier for the newly created job.
-+# @job-id: Identifier for the newly created job.
- #
--# @options:         Options for the image creation.
-+# @options: Options for the image creation.
- #
- # Since: 3.0
- ##
-@@ -4923,17 +4922,17 @@
- # Starts a job to amend format specific options of an existing open block device
- # The job is automatically finalized, but a manual job-dismiss is required.
- #
--# @job-id:          Identifier for the newly created job.
-+# @job-id: Identifier for the newly created job.
- #
--# @node-name:       Name of the block node to work on
-+# @node-name: Name of the block node to work on
- #
--# @options:         Options (driver specific)
-+# @options: Options (driver specific)
- #
--# @force:           Allow unsafe operations, format specific
--#                   For luks that allows erase of the last active keyslot
--#                   (permanent loss of data),
--#                   and replacement of an active keyslot
--#                   (possible loss of data if IO error happens)
-+# @force: Allow unsafe operations, format specific
-+#         For luks that allows erase of the last active keyslot
-+#         (permanent loss of data),
-+#         and replacement of an active keyslot
-+#         (possible loss of data if IO error happens)
- #
- # Features:
- # @unstable: This command is experimental.
-diff --git a/qapi/block.json b/qapi/block.json
-index 96f557b3bb..19326641ac 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -50,9 +50,9 @@
- #
- # Type of Floppy drive to be emulated by the Floppy Disk Controller.
- #
--# @144:  1.44MB 3.5" drive
--# @288:  2.88MB 3.5" drive
--# @120:  1.2MB 5.25" drive
-+# @144: 1.44MB 3.5" drive
-+# @288: 2.88MB 3.5" drive
-+# @120: 1.2MB 5.25" drive
- # @none: No drive connected
- # @auto: Automatically determined by inserted media at boot
- #
-diff --git a/qapi/char.json b/qapi/char.json
-index a40fe4b7bd..923dc5056d 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -376,10 +376,10 @@
- #
- # Configuration info for virtual console chardevs.
- #
--# @width:  console width,  in pixels
-+# @width: console width, in pixels
- # @height: console height, in pixels
--# @cols:   console width,  in chars
--# @rows:   console height, in chars
-+# @cols: console width, in chars
-+# @rows: console height, in chars
- #
- # Since: 1.5
- ##
-diff --git a/qapi/control.json b/qapi/control.json
-index 53461cec05..afca2043af 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -192,14 +192,14 @@
- #
- # Options to be used for adding a new monitor.
- #
--# @id:          Name of the monitor
-+# @id: Name of the monitor
- #
--# @mode:        Selects the monitor mode (default: readline in the system
--#               emulator, control in qemu-storage-daemon)
-+# @mode: Selects the monitor mode (default: readline in the system
-+#           emulator, control in qemu-storage-daemon)
- #
--# @pretty:      Enables pretty printing (QMP only)
-+# @pretty: Enables pretty printing (QMP only)
- #
--# @chardev:     Name of a character device to expose the monitor on
-+# @chardev: Name of a character device to expose the monitor on
- #
- # Since: 5.0
- ##
-diff --git a/qapi/crypto.json b/qapi/crypto.json
-index 9ec0aca1c6..15c24f0078 100644
---- a/qapi/crypto.json
-+++ b/qapi/crypto.json
-@@ -311,8 +311,8 @@
- #
- # Defines state of keyslots that are affected by the update
- #
--# @active:    The slots contain the given password and marked as active
--# @inactive:  The slots are erased (contain garbage) and marked as inactive
-+# @active: The slots contain the given password and marked as active
-+# @inactive: The slots are erased (contain garbage) and marked as inactive
- #
- # Since: 5.1
- ##
-@@ -327,30 +327,30 @@
- #
- # @state: the desired state of the keyslots
- #
--# @new-secret:    The ID of a QCryptoSecret object providing the password to be
--#                 written into added active keyslots
-+# @new-secret: The ID of a QCryptoSecret object providing the password to be
-+#              written into added active keyslots
- #
--# @old-secret:    Optional (for deactivation only)
--#                 If given will deactivate all keyslots that
--#                 match password located in QCryptoSecret with this ID
-+# @old-secret: Optional (for deactivation only)
-+#              If given will deactivate all keyslots that
-+#              match password located in QCryptoSecret with this ID
- #
--# @iter-time:     Optional (for activation only)
--#                 Number of milliseconds to spend in
--#                 PBKDF passphrase processing for the newly activated keyslot.
--#                 Currently defaults to 2000.
-+# @iter-time: Optional (for activation only)
-+#             Number of milliseconds to spend in
-+#             PBKDF passphrase processing for the newly activated keyslot.
-+#             Currently defaults to 2000.
- #
--# @keyslot:       Optional. ID of the keyslot to activate/deactivate.
--#                 For keyslot activation, keyslot should not be active already
--#                 (this is unsafe to update an active keyslot),
--#                 but possible if 'force' parameter is given.
--#                 If keyslot is not given, first free keyslot will be written.
-+# @keyslot: Optional. ID of the keyslot to activate/deactivate.
-+#           For keyslot activation, keyslot should not be active already
-+#           (this is unsafe to update an active keyslot),
-+#           but possible if 'force' parameter is given.
-+#           If keyslot is not given, first free keyslot will be written.
- #
--#                 For keyslot deactivation, this parameter specifies the exact
--#                 keyslot to deactivate
-+#           For keyslot deactivation, this parameter specifies the exact
-+#           keyslot to deactivate
- #
--# @secret:        Optional. The ID of a QCryptoSecret object providing the
--#                 password to use to retrieve current master key.
--#                 Defaults to the same secret that was used to open the image
-+# @secret: Optional. The ID of a QCryptoSecret object providing the
-+#          password to use to retrieve current master key.
-+#          Defaults to the same secret that was used to open the image
- #
- # Since: 5.1
- ##
-diff --git a/qapi/migration.json b/qapi/migration.json
-index dd4dde6361..1ff4d7eaff 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1191,10 +1191,10 @@
- # ask the client to automatically reconnect using the new parameters
- # once migration finished successfully.  Only implemented for SPICE.
- #
--# @protocol:     must be "spice"
--# @hostname:     migration target hostname
--# @port:         spice tcp port for plaintext channels
--# @tls-port:     spice tcp port for tls-secured channels
-+# @protocol: must be "spice"
-+# @hostname: migration target hostname
-+# @port: spice tcp port for plaintext channels
-+# @tls-port: spice tcp port for tls-secured channels
- # @cert-subject: server certificate subject
- #
- # Since: 0.14
-diff --git a/qapi/sockets.json b/qapi/sockets.json
-index b4f84d3334..bad74e34d3 100644
---- a/qapi/sockets.json
-+++ b/qapi/sockets.json
-@@ -167,9 +167,9 @@
- #
- # Available SocketAddress types
- #
--# @inet:  Internet address
-+# @inet: Internet address
- #
--# @unix:  Unix domain socket
-+# @unix: Unix domain socket
- #
- # @vsock: VMCI address
- #
-diff --git a/qapi/ui.json b/qapi/ui.json
-index c844237434..11a827d10f 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1018,8 +1018,8 @@
- #
- # Keyboard input event.
- #
--# @key:    Which key this event is for.
--# @down:   True for key-down and false for key-up events.
-+# @key: Which key this event is for.
-+# @down: True for key-down and false for key-up events.
- #
- # Since: 2.0
- ##
-@@ -1033,7 +1033,7 @@
- # Pointer button input event.
- #
- # @button: Which button this event is for.
--# @down:   True for key-down and false for key-up events.
-+# @down: True for key-down and false for key-up events.
- #
- # Since: 2.0
- ##
-@@ -1353,12 +1353,11 @@
- #
- # Display (user interface) options.
- #
--# @type:          Which DisplayType qemu should use.
--# @full-screen:   Start user interface in fullscreen mode (default: off).
--# @window-close:  Allow to quit qemu with window close button (default: on).
--# @show-cursor:   Force showing the mouse cursor (default: off).
--#                 (since: 5.0)
--# @gl:            Enable OpenGL support (default: off).
-+# @type: Which DisplayType qemu should use.
-+# @full-screen: Start user interface in fullscreen mode (default: off).
-+# @window-close: Allow to quit qemu with window close button (default: on).
-+# @show-cursor: Force showing the mouse cursor (default: off). (since: 5.0)
-+# @gl: Enable OpenGL support (default: off).
- #
- # Since: 2.12
- ##
--- 
-2.35.3
+> Creating a venv on fbsd with "python3 -m venv testvenv" created a 
+> python3 binary link, but not a python3.8 link, also.
+> 
+> Still leaning towards the idea that "python3" is safest, but maybe it 
+> depends on how you install from ports etc. I'd still say that it's 
+> reasonable to expect that a system with python pays heed to PEP0394, I 
+> think you've got a broken python install if you don't.
+> 
+> (But, what's the use case that forced your hand otherwise?)
+> 
+> --js
+> 
 
 
