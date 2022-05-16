@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F633529326
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:49:46 +0200 (CEST)
-Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DC85292D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:25:03 +0200 (CEST)
+Received: from localhost ([::1]:54426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqib3-0006uJ-Mg
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
+	id 1nqiD8-0003Mw-FE
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:25:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhib-00084S-6v
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:53:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25634)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhif-00088g-8v
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:53:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhiZ-0006dS-Id
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:53:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhid-0006dh-Qt
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:53:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734407;
+ s=mimecast20190719; t=1652734411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i+YlGleK5qI0hFp4EYOAKzD2I2xIa/qb4OpuKEhy36c=;
- b=FFkkWx9MQLi46lGkw05Prv7fdpDpveWvN+gibQqQV+Ht+Rw0Z3JsED2nlnlb15sAuOY4Sm
- 8zqI2EB8dI439ceBTA7i1OuMe4AqdBYt5qci1NGYy5kzU3X4r1w8SM/Kj24R/LVnjULkvA
- PjVa1UnI1aK6m+YedsvB6EIrP0g2+GY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PQz4ehzFlsyqaJdQtd3oII5C6sWLvrd+BwENnYaq6Qc=;
+ b=aqJCYNchNS5U86JXTkbOWQ2ZLKj7pkOGX/gvKve93QSCyMY4+qMIkxabYUdkkbwmTMDrKO
+ siHhmSsvrCLyYUE0/Z2LIFossv2pmk8dMYUjyPkj9w+NFi3awfRVLLS3DG3kNWl/Jy2fDN
+ 4taY1rU8ye8FiVzgNTEGe+itu2PXcwg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-UB1uXWBoNxW-0F8WCTvLjw-1; Mon, 16 May 2022 16:53:26 -0400
-X-MC-Unique: UB1uXWBoNxW-0F8WCTvLjw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- n7-20020a05640206c700b0042aaeb9d702so2917458edy.19
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:53:25 -0700 (PDT)
+ us-mta-614-kn3uhWYkOtqMCU1s_rmKqQ-1; Mon, 16 May 2022 16:53:30 -0400
+X-MC-Unique: kn3uhWYkOtqMCU1s_rmKqQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ q12-20020a056402040c00b0042a84f9939dso4549354edv.7
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:53:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=i+YlGleK5qI0hFp4EYOAKzD2I2xIa/qb4OpuKEhy36c=;
- b=zFAf9RaDul030y7ebovUP6925XVkCWIjL6YGQBnvES6Byq6DOTqALsSLFrIlMc8q/f
- PnLKAAdkWwLSp6MEwpI+h8OYBcIxncuGq84d5x+fnat6coTnLA5GrYWMykqpwPu0Q6nA
- +2h90txlXOz6s+5vyC0Nn7Pjy+xelPmjpob9YPH+WY9brh77W8dHT50kJY5JWksyGZ4T
- +GrOtBqQSGBqUvnBiUmFSxQjGJethK24Mi6MwbvhFNvivorawSOhwds+NfjJTZtZRV9y
- uaZy92orJJh8/0d5eldmW9vRLPDNyOQGx4abbKP0WlELKBU0KxYR6OV2+u5k7rwjOldP
- cF3g==
-X-Gm-Message-State: AOAM532kvQVAzBzqcPZyPY1aMgn4BQkvnKudU/hOFqXYFnxp4xF1XROl
- 5fn8qZOYUFxA4Q67oLe4hapnLlb6mj19G5viCGF1NbA5Q0aCG8CsgUZEizfeu9kg29/WMrnR2sr
- Fjm6WL+MpHUGJx9RDPw427yHGHsHWbjLT40CEaq54nqY+mGRigQ1+XzhZihUP
-X-Received: by 2002:a05:6402:1f07:b0:42a:9efb:71b1 with SMTP id
- b7-20020a0564021f0700b0042a9efb71b1mr12564873edb.397.1652734404019; 
- Mon, 16 May 2022 13:53:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXcIqo1AFk8zhoo13xfiFiLQvY2gJ0kvTBemw2WCn/TWdf+O4LKePqKC0Y6R36Gn1BtzDw6A==
-X-Received: by 2002:a05:6402:1f07:b0:42a:9efb:71b1 with SMTP id
- b7-20020a0564021f0700b0042a9efb71b1mr12564858edb.397.1652734403818; 
- Mon, 16 May 2022 13:53:23 -0700 (PDT)
+ bh=PQz4ehzFlsyqaJdQtd3oII5C6sWLvrd+BwENnYaq6Qc=;
+ b=Ho4/FzHnEMFd78RvWBnXNnhkxc3qSz0R2uIZsbVtfCLM3cBc/05gcArHXPVtdJ0J8D
+ Upq6wpxBljk+Ww6HT/MkDmgDAey5r2q0S22UYcHYg0KI7B6BN/Vd/Np7R1WH+uEk5dxz
+ VhOfHEJio8G3upsTh2M18xAF9mO/n5hhL6WOWWPFB5bHrTol0SFWLmIfFsXOJNp6W35t
+ iLMx1f0s7RRO0a4DqWeiAptqqy8yZF60LebaqtHDef7wLduPAjXD0gkBb8OZiwWJj4sD
+ oqT6OKcFUtjkskMQtesatlUSIgkuGpe+yzpQKoxFN72mn0hG7hmoaOz0Vbh1vMu5XYVA
+ wdfA==
+X-Gm-Message-State: AOAM530tFFU7w2ziTmbHpNEA/Gt0FaLbtZMV8xqOt3EA5Gc9HJ304ceU
+ gN3sEOhOjUZgLrOS74kh5z/5sJctnBBixgv3mIQ0J7LEBEQBz1yhg+quDYLcpvS/z8sFosY4e8y
+ 4ztRIpRkpAUv77w1IQWZSnQsLxSdII1drudc5roR7gJY7vW2xwfJf4pOgM/71
+X-Received: by 2002:a17:906:7952:b0:6fe:1e0b:6343 with SMTP id
+ l18-20020a170906795200b006fe1e0b6343mr11032909ejo.337.1652734408813; 
+ Mon, 16 May 2022 13:53:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxYXs0fsrLB2scIAuaDKF86zAl15GeMp5a0Yp2u6j298zRJoQ3cdH2hbYdmCvDYcPAFI1jdLg==
+X-Received: by 2002:a17:906:7952:b0:6fe:1e0b:6343 with SMTP id
+ l18-20020a170906795200b006fe1e0b6343mr11032888ejo.337.1652734408475; 
+ Mon, 16 May 2022 13:53:28 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- en19-20020a056402529300b0042617ba63casm5592915edb.84.2022.05.16.13.53.21
+ d16-20020a056402145000b0041d893ed437sm5817945edx.2.2022.05.16.13.53.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:53:23 -0700 (PDT)
-Date: Mon, 16 May 2022 16:53:19 -0400
+ Mon, 16 May 2022 13:53:27 -0700 (PDT)
+Date: Mon, 16 May 2022 16:53:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Subject: [PULL v2 47/86] hw/virtio: Replace g_memdup() by g_memdup2()
-Message-ID: <20220516204913.542894-48-mst@redhat.com>
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
+Subject: [PULL v2 48/86] vhost: Fix element in vhost_svq_add failure
+Message-ID: <20220516204913.542894-49-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -103,72 +100,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+Coverity rightly reports that is not free in that case.
 
-  The old API took the size of the memory to duplicate as a guint,
-  whereas most memory functions take memory sizes as a gsize. This
-  made it easy to accidentally pass a gsize to g_memdup(). For large
-  values, that would lead to a silent truncation of the size from 64
-  to 32 bits, and result in a heap area being returned which is
-  significantly smaller than what the caller expects. This can likely
-  be exploited in various modules to cause a heap buffer overflow.
+Fixes: Coverity CID 1487559
+Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
 
-Replace g_memdup() by the safer g_memdup2() wrapper.
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-Acked-by: Eugenio Pérez <eperezma@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20220512175747.142058-6-eperezma@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Message-Id: <20220512175747.142058-7-eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c       | 3 ++-
- hw/virtio/virtio-crypto.c | 6 +++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 1067e72b39..e4748a7e6c 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1443,7 +1443,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         }
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index a8376ef82b..56c96ebd13 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -199,11 +199,19 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+     return true;
+ }
  
-         iov_cnt = elem->out_num;
--        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
-+        iov2 = iov = g_memdup2(elem->out_sg,
-+                               sizeof(struct iovec) * elem->out_num);
-         s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
-         iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
-         if (s != sizeof(ctrl)) {
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index dcd80b904d..0e31e3cc04 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -242,7 +242,7 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         }
- 
-         out_num = elem->out_num;
--        out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-+        out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
-         out_iov = out_iov_copy;
- 
-         in_num = elem->in_num;
-@@ -605,11 +605,11 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
++/**
++ * Add an element to a SVQ.
++ *
++ * The caller must check that there is enough slots for the new element. It
++ * takes ownership of the element: In case of failure, it is free and the SVQ
++ * is considered broken.
++ */
+ static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
+ {
+     unsigned qemu_head;
+     bool ok = vhost_svq_add_split(svq, elem, &qemu_head);
+     if (unlikely(!ok)) {
++        g_free(elem);
+         return false;
      }
  
-     out_num = elem->out_num;
--    out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-+    out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
-     out_iov = out_iov_copy;
- 
-     in_num = elem->in_num;
--    in_iov_copy = g_memdup(elem->in_sg, sizeof(in_iov[0]) * in_num);
-+    in_iov_copy = g_memdup2(elem->in_sg, sizeof(in_iov[0]) * in_num);
-     in_iov = in_iov_copy;
- 
-     if (unlikely(iov_to_buf(out_iov, out_num, 0, &req, sizeof(req))
 -- 
 MST
 
