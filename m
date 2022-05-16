@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB19B527F93
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:24:55 +0200 (CEST)
-Received: from localhost ([::1]:37430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CE6527FCD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:36:52 +0200 (CEST)
+Received: from localhost ([::1]:52242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqW29-0001RT-AW
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45846)
+	id 1nqWDj-0003Oh-GE
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqVzO-0007sH-MJ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 04:22:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49649)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqW0e-0001OC-7b
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 04:23:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqVzM-0000iF-Sh
- for qemu-devel@nongnu.org; Mon, 16 May 2022 04:22:02 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqW0c-0000oe-Ie
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 04:23:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652689320;
+ s=mimecast20190719; t=1652689397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=8oBMAtSyM8us4xKRUT0p/YjRF50OZ7pZHObvGa7E2xk=;
- b=MEyjLfHMxrKj/yMBRn9KplugpaTUcFY8f/EJzJkkSLlHLe2+1+UvoH0jDQZ1MUr9LQEih6
- +X1SfTZfpLZVsrOv0PHSdSFZxmUkD+7rBoZqZX2cp3c3JR8nQUni4NunjAeU5zpgE584kY
- 5WUoMmJCx9RilcBV7Uji2iHUV2826Fg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZRicUOO3AccBC88DkLK6HcffNFeB6Gmv8i3PTtZQ2po=;
+ b=Cf9OyolicUFcIn1G4IESxoZ3TbE4JiRLI1ral12pHkUzbv5Ljc5tNWm+7Pi5Z+6iV+WJxk
+ eKaXoe0iwQg0kRpA8jdFxl+zC5H1jdIAnBcyfJ3hyEZkr1TKkPn/GpeySMWksFLVyQ1IgX
+ jCts+AbAsInEQnsdStKPdZ6S9FxtyKc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-282-nh_GHk_vMuWmO2SYHOErOQ-1; Mon, 16 May 2022 04:21:58 -0400
-X-MC-Unique: nh_GHk_vMuWmO2SYHOErOQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- o10-20020aa7c7ca000000b0042a4f08405fso5600077eds.22
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 01:21:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8oBMAtSyM8us4xKRUT0p/YjRF50OZ7pZHObvGa7E2xk=;
- b=LL36vCXMkXoIdGE8SHbtrh1bJhEtAgQVRc2NI6Sz3j5uhjjDsGnaeVWp9SjUe8YxAL
- aGKchaUrjAzQ9qhkoFKh/5Kb6m3brWrGZun7ki9MrxpEeRHKA44OcwIPZzO5DT9sKc2G
- xjz2yfiAnVQ5GkpdgYibUvhImm4BQvfIJQ34/JEUY/PpvrHCjmgiaJxETWViWmsKVehZ
- MWKNuxNvy98FpMeM2CIL6bFIDUpNoI96x0WF7BQTnsKkfLsETrA8Z1QnTyNS9oTh0NvB
- /ZBQjE5NnEEyVFoFD4vqkMATVH8Pb5hrG43cjiouVquwanLpBipBZmksAocf/O+rsQeP
- LOIA==
-X-Gm-Message-State: AOAM531H7ew9zU3aymDuPs0Du5qVosZtKdADIkVdxfIRfh5kRwvgyfgE
- QEtr90O1hKtgjM/xrbZp7Kr2/aUkuLjtYZE74uTgOZXomjARq03asZsymRXDwG0V1rEDmNRMW56
- q/3U6ljD6np36Bg9TL5Q2rdk3cZTYwgpp5+j8gSQHbz6qtQfEJ7QB5n7eqEkrFbUbZ8Q=
-X-Received: by 2002:aa7:cdcd:0:b0:42a:ada8:a03f with SMTP id
- h13-20020aa7cdcd000000b0042aada8a03fmr5327923edw.322.1652689317364; 
- Mon, 16 May 2022 01:21:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSvWZeym6jXPhGwIwLdbE13fhvSjSSU3F4hKl6rqaejmqabcAgre6caW1iNzX4NjY8M2KuNg==
-X-Received: by 2002:aa7:cdcd:0:b0:42a:ada8:a03f with SMTP id
- h13-20020aa7cdcd000000b0042aada8a03fmr5327894edw.322.1652689316992; 
- Mon, 16 May 2022 01:21:56 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- zd21-20020a17090698d500b006f3ef214dd0sm3424814ejb.54.2022.05.16.01.21.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 01:21:56 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org,
-	Alberto Faria <afaria@redhat.com>
-Subject: [PATCH v2] block/nvme: separate nvme_get_free_req cases for
- coroutine/non-coroutine context
-Date: Mon, 16 May 2022 10:21:55 +0200
-Message-Id: <20220516082155.1192164-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.0
+ us-mta-609-wjuLvBfSO2yGeYBvguTqRg-1; Mon, 16 May 2022 04:23:14 -0400
+X-MC-Unique: wjuLvBfSO2yGeYBvguTqRg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4A7780A0B9;
+ Mon, 16 May 2022 08:23:13 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C3AD573C24;
+ Mon, 16 May 2022 08:23:12 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH v2] gitlab-ci: Switch the container of the 'check-patch' &
+ 'check-dco' jobs
+Date: Mon, 16 May 2022 10:23:10 +0200
+Message-Id: <20220516082310.33876-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,94 +80,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nvme_get_free_req has very difference semantics when called in
-coroutine context (when it waits) and in non-coroutine context
-(when it doesn't).  Split the two cases to make it clear what
-is being requested.
+The 'check-patch' and 'check-dco' jobs only need Python and git for
+checking the patches, so it's not really necessary to use a container
+here that has all the other build dependencies installed. By using a
+lightweight Alpine container, we can improve the runtime here quite a
+bit, cutting it down from ca. 1:30 minutes to ca. 45 seconds.
 
-Cc: qemu-block@nongnu.org
-Reviewed-by: Alberto Faria <afaria@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- block/nvme.c | 48 ++++++++++++++++++++++++++++--------------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+ v2: Use python:alpine for even quicker execution
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 01fb28aa63..3e6abef1ce 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -293,34 +293,42 @@ static void nvme_kick(NVMeQueuePair *q)
-     q->need_kick = 0;
- }
+ .gitlab-ci.d/static_checks.yml | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index 5e955540d3..94858e3272 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -1,12 +1,13 @@
+ check-patch:
+   stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+-  needs:
+-    job: amd64-centos8-container
++  image: python:3.10-alpine
++  needs: []
+   script:
+     - .gitlab-ci.d/check-patch.py
+   variables:
+     GIT_DEPTH: 1000
++  before_script:
++    - apk -U add git perl
+   rules:
+     - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
+       when: never
+@@ -15,12 +16,13 @@ check-patch:
  
--/* Find a free request element if any, otherwise:
-- * a) if in coroutine context, try to wait for one to become available;
-- * b) if not in coroutine, return NULL;
-- */
--static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-+static NVMeRequest *nvme_get_free_req_nofail_locked(NVMeQueuePair *q)
- {
-     NVMeRequest *req;
- 
--    qemu_mutex_lock(&q->lock);
--
--    while (q->free_req_head == -1) {
--        if (qemu_in_coroutine()) {
--            trace_nvme_free_req_queue_wait(q->s, q->index);
--            qemu_co_queue_wait(&q->free_req_queue, &q->lock);
--        } else {
--            qemu_mutex_unlock(&q->lock);
--            return NULL;
--        }
--    }
--
-     req = &q->reqs[q->free_req_head];
-     q->free_req_head = req->free_req_next;
-     req->free_req_next = -1;
--
--    qemu_mutex_unlock(&q->lock);
-     return req;
- }
- 
-+/* Return a free request element if any, otherwise return NULL.  */
-+static NVMeRequest *nvme_get_free_req_nowait(NVMeQueuePair *q)
-+{
-+    QEMU_LOCK_GUARD(&q->lock);
-+    if (q->free_req_head == -1) {
-+        return NULL;
-+    }
-+    return nvme_get_free_req_nofail_locked(q);
-+}
-+
-+/*
-+ * Wait for a free request to become available if necessary, then
-+ * return it.
-+ */
-+static coroutine_fn NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-+{
-+    QEMU_LOCK_GUARD(&q->lock);
-+
-+    while (q->free_req_head == -1) {
-+       trace_nvme_free_req_queue_wait(q->s, q->index);
-+       qemu_co_queue_wait(&q->free_req_queue, &q->lock);
-+    }
-+
-+    return nvme_get_free_req_nofail_locked(q);
-+}
-+
- /* With q->lock */
- static void nvme_put_free_req_locked(NVMeQueuePair *q, NVMeRequest *req)
- {
-@@ -506,7 +514,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
-     AioContext *aio_context = bdrv_get_aio_context(bs);
-     NVMeRequest *req;
-     int ret = -EINPROGRESS;
--    req = nvme_get_free_req(q);
-+    req = nvme_get_free_req_nowait(q);
-     if (!req) {
-         return -EBUSY;
-     }
+ check-dco:
+   stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+-  needs:
+-    job: amd64-centos8-container
++  image: python:3.10-alpine
++  needs: []
+   script: .gitlab-ci.d/check-dco.py
+   variables:
+     GIT_DEPTH: 1000
++  before_script:
++    - apk -U add git
+   rules:
+     - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+       when: never
 -- 
-2.36.0
+2.27.0
 
 
