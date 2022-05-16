@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C27F527B9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 03:58:14 +0200 (CEST)
-Received: from localhost ([::1]:45786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A9C527C3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 05:14:38 +0200 (CEST)
+Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqPzw-0005bK-Rd
-	for lists+qemu-devel@lfdr.de; Sun, 15 May 2022 21:58:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60450)
+	id 1nqRBs-0003nq-Kh
+	for lists+qemu-devel@lfdr.de; Sun, 15 May 2022 23:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nqPyT-0004rH-FC
- for qemu-devel@nongnu.org; Sun, 15 May 2022 21:56:41 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:33312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nqPyR-0003Ht-Vb
- for qemu-devel@nongnu.org; Sun, 15 May 2022 21:56:41 -0400
-Received: by mail-ej1-x636.google.com with SMTP id gh6so26042130ejb.0
- for <qemu-devel@nongnu.org>; Sun, 15 May 2022 18:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=IGsmW2x9Lhp8KYStoPGYr/4neIzydryvRwdd1daiDlk=;
- b=c/IegGtISF3+WPI6mQgnr9Gba3xM2URn2wiBOEVswM2yHTejOFVydsw8D65adrhNan
- 9NY62ondlPnK00nbhVkNXNKOTSBaYj6P29QcWffpqRSYSG5E1VpH+gQL0FfVUAiG/bLM
- avPFjkDHwYcwLaGoDaseEHpPyPjR9+GISDuA6MMEVi3bdOGVj+U3F8xlL2COJB2aB/7M
- mlkwJ7TyNTojEByFl0eA6Xo4Emn+MlXMbY0OqF+zJcCl1zO6m2KClh9I6mYLEyJB+dTh
- qJl4LBJispwlXc7Lw+86ERT6u21HvrBK+NbmdBZJ4pt3GBhhfv+Fnpprs1R/dcKGPywS
- qLQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=IGsmW2x9Lhp8KYStoPGYr/4neIzydryvRwdd1daiDlk=;
- b=Eq6oxbaL0pPWuvpmKLEIk12UMC0lAoN06eaxF3kEifJrVc1m42NkNxCnnMVgwMYS2T
- 7JmgiDNo1AIeL/KsJZkyGqpRNyS/WR9Z2TFerCzj/IDwQ1W8AjzftZU2t6/ha6TVPJ9r
- dcMGgOrGX+7brQ0Vtxz46Kozo7HzBQu9WT1eX1Jsh3EzQMrX+YxJsQvoKdhK96qHNFNe
- aoa4MNA3iKehSZwX6LyDUzuN9AYsJ7+nPlDnstxCGwG/H4C3budbaqCcGXPqNfxqYLW9
- CudzTZ9oZ0tls/Q99yUSDnpwLNc0uBqOI/99dIoV6EJekuQvuxxDwyygoxrqNXcX49VM
- gpLg==
-X-Gm-Message-State: AOAM53151DV/RPqH+PnYulV3IqcMqw5F3mBui7iJ12pPodtXe8NhtIsO
- ipHzGqtEwY+36WuOH/AI97m5GzXVACKGzXEO3v9+wSMm
-X-Google-Smtp-Source: ABdhPJyDT52GrAyNeulWGWHW+YEJ5wYkFSu+9JFQEzyVF096M39lFYRcrrL9XhNYUTwgQfsLI7qIN4T5K0pJoAuSJl8=
-X-Received: by 2002:a17:906:5793:b0:6f3:d546:1764 with SMTP id
- k19-20020a170906579300b006f3d5461764mr13353642ejq.247.1652666197328; Sun, 15
- May 2022 18:56:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nqRA6-0002kO-4J; Sun, 15 May 2022 23:12:46 -0400
+Received: from smtp23.cstnet.cn ([159.226.251.23]:45760 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nqRA2-0007xg-Sk; Sun, 15 May 2022 23:12:45 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowAD3c+EdwYFimvYXBw--.62827S2;
+ Mon, 16 May 2022 11:12:30 +0800 (CST)
+Subject: Re: [PATCH v2 5/5] target/riscv: Move/refactor ISA extension checks
+To: Tsukasa OI <research_trasio@irq.a4lg.com>,
+ Alistair Francis <alistair23@gmail.com>, Frank Chang <frank.chang@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <cover.1652435138.git.research_trasio@irq.a4lg.com>
+ <cover.1652583332.git.research_trasio@irq.a4lg.com>
+ <c3145fa37a529484cf3047c8cb9841e9effad4b0.1652583332.git.research_trasio@irq.a4lg.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <afb58d24-4ba9-7229-8aed-870593222516@iscas.ac.cn>
+Date: Mon, 16 May 2022 11:12:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <CANW9uyss4-NC3SH7xzofpMbu-cn4aDVT9Vvwjk6_JUzBwX4ioQ@mail.gmail.com>
-In-Reply-To: <CANW9uyss4-NC3SH7xzofpMbu-cn4aDVT9Vvwjk6_JUzBwX4ioQ@mail.gmail.com>
-From: Itaru Kitayama <itaru.kitayama@gmail.com>
-Date: Mon, 16 May 2022 10:56:25 +0900
-Message-ID: <CANW9uysaP5dFbXNi-ZmvhMJ9ESzHbqrhoLqXR05c2gBhQS6Hfw@mail.gmail.com>
-Subject: Re: CPUs supported by the sbsa-ref board
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=itaru.kitayama@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <c3145fa37a529484cf3047c8cb9841e9effad4b0.1652583332.git.research_trasio@irq.a4lg.com>
+Content-Type: multipart/alternative;
+ boundary="------------9DDCE4E890982D4B2497A537"
+Content-Language: en-US
+X-CM-TRANSID: rQCowAD3c+EdwYFimvYXBw--.62827S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw4rGF13Zw1rWry8ur1fCrg_yoW5Gryrpr
+ 47Ga9IkryDGr1xC3yfXF1UK3W5ur1xKaySg39aq3WxGFW3KrWaqr1vkw18WFWYqwn5Xa1f
+ uFy7CrnrZFsrJaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+ WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv
+ 7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7
+ Aq67IIx4CEVc8vx2IErcIFxwCjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0D
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUjzBT5UUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,17 +79,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the latest, manually built TF-A, I was able to boot a72, but not
-max. Since `max` type is supported by TF-A, I think it might be
-a Qemu issue.
+This is a multi-part message in MIME format.
+--------------9DDCE4E890982D4B2497A537
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 16, 2022 at 8:21 AM Itaru Kitayama <itaru.kitayama@gmail.com> wrote:
+
+在 2022/5/15 上午10:56, Tsukasa OI 写道:
+> We should separate "check" and "configure" steps as possible.
+> This commit separates both steps except vector/Zfinx-related checks.
 >
-> Leif,
+> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+> ---
+>   target/riscv/cpu.c | 31 ++++++++++++++++---------------
+>   1 file changed, 16 insertions(+), 15 deletions(-)
 >
-> I've so far only booted sbsa-ref with cortex-a57, is this only CPU
-> type supported by the board? I'm using TF-A's latest branch, but the
-> PLAT=qemu_sbsa is at this moment, kind of outdated.
->
-> Itaru.
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f910a41407..5ab246bf63 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -630,14 +630,27 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>               return;
+>           }
+>   
+> +        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ext_f) {
+> +            error_setg(errp, "Zve32f/Zve64f extensions require F extension");
+> +            return;
+> +        }
+> +
+> +        /* Set the ISA extensions, checks should have happened above */
+>           if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
+>               cpu->cfg.ext_zhinxmin) {
+>               cpu->cfg.ext_zfinx = true;
+>           }
+>   
+> -        if (cpu->cfg.ext_zfinx && !cpu->cfg.ext_icsr) {
+> -            error_setg(errp, "Zfinx extension requires Zicsr");
+> -            return;
+> +        if (cpu->cfg.ext_zfinx) {
+> +            if (!cpu->cfg.ext_icsr) {
+> +                error_setg(errp, "Zfinx extension requires Zicsr");
+> +                return;
+> +            }
+> +            if (cpu->cfg.ext_f) {
+> +                error_setg(errp,
+> +                    "Zfinx cannot be supported together with F extension");
+> +                return;
+> +            }
+>           }
+
+I think these checks for non-single-letter extensions are  better to 
+move  out of the 'if (env->misa_ext == 0)) { ...}', since they are enabled
+
+directly by cfg property, such as we can set cpu option to sifive-u34 
+with zfinx=true. This may not be a proper way to set cpu option,
+
+However it's truly a legal command option, but  configure an illegal 
+supported ISA which enable both f and zfinx.
+
+Regards,
+
+Weiwei Li
+
+>   
+>           if (cpu->cfg.ext_zk) {
+> @@ -663,7 +676,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>               cpu->cfg.ext_zksh = true;
+>           }
+>   
+> -        /* Set the ISA extensions, checks should have happened above */
+>           if (cpu->cfg.ext_i) {
+>               ext |= RVI;
+>           }
+> @@ -734,20 +746,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>               }
+>               set_vext_version(env, vext_version);
+>           }
+> -        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ext_f) {
+> -            error_setg(errp, "Zve32f/Zve64f extension depends upon RVF.");
+> -            return;
+> -        }
+>           if (cpu->cfg.ext_j) {
+>               ext |= RVJ;
+>           }
+> -        if (cpu->cfg.ext_zfinx && ((ext & (RVF | RVD)) || cpu->cfg.ext_zfh ||
+> -                                   cpu->cfg.ext_zfhmin)) {
+> -            error_setg(errp,
+> -                    "'Zfinx' cannot be supported together with 'F', 'D', 'Zfh',"
+> -                    " 'Zfhmin'");
+> -            return;
+> -        }
+>   
+>           set_misa(env, env->misa_mxl, ext);
+>       }
+
+--------------9DDCE4E890982D4B2497A537
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">在 2022/5/15 上午10:56, Tsukasa OI 写道:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:c3145fa37a529484cf3047c8cb9841e9effad4b0.1652583332.git.research_trasio@irq.a4lg.com">
+      <pre class="moz-quote-pre" wrap="">We should separate "check" and "configure" steps as possible.
+This commit separates both steps except vector/Zfinx-related checks.
+
+Signed-off-by: Tsukasa OI <a class="moz-txt-link-rfc2396E" href="mailto:research_trasio@irq.a4lg.com">&lt;research_trasio@irq.a4lg.com&gt;</a>
+---
+ target/riscv/cpu.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f910a41407..5ab246bf63 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -630,14 +630,27 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+ 
++        if ((cpu-&gt;cfg.ext_zve32f || cpu-&gt;cfg.ext_zve64f) &amp;&amp; !cpu-&gt;cfg.ext_f) {
++            error_setg(errp, "Zve32f/Zve64f extensions require F extension");
++            return;
++        }
++
++        /* Set the ISA extensions, checks should have happened above */
+         if (cpu-&gt;cfg.ext_zdinx || cpu-&gt;cfg.ext_zhinx ||
+             cpu-&gt;cfg.ext_zhinxmin) {
+             cpu-&gt;cfg.ext_zfinx = true;
+         }
+ 
+-        if (cpu-&gt;cfg.ext_zfinx &amp;&amp; !cpu-&gt;cfg.ext_icsr) {
+-            error_setg(errp, "Zfinx extension requires Zicsr");
+-            return;
++        if (cpu-&gt;cfg.ext_zfinx) {
++            if (!cpu-&gt;cfg.ext_icsr) {
++                error_setg(errp, "Zfinx extension requires Zicsr");
++                return;
++            }
++            if (cpu-&gt;cfg.ext_f) {
++                error_setg(errp,
++                    "Zfinx cannot be supported together with F extension");
++                return;
++            }
+         }</pre>
+    </blockquote>
+    <p>I think these checks for non-single-letter extensions are  better
+      to move  out of the 'if (env-&gt;misa_ext == 0)) { ...}', since
+      they are enabled</p>
+    <p> directly by cfg property, such as we can set cpu option to <font
+        color="#0e170a">sifive-u34 with zfinx=true. This may not be a
+        proper way to set cpu option, <br>
+      </font></p>
+    <p><font color="#0e170a">However it's truly a legal command option,
+        but  configure an illegal supported ISA which enable both f and
+        zfinx.</font></p>
+    <p><font color="#0e170a">Regards,</font></p>
+    <p><font color="#0e170a">Weiwei Li<br>
+      </font></p>
+    <blockquote type="cite"
+cite="mid:c3145fa37a529484cf3047c8cb9841e9effad4b0.1652583332.git.research_trasio@irq.a4lg.com">
+      <pre class="moz-quote-pre" wrap="">
+ 
+         if (cpu-&gt;cfg.ext_zk) {
+@@ -663,7 +676,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             cpu-&gt;cfg.ext_zksh = true;
+         }
+ 
+-        /* Set the ISA extensions, checks should have happened above */
+         if (cpu-&gt;cfg.ext_i) {
+             ext |= RVI;
+         }
+@@ -734,20 +746,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             }
+             set_vext_version(env, vext_version);
+         }
+-        if ((cpu-&gt;cfg.ext_zve32f || cpu-&gt;cfg.ext_zve64f) &amp;&amp; !cpu-&gt;cfg.ext_f) {
+-            error_setg(errp, "Zve32f/Zve64f extension depends upon RVF.");
+-            return;
+-        }
+         if (cpu-&gt;cfg.ext_j) {
+             ext |= RVJ;
+         }
+-        if (cpu-&gt;cfg.ext_zfinx &amp;&amp; ((ext &amp; (RVF | RVD)) || cpu-&gt;cfg.ext_zfh ||
+-                                   cpu-&gt;cfg.ext_zfhmin)) {
+-            error_setg(errp,
+-                    "'Zfinx' cannot be supported together with 'F', 'D', 'Zfh',"
+-                    " 'Zfhmin'");
+-            return;
+-        }
+ 
+         set_misa(env, env-&gt;misa_mxl, ext);
+     }
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------9DDCE4E890982D4B2497A537--
+
 
