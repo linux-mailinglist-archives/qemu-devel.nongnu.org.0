@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E38528A6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:32:03 +0200 (CEST)
-Received: from localhost ([::1]:51152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E05C528A92
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:34:51 +0200 (CEST)
+Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqdda-0006ZK-VP
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:32:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37788)
+	id 1nqdgI-00032a-7l
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqcw9-0000Rf-6A
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:47:09 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:37195)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqcw7-0001fS-B8
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:47:08 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2f16645872fso157885407b3.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/2yjnZk4xVQ7QW/pMc2La6sAOKnLSlA3dC6osajqex8=;
- b=WMifEoToGP8nJDygpsrhgZXQhJ8tRo4z6ZIZVE/vOC4OqHfum6CG/C81szfyAmYq1R
- MVwOXeE86bL2bx8UawrAI2aa/IBC5D2PlBdaWPLtrt6gUDM/ZAqmqIBmbIpqzTOGEdiM
- Vpn0giUOoBVt72IFis+nGlUC712V5K9gpzyOr1BINj63C+sUVhLV8WfYBY5bdiwRUR7h
- BxVTv8AYESn0JBi0gQeY6nfXxyjPI+1i1yIGIpYSDe+LeVZ+oSRt/T0wacX4Ejz/V8RU
- n2d/Vpz8LTVFQeX4t2IVD+Jli/riV/gJB/REyeaORPPIIl3f1v2jQvXeMaMYjz+LnUgA
- mwEA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nqd4u-0001H2-5t
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25130)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nqd4r-0003JZ-5y
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652716567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XvPMULj8H2XDc1ynn7UY9nkZ4VGal7Q5H/aGCRLDnNQ=;
+ b=Ow11fFDjxGEHef7Y4yfFgQA185hgA4hXZ1xsT5Hdz7MJLVdnKbx+hQXG3C0e3kxKrbw7s6
+ mHLRCbe4IFPpuMX/8fmrktWCEYSxCy7CTT8nIB9La1lRZCCnNXIPKvvkEtodA8szs+kwdW
+ 5liL96h/WXwXHnqkErDNiK7nVUWRvxk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-643-J3ZF-9arMDOZeRPKEIhc5w-1; Mon, 16 May 2022 11:56:06 -0400
+X-MC-Unique: J3ZF-9arMDOZeRPKEIhc5w-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ bk16-20020a170906b0d000b006fe34a2e598so1076559ejb.0
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/2yjnZk4xVQ7QW/pMc2La6sAOKnLSlA3dC6osajqex8=;
- b=Qh6ljDsBoqi+qTTiS8Oe3Kvf1fVVstSuM0jSLkFYF7Mgo3sjfAYO0mRzXLivmmcBNT
- 33FM7KnQlmue8ZUIhNVsKhe/lMQzrEkR83QvywlHO8G14P0zxtee6ucEe9TJ3hoe0WFT
- l06WP70FqC1nPgWUYgyZ85PjAkZvpmCbP739ofz2VLzoiLeZWYXUMPQY8KFwZbpGj7MA
- TFaAwiAgdXG1CU/S2C9kt1YbGftvJ7xV3KUg0ay7LoLCoz7BkKGr/GV/itTSzyfa2rnE
- Cm9035SBXjxKE7L0G6MNrVsQDTEHZzvS8FU3mRozOk9HeeZUJbn0MSYU6bJo9Kpkr1wb
- xmMA==
-X-Gm-Message-State: AOAM530f76rW0CQBYqMFpGIwetpl/Fuyb6ldO7+5sLX3rSFyAr8+3l24
- ob5Z0G/U3sWTc+0AodzIxSczWB+8zBTxoMf+DaRwEw==
-X-Google-Smtp-Source: ABdhPJxBZ6QrAHih2h0iYbAwuc/4i56/BNCFUtHs0ldRZ11LClmhj/g+a39hGox/XTcu759CuLcIiBnrKdOSmZwPkR0=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr21149179ywb.257.1652716026222; Mon, 16
- May 2022 08:47:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XvPMULj8H2XDc1ynn7UY9nkZ4VGal7Q5H/aGCRLDnNQ=;
+ b=ZBzQOYQ/cWrlMWl1GNo2HKRMdpeCRIHg1B1CNwhoMJxKQm9AUX5UKo1ir+GDj9F48D
+ 8sGZrW0w73lbP/+QVGMQ+3vM1fDcb47cYQ2kYZSarGCnbgfZhU8OTEWtGnb5JP0seuOA
+ o77rqhWhI2g7Ptt89nl1CJoDFiuqOc93LgEpKXYP6iG2VCx2AgHFdZzdqTDmf6n37gA4
+ yXoxwwAxjJVJvVyVSNDVljIsDdOUIuOklKK0U/ax0LPtRXmQjBS9qmmC8G3QrCbCkCBj
+ N3DqCbU3nZ6xbGajwA8AoSGygRWtWIb1vymrtUrNpMhbz3YVcSG02RpAkYlMsgdA5uzD
+ uwWQ==
+X-Gm-Message-State: AOAM531warvJck3zEmIHCgwRyUmTSbZhzWRdCbKjzy0/ezD5WyRH0yFt
+ BrpfOYbg3P3A/oh4JvLeSLjEYVEjrYysHyRJEvnTjwFo/Dl9qO0eiO6okIyJnTmge7rxyAliDDE
+ HOiQ92anBAievRnSPBymqldACTz/OgMGu6K+vHVgaoW57EAF5UmmpWWiMYgWobZId82w=
+X-Received: by 2002:a17:907:3f8d:b0:6fa:6a00:b405 with SMTP id
+ hr13-20020a1709073f8d00b006fa6a00b405mr15575353ejc.742.1652716565115; 
+ Mon, 16 May 2022 08:56:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/j2CeLeIInmXS75sPewMPGpX3HgnHA+43jyD3+TsepLWT7ojlo6qy61JO12yQDHcYrXolPw==
+X-Received: by 2002:a17:907:3f8d:b0:6fa:6a00:b405 with SMTP id
+ hr13-20020a1709073f8d00b006fa6a00b405mr15575327ejc.742.1652716564698; 
+ Mon, 16 May 2022 08:56:04 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ p2-20020a17090664c200b006f3ef214de9sm46282ejn.79.2022.05.16.08.56.03
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 08:56:04 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/23] Misc QEMU patches for 2022-05-16
+Date: Mon, 16 May 2022 17:55:40 +0200
+Message-Id: <20220516155603.1234712-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <20220516145823.148450-1-thuth@redhat.com>
- <20220516145823.148450-3-thuth@redhat.com>
-In-Reply-To: <20220516145823.148450-3-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 May 2022 16:46:54 +0100
-Message-ID: <CAFEAcA-RBUX5iXV__1AMrex21DJK7hx8mygksJa6xynJRCEW4g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] capstone: Allow version 3.0.5 again
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
- "Daniel P . Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,20 +97,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 May 2022 at 16:43, Thomas Huth <thuth@redhat.com> wrote:
->
-> According to
->
->  https://lore.kernel.org/qemu-devel/20200921174118.39352-1-richard.henderson@linaro.org/
->
-> there was an issue with Capstone 3 from Ubuntu 18. Now that we removed
-> support for Ubuntu 18.04, that issue should hopefully not bite us
-> anymore. Compiling with version 3.0.5 seems to work fine on other
-> systems, so let's allow that version again.
+The following changes since commit 48de9b0916ef60d5a6bd6ca9288832deff8ee1ee:
 
-Commit bcf368626cb33c4d says the reason for requiring capstone
->=4.0 was "We're about to use a portion of the 4.0 API", not
-"Ubuntu's specific capstone 3 is broken"...
+  Merge tag 'linux-headers-v5.18-rc6' of https://gitlab.com/alex.williamson/qemu into staging (2022-05-13 09:45:17 -0700)
 
--- PMM
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 8eccdb9eb84615291faef1257d5779ebfef7a0d0:
+
+  configure: remove duplicate help messages (2022-05-14 12:33:45 +0200)
+
+----------------------------------------------------------------
+* fix WHPX debugging
+* misc qga-vss fixes
+* remove the deprecated CPU model 'Icelake-Client'
+* support for x86 architectural LBR
+* remove deprecated properties
+* replace deprecated -soundhw with -audio
+
+----------------------------------------------------------------
+Ivan Shcherbakov (1):
+      WHPX: fixed TPR/CR8 translation issues affecting VM debugging
+
+Konstantin Kostiuk (2):
+      qga-vss: Add auto generated headers to dependencies
+      qga-vss: Use the proper operator to free memory
+
+Paolo Bonzini (11):
+      target/i386: introduce helper to access supported CPUID
+      crypto: make loaded property read-only
+      rng: make opened property read-only
+      soundhw: remove ability to create multiple soundcards
+      soundhw: extract soundhw help to a separate function
+      soundhw: unify initialization for ISA and PCI soundhw
+      soundhw: move help handling to vl.c
+      introduce -audio as a replacement for -soundhw
+      build: remove useless dependency
+      configure: remove another dead variable
+      configure: remove duplicate help messages
+
+Robert Hoo (1):
+      i386/cpu: Remove the deprecated cpu model 'Icelake-Client'
+
+Yang Weijiang (8):
+      qdev-properties: Add a new macro with bitmask check for uint64_t property
+      target/i386: Add lbr-fmt vPMU option to support guest LBR
+      target/i386: Add kvm_get_one_msr helper
+      target/i386: Enable support for XSAVES based features
+      target/i386: Add XSAVES support for Arch LBR
+      target/i386: Add MSR access interface for Arch LBR
+      target/i386: Enable Arch LBR migration states in vmstate
+      target/i386: Support Arch LBR in CPUID enumeration
+
+ Makefile                        |   3 -
+ audio/audio.c                   |   8 +-
+ audio/audio.h                   |   1 +
+ backends/rng.c                  |  18 +--
+ configure                       |   5 -
+ crypto/secret_common.c          |  84 +++++-----
+ crypto/tlscredsanon.c           |  20 +--
+ crypto/tlscredspsk.c            |  20 +--
+ crypto/tlscredsx509.c           |  20 +--
+ docs/about/deprecated.rst       |  34 -----
+ docs/about/removed-features.rst |  28 ++++
+ hw/audio/intel-hda.c            |   5 +-
+ hw/audio/soundhw.c              | 136 ++++++++---------
+ hw/core/qdev-properties.c       |  19 +++
+ include/hw/audio/soundhw.h      |   5 +-
+ include/hw/qdev-properties.h    |  12 ++
+ qemu-options.hx                 |  51 +++----
+ qga/vss-win32/meson.build       |   2 +-
+ qga/vss-win32/requester.cpp     |   4 +-
+ softmmu/vl.c                    |  30 +++-
+ target/i386/cpu.c               | 331 ++++++++++++++++++++--------------------
+ target/i386/cpu.h               |  57 ++++++-
+ target/i386/kvm/kvm.c           | 113 +++++++++++---
+ target/i386/machine.c           |  38 +++++
+ target/i386/whpx/whpx-all.c     |  13 +-
+ 25 files changed, 600 insertions(+), 457 deletions(-)
+-- 
+2.36.0
+
 
