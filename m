@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597FA52838D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:53:08 +0200 (CEST)
-Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326D7528385
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:49:54 +0200 (CEST)
+Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZHf-0000Rr-EE
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
+	id 1nqZEX-0004bM-9a
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7i-0000Gm-VQ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32064)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7m-0000Sd-VH
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7h-0005WX-Ck
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7l-0005Ww-BY
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697524;
+ s=mimecast20190719; t=1652697528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=90csNjP5LKfEJhmG68QBnKx1NoaampPhCE1MdP4/wac=;
- b=QaLhBBOk/G85uZsl/W1ZBjw+xADf3GszgtVHKpVOLqY3o2a7l32j9NRVLDcCC7gMX1cpNq
- +LyaELCdD0ieJRhzf26rj6H2iczn+JvFwzSJak8NnpvOjfzKYPR8Q+8Ux6GWaXdWOvQcqR
- n4dJFcipjT9ZxvwiL6/YLSiBZEwKWmU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O8wI52pqlMCFB1khh+cTnO6p9uc6A9BWzkp+MixRkFA=;
+ b=Fh/wUDc4CCwnxEsCg6gkjHmr52Dtxqu07+5EWRFf7av4KXibeJJE2c4oUQ5sB+Ihh5YQbI
+ NO38wOwf7aI59ZKGjeTa5GfW+pHarF/3DPgpAmR0Od1nw+u5BbMpCndqeMTiiaIP4DVgUK
+ +WG+k7rT03Jc+IZePxBxm/6eebAiF2s=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-U99n4LLjPf6jlnAcPsovFw-1; Mon, 16 May 2022 06:38:43 -0400
-X-MC-Unique: U99n4LLjPf6jlnAcPsovFw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ba21-20020a0560001c1500b0020ca6a45dfcso3799763wrb.9
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:43 -0700 (PDT)
+ us-mta-480-e8muR_S0McKgLyRNZRb_xg-1; Mon, 16 May 2022 06:38:47 -0400
+X-MC-Unique: e8muR_S0McKgLyRNZRb_xg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e9-20020a05600c4e4900b00394779649b1so10152477wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=90csNjP5LKfEJhmG68QBnKx1NoaampPhCE1MdP4/wac=;
- b=n+3p0lec8ktHxaly+cTEFUe42G1UnUpITv3+T6FjWo+awZy6nC92ll5p+Pnq6B31DF
- RNYwlAkN1KIU3hnJDkEqqWFqQiEBmFGBvHR9nUpsvaSWmcbkK5qMubhsqyvhdx4xpYNk
- JFq9mLz8gerKIFni82Oo4Go8B8vTL9UlMXJsBxhigsXrgQGLo1Knpg8UXv5TQ6P0EJHT
- lVXoxoNWIou6i5qhzYvRc5bSrZC6M0Q1K5OUDsaU/1IdB4qaQULyk1sg3irZHgWOUqwH
- u2+DYnJSoz0LEmkRgWT3ZeRgk01daFlwiRmYMRpQMS/dmaHWwpaKVxORKJi7PkPybUl8
- pijQ==
-X-Gm-Message-State: AOAM533itRpuLF4/03yAAwKknBPL8M96kvU4F2dCl5Hfhp2m9fOf0Mrh
- mUM7PvCOLHc/yxlN8fKXY2d91fnYlhEX2b45uYBmzbaesHy/slaQ4PDvLJAtXR8wXYJsKU5gekk
- Y/gqtQ1to+cbDMlandGICqEiTb6FkuBsXrqwE11tAM4hK/UFSx4AGezN/9d7T
-X-Received: by 2002:a5d:47ab:0:b0:20c:6b09:2355 with SMTP id
- 11-20020a5d47ab000000b0020c6b092355mr13792238wrb.230.1652697522400; 
- Mon, 16 May 2022 03:38:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyF4FQysgU/tskp06usTB9efqJpYviAFurtPaJPcgg/SpIs/O4xKeXb3c5GiJyGjeKljEySSw==
-X-Received: by 2002:a5d:47ab:0:b0:20c:6b09:2355 with SMTP id
- 11-20020a5d47ab000000b0020c6b092355mr13792214wrb.230.1652697522130; 
- Mon, 16 May 2022 03:38:42 -0700 (PDT)
+ bh=O8wI52pqlMCFB1khh+cTnO6p9uc6A9BWzkp+MixRkFA=;
+ b=a4c0S9khmMPvye5JQdFsYMgZuo8v17JDWTHGos2OvxLvmj7slO/UcYqGXBuDDLHTCW
+ dNTpbc6FqCAaTw25FS9ElafhCJwryUBhf7YKPpCT55qM1Cd6zkghRiK0498uC/X6or35
+ MjuLCneM0yltSj5c/nRTeuZQBQfpxP+7yYWFN6PA6TZHsw8T2ySY+ycVBmRgWmhI2FLF
+ wNoFMzYk8WSxi4UYUbgk2jE5Ryie0CfCf3kqrhLutEr/JUafhors+5sU5u4x+tFW37Oy
+ +vUqCVt66LP1+d1b4dLbqFnkNHi8QSVJ7I0ERly4w+VheNz26nvA1kSRZMLQAYT3t0HO
+ GLjQ==
+X-Gm-Message-State: AOAM531NvB/LwiRrQixsrSExxS4Jpfxcsy/KFh/+GwwHdzGcFbugcXjC
+ Y6Z1Fm/D5fM9lpc2jL1VVFqBxX/1nhyjMQ9ANx7E+CZJPsyxJA/CwuucnXaz+4BxEPiPzM8kOAN
+ 0VauA9GVUJg/B5upaKJ/IVO9QXusS3W3OzoyRuBHJYOH4YMsqs2ECpJuBaKyV
+X-Received: by 2002:adf:e584:0:b0:20d:841:4929 with SMTP id
+ l4-20020adfe584000000b0020d08414929mr3957769wrm.284.1652697526277; 
+ Mon, 16 May 2022 03:38:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyuLkAEfUL89HA70zztNjrXms9qXLAY7oPF3Ju3QgBvgejHPjzeD06CArpunRYgNdBIMrDK9A==
+X-Received: by 2002:adf:e584:0:b0:20d:841:4929 with SMTP id
+ l4-20020adfe584000000b0020d08414929mr3957751wrm.284.1652697525980; 
+ Mon, 16 May 2022 03:38:45 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- f8-20020a7bcc08000000b003942a244f35sm13034678wmh.14.2022.05.16.03.38.40
+ v2-20020a05600c15c200b00395f15d993fsm4468582wmf.5.2022.05.16.03.38.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:38:41 -0700 (PDT)
-Date: Mon, 16 May 2022 06:38:38 -0400
+ Mon, 16 May 2022 03:38:45 -0700 (PDT)
+Date: Mon, 16 May 2022 06:38:42 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Woodhouse <dwmw2@infradead.org>,
- Claudio Fontana <cfontana@suse.de>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 52/91] intel_iommu: Fix irqchip / X2APIC configuration checks
-Message-ID: <20220516095448.507876-53-mst@redhat.com>
+Subject: [PULL 53/91] intel-iommu: remove VTD_FR_RESERVED_ERR
+Message-ID: <20220516095448.507876-54-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -103,49 +101,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Woodhouse <dwmw2@infradead.org>
+From: Jason Wang <jasowang@redhat.com>
 
-We don't need to check kvm_enable_x2apic(). It's perfectly OK to support
-interrupt remapping even if we can't address CPUs above 254. Kind of
-pointless, but still functional.
+This fault reason is not used and is duplicated with SPT.2 condition
+code. So let's remove it.
 
-The check on kvm_enable_x2apic() needs to happen *anyway* in order to
-allow CPUs above 254 even without an IOMMU, so allow that to happen
-elsewhere.
-
-However, we do require the *split* irqchip in order to rewrite I/OAPIC
-destinations. So fix that check while we're here.
-
-Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-Acked-by: Claudio Fontana <cfontana@suse.de>
-Message-Id: <20220314142544.150555-4-dwmw2@infradead.org>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20220210092815.45174-1-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- hw/i386/intel_iommu.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ hw/i386/intel_iommu_internal.h | 5 -----
+ hw/i386/intel_iommu.c          | 6 ------
+ 2 files changed, 11 deletions(-)
 
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index 1ff13b40f9..b6a2da8e83 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -304,11 +304,6 @@ typedef enum VTDFaultReason {
+ 
+     VTD_FR_PASID_TABLE_INV = 0x58,  /*Invalid PASID table entry */
+ 
+-    /* This is not a normal fault reason. We use this to indicate some faults
+-     * that are not referenced by the VT-d specification.
+-     * Fault event with such reason should not be recorded.
+-     */
+-    VTD_FR_RESERVED_ERR,
+     VTD_FR_MAX,                 /* Guard */
+ } VTDFaultReason;
+ 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index d3361c8313..d310532108 100644
+index d310532108..8af2e39151 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -3786,15 +3786,10 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-                                               ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
-     }
-     if (s->intr_eim == ON_OFF_AUTO_ON && !s->buggy_eim) {
--        if (!kvm_irqchip_in_kernel()) {
-+        if (!kvm_irqchip_is_split()) {
-             error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
-             return false;
-         }
--        if (!kvm_enable_x2apic()) {
--            error_setg(errp, "eim=on requires support on the KVM side"
--                             "(X2APIC_API, first shipped in v4.7)");
--            return false;
--        }
-     }
+@@ -469,11 +469,6 @@ static void vtd_report_dmar_fault(IntelIOMMUState *s, uint16_t source_id,
  
-     /* Currently only address widths supported are 39 and 48 bits */
+     assert(fault < VTD_FR_MAX);
+ 
+-    if (fault == VTD_FR_RESERVED_ERR) {
+-        /* This is not a normal fault reason case. Drop it. */
+-        return;
+-    }
+-
+     trace_vtd_dmar_fault(source_id, fault, addr, is_write);
+ 
+     if (fsts_reg & VTD_FSTS_PFO) {
+@@ -1637,7 +1632,6 @@ static const bool vtd_qualified_faults[] = {
+     [VTD_FR_PAGING_ENTRY_RSVD] = true,
+     [VTD_FR_CONTEXT_ENTRY_TT] = true,
+     [VTD_FR_PASID_TABLE_INV] = false,
+-    [VTD_FR_RESERVED_ERR] = false,
+     [VTD_FR_MAX] = false,
+ };
+ 
 -- 
 MST
 
