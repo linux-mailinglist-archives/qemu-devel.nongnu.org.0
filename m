@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2C3527E83
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 09:25:59 +0200 (CEST)
-Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD3D527E85
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 09:26:22 +0200 (CEST)
+Received: from localhost ([::1]:59170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqV78-0005az-6t
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 03:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34836)
+	id 1nqV7V-0006T0-KF
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 03:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqV0f-0002kb-7L
- for qemu-devel@nongnu.org; Mon, 16 May 2022 03:19:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21793)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nqV15-00036r-RT
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 03:19:43 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqV0c-0007nA-5b
- for qemu-devel@nongnu.org; Mon, 16 May 2022 03:19:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652685552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O6WRbJmG06NRwQeYgN5/p9E8YTcUbzhFtyb+Lo9Xn7k=;
- b=By/IHKHswSxEQ6Gr2uOJn/O4gSaC7/lgvxS2O+Cf7OpkUvTMzVPOMRDth3z2cZvfzy2/MU
- zVDaFhyAM52XVnqb8KK/O9m+Q4zCwRmecikImbtKLAytyE2NmhPkWsXlC9txxDrF3eW30d
- 9YGMslqmbO7XI+KTX48qA98m6RNXNUA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-tgDJP30ENF-8eWWPQUH3pA-1; Mon, 16 May 2022 03:19:09 -0400
-X-MC-Unique: tgDJP30ENF-8eWWPQUH3pA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02D363810D23;
- Mon, 16 May 2022 07:19:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B54A454ED1F;
- Mon, 16 May 2022 07:19:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 80BC021E690D; Mon, 16 May 2022 09:19:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Konstantin Kostiuk <kkostiuk@redhat.com>,
- Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v3 04/15] qga: flatten safe_open_or_create()
-References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
- <20220513180821.905149-5-marcandre.lureau@redhat.com>
-Date: Mon, 16 May 2022 09:19:07 +0200
-In-Reply-To: <20220513180821.905149-5-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Fri, 13 May 2022 20:08:10 +0200")
-Message-ID: <87k0ameyhg.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nqV13-0007pD-Ux
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 03:19:43 -0400
+Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nqUzx-0004Uj-Ii; Mon, 16 May 2022 08:18:37 +0100
+Message-ID: <cc38de01-0f6c-343f-535d-f84ef35aca0b@ilande.co.uk>
+Date: Mon, 16 May 2022 08:19:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Sven Schnelle <svens@stackframe.org>
+References: <20220511235054.185435-1-deller@gmx.de>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220511235054.185435-1-deller@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 0/6] hppa: Artist graphics driver fixes for HP-UX
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,222 +65,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+On 12/05/2022 00:50, Helge Deller wrote:
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> There is a bit too much nesting in the function, this can be simplified
-> a bit to improve readability.
->
-> This also helps with the following error handling changes.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  qga/commands-posix.c | 122 ++++++++++++++++++++++---------------------
->  1 file changed, 62 insertions(+), 60 deletions(-)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 69f209af87..15eb7cb77d 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -339,73 +339,75 @@ find_open_flag(const char *mode_str, Error **errp)
->  static FILE *
->  safe_open_or_create(const char *path, const char *mode, Error **errp)
->  {
-> -    Error *local_err =3D NULL;
->      int oflag;
-> +    int fd =3D -1;
-> +    FILE *f =3D NULL;
-> +
-> +    oflag =3D find_open_flag(mode, errp);
-> +    if (oflag < 0) {
-> +        goto end;
-> +    }
-> +
-> +    /* If the caller wants / allows creation of a new file, we implement=
- it
-> +     * with a two step process: open() + (open() / fchmod()).
-> +     *
-> +     * First we insist on creating the file exclusively as a new file. If
-> +     * that succeeds, we're free to set any file-mode bits on it. (The
-> +     * motivation is that we want to set those file-mode bits independen=
-tly
-> +     * of the current umask.)
-> +     *
-> +     * If the exclusive creation fails because the file already exists
-> +     * (EEXIST is not possible for any other reason), we just attempt to
-> +     * open the file, but in this case we won't be allowed to change the
-> +     * file-mode bits on the preexistent file.
-> +     *
-> +     * The pathname should never disappear between the two open()s in
-> +     * practice. If it happens, then someone very likely tried to race u=
-s.
-> +     * In this case just go ahead and report the ENOENT from the second
-> +     * open() to the caller.
-> +     *
-> +     * If the caller wants to open a preexistent file, then the first
-> +     * open() is decisive and its third argument is ignored, and the sec=
-ond
-> +     * open() and the fchmod() are never called.
-> +     */
-> +    fd =3D open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
-> +    if (fd =3D=3D -1 && errno =3D=3D EEXIST) {
-> +        oflag &=3D ~(unsigned)O_CREAT;
-> +        fd =3D open(path, oflag);
-> +    }
-> +    if (fd =3D=3D -1) {
-> +        error_setg_errno(errp, errno,
-> +                         "failed to open file '%s' "
-> +                         "(mode: '%s')",
+> This series adds additional HP fonts to the SeaBIOS-hppa firmware.
+> 
+> And in the qemu artist graphics driver it:
+> - fixes the vertical postioning of the X11 cursor with HP-UX
+> - allows X11 to blank the screen (e.g. screensaver)
+> - allows the X11 driver to turn the X11 cursor on/off
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> 
+> Helge Deller (6):
+>    seabios-hppa: Update SeaBIOS-hppa to VERSION 4
+>    artist: Introduce constant for max cursor size
+>    artist: Use human-readable variable names instead of reg_xxx
+>    artist: Fix vertical X11 cursor position in HP-UX
+>    artist: Allow to turn cursor on or off
+>    artist: Emulate screen blanking
+> 
+>   hw/display/artist.c       | 134 +++++++++++++++++++++++++++++---------
+>   pc-bios/hppa-firmware.img | Bin 701964 -> 715240 bytes
+>   roms/seabios-hppa         |   2 +-
+>   3 files changed, 106 insertions(+), 30 deletions(-)
+> 
+> --
+> 2.35.3
 
-No need to split this string.
+I've applied these patches to latest git and done a quick test with my cut-down Linux 
+image and the latest HPPA image at https://parisc.wiki.kernel.org/index.php/Qemu, and 
+confirmed I can successfully switch fonts without seeing any other graphical issues. 
+This isn't a particularly comprehensive test though, since I don't have a copy of 
+HP-UX and the latest HPPA image doesn't have X installed.
 
-> +                         path, mode);
-> +        goto end;
-> +    }
->=20=20
-> -    oflag =3D find_open_flag(mode, &local_err);
-> -    if (local_err =3D=3D NULL) {
-> -        int fd;
-> -
-> -        /* If the caller wants / allows creation of a new file, we imple=
-ment it
-> -         * with a two step process: open() + (open() / fchmod()).
-> -         *
-> -         * First we insist on creating the file exclusively as a new fil=
-e. If
-> -         * that succeeds, we're free to set any file-mode bits on it. (T=
-he
-> -         * motivation is that we want to set those file-mode bits indepe=
-ndently
-> -         * of the current umask.)
-> -         *
-> -         * If the exclusive creation fails because the file already exis=
-ts
-> -         * (EEXIST is not possible for any other reason), we just attemp=
-t to
-> -         * open the file, but in this case we won't be allowed to change=
- the
-> -         * file-mode bits on the preexistent file.
-> -         *
-> -         * The pathname should never disappear between the two open()s in
-> -         * practice. If it happens, then someone very likely tried to ra=
-ce us.
-> -         * In this case just go ahead and report the ENOENT from the sec=
-ond
-> -         * open() to the caller.
-> -         *
-> -         * If the caller wants to open a preexistent file, then the first
-> -         * open() is decisive and its third argument is ignored, and the=
- second
-> -         * open() and the fchmod() are never called.
-> -         */
-> -        fd =3D open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
-> -        if (fd =3D=3D -1 && errno =3D=3D EEXIST) {
-> -            oflag &=3D ~(unsigned)O_CREAT;
-> -            fd =3D open(path, oflag);
-> -        }
-> +    qemu_set_cloexec(fd);
->=20=20
-> -        if (fd =3D=3D -1) {
-> -            error_setg_errno(&local_err, errno, "failed to open file '%s=
-' "
-> -                             "(mode: '%s')", path, mode);
-> -        } else {
-> -            qemu_set_cloexec(fd);
-> +    if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) =3D=3D -1=
-) {
-> +        error_setg_errno(errp, errno,
-> +                         "failed to set permission 0%03o on new file '%s=
-' (mode: '%s')",
+ From a general QEMU perspective the patches look okay, except for the separate patch 
+posted after the original series which fails checkpatch due to styling issues around 
+the block comments. It is possible to do this directly on a checkout of the git 
+source tree with "./scripts/checkpatch.pl master..HEAD", or once you have the final 
+PR ready to go then a push to GitLab to confirm it passes CI should help locate any 
+potential problems.
 
-But I'd split this one.
+I don't have any knowledge of the internals of the artist framebuffer, but feel free 
+to add an:
 
-> +                         (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
-> +        goto end;
-> +    }
->=20=20
-> -            if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) =
-=3D=3D -1) {
-> -                error_setg_errno(&local_err, errno, "failed to set permi=
-ssion "
-> -                                 "0%03o on new file '%s' (mode: '%s')",
-> -                                 (unsigned)DEFAULT_NEW_FILE_MODE, path, =
-mode);
-> -            } else {
-> -                FILE *f;
-> -
-> -                f =3D fdopen(fd, mode);
-> -                if (f =3D=3D NULL) {
-> -                    error_setg_errno(&local_err, errno, "failed to assoc=
-iate "
-> -                                     "stdio stream with file descriptor =
-%d, "
-> -                                     "file '%s' (mode: '%s')", fd, path,=
- mode);
-> -                } else {
-> -                    return f;
-> -                }
-> -            }
-> +    f =3D fdopen(fd, mode);
-> +    if (f =3D=3D NULL) {
-> +        error_setg_errno(errp, errno,
-> +                         "failed to associate stdio stream with file des=
-criptor %d, "
-> +                         "file '%s' (mode: '%s')",
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-And I'd split this one like
+when you respin the v2. It's not far off a Tested-by but I don't feel I can offer 
+that without being able to test a HP-UX X environment.
 
-                            "failed to associate stdio stream with"
-                            " file descriptor %d, file '%s' (mode: '%s')",
 
-> +                         fd, path, mode);
-> +    }
->=20=20
-> -            close(fd);
-> -            if (oflag & O_CREAT) {
-> -                unlink(path);
-> -            }
-> +end:
+ATB,
 
-Cases here:
-
-1. find_open_flag() or open() failed (first two goto):
-   @fd is -1, @f is NULL
-
-2. open() succeeded, fchmod() failed (third goto), or
-   open() succeeded, fdopen() failed (fall through):
-   @fd is open, @f is NULL
-
-3. open() and fdopen() succeeded:
-   @fd and @f are open
-
-> +    if (f =3D=3D NULL && fd !=3D -1) {
-
-This is case 2.
-
-> +        close(fd);
-> +        if (oflag & O_CREAT) {
-> +            unlink(path);
->          }
->      }
-> -
-> -    error_propagate(errp, local_err);
-> -    return NULL;
-> +    return f;
-
-Works.
-
-Case 1 could return NULL instead of goto end.  The condition for
-close(fd) then becomes if (!f).  Feels simpler to me, but I guess it's a
-matter of taste.
-
->  }
->=20=20
->  int64_t qmp_guest_file_open(const char *path, bool has_mode, const char =
-*mode,
-
-None of the above is serious, so
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+Mark.
 
