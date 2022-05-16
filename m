@@ -2,89 +2,160 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9864A528C18
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:36:32 +0200 (CEST)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB25528A66
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:30:12 +0200 (CEST)
+Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqedz-0008I7-84
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43316)
+	id 1nqdbn-0002Zf-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:30:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nqdEr-0006nm-QF
- for qemu-devel@nongnu.org; Mon, 16 May 2022 12:06:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30903)
+ (Exim 4.90_1) (envelope-from <prvs=6135bb9a91=pdel@fb.com>)
+ id 1nqdT2-0003kp-Gz; Mon, 16 May 2022 12:21:09 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:13398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nqdEm-00056N-Ni
- for qemu-devel@nongnu.org; Mon, 16 May 2022 12:06:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652717183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=amKtMvj8jEDUU0CnK4XSUgF1Oe+Awr04h/gyWpg5IF0=;
- b=Ao/TFX4DvAZAPHbXu2UNZYRDtdoIOJRU4VZ9dRVli9/lJ2qW49oPff49PjpdYnSw3kFBbP
- PwDEKhf7IHVcbA4Xm9EfV3pC08qI8A8zMjQiHQWSjuC4ZIh8QgEU0dfGiP8EA9mru0RNlU
- fQ00Y9ancuBUTOiTZdvuYMH9pOLA5e0=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-jJCdOU4OOf6sBC147YMBPA-1; Mon, 16 May 2022 12:06:21 -0400
-X-MC-Unique: jJCdOU4OOf6sBC147YMBPA-1
-Received: by mail-io1-f70.google.com with SMTP id
- l9-20020a0566022dc900b0065df0aa8372so4778376iow.6
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 09:06:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=amKtMvj8jEDUU0CnK4XSUgF1Oe+Awr04h/gyWpg5IF0=;
- b=x/CUJuNDkfc5D269KNxbi6xL65FPPOV1S8o7YNLu39IPDziwoNgnN27FOQv7pvrs+K
- uEfMjBb90WDDKhhCjMCsRD6tG3BWIl+Xxwlw3zPQljRrjZYcXgjE+R7Fs6//E/LNqUGJ
- N770h18/iB2fDUGpp/Lvnu/o4SahbAXW+XBikrQBS28CD1sPtVnTxTfNfFkvvuXoY3AU
- 05YtRotQbFm/2rU2jyEIFuFWCzzYb7+lzokLgKkFkDK2P0qnkX64VK7PUFXaZVixegnz
- NZS9xanh3kopnmcoRWAx933zldjIvNTtm7MdweYYBw9u1Nno5S1fd4QEpV0R2sIAL5+C
- Xv2Q==
-X-Gm-Message-State: AOAM532QHs73u/GsGnAQwTjgIeNoTl2CyFLABS/AEOkNeP0aBRBkGyTT
- H709v+GGLzRmNPb9p2VO3yUdpfU3XSHTnAnVy+w/6lQ5N33ro/mOSaMDhvqrXrWkWXac7fXA7f9
- 4Kvi8HnQIU64EA4E=
-X-Received: by 2002:a05:6638:3f11:b0:32b:dc28:697b with SMTP id
- ck17-20020a0566383f1100b0032bdc28697bmr9882901jab.274.1652717180262; 
- Mon, 16 May 2022 09:06:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+00g4IhRu6pHKu4BazY8kkAdhDlQR1zkWLCRnCSkb/hfJ1NRf/9uzWZ20BYvyJTQah5yvQg==
-X-Received: by 2002:a05:6638:3f11:b0:32b:dc28:697b with SMTP id
- ck17-20020a0566383f1100b0032bdc28697bmr9882879jab.274.1652717180022; 
- Mon, 16 May 2022 09:06:20 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- a23-20020a02ac17000000b0032e168fa56fsm1774646jao.83.2022.05.16.09.06.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 09:06:19 -0700 (PDT)
-Date: Mon, 16 May 2022 12:06:18 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v5 00/21] migration: Postcopy Preemption
-Message-ID: <YoJ2emlc16yfW4Po@xz-m1.local>
-References: <20220425233847.10393-1-peterx@redhat.com>
- <aba2c7dc-2266-f594-45f4-15f8559cb370@nutanix.com>
+ (Exim 4.90_1) (envelope-from <prvs=6135bb9a91=pdel@fb.com>)
+ id 1nqdSw-0007Qy-TJ; Mon, 16 May 2022 12:21:05 -0400
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24G9mgmF023274;
+ Mon, 16 May 2022 09:20:19 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : cc : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=Mx4UokU8QULsLMn+9dF1baGoj751ibY8V4qqr4pfNhA=;
+ b=bjzI5jkGKcUg3sBnGpOGqLxxjshM8yHDU/g8NdZno4709Cqi+4KUQ1DMns5ASYvTXA4F
+ X+iunYi9g71qU8qXwPhukZOV+vi2Elkbon+UVZwGWfzxBW10BKnfcPV3k62PYhc7ItLt
+ 6WNN/AIzYfdbyNs8R6LjhnMHVHZEe52FVoE= 
+Received: from nam04-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08lp2176.outbound.protection.outlook.com [104.47.73.176])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3g3maaj743-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 May 2022 09:20:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AB+AB36ywRu6rNG9I1M+H3CAXJHyToQiwh5JEBtHZ/aZ9Mqwt9fUZuQLllkDmPsB4fNS8RRaT8ra+uNTFQ1IK2/sMDTB5qeJk6yKXJGV5zeCzJ4Z5+F4/tPDkSTZOM6YqyhH8ydNA336ZnF1Lp9041Rr5Idc/Qf/iFjtJmnVWkkZc2lehgetdclkaHpCSKkDyveaYiOp+Vnvu9E0Q6mNhSxX2bHP52o12kQGZuV7n4HJfBZ194LyQGiLpStqFyVLHzhsmFIPx6bPAEAegn6vGXwqLEwl8sEtJBvi+uhZtWZGUbP3v9vS0LjMZIE9tXl1bp8TWa0q7xEZHHW398vJTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a1UE8L4zrYochje2NfMTawW2mhxhIWoT9iJvbi3Vk44=;
+ b=h8OjkSPxFqgE1kJYj2mNqCjvcFHNARydCZlACdfdUtSD6tb6/Qyg5YwUF71tunRMaBq60F6xWKPBCOSIMDIxTtaIK7UBkyWRmT+/zKpTPt1+Z/c7U//3f0jROtfOKe4/OImUp6mDCFnw2c3/HQ1E4Xaj5sAHPDcBXM+vYFk92KwoxIVUKKTjNynJnz6a7QcTtadWWwl2Fw3lX3vFx6DbuMOoMfOx1gKBAbBesZV36xT6IsmQeTtUbZWR93LAy3xh48t85/eKNdYrWLhwq/rvK8bWvXz2ixoEAnqaZ5Bt83JJnRz8ADh3F0NQ3egL3Yma6HidxIuAB7rl5VSBQLB7Dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com (2603:10b6:a03:ff::11)
+ by DM6PR15MB2553.namprd15.prod.outlook.com (2603:10b6:5:1a8::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Mon, 16 May
+ 2022 16:20:16 +0000
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::45c5:2306:17b3:89eb]) by BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::45c5:2306:17b3:89eb%5]) with mapi id 15.20.5250.018; Mon, 16 May 2022
+ 16:20:16 +0000
+From: Peter Delevoryas <pdel@fb.com>
+CC: Iris Chen <irischenlj@fb.com>, qemu-arm <qemu-arm@nongnu.org>, Cameron
+ Esfahani via <qemu-devel@nongnu.org>, "zev@bewilderbeest.net"
+ <zev@bewilderbeest.net>, OpenBMC List <openbmc@lists.ozlabs.org>, Andrew
+ Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>, Joel
+ Stanley <joel@jms.id.au>, Jamin Lin <jamin_lin@aspeedtech.com>,
+ =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>, Peter Delevoryas
+ <pdel@fb.com>
+Subject: Re: [PATCH v2 0/5] hw: aspeed: Init all UART's with serial devices
+Thread-Topic: [PATCH v2 0/5] hw: aspeed: Init all UART's with serial devices
+Thread-Index: AQHYaO19buTVwfVVsE6j3iDLBjiL1q0hGIEAgACXSoA=
+Date: Mon, 16 May 2022 16:20:16 +0000
+Message-ID: <FC790CD5-03E2-41DB-B7F2-4F5046B37641@fb.com>
+References: <20220516062328.298336-1-pdel@fb.com>
+ <b978e205-66f7-e585-4cf0-6f3946fd1050@kaod.org>
+In-Reply-To: <b978e205-66f7-e585-4cf0-6f3946fd1050@kaod.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: efdfee42-7d30-4de0-8f9e-08da3757f6c7
+x-ms-traffictypediagnostic: DM6PR15MB2553:EE_
+x-microsoft-antispam-prvs: <DM6PR15MB2553F53544EF96A9FE47F88EACCF9@DM6PR15MB2553.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +w9kihJL9iznfwbkAarJEG+0R9glgiiCfOfug/KjRa5BA3OR3syLj2A9VqdcA9gjXB6iE+pAxhrrtdsy4ji6I6owbLFA3/v76eBOq7meKAx+iZJqVN8mBIPHsZw+Vo0yvsQzVmgknWOm6u1Vq65MtwyKjQbzVDwArF1XGw4Zakoqzv40SGUhVVBmOExmwK80ISH8IfO46ExHRLGCFuc9oRWpWrZuXsBtH4ahl/mdUbvbT0uBk/KA7R7qyE4E8nlSuNK11NXqnCj4+wnPx7lUTfHd8V/3Q85oi3eW9zyhY2rPYqBqc2qrxqTlCZx4UHZH6fu/XeSrEwsGckz/11C5i75FvZtJrK/YIsxbyOQNurF8ZKgDxf/eOB7wLEfMQOgSO7McyAo1BDJzZkDjkV9DmbLM8k0S/jxTy2jX9HxxkqNekwghupM3ZbD/USoRCE/dxrJTLzcr17uou26u4KkM9AOWd9I9GA6CmrM5gcCDaz810id1K/0XtvolbVALrOLt07xlV3kczkuf6TA8d6iywNfMWDaszlAnhqxOK1ppix5FqlTx4Gqka3t6SkHr/vtUlrV1igHfPAgNuIunqIARPafXqyDA4Z1iLnPT0bhAmPFrkrfmTdsA77m588q1pD+IN/zhDB36vannIr0dHC3QZ6AoQRa1epZUMG5BxcZUXvAwC1plI4TRfbk5Fnh25ag0dR+MTdgSy9R9sK/N1/FRHBfR4veSWiIlcKdBCuQRZEzUDDQabCfkbNQ5K3nwBeyurGeJmkVbsFuzd7G9AstZRkamBmfwblNnVJmE5OOs92v9BYi4CZkYjWXu/HQf1fxnihsDks9cxrv3iYPW7dAHMxfP5SkNYDjx9z54LWZiXgU=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR15MB3032.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(36756003)(6506007)(71200400001)(186003)(53546011)(508600001)(54906003)(316002)(966005)(6486002)(6512007)(2906002)(38070700005)(38100700002)(66476007)(64756008)(76116006)(66946007)(66446008)(8676002)(4326008)(66556008)(33656002)(122000001)(2616005)(109986005)(8936002)(5660300002)(83380400001)(86362001)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M1VCRWk4TTBUWmt5T1BLQjRrSDF1czV4T1p5VExXeUFXdzBCVTNNQzlvSk95?=
+ =?utf-8?B?NnJSLy9GWW5lUlI5SEF6N25kMzFkNjFxRlBJeEVJL1M1c1VLWkFVeHdmTTVo?=
+ =?utf-8?B?dVJ0YUIyWWV6ek5lNldwcUp2cHAvOTBPcnVkcWJxRk52YW1ZSmdDVW1MOG9m?=
+ =?utf-8?B?Qm5Gci9kQytUcTlKT2FVYlJMSDdxR3BmQS8vWnVMcllCVENHb0QzNmFWK3hB?=
+ =?utf-8?B?RWd4elNYNTdGTkUrZWhodWxrZHJObWtFamV1akVKQnYyN3o3MkpMVjV3R1pT?=
+ =?utf-8?B?L01ESlEzU25jWlVSeTc4cm9LaDJUQ21sT21SN1VYUjBtL1NNU1JaUFI3cGlC?=
+ =?utf-8?B?c0JXSFhwRVZ0M0R0MlpwUWljU2JvN3lJb1I0TGwzaTFnQUVLMi93Y3NJUUFa?=
+ =?utf-8?B?ZVd6YVZlSFE5RnNaRzVqdTcwYlE1MkdxdERJMW1SUjhEZ1MzSzhYTnp3VlFZ?=
+ =?utf-8?B?bWFXWFRSL0xaNnE0SHVWeEM2Yk1WL2lYczN4TE9JZmJxUy8vK2ZnbnBxTFRa?=
+ =?utf-8?B?aUxPRU5jUExPdWduZWpuS2M2dG9uYzRIQmUrWEhudUhCRlc4MkNlV1ZrL1Jw?=
+ =?utf-8?B?VnVDSVdmWTdTbTVxUmNFdVVMYVFLeWJCYm9NR0ZRTzBNYkJFWUlVUjEwVE8r?=
+ =?utf-8?B?K0V0dHFmYWdPM3Z2ODZkcFppVVhpelh4NjgzNGpLTDBxcjJsRi9lNlUwZkdD?=
+ =?utf-8?B?QytUYjNQMFJZUmZiR1JIVFFLTVFZeWV3Z0pKWDhOT2dDOFJSV0p4Sysyd2RS?=
+ =?utf-8?B?YzkybHRLMDBrNDhKajh4TGtLaDZta1labWREZE9QZnQ5a09iWGpuQmU0L1Bv?=
+ =?utf-8?B?Ujdoai93TnhOM0lzWU82NzdoTzVlWnhIcWh2TVhNOTE0RVNTbTl1Rm5CMHZh?=
+ =?utf-8?B?RVllTEpWVm1HcHZwUjFzQ0tpSWgrMVNFUjVIY25mVmhRL1kvUHJaTnlVdTFy?=
+ =?utf-8?B?UWJNc295Wld1TjNNYm5BakRsZGtxZno2NnNhelVVYzhIMDRrWisrZnBMZUtl?=
+ =?utf-8?B?ZlZsVDR6MktwTWJlS3ZmNlY5YjNZT0FoeTRJMGQrb2IyWW8wckgxb2lzcUY5?=
+ =?utf-8?B?c0JjYUpsMWJ4WlNCemtabVFrdmZCdDRwNkJja2ErbW43VXBBSC9kblZ0WmJK?=
+ =?utf-8?B?UGR6dGFZOXhTczIvbWNzNGk0WjFBOEFZM2VHNW1KZ0JhZDRkR3owRy9xc1hN?=
+ =?utf-8?B?TkFucEZ5dU5rdVdYTlR0d2dCMGdaM04vL0VqTmR3eVZGQmpDZE9oU2VIMmJP?=
+ =?utf-8?B?UEY5UUFTUFZqYUQ0NUNSMHhXVC9idERuTWJSbXNKdWRIYnY5dGdQdFc1eTZy?=
+ =?utf-8?B?YWt6OVpEZzBDRUFlUHhtSEFYeUk4K2hTam5Gd3NmdDA4NndQamVoRVZ4eVRF?=
+ =?utf-8?B?WlB1dXNGTGk5SG9ja0pVQysxK3ltR2tZTjVPdGIweE1XbkY1Q2lvSEROWjE2?=
+ =?utf-8?B?UlFkR21hMkFPeXd2OHVCcy9FUXBrUzhNTTN4V0dwYWt6dSswWmNrcVgwL3RV?=
+ =?utf-8?B?ek1YOFdJeGxqNFA1NnBKUHNSL2FFeHpMVytEMlJUVGIyaEtwTjdLM0FCeUtl?=
+ =?utf-8?B?dk9sYVVMTG9pdFdnRklvRUdWQkxnOXAvWXF0VGlCVDJ1WGFENkZnZStVbjN3?=
+ =?utf-8?B?c295THhuZmgyOVlHNERxQy9LQStHSGkwZ1dLaFRMM1M4RUhKRnVEb3BkMTZW?=
+ =?utf-8?B?d1VvWEpFbWFkZlBrVjVNNEd1ek01cHVBdWVXbGxYV1krTzk1Z2ZFS29URC9k?=
+ =?utf-8?B?U21FZlN6VDRJQjRXTjR3NWFaYzg0WUlmK3BDcEVGaDQ2ZElta2cybFErSHdY?=
+ =?utf-8?B?NUVLSE1OMkpVK1dwRVIwbktYY1pjQlhhc2xBRXZoYmkzRWpFOHVpcjdXMmZZ?=
+ =?utf-8?B?Rnc0TmtqYkZwMTVtV2U4QWVRQS9KSnZsTW1ZdlRyZ1NIN25uQk42WnIydWhl?=
+ =?utf-8?B?NjhSUU0zZTFZbE5qamdtaGpQMmJ0YTVwSVRJUHRGRXhnd1h0QjBIdmQyeHlB?=
+ =?utf-8?B?ekhaUW1JckxwK0RtR0g5ZDJmcWlHTUJRMW5vOVBKWVhZVzNJUWJpSTBxUWN4?=
+ =?utf-8?B?WVVLaGd6enRBYkNEQ0h0Z3BCdHFGcXhYTGZuMUY5a2wwM0lFRUNTQUZsTjFM?=
+ =?utf-8?B?ODI2N3gzazRJYUkxdk5LSVV4QUtmaUJaenNQeVAxRkRUT2ZnTkprQWk3eTRV?=
+ =?utf-8?B?MlUvblhRc1M5alJQOTZwbGdZRmM2NVFVdkQrSnpIMWYwdUNTVXVqanExelFS?=
+ =?utf-8?B?UGMxK2lJM1o1aWh2NEdTQy9SR0xETDRuczRTb1FwdllJd0ZDZU1TcE1BN1Bh?=
+ =?utf-8?B?ZlVoMjBkODFFMDN6NnY4K3kzNUV3cjlDVGRIcEg1aEwwcXh5aTRUSkVpWkh2?=
+ =?utf-8?Q?HcE40uYuG8oKelrg=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4C8DCF218F03114D9E08AFC30B253A13@namprd15.prod.outlook.com>
+X-OriginatorOrg: fb.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB3032.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efdfee42-7d30-4de0-8f9e-08da3757f6c7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2022 16:20:16.7833 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EzNK7VKrDwk10WSGzKuseN3YFJI1H+1uRaduB493gN1mTiYjbNleZpQVBzcE6KL6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR15MB2553
+X-Proofpoint-ORIG-GUID: CBtA1DfQ6FCK0rROelXA4FSt2m6VbakC
+X-Proofpoint-GUID: CBtA1DfQ6FCK0rROelXA4FSt2m6VbakC
+Content-Transfer-Encoding: base64
+X-Proofpoint-UnRewURL: 1 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aba2c7dc-2266-f594-45f4-15f8559cb370@nutanix.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-16_15,2022-05-16_02,2022-02-23_01
+Received-SPF: pass client-ip=67.231.145.42;
+ envelope-from=prvs=6135bb9a91=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ MISSING_HEADERS=1.021, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,110 +171,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 08:55:50PM +0530, manish.mishra wrote:
-> 
-> On 26/04/22 5:08 am, Peter Xu wrote:
-> > This is v5 of postcopy preempt series.  It can also be found here:
-> > 
-> >    https://github.com/xzpeter/qemu/tree/postcopy-preempt
-> > 
-> > RFC: https://lore.kernel.org/qemu-devel/20220119080929.39485-1-peterx@redhat.com
-> > V1:  https://lore.kernel.org/qemu-devel/20220216062809.57179-1-peterx@redhat.com
-> > V2:  https://lore.kernel.org/qemu-devel/20220301083925.33483-1-peterx@redhat.com
-> > V3:  https://lore.kernel.org/qemu-devel/20220330213908.26608-1-peterx@redhat.com
-> > V4:  https://lore.kernel.org/qemu-devel/20220331150857.74406-1-peterx@redhat.com
-> > 
-> > v4->v5 changelog:
-> > - Fixed all checkpatch.pl warnings
-> > - Picked up leftover patches from Dan's tls test case series:
-> >    https://lore.kernel.org/qemu-devel/20220310171821.3724080-1-berrange@redhat.com/
-> > - Rebased to v7.0.0 tag, collected more R-bs from Dave/Dan
-> > - In migrate_fd_cleanup(), use g_clear_pointer() for s->hostname [Dan]
-> > - Mark postcopy-preempt capability for 7.1 not 7.0 [Dan]
-> > - Moved migrate_channel_requires_tls() into tls.[ch] [Dan]
-> > - Mention the bug-fixing side effect of patch "migration: Export
-> >    tls-[creds|hostname|authz] params to cmdline too" on tls_authz [Dan]
-> > - Use g_autoptr where proper [Dan]
-> > - Drop a few (probably over-cautious) asserts on local_err being set [Dan]
-> > - Quite a few renamings in the qtest in the last few test patches [Dan]
-> > 
-> > Abstract
-> > ========
-> > 
-> > This series contains two parts now:
-> > 
-> >    (1) Leftover patches from Dan's tls unit tests v2, which is first half
-> >    (2) Leftover patches from my postcopy preempt v4, which is second half
-> > 
-> > This series added a new migration capability called "postcopy-preempt".  It can
-> > be enabled when postcopy is enabled, and it'll simply (but greatly) speed up
-> > postcopy page requests handling process.
-> > 
-> > Below are some initial postcopy page request latency measurements after the
-> > new series applied.
-> > 
-> > For each page size, I measured page request latency for three cases:
-> > 
-> >    (a) Vanilla:                the old postcopy
-> >    (b) Preempt no-break-huge:  preempt enabled, x-postcopy-preempt-break-huge=off
-> >    (c) Preempt full:           preempt enabled, x-postcopy-preempt-break-huge=on
-> >                                (this is the default option when preempt enabled)
-> > 
-> > Here x-postcopy-preempt-break-huge parameter is just added in v2 so as to
-> > conditionally disable the behavior to break sending a precopy huge page for
-> > debugging purpose.  So when it's off, postcopy will not preempt precopy
-> > sending a huge page, but still postcopy will use its own channel.
-> > 
-> > I tested it separately to give a rough idea on which part of the change
-> > helped how much of it.  The overall benefit should be the comparison
-> > between case (a) and (c).
-> > 
-> >    |-----------+---------+-----------------------+--------------|
-> >    | Page size | Vanilla | Preempt no-break-huge | Preempt full |
-> >    |-----------+---------+-----------------------+--------------|
-> >    | 4K        |   10.68 |               N/A [*] |         0.57 |
-> >    | 2M        |   10.58 |                  5.49 |         5.02 |
-> >    | 1G        | 2046.65 |               933.185 |      649.445 |
-> >    |-----------+---------+-----------------------+--------------|
-> >    [*]: This case is N/A because 4K page does not contain huge page at all
-> > 
-> > [1] https://github.com/xzpeter/small-stuffs/blob/master/tools/huge_vm/uffd-latency.bpf
-> 
-> Hi Peter, Just wanted understand what setup was used for these experiments like
-> 
-> number of vcpu, workload, network bandwidth so that i can make sense of these
-
-40 vcpus, 20GB mem, workload is using mig_mon single thread dirtying
-workload:
-
-https://github.com/xzpeter/mig_mon
-
-Network is 10gbps one port.
-
-Another thing to mention is that all these numbers are average page
-latencies.
-
-> 
-> numbers. Also i could not understand reason for so much difference between preempt
-> 
-> full and Preempt no-break-huge especially for 1G case, so if you please share little more
-> 
-> details on this.
-
-The break-huge change is the part where the requested page comes within
-sending one huge page in the precopy channel, so we can halt sending that
-page and jumps quickly to the postcopy channel for sending that huge page.
-When with no-break-huge option we use the separate channel, but we won't
-start sending the postcopy page (via postcopy preempt channel) until the
-precopy finishes sending the current page.
-
-Please don't trust too much on the 1G use case because the samples are very
-much limited (total of 20 pages, and my test memory should be only upon
-10+GB which I forgot).
-
-Thanks,
-
--- 
-Peter Xu
-
+DQoNCj4gT24gTWF5IDE2LCAyMDIyLCBhdCAxMjoxOCBBTSwgQ8OpZHJpYyBMZSBHb2F0ZXIgPGNs
+Z0BrYW9kLm9yZz4gd3JvdGU6DQo+IA0KPiBPbiA1LzE2LzIyIDA4OjIzLCBQZXRlciBEZWxldm9y
+eWFzIHdyb3RlOg0KPj4gdjI6DQo+PiAtIFJlYmFzZWQgb24gQ2VkcmljJ3MgaXJxIHByb3Bvc2Fs
+LiBbMV0NCj4+IC0gQWRkZWQgIkludHJvZHVjZSBjb21tb24gVUFSVCBpbml0IGZ1bmN0aW9uIiBw
+YXRjaA0KPj4gLSBBZGRlZCAiQWRkIHVhcnRzX251bSBTb0MgYXR0cmlidXRlIiBwYXRjaA0KPj4g
+LSBSZXdyb3RlIGxhc3QgY29tbWl0J3MgbWVzc2FnZSBmb3IgY2xhcml0eQ0KPiANCj4gTG9va3Mg
+Z29vZCB0byBtZS4NCj4gDQo+PiBJIHRyaWVkIHRlc3RpbmcgdGhpcyBieSBydW5uaW5nIGFjY2Vw
+dGFuY2UgdGVzdHMsIHBhcnRpY3VsYXJseSB0aGUNCj4+IGJvb3RfbGludXhfY29uc29sZS5weSBm
+aWxlLCBidXQgSSBoYWQgdG8gZGlzYWJsZSB0aGUgcmFzcGkyX2luaXRyZCBjYXNlLg0KPj4gSXQn
+cyBub3QgcmVsYXRlZCB0byBteSBjaGFuZ2VzIChBL0IgdGVzdGVkIGFuZCBpdCBmYWlscyBvbiB1
+cHN0cmVhbS9tYXN0ZXINCj4+IHRvbyksIGJ1dCB0aG91Z2h0IEkgd291bGQgbWVudGlvbiB0aGF0
+Lj4NCj4+IEkgYWxzbyBtYW51YWxseSB0ZXN0ZWQgc2V2ZXJhbCBtYWNoaW5lczoNCj4+IEFTVDI0
+MDA6IGh0dHBzOi8vZ2l0aHViLmNvbS9mYWNlYm9vay9vcGVuYm1jL3JlbGVhc2VzL2Rvd25sb2Fk
+L3YyMDIxLjQ5LjAvd2VkZ2UxMDAubXRkDQo+PiBBU1QyNTAwOiBodHRwczovL2dpdGh1Yi5jb20v
+ZmFjZWJvb2svb3BlbmJtYy9yZWxlYXNlcy9kb3dubG9hZC92MjAyMS40OS4wL2ZieTMubXRkDQo+
+PiBBU1QyNjAwOiBodHRwczovL2dpdGh1Yi5jb20vZmFjZWJvb2svb3BlbmJtYy9yZWxlYXNlcy9k
+b3dubG9hZC92MjAyMS40OS4wL2Z1amkubXRkDQo+PiBBU1QxMDMwOiBodHRwczovL2dpdGh1Yi5j
+b20vcGV0ZXJkZWxldm9yeWFzL09wZW5CSUMvcmVsZWFzZXMvZG93bmxvYWQvb2J5MzUtY2wtMjAy
+Mi4xMy4wMS9ZMzVCQ0wuZWxmDQo+PiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcWVtdS1k
+ZXZlbC8yMDIyMDUxNjA1NTYyMC4yMzgwMTk3LTEtY2xnQGthb2Qub3JnLw0KPiBJIGhhdmUgcXVp
+dGUgYSBmZXcgaW1hZ2VzIHdoaWNoIEkgcnVuIG1hbnVhbGx5LiBPcGVuQk1DIGlzIHByb3ZpZGlu
+Zw0KPiBpbWFnZXMsIEFzcGVlZCBhbHNvLiBKb2VsIGRpZCBhIHNtYWxsIHRvb2wgZm9yIHRoZSBJ
+Qk0gcmFpbmllciA6DQo+IA0KPiAgaHR0cHM6Ly9naXRodWIuY29tL3NoZW5raS9xZW11LWJvb3Qt
+dGVzdA0KPiANCj4gSGF2aW5nIGFuIGF1dG9tYXRlZCBmcmFtZXdvcmsgZm9yIEFzcGVlZCBtYWNo
+aW5lcyBwdWxsaW5nIGltYWdlcw0KPiBmcm9tIGRpZmZlcmVudCBwbGFjZXMgd291bGQgYmUgbmlj
+ZSBidXQgd2UgY2Fubm90IHB1dCBhbGwgdW5kZXINCj4gUUVNVS4NCj4gDQo+IA0KPiBJIGxpa2Ug
+dGhlIGJ1aWxkcm9vdCBDSSB1c2luZyB0aGUgUUVNVSBib2FyZHMuIFNlZSBhIHBpcGVsaW5lIGV4
+YW1wbGU6DQo+IA0KPiAgaHR0cHM6Ly9naXRsYWIuY29tL2xlZ29hdGVyL2J1aWxkcm9vdC8tL3Bp
+cGVsaW5lcy81Mzk1NTkyMDkgDQo+IGJ1dCB0aGF0J3MgYnVpbGRyb290IG9ubHkgYW5kIGludGVn
+cmF0aW5nIGEgY3VzdG9tIHVib290IG1pZ2h0IGJlDQo+IGRpZmZpY3VsdC4NCj4gDQo+IEZvciBt
+eSBwcGMgbmVlZHMsIEkgZGlkIGEgcXVpY2stYW5kLWRpcnR5IG5vbi1yZWdyZXNzaW9uIHRlc3Qg
+c3VpdGUgOg0KPiANCj4gIGh0dHBzOi8vZ2l0aHViLmNvbS9sZWdvYXRlci9xZW11LXBwYy1ib290
+DQo+IA0KPiANCj4gQW55d2F5LCBJIGhhdmVuJ3QgZm91bmQgYSBzb2x1dGlvbiBub3Igc3BlbnQg
+bXVjaCB0aW1lIG9uIGl0IGJ1dA0KPiBJIGFtIGludGVyZXN0ZWQgIQ0KDQpPaCB0aGFua3MgZm9y
+IHRoZSBsaW5rcywgSeKAmW0gc29tZXdoYXQgaW50ZXJlc3RlZCBpbiBsb29raW5nIGludG8gdGhp
+cyBmdXJ0aGVyLg0KDQo+IA0KPiANCj4gQy4NCj4gDQo+IA0KPiANCj4gDQo+PiBQZXRlciBEZWxl
+dm9yeWFzICg1KToNCj4+ICAgaHc6IGFzcGVlZDogQWRkIG1pc3NpbmcgVUFSVCdzDQo+PiAgIGh3
+OiBhc3BlZWQ6IEFkZCB1YXJ0c19udW0gU29DIGF0dHJpYnV0ZQ0KPj4gICBodzogYXNwZWVkOiBF
+bnN1cmUgQVNUMTAzMCByZXNwZWN0cyB1YXJ0LWRlZmF1bHQNCj4+ICAgaHc6IGFzcGVlZDogSW50
+cm9kdWNlIGNvbW1vbiBVQVJUIGluaXQgZnVuY3Rpb24NCj4+ICAgaHc6IGFzcGVlZDogSW5pdCBh
+bGwgVUFSVCdzIHdpdGggc2VyaWFsIGRldmljZXMNCj4+ICBody9hcm0vYXNwZWVkX2FzdDEweDAu
+YyAgICAgfCAzMiArKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLQ0KPj4gIGh3L2FybS9h
+c3BlZWRfYXN0MjYwMC5jICAgICB8IDI3ICsrKysrKysrKysrKysrKysrKysrKystLS0tLQ0KPj4g
+IGh3L2FybS9hc3BlZWRfc29jLmMgICAgICAgICB8IDMzICsrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrLS0tLQ0KPj4gIGluY2x1ZGUvaHcvYXJtL2FzcGVlZF9zb2MuaCB8IDEwICsrKysrKysr
+KysNCj4+ICA0IGZpbGVzIGNoYW5nZWQsIDg4IGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygt
+KQ0KPiANCg0K
 
