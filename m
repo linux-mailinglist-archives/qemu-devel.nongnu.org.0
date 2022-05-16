@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09C45280FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 11:43:13 +0200 (CEST)
-Received: from localhost ([::1]:42098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD3352810D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 11:51:42 +0200 (CEST)
+Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqXFw-00041S-D8
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 05:43:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1nqXO9-0006XZ-E7
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 05:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqXDS-0002w2-Kh
- for qemu-devel@nongnu.org; Mon, 16 May 2022 05:40:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42531)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nqXL1-0005kn-0p
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 05:48:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqXDO-0004fm-TB
- for qemu-devel@nongnu.org; Mon, 16 May 2022 05:40:36 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nqXKz-0005pH-2q
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 05:48:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652694025;
+ s=mimecast20190719; t=1652694502;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=kuLJY7n4maaNPAnooAPFwwZdVJ04iHwTDo3YZJ3WRWE=;
- b=HWFtnoEb+Vz0uaUSdOzQ/s1TMUG+sSYY2o6BtW33XicpP7O5f8o7FVboU9oUOlE3N+U2rn
- oxaXApUUiijDmyD8GCVVoYH5lgVs/++jjPqo+KOkmmU7pRWzobzhOhfNZgTMleEspZh5kn
- 7kzWllKh7Dh8+k4umaaLGhas7PUXfWc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=9yyK63bE8UUfmi0idqaI1cyB5A5o2KAaM3zb1+pGdNI=;
+ b=DCsJbcKsSK60FRcNxPPDpQBrDR8qnUGhuJ4IWO59uRM2giDJ5mOsAxtm987DjFWXDStvPD
+ rlLoI0/jIt09G3XP0LyZCNFgE7f0JxXtSsj8zwGMYpPIwJ+xZ6/36EDO86riyAp75Bkf7p
+ y7wBHO3i0GH4IVIKIU2yhLRw2FSzk+s=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-_AgQjtyMOWyZc4yYBGeyCg-1; Mon, 16 May 2022 05:40:21 -0400
-X-MC-Unique: _AgQjtyMOWyZc4yYBGeyCg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D6781833966
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 09:40:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35C63400E884;
- Mon, 16 May 2022 09:40:18 +0000 (UTC)
-Date: Mon, 16 May 2022 10:40:15 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Leonardo Bras Soares Passos <leobras@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: Re: [PULL 00/16] migration queue
-Message-ID: <YoIb/+zknFIWLyMK@redhat.com>
-References: <20220510083355.92738-1-dgilbert@redhat.com>
- <Yno3RvWhwSDZjI7o@work-vm> <Yno8NV5bQPUlqvcx@redhat.com>
- <YnpB4vg2ozbBzUCg@work-vm>
- <CAJ6HWG5Mgaqt9dOVH-0-Y78x96HO5c-TevYeuN5xMvSQqj7W8Q@mail.gmail.com>
- <YoIQgCndgjW1s58k@stefanha-x1.localdomain>
+ us-mta-522-20AndjnqNyqzX3Sevkrb2Q-1; Mon, 16 May 2022 05:48:21 -0400
+X-MC-Unique: 20AndjnqNyqzX3Sevkrb2Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z23-20020a05600c221700b003942fd37764so10078376wml.8
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 02:48:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:user-agent:reply-to:date
+ :message-id:mime-version;
+ bh=9yyK63bE8UUfmi0idqaI1cyB5A5o2KAaM3zb1+pGdNI=;
+ b=aBp40msAhQ521CFEr2T+R0HlsqNOD/3Q2opcuh8fGv8U05Gjseq0iNlmsVdxHFKx5j
+ yFpJ3BQ+RID28NzYQySGWNYixDF4x69PHAHqanXNS0flz/luJOsV9rU3i4WPH5kSV1B0
+ QMX/M7myye1hqxPc1n5oCDq5Vg3a38xjndce7cH9OBGN40xda8un8RUM0gDzMCb1E0nG
+ 1hIc6l6pXl+LQZ0YrNr7BJYElmHh6u4/uPxPw2Lt8JXz/JybTCyTxDXWdjffA1kQ+foI
+ 5uGWXkobRYeaxIT0HITStjs555Z2iU13pEta4Hx+FM8Q1Cx8JK384xFMc++GMraPpN55
+ Mhbw==
+X-Gm-Message-State: AOAM533+cBA6nKSR42AAzA/zIpkSeDrGNxb+gl++SUX8Gk0nltHKg9mq
+ tv6z0xVdYixvw5bpSRtF7wc+R5k8nH1a2Y9o4XunP+DJ8vPp6nuoRUdNuA2p1vTTcjjt/JeT73U
+ ChqAIrnUM4i+DghvOzgNOuPqTTk4S2ioy8WuFuVyb4LsF0QDWkDNEpKyjFBRG1wKMSkQ=
+X-Received: by 2002:adf:ed4e:0:b0:20a:c805:1d62 with SMTP id
+ u14-20020adfed4e000000b0020ac8051d62mr13569417wro.134.1652694499941; 
+ Mon, 16 May 2022 02:48:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJymaqWr/G7KrL4LFQxY9QTJQsqvU8CCyfA43+hENKCPT1TaV8DUnCZZX7Bg1PQHr4cTbZf81w==
+X-Received: by 2002:adf:ed4e:0:b0:20a:c805:1d62 with SMTP id
+ u14-20020adfed4e000000b0020ac8051d62mr13569388wro.134.1652694499557; 
+ Mon, 16 May 2022 02:48:19 -0700 (PDT)
+Received: from localhost (static-211-115-85-188.ipcom.comunitel.net.
+ [188.85.115.211]) by smtp.gmail.com with ESMTPSA id
+ n6-20020a1c2706000000b003942a244ec0sm11677612wmn.5.2022.05.16.02.48.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 02:48:19 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org, kvm-devel <kvm@vger.kernel.org>
+Subject: KVM call for 2022-05-17th
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Mon, 16 May 2022 11:48:18 +0200
+Message-ID: <878rr1u7tp.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YoIQgCndgjW1s58k@stefanha-x1.localdomain>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,44 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 09:51:12AM +0100, Stefan Hajnoczi wrote:
-> On Wed, May 11, 2022 at 12:40:07AM -0300, Leonardo Bras Soares Passos wrote:
-> > From a previous thread:
-> > 
-> > On Thu, Apr 28, 2022 at 1:20 PM Dr. David Alan Gilbert
-> > <dgilbert@redhat.com> wrote:
-> > >
-> > > Leo:
-> > >   Unfortunately this is failing a couple of CI tests; the MSG_ZEROCOPY
-> > > one I guess is the simpler one; I think Stefanha managed to find the
-> > > liburing fix for the __kernel_timespec case, but that looks like a bit
-> > > more fun!
-> > >
-> > > Dave
-> > 
-> > I thought Stefanha had fixed this bug, and we were just waiting for a
-> > new alpine rootfs/image with that fixed.
-> > Is that correct?
-> 
-> I didn't fix the liburing __kernel_timespec issue on alpine Linux. It's
-> probably a packaging bug and I gave Dave the email address of the
-> package maintainer. I'm not sure if the package maintainer has been
-> contacted or released a fixed liburing package.
 
-It was prety easy to bisect the problem with liburing so I filed a
-bug pointing to the fix needed:
 
-  https://gitlab.alpinelinux.org/alpine/aports/-/issues/13813
+Hi
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I know it is a bit late for the call for topics, but it appears that
+there are people who wants to discuss live migration improvements.  If
+we got an agenda, can we have a call tomorrow?
+
+Please, send any topic that you are interested in covering.
+
+At the end of Monday I will send an email with the agenda or the
+cancellation of the call, so hurry up.
+
+After discussions on the QEMU Summit, we are going to have always open a
+KVM call where you can add topics.
+
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
 
 
