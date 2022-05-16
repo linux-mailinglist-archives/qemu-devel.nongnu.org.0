@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202F5527ECA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 09:46:34 +0200 (CEST)
-Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6906F527F40
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:08:17 +0200 (CEST)
+Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqVR2-0001C4-UD
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 03:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37910)
+	id 1nqVm2-00073e-1q
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGO-0000qW-09
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGO-0000qY-0b
  for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29598)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGK-0001tO-FQ
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGK-0001tG-HS
  for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1652686527;
@@ -23,39 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nMwDOPmK3qbaJL6p+jiSQ0tInHhkbJ3pqtC3JF/qCXI=;
- b=H9eTCRETNEHRnYI5qKfgzzy4upU/oE1g/2/c5fhxKUkNWZqMZb80B9od0PW5ugxoISpd4w
- /ds0DlSSqQQuLRRCn/PUq/gU16NJCdUwzr7b4TpdruzUyMu99iEGFDC9GvX0L2aVWwI/Ig
- 5JwaAxSK+zWrhXq8MCDZ9//AgTytxnE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eB37xzaj5t3hlyAMC3PdsWUdgi/jS8WofcSb+WdbxdU=;
+ b=HV+RqUIS3Xi4yjccujLBEOSPSBwVqQMynd0fO+tGRHuzctZCK3tFiCNAVz8+oso6sqy7R4
+ sh1mq6lOn1DXYMd0NB2RW4W7i3wwPyTyYIi7oUNSlrswIeYIwGOC4+3zjIrWS1ddSaeinB
+ QC6/YgXXJQ4YKLREwacZjH1k09BvN/w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-DV7EFvXoOaaha73z2e_sng-1; Mon, 16 May 2022 03:35:25 -0400
-X-MC-Unique: DV7EFvXoOaaha73z2e_sng-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-637-HpJE0cWcMgKrVbFXMAzbcQ-1; Mon, 16 May 2022 03:35:26 -0400
+X-MC-Unique: HpJE0cWcMgKrVbFXMAzbcQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A6A5811E75;
- Mon, 16 May 2022 07:35:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11E063C1023B;
+ Mon, 16 May 2022 07:35:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2992E5703BE;
- Mon, 16 May 2022 07:35:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1B9D1121315;
+ Mon, 16 May 2022 07:35:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E752121E6761; Mon, 16 May 2022 09:35:22 +0200 (CEST)
+ id D4B4621E6921; Mon, 16 May 2022 09:35:22 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org
-Subject: [PULL 11/11] qapi/pragma: Tidy up comments
-Date: Mon, 16 May 2022 09:35:22 +0200
-Message-Id: <20220516073522.3880774-12-armbru@redhat.com>
+Cc: richard.henderson@linaro.org,
+	Andrea Bolognani <abologna@redhat.com>
+Subject: [PULL 02/11] qapi: Drop stray trailing symbol
+Date: Mon, 16 May 2022 09:35:13 +0200
+Message-Id: <20220516073522.3880774-3-armbru@redhat.com>
 In-Reply-To: <20220516073522.3880774-1-armbru@redhat.com>
 References: <20220516073522.3880774-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,37 +80,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 05ebf841ef "qapi: Enforce command naming rules" inserted new
-code between a comment and the code it applies to.  Move the comment
-back to its code, and add one for the new code.
+From: Andrea Bolognani <abologna@redhat.com>
 
+Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220503073737.84223-2-abologna@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20220510081433.3289762-1-armbru@redhat.com>
 ---
- qapi/pragma.json | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ qapi/run-state.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/pragma.json b/qapi/pragma.json
-index e6a021c19c..7f810b0e97 100644
---- a/qapi/pragma.json
-+++ b/qapi/pragma.json
-@@ -6,7 +6,7 @@
- # Whitelists to permit QAPI rule violations; think twice before you
- # add to them!
- { 'pragma': {
--    # Commands allowed to return a non-dictionary:
-+    # Command names containing '_'
-     'command-name-exceptions': [
-         'add_client',
-         'block_resize',
-@@ -24,6 +24,7 @@
-         'system_powerdown',
-         'system_reset',
-         'system_wakeup' ],
-+    # Commands allowed to return a non-dictionary
-     'command-returns-exceptions': [
-         'human-monitor-command',
-         'qom-get',
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 8124220bd9..15d6c9a2ed 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -348,7 +348,7 @@
+ #
+ # @poweroff: Shutdown the VM and exit
+ #
+-# @pause: pause the VM#
++# @pause: pause the VM
+ #
+ # Since: 6.0
+ ##
 -- 
 2.35.3
 
