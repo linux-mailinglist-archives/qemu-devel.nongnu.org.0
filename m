@@ -2,85 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C03528417
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:23:15 +0200 (CEST)
-Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7377E5284C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:56:11 +0200 (CEST)
+Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZko-0008FL-0a
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51618)
+	id 1nqaGg-0005Tz-8X
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nqYHL-0004DJ-1l
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:48:52 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:37463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nqYHI-0007H2-S2
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:48:42 -0400
-Received: by mail-oi1-x235.google.com with SMTP id r1so18091444oie.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:48:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=lZsMa6TV6tJIexWmxOTjZoMTLI6G+zIeqmt1x/Ucysw=;
- b=x8uqIesqmEAG9oEOvonmmH5/2T2t5nK/U1KBAd2S6h3CbDHa/QrAGyqd/e1yeYEHkx
- CkJ5Ok4NZkbtC4odi8Y+Wuvf5+vvscvNJOsJ8MfNWM/tWY7ojODFoLUXhgO9/SR6XO7+
- CJ/A40Ata4Zm+/uuHCCrUb0GDHyM0/tDg9xGzShxXYGf2jsk8y5blZkgg8/TwsCR5UDb
- R77OSlFF2RONC4v2zQkxd96dlTlE58t/HGGBJr1dTDzJl0mcYNCXpuvMC2a7bI277qxX
- D9YVfYgMspTl1pIalXHDZZXiJ0NrkIwIMRs2Ykihl+HEHExWvcDKm4wf1VdJYGYIEiy6
- MZOw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nqYfH-0004Qy-2b
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 07:13:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25914)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nqYfD-00031m-08
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 07:13:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652699601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bNqZZa7/3sZz0F5CNMXBBEAmvZvF1pxK2MX9hTNoxTA=;
+ b=ZLGqGRdVKft02Le2r8HtogVS4qNauPGCbhzKRi8VbA54dfZdRJbQEs37g/d0UPIefNIyJO
+ oTIHbFhjrXlkTt/3rxlyaG7wXtf+jlQz1JP57hWXE6AY9ru+ohGBWHPdIUB3aI9+QcNEIa
+ 1mbOSVmpLyjt+sHzF6SuoZBeJMLrw4U=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-117-8Oi4k856PhOltrU_XvwgPQ-1; Mon, 16 May 2022 07:13:20 -0400
+X-MC-Unique: 8Oi4k856PhOltrU_XvwgPQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v9-20020a05600c214900b00393fedddf26so3969098wml.1
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 04:13:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=lZsMa6TV6tJIexWmxOTjZoMTLI6G+zIeqmt1x/Ucysw=;
- b=tYwgrf5yMJNZ2Dou3z+yKVH8smZn7m01qCmKTC3uulEFGb2VL7CG8kIP0ri1rUzHVY
- iapiZ5/Tt857/s6SrHF8qKRBSi3/W8QZo+IYNCfj0ziWofuh4RH9P9vfp1z4eAuHp4Ek
- fwedXUkIL8iWjVSKSum4sO6RZqjS0PhDZe+m7p3ZtJPyhBujDEw+WuJ4JHPSam7lmfaH
- nNuYB5V90COc7YR0sFvEQtBgE91+EBjSNwuwuN8HY9MO1NK9YuLYIm/h6vep6IM/ykS7
- tsoViQP5T+A8gQufr6UU8UUrHXw7n1Mhns6or78EVdbBzV5Cschh0Y1jTLAXKfDH+GMw
- XxDw==
-X-Gm-Message-State: AOAM530ABR/vAG7ItcXENATqCOkIUkX525ZvgL1RObPIBYnLd0RptnKM
- p2AD/fJKnIVTVO0qLSBQW1kggg==
-X-Google-Smtp-Source: ABdhPJwypENs6bddqFf8u1Rd/N9PlD1bzXWnLQsINDNbaC2G95X2EbJ0Q8oaGm8trfNprd14HlNllQ==
-X-Received: by 2002:a05:6808:2395:b0:326:a02e:2c3a with SMTP id
- bp21-20020a056808239500b00326a02e2c3amr7403586oib.169.1652698106028; 
- Mon, 16 May 2022 03:48:26 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- b18-20020a9d6b92000000b00606b1f72fcbsm3812382otq.31.2022.05.16.03.48.21
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=bNqZZa7/3sZz0F5CNMXBBEAmvZvF1pxK2MX9hTNoxTA=;
+ b=RldXGPAnpo3Pjq/YrQmcknP+0bhYsRa/jYDAOEfQQylWMpYIJbRtw4LAARIwJvyuYR
+ IM3diE8aN5Eg/XTufzWQ6N8xCd6K3JD2aRa1PBbN5gNzdxBfEXo9LKIGOMBfGFYavXqd
+ l+9FBZx7/bluHCGJk/fNmwgRccWh9ZqZczbL1vQ4wpt1miaTRkbdLHwR10pG5CZA1VvS
+ 9ZR23T6SX35FnaFf5wKIFWDmSq3W2gUQ71H4JPakDSqrdcEswAukpDSfHScX2nHJZcbY
+ nT49UG7WD4sA3FvZ6gcX4MAF2k9979jI51h8+z34VDsFfN8bBrCh0xAtff3CiW5lkzV0
+ 0LmQ==
+X-Gm-Message-State: AOAM531LxUVgtop3hhLPHQylgsXqqv1HebgN7MVOjdkhkdNzlYjA2L8i
+ lHvjynGTZU5dcsmGvZnKC0SouAiDyt5jHeElCLo8IeMHtlX0fFVVF9nI6PTF8AadI5JdGJPglFo
+ RW6Vn+OTesaqiJQY=
+X-Received: by 2002:a5d:6351:0:b0:20d:1028:3c32 with SMTP id
+ b17-20020a5d6351000000b0020d10283c32mr1055126wrw.331.1652699599275; 
+ Mon, 16 May 2022 04:13:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxxE6V9KPcbib1TbSG/qeyRzjruBUaxfpnsYwoKfolYxT3EhNwmsr7hZ/plF8dS31boNHzN0w==
+X-Received: by 2002:a5d:6351:0:b0:20d:1028:3c32 with SMTP id
+ b17-20020a5d6351000000b0020d10283c32mr1055089wrw.331.1652699598988; 
+ Mon, 16 May 2022 04:13:18 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ i6-20020adfa506000000b0020d0931b48asm2644918wrb.37.2022.05.16.04.13.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:48:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DF77B1FFB7;
- Mon, 16 May 2022 11:48:19 +0100 (BST)
-References: <ac657a9f-a217-ee01-616d-85d8c960bb58@gmail.com>
-User-agent: mu4e 1.7.21; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mathieu.poirier@linaro.org,
- mst@redhat.com, viresh.kumar@linaro.org, Raphael Norwitz
- <raphael.norwitz@nutanix.com>, stefanha@redhat.com,
- marcandre.lureau@redhat.com
-Subject: Re: [PATCH v1 11/13] contrib/vhost-user-blk: fix 32 bit build and
- enable
-Date: Mon, 16 May 2022 11:46:00 +0100
-In-reply-to: <ac657a9f-a217-ee01-616d-85d8c960bb58@gmail.com>
-Message-ID: <87v8u5sqh8.fsf@linaro.org>
+ Mon, 16 May 2022 04:13:18 -0700 (PDT)
+Date: Mon, 16 May 2022 12:13:16 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: Re: [PATCH v13 1/8] meson.build: Fix docker-test-build@alpine when
+ including linux/errqueue.h
+Message-ID: <YoIxzC88w+jQlqoG@work-vm>
+References: <20220513062836.965425-1-leobras@redhat.com>
+ <20220513062836.965425-2-leobras@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=alex.bennee@linaro.org; helo=mail-oi1-x235.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513062836.965425-2-leobras@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,43 +108,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Leonardo Bras (leobras@redhat.com) wrote:
+> A build error happens in alpine CI when linux/errqueue.h is included
+> in io/channel-socket.c, due to redefining of 'struct __kernel_timespec':
 
-Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> writes:
+OK, looks to be same mechanism as other meson tests.
 
-> On 21/3/22 16:30, Alex Benn=C3=A9e wrote:
->> We were not building the vhost-user-blk server due to 32 bit
->> compilation problems. The problem was due to format string types so
->> fix that and then enable the build. Tweak the rule to follow the same
->> rules as other vhost-user daemons.
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>   meson.build                             | 2 +-
->>   contrib/vhost-user-blk/vhost-user-blk.c | 6 +++---
->>   contrib/vhost-user-blk/meson.build      | 3 +--
->>   3 files changed, 5 insertions(+), 6 deletions(-)
->> diff --git a/meson.build b/meson.build
->> index 282e7c4650..0435419307 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -1326,7 +1326,7 @@ have_vhost_user_blk_server =3D get_option('vhost_u=
-ser_blk_server') \
->>              error_message: 'vhost_user_blk_server requires linux') \
->>     .require('CONFIG_VHOST_USER' in config_host,
->>              error_message: 'vhost_user_blk_server requires vhost-user s=
-upport') \
->> -  .disable_auto_if(not have_system) \
->> +  .disable_auto_if(not have_tools and not have_system) \
->
-> s/and/or/?
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-AIUI this is for auto-enabling so you probably want to build if you have
-system build or are explicitly building tools. I think, it's confusing
-being in a double negative.
+> ===
+> ninja: job failed: [...]
+> In file included from /usr/include/linux/errqueue.h:6,
+>                  from ../io/channel-socket.c:29:
+> /usr/include/linux/time_types.h:7:8: error: redefinition of 'struct __kernel_timespec'
+>     7 | struct __kernel_timespec {
+>       |        ^~~~~~~~~~~~~~~~~
+> In file included from /usr/include/liburing.h:19,
+>                  from /builds/user/qemu/include/block/aio.h:18,
+>                  from /builds/user/qemu/include/io/channel.h:26,
+>                  from /builds/user/qemu/include/io/channel-socket.h:24,
+>                  from ../io/channel-socket.c:24:
+> /usr/include/liburing/compat.h:9:8: note: originally defined here
+>     9 | struct __kernel_timespec {
+>       |        ^~~~~~~~~~~~~~~~~
+> ninja: subcommand failed
+> ===
+> 
+> As above error message suggests, 'struct __kernel_timespec' was already
+> defined by liburing/compat.h.
+> 
+> Fix alpine CI by adding test to disable liburing in configure step if a
+> redefinition happens between linux/errqueue.h and liburing/compat.h.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  meson.build | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/meson.build b/meson.build
+> index 9b20dcd143..a996690c9b 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -515,12 +515,23 @@ if not get_option('linux_aio').auto() or have_block
+>                             required: get_option('linux_aio'),
+>                             kwargs: static_kwargs)
+>  endif
+> +
+> +linux_io_uring_test = '''
+> +  #include <liburing.h>
+> +  #include <linux/errqueue.h>
+> +
+> +  int main(void) { return 0; }'''
+> +
+>  linux_io_uring = not_found
+>  if not get_option('linux_io_uring').auto() or have_block
+>    linux_io_uring = dependency('liburing', version: '>=0.3',
+>                                required: get_option('linux_io_uring'),
+>                                method: 'pkg-config', kwargs: static_kwargs)
+> +  if not cc.links(linux_io_uring_test)
+> +    linux_io_uring = not_found
+> +  endif
+>  endif
+> +
+>  libnfs = not_found
+>  if not get_option('libnfs').auto() or have_block
+>    libnfs = dependency('libnfs', version: '>=1.9.3',
+> -- 
+> 2.36.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
->
->>     .allowed()
-
-
---=20
-Alex Benn=C3=A9e
 
