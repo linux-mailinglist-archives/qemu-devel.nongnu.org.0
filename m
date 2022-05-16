@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0AD52846D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:47:47 +0200 (CEST)
-Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C03528417
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:23:15 +0200 (CEST)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqa8Y-0007vb-EE
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
+	id 1nqZko-0008FL-0a
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:23:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nqYES-00019P-Ey
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:45:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nqYEQ-000708-EV
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:45:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697941;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=P6rmGYhGgiMMw2w+8LJA95eZZ71fWqFOL7F6BrQHIz0=;
- b=IXTWOqU1ZLp2y6xGeFEjKQaOiXmpz4EX0Sv98scGIBUCyddoQiLwsLKsN6NaqNK83cLk57
- HFm0GVsY+UBqMgqw3prweVLlz48xqhG0FiYod+XoCxonTIOIrLT77MsGIh8+weFVQaefHV
- Uh3cr8CNXifsJImDG5Hyxx+bIcsRKug=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-jSa8iYLHMnir2IDbWfhs_Q-1; Mon, 16 May 2022 06:45:40 -0400
-X-MC-Unique: jSa8iYLHMnir2IDbWfhs_Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so6575826wmr.0
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:45:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nqYHL-0004DJ-1l
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:48:52 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:37463)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nqYHI-0007H2-S2
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:48:42 -0400
+Received: by mail-oi1-x235.google.com with SMTP id r1so18091444oie.4
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=lZsMa6TV6tJIexWmxOTjZoMTLI6G+zIeqmt1x/Ucysw=;
+ b=x8uqIesqmEAG9oEOvonmmH5/2T2t5nK/U1KBAd2S6h3CbDHa/QrAGyqd/e1yeYEHkx
+ CkJ5Ok4NZkbtC4odi8Y+Wuvf5+vvscvNJOsJ8MfNWM/tWY7ojODFoLUXhgO9/SR6XO7+
+ CJ/A40Ata4Zm+/uuHCCrUb0GDHyM0/tDg9xGzShxXYGf2jsk8y5blZkgg8/TwsCR5UDb
+ R77OSlFF2RONC4v2zQkxd96dlTlE58t/HGGBJr1dTDzJl0mcYNCXpuvMC2a7bI277qxX
+ D9YVfYgMspTl1pIalXHDZZXiJ0NrkIwIMRs2Ykihl+HEHExWvcDKm4wf1VdJYGYIEiy6
+ MZOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=P6rmGYhGgiMMw2w+8LJA95eZZ71fWqFOL7F6BrQHIz0=;
- b=YMx9FURhf4E8YildipK+CdABBfT+60qYtOZk3XM3619NSMxr7wx18p5nurJMirpqnw
- v2IJ/lAuSgqnD6tdDsBq33QvJFSo29YG7IUt6/bm2dTMIE2n+2s2UwNtWDlr65rv6N7R
- CVnesROC1Wu1tZklrcWkkEF8CwDGl0CeFIy0MZOZbrlkZVLEWV/MbolfhrPo0xLZ6Yb3
- 2b9X+cSee10+i1SOCcPf58rtaUZNLjq1gIXWBBkrfKDMzr+m8BhYQinP5pzg00F8jT9r
- bqKiMAHf3m9SXQuB+KbI/+rcL27M6o9e9Q/grQu99xyp9C5/EKGi/c9nJksenkrGhzh3
- 1Sfg==
-X-Gm-Message-State: AOAM533NZyLqef+JspWIHgaHTvoOa+8sckInfAdnLlDdHGM91g8wWCYT
- wFqrENpDOZ4ixBoyCoGgZCj3RrkLmBGhUvLb/Urek14TvAgMyJHj1VsHXJvJc6y7Lu0wTmQD7Vn
- i0XWhMrt9JfAFJLs=
-X-Received: by 2002:a5d:5954:0:b0:20c:4d55:1388 with SMTP id
- e20-20020a5d5954000000b0020c4d551388mr13740330wri.90.1652697938900; 
- Mon, 16 May 2022 03:45:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrbgyxiSShCUHminDDz+y8dmsrV2Qf15IgIaG4bLn16EPTWesZ4wnXq2b/NUKYeSrEC5FsaA==
-X-Received: by 2002:a5d:5954:0:b0:20c:4d55:1388 with SMTP id
- e20-20020a5d5954000000b0020c4d551388mr13740313wri.90.1652697938689; 
- Mon, 16 May 2022 03:45:38 -0700 (PDT)
-Received: from localhost (static-211-115-85-188.ipcom.comunitel.net.
- [188.85.115.211]) by smtp.gmail.com with ESMTPSA id
- r20-20020a05600c425400b00397122e63b6sm185725wmm.29.2022.05.16.03.45.38
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=lZsMa6TV6tJIexWmxOTjZoMTLI6G+zIeqmt1x/Ucysw=;
+ b=tYwgrf5yMJNZ2Dou3z+yKVH8smZn7m01qCmKTC3uulEFGb2VL7CG8kIP0ri1rUzHVY
+ iapiZ5/Tt857/s6SrHF8qKRBSi3/W8QZo+IYNCfj0ziWofuh4RH9P9vfp1z4eAuHp4Ek
+ fwedXUkIL8iWjVSKSum4sO6RZqjS0PhDZe+m7p3ZtJPyhBujDEw+WuJ4JHPSam7lmfaH
+ nNuYB5V90COc7YR0sFvEQtBgE91+EBjSNwuwuN8HY9MO1NK9YuLYIm/h6vep6IM/ykS7
+ tsoViQP5T+A8gQufr6UU8UUrHXw7n1Mhns6or78EVdbBzV5Cschh0Y1jTLAXKfDH+GMw
+ XxDw==
+X-Gm-Message-State: AOAM530ABR/vAG7ItcXENATqCOkIUkX525ZvgL1RObPIBYnLd0RptnKM
+ p2AD/fJKnIVTVO0qLSBQW1kggg==
+X-Google-Smtp-Source: ABdhPJwypENs6bddqFf8u1Rd/N9PlD1bzXWnLQsINDNbaC2G95X2EbJ0Q8oaGm8trfNprd14HlNllQ==
+X-Received: by 2002:a05:6808:2395:b0:326:a02e:2c3a with SMTP id
+ bp21-20020a056808239500b00326a02e2c3amr7403586oib.169.1652698106028; 
+ Mon, 16 May 2022 03:48:26 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ b18-20020a9d6b92000000b00606b1f72fcbsm3812382otq.31.2022.05.16.03.48.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:45:38 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eduardo Habkost <eduardo@habkost.net>,  Peter Xu
- <peterx@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  Yanan
- Wang <wangyanan55@huawei.com>,  Leonardo Bras <leobras@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v6 00/13] Migration: Transmit and detect zero pages in
- the multifd threads
-In-Reply-To: <Yn0OMzygfmlXgl8w@work-vm> (David Alan Gilbert's message of "Thu, 
- 12 May 2022 14:40:03 +0100")
-References: <20220510224220.5912-1-quintela@redhat.com>
- <Yn0OMzygfmlXgl8w@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 16 May 2022 12:45:37 +0200
-Message-ID: <87pmkdsqlq.fsf@secure.mitica>
+ Mon, 16 May 2022 03:48:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DF77B1FFB7;
+ Mon, 16 May 2022 11:48:19 +0100 (BST)
+References: <ac657a9f-a217-ee01-616d-85d8c960bb58@gmail.com>
+User-agent: mu4e 1.7.21; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mathieu.poirier@linaro.org,
+ mst@redhat.com, viresh.kumar@linaro.org, Raphael Norwitz
+ <raphael.norwitz@nutanix.com>, stefanha@redhat.com,
+ marcandre.lureau@redhat.com
+Subject: Re: [PATCH v1 11/13] contrib/vhost-user-blk: fix 32 bit build and
+ enable
+Date: Mon, 16 May 2022 11:46:00 +0100
+In-reply-to: <ac657a9f-a217-ee01-616d-85d8c960bb58@gmail.com>
+Message-ID: <87v8u5sqh8.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=alex.bennee@linaro.org; helo=mail-oi1-x235.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,142 +93,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
 
->> 16GB guest
->>                 Precopy            upstream          zero page
->>                 Time    Downtime   Time    Downtime  Time    Downtime
->> clean idle      1548     93         1359   48         866    167
+Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> writes:
 
->                                            866/1359 = 64%
+> On 21/3/22 16:30, Alex Benn=C3=A9e wrote:
+>> We were not building the vhost-user-blk server due to 32 bit
+>> compilation problems. The problem was due to format string types so
+>> fix that and then enable the build. Tweak the rule to follow the same
+>> rules as other vhost-user daemons.
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>   meson.build                             | 2 +-
+>>   contrib/vhost-user-blk/vhost-user-blk.c | 6 +++---
+>>   contrib/vhost-user-blk/meson.build      | 3 +--
+>>   3 files changed, 5 insertions(+), 6 deletions(-)
+>> diff --git a/meson.build b/meson.build
+>> index 282e7c4650..0435419307 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -1326,7 +1326,7 @@ have_vhost_user_blk_server =3D get_option('vhost_u=
+ser_blk_server') \
+>>              error_message: 'vhost_user_blk_server requires linux') \
+>>     .require('CONFIG_VHOST_USER' in config_host,
+>>              error_message: 'vhost_user_blk_server requires vhost-user s=
+upport') \
+>> -  .disable_auto_if(not have_system) \
+>> +  .disable_auto_if(not have_tools and not have_system) \
+>
+> s/and/or/?
 
-
->> dirty idle     16222    220         2092   371       1870    258
-
->                                            1870/2092 = 89%
-
->> busy 4GB       don't converge      31000   308       1604    371
->> 
->> In the dirty idle, there is some weirdness in the precopy case, I
->> tried several times and it always took too much time.  It should be
->> faster.
->> 
->> In the busy 4GB case, precopy don't converge (expected) and without
->> zero page, multifd is on the limit, it _almost_ don't convrge, it took
->> 187 iterations to converge.
->> 
->> 1TB
->>                 Precopy            upstream          zero page
->>                 Time    Downtime   Time    Downtime  Time    Downtime
->> clean idle     83174    381        72075   345       52966   273
-
->                                           52966/72075=74%
-
->> dirty idle                        104587   381       75601   269
-
->                                           75601/104587=72%
-
->> busy 2GB                           79912   345       58953   348
->> 
->> I only tried the clean idle case with 1TB.  Notice that it is already
->> significantively slower.  With 1TB RAM, zero page is clearly superior in all tests.
->> 
->> 4TB
->>                 upstream          zero page
->>                 Time    Downtime  Time    Downtime
->> clean idle      317054  552       215567  500
-
->                 215567/317054 = 68%
-
->> dirty idle      357581  553       317428  744
-
->                 317428/357581 = 89%
+AIUI this is for auto-enabling so you probably want to build if you have
+system build or are explicitly building tools. I think, it's confusing
+being in a double negative.
 
 >
-> The 1TB dirty/idle is a bit of an unusual outlier at 72% time; but still
-> the 89% on the 16GB/4TB dirty case is still a useful improvement - I wasn't
-> expecting the dirty case to be as good - I wonder if there's some side
-> benefit, like meaning the page is only read by the data threads and not
-> also read by the main thread so only in one cache?
+>>     .allowed()
 
-That could help it, but  Ithink that it is much simpler than that:
 
-live_migration thread with upstream
-
->    5.07%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
->    0.95%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
->    0.88%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
->    0.36%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
->    0.26%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
-
-Almost 8% CPU.
-
-live migration with zero page:
-
->    1.59%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
->    1.45%  live_migration   libc.so.6                [.] __pthread_mutex_unlock_usercnt
->    1.28%  live_migration   libc.so.6                [.] __pthread_mutex_lock
->    0.69%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
->    0.48%  live_migration   qemu-system-x86_64       [.] qemu_mutex_unlock_impl
->    0.48%  live_migration   qemu-system-x86_64       [.] qemu_mutex_lock_impl
-
-less than 6% CPU, and remember, we are going way faster, so we are doing
-much more work here.  I *think* that it as much related that we are
-waiting less time for the migration thread.  Remember that at this
-point, we are already limited by the network.
-
-I think that for explaining it, it is much better the zero page case, we
-move from upstream:
-
->  44.27%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
->   10.21%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
->    6.58%  live_migration   qemu-system-x86_64       [.] add_to_iovec
->    4.25%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
->    2.70%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
->    2.43%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
->    2.34%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
->    1.59%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
->    1.30%  live_migration   qemu-system-x86_64       [.] find_next_bit
->    1.08%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
->    0.98%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
->    0.67%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
->    0.61%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
->    0.45%  live_migration   qemu-system-x86_64       [.] qemu_put_byte
->    0.42%  live_migration   qemu-system-x86_64       [.] save_page_header
->    0.41%  live_migration   qemu-system-x86_64       [.] qemu_put_be64
->    0.35%  live_migration   qemu-system-x86_64       [.] migrate_postcopy_ram
-
-More than 80% (I am too lazy to do the sum), to zero page detection
-with:
-
->  15.49%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
->    3.20%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
->    2.67%  live_migration   qemu-system-x86_64       [.] multifd_queue_page
->    2.33%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
->    2.19%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
->    1.19%  live_migration   qemu-system-x86_64       [.] find_next_bit
->    1.18%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
->    1.14%  live_migration   qemu-system-x86_64       [.] multifd_send_pages
->    0.96%  live_migration   [kernel.kallsyms]        [k] futex_wake
->    0.81%  live_migration   [kernel.kallsyms]        [k] send_call_function_single_ipi
->    0.71%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
-
-almost 32% (also lazy to do the sum).
-
-> (the 10% improvement on the dirty case is more important to me than the
-> more impressive number for the clean case)
-
-Fully agree.  Getting this series to go faster with huge guests (1TB/4TB
-guests) was relatively easy.  Being sure that we didn't hurt the smaller
-guests was more complicated.  The other added benefit is that we don't
-sent any page for RAM through the migration channel, that makes things
-much better because we use way less overhead.
-
-Later, Juan.
-
+--=20
+Alex Benn=C3=A9e
 
