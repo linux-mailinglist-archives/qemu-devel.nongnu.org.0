@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D156527ED1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 09:49:55 +0200 (CEST)
-Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202F5527ECA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 09:46:34 +0200 (CEST)
+Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqVUI-0004Jo-Ct
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 03:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
+	id 1nqVR2-0001C4-UD
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 03:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGO-0000qb-Be
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGO-0000qW-09
  for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47962)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGL-0001tn-Hp
- for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGK-0001tO-FQ
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652686528;
+ s=mimecast20190719; t=1652686527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3vaLvwMs0vBVK47xxIxNAhXjADJ0IamkqSblZaGt3cE=;
- b=YvwdXhk8SO1PKjsLkhz8HXAb3nQVKliJnvPX3yBhxrIlu5cudQZyUc0q+P8J+yWkh4ZxjM
- XRamPZQToOLtiRKpVz4giLF/iRGgVDGYmSlwQgyaCvu9hOyzbIXoEeLZrtEsJqqa7VTYcg
- BkDMjGmuaZQ7tmZmpkeIOyjQfRLOeu8=
+ bh=nMwDOPmK3qbaJL6p+jiSQ0tInHhkbJ3pqtC3JF/qCXI=;
+ b=H9eTCRETNEHRnYI5qKfgzzy4upU/oE1g/2/c5fhxKUkNWZqMZb80B9od0PW5ugxoISpd4w
+ /ds0DlSSqQQuLRRCn/PUq/gU16NJCdUwzr7b4TpdruzUyMu99iEGFDC9GvX0L2aVWwI/Ig
+ 5JwaAxSK+zWrhXq8MCDZ9//AgTytxnE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-EsfvTJQKPRCllfe3Qw-2yQ-1; Mon, 16 May 2022 03:35:25 -0400
-X-MC-Unique: EsfvTJQKPRCllfe3Qw-2yQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-336-DV7EFvXoOaaha73z2e_sng-1; Mon, 16 May 2022 03:35:25 -0400
+X-MC-Unique: DV7EFvXoOaaha73z2e_sng-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33904805B25;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A6A5811E75;
  Mon, 16 May 2022 07:35:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 12EEF401474;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2992E5703BE;
  Mon, 16 May 2022 07:35:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E571721E6837; Mon, 16 May 2022 09:35:22 +0200 (CEST)
+ id E752121E6761; Mon, 16 May 2022 09:35:22 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [PULL 10/11] docs/devel/qapi-code-gen: Belatedly document feature
- naming rules
-Date: Mon, 16 May 2022 09:35:21 +0200
-Message-Id: <20220516073522.3880774-11-armbru@redhat.com>
+Subject: [PULL 11/11] qapi/pragma: Tidy up comments
+Date: Mon, 16 May 2022 09:35:22 +0200
+Message-Id: <20220516073522.3880774-12-armbru@redhat.com>
 In-Reply-To: <20220516073522.3880774-1-armbru@redhat.com>
 References: <20220516073522.3880774-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,32 +79,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20220510061645.3209195-3-armbru@redhat.com>
----
- docs/devel/qapi-code-gen.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Commit 05ebf841ef "qapi: Enforce command naming rules" inserted new
+code between a comment and the code it applies to.  Move the comment
+back to its code, and add one for the new code.
 
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index 7b968433a6..cd9b544376 100644
---- a/docs/devel/qapi-code-gen.rst
-+++ b/docs/devel/qapi-code-gen.rst
-@@ -739,10 +739,11 @@ Type names ending with ``Kind`` or ``List`` are reserved for the
- generator, which uses them for implicit union enums and array types,
- respectively.
- 
--Command names, and member names within a type, should be all lower
--case with words separated by a hyphen.  However, some existing older
--commands and complex types use underscore; when extending them,
--consistency is preferred over blindly avoiding underscore.
-+Command names, member names within a type, and feature names should be
-+all lower case with words separated by a hyphen.  However, some
-+existing older commands and complex types use underscore; when
-+extending them, consistency is preferred over blindly avoiding
-+underscore.
- 
- Event names should be ALL_CAPS with words separated by underscore.
- 
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220510081433.3289762-1-armbru@redhat.com>
+---
+ qapi/pragma.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/qapi/pragma.json b/qapi/pragma.json
+index e6a021c19c..7f810b0e97 100644
+--- a/qapi/pragma.json
++++ b/qapi/pragma.json
+@@ -6,7 +6,7 @@
+ # Whitelists to permit QAPI rule violations; think twice before you
+ # add to them!
+ { 'pragma': {
+-    # Commands allowed to return a non-dictionary:
++    # Command names containing '_'
+     'command-name-exceptions': [
+         'add_client',
+         'block_resize',
+@@ -24,6 +24,7 @@
+         'system_powerdown',
+         'system_reset',
+         'system_wakeup' ],
++    # Commands allowed to return a non-dictionary
+     'command-returns-exceptions': [
+         'human-monitor-command',
+         'qom-get',
 -- 
 2.35.3
 
