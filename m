@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6F3528380
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:48:47 +0200 (CEST)
-Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597FA52838D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:53:08 +0200 (CEST)
+Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZDS-0002ni-9r
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
+	id 1nqZHf-0000Rr-EE
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7f-0008W6-27
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59590)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7i-0000Gm-VQ
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7d-0005W8-He
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7h-0005WX-Ck
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697521;
+ s=mimecast20190719; t=1652697524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KkHFCCAQZCxLhXASgQO3md5ERE8E9QGhI2Gkkwoba2E=;
- b=DMllq2KFMlNETOCS99atOQce7MXk7YLSMnUB0436Wmp+vvwIuwtpKjMoZeMc2CJil2k1BZ
- aw0YsrIP3noZsNEmInGulbu7BpeXuuXOOeQU780YK9phqW9SfoFaLGr3CKVWZhRedans0S
- qbnC/He6rrOk6NYqFq9/UZqXsjD9NFs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=90csNjP5LKfEJhmG68QBnKx1NoaampPhCE1MdP4/wac=;
+ b=QaLhBBOk/G85uZsl/W1ZBjw+xADf3GszgtVHKpVOLqY3o2a7l32j9NRVLDcCC7gMX1cpNq
+ +LyaELCdD0ieJRhzf26rj6H2iczn+JvFwzSJak8NnpvOjfzKYPR8Q+8Ux6GWaXdWOvQcqR
+ n4dJFcipjT9ZxvwiL6/YLSiBZEwKWmU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-1p8TDejKObyXtAhduJ7cWQ-1; Mon, 16 May 2022 06:38:40 -0400
-X-MC-Unique: 1p8TDejKObyXtAhduJ7cWQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so6567773wmr.0
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:39 -0700 (PDT)
+ us-mta-290-U99n4LLjPf6jlnAcPsovFw-1; Mon, 16 May 2022 06:38:43 -0400
+X-MC-Unique: U99n4LLjPf6jlnAcPsovFw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ba21-20020a0560001c1500b0020ca6a45dfcso3799763wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=KkHFCCAQZCxLhXASgQO3md5ERE8E9QGhI2Gkkwoba2E=;
- b=fB2qkeYfrdFkDd5HPtgdjMN4PfQAC8MDfxbLkJP7KrFDZRIiJ/JpU1ysNcn4TFkzui
- xpCAB0DLwtNKD9mlaRYW/QE9lEZdAZWSLeWYAsf7aTYIMi9Mc901hleiiDHkatpV1yxh
- KeOOx1ENBcxL9Ts2Rh+cB0AbgHG35V4RZNJuuWC9PwP6r6hGcGqotan027NBXMVPn7d5
- QURaf5NfiiUFAeeKLymTCmL+BnTzLoF9H3A5WanpdbnPzWDYi7qWyyhVyuxOWX5Z0Mmw
- 0SEJy1/4hBB/Wh027cPlXlI+09VuS/Px/a8N0WdL41bQTc0fQfpTg0a/DvPgVI5mo0Ms
- AKZg==
-X-Gm-Message-State: AOAM5320CMPy17doBh6YdKt3Vi2fCn32KtdOBE1UL11WLUnA2Y6iMwgo
- BTlIaXHNoc5SgseTi3F37AtbnfelmhubSreTB3e5Xyol/1EM7GKcmvHp7/iS0qXZh2+FWb+Ifm4
- P8vxg2bkZlZuRSihhmq+OviDLr1Zm6PxTi4Ej8VznrW2xbSWMeMVUBJHmeaxY
-X-Received: by 2002:adf:e605:0:b0:20d:889:ec5a with SMTP id
- p5-20020adfe605000000b0020d0889ec5amr3731775wrm.429.1652697518577; 
- Mon, 16 May 2022 03:38:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJziBhrMEujkytnoYYAe3OmPfj6c4YXBLL0wl5paCkbJraSUnTPenrRISU5R33rhLB2Eko/Bng==
-X-Received: by 2002:adf:e605:0:b0:20d:889:ec5a with SMTP id
- p5-20020adfe605000000b0020d0889ec5amr3731751wrm.429.1652697518254; 
- Mon, 16 May 2022 03:38:38 -0700 (PDT)
+ bh=90csNjP5LKfEJhmG68QBnKx1NoaampPhCE1MdP4/wac=;
+ b=n+3p0lec8ktHxaly+cTEFUe42G1UnUpITv3+T6FjWo+awZy6nC92ll5p+Pnq6B31DF
+ RNYwlAkN1KIU3hnJDkEqqWFqQiEBmFGBvHR9nUpsvaSWmcbkK5qMubhsqyvhdx4xpYNk
+ JFq9mLz8gerKIFni82Oo4Go8B8vTL9UlMXJsBxhigsXrgQGLo1Knpg8UXv5TQ6P0EJHT
+ lVXoxoNWIou6i5qhzYvRc5bSrZC6M0Q1K5OUDsaU/1IdB4qaQULyk1sg3irZHgWOUqwH
+ u2+DYnJSoz0LEmkRgWT3ZeRgk01daFlwiRmYMRpQMS/dmaHWwpaKVxORKJi7PkPybUl8
+ pijQ==
+X-Gm-Message-State: AOAM533itRpuLF4/03yAAwKknBPL8M96kvU4F2dCl5Hfhp2m9fOf0Mrh
+ mUM7PvCOLHc/yxlN8fKXY2d91fnYlhEX2b45uYBmzbaesHy/slaQ4PDvLJAtXR8wXYJsKU5gekk
+ Y/gqtQ1to+cbDMlandGICqEiTb6FkuBsXrqwE11tAM4hK/UFSx4AGezN/9d7T
+X-Received: by 2002:a5d:47ab:0:b0:20c:6b09:2355 with SMTP id
+ 11-20020a5d47ab000000b0020c6b092355mr13792238wrb.230.1652697522400; 
+ Mon, 16 May 2022 03:38:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyF4FQysgU/tskp06usTB9efqJpYviAFurtPaJPcgg/SpIs/O4xKeXb3c5GiJyGjeKljEySSw==
+X-Received: by 2002:a5d:47ab:0:b0:20c:6b09:2355 with SMTP id
+ 11-20020a5d47ab000000b0020c6b092355mr13792214wrb.230.1652697522130; 
+ Mon, 16 May 2022 03:38:42 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- x10-20020adfbb4a000000b0020d0435c97bsm4471915wrg.92.2022.05.16.03.38.35
+ f8-20020a7bcc08000000b003942a244f35sm13034678wmh.14.2022.05.16.03.38.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:38:37 -0700 (PDT)
-Date: Mon, 16 May 2022 06:38:34 -0400
+ Mon, 16 May 2022 03:38:41 -0700 (PDT)
+Date: Mon, 16 May 2022 06:38:38 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Woodhouse <dwmw@amazon.co.uk>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Claudio Fontana <cfontana@suse.de>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 51/91] intel_iommu: Only allow interrupt remapping to be
- enabled if it's supported
-Message-ID: <20220516095448.507876-52-mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 52/91] intel_iommu: Fix irqchip / X2APIC configuration checks
+Message-ID: <20220516095448.507876-53-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -102,43 +103,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: David Woodhouse <dwmw2@infradead.org>
 
-We should probably check if we were meant to be exposing IR, before
-letting the guest turn the IRE bit on.
+We don't need to check kvm_enable_x2apic(). It's perfectly OK to support
+interrupt remapping even if we can't address CPUs above 254. Kind of
+pointless, but still functional.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20220314142544.150555-3-dwmw2@infradead.org>
+The check on kvm_enable_x2apic() needs to happen *anyway* in order to
+allow CPUs above 254 even without an IOMMU, so allow that to happen
+elsewhere.
+
+However, we do require the *split* irqchip in order to rewrite I/OAPIC
+destinations. So fix that check while we're here.
+
+Signed-off-by: David Woodhouse <dwmw2@infradead.org>
+Acked-by: Claudio Fontana <cfontana@suse.de>
+Message-Id: <20220314142544.150555-4-dwmw2@infradead.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/intel_iommu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/i386/intel_iommu.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index b22376a45d..d3361c8313 100644
+index d3361c8313..d310532108 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -2209,6 +2209,7 @@ static void vtd_handle_gcmd_ire(IntelIOMMUState *s, bool en)
- /* Handle write to Global Command Register */
- static void vtd_handle_gcmd_write(IntelIOMMUState *s)
- {
-+    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
-     uint32_t status = vtd_get_long_raw(s, DMAR_GSTS_REG);
-     uint32_t val = vtd_get_long_raw(s, DMAR_GCMD_REG);
-     uint32_t changed = status ^ val;
-@@ -2230,7 +2231,8 @@ static void vtd_handle_gcmd_write(IntelIOMMUState *s)
-         /* Set/update the interrupt remapping root-table pointer */
-         vtd_handle_gcmd_sirtp(s);
+@@ -3786,15 +3786,10 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+                                               ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
      }
--    if (changed & VTD_GCMD_IRE) {
-+    if ((changed & VTD_GCMD_IRE) &&
-+        x86_iommu_ir_supported(x86_iommu)) {
-         /* Interrupt remap enable/disable */
-         vtd_handle_gcmd_ire(s, val & VTD_GCMD_IRE);
+     if (s->intr_eim == ON_OFF_AUTO_ON && !s->buggy_eim) {
+-        if (!kvm_irqchip_in_kernel()) {
++        if (!kvm_irqchip_is_split()) {
+             error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
+             return false;
+         }
+-        if (!kvm_enable_x2apic()) {
+-            error_setg(errp, "eim=on requires support on the KVM side"
+-                             "(X2APIC_API, first shipped in v4.7)");
+-            return false;
+-        }
      }
+ 
+     /* Currently only address widths supported are 39 and 48 bits */
 -- 
 MST
 
