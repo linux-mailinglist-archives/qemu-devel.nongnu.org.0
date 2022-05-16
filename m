@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B093B527D55
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:03:41 +0200 (CEST)
-Received: from localhost ([::1]:47434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5194B527D61
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:09:05 +0200 (CEST)
+Received: from localhost ([::1]:51036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqTpU-0008ST-PE
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:03:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46388)
+	id 1nqTui-000315-Ey
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqTjZ-0006nZ-Dw
- for qemu-devel@nongnu.org; Mon, 16 May 2022 01:57:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31268)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nqTr1-0001rY-Ld; Mon, 16 May 2022 02:05:15 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:43827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqTjX-00039k-43
- for qemu-devel@nongnu.org; Mon, 16 May 2022 01:57:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652680650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RwgaaNGBOKJkHbinJ1SZzUW/mYqLwPW28oGXeWx9BqU=;
- b=WwBEgpe/QAZhuc8/yXquhDnDxdrl8lkCyKgFDuJvgyzhPTfWqeKio0Ps0SmDrmtiU+OliJ
- TAbjctlB5dEPQt/VOqYS6ualCu1NVYdKi7K60kcQotrzIe11Abh1VS6vaR6tbaBD7ivYzX
- w3L5DOHL35SBiAQuiLv5QYCy1fYEgTI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-pPQi5E8EMyWVD4Ifb6jTtg-1; Mon, 16 May 2022 01:57:11 -0400
-X-MC-Unique: pPQi5E8EMyWVD4Ifb6jTtg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04B251E7DCC2;
- Mon, 16 May 2022 05:57:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AE9540D2832;
- Mon, 16 May 2022 05:57:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4AB0321E690D; Mon, 16 May 2022 07:57:09 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Hanna
- Reitz <hreitz@redhat.com>,  Konstantin Kostiuk <kkostiuk@redhat.com>,
- Stefan Weil <sw@weilnetz.de>,  Kevin Wolf <kwolf@redhat.com>,  Darren
- Kenny <darren.kenny@oracle.com>,  Laurent Vivier <lvivier@redhat.com>,
- Michael Roth <michael.roth@amd.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Qiuhao Li <Qiuhao.Li@outlook.com>,  Stefan
- Hajnoczi <stefanha@redhat.com>,  qemu-block <qemu-block@nongnu.org>
-Subject: Re: [PATCH v2 03/15] tests: make libqmp buildable for win32
-References: <20220505081431.934739-1-marcandre.lureau@redhat.com>
- <20220505081431.934739-4-marcandre.lureau@redhat.com>
- <875ymkxne4.fsf@pond.sub.org>
- <CAMxuvayhwawMwxGk7Rc3=hsgn4q=kLATsFtbB3jAQbDKxCJoZA@mail.gmail.com>
-Date: Mon, 16 May 2022 07:57:09 +0200
-In-Reply-To: <CAMxuvayhwawMwxGk7Rc3=hsgn4q=kLATsFtbB3jAQbDKxCJoZA@mail.gmail.com>
- (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Thu, 5 May 2022
- 15:08:15 +0400")
-Message-ID: <8735haggui.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nqTqz-0004Jc-DB; Mon, 16 May 2022 02:05:15 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.192])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1EB1710021EC8;
+ Mon, 16 May 2022 08:05:08 +0200 (CEST)
+Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Mon, 16 May
+ 2022 08:05:07 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S00365781ab4-dea8-4a1d-8558-9fefb19f8834,
+ 182B8575423FAF1F37CDABDABB9637A2CFA4B440) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7145f213-5e12-048a-b854-942c40396beb@kaod.org>
+Date: Mon, 16 May 2022 08:05:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] aspeed: Introduce a get_irq AspeedSoCClass method
+Content-Language: en-US
+To: Peter Delevoryas <pdel@fb.com>
+CC: qemu-arm <qemu-arm@nongnu.org>, Cameron Esfahani via
+ <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, Andrew
+ Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Jamin Lin
+ <jamin_lin@aspeedtech.com>
+References: <20220515211042.2332192-1-clg@kaod.org>
+ <353DE7D8-A829-4F80-84A4-A0AA1EF17B29@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <353DE7D8-A829-4F80-84A4-A0AA1EF17B29@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: baeaf182-032e-4e52-8ca0-bcb9a481024d
+X-Ovh-Tracer-Id: 16830796234108406633
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrheeggddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehjrghmihhnpghlihhnsegrshhpvggvughtvggthhdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,168 +77,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
-
-> Hi
->
-> On Thu, May 5, 2022 at 2:52 PM Markus Armbruster <armbru@redhat.com> wrot=
-e:
+On 5/16/22 01:01, Peter Delevoryas wrote:
+> 
+>> On May 15, 2022, at 2:10 PM, Cédric Le Goater <clg@kaod.org> wrote:
 >>
->> marcandre.lureau@redhat.com writes:
+>> and make routine aspeed_soc_get_irq() common to all SoCs. This will be
+>> useful to share code.
 >>
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> > Reviewed-by: Thomas Huth <thuth@redhat.com>
->> > ---
->> >  tests/qtest/libqmp.h |  2 ++
->> >  tests/qtest/libqmp.c | 35 +++++++++++++++++++++++++++++------
->> >  2 files changed, 31 insertions(+), 6 deletions(-)
->> >
->> > diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
->> > index 94aa97328a17..772f18b73ba3 100644
->> > --- a/tests/qtest/libqmp.h
->> > +++ b/tests/qtest/libqmp.h
->> > @@ -20,8 +20,10 @@
->> >  #include "qapi/qmp/qdict.h"
->> >
->> >  QDict *qmp_fd_receive(int fd);
->> > +#ifndef G_OS_WIN32
+>> Cc: Jamin Lin <jamin_lin@aspeedtech.com>
+>> Cc: Peter Delevoryas <pdel@fb.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> include/hw/arm/aspeed_soc.h |  3 +++
+>> hw/arm/aspeed_ast10x0.c     |  3 ++-
+>> hw/arm/aspeed_ast2600.c     |  3 ++-
+>> hw/arm/aspeed_soc.c         | 11 +++++++++--
+>> 4 files changed, 16 insertions(+), 4 deletions(-)
 >>
->> What's the difference between G_OS_WIN32 and _WIN32?
+>> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+>> index e13af374b923..3789f38603e5 100644
+>> --- a/include/hw/arm/aspeed_soc.h
+>> +++ b/include/hw/arm/aspeed_soc.h
+>> @@ -94,6 +94,7 @@ struct AspeedSoCClass {
+>>      const int *irqmap;
+>>      const hwaddr *memmap;
+>>      uint32_t num_cpus;
+>> +    qemu_irq (*get_irq)(AspeedSoCState *s, int dev);
+>> };
 >>
->> We have 10 of the former, but >250 of the latter.  If they are
->> effectively the same, we should pick one and stick to it.
->
-> There are some subtle differences when compiling for cygwin, in which
-> case G_OS_WIN32 is not defined.
->
-> I usually pick G_OS_{UNIX,WIN32} defines, mostly for consistency, but
-> in many situation _WIN32/WIN32 is fine.
->
-> (and we also have CONFIG_WIN32)
+>>
+>> @@ -153,4 +154,6 @@ enum {
+>>      ASPEED_DEV_I3C,
+>> };
+>>
+>> +qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
+>> +
+>> #endif /* ASPEED_SOC_H */
+>> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+>> index 427154928254..ddec5706f3c1 100644
+>> --- a/hw/arm/aspeed_ast10x0.c
+>> +++ b/hw/arm/aspeed_ast10x0.c
+>> @@ -61,7 +61,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
+>>      [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
+>> };
+>>
+>> -static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+>> +static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
+>> {
+>>      AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+>>
+>> @@ -280,6 +280,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+>>      sc->irqmap = aspeed_soc_ast1030_irqmap;
+>>      sc->memmap = aspeed_soc_ast1030_memmap;
+>>      sc->num_cpus = 1;
+>> +    sc->get_irq = aspeed_soc_ast1030_get_irq;
+>> }
+>>
+>> static const TypeInfo aspeed_soc_ast1030_type_info = {
+>> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+>> index eedda7badc37..255dbc6b95ab 100644
+>> --- a/hw/arm/aspeed_ast2600.c
+>> +++ b/hw/arm/aspeed_ast2600.c
+>> @@ -114,7 +114,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+>>      [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
+>> };
+>>
+>> -static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+>> +static qemu_irq aspeed_soc_ast2600_get_irq(AspeedSoCState *s, int dev)
+>> {
+>>      AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+>>
+>> @@ -572,6 +572,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+>>      sc->irqmap       = aspeed_soc_ast2600_irqmap;
+>>      sc->memmap       = aspeed_soc_ast2600_memmap;
+>>      sc->num_cpus     = 2;
+>> +    sc->get_irq      = aspeed_soc_ast2600_get_irq;
+>> }
+>>
+>> static const TypeInfo aspeed_soc_ast2600_type_info = {
+>> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+>> index 58714cb2a01d..15b641da9a36 100644
+>> --- a/hw/arm/aspeed_soc.c
+>> +++ b/hw/arm/aspeed_soc.c
+>> @@ -121,7 +121,7 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+>>
+>> #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
+>>
+>> -static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+>> +static qemu_irq aspeed_soc_ast2400_get_irq(AspeedSoCState *s, int dev)
+>> {
+>>      AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+>>
+>> @@ -487,6 +487,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
+>>      sc->irqmap       = aspeed_soc_ast2400_irqmap;
+>>      sc->memmap       = aspeed_soc_ast2400_memmap;
+>>      sc->num_cpus     = 1;
+>> +    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+>> }
+>>
+>> static const TypeInfo aspeed_soc_ast2400_type_info = {
+>> @@ -512,6 +513,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
+>>      sc->irqmap       = aspeed_soc_ast2500_irqmap;
+>>      sc->memmap       = aspeed_soc_ast2500_memmap;
+>>      sc->num_cpus     = 1;
+>> +    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+>> }
+>>
+>> static const TypeInfo aspeed_soc_ast2500_type_info = {
+>> @@ -528,4 +530,9 @@ static void aspeed_soc_register_types(void)
+>>      type_register_static(&aspeed_soc_ast2500_type_info);
+>> };
+>>
+>> -type_init(aspeed_soc_register_types)
+>> +type_init(aspeed_soc_register_types);
+>> +
+>> +qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
+>> +{
+>> +    return ASPEED_SOC_GET_CLASS(s)->get_irq(s, ctrl);
+>> +}
+> 
+> I think “dev” needs to be changed to “ctrl” or vice-versa.
+> (Compilation failure)
 
-I really think we should use one and only one unless there are
-differences that *require* more.
+Last minute changes ... Sent a v2 !
 
-Of the three, _WIN32 predominates (numbers appended).  Please use _WIN32
-unless you can show a need for something else.
+Thanks,
 
-
-
-$ git-grep -cw G_OS_WIN32
-qga/commands.c:5
-ui/gtk.c:5
-
-$ git-grep -cw CONFIG_WIN32 master
-master:Makefile:1
-master:block/meson.build:1
-master:chardev/meson.build:1
-master:configure:1
-master:hw/usb/host-libusb.c:9
-master:io/channel-watch.c:5
-master:meson.build:1
-master:net/meson.build:1
-master:qga/meson.build:1
-master:scripts/checkpatch.pl:1
-master:target/i386/hax/hax-i386.h:2
-master:target/i386/hax/meson.build:1
-master:ui/gtk.c:1
-master:ui/meson.build:2
-master:ui/sdl2.c:1
-master:util/meson.build:5
-master:util/sys_membarrier.c:1
-
-$ git-grep -cw CONFIG_WIN32 master
-master:Makefile:1
-master:block/meson.build:1
-master:chardev/meson.build:1
-master:configure:1
-master:hw/usb/host-libusb.c:9
-master:io/channel-watch.c:5
-master:meson.build:1
-master:net/meson.build:1
-master:qga/meson.build:1
-master:scripts/checkpatch.pl:1
-master:target/i386/hax/hax-i386.h:2
-master:target/i386/hax/meson.build:1
-master:ui/gtk.c:1
-master:ui/meson.build:2
-master:ui/sdl2.c:1
-master:util/meson.build:5
-master:util/sys_membarrier.c:1
-$ git-grep -cw _WIN32 master
-master:accel/tcg/cpu-exec.c:1
-master:accel/tcg/tcg-accel-ops-mttcg.c:1
-master:accel/tcg/tcg-accel-ops-rr.c:1
-master:audio/sdlaudio.c:3
-master:block.c:6
-master:block/nfs.c:5
-master:block/vvfat.c:1
-master:chardev/char-file.c:3
-master:chardev/char-pipe.c:4
-master:chardev/char-serial.c:4
-master:chardev/char-socket.c:1
-master:chardev/char-stdio.c:5
-master:configure:1
-master:contrib/elf2dmp/kdbg.h:1
-master:contrib/elf2dmp/pdb.h:1
-master:contrib/elf2dmp/pe.h:1
-master:crypto/pbkdf.c:2
-master:crypto/random-platform.c:3
-master:gdbstub.c:2
-master:include/block/block_int-common.h:1
-master:include/block/raw-aio.h:1
-master:include/exec/ram_addr.h:2
-master:include/hw/core/cpu.h:1
-master:include/io/channel.h:1
-master:include/qapi/error.h:1
-master:include/qemu/compiler.h:2
-master:include/qemu/event_notifier.h:2
-master:include/qemu/main-loop.h:1
-master:include/qemu/osdep.h:6
-master:include/qemu/qemu-plugin.h:1
-master:include/qemu/sockets.h:2
-master:include/qemu/thread.h:1
-master:include/qemu/timer.h:1
-master:io/channel.c:1
-master:monitor/misc.c:1
-master:nbd/nbd-internal.h:1
-master:net/net.c:1
-master:qemu-io.c:2
-master:qemu-options.hx:6
-master:qga/guest-agent-core.h:1
-master:qga/main.c:21
-master:scripts/cocci-macro-file.h:1
-master:scripts/codeconverter/codeconverter/test_regexps.py:1
-master:softmmu/cpus.c:2
-master:softmmu/physmem.c:4
-master:softmmu/vl.c:3
-master:stubs/is-daemonized.c:1
-master:subprojects/libvhost-user/libvhost-user.h:1
-master:target/i386/hax/hax-accel-ops.c:1
-master:target/i386/whpx/whpx-accel-ops.c:1
-master:target/m68k/m68k-semi.c:1
-master:target/mips/tcg/sysemu/mips-semi.c:4
-master:target/nios2/nios2-semi.c:1
-master:tcg/region.c:1
-master:tests/qtest/virtio-net-test.c:2
-master:tests/unit/test-char.c:6
-master:tests/unit/test-crypto-block.c:2
-master:tests/unit/test-crypto-pbkdf.c:2
-master:tests/unit/test-io-channel-file.c:4
-master:tests/unit/test-io-channel-socket.c:4
-master:tests/unit/test-iov.c:1
-master:tests/unit/test-replication.c:3
-master:tests/unit/test-util-sockets.c:2
-master:trace/simple.c:3
-master:ui/curses.c:3
-master:util/cacheinfo.c:1
-master:util/error.c:1
-master:util/main-loop.c:4
-master:util/osdep.c:8
-master:util/qemu-sockets.c:2
-master:util/qemu-timer-common.c:1
-master:util/systemd.c:2
-
+C.
 
