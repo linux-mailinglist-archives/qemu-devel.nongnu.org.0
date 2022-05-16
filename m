@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6376B5283CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:04:15 +0200 (CEST)
-Received: from localhost ([::1]:43298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9E75283F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:16:47 +0200 (CEST)
+Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZSQ-0003CB-Ec
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49734)
+	id 1nqZeY-0006vm-H9
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:16:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9E-0002b4-QW
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53188)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9J-0002dH-C6
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9C-0005lP-Lm
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:20 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9H-0005m8-4j
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697618;
+ s=mimecast20190719; t=1652697621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EBgdvHTSxrbwEFo3tpiVkZs9rY+u7ipcUNblbdnChHM=;
- b=cuT3sj75bYniAi0x5pRZRm7TrvmdqPaJo77XMwXGqHFbXdWTZqZ5xMWa9yhCMGRfm+mXvL
- Jay/yRHJQc3PujFvA5jmrO1VDprbvQgd1UQDmDmXv9LQGD5t8nYPoddmuv4qP/2IGb34MH
- hLc4YNK+I+U/z75dLWNB79ddnbPdnDo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JyIahbS4OZdt1tqLpTxbnEQNK1KVz8nAfhMMVVMnJ7c=;
+ b=BLIqvvCDgrXWrgBKYzC8GsWpwqb4Mrp2eSiODScruH07eK+01p1wLQGNBXq6GMWYINsnyv
+ t5PIn+ZednYfT37BV2nKlwY0D32auggd3C95PNYWNmHQE2IOFaGyYVQABj+J4nY2vjB+DZ
+ l+s37SMQH6drUaujS/ViEL1s7bBBCoc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-26-hbRl9qRyMNqzupFqffoOgA-1; Mon, 16 May 2022 06:40:17 -0400
-X-MC-Unique: hbRl9qRyMNqzupFqffoOgA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so6569788wmr.0
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:16 -0700 (PDT)
+ us-mta-484-fP7p-tqCN4iUKpyyc6ZXEA-1; Mon, 16 May 2022 06:40:20 -0400
+X-MC-Unique: fP7p-tqCN4iUKpyyc6ZXEA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e9-20020a05600c4e4900b00394779649b1so10154507wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=EBgdvHTSxrbwEFo3tpiVkZs9rY+u7ipcUNblbdnChHM=;
- b=JVrw1g9RfHvQImnsEtQyL5y6DdGQbMca1uvfueNlU/OeO+VPTwQC1s5noWSs2fpLpm
- Pa7qH1V8j2bbjHq78VNGRyhJs6/dDPB040xRDbR7t8HEbZcnS0UbCXnic2aH8lHcnR5N
- FTfazdPSSt8pVm+/P05EUUeWL3iOiYuQSJ8GaXHEy0pKh243z/FltFoTeE0Z8DdajOpv
- qG+FHADUP4vxoz3LygMp7n1jxQFb8Oz5l8K7K+tlRGUtCZdwD3yoVeOvGw4rDMs6XQLC
- GpbcyboPoq2373FohVbgMiT4uupCQZGmnyjMekJe1thfw9aLZvgCcBrU90bmoauVeBgM
- Sb6w==
-X-Gm-Message-State: AOAM5304N18w89Jg+i5TEbeSNH5NaI/Th7foxc3ONPPbt/tJFUg13Cv1
- Wbji/jEzUsN/hVE5nSw5oUIhaZplU78ILSAzNYS6VIhkC7VAG8UknNGIt/rxR7JOUsHVSd1XlIc
- drsZigA41WDwcs5ciSjmFi11usCxzrne7XgwFQTjqr1m6OHxAgGAyi+2Q9zfP
-X-Received: by 2002:a05:6000:1a8e:b0:20c:be8c:10a4 with SMTP id
- f14-20020a0560001a8e00b0020cbe8c10a4mr13331013wry.437.1652697615588; 
- Mon, 16 May 2022 03:40:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOGAa+XF6f3K8PNaNV0DUtrnmW3lESiKOILOyKGM+0I1l4K6Bu/HoKI9CmN3lru3CX1mnbkQ==
-X-Received: by 2002:a05:6000:1a8e:b0:20c:be8c:10a4 with SMTP id
- f14-20020a0560001a8e00b0020cbe8c10a4mr13330995wry.437.1652697615317; 
- Mon, 16 May 2022 03:40:15 -0700 (PDT)
+ bh=JyIahbS4OZdt1tqLpTxbnEQNK1KVz8nAfhMMVVMnJ7c=;
+ b=b2NWNGZLU2z23m8+SKH6y2aSt0uD9nkYsjY8qY7Z72d8+qU5DMw1S/mO5IUiB/j1t0
+ 3OGHjZChJ2toWKh3Lf/63OuQiazXUGiWfHz0C+K7JU3FuAQxr8KBJ/qGBXzbVMlwBhiF
+ PujWnrXFJM/9dbwiITRD0bKUuU7oLg9pn8yT81Qpf8Dt58l3PvuJmCo1oOzrNpbLnTtu
+ ah+j379CQtnbPWXf7bUCcHdEn4PSUS1MotMZlFoSg782FViEdqaa28jZQYKsUD1twKQr
+ 3c16HhzG6jflgqTsvMmsmOWn5tCxPzd9FzP79Lua27R4S5R0Tk33/uukjeL7Q0B5ir5q
+ E0Qw==
+X-Gm-Message-State: AOAM531y7NTix8V/35vpeyVXVDhEL/QqW3d3XcGkLjyM9BdfI3h5gIf1
+ SOVbNdiHQkOG3Uvo6TQGGVOR2vPiLd6l+0kqYgxw+lWnwE4Eq4eLOq4hG1ByLouAThgiYsC5LL5
+ xSmfP2g1mGJVXTLSJ5ckHyTtHAKsXBQ27o21JtdmEIhLjto3E/u0ZJ4E7UxXa
+X-Received: by 2002:adf:aaca:0:b0:20c:fedb:6685 with SMTP id
+ i10-20020adfaaca000000b0020cfedb6685mr7529446wrc.596.1652697618878; 
+ Mon, 16 May 2022 03:40:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzy20NgV69to2MCfz3qV0S+dkwyeV0SRc44AMY5JSyku3j2D5PmAHPOxt7dlDinhiJm9TvEZA==
+X-Received: by 2002:adf:aaca:0:b0:20c:fedb:6685 with SMTP id
+ i10-20020adfaaca000000b0020cfedb6685mr7529424wrc.596.1652697618501; 
+ Mon, 16 May 2022 03:40:18 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- o19-20020adfca13000000b0020c5253d8e1sm10986747wrh.45.2022.05.16.03.40.14
+ r5-20020adfbb05000000b0020d00174eabsm5826511wrg.94.2022.05.16.03.40.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:40:14 -0700 (PDT)
-Date: Mon, 16 May 2022 06:40:13 -0400
+ Mon, 16 May 2022 03:40:18 -0700 (PDT)
+Date: Mon, 16 May 2022 06:40:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 78/91] vhost-user: more master/slave things
-Message-ID: <20220516095448.507876-79-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL 79/91] docs/vhost-user: Clarifications for
+ VHOST_USER_ADD/REM_MEM_REG
+Message-ID: <20220516095448.507876-80-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -96,27 +99,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-we switched to front-end/back-end, but newer patches
-reintroduced old language. Fix this up.
+From: Kevin Wolf <kwolf@redhat.com>
 
+The specification for VHOST_USER_ADD/REM_MEM_REG messages is unclear
+in several points, which has led to clients having incompatible
+implementations. This changes the specification to be more explicit
+about them:
+
+* VHOST_USER_ADD_MEM_REG is not specified as receiving a file
+  descriptor, though it obviously does need to do so. All
+  implementations agree on this one, fix the specification.
+
+* VHOST_USER_REM_MEM_REG is not specified as receiving a file
+  descriptor either, and it also has no reason to do so. rust-vmm does
+  not send file descriptors for removing a memory region (in agreement
+  with the specification), libvhost-user and QEMU do (which is a bug),
+  though libvhost-user doesn't actually make any use of it.
+
+  Change the specification so that for compatibility QEMU's behaviour
+  becomes legal, even if discouraged, but rust-vmm's behaviour becomes
+  the explicitly recommended mode of operation.
+
+* VHOST_USER_ADD_MEM_REG doesn't have a documented return value, which
+  is the desired behaviour in the non-postcopy case. It also implemented
+  like this in QEMU and rust-vmm, though libvhost-user is buggy and
+  sometimes sends an unexpected reply. This will be fixed in a separate
+  patch.
+
+  However, in postcopy mode it does reply like VHOST_USER_SET_MEM_TABLE.
+  This behaviour is shared between libvhost-user and QEMU; rust-vmm
+  doesn't implement postcopy mode yet. Mention it explicitly in the
+  spec.
+
+* The specification doesn't mention how VHOST_USER_REM_MEM_REG
+  identifies the memory region to be removed. Change it to describe the
+  existing behaviour of libvhost-user (guest address, user address and
+  size must match).
+
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20220407133657.155281-2-kwolf@redhat.com>
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- docs/interop/vhost-user.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/interop/vhost-user.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 73e710fe32..3c12607517 100644
+index 3c12607517..a99ba4433c 100644
 --- a/docs/interop/vhost-user.rst
 +++ b/docs/interop/vhost-user.rst
-@@ -340,7 +340,7 @@ drivers cannot negotiate it.
+@@ -1376,6 +1376,14 @@ Front-end message types
+   For further details on postcopy, see ``VHOST_USER_SET_MEM_TABLE``.
+   They apply to ``VHOST_USER_ADD_MEM_REG`` accordingly.
  
- This reserved feature bit was reused by the vhost-user protocol to add
- vhost-user protocol feature negotiation in a backwards compatible
--fashion. Old vhost-user master and slave implementations continue to
-+fashion. Old vhost-user front-end and back-end implementations continue to
- work even though they are not aware of vhost-user protocol feature
- negotiation.
++  Exactly one file descriptor from which the memory is mapped is
++  passed in the ancillary data.
++
++  In postcopy mode (see ``VHOST_USER_POSTCOPY_LISTEN``), the back-end
++  replies with the bases of the memory mapped region to the front-end.
++  For further details on postcopy, see ``VHOST_USER_SET_MEM_TABLE``.
++  They apply to ``VHOST_USER_ADD_MEM_REG`` accordingly.
++
+ ``VHOST_USER_REM_MEM_REG``
+   :id: 38
+   :equivalent ioctl: N/A
+@@ -1400,6 +1408,14 @@ Front-end message types
+   accept messages with one file descriptor. If a file descriptor is
+   passed, the back-end MUST close it without using it otherwise.
  
++  The memory region to be removed is identified by its guest address,
++  user address and size. The mmap offset is ignored.
++
++  No file descriptors SHOULD be passed in the ancillary data. For
++  compatibility with existing incorrect implementations, the back-end MAY
++  accept messages with one file descriptor. If a file descriptor is
++  passed, the back-end MUST close it without using it otherwise.
++
+ ``VHOST_USER_SET_STATUS``
+   :id: 39
+   :equivalent ioctl: VHOST_VDPA_SET_STATUS
 -- 
 MST
 
