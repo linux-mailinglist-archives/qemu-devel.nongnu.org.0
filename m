@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FE752919E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 22:48:44 +0200 (CEST)
-Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34D15291F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 22:54:19 +0200 (CEST)
+Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqhdz-0003HO-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 16:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57788)
+	id 1nqhjO-00077v-W2
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 16:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhcp-0002BV-MO
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:47:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27251)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhfM-00046h-00
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:50:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhcm-0005kA-L4
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:47:30 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhfJ-000657-IS
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:50:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734047;
+ s=mimecast20190719; t=1652734204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ArC6+nigI8MDakXdJuYpsKR8fjGmHWY7lTNbO/XCjNY=;
- b=WT028/u8nsquDDuALjTg+wH6MTEWt3aZtKKqCrSPzwsbM86FES68vDQwIxMCWY3x9VwUoI
- Hcdokz5M2IAbR5bOf3TnL5shMxzcntD03Mj/sa+z2iAcjf9N4XZCAMrLfAfCuuhfl9jiBP
- ohiz7n1BNxPkf+v134klZF6MRcznIfU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AeVOSIOjFzTKq5R9zeJ3PGp7vn6QDcr0H631MPRTkxw=;
+ b=h0rGCW+HQNI1k/tOOFmzIc+UvFO9tGjC9z0AfHxDwSqGdE+8n8WaMMTtEOqtnWiP2EjRXq
+ omNITNdjitDfb/I45vLE2W4Pp2hqXGSihVBDou7UJiX6BTRGVPVZbbaFmQRUfepiZHHrdQ
+ jg9Mg5Ec/DpHziSgVURgJzgZNBka56k=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-7p1uVWK7OAiYl-qXTIO40w-1; Mon, 16 May 2022 16:47:26 -0400
-X-MC-Unique: 7p1uVWK7OAiYl-qXTIO40w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- qb36-20020a1709077ea400b006f45e182187so6324320ejc.14
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:47:26 -0700 (PDT)
+ us-mta-9-US8DcddXOw-IG4qfsOqvaA-1; Mon, 16 May 2022 16:50:03 -0400
+X-MC-Unique: US8DcddXOw-IG4qfsOqvaA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ w14-20020a50fa8e000000b0042ab142d677so2641344edr.11
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:50:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ArC6+nigI8MDakXdJuYpsKR8fjGmHWY7lTNbO/XCjNY=;
- b=y6AtuvTWcW2YVEYW50OTBkZQA5csBiJ6giA437VWljOVDYIc1wBRkemwD1E5tXaXkT
- +RPosflJsjaao23phl4t3lBsdOJyfv//rgDPUMqFwwhmLpxaWEV/hjnmAcZoGxxT7G+u
- p8zL6N1T+mCM8RBOmOUcsolWGilh3kHGNJ2avWEmOSZr7owqWLJZHLHtKNgprjIfopfN
- FzLFFRCuIU9vQBc4LeWRO0Oy+3a0rUyRrw+p5TY1hvbbjF2OYlPCIC8oIAgPB1TXoOLP
- azFTfXiuRp4BJGWrgAy6waybyBRJzcbOxrxHgeXy/GokyM6qGlQ/CpVzlkAolbIHv/jV
- txjw==
-X-Gm-Message-State: AOAM533lailHRluzDLI1jkUp8cEegVzRJ7v5FliYO9G3FqyBdbuxkKYJ
- yQd66x1WNzyNMitirGINPSQhB7H0iDyTCGjfZeA3zuFiUI+VQAB6eLxk0kT7zauX0yEQDlLs8Uu
- tkmK1F6EjLDxYJ9Q=
-X-Received: by 2002:aa7:c314:0:b0:42a:bb52:59d2 with SMTP id
- l20-20020aa7c314000000b0042abb5259d2mr3963929edq.167.1652734045215; 
- Mon, 16 May 2022 13:47:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXkdt3q8g9nLOJlhnr70OrtkjoVrgBC2Lr8c9Tfe2xC3GzH8RFb+x/DXv3ro5nL3WdDa/rQQ==
-X-Received: by 2002:aa7:c314:0:b0:42a:bb52:59d2 with SMTP id
- l20-20020aa7c314000000b0042abb5259d2mr3963901edq.167.1652734044980; 
- Mon, 16 May 2022 13:47:24 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=AeVOSIOjFzTKq5R9zeJ3PGp7vn6QDcr0H631MPRTkxw=;
+ b=dgyLahRERvd1sjNVzzBs0iMIriK+7FNqOqf59EId5FEQCgn7s8h1JtWCqoHjqb/EZD
+ LZDGy9h4cL0QTQ9aJhNT7LaaVj7B+54kY3n3qV527/PkFWmEt4vY252pUbKH9zMh4nG5
+ 8+YXKKnHqt0+vYjHb/7cgfpOPHX8MUQNvLjvO8J6JeHJvu6R+QdhA2ia0FPcEi4ve8Ka
+ gNPgMZLFNeDXG4K+BEktcOhe7ZO/wU/uTHTl4T2SwhRpoi5coIiYbYGXbavAeFTSEmK4
+ 2w+YnNvxUXnUAtTX2hG6uMhQ4rrF4z8DKTyuZRXuFlL4i1sBCw6ItrgikeoydgB7pS6h
+ oFww==
+X-Gm-Message-State: AOAM530F1O+ri6aayesSh1H9QKBF9SgrScfhRrnhtz647Bf73dyJ8bc6
+ l/zX4afnjbbKFfVSEX8nXu5TnJTZ67OA81Vz8bLFMKPApwDZ/mLW7oQjDlFb59oSKdb2HmYG2zA
+ 8nMzbLCQKJLn9+uRhfT6nXldyXPgVHN6itJNY3m7mO0aYM3EGCw6GfcesNKc0
+X-Received: by 2002:a05:6402:11cb:b0:427:7e52:eba5 with SMTP id
+ j11-20020a05640211cb00b004277e52eba5mr15430443edw.17.1652734201242; 
+ Mon, 16 May 2022 13:50:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCtPMDYKS5QuyXN+Q8cPv+2Xuv/yLT/1/5iwDpRWA3MEAylWw2AAuMQYmKYplX1xU/Wc84jg==
+X-Received: by 2002:a05:6402:11cb:b0:427:7e52:eba5 with SMTP id
+ j11-20020a05640211cb00b004277e52eba5mr15430415edw.17.1652734200862; 
+ Mon, 16 May 2022 13:50:00 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- h8-20020a170906530800b006f3ef214e43sm155803ejo.169.2022.05.16.13.47.22
+ b27-20020a170906729b00b006f3ef214e33sm153201ejl.153.2022.05.16.13.49.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:47:24 -0700 (PDT)
-Date: Mon, 16 May 2022 16:47:20 -0400
+ Mon, 16 May 2022 13:50:00 -0700 (PDT)
+Date: Mon, 16 May 2022 16:49:58 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, ani@anisinha.ca, minyard@acm.org,
- stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
-Subject: Re: [PATCH 00/35] pc/q35: refactor ISA and SMBUS AML generation
-Message-ID: <20220516164638-mutt-send-email-mst@kernel.org>
-References: <20220516152610.1963435-1-imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL v2 00/86] virtio,pc,pci: fixes,cleanups,features
+Message-ID: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220516152610.1963435-1-imammedo@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -95,163 +95,306 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 11:25:35AM -0400, Igor Mammedov wrote:
-> 
-> Series is excerpt form larger refactoring that does
-> the same for PCI devices, but it's too large at this
-> point, so I've split off a relatively self-contained
-> ISA/SMBUS patches into a smaller separate series, and
-> PCI refactoring will follow up on top of this series
-> using the same AcpiDevAmlIf interface.
-> 
-> Series consolidates and unifies how pc/q35 machine
-> generates AML for ISA and SMBUS devices. It adds
-> a new more generic interface 'AcpiDevAmlIf' that
-> replaces ISA specific ISADeviceClass::build_aml
-> hook and should allow to use the same approach
-> (i.e. ask a device to provide its own AML) but
-> not limited to ISA bus.
-> Series applies AcpiDevAmlIf interface to a few
-> ISA devices that were already using
-> ISADeviceClass::build_aml and to devices /tpm,
-> applesmc,pvpanic,ipmi/ that were generated in
-> custom way. The AML generation for the later
-> class is normalized to behave like any other
-> ISA device that were using ISADeviceClass::build_aml
-> and converted to interface 'AcpiDevAmlIf'.
-> It simplifies process of building DSDT and
-> eliminates custom probing/wiring for those devices
-> as AML for them is generated at the time ISA/SMBUS
-> is enumerated.
-> 
-> Changes to DSDT tables QEMU generates are mostly
-> contextual where devices scattered across DSDT
-> are consolidated under respective device that
-> hosts bus they are attached to.
 
-I like this. Have one further enhancement idea before
-applying this, sent on list.
+Changes from pull v1:
+    dropped introspection patches from the pull
 
-> PS:
->  + series adds several ACPI tests for devices
->    that were missing them.
-> 
-> Igor Mammedov (35):
->   acpi: add interface to build device specific AML
->   acpi: make isa_build_aml() support AcpiDevAmlIf interface
->   acpi: fdc-isa: replace ISADeviceClass::build_aml with
->     AcpiDevAmlIfClass:build_dev_aml
->   acpi: parallel port: replace ISADeviceClass::build_aml with
->     AcpiDevAmlIfClass:build_dev_aml
->   acpi: serial-is: replace ISADeviceClass::build_aml with
->     AcpiDevAmlIfClass:build_dev_aml
->   acpi: mc146818rtc: replace ISADeviceClass::build_aml with
->     AcpiDevAmlIfClass:build_dev_aml
->   acpi: pckbd: replace ISADeviceClass::build_aml with
->     AcpiDevAmlIfClass:build_dev_aml
->   isa-bus: drop no longer used ISADeviceClass::build_aml
->   tests: acpi: add and whitelist DSDT.ipmismbus expected blob
->   tests: acpi: q35: add test for smbus-ipmi device
->   tests: acpi: update expected blob DSDT.ipmismbus
->   tests: acpi: whitelist DSDT.ipmismbus expected blob
->   ipmi: acpi: use relative path to resource source
->   tests: acpi: update expected DSDT.ipmismbus blob
->   acpi: ich9-smb: add support for AcpiDevAmlIf interface
->   acpi: ipmi: use AcpiDevAmlIf interface to build IPMI device
->     descriptors
->   q35: acpi: drop not needed PCMachineClass::do_not_add_smb_acpi
->   tests: acpi: white-list to be re-factored pc/q35 DSDT
->   acpi: pc: isa bridge: use AcpiDevAmlIf interface to build ISA device
->     descriptors
->   acpi: q35: isa bridge: use AcpiDevAmlIf interface to build ISA device
->     descriptors
->   tests: acpi: update expected blobs
->   tests: acpi: add and white-list DSDT.applesmc expected blob
->   tests: acpi: add applesmc testcase
->   acpi: applesmc: use AcpiDevAmlIfClass:build_dev_aml to provide
->     device's AML
->   tests: acpi: update expected blobs
->   tests: acpi: white-lists expected DSDT.pvpanic-isa blob
->   tests: acpi: add pvpanic-isa: testcase
->   acpi: pvpanic-isa: use AcpiDevAmlIfClass:build_dev_aml to provide
->     device's AML
->   tests: acpi: update expected DSDT.pvpanic-isa blob
->   tests: acpi: white-list DSDT.tis.tpm2/DSDT.tis.tpm12 expected blobs
->   acpi: pc/q35: tpm-tis: fix TPM device scope
->   acpi: pc/q35: remove not needed 'if' condition on pci bus
->   acpi: tpm-tis: use AcpiDevAmlIfClass:build_dev_aml to provide device's
->     AML
->   tests: acpi: update expected DSDT.tis.tpm2/DSDT.tis.tpm12 blobs
->   x86: acpi-build: do not include hw/isa/isa.h directly
-> 
->  include/hw/acpi/acpi_aml_interface.h  |  40 ++++++
->  include/hw/acpi/ipmi.h                |   9 +-
->  include/hw/i386/pc.h                  |   1 -
->  include/hw/isa/isa.h                  |  15 ---
->  include/hw/misc/pvpanic.h             |   9 --
->  hw/acpi/acpi_interface.c              |   8 ++
->  hw/acpi/ipmi-stub.c                   |   2 +-
->  hw/acpi/ipmi.c                        |  53 +++-----
->  hw/acpi/meson.build                   |   2 +-
->  hw/block/fdc-isa.c                    |  16 ++-
->  hw/char/parallel.c                    |  14 ++-
->  hw/char/serial-isa.c                  |  14 ++-
->  hw/i2c/smbus_ich9.c                   |  15 +++
->  hw/i386/acpi-build.c                  | 171 ++++++--------------------
->  hw/i386/pc_piix.c                     |   1 -
->  hw/i386/pc_q35.c                      |   1 -
->  hw/input/pckbd.c                      |  14 ++-
->  hw/ipmi/isa_ipmi_bt.c                 |   4 +
->  hw/ipmi/isa_ipmi_kcs.c                |   4 +
->  hw/ipmi/smbus_ipmi.c                  |   4 +
->  hw/isa/isa-bus.c                      |   9 +-
->  hw/isa/lpc_ich9.c                     |  19 +++
->  hw/isa/piix3.c                        |  17 +++
->  hw/misc/applesmc.c                    |  29 +++++
->  hw/misc/pvpanic-isa.c                 |  42 +++++++
->  hw/rtc/mc146818rtc.c                  |  14 ++-
->  hw/tpm/tpm_tis_isa.c                  |  32 +++++
->  tests/data/acpi/pc/DSDT               | Bin 6002 -> 5987 bytes
->  tests/data/acpi/pc/DSDT.acpierst      | Bin 5969 -> 5954 bytes
->  tests/data/acpi/pc/DSDT.acpihmat      | Bin 7327 -> 7312 bytes
->  tests/data/acpi/pc/DSDT.bridge        | Bin 8668 -> 8653 bytes
->  tests/data/acpi/pc/DSDT.cphp          | Bin 6466 -> 6451 bytes
->  tests/data/acpi/pc/DSDT.dimmpxm       | Bin 7656 -> 7641 bytes
->  tests/data/acpi/pc/DSDT.hpbridge      | Bin 5969 -> 5954 bytes
->  tests/data/acpi/pc/DSDT.hpbrroot      | Bin 3084 -> 3069 bytes
->  tests/data/acpi/pc/DSDT.ipmikcs       | Bin 6074 -> 6059 bytes
->  tests/data/acpi/pc/DSDT.memhp         | Bin 7361 -> 7346 bytes
->  tests/data/acpi/pc/DSDT.nohpet        | Bin 5860 -> 5845 bytes
->  tests/data/acpi/pc/DSDT.numamem       | Bin 6008 -> 5993 bytes
->  tests/data/acpi/pc/DSDT.roothp        | Bin 6210 -> 6195 bytes
->  tests/data/acpi/q35/DSDT              | Bin 8289 -> 8274 bytes
->  tests/data/acpi/q35/DSDT.acpierst     | Bin 8306 -> 8291 bytes
->  tests/data/acpi/q35/DSDT.acpihmat     | Bin 9614 -> 9599 bytes
->  tests/data/acpi/q35/DSDT.applesmc     | Bin 0 -> 8320 bytes
->  tests/data/acpi/q35/DSDT.bridge       | Bin 11003 -> 10988 bytes
->  tests/data/acpi/q35/DSDT.cphp         | Bin 8753 -> 8738 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9943 -> 9928 bytes
->  tests/data/acpi/q35/DSDT.ipmibt       | Bin 8364 -> 8349 bytes
->  tests/data/acpi/q35/DSDT.ipmismbus    | Bin 0 -> 8363 bytes
->  tests/data/acpi/q35/DSDT.ivrs         | Bin 8306 -> 8291 bytes
->  tests/data/acpi/q35/DSDT.memhp        | Bin 9648 -> 9633 bytes
->  tests/data/acpi/q35/DSDT.mmio64       | Bin 9419 -> 9404 bytes
->  tests/data/acpi/q35/DSDT.multi-bridge | Bin 8583 -> 8568 bytes
->  tests/data/acpi/q35/DSDT.nohpet       | Bin 8147 -> 8132 bytes
->  tests/data/acpi/q35/DSDT.numamem      | Bin 8295 -> 8280 bytes
->  tests/data/acpi/q35/DSDT.pvpanic-isa  | Bin 0 -> 8375 bytes
->  tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8900 -> 8880 bytes
->  tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8921 -> 8906 bytes
->  tests/data/acpi/q35/DSDT.viot         | Bin 9398 -> 9383 bytes
->  tests/data/acpi/q35/DSDT.xapic        | Bin 35652 -> 35637 bytes
->  tests/qtest/bios-tables-test.c        |  40 ++++++
->  61 files changed, 360 insertions(+), 239 deletions(-)
->  create mode 100644 include/hw/acpi/acpi_aml_interface.h
->  create mode 100644 tests/data/acpi/q35/DSDT.applesmc
->  create mode 100644 tests/data/acpi/q35/DSDT.ipmismbus
->  create mode 100644 tests/data/acpi/q35/DSDT.pvpanic-isa
-> 
-> -- 
-> 2.31.1
+The following changes since commit 9de5f2b40860c5f8295e73fea9922df6f0b8d89a:
+
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-05-12 10:52:15 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 6852c21db229c4bf4c1db772444bdfbbd027e5b8:
+
+  vhost-user-scsi: avoid unlink(NULL) with fd passing (2022-05-16 16:48:35 -0400)
+
+----------------------------------------------------------------
+virtio,pc,pci: fixes,cleanups,features
+
+most of CXL support
+fixes, cleanups all over the place
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Alex Bennée (9):
+      hw/virtio: move virtio-pci.h into shared include space
+      virtio-pci: add notification trace points
+      hw/virtio: add vhost_user_[read|write] trace points
+      vhost-user.rst: add clarifying language about protocol negotiation
+      libvhost-user: expose vu_request_to_string
+      docs/devel: start documenting writing VirtIO devices
+      include/hw: start documenting the vhost API
+      hw/virtio/vhost-user: don't suppress F_CONFIG when supported
+      virtio/vhost-user: dynamically assign VhostUserHostNotifiers
+
+Ben Widawsky (24):
+      hw/pci/cxl: Add a CXL component type (interface)
+      hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+      hw/cxl/device: Introduce a CXL device (8.2.8)
+      hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+      hw/cxl/device: Implement basic mailbox (8.2.8.4)
+      hw/cxl/device: Add memory device utilities
+      hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+      hw/cxl/device: Timestamp implementation (8.2.9.3)
+      hw/cxl/device: Add log commands (8.2.9.4) + CEL
+      hw/pxb: Use a type for realizing expanders
+      hw/pci/cxl: Create a CXL bus type
+      hw/pxb: Allow creation of a CXL PXB (host bridge)
+      hw/cxl/rp: Add a root port
+      hw/cxl/device: Add a memory device (8.2.8.5)
+      hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+      hw/cxl/device: Add some trivial commands
+      hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
+      hw/cxl/device: Implement get/set Label Storage Area (LSA)
+      hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+      acpi/cxl: Add _OSC implementation (9.14.2)
+      acpi/cxl: Create the CEDT (9.14.1)
+      acpi/cxl: Introduce CFMWS structures in CEDT
+      hw/cxl/component Add a dumb HDM decoder handler
+      qtest/cxl: Add more complex test cases with CFMWs
+
+David Woodhouse (4):
+      target/i386: Fix sanity check on max APIC ID / X2APIC enablement
+      intel_iommu: Support IR-only mode without DMA translation
+      intel_iommu: Only allow interrupt remapping to be enabled if it's supported
+      intel_iommu: Fix irqchip / X2APIC configuration checks
+
+Eugenio Pérez (5):
+      vhost: Track descriptor chain in private at SVQ
+      vhost: Fix device's used descriptor dequeue
+      vdpa: Fix bad index calculus at vhost_vdpa_get_vring_base
+      vdpa: Fix index calculus at vhost_vdpa_svqs_start
+      vhost: Fix element in vhost_svq_add failure
+
+Francisco Iglesias (2):
+      include/hw/pci/pcie_host: Correct PCIE_MMCFG_BUS_MASK
+      include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX
+
+Halil Pasic (1):
+      virtio: fix feature negotiation for ACCESS_PLATFORM
+
+Ilya Maximets (1):
+      vhost_net: Print feature masks in hex
+
+Jason Wang (5):
+      intel-iommu: correct the value used for error_setg_errno()
+      intel-iommu: remove VTD_FR_RESERVED_ERR
+      intel-iommu: block output address in interrupt address range
+      intel-iommu: update root_scalable before switching as during post_load
+      intel-iommu: update iq_dw during post load
+
+Jonah Palmer (2):
+      virtio: drop name parameter for virtio_init()
+      virtio: add vhost support for virtio devices
+
+Jonathan Cameron (16):
+      MAINTAINERS: Add entry for Compute Express Link Emulation
+      cxl: Machine level control on whether CXL support is enabled
+      qtest/cxl: Introduce initial test for pxb-cxl only.
+      qtests/cxl: Add initial root port and CXL type3 tests
+      hw/cxl/component: Add utils for interleave parameter encoding/decoding
+      hw/cxl/host: Add support for CXL Fixed Memory Windows.
+      hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
+      pci/pcie_port: Add pci_find_port_by_pn()
+      CXL/cxl_component: Add cxl_get_hb_cstate()
+      mem/cxl_type3: Add read and write functions for associated hostmem.
+      cxl/cxl-host: Add memops for CFMWS region.
+      i386/pc: Enable CXL fixed memory windows
+      tests/acpi: q35: Allow addition of a CXL test.
+      qtests/bios-tables-test: Add a test for CXL emulation.
+      tests/acpi: Add tables for CXL emulation.
+      docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
+
+Kevin Wolf (1):
+      docs/vhost-user: Clarifications for VHOST_USER_ADD/REM_MEM_REG
+
+Michael S. Tsirkin (1):
+      vhost-user: more master/slave things
+
+Paolo Bonzini (3):
+      docs: vhost-user: clean up request/reply description
+      docs: vhost-user: rewrite section on ring state machine
+      docs: vhost-user: replace master/slave with front-end/back-end
+
+Philippe Mathieu-Daudé (1):
+      hw/virtio: Replace g_memdup() by g_memdup2()
+
+Si-Wei Liu (7):
+      virtio-net: setup vhost_dev and notifiers for cvq only when feature is negotiated
+      virtio-net: align ctrl_vq index for non-mq guest for vhost_vdpa
+      vhost-vdpa: fix improper cleanup in net_init_vhost_vdpa
+      vhost-net: fix improper cleanup in vhost_net_start
+      vhost-vdpa: backend feature should set only once
+      vhost-vdpa: change name and polarity for vhost_vdpa_one_time_request()
+      virtio-net: don't handle mq request in userspace handler for vhost-vdpa
+
+Stefan Hajnoczi (1):
+      vhost-user-scsi: avoid unlink(NULL) with fd passing
+
+Wei Huang (1):
+      hw/i386/amd_iommu: Fix IOMMU event log encoding errors
+
+Xiaoyao Li (2):
+      hw/i386: Make pit a property of common x86 base machine type
+      hw/i386: Make pic a property of common x86 base machine type
+
+ qapi/machine.json                         |  21 ++
+ hw/i386/intel_iommu_internal.h            |   9 +-
+ hw/virtio/vhost-shadow-virtqueue.h        |   6 +
+ include/hw/acpi/cxl.h                     |  28 ++
+ include/hw/boards.h                       |   2 +
+ include/hw/cxl/cxl.h                      |  61 ++++
+ include/hw/cxl/cxl_component.h            | 223 ++++++++++++
+ include/hw/cxl/cxl_device.h               | 268 ++++++++++++++
+ include/hw/cxl/cxl_pci.h                  | 167 +++++++++
+ include/hw/i386/intel_iommu.h             |   1 +
+ include/hw/i386/microvm.h                 |   4 -
+ include/hw/i386/pc.h                      |   2 -
+ include/hw/i386/x86.h                     |   4 +
+ include/hw/pci/pci.h                      |  14 +
+ include/hw/pci/pci_bridge.h               |  20 ++
+ include/hw/pci/pci_bus.h                  |   7 +
+ include/hw/pci/pci_ids.h                  |   1 +
+ include/hw/pci/pcie_host.h                |   6 +-
+ include/hw/pci/pcie_port.h                |   2 +
+ include/hw/virtio/vhost-user.h            |  43 ++-
+ include/hw/virtio/vhost-vsock-common.h    |   2 +-
+ include/hw/virtio/vhost.h                 | 132 ++++++-
+ include/hw/virtio/virtio-gpu.h            |   3 +-
+ {hw => include/hw}/virtio/virtio-pci.h    |   0
+ include/hw/virtio/virtio.h                |   7 +-
+ subprojects/libvhost-user/libvhost-user.h |   9 +
+ contrib/vhost-user-scsi/vhost-user-scsi.c |   5 +-
+ hw/9pfs/virtio-9p-device.c                |   2 +-
+ hw/acpi/cxl-stub.c                        |  12 +
+ hw/acpi/cxl.c                             | 257 +++++++++++++
+ hw/block/vhost-user-blk.c                 |   9 +-
+ hw/block/virtio-blk.c                     |   2 +-
+ hw/char/virtio-serial-bus.c               |   3 +-
+ hw/core/machine.c                         |  28 ++
+ hw/cxl/cxl-component-utils.c              | 396 ++++++++++++++++++++
+ hw/cxl/cxl-device-utils.c                 | 265 ++++++++++++++
+ hw/cxl/cxl-host-stubs.c                   |  16 +
+ hw/cxl/cxl-host.c                         | 222 ++++++++++++
+ hw/cxl/cxl-mailbox-utils.c                | 478 ++++++++++++++++++++++++
+ hw/display/vhost-user-gpu.c               |   7 +
+ hw/display/virtio-gpu-base.c              |   2 +-
+ hw/i386/acpi-build.c                      |  57 ++-
+ hw/i386/amd_iommu.c                       |  24 +-
+ hw/i386/intel_iommu.c                     |  95 +++--
+ hw/i386/microvm.c                         |  54 +--
+ hw/i386/pc.c                              |  89 +++--
+ hw/i386/pc_piix.c                         |   4 +-
+ hw/i386/pc_q35.c                          |   4 +-
+ hw/i386/x86.c                             |  66 ++++
+ hw/input/vhost-user-input.c               |   7 +
+ hw/input/virtio-input.c                   |   3 +-
+ hw/mem/cxl_type3.c                        | 371 +++++++++++++++++++
+ hw/net/vhost_net.c                        |   8 +-
+ hw/net/virtio-net.c                       |  63 +++-
+ hw/pci-bridge/cxl_root_port.c             | 236 ++++++++++++
+ hw/pci-bridge/pci_expander_bridge.c       | 168 ++++++++-
+ hw/pci-bridge/pcie_root_port.c            |   6 +-
+ hw/pci-host/gpex-acpi.c                   |  20 +-
+ hw/pci/pci.c                              |  21 +-
+ hw/pci/pcie_port.c                        |  25 ++
+ hw/scsi/vhost-scsi.c                      |   8 +
+ hw/scsi/vhost-user-scsi.c                 |   1 +
+ hw/scsi/virtio-scsi.c                     |   3 +-
+ hw/virtio/vhost-scsi-pci.c                |   2 +-
+ hw/virtio/vhost-shadow-virtqueue.c        |  35 +-
+ hw/virtio/vhost-user-blk-pci.c            |   2 +-
+ hw/virtio/vhost-user-fs-pci.c             |   2 +-
+ hw/virtio/vhost-user-fs.c                 |  10 +-
+ hw/virtio/vhost-user-i2c-pci.c            |   2 +-
+ hw/virtio/vhost-user-i2c.c                |   7 +-
+ hw/virtio/vhost-user-input-pci.c          |   2 +-
+ hw/virtio/vhost-user-rng-pci.c            |   2 +-
+ hw/virtio/vhost-user-rng.c                |   9 +-
+ hw/virtio/vhost-user-scsi-pci.c           |   2 +-
+ hw/virtio/vhost-user-vsock-pci.c          |   2 +-
+ hw/virtio/vhost-user-vsock.c              |   2 +-
+ hw/virtio/vhost-user.c                    | 131 +++++--
+ hw/virtio/vhost-vdpa.c                    |  29 +-
+ hw/virtio/vhost-vsock-common.c            |  12 +-
+ hw/virtio/vhost-vsock-pci.c               |   2 +-
+ hw/virtio/vhost-vsock.c                   |   2 +-
+ hw/virtio/vhost.c                         |   4 +-
+ hw/virtio/virtio-9p-pci.c                 |   2 +-
+ hw/virtio/virtio-balloon-pci.c            |   2 +-
+ hw/virtio/virtio-balloon.c                |   3 +-
+ hw/virtio/virtio-blk-pci.c                |   2 +-
+ hw/virtio/virtio-bus.c                    |  22 +-
+ hw/virtio/virtio-crypto.c                 |  18 +-
+ hw/virtio/virtio-input-host-pci.c         |   2 +-
+ hw/virtio/virtio-input-pci.c              |   2 +-
+ hw/virtio/virtio-iommu-pci.c              |   2 +-
+ hw/virtio/virtio-iommu.c                  |   3 +-
+ hw/virtio/virtio-mem.c                    |   3 +-
+ hw/virtio/virtio-net-pci.c                |   2 +-
+ hw/virtio/virtio-pci.c                    |   5 +-
+ hw/virtio/virtio-pmem.c                   |   3 +-
+ hw/virtio/virtio-rng-pci.c                |   2 +-
+ hw/virtio/virtio-rng.c                    |   2 +-
+ hw/virtio/virtio-scsi-pci.c               |   2 +-
+ hw/virtio/virtio-serial-pci.c             |   2 +-
+ hw/virtio/virtio.c                        |  56 ++-
+ net/vhost-vdpa.c                          |   4 +-
+ softmmu/vl.c                              |  47 +++
+ subprojects/libvhost-user/libvhost-user.c |   2 +-
+ target/i386/kvm/kvm-cpu.c                 |   2 +-
+ tests/qtest/bios-tables-test.c            |  44 +++
+ tests/qtest/cxl-test.c                    | 151 ++++++++
+ MAINTAINERS                               |   7 +
+ docs/devel/index-internals.rst            |   1 +
+ docs/devel/virtio-backends.rst            | 214 +++++++++++
+ docs/interop/vhost-user-gpu.rst           |  10 +-
+ docs/interop/vhost-user.rst               | 579 ++++++++++++++++--------------
+ docs/system/device-emulation.rst          |   1 +
+ docs/system/devices/cxl.rst               | 302 ++++++++++++++++
+ hw/Kconfig                                |   1 +
+ hw/acpi/Kconfig                           |   5 +
+ hw/acpi/meson.build                       |   4 +-
+ hw/arm/Kconfig                            |   1 +
+ hw/cxl/Kconfig                            |   3 +
+ hw/cxl/meson.build                        |  12 +
+ hw/mem/Kconfig                            |   5 +
+ hw/mem/meson.build                        |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-bridge/Kconfig                     |   5 +
+ hw/pci-bridge/meson.build                 |   1 +
+ hw/virtio/trace-events                    |  10 +-
+ qemu-options.hx                           |  38 ++
+ scripts/device-crash-test                 |   1 +
+ tests/data/acpi/q35/CEDT.cxl              | Bin 0 -> 184 bytes
+ tests/data/acpi/q35/DSDT.cxl              | Bin 0 -> 9615 bytes
+ tests/qtest/meson.build                   |   4 +
+ 131 files changed, 5352 insertions(+), 577 deletions(-)
+ create mode 100644 include/hw/acpi/cxl.h
+ create mode 100644 include/hw/cxl/cxl.h
+ create mode 100644 include/hw/cxl/cxl_component.h
+ create mode 100644 include/hw/cxl/cxl_device.h
+ create mode 100644 include/hw/cxl/cxl_pci.h
+ rename {hw => include/hw}/virtio/virtio-pci.h (100%)
+ create mode 100644 hw/acpi/cxl-stub.c
+ create mode 100644 hw/acpi/cxl.c
+ create mode 100644 hw/cxl/cxl-component-utils.c
+ create mode 100644 hw/cxl/cxl-device-utils.c
+ create mode 100644 hw/cxl/cxl-host-stubs.c
+ create mode 100644 hw/cxl/cxl-host.c
+ create mode 100644 hw/cxl/cxl-mailbox-utils.c
+ create mode 100644 hw/mem/cxl_type3.c
+ create mode 100644 hw/pci-bridge/cxl_root_port.c
+ create mode 100644 tests/qtest/cxl-test.c
+ create mode 100644 docs/devel/virtio-backends.rst
+ create mode 100644 docs/system/devices/cxl.rst
+ create mode 100644 hw/cxl/Kconfig
+ create mode 100644 hw/cxl/meson.build
+ create mode 100644 tests/data/acpi/q35/CEDT.cxl
+ create mode 100644 tests/data/acpi/q35/DSDT.cxl
 
 
