@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123B952857A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 15:36:33 +0200 (CEST)
-Received: from localhost ([::1]:56856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8C7528614
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 15:56:00 +0200 (CEST)
+Received: from localhost ([::1]:37158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqatk-0003io-6u
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 09:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60476)
+	id 1nqbCY-0002FK-Nx
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 09:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqasW-0002jL-FV
- for qemu-devel@nongnu.org; Mon, 16 May 2022 09:35:16 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:34672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqasU-0004Mt-Sy
- for qemu-devel@nongnu.org; Mon, 16 May 2022 09:35:16 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2ff1ed64f82so2075787b3.1
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 06:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jbhyEbyvD+uYSBvHJ8EQP/lrd64If6VR1aJBV/+Npxg=;
- b=in4G59uA0irOQ75L835YFRIWJ33B+ZOW2yhmU2rTzacbBPaqmmT+15UPdLvkUg07dp
- mjCTGkZrrQJbrWu2csVj0cUS2nUA5btzTg4rEtVXpV0UkmdDB+oymShxkp+80L3/ImTo
- Rr4/l968itg/mfao6Z/UpmNpZFYMhOEUcGyWAGy8CGnoM+JgYc0i3A+RvthMtXV6djND
- 7gtoHVzmO7ZVXFuQtdKkGyh5ZXymx1EhYEYKqd+h+APGI1xhuM8nxnRDepQPFYJeyneq
- 33hcrJjqBqGrhGtmyNa8Lu+cUVKMxvuNqgWLF63MDUgHwB2SxFMaY/tuP2OTiDIEyEqg
- S5WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jbhyEbyvD+uYSBvHJ8EQP/lrd64If6VR1aJBV/+Npxg=;
- b=45K9HQr/hQy690c3UimeiPH09jdZwdbkfVNbKGXH7vsisxN/FZHQ3rMJS6stCNRwD5
- OcxJ0DNpBE0APgcX9mw+t1USKlobT5gv3WnDCjgC/mFW9Sbd7q4VUqtWtm72PIs6spjr
- QumiABRXtbCKzIQLmShecFTFira/96zhjMjCtAnwcZyNgVNnQlqSYzoG9XKnv6ZAjHL0
- C3DB8I/SuGVLkfCat3+S9chsyLNi7Dl+NMmF7jh6zZynDEBYFJso3NIN+RmZmGuzvzr5
- OetQB/VaXUHqhNGTEE7j911Eyg054hWVglp/LjA4+LYwR0OryxwirYDCTuS1BcvNNp2H
- e+fw==
-X-Gm-Message-State: AOAM531jidMsA3Nt4G+Kt27EcaREvkIRAC2YHRZEnF0nh7g/yMsFLLFa
- QJPX1AtbnGcFrF9xIXoMZ4VMSuzevJpvVF6xCSQMzQ==
-X-Google-Smtp-Source: ABdhPJwxMB2CJJvZBrrQvGMGuAmRbNbGoDRuKpDSoSOQ/gzDLBZXux5OdlOEZdZXy/WE+uHHx1WWDuL7at9FETgX3YU=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr20022111ywf.347.1652708113958; Mon, 16
- May 2022 06:35:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nqb87-0001TX-V9
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 09:51:23 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:33701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nqb85-0007RO-HT
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 09:51:23 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.158])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 2CABD2621C;
+ Mon, 16 May 2022 13:51:17 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Mon, 16 May
+ 2022 15:51:16 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G0062fc95aee-1932-4d73-8eed-cb6be73ce4ef,
+ 182B8575423FAF1F37CDABDABB9637A2CFA4B440) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b89bb57d-bf00-806c-52e6-9e55c24257a8@kaod.org>
+Date: Mon, 16 May 2022 15:51:15 +0200
 MIME-Version: 1.0
-References: <20220516103058.162280-1-peter.maydell@linaro.org>
- <20220516131032.ykidzcfvjhxqmets@debian>
-In-Reply-To: <20220516131032.ykidzcfvjhxqmets@debian>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 May 2022 14:35:02 +0100
-Message-ID: <CAFEAcA94EpfKrgYjupzDacvVn+c45ao_fdYaDjMp7mCUbacN6A@mail.gmail.com>
-Subject: Re: [PATCH] ptimer: Rename PTIMER_POLICY_DEFAULT to
- PTIMER_POLICY_LEGACY
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Getting rid of the last bits of QEMU's 'ad-hoc CI' for merges
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, QEMU Developers
+ <qemu-devel@nongnu.org>
+CC: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>, Stefan Hajnoczi <stefanha@redhat.com>, Daniel
+ Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Thomas Huth
+ <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <CAFEAcA_SSJ9BBryV0iuXi1G30e6HoMeuNbSpKDh4_+y2oxTLJw@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAFEAcA_SSJ9BBryV0iuXi1G30e6HoMeuNbSpKDh4_+y2oxTLJw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 43a4fd21-5de8-42ee-8210-fa8f66b84860
+X-Ovh-Tracer-Id: 6256625783632530354
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrheehgdeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsghlvggrlhesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,47 +79,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 May 2022 at 14:10, Francisco Iglesias
-<francisco.iglesias@xilinx.com> wrote:
->
-> On Mon, May 16, 2022 at 11:30:58AM +0100, Peter Maydell wrote:
-> > The traditional ptimer behaviour includes a collection of weird edge
-> > case behaviours.  In 2016 we improved the ptimer implementation to
-> > fix these and generally make the behaviour more flexible, with
-> > ptimers opting in to the new behaviour by passing an appropriate set
-> > of policy flags to ptimer_init().  For backwards-compatibility, we
-> > defined PTIMER_POLICY_DEFAULT (which sets no flags) to give the old
-> > weird behaviour.
-> >
-> > This turns out to be a poor choice of name, because people writing
-> > new devices which use ptimers are misled into thinking that the
-> > default is probably a sensible choice of flags, when in fact it is
-> > almost always not what you want.  Rename PTIMER_POLICY_DEFAULT to
-> > PTIMER_POLICY_LEGACY and beef up the comment to more clearly say that
-> > new devices should not be using it.
-> >
-> > The code-change part of this commit was produced by
-> >   sed -i -e 's/PTIMER_POLICY_DEFAULT/PTIMER_POLICY_LEGACY/g' $(git grep -l PTIMER_POLICY_DEFAULT)
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On 5/16/22 14:43, Peter Maydell wrote:
+> We've made pretty good progress on transitioning our pre-merge CI
+> from running ad-hoc on machines the person doing the merge has access to
+> to all CI being driven by the Gitlab CI infrastructure. For this (7.1) release
+> cycle I think ideally we should try to get rid of the last few bits
+> of ad-hoc CI so that for 7.2 we are using only the gitlab CI. (This
+> will help in handing over merge request management to Stefan for 7.2.)
+> 
+> I think the last setups I have been using ad-hoc scripting for are:
+> 
+> (1) PPC64 big-endian Linux
+> (2) NetBSD (x86)
+> (3) OpenBSD (x86)
+> 
+> I think we can get away with just dropping ppc64be -- we have
+> coverage for it as a cross-compile setup, and hopefully the
+> s390x CI runner will catch the various "fails tests on big-endian host"
+> issues. (Alternatively if anybody has a ppc64be machine they'd like
+> to let us run a gitlab CI runner on, we could do that :-))
 
+No recent HW (P8 and above) would run a PPC64 BE distro if LE is
+supported by HW.
+  
+The only BE-only HW would be a G5 (970) or a P7 (with OPAL).
+These are really scarce now and I doubt they would be accessible
+for external jobs.
 
-> > --- a/tests/unit/ptimer-test.c
-> > +++ b/tests/unit/ptimer-test.c
-> > @@ -768,7 +768,7 @@ static void add_ptimer_tests(uint8_t policy)
-> >      char policy_name[256] = "";
-> >      char *tmp;
-> >
-> > -    if (policy == PTIMER_POLICY_DEFAULT) {
-> > +    if (policy == PTIMER_POLICY_LEGACY) {
-> >          g_sprintf(policy_name, "default");
->
-> Hi Peter,
->
-> It might be that above is clearer after this patch with "legacy"
+The simplest would be to run a pseries KVM guest or PowerVM LPAR
+with a debian sid, which still supports BE. Where is the question.
 
-Oops, yes, we should adjust the test name string there too.
+C.
 
-thanks
--- PMM
+> 
+> For the BSDs, the ad-hoc CI is just running the tests/vm
+> "make vm-build-netbsd" etc. Is there some way we can get
+> coverage of this into the gitlab CI setup? (I think we
+> have FreeBSD via Cirrus CI, so I have not listed that one.)
+> 
+> thanks
+> -- PMM
+> 
+
 
