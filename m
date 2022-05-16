@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAF85283C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:02:47 +0200 (CEST)
-Received: from localhost ([::1]:37216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A655283D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:05:00 +0200 (CEST)
+Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZR0-0007B3-Oo
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:02:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48990)
+	id 1nqZT9-0004p3-97
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7u-0000ox-T6
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20763)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7y-00010j-Ha
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7t-0005Xf-2n
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:58 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7w-0005YO-SD
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697536;
+ s=mimecast20190719; t=1652697540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YtuLKHZQnIkaXOfZ3CPnLzT68FYvl3RPQfjN7N+G8D0=;
- b=BkPQOPMGyweoP3DBPgyaI/X5W2NuWNgddZ6vfgbQ4lsNo7tS3mFshyWyZniah7RGyfq11i
- OsOPTx/id1Ei5cUVAJ70eBA8/nZEEL7put/zU3s2BuzCAILTBlDIS+dXyRMTgSoe7Um4pn
- bZv+jjaBb8a0+xkrrOpYGfUUCDQMgiQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6JmJU4DQmPiF4o0kvzjn2IEoCR0HTcDGEzmB5vNcXOg=;
+ b=Dfz2VIHD64q2NW5Mm97Ofvphx0f1Xnxk+QFh7JWpNiEM6x+0g0unVfoEqpHkcmj+wguBO+
+ oa3hQ7yF2L9b0SXddILHfhDbEY1jDfy7KlC1c36ehISBoBexAyhQ+zHk06U8Hkf+GWkw7p
+ MODo7Vo2fGPDYO+peF17po6ZxOw/3VA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-522-vYt7-je7NMS13J1ZcQo6TA-1; Mon, 16 May 2022 06:38:55 -0400
-X-MC-Unique: vYt7-je7NMS13J1ZcQo6TA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r186-20020a1c44c3000000b00393f52ed5ceso10138999wma.7
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:55 -0700 (PDT)
+ us-mta-346-wpIUWoRWOC6kn9YlSraE9w-1; Mon, 16 May 2022 06:38:59 -0400
+X-MC-Unique: wpIUWoRWOC6kn9YlSraE9w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 26-20020a05600c021a00b003940660c053so6566299wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=YtuLKHZQnIkaXOfZ3CPnLzT68FYvl3RPQfjN7N+G8D0=;
- b=w8LauHTILqEFpNa7SiVFBiqh7PpnQf9q02pcPqQAtPLm3j39Sb/yGqFmc8tlJ31Ld9
- nQP8Rk1EGXyBWlqEVRRi825/UXZc4zvSKnjMkMKWI6YDGylpFKpFQIkTAu6CVSuXdYJe
- xW/azcKaOPnZo0aIyU0TMuQzkEvPVFWWu6xbbyBl3fkUt9uAhx+q49d6priXWX+Zi12w
- mPF4eJvPjDw9CapyzoPJLjGaW/AbOkxNcsrrMqOHfttv3tEBRRJelGJ0FlfMoMrI+2Ds
- iVhxPqYKB5cpB7LAfh5OenYPQwyqa2Xy7ZCwrlhVCU8D8z1j6LuaO0Sx5PM/9g+ECXR0
- DsPw==
-X-Gm-Message-State: AOAM533mRhL7vlr/jwY9m9QBUTvPws7oW+kuJEpCx7YV5iQANRXGl+Sy
- P6ws54AYXIuFLRZnHs55381h8NPydxwEJRz9gFcuawl49wCKLFMSwmSGH3KHWikSeuYo8dkp2jG
- RbDvB3nB4tKbAc4crHq7QWP06AFiN6p1L+ctgicCvAlGcstfvijeUDUSjdx6u
-X-Received: by 2002:a7b:c086:0:b0:393:f6fa:cfc7 with SMTP id
- r6-20020a7bc086000000b00393f6facfc7mr27114542wmh.62.1652697533970; 
- Mon, 16 May 2022 03:38:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwhYMaLVBS5xW4bDLp9snIpQKb4El2oEZZEA16dQfiF0IDknKojX+IvW251dpfWvCNKNKvWmQ==
-X-Received: by 2002:a7b:c086:0:b0:393:f6fa:cfc7 with SMTP id
- r6-20020a7bc086000000b00393f6facfc7mr27114517wmh.62.1652697533685; 
- Mon, 16 May 2022 03:38:53 -0700 (PDT)
+ bh=6JmJU4DQmPiF4o0kvzjn2IEoCR0HTcDGEzmB5vNcXOg=;
+ b=7pvRJS8bXVzBA+SpsF77dkD0n6ixUewuwvoGnyoj8z9FcjGqV5B/ODMfgh9i/NLWDY
+ 09nv8d3eHDufG21Jcv+spGHcF7wwxmioCOpAaRvLy0Ys0Qfj+Oy49+oRts/MSbHyCvvQ
+ I3v4q3C4tMEicOX4U0UDU1WFjISOuOVSGIccfUvcZuVK4TKVhh4wXPGpPMFPfkFeUDSV
+ dRC5JyRHExymWAhJMhAR/M7VgLfv2rc5n6f5In1+fbK71H46qQ2f9rjlgI5DwO8KGaKc
+ 3zX2B/GDz2XVIsv1pInijfdAG0ciRWutisDfKi5/MT+siQhE2+LSdsQyF83izQ9OwT6/
+ iyxQ==
+X-Gm-Message-State: AOAM531+rgunkC5eQxgXmaydfMd9E2e1zkyrSL3Cy5P3ouYyno9n8l86
+ zBupsdWS1kaCSaAWZh9F84Ucsd5TPWjca+NVUUSZNP2EdEtAeb2t/7X4kWnfA+JRsWgtkSjM2Iq
+ 7BURdpsBmPu/876hmvUDYOQEomo5gLTD3xsEffG+ta650BzrykKdc+/EtLtHq
+X-Received: by 2002:a5d:5541:0:b0:20d:a89:ae21 with SMTP id
+ g1-20020a5d5541000000b0020d0a89ae21mr2729230wrw.176.1652697537616; 
+ Mon, 16 May 2022 03:38:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfDsoXPKYffRXQI5kKBwlZ4QVzBY+N2Q5K5OPpU0RykZap20psiVEc5oFoJUfHSapCJBNYCA==
+X-Received: by 2002:a5d:5541:0:b0:20d:a89:ae21 with SMTP id
+ g1-20020a5d5541000000b0020d0a89ae21mr2729205wrw.176.1652697537280; 
+ Mon, 16 May 2022 03:38:57 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- m18-20020a05600c3b1200b00397071b10dfsm2986416wms.10.2022.05.16.03.38.51
+ r17-20020adfbb11000000b0020c5253d920sm10614378wrg.108.2022.05.16.03.38.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:38:53 -0700 (PDT)
-Date: Mon, 16 May 2022 06:38:50 -0400
+ Mon, 16 May 2022 03:38:56 -0700 (PDT)
+Date: Mon, 16 May 2022 06:38:54 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 55/91] intel-iommu: update root_scalable before switching as
- during post_load
-Message-ID: <20220516095448.507876-56-mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 56/91] intel-iommu: update iq_dw during post load
+Message-ID: <20220516095448.507876-57-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -104,56 +103,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-We need check whether passthrough is enabled during
-vtd_switch_address_space() by checking the context entries. This
-requires the root_scalable to be set correctly otherwise we may try to
-check legacy rsvd bits instead of scalable ones.
-
-Fixing this by updating root_scalable before switching the address
-spaces during post_load.
+We need to update iq_dw according to the DMA_IRQ_REG during post
+load. Otherwise we may get wrong IOTLB invalidation descriptor after
+migration.
 
 Fixes: fb43cf739e ("intel_iommu: scalable mode emulation")
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20220317080522.14621-1-jasowang@redhat.com>
+Message-Id: <20220317080522.14621-2-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- hw/i386/intel_iommu.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/i386/intel_iommu.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 695dd51dc3..53e3f5035d 100644
+index 53e3f5035d..2162394e08 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -3073,13 +3073,6 @@ static int vtd_post_load(void *opaque, int version_id)
- {
-     IntelIOMMUState *iommu = opaque;
+@@ -181,6 +181,18 @@ static void vtd_update_scalable_state(IntelIOMMUState *s)
+     }
+ }
  
--    /*
--     * Memory regions are dynamically turned on/off depending on
--     * context entry configurations from the guest. After migration,
--     * we need to make sure the memory regions are still correct.
--     */
--    vtd_switch_address_space_all(iommu);
--
-     /*
-      * We don't need to migrate the root_scalable because we can
-      * simply do the calculation after the loading is complete.  We
-@@ -3089,6 +3082,13 @@ static int vtd_post_load(void *opaque, int version_id)
++static void vtd_update_iq_dw(IntelIOMMUState *s)
++{
++    uint64_t val = vtd_get_quad_raw(s, DMAR_IQA_REG);
++
++    if (s->ecap & VTD_ECAP_SMTS &&
++        val & VTD_IQA_DW_MASK) {
++        s->iq_dw = true;
++    } else {
++        s->iq_dw = false;
++    }
++}
++
+ /* Whether the address space needs to notify new mappings */
+ static inline gboolean vtd_as_has_map_notifier(VTDAddressSpace *as)
+ {
+@@ -2904,12 +2916,7 @@ static void vtd_mem_write(void *opaque, hwaddr addr,
+         } else {
+             vtd_set_quad(s, addr, val);
+         }
+-        if (s->ecap & VTD_ECAP_SMTS &&
+-            val & VTD_IQA_DW_MASK) {
+-            s->iq_dw = true;
+-        } else {
+-            s->iq_dw = false;
+-        }
++        vtd_update_iq_dw(s);
+         break;
+ 
+     case DMAR_IQA_REG_HI:
+@@ -3082,6 +3089,8 @@ static int vtd_post_load(void *opaque, int version_id)
       */
      vtd_update_scalable_state(iommu);
  
-+    /*
-+     * Memory regions are dynamically turned on/off depending on
-+     * context entry configurations from the guest. After migration,
-+     * we need to make sure the memory regions are still correct.
-+     */
-+    vtd_switch_address_space_all(iommu);
++    vtd_update_iq_dw(iommu);
 +
-     return 0;
- }
- 
+     /*
+      * Memory regions are dynamically turned on/off depending on
+      * context entry configurations from the guest. After migration,
 -- 
 MST
 
