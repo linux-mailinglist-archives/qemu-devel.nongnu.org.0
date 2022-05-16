@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337015283FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:17:27 +0200 (CEST)
-Received: from localhost ([::1]:33552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF09528414
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:21:52 +0200 (CEST)
+Received: from localhost ([::1]:42038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZfC-0007tC-AT
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:17:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49628)
+	id 1nqZjT-0005Sa-RX
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY96-0002TR-AD
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY96-0002UG-Kw
  for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44801)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY91-0005jg-Ro
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:11 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY94-0005jw-7r
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697607;
+ s=mimecast20190719; t=1652697609;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ij1YepwVQuKNjL4MRrniqnG1/U9jCh0uvmVie3IdLFM=;
- b=byFVpeKt+tvt7XijQHA4b5YtsVcrLgJJE9uIKh3ApKqMKmGROP0RzfP2A7casMWupD7C2k
- RC8MzbG5cm8+0ku89QcIUtMk6xt/mcRGfUARr0liyJFDLIXTvuNzwkC890W98oZLsq1ICI
- UOwQM+1mT67qEdseS5EmdUBAx6NMgJc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2YbWnEu5E2rijaHJiD+eoN7xDKLcXglpGNvVzvkLJCc=;
+ b=FXtV2ybSJ4nHEdYdVNTuuUlmbpEns4iVb2U58/3YYpqzK1Pln/+zArm0c7vbyPVavR5hKS
+ bVocg2WuZr2OYGOZlrjN/eVBvsoJwpqiCvBr7D5vDo1Jv/cF2Y+iI791VSMeaKDe1VFmDn
+ 2IRWu9/Nnby/uSMeBU30Qyi4EKdXVm8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-8GLOoXYVOrOjhxDGIyA2Jw-1; Mon, 16 May 2022 06:40:06 -0400
-X-MC-Unique: 8GLOoXYVOrOjhxDGIyA2Jw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e11-20020adffc4b000000b0020d059c2347so414127wrs.18
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:05 -0700 (PDT)
+ us-mta-589-e_ju7jeCOKOBwI0d-uwSmQ-1; Mon, 16 May 2022 06:40:08 -0400
+X-MC-Unique: e_ju7jeCOKOBwI0d-uwSmQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i131-20020a1c3b89000000b00393fbb0718bso10165747wma.0
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Ij1YepwVQuKNjL4MRrniqnG1/U9jCh0uvmVie3IdLFM=;
- b=u4fnF/KVQ3L/QLO2R8tJ9JRetFpjR0yYk032egl4HAgO7Wj6Fnuws9Pqg5ipsQOfGm
- sVg6JytnHp74/rZJssSfW0Xu8HqQM4nijaPZYVo6vYpWztyISilmFvpYQ7yhhAz3BJxO
- 0MrVPd6K/UtllZJKBvXz2xEVvUBa5E9Z5iSDcw/yJyl4e6RAmEnd+HoSQQAJmLbgODeC
- V6KfRWWhtAST/XnISnMMPLAZRTYTtH6nl6jztSSlCSPU2vHZm0VbcAbisCFvIKH3e5J+
- D9UwQyd4aMV2fEVlhaEtexHc7tU/zdRV1rscel82zBD2Sw4zJVozfr16AbSUF0azbabg
- vG8w==
-X-Gm-Message-State: AOAM532M3pHtLY41fpxjqDWFUuLHluzmbKo3XwdPWrKG0/hF0DxXYE9M
- sQeEslJAT5EC1PZXQRpJNIKiBmi1INaU5m8K0CcRpCN1j5iEnND+yksqHAcnasZMX4epF9pziX0
- ZEtMEdGkFQscFzC29RbZQiFjew5NlNMU7p2bqA5I6tJNoEUPL/tZ7P3jg0/M4
-X-Received: by 2002:adf:dc0e:0:b0:20c:8a3f:b523 with SMTP id
- t14-20020adfdc0e000000b0020c8a3fb523mr13746136wri.201.1652697602994; 
- Mon, 16 May 2022 03:40:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpi+qVDyaQFf8h26uhRpT3BbbfBMyoc9QnfDZU1b1rHQTGLR8pCan95/IuB3t7feRz1ZHSSw==
-X-Received: by 2002:adf:dc0e:0:b0:20c:8a3f:b523 with SMTP id
- t14-20020adfdc0e000000b0020c8a3fb523mr13746077wri.201.1652697602263; 
- Mon, 16 May 2022 03:40:02 -0700 (PDT)
+ bh=2YbWnEu5E2rijaHJiD+eoN7xDKLcXglpGNvVzvkLJCc=;
+ b=cH8/78Bgr+XmqT6mRc6TZJQtvaY9lkvrPH5Bmyw1FbrPoQv6uyS9hHYE3L3y8BU5cZ
+ 9r8NHOZiq3eP2+aHZ5PlbpOMCgc24EDFDijTFAl8+gK2EwpWm3JsNKyjScbmOgrrRfif
+ hRc3XHgO9AwFzmau8d4ObCq/n3asVIeTHmqKeJtx9+El4c3/29iQM2/lZo2+cR4zIm0h
+ uB5/nAghTqkviNZhO2bzfKTYEgIyI99S9jUKVgoLDGSR60c6ZnXiyn0owgcPyQoWEnrg
+ B09pdWs2krETLgOtbud20e0nxhJ1rSqPunRD6TJ5QWibf8SwVyZy9vK97iGt7EbJeD+Y
+ /JxQ==
+X-Gm-Message-State: AOAM530pj/Jsvq0dYWCd1Z1JZG8q+PZNh7tk/8MUgnteO/k+2ChFiLyw
+ UA43mGQtkI0pI1gfuHD+AZKHxlmXarutIokBwYGyIIRqxrfdSEDzP+o4U6wS64fuu6GcKiPCM4S
+ dOIoA8TSj9tNm/UeVIRBcpNnuRpYzmUed6NtF8BbFRJh4X8fTo8flvdD8Xzvk
+X-Received: by 2002:a5d:4b47:0:b0:20a:d4b5:83e2 with SMTP id
+ w7-20020a5d4b47000000b0020ad4b583e2mr13543572wrs.503.1652697606632; 
+ Mon, 16 May 2022 03:40:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+FCiiuVctNxXx9zryq3/wbhLSCc6nfLTGuTX7HbCyhLY6eK2X6GiDwvVRLrftJcJpgQWv1A==
+X-Received: by 2002:a5d:4b47:0:b0:20a:d4b5:83e2 with SMTP id
+ w7-20020a5d4b47000000b0020ad4b583e2mr13543543wrs.503.1652697606252; 
+ Mon, 16 May 2022 03:40:06 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- o5-20020adf8b85000000b0020c5253d8f0sm9147073wra.60.2022.05.16.03.39.58
+ j6-20020a05600c2b8600b00395cf2c55d5sm9133681wmc.42.2022.05.16.03.40.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:40:01 -0700 (PDT)
-Date: Mon, 16 May 2022 06:39:56 -0400
+ Mon, 16 May 2022 03:40:05 -0700 (PDT)
+Date: Mon, 16 May 2022 06:40:02 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>,
- Jonah Palmer <jonah.palmer@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Amit Shah <amit@kernel.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Eric Auger <eric.auger@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- virtio-fs@redhat.com
-Subject: [PULL 74/91] qmp: decode feature & status bits in virtio-status
-Message-ID: <20220516095448.507876-75-mst@redhat.com>
+ Jonah Palmer <jonah.palmer@oracle.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PULL 75/91] qmp: add QMP commands for virtio/vhost queue-status
+Message-ID: <20220516095448.507876-76-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -112,1099 +101,415 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-Display feature names instead of bitmaps for host, guest, and
-backend for VirtIODevices.
-
-Display status names instead of bitmaps for VirtIODevices.
-
-Display feature names instead of bitmaps for backend, protocol,
-acked, and features (hdev->features) for vhost devices.
-
-Decode features according to device ID. Decode statuses
-according to configuration status bitmap (config_status_map).
-Decode vhost user protocol features according to vhost user
-protocol bitmap (vhost_user_protocol_map).
-
-Transport features are on the first line. Undecoded bits (if
-any) are stored in a separate field.
+These new commands show the internal status of a VirtIODevice's
+VirtQueue and a vhost device's vhost_virtqueue (if active).
 
 Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
-Message-Id: <1648819405-25696-6-git-send-email-jonah.palmer@oracle.com>
+Message-Id: <1648819405-25696-7-git-send-email-jonah.palmer@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- qapi/virtio.json               | 156 ++++++++++++++---
- include/hw/virtio/vhost.h      |   3 +
- include/hw/virtio/virtio.h     |  19 +++
- hw/block/virtio-blk.c          |  29 ++++
- hw/char/virtio-serial-bus.c    |  11 ++
- hw/display/virtio-gpu.c        |  18 ++
- hw/input/virtio-input.c        |  10 ++
- hw/net/virtio-net.c            |  47 +++++
- hw/scsi/virtio-scsi.c          |  17 ++
- hw/virtio/vhost-user-fs.c      |  10 ++
- hw/virtio/vhost-user-i2c.c     |  14 ++
- hw/virtio/vhost-vsock-common.c |  10 ++
- hw/virtio/virtio-balloon.c     |  14 ++
- hw/virtio/virtio-crypto.c      |  10 ++
- hw/virtio/virtio-iommu.c       |  14 ++
- hw/virtio/virtio-mem.c         |  11 ++
- hw/virtio/virtio.c             | 302 ++++++++++++++++++++++++++++++++-
- 17 files changed, 667 insertions(+), 28 deletions(-)
+ qapi/virtio.json        | 252 ++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-stub.c |  14 +++
+ hw/virtio/virtio.c      | 103 ++++++++++++++++
+ 3 files changed, 369 insertions(+)
 
 diff --git a/qapi/virtio.json b/qapi/virtio.json
-index ba61d83df7..474a8bd64e 100644
+index 474a8bd64e..44cc05ceeb 100644
 --- a/qapi/virtio.json
 +++ b/qapi/virtio.json
-@@ -106,10 +106,10 @@
-             'n-tmp-sections': 'int',
-             'nvqs': 'uint32',
-             'vq-index': 'int',
--            'features': 'uint64',
--            'acked-features': 'uint64',
--            'backend-features': 'uint64',
--            'protocol-features': 'uint64',
-+            'features': 'VirtioDeviceFeatures',
-+            'acked-features': 'VirtioDeviceFeatures',
-+            'backend-features': 'VirtioDeviceFeatures',
-+            'protocol-features': 'VhostDeviceProtocols',
-             'max-queues': 'uint64',
-             'backend-cap': 'uint64',
-             'log-enabled': 'bool',
-@@ -176,11 +176,11 @@
-             'device-id': 'uint16',
-             'vhost-started': 'bool',
-             'device-endian': 'str',
--            'guest-features': 'uint64',
--            'host-features': 'uint64',
--            'backend-features': 'uint64',
-+            'guest-features': 'VirtioDeviceFeatures',
-+            'host-features': 'VirtioDeviceFeatures',
-+            'backend-features': 'VirtioDeviceFeatures',
-             'num-vqs': 'int',
--            'status': 'uint8',
-+            'status': 'VirtioDeviceStatus',
-             'isr': 'uint8',
-             'queue-sel': 'uint16',
-             'vm-running': 'bool',
-@@ -222,14 +222,28 @@
- #            "name": "virtio-crypto",
- #            "started": true,
- #            "device-id": 20,
--#            "backend-features": 0,
-+#            "backend-features": {
-+#               "transports": [],
-+#               "dev-features": []
-+#            },
- #            "start-on-kick": false,
- #            "isr": 1,
- #            "broken": false,
--#            "status": 15,
-+#            "status": {
-+#               "statuses": ["ACKNOWLEDGE", "DRIVER", "FEATURES_OK",
-+#                            "DRIVER_OK"]
-+#            },
- #            "num-vqs": 2,
--#            "guest-features": 5100273664,
--#            "host-features": 6325010432,
-+#            "guest-features": {
-+#               "transports": ["EVENT_IDX", "INDIRECT_DESC", "VERSION_1"],
-+#               "dev-features": []
-+#            },
-+#            "host-features": {
-+#               "transports": ["PROTOCOL_FEATURES", "EVENT_IDX",
-+#                              "INDIRECT_DESC", "VERSION_1", "ANY_LAYOUT",
-+#                              "NOTIFY_ON_EMPTY"],
-+#               "dev-features": []
-+#            },
- #            "use-guest-notifier-mask": true,
- #            "vm-running": true,
- #            "queue-sel": 1,
-@@ -257,22 +271,65 @@
- #               "max-queues": 1,
- #               "backend-cap": 2,
- #               "log-size": 0,
--#               "backend-features": 0,
-+#               "backend-features": {
-+#                  "transports": [],
-+#                  "dev-features": []
-+#               },
- #               "nvqs": 2,
--#               "protocol-features": 0,
-+#               "protocol-features": {
-+#                  "protocols": []
-+#               },
- #               "vq-index": 0,
- #               "log-enabled": false,
--#               "acked-features": 5100306432,
--#               "features": 13908344832
-+#               "acked-features": {
-+#                  "transports": ["EVENT_IDX", "INDIRECT_DESC", "VERSION_1",
-+#                                 "ANY_LAYOUT", "NOTIFY_ON_EMPTY"],
-+#                  "dev-features": ["MRG_RXBUF"]
-+#               },
-+#               "features": {
-+#                  "transports": ["EVENT_IDX", "INDIRECT_DESC",
-+#                                 "IOMMU_PLATFORM", "VERSION_1", "ANY_LAYOUT",
-+#                                 "NOTIFY_ON_EMPTY"],
-+#                  "dev-features": ["LOG_ALL", "MRG_RXBUF"]
-+#               }
-+#            },
-+#            "backend-features": {
-+#               "transports": ["PROTOCOL_FEATURES", "EVENT_IDX", "INDIRECT_DESC",
-+#                              "VERSION_1", "ANY_LAYOUT", "NOTIFY_ON_EMPTY"],
-+#               "dev-features": ["GSO", "CTRL_MAC_ADDR", "GUEST_ANNOUNCE", "CTRL_RX_EXTRA",
-+#                                "CTRL_VLAN", "CTRL_RX", "CTRL_VQ", "STATUS", "MRG_RXBUF",
-+#                                "HOST_UFO", "HOST_ECN", "HOST_TSO6", "HOST_TSO4",
-+#                                "GUEST_UFO", "GUEST_ECN", "GUEST_TSO6", "GUEST_TSO4",
-+#                                "MAC", "CTRL_GUEST_OFFLOADS", "GUEST_CSUM", "CSUM"]
- #            },
--#            "backend-features": 6337593319,
- #            "start-on-kick": false,
- #            "isr": 1,
- #            "broken": false,
--#            "status": 15,
-+#            "status": {
-+#               "statuses": ["ACKNOWLEDGE", "DRIVER", "FEATURES_OK", "DRIVER_OK"]
-+#            },
- #            "num-vqs": 3,
--#            "guest-features": 5111807911,
--#            "host-features": 6337593319,
-+#            "guest-features": {
-+#               "transports": ["EVENT_IDX", "INDIRECT_DESC", "VERSION_1"],
-+#               "dev-features": ["CTRL_MAC_ADDR", "GUEST_ANNOUNCE", "CTRL_VLAN",
-+#                                "CTRL_RX", "CTRL_VQ", "STATUS", "MRG_RXBUF",
-+#                                "HOST_UFO", "HOST_ECN", "HOST_TSO6",
-+#                                "HOST_TSO4", "GUEST_UFO", "GUEST_ECN",
-+#                                "GUEST_TSO6", "GUEST_TSO4", "MAC",
-+#                                "CTRL_GUEST_OFFLOADS", "GUEST_CSUM", "CSUM"]
-+#            },
-+#            "host-features": {
-+#               "transports": ["PROTOCOL_FEATURES", "EVENT_IDX",
-+#                              "INDIRECT_DESC", "VERSION_1", "ANY_LAYOUT",
-+#                              "NOTIFY_ON_EMPTY"],
-+#               "dev-features": ["GSO", "CTRL_MAC_ADDR", "GUEST_ANNOUNCE",
-+#                                "CTRL_RX_EXTRA", "CTRL_VLAN", "CTRL_RX",
-+#                                "CTRL_VQ", "STATUS", "MRG_RXBUF", "HOST_UFO",
-+#                                "HOST_ECN", "HOST_TSO4", "HOST_TSO4",
-+#                                "GUEST_UFO", "GUEST_ECN", "GUEST_TSO6",
-+#                                "GUEST_TSO4", "MAC", "CTRL_GUEST_OFFLOADS",
-+#                                "GUEST_CSUM", "CSUM"]
-+#            },
- #            "use-guest-notifier-mask": true,
- #            "vm-running": true,
- #            "queue-sel": 2,
-@@ -288,3 +345,62 @@
-   'data': { 'path': 'str' },
-   'returns': 'VirtioStatus',
-   'features': [ 'unstable' ] }
+@@ -404,3 +404,255 @@
+   'data': { 'transports': [ 'str' ],
+             '*dev-features': [ 'str' ],
+             '*unknown-dev-features': 'uint64' } }
 +
 +##
-+# @VirtioDeviceStatus:
++# @VirtQueueStatus:
 +#
-+# A structure defined to list the configuration statuses of a virtio
-+# device
++# Information of a VirtIODevice VirtQueue, including most members of
++# the VirtQueue data structure.
 +#
-+# @statuses: List of decoded configuration statuses of the virtio
-+#            device
++# @name: Name of the VirtIODevice that uses this VirtQueue
 +#
-+# @unknown-statuses: Virtio device statuses bitmap that have not been decoded
++# @queue-index: VirtQueue queue_index
++#
++# @inuse: VirtQueue inuse
++#
++# @vring-num: VirtQueue vring.num
++#
++# @vring-num-default: VirtQueue vring.num_default
++#
++# @vring-align: VirtQueue vring.align
++#
++# @vring-desc: VirtQueue vring.desc (descriptor area)
++#
++# @vring-avail: VirtQueue vring.avail (driver area)
++#
++# @vring-used: VirtQueue vring.used (device area)
++#
++# @last-avail-idx: VirtQueue last_avail_idx or return of vhost_dev
++#                  vhost_get_vring_base (if vhost active)
++#
++# @shadow-avail-idx: VirtQueue shadow_avail_idx
++#
++# @used-idx: VirtQueue used_idx
++#
++# @signalled-used: VirtQueue signalled_used
++#
++# @signalled-used-valid: VirtQueue signalled_used_valid flag
 +#
 +# Since: 7.0
++#
 +##
 +
-+{ 'struct': 'VirtioDeviceStatus',
-+  'data': { 'statuses': [ 'str' ],
-+            '*unknown-statuses': 'uint8' } }
++{ 'struct': 'VirtQueueStatus',
++  'data': { 'name': 'str',
++            'queue-index': 'uint16',
++            'inuse': 'uint32',
++            'vring-num': 'uint32',
++            'vring-num-default': 'uint32',
++            'vring-align': 'uint32',
++            'vring-desc': 'uint64',
++            'vring-avail': 'uint64',
++            'vring-used': 'uint64',
++            '*last-avail-idx': 'uint16',
++            '*shadow-avail-idx': 'uint16',
++            'used-idx': 'uint16',
++            'signalled-used': 'uint16',
++            'signalled-used-valid': 'bool' } }
 +
 +##
-+# @VhostDeviceProtocols:
++# @x-query-virtio-queue-status:
 +#
-+# A structure defined to list the vhost user protocol features of a
-+# Vhost User device
++# Return the status of a given VirtIODevice's VirtQueue
 +#
-+# @protocols: List of decoded vhost user protocol features of a vhost
-+#             user device
++# @path: VirtIODevice canonical QOM path
 +#
-+# @unknown-protocols: Vhost user device protocol features bitmap that
-+#                     have not been decoded
++# @queue: VirtQueue index to examine
++#
++# Features:
++# @unstable: This command is meant for debugging.
++#
++# Returns: VirtQueueStatus of the VirtQueue
++#
++# Notes: last_avail_idx will not be displayed in the case where
++#        the selected VirtIODevice has a running vhost device and
++#        the VirtIODevice VirtQueue index (queue) does not exist for
++#        the corresponding vhost device vhost_virtqueue. Also,
++#        shadow_avail_idx will not be displayed in the case where
++#        the selected VirtIODevice has a running vhost device.
 +#
 +# Since: 7.0
++#
++# Examples:
++#
++# 1. Get VirtQueueStatus for virtio-vsock (vhost-vsock running)
++#
++# -> { "execute": "x-query-virtio-queue-status",
++#      "arguments": { "path": "/machine/peripheral/vsock0/virtio-backend",
++#                     "queue": 1 }
++#    }
++# <- { "return": {
++#            "signalled-used": 0,
++#            "inuse": 0,
++#            "vring-align": 4096,
++#            "vring-desc": 5217370112,
++#            "signalled-used-valid": false,
++#            "vring-num-default": 128,
++#            "vring-avail": 5217372160,
++#            "queue-index": 1,
++#            "last-avail-idx": 0,
++#            "vring-used": 5217372480,
++#            "used-idx": 0,
++#            "name": "vhost-vsock",
++#            "vring-num": 128 }
++#    }
++#
++# 2. Get VirtQueueStatus for virtio-serial (no vhost)
++#
++# -> { "execute": "x-query-virtio-queue-status",
++#      "arguments": { "path": "/machine/peripheral-anon/device[0]/virtio-backend",
++#                     "queue": 20 }
++#    }
++# <- { "return": {
++#            "signalled-used": 0,
++#            "inuse": 0,
++#            "vring-align": 4096,
++#            "vring-desc": 5182074880,
++#            "signalled-used-valid": false,
++#            "vring-num-default": 128,
++#            "vring-avail": 5182076928,
++#            "queue-index": 20,
++#            "last-avail-idx": 0,
++#            "vring-used": 5182077248,
++#            "used-idx": 0,
++#            "name": "virtio-serial",
++#            "shadow-avail-idx": 0,
++#            "vring-num": 128 }
++#    }
++#
 +##
 +
-+{ 'struct': 'VhostDeviceProtocols',
-+  'data': { 'protocols': [ 'str' ],
-+            '*unknown-protocols': 'uint64' } }
++{ 'command': 'x-query-virtio-queue-status',
++  'data': { 'path': 'str', 'queue': 'uint16' },
++  'returns': 'VirtQueueStatus',
++  'features': [ 'unstable' ] }
 +
 +##
-+# @VirtioDeviceFeatures:
++# @VirtVhostQueueStatus:
 +#
-+# The common fields that apply to most Virtio devices. Some devices
-+# may not have their own device-specific features (e.g. virtio-rng).
++# Information of a vhost device's vhost_virtqueue, including most
++# members of the vhost_dev vhost_virtqueue data structure.
 +#
-+# @transports: List of transport features of the virtio device
++# @name: Name of the VirtIODevice that uses this vhost_virtqueue
 +#
-+# @dev-features: List of device-specific features (if the device has
-+#                unique features)
++# @kick: vhost_virtqueue kick
 +#
-+# @unknown-dev-features: Virtio device features bitmap that have not
-+#                        been decoded
++# @call: vhost_virtqueue call
++#
++# @desc: vhost_virtqueue desc
++#
++# @avail: vhost_virtqueue avail
++#
++# @used: vhost_virtqueue used
++#
++# @num: vhost_virtqueue num
++#
++# @desc-phys: vhost_virtqueue desc_phys (descriptor area phys. addr.)
++#
++# @desc-size: vhost_virtqueue desc_size
++#
++# @avail-phys: vhost_virtqueue avail_phys (driver area phys. addr.)
++#
++# @avail-size: vhost_virtqueue avail_size
++#
++# @used-phys: vhost_virtqueue used_phys (device area phys. addr.)
++#
++# @used-size: vhost_virtqueue used_size
 +#
 +# Since: 7.0
++#
 +##
 +
-+{ 'struct': 'VirtioDeviceFeatures',
-+  'data': { 'transports': [ 'str' ],
-+            '*dev-features': [ 'str' ],
-+            '*unknown-dev-features': 'uint64' } }
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index b291fe4e24..7547bff7fc 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -5,6 +5,9 @@
- #include "hw/virtio/virtio.h"
- #include "exec/memory.h"
- 
-+#define VHOST_F_DEVICE_IOTLB 63
-+#define VHOST_USER_F_PROTOCOL_FEATURES 30
++{ 'struct': 'VirtVhostQueueStatus',
++  'data': { 'name': 'str',
++            'kick': 'int',
++            'call': 'int',
++            'desc': 'uint64',
++            'avail': 'uint64',
++            'used': 'uint64',
++            'num': 'int',
++            'desc-phys': 'uint64',
++            'desc-size': 'uint32',
++            'avail-phys': 'uint64',
++            'avail-size': 'uint32',
++            'used-phys': 'uint64',
++            'used-size': 'uint32' } }
 +
- /* Generic structures common for any vhost based device. */
- 
- struct vhost_inflight {
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 375eb5671b..a031904522 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -71,6 +71,25 @@ typedef struct VirtQueueElement
- #define TYPE_VIRTIO_DEVICE "virtio-device"
- OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
- 
-+typedef struct {
-+    int virtio_bit;
-+    const char *feature_name;
-+} qmp_virtio_feature_map_t;
++##
++# @x-query-virtio-vhost-queue-status:
++#
++# Return information of a given vhost device's vhost_virtqueue
++#
++# @path: VirtIODevice canonical QOM path
++#
++# @queue: vhost_virtqueue index to examine
++#
++# Features:
++# @unstable: This command is meant for debugging.
++#
++# Returns: VirtVhostQueueStatus of the vhost_virtqueue
++#
++# Since: 7.0
++#
++# Examples:
++#
++# 1. Get vhost_virtqueue status for vhost-crypto
++#
++# -> { "execute": "x-query-virtio-vhost-queue-status",
++#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
++#                     "queue": 0 }
++#    }
++# <- { "return": {
++#            "avail-phys": 5216124928,
++#            "used-phys": 5216127040,
++#            "avail-size": 2054,
++#            "desc-size": 16384,
++#            "used-size": 8198,
++#            "desc": 140141447430144,
++#            "num": 1024,
++#            "name": "virtio-crypto",
++#            "call": 0,
++#            "avail": 140141447446528,
++#            "desc-phys": 5216108544,
++#            "used": 140141447448640,
++#            "kick": 0 }
++#    }
++#
++# 2. Get vhost_virtqueue status for vhost-vsock
++#
++# -> { "execute": "x-query-virtio-vhost-queue-status",
++#      "arguments": { "path": "/machine/peripheral/vsock0/virtio-backend",
++#                     "queue": 0 }
++#    }
++# <- { "return": {
++#            "avail-phys": 5182261248,
++#            "used-phys": 5182261568,
++#            "avail-size": 262,
++#            "desc-size": 2048,
++#            "used-size": 1030,
++#            "desc": 140141413580800,
++#            "num": 128,
++#            "name": "vhost-vsock",
++#            "call": 0,
++#            "avail": 140141413582848,
++#            "desc-phys": 5182259200,
++#            "used": 140141413583168,
++#            "kick": 0 }
++#    }
++#
++##
 +
-+extern qmp_virtio_feature_map_t serial_map[];
-+extern qmp_virtio_feature_map_t blk_map[];
-+extern qmp_virtio_feature_map_t gpu_map[];
-+extern qmp_virtio_feature_map_t net_map[];
-+extern qmp_virtio_feature_map_t scsi_map[];
-+extern qmp_virtio_feature_map_t balloon_map[];
-+extern qmp_virtio_feature_map_t iommu_map[];
-+extern qmp_virtio_feature_map_t input_map[];
-+extern qmp_virtio_feature_map_t fs_map[];
-+extern qmp_virtio_feature_map_t vsock_map[];
-+extern qmp_virtio_feature_map_t crypto_map[];
-+extern qmp_virtio_feature_map_t mem_map[];
-+extern qmp_virtio_feature_map_t i2c_map[];
-+
- enum virtio_device_endian {
-     VIRTIO_DEVICE_ENDIAN_UNKNOWN,
-     VIRTIO_DEVICE_ENDIAN_LITTLE,
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index cd804795c6..b905fa19a3 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "qemu/iov.h"
- #include "qemu/module.h"
- #include "qemu/error-report.h"
-@@ -33,10 +34,38 @@
- #include "migration/qemu-file-types.h"
- #include "hw/virtio/virtio-access.h"
- #include "qemu/coroutine.h"
-+#include "standard-headers/linux/vhost_types.h"
- 
- /* Config size before the discard support (hide associated config fields) */
- #define VIRTIO_BLK_CFG_SIZE offsetof(struct virtio_blk_config, \
-                                      max_discard_sectors)
-+
-+qmp_virtio_feature_map_t blk_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_BLK_F_##name, #name }
-+    FEATURE_ENTRY(SIZE_MAX),
-+    FEATURE_ENTRY(SEG_MAX),
-+    FEATURE_ENTRY(GEOMETRY),
-+    FEATURE_ENTRY(RO),
-+    FEATURE_ENTRY(BLK_SIZE),
-+    FEATURE_ENTRY(TOPOLOGY),
-+    FEATURE_ENTRY(MQ),
-+    FEATURE_ENTRY(DISCARD),
-+    FEATURE_ENTRY(WRITE_ZEROES),
-+#ifndef VIRTIO_BLK_NO_LEGACY
-+    FEATURE_ENTRY(BARRIER),
-+    FEATURE_ENTRY(SCSI),
-+    FEATURE_ENTRY(FLUSH),
-+    FEATURE_ENTRY(CONFIG_WCE),
-+#endif /* !VIRTIO_BLK_NO_LEGACY */
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- /*
-  * Starting from the discard feature, we can use this array to properly
-  * set the config size depending on the features enabled.
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index 7d4601cb5d..fbb31a2b16 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -20,6 +20,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "qemu/iov.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-@@ -32,6 +33,16 @@
- #include "hw/virtio/virtio-serial.h"
- #include "hw/virtio/virtio-access.h"
- 
-+qmp_virtio_feature_map_t serial_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_CONSOLE_F_##name, #name }
-+    FEATURE_ENTRY(SIZE),
-+    FEATURE_ENTRY(MULTIPORT),
-+    FEATURE_ENTRY(EMERG_WRITE),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- static struct VirtIOSerialDevices {
-     QLIST_HEAD(, VirtIOSerial) devices;
- } vserdevices;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 529b5246b2..0bd5dc6232 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -29,10 +29,28 @@
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "qemu/error-report.h"
-+#include "standard-headers/linux/vhost_types.h"
- 
- #define VIRTIO_GPU_VM_VERSION 1
- 
-+qmp_virtio_feature_map_t gpu_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_GPU_F_##name, #name }
-+    FEATURE_ENTRY(VIRGL),
-+    FEATURE_ENTRY(EDID),
-+    FEATURE_ENTRY(RESOURCE_UUID),
-+    FEATURE_ENTRY(RESOURCE_BLOB),
-+    FEATURE_ENTRY(CONTEXT_INIT),
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- static struct virtio_gpu_simple_resource*
- virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
- static struct virtio_gpu_simple_resource *
-diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
-index 5b5398b3ca..fe0ed6d5b4 100644
---- a/hw/input/virtio-input.c
-+++ b/hw/input/virtio-input.c
-@@ -6,6 +6,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "qemu/iov.h"
- #include "qemu/module.h"
- #include "trace.h"
-@@ -14,10 +15,19 @@
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-input.h"
- 
-+#include "standard-headers/linux/vhost_types.h"
- #include "standard-headers/linux/input.h"
- 
- #define VIRTIO_INPUT_VM_VERSION 1
- 
-+qmp_virtio_feature_map_t input_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- /* ----------------------------------------------------------------- */
- 
- void virtio_input_send(VirtIOInput *vinput, virtio_input_event *event)
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index a788f1c5c7..9ad466f556 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -35,9 +35,11 @@
- #include "hw/qdev-properties.h"
- #include "qapi/qapi-types-migration.h"
- #include "qapi/qapi-events-migration.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "hw/virtio/virtio-access.h"
- #include "migration/misc.h"
- #include "standard-headers/linux/ethtool.h"
-+#include "standard-headers/linux/vhost_types.h"
- #include "sysemu/sysemu.h"
- #include "trace.h"
- #include "monitor/qdev.h"
-@@ -90,6 +92,51 @@
-                                          VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | \
-                                          VIRTIO_NET_RSS_HASH_TYPE_UDP_EX)
- 
-+qmp_virtio_feature_map_t net_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_NET_F_##name, #name }
-+    FEATURE_ENTRY(CSUM),
-+    FEATURE_ENTRY(GUEST_CSUM),
-+    FEATURE_ENTRY(CTRL_GUEST_OFFLOADS),
-+    FEATURE_ENTRY(MTU),
-+    FEATURE_ENTRY(MAC),
-+    FEATURE_ENTRY(GUEST_TSO4),
-+    FEATURE_ENTRY(GUEST_TSO6),
-+    FEATURE_ENTRY(GUEST_ECN),
-+    FEATURE_ENTRY(GUEST_UFO),
-+    FEATURE_ENTRY(HOST_TSO4),
-+    FEATURE_ENTRY(HOST_TSO6),
-+    FEATURE_ENTRY(HOST_ECN),
-+    FEATURE_ENTRY(HOST_UFO),
-+    FEATURE_ENTRY(MRG_RXBUF),
-+    FEATURE_ENTRY(STATUS),
-+    FEATURE_ENTRY(CTRL_VQ),
-+    FEATURE_ENTRY(CTRL_RX),
-+    FEATURE_ENTRY(CTRL_VLAN),
-+    FEATURE_ENTRY(CTRL_RX_EXTRA),
-+    FEATURE_ENTRY(GUEST_ANNOUNCE),
-+    FEATURE_ENTRY(MQ),
-+    FEATURE_ENTRY(CTRL_MAC_ADDR),
-+    FEATURE_ENTRY(HASH_REPORT),
-+    FEATURE_ENTRY(RSS),
-+    FEATURE_ENTRY(RSC_EXT),
-+    FEATURE_ENTRY(STANDBY),
-+    FEATURE_ENTRY(SPEED_DUPLEX),
-+#ifndef VIRTIO_NET_NO_LEGACY
-+    FEATURE_ENTRY(GSO),
-+#endif /* VIRTIO_NET_NO_LEGACY */
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_NET_F_##name, #name }
-+    FEATURE_ENTRY(VIRTIO_NET_HDR),
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- static const VirtIOFeature feature_sizes[] = {
-     {.flags = 1ULL << VIRTIO_NET_F_MAC,
-      .end = endof(struct virtio_net_config, mac)},
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 4141dddd51..66bcd1789c 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -15,7 +15,9 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "standard-headers/linux/virtio_ids.h"
-+#include "standard-headers/linux/vhost_types.h"
- #include "hw/virtio/virtio-scsi.h"
- #include "migration/qemu-file-types.h"
- #include "qemu/error-report.h"
-@@ -66,6 +68,21 @@ typedef struct VirtIOSCSIReq {
-     } req;
- } VirtIOSCSIReq;
- 
-+qmp_virtio_feature_map_t scsi_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_SCSI_F_##name, #name }
-+    FEATURE_ENTRY(INOUT),
-+    FEATURE_ENTRY(HOTPLUG),
-+    FEATURE_ENTRY(CHANGE),
-+    FEATURE_ENTRY(T10_PI),
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- static inline int virtio_scsi_get_lun(uint8_t *lun)
++{ 'command': 'x-query-virtio-vhost-queue-status',
++  'data': { 'path': 'str', 'queue': 'uint16' },
++  'returns': 'VirtVhostQueueStatus',
++  'features': [ 'unstable' ] }
+diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
+index 0b432e8de7..13e5f93652 100644
+--- a/hw/virtio/virtio-stub.c
++++ b/hw/virtio/virtio-stub.c
+@@ -17,3 +17,17 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
  {
-     return ((lun[2] << 8) | lun[3]) & 0x3FFF;
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index e513e4fdda..096cc07c44 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -15,6 +15,7 @@
- #include <sys/ioctl.h>
- #include "standard-headers/linux/virtio_fs.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "hw/virtio/virtio-bus.h"
-@@ -23,6 +24,15 @@
- #include "hw/virtio/vhost-user-fs.h"
- #include "monitor/monitor.h"
- #include "sysemu/sysemu.h"
-+#include "standard-headers/linux/vhost_types.h"
+     return qmp_virtio_unsupported(errp);
+ }
 +
-+qmp_virtio_feature_map_t fs_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
- 
- static const int user_feature_bits[] = {
-     VIRTIO_F_VERSION_1,
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 6020eee093..931ec9836c 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -8,11 +8,25 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-bus.h"
- #include "hw/virtio/vhost-user-i2c.h"
- #include "qemu/error-report.h"
- #include "standard-headers/linux/virtio_ids.h"
-+#include "standard-headers/linux/vhost_types.h"
++VirtVhostQueueStatus *qmp_x_query_virtio_vhost_queue_status(const char *path,
++                                                            uint16_t queue,
++                                                            Error **errp)
++{
++    return qmp_virtio_unsupported(errp);
++}
 +
-+qmp_virtio_feature_map_t i2c_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_I2C_F_##name, #name }
-+    FEATURE_ENTRY(ZERO_LENGTH_REQUEST),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
- 
- static const int feature_bits[] = {
-     VIRTIO_I2C_F_ZERO_LENGTH_REQUEST,
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index 7394818e00..b03f94d8f8 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -11,12 +11,22 @@
- #include "qemu/osdep.h"
- #include "standard-headers/linux/virtio_vsock.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "hw/virtio/virtio-access.h"
- #include "qemu/error-report.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost-vsock.h"
- #include "qemu/iov.h"
- #include "monitor/monitor.h"
-+#include "standard-headers/linux/vhost_types.h"
-+
-+qmp_virtio_feature_map_t vsock_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
- 
- const int feature_bits[] = {
-     VIRTIO_VSOCK_F_SEQPACKET,
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 73ac5eb675..8b604bb186 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -28,6 +28,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-machine.h"
- #include "qapi/visitor.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "migration/misc.h"
-@@ -38,6 +39,19 @@
- 
- #define BALLOON_PAGE_SIZE  (1 << VIRTIO_BALLOON_PFN_SHIFT)
- 
-+qmp_virtio_feature_map_t balloon_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_BALLOON_F_##name, #name }
-+    FEATURE_ENTRY(MUST_TELL_HOST),
-+    FEATURE_ENTRY(STATS_VQ),
-+    FEATURE_ENTRY(DEFLATE_ON_OOM),
-+    FEATURE_ENTRY(FREE_PAGE_HINT),
-+    FEATURE_ENTRY(PAGE_POISON),
-+    FEATURE_ENTRY(REPORTING),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- typedef struct PartiallyBalloonedPage {
-     ram_addr_t base_gpa;
-     unsigned long *bitmap;
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index c3829e7498..7cf25df02c 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -16,6 +16,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "qemu/error-report.h"
- 
- #include "hw/virtio/virtio.h"
-@@ -23,10 +24,19 @@
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-access.h"
- #include "standard-headers/linux/virtio_ids.h"
-+#include "standard-headers/linux/vhost_types.h"
- #include "sysemu/cryptodev-vhost.h"
- 
- #define VIRTIO_CRYPTO_VM_VERSION 1
- 
-+qmp_virtio_feature_map_t crypto_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_F_##name, #name }
-+    FEATURE_ENTRY(LOG_ALL),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- /*
-  * Transfer virtqueue index to crypto queue index.
-  * The control virtqueue is after the data virtqueues
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 2597e166f9..c580366467 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -25,6 +25,7 @@
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "qemu/error-report.h"
- #include "trace.h"
- 
-@@ -40,6 +41,19 @@
- #define VIOMMU_DEFAULT_QUEUE_SIZE 256
- #define VIOMMU_PROBE_SIZE 512
- 
-+qmp_virtio_feature_map_t iommu_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_IOMMU_F_##name, #name }
-+    FEATURE_ENTRY(INPUT_RANGE),
-+    FEATURE_ENTRY(DOMAIN_RANGE),
-+    FEATURE_ENTRY(MAP_UNMAP),
-+    FEATURE_ENTRY(BYPASS),
-+    FEATURE_ENTRY(PROBE),
-+    FEATURE_ENTRY(MMIO),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- typedef struct VirtIOIOMMUDomain {
-     uint32_t id;
-     bool bypass;
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 30d03e987a..fd7e09f585 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -24,6 +24,7 @@
- #include "hw/virtio/virtio-mem.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "exec/ram_addr.h"
- #include "migration/misc.h"
- #include "hw/boards.h"
-@@ -31,6 +32,16 @@
- #include CONFIG_DEVICES
- #include "trace.h"
- 
-+qmp_virtio_feature_map_t mem_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_MEM_F_##name, #name }
-+#ifndef CONFIG_ACPI
-+    FEATURE_ENTRY(ACPI_PXM),
-+#endif /* CONFIG_ACPI */
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
- /*
-  * We only had legacy x86 guests that did not support
-  * VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE. Other targets don't have legacy guests.
++VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
++                                                 uint16_t queue,
++                                                 Error **errp)
++{
++    return qmp_virtio_unsupported(errp);
++}
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 3e0a484660..dd1ce5381b 100644
+index dd1ce5381b..0a4cf62bbe 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -34,10 +34,99 @@
- #include "sysemu/dma.h"
- #include "sysemu/runstate.h"
- #include "standard-headers/linux/virtio_ids.h"
-+#include "standard-headers/linux/vhost_types.h"
-+#include CONFIG_DEVICES
- 
- /* QAPI list of realized VirtIODevices */
- static QTAILQ_HEAD(, VirtIODevice) virtio_list;
- 
-+/*
-+ * Maximum size of virtio device config space
-+ */
-+#define VHOST_USER_MAX_CONFIG_SIZE 256
-+
-+enum VhostUserProtocolFeature {
-+    VHOST_USER_PROTOCOL_F_MQ = 0,
-+    VHOST_USER_PROTOCOL_F_LOG_SHMFD = 1,
-+    VHOST_USER_PROTOCOL_F_RARP = 2,
-+    VHOST_USER_PROTOCOL_F_REPLY_ACK = 3,
-+    VHOST_USER_PROTOCOL_F_NET_MTU = 4,
-+    VHOST_USER_PROTOCOL_F_SLAVE_REQ = 5,
-+    VHOST_USER_PROTOCOL_F_CROSS_ENDIAN = 6,
-+    VHOST_USER_PROTOCOL_F_CRYPTO_SESSION = 7,
-+    VHOST_USER_PROTOCOL_F_PAGEFAULT = 8,
-+    VHOST_USER_PROTOCOL_F_CONFIG = 9,
-+    VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
-+    VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
-+    VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
-+    VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
-+    VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
-+    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
-+    VHOST_USER_PROTOCOL_F_MAX
-+};
-+
-+static qmp_virtio_feature_map_t transport_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_F_##name, #name }
-+#ifndef VIRTIO_CONFIG_NO_LEGACY
-+    FEATURE_ENTRY(NOTIFY_ON_EMPTY),
-+    FEATURE_ENTRY(ANY_LAYOUT),
-+#endif /* VIRTIO_CONFIG_NO_LEGACY */
-+    FEATURE_ENTRY(VERSION_1),
-+    FEATURE_ENTRY(IOMMU_PLATFORM),
-+    FEATURE_ENTRY(RING_PACKED),
-+    FEATURE_ENTRY(ORDER_PLATFORM),
-+    FEATURE_ENTRY(SR_IOV),
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VIRTIO_RING_F_##name, #name }
-+    FEATURE_ENTRY(INDIRECT_DESC),
-+    FEATURE_ENTRY(EVENT_IDX),
-+#undef FEATURE_ENTRY
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_USER_F_##name, #name }
-+    FEATURE_ENTRY(PROTOCOL_FEATURES),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
-+static qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
-+#define FEATURE_ENTRY(name) \
-+    { VHOST_USER_PROTOCOL_F_##name, #name }
-+    FEATURE_ENTRY(MQ),
-+    FEATURE_ENTRY(LOG_SHMFD),
-+    FEATURE_ENTRY(RARP),
-+    FEATURE_ENTRY(REPLY_ACK),
-+    FEATURE_ENTRY(NET_MTU),
-+    FEATURE_ENTRY(SLAVE_REQ),
-+    FEATURE_ENTRY(CROSS_ENDIAN),
-+    FEATURE_ENTRY(CRYPTO_SESSION),
-+    FEATURE_ENTRY(PAGEFAULT),
-+    FEATURE_ENTRY(CONFIG),
-+    FEATURE_ENTRY(SLAVE_SEND_FD),
-+    FEATURE_ENTRY(HOST_NOTIFIER),
-+    FEATURE_ENTRY(INFLIGHT_SHMFD),
-+    FEATURE_ENTRY(RESET_DEVICE),
-+    FEATURE_ENTRY(INBAND_NOTIFICATIONS),
-+    FEATURE_ENTRY(CONFIGURE_MEM_SLOTS),
-+#undef FEATURE_ENTRY
-+    { -1, "" }
-+};
-+
-+/* virtio device configuration statuses */
-+static qmp_virtio_feature_map_t config_status_map[] = {
-+#define STATUS_ENTRY(name) \
-+    { VIRTIO_CONFIG_S_##name, #name }
-+    STATUS_ENTRY(DRIVER_OK),
-+    STATUS_ENTRY(FEATURES_OK),
-+    STATUS_ENTRY(DRIVER),
-+    STATUS_ENTRY(NEEDS_RESET),
-+    STATUS_ENTRY(FAILED),
-+    STATUS_ENTRY(ACKNOWLEDGE),
-+#undef STATUS_ENTRY
-+    { -1, "" }
-+};
-+
- /*
-  * The alignment to use between consumer and producer parts of vring.
-  * x86 pagesize again. This is the default, used by transports like PCI
-@@ -3975,6 +4064,196 @@ static VirtIODevice *virtio_device_find(const char *path)
-     return NULL;
+@@ -4329,6 +4329,109 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+     return status;
  }
  
-+#define CONVERT_FEATURES(type, map, is_status, bitmap)   \
-+    ({                                                   \
-+        type *list = NULL;                               \
-+        type *node;                                      \
-+        for (i = 0; map[i].virtio_bit != -1; i++) {      \
-+            if (is_status) {                             \
-+                bit = map[i].virtio_bit;                 \
-+            }                                            \
-+            else {                                       \
-+                bit = 1ULL << map[i].virtio_bit;         \
-+            }                                            \
-+            if ((bitmap & bit) == 0) {                   \
-+                continue;                                \
-+            }                                            \
-+            node = g_new0(type, 1);                      \
-+            node->value = g_strdup(map[i].feature_name); \
-+            node->next = list;                           \
-+            list = node;                                 \
-+            bitmap ^= bit;                               \
-+        }                                                \
-+        list;                                            \
-+    })
-+
-+static VirtioDeviceStatus *qmp_decode_status(uint8_t bitmap)
++VirtVhostQueueStatus *qmp_x_query_virtio_vhost_queue_status(const char *path,
++                                                            uint16_t queue,
++                                                            Error **errp)
 +{
-+    VirtioDeviceStatus *status;
-+    uint8_t bit;
-+    int i;
++    VirtIODevice *vdev;
++    VirtVhostQueueStatus *status;
 +
-+    status = g_new0(VirtioDeviceStatus, 1);
-+    status->statuses = CONVERT_FEATURES(strList, config_status_map, 1, bitmap);
-+    status->has_unknown_statuses = bitmap != 0;
-+    if (status->has_unknown_statuses) {
-+        status->unknown_statuses = bitmap;
++    vdev = virtio_device_find(path);
++    if (vdev == NULL) {
++        error_setg(errp, "Path %s is not a VirtIODevice", path);
++        return NULL;
++    }
++
++    if (!vdev->vhost_started) {
++        error_setg(errp, "Error: vhost device has not started yet");
++        return NULL;
++    }
++
++    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
++    struct vhost_dev *hdev = vdc->get_vhost(vdev);
++
++    if (queue < hdev->vq_index || queue >= hdev->vq_index + hdev->nvqs) {
++        error_setg(errp, "Invalid vhost virtqueue number %d", queue);
++        return NULL;
++    }
++
++    status = g_new0(VirtVhostQueueStatus, 1);
++    status->name = g_strdup(vdev->name);
++    status->kick = hdev->vqs[queue].kick;
++    status->call = hdev->vqs[queue].call;
++    status->desc = (uintptr_t)hdev->vqs[queue].desc;
++    status->avail = (uintptr_t)hdev->vqs[queue].avail;
++    status->used = (uintptr_t)hdev->vqs[queue].used;
++    status->num = hdev->vqs[queue].num;
++    status->desc_phys = hdev->vqs[queue].desc_phys;
++    status->desc_size = hdev->vqs[queue].desc_size;
++    status->avail_phys = hdev->vqs[queue].avail_phys;
++    status->avail_size = hdev->vqs[queue].avail_size;
++    status->used_phys = hdev->vqs[queue].used_phys;
++    status->used_size = hdev->vqs[queue].used_size;
++
++    return status;
++}
++
++VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
++                                                 uint16_t queue,
++                                                 Error **errp)
++{
++    VirtIODevice *vdev;
++    VirtQueueStatus *status;
++
++    vdev = virtio_device_find(path);
++    if (vdev == NULL) {
++        error_setg(errp, "Path %s is not a VirtIODevice", path);
++        return NULL;
++    }
++
++    if (queue >= VIRTIO_QUEUE_MAX || !virtio_queue_get_num(vdev, queue)) {
++        error_setg(errp, "Invalid virtqueue number %d", queue);
++        return NULL;
++    }
++
++    status = g_new0(VirtQueueStatus, 1);
++    status->name = g_strdup(vdev->name);
++    status->queue_index = vdev->vq[queue].queue_index;
++    status->inuse = vdev->vq[queue].inuse;
++    status->vring_num = vdev->vq[queue].vring.num;
++    status->vring_num_default = vdev->vq[queue].vring.num_default;
++    status->vring_align = vdev->vq[queue].vring.align;
++    status->vring_desc = vdev->vq[queue].vring.desc;
++    status->vring_avail = vdev->vq[queue].vring.avail;
++    status->vring_used = vdev->vq[queue].vring.used;
++    status->used_idx = vdev->vq[queue].used_idx;
++    status->signalled_used = vdev->vq[queue].signalled_used;
++    status->signalled_used_valid = vdev->vq[queue].signalled_used_valid;
++
++    if (vdev->vhost_started) {
++        VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
++        struct vhost_dev *hdev = vdc->get_vhost(vdev);
++
++        /* check if vq index exists for vhost as well  */
++        if (queue >= hdev->vq_index && queue < hdev->vq_index + hdev->nvqs) {
++            status->has_last_avail_idx = true;
++
++            int vhost_vq_index =
++                hdev->vhost_ops->vhost_get_vq_index(hdev, queue);
++            struct vhost_vring_state state = {
++                .index = vhost_vq_index,
++            };
++
++            status->last_avail_idx =
++                hdev->vhost_ops->vhost_get_vring_base(hdev, &state);
++        }
++    } else {
++        status->has_shadow_avail_idx = true;
++        status->has_last_avail_idx = true;
++        status->last_avail_idx = vdev->vq[queue].last_avail_idx;
++        status->shadow_avail_idx = vdev->vq[queue].shadow_avail_idx;
 +    }
 +
 +    return status;
 +}
 +
-+static VhostDeviceProtocols *qmp_decode_protocols(uint64_t bitmap)
-+{
-+    VhostDeviceProtocols *vhu_protocols;
-+    uint64_t bit;
-+    int i;
-+
-+    vhu_protocols = g_new0(VhostDeviceProtocols, 1);
-+    vhu_protocols->protocols =
-+                    CONVERT_FEATURES(strList,
-+                                     vhost_user_protocol_map, 0, bitmap);
-+    vhu_protocols->has_unknown_protocols = bitmap != 0;
-+    if (vhu_protocols->has_unknown_protocols) {
-+        vhu_protocols->unknown_protocols = bitmap;
-+    }
-+
-+    return vhu_protocols;
-+}
-+
-+static VirtioDeviceFeatures *qmp_decode_features(uint16_t device_id,
-+                                                 uint64_t bitmap)
-+{
-+    VirtioDeviceFeatures *features;
-+    uint64_t bit;
-+    int i;
-+
-+    features = g_new0(VirtioDeviceFeatures, 1);
-+    features->has_dev_features = true;
-+
-+    /* transport features */
-+    features->transports = CONVERT_FEATURES(strList, transport_map, 0, bitmap);
-+
-+    /* device features */
-+    switch (device_id) {
-+#ifdef CONFIG_VIRTIO_SERIAL
-+    case VIRTIO_ID_CONSOLE:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, serial_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_BLK
-+    case VIRTIO_ID_BLOCK:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, blk_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_GPU
-+    case VIRTIO_ID_GPU:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, gpu_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_NET
-+    case VIRTIO_ID_NET:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, net_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_SCSI
-+    case VIRTIO_ID_SCSI:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, scsi_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_BALLOON
-+    case VIRTIO_ID_BALLOON:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, balloon_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_IOMMU
-+    case VIRTIO_ID_IOMMU:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, iommu_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_INPUT
-+    case VIRTIO_ID_INPUT:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, input_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VHOST_USER_FS
-+    case VIRTIO_ID_FS:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, fs_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VHOST_VSOCK
-+    case VIRTIO_ID_VSOCK:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, vsock_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_CRYPTO
-+    case VIRTIO_ID_CRYPTO:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, crypto_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_MEM
-+    case VIRTIO_ID_MEM:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, mem_map, 0, bitmap);
-+        break;
-+#endif
-+#ifdef CONFIG_VIRTIO_I2C_ADAPTER
-+    case VIRTIO_ID_I2C_ADAPTER:
-+        features->dev_features =
-+            CONVERT_FEATURES(strList, i2c_map, 0, bitmap);
-+        break;
-+#endif
-+    /* No features */
-+    case VIRTIO_ID_9P:
-+    case VIRTIO_ID_PMEM:
-+    case VIRTIO_ID_RNG:
-+    case VIRTIO_ID_IOMEM:
-+    case VIRTIO_ID_RPMSG:
-+    case VIRTIO_ID_CLOCK:
-+    case VIRTIO_ID_MAC80211_WLAN:
-+    case VIRTIO_ID_MAC80211_HWSIM:
-+    case VIRTIO_ID_RPROC_SERIAL:
-+    case VIRTIO_ID_MEMORY_BALLOON:
-+    case VIRTIO_ID_CAIF:
-+    case VIRTIO_ID_SIGNAL_DIST:
-+    case VIRTIO_ID_PSTORE:
-+    case VIRTIO_ID_SOUND:
-+    case VIRTIO_ID_BT:
-+    case VIRTIO_ID_RPMB:
-+    case VIRTIO_ID_VIDEO_ENCODER:
-+    case VIRTIO_ID_VIDEO_DECODER:
-+    case VIRTIO_ID_SCMI:
-+    case VIRTIO_ID_NITRO_SEC_MOD:
-+    case VIRTIO_ID_WATCHDOG:
-+    case VIRTIO_ID_CAN:
-+    case VIRTIO_ID_DMABUF:
-+    case VIRTIO_ID_PARAM_SERV:
-+    case VIRTIO_ID_AUDIO_POLICY:
-+    case VIRTIO_ID_GPIO:
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    features->has_unknown_dev_features = bitmap != 0;
-+    if (features->has_unknown_dev_features) {
-+        features->unknown_dev_features = bitmap;
-+    }
-+
-+    return features;
-+}
-+
- VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
- {
-     VirtIODevice *vdev;
-@@ -3990,9 +4269,12 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
-     status->name = g_strdup(vdev->name);
-     status->device_id = vdev->device_id;
-     status->vhost_started = vdev->vhost_started;
--    status->guest_features = vdev->guest_features;
--    status->host_features = vdev->host_features;
--    status->backend_features = vdev->backend_features;
-+    status->guest_features = qmp_decode_features(vdev->device_id,
-+                                                 vdev->guest_features);
-+    status->host_features = qmp_decode_features(vdev->device_id,
-+                                                vdev->host_features);
-+    status->backend_features = qmp_decode_features(vdev->device_id,
-+                                                   vdev->backend_features);
- 
-     switch (vdev->device_endian) {
-     case VIRTIO_DEVICE_ENDIAN_LITTLE:
-@@ -4007,7 +4289,7 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
-     }
- 
-     status->num_vqs = virtio_get_num_queues(vdev);
--    status->status = vdev->status;
-+    status->status = qmp_decode_status(vdev->status);
-     status->isr = vdev->isr;
-     status->queue_sel = vdev->queue_sel;
-     status->vm_running = vdev->vm_running;
-@@ -4030,10 +4312,14 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
-         status->vhost_dev->n_tmp_sections = hdev->n_tmp_sections;
-         status->vhost_dev->nvqs = hdev->nvqs;
-         status->vhost_dev->vq_index = hdev->vq_index;
--        status->vhost_dev->features = hdev->features;
--        status->vhost_dev->acked_features = hdev->acked_features;
--        status->vhost_dev->backend_features = hdev->backend_features;
--        status->vhost_dev->protocol_features = hdev->protocol_features;
-+        status->vhost_dev->features =
-+            qmp_decode_features(vdev->device_id, hdev->features);
-+        status->vhost_dev->acked_features =
-+            qmp_decode_features(vdev->device_id, hdev->acked_features);
-+        status->vhost_dev->backend_features =
-+            qmp_decode_features(vdev->device_id, hdev->backend_features);
-+        status->vhost_dev->protocol_features =
-+            qmp_decode_protocols(hdev->protocol_features);
-         status->vhost_dev->max_queues = hdev->max_queues;
-         status->vhost_dev->backend_cap = hdev->backend_cap;
-         status->vhost_dev->log_enabled = hdev->log_enabled;
+ static const TypeInfo virtio_device_info = {
+     .name = TYPE_VIRTIO_DEVICE,
+     .parent = TYPE_DEVICE,
 -- 
 MST
 
