@@ -2,55 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D4A528C8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 20:06:40 +0200 (CEST)
-Received: from localhost ([::1]:37462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F5528D05
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 20:29:53 +0200 (CEST)
+Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqf79-0007sl-3k
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 14:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48658)
+	id 1nqfTc-0001Ys-3y
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 14:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nqf5J-0006jQ-7a; Mon, 16 May 2022 14:04:45 -0400
-Received: from [187.72.171.209] (port=33208 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nqf5H-0001qS-74; Mon, 16 May 2022 14:04:44 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 16 May 2022 15:04:36 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id B13F5800048;
- Mon, 16 May 2022 15:04:36 -0300 (-03)
-Message-ID: <e803a275-c54b-bc9c-430a-1bbbf5b14115@eldorado.org.br>
-Date: Mon, 16 May 2022 15:04:36 -0300
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1nqfQy-0008VO-3s; Mon, 16 May 2022 14:27:08 -0400
+Received: from mail-vk1-xa36.google.com ([2607:f8b0:4864:20::a36]:42894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1nqfQw-0007Xx-Eo; Mon, 16 May 2022 14:27:07 -0400
+Received: by mail-vk1-xa36.google.com with SMTP id e144so7933377vke.9;
+ Mon, 16 May 2022 11:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qHdc1dBwrbBdzm2syCBKe5wncr4fnDaxADcarQmStoE=;
+ b=OIqZjowa+lE8s6pwazbdHFAfjBmRRflOM7ZKfQoDFKU9Dsj98KBuSsrNNSDqRQ3oJZ
+ XH60POKeZr9bpR08DID/0QeDracDITGecVHDIU5wyvCD8WRuDQv748p3dqOn20qWFBbf
+ EYLiAul2QIai20kspCxf0vw1mwGnOG+uYdp/W20idLiOGH8uZU+/wN7BrhV6uXadg+Wq
+ 31l5OuDFur3C4AcPpPcV8b9DaeHapg+ZyjxeiqxeO9WQnxIIMjbNUk2gOLSHCx+Gun8n
+ HA/X93j8Z2TU5Fm1uZjXljdsawPGOLAK04gVE6gHepWzdQQz79jEHPSS/3bfExzlCBlX
+ MIxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qHdc1dBwrbBdzm2syCBKe5wncr4fnDaxADcarQmStoE=;
+ b=1VOGfQ5qReZN20vdZJtXYpFc58HNXdSVVfQWIkYOxjaModj3MuekJBRbpb3NDwIfjg
+ ayAzY17rBpGiIa11//CzzdfBNY7ToNAJE52gkx8Fhh2dA6/7IspEri+zPDnQCTPExTk2
+ hxJb8Qo10VmIzzBNcBTGHM9Rx/A22XZiDNpiHzDj0914VYefK1b8nNsfhV2mLqtAf7kn
+ TLyNTOzvsNhuhriQiL61D2vaeMNzUkr35dXt+GydfKG+Ipup/uY8FTS5DgirIPIvE/Q3
+ 8USOXO/myTNY2sQTGBeqxSoY9NyP5t0xlsk5LWrdQDjh5uC8I+Q1a8Dfv3vp2YR50c8D
+ Z8YA==
+X-Gm-Message-State: AOAM532HSVNF0vr9F38G5ACTakgs1XWy2LHeM7cpweR78u3EJkzCkBEn
+ wlelJI1gxcQQW7Q7zCZBXiVqpRh+3fSm4MCHboA=
+X-Google-Smtp-Source: ABdhPJzkeli8bGgzyxtdlETSqrB4zDxGjdGVjqLXD4HpbQHTBi4LBuLpO9msnc3tU1/BLk+w/WL81LTU6ih4bQR2WIU=
+X-Received: by 2002:a1f:6003:0:b0:34d:3d07:5827 with SMTP id
+ u3-20020a1f6003000000b0034d3d075827mr6737369vkb.30.1652725624917; Mon, 16 May
+ 2022 11:27:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 2/5] target/riscv: Disable "G" by default
-Content-Language: en-US
-To: Tsukasa OI <research_trasio@irq.a4lg.com>,
- Alistair Francis <alistair23@gmail.com>, Frank Chang <frank.chang@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <cover.1652435138.git.research_trasio@irq.a4lg.com>
- <cover.1652583332.git.research_trasio@irq.a4lg.com>
- <cab7205f1d7668f642fa242386543334af6bc1bd.1652583332.git.research_trasio@irq.a4lg.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <cab7205f1d7668f642fa242386543334af6bc1bd.1652583332.git.research_trasio@irq.a4lg.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 16 May 2022 18:04:37.0045 (UTC)
- FILETIME=[67B18650:01D8694F]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220516100324.61122-1-sgarzare@redhat.com>
+In-Reply-To: <20220516100324.61122-1-sgarzare@redhat.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Mon, 16 May 2022 20:26:53 +0200
+Message-ID: <CAOi1vP-LeTROyyHFoP8-MySCk-n8C_1qB13WLtdhemcpyaPQgw@mail.gmail.com>
+Subject: Re: [PATCH] block/rbd: report a better error when namespace does not
+ exist
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
+ Tingting Mao <timao@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a36;
+ envelope-from=idryomov@gmail.com; helo=mail-vk1-xa36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,45 +83,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/2022 23:56, Tsukasa OI wrote:
-> Because "G" virtual extension expands to "IMAFD", we cannot separately
-> disable extensions like "F" or "D" without disabling "G".  Because all
-> "IMAFD" are enabled by default, it's harmless to disable "G" by default.
-> 
-> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+On Mon, May 16, 2022 at 12:03 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>
+> If the namespace does not exist, rbd_create() fails with -ENOENT and
+> QEMU reports a generic "error rbd create: No such file or directory":
+>
+>     $ qemu-img create rbd:rbd/namespace/image 1M
+>     Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
+>     qemu-img: rbd:rbd/namespace/image: error rbd create: No such file or directory
+>
+> Unfortunately rados_ioctx_set_namespace() does not fail if the namespace
+> does not exist, so let's use rbd_namespace_exists() in qemu_rbd_connect()
+> to check if the namespace exists, reporting a more understandable error:
+>
+>     $ qemu-img create rbd:rbd/namespace/image 1M
+>     Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
+>     qemu-img: rbd:rbd/namespace/image: namespace 'namespace' does not exist
+>
+> Reported-by: Tingting Mao <timao@redhat.com>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 > ---
->   target/riscv/cpu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 00bf26ec8b..3ea68d5cd7 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -812,7 +812,7 @@ static Property riscv_cpu_properties[] = {
->       /* Defaults for standard extensions */
->       DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
->       DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
-> -    DEFINE_PROP_BOOL("g", RISCVCPU, cfg.ext_g, true),
-> +    DEFINE_PROP_BOOL("g", RISCVCPU, cfg.ext_g, false),
->       DEFINE_PROP_BOOL("m", RISCVCPU, cfg.ext_m, true),
->       DEFINE_PROP_BOOL("a", RISCVCPU, cfg.ext_a, true),
->       DEFINE_PROP_BOOL("f", RISCVCPU, cfg.ext_f, true),
+>  meson.build |  6 ++++++
+>  block/rbd.c | 24 ++++++++++++++++++++++++
+>  2 files changed, 30 insertions(+)
+>
+> diff --git a/meson.build b/meson.build
+> index 9b20dcd143..e6c0afd62b 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1828,6 +1828,12 @@ config_host_data.set('HAVE_GETIFADDRS', cc.has_function('getifaddrs'))
+>  config_host_data.set('HAVE_OPENPTY', cc.has_function('openpty', dependencies: util))
+>  config_host_data.set('HAVE_STRCHRNUL', cc.has_function('strchrnul'))
+>  config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
+> +if rbd.found()
+> +  config_host_data.set('HAVE_RBD_NAMESPACE_EXISTS',
+> +                       cc.has_function('rbd_namespace_exists',
+> +                                       dependencies: rbd,
+> +                                       prefix: '#include <rbd/librbd.h>'))
+> +endif
+>  if rdma.found()
+>    config_host_data.set('HAVE_IBV_ADVISE_MR',
+>                         cc.has_function('ibv_advise_mr',
+> diff --git a/block/rbd.c b/block/rbd.c
+> index 6caf35cbba..0ff23c5b26 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -831,6 +831,26 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+>          error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
+>          goto failed_shutdown;
+>      }
+> +
+> +#ifdef HAVE_RBD_NAMESPACE_EXISTS
+> +    if (opts->has_q_namespace && strlen(opts->q_namespace) > 0) {
+> +        bool exists;
+> +
+> +        r = rbd_namespace_exists(*io_ctx, opts->q_namespace, &exists);
+> +        if (r != 0) {
+
+Nit: r < 0 for consistency (librbd errors are always negative).
+
+> +            error_setg_errno(errp, -r, "error checking namespace");
+> +            goto failed_ioctx_destroy;
+> +        }
+> +
+> +        if (!exists) {
+> +            error_setg(errp, "namespace '%s' does not exist",
+> +                       opts->q_namespace);
+> +            r = -ENOENT;
+> +            goto failed_ioctx_destroy;
+> +        }
+> +    }
+> +#endif
+> +
+>      /*
+>       * Set the namespace after opening the io context on the pool,
+>       * if nspace == NULL or if nspace == "", it is just as we did nothing
+> @@ -840,6 +860,10 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+>      r = 0;
+>      goto out;
+>
+> +#ifdef HAVE_RBD_NAMESPACE_EXISTS
+> +failed_ioctx_destroy:
+> +    rados_ioctx_destroy(*io_ctx);
+> +#endif
+>  failed_shutdown:
+>      rados_shutdown(*cluster);
+>  out:
 > --
-> 2.34.1
-> 
-> 
+> 2.35.3
+>
 
-I think the logic looks ok, and (with my limited understanding of the
-code) I agree on the reasoning for the changes in patches 2 and 3.
-Just some clarification needed: where is the value of 'g' checked?
-can the behavior change in this patch cause a situation where
-IMAFD_Zicsr_Zifencei is set but 'g' is not, or does patch 3
-guarantee that in this case 'g' will be set?
+Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 
-Thanks!
+Thanks,
 
--- 
-Víctor Cora Colombo
-Instituto de Pesquisas ELDORADO
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+                Ilya
 
