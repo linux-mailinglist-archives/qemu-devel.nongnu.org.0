@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5502252816C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:06:19 +0200 (CEST)
-Received: from localhost ([::1]:50664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B07528173
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:07:20 +0200 (CEST)
+Received: from localhost ([::1]:52418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqXcI-0002bN-6c
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
+	id 1nqXdH-0003yO-Mm
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nqXZk-0001Uw-0y
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:03:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31878)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nqXaS-0002HB-3w
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:04:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nqXZg-00085E-Tg
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:03:38 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nqXaQ-00089w-1P
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:04:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652695412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LZK26sGzv/gYmCXov3Qy8P2OtrWViXL3cBIq0sBxKnE=;
- b=RWuRey+sk99ze24u0WkAifiMO9u+N0/4vFC+xBcjtk2aQHfRFYs0G+9Yyde1Op7MdEZzv6
- +20Xje+jp8mkkeS2bxpoSuOKo1WOe2694AeXeBdr3064TxtRTuiF09s9Pd+r1Ph8uF2iv1
- mCcyCySTtLPXhM48fmAIVQQVRzRIH3E=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1652695461;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=kMhIwRRwdbg/YyCc6w6eMiaZ4MIBkbV+8Gx15fqbuBM=;
+ b=QQklECoYATTmxok+piX2AH5dhSIECl1bHBfkHiAV+bFSXqqlz+i5+IXCQWdfrnkTbRT/m+
+ p1gacYsJv7U737E28QZey4CcjycjJld46AUSPOx2tPv3GgmXql/Im8apWdGDvteGw008qO
+ VuGM9CPjfgNmzjXHyo0mGNGytWNT668=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662--xapNdQiN7aOM7Z414gwAw-1; Mon, 16 May 2022 06:03:31 -0400
-X-MC-Unique: -xapNdQiN7aOM7Z414gwAw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- d186-20020a3768c3000000b0069fcfacbea0so10948488qkc.0
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:03:31 -0700 (PDT)
+ us-mta-142-roKZLJVaMrOYQBuyFVxpNQ-1; Mon, 16 May 2022 06:04:20 -0400
+X-MC-Unique: roKZLJVaMrOYQBuyFVxpNQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ e6-20020adfef06000000b0020d08e465e2so325237wro.3
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:04:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LZK26sGzv/gYmCXov3Qy8P2OtrWViXL3cBIq0sBxKnE=;
- b=d0wrzgPvB3bRFlSw6JE7ahMRLocWHf0P7qS/hd0XDFmPjg/P6dRby7csCZrRuu+cZN
- 5jyMdmki1YDjspyA2bHWSJAqKPMsQ0z86NCJZP5cI0WO7jX0YPZ+nf8K1wc1ui8X+J4y
- 9QLbKAezfYGjEz83btvRsii7c8h3zI7/p3h+UdIY4LAxMi1ZHpEwOHkzD8XUkqzYTsJe
- g7rs53Nf9bYeN3vkQosU3PRrKMqTIRdJ08wNyG+bK0GszAosaeE1SVPXefcR7xMzT6j7
- TM2a/L/S1xF7EaFAzQVDz4GgbU8+G6FaFniIlLAZAAZZG3DdvErluMhO1Ha88FSspJ5j
- N8AA==
-X-Gm-Message-State: AOAM533lFJHFtRZDJcnFAGM1/X07Q+sw0xJKFZe6xmMsoXMZz2xyXII5
- 2raAPOKxRVzGbJXvRTtKk3RF0ymOrsP08oOhyEkRFcwbl41DekBvICn/o0YVPscNpzVLy9pGOwA
- sVUsYGwKleFJet8/419L58RSaYum4ZX1SFVUzqIWICEG90IWk7Qk/XMHerH6wzKl7Ges=
-X-Received: by 2002:ac8:5e54:0:b0:2f3:f4ee:efbd with SMTP id
- i20-20020ac85e54000000b002f3f4eeefbdmr14406030qtx.295.1652695410699; 
- Mon, 16 May 2022 03:03:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAOB56SQeR+UohK+fw/ZHoAjDSwnCHW+y9zgFlv+YhBbH72znOk01C1KygbehpEvQvY84IUw==
-X-Received: by 2002:ac8:5e54:0:b0:2f3:f4ee:efbd with SMTP id
- i20-20020ac85e54000000b002f3f4eeefbdmr14406007qtx.295.1652695410435; 
- Mon, 16 May 2022 03:03:30 -0700 (PDT)
-Received: from step1.redhat.com (host-87-11-6-106.retail.telecomitalia.it.
- [87.11.6.106]) by smtp.gmail.com with ESMTPSA id
- c28-20020a05620a201c00b0069fcf7678besm5482554qka.105.2022.05.16.03.03.27
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=kMhIwRRwdbg/YyCc6w6eMiaZ4MIBkbV+8Gx15fqbuBM=;
+ b=LD9duOgutNOWwxJ6bjLNj+2u3mW7LxTrpW938q6aSMoUITEfyT4yDxuF+ETVwmXADJ
+ PZ11xdcHdadyciVatxdhkuLjgU2KB3EjYpGVVklrfZ5YFnkMr25RTcilCrXUyOJw6O2i
+ 9Tci5Ha2itl9blzSFzwpbJqp4msl/F7fFAHq6zNOkCnQRTjugwgQ22UpWbTpjP8I5PHn
+ 0acCKTUayoU3sH2nEfNKRcruNkELOJPLI+0pepFOispNJY1pT/2iIqKaUbvxMGDilQFl
+ TZD0t2luo1wD1q+Up1XmOWBx4kejY2uKjnhxDhVcTf55v3fT7gnKnql/w6Pe/mQuC+iU
+ Nt0Q==
+X-Gm-Message-State: AOAM533EjucWCvat/GY/FLDeDs4eh/VKYAqFBPRHU4ULdNAGQr21EI0e
+ YV7YqzwRxo5TU9D8TkWdkwnjfPif1g4W6JlkH0DPCqjofwK4P/lWuC5Uva3JXHa+CrK60NGOXAZ
+ vba3YAPdg19LMI7E=
+X-Received: by 2002:a05:600c:3584:b0:394:5870:2c44 with SMTP id
+ p4-20020a05600c358400b0039458702c44mr16147962wmq.4.1652695458755; 
+ Mon, 16 May 2022 03:04:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOZewgohhEoywoHGlOptCihOeIDlrMiG4fNMl2XPZ4IHP3SE9RL0BoJOubHqlznDyGCLg0HQ==
+X-Received: by 2002:a05:600c:3584:b0:394:5870:2c44 with SMTP id
+ p4-20020a05600c358400b0039458702c44mr16147940wmq.4.1652695458490; 
+ Mon, 16 May 2022 03:04:18 -0700 (PDT)
+Received: from localhost (static-211-115-85-188.ipcom.comunitel.net.
+ [188.85.115.211]) by smtp.gmail.com with ESMTPSA id
+ c13-20020adfa70d000000b0020c5253d8f7sm9352980wrd.67.2022.05.16.03.04.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:03:28 -0700 (PDT)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Lieven <pl@kamp.de>, Ilya Dryomov <idryomov@gmail.com>,
- Tingting Mao <timao@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH] block/rbd: report a better error when namespace does not exist
-Date: Mon, 16 May 2022 12:03:24 +0200
-Message-Id: <20220516100324.61122-1-sgarzare@redhat.com>
-X-Mailer: git-send-email 2.35.3
+ Mon, 16 May 2022 03:04:18 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] migration: Calculate ram size once
+In-Reply-To: <94da21f4-60df-9cf9-3317-b762760ecf80@redhat.com> (David
+ Hildenbrand's message of "Wed, 11 May 2022 11:22:30 +0200")
+References: <20220510231708.7197-1-quintela@redhat.com>
+ <20220510231708.7197-3-quintela@redhat.com>
+ <94da21f4-60df-9cf9-3317-b762760ecf80@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Mon, 16 May 2022 12:04:17 +0200
+Message-ID: <874k1pu732.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,91 +97,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the namespace does not exist, rbd_create() fails with -ENOENT and
-QEMU reports a generic "error rbd create: No such file or directory":
+David Hildenbrand <david@redhat.com> wrote:
+> On 11.05.22 01:17, Juan Quintela wrote:
+>> We are recalculating ram size continously, when we know that it don't
+>> change during migration.  Create a field in RAMState to track it.
 
-    $ qemu-img create rbd:rbd/namespace/image 1M
-    Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
-    qemu-img: rbd:rbd/namespace/image: error rbd create: No such file or directory
+Hi
 
-Unfortunately rados_ioctx_set_namespace() does not fail if the namespace
-does not exist, so let's use rbd_namespace_exists() in qemu_rbd_connect()
-to check if the namespace exists, reporting a more understandable error:
+> We do have resizable RAM, which triggers ram_mig_ram_block_resized() on
+> resizes when changing block->used_length.
 
-    $ qemu-img create rbd:rbd/namespace/image 1M
-    Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
-    qemu-img: rbd:rbd/namespace/image: namespace 'namespace' does not exist
+Yeap.
 
-Reported-by: Tingting Mao <timao@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- meson.build |  6 ++++++
- block/rbd.c | 24 ++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
+The problem is this bit of the patch:
 
-diff --git a/meson.build b/meson.build
-index 9b20dcd143..e6c0afd62b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1828,6 +1828,12 @@ config_host_data.set('HAVE_GETIFADDRS', cc.has_function('getifaddrs'))
- config_host_data.set('HAVE_OPENPTY', cc.has_function('openpty', dependencies: util))
- config_host_data.set('HAVE_STRCHRNUL', cc.has_function('strchrnul'))
- config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
-+if rbd.found()
-+  config_host_data.set('HAVE_RBD_NAMESPACE_EXISTS',
-+                       cc.has_function('rbd_namespace_exists',
-+                                       dependencies: rbd,
-+                                       prefix: '#include <rbd/librbd.h>'))
-+endif
- if rdma.found()
-   config_host_data.set('HAVE_IBV_ADVISE_MR',
-                        cc.has_function('ibv_advise_mr',
-diff --git a/block/rbd.c b/block/rbd.c
-index 6caf35cbba..0ff23c5b26 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -831,6 +831,26 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-         error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
-         goto failed_shutdown;
-     }
-+
-+#ifdef HAVE_RBD_NAMESPACE_EXISTS
-+    if (opts->has_q_namespace && strlen(opts->q_namespace) > 0) {
-+        bool exists;
-+
-+        r = rbd_namespace_exists(*io_ctx, opts->q_namespace, &exists);
-+        if (r != 0) {
-+            error_setg_errno(errp, -r, "error checking namespace");
-+            goto failed_ioctx_destroy;
-+        }
-+
-+        if (!exists) {
-+            error_setg(errp, "namespace '%s' does not exist",
-+                       opts->q_namespace);
-+            r = -ENOENT;
-+            goto failed_ioctx_destroy;
-+        }
-+    }
-+#endif
-+
-     /*
-      * Set the namespace after opening the io context on the pool,
-      * if nspace == NULL or if nspace == "", it is just as we did nothing
-@@ -840,6 +860,10 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-     r = 0;
-     goto out;
+@@ -2259,7 +2261,7 @@ static int ram_find_and_save_block(RAMState *rs)
+     bool again, found;
  
-+#ifdef HAVE_RBD_NAMESPACE_EXISTS
-+failed_ioctx_destroy:
-+    rados_ioctx_destroy(*io_ctx);
-+#endif
- failed_shutdown:
-     rados_shutdown(*cluster);
- out:
--- 
-2.35.3
+     /* No dirty page as there is zero RAM */
+-    if (!ram_bytes_total()) {
++    if (!rs->ram_bytes_total) {
+         return pages;
+     }
+ 
+On 1TB guest, we moved form
+
+75.8 seconds to 70.0 seconds total time just with this change.  This is
+a idle guest full of zero pages.  If thue guest is busier, the effect is
+less noticiable because we spend more time sending pages.
+
+This effect is even more noticeable if you put this series on top of my
+zero page detection series that I sent before.  With that, we end having
+ram_bytes_total_common() as the second function that uses more CPU.
+
+As you can see for the perf profile that I sent, with upstream we get:
+
+
+  10.42%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+   3.71%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+
+(I have deleted the functions that are not reletade to this code path.
+ram_find_and_save_block() is the function that calls
+ram_bytes_total_common()).
+
+After the patch, we move to:
+
+  11.32%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+
+And ram_bytes_total_common() don't even exist.  Notice that my series
+only remove one call to it.  The CPU utilization here is higher for
+ram_find_and_save_block() because:
+
+- Meassuring things is difficult (TM)
+- With this patch, migration goes faster, and then we call
+  ram_find_and_save_block() more times in the same period of time.
+
+> ram_mig_ram_block_resized() aborts migration when we detect a resize on
+> the source. I assume that is what you care about here, right?
+
+Ouch.  Hadn't noticed that we could change the ramsize during
+migration.  Anyways, as you said, if ram size change, we cancel
+migration, so we can still cache the size value. Actually, I have just
+put it on ram_state_init(), because there is where we setup the bitmaps,
+so if we change the bitmap, we change also the ram_size cached value.
+
+Thanks, Juan.
+
+
+
+
+
+
 
 
