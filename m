@@ -2,93 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7CB527FC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:34:15 +0200 (CEST)
-Received: from localhost ([::1]:48732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121B2527FD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:39:06 +0200 (CEST)
+Received: from localhost ([::1]:57746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqWBB-00010Z-Ni
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38858)
+	id 1nqWFt-0007Go-5P
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqVLr-0006qe-Ud; Mon, 16 May 2022 03:41:12 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42918)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqVLq-0002su-0Z; Mon, 16 May 2022 03:41:11 -0400
-Received: by mail-ed1-x533.google.com with SMTP id s3so1945100edr.9;
- Mon, 16 May 2022 00:41:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iy55AIvdLNSIG3p8wIo+mNP/tzyfOhABGh8S2xtpUjI=;
- b=NqGkSgI4GUxZgIRgKOm7plA/6I6YBSs9BotqhbQUtGvYkZO3PrVhpt6UkBnxmmTtf9
- w/Y5GotZKeRhIqd2Ii11xKIBqGygCXoq6z59kQ6HEAI1EqIR94+Raat/o/4Fl5+rgPXQ
- qh8MHUNl3hVWUEAFJBGycN2Nr7Rk1/pS7sDY+6c6J9FQ4aFLRn9Yhg3r3KYRQGtCV6LH
- IMH6aAwSDuIGD0cNjw5PvogQz6xV8EIq2yCO7XHe8CIdwuRVLaKAUaejlodZY1kqErJ6
- a85KPbKJHJvmwQOdZx4LUUmDYSyatyAq8PJAGXPO3/PTLFJHHJi7jMkuKxv7hhAnjJE0
- 1nnA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nqVwd-0006GY-8r
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 04:19:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60257)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nqVwa-0008Ub-3e
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 04:19:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652689146;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eZUylH/fvUFckp4Qv2lZt4M3qWan6n8s/PGwWpab+hs=;
+ b=U+57GYc5nwzwFB9gNoxEV6ML0lEH5KuKXTD13C00IgE4c/ylKtm6IlgIe+zFIbwmmvb0rn
+ 5tMrm8ZIhdwZUe7BbMF9+7ZkDKNcMZ6rcCAtupLprx276kqDz09ehcQxrkfzYySzUFNas0
+ y6bHA3n1z7Wfkkfcai58mkBGbbPpL28=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-582-lAjsnjFfPni_NmlJXNJa8Q-1; Mon, 16 May 2022 04:19:03 -0400
+X-MC-Unique: lAjsnjFfPni_NmlJXNJa8Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k35-20020a05600c1ca300b003946a9764baso9997933wms.1
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 01:19:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iy55AIvdLNSIG3p8wIo+mNP/tzyfOhABGh8S2xtpUjI=;
- b=1sYAcC7FLTa2QtkBAdX3xGXJB8LYdB0QbZy+n7I4eFwyt0zgFG07KX+i+y+pedMfd9
- rzi+H+viML50hnq9ew6TjFLej03QDrhZYnEb7KZrTQw6BLUCjgwaor5AxcpjWsmtSesO
- BfK2gIrK/p3KI91y/ZJCxd2Qs8l9bewKI7qxjn0WxBzZpDFcmUTkJU/TmU+pwKUZgINW
- pE1HJ0MOZXfGa0DGEHLsMnUXX/rJ7Dg9GqZZ3/vi+mw+OiXvMPR46p5OwDPE8umHPyfn
- J4vWMymIH4hdFC+FVCq7t28xjLAyp/+aOptCA0hPNwYonpWGJHvHWP6WYRub0BYGwI5d
- 0N9w==
-X-Gm-Message-State: AOAM530/lXMZMl/h3CtUbl8XtUXg7mHS1EYgKSOVBtKQncvuN//Q/EO/
- De4AA9mp6xUSo8pLGYUQrEA=
-X-Google-Smtp-Source: ABdhPJwc07aF0qoxjOEl/T2g3Gu/cCDM31xgc+a3P9Odu/UyLYCI1FhtRWlAbNpiVurgd5T5VwtWPw==
-X-Received: by 2002:a05:6402:4010:b0:42a:6266:3f14 with SMTP id
- d16-20020a056402401000b0042a62663f14mr11818611eda.417.1652686867322; 
- Mon, 16 May 2022 00:41:07 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- h11-20020aa7c94b000000b00428a42815aasm4833264edt.0.2022.05.16.00.41.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 00:41:06 -0700 (PDT)
-Message-ID: <15a9d6cb-e7c6-98f0-4b6f-766600b36274@redhat.com>
-Date: Mon, 16 May 2022 09:41:05 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=eZUylH/fvUFckp4Qv2lZt4M3qWan6n8s/PGwWpab+hs=;
+ b=XYHSlSe4kesbcKwaMubW4jdMzctpaVhqRBQ7K8JYGtaocvLl21jBCidmzIL5IC3Fc+
+ eGUzbJaDLgdD4nVqVWHCTbxaSFLsQcSqnbrnOsSqS5at55suyAhYVBWynJ0DpCGI5pgt
+ rb7eHMBpcq5pStZDPh1YNarV5BvCXcYsgxwOF1APXj9H64PtbtbiSlNCW5mt6z5/Bcbt
+ HCNvn2alEdPg8DQsPm3OxC7Wc7nD0rHYIFQVPllTG/KzSGF2WDdbXgJGN1Y3s+xpAm9m
+ YafdLOtTBCTdkNxkklGoJtCklxjTEmR5tMX6o9qhU8FdsrZrfWN0lcYpANtu570JsbPU
+ XV+Q==
+X-Gm-Message-State: AOAM530P+JkL0hHtJOIAmnS1/jpuhe0QLzCrwsMEvSfgKqtZuZ2w1v3H
+ Hd5lTCgUuoUP76Ccdg3miIRjB+LSxKRrz/mw3myBMl1blxnyinyD7eFQkLlY7PhgOACTA7RBDWh
+ TT8MdJWVZZtAmhgo=
+X-Received: by 2002:a05:600c:a4b:b0:37b:ea2b:5583 with SMTP id
+ c11-20020a05600c0a4b00b0037bea2b5583mr26574051wmq.139.1652689141936; 
+ Mon, 16 May 2022 01:19:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyuF9k2m7+pXc2mewLuFs8THJj0LJlvpG4k7TvzwvbUArvPy9p8LC2XRXHpAefcIFs8ma9j0w==
+X-Received: by 2002:a05:600c:a4b:b0:37b:ea2b:5583 with SMTP id
+ c11-20020a05600c0a4b00b0037bea2b5583mr26574035wmq.139.1652689141695; 
+ Mon, 16 May 2022 01:19:01 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ v3-20020adf8b43000000b0020c5253d8c2sm8986824wra.14.2022.05.16.01.19.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 01:19:01 -0700 (PDT)
+Date: Mon, 16 May 2022 09:18:59 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PULL 00/16] migration queue
+Message-ID: <YoII85MMsmXvyECW@work-vm>
+References: <20220510083355.92738-1-dgilbert@redhat.com>
+ <Yno3RvWhwSDZjI7o@work-vm> <Yno8NV5bQPUlqvcx@redhat.com>
+ <YnpB4vg2ozbBzUCg@work-vm>
+ <CAJ6HWG5Mgaqt9dOVH-0-Y78x96HO5c-TevYeuN5xMvSQqj7W8Q@mail.gmail.com>
+ <Ynt58gRnsNJBXzfg@work-vm>
+ <CAJ6HWG5wiod4gJJi2-bMkLPECiow4bC-ux-szWL-0=p3edpTvg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 9/9] iotests: use tests/venv for running tests
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220513000609.197906-1-jsnow@redhat.com>
- <20220513000609.197906-10-jsnow@redhat.com>
- <ab6d4171-74f0-3b6c-9ffc-1ed8f4fb0493@redhat.com>
- <CAFn=p-b19dDshg7ShuNqhH+1h_ptYL4qpZSkTvnVnZOPT3g8HQ@mail.gmail.com>
- <b30dd93b-0ced-0aea-5e84-57fa4294f4ad@redhat.com>
- <CAFn=p-bqbcXBLLmT3Fqu1b7Y0Hu=M6B5oKT7J9idXn=tmrt4UA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFn=p-bqbcXBLLmT3Fqu1b7Y0Hu=M6B5oKT7J9idXn=tmrt4UA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAJ6HWG5wiod4gJJi2-bMkLPECiow4bC-ux-szWL-0=p3edpTvg@mail.gmail.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,34 +109,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/22 17:55, John Snow wrote:
-> On Fri, May 13, 2022, 11:33 AM Paolo Bonzini <pbonzini@redhat.com 
-> <mailto:pbonzini@redhat.com>> wrote:
->     IIRC we have some cases (FreeBSD?) where only the python3.x executable
->     is available.Â  This is why we 1) default to Meson's Python 3 if neither
->     --meson nor --python are passed, and 2) use the shebang you mention but
->     with *non-executable* files, which Meson treats magically as "invoke
->     with the Python interpreter that was used to launch me".
+* Leonardo Bras Soares Passos (leobras@redhat.com) wrote:
+> On Wed, May 11, 2022 at 5:55 AM Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> >
+> > * Leonardo Bras Soares Passos (leobras@redhat.com) wrote:
+> > > From a previous thread:
+> > >
+> > > On Thu, Apr 28, 2022 at 1:20 PM Dr. David Alan Gilbert
+> > > <dgilbert@redhat.com> wrote:
+> > > >
+> > > > Leo:
+> > > >   Unfortunately this is failing a couple of CI tests; the MSG_ZEROCOPY
+> > > > one I guess is the simpler one; I think Stefanha managed to find the
+> > > > liburing fix for the __kernel_timespec case, but that looks like a bit
+> > > > more fun!
+> > > >
+> > > > Dave
+> > >
+> > > I thought Stefanha had fixed this bug, and we were just waiting for a
+> > > new alpine rootfs/image with that fixed.
+> > > Is that correct?
+> > >
+> > > On Tue, May 10, 2022 at 7:43 AM Dr. David Alan Gilbert
+> > > <dgilbert@redhat.com> wrote:
+> > > >
+> > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > > > On Tue, May 10, 2022 at 10:58:30AM +0100, Dr. David Alan Gilbert wrote:
+> > > [...]
+> > > > >
+> > > > > Yuk. That very much looks like a bug in liburing itself to me.
+> > > > >
+> > > > >
+> > > > > We've exposed the latent bug by including linux/errqueue.h
+> > > >
+> > > > Yes, I think there was a thread after the 1st pull where Leo identified
+> > > > the patch that fixed it; but it's not in that image.
+> > >
+> > > I only fixed the MSG_ZEROCOPY missing define bug, as I got that
+> > > Stefanha had already fixed the issue in liburing/alpine.
+> > >
+> > > questions:
+> > > - Has Stefanha really fixed that, and we are just waiting for a new
+> > > image, or have I got that wrong?
+> > > - How should I proceed with that?
+> > >
+> > > - If we proceed with fixing this up in alpine, will that require this
+> > > patchset to be on pause until it's fixed there?
+> >
+> > It needs to pass in CI; so yes.
+> >
+> > > - If so, is there any suggestion on how to fix that in qemu code?
+> > > (this header is needed because of SO_EE_* defines)
+> >
+> > I've not actually looked at the detail of the failure; but yes I think
+> > we need a qemu workaround here.
+> >
+> > If there's no simple fix, then adding a test to meson.build to
+> > conditionally disable liburing might be best; like the test code for
+> > libcap_ng I guess (search in meson.build for libcap_ng.found  at around
+> > line 540.
 > 
-> pkg install python3 on fbsd 13.0-R gives you /usr/bin/python3 fwiw. do 
-> you know in what circumstances you get only a point release binary?
+> Hello Dave,
+> 
+> I solved this issue by doing this:
+> 
+> +linux_io_uring_test = '''
+> +  #include <liburing.h>
+> +  #include <linux/errqueue.h>
+> +
+> +  int main(void) { return 0; }'''
+> +
+>  linux_io_uring = not_found
+>  if not get_option('linux_io_uring').auto() or have_block
+>    linux_io_uring = dependency('liburing', version: '>=0.3',
+>                                required: get_option('linux_io_uring'),
+>                                method: 'pkg-config', kwargs: static_kwargs)
+> +  if not cc.links(linux_io_uring_test)
+> +    linux_io_uring = not_found
+> +  endif
+>  endif
+> +
+> 
+> Seems to work fine in CI, and now Alpine does not fail anymore.
+> (See pipeline https://gitlab.com/LeoBras/qemu/-/pipelines/538123933
+> for reference)
+> 
+> I am not sure if this is the right thing to do, but I will be sending
+> it as a full new patchset (v13), with the first patch being the one
+> with the above change and the rest just carrying the recommended
+> fixes.
 
-Aha, tests/vm/freebsd installs python37, not python3.  But I guess it's 
-still a plausible configuration for this packaging setup.
+Thanks! That looks promising.  I'll cook a new pull.
 
-Paolo
+> I was also thinking I could instead send the single "fix" patch, and
+> recommend adding it before my v12. If that is the correct approach for
+> this case, please let me know so I can improve in the future. (I am
+> trying to figure out what is simpler/best for maintainers)
 
-> Creating a venv on fbsd with "python3 -m venv testvenv" created a 
-> python3 binary link, but not a python3.8 link, also.
+Either way would be fine; the full series is probably better.
+
+Dave
+
+> Best regards,
+> Leo
 > 
-> Still leaning towards the idea that "python3" is safest, but maybe it 
-> depends on how you install from ports etc. I'd still say that it's 
-> reasonable to expect that a system with python pays heed to PEP0394, I 
-> think you've got a broken python install if you don't.
 > 
-> (But, what's the use case that forced your hand otherwise?)
 > 
-> --js
 > 
+> 
+> 
+> 
+> >
+> > Dave
+> >
+> > > Thank you all!
+> > >
+> > > Best regards,
+> > > Leo
+> > >
+> > > >
+> > > > Dave
+> > > >
+> > > > > With regards,
+> > > > > Daniel
+> > > > > --
+> > > > > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> > > > > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> > > > > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> > > > >
+> > > > --
+> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > > >
+> > >
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
