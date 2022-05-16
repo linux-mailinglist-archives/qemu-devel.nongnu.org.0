@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D3E5288CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:28:14 +0200 (CEST)
-Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474235288E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:31:24 +0200 (CEST)
+Received: from localhost ([::1]:39916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqcdp-0005HV-QG
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56474)
+	id 1nqcgt-00023R-AO
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqcOR-00038P-Rz
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:12:19 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:41598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqcOQ-0003dd-5d
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:12:19 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id o130so11993181ybc.8
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s0E1XPn0PTqEXJIEWvk7NZ9FwIcVnCU9EdPfWwJy/eA=;
- b=HMxm+wA+PGlfS/17wm8V/VPOnPc5EuYuOcNe3GQqTamYN5rLlzRXcRp0DNTD2XKIhf
- bnaPf1dilojctDdC0Og5SqNY0ohutCMT2NlN4fsmr/suZWFN4gJ0rF6NrSupCkxO3Xfg
- HBtR6A98sAyrnoAm2tkjjC/RFxD6CDlA0Cvm7uZjCExl3E+EzDzsOivR9G6MkXvn+3aj
- g7P62m3ulIQWTmjPKt1YgXIit+3Uk0E6cwI0Q2p13/FBGGoaec2zChxHPjb+viRFNrtH
- sn+RYUGLVQnaLGAkv2C9nq6q0wM04lpmJSgWWjQAll+XFEyBjL8QgIaanwZ+bzQyeksI
- +NIg==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nqcQ5-0006rW-Ej
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:14:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nqcQ2-0003q9-Rw
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:14:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652714037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Z7veMN+rwEq81zOlRRr93h3uM7FwElFPJnP45Jbsd8=;
+ b=PeQSxWq8WzTg+5P8rOHZz9UdDWh0ckEGYrFnx8KZH/V6Q2e1TAXR3129dHL7NCRyltNYQz
+ jFsFyItwVahYPaf4U2d06+/oOjJTC5w/FoUqV9Ste1jeMTRDza6TGsR7W5+/HSduNEgN24
+ TOS0cauvMXkmakHRyMJon0+1GRUaQaM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-rDscOYTCPNGHF_Q4MnHsLg-1; Mon, 16 May 2022 11:13:56 -0400
+X-MC-Unique: rDscOYTCPNGHF_Q4MnHsLg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bi5-20020a05600c3d8500b0039489e1d18dso10495971wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:13:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s0E1XPn0PTqEXJIEWvk7NZ9FwIcVnCU9EdPfWwJy/eA=;
- b=RPBQ5b7CxB99DamlcUXJY93cZ6BKbkBwv5E38EKqNGoieWXa/C5JE/bRkLiBIf8vse
- xEz8DifJvNoaqusKOa8hUUbwuR31UsBcCfidirMcEuf4FezSLRPAqUbteUco8mSPM1+c
- 8vyKJml8aJYAfkiQe00xlUMg8zdUcOpXoQr3I1n9M5Uo6I0hit5fqadqcj10jvx0/wEm
- z6/Xoe5+MiTfVmMvFiCq4nqUE0W+UbM/RWsvtOnw3JW9hSxPhjIGxSQMHrXLFLlzOGDJ
- sgBRu6ABwQRV35QGUKD5thsbGAY91y1GYponKTNf1kyZ0cRbqrxDcCD+pkiBoYo9HJUy
- wa6g==
-X-Gm-Message-State: AOAM530CspEHz5LZ/eO3K1elQKI9X/N4xetRqGO7MDikOM/chkDHogW8
- cENzB9/CaMPswQrfWc2/YAWV+B08UCMkoMIgyqzgHUL9DsE=
-X-Google-Smtp-Source: ABdhPJxCKry8pBfPzwYE476+MxubVt17X5JkcrQvDRm3VzH4z+3ukr1wHhLWlsM1yxQxzJrt6vpqgKLqg9FZBIXzV1I=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr18305966ybq.67.1652713936253; Mon, 16
- May 2022 08:12:16 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2Z7veMN+rwEq81zOlRRr93h3uM7FwElFPJnP45Jbsd8=;
+ b=kujtJx7EQOe7a42OrF5lTAL3JUV1hwoKiUTK8pFbrRETaTk0zTTz+Zz7+8nKO2lBCO
+ X1wQWz5TLy6qs1keRCLw57/cSrid3DPGxveqj9aGeDly1qiNPqLDS0G+6TlIkRVN1+nu
+ RDOIbDMVI//T8PZi54SiyoaNGj97S2Bgz95HVkYSKmhLz7a0kJMURm5UGggq6h749EIm
+ ZYuQbXSqo2mxVGSs352c6POqy7qSA4tZnElq8P3+2oeijXgpQF6Nsv6UITYScZKFpLea
+ Sg9KDDxfspjnlpVKb1bJtzKdYgKeuaLJ36AVkzgdmS4szzxn5/THizhrHcvLAkKxcwFX
+ qa8Q==
+X-Gm-Message-State: AOAM533gJ/60mGQWphIBAmlzeE+tMObdivdxKQrAS/1V31XfmFN9Qzpz
+ ZSRA10Eh3Sl3LoW3ly78YOocXCkPjkmVB8qwL1VvhlkuRTeLr5wWZMG/+axq7u8h0FJ4WpJutgy
+ MGG5fA36XuS93eP8=
+X-Received: by 2002:adf:a454:0:b0:20d:749:6d5c with SMTP id
+ e20-20020adfa454000000b0020d07496d5cmr5590370wra.488.1652714035184; 
+ Mon, 16 May 2022 08:13:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCkuqRPGKiAjMIX97bYQKneF8BaJiawMFpMuI5UGI24cgweSqZe3xFDXR19uX+DhYEXoQDiA==
+X-Received: by 2002:adf:a454:0:b0:20d:749:6d5c with SMTP id
+ e20-20020adfa454000000b0020d07496d5cmr5590347wra.488.1652714034925; 
+ Mon, 16 May 2022 08:13:54 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-11-6-106.retail.telecomitalia.it.
+ [87.11.6.106]) by smtp.gmail.com with ESMTPSA id
+ l16-20020a1ced10000000b00396f8c79d22sm6655728wmh.11.2022.05.16.08.13.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 08:13:54 -0700 (PDT)
+Date: Mon, 16 May 2022 17:13:51 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: stefanha@redhat.com, mst@redhat.com, jasowang@redhat.com,
+ cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 resend 3/4] vdpa: add vdpa-dev support
+Message-ID: <20220516151351.se7weg4reedsiglw@sgarzare-redhat>
+References: <20220514041107.1980-1-longpeng2@huawei.com>
+ <20220514041107.1980-4-longpeng2@huawei.com>
 MIME-Version: 1.0
-References: <20220503194843.1379101-1-richard.henderson@linaro.org>
- <20220503194843.1379101-7-richard.henderson@linaro.org>
-In-Reply-To: <20220503194843.1379101-7-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 May 2022 16:12:05 +0100
-Message-ID: <CAFEAcA8_PbxmN7EDnkEtNkAfdUQ=NbVp1RuKdUTqqzEycMEdfA@mail.gmail.com>
-Subject: Re: [PATCH v2 06/74] semihosting: Simplify softmmu_lock_user_string
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220514041107.1980-4-longpeng2@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,17 +100,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 May 2022 at 21:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sat, May 14, 2022 at 12:11:06PM +0800, Longpeng(Mike) wrote:
+>From: Longpeng <longpeng2@huawei.com>
 >
-> We are not currently bounding the search to the 1024 bytes
-> that we allocated, possibly overrunning the buffer.
-> Use softmmu_strlen_user to find the length and allocate the
-> correct size from the beginning.
+>Supports vdpa-dev, we can use the deivce directly:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>-M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+>vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
+>
+>Signed-off-by: Longpeng <longpeng2@huawei.com>
+>---
+> hw/virtio/Kconfig            |   5 +
+> hw/virtio/meson.build        |   1 +
+> hw/virtio/vdpa-dev.c         | 377 +++++++++++++++++++++++++++++++++++
+> include/hw/virtio/vdpa-dev.h |  43 ++++
+> 4 files changed, 426 insertions(+)
+> create mode 100644 hw/virtio/vdpa-dev.c
+> create mode 100644 include/hw/virtio/vdpa-dev.h
 
-thanks
--- PMM
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
 
