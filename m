@@ -2,69 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230DF528464
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:45:38 +0200 (CEST)
-Received: from localhost ([::1]:33022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B305284F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 15:08:29 +0200 (CEST)
+Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqa6Q-0004tw-DX
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:45:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
+	id 1nqaSZ-00050T-Ng
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 09:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqZSU-0005Rz-LJ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 08:04:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21913)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1nqZuq-000636-GA; Mon, 16 May 2022 08:33:41 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:38155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqZSR-0003C2-1c
- for qemu-devel@nongnu.org; Mon, 16 May 2022 08:04:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652702654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JVL1DIq9QTdR4Z/4ygKFN2lYNsZiE8srbgcSQrrJLj8=;
- b=Ai66gxLE73vmAHVhLJE56+dU09NuvEb8rXFN7X/o9hsyCQPdWOTjFSkcMQ1mB/cx9yE/4B
- AtlVAMMwKFtVBpZiSj8lH16J6PQ2QLNZIUdC/rYaFAk+wvUEO8UgGi23M9pwggAUZWBeBL
- 82e3yj/bsJC7bP58juZevSpcGqfxa+s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-iBZMz2UPN9KhG7AHTfQijw-1; Mon, 16 May 2022 08:04:12 -0400
-X-MC-Unique: iBZMz2UPN9KhG7AHTfQijw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B2C185A5BC;
- Mon, 16 May 2022 12:04:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BB3140CF8E2;
- Mon, 16 May 2022 12:04:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 38A4721E690D; Mon, 16 May 2022 14:04:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org,  armbru@redhat.com,  berrange@redhat.com,
- dgilbert@redhat.com,  Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v3 3/8] qmp: add filtering of statistics by target vCPU
-References: <20220516090058.1195767-1-pbonzini@redhat.com>
- <20220516090234.1195907-2-pbonzini@redhat.com>
-Date: Mon, 16 May 2022 14:04:11 +0200
-In-Reply-To: <20220516090234.1195907-2-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Mon, 16 May 2022 11:02:29 +0200")
-Message-ID: <87lev1y98k.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1nqZuo-0008Ak-5O; Mon, 16 May 2022 08:33:36 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id A54CF5C01BD;
+ Mon, 16 May 2022 08:33:31 -0400 (EDT)
+Received: from imap49 ([10.202.2.99])
+ by compute3.internal (MEProxy); Mon, 16 May 2022 08:33:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1652704411; x=
+ 1652790811; bh=z3jH7bU6ja+05lC6SX96mbpSl12BhebXNE1kWGUErYI=; b=c
+ ACBC8vDqKhpLh+CZ6I+RhEdZkG7nx3bxBPeCH2Xfnke76Mi2kUP/5WSk8Romejn1
+ Z9Zy6LGl5/VN0Y3glUIEPqz4KYQfqhw3cSARxgbg9cYvJ61S1zrq37Y1t8yhKDA0
+ ZAgd3uxpH+zqksQOa9FKKFxzALKAD2QvkTmoSDZAvu8P5qT+0t6NHtLAH7RvP2xc
+ AqCwdGvn8Ncz/crm8dxm7E8zo3vu1Vvxv3iNPKOknk/48HYu3kzNwu4NN6IpbXkg
+ sVpGF5qKAyE8vQp7nKFEfY8VMhaiHJeF0HmSe8rGjXAjqTwO/TZNUtwfveFi+05p
+ +Cilz/e9/15paXFGaQGdg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1652704411; x=1652790811; bh=z3jH7bU6ja+05
+ lC6SX96mbpSl12BhebXNE1kWGUErYI=; b=fRwrVJW6xuSB8Au6E+x7CcM3MNZ2X
+ mcMfcW+1zf0tnDATU6LFGBumF37u9mHdiZaX9AQgpI0eF3C3ePJWT2OgzZuH0DDb
+ iath4UU5BSOY5tP4osAfvVrqvE/HkRIqwgXiosZSY5221kNp1FFsJBmM0tz2wMw2
+ +2MtrAoMGynWZeonZCDvR3qFD1zNkK3VHMd9cnGOuc/9ko2dy85IxVOLKsVnMvNs
+ 14Qi3cD52MfOSoGbFX1QWW/74AS+IOtkNLOa/6x+GFdRvxl8bEOuCRT68lFT4AaY
+ 55cyWKXAxk8N61SUSv+QxYknqjM+Vl2go/Njx+kNLk3F1fxHpgneyRbhw==
+X-ME-Sender: <xms:mkSCYgmJ312dC099spiLbLZ3_-sW2z13a4ZiHzukJOyqfHnGG69K7w>
+ <xme:mkSCYv2KjTc-2wRTe1FB7hriAS-ylAJabLeB7MK7PU4N2AUnL1lg_5MtoJrBzLIam
+ WOy5dMzvc3CtwGA3w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrheehgdehvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpeelkeetiedvgfekueehteekueefgfeuffdvieduieehgfefleeihfeg
+ hfelvdeffeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrgh
+ enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgu
+ rhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:mkSCYurTv1AMTXQXtnu2OIi1cJ4kz9b4XaRSE6UA3h0Q_cPiZfcYUA>
+ <xmx:mkSCYsnirEZFtIC2VCt21K0rfGSBTROkK0TLnE2F8YynMGhuvzjUiA>
+ <xmx:mkSCYu3p7AYbXeCz5HtE3zmauzMiLGT5cdb87UcbNzQfCMLZ2MNLLw>
+ <xmx:m0SCYnnOEwNmzcZl_CI27sZQKkjPN1QjylDU084mMIzIvS0dD0vj3w>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8F14B15A0080; Mon, 16 May 2022 08:33:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
+Mime-Version: 1.0
+Message-Id: <361f8b4a-9b98-4f20-a54e-0ccecf302cd4@www.fastmail.com>
+In-Reply-To: <b978e205-66f7-e585-4cf0-6f3946fd1050@kaod.org>
+References: <20220516062328.298336-1-pdel@fb.com>
+ <b978e205-66f7-e585-4cf0-6f3946fd1050@kaod.org>
+Date: Mon, 16 May 2022 22:03:10 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Peter Delevoryas" <pdel@fb.com>
+Cc: irischenlj@fb.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9_via?= <qemu-arm@nongnu.org>,
+ "Cameron Esfahani via" <qemu-devel@nongnu.org>,
+ "Zev Weiss" <zev@bewilderbeest.net>, openbmc@lists.ozlabs.org,
+ "Peter Maydell" <peter.maydell@linaro.org>, "Joel Stanley" <joel@jms.id.au>,
+ "Jamin Lin" <jamin_lin@aspeedtech.com>
+Subject: Re: [PATCH v2 0/5] hw: aspeed: Init all UART's with serial devices
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=andrew@aj.id.au;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,184 +108,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> Introduce a simple filtering of statistics, that allows to retrieve
-> statistics for a subset of the guest vCPUs.  This will be used for
-> example by the HMP monitor, in order to retrieve the statistics
-> for the currently selected CPU.
->
-> Example:
-> { "execute": "query-stats",
->   "arguments": {
->     "target": "vcpu",
->     "vcpus": [ "/machine/unattached/device[2]",
->                "/machine/unattached/device[4]" ] } }
->
-> Extracted from a patch by Mark Kanda.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  accel/kvm/kvm-all.c     |  9 +++++++--
->  include/monitor/stats.h |  9 ++++++++-
->  monitor/qmp-cmds.c      | 34 +++++++++++++++++++++++++++++++++-
->  qapi/stats.json         | 20 +++++++++++++++++---
->  4 files changed, 65 insertions(+), 7 deletions(-)
->
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 6a6bbe2994..28f8a45205 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -2311,7 +2311,8 @@ bool kvm_dirty_ring_enabled(void)
->      return kvm_state->kvm_dirty_ring_size ? true : false;
->  }
->  
-> -static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp);
-> +static void query_stats_cb(StatsResultList **result, StatsTarget target,
-> +                           strList *targets, Error **errp);
->  static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
->  
->  static int kvm_init(MachineState *ms)
-> @@ -4049,7 +4050,8 @@ static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
->      close(stats_fd);
->  }
->  
-> -static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp)
-> +static void query_stats_cb(StatsResultList **result, StatsTarget target,
-> +                           strList *targets, Error **errp)
->  {
->      KVMState *s = kvm_state;
->      CPUState *cpu;
-> @@ -4073,6 +4075,9 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target, Error *
->          stats_args.result.stats = result;
->          stats_args.errp = errp;
->          CPU_FOREACH(cpu) {
-> +            if (!str_in_list(cpu->parent_obj.canonical_path, targets)) {
-> +                continue;
-> +            }
->              run_on_cpu(cpu, query_stats_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
->          }
->          break;
-> diff --git a/include/monitor/stats.h b/include/monitor/stats.h
-> index 89552ab06f..92a1df3072 100644
-> --- a/include/monitor/stats.h
-> +++ b/include/monitor/stats.h
-> @@ -10,7 +10,8 @@
->  
->  #include "qapi/qapi-types-stats.h"
->  
-> -typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target, Error **errp);
-> +typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target,
-> +                              strList *targets, Error **errp);
->  typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
->  
->  /*
-> @@ -30,4 +31,10 @@ void add_stats_entry(StatsResultList **, StatsProvider, const char *id,
->  void add_stats_schema(StatsSchemaList **, StatsProvider, StatsTarget,
->                        StatsSchemaValueList *);
->  
-> +/*
-> + * True if a string matches the filter passed to the stats_fn callabck,
-> + * false otherwise.
-> + */
-> +bool str_in_list(const char *string, strList *list);
-> +
->  #endif /* STATS_H */
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index d83faeca88..1ec7409bc2 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -463,13 +463,30 @@ void add_stats_callbacks(StatRetrieveFunc *stats_fn,
->      QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
->  }
->  
-> +static strList *stats_target_filter(StatsFilter *filter)
-> +{
-> +    switch (filter->target) {
-> +    case STATS_TARGET_VM:
-> +        return NULL;
-> +    case STATS_TARGET_VCPU:
-> +        if (!filter->u.vcpu.has_vcpus) {
-> +            return NULL;
-> +        }
-> +        return filter->u.vcpu.vcpus;
-> +        break;
-> +    default:
-> +        abort();
-> +    }
-> +}
-> +
->  StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
->  {
->      StatsResultList *stats_results = NULL;
-> +    strList *targets = stats_target_filter(filter);
->      StatsCallbacks *entry;
->  
->      QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-> -        entry->stats_cb(&stats_results, filter->target, errp);
-> +        entry->stats_cb(&stats_results, filter->target, targets, errp);
->      }
->  
->      return stats_results;
-> @@ -512,3 +529,18 @@ void add_stats_schema(StatsSchemaList **schema_results,
->      entry->stats = stats_list;
->      QAPI_LIST_PREPEND(*schema_results, entry);
->  }
-> +
-> +bool str_in_list(const char *string, strList *list)
-> +{
-> +    strList *str_list = NULL;
-> +
-> +    if (!list) {
-> +        return true;
 
-Are you sure the empty list is supposed to contain any string?
+On Mon, 16 May 2022, at 16:48, C=C3=A9dric Le Goater wrote:
+> On 5/16/22 08:23, Peter Delevoryas wrote:
+>> v2:
+>> - Rebased on Cedric's irq proposal. [1]
+>> - Added "Introduce common UART init function" patch
+>> - Added "Add uarts_num SoC attribute" patch
+>> - Rewrote last commit's message for clarity
+>
+> Looks good to me.
+>
+>> I tried testing this by running acceptance tests, particularly the
+>> boot_linux_console.py file, but I had to disable the raspi2_initrd ca=
+se.
+>> It's not related to my changes (A/B tested and it fails on upstream/m=
+aster
+>> too), but thought I would mention that.>
+>> I also manually tested several machines:
+>>=20
+>> AST2400: https://github.com/facebook/openbmc/releases/download/v2021.=
+49.0/wedge100.mtd
+>> AST2500: https://github.com/facebook/openbmc/releases/download/v2021.=
+49.0/fby3.mtd
+>> AST2600: https://github.com/facebook/openbmc/releases/download/v2021.=
+49.0/fuji.mtd
+>> AST1030: https://github.com/peterdelevoryas/OpenBIC/releases/download=
+/oby35-cl-2022.13.01/Y35BCL.elf
+>>=20
+>> [1] https://lore.kernel.org/qemu-devel/20220516055620.2380197-1-clg@k=
+aod.org/
+> I have quite a few images which I run manually. OpenBMC is providing
+> images, Aspeed also. Joel did a small tool for the IBM rainier :
+>
+>    https://github.com/shenki/qemu-boot-test
+>
+> Having an automated framework for Aspeed machines pulling images
+> from different places would be nice but we cannot put all under
+> QEMU.
 
-> +    }
-> +    for (str_list = list; str_list; str_list = str_list->next) {
-> +        if (g_str_equal(string, str_list->value)) {
-> +            return true;
-> +        }
-> +    }
-> +    return false;
-> +}
-> diff --git a/qapi/stats.json b/qapi/stats.json
-> index 382223e197..859fc0f459 100644
-> --- a/qapi/stats.json
-> +++ b/qapi/stats.json
-> @@ -68,16 +68,30 @@
->  { 'enum': 'StatsTarget',
->    'data': [ 'vm', 'vcpu' ] }
->  
-> +##
-> +# @StatsVCPUFilter:
-> +#
-> +# @vcpus: list of QOM paths for the desired vCPU objects.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'StatsVCPUFilter',
-> +  'data': { '*vcpus': [ 'str' ] } }
-> +
->  ##
->  # @StatsFilter:
->  #
->  # The arguments to the query-stats command; specifies a target for which to
-> -# request statistics.
-> +# request statistics and optionally the required subset of information for
-> +# that target:
-> +# - which vCPUs to request statistics for
->  #
->  # Since: 7.1
->  ##
-> -{ 'struct': 'StatsFilter',
-> -  'data': { 'target': 'StatsTarget' } }
-> +{ 'union': 'StatsFilter',
-> +        'base': { 'target': 'StatsTarget' },
-> +  'discriminator': 'target',
-> +  'data': { 'vcpu': 'StatsVCPUFilter' } }
->  
->  ##
->  # @StatsValue:
+For what it's worth I run this as a smoke test before pushing updates to=
+ openbmc/qemu:
 
+https://github.com/openbmc/openbmc-build-scripts/blob/master/scripts/tes=
+t-qemu
+
+Andrew
 
