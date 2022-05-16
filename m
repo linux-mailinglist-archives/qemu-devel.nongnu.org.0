@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB687528BA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:12:37 +0200 (CEST)
-Received: from localhost ([::1]:55640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDD9528B9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:09:45 +0200 (CEST)
+Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqeGr-0000Qv-2o
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55494)
+	id 1nqeE5-0002tZ-0S
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nqdyc-00072m-FF; Mon, 16 May 2022 12:53:57 -0400
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:41483)
+ id 1nqdyd-00072p-Df; Mon, 16 May 2022 12:53:57 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:40698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nqdya-0004jm-UA; Mon, 16 May 2022 12:53:46 -0400
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-edf9ddb312so20903849fac.8; 
- Mon, 16 May 2022 09:53:42 -0700 (PDT)
+ id 1nqdyb-0004jv-Rd; Mon, 16 May 2022 12:53:47 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id y63so19303253oia.7;
+ Mon, 16 May 2022 09:53:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zjPwgG7Uozx59CsKqY2HRFz6jk2tqMNNSJVd3GOd5Ak=;
- b=lrO2w5bry3y/TWETNAWQwstF8WdvUFkepz7ny/NBsuA59nqFUKogU+5CB+uiaSi5FE
- Q4RokVh5z98YM+Jc97cGEtM0sBUD6Mz3AkacvyKy8NsFXhe3vzFpX+IayijhZuYqfhcb
- weVc8xO7gOCQQEwcYARDqoNllFkRTyoAwkO0jZqwB34LyzvIkL8snPLHKBkxlRe0iba1
- DHtc/3A7fzWcNHfP/kLPgLp7txcKiRwJvMDxwiAMO3VonIfFWF5XUfcLqsJEqvR6fwvN
- jDFT1CZHaHMtkMP44IgZAPCDzIEFmHRldq4kQAXiRzxeQpkMxCNsf6G3R3yL+KWkzTwB
- EEOw==
+ bh=oNahl/oMgHdaCwKlQVU9KibBrsxyojlRuwuYCn3qz9I=;
+ b=E7F2s1+d0FoGnFv35XkR4sJwh3nIaRJBhdHoDDUYwXcH6zUpzh2A5sqpwAo1ALXgSa
+ liRs+jnKN5M3fzCJDDTkFzRdA8xOnR6bTqoiuFexDIidBfUQ6tilb8E0/48nt0yW9YT1
+ Q7dQbkPmxEe2RqvruY2bS5lVYYA15o7zNLbF5JKwAlqXjpR/Vj+hAcoejs8T/vwE8JHi
+ 6cRnGXS1c+t9T7aSMOyctUAtgMpZMhHShJNxtApEcacVkwi6O8LBKpWzBj8x0xvJ8ELX
+ EQUSouQPeOyrVZdCLE1Kwm0FLIz+G2GgtGmTdSLCmbRI9S/SySUoscur6eZT7Phyb9vj
+ UQcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zjPwgG7Uozx59CsKqY2HRFz6jk2tqMNNSJVd3GOd5Ak=;
- b=G/obPqvkd8iFrlTt2xEpHPlwDMwN4dPnz5hjcIeAruJ8CmMn4lUj9zFmuIm2IC7pvq
- dit4OW09YBIsAkfbY3SC57jboOE46on3cuABRCEnENj8ld2VwsZYMbTyTuay6ZaM9dvW
- ASKjkRGk/X9rSDmLM6xYBTLe79qZQeI4H+JFE9eN9j3VVwMwEJOlnjf/A+11n19SYAzV
- EsJi9r9EJFGghC/WSz/KRwNEdX+SG2/EpPDBZr19+YnpF6M014JbGHGB0ids2v8fRABM
- Yya2f2EPvOfeDduEcxALDRJAYr6CpJCPiZ7b5yITvRTjRwl3t0IGeeO+ZDjIbS58miUR
- 0PTQ==
-X-Gm-Message-State: AOAM530wdRji9CXWmmM1ATrQW/H3KStLWJEHg0XIfs5RySspKlad91tt
- QwuFa9mlV6TgrqJdSLAR85Z6WZLX1uE=
-X-Google-Smtp-Source: ABdhPJwtdax3X3qht4egNMWMCPHcDajGXx5stHzjXe0m4gyfyyTi5hgM9ys645Hn4e+AAS5Sws8rRg==
-X-Received: by 2002:a05:6871:8a5:b0:f1:8d80:b5d4 with SMTP id
- r37-20020a05687108a500b000f18d80b5d4mr5098464oaq.133.1652720021397; 
- Mon, 16 May 2022 09:53:41 -0700 (PDT)
+ bh=oNahl/oMgHdaCwKlQVU9KibBrsxyojlRuwuYCn3qz9I=;
+ b=SuePbgSkyI5U3AfwSUzI4pfRHnGaFRpHottwMpGoefEnUbp/AA0pDScJxKYevNrJt4
+ nmakOSNBYTmErv3Y+k9CxMsKQRodNdnxNXMyKyX6OXxbQS+wsaeQsvbyRLdRl1WTVLSl
+ ERQtSmNIVqZ3XcViaVYkKyoxuOofZtsM985jp+dFn8UVZMEifzb9gQqOk+W4O24COftD
+ 0CldYsyPeIa2FOA7+pG0Eb0Nnmw2ts1D5gi8uK2Hd8S3FACannu9YrLtCyPyP/Bwm851
+ IWcHec2l1DsvKQb/MgV9bfvtGTrXwLKVnC+qbiDKJHd+13/4065M13T5s3vkz8b8iH84
+ A/mg==
+X-Gm-Message-State: AOAM533UQ0QN1Q/VZce3wZaSKV3jcYHKrlukFKl07T3ZrYd2mIfTbYMX
+ u53/JtnoI42uErj4E8gowd/0bstF+8Y=
+X-Google-Smtp-Source: ABdhPJxHf/ID9zJ+pYfLdvest/NlfgcIfhgn66rHBCi5s3fJc5K2vKnsCC5hbW7yfqhdbgWtM5vTjg==
+X-Received: by 2002:a54:4688:0:b0:325:9a36:ecfe with SMTP id
+ k8-20020a544688000000b003259a36ecfemr8937409oic.96.1652720024439; 
+ Mon, 16 May 2022 09:53:44 -0700 (PDT)
 Received: from balboa.ibmuc.com ([191.193.151.26])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a056870e30e00b000e686d13889sm5780731oad.35.2022.05.16.09.53.38
+ z14-20020a056870e30e00b000e686d13889sm5780731oad.35.2022.05.16.09.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 09:53:41 -0700 (PDT)
+ Mon, 16 May 2022 09:53:44 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
  jsnow@redhat.com, crosa@redhat.com, f4bug@amsat.org, wainersm@redhat.com,
  bleal@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH 4/5] avocado/boot_linux.py: avocado tag fixes in
- BootLinuxAarch64
-Date: Mon, 16 May 2022 13:53:20 -0300
-Message-Id: <20220516165321.872394-5-danielhb413@gmail.com>
+Subject: [PATCH 5/5] avocado/virtio-gpu.py: use tags=machine:pc
+Date: Mon, 16 May 2022 13:53:21 -0300
+Message-Id: <20220516165321.872394-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220516165321.872394-1-danielhb413@gmail.com>
 References: <20220516165321.872394-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,66 +89,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BootLinuxAarch64 is already setting machine:virt in the avocado tags,
-meaning that we don't need to add '-machine virt' via add_args().
-
-It's also adding an extra '-machine gic-version=2' parameter via an
-avocado tag, which is not ideal because:
-
-- it prevents self.machine from QEMUSystemTest to be set since there are
-multiple 'machine' avocado tests being set;
-
-- the tests are using different 'gic-version' setting, meaning that
-we're still needing to add '-machine gic-version=N' via add_args()
-regardless.
-
-Removing the 'machine=gic-version=2' tag allows us to set 'self.machine'
-without adding extra work.
+Using tags=machine:pc will do two things: it will avoid the need to
+passing '-machine pc' via self.vm.add_args() and it will set the
+self.machine attribute of the parent QEMUSystemTest class (via its
+setUp() method).
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- tests/avocado/boot_linux.py | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ tests/avocado/virtio-gpu.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-index ee584d2fdf..1fbedbab5c 100644
---- a/tests/avocado/boot_linux.py
-+++ b/tests/avocado/boot_linux.py
-@@ -61,7 +61,6 @@ class BootLinuxAarch64(LinuxTest):
-     """
-     :avocado: tags=arch:aarch64
-     :avocado: tags=machine:virt
--    :avocado: tags=machine:gic-version=2
-     """
- 
-     def add_common_args(self):
-@@ -80,7 +79,7 @@ def test_virt_tcg_gicv2(self):
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
-         self.vm.add_args("-cpu", "max,lpa2=off")
--        self.vm.add_args("-machine", "virt,gic-version=2")
-+        self.vm.add_args("-machine", "gic-version=2")
-         self.add_common_args()
-         self.launch_and_wait(set_up_ssh_connection=False)
- 
-@@ -93,7 +92,7 @@ def test_virt_tcg_gicv3(self):
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
-         self.vm.add_args("-cpu", "max,lpa2=off")
--        self.vm.add_args("-machine", "virt,gic-version=3")
-+        self.vm.add_args("-machine", "gic-version=3")
-         self.add_common_args()
-         self.launch_and_wait(set_up_ssh_connection=False)
- 
-@@ -104,7 +103,7 @@ def test_virt_kvm(self):
+diff --git a/tests/avocado/virtio-gpu.py b/tests/avocado/virtio-gpu.py
+index 2a249a3a2c..a88f43d312 100644
+--- a/tests/avocado/virtio-gpu.py
++++ b/tests/avocado/virtio-gpu.py
+@@ -59,6 +59,7 @@ def wait_for_console_pattern(self, success_message, vm=None):
+     def test_virtio_vga_virgl(self):
          """
-         self.require_accelerator("kvm")
-         self.vm.add_args("-accel", "kvm")
--        self.vm.add_args("-machine", "virt,gic-version=host")
-+        self.vm.add_args("-machine", "gic-version=host")
-         self.add_common_args()
-         self.launch_and_wait(set_up_ssh_connection=False)
+         :avocado: tags=device:virtio-vga-gl
++        :avocado: tags=machine:pc
+         """
+         # FIXME: should check presence of virtio, virgl etc
+         self.require_accelerator('kvm')
+@@ -68,7 +69,7 @@ def test_virtio_vga_virgl(self):
  
+         self.vm.set_console()
+         self.vm.add_args("-m", "2G")
+-        self.vm.add_args("-machine", "pc,accel=kvm")
++        self.vm.add_args("-machine", "accel=kvm")
+         self.vm.add_args("-device", "virtio-vga-gl")
+         self.vm.add_args("-display", "egl-headless")
+         self.vm.add_args(
+@@ -94,6 +95,7 @@ def test_virtio_vga_virgl(self):
+     def test_vhost_user_vga_virgl(self):
+         """
+         :avocado: tags=device:vhost-user-vga
++        :avocado: tags=machine:pc
+         """
+         # FIXME: should check presence of vhost-user-gpu, virgl, memfd etc
+         self.require_accelerator('kvm')
+@@ -131,7 +133,7 @@ def test_vhost_user_vga_virgl(self):
+         self.vm.set_console()
+         self.vm.add_args("-m", "2G")
+         self.vm.add_args("-object", "memory-backend-memfd,id=mem,size=2G")
+-        self.vm.add_args("-machine", "pc,memory-backend=mem,accel=kvm")
++        self.vm.add_args("-machine", "memory-backend=mem,accel=kvm")
+         self.vm.add_args("-chardev", "socket,id=vug,fd=%d" % qemu_sock.fileno())
+         self.vm.add_args("-device", "vhost-user-vga,chardev=vug")
+         self.vm.add_args("-display", "egl-headless")
 -- 
 2.32.0
 
