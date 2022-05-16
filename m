@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77444528AA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:36:33 +0200 (CEST)
-Received: from localhost ([::1]:34534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA12528B45
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:55:50 +0200 (CEST)
+Received: from localhost ([::1]:44620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqdhw-0006Jh-Ii
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35630)
+	id 1nqe0b-0007gi-LV
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nqcnm-0002Fg-PO
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:38:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27828)
+ id 1nqcno-0002L7-Vp
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:38:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nqcnl-0008Ed-1v
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:38:30 -0400
+ id 1nqcnn-0008Ex-5G
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:38:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652715508;
+ s=mimecast20190719; t=1652715510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=87uk/BEncWcd8P/6afTzU4H6wTvyqWQlGlPNLEcY77M=;
- b=hkcd5ZFyb43GEEDRcSgeZpDH/rZcTLvuw0xlmp1U8ZhJUy6J8fpBbrhSJGQ4IOtkFu0pdW
- lPwQwb+s+vKqRWI/48x0Ii5pSA2RBDLazqiCxpRPlkPXES7qJEg1YyowpQcJlTTHdZWmlu
- AxOMjVJGM2HJUbA51MwdSsBpCkruAUg=
+ bh=jiSiViv4bhHap7il9wtagSRAkjU5U1qvMOOHE8o9/jI=;
+ b=XN7o+zQfnlGcKVRMhrSHlCDBTRFzgNrdOuCwbyHgx+o3/KMgalJxbTnboI4ZRQE1cF/VS2
+ qpwNU82NbJJQH0kWvWUEawxig1/Ty0QSSlAnXVBB8vikKJ2AJ2tGiIPpF6OoFcxbf1BqMt
+ uYT5igQyG0+oW/HJCkrff0cEF7Cz7WA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-S-R3g0mmOEGJyB6GRVm4Fw-1; Mon, 16 May 2022 11:38:26 -0400
-X-MC-Unique: S-R3g0mmOEGJyB6GRVm4Fw-1
+ us-mta-508-WjWHapfeMpmC3DS6qs3yQg-1; Mon, 16 May 2022 11:38:28 -0400
+X-MC-Unique: WjWHapfeMpmC3DS6qs3yQg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7DC629ABA1A
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 15:38:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9EAE1C05EAA
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 15:38:27 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.194.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0EB415156FC;
- Mon, 16 May 2022 15:38:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E385F15215E9;
+ Mon, 16 May 2022 15:38:26 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
  leobras@redhat.com, berrange@redhat.com
-Subject: [PULL 07/17] tests: add multifd migration tests of TLS with PSK
+Subject: [PULL 08/17] tests: add multifd migration tests of TLS with x509
  credentials
-Date: Mon, 16 May 2022 16:38:02 +0100
-Message-Id: <20220516153812.127155-8-dgilbert@redhat.com>
+Date: Mon, 16 May 2022 16:38:03 +0100
+Message-Id: <20220516153812.127155-9-dgilbert@redhat.com>
 In-Reply-To: <20220516153812.127155-1-dgilbert@redhat.com>
 References: <20220516153812.127155-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,96 +83,171 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Daniel P. Berrangé <berrange@redhat.com>
 
 This validates that we correctly handle multifd migration success
-and failure scenarios when using TLS with pre shared keys.
+and failure scenarios when using TLS with x509 certificates. There
+are quite a few different scenarios that matter in relation to
+hostname validation, but we skip a couple as we can assume that
+the non-multifd coverage applies to some extent.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220426160048.812266-8-berrange@redhat.com>
+Message-Id: <20220426160048.812266-9-berrange@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/qtest/migration-test.c | 60 +++++++++++++++++++++++++++++++++---
- 1 file changed, 56 insertions(+), 4 deletions(-)
+ tests/qtest/migration-test.c | 127 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 127 insertions(+)
 
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index f551c8d030..133665b500 100644
+index 133665b500..efc6ec1614 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -1816,6 +1816,48 @@ static void test_multifd_tcp_zstd(void)
+@@ -1833,6 +1833,48 @@ test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
+     return test_migrate_tls_psk_start_mismatch(from, to);
  }
- #endif
  
-+#ifdef CONFIG_GNUTLS
++#ifdef CONFIG_TASN1
 +static void *
-+test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
-+                                             QTestState *to)
++test_migrate_multifd_tls_x509_start_default_host(QTestState *from,
++                                                 QTestState *to)
 +{
 +    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+    return test_migrate_tls_psk_start_match(from, to);
++    return test_migrate_tls_x509_start_default_host(from, to);
 +}
 +
 +static void *
-+test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
-+                                                QTestState *to)
++test_migrate_multifd_tls_x509_start_override_host(QTestState *from,
++                                                  QTestState *to)
 +{
 +    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+    return test_migrate_tls_psk_start_mismatch(from, to);
++    return test_migrate_tls_x509_start_override_host(from, to);
 +}
 +
-+static void test_multifd_tcp_tls_psk_match(void)
++static void *
++test_migrate_multifd_tls_x509_start_mismatch_host(QTestState *from,
++                                                  QTestState *to)
++{
++    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
++    return test_migrate_tls_x509_start_mismatch_host(from, to);
++}
++
++static void *
++test_migrate_multifd_tls_x509_start_allow_anon_client(QTestState *from,
++                                                      QTestState *to)
++{
++    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
++    return test_migrate_tls_x509_start_allow_anon_client(from, to);
++}
++
++static void *
++test_migrate_multifd_tls_x509_start_reject_anon_client(QTestState *from,
++                                                       QTestState *to)
++{
++    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
++    return test_migrate_tls_x509_start_reject_anon_client(from, to);
++}
++#endif /* CONFIG_TASN1 */
++
+ static void test_multifd_tcp_tls_psk_match(void)
+ {
+     MigrateCommon args = {
+@@ -1856,6 +1898,79 @@ static void test_multifd_tcp_tls_psk_mismatch(void)
+     };
+     test_precopy_common(&args);
+ }
++
++#ifdef CONFIG_TASN1
++static void test_multifd_tcp_tls_x509_default_host(void)
 +{
 +    MigrateCommon args = {
 +        .listen_uri = "defer",
-+        .start_hook = test_migrate_multifd_tcp_tls_psk_start_match,
-+        .finish_hook = test_migrate_tls_psk_finish,
++        .start_hook = test_migrate_multifd_tls_x509_start_default_host,
++        .finish_hook = test_migrate_tls_x509_finish,
 +    };
 +    test_precopy_common(&args);
 +}
 +
-+static void test_multifd_tcp_tls_psk_mismatch(void)
++static void test_multifd_tcp_tls_x509_override_host(void)
++{
++    MigrateCommon args = {
++        .listen_uri = "defer",
++        .start_hook = test_migrate_multifd_tls_x509_start_override_host,
++        .finish_hook = test_migrate_tls_x509_finish,
++    };
++    test_precopy_common(&args);
++}
++
++static void test_multifd_tcp_tls_x509_mismatch_host(void)
++{
++    /*
++     * This has different behaviour to the non-multifd case.
++     *
++     * In non-multifd case when client aborts due to mismatched
++     * cert host, the server has already started trying to load
++     * migration state, and so it exits with I/O failure.
++     *
++     * In multifd case when client aborts due to mismatched
++     * cert host, the server is still waiting for the other
++     * multifd connections to arrive so hasn't started trying
++     * to load migration state, and thus just aborts the migration
++     * without exiting.
++     */
++    MigrateCommon args = {
++        .start = {
++            .hide_stderr = true,
++        },
++        .listen_uri = "defer",
++        .start_hook = test_migrate_multifd_tls_x509_start_mismatch_host,
++        .finish_hook = test_migrate_tls_x509_finish,
++        .result = MIG_TEST_FAIL,
++    };
++    test_precopy_common(&args);
++}
++
++static void test_multifd_tcp_tls_x509_allow_anon_client(void)
++{
++    MigrateCommon args = {
++        .listen_uri = "defer",
++        .start_hook = test_migrate_multifd_tls_x509_start_allow_anon_client,
++        .finish_hook = test_migrate_tls_x509_finish,
++    };
++    test_precopy_common(&args);
++}
++
++static void test_multifd_tcp_tls_x509_reject_anon_client(void)
 +{
 +    MigrateCommon args = {
 +        .start = {
 +            .hide_stderr = true,
 +        },
 +        .listen_uri = "defer",
-+        .start_hook = test_migrate_multifd_tcp_tls_psk_start_mismatch,
-+        .finish_hook = test_migrate_tls_psk_finish,
++        .start_hook = test_migrate_multifd_tls_x509_start_reject_anon_client,
++        .finish_hook = test_migrate_tls_x509_finish,
 +        .result = MIG_TEST_FAIL,
 +    };
 +    test_precopy_common(&args);
 +}
-+#endif /* CONFIG_GNUTLS */
-+
- /*
-  * This test does:
-  *  source               target
-@@ -2026,12 +2068,22 @@ int main(int argc, char **argv)
-                    test_validate_uuid_dst_not_set);
++#endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
  
-     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
--    qtest_add_func("/migration/multifd/tcp/none", test_multifd_tcp_none);
--    qtest_add_func("/migration/multifd/tcp/cancel", test_multifd_tcp_cancel);
--    qtest_add_func("/migration/multifd/tcp/zlib", test_multifd_tcp_zlib);
-+    qtest_add_func("/migration/multifd/tcp/plain/none",
-+                   test_multifd_tcp_none);
-+    qtest_add_func("/migration/multifd/tcp/plain/cancel",
-+                   test_multifd_tcp_cancel);
-+    qtest_add_func("/migration/multifd/tcp/plain/zlib",
-+                   test_multifd_tcp_zlib);
- #ifdef CONFIG_ZSTD
--    qtest_add_func("/migration/multifd/tcp/zstd", test_multifd_tcp_zstd);
-+    qtest_add_func("/migration/multifd/tcp/plain/zstd",
-+                   test_multifd_tcp_zstd);
- #endif
-+#ifdef CONFIG_GNUTLS
-+    qtest_add_func("/migration/multifd/tcp/tls/psk/match",
-+                   test_multifd_tcp_tls_psk_match);
-+    qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
-+                   test_multifd_tcp_tls_psk_mismatch);
-+#endif /* CONFIG_GNUTLS */
+ /*
+@@ -2083,6 +2198,18 @@ int main(int argc, char **argv)
+                    test_multifd_tcp_tls_psk_match);
+     qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
+                    test_multifd_tcp_tls_psk_mismatch);
++#ifdef CONFIG_TASN1
++    qtest_add_func("/migration/multifd/tcp/tls/x509/default-host",
++                   test_multifd_tcp_tls_x509_default_host);
++    qtest_add_func("/migration/multifd/tcp/tls/x509/override-host",
++                   test_multifd_tcp_tls_x509_override_host);
++    qtest_add_func("/migration/multifd/tcp/tls/x509/mismatch-host",
++                   test_multifd_tcp_tls_x509_mismatch_host);
++    qtest_add_func("/migration/multifd/tcp/tls/x509/allow-anon-client",
++                   test_multifd_tcp_tls_x509_allow_anon_client);
++    qtest_add_func("/migration/multifd/tcp/tls/x509/reject-anon-client",
++                   test_multifd_tcp_tls_x509_reject_anon_client);
++#endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
  
      if (kvm_dirty_ring_supported()) {
-         qtest_add_func("/migration/dirty_ring",
 -- 
 2.36.1
 
