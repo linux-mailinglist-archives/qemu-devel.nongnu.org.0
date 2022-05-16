@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848D6529281
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:13:54 +0200 (CEST)
-Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA2D52927B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:09:23 +0200 (CEST)
+Received: from localhost ([::1]:41502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqi2L-0007KU-DO
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58488)
+	id 1nqhxy-0000c7-FD
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhgi-0005dl-8h
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:51:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42253)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhgm-0005hd-BP
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:51:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhgg-0006QG-Ke
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:51:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhgk-0006Qa-GZ
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:51:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734290;
+ s=mimecast20190719; t=1652734293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4HtdWmww//lDGQFKryJf9RwkbRk0DQ8igQoyt75Czj8=;
- b=Xd/ptj6uvoIdVkN1SjnHQwdz1aOLi4Jt8vISWSGOdP2n3cTKRuSwXDtYaA+eJo7rxchct1
- m1DQgaf7smyfQs+0aRSi/4zp4oAI9/6k4pTW2O3XAAX4iF2h6dy6+qFr3xtk9llsc2lhPp
- ZfxzPQoI6Z5t8Qcc771hDNK4jzVfIDE=
+ bh=UNe5uopN67ZdMx3i5rYffyddLe1HzU67fzpwD84BnYc=;
+ b=gmO66vtHbDnljIYDpy0GMbntH2alj/RACjPm//J4q7ManTCKhQ9LeLtWMX+WXK1ZflLk0+
+ YE45lpJ84mVrTrXbfYUMzHHe1HEwmlHlkCHR0uk9K4Vb5RbYfImQ9JV6HufixT5gKsDcyg
+ lxBzcxC6VtpjAdMxI3502zY72YD7odU=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-204-qElfiM4xMDakT85NMPlL8w-1; Mon, 16 May 2022 16:51:28 -0400
-X-MC-Unique: qElfiM4xMDakT85NMPlL8w-1
+ us-mta-67-Twzfu0fQPTuxc26ZXI3vGQ-1; Mon, 16 May 2022 16:51:32 -0400
+X-MC-Unique: Twzfu0fQPTuxc26ZXI3vGQ-1
 Received: by mail-ed1-f69.google.com with SMTP id
- b14-20020a05640202ce00b0042aa312ff51so3988534edx.18
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:51:28 -0700 (PDT)
+ q12-20020a056402040c00b0042a84f9939dso4546610edv.7
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:51:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=4HtdWmww//lDGQFKryJf9RwkbRk0DQ8igQoyt75Czj8=;
- b=qe2zhbTpuf8m9/c/jhWVD/GmDN4tXcisKlZXzeLur3lTdgi9l2A1UN71zPsv6XyR/7
- 4blntl8/YJ4vTuhEWk+8DlI8vWTwaYhFnZ8wOgNasI2MnnKhlv2jLVjXbvUxJtbDmRgF
- zc0946r97IbptpfYt3WqFcgg/JoEtq6gBXquAU4Z7F0GMKYai2AczNh+VHkUPbsYv7ww
- HQIflkWdSmp1gGpGJ4JqrXDPRMj5cFQUkuNFIABykHe9O29HJLH/T//F/cPEHZxfKfLU
- LkwUyFoNbNWLOSpyoeRCPuJsCt04avo4TK0+XCwPXABQrCr/B9AQlPJRVS16kh0ehZSa
- 2FAg==
-X-Gm-Message-State: AOAM531Mem7alLy6JQZIkbnHJHdCYqGB0+RDFmc7oXiw0u0biga4l4XZ
- nNMBu/dI6bRV8/7sQcZ/Xc0wJPXKkfnbQikqBpQF2D7J2P1JW/NKJp6TegPHqUikjptj9K/kVvY
- Sx72xafg3rgAwcgrOO3RcChrZC9HxXG8+1xCYFhAljdWsyXrrp53gaDXN986n
-X-Received: by 2002:a05:6402:2709:b0:428:3ed9:abe3 with SMTP id
- y9-20020a056402270900b004283ed9abe3mr15584325edd.51.1652734287190; 
- Mon, 16 May 2022 13:51:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKjKAYBilpJ4hhYFy3kL9LxnOwGU309C3YSVWAU2TwogmFtrBD1rWjyOW5Mic8tAFDmCy6bg==
-X-Received: by 2002:a05:6402:2709:b0:428:3ed9:abe3 with SMTP id
- y9-20020a056402270900b004283ed9abe3mr15584295edd.51.1652734286865; 
- Mon, 16 May 2022 13:51:26 -0700 (PDT)
+ bh=UNe5uopN67ZdMx3i5rYffyddLe1HzU67fzpwD84BnYc=;
+ b=GMNyoxOJ+hkP1AojpMdn4Xhone8iWlhvXsrQaw3v1ZgLWmD3S1FKCqa61LvuTlyyLa
+ V4VPtLMkYXo65/RwmYVZlSWcCIWlrObpElR+VfR+ecFUkAxlrXE5orh2gEVCHvVLhzdu
+ 8h/F9i9YCECqROLeqJpTriWBNnZch6JePkmDLDV/OOkQMU/7CkztHI/TnITP4akVp276
+ TpIxJcMHHTVncjI9/7NH8zptT2r61/TlFNR8iRiN7CdQHnRik7oQANfr+rzx6EXmxNsE
+ /9QC8I8iw6XslUlccTCycJMENTPNIs6Vemkl2+gTKfCTlF9quuLiEfizsPtHcnKGvz7t
+ w70A==
+X-Gm-Message-State: AOAM533DzFlAq80Gr5oMaf1HrgyWoad/2LfP4DVyNEFEmvSjU5amtu58
+ LPpiB54kvH3aGXOZNf6alKc2G4f4n5lWczwmS4DdJJJebi+yJDceCvMOAbA8oDh6E8jj4l+FlBH
+ O4QMUDkjs6TkQAfol8i0QyJ1Mzr+hXjDs9n8/ruIvwM1BH7C4cYGsbAQ1RkxS
+X-Received: by 2002:a05:6402:26d3:b0:427:c590:ae2 with SMTP id
+ x19-20020a05640226d300b00427c5900ae2mr15495600edd.242.1652734290673; 
+ Mon, 16 May 2022 13:51:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVqBVpbfkridFL3qaAAt7+yb9oGjwjpkn5Pjl2BcroBg6rUNWbdH+JzA7RQJ99o6AgAXPPDQ==
+X-Received: by 2002:a05:6402:26d3:b0:427:c590:ae2 with SMTP id
+ x19-20020a05640226d300b00427c5900ae2mr15495569edd.242.1652734290377; 
+ Mon, 16 May 2022 13:51:30 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- n19-20020a17090673d300b006fdd4cfb600sm168328ejl.89.2022.05.16.13.51.24
+ o23-20020aa7dd57000000b0042abfe32ac8sm602556edw.30.2022.05.16.13.51.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:51:26 -0700 (PDT)
-Date: Mon, 16 May 2022 16:51:23 -0400
+ Mon, 16 May 2022 13:51:29 -0700 (PDT)
+Date: Mon, 16 May 2022 16:51:27 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Ben Widawsky <ben.widawsky@intel.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v2 22/86] hw/cxl/device: Plumb real Label Storage Area (LSA)
- sizing
-Message-ID: <20220516204913.542894-23-mst@redhat.com>
+Subject: [PULL v2 23/86] hw/cxl/device: Implement get/set Label Storage Area
+ (LSA)
+Message-ID: <20220516204913.542894-24-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,7 +76,7 @@ Content-Disposition: inline
 In-Reply-To: <20220516204913.542894-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,105 +102,217 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-This should introduce no change. Subsequent work will make use of this
-new class member.
+Implement get and set handlers for the Label Storage Area
+used to hold data describing persistent memory configuration
+so that it can be ensured it is seen in the same configuration
+after reboot.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20220429144110.25167-21-Jonathan.Cameron@huawei.com>
+Message-Id: <20220429144110.25167-22-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl_device.h | 11 ++++++++++-
- hw/cxl/cxl-mailbox-utils.c  |  3 +++
- hw/mem/cxl_type3.c          |  9 +++++++++
- 3 files changed, 22 insertions(+), 1 deletion(-)
+ include/hw/cxl/cxl_device.h |  5 ++++
+ hw/cxl/cxl-mailbox-utils.c  | 60 +++++++++++++++++++++++++++++++++++++
+ hw/mem/cxl_type3.c          | 56 +++++++++++++++++++++++++++++++++-
+ 3 files changed, 120 insertions(+), 1 deletion(-)
 
 diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index d8da2c7b68..ea2571a69b 100644
+index ea2571a69b..4285fbda08 100644
 --- a/include/hw/cxl/cxl_device.h
 +++ b/include/hw/cxl/cxl_device.h
-@@ -236,6 +236,7 @@ struct CXLType3Dev {
+@@ -252,6 +252,11 @@ struct CXLType3Class {
  
-     /* Properties */
-     HostMemoryBackend *hostmem;
-+    HostMemoryBackend *lsa;
- 
-     /* State */
-     CXLComponentState cxl_cstate;
-@@ -243,6 +244,14 @@ struct CXLType3Dev {
+     /* public */
+     uint64_t (*get_lsa_size)(CXLType3Dev *ct3d);
++
++    uint64_t (*get_lsa)(CXLType3Dev *ct3d, void *buf, uint64_t size,
++                        uint64_t offset);
++    void (*set_lsa)(CXLType3Dev *ct3d, const void *buf, uint64_t size,
++                    uint64_t offset);
  };
- 
- #define TYPE_CXL_TYPE3 "cxl-type3"
--OBJECT_DECLARE_SIMPLE_TYPE(CXLType3Dev, CXL_TYPE3)
-+OBJECT_DECLARE_TYPE(CXLType3Dev, CXLType3Class, CXL_TYPE3)
-+
-+struct CXLType3Class {
-+    /* Private */
-+    PCIDeviceClass parent_class;
-+
-+    /* public */
-+    uint64_t (*get_lsa_size)(CXLType3Dev *ct3d);
-+};
  
  #endif
 diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index c8188d7087..492739aef3 100644
+index 492739aef3..bb66c765a5 100644
 --- a/hw/cxl/cxl-mailbox-utils.c
 +++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -277,6 +277,8 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
-     } QEMU_PACKED *id;
-     QEMU_BUILD_BUG_ON(sizeof(*id) != 0x43);
+@@ -57,6 +57,8 @@ enum {
+         #define MEMORY_DEVICE 0x0
+     CCLS        = 0x41,
+         #define GET_PARTITION_INFO     0x0
++        #define GET_LSA       0x2
++        #define SET_LSA       0x3
+ };
  
+ /* 8.2.8.4.5.1 Command Return Codes */
+@@ -326,7 +328,62 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
+ }
+ 
++static ret_code cmd_ccls_get_lsa(struct cxl_cmd *cmd,
++                                 CXLDeviceState *cxl_dstate,
++                                 uint16_t *len)
++{
++    struct {
++        uint32_t offset;
++        uint32_t length;
++    } QEMU_PACKED *get_lsa;
 +    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
 +    CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
-     uint64_t size = cxl_dstate->pmem_size;
++    uint32_t offset, length;
++
++    get_lsa = (void *)cmd->payload;
++    offset = get_lsa->offset;
++    length = get_lsa->length;
++
++    if (offset + length > cvc->get_lsa_size(ct3d)) {
++        *len = 0;
++        return CXL_MBOX_INVALID_INPUT;
++    }
++
++    *len = cvc->get_lsa(ct3d, get_lsa, length, offset);
++    return CXL_MBOX_SUCCESS;
++}
++
++static ret_code cmd_ccls_set_lsa(struct cxl_cmd *cmd,
++                                 CXLDeviceState *cxl_dstate,
++                                 uint16_t *len)
++{
++    struct set_lsa_pl {
++        uint32_t offset;
++        uint32_t rsvd;
++        uint8_t data[];
++    } QEMU_PACKED;
++    struct set_lsa_pl *set_lsa_payload = (void *)cmd->payload;
++    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
++    CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
++    const size_t hdr_len = offsetof(struct set_lsa_pl, data);
++    uint16_t plen = *len;
++
++    *len = 0;
++    if (!plen) {
++        return CXL_MBOX_SUCCESS;
++    }
++
++    if (set_lsa_payload->offset + plen > cvc->get_lsa_size(ct3d) + hdr_len) {
++        return CXL_MBOX_INVALID_INPUT;
++    }
++    plen -= hdr_len;
++
++    cvc->set_lsa(ct3d, set_lsa_payload->data, plen, set_lsa_payload->offset);
++    return CXL_MBOX_SUCCESS;
++}
++
+ #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
++#define IMMEDIATE_DATA_CHANGE (1 << 2)
+ #define IMMEDIATE_POLICY_CHANGE (1 << 3)
+ #define IMMEDIATE_LOG_CHANGE (1 << 4)
  
-     if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
-@@ -291,6 +293,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+@@ -349,6 +406,9 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
+         cmd_identify_memory_device, 0, 0 },
+     [CCLS][GET_PARTITION_INFO] = { "CCLS_GET_PARTITION_INFO",
+         cmd_ccls_get_partition_info, 0, 0 },
++    [CCLS][GET_LSA] = { "CCLS_GET_LSA", cmd_ccls_get_lsa, 0, 0 },
++    [CCLS][SET_LSA] = { "CCLS_SET_LSA", cmd_ccls_set_lsa,
++        ~0, IMMEDIATE_CONFIG_CHANGE | IMMEDIATE_DATA_CHANGE },
+ };
  
-     id->total_capacity = size / (256 << 20);
-     id->persistent_capacity = size / (256 << 20);
-+    id->lsa_size = cvc->get_lsa_size(ct3d);
- 
-     *len = sizeof(*id);
-     return CXL_MBOX_SUCCESS;
+ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
 diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 318b6f9fbc..b5aa1067df 100644
+index b5aa1067df..6c6ed9a776 100644
 --- a/hw/mem/cxl_type3.c
 +++ b/hw/mem/cxl_type3.c
-@@ -179,10 +179,16 @@ static Property ct3_props[] = {
+@@ -8,6 +8,7 @@
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "qemu/pmem.h"
+ #include "qemu/range.h"
+ #include "qemu/rcu.h"
+ #include "sysemu/hostmem.h"
+@@ -113,6 +114,11 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+     host_memory_backend_set_mapped(ct3d->hostmem, true);
+     ct3d->cxl_dstate.pmem_size = ct3d->hostmem->size;
+ 
++    if (!ct3d->lsa) {
++        error_setg(errp, "lsa property must be set");
++        return false;
++    }
++
+     return true;
+ }
+ 
+@@ -176,12 +182,58 @@ static void ct3d_reset(DeviceState *dev)
+ static Property ct3_props[] = {
+     DEFINE_PROP_LINK("memdev", CXLType3Dev, hostmem, TYPE_MEMORY_BACKEND,
+                      HostMemoryBackend *),
++    DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
++                     HostMemoryBackend *),
      DEFINE_PROP_END_OF_LIST(),
  };
  
-+static uint64_t get_lsa_size(CXLType3Dev *ct3d)
-+{
-+    return 0;
+ static uint64_t get_lsa_size(CXLType3Dev *ct3d)
+ {
+-    return 0;
++    MemoryRegion *mr;
++
++    mr = host_memory_backend_get_memory(ct3d->lsa);
++    return memory_region_size(mr);
 +}
 +
- static void ct3_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
-+    CXLType3Class *cvc = CXL_TYPE3_CLASS(oc);
- 
-     pc->realize = ct3_realize;
-     pc->exit = ct3_exit;
-@@ -195,11 +201,14 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     dc->desc = "CXL PMEM Device (Type 3)";
-     dc->reset = ct3d_reset;
-     device_class_set_props(dc, ct3_props);
++static void validate_lsa_access(MemoryRegion *mr, uint64_t size,
++                                uint64_t offset)
++{
++    assert(offset + size <= memory_region_size(mr));
++    assert(offset + size > offset);
++}
 +
-+    cvc->get_lsa_size = get_lsa_size;
++static uint64_t get_lsa(CXLType3Dev *ct3d, void *buf, uint64_t size,
++                    uint64_t offset)
++{
++    MemoryRegion *mr;
++    void *lsa;
++
++    mr = host_memory_backend_get_memory(ct3d->lsa);
++    validate_lsa_access(mr, size, offset);
++
++    lsa = memory_region_get_ram_ptr(mr) + offset;
++    memcpy(buf, lsa, size);
++
++    return size;
++}
++
++static void set_lsa(CXLType3Dev *ct3d, const void *buf, uint64_t size,
++                    uint64_t offset)
++{
++    MemoryRegion *mr;
++    void *lsa;
++
++    mr = host_memory_backend_get_memory(ct3d->lsa);
++    validate_lsa_access(mr, size, offset);
++
++    lsa = memory_region_get_ram_ptr(mr) + offset;
++    memcpy(lsa, buf, size);
++    memory_region_set_dirty(mr, offset, size);
++
++    /*
++     * Just like the PMEM, if the guest is not allowed to exit gracefully, label
++     * updates will get lost.
++     */
+ }
+ 
+ static void ct3_class_init(ObjectClass *oc, void *data)
+@@ -203,6 +255,8 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+     device_class_set_props(dc, ct3_props);
+ 
+     cvc->get_lsa_size = get_lsa_size;
++    cvc->get_lsa = get_lsa;
++    cvc->set_lsa = set_lsa;
  }
  
  static const TypeInfo ct3d_info = {
-     .name = TYPE_CXL_TYPE3,
-     .parent = TYPE_PCI_DEVICE,
-+    .class_size = sizeof(struct CXLType3Class),
-     .class_init = ct3_class_init,
-     .instance_size = sizeof(CXLType3Dev),
-     .interfaces = (InterfaceInfo[]) {
 -- 
 MST
 
