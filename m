@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348B1528A38
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:24:18 +0200 (CEST)
-Received: from localhost ([::1]:56682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89420528A27
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:21:23 +0200 (CEST)
+Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqdW5-0007jQ-Al
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60700)
+	id 1nqdTG-0001qC-BB
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqccM-0004EM-Oj
+ id 1nqccM-0004Do-L6
  for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40974)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqccL-0006H6-0q
+ id 1nqccK-0006H4-Ug
  for qemu-devel@nongnu.org; Mon, 16 May 2022 11:26:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1652714800;
@@ -25,33 +25,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V77u6QEgIHkKnnBG8fB4h2ixx5SAfP1FlerF5HIUxIM=;
- b=Xc6yYINwx/Q3xiSUYPJEZlaw/NXrmNarMcQFCNPKa6oBoiAs3IKFi1Mxtwfg6MGQXVmUWb
- 53lQxY94ePjivkZP3J9y/m0ECw8Yeevjq88e37YESNlIBs5xX2ndIqs1TA8W3dTXCf3ZGf
- g2ZuO9LbQnsnL9yBu6Ua9FEYbA7RzE4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=A8p4Y2unT8O4CPPoDQW6eEYsedTnFbpE35skEVjG1ng=;
+ b=Jng30bpG/NGGEXd6faPNmS3R+dWcuppd2cdTtLKwr53uM4jlTxHYcrdpnMEzKw9xOu/1Xb
+ kJvUIfAYsKK/mtzbZhGi7hAdwMd3sHB1GntkHGKWAc1y8uOFEHTbbCIl+mJ7sJaTD3bel0
+ 2qa5LTsaVrMDSnoV3wkVjXj+yHMGiHY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-RM6pjHJaOAmVSN44Ujy6Rg-1; Mon, 16 May 2022 11:26:36 -0400
-X-MC-Unique: RM6pjHJaOAmVSN44Ujy6Rg-1
+ us-mta-65-7p4zNvHhMMeOhv1ssRaN5Q-1; Mon, 16 May 2022 11:26:38 -0400
+X-MC-Unique: 7p4zNvHhMMeOhv1ssRaN5Q-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC9EA9483E3;
- Mon, 16 May 2022 15:26:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 843FF3802B9A;
+ Mon, 16 May 2022 15:26:38 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C51E9492C14;
- Mon, 16 May 2022 15:26:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C6E1492C14;
+ Mon, 16 May 2022 15:26:37 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, ani@anisinha.ca, minyard@acm.org,
  stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
-Subject: [PATCH 17/35] q35: acpi: drop not needed
- PCMachineClass::do_not_add_smb_acpi
-Date: Mon, 16 May 2022 11:25:52 -0400
-Message-Id: <20220516152610.1963435-18-imammedo@redhat.com>
+Subject: [PATCH 19/35] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
+ build ISA device descriptors
+Date: Mon, 16 May 2022 11:25:54 -0400
+Message-Id: <20220516152610.1963435-20-imammedo@redhat.com>
 In-Reply-To: <20220516152610.1963435-1-imammedo@redhat.com>
 References: <20220516152610.1963435-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -82,71 +82,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-by default we do not version ACPI AML as it's considered
-a part of firmware. Drop do_not_add_smb_acpi that blocked
-SMBUS AML description on 3.1 and older machine types without
-providing justification.
+replaces ad-hoc build_isa_devices_aml() with generic AcpiDevAmlIf
+way to build bridge AML including all devices that are attached to
+its ISA bus.
+
+Later when PCI is converted to AcpiDevAmlIf, build_piix4_isa_bridge()
+will also be dropped since PCI parts itself will take care of
+building device prologue/epilogue AML for each enumerated PCI
+device.
+
+Expected AML change is contextual, where ISA devices are moved
+from separately declared _SB.PCI0.ISA scope , directly under
+Device(ISA) node.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-we can keep this bit if anyone can prove/report adverse effect
-on VM.
----
- include/hw/i386/pc.h | 1 -
- hw/i386/acpi-build.c | 2 +-
- hw/i386/pc_piix.c    | 1 -
- hw/i386/pc_q35.c     | 1 -
- 4 files changed, 1 insertion(+), 4 deletions(-)
+ hw/i386/acpi-build.c | 16 +++++++++++-----
+ hw/isa/piix3.c       | 17 +++++++++++++++++
+ 2 files changed, 28 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index aff8add155..da2ebfc33a 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -106,7 +106,6 @@ struct PCMachineClass {
-     bool rsdp_in_ram;
-     int legacy_acpi_table_size;
-     unsigned acpi_data_size;
--    bool do_not_add_smb_acpi;
-     int pci_root_uid;
- 
-     /* SMBIOS compat: */
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ca5cab87ba..250a7c07af 100644
+index 250a7c07af..a5dd3e4fee 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1510,7 +1510,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+@@ -1277,15 +1277,22 @@ static void build_piix4_isa_bridge(Aml *table)
+ {
+     Aml *dev;
+     Aml *scope;
++    Object *obj;
++    bool ambiguous;
++
++    /*
++     * temporarily fish out isa bridge, build_piix4_isa_bridge() will be dropped
++     * once PCI is converted to AcpiDevAmlIf and would be ble to generate
++     * AML for bridge itself
++     */
++    obj = object_resolve_path_type("", TYPE_PIIX3_PCI_DEVICE, &ambiguous);
++    assert(obj && !ambiguous);
+ 
+     scope =  aml_scope("_SB.PCI0");
+     dev = aml_device("ISA");
+     aml_append(dev, aml_name_decl("_ADR", aml_int(0x00010000)));
+ 
+-    /* PIIX PCI to ISA irq remapping */
+-    aml_append(dev, aml_operation_region("P40C", AML_PCI_CONFIG,
+-                                         aml_int(0x60), 0x04));
+-
++    call_dev_aml_func(DEVICE(obj), dev);
+     aml_append(scope, dev);
+     aml_append(table, scope);
+ }
+@@ -1456,7 +1463,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_hpet_aml(dsdt);
+         }
+         build_piix4_isa_bridge(dsdt);
+-        build_isa_devices_aml(dsdt);
+         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
              build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
          }
-         build_q35_pci0_int(dsdt);
--        if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
-+        if (pcms->smbus) {
-             build_smb0(dsdt, ICH9_SMB_DEV, ICH9_SMB_FUNC);
-         }
-     }
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index f843dd906f..d4b37b4652 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -562,7 +562,6 @@ static void pc_i440fx_3_1_machine_options(MachineClass *m)
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index dab901c9ad..bfccd666d4 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -32,6 +32,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "migration/vmstate.h"
++#include "hw/acpi/acpi_aml_interface.h"
  
-     pc_i440fx_4_0_machine_options(m);
-     m->is_default = false;
--    pcmc->do_not_add_smb_acpi = true;
-     m->smbus_no_migration_support = true;
-     m->alias = NULL;
-     pcmc->pvh_enabled = false;
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 302288342a..ad3f519f77 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -512,7 +512,6 @@ static void pc_q35_3_1_machine_options(MachineClass *m)
+ #define XEN_PIIX_NUM_PIRQS      128ULL
  
-     pc_q35_4_0_machine_options(m);
-     m->default_kernel_irqchip_split = false;
--    pcmc->do_not_add_smb_acpi = true;
-     m->smbus_no_migration_support = true;
-     m->alias = NULL;
-     pcmc->pvh_enabled = false;
+@@ -286,10 +287,24 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
+     qemu_register_reset(piix3_reset, d);
+ }
+ 
++static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
++{
++    BusChild *kid;
++    BusState *bus = qdev_get_child_bus(DEVICE(adev), "isa.0");
++
++    /* PIIX PCI to ISA irq remapping */
++    aml_append(scope, aml_operation_region("P40C", AML_PCI_CONFIG,
++                                         aml_int(0x60), 0x04));
++    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++        call_dev_aml_func(DEVICE(kid->child), scope);
++    }
++}
++
+ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+ 
+     dc->desc        = "ISA bridge";
+     dc->vmsd        = &vmstate_piix3;
+@@ -304,6 +319,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+      * pc_piix.c's pc_init1()
+      */
+     dc->user_creatable = false;
++    adevc->build_dev_aml = build_pci_isa_aml;
+ }
+ 
+ static const TypeInfo piix3_pci_type_info = {
+@@ -314,6 +330,7 @@ static const TypeInfo piix3_pci_type_info = {
+     .class_init = pci_piix3_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { TYPE_ACPI_DEV_AML_IF },
+         { },
+     },
+ };
 -- 
 2.31.1
 
