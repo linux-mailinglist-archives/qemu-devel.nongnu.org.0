@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C94527D3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 07:56:57 +0200 (CEST)
-Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D55527D52
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:02:25 +0200 (CEST)
+Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqTiy-0005bY-9g
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 01:56:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45378)
+	id 1nqToE-00088Y-L5
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqTZz-0001ge-8L
- for qemu-devel@nongnu.org; Mon, 16 May 2022 01:47:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32090)
+ (Exim 4.90_1) (envelope-from <SRS0=HzNt=VY=kaod.org=clg@ozlabs.org>)
+ id 1nqTip-00068w-JS; Mon, 16 May 2022 01:56:48 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:33315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqTZx-0001fB-PC
- for qemu-devel@nongnu.org; Mon, 16 May 2022 01:47:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652680057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/kgVDXzh4DeX6cDSNsm8wzbGeAZdQOQM8+ouoFMxBWI=;
- b=g5X4cmg4cLkcBMJrnMvAAgu3Q+kmO7BKRVwzDdtioZC+GME6u0BdTEeCjJMd8Z8amsLoYB
- xs9oj4EbcYKOaHd9vzbEIZnGH/WBkDoohlfyyfBNlENo6fcFxDjJULmQOaJoEh6E7reWh0
- sfE0qPJSxt6xv6x7roOzmaCAKFfaUNU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-cFd0E67NNq2osbCKoCk5Ug-1; Mon, 16 May 2022 01:47:33 -0400
-X-MC-Unique: cFd0E67NNq2osbCKoCk5Ug-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <SRS0=HzNt=VY=kaod.org=clg@ozlabs.org>)
+ id 1nqTim-0002z9-Ic; Mon, 16 May 2022 01:56:47 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4L1pR35dfhz4xZ0;
+ Mon, 16 May 2022 15:56:31 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6AB343979681;
- Mon, 16 May 2022 05:47:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4859740D282E;
- Mon, 16 May 2022 05:47:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 481D421E690D; Mon, 16 May 2022 07:47:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com,  eblake@redhat.com
-Subject: Re: [PATCH] qapi/pragma: Tidy up comments
-References: <20220510081433.3289762-1-armbru@redhat.com>
-Date: Mon, 16 May 2022 07:47:32 +0200
-In-Reply-To: <20220510081433.3289762-1-armbru@redhat.com> (Markus Armbruster's
- message of "Tue, 10 May 2022 10:14:33 +0200")
-Message-ID: <87a6bighaj.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4L1pQx3PWcz4xLR;
+ Mon, 16 May 2022 15:56:25 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>
+Subject: [PATCH v2] aspeed: Introduce a get_irq AspeedSoCClass method
+Date: Mon, 16 May 2022 07:56:20 +0200
+Message-Id: <20220516055620.2380197-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=HzNt=VY=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,14 +63,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+and make routine aspeed_soc_get_irq() common to all SoCs. This will be
+useful to share code.
 
-> Commit 05ebf841ef "qapi: Enforce command naming rules" inserted new
-> code between a comment and the code it applies to.  Move the comment
-> back to its code, and add one for the new code.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Cc: Jamin Lin <jamin_lin@aspeedtech.com>
+Cc: Peter Delevoryas <pdel@fb.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ include/hw/arm/aspeed_soc.h |  3 +++
+ hw/arm/aspeed_ast10x0.c     |  5 +++--
+ hw/arm/aspeed_ast2600.c     |  5 +++--
+ hw/arm/aspeed_soc.c         | 13 ++++++++++---
+ 4 files changed, 19 insertions(+), 7 deletions(-)
 
-Queued.
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index e13af374b923..3789f38603e5 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -94,6 +94,7 @@ struct AspeedSoCClass {
+     const int *irqmap;
+     const hwaddr *memmap;
+     uint32_t num_cpus;
++    qemu_irq (*get_irq)(AspeedSoCState *s, int dev);
+ };
+ 
+ 
+@@ -153,4 +154,6 @@ enum {
+     ASPEED_DEV_I3C,
+ };
+ 
++qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
++
+ #endif /* ASPEED_SOC_H */
+diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+index 427154928254..9ae9efaac144 100644
+--- a/hw/arm/aspeed_ast10x0.c
++++ b/hw/arm/aspeed_ast10x0.c
+@@ -61,11 +61,11 @@ static const int aspeed_soc_ast1030_irqmap[] = {
+     [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
+ };
+ 
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+-    return qdev_get_gpio_in(DEVICE(&s->armv7m), sc->irqmap[ctrl]);
++    return qdev_get_gpio_in(DEVICE(&s->armv7m), sc->irqmap[dev]);
+ }
+ 
+ static void aspeed_soc_ast1030_init(Object *obj)
+@@ -280,6 +280,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+     sc->irqmap = aspeed_soc_ast1030_irqmap;
+     sc->memmap = aspeed_soc_ast1030_memmap;
+     sc->num_cpus = 1;
++    sc->get_irq = aspeed_soc_ast1030_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast1030_type_info = {
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index eedda7badc37..4161a0cc4bbe 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -114,11 +114,11 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+     [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
+ };
+ 
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast2600_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+-    return qdev_get_gpio_in(DEVICE(&s->a7mpcore), sc->irqmap[ctrl]);
++    return qdev_get_gpio_in(DEVICE(&s->a7mpcore), sc->irqmap[dev]);
+ }
+ 
+ static void aspeed_soc_ast2600_init(Object *obj)
+@@ -572,6 +572,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2600_irqmap;
+     sc->memmap       = aspeed_soc_ast2600_memmap;
+     sc->num_cpus     = 2;
++    sc->get_irq      = aspeed_soc_ast2600_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2600_type_info = {
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 58714cb2a01d..c339b5c74de5 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -121,11 +121,11 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+ 
+ #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
+ 
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast2400_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+-    return qdev_get_gpio_in(DEVICE(&s->vic), sc->irqmap[ctrl]);
++    return qdev_get_gpio_in(DEVICE(&s->vic), sc->irqmap[dev]);
+ }
+ 
+ static void aspeed_soc_init(Object *obj)
+@@ -487,6 +487,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2400_irqmap;
+     sc->memmap       = aspeed_soc_ast2400_memmap;
+     sc->num_cpus     = 1;
++    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2400_type_info = {
+@@ -512,6 +513,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2500_irqmap;
+     sc->memmap       = aspeed_soc_ast2500_memmap;
+     sc->num_cpus     = 1;
++    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2500_type_info = {
+@@ -528,4 +530,9 @@ static void aspeed_soc_register_types(void)
+     type_register_static(&aspeed_soc_ast2500_type_info);
+ };
+ 
+-type_init(aspeed_soc_register_types)
++type_init(aspeed_soc_register_types);
++
++qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
++{
++    return ASPEED_SOC_GET_CLASS(s)->get_irq(s, dev);
++}
+-- 
+2.35.1
 
 
