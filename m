@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBC3527DB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:40:33 +0200 (CEST)
-Received: from localhost ([::1]:41244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64530527DBD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 08:44:38 +0200 (CEST)
+Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqUP9-0008T3-R0
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:40:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51940)
+	id 1nqUT5-0002qY-NT
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 02:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6135bb9a91=pdel@fb.com>)
- id 1nqU96-0007Iy-IF
- for qemu-devel@nongnu.org; Mon, 16 May 2022 02:23:56 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:2936)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqUMW-0000MV-Sh
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 02:37:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6135bb9a91=pdel@fb.com>)
- id 1nqU94-0007Rq-H3
- for qemu-devel@nongnu.org; Mon, 16 May 2022 02:23:56 -0400
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24FNMkGt031036
- for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:23:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=6CL1/KK/2w9upNeYwoETLMMDFnfRyRFpi+VsWJsj4s4=;
- b=pGlttGHUD+q3VXr7p6+x0fgcPAvfHlaBAxXhTN2AnB/dEVSViXm0+3B5k9ZI+KesNiDV
- hUVU20vqSvybd6Ia8TDQjevcgwynN41aClRRP5iY5cndS2IxDi+Kxivv/5fxjzg6wt7X
- Y9JCfa3z1NXDd9P/U5Y64IwCTAJJWslgfJs= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3g2br3y1s7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:23:52 -0700
-Received: from twshared6447.05.prn5.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sun, 15 May 2022 23:23:51 -0700
-Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
- id 20A9564DCACE; Sun, 15 May 2022 23:23:30 -0700 (PDT)
-From: Peter Delevoryas <pdel@fb.com>
-To: 
-CC: <pdel@fb.com>, <irischenlj@fb.com>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, <clg@kaod.org>, <zev@bewilderbeest.net>,
- <openbmc@lists.ozlabs.org>, <andrew@aj.id.au>,
- <peter.maydell@linaro.org>, <joel@jms.id.au>
-Subject: [PATCH v2 5/5] hw: aspeed: Init all UART's with serial devices
-Date: Sun, 15 May 2022 23:23:28 -0700
-Message-ID: <20220516062328.298336-6-pdel@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220516062328.298336-1-pdel@fb.com>
-References: <20220516062328.298336-1-pdel@fb.com>
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: B1se35HB9VC1S2DzpdD7Jg5uO58KbNIZ
-X-Proofpoint-ORIG-GUID: B1se35HB9VC1S2DzpdD7Jg5uO58KbNIZ
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqUMU-0001IP-2m
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 02:37:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652683064;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TnwDm15htdPZxpNQdxfQLU0DE0JPEnFE8W0eoCpfWas=;
+ b=bIger7nbkMbpTlFxTLCUpsFRL6yVoLtVF9Zzk+pkGdWxwBIKsINLPj8cEr318Gf+XPznU/
+ XYDjr3JrpHaT2YGmBDStREtzW1D2BHyB1GvwYs9nsmYC2AH8HH6FqV6R8khcXYSNXDwxSA
+ mY6gp0an7Ctr0xwvMpLz5X3kKHl/Wgs=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-257-bGM1QpSgPvakzN77NM8ebA-1; Mon, 16 May 2022 02:37:43 -0400
+X-MC-Unique: bGM1QpSgPvakzN77NM8ebA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ a3-20020a92c543000000b002d1108788a1so1002930ilj.4
+ for <qemu-devel@nongnu.org>; Sun, 15 May 2022 23:37:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TnwDm15htdPZxpNQdxfQLU0DE0JPEnFE8W0eoCpfWas=;
+ b=ZAjJMnIaa0rdOjzcMAB0RJ1Sj9iPBXiG126+YphVqJKyI+W+n+ZUHmphNjDzj6IUXt
+ q18+DTpSe60/RLJyBHZj8JjdD3AbghaCdANEUPadhJwKSs2GMuBGMGEFsTJkQhee8wOe
+ qsP75S5WX0vfUclkTtl+FPJVsGFnTofncdvx7GAXQWqYZle1tKdI10v6IFkDkg/5kT6A
+ +S2j0eU4Ng3IZNH07JAP5CA29VG9A+8LMU+1nawjURqa01r4bQaP/P1OZ4f6O/pzAbuU
+ OvFA9LNGIRcsWRgZirATYm5MbxaoYD/mElQh6OTHcw5HzANbiqKabR8u7W6ND/QlSPIz
+ +toA==
+X-Gm-Message-State: AOAM5312kgKTfYOEEr6Zko92Icb/tXG+LVtdEmZHOSxmdVN29vJdTW4D
+ zLqDsDdqC3zP8GU6x+FT/Y4rFRqoXKDktw4F5tg6nSc5quCLbbhMzB0vCIj2Mzgc8MN130OVjrP
+ FylhfcfN2IdNIWvtaRRL1fGAM+QENZ+s=
+X-Received: by 2002:a6b:b4c6:0:b0:65b:48b5:9908 with SMTP id
+ d189-20020a6bb4c6000000b0065b48b59908mr7357163iof.171.1652683062503; 
+ Sun, 15 May 2022 23:37:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxumuWff73ggMZDg88g7ka91WUS7GR+8gd7GiSIfP2f01nVm73a/2cOv/yb4AZOoSV39+tD2U4uV5HbRrwNj8g=
+X-Received: by 2002:a6b:b4c6:0:b0:65b:48b5:9908 with SMTP id
+ d189-20020a6bb4c6000000b0065b48b59908mr7357157iof.171.1652683062285; Sun, 15
+ May 2022 23:37:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-15_11,2022-05-13_01,2022-02-23_01
-Received-SPF: pass client-ip=67.231.145.42;
- envelope-from=prvs=6135bb9a91=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+References: <20220514102958.1163922-1-pbonzini@redhat.com>
+In-Reply-To: <20220514102958.1163922-1-pbonzini@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
+Date: Mon, 16 May 2022 07:37:06 +0100
+Message-ID: <CAELaAXykgoFirkxxcwN1GRrBZeJXf_s5zDaWg-x4Mj+RQmMPmA@mail.gmail.com>
+Subject: Re: [PATCH] block/nvme: separate nvme_get_free_req cases for
+ coroutine/non-coroutine context
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,107 +90,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Background:
+On Sat, May 14, 2022 at 11:31 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> nvme_get_free_req has very difference semantics when called in
+> coroutine context (when it waits) and in non-coroutine context
+> (when it doesn't).  Split the two cases to make it clear what
+> is being requested.
+>
+> Cc: qemu-block@nongnu.org
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block/nvme.c | 48 ++++++++++++++++++++++++++++--------------------
+>  1 file changed, 28 insertions(+), 20 deletions(-)
+>
+> diff --git a/block/nvme.c b/block/nvme.c
+> index 01fb28aa63..092c1f2f8e 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -293,34 +293,42 @@ static void nvme_kick(NVMeQueuePair *q)
+>      q->need_kick = 0;
+>  }
+>
+> -/* Find a free request element if any, otherwise:
+> - * a) if in coroutine context, try to wait for one to become available;
+> - * b) if not in coroutine, return NULL;
+> - */
+> -static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
+> +static NVMeRequest *nvme_get_free_req_nofail_locked(NVMeQueuePair *q)
+>  {
+>      NVMeRequest *req;
+>
+> -    qemu_mutex_lock(&q->lock);
+> -
+> -    while (q->free_req_head == -1) {
+> -        if (qemu_in_coroutine()) {
+> -            trace_nvme_free_req_queue_wait(q->s, q->index);
+> -            qemu_co_queue_wait(&q->free_req_queue, &q->lock);
+> -        } else {
+> -            qemu_mutex_unlock(&q->lock);
+> -            return NULL;
+> -        }
+> -    }
+> -
+>      req = &q->reqs[q->free_req_head];
+>      q->free_req_head = req->free_req_next;
+>      req->free_req_next = -1;
+> -
+> -    qemu_mutex_unlock(&q->lock);
+>      return req;
+>  }
+>
+> +/* Return a free request element if any, otherwise return NULL.  */
+> +static NVMeRequest *nvme_get_free_req_nowait(NVMeQueuePair *q)
+> +{
+> +    QEMU_LOCK_GUARD(&q->lock);
+> +    if (q->free_req_head == -1) {
+> +        return NULL;
+> +    }
+> +    return nvme_get_free_req_nofail_locked(q);
+> +}
+> +
+> +/*
+> + * Return a free request element if any, otherwise wait
+> + * for one to become available
+> + */
 
-AspeedMachineClass.uart_default specifies the serial console UART, which
-usually corresponds to the "stdout-path" in the device tree.
+Might be a bit more precise as: "Wait for a free request to become
+available and return it."
 
-The default value is UART5, since most boards use UART5 for this:
+> +static coroutine_fn NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
+> +{
+> +    QEMU_LOCK_GUARD(&q->lock);
+> +
+> +    while (q->free_req_head == -1) {
+> +       trace_nvme_free_req_queue_wait(q->s, q->index);
+> +       qemu_co_queue_wait(&q->free_req_queue, &q->lock);
+> +    }
+> +
+> +    return nvme_get_free_req_nofail_locked(q);
+> +}
+> +
+>  /* With q->lock */
+>  static void nvme_put_free_req_locked(NVMeQueuePair *q, NVMeRequest *req)
+>  {
+> @@ -506,7 +514,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
+>      AioContext *aio_context = bdrv_get_aio_context(bs);
+>      NVMeRequest *req;
+>      int ret = -EINPROGRESS;
+> -    req = nvme_get_free_req(q);
+> +    req = nvme_get_free_req_nowait(q);
+>      if (!req) {
+>          return -EBUSY;
+>      }
+> --
+> 2.36.0
+>
+>
 
-    amc->uart_default =3D ASPEED_DEV_UART5;
-
-Users can override AspeedMachineClass.uart_default in their board's machine
-class init to specify something besides UART5. For example, for fuji-bmc:
-
-    amc->uart_default =3D ASPEED_DEV_UART1;
-
-We only connect this one UART, of the 5 UART's on the AST2400 and AST2500
-and the 13 UART's on the AST2600 and AST1030, to a serial device that QEMU
-users can use. None of the other UART's are initialized, and the only way
-to override this attribute is by creating a specialized board definition,
-requiring QEMU source code changes and rebuilding.
-
-The result of this is that if you want to get serial console output on a
-board that uses UART3, you need to add a board definition. This was
-encountered by Zev in OpenBMC. [1]
-
-Changes:
-
-This commit initializes all of the UART's present on each Aspeed chip with
-serial devices and allows the QEMU user to connect as many or few as they
-like to serial devices. For example, you can still run QEMU and just connect
-stdout to the machine's default UART, without specifying any additional
-serial devices:
-
-    qemu-system-arm -machine fuji-bmc \
-        -drive file=3Dfuji.mtd,format=3Draw,if=3Dmtd \
-        -nographic
-
-However, if you don't want to add a special machine definition, you can now
-manually configure UART1 to connect to stdout and get serial console output,
-even if the machine's default is UART5:
-
-    qemu-system-arm -machine ast2600-evb \
-        -drive file=3Dfuji.mtd,format=3Draw,if=3Dmtd \
-        -serial null -serial mon:stdio -display none
-
-In the example above, the first "-serial null" argument is connected to
-UART5, and "-serial mon:stdio" is connected to UART1.
-
-Another example: you can get serial console output from Wedge100, which uses
-UART3, by reusing the palmetto AST2400 machine and rewiring the serial
-device arguments:
-
-    qemu-system-arm -machine palmetto-bmc \
-        -drive file=3Dwedge100.mtd,format=3Draw,if=3Dmtd \
-        -serial null -serial null -serial null \
-        -serial mon:stdio -display none
-
-There is a slight change in behavior introduced with this change: now, each
-UART's memory-mapped IO region will have a serial device model connected to
-it. Previously, all reads and writes to those regions would be ineffective
-and return zero values, but now some values will be nonzero, even when the
-user doesn't connect a serial device backend (like a socket, file, etc). For
-example, the line status register might indicate that the transmit buffer is
-empty now, whereas previously it might have always indicated it was full.
-
-[1] https://lore.kernel.org/openbmc/YnzGnWjkYdMUUNyM@hatter.bewilderbeest.n=
-et/
-[2] https://github.com/facebook/openbmc/releases/download/v2021.49.0/fuji.m=
-td
-[3] https://github.com/facebook/openbmc/releases/download/v2021.49.0/wedge1=
-00.mtd
-
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/arm/aspeed_soc.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 912798a9c9..30574d4276 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -546,9 +546,18 @@ qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
- void aspeed_soc_uart_init(AspeedSoCState *s)
- {
-     AspeedSoCClass *sc =3D ASPEED_SOC_GET_CLASS(s);
-+    int i, uart;
-=20
-     /* Attach an 8250 to the IO space as our UART */
-     serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
-                    aspeed_soc_get_irq(s, s->uart_default), 38400,
-                    serial_hd(0), DEVICE_LITTLE_ENDIAN);
-+    for (i =3D 1, uart =3D ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart+=
-+) {
-+        if (uart =3D=3D s->uart_default) {
-+            uart++;
-+        }
-+        serial_mm_init(get_system_memory(), sc->memmap[uart], 2,
-+                       aspeed_soc_get_irq(s, uart), 38400,
-+                       serial_hd(i), DEVICE_LITTLE_ENDIAN);
-+    }
- }
---=20
-2.30.2
+Reviewed-by: Alberto Faria <afaria@redhat.com>
 
 
