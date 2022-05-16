@@ -2,150 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489E5528C69
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:55:51 +0200 (CEST)
-Received: from localhost ([::1]:54676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EBA528C73
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 20:00:50 +0200 (CEST)
+Received: from localhost ([::1]:58140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqewg-00085k-1F
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39520)
+	id 1nqf1V-0002SV-2p
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 14:00:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1nqeg4-0003Wg-9g
- for qemu-devel@nongnu.org; Mon, 16 May 2022 13:38:41 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:50912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1nqeg1-0004u4-MR
- for qemu-devel@nongnu.org; Mon, 16 May 2022 13:38:39 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24GGme0F008370;
- Mon, 16 May 2022 10:38:34 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-id :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=AiQ8Wefxl71DACl3Sg9fvIpq59uianyKI1hALrL+2lU=;
- b=iLGgPmS63W7d+Uvoe0h3bZOL6GlpeLCCFqpEhOgJR7WRu9oe6v8leXj5WliKUKM7ojwS
- yCK8F+aGhK/sd9s0hawIkXx53K7wfqnjVRZXzTwv7HAJK4T2BQco4yU1nZsnIcZwopEl
- fHGT78S5bihHKNBEYj0y+UAeS3XL+8TjogU1TYp7N7+Crv/dNt1PaFJL88vPqbxWl/u6
- u+4nUGN1esu91G/mnlezQG1mKYoiJI7B83jCIeycLsT41bRalLF1LiFrs6rw8mOxhOCY
- Dt7Bh7afAdBRJS5HbUjQI7ZkeEF81yYv7DXKsnKv97qpiG8RMYURyd3AChSNhubGb4xd 2w== 
-Received: from nam02-bn1-obe.outbound.protection.outlook.com
- (mail-bn1nam07lp2044.outbound.protection.outlook.com [104.47.51.44])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3g2by0kvcy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 May 2022 10:38:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W/LgowTyXaDDs4AeMT2OJOXMX6BvRT7Qrz3XCmZ6pzgutN+avyh2bvJpVhxElIxA7IKGfa/gIq502w0vQ6FWOs8eT8kkNDW/pHZyGfSGDjHA2EH9nVzesrB8qgaASSFmBZefvsHMvNrUI/9cXfISg2jC9WXbHv3t8WGJGN7QV7sj+bwCYkO2qMjGKlfh/+xoaHfmCf/sQWtBJ3QZzHr5oXsJPBlVZsXa36Y8pwcUKGRXGe4xweXxK0u2R50emxNj73XXQ0ClWltfuMYJTeiYnjo84/RVJjqNcOkZ5WmWm+zKaCGAtx5BnmjLKzkw+McHpwcKVHNgEy3XwAV3gVJDtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AiQ8Wefxl71DACl3Sg9fvIpq59uianyKI1hALrL+2lU=;
- b=X+sKme3MHaydj44PM0XjKjQtzrSg1cnoDKj41RrLv4S6HFpPDKI2TSUPEGQtHWfzjthnOndLTeJULS0BQhtKJbRIobNBFBFUzNZ4RIw8iEj7OliJRm5PADgu16LiN9/HZsu8liZJ+wMentPKTQmdLZQlPhOTskydoqMJTHFG/a8yqvSS702P/5Ff0mRdS4wYBEqpxVsIKwv+trcz9XxtClgEEilgqFRCmpynZ1gPzGyE/pOKDUPyx39koxvPHwDDH6LQyYxsBEtK8vdUaMeauXV9h/kkTXoCvzjczESe7OwFMh9xc2FntAlbv5fAHSAyniERtwASw/AnbHbM8MHYpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by CO6PR02MB7714.namprd02.prod.outlook.com (2603:10b6:303:ad::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Mon, 16 May
- 2022 17:38:31 +0000
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::c123:e4ca:ea71:d40e]) by BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::c123:e4ca:ea71:d40e%8]) with mapi id 15.20.5250.018; Mon, 16 May 2022
- 17:38:31 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: "stefanha@redhat.com" <stefanha@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, John Levon
- <john.levon@nutanix.com>, Thanos Makatos <thanos.makatos@nutanix.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>, "alexis.lescout@nutanix.com"
- <alexis.lescout@nutanix.com>, Felipe Franciosi <felipe@nutanix.com>,
- "mst@redhat.com" <mst@redhat.com>
-Subject: Accelerating non-standard disk types
-Thread-Topic: Accelerating non-standard disk types
-Thread-Index: AQHYaUvCbyr7NDMI806tQ3+qwDN2Dw==
-Date: Mon, 16 May 2022 17:38:31 +0000
-Message-ID: <20220516173831.GB13284@raphael-debian-dev>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.10.1 (2018-07-13)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5a2d11d9-0e3b-4f0d-7165-08da3762e53b
-x-ms-traffictypediagnostic: CO6PR02MB7714:EE_
-x-microsoft-antispam-prvs: <CO6PR02MB771471F2D7C213A0F3A0C940EACF9@CO6PR02MB7714.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: W5+zhkP6radRH54F+iGa3CpdsO/+4Sd8kzrh+x98je1zXqeSNmVkCUqBRoHSHMvpTDRQ37FbG5rhE6nm1mCLwpGj8uAjD908//VccA+K1q03LkRYooh8cHS8vqhoTGDv0MOPHMweg8Mzvwpi2SS0HP3lkdmdY/D8NyQNLzqyuCG59EozMvRVBVEfPP71XW8m8MP6VbYZt2DOXuxcszv/14L7DbIuflMo+z3vV5LC4LPAkG9a4ORnGTp8yBcn1PBX4SW4RS9CeKfZp6wGQ6pquFcRwyjS61YEdkJoJET+CI4Jf0lfE3RYXC7xX19YDe2KZrOZEMbAJnslu92tyx6QgdaBVKwAK1ddDiLD9f0nifjyRIIYRbgmqAZ9PqjeRO6mRnpOfJTraxoeGjwt1uu5svepVsYW3BBbkXYLPrad0YKYHh9VHkhVDGeXbljojFtFHZ406yzwGSeUpQTtVHKx2IS4/GiPUVwX/IFF0SNA15wg7ii0EuwUSD3VIMEIOEpg3n2ZAe4A4VTJDup532MtCng9+0/0DDJZOg8vTT/Tyv4wuijFlip+rHxAx8AD+RZ4/r93WIP6xl+Liw7EMozj5YRzvPMI2+zalBEldaeHWtHS6pNYHdpObjh4WoVLEX116pfFSHHMF7nRISKFDXedZeaev/FqomWVgj0TZruKdrnyRj3FH0JfN948vvDZZ8YycENOUvZ567gepzxGpptd5KzXVF6Ec6Z1457LYrgxDCkyeHxHFXwznkHs5yvdWdSed0SKWHJLLAmqkh4P2rDd5catHLKbFMSpqLLWNDew0KJqnCyobuUsvxfxJo0HHul7
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(3480700007)(6506007)(186003)(71200400001)(316002)(2906002)(508600001)(54906003)(6916009)(6486002)(26005)(6512007)(9686003)(966005)(44832011)(1076003)(38070700005)(38100700002)(91956017)(64756008)(76116006)(66946007)(66446008)(8676002)(4326008)(66556008)(66476007)(33656002)(122000001)(33716001)(5660300002)(8936002)(86362001)(175924003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pUMpoSGB+42+Fc3aumUWlw2FZFLug3+pbs37GQc63blPXYEuTAX5ymMeqRsN?=
- =?us-ascii?Q?UKKjjCsNzXOFQnIeNHta/Nn/G1nxZGohd89Dp40BiG+QHWJj1mrNbhbiezjd?=
- =?us-ascii?Q?LbDhtc90dZu5lKIcllfWJjVubL3zjMnCnd4UwoLjF5UX6WwP+4Q55IEdj+w3?=
- =?us-ascii?Q?FsxkL50AI+hzF8/bQ+lu75uqmwq743z9Grg+bq7e2tTcPHOUAxmd2mtkGod6?=
- =?us-ascii?Q?ricf2glYLU7U40V0Ro40qVtQEHbOLLeg6YykEcVUjCxdoEHN1eL7WJ39mZJ7?=
- =?us-ascii?Q?TJUefCkNPxoCfV4uFw78ryOXiNpstzrZpaGZwtjET/4GRs2toUSA9YDNQVkr?=
- =?us-ascii?Q?1yuS1dmF/KCe7CQQptTuhKwgQIjM6QX9YF3z/pBFNnkyDsnTc6UEji5IvB5o?=
- =?us-ascii?Q?B1vTs56l0L6mmRPPwRKYKsowZLyzBxPyfHMDVbXS6EdUSN4nmBm6i2jZzXyZ?=
- =?us-ascii?Q?CHoZBWgaM/oW4i37aawzbePC6Vdak/gigdBykH31iey0EWHHwLmiYWejM7ew?=
- =?us-ascii?Q?K9ftR9FO7cogp0O7G/TrxeaszEJHD07h3KsYRT+Ixu2EMo0RZdjJl1bnntap?=
- =?us-ascii?Q?HtdEzzqR4O/YPjygxxdEowG4/tGnBodyt7Y3L6dEXcJD2vrZ52Y3mhAL7D9h?=
- =?us-ascii?Q?e6hbgTK7YdLX2sYIjzewWlMhLZuHAol0HsW3nh2netz1bj4AWI5/jr9djWBj?=
- =?us-ascii?Q?4aIHIEjN9chso/xuoxgP2hstAMVmqRKllkIHebXSi6n4pxsjT61MS85D+mkK?=
- =?us-ascii?Q?yH9HgXOGBO5PjADUocJZtQwgVezi7aaSXdC7zANF4EDQM461loLsYddAfkSv?=
- =?us-ascii?Q?7TYzTW6GBhD6AIF/GtDXhZGKGrfpUTW2JSfbpdYyo74j/aV7uSB+nTvhfpdO?=
- =?us-ascii?Q?fwaloMZLs7WdfitiScp5lNm9Uc8zqTUsa16i3J6gvuBgjXENsuAVHGGcxohx?=
- =?us-ascii?Q?WHi5OoV7Q93dAS2LNjS8rqt7ilvi5myPshhBGi3WEC1uMT85tiFNXuca3CXp?=
- =?us-ascii?Q?WHLfB+D5W4BKmmIsbOviiv6gg16f4nGrBIUGBz/QqXW0RhJr4VKbvnr2Qf0m?=
- =?us-ascii?Q?5T7G4dusTK3DJI7z6tDycfCATRXY/ADf6/nTIFjJFUTCaxj6aGdwa2LYXFbB?=
- =?us-ascii?Q?Q6GmXSeVfSczn9rUk+Onil2/vzliIfKLxh81pJpc+HoZmJhQ8lJ1940m3IGu?=
- =?us-ascii?Q?+nln5FKbf2ky48HNcd9S2+TUW3Y//y7QNRvBeTUd9HAgGeTlBO6frhaUXDen?=
- =?us-ascii?Q?FY9aZ3jVpHkXzB0Vf0hlknw8GUsDVtYKX3j4/PgRsB8rVTbuMYPq2ZGV2w4t?=
- =?us-ascii?Q?6xdKMPYAPrneDzUkqAFupakp9hme4cLJbqh9SQfj0SRXzZgloZcENIAcwWA8?=
- =?us-ascii?Q?FeAZPR5M9HjV7xkr01AD1q4ewWupziU+8K+PMjzbcPua235vyhPM8qGehNPp?=
- =?us-ascii?Q?Ol48+ORyDwJn8JdJrAXbmFZyDz4pCHBitPfP54jxlYfRLfX7N+9woMeJNYhq?=
- =?us-ascii?Q?GvyRXAI+xvrOaN9yqsb0fvZ9SKiQev+2u4hs1akUCUygl+SS5fX5xE4GEIRf?=
- =?us-ascii?Q?HhR4+RV7bNv1Led6OGlPUmVXq66cjc+LC9T3YMqjSpGE157T72x3fEwb9yyq?=
- =?us-ascii?Q?Ayk7vdgZi9h78YbZHj8nLz+L4z7dDjArrNdlpl56vFv3rGsW2+7FWRkNaD62?=
- =?us-ascii?Q?DpU0w3TXcdiiqiasTmtUaI0WgSJG29S7YCz+BeFii6yqxjXgk0vkrX/UyEfX?=
- =?us-ascii?Q?iKWr2EK86EsDUU5VIjfUFSPRCK3qMR5+GvYt4JRpfIRzfPkPkce8?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7D689ECE555F8E42831C43F01AC93DFD@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nqeys-0001Rt-5X; Mon, 16 May 2022 13:58:06 -0400
+Received: from [187.72.171.209] (port=11887 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nqeyp-0000IJ-Or; Mon, 16 May 2022 13:58:05 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 16 May 2022 14:56:54 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 984BB800048;
+ Mon, 16 May 2022 14:56:53 -0300 (-03)
+Message-ID: <71bd0408-40c8-bcee-7471-cc4aa8a2909e@eldorado.org.br>
+Date: Mon, 16 May 2022 14:56:53 -0300
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a2d11d9-0e3b-4f0d-7165-08da3762e53b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2022 17:38:31.8234 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 913VW0Q0HZ5dRm5U9L8DTaqAocrlk/Kf0BGofuCd7540ZQd3xyc9z8CrzWVRaoeqid9NIYONumEk9l1VehL5VtZ3YlXoy330kPHkr2KJiB8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7714
-X-Proofpoint-ORIG-GUID: 6Ehx4GkbUNRvB4ddyBG4ZslLq5TKrz7i
-X-Proofpoint-GUID: 6Ehx4GkbUNRvB4ddyBG4ZslLq5TKrz7i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-16_15,2022-05-16_02,2022-02-23_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/5] target/riscv: Fix coding style on "G" expansion
+Content-Language: en-US
+To: Tsukasa OI <research_trasio@irq.a4lg.com>,
+ Alistair Francis <alistair23@gmail.com>, Frank Chang <frank.chang@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <cover.1652435138.git.research_trasio@irq.a4lg.com>
+ <cover.1652583332.git.research_trasio@irq.a4lg.com>
+ <91633f8349253656dd08bc8dc36498a9c7538b10.1652583332.git.research_trasio@irq.a4lg.com>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <91633f8349253656dd08bc8dc36498a9c7538b10.1652583332.git.research_trasio@irq.a4lg.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 16 May 2022 17:56:54.0012 (UTC)
+ FILETIME=[53B44BC0:01D8694E]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -161,29 +66,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey Stefan,
+On 14/05/2022 23:56, Tsukasa OI wrote:
+> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
+> 
+> Because ext_? members are boolean variables, operator `&&' should be
+> used instead of `&'.
+> 
+> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+> ---
+>   target/riscv/cpu.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ccacdee215..00bf26ec8b 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -596,8 +596,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>               return;
+>           }
+> 
+> -        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
+> -                                cpu->cfg.ext_a & cpu->cfg.ext_f &
+> +        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
+> +                                cpu->cfg.ext_a && cpu->cfg.ext_f &&
+>                                   cpu->cfg.ext_d)) {
+>               warn_report("Setting G will also set IMAFD");
+>               cpu->cfg.ext_i = true;
+> --
+> 2.34.1
+> 
+> 
 
-We've been thinking about ways to accelerate other disk types such as
-SATA and IDE rather than translating to SCSI and using QEMU's iSCSI
-driver, with existing and more performant backends such as SPDK. We
-think there are some options worth exploring:
+Sorry, looks like I mistakenly reviewed v1 earlier
 
-[1] Keep using the SCSI translation in QEMU but back vDisks with a
-vhost-user-scsi or vhost-user-blk backend device.
-[2] Implement SATA and IDE emulation with vfio-user (likely with an SPDK
-client?).
-[3] We've also been looking at your libblkio library. From your
-description in
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg06146.html it
-sounds like it may definitely play a role here, and possibly provide the
-nessesary abstractions to back I/O from these emulated disks to any
-backends we may want?
+Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-We are planning to start a review of these options internally to survey
-tradeoffs, potential timelines and practicality for these approaches. We
-were also considering putting a submission together for KVM forum
-describing our findings. Would you see any value in that?
-
-Thanks,
-Raphael=
+-- 
+Víctor Cora Colombo
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
