@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA02E528670
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 16:06:41 +0200 (CEST)
-Received: from localhost ([::1]:50594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EA352867D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 16:08:21 +0200 (CEST)
+Received: from localhost ([::1]:52774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqbMr-0003fv-0a
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 10:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40416)
+	id 1nqbOW-0005Dc-AU
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 10:08:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqbKu-0002nU-HC
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:04:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57203)
+ (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
+ id 1nqbNA-0004Wg-8s
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:06:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqbKr-000144-DB
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:04:35 -0400
+ (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
+ id 1nqbN8-0001b3-P0
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:06:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652709872;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1652710011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=92rq6mZf9+oSgfSSh/x8O7VWmqITFoWGehkmnDnF2Hs=;
- b=Q2VIQG6B56CVOxmsCo5HFGUm6Ltkbk16ehvwmo6QHGKAfzR9AkNEGUKM0R0AbzBE0cRo7W
- Nqz0o/wAN3Ywu47WDEiHAS9A5jc1SVE98KHdaWmsApU++M/mtjLMvy2ORkBZSQvgkyN/aq
- 2aRap0DptsuCaV/9S9wsFil1MStrFDI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AfcLZjGGfKFTFkYqKjKsZ1knrAbt/4I4zRfTd8UEYkg=;
+ b=TrlRQdKZWYxl3b7XHrEPqIK9vHiJikLlxzdslU0xQWn3yQ/0V04L7xxExgm5hG1apU4upI
+ x5Jsx/80AHjyUJ0TV6SlV1e5q6uhJzLwGkhf/PnNfTiRWQpn/oZe5we9WH1F/TqnAoYXWc
+ OkRVfaQauCpcJBS+QdISiaRxjImyJaY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118-3TlReMqzOg6t4Oon14lRcg-1; Mon, 16 May 2022 10:04:28 -0400
-X-MC-Unique: 3TlReMqzOg6t4Oon14lRcg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D62A18E0043;
- Mon, 16 May 2022 14:04:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19E57C15D5C;
- Mon, 16 May 2022 14:04:25 +0000 (UTC)
-Date: Mon, 16 May 2022 15:04:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH v13 1/8] meson.build: Fix docker-test-build@alpine when
- including linux/errqueue.h
-Message-ID: <YoJZ57hQEgdsnOAx@redhat.com>
-References: <20220513062836.965425-1-leobras@redhat.com>
- <20220513062836.965425-2-leobras@redhat.com>
- <YoIxzC88w+jQlqoG@work-vm> <YoIyzi1PRYotgOyC@redhat.com>
- <YoI1x7PNtnuAAPr4@work-vm> <YoI3A9lybeUtPM2N@redhat.com>
- <YoJI34nIHXMjQDRi@work-vm>
+ us-mta-197-3CTL_iKYOHqaoqw1_9ZC1w-1; Mon, 16 May 2022 10:06:47 -0400
+X-MC-Unique: 3CTL_iKYOHqaoqw1_9ZC1w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bi5-20020a05600c3d8500b0039489e1d18dso10410286wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 07:06:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AfcLZjGGfKFTFkYqKjKsZ1knrAbt/4I4zRfTd8UEYkg=;
+ b=yUo7Tv9iLBYp9cDI4lW1lsRdd32QD1vMVOquwjDUJapQbnETrRZmU/3DOnq17SxrXq
+ EqhwtlfB6hsvy1xSdmriOZI/f6is9jpb5B3ZtFtPbxzq1KRATUWIamtI73pKW5Wp2Xjs
+ JJNcvsacHZZg1TwIaeMTLlSATBAeCeA5mvO5w2LRWLj6Wi0yx2Ck0CDXqmTgRvB5v1oV
+ iYnXfuXwj6m3Xy2EOFaXc32n5HX95bHp7km4ndkYrxFBmJfxAT//Wq/sh5fI5JL8kSft
+ aI8hJJqRj/GRl/rQgtYL9QZvhHoPhZZHVD+R/tPgLUoHIskOnb38tQ+cmdrd92vTv3bs
+ l2eQ==
+X-Gm-Message-State: AOAM530Ly9EJRBW0BG3IanCtiKNTPn0NBrmTlA9EWWf0RGDzYjm1yJbl
+ BpXQJBi5YnCvgxm4ueWdINkYfKqvUw8PwHAEVwDS0nRAad9jf/JDUUhGi2AMouG5RUxJzbTDFkK
+ 3JIyA2/gF5Yrsy0CRbgmOQjdDObh3m7b5W384yZla29THtUhvA+P1XkBzPaRaTM9qVmE=
+X-Received: by 2002:adf:e292:0:b0:20c:fdae:465d with SMTP id
+ v18-20020adfe292000000b0020cfdae465dmr8698797wri.644.1652710006400; 
+ Mon, 16 May 2022 07:06:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxy8UmcZ6FQjRxOi7LcgQAbQogZvG1Ozd61XbelCDiFPQF3foh1/P3ZP2SLi2PpsitkEslReQ==
+X-Received: by 2002:adf:e292:0:b0:20c:fdae:465d with SMTP id
+ v18-20020adfe292000000b0020cfdae465dmr8698764wri.644.1652710006064; 
+ Mon, 16 May 2022 07:06:46 -0700 (PDT)
+Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ l18-20020adfb112000000b0020c5253d8d3sm9574471wra.31.2022.05.16.07.06.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 07:06:45 -0700 (PDT)
+Received: by wheatley.localdomain (Postfix, from userid 1000)
+ id 7731D6E5F3FC; Mon, 16 May 2022 16:06:44 +0200 (CEST)
+Date: Mon, 16 May 2022 16:06:44 +0200
+From: Martin Kletzander <mkletzan@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, berrange@redhat.com
+Subject: Re: [RFC PATCH 4/6] soundhw: unify initialization for ISA and PCI
+ soundhw
+Message-ID: <YoJadBA4oeJ5z8RC@wheatley>
+References: <20220427113225.112521-1-pbonzini@redhat.com>
+ <20220427113225.112521-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HeeZVB7Ohy/xiBP/"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YoJI34nIHXMjQDRi@work-vm>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20220427113225.112521-5-pbonzini@redhat.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mkletzan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -92,52 +100,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 01:51:43PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Mon, May 16, 2022 at 12:30:15PM +0100, Dr. David Alan Gilbert wrote:
-> > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > On Mon, May 16, 2022 at 12:13:16PM +0100, Dr. David Alan Gilbert wrote:
-> > > > > * Leonardo Bras (leobras@redhat.com) wrote:
-> > > > > > A build error happens in alpine CI when linux/errqueue.h is included
-> > > > > > in io/channel-socket.c, due to redefining of 'struct __kernel_timespec':
-> > > > > 
-> > > > > OK, looks to be same mechanism as other meson tests.
-> > > > 
-> > > > > 
-> > > > > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > 
-> > > > As of about an hour or so ago, this patch should not be required.
-> > > > 
-> > > >   https://gitlab.alpinelinux.org/alpine/aports/-/issues/13813
-> > > 
-> > > I'll take it anyway as protection against any other broken build envs.
-> > 
-> > Can you update the commit message at least then.
-> 
-> Sure, I've added:
-> 
-> [dgilbert: This has been fixed in Alpine issue 13813 and liburing]
-> 
-> > The root casue trigger for the bug is the OS uses a busybox
-> 
-> I guess you mean musl??
 
-I don't think it is musl, its the configure shell script and it is
-throwing an error from the 'mktemp' command
+--HeeZVB7Ohy/xiBP/
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > impl of mkdtemp, which isn't compat with the args liburing
-> > configure was previously using. I doubt there are many such OS
-> > around to be honest, as most will use coreutils.
+On Wed, Apr 27, 2022 at 01:32:23PM +0200, Paolo Bonzini wrote:
+>Use qdev_new instead of distinguishing isa_create_simple/pci_create_simple.
+>
+>Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+By trying to rebase my series on top of this series I noticed this patch
+breaks almost everything.
+
+>---
+> hw/audio/soundhw.c | 26 ++++++++++++++------------
+> 1 file changed, 14 insertions(+), 12 deletions(-)
+>
+>diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
+>index 0fb64bdc8f..a9d8807b18 100644
+>--- a/hw/audio/soundhw.c
+>+++ b/hw/audio/soundhw.c
+>@@ -114,25 +114,27 @@ void soundhw_init(void)
+>     struct soundhw *c =3D selected;
+>     ISABus *isa_bus =3D (ISABus *) object_resolve_path_type("", TYPE_ISA_=
+BUS, NULL);
+>     PCIBus *pci_bus =3D (PCIBus *) object_resolve_path_type("", TYPE_PCI_=
+BUS, NULL);
+>+    BusState *bus;
+>
+>-    if (!c) {
+>-        return;
+>-    }
+
+This can still happen if there is no -audio.  Without this check and
+without any -audio parameter qemu obviously crashes.
+
+>-    if (c->typename) {
+>-        warn_report("'-soundhw %s' is deprecated, "
+>-                    "please use '-device %s' instead",
+>-                    c->name, c->typename);
+>-        if (c->isa) {
+>-            isa_create_simple(isa_bus, c->typename);
+>-        } else {
+>-            pci_create_simple(pci_bus, -1, c->typename);
+>+    if (c->isa) {
+>+        if (!isa_bus) {
+>+            error_report("ISA bus not available for %s", c->name);
+>+            exit(1);
+>         }
+>+        bus =3D BUS(isa_bus);
+>     } else {
+>-        assert(!c->isa);
+>         if (!pci_bus) {
+>             error_report("PCI bus not available for %s", c->name);
+>             exit(1);
+>         }
+>+        bus =3D BUS(pci_bus);
+>+    }
+>+
+>+    if (c->typename) {
+>+        DeviceState *dev =3D qdev_new(c->typename);
+>+        qdev_realize_and_unref(dev, bus, &error_fatal);
+>+    } else {
+>+        assert(!c->isa);
+>         c->init_pci(pci_bus);
+>     }
+> }
+>--=20
+>2.35.1
+>
+>
+
+--HeeZVB7Ohy/xiBP/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiXAnXDYdKAaCyvS1CB/CnyQXht0FAmKCWnQACgkQCB/CnyQX
+ht28OBAAhDnfAF0D5ocKU7BicsE6P6R7IBnfJAtXTU2Jx3sl+gwX5WMenqI8plqc
+yIHnMN8PM8nxiLaOQROvYnPM9sZURPgbpP2l6x4gNzpOdGutaadEul6aW+/FWbyi
+ao+lxw8sz06+w4JoF/QeuNTlp1u4/Fw4MlSRJcYP1IyObBUY0YAlEuMz9IhMz0L5
+Gfr+mXUlTeH9VgPkzn66x/f6AKUjqO/cp+wdidBJ/zwhRA+OvyO5VT1hHw0EyqQR
+FUCjv7SOjD82HNsFsvLElWTWWe7DNIhlCc85aA66wr6P7F8oDRn1w4v5/ETw7ouH
+IMMDjcvygWledc2r8j1cEHMRSb+qkhE66+t+boy97s+froxPqijlox9TYzhccWTh
+1X4m5v+++AACNf2jIq6/z58fuv3hifmPYy1SKXuOZd5GbURY9XwBvVPWfcDXuPP8
+qGnErbVJjbzSzrhhii87aZgQezAzy1QsWKGlx/2cvQ/XqslXOOrowu6wdckRvxW7
+Bu9i+2XyXeGSYiEnM1JWEvYJQtxkKeSkJcE1BwrKS2usfHEzj4ek9K18ika11y1N
+CqU40hXFW94vowUyNdJW6bJpUHCnWaoR8ShpErk2g8FkpDsdhDxwnfOQZTj9HApO
+Av6LMBn8wFh/73HSc457se3C/sFT3UTh8hsjzXz8ZUU+9/0j1KQ=
+=UFkm
+-----END PGP SIGNATURE-----
+
+--HeeZVB7Ohy/xiBP/--
 
 
