@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AE952839B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:57:31 +0200 (CEST)
-Received: from localhost ([::1]:57066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CB152838E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:53:27 +0200 (CEST)
+Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZLu-0001Fe-Nw
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48962)
+	id 1nqZHy-0001Vn-Tf
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7r-0000fA-6L
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36106)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY85-00012b-5v
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY7p-0005XC-Fr
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:38:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY83-0005Zg-Ha
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697532;
+ s=mimecast20190719; t=1652697543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VTVq5T8b7EGxCTH+Nf30xApsBAleE4GqyWpyK43o+XY=;
- b=dhgDJTHjBRxBDLYTFOTGL5/5O3cljzJSrgdMg6elRC49GdZTJb91B7Fs02VXHmhISp8N3m
- yWuyu9O+fJFBUktkrO8VoSpanWB6S9EZ33y7RlZqz+bTNAajnIXmlIjcgyCZkRtdoI1Vrw
- LVhENg91pmWbjnIlcHARZ8pPZI1Oe/c=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UCZfFEZiDEm4ScBYpz8PskytD5Sf+SXWO7kU1IanCUs=;
+ b=RFDrOxEhSWYuQKVwH9ZoYuSlNpfez+G6XgEpaM+u6uDbdA8TOLaFB4IvNXYtMvYg0ri+1q
+ 3uXv1E8iV+hHPoRIFFRqHyMDx+uy7dTe72EHhqTvtgSFTHvJa3d/rvxjOJ23fe83iCITtb
+ +Kw3EIjLMVSBi507Cg1fRma7Nthh8TA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-3EU-P7z-PH6b8XH_RB5_wA-1; Mon, 16 May 2022 06:38:51 -0400
-X-MC-Unique: 3EU-P7z-PH6b8XH_RB5_wA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k35-20020a05600c1ca300b003946a9764baso10156067wms.1
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:38:51 -0700 (PDT)
+ us-mta-671-mxfBNJxxM_W05RWZnwDlKw-1; Mon, 16 May 2022 06:39:02 -0400
+X-MC-Unique: mxfBNJxxM_W05RWZnwDlKw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bg7-20020a05600c3c8700b0039468585269so6563679wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:39:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VTVq5T8b7EGxCTH+Nf30xApsBAleE4GqyWpyK43o+XY=;
- b=qQkFAOSns0V9SU5gMJQiDg/gzpte4T4ZIlr8sBVqDiZdNaU4FXD4x5h7LghMEEw5gK
- zG9BPfOQqjfttrxsCQtvWmuoaW97qrv18oYwOGlzVfoyzF3Lgq0BM7qXTFfDpzijAR1T
- kbIGKVCS9tn1MYnRsXHGOk/k752P/rOKj3GtR65+542MSKBMPwytJ/bBJpW3l5oCJh+t
- jCSpMehC9QI7Loc02L+v6punJaqKTYfRaYR90XkJf839DE6qB86MFhUGiCkXdhG7CDg9
- AFB6uATTriacPxp2mzLprhoZ1g8XO45IR8CnJZwtuNenOYZF9AGXtnW2IhiDpAndzFqy
- SyRw==
-X-Gm-Message-State: AOAM533DtTbzNKoY577DEOA3nkYixfM4fTpVof4raWmobFIbJdvhu0Yr
- aMEIIADumWDcukxcatVQ3or1gKI89D4egqWdC6m6ufj9i1GR8mLppBraTq1yQbS+SOdmV4l1jHD
- INqjD6GVlCG2m/yg9sIjxxZkjJh6PVWP6K+kzzlcYOk6a0GRqTxYzhSDRzdH8
-X-Received: by 2002:a7b:ce0a:0:b0:394:41e:2517 with SMTP id
- m10-20020a7bce0a000000b00394041e2517mr26837407wmc.135.1652697530350; 
- Mon, 16 May 2022 03:38:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfRpVt+SPg5hJpufshItFlkSz9VucAnhCyPtrVNO9ylVUzbk5JlfBsXX5Nn4g0Okgv78cDmw==
-X-Received: by 2002:a7b:ce0a:0:b0:394:41e:2517 with SMTP id
- m10-20020a7bce0a000000b00394041e2517mr26837380wmc.135.1652697529997; 
- Mon, 16 May 2022 03:38:49 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=UCZfFEZiDEm4ScBYpz8PskytD5Sf+SXWO7kU1IanCUs=;
+ b=kRXhEPxyZ+pmxbDzq9WQOZ6vLu+4UYF0nV+gg2/oU5Q1H51aB74f6hHBIUtn3urPgK
+ rM9e8psnHWC8sme/8TlKI9bBpNDMrs5pG2x1DhKL+2VCETGOgbIS7KytyC1HUGsMqzKa
+ CoBjthm9v5QMZRpsZrsDMQPhCo6NI0OBY7HQ2/bfoIqvQSt4qgBnDdjokJ6rfrrYQwlX
+ Q4PmGlDXwyMcYcqKGXgSXuVeveYWiA3TG3vKA1G3jdH2gHhTBSlxMiDnsu5gpqS3fDx1
+ BV01il4ZrcXyC/2yu65AABrRlOAHSEr6xEDyXbcMpHYru4Dio91fY92adMu5paSmNp2A
+ smyg==
+X-Gm-Message-State: AOAM533zPjPfOBuElqHRgOJ1cnFqGo/lKnpwuhAr2pXkcy4J0zGQ0nw1
+ eVOczA0Vz8zSWV4fn1OAmnfdSTePlhLAPaLnYDXHZhBk4RnQ2fF+1Dci/MZOLTrgDu02Qkys9gz
+ DrGHtD6CwMtBrvrVu4p77RRnAebKCGZvoojMDxLiEzeu6cjINdpGEn39MzXMf
+X-Received: by 2002:a05:6000:144a:b0:20c:6b73:804 with SMTP id
+ v10-20020a056000144a00b0020c6b730804mr14178245wrx.88.1652697541211; 
+ Mon, 16 May 2022 03:39:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQL2UWlaBMYdN8vkgQKZzJK6j2xB4djo8MhaReEaKleRYVFAaPpKnjhMhis90hshwdW+rICA==
+X-Received: by 2002:a05:6000:144a:b0:20c:6b73:804 with SMTP id
+ v10-20020a056000144a00b0020c6b730804mr14178221wrx.88.1652697540918; 
+ Mon, 16 May 2022 03:39:00 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- r21-20020adfa155000000b0020d0840d2ecsm3052932wrr.93.2022.05.16.03.38.47
+ t11-20020adfba4b000000b0020d0351dbb6sm4819616wrg.80.2022.05.16.03.38.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:38:49 -0700 (PDT)
-Date: Mon, 16 May 2022 06:38:46 -0400
+ Mon, 16 May 2022 03:39:00 -0700 (PDT)
+Date: Mon, 16 May 2022 06:38:57 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 54/91] intel-iommu: block output address in interrupt address
- range
-Message-ID: <20220516095448.507876-55-mst@redhat.com>
+ Ilya Maximets <i.maximets@ovn.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PULL 57/91] vhost_net: Print feature masks in hex
+Message-ID: <20220516095448.507876-58-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,111 +102,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Ilya Maximets <i.maximets@ovn.org>
 
-According to vtd spec v3.3 3.14:
+"0x200000000" is much more readable than "8589934592".
+The change saves one step (conversion) while debugging.
 
-"""
-Software must not program paging-structure entries to remap any
-address to the interrupt address range. Untranslated requests and
-translation requests that result in an address in the interrupt range
-will be blocked with condition code LGN.4 or SGN.8.
-"""
-
-This patch blocks the request that result in interrupt address range.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20220210092815.45174-2-jasowang@redhat.com>
+Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+Message-Id: <20220318140440.596019-1-i.maximets@ovn.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/intel_iommu_internal.h |  4 ++++
- hw/i386/intel_iommu.c          | 27 ++++++++++++++++++++++++++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
+ hw/net/vhost_net.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index b6a2da8e83..930ce61feb 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -289,6 +289,8 @@ typedef enum VTDFaultReason {
-      * context-entry.
-      */
-     VTD_FR_CONTEXT_ENTRY_TT,
-+    /* Output address in the interrupt address range */
-+    VTD_FR_INTERRUPT_ADDR = 0xE,
- 
-     /* Interrupt remapping transition faults */
-     VTD_FR_IR_REQ_RSVD = 0x20, /* One or more IR request reserved
-@@ -304,6 +306,8 @@ typedef enum VTDFaultReason {
- 
-     VTD_FR_PASID_TABLE_INV = 0x58,  /*Invalid PASID table entry */
- 
-+    /* Output address in the interrupt address range for scalable mode */
-+    VTD_FR_SM_INTERRUPT_ADDR = 0x87,
-     VTD_FR_MAX,                 /* Guard */
- } VTDFaultReason;
- 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 8af2e39151..695dd51dc3 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1020,6 +1020,7 @@ static int vtd_iova_to_slpte(IntelIOMMUState *s, VTDContextEntry *ce,
-     uint32_t offset;
-     uint64_t slpte;
-     uint64_t access_right_check;
-+    uint64_t xlat, size;
- 
-     if (!vtd_iova_range_check(s, iova, ce, aw_bits)) {
-         error_report_once("%s: detected IOVA overflow (iova=0x%" PRIx64 ")",
-@@ -1064,11 +1065,33 @@ static int vtd_iova_to_slpte(IntelIOMMUState *s, VTDContextEntry *ce,
-         if (vtd_is_last_slpte(slpte, level)) {
-             *slptep = slpte;
-             *slpte_level = level;
--            return 0;
-+            break;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 30379d2ca4..df0f050548 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -201,7 +201,7 @@ struct vhost_net *vhost_net_init(VhostNetOptions *options)
+             net->dev.features &= ~(1ULL << VIRTIO_NET_F_MRG_RXBUF);
          }
-         addr = vtd_get_slpte_addr(slpte, aw_bits);
-         level--;
-     }
-+
-+    xlat = vtd_get_slpte_addr(*slptep, aw_bits);
-+    size = ~vtd_slpt_level_page_mask(level) + 1;
-+
-+    /*
-+     * From VT-d spec 3.14: Untranslated requests and translation
-+     * requests that result in an address in the interrupt range will be
-+     * blocked with condition code LGN.4 or SGN.8.
-+     */
-+    if ((xlat > VTD_INTERRUPT_ADDR_LAST ||
-+         xlat + size - 1 < VTD_INTERRUPT_ADDR_FIRST)) {
-+        return 0;
-+    } else {
-+        error_report_once("%s: xlat address is in interrupt range "
-+                          "(iova=0x%" PRIx64 ", level=0x%" PRIx32 ", "
-+                          "slpte=0x%" PRIx64 ", write=%d, "
-+                          "xlat=0x%" PRIx64 ", size=0x%" PRIx64 ")",
-+                          __func__, iova, level, slpte, is_write,
-+                          xlat, size);
-+        return s->scalable_mode ? -VTD_FR_SM_INTERRUPT_ADDR :
-+                                  -VTD_FR_INTERRUPT_ADDR;
-+    }
- }
- 
- typedef int (*vtd_page_walk_hook)(IOMMUTLBEvent *event, void *private);
-@@ -1628,10 +1651,12 @@ static const bool vtd_qualified_faults[] = {
-     [VTD_FR_PAGING_ENTRY_INV] = true,
-     [VTD_FR_ROOT_TABLE_INV] = false,
-     [VTD_FR_CONTEXT_TABLE_INV] = false,
-+    [VTD_FR_INTERRUPT_ADDR] = true,
-     [VTD_FR_ROOT_ENTRY_RSVD] = false,
-     [VTD_FR_PAGING_ENTRY_RSVD] = true,
-     [VTD_FR_CONTEXT_ENTRY_TT] = true,
-     [VTD_FR_PASID_TABLE_INV] = false,
-+    [VTD_FR_SM_INTERRUPT_ADDR] = true,
-     [VTD_FR_MAX] = false,
- };
- 
+         if (~net->dev.features & net->dev.backend_features) {
+-            fprintf(stderr, "vhost lacks feature mask %" PRIu64
++            fprintf(stderr, "vhost lacks feature mask 0x%" PRIx64
+                    " for backend\n",
+                    (uint64_t)(~net->dev.features & net->dev.backend_features));
+             goto fail;
+@@ -213,7 +213,7 @@ struct vhost_net *vhost_net_init(VhostNetOptions *options)
+     if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
+         features = vhost_user_get_acked_features(net->nc);
+         if (~net->dev.features & features) {
+-            fprintf(stderr, "vhost lacks feature mask %" PRIu64
++            fprintf(stderr, "vhost lacks feature mask 0x%" PRIx64
+                     " for backend\n",
+                     (uint64_t)(~net->dev.features & features));
+             goto fail;
 -- 
 MST
 
