@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132C4528BBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:15:55 +0200 (CEST)
-Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20A9528B8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 19:04:43 +0200 (CEST)
+Received: from localhost ([::1]:38276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqeK2-0000lQ-5Y
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55390)
+	id 1nqe9C-0005Ax-WD
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 13:04:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqdyL-00070o-Vb
- for qemu-devel@nongnu.org; Mon, 16 May 2022 12:53:30 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:35260)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nqdyR-000729-4r; Mon, 16 May 2022 12:53:37 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:37881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqdyK-0004iN-AP
- for qemu-devel@nongnu.org; Mon, 16 May 2022 12:53:29 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2ff155c239bso15369217b3.2
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 09:53:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3YmQkZc5I53jMRkXjf6ongRF7t/N122T42StJqkotCg=;
- b=ijRbmFgFAK4/lxOFx1TFeO5n8HNBGAp7WjK16MrNTkQ3KObqvNEfDE856Zqfz6fQpm
- T+GGQlYfdNNDNqd4Jq+X9HILYv4KZTdwUyIJsPgUoZ2mvH60W2/+Q5xYWjQHh4hHsSqn
- vZCz/ZhPGPlNPaLWm7ZNA4WeUnTKy1GE6JU+bJZyz76d2WfOn/ZqKt/PoDjNo6rsZ/71
- i1YckQDiw1+cA+UUHZbKXSqmsvNJEEN+mp3Nswp8INwTqb0EwFDeMTtgwiqsBHkV526C
- 3rlDqzfdHg17e0ildoJH62Cae9O9RluhCXujgTs0I8byWi2EJR8csKpW/82zTD+H+VI4
- wSYQ==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nqdyP-0004j3-N4; Mon, 16 May 2022 12:53:34 -0400
+Received: by mail-oi1-x230.google.com with SMTP id r1so19326926oie.4;
+ Mon, 16 May 2022 09:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zEsOvcrjsdDHiqYtQBv82TLxP+8TTdVfmUPw6divdy8=;
+ b=psBAP7JcSJ8xokaYzS7eOAs5crl97DfI7OgHC4bqMWDQ6/B3umRxVGJ3aajmXWroWR
+ Q/ehuJAwGGVl2M6ZreMlyB12Wgk5VtxRuKbQnbz4zJB5SltO7cyT2I6T9vVuaMDDDLz3
+ hoYexnoYxOhxzqdYidKsf6ON83fe0QYsvFKrgo4qmaewCGBHc5odIxPIIGueayvdhS7u
+ oLJSEBZfUaXnfOuDP/WYbOyjHbbVR3Tf9hpv74QkCP7Jb9aRRoPF0wx3Rn1UfI6Hoytf
+ 1BWBKbQ75qJ++xOy/mSLMDgr1EPlxPlHEORYTbofv1bIEWWy+I1MLMaGE1X7rMyTTHzq
+ dWRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3YmQkZc5I53jMRkXjf6ongRF7t/N122T42StJqkotCg=;
- b=SP6Na9d93BZyuWAeHtzSyYjDs+X9W0mZ/dDPF5o8j1VbH3ZooxWSHaz7oUMC98BTFn
- eTBerM4bfVNb1G7e2oa5Bzb5aoPaI3GuJib0Tc6zf9T7PdT/DRejYDiDW0t8wt0FQIzw
- Fwe53BJRJ1lGw/SsvSoAVmSUKy91tu7HEeS+axxt7FUICYtBlsm1ZCrdWszHNyAl88Ck
- YvpYkCClA+A7y8rhCbWw8oZOf5RSVrUIjk01rcuSWdg+bZOwXEOxYth4QVE8EwSFJ/A8
- btNA2EHGX/xA2Ot6JEbVGpGBbf/y3ce/qbzvI95uHwOtCZxY3DdXXfWeUfbg95db2B14
- Fvww==
-X-Gm-Message-State: AOAM531iu4xhH6RYqwG3SON+Ib0QBelJW4rmV4OnC11zW3KXpH53iYTL
- 8c8ae1v6gD2KAKXDhqAXTUcYD8YPpSHPIMwZxK/pDw==
-X-Google-Smtp-Source: ABdhPJwyDmtPyDlPnu3mmzjSfvXCaxv5LOoLhtJjN8zMGrQn9iDHXWeHn7XiE56g846IOBWg2ddL/8pzZR+Ux/98CtM=
-X-Received: by 2002:a81:1dcf:0:b0:2fa:d094:14ff with SMTP id
- d198-20020a811dcf000000b002fad09414ffmr20975984ywd.10.1652720007280; Mon, 16
- May 2022 09:53:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=zEsOvcrjsdDHiqYtQBv82TLxP+8TTdVfmUPw6divdy8=;
+ b=Nd5YSQPQKk+/vUqnXT7XSM6IbPPCCIKeF0WMlziR37MJOSDUh3ig/azwrotaZxWHpF
+ P7c7NVTokmbytkaFAC/BnuS2TDhfMs/Mereac/JbiVG7grlaM3QRZsE2C7CS8TzReUY2
+ iQITmb3C4rmQKG4KwsA+4ONmBol9Sj6LCSy2PM1+lOSeBGIINLuJaPi4IATtHuEkCac6
+ CuPjgBPy10RTr5WG8hUVNsMG1WxPRDHYjITV++6ESfNAclnfSbGe+ridS0Hxlp6m+Cj3
+ 6oDwiaCs26cVxomGmSiz9/uMeYAwM+gUEyWxoe/5oQ7LlSJ8bk56hwXeubMLzaIlcs2T
+ 82cw==
+X-Gm-Message-State: AOAM530ze8hxRLB5WAWIXKTxa8PaYt6aeBfpgueiY4O7UsEvZTAzSUGF
+ kMzWG85VhNNO0NA/5G/beM3GeAkkLYo=
+X-Google-Smtp-Source: ABdhPJzEM4GmS5hguXu/u5j76lXev0vNtFMJgKFXqHxO7TbENmCON72S9hkayDWO5QPfB0AkbbG7nA==
+X-Received: by 2002:a05:6808:168b:b0:2f7:338b:7a55 with SMTP id
+ bb11-20020a056808168b00b002f7338b7a55mr14228340oib.133.1652720012312; 
+ Mon, 16 May 2022 09:53:32 -0700 (PDT)
+Received: from balboa.ibmuc.com ([191.193.151.26])
+ by smtp.gmail.com with ESMTPSA id
+ z14-20020a056870e30e00b000e686d13889sm5780731oad.35.2022.05.16.09.53.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 09:53:32 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
+ jsnow@redhat.com, crosa@redhat.com, f4bug@amsat.org, wainersm@redhat.com,
+ bleal@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH 1/5] avocado/empty_cpu_model.py: use machine:none tag
+Date: Mon, 16 May 2022 13:53:17 -0300
+Message-Id: <20220516165321.872394-2-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220516165321.872394-1-danielhb413@gmail.com>
+References: <20220516165321.872394-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-References: <20220516145823.148450-1-thuth@redhat.com>
- <20220516145823.148450-3-thuth@redhat.com>
- <CAFEAcA-RBUX5iXV__1AMrex21DJK7hx8mygksJa6xynJRCEW4g@mail.gmail.com>
- <02b0c561-c93c-2ac8-7579-6c456c37771c@linaro.org>
-In-Reply-To: <02b0c561-c93c-2ac8-7579-6c456c37771c@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 May 2022 17:53:16 +0100
-Message-ID: <CAFEAcA_Fqm7VL-ZoEuzmoQUDHqbOxKCG9s53GVy8hzDuET82yA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] capstone: Allow version 3.0.5 again
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, 
- "Daniel P . Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,40 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 May 2022 at 17:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/16/22 08:46, Peter Maydell wrote:
-> > On Mon, 16 May 2022 at 16:43, Thomas Huth <thuth@redhat.com> wrote:
-> >>
-> >> According to
-> >>
-> >>   https://lore.kernel.org/qemu-devel/20200921174118.39352-1-richard.henderson@linaro.org/
-> >>
-> >> there was an issue with Capstone 3 from Ubuntu 18. Now that we removed
-> >> support for Ubuntu 18.04, that issue should hopefully not bite us
-> >> anymore. Compiling with version 3.0.5 seems to work fine on other
-> >> systems, so let's allow that version again.
-> >
-> > Commit bcf368626cb33c4d says the reason for requiring capstone
-> >> =4.0 was "We're about to use a portion of the 4.0 API", not
-> > "Ubuntu's specific capstone 3 is broken"...
->
-> Looks like the patch to which this referred was never merged -- CS_ARCH_RISCV.
->
-> I still have a branch with riscv support sitting in it, from Sep 2020. Sadly, I never
-> posted that patch, nor said why I withheld it in the end. Perhaps the actual riscv support
-> in capstone was poor at the time.
->
-> The 4.0 requirement patch itself was kept for Ubuntu 18's issue:
->
-> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg07542.html
+Using tags=machine:none will do two things: it will avoid the need to
+passing '-machine none' via self.vm.add_args() and it will set the
+self.machine attribute of the parent QEMUSystemTest class (via its
+setUp() method).
 
-Is that this one?
-https://lore.kernel.org/qemu-devel/87wo0no0wz.fsf@linaro.org/
+We'll be relying on self.machine being set apropriately for an upcoming
+fix.
 
-Did we find out why Ubuntu's capstone in particular fell over ?
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ tests/avocado/empty_cpu_model.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/tests/avocado/empty_cpu_model.py b/tests/avocado/empty_cpu_model.py
+index 22f504418d..723ecc73af 100644
+--- a/tests/avocado/empty_cpu_model.py
++++ b/tests/avocado/empty_cpu_model.py
+@@ -10,8 +10,11 @@
+ from avocado_qemu import QemuSystemTest
+ 
+ class EmptyCPUModel(QemuSystemTest):
++    """
++    :avocado: tags=machine:none
++    """
+     def test(self):
+-        self.vm.add_args('-S', '-display', 'none', '-machine', 'none', '-cpu', '')
++        self.vm.add_args('-S', '-display', 'none', '-cpu', '')
+         self.vm.set_qmp_monitor(enabled=False)
+         self.vm.launch()
+         self.vm.wait()
+-- 
+2.32.0
+
 
