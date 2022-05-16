@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D87528976
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:05:05 +0200 (CEST)
-Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DEAC528B46
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 18:56:11 +0200 (CEST)
+Received: from localhost ([::1]:46192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqdDU-0003GN-1X
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40204)
+	id 1nqe0w-0000Kg-Eu
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 12:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqd52-0001sO-VA
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59015)
+ id 1nqd54-0001wH-1G
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqd51-0003Mu-3g
- for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:20 -0400
+ id 1nqd52-0003My-Bc
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 11:56:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652716578;
+ s=mimecast20190719; t=1652716579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n1Mm2tW2WvCffZrKZWsjQDyjp4fFpeYpXS5+HH77de8=;
- b=chKamWIkDZjhswbhbsyWUSxjKBEmcDUS1/5TzmZfzaCOIv+jQ4tUt5qEcCfos1ZxcKJ6Q4
- zSGcDhPwIFUoj23ZVdHvFk+fTwmhPztRBlpVG6CN59PW0bBBj+Us9eJJ2wMia7zVW2E4Gv
- gc61OjeB6afh8qR2SfXruy0pPMqRoSY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=a6Iq5klB4OYdeLKmv3MKps+y2xcYAT0ThmiCm0ZXWxE=;
+ b=ISJ1ItH7nGe0GfUG1ToIxgKcdE2jyvZK4Pq5EN9RtJfabLrim+eXFzwdh9IqCbI0Cd0aza
+ /AjebU6YMWu+FxTqEh0aZeKFZ70kRstwag1e7ViCcxje7Yzf/p5Q0qCyw1U+QfFf/J01cm
+ mFtp8fX7s/YpRDw7JJyVI3OYFHed7eE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-mSTkTPRuMoKBBG-uG_DAKA-1; Mon, 16 May 2022 11:56:16 -0400
-X-MC-Unique: mSTkTPRuMoKBBG-uG_DAKA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- ch28-20020a0564021bdc00b00425cb227ab4so10046988edb.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:56:16 -0700 (PDT)
+ us-mta-410-2ElxoDDjMMuSzHNNjoLRsg-1; Mon, 16 May 2022 11:56:18 -0400
+X-MC-Unique: 2ElxoDDjMMuSzHNNjoLRsg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ r8-20020a056402018800b00428b43999feso10068842edv.5
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 08:56:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n1Mm2tW2WvCffZrKZWsjQDyjp4fFpeYpXS5+HH77de8=;
- b=aJ3LqsjwZFuF5erj015LIgA6VOcI49cv1GB5YD5ffFFnoOn79QlEOKLTZQpnKAOYT2
- BlwX4dhS1UZP+t+Ygyn9AHC/hDmDqZxFIAxG9NMrYjHaJEPtdRaDBYCmpWRUXSN+Xp0q
- qgBWsYygBHFgZAe4P21CEsGIy7tTE6wzcD8FLZRQQ6NWJue20zoHnHsms0pqFO7j6Sfb
- D5RbV6fDjRrhstGojl0OvNn3/cpGgq4SJPjDmWooyk7s/4eJng3PGDGpdugt/fQP2Cs7
- ijaZm7R/Ga6pVRSIhuI4PpyZw6EaPV1gJhTx8Bp4+uxgfCg3ZkaI5Libs+utkJkqIYOe
- nDgg==
-X-Gm-Message-State: AOAM530so3iSVwmWImy6PdhyiQ9M9EytwS/Pd9+QTS210E2yfI2SfI9p
- v/GkBIX2Rex1w00XFafgblFjP86x0e6LsOWdOpE+7MYHKPjeN396kbqVxQjgshk46baCU4LR27n
- Rn4oFUGGcpK5/3VtooEJ6QB02HsjdPvXGaw4hU4l0luOtGDEHO7X6oAP9qRaapiKeq78=
-X-Received: by 2002:a05:6402:3298:b0:42a:a91d:905b with SMTP id
- f24-20020a056402329800b0042aa91d905bmr9173480eda.373.1652716575281; 
- Mon, 16 May 2022 08:56:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw604kUcU5kcTc/p9xxOlEZmGvRQVr0pmQ8a6LYHICCsz0RffApJbEGY2hO9udlMq2gpz1SyA==
-X-Received: by 2002:a05:6402:3298:b0:42a:a91d:905b with SMTP id
- f24-20020a056402329800b0042aa91d905bmr9173459eda.373.1652716575015; 
- Mon, 16 May 2022 08:56:15 -0700 (PDT)
+ bh=a6Iq5klB4OYdeLKmv3MKps+y2xcYAT0ThmiCm0ZXWxE=;
+ b=CxFw3n1bUg7wkPT7V9T+Sd6D8RyNAjYBKVOHfletIv2chKmazuKICWWHEl+sjCcMC+
+ QurmlmqTUZ9euj6Eb+M/qsvj0yJC3S0f8u4esw+uXq5iaK2TJJEOLUGGRqtiRSm4M/4t
+ j3FVxsMN29smVF3SoH5G/Suxt5itca6kAxq+D1/ahgS2m9JtW2Rcgp4+Fa3vgW2p9PZr
+ oDkgkZ9dEizw4QxnJ23Cg9oIM0uVk7mjp5OQ8jLUfxMZ08e30ZNXMpnOa+R2htXtJ9cA
+ fi7PUjUHY0wSxAkB6xaEuOJAJl1Uvtb6/19JoM/G+ql0XDLjic4QkJOl6e0UCYTrGbHa
+ KUPQ==
+X-Gm-Message-State: AOAM532r2JZywq+ZGp4PNw8OwXQaM3ee8fNWjHWtRnqafT+chby/Hloo
+ HIwa80uVRHTHfIOOZFFIItMExrcGE6cv1drTk3myyaVrtg4J7TYXx8PYA4jY6zy6NfpqOGV4jzc
+ fMd9b1no8WDwEbo9/WsxD2tIaztcJ0Erh/nN8aXNXRN32qPHy/UVPwjV0UWnVGwmXRDs=
+X-Received: by 2002:a05:6402:34c6:b0:427:c65d:c254 with SMTP id
+ w6-20020a05640234c600b00427c65dc254mr14008192edc.88.1652716576861; 
+ Mon, 16 May 2022 08:56:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQWt2d49vGbZlh1AL5ymR2LH2z2BR6zjyeBtcQmx3+DJqIBHsntipzuEZmNkzjIXWC2M0BZg==
+X-Received: by 2002:a05:6402:34c6:b0:427:c65d:c254 with SMTP id
+ w6-20020a05640234c600b00427c65dc254mr14008169edc.88.1652716576610; 
+ Mon, 16 May 2022 08:56:16 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a1709063f4500b006f3ef214e46sm27231ejj.172.2022.05.16.08.56.14
+ gv29-20020a1709072bdd00b006f3ef214e06sm44898ejc.108.2022.05.16.08.56.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 08:56:14 -0700 (PDT)
+ Mon, 16 May 2022 08:56:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Yang Weijiang <weijiang.yang@intel.com>, Like Xu <like.xu@linux.intel.com>
-Subject: [PULL 06/23] target/i386: Add lbr-fmt vPMU option to support guest LBR
-Date: Mon, 16 May 2022 17:55:46 +0200
-Message-Id: <20220516155603.1234712-7-pbonzini@redhat.com>
+Cc: Yang Weijiang <weijiang.yang@intel.com>
+Subject: [PULL 07/23] target/i386: Add kvm_get_one_msr helper
+Date: Mon, 16 May 2022 17:55:47 +0200
+Message-Id: <20220516155603.1234712-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220516155603.1234712-1-pbonzini@redhat.com>
 References: <20220516155603.1234712-1-pbonzini@redhat.com>
@@ -101,129 +101,115 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yang Weijiang <weijiang.yang@intel.com>
 
-The Last Branch Recording (LBR) is a performance monitor unit (PMU)
-feature on Intel processors which records a running trace of the most
-recent branches taken by the processor in the LBR stack. This option
-indicates the LBR format to enable for guest perf.
+When try to get one msr from KVM, I found there's no such kind of
+existing interface while kvm_put_one_msr() is there. So here comes
+the patch. It'll remove redundant preparation code before finally
+call KVM_GET_MSRS IOCTL.
 
-The LBR feature is enabled if below conditions are met:
-1) KVM is enabled and the PMU is enabled.
-2) msr-based-feature IA32_PERF_CAPABILITIES is supporterd on KVM.
-3) Supported returned value for lbr_fmt from above msr is non-zero.
-4) Guest vcpu model does support FEAT_1_ECX.CPUID_EXT_PDCM.
-5) User-provided lbr-fmt value doesn't violate its bitmask (0x3f).
-6) Target guest LBR format matches that of host.
+No functional change intended.
 
-Co-developed-by: Like Xu <like.xu@linux.intel.com>
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
 Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
-Message-Id: <20220215195258.29149-3-weijiang.yang@intel.com>
+Message-Id: <20220215195258.29149-4-weijiang.yang@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 40 ++++++++++++++++++++++++++++++++++++++++
- target/i386/cpu.h | 10 ++++++++++
- 2 files changed, 50 insertions(+)
+ target/i386/kvm/kvm.c | 46 ++++++++++++++++++++++++-------------------
+ 1 file changed, 26 insertions(+), 20 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6083e556f5..856a8659e8 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6275,6 +6275,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     CPUX86State *env = &cpu->env;
-     Error *local_err = NULL;
-     static bool ht_warned;
-+    unsigned requested_lbr_fmt;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index c885763a5b..536cbe5fad 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -141,6 +141,7 @@ static struct kvm_msr_list *kvm_feature_msrs;
  
-     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
-         error_setg(errp, "apic-id property was not initialized properly");
-@@ -6292,6 +6293,42 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         goto out;
+ #define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
+ static RateLimit bus_lock_ratelimit_ctrl;
++static int kvm_get_one_msr(X86CPU *cpu, int index, uint64_t *value);
+ 
+ int kvm_has_pit_state2(void)
+ {
+@@ -211,28 +212,21 @@ static int kvm_get_tsc(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+-    struct {
+-        struct kvm_msrs info;
+-        struct kvm_msr_entry entries[1];
+-    } msr_data = {};
++    uint64_t value;
+     int ret;
+ 
+     if (env->tsc_valid) {
+         return 0;
      }
  
-+    /*
-+     * Override env->features[FEAT_PERF_CAPABILITIES].LBR_FMT
-+     * with user-provided setting.
-+     */
-+    if (cpu->lbr_fmt != ~PERF_CAP_LBR_FMT) {
-+        if ((cpu->lbr_fmt & PERF_CAP_LBR_FMT) != cpu->lbr_fmt) {
-+            error_setg(errp, "invalid lbr-fmt");
-+            return;
-+        }
-+        env->features[FEAT_PERF_CAPABILITIES] &= ~PERF_CAP_LBR_FMT;
-+        env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
+-    memset(&msr_data, 0, sizeof(msr_data));
+-    msr_data.info.nmsrs = 1;
+-    msr_data.entries[0].index = MSR_IA32_TSC;
+     env->tsc_valid = !runstate_is_running();
+ 
+-    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
++    ret = kvm_get_one_msr(cpu, MSR_IA32_TSC, &value);
+     if (ret < 0) {
+         return ret;
+     }
+ 
+-    assert(ret == 1);
+-    env->tsc = msr_data.entries[0].data;
++    env->tsc = value;
+     return 0;
+ }
+ 
+@@ -1566,21 +1560,14 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+          * the kernel doesn't support setting vp_index; assert that its value
+          * is in sync
+          */
+-        struct {
+-            struct kvm_msrs info;
+-            struct kvm_msr_entry entries[1];
+-        } msr_data = {
+-            .info.nmsrs = 1,
+-            .entries[0].index = HV_X64_MSR_VP_INDEX,
+-        };
++        uint64_t value;
+ 
+-        ret = kvm_vcpu_ioctl(cs, KVM_GET_MSRS, &msr_data);
++        ret = kvm_get_one_msr(cpu, HV_X64_MSR_VP_INDEX, &value);
+         if (ret < 0) {
+             return ret;
+         }
+-        assert(ret == 1);
+ 
+-        if (msr_data.entries[0].data != hyperv_vp_index(CPU(cpu))) {
++        if (value != hyperv_vp_index(CPU(cpu))) {
+             error_report("kernel's vp_index != QEMU's vp_index");
+             return -ENXIO;
+         }
+@@ -2839,6 +2826,25 @@ static int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value)
+     return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
+ }
+ 
++static int kvm_get_one_msr(X86CPU *cpu, int index, uint64_t *value)
++{
++    int ret;
++    struct {
++        struct kvm_msrs info;
++        struct kvm_msr_entry entries[1];
++    } msr_data = {
++        .info.nmsrs = 1,
++        .entries[0].index = index,
++    };
++
++    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
++    if (ret < 0) {
++        return ret;
 +    }
-+
-+    /*
-+     * vPMU LBR is supported when 1) KVM is enabled 2) Option pmu=on and
-+     * 3)vPMU LBR format matches that of host setting.
-+     */
-+    requested_lbr_fmt =
-+        env->features[FEAT_PERF_CAPABILITIES] & PERF_CAP_LBR_FMT;
-+    if (requested_lbr_fmt && kvm_enabled()) {
-+        uint64_t host_perf_cap =
-+            x86_cpu_get_supported_feature_word(FEAT_PERF_CAPABILITIES, false);
-+        unsigned host_lbr_fmt = host_perf_cap & PERF_CAP_LBR_FMT;
-+
-+        if (!cpu->enable_pmu) {
-+            error_setg(errp, "vPMU: LBR is unsupported without pmu=on");
-+            return;
-+        }
-+        if (requested_lbr_fmt != host_lbr_fmt) {
-+            error_setg(errp, "vPMU: the lbr-fmt value (0x%x) does not match "
-+                        "the host value (0x%x).",
-+                        requested_lbr_fmt, host_lbr_fmt);
-+            return;
-+        }
-+    }
-+
-     x86_cpu_filter_features(cpu, cpu->check_cpuid || cpu->enforce_cpuid);
- 
-     if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
-@@ -6644,6 +6681,8 @@ static void x86_cpu_initfn(Object *obj)
-     object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
- 
-     object_property_add_alias(obj, "hv-apicv", obj, "hv-avic");
-+    cpu->lbr_fmt = ~PERF_CAP_LBR_FMT;
-+    object_property_add_alias(obj, "lbr_fmt", obj, "lbr-fmt");
- 
-     if (xcc->model) {
-         x86_cpu_load_model(cpu, xcc->model);
-@@ -6798,6 +6837,7 @@ static Property x86_cpu_properties[] = {
- #endif
-     DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
-     DEFINE_PROP_BOOL("pmu", X86CPU, enable_pmu, false),
-+    DEFINE_PROP_UINT64_CHECKMASK("lbr-fmt", X86CPU, lbr_fmt, PERF_CAP_LBR_FMT),
- 
-     DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
-                        HYPERV_SPINLOCK_NEVER_NOTIFY),
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9661f9fbd1..6730df5dbf 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -386,6 +386,7 @@ typedef enum X86Seg {
- #define ARCH_CAP_TSX_CTRL_MSR		(1<<7)
- 
- #define MSR_IA32_PERF_CAPABILITIES      0x345
-+#define PERF_CAP_LBR_FMT                0x3f
- 
- #define MSR_IA32_TSX_CTRL		0x122
- #define MSR_IA32_TSCDEADLINE            0x6e0
-@@ -1810,6 +1811,15 @@ struct ArchCPU {
-      */
-     bool enable_pmu;
- 
-+    /*
-+     * Enable LBR_FMT bits of IA32_PERF_CAPABILITIES MSR.
-+     * This can't be initialized with a default because it doesn't have
-+     * stable ABI support yet. It is only allowed to pass all LBR_FMT bits
-+     * returned by kvm_arch_get_supported_msr_feature()(which depends on both
-+     * host CPU and kernel capabilities) to the guest.
-+     */
-+    uint64_t lbr_fmt;
-+
-     /* LMCE support can be enabled/disabled via cpu option 'lmce=on/off'. It is
-      * disabled by default to avoid breaking migration between QEMU with
-      * different LMCE configurations.
++    assert(ret == 1);
++    *value = msr_data.entries[0].data;
++    return ret;
++}
+ void kvm_put_apicbase(X86CPU *cpu, uint64_t value)
+ {
+     int ret;
 -- 
 2.36.0
 
