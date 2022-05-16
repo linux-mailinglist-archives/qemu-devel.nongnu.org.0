@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BA7528398
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:56:47 +0200 (CEST)
-Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1223D5283C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:01:23 +0200 (CEST)
+Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZLC-000880-5V
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49278)
+	id 1nqZPe-0005kP-2b
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:01:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8V-0001Bg-R9
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31887)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8e-0001bD-NY
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8T-0005do-H7
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:35 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8c-0005fI-LR
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697572;
+ s=mimecast20190719; t=1652697582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c9w3iT2kzWZXwmqWDUx+rSUtwr5cBul7vws3lLdpQ2Y=;
- b=NaW75VnuiKMHg9X3N6ospnQXYEbuCnDpGTZ910Ut2tIdte/DIeEXiYsaatfsexEnDtPExz
- nWZg/DqqlBSa+2IWkTfR8ZadrHqdxbX89d0Yw4HDUHY4ErKSq2v3FFG/EGn058V5ZLsFuA
- vBWXbJhQ1n8cn0yxRvR/bza0vdXtKz8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zhjEctiUTjiy6J9SwVBbKJpcUcTX173hG9QfVjtla+w=;
+ b=EIICgWV/jh212HR9wWy586qucFKDFGxCNdFu+taQecAudDnEZQvxjmeGpzn0NCnSHf2Fm7
+ tvwUCp4wHzzWE0y0r8IrGjTLw/+kvY52bP+8JK45UbBBn5SSnHTCQIfwSbNPNwfZZmf/Fz
+ 72FXOVbwyQo0H0k/0fqzzRqpv0CpnGg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-JKXEs6LsOBS3qv16EF2YHQ-1; Mon, 16 May 2022 06:39:31 -0400
-X-MC-Unique: JKXEs6LsOBS3qv16EF2YHQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ba21-20020a0560001c1500b0020ca6a45dfcso3800190wrb.9
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:39:31 -0700 (PDT)
+ us-mta-100-QuviZtQxNhmSwIZcHlC3cw-1; Mon, 16 May 2022 06:39:41 -0400
+X-MC-Unique: QuviZtQxNhmSwIZcHlC3cw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e9-20020a05600c4e4900b00394779649b1so10153671wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:39:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=c9w3iT2kzWZXwmqWDUx+rSUtwr5cBul7vws3lLdpQ2Y=;
- b=6YBYxiF1wYJ5gm5SwE3enBicMZ2ePesx9NvyQ/5oeF8/G9RkBU+FM8h5CdyX2V2Veu
- YjtU5VayNoA+/8p9euXlyedB4C1t6d2ubQMdy1CHsuVCtGPjYy5Wj6DNW3yg0bHurfHU
- nWb4dP5TuMOAUFiz4VsfnsDY4en+j8QhZdYfoM+jRTNOIkz7jXfeMqd06zuXWjzAH1He
- Ls6u29QKFIbdo+q8N6pR1QhZ4zvmObkCXwpngYjhTPdOaoijn97nIyb0rkm6o/MHhXse
- fq9rskYWd8q6zv3ESUqJTsAvGWGn45CUUYSmlhpgUD6pGYblrZWeStu8aX76HMlQwH0U
- X3mA==
-X-Gm-Message-State: AOAM531iGyq3SBIKALM+1pPPKvniNkWWrSjEDmd+nOCS1dgct06JdQyo
- t0tBR9nlPzkYbzWyhNHGaNsfv6EI0mWXFkuWBDh3MNfJuLkPE1OtdYUWW8yyGc4GxcGUVhU+2g4
- kvKTdu8kFTyjotrhYLn+LeCwedIT/a29S7DDPbKiD+V7FVO7iy3MtZPQXlM46
-X-Received: by 2002:a05:600c:4f52:b0:394:63eb:ad27 with SMTP id
- m18-20020a05600c4f5200b0039463ebad27mr16415575wmq.35.1652697570261; 
- Mon, 16 May 2022 03:39:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAJTpBZm9efgFl73FVCh4l1rH1BHiqWCzp61wYOV3LzZGKVqSofdIwZpSGCfAJCtlKNm/8RQ==
-X-Received: by 2002:a05:600c:4f52:b0:394:63eb:ad27 with SMTP id
- m18-20020a05600c4f5200b0039463ebad27mr16415542wmq.35.1652697569941; 
- Mon, 16 May 2022 03:39:29 -0700 (PDT)
+ bh=zhjEctiUTjiy6J9SwVBbKJpcUcTX173hG9QfVjtla+w=;
+ b=LgczT6mtkRgIiitVdGIqQXlTiNgjJmH9Bb22jtou/pZM4G2m7TBxHshg9m9yv25nY1
+ xQlHF+hXMFqNt7hsQ8DRUA2dMXee/mlgtvWioLpe20vUiDDRCAO3T2LKyugwTwI4u569
+ WVhmhKamKgeDbAByUOApE+y0uDAsvx3F2HYIeWUFejzSDzZGlslkLXF3v65TMflSNnon
+ khX2mRn2jQ/LxdTIMpUyP6JcEwYAp1C6AP0ULI8To9CE0Mrq+a3o/6IvwiPKWawaFV/L
+ 1HEfafrHn/rumdhFJVeU8dALw+hHGNf/FgM4YFfKbGn+5xBcCjaTlMW6UUjGTKmuXgL9
+ N7WA==
+X-Gm-Message-State: AOAM530FRu+gg+eEiiXVNwPBJ4wDD0RA9n1tNNS27+VSwV8956V+9OWN
+ GfaiI7uCHzPIJckfIVoEYQ2BRxZpZi0AExtEke2kUpyOVBExpw9TxY+cvgvYAdKn36jZ8uC/5mz
+ s4rQ5uk85/XWX7L94C9UBDrXsImUHcTKj0i4aZ/ZBenuptHI4ls+QLCHNTGXp
+X-Received: by 2002:a05:600c:3c9c:b0:394:8fb8:5589 with SMTP id
+ bg28-20020a05600c3c9c00b003948fb85589mr16077537wmb.13.1652697579301; 
+ Mon, 16 May 2022 03:39:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLjyB2cxVaKGzHYGUqdzRd4jfukdQ1ToDgUbdnEjyAZHlAPv4fm/5G2vpO/af9y0x4lvQcEw==
+X-Received: by 2002:a05:600c:3c9c:b0:394:8fb8:5589 with SMTP id
+ bg28-20020a05600c3c9c00b003948fb85589mr16077503wmb.13.1652697578972; 
+ Mon, 16 May 2022 03:39:38 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- o16-20020adf8b90000000b0020c5253d8e0sm9600626wra.44.2022.05.16.03.39.28
+ u23-20020a7bcb17000000b0039466988f6csm12692635wmj.31.2022.05.16.03.39.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:39:29 -0700 (PDT)
-Date: Mon, 16 May 2022 06:39:26 -0400
+ Mon, 16 May 2022 03:39:38 -0700 (PDT)
+Date: Mon, 16 May 2022 06:39:36 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 66/91] docs/devel: start documenting writing VirtIO devices
-Message-ID: <20220516095448.507876-67-mst@redhat.com>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 69/91] virtio/vhost-user: dynamically assign
+ VhostUserHostNotifiers
+Message-ID: <20220516095448.507876-70-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -83,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -109,259 +103,251 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-While writing my own VirtIO devices I've gotten confused with how
-things are structured and what sort of shared infrastructure there is.
-If we can document how everything is supposed to work we can then
-maybe start cleaning up inconsistencies in the code.
+At a couple of hundred bytes per notifier allocating one for every
+potential queue is very wasteful as most devices only have a few
+queues. Instead of having this handled statically dynamically assign
+them and track in a GPtrArray.
+
+[AJB: it's hard to trigger the vhost notifiers code, I assume as it
+requires a KVM guest with appropriate backend]
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20220309164929.19395-1-alex.bennee@linaro.org>
-
-Message-Id: <20220321153037.3622127-10-alex.bennee@linaro.org>
+Message-Id: <20220321153037.3622127-14-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- docs/devel/index-internals.rst |   1 +
- docs/devel/virtio-backends.rst | 214 +++++++++++++++++++++++++++++++++
- 2 files changed, 215 insertions(+)
- create mode 100644 docs/devel/virtio-backends.rst
+ include/hw/virtio/vhost-user.h | 42 ++++++++++++++++-
+ hw/virtio/vhost-user.c         | 83 +++++++++++++++++++++++++++-------
+ hw/virtio/trace-events         |  1 +
+ 3 files changed, 108 insertions(+), 18 deletions(-)
 
-diff --git a/docs/devel/index-internals.rst b/docs/devel/index-internals.rst
-index a50889c556..e1a93df263 100644
---- a/docs/devel/index-internals.rst
-+++ b/docs/devel/index-internals.rst
-@@ -18,3 +18,4 @@ Details about QEMU's various subsystems including how to add features to them.
-    tracing
-    vfio-migration
-    writing-monitor-commands
-+   virtio-backends
-diff --git a/docs/devel/virtio-backends.rst b/docs/devel/virtio-backends.rst
-new file mode 100644
-index 0000000000..9ff092e7a0
---- /dev/null
-+++ b/docs/devel/virtio-backends.rst
-@@ -0,0 +1,214 @@
-+..
-+   Copyright (c) 2022, Linaro Limited
-+   Written by Alex Bennée
+diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
+index 6e0e8a71a3..c6e693cd3f 100644
+--- a/include/hw/virtio/vhost-user.h
++++ b/include/hw/virtio/vhost-user.h
+@@ -11,21 +11,61 @@
+ #include "chardev/char-fe.h"
+ #include "hw/virtio/virtio.h"
+ 
++/**
++ * VhostUserHostNotifier - notifier information for one queue
++ * @rcu: rcu_head for cleanup
++ * @mr: memory region of notifier
++ * @addr: current mapped address
++ * @unmap_addr: address to be un-mapped
++ * @idx: virtioqueue index
++ *
++ * The VhostUserHostNotifier entries are re-used. When an old mapping
++ * is to be released it is moved to @unmap_addr and @addr is replaced.
++ * Once the RCU process has completed the unmap @unmap_addr is
++ * cleared.
++ */
+ typedef struct VhostUserHostNotifier {
+     struct rcu_head rcu;
+     MemoryRegion mr;
+     void *addr;
+     void *unmap_addr;
++    int idx;
+ } VhostUserHostNotifier;
+ 
++/**
++ * VhostUserState - shared state for all vhost-user devices
++ * @chr: the character backend for the socket
++ * @notifiers: GPtrArray of @VhostUserHostnotifier
++ * @memory_slots:
++ */
+ typedef struct VhostUserState {
+     CharBackend *chr;
+-    VhostUserHostNotifier notifier[VIRTIO_QUEUE_MAX];
++    GPtrArray *notifiers;
+     int memory_slots;
+     bool supports_config;
+ } VhostUserState;
+ 
++/**
++ * vhost_user_init() - initialise shared vhost_user state
++ * @user: allocated area for storing shared state
++ * @chr: the chardev for the vhost socket
++ * @errp: error handle
++ *
++ * User can either directly g_new() space for the state or embed
++ * VhostUserState in their larger device structure and just point to
++ * it.
++ *
++ * Return: true on success, false on error while setting errp.
++ */
+ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp);
 +
-+Writing VirtIO backends for QEMU
-+================================
++/**
++ * vhost_user_cleanup() - cleanup state
++ * @user: ptr to use state
++ *
++ * Cleans up shared state and notifiers, callee is responsible for
++ * freeing the @VhostUserState memory itself.
++ */
+ void vhost_user_cleanup(VhostUserState *user);
+ 
+ #endif
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index b0d417651d..b040c1ad2b 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1174,14 +1174,16 @@ static void vhost_user_host_notifier_free(VhostUserHostNotifier *n)
+     n->unmap_addr = NULL;
+ }
+ 
+-static void vhost_user_host_notifier_remove(VhostUserState *user,
+-                                            VirtIODevice *vdev, int queue_idx)
++/*
++ * clean-up function for notifier, will finally free the structure
++ * under rcu.
++ */
++static void vhost_user_host_notifier_remove(VhostUserHostNotifier *n,
++                                            VirtIODevice *vdev)
+ {
+-    VhostUserHostNotifier *n = &user->notifier[queue_idx];
+-
+     if (n->addr) {
+         if (vdev) {
+-            virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
++            virtio_queue_set_host_notifier_mr(vdev, n->idx, &n->mr, false);
+         }
+         assert(!n->unmap_addr);
+         n->unmap_addr = n->addr;
+@@ -1225,6 +1227,15 @@ static int vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
+     return 0;
+ }
+ 
++static VhostUserHostNotifier *fetch_notifier(VhostUserState *u,
++                                             int idx)
++{
++    if (idx >= u->notifiers->len) {
++        return NULL;
++    }
++    return g_ptr_array_index(u->notifiers, idx);
++}
 +
-+This document attempts to outline the information a developer needs to
-+know to write device emulations in QEMU. It is specifically focused on
-+implementing VirtIO devices. For VirtIO the frontend is the driver
-+running on the guest. The backend is the everything that QEMU needs to
-+do to handle the emulation of the VirtIO device. This can be done
-+entirely in QEMU, divided between QEMU and the kernel (vhost) or
-+handled by a separate process which is configured by QEMU
-+(vhost-user).
+ static int vhost_user_get_vring_base(struct vhost_dev *dev,
+                                      struct vhost_vring_state *ring)
+ {
+@@ -1237,7 +1248,10 @@ static int vhost_user_get_vring_base(struct vhost_dev *dev,
+     };
+     struct vhost_user *u = dev->opaque;
+ 
+-    vhost_user_host_notifier_remove(u->user, dev->vdev, ring->index);
++    VhostUserHostNotifier *n = fetch_notifier(u->user, ring->index);
++    if (n) {
++        vhost_user_host_notifier_remove(n, dev->vdev);
++    }
+ 
+     ret = vhost_user_write(dev, &msg, NULL, 0);
+     if (ret < 0) {
+@@ -1502,6 +1516,29 @@ static int vhost_user_slave_handle_config_change(struct vhost_dev *dev)
+     return dev->config_ops->vhost_dev_config_notifier(dev);
+ }
+ 
++/*
++ * Fetch or create the notifier for a given idx. Newly created
++ * notifiers are added to the pointer array that tracks them.
++ */
++static VhostUserHostNotifier *fetch_or_create_notifier(VhostUserState *u,
++                                                       int idx)
++{
++    VhostUserHostNotifier *n = NULL;
++    if (idx >= u->notifiers->len) {
++        g_ptr_array_set_size(u->notifiers, idx);
++    }
 +
-+VirtIO Transports
-+-----------------
++    n = g_ptr_array_index(u->notifiers, idx);
++    if (!n) {
++        n = g_new0(VhostUserHostNotifier, 1);
++        n->idx = idx;
++        g_ptr_array_insert(u->notifiers, idx, n);
++        trace_vhost_user_create_notifier(idx, n);
++    }
 +
-+VirtIO supports a number of different transports. While the details of
-+the configuration and operation of the device will generally be the
-+same QEMU represents them as different devices depending on the
-+transport they use. For example -device virtio-foo represents the foo
-+device using mmio and -device virtio-foo-pci is the same class of
-+device using the PCI transport.
++    return n;
++}
 +
-+Using the QEMU Object Model (QOM)
-+---------------------------------
+ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+                                                        VhostUserVringArea *area,
+                                                        int fd)
+@@ -1521,9 +1558,12 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+         return -EINVAL;
+     }
+ 
+-    n = &user->notifier[queue_idx];
+-
+-    vhost_user_host_notifier_remove(user, vdev, queue_idx);
++    /*
++     * Fetch notifier and invalidate any old data before setting up
++     * new mapped address.
++     */
++    n = fetch_or_create_notifier(user, queue_idx);
++    vhost_user_host_notifier_remove(n, vdev);
+ 
+     if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
+         return 0;
+@@ -2526,6 +2566,20 @@ static int vhost_user_set_inflight_fd(struct vhost_dev *dev,
+     return vhost_user_write(dev, &msg, &inflight->fd, 1);
+ }
+ 
++static void vhost_user_state_destroy(gpointer data)
++{
++    VhostUserHostNotifier *n = (VhostUserHostNotifier *) data;
++    if (n) {
++        vhost_user_host_notifier_remove(n, NULL);
++        object_unparent(OBJECT(&n->mr));
++        /*
++         * We can't free until vhost_user_host_notifier_remove has
++         * done it's thing so schedule the free with RCU.
++         */
++        g_free_rcu(n, rcu);
++    }
++}
 +
-+Generally all devices in QEMU are super classes of ``TYPE_DEVICE``
-+however VirtIO devices should be based on ``TYPE_VIRTIO_DEVICE`` which
-+itself is derived from the base class. For example:
-+
-+.. code:: c
-+
-+  static const TypeInfo virtio_blk_info = {
-+      .name = TYPE_VIRTIO_BLK,
-+      .parent = TYPE_VIRTIO_DEVICE,
-+      .instance_size = sizeof(VirtIOBlock),
-+      .instance_init = virtio_blk_instance_init,
-+      .class_init = virtio_blk_class_init,
-+  };
-+
-+The author may decide to have a more expansive class hierarchy to
-+support multiple device types. For example the Virtio GPU device:
-+
-+.. code:: c
-+
-+  static const TypeInfo virtio_gpu_base_info = {
-+      .name = TYPE_VIRTIO_GPU_BASE,
-+      .parent = TYPE_VIRTIO_DEVICE,
-+      .instance_size = sizeof(VirtIOGPUBase),
-+      .class_size = sizeof(VirtIOGPUBaseClass),
-+      .class_init = virtio_gpu_base_class_init,
-+      .abstract = true
-+  };
-+
-+  static const TypeInfo vhost_user_gpu_info = {
-+      .name = TYPE_VHOST_USER_GPU,
-+      .parent = TYPE_VIRTIO_GPU_BASE,
-+      .instance_size = sizeof(VhostUserGPU),
-+      .instance_init = vhost_user_gpu_instance_init,
-+      .instance_finalize = vhost_user_gpu_instance_finalize,
-+      .class_init = vhost_user_gpu_class_init,
-+  };
-+
-+  static const TypeInfo virtio_gpu_info = {
-+      .name = TYPE_VIRTIO_GPU,
-+      .parent = TYPE_VIRTIO_GPU_BASE,
-+      .instance_size = sizeof(VirtIOGPU),
-+      .class_size = sizeof(VirtIOGPUClass),
-+      .class_init = virtio_gpu_class_init,
-+  };
-+
-+defines a base class for the VirtIO GPU and then specialises two
-+versions, one for the internal implementation and the other for the
-+vhost-user version.
-+
-+VirtIOPCIProxy
-+^^^^^^^^^^^^^^
-+
-+[AJB: the following is supposition and welcomes more informed
-+opinions]
-+
-+Probably due to legacy from the pre-QOM days PCI VirtIO devices don't
-+follow the normal hierarchy. Instead the a standalone object is based
-+on the VirtIOPCIProxy class and the specific VirtIO instance is
-+manually instantiated:
-+
-+.. code:: c
-+
-+  /*
-+   * virtio-blk-pci: This extends VirtioPCIProxy.
-+   */
-+  #define TYPE_VIRTIO_BLK_PCI "virtio-blk-pci-base"
-+  DECLARE_INSTANCE_CHECKER(VirtIOBlkPCI, VIRTIO_BLK_PCI,
-+                           TYPE_VIRTIO_BLK_PCI)
-+
-+  struct VirtIOBlkPCI {
-+      VirtIOPCIProxy parent_obj;
-+      VirtIOBlock vdev;
-+  };
-+
-+  static Property virtio_blk_pci_properties[] = {
-+      DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-+      DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
-+                      VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
-+      DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
-+                         DEV_NVECTORS_UNSPECIFIED),
-+      DEFINE_PROP_END_OF_LIST(),
-+  };
-+
-+  static void virtio_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+  {
-+      VirtIOBlkPCI *dev = VIRTIO_BLK_PCI(vpci_dev);
-+      DeviceState *vdev = DEVICE(&dev->vdev);
-+
-+      ...
-+
-+      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+  }
-+
-+  static void virtio_blk_pci_class_init(ObjectClass *klass, void *data)
-+  {
-+      DeviceClass *dc = DEVICE_CLASS(klass);
-+      VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+      PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+
-+      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+      device_class_set_props(dc, virtio_blk_pci_properties);
-+      k->realize = virtio_blk_pci_realize;
-+      pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+      pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_BLOCK;
-+      pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
-+      pcidev_k->class_id = PCI_CLASS_STORAGE_SCSI;
-+  }
-+
-+  static void virtio_blk_pci_instance_init(Object *obj)
-+  {
-+      VirtIOBlkPCI *dev = VIRTIO_BLK_PCI(obj);
-+
-+      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                  TYPE_VIRTIO_BLK);
-+      object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-+                                "bootindex");
-+  }
-+
-+  static const VirtioPCIDeviceTypeInfo virtio_blk_pci_info = {
-+      .base_name              = TYPE_VIRTIO_BLK_PCI,
-+      .generic_name           = "virtio-blk-pci",
-+      .transitional_name      = "virtio-blk-pci-transitional",
-+      .non_transitional_name  = "virtio-blk-pci-non-transitional",
-+      .instance_size = sizeof(VirtIOBlkPCI),
-+      .instance_init = virtio_blk_pci_instance_init,
-+      .class_init    = virtio_blk_pci_class_init,
-+  };
-+
-+Here you can see the instance_init has to manually instantiate the
-+underlying ``TYPE_VIRTIO_BLOCK`` object and link an alias for one of
-+it's properties to the PCI device.
-+
-+  
-+Back End Implementations
-+------------------------
-+
-+There are a number of places where the implementation of the backend
-+can be done:
-+
-+* in QEMU itself
-+* in the host kernel (a.k.a vhost)
-+* in a separate process (a.k.a. vhost-user)
-+
-+vhost_ops vs TYPE_VHOST_USER_BACKEND
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+There are two choices to how to implement vhost code. Most of the code
-+which has to work with either vhost or vhost-user uses
-+``vhost_dev_init()`` to instantiate the appropriate backend. This
-+means including a ``struct vhost_dev`` in the main object structure.
-+
-+For vhost-user devices you also need to add code to track the
-+initialisation of the ``chardev`` device used for the control socket
-+between QEMU and the external vhost-user process.
-+
-+If you only need to implement a vhost-user backed the other option is
-+a use a QOM-ified version of vhost-user.
-+
-+.. code:: c
-+
-+  static void
-+  vhost_user_gpu_instance_init(Object *obj)
-+  {
-+      VhostUserGPU *g = VHOST_USER_GPU(obj);
-+
-+      g->vhost = VHOST_USER_BACKEND(object_new(TYPE_VHOST_USER_BACKEND));
-+      object_property_add_alias(obj, "chardev",
-+                                OBJECT(g->vhost), "chardev");
-+  }
-+
-+  static const TypeInfo vhost_user_gpu_info = {
-+      .name = TYPE_VHOST_USER_GPU,
-+      .parent = TYPE_VIRTIO_GPU_BASE,
-+      .instance_size = sizeof(VhostUserGPU),
-+      .instance_init = vhost_user_gpu_instance_init,
-+      .instance_finalize = vhost_user_gpu_instance_finalize,
-+      .class_init = vhost_user_gpu_class_init,
-+  };
-+
-+Using it this way entails adding a ``struct VhostUserBackend`` to your
-+core object structure and manually instantiating the backend. This
-+sub-structure tracks both the ``vhost_dev`` and ``CharDev`` types
-+needed for the connection. Instead of calling ``vhost_dev_init`` you
-+would call ``vhost_user_backend_dev_init`` which does what is needed
-+on your behalf.
+ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
+ {
+     if (user->chr) {
+@@ -2534,23 +2588,18 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
+     }
+     user->chr = chr;
+     user->memory_slots = 0;
++    user->notifiers = g_ptr_array_new_full(VIRTIO_QUEUE_MAX / 4,
++                                           &vhost_user_state_destroy);
+     return true;
+ }
+ 
+ void vhost_user_cleanup(VhostUserState *user)
+ {
+-    int i;
+-    VhostUserHostNotifier *n;
+-
+     if (!user->chr) {
+         return;
+     }
+     memory_region_transaction_begin();
+-    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+-        n = &user->notifier[i];
+-        vhost_user_host_notifier_remove(user, NULL, i);
+-        object_unparent(OBJECT(&n->mr));
+-    }
++    user->notifiers = (GPtrArray *) g_ptr_array_free(user->notifiers, true);
+     memory_region_transaction_commit();
+     user->chr = NULL;
+ }
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 65e3b704ec..ab8e095b73 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -23,6 +23,7 @@ vhost_user_postcopy_waker_found(uint64_t client_addr) "0x%"PRIx64
+ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"PRIx64
+ vhost_user_read(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
+ vhost_user_write(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
++vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
+ 
+ # vhost-vdpa.c
+ vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
 -- 
 MST
 
