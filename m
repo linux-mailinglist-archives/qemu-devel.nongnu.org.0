@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49206527FE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:42:38 +0200 (CEST)
-Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BB4528047
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:55:49 +0200 (CEST)
+Received: from localhost ([::1]:40250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqWJH-0003B2-K8
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46662)
+	id 1nqWW4-0006fW-9G
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqW45-0004GC-D4
- for qemu-devel@nongnu.org; Mon, 16 May 2022 04:26:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53243)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nqWRo-0005FP-8w
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 04:51:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqW43-0001NN-NO
- for qemu-devel@nongnu.org; Mon, 16 May 2022 04:26:53 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nqWRk-0005ek-0T
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 04:51:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652689610;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1652691074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QgcHVwUmF//5e/JRMUwhZZ8+8u/W/Js+xNY9Ge0xZWw=;
- b=BcHC+rbeK4ZHfjEJUsxMYw1bp2I3ThOmKDKABBQSxmM9cXEwz4KY6GvaUqIHu1F7N5BCUb
- omsFSWQjvC7bfC2sT987mk6NiSB4Qdz6V++xa4sodB/8KBmK7qL8Jv46C2mbrOt6vMFAuZ
- Pv5DjH8DBwitht7V1d78XCy3l430D+Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0VCgvZUHSTV7H7teMkvG0TpLni9nF1MnU76IWLkEjuA=;
+ b=HqOy092cd6/E5HJj+AtV3GY0leZWnS6DKw8QadXZHX0NeJTKPSwnoGdMC/9HTHgwzMwmB7
+ QKtZKCHTEDCFG3c5+yY+A5mIOHlVxkIB7HtjVFpVgGB/Vl0w+pMIFxWNlG0K1DABWk9VY2
+ cfC0nOGVkajrbyJJipaWdDyHv7ATyyk=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-q_PD1utjPoKPvkUznEf1MA-1; Mon, 16 May 2022 04:26:47 -0400
-X-MC-Unique: q_PD1utjPoKPvkUznEf1MA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A4C1805B25;
- Mon, 16 May 2022 08:26:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75CAA1568BC3;
- Mon, 16 May 2022 08:26:45 +0000 (UTC)
-Date: Mon, 16 May 2022 09:26:43 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH v2] gitlab-ci: Switch the container of the 'check-patch'
- & 'check-dco' jobs
-Message-ID: <YoIKwwlXpdNrfxRB@redhat.com>
-References: <20220516082310.33876-1-thuth@redhat.com>
+ us-mta-343-VvFFfEJtNraVIL7VKf5Lig-1; Mon, 16 May 2022 04:51:13 -0400
+X-MC-Unique: VvFFfEJtNraVIL7VKf5Lig-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 11-20020a0562140d0b00b0045aac32023fso11605367qvh.19
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 01:51:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0VCgvZUHSTV7H7teMkvG0TpLni9nF1MnU76IWLkEjuA=;
+ b=mXapqbXujqcLEc2CY7ZjdzHEsLF1aeEy7nTTqzlZt9K6WALZaOL1IHAk25LY4juX1I
+ /UDpBv+bfOVxOyNgMfUW5zudyAnFl6hLiLHlfqUZFNbTTdaQXffEMj0jiQSSSLXWfFMa
+ vSSWCgTCpciausWROOjXXioShHKTIeVX6/k3XV9B/gJtu74pNW3w1rh0Sc5JJtkSb6g4
+ bBcWT3xZeU5eEmAmqDHGN4fSD/79rybwDrgbVIUAuGDLpiyKIfUn74LcmjmrbQOqXc/5
+ MuXTWi2KMxaZ7rMu0A+4yFW5Y4uPrgxEkrpUREii3+LlaR7QCW0GXNEfvmcOpQm5e8HW
+ 7ONw==
+X-Gm-Message-State: AOAM532c0FLUvZ43Io52STfEVIt37I0h8Eo6500R7wWNqcSwGhdtu0lq
+ R2FTINvlKRD301KDz+QqD2o50YtYErCiY3Bc8+crRWpuh6aMPL+m2L4uVunVO7RGqGxtBTnr6rg
+ mALfpWkJg8x74COYikrao5ytqAzbk3fg=
+X-Received: by 2002:ae9:eb8d:0:b0:69f:c005:265d with SMTP id
+ b135-20020ae9eb8d000000b0069fc005265dmr11166214qkg.764.1652691072645; 
+ Mon, 16 May 2022 01:51:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxv8RaHO6JDmMX6+fdrruqNOtLCO7P7ub4tI/XLKpV9otK8l6R3URsF/20N1V+4qgpXND8/QjawHhJcly0+p4M=
+X-Received: by 2002:ae9:eb8d:0:b0:69f:c005:265d with SMTP id
+ b135-20020ae9eb8d000000b0069fc005265dmr11166202qkg.764.1652691072372; Mon, 16
+ May 2022 01:51:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220516082310.33876-1-thuth@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+References: <CAJaqyWcbqzvtyHcU3t1TF7Mqm2_sBX57rN8S6hHB8NXxgi=tyQ@mail.gmail.com>
+ <PH0PR12MB5481AF0B02B0FB00885FF2AEDCCA9@PH0PR12MB5481.namprd12.prod.outlook.com>
+ <BY5PR02MB698052EE53B707C6C04C3C8CB1CA9@BY5PR02MB6980.namprd02.prod.outlook.com>
+ <PH0PR12MB54811C88B389ACB495BD5AB2DCCA9@PH0PR12MB5481.namprd12.prod.outlook.com>
+In-Reply-To: <PH0PR12MB54811C88B389ACB495BD5AB2DCCA9@PH0PR12MB5481.namprd12.prod.outlook.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 16 May 2022 10:50:36 +0200
+Message-ID: <CAJaqyWe2dQx1s7wQr8OLp-0eAQZJcCBuFwdxBA=sgeNm_u4N6A@mail.gmail.com>
+Subject: Re: About restoring the state in vhost-vdpa device
+To: Parav Pandit <parav@nvidia.com>
+Cc: Gautam Dawar <gdawar@xilinx.com>, 
+ virtualization <virtualization@lists.linux-foundation.org>, 
+ qemu-level <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ "virtio-networking@redhat.com" <virtio-networking@redhat.com>,
+ Eli Cohen <elic@nvidia.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,33 +99,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 10:23:10AM +0200, Thomas Huth wrote:
-> The 'check-patch' and 'check-dco' jobs only need Python and git for
-> checking the patches, so it's not really necessary to use a container
-> here that has all the other build dependencies installed. By using a
-> lightweight Alpine container, we can improve the runtime here quite a
-> bit, cutting it down from ca. 1:30 minutes to ca. 45 seconds.
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v2: Use python:alpine for even quicker execution
-> 
->  .gitlab-ci.d/static_checks.yml | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+On Fri, May 13, 2022 at 8:25 PM Parav Pandit <parav@nvidia.com> wrote:
+>
+> Hi Gautam,
+>
+> Please fix your email client to have right response format.
+> Otherwise, it will be confusing for the rest and us to follow the convers=
+ation.
+>
+> More below.
+>
+> > From: Gautam Dawar <gdawar@xilinx.com>
+> > Sent: Friday, May 13, 2022 1:48 PM
+>
+> > > Our proposal diverge in step 7: Instead of enabling *all* the
+> > > virtqueues, only enable the CVQ.
+> > Just to double check, VQ 0 and 1 of the net are also not enabled, corre=
+ct?
+> > [GD>>] Yes, that's my understanding as well.
+> >
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+That's correct. We can say that for a queue to be enabled three things
+must happen:
+* DRIVER_OK (Still not send)
+* VHOST_VDPA_SET_VRING_ENABLE sent for that queue (Only sent for CVQ)
+* If queue is not in first data queue pair and not cvq: send
+VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET with a queue pair that include it.
 
+> > > After that, send the DRIVER_OK and queue all the control commands to
+> > > restore the device status (MQ, RSS, ...). Once all of them have been
+> > > acknowledged ("device", or emulated cvq in host vdpa backend driver,
+> > > has used all cvq buffers, enable (SET_VRING_ENABLE, set_vq_ready) all
+> > > other queues.
+> > >
+> > What is special about doing DRIVER_OK and enqueuing the control
+> > commands?
+> > Why other configuration cannot be applied before DRIVER_OK?
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+There is nothing special beyond "they have a method to be set that
+way, so reusing it avoids having to maintain many ways to set the same
+things, simplifying implementations".
+
+I'm not saying "it has been like that forever so we cannot change it":
+I'm very open to the change but priority-wise we should first achieve
+a working LM with packed, in_order, or even indirect.
+
+> > [GD>>] For the device to be live (and any queue to be able to pass traf=
+fic),
+> > DRIVER_OK is a must.
+> This applies only to the vdpa device implemented over virtio device.
+> For such use case/implementation anyway a proper virtio spec extension is=
+ needed for it be efficient.
+> And what that happens this scheme will still work.
+>
+
+Although it's a longer route, I'd very much prefer an in-band virtio
+way to perform it rather than a linux/vdpa specific. It's one of the
+reasons I prefer the CVQ behavior over a vdpa specific ioctl.
+
+> Other vdpa devices doesn=E2=80=99t have to live with this limitation at t=
+his moment.
+>
+> > So, any configuration can be passed over the CVQ only
+> > after it is started (vring configuration + DRIVER_OK). For an emulated =
+queue,
+> > if the order is reversed, I think the enqueued commands will remain
+> > buffered and device should be able to service them when it goes live.
+> I likely didn=E2=80=99t understand what you describe above.
+>
+> Vq avail index etc is programmed before doing DRIVER_OK anyway.
+>
+> Sequence is very straight forward at destination from user to kernel.
+> 1. Set config space fields (such as virtio_net_config/virtio_blk_config).
+> 2. Set other device attributes (max vqs, current num vqs)
+> 3. Set net specific config (RSS, vlan, mac and more filters)
+> 4. Set VQ fields (enable, msix, addr, avail indx)
+> 5. Set DRIVER_OK, device resumes from where it left off
+>
+> Steps #1 to #4 can be done multiple times in pre-warm device up case in f=
+uture.
+
+That requires creating a way to set all the parameters enumerated
+there to vdpa devices. Each time a new feature is added to virtio-net
+that modifies the guest-visible fronted device we would need to update
+it. And all the layers of the stack need to maintain more state.
+
+From the guest point of view, to enable all the queues with
+VHOST_VDPA_SET_VRING_ENABLE and don't send DRIVER_OK is the same as
+send DRIVER_OK and not to enable any data queue with
+VHOST_VDPA_SET_VRING_ENABLE. We can do all the pre-warming phase that
+way too, avoiding adding more maintenance burden to vdpa.
+
+> For now, they can be done once to get things started.
 
 
