@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56484528910
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:39:52 +0200 (CEST)
-Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 618DF52885F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:19:28 +0200 (CEST)
+Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqcp5-0003dj-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
+	id 1nqcVL-000431-C3
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:19:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqc9o-0003ch-8z
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:57:12 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:42309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqc9m-0001JN-Nq
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:57:11 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2ef5380669cso156086297b3.9
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 07:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=N89Sx8/KAkUuHJ7/ED0/EHJX3wQIKDwFFofDvqvUYdA=;
- b=Qb1ylrbJTTk0hEbxeoTx+1+frF7XgddeLFuyHgIhrpSE8amy1lp7xo+1ugDvrw+A5F
- rDopXW/IziDBD9oMjoynND6tCYjWxU7j/yaFeFsxKK8wFQ1dL0x8H17Po2jxP/uoJ40V
- hXaGscsAEkm3Iq8B2evXID9UoP8iP1nqJzwAtxLsUOJvVoYrswNT2AuvTG0oqOUv7JAU
- nRD+aK9U+NmJMsN2fP0pPEnLvfP57Ax/b2nJ7XWrYSQxlrBTXaBPU7KKVviAhsjDoWhh
- okVQMwOVvlCI719OHSaWymZEOysY0vQcPy4OjNe+wnP0U+UaLWT1zsrlGbzuC5KPi38C
- xjeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=N89Sx8/KAkUuHJ7/ED0/EHJX3wQIKDwFFofDvqvUYdA=;
- b=AadhMhPhjt6b3c6/cD+rIDXfobm8/BpsXt2+1i7sllUy0a81Rz4rZCPCEHg5rmjJtJ
- YexiM84sr1uVkrc+fxOk7/qAbaUuWCBmYgRn2+6jlmeK6WfzG420DIz5mo/vOi1NSn9A
- HnrV1ZGCvGO4HohH9LclO3EOS/SdOlIvsSV71yx7l5l7GLF5plgsl7RPAcXfBxTSDrFK
- bI8Jv1J9LXfPMVOTPH5yEaHUorAq3STkB0Rg+N3IKftlvc4AbEpk9id/DFLlSu6s+BDe
- OtEZ2XR8riaoaTfIo9FGPOdns0jU+4wULuLOrcQ/LERav2K8zCgBt6YHf5OkGH5t9tk1
- 35Kw==
-X-Gm-Message-State: AOAM530ruAx1GBFZTTS8o0XzEtAqi6AtSD4mB5mOOKG4pR206OFZpdFC
- 6J53pBa63fuyg08K+zcKDjgUsRt/P9gs5mI8amBR9w==
-X-Google-Smtp-Source: ABdhPJx6UX6fZ1Snft4Vi959h5AJ/FXZgcTqqQBXdY9caOMoWxN2tXK68Dt9WKI1n3zM5BWPcelErmxSccghbBcikYM=
-X-Received: by 2002:a81:6904:0:b0:2fe:e670:318a with SMTP id
- e4-20020a816904000000b002fee670318amr7743832ywc.329.1652713029278; Mon, 16
- May 2022 07:57:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqcB8-0006QQ-WE
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:58:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqcB6-0001Sm-1e
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:58:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652713110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ft1Z2/gGHOhPKkOss/PfKonVOPzGjFX0X4Xzi+ZEyJs=;
+ b=jI1Sk38btqqpMJ/rlBlwdtsi4wVZKSL5q6zw29c53aW0AA1UQNl73zj1MdKMrqhTL0loJ0
+ YQrJ85VBtKAZWQgXtZXGRMsZJwMxf96uhWTkXx871jrQlKx7kkKAwIbnG8bn9qo27QWwcN
+ ggsIzik1lbh0l6uZqkp4j4G+GcCHPXg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-553-geihdO2ZO1muC4jJfTk2rw-1; Mon, 16 May 2022 10:58:26 -0400
+X-MC-Unique: geihdO2ZO1muC4jJfTk2rw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A43A49483E0;
+ Mon, 16 May 2022 14:58:26 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9281415101EC;
+ Mon, 16 May 2022 14:58:25 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Richard Henderson <richard.henderson@linaro.org>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC PATCH 0/3] Allow Capstone 3.0.5 again and remove the submodule
+Date: Mon, 16 May 2022 16:58:20 +0200
+Message-Id: <20220516145823.148450-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20220513040220.3657135-1-pdel@fb.com>
- <20220513040220.3657135-3-pdel@fb.com>
- <443933f2-069f-df96-ec62-76c21fc644b2@kaod.org>
- <05F5C72F-8424-476C-82B7-7D30BA48CDEB@fb.com>
-In-Reply-To: <05F5C72F-8424-476C-82B7-7D30BA48CDEB@fb.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 May 2022 15:56:58 +0100
-Message-ID: <CAFEAcA_dadj4cuE55K4ng-twgGO98FOcLX7Y=1_Y9Z929NUZLw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw: aspeed: Init all UART's with serial devices
-To: Peter Delevoryas <pdel@fb.com>
-Cc: Iris Chen <irischenlj@fb.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
- qemu-arm <qemu-arm@nongnu.org>, 
- Cameron Esfahani via <qemu-devel@nongnu.org>,
- "zev@bewilderbeest.net" <zev@bewilderbeest.net>, 
- OpenBMC List <openbmc@lists.ozlabs.org>, Andrew Jeffery <andrew@aj.id.au>, 
- Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,32 +75,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 May 2022 at 22:09, Peter Delevoryas <pdel@fb.com> wrote
+Compiling with Capstone 3.0.5 seems still to work fine, so if we
+allow this again, all our supported build environments should provide
+this library nowadays. That means that we could get rid of the
+integrated submodule now.
 
-> I was actually intentionally skipping that. If serial_hd(i)
-> doesn=E2=80=99t exist, the function will return NULL.
->
-> Chardev *serial_hd(int i)
-> {
->     assert(i >=3D 0);
->     if (i < num_serial_hds) {
->         return serial_hds[i];
->     }
->     return NULL;
-> }
->
-> So then, the serial device=E2=80=99s CharBackend=E2=80=99s =E2=80=9CChard=
-ev *chr=E2=80=9D
-> will be initialized as NULL. Looking at all of the
-> usage of this attribute in =E2=80=9Chw/char/serial.c=E2=80=9D, I think
-> that=E2=80=99s ok, the read/write functions will just be no-ops.
-> They all have guards for =E2=80=9Cchr =3D=3D NULL=E2=80=9D.
+Thomas Huth (3):
+  tests/vm: Add capstone to the NetBSD and OpenBSD VMs
+  capstone: Allow version 3.0.5 again
+  capstone: Remove the capstone submodule
 
-Yes, this is deliberate. We added these in commit 12051d82f0040
-because otherwise lots of board/SoC code would have to create
-NullChardev dummy backends (or forget to and then crash depending
-on the user's commandline).
+ configure                     |  21 -------
+ meson.build                   | 115 ++--------------------------------
+ .gitlab-ci.d/buildtest.yml    |   3 +-
+ .gitlab-ci.d/windows.yml      |   5 +-
+ .gitmodules                   |   3 -
+ capstone                      |   1 -
+ meson_options.txt             |   3 +-
+ scripts/meson-buildoptions.sh |   5 +-
+ tests/vm/netbsd               |   3 +-
+ tests/vm/openbsd              |   3 +-
+ 10 files changed, 16 insertions(+), 146 deletions(-)
+ delete mode 160000 capstone
 
-thanks
--- PMM
+-- 
+2.27.0
+
 
