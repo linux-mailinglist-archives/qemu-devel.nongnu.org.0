@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE41528397
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:56:27 +0200 (CEST)
-Received: from localhost ([::1]:53618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BFE528395
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:55:33 +0200 (CEST)
+Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZKs-0007Gz-Ud
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49108)
+	id 1nqZK0-0006Eu-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:55:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY88-00014w-VV
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29374)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8C-00015h-9b
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY87-0005aO-BK
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:12 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY8A-0005bo-6D
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:39:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697550;
+ s=mimecast20190719; t=1652697553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n6WXp9xMmKMm1v0MT4LZmWjQcAIeqsOeuNoimR/qMv4=;
- b=QVcTwdE85ItYEi92+WWWDMjNOL4BMSKhYWvJYK0A+qqtjog7/EZ451YN/rT4EYF+T/o5JC
- SNhV+Q8A5MFNpLd6w+WHL2tQQQT+Hw7Klue0PfOZEMDRUbjxmvFcKgBss+p9xw60B4Nc9f
- 1n55oNVeKed8P7EKlL48PtsIr5yU8x0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=er6c1eR6RwDHZXwxcu4HK3IQCJPdNMZNebVVRQV+U8s=;
+ b=YQNMKOzpc1bUFL43vFFyPj4hZ9Uu7cK4/iTO0fH8HSlfglndPyFLY35ZyDWkR6QavMvv9t
+ 6MtFMHSrifSlCSK6jiHynfiDJ86EAEdlA0jbr0GBVSuH1YzgsugwTUNCKTb7Bw5HMLhSaN
+ j/MkDk1wgG5ubUM0xbmGigfvKumekss=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-670-_P9Q7VSrMpOe6go5Y0UL9Q-1; Mon, 16 May 2022 06:39:09 -0400
-X-MC-Unique: _P9Q7VSrMpOe6go5Y0UL9Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t9-20020a5d5349000000b0020d02cd51fbso469624wrv.13
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:39:09 -0700 (PDT)
+ us-mta-447-9Kbe6WHTNTC4VXZ24I5Qlw-1; Mon, 16 May 2022 06:39:12 -0400
+X-MC-Unique: 9Kbe6WHTNTC4VXZ24I5Qlw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k5-20020a05600c0b4500b003941ca130f9so6568459wmr.0
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:39:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=n6WXp9xMmKMm1v0MT4LZmWjQcAIeqsOeuNoimR/qMv4=;
- b=ylml2Au4XVTGjhBjIOLHIyBA9/4O2pCxy1xHQkVk+o0p2wM5RKCVYZVVnF8m+9V2zU
- tGU31Ne1YnXL/47Xr32Zrs378O//r6A3XEKGk6SXmPKeHd9hEYLqo8kBP+L2cBfJAfJx
- XdWmleWyidt7V/xTbgmU5lfHrmA6bJ0iSLWUVqTiXr8NOhZEqlnpax9hlPPDGMvz6FRM
- llsFEJ6hWzp1+uZhmakavg5L7TnV1m2QzvZbZ9T7Zp42c60SJ3Bi2PFgd8XUIdii36Mz
- GY9371RvkddejeqGTMhga3fU9hEPCPghSzi/J2+hNEBLR1PEI/+RqUo+3HgSTiy8uZVQ
- rUZA==
-X-Gm-Message-State: AOAM530zBTd+rqk3BpuQVAWuhz+6o6fgfFEARJI5XjFWPBvu16sUWDxh
- 3zyq+Rhp5pvXEjipLkm3pRi4NxRklCQlBHIldt/LRnmzA3XsxotEI6D4Ab//TkLh2+pUoWi1ReF
- 6h1f5uKUMJykYktkM3mN/2WfYNIUeTYzdVVUV7OB8DV4dAjL2e2kozFZnOUXt
-X-Received: by 2002:a05:600c:4347:b0:393:fbae:a5da with SMTP id
- r7-20020a05600c434700b00393fbaea5damr26163745wme.205.1652697548379; 
- Mon, 16 May 2022 03:39:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmDZG4B/0z8IifKkoGVV5N0HGtcqlDLy9JQ03MJTdYtoA66wLZ6Q3hfMUQDtqueNyx1pB13w==
-X-Received: by 2002:a05:600c:4347:b0:393:fbae:a5da with SMTP id
- r7-20020a05600c434700b00393fbaea5damr26163722wme.205.1652697548136; 
- Mon, 16 May 2022 03:39:08 -0700 (PDT)
+ bh=er6c1eR6RwDHZXwxcu4HK3IQCJPdNMZNebVVRQV+U8s=;
+ b=zMqJxAd71Xnl/BlLeg6ZIgJV39OipG2thkNk7YJlA4wC8ge3zs/11skvupQBPeZCMw
+ InH0j6mPscscVn50tKkNULpuZ0TKo6syY1b4m+KmvPIhjLl5cUA37Pb9as/89k6p6ndC
+ rKKm4ujjeBcD17+dq/W3v4RZEQixAr0mSMcWlAeQFchOIXAXUy+FlHiKFiqD8FFXXWk9
+ f9k4zt2d24TXRiik5OnAkNn/jjS7sAgVfVTHgS+PHvGdvyyS151Bep/9c4bYkVDZ6zbN
+ NkAJDvdibQgtraN34ODVCv66alEyjIYzW/irzWl+NwURLGZn4TlET4PrEN8VdEtJlEMB
+ /eog==
+X-Gm-Message-State: AOAM531DVEVW/Ofb4EnzoS12JRhyQC18EPsT2f4+fUkPCLMIfmssEFnj
+ GJWo2GDnd3OVkNfV/skvi0A6GAvyULaCtkjY7km7EZ9GSHaeOaciVLYJ9nTUbISXIvyOSXEZoCJ
+ 8oHZKUBNQhRlvGhAHcnv4dlmMMvHG91JKUehsMOUgGP6YFqlMJbYsu6hK7Gw3
+X-Received: by 2002:a05:6000:793:b0:20c:c809:9af1 with SMTP id
+ bu19-20020a056000079300b0020cc8099af1mr13293435wrb.370.1652697551047; 
+ Mon, 16 May 2022 03:39:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLhX6iX6PAFOeoKuOnepGORKxu0U9zaMq69wJRrcP/FKacI8bDozhqqSE93cd7t1f8trzrLw==
+X-Received: by 2002:a05:6000:793:b0:20c:c809:9af1 with SMTP id
+ bu19-20020a056000079300b0020cc8099af1mr13293416wrb.370.1652697550724; 
+ Mon, 16 May 2022 03:39:10 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- i13-20020adfb64d000000b0020ce1c1cf31sm9147938wre.21.2022.05.16.03.39.06
+ z12-20020a7bc7cc000000b003942a244f39sm14968435wmk.18.2022.05.16.03.39.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:39:07 -0700 (PDT)
-Date: Mon, 16 May 2022 06:39:05 -0400
+ Mon, 16 May 2022 03:39:10 -0700 (PDT)
+Date: Mon, 16 May 2022 06:39:08 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PULL 59/91] virtio-pci: add notification trace points
-Message-ID: <20220516095448.507876-60-mst@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 60/91] hw/virtio: add vhost_user_[read|write] trace points
+Message-ID: <20220516095448.507876-61-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -77,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,64 +103,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
+These are useful when trying to debug the initial vhost-user
+negotiation, especially when it hard to get logging from the low level
+library on the other side.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200925125147.26943-6-alex.bennee@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220321153037.3622127-3-alex.bennee@linaro.org>
+
+Message-Id: <20220321153037.3622127-4-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/virtio/virtio-pci.c | 3 +++
- hw/virtio/trace-events | 7 ++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-user.c | 4 ++++
+ hw/virtio/trace-events | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 602be7f83d..0566ad7d00 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -38,6 +38,7 @@
- #include "hw/virtio/virtio-bus.h"
- #include "qapi/visitor.h"
- #include "sysemu/replay.h"
-+#include "trace.h"
- 
- #define VIRTIO_PCI_REGION_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_present(dev))
- 
-@@ -1380,6 +1381,7 @@ static void virtio_pci_notify_write(void *opaque, hwaddr addr,
-     unsigned queue = addr / virtio_pci_queue_mem_mult(proxy);
- 
-     if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
-+        trace_virtio_pci_notify_write(addr, val, size);
-         virtio_queue_notify(vdev, queue);
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index afd51f79b3..6c8f722262 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -489,6 +489,8 @@ static int vhost_user_write(struct vhost_dev *dev, VhostUserMsg *msg,
+         return ret < 0 ? -saved_errno : -EIO;
      }
- }
-@@ -1393,6 +1395,7 @@ static void virtio_pci_notify_write_pio(void *opaque, hwaddr addr,
-     unsigned queue = val;
  
-     if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
-+        trace_virtio_pci_notify_write_pio(addr, val, size);
-         virtio_queue_notify(vdev, queue);
-     }
++    trace_vhost_user_write(msg->hdr.request, msg->hdr.flags);
++
+     return 0;
  }
+ 
+@@ -542,6 +544,8 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+         }
+     }
+ 
++    trace_vhost_user_read(msg.hdr.request, msg.hdr.flags);
++
+     return 0;
+ }
+ 
 diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 333348d9d5..7a6576d833 100644
+index 7a6576d833..65e3b704ec 100644
 --- a/hw/virtio/trace-events
 +++ b/hw/virtio/trace-events
-@@ -89,7 +89,12 @@ virtio_mmio_guest_page(uint64_t size, int shift) "guest page size 0x%" PRIx64 "
- virtio_mmio_queue_write(uint64_t value, int max_size) "mmio_queue write 0x%" PRIx64 " max %d"
- virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
+@@ -21,6 +21,8 @@ vhost_user_set_mem_table_withfd(int index, const char *name, uint64_t memory_siz
+ vhost_user_postcopy_waker(const char *rb, uint64_t rb_offset) "%s + 0x%"PRIx64
+ vhost_user_postcopy_waker_found(uint64_t client_addr) "0x%"PRIx64
+ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"PRIx64
++vhost_user_read(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
++vhost_user_write(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
  
--# virtio-iommu.c
-+# virtio-pci.c
-+virtio_pci_notify(uint16_t vector) "virtio_pci_notify vec 0x%x"
-+virtio_pci_notify_write(uint64_t addr, uint64_t val, unsigned int size) "0x%" PRIx64" = 0x%" PRIx64 " (%d)"
-+virtio_pci_notify_write_pio(uint64_t addr, uint64_t val, unsigned int size) "0x%" PRIx64" = 0x%" PRIx64 " (%d)"
-+
-+# hw/virtio/virtio-iommu.c
- virtio_iommu_device_reset(void) "reset!"
- virtio_iommu_system_reset(void) "system reset!"
- virtio_iommu_get_features(uint64_t features) "device supports features=0x%"PRIx64
+ # vhost-vdpa.c
+ vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
 -- 
 MST
 
