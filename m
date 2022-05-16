@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDC852932C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:52:12 +0200 (CEST)
-Received: from localhost ([::1]:40962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAAE529350
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 00:03:35 +0200 (CEST)
+Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqidP-0002Ok-MB
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36362)
+	id 1nqioQ-0005JF-Q9
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 18:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqi9k-0005hF-EP
- for qemu-devel@nongnu.org; Mon, 16 May 2022 17:21:32 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:43562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqi9i-0003Eq-2Z
- for qemu-devel@nongnu.org; Mon, 16 May 2022 17:21:31 -0400
-Received: by mail-pl1-x634.google.com with SMTP id i17so15622580pla.10
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 14:21:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=HYjW48Ga+fUxjQ7t6EV+gbUB0a2YfxB0A+Ezs5M+gn8=;
- b=jqf9YHBFvsRmiZNxhNvlF46Hc6wE5F1h/O7HZW1qRoZrD8I7Y738IIf5UpOB2S3ywT
- 5sS/VogaSMdxHIZI7orIKDrPEyLBpD23ZDX/p39/ou8yXW7qZ5RVoNDlFdsNcINL65Ht
- Tgq/hX3qDZYIAyIIwVCtOG0ifslPlA3ZPWtLWiSqh3L9SWpLJDBocR27lGL2cYh1e7y0
- kOJBOdO2XbJ6t+w902CAfyfEhGeIiesXt32toj79dMGUpz69H9hiAmMtEpC4M7ah+S33
- zAAW0CoP9oSb7v34vJDTD/sBkE9SwoJYWXnzF16xD21NLBi0sb4wmtOc9Hi31UkH/uPr
- 1eow==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhk9-00039V-Bt
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhk3-0006oh-JM
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652734499;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zhjEctiUTjiy6J9SwVBbKJpcUcTX173hG9QfVjtla+w=;
+ b=dZorIzTZwvCUZ9E/FLjILC3IUGqipe1zkSlbMUwvk6MC7H/jqtoe1Ad/V8tfZZ5kVvXXX+
+ TENlmR3aSWZAqVKtvXAYbYgtZiu7xS79oWM2u4O0BWPbBcWEyqD0RNgZtbbZyShBftOJk1
+ s+vDz3atfBhH/1jxCtYtxUfvJDwHS3g=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-27-NiomdnGSN5Klj24oFwzWHQ-1; Mon, 16 May 2022 16:54:57 -0400
+X-MC-Unique: NiomdnGSN5Klj24oFwzWHQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ f20-20020a50d554000000b0042abba35e60so1410084edj.15
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:54:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HYjW48Ga+fUxjQ7t6EV+gbUB0a2YfxB0A+Ezs5M+gn8=;
- b=lwKohzJF1v55819Ig4VQH3oK/4lXN/7mFAZteHNKzSuqNkS286u76E4SDhscXn0wSm
- msp+BaFlF6W4DdVaNzWWk3SjNatWHopweTDNIHlvMGIPekycOP6vAIi2PXzwAM5A/l04
- ej42vC3NgKh7V7CtLMfens+c3UHWe6Ts07auBGgef4NhKWWlQtYNKv+5oHQ+CJCezRaX
- u8bt5Vju98JcDvQxFx+sBJ4cBhP0DkHIt3U1YXDFI+eW1t/K2mFQSLio77VRBELd/bnY
- 3dZW38ML4K2izVkkH+crKPvQGt8TT8jsT6mloLt80DrHWG+OtTnytKGjSeLJIXbuMUQ6
- /EdQ==
-X-Gm-Message-State: AOAM531lKB3KCFXsMUdTExDzKGOEiBoNlhbPht8HVQNhL1CgG+gqpQ1k
- DJFUHaFCphwJNfPt3NGFSLWcqQ==
-X-Google-Smtp-Source: ABdhPJxbskYi4mCEdkaYvQo+iXEZb2bn9AeD/qgHrQSzgsToim5bqAy41e1ak/iY8Xk4aK8+Lvm55A==
-X-Received: by 2002:a17:902:74c5:b0:161:5061:9d93 with SMTP id
- f5-20020a17090274c500b0016150619d93mr12568943plt.171.1652736088279; 
- Mon, 16 May 2022 14:21:28 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- k13-20020a63f00d000000b003c14af50606sm7228851pgh.30.2022.05.16.14.21.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 14:21:26 -0700 (PDT)
-Message-ID: <c811b838-0f28-7553-db80-5ca14b2111d9@linaro.org>
-Date: Mon, 16 May 2022 14:21:23 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=zhjEctiUTjiy6J9SwVBbKJpcUcTX173hG9QfVjtla+w=;
+ b=wXXfmn0sJEeY3rpSHlrF2y4MKFKnSdnl9g2wV/6J2kXNk5OINPKx6doxKEzzq+rwof
+ BTFP8vjtlaGOTjKEEILXzy9EWoFCIkdBRvANAx0NUs4GRfY4Y69g8r55LJjv8A31wlVt
+ iub5UWKEMA9lwkC8X9gqPHCIZBf1Io/WgZK7kQQ5gweO+7pHAwm121VdtA56etRMO825
+ jcEEXUzTuUPt2qcAjWZB+r7UNvGtaJmM1HjUNGG7FirB2LkwbhGMQx6oQ9FhvH7crSfx
+ XiFOp1vOjXZ7QH+Rna5qByEe2atxBh4Zl/apDl9Fe7ddmrL20rqeHRYiQfi04Muj9mFb
+ +xrA==
+X-Gm-Message-State: AOAM532bD6W1qh6WUg2hnlG4V4tYWAkbEp0Wprlsy9C3MhjWQ/J+iNzG
+ 2Sy8mlvOlRO+l0cCuyMGf/XEcnKwbtnhpYJpq3ebPKFBmIIofSFMLFs/hk3GxRcL3HSQ4Bg+lap
+ 8yHdwVmMJPBpLUg+iRspnmMYjXWzXKj3jYEG9MQnQ4xHAdRMpiQbkKrn8FjSp
+X-Received: by 2002:a17:906:d9d1:b0:6fd:d8d5:5c9c with SMTP id
+ qk17-20020a170906d9d100b006fdd8d55c9cmr16576170ejb.665.1652734495991; 
+ Mon, 16 May 2022 13:54:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwN0uPkpiOhT950CqRiE2hAnSpVQRoay9boifw+PqvUA8s9CdEH/jXWpSFeG/DLeIxcMS/NlQ==
+X-Received: by 2002:a17:906:d9d1:b0:6fd:d8d5:5c9c with SMTP id
+ qk17-20020a170906d9d100b006fdd8d55c9cmr16576145ejb.665.1652734495632; 
+ Mon, 16 May 2022 13:54:55 -0700 (PDT)
+Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
+ v27-20020a17090651db00b006f3ef214e06sm158855ejk.108.2022.05.16.13.54.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 13:54:55 -0700 (PDT)
+Date: Mon, 16 May 2022 16:54:52 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL v2 69/86] virtio/vhost-user: dynamically assign
+ VhostUserHostNotifiers
+Message-ID: <20220516204913.542894-70-mst@redhat.com>
+References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/17] migration queue
-Content-Language: en-US
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
- leobras@redhat.com, berrange@redhat.com
-References: <20220516153812.127155-1-dgilbert@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220516153812.127155-1-dgilbert@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220516204913.542894-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,99 +101,254 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 08:37, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> The following changes since commit 10c2a0c5e7d48e590d945c017b5b8af5b4c89a3c:
-> 
->    Merge tag 'or1k-pull-request-20220515' of https://github.com/stffrdhrn/qemu into staging (2022-05-15 16:56:27 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220516a
-> 
-> for you to fetch changes up to 5b1d9bab2da4fca3a3caee97c430e5709cb32b7b:
-> 
->    multifd: Implement zero copy write in multifd migration (multifd-zero-copy) (2022-05-16 13:56:24 +0100)
-> 
-> ----------------------------------------------------------------
-> Migration pull 2022-05-16
-> 
-> (This replaces the 28th April through 10th May sets)
-> Compared to that last set it just has the Alpine
-> uring check that Leo has added; although that's also
-> now fixed upstream in Alpine.
-> 
-> It contains:
->    TLS test fixes from Dan
->    Zerocopy migration feature from Leo
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+At a couple of hundred bytes per notifier allocating one for every
+potential queue is very wasteful as most devices only have a few
+queues. Instead of having this handled statically dynamically assign
+them and track in a GPtrArray.
 
+[AJB: it's hard to trigger the vhost notifiers code, I assume as it
+requires a KVM guest with appropriate backend]
 
-r~
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220321153037.3622127-14-alex.bennee@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/virtio/vhost-user.h | 42 ++++++++++++++++-
+ hw/virtio/vhost-user.c         | 83 +++++++++++++++++++++++++++-------
+ hw/virtio/trace-events         |  1 +
+ 3 files changed, 108 insertions(+), 18 deletions(-)
 
-
-> 
-> ----------------------------------------------------------------
-> Daniel P. Berrangé (9):
->        tests: fix encoding of IP addresses in x509 certs
->        tests: add more helper macros for creating TLS x509 certs
->        tests: add migration tests of TLS with PSK credentials
->        tests: add migration tests of TLS with x509 credentials
->        tests: convert XBZRLE migration test to use common helper
->        tests: convert multifd migration tests to use common helper
->        tests: add multifd migration tests of TLS with PSK credentials
->        tests: add multifd migration tests of TLS with x509 credentials
->        tests: ensure migration status isn't reported as failed
-> 
-> Leonardo Bras (8):
->        meson.build: Fix docker-test-build@alpine when including linux/errqueue.h
->        QIOChannel: Add flags on io_writev and introduce io_flush callback
->        QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX
->        migration: Add zero-copy-send parameter for QMP/HMP for Linux
->        migration: Add migrate_use_tls() helper
->        multifd: multifd_send_sync_main now returns negative on error
->        multifd: Send header packet without flags if zero-copy-send is enabled
->        multifd: Implement zero copy write in multifd migration (multifd-zero-copy)
-> 
->   chardev/char-io.c                    |   2 +-
->   hw/remote/mpqemu-link.c              |   2 +-
->   include/io/channel-socket.h          |   2 +
->   include/io/channel.h                 |  38 +-
->   io/channel-buffer.c                  |   1 +
->   io/channel-command.c                 |   1 +
->   io/channel-file.c                    |   1 +
->   io/channel-socket.c                  | 118 ++++-
->   io/channel-tls.c                     |   1 +
->   io/channel-websock.c                 |   1 +
->   io/channel.c                         |  49 +-
->   meson.build                          |  12 +
->   migration/channel.c                  |   3 +-
->   migration/migration.c                |  52 ++-
->   migration/migration.h                |   6 +
->   migration/multifd.c                  |  74 ++-
->   migration/multifd.h                  |   4 +-
->   migration/ram.c                      |  29 +-
->   migration/rdma.c                     |   1 +
->   migration/socket.c                   |  12 +-
->   monitor/hmp-cmds.c                   |   6 +
->   qapi/migration.json                  |  24 +
->   scsi/pr-manager-helper.c             |   2 +-
->   tests/qtest/meson.build              |  12 +-
->   tests/qtest/migration-helpers.c      |  13 +
->   tests/qtest/migration-helpers.h      |   1 +
->   tests/qtest/migration-test.c         | 867 +++++++++++++++++++++++++++++++----
->   tests/unit/crypto-tls-psk-helpers.c  |  18 +-
->   tests/unit/crypto-tls-psk-helpers.h  |   1 +
->   tests/unit/crypto-tls-x509-helpers.c |  16 +-
->   tests/unit/crypto-tls-x509-helpers.h |  53 +++
->   tests/unit/test-crypto-tlssession.c  |  11 +-
->   tests/unit/test-io-channel-socket.c  |   1 +
->   33 files changed, 1295 insertions(+), 139 deletions(-)
-> 
-> 
+diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
+index 6e0e8a71a3..c6e693cd3f 100644
+--- a/include/hw/virtio/vhost-user.h
++++ b/include/hw/virtio/vhost-user.h
+@@ -11,21 +11,61 @@
+ #include "chardev/char-fe.h"
+ #include "hw/virtio/virtio.h"
+ 
++/**
++ * VhostUserHostNotifier - notifier information for one queue
++ * @rcu: rcu_head for cleanup
++ * @mr: memory region of notifier
++ * @addr: current mapped address
++ * @unmap_addr: address to be un-mapped
++ * @idx: virtioqueue index
++ *
++ * The VhostUserHostNotifier entries are re-used. When an old mapping
++ * is to be released it is moved to @unmap_addr and @addr is replaced.
++ * Once the RCU process has completed the unmap @unmap_addr is
++ * cleared.
++ */
+ typedef struct VhostUserHostNotifier {
+     struct rcu_head rcu;
+     MemoryRegion mr;
+     void *addr;
+     void *unmap_addr;
++    int idx;
+ } VhostUserHostNotifier;
+ 
++/**
++ * VhostUserState - shared state for all vhost-user devices
++ * @chr: the character backend for the socket
++ * @notifiers: GPtrArray of @VhostUserHostnotifier
++ * @memory_slots:
++ */
+ typedef struct VhostUserState {
+     CharBackend *chr;
+-    VhostUserHostNotifier notifier[VIRTIO_QUEUE_MAX];
++    GPtrArray *notifiers;
+     int memory_slots;
+     bool supports_config;
+ } VhostUserState;
+ 
++/**
++ * vhost_user_init() - initialise shared vhost_user state
++ * @user: allocated area for storing shared state
++ * @chr: the chardev for the vhost socket
++ * @errp: error handle
++ *
++ * User can either directly g_new() space for the state or embed
++ * VhostUserState in their larger device structure and just point to
++ * it.
++ *
++ * Return: true on success, false on error while setting errp.
++ */
+ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp);
++
++/**
++ * vhost_user_cleanup() - cleanup state
++ * @user: ptr to use state
++ *
++ * Cleans up shared state and notifiers, callee is responsible for
++ * freeing the @VhostUserState memory itself.
++ */
+ void vhost_user_cleanup(VhostUserState *user);
+ 
+ #endif
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index b0d417651d..b040c1ad2b 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1174,14 +1174,16 @@ static void vhost_user_host_notifier_free(VhostUserHostNotifier *n)
+     n->unmap_addr = NULL;
+ }
+ 
+-static void vhost_user_host_notifier_remove(VhostUserState *user,
+-                                            VirtIODevice *vdev, int queue_idx)
++/*
++ * clean-up function for notifier, will finally free the structure
++ * under rcu.
++ */
++static void vhost_user_host_notifier_remove(VhostUserHostNotifier *n,
++                                            VirtIODevice *vdev)
+ {
+-    VhostUserHostNotifier *n = &user->notifier[queue_idx];
+-
+     if (n->addr) {
+         if (vdev) {
+-            virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
++            virtio_queue_set_host_notifier_mr(vdev, n->idx, &n->mr, false);
+         }
+         assert(!n->unmap_addr);
+         n->unmap_addr = n->addr;
+@@ -1225,6 +1227,15 @@ static int vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
+     return 0;
+ }
+ 
++static VhostUserHostNotifier *fetch_notifier(VhostUserState *u,
++                                             int idx)
++{
++    if (idx >= u->notifiers->len) {
++        return NULL;
++    }
++    return g_ptr_array_index(u->notifiers, idx);
++}
++
+ static int vhost_user_get_vring_base(struct vhost_dev *dev,
+                                      struct vhost_vring_state *ring)
+ {
+@@ -1237,7 +1248,10 @@ static int vhost_user_get_vring_base(struct vhost_dev *dev,
+     };
+     struct vhost_user *u = dev->opaque;
+ 
+-    vhost_user_host_notifier_remove(u->user, dev->vdev, ring->index);
++    VhostUserHostNotifier *n = fetch_notifier(u->user, ring->index);
++    if (n) {
++        vhost_user_host_notifier_remove(n, dev->vdev);
++    }
+ 
+     ret = vhost_user_write(dev, &msg, NULL, 0);
+     if (ret < 0) {
+@@ -1502,6 +1516,29 @@ static int vhost_user_slave_handle_config_change(struct vhost_dev *dev)
+     return dev->config_ops->vhost_dev_config_notifier(dev);
+ }
+ 
++/*
++ * Fetch or create the notifier for a given idx. Newly created
++ * notifiers are added to the pointer array that tracks them.
++ */
++static VhostUserHostNotifier *fetch_or_create_notifier(VhostUserState *u,
++                                                       int idx)
++{
++    VhostUserHostNotifier *n = NULL;
++    if (idx >= u->notifiers->len) {
++        g_ptr_array_set_size(u->notifiers, idx);
++    }
++
++    n = g_ptr_array_index(u->notifiers, idx);
++    if (!n) {
++        n = g_new0(VhostUserHostNotifier, 1);
++        n->idx = idx;
++        g_ptr_array_insert(u->notifiers, idx, n);
++        trace_vhost_user_create_notifier(idx, n);
++    }
++
++    return n;
++}
++
+ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+                                                        VhostUserVringArea *area,
+                                                        int fd)
+@@ -1521,9 +1558,12 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+         return -EINVAL;
+     }
+ 
+-    n = &user->notifier[queue_idx];
+-
+-    vhost_user_host_notifier_remove(user, vdev, queue_idx);
++    /*
++     * Fetch notifier and invalidate any old data before setting up
++     * new mapped address.
++     */
++    n = fetch_or_create_notifier(user, queue_idx);
++    vhost_user_host_notifier_remove(n, vdev);
+ 
+     if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
+         return 0;
+@@ -2526,6 +2566,20 @@ static int vhost_user_set_inflight_fd(struct vhost_dev *dev,
+     return vhost_user_write(dev, &msg, &inflight->fd, 1);
+ }
+ 
++static void vhost_user_state_destroy(gpointer data)
++{
++    VhostUserHostNotifier *n = (VhostUserHostNotifier *) data;
++    if (n) {
++        vhost_user_host_notifier_remove(n, NULL);
++        object_unparent(OBJECT(&n->mr));
++        /*
++         * We can't free until vhost_user_host_notifier_remove has
++         * done it's thing so schedule the free with RCU.
++         */
++        g_free_rcu(n, rcu);
++    }
++}
++
+ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
+ {
+     if (user->chr) {
+@@ -2534,23 +2588,18 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
+     }
+     user->chr = chr;
+     user->memory_slots = 0;
++    user->notifiers = g_ptr_array_new_full(VIRTIO_QUEUE_MAX / 4,
++                                           &vhost_user_state_destroy);
+     return true;
+ }
+ 
+ void vhost_user_cleanup(VhostUserState *user)
+ {
+-    int i;
+-    VhostUserHostNotifier *n;
+-
+     if (!user->chr) {
+         return;
+     }
+     memory_region_transaction_begin();
+-    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+-        n = &user->notifier[i];
+-        vhost_user_host_notifier_remove(user, NULL, i);
+-        object_unparent(OBJECT(&n->mr));
+-    }
++    user->notifiers = (GPtrArray *) g_ptr_array_free(user->notifiers, true);
+     memory_region_transaction_commit();
+     user->chr = NULL;
+ }
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 65e3b704ec..ab8e095b73 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -23,6 +23,7 @@ vhost_user_postcopy_waker_found(uint64_t client_addr) "0x%"PRIx64
+ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"PRIx64
+ vhost_user_read(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
+ vhost_user_write(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
++vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
+ 
+ # vhost-vdpa.c
+ vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+-- 
+MST
 
 
