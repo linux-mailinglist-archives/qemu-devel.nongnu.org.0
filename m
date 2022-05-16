@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A626529283
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:16:29 +0200 (CEST)
-Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FEB52930C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:42:30 +0200 (CEST)
+Received: from localhost ([::1]:37736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqi4q-0002vh-IP
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:16:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58882)
+	id 1nqiU1-00069D-7O
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhi1-00070A-S6
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57801)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhi5-00079S-QX
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhi0-0006Z8-8x
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:53 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhi4-0006a2-6j
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:52:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734371;
+ s=mimecast20190719; t=1652734375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qHG11zW9ytEGJcq0NxBwMU6ZJLK9QPAgcxuYNK5gE5g=;
- b=cpO2Klo7sty/gXtVSPFwAGvFEOJvbLxr4kU3/JdyDD51o9xnEbJI6aTx9sqBc6s4W6y0kk
- WS2C38GN+8lc1mt1gn7066xpgEjDKNjOUhlrDXS0Q3Pd4bCIbaDOzeYgy7OFjWN2jIoZwE
- Dg4w+w3n4EKyY7ip9iAtMC7X2Di+2/0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hmAqjrNwcz/n9dDfLQEkci2IFR8H57pNgW0hXHwtPIo=;
+ b=eARXNjAGOBmhLKHY7eFgZ3AcWVVLJlqfY/W4zgpxiskutLn1QgO0q38nArXdRrgFP1t0i6
+ ynMKlPfSELFtT6HAE2Lx2dKdhOhx8Ua2c6Eg2UWnHuVaRu4pFAJbuxtdNT2uZC/FzkEYXY
+ wFMJxA6DwlAvRowiZEsAkUnxE9wCUO8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-571-v7n8lRuMP66CqvgaZiwqPg-1; Mon, 16 May 2022 16:52:50 -0400
-X-MC-Unique: v7n8lRuMP66CqvgaZiwqPg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- w5-20020a056402128500b0042aa2647eb6so4043103edv.12
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:52:50 -0700 (PDT)
+ us-mta-645-uJ0HbXspM0q4ImhJYZKBGw-1; Mon, 16 May 2022 16:52:54 -0400
+X-MC-Unique: uJ0HbXspM0q4ImhJYZKBGw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ q12-20020a056402040c00b0042a84f9939dso4548544edv.7
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:52:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=qHG11zW9ytEGJcq0NxBwMU6ZJLK9QPAgcxuYNK5gE5g=;
- b=GCtNOvs1QVNLKSERsECVg6pM1O+0RjzLnUC3KlnsnEju0zlM5otbReKiXKFxY+mXR7
- utkYax7qNdzYS9WgYZYq45ISjrgfvrQII++itOXOkgl32O0azROjh+o/mee4y9Vov9zw
- J83QF3pJKzOCd2nMMwdniQqnALsoMkG5PzOwL5MZYqvDbuUWUtiyksHzk7flRkPgIRRi
- Foul3anAE6oL6dZ4LKrJVCgQAPC6M8TK5oiaeAxaG6yYr1kxWCD2oRT8lzgHcsSeSABF
- vD87le34SxP58aMjpFmz/DF+lovupw14BKAYtcqhNMueI9MVugDaawwslQoxJXYhYsCP
- 2KYw==
-X-Gm-Message-State: AOAM530eMs6VySjoYvVsbotafXYnvGEy5C4TS8fPSNWagKnxYddfUWcz
- Z+R1l8Aja5hJClAzWt7266TSEAG0IZo89cDuSoFhNSmEVCqMEt+j1y0OkL4vVk2H/DvHX+FakOX
- 1ZVCkDuvzktCmI4oKpjlPMDavmkIPrhTLu+Y/Y7fk7b+/HHmvAyI9bwrjZwBI
-X-Received: by 2002:a17:907:7e92:b0:6f4:c553:c734 with SMTP id
- qb18-20020a1709077e9200b006f4c553c734mr16997639ejc.286.1652734369177; 
- Mon, 16 May 2022 13:52:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyU6x1Z7htMQ4ImhvZz23KKTzCwr+gD2qQehvaLXIEYazg1OdozcjRJG4OzKlVtg9Qjpdhncw==
-X-Received: by 2002:a17:907:7e92:b0:6f4:c553:c734 with SMTP id
- qb18-20020a1709077e9200b006f4c553c734mr16997623ejc.286.1652734368960; 
- Mon, 16 May 2022 13:52:48 -0700 (PDT)
+ bh=hmAqjrNwcz/n9dDfLQEkci2IFR8H57pNgW0hXHwtPIo=;
+ b=sZsW5muneo58/P2N76jM+QOCNFonjaiV+eRIdV0YZ36v2wC3Q+TbQpxzYNBsiLYXXk
+ FMoK+DyrfOl2K6hJxYSI1jXGGaXn98Ty0aZ8XFfhaQFbc10yQpfW+e/df/9dH9TsxLUf
+ EiO1nN87U+e58UftUF0Pj27T4CRLD5lpVTIaC64G7hZoTqFiLR90tBK6VQJWd2zCWDn1
+ XRjdXHVAoWAayUDb5qJnMkQzjGo8g6IB4dUVanoZ5OhMiGAMmmtuSX7X4Cz2TWkbYqUW
+ Eki5dTqyjkTXkK/FmzfE+Mw4QmxeP4Oaew8HrrP4xM+88P+3RZ7TJcZv7HF54XADDPDx
+ 1SqA==
+X-Gm-Message-State: AOAM531MiuKXVGKqP+Q/4eXU7GU6lk6ig4CZm8lnDVcjOgqI5guu+t6p
+ tafWiV55yPolefIjnmG8h+yD7KNrRyhc4e0Hgnr4/XqZT77mb7PI+LOXU9hqsclRIBVV2zs9zY8
+ KS2zJk2ayDUgA0wVu+ySbNczdd3mlLw75wuC8POY0wXVjP7D2JQ1CDy8AdP9x
+X-Received: by 2002:a17:907:969f:b0:6f3:dede:f2d2 with SMTP id
+ hd31-20020a170907969f00b006f3dedef2d2mr16412694ejc.511.1652734372864; 
+ Mon, 16 May 2022 13:52:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmmM/MVF7s2rEMrrWv24lCwWvGFpYBTBUKn3SS1vKcU5cx841P51C+Ja7N6aKdkngRg5k1og==
+X-Received: by 2002:a17:907:969f:b0:6f3:dede:f2d2 with SMTP id
+ hd31-20020a170907969f00b006f3dedef2d2mr16412676ejc.511.1652734372525; 
+ Mon, 16 May 2022 13:52:52 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- zd20-20020a17090698d400b006f3ef214e46sm155413ejb.172.2022.05.16.13.52.47
+ s3-20020a170906778300b006f3ef214dd5sm174481ejm.59.2022.05.16.13.52.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:52:48 -0700 (PDT)
-Date: Mon, 16 May 2022 16:52:45 -0400
+ Mon, 16 May 2022 13:52:51 -0700 (PDT)
+Date: Mon, 16 May 2022 16:52:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v2 38/86] tests/acpi: q35: Allow addition of a CXL test.
-Message-ID: <20220516204913.542894-39-mst@redhat.com>
+Subject: [PULL v2 39/86] qtests/bios-tables-test: Add a test for CXL emulation.
+Message-ID: <20220516204913.542894-40-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -100,35 +100,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Add exceptions for the DSDT and the new CEDT tables
-specific to a new CXL test in the following patch.
+The DSDT includes several CXL specific elements and the CEDT
+table is only present if we enable CXL.
+
+The test exercises all current functionality with several
+CFMWS, CHBS structures in CEDT and ACPI0016/ACPI00017 and _OSC
+entries in DSDT.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20220429144110.25167-37-Jonathan.Cameron@huawei.com>
+Message-Id: <20220429144110.25167-38-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- tests/data/acpi/q35/CEDT.cxl                | 0
- tests/data/acpi/q35/DSDT.cxl                | 0
- 3 files changed, 2 insertions(+)
- create mode 100644 tests/data/acpi/q35/CEDT.cxl
- create mode 100644 tests/data/acpi/q35/DSDT.cxl
+ tests/qtest/bios-tables-test.c | 44 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..7c7f9fbc44 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.cxl",
-+"tests/data/acpi/q35/CEDT.cxl",
-diff --git a/tests/data/acpi/q35/CEDT.cxl b/tests/data/acpi/q35/CEDT.cxl
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 5dddedabcd..a4a46e97f0 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1536,6 +1536,49 @@ static void test_acpi_q35_viot(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_cxl(void)
++{
++    gchar *tmp_path = g_dir_make_tmp("qemu-test-cxl.XXXXXX", NULL);
++    gchar *params;
++
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".cxl",
++    };
++    /*
++     * A complex CXL setup.
++     */
++    params = g_strdup_printf(" -machine cxl=on"
++                             " -object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem4,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa1,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa2,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa3,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=lsa4,mem-path=%s,size=256M"
++                             " -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1"
++                             " -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2"
++                             " -device cxl-rp,port=0,bus=cxl.1,id=rp1,chassis=0,slot=2"
++                             " -device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1"
++                             " -device cxl-rp,port=1,bus=cxl.1,id=rp2,chassis=0,slot=3"
++                             " -device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2"
++                             " -device cxl-rp,port=0,bus=cxl.2,id=rp3,chassis=0,slot=5"
++                             " -device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3"
++                             " -device cxl-rp,port=1,bus=cxl.2,id=rp4,chassis=0,slot=6"
++                             " -device cxl-type3,bus=rp4,memdev=cxl-mem4,lsa=lsa4"
++                             " -cxl-fixed-memory-window targets.0=cxl.1,size=4G,interleave-granularity=8k"
++                             " -cxl-fixed-memory-window targets.0=cxl.1,targets.1=cxl.2,size=4G,interleave-granularity=8k",
++                             tmp_path, tmp_path, tmp_path, tmp_path,
++                             tmp_path, tmp_path, tmp_path, tmp_path);
++    test_acpi_one(params, &data);
++
++    g_free(params);
++    g_assert(g_rmdir(tmp_path) == 0);
++    g_free(tmp_path);
++    free_test_data(&data);
++}
++
+ static void test_acpi_virt_viot(void)
+ {
+     test_data data = {
+@@ -1741,6 +1784,7 @@ int main(int argc, char *argv[])
+             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
+         }
+         qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
++        qtest_add_func("acpi/q35/cxl", test_acpi_q35_cxl);
+         qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
 -- 
 MST
 
