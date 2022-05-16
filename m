@@ -2,85 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE04E528834
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:13:51 +0200 (CEST)
-Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E02528832
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 17:13:44 +0200 (CEST)
+Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqcPu-0004L8-Uf
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49606)
+	id 1nqcPn-0003rV-5h
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 11:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqbzh-0004QN-RH
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:46:45 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:36816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqblB-0005Cd-OQ
- for qemu-devel@nongnu.org; Mon, 16 May 2022 10:32:08 -0400
-Received: by mail-ed1-x530.google.com with SMTP id fd25so5994059edb.3
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 07:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JDUf9P+S6NTt3D99ppDqmwR631HQ5e6TF9MP7a0wRNM=;
- b=knIH3A6IJWY2jRXyEDYj0RPCRpTJXLD6dA3YqYkVGlAH7FptzdAtVLBARlBnwWkbDu
- U1RuKnpFlH2VskmmHPeLyY/ucdDna/49TPAZ6blSfC/pzp1VmQ/roYBTAcYwgskL6QcC
- JzXCnVtO2l/M6yU0JHYvyhcMI7yChsSNZMG485EuKov9TWUHFKV0EnlY6niajNao48t6
- SfNXNoElQBEcrW8zcbPmIxHs8/u+eCZTe0NfS24KBdwq1xfILk4cNMdt8xppD2ClhFlO
- hHiN8Ytq2KQr104X/7XA1C6ArVV7yqjsu533chzOdLW8aPchtNZ2OMIw3UzDRPaQ9DIv
- /Q9w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqbzc-0004XL-Nr
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:46:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqbmr-0005Qc-C0
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 10:33:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652711593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HKPBgWBFtYsFKbNO8Ry0dcI/s2YyGwnSLBbOytNVTtA=;
+ b=MhLNINpeTPCqZBJyupO5ooscUyTCjEWqfTPl4yJRlYQ9cy/nyXeHgER+sWYeqQp7T0NYCH
+ PY9cEkpjoHGoH44ZJZOw+ftdmd2C3HbF4gpmvruEVZJjVRo+Tn/FVofK7TL7S+j7YjQB06
+ S48f2qmElIp1fyuWnTBqQujop2Z7ejQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-509-ieNqI1oqP72Tvnhbj8nm8w-1; Mon, 16 May 2022 10:33:11 -0400
+X-MC-Unique: ieNqI1oqP72Tvnhbj8nm8w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ p24-20020a1c5458000000b003945d2ffc6eso6851907wmi.5
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 07:33:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JDUf9P+S6NTt3D99ppDqmwR631HQ5e6TF9MP7a0wRNM=;
- b=CXVIHMSUVjeP81qSt0rBvg89Zxxm/ka8wIuPSVH904G9myD2JBs2OjbbOkIrdlKK8L
- 4rg+jV4X/qpIB64Z2G3TV43CT1K0n8msnD3CbfU3sW77jjFN2pemZ9f9evuoQyZhliWw
- b4x/j+as5QLQL+YbNWSbjiY6bAX4qg00wSn0qH/mjzje/Dx/HcmmJHO5XKQNvVfqd42H
- 0MyrQnyjxC3magi+NLITjIzCayvFkSgfabNuhs5QJAP9JIDOF+MzjVzDTiyjzjEyyN7p
- AzF01bsyJsT4k3/ypoDqD83xdxPMJhvCyL/hNd1R2IjOb/qn8X8e7wGzCuHRnWvwhAmz
- ZGMQ==
-X-Gm-Message-State: AOAM531LXbiyZeDrzyyL5NW4CEMKhIKE1oEaS6iSyuyWU2++gqLF7QR2
- ljXjql4am/3k/bsNHS5P+Eo=
-X-Google-Smtp-Source: ABdhPJwj0uC66cZdo8eZOzMFPZj+l2YN7KnxV64R9E/g6etQ5hBMGvSml5ENXjw4HsDQ4Bi4A0lqbA==
-X-Received: by 2002:a05:6402:5190:b0:427:f1c8:a897 with SMTP id
- q16-20020a056402519000b00427f1c8a897mr13791579edd.52.1652711486648; 
- Mon, 16 May 2022 07:31:26 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- b21-20020a170906729500b006f3ef214dffsm3784088ejl.101.2022.05.16.07.31.26
+ bh=HKPBgWBFtYsFKbNO8Ry0dcI/s2YyGwnSLBbOytNVTtA=;
+ b=a8jJueNd2eu15ZIlRKN/vfvYu5hrRqUI8FGqjwYqIhZ3Z9IIjS2CW1d+35ItaYk4Gm
+ uw/T4nzz2ucUytkX5ZPOZbVly7Kd3FDwVzRpO3mRck5uiAIRJjcFA82zLCLHtAgtilil
+ JtJIgyUbqMqGT+6+G0f+Isc0DtBP5X/gavNwRuKydUqQFKaknp7r687YdcF5T0ir2Jpc
+ R0zAtrlcvp1LmRgNYzUONsGAICwcaVY8Z4VDzqCpxampg8XQQ5aKWjnQqWA1QxAd3gUz
+ p9Eo24laSwO86OMLUdEhoH/G8L4wX3Oj4YV8MikyxkM0zU3jGpRTuXAhqBoBb9+yaLPi
+ Ab+Q==
+X-Gm-Message-State: AOAM530kyiOsVW8jrVDMVOqHqAQjgdtyIovWTsFMqIk/StsovS+kO1YX
+ gvidO/vN91cBWQr4rRONAdpmASPUcLN23PFiZgWPa6ROU8grfZ5m8dRW2ZnP/GOnH2Kudqa7jY1
+ 2M12bdWTsCBJqLwE=
+X-Received: by 2002:a05:600c:3d8c:b0:396:fad3:6c2f with SMTP id
+ bi12-20020a05600c3d8c00b00396fad36c2fmr8510497wmb.45.1652711590801; 
+ Mon, 16 May 2022 07:33:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYw13OeyOWTVk/jOz07g3AFSBfVxuJuAfthiFC4cDyfkNMMQcx45+4itAmUBWXpUp/dHSpNw==
+X-Received: by 2002:a05:600c:3d8c:b0:396:fad3:6c2f with SMTP id
+ bi12-20020a05600c3d8c00b00396fad36c2fmr8510467wmb.45.1652711590490; 
+ Mon, 16 May 2022 07:33:10 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-178-142.web.vodafone.de.
+ [109.43.178.142]) by smtp.gmail.com with ESMTPSA id
+ k21-20020a05600c1c9500b003942a244ebesm10754908wms.3.2022.05.16.07.33.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 07:31:26 -0700 (PDT)
-Message-ID: <034fc387-ef82-a472-ad5f-2d4e32024d80@redhat.com>
-Date: Mon, 16 May 2022 16:31:25 +0200
+ Mon, 16 May 2022 07:33:10 -0700 (PDT)
+Message-ID: <2d9f4a3c-aae5-f407-e8ea-2762de5ad4a2@redhat.com>
+Date: Mon, 16 May 2022 16:33:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 3/8] qmp: add filtering of statistics by target vCPU
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3] mos6522: fix linking error when CONFIG_MOS6522 is not
+ set
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, dgilbert@redhat.com,
- Mark Kanda <mark.kanda@oracle.com>
-References: <20220516090058.1195767-1-pbonzini@redhat.com>
- <20220516090234.1195907-2-pbonzini@redhat.com> <87lev1y98k.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87lev1y98k.fsf@pond.sub.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, mopsfelder@gmail.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220510235439.54775-1-muriloo@linux.ibm.com>
+ <aca5b885-daea-bb59-e79e-3317e3854cf3@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <aca5b885-daea-bb59-e79e-3317e3854cf3@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, T_SPF_HELO_TEMPERROR=0.01,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01,
  T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,20 +106,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 14:04, Markus Armbruster wrote:
->> +bool str_in_list(const char *string, strList *list)
->> +{
->> +    strList *str_list = NULL;
->> +
->> +    if (!list) {
->> +        return true;
+On 16/05/2022 16.14, Daniel Henrique Barboza wrote:
 > 
-> Are you sure the empty list is supposed to contain any string?
+> 
+> On 5/10/22 20:54, Murilo Opsfelder Araujo wrote:
+>> When CONFIG_MOS6522 is not set, building ppc64-softmmu target fails:
+>>
+>>      /usr/bin/ld: 
+>> libqemu-ppc64-softmmu.fa.p/monitor_misc.c.o:(.data+0x1158): undefined 
+>> reference to `hmp_info_via'
+>>
+>> Make devices configuration available in hmp-commands*.hx and check for
+>> CONFIG_MOS6522.
+>>
+>> Fixes: 409e9f7131e5 (mos6522: add "info via" HMP command for debugging)
+>> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Cc: Fabiano Rosas <farosas@linux.ibm.com>
+>> Cc: Thomas Huth <thuth@redhat.com>
+>> ---
+> 
+> Thomas,
+> 
+> 
+> Are you going to pick this up via your misc patches tree? If not I can take it
+> via ppc64.
 
-Well, it matches vcpus missing below but it breaks with vcpus = [] 
-(nonsensical but valid).
+I didn't queue it yet, so please take through your ppc branch.
 
-So I'll have to catch vcpus = [] and names = [] up in qmp_query_stats.
+  Thomas
 
-Paolo
 
