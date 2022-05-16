@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC056527F17
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 10:01:14 +0200 (CEST)
-Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA76527EB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 09:40:53 +0200 (CEST)
+Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqVf7-0003KF-1Q
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 04:01:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37922)
+	id 1nqVLY-0004F1-Q9
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 03:40:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGO-0000qc-Gv
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGN-0000qU-V1
  for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30588)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGL-0001tl-Cs
- for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqVGK-0001sz-27
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 03:35:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652686528;
+ s=mimecast20190719; t=1652686527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sTgRsj8NlcLuxb0bTfm5LyIXjnSaPod2WbGMp9zC9sI=;
- b=ajt2+gVUsC4dCcstf8+yBwspt+s/okugcfZZrtxm/qSQwFvrg2iad2R7qXBBkPPkmJ7XIJ
- dz2W0B/lsr/EEyvzQKqRHMbxVD0fckTX5jfux/pEoNUc7Xhqfz2LhCkekiPCMzUixURSAr
- X7k969RO5IqHwfa+NrKt4kTZ7cDGAl4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oliCzspkR/M43O0GQj0v+HXNbRiwgEyCOxmCGc9wGp0=;
+ b=YGSGlNu8r16sOd8z8bvgbARfyMutuzmRrhJa5Of8ToxiDPKYfUpz3Uro2M1ZCUkA0GFiqG
+ lkt+2DFVV5bhJAsHPl+aoS3C2cOS9hArlMNqmFEu0D5nYm99pKjvgqJwsYUq154i+i5DYz
+ kellrjdtZQSgGs7clUjI8ngVwmW1m34=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-122-hcQ6M61-Mhy5r-vE3d2ckA-1; Mon, 16 May 2022 03:35:24 -0400
-X-MC-Unique: hcQ6M61-Mhy5r-vE3d2ckA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-369-unjL7LUPMG6T7pkUv8Ky5A-1; Mon, 16 May 2022 03:35:25 -0400
+X-MC-Unique: unjL7LUPMG6T7pkUv8Ky5A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B8281D9F883;
- Mon, 16 May 2022 07:35:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D3FB85A5BC;
+ Mon, 16 May 2022 07:35:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F156940CF8E2;
- Mon, 16 May 2022 07:35:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E2F45703AC;
+ Mon, 16 May 2022 07:35:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D8E3E21E692B; Mon, 16 May 2022 09:35:22 +0200 (CEST)
+ id DD67B21E6935; Mon, 16 May 2022 09:35:22 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	Andrea Bolognani <abologna@redhat.com>
-Subject: [PULL 04/11] qapi: Add missing separators between sections
-Date: Mon, 16 May 2022 09:35:15 +0200
-Message-Id: <20220516073522.3880774-5-armbru@redhat.com>
+Subject: [PULL 06/11] qapi: Drop unnecessary empty lines outside of comments
+Date: Mon, 16 May 2022 09:35:17 +0200
+Message-Id: <20220516073522.3880774-7-armbru@redhat.com>
 In-Reply-To: <20220516073522.3880774-1-armbru@redhat.com>
 References: <20220516073522.3880774-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,180 +82,371 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrea Bolognani <abologna@redhat.com>
 
-This only affects readability. The generated documentation
-doesn't change.
-
 Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20220503073737.84223-4-abologna@redhat.com>
+Message-Id: <20220503073737.84223-6-abologna@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block-core.json | 5 +++++
- qapi/block.json      | 1 +
- qapi/crypto.json     | 7 +++++++
- qapi/machine.json    | 1 +
- qapi/migration.json  | 4 ++++
- 5 files changed, 18 insertions(+)
+ qapi/audio.json          |  1 -
+ qapi/block-core.json     | 11 -----------
+ qapi/block.json          |  3 ---
+ qapi/char.json           |  1 -
+ qapi/control.json        |  1 -
+ qapi/crypto.json         | 12 ------------
+ qapi/job.json            |  1 -
+ qapi/machine-target.json |  1 -
+ qapi/machine.json        |  1 -
+ qapi/misc-target.json    |  4 ----
+ qapi/run-state.json      |  1 -
+ qapi/ui.json             |  1 -
+ 12 files changed, 38 deletions(-)
 
+diff --git a/qapi/audio.json b/qapi/audio.json
+index 0785e70a50..8099e3d7f1 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -352,7 +352,6 @@
+     '*out':  'AudiodevPerDirectionOptions',
+     '*path': 'str' } }
+ 
+-
+ ##
+ # @AudioFormat:
+ #
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index b66494e8c5..34dae298ee 100644
+index 27832a1244..2bce5bb0ae 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -1744,6 +1744,7 @@
- # Since: 2.3
- #
- # Example:
-+#
- # -> { "execute": "blockdev-backup",
- #      "arguments": { "device": "src-id",
- #                     "sync": "full",
-@@ -2008,6 +2009,7 @@
- # @on-target-error: the action to take on an error on the target,
- #                   default 'report' (no limitations, since this applies to
- #                   a different block device than @device).
-+#
- # @unmap: Whether to try to unmap target sectors where source has
- #         only zero. If true, and target unallocated sectors will read as zero,
- #         target image sectors will be unmapped; otherwise, zeroes will be
-@@ -2029,6 +2031,7 @@
- #                When true, this job will automatically disappear from the query
- #                list without user intervention.
- #                Defaults to true. (Since 3.1)
-+#
- # Since: 1.3
+@@ -739,7 +739,6 @@
  ##
- { 'struct': 'DriveMirror',
-@@ -2342,6 +2345,7 @@
- #                When true, this job will automatically disappear from the query
- #                list without user intervention.
- #                Defaults to true. (Since 3.1)
-+#
- # Returns: nothing on success.
- #
- # Since: 2.6
-@@ -4139,6 +4143,7 @@
- # @throttle-group: the name of the throttle-group object to use. It
- #                  must already exist.
- # @file: reference to or definition of the data source block device
-+#
- # Since: 2.11
+ { 'command': 'query-block', 'returns': ['BlockInfo'] }
+ 
+-
  ##
- { 'struct': 'BlockdevOptionsThrottle',
+ # @BlockDeviceTimedStats:
+ #
+@@ -1512,7 +1511,6 @@
+ { 'command': 'blockdev-snapshot-sync',
+   'data': 'BlockdevSnapshotSync' }
+ 
+-
+ ##
+ # @blockdev-snapshot:
+ #
+@@ -1751,7 +1749,6 @@
+ { 'command': 'blockdev-backup', 'boxed': true,
+   'data': 'BlockdevBackup' }
+ 
+-
+ ##
+ # @query-named-block-nodes:
+ #
+@@ -3067,7 +3064,6 @@
+   'base': 'BlockdevOptionsGenericFormat',
+   'data': { '*key-secret': 'str' } }
+ 
+-
+ ##
+ # @BlockdevOptionsGenericCOWFormat:
+ #
+@@ -3182,8 +3178,6 @@
+   'base': 'BlockdevOptionsGenericCOWFormat',
+   'data': { '*encrypt': 'BlockdevQcowEncryption' } }
+ 
+-
+-
+ ##
+ # @BlockdevQcow2EncryptionFormat:
+ #
+@@ -3357,7 +3351,6 @@
+             '*user': 'str',
+             '*host-key-check': 'SshHostKeyCheck' } }
+ 
+-
+ ##
+ # @BlkdebugEvent:
+ #
+@@ -3721,7 +3714,6 @@
+             '*header-digest': 'IscsiHeaderDigest',
+             '*timeout': 'int' } }
+ 
+-
+ ##
+ # @RbdAuthMode:
+ #
+@@ -4564,7 +4556,6 @@
+ { 'enum': 'BlockdevQcow2Version',
+   'data': [ 'v2', 'v3' ] }
+ 
+-
+ ##
+ # @Qcow2CompressionType:
+ #
+@@ -4738,7 +4729,6 @@
+             '*toolsversion':    'str',
+             '*zeroed-grain':    'bool' } }
+ 
+-
+ ##
+ # @BlockdevCreateOptionsSsh:
+ #
+@@ -4973,7 +4963,6 @@
+ { 'enum': 'BlockErrorAction',
+   'data': [ 'ignore', 'report', 'stop' ] }
+ 
+-
+ ##
+ # @BLOCK_IMAGE_CORRUPTED:
+ #
 diff --git a/qapi/block.json b/qapi/block.json
-index 3f100d4887..e0f7898ed1 100644
+index 5de15c6070..41b73c9934 100644
 --- a/qapi/block.json
 +++ b/qapi/block.json
-@@ -105,6 +105,7 @@
+@@ -286,7 +286,6 @@
+   'data': { 'id': 'str',
+             'node-name': 'str'} }
+ 
+-
+ ##
+ # @BlockdevChangeReadOnlyMode:
  #
- # Returns: - Nothing on success
- #          - If @device is not a valid block device, DeviceNotFound
-+#
- # Notes:    Ejecting a device with no media results in success
+@@ -304,7 +303,6 @@
+ { 'enum': 'BlockdevChangeReadOnlyMode',
+   'data': ['retain', 'read-only', 'read-write'] }
+ 
+-
+ ##
+ # @blockdev-change-medium:
  #
- # Since: 0.14
+@@ -375,7 +373,6 @@
+             '*force': 'bool',
+             '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
+ 
+-
+ ##
+ # @DEVICE_TRAY_MOVED:
+ #
+diff --git a/qapi/char.json b/qapi/char.json
+index f0fd0d1c9f..8414ef2bc2 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -329,7 +329,6 @@
+   'data': { '*signal': 'bool' },
+   'base': 'ChardevCommon' }
+ 
+-
+ ##
+ # @ChardevSpiceChannel:
+ #
+diff --git a/qapi/control.json b/qapi/control.json
+index 8c9122ef7a..53461cec05 100644
+--- a/qapi/control.json
++++ b/qapi/control.json
+@@ -68,7 +68,6 @@
+ { 'struct': 'VersionTriple',
+   'data': {'major': 'int', 'minor': 'int', 'micro': 'int'} }
+ 
+-
+ ##
+ # @VersionInfo:
+ #
 diff --git a/qapi/crypto.json b/qapi/crypto.json
-index 8e0b4764e5..21c670eefa 100644
+index 21c670eefa..9ec0aca1c6 100644
 --- a/qapi/crypto.json
 +++ b/qapi/crypto.json
-@@ -32,6 +32,7 @@
+@@ -24,7 +24,6 @@
+   'prefix': 'QCRYPTO_TLS_CREDS_ENDPOINT',
+   'data': ['client', 'server']}
+ 
+-
+ ##
+ # @QCryptoSecretFormat:
  #
- # @raw: raw bytes. When encoded in JSON only valid UTF-8 sequences can be used
- # @base64: arbitrary base64 encoded binary data
-+#
- # Since: 2.6
+@@ -39,7 +38,6 @@
+   'prefix': 'QCRYPTO_SECRET_FORMAT',
+   'data': ['raw', 'base64']}
+ 
+-
  ##
- { 'enum': 'QCryptoSecretFormat',
-@@ -51,6 +52,7 @@
- # @sha384: SHA-384. (since 2.7)
- # @sha512: SHA-512. (since 2.7)
- # @ripemd160: RIPEMD-160. (since 2.7)
-+#
- # Since: 2.6
+ # @QCryptoHashAlgorithm:
+ #
+@@ -59,7 +57,6 @@
+   'prefix': 'QCRYPTO_HASH_ALG',
+   'data': ['md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'ripemd160']}
+ 
+-
  ##
- { 'enum': 'QCryptoHashAlgorithm',
-@@ -75,6 +77,7 @@
- # @twofish-128: Twofish with 128 bit / 16 byte keys
- # @twofish-192: Twofish with 192 bit / 24 byte keys
- # @twofish-256: Twofish with 256 bit / 32 byte keys
-+#
- # Since: 2.6
+ # @QCryptoCipherAlgorithm:
+ #
+@@ -88,7 +85,6 @@
+            'serpent-128', 'serpent-192', 'serpent-256',
+            'twofish-128', 'twofish-192', 'twofish-256']}
+ 
+-
  ##
- { 'enum': 'QCryptoCipherAlgorithm',
-@@ -95,6 +98,7 @@
- # @cbc: Cipher Block Chaining
- # @xts: XEX with tweaked code book and ciphertext stealing
- # @ctr: Counter (Since 2.8)
-+#
- # Since: 2.6
+ # @QCryptoCipherMode:
+ #
+@@ -105,7 +101,6 @@
+   'prefix': 'QCRYPTO_CIPHER_MODE',
+   'data': ['ecb', 'cbc', 'xts', 'ctr']}
+ 
+-
  ##
- { 'enum': 'QCryptoCipherMode',
-@@ -114,6 +118,7 @@
- # @plain: 64-bit sector number truncated to 32-bits
- # @plain64: 64-bit sector number
- # @essiv: 64-bit sector number encrypted with a hash of the encryption key
-+#
- # Since: 2.6
- ##
- { 'enum': 'QCryptoIVGenAlgorithm',
-@@ -170,6 +175,7 @@
- # @key-secret: the ID of a QCryptoSecret object providing the
- #              decryption key. Mandatory except when probing image for
- #              metadata only.
-+#
- # Since: 2.6
- ##
+ # @QCryptoIVGenAlgorithm:
+ #
+@@ -181,7 +176,6 @@
  { 'struct': 'QCryptoBlockOptionsLUKS',
-@@ -194,6 +200,7 @@
- # @iter-time: number of milliseconds to spend in
- #             PBKDF passphrase processing. Currently defaults
- #             to 2000. (since 2.8)
-+#
- # Since: 2.6
+   'data': { '*key-secret': 'str' }}
+ 
+-
  ##
- { 'struct': 'QCryptoBlockCreateOptionsLUKS',
+ # @QCryptoBlockCreateOptionsLUKS:
+ #
+@@ -212,7 +206,6 @@
+             '*hash-alg': 'QCryptoHashAlgorithm',
+             '*iter-time': 'int'}}
+ 
+-
+ ##
+ # @QCryptoBlockOpenOptions:
+ #
+@@ -227,7 +220,6 @@
+   'data': { 'qcow': 'QCryptoBlockOptionsQCow',
+             'luks': 'QCryptoBlockOptionsLUKS' } }
+ 
+-
+ ##
+ # @QCryptoBlockCreateOptions:
+ #
+@@ -242,7 +234,6 @@
+   'data': { 'qcow': 'QCryptoBlockOptionsQCow',
+             'luks': 'QCryptoBlockCreateOptionsLUKS' } }
+ 
+-
+ ##
+ # @QCryptoBlockInfoBase:
+ #
+@@ -256,7 +247,6 @@
+ { 'struct': 'QCryptoBlockInfoBase',
+   'data': { 'format': 'QCryptoBlockFormat' }}
+ 
+-
+ ##
+ # @QCryptoBlockInfoLUKSSlot:
+ #
+@@ -276,7 +266,6 @@
+            '*stripes': 'int',
+            'key-offset': 'int' } }
+ 
+-
+ ##
+ # @QCryptoBlockInfoLUKS:
+ #
+@@ -330,7 +319,6 @@
+ { 'enum': 'QCryptoBlockLUKSKeyslotState',
+   'data': [ 'active', 'inactive' ] }
+ 
+-
+ ##
+ # @QCryptoBlockAmendOptionsLUKS:
+ #
+diff --git a/qapi/job.json b/qapi/job.json
+index 1a6ef03451..d5f84e9615 100644
+--- a/qapi/job.json
++++ b/qapi/job.json
+@@ -173,7 +173,6 @@
+ ##
+ { 'command': 'job-cancel', 'data': { 'id': 'str' } }
+ 
+-
+ ##
+ # @job-complete:
+ #
+diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+index f5ec4bc172..06b0d2ca61 100644
+--- a/qapi/machine-target.json
++++ b/qapi/machine-target.json
+@@ -54,7 +54,6 @@
+ { 'enum': 'CpuModelExpansionType',
+   'data': [ 'static', 'full' ] }
+ 
+-
+ ##
+ # @CpuModelCompareResult:
+ #
 diff --git a/qapi/machine.json b/qapi/machine.json
-index c9bdae40eb..79901e1c09 100644
+index c8f07c43cd..3fe977e903 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -299,6 +299,7 @@
- #        returning does not indicate that a guest has accepted the request or
- #        that it has shut down.  Many guests will respond to this command by
- #        prompting the user in some way.
-+#
- # Example:
+@@ -1365,7 +1365,6 @@
+ { 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
+   'data': { '*id': 'str', 'size': 'size', 'qom-path' : 'str'} }
+ 
+-
+ ##
+ # @MEM_UNPLUG_ERROR:
  #
- # -> { "execute": "system_powerdown" }
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 409eb086a2..fc1c157d3f 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1422,7 +1422,9 @@
- # @state: The state the migration is currently expected to be in
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index ae2c483a68..2fa68a6796 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -21,7 +21,6 @@
+ { 'command': 'rtc-reset-reinjection',
+   'if': 'TARGET_I386' }
+ 
+-
+ ##
+ # @SevState:
  #
- # Returns: nothing on success
-+#
- # Since: 2.11
-+#
- # Example:
+@@ -101,7 +100,6 @@
+ { 'command': 'query-sev', 'returns': 'SevInfo',
+   'if': 'TARGET_I386' }
+ 
+-
+ ##
+ # @SevLaunchMeasureInfo:
  #
- # -> { "execute": "migrate-continue" , "arguments":
-@@ -1736,6 +1738,7 @@
- # Since: 4.2
+@@ -132,7 +130,6 @@
+ { 'command': 'query-sev-launch-measure', 'returns': 'SevLaunchMeasureInfo',
+   'if': 'TARGET_I386' }
+ 
+-
+ ##
+ # @SevCapability:
  #
- # Example:
-+#
- # <- { "event": "UNPLUG_PRIMARY",
- #      "data": { "device-id": "hostdev0" },
- #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
-@@ -1845,6 +1848,7 @@
- # Since: 5.2
+@@ -304,7 +301,6 @@
+ { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
+   'if': 'TARGET_ARM' }
+ 
+-
+ ##
+ # @SGXEPCSection:
  #
- # Example:
-+#
- #   {"execute": "calc-dirty-rate", "arguments": {"calc-time": 1,
- #                                                'sample-pages': 512} }
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index a5d2db3b91..30a2f5231d 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -597,7 +597,6 @@
+   'data': [ 'hypervisor',
+             'guest' ] }
+ 
+-
+ ##
+ # @MemoryFailureAction:
  #
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 0e903340fc..9f19beea6d 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -128,7 +128,6 @@
+ #
+ # Since: 7.0
+ ##
+-
+ { 'struct': 'ExpirePasswordOptionsVnc',
+   'data': { '*display': 'str' } }
+ 
 -- 
 2.35.3
 
