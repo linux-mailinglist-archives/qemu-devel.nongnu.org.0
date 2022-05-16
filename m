@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62656529304
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:41:41 +0200 (CEST)
-Received: from localhost ([::1]:34992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86379529318
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 23:45:18 +0200 (CEST)
+Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqiTE-0004A5-EZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
+	id 1nqiWj-0003WX-KA
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 17:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhko-0003e0-CS
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40061)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhl2-000453-Aa
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:56:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhkm-000774-R5
- for qemu-devel@nongnu.org; Mon, 16 May 2022 16:55:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqhl0-0007Cp-O6
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 16:56:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652734543;
+ s=mimecast20190719; t=1652734558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ykKNvWWeKNqjpuuIQ4HE4Tn62sQweh+Zh0RPTlHsSLs=;
- b=P7SS9AFA4rRGh27Fg4M07dkB4nZEyvL+JoPkRBGBjoneJwHyLsGIy7YPDvvSDN3L/M/dcd
- I3c1fEr/sw7SLOAt3vYsWxG595nLnUIZ44KEl0ja/8nMgT1p/1dLWKlZ8dl+jORon+0S9r
- 4HamIOmDAHXy/fKRDc/dQdNtNIgw6zs=
+ bh=wQIFTLb45zQSJrTKig5KtDJeZj1urlocFpW9itg9ENo=;
+ b=NU+KvCT59FrBFrOo3Qj2OLp8zW4PvmwWt/oiBq7kDOfDnQlMSaJCe7x+q9tz/qaBztz1f5
+ TouyZDFuk7k7V/RNGUc+WfHkXGL3S1sQiSa3Od+ZIS/+v936jKtP/1T9n0ybrMQ4i5jZfG
+ qqwLDmtT2j2oPm5Oa2/VQJ2o0rhl/O0=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-466-aLp_OQjbOM-kg5jDgj2TSQ-1; Mon, 16 May 2022 16:55:42 -0400
-X-MC-Unique: aLp_OQjbOM-kg5jDgj2TSQ-1
+ us-mta-163-jSXv7oVIONWzt4fOG3B3TQ-1; Mon, 16 May 2022 16:55:56 -0400
+X-MC-Unique: jSXv7oVIONWzt4fOG3B3TQ-1
 Received: by mail-ed1-f70.google.com with SMTP id
- l18-20020aa7d952000000b0042ab7be9adaso1914545eds.21
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:41 -0700 (PDT)
+ p13-20020aa7c4cd000000b0042ab847aba8so1861973edr.0
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 13:55:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ykKNvWWeKNqjpuuIQ4HE4Tn62sQweh+Zh0RPTlHsSLs=;
- b=10V3LtE8+VuidfkefmN/3Ih7d0XzDyjPfBEq6lS3MInzJ7rDEIM9dRa6WlSCbZIG/p
- 2dQzlCH6taYvDDOrt5EWbL3mZalHvCvkpQwsSXIqqN2vh9xVmo6XvYtCSCAQS/aYwf85
- QdHSqiVUdgWGe6+CdmOGYdf+UbtlnDNbxS5mssYrCnT4A4zzwtaChgSrOwYSceQXBG3G
- JJ9BHxiThtqIWzLQSH9jeOz7jdGRoea2QLRlbUbJSs+5pkPYYBgEcQL2z0gHZwEVc97q
- 8gpv3OrLDvtKbQcCGhtWbJELyqMHrZIhWbMZn7HZEMjNHGPTJNevFuBOQBIsdUMNELRI
- pfqw==
-X-Gm-Message-State: AOAM533YTjfDQtMQGhCkFuWpqMNaZV2c/N9tn88AhSvuPeWWwpJbGpWN
- DcEXmLQ4nUbKxUscGsD7vCURSzWqQ76A9sWk0SMPOYIp5qobU04EIpBfNvC18FdY11jVwsBtQxo
- B641aOMkgdnkSJzYuiJkUp7A+9KHMHQ79J2D9cXTqOPC3GupUxQTvbXwfjrOY
-X-Received: by 2002:a17:906:9c43:b0:6f3:a8be:af46 with SMTP id
- fg3-20020a1709069c4300b006f3a8beaf46mr16419709ejc.271.1652734540511; 
- Mon, 16 May 2022 13:55:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDRks9gemuxJzSYNjHuHi27IfjUekY4fas3I/8oglkB4vW7aTnpOeXXMy3vNGnmOoWjKAtFQ==
-X-Received: by 2002:a17:906:9c43:b0:6f3:a8be:af46 with SMTP id
- fg3-20020a1709069c4300b006f3a8beaf46mr16419697ejc.271.1652734540276; 
- Mon, 16 May 2022 13:55:40 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wQIFTLb45zQSJrTKig5KtDJeZj1urlocFpW9itg9ENo=;
+ b=oSGIc1JQalaXs7tjLVen3SMlaY7u7k9ENC3HVVgXaaGmZ9fSNpH5oGB0WtcZrdE/pv
+ DyWPNxADewBbv5fSBoLYJgwDq1CzPMg3oYd2ez+Fvt8s9Xx2J1fefxJRwL62Em6ukSP0
+ l3co3WCv9UowWbYLUMKJ2WPiPDA+5Tu057bjpMN5iGmFPnJI3ygbasiZ0VM2LAEkSReh
+ OxwaDI+6Mwd/gWRsDaScxVRsSH5U+gka5jokZnpfGCbjHnF6AvfvGYMVU93mF/GJVtVd
+ GWx6IPZa9xKWeboOUjd+T/S5GD5vAyBXx9OHxEE2hjBClhdtaN2MKcchGePrvcheelHX
+ BArg==
+X-Gm-Message-State: AOAM530jzegWFUxIro1Q6n5c4dgTo7so4JA1EJc3fJBqBCVKurIjR4lk
+ X+QGSQAIJPZ2no2EojtXEb8nxnyeMMm5dHRAFcok41wLd3Hp33ZCXdvGiU5O6KJ1vFoOdJsgKhX
+ FKioDnGV53OoKg7oC86wFhJRe+Hdm05Kbl18L0EQx/VNLSHVuTOq/zILphQbX
+X-Received: by 2002:a05:6402:1706:b0:42a:a40a:17c6 with SMTP id
+ y6-20020a056402170600b0042aa40a17c6mr11648780edu.38.1652734555448; 
+ Mon, 16 May 2022 13:55:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxxz18v0Znz+fCknp5f4VvfhqU9Dg++XNXILm5cVInkc5zA10X0fI0E82Ylz+51jaQQ/6rrUQ==
+X-Received: by 2002:a05:6402:1706:b0:42a:a40a:17c6 with SMTP id
+ y6-20020a056402170600b0042aa40a17c6mr11648755edu.38.1652734555242; 
+ Mon, 16 May 2022 13:55:55 -0700 (PDT)
 Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
- gz15-20020a170907a04f00b006f5294986besm167622ejc.111.2022.05.16.13.55.38
+ p6-20020aa7c886000000b0042ab0500495sm2409748eds.36.2022.05.16.13.55.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 13:55:39 -0700 (PDT)
-Date: Mon, 16 May 2022 16:55:37 -0400
+ Mon, 16 May 2022 13:55:54 -0700 (PDT)
+Date: Mon, 16 May 2022 16:55:51 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Si-Wei Liu <si-wei.liu@oracle.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL v2 79/86] virtio-net: setup vhost_dev and notifiers for cvq
- only when feature is negotiated
-Message-ID: <20220516204913.542894-80-mst@redhat.com>
+ Si-Wei Liu <si-wei.liu@oracle.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
+Subject: [PULL v2 83/86] vhost-vdpa: backend feature should set only once
+Message-ID: <20220516204913.542894-84-mst@redhat.com>
 References: <20220516204913.542894-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220516204913.542894-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -100,36 +104,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Si-Wei Liu <si-wei.liu@oracle.com>
 
-When the control virtqueue feature is absent or not negotiated,
-vhost_net_start() still tries to set up vhost_dev and install
-vhost notifiers for the control virtqueue, which results in
-erroneous ioctl calls with incorrect queue index sending down
-to driver. Do that only when needed.
+The vhost_vdpa_one_time_request() branch in
+vhost_vdpa_set_backend_cap() incorrectly sends down
+ioctls on vhost_dev with non-zero index. This may
+end up with multiple VHOST_SET_BACKEND_FEATURES
+ioctl calls sent down on the vhost-vdpa fd that is
+shared between all these vhost_dev's.
 
-Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
+To fix it, send down ioctl only once via the first
+vhost_dev with index 0. Toggle the polarity of the
+vhost_vdpa_one_time_request() test should do the
+trick.
+
+Fixes: 4d191cfdc7de ("vhost-vdpa: classify one time request")
 Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <1651890498-24478-2-git-send-email-si-wei.liu@oracle.com>
+Acked-by: Eugenio Pérez <eperezma@redhat.com>
+Message-Id: <1651890498-24478-6-git-send-email-si-wei.liu@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-vdpa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index a788f1c5c7..7545a16ed7 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -245,7 +245,8 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
-     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-     NetClientState *nc = qemu_get_queue(n->nic);
-     int queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
--    int cvq = n->max_ncs - n->max_queue_pairs;
-+    int cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
-+              n->max_ncs - n->max_queue_pairs : 0;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index ed106bff47..870ab74b04 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -667,7 +667,7 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
  
-     if (!get_vhost_net(nc->peer)) {
-         return;
+     features &= f;
+ 
+-    if (vhost_vdpa_one_time_request(dev)) {
++    if (!vhost_vdpa_one_time_request(dev)) {
+         r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
+         if (r) {
+             return -EFAULT;
 -- 
 MST
 
