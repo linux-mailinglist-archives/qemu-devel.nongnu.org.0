@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCC9528433
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:29:48 +0200 (CEST)
-Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D80528405
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 14:18:38 +0200 (CEST)
+Received: from localhost ([::1]:36512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqZr9-0000M3-BQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49926)
+	id 1nqZgL-0001cZ-7L
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 08:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9X-0002pH-57
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55913)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9a-0002rd-1R
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9V-0005oB-EG
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY9Y-0005oh-5j
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:40:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697636;
+ s=mimecast20190719; t=1652697639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Bx3yjI8J96Ow3fL/flNwsTWaDHNvQ6trt+wn+Q4QM50=;
- b=R/voJTnxkO3u76j9thRqgwEGzr1V8E/iLZd5QKlFIRUvJCXUBcXKrEOfyiMg2GfmcxrwE8
- ugjWKc02fHlVyaPXY7QdLLuxhbaI2lbiouIymRwRBosoA7u6AvdMBHenTF1cVC+3SnZn4C
- V81gxfUS4NVSjSpInE5C0T3jlYixDpI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=05bBIi63juyp7TE0qSn2TB6p9HVIagy23aAAjlVPBNA=;
+ b=UBSxqWJPOecx5boqxZdCIvMmbBNvANpcqm4VqHlSSlIFD4dVP6krMfLTC6fIlrpy4A8x5n
+ kDH9M5lZ9YmOoORtNP0ZAxrLTVu0vXltfrIdodjcJ6MTYgna51ryJ91NwXIjeFQr28YdFX
+ G/J6ZBPI5tfNh4bxKJGxCti1wS7Hl84=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-JmMrW4KBNnSEf1gpVpHqxw-1; Mon, 16 May 2022 06:40:35 -0400
-X-MC-Unique: JmMrW4KBNnSEf1gpVpHqxw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- u3-20020a05600c210300b0039430c7665eso5453335wml.2
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:35 -0700 (PDT)
+ us-mta-487-XL1gEYiZNJqw9gJVbfy4QA-1; Mon, 16 May 2022 06:40:38 -0400
+X-MC-Unique: XL1gEYiZNJqw9gJVbfy4QA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i131-20020a1c3b89000000b00393fbb0718bso10166425wma.0
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:40:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Bx3yjI8J96Ow3fL/flNwsTWaDHNvQ6trt+wn+Q4QM50=;
- b=OrB+d0WG8GXiAfrRnhDXm71Pdc/gNJkL1BR4RSbiJRY6HWVrNt9vIH5h0HTz1oVEE6
- xAF6uuLWWEoyix1NiEZR0YCP89wxuGTPoZxdlZS9AWgLHiAyHmKJsRxHEhUkz1qkUc2M
- xNRixfSCb02RL2yCSit14HJ/YJFIGo1uyNpVNyfPbzUmqQBOafd69SlpTNUJYG7VDSMA
- xVoY70OW5n/ceDxJkddnNkLhz7zQeeb8R/+qLuPUrDM+LpUjCf6WCgqcc+4KJ2BCtLsq
- s5WA6lW/5Lau24lnxdy4e8BTW2I624cAk6faB8R0e/VULVoTHzye6JDH47uaxro2gjWN
- YPqQ==
-X-Gm-Message-State: AOAM5300GD0dg9xayg04eI7sGUJbwIqepOkyEFNQj2ozwIkJlyPvOl1p
- cOSobNoTSQcliBpd01+xFqgFxM0KgIUBODCD92yaq03bDWuRJE3ecBKJsbY/MWW7B6aFE/Gsg6N
- JoXmE+tUS7/mY7H4UQCYaKnJWpkgxZ4ifIISNEDctx0kX9NiM+TjsCDc+5L1B
-X-Received: by 2002:a05:600c:224a:b0:394:8ec:3d37 with SMTP id
- a10-20020a05600c224a00b0039408ec3d37mr15902227wmm.19.1652697634229; 
- Mon, 16 May 2022 03:40:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQeopmkJXbicFB+Pvk1zsVDEB6Kg0gneB5SUoc7eDhqHaR10ln1gmhyWTsy7Q4HXBn68SyyQ==
-X-Received: by 2002:a05:600c:224a:b0:394:8ec:3d37 with SMTP id
- a10-20020a05600c224a00b0039408ec3d37mr15902197wmm.19.1652697633906; 
- Mon, 16 May 2022 03:40:33 -0700 (PDT)
+ bh=05bBIi63juyp7TE0qSn2TB6p9HVIagy23aAAjlVPBNA=;
+ b=PXyx+yBS6VFo7cKpY1yhU/UxC2mtFXrN9Ru9cTyFIjtidgWGKWQpeEc4r3Nl699y3m
+ b5DVeW0vSeI6DoxoeJma/mzWP/K8h4oPha6IzvWp+r7+HJ51NnqB8viRJ276epzaoMuK
+ 28uXktf9MyOaFoze+1T/0T48hE8mkWIB1l3R+dwv7Ik+1wC9Sqhim0aBZEw2Yiw38CSb
+ AIDuxd1ozhR7y5q2PTf/oq9BzVq8yCPpl3NcY5oKlMHdb6R6uIV3r9r7PGJQ2tVZ7CJs
+ PMKulu1PHjfTh9gC/O8Qu4KJxhx+EGm4spNfOoLDMhwBKF8zw18e9IOmDuDRCHoCIEzz
+ ocxA==
+X-Gm-Message-State: AOAM53093oyRMIJLgxIs37MQMUipNweEv3Bin/mSCDI2aWx/t0Kfkdax
+ 8yp3BdSbRoyHgtz3eohg9kfo+BLbHyel4gDVMr9XYgGtvASft1IjdmGyoFd9PVlk8yjMB/Uf4Nc
+ 5paz+Q6L9geKaN3Kqdf8D28X01Js4VJeP+FVXJ6mijUSz7dgHpE9X0nqsrOwt
+X-Received: by 2002:a5d:42c7:0:b0:20c:ff89:8af8 with SMTP id
+ t7-20020a5d42c7000000b0020cff898af8mr7766415wrr.618.1652697637251; 
+ Mon, 16 May 2022 03:40:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0i7EF6PFRbzc85q9KBO5/0QQKiZcRuPS78l7DFNZFO+DIxn1Nn1hgGNBYR7H+ewG6DauRlg==
+X-Received: by 2002:a5d:42c7:0:b0:20c:ff89:8af8 with SMTP id
+ t7-20020a5d42c7000000b0020cff898af8mr7766396wrr.618.1652697636999; 
+ Mon, 16 May 2022 03:40:36 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- l9-20020adfc789000000b0020cd8f1d25csm9699969wrg.8.2022.05.16.03.40.32
+ 18-20020a05600c229200b00394867d66ddsm9725523wmf.35.2022.05.16.03.40.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:40:33 -0700 (PDT)
-Date: Mon, 16 May 2022 06:40:30 -0400
+ Mon, 16 May 2022 03:40:36 -0700 (PDT)
+Date: Mon, 16 May 2022 06:40:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Wei Huang <wei.huang2@amd.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 84/91] hw/i386/amd_iommu: Fix IOMMU event log encoding errors
-Message-ID: <20220516095448.507876-85-mst@redhat.com>
+ Si-Wei Liu <si-wei.liu@oracle.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL 85/91] virtio-net: setup vhost_dev and notifiers for cvq only
+ when feature is negotiated
+Message-ID: <20220516095448.507876-86-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,7 +74,7 @@ Content-Disposition: inline
 In-Reply-To: <20220516095448.507876-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,108 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Huang <wei.huang2@amd.com>
+From: Si-Wei Liu <si-wei.liu@oracle.com>
 
-Coverity issues several UNINIT warnings against amd_iommu.c [1]. This
-patch fixes them by clearing evt before encoding. On top of it, this
-patch changes the event log size to 16 bytes per IOMMU specification,
-and fixes the event log entry format in amdvi_encode_event().
+When the control virtqueue feature is absent or not negotiated,
+vhost_net_start() still tries to set up vhost_dev and install
+vhost notifiers for the control virtqueue, which results in
+erroneous ioctl calls with incorrect queue index sending down
+to driver. Do that only when needed.
 
-[1] CID 1487116/1487200/1487190/1487232/1487115/1487258
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Wei Huang <wei.huang2@amd.com>
-Message-Id: <20220422055146.3312226-1-wei.huang2@amd.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
+Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <1651890498-24478-2-git-send-email-si-wei.liu@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/amd_iommu.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ hw/net/virtio-net.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index ea8eaeb330..725f69095b 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -201,15 +201,18 @@ static void amdvi_setevent_bits(uint64_t *buffer, uint64_t value, int start,
- /*
-  * AMDVi event structure
-  *    0:15   -> DeviceID
-- *    55:63  -> event type + miscellaneous info
-- *    63:127 -> related address
-+ *    48:63  -> event type + miscellaneous info
-+ *    64:127 -> related address
-  */
- static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
-                                uint16_t info)
- {
-+    evt[0] = 0;
-+    evt[1] = 0;
-+
-     amdvi_setevent_bits(evt, devid, 0, 16);
--    amdvi_setevent_bits(evt, info, 55, 8);
--    amdvi_setevent_bits(evt, addr, 63, 64);
-+    amdvi_setevent_bits(evt, info, 48, 16);
-+    amdvi_setevent_bits(evt, addr, 64, 64);
- }
- /* log an error encountered during a page walk
-  *
-@@ -218,7 +221,7 @@ static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
- static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
-                              hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 9ad466f556..f9dd012021 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -292,7 +292,8 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
+     NetClientState *nc = qemu_get_queue(n->nic);
+     int queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
+-    int cvq = n->max_ncs - n->max_queue_pairs;
++    int cvq = virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
++              n->max_ncs - n->max_queue_pairs : 0;
  
-     info |= AMDVI_EVENT_IOPF_I | AMDVI_EVENT_IOPF;
-     amdvi_encode_event(evt, devid, addr, info);
-@@ -234,7 +237,7 @@ static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
- static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
-                                    hwaddr devtab, uint16_t info)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_DEV_TAB_HW_ERROR;
- 
-@@ -248,7 +251,8 @@ static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
-  */
- static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
- {
--    uint64_t evt[4], info = AMDVI_EVENT_COMMAND_HW_ERROR;
-+    uint64_t evt[2];
-+    uint16_t info = AMDVI_EVENT_COMMAND_HW_ERROR;
- 
-     amdvi_encode_event(evt, 0, addr, info);
-     amdvi_log_event(s, evt);
-@@ -261,7 +265,7 @@ static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
- static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
-                                        hwaddr addr)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_ILLEGAL_COMMAND_ERROR;
-     amdvi_encode_event(evt, 0, addr, info);
-@@ -276,7 +280,7 @@ static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
- static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
-                                           hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_ILLEGAL_DEVTAB_ENTRY;
-     amdvi_encode_event(evt, devid, addr, info);
-@@ -288,7 +292,7 @@ static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
- static void amdvi_log_pagetab_error(AMDVIState *s, uint16_t devid,
-                                     hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
-+    uint64_t evt[2];
- 
-     info |= AMDVI_EVENT_PAGE_TAB_HW_ERROR;
-     amdvi_encode_event(evt, devid, addr, info);
+     if (!get_vhost_net(nc->peer)) {
+         return;
 -- 
 MST
 
