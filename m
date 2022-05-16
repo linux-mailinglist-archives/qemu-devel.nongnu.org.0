@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA03F5282C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 13:01:28 +0200 (CEST)
-Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B7C5282B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 May 2022 12:57:08 +0200 (CEST)
+Received: from localhost ([::1]:39256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqYTf-0007RT-SC
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 07:01:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48048)
+	id 1nqYPT-00023j-BF
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 06:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5R-00064O-Sy
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30677)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5T-00066K-9S
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5Q-0005Bz-2m
- for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:25 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nqY5R-0005CO-MH
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 06:36:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652697382;
+ s=mimecast20190719; t=1652697385;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z1WJQYxlX7Z8W2tRqH3Y1o8xUJGVlIUo1fGgXDvXJL8=;
- b=EMI6agyV+8Xl20hrioD171Ry8HqeMn5XVdo7pbgBaQZsjbnSHlN2JDqVq0UkdtlqTj3OTm
- RbmPI2vViFbKImc1atJBwIkBglY4BVD56esuBRGMaL8iyf8PAvaCbtsGBBzTSJFgKtsSdR
- nB5IdoKh67/KbtG5LCJO+xaPM9cORjQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LZ5/sr2bWt1vV88MsUXSF6Uqm1C5mSRHxK5Hlw6cX90=;
+ b=WGutu8QsAiJlx5bn21cbuO6TTSpX9eLVPttdDj3BRqIqvS6qY3fo25+1Dn+ECep3rr+eFm
+ mE0e03dFSFbzhk9GrLUV6i3u1ZLBz3QtUKkBEFK5N7djWqMr1g3siG22J6A9Rk9/H/Hgjq
+ TaQLLNJc1oTxIuhu/OcHjTM3EDdIagY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-FP0LRAqkMvm3t4SCFwLB2g-1; Mon, 16 May 2022 06:36:21 -0400
-X-MC-Unique: FP0LRAqkMvm3t4SCFwLB2g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- o13-20020adfa10d000000b0020c6fa5a77cso3768445wro.23
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:20 -0700 (PDT)
+ us-mta-497-x_q6TOHhNqKwm2qSj92NCg-1; Mon, 16 May 2022 06:36:23 -0400
+X-MC-Unique: x_q6TOHhNqKwm2qSj92NCg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m26-20020a7bcb9a000000b0039455e871b6so5435693wmi.8
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 03:36:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=Z1WJQYxlX7Z8W2tRqH3Y1o8xUJGVlIUo1fGgXDvXJL8=;
- b=hBnYioySBd5WAtYT+S1BCAEWnlUsIi+naDMWBwowqiQ5+gZlA0tVENhKM80zKD91Gz
- 0PAwVeAOXfujHPd5XCN5XJsRevEVkfUxcW0tktY0bxM3ROrDCoXK5ZcJ7h3dk2YVfkMm
- I5shLEna3mPb5GvuN0pCSXnzqjyrAPRTC3ESxki0wlx5l0gB2ALoPxe56e9p9U987wBp
- vHQyvG51OrZbCjEfm85EgqZ6XrtKvtf3OIEz0EkGV6X1R3IgOPrGoAjwSLQC/MpdTAS9
- wB32KpMXa18e9/v+LwIcpWQKAc/spZyCwNdQlxcuEcN5Q1HibYtQ2lg6jJAG8AgI8scs
- PmEQ==
-X-Gm-Message-State: AOAM531j0kLU5o5zH1H98DK5neZEwdsiXOpgVrfHp9fV+648ZXVR5BsA
- 0XZupgO/4MYiMmqL2dxnzZH8OPHgGSRMh6mDBScyaX4xMwaKgiuVNJYVRTCCcDQnxfxfwVcR8Xg
- 7XJtuEv2XQ79VLPp57cvZ8YgjRulMpdwfXEZ0w6fzljG/+k1tmEHqcfYYyQ0Y
-X-Received: by 2002:a05:600c:4e4d:b0:396:37ef:b17e with SMTP id
- e13-20020a05600c4e4d00b0039637efb17emr14714351wmq.30.1652697379510; 
- Mon, 16 May 2022 03:36:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvV0b61Aqc/1omsXPpTLmbNONP+TV1nMFb6DJLUFiIS0QokfpAAypuzlU2jm5o2Xcaq/YjLQ==
-X-Received: by 2002:a05:600c:4e4d:b0:396:37ef:b17e with SMTP id
- e13-20020a05600c4e4d00b0039637efb17emr14714328wmq.30.1652697379275; 
- Mon, 16 May 2022 03:36:19 -0700 (PDT)
+ bh=LZ5/sr2bWt1vV88MsUXSF6Uqm1C5mSRHxK5Hlw6cX90=;
+ b=G67MoKL/42khB5qsfq7qBuntYsiGVRjKwTX+1DyrAX/uhfs/GAF9vhOKTndY7oYdba
+ 8ry5XMrdt4P/V9M7NKGc0e4Dpuc/Pi31EBIXyb1e3GithIiMALiOoTd4u6Rcn2Sjy9aE
+ x0nxZaNk1HEM1pBa8Q3chjTWljOYcfmv4gRHSUNSYqPNpzwMiVY1KQMCersRIyzTLqxN
+ sEufj7CH1AuXZnifuIVVoN19rNuWIvc7l75S7pvJy2K06yUg3EHRM/PZXbFdB9dT/z8O
+ qEsHPxDc8YxUVRklV2eVqP7ohlu7wCc+6gegBbKdLDp0cckKnAqFd/IWz9oB0D70a6kD
+ hW8w==
+X-Gm-Message-State: AOAM530bDrAyqNRuDIRaRzY503QKyx4gU8+P5O++PrWrw8dupBI52fhQ
+ yLB+Y54hTEUE95f9YqJuARLswWnhOtotOtDEk387mQbpGR2joBdwrl73CrNPonb3tMPCjncjdzf
+ aCBjcIrZ6Q/Nlnd02Sax0RdeL68dKu/zxr2wn4W0BdfNHpsviPMcDSQKcwy2V
+X-Received: by 2002:a05:6000:168e:b0:20c:547d:11a1 with SMTP id
+ y14-20020a056000168e00b0020c547d11a1mr13811348wrd.37.1652697382341; 
+ Mon, 16 May 2022 03:36:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1pucyH8SfoAPVXcme13qVb3VGrpCSjMGU0ORd5lGurJ1088Pn9stSuZxscedwiYQRt/fK1g==
+X-Received: by 2002:a05:6000:168e:b0:20c:547d:11a1 with SMTP id
+ y14-20020a056000168e00b0020c547d11a1mr13811331wrd.37.1652697382100; 
+ Mon, 16 May 2022 03:36:22 -0700 (PDT)
 Received: from redhat.com ([2.55.141.66]) by smtp.gmail.com with ESMTPSA id
- n14-20020a05600c500e00b00394708a3d7dsm12936123wmr.15.2022.05.16.03.36.17
+ z12-20020a7bc7cc000000b003942a244f39sm14961092wmk.18.2022.05.16.03.36.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 03:36:18 -0700 (PDT)
-Date: Mon, 16 May 2022 06:36:16 -0400
+ Mon, 16 May 2022 03:36:21 -0700 (PDT)
+Date: Mon, 16 May 2022 06:36:19 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Ben Widawsky <ben.widawsky@intel.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 12/91] hw/cxl/device: Add log commands (8.2.9.4) + CEL
-Message-ID: <20220516095448.507876-13-mst@redhat.com>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 13/91] hw/pxb: Use a type for realizing expanders
+Message-ID: <20220516095448.507876-14-mst@redhat.com>
 References: <20220516095448.507876-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -104,121 +105,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-CXL specification provides for the ability to obtain logs from the
-device. Logs are either spec defined, like the "Command Effects Log"
-(CEL), or vendor specific. UUIDs are defined for all log types.
-
-The CEL is a mechanism to provide information to the host about which
-commands are supported. It is useful both to determine which spec'd
-optional commands are supported, as well as provide a list of vendor
-specified commands that might be used. The CEL is already created as
-part of mailbox initialization, but here it is now exported to hosts
-that use these log commands.
+This opens up the possibility for more types of expanders (other than
+PCI and PCIe). We'll need this to create a CXL expander.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220429144110.25167-11-Jonathan.Cameron@huawei.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20220429144110.25167-12-Jonathan.Cameron@huawei.com>
 ---
- hw/cxl/cxl-mailbox-utils.c | 69 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
+ hw/pci-bridge/pci_expander_bridge.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index 4584aa31f7..db473135c7 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -47,6 +47,9 @@ enum {
-     TIMESTAMP   = 0x03,
-         #define GET           0x0
-         #define SET           0x1
-+    LOGS        = 0x04,
-+        #define GET_SUPPORTED 0x0
-+        #define GET_LOG       0x1
- };
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index de932286b5..d4514227a8 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -24,6 +24,8 @@
+ #include "hw/boards.h"
+ #include "qom/object.h"
  
- /* 8.2.8.4.5.1 Command Return Codes */
-@@ -147,6 +150,70 @@ static ret_code cmd_timestamp_set(struct cxl_cmd *cmd,
++enum BusType { PCI, PCIE };
++
+ #define TYPE_PXB_BUS "pxb-bus"
+ typedef struct PXBBus PXBBus;
+ DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
+@@ -221,7 +223,8 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
+            0;
+ }
  
- static QemuUUID cel_uuid;
+-static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
++static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
++                                   Error **errp)
+ {
+     PXBDev *pxb = convert_to_pxb(dev);
+     DeviceState *ds, *bds = NULL;
+@@ -246,7 +249,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
+     }
  
-+/* 8.2.9.4.1 */
-+static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
-+                                       CXLDeviceState *cxl_dstate,
-+                                       uint16_t *len)
-+{
-+    struct {
-+        uint16_t entries;
-+        uint8_t rsvd[6];
-+        struct {
-+            QemuUUID uuid;
-+            uint32_t size;
-+        } log_entries[1];
-+    } QEMU_PACKED *supported_logs = (void *)cmd->payload;
-+    QEMU_BUILD_BUG_ON(sizeof(*supported_logs) != 0x1c);
-+
-+    supported_logs->entries = 1;
-+    supported_logs->log_entries[0].uuid = cel_uuid;
-+    supported_logs->log_entries[0].size = 4 * cxl_dstate->cel_size;
-+
-+    *len = sizeof(*supported_logs);
-+    return CXL_MBOX_SUCCESS;
-+}
-+
-+/* 8.2.9.4.2 */
-+static ret_code cmd_logs_get_log(struct cxl_cmd *cmd,
-+                                 CXLDeviceState *cxl_dstate,
-+                                 uint16_t *len)
-+{
-+    struct {
-+        QemuUUID uuid;
-+        uint32_t offset;
-+        uint32_t length;
-+    } QEMU_PACKED QEMU_ALIGNED(16) *get_log = (void *)cmd->payload;
-+
-+    /*
-+     * 8.2.9.4.2
-+     *   The device shall return Invalid Parameter if the Offset or Length
-+     *   fields attempt to access beyond the size of the log as reported by Get
-+     *   Supported Logs.
-+     *
-+     * XXX: Spec is wrong, "Invalid Parameter" isn't a thing.
-+     * XXX: Spec doesn't address incorrect UUID incorrectness.
-+     *
-+     * The CEL buffer is large enough to fit all commands in the emulation, so
-+     * the only possible failure would be if the mailbox itself isn't big
-+     * enough.
-+     */
-+    if (get_log->offset + get_log->length > cxl_dstate->payload_size) {
-+        return CXL_MBOX_INVALID_INPUT;
-+    }
-+
-+    if (!qemu_uuid_is_equal(&get_log->uuid, &cel_uuid)) {
-+        return CXL_MBOX_UNSUPPORTED;
-+    }
-+
-+    /* Store off everything to local variables so we can wipe out the payload */
-+    *len = get_log->length;
-+
-+    memmove(cmd->payload, cxl_dstate->cel_log + get_log->offset,
-+           get_log->length);
-+
-+    return CXL_MBOX_SUCCESS;
-+}
-+
- #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
- #define IMMEDIATE_POLICY_CHANGE (1 << 3)
- #define IMMEDIATE_LOG_CHANGE (1 << 4)
-@@ -162,6 +229,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
-         cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
-     [TIMESTAMP][GET] = { "TIMESTAMP_GET", cmd_timestamp_get, 0, 0 },
-     [TIMESTAMP][SET] = { "TIMESTAMP_SET", cmd_timestamp_set, 8, IMMEDIATE_POLICY_CHANGE },
-+    [LOGS][GET_SUPPORTED] = { "LOGS_GET_SUPPORTED", cmd_logs_get_supported, 0, 0 },
-+    [LOGS][GET_LOG] = { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
- };
+     ds = qdev_new(TYPE_PXB_HOST);
+-    if (pcie) {
++    if (type == PCIE) {
+         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
+     } else {
+         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
+@@ -295,7 +298,7 @@ static void pxb_dev_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
  
- void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+-    pxb_dev_realize_common(dev, false, errp);
++    pxb_dev_realize_common(dev, PCI, errp);
+ }
+ 
+ static void pxb_dev_exitfn(PCIDevice *pci_dev)
+@@ -348,7 +351,7 @@ static void pxb_pcie_dev_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    pxb_dev_realize_common(dev, true, errp);
++    pxb_dev_realize_common(dev, PCIE, errp);
+ }
+ 
+ static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
 -- 
 MST
 
