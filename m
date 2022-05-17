@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AA4529932
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 07:56:17 +0200 (CEST)
-Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFD952992F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 07:54:51 +0200 (CEST)
+Received: from localhost ([::1]:42790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqqBo-0004Fd-2P
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 01:56:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48688)
+	id 1nqqAS-0003c5-Uv
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 01:54:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqpyx-0006Ng-6v
- for qemu-devel@nongnu.org; Tue, 17 May 2022 01:43:08 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:55156)
+ id 1nqq4l-0000T1-SX
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 01:48:56 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:35662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqpyv-0006vT-IB
- for qemu-devel@nongnu.org; Tue, 17 May 2022 01:42:54 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id ev18so5773541pjb.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 22:42:53 -0700 (PDT)
+ id 1nqq4j-0007nI-Ks
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 01:48:55 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id c9so16450466plh.2
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 22:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=spyDrNwA1LrP19YURO+U4xuVHFRhBL7RkVsUSH+xlTc=;
- b=QEBAxOTAKUK3bHYNPVV8DLvXYdZLlIpg8d/JG+cV3UwBCRYH4GWkJ6WgiaeBwhQ7nn
- bBiAhM/6o7Zu4y1B08r45+HD9+CHfqQPYrwpsENhAAzE0c0hNQPeamSNUdxgUR56yF8A
- GwCJ4LP1onTtBSBnY69SBOAotNJ9tXi5WVXvqW42oUmyzNl/QvOX/WE1K9L1/i+1OKuO
- G+8gVqNGAp01GbgN2sfEkjvTtcfWL4wR7XzXooQE0Yt/DFS93MygwpsS6WXv8YkqmuWy
- q994cM09LHB/5HbIC4XNczeZuje2bQgqc2T+dnfNsUlCwfyc5Tyhv1QX0B1R8SQID4mR
- XBIw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e3KBk6nkeNJQhadgHBeZE6aGoHWOgeb/U7VKNqTlDdI=;
+ b=Ts6iRBlLOQ6bYD9I6ibXAYxFTpyPXJYj00TVzsCH9t1Qz5fLR10rplIrhNUQQ8Q3Zz
+ Hk7WsC8sJL3vKztUOXUQFrJ3GutFkw0yYwTfgpzfWFORk6auym4rt46dhUEMMhGBeZi0
+ aWfuzDj0ql2jwVkmnn8MArCUr2RrwHXXeEGnvqliDOCQjcBJW85h5OH5/dXpbEW72cuQ
+ C3zmytSl0bAhCSjDUwUPnSETR8bvfI8CAPwe85Xt772LKBPwBjD7UF+r8klsE9vu1PC6
+ jczrTsAMh27Sq98HzRbIk0q3TCnsqrkRlDVVYfu1OBjG5rR1a8hQ+MWnwfTmXMIkM9n+
+ naKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=spyDrNwA1LrP19YURO+U4xuVHFRhBL7RkVsUSH+xlTc=;
- b=NqbB5fBAfRJJMstm15lYl0ri8VFuqq2BNi9v3Tr0UIBMHADdd1LsK5p+wThtBtJ0Nu
- IqX5G2y7vzQr4zqaMZKJ/Hhdqm84fJwgXBvv1+O5No7n0b1FkWeX8u1ENbOHpn+5z1IP
- E2Nu7jXl9OM6PMuFXfbe+aHwmAjCs1fK0U/O8iKL/7nGrOSpIc/jM0+OM85VqdOF/Zjd
- oYgtWbmVVNtxxcpcEBtPLbTeWJb1/vhsBuibC1zC6DbK2HDvdG1VfA3+Ek0mp8YcMltQ
- Hm1WAISxe7In9QAAQ34g3TmzVW5mWnnqKTrsMFLz51rtR2Mu3gF62dSBPTBUSkUWm+18
- tDBQ==
-X-Gm-Message-State: AOAM532lxnMTfj9DjsSAXKGWqpxG1iLJP/v6GhX94pX+8vYxqbph8/0L
- Na1oq+hd4en0105/x+aYh/kRLg==
-X-Google-Smtp-Source: ABdhPJysFgteaE6iqp9dNUHUEBFwJ3LoR0trGy4QOMcl4qxovO/g6NZFj6VnpFaomNL6Eos4UDWwXg==
-X-Received: by 2002:a17:902:ea11:b0:15e:ae19:f36a with SMTP id
- s17-20020a170902ea1100b0015eae19f36amr20717796plg.52.1652766171820; 
- Mon, 16 May 2022 22:42:51 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- e18-20020a170902ed9200b0015eab1ad02esm7963992plj.215.2022.05.16.22.42.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 22:42:51 -0700 (PDT)
-Message-ID: <b5d42de1-4313-3069-b552-e312fec74fbb@linaro.org>
-Date: Mon, 16 May 2022 22:42:49 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 3/3] capstone: Remove the capstone submodule
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220516145823.148450-1-thuth@redhat.com>
- <20220516145823.148450-4-thuth@redhat.com>
+ bh=e3KBk6nkeNJQhadgHBeZE6aGoHWOgeb/U7VKNqTlDdI=;
+ b=rj/5GEbA6YoIGx0t55baJjfB8UzDkhj22nBJixsxb2X8F7p8GfzhhssPR+2wsc+E5f
+ sF0vyc5KkkzyAzHoeH41AQk8z42OLB1dDlSUZjIrfI2NqOjvJCtibx0ExsYhOLT4R/0S
+ RlLHJ9ULinB3MAQ5Njv/JZ0/S3bfTzPxgvjBCqGgrG0dpkH/kFxkTmfbJRPQ4PWWr24l
+ GR7HpUj+C0HnTRan4PzEkAnWSltLzLse5srrlk3c3pHrIx/3fuPvu8mmfbXS86q8601l
+ jomWb8I8LscyVeREdh2mEf5YEprzGgfDMjB2SW7gknimyu/HWFcORUjXie13UptCYLqM
+ bgyw==
+X-Gm-Message-State: AOAM532YoeXeCCFMj1HnsBcZg2S9K0hH1jAQPzX1JQm3ajQdVUFvnIpB
+ 2mR8M93pQF4kOXhHKrWWFwzYhU0tJODWdg==
+X-Google-Smtp-Source: ABdhPJx1syDstvS627dgOjlQ1kAFqIjZTT2FYQOusGXmsRaanM/HSRj/Kl7pYfGeECKs1KuBtsfASg==
+X-Received: by 2002:a17:902:cf4a:b0:161:64f4:52d8 with SMTP id
+ e10-20020a170902cf4a00b0016164f452d8mr11138426plg.83.1652766531964; 
+ Mon, 16 May 2022 22:48:51 -0700 (PDT)
+Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
+ b12-20020a170902d88c00b0015e8d4eb1fasm8146670plz.68.2022.05.16.22.48.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 22:48:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220516145823.148450-4-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v2 0/7] target/arm: SME prep patches
+Date: Mon, 16 May 2022 22:48:43 -0700
+Message-Id: <20220517054850.177016-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,25 +85,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 07:58, Thomas Huth wrote:
-> Now that we allow compiling with Capstone v3.05 again, all our supported
-> build hosts should provide at least this version of the disassembler
-> library, so we do not need to ship this as a submodule anymore.
-> 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
-> ---
->   configure                     |  21 -------
->   meson.build                   | 113 ++--------------------------------
->   .gitlab-ci.d/buildtest.yml    |   4 +-
->   .gitlab-ci.d/windows.yml      |   5 +-
->   .gitmodules                   |   3 -
->   capstone                      |   1 -
->   meson_options.txt             |   3 +-
->   scripts/meson-buildoptions.sh |   5 +-
->   8 files changed, 11 insertions(+), 144 deletions(-)
->   delete mode 160000 capstone
+Changes for v2:
+  * Fixed the errors PMM noticed in patch 2.
+  * Cleanups for SVE vector length selection.
+  * Cleanups for SVE exception el selection.
+  * Add el_is_in_host -- I'm not sure this one will really help,
+    but it's certainly appearing more and more in the pseudocode.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+
+Richard Henderson (7):
+  target/arm: Enable FEAT_HCX for -cpu max
+  target/arm: Use FIELD definitions for CPACR, CPTR_ELx
+  target/arm: Do not use aarch64_sve_zcr_get_valid_len in reset
+  target/arm: Merge aarch64_sve_zcr_get_valid_len into caller
+  target/arm: Use uint32_t instead of bitmap for sve vq's
+  target/arm: Remove fp checks from sve_exception_el
+  target/arm: Add el_is_in_host
+
+ target/arm/cpu.h       |  70 +++++++++++++--
+ target/arm/internals.h |  18 ++--
+ target/arm/kvm_arm.h   |   7 +-
+ hw/arm/boot.c          |   2 +-
+ target/arm/cpu.c       |  14 +--
+ target/arm/cpu64.c     | 118 ++++++++++++------------
+ target/arm/helper.c    | 198 +++++++++++++++++++++++++----------------
+ target/arm/kvm64.c     |  36 ++------
+ 8 files changed, 264 insertions(+), 199 deletions(-)
+
+-- 
+2.34.1
+
 
