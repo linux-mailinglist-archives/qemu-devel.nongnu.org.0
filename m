@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F295296D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 03:38:48 +0200 (CEST)
-Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9575296EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 03:48:21 +0200 (CEST)
+Received: from localhost ([::1]:33916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqmAh-0002oG-MK
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 21:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46958)
+	id 1nqmJw-0005eG-QB
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 21:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nqm9d-000213-RR; Mon, 16 May 2022 21:37:41 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:33591)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nqmJ5-0004yC-DV
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 21:47:27 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:44917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nqm9c-0002q5-59; Mon, 16 May 2022 21:37:41 -0400
-Received: by mail-io1-xd33.google.com with SMTP id q203so2065663iod.0;
- Mon, 16 May 2022 18:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8TB8Hj0hGAdAqKA3z5QShRoLyv4zVK8nKauleqioUAY=;
- b=iDsPtYNwhfVOHWUQuJ1n7D/QR+hdM3++Z5Zk7A66wVPgeEnqyfT7R4YPfZhCU33zoL
- sUtmg2L3OFtIbuvx1Abs432j6MiNMIKKcRijwsmC1MYaJrHXigbHZ3orcVSPOBcXN4ON
- OQx1DY0fG6rSxj9oRGYSB5KXW8luF3VsNUPz+MQnxFx8/XgB40L2q2Ybp/SeXNRC4AGk
- W17kOTzJgF4F7gmJRE4IpJqUIAVrE2r3kq0kNsOz+w7Bs6WfMPhVUORNIxkj9u/6KYFh
- a8ooqhtqsdN2seMlYI0bM3GSnQHFMsRe/g8fO44S7E43nXnkXsAgGG1iIu+IR7eTE0hR
- +fNw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nqmJ3-0004Vj-Nm
+ for qemu-devel@nongnu.org; Mon, 16 May 2022 21:47:27 -0400
+Received: by mail-pf1-x434.google.com with SMTP id x52so15582382pfu.11
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 18:47:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4NSNuENcWEtBfy2y9hwhUyyEW0zR0LkKHw+6q/1k5xw=;
+ b=X10Skw71H7hCgteltotwJNqy3UM3UTGaorQb60kCsrCijJh3mIcaH2TDOhnW6OkEVK
+ NaFr+FExK7w9im/b+kEuiznjghz7ZpL/eJ7AjZxndxd7Qj/KM8mYiEcUcsGL1Dk2wxpS
+ w/nc+Jv7y0aJu49XOkq0djjEYlW9xRPpHM9fO9p7BnyHqv8+iuYmrr8uPpy+0vRjlpRV
+ mzbfblyRx2EE4yYw5WkAeSxqN/ba4q7oM7kY81aOYTzFSU4bWxxKxxCewldIfaRb88NR
+ lWd6grHlWwE9tsvd4JVrJu/Clx7tgkKP4neiVtTxpDOWJ0o7I4Njg8JfaKrscs6Bfgjp
+ RkyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8TB8Hj0hGAdAqKA3z5QShRoLyv4zVK8nKauleqioUAY=;
- b=gfnokMOIRnV0Kal0WIv3kWn/7l7H1m8s+C4l8pJDRiPxsBiu/7G0xDmG5Z/CxlR4sZ
- vJUgonRVJwfKx7Ra+8RGWXjdLATLCL/301Tz0LH9NchLmBg2FtGJQ57rKwbJphOqW4TL
- jhPe+xnTJYtGmwGza9CZEJv77EmFomGp4yxFQW4173G1g8BLvOJH66if4G43nYgVyzWe
- pNraf1KLXYL3SMfry1TAbfjr4niEcQoTtnhMr1aXM/25UDNOCOb1phAglwJ1qpb5REGE
- +NBNchTMTE7Y8J+cPJRb6qKJGq0ktCqQCsCfxAlqEbS/am2zzRq4NrSp2iuIuylwMmgG
- JJ7A==
-X-Gm-Message-State: AOAM533hDvnQwe6SjjsHEVMwf8ZO2sUnTtbEcR7NTNboyRA3lCknicM8
- bpkpbmkHyjldZtXkqT3EDY60V96QSFzvBw5xha0=
-X-Google-Smtp-Source: ABdhPJwlfsBuvRmGVSl+HqxUyNvMpl++TfYHTFYTa2R37UkpxjU4WX02nZ7KGkX/nuQdVKVu1qc/8y1VYJuIIFhSkuw=
-X-Received: by 2002:a05:6638:dc7:b0:32b:a483:16b8 with SMTP id
- m7-20020a0566380dc700b0032ba48316b8mr10748976jaj.66.1652751458290; Mon, 16
- May 2022 18:37:38 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4NSNuENcWEtBfy2y9hwhUyyEW0zR0LkKHw+6q/1k5xw=;
+ b=oLTyLcn+WvJTD87rSdTUYZqBskzD+/f36BqGNi4bW4MBwVM1CiCbc7LKAFoCqSXwNK
+ M+n0lRe3TgW5KFZQzOXti4G6cYsfN2njLIxv8o1WYlpgr/EZLgdC/RzSZY8bFwoxq0fu
+ JwzxIM5o80cXOqhFUnd/4TtHa5rA3RjH2D+00Dw064CyEceNkOHfq5rfcIvwSeAl+Ybt
+ pQvrj8+jbPa6ZKBawnwfdZqqBuplr92n+8NWo3HPMVqBwJegI9T6Mf2qA2pjvQe17KCr
+ +erLZsGKhlBhHgYoDgESXJ94UIgzEt6ZWlUy8a94cNeczWGop2RndawELp+mh5vPspmR
+ SXsQ==
+X-Gm-Message-State: AOAM531s15ONRJlt10bvBpAfB47fcgBhPQ5wDtfVpBUF+n24SvkMoshs
+ qw3z2o6AX2M2O4Pw+sgS81lFBA==
+X-Google-Smtp-Source: ABdhPJw6GSDLo7eiMqlUxCZnL196Qp528xNXb3gY8x5F7QONDebO3bo0jUBy5kRjn5ujo81+ayyC9A==
+X-Received: by 2002:a05:6a00:181d:b0:50d:d56c:73d3 with SMTP id
+ y29-20020a056a00181d00b0050dd56c73d3mr19887520pfa.22.1652752044008; 
+ Mon, 16 May 2022 18:47:24 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ b10-20020a1709027e0a00b0015e8d4eb211sm7569692plm.91.2022.05.16.18.47.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 May 2022 18:47:23 -0700 (PDT)
+Message-ID: <f83c070d-2a20-e500-8fd8-2e9fdc06f07c@linaro.org>
+Date: Mon, 16 May 2022 18:47:21 -0700
 MIME-Version: 1.0
-References: <cover.1652435138.git.research_trasio@irq.a4lg.com>
- <cover.1652583332.git.research_trasio@irq.a4lg.com>
- <c3145fa37a529484cf3047c8cb9841e9effad4b0.1652583332.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <c3145fa37a529484cf3047c8cb9841e9effad4b0.1652583332.git.research_trasio@irq.a4lg.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 17 May 2022 11:37:11 +1000
-Message-ID: <CAKmqyKPTNJv14TV-wBgF9sRepqwCWDHOFG2yiPYZ6BMvbHhguA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] target/riscv: Move/refactor ISA extension checks
-To: Tsukasa OI <research_trasio@irq.a4lg.com>
-Cc: Frank Chang <frank.chang@sifive.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 07/74] semihosting: Split out guestfd.c
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20220503194843.1379101-1-richard.henderson@linaro.org>
+ <20220503194843.1379101-8-richard.henderson@linaro.org>
+ <CAFEAcA-YxELopj2XPvs14yZTU=A=ufq0PyxpsM0pkrPUoTx89g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-YxELopj2XPvs14yZTU=A=ufq0PyxpsM0pkrPUoTx89g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,87 +94,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 15, 2022 at 12:56 PM Tsukasa OI
-<research_trasio@irq.a4lg.com> wrote:
->
-> We should separate "check" and "configure" steps as possible.
-> This commit separates both steps except vector/Zfinx-related checks.
->
-> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+On 5/16/22 08:14, Peter Maydell wrote:
+>> diff --git a/configs/targets/aarch64-linux-user.mak b/configs/targets/aarch64-linux-user.mak
+>> index d0c603c54e..db552f1839 100644
+>> --- a/configs/targets/aarch64-linux-user.mak
+>> +++ b/configs/targets/aarch64-linux-user.mak
+>> @@ -2,4 +2,5 @@ TARGET_ARCH=aarch64
+>>   TARGET_BASE_ARCH=arm
+>>   TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml
+>>   TARGET_HAS_BFLT=y
+>> +CONFIG_SEMIHOSTING=y
+>>   CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+> 
+> Is it not possible to make CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+> imply CONFIG_SEMIHOSTING=y somehow?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I don't think so -- Kconfig is only processed for softmmu.
 
-Alistair
+> If these are moving from being static functions local to a file
+> to being global, they should get kerneldoc style doc-comments here in
+> the header file.
 
-> ---
->  target/riscv/cpu.c | 31 ++++++++++++++++---------------
->  1 file changed, 16 insertions(+), 15 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index f910a41407..5ab246bf63 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -630,14 +630,27 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              return;
->          }
->
-> +        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ext_f) {
-> +            error_setg(errp, "Zve32f/Zve64f extensions require F extension");
-> +            return;
-> +        }
-> +
-> +        /* Set the ISA extensions, checks should have happened above */
->          if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
->              cpu->cfg.ext_zhinxmin) {
->              cpu->cfg.ext_zfinx = true;
->          }
->
-> -        if (cpu->cfg.ext_zfinx && !cpu->cfg.ext_icsr) {
-> -            error_setg(errp, "Zfinx extension requires Zicsr");
-> -            return;
-> +        if (cpu->cfg.ext_zfinx) {
-> +            if (!cpu->cfg.ext_icsr) {
-> +                error_setg(errp, "Zfinx extension requires Zicsr");
-> +                return;
-> +            }
-> +            if (cpu->cfg.ext_f) {
-> +                error_setg(errp,
-> +                    "Zfinx cannot be supported together with F extension");
-> +                return;
-> +            }
->          }
->
->          if (cpu->cfg.ext_zk) {
-> @@ -663,7 +676,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              cpu->cfg.ext_zksh = true;
->          }
->
-> -        /* Set the ISA extensions, checks should have happened above */
->          if (cpu->cfg.ext_i) {
->              ext |= RVI;
->          }
-> @@ -734,20 +746,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              }
->              set_vext_version(env, vext_version);
->          }
-> -        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ext_f) {
-> -            error_setg(errp, "Zve32f/Zve64f extension depends upon RVF.");
-> -            return;
-> -        }
->          if (cpu->cfg.ext_j) {
->              ext |= RVJ;
->          }
-> -        if (cpu->cfg.ext_zfinx && ((ext & (RVF | RVD)) || cpu->cfg.ext_zfh ||
-> -                                   cpu->cfg.ext_zfhmin)) {
-> -            error_setg(errp,
-> -                    "'Zfinx' cannot be supported together with 'F', 'D', 'Zfh',"
-> -                    " 'Zfhmin'");
-> -            return;
-> -        }
->
->          set_misa(env, env->misa_mxl, ext);
->      }
-> --
-> 2.34.1
->
+Ok.
+
+r~
 
