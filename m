@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90B85299AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 08:42:52 +0200 (CEST)
-Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBCB5299AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 08:44:17 +0200 (CEST)
+Received: from localhost ([::1]:55898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqqux-0007Yt-EK
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 02:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
+	id 1nqqwJ-0001Dk-Tr
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 02:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nqqoK-0004ks-D4
- for qemu-devel@nongnu.org; Tue, 17 May 2022 02:36:03 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:46516
+ id 1nqqoN-0004mC-KF
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 02:36:04 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:46625
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nqqoG-0007fk-EW
- for qemu-devel@nongnu.org; Tue, 17 May 2022 02:35:59 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nqqoL-0007mR-FN
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 02:36:03 -0400
 HMM_SOURCE_IP: 172.18.0.48:35216.1855245433
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-36.111.64.84 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id B9D232800D4;
- Tue, 17 May 2022 14:35:39 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 73F9E2800D6;
+ Tue, 17 May 2022 14:35:41 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 3d1468d696774e69bc9b1d05cec76146 for
- qemu-devel@nongnu.org; Tue, 17 May 2022 14:35:41 CST
-X-Transaction-ID: 3d1468d696774e69bc9b1d05cec76146
+ by app0024 with ESMTP id b65c6fbde9e2463098aabac31856ca78 for
+ qemu-devel@nongnu.org; Tue, 17 May 2022 14:35:45 CST
+X-Transaction-ID: b65c6fbde9e2463098aabac31856ca78
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
@@ -39,9 +39,9 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Hyman Huang <huangy81@chinatelecom.cn>
-Subject: [RFC 4/6] migration: Introduce dirtylimit capability
-Date: Tue, 17 May 2022 14:35:04 +0800
-Message-Id: <2ef63cf661750cd848492c4f917e46e3700c1409.1652762652.git.huangy81@chinatelecom.cn>
+Subject: [RFC 5/6] migration: Add dirtylimit data into migration info
+Date: Tue, 17 May 2022 14:35:05 +0800
+Message-Id: <b501e5d069a76ca2b60e076c424ca45fb062b05e.1652762652.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1652762652.git.huangy81@chinatelecom.cn>
 References: <cover.1652762652.git.huangy81@chinatelecom.cn>
@@ -74,73 +74,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Introduce migration dirtylimit capability, which can
-be turned on before live migration and limit dirty
-page rate durty live migration.
-
-Dirtylimit dirtylimit capability is kind of like
-auto-converge but using dirtylimit instead of traditional
-cpu-throttle to throttle guest down.
-
-To enable this feature, turn on the dirtylimit capability
-before live migration using migratioin-set-capabilities,
-and set dirtylimit-related parameters "vcpu-dirtylimit",
-"vcpu-dirtylimit-period" suitably to speed up convergence.
+Add dirtylimit throttle data into migration info, through
+which we can observe the process of dirtylimit during
+live migration.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- migration/migration.c | 7 ++++++-
- qapi/migration.json   | 5 ++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ include/sysemu/dirtylimit.h |  2 ++
+ migration/migration.c       | 10 ++++++++++
+ qapi/migration.json         | 11 ++++++++++-
+ softmmu/dirtylimit.c        | 22 ++++++++++++++++++++++
+ 4 files changed, 44 insertions(+), 1 deletion(-)
 
+diff --git a/include/sysemu/dirtylimit.h b/include/sysemu/dirtylimit.h
+index 8d2c1f3..0b8dd76 100644
+--- a/include/sysemu/dirtylimit.h
++++ b/include/sysemu/dirtylimit.h
+@@ -34,4 +34,6 @@ void dirtylimit_set_vcpu(int cpu_index,
+ void dirtylimit_set_all(uint64_t quota,
+                         bool enable);
+ void dirtylimit_vcpu_execute(CPUState *cpu);
++int64_t dirtylimit_throttle_us_per_full(void);
++int64_t dirtylimit_us_per_full(void);
+ #endif
 diff --git a/migration/migration.c b/migration/migration.c
-index 9e4ce01..4a659b6 100644
+index 4a659b6..935179e 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2427,7 +2427,11 @@ bool migrate_auto_converge(void)
+@@ -61,6 +61,7 @@
+ #include "sysemu/cpus.h"
+ #include "yank_functions.h"
+ #include "sysemu/qtest.h"
++#include "sysemu/dirtylimit.h"
  
- bool migrate_dirtylimit(void)
- {
--    return false;
-+    MigrationState *s;
+ #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+ 
+@@ -1065,6 +1066,15 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+         info->ram->remaining = ram_bytes_remaining();
+         info->ram->dirty_pages_rate = ram_counters.dirty_pages_rate;
+     }
 +
-+    s = migrate_get_current();
++    if (migrate_dirtylimit() && dirtylimit_in_service()) {
++        info->has_dirtylimit_throttle_us_per_full = true;
++        info->dirtylimit_throttle_us_per_full =
++                            dirtylimit_throttle_us_per_full();
 +
-+    return s->enabled_capabilities[MIGRATION_CAPABILITY_DIRTYLIMIT];
++        info->has_dirtylimit_us_per_full = true;
++        info->dirtylimit_us_per_full = dirtylimit_us_per_full();
++    }
  }
  
- bool migrate_zero_blocks(void)
-@@ -4270,6 +4274,7 @@ static Property migration_properties[] = {
-     DEFINE_PROP_MIG_CAP("x-multifd", MIGRATION_CAPABILITY_MULTIFD),
-     DEFINE_PROP_MIG_CAP("x-background-snapshot",
-             MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT),
-+    DEFINE_PROP_MIG_CAP("x-dirtylimit", MIGRATION_CAPABILITY_DIRTYLIMIT),
- 
-     DEFINE_PROP_END_OF_LIST(),
- };
+ static void populate_disk_info(MigrationInfo *info)
 diff --git a/qapi/migration.json b/qapi/migration.json
-index 68c1fe0..30ad413 100644
+index 30ad413..cac4c8d 100644
 --- a/qapi/migration.json
 +++ b/qapi/migration.json
-@@ -463,6 +463,9 @@
- #                       procedure starts. The VM RAM is saved with running VM.
- #                       (since 6.0)
+@@ -239,6 +239,13 @@
+ #                   Present and non-empty when migration is blocked.
+ #                   (since 6.0)
  #
-+# @dirtylimit: Use dirtylimit to throttle down guest if enabled.
-+#              (since 7.0)
++# @dirtylimit-throttle-us-per-full: Throttle time (us) during the period of
++#                                   dirty ring full.
++#                                   (since 7.0)
 +#
- # Features:
- # @unstable: Members @x-colo and @x-ignore-shared are experimental.
- #
-@@ -476,7 +479,7 @@
-            'block', 'return-path', 'pause-before-switchover', 'multifd',
-            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
-            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
--           'validate-uuid', 'background-snapshot'] }
-+           'validate-uuid', 'background-snapshot', 'dirtylimit'] }
++# @dirtylimit-us-per-full: Estimated the periodic time (us) of dirty ring full.
++#                          (since 7.0)
++#
+ # Since: 0.14
+ ##
+ { 'struct': 'MigrationInfo',
+@@ -256,7 +263,9 @@
+            '*postcopy-blocktime' : 'uint32',
+            '*postcopy-vcpu-blocktime': ['uint32'],
+            '*compression': 'CompressionStats',
+-           '*socket-address': ['SocketAddress'] } }
++           '*socket-address': ['SocketAddress'],
++           '*dirtylimit-throttle-us-per-full': 'int64',
++           '*dirtylimit-us-per-full': 'int64'} }
  
  ##
- # @MigrationCapabilityStatus:
+ # @query-migrate:
+diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+index affe993..33440c0 100644
+--- a/softmmu/dirtylimit.c
++++ b/softmmu/dirtylimit.c
+@@ -546,6 +546,28 @@ static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
+     return info;
+ }
+ 
++/* Pick up first vcpu throttle time by default */
++int64_t dirtylimit_throttle_us_per_full(void)
++{
++    CPUState *cpu = first_cpu;
++    return cpu->throttle_us_per_full;
++}
++
++/*
++ * Estimate dirty ring full time under current dirty page rate.
++ * Return -1 if guest doesn't dirty memory.
++ */
++int64_t dirtylimit_us_per_full(void)
++{
++    uint64_t curr_rate = vcpu_dirty_rate_get(0);
++
++    if (!curr_rate) {
++        return -1;
++    }
++
++    return dirtylimit_dirty_ring_full_time(curr_rate);
++}
++
+ static struct DirtyLimitInfoList *dirtylimit_query_all(void)
+ {
+     int i, index;
 -- 
 1.8.3.1
 
