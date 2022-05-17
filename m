@@ -2,66 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC16A52A052
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 13:23:37 +0200 (CEST)
-Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FA852A055
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 13:24:46 +0200 (CEST)
+Received: from localhost ([::1]:35974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqvIe-0005lO-Tw
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 07:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35698)
+	id 1nqvJl-0006OE-Rf
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 07:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nqv7q-0005yA-9j; Tue, 17 May 2022 07:12:27 -0400
-Received: from smtp60.i.mail.ru ([217.69.128.40]:47920)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nqvBT-0001HP-PQ; Tue, 17 May 2022 07:16:12 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:41563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1nqv7m-0006ck-My; Tue, 17 May 2022 07:12:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=F97noarA6sQtasLZKFD6CpxHuA6P72tlTOEHWTDiJ10=; 
- t=1652785942;x=1653391342; 
- b=o7U3Hx1MlHmC/24qbtYbM3MJCPeKNdz2vQaEl5xzCQiOhljzB8NSTAD8Adn/RvEBfV28Y3KBhWzKn2MbNzaEDtOqVF/iG5r9mmxYMXoJJTJUHEB3CUxqTfQphFLEiA29JgsZcmCsbXYxynoiazJko1uOIAIImIIh0BMYZIBRyslOXfyxVjH2Twu+7QOfrkRR7SUH62GI87XibYAnq9+kllkhyAUxodGUA4iNFwvCs3Ia75NXXZuXEKOfun41FTDaENwr6I0aW8ES6Ai0BP8FbipRVgEilK/6cgZGIlXL5uVvpPqC9POV0an9yvofee2F4ChYlpE4+ecqQT/x5hO18g==;
-Received: by smtp60.i.mail.ru with esmtpa (envelope-from
- <v.sementsov-og@mail.ru>)
- id 1nqv7j-0000gZ-Cy; Tue, 17 May 2022 14:12:19 +0300
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, hreitz@redhat.com,
- kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
- Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
- Nikita Lapshin <nikita.lapshin@virtuozzo.com>
-Subject: [PATCH v4 3/3] block: simplify handling of try to merge different
- sized bitmaps
-Date: Tue, 17 May 2022 14:12:06 +0300
-Message-Id: <20220517111206.23585-4-v.sementsov-og@mail.ru>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220517111206.23585-1-v.sementsov-og@mail.ru>
-References: <20220517111206.23585-1-v.sementsov-og@mail.ru>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nqvBR-0007Ze-Lh; Tue, 17 May 2022 07:16:11 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9BC405C0183;
+ Tue, 17 May 2022 07:16:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Tue, 17 May 2022 07:16:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1652786168; x=1652872568; bh=tklGr3lk/V
+ 9qKxiYDxtUQbQXXJqR9zPUU7yviLlE9+8=; b=ISrzG3j+rSKvDS7MvJs59B7yvL
+ 8GmvZ5KA8EfDubM19WFbENE8aRIT8+3en9W4kBkhqiY6qkN1v2ygmTloljBs+iou
+ TNwhpbnFjrNQwtBTQbBCNZU8sj2oINqNUeXFWJ6jpC/JukF/nFmYntiOypS790Du
+ eiBOq4ZDPjT65rbkiJ3V3TJLwHwptTwrth1BrMGNp4Z6BDlAvA84Qk9VcZRg6vX1
+ +ofVyU6kLD+0e7LCgfnwCiBMVhzgRXlxth9gXZGScyBwAtmTMRRNE4Tt6lBU/uex
+ dbJUXZen6I1Lr7MwVAt8aEiFrdZ3L0JVCwxhbxgS8FLS1FymV1N5qWKHvE1g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1652786168; x=1652872568; bh=tklGr3lk/V9qKxiYDxtUQbQXXJqR9zPUU7y
+ viLlE9+8=; b=m7ohwAeNV3/C7XIMC+HoP9zPu0zsVdzZ+f7S5EuhKtJHhtVa8ZU
+ pHgBYfXL/iY3JTVlYWRUz7T/uD86zFR/JbjtO3Hkdbw4RN5xqpjPzZuAoD8DGydK
+ 1TnZBtEDt/eQcJaH2sOZNMg+AaW9Db6BdFs+5eokh6EIWHfVG1SBeYIMY8TvO5h9
+ vlCfScRHE//7VHhO2YyhtdUB++7Lv0QOtyN4NJYktVz8dyjmd7M56BRn9EzmmzgB
+ n+8bfPGtNnHv69YiVkVVMXYSq3+NO7ZYIK3nM+3ccJsVh+sdsU6s2QjdJdh2nxdK
+ +hnMXTkw5lBJNrvFj8olzdh67GAznysnA+g==
+X-ME-Sender: <xms:-IODYpRE8zHS47OgC7z3wCMjKWF7UAYLMAof2sKHuSPFEmd1sSOFYw>
+ <xme:-IODYixHl6zu1_JZvqNz-Uehlw8hiTNnOCOS6mteKDCEVPkIX8h59aKAc2IYOvrSj
+ FCyy7q9IRqwlY_qzoI>
+X-ME-Received: <xmr:-IODYu0tSyIpiKEHUr8cJ_FTNZShvoCzKWsmXhScmDKzASpccCrIMO2Ou_zxqHeNCqO163FVzpOICO6W9e_R>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrheejgdefhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpedtleduhfegleehleeltdejffefjedtleeuvdfgteevffegtedvveekheeiieekteen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+ hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:-IODYhDopEaX04prQ2BtD6Fit-H5jm-MBBmCCbqEn8LRTUY-ZB2obA>
+ <xmx:-IODYijzuEexA497Nlfvs1bp20wNUKDKkOoUcsSg780Z8L0fbnALOQ>
+ <xmx:-IODYloU_A1yd6I5kOutLuMcUGiffDZZmXhFp0tcM49HY_QUX_XMgA>
+ <xmx:-IODYqfJjmH0tKDlRtJW1InvnRwasqSa2xCavCuv9VoYIKgmd9hHjQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 May 2022 07:16:07 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Lukasz Maniak <lukasz.maniak@linux.intel.com>, qemu-block@nongnu.org,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH] hw/nvme: clean up CC register write logic
+Date: Tue, 17 May 2022 13:16:05 +0200
+Message-Id: <20220517111605.1494647-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp60.i.mail.ru;
- auth=pass smtp.auth=v.sementsov-og@mail.ru
- smtp.mailfrom=v.sementsov-og@mail.ru
-X-7564579A: EEAE043A70213CC8
-X-77F55803: 4F1203BC0FB41BD9F33B3806BF114D159E7BD6746107077164F3C96AD71A0548182A05F5380850404C228DA9ACA6FE279E9E09E4BEACFDAAFBE131CEB22D38A46F8A4170A416843F34983572610A3C9E
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE797F4D2EDC29AFAF7EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637BD7DFB1CDE6DDE538638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D84A76FF60AA8E232B9039DF19F01E1DED6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE78A0F7C24A37A3D769FA2833FD35BB23D9E625A9149C048EE26055571C92BF10FBDFBBEFFF4125B51D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B05EF1B56D39DD5F7389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F790063734032FEA597FA516D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE70DB7A41A747CC8E1EC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C33E10B8FB1984732735872C767BF85DA2F004C90652538430E4A6367B16DE6309
-X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C4C7A0BC55FA0FE5FCADF0C5300679BDA76F34F224E2F626185823B7F2EE52A235B1881A6453793CE9C32612AADDFBE0614869453249F34FA4C627013B076BABB6939BCEF9C803809F250ECE3C382DB3F9DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D3457FA942CB4462B4C6E50531A0D9814619CDA90DB010BD21FF1C81AB120B1098AD5C4AEB1BA9A2FD31D7E09C32AA3244CC1DADF74B566720E45F6DDBD79FEBA0FD08D48398F32B4A627AC49D2B05FCCD8
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj3fsA429394O6iODQeOHpsg==
-X-Mailru-Sender: 6C3E74F07C41AE9425C26D04B7325D44E891999DDF3A5D6108D809B65C5C842D9836823514443C75E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=217.69.128.40;
- envelope-from=v.sementsov-og@mail.ru; helo=smtp60.i.mail.ru
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_VALIDITY_RPBL=1.31, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,242 +98,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-We have too much logic to simply check that bitmaps are of the same
-size. Let's just define that hbitmap_merge() and
-bdrv_dirty_bitmap_merge_internal() require their argument bitmaps be of
-same size, this simplifies things.
+The SRIOV series exposed an issued with how CC register writes are
+handled and how CSTS is set in response to that. Specifically, after
+applying the SRIOV series, the controller could end up in a state with
+CC.EN set to '1' but with CSTS.RDY cleared to '0', causing drivers to
+expect CSTS.RDY to transition to '1' but timing out.
 
-Let's look through the callers:
+Clean this up.
 
-For backup_init_bcs_bitmap() we already assert that merge can't fail.
-
-In bdrv_reclaim_dirty_bitmap_locked() we gracefully handle the error
-that can't happen: successor always has same size as its parent, drop
-this logic.
-
-In bdrv_merge_dirty_bitmap() we already has assertion and separate
-check. Make the check explicit and improve error message.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-Reviewed-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- include/block/block_int-io.h |  2 +-
- include/qemu/hbitmap.h       | 15 ++-------------
- block/backup.c               |  6 ++----
- block/dirty-bitmap.c         | 26 +++++++++++---------------
- util/hbitmap.c               | 25 +++++++------------------
- 5 files changed, 23 insertions(+), 51 deletions(-)
 
-diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
-index bb454200e5..ded29e7494 100644
---- a/include/block/block_int-io.h
-+++ b/include/block/block_int-io.h
-@@ -102,7 +102,7 @@ bool blk_dev_is_tray_open(BlockBackend *blk);
- void bdrv_set_dirty(BlockDriverState *bs, int64_t offset, int64_t bytes);
+Note, this applies on top of nvme-next with v8 of Lukasz's sriov series.
+
+ hw/nvme/ctrl.c | 35 +++++++++++------------------------
+ 1 file changed, 11 insertions(+), 24 deletions(-)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 658584d417fe..47d971b2404c 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -6190,9 +6190,8 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
  
- void bdrv_clear_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap **out);
--bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-+void bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-                                       const BdrvDirtyBitmap *src,
-                                       HBitmap **backup, bool lock);
- 
-diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
-index 5bd986aa44..af4e4ab746 100644
---- a/include/qemu/hbitmap.h
-+++ b/include/qemu/hbitmap.h
-@@ -76,20 +76,9 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size);
-  *
-  * Store result of merging @a and @b into @result.
-  * @result is allowed to be equal to @a or @b.
-- *
-- * Return true if the merge was successful,
-- *        false if it was not attempted.
-- */
--bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result);
--
--/**
-- * hbitmap_can_merge:
-- *
-- * hbitmap_can_merge(a, b) && hbitmap_can_merge(a, result) is sufficient and
-- * necessary for hbitmap_merge will not fail.
-- *
-+ * All bitmaps must have same size.
-  */
--bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b);
-+void hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result);
- 
- /**
-  * hbitmap_empty:
-diff --git a/block/backup.c b/block/backup.c
-index 5cfd0b999c..b2b649e305 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -228,15 +228,13 @@ out:
- 
- static void backup_init_bcs_bitmap(BackupBlockJob *job)
- {
--    bool ret;
-     uint64_t estimate;
-     BdrvDirtyBitmap *bcs_bitmap = block_copy_dirty_bitmap(job->bcs);
- 
-     if (job->sync_mode == MIRROR_SYNC_MODE_BITMAP) {
-         bdrv_clear_dirty_bitmap(bcs_bitmap, NULL);
--        ret = bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job->sync_bitmap,
--                                               NULL, true);
--        assert(ret);
-+        bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job->sync_bitmap, NULL,
-+                                         true);
-     } else if (job->sync_mode == MIRROR_SYNC_MODE_TOP) {
-         /*
-          * We can't hog the coroutine to initialize this thoroughly.
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index da1b91166f..bf3dc0512a 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -309,10 +309,7 @@ BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap_locked(BdrvDirtyBitmap *parent,
-         return NULL;
+     if (pci_is_vf(pci_dev)) {
+         sctrl = nvme_sctrl(n);
++
+         stl_le_p(&n->bar.csts, sctrl->scs ? 0 : NVME_CSTS_FAILED);
+-    } else {
+-        stl_le_p(&n->bar.csts, 0);
      }
+ }
  
--    if (!hbitmap_merge(parent->bitmap, successor->bitmap, parent->bitmap)) {
--        error_setg(errp, "Merging of parent and successor bitmap failed");
--        return NULL;
--    }
-+    hbitmap_merge(parent->bitmap, successor->bitmap, parent->bitmap);
+@@ -6405,20 +6404,21 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         nvme_irq_check(n);
+         break;
+     case NVME_REG_CC:
++        stl_le_p(&n->bar.cc, data);
++
+         trace_pci_nvme_mmio_cfg(data & 0xffffffff);
  
-     parent->disabled = successor->disabled;
-     parent->busy = false;
-@@ -912,13 +909,15 @@ bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-         goto out;
-     }
- 
--    if (!hbitmap_can_merge(dest->bitmap, src->bitmap)) {
--        error_setg(errp, "Bitmaps are incompatible and can't be merged");
-+    if (bdrv_dirty_bitmap_size(src) != bdrv_dirty_bitmap_size(dest)) {
-+        error_setg(errp, "Bitmaps are of different sizes (destination size is %"
-+                   PRId64 ", source size is %" PRId64 ") and can't be merged",
-+                   bdrv_dirty_bitmap_size(dest), bdrv_dirty_bitmap_size(src));
-         goto out;
-     }
- 
--    ret = bdrv_dirty_bitmap_merge_internal(dest, src, backup, false);
--    assert(ret);
-+    bdrv_dirty_bitmap_merge_internal(dest, src, backup, false);
-+    ret = true;
- 
- out:
-     bdrv_dirty_bitmaps_unlock(dest->bs);
-@@ -932,17 +931,16 @@ out:
- /**
-  * bdrv_dirty_bitmap_merge_internal: merge src into dest.
-  * Does NOT check bitmap permissions; not suitable for use as public API.
-+ * @dest, @src and @backup (if not NULL) must have same size.
-  *
-  * @backup: If provided, make a copy of dest here prior to merge.
-  * @lock: If true, lock and unlock bitmaps on the way in/out.
-- * returns true if the merge succeeded; false if unattempted.
-  */
--bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-+void bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-                                       const BdrvDirtyBitmap *src,
-                                       HBitmap **backup,
-                                       bool lock)
- {
--    bool ret;
-     IO_CODE();
- 
-     assert(!bdrv_dirty_bitmap_readonly(dest));
-@@ -959,9 +957,9 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-     if (backup) {
-         *backup = dest->bitmap;
-         dest->bitmap = hbitmap_alloc(dest->size, hbitmap_granularity(*backup));
--        ret = hbitmap_merge(*backup, src->bitmap, dest->bitmap);
-+        hbitmap_merge(*backup, src->bitmap, dest->bitmap);
-     } else {
--        ret = hbitmap_merge(dest->bitmap, src->bitmap, dest->bitmap);
-+        hbitmap_merge(dest->bitmap, src->bitmap, dest->bitmap);
-     }
- 
-     if (lock) {
-@@ -970,6 +968,4 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-             bdrv_dirty_bitmaps_unlock(src->bs);
+-        /* Windows first sends data, then sends enable bit */
+-        if (!NVME_CC_EN(data) && !NVME_CC_EN(cc) &&
+-            !NVME_CC_SHN(data) && !NVME_CC_SHN(cc))
+-        {
+-            cc = data;
++        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
++            trace_pci_nvme_mmio_shutdown_set();
++            nvme_ctrl_shutdown(n);
++            csts &= ~(CSTS_SHST_MASK << CSTS_SHST_SHIFT);
++            csts |= NVME_CSTS_SHST_COMPLETE;
++        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
++            trace_pci_nvme_mmio_shutdown_cleared();
++            csts &= ~(CSTS_SHST_MASK << CSTS_SHST_SHIFT);
          }
-     }
+ 
+         if (NVME_CC_EN(data) && !NVME_CC_EN(cc)) {
+-            cc = data;
 -
--    return ret;
- }
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index ea989e1f0e..297db35fb1 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -873,11 +873,6 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
-     }
- }
- 
--bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b)
--{
--    return (a->orig_size == b->orig_size);
--}
--
- /**
-  * hbitmap_sparse_merge: performs dst = dst | src
-  * works with differing granularities.
-@@ -901,28 +896,24 @@ static void hbitmap_sparse_merge(HBitmap *dst, const HBitmap *src)
-  * Given HBitmaps A and B, let R := A (BITOR) B.
-  * Bitmaps A and B will not be modified,
-  *     except when bitmap R is an alias of A or B.
-- *
-- * @return true if the merge was successful,
-- *         false if it was not attempted.
-+ * Bitmaps must have same size.
-  */
--bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
-+void hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
- {
-     int i;
-     uint64_t j;
- 
--    if (!hbitmap_can_merge(a, b) || !hbitmap_can_merge(a, result)) {
--        return false;
--    }
--    assert(hbitmap_can_merge(b, result));
-+    assert(a->orig_size == result->orig_size);
-+    assert(b->orig_size == result->orig_size);
- 
-     if ((!hbitmap_count(a) && result == b) ||
-         (!hbitmap_count(b) && result == a)) {
--        return true;
-+        return;
-     }
- 
-     if (!hbitmap_count(a) && !hbitmap_count(b)) {
-         hbitmap_reset_all(result);
--        return true;
-+        return;
-     }
- 
-     if (a->granularity != b->granularity) {
-@@ -935,7 +926,7 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
-         if (b != result) {
-             hbitmap_sparse_merge(result, b);
+-            /* flush CC since nvme_start_ctrl() needs the value */
+-            stl_le_p(&n->bar.cc, cc);
+             if (unlikely(nvme_start_ctrl(n))) {
+                 trace_pci_nvme_err_startfail();
+                 csts = NVME_CSTS_FAILED;
+@@ -6429,22 +6429,9 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         } else if (!NVME_CC_EN(data) && NVME_CC_EN(cc)) {
+             trace_pci_nvme_mmio_stopped();
+             nvme_ctrl_reset(n, NVME_RESET_CONTROLLER);
+-            cc = 0;
+             csts &= ~NVME_CSTS_READY;
          }
--        return true;
-+        return;
-     }
  
-     /* This merge is O(size), as BITS_PER_LONG and HBITMAP_LEVELS are constant.
-@@ -951,8 +942,6 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
- 
-     /* Recompute the dirty count */
-     result->count = hb_count_between(result, 0, result->size - 1);
+-        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
+-            trace_pci_nvme_mmio_shutdown_set();
+-            nvme_ctrl_shutdown(n);
+-            cc = data;
+-            csts |= NVME_CSTS_SHST_COMPLETE;
+-        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
+-            trace_pci_nvme_mmio_shutdown_cleared();
+-            csts &= ~NVME_CSTS_SHST_COMPLETE;
+-            cc = data;
+-        }
 -
--    return true;
- }
+-        stl_le_p(&n->bar.cc, cc);
+         stl_le_p(&n->bar.csts, csts);
  
- char *hbitmap_sha256(const HBitmap *bitmap, Error **errp)
+         break;
 -- 
-2.35.1
+2.36.1
 
 
