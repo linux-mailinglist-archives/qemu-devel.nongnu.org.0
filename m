@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F7752AA71
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:19:04 +0200 (CEST)
-Received: from localhost ([::1]:49118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D12952AAC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:29:03 +0200 (CEST)
+Received: from localhost ([::1]:53692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr1mZ-0003iw-P0
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52038)
+	id 1nr1wG-0007lP-5J
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1km-0002Ci-Tk
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:17:06 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:45007)
+ id 1nr1tD-0006li-Kd
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:25:47 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:45693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1kk-0003Iy-Tm
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:17:04 -0400
-Received: by mail-pg1-x529.google.com with SMTP id v10so17613146pgl.11
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:17:02 -0700 (PDT)
+ id 1nr1tC-0004P0-1R
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:25:47 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ w17-20020a17090a529100b001db302efed6so3016728pjh.4
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=kvyaaCiLpzW5nYS1Fy3j1lG8KYyGT6Jt/iwiRrc+L00=;
- b=MPidGyo9MaLOqjWjxd/esYMBrqGxVGsXbUa9fHCkzDkRfv6xV+vfTvf8bXFYOHUqY9
- vtLyHbi+r8vFABClM/XDQHZVM0KX/uDHAMBlOoJUGxvngaQ6reGY3TJ8rJwRtk52ci9i
- DXCjW5QgAtmrBq7MFlAKVALL/n3NaU7E1T0x4/JvvSRSHOj6bWyiKAnHdN/Ud8ghxPRs
- 9C2OC8/tnP9CVqLdfw5aeQqh2g38uYLXY/9i7Hn4gW8txhtCMUpwgZ2pDfeXzo1oEcDK
- N1XxIECYPeRwOYHO+ZqS4mgIdW+8Cen/Aow69tf/3n80BkQSL5zqApKULTork4qykWUr
- vglg==
+ bh=Tw27zranBMMZHYjt2Np1lKUlKmRfuaeqZz2Zxl9uTV0=;
+ b=XpZnTd+35CullOUOBJDO19GKbXJziA7QBy7NkTWsMHR6lIbI7W7ZZMyoXm+NzqJcdO
+ e0fo/ESe5bHqEP4o4X4qAi+6sjVsBkOaqgcj/Mr8Nf/jqd4C8n/041jiDDLIcifJo8Sk
+ Tx5169R5g+frtGQTi3hyxF0gEbo5xB67EwdVbhTWo0+54/FHRXtBmGcupTIQUbbqaybz
+ d28nZqbFhtiRWxOytpfL0Tp12YvZHsxJ5sOY6RCKTyNDKHD5aXgmHjDOnq32lLjzGPXH
+ WMilbyZwIxf2BSyheb4gxoCqSsHchL4LqI6eUbxq/4JEledfTBBn+qCMaqrq+2uGz/tn
+ uuxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kvyaaCiLpzW5nYS1Fy3j1lG8KYyGT6Jt/iwiRrc+L00=;
- b=aE4BJZend7813t5oNA3uivw3C8xNLWoGgeGgynIih0ziP4S2tmS17Gx+JWhdprvM6G
- he3gOGTUa/GSCqEZLsTcSbpf3SlaR/UC4RB/4vj0b83tKG1i90sNOCtlD5k9FxEwCMac
- DddPrIkOeCkhcBTi+MotNAdT4abt9M8mH0QUYV2xov0UDdGgR6KL/9uqu9w0pHXV+1AP
- lrKTzag8LUyC2UN+Lgb7dpQhirznXBkONlSJtHzcDOI0j2jlfTA+9i14vNIGCuDUsoq3
- NuGPAC6YCuU0LUMpNt0/kwZcOMSFUjPtNt7GJOXEusRoglYUCjuQhjgPe9Qgu5itJd/7
- Phmw==
-X-Gm-Message-State: AOAM5310PoHOJuFE3cFFUgETqKN1jvQ3SWwlpngTMVAmlbLw3QisOybv
- +9moO8B2FD0SBk7jumwnGqldXA==
-X-Google-Smtp-Source: ABdhPJxTiLk5sEsUNgOI5nYrX4dS8eNuka6gHqqqbXm7cwVLUdNRkH2+2EFIfspX0bLNCKfD001PXQ==
-X-Received: by 2002:a05:6a00:2310:b0:505:a8ac:40e7 with SMTP id
- h16-20020a056a00231000b00505a8ac40e7mr23846539pfh.11.1652811421210; 
- Tue, 17 May 2022 11:17:01 -0700 (PDT)
+ bh=Tw27zranBMMZHYjt2Np1lKUlKmRfuaeqZz2Zxl9uTV0=;
+ b=BzJosXBb4Uw4uTeXu3+FF0S1qjDSEbDRdXRt7uG0y62H4hrJLDyIgnmAgxDTIh1P5H
+ biNNvOhgdhRz+rQSDjaROZ7fHJtEDBUMr2dB9Bk7nGuS7UOr+RUo1IN/APY4alJ7AmeE
+ 68wdSmdkIeOByWdwV0BdMmZ641nIW7uqxjlggDIx9AyNMKgrXYsSHZowPeG+45NsBEI8
+ V97/Ul8FkhRPU0Y46dh7lJeXSFp1P7FbIVqmPteA1u239Ps7e9I6xvUzC/YLvXL2LuQ+
+ iCxWXXq9eVv840/4cHb9sXXK8BzsMyWai+2GdpJl/Q01OSEebdFOipKBdPz2OUgySvfV
+ wBjw==
+X-Gm-Message-State: AOAM5308Ddx62g2UGKGyEbPMZwIXl9Zs/SANjeoYv06W/BvxiYjkD1j1
+ e/EWqwhjbvK+eS0uU975IAqzRw==
+X-Google-Smtp-Source: ABdhPJyz4Mk3dIPVgce/XZkMEA3NNu4SrtD6D1nJxDgOgvDds0dnUVG6nhdNgOat61sK4Ao85qj5Sg==
+X-Received: by 2002:a17:902:ec82:b0:161:6f73:b27b with SMTP id
+ x2-20020a170902ec8200b001616f73b27bmr12652368plg.133.1652811927954; 
+ Tue, 17 May 2022 11:25:27 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- n9-20020a629709000000b005180df18990sm26616pfe.168.2022.05.17.11.17.00
+ j16-20020a634a50000000b003c14af50639sm8969532pgl.81.2022.05.17.11.25.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 11:17:00 -0700 (PDT)
-Message-ID: <2511dd21-95ff-593b-4bf9-77ba1e846721@linaro.org>
-Date: Tue, 17 May 2022 11:16:58 -0700
+ Tue, 17 May 2022 11:25:27 -0700 (PDT)
+Message-ID: <1ff3d484-fb70-1ca0-3447-f5e29a5cb45a@linaro.org>
+Date: Tue, 17 May 2022 11:25:25 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 09/16] configure: handle host compiler in
- probe_target_compiler
+Subject: Re: [PATCH RESEND 01/10] target/ppc: Fix insn32.decode style issues
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-References: <20220517092616.1272238-1-pbonzini@redhat.com>
- <20220517092616.1272238-10-pbonzini@redhat.com>
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org
+References: <20220517164744.58131-1-victor.colombo@eldorado.org.br>
+ <20220517164744.58131-2-victor.colombo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517092616.1272238-10-pbonzini@redhat.com>
+In-Reply-To: <20220517164744.58131-2-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,17 +96,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/22 02:26, Paolo Bonzini wrote:
-> In preparation for handling more binaries than just cc, handle
-> the case of "probe_target_compiler $cpu" directly in the function,
-> setting the target_* variables based on the ones that are used to
-> build QEMU.  The clang check also needs to be moved after this
-> fallback.
+On 5/17/22 09:47, Víctor Colombo wrote:
+> Some lines in insn32.decode have inconsistent alignment when compared
+> to others.
+> Fix this by changing the alignment of some lines, making it more
+> consistent throughout the file.
 > 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   configure | 25 ++++++++++++++-----------
->   1 file changed, 14 insertions(+), 11 deletions(-)
+> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
