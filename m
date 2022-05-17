@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642BC52AC71
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 22:06:27 +0200 (CEST)
-Received: from localhost ([::1]:50382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 768CB52AC78
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 22:08:41 +0200 (CEST)
+Received: from localhost ([::1]:57574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr3SW-0000LE-DP
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 16:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
+	id 1nr3Ui-0005D5-Fj
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 16:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3KO-0003FS-4E
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3KO-0003FT-40
  for qemu-devel@nongnu.org; Tue, 17 May 2022 15:57:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37397)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3KL-0002Li-E1
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3KK-0002Lm-SE
  for qemu-devel@nongnu.org; Tue, 17 May 2022 15:57:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652817468;
+ s=mimecast20190719; t=1652817470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EL8zGmGLlZpMSSs9tiKlVFtD4tFyNinjJ/Ss8SlMY7A=;
- b=GCfzJ8et6Sy3s7QqKuTyO33WaxQ151zmXtG1spkO8Eo3sAE/i4l7q2+DS8nzcAuSqh3dJp
- esoANBljr5m3TwDsOeLRym59blzx+jihw7pgSGV2pJRsthKcNfwVpgxsutok+8s7LQDPVb
- YluxDk98ax75k3pDqbQNjDiQ4rIkuDc=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eZDB5VoKb/iE9I0kcFermoLkNx+MSf7R/KQ2tlndX6g=;
+ b=Uzk6pz7k5Euq0nsPU6JyxmLYKpqLz9fooPsg96Cx4tp/8DBYEipbKN5kTwfR53AJQ0URtp
+ pasLh31vMHTS8diuRaqVpOOLUV7IYrzOnweZnN4mRXaSM+h1T8XJJKI0N+Pg8MAA8SFmSV
+ /U6mTQ/r3mXPSConNLBlSpi8ds/+OFs=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-190-5KjO7IUxMC6g42DjRvtS5g-1; Tue, 17 May 2022 15:57:47 -0400
-X-MC-Unique: 5KjO7IUxMC6g42DjRvtS5g-1
-Received: by mail-io1-f69.google.com with SMTP id
- ay38-20020a5d9da6000000b0065adc1f932bso13092198iob.11
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 12:57:47 -0700 (PDT)
+ us-mta-376-D8TFARdwPpKVc_yZseq9LA-1; Tue, 17 May 2022 15:57:49 -0400
+X-MC-Unique: D8TFARdwPpKVc_yZseq9LA-1
+Received: by mail-io1-f70.google.com with SMTP id
+ t1-20020a056602140100b0065393cc1dc3so13095419iov.5
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 12:57:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EL8zGmGLlZpMSSs9tiKlVFtD4tFyNinjJ/Ss8SlMY7A=;
- b=iRiAPwicciiUp6u4wOLG/izufyYeSw1jFmML9e/b5Y63mr1tC7NcBfA9f9XwFaP9qG
- QouTovx9lgbwXyVoAQjdpbqe8xhcL5WwDqluvmMdm//3M05JYdbO5LpTsyKUpUHdHS+R
- 9WVGnanKrwc9QL1HxBTSQDV6alKcruhJy63OvnMB63u470jN1R5z2NK7105Zy3butT0v
- 0uc6536usa16hQjT0WgeqD6ao7DfSbNhoVua+r3pZEx2OPwDUDrr5+nlkPTx94oyFfIU
- M5Lt7hovH1Fe8WjkEMo6jPAHCPQ0LLo6ltAiFlQbVcKwMLFm0Qb9e2ONC8Trssn+Lcsq
- tgEA==
-X-Gm-Message-State: AOAM533v50Py8h6wd41Fz7yUO+ndzI/wbZFzTz4jxmY/qyl3bi/AP9UG
- koxD+s2gMFdbAV/0KBEhR82Ig81moSuLmQQnTZhYp84QOMhveb05dd0MoNEExqyg38XxpcNUmLl
- S5DZXd6/A/7hResJ/Rvurtr1Q8cUCeHwkdZzGjXyNTzY2tfoksLWMVnERP10YRKjV
-X-Received: by 2002:a05:6602:2e10:b0:65a:9ddd:e424 with SMTP id
- o16-20020a0566022e1000b0065a9ddde424mr10755800iow.133.1652817466412; 
- Tue, 17 May 2022 12:57:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjqva9cvvjpYMKKMQzi04Yl1tt+ZmlsUNK9oFpNgXIHosz4uVV5YtIOqueEgAoxyhtuUrTxg==
-X-Received: by 2002:a05:6602:2e10:b0:65a:9ddd:e424 with SMTP id
- o16-20020a0566022e1000b0065a9ddde424mr10755781iow.133.1652817465841; 
- Tue, 17 May 2022 12:57:45 -0700 (PDT)
+ bh=eZDB5VoKb/iE9I0kcFermoLkNx+MSf7R/KQ2tlndX6g=;
+ b=meZjndpW7nzI7we3UdcsBvbpFyD9Uq8PywijSdXfhya6d3qV+r8Y7rxn8Ixfn/LSsO
+ HX9r7S49bT3HfzasXrw4vnIvD9CLupygvSXl2M/XL3nUd5P3BuB2ApmZF2jXGZkKiDzj
+ TkdrvdROKx2UgS/82Ym8L+KQYJCbmCHT1t7upp0Dm/1CYnNzVNcWMzhZcwswCKLEAS/r
+ 5/1JN6yMMU1KcBXIQsi3tLQnXWrsYnIb37tbULpZJSrIm2esChL2XPzLqf/RqxLGjzaA
+ CsT/G5xgaC7+d113XYO4Vi5FSar8u2ij9ltcqOU1uUumUiDsniSwGJC6PBKWxQQ57LSs
+ eOWA==
+X-Gm-Message-State: AOAM532TWF8po9AsW70hq+0viHkqYKeO5cqWeIft40wbVZzDCryeuCpm
+ fzLBIiwfcR0EtkT9GOdbZY7eAvZ9cQN0HqnZHg4D65cY7uohlP3+cBLD5KrFo6B143zH1hAmF9s
+ MRsjPv2fFhLkumot0o0h4dQ5pvJ2up+t3NK9krd+KMdqqzpCnV4c+wzfRdIY9O5e6
+X-Received: by 2002:a05:6602:2c8b:b0:65a:df00:f3b3 with SMTP id
+ i11-20020a0566022c8b00b0065adf00f3b3mr11507254iow.125.1652817467723; 
+ Tue, 17 May 2022 12:57:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVN0q4v4zQWV240UsMg7LQ2awGzy35HXontqbdRR4hpSAb5dkAS/0hnvHsnOzecVXAiISCVA==
+X-Received: by 2002:a05:6602:2c8b:b0:65a:df00:f3b3 with SMTP id
+ i11-20020a0566022c8b00b0065adf00f3b3mr11507232iow.125.1652817467432; 
+ Tue, 17 May 2022 12:57:47 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- f15-20020a056e020b4f00b002d125725709sm59575ilu.28.2022.05.17.12.57.44
+ f15-20020a056e020b4f00b002d125725709sm59575ilu.28.2022.05.17.12.57.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 17 May 2022 12:57:45 -0700 (PDT)
+ Tue, 17 May 2022 12:57:46 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peterx@redhat.com, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
@@ -69,9 +69,10 @@ Cc: peterx@redhat.com, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  Manish Mishra <manish.mishra@nutanix.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH v6 07/13] migration: Add helpers to detect TLS capability
-Date: Tue, 17 May 2022 15:57:24 -0400
-Message-Id: <20220517195730.32312-8-peterx@redhat.com>
+Subject: [PATCH v6 08/13] migration: Export tls-[creds|hostname|authz] params
+ to cmdline too
+Date: Tue, 17 May 2022 15:57:25 -0400
+Message-Id: <20220517195730.32312-9-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220517195730.32312-1-peterx@redhat.com>
 References: <20220517195730.32312-1-peterx@redhat.com>
@@ -102,104 +103,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add migrate_channel_requires_tls() to detect whether the specific channel
-requires TLS, leveraging the recently introduced migrate_use_tls().  No
-functional change intended.
+It's useful for specifying tls credentials all in the cmdline (along with
+the -object tls-creds-*), especially for debugging purpose.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+The trick here is we must remember to not free these fields again in the
+finalize() function of migration object, otherwise it'll cause double-free.
+
+The thing is when destroying an object, we'll first destroy the properties
+that bound to the object, then the object itself.  To be explicit, when
+destroy the object in object_finalize() we have such sequence of
+operations:
+
+    object_property_del_all(obj);
+    object_deinit(obj, ti);
+
+So after this change the two fields are properly released already even
+before reaching the finalize() function but in object_property_del_all(),
+hence we don't need to free them anymore in finalize() or it's double-free.
+
+This also fixes a trivial memory leak for tls-authz as we forgot to free it
+before this patch.
+
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/channel.c   | 9 ++-------
- migration/migration.c | 1 +
- migration/multifd.c   | 4 +---
- migration/tls.c       | 9 +++++++++
- migration/tls.h       | 4 ++++
- 5 files changed, 17 insertions(+), 10 deletions(-)
+ migration/migration.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/migration/channel.c b/migration/channel.c
-index a162d00fea..36e59eaeec 100644
---- a/migration/channel.c
-+++ b/migration/channel.c
-@@ -38,9 +38,7 @@ void migration_channel_process_incoming(QIOChannel *ioc)
-     trace_migration_set_incoming_channel(
-         ioc, object_get_typename(OBJECT(ioc)));
- 
--    if (migrate_use_tls() &&
--        !object_dynamic_cast(OBJECT(ioc),
--                             TYPE_QIO_CHANNEL_TLS)) {
-+    if (migrate_channel_requires_tls(ioc)) {
-         migration_tls_channel_process_incoming(s, ioc, &local_err);
-     } else {
-         migration_ioc_register_yank(ioc);
-@@ -70,10 +68,7 @@ void migration_channel_connect(MigrationState *s,
-         ioc, object_get_typename(OBJECT(ioc)), hostname, error);
- 
-     if (!error) {
--        if (s->parameters.tls_creds &&
--            *s->parameters.tls_creds &&
--            !object_dynamic_cast(OBJECT(ioc),
--                                 TYPE_QIO_CHANNEL_TLS)) {
-+        if (migrate_channel_requires_tls(ioc)) {
-             migration_tls_channel_connect(s, ioc, hostname, &error);
- 
-             if (!error) {
 diff --git a/migration/migration.c b/migration/migration.c
-index f5f7a0f91f..d17f435d08 100644
+index d17f435d08..aa4185148c 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -49,6 +49,7 @@
- #include "trace.h"
- #include "exec/target_page.h"
- #include "io/channel-buffer.h"
-+#include "io/channel-tls.h"
- #include "migration/colo.h"
- #include "hw/boards.h"
- #include "hw/qdev-properties.h"
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 9282ab6aa4..849c116ce4 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -831,9 +831,7 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
-         migrate_get_current()->hostname, error);
+@@ -4379,6 +4379,9 @@ static Property migration_properties[] = {
+                       DEFAULT_MIGRATE_ANNOUNCE_STEP),
+     DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
+                       postcopy_preempt_break_huge, true),
++    DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
++    DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
++    DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
  
-     if (!error) {
--        if (migrate_use_tls() &&
--            !object_dynamic_cast(OBJECT(ioc),
--                                 TYPE_QIO_CHANNEL_TLS)) {
-+        if (migrate_channel_requires_tls(ioc)) {
-             multifd_tls_channel_connect(p, ioc, &error);
-             if (!error) {
-                 /*
-diff --git a/migration/tls.c b/migration/tls.c
-index 32c384a8b6..1baa662489 100644
---- a/migration/tls.c
-+++ b/migration/tls.c
-@@ -166,3 +166,12 @@ void migration_tls_channel_connect(MigrationState *s,
-                               NULL,
-                               NULL);
- }
-+
-+bool migrate_channel_requires_tls(QIOChannel *ioc)
-+{
-+    if (!migrate_use_tls()) {
-+        return false;
-+    }
-+
-+    return !object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS);
-+}
-diff --git a/migration/tls.h b/migration/tls.h
-index de4fe2cafd..a54c1dcec7 100644
---- a/migration/tls.h
-+++ b/migration/tls.h
-@@ -37,4 +37,8 @@ void migration_tls_channel_connect(MigrationState *s,
-                                    QIOChannel *ioc,
-                                    const char *hostname,
-                                    Error **errp);
-+
-+/* Whether the QIO channel requires further TLS handshake? */
-+bool migrate_channel_requires_tls(QIOChannel *ioc);
-+
- #endif
+     /* Migration capabilities */
+     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+@@ -4412,12 +4415,9 @@ static void migration_class_init(ObjectClass *klass, void *data)
+ static void migration_instance_finalize(Object *obj)
+ {
+     MigrationState *ms = MIGRATION_OBJ(obj);
+-    MigrationParameters *params = &ms->parameters;
+ 
+     qemu_mutex_destroy(&ms->error_mutex);
+     qemu_mutex_destroy(&ms->qemu_file_lock);
+-    g_free(params->tls_hostname);
+-    g_free(params->tls_creds);
+     qemu_sem_destroy(&ms->wait_unplug_sem);
+     qemu_sem_destroy(&ms->rate_limit_sem);
+     qemu_sem_destroy(&ms->pause_sem);
 -- 
 2.32.0
 
