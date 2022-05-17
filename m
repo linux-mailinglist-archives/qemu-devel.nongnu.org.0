@@ -2,135 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AE2529C96
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 10:34:39 +0200 (CEST)
-Received: from localhost ([::1]:45134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAA5529CA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 10:38:23 +0200 (CEST)
+Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqsf8-0007HX-4j
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 04:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53376)
+	id 1nqsik-0001K4-Dx
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 04:38:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
- id 1nqsbB-0005o3-PB
- for qemu-devel@nongnu.org; Tue, 17 May 2022 04:30:34 -0400
-Received: from corp-ob10.yahoo-corp.jp ([182.22.125.210]:60642)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqsf1-000832-GA
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 04:34:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
- id 1nqsb6-0002P4-SZ
- for qemu-devel@nongnu.org; Tue, 17 May 2022 04:30:32 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01lp2169.outbound.protection.outlook.com [104.47.23.169])
- by corp-ob10.yahoo-corp.jp (Postfix) with ESMTPS id EBD5919FB18B;
- Tue, 17 May 2022 17:30:22 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo-corp.jp;
- s=default; t=1652776223;
- bh=Lfrm1jNWNSkwq/mDGojIKJKL5n1lQau/KqK5oZpo7f8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=aPgwhPGqiEDpnqeRSgNWtdrgBdBWpVowkOyoOGR481lKOjulafLaBoQwvwjdhE6Zx
- TuNtvmpG2SGSREfqTSEKPtVNW91+69axym0wNGbbrGyLqGSkMHA8jLkUjiHgRS7FGE
- Ha78yULPt0bq7BmrYNkD5CPhy78Hl9AjWSNYHHwI=
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iniKNX1Sq0GpesNgbRwl9Fev+z24xSUQom1LFd8l29VIIfCS/mfIJ76Q/s6Iiw09sQSUtvkgSLbEb1RrSBA+O7jUpWXlre0ylvFXS72CQYP0sxOOw+XDIvRA5g0T5yLXz2WZs/YKUS0+W9uCZJfJhpMg/M0qsUm1gHBMPoh5YWC78fBdhqaCkaLRrL1QxLlUWnfFcA2dyyxoQT3XUy7SE3LrqRYgY5fHvW/pfEyXarUf0IJJ3xxohecy0Zj/Aey52PnWjmasHBhNGTFTaXqkKqrxewRzEcY7KEB5nzwSEnZ+YuxcGrzg+Xj664fAp/ChBm0GADuJmOy8pl07e+QPcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lfrm1jNWNSkwq/mDGojIKJKL5n1lQau/KqK5oZpo7f8=;
- b=QhyAxYxTYKK+jDWd9z5WOB8N2yY2DOzE9PApLEcYXVqOgBHS80GfyVXum8IBwoNbfcCOXqn3F+fTAXNQROsD4CpWUzRytC3un2NPYnpfBFoGutgB0/L26D/JGDznzKlYW5+ulC6eEqeZm9GadihDWSID0ai1QZj7PArwqUW+13b3HNt+R05a/pYZtz6MXpOJAZfqyn6000dFd8nXKwTuidPHx7rVXLtXF/FApwJM0l++dv00x/pN7dWRRcjBznjx/W3tnYNOpOm51J8d/RliwU12rTFPGTVHkR1iPUbQElY4ccJxbd/mV471htpK++L+pKCleiy60ZXD/+anqs9yiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=yahoo-corp.jp; dmarc=pass action=none
- header.from=yahoo-corp.jp; dkim=pass header.d=yahoo-corp.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yjcorp.onmicrosoft.com; s=selector1-yjcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lfrm1jNWNSkwq/mDGojIKJKL5n1lQau/KqK5oZpo7f8=;
- b=JHDxTPMOp7lAhRJirm2bOHRmTzSNH5NKccgIys9Y1SMPh6x6axeJL4n9qBO8r1SrFjpWBKwUxbY6a3Pq64omWEeZJCSPnPBEotMV2st5PzIZVx3nHQVWzfvOWY2MoTWYSn4C5X2zXAsI5qdLYzjYw3GAX8QB0SWMo/NvQw33aOI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=yahoo-corp.jp;
-Received: from TYWPR01MB10194.jpnprd01.prod.outlook.com (2603:1096:400:1e6::5)
- by TYYPR01MB7904.jpnprd01.prod.outlook.com (2603:1096:400:fc::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Tue, 17 May
- 2022 08:30:22 +0000
-Received: from TYWPR01MB10194.jpnprd01.prod.outlook.com
- ([fe80::9d9a:354d:e1f6:70c1]) by TYWPR01MB10194.jpnprd01.prod.outlook.com
- ([fe80::9d9a:354d:e1f6:70c1%6]) with mapi id 15.20.5250.018; Tue, 17 May 2022
- 08:30:21 +0000
-From: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, aoiwa@yahoo-corp.jp,
- Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
-Subject: [PATCH 1/1] test-thread-pool: Fix occasional test fail
-Date: Tue, 17 May 2022 17:29:54 +0900
-Message-Id: <20220517082954.1566-2-hnarukaw@yahoo-corp.jp>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220517082954.1566-1-hnarukaw@yahoo-corp.jp>
-References: <20220517082954.1566-1-hnarukaw@yahoo-corp.jp>
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0108.jpnprd01.prod.outlook.com
- (2603:1096:405:4::24) To TYWPR01MB10194.jpnprd01.prod.outlook.com
- (2603:1096:400:1e6::5)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nqsey-00030s-7m
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 04:34:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652776466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HkbALEL6SorHC00he+phiayQ4qbvaOeZn8knNPY+Atg=;
+ b=ZO1qUWZoPX9dXvCQdezjsnwCKFT6KV0/vHbrD6QLrCMABSauB+McESoODNhFXZ9K+qRIp4
+ 7PwKg7f0CewRIlD4Pmte2KFA/CotfT+q2G3rogVDZqb6SNzCiC+VE7fBrlaz6VQ6SP6fFH
+ oR/x/2ES2MXWp9helRCArR5GsGYEJ6k=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-119-hUX43BUpMT69nOZsrxRL1A-1; Tue, 17 May 2022 04:34:25 -0400
+X-MC-Unique: hUX43BUpMT69nOZsrxRL1A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u11-20020a056000038b00b0020c9ea8b64fso4409938wrf.2
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 01:34:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=HkbALEL6SorHC00he+phiayQ4qbvaOeZn8knNPY+Atg=;
+ b=66zSK4tQFZjHyqBSZG4IZeEG0x2g/MhkKUZzQU4hcwaVzIuGuLfT0hID2FSa3KOxoW
+ wMupaHrQbBhvPGcMRBdJ162cRXKgAFsXxj0enyS+ZOSu+tsotzMCpXMA5g34vyJdu8vK
+ qSz5kN0a62vMIltdKjeZTTT4BLjYujsqPUiF+Y52ivPBE/XPPUm+P1SQRJqN4WLIFQ9Q
+ DV7bO29fdtHm3Jj7JPp0ytL5V23s24WYebNrbhWSm1ZaLmZqIQE7FMCvHaDDuW2APHHE
+ +/0yN7IZkFANDVcYzkQ9U2cOsPJtAXIlHcuIkvJQoR/Y4pb0I7DuDAyBOcDGMWngccsD
+ uKow==
+X-Gm-Message-State: AOAM533o25K20DwQ5OLIJqeYDm/L2LQ3UHjntOlWp3jic3+xgE+GVvjR
+ 2ThxA0j9dIET4vuv5cNxVddzoiGV1SHiC10qXVKVb/SjSOnGR7jM8S+zUin1beIq9Ttho2+GG67
+ UObEygDUFmOW3658=
+X-Received: by 2002:a7b:c041:0:b0:394:44a9:b017 with SMTP id
+ u1-20020a7bc041000000b0039444a9b017mr20514448wmc.169.1652776464761; 
+ Tue, 17 May 2022 01:34:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxODYelET9icrZW3sBJtJZc7wNNzWJc+hyUO6X2AelnUwlzg3wBDeoLdLix5A6QLQDmFWZgqA==
+X-Received: by 2002:a7b:c041:0:b0:394:44a9:b017 with SMTP id
+ u1-20020a7bc041000000b0039444a9b017mr20514425wmc.169.1652776464507; 
+ Tue, 17 May 2022 01:34:24 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ c22-20020a05600c0a5600b00396fbf6f524sm1332964wmq.1.2022.05.17.01.34.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 01:34:23 -0700 (PDT)
+Message-ID: <870d24be-6c37-ff3d-616b-68255345ebb9@redhat.com>
+Date: Tue, 17 May 2022 10:34:23 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2de2b2e9-cca3-4195-bbc0-08da37df7b98
-X-MS-TrafficTypeDiagnostic: TYYPR01MB7904:EE_
-X-Microsoft-Antispam-PRVS: <TYYPR01MB79046ECD9C839F2C1E02116980CE9@TYYPR01MB7904.jpnprd01.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7L2267DuyY+zWImxlj5oxo6v5IrkWzgCEwJAkBd5Ltvp+dMZCuRTP0lN4/A7mEKntm75H2wSY6D3QbldCryB/kynW75Q3G9eVCIHMHrRTMhqeV3fUjq0FzMtxpn4MXvqmkLLLCOhsfRvubvpAmwFBzJNxrbbudjGK5TgQgjRUabozdQ0soxyEoRz2SVlu6VviAJrkH34wY/7bR1Fb4+UUKJq2VzFw9tA4xxqJwwesQRVhf580HKAiPmIsspCNfEOTA+/GGqbI5+8KvqmWzWWg/8J3hXFYCrorOaYtEKwjC9uMS+T3CgM8P4XYnAvwbtv5tauJWcnKYNUgBCXBSLo4DUt17MC42KMjmYVkwpGpriZMQ0a+dEjpu0HVmGhYFJ6yED4Ypa5Zb/qHvODU7AKhkmzHetr3wrDk/luv6I/w3gJuxzx7CyDG8utPJJE+DdR2CLGiymw0WyZhXDL3WtofmQvl52TzL+WBtXjNtMaNQr4g0DPBKvPs410//1duJmK9/qRSB4WIdfF7IGaleTCah0+7yCcOBYdVTt3Mp+T9MI4neGwPU0ZienSm0FijCRWOqGp0xR/yz3hgyP5m6s8gnzMfVtkwQT7yQ1n5ripKvCOWrf8hRTjCMwpVjs0iSXBa0SQhsw+NyE4n6p392EJ1tKvn14miZ19EMQCxl+MpMK8blZnxlcHbxFPY1LaRWDJ/1DddSwGarTcp/u4GiA05A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYWPR01MB10194.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6512007)(26005)(2616005)(6666004)(508600001)(6506007)(6486002)(52116002)(1076003)(186003)(83380400001)(36756003)(5660300002)(6916009)(316002)(8676002)(107886003)(4326008)(66946007)(66556008)(66476007)(8936002)(38350700002)(82960400001)(38100700002)(86362001)(2906002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cSxpGAfIFt+UxIMF7LWHJn/uPyzuWX0fhrUr/3aIAbHIIs1cyvHZqWTanJ/t?=
- =?us-ascii?Q?RKM/PngEQqz4iagPi5ecjyywXKOJ+6rAJWqJ5R/4R53AypA7duq2I1Mu7k8x?=
- =?us-ascii?Q?nE1XtgbtcwoxaT3CWtnveCMFOrRl6VMyjd3ToAbvH8yM47oqXrwbKaXpQpM8?=
- =?us-ascii?Q?A7XdYmauk39px5abKUA/GuccBij4Z2DYHXm3LUkTKzsiyoCvH+11C7Rezk1Y?=
- =?us-ascii?Q?c1vMnfnqJl0GcCpx2X8Imig7++ATLyWfkiT8nz6Z8hiRPFVK+IHDwQucMvCV?=
- =?us-ascii?Q?pjrKbY+FkVe0o/mnWsQztyo9MFukt8suhzr8EP6b5Cp6H1V9Ngzne/GWquzw?=
- =?us-ascii?Q?0KF5U/xVEangLBFS++J6PrGb3UVf+5m1pz7JlwjJ1Yb2+3YaeutjTBoTSeWw?=
- =?us-ascii?Q?VkbwW/9DpVTGC2xGnkq6tuXjEJyWywcyS/xuWsvYKIOABHE8Tc9zkxo8/wnt?=
- =?us-ascii?Q?xvch3VG86MbNg+/uLOJBv1vtNI9kcVKgoSInEg0pQTUTWez8ucjZbnxTyccu?=
- =?us-ascii?Q?ZFWLwtGHFI4YQPFqwRlngtfiGzCWLTobt1QHBi2fS1gEqdzhnNq5JBJo6fVG?=
- =?us-ascii?Q?cnjIYAFs2taAYBYmTwX1LW569q0h//E1r8SIc16FlD4QGHDmATwu9EkL27w6?=
- =?us-ascii?Q?Ww2pRK3NY2BypHxJJF6Qwra1dfPquQ8ilNQQHIMwgZysc6oXyom2MhzUEp6Q?=
- =?us-ascii?Q?DNXn6LQVa1t7AA5ine0J6tqfLeBZGxTQ9Qy8FVA0x958eDt4GfnvzB65zHkw?=
- =?us-ascii?Q?UZ7gAxk9phtj5/mYIOivzXvicqznHSsPbTtuNRAD67nJDhxNUqGzcs4/QGmp?=
- =?us-ascii?Q?VE8i6+fDG/GnPJndXPwMGd5Fc+nMR13Y1pXIS1aoYhfKgTZJW0MsFsH1upU6?=
- =?us-ascii?Q?6vP516qASkLi/+eH+K18AT49sDEz2lBLgtIAyYKbFAZ30LQiAxLT0b/HhOqj?=
- =?us-ascii?Q?6jQypn2o9r8diZ+lvQLZPVdEDihyECo+eIKMY1vg6bT8MLFgOAcyNdkXyfUP?=
- =?us-ascii?Q?eCcupXqcSI4i3v2AS7HEAgD/OtRijeSI257A35hrANwhztidNKRcwIgkF22x?=
- =?us-ascii?Q?CAUA+FyvwH1JW7/Un9sX6X+spbsCBznZAA0g85gl6UkHsohkV0mztTUp4jCR?=
- =?us-ascii?Q?tOk+gsr4RghBaebikg6r7iducQtM/aLtcuG1u8b1Z7Bs6t0i00oqltyjoDVg?=
- =?us-ascii?Q?wSTgJdJtENKFaJVUzmBKfzMrXE/J4O9HYwWSJnsorg3ngFMUmpnPqOg0sMyp?=
- =?us-ascii?Q?F8kCWLIhybmp3foaLYGP1u+WGFmS4U/RQ7AEjHbIKIiSX5VFfnjQGX/wG5+e?=
- =?us-ascii?Q?3wAEzCUonHU/P4bf3X1xhWLEoKE4QU/Ljjsl5ejgh9sh1gBzD7XHGFnQLLjA?=
- =?us-ascii?Q?GN2h9ct8cfVNZ9IKnxdFJlhvdruiyZh4NgR12809G/cRD2Nk/FEYVHMmsGeQ?=
- =?us-ascii?Q?5v7EXI2Q/t4O6JY9vYQqhOK7GHGYtTddJVBQlw7uH+mjriN/HH5jmAsW/Vy0?=
- =?us-ascii?Q?3z5JiX2w5iXD6ds+o4nRLLZkUm/PWwx5UHDT3F6OxW68f/sGPB4cUH95tIeo?=
- =?us-ascii?Q?uVCxYY1H+rF1ltNWSIskYEMiDCCfGAVhZU9HGFpIh4C/IoV7mpo3r2gbDwBC?=
- =?us-ascii?Q?UlmNEsm8ZXlB1KelFo9zVFzPZEBZ8haLeatkWNFwYZtNVgdWEUHBZfz8gdbX?=
- =?us-ascii?Q?aMudzFy3VTzWAWYs5+m8cJWC4JUyg4PUnDbjawrCWAzert1TJIiGgQnTnLjk?=
- =?us-ascii?Q?Qzgvxw1W2Q=3D=3D?=
-X-OriginatorOrg: yahoo-corp.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2de2b2e9-cca3-4195-bbc0-08da37df7b98
-X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB10194.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 08:30:21.8281 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a208d369-cd4e-4f87-b119-98eaf31df2c3
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oKRzV/KMzUclH/3VJ02VOV/B2Unb0o06UdYGUJksBda5CbrhItv8dPfjGPiXuMg8x/K9tTkkANY5PBBfCruz4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB7904
-Received-SPF: pass client-ip=182.22.125.210;
- envelope-from=hnarukaw@yahoo-corp.jp; helo=corp-ob10.yahoo-corp.jp
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ libvir-list@redhat.com
+References: <20220511175147.917707-1-thuth@redhat.com>
+ <20220511175147.917707-3-thuth@redhat.com> <878rr77xpn.fsf@pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 2/3] ui: Switch "-display sdl" to use the QAPI parser
+In-Reply-To: <878rr77xpn.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -147,45 +103,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I encountered occasional test fail in some of build environment.
+On 12/05/2022 14.16, Markus Armbruster wrote:
+[...]>           if (strstart(p, "sdl", &opts)) {
+>      +        /*
+>      +         * sdl DisplayType needs hand-crafted parser instead of
+>      +         * parse_display_qapi() due to some options not in
+>      +         * DisplayOptions, specifically:
+>      +         *   - frame
+>      +         *     Already deprecated.
+>      +         *   - ctrl_grab + alt_grab
+>      +         *     Not clear yet what happens to them long-term.  Should
+>      +         *     replaced by something better or deprecated and dropped.
+> 
+> This sounds like it was mostly reluctance to drag undesirables into the
+> QAPI schema.
 
-Then I found that adding g_usleep(20000); soon after
-> if (qatomic_cmpxchg(&data[i].n, 0, 4) == 0) {
-in do_test_cancel() in tests/unit/test-thread-pool.c reproduces.
+Yeah, ctrl_grab and alt_grab were just too ugly and inflexible to drag them 
+along into the QAPI world.
 
-In this test, cancel operation is not done atomically.
+>      @@ -2179,6 +2189,10 @@ static void parse_display(const char *p)
+>                   opts = nextopt;
+>               }
+>           } else if (strstart(p, "vnc", &opts)) {
+>      +        /*
+>      +         * vnc isn't a (local) DisplayType but a protocol for remote
+>      +         * display access.
+>      +         */
+>               if (*opts == '=') {
+>                   vnc_parse(opts + 1, &error_fatal);
+>               } else {
+> 
+> This remains, and that's fine.  One step at time.
 
-If data.n is set to 4, long_cb() finishes immediately, bdrv_aio_cancel()
-is called after that, the job is done and
-> g_assert_cmpint(data[i].ret, ==, -ECANCELED);
-at the case data[i].n == 4 fails.
+Not sure how we want to proceed with that in the long run, though ... IIRC 
+clearly, Paolo once said that it doesn't really belong into "-display" 
+anyway and should be handled with the separate "-vnc" option instead?
 
-This patch makes this rare situation to pass correctly.
+>>           Now that the problematic parameters have been removed, we can
+>> switch to use the QAPI parser instead.
+> 
+> Here's my attempt at a more accurate commit message.
+> 
+>    The "-display sdl" option still uses a hand-crafted parser for its
+>    parameters since we didn't want to drag an interface we considered
+>    somewhat flawed into the QAPI schema.  Since the flaws are gone now,
+>    it's time to QAPIfy.
 
-Signed-off-by: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
----
- tests/unit/test-thread-pool.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Ok, I can update the description, thanks!
 
-diff --git a/tests/unit/test-thread-pool.c b/tests/unit/test-thread-pool.c
-index 6020e65d69..c29afe2bef 100644
---- a/tests/unit/test-thread-pool.c
-+++ b/tests/unit/test-thread-pool.c
-@@ -29,8 +29,12 @@ static int long_cb(void *opaque)
-     if (qatomic_cmpxchg(&data->n, 0, 1) == 0) {
-         g_usleep(2000000);
-         qatomic_or(&data->n, 2);
-+        return 0;
-     }
--    return 0;
-+    /* In rare cases that reach here, this job will be done,
-+     * but should be treated as canceled.
-+     */
-+    return -ECANCELED;
- }
- 
- static void done_cb(void *opaque, int ret)
--- 
-2.17.1
+>> This introduces the new "DisplaySDL" QAPI struct that is used to hold
+>> the parameters that are unique to the SDL display. The only specific
+>> parameter is currently "grab-mod" which is modeled as a string, so that
+>> it could be extended for other arbitrary modifiers later more easily.
+> 
+> Are the values of @grab-mod parsed in any way, or do we recognize a set
+> of fixed strings?
+> 
+> The former would be problematic.  We try hard to represent complex data
+> as JSON instead of inventing little ad hoc languages.
+> 
+> If it's the latter, use an enum.  Makes introspection more useful, and
+> adding enumeration values is no harder than adding string literals.
+
+It's currently only two strings that are used to replace the old behavior. 
+But in the long run, I think it would be nice to have more flexibility here, 
+so that a user could specify an arbitrary combination of modifier keys. I 
+don't think that an enum will really scale here, so I'd prefer to go with 
+the current approach and use the string for more flexibility.
+
+  Thomas
 
 
