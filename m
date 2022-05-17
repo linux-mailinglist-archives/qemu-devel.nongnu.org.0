@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00A852A83C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:37:53 +0200 (CEST)
-Received: from localhost ([::1]:33848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF3852A86C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:45:37 +0200 (CEST)
+Received: from localhost ([::1]:49140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr0Cm-0001rX-Sy
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59522)
+	id 1nr0KB-0004Np-EE
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:45:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nr097-0003c6-BY
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:34:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50150)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nr094-0004GJ-5G
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:34:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652805240;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=AqpttBcf1DqJ6+TvNukL/FIAZauY0z00xMHDD1YhE7s=;
- b=e+2nmkwwBFCsUVcBDUhnrys8NCSGN44m04Q1CDDrhX8sdkfGWwksbWofxlerap2nrnAN7/
- HDaJTYQ09QGYoUry8e33BLHm/Nbm3N6bM5qASn4+m2CLCX53GYVulZyF1crAAu08dpM+Xb
- iKQPHtFCVw4OQkIjFlZJDoTcATz/K6Y=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-vqM9yj3kMLajRg6PWgqfFw-1; Tue, 17 May 2022 12:33:59 -0400
-X-MC-Unique: vqM9yj3kMLajRg6PWgqfFw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 250343C11724;
- Tue, 17 May 2022 16:33:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4446B151571C;
- Tue, 17 May 2022 16:33:58 +0000 (UTC)
-Date: Tue, 17 May 2022 17:33:54 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: dzejrou@gmail.com, qemu-devel@nongnu.org, david@redhat.com,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
- smp-cpus
-Message-ID: <YoPOclX/REvSIxZK@redhat.com>
-References: <20220517123858.7933-1-dzejrou@gmail.com>
- <20220517171228.44c53748@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nr0I9-0003Zj-EC
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:43:26 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:45800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nr0I7-0005m5-Th
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:43:25 -0400
+Received: by mail-pf1-x430.google.com with SMTP id y41so17344061pfw.12
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=sY75N/SnIWqWMEGpJNVBJ3FLWp9SbPu/gwv9KyH/gyE=;
+ b=U6a2FaO7yq4AB0CzhHpk+dS1/7/D+od+DUGTZnNCYHTcSt0gdshMqXVU7yqO7aYbES
+ 5L56JMLPeHi7ADS3pFMcf3I4NJzridzP/VhuUXb7Id/Wie0ugIR5EbzJWsraGqjepfzl
+ /QrVLVXhWeNAy4xg3pUIDejMAreRc2MfMDqx9nfP02pz9dNS6cNVWtGsdJHE2ZcOHNss
+ MOqV3pv7XaxOEAa+NvH2ajMNMyA1+faCEARGgfBHdrQ+96OpaJ4VqW+gfACl/4htpgRO
+ uWofIdRS9Z3QzeLQ+DYTtbfjAKZ+vXLbdlRm7adkVFyOt19rAci3VgHL/FaqKvYxJfBy
+ lSFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sY75N/SnIWqWMEGpJNVBJ3FLWp9SbPu/gwv9KyH/gyE=;
+ b=xfvZEyXff2634sRulTFThz0dh+TLK7m1K8pwJRJElIfgp+Yn4q8gIquVV2vcjvsSlK
+ s1f+wTCERZEHMMI7D8T8PMf5RXquV4g1g+6P2fb/HnV5/19+Xn7I6v+SbB+3QaT+AmSx
+ JK/oWQo4CZeY9Dqi/a36KNq10Jy23R02HXUFrA+NEw0WxwQUfI1fbgDuhVfjEuJOznwC
+ ysIlBihZUNl6k4bti5eQOtZwhjn2SnWFtDU8jndndGjDnAVhRIyhK6FcCZIjrnIIvZkq
+ edQY7OcINdz01FLuW+Wi4ZaOvQLro6GEwTO4jA0CwtKNZjQkcpa6eCO40aNRoWmHHOmX
+ VSKg==
+X-Gm-Message-State: AOAM5310F7lhbE6gFDRtGKXgC0vcYpHVINjQ/mWwib6h3Udf008utP87
+ gx/u1JT1oxNZmM9LOFPNZQ000g==
+X-Google-Smtp-Source: ABdhPJy/2J9Q015AcUIYgH+FGRfIb60D6TfWdJpMERQ46w5TGEz+CHPmPXuxv4m9gXbeyVkCgAPh9w==
+X-Received: by 2002:a63:e416:0:b0:3c6:8d10:ea37 with SMTP id
+ a22-20020a63e416000000b003c68d10ea37mr20161918pgi.319.1652805802411; 
+ Tue, 17 May 2022 09:43:22 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ r7-20020a170902ea4700b0015e8d4eb289sm9304498plg.211.2022.05.17.09.43.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 09:43:21 -0700 (PDT)
+Message-ID: <e1c6ca41-df28-0787-928e-56bc313f730b@linaro.org>
+Date: Tue, 17 May 2022 09:43:19 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220517171228.44c53748@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 05/12] target/ppc: Use TCG_CALL_NO_RWG_SE in fsel helper
+Content-Language: en-US
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org
+References: <20220517123929.284511-1-matheus.ferst@eldorado.org.br>
+ <20220517123929.284511-6-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220517123929.284511-6-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,45 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 05:12:28PM +0200, Igor Mammedov wrote:
-> On Tue, 17 May 2022 14:38:58 +0200
-> dzejrou@gmail.com wrote:
+On 5/17/22 05:39, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > 
-> > From: Jaroslav Jindrak <dzejrou@gmail.com>
-> > 
-> > Prior to the introduction of the prealloc-threads property, the amount
-> > of threads used to preallocate memory was derived from the value of
-> > smp-cpus passed to qemu, the amount of physical cpus of the host
-> > and a hardcoded maximum value. When the prealloc-threads property
-> > was introduced, it included a default of 1 in backends/hostmem.c and
-> > a default of smp-cpus using the sugar API for the property itself. The
-> > latter default is not used when the property is not specified on qemu's
-> > command line, so guests that were not adjusted for this change suddenly
-> > started to use the default of 1 thread to preallocate memory, which
-> > resulted in observable slowdowns in guest boots for guests with large
-> > memory (e.g. when using libvirt <8.2.0 or managing guests manually).
+> fsel doesn't change FPSCR and CR1 is handled by gen_set_cr1_from_fpscr,
+> so helper_fsel doesn't need the env argument and can be declared with
+> TCG_CALL_NO_RWG_SE. We also take this opportunity to move the insn to
+> decodetree.
 > 
-> current behavior in QEMU is intentionally conservative. threads
-> number is subject to host configuration and limitations management
-> layer puts on it and it's not QEMU job to conjure magic numbers that
-> are host/workload depended.
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+>   target/ppc/fpu_helper.c            | 15 +++++++--------
+>   target/ppc/helper.h                |  2 +-
+>   target/ppc/insn32.decode           |  7 +++++++
+>   target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++++++--
+>   target/ppc/translate/fp-ops.c.inc  |  1 -
+>   5 files changed, 43 insertions(+), 12 deletions(-)
 
-I think that's missing the point. QEMU *did* historically set the
-prealloc threads equal to num CPUs, so we have precedent here. The
-referenced commit lost that behaviour because it only wired up the
-defaults in one particular CLI scenario. That's a clear regression
-on QEMU's side.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
