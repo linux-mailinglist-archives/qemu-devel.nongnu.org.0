@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF755529F95
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 12:37:16 +0200 (CEST)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0FCF529F84
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 12:34:48 +0200 (CEST)
+Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nquZn-0007s6-KR
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 06:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
+	id 1nquXP-0006f2-D0
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 06:34:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nquPa-0004Vv-Mw
- for qemu-devel@nongnu.org; Tue, 17 May 2022 06:26:46 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:45295)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nquPX-00062O-Uz
- for qemu-devel@nongnu.org; Tue, 17 May 2022 06:26:41 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-2fed823dd32so71812157b3.12
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 03:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B8Icz8HV5bl3sIQyTHo7h3u7Jiq5YP87pQZF8OWJ/so=;
- b=K8jlCK08Ar2j4xRLllJAPR+lTgTDCZEE1UQaaAicrCKnOEBs92oxyiErahTVL2lQbE
- Dtw+ws/m15fuWhYalVEWC7MBUdY+hlR7KBEd42TTTVIg9bdVM+WQ6ERQ7Y75sseXoUwK
- rToB7LpuB/jbQlZVt6ZRDMYx3EIh7ifY6oosbKLSECGMmYnm6ZzUWxA1A11z8DngG5xb
- clsuRO66Fz75hsVi+uUoy98tLvKR3cNJdO+lftCumIutYx6tuH6vAaaJil9Z0IWgdhnR
- 1tMK5Pl+MY7fopvwUHGXD1/D8AuVzW9aa9hSiaAbOk5ntcwnAUpk9UhLj1aZHX1iZFZj
- yeaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B8Icz8HV5bl3sIQyTHo7h3u7Jiq5YP87pQZF8OWJ/so=;
- b=KpA9jG2i3ry7Q/zyfvi+U7hATuI/QO6FOygGrgaIzSzplUAlgx2739MEHW8JSK/eV4
- /25gXp1jRLb+a/JuAKhRBXFGD89G1/YzLXOVuM4xRcdSEnxTsoZ3LeCfsNhRVgztFiau
- aSXGXPYH3j2MBSTPDKyTzmuexzBv80kk4HZRfulYIRbg9z/O6cGunRt0t+F3YOvyVw9t
- /EPUQH2r2BzcfcOBXT2S90aCvEUTSmyY3v0XBfYwuIWFXb+GzUZ4Fgjtv7j1JkhtReL9
- /LLT2uyalsF0GShzpSRDJ55Ky9I3zTPEP+VSCNJRTCAhPqCkD0LOhApQkP3W/Xia/YCK
- 1yTw==
-X-Gm-Message-State: AOAM533soPMaJKSlDASt1Enhbl78QurqhRPdlDNNB4tWOtgjt+f0k9cm
- R6YV/yTCeYY3Ld8WzF6pujyji2hPShYR6QfSBIWekQ==
-X-Google-Smtp-Source: ABdhPJyotvJgGSMxorvkb32eiMMBXKkDScacCiMkzA/Qf0ldLo/ClYOIBXCOMy8nTLbwTenMwM+RuvHyjY8RNq3oX9Q=
-X-Received: by 2002:a0d:d4d0:0:b0:2fe:b86b:472d with SMTP id
- w199-20020a0dd4d0000000b002feb86b472dmr22639311ywd.469.1652783142399; Tue, 17
- May 2022 03:25:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nquT7-0004qB-En
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 06:30:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nquT3-0006n8-Rq
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 06:30:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652783416;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AzOHEtQWPNU6cZwnZQd+sldX88VXIZ/MbAh/2EaXxDA=;
+ b=CcVGxIfrPhB/Msf90gjSHLUSODxcy0mdRKM9hhTyxcoVM8N8+TiWJ1rJJ8Ph1ot6hQZmwl
+ MmQTcECHLZtO1/ceuWZEwrvOIIpQrXMNbFV0AIPI6MHVtEJsAH8wuwjPkIm0LA22HF2D9v
+ Bu3voFzx/UHiTO465+LCS7aQCfaGXDs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-509-mMI601aEPhCiubfMYEB95Q-1; Tue, 17 May 2022 06:30:13 -0400
+X-MC-Unique: mMI601aEPhCiubfMYEB95Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 025D629AB443;
+ Tue, 17 May 2022 10:30:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8BEB2166B2D;
+ Tue, 17 May 2022 10:30:11 +0000 (UTC)
+Date: Tue, 17 May 2022 11:30:08 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] gitlab-ci: Allow adding manual jobs on cirrus-ci
+Message-ID: <YoN5MMqaR8w1avU4@redhat.com>
+References: <20220314143130.28503-1-philippe.mathieu.daude@gmail.com>
+ <2a52914a-d129-cd20-d54d-ee8cfd38a8d7@redhat.com>
 MIME-Version: 1.0
-References: <CAOYM0N09rSSr11vzOqBWLqZj96gxjdxxQYhi_qqzSYOkympCYw@mail.gmail.com>
-In-Reply-To: <CAOYM0N09rSSr11vzOqBWLqZj96gxjdxxQYhi_qqzSYOkympCYw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 May 2022 11:25:31 +0100
-Message-ID: <CAFEAcA8wb0eVHr=m03DewZ8ua6nGvToMTVDvtDQdQw4s+_5jiw@mail.gmail.com>
-Subject: Re: why arm bootloader is big endian?
-To: Liu Jaloo <liu.jaloo@gmail.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2a52914a-d129-cd20-d54d-ee8cfd38a8d7@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,43 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 May 2022 at 11:19, Liu Jaloo <liu.jaloo@gmail.com> wrote:
->
-> from hw/arm/boot.c
->
-> static const ARMInsnFixup bootloader[] = {
->     { 0xe28fe004 }, /* add     lr, pc, #4 */
->      ...
-> }
->
-> $ rasm2 -a arm -d -e 0xe28fe004
-> add lr, pc, 4
->
-> $ rasm2 --help
-> -e           Use big endian instead of little endian
->
-> why arm bootloader defalut is big endian?
+On Tue, May 17, 2022 at 12:10:30PM +0200, Thomas Huth wrote:
+> On 14/03/2022 15.31, Philippe Mathieu-Daudé wrote:
+> > From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > 
+> > By default, all Cirrus-CI jobs are added as 'on_success' (the
+> > default value). Add a ${MANUAL_JOB} variable (default to 0)
+> > to be able to add manual jobs.
+> > 
+> > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > ---
+> >   .gitlab-ci.d/cirrus.yml       | 2 ++
+> >   .gitlab-ci.d/cirrus/build.yml | 1 +
+> >   2 files changed, 3 insertions(+)
+> > 
+> > diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+> > index b96b22e269..9e640019dd 100644
+> > --- a/.gitlab-ci.d/cirrus.yml
+> > +++ b/.gitlab-ci.d/cirrus.yml
+> > @@ -44,6 +44,8 @@
+> >       # Allow on 'staging' branch and 'stable-X.Y-staging' branches only
+> >       - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH !~ /staging/'
+> >         when: never
+> > +    - if: '$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN && $MANUAL_JOB == "1"'
+> > +      when: manual
 
-It is not. This array is an array of 32 bit integers,
-one per instruction. The code which writes it to guest
-memory reads 32 bits from the array, and writes 32 bits
-from the array into guest memory. It will byteswap
-each word if the host and guest are different endian
-(which in practice for Arm almost always means "if the
-host is bigendian", so for x86 host arm guest we don't
-need to swap).
 
-rasm2 wants to disassemble a sequence of hex *bytes*,
-which means that you need to specify them in the order
-they appear in memory. If we've written a little-endian
-32-bit value 0xe28fe004 to memory, then the bytes will
-be 0x04 0xe0 0x8f 0xe2, and so you either need to
-tell rasm2 '04e08fe2' or else cheat and use the -e
-option (which will work as long as the insn really is
-32 bits, ie you're not dealing with Thumb insns.)
 
--- PMM
+> >       - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
+> >   x64-freebsd-12-build:
+> > diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
+> > index c555f5d36e..c58dc86855 100644
+> > --- a/.gitlab-ci.d/cirrus/build.yml
+> > +++ b/.gitlab-ci.d/cirrus/build.yml
+> > @@ -14,6 +14,7 @@ env:
+> >     MAKE: "@MAKE@"
+> >     CONFIGURE_ARGS: "@CONFIGURE_ARGS@"
+> >     TEST_TARGETS: "@TEST_TARGETS@"
+> > +  MANUAL_JOB: 0
+
+This addition doesn't make sense.  build.yml is config that is run
+by Cirrus CI.
+
+The MANUAL_JOB  env is interpreted by GitLab CI, so would only ever
+be set by jobs in .gitlab-ci.d/cirrus.yml
+
+> >   build_task:
+> >     install_script:
+> 
+>  Hi Philippe!
+> 
+> Sorry for the late reply ... I think this might collide with Daniel's patch
+> that turns most jobs to manual mode
+> (https://lore.kernel.org/all/20210812180403.4129067-3-berrange@redhat.com/)
+> which he is hopefully going to respin soon ... but anyway, if you add a
+> variable like this, there should be an update to docs/devel/ci-jobs.rst.inc
+> to describe the new variable, otherwise you might be the only one who's
+> using it.
+
+IIUC, this MANUAL_JOB variable isn't for end developer usage, rather it is
+for usage when adding jobs to .gitlab-ci.d/cirrus.yml, so I don't think it
+needs documenting there. THis simply lets us add a bunch more jobs to
+cirrus.yml without causing timeout problems by having them all run at
+once, providing we put MANUAL_JOB: 1 in the config for the new job. 
+
+No need to delay this for sake of my series. I'll adapt to whatever
+exists at the time I'm rebasing.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
