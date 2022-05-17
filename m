@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0370E52AA6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:17:04 +0200 (CEST)
-Received: from localhost ([::1]:45046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB3252AA6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:18:10 +0200 (CEST)
+Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr1kd-0000zq-0W
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
+	id 1nr1lj-0001yq-W1
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:18:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1j3-0008OZ-7t
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:15:18 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:45840)
+ id 1nr1je-0000Wc-CN
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:15:54 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1j1-00031J-FF
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:15:16 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id h24so12319836pgh.12
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:15:15 -0700 (PDT)
+ id 1nr1jc-00039f-SY
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:15:54 -0400
+Received: by mail-pf1-x436.google.com with SMTP id a11so17634375pff.1
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=4840HIlPsAg01x4ssWTJTV2DuV0GjByvEndfX2I5pkg=;
- b=GXebJQ/e4315abGeLvK3JdQJd8o/kTAnWfFaEYNvNJp+j7EFzEZ7wDYYpPsxLEppvn
- Pt5WsgmvQlqHI6my1pnB4eRgbhCClgG0CCBLV1TTAGyYtprZXtMetyg2PFhgCEw6GBM8
- K/5glzzWoLzbHuxlrYM9/T9lx+rA8C/LhNAqbuajY94tu6BN1EScWrDcPSCcM1MMaizQ
- M5arb5rLJeLEs2IS4tXFpak8PyDGQktqRUERc5gABui0cI8CHm6YY9DbkTu+h1qY0FBf
- DEqFZ++pt8QnBkRVJBwZA5/cGg0hNv7XDoPV7rc/VrWUduCje6GJosxm6p0a+Gi4rgVZ
- Dirg==
+ bh=/1c2PqJVZ3vL+HEM/irAytc0TXVIocscAye5GiYGif0=;
+ b=qD9yHG3I13EvShKc2IVZ6O9t/dloWh2I+jKT8rRVQfPBmQJ0oT/SMs51DURTw0XSXN
+ du8siF//OnVr3tYyASAVSe10cknNJt1M2OS5rkB4p62VxZ5JXSTSdwVC+2oHlO+qJRC1
+ 4H+HtOyGSI42Ih07ywgGiL6h7Dz8WDKJHpAf0aT94FZWQDzvcrDJO9WlYlkGH7wO/Kz7
+ UXGnLz/nw1wao4X+XDoZ4NjINg6zo3uawlAaPuryvjuUqjgYS/ZsYTX6QOtKagR9jFij
+ BkUv8xfxU28UEHRpIw04/TmudIOsDOWlLa+MbJV3Kb8u+j2HRrZOcrNRh0hqTncRl4WI
+ mL8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4840HIlPsAg01x4ssWTJTV2DuV0GjByvEndfX2I5pkg=;
- b=vS22/T0uvO1SIfUdRdpyVp0E94JdymLTyIEkBK6bUIRvxWqjvnJCIofkmn6vg0BiC+
- 6bTntHmV5I2ZypIWOhM7u3w0uBKxst5Dv/kHQOotGd/+eZ/vIfMqysZCo1T1Jfv2JwaN
- BRu6EoyMbjo3N1bOqUEZa3kfw9fmnoJFIATZc2dxkF1u7OdilKpjn/jYbg3HMQDYYMSO
- mY5GzEiyxpLLjd9L7iRuPuFL5YQKjJYtwxsQrfOWCkXiLLzgqIo/E2bpPZqYETiC99Nf
- UWb2SWvTbT27Qp0vfdmE5KxD/aTiNzQNW4pwVk30w4bGNB+Z33lkj5BqT/pozVGiLo/c
- VBBw==
-X-Gm-Message-State: AOAM530dY3h4NjTdagPk1KrXZtwwtNQxXN7GlR/d3hmkmg2UIrUNAs7q
- 6V08hSyz22hYtCnNOqkQEu8bZA==
-X-Google-Smtp-Source: ABdhPJxT68zs7zAdXAJ7jFOTg0lWS1yT8CrnK99MeXKhHWOIhCZ0dDg3Kow3ffCzkys0Y5DnhdiqPw==
-X-Received: by 2002:a63:88c8:0:b0:3ab:1871:13b4 with SMTP id
- l191-20020a6388c8000000b003ab187113b4mr20654566pgd.85.1652811313978; 
- Tue, 17 May 2022 11:15:13 -0700 (PDT)
+ bh=/1c2PqJVZ3vL+HEM/irAytc0TXVIocscAye5GiYGif0=;
+ b=xvIQMXGIcPO1Xbdvnnn+WkfX8brJQkMEnerJDENPqlX/huK3hb/YvnHkb52dOrfv2Z
+ nb1lLuMtRBdF0cEYyyqCtO8TfwqO6Eo/ZVh8Uz4ioeEWo+V2L2AIcus2yeYG+1dH/cXo
+ /4XmDy1ZifcJyFKdr3lDszGPW5ZK8JWPFcZvQLNKrw6QH95rwIuZM0bJpe3SNxVMfBE3
+ uNau6xPIJY4ouhfUO7KoyJe4wWMF45yjrL924L6xJEBF/nIXopjEM4EVEa4jcTwe2HgJ
+ DeRLNCWnZuHjMvQ6NLpRTiBjk7CUlFL5AGnQCelT8sQOy0fQcgUtBW0p3g6QRWvD0mH3
+ avsA==
+X-Gm-Message-State: AOAM5331pAsIvOe40bqZs5fIUTz1xdXOLtO59O7w4dWS9ruDfBcRsaA6
+ djkCZCXSnJyrObq5w8kqemh3UmMet4Zycg==
+X-Google-Smtp-Source: ABdhPJyk0rhDdDjy3s3r83vXD88a+sL/Dm28Oqy5q6gTnIpmkJIWmHxLvBVQ8Bpje+xcMrxx3y0MuQ==
+X-Received: by 2002:a65:4684:0:b0:3db:5e25:38eb with SMTP id
+ h4-20020a654684000000b003db5e2538ebmr20756098pgr.363.1652811351620; 
+ Tue, 17 May 2022 11:15:51 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- p124-20020a62d082000000b0050dc7628150sm55580pfg.42.2022.05.17.11.15.13
+ w23-20020a1709026f1700b0015e8d4eb287sm9365516plk.209.2022.05.17.11.15.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 11:15:13 -0700 (PDT)
-Message-ID: <c27fcb6f-e159-3c45-0145-431911a020e8@linaro.org>
-Date: Tue, 17 May 2022 11:15:11 -0700
+ Tue, 17 May 2022 11:15:51 -0700 (PDT)
+Message-ID: <63299ab4-680a-e964-366f-b1067aa18084@linaro.org>
+Date: Tue, 17 May 2022 11:15:49 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 07/16] tests/tcg: merge configure.sh back into main
- configure script
+Subject: Re: [PATCH 08/16] configure: add missing cross compiler fallbacks
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
 References: <20220517092616.1272238-1-pbonzini@redhat.com>
- <20220517092616.1272238-8-pbonzini@redhat.com>
+ <20220517092616.1272238-9-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517092616.1272238-8-pbonzini@redhat.com>
+In-Reply-To: <20220517092616.1272238-9-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,48 +94,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/17/22 02:26, Paolo Bonzini wrote:
-> tests/tcg/configure.sh has a complicated story.
+> The arm compiler can be used for armeb, and the sparc64 compiler
+> can be used for sparc.
 > 
-> In the beginning its code ran as part of the creation of config-target.mak
-> files, and that is where it placed the information on the target compiler.
-> However, probing for the buildability of TCG tests required multiple
-> inclusions of config-target.mak in the _main_ Makefile (not in
-> Makefile.target, which took care of building the QEMU executables in
-> the pre-Meson era), which polluted the namespace.
-> 
-> Thus, it was moved to a separate directory.  It created small config-*.mak
-> files in $(BUILD_DIR)/tests/tcg.  Those were also included multiple
-> times, but at least they were small and manageable; this was also an
-> important step in disentangling the TCG tests from Makefile.target.
-> 
-> Since then, Meson has allowed the configure script to go on a diet.
-> A few compilation tests survive (mostly for sanitizers) but these days
-> it mostly takes care of command line parsing, looking for tools, and
-> setting up the environment for Meson to do its stuff.
-> 
-> It's time to extend configure with the capability to build for more
-> than just one target: not just tests, but also firmware.  As a first
-> step, integrate all the logic to find cross compilers in the configure
-> script, and move tests/tcg/configure.sh back there (though as a
-> separate loop, not integrated in the one that generates target
-> configurations for Meson).
-> 
-> tests/tcg is actually very close to being buildable as a standalone
-> project, so I actually expect the compiler tests to move back to
-> tests/tcg, as a "configure" script of sorts which would run at Make
-> time after the docker images are built.  The GCC tree has a similar idea
-> of doing only bare-bones tree-wide configuration and leaving the rest
-> for Make time.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   configure              | 398 +++++++++++++++++++++++++++++++++++++++--
->   tests/Makefile.include |   1 -
->   tests/tcg/configure.sh | 376 --------------------------------------
->   3 files changed, 388 insertions(+), 387 deletions(-)
->   delete mode 100755 tests/tcg/configure.sh
+>   configure | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
