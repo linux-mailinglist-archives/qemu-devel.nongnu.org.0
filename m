@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7A25296C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 03:34:54 +0200 (CEST)
-Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C835296CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 03:35:40 +0200 (CEST)
+Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqm6v-0007vK-G2
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 21:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
+	id 1nqm7f-0000el-Ih
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 21:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqm5a-0006EW-2a
- for qemu-devel@nongnu.org; Mon, 16 May 2022 21:33:30 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:39492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqm5Y-000286-4r
- for qemu-devel@nongnu.org; Mon, 16 May 2022 21:33:29 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- t11-20020a17090a6a0b00b001df6f318a8bso1021251pjj.4
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 18:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HGoxzI4jnvVcf7zS47tdiPBWgz41Ine7m3t7TzQGDms=;
- b=kVPPN4AcO/oAP6CmvhOM4HISsWCxczByhu5u4mvYD5KCliGeW21/iNplsbaNRdlvnT
- 8maENtnBe/sCJvcJbXhr1ImWteNzIJacew6m8wEEgVRtmBeJuMxdMobTQQAs0Z7YKkNb
- Ew8zLgSvBNFJjDtxPTyEzivx6MCwk1UWE5vE9wshqdO1Q4zvGNbUlFyA4OOKzKrHBgjo
- BxIHl14XvrJ+yQdmeu1FNxM5Cv15Mc6DdpQrXTuWxEUy9TASl8S95+HfRV+0AnMNDc2J
- CMywVBo2sYjS+cBOMJep+fl/yvuUrHNoiY+xy1I65hUPFTcOyksW9ex5ImrZq2sgLGE+
- 1R1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HGoxzI4jnvVcf7zS47tdiPBWgz41Ine7m3t7TzQGDms=;
- b=Ehg/2XeEogxvIENcoAdWU2unLlxCyxnF8VMXf8iJ9OlV7faqSJ0iVRXY8aDmdlKI6x
- h1MM6tuZQDRTFv7A419ha3lvdiMBRqx11ssIivN4t2aYToRd9kBasE5+OniezSDEdo8Y
- dTpbAmsFQDMhYKJidk42ZpP0tZ1Uy6U2MX3YB39/Fa2edkswnDchOnS9FcmCpyZkWjTN
- yl6MCneqGgYZGXoTNbCTPQ/nsI4hA4jqhUITFJ+JLSkzzT0AwfvMHtBg9mitGTCYp0kE
- K2oro7CQkXoRfNJsWLGtVqYaWJGEIxx+cfdQJ8bj+JNyztE3OFAcLIU2Mp/WJgcpigDp
- hmaQ==
-X-Gm-Message-State: AOAM530nAO2H6Cb/Ukz440Bdnt3MKefBTi1YMY6hgBMvz/Gq1jebAM89
- 9BprNd50H6RL+rml2VVP0Khapg==
-X-Google-Smtp-Source: ABdhPJy9xTqppvrq8ncES/Ql2D1CqDE/ukf16/Tlv6v+1FKVmcQww/sqzxR7vbXELvxOE0AqzLZPYQ==
-X-Received: by 2002:a17:90a:5908:b0:1df:1232:d47c with SMTP id
- k8-20020a17090a590800b001df1232d47cmr15112051pji.5.1652751206667; 
- Mon, 16 May 2022 18:33:26 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- v12-20020a1709029a0c00b0015e8d4eb242sm7627439plp.140.2022.05.16.18.33.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 18:33:26 -0700 (PDT)
-Message-ID: <bc79112d-f0c5-7f3f-5818-a024b966c585@linaro.org>
-Date: Mon, 16 May 2022 18:33:24 -0700
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nqm6F-0007HY-91; Mon, 16 May 2022 21:34:11 -0400
+Received: from smtp23.cstnet.cn ([159.226.251.23]:33132 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nqm6C-0002B9-R6; Mon, 16 May 2022 21:34:10 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowABXEuCM+4JiVjyDBw--.57923S2;
+ Tue, 17 May 2022 09:34:05 +0800 (CST)
+Subject: Re: [PATCH 2/2] target/riscv: disable zb* extensions by default
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V"
+ <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?=
+ <lazyparser@gmail.com>
+References: <20220516033357.12371-1-liweiwei@iscas.ac.cn>
+ <20220516033357.12371-2-liweiwei@iscas.ac.cn>
+ <CAKmqyKNwjv1MwGqj7LP+jF5AKg8Cpvnwx5U8gKVASFRtCYFirQ@mail.gmail.com>
+ <CAKmqyKPrx3aEBjqcT4jOG3rfNfU7LCve3QywLVCBsCP-kLcr6A@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <703a183e-3d61-36f3-f5af-2bbd6d5467e1@iscas.ac.cn>
+Date: Tue, 17 May 2022 09:34:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 05/74] semihosting: Add target_strlen for
- softmmu-uaccess.h
+In-Reply-To: <CAKmqyKPrx3aEBjqcT4jOG3rfNfU7LCve3QywLVCBsCP-kLcr6A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20220503194843.1379101-1-richard.henderson@linaro.org>
- <20220503194843.1379101-6-richard.henderson@linaro.org>
- <CAFEAcA-Ne6c8AjretP4cuSEajOHSbFwFCTVFm3a=w8gm+zzkbw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-Ne6c8AjretP4cuSEajOHSbFwFCTVFm3a=w8gm+zzkbw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-CM-TRANSID: rQCowABXEuCM+4JiVjyDBw--.57923S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFyruw4xtry3AFyDZr15twb_yoW8Kr1fpr
+ y5JFW7Kan5JryfC3y0yw1Dtr40k3W5K392q3yIv3ZrXrWfGrsxJF1kKanYkr47Ar48Zw4I
+ 9F43uF1SvrZIva7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWU
+ JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfUnXdbUUUUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,24 +85,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 08:11, Peter Maydell wrote:
->> +        chunk = -(addr | TARGET_PAGE_MASK);
-> 
-> 'chunk' is unsigned but we're assigning it a negative number here...
-> I assume this is doing some clever bit-twiddling trick but it isn't
-> very obvious.
 
-Number of bytes left in page -- I'll rename the variable.
+在 2022/5/17 上午8:54, Alistair Francis 写道:
+> On Tue, May 17, 2022 at 10:33 AM Alistair Francis <alistair23@gmail.com> wrote:
+>> On Mon, May 16, 2022 at 1:34 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>>>   - enable zb* extensions by default will make cpu types(such as sifive-u34) implicitly support zb* extensions
+>> Agh, this is a pain.
+>>
+>> Can you enable these by default for the base machines then? That way
+>> they will be enabled for the virt machine
+> Actually, come to think of it, we can probably just register the
+> riscv_cpu_properties for the base cpus. That way only those CPUs can
+> be configured by the user. Can you do that instead?
+>
+> Alistair
+>
+Yeah, This is OK. I'll do this later.
 
-> In any case, rounding to a page boundary isn't sufficient to
-> avoid problems, because we don't mandate that RAM-to-device
-> MemoryRegion boundaries happen on page boundaries. I think you
-> either need to do this at a low enough level that you can
-> look at what MemoryRegion types you're reading from, or you need
-> to do it byte at a time.
+Regards,
 
-Easy enough to use probe_access_flags.
+Weiwei Li
 
+>> Alistair
+>>
+>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>> ---
+>>>   target/riscv/cpu.c | 8 ++++----
+>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>>> index b12f69c584..a3a17323e7 100644
+>>> --- a/target/riscv/cpu.c
+>>> +++ b/target/riscv/cpu.c
+>>> @@ -847,13 +847,13 @@ static Property riscv_cpu_properties[] = {
+>>>       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+>>>       DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+>>>
+>>> -    DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+>>> -    DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+>>> -    DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+>>> +    DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, false),
+>>> +    DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, false),
+>>> +    DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, false),
+>>>       DEFINE_PROP_BOOL("zbkb", RISCVCPU, cfg.ext_zbkb, false),
+>>>       DEFINE_PROP_BOOL("zbkc", RISCVCPU, cfg.ext_zbkc, false),
+>>>       DEFINE_PROP_BOOL("zbkx", RISCVCPU, cfg.ext_zbkx, false),
+>>> -    DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+>>> +    DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, false),
+>>>       DEFINE_PROP_BOOL("zk", RISCVCPU, cfg.ext_zk, false),
+>>>       DEFINE_PROP_BOOL("zkn", RISCVCPU, cfg.ext_zkn, false),
+>>>       DEFINE_PROP_BOOL("zknd", RISCVCPU, cfg.ext_zknd, false),
+>>> --
+>>> 2.17.1
+>>>
+>>>
 
-r~
 
