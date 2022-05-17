@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F224529AD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 09:30:56 +0200 (CEST)
-Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48490529B18
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 09:41:45 +0200 (CEST)
+Received: from localhost ([::1]:32908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqrfS-0006Vu-Pr
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 03:30:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39322)
+	id 1nqrpv-0002Z5-T6
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 03:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nqrbm-0004dm-60; Tue, 17 May 2022 03:27:06 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:47578 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nqrbj-0007yE-Gl; Tue, 17 May 2022 03:27:05 -0400
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowADHzZE8ToNimHT8Bw--.12016S2;
- Tue, 17 May 2022 15:26:54 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3] target/riscv: check 'I' and 'E' after checking 'G' in
- riscv_cpu_realize
-Date: Tue, 17 May 2022 15:26:45 +0800
-Message-Id: <20220517072645.24938-1-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: zQCowADHzZE8ToNimHT8Bw--.12016S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kWr15uw45tF1kKrg_yoW8Xry3pr
- 47G39IkrWDJF1UJ3yfXF17KF1Uur1xAayxG397Xw1xWr43ArnrZr1qkr1UWFWYqFZ5Xayf
- uF12kr1UZanrJaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
- I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
- 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqrmS-0001in-0b
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 03:38:08 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:45945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nqrmQ-0001Iw-FL
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 03:38:07 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id e78so9970014ybc.12
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 00:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L4jGsTrgilJcsmmAETlsCBp9/k+NL5ciuhl4WOGelGk=;
+ b=mkmGJmzOdbGErJu8UH9nWLpsruFhxe6Zblwt87mIkua09Wgj7eWnFb9zg5AEgq+7OB
+ bgVS2m9//8bFTSB5bGPT6dDhBwLx9dkCnDJYv/aORKyTLI4MqyWD+5a/0hXX4hNP8m6D
+ KSLzGv8zZGKINkImHUQO5uwo/LC1Vu7D5M2Ux6/Sm5LOT611zrnriWQX1TaEbSuhxtAm
+ 45j7AWQEtgQ/IoDohdLAe/Fyx8/n3WNq7Vmh+2oBLr/LwfEUa6TINUEE0SSf6hEkzo9m
+ MQ9r44kWePi5++bzhpbEj7K239hdW9tDN5rGsX/4eGxgb4JcE/dQZgbIp5XwUZll9L9u
+ zsIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L4jGsTrgilJcsmmAETlsCBp9/k+NL5ciuhl4WOGelGk=;
+ b=QrCF5HRyvTCvpB+9ToR/70keMpbWsrmwdPGlYlDtZarB/O+Zt6ffElD4r+P6ygajBw
+ QkRXk/IAiKnmLAMn94lNSzRQYklRJH8zrAfWbL5+Hx+p+RPQ/WGL5qaSp0H5U0eO/BZY
+ GOPwGd4/deAJVXNUuuVvxnpUEF2FEZzckPFYZ7jrOgwFQODRUo4AbEO1BT0/Wx+96kZ0
+ wpEjNjaZoZhC5iO2E7X1ak1Ch2o28uBY4El3RrEp4px1lVGd2hWcmiSZuks7Y/doRRPg
+ q93YG97/ZwaRDh2o9Egb/UmGG/cnWfo2kq4LoXJiOkB9tQfi5crUuRamZu6hWGFPwL7J
+ Hv2Q==
+X-Gm-Message-State: AOAM532jg+jo+RgUjAOc83ooIO21XH6KAkc2L4Zt+JgLdlcPJibtA+4N
+ enGcl110fFmUMPDi9zVjC3nAaMjKZ9WIv0EIsTNxpw==
+X-Google-Smtp-Source: ABdhPJyO9uJMVuwDunzJuv82Fs5YL44oV6QNAOA2+Wv5KL8jL4PEr3AIZgLyzXAjxxT8EWrY0ptiShd8+oQiwhoOccY=
+X-Received: by 2002:a25:8f82:0:b0:64b:4d9:46fe with SMTP id
+ u2-20020a258f82000000b0064b04d946femr21076033ybl.479.1652773085499; Tue, 17
+ May 2022 00:38:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220516210519.76135-1-eblake@redhat.com>
+In-Reply-To: <20220516210519.76135-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 May 2022 08:37:54 +0100
+Message-ID: <CAFEAcA9o=XFX1zE_u=q_kUzV6wP_ANtMem02Oz3Ces1XLHemNg@mail.gmail.com>
+Subject: Re: [PATCH] nbd: Drop dead code spotted by Coverity
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, 
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,59 +84,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- - setting ext_g will implicitly set ext_i
+On Mon, 16 May 2022 at 22:05, Eric Blake <eblake@redhat.com> wrote:
+>
+> CID 1488362 points out that the second 'rc >= 0' check is now dead
+> code.
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 172f5f1a40(nbd: remove peppering of nbd_client_connected)
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/nbd.c | 8 ++------
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/cpu.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6d01569cad..1c76debb2b 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -583,19 +583,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     if (env->misa_ext == 0) {
-         uint32_t ext = 0;
- 
--        /* Do some ISA extension error checking */
--        if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
--            error_setg(errp,
--                       "I and E extensions are incompatible");
--            return;
--        }
--
--        if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
--            error_setg(errp,
--                       "Either I or E extension must be set");
--            return;
--        }
--
-         if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
-                                 cpu->cfg.ext_a && cpu->cfg.ext_f &&
-                                 cpu->cfg.ext_d &&
-@@ -610,6 +597,19 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             cpu->cfg.ext_ifencei = true;
-         }
- 
-+        /* Do some ISA extension error checking */
-+        if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
-+            error_setg(errp,
-+                       "I and E extensions are incompatible");
-+            return;
-+        }
-+
-+        if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
-+            error_setg(errp,
-+                       "Either I or E extension must be set");
-+            return;
-+        }
-+
-         if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
-             error_setg(errp, "F extension requires Zicsr");
-             return;
--- 
-2.17.1
-
+thanks
+-- PMM
 
