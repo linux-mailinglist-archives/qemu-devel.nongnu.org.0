@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6600B52A545
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 16:52:47 +0200 (CEST)
-Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFA352A56B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 16:54:33 +0200 (CEST)
+Received: from localhost ([::1]:56506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqyZ4-00007X-E5
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 10:52:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51130)
+	id 1nqyan-00037z-2L
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 10:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqy3B-00005q-3x; Tue, 17 May 2022 10:19:50 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:37487)
+ id 1nqy45-0000VE-Jx; Tue, 17 May 2022 10:20:49 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:46056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqy39-0006Q2-Jo; Tue, 17 May 2022 10:19:48 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id g12so7300516edq.4;
- Tue, 17 May 2022 07:19:45 -0700 (PDT)
+ id 1nqy3w-0006hQ-1k; Tue, 17 May 2022 10:20:41 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id ch13so34944100ejb.12;
+ Tue, 17 May 2022 07:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=697ZigkJFXSp40Ptzu/jWqVjxne9AOAKRj6OGmgvoyI=;
- b=UTuMQkW2znzD5QGMUSqrTh5omN7OmUdiDsiu4v/NuJwPgEqpbl9CQiGJ+K8hj4KBeU
- 1U5BLgcI0PbuF1xhDZRSYjQt9JUEfo2x6tECbtqXO5aX486UJ4N5k34TbAPAdaymDoJi
- R1l5sr2PYHb5NH74Lr3i0LBiUD01Viw6s67Qfsvi8CwS74hZeb5ziDFAacXuHUKeH2fY
- psdxRCr+EXG13iEIYntCoEW8kNsd3i+TKTvonmsm2yepIbNlrBTBiRHffZ76+fSKglRX
- e+/7K0XK+PPCTMZs6XHYxNNTkhn1eRZ7V+L91T/INzkV6QaK3mWjQMwsDeDLZi8kd+PL
- Ka1g==
+ bh=wbyCKBJR5yzSSGFKbBymlfOnB2dE0USMr5972q1A+Zg=;
+ b=o+kgXET08srcpfKOof+HqQ4rI4G9j+M6l2ke7NLVNmNSaCTTIT3baJwM37gljNl9SE
+ gsXaGgQu917PHdfp8DelFhPf3LHbvFetpP+Op/0jFddpCr2JjnG/lEayC2/YMEPACz/X
+ r9Tet3kUh0lCR8C+7XKYqWt/gdu71BOHY2CG+Roo6Pw9ZTW8nYVA2nByIRjcHT8wKNUT
+ AYIeG+B7n2vGvJqyzL/4QxoN5/qblcoyVU6D2pmVqruTQF1a7gheGGGjUMj2G5X4GkZe
+ fJG4XRb1vSJG8j3lNcsp5fpMSUHJ+FyRnK4OOC2grzIToQetnKnonq6/+Cgv5Qm+Eoem
+ 1x8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=697ZigkJFXSp40Ptzu/jWqVjxne9AOAKRj6OGmgvoyI=;
- b=Nldj/LEXxKwUMH+fNh4k3Y0U4TopCUQnGroA75DLZhfasaAUp8P9fbQnATH0zcmSXy
- xNQ6FBPsC0tDXqsmjEmoN8M9DO80XuFgAqT5EBZiF1ZBVaz515OSORoSsQ6E4tVUntZU
- HVlVScRq7GAp8b6kgjcy4q4gwYwYLxFLm5gHhXNe7KbTaSGH/76jCfzgSTipdHVqV8Z8
- YLjh+9S1iVI3wOot+quo3E5aLfkd2pHg6DweWtt0u/K4slpm1oU5rOuh5nSn3es3Xr5q
- VffcT67J5Qpct6kJ1fhSCGgz6uoY8Ka0/aO/GNMYNdmZrPxH/70d5El8rcQZr18Yu5qA
- ljKA==
-X-Gm-Message-State: AOAM532DewmXgrZy4CAc8t7G2e3DsvorlJMChQae4gy/lb8y8s5rBOTj
- BUcmwFTbyk7dhxJs/esYnDw=
-X-Google-Smtp-Source: ABdhPJwiAHiokerWbWJ5Qm/dSoZBo1KqrTMe23syqQVqme71FwSax0154L8altbhpcyeHrAaOwFXKw==
-X-Received: by 2002:a05:6402:690:b0:42a:cf15:c69a with SMTP id
- f16-20020a056402069000b0042acf15c69amr1694426edy.416.1652797184902; 
- Tue, 17 May 2022 07:19:44 -0700 (PDT)
+ bh=wbyCKBJR5yzSSGFKbBymlfOnB2dE0USMr5972q1A+Zg=;
+ b=aXpGbOVwQIPWkpriHuE3ln5+1JoGzKC2+xjojNjtaHunRW3W7gl+KBif1d37tQV8zN
+ AsidpA7qwBiqnJvdcj500miNnU6818tL18iPnHirICjWkv5hLmKzHawukBUaVb54rUOi
+ 4HohuAoZJN7QIsqHbq/4iW4VHIzllgRY93rL2EVUpaRaRpEZHwKFVaBb3uZ96TRP+xV1
+ pZ6tAvVgP0QhPCVozIDz/4MvdzbCQKIG1K3GP6lT0LP1B76MyT3e9PjDEEmtC/BXP4S/
+ hO9b9m7kOqbPL1VOrIHf+hx0cxX1n6wyi+sgkObNuLXlEvhzLeN++rTu6o6H1aJzXlxf
+ D8Pg==
+X-Gm-Message-State: AOAM5337TNvxVwxJoyd7rQk65hIFsQoTIt/0LegCeQJ9XzdTi+zNzKM0
+ EvNlA3PBrGhEeNxD/v0zQVik5HO/lNEqAQ==
+X-Google-Smtp-Source: ABdhPJz4U4VocYMaX0Nf9/cOGd9Cglom9rR6+60FEFXGYgm7FRcbyk6ZX2sr7onj4F4i/gApewn/5w==
+X-Received: by 2002:a17:906:9c85:b0:6f4:e065:4f4b with SMTP id
+ fj5-20020a1709069c8500b006f4e0654f4bmr19733835ejc.92.1652797233008; 
+ Tue, 17 May 2022 07:20:33 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- a23-20020aa7cf17000000b0042ab02e3485sm3673562edy.44.2022.05.17.07.19.42
+ cx4-20020a05640222a400b0042ac2b71078sm1651606edb.55.2022.05.17.07.20.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 07:19:44 -0700 (PDT)
-Message-ID: <99c9d25e-a69a-1db9-6ec7-f3348ac691d4@redhat.com>
-Date: Tue, 17 May 2022 16:19:40 +0200
+ Tue, 17 May 2022 07:20:32 -0700 (PDT)
+Message-ID: <08a986d2-df07-2516-7bee-1099c3368ef0@redhat.com>
+Date: Tue, 17 May 2022 16:20:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 02/18] block: Add a 'flags' param to blk_pread()
+Subject: Re: [PATCH 04/18] block: Make 'bytes' param of blk_{pread, pwrite}()
+ an int64_t
 Content-Language: en-US
 To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell
- <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, qemu-ppc@nongnu.org, Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- qemu-riscv@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>, Stefan Weil <sw@weilnetz.de>,
- Laurent Vivier <laurent@vivier.eu>, "Denis V. Lunev" <den@openvz.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Greg Kurz <groug@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Kevin Wolf <kwolf@redhat.com>, "Edgar E. Iglesias"
- <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
 References: <20220517113524.197910-1-afaria@redhat.com>
- <20220517113524.197910-3-afaria@redhat.com>
+ <20220517113812.199312-1-afaria@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220517113524.197910-3-afaria@redhat.com>
+In-Reply-To: <20220517113812.199312-1-afaria@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -112,26 +96,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/22 13:35, Alberto Faria wrote:
+On 5/17/22 13:37, Alberto Faria wrote:
 > For consistency with other I/O functions, and in preparation to
-> implement it using generated_co_wrapper.
-> 
-> Callers were updated using this Coccinelle script:
-> 
->      @@ expression blk, offset, buf, bytes; @@
->      - blk_pread(blk, offset, buf, bytes)
->      + blk_pread(blk, offset, buf, bytes, 0)
-> 
-> It had no effect on hw/block/nand.c, presumably due to the #if, so that
-> file was updated manually.
-
-Whoa that's disgusting...
-
-> Overly-long lines were then fixed by hand.
+> implement them using generated_co_wrapper.
 > 
 > Signed-off-by: Alberto Faria <afaria@redhat.com>
+> ---
+>   block/block-backend.c             | 6 +++---
+>   include/sysemu/block-backend-io.h | 6 +++---
+>   2 files changed, 6 insertions(+), 6 deletions(-)
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Paolo
 
