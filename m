@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFD952992F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 07:54:51 +0200 (CEST)
-Received: from localhost ([::1]:42790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87B052992E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 07:54:46 +0200 (CEST)
+Received: from localhost ([::1]:42602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqqAS-0003c5-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 01:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49446)
+	id 1nqqAP-0003UU-JK
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 01:54:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqq4l-0000T1-SX
- for qemu-devel@nongnu.org; Tue, 17 May 2022 01:48:56 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:35662)
+ id 1nqq4r-0000U4-7c
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 01:49:03 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:33625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqq4j-0007nI-Ks
- for qemu-devel@nongnu.org; Tue, 17 May 2022 01:48:55 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id c9so16450466plh.2
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 22:48:53 -0700 (PDT)
+ id 1nqq4m-0007nz-EA
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 01:48:58 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id d17so16461532plg.0
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 22:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e3KBk6nkeNJQhadgHBeZE6aGoHWOgeb/U7VKNqTlDdI=;
- b=Ts6iRBlLOQ6bYD9I6ibXAYxFTpyPXJYj00TVzsCH9t1Qz5fLR10rplIrhNUQQ8Q3Zz
- Hk7WsC8sJL3vKztUOXUQFrJ3GutFkw0yYwTfgpzfWFORk6auym4rt46dhUEMMhGBeZi0
- aWfuzDj0ql2jwVkmnn8MArCUr2RrwHXXeEGnvqliDOCQjcBJW85h5OH5/dXpbEW72cuQ
- C3zmytSl0bAhCSjDUwUPnSETR8bvfI8CAPwe85Xt772LKBPwBjD7UF+r8klsE9vu1PC6
- jczrTsAMh27Sq98HzRbIk0q3TCnsqrkRlDVVYfu1OBjG5rR1a8hQ+MWnwfTmXMIkM9n+
- naKw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lmHQQPYKlDu3aWdQHOeaVIIUIVTyse+PwW1XBQtfA78=;
+ b=cGV7ETBX0EQw4hCrNIxB8c5H7+FhLuLVgD/Q+KMxCmgy+VOoCo0ax9d8/lCyU0+WmS
+ zy1pa5WOJCdjf+LvCpitdP6mNzHY3ayIuw50W7uuSeNvRz0wh7hvr5N8X89+yQklgRwl
+ K2AL3N2dW+3mNo4HooDBnnhh19n/HEmm6jZ8eKArFcihq6euwLgRrAaDgtEOLGTgv+Hc
+ rXZ4xK8Ba5Uo3nuVrshreXg9T9+SGtXkU+JjM2XJ/08X2Bh/tzf64RVVWbPeIJHyJjpr
+ jxtWBnnMYf/HFgVcQKYdHCt+3Mj+Yc1P+n2J1BSvUSz1mDXrJQFPoyH4rzLuHlU1YHxz
+ BbDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e3KBk6nkeNJQhadgHBeZE6aGoHWOgeb/U7VKNqTlDdI=;
- b=rj/5GEbA6YoIGx0t55baJjfB8UzDkhj22nBJixsxb2X8F7p8GfzhhssPR+2wsc+E5f
- sF0vyc5KkkzyAzHoeH41AQk8z42OLB1dDlSUZjIrfI2NqOjvJCtibx0ExsYhOLT4R/0S
- RlLHJ9ULinB3MAQ5Njv/JZ0/S3bfTzPxgvjBCqGgrG0dpkH/kFxkTmfbJRPQ4PWWr24l
- GR7HpUj+C0HnTRan4PzEkAnWSltLzLse5srrlk3c3pHrIx/3fuPvu8mmfbXS86q8601l
- jomWb8I8LscyVeREdh2mEf5YEprzGgfDMjB2SW7gknimyu/HWFcORUjXie13UptCYLqM
- bgyw==
-X-Gm-Message-State: AOAM532YoeXeCCFMj1HnsBcZg2S9K0hH1jAQPzX1JQm3ajQdVUFvnIpB
- 2mR8M93pQF4kOXhHKrWWFwzYhU0tJODWdg==
-X-Google-Smtp-Source: ABdhPJx1syDstvS627dgOjlQ1kAFqIjZTT2FYQOusGXmsRaanM/HSRj/Kl7pYfGeECKs1KuBtsfASg==
-X-Received: by 2002:a17:902:cf4a:b0:161:64f4:52d8 with SMTP id
- e10-20020a170902cf4a00b0016164f452d8mr11138426plg.83.1652766531964; 
- Mon, 16 May 2022 22:48:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lmHQQPYKlDu3aWdQHOeaVIIUIVTyse+PwW1XBQtfA78=;
+ b=08+j1WGl8s9TwpCkgtU13hM2jOHVqPcxBjl7p0zmmlFAh9QIkxHceLtKvrjhIgyYHt
+ l79JUjweLOYt6eaGC0TSuZUHDGwnrsSiLC1HI34qimU7snCqaJETf59n1x+7af+0Bkkr
+ fxULCzORHt4yfraN+dkTWiiB1cJY6YDaBsjb+DFiQlSr80KCMeZ29DiB3yncdQOMKHsm
+ FeIM0zmju9TAVkJdBiLhkWKgbCGDO/jGAyaHham8qvL3tUn1R6b+XxInyD2tqbWKnNd/
+ rk0Rq/tK86khV2fcIShlBtmVdZL3I05ffF+pWC3sbndyW+5ksxN+w9b6fkip4wHutRPF
+ 3f1A==
+X-Gm-Message-State: AOAM533NbD5FvFT+f2p7tKo3GOeG3w5910dJZmcqpkLjt5myeENX2Sba
+ r/q1hCLVZc3xAX8aPUX2K0A5+6LVA03N1g==
+X-Google-Smtp-Source: ABdhPJx7S8MkwcTYvDle8pRk/J6KKf59X/nvTX9t5cyjpkwYt5oNhWLeug1Ukk75ba2KI/kkXacQSw==
+X-Received: by 2002:a17:902:f684:b0:161:8b4d:adf5 with SMTP id
+ l4-20020a170902f68400b001618b4dadf5mr6159456plg.112.1652766535108; 
+ Mon, 16 May 2022 22:48:55 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- b12-20020a170902d88c00b0015e8d4eb1fasm8146670plz.68.2022.05.16.22.48.51
+ b12-20020a170902d88c00b0015e8d4eb1fasm8146670plz.68.2022.05.16.22.48.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 22:48:51 -0700 (PDT)
+ Mon, 16 May 2022 22:48:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v2 0/7] target/arm: SME prep patches
-Date: Mon, 16 May 2022 22:48:43 -0700
-Message-Id: <20220517054850.177016-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 4/7] target/arm: Merge aarch64_sve_zcr_get_valid_len into
+ caller
+Date: Mon, 16 May 2022 22:48:47 -0700
+Message-Id: <20220517054850.177016-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220517054850.177016-1-richard.henderson@linaro.org>
+References: <20220517054850.177016-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,36 +88,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v2:
-  * Fixed the errors PMM noticed in patch 2.
-  * Cleanups for SVE vector length selection.
-  * Cleanups for SVE exception el selection.
-  * Add el_is_in_host -- I'm not sure this one will really help,
-    but it's certainly appearing more and more in the pseudocode.
+This function is used only once, and will need modification
+for Streaming SVE mode.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/internals.h | 11 -----------
+ target/arm/helper.c    | 30 +++++++++++-------------------
+ 2 files changed, 11 insertions(+), 30 deletions(-)
 
-r~
-
-
-Richard Henderson (7):
-  target/arm: Enable FEAT_HCX for -cpu max
-  target/arm: Use FIELD definitions for CPACR, CPTR_ELx
-  target/arm: Do not use aarch64_sve_zcr_get_valid_len in reset
-  target/arm: Merge aarch64_sve_zcr_get_valid_len into caller
-  target/arm: Use uint32_t instead of bitmap for sve vq's
-  target/arm: Remove fp checks from sve_exception_el
-  target/arm: Add el_is_in_host
-
- target/arm/cpu.h       |  70 +++++++++++++--
- target/arm/internals.h |  18 ++--
- target/arm/kvm_arm.h   |   7 +-
- hw/arm/boot.c          |   2 +-
- target/arm/cpu.c       |  14 +--
- target/arm/cpu64.c     | 118 ++++++++++++------------
- target/arm/helper.c    | 198 +++++++++++++++++++++++++----------------
- target/arm/kvm64.c     |  36 ++------
- 8 files changed, 264 insertions(+), 199 deletions(-)
-
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 6ca0e95746..36ff843cef 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -189,17 +189,6 @@ void arm_translate_init(void);
+ void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+ #endif /* CONFIG_TCG */
+ 
+-/**
+- * aarch64_sve_zcr_get_valid_len:
+- * @cpu: cpu context
+- * @start_len: maximum len to consider
+- *
+- * Return the maximum supported sve vector length <= @start_len.
+- * Note that both @start_len and the return value are in units
+- * of ZCR_ELx.LEN, so the vector bit length is (x + 1) * 128.
+- */
+-uint32_t aarch64_sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len);
+-
+ enum arm_fprounding {
+     FPROUNDING_TIEEVEN,
+     FPROUNDING_POSINF,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 5fd64b742a..0308920357 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6218,40 +6218,32 @@ int sve_exception_el(CPUARMState *env, int el)
+     return 0;
+ }
+ 
+-uint32_t aarch64_sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
+-{
+-    uint32_t end_len;
+-
+-    start_len = MIN(start_len, ARM_MAX_VQ - 1);
+-    end_len = start_len;
+-
+-    if (!test_bit(start_len, cpu->sve_vq_map)) {
+-        end_len = find_last_bit(cpu->sve_vq_map, start_len);
+-        assert(end_len < start_len);
+-    }
+-    return end_len;
+-}
+-
+ /*
+  * Given that SVE is enabled, return the vector length for EL.
+  */
+ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+-    uint32_t zcr_len = cpu->sve_max_vq - 1;
++    uint32_t len = cpu->sve_max_vq - 1;
++    uint32_t end_len;
+ 
+     if (el <= 1 &&
+         (arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
++        len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+     }
+     if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
++        len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
+     }
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
++        len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
+     }
+ 
+-    return aarch64_sve_zcr_get_valid_len(cpu, zcr_len);
++    end_len = len;
++    if (!test_bit(len, cpu->sve_vq_map)) {
++        end_len = find_last_bit(cpu->sve_vq_map, len);
++        assert(end_len < len);
++    }
++    return end_len;
+ }
+ 
+ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.34.1
 
