@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C2152AA03
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:09:17 +0200 (CEST)
-Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4B052AA27
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:10:45 +0200 (CEST)
+Received: from localhost ([::1]:37140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr1d8-0001R1-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50176)
+	id 1nr1eU-00039O-5k
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:10:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1c1-0000mQ-2C
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:08:01 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:42860)
+ id 1nr1cp-0001VD-4Q
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:08:51 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:35439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1bz-0001k3-DY
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:08:00 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id d22so18038393plr.9
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:07:58 -0700 (PDT)
+ id 1nr1cn-0001mn-Dh
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:08:50 -0400
+Received: by mail-pl1-x631.google.com with SMTP id c2so316901plh.2
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XZOGoDpagHM+3GjR1f+OvZAOvmZ3bcNYcNa5vBBMClM=;
- b=pC7mdS4zYSMVmdpSGFp7pWQYjveZE50R+MBoftQTFIphrwycP3ipERaRLJ7RR+uGnf
- iQh6bKeeNPvwr4QwtWgxwH8Mv06m+swEoEqpeOwEfrblDSDeje9nxLIYkmHBTwj7chAV
- h5kUctVG7XXyIoZ2/XIKB5VfbpeZgQwl5QhP/fRPFR/Ft6MsDlYxNBTPaL1EAPx+s3S7
- w81MpuA/P1r04a3awhR0F++r9Beo8oNbzT6bO65lYnq9w1XZZVpY2msNwuGVWoH58f2G
- TBzp+Yk3qoVZI90FF1IdOqqjY/xmO5aaNFsPVPOkIaAiQmehdLEY3RVi80DaXcMxAXLb
- QyBA==
+ bh=MF2e1oYCwycsLuRmtC8tBFVNlZ1rgTrL4a9VFC+gH/U=;
+ b=M26DEQL3BqjHdv3mX4guB4Ct/f6FliIKzhWpUAs5s4x1D4T+U/n13qyv0rS6du9R9L
+ 8aWAYyBbPNg+ZpQzbf4jO9fAhtnfQcWzJaZEaBcgiC7HxTILZ2XRXfkK4hf5P5sA9rN1
+ iVvJGdZDN09BwGb8fBJwD7DFiTtcKp6HoK8UvPiyVNw9tnbBdJm1o5Nf8UcKFhOtFjn8
+ +DQlDnOoR6acVhvbrDJxCXfD4RjPKCpzViPfUiEuE/3jpR3DLnW9IkQoMEnNmH+Sdyar
+ w2x3q39mQR16XX19qxZB0CUEIUi/vlUVjcWCA2rkwT98piaLwK7eZrxnCNKEJhmhpeIR
+ EQwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XZOGoDpagHM+3GjR1f+OvZAOvmZ3bcNYcNa5vBBMClM=;
- b=vOEY6VgvCE4e7PT3mhU9oGMiUmCGKcxW7gJcB/YvJmwexlZmninstWnYF6EhE/VYub
- 8GwD9etqNEHk8/DHaSN4YfGtmMVDB1SvPhHOz4DRnqFV2+Zb4g1lADfPygkJsUBfV67h
- W8Y/BNFvHycYxX3mZ7OQ7jIyp4EA3GEPKWXPFakZnJhU0D4mbf0+AgOeJ4Vz/Y8sivau
- lkjtFZiPQrCm1HtixueLY5dziTtsQp+3eOTKYSZJ3yooFvE/K4iUPA3nP/x5iLRDXn2M
- l2iOM8nsg24+5SiRfMtBBYYCuOHxGVKUqJHESe7AO/wJHWK8VSv5pGvqVORuC9f0A6XF
- 7F9A==
-X-Gm-Message-State: AOAM53247BzfXj0T7L9V2a6nQxedX8z3MK7k+OVYJ8F+dRw0OicZgf6H
- kxb3RIdGEPT9c89qriM5e22Llg==
-X-Google-Smtp-Source: ABdhPJz5c+RDfbgWGE7QUbqkRhWjS8L7ZtcQZMcqPPU6RnZIRW9DYio8vV6W9LSYjoLlRMd36gmeiA==
-X-Received: by 2002:a17:902:e883:b0:161:8382:c9ea with SMTP id
- w3-20020a170902e88300b001618382c9eamr10149508plg.51.1652810877299; 
- Tue, 17 May 2022 11:07:57 -0700 (PDT)
+ bh=MF2e1oYCwycsLuRmtC8tBFVNlZ1rgTrL4a9VFC+gH/U=;
+ b=rmaTvGKBB4Bp0uJ18f3kSolZYZthi0sHpuZrI387p0c2X135wze20+ivjR9m8FmDBF
+ m8lOXHch6lVq+hESZl9a3wBipIsOst49xDElTbZcIv2hQ6k0YzTjPDmYnt9E+yhgcI1h
+ pKSm+FwGo1qo9uMOw8CM6QF/NyOscFS1OHjKfjfHmyZc+/9A7INh3Dr1NflzOI+Op4a3
+ 0K8GXmx5L9j0rKK61ryZUrEFUFs8iwtX3PS+Ykja8coZDCAfbuExV2bBOa7i4EsrpSq2
+ POdKDNMFnRGOdxv+Inrt17swSxfa7qrvESMSyCyX9cAzXE0PNPP+Iat2DMX3PF0rSo26
+ dz3w==
+X-Gm-Message-State: AOAM531vvXtKSJObXBJXhx2btaVxQpmsy5AJJJbnKODc2ys5T9PR7gOV
+ 1VR1gLyfmrNiDTOJjr5CdITOyQ==
+X-Google-Smtp-Source: ABdhPJxEvQgixCuzN6FF1OA44UHyZmnAy6bv9Tyvw5hQb33Ly1JV6TgCt65ILKr528CEZ4GCGpFmGw==
+X-Received: by 2002:a17:903:2ca:b0:156:f1cc:7cb6 with SMTP id
+ s10-20020a17090302ca00b00156f1cc7cb6mr24061012plk.174.1652810928052; 
+ Tue, 17 May 2022 11:08:48 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a170902bf4a00b0015e8d4eb26csm9331286pls.182.2022.05.17.11.07.56
+ n16-20020a170902e55000b0015e8d4eb285sm9640968plf.207.2022.05.17.11.08.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 11:07:56 -0700 (PDT)
-Message-ID: <e157719a-f3d3-cf51-b3a1-e5a295bac39e@linaro.org>
-Date: Tue, 17 May 2022 11:07:54 -0700
+ Tue, 17 May 2022 11:08:47 -0700 (PDT)
+Message-ID: <8c0d6a6b-daaf-b664-6961-3e19e314ff87@linaro.org>
+Date: Tue, 17 May 2022 11:08:45 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 01/16] configure: do not define or use the CPP variable
+Subject: Re: [PATCH 02/16] build: clean up ninja invocation
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
 References: <20220517092616.1272238-1-pbonzini@redhat.com>
- <20220517092616.1272238-2-pbonzini@redhat.com>
+ <20220517092616.1272238-3-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517092616.1272238-2-pbonzini@redhat.com>
+In-Reply-To: <20220517092616.1272238-3-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,24 +94,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/17/22 02:26, Paolo Bonzini wrote:
-> Just hardcode $(CC) -E, it should be enough.
+> Fix an incorrect "@@:" and move "-d keepdepfile" to the NINJAFLAGS variable.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   configure                  | 3 ---
->   pc-bios/optionrom/Makefile | 2 +-
->   2 files changed, 1 insertion(+), 4 deletions(-)
+>   Makefile | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
->   %.o: %.S
-> -	$(call quiet-command,$(CPP) $(CPPFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
-> +	$(call quiet-command,$(CC) $(CPPFLAGS) -E -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
-
-Although I'm surprised we need to do this pipe thing. Surely just rely on the 
-assembler-with-cpp rule built into the compiler driver.  Are we using a custom AS in this 
-case?
-
 
 r~
 
