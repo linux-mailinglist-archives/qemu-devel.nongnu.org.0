@@ -2,83 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF3852A86C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:45:37 +0200 (CEST)
-Received: from localhost ([::1]:49140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F8252A89C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:52:11 +0200 (CEST)
+Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr0KB-0004Np-EE
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:45:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33204)
+	id 1nr0QW-0001eq-UH
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr0I9-0003Zj-EC
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:43:26 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:45800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr0I7-0005m5-Th
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:43:25 -0400
-Received: by mail-pf1-x430.google.com with SMTP id y41so17344061pfw.12
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sY75N/SnIWqWMEGpJNVBJ3FLWp9SbPu/gwv9KyH/gyE=;
- b=U6a2FaO7yq4AB0CzhHpk+dS1/7/D+od+DUGTZnNCYHTcSt0gdshMqXVU7yqO7aYbES
- 5L56JMLPeHi7ADS3pFMcf3I4NJzridzP/VhuUXb7Id/Wie0ugIR5EbzJWsraGqjepfzl
- /QrVLVXhWeNAy4xg3pUIDejMAreRc2MfMDqx9nfP02pz9dNS6cNVWtGsdJHE2ZcOHNss
- MOqV3pv7XaxOEAa+NvH2ajMNMyA1+faCEARGgfBHdrQ+96OpaJ4VqW+gfACl/4htpgRO
- uWofIdRS9Z3QzeLQ+DYTtbfjAKZ+vXLbdlRm7adkVFyOt19rAci3VgHL/FaqKvYxJfBy
- lSFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sY75N/SnIWqWMEGpJNVBJ3FLWp9SbPu/gwv9KyH/gyE=;
- b=xfvZEyXff2634sRulTFThz0dh+TLK7m1K8pwJRJElIfgp+Yn4q8gIquVV2vcjvsSlK
- s1f+wTCERZEHMMI7D8T8PMf5RXquV4g1g+6P2fb/HnV5/19+Xn7I6v+SbB+3QaT+AmSx
- JK/oWQo4CZeY9Dqi/a36KNq10Jy23R02HXUFrA+NEw0WxwQUfI1fbgDuhVfjEuJOznwC
- ysIlBihZUNl6k4bti5eQOtZwhjn2SnWFtDU8jndndGjDnAVhRIyhK6FcCZIjrnIIvZkq
- edQY7OcINdz01FLuW+Wi4ZaOvQLro6GEwTO4jA0CwtKNZjQkcpa6eCO40aNRoWmHHOmX
- VSKg==
-X-Gm-Message-State: AOAM5310F7lhbE6gFDRtGKXgC0vcYpHVINjQ/mWwib6h3Udf008utP87
- gx/u1JT1oxNZmM9LOFPNZQ000g==
-X-Google-Smtp-Source: ABdhPJy/2J9Q015AcUIYgH+FGRfIb60D6TfWdJpMERQ46w5TGEz+CHPmPXuxv4m9gXbeyVkCgAPh9w==
-X-Received: by 2002:a63:e416:0:b0:3c6:8d10:ea37 with SMTP id
- a22-20020a63e416000000b003c68d10ea37mr20161918pgi.319.1652805802411; 
- Tue, 17 May 2022 09:43:22 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- r7-20020a170902ea4700b0015e8d4eb289sm9304498plg.211.2022.05.17.09.43.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 09:43:21 -0700 (PDT)
-Message-ID: <e1c6ca41-df28-0787-928e-56bc313f730b@linaro.org>
-Date: Tue, 17 May 2022 09:43:19 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 05/12] target/ppc: Use TCG_CALL_NO_RWG_SE in fsel helper
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nr0Mh-0007Mt-B2; Tue, 17 May 2022 12:48:07 -0400
+Received: from [187.72.171.209] (port=63178 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nr0Mf-0006ji-Ox; Tue, 17 May 2022 12:48:06 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 17 May 2022 13:47:59 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 240D9800603;
+ Tue, 17 May 2022 13:47:59 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org
-References: <20220517123929.284511-1-matheus.ferst@eldorado.org.br>
- <20220517123929.284511-6-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517123929.284511-6-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ groug@kaod.org, richard.henderson@linaro.org,
+ victor.colombo@eldorado.org.br
+Subject: [PATCH RESEND 00/10] BCDA and mffscdrn implementations
+Date: Tue, 17 May 2022 13:47:34 -0300
+Message-Id: <20220517164744.58131-1-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 17 May 2022 16:47:59.0419 (UTC)
+ FILETIME=[DDB538B0:01D86A0D]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,24 +62,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/22 05:39, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> 
-> fsel doesn't change FPSCR and CR1 is handled by gen_set_cr1_from_fpscr,
-> so helper_fsel doesn't need the env argument and can be declared with
-> TCG_CALL_NO_RWG_SE. We also take this opportunity to move the insn to
-> decodetree.
-> 
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/fpu_helper.c            | 15 +++++++--------
->   target/ppc/helper.h                |  2 +-
->   target/ppc/insn32.decode           |  7 +++++++
->   target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++++++--
->   target/ppc/translate/fp-ops.c.inc  |  1 -
->   5 files changed, 43 insertions(+), 12 deletions(-)
+Set of patches containing implementations for some instructions that
+were missing before. Also, moves some related instructions to
+decodetree.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Rebased against current master and resend
 
-r~
+Matheus Ferst (4):
+  target/ppc: Add flag for ISA v2.06 BCDA instructions
+  target/ppc: implement addg6s
+  target/ppc: implement cbcdtd
+  target/ppc: implement cdtbcd
+
+Víctor Colombo (6):
+  target/ppc: Fix insn32.decode style issues
+  target/ppc: Move mffs[.] to decodetree
+  target/ppc: Move mffsl to decodetree
+  target/ppc: Move mffsce to decodetree
+  target/ppc: Move mffscrn[i] to decodetree
+  target/ppc: Implement mffscdrn[i] instructions
+
+ target/ppc/cpu.h                           |   4 +-
+ target/ppc/cpu_init.c                      |   9 +-
+ target/ppc/dfp_helper.c                    |  65 ++++++++
+ target/ppc/helper.h                        |   2 +
+ target/ppc/insn32.decode                   |  55 +++++--
+ target/ppc/internal.h                      |   3 -
+ target/ppc/translate/fixedpoint-impl.c.inc |  49 ++++++
+ target/ppc/translate/fp-impl.c.inc         | 168 ++++++++++-----------
+ target/ppc/translate/fp-ops.c.inc          |   9 --
+ 9 files changed, 245 insertions(+), 119 deletions(-)
+
+-- 
+2.25.1
+
 
