@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CA252AC55
+	by mail.lfdr.de (Postfix) with ESMTPS id 5204252AC54
 	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 22:00:05 +0200 (CEST)
-Received: from localhost ([::1]:33520 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr3MK-0005cT-PL
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 15:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45740)
+	id 1nr3MM-0005kT-Nq
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 15:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3K9-00031m-BG
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3K9-00031n-OU
  for qemu-devel@nongnu.org; Tue, 17 May 2022 15:57:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31508)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3K5-0002Kf-WF
- for qemu-devel@nongnu.org; Tue, 17 May 2022 15:57:39 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nr3K6-0002Kl-Mm
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 15:57:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652817456;
+ s=mimecast20190719; t=1652817458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vWq2OYlD4yYV9t8i1p8Kv1yyUIQzXwfiDex54HSvV0s=;
- b=HzQ6jfSSUwS7Cib8lwbQoeMFZa20NvkTKbHe5jk2eIt+zYTkLHiYongBymQNsYTe/fSiuf
- RsMven4GiXyNl3yVZbSfpgQWsa1YKfHq7Ywf+0M/WBDymAhQNW+pmsKurnCg2iz3WidDUT
- ezAvLIcKjFL4Gt+fexYoiG+BeDxv0Xk=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WlxP3mzG79FvL1utUjQMn5yT8ZTiCbWippa7BQ3pxe4=;
+ b=EWqr4VRI7wMT3D8j3Ifsa/XjsAfR+44jzNqYhwpIMZN9OHdnY33PGrHV430BXWWmg+4yWK
+ Ex37jeC/kP5MC/C1waFV+LsyN0p/6Yrj34oRqLfTgbX95fyNEFA+Z3trd0vsSBp197bt3x
+ 8TsB28gLhahgxl98v27B/1FaNWLeCLk=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-_cB0VCwcMpG-pvb0Bkf9Gw-1; Tue, 17 May 2022 15:57:35 -0400
-X-MC-Unique: _cB0VCwcMpG-pvb0Bkf9Gw-1
-Received: by mail-il1-f197.google.com with SMTP id
- k6-20020a056e02156600b002cf4afa295bso54262ilu.8
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 12:57:35 -0700 (PDT)
+ us-mta-224-3gfJwBKXP3qAXPvoGlCzLg-1; Tue, 17 May 2022 15:57:37 -0400
+X-MC-Unique: 3gfJwBKXP3qAXPvoGlCzLg-1
+Received: by mail-il1-f199.google.com with SMTP id
+ i15-20020a056e0212cf00b002cf3463ed24so89427ilm.0
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 12:57:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vWq2OYlD4yYV9t8i1p8Kv1yyUIQzXwfiDex54HSvV0s=;
- b=KydAROGpKvHBxMEZXdbc7vG3MkzZdDPbJkuZQhO92hXDz2mqPNb5NZPy9mmpbGi+ON
- CLLjP4eBPlxn0l3EMmia4A/6CtuOudjcQVG3egUEmFdzxcZSqrfxLDp3PItrjKAtdQPR
- 3bBn7/LrPIuzIZ5KNKtT/C4oLVeWa7aKsKIiF1r+GyyUJzadM3gmscK2QT0z088Ec4gu
- VARw0xR2gW7bi8Wf8nzcJqNkTseFof+ZIOvMMS5mv+HSZpixMsW0U2G06OfQN6uZc1Ud
- XWDUwZn6IXtAwOY1lJh4pS7CrG9a1QETqwIp1Bt9627LHhVrY3s3VwLOFdt9EzXDr4n9
- 1BuQ==
-X-Gm-Message-State: AOAM533HfPTSRiO4YZeC1BCQ/vkh9qa5pKm2m0ZHLjHbe0x9PO6s7Zcw
- zy6d+BO3lO50ExiEstToSogwRfzGWHs6ePRjXyPESd8M+Frwj9LMVxb6AcYkgUEgbuIerXOYwJB
- McV95F2aBsQxm5vaQlwLrcdMRBJ99hYJ35zBLgHcLtkf9YAx1chwzl7j5B7MPYjVT
-X-Received: by 2002:a05:6e02:216b:b0:2cf:3f1c:fd63 with SMTP id
- s11-20020a056e02216b00b002cf3f1cfd63mr13064038ilv.141.1652817453970; 
- Tue, 17 May 2022 12:57:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIAKiWjTB2viHEFjtsuSt7J0rRmAHG7Ha0X9B74cswY1gyCUvCux3IiYqp7RqdRoc44Lzw0Q==
-X-Received: by 2002:a05:6e02:216b:b0:2cf:3f1c:fd63 with SMTP id
- s11-20020a056e02216b00b002cf3f1cfd63mr13064017ilv.141.1652817453327; 
- Tue, 17 May 2022 12:57:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=WlxP3mzG79FvL1utUjQMn5yT8ZTiCbWippa7BQ3pxe4=;
+ b=ZM3z59olM9l2qzxP8rTgJOWQcRCbtJKCSj6yduxSSRN41jG9mdv/wCQ04LmD2LR0ab
+ P96eKS4wSn0QjVYfBy2z4M5Xrjuxd9H1qtJD0X34rhqSliMJaTS7emSUTAYbxYH7Bbrb
+ j778ahcg/PpIkFYC3E592jlClfM8+lcG/lLnU7BhLO2MbKRquCHIkp4+qauQR8eLGbzx
+ iWLzuGbZ4vjaQ4PhCUF1spsIFtzDtVLBjDoEDI/3BO6dQRxXDCbAeGpDpoLgk0if1e/B
+ GOzUHsk/Voqoi1K+obAC4eL79Vq4SmVt/I/6zqiTT0h7Mn5N6LbzhFk9FDUt51e3l1G/
+ 23MA==
+X-Gm-Message-State: AOAM533yBB2O1o13KpJ9Svwa4eznY+MxxyWQi0YFi3DGUh37QOtya0cW
+ saTbzJ+ukotzddXan8KtscimnVzNSY3sPgaM41cXG2AQVpvLRYY8ptv96xNXDTkaffwkryTGXDF
+ wT8JAcAja1CkCFqh+NM6SedqVGe1vCfsr1nu6Ejzg/0L4p2uQloLvzO79ZaAabmyp
+X-Received: by 2002:a05:6602:2f06:b0:65d:fd3a:96cc with SMTP id
+ q6-20020a0566022f0600b0065dfd3a96ccmr6648220iow.14.1652817455622; 
+ Tue, 17 May 2022 12:57:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw5QM36zwwB+/6r+n3OWSabhtTuHfKw00MGfjAE++WeYv7refELCibMzFelj5uBr2o1LxSctw==
+X-Received: by 2002:a05:6602:2f06:b0:65d:fd3a:96cc with SMTP id
+ q6-20020a0566022f0600b0065dfd3a96ccmr6648207iow.14.1652817455293; 
+ Tue, 17 May 2022 12:57:35 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- f15-20020a056e020b4f00b002d125725709sm59575ilu.28.2022.05.17.12.57.31
+ f15-20020a056e020b4f00b002d125725709sm59575ilu.28.2022.05.17.12.57.33
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 17 May 2022 12:57:32 -0700 (PDT)
+ Tue, 17 May 2022 12:57:34 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peterx@redhat.com, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
@@ -68,12 +69,14 @@ Cc: peterx@redhat.com, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  Manish Mishra <manish.mishra@nutanix.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH v6 00/13] migration: Postcopy Preemption
-Date: Tue, 17 May 2022 15:57:17 -0400
-Message-Id: <20220517195730.32312-1-peterx@redhat.com>
+Subject: [PATCH v6 01/13] migration: Add postcopy-preempt capability
+Date: Tue, 17 May 2022 15:57:18 -0400
+Message-Id: <20220517195730.32312-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220517195730.32312-1-peterx@redhat.com>
+References: <20220517195730.32312-1-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -99,146 +102,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is v6 of postcopy preempt series.  It can also be found here:
+Firstly, postcopy already preempts precopy due to the fact that we do
+unqueue_page() first before looking into dirty bits.
 
-  https://github.com/xzpeter/qemu/tree/postcopy-preempt
+However that's not enough, e.g., when there're host huge page enabled, when
+sending a precopy huge page, a postcopy request needs to wait until the whole
+huge page that is sending to finish.  That could introduce quite some delay,
+the bigger the huge page is the larger delay it'll bring.
 
-RFC: https://lore.kernel.org/qemu-devel/20220119080929.39485-1-peterx@redhat.com
-V1:  https://lore.kernel.org/qemu-devel/20220216062809.57179-1-peterx@redhat.com
-V2:  https://lore.kernel.org/qemu-devel/20220301083925.33483-1-peterx@redhat.com
-V3:  https://lore.kernel.org/qemu-devel/20220330213908.26608-1-peterx@redhat.com
-V4:  https://lore.kernel.org/qemu-devel/20220331150857.74406-1-peterx@redhat.com
-V5:  https://lore.kernel.org/qemu-devel/20220425233847.10393-1-peterx@redhat.com
+This patch adds a new capability to allow postcopy requests to preempt existing
+precopy page during sending a huge page, so that postcopy requests can be
+serviced even faster.
 
-The major change of this version is one more patch to handle the corner
-case when a postcopy request hits a preempted precopy hugepage.  That's
-also my major test focus, to make sure that corner case will be triggered
-and behave as expected - as long as there's a sequential dirty thread
-spinning it's fairly easy to trigger the special condition.
+Meanwhile to send it even faster, bypass the precopy stream by providing a
+standalone postcopy socket for sending requested pages.
 
-v6 changelog:
-- Rebased, picked up more R-bs
-- Replace migrate_tls_enabled() with migrate_use_tls() that Leo just
-  introduced in the zerocopy series
-- Added patch "migration: Respect postcopy request order in preemption
-  mode", per discussion with Manish.
+Since the new behavior will not be compatible with the old behavior, this will
+not be the default, it's enabled only when the new capability is set on both
+src/dst QEMUs.
 
-Abstract
-========
+This patch only adds the capability itself, the logic will be added in follow
+up patches.
 
-This series contains two parts now:
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/migration.c | 23 +++++++++++++++++++++++
+ migration/migration.h |  1 +
+ qapi/migration.json   |  8 +++++++-
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
-  (1) Leftover patches from Dan's tls unit tests v2, which is first half
-  (2) Leftover patches from my postcopy preempt v4, which is second half
-
-This series added a new migration capability called "postcopy-preempt".  It can
-be enabled when postcopy is enabled, and it'll simply (but greatly) speed up
-postcopy page requests handling process.
-
-Below are some initial postcopy page request latency measurements after the
-new series applied.
-
-For each page size, I measured page request latency for three cases:
-
-  (a) Vanilla:                the old postcopy
-  (b) Preempt no-break-huge:  preempt enabled, x-postcopy-preempt-break-huge=off
-  (c) Preempt full:           preempt enabled, x-postcopy-preempt-break-huge=on
-                              (this is the default option when preempt enabled)
-
-Here x-postcopy-preempt-break-huge parameter is just added in v2 so as to
-conditionally disable the behavior to break sending a precopy huge page for
-debugging purpose.  So when it's off, postcopy will not preempt precopy
-sending a huge page, but still postcopy will use its own channel.
-
-I tested it separately to give a rough idea on which part of the change
-helped how much of it.  The overall benefit should be the comparison
-between case (a) and (c).
-
-  |-----------+---------+-----------------------+--------------|
-  | Page size | Vanilla | Preempt no-break-huge | Preempt full |
-  |-----------+---------+-----------------------+--------------|
-  | 4K        |   10.68 |               N/A [*] |         0.57 |
-  | 2M        |   10.58 |                  5.49 |         5.02 |
-  | 1G        | 2046.65 |               933.185 |      649.445 |
-  |-----------+---------+-----------------------+--------------|
-  [*]: This case is N/A because 4K page does not contain huge page at all
-
-[1] https://github.com/xzpeter/small-stuffs/blob/master/tools/huge_vm/uffd-latency.bpf
-
-TODO List
-=========
-
-Avoid precopy write() blocks postcopy
--------------------------------------
-
-I didn't prove this, but I always think the write() syscalls being blocked
-for precopy pages can affect postcopy services.  If we can solve this
-problem then my wild guess is we can further reduce the average page
-latency.
-
-Two solutions at least in mind: (1) we could have made the write side of
-the migration channel NON_BLOCK too, or (2) multi-threads on send side,
-just like multifd, but we may use lock to protect which page to send too
-(e.g., the core idea is we should _never_ rely anything on the main thread,
-multifd has that dependency on queuing pages only on main thread).
-
-That can definitely be done and thought about later.
-
-Multi-channel for preemption threads
-------------------------------------
-
-Currently the postcopy preempt feature use only one extra channel and one
-extra thread on dest (no new thread on src QEMU).  It should be mostly good
-enough for major use cases, but when the postcopy queue is long enough
-(e.g. hundreds of vCPUs faulted on different pages) logically we could
-still observe more delays in average.  Whether growing threads/channels can
-solve it is debatable, but sounds worthwhile a try.  That's yet another
-thing we can think about after this patchset lands.
-
-Logically the design provides space for that - the receiving postcopy
-preempt thread can understand all ram-layer migration protocol, and for
-multi channel and multi threads we could simply grow that into multile
-threads handling the same protocol (with multiple PostcopyTmpPage).  The
-source needs more thoughts on synchronizations, though, but it shouldn't
-affect the whole protocol layer, so should be easy to keep compatible.
-
-Please review, thanks.
-
-Peter Xu (13):
-  migration: Add postcopy-preempt capability
-  migration: Postcopy preemption preparation on channel creation
-  migration: Postcopy preemption enablement
-  migration: Postcopy recover with preempt enabled
-  migration: Create the postcopy preempt channel asynchronously
-  migration: Add property x-postcopy-preempt-break-huge
-  migration: Add helpers to detect TLS capability
-  migration: Export tls-[creds|hostname|authz] params to cmdline too
-  migration: Enable TLS for preempt channel
-  migration: Respect postcopy request order in preemption mode
-  tests: Add postcopy tls migration test
-  tests: Add postcopy tls recovery migration test
-  tests: Add postcopy preempt tests
-
- migration/channel.c          |   9 +-
- migration/migration.c        | 139 +++++++++++++--
- migration/migration.h        |  44 ++++-
- migration/multifd.c          |   4 +-
- migration/postcopy-ram.c     | 186 +++++++++++++++++++-
- migration/postcopy-ram.h     |  11 ++
- migration/qemu-file.c        |  27 +++
- migration/qemu-file.h        |   1 +
- migration/ram.c              | 330 +++++++++++++++++++++++++++++++++--
- migration/ram.h              |   4 +-
- migration/savevm.c           |  46 +++--
- migration/socket.c           |  22 ++-
- migration/socket.h           |   1 +
- migration/tls.c              |   9 +
- migration/tls.h              |   4 +
- migration/trace-events       |  15 +-
- qapi/migration.json          |   8 +-
- tests/qtest/migration-test.c | 131 ++++++++++++--
- 18 files changed, 917 insertions(+), 74 deletions(-)
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 31739b2af9..f15e1593ac 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1240,6 +1240,11 @@ static bool migrate_caps_check(bool *cap_list,
+             error_setg(errp, "Postcopy is not compatible with ignore-shared");
+             return false;
+         }
++
++        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
++            error_setg(errp, "Multifd is not supported in postcopy");
++            return false;
++        }
+     }
+ 
+     if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+@@ -1283,6 +1288,13 @@ static bool migrate_caps_check(bool *cap_list,
+         return false;
+     }
+ 
++    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
++        if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
++            error_setg(errp, "Postcopy preempt requires postcopy-ram");
++            return false;
++        }
++    }
++
+     return true;
+ }
+ 
+@@ -2669,6 +2681,15 @@ bool migrate_background_snapshot(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
+ }
+ 
++bool migrate_postcopy_preempt(void)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT];
++}
++
+ /* migration thread support */
+ /*
+  * Something bad happened to the RP stream, mark an error
+@@ -4283,6 +4304,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
+     DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
+     DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
++    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
++                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
+     DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
+     DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
+     DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
+diff --git a/migration/migration.h b/migration/migration.h
+index 485d58b95f..d2269c826c 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -400,6 +400,7 @@ int migrate_decompress_threads(void);
+ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
+ bool migrate_background_snapshot(void);
++bool migrate_postcopy_preempt(void);
+ 
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 6130cd9fae..d8c3810ba2 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -461,6 +461,12 @@
+ #                       procedure starts. The VM RAM is saved with running VM.
+ #                       (since 6.0)
+ #
++# @postcopy-preempt: If enabled, the migration process will allow postcopy
++#                    requests to preempt precopy stream, so postcopy requests
++#                    will be handled faster.  This is a performance feature and
++#                    should not affect the correctness of postcopy migration.
++#                    (since 7.1)
++#
+ # Features:
+ # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+ #
+@@ -474,7 +480,7 @@
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+-           'validate-uuid', 'background-snapshot'] }
++           'validate-uuid', 'background-snapshot', 'postcopy-preempt'] }
+ 
+ ##
+ # @MigrationCapabilityStatus:
 -- 
 2.32.0
 
