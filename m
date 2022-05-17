@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427E652A7CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:23:08 +0200 (CEST)
-Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B9852A79C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:06:51 +0200 (CEST)
+Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqzyV-0002Z4-7c
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53314)
+	id 1nqzij-0003sk-QS
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dzejrou@gmail.com>) id 1nqzkk-00088t-B7
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:08:54 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:44639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dzejrou@gmail.com>) id 1nqzki-0008JY-EW
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:08:53 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id p139so12302226ybc.11
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V7+SLNcQ570TOoMzuGQdr/7lzAh9/O1M3xEm0MrRNbI=;
- b=JjJgMv3C6sii+OsVWcjop3a1c+5FZh1X8iccrJNDgWeccgIWFXUyZ9ZJbczSvFviGd
- 7BaGAC361dK0JCpv5oIbMHct3uBdfF4rh0dCwFPbqkv6BGbeVFB6+ybkCdZ8vNE9s1gV
- 7przAGjS0elpR6qK+He2TL59qWd4q/IciSgAF3aq/SprSAOLZ4B+yy+y2k3g8Ry+LFKV
- YDF7uEmtdeeds/B6K2K/pKuYoDRncP4w+X+0vwXFoxGm0kH0Sh2KmKEL78Q/1JDSw6Uk
- ULjmOtvjbdFujagf8egkeB9P2uFPMDvztp7VQ3Vex2c9KxNHMXN8v/zDvNhHrkpeYnYK
- zohQ==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nqzcy-0000Yo-ST
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:00:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56922)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nqzcv-0007Ai-V2
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:00:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652803249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KXyNdb/qYUm4bT/FBPlcTWmb50A3X6cgMHVfkh1hjtg=;
+ b=R+MypPevPEtuFt2sZJsN8Ke6HneEipm3QA1INSdlU3yFc4thBPdsv9M8kFMwKWh+XdlghU
+ PDzziyYYhd52o2x97p+8CHf3rFbx/TPw7jM6xCMKWolQv2VOBNwAK4ZcKeSQ7QH+xLA7uC
+ Itwg4w2Su8jtVmrG3Due5lbFpQJiOKU=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-jyWHXO3wOompLK-v-7ByWw-1; Tue, 17 May 2022 12:00:47 -0400
+X-MC-Unique: jyWHXO3wOompLK-v-7ByWw-1
+Received: by mail-io1-f71.google.com with SMTP id
+ x13-20020a0566022c4d00b0065491fa5614so12649105iov.9
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:00:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V7+SLNcQ570TOoMzuGQdr/7lzAh9/O1M3xEm0MrRNbI=;
- b=5qivzUFhiGkvgNn4/51wF5t6lhp3xjAO5fIHG/U8d2YhDccSalSY3PrcLJs+PwbTUm
- k0/CQxWWStX93+IhiRyMOJ45bQ6iLN06e9+ivFOluvFKgMWaaAuzwUUYBwLd1aa/PBQC
- PWxEM7ayE+PjPQoCxsG3XFXh24jD6O+oLGpjyY5FumttMYevO/LBM5kCJgGQAn4KKKcu
- o2f/Oxtg/TMAsMNuG4tQvuRupuoO7VUg9rTnutn1Q3RzBxzfJf3juQ4IxalfCptOcdIJ
- kBf0wnq8pzqZCIAbiKSeNAoSirTpuvuDJpr2MYepiHb9EPGZagkzsT20w7ncMUUwfKiC
- n5zw==
-X-Gm-Message-State: AOAM533QZ6Pf2Ii5xd3i53ohXGNCcMnpoZcDKqoynjJjI3KMbx09S5h3
- t/J3Te63Rjs5e1yaUHjpUScO04Blw9uPG/s8Lnw=
-X-Google-Smtp-Source: ABdhPJxTdnvNMr7wmDJU9eoIECQT7Rd+18Hrts1kNLE1mLwYmtqWedobevQhuNMwESUsqM2KunjPEhxTNTqv6qtOoMg=
-X-Received: by 2002:a25:7804:0:b0:64b:332e:cd7b with SMTP id
- t4-20020a257804000000b0064b332ecd7bmr25169044ybc.323.1652803731014; Tue, 17
- May 2022 09:08:51 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=KXyNdb/qYUm4bT/FBPlcTWmb50A3X6cgMHVfkh1hjtg=;
+ b=yw3Gfn+uNxkE5Uq+2nT1hsu565MuswfORjsJUMdPGhnkUayrDGaH7t45XOKwMFmM5h
+ TRf2nYDGXsCgRY72vRFkVmIXFl6Ct7N+CRhU2GHHccuVhCBx8+hRR0sbiI/0dLKHl9CH
+ 4byICKMFCQLojFotluANT0Wz+0zEb/UrC4aqL5olotkSasFwYHQ6YxPJB75ZHEj2hj13
+ BkxzIO55IBlIK2ZM8Ru6lHNa2TE1HEyIRP1ro8YKb8IBXwxdmzraxqkz7CoBvRVYEefQ
+ tECCLhXv/hS8dMttdhhBKaQhzqOb8jv6je9FFlbn6EhMYBJMjVzFNNR2nGluzb0b2r/y
+ SFBA==
+X-Gm-Message-State: AOAM531noqlQtmWcZT7JrmEzFAOT5S8y2jNRgjywSd95vd7oRt70QCem
+ vRvr2C8AFxFKP0FBQ+97eHToG/StWH9uZvpAQ/S0b8UiVtUUNOauWpErqjVoyZAe1DHIHf0vReS
+ GXYf0Gpb+G7lbbpA=
+X-Received: by 2002:a5d:94cf:0:b0:657:24c1:bb7f with SMTP id
+ y15-20020a5d94cf000000b0065724c1bb7fmr10534971ior.195.1652803247108; 
+ Tue, 17 May 2022 09:00:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyE6B3R173NBzm5Zy75ez6htCa2Uqc/Sddo4MAvsdvHP0lMij9UJ6z/7aacMkpnD0IZTAypfw==
+X-Received: by 2002:a5d:94cf:0:b0:657:24c1:bb7f with SMTP id
+ y15-20020a5d94cf000000b0065724c1bb7fmr10534949ior.195.1652803246868; 
+ Tue, 17 May 2022 09:00:46 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ e199-20020a0269d0000000b0032e1655c763sm2489254jac.67.2022.05.17.09.00.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 May 2022 09:00:46 -0700 (PDT)
+Date: Tue, 17 May 2022 10:00:45 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Juan Quintela <quintela@redhat.com>, Avihai Horon <avihaih@nvidia.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, Cornelia
+ Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti
+ Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 4/9] vfio/migration: Skip pre-copy if dirty page
+ tracking is not supported
+Message-ID: <20220517100045.27a696c9.alex.williamson@redhat.com>
+In-Reply-To: <20220516230832.GP1343366@nvidia.com>
+References: <20220512154320.19697-1-avihaih@nvidia.com>
+ <20220512154320.19697-5-avihaih@nvidia.com>
+ <87h75psowp.fsf@secure.mitica>
+ <20220516142200.57003872.alex.williamson@redhat.com>
+ <20220516230832.GP1343366@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-References: <20220517123858.7933-1-dzejrou@gmail.com>
- <20220517171228.44c53748@redhat.com>
-In-Reply-To: <20220517171228.44c53748@redhat.com>
-From: =?UTF-8?Q?Jaroslav_Jindr=C3=A1k?= <dzejrou@gmail.com>
-Date: Tue, 17 May 2022 17:44:07 +0200
-Message-ID: <CAE-Qwfxr=qu-D4vMPdh=fgLVxGc7ipUZcqk4pk1xPWXtv0nLeQ@mail.gmail.com>
-Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
- smp-cpus
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, david@redhat.com, 
- Michal Privoznik <mprivozn@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=dzejrou@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,78 +109,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 May 2022 at 17:12, Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Tue, 17 May 2022 14:38:58 +0200
-> dzejrou@gmail.com wrote:
->
-> > From: Jaroslav Jindrak <dzejrou@gmail.com>
-> >
-> > Prior to the introduction of the prealloc-threads property, the amount
-> > of threads used to preallocate memory was derived from the value of
-> > smp-cpus passed to qemu, the amount of physical cpus of the host
-> > and a hardcoded maximum value. When the prealloc-threads property
-> > was introduced, it included a default of 1 in backends/hostmem.c and
-> > a default of smp-cpus using the sugar API for the property itself. The
-> > latter default is not used when the property is not specified on qemu's
-> > command line, so guests that were not adjusted for this change suddenly
-> > started to use the default of 1 thread to preallocate memory, which
-> > resulted in observable slowdowns in guest boots for guests with large
-> > memory (e.g. when using libvirt <8.2.0 or managing guests manually).
->
-> current behavior in QEMU is intentionally conservative. threads
-> number is subject to host configuration and limitations management
-> layer puts on it and it's not QEMU job to conjure magic numbers that
-> are host/workload depended.
-> If user needs more prealloc threads they need to specify it explicitly
-> for each memory backend (i.e. convince management to do it or fix your
-> scripts to so).
+On Mon, 16 May 2022 20:08:32 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-I understand that, but I'd say that a sudden change of the default to
-1, which can
-lead to guest boot slowdowns of about 2-8 times (and boots taking several
-minutes) because of a change that was not very well documented (to the point
-that it took libvirt about 2 years [0] to add support for this
-property) does qualify
-as a regression. After all, this patch does not conjure any new
-numbers, but rather
-restores the original behavior of qemu if the user does _not_ use the new
-prealloc-threads property.
+> On Mon, May 16, 2022 at 02:22:00PM -0600, Alex Williamson wrote:
+> > On Mon, 16 May 2022 13:22:14 +0200
+> > Juan Quintela <quintela@redhat.com> wrote:
+> >   
+> > > Avihai Horon <avihaih@nvidia.com> wrote:  
+> > > > Currently, if IOMMU of a VFIO container doesn't support dirty page
+> > > > tracking, migration is blocked completely. This is because a DMA-able
+> > > > VFIO device can dirty RAM pages without updating QEMU about it, thus
+> > > > breaking the migration.
+> > > >
+> > > > However, this doesn't mean that migration can't be done at all. If
+> > > > migration pre-copy phase is skipped, the VFIO device doesn't have a
+> > > > chance to dirty RAM pages that have been migrated already, thus
+> > > > eliminating the problem previously mentioned.
+> > > >
+> > > > Hence, in such case allow migration but skip pre-copy phase.
+> > > >
+> > > > Signed-off-by: Avihai Horon <avihaih@nvidia.com>    
+> > > 
+> > > I don't know (TM).
+> > > Several issues:
+> > > - Patch is ugly as hell (ok, that depends on taste)
+> > > - It changes migration_iteration_run() instead of directly
+> > >   migration_thread.
+> > > - There is already another case where we skip the sending of RAM
+> > >   (localhost migration with shared memory)
+> > > 
+> > > In migration/ram.c:
+> > > 
+> > > static int ram_find_and_save_block(RAMState *rs, bool last_stage)
+> > > {
+> > >     PageSearchStatus pss;
+> > >     int pages = 0;
+> > >     bool again, found;
+> > > 
+> > >     /* No dirty page as there is zero RAM */
+> > >     if (!ram_bytes_total()) {
+> > >         return pages;
+> > >     }
+> > > 
+> > > This is the other place where we _don't_ send any RAM at all.
+> > > 
+> > > I don't have a great idea about how to make things clear at a higher
+> > > level, I have to think about this.  
+> > 
+> > It seems like if we have devices dictating what type of migrations can
+> > be performed then there probably needs to be a switch to restrict use of
+> > such devices just as we have the -only-migratable switch now to prevent
+> > attaching devices that don't support migration.  I'd guess that we need
+> > the switch to opt-in to allowing such devices to maintain
+> > compatibility.  There's probably a whole pile of qapi things missing to
+> > expose this to management tools as well.  Thanks,  
+> 
+> This is really intended to be a NOP from where things are now, as if
+> you use mlx5 live migration without a patch like this then it causes a
+> botched pre-copy since everything just ends up permanently dirty.
+> 
+> If it makes more sense we could abort the pre-copy too - in the end
+> there will be dirty tracking so I don't know if I'd invest in a big
+> adventure to fully define non-dirty tracking migration.
 
-[0] https://github.com/libvirt/libvirt/commit/ba7f98126fa84d354ce72929b77cc111a9a557a9
+How is pre-copy currently "botched" without a patch like this?  If it's
+simply that the pre-copy doesn't converge and the downtime constraints
+don't allow the VM to enter stop-and-copy, that's the expected behavior
+AIUI, and supports backwards compatibility with existing SLAs.
 
-> CCing Michal, as he recently looked into similar topic.
->
-> To behave it the old way you need to use legacy -mem-prealloc option.
->
->
-> > This commit restores the original behavior for these cases while not
-> > impacting guests started with the prealloc-threads property in any way.
-> >
-> > Fixes: 220c1fd864e9d ("hostmem: introduce "prealloc-threads" property")
-> > Signed-off-by: Jaroslav Jindrak <dzejrou@gmail.com>
-> > ---
-> >  backends/hostmem.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/backends/hostmem.c b/backends/hostmem.c
-> > index a7bae3d713..624bb7ecd3 100644
-> > --- a/backends/hostmem.c
-> > +++ b/backends/hostmem.c
-> > @@ -274,7 +274,7 @@ static void host_memory_backend_init(Object *obj)
-> >      backend->merge = machine_mem_merge(machine);
-> >      backend->dump = machine_dump_guest_core(machine);
-> >      backend->reserve = true;
-> > -    backend->prealloc_threads = 1;
-> > +    backend->prealloc_threads = machine->smp.cpus;
-> pls, do not add more dependencies to random external objects to memory backends.
->
-> If you have to do that, use machine compat properties instead, but then
-> the essence of the issue stays the same (user shall define optimal threads
-> number and provide it to qemu explicitly)
->
-> >  }
-> >
-> >  static void host_memory_backend_post_init(Object *obj)
->
+I'm assuming that by setting this new skip_precopy flag that we're
+forcing the VM to move to stop-and-copy, regardless of any other SLA
+constraints placed on the migration.  It seems like a better solution
+would be to expose to management tools that the VM contains a device
+that does not support the pre-copy phase so that downtime expectations
+can be adjusted.  Thanks,
+
+Alex
+
 
