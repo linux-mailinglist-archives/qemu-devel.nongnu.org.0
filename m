@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B9852A79C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:06:51 +0200 (CEST)
-Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD1652A7B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:14:33 +0200 (CEST)
+Received: from localhost ([::1]:39154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqzij-0003sk-QS
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51288)
+	id 1nqzqD-0005yz-1s
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nqzcy-0000Yo-ST
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:00:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56922)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nqzdo-0000nq-Lk
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:01:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nqzcv-0007Ai-V2
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:00:51 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nqzdl-0007JB-0q
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:01:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652803249;
+ s=mimecast20190719; t=1652803300;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KXyNdb/qYUm4bT/FBPlcTWmb50A3X6cgMHVfkh1hjtg=;
- b=R+MypPevPEtuFt2sZJsN8Ke6HneEipm3QA1INSdlU3yFc4thBPdsv9M8kFMwKWh+XdlghU
- PDzziyYYhd52o2x97p+8CHf3rFbx/TPw7jM6xCMKWolQv2VOBNwAK4ZcKeSQ7QH+xLA7uC
- Itwg4w2Su8jtVmrG3Due5lbFpQJiOKU=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6PPZa8/OwqE2TNKbH5I9lkQ6SuMIOT9/KozgFeiJKNw=;
+ b=ihQWQYn/ABp2pD6Gt4qlWOOC5NEx0SgGs0BFU7TIjMtMYIO2w4WxMU5Q/MSfIU+xiQmrTB
+ 5pNm6bd2XWF5HcZJ437NA4K+HRviX7cD3zIyTcpyBDVvQTvgkVWcNnAawiixLxroVrpm2Q
+ bpcXK410LPwAs91+CC18NpwTBFOFDCg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-jyWHXO3wOompLK-v-7ByWw-1; Tue, 17 May 2022 12:00:47 -0400
-X-MC-Unique: jyWHXO3wOompLK-v-7ByWw-1
-Received: by mail-io1-f71.google.com with SMTP id
- x13-20020a0566022c4d00b0065491fa5614so12649105iov.9
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:00:47 -0700 (PDT)
+ us-mta-407-_kd_fE8sNc-Cd6Ng8USBLQ-1; Tue, 17 May 2022 12:01:38 -0400
+X-MC-Unique: _kd_fE8sNc-Cd6Ng8USBLQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s16-20020adfeb10000000b0020cc4e5e683so4834667wrn.6
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:01:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=KXyNdb/qYUm4bT/FBPlcTWmb50A3X6cgMHVfkh1hjtg=;
- b=yw3Gfn+uNxkE5Uq+2nT1hsu565MuswfORjsJUMdPGhnkUayrDGaH7t45XOKwMFmM5h
- TRf2nYDGXsCgRY72vRFkVmIXFl6Ct7N+CRhU2GHHccuVhCBx8+hRR0sbiI/0dLKHl9CH
- 4byICKMFCQLojFotluANT0Wz+0zEb/UrC4aqL5olotkSasFwYHQ6YxPJB75ZHEj2hj13
- BkxzIO55IBlIK2ZM8Ru6lHNa2TE1HEyIRP1ro8YKb8IBXwxdmzraxqkz7CoBvRVYEefQ
- tECCLhXv/hS8dMttdhhBKaQhzqOb8jv6je9FFlbn6EhMYBJMjVzFNNR2nGluzb0b2r/y
- SFBA==
-X-Gm-Message-State: AOAM531noqlQtmWcZT7JrmEzFAOT5S8y2jNRgjywSd95vd7oRt70QCem
- vRvr2C8AFxFKP0FBQ+97eHToG/StWH9uZvpAQ/S0b8UiVtUUNOauWpErqjVoyZAe1DHIHf0vReS
- GXYf0Gpb+G7lbbpA=
-X-Received: by 2002:a5d:94cf:0:b0:657:24c1:bb7f with SMTP id
- y15-20020a5d94cf000000b0065724c1bb7fmr10534971ior.195.1652803247108; 
- Tue, 17 May 2022 09:00:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyE6B3R173NBzm5Zy75ez6htCa2Uqc/Sddo4MAvsdvHP0lMij9UJ6z/7aacMkpnD0IZTAypfw==
-X-Received: by 2002:a5d:94cf:0:b0:657:24c1:bb7f with SMTP id
- y15-20020a5d94cf000000b0065724c1bb7fmr10534949ior.195.1652803246868; 
- Tue, 17 May 2022 09:00:46 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- e199-20020a0269d0000000b0032e1655c763sm2489254jac.67.2022.05.17.09.00.46
+ :references:mime-version:content-transfer-encoding;
+ bh=6PPZa8/OwqE2TNKbH5I9lkQ6SuMIOT9/KozgFeiJKNw=;
+ b=CeYa4xrg73MKgvIA9/qX3ady8BhLbGMwNFQn9wC0zlrYTOrAMPYFwEc3usSDq/auDS
+ NvKygz49NpU9LweBmVX7wEokPIKDikw+a1PXhgtt/aGYLZC5C8+vR0fFxwA4RSlszbFQ
+ kSEjlFiIBly7mM62PJshucLFPNgAuIFb0HASO0tq3S2pbr3fWujt1wg882FmZoCvwlpX
+ TGo1AFrgjhuckekfOG9Ayt8rrV2ZRNWp1J7IK5XF5eQusfbbUQ+tIHcclOw+IE1Qg+2T
+ cQ9aGjhFxPH78JU7mfz5pqrxnZAeVzGPnHRxbApReLhgw2b1wpZ3FYkxxU3cmn9JDKGD
+ nV5w==
+X-Gm-Message-State: AOAM530/akVVbal3c6z1tuf/vX2bA127kaHP7gixyQ4CCIi3i1m6u24f
+ IBj8WftVJEzJIgJ1fLLNP+jTq3oXy2pJ7v99JAzp8ZzpJI183qupERCCNMFpGUhXCHJXCQwZ0j5
+ qltrzG+QnETmHkIQ=
+X-Received: by 2002:a05:600c:4e88:b0:394:8835:2220 with SMTP id
+ f8-20020a05600c4e8800b0039488352220mr21567795wmq.140.1652803297656; 
+ Tue, 17 May 2022 09:01:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2Iad3n8pNE+SKtbDlPH/8Jlb61nVD1BgPW2SM+QAwgRVeP1e3h7Jyq2BRiSUhxOiScirttQ==
+X-Received: by 2002:a05:600c:4e88:b0:394:8835:2220 with SMTP id
+ f8-20020a05600c4e8800b0039488352220mr21567765wmq.140.1652803297385; 
+ Tue, 17 May 2022 09:01:37 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ e11-20020adfa44b000000b0020c5253d8e6sm12390145wra.50.2022.05.17.09.01.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 09:00:46 -0700 (PDT)
-Date: Tue, 17 May 2022 10:00:45 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Juan Quintela <quintela@redhat.com>, Avihai Horon <avihaih@nvidia.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, Cornelia
- Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
- Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti
- Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH 4/9] vfio/migration: Skip pre-copy if dirty page
- tracking is not supported
-Message-ID: <20220517100045.27a696c9.alex.williamson@redhat.com>
-In-Reply-To: <20220516230832.GP1343366@nvidia.com>
-References: <20220512154320.19697-1-avihaih@nvidia.com>
- <20220512154320.19697-5-avihaih@nvidia.com>
- <87h75psowp.fsf@secure.mitica>
- <20220516142200.57003872.alex.williamson@redhat.com>
- <20220516230832.GP1343366@nvidia.com>
-Organization: Red Hat
+ Tue, 17 May 2022 09:01:37 -0700 (PDT)
+Date: Tue, 17 May 2022 18:01:35 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca, minyard@acm.org,
+ stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
+Subject: Re: [PATCH 28/35] acpi: pvpanic-isa: use
+ AcpiDevAmlIfClass:build_dev_aml to provide device's AML
+Message-ID: <20220517180135.757626ab@redhat.com>
+In-Reply-To: <20220516163547-mutt-send-email-mst@kernel.org>
+References: <20220516152610.1963435-1-imammedo@redhat.com>
+ <20220516152610.1963435-29-imammedo@redhat.com>
+ <20220516163547-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -109,82 +103,236 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 May 2022 20:08:32 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Mon, 16 May 2022 16:46:29 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> On Mon, May 16, 2022 at 02:22:00PM -0600, Alex Williamson wrote:
-> > On Mon, 16 May 2022 13:22:14 +0200
-> > Juan Quintela <quintela@redhat.com> wrote:
-> >   
-> > > Avihai Horon <avihaih@nvidia.com> wrote:  
-> > > > Currently, if IOMMU of a VFIO container doesn't support dirty page
-> > > > tracking, migration is blocked completely. This is because a DMA-able
-> > > > VFIO device can dirty RAM pages without updating QEMU about it, thus
-> > > > breaking the migration.
-> > > >
-> > > > However, this doesn't mean that migration can't be done at all. If
-> > > > migration pre-copy phase is skipped, the VFIO device doesn't have a
-> > > > chance to dirty RAM pages that have been migrated already, thus
-> > > > eliminating the problem previously mentioned.
-> > > >
-> > > > Hence, in such case allow migration but skip pre-copy phase.
-> > > >
-> > > > Signed-off-by: Avihai Horon <avihaih@nvidia.com>    
-> > > 
-> > > I don't know (TM).
-> > > Several issues:
-> > > - Patch is ugly as hell (ok, that depends on taste)
-> > > - It changes migration_iteration_run() instead of directly
-> > >   migration_thread.
-> > > - There is already another case where we skip the sending of RAM
-> > >   (localhost migration with shared memory)
-> > > 
-> > > In migration/ram.c:
-> > > 
-> > > static int ram_find_and_save_block(RAMState *rs, bool last_stage)
-> > > {
-> > >     PageSearchStatus pss;
-> > >     int pages = 0;
-> > >     bool again, found;
-> > > 
-> > >     /* No dirty page as there is zero RAM */
-> > >     if (!ram_bytes_total()) {
-> > >         return pages;
-> > >     }
-> > > 
-> > > This is the other place where we _don't_ send any RAM at all.
-> > > 
-> > > I don't have a great idea about how to make things clear at a higher
-> > > level, I have to think about this.  
+> On Mon, May 16, 2022 at 11:26:03AM -0400, Igor Mammedov wrote:
+> > .. and clean up not longer needed conditionals in DSTD build code
+> > pvpanic-isa AML will be fetched and included when ISA bridge will
+> > build its own AML code (including attached devices).
 > > 
-> > It seems like if we have devices dictating what type of migrations can
-> > be performed then there probably needs to be a switch to restrict use of
-> > such devices just as we have the -only-migratable switch now to prevent
-> > attaching devices that don't support migration.  I'd guess that we need
-> > the switch to opt-in to allowing such devices to maintain
-> > compatibility.  There's probably a whole pile of qapi things missing to
-> > expose this to management tools as well.  Thanks,  
+> > Expected AML change:
+> >    the device under separate _SB.PCI0.ISA scope is moved directly
+> >    under Device(ISA) node.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  include/hw/misc/pvpanic.h |  9 ---------
+> >  hw/i386/acpi-build.c      | 37 ----------------------------------
+> >  hw/misc/pvpanic-isa.c     | 42 +++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 42 insertions(+), 46 deletions(-)
+> > 
+> > diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
+> > index 7f16cc9b16..e520566ab0 100644
+> > --- a/include/hw/misc/pvpanic.h
+> > +++ b/include/hw/misc/pvpanic.h
+> > @@ -33,13 +33,4 @@ struct PVPanicState {
+> >  
+> >  void pvpanic_setup_io(PVPanicState *s, DeviceState *dev, unsigned size);
+> >  
+> > -static inline uint16_t pvpanic_port(void)
+> > -{
+> > -    Object *o = object_resolve_path_type("", TYPE_PVPANIC_ISA_DEVICE, NULL);
+> > -    if (!o) {
+> > -        return 0;
+> > -    }
+> > -    return object_property_get_uint(o, PVPANIC_IOPORT_PROP, NULL);
+> > -}
+> > -
+> >  #endif
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 517818cd9f..a42f41f373 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -30,7 +30,6 @@
+> >  #include "hw/pci/pci.h"
+> >  #include "hw/core/cpu.h"
+> >  #include "target/i386/cpu.h"
+> > -#include "hw/misc/pvpanic.h"
+> >  #include "hw/timer/hpet.h"
+> >  #include "hw/acpi/acpi-defs.h"
+> >  #include "hw/acpi/acpi.h"
+> > @@ -117,7 +116,6 @@ typedef struct AcpiMiscInfo {
+> >  #endif
+> >      const unsigned char *dsdt_code;
+> >      unsigned dsdt_size;
+> > -    uint16_t pvpanic_port;
+> >  } AcpiMiscInfo;
+> >  
+> >  typedef struct AcpiBuildPciBusHotplugState {
+> > @@ -302,7 +300,6 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
+> >  #ifdef CONFIG_TPM
+> >      info->tpm_version = tpm_get_version(tpm_find());
+> >  #endif
+> > -    info->pvpanic_port = pvpanic_port();
+> >  }
+> >  
+> >  /*
+> > @@ -1749,40 +1746,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          aml_append(dsdt, scope);
+> >      }
+> >  
+> > -    if (misc->pvpanic_port) {
+> > -        scope = aml_scope("\\_SB.PCI0.ISA");
+> > -
+> > -        dev = aml_device("PEVT");
+> > -        aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
+> > -
+> > -        crs = aml_resource_template();
+> > -        aml_append(crs,
+> > -            aml_io(AML_DECODE16, misc->pvpanic_port, misc->pvpanic_port, 1, 1)
+> > -        );
+> > -        aml_append(dev, aml_name_decl("_CRS", crs));
+> > -
+> > -        aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
+> > -                                              aml_int(misc->pvpanic_port), 1));
+> > -        field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
+> > -        aml_append(field, aml_named_field("PEPT", 8));
+> > -        aml_append(dev, field);
+> > -
+> > -        /* device present, functioning, decoding, shown in UI */
+> > -        aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+> > -
+> > -        method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
+> > -        aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
+> > -        aml_append(method, aml_return(aml_local(0)));
+> > -        aml_append(dev, method);
+> > -
+> > -        method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
+> > -        aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
+> > -        aml_append(dev, method);
+> > -
+> > -        aml_append(scope, dev);
+> > -        aml_append(dsdt, scope);
+> > -    }
+> > -
+> >      sb_scope = aml_scope("\\_SB");
+> >      {
+> >          Object *pci_host;
+> > diff --git a/hw/misc/pvpanic-isa.c b/hw/misc/pvpanic-isa.c
+> > index b84d4d458d..ccec50f61b 100644
+> > --- a/hw/misc/pvpanic-isa.c
+> > +++ b/hw/misc/pvpanic-isa.c
+> > @@ -22,6 +22,7 @@
+> >  #include "qom/object.h"
+> >  #include "hw/isa/isa.h"
+> >  #include "standard-headers/linux/pvpanic.h"
+> > +#include "hw/acpi/acpi_aml_interface.h"
+> >  
+> >  OBJECT_DECLARE_SIMPLE_TYPE(PVPanicISAState, PVPANIC_ISA_DEVICE)
+> >  
+> > @@ -63,6 +64,41 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
+> >      isa_register_ioport(d, &ps->mr, s->ioport);
+> >  }
+> >  
+> > +static void build_pvpanic_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+> > +{
+> > +    Aml *crs, *field, *method;
+> > +    PVPanicISAState *s = PVPANIC_ISA_DEVICE(adev);
+> > +    Aml *dev = aml_device("PEVT");
+> > +
+> > +    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
+> > +
+> > +    crs = aml_resource_template();
+> > +    aml_append(crs,
+> > +        aml_io(AML_DECODE16, s->ioport, s->ioport, 1, 1)
+> > +    );
+> > +    aml_append(dev, aml_name_decl("_CRS", crs));
+> > +
+> > +    aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
+> > +                                          aml_int(s->ioport), 1));
+> > +    field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
+> > +    aml_append(field, aml_named_field("PEPT", 8));
+> > +    aml_append(dev, field);
+> > +
+> > +    /* device present, functioning, decoding, shown in UI */
+> > +    aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+> > +
+> > +    method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
+> > +    aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
+> > +    aml_append(method, aml_return(aml_local(0)));
+> > +    aml_append(dev, method);
+> > +
+> > +    method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
+> > +    aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
+> > +    aml_append(dev, method);
+> > +
+> > +    aml_append(scope, dev);
+> > +}
+> > +
+> >  static Property pvpanic_isa_properties[] = {
+> >      DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicISAState, ioport, 0x505),
+> >      DEFINE_PROP_UINT8("events", PVPanicISAState, pvpanic.events,
+> > @@ -73,10 +109,12 @@ static Property pvpanic_isa_properties[] = {
+> >  static void pvpanic_isa_class_init(ObjectClass *klass, void *data)
+> >  {
+> >      DeviceClass *dc = DEVICE_CLASS(klass);
+> > +    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+> >  
+> >      dc->realize = pvpanic_isa_realizefn;
+> >      device_class_set_props(dc, pvpanic_isa_properties);
+> >      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> > +    adevc->build_dev_aml = build_pvpanic_isa_aml;
+> >  }
+> >  
+> >  static const TypeInfo pvpanic_isa_info = {  
 > 
-> This is really intended to be a NOP from where things are now, as if
-> you use mlx5 live migration without a patch like this then it causes a
-> botched pre-copy since everything just ends up permanently dirty.
 > 
-> If it makes more sense we could abort the pre-copy too - in the end
-> there will be dirty tracking so I don't know if I'd invest in a big
-> adventure to fully define non-dirty tracking migration.
+> So this really makes the device depend on ACPI.
+> What if the device is also built for a platform without ACPI?
+> Looks like it will fail to build.
+> 
+> E.g. mips has ISA too. What if one was to add pvpanic there?
+> 
+> I am not sure how important this is at the moment, but
+> I think the APIs should support this cleanly.
 
-How is pre-copy currently "botched" without a patch like this?  If it's
-simply that the pre-copy doesn't converge and the downtime constraints
-don't allow the VM to enter stop-and-copy, that's the expected behavior
-AIUI, and supports backwards compatibility with existing SLAs.
+it compiles/passes tests with current code,
+but otherwise as Gerd already mentioned,
+current pattern for such issues is stub functions.
 
-I'm assuming that by setting this new skip_precopy flag that we're
-forcing the VM to move to stop-and-copy, regardless of any other SLA
-constraints placed on the migration.  It seems like a better solution
-would be to expose to management tools that the VM contains a device
-that does not support the pre-copy phase so that downtime expectations
-can be adjusted.  Thanks,
+Also we are currently pulling in aml_build library
+for ISA devices (this series spreads it to some
+more devices). We can isolate aml device builder
+into separate files (aka set of foo-device-acpi.c)
+to compile it out completely, but I'd prefer to do it
+separately from this refactoring, if you'd like to
+go this direction.
+It's just another pre-existing issue, and out of
+scope of this refactoring (which is already too big
+for my taste). As you can notice this series mostly
+moves ad-hoc AML to respective devices without
+rewriting it, to keep it simple and review-able,
+the other issues can be solved on top to keep it
+manageable.
 
-Alex
+> How about an inline function along the lines of:
+> 
+> acpi_set_build_dev_aml(DeviceClass *dc, ....)
+> 
+> the build function itself is static, so compiler will
+> remove it if unused.
+
+lets see how PCI conversion will end up, if stubs
+become to much of a burden, I for sure will try
+inline function idea. Or another a bit worse idea
+would be to use similar macro keyed of ACPI
+define.
+
+> 
+> > @@ -85,6 +123,10 @@ static const TypeInfo pvpanic_isa_info = {
+> >      .instance_size = sizeof(PVPanicISAState),
+> >      .instance_init = pvpanic_isa_initfn,
+> >      .class_init    = pvpanic_isa_class_init,
+> > +    .interfaces = (InterfaceInfo[]) {
+> > +        { TYPE_ACPI_DEV_AML_IF },
+> > +        { },
+> > +    },
+> >  };
+> >  
+> >  static void pvpanic_register_types(void)
+> > -- 
+> > 2.31.1  
+> 
 
 
