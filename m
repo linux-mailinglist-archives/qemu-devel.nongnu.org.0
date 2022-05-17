@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB6F529D99
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:12:59 +0200 (CEST)
-Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A86529DD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:21:09 +0200 (CEST)
+Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqtGE-0001XI-05
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32934)
+	id 1nqtO8-0005Wx-6A
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqtBm-0000Bd-S9
- for qemu-devel@nongnu.org; Tue, 17 May 2022 05:08:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25165)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nqtKc-00043H-W8; Tue, 17 May 2022 05:17:31 -0400
+Received: from smtp3.mail.ru ([94.100.179.58]:44014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqtBk-0000G6-6J
- for qemu-devel@nongnu.org; Tue, 17 May 2022 05:08:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652778498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7kTBs4FXzEohgL8dCVRL7PQS+czyyaCTQeEC7dI/Lf4=;
- b=GjJ1TDAjOPCvxU8wRvAsLjjY0NklFW2cSASNiFgZJEGbA4Amlqm8tGMn9+QNhHNtkvwtpF
- KPhJSAlgJO1qD7UKLNW5sZR+UIEmMDiMebzOUVzSSfPymnRS2hxHJ52JlbBnVQls1+0SK4
- aILny7Zz7/EJG6TugvDytHpeOi1CbTs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-BmHXoGPsOR-2XCH6IsagQw-1; Tue, 17 May 2022 05:08:17 -0400
-X-MC-Unique: BmHXoGPsOR-2XCH6IsagQw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D7CB299E75E
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:08:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 156F240CF8F0;
- Tue, 17 May 2022 09:08:17 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CBA2721E690D; Tue, 17 May 2022 11:08:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org,  Gerd Hoffmann <kraxel@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- libvir-list@redhat.com
-Subject: Re: [PATCH 2/3] ui: Switch "-display sdl" to use the QAPI parser
-References: <20220511175147.917707-1-thuth@redhat.com>
- <20220511175147.917707-3-thuth@redhat.com>
- <878rr77xpn.fsf@pond.sub.org>
- <870d24be-6c37-ff3d-616b-68255345ebb9@redhat.com>
-Date: Tue, 17 May 2022 11:08:15 +0200
-In-Reply-To: <870d24be-6c37-ff3d-616b-68255345ebb9@redhat.com> (Thomas Huth's
- message of "Tue, 17 May 2022 10:34:23 +0200")
-Message-ID: <87ilq4sf0g.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nqtKZ-00027W-Lb; Tue, 17 May 2022 05:17:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=ugfzsjmSbLfnfRR96BQnW871DD+RJaGiiSlRuXgIsNU=; 
+ t=1652779047;x=1653384447; 
+ b=OmLYWVCRly8PPP2g+5EpEuXqML3auplmSRwzEj+ZwdBlskI2fDfsDk2ZG6isVq170gF0+7N0R05DmdMckkEhZwpFONvJdUefcy8i4EGi3/f6N1WWpF/7tVxoK/h9Hevpod3zXjOlRpoV/zw067SN8bZ6YowIonW3+/tvCULpaUa+S4BXSF6BqNIDPP9NKPrymqjQbIt7P9L7YQwe59itS26vhDhui1F9qGn49OSNBdDd24XtmKTbgGdebuw2zl15CpszbSdIm0u0wL8lg4GynpmW4l2uKPtP7od+DB3p93Z+f46YQ1VKldeoLYYGezf7obxxXZ29aGj1QfIHQNCS5Q==;
+Received: by smtp3.mail.ru with esmtpa (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nqtKT-0006uR-QR; Tue, 17 May 2022 12:17:22 +0300
+Message-ID: <dcde36bb-6bdc-49fe-d8d0-4b72fd6b43ba@mail.ru>
+Date: Tue, 17 May 2022 12:17:21 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] nbd: Drop dead code spotted by Coverity
+Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+References: <20220516210519.76135-1-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <20220516210519.76135-1-eblake@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp3.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD9F33B3806BF114D159E7BD6746107077164F3C96AD71A0548182A05F5380850404C228DA9ACA6FE271E488FD287A6FC867307631A31098BC54BF32871ABBCF809C131704D47150E9C
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7F9D05773942AAE9CEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637352A1F9739ED04D38638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D89380F351A1EB8719EEF20194BA20D56C6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE78A0F7C24A37A3D769FA2833FD35BB23D9E625A9149C048EE26055571C92BF10F2CC0D3CB04F14752D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BE2CCD8F0CAA010FB389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637E0FFE498A6D76A8ED81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE7B78D39C50F1DEB0DEC76A7562686271EEC990983EF5C03292E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C306E75DF76071776535872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A54F171563253922CBFA591B7C373CBB791DC16544AB38208FD59269BC5F550898D99A6476B3ADF6B4886A5961035A09600383DAD389E261318FB05168BE4CE3AF
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D342B8615F5CFAD9D0264C6D9A812ED49A183011B940F29E53223BA16F23F9F8D150B23374717D1C8BB1D7E09C32AA3244CB6FB645DC33F1E2DC243893A60214434A95CA90A1D8AC5658D5DD81C2BAB7D1D
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj3fsA429394PeQqSMY1tKMQ==
+X-Mailru-Sender: 6C3E74F07C41AE9425C26D04B7325D443796659B9BA3855D0FAC7A2EDFAC5572E52D39E0E44A3216E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.179.58;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp3.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,33 +78,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+17.05.2022 00:05, Eric Blake wrote:
+> CID 1488362 points out that the second 'rc >= 0' check is now dead
+> code.
+> 
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 172f5f1a40(nbd: remove peppering of nbd_client_connected)
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>   block/nbd.c | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 6085ab1d2c..7f5f50ec46 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -521,12 +521,8 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
+>       if (qiov) {
+>           qio_channel_set_cork(s->ioc, true);
+>           rc = nbd_send_request(s->ioc, request);
+> -        if (rc >= 0) {
+> -            if (qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
+> -                                       NULL) < 0) {
+> -                rc = -EIO;
+> -            }
+> -        } else if (rc >= 0) {
+> +        if (rc >= 0 && qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
+> +                                              NULL) < 0) {
+>               rc = -EIO;
+>           }
+>           qio_channel_set_cork(s->ioc, false);
 
-> On 12/05/2022 14.16, Markus Armbruster wrote:
 
-[...]
+Hi all! I am back). And happy to start with something simple:
 
->>> This introduces the new "DisplaySDL" QAPI struct that is used to hold
->>> the parameters that are unique to the SDL display. The only specific
->>> parameter is currently "grab-mod" which is modeled as a string, so that
->>> it could be extended for other arbitrary modifiers later more easily.
->> 
->> Are the values of @grab-mod parsed in any way, or do we recognize a set
->> of fixed strings?
->> 
->> The former would be problematic.  We try hard to represent complex data
->> as JSON instead of inventing little ad hoc languages.
->> 
->> If it's the latter, use an enum.  Makes introspection more useful, and
->> adding enumeration values is no harder than adding string literals.
->
-> It's currently only two strings that are used to replace the old behavior. 
-> But in the long run, I think it would be nice to have more flexibility here, 
-> so that a user could specify an arbitrary combination of modifier keys. I 
-> don't think that an enum will really scale here, so I'd prefer to go with 
-> the current approach and use the string for more flexibility.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 
-"Arbitrary combination of modifier keys" sounds like set of enum to me.
-We approximate sets with lists in QAPI.
+(yes, not @openvz.org, just my personal address. Probably new employer will ask to use a corporate one, if so I'll have to send one another patch to MAINTAINERS. But I'd prefer not to hurry with it.)
 
+Sorry for a long delay. That was a gap between old place of work and a new one. I have planned to do some review and resending work in the list during the gap, but.. There were so many things)
+Anyway, now at new work I've given some time to continue Qemu maintenance and working on my unfinished series and that's wonderful.
+
+-- 
+Best regards,
+Vladimir
 
