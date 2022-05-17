@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD1652A7B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:14:33 +0200 (CEST)
-Received: from localhost ([::1]:39154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09E852A7AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:14:32 +0200 (CEST)
+Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqzqD-0005yz-1s
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
+	id 1nqzqC-0005vz-0q
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqzdo-0000nq-Lk
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:01:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46093)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqzdl-0007JB-0q
- for qemu-devel@nongnu.org; Tue, 17 May 2022 12:01:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652803300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6PPZa8/OwqE2TNKbH5I9lkQ6SuMIOT9/KozgFeiJKNw=;
- b=ihQWQYn/ABp2pD6Gt4qlWOOC5NEx0SgGs0BFU7TIjMtMYIO2w4WxMU5Q/MSfIU+xiQmrTB
- 5pNm6bd2XWF5HcZJ437NA4K+HRviX7cD3zIyTcpyBDVvQTvgkVWcNnAawiixLxroVrpm2Q
- bpcXK410LPwAs91+CC18NpwTBFOFDCg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-407-_kd_fE8sNc-Cd6Ng8USBLQ-1; Tue, 17 May 2022 12:01:38 -0400
-X-MC-Unique: _kd_fE8sNc-Cd6Ng8USBLQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s16-20020adfeb10000000b0020cc4e5e683so4834667wrn.6
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:01:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nqziO-000662-CT
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:06:28 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:38556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nqziM-00085K-Nc
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:06:28 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 137so17323121pgb.5
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:06:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=FpI/XA4Hjbi4axvP0wG94IFlZqdcsG56Wu0EawV1NxI=;
+ b=AIf59DIzAnW7mv9RFdZ81RTYGa4GaNAkk/v9YhPF8XRy9bKGzqF0+ei27s9Z2W76Le
+ eDYW4xJv5WfRi5aOqx3h5gFn3YmOqanWTiQwXWK6nmKku30ctSaxJ3GgvbCtUsE0bo1U
+ YBCSp0EKdWO95UAeWr4oga/+MsG1+d4VAsBJYtwfSw6awV5cIhZxRxJlYPZZb//TU7Jk
+ aZRABdsfi53p569roZiL520Zt1rX/JXMmQQpUetvjgegRFTUcEZeiOgd8g6KN5vnMwez
+ EmQSZs7Y5w4UbWnLhdmPour1ZXbyqZnTFQIvOQoIpuq1xqORnDWsI94G6gNEE32LxW2m
+ hhTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6PPZa8/OwqE2TNKbH5I9lkQ6SuMIOT9/KozgFeiJKNw=;
- b=CeYa4xrg73MKgvIA9/qX3ady8BhLbGMwNFQn9wC0zlrYTOrAMPYFwEc3usSDq/auDS
- NvKygz49NpU9LweBmVX7wEokPIKDikw+a1PXhgtt/aGYLZC5C8+vR0fFxwA4RSlszbFQ
- kSEjlFiIBly7mM62PJshucLFPNgAuIFb0HASO0tq3S2pbr3fWujt1wg882FmZoCvwlpX
- TGo1AFrgjhuckekfOG9Ayt8rrV2ZRNWp1J7IK5XF5eQusfbbUQ+tIHcclOw+IE1Qg+2T
- cQ9aGjhFxPH78JU7mfz5pqrxnZAeVzGPnHRxbApReLhgw2b1wpZ3FYkxxU3cmn9JDKGD
- nV5w==
-X-Gm-Message-State: AOAM530/akVVbal3c6z1tuf/vX2bA127kaHP7gixyQ4CCIi3i1m6u24f
- IBj8WftVJEzJIgJ1fLLNP+jTq3oXy2pJ7v99JAzp8ZzpJI183qupERCCNMFpGUhXCHJXCQwZ0j5
- qltrzG+QnETmHkIQ=
-X-Received: by 2002:a05:600c:4e88:b0:394:8835:2220 with SMTP id
- f8-20020a05600c4e8800b0039488352220mr21567795wmq.140.1652803297656; 
- Tue, 17 May 2022 09:01:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2Iad3n8pNE+SKtbDlPH/8Jlb61nVD1BgPW2SM+QAwgRVeP1e3h7Jyq2BRiSUhxOiScirttQ==
-X-Received: by 2002:a05:600c:4e88:b0:394:8835:2220 with SMTP id
- f8-20020a05600c4e8800b0039488352220mr21567765wmq.140.1652803297385; 
- Tue, 17 May 2022 09:01:37 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FpI/XA4Hjbi4axvP0wG94IFlZqdcsG56Wu0EawV1NxI=;
+ b=oU1SHSY6Wi37BV7yp3mfolhVVgq58VDey+NmEzKOAAz4HuG2ht5iHIulThTxuVLtCX
+ ZTHZOYkjifuR/UH5TGYC3U4khYAoNNHStydJIf8hWClGe5dbGVs0Br4Hw3V/GGxr9Jgm
+ 5gXHGAeNdCROEMZ1TMy+7qv0vzHNuW6FvJ+MaCTVDB50llH/7nlyWUQfKZlx1ztYNKCA
+ 5OCuTzvBW+8ROt8V/yrEpTmBz3GhNyT8CfPqVRwuVxcEURE3hDcBVaokXE7l211dVFsL
+ EMI5VkqLyZ8L2sxudmnSTYL3iHkcrzYkWChxoi1JeRDbLeLvQ4umAV/DDb+pE+wS+QRf
+ ApIQ==
+X-Gm-Message-State: AOAM533hsNLQJOfXH7MLIdnxqBiSZykyuizAKYxXUG/YWUt9pLFS2xCa
+ UVHhXBdCERdv0AiTu5MzJndFIg==
+X-Google-Smtp-Source: ABdhPJzMVkFgeKyOnq4NvGCyqR8abNlS+pXYsQlE2j61Kq2kWmZ0hGzWqEHI24FSTS60dSBRroI0BQ==
+X-Received: by 2002:a05:6a00:428f:b0:518:c6e:e5a with SMTP id
+ bx15-20020a056a00428f00b005180c6e0e5amr2592385pfb.41.1652803584951; 
+ Tue, 17 May 2022 09:06:24 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- e11-20020adfa44b000000b0020c5253d8e6sm12390145wra.50.2022.05.17.09.01.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 09:01:37 -0700 (PDT)
-Date: Tue, 17 May 2022 18:01:35 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, ani@anisinha.ca, minyard@acm.org,
- stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
-Subject: Re: [PATCH 28/35] acpi: pvpanic-isa: use
- AcpiDevAmlIfClass:build_dev_aml to provide device's AML
-Message-ID: <20220517180135.757626ab@redhat.com>
-In-Reply-To: <20220516163547-mutt-send-email-mst@kernel.org>
-References: <20220516152610.1963435-1-imammedo@redhat.com>
- <20220516152610.1963435-29-imammedo@redhat.com>
- <20220516163547-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ d2-20020a170902b70200b0015f032ec665sm9287263pls.255.2022.05.17.09.06.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 09:06:24 -0700 (PDT)
+Message-ID: <f0318317-5a50-26d7-0365-6ed48dd070d1@linaro.org>
+Date: Tue, 17 May 2022 09:06:21 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 1/2] target/m68k: Clear mach in m68k_cpu_disas_set_info
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220430170225.326447-1-richard.henderson@linaro.org>
+ <20220430170225.326447-2-richard.henderson@linaro.org>
+ <4fd55674-87ae-5e19-f43b-04ba102e4300@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <4fd55674-87ae-5e19-f43b-04ba102e4300@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,236 +93,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 May 2022 16:46:29 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 5/17/22 07:06, Laurent Vivier wrote:
+> Le 30/04/2022 à 19:02, Richard Henderson a écrit :
+>> Zero selects all cpu features in disas/m68k.c,
+>> which is really what we want -- not limited to 68040.
+> 
+> But what happens when an instruction has to be decoded differently between 680x0 and 
+> coldfire?
+> 
+> for instance in disas/m68k.c, we have:
+> 
+> {"addil", 6,    one(0003200),   one(0177700), "#l$s", m68000up },
+> {"addil", 6,    one(0003200),   one(0177700), "#lDs", mcfisa_a },
+> 
+> {"addl", 6, one(0003200),   one(0177700), "#l$s", m68000up },
+> {"addl", 6, one(0003200),   one(0177700), "#lDs", mcfisa_a },
+> 
+> {"andil", 6,    one(0001200),   one(0177700), "#l$s", m68000up },
+> {"andil", 6,    one(0001200),   one(0177700), "#lDs", mcfisa_a },
+> 
+> {"andl", 6, one(0001200),   one(0177700), "#l$s", m68000up },
+> {"andl", 6, one(0001200),   one(0177700), "#lDs", mcfisa_a },
+> 
+> {"bchg", 4, one(0004100),   one(0177700), "#b$s", m68000up },
+> {"bchg", 4, one(0004100),   one(0177700), "#bqs", mcfisa_a },
+> 
+> {"bclr", 4, one(0004200),   one(0177700), "#b$s", m68000up },
+> {"bclr", 4, one(0004200),   one(0177700), "#bqs", mcfisa_a },
+> 
+> {"bset", 2, one(0000700),   one(0170700), "Dd$s", m68000up | mcfisa_a },
+> {"bset", 2, one(0000700),   one(0170700), "Ddvs", mcfisa_a },
+> {"bset", 4, one(0004300),   one(0177700), "#b$s", m68000up },
+> {"bset", 4, one(0004300),   one(0177700), "#bqs", mcfisa_a },
+> 
+> {"btst", 4, one(0004000),   one(0177700), "#b@s", m68000up },
+> {"btst", 4, one(0004000),   one(0177700), "#bqs", mcfisa_a },
+> 
+> {"cmpib", 4,    one(0006000),   one(0177700), "#b@s", m68000up },
+> {"cmpib", 4,    one(0006000),   one(0177700), "#bDs", mcfisa_b },
+> {"cmpiw", 4,    one(0006100),   one(0177700), "#w@s", m68000up },
+> {"cmpiw", 4,    one(0006100),   one(0177700), "#wDs", mcfisa_b },
+> {"cmpil", 6,    one(0006200),   one(0177700), "#l@s", m68000up },
+> {"cmpil", 6,    one(0006200),   one(0177700), "#lDs", mcfisa_a },
 
-> On Mon, May 16, 2022 at 11:26:03AM -0400, Igor Mammedov wrote:
-> > .. and clean up not longer needed conditionals in DSTD build code
-> > pvpanic-isa AML will be fetched and included when ISA bridge will
-> > build its own AML code (including attached devices).
-> > 
-> > Expected AML change:
-> >    the device under separate _SB.PCI0.ISA scope is moved directly
-> >    under Device(ISA) node.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >  include/hw/misc/pvpanic.h |  9 ---------
-> >  hw/i386/acpi-build.c      | 37 ----------------------------------
-> >  hw/misc/pvpanic-isa.c     | 42 +++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 42 insertions(+), 46 deletions(-)
-> > 
-> > diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-> > index 7f16cc9b16..e520566ab0 100644
-> > --- a/include/hw/misc/pvpanic.h
-> > +++ b/include/hw/misc/pvpanic.h
-> > @@ -33,13 +33,4 @@ struct PVPanicState {
-> >  
-> >  void pvpanic_setup_io(PVPanicState *s, DeviceState *dev, unsigned size);
-> >  
-> > -static inline uint16_t pvpanic_port(void)
-> > -{
-> > -    Object *o = object_resolve_path_type("", TYPE_PVPANIC_ISA_DEVICE, NULL);
-> > -    if (!o) {
-> > -        return 0;
-> > -    }
-> > -    return object_property_get_uint(o, PVPANIC_IOPORT_PROP, NULL);
-> > -}
-> > -
-> >  #endif
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 517818cd9f..a42f41f373 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -30,7 +30,6 @@
-> >  #include "hw/pci/pci.h"
-> >  #include "hw/core/cpu.h"
-> >  #include "target/i386/cpu.h"
-> > -#include "hw/misc/pvpanic.h"
-> >  #include "hw/timer/hpet.h"
-> >  #include "hw/acpi/acpi-defs.h"
-> >  #include "hw/acpi/acpi.h"
-> > @@ -117,7 +116,6 @@ typedef struct AcpiMiscInfo {
-> >  #endif
-> >      const unsigned char *dsdt_code;
-> >      unsigned dsdt_size;
-> > -    uint16_t pvpanic_port;
-> >  } AcpiMiscInfo;
-> >  
-> >  typedef struct AcpiBuildPciBusHotplugState {
-> > @@ -302,7 +300,6 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
-> >  #ifdef CONFIG_TPM
-> >      info->tpm_version = tpm_get_version(tpm_find());
-> >  #endif
-> > -    info->pvpanic_port = pvpanic_port();
-> >  }
-> >  
-> >  /*
-> > @@ -1749,40 +1746,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          aml_append(dsdt, scope);
-> >      }
-> >  
-> > -    if (misc->pvpanic_port) {
-> > -        scope = aml_scope("\\_SB.PCI0.ISA");
-> > -
-> > -        dev = aml_device("PEVT");
-> > -        aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
-> > -
-> > -        crs = aml_resource_template();
-> > -        aml_append(crs,
-> > -            aml_io(AML_DECODE16, misc->pvpanic_port, misc->pvpanic_port, 1, 1)
-> > -        );
-> > -        aml_append(dev, aml_name_decl("_CRS", crs));
-> > -
-> > -        aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
-> > -                                              aml_int(misc->pvpanic_port), 1));
-> > -        field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
-> > -        aml_append(field, aml_named_field("PEPT", 8));
-> > -        aml_append(dev, field);
-> > -
-> > -        /* device present, functioning, decoding, shown in UI */
-> > -        aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
-> > -
-> > -        method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
-> > -        aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
-> > -        aml_append(method, aml_return(aml_local(0)));
-> > -        aml_append(dev, method);
-> > -
-> > -        method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
-> > -        aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
-> > -        aml_append(dev, method);
-> > -
-> > -        aml_append(scope, dev);
-> > -        aml_append(dsdt, scope);
-> > -    }
-> > -
-> >      sb_scope = aml_scope("\\_SB");
-> >      {
-> >          Object *pci_host;
-> > diff --git a/hw/misc/pvpanic-isa.c b/hw/misc/pvpanic-isa.c
-> > index b84d4d458d..ccec50f61b 100644
-> > --- a/hw/misc/pvpanic-isa.c
-> > +++ b/hw/misc/pvpanic-isa.c
-> > @@ -22,6 +22,7 @@
-> >  #include "qom/object.h"
-> >  #include "hw/isa/isa.h"
-> >  #include "standard-headers/linux/pvpanic.h"
-> > +#include "hw/acpi/acpi_aml_interface.h"
-> >  
-> >  OBJECT_DECLARE_SIMPLE_TYPE(PVPanicISAState, PVPANIC_ISA_DEVICE)
-> >  
-> > @@ -63,6 +64,41 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
-> >      isa_register_ioport(d, &ps->mr, s->ioport);
-> >  }
-> >  
-> > +static void build_pvpanic_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
-> > +{
-> > +    Aml *crs, *field, *method;
-> > +    PVPanicISAState *s = PVPANIC_ISA_DEVICE(adev);
-> > +    Aml *dev = aml_device("PEVT");
-> > +
-> > +    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
-> > +
-> > +    crs = aml_resource_template();
-> > +    aml_append(crs,
-> > +        aml_io(AML_DECODE16, s->ioport, s->ioport, 1, 1)
-> > +    );
-> > +    aml_append(dev, aml_name_decl("_CRS", crs));
-> > +
-> > +    aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
-> > +                                          aml_int(s->ioport), 1));
-> > +    field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
-> > +    aml_append(field, aml_named_field("PEPT", 8));
-> > +    aml_append(dev, field);
-> > +
-> > +    /* device present, functioning, decoding, shown in UI */
-> > +    aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
-> > +
-> > +    method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
-> > +    aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
-> > +    aml_append(method, aml_return(aml_local(0)));
-> > +    aml_append(dev, method);
-> > +
-> > +    method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
-> > +    aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
-> > +    aml_append(dev, method);
-> > +
-> > +    aml_append(scope, dev);
-> > +}
-> > +
-> >  static Property pvpanic_isa_properties[] = {
-> >      DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicISAState, ioport, 0x505),
-> >      DEFINE_PROP_UINT8("events", PVPanicISAState, pvpanic.events,
-> > @@ -73,10 +109,12 @@ static Property pvpanic_isa_properties[] = {
-> >  static void pvpanic_isa_class_init(ObjectClass *klass, void *data)
-> >  {
-> >      DeviceClass *dc = DEVICE_CLASS(klass);
-> > +    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
-> >  
-> >      dc->realize = pvpanic_isa_realizefn;
-> >      device_class_set_props(dc, pvpanic_isa_properties);
-> >      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-> > +    adevc->build_dev_aml = build_pvpanic_isa_aml;
-> >  }
-> >  
-> >  static const TypeInfo pvpanic_isa_info = {  
-> 
-> 
-> So this really makes the device depend on ACPI.
-> What if the device is also built for a platform without ACPI?
-> Looks like it will fail to build.
-> 
-> E.g. mips has ISA too. What if one was to add pvpanic there?
-> 
-> I am not sure how important this is at the moment, but
-> I think the APIs should support this cleanly.
+They're all compatible encodings, it's just that the CF ones are more restricted.  When 
+debugging a SIGILL on CF, it would be nicer to see
 
-it compiles/passes tests with current code,
-but otherwise as Gerd already mentioned,
-current pattern for such issues is stub functions.
+	addl	a0@, d0
 
-Also we are currently pulling in aml_build library
-for ISA devices (this series spreads it to some
-more devices). We can isolate aml device builder
-into separate files (aka set of foo-device-acpi.c)
-to compile it out completely, but I'd prefer to do it
-separately from this refactoring, if you'd like to
-go this direction.
-It's just another pre-existing issue, and out of
-scope of this refactoring (which is already too big
-for my taste). As you can notice this series mostly
-moves ad-hoc AML to respective devices without
-rewriting it, to keep it simple and review-able,
-the other issues can be solved on top to keep it
-manageable.
+than
 
-> How about an inline function along the lines of:
-> 
-> acpi_set_build_dev_aml(DeviceClass *dc, ....)
-> 
-> the build function itself is static, so compiler will
-> remove it if unused.
+	.byte	xx, yy
 
-lets see how PCI conversion will end up, if stubs
-become to much of a burden, I for sure will try
-inline function idea. Or another a bit worse idea
-would be to use similar macro keyed of ACPI
-define.
+in the -d in_asm dump.
 
-> 
-> > @@ -85,6 +123,10 @@ static const TypeInfo pvpanic_isa_info = {
-> >      .instance_size = sizeof(PVPanicISAState),
-> >      .instance_init = pvpanic_isa_initfn,
-> >      .class_init    = pvpanic_isa_class_init,
-> > +    .interfaces = (InterfaceInfo[]) {
-> > +        { TYPE_ACPI_DEV_AML_IF },
-> > +        { },
-> > +    },
-> >  };
-> >  
-> >  static void pvpanic_register_types(void)
-> > -- 
-> > 2.31.1  
-> 
-
+r~
 
