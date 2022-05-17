@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8153D529E3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:41:00 +0200 (CEST)
-Received: from localhost ([::1]:34900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB990529E61
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:46:03 +0200 (CEST)
+Received: from localhost ([::1]:43198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqthJ-0000ZU-V2
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37394)
+	id 1nqtmF-0006j1-0r
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqtTS-000871-1j
- for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40375)
+ id 1nqtTR-00086O-BN
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqtTQ-0003Yn-3H
+ id 1nqtTP-0003Yb-Ov
  for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1652779595;
@@ -25,58 +25,58 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gvcZMn5z0pl093XdtM8Z4Dmk4AG8hlklHqSILBtef6c=;
- b=Xt6QyBXbvMWIAdITedSKqa1OuoLICVs6Ll+wmK4F3Lj8U1usaC5qe1pF9fOaYvBzbX4HBW
- AbszR0WMxYPUYQ4XhKNYLq2G5YiCP/LYSR1j1q+BQGM1NCE1jNaihEw2hBwRmimoi/Xk8B
- 0ItRXbltTRVTWvDIyLzpbpZgxlqCeKQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nN7r0beIl23EOwo34aiCMtclrAAwX19cFP3sQ4Uv6ZI=;
+ b=MjeAHkANJAoRz5WfeVGcV8d3jwsjSnPjSiPqaXQ+Lxz/ptka927zTibhDrDTpwLzOp19WN
+ EsQUx1VSXSplloIK1e0QwKM2jdqatOMxHu8M9BlAFY1o4zxFE67i+kTFCmkHmuuct1Q/cK
+ F+A7FB/F9+xK/RfohBmlWrJg2EuZa58=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-Bt1upC9CMPiVzaJfvG2Mdw-1; Tue, 17 May 2022 05:26:32 -0400
-X-MC-Unique: Bt1upC9CMPiVzaJfvG2Mdw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- n9-20020aa7d049000000b0042aab725949so4367882edo.23
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 02:26:32 -0700 (PDT)
+ us-mta-29-xMOi9-dhNYKJ-gb-MOq6Ag-1; Tue, 17 May 2022 05:26:33 -0400
+X-MC-Unique: xMOi9-dhNYKJ-gb-MOq6Ag-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ h11-20020aa7c60b000000b0042ab2287015so3456338edq.3
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 02:26:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gvcZMn5z0pl093XdtM8Z4Dmk4AG8hlklHqSILBtef6c=;
- b=iXNSespXZMd+orhgYASWySeiFH8gHMbjPivbHNfsurThSwlfSvoKMWtnNt71CYD0UL
- Pbr/NVKyqCfzH/ULM3Ssn0B3ig95RJqhR3qC/cvwtfSdh+OdTU+qNrscENyTw4PAojfI
- IkKzsWwyYe0BqlsHHqRUv3bGa05vw34qzytHrl+fRYRZK/GthfisC0bpCNDfnvKc2QQX
- 6obuMyxfToT46G90PL5AleaFJstScNdhIBolL/G6XEe9zuiZVRpyleLWzhbyLjowqMjo
- f2pmFbMDeCby5/paal8YTTbmN8xxWtN0BN9eVhlO3hBLPXr7RjM7tE6BoYPGoVK1DcO5
- /vng==
-X-Gm-Message-State: AOAM533gq4eyIp/4SAGKov6KjDTnB0b4Uo0ujZqLda6VTJzFp1wJ7h98
- wckf/m+y/nNeDsVeKo2Q2uA7JllZuYciB+R11HlQMWzicFXf5aE/jyl5rQ9pgEdnq2cp3+7Z51y
- +xU0q5erlEoIYCmU0l0IgURxU+QYV1cwc8gH5o8TBjKgu1owXC90KR1thtPlBymjSLBo=
-X-Received: by 2002:a17:907:2cc4:b0:6fe:1c72:7888 with SMTP id
- hg4-20020a1709072cc400b006fe1c727888mr13068464ejc.373.1652779590873; 
- Tue, 17 May 2022 02:26:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSn7TMugjc+ECsWZRDzFsaTswti2Hpdq4rzLhgZluU2PRtDsra+C2zvrSE7rQmes3ZygPQHw==
-X-Received: by 2002:a17:907:2cc4:b0:6fe:1c72:7888 with SMTP id
- hg4-20020a1709072cc400b006fe1c727888mr13068447ejc.373.1652779590604; 
- Tue, 17 May 2022 02:26:30 -0700 (PDT)
+ bh=nN7r0beIl23EOwo34aiCMtclrAAwX19cFP3sQ4Uv6ZI=;
+ b=UpFha58xXVHx/1yUEEEGRXreD12EJzFddZxfgEjMZLB2r8vFBsHBY3u802guHV6vFT
+ PfyaFLPAO1iVAlz9dgI6prRv2Y0wceE2nnW0eEQdjn0mKbM/6q4NTtYkBKjmgA1r+cIJ
+ gBaMJ/2JmrWqWZCFjIcMYWwwGpHLc2KgKmMNaDt+n93G3W6Y+hcuSWbAIHZV5L6Kvtqb
+ b5X2dZIOTDWDQi9mDd6W5+c9RC/N2+mj8ey0N9zW36/oTmOjazTILv9rjw6llsk94cej
+ BYv91A/GTuO5PfC43mE5htUpWYf1epxil4TTD/eXsCU/A2ED3tU49G0TXZy3Prx6ruVY
+ SNtw==
+X-Gm-Message-State: AOAM532jp6yJ2rRZ3ZRViOaEarYOOerxSb5m+XCfS6d8GubDzlJQmfWD
+ ZEgCmOrWeaZOcxkb7OqD4AhCdjhJr887CLlBHkGMReoshZJ3ECipXGZozSH+OS+UBQ7w1gd37PH
+ 7XTnZ9ijQ5IMAU+FifFlKZ4r5NgNlCfCwRsZWxOw76y86U8SoB7mqqKdMFKRjRXyRKYM=
+X-Received: by 2002:a17:907:7b92:b0:6db:71f1:fc20 with SMTP id
+ ne18-20020a1709077b9200b006db71f1fc20mr18308609ejc.343.1652779592407; 
+ Tue, 17 May 2022 02:26:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUnwe+aPpRggwNeE0I86tw9YeC7bxXQuv/xPOiVNYOqk2SBtC89sz8hIxyeeLbrWOg8Df73A==
+X-Received: by 2002:a17:907:7b92:b0:6db:71f1:fc20 with SMTP id
+ ne18-20020a1709077b9200b006db71f1fc20mr18308588ejc.343.1652779592134; 
+ Tue, 17 May 2022 02:26:32 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- if20-20020a170906df5400b006f3ef214dc7sm798680ejc.45.2022.05.17.02.26.29
+ p7-20020a170907910700b006f3ef214dabsm816755ejq.17.2022.05.17.02.26.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 02:26:30 -0700 (PDT)
+ Tue, 17 May 2022 02:26:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 05/16] configure, meson: move symlinking of ROMs to meson
-Date: Tue, 17 May 2022 11:26:05 +0200
-Message-Id: <20220517092616.1272238-6-pbonzini@redhat.com>
+Subject: [PATCH 06/16] tests/tcg: correct target CPU for sparc32
+Date: Tue, 17 May 2022 11:26:06 +0200
+Message-Id: <20220517092616.1272238-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220517092616.1272238-1-pbonzini@redhat.com>
 References: <20220517092616.1272238-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -100,80 +100,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is useful because pc-bios/meson.build already has a list of all ROM
-files, and thus does not need to use wildcards.  The problems with
-wildcards are mentioned above the definition of the LINKS variable,
-but then the recommendation is disattended.
+We do not want v8plus for pure sparc32, as the difference with the V8 ABI
+are only meaningful on 64-bit CPUs suh as ultrasparc; supersparc is the
+best CPU to use for 32-bit.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure           | 15 ---------------
- pc-bios/meson.build | 18 +++++++++++++-----
- 2 files changed, 13 insertions(+), 20 deletions(-)
+ tests/tcg/configure.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 4c8954feea..d87b110aa2 100755
---- a/configure
-+++ b/configure
-@@ -2115,21 +2115,6 @@ LINKS="$LINKS tests/avocado tests/data"
- LINKS="$LINKS tests/qemu-iotests/check"
- LINKS="$LINKS python"
- LINKS="$LINKS contrib/plugins/Makefile "
--for bios_file in \
--    $source_path/pc-bios/*.bin \
--    $source_path/pc-bios/*.elf \
--    $source_path/pc-bios/*.lid \
--    $source_path/pc-bios/*.rom \
--    $source_path/pc-bios/*.dtb \
--    $source_path/pc-bios/*.img \
--    $source_path/pc-bios/openbios-* \
--    $source_path/pc-bios/u-boot.* \
--    $source_path/pc-bios/palcode-* \
--    $source_path/pc-bios/qemu_vga.ndrv
--
--do
--    LINKS="$LINKS pc-bios/$(basename $bios_file)"
--done
- for f in $LINKS ; do
-     if [ -e "$source_path/$f" ]; then
-         mkdir -p `dirname ./$f`
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index c86dedf7df..8ba81f5518 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -23,7 +23,7 @@ if unpack_edk2_blobs
-   endforeach
- endif
- 
--blobs = files(
-+blobs = [
-   'bios.bin',
-   'bios-256k.bin',
-   'bios-microvm.bin',
-@@ -83,11 +83,18 @@ blobs = files(
-   'npcm7xx_bootrom.bin',
-   'vof.bin',
-   'vof-nvram.bin',
--)
-+]
- 
--if get_option('install_blobs')
--  install_data(blobs, install_dir: qemu_datadir)
--endif
-+ln_s = [find_program('ln', required: true), '-sf']
-+foreach f : blobs
-+  roms += custom_target(f,
-+                build_by_default: have_system,
-+                output: f,
-+                input: files('meson.build'),            # dummy input
-+                install: get_option('install_blobs'),
-+                install_dir: qemu_datadir,
-+                command: [ ln_s, meson.project_source_root() / 'pc-bios' / f, '@OUTPUT@' ])
-+endforeach
- 
- subdir('descriptors')
- subdir('keymaps')
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 691d90abac..59f2403d1a 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -70,7 +70,7 @@ fi
+ : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
+ : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
+ : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
+-: ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
++: ${cross_cc_cflags_sparc="-m32 -mcpu=supersparc"}
+ : ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
+ : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
+ : ${cross_cc_x86_64="x86_64-linux-gnu-gcc"}
 -- 
 2.36.0
 
