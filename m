@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F009252A11A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 14:03:35 +0200 (CEST)
-Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A464652A12F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 14:10:50 +0200 (CEST)
+Received: from localhost ([::1]:46678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqvvK-0003tx-95
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 08:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40164)
+	id 1nqw2L-0002Nm-Ky
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 08:10:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nqvPZ-00041e-7N
+ id 1nqvPY-00041d-QR
  for qemu-devel@nongnu.org; Tue, 17 May 2022 07:30:48 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:51386 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:51440 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nqvPU-0001rk-AB
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nqvPU-0001rx-AU
  for qemu-devel@nongnu.org; Tue, 17 May 2022 07:30:44 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxcNpPh4Ni4sEZAA--.25635S6; 
- Tue, 17 May 2022 19:30:33 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxcNpPh4Ni4sEZAA--.25635S8; 
+ Tue, 17 May 2022 19:30:35 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca
-Subject: [PATCH v4 04/43] target/loongarch: Add fixed point arithmetic
- instruction translation
-Date: Tue, 17 May 2022 19:29:44 +0800
-Message-Id: <20220517113023.3051143-5-yangxiaojuan@loongson.cn>
+Subject: [PATCH v4 06/43] target/loongarch: Add fixed point bit instruction
+ translation
+Date: Tue, 17 May 2022 19:29:46 +0800
+Message-Id: <20220517113023.3051143-7-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220517113023.3051143-1-yangxiaojuan@loongson.cn>
 References: <20220517113023.3051143-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxcNpPh4Ni4sEZAA--.25635S6
-X-Coremail-Antispam: 1UD129KBjvAXoWfGrW5GF43AF43KF13Kr1UAwb_yoW8Aw1DXo
- W7GF15Jr48GryjvF15C3WvqFy7JF1j9an7JrWru3WUWF4kJry7tr1rKwn5ZayrXw1UKryr
- GF1SgFyfJ393Xrn7n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+X-CM-TRANSID: AQAAf9BxcNpPh4Ni4sEZAA--.25635S8
+X-Coremail-Antispam: 1UD129KBjvAXoW3Zw13KFWrKF1DAF18KF4Uurg_yoW8Jr1UCo
+ W7GF1UJw48GryY9FyUCa4kXry7tF1jyan7J34fuw1UWa1kJry7try8Kan5Z3yrJr1q9Fyr
+ JF9agFWrJ3yrXrn7n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
  AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -66,575 +66,366 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Song Gao <gaosong@loongson.cn>
 
 This includes:
-- ADD.{W/D}, SUB.{W/D}
-- ADDI.{W/D}, ADDU16ID
-- ALSL.{W[U]/D}
-- LU12I.W, LU32I.D LU52I.D
-- SLT[U], SLT[U]I
-- PCADDI, PCADDU12I, PCADDU18I, PCALAU12I
-- AND, OR, NOR, XOR, ANDN, ORN
-- MUL.{W/D}, MULH.{W[U]/D[U]}
-- MULW.D.W[U]
-- DIV.{W[U]/D[U]}, MOD.{W[U]/D[U]}
-- ANDI, ORI, XORI
+- EXT.W.{B/H}
+- CL{O/Z}.{W/D}, CT{O/Z}.{W/D}
+- BYTEPICK.{W/D}
+- REVB.{2H/4H/2W/D}
+- REVH.{2W/D}
+- BITREV.{4B/8B}, BITREV.{W/D}
+- BSTRINS.{W/D}, BSTRPICK.{W/D}
+- MASKEQZ, MASKNEZ
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/insn_trans/trans_arith.c.inc | 304 ++++++++++++++++++
- target/loongarch/insns.decode                 |  79 +++++
- target/loongarch/translate.c                  |  83 +++++
- target/loongarch/translate.h                  |  19 ++
- 4 files changed, 485 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_arith.c.inc
- create mode 100644 target/loongarch/insns.decode
+ target/loongarch/helper.h                   |   4 +
+ target/loongarch/insn_trans/trans_bit.c.inc | 212 ++++++++++++++++++++
+ target/loongarch/insns.decode               |  39 ++++
+ target/loongarch/op_helper.c                |  21 ++
+ target/loongarch/translate.c                |   1 +
+ 5 files changed, 277 insertions(+)
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c.inc
 
-diff --git a/target/loongarch/insn_trans/trans_arith.c.inc b/target/loongarch/insn_trans/trans_arith.c.inc
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index eb771c0628..04e0245d5e 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -4,3 +4,7 @@
+  */
+ 
+ DEF_HELPER_2(raise_exception, noreturn, env, i32)
++
++DEF_HELPER_FLAGS_1(bitrev_w, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(bitrev_d, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+diff --git a/target/loongarch/insn_trans/trans_bit.c.inc b/target/loongarch/insn_trans/trans_bit.c.inc
 new file mode 100644
-index 0000000000..8e45eadbc8
+index 0000000000..9337714ec4
 --- /dev/null
-+++ b/target/loongarch/insn_trans/trans_arith.c.inc
-@@ -0,0 +1,304 @@
++++ b/target/loongarch/insn_trans/trans_bit.c.inc
+@@ -0,0 +1,212 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+static bool gen_rrr(DisasContext *ctx, arg_rrr *a,
-+                    DisasExtend src1_ext, DisasExtend src2_ext,
-+                    DisasExtend dst_ext, void (*func)(TCGv, TCGv, TCGv))
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
-+    TCGv src1 = gpr_src(ctx, a->rj, src1_ext);
-+    TCGv src2 = gpr_src(ctx, a->rk, src2_ext);
-+
-+    func(dest, src1, src2);
-+    gen_set_gpr(a->rd, dest, dst_ext);
-+
-+    return true;
-+}
-+
-+static bool gen_rri_v(DisasContext *ctx, arg_rr_i *a,
-+                      DisasExtend src_ext, DisasExtend dst_ext,
-+                      void (*func)(TCGv, TCGv, TCGv))
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
-+    TCGv src1 = gpr_src(ctx, a->rj, src_ext);
-+    TCGv src2 = tcg_constant_tl(a->imm);
-+
-+    func(dest, src1, src2);
-+    gen_set_gpr(a->rd, dest, dst_ext);
-+
-+    return true;
-+}
-+
-+static bool gen_rri_c(DisasContext *ctx, arg_rr_i *a,
-+                      DisasExtend src_ext, DisasExtend dst_ext,
-+                      void (*func)(TCGv, TCGv, target_long))
++static bool gen_rr(DisasContext *ctx, arg_rr *a,
++                   DisasExtend src_ext, DisasExtend dst_ext,
++                   void (*func)(TCGv, TCGv))
 +{
 +    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
 +    TCGv src1 = gpr_src(ctx, a->rj, src_ext);
 +
-+    func(dest, src1, a->imm);
++    func(dest, src1);
 +    gen_set_gpr(a->rd, dest, dst_ext);
 +
 +    return true;
 +}
 +
-+static bool gen_rrr_sa(DisasContext *ctx, arg_rrr_sa *a,
-+                       DisasExtend src_ext, DisasExtend dst_ext,
-+                       void (*func)(TCGv, TCGv, TCGv, target_long))
++static void gen_bytepick_w(TCGv dest, TCGv src1, TCGv src2, target_long sa)
++{
++    tcg_gen_concat_tl_i64(dest, src1, src2);
++    tcg_gen_sextract_i64(dest, dest, (32 - sa * 8), 32);
++}
++
++static void gen_bytepick_d(TCGv dest, TCGv src1, TCGv src2, target_long sa)
++{
++    tcg_gen_extract2_i64(dest, src1, src2, (64 - sa * 8));
++}
++
++static void gen_bstrins(TCGv dest, TCGv src1,
++                        unsigned int ls, unsigned int len)
++{
++    tcg_gen_deposit_tl(dest, dest, src1, ls, len);
++}
++
++static bool gen_rr_ms_ls(DisasContext *ctx, arg_rr_ms_ls *a,
++                         DisasExtend src_ext, DisasExtend dst_ext,
++                         void (*func)(TCGv, TCGv, unsigned int, unsigned int))
 +{
 +    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
 +    TCGv src1 = gpr_src(ctx, a->rj, src_ext);
-+    TCGv src2 = gpr_src(ctx, a->rk, src_ext);
 +
-+    func(dest, src1, src2, a->sa);
++    if (a->ls > a->ms) {
++        return false;
++    }
++
++    func(dest, src1, a->ls, a->ms - a->ls + 1);
 +    gen_set_gpr(a->rd, dest, dst_ext);
 +
 +    return true;
 +}
 +
-+static bool trans_lu12i_w(DisasContext *ctx, arg_lu12i_w *a)
++static void gen_clz_w(TCGv dest, TCGv src1)
 +{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+
-+    tcg_gen_movi_tl(dest, a->imm << 12);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    return true;
++    tcg_gen_clzi_tl(dest, src1, TARGET_LONG_BITS);
++    tcg_gen_subi_tl(dest, dest, TARGET_LONG_BITS - 32);
 +}
 +
-+static bool gen_pc(DisasContext *ctx, arg_r_i *a,
-+                   target_ulong (*func)(target_ulong, int))
++static void gen_clo_w(TCGv dest, TCGv src1)
 +{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    target_ulong addr = func(ctx->base.pc_next, a->imm);
-+
-+    tcg_gen_movi_tl(dest, addr);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    return true;
++    tcg_gen_not_tl(dest, src1);
++    tcg_gen_ext32u_tl(dest, dest);
++    gen_clz_w(dest, dest);
 +}
 +
-+static void gen_slt(TCGv dest, TCGv src1, TCGv src2)
++static void gen_ctz_w(TCGv dest, TCGv src1)
 +{
-+    tcg_gen_setcond_tl(TCG_COND_LT, dest, src1, src2);
++    tcg_gen_ori_tl(dest, src1, (target_ulong)MAKE_64BIT_MASK(32, 32));
++    tcg_gen_ctzi_tl(dest, dest, TARGET_LONG_BITS);
 +}
 +
-+static void gen_sltu(TCGv dest, TCGv src1, TCGv src2)
++static void gen_cto_w(TCGv dest, TCGv src1)
 +{
-+    tcg_gen_setcond_tl(TCG_COND_LTU, dest, src1, src2);
++    tcg_gen_not_tl(dest, src1);
++    gen_ctz_w(dest, dest);
 +}
 +
-+static void gen_mulh_w(TCGv dest, TCGv src1, TCGv src2)
++static void gen_clz_d(TCGv dest, TCGv src1)
 +{
-+    tcg_gen_mul_i64(dest, src1, src2);
-+    tcg_gen_sari_i64(dest, dest, 32);
++    tcg_gen_clzi_i64(dest, src1, TARGET_LONG_BITS);
 +}
 +
-+static void gen_mulh_d(TCGv dest, TCGv src1, TCGv src2)
++static void gen_clo_d(TCGv dest, TCGv src1)
 +{
-+    TCGv discard = tcg_temp_new();
-+    tcg_gen_muls2_tl(discard, dest, src1, src2);
-+    tcg_temp_free(discard);
++    tcg_gen_not_tl(dest, src1);
++    gen_clz_d(dest, dest);
 +}
 +
-+static void gen_mulh_du(TCGv dest, TCGv src1, TCGv src2)
++static void gen_ctz_d(TCGv dest, TCGv src1)
 +{
-+    TCGv discard = tcg_temp_new();
-+    tcg_gen_mulu2_tl(discard, dest, src1, src2);
-+    tcg_temp_free(discard);
++    tcg_gen_ctzi_tl(dest, src1, TARGET_LONG_BITS);
 +}
 +
-+static void prep_divisor_d(TCGv ret, TCGv src1, TCGv src2)
++static void gen_cto_d(TCGv dest, TCGv src1)
 +{
++    tcg_gen_not_tl(dest, src1);
++    gen_ctz_d(dest, dest);
++}
++
++static void gen_revb_2w(TCGv dest, TCGv src1)
++{
++    tcg_gen_bswap64_i64(dest, src1);
++    tcg_gen_rotri_i64(dest, dest, 32);
++}
++
++static void gen_revb_2h(TCGv dest, TCGv src1)
++{
++    TCGv mask = tcg_constant_tl(0x00FF00FF);
 +    TCGv t0 = tcg_temp_new();
 +    TCGv t1 = tcg_temp_new();
-+    TCGv zero = tcg_constant_tl(0);
 +
-+    /*
-+     * If min / -1, set the divisor to 1.
-+     * This avoids potential host overflow trap and produces min.
-+     * If x / 0, set the divisor to 1.
-+     * This avoids potential host overflow trap;
-+     * the required result is undefined.
-+     */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, ret, src1, INT64_MIN);
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, t0, src2, -1);
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, t1, src2, 0);
-+    tcg_gen_and_tl(ret, ret, t0);
-+    tcg_gen_or_tl(ret, ret, t1);
-+    tcg_gen_movcond_tl(TCG_COND_NE, ret, ret, zero, ret, src2);
++    tcg_gen_shri_tl(t0, src1, 8);
++    tcg_gen_and_tl(t0, t0, mask);
++    tcg_gen_and_tl(t1, src1, mask);
++    tcg_gen_shli_tl(t1, t1, 8);
++    tcg_gen_or_tl(dest, t0, t1);
 +
 +    tcg_temp_free(t0);
 +    tcg_temp_free(t1);
 +}
 +
-+static void prep_divisor_du(TCGv ret, TCGv src2)
++static void gen_revb_4h(TCGv dest, TCGv src1)
++{
++    TCGv mask = tcg_constant_tl(0x00FF00FF00FF00FFULL);
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++
++    tcg_gen_shri_tl(t0, src1, 8);
++    tcg_gen_and_tl(t0, t0, mask);
++    tcg_gen_and_tl(t1, src1, mask);
++    tcg_gen_shli_tl(t1, t1, 8);
++    tcg_gen_or_tl(dest, t0, t1);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++}
++
++static void gen_revh_2w(TCGv dest, TCGv src1)
++{
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
++    TCGv_i64 mask = tcg_constant_i64(0x0000ffff0000ffffull);
++
++    tcg_gen_shri_i64(t0, src1, 16);
++    tcg_gen_and_i64(t1, src1, mask);
++    tcg_gen_and_i64(t0, t0, mask);
++    tcg_gen_shli_i64(t1, t1, 16);
++    tcg_gen_or_i64(dest, t1, t0);
++
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++}
++
++static void gen_revh_d(TCGv dest, TCGv src1)
++{
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++    TCGv mask = tcg_constant_tl(0x0000FFFF0000FFFFULL);
++
++    tcg_gen_shri_tl(t1, src1, 16);
++    tcg_gen_and_tl(t1, t1, mask);
++    tcg_gen_and_tl(t0, src1, mask);
++    tcg_gen_shli_tl(t0, t0, 16);
++    tcg_gen_or_tl(t0, t0, t1);
++    tcg_gen_rotri_tl(dest, t0, 32);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++}
++
++static void gen_maskeqz(TCGv dest, TCGv src1, TCGv src2)
 +{
 +    TCGv zero = tcg_constant_tl(0);
-+    TCGv one = tcg_constant_tl(1);
 +
-+    /*
-+     * If x / 0, set the divisor to 1.
-+     * This avoids potential host overflow trap;
-+     * the required result is undefined.
-+     */
-+    tcg_gen_movcond_tl(TCG_COND_EQ, ret, src2, zero, one, src2);
++    tcg_gen_movcond_tl(TCG_COND_EQ, dest, src2, zero, zero, src1);
 +}
 +
-+static void gen_div_d(TCGv dest, TCGv src1, TCGv src2)
++static void gen_masknez(TCGv dest, TCGv src1, TCGv src2)
 +{
-+    TCGv t0 = tcg_temp_new();
-+    prep_divisor_d(t0, src1, src2);
-+    tcg_gen_div_tl(dest, src1, t0);
-+    tcg_temp_free(t0);
++    TCGv zero = tcg_constant_tl(0);
++
++    tcg_gen_movcond_tl(TCG_COND_NE, dest, src2, zero, zero, src1);
 +}
 +
-+static void gen_rem_d(TCGv dest, TCGv src1, TCGv src2)
-+{
-+    TCGv t0 = tcg_temp_new();
-+    prep_divisor_d(t0, src1, src2);
-+    tcg_gen_rem_tl(dest, src1, t0);
-+    tcg_temp_free(t0);
-+}
-+
-+static void gen_div_du(TCGv dest, TCGv src1, TCGv src2)
-+{
-+    TCGv t0 = tcg_temp_new();
-+    prep_divisor_du(t0, src2);
-+    tcg_gen_divu_tl(dest, src1, t0);
-+    tcg_temp_free(t0);
-+}
-+
-+static void gen_rem_du(TCGv dest, TCGv src1, TCGv src2)
-+{
-+    TCGv t0 = tcg_temp_new();
-+    prep_divisor_du(t0, src2);
-+    tcg_gen_remu_tl(dest, src1, t0);
-+    tcg_temp_free(t0);
-+}
-+
-+static void gen_div_w(TCGv dest, TCGv src1, TCGv src2)
-+{
-+    TCGv t0 = tcg_temp_new();
-+    /* We need not check for integer overflow for div_w. */
-+    prep_divisor_du(t0, src2);
-+    tcg_gen_div_tl(dest, src1, t0);
-+    tcg_temp_free(t0);
-+}
-+
-+static void gen_rem_w(TCGv dest, TCGv src1, TCGv src2)
-+{
-+    TCGv t0 = tcg_temp_new();
-+    /* We need not check for integer overflow for rem_w. */
-+    prep_divisor_du(t0, src2);
-+    tcg_gen_rem_tl(dest, src1, t0);
-+    tcg_temp_free(t0);
-+}
-+
-+static void gen_alsl(TCGv dest, TCGv src1, TCGv src2, target_long sa)
-+{
-+    TCGv t0 = tcg_temp_new();
-+    tcg_gen_shli_tl(t0, src1, sa);
-+    tcg_gen_add_tl(dest, t0, src2);
-+    tcg_temp_free(t0);
-+}
-+
-+static bool trans_lu32i_d(DisasContext *ctx, arg_lu32i_d *a)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rd, EXT_NONE);
-+    TCGv src2 = tcg_constant_tl(a->imm);
-+
-+    tcg_gen_deposit_tl(dest, src1, src2, 32, 32);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    return true;
-+}
-+
-+static bool trans_lu52i_d(DisasContext *ctx, arg_lu52i_d *a)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = tcg_constant_tl(a->imm);
-+
-+    tcg_gen_deposit_tl(dest, src1, src2, 52, 12);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    return true;
-+}
-+
-+static target_ulong gen_pcaddi(target_ulong pc, int imm)
-+{
-+    return pc + (imm << 2);
-+}
-+
-+static target_ulong gen_pcalau12i(target_ulong pc, int imm)
-+{
-+    return (pc + (imm << 12)) & ~0xfff;
-+}
-+
-+static target_ulong gen_pcaddu12i(target_ulong pc, int imm)
-+{
-+    return pc + (imm << 12);
-+}
-+
-+static target_ulong gen_pcaddu18i(target_ulong pc, int imm)
-+{
-+    return pc + ((target_ulong)(imm) << 18);
-+}
-+
-+static bool trans_addu16i_d(DisasContext *ctx, arg_addu16i_d *a)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+
-+    tcg_gen_addi_tl(dest, src1, a->imm << 16);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    return true;
-+}
-+
-+TRANS(add_w, gen_rrr, EXT_NONE, EXT_NONE, EXT_SIGN, tcg_gen_add_tl)
-+TRANS(add_d, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_add_tl)
-+TRANS(sub_w, gen_rrr, EXT_NONE, EXT_NONE, EXT_SIGN, tcg_gen_sub_tl)
-+TRANS(sub_d, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_sub_tl)
-+TRANS(and, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_and_tl)
-+TRANS(or, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_or_tl)
-+TRANS(xor, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_xor_tl)
-+TRANS(nor, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_nor_tl)
-+TRANS(andn, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_andc_tl)
-+TRANS(orn, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_orc_tl)
-+TRANS(slt, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_slt)
-+TRANS(sltu, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_sltu)
-+TRANS(mul_w, gen_rrr, EXT_SIGN, EXT_SIGN, EXT_SIGN, tcg_gen_mul_tl)
-+TRANS(mul_d, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, tcg_gen_mul_tl)
-+TRANS(mulh_w, gen_rrr, EXT_SIGN, EXT_SIGN, EXT_NONE, gen_mulh_w)
-+TRANS(mulh_wu, gen_rrr, EXT_ZERO, EXT_ZERO, EXT_NONE, gen_mulh_w)
-+TRANS(mulh_d, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_mulh_d)
-+TRANS(mulh_du, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_mulh_du)
-+TRANS(mulw_d_w, gen_rrr, EXT_SIGN, EXT_SIGN, EXT_NONE, tcg_gen_mul_tl)
-+TRANS(mulw_d_wu, gen_rrr, EXT_ZERO, EXT_ZERO, EXT_NONE, tcg_gen_mul_tl)
-+TRANS(div_w, gen_rrr, EXT_SIGN, EXT_SIGN, EXT_SIGN, gen_div_w)
-+TRANS(mod_w, gen_rrr, EXT_SIGN, EXT_SIGN, EXT_SIGN, gen_rem_w)
-+TRANS(div_wu, gen_rrr, EXT_ZERO, EXT_ZERO, EXT_SIGN, gen_div_du)
-+TRANS(mod_wu, gen_rrr, EXT_ZERO, EXT_ZERO, EXT_SIGN, gen_rem_du)
-+TRANS(div_d, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_div_d)
-+TRANS(mod_d, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_rem_d)
-+TRANS(div_du, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_div_du)
-+TRANS(mod_du, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_rem_du)
-+TRANS(slti, gen_rri_v, EXT_NONE, EXT_NONE, gen_slt)
-+TRANS(sltui, gen_rri_v, EXT_NONE, EXT_NONE, gen_sltu)
-+TRANS(addi_w, gen_rri_c, EXT_NONE, EXT_SIGN, tcg_gen_addi_tl)
-+TRANS(addi_d, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_addi_tl)
-+TRANS(alsl_w, gen_rrr_sa, EXT_NONE, EXT_SIGN, gen_alsl)
-+TRANS(alsl_wu, gen_rrr_sa, EXT_NONE, EXT_ZERO, gen_alsl)
-+TRANS(alsl_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_alsl)
-+TRANS(pcaddi, gen_pc, gen_pcaddi)
-+TRANS(pcalau12i, gen_pc, gen_pcalau12i)
-+TRANS(pcaddu12i, gen_pc, gen_pcaddu12i)
-+TRANS(pcaddu18i, gen_pc, gen_pcaddu18i)
-+TRANS(andi, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_andi_tl)
-+TRANS(ori, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_ori_tl)
-+TRANS(xori, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_xori_tl)
++TRANS(ext_w_h, gen_rr, EXT_NONE, EXT_NONE, tcg_gen_ext16s_tl)
++TRANS(ext_w_b, gen_rr, EXT_NONE, EXT_NONE, tcg_gen_ext8s_tl)
++TRANS(clo_w, gen_rr, EXT_NONE, EXT_NONE, gen_clo_w)
++TRANS(clz_w, gen_rr, EXT_ZERO, EXT_NONE, gen_clz_w)
++TRANS(cto_w, gen_rr, EXT_NONE, EXT_NONE, gen_cto_w)
++TRANS(ctz_w, gen_rr, EXT_NONE, EXT_NONE, gen_ctz_w)
++TRANS(clo_d, gen_rr, EXT_NONE, EXT_NONE, gen_clo_d)
++TRANS(clz_d, gen_rr, EXT_NONE, EXT_NONE, gen_clz_d)
++TRANS(cto_d, gen_rr, EXT_NONE, EXT_NONE, gen_cto_d)
++TRANS(ctz_d, gen_rr, EXT_NONE, EXT_NONE, gen_ctz_d)
++TRANS(revb_2h, gen_rr, EXT_NONE, EXT_SIGN, gen_revb_2h)
++TRANS(revb_4h, gen_rr, EXT_NONE, EXT_NONE, gen_revb_4h)
++TRANS(revb_2w, gen_rr, EXT_NONE, EXT_NONE, gen_revb_2w)
++TRANS(revb_d, gen_rr, EXT_NONE, EXT_NONE, tcg_gen_bswap64_i64)
++TRANS(revh_2w, gen_rr, EXT_NONE, EXT_NONE, gen_revh_2w)
++TRANS(revh_d, gen_rr, EXT_NONE, EXT_NONE, gen_revh_d)
++TRANS(bitrev_4b, gen_rr, EXT_ZERO, EXT_SIGN, gen_helper_bitswap)
++TRANS(bitrev_8b, gen_rr, EXT_NONE, EXT_NONE, gen_helper_bitswap)
++TRANS(bitrev_w, gen_rr, EXT_NONE, EXT_SIGN, gen_helper_bitrev_w)
++TRANS(bitrev_d, gen_rr, EXT_NONE, EXT_NONE, gen_helper_bitrev_d)
++TRANS(maskeqz, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_maskeqz)
++TRANS(masknez, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_masknez)
++TRANS(bytepick_w, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_w)
++TRANS(bytepick_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_d)
++TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
++TRANS(bstrins_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
++TRANS(bstrpick_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, tcg_gen_extract_tl)
++TRANS(bstrpick_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, tcg_gen_extract_tl)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-new file mode 100644
-index 0000000000..8579c11984
---- /dev/null
+index 673aee4be5..b0bed5531b 100644
+--- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# LoongArch instruction decode definitions.
-+#
-+# Copyright (c) 2021 Loongson Technology Corporation Limited
-+#
+@@ -14,13 +14,16 @@
+ # Argument sets
+ #
+ &r_i          rd imm
++&rr           rd rj
+ &rrr          rd rj rk
+ &rr_i         rd rj imm
+ &rrr_sa       rd rj rk sa
++&rr_ms_ls     rd rj ms ls
+ 
+ #
+ # Formats
+ #
++@rr               .... ........ ..... ..... rj:5 rd:5    &rr
+ @rrr               .... ........ ..... rk:5 rj:5 rd:5    &rrr
+ @r_i20                          .... ... imm:s20 rd:5    &r_i
+ @rr_ui5           .... ........ ..... imm:5 rj:5 rd:5    &rr_i
+@@ -29,6 +32,10 @@
+ @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
+ @rr_i16                     .... .. imm:s16 rj:5 rd:5    &rr_i
+ @rrr_sa2p1        .... ........ ... .. rk:5 rj:5 rd:5    &rrr_sa  sa=%sa2p1
++@rrr_sa2        .... ........ ... sa:2 rk:5 rj:5 rd:5    &rrr_sa
++@rrr_sa3         .... ........ .. sa:3 rk:5 rj:5 rd:5    &rrr_sa
++@rr_2bw            .... ....... ms:5 . ls:5 rj:5 rd:5    &rr_ms_ls
++@rr_2bd               .... ...... ms:6 ls:6 rj:5 rd:5    &rr_ms_ls
+ 
+ #
+ # Fixed point arithmetic operation instruction
+@@ -99,3 +106,35 @@ srai_w          0000 00000100 10001 ..... ..... .....    @rr_ui5
+ srai_d          0000 00000100 1001 ...... ..... .....    @rr_ui6
+ rotri_w         0000 00000100 11001 ..... ..... .....    @rr_ui5
+ rotri_d         0000 00000100 1101 ...... ..... .....    @rr_ui6
 +
 +#
-+# Fields
++# Fixed point bit operation instruction
 +#
-+%sa2p1     15:2         !function=plus_1
++ext_w_h         0000 00000000 00000 10110 ..... .....    @rr
++ext_w_b         0000 00000000 00000 10111 ..... .....    @rr
++clo_w           0000 00000000 00000 00100 ..... .....    @rr
++clz_w           0000 00000000 00000 00101 ..... .....    @rr
++cto_w           0000 00000000 00000 00110 ..... .....    @rr
++ctz_w           0000 00000000 00000 00111 ..... .....    @rr
++clo_d           0000 00000000 00000 01000 ..... .....    @rr
++clz_d           0000 00000000 00000 01001 ..... .....    @rr
++cto_d           0000 00000000 00000 01010 ..... .....    @rr
++ctz_d           0000 00000000 00000 01011 ..... .....    @rr
++revb_2h         0000 00000000 00000 01100 ..... .....    @rr
++revb_4h         0000 00000000 00000 01101 ..... .....    @rr
++revb_2w         0000 00000000 00000 01110 ..... .....    @rr
++revb_d          0000 00000000 00000 01111 ..... .....    @rr
++revh_2w         0000 00000000 00000 10000 ..... .....    @rr
++revh_d          0000 00000000 00000 10001 ..... .....    @rr
++bitrev_4b       0000 00000000 00000 10010 ..... .....    @rr
++bitrev_8b       0000 00000000 00000 10011 ..... .....    @rr
++bitrev_w        0000 00000000 00000 10100 ..... .....    @rr
++bitrev_d        0000 00000000 00000 10101 ..... .....    @rr
++bytepick_w      0000 00000000 100 .. ..... ..... .....   @rrr_sa2
++bytepick_d      0000 00000000 11 ... ..... ..... .....   @rrr_sa3
++maskeqz         0000 00000001 00110 ..... ..... .....    @rrr
++masknez         0000 00000001 00111 ..... ..... .....    @rrr
++bstrins_w       0000 0000011 ..... 0 ..... ..... .....   @rr_2bw
++bstrpick_w      0000 0000011 ..... 1 ..... ..... .....   @rr_2bw
++bstrins_d       0000 000010 ...... ...... ..... .....    @rr_2bd
++bstrpick_d      0000 000011 ...... ...... ..... .....    @rr_2bd
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index 903810951e..f4b22c70a0 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -19,3 +19,24 @@ void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
+ {
+     do_raise_exception(env, exception, GETPC());
+ }
 +
-+#
-+# Argument sets
-+#
-+&r_i          rd imm
-+&rrr          rd rj rk
-+&rr_i         rd rj imm
-+&rrr_sa       rd rj rk sa
++target_ulong helper_bitrev_w(target_ulong rj)
++{
++    return (int32_t)revbit32(rj);
++}
 +
-+#
-+# Formats
-+#
-+@rrr               .... ........ ..... rk:5 rj:5 rd:5    &rrr
-+@r_i20                          .... ... imm:s20 rd:5    &r_i
-+@rr_i12                 .... ...... imm:s12 rj:5 rd:5    &rr_i
-+@rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
-+@rr_i16                     .... .. imm:s16 rj:5 rd:5    &rr_i
-+@rrr_sa2p1        .... ........ ... .. rk:5 rj:5 rd:5    &rrr_sa  sa=%sa2p1
++target_ulong helper_bitrev_d(target_ulong rj)
++{
++    return revbit64(rj);
++}
 +
-+#
-+# Fixed point arithmetic operation instruction
-+#
-+add_w           0000 00000001 00000 ..... ..... .....    @rrr
-+add_d           0000 00000001 00001 ..... ..... .....    @rrr
-+sub_w           0000 00000001 00010 ..... ..... .....    @rrr
-+sub_d           0000 00000001 00011 ..... ..... .....    @rrr
-+slt             0000 00000001 00100 ..... ..... .....    @rrr
-+sltu            0000 00000001 00101 ..... ..... .....    @rrr
-+slti            0000 001000 ............ ..... .....     @rr_i12
-+sltui           0000 001001 ............ ..... .....     @rr_i12
-+nor             0000 00000001 01000 ..... ..... .....    @rrr
-+and             0000 00000001 01001 ..... ..... .....    @rrr
-+or              0000 00000001 01010 ..... ..... .....    @rrr
-+xor             0000 00000001 01011 ..... ..... .....    @rrr
-+orn             0000 00000001 01100 ..... ..... .....    @rrr
-+andn            0000 00000001 01101 ..... ..... .....    @rrr
-+mul_w           0000 00000001 11000 ..... ..... .....    @rrr
-+mulh_w          0000 00000001 11001 ..... ..... .....    @rrr
-+mulh_wu         0000 00000001 11010 ..... ..... .....    @rrr
-+mul_d           0000 00000001 11011 ..... ..... .....    @rrr
-+mulh_d          0000 00000001 11100 ..... ..... .....    @rrr
-+mulh_du         0000 00000001 11101 ..... ..... .....    @rrr
-+mulw_d_w        0000 00000001 11110 ..... ..... .....    @rrr
-+mulw_d_wu       0000 00000001 11111 ..... ..... .....    @rrr
-+div_w           0000 00000010 00000 ..... ..... .....    @rrr
-+mod_w           0000 00000010 00001 ..... ..... .....    @rrr
-+div_wu          0000 00000010 00010 ..... ..... .....    @rrr
-+mod_wu          0000 00000010 00011 ..... ..... .....    @rrr
-+div_d           0000 00000010 00100 ..... ..... .....    @rrr
-+mod_d           0000 00000010 00101 ..... ..... .....    @rrr
-+div_du          0000 00000010 00110 ..... ..... .....    @rrr
-+mod_du          0000 00000010 00111 ..... ..... .....    @rrr
-+alsl_w          0000 00000000 010 .. ..... ..... .....   @rrr_sa2p1
-+alsl_wu         0000 00000000 011 .. ..... ..... .....   @rrr_sa2p1
-+alsl_d          0000 00000010 110 .. ..... ..... .....   @rrr_sa2p1
-+lu12i_w         0001 010 .................... .....      @r_i20
-+lu32i_d         0001 011 .................... .....      @r_i20
-+lu52i_d         0000 001100 ............ ..... .....     @rr_i12
-+pcaddi          0001 100 .................... .....      @r_i20
-+pcalau12i       0001 101 .................... .....      @r_i20
-+pcaddu12i       0001 110 .................... .....      @r_i20
-+pcaddu18i       0001 111 .................... .....      @r_i20
-+addi_w          0000 001010 ............ ..... .....     @rr_i12
-+addi_d          0000 001011 ............ ..... .....     @rr_i12
-+addu16i_d       0001 00 ................ ..... .....     @rr_i16
-+andi            0000 001101 ............ ..... .....     @rr_ui12
-+ori             0000 001110 ............ ..... .....     @rr_ui12
-+xori            0000 001111 ............ ..... .....     @rr_ui12
++target_ulong helper_bitswap(target_ulong v)
++{
++    v = ((v >> 1) & (target_ulong)0x5555555555555555ULL) |
++        ((v & (target_ulong)0x5555555555555555ULL) << 1);
++    v = ((v >> 2) & (target_ulong)0x3333333333333333ULL) |
++        ((v & (target_ulong)0x3333333333333333ULL) << 2);
++    v = ((v >> 4) & (target_ulong)0x0F0F0F0F0F0F0F0FULL) |
++        ((v & (target_ulong)0x0F0F0F0F0F0F0F0FULL) << 4);
++    return v;
++}
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 8a62623cd1..4a78d4ec8b 100644
+index 169283ad13..8c7c3968c9 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -26,6 +26,11 @@ TCGv_i64 cpu_fpr[32];
+@@ -147,6 +147,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
+ #include "decode-insns.c.inc"
+ #include "insn_trans/trans_arith.c.inc"
+ #include "insn_trans/trans_shift.c.inc"
++#include "insn_trans/trans_bit.c.inc"
  
- #define DISAS_STOP       DISAS_TARGET_0
- 
-+static inline int plus_1(DisasContext *ctx, int x)
-+{
-+    return x + 1;
-+}
-+
- void generate_exception(DisasContext *ctx, int excp)
- {
-     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
-@@ -57,6 +62,11 @@ static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
-     /* Bound the number of insns to execute to those left on the page.  */
-     bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
-     ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
-+
-+    ctx->ntemp = 0;
-+    memset(ctx->temp, 0, sizeof(ctx->temp));
-+
-+    ctx->zero = tcg_constant_tl(0);
- }
- 
- static void loongarch_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
-@@ -70,6 +80,73 @@ static void loongarch_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
-     tcg_gen_insn_start(ctx->base.pc_next);
- }
- 
-+/*
-+ * Wrappers for getting reg values.
-+ *
-+ * The $zero register does not have cpu_gpr[0] allocated -- we supply the
-+ * constant zero as a source, and an uninitialized sink as destination.
-+ *
-+ * Further, we may provide an extension for word operations.
-+ */
-+static TCGv temp_new(DisasContext *ctx)
-+{
-+    assert(ctx->ntemp < ARRAY_SIZE(ctx->temp));
-+    return ctx->temp[ctx->ntemp++] = tcg_temp_new();
-+}
-+
-+static TCGv gpr_src(DisasContext *ctx, int reg_num, DisasExtend src_ext)
-+{
-+    TCGv t;
-+
-+    if (reg_num == 0) {
-+        return ctx->zero;
-+    }
-+
-+    switch (src_ext) {
-+    case EXT_NONE:
-+        return cpu_gpr[reg_num];
-+    case EXT_SIGN:
-+        t = temp_new(ctx);
-+        tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
-+        return t;
-+    case EXT_ZERO:
-+        t = temp_new(ctx);
-+        tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
-+        return t;
-+    }
-+    g_assert_not_reached();
-+}
-+
-+static TCGv gpr_dst(DisasContext *ctx, int reg_num, DisasExtend dst_ext)
-+{
-+    if (reg_num == 0 || dst_ext) {
-+        return temp_new(ctx);
-+    }
-+    return cpu_gpr[reg_num];
-+}
-+
-+static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
-+{
-+    if (reg_num != 0) {
-+        switch (dst_ext) {
-+        case EXT_NONE:
-+            tcg_gen_mov_tl(cpu_gpr[reg_num], t);
-+            break;
-+        case EXT_SIGN:
-+            tcg_gen_ext32s_tl(cpu_gpr[reg_num], t);
-+            break;
-+        case EXT_ZERO:
-+            tcg_gen_ext32u_tl(cpu_gpr[reg_num], t);
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    }
-+}
-+
-+#include "decode-insns.c.inc"
-+#include "insn_trans/trans_arith.c.inc"
-+
  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  {
-     CPULoongArchState *env = cs->env_ptr;
-@@ -83,6 +160,12 @@ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-         generate_exception(ctx, EXCCODE_INE);
-     }
- 
-+    for (int i = ctx->ntemp - 1; i >= 0; --i) {
-+        tcg_temp_free(ctx->temp[i]);
-+        ctx->temp[i] = NULL;
-+    }
-+    ctx->ntemp = 0;
-+
-     ctx->base.pc_next += 4;
- }
- 
-diff --git a/target/loongarch/translate.h b/target/loongarch/translate.h
-index 6cc7f1a7cd..9cc12512d1 100644
---- a/target/loongarch/translate.h
-+++ b/target/loongarch/translate.h
-@@ -10,11 +10,30 @@
- 
- #include "exec/translator.h"
- 
-+#define TRANS(NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME * a) \
-+    { return FUNC(ctx, a, __VA_ARGS__); }
-+
-+/*
-+ * If an operation is being performed on less than TARGET_LONG_BITS,
-+ * it may require the inputs to be sign- or zero-extended; which will
-+ * depend on the exact operation being performed.
-+ */
-+typedef enum {
-+    EXT_NONE,
-+    EXT_SIGN,
-+    EXT_ZERO,
-+} DisasExtend;
-+
- typedef struct DisasContext {
-     DisasContextBase base;
-     target_ulong page_start;
-     uint32_t opcode;
-     int mem_idx;
-+    TCGv zero;
-+    /* Space for 3 operands plus 1 extra for address computation. */
-+    TCGv temp[4];
-+    uint8_t ntemp;
- } DisasContext;
- 
- void generate_exception(DisasContext *ctx, int excp);
 -- 
 2.31.1
 
