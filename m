@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5734B5299ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 08:53:41 +0200 (CEST)
-Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CEC529A53
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 09:02:58 +0200 (CEST)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqr5Q-0007Tu-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 02:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
+	id 1nqrEP-0003co-BU
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 03:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nqqoN-0004mB-Kc
- for qemu-devel@nongnu.org; Tue, 17 May 2022 02:36:04 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:46624
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nqqoL-0007mT-Fa
- for qemu-devel@nongnu.org; Tue, 17 May 2022 02:36:03 -0400
-HMM_SOURCE_IP: 172.18.0.48:35216.1855245433
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.84 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 35DA62800B4;
- Tue, 17 May 2022 14:35:45 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 9482ce7fa186442aa22549714a1cd696 for
- qemu-devel@nongnu.org; Tue, 17 May 2022 14:35:48 CST
-X-Transaction-ID: 9482ce7fa186442aa22549714a1cd696
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hyman Huang <huangy81@chinatelecom.cn>
-Subject: [RFC 6/6] tests: Add migration dirtylimit capability test
-Date: Tue, 17 May 2022 14:35:06 +0800
-Message-Id: <ce310d0859aaff0f1938e689af6387026b7e45b0.1652762652.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1652762652.git.huangy81@chinatelecom.cn>
-References: <cover.1652762652.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1652762652.git.huangy81@chinatelecom.cn>
-References: <cover.1652762652.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nqrAm-0002Pf-JV
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 02:59:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1nqrAj-0003GI-Nu
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 02:59:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652770749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bUtxGzUry5ly0Er5rRubrBF2gV2e0puWqpB8HnCllGI=;
+ b=LUNtjdnxTLK3sec2nAfzvD9Q0BuoVvjFcdQUE5CNVHjaEfrH0qxNtS77YZdL3/KXlymt8H
+ TU/MVAELEWnNX0zto7arLXKSYHFzghZ/DOmJwyvdbUxh4K27mkiiSVjWLkmmzbvw40XrkH
+ P+shAuqHwvIxE4uDwKQVUDSUV8ZeLt8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-287-L0byGxS1PS64OpN2ctNRAA-1; Tue, 17 May 2022 02:59:05 -0400
+X-MC-Unique: L0byGxS1PS64OpN2ctNRAA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c187-20020a1c35c4000000b003970013833aso3353088wma.1
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 23:59:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bUtxGzUry5ly0Er5rRubrBF2gV2e0puWqpB8HnCllGI=;
+ b=y7zrm0bQzi5r9MLMAZvQ778hgIBO3wGGNTmZjSr/dD6O9qFqBYaAWfFt2Zb8JXqIHi
+ zX7glLXQ7cXIE+c5zWTXPv+8TU9faah5Pmz3WN9doPH8iARFupaCuLBGqY7OeZMhwJXv
+ E5qkQQxvmQty6GhGEHl0ONwHj6FQNIJ2r6nmEFbtDzF479MvarZiZZfdpoapaokUlTJA
+ RYEauGKEgPDozHwEsCaqgUR6JTSw8BobGhERi6AHnHpWWzSu1xsTRIz0nbLevxC+AwxM
+ FvCL4Z9JXvLa8RMN8UTVhjqOE6AG282EV+CmfWkBbfop+EiVhr8T5lDTvGLi2UTsyQUy
+ lRBw==
+X-Gm-Message-State: AOAM531MhSHkPUAnYZ1F9N5OA6FPK/MN0rdUOMDZRYzOsHcJdp6+nZZ4
+ b03gm/sxZN8SsJwminc9Dm31JOF4kG/epvKs6LXK1naqL3s2O+QGaSiFbfNh9QdpSXdyI2lF6Qi
+ pKrzv94V0ra8fanI=
+X-Received: by 2002:adf:f105:0:b0:20e:5939:9a96 with SMTP id
+ r5-20020adff105000000b0020e59399a96mr895118wro.268.1652770744584; 
+ Mon, 16 May 2022 23:59:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxo19+tTf7bJJvP4KNrGJtl+7RQOnLkErMBPkqIRL36uCT/2SjrQFA6T0lUtwWjxhmsDM3iLA==
+X-Received: by 2002:adf:f105:0:b0:20e:5939:9a96 with SMTP id
+ r5-20020adff105000000b0020e59399a96mr895095wro.268.1652770744293; 
+ Mon, 16 May 2022 23:59:04 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-12-25-16.business.telecomitalia.it.
+ [87.12.25.16]) by smtp.gmail.com with ESMTPSA id
+ h16-20020adf9cd0000000b0020c5253d8casm11027426wre.22.2022.05.16.23.59.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 23:59:03 -0700 (PDT)
+Date: Tue, 17 May 2022 08:59:00 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Ilya Dryomov <idryomov@gmail.com>
+Cc: qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
+ Tingting Mao <timao@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu block <qemu-block@nongnu.org>
+Subject: Re: [PATCH] block/rbd: report a better error when namespace does not
+ exist
+Message-ID: <20220517065900.bx27sdjv63qc77rv@sgarzare-redhat>
+References: <20220516100324.61122-1-sgarzare@redhat.com>
+ <CAOi1vP-LeTROyyHFoP8-MySCk-n8C_1qB13WLtdhemcpyaPQgw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAOi1vP-LeTROyyHFoP8-MySCk-n8C_1qB13WLtdhemcpyaPQgw@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,133 +101,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Mon, May 16, 2022 at 08:26:53PM +0200, Ilya Dryomov wrote:
+>On Mon, May 16, 2022 at 12:03 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>>
+>> If the namespace does not exist, rbd_create() fails with -ENOENT and
+>> QEMU reports a generic "error rbd create: No such file or directory":
+>>
+>>     $ qemu-img create rbd:rbd/namespace/image 1M
+>>     Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
+>>     qemu-img: rbd:rbd/namespace/image: error rbd create: No such file or directory
+>>
+>> Unfortunately rados_ioctx_set_namespace() does not fail if the namespace
+>> does not exist, so let's use rbd_namespace_exists() in qemu_rbd_connect()
+>> to check if the namespace exists, reporting a more understandable error:
+>>
+>>     $ qemu-img create rbd:rbd/namespace/image 1M
+>>     Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
+>>     qemu-img: rbd:rbd/namespace/image: namespace 'namespace' does not exist
+>>
+>> Reported-by: Tingting Mao <timao@redhat.com>
+>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>> ---
+>>  meson.build |  6 ++++++
+>>  block/rbd.c | 24 ++++++++++++++++++++++++
+>>  2 files changed, 30 insertions(+)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index 9b20dcd143..e6c0afd62b 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -1828,6 +1828,12 @@ config_host_data.set('HAVE_GETIFADDRS', cc.has_function('getifaddrs'))
+>>  config_host_data.set('HAVE_OPENPTY', cc.has_function('openpty', dependencies: util))
+>>  config_host_data.set('HAVE_STRCHRNUL', cc.has_function('strchrnul'))
+>>  config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
+>> +if rbd.found()
+>> +  config_host_data.set('HAVE_RBD_NAMESPACE_EXISTS',
+>> +                       cc.has_function('rbd_namespace_exists',
+>> +                                       dependencies: rbd,
+>> +                                       prefix: '#include <rbd/librbd.h>'))
+>> +endif
+>>  if rdma.found()
+>>    config_host_data.set('HAVE_IBV_ADVISE_MR',
+>>                         cc.has_function('ibv_advise_mr',
+>> diff --git a/block/rbd.c b/block/rbd.c
+>> index 6caf35cbba..0ff23c5b26 100644
+>> --- a/block/rbd.c
+>> +++ b/block/rbd.c
+>> @@ -831,6 +831,26 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+>>          error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
+>>          goto failed_shutdown;
+>>      }
+>> +
+>> +#ifdef HAVE_RBD_NAMESPACE_EXISTS
+>> +    if (opts->has_q_namespace && strlen(opts->q_namespace) > 0) {
+>> +        bool exists;
+>> +
+>> +        r = rbd_namespace_exists(*io_ctx, opts->q_namespace, &exists);
+>> +        if (r != 0) {
+>
+>Nit: r < 0 for consistency (librbd errors are always negative).
 
-Add migration dirtylimit capability test if kernel support
-dirty ring.
+Yep, also error_setg_errno(errp, -r, ...) makes sense only if r is 
+negative.
 
-Migration dirtylimit capability introduce dirtylimit capability
-, two parameters: vcpu-dirtylimit-period and vcpu-dirtylimit to
-implement the live migration with dirtylimit.
+>
+>> +            error_setg_errno(errp, -r, "error checking namespace");
+>> +            goto failed_ioctx_destroy;
+>> +        }
+>> +
+>> +        if (!exists) {
+>> +            error_setg(errp, "namespace '%s' does not exist",
+>> +                       opts->q_namespace);
+>> +            r = -ENOENT;
+>> +            goto failed_ioctx_destroy;
+>> +        }
+>> +    }
+>> +#endif
+>> +
+>>      /*
+>>       * Set the namespace after opening the io context on the pool,
+>>       * if nspace == NULL or if nspace == "", it is just as we did nothing
+>> @@ -840,6 +860,10 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+>>      r = 0;
+>>      goto out;
+>>
+>> +#ifdef HAVE_RBD_NAMESPACE_EXISTS
+>> +failed_ioctx_destroy:
+>> +    rados_ioctx_destroy(*io_ctx);
+>> +#endif
+>>  failed_shutdown:
+>>      rados_shutdown(*cluster);
+>>  out:
+>> --
+>> 2.35.3
+>>
+>
+>Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 
-The test case enable the capability and set the corresponding
-parameters to test migration. When migration switch to
-pre-switchover phase, like the auto-converge, checking if
-migration satisfy the convergence condition.
+Thanks, I'll send a v2 with the fix and your R-b tag.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- tests/qtest/migration-test.c | 89 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 40f2873..b0a53d7 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -1650,6 +1650,93 @@ static void test_vcpu_dirty_limit(void)
-     dirtylimit_stop_vm(vm);
- }
- 
-+static void test_migrate_dirty_limit(void)
-+{
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    MigrateStart *args = migrate_start_new();
-+    QTestState *from, *to;
-+    int64_t remaining, throttle_us_per_full;
-+    /*
-+     * We want the test to be stable and as fast as possible.
-+     * E.g., with 1Gb/s bandwith migration may pass without dirtylimit,
-+     * so we need to decrease a bandwidth.
-+     */
-+    const int64_t dirtylimit_period = 1000, dirtylimit_value = 50;
-+    const int64_t max_bandwidth = 400000000; /* ~400Mb/s */
-+    const int64_t downtime_limit = 250; /* 250ms */
-+    /*
-+     * We migrate through unix-socket (> 500Mb/s).
-+     * Thus, expected migration speed ~= bandwidth limit (< 500Mb/s).
-+     * So, we can predict expected_threshold
-+     */
-+    const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
-+
-+    /* Enable dirty ring logging */
-+    args->use_dirty_ring = true;
-+
-+    if (test_migrate_start(&from, &to, uri, &args)) {
-+        return;
-+    }
-+
-+    migrate_set_capability(from, "dirtylimit", true);
-+    migrate_set_parameter_int(from, "vcpu-dirtylimit-period",
-+                              dirtylimit_period);
-+    migrate_set_parameter_int(from, "vcpu-dirtylimit", dirtylimit_value);
-+
-+    /*
-+     * Set the initial parameters so that the migration could not converge
-+     * without dirtylimit.
-+     */
-+    migrate_set_parameter_int(from, "downtime-limit", 1);
-+    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
-+
-+    /* To check limit rate after precopy */
-+    migrate_set_capability(from, "pause-before-switchover", true);
-+
-+    /* Wait for the first serial output from the source */
-+    wait_for_serial("src_serial");
-+
-+    migrate_qmp(from, uri, "{}");
-+
-+    /* Wait for dirtylimit begins */
-+    throttle_us_per_full = 0;
-+    while (throttle_us_per_full == 0) {
-+        throttle_us_per_full =
-+            read_migrate_property_int(from, "dirtylimit-throttle-us-per-full");
-+        usleep(100);
-+        g_assert_false(got_stop);
-+    }
-+
-+    /*
-+     * The dirtylimit rate should equals the return value of
-+     * query-vcpu-dirty-limit if dirtylimit cap set
-+     */
-+    g_assert_cmpint(dirtylimit_value, ==, get_limit_rate(from));
-+
-+    /* Now, when we tested if dirtylimit works, let it converge */
-+    migrate_set_parameter_int(from, "downtime-limit", downtime_limit);
-+    migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth);
-+
-+    /*
-+     * Wait for pre-switchover status to check if migration
-+     * satisfy the convergence condition
-+     */
-+    wait_for_migration_status(from, "pre-switchover", NULL);
-+
-+    remaining = read_ram_property_int(from, "remaining");
-+    g_assert_cmpint(remaining, <,
-+                    (expected_threshold + expected_threshold / 100));
-+
-+    migrate_continue(from, "pre-switchover");
-+
-+    qtest_qmp_eventwait(to, "RESUME");
-+
-+    wait_for_serial("dest_serial");
-+    wait_for_migration_complete(from);
-+
-+    test_migrate_end(from, to, true);
-+}
-+
- static bool kvm_dirty_ring_supported(void)
- {
- #if defined(__linux__) && defined(HOST_X86_64)
-@@ -1741,6 +1828,8 @@ int main(int argc, char **argv)
-                        test_precopy_unix_dirty_ring);
-         qtest_add_func("/migration/vcpu_dirty_limit",
-                        test_vcpu_dirty_limit);
-+        qtest_add_func("/migration/dirty_limit",
-+                       test_migrate_dirty_limit);
-     }
- 
-     ret = g_test_run();
--- 
-1.8.3.1
+Stefano
 
 
