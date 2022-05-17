@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055B1529FC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 12:49:42 +0200 (CEST)
-Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C5E529FF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 13:05:42 +0200 (CEST)
+Received: from localhost ([::1]:45648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqulo-0005fg-Th
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 06:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
+	id 1nqv1J-0008Kv-IC
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 07:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nquiH-0004eR-CX
- for qemu-devel@nongnu.org; Tue, 17 May 2022 06:46:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56575)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nquv4-0007MV-IA
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 06:59:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nquiD-0001SN-2t
- for qemu-devel@nongnu.org; Tue, 17 May 2022 06:45:59 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nquv1-0003VA-UA
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 06:59:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652784356;
+ s=mimecast20190719; t=1652785150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zAY3Q66QbM0uib7azOaHo8UXKhhXZmSJ5qde/FsqCRo=;
- b=EHcYPgvxzgX7R2L0vHL6hwhgTXaUnM1x3RDP3MuzMtg8oTSBb6P8QtTGZZCQkEeOVIbNA6
- R9COsx2czbWeKavbpOlZFq7zUvUrtLDr8rvMBMqt/YqiLkhBxzrVVKOT2BCLVJeLZxtQLa
- SUxZsRjdAlBgSoCkP6kcANNncZ8YkAQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SPmcKgs4NbEbFamd3M7PqMck2uAC2usqn4mD5Xm5LVU=;
+ b=HfBnmJiTOUuWH7ja3i0E96wUD+jO18c0stz+1NSU3ttpAxYdqSTTdOiKYkgqzoBSg/Iznk
+ iGdlZxDy11L03oEpFWKNgAXXaN2YX6Fu5JAWSq03/dvi/AYwDXdNG2pwRdLtAU8y7w6dSf
+ cCXDORgZgobCtb5r7PJxybCQHl6z7CQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-Qg_HRxUSNIKJdvzxAD6wZg-1; Tue, 17 May 2022 06:45:54 -0400
-X-MC-Unique: Qg_HRxUSNIKJdvzxAD6wZg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p24-20020a1c5458000000b003945d2ffc6eso8016077wmi.5
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 03:45:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=zAY3Q66QbM0uib7azOaHo8UXKhhXZmSJ5qde/FsqCRo=;
- b=uMhE93teg7ncmzeqDT9j7Sduu5kc+zdpMXRQ66em7e+WJ80eM5vDGGYnwbr/rOzNUD
- QRgDPGPT1jw/ZhnFEiCNlheKVBbsqnzNImGHniak8RZYeG7tHs85Dq6xvjsaibYkiu3P
- BXLijzojT888gUpqS+0sT1eKqe3Kv7+Moo4BNGc+9jyEg9PZjnN0vTZNiLbnDXMKBuY3
- IYw6lSE+QZzqQxSAmJ0yy8XR8/5BrXsabpLxXQrI4czEKM1Ixm1TkBsRWKcqQvsQPEQb
- gN3Ks/mwK6jpiAwjS9jXXPhkdYgMDA+Yp7aVktcsKrwi5acCYTkolfD34BvyWSIZdFnn
- /hMQ==
-X-Gm-Message-State: AOAM530eTH3DU9dV7K4xS93RI1ee0pTdyBuvJ1Mp9Dj14eO6wP6cwZjW
- uwRTFAypHmeYTr1NyIL+YSKEga3vxfRoIM1PSHDaxQwJbFbKmxDN86QEWvOTer4DwZD0lj6dXcN
- xfYhe566axevE++c=
-X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
- b13-20020adff90d000000b0020cde324d35mr17936725wrr.583.1652784352773; 
- Tue, 17 May 2022 03:45:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUXUTOx9x+QT465njisE+3UiJwNk5IxxEtKpwD1rLTCA46aIbr/Ln2PrwIoRQc/FDgPmL+fg==
-X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id
- b13-20020adff90d000000b0020cde324d35mr17936701wrr.583.1652784352534; 
- Tue, 17 May 2022 03:45:52 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- c13-20020adfa70d000000b0020c5253d8f7sm12121067wrd.67.2022.05.17.03.45.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 03:45:52 -0700 (PDT)
-Message-ID: <db9c1963-36c3-8639-988d-c49109121001@redhat.com>
-Date: Tue, 17 May 2022 12:45:51 +0200
+ us-mta-606-32vz9zrjMD2DgX11TX_BuQ-1; Tue, 17 May 2022 06:59:08 -0400
+X-MC-Unique: 32vz9zrjMD2DgX11TX_BuQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AD2F3C16186;
+ Tue, 17 May 2022 10:59:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89D4C2166B2D;
+ Tue, 17 May 2022 10:59:04 +0000 (UTC)
+Date: Tue, 17 May 2022 11:59:03 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] gitlab-ci: Allow adding manual jobs on cirrus-ci
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20220314143130.28503-1-philippe.mathieu.daude@gmail.com>
- <2a52914a-d129-cd20-d54d-ee8cfd38a8d7@redhat.com>
- <YoN5MMqaR8w1avU4@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YoN5MMqaR8w1avU4@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WbrWsekXV14Q5x4t"
+Content-Disposition: inline
+In-Reply-To: <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,76 +85,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/05/2022 12.30, Daniel P. Berrangé wrote:
-> On Tue, May 17, 2022 at 12:10:30PM +0200, Thomas Huth wrote:
->> On 14/03/2022 15.31, Philippe Mathieu-Daudé wrote:
->>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>
->>> By default, all Cirrus-CI jobs are added as 'on_success' (the
->>> default value). Add a ${MANUAL_JOB} variable (default to 0)
->>> to be able to add manual jobs.
->>>
->>> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>    .gitlab-ci.d/cirrus.yml       | 2 ++
->>>    .gitlab-ci.d/cirrus/build.yml | 1 +
->>>    2 files changed, 3 insertions(+)
->>>
->>> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
->>> index b96b22e269..9e640019dd 100644
->>> --- a/.gitlab-ci.d/cirrus.yml
->>> +++ b/.gitlab-ci.d/cirrus.yml
->>> @@ -44,6 +44,8 @@
->>>        # Allow on 'staging' branch and 'stable-X.Y-staging' branches only
->>>        - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH !~ /staging/'
->>>          when: never
->>> +    - if: '$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN && $MANUAL_JOB == "1"'
->>> +      when: manual
-> 
-> 
-> 
->>>        - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
->>>    x64-freebsd-12-build:
->>> diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
->>> index c555f5d36e..c58dc86855 100644
->>> --- a/.gitlab-ci.d/cirrus/build.yml
->>> +++ b/.gitlab-ci.d/cirrus/build.yml
->>> @@ -14,6 +14,7 @@ env:
->>>      MAKE: "@MAKE@"
->>>      CONFIGURE_ARGS: "@CONFIGURE_ARGS@"
->>>      TEST_TARGETS: "@TEST_TARGETS@"
->>> +  MANUAL_JOB: 0
-> 
-> This addition doesn't make sense.  build.yml is config that is run
-> by Cirrus CI.
-> 
-> The MANUAL_JOB  env is interpreted by GitLab CI, so would only ever
-> be set by jobs in .gitlab-ci.d/cirrus.yml
-> 
->>>    build_task:
->>>      install_script:
->>
->>   Hi Philippe!
->>
->> Sorry for the late reply ... I think this might collide with Daniel's patch
->> that turns most jobs to manual mode
->> (https://lore.kernel.org/all/20210812180403.4129067-3-berrange@redhat.com/)
->> which he is hopefully going to respin soon ... but anyway, if you add a
->> variable like this, there should be an update to docs/devel/ci-jobs.rst.inc
->> to describe the new variable, otherwise you might be the only one who's
->> using it.
-> 
-> IIUC, this MANUAL_JOB variable isn't for end developer usage, rather it is
-> for usage when adding jobs to .gitlab-ci.d/cirrus.yml, so I don't think it
-> needs documenting there. THis simply lets us add a bunch more jobs to
-> cirrus.yml without causing timeout problems by having them all run at
-> once, providing we put MANUAL_JOB: 1 in the config for the new job.
 
-Ok, but then this patch is incomplete. This should either be in a series 
-that introduces such new jobs, or/and rework the NetBSD and OpenBSD jobs to 
-use this variable, too.
+--WbrWsekXV14Q5x4t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Thomas
+On Wed, May 04, 2022 at 02:39:05PM +0100, Stefan Hajnoczi wrote:
+> On Tue, Apr 26, 2022 at 04:51:06AM -0400, Emanuele Giuseppe Esposito wrot=
+e:
+> > This is a new attempt to replace the need to take the AioContext lock to
+> > protect graph modifications. In particular, we aim to remove
+> > (or better, substitute) the AioContext around bdrv_replace_child_noperm,
+> > since this function changes BlockDriverState's ->parents and ->children
+> > lists.
+> >=20
+> > In the previous version, we decided to discard using subtree_drains to
+> > protect the nodes, for different reasons: for those unfamiliar with it,
+> > please see https://patchew.org/QEMU/20220301142113.163174-1-eesposit@re=
+dhat.com/
+>=20
+> I reread the thread and it's unclear to me why drain is the wrong
+> mechanism for protecting graph modifications. We theorized a lot but
+> ultimately is this new mechanism sufficiently different from
+> bdrv_drained_begin()/end() to make it worth implementing?
+>=20
+> Instead of invoking .drained_begin() callbacks to stop further I/O,
+> we're now queuing coroutines (without backpressure information that
+> whoever is spawning I/O needs so they can stop). The writer still waits
+> for in-flight I/O to finish, including I/O not associated with the bdrv
+> graph we wish to modify (because rdlock is per-AioContext and unrelated
+> to a specific graph). Is this really more lightweight than drain?
+>=20
+> If I understand correctly, the original goal was to avoid the need to
+> hold the AioContext lock across bdrv_replace_child_noperm(). I would
+> focus on that and use drain for now.
+>=20
+> Maybe I've missed an important point about why the new mechanism is
+> needed?
+
+Ping?
+
+Stefan
+
+--WbrWsekXV14Q5x4t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKDf/cACgkQnKSrs4Gr
+c8hnmggAtZobt8KnQSUntFoyL9xd0X29jl9Q921hYrPTwyNTVX5RBGiiUE+u19q8
+wRTB+J1Rtgr/NQxnUim2OIF8+qPdVqvm/e31/jlo+7mDfm4wkPsxKsy3NoOQAAOC
+w5o/gYKrJvsHDGCfrSH8Pgc+ifWo2SZxog5ps4s4UmTQMDs4W+FeNw6+rO4xO42h
+VbB4xczKSf/flPZezPXhSCJrH8M/9ou7UBOgPhI+DFUiPBddh2luYHm80qXKnV/I
+fD9xIBrAkfRjt+RHvu3ER8u7KOzYK9hz1UiBnGZwNcm5Ql0P7tj+22LpC9wEPaXB
+LuAwzqcNLLB5ce0PtYHIJUAd3z63Gg==
+=6W+p
+-----END PGP SIGNATURE-----
+
+--WbrWsekXV14Q5x4t--
 
 
