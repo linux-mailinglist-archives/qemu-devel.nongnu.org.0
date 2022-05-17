@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E35852A47C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 16:14:25 +0200 (CEST)
-Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E3452A51D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 16:42:36 +0200 (CEST)
+Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqxxw-0005Nj-MK
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 10:14:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44128)
+	id 1nqyPD-0002fD-98
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 10:42:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqxeS-0006HH-WD
- for qemu-devel@nongnu.org; Tue, 17 May 2022 09:54:17 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqxeN-0001fP-A2
- for qemu-devel@nongnu.org; Tue, 17 May 2022 09:54:13 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id eg11so8690790edb.11
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 06:54:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MkDvTIV/3EID0XQH3w2iUU+VlbIE5bY2ysMzmF8esOY=;
- b=NMCdL/EVpSQLC4iGHD7mB8QRxyMDPoheef/UffnTTGIn9AFHJMDxu6ZR1KIiv3UnF7
- SZKQZK8ohK1izzWq0sR8XkRgCdEO5h1rAmSD6+Cqf8JJoukSsNUmt4KeKClcLbdnGoRj
- Wac/vy0pyeNP5XlCnhE1jqDNxHmzyhac31wylG5kjxMy6seCfCt1X8OUf/ZDuYRnunHN
- u+W6Ov2r6IMJD55FWE7b4yicJ9xenk6SSkFkS9w8nVeecjBXo9rmCb1UJzVlL4y46CGd
- TCEzJ+cQW5DcMut0P2mXbi9/G2fQQShwWx/dkeHCJc/T25z3vzowzUVM9Cf7sl6nsICr
- X+sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MkDvTIV/3EID0XQH3w2iUU+VlbIE5bY2ysMzmF8esOY=;
- b=an89VkMRVOBtU2/5HSpz5HTn6FB/dZ+M0zSYl7OyNSHb1Yt4m3jAy4HGa727eQFrLe
- t/GIqmyqQzAX0q0yLAA0vgOEYG/G6kBPB4y5VCIUjjIjAG9yZpuIUHrqnSNTRtDX0vLR
- rYXwkXTab77aiWEIk4LODl0L9wCqB7js+NWrziUVnhvoPm3v8utrv6rHSH7zhgMpHs7h
- bTI3qzFmGP9toERW+8JNUtuAim67NdKriajU1+F5DVJnR55we83qg+bvOuB5fbwHzxKo
- 5prvAuJ2M1MkSKjhElMOUSn9zKr12B78yzC1Bda/WyYat+y6+fFwL6MxZXtvTapq1edo
- 1ePg==
-X-Gm-Message-State: AOAM530jCmzC1wM/Wf/dzH/JgRQe4++pXw/j744wzlDN4KdclEPN1kSo
- 8462df6ZvW/oBc6xx4J8F1o=
-X-Google-Smtp-Source: ABdhPJysolnXD0oyYlhO1MkQglBHEuZgok3+6mymhhsHH0qZt48IySoqFvlrnUNxc5M0tMVjlq4bXA==
-X-Received: by 2002:aa7:de8a:0:b0:42a:b51a:554c with SMTP id
- j10-20020aa7de8a000000b0042ab51a554cmr9780004edv.318.1652795648900; 
- Tue, 17 May 2022 06:54:08 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- e10-20020a170906748a00b006f3ef214e08sm1120723ejl.110.2022.05.17.06.53.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 06:54:08 -0700 (PDT)
-Message-ID: <fb522282-c750-2652-2e27-87c68819100b@redhat.com>
-Date: Tue, 17 May 2022 15:53:52 +0200
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nqxne-0002cl-Px
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 10:03:46 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:60486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nqxnc-0003QN-2A
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 10:03:46 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-490-zAzA9_BuNGSz5scdaBrptg-1; Tue, 17 May 2022 10:03:34 -0400
+X-MC-Unique: zAzA9_BuNGSz5scdaBrptg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A6A72999B32;
+ Tue, 17 May 2022 14:03:32 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77F9C14DE220;
+ Tue, 17 May 2022 14:03:27 +0000 (UTC)
+Date: Tue, 17 May 2022 16:03:26 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Alberto Faria <afaria@redhat.com>
+Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-block@nongnu.org, Palmer Dabbelt
+ <palmer@dabbelt.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>, qemu-ppc@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, Hanna Reitz
+ <hreitz@redhat.com>, John Snow <jsnow@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ qemu-riscv@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>, Stefan Weil <sw@weilnetz.de>, Laurent Vivier
+ <laurent@vivier.eu>, "Denis V. Lunev" <den@openvz.org>, Juan Quintela
+ <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Niek
+ Linnenbank <nieklinnenbank@gmail.com>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, Kevin Wolf <kwolf@redhat.com>, "Edgar E. Iglesias"
+ <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org, Fam Zheng
+ <fam@euphon.net>, Alistair Francis <alistair@alistair23.me>, Beniamino
+ Galvani <b.galvani@gmail.com>, Bin Meng <bin.meng@windriver.com>, David
+ Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 01/18] block: Make blk_{pread,pwrite}() return 0 on success
+Message-ID: <20220517160326.1f6f551f@bahia>
+In-Reply-To: <20220517113524.197910-2-afaria@redhat.com>
+References: <20220517113524.197910-1-afaria@redhat.com>
+ <20220517113524.197910-2-afaria@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: Accelerating non-standard disk types
-Content-Language: en-US
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- John Levon <john.levon@nutanix.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- "alexis.lescout@nutanix.com" <alexis.lescout@nutanix.com>,
- Felipe Franciosi <felipe@nutanix.com>, "mst@redhat.com" <mst@redhat.com>
-References: <20220516173831.GB13284@raphael-debian-dev>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220516173831.GB13284@raphael-debian-dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,32 +83,343 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 19:38, Raphael Norwitz wrote:
-> [1] Keep using the SCSI translation in QEMU but back vDisks with a
-> vhost-user-scsi or vhost-user-blk backend device.
-> [2] Implement SATA and IDE emulation with vfio-user (likely with an SPDK
-> client?).
-> [3] We've also been looking at your libblkio library. From your
-> description in
-> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg06146.html  it
-> sounds like it may definitely play a role here, and possibly provide the
-> nessesary abstractions to back I/O from these emulated disks to any
-> backends we may want?
+On Tue, 17 May 2022 12:35:07 +0100
+Alberto Faria <afaria@redhat.com> wrote:
 
-First of all: have you benchmarked it?  How much time is spent on MMIO 
-vs. disk I/O?
+> They currently return the value of their 'bytes' parameter on success.
+> 
+> Make them return 0 instead, for consistency with other I/O functions and
+> in preparation to implement them using generated_co_wrapper. This also
+> makes it clear that short reads/writes are not possible.
+> 
+> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> ---
+>  block.c                          |  8 +++++---
+>  block/block-backend.c            |  7 ++-----
+>  block/qcow.c                     |  6 +++---
+>  hw/block/m25p80.c                |  2 +-
+>  hw/misc/mac_via.c                |  2 +-
+>  hw/misc/sifive_u_otp.c           |  2 +-
+>  hw/nvram/eeprom_at24c.c          |  4 ++--
+>  hw/nvram/spapr_nvram.c           | 12 ++++++------
+>  hw/ppc/pnv_pnor.c                |  2 +-
 
-Of the options above, the most interesting to me is to implement a 
-vhost-user-blk/vhost-user-scsi backend in QEMU, similar to the NVMe one, 
-that would translate I/O submissions to virtqueue (including polling and 
-the like) and could be used with SATA.
+For PPC and sPAPR parts
 
-For IDE specifically, I'm not sure how much it can be sped up since it 
-has only 1 in-flight operation.  I think using KVM coalesced I/O could 
-provide an interesting boost (assuming instant or near-instant reply 
-from the backend).  If all you're interested in however is not really 
-performance, but rather having a single "connection" to your back end, 
-vhost-user is certainly an option.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Paolo
+>  qemu-img.c                       | 17 +++++++----------
+>  qemu-io-cmds.c                   | 18 ++++++++++++------
+>  tests/unit/test-block-iothread.c |  4 ++--
+>  12 files changed, 43 insertions(+), 41 deletions(-)
+> 
+> diff --git a/block.c b/block.c
+> index 2c00dddd80..0fd830e2e2 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -1045,14 +1045,16 @@ static int find_image_format(BlockBackend *file, const char *filename,
+>          return ret;
+>      }
+>  
+> -    drv = bdrv_probe_all(buf, ret, filename);
+> +    drv = bdrv_probe_all(buf, sizeof(buf), filename);
+>      if (!drv) {
+>          error_setg(errp, "Could not determine image format: No compatible "
+>                     "driver found");
+> -        ret = -ENOENT;
+> +        *pdrv = NULL;
+> +        return -ENOENT;
+>      }
+> +
+>      *pdrv = drv;
+> -    return ret;
+> +    return 0;
+>  }
+>  
+>  /**
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index e0e1aff4b1..c1c367bf9e 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1577,19 +1577,16 @@ int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int bytes)
+>      ret = blk_do_preadv(blk, offset, bytes, &qiov, 0);
+>      blk_dec_in_flight(blk);
+>  
+> -    return ret < 0 ? ret : bytes;
+> +    return ret;
+>  }
+>  
+>  int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int bytes,
+>                 BdrvRequestFlags flags)
+>  {
+> -    int ret;
+>      QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
+>      IO_OR_GS_CODE();
+>  
+> -    ret = blk_pwritev_part(blk, offset, bytes, &qiov, 0, flags);
+> -
+> -    return ret < 0 ? ret : bytes;
+> +    return blk_pwritev_part(blk, offset, bytes, &qiov, 0, flags);
+>  }
+>  
+>  int64_t blk_getlength(BlockBackend *blk)
+> diff --git a/block/qcow.c b/block/qcow.c
+> index c646d6b16d..25a43353c1 100644
+> --- a/block/qcow.c
+> +++ b/block/qcow.c
+> @@ -891,14 +891,14 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+>  
+>      /* write all the data */
+>      ret = blk_pwrite(qcow_blk, 0, &header, sizeof(header), 0);
+> -    if (ret != sizeof(header)) {
+> +    if (ret < 0) {
+>          goto exit;
+>      }
+>  
+>      if (qcow_opts->has_backing_file) {
+>          ret = blk_pwrite(qcow_blk, sizeof(header),
+>                           qcow_opts->backing_file, backing_filename_len, 0);
+> -        if (ret != backing_filename_len) {
+> +        if (ret < 0) {
+>              goto exit;
+>          }
+>      }
+> @@ -908,7 +908,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+>           i++) {
+>          ret = blk_pwrite(qcow_blk, header_size + BDRV_SECTOR_SIZE * i,
+>                           tmp, BDRV_SECTOR_SIZE, 0);
+> -        if (ret != BDRV_SECTOR_SIZE) {
+> +        if (ret < 0) {
+>              g_free(tmp);
+>              goto exit;
+>          }
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 7d3d8b12e0..bd58c07bb6 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -1506,7 +1506,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
+>          trace_m25p80_binding(s);
+>          s->storage = blk_blockalign(s->blk, s->size);
+>  
+> -        if (blk_pread(s->blk, 0, s->storage, s->size) != s->size) {
+> +        if (blk_pread(s->blk, 0, s->storage, s->size) < 0) {
+>              error_setg(errp, "failed to read the initial flash content");
+>              return;
+>          }
+> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+> index 525e38ce93..0515d1818e 100644
+> --- a/hw/misc/mac_via.c
+> +++ b/hw/misc/mac_via.c
+> @@ -1030,7 +1030,7 @@ static void mos6522_q800_via1_realize(DeviceState *dev, Error **errp)
+>          }
+>  
+>          len = blk_pread(v1s->blk, 0, v1s->PRAM, sizeof(v1s->PRAM));
+> -        if (len != sizeof(v1s->PRAM)) {
+> +        if (len < 0) {
+>              error_setg(errp, "can't read PRAM contents");
+>              return;
+>          }
+> diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+> index 6d5f84e6c2..535acde08b 100644
+> --- a/hw/misc/sifive_u_otp.c
+> +++ b/hw/misc/sifive_u_otp.c
+> @@ -240,7 +240,7 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+>                  return;
+>              }
+>  
+> -            if (blk_pread(s->blk, 0, s->fuse, filesize) != filesize) {
+> +            if (blk_pread(s->blk, 0, s->fuse, filesize) < 0) {
+>                  error_setg(errp, "failed to read the initial flash content");
+>                  return;
+>              }
+> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+> index 01a3093600..84acd71f5a 100644
+> --- a/hw/nvram/eeprom_at24c.c
+> +++ b/hw/nvram/eeprom_at24c.c
+> @@ -65,7 +65,7 @@ int at24c_eeprom_event(I2CSlave *s, enum i2c_event event)
+>          DPRINTK("clear\n");
+>          if (ee->blk && ee->changed) {
+>              int len = blk_pwrite(ee->blk, 0, ee->mem, ee->rsize, 0);
+> -            if (len != ee->rsize) {
+> +            if (len < 0) {
+>                  ERR(TYPE_AT24C_EE
+>                          " : failed to write backing file\n");
+>              }
+> @@ -165,7 +165,7 @@ void at24c_eeprom_reset(DeviceState *state)
+>      if (ee->blk) {
+>          int len = blk_pread(ee->blk, 0, ee->mem, ee->rsize);
+>  
+> -        if (len != ee->rsize) {
+> +        if (len < 0) {
+>              ERR(TYPE_AT24C_EE
+>                      " : Failed initial sync with backing file\n");
+>          }
+> diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
+> index 18b43be7f6..6000b945c3 100644
+> --- a/hw/nvram/spapr_nvram.c
+> +++ b/hw/nvram/spapr_nvram.c
+> @@ -103,7 +103,7 @@ static void rtas_nvram_store(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>  {
+>      SpaprNvram *nvram = spapr->nvram;
+>      hwaddr offset, buffer, len;
+> -    int alen;
+> +    int ret;
+>      void *membuf;
+>  
+>      if ((nargs != 3) || (nret != 2)) {
+> @@ -128,9 +128,9 @@ static void rtas_nvram_store(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>  
+>      membuf = cpu_physical_memory_map(buffer, &len, false);
+>  
+> -    alen = len;
+> +    ret = 0;
+>      if (nvram->blk) {
+> -        alen = blk_pwrite(nvram->blk, offset, membuf, len, 0);
+> +        ret = blk_pwrite(nvram->blk, offset, membuf, len, 0);
+>      }
+>  
+>      assert(nvram->buf);
+> @@ -138,8 +138,8 @@ static void rtas_nvram_store(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>  
+>      cpu_physical_memory_unmap(membuf, len, 0, len);
+>  
+> -    rtas_st(rets, 0, (alen < len) ? RTAS_OUT_HW_ERROR : RTAS_OUT_SUCCESS);
+> -    rtas_st(rets, 1, (alen < 0) ? 0 : alen);
+> +    rtas_st(rets, 0, (ret < 0) ? RTAS_OUT_HW_ERROR : RTAS_OUT_SUCCESS);
+> +    rtas_st(rets, 1, (ret < 0) ? 0 : len);
+>  }
+>  
+>  static void spapr_nvram_realize(SpaprVioDevice *dev, Error **errp)
+> @@ -181,7 +181,7 @@ static void spapr_nvram_realize(SpaprVioDevice *dev, Error **errp)
+>      if (nvram->blk) {
+>          int alen = blk_pread(nvram->blk, 0, nvram->buf, nvram->size);
+>  
+> -        if (alen != nvram->size) {
+> +        if (alen < 0) {
+>              error_setg(errp, "can't read spapr-nvram contents");
+>              return;
+>          }
+> diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
+> index 83ecccca28..1fb748afef 100644
+> --- a/hw/ppc/pnv_pnor.c
+> +++ b/hw/ppc/pnv_pnor.c
+> @@ -99,7 +99,7 @@ static void pnv_pnor_realize(DeviceState *dev, Error **errp)
+>  
+>          s->storage = blk_blockalign(s->blk, s->size);
+>  
+> -        if (blk_pread(s->blk, 0, s->storage, s->size) != s->size) {
+> +        if (blk_pread(s->blk, 0, s->storage, s->size) < 0) {
+>              error_setg(errp, "failed to read the initial flash content");
+>              return;
+>          }
+> diff --git a/qemu-img.c b/qemu-img.c
+> index 4cf4d2423d..9d98ef63ac 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -5120,30 +5120,27 @@ static int img_dd(int argc, char **argv)
+>      in.buf = g_new(uint8_t, in.bsz);
+>  
+>      for (out_pos = 0; in_pos < size; block_count++) {
+> -        int in_ret, out_ret;
+> +        int bytes, in_ret, out_ret;
+>  
+> -        if (in_pos + in.bsz > size) {
+> -            in_ret = blk_pread(blk1, in_pos, in.buf, size - in_pos);
+> -        } else {
+> -            in_ret = blk_pread(blk1, in_pos, in.buf, in.bsz);
+> -        }
+> +        bytes = (in_pos + in.bsz > size) ? size - in_pos : in.bsz;
+> +
+> +        in_ret = blk_pread(blk1, in_pos, in.buf, bytes);
+>          if (in_ret < 0) {
+>              error_report("error while reading from input image file: %s",
+>                           strerror(-in_ret));
+>              ret = -1;
+>              goto out;
+>          }
+> -        in_pos += in_ret;
+> -
+> -        out_ret = blk_pwrite(blk2, out_pos, in.buf, in_ret, 0);
+> +        in_pos += bytes;
+>  
+> +        out_ret = blk_pwrite(blk2, out_pos, in.buf, bytes, 0);
+>          if (out_ret < 0) {
+>              error_report("error while writing to output image file: %s",
+>                           strerror(-out_ret));
+>              ret = -1;
+>              goto out;
+>          }
+> -        out_pos += out_ret;
+> +        out_pos += bytes;
+>      }
+>  
+>  out:
+> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+> index 2f0d8ac25a..443f22c732 100644
+> --- a/qemu-io-cmds.c
+> +++ b/qemu-io-cmds.c
+> @@ -541,28 +541,34 @@ fail:
+>  static int do_pread(BlockBackend *blk, char *buf, int64_t offset,
+>                      int64_t bytes, int64_t *total)
+>  {
+> +    int ret;
+> +
+>      if (bytes > INT_MAX) {
+>          return -ERANGE;
+>      }
+>  
+> -    *total = blk_pread(blk, offset, (uint8_t *)buf, bytes);
+> -    if (*total < 0) {
+> -        return *total;
+> +    ret = blk_pread(blk, offset, (uint8_t *)buf, bytes);
+> +    if (ret < 0) {
+> +        return ret;
+>      }
+> +    *total = bytes;
+>      return 1;
+>  }
+>  
+>  static int do_pwrite(BlockBackend *blk, char *buf, int64_t offset,
+>                       int64_t bytes, int flags, int64_t *total)
+>  {
+> +    int ret;
+> +
+>      if (bytes > INT_MAX) {
+>          return -ERANGE;
+>      }
+>  
+> -    *total = blk_pwrite(blk, offset, (uint8_t *)buf, bytes, flags);
+> -    if (*total < 0) {
+> -        return *total;
+> +    ret = blk_pwrite(blk, offset, (uint8_t *)buf, bytes, flags);
+> +    if (ret < 0) {
+> +        return ret;
+>      }
+> +    *total = bytes;
+>      return 1;
+>  }
+>  
+> diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
+> index a5c163af7e..3c1a3f64a2 100644
+> --- a/tests/unit/test-block-iothread.c
+> +++ b/tests/unit/test-block-iothread.c
+> @@ -117,7 +117,7 @@ static void test_sync_op_blk_pread(BlockBackend *blk)
+>  
+>      /* Success */
+>      ret = blk_pread(blk, 0, buf, sizeof(buf));
+> -    g_assert_cmpint(ret, ==, 512);
+> +    g_assert_cmpint(ret, ==, 0);
+>  
+>      /* Early error: Negative offset */
+>      ret = blk_pread(blk, -2, buf, sizeof(buf));
+> @@ -131,7 +131,7 @@ static void test_sync_op_blk_pwrite(BlockBackend *blk)
+>  
+>      /* Success */
+>      ret = blk_pwrite(blk, 0, buf, sizeof(buf), 0);
+> -    g_assert_cmpint(ret, ==, 512);
+> +    g_assert_cmpint(ret, ==, 0);
+>  
+>      /* Early error: Negative offset */
+>      ret = blk_pwrite(blk, -2, buf, sizeof(buf), 0);
+
 
