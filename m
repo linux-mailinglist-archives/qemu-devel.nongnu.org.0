@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85EA52A630
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 17:24:09 +0200 (CEST)
-Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E3E52A69F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 17:32:27 +0200 (CEST)
+Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqz3Q-0005Wp-Ow
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 11:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40686)
+	id 1nqzBS-0006jY-7v
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 11:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqz0l-0003N5-5O
- for qemu-devel@nongnu.org; Tue, 17 May 2022 11:21:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60974)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nqz8y-0005MB-0V
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 11:29:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqz0i-0000IH-EU
- for qemu-devel@nongnu.org; Tue, 17 May 2022 11:21:21 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nqz8v-0001lk-Bh
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 11:29:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652800879;
+ s=mimecast20190719; t=1652801388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/JqSnDFkx+YFcZz/dEzMpkPH3fZZOF1jcwYZIRDn5cU=;
- b=B53hCFfrYfxp9f7+sbryTg6WKQ1x4PwaoRqd/99JGdtWiahA2AYXiZTVvmDAvEMeE8m/rf
- 2m+4mxKapIQOFxDhVpKP3Cs421bQkSdAEssvfLL/ZnhC4B2qtyN7/N2Il7sxm5MfYs2DKi
- PQFimJLNl3rFwBuUBN4X76dUZFUSbl8=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6XDmP9vcvZwiW1f/e/R1BmaS+dj295mjYd5cm7JkBeI=;
+ b=RRZWmbg59hQCYePq0Don7KLnqz78YwO/o83BCl7k9pPZsM5cno1/rhIKbIMzHgg8TM02ZF
+ LN0o/tFN5fTsP6JAS3iuUcRwOzfRwFYSCA0OmOus2/NsHfENv02qvORKCM9qu0fApWrsS+
+ hnkuqBrtth2KZ37QRQYQBjRxLbIl9PE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-v_EZVaoyNWWi1XdEqKDxjg-1; Tue, 17 May 2022 11:21:18 -0400
-X-MC-Unique: v_EZVaoyNWWi1XdEqKDxjg-1
-Received: by mail-pl1-f199.google.com with SMTP id
- q13-20020a170902eb8d00b0016146ab913aso5078755plg.17
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 08:21:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/JqSnDFkx+YFcZz/dEzMpkPH3fZZOF1jcwYZIRDn5cU=;
- b=4YlMG6rRyac9KcDCRlt/AYaZwqoxy4VtwVjhEy3044k6HxWXtFGpt7jkXtqwl8j26+
- Uwi84rrugJRgu2WGzPd7+LGp1H+kMixbBlgq4pNR1rSzETMcbFlZb05Aw9esuPIxwk+J
- p6nIwYlTTltEw96vf9Pwil6H0om19gbLnV9jdIZYNwPKs6hC6OY86jBjcIhbQnTUZFw7
- p9g5WqXAQsqzyVGPhmjZTMc342QWTgz7nlHPes13mklzlLN8xHm07dhql+rOu+04fN77
- 1sQuv06P8ya14hE/uJ75Ykx+QG0IdUKZpdNTBhS9d9nZVG1C8DakYJDrf1W5ulV6z6vx
- RAnw==
-X-Gm-Message-State: AOAM531ZLU8l2ZS1lqOkRsdRGVhe+ZMfvAw/1VJhQj2Q6DB00yXuIDgn
- oR2fcCjGnUjXCh7Uc5+EMJR7UFnQOq/MZUNPFzXA7SAuqsA+2U0xBOEkqhaJ4KZrU7gj5OI0M+A
- QuNW9Rb1e3F7d4Pt8AsQJjozyP/oLe78=
-X-Received: by 2002:a17:90a:764b:b0:1df:58f2:784c with SMTP id
- s11-20020a17090a764b00b001df58f2784cmr10663100pjl.122.1652800877549; 
- Tue, 17 May 2022 08:21:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVVyD+6LbZRHU37o0zJJglDVSx0hMPv9vZQrUOrG4AQEScB7ghykFV/phfp7E0/S28s9vreI/R93XIauLh4AQ=
-X-Received: by 2002:a17:90a:764b:b0:1df:58f2:784c with SMTP id
- s11-20020a17090a764b00b001df58f2784cmr10663070pjl.122.1652800877107; Tue, 17
- May 2022 08:21:17 -0700 (PDT)
+ us-mta-444-j_n0XS-LPQWN0xGtyupqdw-1; Tue, 17 May 2022 11:29:46 -0400
+X-MC-Unique: j_n0XS-LPQWN0xGtyupqdw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 901AA8517E3;
+ Tue, 17 May 2022 15:29:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2ABED492C14;
+ Tue, 17 May 2022 15:29:18 +0000 (UTC)
+Date: Tue, 17 May 2022 16:29:17 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ John Levon <john.levon@nutanix.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "alexis.lescout@nutanix.com" <alexis.lescout@nutanix.com>,
+ Felipe Franciosi <felipe@nutanix.com>, "mst@redhat.com" <mst@redhat.com>
+Subject: Re: Accelerating non-standard disk types
+Message-ID: <YoO/TdP1ArazkpVX@stefanha-x1.localdomain>
+References: <20220516173831.GB13284@raphael-debian-dev>
 MIME-Version: 1.0
-References: <20220514065012.1149539-1-pbonzini@redhat.com>
- <20220514065012.1149539-3-pbonzini@redhat.com>
- <YoO9HrmmpvBBN9Zi@stefanha-x1.localdomain>
-In-Reply-To: <YoO9HrmmpvBBN9Zi@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 17 May 2022 17:21:05 +0200
-Message-ID: <CABgObfb_Sg-J-t16Y=5o6HKpnC6orfpFvuBfzTsbs4-qXSieLQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] thread-pool: replace semaphore with condition
- variable
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>, 
- =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0EP4Fa3uk7cBNf+I"
+Content-Disposition: inline
+In-Reply-To: <20220516173831.GB13284@raphael-debian-dev>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,24 +84,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 5:20 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Sat, May 14, 2022 at 08:50:11AM +0200, Paolo Bonzini wrote:
-> > @@ -134,6 +122,12 @@ static void *worker_thread(void *opaque)
-> >      pool->cur_threads--;
-> >      qemu_cond_signal(&pool->worker_stopped);
-> >      qemu_mutex_unlock(&pool->lock);
-> > +
-> > +    /*
-> > +     * Wake up another thread, in case we got a wakeup but decided
-> > +     * to exit due to pool->cur_threads > pool->max_threads.
-> > +     */
-> > +    qemu_cond_signal(&pool->worker_stopped);
->
-> &pool->worker_stopped? Was this supposed to be &pool->request_cond?
 
-Yes, of course.
+--0EP4Fa3uk7cBNf+I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On Mon, May 16, 2022 at 05:38:31PM +0000, Raphael Norwitz wrote:
+> Hey Stefan,
+>=20
+> We've been thinking about ways to accelerate other disk types such as
+> SATA and IDE rather than translating to SCSI and using QEMU's iSCSI
+> driver, with existing and more performant backends such as SPDK. We
+> think there are some options worth exploring:
+>=20
+> [1] Keep using the SCSI translation in QEMU but back vDisks with a
+> vhost-user-scsi or vhost-user-blk backend device.
+
+If I understand correctly the idea is to have a QEMU Block Driver that
+connects to SPDK using vhost-user-scsi/blk?
+
+> [2] Implement SATA and IDE emulation with vfio-user (likely with an SPDK
+> client?).
+
+This is definitely the option with the lowest overhead. I'm not sure if
+implementing SATA and IDE emulation in SPDK is worth the effort for
+saving the last few cycles.
+
+> [3] We've also been looking at your libblkio library. From your
+> description in
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg06146.html it
+> sounds like it may definitely play a role here, and possibly provide the
+> nessesary abstractions to back I/O from these emulated disks to any
+> backends we may want?
+
+Kevin Wolf has contributed a vhost-user-blk driver for libblkio. This
+lets you achieve #1 using QEMU's libblkio Block Driver. The guest still
+sees IDE or SATA but instead of translating to iSCSI the I/O requests
+are sent over vhost-user-blk.
+
+I suggest joining the libblkio chat and we can discuss how to set this
+up (the QEMU libblkio BlockDriver is not yet in qemu.git):
+https://matrix.to/#/#libblkio:matrix.org
+
+> We are planning to start a review of these options internally to survey
+> tradeoffs, potential timelines and practicality for these approaches. We
+> were also considering putting a submission together for KVM forum
+> describing our findings. Would you see any value in that?
+
+I think it's always interesting to see performance results. I wonder if
+you have more cutting-edge optimizations or performance results you want
+to share at KVM Forum because IDE and SATA are more legacy/niche
+nowadays?
+
+Stefan
+
+--0EP4Fa3uk7cBNf+I
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKDv00ACgkQnKSrs4Gr
+c8jMtAgAjxEN+pWz5Nd2o8t0jQzag+B8T0NX8z8fvI7M9dAeH+zQYxWU86mlt+C/
+aU5VW27t4DlwEbucUJAnhzG17o6+iNYEGfrIhzK7tTB7vYq9utBnEhlH0P1uZ+Zz
+oD474a+i2loh0KKhtXRIiljScNXfXXuNDB0hbPeFfP7dsupPj04JnaJLf8AQxLFI
+GqXo82Bnca2OLgIxvv6wD3a86Eg4CSTCyrMegDCwnHDeJ6qKpbfhUwHXkfohJ0yW
+aVOyPB6hBAg6/ObbRPLnydIH0bx0zZzusd2ZZ59xW2YqCGhqZexA+/tTjZLESOlS
+umBRBfykBzFxFsbDRWVHBAi+OIaBPQ==
+=faCb
+-----END PGP SIGNATURE-----
+
+--0EP4Fa3uk7cBNf+I--
 
 
