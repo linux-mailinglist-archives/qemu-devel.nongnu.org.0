@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4FB529C0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 10:16:34 +0200 (CEST)
-Received: from localhost ([::1]:54224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0367529C1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 10:17:55 +0200 (CEST)
+Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqsNd-0001cx-FD
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 04:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48738)
+	id 1nqsOw-0002VQ-MX
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 04:17:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nqsJz-0000Y1-6I
- for qemu-devel@nongnu.org; Tue, 17 May 2022 04:12:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21425)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nqsLB-0000yj-JI
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 04:14:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nqsJt-0007ho-Df
- for qemu-devel@nongnu.org; Tue, 17 May 2022 04:12:45 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nqsL9-0007oR-KU
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 04:14:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652775160;
+ s=mimecast20190719; t=1652775238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JwuQ/in3ODvQlAQd3OVoTT4KFRd5ggmCstMRxVaTQb4=;
- b=RzdCdo3aMNc6CVbN45xIE3eGuGhT3PP4cHzeTVmRWKtVkY0ukBkeuaIldMBcXGdBpufbtx
- HjbHLsjGb9niYIyv1vWY/kJnyvx6VENHAkcZczmNAEzmHhAW4ErViYzewmxCjGz86gLK9h
- QZI625ID5FIvm4GojTiJaFITPk+pX4s=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LzEF+8mIIgH9S4Kx2KLU9EtcvysDYfr3wd21Lk5J80M=;
+ b=QQa5F2Qb9KlmbfcliTSzqJqzjrAr3T9rafm3GS9saUmWAHL6mV1EUBB7FWAZKEyQeN+Ydw
+ EjK0y3cHxw2p7FiqlFkPf3uG6LLfTgLkp0k5vlNaZNhhu8Wpk3zypLYCocH7zv9Sxjaux3
+ r42WQIiSsBVgHV0CCBqcm7ZEOEnQGII=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-NBDMqMTbPNmt5HH2Xb2Kgg-1; Tue, 17 May 2022 04:12:37 -0400
-X-MC-Unique: NBDMqMTbPNmt5HH2Xb2Kgg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- a11-20020a05622a02cb00b002f3d23bdca2so13334562qtx.5
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 01:12:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JwuQ/in3ODvQlAQd3OVoTT4KFRd5ggmCstMRxVaTQb4=;
- b=O4vN23djrAkpesYNILg9ldU51sp7Hd+SgEU/HA6vjTg9HO6qKwXunU3zUrYcitlngv
- 3szFXbU0i56lejLgafDXagNAWN0P5ArMZkTRsDdPybjTvzXqgdvc1rEonnA+KAH+S1BU
- b0xeanV5jbfvt2SC5ppJa7ashal9nLM1BTZJXCtDPOvA0C6KmjhszfD/aBAxwzaSU4No
- 04dfjSlBUvZe98wKHIxM2eZRpDTPODVjXXFPk633AppsJIyuGpZB/GO2YuU2a/lxJWpu
- zzrAkFQ5R0/0qgPKfc/43G0Y7hqH0VgYy3qXiOAkhtA7I3OFrYg/irVZYDFdmbz0k2ll
- j+iw==
-X-Gm-Message-State: AOAM530xh/+1Ngwi7ugiOX/h6x4t1QAjLuqbfX85YHFmqzxzj9uVixfQ
- RbYyXsrHo1KUVFIt489HNxOtm119UoeQJLIxs3wayup31QKrDit6sZrVmTkr0UGYqStz9bg8sNs
- DTANWN63q1U2pAv8K9ks4i5QE9hCxSeQ=
-X-Received: by 2002:ac8:4e91:0:b0:2f3:cbc2:eb0c with SMTP id
- 17-20020ac84e91000000b002f3cbc2eb0cmr18582424qtp.459.1652775156676; 
- Tue, 17 May 2022 01:12:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzz4ndw9juuQ2L4rXJflddJY0iA6y6zajhW0SqtD9RWZ7v3+8ycYiOzhGvyHAmwjnUukyl75XD8cYX0cpNRzLw=
-X-Received: by 2002:ac8:4e91:0:b0:2f3:cbc2:eb0c with SMTP id
- 17-20020ac84e91000000b002f3cbc2eb0cmr18582412qtp.459.1652775156350; Tue, 17
- May 2022 01:12:36 -0700 (PDT)
+ us-mta-81-aanilCvpOiCUgInq_cw-iA-1; Tue, 17 May 2022 04:13:53 -0400
+X-MC-Unique: aanilCvpOiCUgInq_cw-iA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2913D1D96CA8;
+ Tue, 17 May 2022 08:13:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B512B573C2B;
+ Tue, 17 May 2022 08:13:52 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3CC7518003A2; Tue, 17 May 2022 10:13:51 +0200 (CEST)
+Date: Tue, 17 May 2022 10:13:51 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ ani@anisinha.ca, minyard@acm.org, stefanb@linux.vnet.ibm.com,
+ marcandre.lureau@redhat.com
+Subject: Re: [PATCH 28/35] acpi: pvpanic-isa: use
+ AcpiDevAmlIfClass:build_dev_aml to provide device's AML
+Message-ID: <20220517081351.vnx2xryjxason3dd@sirius.home.kraxel.org>
+References: <20220516152610.1963435-1-imammedo@redhat.com>
+ <20220516152610.1963435-29-imammedo@redhat.com>
+ <20220516163547-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <CAJaqyWcbqzvtyHcU3t1TF7Mqm2_sBX57rN8S6hHB8NXxgi=tyQ@mail.gmail.com>
- <PH0PR12MB5481AF0B02B0FB00885FF2AEDCCA9@PH0PR12MB5481.namprd12.prod.outlook.com>
- <BY5PR02MB698052EE53B707C6C04C3C8CB1CA9@BY5PR02MB6980.namprd02.prod.outlook.com>
- <PH0PR12MB54811C88B389ACB495BD5AB2DCCA9@PH0PR12MB5481.namprd12.prod.outlook.com>
- <CAJaqyWe2dQx1s7wQr8OLp-0eAQZJcCBuFwdxBA=sgeNm_u4N6A@mail.gmail.com>
- <PH0PR12MB54812F8306F5B9650BA10783DCCF9@PH0PR12MB5481.namprd12.prod.outlook.com>
-In-Reply-To: <PH0PR12MB54812F8306F5B9650BA10783DCCF9@PH0PR12MB5481.namprd12.prod.outlook.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 17 May 2022 10:12:00 +0200
-Message-ID: <CAJaqyWfqugjApohFBejiFQTLhkuLFEfgFjKhmGGc5-yMDmM6Hg@mail.gmail.com>
-Subject: Re: About restoring the state in vhost-vdpa device
-To: Parav Pandit <parav@nvidia.com>
-Cc: Gautam Dawar <gdawar@xilinx.com>, 
- virtualization <virtualization@lists.linux-foundation.org>, 
- qemu-level <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- "virtio-networking@redhat.com" <virtio-networking@redhat.com>,
- Eli Cohen <elic@nvidia.com>, 
- Laurent Vivier <lvivier@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220516163547-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,217 +83,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 10:29 PM Parav Pandit <parav@nvidia.com> wrote:
->
->
->
-> > From: Eugenio Perez Martin <eperezma@redhat.com>
-> > Sent: Monday, May 16, 2022 4:51 AM
-> >
-> > On Fri, May 13, 2022 at 8:25 PM Parav Pandit <parav@nvidia.com> wrote:
-> > >
-> > > Hi Gautam,
-> > >
-> > > Please fix your email client to have right response format.
-> > > Otherwise, it will be confusing for the rest and us to follow the
-> > conversation.
-> > >
-> > > More below.
-> > >
-> > > > From: Gautam Dawar <gdawar@xilinx.com>
-> > > > Sent: Friday, May 13, 2022 1:48 PM
-> > >
-> > > > > Our proposal diverge in step 7: Instead of enabling *all* the
-> > > > > virtqueues, only enable the CVQ.
-> > > > Just to double check, VQ 0 and 1 of the net are also not enabled, c=
-orrect?
-> > > > [GD>>] Yes, that's my understanding as well.
-> > > >
-> >
-> > That's correct. We can say that for a queue to be enabled three things =
-must
-> > happen:
-> > * DRIVER_OK (Still not send)
-> > * VHOST_VDPA_SET_VRING_ENABLE sent for that queue (Only sent for
-> > CVQ)
-> > * If queue is not in first data queue pair and not cvq: send
-> > VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET with a queue pair that include it.
-> >
-> These if conditions, specially the last one is not good as it requires de=
-vice type knowledge, which in most cases not needed.
-> Specially for the new code.
->
+On Mon, May 16, 2022 at 04:46:29PM -0400, Michael S. Tsirkin wrote:
+> On Mon, May 16, 2022 at 11:26:03AM -0400, Igor Mammedov wrote:
+> > .. and clean up not longer needed conditionals in DSTD build code
+> > pvpanic-isa AML will be fetched and included when ISA bridge will
+> > build its own AML code (including attached devices).
+> > 
+> > Expected AML change:
+> >    the device under separate _SB.PCI0.ISA scope is moved directly
+> >    under Device(ISA) node.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  include/hw/misc/pvpanic.h |  9 ---------
+> >  hw/i386/acpi-build.c      | 37 ----------------------------------
+> >  hw/misc/pvpanic-isa.c     | 42 +++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 42 insertions(+), 46 deletions(-)
+> > 
+> > diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
+> > index 7f16cc9b16..e520566ab0 100644
+> > --- a/include/hw/misc/pvpanic.h
+> > +++ b/include/hw/misc/pvpanic.h
+> > @@ -33,13 +33,4 @@ struct PVPanicState {
+> >  
+> >  void pvpanic_setup_io(PVPanicState *s, DeviceState *dev, unsigned size);
+> >  
+> > -static inline uint16_t pvpanic_port(void)
+> > -{
+> > -    Object *o = object_resolve_path_type("", TYPE_PVPANIC_ISA_DEVICE, NULL);
+> > -    if (!o) {
+> > -        return 0;
+> > -    }
+> > -    return object_property_get_uint(o, PVPANIC_IOPORT_PROP, NULL);
+> > -}
+> > -
+> >  #endif
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 517818cd9f..a42f41f373 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -30,7 +30,6 @@
+> >  #include "hw/pci/pci.h"
+> >  #include "hw/core/cpu.h"
+> >  #include "target/i386/cpu.h"
+> > -#include "hw/misc/pvpanic.h"
+> >  #include "hw/timer/hpet.h"
+> >  #include "hw/acpi/acpi-defs.h"
+> >  #include "hw/acpi/acpi.h"
+> > @@ -117,7 +116,6 @@ typedef struct AcpiMiscInfo {
+> >  #endif
+> >      const unsigned char *dsdt_code;
+> >      unsigned dsdt_size;
+> > -    uint16_t pvpanic_port;
+> >  } AcpiMiscInfo;
+> >  
+> >  typedef struct AcpiBuildPciBusHotplugState {
+> > @@ -302,7 +300,6 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
+> >  #ifdef CONFIG_TPM
+> >      info->tpm_version = tpm_get_version(tpm_find());
+> >  #endif
+> > -    info->pvpanic_port = pvpanic_port();
+> >  }
+> >  
+> >  /*
+> > @@ -1749,40 +1746,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          aml_append(dsdt, scope);
+> >      }
+> >  
+> > -    if (misc->pvpanic_port) {
+> > -        scope = aml_scope("\\_SB.PCI0.ISA");
+> > -
+> > -        dev = aml_device("PEVT");
+> > -        aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
+> > -
+> > -        crs = aml_resource_template();
+> > -        aml_append(crs,
+> > -            aml_io(AML_DECODE16, misc->pvpanic_port, misc->pvpanic_port, 1, 1)
+> > -        );
+> > -        aml_append(dev, aml_name_decl("_CRS", crs));
+> > -
+> > -        aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
+> > -                                              aml_int(misc->pvpanic_port), 1));
+> > -        field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
+> > -        aml_append(field, aml_named_field("PEPT", 8));
+> > -        aml_append(dev, field);
+> > -
+> > -        /* device present, functioning, decoding, shown in UI */
+> > -        aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+> > -
+> > -        method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
+> > -        aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
+> > -        aml_append(method, aml_return(aml_local(0)));
+> > -        aml_append(dev, method);
+> > -
+> > -        method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
+> > -        aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
+> > -        aml_append(dev, method);
+> > -
+> > -        aml_append(scope, dev);
+> > -        aml_append(dsdt, scope);
+> > -    }
+> > -
+> >      sb_scope = aml_scope("\\_SB");
+> >      {
+> >          Object *pci_host;
+> > diff --git a/hw/misc/pvpanic-isa.c b/hw/misc/pvpanic-isa.c
+> > index b84d4d458d..ccec50f61b 100644
+> > --- a/hw/misc/pvpanic-isa.c
+> > +++ b/hw/misc/pvpanic-isa.c
+> > @@ -22,6 +22,7 @@
+> >  #include "qom/object.h"
+> >  #include "hw/isa/isa.h"
+> >  #include "standard-headers/linux/pvpanic.h"
+> > +#include "hw/acpi/acpi_aml_interface.h"
+> >  
+> >  OBJECT_DECLARE_SIMPLE_TYPE(PVPanicISAState, PVPANIC_ISA_DEVICE)
+> >  
+> > @@ -63,6 +64,41 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
+> >      isa_register_ioport(d, &ps->mr, s->ioport);
+> >  }
+> >  
+> > +static void build_pvpanic_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+> > +{
+> > +    Aml *crs, *field, *method;
+> > +    PVPanicISAState *s = PVPANIC_ISA_DEVICE(adev);
+> > +    Aml *dev = aml_device("PEVT");
+> > +
+> > +    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
+> > +
+> > +    crs = aml_resource_template();
+> > +    aml_append(crs,
+> > +        aml_io(AML_DECODE16, s->ioport, s->ioport, 1, 1)
+> > +    );
+> > +    aml_append(dev, aml_name_decl("_CRS", crs));
+> > +
+> > +    aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
+> > +                                          aml_int(s->ioport), 1));
+> > +    field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
+> > +    aml_append(field, aml_named_field("PEPT", 8));
+> > +    aml_append(dev, field);
+> > +
+> > +    /* device present, functioning, decoding, shown in UI */
+> > +    aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+> > +
+> > +    method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
+> > +    aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
+> > +    aml_append(method, aml_return(aml_local(0)));
+> > +    aml_append(dev, method);
+> > +
+> > +    method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
+> > +    aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
+> > +    aml_append(dev, method);
+> > +
+> > +    aml_append(scope, dev);
+> > +}
+> > +
+> >  static Property pvpanic_isa_properties[] = {
+> >      DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicISAState, ioport, 0x505),
+> >      DEFINE_PROP_UINT8("events", PVPanicISAState, pvpanic.events,
+> > @@ -73,10 +109,12 @@ static Property pvpanic_isa_properties[] = {
+> >  static void pvpanic_isa_class_init(ObjectClass *klass, void *data)
+> >  {
+> >      DeviceClass *dc = DEVICE_CLASS(klass);
+> > +    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+> >  
+> >      dc->realize = pvpanic_isa_realizefn;
+> >      device_class_set_props(dc, pvpanic_isa_properties);
+> >      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> > +    adevc->build_dev_aml = build_pvpanic_isa_aml;
+> >  }
+> >  
+> >  static const TypeInfo pvpanic_isa_info = {
+> 
+> 
+> So this really makes the device depend on ACPI.
+> What if the device is also built for a platform without ACPI?
+> Looks like it will fail to build.
 
-DRIVER_OK and SET_VRING_ENABLE are the current way to do so, and all
-kinds of vdpa devices are running this way. For the last conditional I
-meant only -net. -console have VIRTIO_CONSOLE_F_MULTIPORT, and so on.
+That problem isn't new and we already have a bunch of aml_* stubs
+because of that.  I expect it'll work just fine, at worst we'll
+have to add a stub or two in case some calls are not covered yet.
 
-But the point was that this is already in the standard and integrated
-in the devices:this is not part of the proposal, but the introduction
-explaining how the devices work at this moment. We can try to optimize
-this flow for sure, but it's a different discussion.
-
-> > > > > After that, send the DRIVER_OK and queue all the control commands
-> > > > > to restore the device status (MQ, RSS, ...). Once all of them hav=
-e
-> > > > > been acknowledged ("device", or emulated cvq in host vdpa backend
-> > > > > driver, has used all cvq buffers, enable (SET_VRING_ENABLE,
-> > > > > set_vq_ready) all other queues.
-> > > > >
-> > > > What is special about doing DRIVER_OK and enqueuing the control
-> > > > commands?
-> > > > Why other configuration cannot be applied before DRIVER_OK?
-> >
-> > There is nothing special beyond "they have a method to be set that way,=
- so
-> > reusing it avoids having to maintain many ways to set the same things,
-> > simplifying implementations".
-> >
-> > I'm not saying "it has been like that forever so we cannot change it":
-> > I'm very open to the change but priority-wise we should first achieve a
-> > working LM with packed, in_order, or even indirect.
-> >
-> > > > [GD>>] For the device to be live (and any queue to be able to pass
-> > > > traffic), DRIVER_OK is a must.
-> > > This applies only to the vdpa device implemented over virtio device.
-> > > For such use case/implementation anyway a proper virtio spec extensio=
-n is
-> > needed for it be efficient.
-> > > And what that happens this scheme will still work.
-> > >
-> >
-> > Although it's a longer route, I'd very much prefer an in-band virtio wa=
-y to
-> > perform it rather than a linux/vdpa specific. It's one of the reasons I=
- prefer
-> > the CVQ behavior over a vdpa specific ioctl.
-> >
-> What is the in-band method to set last_avail_idx?
-> In-band virtio method doesn't exist.
->
-
-There isn't, I was acknowledging your point about "a proper virtio
-spec extension is needed for it to be efficient".
-
-The intended method is SET_BASE, supported by vhost device types, as
-Jason pointed out in his mail. It has been supported for a long time.
-In my opinion we should make it an in-band virtio operation too, since
-being vhost-only is a limit for some devices.
-
-> > > Other vdpa devices doesn=E2=80=99t have to live with this limitation =
-at this moment.
-> > >
-> > > > So, any configuration can be passed over the CVQ only after it is
-> > > > started (vring configuration + DRIVER_OK). For an emulated queue, i=
-f
-> > > > the order is reversed, I think the enqueued commands will remain
-> > > > buffered and device should be able to service them when it goes liv=
-e.
-> > > I likely didn=E2=80=99t understand what you describe above.
-> > >
-> > > Vq avail index etc is programmed before doing DRIVER_OK anyway.
-> > >
-> > > Sequence is very straight forward at destination from user to kernel.
-> > > 1. Set config space fields (such as virtio_net_config/virtio_blk_conf=
-ig).
-> > > 2. Set other device attributes (max vqs, current num vqs) 3. Set net
-> > > specific config (RSS, vlan, mac and more filters) 4. Set VQ fields
-> > > (enable, msix, addr, avail indx) 5. Set DRIVER_OK, device resumes fro=
-m
-> > > where it left off
-> > >
-> > > Steps #1 to #4 can be done multiple times in pre-warm device up case =
-in
-> > future.
-> >
-> > That requires creating a way to set all the parameters enumerated there=
- to
-> > vdpa devices. Each time a new feature is added to virtio-net that modif=
-ies
-> > the guest-visible fronted device we would need to update it.
-> Any guest visible feature exposed by the vdpa device on the source side, =
-a migration agent needs to verify/and make destination device capable to su=
-pport it anyway. Without it a device may be migrated, but it won't perform =
-at same level as source.
->
-
-We can discuss how to reach that point, but it's not the state at this
-moment. And I doubt we can reach it before the next kernel merge
-window.
-
-> > And all the
-> > layers of the stack need to maintain more state.
-> Mostly not. A complete virtio device state arrived from source vdpa devic=
-e can be given to destination vdpa device without anyone else looking in th=
-e middle. If this format is known/well defined.
->
-
-I'm not sure I follow this. If you mean that qemu defines a format for
-migration data, that is not 100% true: It changes between versions,
-and you cannot migrate between two versions of qemu that are too far
-apart without migrating between the immediate version if I'm not
-wrong. Migration bugs are solved by changing that format, since qemu
-does not need interoperability with other VMM at the moment.
-
-The boundaries between qemu and devices need more restrictions than
-that for interoperability.
-
-I agree we could set a format for the virtio devices state, but I
-think the right place is the virtio standard, not the vDPA layer. If
-we do at vDPA layer, we are "repeating the mistake" of VHOST_BASE: We
-need to maintain two ways to perform the same action.
-
-> >
-> > From the guest point of view, to enable all the queues with
-> > VHOST_VDPA_SET_VRING_ENABLE and don't send DRIVER_OK is the same
-> > as send DRIVER_OK and not to enable any data queue with
-> > VHOST_VDPA_SET_VRING_ENABLE.
->
-> Enabling SET_VRING_ENABLE after DRIVER_OK has two basic things broken.
-> 1. supplied RSS config and VQ config is not honored for several tens of h=
-undreds of milliseconds
-> It will be purely dependent on how/when this ioctl are made.
-
-We can optimize this without adding burden to the API.
-
-> Due to this behavior packet supposed to arrive in X VQ, arrives in Y VQ.
->
-
-I'm not sure why that happens.
-
-By the standard:
-After the driver transmitted a packet of a flow on transmitqX, the
-device SHOULD cause incoming packets for that flow to be steered to
-receiveqX. For uni-directional protocols, or where no packets have
-been transmitted yet, the device MAY steer a packet to a random queue
-out of the specified receiveq1=E2=80=A6receiveqn.
-
-The device MUST NOT queue packets on receive queues greater than
-virtqueue_pairs once it has placed the VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET
-command in a used buffer.
-
-It doesn't say the requests must be migrated from one queue to another
-beyond the interpretation of the SHOULD. Maybe we need to restrict the
-standard more to reduce the differences between the devices?
-
-> 2. Each VQ enablement one at a time, requires constant steering update fo=
-r the VQ
-> While this information is something already known. Trying to reuse brings=
- a callback result in this in-efficiency.
-> So better to start with more reusable APIs that fits the LM flow.
-
-We can change to that model later. Since the model proposed by us does
-not add any burden, we can discard it down the road if something
-better arises. The proposed behavior should already work for all
-devices: It comes for free regarding kernel / vdpa code.
-
-I think that doing at vhost/vDPA level is going to cause the same
-problem as VRING_SET_BASE: We will need to maintain two ways of
-performing the same, and the code will need to synchronize them. I'm
-not *against* adding it by itself, I'm just considering it an
-optimization that needs to be balanced against what already enables
-the device to perform state restoring.
-
-Thanks!
+take care,
+  Gerd
 
 
