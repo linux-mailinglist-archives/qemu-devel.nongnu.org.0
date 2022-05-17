@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AF952A994
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 19:49:28 +0200 (CEST)
-Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1275A52AAF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:34:59 +0200 (CEST)
+Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr1Jx-0000J6-DY
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 13:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45362)
+	id 1nr21z-00014t-SQ
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:34:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1Ew-0002oX-5O
- for qemu-devel@nongnu.org; Tue, 17 May 2022 13:44:10 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:39584)
+ (Exim 4.90_1) (envelope-from <nalanzeyu@gmail.com>)
+ id 1nr1aL-0008Tg-KZ
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:06:18 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1Eu-0006b5-Hz
- for qemu-devel@nongnu.org; Tue, 17 May 2022 13:44:09 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id a19so17359146pgw.6
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 10:44:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HNk33sKWthyBiJ4vOahSpZLFRNj4baLkBacjZcfHoJg=;
- b=wObC9Lezxx0g7QOoLq7WC3icZeIdlFKGrF3LV/zlZZPMi2F/FuudkfxCqLBUzOrele
- NcAzBFywUgshu4yjwsF5X4Z3E96X828A+wiEV2lGARmbqzZJZSTa43xSU479HTPVgV3n
- 5UFyhKjiX0JMrR6vh3lwMU+O68gFcWWAnOH+8RizptG55RwmdgEkpB9I833t8m2wGZeR
- QKkPhUXUlFb9TMZRBka5KkDtIovXvsVxaE/eo53kwf/e/0nCa56iV8+SigGAsXIXmoWf
- pzkBBpA/Sdn36GfB9Yci412hrnbIA7XoZS+0CsQas0raCLX9xhpSuSee1nTRGHLtHpe7
- XmDw==
+ (Exim 4.90_1) (envelope-from <nalanzeyu@gmail.com>)
+ id 1nr1aJ-0001Uz-DB
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:06:16 -0400
+Received: by mail-pl1-x630.google.com with SMTP id n18so18052203plg.5
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:06:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YJXByTstbvOjhMep3d58apDCFYsPwTWYbwiq8khGfhM=;
+ b=BentGF7qf9AV7vxbnS+5JdTvhThubNqknXNV2U4FRnjxHgiV1tzEZHDcugLoWYWiMw
+ 4ZrgGlmsyf6TdP5DtF0mXzDNJfvycDKJl0+6De9/8K8oCTksWP4MVy3HMRl70ryzAIWh
+ eZzl6U6Ynsdpn0QlagOcptvpTSt4uJKOlHYC1UPS9t6oTD92SFC5OLN5xBQ0EdW/Pm9c
+ 8UhXqdYTE43Po8+BlE12gLE4+PwFRGd/HFCKsVI5iOun63Da9NG17Rf2Log2HKc5F7K6
+ sBj4wNuaPjbz+zQ3zE/WfVJdNPWqYCF0dkwg9R78Z0ZJ06NZ+sXzvl+I5GxFcCwzIXth
+ z40w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=HNk33sKWthyBiJ4vOahSpZLFRNj4baLkBacjZcfHoJg=;
- b=xLBDqbn3b5x+jlLFVReADW546VN9Maexk2m4M8SZkAFvPkRX+Epn3Ve3UedRt7iC4n
- MNkV5vmI86rhT9fAgO405x61JBHCwG3q0BPr88XAr+CZWc8uRrZ3IYoD8OlsyTeHJCo0
- BkhPhgjQOZNUBqPqkTRmfEiHVB3JjdkiPPH4V4QGHc0c/h19xWeBQ0AYaaeUivjRqj9K
- fLTlTwhTEJ2KZu+608GuOt4mNsfDpCoIG8k4DAW9kkV0H7Jtslksf8SSsP0Nc6wvwUJn
- VstIiNkAfobx2n6h7ZOX73Lw+BlYlIxO8QnP5xiY9vQfztKy1HPWXy81fRnqQdEHoM0c
- 7QtQ==
-X-Gm-Message-State: AOAM531C5zC3K6Z/yG/JacljxQX6Tw2VARd39IIVdGfbaRYN4RRCpdyE
- aN0jfS+Jnv4YmqHKx4JeOlvb8A==
-X-Google-Smtp-Source: ABdhPJzkjf5Ddlkli/wrzgf0AQRByODrAejD+OOess50w1oBMCgJ+WRhsiaH9zMKPg6Hjp8p8YtMWA==
-X-Received: by 2002:a62:b60f:0:b0:508:2a61:2c8b with SMTP id
- j15-20020a62b60f000000b005082a612c8bmr23461324pff.2.1652809446467; 
- Tue, 17 May 2022 10:44:06 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
+ bh=YJXByTstbvOjhMep3d58apDCFYsPwTWYbwiq8khGfhM=;
+ b=W1KuhkV7VAyziEeFjWrHIE+4CWGmdlyLKkBF99KTNmWNnwELNw16YiNcSIeCJuMiSB
+ y3IO1umnzQLA9A03do1ISsjM2LfrdXYr8/vUe94bsGMzR9Yiw9ABaQGIXhQ2XxcCsx7g
+ z7qe0lESujNDwzbqcVymm0s2IFj+58iaMum049KfTRvz9S41mcKOCPbIn04wby2+6i17
+ 6yHo4oq3KTQW265ZUoFvVla4k4md37BvYyVwuauvATmkoJ9botx/Z1otq75h93H1eqis
+ XkD+nmZ6CoRRVTL3IEzkgYQgCYTkXhAuaFFz+eJxun+HGa0LhLLCLm6zA51EBJWkXndo
+ LDYw==
+X-Gm-Message-State: AOAM533UXYngDscOJZEmVXm/kAJl2w4cYRLsQCyZF54/NNyH5m53bGwv
+ 0DCHh7WzZS2lyB/Yx+9QP/sKYTn71QSI6w==
+X-Google-Smtp-Source: ABdhPJzR3eA5I46nKf5Y+UE4lyVUZa9JZuPhqDYy2/5jvYF/YTJ6rgCyb0NxqFcyaxsw9UORz2MqZg==
+X-Received: by 2002:a17:903:2290:b0:161:afab:f48c with SMTP id
+ b16-20020a170903229000b00161afabf48cmr3127549plh.64.1652810773354; 
+ Tue, 17 May 2022 11:06:13 -0700 (PDT)
+Received: from Nlzy-MiAir-Fedora.. ([45.66.217.9])
  by smtp.gmail.com with ESMTPSA id
- y41-20020a056a001ca900b0050dc76281bdsm381pfw.151.2022.05.17.10.44.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 10:44:06 -0700 (PDT)
-Message-ID: <d53b9f0f-f518-7606-3ee2-efd760304a97@linaro.org>
-Date: Tue, 17 May 2022 10:44:04 -0700
+ q5-20020a170902a3c500b0015e8d4eb231sm7158675plb.123.2022.05.17.11.06.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 May 2022 11:06:13 -0700 (PDT)
+From: Yan Cangang <nalanzeyu@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu,
+	Yan Cangang <nalanzeyu@gmail.com>
+Subject: [PATCH] linux-user: fix ioctl() arguments printing in strace support
+Date: Wed, 18 May 2022 02:06:05 +0800
+Message-Id: <20220517180605.109867-1-nalanzeyu@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] target/arm: Fix PAuth keys access checks for disabled SEL2
-Content-Language: en-US
-To: Florian Lugou <florian.lugou@provenrun.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20220517145242.1215271-1-florian.lugou@provenrun.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517145242.1215271-1-florian.lugou@provenrun.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=nalanzeyu@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 17 May 2022 14:33:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,19 +88,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/22 07:52, Florian Lugou wrote:
-> As per the description of the HCR_EL2.APK field in the ARMv8 ARM,
-> Pointer Authentication keys accesses should only be trapped to Secure
-> EL2 if it is enabled.
-> 
-> Signed-off-by: Florian Lugou <florian.lugou@provenrun.com>
-> ---
->   target/arm/helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+When both of the following conditions are satisfied, ioctl() arguments
+printing in strace support is not working:
+    - highest bit of ioctl() request command is 1
+    - sizeof abi_long is 8 bytes
 
+print_ioctl() and print_syscall_ret_ioctl() find IOCTLEntry by this way:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+    /* ie->target_cmd is int, arg1 is abi_long, both are signed */
+    for (ie = ioctl_entries; ie->target_cmd != 0; ie++)
+        if (ie->target_cmd == arg1)
+            break;
 
+Operator "==" will convert target_cmd to abi_long by sign extension,
+resulting in a negative number, will not match any ioctl request number.
 
-r~
+This patch simply changes type of target_cmd to unsigned int, avoids sign
+extension. ioctl command values are 32-bit constants, explain highest bit
+as sign bit is pointless.
+
+Signed-off-by: Yan Cangang <nalanzeyu@gmail.com>
+---
+ linux-user/user-internals.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index ddc260e465..550d16e2dd 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -35,7 +35,7 @@ typedef abi_long do_ioctl_fn(const IOCTLEntry *ie, uint8_t *buf_temp,
+                              int fd, int cmd, abi_long arg);
+ 
+ struct IOCTLEntry {
+-    int target_cmd;
++    unsigned int target_cmd;
+     unsigned int host_cmd;
+     const char *name;
+     int access;
+-- 
+2.36.1
+
 
