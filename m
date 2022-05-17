@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE327529552
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 01:32:28 +0200 (CEST)
-Received: from localhost ([::1]:57490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E995295F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 02:18:03 +0200 (CEST)
+Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqkCS-0004UG-0o
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 19:32:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
+	id 1nqkuX-0002S7-NE
+	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 20:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqkAZ-0002xH-6k
- for qemu-devel@nongnu.org; Mon, 16 May 2022 19:30:34 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:47000)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nqkt2-0001cn-49; Mon, 16 May 2022 20:16:28 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:41836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nqkAU-0008St-Pz
- for qemu-devel@nongnu.org; Mon, 16 May 2022 19:30:28 -0400
-Received: by mail-pf1-x431.google.com with SMTP id j6so15373577pfe.13
- for <qemu-devel@nongnu.org>; Mon, 16 May 2022 16:30:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=90AwIlCFax8BNMvTel1DHp8eQNF7ryxDE9zLvZNcpC8=;
- b=kWb2i8t+MyorO8AgoTXHcqkEROF5fZgCHP8Vc8P6dzc4F7W9ZfqLvhwQF2vrp/TJKg
- 0yf7C0+TzJKXWkQQebKN/lYJdU9hbqzf6e+3rNAATfPNooJErkyyUqJ3QUxOOPjTvSFR
- oNRLoyNFMb3oJyTbQUGCim68wvjRyKiI4tFPwvqlE5TBGl+gNxCdZhi5guabOsYCpReu
- 57Oj9eGoHlOu25FqXZH+EB0kJoCLyggzXw1smfHcltBllP5eKk1rFgreoxz6XsDWrGpv
- 8bNchutRJIjjVl2hW8GwjBVl1PJ7UeozuCBP2NWbXZ7yywLMXILmxHB/NjhVf0cFxIZc
- EHOQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nqkt0-0007E4-C0; Mon, 16 May 2022 20:16:27 -0400
+Received: by mail-io1-xd36.google.com with SMTP id z26so17733216iot.8;
+ Mon, 16 May 2022 17:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v54+QeGFXqz8MdFssGzRwjz36B49bbmYSFy2xRl1Pw4=;
+ b=qGkEtFR7RJwkFuXvBve32MhZ6h/jQFZ2/9s06jyXFe32XLACCnwXh7Iu09y0iDJtAO
+ YrmiSUlKsp9HD+Vpda5PGA6QK8A08jKsKlLghqy9zuvGHoMRmPEoHI00QuPmxBfPLarm
+ +lQaxtWK5Z/3i51BTeJNGp38wOrqilOAX6nf+qOBzZP3ASqnELP1O2qDqDq2jnJEQpsT
+ WzfERQmonJ2DDIwJjJCTys8AkiDPa9AiTx0QoEOsVSull5WSC8+WEP7ugOeYnO0uIM7/
+ l0kDgUkqWjNSOURaPRtamxL9372P3QSvxqa9EuCGsawCQO3xotj1g+UMlNVU8I4xYfYB
+ 9ePw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=90AwIlCFax8BNMvTel1DHp8eQNF7ryxDE9zLvZNcpC8=;
- b=w0LJDyd8WAX7g1j/xb5ZSsV2yHZ+lLb723w+JmEi0f6fIP5rnYm6AIwFPAe2Oi2Dtz
- CZRwFog9BGXONJZNmlrZ2sogpNkVUeAMwaoHxCQEdsI2Nkrw+4SRrYkcCmUX0rUjk6Ye
- 2c/XeR/8QvkrNHpbpn4jymcGYFqjfkgKW//D5snPizsSu99OVB6OhF5Uzw8cf+MTk3qV
- aei8Qi2/Qy08B8I/Fsf9UhJzfFcZkfFHAxsYQnb7qaN7/t5gcFKoTb6AmC2kku+kpSmE
- VLbrmtHV4xRv3ONpGis5VhjvIQZU4/bve6AZveHbUR7cG/mETAYvTEwmgv9Xr1fv89Ns
- 5O3A==
-X-Gm-Message-State: AOAM532srCS6TLH+ET+i3N11mZCZPBVOT6gigzAGiy34ZmEfaolEV4MG
- HRf5JBA1hqWwBH5WnEoB7cBp2g==
-X-Google-Smtp-Source: ABdhPJwNP6ubZODjM9lsvyNllPzVlLpUpqqYM3EjrnIsjS1xldqYzoIN5QUz1/Kww1u8o8HXs9Bi/Q==
-X-Received: by 2002:a63:4f56:0:b0:3f2:779f:882d with SMTP id
- p22-20020a634f56000000b003f2779f882dmr4561986pgl.414.1652743823340; 
- Mon, 16 May 2022 16:30:23 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- n9-20020a170902e54900b00161947ecc82sm1775617plf.199.2022.05.16.16.30.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 16:30:22 -0700 (PDT)
-Message-ID: <dfb6fe1e-47c9-820f-7612-92c391b12884@linaro.org>
-Date: Mon, 16 May 2022 16:30:20 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v54+QeGFXqz8MdFssGzRwjz36B49bbmYSFy2xRl1Pw4=;
+ b=i+ou8ooOsDa8iO8jdUTSfW4FGYZP+axD45oveljd1hBDJa6NuokS5eDErtLQZBS5XO
+ B86f5xedBvlTnuNzTGxWpO0BdWkKLCC1rx+4wqKD8t44zotJJKZniRwe0CCtzny1PZYh
+ xq9tZro4YVrAynIf5Yez+7Ev8yFOFQA+/LeWeey8+xLUXMHAy2QkLcRLtQCSIHnW8e+C
+ a91ivW2/eMZXkC2cO3TvxNEYmbrA7O6Ib3PF9e9Xd9efvUXzRQhY06Floo3aexFUT28o
+ SOnl9N1F01LoetjJdhLa+6ZHdGdYHLPC/DmzcuXplY+YwYMYp1nqflK4U6PdNluCYqcA
+ M80g==
+X-Gm-Message-State: AOAM533+E0UX2fmeRgOX5otJ6UtbVklByrqiaeMTZP3QKlF83tGvcg4g
+ PI1ktyJz4NHtkZx9U7qVj/GznNnLBqtax519iC4=
+X-Google-Smtp-Source: ABdhPJwECdCGzQ2rYRQxeuo3DMNBVeHoObCu1IqEa3fVImdmTn9u+t2qfSKnuAgjazKPKuVSCDoXw2aZ8kPqgv5dx98=
+X-Received: by 2002:a05:6638:160d:b0:32b:d9d2:f2f2 with SMTP id
+ x13-20020a056638160d00b0032bd9d2f2f2mr10396160jas.68.1652746584933; Mon, 16
+ May 2022 17:16:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/23] Misc QEMU patches for 2022-05-16
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220516155603.1234712-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220516155603.1234712-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20220511144528.393530-1-apatel@ventanamicro.com>
+ <20220511144528.393530-8-apatel@ventanamicro.com>
+In-Reply-To: <20220511144528.393530-8-apatel@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 17 May 2022 10:15:59 +1000
+Message-ID: <CAKmqyKN5U927XfL7n_8S=3ykMyHPLM_kyM9qfYV5dq_eSmoEfA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] target/riscv: Force disable extensions if priv
+ spec version does not match
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,93 +88,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 08:55, Paolo Bonzini wrote:
-> The following changes since commit 48de9b0916ef60d5a6bd6ca9288832deff8ee1ee:
-> 
->    Merge tag 'linux-headers-v5.18-rc6' of https://gitlab.com/alex.williamson/qemu into staging (2022-05-13 09:45:17 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/bonzini/qemu.git tags/for-upstream
-> 
-> for you to fetch changes up to 8eccdb9eb84615291faef1257d5779ebfef7a0d0:
-> 
->    configure: remove duplicate help messages (2022-05-14 12:33:45 +0200)
-> 
-> ----------------------------------------------------------------
-> * fix WHPX debugging
-> * misc qga-vss fixes
-> * remove the deprecated CPU model 'Icelake-Client'
-> * support for x86 architectural LBR
-> * remove deprecated properties
-> * replace deprecated -soundhw with -audio
+On Thu, May 12, 2022 at 12:52 AM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> We should disable extensions in riscv_cpu_realize() if minimum required
+> priv spec version is not satisfied. This also ensures that machines with
+> priv spec v1.11 (or lower) cannot enable H, V, and various multi-letter
+> extensions.
+>
+> Fixes: a775398be2e ("target/riscv: Add isa extenstion strings to the
+> device tree")
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+This will potentially confuse users as we just disable the extension
+without telling them.
 
+Could we not just leave this as is and let users specify the
+extensions they want? Then it's up to them to specify the correct
+combinations
 
-r~
+Alistair
 
-
-> 
-> ----------------------------------------------------------------
-> Ivan Shcherbakov (1):
->        WHPX: fixed TPR/CR8 translation issues affecting VM debugging
-> 
-> Konstantin Kostiuk (2):
->        qga-vss: Add auto generated headers to dependencies
->        qga-vss: Use the proper operator to free memory
-> 
-> Paolo Bonzini (11):
->        target/i386: introduce helper to access supported CPUID
->        crypto: make loaded property read-only
->        rng: make opened property read-only
->        soundhw: remove ability to create multiple soundcards
->        soundhw: extract soundhw help to a separate function
->        soundhw: unify initialization for ISA and PCI soundhw
->        soundhw: move help handling to vl.c
->        introduce -audio as a replacement for -soundhw
->        build: remove useless dependency
->        configure: remove another dead variable
->        configure: remove duplicate help messages
-> 
-> Robert Hoo (1):
->        i386/cpu: Remove the deprecated cpu model 'Icelake-Client'
-> 
-> Yang Weijiang (8):
->        qdev-properties: Add a new macro with bitmask check for uint64_t property
->        target/i386: Add lbr-fmt vPMU option to support guest LBR
->        target/i386: Add kvm_get_one_msr helper
->        target/i386: Enable support for XSAVES based features
->        target/i386: Add XSAVES support for Arch LBR
->        target/i386: Add MSR access interface for Arch LBR
->        target/i386: Enable Arch LBR migration states in vmstate
->        target/i386: Support Arch LBR in CPUID enumeration
-> 
->   Makefile                        |   3 -
->   audio/audio.c                   |   8 +-
->   audio/audio.h                   |   1 +
->   backends/rng.c                  |  18 +--
->   configure                       |   5 -
->   crypto/secret_common.c          |  84 +++++-----
->   crypto/tlscredsanon.c           |  20 +--
->   crypto/tlscredspsk.c            |  20 +--
->   crypto/tlscredsx509.c           |  20 +--
->   docs/about/deprecated.rst       |  34 -----
->   docs/about/removed-features.rst |  28 ++++
->   hw/audio/intel-hda.c            |   5 +-
->   hw/audio/soundhw.c              | 136 ++++++++---------
->   hw/core/qdev-properties.c       |  19 +++
->   include/hw/audio/soundhw.h      |   5 +-
->   include/hw/qdev-properties.h    |  12 ++
->   qemu-options.hx                 |  51 +++----
->   qga/vss-win32/meson.build       |   2 +-
->   qga/vss-win32/requester.cpp     |   4 +-
->   softmmu/vl.c                    |  30 +++-
->   target/i386/cpu.c               | 331 ++++++++++++++++++++--------------------
->   target/i386/cpu.h               |  57 ++++++-
->   target/i386/kvm/kvm.c           | 113 +++++++++++---
->   target/i386/machine.c           |  38 +++++
->   target/i386/whpx/whpx-all.c     |  13 +-
->   25 files changed, 600 insertions(+), 457 deletions(-)
-
+> ---
+>  target/riscv/cpu.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f3b61dfd63..25a4ba3e22 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -541,6 +541,40 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>          set_priv_version(env, priv_version);
+>      }
+>
+> +    /* Force disable extensions if priv spec version does not match */
+> +    if (env->priv_ver < PRIV_VERSION_1_12_0) {
+> +        cpu->cfg.ext_h = false;
+> +        cpu->cfg.ext_v = false;
+> +        cpu->cfg.ext_zfh = false;
+> +        cpu->cfg.ext_zfhmin = false;
+> +        cpu->cfg.ext_zfinx = false;
+> +        cpu->cfg.ext_zhinx = false;
+> +        cpu->cfg.ext_zhinxmin = false;
+> +        cpu->cfg.ext_zdinx = false;
+> +        cpu->cfg.ext_zba = false;
+> +        cpu->cfg.ext_zbb = false;
+> +        cpu->cfg.ext_zbc = false;
+> +        cpu->cfg.ext_zbkb = false;
+> +        cpu->cfg.ext_zbkc = false;
+> +        cpu->cfg.ext_zbkx = false;
+> +        cpu->cfg.ext_zbs = false;
+> +        cpu->cfg.ext_zk = false;
+> +        cpu->cfg.ext_zkn = false;
+> +        cpu->cfg.ext_zknd = false;
+> +        cpu->cfg.ext_zkne = false;
+> +        cpu->cfg.ext_zknh = false;
+> +        cpu->cfg.ext_zkr = false;
+> +        cpu->cfg.ext_zks = false;
+> +        cpu->cfg.ext_zksed = false;
+> +        cpu->cfg.ext_zksh = false;
+> +        cpu->cfg.ext_zkt = false;
+> +        cpu->cfg.ext_zve32f = false;
+> +        cpu->cfg.ext_zve64f = false;
+> +        cpu->cfg.ext_svinval = false;
+> +        cpu->cfg.ext_svnapot = false;
+> +        cpu->cfg.ext_svpbmt = false;
+> +    }
+> +
+>      if (cpu->cfg.mmu) {
+>          riscv_set_feature(env, RISCV_FEATURE_MMU);
+>      }
+> --
+> 2.34.1
+>
+>
 
