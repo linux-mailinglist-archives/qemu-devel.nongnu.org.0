@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AB1529E86
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:54:27 +0200 (CEST)
-Received: from localhost ([::1]:59046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09883529E79
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:49:58 +0200 (CEST)
+Received: from localhost ([::1]:51304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqtuM-0000xK-C7
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37492)
+	id 1nqtq1-0003xR-1c
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqtTq-0000Ep-Ee
- for qemu-devel@nongnu.org; Tue, 17 May 2022 05:27:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50194)
+ id 1nqtTa-0008UN-8M
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqtTe-0003er-VR
- for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:52 -0400
+ id 1nqtTY-0003bI-Kl
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652779610;
+ s=mimecast20190719; t=1652779604;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hshat3Eo9CmcRJ8QLwild97BK5cAhoxPxYvBPFkFfJ4=;
- b=G1giEzwaPB107lKG1Da/dn0pgzEy7jcQUu9xtsM0niGROlcCmuk3SuFfGVUy0YQ2rG9vnU
- iUu6MAvFzRpeb7rs5litb7C+nYVn4upT032wfhYe1vax9xJ9w37tnr0hdsiz4OXrz7lK+m
- tTYTaW7lan1jZxRakr1Uk7vcze/ZaAI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xrNzp6VGsRlwSzSjxZKBmcUnUnmc5346uqDi9fT1Kgw=;
+ b=NDSqm0T7o+Ag+DVoIB2M3ElqaQZE/PvSuyygR3AaCdoiloXRCn9OiaG7XlUiUhSDgrAhBo
+ UYplcJJHSDWSKblul0wc6PueixgPkmGiy7moiyMBUekrIDEjO7W3yD7QIrMP9QNrscvxby
+ jBCzglLeJrPh10R3eg6gBWm682eKyKQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-TEfnwveiOzC3hS2Y_bAqSQ-1; Tue, 17 May 2022 05:26:41 -0400
-X-MC-Unique: TEfnwveiOzC3hS2Y_bAqSQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- n7-20020a05640206c700b0042aaeb9d702so3882862edy.19
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 02:26:41 -0700 (PDT)
+ us-mta-191-vFcAyu-iM_GJD0uWQMcx5A-1; Tue, 17 May 2022 05:26:42 -0400
+X-MC-Unique: vFcAyu-iM_GJD0uWQMcx5A-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ go17-20020a1709070d9100b006f46e53a2a9so7054830ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 02:26:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hshat3Eo9CmcRJ8QLwild97BK5cAhoxPxYvBPFkFfJ4=;
- b=hPl5sAeMwkImL8ZCX3p3nYnIGb2phK1XxvWNn99DqxcLcRrUcOIqNfod1AdRHc0ZGS
- SgiHQ4vUwCOiWoK5bXPF+z1I97ANbWM06zUJ27hOYdqWNVBXycBieueByn621hdXM6b3
- 3o5EVhWIVPDOikkn2JQbG5rumTFAJVyprMwVkzPhDbdP3khQHToCMYS4jWAMDdF+qOCI
- qPwuF1vV3cYpyrYKc1meJ0Pm3l3ZDualswg5hdbgHsnVbgCpX1vUMMeKnVAF7QpYR7Pe
- m8eycWHLslJizVUjrl+w28WOuVTG4RwoYxeNNK1xjVUD9ATnrKPsJekS9ed6Zhp5FC6D
- f2hg==
-X-Gm-Message-State: AOAM533GtzrW4cP6RX5XEoitQrZeQNIb58HO98x8rUbT76Igh8KrJFjn
- 57aEQP0GWu932FNr4MtaICC9NhapBPyYzN8zm0Ksww3SZY7P1T1OLVgmzk/fPfvsEj+/JHnGro7
- 7sUFCA3+8sXozdzmteWiRuOBVRY9GAWLrfqJ3IHgf3qTBIt/QYJW77ificVlakWQ1/oE=
-X-Received: by 2002:a05:6402:741:b0:42a:8fad:8f67 with SMTP id
- p1-20020a056402074100b0042a8fad8f67mr15682005edy.285.1652779600010; 
- Tue, 17 May 2022 02:26:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTVMdKCV1Wq0+RGk3kdgnjotTKsbG1wDs8bw+xGhk6pK2gAVn8pFb1CPbCz/OkR0Ep4GwJRw==
-X-Received: by 2002:a05:6402:741:b0:42a:8fad:8f67 with SMTP id
- p1-20020a056402074100b0042a8fad8f67mr15681981edy.285.1652779599738; 
- Tue, 17 May 2022 02:26:39 -0700 (PDT)
+ bh=xrNzp6VGsRlwSzSjxZKBmcUnUnmc5346uqDi9fT1Kgw=;
+ b=OvwiRC2YSG5MvqyLK7VRqZUB1FEqTpJ5jFUOIKQMqjKYfT1cRdfC7gYA6RhK63Ytt8
+ iLVIJgG0PMFI902+w+Q3DkDTlr4UooFbYZw6mEyy4ce5PQxfs4gklc8SDn4YMvBjo7tT
+ s3HBq6LDMCW6JPQyWiX+DLx8YDSX3xpnmKVOZEDqFJ7g6njngsoiVxpuwxg1p0jX36TL
+ hT2XUyqFJDTEjfIrRndXaa4f06WNEU1DCap3vwsjtIpqUKODhASMkp6lPKn8feoluoqe
+ rjfOO43ZC+sOofo8SoBdnv75UKUmOJ8VRJHV3zFGqimBU6NizU91bgfh+ae99LEKsalI
+ JRcA==
+X-Gm-Message-State: AOAM533x04bHquPxoA3qDZVElayuzlCUUPobYjXj8/5Xzh1fRLzfVPN0
+ RnFLgdKsvqogOFE8zyeFihE6RtYVQl8QyHBmldZy1QtY33uAk3kqt/DZTW8A6SgqtWjRhSMYuZm
+ HqOtor5TU70wuK2xYgHGJkb203Guc4Tk5i/rWFYhDLHXpQfscdt/TMn97PI7lCM/axS8=
+X-Received: by 2002:a50:cd08:0:b0:426:1d9b:4b13 with SMTP id
+ z8-20020a50cd08000000b004261d9b4b13mr17691633edi.360.1652779601490; 
+ Tue, 17 May 2022 02:26:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7t62+IckN42XQlZhIO7xu3h97z8cpA7gPQm0/hLGWXVqWZe3L5rS+DYe4oCaVDSBza5poug==
+X-Received: by 2002:a50:cd08:0:b0:426:1d9b:4b13 with SMTP id
+ z8-20020a50cd08000000b004261d9b4b13mr17691617edi.360.1652779601291; 
+ Tue, 17 May 2022 02:26:41 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- h9-20020a50cdc9000000b0042617ba63d5sm6699153edj.95.2022.05.17.02.26.38
+ 9-20020a170906020900b006f3ef214e62sm809895ejd.200.2022.05.17.02.26.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 02:26:39 -0700 (PDT)
+ Tue, 17 May 2022 02:26:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 08/16] configure: add missing cross compiler fallbacks
-Date: Tue, 17 May 2022 11:26:08 +0200
-Message-Id: <20220517092616.1272238-9-pbonzini@redhat.com>
+Subject: [PATCH 09/16] configure: handle host compiler in probe_target_compiler
+Date: Tue, 17 May 2022 11:26:09 +0200
+Message-Id: <20220517092616.1272238-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220517092616.1272238-1-pbonzini@redhat.com>
 References: <20220517092616.1272238-1-pbonzini@redhat.com>
@@ -100,38 +100,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arm compiler can be used for armeb, and the sparc64 compiler
-can be used for sparc.
+In preparation for handling more binaries than just cc, handle
+the case of "probe_target_compiler $cpu" directly in the function,
+setting the target_* variables based on the ones that are used to
+build QEMU.  The clang check also needs to be moved after this
+fallback.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ configure | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index 90cb477c90..1d9d60185c 100755
+index 1d9d60185c..016df3fa6e 100755
 --- a/configure
 +++ b/configure
-@@ -1840,6 +1840,7 @@ fi
- : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
- : ${cross_cc_alpha="alpha-linux-gnu-gcc"}
- : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
-+: ${cross_cc_armeb="$cross_cc_arm"}
- : ${cross_cc_cflags_armeb="-mbig-endian"}
- : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
- : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
-@@ -1862,9 +1863,10 @@ fi
- : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
- : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
- : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
--: ${cross_cc_cflags_sparc="-m32 -mcpu=supersparc"}
- : ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
-+: ${cross_cc_sparc="$cross_cc_sparc64"}
-+: ${cross_cc_cflags_sparc="-m32 -mcpu=supersparc"}
- : ${cross_cc_x86_64="x86_64-linux-gnu-gcc"}
- : ${cross_cc_cflags_x86_64="-m64"}
+@@ -964,10 +964,6 @@ case $git_submodules_action in
+     ;;
+ esac
  
+-if eval test -z "\${cross_cc_$cpu}"; then
+-    eval "cross_cc_${cpu}=\$cc"
+-fi
+-
+ default_target_list=""
+ mak_wilds=""
+ 
+@@ -2021,13 +2017,6 @@ probe_target_compiler() {
+   if eval test -n "\"\${cross_cc_$1}\""; then
+     if eval has "\"\${cross_cc_$1}\""; then
+       eval "target_cc=\"\${cross_cc_$1}\""
+-      case $1 in
+-        i386|x86_64)
+-          if $target_cc --version | grep -qi "clang"; then
+-            unset target_cc
+-          fi
+-          ;;
+-      esac
+     fi
+   fi
+   if eval test -n "\"\${cross_as_$1}\""; then
+@@ -2040,6 +2029,20 @@ probe_target_compiler() {
+       eval "target_ld=\"\${cross_ld_$1}\""
+     fi
+   fi
++  if test "$1" = $cpu; then
++    : ${target_cc:=$cc}
++    : ${target_as:=$as}
++    : ${target_ld:=$ld}
++  fi
++  if test -n "$target_cc"; then
++    case $1 in
++      i386|x86_64)
++        if $target_cc --version | grep -qi "clang"; then
++          unset target_cc
++        fi
++        ;;
++    esac
++  fi
+ }
+ 
+ write_target_makefile() {
 -- 
 2.36.0
 
