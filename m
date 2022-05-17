@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C705052A8BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:58:35 +0200 (CEST)
-Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E1552A8E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 19:07:17 +0200 (CEST)
+Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr0Wh-0001YV-4H
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34466)
+	id 1nr0f4-00032N-Ji
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 13:07:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nr0N1-0008JS-IX; Tue, 17 May 2022 12:48:27 -0400
+ id 1nr0N4-0008Rw-5V; Tue, 17 May 2022 12:48:30 -0400
 Received: from [187.72.171.209] (port=63178 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nr0N0-0006ji-3T; Tue, 17 May 2022 12:48:27 -0400
+ id 1nr0N2-0006ji-Ii; Tue, 17 May 2022 12:48:29 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 17 May 2022 13:48:01 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 519EF801008;
+ by p9ibm (Postfix) with ESMTP id 6AC88800C32;
  Tue, 17 May 2022 13:48:01 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -30,17 +30,17 @@ Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  victor.colombo@eldorado.org.br,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH RESEND 08/10] target/ppc: implement addg6s
-Date: Tue, 17 May 2022 13:47:42 -0300
-Message-Id: <20220517164744.58131-9-victor.colombo@eldorado.org.br>
+Subject: [PATCH RESEND 09/10] target/ppc: implement cbcdtd
+Date: Tue, 17 May 2022 13:47:43 -0300
+Message-Id: <20220517164744.58131-10-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220517164744.58131-1-victor.colombo@eldorado.org.br>
 References: <20220517164744.58131-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 May 2022 16:48:01.0607 (UTC)
- FILETIME=[DF031570:01D86A0D]
+X-OriginalArrivalTime: 17 May 2022 16:48:01.0732 (UTC)
+ FILETIME=[DF162840:01D86A0D]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,72 +67,117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Implements the following Power ISA v2.06 instruction:
-addg6s: Add and Generate Sixes
+Implements the Convert Binary Coded Decimal To Declets instruction.
+Since libdecnumber doesn't expose the methods for direct conversion
+(decDigitsToDPD, BCD2DPD, etc.), the BCD values are converted to
+decimal32 format, from which the declets are extracted.
+
+Where the behavior is undefined, we try to match the result observed in
+a POWER9 DD2.3.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
+ target/ppc/dfp_helper.c                    | 39 ++++++++++++++++++++++
+ target/ppc/helper.h                        |  1 +
  target/ppc/insn32.decode                   |  4 +++
- target/ppc/translate/fixedpoint-impl.c.inc | 35 ++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ target/ppc/translate/fixedpoint-impl.c.inc |  7 ++++
+ 4 files changed, 51 insertions(+)
 
+diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+index 0d01ac3de0..db9e994c8c 100644
+--- a/target/ppc/dfp_helper.c
++++ b/target/ppc/dfp_helper.c
+@@ -1391,3 +1391,42 @@ DFP_HELPER_SHIFT(DSCLI, 64, 1)
+ DFP_HELPER_SHIFT(DSCLIQ, 128, 1)
+ DFP_HELPER_SHIFT(DSCRI, 64, 0)
+ DFP_HELPER_SHIFT(DSCRIQ, 128, 0)
++
++target_ulong helper_CBCDTD(target_ulong s)
++{
++    uint64_t res = 0;
++    uint32_t dec32;
++    uint8_t bcd[6];
++    int w, i, offs;
++    decNumber a;
++    decContext context;
++
++    decContextDefault(&context, DEC_INIT_DECIMAL32);
++
++    for (w = 1; w >= 0; w--) {
++        res <<= 32;
++        decNumberZero(&a);
++        /* Extract each BCD field of word "w" */
++        for (i = 5; i >= 0; i--) {
++            offs = 4 * (5 - i) + 32 * w;
++            bcd[i] = extract64(s, offs, 4);
++            if (bcd[i] > 9) {
++                /*
++                 * If the field value is greater than 9, the results are
++                 * undefined. We could use a fixed value like 0 or 9, but
++                 * an and with 9 seems to better match the hardware behavior.
++                 */
++                bcd[i] &= 9;
++            }
++        }
++
++        /* Create a decNumber with the BCD values and convert to decimal32 */
++        decNumberSetBCD(&a, bcd, 6);
++        decimal32FromNumber((decimal32 *)&dec32, &a, &context);
++
++        /* Extract the two declets from the decimal32 value */
++        res |= dec32 & 0xfffff;
++    }
++
++    return res;
++}
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index aa6773c4a5..da1a30555b 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -54,6 +54,7 @@ DEF_HELPER_3(sraw, tl, env, tl, tl)
+ DEF_HELPER_FLAGS_2(CFUGED, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_1(CBCDTD, TCG_CALL_NO_RWG_SE, tl, tl)
+ #if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
+ DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index a3e87a0867..9d87dd35c0 100644
+index 9d87dd35c0..f2defc635c 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -296,6 +296,10 @@ CNTTZDM         011111 ..... ..... ..... 1000111011 -   @X
- PDEPD           011111 ..... ..... ..... 0010011100 -   @X
- PEXTD           011111 ..... ..... ..... 0010111100 -   @X
+@@ -84,6 +84,9 @@
+ &X_rc           rt ra rb rc:bool
+ @X_rc           ...... rt:5 ra:5 rb:5 .......... rc:1           &X_rc
  
-+## BCD Assist
++&X_sa           rs ra
++@X_sa           ...... rs:5 ra:5 ..... .......... .             &X_sa
 +
-+ADDG6S          011111 ..... ..... ..... - 001001010 -  @X
-+
+ %x_frtp         22:4 !function=times_2
+ %x_frap         17:4 !function=times_2
+ %x_frbp         12:4 !function=times_2
+@@ -299,6 +302,7 @@ PEXTD           011111 ..... ..... ..... 0010111100 -   @X
+ ## BCD Assist
+ 
+ ADDG6S          011111 ..... ..... ..... - 001001010 -  @X
++CBCDTD          011111 ..... ..... ----- 0100111010 -   @X_sa
+ 
  ### Float-Point Load Instructions
  
- LFS             110000 ..... ..... ................     @D
 diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index 1aab32be03..62f5027b5b 100644
+index 62f5027b5b..d9174d2ba3 100644
 --- a/target/ppc/translate/fixedpoint-impl.c.inc
 +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -492,3 +492,38 @@ static bool trans_PEXTD(DisasContext *ctx, arg_X *a)
- #endif
+@@ -527,3 +527,10 @@ static bool trans_ADDG6S(DisasContext *ctx, arg_X *a)
+ 
      return true;
  }
 +
-+static bool trans_ADDG6S(DisasContext *ctx, arg_X *a)
++static bool trans_CBCDTD(DisasContext *ctx, arg_X_sa *a)
 +{
-+    const uint64_t nibbles = 0x0f0f0f0f0f0f0f0fULL,
-+                   carry_bits = 0x1010101010101010ULL;
-+    TCGv t0, t1, t2;
-+
 +    REQUIRE_INSNS_FLAGS2(ctx, BCDA_ISA206);
-+
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
-+    t2 = tcg_temp_new();
-+
-+    tcg_gen_andi_tl(t0, cpu_gpr[a->ra], nibbles);
-+    tcg_gen_andi_tl(t1, cpu_gpr[a->rb], nibbles);
-+    tcg_gen_add_tl(t0, t0, t1);
-+    tcg_gen_andi_tl(t0, t0, carry_bits);
-+    tcg_gen_shri_tl(t0, t0, 4);
-+
-+    tcg_gen_shri_tl(t1, cpu_gpr[a->ra], 4);
-+    tcg_gen_shri_tl(t2, cpu_gpr[a->rb], 4);
-+    tcg_gen_andi_tl(t1, t1, nibbles);
-+    tcg_gen_andi_tl(t2, t2, nibbles);
-+    tcg_gen_add_tl(t1, t1, t2);
-+    tcg_gen_andi_tl(t1, t1, carry_bits);
-+
-+    tcg_gen_or_tl(t0, t0, t1);
-+    tcg_gen_muli_tl(cpu_gpr[a->rt], t0, 6);
-+
-+    tcg_temp_free(t0);
-+    tcg_temp_free(t1);
-+    tcg_temp_free(t2);
-+
++    gen_helper_CBCDTD(cpu_gpr[a->ra], cpu_gpr[a->rs]);
 +    return true;
 +}
 -- 
