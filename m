@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972E852ACC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 22:33:08 +0200 (CEST)
-Received: from localhost ([::1]:54066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928B052AD20
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 22:57:52 +0200 (CEST)
+Received: from localhost ([::1]:58824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr3sL-0008AW-Eu
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 16:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
+	id 1nr4GG-0000Dr-DQ
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 16:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robh@kernel.org>) id 1nr3qA-0006eI-OL
- for qemu-devel@nongnu.org; Tue, 17 May 2022 16:30:46 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:44428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robh@kernel.org>) id 1nr3q8-0007dm-V6
- for qemu-devel@nongnu.org; Tue, 17 May 2022 16:30:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B5794616C9
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 20:30:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22DB8C385B8
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 20:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652819441;
- bh=pDP9yWMHNPW8fyHXtySgvU0uF36PFGTbju9M0H1RIwg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=cE5VhYpsMj5V1MmRS25k55kAKX/m3gMlTQWBV69kJg8eK6F11kqmm5AD2sWGeTX1C
- JaXyd0JND/foCk8xB9gWBsCq5HgPO17Agen+kqpUtEqf7GEZrrgqWO/roCFEWcVVze
- 6R0GQDKJTflUtHrzh3t8MAw/remthJqdDcrHGUlxZlaFqvVZNoUGV6Szlw1widuN82
- P9IkIArLGGLMx1uM9HiDjGh9WY8sjP5CrTVkSDrpz5HxqnFY0Yns0M0xs02IPZNH+t
- +zFEgEz8Eru12BMKYQLDDOxi01oGoNz3tt2S7zojYkEBxWdUwE/lo5Y8ZsTLcJGp7X
- M3XA+M4bsWc8g==
-Received: by mail-ej1-f41.google.com with SMTP id i19so36849776eja.11
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 13:30:41 -0700 (PDT)
-X-Gm-Message-State: AOAM531sEPgKOTy8++S1m8Bq6i51r7CmOGoASEs64vMpT2Q9KygjhnOL
- iMk0Mk4P2c+iqkqTs7XXyJkMXurOZKWQipAGiw==
-X-Google-Smtp-Source: ABdhPJzgBWRvbJT2YwRlhHplMm+Jm8hB+bufKoxzEIoMUklCco0LDqyArAh23AqxLnCueNcqPz8ojCFQbUd6mqGylC4=
-X-Received: by 2002:a17:906:7952:b0:6fe:1e0b:6343 with SMTP id
- l18-20020a170906795200b006fe1e0b6343mr15729068ejo.337.1652819439409; Tue, 17
- May 2022 13:30:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nr4DB-0007h6-Bd; Tue, 17 May 2022 16:54:33 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:37654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nr4D4-0002VI-3B; Tue, 17 May 2022 16:54:27 -0400
+Received: by mail-il1-x12c.google.com with SMTP id b11so181501ilr.4;
+ Tue, 17 May 2022 13:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+DHnimPwkwfEZWjk2imQyCkADHOh/gynavFbiUExZe0=;
+ b=IRoQ/QPZb8V3iihgK275OywFj5iCyA4E9VNzX9RNKd+sy0hl9JikGtz1/rzJ4uP1sI
+ LR/zLCw+CbTmV6HUzb6fNJm+xSSGmQTQ0hE6a6c//07jfAyobkUPYbw7wEKJsmmTXvCu
+ 049bF5DA+il/C/3nHJjvYvchx5Iyolaj1mlWcJWxLjI7qmRUe35WP/RgtfxemFL7BPZw
+ eF5ELIg1eJQB70BzcOkbCQD9FAkVDpzy8qGMydMBHw3RgLT/5VrqMPIPMbhU6ErfEMsW
+ 2WLt6M11+Lfh4bpV+f6zpepl9gINzJ9TetdxxSGSGyyvIRpd1ZDsAeKgjUp9WPtPT7g4
+ U20w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+DHnimPwkwfEZWjk2imQyCkADHOh/gynavFbiUExZe0=;
+ b=MPOLKCq9CinwD9RD5zc7mwVdQjbwr1VqNi/Nwsh10VPOpVRtTdvJ6SyrvCS1ISz6kc
+ cYEParfeb5U0opcdtBo0UjbXL2gEcytE6Q+TgwdMekXgvL/sL4FELGJTpngmZUsGS5hf
+ RhmGDSZdV/nDmvJ4pBk+tgBIoE2p2Q3IsTMMQYqUZqrCpWgZaUb6bYq+hVNnt0kxCnsX
+ ZJxTwNSy1KOXM0+5KQnM474ikT81TAC00MHpLwKgnVA4RIlwDL/iiIRhuHeFvLm/XLKi
+ 2e3ZdPnOwIuXY/T8w19PB1hVhueBmzR3D5JnJiha+vPQbNe9nmhy0oPfAgEIFAWsPsYX
+ fGNg==
+X-Gm-Message-State: AOAM533oLq9MfeMBYsMKHGAGUG6hwbDhYENPj1Je8Meu7/4+c6SFEjCN
+ nGtbRV5YXyF34FwbpbtamIiWvM0lloPq2RUDzkE=
+X-Google-Smtp-Source: ABdhPJwZbb3ua4NmYYeCJMLtomqkU/zAeiiia3gmhY9wEW8ddr0F+b++TN6gt+2Uba0j1h3rsA8hFhup5zXRo5JbTOI=
+X-Received: by 2002:a05:6e02:1986:b0:2cf:908d:3d0a with SMTP id
+ g6-20020a056e02198600b002cf908d3d0amr12754458ilf.113.1652820864157; Tue, 17
+ May 2022 13:54:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220505113947.75714-1-quic_llindhol@quicinc.com>
- <CAL_JsqJirHpxC-QXDZUKbJUTgYpac3KyTh7r3v0frWg26F3rzQ@mail.gmail.com>
- <CAFEAcA_qAVQVCi8x5dAgG-6oi9k1oRR7VQtyRfsQ2+rsS57UTQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_qAVQVCi8x5dAgG-6oi9k1oRR7VQtyRfsQ2+rsS57UTQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 17 May 2022 15:30:27 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqL2oRbHoPiyLCZWU_UXgwrQD6rgm-cDyuw0sN7kMBj_uQ@mail.gmail.com>
-Message-ID: <CAL_JsqL2oRbHoPiyLCZWU_UXgwrQD6rgm-cDyuw0sN7kMBj_uQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/arm: add versioning to sbsa-ref machine DT
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Leif Lindholm <quic_llindhol@quicinc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- Radoslaw Biernacki <rad@semihalf.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+References: <Yl7oiF7kUrIQ0qk5@redhat.com>
+ <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
+ <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
+ <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
+ <YnOhHZGJphk30SmJ@redhat.com>
+ <CAKmqyKMKxb81ZSpz-ncGc3fpt8f06EcEcXvtHjEpWLABXGT+uQ@mail.gmail.com>
+ <YnTZP1iG+77Cugaq@redhat.com>
+ <CAFEAcA_MncAJWUqG3yRVGMT0mXKvnBUqJLdoHwMdd=OW8fnodQ@mail.gmail.com>
+ <CAHBxVyH=7hX5mjWcUBODk_tNHoczefdkfS8dFcf6is=vpz=SZw@mail.gmail.com>
+ <CAKmqyKPK_F7Z4-tM9k8+3yXDdSTSFagieH23vqoW+TciXpnYqA@mail.gmail.com>
+ <YoNiPw/3e+CY0v7o@redhat.com>
+In-Reply-To: <YoNiPw/3e+CY0v7o@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 18 May 2022 06:53:57 +1000
+Message-ID: <CAKmqyKOC0Fgu7WUXRcAJZNmVR8GeiXHGh4K8fg+5_c+pvZR_7w@mail.gmail.com>
+Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Atish Kumar Patra <atishp@rivosinc.com>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Atish Patra <atishp@atishpatra.org>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=robh@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,67 +98,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 11:50 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, May 17, 2022 at 6:52 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> On Tue, 17 May 2022 at 14:27, Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Thu, May 5, 2022 at 6:41 AM Leif Lindholm <quic_llindhol@quicinc.com> wrote:
+> On Tue, May 17, 2022 at 03:03:38PM +1000, Alistair Francis wrote:
+> > On Sat, May 7, 2022 at 6:30 AM Atish Kumar Patra <atishp@rivosinc.com> =
+wrote:
 > > >
-> > > The sbsa-ref machine is continuously evolving. Some of the changes we
-> > > want to make in the near future, to align with real components (e.g.
-> > > the GIC-700), will break compatibility for existing firmware.
-> > >
-> > > Introduce two new properties to the DT generated on machine generation:
-> > > - machine-version-major
-> > >   To be incremented when a platform change makes the machine
-> > >   incompatible with existing firmware.
-> > > - machine-version-minor
-> > >   To be incremented when functionality is added to the machine
-> > >   without causing incompatibility with existing firmware.
-> > >   to be reset to 0 when machine-version-major is incremented.
+> > > On Fri, May 6, 2022 at 4:00 AM Peter Maydell <peter.maydell@linaro.or=
+g> wrote:
+> > > >
+> > > > On Fri, 6 May 2022 at 09:18, Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com> wrote:
+> > > > >
+> > > > > On Fri, May 06, 2022 at 06:34:47AM +1000, Alistair Francis wrote:
+> > > > > > Even if we didn't worry about backwards compatibility the curre=
+nt virt
+> > > > > > machine would still be what most users want. It's just a small =
+number
+> > > > > > of users who don't want MMIO devices and instead want to use PC=
+Ie for
+> > > > > > everything. Realistically it's only HPC users who would want th=
+is type
+> > > > > > of machine, at least that's my understanding.
+> > > > >
+> > > > > I'm not so sure about that. Every other architecture has ended up
+> > > > > standardizing on PCI for general purpose virtual machines. IIRC,
+> > > > > aarch64 started off with MMIO, but switched to PCI as it matured.
+> > > > >
+> > > > > In terms of having VM mgmt tools "just work" for risc-v, I think
+> > > > > it will be very compelling for the general 'virt' machine to be
+> > > > > PCI based, otherwise all the assumptions about PCI in mgmt apps
+> > > > > are going to break requiring never ending riscv fixes.
+> > > >
+> > > > Mmm, my experience with aarch64 virt is that PCI is much nicer
+> > > > as a general preference. aarch64 virt has some MMIO devices
+> > > > for historical reasons and some because you can't reasonably
+> > > > do the necessary things with PCI, but I'm actively trying to
+> > > > push people who submit new MMIO device features for virt to
+> > > > try to use a PCI-based solution instead if they possibly can.
 > >
-> > Where's the binding documentation for this?
+> > Interesting...
 > >
-> > We already have a way to version DTs and that's with compatible. I'm
-> > not completely opposed to a version number though, but I am opposed to
-> > it not being common. We've rejected vendors (QCom in fact) doing their
-> > own thing here.
-> >
-> >
-> > > This versioning scheme is *neither*:
-> > > - A QEMU versioned machine type; a given version of QEMU will emulate
-> > >   a given version of the platform.
-> > > - A reflection of level of SBSA (now SystemReady SR) support provided.
-> >
-> > FYI, it's planned to certify the virt machine for SR-IR which will
-> > include DT schema validation. Undocumented properties are a problem
-> > for that.
+> > Ok, maybe calling this "virt-pcie" might be a good start, with the
+> > expectation to eventually replace the current virt with the new
+> > virt-pcie at some point.
 >
-> This isn't the 'virt' machine :-)
-
-Ah, okay.
-
-> This dtb fragment is a purely private communication between
-> the QEMU model and the sbsa-ref EL3 firmware. We could in
-
-And that interface is tightly coupled and always in sync?
-
-> theory equally replace it with a set of hardwired
-> "board revision" registers. There's a comment in the existing
-> sources about this:
+> Delaying the inevitable by leaving PCIE support in a separate
+> machine type initially is going to be more painful long term.
 >
-> /*
->  * Firmware on this machine only uses ACPI table to load OS, these limited
->  * device tree nodes are just to let firmware know the info which varies from
->  * command line parameters, so it is not necessary to be fully compatible
->  * with the kernel CPU and NUMA binding rules.
->  */
+> > The other option would be to try and gradually change from the current
+> > virt machine to this new virt machine
 >
-> Kernels running on sbsa-ref won't see a dtb (let alone one with this
-> version information in it), because firmware will always boot them
-> with ACPI.
+> Yes, I really think the 'virt' machine type needs to aim for PCIE
+> support sooner rather than later, if RISC-V wants to get on part
+> with other architectures. The best time to have added PCIE support
+> to 'virt' was when it was first created, the next best time is now.
 
-Okay, if there's no chance this moves up the stack, NM.
+So maybe instead we lock in the current virt machine as the 7.1 virt
+machine for QEMU 7.1, then work on migrating to a PCIe only machine
+with versions (similar to the other archs)
 
-Rob
+Alistair
+
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
