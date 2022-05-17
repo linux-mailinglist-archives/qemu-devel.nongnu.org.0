@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FB852AB5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:59:05 +0200 (CEST)
-Received: from localhost ([::1]:47502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE4C52AB4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:56:35 +0200 (CEST)
+Received: from localhost ([::1]:40072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr2PG-0002np-Ok
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57184)
+	id 1nr2Mr-0005zN-9s
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:56:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nr2Dh-0003Lr-NB
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:47:01 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44656)
+ id 1nr2Ej-0004yE-EC
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:48:01 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nr2De-0007Xj-CJ
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:46:56 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id i19so36365520eja.11
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:46:52 -0700 (PDT)
+ id 1nr2Eh-0007c4-Sc
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:48:01 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id fd25so80717edb.3
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NLJuuuSVxBk/7CpbugXf674TuT418NtbCTlb9gQmG5E=;
- b=Pvcra+vAJfnHP1I+8XuqHtw9EWfOtK5yRxnWnB98+4XEEb0nQ+1Bx0ZgEje35Tm5F2
- Nht846cqXj6V/cUjX0qi6vZaSknenxQW00ymD6p7x5BWhB6GccQ9oUBnPf4IXe7tvLFQ
- /Rlu7gJ3ZjLmaq7pILZOrVk5VEgBfte6FdK8l3mq6oh0Lxpdgos5+GIcwufVJ97eGfEh
- dT2zwIyzD36c7zdMvmGIa0v6DBPFJQXbjlz15NXDCGvMRYH3iLxRatipD2TY1bJLXFS0
- RRV4Yhrm/57yudcR8LrAo2DOTYt84o1f8ACXyt7JzNfkG1IftjFWe0a0jhY6RKXbgIPp
- nBMw==
+ bh=jYjoQu7y23gADn78aC3cEQ/0RyVMFW/54C282GYAty8=;
+ b=RXM5cvAdqCMhgj1GpZhyCxSGLVUMqWVrAVO721Gfu29t52lc4zSGMVtpXrN+oxm7jQ
+ 3TOAgq/UGC5W+87YcvDGSPMSv9IbSvVxepdNz9lGwNhy3nsdiPWMtDOZZXE4R33omaEk
+ G9s4d1ErX4M5da6DLeC/U0WP9gfiOYppBozprRktJjqLJ6axw60e2qlh86PQXoLzvChg
+ Q9sO37AmmjXN3TstGcxIBFn592F/fh0XuCS5AX3H86XwOuLBqdzifAKx+p6a57/VUKdz
+ 16IytKTag52bQg/7NJDPL/wguuTOTvvRALCeeMoAaht6po5AMpyNpjQJin8+ByRredzM
+ vwFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NLJuuuSVxBk/7CpbugXf674TuT418NtbCTlb9gQmG5E=;
- b=cvk6crB+Q13F1GzNWtYa/OTBd40rlAKvu9umj9CIx1Yo3ST+HeoSh+Y6Q8YeR1zgiq
- NzOgzhy0Fs2N0yygz32vN+5R29NjdJytwHYYRmzGmOxm9e5LpJoLoBD3sg8w5v6aIIpL
- gURJFBsW1ajT9reVGwVC1T/VRq4obTFvT76IfS/7qfJNyVWSH3ZujgWS6Z/3ab/ckiN5
- qw5DoYTLIp+WRynieG4UZjANEznf+bUCMAI0ei2Qtz7v2YjGVFWGqTiRDmTbfPYXJFH0
- gtnT5iOhs8maHwxT90cQgBki0dwglEV3ATT5Y2Nx6GHS6VPxl8ToE9L//FVDPLd+gSAK
- EHBA==
-X-Gm-Message-State: AOAM5336iBUkcsnjCIS5NHsKAzw7bKLu+fsnyzY0CM0osmU+yEtkXvVN
- mgTVLUWuae5WPndbHmbEjks=
-X-Google-Smtp-Source: ABdhPJw0KWCboqwsfzQ0bvMuup3YWz7IEuojQ7FTVGttQhkGUqdi++/3A/e9jIvXduCrzZl9GSWeVw==
-X-Received: by 2002:a17:907:3f29:b0:6f4:cb04:a6f5 with SMTP id
- hq41-20020a1709073f2900b006f4cb04a6f5mr21036155ejc.115.1652813211687; 
- Tue, 17 May 2022 11:46:51 -0700 (PDT)
+ bh=jYjoQu7y23gADn78aC3cEQ/0RyVMFW/54C282GYAty8=;
+ b=kv5NRhCZ0uISgiE4aSPoUUPldoLGObii2iNYIJ3i0G8xhMPa30E/RDGoeEa4NomjML
+ yBsl+Z+8bP9EtmEhN6vUOML4e6asxC9nsG4JkbriGu5BzWzyzbBLsaYhqRJFM7/QI4hk
+ q3niHYcFMWORGfeQV0PYXLBDgLHbE6N2RY11RDXbVEkeEO1T21NJHct701HEAWe+1ccx
+ bfRKhkkzZ31zf3hKrjtnEh/W+xnn3H1QF+tKF9UVq+PIUovJlRBZswMNl21GAjyRdYm/
+ vf0equXKbfG5YLTkQX9MeMYDga4ZBa4Aqs5+FJ/tBBTDnyzGOizFxvNMlcQvycNUiCT+
+ 8dVA==
+X-Gm-Message-State: AOAM5311lwdccaU5tekGtFtTY3j/q3s0HEdPZPKi5zJRNv63M5asZzaN
+ GKlqTFrgkD7o7VyqyiGXlf4=
+X-Google-Smtp-Source: ABdhPJxKAikc9TxpWWPMMr0FHHZ3Lbzfp+tWSDDL5iQgp/ZD3T6WsbxoBtuq/B7aqOOHVIHVAgMULA==
+X-Received: by 2002:a05:6402:75a:b0:42a:bbb9:504c with SMTP id
+ p26-20020a056402075a00b0042abbb9504cmr9179693edy.348.1652813278132; 
+ Tue, 17 May 2022 11:47:58 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- cq3-20020a056402220300b0042617ba63c2sm8798edb.76.2022.05.17.11.46.50
+ cz26-20020a0564021cba00b0042aad7448besm30378edb.18.2022.05.17.11.47.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 11:46:51 -0700 (PDT)
-Message-ID: <3994597b-c559-f62f-504d-3cde3493b713@redhat.com>
-Date: Tue, 17 May 2022 20:46:50 +0200
+ Tue, 17 May 2022 11:47:57 -0700 (PDT)
+Message-ID: <986d46b2-a883-4e8d-6e51-36d776062a53@redhat.com>
+Date: Tue, 17 May 2022 20:47:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
- smp-cpus
+Subject: Re: [PATCH 01/16] configure: do not define or use the CPP variable
 Content-Language: en-US
-To: dzejrou@gmail.com, qemu-devel@nongnu.org
-Cc: david@redhat.com, imammedo@redhat.com
-References: <20220517123858.7933-1-dzejrou@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+References: <20220517092616.1272238-1-pbonzini@redhat.com>
+ <20220517092616.1272238-2-pbonzini@redhat.com>
+ <e157719a-f3d3-cf51-b3a1-e5a295bac39e@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220517123858.7933-1-dzejrou@gmail.com>
+In-Reply-To: <e157719a-f3d3-cf51-b3a1-e5a295bac39e@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,45 +97,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/22 14:38, dzejrou@gmail.com wrote:
-> From: Jaroslav Jindrak <dzejrou@gmail.com>
-> 
-> Prior to the introduction of the prealloc-threads property, the amount
-> of threads used to preallocate memory was derived from the value of
-> smp-cpus passed to qemu, the amount of physical cpus of the host
-> and a hardcoded maximum value. When the prealloc-threads property
-> was introduced, it included a default of 1 in backends/hostmem.c and
-> a default of smp-cpus using the sugar API for the property itself. The
-> latter default is not used when the property is not specified on qemu's
-> command line, so guests that were not adjusted for this change suddenly
-> started to use the default of 1 thread to preallocate memory, which
-> resulted in observable slowdowns in guest boots for guests with large
-> memory (e.g. when using libvirt <8.2.0 or managing guests manually).
-> 
-> This commit restores the original behavior for these cases while not
-> impacting guests started with the prealloc-threads property in any way.
-> 
-> Fixes: 220c1fd864e9d ("hostmem: introduce "prealloc-threads" property")
-> Signed-off-by: Jaroslav Jindrak <dzejrou@gmail.com>
-> ---
->   backends/hostmem.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> index a7bae3d713..624bb7ecd3 100644
-> --- a/backends/hostmem.c
-> +++ b/backends/hostmem.c
-> @@ -274,7 +274,7 @@ static void host_memory_backend_init(Object *obj)
->       backend->merge = machine_mem_merge(machine);
->       backend->dump = machine_dump_guest_core(machine);
->       backend->reserve = true;
-> -    backend->prealloc_threads = 1;
-> +    backend->prealloc_threads = machine->smp.cpus;
->   }
->   
->   static void host_memory_backend_post_init(Object *obj)
+On 5/17/22 20:07, Richard Henderson wrote:
+> Although I'm surprised we need to do this pipe thing. Surely just rely 
+> on the assembler-with-cpp rule built into the compiler driver.  Are we 
+> using a custom AS in this case?
 
-Queued, thanks.
+No, I don't think so.  I'm also surprised, but decided to change as 
+little as possible.
 
 Paolo
 
