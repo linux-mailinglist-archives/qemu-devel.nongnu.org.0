@@ -2,82 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B7752A5FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 17:20:13 +0200 (CEST)
-Received: from localhost ([::1]:55642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C015452A619
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 17:23:04 +0200 (CEST)
+Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqyzb-0000EI-HS
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 11:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37844)
+	id 1nqz2N-0003RW-Br
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 11:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqysH-0002r3-Sa
- for qemu-devel@nongnu.org; Tue, 17 May 2022 11:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50967)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nqyzW-0001Uy-VO
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 11:20:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nqysE-0007Ar-F7
- for qemu-devel@nongnu.org; Tue, 17 May 2022 11:12:35 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nqyzU-0008NJ-AP
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 11:20:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652800352;
+ s=mimecast20190719; t=1652800803;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=002EqBkfhIqQ081b4cdCcCYEZawAEI/hCXEnpodava0=;
- b=XwCl2dDYaE3aUqGnVeS4wnuflHIXq+t+HzCFq5rpE0FJq3ORRV4aF9TW/QbefDhCV84fdq
- 52aYMi33OA2HDOj3SLPZJcPbLYWbaPrH+VaTXtDC67Xflmr+rIpvJPkI0HhgbOnJdTepGh
- Bv90Qyf2DTogLoQ6ANM8Vw4cFf0FhLQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tTq+tMkq52JlZtxhGRiWJkMpEH015DDSxCf1KYUBbTY=;
+ b=fwTfmH4Pa1/V94NEqSE5lFe/kfXtPiiToDulaQikKn7iGgog8LIYOeUSUTzKm8x1fKqfrx
+ aVbVyFfMEZHvpzYfW1gr3RY1nI2g1XE/SYgDd2ijwYUEuhynlEVpACBLPCd3tt9Rwai+W8
+ 4nVQ7bh/40jGHenv5uBJngF3JGlRFbo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-6QKpTEeyN1iSFOnijw2iFQ-1; Tue, 17 May 2022 11:12:31 -0400
-X-MC-Unique: 6QKpTEeyN1iSFOnijw2iFQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q128-20020a1c4386000000b003942fe15835so8305609wma.6
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 08:12:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=002EqBkfhIqQ081b4cdCcCYEZawAEI/hCXEnpodava0=;
- b=NaWA7em7Oklgy/x/SgWAm3r8vYxJTBung7RTy4zxCpNBw71mmrQzCmEiFNBjJDAJON
- R0ZOA0XWdLXDUCTPklp5HeXKjR+pGJn6fPA+Ar5KRlv+bfAMKQp4GS8h/4UcR+hWwx6w
- 8qIWlFcMmGL+/FyjkU/rHxE7bqRABDE2dM8chSYmqPLRpPyD3YLSRPIK01YbGco3I6oq
- 2rWJgJeHBA3C4iEtoZEXV72XaEQgBFZfRIbMGii43o0u/M4A+rWZ5v8PCxSn/qImdBuz
- N6Lf2iymLK2eDo0vPeEDMUU2tFu5M3Es/5m3TeCB/oTkToERFTVR4HUD81bpBNeY9Ije
- GQ6Q==
-X-Gm-Message-State: AOAM530VeXrUfBHfGx0iNxI85OKB7/B7QHCIGGV9hkdy5qyzcyS3X0Cu
- Inxo3/bQDDVDLpBhmY4ZrwcKeXfwSB+L1pz1x5B/mZxV7t8hTqbVCv1w+D+QEqjhAOrZIahf+bH
- pAGGTx+ek1DaMAAo=
-X-Received: by 2002:adf:e481:0:b0:20e:5a67:6f9 with SMTP id
- i1-20020adfe481000000b0020e5a6706f9mr2480047wrm.334.1652800350125; 
- Tue, 17 May 2022 08:12:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWYgfEsfpEgRfePUts3lJV/bzVMnmX/sFoNPahTKP1AQSEzyBh7JuWSsL51aMe8r19r89knQ==
-X-Received: by 2002:adf:e481:0:b0:20e:5a67:6f9 with SMTP id
- i1-20020adfe481000000b0020e5a6706f9mr2480024wrm.334.1652800349860; 
- Tue, 17 May 2022 08:12:29 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- o5-20020adf8b85000000b0020c5253d8f0sm12357887wra.60.2022.05.17.08.12.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 08:12:29 -0700 (PDT)
-Date: Tue, 17 May 2022 17:12:28 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: dzejrou@gmail.com
-Cc: qemu-devel@nongnu.org, david@redhat.com, Michal Privoznik
- <mprivozn@redhat.com>
-Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
- smp-cpus
-Message-ID: <20220517171228.44c53748@redhat.com>
-In-Reply-To: <20220517123858.7933-1-dzejrou@gmail.com>
-References: <20220517123858.7933-1-dzejrou@gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-639-pkQk0IXXO_q90mVDubYRPw-1; Tue, 17 May 2022 11:20:00 -0400
+X-MC-Unique: pkQk0IXXO_q90mVDubYRPw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FE35804199
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 15:20:00 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E55DD442670;
+ Tue, 17 May 2022 15:19:59 +0000 (UTC)
+Date: Tue, 17 May 2022 16:19:58 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, nsaenzju@redhat.com,
+ =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>
+Subject: Re: [PATCH v3 2/3] thread-pool: replace semaphore with condition
+ variable
+Message-ID: <YoO9HrmmpvBBN9Zi@stefanha-x1.localdomain>
+References: <20220514065012.1149539-1-pbonzini@redhat.com>
+ <20220514065012.1149539-3-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nhE3slFkk/4BmZeS"
+Content-Disposition: inline
+In-Reply-To: <20220514065012.1149539-3-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,63 +82,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 May 2022 14:38:58 +0200
-dzejrou@gmail.com wrote:
 
-> From: Jaroslav Jindrak <dzejrou@gmail.com>
-> 
-> Prior to the introduction of the prealloc-threads property, the amount
-> of threads used to preallocate memory was derived from the value of
-> smp-cpus passed to qemu, the amount of physical cpus of the host
-> and a hardcoded maximum value. When the prealloc-threads property
-> was introduced, it included a default of 1 in backends/hostmem.c and
-> a default of smp-cpus using the sugar API for the property itself. The
-> latter default is not used when the property is not specified on qemu's
-> command line, so guests that were not adjusted for this change suddenly
-> started to use the default of 1 thread to preallocate memory, which
-> resulted in observable slowdowns in guest boots for guests with large
-> memory (e.g. when using libvirt <8.2.0 or managing guests manually).
+--nhE3slFkk/4BmZeS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-current behavior in QEMU is intentionally conservative. threads
-number is subject to host configuration and limitations management
-layer puts on it and it's not QEMU job to conjure magic numbers that
-are host/workload depended.
-If user needs more prealloc threads they need to specify it explicitly
-for each memory backend (i.e. convince management to do it or fix your
-scripts to so).
+On Sat, May 14, 2022 at 08:50:11AM +0200, Paolo Bonzini wrote:
+> @@ -134,6 +122,12 @@ static void *worker_thread(void *opaque)
+>      pool->cur_threads--;
+>      qemu_cond_signal(&pool->worker_stopped);
+>      qemu_mutex_unlock(&pool->lock);
+> +
+> +    /*
+> +     * Wake up another thread, in case we got a wakeup but decided
+> +     * to exit due to pool->cur_threads > pool->max_threads.
+> +     */
+> +    qemu_cond_signal(&pool->worker_stopped);
 
-CCing Michal, as he recently looked into similar topic.
+&pool->worker_stopped? Was this supposed to be &pool->request_cond?
 
-To behave it the old way you need to use legacy -mem-prealloc option.
+--nhE3slFkk/4BmZeS
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> This commit restores the original behavior for these cases while not
-> impacting guests started with the prealloc-threads property in any way.
-> 
-> Fixes: 220c1fd864e9d ("hostmem: introduce "prealloc-threads" property")
-> Signed-off-by: Jaroslav Jindrak <dzejrou@gmail.com>
-> ---
->  backends/hostmem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> index a7bae3d713..624bb7ecd3 100644
-> --- a/backends/hostmem.c
-> +++ b/backends/hostmem.c
-> @@ -274,7 +274,7 @@ static void host_memory_backend_init(Object *obj)
->      backend->merge = machine_mem_merge(machine);
->      backend->dump = machine_dump_guest_core(machine);
->      backend->reserve = true;
-> -    backend->prealloc_threads = 1;
-> +    backend->prealloc_threads = machine->smp.cpus;
-pls, do not add more dependencies to random external objects to memory backends.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKDvR4ACgkQnKSrs4Gr
+c8gqNAf/dvdpJx+p+vz3Ce8RoDhyrOU+6iXUR8Rbb0AlINhRJrjN3C/NQqrii8//
+i+9TJj4MfqG5Br9D/w8jUwujXxDARktOtG01xVQ2fIpt0eXICeFj+Dax6Wvt4Mqb
+FBWJx8WMisY3QiwWrbxCmYhNwqdhIAf1TuHz7MLVsT367jzi10hVeFHEAhVwKNuX
+rotvBKO4lXbb5suFSKkARQjkP3Cf8Rfzk8+sGMbRtGxXvabLnnW0e7UejuDAQr3a
+NinlYjQoCIU/f2KBQkd1HsYiBHkeW3GPP0oUjJxlOFza+nVEh4GlG3eJ+2c2pA+Y
+QWvVCQmagJ32mPWQbbL/FeOnZ4hYag==
+=nr+S
+-----END PGP SIGNATURE-----
 
-If you have to do that, use machine compat properties instead, but then
-the essence of the issue stays the same (user shall define optimal threads
-number and provide it to qemu explicitly)
-
->  }
->  
->  static void host_memory_backend_post_init(Object *obj)
+--nhE3slFkk/4BmZeS--
 
 
