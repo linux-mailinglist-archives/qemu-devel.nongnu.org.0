@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0714152A1F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 14:49:22 +0200 (CEST)
-Received: from localhost ([::1]:52150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB11552A2E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 15:12:53 +0200 (CEST)
+Received: from localhost ([::1]:37266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqwdd-0005N5-2Z
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 08:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42350)
+	id 1nqx0O-0001PG-Qw
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 09:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqvWt-0001Hx-6z
- for qemu-devel@nongnu.org; Tue, 17 May 2022 07:38:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58539)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqvXH-0001Pw-VS
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 07:38:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqvWr-0002y3-FZ
- for qemu-devel@nongnu.org; Tue, 17 May 2022 07:38:18 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nqvXG-00030N-AO
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 07:38:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652787497;
+ s=mimecast20190719; t=1652787521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p8fubifgvUx4aKzc12MRBVGC/H09uzZcP6aLv24/EHk=;
- b=NgUK1NoyviaW3AIqWTPSOMxYpONEDn9azECs3QyY7LJYsKolfFU5dt7npDFHBy31xQ0Gdz
- l+wFqu9oDfwBhCyJlvvrA605raeVvEPw94FmO4IkDuqgWZAUYv4ER0G8+psnr57OVSLpzy
- WhXTrRHAMLbG5909hBaoDJj8o6l4ebc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8ZGn1mwRF5eJYBssPx5tCYlzvjVCDP6Amd7KTebTKFI=;
+ b=KQpAeNGxXwlH/4rIJcRsHRDLTVY8ifSic5goe9sH0nYZjX9v/6x9HE1xRogZ0mg1Ih6HU5
+ SJj+kVOz8xL6tqSiGFqaKWl0TEdAAyCCl9ZWqUHDPoUO4m5scXRAC7U8ugO6iGv7b46T2P
+ Qa62jVdfOZkuVxYg8+t47srEXPkpRwI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-oBlIRUJfMeSmJZG2msw3JQ-1; Tue, 17 May 2022 07:38:16 -0400
-X-MC-Unique: oBlIRUJfMeSmJZG2msw3JQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g14-20020a1c4e0e000000b0039425ef54d6so828973wmh.9
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 04:38:15 -0700 (PDT)
+ us-mta-235-TcbPv75RNZ-Sq28z6rZHKw-1; Tue, 17 May 2022 07:38:40 -0400
+X-MC-Unique: TcbPv75RNZ-Sq28z6rZHKw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ e11-20020adffc4b000000b0020d059c2347so1205766wrs.18
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 04:38:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p8fubifgvUx4aKzc12MRBVGC/H09uzZcP6aLv24/EHk=;
- b=gfQvgF9Yfn47IpOHIhVZm/rxPBrPeSeaEG4P/QkJK2Y+E2wLjIvscK393Tdv2GJimW
- 8XCQN9WyTayMw+sYtHkrJ97cyKb7EI1w4TfhhrsmoI1tAkP3lvgcLFSj1gjib3gGt5Nd
- CBeinrg1QkUadX23ugfJeWUA0AoXLOhhqaBY5Z4J7vdV3680ELGmsCJD3+CeTo95VQAS
- V+SdEI+gkmCoei0Q70WMGs/bwn0s2IgPJlJl4PS9U9BsyAjyaw2hGKA3MEj/+JxrS5WV
- K3sirUSCly/kzKy22eCT3baZKN/R9Uh76vweSE3fkOd9uibGKO1pUj0YeeyWa0nOBYCB
- m4Kw==
-X-Gm-Message-State: AOAM531GS4SyoyFdAoC81oMhdJm3mdIMn3/+Z+VplJWlOdKDb36w7iX7
- upLb8bY+NcqOM9emS+C6VJGW5A5xSefVhPa/zjpBAU1t+L5r/FXe6S/tsFXwsFG3dfwEecIF4FK
- nfOoiCzhUgv3EuneCS6Ru2YLfyGBBwEkZxG78iSrjUnHOnTDAetOH4m7jJ0rGoReQ
-X-Received: by 2002:a05:600c:3d8c:b0:394:6097:9994 with SMTP id
- bi12-20020a05600c3d8c00b0039460979994mr31319819wmb.29.1652787494342; 
- Tue, 17 May 2022 04:38:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwG4cuLQUNbg7eAMbCWRnjL3o4kUxo72cbTgvdikjlqnhrcrvqMmEM3jifXwgTf9OCCqO8xUQ==
-X-Received: by 2002:a05:600c:3d8c:b0:394:6097:9994 with SMTP id
- bi12-20020a05600c3d8c00b0039460979994mr31319797wmb.29.1652787494058; 
- Tue, 17 May 2022 04:38:14 -0700 (PDT)
+ bh=8ZGn1mwRF5eJYBssPx5tCYlzvjVCDP6Amd7KTebTKFI=;
+ b=e/XRIH99+qY8l+sE04hXfncpruiKbibx4LLrkJrMlzCa8LbuNHLGxauh3DqDDRLyT5
+ CIUnwxYlN0e0oxCXdp6AcNanRzJAv0fuwGoe8PXrBzSp5DpEefYnsZAiHelGqDFk+tXJ
+ 9qpE6y6Blw+PzWPxxskrMolHr7LFhCYJHw2JRxPsLzhMdko4McSIi/DUhn4FrtoHzxPI
+ xhYa3mwyzxX/sya2bR1gJeaeFRkhEaY5r2NAqk8tL1zx36oIIDWrsuMhEn0wh+Xs95c+
+ HfmuVMik1DLiKF22tB/SG050Z6UpCRR00TzdYDupysiiabIlCr9vfooeDFGJNYGe055+
+ /7gQ==
+X-Gm-Message-State: AOAM53211YV/635nVkvAKSbV6WJHVSX1XI98cjIoRNVlWM5iZAddrLeI
+ x6yrTNaNSSGVw6GcF/ulHjCsQb8v07Y/ufpUxtkXoAuYdpL9OJFheC80dGksEERaN9SaKo5EM9G
+ byg/jtQBLEueoG1G3LXPUAfGiEo2lhbewdSRCXxV6YEH9FO6VxYQrzVaOp7MilBG1
+X-Received: by 2002:adf:d1e3:0:b0:20c:6684:9b10 with SMTP id
+ g3-20020adfd1e3000000b0020c66849b10mr18574481wrd.53.1652787519147; 
+ Tue, 17 May 2022 04:38:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxBZnPlObsyzuXXHiR/Tr/X2gI3mOYQ6oMGSW1Zo5xG98cbknZ+YgjRoS7klgM2FjOBB22DWw==
+X-Received: by 2002:adf:d1e3:0:b0:20c:6684:9b10 with SMTP id
+ g3-20020adfd1e3000000b0020c66849b10mr18574460wrd.53.1652787518980; 
+ Tue, 17 May 2022 04:38:38 -0700 (PDT)
 Received: from fedora.redhat.com ([2001:8a0:f4d9:2101:a4fa:5f93:755f:6249])
  by smtp.gmail.com with ESMTPSA id
- 22-20020a05600c229600b003970b2fa72dsm1648177wmf.22.2022.05.17.04.38.13
+ d24-20020adfa358000000b0020d02cbbb87sm8090317wrb.16.2022.05.17.04.38.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 04:38:13 -0700 (PDT)
+ Tue, 17 May 2022 04:38:38 -0700 (PDT)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Alberto Faria <afaria@redhat.com>
-Subject: [PATCH 04/18] block: Make 'bytes' param of blk_{pread,
- pwrite}() an int64_t
-Date: Tue, 17 May 2022 12:37:58 +0100
-Message-Id: <20220517113812.199312-1-afaria@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Alberto Faria <afaria@redhat.com>
+Subject: [PATCH 05/18] block: Make blk_co_pwrite() take a const buffer
+Date: Tue, 17 May 2022 12:38:24 +0100
+Message-Id: <20220517113837.199696-1-afaria@redhat.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220517113524.197910-1-afaria@redhat.com>
 References: <20220517113524.197910-1-afaria@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,57 +97,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For consistency with other I/O functions, and in preparation to
-implement them using generated_co_wrapper.
+It does not mutate the buffer.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 ---
- block/block-backend.c             | 6 +++---
- include/sysemu/block-backend-io.h | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ include/sysemu/block-backend-io.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 16a0093c52..5b9706c443 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1567,7 +1567,7 @@ BlockAIOCB *blk_aio_pwrite_zeroes(BlockBackend *blk, int64_t offset,
-                         flags | BDRV_REQ_ZERO_WRITE, cb, opaque);
- }
- 
--int blk_pread(BlockBackend *blk, int64_t offset, int bytes, void *buf,
-+int blk_pread(BlockBackend *blk, int64_t offset, int64_t bytes, void *buf,
-               BdrvRequestFlags flags)
- {
-     int ret;
-@@ -1581,8 +1581,8 @@ int blk_pread(BlockBackend *blk, int64_t offset, int bytes, void *buf,
-     return ret;
- }
- 
--int blk_pwrite(BlockBackend *blk, int64_t offset, int bytes, const void *buf,
--               BdrvRequestFlags flags)
-+int blk_pwrite(BlockBackend *blk, int64_t offset, int64_t bytes,
-+               const void *buf, BdrvRequestFlags flags)
- {
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
-     IO_OR_GS_CODE();
 diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-index 357534e3de..6630316795 100644
+index 6630316795..6440e92028 100644
 --- a/include/sysemu/block-backend-io.h
 +++ b/include/sysemu/block-backend-io.h
-@@ -102,10 +102,10 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-  * the "I/O or GS" API.
-  */
+@@ -130,7 +130,7 @@ static inline int coroutine_fn blk_co_pread(BlockBackend *blk, int64_t offset,
+ }
  
--int blk_pread(BlockBackend *blk, int64_t offset, int bytes, void *buf,
-+int blk_pread(BlockBackend *blk, int64_t offset, int64_t bytes, void *buf,
-               BdrvRequestFlags flags);
--int blk_pwrite(BlockBackend *blk, int64_t offset, int bytes, const void *buf,
--               BdrvRequestFlags flags);
-+int blk_pwrite(BlockBackend *blk, int64_t offset, int64_t bytes,
-+               const void *buf, BdrvRequestFlags flags);
- int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
-                                int64_t bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags);
+ static inline int coroutine_fn blk_co_pwrite(BlockBackend *blk, int64_t offset,
+-                                             int64_t bytes, void *buf,
++                                             int64_t bytes, const void *buf,
+                                              BdrvRequestFlags flags)
+ {
+     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
 -- 
 2.35.3
 
