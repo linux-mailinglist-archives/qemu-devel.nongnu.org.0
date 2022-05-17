@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E279529E7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:50:53 +0200 (CEST)
-Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E02529E72
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:47:56 +0200 (CEST)
+Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqtqu-0004Bf-9A
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37462)
+	id 1nqto3-0000eV-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqtTf-00006F-QU
- for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48874)
+ id 1nqtTr-0000LA-Sn
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 05:27:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nqtTe-0003eC-1S
- for qemu-devel@nongnu.org; Tue, 17 May 2022 05:26:51 -0400
+ id 1nqtTl-0003gP-Fg
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 05:27:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652779609;
+ s=mimecast20190719; t=1652779611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M2ulbuc2KaZH0veRnZxBkz6cgsAU+5K3oYUwI58WvS8=;
- b=Gm0Rm03AIY/HnB9h95oX3TkT7ygvidrgkGCgkvN9NO3sKi20lp64MqrGHnvs4KheOW28tU
- kGkvpOrVLe8hQjlOj94CUDM3HwoN/EyzRNCJFMMtSHcsRg6zdY7Zp7A/7jjY0+QAPF2UjW
- DS/nQM7pvS72t5hRC+K+PM9RIOUz0a8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SFQ1xQgSmcMha81R6gI1HzNhrYejEQ7lol5HB06VvyU=;
+ b=dowJfjxp+AhKVUhaHUX+gH4GNjsPInKsD7OmWTAKdwy5VZz9U1mGx0nrtyZj5Ecqk4teAO
+ sN2KCVmXwCfBeH7aqr2QCCtU+1I5MpeZA5P2iufaot5Uc1teO90Ftj3SOXenFaRGXUQ0s5
+ eXPHgUn3gzfRQEarS+VYFVDx1xokPMI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-578-Vs-1HRweNQ6lvrcii6U3ng-1; Tue, 17 May 2022 05:26:48 -0400
-X-MC-Unique: Vs-1HRweNQ6lvrcii6U3ng-1
-Received: by mail-ej1-f71.google.com with SMTP id
- jx8-20020a170906ca4800b006f88b28f2f6so7058185ejb.11
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 02:26:48 -0700 (PDT)
+ us-mta-640-lLFVq0mHMZqyUc6tqwHJOg-1; Tue, 17 May 2022 05:26:50 -0400
+X-MC-Unique: lLFVq0mHMZqyUc6tqwHJOg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ v13-20020a170906b00d00b006f51e289f7cso6983767ejy.19
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 02:26:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M2ulbuc2KaZH0veRnZxBkz6cgsAU+5K3oYUwI58WvS8=;
- b=WqEl1djO9AgjXOJkfxQSUcgmp1M/ztrOA4vctLlWPT0re1YBLXbdfk5sH8Z1mTZte3
- iosON9zknrxpZ06iG/zgtPD8Kysxh5OgO2PX/8Ma/sjmYp4dIK3S3psQx6fYSxDmgUsb
- LxVQEH54dE92aW656vHj7FXK0+5nj/TH51i0VkGL7qPSq8UnIlAH8M8238ayN0fL8ggT
- 3Upoo7Os8PyXT6CcrsFgn8mJhl431Mg6ShVQHbgAmlIk8n6tTvS6NKGcv6FfTZS3jIxL
- kONQjTlybR8MUCen3nukBTqM5jifH2jhxEJ+hH/IBXxdZQhuGtMvD+Jw6qZAZU12qJKH
- 9aZA==
-X-Gm-Message-State: AOAM533NnHrBsvrCC9IisgjMgQ/nDCHRsEqAaR1Oe6E9eo72VmpLgPa4
- AwdQ0OuEXQ0xxCpoPEUMBcjiXNn8qqGQ8zvANKQkZLiuPHwL7lq+iNgZ+KVbirgxU+YhXpwEqcx
- 1pi8zX3EH4PbyCNx8BEHI9YAwMymCoX3bJIlNKG5no5CBlItorb/8vTeA0C82ThoN7tE=
-X-Received: by 2002:a05:6402:5298:b0:42a:cb63:5d10 with SMTP id
- en24-20020a056402529800b0042acb635d10mr1255340edb.415.1652779606835; 
- Tue, 17 May 2022 02:26:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRjCcQpH30/i7HLm8cNKaF4CXCCbY++6yhfDCibFnZWZPhQ/yDk+QHwWjkzL0zInBEdqEpjA==
-X-Received: by 2002:a05:6402:5298:b0:42a:cb63:5d10 with SMTP id
- en24-20020a056402529800b0042acb635d10mr1255321edb.415.1652779606616; 
- Tue, 17 May 2022 02:26:46 -0700 (PDT)
+ bh=SFQ1xQgSmcMha81R6gI1HzNhrYejEQ7lol5HB06VvyU=;
+ b=A4UtvDl+RgCqcGFwwSqUJrGcGFBZNOlWh8RjxVuGVgTRTYWmurB5Pdyc13l5qayAfs
+ yD8tOX58fJ5tYZdR79t3RIqEY67lkHKsh9V5X0n5xavrnWReVs0tt4+B9QItY4ww6056
+ wWy/8+TCyCA8OITGQp8hH++onVVqDQWZ0BFTp710SyPUYeraJcHDOUi8k7UJ/xiYe8F2
+ ydvTEAxeO4xDBt6OoRIZvsBbY6Jevk58S4HES1xIm/DjUoOV4x+aQV4c3TSBEjk2DWOM
+ /u4g6QhG0lphk09wkr7KKfOrE81mpS37RlLwuJ5PxVC0MJOvKXK90B8CnMWS/2/qsupd
+ /oiQ==
+X-Gm-Message-State: AOAM532NBPLPAk1hNPj4pmOJIG1dTyldU8W6Sn9Y4QQE77xHc5d3rQtK
+ x5VikNzYtfgBULNK+D0EDHb0x25eIjs0Gs1XtJ0cbVtzqGMj2q1wL/tmxVu/xb/E5nZkBXzHDI4
+ O50m5IZoov4F+2cm4/nPALEhYYmJg95UaH2ZHT1TEEarCJm8evcpNZubk1tIKJyGJ6hc=
+X-Received: by 2002:a05:6402:5202:b0:427:f1a2:305c with SMTP id
+ s2-20020a056402520200b00427f1a2305cmr17548171edd.39.1652779608936; 
+ Tue, 17 May 2022 02:26:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlTbq6iwVy3Ym/I1wCYpBn1NBeHAaqLiyo/kHX4lri6Xkw8++wADi5IZ/MYo8KUXUKmA3MHA==
+X-Received: by 2002:a05:6402:5202:b0:427:f1a2:305c with SMTP id
+ s2-20020a056402520200b00427f1a2305cmr17548144edd.39.1652779608601; 
+ Tue, 17 May 2022 02:26:48 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k14-20020aa7c04e000000b0042a5a39ba7esm5739348edo.25.2022.05.17.02.26.45
+ zp8-20020a17090684e800b006f3ef214e2csm819817ejb.146.2022.05.17.02.26.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 02:26:46 -0700 (PDT)
+ Tue, 17 May 2022 02:26:48 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 11/16] configure: include more binutils in tests/tcg makefile
-Date: Tue, 17 May 2022 11:26:11 +0200
-Message-Id: <20220517092616.1272238-12-pbonzini@redhat.com>
+Subject: [PATCH 12/16] configure: move symlink configuration earlier
+Date: Tue, 17 May 2022 11:26:12 +0200
+Message-Id: <20220517092616.1272238-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220517092616.1272238-1-pbonzini@redhat.com>
 References: <20220517092616.1272238-1-pbonzini@redhat.com>
@@ -100,128 +100,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Firmware builds require paths to all the binutils; it is not enough to
-use only cc, or even as/ld as in the case of tests/tcg/tricore.
-Adjust the cross-compiler configurator to detect also ar, nm, objcopy,
-ranlib and strip.
+Ensure that the pc-bios/optionrom and pc-bios/s390-ccw directory
+exist at the time when we'll write out the compiler configuration
+for them.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ configure | 49 ++++++++++++++++++++++++-------------------------
+ 1 file changed, 24 insertions(+), 25 deletions(-)
 
 diff --git a/configure b/configure
-index ee4fcdacfe..5db0082ddc 100755
+index 5db0082ddc..cf439e2deb 100755
 --- a/configure
 +++ b/configure
-@@ -1893,11 +1893,21 @@ probe_target_compiler() {
-   container_image=
-   container_hosts=
-   container_cross_cc=
-+  container_cross_ar=
-   container_cross_as=
-   container_cross_ld=
-+  container_cross_nm=
-+  container_cross_objcopy=
-+  container_cross_ranlib=
-+  container_cross_strip=
-   target_cc=
-+  target_ar=
-   target_as=
-   target_ld=
-+  target_nm=
-+  target_objcopy=
-+  target_ranlib=
-+  target_strip=
+@@ -2205,6 +2205,30 @@ fi
  
-   case $1 in
-     aarch64) container_hosts="x86_64 aarch64" ;;
-@@ -2036,8 +2046,13 @@ probe_target_compiler() {
-         ;;
-     esac
-     : ${container_cross_cc:=${container_cross_prefix}gcc}
-+    : ${container_cross_ar:=${container_cross_prefix}ar}
-     : ${container_cross_as:=${container_cross_prefix}as}
-     : ${container_cross_ld:=${container_cross_prefix}ld}
-+    : ${container_cross_nm:=${container_cross_prefix}nm}
-+    : ${container_cross_objcopy:=${container_cross_prefix}objcopy}
-+    : ${container_cross_ranlib:=${container_cross_prefix}ranlib}
-+    : ${container_cross_strip:=${container_cross_prefix}strip}
-   done
+ QEMU_GA_MSI_MINGW_BIN_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
  
-   eval "target_cflags=\${cross_cc_cflags_$1}"
-@@ -2048,12 +2063,26 @@ probe_target_compiler() {
-   else
-     compute_target_variable $1 target_cc gcc
-   fi
-+  target_ccas=$target_cc
-+  compute_target_variable $1 target_ar ar
-   compute_target_variable $1 target_as as
-   compute_target_variable $1 target_ld ld
-+  compute_target_variable $1 target_nm nm
-+  compute_target_variable $1 target_objcopy objcopy
-+  compute_target_variable $1 target_ranlib ranlib
-+  compute_target_variable $1 target_strip strip
-   if test "$1" = $cpu; then
-     : ${target_cc:=$cc}
-+    : ${target_ccas:=$ccas}
-     : ${target_as:=$as}
-     : ${target_ld:=$ld}
-+    : ${target_ar:=$ar}
-+    : ${target_as:=$as}
-+    : ${target_ld:=$ld}
-+    : ${target_nm:=$nm}
-+    : ${target_objcopy:=$objcopy}
-+    : ${target_ranlib:=$ranlib}
-+    : ${target_strip:=$strip}
-   fi
-   if test -n "$target_cc"; then
-     case $1 in
-@@ -2069,6 +2098,10 @@ probe_target_compiler() {
- write_target_makefile() {
-   if test -n "$target_cc"; then
-     echo "CC=$target_cc"
-+    echo "CCAS=$target_ccas"
-+  fi
-+  if test -n "$target_ar"; then
-+    echo "AR=$target_ar"
-   fi
-   if test -n "$target_as"; then
-     echo "AS=$target_as"
-@@ -2076,14 +2109,32 @@ write_target_makefile() {
-   if test -n "$target_ld"; then
-     echo "LD=$target_ld"
-   fi
-+  if test -n "$target_nm"; then
-+    echo "NM=$target_nm"
-+  fi
-+  if test -n "$target_objcopy"; then
-+    echo "OBJCOPY=$target_objcopy"
-+  fi
-+  if test -n "$target_ranlib"; then
-+    echo "RANLIB=$target_ranlib"
-+  fi
-+  if test -n "$target_strip"; then
-+    echo "STRIP=$target_strip"
-+  fi
- }
++# Set up build tree symlinks that point back into the source tree
++# (these can be both files and directories).
++# Caution: avoid adding files or directories here using wildcards. This
++# will result in problems later if a new file matching the wildcard is
++# added to the source tree -- nothing will cause configure to be rerun
++# so the build tree will be missing the link back to the new file, and
++# tests might fail. Prefer to keep the relevant files in their own
++# directory and symlink the directory instead.
++LINKS="Makefile"
++LINKS="$LINKS tests/tcg/Makefile.target"
++LINKS="$LINKS pc-bios/optionrom/Makefile"
++LINKS="$LINKS pc-bios/s390-ccw/Makefile"
++LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
++LINKS="$LINKS tests/avocado tests/data"
++LINKS="$LINKS tests/qemu-iotests/check"
++LINKS="$LINKS python"
++LINKS="$LINKS contrib/plugins/Makefile "
++for f in $LINKS ; do
++    if [ -e "$source_path/$f" ]; then
++        mkdir -p `dirname ./$f`
++        symlink "$source_path/$f" "$f"
++    fi
++done
++
+ # Mac OS X ships with a broken assembler
+ roms=
+ if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
+@@ -2423,31 +2447,6 @@ if test "$safe_stack" = "yes"; then
+   echo "CONFIG_SAFESTACK=y" >> $config_host_mak
+ fi
  
- write_container_target_makefile() {
-   if test -n "$container_cross_cc"; then
-     echo "CC=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
-+    echo "CCAS=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
-   fi
-+  echo "AR=\$(DOCKER_SCRIPT) cc --cc $container_cross_ar -i qemu/$container_image -s $source_path --"
-   echo "AS=\$(DOCKER_SCRIPT) cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
-   echo "LD=\$(DOCKER_SCRIPT) cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
-+  echo "NM=\$(DOCKER_SCRIPT) cc --cc $container_cross_nm -i qemu/$container_image -s $source_path --"
-+  echo "OBJCOPY=\$(DOCKER_SCRIPT) cc --cc $container_cross_objcopy -i qemu/$container_image -s $source_path --"
-+  echo "RANLIB=\$(DOCKER_SCRIPT) cc --cc $container_cross_ranlib -i qemu/$container_image -s $source_path --"
-+  echo "STRIP=\$(DOCKER_SCRIPT) cc --cc $container_cross_strip -i qemu/$container_image -s $source_path --"
- }
- 
- 
+-# If we're using a separate build tree, set it up now.
+-# LINKS are things to symlink back into the source tree
+-# (these can be both files and directories).
+-# Caution: do not add files or directories here using wildcards. This
+-# will result in problems later if a new file matching the wildcard is
+-# added to the source tree -- nothing will cause configure to be rerun
+-# so the build tree will be missing the link back to the new file, and
+-# tests might fail. Prefer to keep the relevant files in their own
+-# directory and symlink the directory instead.
+-LINKS="Makefile"
+-LINKS="$LINKS tests/tcg/Makefile.target"
+-LINKS="$LINKS pc-bios/optionrom/Makefile"
+-LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+-LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
+-LINKS="$LINKS tests/avocado tests/data"
+-LINKS="$LINKS tests/qemu-iotests/check"
+-LINKS="$LINKS python"
+-LINKS="$LINKS contrib/plugins/Makefile "
+-for f in $LINKS ; do
+-    if [ -e "$source_path/$f" ]; then
+-        mkdir -p `dirname ./$f`
+-        symlink "$source_path/$f" "$f"
+-    fi
+-done
+-
+ # tests/tcg configuration
+ (makefile=tests/tcg/Makefile.prereqs
+ echo "# Automatically generated by configure - do not modify" > $makefile
 -- 
 2.36.0
 
