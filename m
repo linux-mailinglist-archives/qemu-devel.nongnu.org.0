@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E3A52A4AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 16:21:46 +0200 (CEST)
-Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226BA52A536
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 16:49:37 +0200 (CEST)
+Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqy52-0007lM-Qw
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 10:21:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48606)
+	id 1nqyVz-0004JK-Ps
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 10:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqxvW-0003aK-8i
- for qemu-devel@nongnu.org; Tue, 17 May 2022 10:11:54 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:47018)
+ id 1nqy1b-0004SJ-Nb
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 10:18:11 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:41669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nqxvT-0004tj-PI
- for qemu-devel@nongnu.org; Tue, 17 May 2022 10:11:53 -0400
-Received: by mail-ed1-x530.google.com with SMTP id j28so8558901eda.13
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 07:11:51 -0700 (PDT)
+ id 1nqy1a-00067x-6S
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 10:18:11 -0400
+Received: by mail-ej1-x636.google.com with SMTP id dk23so35002228ejb.8
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 07:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NqPPgPR8U6GBVWyK6nXsGpCyxiuSJ9OXgqjKZcDvBW0=;
- b=pr6I8RL59h0QQULHBZWN5PexA/pO5INtXjvKvne09FMhF9oBHSLgP8W1uAZhVuKBkE
- WQFXS1hdAvq8lME1WFmGOMz9hZJjP1wJmlUII8ir1SFIoHn2aHe6VlgRrmwP/tzb4nLT
- NPyI8T+cma3gPYmA+gaETHW7sOq0lajg4r7udZQQDNDw+yeHlsLIw7V/GMmLYUD/6xW5
- PK3pJq8w0/c8H/YikStDWyojhRICP6hBC2wK9RMub0Wt5as0yANTzWnTnGikUSyqB7GS
- beDnE0wDw7yomTrcxMR9eNDdkgTCMjxrER+K3aJudFtPIoO6bxC2SnKUHZKUkHF/qC5r
- sxeA==
+ bh=Miy9xfIrm3ZBZCF8nAaaoKnSj3u9P1uqfAyeiRiB3jQ=;
+ b=V3sxKvvwul3o5pgWIADNMA0UjRMNQ60JEP2jtUX+mLvPOs/q6u2Plch5CO/T2o3NAI
+ 15OLV4O4qfcdJDbAFuiQRZbrtWebP6X0ve4veg1vdfX1BW25JKV4bxiv0tdXcAeaI7DO
+ RxCizBaUon4AdY3Yy3N5jPjNod3420TShpULr22vozgilF/5anY0nwAQMidvXYSh3AZy
+ KihB2WExsjFRtHutFO/IZr1k0wWz2GX0pcAcJoTaUNdc6EWQGpRSki48lSOZ3GuqXsVj
+ Z/L9QlmTCVKwNBLZq+lrX1ADP6bo31VV719fQ6byKkQAokpIM7WuTnP1Z6UkKYMSr5cb
+ f05w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NqPPgPR8U6GBVWyK6nXsGpCyxiuSJ9OXgqjKZcDvBW0=;
- b=ONKXiQT6fSYhN/U9NyKjX25XhBpBh8zwCdtCfjGzJOvwk549gzZLDK8Oo5QCzHuCDK
- dvKKU+dRW8yw6/xX3zAk68hm8pwwjZjMjc8mVU/G8a+CjU28TIQpSJAxsr1WWBNdYkTi
- QV3UTyaE5kaZoUD21r4bXkm55gmQPg8DhuyItHqGKce7aaOSc5qvOyfcO8+e1MchmBxF
- cUFqu3wCpECXAEekUf9rg3wxPbjZdK8IGqOgZJU+5vBndr+S/1S/QFifV8AcdLFv10aJ
- wGLuV8t6WvAayWCAwoN81nSTQRbZuMc0BxVGqAfBoVVrDQdYykGdspDhfEoqIIMb3te6
- UeKg==
-X-Gm-Message-State: AOAM530vP7fERndIz4BTI7pwMikfCXhP9bMd3drjX0gFV4SowxRA3m5g
- vI8MdAd9qiEruMItciNYf9g=
-X-Google-Smtp-Source: ABdhPJwT7Kt0XudYGaTOyVogjSEeXooWmOlV5MqC52M4yzwpcokxJPkdQN+M+6TaV1l6I25XkocVNQ==
-X-Received: by 2002:a05:6402:35cb:b0:427:d231:3741 with SMTP id
- z11-20020a05640235cb00b00427d2313741mr19393404edc.369.1652796710133; 
- Tue, 17 May 2022 07:11:50 -0700 (PDT)
+ bh=Miy9xfIrm3ZBZCF8nAaaoKnSj3u9P1uqfAyeiRiB3jQ=;
+ b=POmnvUJGBv0WJYuFCMBEPg0T658whenWuDi+8//URuM4WH2feJwSV6uaFDuwE1U9Tz
+ 335rw6tZuxgEjHJih+LpDkTzhjWHUuw/5sCwA/ZAS9MFoFrzw6mH+pbb5JoYxl9SiPWo
+ nrXpRj2ut8Xvv9gGi9AywrfZsMRrs0Go38/T85Lm56wOdxPtPuzn6ygRO6iHQnR4Y7tN
+ 4nD1M7+d1J4myjyy+5cPxrsCp9fwUOv3+hg7gb9nn8SPs7D43GhCEeu8G+PXx5Fo5yZp
+ E1p9a5pUXIg28hY1255Lu/CHeOue14mZPIoPJyUDBwyyPbbk66D7l4SVbzdOvMCS1ps0
+ 6Ilw==
+X-Gm-Message-State: AOAM5320CQGHI98JRnyNYE9S65C1ckWDW0APh/eJA4Dx1kXhwOztiuKA
+ m16ChpaSPX7b+OLHZaEGpek=
+X-Google-Smtp-Source: ABdhPJyPpxOL938JpiEFpb/A0jr3cxvP9bbjvSDzuJw3OMt2qYyA+fzsY6FNLvQbBtQTuFx3ovyV7g==
+X-Received: by 2002:a17:907:7810:b0:6e7:ef73:8326 with SMTP id
+ la16-20020a170907781000b006e7ef738326mr19717540ejc.429.1652797088471; 
+ Tue, 17 May 2022 07:18:08 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- 12-20020a17090602cc00b006fe7725ed7dsm168685ejk.34.2022.05.17.07.11.49
+ bx15-20020a0564020b4f00b0042aac7c2fa3sm4283809edb.96.2022.05.17.07.18.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 07:11:49 -0700 (PDT)
-Message-ID: <4ee53657-76fc-116f-b569-d0813301a9fc@redhat.com>
-Date: Tue, 17 May 2022 16:11:49 +0200
+ Tue, 17 May 2022 07:18:08 -0700 (PDT)
+Message-ID: <ecf91e34-b588-f3ee-45eb-34fbde597cad@redhat.com>
+Date: Tue, 17 May 2022 16:18:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] whpx: Added support for saving/restoring VM state
+Subject: Re: [PATCH v3 2/3] thread-pool: replace semaphore with condition
+ variable
 Content-Language: en-US
-To: Ivan Shcherbakov <ivan@sysprogs.com>, qemu-devel@nongnu.org
-References: <004101d86732$0d33bd70$279b3850$@sysprogs.com>
- <e1229b1f-d94e-6529-311e-30999741fadc@redhat.com>
- <021801d86954$fe4cb940$fae62bc0$@sysprogs.com>
+To: Nicolas Saenz Julienne <nsaenzju@redhat.com>, qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
+References: <20220514065012.1149539-1-pbonzini@redhat.com>
+ <20220514065012.1149539-3-pbonzini@redhat.com>
+ <c5fcbce258e2671f1ee22b3f4fdddea361cb2509.camel@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <021801d86954$fe4cb940$fae62bc0$@sysprogs.com>
+In-Reply-To: <c5fcbce258e2671f1ee22b3f4fdddea361cb2509.camel@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,47 +98,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/22 20:44, Ivan Shcherbakov wrote:
-> Passing it to x86_cpu_xrstor_all_areas()/x86_cpu_xsave_all_areas() changed the following values:
+On 5/17/22 14:46, Nicolas Saenz Julienne wrote:
+>> -    while (!pool->stopping) {
+>> +    while (!pool->stopping && pool->cur_threads <= pool->max_threads) {
+>>           ThreadPoolElement *req;
+>>           int ret;
+>>   
+>> -        do {
+>> +        if (QTAILQ_EMPTY(&pool->request_list)) {
+>>               pool->idle_threads++;
+>> -            qemu_mutex_unlock(&pool->lock);
+>> -            ret = qemu_sem_timedwait(&pool->sem, 10000);
+>> -            qemu_mutex_lock(&pool->lock);
+>> +            ret = qemu_cond_timedwait(&pool->request_cond, &pool->lock, 10000);
+>>               pool->idle_threads--;
+>> -        } while (back_to_sleep(pool, ret));
+>> -        if (ret == -1 || pool->stopping ||
+>> -            pool->cur_threads > pool->max_threads) {
+>> -            break;
+>> +            if (ret == 0 &&
+>> +                QTAILQ_EMPTY(&pool->request_list) &&
+>> +                pool->cur_threads > pool->min_threads) {
+>> +                /* Timed out + no work to do + no need for warm threads = exit.  */
+>> +                break;
+>> +            }
 > 
-> 0x0000001C: ff ff -> 00 00
-> 0x00000208: 07 -> 00
-> 0x0000020F: 80 -> 00
+>   Some comments:
+> 
+> - A completely idle pool will now never be able to lose its threads, as the
+>    'pool->cur_threads <= pool->max_threads' condition is only checked after a
+>    non-timeout wakeup.
 
-0x1C-0x1F is MXCSR_MASK.  There's already a field in the x86 CPUState, 
-but it was forgotten in 
-x86_cpu_xsave_all_areas()/x86_cpu_xrstor_all_areas().  The field should 
-also be initialized to 0xffff in the CPU reset function.
+Are you sure?  The full code is:
 
-0x208...0x20F is XCOMP_BV and bit 63 in there is indeed signaling 
-compacted format.  First of all I'd start with your patch and hack it to 
-check if Hyper-V accepts zero at 0x208..0x20F; in this specific case of 
-0x208...0x20F have all low consecutive bits set plus bit 63 set, it's 
-fine to do just that.  If so, x86_cpu_xrstor_all_areas() needs no 
-support for compacted format.  I would be somewhat surprised if Hyper-V 
-needs support in XRSTOR too.
+             ret = qemu_cond_timedwait(&pool->request_cond, &pool->lock, 10000);
+             pool->idle_threads--;
+             if (ret == 0 &&
+                 QTAILQ_EMPTY(&pool->request_list) &&
+                 pool->cur_threads > pool->min_threads) {
+                 /* Timed out + no work to do + no need for warm threads  exit.  */
+                 break;
+             }
+             /*
+              * Even if there was some work to do, check if there aren't
+              * too many worker threads before picking it up.
+              */
+             continue;
 
-For XSAVE, the algorithm to compute the offset (instead of just using 
-x->offset) is given in the Intel manual:
+That is, it won't immediately pick up the job after _any_ wait,
+whether successful or not.  It will first of all "continue" to
+check pool->cur_threads <= pool->max_threads.
 
-If XCOMP_BV[i] = 0, state component i is not in the XSAVE area at all.
+This is also the reason why I had to add a qemu_cond_signal() at the
+bottom of the worker thread (because maybe it got a signal to act on a
+non-empty queue, but decided to exit instead).
 
-If XCOMP_BV[i] = 1, state component i is located at a byte offset  from 
-the base address of the XSAVE area, which is determined by the following 
-steps:
+> - You don't take into account the possibility of being woken up with an empty
+>    queue. Which I belive possible:
 
-- If i is the first bit set in bits 62:2 of the XCOMP_BV, state 
-component i starts at offset 576
-
-- Otherwise, take CPUID[EAX=0DH,ECX=i].ECX[1]:
-
-   - If it is 0, state component i starts right after the preceding state
-     component whose bit is set in XCOMP_BV (where the size of component
-     j is enumerated in CPUID[EAX=0DH,ECX=j].EAX).
-
-   - If it is 1, state component i starts after the preceding state
-     component whose bit is set in XCOMP_BV, but on a 64-byte aligned
-     offset relative to the beginning of the XSAVE area.
+It's absolutely possible, but the difference between v2 and v3 _should_
+be the fix.  Of course I could have screwed up, but it seems correct
+this time.
 
 Paolo
 
