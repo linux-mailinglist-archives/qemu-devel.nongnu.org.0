@@ -2,69 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D634529860
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 05:43:15 +0200 (CEST)
-Received: from localhost ([::1]:51708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACFE52988C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 06:12:57 +0200 (CEST)
+Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqo78-0003d9-Pq
-	for lists+qemu-devel@lfdr.de; Mon, 16 May 2022 23:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33728)
+	id 1nqoZs-0002WH-1K
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 00:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nqo6G-0002nR-Bv; Mon, 16 May 2022 23:42:20 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:46803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nqo6E-0005XM-Oe; Mon, 16 May 2022 23:42:19 -0400
-Received: by mail-io1-xd36.google.com with SMTP id s23so18005582iog.13;
- Mon, 16 May 2022 20:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mN+WbHy8JRj9m/oJO+IZalzisK3tsX7Jkxb7dfv32Gk=;
- b=QNglemeo3GcLqy8sGZMpyLxbOI+d8bATAdagZGd+smH7/OpHvzL1GqdMHjzEONx0Yc
- O0YR7aR+UInI3hYwwzj7poqeAWuV048ThketbhXWjDTeazLgFvhQNx04hTmnySCHohv8
- eYHSAzs7J3h45Gty+3KT16FDwSjlnQyWyDyaWmhfn6UdHAeccqvJpeNuBQXBTqoSykev
- Jy0Y6t8yk9sl0GZBdGcB0DlhKYiFAs6qab8N9tB4U0NJJ/5+n+4o9saFZHAzvN4Uc4/J
- kFvRD3PekCR6d+uJxSqcIyZI+kkzlWaho9ZxlPBhCuiavzkZ1OYKwvM5JC2w4/rGJVPC
- OVJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mN+WbHy8JRj9m/oJO+IZalzisK3tsX7Jkxb7dfv32Gk=;
- b=VZu6AGiq3iUlldeaHjoH4eR0ALmDLrc1/h2jk0Qs22jxBGxnr5xjq7//qJXjAZ3EkF
- YlLNqg9osR0c9Q936OFI8SauEXZAEtVywa4BPOWntJTEAI61EnEIvu2vNRs7y+ph8AS8
- hbK9TP7ZIrLLXAgVE4d+1moxyDcb0juHqOtf5U8AnPrHh+Ol1h4NtcrUakNfJj+XJjDE
- 6Ih0UYKMYVLEK4q8WCAXCHmaQTCmZl/RFW7Qea4OkHPKphG1RYswm2K/3+l7fceXZ+kh
- XLB7R6Y5CC23UFXe7xD/lU0YXwcZT3xP5CqJPIDo6uc+Ginnj1Sy2eEkgbRY9756enA4
- 98Wg==
-X-Gm-Message-State: AOAM531UjAc44tQvQR5yRXAw6Ls7xT9mFqb1Ghph2tM9GQjWZbzkTw+p
- GIIPIdjqo1pU3plwSCcIObA2C/ZuinmEWh0oKBw=
-X-Google-Smtp-Source: ABdhPJxajN+F7WwAy0sdTBLVpzQY9mkFQDzP9bWJiQpdAukp5WOB1r86CTZbapiuH6VDBrWUY860fnLOOUtW8L+IVGk=
-X-Received: by 2002:a05:6638:3711:b0:32b:ca0b:8a32 with SMTP id
- k17-20020a056638371100b0032bca0b8a32mr11337920jav.267.1652758937258; Mon, 16
- May 2022 20:42:17 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=129fa4c84=alistair.francis@opensource.wdc.com>)
+ id 1nqoYI-000134-Du
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 00:11:18 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:17746)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=129fa4c84=alistair.francis@opensource.wdc.com>)
+ id 1nqoYG-0001eS-1z
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 00:11:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1652760675; x=1684296675;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=7sp12aZj9Q5YMEmWuCn/cOh5t1R5y1uiNcYYD9x/+wg=;
+ b=D2HLR5FJ/EIy0H899GODQxKQnw7evuiA2ppZv71MpmufHyE69pbl83ut
+ dIIRZhZ6ubfwKL50+P1JIPxeIwBEP2LxLjkdfK97+wbWXuRxSdizib7+Q
+ XzJilIILElfjuB0rYaB3wI8zvjZef+34OlI0RB/zJpvJkDQ57iOtBJFpe
+ ADHwptjHhRlUaw1e2+jx1O6Y6L+5YVe4uWmUL5RPZ65/pFlpWvPaEt/FJ
+ TN9HrprjMaEaOD2jZ0pl+sIFQY1T837PaYsJ0r+lPRVfcsfV3PMnB9EIv
+ saPgAD5hLJ4OsOFPtB7OJ0FXLJgZTzhg6yTmlMf/7HdwuYuYWw/O0SLQR g==;
+X-IronPort-AV: E=Sophos;i="5.91,231,1647273600"; d="scan'208";a="205370368"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 17 May 2022 12:11:10 +0800
+IronPort-SDR: Nl78BnWWufQ6CC4m705N+hkIfX2009KpTtvbTo9eYBA55qvOCFYuMoVHUhuNA3aycOay5lUbro
+ caChZO1OlUdYW/OF4K99VT4sHRGb4isdIATIfacDHMH21hrRHNfzpEK0wgG4w5D1jJ26/J9Jvd
+ zxY2PfJgMFsICe1s0mEb1wFK/8gw1B96pxgZOxruxA62+aXWuAjbsrqcYsKdtVoDBSQJv4AdRg
+ 4bqAtInuwN+kKbsYGl2TknagSamH2Oc06Tiexpzu14I34tqSQix8ujth9n8J41LPnPZUJ5Lkfc
+ rbQaiJfeP1DzZpHa3WP7bEO+
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 May 2022 20:36:51 -0700
+IronPort-SDR: +UybTB8fUmmSLZmAlx+/0nYJM1ZQQgqQ2TOXUgDBhC0lDpkkdLvBRDJlX8ePzzYlWObfO2oYnK
+ eM1s6jTU1hKfGjM3/HSmIF60U3/jPYqoKXW87Qd/Al4BCoVViMX6F+sjK0eDF5QA9yg0OHS3nz
+ TiRKbaj1Hx4DiBvHnFkfNdc6A5SnUhTz4NLumZM+HLAmYHtm9qbjYIlBOR5hd/Eh1KnwegHLei
+ vhKrUfPzzyTkZgf7n+oSSPLnQoZDqlCAE7glYmbjOcKe6lEpWEMZ8ZXpGNzP7tVJmJ1nW1cyN1
+ vFQ=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 May 2022 21:11:11 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L2N325828z1Rwrw
+ for <qemu-devel@nongnu.org>; Mon, 16 May 2022 21:11:10 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :content-type:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1652760669; x=1655352670; bh=7sp12aZj9Q5YMEmWuCn/cOh5t1R5y1ui
+ NcYYD9x/+wg=; b=LakkouJd7wEKfjdgx0zPYBJyUErN3tVXVONxmb9bXgBIVf17
+ A74Tg1wyasKwkzZSA1xqsWKh83r1koMbaGe6OXqMafSaFFuPrQ7VFc4Hxg6heWAO
+ j1zEk1hcdrfKX3SETNV8xjF1mpoxKvm2wyWiKZXqZBqn8ogyDKIMN/OT0892XSfq
+ LPDsZY2g4YdfRE8y1c72aVhRbWuTWlLc9eXxnwMOVcYkmFS1pQO3EVfDnwx+8dRg
+ qLdj9HXr2rYVN3Eq9kuR5Atxt3YVCMOONjP31Dd16TQXS+eYDZqJYlWSLnyyLUbY
+ eW0/Z6g8xHx6rwtdKR7BTvAy9QZxM6s0yf0qyg==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id m-IysuVHNuaw for <qemu-devel@nongnu.org>;
+ Mon, 16 May 2022 21:11:09 -0700 (PDT)
+Received: from toolbox.alistair23.me (unknown [10.225.165.2])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L2N2y0yK0z1Rvlc;
+ Mon, 16 May 2022 21:11:05 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: bmeng.cn@gmail.com,
+	palmer@dabbelt.com,
+	alistair23@gmail.com
+Subject: [PATCH 0/2] target/riscv: Cleanup exposed CPU properties
+Date: Tue, 17 May 2022 14:10:58 +1000
+Message-Id: <20220517041100.93045-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.35.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220301225220.239065-1-shentey@gmail.com>
-In-Reply-To: <20220301225220.239065-1-shentey@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 17 May 2022 13:41:51 +1000
-Message-ID: <CAKmqyKP52UZkjez9YyToZqWbOKyJ_xgAZK0NTpE--Z=DRMea=A@mail.gmail.com>
-Subject: Re: [PATCH RESEND 0/2] Resolve some redundant property accessors
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=129fa4c84=alistair.francis@opensource.wdc.com;
+ helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,40 +116,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 2, 2022 at 8:54 AM Bernhard Beschow <shentey@gmail.com> wrote:
->
-> No changes. Just also CC'ed to qemu-trivial.
->
-> The QOM API already provides appropriate accessors, so reuse them.
->
-> Testing done:
->
->   :$ make check
->   Ok:                 570
->   Expected Fail:      0
->   Fail:               0
->   Unexpected Pass:    0
->   Skipped:            178
->   Timeout:            0
->
->
-> Bernhard Beschow (2):
->   hw/vfio/pci-quirks: Resolve redundant property getters
->   hw/riscv/sifive_u: Resolve redundant property accessors
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Thanks!
+The RISC-V CPUs have been incorrectly enabling features in the named vend=
+or
+CPUs that aren't enabled in hardware. This patchset changes this so that
+named vendor CPUs are not runtime configurable.
 
-Applied to riscv-to-apply.next
+I was torn for the best approach here. The other idea I had was to disabl=
+e
+features by default and instead enable them in CPUs. I ended up going
+this approach as I felt it made more sense to not expose configuration
+options for vendor CPUs, it just seems difficult to support now that we h=
+ave
+a large list of CPUs
 
-Alistair
+Alistair Francis (2):
+  target/riscv: Don't expose the CPU properties on names CPUs
+  target/riscv: Run extension checks for all CPUs
 
->
->  hw/riscv/sifive_u.c  | 24 ++++--------------------
->  hw/vfio/pci-quirks.c | 34 +++++++++-------------------------
->  2 files changed, 13 insertions(+), 45 deletions(-)
->
-> --
-> 2.35.1
->
->
+ target/riscv/cpu.c | 217 ++++++++++++++++++++++++++-------------------
+ 1 file changed, 125 insertions(+), 92 deletions(-)
+
+--=20
+2.35.1
+
 
