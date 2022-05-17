@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639C852AA3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:13:14 +0200 (CEST)
-Received: from localhost ([::1]:40118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4D152AA61
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:15:02 +0200 (CEST)
+Received: from localhost ([::1]:42296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr1gv-0005sG-85
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:13:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
+	id 1nr1id-0007Nm-LG
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1eL-0004HK-8T
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:10:25 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:53233)
+ id 1nr1fm-00060d-7R
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:11:54 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:41767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr1eJ-0002O6-KT
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:10:24 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id l14so7219294pjk.2
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:10:23 -0700 (PDT)
+ id 1nr1fj-0002Zu-Cs
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:11:52 -0400
+Received: by mail-pf1-x433.google.com with SMTP id p8so17593333pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=TaBwXtT+0sd9ltQ2iv9P1ru8EZE9weEq3vexlU2rBys=;
- b=ZgHmb4M2Efb9AYrtqRfoEZtKEysQNlcPbErttIHiIIvfFb68Bl4FoY0ldOM5wmUbWg
- VEG4gZH6GRZp4PRXDOljJ5DGC1LXqx3Il82VzNTCLPkIL5G43krmIQaFBrXK4iUOVVxZ
- I0FPa2MJvAo+IZ2RclT0ga2dIrNqoSzB3jYmMmWdWe2Q0rtqJOYIDMjZmB1KdlGGlWdi
- AY3CN19Z4aN4sOPtZLgik9/UabGWjeSzn93SZ5XymWarJZlMsQUml6oaJlrMjLm8HJ6T
- n1om3qMXqUSf/uBQF4APmjkwKg1lHEOIp7zGnqqfr+WTcd/4omqFMvbch9+EAeEUFdme
- Pt9g==
+ bh=ojW+TcFIHiEWuPmRb6YZXsbdWfWXhatROAsWOlH4PHE=;
+ b=fZ/GxoEEuEOMGlgQkHiAk6dYcYlPgD0FQicQR8CPtKhoDPp9OSJrXtZoZ09XUrVfiA
+ ErfHKDJXqJmg29+6JGqeVQH1NKIVczRyRuNzAsMECJo42sakk9vdpo7TQdNy7XrbrVly
+ jZMSDqX7XrLne3XUxuXk3i+kTTaQe36fKiw3l3phOQHcVM2LqacUxn6Pv24NuoJz8HPC
+ 3NtOoX1FBPDnTbovpxfB9kgL33QuvpKFa+DeRRjdhLMhuWftmlOhCc8g/XYS2uqGPccI
+ aR5iG9pl1M9WsDh616PCg8+12u88KyMEQZO/AxWcbD/pWmxkgjXbOBp0ZVAH345xr/wx
+ bLVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=TaBwXtT+0sd9ltQ2iv9P1ru8EZE9weEq3vexlU2rBys=;
- b=jEnTj82jRdnvAGG+40A6DAi74cQPd/ALA0GqMlo/CdoXJLKWWKQWm0e/jp8s7ubNmH
- 8K+L1OK2nCBKBrtHElgfiWZnNqR+eDPYfYhPYIQrwWcXTGaBnIJEqkBW88+EjD/AzodH
- ZteE3uC/Zew8gwGlhuY9bhgiNuaB6lTh8gvTmLwZ2aj4dbtcarrRIp3d9fs01mel9w2E
- QTqTRRDz0ui0H49vATKQ5zfdjJC9AaTPjs3+MM9reJLt7xQTn5DL50HJ/1umCqzt+j8d
- g6fwv6gFVDnnVKfpQJGY/ukJ+wuQ/Bp3F6cCkcfYMbdi5tbEVU3oLzfsPRbIk18hqhcq
- nC4w==
-X-Gm-Message-State: AOAM532uKsP2q7Qz5lh62vikEpvMpv5mqpUJ3uMIKnueQN7KUkBAs+aA
- 0Ps+Ek2hdI+CRDy5y5hG5jdJ4w==
-X-Google-Smtp-Source: ABdhPJwnZqPy/JDlOCI5N0zcUmSF9Mg6RjWe32dSbtOb7l8pih+8VZq2oG/LQHsvm0+pnJK/VGn9UA==
-X-Received: by 2002:a17:90b:1d8a:b0:1dc:588b:cd5d with SMTP id
- pf10-20020a17090b1d8a00b001dc588bcd5dmr37641873pjb.229.1652811022192; 
- Tue, 17 May 2022 11:10:22 -0700 (PDT)
+ bh=ojW+TcFIHiEWuPmRb6YZXsbdWfWXhatROAsWOlH4PHE=;
+ b=sv3KmU3SO12/ejPiqqaGi3XniVhBbYM2o619LJ0OGr9BkmjPcu8cLdGrrxkmZOw9EC
+ EQI3rPN1kfjBKHfuHIq48YL7ur0lt7zdhVSPrGOBbD/FsqZypXq87hTlH8LqE6xRqGwf
+ jMDibwL3rKgf2TwLk2rgB067kf1WWOSNygPbVnc13D/SUELwRfo62nqEhx75wMie7k3r
+ KskpuxlUDReiIB7YtIbIeW7a8NzKozz9zWN+UeUSz23FXyX+YiVctLb3wEuJatQRwnSy
+ FhiI9EUgaGu1CTN0sEGPpndCRgRC3ynHFjpbN31OLARJEx0eO6tVEiZHMTwwodIstPHP
+ 4B3w==
+X-Gm-Message-State: AOAM533vm6rq2N882clI0eHO1i9r7pLc2CCBZjvFhOZbaxrf61TJNs/w
+ o1la23XG5Ewr9Q8oBS+E8AMzMA==
+X-Google-Smtp-Source: ABdhPJwt8d6AdMCsVaQKWrWdJPhG7hjiTdaaVumRsefoENe12mNTc58wUiH8jz+kz34KYSUs9otqRQ==
+X-Received: by 2002:a63:2215:0:b0:3c1:fd25:b6a1 with SMTP id
+ i21-20020a632215000000b003c1fd25b6a1mr20300875pgi.406.1652811109704; 
+ Tue, 17 May 2022 11:11:49 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a630e4d000000b003c14af50626sm8619669pgo.62.2022.05.17.11.10.21
+ v26-20020a62c31a000000b0050dd5ad0f8dsm45911pfg.76.2022.05.17.11.11.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 11:10:21 -0700 (PDT)
-Message-ID: <ab0e0e49-c412-3544-58cf-9dd981249c14@linaro.org>
-Date: Tue, 17 May 2022 11:10:19 -0700
+ Tue, 17 May 2022 11:11:49 -0700 (PDT)
+Message-ID: <9cc1ea91-76b7-cd07-522b-e7b59655d771@linaro.org>
+Date: Tue, 17 May 2022 11:11:47 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 04/16] build: do a full build before running TCG tests
+Subject: Re: [PATCH 06/16] tests/tcg: correct target CPU for sparc32
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
 References: <20220517092616.1272238-1-pbonzini@redhat.com>
- <20220517092616.1272238-5-pbonzini@redhat.com>
+ <20220517092616.1272238-7-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517092616.1272238-5-pbonzini@redhat.com>
+In-Reply-To: <20220517092616.1272238-7-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,13 +94,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/17/22 02:26, Paolo Bonzini wrote:
-> TCG tests need both QEMU and firmware to be built, so do "ninja all" before
-> trying to run them.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   tests/Makefile.include | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> We do not want v8plus for pure sparc32, as the difference with the V8 ABI
+> are only meaningful on 64-bit CPUs suh as ultrasparc; supersparc is the
+> best CPU to use for 32-bit.
+
+s/suh/such/
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
