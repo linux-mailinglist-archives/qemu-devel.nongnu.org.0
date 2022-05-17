@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C99A529F34
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 12:18:40 +0200 (CEST)
-Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF755529F95
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 12:37:16 +0200 (CEST)
+Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nquHn-0007Z4-C1
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 06:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49684)
+	id 1nquZn-0007s6-KR
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 06:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liu.jaloo@gmail.com>)
- id 1nquE0-0005DI-Ft
- for qemu-devel@nongnu.org; Tue, 17 May 2022 06:14:44 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:33491)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nquPa-0004Vv-Mw
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 06:26:46 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:45295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liu.jaloo@gmail.com>)
- id 1nquDw-0003cj-Tm
- for qemu-devel@nongnu.org; Tue, 17 May 2022 06:14:44 -0400
-Received: by mail-pg1-x535.google.com with SMTP id r71so16187147pgr.0
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 03:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=grBWLR/AfLxJwf9yZ7j2OpMqZUZ8MX8k2tVdHrepmFk=;
- b=hmo7lPABLs9BL4I6gPXwtMzaZ09ko7+Jigl1r8y3QlTkKejegKDGeKX14h3cCGvZ67
- L30c3el2bWHrpeVBGyKzJz8ISuJszgSCdGUwDycIHR7Wgj6ImgBGyVBE+ubDDNchrmpE
- ze7Vge9xUYHJkx619ctijlEUz/p2kqwCBhMKQyh5BtwFvKZnZJFP9No43KaDBASM0XD4
- nRoN5ZGVuyCejVClLKaFKNuq8/XzvRWjZM1SmDs8m3AyQCV4mQryB+iHsCxqTo5XT4qW
- 2FHgs4pTEpQKSTp6AckCPtAvLG9pY2JimCR0AVg8D+IUgdIOOdGQV/g1TBlehgu12Saf
- xG8g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nquPX-00062O-Uz
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 06:26:41 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2fed823dd32so71812157b3.12
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 03:25:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B8Icz8HV5bl3sIQyTHo7h3u7Jiq5YP87pQZF8OWJ/so=;
+ b=K8jlCK08Ar2j4xRLllJAPR+lTgTDCZEE1UQaaAicrCKnOEBs92oxyiErahTVL2lQbE
+ Dtw+ws/m15fuWhYalVEWC7MBUdY+hlR7KBEd42TTTVIg9bdVM+WQ6ERQ7Y75sseXoUwK
+ rToB7LpuB/jbQlZVt6ZRDMYx3EIh7ifY6oosbKLSECGMmYnm6ZzUWxA1A11z8DngG5xb
+ clsuRO66Fz75hsVi+uUoy98tLvKR3cNJdO+lftCumIutYx6tuH6vAaaJil9Z0IWgdhnR
+ 1tMK5Pl+MY7fopvwUHGXD1/D8AuVzW9aa9hSiaAbOk5ntcwnAUpk9UhLj1aZHX1iZFZj
+ yeaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=grBWLR/AfLxJwf9yZ7j2OpMqZUZ8MX8k2tVdHrepmFk=;
- b=0yaG1vKwI8x7xvRk2kk44JGjKE0JTv/mbVoz4yRWy1ud08HgTnKp8puvoBl86zhEBa
- GL3V/NGDhKk6yFwWTrL4OaM4dFC644fd98vXZt6VjM2FLx261CEeGhv+6le9M5Fz06vN
- gkVUUAD5DGxD+ohwyBsd4kej7DeijJsActQfY2KAkpMVYjr6LMXMt/wgUfsgAjIJCjkK
- rD8UMn9GIBymiDCU8WnCixDqVWUmfHTcmGyYnVZcJEXn/q2wUz3VniRAA17nAHkPJS7n
- jlI3ajNSB4ToeTULFROBfU429rMd8sW+uhl79QRfvJWDyyP9D53KnB1I5fo41jUbFlCh
- wUMQ==
-X-Gm-Message-State: AOAM53244FCxVgmvpi5e/3d72jQSewMXSQLqeCYzKL1z59jRB1qARCrC
- 5Zma/On4vjr69ag+D/kdqWGtV83U7NvhyB4iL+EMEDkPTb2q
-X-Google-Smtp-Source: ABdhPJwIAfErcLML6Odb6YyPfQYy4oyJYr2Y53HDwzAqXjOzN8vfzDkRxkh9HIxvMygdQRb87PLYbNvGvNwblR09kDU=
-X-Received: by 2002:a63:f156:0:b0:3ab:ada6:b463 with SMTP id
- o22-20020a63f156000000b003abada6b463mr18566780pgk.462.1652782475109; Tue, 17
- May 2022 03:14:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B8Icz8HV5bl3sIQyTHo7h3u7Jiq5YP87pQZF8OWJ/so=;
+ b=KpA9jG2i3ry7Q/zyfvi+U7hATuI/QO6FOygGrgaIzSzplUAlgx2739MEHW8JSK/eV4
+ /25gXp1jRLb+a/JuAKhRBXFGD89G1/YzLXOVuM4xRcdSEnxTsoZ3LeCfsNhRVgztFiau
+ aSXGXPYH3j2MBSTPDKyTzmuexzBv80kk4HZRfulYIRbg9z/O6cGunRt0t+F3YOvyVw9t
+ /EPUQH2r2BzcfcOBXT2S90aCvEUTSmyY3v0XBfYwuIWFXb+GzUZ4Fgjtv7j1JkhtReL9
+ /LLT2uyalsF0GShzpSRDJ55Ky9I3zTPEP+VSCNJRTCAhPqCkD0LOhApQkP3W/Xia/YCK
+ 1yTw==
+X-Gm-Message-State: AOAM533soPMaJKSlDASt1Enhbl78QurqhRPdlDNNB4tWOtgjt+f0k9cm
+ R6YV/yTCeYY3Ld8WzF6pujyji2hPShYR6QfSBIWekQ==
+X-Google-Smtp-Source: ABdhPJyotvJgGSMxorvkb32eiMMBXKkDScacCiMkzA/Qf0ldLo/ClYOIBXCOMy8nTLbwTenMwM+RuvHyjY8RNq3oX9Q=
+X-Received: by 2002:a0d:d4d0:0:b0:2fe:b86b:472d with SMTP id
+ w199-20020a0dd4d0000000b002feb86b472dmr22639311ywd.469.1652783142399; Tue, 17
+ May 2022 03:25:42 -0700 (PDT)
 MIME-Version: 1.0
-From: Liu Jaloo <liu.jaloo@gmail.com>
-Date: Tue, 17 May 2022 18:14:24 +0800
-Message-ID: <CAOYM0N09rSSr11vzOqBWLqZj96gxjdxxQYhi_qqzSYOkympCYw@mail.gmail.com>
-Subject: why arm bootloader is big endian?
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000051f89105df326834"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=liu.jaloo@gmail.com; helo=mail-pg1-x535.google.com
+References: <CAOYM0N09rSSr11vzOqBWLqZj96gxjdxxQYhi_qqzSYOkympCYw@mail.gmail.com>
+In-Reply-To: <CAOYM0N09rSSr11vzOqBWLqZj96gxjdxxQYhi_qqzSYOkympCYw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 May 2022 11:25:31 +0100
+Message-ID: <CAFEAcA8wb0eVHr=m03DewZ8ua6nGvToMTVDvtDQdQw4s+_5jiw@mail.gmail.com>
+Subject: Re: why arm bootloader is big endian?
+To: Liu Jaloo <liu.jaloo@gmail.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,36 +82,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000051f89105df326834
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 17 May 2022 at 11:19, Liu Jaloo <liu.jaloo@gmail.com> wrote:
+>
+> from hw/arm/boot.c
+>
+> static const ARMInsnFixup bootloader[] = {
+>     { 0xe28fe004 }, /* add     lr, pc, #4 */
+>      ...
+> }
+>
+> $ rasm2 -a arm -d -e 0xe28fe004
+> add lr, pc, 4
+>
+> $ rasm2 --help
+> -e           Use big endian instead of little endian
+>
+> why arm bootloader defalut is big endian?
 
-from hw/arm/boot.c
+It is not. This array is an array of 32 bit integers,
+one per instruction. The code which writes it to guest
+memory reads 32 bits from the array, and writes 32 bits
+from the array into guest memory. It will byteswap
+each word if the host and guest are different endian
+(which in practice for Arm almost always means "if the
+host is bigendian", so for x86 host arm guest we don't
+need to swap).
 
-static const ARMInsnFixup bootloader[] = {
-    { 0xe28fe004 }, /* add     lr, pc, #4 */
-     ...
-}
+rasm2 wants to disassemble a sequence of hex *bytes*,
+which means that you need to specify them in the order
+they appear in memory. If we've written a little-endian
+32-bit value 0xe28fe004 to memory, then the bytes will
+be 0x04 0xe0 0x8f 0xe2, and so you either need to
+tell rasm2 '04e08fe2' or else cheat and use the -e
+option (which will work as long as the insn really is
+32 bits, ie you're not dealing with Thumb insns.)
 
-$ rasm2 -a arm -d -e 0xe28fe004
-add lr, pc, 4
-
-$ rasm2 --help
--e           Use big endian instead of little endian
-
-why arm bootloader defalut is big endian?
-
---00000000000051f89105df326834
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>from hw/arm/boot.c</div><div><br></div><div>static co=
-nst ARMInsnFixup bootloader[] =3D {<br>=C2=A0 =C2=A0 { 0xe28fe004 }, /* add=
- =C2=A0 =C2=A0 lr, pc, #4 */</div><div>=C2=A0=C2=A0=C2=A0=C2=A0 ...<br></di=
-v><div>}</div><div><br></div><div>$ rasm2 -a arm -d -e 0xe28fe004<br>add lr=
-, pc, 4</div><div><br></div><div>$ rasm2 --help</div><div>-e =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 Use big endian instead of little endian</div><div><br>=
-</div><div>why arm bootloader defalut is big endian?<br></div><div><br></di=
-v></div>
-
---00000000000051f89105df326834--
+-- PMM
 
