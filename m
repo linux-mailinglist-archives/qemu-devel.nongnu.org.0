@@ -2,54 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F5152A81D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:36:34 +0200 (CEST)
-Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326DE52A7F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:33:00 +0200 (CEST)
+Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr0BV-0006AU-CF
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55118)
+	id 1nr07z-0008G1-0C
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nqzrP-0001MJ-EC; Tue, 17 May 2022 12:15:52 -0400
-Received: from [187.72.171.209] (port=62953 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nqzrL-0001KH-6m; Tue, 17 May 2022 12:15:47 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 17 May 2022 13:15:27 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 076D4801008;
- Tue, 17 May 2022 13:15:27 -0300 (-03)
-From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org, rashmica.g@gmail.com,
- victor.colombo@eldorado.org.br
-Subject: [PATCH v3 3/3] target/ppc: Rename sfprf to sfifprf where it's also
- used as set fi flag
-Date: Tue, 17 May 2022 13:15:22 -0300
-Message-Id: <20220517161522.36132-4-victor.colombo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220517161522.36132-1-victor.colombo@eldorado.org.br>
-References: <20220517161522.36132-1-victor.colombo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nqzr6-0000tf-9U
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:15:28 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nqzr4-0001Jq-Gm
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 12:15:27 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ z7-20020a17090abd8700b001df78c7c209so2955171pjr.1
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 09:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Vu4bRFyCQl+zZHvFWK8PC+cq064u3zzxRGtBX7tCjMA=;
+ b=HDopOhFDNQBv1yDUUpZhjPqNULtTT+hTn8d5oSDjK9BU/8O6/BPe4iKVdqvNLUUb7C
+ iw7cwRIuWXpKDZm0oGdVpA9t0OKxGHWwUD0kGwEGZ1xXuS5z72hAqmCczy8kCRgIS8Er
+ ELoXUOzs02A5YsAA/0bioT1W/qQlr/X9/kLd1gWWK3u0R+PdPTBsnJtrE2fcL7pyDvTP
+ GsILaut914aqet8v3ou19PK9AOjFuKtKGYLGxuarmxuWVRGQCzNmp1PMJB9OSM5mviPf
+ lnvGMGQC8uAB4RR/KkkZdAatUF2EbBX+Hvqh0vsbPl6/r77CPNtqEAt2nXowDI84rHhN
+ wEPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Vu4bRFyCQl+zZHvFWK8PC+cq064u3zzxRGtBX7tCjMA=;
+ b=xjXLQV0pYTaZr1pNgFTgKgXhI8LTCgwte50tPsSIAkeXQbiRRUPPf4qNSy1aQ94sfe
+ AbBtCj+hc0E3S45rXqK0yeqV6Rd1ZHldw4Ugmzc5DlZEbCvN69JLoabeb4M7QBGVqdxq
+ m+H9qtmV4QDd+pIL0XrNgbiLrqbHKXN+zc1bXMH9f60d89WXpmlzfxHMlv7bPBjuQ8hi
+ 6gQ1tO7a18JXHyxAIZ29fETSiLHYfnqHkuQC0ick/pZhLM7eslR1tzKjYZwQlgsCFuYB
+ 4C/bjnrTz+rjImwiMl6Iw34k8HYiCSGmJfVJXtyXkPUu4TxqntIBrQLf8idc8x0LVVua
+ Q0dA==
+X-Gm-Message-State: AOAM531wYFWcT4csfVqJXjtS6aAUnLJyMbzsKs6aT7ZttgFaL5tWyAnR
+ YSPmD0B8Gl1p//ar8LEK7CbCPw==
+X-Google-Smtp-Source: ABdhPJyn11woBoJyPJPf0Bir2Gn1+HQjGPw6MyWPPlem7HRxYKx3yvdE7aP0bTdc2c0bh+ZAf3dI6Q==
+X-Received: by 2002:a17:902:e809:b0:15e:c67d:14c5 with SMTP id
+ u9-20020a170902e80900b0015ec67d14c5mr22756799plg.13.1652804125201; 
+ Tue, 17 May 2022 09:15:25 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ x4-20020a634a04000000b003c6a80e54cfsm8754898pga.75.2022.05.17.09.15.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 09:15:24 -0700 (PDT)
+Message-ID: <7fcd0acb-f88c-b262-b9f0-33b97ee2772a@linaro.org>
+Date: Tue, 17 May 2022 09:15:22 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Capstone for MIPS (was: Re: [RFC PATCH 0/3] Remove some of the
+ old libopcode based disassemblers)
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+References: <20220412165836.355850-1-thuth@redhat.com>
+ <2af15d6d-ad10-2f98-fb0a-37d0125044ca@amsat.org>
+ <a8a7b68e-6fb9-e329-5c88-99a1fa5da75b@redhat.com>
+ <43860dbe-5cf8-91ef-2bba-8da631154b3b@amsat.org>
+ <444414ba-6ca8-c22f-601f-498f06c83d80@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <444414ba-6ca8-c22f-601f-498f06c83d80@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 May 2022 16:15:27.0249 (UTC)
- FILETIME=[521FB810:01D86A09]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,417 +99,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bit FI fix used the sfprf flag as a flag for the set_fi parameter
-in do_float_check_status where applicable. Now, this patch rename this
-flag to sfifprf to state this dual usage.
+On 5/17/22 00:18, Thomas Huth wrote:
+> On 09/05/2022 15.42, Philippe Mathieu-Daudé wrote:
+>> On 9/5/22 15:18, Thomas Huth wrote:
+> [...]
+>>> By the way, what about MIPS? Could MIPS be switched to Capstone, too, so that we could 
+>>> finally remove disas/mips.c ? (We're not using capstone there yet, and MIPS has so many 
+>>> flavours, big and little endian, 32- and 64-bit ... so that I'm unsure whether there 
+>>> was a reason for not using Capstone there, or whether it just hasn't been tried out yet?)
+>>
+>> Last I remember is Richard saying "the capstone backend for mips is not
+>> in terribly good shape":
+>> https://lore.kernel.org/qemu-devel/0c7827df-c9d4-8dad-a38c-4881ce7dd22b@linaro.org/ 
+> 
+> That was in 2017, in the Capstone 3.x days ... maybe the situation has improved nowadays?
 
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
+I don't see any substantive changes to the capstone mips backend since 2016.  Almost all 
+changes to arch/Mips since then are changes to function prototypes as the internal api 
+evolves.  I.e. just enough to keep it compiling.
 
----
 
-v3: Fix missing "FI and..." in one of the comments change [1]
-
-[1]: https://lists.nongnu.org/archive/html/qemu-ppc/2022-05/msg00259.html
----
- target/ppc/fpu_helper.c | 112 ++++++++++++++++++++--------------------
- 1 file changed, 56 insertions(+), 56 deletions(-)
-
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 88f9e756a5..8592727792 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -1693,9 +1693,9 @@ uint32_t helper_efdcmpeq(CPUPPCState *env, uint64_t op1, uint64_t op2)
-  *   nels  - number of elements (1, 2 or 4)
-  *   tp    - type (float32 or float64)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_ADD_SUB(name, op, nels, tp, fld, sfprf, r2sp)                    \
-+#define VSX_ADD_SUB(name, op, nels, tp, fld, sfifprf, r2sp)                  \
- void helper_##name(CPUPPCState *env, ppc_vsr_t *xt,                          \
-                    ppc_vsr_t *xa, ppc_vsr_t *xb)                             \
- {                                                                            \
-@@ -1712,19 +1712,19 @@ void helper_##name(CPUPPCState *env, ppc_vsr_t *xt,                          \
-                                                                              \
-         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {    \
-             float_invalid_op_addsub(env, tstat.float_exception_flags,        \
--                                    sfprf, GETPC());                         \
-+                                    sfifprf, GETPC());                       \
-         }                                                                    \
-                                                                              \
-         if (r2sp) {                                                          \
-             t.fld = do_frsp(env, t.fld, GETPC());                            \
-         }                                                                    \
-                                                                              \
--        if (sfprf) {                                                         \
-+        if (sfifprf) {                                                       \
-             helper_compute_fprf_float64(env, t.fld);                         \
-         }                                                                    \
-     }                                                                        \
-     *xt = t;                                                                 \
--    do_float_check_status(env, sfprf, GETPC());                              \
-+    do_float_check_status(env, sfifprf, GETPC());                            \
- }
- 
- VSX_ADD_SUB(xsadddp, add, 1, float64, VsrD(0), 1, 0)
-@@ -1769,9 +1769,9 @@ void helper_xsaddqp(CPUPPCState *env, uint32_t opcode,
-  *   nels  - number of elements (1, 2 or 4)
-  *   tp    - type (float32 or float64)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_MUL(op, nels, tp, fld, sfprf, r2sp)                              \
-+#define VSX_MUL(op, nels, tp, fld, sfifprf, r2sp)                            \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                            \
-                  ppc_vsr_t *xa, ppc_vsr_t *xb)                               \
- {                                                                            \
-@@ -1788,20 +1788,20 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                            \
-                                                                              \
-         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {    \
-             float_invalid_op_mul(env, tstat.float_exception_flags,           \
--                                 sfprf, GETPC());                            \
-+                                 sfifprf, GETPC());                          \
-         }                                                                    \
-                                                                              \
-         if (r2sp) {                                                          \
-             t.fld = do_frsp(env, t.fld, GETPC());                            \
-         }                                                                    \
-                                                                              \
--        if (sfprf) {                                                         \
-+        if (sfifprf) {                                                       \
-             helper_compute_fprf_float64(env, t.fld);                         \
-         }                                                                    \
-     }                                                                        \
-                                                                              \
-     *xt = t;                                                                 \
--    do_float_check_status(env, sfprf, GETPC());                              \
-+    do_float_check_status(env, sfifprf, GETPC());                            \
- }
- 
- VSX_MUL(xsmuldp, 1, float64, VsrD(0), 1, 0)
-@@ -1840,9 +1840,9 @@ void helper_xsmulqp(CPUPPCState *env, uint32_t opcode,
-  *   nels  - number of elements (1, 2 or 4)
-  *   tp    - type (float32 or float64)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_DIV(op, nels, tp, fld, sfprf, r2sp)                               \
-+#define VSX_DIV(op, nels, tp, fld, sfifprf, r2sp)                             \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-                  ppc_vsr_t *xa, ppc_vsr_t *xb)                                \
- {                                                                             \
-@@ -1859,7 +1859,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-                                                                               \
-         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {     \
-             float_invalid_op_div(env, tstat.float_exception_flags,            \
--                                 sfprf, GETPC());                             \
-+                                 sfifprf, GETPC());                           \
-         }                                                                     \
-         if (unlikely(tstat.float_exception_flags & float_flag_divbyzero)) {   \
-             float_zero_divide_excp(env, GETPC());                             \
-@@ -1869,13 +1869,13 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-             t.fld = do_frsp(env, t.fld, GETPC());                             \
-         }                                                                     \
-                                                                               \
--        if (sfprf) {                                                          \
-+        if (sfifprf) {                                                        \
-             helper_compute_fprf_float64(env, t.fld);                          \
-         }                                                                     \
-     }                                                                         \
-                                                                               \
-     *xt = t;                                                                  \
--    do_float_check_status(env, sfprf, GETPC());                               \
-+    do_float_check_status(env, sfifprf, GETPC());                             \
- }
- 
- VSX_DIV(xsdivdp, 1, float64, VsrD(0), 1, 0)
-@@ -1917,9 +1917,9 @@ void helper_xsdivqp(CPUPPCState *env, uint32_t opcode,
-  *   nels  - number of elements (1, 2 or 4)
-  *   tp    - type (float32 or float64)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_RE(op, nels, tp, fld, sfprf, r2sp)                                \
-+#define VSX_RE(op, nels, tp, fld, sfifprf, r2sp)                              \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)              \
- {                                                                             \
-     ppc_vsr_t t = { };                                                        \
-@@ -1937,13 +1937,13 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)              \
-             t.fld = do_frsp(env, t.fld, GETPC());                             \
-         }                                                                     \
-                                                                               \
--        if (sfprf) {                                                          \
-+        if (sfifprf) {                                                        \
-             helper_compute_fprf_float64(env, t.fld);                          \
-         }                                                                     \
-     }                                                                         \
-                                                                               \
-     *xt = t;                                                                  \
--    do_float_check_status(env, sfprf, GETPC());                               \
-+    do_float_check_status(env, sfifprf, GETPC());                             \
- }
- 
- VSX_RE(xsredp, 1, float64, VsrD(0), 1, 0)
-@@ -1957,9 +1957,9 @@ VSX_RE(xvresp, 4, float32, VsrW(i), 0, 0)
-  *   nels  - number of elements (1, 2 or 4)
-  *   tp    - type (float32 or float64)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_SQRT(op, nels, tp, fld, sfprf, r2sp)                             \
-+#define VSX_SQRT(op, nels, tp, fld, sfifprf, r2sp)                           \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
- {                                                                            \
-     ppc_vsr_t t = { };                                                       \
-@@ -1975,20 +1975,20 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
-                                                                              \
-         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {    \
-             float_invalid_op_sqrt(env, tstat.float_exception_flags,          \
--                                  sfprf, GETPC());                           \
-+                                  sfifprf, GETPC());                         \
-         }                                                                    \
-                                                                              \
-         if (r2sp) {                                                          \
-             t.fld = do_frsp(env, t.fld, GETPC());                            \
-         }                                                                    \
-                                                                              \
--        if (sfprf) {                                                         \
-+        if (sfifprf) {                                                       \
-             helper_compute_fprf_float64(env, t.fld);                         \
-         }                                                                    \
-     }                                                                        \
-                                                                              \
-     *xt = t;                                                                 \
--    do_float_check_status(env, sfprf, GETPC());                              \
-+    do_float_check_status(env, sfifprf, GETPC());                            \
- }
- 
- VSX_SQRT(xssqrtdp, 1, float64, VsrD(0), 1, 0)
-@@ -2002,9 +2002,9 @@ VSX_SQRT(xvsqrtsp, 4, float32, VsrW(i), 0, 0)
-  *   nels  - number of elements (1, 2 or 4)
-  *   tp    - type (float32 or float64)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_RSQRTE(op, nels, tp, fld, sfprf, r2sp)                           \
-+#define VSX_RSQRTE(op, nels, tp, fld, sfifprf, r2sp)                         \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
- {                                                                            \
-     ppc_vsr_t t = { };                                                       \
-@@ -2020,19 +2020,19 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
-         env->fp_status.float_exception_flags |= tstat.float_exception_flags; \
-         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {    \
-             float_invalid_op_sqrt(env, tstat.float_exception_flags,          \
--                                  sfprf, GETPC());                           \
-+                                  sfifprf, GETPC());                         \
-         }                                                                    \
-         if (r2sp) {                                                          \
-             t.fld = do_frsp(env, t.fld, GETPC());                            \
-         }                                                                    \
-                                                                              \
--        if (sfprf) {                                                         \
-+        if (sfifprf) {                                                       \
-             helper_compute_fprf_float64(env, t.fld);                         \
-         }                                                                    \
-     }                                                                        \
-                                                                              \
-     *xt = t;                                                                 \
--    do_float_check_status(env, sfprf, GETPC());                              \
-+    do_float_check_status(env, sfifprf, GETPC());                            \
- }
- 
- VSX_RSQRTE(xsrsqrtedp, 1, float64, VsrD(0), 1, 0)
-@@ -2158,9 +2158,9 @@ VSX_TSQRT(xvtsqrtsp, 4, float32, VsrW(i), -126, 23)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-  *   maddflgs - flags for the float*muladd routine that control the
-  *           various forms (madd, msub, nmadd, nmsub)
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_MADD(op, nels, tp, fld, maddflgs, sfprf)                          \
-+#define VSX_MADD(op, nels, tp, fld, maddflgs, sfifprf)                        \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-                  ppc_vsr_t *s1, ppc_vsr_t *s2, ppc_vsr_t *s3)                 \
- {                                                                             \
-@@ -2177,15 +2177,15 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-                                                                               \
-         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {     \
-             float_invalid_op_madd(env, tstat.float_exception_flags,           \
--                                  sfprf, GETPC());                            \
-+                                  sfifprf, GETPC());                          \
-         }                                                                     \
-                                                                               \
--        if (sfprf) {                                                          \
-+        if (sfifprf) {                                                        \
-             helper_compute_fprf_float64(env, t.fld);                          \
-         }                                                                     \
-     }                                                                         \
-     *xt = t;                                                                  \
--    do_float_check_status(env, sfprf, GETPC());                               \
-+    do_float_check_status(env, sfifprf, GETPC());                             \
- }
- 
- VSX_MADD(XSMADDDP, 1, float64, VsrD(0), MADD_FLGS, 1)
-@@ -2670,9 +2670,9 @@ VSX_CMP(xvcmpnesp, 4, float32, VsrW(i), eq, 0, 0)
-  *   ttp   - target type (float32 or float64)
-  *   sfld  - source vsr_t field
-  *   tfld  - target vsr_t field (f32 or f64)
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_CVT_FP_TO_FP(op, nels, stp, ttp, sfld, tfld, sfprf)    \
-+#define VSX_CVT_FP_TO_FP(op, nels, stp, ttp, sfld, tfld, sfifprf)  \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)   \
- {                                                                  \
-     ppc_vsr_t t = { };                                             \
-@@ -2685,19 +2685,19 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)   \
-             float_invalid_op_vxsnan(env, GETPC());                 \
-             t.tfld = ttp##_snan_to_qnan(t.tfld);                   \
-         }                                                          \
--        if (sfprf) {                                               \
-+        if (sfifprf) {                                             \
-             helper_compute_fprf_##ttp(env, t.tfld);                \
-         }                                                          \
-     }                                                              \
-                                                                    \
-     *xt = t;                                                       \
--    do_float_check_status(env, sfprf, GETPC());                    \
-+    do_float_check_status(env, sfifprf, GETPC());                  \
- }
- 
- VSX_CVT_FP_TO_FP(xscvspdp, 1, float32, float64, VsrW(0), VsrD(0), 1)
- VSX_CVT_FP_TO_FP(xvcvspdp, 2, float32, float64, VsrW(2 * i), VsrD(i), 0)
- 
--#define VSX_CVT_FP_TO_FP2(op, nels, stp, ttp, sfprf)                  \
-+#define VSX_CVT_FP_TO_FP2(op, nels, stp, ttp, sfifprf)                \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)      \
- {                                                                     \
-     ppc_vsr_t t = { };                                                \
-@@ -2710,14 +2710,14 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)      \
-             float_invalid_op_vxsnan(env, GETPC());                    \
-             t.VsrW(2 * i) = ttp##_snan_to_qnan(t.VsrW(2 * i));        \
-         }                                                             \
--        if (sfprf) {                                                  \
-+        if (sfifprf) {                                                \
-             helper_compute_fprf_##ttp(env, t.VsrW(2 * i));            \
-         }                                                             \
-         t.VsrW(2 * i + 1) = t.VsrW(2 * i);                            \
-     }                                                                 \
-                                                                       \
-     *xt = t;                                                          \
--    do_float_check_status(env, sfprf, GETPC());                       \
-+    do_float_check_status(env, sfifprf, GETPC());                     \
- }
- 
- VSX_CVT_FP_TO_FP2(xvcvdpsp, 2, float64, float32, 0)
-@@ -2733,9 +2733,9 @@ VSX_CVT_FP_TO_FP2(xscvdpsp, 1, float64, float32, 1)
-  *   tfld  - target vsr_t field (f32 or f64)
-  *   sfprf - set FPRF
-  */
--#define VSX_CVT_FP_TO_FP_VECTOR(op, nels, stp, ttp, sfld, tfld, sfprf)    \
--void helper_##op(CPUPPCState *env, uint32_t opcode,                       \
--                 ppc_vsr_t *xt, ppc_vsr_t *xb)                            \
-+#define VSX_CVT_FP_TO_FP_VECTOR(op, nels, stp, ttp, sfld, tfld, sfprf)  \
-+void helper_##op(CPUPPCState *env, uint32_t opcode,                     \
-+                 ppc_vsr_t *xt, ppc_vsr_t *xb)                          \
- {                                                                       \
-     ppc_vsr_t t = *xt;                                                  \
-     int i;                                                              \
-@@ -2767,9 +2767,9 @@ VSX_CVT_FP_TO_FP_VECTOR(xscvdpqp, 1, float64, float128, VsrD(0), f128, 1)
-  *   ttp   - target type
-  *   sfld  - source vsr_t field
-  *   tfld  - target vsr_t field
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_CVT_FP_TO_FP_HP(op, nels, stp, ttp, sfld, tfld, sfprf) \
-+#define VSX_CVT_FP_TO_FP_HP(op, nels, stp, ttp, sfld, tfld, sfifprf) \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)   \
- {                                                                  \
-     ppc_vsr_t t = { };                                             \
-@@ -2782,13 +2782,13 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)   \
-             float_invalid_op_vxsnan(env, GETPC());                 \
-             t.tfld = ttp##_snan_to_qnan(t.tfld);                   \
-         }                                                          \
--        if (sfprf) {                                               \
-+        if (sfifprf) {                                             \
-             helper_compute_fprf_##ttp(env, t.tfld);                \
-         }                                                          \
-     }                                                              \
-                                                                    \
-     *xt = t;                                                       \
--    do_float_check_status(env, sfprf, GETPC());                    \
-+    do_float_check_status(env, sfifprf, GETPC());                  \
- }
- 
- VSX_CVT_FP_TO_FP_HP(xscvdphp, 1, float64, float16, VsrD(0), VsrH(3), 1)
-@@ -3035,9 +3035,9 @@ VSX_CVT_FP_TO_INT_VECTOR(xscvqpuwz, float128, uint32, f128, VsrD(0), 0x0ULL)
-  *   sfld  - source vsr_t field
-  *   tfld  - target vsr_t field
-  *   jdef  - definition of the j index (i or 2*i)
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_CVT_INT_TO_FP(op, nels, stp, ttp, sfld, tfld, sfprf, r2sp)  \
-+#define VSX_CVT_INT_TO_FP(op, nels, stp, ttp, sfld, tfld, sfifprf, r2sp)\
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)        \
- {                                                                       \
-     ppc_vsr_t t = { };                                                  \
-@@ -3048,13 +3048,13 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)        \
-         if (r2sp) {                                                     \
-             t.tfld = do_frsp(env, t.tfld, GETPC());                     \
-         }                                                               \
--        if (sfprf) {                                                    \
-+        if (sfifprf) {                                                  \
-             helper_compute_fprf_float64(env, t.tfld);                   \
-         }                                                               \
-     }                                                                   \
-                                                                         \
-     *xt = t;                                                            \
--    do_float_check_status(env, sfprf, GETPC());                         \
-+    do_float_check_status(env, sfifprf, GETPC());                       \
- }
- 
- VSX_CVT_INT_TO_FP(xscvsxddp, 1, int64, float64, VsrD(0), VsrD(0), 1, 0)
-@@ -3136,9 +3136,9 @@ VSX_CVT_INT_TO_FP_VECTOR(xscvudqp, uint64, float128, VsrD(0), f128)
-  *   tp    - type (float32 or float64)
-  *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-  *   rmode - rounding mode
-- *   sfprf - set FPRF
-+ *   sfifprf - set FI and FPRF
-  */
--#define VSX_ROUND(op, nels, tp, fld, rmode, sfprf)                     \
-+#define VSX_ROUND(op, nels, tp, fld, rmode, sfifprf)                   \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
- {                                                                      \
-     ppc_vsr_t t = { };                                                 \
-@@ -3158,7 +3158,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
-         } else {                                                       \
-             t.fld = tp##_round_to_int(xb->fld, &env->fp_status);       \
-         }                                                              \
--        if (sfprf) {                                                   \
-+        if (sfifprf) {                                                 \
-             helper_compute_fprf_float64(env, t.fld);                   \
-         }                                                              \
-     }                                                                  \
-@@ -3174,7 +3174,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
-     }                                                                  \
-                                                                        \
-     *xt = t;                                                           \
--    do_float_check_status(env, sfprf, GETPC());                        \
-+    do_float_check_status(env, sfifprf, GETPC());                      \
- }
- 
- VSX_ROUND(xsrdpi, 1, float64, VsrD(0), float_round_ties_away, 1)
--- 
-2.25.1
-
+r~
 
