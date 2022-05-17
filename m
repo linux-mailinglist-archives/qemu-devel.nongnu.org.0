@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D7952AB4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:56:15 +0200 (CEST)
-Received: from localhost ([::1]:39006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1EC52AB54
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 20:57:51 +0200 (CEST)
+Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr2Ma-0005HH-8T
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
+	id 1nr2O4-0000SK-Gi
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 14:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr2JP-0002wL-AL
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:52:51 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:34725)
+ id 1nr2LP-00064f-DI
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:54:55 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:40591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nr2JN-0008P4-QS
- for qemu-devel@nongnu.org; Tue, 17 May 2022 14:52:51 -0400
-Received: by mail-pf1-x431.google.com with SMTP id a11so17717038pff.1
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:52:49 -0700 (PDT)
+ id 1nr2LN-00006x-Nl
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 14:54:55 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id i24so17701206pfa.7
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 11:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iuxht1Z7ntQ2L4eqzchl9HRGnQJpeTRmvr+EaqybCiA=;
- b=jRQwEVIhQP8Mf2HV6H/shNBDkRVxnyPEIq+lG8a4jTI7CORuuc44nM+KPMJsXvSlZB
- yfy59Xpd2UXIesL/PiiAu5mOdqD066xlLEOoKg5q7UwvFGnQIoRsHoSesNr1jEQQckIa
- 8VWjvGfvp2AJuWTIEOEGsv/RSURC0Q7M+iZlxDnitr52vkK5JlF9C9RsYRKDmFCwM9On
- lYZB4wVPeduw8miEKlNlj+ZbOj4ANF3Ig2QwiEa6rMwRjVdrqaFJgycg3ixLtwLH8jZz
- kxS4sXi2QwY5TQpxmPrrmBV3Cr6/O5pDzNVZQETh34I/CsmqkRAKaHql6ITnIiNMzKvT
- KrTw==
+ bh=T0S2Q6wpJtgxtt0amvCBnXtGBgnanX9nsY4dYwCK/vY=;
+ b=qbAv5q7W9N2Nus8Nu9Bek8Pxua7eA6jPFKas454et4uomWXC5RmrRFRER3Pz200LmS
+ AvILyMxVWZ3rJZe8AxK4uLbviDq8gGRhwUbROfiXPmWLxVDvQYrXyiRDeN+dKOIuFBDd
+ Tpt2KMS+wv2cNIlGemuTJvKIf9ippWXmnGUD57fvmCldCABUrnIdi1kZi3tBLRi+3SzO
+ irWofvdiSjrtSXh43lK6cjspWxsISdRjUIWesGlKrt37vJni8BZYFyHxjcJI/7FJ3rbJ
+ U/W0u/lyyIqUo33e09KClR6YBS0qlpfw3zr4LnUrOVmHC8ichWbFbG6O7K/pzMHAdHKW
+ +xwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=iuxht1Z7ntQ2L4eqzchl9HRGnQJpeTRmvr+EaqybCiA=;
- b=NLGwOA1d26z5ruLnfWEhFYu67fJqFzNajfu5YeSQbgPt3VPepQr9e1CBDXrMLUy0fW
- nQXU6Gbcx4kY/1nqrZbMKWC4irgcpAESXHF/IXaUR2aXPsSkD3919tAGDVPWqzxjoCuA
- 287Mgj9GbJogqu6BN9+9E0Mqp/td3otxxUcUsoXQ6LUxpBDzxvF0LUCMlB0qaTaP0cU4
- bjmn1Ota8R32e36d5+pFP58JBhLN/41VDudG6uX2Ght1Xd0T/OTxqlPoEuo6XhGrkvkn
- OUOMP6SUECFRtagf9CRJ7XIM5RbMkTauD3qwgO1B3rqslysokoxoU2zgt5gmaa60SQXP
- eCfw==
-X-Gm-Message-State: AOAM530CZuypXaWfZTVG+Aped9rhK72YOaP1EqauCNZfA2/RYOHEtAP2
- 6TDS9IRcQ5H+wDXcu2Wdc/B8Aw==
-X-Google-Smtp-Source: ABdhPJwzb14adft7tn0kbXtl1j8XSVvFilFedvwnrA9aXS59WxMkwR1selUmMU/3+gBS0qzPCjP8nw==
-X-Received: by 2002:a63:2c4a:0:b0:3c1:df82:cf0e with SMTP id
- s71-20020a632c4a000000b003c1df82cf0emr20904652pgs.474.1652813568263; 
- Tue, 17 May 2022 11:52:48 -0700 (PDT)
+ bh=T0S2Q6wpJtgxtt0amvCBnXtGBgnanX9nsY4dYwCK/vY=;
+ b=XEp3jb8Y82IW/Xk8XoA/lhFKSm61HMK6EKFdvf688EKp3d6jz3DNEYQwTMgvD9juV4
+ gvngOv9sAtegIX+SCoxselBN3PlikwaDWPUYhNkpl/wvaI03KKX7AdlY9PUa+IrxYsPO
+ zX+glvbtBisHBuRDFI/bE4E+3XMJvJj0i3hX5YEp1SdNlmPKoWdGK50ZGpWDyQ3gvJhu
+ 23kUqSNdEGjEDXVkNp0xMUe96OX6MJdsSv0q01aWe3QTScV0gVEdDi3uDIVyk5MWxp6N
+ ybeo+mMiC0B2Hq/D8XnijJOouvf2ktRZxraLsdO6E1j+fCLCtLxR65Xyxx7+QZUILY2E
+ JAQA==
+X-Gm-Message-State: AOAM531TFUkCBlKs8PGf6XF+xgqrYbO28KoJKmipgM/WSHfBk+HTY0RS
+ 4kZXYcBNFJgrvGw2QVTM0vyjnw==
+X-Google-Smtp-Source: ABdhPJwkF47G2uE+lWHeG1q7gLzOdd6vANue5oM6xS8pTWsV6Q+v9zArEzocabtIq/Sl/ZZaDaPo9g==
+X-Received: by 2002:a63:6a42:0:b0:3b4:276c:8c3 with SMTP id
+ f63-20020a636a42000000b003b4276c08c3mr20482215pgc.337.1652813692416; 
+ Tue, 17 May 2022 11:54:52 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- c24-20020a170902c2d800b0015f309f14d0sm9451242pla.56.2022.05.17.11.52.47
+ iy1-20020a170903130100b0016160b33319sm5957934plb.246.2022.05.17.11.54.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 May 2022 11:52:47 -0700 (PDT)
-Message-ID: <cbb90404-8868-e554-df61-c112499b48b6@linaro.org>
-Date: Tue, 17 May 2022 11:52:46 -0700
+ Tue, 17 May 2022 11:54:51 -0700 (PDT)
+Message-ID: <511bb73d-0212-9c15-40a9-02cebb0a3381@linaro.org>
+Date: Tue, 17 May 2022 11:54:50 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH RESEND 06/10] target/ppc: Implement mffscdrn[i]
+Subject: Re: [PATCH RESEND 07/10] target/ppc: Add flag for ISA v2.06 BCDA
  instructions
 Content-Language: en-US
 To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org
+ groug@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
 References: <20220517164744.58131-1-victor.colombo@eldorado.org.br>
- <20220517164744.58131-7-victor.colombo@eldorado.org.br>
+ <20220517164744.58131-8-victor.colombo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517164744.58131-7-victor.colombo@eldorado.org.br>
+In-Reply-To: <20220517164744.58131-8-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,11 +97,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/17/22 09:47, Víctor Colombo wrote:
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> 
+> Adds an insns_flags2 for the BCD assist instructions introduced in
+> Power ISA 2.06. These instructions are not listed in the manuals for
+> e5500[1] and e6500[2], so the flag is only added for POWER7/8/9/10
+> models.
+> 
+> [1]https://www.nxp.com/files-static/32bit/doc/ref_manual/EREF_RM.pdf
+> [2]https://www.nxp.com/docs/en/reference-manual/E6500RM.pdf
+> 
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
 > ---
->   target/ppc/insn32.decode           |  5 +++++
->   target/ppc/translate/fp-impl.c.inc | 35 ++++++++++++++++++++++++++++++
->   2 files changed, 40 insertions(+)
+>   target/ppc/cpu.h      | 4 +++-
+>   target/ppc/cpu_init.c | 9 +++++----
+>   2 files changed, 8 insertions(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
