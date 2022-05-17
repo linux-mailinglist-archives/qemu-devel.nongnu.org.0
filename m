@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E9252A89F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:53:07 +0200 (CEST)
-Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3548152A89D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 18:52:28 +0200 (CEST)
+Received: from localhost ([::1]:57460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr0RO-0002Je-Nj
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:52:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34326)
+	id 1nr0Ql-0001td-3O
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 12:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nr0Mj-0007OQ-NT; Tue, 17 May 2022 12:48:09 -0400
+ id 1nr0Ml-0007Tc-Uq; Tue, 17 May 2022 12:48:11 -0400
 Received: from [187.72.171.209] (port=63178 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nr0Mi-0006ji-2y; Tue, 17 May 2022 12:48:09 -0400
+ id 1nr0Mk-0006ji-Gw; Tue, 17 May 2022 12:48:11 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 17 May 2022 13:48:00 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 91F03800603;
+ by p9ibm (Postfix) with ESMTP id B0706800C32;
  Tue, 17 May 2022 13:48:00 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  victor.colombo@eldorado.org.br
-Subject: [PATCH RESEND 01/10] target/ppc: Fix insn32.decode style issues
-Date: Tue, 17 May 2022 13:47:35 -0300
-Message-Id: <20220517164744.58131-2-victor.colombo@eldorado.org.br>
+Subject: [PATCH RESEND 02/10] target/ppc: Move mffs[.] to decodetree
+Date: Tue, 17 May 2022 13:47:36 -0300
+Message-Id: <20220517164744.58131-3-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220517164744.58131-1-victor.colombo@eldorado.org.br>
 References: <20220517164744.58131-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 May 2022 16:48:00.0825 (UTC)
- FILETIME=[DE8BC290:01D86A0D]
+X-OriginalArrivalTime: 17 May 2022 16:48:00.0935 (UTC)
+ FILETIME=[DE9C8B70:01D86A0D]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,101 +64,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some lines in insn32.decode have inconsistent alignment when compared
-to others.
-Fix this by changing the alignment of some lines, making it more
-consistent throughout the file.
-
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/insn32.decode | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ target/ppc/insn32.decode           |  7 +++++++
+ target/ppc/translate/fp-impl.c.inc | 25 +++++++++++++++++++++++++
+ target/ppc/translate/fp-ops.c.inc  |  1 -
+ 3 files changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 39372fe673..b47213764d 100644
+index b47213764d..a6e1337c51 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -18,11 +18,11 @@
- #
+@@ -94,6 +94,9 @@
+ &X_tb           rt rb
+ @X_tb           ...... rt:5 ..... rb:5 .......... .             &X_tb
  
- &D              rt ra si:int64_t
--@D              ...... rt:5 ra:5 si:s16                 &D
-+@D              ...... rt:5 ra:5 si:s16                         &D
++&X_t_rc         rt rc:bool
++@X_t_rc         ...... rt:5 ..... ..... .......... rc:1         &X_t_rc
++
+ &X_tb_rc        rt rb rc:bool
+ @X_tb_rc        ...... rt:5 ..... rb:5 .......... rc:1          &X_tb_rc
  
- &D_bf           bf l:bool ra imm
--@D_bfs          ...... bf:3 - l:1 ra:5 imm:s16          &D_bf
--@D_bfu          ...... bf:3 - l:1 ra:5 imm:16           &D_bf
-+@D_bfs          ...... bf:3 . l:1 ra:5 imm:s16                  &D_bf
-+@D_bfu          ...... bf:3 . l:1 ra:5 imm:16                   &D_bf
+@@ -315,6 +318,10 @@ SETBCR          011111 ..... ..... ----- 0110100000 -   @X_bi
+ SETNBC          011111 ..... ..... ----- 0111000000 -   @X_bi
+ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
  
- %dq_si          4:s12  !function=times_16
- %dq_rtp         22:4   !function=times_2
-@@ -35,7 +35,7 @@
- @DQ_TSXP        ...... ..... ra:5 ............ ....             &D si=%dq_si rt=%rt_tsxp
++### Move To/From FPSCR
++
++MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
++
+ ### Decimal Floating-Point Arithmetic Instructions
  
- %ds_si          2:s14  !function=times_4
--@DS             ...... rt:5 ra:5 .............. ..      &D si=%ds_si
-+@DS             ...... rt:5 ra:5 .............. ..              &D si=%ds_si
+ DADD            111011 ..... ..... ..... 0000000010 .   @X_rc
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+index cfb27bd020..e167f7a478 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -607,6 +607,31 @@ static void gen_mffs(DisasContext *ctx)
+     tcg_temp_free_i64(t0);
+ }
  
- %ds_rtp         22:4   !function=times_2
- @DS_rtp         ...... ....0 ra:5 .............. ..             &D rt=%ds_rtp si=%ds_si
-@@ -46,10 +46,10 @@
- 
- &DX             rt d
- %dx_d           6:s10 16:5 0:1
--@DX             ...... rt:5  ..... .......... ..... .   &DX d=%dx_d
-+@DX             ...... rt:5  ..... .......... ..... .           &DX d=%dx_d
- 
- &VA             vrt vra vrb rc
--@VA             ...... vrt:5 vra:5 vrb:5 rc:5 ......    &VA
-+@VA             ...... vrt:5 vra:5 vrb:5 rc:5 ......            &VA
- 
- &VC             vrt vra vrb rc:bool
- @VC             ...... vrt:5 vra:5 vrb:5 rc:1 ..........        &VC
-@@ -58,7 +58,7 @@
- @VN             ...... vrt:5 vra:5 vrb:5 .. sh:3 ......         &VN
- 
- &VX             vrt vra vrb
--@VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
-+@VX             ...... vrt:5 vra:5 vrb:5 .......... .           &VX
- 
- &VX_bf          bf vra vrb
- @VX_bf          ...... bf:3 .. vra:5 vrb:5 ...........          &VX_bf
-@@ -73,13 +73,13 @@
- @VX_tb_rc       ...... vrt:5 ..... vrb:5 rc:1 ..........        &VX_tb_rc
- 
- &VX_uim4        vrt uim vrb
--@VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........  &VX_uim4
-+@VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........          &VX_uim4
- 
- &VX_tb          vrt vrb
--@VX_tb          ...... vrt:5 ..... vrb:5 ...........    &VX_tb
-+@VX_tb          ...... vrt:5 ..... vrb:5 ...........            &VX_tb
- 
- &X              rt ra rb
--@X              ...... rt:5 ra:5 rb:5 .......... .      &X
-+@X              ...... rt:5 ra:5 rb:5 .......... .              &X
- 
- &X_rc           rt ra rb rc:bool
- @X_rc           ...... rt:5 ra:5 rb:5 .......... rc:1           &X_rc
-@@ -104,7 +104,7 @@
- @X_t_bp_rc      ...... rt:5 ..... ....0 .......... rc:1         &X_tb_rc rb=%x_frbp
- 
- &X_bi           rt bi
--@X_bi           ...... rt:5 bi:5 ----- .......... -     &X_bi
-+@X_bi           ...... rt:5 bi:5 ..... .......... .             &X_bi
- 
- &X_bf           bf ra rb
- @X_bf           ...... bf:3 .. ra:5 rb:5 .......... .           &X_bf
-@@ -119,7 +119,7 @@
- @X_bf_uim_bp    ...... bf:3 . uim:6 ....0 .......... .          &X_bf_uim rb=%x_frbp
- 
- &X_bfl          bf l:bool ra rb
--@X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
-+@X_bfl          ...... bf:3 . l:1 ra:5 rb:5 .......... .        &X_bfl
- 
- %x_xt           0:1 21:5
- &X_imm5         xt imm:uint8_t vrb
++static void do_mffsc(int rt)
++{
++    TCGv_i64 fpscr;
++
++    fpscr = tcg_temp_new_i64();
++
++    gen_reset_fpstatus();
++    tcg_gen_extu_tl_i64(fpscr, cpu_fpscr);
++    set_fpr(rt, fpscr);
++
++    tcg_temp_free_i64(fpscr);
++}
++
++static bool trans_MFFS(DisasContext *ctx, arg_X_t_rc *a)
++{
++    REQUIRE_FPU(ctx);
++
++    do_mffsc(a->rt);
++    if (a->rc) {
++        gen_set_cr1_from_fpscr(ctx);
++    }
++
++    return true;
++}
++
+ /* mffsl */
+ static void gen_mffsl(DisasContext *ctx)
+ {
+diff --git a/target/ppc/translate/fp-ops.c.inc b/target/ppc/translate/fp-ops.c.inc
+index 4260635a12..7aa4011ef3 100644
+--- a/target/ppc/translate/fp-ops.c.inc
++++ b/target/ppc/translate/fp-ops.c.inc
+@@ -75,7 +75,6 @@ GEN_HANDLER_E(fcpsgn, 0x3F, 0x08, 0x00, 0x00000000, PPC_NONE, PPC2_ISA205),
+ GEN_HANDLER_E(fmrgew, 0x3F, 0x06, 0x1E, 0x00000001, PPC_NONE, PPC2_VSX207),
+ GEN_HANDLER_E(fmrgow, 0x3F, 0x06, 0x1A, 0x00000001, PPC_NONE, PPC2_VSX207),
+ GEN_HANDLER(mcrfs, 0x3F, 0x00, 0x02, 0x0063F801, PPC_FLOAT),
+-GEN_HANDLER_E_2(mffs, 0x3F, 0x07, 0x12, 0x00, 0x00000000, PPC_FLOAT, PPC_NONE),
+ GEN_HANDLER_E_2(mffsce, 0x3F, 0x07, 0x12, 0x01, 0x00000000, PPC_FLOAT,
+     PPC2_ISA300),
+ GEN_HANDLER_E_2(mffsl, 0x3F, 0x07, 0x12, 0x18, 0x00000000, PPC_FLOAT,
 -- 
 2.25.1
 
