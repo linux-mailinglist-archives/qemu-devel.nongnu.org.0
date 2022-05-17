@@ -2,87 +2,195 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F506529CF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 10:54:55 +0200 (CEST)
-Received: from localhost ([::1]:60608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A08F529D28
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 11:03:20 +0200 (CEST)
+Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqsyj-0002LJ-RD
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 04:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57734)
+	id 1nqt6s-0005nI-KW
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 05:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqswU-0001SB-Jt
- for qemu-devel@nongnu.org; Tue, 17 May 2022 04:52:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53361)
+ (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
+ id 1nqswf-0001V2-It
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 04:52:48 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:59367 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nqswQ-00069S-3u
- for qemu-devel@nongnu.org; Tue, 17 May 2022 04:52:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652777542;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m9F5xLc60hhWhwq5kwE7Ef6WJP4Y+K7WeLiEjnbb3tI=;
- b=HV+P/TknY3ViARnS6BSvR87kg/jrdHsP0wzLcEgPnjyT7JM+ESUTYgaKXjjp/4gtG0ikuy
- F41qw6ucMuaZRkqv+dX2InKIWOSfgwCUVjvq4lINkcvUlv/UK6liqADcvkHcOphDGPEEAk
- KsSU6ryTqVhUkhQKZQWTAiCMGeCNALM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-_BhGJs3VM-m16S84P9Wz5A-1; Tue, 17 May 2022 04:52:21 -0400
-X-MC-Unique: _BhGJs3VM-m16S84P9Wz5A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8102299E755;
- Tue, 17 May 2022 08:52:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C7995742E7;
- Tue, 17 May 2022 08:52:18 +0000 (UTC)
-Date: Tue, 17 May 2022 09:52:15 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Atish Kumar Patra <atishp@rivosinc.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Atish Patra <atishp@atishpatra.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
-Message-ID: <YoNiPw/3e+CY0v7o@redhat.com>
-References: <Yl7oiF7kUrIQ0qk5@redhat.com>
- <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
- <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
- <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
- <YnOhHZGJphk30SmJ@redhat.com>
- <CAKmqyKMKxb81ZSpz-ncGc3fpt8f06EcEcXvtHjEpWLABXGT+uQ@mail.gmail.com>
- <YnTZP1iG+77Cugaq@redhat.com>
- <CAFEAcA_MncAJWUqG3yRVGMT0mXKvnBUqJLdoHwMdd=OW8fnodQ@mail.gmail.com>
- <CAHBxVyH=7hX5mjWcUBODk_tNHoczefdkfS8dFcf6is=vpz=SZw@mail.gmail.com>
- <CAKmqyKPK_F7Z4-tM9k8+3yXDdSTSFagieH23vqoW+TciXpnYqA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
+ id 1nqswc-0006BR-SP
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 04:52:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652777562; x=1684313562;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=f4cop49w/428WDB79NrvD49ul5k5hmhA4HE272/sp5c=;
+ b=VvfZyhrOEbwbr2CDCzSH/+o66ggK0zWmN3AEvrsYw47JVJnjxpSMC20n
+ SFQb//7cgi3hz6QEvLEf8hiSKwT08IjW0IviE0+t8/aYy1ODNnRaT5bz3
+ fXjaS3sdtNFtc0LWlktU2MIYIVsNjtc2bnyn105qdG7TlM33wHiVWy7BX
+ oz8aXfRNnCztq/0RPbD2i/B9QjL3/LkyHkIgXSsMFbknwDmSklOlJ80Z9
+ 40bBnu8+c5u62oALIXDcTh7UuEisx7WU3/Yh5Nj2tYXCG4aabUiw1C/YS
+ R4yarHpf61ycYPJ05CQAOK3p3EBY0aFGMD+1+7QfxHdQZTQzSLQbemT/Y g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="331734007"
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="331734007"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2022 01:52:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="605266105"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga001.jf.intel.com with ESMTP; 17 May 2022 01:52:37 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 17 May 2022 01:52:36 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 17 May 2022 01:52:36 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Tue, 17 May 2022 01:52:36 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Tue, 17 May 2022 01:52:36 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RpzLV690Rc6xTYE32eCbfTfqhg+gkf/3LpuDKmRgL337HBhYz7NtPcvRcyFnWW0wM4HZgE7dqMdZ5EX9EGStwO7+kYxFrkNgqTw2KVTMPHyAveUHg4q8b0WTmOu4vbvk8DjSrdnyGvAmAcEXA7WQxZqcqhmq4DDHXgJHdJ4s/UUV1RgVs3KUrTE0J498JZBC1Sl1mUQ50f1tuTHSeq0esaj/ASZ+V3TzIeIRSDO3PFz8JSdLn4XUccN0NJ7PFaTSl1iH2tCyHuDT739aIUiWUpmIuGIff2Lo42cGoapp+g5oqLIDA1Ku7qvblGckkck3zHFEcrlEDGVNVvinAG+s3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HzT1XZpe00QtpoxxpMbmUsJTxobg6EXD3mPzwiy+3MU=;
+ b=e+POGOBJwYA90/kknrLuojTfRtkYwAw4qp4CcbMwaTbg+CZn64Bp1YFIJIMbWJut+/7LoNJLrvX8ZogCieUFFgl98e/pUXW4DkfjZO/iSfnrONsDh4M19Hw1tHNRoPHe55oRRZH/2kOqlWJYD+QUAPeFY7P2HYRWd28D5Da6zzgSiQtSwUOi2FODlpB2+PaCO1yNIqTZeuuCx7XUqP2QVBjV6w8Ar3lNbwYnvCMB7b+q50udruRcgeJc0RK425B8vCJzlIieYUOM/kacPqlABduKp4JMkr6b1YR6ipK9/rXgnuAQe9Td8gw3z3HsMEwFh2+iqsbPXenaxhJfZY7g/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by DM6PR11MB4545.namprd11.prod.outlook.com (2603:10b6:5:2ae::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Tue, 17 May
+ 2022 08:52:35 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::21cf:c26f:8d40:6b5f]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::21cf:c26f:8d40:6b5f%5]) with mapi id 15.20.5250.018; Tue, 17 May 2022
+ 08:52:34 +0000
+Message-ID: <2e7d40ae-9449-36a2-2e3b-a5eb62e11aa6@intel.com>
+Date: Tue, 17 May 2022 16:52:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.7.0
+Subject: Re: [RFC 00/18] vfio: Adopt iommufd
+Content-Language: en-US
+To: "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>, Jason Gunthorpe
+ <jgg@nvidia.com>, Zhangfei Gao <zhangfei.gao@linaro.org>
+CC: <eric.auger@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "david@gibson.dropbear.id.au"
+ <david@gibson.dropbear.id.au>, "thuth@redhat.com" <thuth@redhat.com>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>, "mjrosato@linux.ibm.com"
+ <mjrosato@linux.ibm.com>, "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "jjherne@linux.ibm.com"
+ <jjherne@linux.ibm.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "nicolinc@nvidia.com"
+ <nicolinc@nvidia.com>, "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>, 
+ "kevin.tian@intel.com" <kevin.tian@intel.com>, "chao.p.peng@intel.com"
+ <chao.p.peng@intel.com>, "yi.y.sun@intel.com" <yi.y.sun@intel.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <4f920d463ebf414caa96419b625632d5@huawei.com>
+ <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
+ <4ac4956cfe344326a805966535c1dc43@huawei.com>
+ <20220426103507.5693a0ca.alex.williamson@redhat.com>
+ <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
+ <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
+ <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
+ <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
+ <20220510124554.GY49344@nvidia.com>
+ <637b3992-45d9-f472-b160-208849d3d27a@intel.com>
+ <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
+From: Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKmqyKPK_F7Z4-tM9k8+3yXDdSTSFagieH23vqoW+TciXpnYqA@mail.gmail.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-ClientProxiedBy: HK2PR0401CA0007.apcprd04.prod.outlook.com
+ (2603:1096:202:2::17) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2ad0e311-5bc9-47db-c85a-08da37e295be
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4545:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR11MB4545113F315DDCEB22ACE017C3CE9@DM6PR11MB4545.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TBw4EMvaVnR8WaVUbFvorq5A7Disd10zwQ8ZD9HqIPM+mYToddsBtvg8rIXrD/HTmGu/1ZA7KXqa+JavSTSHZ0Q9brHhywMm/VxzFh9dGMvcv8S6cuTtjQkUWCtpM7e5YQ+yqnS/Ysojj4KrbS++a9g4SUq7pCl/5omwqp7e5WYK6zLqgC56hRdIclWJMbb7LZ+n0iaqk2mpl5XyORx0kDC7FhLL23chEBa5vzBVbaUVNs3q2wxDShKgQsvJTl2WKzJNE8Z+t7JBbVzzZuwx16+G/QdNTZGMOiTYNs7+CPx1dUEkaxu9gQiMuijJxpfo4EdMy4GSQuDTJl3k10rOAHqjYwlwi4iN3WKZgXA5rUeTAJMH4hiXGT09fslA0fs+jm5Il849xa3bCwW1F0PtmYAfkFDfXrVsqb8AEOOgmbxhnGSYxQnu0XzFMk1JNC3zcAcmB99pyQbs08NwEr0WNvkPmnebae7Mo+c9QiuudM6/kBGnaxOk0CrJG6YpDV5Z930r22yXcQyr0tYDaLNlQ0ZOkbm0/h+jUcvX6BH1FtARLeuc9cL25Ji4p3oN4699+vXxYYAHqQPUCuIjlnJAigpW0ZVpAuHklpS2upfjICsqT4PEFkISIkp4OZpMAsfYX3VP/bOCS34s0K3XUeVxJOZIYpSd0WILceGVLgz4RuuwHq+e/6PImxsAvF6qJiur4vdhk7IXxgP+IPyS8HDE0oCM1ui744Lys5MkbNvW2N9268xk0cqT7EXC5/gs/sX7kdlirDISu6ikrsY6OKdb4W+IfmeCDLTIQapcDjVI7ODlHP8DZ9KfZz47v9qDtMZHifLVwzZ07KEftfl7AgzVgepeB1bYmEFqDKEI2CcGMAQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB5658.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(36756003)(31686004)(6506007)(186003)(53546011)(82960400001)(508600001)(54906003)(110136005)(966005)(6486002)(26005)(6512007)(2906002)(38100700002)(31696002)(316002)(66946007)(66476007)(8676002)(4326008)(66556008)(6666004)(2616005)(8936002)(5660300002)(7416002)(83380400001)(86362001)(48020200002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UExydmVkbFp1aVFsa2VRWm9Xa1VoMTZqQm1PaGFycjExSGh5clQyZ2ZHZEhZ?=
+ =?utf-8?B?VEJHcHFQUkpqdnBQSktUQUN4bEVqMU9MTmUrbGVqV25VeCtwczBvTEUyU0tX?=
+ =?utf-8?B?V0p2emxmb1RmZWJCZVdJT2JzQkN1YkRXZnpSTG5xd1FxZVFqd3ZMNW9RaWJZ?=
+ =?utf-8?B?RGtvc2VDVkt3VEhiSTJkN1M0TVRtQndIZE0zb3gvVVhsbEV3ZjA5K0dqa0VF?=
+ =?utf-8?B?VzdwcTJDRnFTVURkNHczcnk3aE5uZGVBOFdJRHZka21qR2EwNXJJK2pCeWpn?=
+ =?utf-8?B?VlZERmgvUDRKdlZicStBWWNWZVpXd2dkeUdUR2szbUxIM29YTFdqRllkYjk2?=
+ =?utf-8?B?b1dWMFMxU1h5N0xHQ3dPVHBZVktLUFhtdnIxLzhPSHFhcFFvNFREbmthOGsr?=
+ =?utf-8?B?ZWpOTEE5TDdFbnN2NVlqMkJOSGNDZVgyTU9XZS9ScjBhbVN1aVlKYU9EV3Bu?=
+ =?utf-8?B?eG93Y3RDanNtd0NSYTMyWk11NVJzcmJFRXAyUlR3TmVHWEJtY3hZTFNCMUhT?=
+ =?utf-8?B?RDhNR3BPVzhMMnJQL0Rrb3F3YVlKK1dWVnZMU2xNV0JndDFtM0FvY0RlR2lv?=
+ =?utf-8?B?eU5BRS9qQXZ0TjNQblZ3bmdKMXZOd0pNVXQvcUVOakJXZGFTdDM2ZlkyUmhU?=
+ =?utf-8?B?RDUvSWpUQUNDeXVZM3lrdWQya3dSa0FwUWl6RU1WRkNFcENQV2cxWHFGS2lw?=
+ =?utf-8?B?ZWh4RWlJMCtxWlk0N2dsdnYrUGg4TmlhZ0NzR3dvcHRTM05ydHpFT1RDUkRo?=
+ =?utf-8?B?SWorU0liK2Y5Wi95dEVHSEdHVzVaV3pNMUw5UkVYOXNJWktzRGlWcGtkR0J6?=
+ =?utf-8?B?SER1TnpCRzhjVStnQVhkZFVXWHlCR242UnNqckU1SThUMFR5ai94UGFBMFYw?=
+ =?utf-8?B?S2xiWVB6VnVlQVdxUWo3bURqL21Mb2pSRjcrYitHWlZBa0h0RHJsanN6c1FL?=
+ =?utf-8?B?elRzYklqcUFjTGtqNWlmaTIwbXhQSHNYNkRjckZKeUIxSktNVGNSKzU2VlNK?=
+ =?utf-8?B?Vm1CNjhnanBIWmJRN1FLNHM2QjZleitwOWZIV21XUEUvVG5tUWhQaUNvU0xK?=
+ =?utf-8?B?S0R4aDlXUmUrYURHZ0h1V3VDUU9LWDVlWmtPL0JnZEZ0SFlhdk4yQ1ByalA0?=
+ =?utf-8?B?ZHZ0UTVYcjBmK3lrRzFudlFKTURBQlpsNGE0aW4xN08yQ1Bka3NPakNpaUFX?=
+ =?utf-8?B?TEhjamFOM0hZM3ZPT1pRRFpZMmg1VTJ5ODdGakR3cTNKYzhxaU1hV2Y5MnB0?=
+ =?utf-8?B?aENocmdIU2NNUmdwZkc2aVlNYWtTeFJuYzVqNFBwcWFrRGlpeWRwRWpwQ0Rz?=
+ =?utf-8?B?V3JuWk5hSzhuVTZpNi81dHQ2U3VORWt4MHBkQUswV0FwMzJsclJ5Z2RJQS90?=
+ =?utf-8?B?TWdZZnRVaHhiV3IveENwaWc4M1hFTFlVSUJJSG1lcU13Y1Q5Y0Q0M29jb3pH?=
+ =?utf-8?B?UnVnek9JVU5ndUN1VDJ2ZmxncU1lN1U3N0tvUlNWelFUTDBIdll4YXE0SDli?=
+ =?utf-8?B?amVic2ZMbk9vUlNqM1ByWVg2NVpINWhiT2lUYkMzV1drcHNFVmVxSXc1L2lI?=
+ =?utf-8?B?d08rbk1TL3VMRmh2MGR2Z2EvSUhiYzE5VkFHWkJ3MmpHOFVEWHBSMC8zQ0JB?=
+ =?utf-8?B?ZGxISWYyTFRSeHhZTk9Ya0dXalUyNnNwRVlvdWNHUXQ4NklZQlh6ZjAxSGZ2?=
+ =?utf-8?B?VkRybDY3TjdLVnlWTU41VlZrS2JyTUljcVY4cDJCN0RPb05DZzVkYVF0TTRr?=
+ =?utf-8?B?YnJES3d2TTVWdCtaK1RiS0hDc1ArSktqUWluVllCQjZ0TTcyZ0tmaGtNc2NF?=
+ =?utf-8?B?SG10N3ZNdjRjNjBoaDBTcDdIbCtONXJKMklTZlFZWUM4dFFYbDB3dHlxMFYw?=
+ =?utf-8?B?NFhBdkVXdHRyUFhjMnJIejFVTFJWY0JxWUtuRURNcW9yUkhjeG5vbVgvbEhw?=
+ =?utf-8?B?RlVlN25XcmplSlRkb2N5MTJES0UwWjdQS0htOVdmVHBOcHkzdVQwSWZ3OTdW?=
+ =?utf-8?B?NGQrYjA2b29PTUdyYUNQVTZYSmNHQUNkQy9oRFNSVnU1eGtwZnpQRWtmYkZD?=
+ =?utf-8?B?Z3Z1TFBzQTZkckZZYyt1NHNOc2NXamN1RTRNV0s5ODZ2clducUdWTjNGRFR2?=
+ =?utf-8?B?MDhWSHlJK1cxQjBpVldTcEZOOWd3VC9nQlZLdmFFYUlaWG9kMVBua2RBNEsr?=
+ =?utf-8?B?VHA0TStOelFHVUZKZjBDdWMyNVNYS3BvVWRjKzBtdjhYYStSS1NueHFzelNi?=
+ =?utf-8?B?TXlDSEw0YW9zUUpWL0xwdUU5T0ZYVEg4Z1poMWVUeUxjaUZKc2NVWlU2U0Fn?=
+ =?utf-8?B?R3MxSlNzVkw3bDdDMnNkTGc4ZXRtNWxUT3MwM2w4M1VFdDhKaThtRDFyWlVa?=
+ =?utf-8?Q?vk0zXWcX8+45DHqs=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ad0e311-5bc9-47db-c85a-08da37e295be
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 08:52:34.5790 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U4QX4rn/tIJmCKHatEVYsba+dqZWwiDES5e26yVJG/5hK+bsNkZTqrpR09DvBmOW9/ZPlPUYoRbwwQsHZYMOPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4545
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yi.l.liu@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,62 +203,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 03:03:38PM +1000, Alistair Francis wrote:
-> On Sat, May 7, 2022 at 6:30 AM Atish Kumar Patra <atishp@rivosinc.com> wrote:
-> >
-> > On Fri, May 6, 2022 at 4:00 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > >
-> > > On Fri, 6 May 2022 at 09:18, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > >
-> > > > On Fri, May 06, 2022 at 06:34:47AM +1000, Alistair Francis wrote:
-> > > > > Even if we didn't worry about backwards compatibility the current virt
-> > > > > machine would still be what most users want. It's just a small number
-> > > > > of users who don't want MMIO devices and instead want to use PCIe for
-> > > > > everything. Realistically it's only HPC users who would want this type
-> > > > > of machine, at least that's my understanding.
-> > > >
-> > > > I'm not so sure about that. Every other architecture has ended up
-> > > > standardizing on PCI for general purpose virtual machines. IIRC,
-> > > > aarch64 started off with MMIO, but switched to PCI as it matured.
-> > > >
-> > > > In terms of having VM mgmt tools "just work" for risc-v, I think
-> > > > it will be very compelling for the general 'virt' machine to be
-> > > > PCI based, otherwise all the assumptions about PCI in mgmt apps
-> > > > are going to break requiring never ending riscv fixes.
-> > >
-> > > Mmm, my experience with aarch64 virt is that PCI is much nicer
-> > > as a general preference. aarch64 virt has some MMIO devices
-> > > for historical reasons and some because you can't reasonably
-> > > do the necessary things with PCI, but I'm actively trying to
-> > > push people who submit new MMIO device features for virt to
-> > > try to use a PCI-based solution instead if they possibly can.
+Hi Zhangfei,
+
+On 2022/5/11 22:17, zhangfei.gao@foxmail.com wrote:
 > 
-> Interesting...
 > 
-> Ok, maybe calling this "virt-pcie" might be a good start, with the
-> expectation to eventually replace the current virt with the new
-> virt-pcie at some point.
+> On 2022/5/10 下午10:08, Yi Liu wrote:
+>> On 2022/5/10 20:45, Jason Gunthorpe wrote:
+>>> On Tue, May 10, 2022 at 08:35:00PM +0800, Zhangfei Gao wrote:
+>>>> Thanks Yi and Eric,
+>>>> Then will wait for the updated iommufd kernel for the PCI MMIO region.
+>>>>
+>>>> Another question,
+>>>> How to get the iommu_domain in the ioctl.
+>>>
+>>> The ID of the iommu_domain (called the hwpt) it should be returned by
+>>> the vfio attach ioctl.
+>>
+>> yes, hwpt_id is returned by the vfio attach ioctl and recorded in
+>> qemu. You can query page table related capabilities with this id.
+>>
+>> https://lore.kernel.org/kvm/20220414104710.28534-16-yi.l.liu@intel.com/
+>>
+> Thanks Yi,
+> 
+> Do we use iommufd_hw_pagetable_from_id in kernel?
+> 
+> The qemu send hwpt_id via ioctl.
+> Currently VFIOIOMMUFDContainer has hwpt_list,
+> Which member is good to save hwpt_id, IOMMUTLBEntry?
 
-Delaying the inevitable by leaving PCIE support in a separate
-machine type initially is going to be more painful long term.
+currently, we don't make use of hwpt yet in the version we have
+in the qemu branch. I have a change to make use of it. Also, it
+would be used in future for nested translation setup and also
+dirty page bit support query for a given domain.
 
-> The other option would be to try and gradually change from the current
-> virt machine to this new virt machine
+> 
+> In kernel ioctl: iommufd_vfio_ioctl
+> @dev: Device to get an iommu_domain for
+> iommufd_hw_pagetable_from_id(struct iommufd_ctx *ictx, u32 pt_id, struct 
+> device *dev)
+> But iommufd_vfio_ioctl seems no para dev?
 
-Yes, I really think the 'virt' machine type needs to aim for PCIE
-support sooner rather than later, if RISC-V wants to get on part
-with other architectures. The best time to have added PCIE support
-to 'virt' was when it was first created, the next best time is now.
+there is. you can look at the vfio_group_set_iommufd(), it loops the
+device_list provided by vfio. And the device info is passed to iommufd.
 
-With regards,
-Daniel
+> Thanks
+> 
+> 
+> 
+> 
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Regards,
+Yi Liu
 
