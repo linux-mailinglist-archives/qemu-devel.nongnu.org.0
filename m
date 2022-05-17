@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8A2529B49
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 09:44:24 +0200 (CEST)
-Received: from localhost ([::1]:35126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2722529B60
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 May 2022 09:48:33 +0200 (CEST)
+Received: from localhost ([::1]:38154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nqrsV-0004Bb-5N
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 03:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41562)
+	id 1nqrwW-0006nf-SI
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 03:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqrop-0002o5-5w
- for qemu-devel@nongnu.org; Tue, 17 May 2022 03:40:35 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:36970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nqrom-0001ji-U5
- for qemu-devel@nongnu.org; Tue, 17 May 2022 03:40:34 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2f16645872fso177916407b3.4
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 00:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xWpKs3RI4xZPoDO3MosmocHeaRimrnR28IOdULXHwFI=;
- b=FIOuC8GariMpapJErmOVmzYP4/q1aOQXwRID12p0j00wrLLsdeEeE8ERnBpa6f1QnD
- GQQX7Eqwa+mqN1snG5xVOMumKdfECrzT9psJxSKvDpdRzQlbzroaIm40q5Hq25v7aTt8
- WDHwWA5N+fv1Vd+OKwKi+cj8bKcuinQkMsbuD+ykUMdjNlsml8TDtYLUQxWxRpueAuKL
- 8L+jdtMqYd0UPn4GQLXo4L0hcVDwa25DlGr14Wk1S1buHEFcrbqy+BDc8Z+EeZ0euB1y
- ErVeb4z9i6Ex26527mTvqVZTWOhbBGLi857Rzp9HBg/VhwScaMbcr8lsECPerXMcLiZ7
- 8efw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xWpKs3RI4xZPoDO3MosmocHeaRimrnR28IOdULXHwFI=;
- b=hJbkgWaRWi0E5s7PKnkAsPvFkr/oDicAPmJ6MwV4weOXKD/lFbz/PTSqw3+z6mr9WF
- CJQazbrIKrbbIp6XdCt9u+6Tyb3oj2b12G0Po7IqzDwFFuGhISjXb2IrCQJ4PrQ5wGEi
- HBwIRwJmFgd9e3H6wQ/qXpUjVBQ0HMTAkQwDtBZi68SA6UmpebIsMTVg3AegJeTqCExL
- qC/U33defbEkOxEVFJvlZYL2Emw5wwRrO9WO67cc7/2+qa+m/TpdA7JkITqRNT/RkNEb
- PQS5ID7Lw89Uazx35e3xTbX4in7mTFRcRJsWwSqKxu3POLHcf1GeP72xkZlg2Wj3IDcH
- bCHg==
-X-Gm-Message-State: AOAM531ktBrG9C6t6bPsoaMNlW0qGVKP3RynECZgRw5OiuUrxhAjXRAt
- 5UxTN30/3i37y0H/upIMwzccMjL3w4kJ223rBF2g9wRjhL0=
-X-Google-Smtp-Source: ABdhPJzD7iPu8CVQFaZ1bygNfxmeyqJevBGV5fhYaqPPzO0UmLrp/W7+maWQHyWNx1P1CYxGUnq27TGfhN9pj4LwERg=
-X-Received: by 2002:a0d:d4d0:0:b0:2fe:b86b:472d with SMTP id
- w199-20020a0dd4d0000000b002feb86b472dmr21944325ywd.469.1652773231873; Tue, 17
- May 2022 00:40:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqrub-00066N-Cc
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 03:46:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nqruY-0002nE-93
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 03:46:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652773588;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gcoTkf7/I5HskQ2yajloHlxiIFE5T+xA4QWPCjwPIDY=;
+ b=IFEsJriOyAKmkA6yiUBqBRChhRcheGj873DoIY+nSe43oxsk79bg2AIDvDCaftf68FoVXi
+ 4ZN7osuLbl+QDYB1SWHG8J8WeVLUfWF0gl4bEMIoRGRNsImPQeTf5g0MZpzcZu77cCkA55
+ GSn4TxjDsPVywYFut+bAuBXRymY2hGU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-628-LnzPjo0AOEaq9QeqCSxj3g-1; Tue, 17 May 2022 03:46:25 -0400
+X-MC-Unique: LnzPjo0AOEaq9QeqCSxj3g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14670299E75B;
+ Tue, 17 May 2022 07:46:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E201C573540;
+ Tue, 17 May 2022 07:46:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id ACF6E21E690D; Tue, 17 May 2022 09:46:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>,  Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9?=
+ <berrange@redhat.com>,  qemu-devel@nongnu.org,  philmd@redhat.com,
+ pbonzini@redhat.com,  Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 1/3] ui/gtk: new param monitor to specify target monitor
+ for launching QEMU
+References: <20220428231304.19472-1-dongwon.kim@intel.com>
+ <20220428231304.19472-2-dongwon.kim@intel.com>
+ <YnDyodis9sdnyh3O@redhat.com>
+ <20220509213105.GA180@dongwonk-MOBL.amr.corp.intel.com>
+ <20220510105810.erlgwqjtlauwf6pk@sirius.home.kraxel.org>
+Date: Tue, 17 May 2022 09:46:23 +0200
+In-Reply-To: <20220510105810.erlgwqjtlauwf6pk@sirius.home.kraxel.org> (Gerd
+ Hoffmann's message of "Tue, 10 May 2022 12:58:10 +0200")
+Message-ID: <875ym4txdc.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAFP0Ok9Zjav40T39VFfF6bvR8=vCKOM-O8Z-pJ5t3tnc9281Yg@mail.gmail.com>
- <CAFP0Ok9vNmWLG+2Oxwk8PQ2pjEdL0RVd4mpVKcf2e9xm10gWKQ@mail.gmail.com>
- <CAFP0Ok-8zv1FFcwmP5pc6boWQB513bsTPX7B-VG5m6D48m2WYA@mail.gmail.com>
- <CAFP0Ok_w_gKWze_K0v6M+YCLAdjJKCRj=WEPLbHHXrPZtPbqfg@mail.gmail.com>
-In-Reply-To: <CAFP0Ok_w_gKWze_K0v6M+YCLAdjJKCRj=WEPLbHHXrPZtPbqfg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 May 2022 08:40:21 +0100
-Message-ID: <CAFEAcA-K-aJrSbEfJnkJ1p5j_9DfxTrwMftQo9Vhg4NRYjy7Ww@mail.gmail.com>
-Subject: Re: QEMU 6.2.0: Segfault while calling address_space_init from
- emulated device
-To: Karthik Poduval <karthik.poduval@gmail.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,18 +87,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 May 2022 at 04:39, Karthik Poduval <karthik.poduval@gmail.com> wrote:
-> Ok digging deeper, there was a compiler warning about a missing
-> prototype of get_system_memory but I never thought it would lead to
-> this sort of an issue.
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
-If you're building QEMU from git it should default to
-"warnings are errors". If you're not, then pass configure
---enable-werror to do that.
+> On Mon, May 09, 2022 at 02:31:05PM -0700, Dongwon Kim wrote:
+>> Daniel,
+>> 
+>> I found a way to make the monitor arguments in array type (['uint32']).
+>> And I know how to retrieve monitor values from it but I could not find
+>> how to pass the monitor values when starting qemu. Like,
+>> 
+>> qemu-system-x86_64 ..... gtk,gl=on.....monitor=????
+>> 
+>> I tried several different things but it keeps getting error saying
+>> Invalid parameter type, expected 'array'.
+>> 
+>> Do you know how to pass this arg?
+>
+> qemu accepts json for -display, that should work:
+>
+> -display '{ "type": "gtk", "monitor": [ 1, 2 ] }'
+>
+> Not sure whenever there is some way to specify arrays using
+> the -display gtk,$options style.
 
-PS: not related to your problem, but you should really do
-the address_space_init() in device realize, not init.
+There is, but it's somewhat ugly:
 
-thanks
--- PMM
+    -display gtk,monitor.0=1,monitor.1=2
+
+See util/keyval.c.
+
 
