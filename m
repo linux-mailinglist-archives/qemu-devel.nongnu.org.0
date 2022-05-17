@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B0852AE90
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 01:30:32 +0200 (CEST)
-Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0283C52AEC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 01:39:51 +0200 (CEST)
+Received: from localhost ([::1]:58564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr6e8-0002Lt-2O
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 19:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56396)
+	id 1nr6n7-0004vM-QA
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 19:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nr6ch-0001bX-Np
- for qemu-devel@nongnu.org; Tue, 17 May 2022 19:29:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27751)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nr6jo-0003oQ-Ck
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 19:36:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nr6ce-0000AE-Gh
- for qemu-devel@nongnu.org; Tue, 17 May 2022 19:29:01 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nr6jm-0001Dt-VJ
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 19:36:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652830139;
+ s=mimecast20190719; t=1652830582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=ffsQ0eg8AQfP8CfFnoSwbEdlDqUYCGu3SNQGmHAErzE=;
- b=ix2TJwYcU9JIUVYm19r6Fsg4IB2DWosCCU6aHNfL3BtZALwCuvtkkq0d11znPq+FJ9djk/
- iR+I18kuaPUOwqrp/ASQ7DVeP0nxwEIVMhh5ELsHVqwADJVVIdknprs2aFtWD6ZowHJtqa
- 41RLxJPmA9lLUn4VWQG5N86DilVI1ww=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gDeQesmujrPHug0lmRnewNYONBu1eCIYWRQ/HWTskq0=;
+ b=MLJjB/Lgmb+tXXo0gJ/aV10F9aQPwFOztyWhnb1+zuT3DEzqJN8+Ki0yztXXqHOvERASW5
+ iqTguJ4C1axRZd1yWDBXJWQr6xnhaH5UNxwFlJHdamhBNM9rgNw3mVMYIPUQoqLaV2Y5u6
+ pnJNwS7LesEz9kHbStwMWCTrsGc73zk=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-346-JrSRWGtcNvyWdzgA5oR7oQ-1; Tue, 17 May 2022 19:28:50 -0400
-X-MC-Unique: JrSRWGtcNvyWdzgA5oR7oQ-1
-Received: by mail-ua1-f72.google.com with SMTP id
- q14-20020ab06c4e000000b00365e0c0d75eso356520uas.1
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 16:28:50 -0700 (PDT)
+ us-mta-654-8pYP81nlO6qg0d3EAGNTsQ-1; Tue, 17 May 2022 19:36:21 -0400
+X-MC-Unique: 8pYP81nlO6qg0d3EAGNTsQ-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ c18-20020ab00b92000000b0035ffe6d403fso358000uak.5
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 16:36:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=ffsQ0eg8AQfP8CfFnoSwbEdlDqUYCGu3SNQGmHAErzE=;
- b=rCTkcjKJLt2WS03yYoKcDJnCLSEvlX+zkIM/IjLdJH0mOqCjL0zqXYweGGDxEVBUCY
- 2E1tgkF+zjFTT1uFmIsmiQX4Yx4+za5liOjOr0XZbDLFP6gtsEMbpnwIUNAA9qrMriaW
- hXrc2k4UicAVO7gFig1+g/ngnxgUNplFdxiwicDX3Ppa9LrwDNkMg03LvqA2kz1IKkk6
- 3tNLcn1q39v4WzEWWfCHPsktB1W1NqTfe5j+1qinimzSfZrbfH2X2rUr40vW8Gws+H0T
- nvZyXwNlx5TRya0QXTAirVXbVxpYoIKdT79CaQaR7+xgI9+13qN2LwIyceKieP+UcRnD
- 8zlA==
-X-Gm-Message-State: AOAM5333P5dNa7v/+Xe2BoRaljpXzEX+pBoyRXMMd3tNWzgV58SnlAr5
- hGZP2sa7KHXaY7YrZhzNrX9g5mb9IfLPAQ4bkTXdYXlLmwsUXY/JMGH4kD9POgOMeV7LuPF5rFv
- PtuUM5PTEsuQSq0++Sz6G3DK6FjNfB2k=
-X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
- w15-20020ab067cf000000b00341257fce52mr9804944uar.109.1652830130239; 
- Tue, 17 May 2022 16:28:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwb3V9StGPhh0fs/rTANQFHMbw8JbT3LyqTNzTgKNSOjYMX1tanLejbpJmgvRQlR9yy2J382TBuFrpq9kNugCI=
-X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
- w15-20020ab067cf000000b00341257fce52mr9804937uar.109.1652830129992; Tue, 17
- May 2022 16:28:49 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gDeQesmujrPHug0lmRnewNYONBu1eCIYWRQ/HWTskq0=;
+ b=AIiCOqLXB0pz5WPe3e9Gd/hXSmJuZezTGgTs9NOzbi2TxIVYx/4d1VGsEHg2ulwKc7
+ iSriVFvezRJsVR0EP2w89/Qz7fn0UdDxw/YC5dkpNLwItJCf+inVZnuCT9z+VT98ozlN
+ mpDDo+hu8MEst1h3PyVAzGlv/ApSVHGJaTu47RvhAJxsFRJ3EGXIjvYwEMmEheoUqqZy
+ 8gO9+4906Fc+YYGmFEPPHM8KTCtm749uGFNuaF4eWTHUKzU4+03cbAgCFg5Sz30sug07
+ CPPFT5McnWpWi4RAz9gVOKJWpSPdyCuPdp/pxuCLg6FRn0QH8SSDrReMIpGIaZyXGtaj
+ IH8w==
+X-Gm-Message-State: AOAM533SPfpvRqUwy7fguNY+/xUuQA4geLFpvSGKdWMjwH+H//InCSDN
+ 5S4/+BsaYY8YuQ8BDVqoHT36lOMhLFQWEsUYmv4glWZQodqVpYLWF5y0YXlKv/FBlXfjW/i9FRQ
+ 3TPZHp35/aaBGkmHr24h4WEdBsiqOu38=
+X-Received: by 2002:ac5:c925:0:b0:34e:3e84:75b8 with SMTP id
+ u5-20020ac5c925000000b0034e3e8475b8mr10206555vkl.3.1652830580575; 
+ Tue, 17 May 2022 16:36:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRofSKA5zvFqLnF9T8FDyRMsPW0cBTeF7fu53oq3xmzWv+SCrHo9xKl/a7c+DLCKarLTw7t2OWMuS7VhnsaYo=
+X-Received: by 2002:ac5:c925:0:b0:34e:3e84:75b8 with SMTP id
+ u5-20020ac5c925000000b0034e3e8475b8mr10206546vkl.3.1652830580418; Tue, 17 May
+ 2022 16:36:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220516082310.33876-1-thuth@redhat.com>
+ <YoIKwwlXpdNrfxRB@redhat.com>
+In-Reply-To: <YoIKwwlXpdNrfxRB@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 17 May 2022 19:28:39 -0400
-Message-ID: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
-Subject: The fate of iotest 297
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Qemu-block <qemu-block@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 17 May 2022 19:36:09 -0400
+Message-ID: <CAFn=p-YMgMBheJTkWBsia5GVr_OokZkgFw+v02BZP9J11WEV1g@mail.gmail.com>
+Subject: Re: [PATCH v2] gitlab-ci: Switch the container of the 'check-patch' &
+ 'check-dco' jobs
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -70,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,25 +97,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kevin,
+On Mon, May 16, 2022 at 4:26 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Mon, May 16, 2022 at 10:23:10AM +0200, Thomas Huth wrote:
+> > The 'check-patch' and 'check-dco' jobs only need Python and git for
+> > checking the patches, so it's not really necessary to use a container
+> > here that has all the other build dependencies installed. By using a
+> > lightweight Alpine container, we can improve the runtime here quite a
+> > bit, cutting it down from ca. 1:30 minutes to ca. 45 seconds.
+> >
+> > Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  v2: Use python:alpine for even quicker execution
+> >
+> >  .gitlab-ci.d/static_checks.yml | 14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
 
-I remember that you wanted some minimum Niceness threshold in order to
-agree to me removing iotest 297.
+Looks good.
 
-I've already moved it onto GitLab CI in the form of the
-check-python-pipenv job, but I recall you wanted to be able to run it
-locally as well before agreeing to axe 297. I remember that you didn't
-think that running "make check-pipenv" from the python directory was
-sufficiently Nice enough.
+Sorry for fooling you with my python container -- I am using it to
+ensure a very wide spectrum of version compatibility.
 
-Do you need it to be part of "make check", or are you OK with
-something like "make check-python" from the build directory?
-
-I have a bit more work to do if you want it to be part of 'make check'
-(if you happen to have the right packages installed), but it's pretty
-easy right now to give you a 'make check-python' (where I just
-forcibly install those packages to the testing venv.)
-
---js
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 
