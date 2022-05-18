@@ -2,99 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556D552BB9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:55:17 +0200 (CEST)
-Received: from localhost ([::1]:57020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312D652BB9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:55:10 +0200 (CEST)
+Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrK8y-00047d-Dt
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:55:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
+	id 1nrK8r-0003hf-1b
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nrK0J-0008Dg-3y
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:46:19 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42318)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nrK0L-0008LJ-RU
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:46:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nrK0G-0005qR-SW
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:46:18 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24IDjSFU013010;
- Wed, 18 May 2022 13:46:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8HrEjw7s7Gg10LYiCUnWUXK5Fkj6ba4rcBlf36rvNmc=;
- b=JFfdbqRo2upgfID5EI4KGBnBKHTyk3/RG/RBDrXU79LUWJl4jzJ3AiJq0VcpPO0U1C1U
- 9TVkInhoGHzCKAXKcf66BNee1cOxwKCePux9ImwEAgDpNe+NHy1UQZfsuXHeb6f4BBUH
- 3ZvOAVA/Z+yC6d2/cVFAIp4SR/fbCQWmR1wpjv+xH7VckWFtvxzMJlzG4ITB84FXjGt6
- gIlxsdgIk/BAt3jg8MtkfTHqxO+6j7ZTFZCJeiabM3UHNHtVuM1sL3ywNCgJVnpubyRw
- xfA/nLR7xY5x90j2cPI906vds7bupXRpf7GW1FZs5Xh4fI0TMaL8wbC43/E5uKdNLBD/ Rw== 
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g51y8g0fu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 May 2022 13:46:13 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24IDgs9C029314;
- Wed, 18 May 2022 13:46:12 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma05wdc.us.ibm.com with ESMTP id 3g242acubr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 May 2022 13:46:12 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24IDkBY97930280
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 May 2022 13:46:11 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3FA1B136055;
- Wed, 18 May 2022 13:46:11 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F301513605D;
- Wed, 18 May 2022 13:46:10 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 18 May 2022 13:46:10 +0000 (GMT)
-Message-ID: <d12b05bd-6bbe-b5a5-1801-540e5d0d63d8@linux.ibm.com>
-Date: Wed, 18 May 2022 09:46:10 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nrK0K-0005qv-Cf
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:46:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652881579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ci8qeBnfC0llbsW5XAFFwWe7HOQqdfxxz8bikl16bhw=;
+ b=eq+o45qXTuu3+Hhpy/QBq+qKeqNfRn7wDyAOBzTvlXidcGPsDnMoUaK5rB0+L5NgG86VHw
+ 2DFDH4SxPexHol84dMixc6oKiWgLYfaqB8BvWTV3cTKWKs+sv1P3zol0w6jBVrmdxCLdcF
+ 2UEraNWUeI8qlT8xwTgt0yHddvCCWtM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-300-roXNDIqqNL6cwIrffX-wOQ-1; Wed, 18 May 2022 09:46:16 -0400
+X-MC-Unique: roXNDIqqNL6cwIrffX-wOQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03D4A3810D22;
+ Wed, 18 May 2022 13:46:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90E4540CF8EE;
+ Wed, 18 May 2022 13:46:15 +0000 (UTC)
+Date: Wed, 18 May 2022 14:46:14 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Xie Yongji <xieyongji@bytedance.com>
+Cc: mst@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, mlureau@redhat.com,
+ jsnow@redhat.com, eblake@redhat.com, Coiby.Xu@gmail.com,
+ hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 5/8] libvduse: Add VDUSE (vDPA Device in Userspace)
+ library
+Message-ID: <YoT4piGYvCmV1GK2@stefanha-x1.localdomain>
+References: <20220504074051.90-1-xieyongji@bytedance.com>
+ <20220504074051.90-6-xieyongji@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] hw/tpm/tpm_tis_common.c: Assert that locty is in range
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20220513163827.26281-1-peter.maydell@linaro.org>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220513163827.26281-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: h4MIwYB6zXETW15wA0hs9wzZVWZyWAj_
-X-Proofpoint-ORIG-GUID: h4MIwYB6zXETW15wA0hs9wzZVWZyWAj_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-18_05,2022-05-17_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- spamscore=0 malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
- mlxlogscore=999 impostorscore=0 mlxscore=0 clxscore=1011
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205180079
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5tbVh7hcv5+EIhgn"
+Content-Disposition: inline
+In-Reply-To: <20220504074051.90-6-xieyongji@bytedance.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,66 +85,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--5tbVh7hcv5+EIhgn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 5/13/22 12:38, Peter Maydell wrote:
-> In tpm_tis_mmio_read(), tpm_tis_mmio_write() and
-> tpm_tis_dump_state(), we calculate a locality index with
-> tpm_tis_locality_from_addr() and then use it as an index into the
-> s->loc[] array.  In all these cases, the array index can't overflow
-> because the MemoryRegion is sized to be TPM_TIS_NUM_LOCALITIES <<
-> TPM_TIS_LOCALITY_SHIFT bytes.  However, Coverity can't see that, and
-> it complains (CID 1487138, 1487180, 1487188, 1487198, 1487240).
-
-> 
-> Add assertions that the calculated locality index is valid, which
-> will help Coverity and also catch any potential future bug where
-> the MemoryRegion isn't sized exactly.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-I trust that the 3 fixes resolve the 5 CIDs.
-
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-
-> ---
-> Tested with 'make check' only...
-> 
->   hw/tpm/tpm_tis_common.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-> index e700d821816..81edae410c8 100644
-> --- a/hw/tpm/tpm_tis_common.c
-> +++ b/hw/tpm/tpm_tis_common.c
-> @@ -295,6 +295,8 @@ static void tpm_tis_dump_state(TPMState *s, hwaddr addr)
->       uint8_t locty = tpm_tis_locality_from_addr(addr);
->       hwaddr base = addr & ~0xfff;
-> 
-> +    assert(TPM_TIS_IS_VALID_LOCTY(locty));
+On Wed, May 04, 2022 at 03:40:48PM +0800, Xie Yongji wrote:
+> +static int vduse_queue_update_vring(VduseVirtq *vq, uint64_t desc_addr,
+> +                                    uint64_t avail_addr, uint64_t used_addr)
+> +{
+> +    struct VduseDev *dev = vq->dev;
+> +    uint64_t len;
 > +
->       printf("tpm_tis: active locality      : %d\n"
->              "tpm_tis: state of locality %d : %d\n"
->              "tpm_tis: register dump:\n",
-> @@ -336,6 +338,8 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
->       uint32_t avail;
->       uint8_t v;
-> 
-> +    assert(TPM_TIS_IS_VALID_LOCTY(locty));
+> +    len = sizeof(struct vring_desc);
+> +    vq->vring.desc = iova_to_va(dev, &len, desc_addr);
+> +    assert(len == sizeof(struct vring_desc));
 > +
->       if (tpm_backend_had_startup_error(s->be_driver)) {
->           return 0;
->       }
-> @@ -458,6 +462,8 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
->       uint16_t len;
->       uint32_t mask = (size == 1) ? 0xff : ((size == 2) ? 0xffff : ~0);
-> 
-> +    assert(TPM_TIS_IS_VALID_LOCTY(locty));
+> +    len = sizeof(struct vring_avail);
+> +    vq->vring.avail = iova_to_va(dev, &len, avail_addr);
+> +    assert(len == sizeof(struct vring_avail));
 > +
->       trace_tpm_tis_mmio_write(size, addr, val);
-> 
->       if (locty == 4) {
+> +    len = sizeof(struct vring_used);
+> +    vq->vring.used = iova_to_va(dev, &len, used_addr);
+> +    assert(len == sizeof(struct vring_used));
 
-All 3 of your fixes below are after the 3 existing calls to 
-tpm_tis_locality_from_addr(). Would Coverity be happy if we were to move 
-the asserts into that one function? I am fine with this patch, though.
+Can these assertions be triggered by a malicious virtio driver? For
+example, if a guest is accessing this device, will the vDPA/VDUSE kernel
+code forward the address to QEMU without validation?
+
+If yes, then it's necessary to return an error here instead of aborting.
+A qemu-storage-daemon process might contain multiple VDUSE exports and
+an error in one export shouldn't kill the entire process.
+
+I haven't audited the code, but this is a general issue: if vDPA/VDUSE
+kernel code forwards untrusted inputs to us then we cannot abort or
+crash. Usually the kernel is trusted by userspace but maybe not in this
+case since it may just forward inputs from a malicious VIRTIO driver?
+
+--5tbVh7hcv5+EIhgn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKE+KYACgkQnKSrs4Gr
+c8iPNAf/RChaWisN0wezUT6wxonlH1VZ9wt5rS1GmEJoJDDyP+ujNC6L/4c0cmpo
+InVYpv/YRhIQJSecvKIFpAzufseW26GcEZq9j3oH+NhQNS8SZe1uW6GK/ZbMKwsZ
+rnVAQyvdh7RIWmPh98KyNzjhxoOymPTjubaSyONO3uzeH9jm//+XK3R4TuKjuBQ9
+12uBCQWjRr7a8v7rDuGFA5pcMF8bpFFCwkwRR6MNDZJpaFLe8Ut/zoy9FDD1HXTu
+TJ6iA2b37+SLNhzZzB30eIqhtrTqPUMVn05IuLEhOPvAc/lfDzdd+RbMCNZ3ldOf
+TXo54z9G+D8ODUoNdB/IF4HRR5xhng==
+=ZQww
+-----END PGP SIGNATURE-----
+
+--5tbVh7hcv5+EIhgn--
+
 
