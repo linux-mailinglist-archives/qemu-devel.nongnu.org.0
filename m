@@ -2,69 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0B052BB59
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:09:27 +0200 (CEST)
-Received: from localhost ([::1]:42812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE4052BB5F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:12:31 +0200 (CEST)
+Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrJQb-0003bM-To
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
+	id 1nrJTa-0007FO-ID
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nrJKL-0006id-VC
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:02:59 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:34224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nrJKJ-0005xh-Ft
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:02:57 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 311781F8C9;
- Wed, 18 May 2022 13:02:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1652878970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nrJLr-0007pa-Vl
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:04:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nrJLm-00062y-62
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:04:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652879065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nf8R7PdhHe+kNdclTonqhAMEjif0bYO3f2nc5hqZzWw=;
- b=mYvSanaPs9Ok35HK3cYv10r8yuTwlHhUeO0kFFgbbDUqwHd1aRqSaZP75gXXvAzCrghIAN
- WRk0x7ykOXlPy0NU797p0Biypap3OXt/x6CGeSyCHG+6vL7Ek0CNC2utZgf/qe+FaiLYne
- PMJGcjaDyS4yOPiOQAPaAEDUP9bITy8=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D397513A6D;
- Wed, 18 May 2022 13:02:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Zh+MMHnuhGLRAgAAMHmgww
- (envelope-from <dfaggioli@suse.com>); Wed, 18 May 2022 13:02:49 +0000
-Message-ID: <843da9ebf73d89a5084d4e29d972fdaa8b79bfae.camel@suse.com>
-Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
- smp-cpus
-From: Dario Faggioli <dfaggioli@suse.com>
-To: Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: dzejrou@gmail.com, qemu-devel@nongnu.org, david@redhat.com
-Date: Wed, 18 May 2022 15:02:48 +0200
-In-Reply-To: <20220518121716.658ec569@redhat.com>
-References: <20220517123858.7933-1-dzejrou@gmail.com>
- <3994597b-c559-f62f-504d-3cde3493b713@redhat.com>
- <20220518121716.658ec569@redhat.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-nUf+24jUPUdaQ0elcIZb"
-User-Agent: Evolution 3.44.1 (by Flathub.org)) 
+ bh=IPAExsb57jJXRawYX39BXtSE3NYt2x2Y+tOn2ROL5X8=;
+ b=fbyS8MAATauF6vXZ+38spP+MNmqDyj4tcLWHX7KIDJ+F4+7odR16vKN1bO5SMx0TEBZSTm
+ ZbGbbNsqBOu+V8u+mpVHKQSUyvKbKB/J9wP03Q+4OMn1w3MTuMHsU5OhLxgJmAUxeTxjjG
+ Jz/D+yMro58KPpAhZJxVWh0MqSFXVIU=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-318-bKzERCmNMRevlfvsx_YZUQ-1; Wed, 18 May 2022 09:04:22 -0400
+X-MC-Unique: bKzERCmNMRevlfvsx_YZUQ-1
+Received: by mail-il1-f198.google.com with SMTP id
+ x1-20020a056e020f0100b002c98fce9c13so1248824ilj.3
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 06:04:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=IPAExsb57jJXRawYX39BXtSE3NYt2x2Y+tOn2ROL5X8=;
+ b=X2bOz90KDZ/Baj9SULKgmMZHxG0BbrOxk/MldsxJkR3bBmYzr0MEgpOowYo8oUTOYC
+ hEK/0vzVvOrU0ifeBdLYdrvAQY0WTXn+fYyO7C/kZ+zssEn1Ms4ODbuGnynXVfp0Kv06
+ yIx4cNSWh78CyNqPanzf4C3tUhrR41/yH+waD+xTAJmQJzVVJJrDYEbOXZu4csZAxsFz
+ i/Cdo1mt+7Su39Wih79GkH4a751aeBZkiJJpRpcWfFnNOaxdRoPZH/R0QtEswRjuuE9Y
+ npMNp0anWrH8XwTP6O2uEH/psYXmMLFayx7A1EBcnag2ThMde4BJPOC0QIOoAPAhwEGu
+ 44Lg==
+X-Gm-Message-State: AOAM533C56ByNJgpwehC6TsULNMNMxkeQvicE58qWwJOYWUye0iB/oeN
+ It7ulpxLmGhUAjTcEo4qqNYc1A6w1ah7xYl1FQ9sFKp/6U5zfNddbIhixQO6MaXeQa9lmiJdzWo
+ Oc1nmg4c7togSgak=
+X-Received: by 2002:a05:6602:2243:b0:657:c8eb:dc44 with SMTP id
+ o3-20020a056602224300b00657c8ebdc44mr12543675ioo.145.1652879061605; 
+ Wed, 18 May 2022 06:04:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7/cDC0cxC3NQtBo5n5neHwSHqoh5yYO0V8hbqPAkOP6ldG7wq0xh+Y9bcnDdhZU6ws7duOw==
+X-Received: by 2002:a05:6602:2243:b0:657:c8eb:dc44 with SMTP id
+ o3-20020a056602224300b00657c8ebdc44mr12543664ioo.145.1652879061360; 
+ Wed, 18 May 2022 06:04:21 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ l1-20020a02cce1000000b0032e5417e910sm516533jaq.12.2022.05.18.06.04.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 May 2022 06:04:20 -0700 (PDT)
+Date: Wed, 18 May 2022 09:04:17 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v6 07/13] migration: Add helpers to detect TLS capability
+Message-ID: <YoTu0buL1LVaLUyk@xz-m1.local>
+References: <20220517195730.32312-1-peterx@redhat.com>
+ <20220517195730.32312-8-peterx@redhat.com>
+ <YoS06H6I0fZx/uAC@redhat.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=dfaggioli@suse.com;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YoS06H6I0fZx/uAC@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,88 +104,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 18, 2022 at 09:57:12AM +0100, Daniel P. Berrangé wrote:
+> > @@ -37,4 +37,8 @@ void migration_tls_channel_connect(MigrationState *s,
+> >                                     QIOChannel *ioc,
+> >                                     const char *hostname,
+> >                                     Error **errp);
+> > +
+> > +/* Whether the QIO channel requires further TLS handshake? */
+> > +bool migrate_channel_requires_tls(QIOChannel *ioc);
+> 
+> I find this name somewhat confusing, as 'requires tls' and
+> 'uses tls' are just synonyms for the same thing IMHO.
+> 
+> What this method is actually checking is whether we still need
+> to upgrade the channel from plain text to TLS, by completing a
+> TLS handshake. So can we call this:
+> 
+>   migrate_channel_requires_tls_upgrade
 
---=-nUf+24jUPUdaQ0elcIZb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sounds good.  I'll wait for more comments on other patches.  Thanks,
 
-On Wed, 2022-05-18 at 12:17 +0200, Igor Mammedov wrote:
-> On Tue, 17 May 2022 20:46:50 +0200
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > > diff --git a/backends/hostmem.c b/backends/hostmem.c
-> > > index a7bae3d713..624bb7ecd3 100644
-> > > --- a/backends/hostmem.c
-> > > +++ b/backends/hostmem.c
-> > > @@ -274,7 +274,7 @@ static void host_memory_backend_init(Object
-> > > *obj)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->merge =3D machine_mem_merge(m=
-achine);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->dump =3D machine_dump_guest_c=
-ore(machine);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->reserve =3D true;
-> > > -=C2=A0=C2=A0=C2=A0 backend->prealloc_threads =3D 1;
-> > > +=C2=A0=C2=A0=C2=A0 backend->prealloc_threads =3D machine->smp.cpus;
-> > > =C2=A0 }
-> > > =C2=A0=20
-> > > =C2=A0 static void host_memory_backend_post_init(Object *obj)=C2=A0=
-=20
-> >=20
-> > Queued, thanks.
->=20
-> PS:
-> There is no good default in this case (whatever number is picked
-> it could be good or bad depending on usecase).
->=20
-That is fair enough. What we observed, however, is that, with QEMU 5.2,
-starting a 1024G VM takes ~34s.
+-- 
+Peter Xu
 
-Then you just update QEMU to > 5.2 (and don't do/changing anything
-else) and the same VM now takes ~4m30s to start.
-
-If users are managing QEMU via Libvirt *and* have _at_least_ Libvirt
-8.2, they can indeed set, e.g., <allocation mode=3D'immediate'
-threads=3D'NNN'/> (provided they can understand where the problem is, and
-figure out that this is the solution).
-
-If they have Libvirt < 8.2 (e.g., people/distros that have, say, QEMU
-6.2 and Libvirt 8.0.0, or something like that), there's basically
-nothing they can do... Except perhaps command line passthrough [1], but
-that's really rather tricky!
-
-So, I personally don't know where any default should be set and how,
-but the above situation is not nice for users to have to handle.
-
-[1] https://libvirt.org/kbase/qemu-passthrough-security.html
-
-Regards
---=20
-Dario Faggioli, Ph.D
-http://about.me/dario.faggioli
-Virtualization Software Engineer
-SUSE Labs, SUSE https://www.suse.com/
--------------------------------------------------------------------
-<<This happens because _I_ choose it to happen!>> (Raistlin Majere)
-
---=-nUf+24jUPUdaQ0elcIZb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEES5ssOj3Vhr0WPnOLFkJ4iaW4c+4FAmKE7ngACgkQFkJ4iaW4
-c+5vQw/9E0Eh6s2MRFmxFXT/Lrd8wFoLs3pf0Jak50oEbmR0DljXPlurGpYQAiKM
-qnB39rba+zOxKsd4b+nnAlRX7rh0vWiuHKcAsn3csTjmsPr/dkgLoOKlmIoWl9OB
-xsgTxE7ydDDbMTxbXRE/u84QNQub5eyda/wKgKeRNU5OZprzyktC2CGyO7sW4hzF
-ZJVgViWLCcx/HuAN3WApdtTXd17Lqd70SGKQnbEXv/DqFkHYWbkGCKc57VAiprxt
-w+AkPOxrUvGUnn7BaoMu0uiJhra7FFxKOFquIdtA5zF8ta2z5xGPJ5eElvsdQVpT
-2pGUyqI4FuNxv4nT2uiGIQdoBiswpjaJsgU8Yzx96hLQgkTts/Rw/kgGnRQ+2U/8
-kHiTZajpyU7/ExDTLLBFpiRRj/y2LrlhIFAPIT4cSiZ6VMH+EVshuXXSlcNYahkQ
-98UQWdJxyM8KsD2RkYOhffPsXaAYWLDFjYgt1cjShMzpqpdz4amgT+Jp5a/5ysF9
-RQTz13GJSf69yPRrKD6O92N9ZGl4VYVAzy24Wrw+ULZcJimXavjpqoVbAlEauBeh
-x/ZLE7lkIi77xlGpVh4LM3CqabZe2WAsRDsxV0BT3QeewIFS0nCrEVWQS+dE3M14
-hXcysv7i8+9XB1TKuLti5qRi0ZvXrpmPxBgc3i/PmudCkZmqf/8=
-=46sc
------END PGP SIGNATURE-----
-
---=-nUf+24jUPUdaQ0elcIZb--
 
