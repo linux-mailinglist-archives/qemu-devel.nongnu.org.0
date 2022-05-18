@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059C652BBBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 16:14:02 +0200 (CEST)
-Received: from localhost ([::1]:57384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C4852BBB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 16:09:43 +0200 (CEST)
+Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrKR6-0008FY-IV
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 10:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46578)
+	id 1nrKMw-0004k3-Iu
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 10:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nrKKD-0000jB-Vz
- for qemu-devel@nongnu.org; Wed, 18 May 2022 10:06:54 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43878)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nrKKC-0000be-FG
- for qemu-devel@nongnu.org; Wed, 18 May 2022 10:06:53 -0400
-Received: by mail-ed1-x531.google.com with SMTP id c12so3143630eds.10
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 07:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BZ6lMYi4CFf1mmgsP1lWjXJdIVMIE2MwZuB/eAelruw=;
- b=U60annpcskKlpULTR/Junj0sTwR/J2/daaFcNaQtgwPfrr/tS43t7M2hxOTo1vggwP
- KRzanA84PrWFXYI5UztaOMV8nPtSZYRxc4REVrg1QFZOlbUWU8RAuaZ7T3ZAZVuJVbXM
- dbkgeFmKzQXxjB7hwjohDHl/3G3ZOadCs/Ex9Yq71jk6K9Z5BabsBN2VyuPh3HU1a6xu
- TWVOhh0r8KvqFtiMxvSpz8u/QeiRVwFKBTyOPp5K5K9peSl0M+wJUrgrByMjHIURUbjm
- qEd1s/6U8HVEh2ob+6Bt3vWQtumbeAUFSLXC/DbzxTNzVjY759ccI+cSUTkLEJETyIJl
- pZKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BZ6lMYi4CFf1mmgsP1lWjXJdIVMIE2MwZuB/eAelruw=;
- b=DHodToKYAlfLtpLnSbB10pzjQpcMz03wykoGm3USr9Uv9Ne0dYI/1emslSqTaDgLgq
- EYeN7zSuurmgEDeI87+WjEMtm68a8ANnOcjkK8RPk6OwD8RfTnykQ2GGkApZQ7f+GsIf
- O8utTY1qpi7UsNb9RnWoYz5Vf2flrrlCHQby5vsw6Y2bo9LEiK0PrKYNyiJXY2ivmIgj
- a+rOff5m9PZ7NHZAR0PosGdK5DHaqsld5EkpJRrfBwC3S7FMfxQrujPTcBEhOE8LlIeE
- i4DaStqc52o6p9IAy1zUE9g6hcA6eQshnX49vPR8UYOqs1RrZCqo+Q9xRssm6L/a/MHF
- R74g==
-X-Gm-Message-State: AOAM532PsPEWK9cZF6sQN4Z6Lyh+Uf7djLLO/5hYBCxQ/6Eprz+/UKDz
- TaGXCJ8/0Ytpy/QWw8fxYTfeTp4QsWs=
-X-Google-Smtp-Source: ABdhPJwbT3BO6nISOAEg3bck5vwffZb/nBmPzhFiUsVqIuEPwe1Q/e1YszjE4ebf5mJ0WLRYfUEUPA==
-X-Received: by 2002:a05:6402:388d:b0:42a:ba9f:f85c with SMTP id
- fd13-20020a056402388d00b0042aba9ff85cmr14063062edb.292.1652882810398; 
- Wed, 18 May 2022 07:06:50 -0700 (PDT)
-Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.googlemail.com with ESMTPSA id
- en21-20020a17090728d500b006fa9820b4a2sm969765ejc.165.2022.05.18.07.06.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 07:06:50 -0700 (PDT)
-Message-ID: <9851633b-d9a3-bc71-afd1-d24fe8972177@redhat.com>
-Date: Wed, 18 May 2022 16:06:47 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nrKKb-0001W1-2y
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 10:07:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nrKKZ-0000fQ-58
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 10:07:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652882834;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=28Kx3KODj3CK9PTHBlpZqfUIl46xOwQEF43GBx85+wM=;
+ b=Pbzk+VmAkZECV6I5FZmytcWSZgskCT6EKhxU15CkgY3ACKG5UIyyc+pBwdfld5VG4N0rY2
+ qgk8qmDuqBNG9h5m688R99P1otigwEZxhiBSwv9Icr+ULOy9bPAzsTIp48XABBthVriRl1
+ oItjU/oDSjJ/Ck53IPC7P7eKWNGKza0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-304-vh0sjFo4PpWLZwOcwaLq3g-1; Wed, 18 May 2022 10:07:13 -0400
+X-MC-Unique: vh0sjFo4PpWLZwOcwaLq3g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B18D2801210;
+ Wed, 18 May 2022 14:07:12 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD069492C3B;
+ Wed, 18 May 2022 14:07:11 +0000 (UTC)
+Date: Wed, 18 May 2022 15:07:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v6 09/13] migration: Enable TLS for preempt channel
+Message-ID: <YoT9jbbwWX4nxSZJ@redhat.com>
+References: <20220517195730.32312-1-peterx@redhat.com>
+ <20220517195730.32312-10-peterx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
- smp-cpus
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, dzejrou@gmail.com,
- qemu-devel@nongnu.org, david@redhat.com
-References: <20220517123858.7933-1-dzejrou@gmail.com>
- <3994597b-c559-f62f-504d-3cde3493b713@redhat.com>
- <20220518121716.658ec569@redhat.com>
- <843da9ebf73d89a5084d4e29d972fdaa8b79bfae.camel@suse.com>
- <YoT1OolqFQ9+5t/q@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YoT1OolqFQ9+5t/q@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220517195730.32312-10-peterx@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,26 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/22 15:31, Daniel P. Berrangé wrote:
-> When picking defaults there is never a perfect answer, it
-> is more a matter of the least-worst option.
+On Tue, May 17, 2022 at 03:57:26PM -0400, Peter Xu wrote:
+> This patch is based on the async preempt channel creation.  It continues
+> wiring up the new channel with TLS handshake to destionation when enabled.
 > 
-> It is pretty clear that nthreads=1 is terrible for any
-> large VMs. Defaulting it to nvcpus made conceptual sense
-> as the user has implicit said that they expect the VM to
-> be able to consume nvcpus worth of CPU time on the host,
-> so we might as well consume that allotted resource.
+> Note that only the src QEMU needs such operation; the dest QEMU does not
+> need any change for TLS support due to the fact that all channels are
+> established synchronously there, so all the TLS magic is already properly
+> handled by migration_tls_channel_process_incoming().
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/postcopy-ram.c | 57 ++++++++++++++++++++++++++++++++++------
+>  migration/trace-events   |  1 +
+>  2 files changed, 50 insertions(+), 8 deletions(-)
 
-I agree.  Yes, one could argue that the regression was on the libvirt 
-side, but it's easier to fix it in QEMU.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-If we later add the ability to create a memory backend before machine 
-creation (for example with a QMP-only binary), then it's of course okay 
-for those backends to use only one thread and require a manual choice 
-for the # or preallocation threads.
 
-Paolo
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
