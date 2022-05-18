@@ -2,102 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1D652B0E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 05:49:04 +0200 (CEST)
-Received: from localhost ([::1]:32922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3EC52B1CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 07:13:54 +0200 (CEST)
+Received: from localhost ([::1]:50532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrAgI-0004Fe-W8
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 23:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60598)
+	id 1nrC0P-00085t-0U
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 01:13:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nrAeR-000395-DM
- for qemu-devel@nongnu.org; Tue, 17 May 2022 23:47:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nrAeN-000151-J1
- for qemu-devel@nongnu.org; Tue, 17 May 2022 23:47:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652845621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XuBmpTm2TS24iWmTuOLtDn/eZlsp6l4G6rpOymGp5Aw=;
- b=POXE1rwT6+k1LK4TSiAUBz0VVCE77wruIVbRoobcZAyFsx9BCHuZJdY4vVT6yzWUIKPn48
- 1l4HzdlawOLgWYk5KRCFivK4eVjss1qVsLlGUuZ2aHFxdIUsRe82gj8IcPtz19IGValxvF
- cKKu41h0Q86qR8CU3rcU/JcBgbtUFGQ=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513-b7qcz8fWPYSfn2KUPyR7hg-1; Tue, 17 May 2022 23:47:00 -0400
-X-MC-Unique: b7qcz8fWPYSfn2KUPyR7hg-1
-Received: by mail-io1-f72.google.com with SMTP id
- u18-20020a5d8712000000b0064c7a7c497aso13648657iom.18
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 20:47:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
+ id 1nrBwy-0007CU-JN
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 01:10:26 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlfightup@gmail.com>)
+ id 1nrBww-0003zj-Fh
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 01:10:19 -0400
+Received: by mail-wr1-x435.google.com with SMTP id t6so988804wra.4
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 22:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iZBuAbEZEYrCBcq6gTSxvqqQjx3m6CxlK4Ti8lkE/HI=;
+ b=L7S7APDU3209febB2pYeprlE1ycH+uJ8WzKGGLvPvZug4EwSQEERMVB/o+YA5UgIJI
+ WJzETlpsDDYu/X41W5v83SkHSWbfC1w2NNrSmyLpi5rMMj+slXG+vv7eVYvYukPn5jY1
+ VSYRJMGX4eMwKlnPZjcyvPZ32UV7OljRknS9Ysqb8XWsJuhCf2+rbP50xFdmqQBSYMK7
+ vtlvWVVQmcAdVyiLZiVCDBMy3Iy3vqEieJBoFy9bsngW8hzljKhQAnGnJy27La7PT4Kw
+ jvjoEe1oO9eSJEOIsMD5/hPR2ENbO5zPgT+wftuT4o6vho8L62vEszTX/5wODjv+MtUI
+ zAfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=XuBmpTm2TS24iWmTuOLtDn/eZlsp6l4G6rpOymGp5Aw=;
- b=q2WGELxoqvANUzCznvSsjrP37t6CYHTpsEwuP682sCe61KpPgwz+2m0NDRBtxUBzZS
- T3bK3Whcqc1e5DJyPmAMasaUaiIUzXarjRVqvUzr5kTaUe7CIFXGRIuXSv0HhUunPaRP
- 2uSHUgssfoDDqib4GJNkXvCEKkQwl5rGTW+Q1zsVO/5dceTSgiOh5KWdNZRwpw0PJm7D
- AbJl6RbU/6t3IidEPt+nHd1Yj/9mzRwYeTydX/Un5cx+ejQEJSqSQzbzbDcE8D4WhCUa
- 1WZaiZuAUFM8NJyJOJTkgJO1pKtuOjLB/IbTFi1lzCBL5y9BrRGpkmcYmuflTsfxC1Es
- dGOQ==
-X-Gm-Message-State: AOAM531bzqCv8hBsl3GWqYkpq5lkupGWfrO559u+YgbN+WbvXqB4/egD
- +kyM3IDc0pheqrS4NgtkSp8bszQflx9nR1dyR2hgkm89dL2s3yf7mBLCiLrs8kmk+219cDnTVHd
- MdHfOxPzGOa17R80=
-X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id
- a65-20020a6bca44000000b00657b54a5c53mr11686886iog.108.1652845619536; 
- Tue, 17 May 2022 20:46:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1FNRvPjhHbyMyWGLM9jH3n56GineRkSHlSaWOKqbgzdCffVqxVWR1QnOX0qr4oKJUCEFHqA==
-X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id
- a65-20020a6bca44000000b00657b54a5c53mr11686869iog.108.1652845619085; 
- Tue, 17 May 2022 20:46:59 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- f20-20020a02a114000000b0032e189e88bcsm255175jag.17.2022.05.17.20.46.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 20:46:58 -0700 (PDT)
-Date: Tue, 17 May 2022 21:46:56 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Juan Quintela <quintela@redhat.com>, Avihai Horon <avihaih@nvidia.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, Cornelia
- Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>, Yishai Hadas <yishaih@nvidia.com>,
- Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti
- Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH 4/9] vfio/migration: Skip pre-copy if dirty page
- tracking is not supported
-Message-ID: <20220517214656.62fc10f4.alex.williamson@redhat.com>
-In-Reply-To: <20220517173937.GW1343366@nvidia.com>
-References: <20220512154320.19697-1-avihaih@nvidia.com>
- <20220512154320.19697-5-avihaih@nvidia.com>
- <87h75psowp.fsf@secure.mitica>
- <20220516142200.57003872.alex.williamson@redhat.com>
- <20220516230832.GP1343366@nvidia.com>
- <20220517100045.27a696c9.alex.williamson@redhat.com>
- <20220517160844.GV1343366@nvidia.com>
- <20220517112232.7a9f8be9.alex.williamson@redhat.com>
- <20220517173937.GW1343366@nvidia.com>
-Organization: Red Hat
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iZBuAbEZEYrCBcq6gTSxvqqQjx3m6CxlK4Ti8lkE/HI=;
+ b=wRK4MSKsd8Saq+M08swEJMSO+8Qy2JmsfRGvfLtgXBvdVKzwf9QJ0pdeaNqVrDHZWK
+ sDf/F9OlllRjRgYRAKKu1ztQy20FQiiLHZtzVx+tjYMQ3QqMUyCDNiKQc9AUE/Pzg22q
+ 0uvZXLZZxZY6/eIsLcpE4QZyCzRKcm/aIAQwKOlQEVM5fa8/kIwIwSZA7qsPYzr/L1qh
+ EDHlkKU7oh0xIgg98JjGsim1Hc1djmyljvapeSbQxSm3IjX83p/EjgZwy5l3x1YK1OdI
+ cWNvdX4nJAPUwCubm38h6Oe7DfzMaBFqjCc47ant7kXCS2vmqTShnzBaxtmwmSyRxMX9
+ BjPg==
+X-Gm-Message-State: AOAM532v1/6SuoM57sv52WOGaVbPDWcfxi8bCbPTC1Zd7CZSIIt7EtDn
+ 0E2KbXS2ZOaiIg6PSFipgC1Xa2VYtZsDAqFjIIk=
+X-Google-Smtp-Source: ABdhPJyQgDHwLMYkiWelaWmizRyCMMQs30bJPDrAngrh8/5oMPg/UvG3GtcMZwwOkPYeO9b9jCmUp+gOGMMWGBczTA0=
+X-Received: by 2002:adf:e5cf:0:b0:20d:80e:1624 with SMTP id
+ a15-20020adfe5cf000000b0020d080e1624mr11511186wrn.365.1652850613862; Tue, 17
+ May 2022 22:10:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <41ad928a29254bde80bef091fef72d36@baidu.com>
+In-Reply-To: <41ad928a29254bde80bef091fef72d36@baidu.com>
+From: Paul Schlacter <wlfightup@gmail.com>
+Date: Wed, 18 May 2022 13:10:02 +0800
+Message-ID: <CADak6y4iuNvG6jkTrKQs6sJ-SxHxq7Ct0NmfmoEmHAmCha388w@mail.gmail.com>
+Subject: Re: [PATCH] xio3130_downstream: Add ACS (Access Control Services)
+ capability
+To: "Wang,Liang(ACG CCN01)" <wangliang40@baidu.com>
+Cc: "mst@redhat.com" <mst@redhat.com>, 
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000b4c2cd05df424555"
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=wlfightup@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,72 +84,296 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 May 2022 14:39:37 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+--000000000000b4c2cd05df424555
+Content-Type: text/plain; charset="UTF-8"
 
-> On Tue, May 17, 2022 at 11:22:32AM -0600, Alex Williamson wrote:
-> 
-> > > > It seems like a better solution would be to expose to management
-> > > > tools that the VM contains a device that does not support the
-> > > > pre-copy phase so that downtime expectations can be adjusted.    
-> > > 
-> > > I don't expect this to be a real use case though..
-> > > 
-> > > Remember, you asked for this patch when you wanted qemu to have good
-> > > behavior when kernel support for legacy dirty tracking is removed
-> > > before we merge v2 support.  
-> > 
-> > Is wanting good behavior a controversial point?  Did we define this as
-> > the desired good behavior?  Ref?    
-> 
-> As I said, this was intended as a NOP, which is what I thought we
-> agreed to. Missing the SLA checking that existed before seems like
-> something to fix in this patch.
+pin
 
-But even if we have the SLA check, how does a management tool know that
-pre-copy will be skipped and that the downtime needs to account for
-that?  The current solution is obviously non-optimal, it was mainly
-meant for backwards compatibility, but this seems like a fail faster
-solution, with less useless work, but also providing less indication
-how to configure the migration to succeed.
+On Mon, May 16, 2022 at 9:54 PM Wang,Liang(ACG CCN01) <wangliang40@baidu.com>
+wrote:
 
-> This is the discussion thread:
-> 
-> https://lore.kernel.org/kvm/20220324231159.GA11336@nvidia.com/
-> 
->  "I guess I was assuming that enabling v2 migration in QEMU was dependent
->   on the existing type1 dirty tracking because it's the only means we
->   have to tell QEMU that all memory is perpetually dirty when we have a
->   DMA device.  Is that not correct?"
+> When vfio-pci devices are attached to the downstream, pcie acs
+>
+> capability may be needed, Consistent with physical machine.
+>
+>
+> It has been tested in our environment, and pcie acs capability
+>
+> is required in some scenarios.
+>
+>
+> Signed-off-by: wangliang <wangliang40@baidu.com>
+>
+> ---
+>
+>  hw/pci-bridge/xio3130_downstream.c | 4 ++++
+>
+>  1 file changed, 4 insertions(+)
+>
+>
+> diff --git a/hw/pci-bridge/xio3130_downstream.c
+> b/hw/pci-bridge/xio3130_downstream.c
+>
+> index 05e2b06c0c..6ab13b47e2 100644
+>
+> --- a/hw/pci-bridge/xio3130_downstream.c
+>
+> +++ b/hw/pci-bridge/xio3130_downstream.c
+>
+> @@ -40,6 +40,8 @@
+>
+>  #define XIO3130_SSVID_SSID              0
+>
+>  #define XIO3130_EXP_OFFSET              0x90
+>
+>  #define XIO3130_AER_OFFSET              0x100
+>
+> +#define XIO3130_ACS_OFFSET \
+>
+> +        (XIO3130_AER_OFFSET + PCI_ERR_SIZEOF)
+>
+>
+>  static void xio3130_downstream_write_config(PCIDevice *d, uint32_t
+> address,
+>
+>                                           uint32_t val, int len)
+>
+> @@ -111,6 +113,8 @@ static void xio3130_downstream_realize(PCIDevice *d,
+> Error **errp)
+>
+>          goto err;
+>
+>      }
+>
+>
+> +
+>
+> +    pcie_acs_init(d, XIO3130_ACS_OFFSET);
+>
+>      return;
+>
+>
+>  err:
+>
+> --
+>
+> 2.24.3 (Apple Git-128)
+>
+>
 
-Doesn't sound like me asking for this patch so much as trying to figure
-out how to support migration without DMA dirty tracking, and after the
-above comment was a concern whether we lock ourselves into a dirty
-tracking requirement in the iommufd type1 compatibility interface if we
-rely on this type1 feature.  You had spit-balled that QEMU could skip
-pre-copy, but this all needs to be vetted with migration folks and
-management tools.
+--000000000000b4c2cd05df424555
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The only point was to prepare qemu for kernel's that don't support the
-> legacy dirty tracking API but do have a v2 migration interface. IIRC
-> something undesired happens if you do that right now.
+<div dir=3D"ltr">pin</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Mon, May 16, 2022 at 9:54 PM Wang,Liang(ACG CCN01) &=
+lt;<a href=3D"mailto:wangliang40@baidu.com">wangliang40@baidu.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 
-Per this patch, the container requires dirty tracking or we add a
-blocker and can't migrate the device.
- 
-> We could also just dirty all memory in qemu and keep it exactly the
-> same so every SLA detail works. Or completely block pre-copy based
-> flows.
-> 
-> It it not intended to be a useful configuration, this is just covering
-> off backwards compat issues - so I'm not keen to do a bunch of
-> management work to support it.
 
-Are we then deemphasizing the vfio compatibility support in iommufd?
-If we really don't want to put effort towards backwards compatibility,
-should migration support only be enabled with native iommufd support?
-Thanks,
 
-Alex
 
+<div dir=3D"ltr">
+<div id=3D"gmail-m_-1673446777185389786divtagdefaultwrapper" style=3D"font-=
+size:12pt;color:rgb(0,0,0);font-family:Calibri,Helvetica,sans-serif" dir=3D=
+"ltr">
+<p></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">When vfio-pci de=
+vices are attached to the downstream, pcie acs</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">capability may b=
+e needed, Consistent with physical machine.</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo;min-height:13px">
+<span style=3D"font-variant-ligatures:no-common-ligatures"></span><br>
+</p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">It has been test=
+ed in our environment, and pcie acs capability</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">is required in s=
+ome scenarios.</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo;min-height:13px">
+<span style=3D"font-variant-ligatures:no-common-ligatures"></span><br>
+</p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">Signed-off-by: w=
+angliang &lt;<a href=3D"mailto:wangliang40@baidu.com" target=3D"_blank">wan=
+gliang40@baidu.com</a>&gt;</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">---</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0</sp=
+an>hw/pci-bridge/xio3130_downstream.c | 4 ++++</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0</sp=
+an>1 file changed, 4 insertions(+)</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo;min-height:13px">
+<span style=3D"font-variant-ligatures:no-common-ligatures"></span><br>
+</p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">diff --git a/hw/=
+pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c</span>=
+</p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">index 05e2b06c0c=
+..6ab13b47e2 100644</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">--- a/hw/pci-bri=
+dge/xio3130_downstream.c</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">+++ b/hw/pci-bri=
+dge/xio3130_downstream.c</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">@@ -40,6 +40,8 @=
+@</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0</sp=
+an>#define XIO3130_SSVID_SSID<span>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0
+</span>0</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0</sp=
+an>#define XIO3130_EXP_OFFSET<span>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0
+</span>0x90</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0</sp=
+an>#define XIO3130_AER_OFFSET<span>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0
+</span>0x100</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">+#define XIO3130=
+_ACS_OFFSET \</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">+<span>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0
+</span>(XIO3130_AER_OFFSET + PCI_ERR_SIZEOF)</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo;min-height:13px">
+<span style=3D"font-variant-ligatures:no-common-ligatures"></span><br>
+</p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0</sp=
+an>static void xio3130_downstream_write_config(PCIDevice *d, uint32_t addre=
+ss,</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+</span>uint32_t val, int len)</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">@@ -111,6 +113,8=
+ @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)</spa=
+n></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0
+</span>goto err;</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0=C2=
+=A0 =C2=A0
+</span>}</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo;min-height:13px">
+<span style=3D"font-variant-ligatures:no-common-ligatures"></span><br>
+</p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">+</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">+<span>=C2=A0 =
+=C2=A0
+</span>pcie_acs_init(d, XIO3130_ACS_OFFSET);</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0=C2=
+=A0 =C2=A0
+</span>return;</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo;min-height:13px">
+<span style=3D"font-variant-ligatures:no-common-ligatures"></span><br>
+</p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures"><span>=C2=A0</sp=
+an>err:</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">--</span></p>
+<p style=3D"margin-right:0px;margin-left:0px;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height=
+:normal;font-family:Menlo">
+<span style=3D"font-variant-ligatures:no-common-ligatures">2.24.3 (Apple Gi=
+t-128)</span></p>
+<br>
+<p></p>
+</div>
+</div>
+
+</blockquote></div>
+
+--000000000000b4c2cd05df424555--
 
