@@ -2,88 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D6E52B2C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 09:08:05 +0200 (CEST)
-Received: from localhost ([::1]:50280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E12A52B331
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 09:26:05 +0200 (CEST)
+Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrDmu-0002tN-4m
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 03:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58378)
+	id 1nrE4J-0001dy-TF
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 03:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrDjf-00013n-Uw
- for qemu-devel@nongnu.org; Wed, 18 May 2022 03:04:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25872)
+ (Exim 4.90_1) (envelope-from <zhangfei.gao@foxmail.com>)
+ id 1nrE1G-0000qb-9q
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 03:22:54 -0400
+Received: from out203-205-221-173.mail.qq.com ([203.205.221.173]:44291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrDjd-0002tg-Dg
- for qemu-devel@nongnu.org; Wed, 18 May 2022 03:04:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652857479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0yiFaXDCP5wKN1MiwBs4YIKWzPgHtP+zH0l+eopp/dU=;
- b=gJCLI47YKaBHbRee4QNx+Rwa+Gjk7+94z/TiNMLD/tM1nQsMjyb7ZdDZLg0sz67Gh0rbPO
- uEFRMUNPCeZ9hSMNIv9ZOFs+4fwoaNC1Z3dwy06jJ8Fhbs0Itv9YjG6YxI3E6Ke8vjGs5s
- NjlspDSC8p6gO5vGYyhrq9TlnEU1j9A=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-26-xKHRBPW2RrJIPCCkOrQ-1; Wed, 18 May 2022 03:04:38 -0400
-X-MC-Unique: 26-xKHRBPW2RrJIPCCkOrQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m186-20020a1c26c3000000b003943e12185dso505824wmm.7
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 00:04:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0yiFaXDCP5wKN1MiwBs4YIKWzPgHtP+zH0l+eopp/dU=;
- b=XiE7fdBaflFO+fBbylvTopAz6zy1uQJ5r5KtD8iWUF+GsfjVGE8WNui46mL8VirXys
- p7XEkAO2GQZSYg5epNn2NqBK0npMzJio8h7iTXKd0UrPtBsvEKdB6O6/xsrnmx90qT/W
- QLvy7Y8JLWfEpR+Q1wB+xaXXqeHH5nQAoiQnsG3ppfHxtyL9yYnTr0cjhMBArUY+oS1N
- ky5fw9CkQnZfqmkUi9rpTfeAIrs0BZkl8+2GuNKY6Uw4InhLcqPly5SyFj6g8tVw2vIY
- NMOTR/ZtZDxxubziG/9Ajimc3KOrP7r2Wu2tyH+qtd0C7QQmek+0LDlu07Z3W2bQmeir
- WQSg==
-X-Gm-Message-State: AOAM533nRg/P2xrJovUdhQnrQwda1sqNqSflSt/omagD/h5gDTeTNnDf
- JM/pS8043s3tNldykBXjDNQpRiCKLAxu88BteErlGG4b7r7V0cy0iYJs+DgtwCRbiQFto9BqKPC
- T4afM5SRLkifsZK0=
-X-Received: by 2002:a05:6000:1786:b0:20e:6267:5700 with SMTP id
- e6-20020a056000178600b0020e62675700mr514417wrg.600.1652857476798; 
- Wed, 18 May 2022 00:04:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/rtoWy+F9CEUGChUVkEpnVnsUM7j+fffv97zva5NdEM5CGTb5zaFr+SOiNO1AeGIReHz5zw==
-X-Received: by 2002:a05:6000:1786:b0:20e:6267:5700 with SMTP id
- e6-20020a056000178600b0020e62675700mr514404wrg.600.1652857476525; 
- Wed, 18 May 2022 00:04:36 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- t17-20020adfa2d1000000b0020cf071a168sm1133236wra.29.2022.05.18.00.04.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 00:04:36 -0700 (PDT)
-Message-ID: <ed9a8e2d-77e1-1f75-11d6-5f06488b2e98@redhat.com>
-Date: Wed, 18 May 2022 09:04:35 +0200
+ (Exim 4.90_1) (envelope-from <zhangfei.gao@foxmail.com>)
+ id 1nrE18-0005q3-UB
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 03:22:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1652858554;
+ bh=E2bfNbAZPsPeJpae1xBvIxUbRxVgnCUpNs+arIz/lmw=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=pgU4nsithjhlTjRshDEn2gouX4M9pA0DvnAv0LIWAEA3UX9E8O/vysj2Bi4WlKoW3
+ dXFu4qFfCNmqUtqeX1K6A4baQ/+h3snqrKm58c2RuYv53gXeULeL/DkSSGDlpXpxWk
+ oU66WHfolgrPgpqyLCnhdyVKfsdNIcGyD5PU6Uj4=
+Received: from [IPv6:240e:362:473:8f00:d54e:7436:a5f7:1d1b]
+ ([240e:362:473:8f00:d54e:7436:a5f7:1d1b])
+ by newxmesmtplogicsvrszc10.qq.com (NewEsmtp) with SMTP
+ id 59C14C43; Wed, 18 May 2022 15:22:28 +0800
+X-QQ-mid: xmsmtpt1652858548t2dd6b794
+Message-ID: <tencent_C3C342C7F0605284FB368A1A63534B5A4806@qq.com>
+X-QQ-XMAILINFO: M1OHdYEWKc2ZdF7zCuC0uBDNPrKvC6yaU9jUJ43ncuRdwXAu+w/jI/oYCebiED
+ /GD+OebH8rXM/IZSTQQKK1NyXfMkkvbD39R5X86ip2KyOTQmoG2M9l1Kajb/jPFH9+r0mz4Yb6O2
+ Ki/t6DBGJogJ8BYdkpfRnRcwFKx+marCOMHNmmj52p9GYZdDtcdU3xQBEAnCnFLeQpDViLq2b5lB
+ BlQ7ufFKKhMB0oZD4gzoR+rrupUiHUY46fN3gtQITpRN54vJ94sBTApfEB58s8YSrzbCSxycluE0
+ Oj+EzliHyAEi5as+pobe6jVM5ay9yazVVlLgeAjcGBrhwhDafI3Zy9K/qdPDG59XwRciAn085WHt
+ Ndya9ckU9sJhEavdk+Oq2d+Y9q2x6xKSOropnAmM6Bv4R0xRUdrJev+HP2Z13AwPCYwq4y4JI4Cs
+ Ot0i6XhgIIoM21Nef+K1A+wdCMXQy/3DErzmHsGh3/61Nk84RvhjtUZM/PgOgCYpnuuOAkw6zkd1
+ is64clTxwogOzLys7VV0DtI+iBXQox87QYBcW+jMZ0hxaucl0zfAKZYoMwGCGurKp02ZGh6XruEb
+ 3sQipNVVH3tbKzNB09N2nYvQ/WKiHYfKYFh/k+U3qbKiS9yTS7C28PdWH3MmDTM1e2Pn+8Jfr+Iv
+ P72bH6xWzBblIZqka1M0301tkJ3Rp8epTUH8W+ZvAulP6QoyLjjSzYVL+BsQ8B8bUMWNk0XcH3DH
+ 23AkHqdeueuWRPKyc48UJHK2IaO1d7d0zAC03LVU+Yw17f3LhC0LZQy6+29pSMb9/5aT/p12pg3X
+ 9JKHQix+HgjJC8+e35xQUoUtfFmFmmXXJXnvp5GJZDxC/8ENnAFjCOCHRwB6Xcx+LtYOafbORsu7
+ xSjLEOuzMb10Xcj/kX5Ko4JAeF8U1DIHyy5wXOCxkkRGML8kbMwzryEDnif0kP4rQyVtE+FKxcuq
+ 5H2thHDpxEVEdTzn4rXdwVL6xLyePL/CBA2Xt4Q8a20TCDc7IQ7Q==
+Subject: Re: [RFC 00/18] vfio: Adopt iommufd
+To: Yi Liu <yi.l.liu@intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Zhangfei Gao <zhangfei.gao@linaro.org>
+Cc: eric.auger@redhat.com, Alex Williamson <alex.williamson@redhat.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+ "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ "chao.p.peng@intel.com" <chao.p.peng@intel.com>,
+ "yi.y.sun@intel.com" <yi.y.sun@intel.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <4f920d463ebf414caa96419b625632d5@huawei.com>
+ <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
+ <4ac4956cfe344326a805966535c1dc43@huawei.com>
+ <20220426103507.5693a0ca.alex.williamson@redhat.com>
+ <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
+ <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
+ <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
+ <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
+ <20220510124554.GY49344@nvidia.com>
+ <637b3992-45d9-f472-b160-208849d3d27a@intel.com>
+ <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
+ <tencent_B5689033C2703B476DA909302DA141A0A305@qq.com>
+ <faff3515-896c-a445-ebbe-f7077cb52dd4@intel.com>
+From: "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>
+X-OQ-MSGID: <db2f2541-c085-f026-e079-fef69d3c559a@foxmail.com>
+Date: Wed, 18 May 2022 15:22:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] docs/devel: Fix broken internal link to mailing lists
+In-Reply-To: <faff3515-896c-a445-ebbe-f7077cb52dd4@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
-References: <20220315155426.659426-1-kchamart@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220315155426.659426-1-kchamart@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=203.205.221.173;
+ envelope-from=zhangfei.gao@foxmail.com; helo=out203-205-221-173.mail.qq.com
+X-Spam_score_int: 31
+X-Spam_score: 3.1
+X-Spam_bar: +++
+X-Spam_report: (3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_MUA_MOZILLA=2.309,
+ FREEMAIL_FROM=0.001, HELO_DYNAMIC_IPADDR=1.951, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RDNS_DYNAMIC=0.982,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,37 +118,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/2022 16.54, Kashyap Chamarthy wrote:
-> Missed this during the initial conversion.
-> 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
-> This patch should be merged on top of this[1].  Otherwise Sphinx will
-> complain (correctly so).
-> 
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03488.html
->      -- docs: rSTify MailingLists wiki; move it to QEMU Git
-> 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
->   docs/devel/submitting-a-patch.rst | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
-> index e51259eb9c..3632b74585 100644
-> --- a/docs/devel/submitting-a-patch.rst
-> +++ b/docs/devel/submitting-a-patch.rst
-> @@ -18,13 +18,13 @@ one-shot fix, the bare minimum we ask is that:
->      <http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__
->      policy.) ``git commit -s`` or ``git format-patch -s`` will add one.
->   -  All contributions to QEMU must be **sent as patches** to the
-> -   qemu-devel `mailing list <MailingLists>`__. Patch contributions
 
-  Hi Kashyap!
 
-This still seems to be broken - did you ever respin the other patches? (I 
-was not able to spot a v3 of the series...?)
+On 2022/5/17 下午4:55, Yi Liu wrote:
+> Hi Zhangfei,
+>
+> On 2022/5/12 17:01, zhangfei.gao@foxmail.com wrote:
+>>
+>> Hi, Yi
+>>
+>> On 2022/5/11 下午10:17, zhangfei.gao@foxmail.com wrote:
+>>>
+>>>
+>>> On 2022/5/10 下午10:08, Yi Liu wrote:
+>>>> On 2022/5/10 20:45, Jason Gunthorpe wrote:
+>>>>> On Tue, May 10, 2022 at 08:35:00PM +0800, Zhangfei Gao wrote:
+>>>>>> Thanks Yi and Eric,
+>>>>>> Then will wait for the updated iommufd kernel for the PCI MMIO 
+>>>>>> region.
+>>>>>>
+>>>>>> Another question,
+>>>>>> How to get the iommu_domain in the ioctl.
+>>>>>
+>>>>> The ID of the iommu_domain (called the hwpt) it should be returned by
+>>>>> the vfio attach ioctl.
+>>>>
+>>>> yes, hwpt_id is returned by the vfio attach ioctl and recorded in
+>>>> qemu. You can query page table related capabilities with this id.
+>>>>
+>>>> https://lore.kernel.org/kvm/20220414104710.28534-16-yi.l.liu@intel.com/ 
+>>>>
+>>>>
+>>> Thanks Yi,
+>>>
+>>> Do we use iommufd_hw_pagetable_from_id in kernel?
+>>>
+>>> The qemu send hwpt_id via ioctl.
+>>> Currently VFIOIOMMUFDContainer has hwpt_list,
+>>> Which member is good to save hwpt_id, IOMMUTLBEntry?
+>>
+>> Can VFIOIOMMUFDContainer  have multi hwpt?
+>
+> yes, it is possible
+Then how to get hwpt_id in map/unmap_notify(IOMMUNotifier *n, 
+IOMMUTLBEntry *iotlb)
 
-  Thomas
+>
+>> Since VFIOIOMMUFDContainer has hwpt_list now.
+>> If so, how to get specific hwpt from map/unmap_notify in 
+>> hw/vfio/as.c, where no vbasedev can be used for compare.
+>>
+>> I am testing with a workaround, adding VFIOIOASHwpt *hwpt in 
+>> VFIOIOMMUFDContainer.
+>> And save hwpt when vfio_device_attach_container.
+>>
+>>>
+>>> In kernel ioctl: iommufd_vfio_ioctl
+>>> @dev: Device to get an iommu_domain for
+>>> iommufd_hw_pagetable_from_id(struct iommufd_ctx *ictx, u32 pt_id, 
+>>> struct device *dev)
+>>> But iommufd_vfio_ioctl seems no para dev?
+>>
+>> We can set dev=Null since IOMMUFD_OBJ_HW_PAGETABLE does not need dev.
+>> iommufd_hw_pagetable_from_id(ictx, hwpt_id, NULL)
+>
+> this is not good. dev is passed in to this function to allocate domain
+> and also check sw_msi things. If you pass in a NULL, it may even unable
+> to get a domain for the hwpt. It won't work I guess.
 
+The iommufd_hw_pagetable_from_id can be used for
+1, allocate domain, which need para dev
+case IOMMUFD_OBJ_IOAS
+hwpt = iommufd_hw_pagetable_auto_get(ictx, ioas, dev);
+
+2. Just return allocated domain via hwpt_id, which does not need dev.
+case IOMMUFD_OBJ_HW_PAGETABLE:
+return container_of(obj, struct iommufd_hw_pagetable, obj);
+
+By the way, any plan of the nested mode?
+
+Thanks
 
