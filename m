@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D3952B942
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 14:02:29 +0200 (CEST)
-Received: from localhost ([::1]:38056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D18352BB85
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:38:53 +0200 (CEST)
+Received: from localhost ([::1]:57404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrINo-0003cq-Jp
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 08:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59120)
+	id 1nrJt6-00083s-7N
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:38:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrIBJ-0002SV-Mz
- for qemu-devel@nongnu.org; Wed, 18 May 2022 07:49:33 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:44618)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1nr9vy-0000kn-8s
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 23:01:10 -0400
+Received: from mail-io1-f48.google.com ([209.85.166.48]:45012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrIBG-0006W5-QR
- for qemu-devel@nongnu.org; Wed, 18 May 2022 07:49:32 -0400
-Received: by mail-ed1-x529.google.com with SMTP id eg11so2616907edb.11
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 04:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9ViMQZdKP3qyDfLG3X2ceA62h441faxrQu+FndER88Y=;
- b=j+OYHgElMjr7UYWlsFa09ciD1lz7uqZr0CruxowiOAMnbtX2FlO7u88UHVxH1O0xAg
- iBo+I2yzVc57RruScVAqnT1LD7NMj22qWYhXdN4ZPCrf1vMMf2podVntJTP3ujwelu4j
- Yl5yiAZ7MbqOqf/8DIPFFQDUZ1YulAuP2HOSkdb0VMUINQZmnknAlhRcek7O4Um0DVeh
- 5hAxKh0uSWdcfqF+pfjv1L1JvX8DboSkZnxoY3+5/U9fCqpeyNG86R0asWWXG7Lt+Zin
- /0laeDsMMcQKl4uxainf3WoYCe4qI8eEzqet5G3ip3WHb6fXt7NCAR+HP6j6zVWoxSL9
- yzPg==
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1nr9vv-0003MN-Tv
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 23:01:09 -0400
+Received: by mail-io1-f48.google.com with SMTP id e194so855241iof.11
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 20:01:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9ViMQZdKP3qyDfLG3X2ceA62h441faxrQu+FndER88Y=;
- b=pgQOtrrouXk6lZUc+h2egs1F8yXCQFYPzHbsc2UuJ4KiF6U+3eQ0Dy/HAlpkmHTPKt
- XqTAPwzXxGjZY4Bnp7/RnVCtH6DaCVFMLTAyyCicAWA2C5mo4teCrd/paVwaywyMnBsN
- 8ZqAJun1RjuO06YSzJ21PeEY9Koyh1C1ZKQYH4gB22pGKkexPvETX20IbzTk/MtCWmC7
- wj33X3QF6RI/oCsB4A1aKsAH4fH6pn9zgxgo469dner1zGInrpbWwQc9LCRF+8XiEryv
- iMyn1lrHEiqBqWGZ+ss/1cnVnn/GXgXa5+FAHWs51I0TptqTEkk8Jt/+Xa9tr43umPP/
- hngg==
-X-Gm-Message-State: AOAM532xU9tGTmEm2U5AuyBIE0oZeBevHyWIMIXB5uZ5TqssgWIHCKFj
- Kes+JlM3dOzeqFI8WJFgJP3CkLiqo/wMDEiQZdmN2w==
-X-Google-Smtp-Source: ABdhPJzOSTJGKRvpn2cRyFkduwgVNkDJ5Wnv3A6sKW32Rz9jsA23swC2k/9g7vxKubG4Hgn6IPIdeV7YCd0WLrPUlDw=
-X-Received: by 2002:a05:6402:5253:b0:427:ed62:bb8b with SMTP id
- t19-20020a056402525300b00427ed62bb8bmr24700458edd.65.1652874569121; Wed, 18
- May 2022 04:49:29 -0700 (PDT)
+ bh=lJw99M66db42SzBbYRac2ofCzEPbYgs56G2YWOojmhY=;
+ b=v+aAmh6kk5Nuyt3qRc60QxljHhKwbVS5UWKyZI6rQcLC3QQRgYPcvCnuFi0NVQGHyl
+ ioto0FKakRKbVDXU3p09qmxWif60qQ5IE5SNRrtuq0+IZVMsi4j95KwDLqC3G5XmsD2W
+ A/Efu5GEPK7cKioDBdZdr0p7KfppLKWMkG1JGwVJ8ALjzSHQS788pLPe1g1efgxSkPAi
+ r3TTXOSvTOgSDWhV4PQS3s2sCBSSDRUwO07K9QSu7zb3A/eZfdxD1CDSqXXzBZ2LfO5L
+ kYiaBeA3hllr2LcvL2xofodiCwJHHAKlJfS8WkPKTZlvmXoGI2iEENuZfTVhvvgLXB8A
+ Bxow==
+X-Gm-Message-State: AOAM5304tlxfhLBUWDOd50/QWUjvG/36p6aAbyymhwp1eGxKyhCC6I9T
+ fi+qNLwFDCGn4ZdtaxqocqXc9FKfytZByQ==
+X-Google-Smtp-Source: ABdhPJxBvxjRBjZzZLidXmD4jJFDxGpBBYSPgEwqg4QCoic9I85irHLUrTimUNixco0nFJXiC/vGjw==
+X-Received: by 2002:a05:6638:14cb:b0:32e:3bcd:78ac with SMTP id
+ l11-20020a05663814cb00b0032e3bcd78acmr6276893jak.220.1652842864532; 
+ Tue, 17 May 2022 20:01:04 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
+ [209.85.166.50]) by smtp.gmail.com with ESMTPSA id
+ t197-20020a6bc3ce000000b0065dc93eae5dsm333941iof.7.2022.05.17.20.01.03
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 20:01:03 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id m6so895060iob.4
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 20:01:03 -0700 (PDT)
+X-Received: by 2002:a05:6638:34a4:b0:32b:b205:ca82 with SMTP id
+ t36-20020a05663834a400b0032bb205ca82mr12831492jal.165.1652842863144; Tue, 17
+ May 2022 20:01:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
- <20220518110839.8681-3-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220518110839.8681-3-mark.cave-ayland@ilande.co.uk>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 18 May 2022 17:19:18 +0530
-Message-ID: <CAARzgwy805i12i-n1qCu8PHGJLXKhFUazRcW9EMwGxztPqp8sw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] hw/acpi/viot: move the individual PCI host bridge
- entry generation to a new function
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: mst@redhat.com, imammedo@redhat.com, jean-philippe@linaro.org, 
- qemu-devel@nongnu.org
+References: <20220317172839.28984-1-Vladislav.Yaroshchuk@jetbrains.com>
+ <20220317172839.28984-4-Vladislav.Yaroshchuk@jetbrains.com>
+In-Reply-To: <20220317172839.28984-4-Vladislav.Yaroshchuk@jetbrains.com>
+From: osy <osy@turing.llc>
+Date: Tue, 17 May 2022 20:00:52 -0700
+X-Gmail-Original-Message-ID: <CA+E+eSBJUWGqA_KQDX4RRhXpVj6GM1suNDtUxv+-qavOiwJ0vA@mail.gmail.com>
+Message-ID: <CA+E+eSBJUWGqA_KQDX4RRhXpVj6GM1suNDtUxv+-qavOiwJ0vA@mail.gmail.com>
+Subject: Re: [PATCH v22 3/7] net/vmnet: implement shared mode (vmnet-shared)
+To: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>, 
+ Roman Bolshakov <r.bolshakov@yadro.com>, Eric Blake <eblake@redhat.com>,
+ phillip.ennen@gmail.com, phillip@axleos.com, akihiko.odaki@gmail.com, 
+ Markus Armbruster <armbru@redhat.com>, hsp.cat7@gmail.com, hello@adns.io,
+ roman@roolebo.dev, 
+ Peter Maydell <peter.maydell@linaro.org>, dirty@apple.com, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu_oss@crudebyte.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::529;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=209.85.166.48; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f48.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 18 May 2022 09:36:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,88 +95,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 4:38 PM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
+On Thu, Mar 17, 2022 at 10:28 AM Vladislav Yaroshchuk
+<vladislav.yaroshchuk@jetbrains.com> wrote:
 >
-> Instead of generating each table entry inline, move the individual PCI host bridge
-> table entry generation to a separate build_pci_host_range() function.
+> Interaction with vmnet.framework in different modes
+> differs only on configuration stage, so we can create
+> common `send`, `receive`, etc. procedures and reuse them.
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Phillip Tennen <phillip@axleos.com>
+> Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
+> Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
+Hi Vladislav,
 
+Thanks for the patches. We ran into an issue integrating it into UTM
+when we discovered that by targeting a lower macOS version (we like to
+have one binary for all macOS versions), newer features were compiled
+out. This commit resolves that and we think it would be beneficial to
+others as well. Since it does not appear the submission has made it to
+mainline yet, it could be integrated into your patchset.
 
-> ---
->  hw/acpi/viot.c | 48 +++++++++++++++++++++++++++---------------------
->  1 file changed, 27 insertions(+), 21 deletions(-)
->
-> diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
-> index 2897aa8c88..662124812f 100644
-> --- a/hw/acpi/viot.c
-> +++ b/hw/acpi/viot.c
-> @@ -16,6 +16,31 @@ struct viot_pci_ranges {
->      uint16_t output_node;
->  };
->
-> +static void build_pci_host_range(GArray *table_data, int min_bus, int max_bus,
-> +                                 uint16_t output_node)
-> +{
-> +    /* Type */
-> +    build_append_int_noprefix(table_data, 1 /* PCI range */, 1);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 1);
-> +    /* Length */
-> +    build_append_int_noprefix(table_data, 24, 2);
-> +    /* Endpoint start */
-> +    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 4);
-> +    /* PCI Segment start */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    /* PCI Segment end */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    /* PCI BDF start */
-> +    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 2);
-> +    /* PCI BDF end */
-> +    build_append_int_noprefix(table_data, PCI_BUILD_BDF(max_bus, 0xff), 2);
-> +    /* Output node */
-> +    build_append_int_noprefix(table_data, output_node, 2);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 6);
-> +}
-> +
->  /* Build PCI range for a given PCI host bridge */
->  static int pci_host_bridges(Object *obj, void *opaque)
->  {
-> @@ -30,27 +55,8 @@ static int pci_host_bridges(Object *obj, void *opaque)
->
->              pci_bus_range(bus, &min_bus, &max_bus);
->
-> -            /* Type */
-> -            build_append_int_noprefix(blob, 1 /* PCI range */, 1);
-> -            /* Reserved */
-> -            build_append_int_noprefix(blob, 0, 1);
-> -            /* Length */
-> -            build_append_int_noprefix(blob, 24, 2);
-> -            /* Endpoint start */
-> -            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 4);
-> -            /* PCI Segment start */
-> -            build_append_int_noprefix(blob, 0, 2);
-> -            /* PCI Segment end */
-> -            build_append_int_noprefix(blob, 0, 2);
-> -            /* PCI BDF start */
-> -            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 2);
-> -            /* PCI BDF end */
-> -            build_append_int_noprefix(blob, PCI_BUILD_BDF(max_bus, 0xff), 2);
-> -            /* Output node */
-> -            build_append_int_noprefix(blob, pci_ranges->output_node, 2);
-> -            /* Reserved */
-> -            build_append_int_noprefix(blob, 0, 6);
-> -
-> +            build_pci_host_range(blob, min_bus, max_bus,
-> +                                 pci_ranges->output_node);
->              pci_ranges->count++;
->          }
->      }
-> --
-> 2.20.1
->
+https://github.com/utmapp/qemu/commit/6626058f225c9c6a402f9ac6f90aa0b7e94d175c
+
+Thank you!
 
