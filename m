@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66D752B686
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 12:03:39 +0200 (CEST)
-Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958ED52B698
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 12:08:48 +0200 (CEST)
+Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrGWo-0004zu-71
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 06:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36580)
+	id 1nrGbn-0007rd-Es
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 06:08:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrGTj-0004Ae-TT
- for qemu-devel@nongnu.org; Wed, 18 May 2022 06:00:32 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:46706)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nrGaB-0006Pr-TM; Wed, 18 May 2022 06:07:08 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:47064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrGTc-0004qP-Dk
- for qemu-devel@nongnu.org; Wed, 18 May 2022 06:00:25 -0400
-Received: by mail-ej1-x633.google.com with SMTP id y7so1252911ejr.13
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 03:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JhAoimmSSzCmo8oqUF7WEGOalNJwrOWg5eUXQwhrdPE=;
- b=xxlZHF3ymWvBpYVo7Cdc7tVPXuReGJyLN0i/611suQKbz05ith2Lt3dkQvK4z8Eo47
- o6Ok9puRXyQce6+6gBA8E0DXgdGcQbUHqwjN6GgSDdJNd/25mPNPMqtGMXd6gta7dweB
- kNDXqNhcXP+VjDwb66/Gdk11YdvpccJuNNukI4DMZ81hwP1IIwCl7Z3Bd4w5wH+oz1Mp
- rw2f9Mx2x8u0FXKWayYp4JkFKSSjXTXsCv58xi4jyyotDumn9x8LltsPML2mE31NrTFV
- q2ulhMPjmV6j4eDnl5DiO3CZWTB+lMJ6OVUPewkDdfGp0yHJiXZ5oRsXmr0HV5bhM8Qu
- p5bg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nrGa9-0005pN-Qe; Wed, 18 May 2022 06:07:07 -0400
+Received: by mail-ot1-x335.google.com with SMTP id
+ k25-20020a056830169900b00605f215e55dso959480otr.13; 
+ Wed, 18 May 2022 03:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ClFtLEoUw6ajVd1ntroMWb+xwjmbralYWwAZ9iPrThg=;
+ b=ZFySgRs8kb1x9waY+0uy/m8FJjDbH1yLsLTMk8dUPqrkoBpfBY/+wA5LZ8Q7dET5SX
+ i9DeWldL/m0+xz1q/wholT6NSpEOAoxshjkV5u36+4Pq6qHzfQxcDUeNoNLBhtMAYTiz
+ Afrrhu2jnmJm18XYa1qjvyokHnFFae3dDijbt5RUDzMpqMBKX+pXq73g/5Ak4eew5Uai
+ jvflLdWOUfIchUY1qxftGhrqmo/6yRYyoUgGNm/k3NQm3XC/t0eMgHTrtlHBVqFbX8c9
+ njai0Wqw0Nz0uQy4NVJIHhqXNay6DxPPYn0vJG7wSLomC3WJXMd5vZCa6OtzcBprWUDp
+ bSbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JhAoimmSSzCmo8oqUF7WEGOalNJwrOWg5eUXQwhrdPE=;
- b=NhbQawQOi3mQ0eUR+vy5UWe68PIfNJgh7u5uvz6wxfCmO+TmqG6/uDmFfxk0EEiEKI
- wrNz0vqFmPkjTNVSbNPucUzRmVjBEDWFGq5pzRYDH+f71vrpO+jtl1M0nEOXZuhh6lKw
- 5sVeGF+Kcnb8EWFE/Q4jd+IC8J7Fn/+J7Yjqyoh5X2MYfl1RXCpTR7Luul7NvL5o2TtA
- Kdp67WR2DG9WE1l8fPSOhXw2FlLo+CYSLaxM2EZpdIdE0tE8sW59onQ1bGshaRJLyKlM
- WXZBOybo5F1XO5l8uxaEX6r+2/TfITzrc+1V5+JVFYs0vC34FmuJe3CHvoicwyIosxpF
- gBog==
-X-Gm-Message-State: AOAM531BzwzEGjJ0SklHaRcG0IEYiouq6Xi+pXPEH0yHzXfDplA5cN9W
- QeJZ3KWTdf2VzDYGQ6Ez/6r1kBJVLgvubLi9rgKqJw==
-X-Google-Smtp-Source: ABdhPJwG+XIww+17k6JvJMf7ZZ5xpAgW1tmUhMt8sBgMAHiww/zKPBaiKPEF65QY3pbe6AYNpYe7jWGq7y0tC8XPWlE=
-X-Received: by 2002:a17:906:7e19:b0:6f4:5004:d442 with SMTP id
- e25-20020a1709067e1900b006f45004d442mr23445341ejr.147.1652868018384; Wed, 18
- May 2022 03:00:18 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ClFtLEoUw6ajVd1ntroMWb+xwjmbralYWwAZ9iPrThg=;
+ b=1qyDKMpl/lrQrKn1SQBWC4ftpHthKBLUIQTObku0u7B0WAOqmqkv3jekElu4vxdD5U
+ ZvSS89r5v+3w5xt6Mpuvf9P2mesvBS3v3EyNdttabBlpVMSBc3r3je539RUGMHLjLFZO
+ 81lSAZ1NEn3GxszPt+Xhu4w1YFcWiFRhP6h6zLWTmvwKm1gRET4SJ3VfICc588688onH
+ iLdrAWIA+YXFHHlmouP37YxvzbDEAEeIKElRtM1FHY22NIG3sh+T2rkaLxcnJlFTujIQ
+ nBTx27JewAr+tCZzJhJi+s2brl0ycYefgk52aVtL+o3LnoN59PA5OVg93U6Tt7V4g1B2
+ WWsg==
+X-Gm-Message-State: AOAM532eMpx7/ZLF1RQ3Z9rhbi+JF6Y39SYVGvXeT9c3jQWe+U2s/IPC
+ sCiNrCJEqhE6A7NDZ3FdBw/oTKx5VJo=
+X-Google-Smtp-Source: ABdhPJyNVgcVgoDCFnBp3xf9XnDCmHMx2MSjfoOv6XKe9Edl/9M8+hhL24hFBn7bwfqQjPXrQ9hkBg==
+X-Received: by 2002:a9d:82f:0:b0:605:ed5d:a5b2 with SMTP id
+ 44-20020a9d082f000000b00605ed5da5b2mr9867231oty.100.1652868424251; 
+ Wed, 18 May 2022 03:07:04 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:c5a3:c184:dee5:866b:a35f?
+ ([2804:431:c7c7:c5a3:c184:dee5:866b:a35f])
+ by smtp.gmail.com with ESMTPSA id
+ i9-20020a9d6509000000b0060603221253sm613921otl.35.2022.05.18.03.07.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 03:07:03 -0700 (PDT)
+Message-ID: <c22d166f-a865-cc79-9980-71ce96e73182@gmail.com>
+Date: Wed, 18 May 2022 07:07:00 -0300
 MIME-Version: 1.0
-References: <20220516152610.1963435-1-imammedo@redhat.com>
- <20220516152610.1963435-2-imammedo@redhat.com>
-In-Reply-To: <20220516152610.1963435-2-imammedo@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 18 May 2022 15:30:07 +0530
-Message-ID: <CAARzgwxhiJZtXQ=tPaJxxbOPL6LRB4QBu7UhuZSWBMkE-93iVg@mail.gmail.com>
-Subject: Re: [PATCH 01/35] acpi: add interface to build device specific AML
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, minyard@acm.org, 
- stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::633;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x633.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH qemu] spapr: Use address from elf parser for kernel address
+Content-Language: en-US
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+References: <20220504065536.3534488-1-aik@ozlabs.ru>
+ <a9ac6ca4-d404-485c-f4a7-7712e81864ec@gmail.com>
+ <ba5ee018-82a6-db88-ad09-a79b1671493c@ozlabs.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <ba5ee018-82a6-db88-ad09-a79b1671493c@ozlabs.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x335.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,119 +95,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 8:56 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> There is already ISADeviceClass::build_aml() callback which
-> builds device specific AML blob for some ISA devices.
-> To extend the same idea to other devices, add TYPE_ACPI_DEV_AML_IF
-> Interface that will provide a more generic callback which
-> will be used not only for ISA but other devices. It will
-> allow get rid of some data-mining and ad-hoc AML building,
-> by asking device(s) to generate its own AML blob like it's
-> done for ISA devices.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  include/hw/acpi/acpi_aml_interface.h | 40 ++++++++++++++++++++++++++++
->  hw/acpi/acpi_interface.c             |  8 ++++++
->  hw/acpi/meson.build                  |  2 +-
->  3 files changed, 49 insertions(+), 1 deletion(-)
->  create mode 100644 include/hw/acpi/acpi_aml_interface.h
->
-> diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
-> new file mode 100644
-> index 0000000000..ab76f0e55d
-> --- /dev/null
-> +++ b/include/hw/acpi/acpi_aml_interface.h
-> @@ -0,0 +1,40 @@
-> +#ifndef ACPI_AML_INTERFACE_H
-> +#define ACPI_AML_INTERFACE_H
-> +
-> +#include "qom/object.h"
-> +#include "hw/acpi/aml-build.h"
-> +
-> +#define TYPE_ACPI_DEV_AML_IF "acpi-dev-aml-interface"
-> +typedef struct AcpiDevAmlIfClass AcpiDevAmlIfClass;
-> +DECLARE_CLASS_CHECKERS(AcpiDevAmlIfClass, ACPI_DEV_AML_IF, TYPE_ACPI_DEV_AML_IF)
-> +#define ACPI_DEV_AML_IF(obj) \
-> +     INTERFACE_CHECK(AcpiDevAmlIf, (obj), TYPE_ACPI_DEV_AML_IF)
-> +
-> +typedef struct AcpiDevAmlIf AcpiDevAmlIf;
 
-I do not see where struct AcpiDevAmlIf is defined. I guess this is
-through the macro magic.
 
-> +typedef void (*dev_aml_fn)(AcpiDevAmlIf *adev, Aml *scope);
-> +
-> +/**
-> + * AcpiDevAmlIfClass:
-> + *
-> + * build_dev_aml: adds device specific AML blob to provided scope
-> + *
-> + * Interface is designed for providing generic callback that builds device
-> + * specific AML blob.
-> + */
-> +struct AcpiDevAmlIfClass {
-> +    /* <private> */
-> +    InterfaceClass parent_class;
-> +
-> +    /* <public> */
-> +    dev_aml_fn build_dev_aml;
-> +};
-> +
-> +static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
-> +{
-> +    if (object_dynamic_cast(OBJECT(dev), TYPE_ACPI_DEV_AML_IF)) {
-> +        AcpiDevAmlIfClass *klass = ACPI_DEV_AML_IF_GET_CLASS(dev);
-> +        klass->build_dev_aml(ACPI_DEV_AML_IF(dev), scope);
-> +    }
-> +}
-> +
-> +#endif
-> diff --git a/hw/acpi/acpi_interface.c b/hw/acpi/acpi_interface.c
-> index 6583917b8e..c668d361f6 100644
-> --- a/hw/acpi/acpi_interface.c
-> +++ b/hw/acpi/acpi_interface.c
-> @@ -1,5 +1,6 @@
->  #include "qemu/osdep.h"
->  #include "hw/acpi/acpi_dev_interface.h"
-> +#include "hw/acpi/acpi_aml_interface.h"
->  #include "qemu/module.h"
->
->  void acpi_send_event(DeviceState *dev, AcpiEventStatusBits event)
-> @@ -18,8 +19,15 @@ static void register_types(void)
->          .parent        = TYPE_INTERFACE,
->          .class_size = sizeof(AcpiDeviceIfClass),
->      };
-> +    static const TypeInfo acpi_dev_aml_if_info = {
-> +        .name          = TYPE_ACPI_DEV_AML_IF,
-> +        .parent        = TYPE_INTERFACE,
-> +        .class_size = sizeof(AcpiDevAmlIfClass),
-> +    };
-> +
->
->      type_register_static(&acpi_dev_if_info);
-> +    type_register_static(&acpi_dev_aml_if_info);
->  }
->
->  type_init(register_types)
-> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-> index 8bea2e6933..9504f5ce09 100644
-> --- a/hw/acpi/meson.build
-> +++ b/hw/acpi/meson.build
-> @@ -28,7 +28,7 @@ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
->  if have_tpm
->    acpi_ss.add(files('tpm.c'))
->  endif
-> -softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c'))
-> +softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c', 'acpi_interface.c'))
+On 5/17/22 23:51, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 5/18/22 04:58, Daniel Henrique Barboza wrote:
+>> Alexey,
+>>
+>> I had to amend your commit due to Gitlab CI complaining about ...
+>>
+>> On 5/4/22 03:55, Alexey Kardashevskiy wrote:
+>>> tl;dr: This allows Big Endian zImage booting via -kernel + x-vof=on.
+>>>
+>>> QEMU loads the kernel at 0x400000 by default which works most of
+>>> the time as Linux kernels are relocatable, 64bit and compiled with "-pie"
+>>> (position independent code). This works for a little endian zImage too.
+>>>
+>>> However a big endian zImage is compiled without -pie, is 32bit, linked to
+>>> 0x4000000 so current QEMU ends up loading it at
+>>> 0x4400000 but keeps spapr->kernel_addr unchanged so booting fails.
+>>>
+>>> This uses the kernel address returned from load_elf().
+>>> If the default kernel_addr is used, there is no change in behavior (as
+>>> translate_kernel_address() takes care of this), which is:
+>>> LE/BE vmlinux and LE zImage boot, BE zImage does not.
+>>> If the VM created with "-machine kernel-addr=0,x-vof=on", then QEMU
+>>> prints a warning and BE zImage boots.
+>>>
+>>> Note #1: SLOF (x-vof=off) still cannot boot a big endian zImage as
+>>> SLOF enables MSR_SF for everything loaded by QEMU and this leads to early
+>>> crash of 32bit zImage.
+>>>
+>>> Note #2: BE/LE vmlinux images set MSR_SF in early boot so these just work;
+>>> a LE zImage restores MSR_SF after every CI call and we are lucky enough
+>>> not to crash before the first CI call.
+>>>
+>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>> ---
+>>>
+>>> We could probably change SLOF to always clear MSR_SF before jumping to
+>>> the kernel but this is 1) SLOF fix 2) not quite sure if it brings
+>>> lots of value.
+>>>
+>>>
+>>> I really wish I had this when tested this fix:
+>>> https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20220406070038.3704604-1-aik@ozlabs.ru/
+>>>
+>>> ---
+>>>   hw/ppc/spapr.c | 12 ++++++++++--
+>>>   1 file changed, 10 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>>> index a4372ba1891e..89f18f6564bd 100644
+>>> --- a/hw/ppc/spapr.c
+>>> +++ b/hw/ppc/spapr.c
+>>> @@ -2971,14 +2971,16 @@ static void spapr_machine_init(MachineState *machine)
+>>>       }
+>>>       if (kernel_filename) {
+>>> +        uint64_t loaded_addr = 0;
+>>> +
+>>>           spapr->kernel_size = load_elf(kernel_filename, NULL,
+>>>                                         translate_kernel_address, spapr,
+>>> -                                      NULL, NULL, NULL, NULL, 1,
+>>> +                                      NULL, &loaded_addr, NULL, NULL, 1,
+>>>                                         PPC_ELF_MACHINE, 0, 0);
+>>>           if (spapr->kernel_size == ELF_LOAD_WRONG_ENDIAN) {
+>>>               spapr->kernel_size = load_elf(kernel_filename, NULL,
+>>>                                             translate_kernel_address, spapr,
+>>> -                                          NULL, NULL, NULL, NULL, 0,
+>>> +                                          NULL, &loaded_addr, NULL, NULL, 0,
+>>>                                             PPC_ELF_MACHINE, 0, 0);
+>>>               spapr->kernel_le = spapr->kernel_size > 0;
+>>>           }
+>>> @@ -2988,6 +2990,12 @@ static void spapr_machine_init(MachineState *machine)
+>>>               exit(1);
+>>>           }
+>>> +        if (spapr->kernel_addr != loaded_addr) {
+>>> +            warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
+>>> +                        spapr->kernel_addr, loaded_addr);
+>>
+>>
+>> ... this code. This is problematic when compiling in a 32 bit environment because
+>> the definition of long (long) unsigned differs from the usual 64 bit env we use:
+>>
+>>
+>>
+>> ../hw/ppc/spapr.c: In function 'spapr_machine_init':
+>> ../hw/ppc/spapr.c:2998:25: error: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} [-Werror=format=]
+>>   2998 |             warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
+>>        | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>   2999 |                         spapr->kernel_addr, loaded_addr);
+>>        |                         ~~~~~~~~~~~~~~~~~~
+>>        |                              |
+>>        |                              uint64_t {aka long long unsigned int}
+>> ../hw/ppc/spapr.c:2998:25: error: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Werror=format=]
+>>   2998 |             warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
+>>        | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>   2999 |                         spapr->kernel_addr, loaded_addr);
+>>        |                                             ~~~~~~~~~~~
+>>        |                                             |
+>>        |                                             uint64_t {aka long long unsigned int}
+>> cc1: all warnings being treated as errors
+>>
+>>
+>> I've fixed it by doing the following:
+>>
+>>
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index 156e799ae9..8d5bdfc20f 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -2995,7 +2995,7 @@ static void spapr_machine_init(MachineState *machine)
+>>           }
+>>
+>>           if (spapr->kernel_addr != loaded_addr) {
+>> -            warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
+>> +            warn_report("spapr: kernel_addr changed from 0x%"PRIx64
+>> +                        " to 0x%"PRIx64,
+>>                           spapr->kernel_addr, loaded_addr);
+>>               spapr->kernel_addr = loaded_addr;
+>>           }
+>>
+>>
+>>
+>> If you're ok with this fixup we can keep it as is. Otherwise feel free to send
+>> another version.
+> 
+> 
+> I am totally fine with this change, sorry I have not compile tested it, just assumed this cannot fail :-/
 
-This is wrong. It should be the stub file not the real thing.
 
->  softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
->  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
->                                                    'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c',
-> --
-> 2.31.1
->
+Nah it's fine. You would only be able to see this error if you happen
+to compile it with a 32 bit environment. Not sure if this is something
+you use to do here and there. I sure don't.
+
+
+Daniel
+
+
+
+> 
+> 
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>>
+>>
+>>
+>>
+>>> +            spapr->kernel_addr = loaded_addr;
+>>> +        }
+>>> +
+>>>           /* load initrd */
+>>>           if (initrd_filename) {
+>>>               /* Try to locate the initrd in the gap between the kernel
+> 
 
