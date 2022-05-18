@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359D252BB65
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:16:05 +0200 (CEST)
-Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0252052BB67
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:17:26 +0200 (CEST)
+Received: from localhost ([::1]:60392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrJX2-0004Hh-A6
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60202)
+	id 1nrJYK-0005rs-Su
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrJR2-00054c-UR
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:09:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57648)
+ id 1nrJV3-0002Z9-CA
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:14:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrJR1-0006wU-2o
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:09:52 -0400
+ id 1nrJV1-0007nk-KH
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:14:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652879390;
+ s=mimecast20190719; t=1652879638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=K801eJCmU2pj2pPB6zBLBAL3MRfzoEeZW44TvBJ7tvo=;
- b=hXIvzrcTjSvD83btU/Re6gnwDsYrtilp9SoAA1S/xpcTAs9V3Yfsmpy7TvplJCuDZGrj9E
- 8PO2Kdy9AnmEKZRxl6bXEparvhMmvE6fJxoJfyS0K6nn5JuQhrrxasUxCwoRnDZr6H96bq
- scT+iWcwR9kZEPkbR2B41bxZ4Hvz5sE=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0rWT0a/snYWIeW0hq267RFKCulAVKaFD4+0A9LQSkN8=;
+ b=hHB9xfQZhYaa5ul1DotIJbjUg3m7NHPpZGexfnf9GgBOPuZtsmfANwqXBqqDF5NsdEb2YA
+ iRqRQ2Qc9PSJ15aWcX8erAqndG8p7JeepWFn3fWYJDAPWGbMCbUW7+v3q1liq9gqoUqQMR
+ QCC/ZD/mh5RAhJMf/37rEBS4SDY0VEM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-191-ngHoSp9hM-2D9F5m28W-Cg-1; Wed, 18 May 2022 09:09:48 -0400
-X-MC-Unique: ngHoSp9hM-2D9F5m28W-Cg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-136-o8GxebBDM6G6Bjr5tjfiPw-1; Wed, 18 May 2022 09:13:55 -0400
+X-MC-Unique: o8GxebBDM6G6Bjr5tjfiPw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3041A294EDC0;
- Wed, 18 May 2022 13:09:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17304395AFF1;
+ Wed, 18 May 2022 13:13:55 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 596B4492CA2;
- Wed, 18 May 2022 13:09:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0ADB400E118;
+ Wed, 18 May 2022 13:13:54 +0000 (UTC)
+Date: Wed, 18 May 2022 14:13:53 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Paul Durrant <paul@xen.org>,
- Stefano Stabellini <sstabellini@kernel.org>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- xen-devel@lists.xenproject.org, qemu-block@nongnu.org,
- Fam Zheng <fam@euphon.net>, Anthony Perard <anthony.perard@citrix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, Xie Yongji <xieyongji@bytedance.com>
-Subject: [PATCH] block: get rid of blk->guest_block_size
-Date: Wed, 18 May 2022 14:09:45 +0100
-Message-Id: <20220518130945.2657905-1-stefanha@redhat.com>
+To: Xie Yongji <xieyongji@bytedance.com>
+Cc: mst@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, mlureau@redhat.com,
+ jsnow@redhat.com, eblake@redhat.com, Coiby.Xu@gmail.com,
+ hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 3/8] block/export: Abstract out the logic of
+ virtio-blk I/O process
+Message-ID: <YoTxEbiG3i0SZx7e@stefanha-x1.localdomain>
+References: <20220504074051.90-1-xieyongji@bytedance.com>
+ <20220504074051.90-4-xieyongji@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="aEa3FGLJprIAySfx"
+Content-Disposition: inline
+In-Reply-To: <20220504074051.90-4-xieyongji@bytedance.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,151 +84,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 1b7fd729559c ("block: rename buffer_alignment to
-guest_block_size") noted:
 
-  At this point, the field is set by the device emulation, but completely
-  ignored by the block layer.
+--aEa3FGLJprIAySfx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The last time the value of buffer_alignment/guest_block_size was
-actually used was before commit 339064d50639 ("block: Don't use guest
-sector size for qemu_blockalign()").
+On Wed, May 04, 2022 at 03:40:46PM +0800, Xie Yongji wrote:
+> -static void vu_blk_req_complete(VuBlkReq *req)
+> +static void vu_blk_req_complete(VuBlkReq *req, size_t in_len)
+>  {
+>      VuDev *vu_dev =3D &req->server->vu_dev;
+> =20
+> -    /* IO size with 1 extra status byte */
+> -    vu_queue_push(vu_dev, req->vq, &req->elem, req->size + 1);
+> +    vu_queue_push(vu_dev, req->vq, &req->elem, in_len);
 
-This value has not been used since 2013. Get rid of it.
+I think this silently fixes a bug: now the correct len value is
+calculated. Before the I/O buffer wasn't counted in read requests.
+Please mention this in the commit description.
 
-Cc: Xie Yongji <xieyongji@bytedance.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/sysemu/block-backend-io.h    |  1 -
- block/block-backend.c                | 10 ----------
- block/export/vhost-user-blk-server.c |  1 -
- hw/block/virtio-blk.c                |  1 -
- hw/block/xen-block.c                 |  1 -
- hw/ide/core.c                        |  1 -
- hw/scsi/scsi-disk.c                  |  1 -
- hw/scsi/scsi-generic.c               |  1 -
- 8 files changed, 17 deletions(-)
+> +static bool virtio_blk_sect_range_ok(BlockBackend *blk,
+> +                                     uint64_t sector, size_t size)
+> +{
+> +    uint64_t nb_sectors;
+> +    uint64_t total_sectors;
+> +
+> +    if (size % VIRTIO_BLK_SECTOR_SIZE) {
+> +        return false;
+> +    }
+> +
+> +    nb_sectors =3D size >> VIRTIO_BLK_SECTOR_BITS;
+> +
+> +    QEMU_BUILD_BUG_ON(BDRV_SECTOR_SIZE !=3D VIRTIO_BLK_SECTOR_SIZE);
+> +    if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
+> +        return false;
+> +    }
+> +    if ((sector << VIRTIO_BLK_SECTOR_BITS) % blk_get_guest_block_size(bl=
+k)) {
 
-diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-index 6517c39295..ccef514023 100644
---- a/include/sysemu/block-backend-io.h
-+++ b/include/sysemu/block-backend-io.h
-@@ -72,7 +72,6 @@ void blk_error_action(BlockBackend *blk, BlockErrorAction action,
- void blk_iostatus_set_err(BlockBackend *blk, int error);
- int blk_get_max_iov(BlockBackend *blk);
- int blk_get_max_hw_iov(BlockBackend *blk);
--void blk_set_guest_block_size(BlockBackend *blk, int align);
- 
- void blk_io_plug(BlockBackend *blk);
- void blk_io_unplug(BlockBackend *blk);
-diff --git a/block/block-backend.c b/block/block-backend.c
-index e0e1aff4b1..d4abdf8faa 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -56,9 +56,6 @@ struct BlockBackend {
-     const BlockDevOps *dev_ops;
-     void *dev_opaque;
- 
--    /* the block size for which the guest device expects atomicity */
--    int guest_block_size;
--
-     /* If the BDS tree is removed, some of its options are stored here (which
-      * can be used to restore those options in the new BDS on insert) */
-     BlockBackendRootState root_state;
-@@ -998,7 +995,6 @@ void blk_detach_dev(BlockBackend *blk, DeviceState *dev)
-     blk->dev = NULL;
-     blk->dev_ops = NULL;
-     blk->dev_opaque = NULL;
--    blk->guest_block_size = 512;
-     blk_set_perm(blk, 0, BLK_PERM_ALL, &error_abort);
-     blk_unref(blk);
- }
-@@ -2100,12 +2096,6 @@ int blk_get_max_iov(BlockBackend *blk)
-     return blk->root->bs->bl.max_iov;
- }
- 
--void blk_set_guest_block_size(BlockBackend *blk, int align)
--{
--    IO_CODE();
--    blk->guest_block_size = align;
--}
--
- void *blk_try_blockalign(BlockBackend *blk, size_t size)
- {
-     IO_CODE();
-diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-index a129204c44..b2e458ade3 100644
---- a/block/export/vhost-user-blk-server.c
-+++ b/block/export/vhost-user-blk-server.c
-@@ -495,7 +495,6 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         return -EINVAL;
-     }
-     vexp->blk_size = logical_block_size;
--    blk_set_guest_block_size(exp->blk, logical_block_size);
- 
-     if (vu_opts->has_num_queues) {
-         num_queues = vu_opts->num_queues;
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index cd804795c6..e9ba752f6b 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -1228,7 +1228,6 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
- 
-     s->change = qemu_add_vm_change_state_handler(virtio_blk_dma_restart_cb, s);
-     blk_set_dev_ops(s->blk, &virtio_block_ops, s);
--    blk_set_guest_block_size(s->blk, s->conf.conf.logical_block_size);
- 
-     blk_iostatus_enable(s->blk);
- 
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 674953f1ad..345b284d70 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -243,7 +243,6 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
-     }
- 
-     blk_set_dev_ops(blk, &xen_block_dev_ops, blockdev);
--    blk_set_guest_block_size(blk, conf->logical_block_size);
- 
-     if (conf->discard_granularity == -1) {
-         conf->discard_granularity = conf->physical_block_size;
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 3a5afff5d7..f7ec68513f 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -2544,7 +2544,6 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
-     s->smart_selftest_count = 0;
-     if (kind == IDE_CD) {
-         blk_set_dev_ops(blk, &ide_cd_block_ops, s);
--        blk_set_guest_block_size(blk, 2048);
-     } else {
-         if (!blk_is_inserted(s->blk)) {
-             error_setg(errp, "Device needs media, but drive is empty");
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 072686ed58..91acb5c0ce 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2419,7 +2419,6 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
-     } else {
-         blk_set_dev_ops(s->qdev.conf.blk, &scsi_disk_block_ops, s);
-     }
--    blk_set_guest_block_size(s->qdev.conf.blk, s->qdev.blocksize);
- 
-     blk_iostatus_enable(s->qdev.conf.blk);
- 
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index 0ab00ef85c..ada24d7486 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -321,7 +321,6 @@ static void scsi_read_complete(void * opaque, int ret)
-         s->blocksize = ldl_be_p(&r->buf[8]);
-         s->max_lba = ldq_be_p(&r->buf[0]);
-     }
--    blk_set_guest_block_size(s->conf.blk, s->blocksize);
- 
-     /*
-      * Patch MODE SENSE device specific parameters if the BDS is opened
--- 
-2.36.1
+Please use VirtioBlkHandler->logical_block_size instead (see below).
+
+> +int coroutine_fn virtio_blk_process_req(BlockBackend *blk, bool writable,
+> +                                        const char *serial,
+
+I suggest defining a struct instead of passing individual arguments:
+
+  typedef struct {
+      BlockBackend *blk;
+      const char *serial;
+      uint32_t logical_block_size;
+      bool writable;
+  } VirtioBlkHandler;
+
+--aEa3FGLJprIAySfx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKE8REACgkQnKSrs4Gr
+c8jtxQgApMw+LrvHLoe9M3QiViujXSJhz3tniyvSCFHQDBPiuuxH6Ug8XqWqek7g
+jrc14xAO84/TxGLZu2cvj0rx82zwH8r6iMChTyeK2auNza/Ir0NQMReTazJ6UGME
+VkeNtDhI0TT6yWOY2XA2bDrg7Re6B0ate/lDZIcrxLYTyBEu4H74nC4Ejdmtuxsi
+dF5qfNvus7kN1v+lRp+JDFjsS+qj5yEHoht5jACODFroMtbyD3UBmuhCyM5J8cU/
+7eu55zqxC0Vazt1Y1VjRo0pgRCyX9huxLL8iFOlJ7R7K/0bcY3bUuF5vBSxzzXcY
+AkHYBx0U7A8cCTg4FSLYFI6btu9LXA==
+=GZ2x
+-----END PGP SIGNATURE-----
+
+--aEa3FGLJprIAySfx--
 
 
