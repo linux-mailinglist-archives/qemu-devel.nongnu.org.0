@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535BC52B0AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 05:15:59 +0200 (CEST)
-Received: from localhost ([::1]:35116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469D452B0C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 05:22:06 +0200 (CEST)
+Received: from localhost ([::1]:51138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrAAI-0001BJ-3N
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 23:15:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55638)
+	id 1nrAGD-0003pz-Da
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 23:22:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nrA70-0006py-LR
- for qemu-devel@nongnu.org; Tue, 17 May 2022 23:12:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46364)
+ id 1nrA73-0006rk-MG
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 23:12:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nrA6x-0004nD-4d
- for qemu-devel@nongnu.org; Tue, 17 May 2022 23:12:33 -0400
+ id 1nrA71-0004ng-0R
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 23:12:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652843550;
+ s=mimecast20190719; t=1652843554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=InaR8eLlgRfR7DlEsFRstB4rWgnShC26XERHLpGLgV4=;
- b=R/gstp7gwTVScAPNt+IU9HeDzg3Vx/KFulKiOmudBf9iWU7tFYj/S9b7H5g3y+zTECpZC6
- wZwJ1uVsbsb+2Z0DmkBHCXht2Ji9aH4Z8yO55DISic1nUzv49wfCteLiDtztDm1p4RW5rN
- gdpRoTFrZIeEMUOiuKYSYN+5Nx4am5E=
+ bh=ayF4F+uxwPPb8KFRGAu6UrRmBMiL7U/I9AVyzFAUsZE=;
+ b=JxGMhA/uqabGkxDDU/gsSBQCuEvfMm5rFUp+ND/jDLctNa4YczuFAyPli2HNrFhv7Mdqdl
+ dvHMIK/Ok8LP4vZ+dRcEN8UPnsCHe47WeruTdEGA4W9vOb4NYqrXb/DEzQalfwevsKwBg5
+ NkOhe0OqazccdmzoH6WqEXfCQmvF6UY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-esmil93zN0q2hbg88C9dig-1; Tue, 17 May 2022 23:12:27 -0400
-X-MC-Unique: esmil93zN0q2hbg88C9dig-1
+ us-mta-280-s8En_XYbOfapc3UJzbabeA-1; Tue, 17 May 2022 23:12:31 -0400
+X-MC-Unique: s8En_XYbOfapc3UJzbabeA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C31CB101AA42;
- Wed, 18 May 2022 03:12:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0219285A5A8;
+ Wed, 18 May 2022 03:12:31 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-27.pek2.redhat.com [10.72.14.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B4E1400E114;
- Wed, 18 May 2022 03:12:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A40FC40C1421;
+ Wed, 18 May 2022 03:12:27 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: jasowang@redhat.com,
 	qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
+ Phillip Tennen <phillip@axleos.com>,
  Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
-Subject: [PULL 2/8] net/vmnet: add vmnet backends to qapi/net
-Date: Wed, 18 May 2022 11:12:08 +0800
-Message-Id: <20220518031214.93760-3-jasowang@redhat.com>
+Subject: [PULL 3/8] net/vmnet: implement shared mode (vmnet-shared)
+Date: Wed, 18 May 2022 11:12:09 +0800
+Message-Id: <20220518031214.93760-4-jasowang@redhat.com>
 In-Reply-To: <20220518031214.93760-1-jasowang@redhat.com>
 References: <20220518031214.93760-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,413 +86,564 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
 
-Create separate netdevs for each vmnet operating mode:
-- vmnet-host
-- vmnet-shared
-- vmnet-bridged
+Interaction with vmnet.framework in different modes
+differs only on configuration stage, so we can create
+common `send`, `receive`, etc. procedures and reuse them.
 
 Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Phillip Tennen <phillip@axleos.com>
 Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/clients.h       |  11 ++++
- net/meson.build     |   7 +++
- net/net.c           |  10 ++++
- net/vmnet-bridged.m |  25 +++++++++
- net/vmnet-common.m  |  19 +++++++
- net/vmnet-host.c    |  24 ++++++++
- net/vmnet-shared.c  |  25 +++++++++
- net/vmnet_int.h     |  25 +++++++++
- qapi/net.json       | 133 +++++++++++++++++++++++++++++++++++++++++++-
- 9 files changed, 277 insertions(+), 2 deletions(-)
- create mode 100644 net/vmnet-bridged.m
- create mode 100644 net/vmnet-common.m
- create mode 100644 net/vmnet-host.c
- create mode 100644 net/vmnet-shared.c
- create mode 100644 net/vmnet_int.h
+ net/vmnet-common.m | 359 +++++++++++++++++++++++++++++++++++++++++++++
+ net/vmnet-shared.c |  97 +++++++++++-
+ net/vmnet_int.h    |  40 ++++-
+ 3 files changed, 491 insertions(+), 5 deletions(-)
 
-diff --git a/net/clients.h b/net/clients.h
-index 92f9b59aed..c9157789f2 100644
---- a/net/clients.h
-+++ b/net/clients.h
-@@ -63,4 +63,15 @@ int net_init_vhost_user(const Netdev *netdev, const char *name,
- 
- int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp);
-+#ifdef CONFIG_VMNET
-+int net_init_vmnet_host(const Netdev *netdev, const char *name,
-+                          NetClientState *peer, Error **errp);
-+
-+int net_init_vmnet_shared(const Netdev *netdev, const char *name,
-+                          NetClientState *peer, Error **errp);
-+
-+int net_init_vmnet_bridged(const Netdev *netdev, const char *name,
-+                          NetClientState *peer, Error **errp);
-+#endif /* CONFIG_VMNET */
-+
- #endif /* QEMU_NET_CLIENTS_H */
-diff --git a/net/meson.build b/net/meson.build
-index c965e83b26..754e2d1d40 100644
---- a/net/meson.build
-+++ b/net/meson.build
-@@ -44,4 +44,11 @@ if have_vhost_net_vdpa
-   softmmu_ss.add(files('vhost-vdpa.c'))
- endif
- 
-+vmnet_files = files(
-+  'vmnet-common.m',
-+  'vmnet-bridged.m',
-+  'vmnet-host.c',
-+  'vmnet-shared.c'
-+)
-+softmmu_ss.add(when: vmnet, if_true: vmnet_files)
- subdir('can')
-diff --git a/net/net.c b/net/net.c
-index a094cf1d29..2db160e063 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1020,6 +1020,11 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
- #ifdef CONFIG_L2TPV3
-         [NET_CLIENT_DRIVER_L2TPV3]    = net_init_l2tpv3,
- #endif
-+#ifdef CONFIG_VMNET
-+        [NET_CLIENT_DRIVER_VMNET_HOST] = net_init_vmnet_host,
-+        [NET_CLIENT_DRIVER_VMNET_SHARED] = net_init_vmnet_shared,
-+        [NET_CLIENT_DRIVER_VMNET_BRIDGED] = net_init_vmnet_bridged,
-+#endif /* CONFIG_VMNET */
- };
- 
- 
-@@ -1105,6 +1110,11 @@ void show_netdevs(void)
- #endif
- #ifdef CONFIG_VHOST_VDPA
-         "vhost-vdpa",
-+#endif
-+#ifdef CONFIG_VMNET
-+        "vmnet-host",
-+        "vmnet-shared",
-+        "vmnet-bridged",
- #endif
-     };
- 
-diff --git a/net/vmnet-bridged.m b/net/vmnet-bridged.m
-new file mode 100644
-index 0000000000..91c1a2f2c7
---- /dev/null
-+++ b/net/vmnet-bridged.m
-@@ -0,0 +1,25 @@
-+/*
-+ * vmnet-bridged.m
-+ *
-+ * Copyright(c) 2022 Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-types-net.h"
-+#include "vmnet_int.h"
-+#include "clients.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
-+
-+#include <vmnet/vmnet.h>
-+
-+int net_init_vmnet_bridged(const Netdev *netdev, const char *name,
-+                           NetClientState *peer, Error **errp)
-+{
-+  error_setg(errp, "vmnet-bridged is not implemented yet");
-+  return -1;
-+}
 diff --git a/net/vmnet-common.m b/net/vmnet-common.m
-new file mode 100644
-index 0000000000..3bf42fc643
---- /dev/null
+index 3bf42fc643..2cb60b9ddd 100644
+--- a/net/vmnet-common.m
 +++ b/net/vmnet-common.m
-@@ -0,0 +1,19 @@
-+/*
-+ * vmnet-common.m - network client wrapper for Apple vmnet.framework
+@@ -10,6 +10,8 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "qemu/log.h"
+ #include "qapi/qapi-types-net.h"
+ #include "vmnet_int.h"
+ #include "clients.h"
+@@ -17,3 +19,360 @@
+ #include "qapi/error.h"
+ 
+ #include <vmnet/vmnet.h>
++#include <dispatch/dispatch.h>
++
++
++static void vmnet_send_completed(NetClientState *nc, ssize_t len);
++
++
++const char *vmnet_status_map_str(vmnet_return_t status)
++{
++    switch (status) {
++    case VMNET_SUCCESS:
++        return "success";
++    case VMNET_FAILURE:
++        return "general failure (possibly not enough privileges)";
++    case VMNET_MEM_FAILURE:
++        return "memory allocation failure";
++    case VMNET_INVALID_ARGUMENT:
++        return "invalid argument specified";
++    case VMNET_SETUP_INCOMPLETE:
++        return "interface setup is not complete";
++    case VMNET_INVALID_ACCESS:
++        return "invalid access, permission denied";
++    case VMNET_PACKET_TOO_BIG:
++        return "packet size is larger than MTU";
++    case VMNET_BUFFER_EXHAUSTED:
++        return "buffers exhausted in kernel";
++    case VMNET_TOO_MANY_PACKETS:
++        return "packet count exceeds limit";
++#if defined(MAC_OS_VERSION_11_0) && \
++    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
++    case VMNET_SHARING_SERVICE_BUSY:
++        return "conflict, sharing service is in use";
++#endif
++    default:
++        return "unknown vmnet error";
++    }
++}
++
++
++/**
++ * Write packets from QEMU to vmnet interface.
 + *
-+ * Copyright(c) 2022 Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
-+ * Copyright(c) 2021 Phillip Tennen <phillip@axleos.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
++ * vmnet.framework supports iov, but writing more than
++ * one iov into vmnet interface fails with
++ * 'VMNET_INVALID_ARGUMENT'. Collecting provided iovs into
++ * one and passing it to vmnet works fine. That's the
++ * reason why receive_iov() left unimplemented. But it still
++ * works with good performance having .receive() only.
 + */
++ssize_t vmnet_receive_common(NetClientState *nc,
++                             const uint8_t *buf,
++                             size_t size)
++{
++    VmnetState *s = DO_UPCAST(VmnetState, nc, nc);
++    struct vmpktdesc packet;
++    struct iovec iov;
++    int pkt_cnt;
++    vmnet_return_t if_status;
 +
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-types-net.h"
-+#include "vmnet_int.h"
-+#include "clients.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
++    if (size > s->max_packet_size) {
++        warn_report("vmnet: packet is too big, %zu > %" PRIu64,
++            packet.vm_pkt_size,
++            s->max_packet_size);
++        return -1;
++    }
 +
-+#include <vmnet/vmnet.h>
-diff --git a/net/vmnet-host.c b/net/vmnet-host.c
-new file mode 100644
-index 0000000000..a461d507c5
---- /dev/null
-+++ b/net/vmnet-host.c
-@@ -0,0 +1,24 @@
-+/*
-+ * vmnet-host.c
++    iov.iov_base = (char *) buf;
++    iov.iov_len = size;
++
++    packet.vm_pkt_iovcnt = 1;
++    packet.vm_flags = 0;
++    packet.vm_pkt_size = size;
++    packet.vm_pkt_iov = &iov;
++    pkt_cnt = 1;
++
++    if_status = vmnet_write(s->vmnet_if, &packet, &pkt_cnt);
++    if (if_status != VMNET_SUCCESS) {
++        error_report("vmnet: write error: %s\n",
++                     vmnet_status_map_str(if_status));
++        return -1;
++    }
++
++    if (pkt_cnt) {
++        return size;
++    }
++    return 0;
++}
++
++
++/**
++ * Read packets from vmnet interface and write them
++ * to temporary buffers in VmnetState.
 + *
-+ * Copyright(c) 2022 Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
++ * Returns read packets number (may be 0) on success,
++ * -1 on error
 + */
++static int vmnet_read_packets(VmnetState *s)
++{
++    assert(s->packets_send_current_pos == s->packets_send_end_pos);
 +
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-types-net.h"
-+#include "vmnet_int.h"
-+#include "clients.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
++    struct vmpktdesc *packets = s->packets_buf;
++    vmnet_return_t status;
++    int i;
 +
-+#include <vmnet/vmnet.h>
++    /* Read as many packets as present */
++    s->packets_send_current_pos = 0;
++    s->packets_send_end_pos = VMNET_PACKETS_LIMIT;
++    for (i = 0; i < s->packets_send_end_pos; ++i) {
++        packets[i].vm_pkt_size = s->max_packet_size;
++        packets[i].vm_pkt_iovcnt = 1;
++        packets[i].vm_flags = 0;
++    }
 +
-+int net_init_vmnet_host(const Netdev *netdev, const char *name,
-+                        NetClientState *peer, Error **errp) {
-+  error_setg(errp, "vmnet-host is not implemented yet");
-+  return -1;
++    status = vmnet_read(s->vmnet_if, packets, &s->packets_send_end_pos);
++    if (status != VMNET_SUCCESS) {
++        error_printf("vmnet: read failed: %s\n",
++                     vmnet_status_map_str(status));
++        s->packets_send_current_pos = 0;
++        s->packets_send_end_pos = 0;
++        return -1;
++    }
++    return s->packets_send_end_pos;
++}
++
++
++/**
++ * Write packets from temporary buffers in VmnetState
++ * to QEMU.
++ */
++static void vmnet_write_packets_to_qemu(VmnetState *s)
++{
++    while (s->packets_send_current_pos < s->packets_send_end_pos) {
++        ssize_t size = qemu_send_packet_async(&s->nc,
++                                      s->iov_buf[s->packets_send_current_pos].iov_base,
++                                      s->packets_buf[s->packets_send_current_pos].vm_pkt_size,
++                                      vmnet_send_completed);
++
++        if (size == 0) {
++            /* QEMU is not ready to consume more packets -
++             * stop and wait for completion callback call */
++            return;
++        }
++        ++s->packets_send_current_pos;
++    }
++}
++
++
++/**
++ * Bottom half callback that transfers packets from vmnet interface
++ * to QEMU.
++ *
++ * The process of transferring packets is three-staged:
++ * 1. Handle vmnet event;
++ * 2. Read packets from vmnet interface into temporary buffer;
++ * 3. Write packets from temporary buffer to QEMU.
++ *
++ * QEMU may suspend this process on the last stage, returning 0 from
++ * qemu_send_packet_async function. If this happens, we should
++ * respectfully wait until it is ready to consume more packets,
++ * write left ones in temporary buffer and only after this
++ * continue reading more packets from vmnet interface.
++ *
++ * Packets to be transferred are stored into packets_buf,
++ * in the window [packets_send_current_pos..packets_send_end_pos)
++ * including current_pos, excluding end_pos.
++ *
++ * Thus, if QEMU is not ready, buffer is not read and
++ * packets_send_current_pos < packets_send_end_pos.
++ */
++static void vmnet_send_bh(void *opaque)
++{
++    NetClientState *nc = (NetClientState *) opaque;
++    VmnetState *s = DO_UPCAST(VmnetState, nc, nc);
++
++    /*
++     * Do nothing if QEMU is not ready - wait
++     * for completion callback invocation
++     */
++    if (s->packets_send_current_pos < s->packets_send_end_pos) {
++        return;
++    }
++
++    /* Read packets from vmnet interface */
++    if (vmnet_read_packets(s) > 0) {
++        /* Send them to QEMU */
++        vmnet_write_packets_to_qemu(s);
++    }
++}
++
++
++/**
++ * Completion callback to be invoked by QEMU when it becomes
++ * ready to consume more packets.
++ */
++static void vmnet_send_completed(NetClientState *nc, ssize_t len)
++{
++    VmnetState *s = DO_UPCAST(VmnetState, nc, nc);
++
++    /* Callback is invoked eq queued packet is sent */
++    ++s->packets_send_current_pos;
++
++    /* Complete sending packets left in VmnetState buffers */
++    vmnet_write_packets_to_qemu(s);
++
++    /* And read new ones from vmnet if VmnetState buffer is ready */
++    if (s->packets_send_current_pos < s->packets_send_end_pos) {
++        qemu_bh_schedule(s->send_bh);
++    }
++}
++
++
++static void vmnet_bufs_init(VmnetState *s)
++{
++    struct vmpktdesc *packets = s->packets_buf;
++    struct iovec *iov = s->iov_buf;
++    int i;
++
++    for (i = 0; i < VMNET_PACKETS_LIMIT; ++i) {
++        iov[i].iov_len = s->max_packet_size;
++        iov[i].iov_base = g_malloc0(iov[i].iov_len);
++        packets[i].vm_pkt_iov = iov + i;
++    }
++}
++
++
++int vmnet_if_create(NetClientState *nc,
++                    xpc_object_t if_desc,
++                    Error **errp)
++{
++    VmnetState *s = DO_UPCAST(VmnetState, nc, nc);
++    dispatch_semaphore_t if_created_sem = dispatch_semaphore_create(0);
++    __block vmnet_return_t if_status;
++
++    s->if_queue = dispatch_queue_create(
++        "org.qemu.vmnet.if_queue",
++        DISPATCH_QUEUE_SERIAL
++    );
++
++    xpc_dictionary_set_bool(
++        if_desc,
++        vmnet_allocate_mac_address_key,
++        false
++    );
++
++#ifdef DEBUG
++    qemu_log("vmnet.start.interface_desc:\n");
++    xpc_dictionary_apply(if_desc,
++                         ^bool(const char *k, xpc_object_t v) {
++                             char *desc = xpc_copy_description(v);
++                             qemu_log("  %s=%s\n", k, desc);
++                             free(desc);
++                             return true;
++                         });
++#endif /* DEBUG */
++
++    s->vmnet_if = vmnet_start_interface(
++        if_desc,
++        s->if_queue,
++        ^(vmnet_return_t status, xpc_object_t interface_param) {
++            if_status = status;
++            if (status != VMNET_SUCCESS || !interface_param) {
++                dispatch_semaphore_signal(if_created_sem);
++                return;
++            }
++
++#ifdef DEBUG
++            qemu_log("vmnet.start.interface_param:\n");
++            xpc_dictionary_apply(interface_param,
++                                 ^bool(const char *k, xpc_object_t v) {
++                                     char *desc = xpc_copy_description(v);
++                                     qemu_log("  %s=%s\n", k, desc);
++                                     free(desc);
++                                     return true;
++                                 });
++#endif /* DEBUG */
++
++            s->mtu = xpc_dictionary_get_uint64(
++                interface_param,
++                vmnet_mtu_key);
++            s->max_packet_size = xpc_dictionary_get_uint64(
++                interface_param,
++                vmnet_max_packet_size_key);
++
++            dispatch_semaphore_signal(if_created_sem);
++        });
++
++    if (s->vmnet_if == NULL) {
++        dispatch_release(s->if_queue);
++        dispatch_release(if_created_sem);
++        error_setg(errp,
++                   "unable to create interface with requested params");
++        return -1;
++    }
++
++    dispatch_semaphore_wait(if_created_sem, DISPATCH_TIME_FOREVER);
++    dispatch_release(if_created_sem);
++
++    if (if_status != VMNET_SUCCESS) {
++        dispatch_release(s->if_queue);
++        error_setg(errp,
++                   "cannot create vmnet interface: %s",
++                   vmnet_status_map_str(if_status));
++        return -1;
++    }
++
++    s->send_bh = aio_bh_new(qemu_get_aio_context(), vmnet_send_bh, nc);
++    vmnet_bufs_init(s);
++
++    s->packets_send_current_pos = 0;
++    s->packets_send_end_pos = 0;
++
++    vmnet_interface_set_event_callback(
++        s->vmnet_if,
++        VMNET_INTERFACE_PACKETS_AVAILABLE,
++        s->if_queue,
++        ^(interface_event_t event_id, xpc_object_t event) {
++            assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
++            /*
++             * This function is being called from a non qemu thread, so
++             * we only schedule a BH, and do the rest of the io completion
++             * handling from vmnet_send_bh() which runs in a qemu context.
++             */
++            qemu_bh_schedule(s->send_bh);
++        });
++
++    return 0;
++}
++
++
++void vmnet_cleanup_common(NetClientState *nc)
++{
++    VmnetState *s = DO_UPCAST(VmnetState, nc, nc);
++    dispatch_semaphore_t if_stopped_sem;
++
++    if (s->vmnet_if == NULL) {
++        return;
++    }
++
++    if_stopped_sem = dispatch_semaphore_create(0);
++    vmnet_stop_interface(
++        s->vmnet_if,
++        s->if_queue,
++        ^(vmnet_return_t status) {
++            assert(status == VMNET_SUCCESS);
++            dispatch_semaphore_signal(if_stopped_sem);
++        });
++    dispatch_semaphore_wait(if_stopped_sem, DISPATCH_TIME_FOREVER);
++
++    qemu_purge_queued_packets(nc);
++
++    qemu_bh_delete(s->send_bh);
++    dispatch_release(if_stopped_sem);
++    dispatch_release(s->if_queue);
++
++    for (int i = 0; i < VMNET_PACKETS_LIMIT; ++i) {
++        g_free(s->iov_buf[i].iov_base);
++    }
 +}
 diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
-new file mode 100644
-index 0000000000..6dfb133a18
---- /dev/null
+index 6dfb133a18..18cadc72bd 100644
+--- a/net/vmnet-shared.c
 +++ b/net/vmnet-shared.c
-@@ -0,0 +1,25 @@
-+/*
-+ * vmnet-shared.c
-+ *
-+ * Copyright(c) 2022 Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-types-net.h"
-+#include "vmnet_int.h"
-+#include "clients.h"
-+#include "qemu/error-report.h"
+@@ -10,16 +10,105 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/qapi-types-net.h"
 +#include "qapi/error.h"
+ #include "vmnet_int.h"
+ #include "clients.h"
+-#include "qemu/error-report.h"
+-#include "qapi/error.h"
+ 
+ #include <vmnet/vmnet.h>
+ 
 +
-+#include <vmnet/vmnet.h>
-+
-+int net_init_vmnet_shared(const Netdev *netdev, const char *name,
-+                          NetClientState *peer, Error **errp)
++static bool validate_options(const Netdev *netdev, Error **errp)
 +{
-+  error_setg(errp, "vmnet-shared is not implemented yet");
-+  return -1;
++    const NetdevVmnetSharedOptions *options = &(netdev->u.vmnet_shared);
++
++#if !defined(MAC_OS_VERSION_11_0) || \
++    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_11_0
++    if (options->has_isolated) {
++        error_setg(errp,
++                   "vmnet-shared.isolated feature is "
++                   "unavailable: outdated vmnet.framework API");
++        return false;
++    }
++#endif
++
++    if ((options->has_start_address ||
++         options->has_end_address ||
++         options->has_subnet_mask) &&
++        !(options->has_start_address &&
++          options->has_end_address &&
++          options->has_subnet_mask)) {
++        error_setg(errp,
++                   "'start-address', 'end-address', 'subnet-mask' "
++                   "should be provided together"
++        );
++        return false;
++    }
++
++    return true;
 +}
++
++static xpc_object_t build_if_desc(const Netdev *netdev)
++{
++    const NetdevVmnetSharedOptions *options = &(netdev->u.vmnet_shared);
++    xpc_object_t if_desc = xpc_dictionary_create(NULL, NULL, 0);
++
++    xpc_dictionary_set_uint64(
++        if_desc,
++        vmnet_operation_mode_key,
++        VMNET_SHARED_MODE
++    );
++
++    if (options->has_nat66_prefix) {
++        xpc_dictionary_set_string(if_desc,
++                                  vmnet_nat66_prefix_key,
++                                  options->nat66_prefix);
++    }
++
++    if (options->has_start_address) {
++        xpc_dictionary_set_string(if_desc,
++                                  vmnet_start_address_key,
++                                  options->start_address);
++        xpc_dictionary_set_string(if_desc,
++                                  vmnet_end_address_key,
++                                  options->end_address);
++        xpc_dictionary_set_string(if_desc,
++                                  vmnet_subnet_mask_key,
++                                  options->subnet_mask);
++    }
++
++#if defined(MAC_OS_VERSION_11_0) && \
++    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
++    xpc_dictionary_set_bool(
++        if_desc,
++        vmnet_enable_isolation_key,
++        options->isolated
++    );
++#endif
++
++    return if_desc;
++}
++
++static NetClientInfo net_vmnet_shared_info = {
++    .type = NET_CLIENT_DRIVER_VMNET_SHARED,
++    .size = sizeof(VmnetState),
++    .receive = vmnet_receive_common,
++    .cleanup = vmnet_cleanup_common,
++};
++
+ int net_init_vmnet_shared(const Netdev *netdev, const char *name,
+                           NetClientState *peer, Error **errp)
+ {
+-  error_setg(errp, "vmnet-shared is not implemented yet");
+-  return -1;
++    NetClientState *nc = qemu_new_net_client(&net_vmnet_shared_info,
++                                             peer, "vmnet-shared", name);
++    xpc_object_t if_desc;
++    int result = -1;
++
++    if (!validate_options(netdev, errp)) {
++        return result;
++    }
++
++    if_desc = build_if_desc(netdev);
++    result = vmnet_if_create(nc, if_desc, errp);
++    xpc_release(if_desc);
++    return result;
+ }
 diff --git a/net/vmnet_int.h b/net/vmnet_int.h
-new file mode 100644
-index 0000000000..c383038a1d
---- /dev/null
+index c383038a1d..adf6e8c20d 100644
+--- a/net/vmnet_int.h
 +++ b/net/vmnet_int.h
-@@ -0,0 +1,25 @@
-+/*
-+ * vmnet_int.h
+@@ -15,11 +15,49 @@
+ #include "clients.h"
+ 
+ #include <vmnet/vmnet.h>
++#include <dispatch/dispatch.h>
++
++/**
++ *  From vmnet.framework documentation
 + *
-+ * Copyright(c) 2022 Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
++ *  Each read/write call allows up to 200 packets to be
++ *  read or written for a maximum of 256KB.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ *  Each packet written should be a complete
++ *  ethernet frame.
 + *
++ *  https://developer.apple.com/documentation/vmnet
 + */
-+#ifndef VMNET_INT_H
-+#define VMNET_INT_H
-+
-+#include "qemu/osdep.h"
-+#include "vmnet_int.h"
-+#include "clients.h"
-+
-+#include <vmnet/vmnet.h>
-+
-+typedef struct VmnetState {
-+  NetClientState nc;
-+
-+} VmnetState;
-+
-+
-+#endif /* VMNET_INT_H */
-diff --git a/qapi/net.json b/qapi/net.json
-index b92f3f5fb4..d6f7cfd4d6 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -452,6 +452,120 @@
-     '*vhostdev':     'str',
-     '*queues':       'int' } }
++#define VMNET_PACKETS_LIMIT 200
  
-+##
-+# @NetdevVmnetHostOptions:
-+#
-+# vmnet (host mode) network backend.
-+#
-+# Allows the vmnet interface to communicate with other vmnet
-+# interfaces that are in host mode and also with the host.
-+#
-+# @start-address: The starting IPv4 address to use for the interface.
-+#                 Must be in the private IP range (RFC 1918). Must be
-+#                 specified along with @end-address and @subnet-mask.
-+#                 This address is used as the gateway address. The
-+#                 subsequent address up to and including end-address are
-+#                 placed in the DHCP pool.
-+#
-+# @end-address: The DHCP IPv4 range end address to use for the
-+#               interface. Must be in the private IP range (RFC 1918).
-+#               Must be specified along with @start-address and
-+#               @subnet-mask.
-+#
-+# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
-+#               be specified along with @start-address and @subnet-mask.
-+#
-+# @isolated: Enable isolation for this interface. Interface isolation
-+#            ensures that vmnet interface is not able to communicate
-+#            with any other vmnet interfaces. Only communication with
-+#            host is allowed. Requires at least macOS Big Sur 11.0.
-+#
-+# @net-uuid: The identifier (UUID) to uniquely identify the isolated
-+#            network vmnet interface should be added to. If
-+#            set, no DHCP service is provided for this interface and
-+#            network communication is allowed only with other interfaces
-+#            added to this network identified by the UUID. Requires
-+#            at least macOS Big Sur 11.0.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'NetdevVmnetHostOptions',
-+  'data': {
-+    '*start-address': 'str',
-+    '*end-address':   'str',
-+    '*subnet-mask':   'str',
-+    '*isolated':      'bool',
-+    '*net-uuid':      'str' },
-+  'if': 'CONFIG_VMNET' }
+ typedef struct VmnetState {
+-  NetClientState nc;
++    NetClientState nc;
++    interface_ref vmnet_if;
 +
-+##
-+# @NetdevVmnetSharedOptions:
-+#
-+# vmnet (shared mode) network backend.
-+#
-+# Allows traffic originating from the vmnet interface to reach the
-+# Internet through a network address translator (NAT).
-+# The vmnet interface can communicate with the host and with
-+# other shared mode interfaces on the same subnet. If no DHCP
-+# settings, subnet mask and IPv6 prefix specified, the interface can
-+# communicate with any of other interfaces in shared mode.
-+#
-+# @start-address: The starting IPv4 address to use for the interface.
-+#                 Must be in the private IP range (RFC 1918). Must be
-+#                 specified along with @end-address and @subnet-mask.
-+#                 This address is used as the gateway address. The
-+#                 subsequent address up to and including end-address are
-+#                 placed in the DHCP pool.
-+#
-+# @end-address: The DHCP IPv4 range end address to use for the
-+#               interface. Must be in the private IP range (RFC 1918).
-+#               Must be specified along with @start-address and @subnet-mask.
-+#
-+# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
-+#                be specified along with @start-address and @subnet-mask.
-+#
-+# @isolated: Enable isolation for this interface. Interface isolation
-+#            ensures that vmnet interface is not able to communicate
-+#            with any other vmnet interfaces. Only communication with
-+#            host is allowed. Requires at least macOS Big Sur 11.0.
-+#
-+# @nat66-prefix: The IPv6 prefix to use into guest network. Must be a
-+#                unique local address i.e. start with fd00::/8 and have
-+#                length of 64.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'NetdevVmnetSharedOptions',
-+  'data': {
-+    '*start-address': 'str',
-+    '*end-address':   'str',
-+    '*subnet-mask':   'str',
-+    '*isolated':      'bool',
-+    '*nat66-prefix':  'str' },
-+  'if': 'CONFIG_VMNET' }
-+
-+##
-+# @NetdevVmnetBridgedOptions:
-+#
-+# vmnet (bridged mode) network backend.
-+#
-+# Bridges the vmnet interface with a physical network interface.
-+#
-+# @ifname: The name of the physical interface to be bridged.
-+#
-+# @isolated: Enable isolation for this interface. Interface isolation
-+#            ensures that vmnet interface is not able to communicate
-+#            with any other vmnet interfaces. Only communication with
-+#            host is allowed. Requires at least macOS Big Sur 11.0.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'NetdevVmnetBridgedOptions',
-+  'data': {
-+    'ifname':     'str',
-+    '*isolated':  'bool' },
-+  'if': 'CONFIG_VMNET' }
-+
- ##
- # @NetClientDriver:
- #
-@@ -460,10 +574,16 @@
- # Since: 2.7
- #
- #        @vhost-vdpa since 5.1
-+#        @vmnet-host since 7.1
-+#        @vmnet-shared since 7.1
-+#        @vmnet-bridged since 7.1
- ##
- { 'enum': 'NetClientDriver',
-   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
--            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
-+            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
-+            { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
-+            { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
-+            { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
++    uint64_t mtu;
++    uint64_t max_packet_size;
  
- ##
- # @Netdev:
-@@ -477,6 +597,9 @@
- # Since: 1.2
- #
- #        'l2tpv3' - since 2.1
-+#        'vmnet-host' - since 7.1
-+#        'vmnet-shared' - since 7.1
-+#        'vmnet-bridged' - since 7.1
- ##
- { 'union': 'Netdev',
-   'base': { 'id': 'str', 'type': 'NetClientDriver' },
-@@ -492,7 +615,13 @@
-     'hubport':  'NetdevHubPortOptions',
-     'netmap':   'NetdevNetmapOptions',
-     'vhost-user': 'NetdevVhostUserOptions',
--    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
-+    'vhost-vdpa': 'NetdevVhostVDPAOptions',
-+    'vmnet-host': { 'type': 'NetdevVmnetHostOptions',
-+                    'if': 'CONFIG_VMNET' },
-+    'vmnet-shared': { 'type': 'NetdevVmnetSharedOptions',
-+                      'if': 'CONFIG_VMNET' },
-+    'vmnet-bridged': { 'type': 'NetdevVmnetBridgedOptions',
-+                       'if': 'CONFIG_VMNET' } } }
++    dispatch_queue_t if_queue;
++
++    QEMUBH *send_bh;
++
++    struct vmpktdesc packets_buf[VMNET_PACKETS_LIMIT];
++    int packets_send_current_pos;
++    int packets_send_end_pos;
++
++    struct iovec iov_buf[VMNET_PACKETS_LIMIT];
+ } VmnetState;
  
- ##
- # @RxState:
++const char *vmnet_status_map_str(vmnet_return_t status);
++
++int vmnet_if_create(NetClientState *nc,
++                    xpc_object_t if_desc,
++                    Error **errp);
++
++ssize_t vmnet_receive_common(NetClientState *nc,
++                             const uint8_t *buf,
++                             size_t size);
++
++void vmnet_cleanup_common(NetClientState *nc);
+ 
+ #endif /* VMNET_INT_H */
 -- 
 2.25.1
 
