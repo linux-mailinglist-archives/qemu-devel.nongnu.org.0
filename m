@@ -2,49 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31DF52B8AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 13:29:35 +0200 (CEST)
-Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D09452B913
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 13:52:59 +0200 (CEST)
+Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrHry-0006b0-O0
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 07:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50564)
+	id 1nrIEc-0003Mp-NS
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 07:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nrHYQ-0004ja-Mh
- for qemu-devel@nongnu.org; Wed, 18 May 2022 07:09:28 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40930)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nrHyX-0003FD-Mi
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 07:36:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nrHYK-0007IU-9t
- for qemu-devel@nongnu.org; Wed, 18 May 2022 07:09:17 -0400
-Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nrHXF-000AVy-Sz; Wed, 18 May 2022 12:08:14 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
- jean-philippe@linaro.org, qemu-devel@nongnu.org
-Date: Wed, 18 May 2022 12:08:39 +0100
-Message-Id: <20220518110839.8681-7-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
-References: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nrHyU-0004Ox-2o
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 07:36:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652873776;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=be6QytlnbOcFv3ZQEQXetpMiBRobwYe+RU7yZd4mWJw=;
+ b=W+cB2WbXs9p6f2Elf7X+svgpMeuCL5JS+KVWYpZ2+ON01vfa+Vs+HpKFiiW3g6RnmczHsE
+ VK723JYQhKPx3NCpz9JTeH/uhmWl7Zotb5p7m+xbrUHKfEwy5FJHzBqFL3prN56GYSQZBQ
+ 6x7cgL7XaNWa09Vv7hKRzDDGiAN4rTg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-fShDxfUXNE-c1_zuJpw_Ng-1; Wed, 18 May 2022 07:36:15 -0400
+X-MC-Unique: fShDxfUXNE-c1_zuJpw_Ng-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z5-20020a5d4d05000000b0020e6457f2b4so55430wrt.1
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 04:36:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=be6QytlnbOcFv3ZQEQXetpMiBRobwYe+RU7yZd4mWJw=;
+ b=DZv8gEcHvCoWcK9xoumq5TSkKclWWMZnCaG2LYgM3D0+Jli9U41Xs/RMLJTLTQxPKA
+ tt17tG5inXjrD04DstpbS9nG2z7g+SDX2VBYzKcOM6RxuIYd6og6Vw9IfcBk+bWsz0Ug
+ pUToKaY1vpM1Es0AAXCWKbwHihnYhcJAWbciaahjrGYRkbiip9rJ34/gejvabzODOzFq
+ FBX5vkuF3me0DmebC0L/mMDiH4RjakcliWPgk5p0K8WDI/RGId2LW1Dj3NtfJbkMxDk0
+ hTsxETmtl5p4gmAXsZgmjxCvraBTp3I9j55/sYDp1i24Xo0vh87TvG8HF30yn4HgPj8I
+ j2kw==
+X-Gm-Message-State: AOAM532d4pLq9g+NuTYTs8jZJUsW/OvLmdMIZ/gZfe13f4mVBww1D/Ra
+ 1OiNmI24squTunULigFyNGjpecoUSD4c2NzgEBAdGJkGmEhmwD+IhewcDhZDDHw0yHgmPDw7ne6
+ zo0C8Bs/9oM2BYzM=
+X-Received: by 2002:adf:d090:0:b0:20d:3d4:8845 with SMTP id
+ y16-20020adfd090000000b0020d03d48845mr14909190wrh.162.1652873774201; 
+ Wed, 18 May 2022 04:36:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJju+st7rmqHpoT0xm61nXvGFK69+lIzlqaU8aQGo0bOa4dtC6Z9Hhr0y8183w+AEY3O5n5w==
+X-Received: by 2002:adf:d090:0:b0:20d:3d4:8845 with SMTP id
+ y16-20020adfd090000000b0020d03d48845mr14909162wrh.162.1652873773995; 
+ Wed, 18 May 2022 04:36:13 -0700 (PDT)
+Received: from localhost (static-110-87-86-188.ipcom.comunitel.net.
+ [188.86.87.110]) by smtp.gmail.com with ESMTPSA id
+ t19-20020a05600c129300b003942a244f2bsm4164664wmd.4.2022.05.18.04.36.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 May 2022 04:36:13 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org,  "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,  "Dr . David Alan Gilbert"
+ <dgilbert@redhat.com>,  Yishai Hadas <yishaih@nvidia.com>,  Jason
+ Gunthorpe <jgg@nvidia.com>,  Mark Bloch <mbloch@nvidia.com>,  Maor
+ Gottlieb <maorg@nvidia.com>,  Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 3/9] vfio/migration: Fix NULL pointer dereference bug
+In-Reply-To: <ca7310a6-80fa-ec4d-f480-fce5ffb0c8cd@nvidia.com> (Avihai Horon's
+ message of "Tue, 17 May 2022 15:28:33 +0300")
+References: <20220512154320.19697-1-avihaih@nvidia.com>
+ <20220512154320.19697-4-avihaih@nvidia.com>
+ <87lev1sp8j.fsf@secure.mitica>
+ <ca7310a6-80fa-ec4d-f480-fce5ffb0c8cd@nvidia.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 18 May 2022 13:36:12 +0200
+Message-ID: <87mtfff4yb.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 6/6] tests/acpi: virt: update golden masters for VIOT
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,76 +104,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Differences between disassembled ASL files for VIOT:
+Avihai Horon <avihaih@nvidia.com> wrote:
+> On 5/16/2022 2:15 PM, Juan Quintela wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> Avihai Horon <avihaih@nvidia.com> wrote:
+>>> As part of its error flow, vfio_vmstate_change() accesses
+>>> MigrationState->to_dst_file without any checks. This can cause a NULL
+>>> pointer dereference if the error flow is taken and
+>>> MigrationState->to_dst_file is not set.
+>>>
+>>> For example, this can happen if VM is started or stopped not during
+>>> migration and vfio_vmstate_change() error flow is taken, as
+>>> MigrationState->to_dst_file is not set at that time.
+>>>
+>>> Fix it by checking that MigrationState->to_dst_file is set before using
+>>> it.
+>>>
+>>> Fixes: 02a7e71b1e5b ("vfio: Add VM state change handler to know state of VM")
+>>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+>>> ---
+>>>   hw/vfio/migration.c | 4 +++-
+>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>>> index 835608cd23..21e8f9d4d4 100644
+>>> --- a/hw/vfio/migration.c
+>>> +++ b/hw/vfio/migration.c
+>>> @@ -744,7 +744,9 @@ static void vfio_vmstate_change(void *opaque, bool running, RunState state)
+>>>            */
+>>>           error_report("%s: Failed to set device state 0x%x", vbasedev->name,
+>>>                        (migration->device_state & mask) | value);
+>>> -        qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+>>> +        if (migrate_get_current()->to_dst_file) {
+>>> +            qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+>>> +        }
+>>>       }
+>> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>>
+>> I mean that the change is right.
+>>
+>> But I am not so sure about using qemu_file_* operations outside of the
+>> migration_thread.  I *think* that everything else that uses qemu_file_*
+>> functions is operating inside the migration_thread, and this one don't
+>> look like it.  Furthermore, a fast look at qemu source, I can't see
+>> anyplace where we setup an error in a vmstate_change.
+>
+> vfio_vmstate_change() will operate inside migration_thread if
+> migration_thread is the one that called vm start/stop.
+>
+> In cases where vm start/stop was not called by migration_thread, it
+> will operate outside of migration_thread. But I think in such cases 
+> to_dst_file should not be set.
+>
+> Ideally we should have returned error, but vm_state_notify() doesn't
+> report errors.
+>
+> Maybe later we can change vm_state_notify() to support error
+> reporting, or instead of using to_dst_file to indicate an error,
+> update some flag in VFIOMigration.
 
-+++ /tmp/asl-V69GM1.dsl 2022-05-18 10:22:27.239796759 +0100
-@@ -36,11 +36,11 @@
- [041h 0065   1]                     Reserved : 00
- [042h 0066   2]                       Length : 0018
 
--[044h 0068   4]               Endpoint start : 00003000
-+[044h 0068   4]               Endpoint start : 00001000
- [048h 0072   2]            PCI Segment start : 0000
- [04Ah 0074   2]              PCI Segment end : 0000
--[04Ch 0076   2]                PCI BDF start : 3000
--[04Eh 0078   2]                  PCI BDF end : 30FF
-+[04Ch 0076   2]                PCI BDF start : 1000
-+[04Eh 0078   2]                  PCI BDF end : 10FF
- [050h 0080   2]                  Output node : 0030
- [052h 0082   6]                     Reserved : 000000000000
+I think that sounds like a better option.
 
-@@ -48,11 +48,11 @@
- [059h 0089   1]                     Reserved : 00
- [05Ah 0090   2]                       Length : 0018
+There are only two callers of vm_state_notify():
 
--[05Ch 0092   4]               Endpoint start : 00001000
-+[05Ch 0092   4]               Endpoint start : 00003000
- [060h 0096   2]            PCI Segment start : 0000
- [062h 0098   2]              PCI Segment end : 0000
--[064h 0100   2]                PCI BDF start : 1000
--[066h 0102   2]                  PCI BDF end : 10FF
-+[064h 0100   2]                PCI BDF start : 3000
-+[066h 0102   2]                  PCI BDF end : 30FF
- [068h 0104   2]                  Output node : 0030
- [06Ah 0106   6]                     Reserved : 000000000000
+do_vm_stop()
 
-@@ -62,6 +62,6 @@
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 03 00 30 00 00 00 00 00 00 00 00 00  // ......0.........
-     0030: 03 00 10 00 00 00 10 00 00 00 00 00 00 00 00 00  // ................
--    0040: 01 00 18 00 00 30 00 00 00 00 00 00 00 30 FF 30  // .....0.......0.0
--    0050: 30 00 00 00 00 00 00 00 01 00 18 00 00 10 00 00  // 0...............
--    0060: 00 00 00 00 00 10 FF 10 30 00 00 00 00 00 00 00  // ........0.......
-+    0040: 01 00 18 00 00 10 00 00 00 00 00 00 00 10 FF 10  // ................
-+    0050: 30 00 00 00 00 00 00 00 01 00 18 00 00 30 00 00  // 0............0..
-+    0060: 00 00 00 00 00 30 FF 30 30 00 00 00 00 00 00 00  // .....0.00.......
+and
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- tests/data/acpi/q35/VIOT.viot               | Bin 112 -> 112 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
+vm_prepare_start()
 
-diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
-index 9b179266ccbf84f1c250ee646812d17e27987764..275c78fbe8e93190321d957c91c3f17551f865d4 100644
-GIT binary patch
-delta 10
-RcmXRYnBY1wR(PU=1OOI`1E2r^
+Both already support returning one error.
 
-delta 10
-RcmXRYnBY1wR(PU=1OOI`1E2r^
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 8367ffe1d4..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/VIOT",
--- 
-2.20.1
+Thanks, Juan.
 
 
