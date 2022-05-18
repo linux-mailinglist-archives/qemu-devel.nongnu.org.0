@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059EB52BFB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:14:22 +0200 (CEST)
-Received: from localhost ([::1]:49132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAC552BFB7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:16:03 +0200 (CEST)
+Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrMJY-0006nK-MY
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:14:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46872)
+	id 1nrMLC-0000La-3u
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrMI8-0005y7-3t
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:12:52 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:38443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrMI2-0003Xd-59
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:12:49 -0400
-Received: by mail-pl1-x631.google.com with SMTP id n18so2228827plg.5
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 09:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=3v2Qn6NjiprYx46mz2MgJytsnHXDVtugXeNXu93/h24=;
- b=dYAM6Mtur252xVglQ0s//vsXDTKwkpYoOl4CPnZNgEdqyEs0LJC/Adq5QxoNr3+9Wa
- iuXSCK3rENp/JHEF09ggA/WtCGeAt4+fD31/9C6wYXhzeIdQNuLqCk9h8ZppWM1dk/Y9
- MaoGDHIoU9KfQGBZEteEwlWlrWBlb5DZoVQKkaHfMiD08PJaWs8zMdxlnIARTo0xSMQg
- WKpBglbn5ZqEZSWmXEnNPsxY6gTR8G6PQig9Opcy1scTDs2l3ix/6JoPUd+zS9WgZZ4g
- fls7jCYGSyOvQeMleFtgqAkHY19/3pWxFN7C1GX6m+IzJS2wg493yBLzAoLlvwL3/EEU
- Kqxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3v2Qn6NjiprYx46mz2MgJytsnHXDVtugXeNXu93/h24=;
- b=Dkr/Nf9UX/4rlrRFe0pBqsXmlaAGTtX3r8lAhuz2l/Da/ayOF22/KtcEzGVx2z8qUk
- slzPxvZo4cire8iBZ0jta1lVIVBBPSe5YdKE6QkNJrZ9XEVtkPN8+MXFCnOsy5uhGXoy
- 9/hIzaEZtrpNMBvchQFpaG8Ei59g2EKUTUXrydIMF6HwYAJuO54rdKvxiRQzJ8gm2CEu
- AWfLb+4anG1jhI0PhUwBOTwolECvYp5ytukDt2GLZY58NSYlxjrGZW57dwnyuZ36KgyL
- gzm1BSzvIBDsy1dsVOuWPA6o8by9J6v9ZxpcPwV2XARzYV3KmgsGvyZ0YrMFdRKKfsVD
- L//Q==
-X-Gm-Message-State: AOAM533rCbHz112Q6s3I5byijinnpbHqOxtlq4zAR0YfdehrB4FLxL7I
- abhf2CXxU8MbKwsTZHcD3ZZ9kg==
-X-Google-Smtp-Source: ABdhPJzEdx1kRCwoLb3jngVQrvqBQ1L+XK7c4kUqn82GKOc9V3qoMcoahWT2OBb6E4hBf0QX1Y4q4g==
-X-Received: by 2002:a17:902:e5c3:b0:161:c96e:93d0 with SMTP id
- u3-20020a170902e5c300b00161c96e93d0mr381963plf.101.1652890364427; 
- Wed, 18 May 2022 09:12:44 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- d7-20020a056a00244700b00512ee2f2363sm2305536pfj.99.2022.05.18.09.12.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 09:12:43 -0700 (PDT)
-Message-ID: <c3fdc5fa-9bb1-dfb8-d763-1a0946f15aa5@linaro.org>
-Date: Wed, 18 May 2022 09:12:41 -0700
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMJg-0007hX-3n
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:14:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31361)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMJd-0003fO-Ag
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:14:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652890464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q+yYQY6l/NKa8F1avtShOeI5sI1I6xz6me+sODcMwZg=;
+ b=BBwucwJuMcWEQ8GBUp1tQtRYBqtG4u9dYBrgLtSOMFShN/F7/wVscIEA3+3zcvsbQ332uW
+ hrcoBqTnX+BXimk0ZXw0nBir1t1x56h/LDUroLK5uhg79PrNy+uarA5fT6tpqaES83rmYe
+ pwKh/VW75gFU+FNC0+JoVTghJZTUqxo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-223-3IogRAxhNZmJsckKTWf0lw-1; Wed, 18 May 2022 12:14:20 -0400
+X-MC-Unique: 3IogRAxhNZmJsckKTWf0lw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C13AE296A607;
+ Wed, 18 May 2022 16:14:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DBEEC15E71;
+ Wed, 18 May 2022 16:14:18 +0000 (UTC)
+Date: Wed, 18 May 2022 18:14:17 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <YoUbWYfl0Bft3LiU@redhat.com>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
+ <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
+ <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
+ <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 0/8] Misc patches (Gitlab-CI, qtest, Capstone, ...)
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220518090438.158475-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220518090438.158475-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,76 +85,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/22 02:04, Thomas Huth wrote:
->   Hi Richard!
+Am 18.05.2022 um 14:43 hat Paolo Bonzini geschrieben:
+> On 5/18/22 14:28, Emanuele Giuseppe Esposito wrote:
+> > For example, all callers of bdrv_open() always take the AioContext lock.
+> > Often it is taken very high in the call stack, but it's always taken.
 > 
-> The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
+> I think it's actually not a problem of who takes the AioContext lock or
+> where; the requirements are contradictory:
 > 
->    Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16 16:31:01 -0700)
+> * IO_OR_GS_CODE() functions, when called from coroutine context, expect to
+> be called with the AioContext lock taken (example: bdrv_co_yield_to_drain)
 > 
-> are available in the Git repository at:
+> * to call these functions with the lock taken, the code has to run in the
+> BDS's home iothread.  Attempts to do otherwise results in deadlocks (the
+> main loop's AIO_WAIT_WHILEs expect progress from the iothread, that cannot
+> happen without releasing the aiocontext lock)
 > 
->    https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-18
+> * running the code in the BDS's home iothread is not possible for
+> GLOBAL_STATE_CODE() functions (unless the BDS home iothread is the main
+> thread, but that cannot be guaranteed in general)
 > 
-> for you to fetch changes up to 83602083b4ada6ceb86bfb327e83556ebab120fc:
+> > We might suppose that many callbacks are called under drain and in
+> > GLOBAL_STATE, which should be enough, but from our experimentation in
+> > the previous series we saw that currently not everything is under drain,
+> > leaving some operations unprotected (remember assert_graph_writable
+> > temporarily disabled, since drain coverage for bdrv_replace_child_noperm
+> > was not 100%?).
+> > Therefore we need to add more drains. But isn't drain what we decided to
+> > drop at the beginning? Why isn't drain good?
 > 
->    capstone: Remove the capstone submodule (2022-05-18 08:54:22 +0200)
+> To sum up the patch ordering deadlock that we have right now:
 > 
-> ----------------------------------------------------------------
-> * Remove Ubuntu 18.04 containers (not supported anymore)
-> * Improve the cleanup of the QEMU binary in case of failing qtests
-> * Update the Windows support statement
-> * Remove the capstone submodule (and rely on Capstone of the distros instead)
+> * in some cases, graph manipulations are protected by the AioContext lock
+> 
+> * eliminating the AioContext lock is needed to move callbacks to coroutine
+> contexts (see above for the deadlock scenario)
+> 
+> * moving callbacks to coroutine context is needed by the graph rwlock
+> implementation
+> 
+> On one hand, we cannot protect the graph across manipulations with a graph
+> rwlock without removing the AioContext lock; on the other hand, the
+> AioContext lock is what _right now_ protects the graph.
+> 
+> So I'd rather go back to Emanuele's draining approach.  It may not be
+> beautiful, but it allows progress.  Once that is in place, we can remove the
+> AioContext lock (which mostly protects virtio-blk/virtio-scsi code right
+> now) and reevaluate our next steps.
 
-Fails centos-stream-8-x86_64 test,
+If we want to use drain for locking, we need to make sure that drain
+actually does the job correctly. I see two major problems with it:
 
-Run-time dependency capstone found: NO (tried pkgconfig)
-../meson.build:2539:2: ERROR: Dependency "capstone" not found, tried pkgconfig
+The first one is that drain only covers I/O paths, but we need to
+protect against _anything_ touching block nodes. This might mean a
+massive audit and making sure that everything in QEMU that could
+possibly touch a block node is integrated with drain.
 
-https://gitlab.com/qemu-project/qemu/-/jobs/2473935684
+I think Emanuele has argued before that because writes to the graph only
+happen in the main thread and we believe that currently only I/O
+requests are processed in iothreads, this is safe and we don't actually
+need to audit everything.
 
+This is true as long as the assumption holds true (how do we ensure that
+nobody ever introduces non-I/O code touching a block node in an
+iothread?) and as long as the graph writer never yields or polls. I
+think the latter condition is violated today, a random example is that
+adjusting drain counts in bdrv_replace_child_noperm() does poll. Without
+cooperation from all relevant places, the effectively locked code
+section ends right there, even if the drained section continues. Even if
+we can fix this, verifying that the conditions are met everywhere seems
+not trivial.
 
-r~
+And that's exactly my second major concern: Even if we manage to
+correctly implement things with drain, I don't see a way to meaningfully
+review it. I just don't know how to verify with some confidence that
+it's actually correct and covering everything that needs to be covered.
 
+Drain is not really a lock. But if you use it as one, the best it can
+provide is advisory locking (callers, inside and outside the block
+layer, need to explicitly support drain instead of having the lock
+applied somewhere in the block layer functions). And even if all
+relevant pieces actually make use of it, it still has an awkward
+interface for locking:
 
+/* Similar to rdlock(), but doesn't wait for writers to finish. It is
+ * the callers responsibility to make sure that there are no writers. */
+bdrv_inc_in_flight()
 
-> 
-> ----------------------------------------------------------------
-> Daniel P. Berrangé (2):
->        tests/qtest: fix registration of ABRT handler for QEMU cleanup
->        tests/qtest: use prctl(PR_SET_PDEATHSIG) as fallback to kill QEMU
-> 
-> Thomas Huth (6):
->        gitlab-ci: Switch the container of the 'check-patch' & 'check-dco' jobs
->        Remove Ubuntu 18.04 container support from the repository
->        docs/about: Update the support statement for Windows
->        tests/vm: Add capstone to the NetBSD and OpenBSD VMs
->        capstone: Allow version 3.0.5 again
->        capstone: Remove the capstone submodule
-> 
->   docs/about/build-platforms.rst                     |  14 +-
->   configure                                          |  23 +---
->   meson.build                                        | 115 +---------------
->   include/qemu/osdep.h                               |   2 +-
->   tests/qtest/libqtest.c                             |  21 ++-
->   .gitlab-ci.d/buildtest.yml                         |   3 +-
->   .gitlab-ci.d/containers.yml                        |   5 -
->   .../custom-runners/ubuntu-20.04-aarch32.yml        |   2 +-
->   .../custom-runners/ubuntu-20.04-aarch64.yml        |   2 +-
->   .gitlab-ci.d/static_checks.yml                     |  14 +-
->   .gitlab-ci.d/windows.yml                           |   5 +-
->   .gitmodules                                        |   3 -
->   capstone                                           |   1 -
->   meson_options.txt                                  |   3 +-
->   scripts/ci/setup/build-environment.yml             |  14 +-
->   scripts/meson-buildoptions.sh                      |   5 +-
->   tests/docker/dockerfiles/ubuntu1804.docker         | 144 ---------------------
->   tests/lcitool/refresh                              |   7 -
->   tests/vm/netbsd                                    |   3 +-
->   tests/vm/openbsd                                   |   3 +-
->   20 files changed, 59 insertions(+), 330 deletions(-)
->   delete mode 160000 capstone
->   delete mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
-> 
+/* Similar to wrlock(). Waits for readers to finish. New readers are not
+ * prevented from starting after it returns. Third parties are politely
+ * asked not to touch the block node while it is drained. */
+bdrv_drained_begin()
+
+(I think the unlock counterparts actually behave as expected from a real
+lock.)
+
+Having an actual rdlock() (that waits for writers), and using static
+analysis to verify that all relevant places use it (so that wrlock()
+doesn't rely on politely asking third parties to leave the node alone)
+gave me some confidence that we could verify the result.
+
+I'm not sure at all how to achieve the same with the drain interface. In
+theory, it's possible. But it complicates the conditions so much that
+I'm pretty much sure that the review wouldn't only be very time
+consuming, but I would make mistakes during the review, rendering it
+useless.
+
+Maybe throwing some more static analysis on the code can help, not sure.
+It's going to be a bit more complex than with the other approach,
+though.
+
+Kevin
 
 
