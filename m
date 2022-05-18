@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6478952B7BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 12:34:17 +0200 (CEST)
-Received: from localhost ([::1]:49480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE6C52B7C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 12:42:04 +0200 (CEST)
+Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrH0R-00044D-Vc
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 06:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42468)
+	id 1nrH7z-0006Q0-6p
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 06:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrGxA-0002YK-DP
- for qemu-devel@nongnu.org; Wed, 18 May 2022 06:30:52 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:37762)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nrH3T-0005MV-JZ
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 06:37:23 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:42912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrGx8-0001Ag-QK
- for qemu-devel@nongnu.org; Wed, 18 May 2022 06:30:52 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id v71so2898378ybi.4
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 03:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6VYjo6D60ICm1Bsii96igdB78MhM+JPiWL5ypQJWn0I=;
- b=kg6uMKZ8PYSzzl/jtgWmPF1BstnjO3j4CwHCu0yKtJQy8oJCXs/O3+J2/Y5R3snvNi
- xJloCqV5gstk2dp8T//JI31ii1cOBlHI7+m/xH/KiRw7jLMWXxlik3Rtspt/NO91yc4y
- FX2U5KKqvzOJ7Stp5QzTs59nQci/u0LjCEsosgRsTG+hacBUzftXpDYrmQ0UfHvbqkNF
- Okj5DsgzvN8gTuAYS0vrlACH6H45ByxEnpAhI4YC51LTKq5F/wDfLYkxvqpRMTqXcfgk
- kPf8s1dSzUQjCM4DbDpgOn1oqQAfEVbEJvrBQ9QzQcw9ND/ukuCi48bcIr5w56Xs0mWW
- y/bA==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nrH3R-0001y8-Qe
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 06:37:23 -0400
+Received: by mail-ej1-x635.google.com with SMTP id i27so2915231ejd.9
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 03:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=b8GUXuHlwf34CLZcvE++GS5q/EbeYoLLXcXnye2vCJ0=;
+ b=QVefqPEWk7vjhH/Zq1y/9iIis1WBwZiYo6r+NqUVEozNAOreMGRm7r1c4vLyCUCmhi
+ mopcJJEx8n7i2c18d5EW0gAPdn7b1qzahwTEZC+fIjJUwpB4iSGYVDNCjeP4xwnUlv1t
+ jRiXWL6LSl+XuP8kpk0F31elNVH/je0YzV2VgNb8SxGbyqQNSNdXVYo3nKHLyOHGYuCV
+ qQADrG3oyaR/b8Qd1Z0mTp3iSsHKVasFeVBquTF5D4bSICBkUzUS/Sn32lWCJ1tK0cm2
+ 1TYHY78RBPURiiJULs8Z8WrzXfNm7WqDya5cJt1rzymCtXih1X1IWwzuEcR6aM2LG79q
+ nX/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6VYjo6D60ICm1Bsii96igdB78MhM+JPiWL5ypQJWn0I=;
- b=4jVHjltXGI5hGqto+u81NMWvt7dUSCmM8AWQxGHAkL70iWagcG3+Mm2u3O83YTcHQ8
- brNoBFce6o4+NgN3ePQg14qa+iSbk5S0aR6gaxIJn43SfaNHMuSn8kwDWMS+6SUYBxjg
- LuuflmjV+cg3jhYWVeZmh160N7FviiUQ9aqSsVb54eNRzspdPDx5HLxnJUKH6g8flSek
- EfrIix/yhwQzndFYQ82DL1TZ1TKJW2Gu1aDDV13SnAPOaHqQSqrivioEjlXzUhua1Rkd
- TU96W3PY8kPuLCOl+gYWB0GO4Ccw6v2uTtS4yQzICDieUTeh7G7MaqRmjo5moxYbTEaz
- W/3w==
-X-Gm-Message-State: AOAM5327fS6JQ9xmE2sMT9T4b/X8EyAdyWqbq4hfxXltisSnBLXr0aAG
- XtmJ4vB2Ege3qVg9XP6/d584tqcaEyoreVle3Y/BhA==
-X-Google-Smtp-Source: ABdhPJwo1r9S0IGK+pJQaPGkfyAuLx6mIZvjrk5TsYPoAj5DWpq7XkSIqGnM4jNpZZf4gxZD+bfA96zlOobty4SApmE=
-X-Received: by 2002:a05:6902:1543:b0:649:3124:b114 with SMTP id
- r3-20020a056902154300b006493124b114mr26435231ybu.39.1652869849850; Wed, 18
- May 2022 03:30:49 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=b8GUXuHlwf34CLZcvE++GS5q/EbeYoLLXcXnye2vCJ0=;
+ b=vQUda7Gi5KSG3T4gAWg/IPbsGZDcD8a4PqPTIOMjL6DG96vIq6U/DFV1g6bLbhobAB
+ rzcTCLSIdLu59R78L+LBLy47vam+GstYjTFqx8kR3YiGQfjI6c/YJPnW/TXpkmOsOQjy
+ z0TWumuwi5wZ5k4iUfk7sRVhTYAVPoOpvL1FUJcH5tTPFKATemJ5rg/KX2Gh/8nRVlUC
+ pSJHz/Na/8/MEQ183ky+BpZs/7DVQvQXwtABh1lLSk/PtfNbdTIq4ipgzt0sddTA5Ki+
+ /+JsewgIk+mzE0vrBXjA+Y64ql6ID4eECGBlQ+7iV4zTobn54Jy0QNk3+vJJp/zTUPjZ
+ OJMw==
+X-Gm-Message-State: AOAM53189643nIr+/e25SGyYYxPr95Hztqipg9vr4nuWUfUTsKYuUmM7
+ kbEd3PREeJlNfFIxrR50hZ0=
+X-Google-Smtp-Source: ABdhPJyOtkPtgINCWX0FQctNYRoxkgDB4hmYNd0PKEXGmnmVNGozr7VljjsOINpmwLI7aM5zFeG7LA==
+X-Received: by 2002:a17:907:97d1:b0:6f8:5aa9:6f16 with SMTP id
+ js17-20020a17090797d100b006f85aa96f16mr23472015ejc.587.1652870239996; 
+ Wed, 18 May 2022 03:37:19 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ jx3-20020a170907760300b006f3ef214dc9sm778218ejc.47.2022.05.18.03.37.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 03:37:19 -0700 (PDT)
+Message-ID: <204fa7f7-6b15-e77e-ecec-c06b1873ef5e@redhat.com>
+Date: Wed, 18 May 2022 12:37:18 +0200
 MIME-Version: 1.0
-References: <20220513122852.4063586-1-peter.maydell@linaro.org>
- <TYCPR01MB61604A48D4D67447A373F70CE9CE9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB61604A48D4D67447A373F70CE9CE9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 18 May 2022 11:30:38 +0100
-Message-ID: <CAFEAcA9FvZZjHcSWVVwDE_XxGvFs-rJZgpdkcB7UuSPZj__jUQ@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Make number of counters in PMCR follow the CPU
-To: "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Itaru Kitayama <itaru.kitayama@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 0/3] Misc AC97 clean ups
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+References: <cover.1650706617.git.balaton@eik.bme.hu>
+ <6ff58395-65a8-a50-90ee-571ccb131a8@eik.bme.hu>
+ <255fbc8f-3b2d-f121-472-91f4d5e36b81@eik.bme.hu>
+ <bc93f5ae-a9a-d9ef-4022-fcb0169863@eik.bme.hu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <bc93f5ae-a9a-d9ef-4022-fcb0169863@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,26 +98,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 May 2022 at 00:24, ishii.shuuichir@fujitsu.com
-<ishii.shuuichir@fujitsu.com> wrote:
->
-> Hi, Peter.
->
-> > Shuuichirou, Itaru: this is another patch where we need to know
-> > an A64FX register value...
->
-> Sorry for the late reply.
->
-> The initial value of the pmcr_el0 register in A64FX is 0x46014040.
->
-> After applying this Peter's patch, should we submit a new patch as a64fx patch from us?
-> or do you want to fix your own modifications to the patch that peter has posted?
-> Which is the best procedure?
+On 5/17/22 21:47, BALATON Zoltan wrote:
+> On Mon, 9 May 2022, BALATON Zoltan wrote:
+>> On Mon, 2 May 2022, BALATON Zoltan wrote:
+>>> On Sat, 23 Apr 2022, BALATON Zoltan wrote:
+>>>> During trying to implement via-ac97 I did some small clean ups to ac97
+>>>> which is in this series. The via-ac97 is not working yet so that's not
+>>>> included but these unrelated clean ups could be merged now.
+>>>>
+>>>> v3: Fixed misalignments and drop spaces before commas (Víctor Colombo)
+>>>> v2: Added R-b and changes from Peter Maydell
+>>>
+>>> Ping?
+>>>
+>>> https://patchew.org/QEMU/cover.1650706617.git.balaton@eik.bme.hu/
+>>
+>> Ping2
+>>
+>> Gerd, are you getting these messages?
+> 
+> I got no reply to this so far so I think Gerd is not seeing my messages. 
+> Could someone who can reach him bring it to his attention please?
 
-Thanks for looking up the a64fx register value. You don't need to
-do anything more -- I'll fix up the TODO comment and put the right
-value into this patch, either when I post a v2 of it or else when
-I apply it to target-arm.next.
+I'll queue these in his stead.
 
--- PMM
+Paolo
+
 
