@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958ED52B698
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 12:08:48 +0200 (CEST)
-Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4102952B69E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 12:11:08 +0200 (CEST)
+Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrGbn-0007rd-Es
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 06:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
+	id 1nrGe1-0000vz-Fc
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 06:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nrGaB-0006Pr-TM; Wed, 18 May 2022 06:07:08 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:47064)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nrGa9-0005pN-Qe; Wed, 18 May 2022 06:07:07 -0400
-Received: by mail-ot1-x335.google.com with SMTP id
- k25-20020a056830169900b00605f215e55dso959480otr.13; 
- Wed, 18 May 2022 03:07:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ClFtLEoUw6ajVd1ntroMWb+xwjmbralYWwAZ9iPrThg=;
- b=ZFySgRs8kb1x9waY+0uy/m8FJjDbH1yLsLTMk8dUPqrkoBpfBY/+wA5LZ8Q7dET5SX
- i9DeWldL/m0+xz1q/wholT6NSpEOAoxshjkV5u36+4Pq6qHzfQxcDUeNoNLBhtMAYTiz
- Afrrhu2jnmJm18XYa1qjvyokHnFFae3dDijbt5RUDzMpqMBKX+pXq73g/5Ak4eew5Uai
- jvflLdWOUfIchUY1qxftGhrqmo/6yRYyoUgGNm/k3NQm3XC/t0eMgHTrtlHBVqFbX8c9
- njai0Wqw0Nz0uQy4NVJIHhqXNay6DxPPYn0vJG7wSLomC3WJXMd5vZCa6OtzcBprWUDp
- bSbw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrGc1-0000Am-8s
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 06:09:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44017)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrGby-0005y1-17
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 06:08:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652868536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IUmny+1wUciSJAUqHQt54UHG286mNbu6CLpotlOp3kw=;
+ b=Xv+UA74wzlUl/LBY2fG6O0wN1ORd/jj16wrZsyAXOn5zg38KT10JY8z3ZwNud7TP/EuwC6
+ Qnq+ieIk/2pTQ3oOEWP4DUxTdt8+aq07jSd+LL+KoLr+rj2YVHZ9/iITKnb1/WLfBSKv+a
+ V4nY6RQqyg3cjjOiHYYX96DHG3mOU1I=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-279-Lc37Q1LwMDy3mYkOdv1z2A-1; Wed, 18 May 2022 06:08:53 -0400
+X-MC-Unique: Lc37Q1LwMDy3mYkOdv1z2A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s8-20020adfecc8000000b0020d080b6fddso434054wro.20
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 03:08:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ClFtLEoUw6ajVd1ntroMWb+xwjmbralYWwAZ9iPrThg=;
- b=1qyDKMpl/lrQrKn1SQBWC4ftpHthKBLUIQTObku0u7B0WAOqmqkv3jekElu4vxdD5U
- ZvSS89r5v+3w5xt6Mpuvf9P2mesvBS3v3EyNdttabBlpVMSBc3r3je539RUGMHLjLFZO
- 81lSAZ1NEn3GxszPt+Xhu4w1YFcWiFRhP6h6zLWTmvwKm1gRET4SJ3VfICc588688onH
- iLdrAWIA+YXFHHlmouP37YxvzbDEAEeIKElRtM1FHY22NIG3sh+T2rkaLxcnJlFTujIQ
- nBTx27JewAr+tCZzJhJi+s2brl0ycYefgk52aVtL+o3LnoN59PA5OVg93U6Tt7V4g1B2
- WWsg==
-X-Gm-Message-State: AOAM532eMpx7/ZLF1RQ3Z9rhbi+JF6Y39SYVGvXeT9c3jQWe+U2s/IPC
- sCiNrCJEqhE6A7NDZ3FdBw/oTKx5VJo=
-X-Google-Smtp-Source: ABdhPJyNVgcVgoDCFnBp3xf9XnDCmHMx2MSjfoOv6XKe9Edl/9M8+hhL24hFBn7bwfqQjPXrQ9hkBg==
-X-Received: by 2002:a9d:82f:0:b0:605:ed5d:a5b2 with SMTP id
- 44-20020a9d082f000000b00605ed5da5b2mr9867231oty.100.1652868424251; 
- Wed, 18 May 2022 03:07:04 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c7:c5a3:c184:dee5:866b:a35f?
- ([2804:431:c7c7:c5a3:c184:dee5:866b:a35f])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=IUmny+1wUciSJAUqHQt54UHG286mNbu6CLpotlOp3kw=;
+ b=QS4rLhddLId1IkkbyqOk2LSV3btmVManzfdJTVM592OYdlWBTjtwUT8wkxQd2tlIQq
+ vSg7t5W2g1MYxGquE4UtQ2kqzhlJTonMmrcaw1F9smZz/aMrGJ3fnL+3T8dP5rTcfN94
+ S6KIpqEXqOTzaRBKOrbkayVfCBn+bAYOXHK7RAqBua0w4Dd3xqqE14bY6UlhUuPgoL4B
+ XNEs5OHjJoiMdHlg1UdAxydSqqu0fS41o103RDC/23QHCg9IL8SfXlwAlxfjTXAyrX2E
+ PEubMmnQ+stozlndqELRBOzqrnVEBZH7DE+weKtNGVcypO79EPeMd4q5IoO9Qp10PqM8
+ 5L+A==
+X-Gm-Message-State: AOAM532znQVdtYWyMQJiEYcy78HBBfYu+0At3tPN9WYb2I0dTUkxctP9
+ 1nzHjiWG4Yoei/kzoThB24eB8t2Rvzu0K3ChkPOseqzfFIGt9c9jFhhD0xmZGLesUIB1novdZya
+ 9sofDxFSZWRlA9qI=
+X-Received: by 2002:a05:600c:600d:b0:394:5353:507a with SMTP id
+ az13-20020a05600c600d00b003945353507amr25392231wmb.96.1652868532423; 
+ Wed, 18 May 2022 03:08:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoMPgJqbE2pHP64FgseO4L8v+6b1qze6YVmUJqjGOH50SdHR2G7mxZLyLsK/MkOzYaw3nj+Q==
+X-Received: by 2002:a05:600c:600d:b0:394:5353:507a with SMTP id
+ az13-20020a05600c600d00b003945353507amr25392207wmb.96.1652868532212; 
+ Wed, 18 May 2022 03:08:52 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- i9-20020a9d6509000000b0060603221253sm613921otl.35.2022.05.18.03.07.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 03:07:03 -0700 (PDT)
-Message-ID: <c22d166f-a865-cc79-9980-71ce96e73182@gmail.com>
-Date: Wed, 18 May 2022 07:07:00 -0300
+ x1-20020a05600c21c100b003942a244ee6sm1234474wmj.43.2022.05.18.03.08.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 May 2022 03:08:51 -0700 (PDT)
+Date: Wed, 18 May 2022 12:08:50 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Cc: dzejrou@gmail.com, qemu-devel@nongnu.org, david@redhat.com, Michal
+ Privoznik <mprivozn@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
+ smp-cpus
+Message-ID: <20220518120850.58ab8591@redhat.com>
+In-Reply-To: <YoPOclX/REvSIxZK@redhat.com>
+References: <20220517123858.7933-1-dzejrou@gmail.com>
+ <20220517171228.44c53748@redhat.com> <YoPOclX/REvSIxZK@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH qemu] spapr: Use address from elf parser for kernel address
-Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
-References: <20220504065536.3534488-1-aik@ozlabs.ru>
- <a9ac6ca4-d404-485c-f4a7-7712e81864ec@gmail.com>
- <ba5ee018-82a6-db88-ad09-a79b1671493c@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <ba5ee018-82a6-db88-ad09-a79b1671493c@ozlabs.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x335.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,164 +102,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 17 May 2022 17:33:54 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
+> On Tue, May 17, 2022 at 05:12:28PM +0200, Igor Mammedov wrote:
+> > On Tue, 17 May 2022 14:38:58 +0200
+> > dzejrou@gmail.com wrote:
+> >  =20
+> > > From: Jaroslav Jindrak <dzejrou@gmail.com>
+> > >=20
+> > > Prior to the introduction of the prealloc-threads property, the amount
+> > > of threads used to preallocate memory was derived from the value of
+> > > smp-cpus passed to qemu, the amount of physical cpus of the host
+> > > and a hardcoded maximum value. When the prealloc-threads property
+> > > was introduced, it included a default of 1 in backends/hostmem.c and
+> > > a default of smp-cpus using the sugar API for the property itself. The
+> > > latter default is not used when the property is not specified on qemu=
+'s
+> > > command line, so guests that were not adjusted for this change sudden=
+ly
+> > > started to use the default of 1 thread to preallocate memory, which
+> > > resulted in observable slowdowns in guest boots for guests with large
+> > > memory (e.g. when using libvirt <8.2.0 or managing guests manually). =
+=20
+> >=20
+> > current behavior in QEMU is intentionally conservative. threads
+> > number is subject to host configuration and limitations management
+> > layer puts on it and it's not QEMU job to conjure magic numbers that
+> > are host/workload depended. =20
+>=20
+> I think that's missing the point. QEMU *did* historically set the
+> prealloc threads equal to num CPUs, so we have precedent here. The
+> referenced commit lost that behaviour because it only wired up the
+> defaults in one particular CLI scenario. That's a clear regression
+> on QEMU's side.
 
-On 5/17/22 23:51, Alexey Kardashevskiy wrote:
-> 
-> 
-> On 5/18/22 04:58, Daniel Henrique Barboza wrote:
->> Alexey,
->>
->> I had to amend your commit due to Gitlab CI complaining about ...
->>
->> On 5/4/22 03:55, Alexey Kardashevskiy wrote:
->>> tl;dr: This allows Big Endian zImage booting via -kernel + x-vof=on.
->>>
->>> QEMU loads the kernel at 0x400000 by default which works most of
->>> the time as Linux kernels are relocatable, 64bit and compiled with "-pie"
->>> (position independent code). This works for a little endian zImage too.
->>>
->>> However a big endian zImage is compiled without -pie, is 32bit, linked to
->>> 0x4000000 so current QEMU ends up loading it at
->>> 0x4400000 but keeps spapr->kernel_addr unchanged so booting fails.
->>>
->>> This uses the kernel address returned from load_elf().
->>> If the default kernel_addr is used, there is no change in behavior (as
->>> translate_kernel_address() takes care of this), which is:
->>> LE/BE vmlinux and LE zImage boot, BE zImage does not.
->>> If the VM created with "-machine kernel-addr=0,x-vof=on", then QEMU
->>> prints a warning and BE zImage boots.
->>>
->>> Note #1: SLOF (x-vof=off) still cannot boot a big endian zImage as
->>> SLOF enables MSR_SF for everything loaded by QEMU and this leads to early
->>> crash of 32bit zImage.
->>>
->>> Note #2: BE/LE vmlinux images set MSR_SF in early boot so these just work;
->>> a LE zImage restores MSR_SF after every CI call and we are lucky enough
->>> not to crash before the first CI call.
->>>
->>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>> ---
->>>
->>> We could probably change SLOF to always clear MSR_SF before jumping to
->>> the kernel but this is 1) SLOF fix 2) not quite sure if it brings
->>> lots of value.
->>>
->>>
->>> I really wish I had this when tested this fix:
->>> https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20220406070038.3704604-1-aik@ozlabs.ru/
->>>
->>> ---
->>>   hw/ppc/spapr.c | 12 ++++++++++--
->>>   1 file changed, 10 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->>> index a4372ba1891e..89f18f6564bd 100644
->>> --- a/hw/ppc/spapr.c
->>> +++ b/hw/ppc/spapr.c
->>> @@ -2971,14 +2971,16 @@ static void spapr_machine_init(MachineState *machine)
->>>       }
->>>       if (kernel_filename) {
->>> +        uint64_t loaded_addr = 0;
->>> +
->>>           spapr->kernel_size = load_elf(kernel_filename, NULL,
->>>                                         translate_kernel_address, spapr,
->>> -                                      NULL, NULL, NULL, NULL, 1,
->>> +                                      NULL, &loaded_addr, NULL, NULL, 1,
->>>                                         PPC_ELF_MACHINE, 0, 0);
->>>           if (spapr->kernel_size == ELF_LOAD_WRONG_ENDIAN) {
->>>               spapr->kernel_size = load_elf(kernel_filename, NULL,
->>>                                             translate_kernel_address, spapr,
->>> -                                          NULL, NULL, NULL, NULL, 0,
->>> +                                          NULL, &loaded_addr, NULL, NULL, 0,
->>>                                             PPC_ELF_MACHINE, 0, 0);
->>>               spapr->kernel_le = spapr->kernel_size > 0;
->>>           }
->>> @@ -2988,6 +2990,12 @@ static void spapr_machine_init(MachineState *machine)
->>>               exit(1);
->>>           }
->>> +        if (spapr->kernel_addr != loaded_addr) {
->>> +            warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
->>> +                        spapr->kernel_addr, loaded_addr);
->>
->>
->> ... this code. This is problematic when compiling in a 32 bit environment because
->> the definition of long (long) unsigned differs from the usual 64 bit env we use:
->>
->>
->>
->> ../hw/ppc/spapr.c: In function 'spapr_machine_init':
->> ../hw/ppc/spapr.c:2998:25: error: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} [-Werror=format=]
->>   2998 |             warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
->>        | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>   2999 |                         spapr->kernel_addr, loaded_addr);
->>        |                         ~~~~~~~~~~~~~~~~~~
->>        |                              |
->>        |                              uint64_t {aka long long unsigned int}
->> ../hw/ppc/spapr.c:2998:25: error: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} [-Werror=format=]
->>   2998 |             warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
->>        | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>   2999 |                         spapr->kernel_addr, loaded_addr);
->>        |                                             ~~~~~~~~~~~
->>        |                                             |
->>        |                                             uint64_t {aka long long unsigned int}
->> cc1: all warnings being treated as errors
->>
->>
->> I've fixed it by doing the following:
->>
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 156e799ae9..8d5bdfc20f 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -2995,7 +2995,7 @@ static void spapr_machine_init(MachineState *machine)
->>           }
->>
->>           if (spapr->kernel_addr != loaded_addr) {
->> -            warn_report("spapr: kernel_addr changed from 0x%lx to 0x%lx",
->> +            warn_report("spapr: kernel_addr changed from 0x%"PRIx64
->> +                        " to 0x%"PRIx64,
->>                           spapr->kernel_addr, loaded_addr);
->>               spapr->kernel_addr = loaded_addr;
->>           }
->>
->>
->>
->> If you're ok with this fixup we can keep it as is. Otherwise feel free to send
->> another version.
-> 
-> 
-> I am totally fine with this change, sorry I have not compile tested it, just assumed this cannot fail :-/
+commit preserved behavior with legacy options to reduce disturbance.
+Considering that users will have update QEMU which most likely includes
+newer libvirt as well which lets configure number of allocation threads [1].
+Users should fix configuration rather then pulling back layer violation hac=
+ks
+(precedent is not a good excuse wrt reluctance to adapt to new behavior)
 
+1) https://libvirt.org/formatdomain.html#elementsMemoryAllocation
 
-Nah it's fine. You would only be able to see this error if you happen
-to compile it with a 32 bit environment. Not sure if this is something
-you use to do here and there. I sure don't.
+>=20
+> With regards,
+> Daniel
 
-
-Daniel
-
-
-
-> 
-> 
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->>
->>
->>
->>
->>> +            spapr->kernel_addr = loaded_addr;
->>> +        }
->>> +
->>>           /* load initrd */
->>>           if (initrd_filename) {
->>>               /* Try to locate the initrd in the gap between the kernel
-> 
 
