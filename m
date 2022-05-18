@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C6252BB74
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:25:54 +0200 (CEST)
-Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA6852BB7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:32:47 +0200 (CEST)
+Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrJgX-0005ci-G0
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34868)
+	id 1nrJnB-0000vk-Sq
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrJdA-0002hB-MT
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:22:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60316)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nrJmH-0000Bm-Mt
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:31:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrJd9-0000xY-69
- for qemu-devel@nongnu.org; Wed, 18 May 2022 09:22:24 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nrJmF-0002eR-64
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:31:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652880142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1652880706;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hZJl+9Ef8/CGCzRC3kzZveK0PllzURhQVOIC/LnbSXM=;
- b=enJOYJBZtKDatSp/PpYwp341n+8VhpsEzwbdZZXd3vU2iGdS/pH3RuCrGlUujBM2DDxItk
- ib1KDY/cm7zP2VEhZE9JxJeYFOklvSSnvBQqbKmnQReQ7o/qiXPGuThvCi8b4LwyVqwKwR
- FFFuSQNWADxTUXaS49Lk6a+zBapMnd8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=G7cj6Tr3nK5dynOlEPUvsFFFiUYRdwyRrkbTik0eP/8=;
+ b=YoiWeP8WRnv4mIHkUmVpZ03lNVxQ1eXmSD3X+5Bcpla4B/yIZk4IokhVi/jusuw7knX8BZ
+ 0letcniBierO+7f1Jed2Ztc6hxkb/AQz0bMjNtsmVG6rv3HOWuQjtFy6gehfZJkpQzm8+h
+ abjzRgr08EC44PdgpzAvGy4fTMawQsw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-aPh_XBu4MJqz59SF2Kh8LA-1; Wed, 18 May 2022 09:22:19 -0400
-X-MC-Unique: aPh_XBu4MJqz59SF2Kh8LA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-214-HpVACHpRNISLmhjNnxE8dA-1; Wed, 18 May 2022 09:31:42 -0400
+X-MC-Unique: HpVACHpRNISLmhjNnxE8dA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ADA592932480;
- Wed, 18 May 2022 13:22:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5AA4E492CA2;
- Wed, 18 May 2022 13:22:18 +0000 (UTC)
-Date: Wed, 18 May 2022 14:22:17 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Xie Yongji <xieyongji@bytedance.com>
-Cc: mst@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
- kwolf@redhat.com, mreitz@redhat.com, mlureau@redhat.com,
- jsnow@redhat.com, eblake@redhat.com, Coiby.Xu@gmail.com,
- hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 4/8] linux-headers: Add vduse.h
-Message-ID: <YoTzCefztuuJsQKo@stefanha-x1.localdomain>
-References: <20220504074051.90-1-xieyongji@bytedance.com>
- <20220504074051.90-5-xieyongji@bytedance.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 856B180A0AD;
+ Wed, 18 May 2022 13:31:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52B361415100;
+ Wed, 18 May 2022 13:31:41 +0000 (UTC)
+Date: Wed, 18 May 2022 14:31:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dario Faggioli <dfaggioli@suse.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, dzejrou@gmail.com,
+ qemu-devel@nongnu.org, david@redhat.com
+Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
+ smp-cpus
+Message-ID: <YoT1OolqFQ9+5t/q@redhat.com>
+References: <20220517123858.7933-1-dzejrou@gmail.com>
+ <3994597b-c559-f62f-504d-3cde3493b713@redhat.com>
+ <20220518121716.658ec569@redhat.com>
+ <843da9ebf73d89a5084d4e29d972fdaa8b79bfae.camel@suse.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BQgRLWE28Vs3NZu1"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220504074051.90-5-xieyongji@bytedance.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <843da9ebf73d89a5084d4e29d972fdaa8b79bfae.camel@suse.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,43 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 18, 2022 at 03:02:48PM +0200, Dario Faggioli wrote:
+> On Wed, 2022-05-18 at 12:17 +0200, Igor Mammedov wrote:
+> > On Tue, 17 May 2022 20:46:50 +0200
+> > Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > > > diff --git a/backends/hostmem.c b/backends/hostmem.c
+> > > > index a7bae3d713..624bb7ecd3 100644
+> > > > --- a/backends/hostmem.c
+> > > > +++ b/backends/hostmem.c
+> > > > @@ -274,7 +274,7 @@ static void host_memory_backend_init(Object
+> > > > *obj)
+> > > >       backend->merge = machine_mem_merge(machine);
+> > > >       backend->dump = machine_dump_guest_core(machine);
+> > > >       backend->reserve = true;
+> > > > -    backend->prealloc_threads = 1;
+> > > > +    backend->prealloc_threads = machine->smp.cpus;
+> > > >   }
+> > > >   
+> > > >   static void host_memory_backend_post_init(Object *obj)  
+> > > 
+> > > Queued, thanks.
+> > 
+> > PS:
+> > There is no good default in this case (whatever number is picked
+> > it could be good or bad depending on usecase).
+> > 
+> That is fair enough. What we observed, however, is that, with QEMU 5.2,
+> starting a 1024G VM takes ~34s.
+> 
+> Then you just update QEMU to > 5.2 (and don't do/changing anything
+> else) and the same VM now takes ~4m30s to start.
+> 
+> If users are managing QEMU via Libvirt *and* have _at_least_ Libvirt
+> 8.2, they can indeed set, e.g., <allocation mode='immediate'
+> threads='NNN'/> (provided they can understand where the problem is, and
+> figure out that this is the solution).
 
---BQgRLWE28Vs3NZu1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think you get the QEMU version numbers a bit mixed up based on
+what i see in git history
 
-On Wed, May 04, 2022 at 03:40:47PM +0800, Xie Yongji wrote:
-> This adds vduse header to linux headers so that the
-> relevant VDUSE API can be used in subsequent patches.
->=20
-> Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> ---
->  linux-headers/linux/vduse.h     | 306 ++++++++++++++++++++++++++++++++
->  scripts/update-linux-headers.sh |   2 +-
->  2 files changed, 307 insertions(+), 1 deletion(-)
->  create mode 100644 linux-headers/linux/vduse.h
+Originally mem prellocation was single threaded and slow.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+In v2.8.1 it switched to multi threaded with nthreads==vcpus
 
---BQgRLWE28Vs3NZu1
-Content-Type: application/pgp-signature; name="signature.asc"
+  commit 1e356fc14beaa3ece6c0e961bd479af58be3198b
+  Author: Jitendra Kolhe <jitendra.kolhe@hpe.com>
+  Date:   Fri Feb 24 09:01:43 2017 +0530
 
------BEGIN PGP SIGNATURE-----
+    mem-prealloc: reduce large guest start-up and migration time.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKE8wkACgkQnKSrs4Gr
-c8h4eQgAlxBzma0g6iGB+6Yya+2oIERWQ1/UBFUBn/OKC0KW+HDDa9sgjvNxjiz/
-lbHZti+tzTGsBbzKH/eyD7lKwsa0QB47ZdfDNht9eZTLCCbCGKggPBrjnvAQrWl4
-vqJp+yNdd9Uy5kbfixmiJJgdq3Bzhd7X+sC6f7W8JCZjXOSnVx6jcgz0il8KWR8e
-EYZieq0F/EE0l1eAfFFR12NGtNT8+ZD9JuZ+iU2y7nVBqADVIHUQODCSyC9TRZ6U
-6zOdp2x9VIoN0eYZdOEugdDzc2Eu9jSqy4mjotKmviXCdWYYrWNtIWwCVRTuPrFs
-UmzgN8TbQ1JVMCF8TM7LDC6iOLziSg==
-=ocpE
------END PGP SIGNATURE-----
+This applied to --mem-prealloc and --object memory-backend*,prealloc=on
 
---BQgRLWE28Vs3NZu1--
+
+In v5.0.0 the prealloc-threads property was introduced with
+
+  commit ffac16fab33bb42f17e47624985220c1fd864e9d
+  Author: Igor Mammedov <imammedo@redhat.com>
+  Date:   Wed Feb 19 11:09:50 2020 -0500
+
+    hostmem: introduce "prealloc-threads" property
+
+This changed it so that --mem-prealloc stil uses nthreads=vcpus
+but --object memory-backend,prealloc=on regressed to nthreads=1
+
+When picking defaults there is never a perfect answer, it
+is more a matter of the least-worst option.
+
+It is pretty clear that nthreads=1 is terrible for any
+large VMs. Defaulting it to nvcpus made conceptual sense
+as the user has implicit said that they expect the VM to
+be able to consume nvcpus worth of CPU time on the host,
+so we might as well consume that allotted resource.
+
+I struggle to come up with a compelling reason why it is
+better to only use 1 single thread for preallocation. There
+might be some niches where its useful but I can't see it
+being the common case desirable behaviour.
+
+Having different defaults based on how you configure it
+is also especially unplesant experience.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
