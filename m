@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745C352B912
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 13:52:54 +0200 (CEST)
-Received: from localhost ([::1]:54596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D3952B942
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 14:02:29 +0200 (CEST)
+Received: from localhost ([::1]:38056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrIEX-0003Gy-2c
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 07:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57868)
+	id 1nrINo-0003cq-Jp
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 08:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrI7L-00085k-Hx
- for qemu-devel@nongnu.org; Wed, 18 May 2022 07:45:28 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:39778)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrIBJ-0002SV-Mz
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 07:49:33 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:44618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrI7B-0005tr-HW
- for qemu-devel@nongnu.org; Wed, 18 May 2022 07:45:21 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2f83983782fso21177687b3.6
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 04:45:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=DOk/qBx6CR/E5thDmJakrzJzG3N8bnuiBmzG+2mcKuw=;
- b=pMc4+IlM3LZWWpY+A7JvfxUHz8ekRsy4vNEyAp5IL8bFfdbPtzkptZ7ToGLDrcVRqo
- dqlInWeySsq/7Jr8ktAiJZ09bLndX+7/Y4iNNgi0Ruz72F7NQ9FRgt+be1XTIZMnBBez
- GHwue/eAORwA7q+bnLjYaf09Buh5TIl69UBnRiAxEPmjDn1+edUHPJbhkHoWxMFHRIG+
- avH7D+o1l8iAAMDFZ+SelqGhcCutYv1MxKNLVoqajNBiTeZLQIsOxnddLGlGBuH9u8Zh
- Rg2xMGnllqIF0MY9zB3xhEVuKMS9qoInxDV9FFAHPP+LsRBsWANjx+cT2G7Cm1Fdsohr
- pymQ==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrIBG-0006W5-QR
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 07:49:32 -0400
+Received: by mail-ed1-x529.google.com with SMTP id eg11so2616907edb.11
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 04:49:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9ViMQZdKP3qyDfLG3X2ceA62h441faxrQu+FndER88Y=;
+ b=j+OYHgElMjr7UYWlsFa09ciD1lz7uqZr0CruxowiOAMnbtX2FlO7u88UHVxH1O0xAg
+ iBo+I2yzVc57RruScVAqnT1LD7NMj22qWYhXdN4ZPCrf1vMMf2podVntJTP3ujwelu4j
+ Yl5yiAZ7MbqOqf/8DIPFFQDUZ1YulAuP2HOSkdb0VMUINQZmnknAlhRcek7O4Um0DVeh
+ 5hAxKh0uSWdcfqF+pfjv1L1JvX8DboSkZnxoY3+5/U9fCqpeyNG86R0asWWXG7Lt+Zin
+ /0laeDsMMcQKl4uxainf3WoYCe4qI8eEzqet5G3ip3WHb6fXt7NCAR+HP6j6zVWoxSL9
+ yzPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=DOk/qBx6CR/E5thDmJakrzJzG3N8bnuiBmzG+2mcKuw=;
- b=y49J2GAMa4Ewez8IED4514oJ7KceK7S1km4e6JCEo2/MLvlr+uasn7UuxGT9qRK/c3
- kelS66avzr0QlizxpdpYt8SzLoNhUi/ltl6dj1jhqGIm6v/1RyTVoHPiseZbTngZYy/Y
- 6ByOfWihzmWAtSuMKThPslCOV6LaZqmxwLfCDSBBri+yWskjZrraNT+NPbgOq1ozl9tH
- EcvghVHmt44i17C8O4zo5Yw2GSAGnXutsaKSIDAjTFrO/YYTjpPW3mBxgSgtolDzH3Tl
- 7rTEPLbzeu+ANww/LhhDZSv41lJzOlp2bep3LsFgqNpYxHrm7XLu/XvTqQsxkmWSGWjH
- yj5Q==
-X-Gm-Message-State: AOAM533RTSy0UO8rfH6tUkkyB3FnRmLayiSMU4wuH78Ex73ieyaFLu3V
- QBnDOvRN0zM91OtRnFgfOZFTbSNW2kk5vIQOmpFGtA==
-X-Google-Smtp-Source: ABdhPJynCw04e4sf2MsGWKyiofLoDdDiVsJs/Qxu/4NFTytGVli9L2DA2TRDwMRQNUYfH/vDi/0m/83fz8gY4G+thN4=
-X-Received: by 2002:a0d:caca:0:b0:2ff:47bc:ed48 with SMTP id
- m193-20020a0dcaca000000b002ff47bced48mr1563369ywd.64.1652874310937; Wed, 18
- May 2022 04:45:10 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9ViMQZdKP3qyDfLG3X2ceA62h441faxrQu+FndER88Y=;
+ b=pgQOtrrouXk6lZUc+h2egs1F8yXCQFYPzHbsc2UuJ4KiF6U+3eQ0Dy/HAlpkmHTPKt
+ XqTAPwzXxGjZY4Bnp7/RnVCtH6DaCVFMLTAyyCicAWA2C5mo4teCrd/paVwaywyMnBsN
+ 8ZqAJun1RjuO06YSzJ21PeEY9Koyh1C1ZKQYH4gB22pGKkexPvETX20IbzTk/MtCWmC7
+ wj33X3QF6RI/oCsB4A1aKsAH4fH6pn9zgxgo469dner1zGInrpbWwQc9LCRF+8XiEryv
+ iMyn1lrHEiqBqWGZ+ss/1cnVnn/GXgXa5+FAHWs51I0TptqTEkk8Jt/+Xa9tr43umPP/
+ hngg==
+X-Gm-Message-State: AOAM532xU9tGTmEm2U5AuyBIE0oZeBevHyWIMIXB5uZ5TqssgWIHCKFj
+ Kes+JlM3dOzeqFI8WJFgJP3CkLiqo/wMDEiQZdmN2w==
+X-Google-Smtp-Source: ABdhPJzOSTJGKRvpn2cRyFkduwgVNkDJ5Wnv3A6sKW32Rz9jsA23swC2k/9g7vxKubG4Hgn6IPIdeV7YCd0WLrPUlDw=
+X-Received: by 2002:a05:6402:5253:b0:427:ed62:bb8b with SMTP id
+ t19-20020a056402525300b00427ed62bb8bmr24700458edd.65.1652874569121; Wed, 18
+ May 2022 04:49:29 -0700 (PDT)
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 18 May 2022 12:45:00 +0100
-Message-ID: <CAFEAcA958zYQrgncpJWpSpjoYoL-VC3-YjObhD96JL87Qh65ww@mail.gmail.com>
-Subject: CFP Reminder: KVM Forum 2022
-To: kvm-devel <kvm@vger.kernel.org>, QEMU Developers <qemu-devel@nongnu.org>, 
- rust-vmm@lists.opendev.org, kata-hypervisor@lists.katacontainers.io, 
- Libvirt <libvir-list@redhat.com>
+References: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
+ <20220518110839.8681-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220518110839.8681-3-mark.cave-ayland@ilande.co.uk>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 18 May 2022 17:19:18 +0530
+Message-ID: <CAARzgwy805i12i-n1qCu8PHGJLXKhFUazRcW9EMwGxztPqp8sw@mail.gmail.com>
+Subject: Re: [PATCH 2/6] hw/acpi/viot: move the individual PCI host bridge
+ entry generation to a new function
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: mst@redhat.com, imammedo@redhat.com, jean-philippe@linaro.org, 
+ qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::529;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,41 +82,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-================================================================
-KVM Forum 2022
-September 12-14, 2022
-Dublin, Ireland & Virtual
-All submissions must be received before
- *** Friday June 3rd, 2022 at 23:59 PDT ***
-================================================================
+On Wed, May 18, 2022 at 4:38 PM Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> Instead of generating each table entry inline, move the individual PCI host bridge
+> table entry generation to a separate build_pci_host_range() function.
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
 
-KVM Forum is an annual event that presents a rare opportunity for
-developers and users to discuss the state of Linux virtualization
-technology and plan for the challenges ahead. This highly technical
-conference unites the developers who drive KVM development and the
-users who depend on KVM as part of their offerings, or to power
-their data centers and clouds. Sessions include updates on the state
-of the KVM virtualization stack, planning for the future, and many
-opportunities for attendees to collaborate. Over the years since
-its inclusion in the mainline kernel, KVM has become a critical part
-of the FOSS cloud infrastructure. Come join us in continuing to
-improve the KVM ecosystem.
-
-This year's event is in Dublin, Ireland, but it is a combined
-physical+virtual conference: both speaking and attending can be
-virtual if you prefer. For more details, registration, travel
-and health and safety information, visit:
- https://events.linuxfoundation.org/kvm-forum/
-
-For more information, some suggested topics, and to submit
-proposals, please see:
- https://events.linuxfoundation.org/kvm-forum/program/cfp/
-
-We encourage you to submit and reach out to us should you have any
-questions. The program committee may be contacted as a group via
-email: kvm-forum-2022-pc@redhat.com.
-
-Apologies from the Program Committee for not posting an
-announcement of the CFP to these lists sooner.
+> ---
+>  hw/acpi/viot.c | 48 +++++++++++++++++++++++++++---------------------
+>  1 file changed, 27 insertions(+), 21 deletions(-)
+>
+> diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
+> index 2897aa8c88..662124812f 100644
+> --- a/hw/acpi/viot.c
+> +++ b/hw/acpi/viot.c
+> @@ -16,6 +16,31 @@ struct viot_pci_ranges {
+>      uint16_t output_node;
+>  };
+>
+> +static void build_pci_host_range(GArray *table_data, int min_bus, int max_bus,
+> +                                 uint16_t output_node)
+> +{
+> +    /* Type */
+> +    build_append_int_noprefix(table_data, 1 /* PCI range */, 1);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 1);
+> +    /* Length */
+> +    build_append_int_noprefix(table_data, 24, 2);
+> +    /* Endpoint start */
+> +    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 4);
+> +    /* PCI Segment start */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* PCI Segment end */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* PCI BDF start */
+> +    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 2);
+> +    /* PCI BDF end */
+> +    build_append_int_noprefix(table_data, PCI_BUILD_BDF(max_bus, 0xff), 2);
+> +    /* Output node */
+> +    build_append_int_noprefix(table_data, output_node, 2);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 6);
+> +}
+> +
+>  /* Build PCI range for a given PCI host bridge */
+>  static int pci_host_bridges(Object *obj, void *opaque)
+>  {
+> @@ -30,27 +55,8 @@ static int pci_host_bridges(Object *obj, void *opaque)
+>
+>              pci_bus_range(bus, &min_bus, &max_bus);
+>
+> -            /* Type */
+> -            build_append_int_noprefix(blob, 1 /* PCI range */, 1);
+> -            /* Reserved */
+> -            build_append_int_noprefix(blob, 0, 1);
+> -            /* Length */
+> -            build_append_int_noprefix(blob, 24, 2);
+> -            /* Endpoint start */
+> -            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 4);
+> -            /* PCI Segment start */
+> -            build_append_int_noprefix(blob, 0, 2);
+> -            /* PCI Segment end */
+> -            build_append_int_noprefix(blob, 0, 2);
+> -            /* PCI BDF start */
+> -            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 2);
+> -            /* PCI BDF end */
+> -            build_append_int_noprefix(blob, PCI_BUILD_BDF(max_bus, 0xff), 2);
+> -            /* Output node */
+> -            build_append_int_noprefix(blob, pci_ranges->output_node, 2);
+> -            /* Reserved */
+> -            build_append_int_noprefix(blob, 0, 6);
+> -
+> +            build_pci_host_range(blob, min_bus, max_bus,
+> +                                 pci_ranges->output_node);
+>              pci_ranges->count++;
+>          }
+>      }
+> --
+> 2.20.1
+>
 
