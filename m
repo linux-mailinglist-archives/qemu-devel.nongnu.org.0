@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7716B52B5B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:23:39 +0200 (CEST)
-Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1D152B655
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:29:39 +0200 (CEST)
+Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrFu6-0005fx-FN
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53992)
+	id 1nrFzu-0005J9-F9
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbz-0008Em-20
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFby-0008Fm-OV
  for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47811)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004NR-3X
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004NY-6E
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652864688;
+ s=mimecast20190719; t=1652864689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uJqG4kgaxZj4t5+r2z3WWTaf/pnWD9wMUPYUXfMbGZE=;
- b=fIIJ437n9r1KTyHjK6FzqysEEMkipeL8nxvT6EwfkO59fWtTiRCUrNkD2FL2M4SKlYRxnN
- qkMKv5VNddrFaRYnOmYtAASTbuAEitJIhtzbSpaDbZe4U7gIPWJtOmiSr3mtIp02logSBr
- +2IstA7NsK5xvKobStITXUy4x3dgJ54=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=So0Ck0PBlIGUIl+Gt+D++S/hXqrdjG39QNv9hWvhAxo=;
+ b=AiwAdxHuPDQjEx+BG7Mvqlk2qw6F4dk9ldrfubKi+2fJmYjxy13zrs4lYAMdxzKOIiHfXK
+ 8en8ODLGn/vpUAg4eEO7ORncXbOVI2jxetN02ouYlmjOBGqxiYcG+tJit9Ffe+mG/LOYrl
+ sh4MEjvKTBdkkNODBA1DlW8Zf3G0rts=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-3enW6J69NdOiRV1OCAnRxw-1; Wed, 18 May 2022 05:04:45 -0400
-X-MC-Unique: 3enW6J69NdOiRV1OCAnRxw-1
+ us-mta-70-CNQGvgCJMgiK5GpnkSnnJg-1; Wed, 18 May 2022 05:04:45 -0400
+X-MC-Unique: CNQGvgCJMgiK5GpnkSnnJg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA65F811E90;
- Wed, 18 May 2022 09:04:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49D7A3C6052D;
+ Wed, 18 May 2022 09:04:45 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DACA81410DD5;
- Wed, 18 May 2022 09:04:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D87D71410DD5;
+ Wed, 18 May 2022 09:04:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [PULL 5/8] docs/about: Update the support statement for Windows
-Date: Wed, 18 May 2022 11:04:35 +0200
-Message-Id: <20220518090438.158475-6-thuth@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 6/8] tests/vm: Add capstone to the NetBSD and OpenBSD VMs
+Date: Wed, 18 May 2022 11:04:36 +0200
+Message-Id: <20220518090438.158475-7-thuth@redhat.com>
 In-Reply-To: <20220518090438.158475-1-thuth@redhat.com>
 References: <20220518090438.158475-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -79,83 +76,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our support statement for Windows currently talks about "Vista / Server
-2008" - which is related to the API of Windows, and this is not easy
-to understand for the non-technical users. Additionally, glib sets the
-_WIN32_WINNT macro to 0x0601 already, which indicates the Windows 7 API,
-so QEMU effectively depends on the Windows 7 API, too.
+The Capstone library that is shipped with NetBSD and OpenBSD works
+fine when compiling QEMU, so let's enable this in our build-test
+VMs to get a little bit more build-test coverage.
 
-Thus let's bump the _WIN32_WINNT setting in QEMU to the same level as
-glib uses and adjust our support statement in the documentation to
-something similar that we're using for Linux and the *BSD systems
-(i.e. only the two most recent versions), which should hopefully be
-easier to understand for the users now.
-
-And since we're nowadays also compile-testing QEMU with MSYS2 on Windows
-itself, I think we could mention this build environment here, too.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/880
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20220513063958.1181443-1-thuth@redhat.com>
+Message-Id: <20220516145823.148450-2-thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/about/build-platforms.rst | 14 +++++++++-----
- configure                      |  2 ++
- include/qemu/osdep.h           |  2 +-
- 3 files changed, 12 insertions(+), 6 deletions(-)
+ tests/vm/netbsd  | 3 ++-
+ tests/vm/openbsd | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index e9163ba556..1958edb430 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -86,11 +86,15 @@ similar versions.
- Windows
- -------
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 4cc58df130..45aa9a7fda 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -46,7 +46,8 @@ class NetBSDVM(basevm.BaseVM):
+         "jpeg",
+         "png",
  
--The project supports building with current versions of the MinGW toolchain,
--hosted on Linux (Debian/Fedora).
--
--The version of the Windows API that's currently targeted is Vista / Server
--2008.
-+The project aims to support the two most recent versions of Windows that are
-+still supported by the vendor. The minimum Windows API that is currently
-+targeted is "Windows 7", so theoretically the QEMU binaries can still be run
-+on older versions of Windows, too. However, such old versions of Windows are
-+not tested anymore, so it is recommended to use one of the latest versions of
-+Windows instead.
-+
-+The project supports building QEMU with current versions of the MinGW
-+toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
+-	# libs: ui
++        # libs: ui
++        "capstone",
+         "SDL2",
+         "gtk3+",
+         "libxkbcommon",
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index dc34b2718b..13c8254214 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -48,7 +48,8 @@ class OpenBSDVM(basevm.BaseVM):
+         "jpeg",
+         "png",
  
- .. _Homebrew: https://brew.sh/
- .. _MacPorts: https://www.macports.org/
-diff --git a/configure b/configure
-index 0cc8c876f7..103a7b02e8 100755
---- a/configure
-+++ b/configure
-@@ -1486,6 +1486,8 @@ fi
- ##########################################
- # glib support probe
- 
-+# When bumping glib_req_ver, please check also whether we should increase
-+# the _WIN32_WINNT setting in osdep.h according to the value from glib
- glib_req_ver=2.56
- glib_modules=gthread-2.0
- if test "$modules" = yes; then
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 1c1e7eca98..a72e99db85 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -75,7 +75,7 @@ QEMU_EXTERN_C int daemon(int, int);
- #ifdef _WIN32
- /* as defined in sdkddkver.h */
- #ifndef _WIN32_WINNT
--#define _WIN32_WINNT 0x0600 /* Vista */
-+#define _WIN32_WINNT 0x0601 /* Windows 7 API (should be in sync with glib) */
- #endif
- /* reduces the number of implicitly included headers */
- #ifndef WIN32_LEAN_AND_MEAN
+-	# libs: ui
++        # libs: ui
++        "capstone",
+         "sdl2",
+         "gtk+3",
+         "libxkbcommon",
 -- 
 2.27.0
 
