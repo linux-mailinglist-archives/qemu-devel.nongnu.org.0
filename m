@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7760052BFBD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:21:53 +0200 (CEST)
-Received: from localhost ([::1]:60470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2697A52BFC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:25:56 +0200 (CEST)
+Received: from localhost ([::1]:40018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrMQq-0007A2-HZ
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
+	id 1nrMUl-0004L8-8W
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nrMNF-0003jr-Tc
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nrMNF-0003jq-SR
  for qemu-devel@nongnu.org; Wed, 18 May 2022 12:18:11 -0400
-Received: from mout.gmx.net ([212.227.17.21]:52697)
+Received: from mout.gmx.net ([212.227.17.21]:41953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nrMNC-0004Lp-Mu
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nrMNC-0004Lq-KZ
  for qemu-devel@nongnu.org; Wed, 18 May 2022 12:18:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1652890681;
- bh=XCzoKtLiqwB+wGIJydxODnfKgMRFnsuvuxrP+KHIzYo=;
+ bh=IVegvxCpCBUiHv40YkCq8PXPOpJUqz8fBzG9sxfbd+o=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=gH9bUJeUzkf42oDrfHUWX7GM3vw7jcfoUxJmS7DA8mr6tyMYj8C97W47gY+8Vj75F
- kfkEWndexFu2rfj9I8xMg1Eg3iWHKvhuwl9/a9/TWUTNKVs6xY60KI8pZAYhnQiuDl
- utXWMxIMEUlv2b+6GG38MwVFp0On0R2HoTxn5f8o=
+ b=b9CO7NChtdG+cenaOkPkHUCwaRr26t/D1MNttPDy5mogF3OSSj0hAit8wU7jH5i0g
+ 1QfPR72wEZ9M6dzOz79kGxG6Q/F76Pwz3jiOdfUWVgRPzZq+bH36AzphXuNdz77XSA
+ H/8RIlkA9tWu34kwhDzjZ5yyH0j2/m7wqE5nkjCM=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.138.233]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MFKGP-1o6Ue80NzN-00FhtW; Wed, 18
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M3lYB-1nrdcY1587-000reO; Wed, 18
  May 2022 18:18:01 +0200
 From: Helge Deller <deller@gmx.de>
 To: Sven Schnelle <svens@stackframe.org>,
@@ -34,35 +34,35 @@ To: Sven Schnelle <svens@stackframe.org>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: Helge Deller <deller@gmx.de>
-Subject: [PULL 6/7] artist: Emulate screen blanking
-Date: Wed, 18 May 2022 18:17:57 +0200
-Message-Id: <20220518161758.49036-7-deller@gmx.de>
+Subject: [PULL 7/7] artist: Fix X cursor position calculation in X11
+Date: Wed, 18 May 2022 18:17:58 +0200
+Message-Id: <20220518161758.49036-8-deller@gmx.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220518161758.49036-1-deller@gmx.de>
 References: <20220518161758.49036-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:nlcWhlAZeUfRJW9F5YLbIbeCW9t3GoyGQPTunX75Md3PAjx7tWV
- Yd5T7jIWRmdUnJlsUJGw2Th7wfUHpEojEQRaX+5rTBO+Q+oK56EmsqLhklTGF3rTpheBYPD
- qRZF/yUHXeHUTe2t5Z4KUrnHGduLsPRLZtEVpMrgKpjKbelf9Ysd+oSGwWVz1gd27/ohM/h
- yub84jC13KiPbqjL9Z0HA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:39R8xYKQDOI=:+e9YoAAQsv6AU5/zkkWyu5
- YPpM/CvbYx955dzQK1q49inaktt9k1zW6dQy52bBj/jpUJqhCq0ypcCOu8PN9b8csnwoxoEua
- FU90H0eMhPDoX+VFdyTl8FE4kLTwU91zu2UH905OOAzKu+mvDb+uoM60DrA8zwAiYI1dgxSHU
- i0LH2eaXi2hcBrNBkI9rEWh5XCogwLurLFTssuizNEhPX4yvdUs9EgCeFKYYHHNDFzmh1N8Ib
- Q7zPSYs1QWLyR6f2wWhEj/CL4KG8/Eou0jVeZyCFhhLlkdQHjm/FiorE8i36E8IEBW1H9AwXw
- iMW00slCCOG9Yjo5vXf3e5GTzWXrQ1kcFyM6Uf7a1ghcyeY81UV3TTJFPKkESGeMt0LhGYHWd
- kAnpQauJ6kpQblxa/QHqf6erM5Bb45+0IU7U35RpPeRkgYUEVw1zwNx8rjwCM7pCxxnM2RRa+
- 9ge9L5lAiLPNiIMaB4BEtxhcqO8qPNimXaZtSbWJ1Spgg4FnYAi5lKmDOw6e30Bh9YK0F/Lq4
- NDLSG4DEUlzG37zaZrAqRAxE9qbBIYd8Ce4fb9Mof/RwmT/7Nhc4iCe59N0+1m/3My1ood98Q
- xpFTSqaFsfK3o03It1uUmGpTAubSKbQALMiw4FEfHXJ8R99i6wDSRqhRtkg/zu1RH3Yag9pPR
- BwBpR4kCIsb1Bra2Yb+U8aHeqDS1zMFoMyWX1gs+NYKqX98/x5LcspQjdr3LxdT19A1Z0Cypk
- lMlKEELiJyIWDmOUT5CPedhRWO3FUUIzypOFKiYZwkWjYmYo4MtfJZz9M+Lf2Q3GwmXaq9CAo
- WDYKs7ZlIjbwSXZulVjFB5cvWzivDWWEu4drmbLxPdxC0ZktH02Dy0/0AJe5JsajbQQrbd8cx
- VBwX1HMSUFleWGBbHugRRBc3D51Hh+zxgHSr3QmB16G+a4cYSstnMhO36joSH4CCt2Efg5VNp
- HdNvDd8zDwj27aa2Bhc4QWfNg7+4Vp9jnSgDEvJ39JlFt6beNUP/ycMTYsclBwoTPS74oYmob
- Ba+UCursE4xU4s3VNR9CFC0CAnLdofKFsgJL8BPKgkyVFROGw7ZBC16tsRhjZZu68CY5xeKqo
- x0yEu/RN2n2H7NoC9X8h+tm9vloAsaQrI8BQYmszJglF9L4A/l0Kf9kJw==
+X-Provags-ID: V03:K1:jUA8k6Ol4dQq8bmz++Y4rXtAPaitZGVq6czIUeU1OWOj5IaBK8Z
+ jaMW2DHcgmJjcUAUUluEkzRYk86wIkcxO3i6kGXNjpt2mbo1BBUo/L8jGkb8xuafNEtJBKg
+ 8u9aUMiw7zkXT03gw70sg4vNawx8ONozRvu5PzVcEMOBt1c95FFI0UfNbnnvVgxsKwarckp
+ XsP99pYqvBGoPT8VpDj2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TOYninyscfw=:YU+RuTy4go1CJ0QSB1PV6m
+ AoRLTH+xo63el5YR2q0bKNfV2uvUWByd5sv6pFcQRPHMR+35/LzntydijsQgryM325iC+mzNs
+ rw8ObZwFNNRrynJxI5pi1E//6gOIk07JsWyJXsLcuOOLVYik18ioTz1a1dWap+XU/zrDclWDT
+ bqJN+gc/mCOpFy6C7YebhyUlx89w1IcXeKOmtk8po+/G48LWxekfuNTqrYohCiJGBTau2xS2v
+ iooTnzWemU7pHnKNFtrSLmlXJP0HxnOpEcQ0hRhKR7uXVc5rUdI4vxgJTbn2FsqecHiYYAGJW
+ 7YCg2eDBmhuHcP4pQmhEGokGhJxIpljHAZ0VVea0Mxu6gMty/GZ9d6vsscx/L/6jl4oZBPcCd
+ JszA5RzfUpCXjM6PsBUJLWtEv3CvGPWxeP/QTNT9WDEAS/1vntSijmbefPkBg2vAWS9k8Xwmz
+ ViNVbR6cdPFz86w8vFiBpp+Ay5hSV4dR6O9QhXp+xuy54zzBqfWMFksvZce6aARsLdv3idUgx
+ QpU3hF3yMJQm3nh9Ke2IKzoZGVj7pFzHpe/9ZqjFAB7ZZGw7h9Mo5+sBn1d65qOQtAaSUtnyO
+ W3pOD/72A8PbbTZpZdfkaVncbb09ezhVtCgwPT/0yqZsDz5pMUPs8d57jp15wlF+qA7LRA7NV
+ YUwetVfBL+qG+vkpCfFOPEjloDLY3jXW+ScdGW+6DkD6gE0t9L3sclpHXHYN15XO6J9gMGey6
+ wvhfjRQC+HRsI/3egChdexzRrljwP9oFq83IUantL+7Lv8DJ5pnHMxdABnn+qIPk91aJHWr+V
+ zyg3o8r55ckGZrTNsvQs9NN2HGUTMun+6A0IbCQGI721PgKeMHHnarTAXofdWi3Hbw2SVK4xi
+ WPDZLIJTPcNRV0Oh7hi4k0ac1hRY0thgv96Yxd/iE5ng5CNSsqWkYsvDXrJHZnKWFnuZIofsb
+ f/sWAuUZnMNo9Sy0z9NyafUlURJhGadS0QflNspF+QKP/ukFufMGtSFuwT1Yf29wnixJgCXOy
+ Wy/d4SXoY8QnVklZB8MzlSc3W4vh3yICgl07j2nXQiVeuZ/Te8kof2p9vcDlqudA4XSC3bmGW
+ QmcjdRSnu5KWMtT9vkgpsEV9qXGBjKWAPmrluxH8lnhZ5G7uEyjxDAm9A==
 Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -87,102 +87,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The misc_video and misc_ctrl registers control the visibility of the
-screen. Start with the screen turned on, and hide or show the screen
-based on the control registers.
+The X cursor postion can be calculated based on the backporch and
+interleave values.  In the emulation we ignore the HP-UX settings for
+backporch and use instead twice the size of the emulated cursor.  With
+those changes the X-position of the graphics cursor is now finally
+working correctly on HP-UX 10 and HP-UX 11.
+
+Based on coding in Xorg X11R6.6
 
 Signed-off-by: Helge Deller <deller@gmx.de>
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 =2D--
- hw/display/artist.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ hw/display/artist.c | 38 ++++++++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index b8930b7c5a..49dad2b824 100644
+index 49dad2b824..eadaef0d46 100644
 =2D-- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -201,6 +201,8 @@ static const char *artist_reg_name(uint64_t addr)
- }
- #undef REG_NAME
-
-+static void artist_invalidate(void *opaque);
-+
- /* artist has a fixed line length of 2048 bytes. */
- #define ADDR_TO_Y(addr) extract32(addr, 11, 11)
- #define ADDR_TO_X(addr) extract32(addr, 0, 11)
-@@ -903,6 +905,7 @@ static void artist_reg_write(void *opaque, hwaddr addr=
-, uint64_t val,
+@@ -1,7 +1,8 @@
+ /*
+  * QEMU HP Artist Emulation
+  *
+- * Copyright (c) 2019 Sven Schnelle <svens@stackframe.org>
++ * Copyright (c) 2019-2022 Sven Schnelle <svens@stackframe.org>
++ * Copyright (c) 2022 Helge Deller <deller@gmx.de>
+  *
+  * This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+  */
+@@ -313,19 +314,15 @@ static void artist_rop8(ARTISTState *s, struct vram_=
+buffer *buf,
+ static void artist_get_cursor_pos(ARTISTState *s, int *x, int *y)
  {
-     ARTISTState *s =3D opaque;
-     int width, height;
-+    uint64_t oldval;
+     /*
+-     * Don't know whether these magic offset values are configurable via
+-     * some register. They seem to be the same for all resolutions.
+-     * The cursor values provided in the registers are:
+-     * X-value: -295 (for HP-UX 11) and 338 (for HP-UX 10.20) up to 2265
+-     * Y-value: 1146 down to 0
+      * The emulated Artist graphic is like a CRX graphic, and as such
+      * it's usually fixed at 1280x1024 pixels.
+-     * Because of the maximum Y-value of 1146 you can not choose a higher
+-     * vertical resolution on HP-UX (unless you disable the mouse).
++     * Other resolutions may work, but no guarantee.
+      */
 
-     trace_artist_reg_write(size, addr, artist_reg_name(addr & ~3ULL), val=
-);
+-    static int offset =3D 338;
+-    int lx;
++    unsigned int hbp_times_vi, horizBackPorch;
++    int16_t xHi, xLo;
++    const int videoInterleave =3D 4;
++    const int pipelineDelay =3D 4;
 
-@@ -1061,7 +1064,18 @@ static void artist_reg_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
-         break;
-
-     case MISC_VIDEO:
-+        oldval =3D s->misc_video;
-         combine_write_reg(addr, val, size, &s->misc_video);
-+        /* Invalidate and hide screen if graphics signal is turned off. *=
-/
-+        if (((oldval & 0x0A000000) =3D=3D 0x0A000000) &&
-+            ((val & 0x0A000000) !=3D 0x0A000000)) {
-+            artist_invalidate(s);
-+        }
-+        /* Invalidate and redraw screen if graphics signal is turned back=
- on. */
-+        if (((oldval & 0x0A000000) !=3D 0x0A000000) &&
-+            ((val & 0x0A000000) =3D=3D 0x0A000000)) {
-+            artist_invalidate(s);
-+        }
-         break;
-
-     case MISC_CTRL:
-@@ -1263,6 +1277,12 @@ static void artist_draw_cursor(ARTISTState *s)
+     /* ignore if uninitialized */
+     if (s->cursor_pos =3D=3D 0) {
+@@ -333,16 +330,23 @@ static void artist_get_cursor_pos(ARTISTState *s, in=
+t *x, int *y)
+         return;
      }
- }
 
-+static bool artist_screen_enabled(ARTISTState *s)
-+{
-+    /*  We could check for (s->misc_ctrl & 0x00800000) too... */
-+    return ((s->misc_video & 0x0A000000) =3D=3D 0x0A000000);
-+}
+-    lx =3D artist_get_x(s->cursor_pos);
+-    if (lx < offset) {
+-        offset =3D lx;
+-    }
+-    *x =3D (lx - offset) / 2;
++    /*
++     * Calculate X position based on backporch and interleave values.
++     * Based on code from Xorg X11R6.6
++     */
++    horizBackPorch =3D ((s->horiz_backporch & 0xff0000) >> 16) +
++                     ((s->horiz_backporch & 0xff00) >> 8) + 2;
++    hbp_times_vi =3D horizBackPorch * videoInterleave;
++    xHi =3D s->cursor_pos >> 19;
++    *x =3D ((xHi + pipelineDelay) * videoInterleave) - hbp_times_vi;
 +
- static void artist_draw_line(void *opaque, uint8_t *d, const uint8_t *src=
-,
-                              int width, int pitch)
- {
-@@ -1270,6 +1290,12 @@ static void artist_draw_line(void *opaque, uint8_t =
-*d, const uint8_t *src,
-     uint32_t *cmap, *data =3D (uint32_t *)d;
-     int x;
++    xLo =3D (s->cursor_pos >> 16) & 0x07;
++    *x +=3D ((xLo - hbp_times_vi) & (videoInterleave - 1)) + 8 - 1;
 
-+    if (!artist_screen_enabled(s)) {
-+        /* clear screen */
-+        memset(data, 0, s->width * sizeof(uint32_t));
-+        return;
-+    }
-+
-     cmap =3D (uint32_t *)(s->vram_buffer[ARTIST_BUFFER_CMAP].data + 0x400=
+     /* subtract cursor offset from cursor control register */
+     *x -=3D (s->cursor_cntrl & 0xf0) >> 4;
+
+-    /* height minus nOffscreenScanlines is stored in cursor control regis=
+ter */
++    /* Calculate Y position */
+     *y =3D s->height - artist_get_y(s->cursor_pos);
+     *y -=3D (s->cursor_cntrl & 0x0f);
+
+@@ -1056,6 +1060,8 @@ static void artist_reg_write(void *opaque, hwaddr ad=
+dr, uint64_t val,
+         break;
+
+     case HORIZ_BACKPORCH:
++        /* overwrite HP-UX settings to fix X cursor position. */
++        val =3D (NGLE_MAX_SPRITE_SIZE << 16) + (NGLE_MAX_SPRITE_SIZE << 8=
 );
+         combine_write_reg(addr, val, size, &s->horiz_backporch);
+         break;
 
-     for (x =3D 0; x < s->width; x++) {
-@@ -1384,6 +1410,10 @@ static void artist_realizefn(DeviceState *dev, Erro=
-r **errp)
-     s->image_bitmap_op =3D 0x23000300;
-     s->plane_mask =3D 0xff;
-
-+    /* enable screen */
-+    s->misc_video |=3D 0x0A000000;
-+    s->misc_ctrl  |=3D 0x00800000;
-+
-     s->con =3D graphic_console_init(dev, 0, &artist_ops, s);
-     qemu_console_resize(s->con, s->width, s->height);
- }
 =2D-
 2.35.3
 
