@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A39652BFC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:38:45 +0200 (CEST)
-Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC4352BFD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:47:21 +0200 (CEST)
+Received: from localhost ([::1]:59916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrMhA-0007Xh-03
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:38:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52416)
+	id 1nrMpU-0002nD-DM
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMfq-0006dY-4P
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:37:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36282)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMfn-0007El-LR
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:37:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652891839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oWW1YYkJPEtudh/EsbkaGSxjxEZxjWNE5vEXUbp0UnE=;
- b=ALp/H4EElx6JtG9h9jtlG3Ap4bKIGuYaUjHFmJucmcUmW1ddqkzon6y4S5oktSf6Wyw0TO
- lLVeDbf+pjrfujrIQspCiH/MPUgW31GG1xvApPpdf6gB0kjei12xyBSw2qLbNPI/PlS63t
- xNVoVnJ2OsymR2SFmvd3I1q7gbuyvtw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-ZaLqQqOlPra1F8_6mqGvdQ-1; Wed, 18 May 2022 12:37:15 -0400
-X-MC-Unique: ZaLqQqOlPra1F8_6mqGvdQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82054100BAA1;
- Wed, 18 May 2022 16:37:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99CA7492C14;
- Wed, 18 May 2022 16:37:14 +0000 (UTC)
-Date: Wed, 18 May 2022 18:37:13 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: The fate of iotest 297
-Message-ID: <YoUgufuA8/pjYwTE@redhat.com>
-References: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nrMo8-000202-7r
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:45:56 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:40279)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nrMo6-0008Qr-K2
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:45:55 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2fedd26615cso30850857b3.7
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 09:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sFU45cZJ8B1f19tFUhoQk27JfVyNyT82r/poQEnsxBM=;
+ b=Gn2tx9KFRd89KctVnzyeMWJ3brzqTRtlS0N7G/Gr9kITBl4/aVfSQuOpOzoB4mYKDL
+ 6xIKpdbrp64fYlwIdhGq5CkI83K8tXa/A6t8XduidEa6HwFQDLTk7cITm069Qy0CI7Xv
+ mg0DRSvANsGfYbMl+3INdE3n5xA/YaeHuDqtNtuEtuO+Afybql2fUmes6qPajiXJGGuq
+ oNZ11jwCsbQFKLzjy2zGHWQJtojSlsk4OJWmmug3t6rITPHfPe/W5dSyTpxCt9OU24tc
+ 5KKLqqUeB2Ws/LPLatKEeHOKRE/Z0Lt1lhFMCuYhzQcM4G0mVp7o0ZgpzJes2/DyfRu4
+ vgiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sFU45cZJ8B1f19tFUhoQk27JfVyNyT82r/poQEnsxBM=;
+ b=zhT+R8/zfa2fchC6aDgkaaWFI5w1eS/nOf3PvJV7DD6FUYhtAktUkI+YRoZPo8J3oe
+ lSwjq7mq21iv1MFIcutEkVjs608tABp+MSCZEHgvaTkc04B3vrTJ5klC+1TlyW72vcSZ
+ Sphb9W4J5onR2uFX/EUxNMbnvj7bsLA4lx1hTPkGqO6tIidNtmNPwwqxAPBVxZNutTuu
+ tMXQ8Dht6ffRRP54L5u9QacRBcFk4EaDx3vOgXYifR96gs0cchV82O35/M3c3ROTvVxm
+ JUHJOE1Udguk8McX0NGpQjhOxW7XGqCxI7fv4hbUuE4XU+4LX0iPiJlN7Xlu34ppbA7L
+ 0oWA==
+X-Gm-Message-State: AOAM530LjrHoA6uwuI/EEYDeQbbXXHlNmXXiSgo6ig4HQQJMT0m7dYl2
+ JvkLwPOwDlgdjPwNaQDflBXbXUm9GbrZwcXODclmPA==
+X-Google-Smtp-Source: ABdhPJzvPtHYY8ibCZD3DlG5gEtVaRXM1FQpdUw1qRgpDYhZna/ZGUGwYTf+wfSvkJncd0fjKrwIk6AtJkqcKg9+sVA=
+X-Received: by 2002:a81:1dcf:0:b0:2fa:d094:14ff with SMTP id
+ d198-20020a811dcf000000b002fad09414ffmr333447ywd.10.1652892353461; Wed, 18
+ May 2022 09:45:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220513163827.26281-1-peter.maydell@linaro.org>
+ <d12b05bd-6bbe-b5a5-1801-540e5d0d63d8@linux.ibm.com>
+In-Reply-To: <d12b05bd-6bbe-b5a5-1801-540e5d0d63d8@linux.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 18 May 2022 17:45:42 +0100
+Message-ID: <CAFEAcA8_3VC5P3dMO-i0jm4NCfkLJUBP8y1PX=XUbVGFmwsbig@mail.gmail.com>
+Subject: Re: [PATCH] hw/tpm/tpm_tis_common.c: Assert that locty is in range
+To: Stefan Berger <stefanb@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,48 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2022 um 01:28 hat John Snow geschrieben:
-> Hi Kevin,
-> 
-> I remember that you wanted some minimum Niceness threshold in order to
-> agree to me removing iotest 297.
-> 
-> I've already moved it onto GitLab CI in the form of the
-> check-python-pipenv job, but I recall you wanted to be able to run it
-> locally as well before agreeing to axe 297. I remember that you didn't
-> think that running "make check-pipenv" from the python directory was
-> sufficiently Nice enough.
-> 
-> Do you need it to be part of "make check", or are you OK with
-> something like "make check-python" from the build directory?
-> 
-> I have a bit more work to do if you want it to be part of 'make check'
-> (if you happen to have the right packages installed), but it's pretty
-> easy right now to give you a 'make check-python' (where I just
-> forcibly install those packages to the testing venv.)
+On Wed, 18 May 2022 at 14:46, Stefan Berger <stefanb@linux.ibm.com> wrote:
+>
+>
+>
+> On 5/13/22 12:38, Peter Maydell wrote:
+> > In tpm_tis_mmio_read(), tpm_tis_mmio_write() and
+> > tpm_tis_dump_state(), we calculate a locality index with
+> > tpm_tis_locality_from_addr() and then use it as an index into the
+> > s->loc[] array.  In all these cases, the array index can't overflow
+> > because the MemoryRegion is sized to be TPM_TIS_NUM_LOCALITIES <<
+> > TPM_TIS_LOCALITY_SHIFT bytes.  However, Coverity can't see that, and
+> > it complains (CID 1487138, 1487180, 1487188, 1487198, 1487240).
+>
 
-Hm, what is the reason for 'make check-python' not being part of 'make
-check'?
+> All 3 of your fixes below are after the 3 existing calls to
+> tpm_tis_locality_from_addr(). Would Coverity be happy if we were to move
+> the asserts into that one function? I am fine with this patch, though.
 
-I'm currently running two things locally, 'make check' (which is the
-generic one that everyone should run) and iotests (for which it is
-reasonable enough that I need to run it separately because it's the
-special thing for my own subsystem).
+Yes, I think Coverity would be happy either way. There's not
+a lot in it, but I picked this way round because in theory one
+might want in a hypothetical future situation to have a different
+kind of error checking for a callsite that did an address-to-locality
+lookup: it's not inherently of itself never possible it can fail.
 
-Now adding a third one 'make check-python' certainly isn't the end of
-the world, but it's not really something that is tied to my subsystem
-any more. Having to run test cases separately for other subsystems
-doesn't really scale for me, so I would prefer not to start doing that.
-I can usually get away with not running the more special tests of other
-subsystems before the pull request because I'm unlikely to break things
-in other subsystems, but Python style warnings are easy to get.
-
-If we're going to have 'make check-python' separate, but CI checks it,
-we'll get pull requests that don't pass it and would then only be caught
-by CI after a long test run, requiring a v2 pull request. I feel for
-something that checks things like style (and will fail frequently on
-code where nobody ran the check before), that's a bit too unfriendly.
-
-Kevin
-
+thanks
+-- PMM
 
