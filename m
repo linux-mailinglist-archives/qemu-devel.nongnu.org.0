@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0BF52B5B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:24:41 +0200 (CEST)
-Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7716B52B5B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:23:39 +0200 (CEST)
+Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrFv6-0007vd-Di
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54022)
+	id 1nrFu6-0005fx-FN
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:23:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFc1-0008Jy-4g
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49887)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbz-0008Em-20
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004NB-4x
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:56 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004NR-3X
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652864685;
+ s=mimecast20190719; t=1652864688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mpjD4d1Ru+HPNRkWzijal/B02WoIxSM17EmdFi5iF2g=;
- b=H0cLrjrV4XQ6aNPqGU/9mBE6uqF3TM9ef2NORKpPuLVdWs+6DHvSnDXeN/NCKgmDn7kQvO
- QfO0RcHpBIKwD9lEE1K+qkHpCH5udIhp2tLgUlHFkHlVGDwbtAExaHlNzhb4G73wqhgalJ
- Bekr6eTbfV5FoCJo5GuYlmeOOV96Ae0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uJqG4kgaxZj4t5+r2z3WWTaf/pnWD9wMUPYUXfMbGZE=;
+ b=fIIJ437n9r1KTyHjK6FzqysEEMkipeL8nxvT6EwfkO59fWtTiRCUrNkD2FL2M4SKlYRxnN
+ qkMKv5VNddrFaRYnOmYtAASTbuAEitJIhtzbSpaDbZe4U7gIPWJtOmiSr3mtIp02logSBr
+ +2IstA7NsK5xvKobStITXUy4x3dgJ54=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-351-CnfIWxnwOSimS8ixZJToCw-1; Wed, 18 May 2022 05:04:44 -0400
-X-MC-Unique: CnfIWxnwOSimS8ixZJToCw-1
+ us-mta-232-3enW6J69NdOiRV1OCAnRxw-1; Wed, 18 May 2022 05:04:45 -0400
+X-MC-Unique: 3enW6J69NdOiRV1OCAnRxw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABC0C3AF42A5;
- Wed, 18 May 2022 09:04:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA65F811E90;
+ Wed, 18 May 2022 09:04:44 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D3EB140EBD5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DACA81410DD5;
  Wed, 18 May 2022 09:04:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 4/8] tests/qtest: use prctl(PR_SET_PDEATHSIG) as fallback to
- kill QEMU
-Date: Wed, 18 May 2022 11:04:34 +0200
-Message-Id: <20220518090438.158475-5-thuth@redhat.com>
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PULL 5/8] docs/about: Update the support statement for Windows
+Date: Wed, 18 May 2022 11:04:35 +0200
+Message-Id: <20220518090438.158475-6-thuth@redhat.com>
 In-Reply-To: <20220518090438.158475-1-thuth@redhat.com>
 References: <20220518090438.158475-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,69 +79,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+Our support statement for Windows currently talks about "Vista / Server
+2008" - which is related to the API of Windows, and this is not easy
+to understand for the non-technical users. Additionally, glib sets the
+_WIN32_WINNT macro to 0x0601 already, which indicates the Windows 7 API,
+so QEMU effectively depends on the Windows 7 API, too.
 
-Although we register a ABRT handler to kill off QEMU when g_assert()
-triggers, we want an extra safety net. The QEMU process might be
-non-functional and thus not have responded to SIGTERM. The test script
-might also have crashed with SEGV, in which case the cleanup handlers
-won't ever run.
+Thus let's bump the _WIN32_WINNT setting in QEMU to the same level as
+glib uses and adjust our support statement in the documentation to
+something similar that we're using for Linux and the *BSD systems
+(i.e. only the two most recent versions), which should hopefully be
+easier to understand for the users now.
 
-Using the Linux specific prctl(PR_SET_PDEATHSIG) syscall, we
-can ensure that QEMU gets sent SIGKILL as soon as the controlling
-qtest exits, if nothing else has correctly told it to quit.
+And since we're nowadays also compile-testing QEMU with MSYS2 on Windows
+itself, I think we could mention this build environment here, too.
 
-Note, technically the death signal is sent when the *thread* that
-called fork() exits. IOW, if you are calling qtest_init() in one
-thread, letting that thread exit, and then expecting to run
-qtest_quit() in a different thread, things are not going to work
-out. Fortunately that is not a scenario that exists in qtests,
-as pairs of qtest_init and qtest_quit are always called from the
-same thread.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220513154906.206715-3-berrange@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/880
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20220513063958.1181443-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqtest.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ docs/about/build-platforms.rst | 14 +++++++++-----
+ configure                      |  2 ++
+ include/qemu/osdep.h           |  2 +-
+ 3 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 4a4697c0d1..2e49618454 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -19,6 +19,9 @@
- #include <sys/socket.h>
- #include <sys/wait.h>
- #include <sys/un.h>
-+#ifdef __linux__
-+#include <sys/prctl.h>
-+#endif /* __linux__ */
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index e9163ba556..1958edb430 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -86,11 +86,15 @@ similar versions.
+ Windows
+ -------
  
- #include "libqtest.h"
- #include "libqmp.h"
-@@ -301,6 +304,20 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-     s->expected_status = 0;
-     s->qemu_pid = fork();
-     if (s->qemu_pid == 0) {
-+#ifdef __linux__
-+        /*
-+         * Although we register a ABRT handler to kill off QEMU
-+         * when g_assert() triggers, we want an extra safety
-+         * net. The QEMU process might be non-functional and
-+         * thus not have responded to SIGTERM. The test script
-+         * might also have crashed with SEGV, in which case the
-+         * cleanup handlers won't ever run.
-+         *
-+         * This PR_SET_PDEATHSIG setup will ensure any remaining
-+         * QEMU will get terminated with SIGKILL in these cases.
-+         */
-+        prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
-+#endif /* __linux__ */
-         if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
-             exit(1);
-         }
+-The project supports building with current versions of the MinGW toolchain,
+-hosted on Linux (Debian/Fedora).
+-
+-The version of the Windows API that's currently targeted is Vista / Server
+-2008.
++The project aims to support the two most recent versions of Windows that are
++still supported by the vendor. The minimum Windows API that is currently
++targeted is "Windows 7", so theoretically the QEMU binaries can still be run
++on older versions of Windows, too. However, such old versions of Windows are
++not tested anymore, so it is recommended to use one of the latest versions of
++Windows instead.
++
++The project supports building QEMU with current versions of the MinGW
++toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
+ 
+ .. _Homebrew: https://brew.sh/
+ .. _MacPorts: https://www.macports.org/
+diff --git a/configure b/configure
+index 0cc8c876f7..103a7b02e8 100755
+--- a/configure
++++ b/configure
+@@ -1486,6 +1486,8 @@ fi
+ ##########################################
+ # glib support probe
+ 
++# When bumping glib_req_ver, please check also whether we should increase
++# the _WIN32_WINNT setting in osdep.h according to the value from glib
+ glib_req_ver=2.56
+ glib_modules=gthread-2.0
+ if test "$modules" = yes; then
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 1c1e7eca98..a72e99db85 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -75,7 +75,7 @@ QEMU_EXTERN_C int daemon(int, int);
+ #ifdef _WIN32
+ /* as defined in sdkddkver.h */
+ #ifndef _WIN32_WINNT
+-#define _WIN32_WINNT 0x0600 /* Vista */
++#define _WIN32_WINNT 0x0601 /* Windows 7 API (should be in sync with glib) */
+ #endif
+ /* reduces the number of implicitly included headers */
+ #ifndef WIN32_LEAN_AND_MEAN
 -- 
 2.27.0
 
