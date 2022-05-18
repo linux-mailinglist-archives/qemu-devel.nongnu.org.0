@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D1452BB4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:06:07 +0200 (CEST)
-Received: from localhost ([::1]:36184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0B052BB59
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 15:09:27 +0200 (CEST)
+Received: from localhost ([::1]:42812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrJNN-0007Km-Nh
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:06:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
+	id 1nrJQb-0003bM-To
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 09:09:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrJFL-0002tW-4c
- for qemu-devel@nongnu.org; Wed, 18 May 2022 08:57:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrJFI-0004sO-GV
- for qemu-devel@nongnu.org; Wed, 18 May 2022 08:57:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652878663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r/iWT7CDvmmD4iCK2Ha+DpB0e/sEI/E5l04AHhRzZyI=;
- b=aARlmBd3lZ6fjQjTwPHfJZyy6ykIdDOmPPyN3vVvxzc7D1uE4WgYxqoilE/t+SbLajCN+M
- dog+tiX/mkNuvF6E9vTPK2dWiHgdvt4Johh+Q9fSN3UT21ftubfBbVrztf1jHRdsWwsLpk
- cgIPtyCu6RoCnPQnTt+zpas8UWSSsPs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215--6ulXlTAPpaKeRhMNS3dbA-1; Wed, 18 May 2022 08:57:40 -0400
-X-MC-Unique: -6ulXlTAPpaKeRhMNS3dbA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
+ id 1nrJKL-0006id-VC
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:02:59 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:34224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
+ id 1nrJKJ-0005xh-Ft
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 09:02:57 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DAF80294EDC0;
- Wed, 18 May 2022 12:57:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B695B2026D6A;
- Wed, 18 May 2022 12:57:30 +0000 (UTC)
-Date: Wed, 18 May 2022 07:57:29 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Jeff Cody <codyprime@gmail.com>, qemu-riscv@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>, Stefan Weil <sw@weilnetz.de>,
- Laurent Vivier <laurent@vivier.eu>, "Denis V. Lunev" <den@openvz.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Greg Kurz <groug@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Kevin Wolf <kwolf@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
- Fam Zheng <fam@euphon.net>, Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 01/18] block: Make blk_{pread,pwrite}() return 0 on success
-Message-ID: <20220518125729.jya2p4rdw2b4qrvs@redhat.com>
-References: <20220517113524.197910-1-afaria@redhat.com>
- <20220517113524.197910-2-afaria@redhat.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 311781F8C9;
+ Wed, 18 May 2022 13:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1652878970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nf8R7PdhHe+kNdclTonqhAMEjif0bYO3f2nc5hqZzWw=;
+ b=mYvSanaPs9Ok35HK3cYv10r8yuTwlHhUeO0kFFgbbDUqwHd1aRqSaZP75gXXvAzCrghIAN
+ WRk0x7ykOXlPy0NU797p0Biypap3OXt/x6CGeSyCHG+6vL7Ek0CNC2utZgf/qe+FaiLYne
+ PMJGcjaDyS4yOPiOQAPaAEDUP9bITy8=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D397513A6D;
+ Wed, 18 May 2022 13:02:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Zh+MMHnuhGLRAgAAMHmgww
+ (envelope-from <dfaggioli@suse.com>); Wed, 18 May 2022 13:02:49 +0000
+Message-ID: <843da9ebf73d89a5084d4e29d972fdaa8b79bfae.camel@suse.com>
+Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
+ smp-cpus
+From: Dario Faggioli <dfaggioli@suse.com>
+To: Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: dzejrou@gmail.com, qemu-devel@nongnu.org, david@redhat.com
+Date: Wed, 18 May 2022 15:02:48 +0200
+In-Reply-To: <20220518121716.658ec569@redhat.com>
+References: <20220517123858.7933-1-dzejrou@gmail.com>
+ <3994597b-c559-f62f-504d-3cde3493b713@redhat.com>
+ <20220518121716.658ec569@redhat.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-nUf+24jUPUdaQ0elcIZb"
+User-Agent: Evolution 3.44.1 (by Flathub.org)) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220517113524.197910-2-afaria@redhat.com>
-User-Agent: NeoMutt/20220429-71-6f7d3e
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=dfaggioli@suse.com;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,41 +81,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 12:35:07PM +0100, Alberto Faria wrote:
-> They currently return the value of their 'bytes' parameter on success.
-> 
-> Make them return 0 instead, for consistency with other I/O functions and
-> in preparation to implement them using generated_co_wrapper. This also
-> makes it clear that short reads/writes are not possible.
-> 
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
-> ---
 
-> +++ b/qemu-img.c
-> @@ -5120,30 +5120,27 @@ static int img_dd(int argc, char **argv)
->      in.buf = g_new(uint8_t, in.bsz);
->  
->      for (out_pos = 0; in_pos < size; block_count++) {
+--=-nUf+24jUPUdaQ0elcIZb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-in_pos, out_pos, and size are int64_t...
+On Wed, 2022-05-18 at 12:17 +0200, Igor Mammedov wrote:
+> On Tue, 17 May 2022 20:46:50 +0200
+> Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > > diff --git a/backends/hostmem.c b/backends/hostmem.c
+> > > index a7bae3d713..624bb7ecd3 100644
+> > > --- a/backends/hostmem.c
+> > > +++ b/backends/hostmem.c
+> > > @@ -274,7 +274,7 @@ static void host_memory_backend_init(Object
+> > > *obj)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->merge =3D machine_mem_merge(m=
+achine);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->dump =3D machine_dump_guest_c=
+ore(machine);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->reserve =3D true;
+> > > -=C2=A0=C2=A0=C2=A0 backend->prealloc_threads =3D 1;
+> > > +=C2=A0=C2=A0=C2=A0 backend->prealloc_threads =3D machine->smp.cpus;
+> > > =C2=A0 }
+> > > =C2=A0=20
+> > > =C2=A0 static void host_memory_backend_post_init(Object *obj)=C2=A0=
+=20
+> >=20
+> > Queued, thanks.
+>=20
+> PS:
+> There is no good default in this case (whatever number is picked
+> it could be good or bad depending on usecase).
+>=20
+That is fair enough. What we observed, however, is that, with QEMU 5.2,
+starting a 1024G VM takes ~34s.
 
-> -        int in_ret, out_ret;
-> +        int bytes, in_ret, out_ret;
->  
-> -        if (in_pos + in.bsz > size) {
-> -            in_ret = blk_pread(blk1, in_pos, in.buf, size - in_pos);
-> -        } else {
-> -            in_ret = blk_pread(blk1, in_pos, in.buf, in.bsz);
-> -        }
-> +        bytes = (in_pos + in.bsz > size) ? size - in_pos : in.bsz;
+Then you just update QEMU to > 5.2 (and don't do/changing anything
+else) and the same VM now takes ~4m30s to start.
 
-...but in.bsz is int, so declaring 'int bytes' appears safe.
+If users are managing QEMU via Libvirt *and* have _at_least_ Libvirt
+8.2, they can indeed set, e.g., <allocation mode=3D'immediate'
+threads=3D'NNN'/> (provided they can understand where the problem is, and
+figure out that this is the solution).
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+If they have Libvirt < 8.2 (e.g., people/distros that have, say, QEMU
+6.2 and Libvirt 8.0.0, or something like that), there's basically
+nothing they can do... Except perhaps command line passthrough [1], but
+that's really rather tricky!
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+So, I personally don't know where any default should be set and how,
+but the above situation is not nice for users to have to handle.
 
+[1] https://libvirt.org/kbase/qemu-passthrough-security.html
+
+Regards
+--=20
+Dario Faggioli, Ph.D
+http://about.me/dario.faggioli
+Virtualization Software Engineer
+SUSE Labs, SUSE https://www.suse.com/
+-------------------------------------------------------------------
+<<This happens because _I_ choose it to happen!>> (Raistlin Majere)
+
+--=-nUf+24jUPUdaQ0elcIZb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEES5ssOj3Vhr0WPnOLFkJ4iaW4c+4FAmKE7ngACgkQFkJ4iaW4
+c+5vQw/9E0Eh6s2MRFmxFXT/Lrd8wFoLs3pf0Jak50oEbmR0DljXPlurGpYQAiKM
+qnB39rba+zOxKsd4b+nnAlRX7rh0vWiuHKcAsn3csTjmsPr/dkgLoOKlmIoWl9OB
+xsgTxE7ydDDbMTxbXRE/u84QNQub5eyda/wKgKeRNU5OZprzyktC2CGyO7sW4hzF
+ZJVgViWLCcx/HuAN3WApdtTXd17Lqd70SGKQnbEXv/DqFkHYWbkGCKc57VAiprxt
+w+AkPOxrUvGUnn7BaoMu0uiJhra7FFxKOFquIdtA5zF8ta2z5xGPJ5eElvsdQVpT
+2pGUyqI4FuNxv4nT2uiGIQdoBiswpjaJsgU8Yzx96hLQgkTts/Rw/kgGnRQ+2U/8
+kHiTZajpyU7/ExDTLLBFpiRRj/y2LrlhIFAPIT4cSiZ6VMH+EVshuXXSlcNYahkQ
+98UQWdJxyM8KsD2RkYOhffPsXaAYWLDFjYgt1cjShMzpqpdz4amgT+Jp5a/5ysF9
+RQTz13GJSf69yPRrKD6O92N9ZGl4VYVAzy24Wrw+ULZcJimXavjpqoVbAlEauBeh
+x/ZLE7lkIi77xlGpVh4LM3CqabZe2WAsRDsxV0BT3QeewIFS0nCrEVWQS+dE3M14
+hXcysv7i8+9XB1TKuLti5qRi0ZvXrpmPxBgc3i/PmudCkZmqf/8=
+=46sc
+-----END PGP SIGNATURE-----
+
+--=-nUf+24jUPUdaQ0elcIZb--
 
