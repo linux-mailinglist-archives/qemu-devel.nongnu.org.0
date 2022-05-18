@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE8952BD86
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 16:20:32 +0200 (CEST)
-Received: from localhost ([::1]:41982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8477852BD8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 16:28:51 +0200 (CEST)
+Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrKXP-0001Jr-Rk
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 10:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49186)
+	id 1nrKfS-0005XP-EJ
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 10:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nrKU5-0005iB-Ab; Wed, 18 May 2022 10:17:05 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41216)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nrKeI-0004gF-Vj
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 10:27:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nrKU3-0002Hr-G8; Wed, 18 May 2022 10:17:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:References:To:From:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EWTm2C63kMTB2UaALRmm9G3RPttLhHi1A6hXBq/Thqg=; b=G2NH5hmb1awmI8nXuKP0vY+KIy
- 0faqs1eRVyqVO6QgheLzLpIt7t3KValPgW6wRxLomOaV+0WfVOfQym5OCW8OQgLlw1JTHQ6x4cYQ1
- Ymf2ozCwtoSGFmHyjGbMpXLa39v8vzXlS0+0p06+QvADhlsZOOdv6Dp3qT9gau9Qrh8rMBsNIHony
- nZneVXmc6tKqdhi9RfyVTbnEqsxXgkLC1PcuEmZcZZQ84EaQ/wM4VMdhEsm33/teKYhBIVwUEMQ6H
- 18tc97rGEmCHDpQUmDQ0w9NIzvXX8g6DlxghLdQqtHpji/gDwMzj9foQjinDyAczgXY+wtSXV+uH1
- a3F5dJM2c8QDlwO+VJMvMjhiGkUYQz7VceBMRvP/ACRYLh5v8DyrMdAo7oAsqv41ADIJdVVUu6hP8
- hSt5rWX9kip/p2XLOenPidS5/Z9+eF4BCop5K7s+R9z2JxgkUxJd2sEVdFYrfhtewUUDxpHpuA8iF
- vmubL7FvCOHu/fT1Fyn7tH1AcZoFfybj8+w2m6gKWzGh1Srv+irdvP8meBg/YfiaKEz63O/wcJYG8
- WrPhdyWXOYU+aPoJkvRjy1MTN5YDOjKqVNaLosTdjn+M8w9bUbZ0e0TUXuduza9p7/4dkywpP3uBx
- KIwbFGadrJ7dh2oEkBJp+XQnEmVcGqtTXgnlmzG4c=;
-Received: from [2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nrKSx-000C6Z-34; Wed, 18 May 2022 15:15:59 +0100
-Message-ID: <7bcd69db-eee5-e67e-275f-1d79d7888f2f@ilande.co.uk>
-Date: Wed, 18 May 2022 15:16:52 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nrKeH-0003vF-3q
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 10:27:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652884056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zbi8orVQFlopk5Japt1k8/NSFEXfSWNsqhkU6bvtllo=;
+ b=eFK0lf8SBsMy3MylOxbA84wtd1XEuPqPFppM5KCTIHT5u3XGuwqm3FTofBliM+LqDUj3TW
+ r1Hc7VBfjTFd1QZzwYdAfi03SVUtGhz+Pcby6M1Rue7tQpvqBdH256q1pKn56Eb56laaWP
+ UF1Xe1R72isXXkNpWBJ+xrnHKp3FGqo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-644-IVvEuPSOPSqSH_jsAvsc5A-1; Wed, 18 May 2022 10:27:32 -0400
+X-MC-Unique: IVvEuPSOPSqSH_jsAvsc5A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E7E2185A7B2;
+ Wed, 18 May 2022 14:27:31 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DEF22166B3F;
+ Wed, 18 May 2022 14:27:13 +0000 (UTC)
+Date: Wed, 18 May 2022 15:27:12 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <YoUCQE/+PnTK0g69@stefanha-x1.localdomain>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
+ <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
+ <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-US
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:3700:6895:4d68:6f22:ca1c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 00/11] scsi: add quirks and features to support m68k
- Macs
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HbSE9qL1QO2iAo4/"
+Content-Disposition: inline
+In-Reply-To: <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,92 +87,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/04/2022 17:49, Mark Cave-Ayland wrote:
 
-> Here are the next set of patches from my ongoing work to allow the q800
-> machine to boot MacOS related to SCSI devices.
-> 
-> The first patch implements a dummy FORMAT UNIT command which is used by
-> the Apple HD SC Setup program when preparing an empty disk to install
-> MacOS.
-> 
-> Patch 2 adds a new quirks bitmap to SCSIDiskState to allow buggy and/or
-> legacy features to enabled on an individual device basis. Once the quirks
-> bitmap has been added, patch 3 uses the quirks feature to implement an
-> Apple-specific mode page which is required to allow the disk to be recognised
-> and used by Apple HD SC Setup.
-> 
-> Patch 4 adds compat_props to the q800 machine which enable the new
-> MODE_PAGE_APPLE_VENDOR quirk for all scsi-hd devices attached to the machine.
-> 
-> Patch 5 adds a new quirk to force SCSI CDROMs to always return the block
-> descriptor for a MODE SENSE command which is expected by A/UX, whilst patch 6
-> enables the quirk for all scsi-cd devices on the q800 machine.
-> 
-> Patch 7 adds support for truncated MODE SELECT requests which are sent by
-> A/UX (and also MacOS in some circumstances) when enumerating a SCSI CDROM device
-> which are shown to be accepted on real hardware as documented in [1].
-> 
-> Patch 8 allows the MODE_PAGE_R_W_ERROR AWRE bit to be changeable since the A/UX
-> MODE SELECT request sets this bit to 0 rather than the QEMU default which is 1.
-> 
-> Patch 9 adds support for setting the CDROM block size via a MODE SELECT request
-> which is supported by older CDROMs to allow the block size to be changed from
-> the default of 2048 bytes to 512 bytes for compatibility purposes. This is used
-> by A/UX which otherwise fails with SCSI errors if the block size is not set to
-> 512 bytes when accessing CDROMs.
-> 
-> Finally patches 10 and 11 augment the compat_props to set the default vendor,
-> product and version information for all scsi-hd and scsi-cd devices attached
-> to the q800 machine, taken from real drives. This is because MacOS will only
-> allow a known set of SCSI devices to be recognised during the installation
-> process.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> 
-> [1] https://68kmla.org/bb/index.php?threads/scsi2sd-project-anyone-interested.29040/page-7#post-316444
-> 
-> 
-> v2:
-> - Change patchset title from "scsi: add support for FORMAT UNIT command and quirks"
->    to "scsi: add quirks and features to support m68k Macs"
-> - Fix missing shift in patch 2 as pointed out by Fam
-> - Rename MODE_PAGE_APPLE to MODE_PAGE_APPLE_VENDOR
-> - Add SCSI_DISK_QUIRK_MODE_SENSE_ROM_FORCE_DBD quirk
-> - Add support for truncated MODE SELECT requests
-> - Allow MODE_PAGE_R_W_ERROR AWRE bit to be changeable for CDROM devices
-> - Allow the MODE SELECT block descriptor to set the CDROM block size
-> 
-> 
-> Mark Cave-Ayland (11):
->    scsi-disk: add FORMAT UNIT command
->    scsi-disk: add new quirks bitmap to SCSIDiskState
->    scsi-disk: add MODE_PAGE_APPLE_VENDOR quirk for Macintosh
->    q800: implement compat_props to enable quirk_mode_page_apple_vendor
->      for scsi-hd devices
->    scsi-disk: add SCSI_DISK_QUIRK_MODE_SENSE_ROM_FORCE_DBD quirk for
->      Macintosh
->    q800: implement compat_props to enable quirk_mode_sense_rom_force_dbd
->      for scsi-cd devices
->    scsi-disk: allow truncated MODE SELECT requests
->    scsi-disk: allow the MODE_PAGE_R_W_ERROR AWRE bit to be changeable for
->      CDROM drives
->    scsi-disk: allow MODE SELECT block descriptor to set the ROM device
->      block size
->    q800: add default vendor and product information for scsi-hd devices
->    q800: add default vendor and product information for scsi-cd devices
-> 
->   hw/m68k/q800.c           | 13 ++++++++++
->   hw/scsi/scsi-disk.c      | 53 +++++++++++++++++++++++++++++++++++-----
->   hw/scsi/trace-events     |  3 +++
->   include/hw/scsi/scsi.h   |  4 +++
->   include/scsi/constants.h |  1 +
->   5 files changed, 68 insertions(+), 6 deletions(-)
+--HbSE9qL1QO2iAo4/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ping? Anyone have any further thoughts on this?
+On Wed, May 18, 2022 at 02:28:41PM +0200, Emanuele Giuseppe Esposito wrote:
+>=20
+>=20
+> Am 17/05/2022 um 12:59 schrieb Stefan Hajnoczi:
+> > On Wed, May 04, 2022 at 02:39:05PM +0100, Stefan Hajnoczi wrote:
+> >> On Tue, Apr 26, 2022 at 04:51:06AM -0400, Emanuele Giuseppe Esposito w=
+rote:
+> >>> This is a new attempt to replace the need to take the AioContext lock=
+ to
+> >>> protect graph modifications. In particular, we aim to remove
+> >>> (or better, substitute) the AioContext around bdrv_replace_child_nope=
+rm,
+> >>> since this function changes BlockDriverState's ->parents and ->childr=
+en
+> >>> lists.
+> >>>
+> >>> In the previous version, we decided to discard using subtree_drains to
+> >>> protect the nodes, for different reasons: for those unfamiliar with i=
+t,
+> >>> please see https://patchew.org/QEMU/20220301142113.163174-1-eesposit@=
+redhat.com/
+> >>
+> >> I reread the thread and it's unclear to me why drain is the wrong
+> >> mechanism for protecting graph modifications. We theorized a lot but
+> >> ultimately is this new mechanism sufficiently different from
+> >> bdrv_drained_begin()/end() to make it worth implementing?
+> >>
+> >> Instead of invoking .drained_begin() callbacks to stop further I/O,
+> >> we're now queuing coroutines (without backpressure information that
+> >> whoever is spawning I/O needs so they can stop). The writer still waits
+> >> for in-flight I/O to finish, including I/O not associated with the bdrv
+> >> graph we wish to modify (because rdlock is per-AioContext and unrelated
+> >> to a specific graph). Is this really more lightweight than drain?
+> >>
+> >> If I understand correctly, the original goal was to avoid the need to
+> >> hold the AioContext lock across bdrv_replace_child_noperm(). I would
+> >> focus on that and use drain for now.
+> >>
+> >> Maybe I've missed an important point about why the new mechanism is
+> >> needed?
+> >=20
+> > Ping?
+>=20
+> label: // read till the end to see why I wrote this here
+>=20
+> I was hoping someone from the "No" party would answer to your question,
+> because as you know we reached this same conclusion together.
+>=20
+> We thought about dropping the drain for various reasons, the main one
+> (at least as far as I understood) is that we are not sure if something
+> can still happen in between drain_begin/end, and it is a little bit
+> confusing to use the same mechanism to block I/O and protect the graph.
 
+We had discussions about what could go wrong and there was a feeling
+that maybe a separate mechanism is appropriate for graph modifications,
+but there was no concrete reason why draining around graph modification
+won't work.
 
-ATB,
+If no one has a concrete reason then drain still seems like the most
+promising approach to protecting graph modifications. The rwlock patch
+wasn't sufficiently different from drain to have significant advantages
+in my opinion.
 
-Mark.
+> We then thought about implementing a rwlock. A rdlock would clarify what
+> we are protecting and who is using the lock. I had a rwlock draft
+> implementation sent in this thread, but this also lead to additional
+> problems.
+> Main problem was that this new lock would introduce nested event loops,
+> that together with such locking would just create deadlocks.
+> If readers are in coroutines and writers are not (because graph
+> operations are not running in coroutines), we have a lot of deadlocks.
+> If a writer has to take the lock, it must wait all other readers to
+> finish. And it does it by internally calling AIO_WAIT_WHILE, creating
+> nested event loop. We don't know what could execute when polling for
+> events, and for example another writer could be resumed.
+> Ideally, we want writers in coroutines too.
+
+What is the deadlock? Do the readers depend on the writer somehow?
+
+> Additionally, many readers are running in what we call "mixed"
+> functions: usually implemented automatically with generated_co_wrapper
+> tag, they let a function (usually bdrv callback) run always in a
+> coroutine, creating one if necessary. For example, bdrv_flush() makes
+> sure hat bs->bdrv_co_flush() is always run in a coroutine.
+> Such mixed functions are used in other callbacks too, making it really
+> difficult to understand if we are in a coroutine or not, and mostly
+> important make rwlock usage very difficult.
+>=20
+> Which lead us to stepping back once more and try to convert all
+> BlockDriverState callbacks in coroutines. This would greatly simplify
+> rwlock usage, because we could make the rwlock coroutine-frendly
+> (without any AIO_WAIT_WHILE, allowing a writer to wait for readers by
+> just yielding and queuing itself in coroutine queues).
+>=20
+> First step was then to convert all callbacks in coroutines, using
+> generated_coroutine_wrapper (g_c_w).
+> A typical g_c_w is implemented in this way:
+> 	if (qemu_in_coroutine()) {
+> 		callback();
+> 	} else { // much simplified
+> 		co =3D qemu_coroutine_create(callback);
+> 		bdrv_coroutine_enter(bs, co);
+> 		BDRV_POLL_WHILE(bs, coroutine_in_progress);
+> 	}
+> Once all callbacks are implemented using g_c_w, we can start splitting
+> the two sides of the if function to only create a coroutine when we are
+> outside from a bdrv callback.
+>=20
+> However, we immediately found a problem while starting to convert the
+> first callbacks: the AioContext lock is taken around some non coroutine
+> callbacks! For example, bs->bdrv_open() is always called with the
+> AioContext lock taken. In addition, callbacks like bdrv_open are
+> graph-modifying functions, which is probably why we are taking the
+> Aiocontext lock, and they do not like to run in coroutines.
+> Anyways, the real problem comes when we create a coroutine in such
+> places where the AioContext lock is taken and we have a graph-modifying
+> function.
+>=20
+> bdrv_coroutine_enter() calls aio_co_enter(), which in turns first checks
+>  if the coroutine is entering another context from the current (which is
+> not the case for open) and if we are already in coroutine (for sure
+> not). Therefore it resorts to the following calls;
+> 	aio_context_acquire(ctx);
+>         qemu_aio_coroutine_enter(ctx, co);
+>         aio_context_release(ctx);
+> Which is clearly a problem, because we are taking the lock twice: once
+> from the original caller of the callback, and once here due to the
+> coroutine. This creates a lot of deadlock situations.
+
+aio_context_acquire() is a recursive lock. Where is the deadlock?
+
+Stefan
+
+--HbSE9qL1QO2iAo4/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKFAkAACgkQnKSrs4Gr
+c8jtEgf+N+gO9VZFjsK51EMHnw/nhRR7+FCUvz+gp7iu5nxi+QdXWE2+1SbnIJJ+
+m7izkDlaKLUx802cRPNk1mfIRkWRpZGGJ+bTnf0OUcbFd9/FsQE8nHE6wJ5Shpuz
+S9uP5gOZBZZlYPb7aQjCYEskEhqLD9Z9PLhtTbn6pp8RUBoNVsMg4bPouQzV+tf8
+cKvO+pjR4Aa9YCZP21rEiSQOqLCo5d10JUcYcIdTmwt6wybPdELwcDCiZTrUP2bZ
+x9Mb0YbMWnTp1rnJRTRtNHJr6aEDGBK6Z3O738MtFrw8DwiKIspokZkOyh3IMlli
+zs/arh5NEhqh0h2ZoAFumeQ8pDm/Lg==
+=0YAK
+-----END PGP SIGNATURE-----
+
+--HbSE9qL1QO2iAo4/--
+
 
