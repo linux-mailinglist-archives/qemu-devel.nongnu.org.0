@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7AB52B293
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 08:42:03 +0200 (CEST)
-Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42F452B29A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 08:49:34 +0200 (CEST)
+Received: from localhost ([::1]:45870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrDNi-0001aw-DZ
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 02:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53494)
+	id 1nrDUz-0006Wy-LM
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 02:49:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrDCv-0006wA-Tp
- for qemu-devel@nongnu.org; Wed, 18 May 2022 02:30:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrDCq-0006sa-Oh
- for qemu-devel@nongnu.org; Wed, 18 May 2022 02:30:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652855447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=HiUpgPTTlKwXv4we5H4dCAID8KOjBHxi0Xtt24lk5jI=;
- b=gCsHJ7NndDTq3S/1d08gvXS7/f26u1OZae55U4+tKOZk/cUE830XQzmkeBZn+cwygdqQOO
- cQnmKgr1rAYk+GzmpxX6XfHaCTr7IAwNPdq6/Ap6NNyMqxFJ/koEMWj30aY0PRdIddnvw2
- asO63bqc3EgI/nzK5JObFFKB4/O0nFY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-guaH5da3M3KxDG2S8TfNzQ-1; Wed, 18 May 2022 02:30:42 -0400
-X-MC-Unique: guaH5da3M3KxDG2S8TfNzQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 472348032EA;
- Wed, 18 May 2022 06:30:42 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D72E6492C3B;
- Wed, 18 May 2022 06:30:41 +0000 (UTC)
-Date: Wed, 18 May 2022 07:30:40 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kirill Tkhai <kirill.tkhai@openvz.org>
-Cc: qemu-devel@nongnu.org, dm-devel@redhat.com,
- linux-kernel@vger.kernel.org, Kevin Wolf <kwolf@redhat.com>,
- hreitz@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- sgarzare@redhat.com
-Subject: Attaching qcow2 images to containers
-Message-ID: <YoSSkOQaGL0sBNOI@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1nrDKg-0002H5-Ux
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 02:39:04 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:41413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1nrDKe-0007h1-81
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 02:38:54 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2ebf4b91212so13656977b3.8
+ for <qemu-devel@nongnu.org>; Tue, 17 May 2022 23:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dTW8eraBVxpmYsGNcjAJZmD5qCizZxUHHqabUGjRha8=;
+ b=fLBhwm4IG//4zdcK9/RTVPGdIcne1+2LMdtBLKW6YcfGGEVMPHvnGmfNz0MGeV7plp
+ f8oCmYX+MFm2p6iwn1IdTht0q/Nvkny75go5l1FbBvgVdentB3xJF9hYo/OTMjlBUWh1
+ 1VMjgDQ/70/MClg6v2B8PLcOnQ2nxEsABj1a4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dTW8eraBVxpmYsGNcjAJZmD5qCizZxUHHqabUGjRha8=;
+ b=IM3luLsW9GHkr8MWw8el96OI11nekcvkS8XtwwudJJbxujCXUGvw04lqNXsNHs0hfX
+ WqCvD4vYvgD9QBEIHkT6QA7aP6yQH5qYV5MSaO5bu5nzeXTSe3mDIyK4ROc3/UzMZkqz
+ FeB0tG/S76okXaC8dfNyhfUCl6Bq2WvwA0/3p0+hvBbdY5O8kEr5T6wRYUtDOvaaKC0G
+ YVSzLiLnk4U1fx0cOuM+1Ww7gK1LiKos2a4/0bnWCjUJkXuSTokAjuLHoaulZFXqkpa+
+ ipSSzNxYXgFh7QjZGcCVnZ2ckqTnYvega7Y/K9ZM5fWB4LjuiJQjAqFioS5wNs1nYMnJ
+ Kcbw==
+X-Gm-Message-State: AOAM5304KhfpCaW3sE4Rj8M+F5QV/NZpcF9Yo9SsnkvZncL1OJEqs2el
+ 6vyjzD0lgeUlJ8ufMwhvOv8td+6ipEvdJXXUW//z
+X-Google-Smtp-Source: ABdhPJxQ3Iqtsqfvz/i02B4yfZF4XJupSjFshGRybEb/AiO9huUohfWehFFbiTZJ2mdZLYyHA58Mi87/sy5alIhowzc=
+X-Received: by 2002:a0d:e88c:0:b0:2fe:da96:1b77 with SMTP id
+ r134-20020a0de88c000000b002feda961b77mr19438917ywe.262.1652855929928; Tue, 17
+ May 2022 23:38:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VxVmuJGtHcUMbdkL"
-Content-Disposition: inline
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <Yl7oiF7kUrIQ0qk5@redhat.com>
+ <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
+ <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
+ <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
+ <YnOhHZGJphk30SmJ@redhat.com>
+ <CAKmqyKMKxb81ZSpz-ncGc3fpt8f06EcEcXvtHjEpWLABXGT+uQ@mail.gmail.com>
+ <YnTZP1iG+77Cugaq@redhat.com>
+ <CAFEAcA_MncAJWUqG3yRVGMT0mXKvnBUqJLdoHwMdd=OW8fnodQ@mail.gmail.com>
+ <CAHBxVyH=7hX5mjWcUBODk_tNHoczefdkfS8dFcf6is=vpz=SZw@mail.gmail.com>
+ <CAKmqyKPK_F7Z4-tM9k8+3yXDdSTSFagieH23vqoW+TciXpnYqA@mail.gmail.com>
+ <YoNiPw/3e+CY0v7o@redhat.com>
+ <CAKmqyKOC0Fgu7WUXRcAJZNmVR8GeiXHGh4K8fg+5_c+pvZR_7w@mail.gmail.com>
+In-Reply-To: <CAKmqyKOC0Fgu7WUXRcAJZNmVR8GeiXHGh4K8fg+5_c+pvZR_7w@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Tue, 17 May 2022 23:38:39 -0700
+Message-ID: <CAOnJCU+i3m5OjM-wBf+t58YP9k5Jd0VeBK_yoPSPtzoE68H2EQ@mail.gmail.com>
+Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
+To: Alistair Francis <alistair23@gmail.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=atishp@atishpatra.org; helo=mail-yw1-x112c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,75 +100,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, May 17, 2022 at 1:54 PM Alistair Francis <alistair23@gmail.com> wro=
+te:
+>
+> On Tue, May 17, 2022 at 6:52 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+> >
+> > On Tue, May 17, 2022 at 03:03:38PM +1000, Alistair Francis wrote:
+> > > On Sat, May 7, 2022 at 6:30 AM Atish Kumar Patra <atishp@rivosinc.com=
+> wrote:
+> > > >
+> > > > On Fri, May 6, 2022 at 4:00 AM Peter Maydell <peter.maydell@linaro.=
+org> wrote:
+> > > > >
+> > > > > On Fri, 6 May 2022 at 09:18, Daniel P. Berrang=C3=A9 <berrange@re=
+dhat.com> wrote:
+> > > > > >
+> > > > > > On Fri, May 06, 2022 at 06:34:47AM +1000, Alistair Francis wrot=
+e:
+> > > > > > > Even if we didn't worry about backwards compatibility the cur=
+rent virt
+> > > > > > > machine would still be what most users want. It's just a smal=
+l number
+> > > > > > > of users who don't want MMIO devices and instead want to use =
+PCIe for
+> > > > > > > everything. Realistically it's only HPC users who would want =
+this type
+> > > > > > > of machine, at least that's my understanding.
+> > > > > >
+> > > > > > I'm not so sure about that. Every other architecture has ended =
+up
+> > > > > > standardizing on PCI for general purpose virtual machines. IIRC=
+,
+> > > > > > aarch64 started off with MMIO, but switched to PCI as it mature=
+d.
+> > > > > >
+> > > > > > In terms of having VM mgmt tools "just work" for risc-v, I thin=
+k
+> > > > > > it will be very compelling for the general 'virt' machine to be
+> > > > > > PCI based, otherwise all the assumptions about PCI in mgmt apps
+> > > > > > are going to break requiring never ending riscv fixes.
+> > > > >
+> > > > > Mmm, my experience with aarch64 virt is that PCI is much nicer
+> > > > > as a general preference. aarch64 virt has some MMIO devices
+> > > > > for historical reasons and some because you can't reasonably
+> > > > > do the necessary things with PCI, but I'm actively trying to
+> > > > > push people who submit new MMIO device features for virt to
+> > > > > try to use a PCI-based solution instead if they possibly can.
+> > >
+> > > Interesting...
+> > >
+> > > Ok, maybe calling this "virt-pcie" might be a good start, with the
+> > > expectation to eventually replace the current virt with the new
+> > > virt-pcie at some point.
+> >
+> > Delaying the inevitable by leaving PCIE support in a separate
+> > machine type initially is going to be more painful long term.
+> >
+> > > The other option would be to try and gradually change from the curren=
+t
+> > > virt machine to this new virt machine
+> >
+> > Yes, I really think the 'virt' machine type needs to aim for PCIE
+> > support sooner rather than later, if RISC-V wants to get on part
+> > with other architectures. The best time to have added PCIE support
+> > to 'virt' was when it was first created, the next best time is now.
+>
+> So maybe instead we lock in the current virt machine as the 7.1 virt
+> machine for QEMU 7.1, then work on migrating to a PCIe only machine
+> with versions (similar to the other archs)
+>
 
---VxVmuJGtHcUMbdkL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I am not quite sure what exactly you mean here. Do you mean to modify
+the current virt
+machine to be PCIE only after QEMU 7.1 or the new PCIE only machine
+(with the versioning)
+which will be the default machine in the future
 
-Hi Kirill,
-I saw your "[PATCH 0/4] dm: Introduce dm-qcow2 driver to attach QCOW2
-files as block device" patch series:
-https://lore.kernel.org/linux-kernel/YkME5ZS2CpXuNmN6@infradead.org/T/
+If you intend to say the former, few issues with that approach.
 
-There has been recent work in vDPA (VIRTIO Data Path Acceleration) to
-achieve similar functionality. The qemu-storage-daemon VDUSE export
-attaches a virtio-blk device to the host kernel and QEMU's qcow2
-implementation can be used:
-https://patchew.org/QEMU/20220504074051.90-1-xieyongji@bytedance.com/
+1. virt machine is not well documented and already bloated. There is
+no specification for virt machine as such.
+Putting restrictions after a certain release will lead to confusion.
+2. Do we support existing MMIO devices after that specific version or not ?
+3. The user has to be aware of which version of virt machine it is
+running in order to test specific features (i.e. flash, reset, wired
+interrupts)
+4. Based on the version of the virt machine, the command line options
+will change. This may also be confusing.
 
-A container can then access this virtio-blk device (/dev/vda). Note that
-the virtio-blk device is implemented in software using vDPA/VDUSE, there
-is no virtio-pci device.
+On the other hand, the second approach will be much cleaner without
+any baggage. The RISC-V eco-system is still maturing and this is the
+right time
+to start something fresh. Let's call the new machine virt-pcie for
+now. Here are a few things that can be implemented for this machine.
 
-As a quick comparison with a dm-qcow2 target, this approach keeps the
-qcow2 code in QEMU userspace and can take advantage of QEMU block layer
-features (storage migration/mirroring/backup, snapshots, etc). On the
-other hand, it's likely to be more heavyweight because bounce buffers
-are required in VDUSE for security reasons, there is a separate
-userspace process involved, and there's the virtio_blk.ko driver and an
-emulated virtio-blk device involved.
+1. It must support versioning and any changes to the machine code must
+modify the version of the machine.
+2. It must only support MSI based PCIe devices. No support for wired interr=
+upts.
+    The only allowed MMIO devices are
+           -- mtimer/mtimecmp (there is no other option provided in ISA)
+           -- reset/rtc device (If there is a way we can emulate these
+two over PCIe, that would be great)
+           -- flash
+Beyond this, adding any other MMIO device must be strongly discouraged.
+3. The virt-pcie machine must be well documented similar to a hardware
+specification (including address range, restrictions and
+implemented/allowed devices)
+4. No dependence on virtio framework but must work with virtio-pcie backend=
+.
+5. Migration must be supported.
+6. No command line option is required.
+7. Any other ?
 
-Another similar feature that was recently added to QEMU is the
-qemu-storage-daemon FUSE export:
+Once we have these policies in place, this can be the preferred virt
+machine and the current virt machine can be phased out or continue to
+co-exist
+as a more flexible experimental platform.
 
-  $ qemu-storage-daemon \
-        --blockdev file,filename=test.img,node-name=drive0 \
-	--export fuse,node-name=drive0,id=fuse0,mountpoint=/tmp/foo
-  $ ls -alF /tmp/foo
-  -r--------. 1 me me 10737418240 May 18 07:22 /tmp/foo
+Thoughts ?
 
-This exports a disk image as a file via FUSE. Programs can access it
-like a regular file and qemu-storage-daemon will do the qcow2 I/O on the
-underlying file.
+> Alistair
+>
+> >
+> > With regards,
+> > Daniel
+> > --
+> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
+ange :|
+> > |: https://libvirt.org         -o-            https://fstop138.berrange=
+.com :|
+> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
+ange :|
+> >
 
-I wanted to mention these options for exposing qcow2 disk images to
-processes/containers on the host. Depending on your use cases they might
-be interesting. Performance comparisons against VDUSE and FUSE exports
-would be interesting since these new approaches seem to be replacing
-qemu-nbd.
 
-Can you share more about your use cases for the dm-qcow2 target? It
-could be useful for everyone I've CCed to be aware of various efforts in
-this area.
 
-Thanks,
-Stefan
-
---VxVmuJGtHcUMbdkL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKEkpAACgkQnKSrs4Gr
-c8hBOggAjwLYdNLqHIo1rQgUfb93kau+ER5YddjUvSxG65CLZGYWeB86JOUfT+rR
-hVi2bBGX1OkL1a66tWLK2Tcbakc6XfQXQ6JCbzJUoKCTI9gIA9i3ztjqrQEzoagn
-liMWkk89XmdrLE8gsA7MOKHdFELKRiFds8JKU0Pny/VDJkOlYO/6gcqCw5fcXkrv
-58PTohwKlOgOVdQ1wzlkFGRtTPtc5/JeFzJOIUs4i+GnqtjubKl4VfbjRiAoqTEj
-uOO5gsJ9mdTHyWd1lugxiSqttqVVZZb6VEQvsnZUwFUoNkB/KHoILTcMWd9GWRn0
-HNO2R2xD/zhG2j+x7dw6n7RBczgUdw==
-=Wa4Q
------END PGP SIGNATURE-----
-
---VxVmuJGtHcUMbdkL--
-
+--=20
+Regards,
+Atish
 
