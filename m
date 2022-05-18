@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD8852B595
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:08:18 +0200 (CEST)
-Received: from localhost ([::1]:37830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781EA52B5B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:25:06 +0200 (CEST)
+Received: from localhost ([::1]:59476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrFfE-0001pp-KY
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53554)
+	id 1nrFvV-0000c6-Id
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrFaZ-0006od-2H
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:03:29 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrFaX-0004FS-3q
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:03:26 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id wh22so2335379ejb.7
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 02:03:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ealinpp3gZE+IRZLd/+uhHQ6vmj+/ZYhWPAcfUfMW5s=;
- b=OE1+k6kxf7txfCWLdyUpHOLjl4EvsKYaJXIUh5DMtwa8Aqn30lu/Uy04KgtWzWZa6w
- rLt0sX9fT4vKpMlEMHVIew6Qz1iuk2zc88+xFP6AhWhW9R1euXDwaqTT2fAxB38NakUW
- cwrq4lcShGYyHMsEt0RYCtSX/k4IGRN8GQcftiSWWgymO3mIAllmDQRbD0byw0BNE1zU
- Qtry78r//xhsNiy7gXmrCg6LKBFqlAPdGjSFl8UDNXVDwDngeXJ9iu1V9Q/JVefL8T4p
- OnSikmL9ZoEdfeVczrOeq1mNw0dZIdeWHrPMNBHDGUGVIVKJXuzzFpaRSIDquc27RxWr
- eQGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ealinpp3gZE+IRZLd/+uhHQ6vmj+/ZYhWPAcfUfMW5s=;
- b=j39kGDe/dZszRpHw2gWq+f9R2iavPA4MZv6KcjMqGZ2Fzvkk9cm4SlXE//t1vKg1Ow
- 0lXb32nvPbD0rtGApgDlEjs9ZIryWAhhnTQSE4IiHgqieSakXvIux4wQBf0SSmTh360G
- MpBo7jyptASLNcVOqDl5r6R/O8i6J78ZzhaoTOvOPOyD495kP6Di6yXLAXlWF4jiH7gb
- uq/XePdkR8O2ZDtzaqtbl4wFCLo3605JhBaWjhNPjxFT1BZBOfvShAqMACEzZ12LWonD
- YkQjDpl8GAtTsaJ86eT2AwPDJTz8kx0jou0cOaXUDUwL6vNIOfAvy+QDrKF+hbC6khcX
- hNQQ==
-X-Gm-Message-State: AOAM532PrBgM+dnQnftqKHNt7yVvno6qMe8nfs8Z4BHV3u5c3BgINbNf
- f8mI2WCWGRa/E4QqRRruIJ0MvDmtRdtOCdBSLto6rg==
-X-Google-Smtp-Source: ABdhPJxQQLlle6Ua0GlDdZhihAUav1vgTjcZ4N94xzoxFbIQ2SWL1KidOHbdQXXBS6OY/mFcC8an/QxwIgeZ+vigwz0=
-X-Received: by 2002:a17:906:9c82:b0:6e1:2c94:1616 with SMTP id
- fj2-20020a1709069c8200b006e12c941616mr23034576ejc.64.1652864603494; Wed, 18
- May 2022 02:03:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbz-0008FW-21
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004My-3T
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652864683;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c5kJxIKt6DmlrSbVAJcbplWHcf/z61yUCxnWrDMups0=;
+ b=E0pUYQobOt8GmzpZgzynFLg7Nz0S/8Ay7CMAyQuMGNcB/MNLCs039H4ibm36EUcLhc2KlZ
+ 8MML/ZcRdlrlAu5Rw4+I7rg+VrzIPe6cDaz57w3rGiVZ+ayEgArzVO3f7SPu0fUyIfWvPk
+ k5PZPenyO++Mu3PxlTiTH/brI5P9VAM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-433-tilSGkq_OhWa3P6uQ9vf9Q-1; Wed, 18 May 2022 05:04:42 -0400
+X-MC-Unique: tilSGkq_OhWa3P6uQ9vf9Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC75F811E75;
+ Wed, 18 May 2022 09:04:40 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 538C51410F37;
+ Wed, 18 May 2022 09:04:40 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 0/8] Misc patches (Gitlab-CI, qtest, Capstone, ...)
+Date: Wed, 18 May 2022 11:04:30 +0200
+Message-Id: <20220518090438.158475-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20220516152610.1963435-1-imammedo@redhat.com>
- <20220516152610.1963435-32-imammedo@redhat.com>
-In-Reply-To: <20220516152610.1963435-32-imammedo@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 18 May 2022 14:33:12 +0530
-Message-ID: <CAARzgwxP-JQ3O34oa95mQuJ=q7Pm0jVsqNOpQudvkeU_==oBwQ@mail.gmail.com>
-Subject: Re: [PATCH 31/35] acpi: pc/q35: tpm-tis: fix TPM device scope
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, minyard@acm.org, 
- stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::62c;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +74,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 16, 2022 at 8:57 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> tpm-tis, is not a PCI device but ISA one, move it
-> under ISA scope to fix incorrect placement.
+ Hi Richard!
 
-This description is a little misleading. What we fix here is for
-TPM-tis 2.0 only. TPM 1.2 was already previously under ISA scope.
->
-> Fixes: 24cf5413aa0 (acpi: Make TPM 2.0 with TIS available as MSFT0101)
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
 
-modulo that above comment,
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
+  Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16 16:31:01 -0700)
 
-> ---
->  hw/i386/acpi-build.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index a42f41f373..85a7313cad 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1764,15 +1764,14 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->
->  #ifdef CONFIG_TPM
->              if (TPM_IS_TIS_ISA(tpm)) {
-> +                dev = aml_device("ISA.TPM");
->                  if (misc->tpm_version == TPM_VERSION_2_0) {
-> -                    dev = aml_device("TPM");
->                      aml_append(dev, aml_name_decl("_HID",
->                                                    aml_string("MSFT0101")));
->                      aml_append(dev,
->                                 aml_name_decl("_STR",
->                                               aml_string("TPM 2.0 Device")));
->                  } else {
-> -                    dev = aml_device("ISA.TPM");
->                      aml_append(dev, aml_name_decl("_HID",
->                                                    aml_eisaid("PNP0C31")));
->                  }
-> --
-> 2.31.1
->
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-18
+
+for you to fetch changes up to 83602083b4ada6ceb86bfb327e83556ebab120fc:
+
+  capstone: Remove the capstone submodule (2022-05-18 08:54:22 +0200)
+
+----------------------------------------------------------------
+* Remove Ubuntu 18.04 containers (not supported anymore)
+* Improve the cleanup of the QEMU binary in case of failing qtests
+* Update the Windows support statement
+* Remove the capstone submodule (and rely on Capstone of the distros instead)
+
+----------------------------------------------------------------
+Daniel P. Berrangé (2):
+      tests/qtest: fix registration of ABRT handler for QEMU cleanup
+      tests/qtest: use prctl(PR_SET_PDEATHSIG) as fallback to kill QEMU
+
+Thomas Huth (6):
+      gitlab-ci: Switch the container of the 'check-patch' & 'check-dco' jobs
+      Remove Ubuntu 18.04 container support from the repository
+      docs/about: Update the support statement for Windows
+      tests/vm: Add capstone to the NetBSD and OpenBSD VMs
+      capstone: Allow version 3.0.5 again
+      capstone: Remove the capstone submodule
+
+ docs/about/build-platforms.rst                     |  14 +-
+ configure                                          |  23 +---
+ meson.build                                        | 115 +---------------
+ include/qemu/osdep.h                               |   2 +-
+ tests/qtest/libqtest.c                             |  21 ++-
+ .gitlab-ci.d/buildtest.yml                         |   3 +-
+ .gitlab-ci.d/containers.yml                        |   5 -
+ .../custom-runners/ubuntu-20.04-aarch32.yml        |   2 +-
+ .../custom-runners/ubuntu-20.04-aarch64.yml        |   2 +-
+ .gitlab-ci.d/static_checks.yml                     |  14 +-
+ .gitlab-ci.d/windows.yml                           |   5 +-
+ .gitmodules                                        |   3 -
+ capstone                                           |   1 -
+ meson_options.txt                                  |   3 +-
+ scripts/ci/setup/build-environment.yml             |  14 +-
+ scripts/meson-buildoptions.sh                      |   5 +-
+ tests/docker/dockerfiles/ubuntu1804.docker         | 144 ---------------------
+ tests/lcitool/refresh                              |   7 -
+ tests/vm/netbsd                                    |   3 +-
+ tests/vm/openbsd                                   |   3 +-
+ 20 files changed, 59 insertions(+), 330 deletions(-)
+ delete mode 160000 capstone
+ delete mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
+
 
