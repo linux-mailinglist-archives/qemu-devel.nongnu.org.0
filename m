@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1D152B655
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:29:39 +0200 (CEST)
-Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1779252B5A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:18:54 +0200 (CEST)
+Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrFzu-0005J9-F9
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54016)
+	id 1nrFpV-00020Y-5H
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:18:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFby-0008Fm-OV
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59320)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbv-0008B8-Ud
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004NY-6E
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004NM-3j
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652864689;
+ s=mimecast20190719; t=1652864687;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=So0Ck0PBlIGUIl+Gt+D++S/hXqrdjG39QNv9hWvhAxo=;
- b=AiwAdxHuPDQjEx+BG7Mvqlk2qw6F4dk9ldrfubKi+2fJmYjxy13zrs4lYAMdxzKOIiHfXK
- 8en8ODLGn/vpUAg4eEO7ORncXbOVI2jxetN02ouYlmjOBGqxiYcG+tJit9Ffe+mG/LOYrl
- sh4MEjvKTBdkkNODBA1DlW8Zf3G0rts=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/tZMNdMCXP+GscgGyvKm6rk9GfriGjCNq4KuNsJESVw=;
+ b=V7gmWLpRLtVmbviIRqqfyQ9bA6eSgKh/Z6si7cg596hylX6RO+TmJiY/y8ODi63dvkcawY
+ /HpMT+EnIyY6KwGUN74VjoVv4PRPpvD502eGCGUSrD2R0C/i7HfsTU5BfOG2NbPmuYHZ46
+ YbvCeOnRmOUmRdW2FRU9ZLjGKXf1Hv4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-70-CNQGvgCJMgiK5GpnkSnnJg-1; Wed, 18 May 2022 05:04:45 -0400
-X-MC-Unique: CNQGvgCJMgiK5GpnkSnnJg-1
+ us-mta-228-Ys_dyhirMfSCh_GM06p8Fw-1; Wed, 18 May 2022 05:04:46 -0400
+X-MC-Unique: Ys_dyhirMfSCh_GM06p8Fw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49D7A3C6052D;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDA2E803D7C;
  Wed, 18 May 2022 09:04:45 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D87D71410DD5;
- Wed, 18 May 2022 09:04:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78CD81410DD9;
+ Wed, 18 May 2022 09:04:45 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 6/8] tests/vm: Add capstone to the NetBSD and OpenBSD VMs
-Date: Wed, 18 May 2022 11:04:36 +0200
-Message-Id: <20220518090438.158475-7-thuth@redhat.com>
+Subject: [PULL 7/8] capstone: Allow version 3.0.5 again
+Date: Wed, 18 May 2022 11:04:37 +0200
+Message-Id: <20220518090438.158475-8-thuth@redhat.com>
 In-Reply-To: <20220518090438.158475-1-thuth@redhat.com>
 References: <20220518090438.158475-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -76,46 +76,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Capstone library that is shipped with NetBSD and OpenBSD works
-fine when compiling QEMU, so let's enable this in our build-test
-VMs to get a little bit more build-test coverage.
+According to
 
-Message-Id: <20220516145823.148450-2-thuth@redhat.com>
+ https://lore.kernel.org/qemu-devel/20200921174118.39352-1-richard.henderson@linaro.org/
+
+there was an issue with Capstone 3.0.4 from Ubuntu 18, which was the reason
+for bumping our minimum Capstone requirement to version 4.0. And indeed,
+compiling with that version 3.0.4 from Ubuntu 18.04 still fails (after
+allowing it with a hack in meson.build). But now that we've dropped support
+for Ubuntu 18.04, that issue is not relevant anymore. Compiling with Capstone
+version 3.0.5 (e.g. used in Ubuntu 20.04) seems to work fine, so let's allow
+that version again.
+
+Message-Id: <20220516145823.148450-3-thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/vm/netbsd  | 3 ++-
- tests/vm/openbsd | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ meson.build                | 2 +-
+ .gitlab-ci.d/buildtest.yml | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 4cc58df130..45aa9a7fda 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -46,7 +46,8 @@ class NetBSDVM(basevm.BaseVM):
-         "jpeg",
-         "png",
- 
--	# libs: ui
-+        # libs: ui
-+        "capstone",
-         "SDL2",
-         "gtk3+",
-         "libxkbcommon",
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index dc34b2718b..13c8254214 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -48,7 +48,8 @@ class OpenBSDVM(basevm.BaseVM):
-         "jpeg",
-         "png",
- 
--	# libs: ui
-+        # libs: ui
-+        "capstone",
-         "sdl2",
-         "gtk+3",
-         "libxkbcommon",
+diff --git a/meson.build b/meson.build
+index 53a4728250..526ff29a86 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2525,7 +2525,7 @@ capstone = not_found
+ capstone_opt = get_option('capstone')
+ if capstone_opt in ['enabled', 'auto', 'system']
+   have_internal = fs.exists(meson.current_source_dir() / 'capstone/Makefile')
+-  capstone = dependency('capstone', version: '>=4.0',
++  capstone = dependency('capstone', version: '>=3.0.5',
+                         kwargs: static_kwargs, method: 'pkg-config',
+                         required: capstone_opt == 'system' or
+                                   capstone_opt == 'enabled' and not have_internal)
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 0aea7ab84c..a4d43d743b 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -42,6 +42,7 @@ build-system-ubuntu:
+   variables:
+     IMAGE: ubuntu2004
+     CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-slirp=system
++        --enable-capstone=system
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+       microblazeel-softmmu mips64el-softmmu
+     MAKE_CHECK_ARGS: check-build
 -- 
 2.27.0
 
