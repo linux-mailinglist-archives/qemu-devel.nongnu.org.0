@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3DF52BDB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 17:22:36 +0200 (CEST)
-Received: from localhost ([::1]:53822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BD952BEC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 17:32:16 +0200 (CEST)
+Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrLVT-0000nv-EV
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 11:22:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35342)
+	id 1nrLep-0007Qc-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 11:32:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrLTm-0008E6-Cf
- for qemu-devel@nongnu.org; Wed, 18 May 2022 11:20:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28661)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrLcu-0006Re-Ni
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 11:30:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrLTj-0003wN-Qj
- for qemu-devel@nongnu.org; Wed, 18 May 2022 11:20:49 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrLcr-0005Lc-9B
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 11:30:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652887246;
+ s=mimecast20190719; t=1652887811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/mJ97ehwYZvgD/Vak+/YRwdrrfjxnUWEg1ONTr29GZE=;
- b=bcIATYKTu+uNquNg/GFph+uIPucm4YXXoGsmvW/7/d5h6WgVix3K55IkXGrn42DgcoYtHh
- rLd9xymyoVSETAOJYUb7g5TeApfjXX50kGvgY8azahdIjpfXjWljOKu7RWgtNtLWfuMQfT
- TnPVNxA6d35PHq7ezVvfMYu6QyGtHAE=
+ bh=oN2DZ/hfqciT6WibnrdMT/yneo3r7MGe7GuQDqBEVtI=;
+ b=A3EBMeF8hhNaqimr/7wLwStfmJvYnNgBTFqLMQ3KkTlDUwv3LMlHJUUjzrfcbnemLJPP3t
+ gXLtFwPyLRXqX/YckW8wD2c8oifxByYd4r2pu3ZyW/eb361+E5jzvWm8SNMMLB4yHybFjj
+ JdTPTCaJW7FHGmT+Y5FmM2asYot6q4U=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-SAY7dG5ePMerCpPABY2fMg-1; Wed, 18 May 2022 11:20:45 -0400
-X-MC-Unique: SAY7dG5ePMerCpPABY2fMg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-189-suBNv9HCOZ-1sWNVPy2RCg-1; Wed, 18 May 2022 11:30:09 -0400
+X-MC-Unique: suBNv9HCOZ-1sWNVPy2RCg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02F6486B8B0;
- Wed, 18 May 2022 15:20:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 486AA800B21;
+ Wed, 18 May 2022 15:30:09 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.17.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 304ED400D277;
- Wed, 18 May 2022 15:20:44 +0000 (UTC)
-Date: Wed, 18 May 2022 10:20:42 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0A9840CF8EE;
+ Wed, 18 May 2022 15:30:08 +0000 (UTC)
+Date: Wed, 18 May 2022 10:30:07 -0500
 From: Eric Blake <eblake@redhat.com>
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC 4/6] migration: Introduce dirtylimit capability
-Message-ID: <20220518152042.ucw3ljoqrgfd7svj@redhat.com>
-References: <cover.1652762652.git.huangy81@chinatelecom.cn>
- <2ef63cf661750cd848492c4f917e46e3700c1409.1652762652.git.huangy81@chinatelecom.cn>
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
+ kwolf@redhat.com, jsnow@redhat.com,
+ Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+Subject: Re: [PATCH v4 2/3] block: improve block_dirty_bitmap_merge(): don't
+ allocate extra bitmap
+Message-ID: <20220518153007.v2wfsflbrdminchs@redhat.com>
+References: <20220517111206.23585-1-v.sementsov-og@mail.ru>
+ <20220517111206.23585-3-v.sementsov-og@mail.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2ef63cf661750cd848492c4f917e46e3700c1409.1652762652.git.huangy81@chinatelecom.cn>
+In-Reply-To: <20220517111206.23585-3-v.sementsov-og@mail.ru>
 User-Agent: NeoMutt/20220429-71-6f7d3e
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,42 +81,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 02:35:04PM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Tue, May 17, 2022 at 02:12:05PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 > 
-> Introduce migration dirtylimit capability, which can
-> be turned on before live migration and limit dirty
-> page rate durty live migration.
-
-s/durty/during/ ?
-
+> We don't need extra bitmap. All we need is to backup the original
+> bitmap when we do first merge. So, drop extra temporary bitmap and work
+> directly with target and backup.
 > 
-> Dirtylimit dirtylimit capability is kind of like
-
-Doubled word
-
-> auto-converge but using dirtylimit instead of traditional
-> cpu-throttle to throttle guest down.
+> Still to keep old semantics, that on failure target is unchanged and
+> user don't need to restore, we need a local_backup variable and do
+> restore ourselves on failure path.
 > 
-> To enable this feature, turn on the dirtylimit capability
-> before live migration using migratioin-set-capabilities,
-> and set dirtylimit-related parameters "vcpu-dirtylimit",
-> "vcpu-dirtylimit-period" suitably to speed up convergence.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 > ---
+>  block/monitor/bitmap-qmp-cmds.c | 41 +++++++++++++++++----------------
+>  1 file changed, 21 insertions(+), 20 deletions(-)
 
-> +++ b/qapi/migration.json
-> @@ -463,6 +463,9 @@
->  #                       procedure starts. The VM RAM is saved with running VM.
->  #                       (since 6.0)
->  #
-> +# @dirtylimit: Use dirtylimit to throttle down guest if enabled.
-> +#              (since 7.0)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-7.1
+> 
+> diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
+> index bd10468596..282363606f 100644
+> --- a/block/monitor/bitmap-qmp-cmds.c
+> +++ b/block/monitor/bitmap-qmp-cmds.c
+> @@ -261,8 +261,9 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+>                                            HBitmap **backup, Error **errp)
+>  {
+>      BlockDriverState *bs;
+> -    BdrvDirtyBitmap *dst, *src, *anon;
+> +    BdrvDirtyBitmap *dst, *src;
+>      BlockDirtyBitmapOrStrList *lst;
+> +    HBitmap *local_backup = NULL;
 
-same question about naming it 'dirty-limit'
+Basically, instead of tracking the backup via a full-featured
+BdrvDirtyBitmap, we are instead tracking it via a lightweight HBitmap.
 
 -- 
 Eric Blake, Principal Software Engineer
