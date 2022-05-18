@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4B152C3E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 22:03:12 +0200 (CEST)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48F052C3E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 22:04:47 +0200 (CEST)
+Received: from localhost ([::1]:49684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrPt0-00015Q-N7
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 16:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
+	id 1nrPuY-0002k1-S1
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 16:04:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrPrl-0000OV-37
- for qemu-devel@nongnu.org; Wed, 18 May 2022 16:01:53 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:46955)
+ id 1nrPt8-0001oa-2O
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 16:03:21 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:52845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrPrj-0004NJ-Cu
- for qemu-devel@nongnu.org; Wed, 18 May 2022 16:01:52 -0400
-Received: by mail-pf1-x430.google.com with SMTP id j6so3089453pfe.13
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 13:01:51 -0700 (PDT)
+ id 1nrPt6-0004Rs-Br
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 16:03:17 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id l14so3096908pjk.2
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 13:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Gi1uaISPziDftKHpdjL1vs4XeXtpv9boZ90GiyH1eE0=;
- b=aYfvDbkIJMjZjOhHrLhY+Dc4YGWZvOcO02toGzW6NIybALaLJoFvwg7pUvf0uJ/GWk
- FX73MAVsecoOZmV6RZpjH2vljseHkTC6Sgc2j21NxDEfC24Smj6esoE+hrkjLJEwX6GG
- EYAm/mqy1f/90OB70/eoWDxwye7HXsD6FHz0bbydHF70c8DCoJMN8U9rOAqKzeqBCqaG
- D03q73MWREPDNBLM/HGv7i9STbpvfFIfCbWrStL/UFtD2PWGjoP0WdFThivdObUfNb0V
- 5Cpy4N47XDqLVMGgofDdpnXcZPKI/iJsWte9aLm1Ci/kdhhuycza/kCF3eLadj9l8YPi
- QVjw==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=lz+nfgfss2PcFs+FEv/9w7J4NisMN3BjpXcB/+mx3VM=;
+ b=OwB1KsRfkCANx+PoghbYAFQ7vcobPviZhwLCyX1U6X21OA0SvGAnVXgQCEMDxsktjh
+ EECNKO3+nUERhb8VM3unPlsM/TANa0nNvVGG4sDEvIh9E6ma+hlB4rJUPYqlh71XJm6v
+ TdkM6mSalgwjVvTAQpwML6QpcReZ0HUSh+oj9FmF8chUYNiz2wR0sgO/nte3anNFrdxE
+ ZDLXEObvShGtTw5Z6hBnQQ/bjAr4DJ+8dF+eA/rp9vH0DPEMHHL0OX4gByWJGd4WpvAJ
+ van8mr/TT6CnczMYSLgAPw8/IGxCJBXWzeIo9czYsKG9kW+JUeJDwphX/wsWj1BSXLh+
+ V+Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Gi1uaISPziDftKHpdjL1vs4XeXtpv9boZ90GiyH1eE0=;
- b=dclBMjUne0jFXTyv1e84oLJ/fJrvP5PdhmYNDR1vXGlwAdauXCdtf9WFTJYivuun36
- HL7E/reo3dNKwxR0jUwzQWZA1LyMvOJKKL5CLusRdcZ/68dDMQ3PqtuYNUTkFxXYh03G
- HuREZvGySl39p21F3/6sRKiSvVVhMcugBLdzRV0uooT0NQhVUrsGtHILICH9z01ZnIuO
- qkBMJq6zBR1vrJCYDyxtszRhuF4C929ARsFXstbnSQGCoZgwo984PiNQfOwDRxGXH0xc
- sq83FHna3bXay+i1Qd7PSwk/X5Y3MEpmI98cMAFtmAWXepCAwXWHM9AyHU2NqanMKkj8
- cXjA==
-X-Gm-Message-State: AOAM53246xQhAf8/GI5m3dEDWKynv4R7LGNIveCu2mqz+47fXLefDAS3
- kUwrILQ/Glqv97Sl49D/FAzHyw==
-X-Google-Smtp-Source: ABdhPJyz3ZA+dBOYenl+Sgl0QIUvejKZalzXHhn6nYwgIrxF5KBxvIDByQTFqFRMZ8rPY5F1dxeyFw==
-X-Received: by 2002:a62:e518:0:b0:4fa:9333:ddbd with SMTP id
- n24-20020a62e518000000b004fa9333ddbdmr972362pff.11.1652904110004; 
- Wed, 18 May 2022 13:01:50 -0700 (PDT)
+ bh=lz+nfgfss2PcFs+FEv/9w7J4NisMN3BjpXcB/+mx3VM=;
+ b=3Y/CYztlV962y0ozSn4JldRtaog6GlZby2Jgma+CPzWU94Je/Am8gW63GvziKmMCAO
+ H6DwSETIiKAYPCVQwneX8a9tlGcxQkWvIEsMRz9IeSj1OyUS0n7/LwGGZPSMULnUJo5d
+ c3oxerwMvTyD2nqsU0e2ypd6s5l3qpe5mDEKJu1iMm2qqcpnBU+F54R2PZHrreQECqfj
+ ezug41lbW3X8psABi4TIfIbgS0Sg9cFFrBZbCVXBafh+EwdDHScP/xVgonnWyUW2Gp4m
+ baZbzuJoUpjEr3MXuMx96ahuyOHqI75ck31gC44zsYWa+FqdVMMqXMC5i81j1MT3cH8+
+ Fkzg==
+X-Gm-Message-State: AOAM532nEZ55s5Nvt93Z6WBoYHonMFGNCqG4C+aXS7fO5lmaXA93txjo
+ CXjX/QQZzfdPgWKyOXw4Em+/iQ==
+X-Google-Smtp-Source: ABdhPJz8nGGPOwugcAp7mqo3CljiP2zNN80a8JGdEtJ/iGea70SS3JspwcvXDoNWgy5MJRG2qyqZHw==
+X-Received: by 2002:a17:902:e54b:b0:15e:9c09:7142 with SMTP id
+ n11-20020a170902e54b00b0015e9c097142mr1236401plf.159.1652904194958; 
+ Wed, 18 May 2022 13:03:14 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- t5-20020a17090ad14500b001d960eaed66sm1948861pjw.42.2022.05.18.13.01.49
+ u10-20020a17090341ca00b001617aef3e08sm2079188ple.51.2022.05.18.13.03.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 13:01:49 -0700 (PDT)
-Message-ID: <a79ec00e-e529-5b37-81ab-48aa53414e6a@linaro.org>
-Date: Wed, 18 May 2022 13:01:47 -0700
+ Wed, 18 May 2022 13:03:14 -0700 (PDT)
+Message-ID: <d1f9cdf0-fb8c-9533-04b9-51a19267a6e4@linaro.org>
+Date: Wed, 18 May 2022 13:03:12 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v4 39/43] hw/loongarch: Add LoongArch load elf function.
+Subject: Re: [PULL 0/7] Artist cursor fix final patches
 Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
- imammedo@redhat.com, ani@anisinha.ca
-References: <20220517113023.3051143-1-yangxiaojuan@loongson.cn>
- <20220517113023.3051143-40-yangxiaojuan@loongson.cn>
+To: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20220518161758.49036-1-deller@gmx.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220517113023.3051143-40-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220518161758.49036-1-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,18 +93,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/22 04:30, Xiaojuan Yang wrote:
-> @@ -26,6 +31,10 @@ struct LoongArchMachineState {
->       MemoryRegion lowmem;
->       MemoryRegion highmem;
->       MemoryRegion isa_io;
-> +    MemoryRegion bios;
+On 5/18/22 09:17, Helge Deller wrote:
+> The following changes since commit 178bacb66d98d9ee7a702b9f2a4dfcd88b72a9ab:
+> 
+>    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-05-09 11:07:04 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/hdeller/qemu-hppa.git tags/artist-cursor-fix-final-pull-request
+> 
+> for you to fetch changes up to 9ef2c6b4ab9a430ee230ee305b6994d7eae86fe7:
+> 
+>    artist: Fix X cursor position calculation in X11 (2022-05-16 16:46:25 +0200)
+> 
+> ----------------------------------------------------------------
+> hppa: Artist graphics driver fixes for HP-UX and keyboard fix in firmware boot console
+> 
+> This series updates the SeaBIOS-hppa firmware to version 5, in which additional
+> HP fonts were added to the firmware and the firmware boot console was fixed to
+> accept input from the emulated PS/2 keyboard when running in graphical mode
+> (serial console was working before already). To test use the "-boot menu=on"
+> qemu option.
+> 
+> The artist graphics card driver got various fixes when running the X11-Windows
+> on HP-UX:
+> - fixes the horizontal and vertical postioning of the X11 cursor with HP-UX
+> - allows X11 to blank the screen (e.g. screensaver)
+> - allows the X11 driver to turn the X11 cursor on/off
 
-This is unused.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
 r~
+
 
