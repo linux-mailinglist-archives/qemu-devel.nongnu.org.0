@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E5152C204
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 20:23:02 +0200 (CEST)
-Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2241252C3E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 22:01:02 +0200 (CEST)
+Received: from localhost ([::1]:45090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrOK4-0007vL-QD
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 14:23:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47192)
+	id 1nrPqu-0007vW-Nh
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 16:01:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nrOIX-00074M-Gr
- for qemu-devel@nongnu.org; Wed, 18 May 2022 14:21:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54536)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nrOIV-00074d-Bb
- for qemu-devel@nongnu.org; Wed, 18 May 2022 14:21:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652898082;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FxtRKMmXZ5FlHq7L0wqsSZOzwXNYe0cwrWfv4bxSpgc=;
- b=iNFekLQsP9OPnEOlOkwwN78q04m+JYZy7GwA5h+HaLiUfHQ9qZft9+iI/iYaFUmgPm71VM
- AUgWGEPPTPGSJg7rB1JcQLwI+A/mjp5TfeymgjXfYt7tKHKSX5H02egYa0R1EJ7chf23FJ
- xgrmzupQCymYus9h2aUFtlfyUs6GZus=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-221-pfoXPrt_NYmFkLATkfqr_Q-1; Wed, 18 May 2022 14:21:19 -0400
-X-MC-Unique: pfoXPrt_NYmFkLATkfqr_Q-1
-Received: by mail-ua1-f69.google.com with SMTP id
- k40-20020ab059eb000000b00364ef6b085bso1371107uad.0
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 11:21:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nrPpU-0006zF-12
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 15:59:32 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nrPpQ-0003rj-Hw
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 15:59:31 -0400
+Received: by mail-pl1-x631.google.com with SMTP id m12so2788207plb.4
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 12:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=mvm3WSEXU8dywkSokoHIb0fQll81yGOj0XATyR73Qtg=;
+ b=qGfiP92AMlR4pQh6ohgqh4hVT0cLP/3s49/oKnKeJNqatZRbGU/JgZfdELm0JxdMXm
+ mlGa3fLT42jcQlDkVzkOiMHqKnyViRXZXxZV4/C8E7zPrgiET+RxJ+zfBCGcVmz498Ez
+ t4zt1N4U4BaDiROgDz8bsz0bR5SXGDhhHsz/A1amH6IejPFvcrl3hDD+wVVWXnRx7imb
+ 2Zl8QdoSdtioqlvj0v54HZH0JmY3Qe2nX5Pwc5u6HlEwpyXJPx4G763nU/bHDE9ll4ot
+ JSi7b7Y/7stPMNdh1ZDFsQTDrtTNNzQ1iWcypKTItmQj15N8tYVlWlZ1Dt4hs9pr1mtY
+ SHkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FxtRKMmXZ5FlHq7L0wqsSZOzwXNYe0cwrWfv4bxSpgc=;
- b=zJwS55N0L0dTAdodLur1S2U4aHa5rqoGKB5jzwwWU5YQd8QFcmXpcphenwV6GK4g8/
- rbyx1wqYCHmYj2LX+vGkzhgjOKYrgNJ1wyRa4ywBOaTD342wR5C20S18+GXXJxQK705L
- Re1jcRHQUc6xwrF4dp9lGrbCwYmhU0s3ZBCOUPMg5+3UdDrisQWQ1DNAiWaX9IJuxG3W
- GLJe+zREPND98dxCW8BUOmBvgqBisu8o8derIqnspulVOythHV5GMpyySdP5LOQcEHVt
- aNLleKt3baWVyoPIeKKhiP6BPnenoK3ZO2W0jnNZjlvtcpyHqdn3RWAjEFel3EsViebq
- q36A==
-X-Gm-Message-State: AOAM531wShB1GIhSXBfbxNJHe2BvRCosH0bGpMwKrLzYCFn2ujCvpnuR
- EVTIqRll/YFJXIVhhohhlulfud3DdShS2pxp2Z/Ts2QBpW90vyVasMVsGxcwgWnpMRkYghf6mm/
- dEyXxjR0+IPolAUJiiVx2MpKE8dtCZmE=
-X-Received: by 2002:ac5:c925:0:b0:34e:3e84:75b8 with SMTP id
- u5-20020ac5c925000000b0034e3e8475b8mr366120vkl.3.1652898078490; 
- Wed, 18 May 2022 11:21:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhEbi8DX89ZF05JWNIyU2oDbaXZprrg1e8gfKxU5YTwAVRTAfUIARnP2DDn7uOHl/1DQUZfKM710Wh7xe6Hs8=
-X-Received: by 2002:ac5:c925:0:b0:34e:3e84:75b8 with SMTP id
- u5-20020ac5c925000000b0034e3e8475b8mr366105vkl.3.1652898078200; Wed, 18 May
- 2022 11:21:18 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mvm3WSEXU8dywkSokoHIb0fQll81yGOj0XATyR73Qtg=;
+ b=LbLyG9iECJAlLOo9PI5FsGQZzecjO+3iLkZkEJ3Ko8WIGk8n4a0lk9s30STNA9IqTD
+ Nu/cmJi+C+RYGaDHm+ZINVhz3WVUOkoNHDQ7wN3rBsK6Z/V5T0OrE8lD32wJ2KqM2gDe
+ wQ2LqeWB9FPrU1qUdHCYd1qtzZC3zmIfo3vr7i7u4uWGtvLKuNwMPcPLld5WpQDzo6db
+ 9CqhE66/wFHi2iB8rAAywVX1C1prDqt/9GAsUWxgd4VjcqzYwZCWSq+TBmqgmIME1Zua
+ 5TvHOQX/dF77Y8b9Td1C5GrfGWhFMQkeM3atlCJvw3Hz7angZX2BQwcD3HFhNr7GzwI/
+ 9wHQ==
+X-Gm-Message-State: AOAM533UZv8hVeQiDugdLGdV1ZFC5/HWbb8+ActDST+vaoopB2lAboFP
+ a5BB3kegC7/zaWCCAZX20MUyEQ==
+X-Google-Smtp-Source: ABdhPJxIvJJ2rrHVLcpdC4Bhoga6stUCX5n1lQIvBF23gndRNOsHMZpTDNGwaUVGq0Z7qwvHEBAVFQ==
+X-Received: by 2002:a17:902:e9d3:b0:161:aa01:b956 with SMTP id
+ 19-20020a170902e9d300b00161aa01b956mr1212454plk.110.1652903966820; 
+ Wed, 18 May 2022 12:59:26 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ p127-20020a622985000000b0050dc76281c1sm2347436pfp.155.2022.05.18.12.59.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 12:59:26 -0700 (PDT)
+Message-ID: <5cb736a8-e502-e9b0-2e9f-a59546de4807@linaro.org>
+Date: Wed, 18 May 2022 12:59:24 -0700
 MIME-Version: 1.0
-References: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
- <YoUgufuA8/pjYwTE@redhat.com>
-In-Reply-To: <YoUgufuA8/pjYwTE@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 18 May 2022 14:21:08 -0400
-Message-ID: <CAFn=p-YUQm-spxrbOgv8xKB3wDMWdTRfSVB6oVOiYh=Eqw=sfA@mail.gmail.com>
-Subject: Re: The fate of iotest 297
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Qemu-block <qemu-block@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000cd297905df4d521e"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v4 38/43] hw/loongarch: Add LoongArch ls7a rtc device
+ support
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
+ imammedo@redhat.com, ani@anisinha.ca
+References: <20220517113023.3051143-1-yangxiaojuan@loongson.cn>
+ <20220517113023.3051143-39-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220517113023.3051143-39-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_QUOTING=0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,277 +95,465 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cd297905df4d521e
-Content-Type: text/plain; charset="UTF-8"
+On 5/17/22 04:30, Xiaojuan Yang wrote:
+> This patch add ls7a rtc device support.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   MAINTAINERS                |   1 +
+>   hw/loongarch/Kconfig       |   1 +
+>   hw/loongarch/loongson3.c   |   4 +
+>   hw/rtc/Kconfig             |   3 +
+>   hw/rtc/ls7a_rtc.c          | 526 +++++++++++++++++++++++++++++++++++++
+>   hw/rtc/meson.build         |   1 +
+>   include/hw/pci-host/ls7a.h |   4 +
+>   7 files changed, 540 insertions(+)
+>   create mode 100644 hw/rtc/ls7a_rtc.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8c3cac8d20..6e03a8bca8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1137,6 +1137,7 @@ F: include/hw/loongarch/virt.h
+>   F: include/hw/intc/loongarch_*.h
+>   F: hw/intc/loongarch_*.c
+>   F: include/hw/pci-host/ls7a.h
+> +F: hw/rtc/ls7a_rtc.c
+>   
+>   M68K Machines
+>   -------------
+> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+> index 8552ff4bee..35b6680772 100644
+> --- a/hw/loongarch/Kconfig
+> +++ b/hw/loongarch/Kconfig
+> @@ -13,3 +13,4 @@ config LOONGARCH_VIRT
+>       select LOONGARCH_PCH_PIC
+>       select LOONGARCH_PCH_MSI
+>       select LOONGARCH_EXTIOI
+> +    select LS7A_RTC
+> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+> index 7bc17113dc..2c04ddeadd 100644
+> --- a/hw/loongarch/loongson3.c
+> +++ b/hw/loongarch/loongson3.c
+> @@ -97,6 +97,10 @@ static void loongarch_devices_init(DeviceState *pch_pic)
+>        * Create some unimplemented devices to emulate this.
+>        */
+>       create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
+> +
+> +    sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
+> +                         qdev_get_gpio_in(pch_pic,
+> +                         LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
+>   }
+>   
+>   static void loongarch_irq_init(LoongArchMachineState *lams)
+> diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
+> index 730c272bc5..d0d8dda084 100644
+> --- a/hw/rtc/Kconfig
+> +++ b/hw/rtc/Kconfig
+> @@ -27,3 +27,6 @@ config SUN4V_RTC
+>   
+>   config GOLDFISH_RTC
+>       bool
+> +
+> +config LS7A_RTC
+> +    bool
+> diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
+> new file mode 100644
+> index 0000000000..398afdc8b0
+> --- /dev/null
+> +++ b/hw/rtc/ls7a_rtc.c
+> @@ -0,0 +1,526 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Loongarch LS7A Real Time Clock emulation
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +#include "include/hw/register.h"
+> +#include "qemu/timer.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qemu/cutils.h"
+> +#include "qemu/log.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/misc/unimp.h"
+> +#include "sysemu/rtc.h"
+> +#include "hw/registerfields.h"
+> +
+> +#define SYS_TOYTRIM        0x20
+> +#define SYS_TOYWRITE0      0x24
+> +#define SYS_TOYWRITE1      0x28
+> +#define SYS_TOYREAD0       0x2C
+> +#define SYS_TOYREAD1       0x30
+> +#define SYS_TOYMATCH0      0x34
+> +#define SYS_TOYMATCH1      0x38
+> +#define SYS_TOYMATCH2      0x3C
+> +#define SYS_RTCCTRL        0x40
+> +#define SYS_RTCTRIM        0x60
+> +#define SYS_RTCWRTIE0      0x64
+> +#define SYS_RTCREAD0       0x68
+> +#define SYS_RTCMATCH0      0x6C
+> +#define SYS_RTCMATCH1      0x70
+> +#define SYS_RTCMATCH2      0x74
+> +
+> +#define LS7A_RTC_FREQ     32768
+> +#define TIMER_NUMS        3
+> +/*
+> + * Shift bits and filed mask
+> + */
+> +
+> +FIELD(TOY, MON, 26, 6)
+> +FIELD(TOY, DAY, 21, 5)
+> +FIELD(TOY, HOUR, 16, 5)
+> +FIELD(TOY, MIN, 10, 6)
+> +FIELD(TOY, SEC, 4, 6)
+> +FIELD(TOY, MSEC, 0, 4)
+> +
+> +FIELD(TOY_MATCH, YEAR, 26, 6)
+> +FIELD(TOY_MATCH, MON, 22, 4)
+> +FIELD(TOY_MATCH, DAY, 17, 5)
+> +FIELD(TOY_MATCH, HOUR, 12, 5)
+> +FIELD(TOY_MATCH, MIN, 6, 6)
+> +FIELD(TOY_MATCH, SEC, 0, 6)
+> +
+> +FIELD(RTC_CTRL, RTCEN, 13, 1)
+> +FIELD(RTC_CTRL, TOYEN, 11, 1)
+> +FIELD(RTC_CTRL, EO, 8, 1)
+> +
+> +#define TYPE_LS7A_RTC "ls7a_rtc"
+> +OBJECT_DECLARE_SIMPLE_TYPE(LS7ARtcState, LS7A_RTC)
+> +
+> +typedef struct LS7ARtcTimer {
+> +    QEMUTimer *timer;
+> +    int64_t save_offset;
+> +    int64_t enable_offset;
+> +    int32_t flag;
+> +    LS7ARtcState *d;
+> +} LS7ARtcTimer;
+> +
+> +struct LS7ARtcState {
+> +    SysBusDevice parent_obj;
+> +
+> +    MemoryRegion iomem;
+> +    /*
+> +     * Needed to preserve the tick_count across migration, even if the
+> +     * absolute value of the rtc_clock is different on the source and
+> +     * destination.
+> +     */
+> +    int64_t offset_toy;
+> +    int64_t offset_rtc;
+> +    int64_t data;
+> +    int tidx;
+> +    uint32_t toymatch[3];
+> +    uint32_t toytrim;
+> +    uint32_t cntrctl;
+> +    uint32_t rtctrim;
+> +    uint32_t rtccount;
+> +    uint32_t rtcmatch[3];
+> +    LS7ARtcTimer toy_timer[TIMER_NUMS];
+> +    LS7ARtcTimer rtc_timer[TIMER_NUMS];
+> +    qemu_irq irq;
+> +};
+> +
+> +static int64_t ls7a_rtc_ticks(void)
+> +{
+> +    return qemu_clock_get_ms(rtc_clock) * LS7A_RTC_FREQ / 1000;
+> +}
+> +
+> +static uint64_t ls7a_rtc_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    LS7ARtcState *s = LS7A_RTC(opaque);
+> +    struct tm tm;
+> +    int val = 0;
+> +
+> +    switch (addr) {
+> +    case SYS_TOYREAD0:
+> +        qemu_get_timedate(&tm, s->offset_toy);
+> +        val = FIELD_DP32(val, TOY, MON, tm.tm_mon + 1);
+> +        val = FIELD_DP32(val, TOY, DAY, tm.tm_mday);
+> +        val = FIELD_DP32(val, TOY, HOUR, tm.tm_hour);
+> +        val = FIELD_DP32(val, TOY, MIN, tm.tm_min);
+> +        val = FIELD_DP32(val, TOY, SEC, tm.tm_sec);
+> +        break;
+> +    case SYS_TOYREAD1:
+> +        qemu_get_timedate(&tm, s->offset_toy);
+> +        val = tm.tm_year;
+> +        break;
+> +    case SYS_TOYMATCH0:
+> +        val = s->toymatch[0];
+> +        break;
+> +    case SYS_TOYMATCH1:
+> +        val = s->toymatch[1];
+> +        break;
+> +    case SYS_TOYMATCH2:
+> +        val = s->toymatch[2];
+> +        break;
+> +    case SYS_RTCCTRL:
+> +        val = s->cntrctl;
+> +        break;
+> +    case SYS_RTCREAD0:
+> +        val = ls7a_rtc_ticks() + s->offset_rtc;
 
-On Wed, May 18, 2022, 12:37 PM Kevin Wolf <kwolf@redhat.com> wrote:
+I think that rtc_ticks should not apply when !(EO & RTCEN)?
+I.e. the value in the register should not advance.
 
-> Am 18.05.2022 um 01:28 hat John Snow geschrieben:
-> > Hi Kevin,
-> >
-> > I remember that you wanted some minimum Niceness threshold in order to
-> > agree to me removing iotest 297.
-> >
-> > I've already moved it onto GitLab CI in the form of the
-> > check-python-pipenv job, but I recall you wanted to be able to run it
-> > locally as well before agreeing to axe 297. I remember that you didn't
-> > think that running "make check-pipenv" from the python directory was
-> > sufficiently Nice enough.
-> >
-> > Do you need it to be part of "make check", or are you OK with
-> > something like "make check-python" from the build directory?
-> >
-> > I have a bit more work to do if you want it to be part of 'make check'
-> > (if you happen to have the right packages installed), but it's pretty
-> > easy right now to give you a 'make check-python' (where I just
-> > forcibly install those packages to the testing venv.)
->
-> Hm, what is the reason for 'make check-python' not being part of 'make
-> check'?
->
+> +static void toymatch_write(LS7ARtcState *s, struct tm *tm, uint64_t val, int num)
+> +{
+> +    int64_t alarm_offset, year_diff, expire_time;
+> +
+> +    if (FIELD_EX32(s->cntrctl, RTC_CTRL, TOYEN) &&
+> +        FIELD_EX32(s->cntrctl, RTC_CTRL, EO)) {
+> +        s->toymatch[num] = val;
 
-Oh, it just needs more logic so that it performs correctly in RPM building
-environments. As a manual test, I'm free to just grab stuff from PyPI and
-build a venv to some precise specification and automate it. This is how
-"check-pipenv" and "check-tox" work. The RPM environment can't dial out to
-PyPI, so it shouldn't try any venv-based tests by default.
+The write to the register should be successful, even if the TOY or the oscillator is disabled.
 
-To wire it up to "make check" by *default*, I believe I need to expand the
-configure script to poll for certain requisites and then create some
-wrapper script of some kind that only engages the python tests if the
-requisites were met ... and I lose some control over the mypy/pylint
-versioning windows. I have to tolerate a wider versioning, or it'll never
-get run in practice.
+> +        alarm_offset = qemu_timedate_diff(tm) - s->offset_toy;
+> +        if ((alarm_offset < 0) && (alarm_offset > -5)) {
+> +            alarm_offset = 0;
+> +        }
 
-I have some reluctance to doing this, because pylint and mypy change so
-frequently that I don't want "make check" to fail spuriously in the future.
+It might be handy to use unit suffixes on the variable names...
 
-(In practice, these failures occur 100% of the time when I am on vacation.)
+> +        expire_time = qemu_clock_get_ms(rtc_clock);
+> +        expire_time += ((alarm_offset * 1000) + 100);
 
-The gitlab ci job check-python-tox pulls whatever the latest and greatest
-are, and these jobs fail so constantly we had to mark the job as optional.
-The check-pipenv job by contrast is extremely stable (its still must-pass)
-because it can concoct its own lil' universe.
+Why the +100?
 
-So, I can add something to make check by default but it needs some
-scaffolding to skip the test based on environment, and I have some
-reliability concerns.
+> +static void rtcmatch_write(LS7ARtcState *s, uint64_t val, int num)
+> +{
+> +    uint64_t expire_time, time_offset;
+> +    uint64_t now = ls7a_rtc_ticks();
+> +    time_offset = val - now - s->offset_rtc;
+> +    /* change ticks to ms */
+> +    time_offset /= (LS7A_RTC_FREQ / 1000);
+> +    expire_time = (now * 1000 / LS7A_RTC_FREQ) + time_offset;
 
-Ultimately, I don't believe tolerating a wide matrix for mypy/pylint really
-adds any value to 297; it only really matters if a specific environment
-comes up green, and that a developer like you or I can replicate that test
-locally and quickly.
+Oof.  It's particularly hard to follow the unit changes in this sequence.  Can we please 
+standardize on some unit?  Preferably nanoseconds, since that's what QEMUTimer uses 
+natively (all of the ms and us stuff is just a wrapper for backward compatibility).
 
-That said ... maybe I can add a controlled venv version of "check-python"
-and just have a --disable-check-python or something that spec files can opt
-into. Maybe that will work well enough?
+That would mean, here,
 
-i.e. maybe configure can check for the presence of pip, the python venv
-module (debian doesnt ship it standard...), and PyPI connectivity and if
-so, enables the test. Otherwise, we skip it.
+static void rtcmatch_write(LS7ARtcState *s, uint32_t val_ticks, int num)
+{
+     s->rtcmatch_ticks[num] = val_ticks;
 
-Something like that.
+     if (FIELD_EX32(s->cntrctl, RTC_CTRL, RTCEN) &&
+         FIELD_EX32(s->cntrctl, RTC_CTRL, EO)) {
+         uint64_t now_ns = qemu_clock_get_ns(rtc_clock);
+         uint64_t val_ns = (uint64_t)val_ticks * NANOSECONDS_PER_SECOND / LS7A_RTC_FREQ;
+         uint64_t expire_ns = now_ns + val_ns - s->offset_rtc_ns;
+
+         timer_mod_ns(s->rtc_timer[num].timer, expire_ns);
+    }
+}
+
+or something akin.  Although I think perhaps the whole IF should be within some sort of 
+update function, because this timeout will want updating upon changes to offset_rtc_ns.
+
+> +static void ls7a_stop_toymatch(LS7ARtcState *s)
+> +{
+> +    int i;
+> +    uint64_t now;
+> +
+> +    now = qemu_clock_get_ms(rtc_clock);
+> +    for (i = 0; i < TIMER_NUMS; i++) {
+> +        if (s->toy_timer[i].flag) {
+> +            s->toy_timer[i].enable_offset = s->toy_timer[i].timer->expire_time
+> +                                            - now;
+> +            timer_del(s->toy_timer[i].timer);
+
+I don't think you need to check flag here, or update enable_offset.
+Just an unconditional timer_del to stop the timer callback from firing.
+
+> +static void ls7a_stop_rtcmatch(LS7ARtcState *s)
+> +{
+> +    int i;
+> +    uint64_t now;
+> +
+> +    now = ls7a_rtc_ticks();
+> +    for (i = 0; i < TIMER_NUMS; i++) {
+> +        if (s->rtc_timer[i].flag) {
+> +            s->rtc_timer[i].enable_offset = s->rtcmatch[i] -
+> +                                            now - s->offset_rtc;
+> +            timer_del(s->rtc_timer[i].timer);
+> +        }
+
+Likewise.
+
+> +    switch (addr) {
+> +    case SYS_TOYWRITE0:
+> +        qemu_get_timedate(&tm, s->offset_toy);
+> +        tm.tm_sec = FIELD_EX32(val, TOY, SEC);
+> +        tm.tm_min = FIELD_EX32(val, TOY, MIN);
+> +        tm.tm_hour = FIELD_EX32(val, TOY, HOUR);
+> +        tm.tm_mday = FIELD_EX32(val, TOY, DAY);
+> +        tm.tm_mon = FIELD_EX32(val, TOY, MON) - 1;
+> +        s->offset_toy = qemu_timedate_diff(&tm);
+> +    break;
+> +    case SYS_TOYWRITE1:
+> +        qemu_get_timedate(&tm, s->offset_toy);
+> +        tm.tm_year = val;
+> +        s->offset_toy = qemu_timedate_diff(&tm);
+> +        break;
+
+When the toy timers are enabled, you'll need to reinit them, because we want to match the 
+value of the TOY clock and the TOYMATCH registers, and that differential time has just 
+changed.
+
+> +    case SYS_RTCCTRL:
+> +        ctrl_old = s->cntrctl;
+> +        ctrl_diff = ctrl_old ^ val;
+> +        s->cntrctl = val;
+> +        /* if EO changed */
+> +        if (FIELD_EX32(ctrl_diff, RTC_CTRL, EO)) {
+> +            /* enable EO */
+> +            if (FIELD_EX32(val, RTC_CTRL, EO)) {
+> +                /* if toy or rtc enabled now */
+> +                if (FIELD_EX32(val, RTC_CTRL, TOYEN)) {
+> +                    ls7a_start_toymatch(s);
+> +                }
+> +                if (FIELD_EX32(val, RTC_CTRL, RTCEN)) {
+> +                    ls7a_start_rtcmatch(s);
+> +                }
+> +            } else {
+> +                /* if EO disabled */
+> +                if (FIELD_EX32(ctrl_old, RTC_CTRL, TOYEN)) {
+> +                    ls7a_stop_toymatch(s);
+> +                }
+> +                if (FIELD_EX32(ctrl_old, RTC_CTRL, RTCEN)) {
+> +                    ls7a_stop_rtcmatch(s);
+> +                }
+> +            }
+> +        } else {
+> +            /* EO not changed */
+> +            if (FIELD_EX32(ctrl_diff, RTC_CTRL, TOYEN)) {
+> +                /* enable TOYEN */
+> +                if (FIELD_EX32(val, RTC_CTRL, TOYEN)) {
+> +                    if (FIELD_EX32(val, RTC_CTRL, EO)) {
+> +                        ls7a_start_toymatch(s);
+> +                    }
+> +                } else {
+> +                /* disable TOYEN */
+> +                    if (FIELD_EX32(ctrl_old, RTC_CTRL, EO)) {
+> +                        /* if EO not enabled, rtc has already stopeed */
+> +                        ls7a_stop_toymatch(s);
+> +                    }
+> +                }
+> +            }
+> +            if (FIELD_EX32(ctrl_diff, RTC_CTRL, RTCEN)) {
+> +                /* enable RTCEN */
+> +                if (FIELD_EX32(val, RTC_CTRL, RTCEN)) {
+> +                    if (FIELD_EX32(val, RTC_CTRL, EO)) {
+> +                        ls7a_start_rtcmatch(s);
+> +                    }
+> +                } else {
+> +                /* disable RTCEN */
+> +                    if (FIELD_EX32(ctrl_old, RTC_CTRL, EO)) {
+> +                        /* if EO not enabled, rtc has already stopeed */
+> +                        ls7a_stop_rtcmatch(s);
+> +                    }
+> +                }
+> +            }
+> +        }
+
+This seems overly complicated.  I think you would do well to have some predicates:
+
+static inline bool toy_enabled(LS7ARtcState *s)
+{
+     return FIELD_EX32(s->cntrctl, RTC_CTRL, TOYEN) &&
+            FIELD_EX32(s->cntrctl, RTC_CTRL, EO);
+}
+
+and for the rtc.  Then
+
+     old_toyen = toy_enabled(s);
+     s->cntrctl = val;
+     new_toyen = toy_enabled(s);
+
+     if (old_toyen != new_toyen) {
+         if (new_toyen) {
+             toy_start(s);
+         } else {
+             toy_stop(s);
+         }
+     }
+
+etc.
+
+> +    case SYS_RTCWRTIE0:
+> +        s->offset_rtc = val - ls7a_rtc_ticks();
+
+This needs to behave differently when !rtc_enabled, and when rtc_enabled reinit the timers 
+for RTCMATCHn, because the time differential has changed.
+
+> +static int ls7a_rtc_pre_save(void *opaque)
+> +{
+> +    LS7ARtcState *s = LS7A_RTC(opaque);
+> +    struct tm tm;
+> +    int64_t year_diff, toy_val, rtc_val, rtc_diff, now;
+> +    int i;
+> +    now = ls7a_rtc_ticks();
+> +    qemu_get_timedate(&tm, s->offset_toy);
+> +    for (i = 0; i < TIMER_NUMS; i++) {
+> +        if (s->toy_timer[i].flag) {
+> +            toy_val = s->toymatch[i];
+> +            tm.tm_sec = FIELD_EX32(toy_val, TOY_MATCH, SEC);
+> +            tm.tm_min = FIELD_EX32(toy_val, TOY_MATCH, MIN);
+> +            tm.tm_hour = FIELD_EX32(toy_val, TOY_MATCH, HOUR);
+> +            tm.tm_mday = FIELD_EX32(toy_val, TOY_MATCH, DAY);
+> +            tm.tm_mon = FIELD_EX32(toy_val, TOY_MATCH, MON) - 1;
+> +            year_diff = FIELD_EX32(toy_val, TOY_MATCH, MON);
+> +            year_diff = year_diff - (tm.tm_year & 0x3f);
+> +            tm.tm_year = tm.tm_year + year_diff;
+> +            s->toy_timer[i].save_offset = qemu_timedate_diff(&tm)
+> +                                          - s->offset_toy;
+> +        }
+> +        if (s->rtc_timer[i].flag) {
+> +            rtc_val = s->rtcmatch[i];
+> +            rtc_diff = rtc_val - now - s->offset_rtc;
+> +            s->rtc_timer[i].save_offset = rtc_diff;
+> +        }
+> +    }
+> +    return 0;
+
+I think this update should be what happens in toy_stop and rtc_stop -- saving the offset 
+from "now" to the respective save_* variables.
+
+> +static int ls7a_rtc_post_load(void *opaque, int version_id)
+> +{
+> +    LS7ARtcState *s = LS7A_RTC(opaque);
+> +    int64_t expire_time;
+> +    int i;
+> +    uint64_t now, ticks;
+> +
+> +    now = qemu_clock_get_ms(rtc_clock);
+> +    ticks = ls7a_rtc_ticks();
+> +    for (i = 0; i < TIMER_NUMS; i++) {
+> +        if (s->toy_timer[i].flag) {
+> +            expire_time = now + (s->toy_timer[i].save_offset * 1000);
+> +            timer_mod(s->toy_timer[i].timer, expire_time);
+> +        }
+> +        if (s->rtc_timer[i].flag) {
+> +            expire_time = ticks + s->rtc_timer[i].save_offset;
+> +            expire_time = (expire_time * 1000 / LS7A_RTC_FREQ);
+> +            timer_mod(s->rtc_timer[i].timer, expire_time);
+> +        }
+> +    }
+> +    return 0;
+
+And here, you'd do
+
+     if (toy_enabled(s)) {
+         toy_start(s);
+     }
+
+etc.  At the moment you've failed to consider s->cntrctl here in post_load.
 
 
-
-> I'm currently running two things locally, 'make check' (which is the
-> generic one that everyone should run) and iotests (for which it is
-> reasonable enough that I need to run it separately because it's the
-> special thing for my own subsystem).
->
-
-Pretty much exactly what I do. (Except I run the python tests these days,
-too.)
-
-
-> Now adding a third one 'make check-python' certainly isn't the end of
-> the world, but it's not really something that is tied to my subsystem
-> any more. Having to run test cases separately for other subsystems
-> doesn't really scale for me, so I would prefer not to start doing that.
-> I can usually get away with not running the more special tests of other
-> subsystems before the pull request because I'm unlikely to break things
-> in other subsystems, but Python style warnings are easy to get.
->
-
-Reasonable. I already forget to run things like avocado and vm tests, and I
-am sympathetic to not wanting to expand the list of manually run tests.
-
-(What avocado and vm tests have in common is that they need to fetch stuff
-from the internet, which I am learning makes them unsuitable for make
-check, which must work without internet. """Coincidentally""", tests that
-require internet seem to break an awful lot more often because they are
-getting run a lot less and in fewer places.)
-
-
-> If we're going to have 'make check-python' separate, but CI checks it,
-> we'll get pull requests that don't pass it and would then only be caught
-> by CI after a long test run, requiring a v2 pull request. I feel for
-> something that checks things like style (and will fail frequently on
-> code where nobody ran the check before), that's a bit too unfriendly.
->
-> Kevin
->
-
-Got it. I'll see what I can come up with that checks the boxes for
-everyone, thanks for clarifying yours.
-
-I want to make everything "just work" but I'm also afraid of writing too
-much magic crap that could break and frustrate people who have no desire to
-understand python packaging junk, so I'm trying to balance that.
-
-(Parting thought: the python ecosystem mantra of "just use a venv!"
-unfortunately influences a lot of upstream developer attitude which is then
-increasingly hard to square with environments in which I cannot count on
-internet or the ability to spin up a venv, and thus my headache.
-Overwhelmingly, it seems to be the expectation that you'd just pin or
-vendor things like pylint/mypy, because they're not usually runtime deps
-for Python packages. Urgh, blegh.)
-
---js
-
->
-
---000000000000cd297905df4d521e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, May 18, 2022, 12:37 PM Kevin Wolf &lt;<a href=
-=3D"mailto:kwolf@redhat.com">kwolf@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">Am 18.05.2022 um 01:28 hat John Snow geschrieben:=
-<br>
-&gt; Hi Kevin,<br>
-&gt; <br>
-&gt; I remember that you wanted some minimum Niceness threshold in order to=
-<br>
-&gt; agree to me removing iotest 297.<br>
-&gt; <br>
-&gt; I&#39;ve already moved it onto GitLab CI in the form of the<br>
-&gt; check-python-pipenv job, but I recall you wanted to be able to run it<=
-br>
-&gt; locally as well before agreeing to axe 297. I remember that you didn&#=
-39;t<br>
-&gt; think that running &quot;make check-pipenv&quot; from the python direc=
-tory was<br>
-&gt; sufficiently Nice enough.<br>
-&gt; <br>
-&gt; Do you need it to be part of &quot;make check&quot;, or are you OK wit=
-h<br>
-&gt; something like &quot;make check-python&quot; from the build directory?=
-<br>
-&gt; <br>
-&gt; I have a bit more work to do if you want it to be part of &#39;make ch=
-eck&#39;<br>
-&gt; (if you happen to have the right packages installed), but it&#39;s pre=
-tty<br>
-&gt; easy right now to give you a &#39;make check-python&#39; (where I just=
-<br>
-&gt; forcibly install those packages to the testing venv.)<br>
-<br>
-Hm, what is the reason for &#39;make check-python&#39; not being part of &#=
-39;make<br>
-check&#39;?<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">Oh, it just needs more logic so that it performs correctly in RP=
-M building environments. As a manual test, I&#39;m free to just grab stuff =
-from PyPI and build a venv to some precise specification and automate it. T=
-his is how &quot;check-pipenv&quot; and &quot;check-tox&quot; work. The RPM=
- environment can&#39;t dial out to PyPI, so it shouldn&#39;t try any venv-b=
-ased tests by default.</div><div dir=3D"auto"><br></div><div dir=3D"auto">T=
-o wire it up to &quot;make check&quot; by *default*, I believe I need to ex=
-pand the configure script to poll for certain requisites and then create so=
-me wrapper script of some kind that only engages the python tests if the re=
-quisites were met ... and I lose some control over the mypy/pylint versioni=
-ng windows. I have to tolerate a wider versioning, or it&#39;ll never get r=
-un in practice.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I have s=
-ome reluctance to doing this, because pylint and mypy change so frequently =
-that I don&#39;t want &quot;make check&quot; to fail spuriously in the futu=
-re.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(In practice, these =
-failures occur 100% of the time when I am on vacation.)</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto">The gitlab ci job check-python-tox pulls wh=
-atever the latest and greatest are, and these jobs fail so constantly we ha=
-d to mark the job as optional. The check-pipenv job by contrast is extremel=
-y stable (its still must-pass) because it can concoct its own lil&#39; univ=
-erse.</div><div dir=3D"auto"><br></div><div dir=3D"auto">So, I can add some=
-thing to make check by default but it needs some scaffolding to skip the te=
-st based on environment, and I have some reliability concerns.</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Ultimately, I don&#39;t believe tole=
-rating a wide matrix for mypy/pylint really adds any value to 297; it only =
-really matters if a specific environment comes up green, and that a develop=
-er like you or I can replicate that test locally and quickly.<br></div><div=
- dir=3D"auto"><br></div><div dir=3D"auto">That said ... maybe I can add a c=
-ontrolled venv version of &quot;check-python&quot; and just have a --disabl=
-e-check-python or something that spec files can opt into. Maybe that will w=
-ork well enough?</div><div dir=3D"auto"><br></div><div dir=3D"auto">i.e. ma=
-ybe configure can check for the presence of pip, the python venv module (de=
-bian doesnt ship it standard...), and PyPI connectivity and if so, enables =
-the test. Otherwise, we skip it.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Something like that.</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">
-<br>
-I&#39;m currently running two things locally, &#39;make check&#39; (which i=
-s the<br>
-generic one that everyone should run) and iotests (for which it is<br>
-reasonable enough that I need to run it separately because it&#39;s the<br>
-special thing for my own subsystem).<br></blockquote></div></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Pretty much exactly what I do. (Excep=
-t I run the python tests these days, too.)</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">
-<br>
-Now adding a third one &#39;make check-python&#39; certainly isn&#39;t the =
-end of<br>
-the world, but it&#39;s not really something that is tied to my subsystem<b=
-r>
-any more. Having to run test cases separately for other subsystems<br>
-doesn&#39;t really scale for me, so I would prefer not to start doing that.=
-<br>
-I can usually get away with not running the more special tests of other<br>
-subsystems before the pull request because I&#39;m unlikely to break things=
-<br>
-in other subsystems, but Python style warnings are easy to get.<br></blockq=
-uote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Reasonable. =
-I already forget to run things like avocado and vm tests, and I am sympathe=
-tic to not wanting to expand the list of manually run tests.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">(What avocado and vm tests have in co=
-mmon is that they need to fetch stuff from the internet, which I am learnin=
-g makes them unsuitable for make check, which must work without internet. &=
-quot;&quot;&quot;Coincidentally&quot;&quot;&quot;, tests that require inter=
-net seem to break an awful lot more often because they are getting run a lo=
-t less and in fewer places.)</div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-If we&#39;re going to have &#39;make check-python&#39; separate, but CI che=
-cks it,<br>
-we&#39;ll get pull requests that don&#39;t pass it and would then only be c=
-aught<br>
-by CI after a long test run, requiring a v2 pull request. I feel for<br>
-something that checks things like style (and will fail frequently on<br>
-code where nobody ran the check before), that&#39;s a bit too unfriendly.<b=
-r>
-<br>
-Kevin<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">Got it. I&#39;ll see what I can come up with that checks the boxes for=
- everyone, thanks for clarifying yours.</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">I want to make everything &quot;just work&quot; but I&#39;m=
- also afraid of writing too much magic crap that could break and frustrate =
-people who have no desire to understand python packaging junk, so I&#39;m t=
-rying to balance that.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(=
-Parting thought: the python ecosystem mantra of &quot;just use a venv!&quot=
-; unfortunately influences a lot of upstream developer attitude which is th=
-en increasingly hard to square with environments in which I cannot count on=
- internet or the ability to spin up a venv, and thus my headache. Overwhelm=
-ingly, it seems to be the expectation that you&#39;d just pin or vendor thi=
-ngs like pylint/mypy, because they&#39;re not usually runtime deps for Pyth=
-on packages. Urgh, blegh.)</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">--js</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"></blockquote></div></div></div>
-
---000000000000cd297905df4d521e--
-
+r~
 
