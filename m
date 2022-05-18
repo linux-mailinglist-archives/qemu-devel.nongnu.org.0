@@ -2,55 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781EA52B5B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:25:06 +0200 (CEST)
-Received: from localhost ([::1]:59476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE58252B59C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:14:35 +0200 (CEST)
+Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrFvV-0000c6-Id
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53998)
+	id 1nrFlK-000847-Ts
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:14:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbz-0008FW-21
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFby-0008Fe-Sf
  for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38768)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004My-3T
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrFbu-0004N8-5Y
  for qemu-devel@nongnu.org; Wed, 18 May 2022 05:04:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652864683;
+ s=mimecast20190719; t=1652864685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=c5kJxIKt6DmlrSbVAJcbplWHcf/z61yUCxnWrDMups0=;
- b=E0pUYQobOt8GmzpZgzynFLg7Nz0S/8Ay7CMAyQuMGNcB/MNLCs039H4ibm36EUcLhc2KlZ
- 8MML/ZcRdlrlAu5Rw4+I7rg+VrzIPe6cDaz57w3rGiVZ+ayEgArzVO3f7SPu0fUyIfWvPk
- k5PZPenyO++Mu3PxlTiTH/brI5P9VAM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/5QoxONeJCcY+Ymq+2bbsjVD3pVw+gch9C8gnLYyXR4=;
+ b=eeuBMO94GAUMGp9rQoZ893t8I4gx6gNZG7R3HMpQZG4NZuorhOvOOxCVyodciFLEH/hnUP
+ jCVmN0mYn7FY18NLJNRGLJhKamyreQMAEo/5l7+qN/kCckiQFmhh1KFb7dl0VuDBqv+d4V
+ Bp2Uruz7Zgyl1RTSV/qpnsZNLVAtCTk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-tilSGkq_OhWa3P6uQ9vf9Q-1; Wed, 18 May 2022 05:04:42 -0400
-X-MC-Unique: tilSGkq_OhWa3P6uQ9vf9Q-1
+ us-mta-368-F1_aKAr5N2asVH69Yf2sDg-1; Wed, 18 May 2022 05:04:41 -0400
+X-MC-Unique: F1_aKAr5N2asVH69Yf2sDg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC75F811E75;
- Wed, 18 May 2022 09:04:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D5D63AF42B0;
+ Wed, 18 May 2022 09:04:41 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 538C51410F37;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB3C01410DD5;
  Wed, 18 May 2022 09:04:40 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 0/8] Misc patches (Gitlab-CI, qtest, Capstone, ...)
-Date: Wed, 18 May 2022 11:04:30 +0200
-Message-Id: <20220518090438.158475-1-thuth@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Subject: [PULL 1/8] gitlab-ci: Switch the container of the 'check-patch' &
+ 'check-dco' jobs
+Date: Wed, 18 May 2022 11:04:31 +0200
+Message-Id: <20220518090438.158475-2-thuth@redhat.com>
+In-Reply-To: <20220518090438.158475-1-thuth@redhat.com>
+References: <20220518090438.158475-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -74,61 +80,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Richard!
+The 'check-patch' and 'check-dco' jobs only need Python and git for
+checking the patches, so it's not really necessary to use a container
+here that has all the other build dependencies installed. By using a
+lightweight Alpine container, we can improve the runtime here quite a
+bit, cutting it down from ca. 1:30 minutes to ca. 45 seconds.
 
-The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220516082310.33876-1-thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/static_checks.yml | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-  Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16 16:31:01 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-18
-
-for you to fetch changes up to 83602083b4ada6ceb86bfb327e83556ebab120fc:
-
-  capstone: Remove the capstone submodule (2022-05-18 08:54:22 +0200)
-
-----------------------------------------------------------------
-* Remove Ubuntu 18.04 containers (not supported anymore)
-* Improve the cleanup of the QEMU binary in case of failing qtests
-* Update the Windows support statement
-* Remove the capstone submodule (and rely on Capstone of the distros instead)
-
-----------------------------------------------------------------
-Daniel P. Berrangé (2):
-      tests/qtest: fix registration of ABRT handler for QEMU cleanup
-      tests/qtest: use prctl(PR_SET_PDEATHSIG) as fallback to kill QEMU
-
-Thomas Huth (6):
-      gitlab-ci: Switch the container of the 'check-patch' & 'check-dco' jobs
-      Remove Ubuntu 18.04 container support from the repository
-      docs/about: Update the support statement for Windows
-      tests/vm: Add capstone to the NetBSD and OpenBSD VMs
-      capstone: Allow version 3.0.5 again
-      capstone: Remove the capstone submodule
-
- docs/about/build-platforms.rst                     |  14 +-
- configure                                          |  23 +---
- meson.build                                        | 115 +---------------
- include/qemu/osdep.h                               |   2 +-
- tests/qtest/libqtest.c                             |  21 ++-
- .gitlab-ci.d/buildtest.yml                         |   3 +-
- .gitlab-ci.d/containers.yml                        |   5 -
- .../custom-runners/ubuntu-20.04-aarch32.yml        |   2 +-
- .../custom-runners/ubuntu-20.04-aarch64.yml        |   2 +-
- .gitlab-ci.d/static_checks.yml                     |  14 +-
- .gitlab-ci.d/windows.yml                           |   5 +-
- .gitmodules                                        |   3 -
- capstone                                           |   1 -
- meson_options.txt                                  |   3 +-
- scripts/ci/setup/build-environment.yml             |  14 +-
- scripts/meson-buildoptions.sh                      |   5 +-
- tests/docker/dockerfiles/ubuntu1804.docker         | 144 ---------------------
- tests/lcitool/refresh                              |   7 -
- tests/vm/netbsd                                    |   3 +-
- tests/vm/openbsd                                   |   3 +-
- 20 files changed, 59 insertions(+), 330 deletions(-)
- delete mode 160000 capstone
- delete mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index 5e955540d3..94858e3272 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -1,12 +1,13 @@
+ check-patch:
+   stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+-  needs:
+-    job: amd64-centos8-container
++  image: python:3.10-alpine
++  needs: []
+   script:
+     - .gitlab-ci.d/check-patch.py
+   variables:
+     GIT_DEPTH: 1000
++  before_script:
++    - apk -U add git perl
+   rules:
+     - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
+       when: never
+@@ -15,12 +16,13 @@ check-patch:
+ 
+ check-dco:
+   stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+-  needs:
+-    job: amd64-centos8-container
++  image: python:3.10-alpine
++  needs: []
+   script: .gitlab-ci.d/check-dco.py
+   variables:
+     GIT_DEPTH: 1000
++  before_script:
++    - apk -U add git
+   rules:
+     - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+       when: never
+-- 
+2.27.0
 
 
