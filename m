@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B8052BBDD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 16:15:52 +0200 (CEST)
-Received: from localhost ([::1]:60524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1396C52BD84
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 16:19:28 +0200 (CEST)
+Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrKSt-0002JV-5h
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 10:15:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47836)
+	id 1nrKWM-0007M4-LO
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 10:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrKNt-0006rj-Fr
- for qemu-devel@nongnu.org; Wed, 18 May 2022 10:10:42 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:44857)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1nrKSy-0004MK-Bc; Wed, 18 May 2022 10:15:56 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:47067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrKNr-0001N1-Do
- for qemu-devel@nongnu.org; Wed, 18 May 2022 10:10:41 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- pq9-20020a17090b3d8900b001df622bf81dso2176137pjb.3
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 07:10:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=AiH25ucag/5uDnMYkr1abF34a3h/Q9wAOI+A0vqTa3A=;
- b=eYm4rXDHP+e7Lpztu/Jysv/YVeX7FZ6z41ds+mU91DYMXe4Np+W1JOxZU9ZyAihguV
- mVoqhTbX1aTOQxYzRulDyReZ7Wu2jFMKs81DRltOSJ6C5QARv8Bm/sUrUeCFws7ODrh2
- IhbZCLGWtgEfQg+QweeDOBPe8KYvrPd9dX75W7RpwVs6PvIO0diLg4+7p7EN6hUjoIP1
- eBRmc8+l6cIIgR1DglKuV2hwl1NP7pmDrPEDRi6n5y2ubLyiARwK7QKYHewERTvFcUTW
- zzW2y3TMzELRPT9EC0ObsXh3t1lh6LM7WIZuLOO5Nayeyui+mkySRrIp//ztcAYg2tES
- +NhQ==
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1nrKSw-00023U-OQ; Wed, 18 May 2022 10:15:55 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id r30so2889632wra.13;
+ Wed, 18 May 2022 07:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d7pEXmTo1+jiC7c+dMQN/V6wcBYB/n6I1A9uTMxvqzc=;
+ b=SpXrkSX72TbuPz7ojR/Ldx05LOgm+AGpVQbA7WJnZBm2bg6FPwO5ACMYPgYxA4kc87
+ ohtP2rmJ31797NxKKHkKst5jtttgQHwsqsaud/nBWe2M19FGsKasgCa2XLDsoddIFaeA
+ 9UVfQJbCG5K4a064/Nl5fSID2RpHnrvP0ZttXbypIZffVYVievJkeezfCKRPaVWtUSUi
+ BbeHpEaBpJteBFb/9es4xEwOO741NuVP9vokDl9D1+dCuoW7T2vLYx140ttkA/lpnp5l
+ 7sIL0Pi2ZpmHFk4Dk0XBl7BFve9Fxkqw4vcwxY02qp4Ls44CAXCQ7IrhP02UCd6GhzXq
+ tJ0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=AiH25ucag/5uDnMYkr1abF34a3h/Q9wAOI+A0vqTa3A=;
- b=qP9quOA4f2q/JBKyIkpW98lTtLkHjMFvhxDhPBgmP4R3paIjQlnk4dclDrCDnA3H8q
- K8miEBMoGj2U86aYuI3k+yKs4Jb0QrTUuuJ2dY3p7pDs080waczflWrh+E3V+9zN58pA
- iZ8wlR1WfODIA0WWyiKOtO+I0DHYhD2eSTHYSTQnBLul8dnIXuLKkTmJImza8ttJUpAn
- RsvFzlc8je+L3URuUB8owmaIvmSCRZkXVhqFt+pD2CVKbESxm8T8e0NZNUJnl6gCjydY
- Cz+rdLv0uoR7CdsP7DoPGRcmvL/ukyjYRXaLWRftD8jo14DgKGnidW9Ekzs5htFMaUFM
- ndsQ==
-X-Gm-Message-State: AOAM533pl07SBXUvxs6lueRPrT4WmJH/QduhbNGOfHVE7fQWMX7rcg70
- mlDUMp5luNBPAE64REbrTriO+g==
-X-Google-Smtp-Source: ABdhPJxwO+iVhhv4KJNleBVsKbZrrzPjHo3aNsw7syp+HtDgmCqNYZHNuOF6beuZHDyPoGFJlUbxLw==
-X-Received: by 2002:a17:90a:cb8d:b0:1df:26ba:6338 with SMTP id
- a13-20020a17090acb8d00b001df26ba6338mr201543pju.142.1652883037069; 
- Wed, 18 May 2022 07:10:37 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
+ bh=d7pEXmTo1+jiC7c+dMQN/V6wcBYB/n6I1A9uTMxvqzc=;
+ b=S24y5VF8pgq0RP7nGGx028XfM5yvF/NwF8tzfxn3IYwiIjW6SOuSHEAb9ZBb77Nmi1
+ CT7rIwEmVYlUJ3JqJaF9a8Wi0nrIv29eGFHywOZUfq4m0pITRvKm03LgtBxChZcJ63VJ
+ EtAqRd7nAMWyf9NjX6x3+yn1GPdqvuvmlsqATHhXtTp6wrYNBO2Sg0nL6CnKGzDUXfU/
+ QqrR0GIDuEx5BoiW6w36Age1oPXSfi4k6CrOEKw6LFok1ORMapC0akTbJ4DYQ4xf0M+U
+ EDjjndw6Bx7nm3tPu17bxpzMVt4IhHqXqanzVypZwOgjwypNEdVg/VOuc2cYgWs3R7RC
+ Qapg==
+X-Gm-Message-State: AOAM532lBE/QcKhXgKqojErxCqi3xLdhWGA/IVy6bQD8CmO8Qn8SLicO
+ l8E93mf2scP+o74AitIDFEM=
+X-Google-Smtp-Source: ABdhPJzmThoM72mKnHEu4QLQg1pD5emjxOEDlYr9k77eHYKaKqSy9x9l3kGrAdZArAWXoyZniGuv5Q==
+X-Received: by 2002:a05:6000:1868:b0:20c:95c4:ed9a with SMTP id
+ d8-20020a056000186800b0020c95c4ed9amr23219040wri.243.1652883352673; 
+ Wed, 18 May 2022 07:15:52 -0700 (PDT)
+Received: from [10.7.237.10] (54-240-197-226.amazon.com. [54.240.197.226])
  by smtp.gmail.com with ESMTPSA id
- n4-20020aa79844000000b0050dc76281c0sm1952063pfq.154.2022.05.18.07.10.36
+ c3-20020adfa703000000b0020d012692dbsm2612394wrd.18.2022.05.18.07.15.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 07:10:36 -0700 (PDT)
-Message-ID: <56f1c129-9b7e-e82b-2186-83a5c7168de6@linaro.org>
-Date: Wed, 18 May 2022 07:10:34 -0700
+ Wed, 18 May 2022 07:15:52 -0700 (PDT)
+Message-ID: <f7e1a658-202e-7297-b1d5-8b18bbac8396@gmail.com>
+Date: Wed, 18 May 2022 15:15:50 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 0/8] Net patches
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] block: get rid of blk->guest_block_size
 Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
-References: <20220518031214.93760-1-jasowang@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220518031214.93760-1-jasowang@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Paul Durrant <paul@xen.org>, Stefano Stabellini <sstabellini@kernel.org>, 
+ John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
+ qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Anthony Perard <anthony.perard@citrix.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Xie Yongji <xieyongji@bytedance.com>
+References: <20220518130945.2657905-1-stefanha@redhat.com>
+From: "Durrant, Paul" <xadimgnik@gmail.com>
+In-Reply-To: <20220518130945.2657905-1-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,69 +94,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/22 20:12, Jason Wang wrote:
-> The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
+On 18/05/2022 14:09, Stefan Hajnoczi wrote:
+> Commit 1b7fd729559c ("block: rename buffer_alignment to
+> guest_block_size") noted:
 > 
->    Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16 16:31:01 -0700)
+>    At this point, the field is set by the device emulation, but completely
+>    ignored by the block layer.
 > 
-> are available in the git repository at:
+> The last time the value of buffer_alignment/guest_block_size was
+> actually used was before commit 339064d50639 ("block: Don't use guest
+> sector size for qemu_blockalign()").
 > 
->    https://github.com/jasowang/qemu.git tags/net-pull-request
+> This value has not been used since 2013. Get rid of it.
 > 
-> for you to fetch changes up to 052c2579b89b0d87debe8b05594b5180f0fde87d:
-> 
->    tulip: Assign default MAC address if not specified (2022-05-17 16:48:23 +0800)
-> 
-> ----------------------------------------------------------------
-> 
-> ----------------------------------------------------------------
-> Helge Deller (1):
->        tulip: Assign default MAC address if not specified
-> 
-> Vladislav Yaroshchuk (7):
->        net/vmnet: add vmnet dependency and customizable option
->        net/vmnet: add vmnet backends to qapi/net
->        net/vmnet: implement shared mode (vmnet-shared)
->        net/vmnet: implement host mode (vmnet-host)
->        net/vmnet: implement bridged mode (vmnet-bridged)
->        net/vmnet: update qemu-options.hx
->        net/vmnet: update hmp-commands.hx
+> Cc: Xie Yongji <xieyongji@bytedance.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Xen part...
 
-
-r~
-
-
-
-> 
->   hmp-commands.hx               |   6 +-
->   hw/net/tulip.c                |   4 +-
->   meson.build                   |  16 +-
->   meson_options.txt             |   2 +
->   net/clients.h                 |  11 ++
->   net/meson.build               |   7 +
->   net/net.c                     |  10 ++
->   net/vmnet-bridged.m           | 152 +++++++++++++++++
->   net/vmnet-common.m            | 378 ++++++++++++++++++++++++++++++++++++++++++
->   net/vmnet-host.c              | 128 ++++++++++++++
->   net/vmnet-shared.c            | 114 +++++++++++++
->   net/vmnet_int.h               |  63 +++++++
->   qapi/net.json                 | 133 ++++++++++++++-
->   qemu-options.hx               |  25 +++
->   scripts/meson-buildoptions.sh |   1 +
->   15 files changed, 1044 insertions(+), 6 deletions(-)
->   create mode 100644 net/vmnet-bridged.m
->   create mode 100644 net/vmnet-common.m
->   create mode 100644 net/vmnet-host.c
->   create mode 100644 net/vmnet-shared.c
->   create mode 100644 net/vmnet_int.h
-> 
-> 
-> 
-> 
-
+Reviewed-by: Paul Durrant <paul@xen.org>
 
