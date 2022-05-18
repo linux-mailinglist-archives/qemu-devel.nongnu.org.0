@@ -2,86 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF7F52B09A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 05:04:04 +0200 (CEST)
-Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5089652B0AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 05:16:08 +0200 (CEST)
+Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nr9yl-0001wy-7Z
-	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 23:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54548)
+	id 1nrAAR-0001li-Dx
+	for lists+qemu-devel@lfdr.de; Tue, 17 May 2022 23:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nr9xe-0001Bb-M7
- for qemu-devel@nongnu.org; Tue, 17 May 2022 23:02:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50941)
+ id 1nrA6r-0006iA-OZ
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 23:12:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nr9xb-0003VF-HJ
- for qemu-devel@nongnu.org; Tue, 17 May 2022 23:02:53 -0400
+ id 1nrA6o-0004md-Kr
+ for qemu-devel@nongnu.org; Tue, 17 May 2022 23:12:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652842970;
+ s=mimecast20190719; t=1652843540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=McLcEkC7pziazZkHhK8jGa0WY1GqkSWAOaEvIatj7uY=;
- b=A8ciLToEBrkKaB3NR5jbzbbrfhPV1/rF9WHSLP1OBOUzHvZ91dPSvIGmnHPgPM3piYXhBI
- /bipvnIfma80JXFUdXD1Y00aNIIBmO2clq394oQBUsBJwNyApC0M0+RfFq41VqQp1yte20
- nod1bvOy4AIPUl5GVhlX1GZTprk6oSM=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IO9KZQbjc3S2J2cgY3f2cajincj8QRydDkaPGXivY7g=;
+ b=aYAKCiD3EFKBXUaUt+PplqodsBAmcp+fvAR/kXe2CSB+r9wNymj7PjuYzPDylMPAtdJil6
+ XoYTTw7V3X0LFP9uv3GZiLGpK9BjzsIuGtr4khq8oxBxGIAiOJcgFNahKNVh0LFXeVadSp
+ QcwF7hxG/xpKLiH9hUXDJluASWjCR6M=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-y3Af7H88MomTaqxiFyMnvA-1; Tue, 17 May 2022 23:02:48 -0400
-X-MC-Unique: y3Af7H88MomTaqxiFyMnvA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- i8-20020a0565123e0800b004725f87c5f2so437632lfv.1
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 20:02:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=McLcEkC7pziazZkHhK8jGa0WY1GqkSWAOaEvIatj7uY=;
- b=FwcbH/khNGjT+K7KBpxt/rJPy2MWBrTGEW24/Iys4rFbCThlLYIhAjzY6JVMUSrKxs
- xeMIVMm5CUya2CHobg7K2eiLpPoFBG4Ac7ktbS+1Lhoha/fKVZgAvV8uAkZWz9KBnOMu
- X1/u6ooam3THI/MYSMWfOjg6FPPvbmyh/NTTCIxhHRPndyGns2xWGxJkbUJQmCCyFOKs
- JdAJi2dQJUn3heOCHguCIysA5hjXJFyQU1FJVh2YWbvYrRqpZbxGVNBOq92tH/Y0c45B
- EqfSZ+bunmhGZvnP6rypAP1oZao+Tp3yjxQ+cGTzedGCbWaAaVMTmO9vHg1XF470zxqH
- 0QTw==
-X-Gm-Message-State: AOAM5314hTnCFv6nI1kFTY5DNWY1m+LcwotNvgrLw8b9/FZXh0J3KXAW
- Z7i/Awv2qjzw/GqFeOQz/3rkbLXG2DKmvYEixYaaRVvNaQgyO31UbC0bu9Ge7cqrWMB+Jth2/aI
- l7j+8XGaBHjD0dVFZ4NkbakReQVaos34=
-X-Received: by 2002:a05:6512:3e0a:b0:477:b256:56b with SMTP id
- i10-20020a0565123e0a00b00477b256056bmr2285814lfv.587.1652842967286; 
- Tue, 17 May 2022 20:02:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwjdT9zDYaj7e6tXjDUbhnJLVID8BdJVaGDeIyUOTkQpfjKtoeuuwL5LeLFnlQCM6qCO9MeA5cHMt/mpr32VuA=
-X-Received: by 2002:a05:6512:3e0a:b0:477:b256:56b with SMTP id
- i10-20020a0565123e0a00b00477b256056bmr2285787lfv.587.1652842967024; Tue, 17
- May 2022 20:02:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220317172839.28984-1-Vladislav.Yaroshchuk@jetbrains.com>
- <20220317172839.28984-4-Vladislav.Yaroshchuk@jetbrains.com>
- <CA+E+eSBJUWGqA_KQDX4RRhXpVj6GM1suNDtUxv+-qavOiwJ0vA@mail.gmail.com>
-In-Reply-To: <CA+E+eSBJUWGqA_KQDX4RRhXpVj6GM1suNDtUxv+-qavOiwJ0vA@mail.gmail.com>
+ us-mta-444-_XoZT093NXS55Ixz_sganA-1; Tue, 17 May 2022 23:12:19 -0400
+X-MC-Unique: _XoZT093NXS55Ixz_sganA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70DE81D96CA4;
+ Wed, 18 May 2022 03:12:19 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-14-27.pek2.redhat.com [10.72.14.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4F35400E114;
+ Wed, 18 May 2022 03:12:17 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 18 May 2022 11:02:35 +0800
-Message-ID: <CACGkMEt2jpn9XMbZK6sGxq7BdtFA6uQ5J3p4zCqP-+1TQ+q8ZQ@mail.gmail.com>
-Subject: Re: [PATCH v22 3/7] net/vmnet: implement shared mode (vmnet-shared)
-To: osy <osy@turing.llc>
-Cc: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, 
- Eric Blake <eblake@redhat.com>, phillip.ennen@gmail.com, 
- Phillip Tennen <phillip@axleos.com>, Akihiko Odaki <akihiko.odaki@gmail.com>, 
- Markus Armbruster <armbru@redhat.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
- Alessio Dionisi <hello@adns.io>, 
- Roman Bolshakov <roman@roolebo.dev>, Peter Maydell <peter.maydell@linaro.org>, 
- Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+To: jasowang@redhat.com,
+	qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 0/8] Net patches
+Date: Wed, 18 May 2022 11:12:06 +0800
+Message-Id: <20220518031214.93760-1-jasowang@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -105,40 +77,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 11:01 AM osy <osy@turing.llc> wrote:
->
-> On Thu, Mar 17, 2022 at 10:28 AM Vladislav Yaroshchuk
-> <vladislav.yaroshchuk@jetbrains.com> wrote:
-> >
-> > Interaction with vmnet.framework in different modes
-> > differs only on configuration stage, so we can create
-> > common `send`, `receive`, etc. procedures and reuse them.
-> >
-> > Signed-off-by: Phillip Tennen <phillip@axleos.com>
-> > Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
-> > Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> > Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->
-> Hi Vladislav,
->
-> Thanks for the patches. We ran into an issue integrating it into UTM
-> when we discovered that by targeting a lower macOS version (we like to
-> have one binary for all macOS versions), newer features were compiled
-> out. This commit resolves that and we think it would be beneficial to
-> others as well. Since it does not appear the submission has made it to
-> mainline yet, it could be integrated into your patchset.
->
-> https://github.com/utmapp/qemu/commit/6626058f225c9c6a402f9ac6f90aa0b7e94d175c
->
-> Thank you!
+The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
 
-I plan to send the pull request soon.
+  Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16 16:31:01 -0700)
 
-Could you please post a patch for this then we can have it in the next
-pull request?
+are available in the git repository at:
 
-Thanks
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
->
+for you to fetch changes up to 052c2579b89b0d87debe8b05594b5180f0fde87d:
+
+  tulip: Assign default MAC address if not specified (2022-05-17 16:48:23 +0800)
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Helge Deller (1):
+      tulip: Assign default MAC address if not specified
+
+Vladislav Yaroshchuk (7):
+      net/vmnet: add vmnet dependency and customizable option
+      net/vmnet: add vmnet backends to qapi/net
+      net/vmnet: implement shared mode (vmnet-shared)
+      net/vmnet: implement host mode (vmnet-host)
+      net/vmnet: implement bridged mode (vmnet-bridged)
+      net/vmnet: update qemu-options.hx
+      net/vmnet: update hmp-commands.hx
+
+ hmp-commands.hx               |   6 +-
+ hw/net/tulip.c                |   4 +-
+ meson.build                   |  16 +-
+ meson_options.txt             |   2 +
+ net/clients.h                 |  11 ++
+ net/meson.build               |   7 +
+ net/net.c                     |  10 ++
+ net/vmnet-bridged.m           | 152 +++++++++++++++++
+ net/vmnet-common.m            | 378 ++++++++++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c              | 128 ++++++++++++++
+ net/vmnet-shared.c            | 114 +++++++++++++
+ net/vmnet_int.h               |  63 +++++++
+ qapi/net.json                 | 133 ++++++++++++++-
+ qemu-options.hx               |  25 +++
+ scripts/meson-buildoptions.sh |   1 +
+ 15 files changed, 1044 insertions(+), 6 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
+
+
 
 
