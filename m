@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42F452B29A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 08:49:34 +0200 (CEST)
-Received: from localhost ([::1]:45870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D6E52B2C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 09:08:05 +0200 (CEST)
+Received: from localhost ([::1]:50280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrDUz-0006Wy-LM
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 02:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
+	id 1nrDmu-0002tN-4m
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 03:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1nrDKg-0002H5-Ux
- for qemu-devel@nongnu.org; Wed, 18 May 2022 02:39:04 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:41413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1nrDKe-0007h1-81
- for qemu-devel@nongnu.org; Wed, 18 May 2022 02:38:54 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2ebf4b91212so13656977b3.8
- for <qemu-devel@nongnu.org>; Tue, 17 May 2022 23:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dTW8eraBVxpmYsGNcjAJZmD5qCizZxUHHqabUGjRha8=;
- b=fLBhwm4IG//4zdcK9/RTVPGdIcne1+2LMdtBLKW6YcfGGEVMPHvnGmfNz0MGeV7plp
- f8oCmYX+MFm2p6iwn1IdTht0q/Nvkny75go5l1FbBvgVdentB3xJF9hYo/OTMjlBUWh1
- 1VMjgDQ/70/MClg6v2B8PLcOnQ2nxEsABj1a4=
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrDjf-00013n-Uw
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 03:04:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrDjd-0002tg-Dg
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 03:04:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652857479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0yiFaXDCP5wKN1MiwBs4YIKWzPgHtP+zH0l+eopp/dU=;
+ b=gJCLI47YKaBHbRee4QNx+Rwa+Gjk7+94z/TiNMLD/tM1nQsMjyb7ZdDZLg0sz67Gh0rbPO
+ uEFRMUNPCeZ9hSMNIv9ZOFs+4fwoaNC1Z3dwy06jJ8Fhbs0Itv9YjG6YxI3E6Ke8vjGs5s
+ NjlspDSC8p6gO5vGYyhrq9TlnEU1j9A=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-62-26-xKHRBPW2RrJIPCCkOrQ-1; Wed, 18 May 2022 03:04:38 -0400
+X-MC-Unique: 26-xKHRBPW2RrJIPCCkOrQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m186-20020a1c26c3000000b003943e12185dso505824wmm.7
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 00:04:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dTW8eraBVxpmYsGNcjAJZmD5qCizZxUHHqabUGjRha8=;
- b=IM3luLsW9GHkr8MWw8el96OI11nekcvkS8XtwwudJJbxujCXUGvw04lqNXsNHs0hfX
- WqCvD4vYvgD9QBEIHkT6QA7aP6yQH5qYV5MSaO5bu5nzeXTSe3mDIyK4ROc3/UzMZkqz
- FeB0tG/S76okXaC8dfNyhfUCl6Bq2WvwA0/3p0+hvBbdY5O8kEr5T6wRYUtDOvaaKC0G
- YVSzLiLnk4U1fx0cOuM+1Ww7gK1LiKos2a4/0bnWCjUJkXuSTokAjuLHoaulZFXqkpa+
- ipSSzNxYXgFh7QjZGcCVnZ2ckqTnYvega7Y/K9ZM5fWB4LjuiJQjAqFioS5wNs1nYMnJ
- Kcbw==
-X-Gm-Message-State: AOAM5304KhfpCaW3sE4Rj8M+F5QV/NZpcF9Yo9SsnkvZncL1OJEqs2el
- 6vyjzD0lgeUlJ8ufMwhvOv8td+6ipEvdJXXUW//z
-X-Google-Smtp-Source: ABdhPJxQ3Iqtsqfvz/i02B4yfZF4XJupSjFshGRybEb/AiO9huUohfWehFFbiTZJ2mdZLYyHA58Mi87/sy5alIhowzc=
-X-Received: by 2002:a0d:e88c:0:b0:2fe:da96:1b77 with SMTP id
- r134-20020a0de88c000000b002feda961b77mr19438917ywe.262.1652855929928; Tue, 17
- May 2022 23:38:49 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0yiFaXDCP5wKN1MiwBs4YIKWzPgHtP+zH0l+eopp/dU=;
+ b=XiE7fdBaflFO+fBbylvTopAz6zy1uQJ5r5KtD8iWUF+GsfjVGE8WNui46mL8VirXys
+ p7XEkAO2GQZSYg5epNn2NqBK0npMzJio8h7iTXKd0UrPtBsvEKdB6O6/xsrnmx90qT/W
+ QLvy7Y8JLWfEpR+Q1wB+xaXXqeHH5nQAoiQnsG3ppfHxtyL9yYnTr0cjhMBArUY+oS1N
+ ky5fw9CkQnZfqmkUi9rpTfeAIrs0BZkl8+2GuNKY6Uw4InhLcqPly5SyFj6g8tVw2vIY
+ NMOTR/ZtZDxxubziG/9Ajimc3KOrP7r2Wu2tyH+qtd0C7QQmek+0LDlu07Z3W2bQmeir
+ WQSg==
+X-Gm-Message-State: AOAM533nRg/P2xrJovUdhQnrQwda1sqNqSflSt/omagD/h5gDTeTNnDf
+ JM/pS8043s3tNldykBXjDNQpRiCKLAxu88BteErlGG4b7r7V0cy0iYJs+DgtwCRbiQFto9BqKPC
+ T4afM5SRLkifsZK0=
+X-Received: by 2002:a05:6000:1786:b0:20e:6267:5700 with SMTP id
+ e6-20020a056000178600b0020e62675700mr514417wrg.600.1652857476798; 
+ Wed, 18 May 2022 00:04:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/rtoWy+F9CEUGChUVkEpnVnsUM7j+fffv97zva5NdEM5CGTb5zaFr+SOiNO1AeGIReHz5zw==
+X-Received: by 2002:a05:6000:1786:b0:20e:6267:5700 with SMTP id
+ e6-20020a056000178600b0020e62675700mr514404wrg.600.1652857476525; 
+ Wed, 18 May 2022 00:04:36 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ t17-20020adfa2d1000000b0020cf071a168sm1133236wra.29.2022.05.18.00.04.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 00:04:36 -0700 (PDT)
+Message-ID: <ed9a8e2d-77e1-1f75-11d6-5f06488b2e98@redhat.com>
+Date: Wed, 18 May 2022 09:04:35 +0200
 MIME-Version: 1.0
-References: <Yl7oiF7kUrIQ0qk5@redhat.com>
- <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
- <CAOnJCUK9_qzOLr3GVdFTP95rs3avNE=7E2R27dADkMMsOhnGEQ@mail.gmail.com>
- <CAKmqyKPy=abr_m_YSA2v-rVN8TdnsFX8uzUOpp0BpJkGj9yXMQ@mail.gmail.com>
- <YnOhHZGJphk30SmJ@redhat.com>
- <CAKmqyKMKxb81ZSpz-ncGc3fpt8f06EcEcXvtHjEpWLABXGT+uQ@mail.gmail.com>
- <YnTZP1iG+77Cugaq@redhat.com>
- <CAFEAcA_MncAJWUqG3yRVGMT0mXKvnBUqJLdoHwMdd=OW8fnodQ@mail.gmail.com>
- <CAHBxVyH=7hX5mjWcUBODk_tNHoczefdkfS8dFcf6is=vpz=SZw@mail.gmail.com>
- <CAKmqyKPK_F7Z4-tM9k8+3yXDdSTSFagieH23vqoW+TciXpnYqA@mail.gmail.com>
- <YoNiPw/3e+CY0v7o@redhat.com>
- <CAKmqyKOC0Fgu7WUXRcAJZNmVR8GeiXHGh4K8fg+5_c+pvZR_7w@mail.gmail.com>
-In-Reply-To: <CAKmqyKOC0Fgu7WUXRcAJZNmVR8GeiXHGh4K8fg+5_c+pvZR_7w@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Tue, 17 May 2022 23:38:39 -0700
-Message-ID: <CAOnJCU+i3m5OjM-wBf+t58YP9k5Jd0VeBK_yoPSPtzoE68H2EQ@mail.gmail.com>
-Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
-To: Alistair Francis <alistair23@gmail.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Atish Kumar Patra <atishp@rivosinc.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=atishp@atishpatra.org; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] docs/devel: Fix broken internal link to mailing lists
+Content-Language: en-US
+To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
+References: <20220315155426.659426-1-kchamart@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220315155426.659426-1-kchamart@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,144 +99,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 1:54 PM Alistair Francis <alistair23@gmail.com> wro=
-te:
->
-> On Tue, May 17, 2022 at 6:52 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
-com> wrote:
-> >
-> > On Tue, May 17, 2022 at 03:03:38PM +1000, Alistair Francis wrote:
-> > > On Sat, May 7, 2022 at 6:30 AM Atish Kumar Patra <atishp@rivosinc.com=
-> wrote:
-> > > >
-> > > > On Fri, May 6, 2022 at 4:00 AM Peter Maydell <peter.maydell@linaro.=
-org> wrote:
-> > > > >
-> > > > > On Fri, 6 May 2022 at 09:18, Daniel P. Berrang=C3=A9 <berrange@re=
-dhat.com> wrote:
-> > > > > >
-> > > > > > On Fri, May 06, 2022 at 06:34:47AM +1000, Alistair Francis wrot=
-e:
-> > > > > > > Even if we didn't worry about backwards compatibility the cur=
-rent virt
-> > > > > > > machine would still be what most users want. It's just a smal=
-l number
-> > > > > > > of users who don't want MMIO devices and instead want to use =
-PCIe for
-> > > > > > > everything. Realistically it's only HPC users who would want =
-this type
-> > > > > > > of machine, at least that's my understanding.
-> > > > > >
-> > > > > > I'm not so sure about that. Every other architecture has ended =
-up
-> > > > > > standardizing on PCI for general purpose virtual machines. IIRC=
-,
-> > > > > > aarch64 started off with MMIO, but switched to PCI as it mature=
-d.
-> > > > > >
-> > > > > > In terms of having VM mgmt tools "just work" for risc-v, I thin=
-k
-> > > > > > it will be very compelling for the general 'virt' machine to be
-> > > > > > PCI based, otherwise all the assumptions about PCI in mgmt apps
-> > > > > > are going to break requiring never ending riscv fixes.
-> > > > >
-> > > > > Mmm, my experience with aarch64 virt is that PCI is much nicer
-> > > > > as a general preference. aarch64 virt has some MMIO devices
-> > > > > for historical reasons and some because you can't reasonably
-> > > > > do the necessary things with PCI, but I'm actively trying to
-> > > > > push people who submit new MMIO device features for virt to
-> > > > > try to use a PCI-based solution instead if they possibly can.
-> > >
-> > > Interesting...
-> > >
-> > > Ok, maybe calling this "virt-pcie" might be a good start, with the
-> > > expectation to eventually replace the current virt with the new
-> > > virt-pcie at some point.
-> >
-> > Delaying the inevitable by leaving PCIE support in a separate
-> > machine type initially is going to be more painful long term.
-> >
-> > > The other option would be to try and gradually change from the curren=
-t
-> > > virt machine to this new virt machine
-> >
-> > Yes, I really think the 'virt' machine type needs to aim for PCIE
-> > support sooner rather than later, if RISC-V wants to get on part
-> > with other architectures. The best time to have added PCIE support
-> > to 'virt' was when it was first created, the next best time is now.
->
-> So maybe instead we lock in the current virt machine as the 7.1 virt
-> machine for QEMU 7.1, then work on migrating to a PCIe only machine
-> with versions (similar to the other archs)
->
+On 15/03/2022 16.54, Kashyap Chamarthy wrote:
+> Missed this during the initial conversion.
+> 
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+> This patch should be merged on top of this[1].  Otherwise Sphinx will
+> complain (correctly so).
+> 
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03488.html
+>      -- docs: rSTify MailingLists wiki; move it to QEMU Git
+> 
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>   docs/devel/submitting-a-patch.rst | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
+> index e51259eb9c..3632b74585 100644
+> --- a/docs/devel/submitting-a-patch.rst
+> +++ b/docs/devel/submitting-a-patch.rst
+> @@ -18,13 +18,13 @@ one-shot fix, the bare minimum we ask is that:
+>      <http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__
+>      policy.) ``git commit -s`` or ``git format-patch -s`` will add one.
+>   -  All contributions to QEMU must be **sent as patches** to the
+> -   qemu-devel `mailing list <MailingLists>`__. Patch contributions
 
-I am not quite sure what exactly you mean here. Do you mean to modify
-the current virt
-machine to be PCIE only after QEMU 7.1 or the new PCIE only machine
-(with the versioning)
-which will be the default machine in the future
+  Hi Kashyap!
 
-If you intend to say the former, few issues with that approach.
+This still seems to be broken - did you ever respin the other patches? (I 
+was not able to spot a v3 of the series...?)
 
-1. virt machine is not well documented and already bloated. There is
-no specification for virt machine as such.
-Putting restrictions after a certain release will lead to confusion.
-2. Do we support existing MMIO devices after that specific version or not ?
-3. The user has to be aware of which version of virt machine it is
-running in order to test specific features (i.e. flash, reset, wired
-interrupts)
-4. Based on the version of the virt machine, the command line options
-will change. This may also be confusing.
+  Thomas
 
-On the other hand, the second approach will be much cleaner without
-any baggage. The RISC-V eco-system is still maturing and this is the
-right time
-to start something fresh. Let's call the new machine virt-pcie for
-now. Here are a few things that can be implemented for this machine.
-
-1. It must support versioning and any changes to the machine code must
-modify the version of the machine.
-2. It must only support MSI based PCIe devices. No support for wired interr=
-upts.
-    The only allowed MMIO devices are
-           -- mtimer/mtimecmp (there is no other option provided in ISA)
-           -- reset/rtc device (If there is a way we can emulate these
-two over PCIe, that would be great)
-           -- flash
-Beyond this, adding any other MMIO device must be strongly discouraged.
-3. The virt-pcie machine must be well documented similar to a hardware
-specification (including address range, restrictions and
-implemented/allowed devices)
-4. No dependence on virtio framework but must work with virtio-pcie backend=
-.
-5. Migration must be supported.
-6. No command line option is required.
-7. Any other ?
-
-Once we have these policies in place, this can be the preferred virt
-machine and the current virt machine can be phased out or continue to
-co-exist
-as a more flexible experimental platform.
-
-Thoughts ?
-
-> Alistair
->
-> >
-> > With regards,
-> > Daniel
-> > --
-> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
-ange :|
-> > |: https://libvirt.org         -o-            https://fstop138.berrange=
-.com :|
-> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
-ange :|
-> >
-
-
-
---=20
-Regards,
-Atish
 
