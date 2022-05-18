@@ -2,100 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD3A52B375
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 09:38:00 +0200 (CEST)
-Received: from localhost ([::1]:34772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98FC52B379
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 09:38:42 +0200 (CEST)
+Received: from localhost ([::1]:35994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrEFr-0005SU-8p
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 03:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35246)
+	id 1nrEGX-0006PU-Qm
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 03:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rashmica@linux.ibm.com>)
- id 1nrE9Z-0003Sy-5d; Wed, 18 May 2022 03:31:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60574)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrECJ-0004Tl-Jg
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 03:34:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rashmica@linux.ibm.com>)
- id 1nrE9X-00076d-El; Wed, 18 May 2022 03:31:28 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24I7FOBk006079;
- Wed, 18 May 2022 07:31:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=nG4yATrqnYqilm8hyRGpGI8AKiQ9P9la4p2SFy4Q9Go=;
- b=iSbI9j9F6UB7y0gKDYFxhEi8WajN0CtD2jRoYMMeUQln869dOFJ9VFxUvPXGGx+BwOCv
- bfhM9G5Hrj8jFLDmGBvylny1IVSZ9twqPQIr3Z5Fv8cJE/GUrgOzZYI4d1L+1eucFKYP
- EQe2M+yPWN9/hBsHvDV+kcxq9qU3ShZQ+by1RGlBnP5dQFJJOBUI+r6RYhm/Au6H94MX
- T2S6nwicr+/7QhTJ83RiX5p5vZutALOhIgEpwD5nNOm89LFt6uVZG47rCHYyjpgZ7N/E
- kn4pJH9U4eZHIxyJ/T36jIJ3Eqyf3k76wgxIpOImAk0RejFa7QHcnGs2MuZxwfE74q/J 1w== 
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g4v8j89pb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 May 2022 07:31:18 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24I7IMZr003113;
- Wed, 18 May 2022 07:31:17 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 3g4j3ggg54-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 May 2022 07:31:16 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24I7VElY42140014
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 May 2022 07:31:14 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8439EA4060;
- Wed, 18 May 2022 07:31:14 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2BAC3A4054;
- Wed, 18 May 2022 07:31:14 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 18 May 2022 07:31:14 +0000 (GMT)
-Received: from [9.43.194.236] (unknown [9.43.194.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 8830C60306;
- Wed, 18 May 2022 17:31:08 +1000 (AEST)
-Message-ID: <09776fe6d855338ace01e57dc780c107b8f635bf.camel@linux.ibm.com>
-Subject: Re: [PATCH] hw/gpio/aspeed_gpio: Fix QOM pin property
-From: Rashmica Gupta <rashmica@linux.ibm.com>
-To: Peter Delevoryas <pdel@fb.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org, andrew@aj.id.au
-Date: Wed, 18 May 2022 17:31:05 +1000
-In-Reply-To: <20220502080827.244815-1-pdel@fb.com>
-References: <20220502080827.244815-1-pdel@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrECG-0007Sd-Hy
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 03:34:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652859254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7PB0t2G5bXN3J+uguqk6tHGGQcyiTou/PJtO0ezU3R8=;
+ b=JcSp2W41U7v++GSdehHCRalVww0SxmP9po8VrrCXsJ6jkBzfjB4ZvUtQVmrySJPwVsU/Lw
+ KX0KwqqLZP0QNvNmDLyfEvLOcNMNzAGMABLaqImagbDnzlRUvqurY+VdvhobpmLDISZCBt
+ N7jJBLmH93cBEGYEYh2NREA/7A7XEY8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-21-NiFc7pLmO4iVYW1wffVHBg-1; Wed, 18 May 2022 03:34:13 -0400
+X-MC-Unique: NiFc7pLmO4iVYW1wffVHBg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d7-20020adfef87000000b0020e621f932aso234009wro.18
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 00:34:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7PB0t2G5bXN3J+uguqk6tHGGQcyiTou/PJtO0ezU3R8=;
+ b=W89lJoxxTAcqivlXmZa3zHcUyWiIOIwl8dDO+94WU5LyespFrUA2lTQe+UgorgcQmj
+ EgaX4WpmGcJYHgLUPLkVNCFSn6E8wAygRud7AJOAUClMfny0rNObBigBPAwSrgP2wlOo
+ RmgEdsvk0YsrNrmW2Is2GEaga/l0+E/FoY88xxUytIzZrmCcfb36hJ1jtaz+30WXiKYI
+ 5h5C8d6vrZ6HDD6aiqsJxz2vJkci4QQsZQ75yDxnlSipkMJC/tHdhXii21IovJTrwnXP
+ JJZ/6dSt9o4O02pb4cFO/9TpijnVLTKHsm9hDtwCJ5BCaPnwInGnTYfxYkt5n/nc0n5/
+ LrvQ==
+X-Gm-Message-State: AOAM533+HKAas3ybFt+7VCG5T4Ubk8gJrhAkd3Pv287+z6f9JY7L0bdC
+ sQ7Q2JxTYIDv9Yot5Idd3fRH+8/Mwdgo5KSGPCwrS8IwFmKQqP4bVzCj3b6TAVtiLohfG+afc4L
+ 30McKM2Rrmv05+GE=
+X-Received: by 2002:a05:6000:10d0:b0:20d:7d3:9972 with SMTP id
+ b16-20020a05600010d000b0020d07d39972mr12486234wrx.554.1652859252419; 
+ Wed, 18 May 2022 00:34:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdWYaQZmeDaOWeps1YnvJbivxt0TYRP2yAPVOIwJnub76DG6vjgwIb9jojkdOeQ9ruUzAzSg==
+X-Received: by 2002:a05:6000:10d0:b0:20d:7d3:9972 with SMTP id
+ b16-20020a05600010d000b0020d07d39972mr12486213wrx.554.1652859252171; 
+ Wed, 18 May 2022 00:34:12 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ c13-20020adfc04d000000b0020d0351dbb6sm1168716wrf.80.2022.05.18.00.34.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 00:34:11 -0700 (PDT)
+Message-ID: <d050c8cd-d3b9-46da-ba89-398702a0a6eb@redhat.com>
+Date: Wed, 18 May 2022 09:34:10 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [RFC PATCH] tests/qtest: pass stdout/stderr down to subtests
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220407150042.2338562-1-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220407150042.2338562-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: R27sTud5ZmKu7pKE7M85kK8QJJWHIVzE
-X-Proofpoint-ORIG-GUID: R27sTud5ZmKu7pKE7M85kK8QJJWHIVzE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-18_02,2022-05-17_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- priorityscore=1501 spamscore=0 adultscore=0 mlxscore=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 impostorscore=0
- mlxlogscore=640 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2202240000 definitions=main-2205180036
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=rashmica@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,37 +103,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2022-05-02 at 01:08 -0700, Peter Delevoryas wrote:
-> I was setting gpioV4-7 to "1110" using the QOM pin property handler
-> and
-> noticed that lowering gpioV7 was inadvertently lowering gpioV4-6 too.
+On 07/04/2022 17.00, Alex Bennée wrote:
+> When trying to work out what the virtio-net-tests where doing it was
+> hard because the g_test_trap_subprocess redirects all output to
+> /dev/null. Lift this restriction by using the appropriate flags so you
+> can see something similar to what the vhost-user-blk tests show when
+> running.
 > 
->     (qemu) qom-set /machine/soc/gpio gpioV4 true
->     (qemu) qom-set /machine/soc/gpio gpioV5 true
->     (qemu) qom-set /machine/soc/gpio gpioV6 true
->     (qemu) qom-get /machine/soc/gpio gpioV4
->     true
->     (qemu) qom-set /machine/soc/gpio gpioV7 false
->     (qemu) qom-get /machine/soc/gpio gpioV4
->     false
+> While we are at it remove the g_test_verbose() check so we always show
+> how the QEMU is run.
 > 
-> An expression in aspeed_gpio_set_pin_level was using a logical NOT
-> operator instead of a bitwise NOT operator:
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   tests/qtest/qos-test.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
 > 
->     value &= !pin_mask;
-> 
-> The original author probably intended to make a bitwise NOT
-> expression
-> "~", but mistakenly used a logical NOT operator "!" instead. Some
-> programming languages like Rust use "!" for both purposes.
-> 
-> Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for
-> AST2400 and
-> AST2500")
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+> index f97d0a08fd..c6c196cc95 100644
+> --- a/tests/qtest/qos-test.c
+> +++ b/tests/qtest/qos-test.c
+> @@ -89,9 +89,7 @@ static void qos_set_machines_devices_available(void)
+>   
+>   static void restart_qemu_or_continue(char *path)
+>   {
+> -    if (g_test_verbose()) {
+> -        qos_printf("Run QEMU with: '%s'\n", path);
+> -    }
+> +    qos_printf("Run QEMU with: '%s'\n", path);
 
+I think I'd rather drop this hunk since it breaks the usual output of the 
+qtests. And adding a --verbose when running the test isn't that hard either, 
+is it?
 
-Oops! Thanks for catching this. The tests look good.
-
+  Thomas
 
 
