@@ -2,74 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAC552BFB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:16:03 +0200 (CEST)
-Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E10852BFBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:20:58 +0200 (CEST)
+Received: from localhost ([::1]:58438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrMLC-0000La-3u
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47246)
+	id 1nrMPv-0005Pd-CQ
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMJg-0007hX-3n
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:14:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31361)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1nrMM3-0002B8-U8
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:16:56 -0400
+Received: from mail-bn8nam12on20623.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::623]:63073
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMJd-0003fO-Ag
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:14:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652890464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q+yYQY6l/NKa8F1avtShOeI5sI1I6xz6me+sODcMwZg=;
- b=BBwucwJuMcWEQ8GBUp1tQtRYBqtG4u9dYBrgLtSOMFShN/F7/wVscIEA3+3zcvsbQ332uW
- hrcoBqTnX+BXimk0ZXw0nBir1t1x56h/LDUroLK5uhg79PrNy+uarA5fT6tpqaES83rmYe
- pwKh/VW75gFU+FNC0+JoVTghJZTUqxo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-3IogRAxhNZmJsckKTWf0lw-1; Wed, 18 May 2022 12:14:20 -0400
-X-MC-Unique: 3IogRAxhNZmJsckKTWf0lw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C13AE296A607;
- Wed, 18 May 2022 16:14:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DBEEC15E71;
- Wed, 18 May 2022 16:14:18 +0000 (UTC)
-Date: Wed, 18 May 2022 18:14:17 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Message-ID: <YoUbWYfl0Bft3LiU@redhat.com>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
- <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
- <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
- <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1nrMM1-0004EW-7v
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:16:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y+1vmHGOhEAIUZVH8zTkGIhyzldz/Hyta3xP8bGE3tdC8NhfeA9CgrGW1daLrtVtbhQJFM0KVKZJChsxAoh2msn2OzGUTpuDg0z4hC5BIrkXLEL0XWMu3o3l7Ki/rJCpUPutLKuvy2PFOMPzksdXynXJu7wunQevMctxfngm27ksdnnIDdScofYhVuUx0tYnfCQdIOdbxKBNgJuQskxqZJsxZloJ6d7jg5Q44V0a+EAsxmdqA/60GZKs1WtI1smRgKHIY1cectYwXqSD4B0faEsFu3GmJCvC0GAcGcMWVlROuMl+hKsHYV11tL9ZERfHPg+MixNYYMey7v0VOfRvmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lojoDlHA6VMQeUVm2dhI782J2Eolzd2hOOR8FEmoojo=;
+ b=Py/uQzPTia/FNdpDfcaRp+74fFAzI2KUBpU4rSrV+qC/xeaN+qZLYH7gu8KlFof+q9u1wymx/YyyD9vlIYJdjEkz9Kr746qwk9JwRLFncPn7LmOQgYCP2U1JoFHZs3FhmwemmveWnEnSOvKjUErWqkQfdGFQmz5JcmMpgRZp7+qc/gKMnUaFQSPISM69Pfrgf3ajRdgajklZFJK8r7jgERIomAAU7U95auaH2izP3pij0FB1f+7rH4KBNhaJCoTtG+NptzlQ1zInys7ZPwqVjDgHtP4nOltNoPX2zR+s3Lflks7t06dP3+J/KejuntR1IRpGLgqDK2SENXX3hRynBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lojoDlHA6VMQeUVm2dhI782J2Eolzd2hOOR8FEmoojo=;
+ b=PijxFuTjsrQKTQTF2wAxWCcmQI3fZpbm2JZshigcGYb69XJib/K9M6vE++LuigjsgxuGVxGBMfSjxQt9Or6s0uVwvZ2fldfr87f49lm7eWUbkAwXvIkf2IQk8e3Wb9RWGT7UlmJt67yiStjt9GwCNtsyJiY3mXDN7DI/0hf2liiadpDJllhd9fEjUzLxCIKf1om4UK+igYfrbfafUfBLHfsYPqBROcpz0llhS175M2/g1L/u27HVI2kHt/XCSM5XeRPe3CYJ5ZPV7siO4dOq6OASBFNvcYPZtXDwceWCSXIfHqJjJK+Vrk9X0Zwj0aXMXgqlkJyX95FcNiUi60WsYw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by CH2PR12MB4873.namprd12.prod.outlook.com (2603:10b6:610:63::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.15; Wed, 18 May
+ 2022 16:16:49 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2%7]) with mapi id 15.20.5273.014; Wed, 18 May 2022
+ 16:16:49 +0000
+Date: Wed, 18 May 2022 13:16:48 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Avihai Horon <avihaih@nvidia.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 5/9] migration/qemu-file: Add qemu_file_get_to_fd()
+Message-ID: <20220518161648.GO1343366@nvidia.com>
+References: <20220512154320.19697-1-avihaih@nvidia.com>
+ <20220512154320.19697-6-avihaih@nvidia.com>
+ <87czgdsohs.fsf@secure.mitica>
+ <970f0e4c-19bc-6528-2c4c-9cf7fbd5a789@nvidia.com>
+ <87ee0rf43p.fsf@secure.mitica>
+ <20220518154237.GK1343366@nvidia.com> <YoUYGhgILYFIwBvS@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YoUYGhgILYFIwBvS@redhat.com>
+X-ClientProxiedBy: BLAPR03CA0077.namprd03.prod.outlook.com
+ (2603:10b6:208:329::22) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 454b661c-bf30-4b6c-51f5-08da38e9cfb7
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4873:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB48735C4256141FC14D034DFAC2D19@CH2PR12MB4873.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: O8xOZJmJa1aSGeqEMVWIhWvZGEMtvg0cQt9MMtW3erJjvY//wiODnJWiebYNu5rDAmxLwEezyw2LSrMNyu092uSBJwbLwQsKbVBf7UFRgDwgLTPjJt2GIgikDkB3XAcGXzfe4kqAvBOtXt86XVo6g/IY6O8ND0P9/DKhBeMcEa7jkXpprsyqvLfAL0mLrua6jDSnD3kkZ4QruTR7d3bF17gGz7NzPYeZO9DvB8NKzT2Q39B5ZbonIcwh1R5SihiazaOzHE7CnPX0LCMq2QKaQHeNxslrDYFYgcMOOh00gNb3mvPRTL47sFe0yPJJV45zYtxounjWeCwTf//AWnAclZObcEj/Qt4a1CffsXFIGjmJ4U+PP5O0ivHUWHT30W1uaOTxRH9fmUDqQ7TAFGbSCBzJ42+OL0DYl56J8XOYejlfqWLjcVvH/Orkn1bOv7hhQGMqTF2ELmOYhtYR36H8mFprIb5+OBrrRopjWmKwhnNFOSBLXcOEa1BTbwe7QMnYrUsnxA0o6hL8+nsS6dBGinoy4ytTWrMja8pLsJWSnBoSJQg/PPZ5zROH86uYSBOOCRzlrgrgFAmWKbUNnCuusm9oVjAywDT9R3WBD4C9QV89/jupKDQ/ktZ7VR1lRM0vvRoFj5QWBalSddeao2Y8jQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(107886003)(316002)(54906003)(1076003)(36756003)(2616005)(186003)(6512007)(83380400001)(26005)(6506007)(86362001)(6486002)(66476007)(2906002)(66946007)(4326008)(8676002)(66556008)(38100700002)(33656002)(6916009)(508600001)(8936002)(5660300002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1dXelVReFhZODVHem5JdUhDVi9rZWJYZ0hHdm1hM3RhSjV6c1Y0NCtUanY0?=
+ =?utf-8?B?K3AyY1J2MTNpRU15V0ZzUmVybk5FRElhcmdTdkg1akUwRWxiMittNU4vSW1V?=
+ =?utf-8?B?RkFIc2tDZmQ5dkQrWVRiNGd2a0Y3blp0MWtqR3J2ck1PTFJiZGdYT04xMEJ2?=
+ =?utf-8?B?Vyt2dVlOS0hVTnE4RHB6czVneEhsUVZ2K2dTWUpkQUI1eStWcEhyVE04dVlQ?=
+ =?utf-8?B?Sk9XUENpSllMK2lvc0Q4aXhvbUFxRGtoTXVvdnhzRWEzZ3pQWW1xcWpLMUZW?=
+ =?utf-8?B?eVVHait6aVJMSFVMZkk0VkhIVUxTVk90VzRoc2VjQnNDa3U5Q2doa3pkdXRB?=
+ =?utf-8?B?aTV6MWErNW9PR3Y1R3d2bWZhSFdTUVBwY0NQcjhsM0FYWTBHSEVNZTU4dys4?=
+ =?utf-8?B?RHNpVzh1M1I1aXFDSzhKRkFBVjdWcGxnNzFBYlQrZlo2cTZtTjB5TnhlL3pH?=
+ =?utf-8?B?bGp2c0Rnc3pzenRjU012emswNXdVdHVUQm1ZVnpUbG9kTTVkb3ZEYUVvaHhs?=
+ =?utf-8?B?QldCalQwaHF5bEh5aEFudWdralc4WXZXUUV4NkpNQnVEelZtVkpkMGd4V25h?=
+ =?utf-8?B?cU5BeXh4dFd1alhDM0hKek5vSkFwczZ2N3pzSFkyUGpsZFZkTE5PM0tuVFkz?=
+ =?utf-8?B?VXdOQVBLUCsxUWxqei9wc3NBbUpwd0hkdGFtSWpLY1lwY2p2SEhodG42U21Q?=
+ =?utf-8?B?UGhSRjQ4aHh2bWJBYytKSVFzR1VGNFNvTHIvU280SlRZc2NpZFlHWERKTFpK?=
+ =?utf-8?B?aFVGanNidm1pTE5uaHBaNFBTNlpZQWFLSHFXZGt1QjRqMVduL0lyZHZMdExo?=
+ =?utf-8?B?UVFkN2Rzd3BlaFFxVms2bjVLSmw3blNzc013SjRUdGlaVHQxUzd5QitBUHRE?=
+ =?utf-8?B?R2pKYUVEWjA5RmJWZHRtM2QxVDJZZDErVm5hRW05U2NuUFhsOUNwYzZ1MTkx?=
+ =?utf-8?B?NzNFR3VyRjVSbGgyaCsxVGlTdktob2dCVjJjMlVQeWRaNFhVSmtpUE9hcjM1?=
+ =?utf-8?B?L2tpanRNNjhrVEluT1E1ZEJQeE4vWHlXc3lBRWRwVndKVU95bVZRRmpGVmpu?=
+ =?utf-8?B?VzBZNkpsc25DL2RwMTdLZWdIalpJdTZyTW8rc3V2dk1YeXNWR3dtRXJkV0Fh?=
+ =?utf-8?B?MUZuUDVxZm4yWVA0N0hrWWJnUHhkOXROcE1VTmh1Y3NZWHBsU05pdjJTdVgy?=
+ =?utf-8?B?VzZiYkU5cG0wQU5kRGJ1RFRKTlFpTkxlNlhaMEpWWHZ0aXh2d2NoSFdwbWhU?=
+ =?utf-8?B?U2FOYzlnR0cycWpMQUU5WTJwVGZ0YTVpQWtERkpXNVFXcmgvb0g2ZURGMzR0?=
+ =?utf-8?B?cGJkaGpKeWlKL2hQU21YbzNWMitLZ3VYbmVOelVyeTl6aTYvM05nVXlJOEVI?=
+ =?utf-8?B?c2VRQ2t0RGJMWGNySldtRU9YdWtkb0cwcTZ5dWJVaHo0VmJtOU5NbTUvcC96?=
+ =?utf-8?B?blpoZ05OdTFDeTJhbEh6WkMrUnFTM1RibVY4Z1NKV1RoWi9nRFpPN00yeG1R?=
+ =?utf-8?B?bnNGQ1dCU1IwblBiTGhjQzRlVlZzWFFtSk1INlFpL0hFVTlEaWtITVl0eHFM?=
+ =?utf-8?B?b0RuOXlGb3dVR2F6bnZDc1A0dGhiUmk3ZTZkVElEenJudktMT2FWdlduK09T?=
+ =?utf-8?B?Q21RNkpERGhlNXEvS2RINjAvRWVWV3c5RFgrWU1vZXNKSlIwczUwaHpkR2d3?=
+ =?utf-8?B?M2tSSGNXS3RwVkgwUVoyU09rVzNJdGUxa1M3WDBsNDEzRFVQRkw5M3MxWXhK?=
+ =?utf-8?B?bHpubmhGQXZiRWlaMVVSME1DSnZlMXpIbHNyRjJ5c2ZaTzVkZm90WkEyUmVN?=
+ =?utf-8?B?RDN1b2NXUXo1N1kvQjZVODh1dE9DMVFKOEhmK3NTVXAvU1k4SlZPZ1YvSzNy?=
+ =?utf-8?B?dVZBcTRlSWdhbHZDME1ZTWsrSVBHS0RLSUVaL1l6QW1KZ2hiSExUc0l0c3RH?=
+ =?utf-8?B?LzRVTVBSTjNmY3djeG52Q3VnYlNBV1lnWTl0bExmdVdLUEd6NmdFbW01aUUy?=
+ =?utf-8?B?cHBIdm1zZER4bk9vMi80V2o2bWw5KzBvbG14N2VyM1FoYU9CN0gzWU9iZnly?=
+ =?utf-8?B?dEVSZ0VyN3hhUHpWNUhpRXo0Ym1MTWxWT0w0azRXVG9qaDRpYlVUVG91YWlx?=
+ =?utf-8?B?aGo2OXY3MTJ0R0M1L081WC9FSm5zRjYzMXhIS3hGcEQ3a01WcXNHajQzb0gr?=
+ =?utf-8?B?ejZydEdFZHQ5NDkwbnYxOEdFQ0FtNWYyUTF2WnhXQW1HQnhNY1Fqd2o0dmt3?=
+ =?utf-8?B?aVo2OGg0cUYydjRKa3lYWmhNTk1NUTBDT0dhWE1aWFJTS0J5Q1dISlExMDd1?=
+ =?utf-8?B?Qk9wTGRnR1ZCb2hkb05KNXVVSWo1TjZSQWxmQ2lMUHh2UlRPZ0hWdz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 454b661c-bf30-4b6c-51f5-08da38e9cfb7
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 16:16:49.1185 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wPUyBYmbZnlN0JTfASGfhKVcrozR2rKfRfvbKeaJjWkO8gk0CDkntuO+lGYupgEo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4873
+Received-SPF: softfail client-ip=2a01:111:f400:fe5b::623;
+ envelope-from=jgg@nvidia.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,116 +159,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2022 um 14:43 hat Paolo Bonzini geschrieben:
-> On 5/18/22 14:28, Emanuele Giuseppe Esposito wrote:
-> > For example, all callers of bdrv_open() always take the AioContext lock.
-> > Often it is taken very high in the call stack, but it's always taken.
+On Wed, May 18, 2022 at 05:00:26PM +0100, Daniel P. Berrangé wrote:
+> On Wed, May 18, 2022 at 12:42:37PM -0300, Jason Gunthorpe wrote:
+> > On Wed, May 18, 2022 at 01:54:34PM +0200, Juan Quintela wrote:
+> > 
+> > > >> Is there a really performance difference to just use:
+> > > >>
+> > > >> uint8_t buffer[size];
+> > > >>
+> > > >> qemu_get_buffer(f, buffer, size);
+> > > >> write(fd, buffer, size);
+> > > >>
+> > > >> Or telling it otherwise, what sizes are we talking here?
+> > > >
+> > > > It depends on the device, but It can range from a few MBs to several
+> > > > GBs AFAIK.
+> > > 
+> > > a few MB is ok.
+> > > 
+> > > Several GB on the main migration channel without a single
+> > > header/whatever?
+> > 
+> > IIRC it iterates in multi-megabyte chunks each which gets a header.
+> > 
+> > The chunking size is set by the size of the buffer mmap
+> > 
+> > The overall point is that memcpying GB's is going to be taxing so we
+> > want to eliminate copies on this path, especially copies that result
+> > in more system calls.
+> > 
+> > We are expecting to look into further optimization down the road here
+> > because even this is still too slow.
 > 
-> I think it's actually not a problem of who takes the AioContext lock or
-> where; the requirements are contradictory:
+> Considering the possibility of future optimization, IMHO adding this
+> kind of API at the QEMUFile level is too high. We'd be better pushing
+> the impl down into the QIOChannel API level.
 > 
-> * IO_OR_GS_CODE() functions, when called from coroutine context, expect to
-> be called with the AioContext lock taken (example: bdrv_co_yield_to_drain)
+>    int64_t qio_channel_copy_range(QIOCHannel *srcioc,
+>                                   QIOChannel *tgtioc,
+> 				  size_t len);
 > 
-> * to call these functions with the lock taken, the code has to run in the
-> BDS's home iothread.  Attempts to do otherwise results in deadlocks (the
-> main loop's AIO_WAIT_WHILEs expect progress from the iothread, that cannot
-> happen without releasing the aiocontext lock)
-> 
-> * running the code in the BDS's home iothread is not possible for
-> GLOBAL_STATE_CODE() functions (unless the BDS home iothread is the main
-> thread, but that cannot be guaranteed in general)
-> 
-> > We might suppose that many callbacks are called under drain and in
-> > GLOBAL_STATE, which should be enough, but from our experimentation in
-> > the previous series we saw that currently not everything is under drain,
-> > leaving some operations unprotected (remember assert_graph_writable
-> > temporarily disabled, since drain coverage for bdrv_replace_child_noperm
-> > was not 100%?).
-> > Therefore we need to add more drains. But isn't drain what we decided to
-> > drop at the beginning? Why isn't drain good?
-> 
-> To sum up the patch ordering deadlock that we have right now:
-> 
-> * in some cases, graph manipulations are protected by the AioContext lock
-> 
-> * eliminating the AioContext lock is needed to move callbacks to coroutine
-> contexts (see above for the deadlock scenario)
-> 
-> * moving callbacks to coroutine context is needed by the graph rwlock
-> implementation
-> 
-> On one hand, we cannot protect the graph across manipulations with a graph
-> rwlock without removing the AioContext lock; on the other hand, the
-> AioContext lock is what _right now_ protects the graph.
-> 
-> So I'd rather go back to Emanuele's draining approach.  It may not be
-> beautiful, but it allows progress.  Once that is in place, we can remove the
-> AioContext lock (which mostly protects virtio-blk/virtio-scsi code right
-> now) and reevaluate our next steps.
+> The QIOChannel impl can do pretty much what you showed in the general
+> case, but in special cases it could have the option to offload to the
+> kernel copy_range() syscall to avoid the context sitches.
 
-If we want to use drain for locking, we need to make sure that drain
-actually does the job correctly. I see two major problems with it:
+This is probably something to do down the road when we figure out
+exactly what is best.
 
-The first one is that drain only covers I/O paths, but we need to
-protect against _anything_ touching block nodes. This might mean a
-massive audit and making sure that everything in QEMU that could
-possibly touch a block node is integrated with drain.
+Currently we don't have kernel support for optimized copy_file_range()
+(ie fops splice_read) inside the VFIO drivers so copy_file_range()
+will just fail.
 
-I think Emanuele has argued before that because writes to the graph only
-happen in the main thread and we believe that currently only I/O
-requests are processed in iothreads, this is safe and we don't actually
-need to audit everything.
+I didn't look closely again but IIRC the challenge is that the
+QIOChannel doesn't have a ready large temporary buffer to use for a
+non-splice fallback path.
 
-This is true as long as the assumption holds true (how do we ensure that
-nobody ever introduces non-I/O code touching a block node in an
-iothread?) and as long as the graph writer never yields or polls. I
-think the latter condition is violated today, a random example is that
-adjusting drain counts in bdrv_replace_child_noperm() does poll. Without
-cooperation from all relevant places, the effectively locked code
-section ends right there, even if the drained section continues. Even if
-we can fix this, verifying that the conditions are met everywhere seems
-not trivial.
-
-And that's exactly my second major concern: Even if we manage to
-correctly implement things with drain, I don't see a way to meaningfully
-review it. I just don't know how to verify with some confidence that
-it's actually correct and covering everything that needs to be covered.
-
-Drain is not really a lock. But if you use it as one, the best it can
-provide is advisory locking (callers, inside and outside the block
-layer, need to explicitly support drain instead of having the lock
-applied somewhere in the block layer functions). And even if all
-relevant pieces actually make use of it, it still has an awkward
-interface for locking:
-
-/* Similar to rdlock(), but doesn't wait for writers to finish. It is
- * the callers responsibility to make sure that there are no writers. */
-bdrv_inc_in_flight()
-
-/* Similar to wrlock(). Waits for readers to finish. New readers are not
- * prevented from starting after it returns. Third parties are politely
- * asked not to touch the block node while it is drained. */
-bdrv_drained_begin()
-
-(I think the unlock counterparts actually behave as expected from a real
-lock.)
-
-Having an actual rdlock() (that waits for writers), and using static
-analysis to verify that all relevant places use it (so that wrlock()
-doesn't rely on politely asking third parties to leave the node alone)
-gave me some confidence that we could verify the result.
-
-I'm not sure at all how to achieve the same with the drain interface. In
-theory, it's possible. But it complicates the conditions so much that
-I'm pretty much sure that the review wouldn't only be very time
-consuming, but I would make mistakes during the review, rendering it
-useless.
-
-Maybe throwing some more static analysis on the code can help, not sure.
-It's going to be a bit more complex than with the other approach,
-though.
-
-Kevin
-
+Jason
 
