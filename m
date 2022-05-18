@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A4452BFC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:32:03 +0200 (CEST)
-Received: from localhost ([::1]:52344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A39652BFC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 18:38:45 +0200 (CEST)
+Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrMah-0004wE-2V
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:32:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
+	id 1nrMhA-0007Xh-03
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 12:38:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nrMYK-0003H0-8I
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:29:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40707)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMfq-0006dY-4P
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:37:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nrMYH-0005w7-82
- for qemu-devel@nongnu.org; Wed, 18 May 2022 12:29:34 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrMfn-0007El-LR
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 12:37:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652891371;
+ s=mimecast20190719; t=1652891839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b/LM2p90xHnWmsNJj6VUZVWVMGMUr3RO/bedRD8vods=;
- b=fl0xEB2w27WQr2ieYQTN4LRXtwwWVL8/LLkgCL5K1VBAfojDnlh40qxTXxCSEOAkrqBH+K
- f0VpaiKuFgGG6U69XOwZ648tKiV+RmkrGvGBGoLzDBgIXqoU6wjY4tAGBu3Jk2fF8QgOdl
- TKpTSIFTrwFo+uLHUFrS7eW76aoRayg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oWW1YYkJPEtudh/EsbkaGSxjxEZxjWNE5vEXUbp0UnE=;
+ b=ALp/H4EElx6JtG9h9jtlG3Ap4bKIGuYaUjHFmJucmcUmW1ddqkzon6y4S5oktSf6Wyw0TO
+ lLVeDbf+pjrfujrIQspCiH/MPUgW31GG1xvApPpdf6gB0kjei12xyBSw2qLbNPI/PlS63t
+ xNVoVnJ2OsymR2SFmvd3I1q7gbuyvtw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-407-ojgUsF1gPGSqNdh-bslMIg-1; Wed, 18 May 2022 12:29:30 -0400
-X-MC-Unique: ojgUsF1gPGSqNdh-bslMIg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- u3-20020a05600c210300b0039430c7665eso972750wml.2
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 09:29:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=b/LM2p90xHnWmsNJj6VUZVWVMGMUr3RO/bedRD8vods=;
- b=dzv4djPcSmISsK2jXq60d18+qJUbt9ct4skschByCrhyWsNvD4wwC99HNYUdovF94y
- epkO8fKh1Z2tmEhpFgk6cEN93eidew4hqyHYEB42vH0Z+rSWZAYPYZKlPhEm/4uoJk88
- iV24ahtiyDbPk7NAXn+WgzafdsessslJUZqynUL0XzDqwmQoBzIfH4+qhSDWYWbEo2eB
- 9/rRNQdow4gZgHJzhvCpJ+SlBFIu2pzqI5nYUVyun9nHgQFPbGPzdQOX7ISJN5Z/yh58
- 22VYRB2thcMww/krio5EqiLZkSAN2eJZuWZr0JYawctQ6bV8O5bNDZmS/Khrere1pMZG
- txiA==
-X-Gm-Message-State: AOAM530BccTsk/xVXG5Lpv9LopBIuXQnQBngDwScgDaNZBkHHOUh0D5A
- bmtnm4FHSSEWnIIrzEP1lfdjJwUms2xGJ+l1crOJJUBJHoU4iO94u3rVBolIHFFYJegIPOr0IWv
- KkKONmX5LWJT5FJs=
-X-Received: by 2002:a05:6000:184a:b0:20d:bc00:61c6 with SMTP id
- c10-20020a056000184a00b0020dbc0061c6mr421808wri.281.1652891369182; 
- Wed, 18 May 2022 09:29:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1XDvGKB6mIIHZw+FjeIhkQOw3KIp1krtaLnDRyGp2PdgJg/bNAFK1LMUhP0a/EvC069BXRw==
-X-Received: by 2002:a05:6000:184a:b0:20d:bc00:61c6 with SMTP id
- c10-20020a056000184a00b0020dbc0061c6mr421781wri.281.1652891368850; 
- Wed, 18 May 2022 09:29:28 -0700 (PDT)
-Received: from redhat.com ([151.81.230.224]) by smtp.gmail.com with ESMTPSA id
- p11-20020a5d59ab000000b0020e615bab7bsm2340430wrr.7.2022.05.18.09.29.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 May 2022 09:29:28 -0700 (PDT)
-Date: Wed, 18 May 2022 12:29:25 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- ani@anisinha.ca, minyard@acm.org, stefanb@linux.vnet.ibm.com,
- marcandre.lureau@redhat.com
-Subject: Re: [PATCH 28/35] acpi: pvpanic-isa: use
- AcpiDevAmlIfClass:build_dev_aml to provide device's AML
-Message-ID: <20220518122602-mutt-send-email-mst@kernel.org>
-References: <20220516152610.1963435-1-imammedo@redhat.com>
- <20220516152610.1963435-29-imammedo@redhat.com>
- <20220516163547-mutt-send-email-mst@kernel.org>
- <20220517081351.vnx2xryjxason3dd@sirius.home.kraxel.org>
+ us-mta-629-ZaLqQqOlPra1F8_6mqGvdQ-1; Wed, 18 May 2022 12:37:15 -0400
+X-MC-Unique: ZaLqQqOlPra1F8_6mqGvdQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82054100BAA1;
+ Wed, 18 May 2022 16:37:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99CA7492C14;
+ Wed, 18 May 2022 16:37:14 +0000 (UTC)
+Date: Wed, 18 May 2022 18:37:13 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: The fate of iotest 297
+Message-ID: <YoUgufuA8/pjYwTE@redhat.com>
+References: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220517081351.vnx2xryjxason3dd@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,17 +77,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 10:13:51AM +0200, Gerd Hoffmann wrote:
-> That problem isn't new and we already have a bunch of aml_* stubs
-> because of that.  I expect it'll work just fine, at worst we'll
-> have to add a stub or two in case some calls are not covered yet.
+Am 18.05.2022 um 01:28 hat John Snow geschrieben:
+> Hi Kevin,
+> 
+> I remember that you wanted some minimum Niceness threshold in order to
+> agree to me removing iotest 297.
+> 
+> I've already moved it onto GitLab CI in the form of the
+> check-python-pipenv job, but I recall you wanted to be able to run it
+> locally as well before agreeing to axe 297. I remember that you didn't
+> think that running "make check-pipenv" from the python directory was
+> sufficiently Nice enough.
+> 
+> Do you need it to be part of "make check", or are you OK with
+> something like "make check-python" from the build directory?
+> 
+> I have a bit more work to do if you want it to be part of 'make check'
+> (if you happen to have the right packages installed), but it's pretty
+> easy right now to give you a 'make check-python' (where I just
+> forcibly install those packages to the testing venv.)
 
-Right but adding these stubs is a bother, we keep missing some.
-If possible I'd like the solution to be cleaner than the status quo.
-Is adding a wrapper instead of setting a method directly such
-a big problem really?
+Hm, what is the reason for 'make check-python' not being part of 'make
+check'?
 
--- 
-MST
+I'm currently running two things locally, 'make check' (which is the
+generic one that everyone should run) and iotests (for which it is
+reasonable enough that I need to run it separately because it's the
+special thing for my own subsystem).
+
+Now adding a third one 'make check-python' certainly isn't the end of
+the world, but it's not really something that is tied to my subsystem
+any more. Having to run test cases separately for other subsystems
+doesn't really scale for me, so I would prefer not to start doing that.
+I can usually get away with not running the more special tests of other
+subsystems before the pull request because I'm unlikely to break things
+in other subsystems, but Python style warnings are easy to get.
+
+If we're going to have 'make check-python' separate, but CI checks it,
+we'll get pull requests that don't pass it and would then only be caught
+by CI after a long test run, requiring a v2 pull request. I feel for
+something that checks things like style (and will fail frequently on
+code where nobody ran the check before), that's a bit too unfriendly.
+
+Kevin
 
 
