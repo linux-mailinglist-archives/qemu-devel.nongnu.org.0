@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7DA52B5C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:28:45 +0200 (CEST)
-Received: from localhost ([::1]:35942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1C252B66E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 May 2022 11:40:49 +0200 (CEST)
+Received: from localhost ([::1]:48110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrFz1-0003uW-Vy
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57782)
+	id 1nrGAi-0004wy-MA
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 05:40:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nrFsx-0006Gh-P9
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:22:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53666)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nrFtC-0006NH-GM
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:22:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nrFsq-0007DX-5E
- for qemu-devel@nongnu.org; Wed, 18 May 2022 05:22:23 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nrFtA-0007GT-Vb
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 05:22:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652865738;
+ s=mimecast20190719; t=1652865760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TfaAbmHiy1++Qz1AVY6FsYCjFB7+OlfOjASkrUP+BOA=;
- b=MLQ3g0U/liPVt9eFP+t2d5LeCAJhINNrLNQuHj45JM0rTIQDtEKo1PvE5xtSBCZqf55jqC
- I0nbBsOOoBp73R3aDM+X34ltmgnfygWf7cYBaWE680CFssdH2oZdmfJjbMB7Y+DHpVoRka
- 94fg0KACr4BIhLTL2xbmCRJ2bqJJEGI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mCpzA36VPidYPzcte7Ituk/4QkXHoxe3kI1sIEhwYRQ=;
+ b=d5TliaR9zr6RdKrgjOI98RQRAPYNnUDJKLm5OGDX76io8DI8DMIeGqsuqzNu5L6/XRG7iG
+ Mcl4o7F0RCwQWIDIrwns8m5PspGKl9Kv23UBKfN8ohN9ZNrEKWC8cfGtztCFbtCvpKkv6p
+ I7wAiCKrVgtbEi6HfhX9WP0UA8qI+jQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-Yr5bwG4-O1WhP_km6FUHmg-1; Wed, 18 May 2022 05:22:15 -0400
-X-MC-Unique: Yr5bwG4-O1WhP_km6FUHmg-1
+ us-mta-447-BCmoNvqcP8i4ieEuqXrt3Q-1; Wed, 18 May 2022 05:22:36 -0400
+X-MC-Unique: BCmoNvqcP8i4ieEuqXrt3Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E4953802BA2;
- Wed, 18 May 2022 09:22:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8E5E3801EC3;
+ Wed, 18 May 2022 09:22:35 +0000 (UTC)
 Received: from gshan.redhat.com (ovpn-12-73.pek2.redhat.com [10.72.12.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52C3E1121314;
- Wed, 18 May 2022 09:21:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24A011121314;
+ Wed, 18 May 2022 09:22:15 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -48,9 +49,11 @@ Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, drjones@redhat.com,
  peter.maydell@linaro.org, berrange@redhat.com, thuth@redhat.com,
  eduardo@habkost.net, lvivier@redhat.com, zhenyzha@redhat.com,
  shan.gavin@gmail.com
-Subject: [PATCH 0/3] hw/acpi/aml-build: Fix {socket, cluster, core} IDs in PPTT
-Date: Wed, 18 May 2022 17:21:38 +0800
-Message-Id: <20220518092141.1050852-1-gshan@redhat.com>
+Subject: [PATCH 1/3] tests/acpi/virt: Allow PPTT ACPI table changes
+Date: Wed, 18 May 2022 17:21:39 +0800
+Message-Id: <20220518092141.1050852-2-gshan@redhat.com>
+In-Reply-To: <20220518092141.1050852-1-gshan@redhat.com>
+References: <20220518092141.1050852-1-gshan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -79,52 +82,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The {socket, cluster, core} IDs detected from Linux guest aren't
-matching with what have been provided in PPTT. The flag used for
-'ACPI Processor ID valid' is missed for {socket, cluster, core}
-nodes. In this case, Linux guest takes the offset between the
-node and PPTT header as the corresponding IDs, as the following
-logs show.
+This allows PPTT ACPI table changes in "tests/data/acpi/virt/PPTT".
 
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64    \
-  -accel kvm -machine virt,gic-version=host -cpu host       \
-  -smp 8,sockets=2,clusters=2,cores=2,threads=1
-    :
-    
-  # cd /sys/devices/system/cpu
-  # for i in `seq 0 15`; do cat cpu$i/topology/physical_package_id; done
-    36  36  36  36  36  36  36  36
-    336 336 336 336 336 336 336 336
-  # for i in `seq 0 15`; do cat cpu$i/topology/cluster_id; done
-    56  56  56  56  196 196 196 196
-    356 356 356 356 496 496 496 496
-  # for i in `seq 0 15`; do cat cpu$i/topology/core_id; done
-    76  76  136 136 216 216 276 276
-    376 376 436 436 516 516 576 576
-
-This fixes the issue by setting 'ACPI Processor ID valid' flag for
-{socket, cluster, core} nodes. With this applied, the IDs are exactly
-what have been provided in PPTT. I also checked the PPTT table on my
-host, where the 'ACPI Processor ID valid' is set for cluster/core nodes,
-but missed from socket nodes.
-
-  host# pwd
-  /sys/devices/system/cpu
-  host# cat cpu0/topology/physical_package_id; \
-        cat cpu0/topology/cluster_id;          \
-        cat cpu0/topology/core_id
-  36 0 0
-
-Gavin Shan (3):
-  tests/acpi/virt: Allow PPTT ACPI table changes
-  hw/acpi/aml-build: Fix {socket, cluster, core} IDs in PPTT
-  tests/acpi/virt: Update PPTT ACPI table
-
- hw/acpi/aml-build.c       |   9 ++++++---
- tests/data/acpi/virt/PPTT | Bin 96 -> 96 bytes
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..cb143a55a6 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/PPTT",
 -- 
 2.23.0
 
