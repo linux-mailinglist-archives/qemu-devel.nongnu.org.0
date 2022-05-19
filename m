@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A882E52CF89
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 11:37:55 +0200 (CEST)
-Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07E852CFAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 11:48:02 +0200 (CEST)
+Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrcbS-0005LO-OT
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 05:37:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42606)
+	id 1nrcl5-0002MT-Nv
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 05:47:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nrcYL-0003qj-FI
- for qemu-devel@nongnu.org; Thu, 19 May 2022 05:34:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nrcYH-0008Ig-Pb
- for qemu-devel@nongnu.org; Thu, 19 May 2022 05:34:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652952876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YMgZzqDwfns9wXBl7jShcl95Pn7mTt8g0jHHZNIRWik=;
- b=RhTJ+50+KXxcXDEF1uT4pAbTyLKx3gkdPyoJoccQkyoyoZw3rNudFaLjTRexycpfHHLOXP
- I+XcjhUQLCXhRapf3BB91yYMdgItP/HX2HnFy5iqWTOqMzsGUovU1LVnKIgKvvxWUtpKt4
- h+e/OzEVOnDhKCunROTBiSy24CUQToU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-b2GSWKVCOYKvZs1xCg6iMA-1; Thu, 19 May 2022 05:34:35 -0400
-X-MC-Unique: b2GSWKVCOYKvZs1xCg6iMA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c62-20020a1c3541000000b0038ec265155fso4256231wma.6
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 02:34:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <usama.arif@bytedance.com>)
+ id 1nrch5-00007T-Kh
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 05:43:43 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <usama.arif@bytedance.com>)
+ id 1nrch0-0001Lh-I5
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 05:43:40 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id r30so6309882wra.13
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 02:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pEZqbUEJ6M24WEXlttAv0nZBg+0XSsUaxOzVKF6KJyM=;
+ b=xPv4pQizbfUazCjma0l3e7FBTMDw1U+ZTPoidjClNTMdbE+6wSJh5FEx9Ym7iimAR8
+ PWsWW7CAdOo+OZIqxeymFv5zib8tt4P4j+0HLApaI3qZwv9GhKUA1Vq/ox0gKMOMSzI/
+ b5g80OdkykxIhgHF+z0Ad1+5shdpROiiInQDZF1lbmJ/N14/MeC2ay9nG9dLIzaw2m4/
+ wTwSZ+bWOgDnbvnl0oJJ5WfFPtQ3xg+CqtSmV5kJnADuLXTlxLhAeURJbL3JuoFalkZO
+ 6J6766S6oiBPWx6dV5owroUq/A2AbDMAx1t+kc1K2wawbHreO1gywl50nZhQ5QcWC6bW
+ Y9Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=YMgZzqDwfns9wXBl7jShcl95Pn7mTt8g0jHHZNIRWik=;
- b=1wA7EAn1fhuBGXrHbJWJfUe3eCS8qaSJRLuyG++8As0251+GUG3r6Rwtn6Y+XXV56b
- jjgYLF85xFlv2z7GDOhBMNZC+9Ey6CYOpRD5CR+RYVCEmFfisgrloRSeGh67Mw9BZGcL
- lTsrU+/BzrmHECTuDCD/xVB3+Yzs6sqy/vk8ongU7rm/jm/TaGqJZwroP2APi6NGQz8F
- f4CtBTVOUZwH/7BVjnup3pQqJH8kgx6JSjTj1t+PY4TbYraC8+BdvRMS69QmM8YlCci6
- nCkV1RmwAgA0iEQNou8fu6uo27f/LtgewVfu68c4X1mtPG0n/4YCF22mz8+Uvgq5Xa52
- wZgg==
-X-Gm-Message-State: AOAM533SVIBRGA4iLb+5AMaOg/dv++dxqIOqgHlp5Y/7p/Frbgl8xR7j
- HcrEFIeXClI8BCOclZrUI0lcA5Vgfu+DMDPefuOp9536h32m9H/3YvnWsKlbSwdg6zxUB4P0gAF
- 2udG1/6g7lou8/3k=
-X-Received: by 2002:a5d:5187:0:b0:20d:dfc:c333 with SMTP id
- k7-20020a5d5187000000b0020d0dfcc333mr3193790wrv.623.1652952874298; 
- Thu, 19 May 2022 02:34:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXYGR5Lv/ock95C4BLuPYqcuenVwN45bybH3riJjcvlhO38fr0StdOT6EptNNbCuuOO/OxkA==
-X-Received: by 2002:a5d:5187:0:b0:20d:dfc:c333 with SMTP id
- k7-20020a5d5187000000b0020d0dfcc333mr3193771wrv.623.1652952874054; 
- Thu, 19 May 2022 02:34:34 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- q16-20020adfbb90000000b0020d0c9c95d3sm4311521wrg.77.2022.05.19.02.34.33
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pEZqbUEJ6M24WEXlttAv0nZBg+0XSsUaxOzVKF6KJyM=;
+ b=clvJxFXt+2SnVel1HcwoP2mpEY5Gi+QYVqDm2BRL0ZsX14nnUorP4mJYWrOcD4m+6W
+ T9edaifA2SjXRwk/t2nEH76RdLJamljOGHETyYWdi2S9tvcrjp9iNS4SG5mYJLuoYSh5
+ LJ9nAji5MQnKZbOBB9BEtjLY3BGApaJdu0eM1+7/5eDc0Rd33MbnbpJCX/OnmsI3/3B3
+ 4PB/ygTr8Sgq16QWFNUfr7x1NbwjfhJIK8RhKQyqN+bbbV/9IIu23OLXdwfXyPjLQ5tO
+ czjYeUvlzuYrQreJV+1b0xVHfAuSxgdPNv5UfAndPszg60xMGXfjDb/sFN/YD76WDCUh
+ jH9g==
+X-Gm-Message-State: AOAM532aoeCjWEylUIHlasK5KxzoyDOQ99YLVKWFnpcaQuGvqY6KEmVa
+ u5us7WOzFj6ZTK0gOz5rXouLJbAeS4DG1Q==
+X-Google-Smtp-Source: ABdhPJxyuozvv3qdXfN5NCLnQiBvTkGmMLXyRTAFdzYa38utqakUtszE+bz82o6kyp2dtIi/GMd4SA==
+X-Received: by 2002:adf:f542:0:b0:20d:2bb:b282 with SMTP id
+ j2-20020adff542000000b0020d02bbb282mr3180467wrp.464.1652953416216; 
+ Thu, 19 May 2022 02:43:36 -0700 (PDT)
+Received: from usaari01.cust.communityfibre.co.uk
+ ([2a02:6b6a:b497:0:8edd:b6b5:d314:5955])
+ by smtp.gmail.com with ESMTPSA id
+ r1-20020a05600c434100b003942a244ecesm3525029wme.19.2022.05.19.02.43.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 02:34:33 -0700 (PDT)
-Date: Thu, 19 May 2022 10:34:31 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH v6 12/13] tests: Add postcopy tls recovery migration test
-Message-ID: <YoYPJ1LDD/PSX4nk@work-vm>
-References: <20220517195730.32312-1-peterx@redhat.com>
- <20220517195730.32312-13-peterx@redhat.com>
+ Thu, 19 May 2022 02:43:35 -0700 (PDT)
+From: Usama Arif <usama.arif@bytedance.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, stefanha@redhat.com, ndragazis@arrikto.com,
+ fam.zheng@bytedance.com, liangma@liangbit.com,
+ Usama Arif <usama.arif@bytedance.com>
+Subject: [RFC 0/2] Introduce virtio-vhost-user device
+Date: Thu, 19 May 2022 10:43:21 +0100
+Message-Id: <20220519094323.3109598-1-usama.arif@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220517195730.32312-13-peterx@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=usama.arif@bytedance.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,84 +89,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> It's easy to build this upon the postcopy tls test.  Rename the old
-> postcopy recovery test to postcopy/recovery/plain.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+The virtio-vhost-user (vvu) allows moving the vhost-user process inside
+a VM. This is done by moving vhost device backend into a guest and
+tunneling the vhost-user protocol over a new type of device called
+virtio-vhost-user.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+A usecase for this is live-updating the host kernel which has the DPDK
+application running inside a VM with vvu device. The DPDK application
+doesn't need to be restarted after the host kernel has been updated
+as the DPDK VM is snapshotted before host kernel update, allowing DPDK
+state to be saved.
+There should potentially be further usecases, as it allows isolating the
+vhost-user process inside a VM, with more components like SPDK.
 
-> ---
->  tests/qtest/migration-test.c | 33 ++++++++++++++++++++++++++-------
->  1 file changed, 26 insertions(+), 7 deletions(-)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index e8304aa454..ba7e4a2ed2 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1058,15 +1058,15 @@ static void test_postcopy_tls_psk(void)
->      test_postcopy_common(&args);
->  }
->  
-> -static void test_postcopy_recovery(void)
-> +static void test_postcopy_recovery_common(MigrateStart *args)
->  {
-> -    MigrateStart args = {
-> -        .hide_stderr = true,
-> -    };
->      QTestState *from, *to;
->      g_autofree char *uri = NULL;
->  
-> -    if (migrate_postcopy_prepare(&from, &to, &args)) {
-> +    /* Always hide errors for postcopy recover tests since they're expected */
-> +    args->hide_stderr = true;
-> +
-> +    if (migrate_postcopy_prepare(&from, &to, args)) {
->          return;
->      }
->  
-> @@ -1117,7 +1117,21 @@ static void test_postcopy_recovery(void)
->      /* Restore the postcopy bandwidth to unlimited */
->      migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
->  
-> -    migrate_postcopy_complete(from, to, &args);
-> +    migrate_postcopy_complete(from, to, args);
-> +}
-> +
-> +static void test_postcopy_recovery(void)
-> +{
-> +    MigrateStart args = { };
-> +
-> +    test_postcopy_recovery_common(&args);
-> +}
-> +
-> +static void test_postcopy_recovery_tls_psk(void)
-> +{
-> +    MigrateStart args = { .postcopy_tls = true };
-> +
-> +    test_postcopy_recovery_common(&args);
->  }
->  
->  static void test_baddest(void)
-> @@ -2170,7 +2184,12 @@ int main(int argc, char **argv)
->       */
->      qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
->  #endif /* CONFIG_GNUTLS */
-> -    qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
-> +    qtest_add_func("/migration/postcopy/recovery/plain",
-> +                   test_postcopy_recovery);
-> +#ifdef CONFIG_GNUTLS
-> +    qtest_add_func("/migration/postcopy/recovery/tls/psk",
-> +                   test_postcopy_recovery_tls_psk);
-> +#endif /* CONFIG_GNUTLS */
->      qtest_add_func("/migration/bad_dest", test_baddest);
->      qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
->      qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
-> -- 
-> 2.32.0
-> 
+vvu is based on the work initially done by Stefan Hajnoczi [1]
+and continued by Nikos Dragazis [2], [3].
+
+The virtio-spec changes for vvu are currently in review[4]. A HTML
+version with the changes is available at [5].
+
+A working prototype showcasing vvu can be reproduced using
+instructions in [6].
+
+Thanks and looking forward to your response!
+Usama
+
+[1] https://wiki.qemu.org/Features/VirtioVhostUser
+[2] https://ndragazis.github.io/dpdk-vhost-vvu-demo.html
+[3] https://lists.oasis-open.org/archives/virtio-dev/202005/msg00132.html
+[4] https://lists.oasis-open.org/archives/virtio-dev/202204/msg00022.html
+[5] https://uarif1.github.io/vvu/v2/virtio-v1.1-cs01
+[6] https://uarif1.github.io/vvu/dpdk-vvu-instructions
+
+
+Usama Arif (2):
+  vhost-user: share the vhost-user protocol related structures
+  virtio-vhost-user: add virtio-vhost-user device
+
+ hw/virtio/Kconfig                           |    5 +
+ hw/virtio/meson.build                       |    2 +
+ hw/virtio/trace-events                      |   26 +
+ hw/virtio/vhost-user.c                      |  160 ---
+ hw/virtio/virtio-pci.c                      |   13 +-
+ hw/virtio/virtio-vhost-user-pci.c           |  471 ++++++++
+ hw/virtio/virtio-vhost-user.c               | 1066 +++++++++++++++++++
+ hw/virtio/virtio.c                          |    7 +-
+ include/hw/pci/pci.h                        |    1 +
+ include/hw/virtio/vhost-user.h              |  163 +++
+ include/hw/virtio/virtio-pci.h              |    7 +
+ include/hw/virtio/virtio-vhost-user.h       |  126 +++
+ include/hw/virtio/virtio.h                  |    2 +
+ include/standard-headers/linux/virtio_ids.h |    1 +
+ 14 files changed, 1880 insertions(+), 170 deletions(-)
+ create mode 100644 hw/virtio/virtio-vhost-user-pci.c
+ create mode 100644 hw/virtio/virtio-vhost-user.c
+ create mode 100644 include/hw/virtio/virtio-vhost-user.h
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.25.1
 
 
