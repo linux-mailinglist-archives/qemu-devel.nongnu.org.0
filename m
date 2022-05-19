@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D5D52DBD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:50:37 +0200 (CEST)
-Received: from localhost ([::1]:58062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F67052DC0C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:55:50 +0200 (CEST)
+Received: from localhost ([::1]:44708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkIG-00059R-By
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59566)
+	id 1nrkNJ-0007A6-Ot
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5H-0006LI-5E
- for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:11 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52880)
+ id 1nrk5F-0006GH-Qj
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:09 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5F-0000s5-G5
- for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:10 -0400
-Received: by mail-wm1-x330.google.com with SMTP id k126so3284163wme.2
+ id 1nrk5C-0000qR-Ot
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:08 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u27so7379624wru.8
  for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=01yBGvrX2cZtSxy7ktXyZAlrrLplkKpLpXMVJvDOUkM=;
- b=UyuBVyc/KVG0VdORojd3NPLNSjZGyforVCB+SmufuIThwRkDvIr4yPOFdSG0spATOC
- Iz4ZLOnDQHYDc569IUL5yXzNcUznPlzzNZXsAhZwyCzBRpUONbw7Z80TEFkJnbEO6vDA
- bxu9oAo37abRaDNoWSYomalHgyfd5Es9AYxrzAnXEFHoz4e30gQ2cqgcZWj9DKf8czuP
- 85jLfbU8C+I6B4YRm0hEYOGwG1uid6dSmu4wY3alUR8/jCQZG+J50xqeqpyJdO6WkLd5
- 2U03CDioeePL9FeNW/AzbWk2FKc/Qoh1a4bxQMy2J7eLmuK4Y9joklxcBK0h1l7v4CIx
- E7Wg==
+ bh=VmlaKb2Ytt5XqgBhowvQiubR73WmXJEhGkUqF+2EiqU=;
+ b=aGo0BjcXMz3/ZZGiRquf5/2lYBaMtfySVn0KUlZXUblyQBd7NjpHBbNT1X4hJVCUwy
+ 3VXiEyuJrc8aNI6Z3iODiTyIbGpw4Fsh9JgyFkyrTaFJcmdoCucSPjwXjft0Nv/WBJal
+ WXAMXd3L2aavxYm1O/OHQuOGVD6s+S+bWS7R3GhloKOr1EZU8Qrr9QO+KprY+nhFyD5v
+ jJviTFp5co1tZL3IqYtHlsRauOBbUlKT6taXVDw+HoM2I6SlsQZ0HtDSlruvk5RJBFYZ
+ jMrvL0P5vTbEGuQIBhYuDKq7yVY1WXFvlyz+hW+QhWV9vGDJtpFfL3N7ZGdlpZXqWVmA
+ BX1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=01yBGvrX2cZtSxy7ktXyZAlrrLplkKpLpXMVJvDOUkM=;
- b=4rvp5yxQUlX2B/CHbVaMjMc7GKzy+lfIMyy9+MAO9NlrdvP6az2os546QNf8/fvBmj
- H6OQPO0cjGeRJEzhUBBmHEQoykaiKjH/XOv+O+xu62UlEPUGNlEfCCRJQZnqHuVWLqP6
- obMvTjVJjGTMgDzKlHd8Em2JUGwdDuRfKG27Gz0TvGC88aq8rP+51BFtT5AKR7vYnen+
- jISatn3shK5/yvWgFMPn3vmb7PmKZHFijZLsHwA8V8xILzKFOULbjInHKiXEwwLtfER0
- 5XaRIddojQfihEpD1GqhkTKz5hgGJBFcb+IUIzvlmJkwVZhA30ZuM0/tVgYS1tVPEG9x
- uxQg==
-X-Gm-Message-State: AOAM530Y+2Uq+OGUeJtur2BpO6R+cb0hih/TaPJCZIHk348Katl5JVDf
- 2+EYgZ1/sVvvGv8rB7DM9NSQqYgPw1r9LA==
-X-Google-Smtp-Source: ABdhPJxb+Ham34IJ9l343S2fP9rZUii3r2HiAwJ4lq8JdPF5c+XZFt+Vj3lgenD2qHEUwp2OaFZA4g==
-X-Received: by 2002:a05:600c:3d8c:b0:394:6097:9994 with SMTP id
- bi12-20020a05600c3d8c00b0039460979994mr5248552wmb.29.1652981825370; 
- Thu, 19 May 2022 10:37:05 -0700 (PDT)
+ bh=VmlaKb2Ytt5XqgBhowvQiubR73WmXJEhGkUqF+2EiqU=;
+ b=VCSEIu8eog/VKTBHPHCkHoqgAg+fKeUw/1o4AiD4oJt1ZWs0SGOShwRR2z2ySCyNkv
+ FQw188Y4TfcXqFUrXshmBvWdVARVnXpJW4DwSDNwRi1t0Mlubkz7YuchjlUOYUwncFUL
+ tiIiMPMpT1ow7tVMVUwIMAJs+xX+fwIR9tYdy6klHaVGWirG2odRc2C9U7tQqPRX46aR
+ G0VQtc+8v97BuVhcz9lcM1yl5f+gCBhOGv4+f5KkQb1UzbE5fYl1b0LiIBquNwPKDJAj
+ 6FrAD+yzdLYt0IG2vrzhaGOlrKxAKQkMiqN1cFuudYTwW6CZos1UzShqPsqhzo+bwGvc
+ vB2w==
+X-Gm-Message-State: AOAM533vEsytHHmv22L34v8izdr9CA4sa0OpPV9tEOHyJO56QLza+G7g
+ BeEcyN0gcYjcjsGQCF4zT4T/9pSnIuCbng==
+X-Google-Smtp-Source: ABdhPJz61qA9PquAicRjS3S4I6NIH2t0qxkEJCEMSVCO6k1Q1PG/5t0ifDcI5oie8gH9B+/QGatHnw==
+X-Received: by 2002:a05:6000:154a:b0:20c:7e65:c79e with SMTP id
+ 10-20020a056000154a00b0020c7e65c79emr5134791wry.582.1652981826102; 
+ Thu, 19 May 2022 10:37:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.37.04
+ e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.37.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 10:37:04 -0700 (PDT)
+ Thu, 19 May 2022 10:37:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/22] hw/adc/zynq-xadc: Use qemu_irq typedef
-Date: Thu, 19 May 2022 18:36:43 +0100
-Message-Id: <20220519173651.399295-15-peter.maydell@linaro.org>
+Subject: [PULL 15/22] target/arm/helper.c: Delete stray obsolete comment
+Date: Thu, 19 May 2022 18:36:44 +0100
+Message-Id: <20220519173651.399295-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
 References: <20220519173651.399295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,57 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+In commit 88ce6c6ee85d we switched from directly fishing the number
+of breakpoints and watchpoints out of the ID register fields to
+abstracting out functions to do this job, but we forgot to delete the
+now-obsolete comment in define_debug_regs() about the relation
+between the ID field value and the actual number of breakpoints and
+watchpoints.  Delete the obsolete comment.
 
-Except hw/core/irq.c which implements the forward-declared opaque
-qemu_irq structure, hw/adc/zynq-xadc.{c,h} are the only files not
-using the typedef. Fix this single exception.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Bernhard Beschow <shentey@gmail.com>
-Message-id: 20220509202035.50335-1-philippe.mathieu.daude@gmail.com
+Reported-by: CHRIS HOWARD <cvz185@web.de>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220513131801.4082712-1-peter.maydell@linaro.org
 ---
- include/hw/adc/zynq-xadc.h | 3 +--
- hw/adc/zynq-xadc.c         | 4 ++--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ target/arm/helper.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/hw/adc/zynq-xadc.h b/include/hw/adc/zynq-xadc.h
-index 2017b7a8037..c10cc4c379c 100644
---- a/include/hw/adc/zynq-xadc.h
-+++ b/include/hw/adc/zynq-xadc.h
-@@ -39,8 +39,7 @@ struct ZynqXADCState {
-     uint16_t xadc_dfifo[ZYNQ_XADC_FIFO_DEPTH];
-     uint16_t xadc_dfifo_entries;
- 
--    struct IRQState *qemu_irq;
--
-+    qemu_irq irq;
- };
- 
- #endif /* ZYNQ_XADC_H */
-diff --git a/hw/adc/zynq-xadc.c b/hw/adc/zynq-xadc.c
-index cfc7bab0651..032e19cbd0a 100644
---- a/hw/adc/zynq-xadc.c
-+++ b/hw/adc/zynq-xadc.c
-@@ -86,7 +86,7 @@ static void zynq_xadc_update_ints(ZynqXADCState *s)
-         s->regs[INT_STS] |= INT_DFIFO_GTH;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 91f78c91cea..d4db21dc92c 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6540,7 +6540,6 @@ static void define_debug_regs(ARMCPU *cpu)
+         define_one_arm_cp_reg(cpu, &dbgdidr);
      }
  
--    qemu_set_irq(s->qemu_irq, !!(s->regs[INT_STS] & ~s->regs[INT_MASK]));
-+    qemu_set_irq(s->irq, !!(s->regs[INT_STS] & ~s->regs[INT_MASK]));
- }
- 
- static void zynq_xadc_reset(DeviceState *d)
-@@ -262,7 +262,7 @@ static void zynq_xadc_init(Object *obj)
-     memory_region_init_io(&s->iomem, obj, &xadc_ops, s, "zynq-xadc",
-                           ZYNQ_XADC_MMIO_SIZE);
-     sysbus_init_mmio(sbd, &s->iomem);
--    sysbus_init_irq(sbd, &s->qemu_irq);
-+    sysbus_init_irq(sbd, &s->irq);
- }
- 
- static const VMStateDescription vmstate_zynq_xadc = {
+-    /* Note that all these register fields hold "number of Xs minus 1". */
+     brps = arm_num_brps(cpu);
+     wrps = arm_num_wrps(cpu);
+     ctx_cmps = arm_num_ctx_cmps(cpu);
 -- 
 2.25.1
 
