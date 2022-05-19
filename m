@@ -2,48 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934C052CB17
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 06:29:00 +0200 (CEST)
-Received: from localhost ([::1]:37440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A9752CBEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 08:31:17 +0200 (CEST)
+Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrXmV-0004kT-7n
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 00:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49346)
+	id 1nrZgp-0005TT-Ez
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 02:31:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nrXkV-00044z-9N
- for qemu-devel@nongnu.org; Thu, 19 May 2022 00:26:55 -0400
-Received: from sysprogs.com ([45.79.83.98]:42784)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrZex-0004mN-Fi
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 02:29:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nrXkT-0006oj-F2
- for qemu-devel@nongnu.org; Thu, 19 May 2022 00:26:54 -0400
-Received: from sys2 (unknown [174.1.100.17])
- by sysprogs.com (Postfix) with ESMTPSA id 958BF11A203;
- Thu, 19 May 2022 04:26:50 +0000 (UTC)
-From: "Ivan Shcherbakov" <ivan@sysprogs.com>
-To: "'Paolo Bonzini'" <pbonzini@redhat.com>,
-	<qemu-devel@nongnu.org>
-References: <004101d86732$0d33bd70$279b3850$@sysprogs.com>
- <e1229b1f-d94e-6529-311e-30999741fadc@redhat.com>
- <021801d86954$fe4cb940$fae62bc0$@sysprogs.com>
- <4ee53657-76fc-116f-b569-d0813301a9fc@redhat.com>
-In-Reply-To: <4ee53657-76fc-116f-b569-d0813301a9fc@redhat.com>
-Subject: RE: [PATCH] whpx: Added support for saving/restoring VM state
-Date: Wed, 18 May 2022 21:26:48 -0700
-Message-ID: <059001d86b38$a94ee450$fbecacf0$@sysprogs.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrZeu-0006m0-42
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 02:29:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652941754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nPPcyDvM0NSdz5I8XxJuLbB7Ke3sHJTPlGMW8G7HcsU=;
+ b=TNIFan3sgiz+bZBpmiov7hX72v5YijZHVWfWr5CGz4iE0//7YwcjYWCaf4ghGqX8ttclP1
+ eumwbW7q3UzJW5S45Lg6Ge+SQ0dt+Kay9R8un06ZyfdoWKzn/v2kuwgcc0o3EUaANaKT0X
+ KU7YaZ8yuXTtOgeqtSlrvD58JNbPqCs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-473-M4gqUQrQPfuCzEvzswmOGw-1; Thu, 19 May 2022 02:29:12 -0400
+X-MC-Unique: M4gqUQrQPfuCzEvzswmOGw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ n9-20020aa7d049000000b0042aab725949so2981401edo.23
+ for <qemu-devel@nongnu.org>; Wed, 18 May 2022 23:29:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=nPPcyDvM0NSdz5I8XxJuLbB7Ke3sHJTPlGMW8G7HcsU=;
+ b=tKS+fguBuNLGiDFYhQMMNCwClLFGujeMjm4DFChKd5X9jEbXYmdyIzsdduM16fsSyt
+ 9JCB32Mcv7UOzbJia/hK64fynqZEMmWAYgFKppWUZASK1uwk1jTFeqetZN7d2V7qgV42
+ 2MVtL62lTyZ6f1gT82TddkSEloFFBFbCpLKXRrZo2u9/nw9YCvX98ejA6TfkciGQk8Ko
+ 0b0s4xhfz4mKKWmOAF4v7VYmzfU3YD49GyusWgzhnl3P54ifmWxPyOsB0LWxmFqLVD9o
+ rWdxo8xxoaGPBAoo8ZouS1plUpr4EiSJ2O151/PaXIMBz+MNyWlQpLb5eiwdyTHwIRhK
+ HkeA==
+X-Gm-Message-State: AOAM531M7kV43JFbWoxwA97NfRkmT4TIulKpoWARfAaP1zYAv7qWWGzM
+ hXq6Mm7uj29C/SBdLUMjZeqGYwPz4T9wiNT+CmR73Ph94h/MgUKWTs7Xxjde/M9mwhXoLvl80Eb
+ aB+QdKXGrDCyY8po=
+X-Received: by 2002:a17:907:7815:b0:6ce:5242:1280 with SMTP id
+ la21-20020a170907781500b006ce52421280mr2783922ejc.217.1652941751394; 
+ Wed, 18 May 2022 23:29:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzu12dH1x2h71kmWXV8nmsja/MzIUCfWGJoXvguPVvcUr39YjKc4EvFGhozrX/CrFk8X7lt9g==
+X-Received: by 2002:a17:907:7815:b0:6ce:5242:1280 with SMTP id
+ la21-20020a170907781500b006ce52421280mr2783905ejc.217.1652941751141; 
+ Wed, 18 May 2022 23:29:11 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-176-97.web.vodafone.de.
+ [109.43.176.97]) by smtp.gmail.com with ESMTPSA id
+ v2-20020a17090651c200b006f3ef214e20sm1784368ejk.134.2022.05.18.23.29.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 23:29:10 -0700 (PDT)
+Message-ID: <47c757d4-5576-cb24-6f90-027892a30720@redhat.com>
+Date: Thu, 19 May 2022 08:29:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGju1X+FE0XGWjqIp7RwfyaKhTT0QIlouyPATrvxvQCMxCEh61iWonQ
-Content-Language: en-us
-Received-SPF: pass client-ip=45.79.83.98; envelope-from=ivan@sysprogs.com;
- helo=sysprogs.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220518090438.158475-1-thuth@redhat.com>
+ <c3fdc5fa-9bb1-dfb8-d763-1a0946f15aa5@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PULL 0/8] Misc patches (Gitlab-CI, qtest, Capstone, ...)
+In-Reply-To: <c3fdc5fa-9bb1-dfb8-d763-1a0946f15aa5@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,89 +101,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+On 18/05/2022 18.12, Richard Henderson wrote:
+> On 5/18/22 02:04, Thomas Huth wrote:
+>>   Hi Richard!
+>>
+>> The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
+>>
+>>    Merge tag 'for_upstream' of 
+>> git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16 
+>> 16:31:01 -0700)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-18
+>>
+>> for you to fetch changes up to 83602083b4ada6ceb86bfb327e83556ebab120fc:
+>>
+>>    capstone: Remove the capstone submodule (2022-05-18 08:54:22 +0200)
+>>
+>> ----------------------------------------------------------------
+>> * Remove Ubuntu 18.04 containers (not supported anymore)
+>> * Improve the cleanup of the QEMU binary in case of failing qtests
+>> * Update the Windows support statement
+>> * Remove the capstone submodule (and rely on Capstone of the distros instead)
+> 
+> Fails centos-stream-8-x86_64 test,
+> 
+> Run-time dependency capstone found: NO (tried pkgconfig)
+> ../meson.build:2539:2: ERROR: Dependency "capstone" not found, tried pkgconfig
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/2473935684
 
-Thanks for pointing out the relevant fields of the XSAVE state - it =
-explains what is going on.
-I did some quick experiments with modifying the buffer manually, so:
+That's a custom runner ... who has access to that one? Cleber? Stefan? I 
+didn't spot an entry for it on https://wiki.qemu.org/AdminContacts ...
 
-* Hyper-V doesn't care about the value of MXCSR_MASK. Both 0xFFFF and =
-0x0000 work.
-* Setting XCOMP_BV to 0 does trigger the error.
+Anyway, somebody needs to install "capstone-devel" on that machine - or we 
+need to disable capstone in scripts/ci/org.centos/stream/8/x86_64/configure 
+now if the machine can't be changed...
 
-My best guess is that Hyper-V is emulating XSAVE/XRSTOR programmatically =
-and they only implemented the compacted format.
-
-Do you think it would be a reasonable workaround to handle it like this:
-
-1. Pass the XSAVE data received from Hyper-V to =
-x86_cpu_xrstor_all_areas().
-2. Also save it into the snapshot area like we do now.
-3. When restoring, first try to pass the data from =
-x86_cpu_xsave_all_areas() to Hyper-V.
-4. If it rejects it, pass the original block saved in step 2.
-
-If either Microsoft adds support for the regular format, or someone on =
-the Qemu side implements the compacted one, this logic will start =
-properly synchronizing the QEMU-level XSAVE structure with Hyper-V. =
-Until then (or if it breaks again) it will fall back to saving/restoring =
-the data "as is", which will be sufficient for snapshots.
-
-Best,
-Ivan
-
------Original Message-----
-From: Qemu-devel <qemu-devel-bounces+ivan=3Dsysprogs.com@nongnu.org> On =
-Behalf Of Paolo Bonzini
-Sent: Tuesday, May 17, 2022 7:12 AM
-To: Ivan Shcherbakov <ivan@sysprogs.com>; qemu-devel@nongnu.org
-Subject: Re: [PATCH] whpx: Added support for saving/restoring VM state
-
-On 5/16/22 20:44, Ivan Shcherbakov wrote:
-> Passing it to x86_cpu_xrstor_all_areas()/x86_cpu_xsave_all_areas() =
-changed the following values:
->=20
-> 0x0000001C: ff ff -> 00 00
-> 0x00000208: 07 -> 00
-> 0x0000020F: 80 -> 00
-
-0x1C-0x1F is MXCSR_MASK.  There's already a field in the x86 CPUState, =
-but it was forgotten in =
-x86_cpu_xsave_all_areas()/x86_cpu_xrstor_all_areas().  The field should =
-also be initialized to 0xffff in the CPU reset function.
-
-0x208...0x20F is XCOMP_BV and bit 63 in there is indeed signaling =
-compacted format.  First of all I'd start with your patch and hack it to =
-check if Hyper-V accepts zero at 0x208..0x20F; in this specific case of =
-0x208...0x20F have all low consecutive bits set plus bit 63 set, it's =
-fine to do just that.  If so, x86_cpu_xrstor_all_areas() needs no =
-support for compacted format.  I would be somewhat surprised if Hyper-V =
-needs support in XRSTOR too.
-
-For XSAVE, the algorithm to compute the offset (instead of just using=20
-x->offset) is given in the Intel manual:
-
-If XCOMP_BV[i] =3D 0, state component i is not in the XSAVE area at all.
-
-If XCOMP_BV[i] =3D 1, state component i is located at a byte offset  =
-from the base address of the XSAVE area, which is determined by the =
-following
-steps:
-
-- If i is the first bit set in bits 62:2 of the XCOMP_BV, state =
-component i starts at offset 576
-
-- Otherwise, take CPUID[EAX=3D0DH,ECX=3Di].ECX[1]:
-
-   - If it is 0, state component i starts right after the preceding =
-state
-     component whose bit is set in XCOMP_BV (where the size of component
-     j is enumerated in CPUID[EAX=3D0DH,ECX=3Dj].EAX).
-
-   - If it is 1, state component i starts after the preceding state
-     component whose bit is set in XCOMP_BV, but on a 64-byte aligned
-     offset relative to the beginning of the XSAVE area.
-
-Paolo
+  Thomas
 
 
