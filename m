@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A5052DFE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 00:17:33 +0200 (CEST)
-Received: from localhost ([::1]:59176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E01E52E073
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 01:19:31 +0200 (CEST)
+Received: from localhost ([::1]:40992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nroSa-0007gw-4T
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 18:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47362)
+	id 1nrpQY-0003Nj-0r
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 19:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nroR5-0006qP-Gi
- for qemu-devel@nongnu.org; Thu, 19 May 2022 18:15:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48710)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nrpPU-0002Rv-EV
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 19:18:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nroR1-000612-Vb
- for qemu-devel@nongnu.org; Thu, 19 May 2022 18:15:58 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nrpPR-0006ES-0h
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 19:18:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652998554;
+ s=mimecast20190719; t=1653002300;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xv1V/bVJZ3y9epDuzwr5dlqqDP8ImlSDLomfqdQRtYY=;
- b=aY3rqGj7gWSE8CxSGj9xLO/hXi7ttEs2PJzBMwe2zBKa+0GDzHqmd0i/A+xmEWrtCliVjr
- tvop3oSELRK2Wwxnqhb+QDv2pTIIDjWk6QGQQCTLKyrPs1xXcKFNfulEjgibKM1RSteVIE
- 71/QeZIzWZaANCBqADoym/5z4f6RqCg=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bxMTEvQmUmsLQf4mRLb8KbfhCAE39bQ22z9GQylg4E4=;
+ b=SbOaK1y0DcJczV0TisySVsxd6GK7r8BaP3p/wsyUFcQ/HWRT8xTECxBCBwzHXTlH3Jr1oJ
+ vG0k8qplz1iuxMQQfuzL9K/GbjdG4kth5wDKH+BjUGu9UyQyTYG1VCDaXcG4LM1YPmhsW4
+ OEGaqGeEn9vab9L+laz6Q/QmtbFZizs=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-lpl1LTVjP2-jiwqsXbljmA-1; Thu, 19 May 2022 18:15:53 -0400
-X-MC-Unique: lpl1LTVjP2-jiwqsXbljmA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- o68-20020a9f354a000000b00368bf24af26so3005316uao.9
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 15:15:53 -0700 (PDT)
+ us-mta-389-fibRXu_oPJesA00Nxq66Wg-1; Thu, 19 May 2022 19:18:17 -0400
+X-MC-Unique: fibRXu_oPJesA00Nxq66Wg-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ g20-20020a67e214000000b0032cdb80e1ffso1008856vsa.17
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 16:18:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xv1V/bVJZ3y9epDuzwr5dlqqDP8ImlSDLomfqdQRtYY=;
- b=Mbta7maf+kBpx9rPanXYFlMg+QWVn0eNNBETLFxRKGmHR3gvBpjaYPGrkFNie4Pu23
- Jrq9MuyWTNqhipV0IbFPKJzYY9eA7xKb4e6a1NXSZa9CBgG5aCUUiSyfr29nmnW7byk+
- jR8BEjj+89H63/pW7ev6EEnGB6eFam2cmV1OWsszJmCxGhjhyDRRaR/OVYqY/OXW7ouD
- iHjeOnx7KDqhh+QgCBCF7UGGqLHLZCf84i639DLbfahfUk/GsKSpwzLiR/R5/ycmBw/6
- p7Q9vfjYyEDY948NMYYFpkHhZgGxgv9HwF3EVU0hw1VGHfT12dk7F9t5lBdFwEURsDjx
- a6hA==
-X-Gm-Message-State: AOAM531upPkMmrMuU1Y2urd7FbOy1nlcOZ48xIw4aUGJHmerh9Pw16z4
- VkrojGNXpaqvmfBaboPQqtXHzipLdpD868DrfsTsFe9NeHEh22wzxPZwtpviEgPz5nq7PxFcuYM
- 1HMgrZGIpwITAf4QmvEh9klq7RqRNp+E=
-X-Received: by 2002:a1f:ce46:0:b0:34e:b018:c8a4 with SMTP id
- e67-20020a1fce46000000b0034eb018c8a4mr2975868vkg.26.1652998552697; 
- Thu, 19 May 2022 15:15:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBh5AkOOezJiFPPDCPFDUPQlrbNj14VnWO1v4V17FxCPS1yxTgk6lItsINNgVG/LSO5Fglkv5w180tL6Vbttw=
-X-Received: by 2002:a1f:ce46:0:b0:34e:b018:c8a4 with SMTP id
- e67-20020a1fce46000000b0034eb018c8a4mr2975859vkg.26.1652998552432; Thu, 19
- May 2022 15:15:52 -0700 (PDT)
+ bh=bxMTEvQmUmsLQf4mRLb8KbfhCAE39bQ22z9GQylg4E4=;
+ b=I4byDGxLBIhuPzIeL6/Si5gktb85tf6BCrKlCOlrbq/nDvxPUm2Dja3GWrN9YLQC30
+ iJgU/lGVFyQJAad5p7eNCHRo5sCKI2xt8olo9fToOkGAZ6QvQtE1Dk7+QSBqsbEsRLia
+ LwUJKNgUrQJZQ98HVe/xp8BZvHZ0JZYWgyfVGMGZFNw3WErcZmW0U82QxNlPtxf3y6vP
+ SvhH3pnfa1ZYisIgdlmVRkPBFWc/NXmLClEifhFM1gRkjAtgP8CTeI9PhJ37cq1G6OsQ
+ hypMXI8xdo+a1S2BxFMv+QPccehsL60OKasC4EhnjOnU1Oovn4ZKVpsjqUR6nzp2rPfM
+ +4dg==
+X-Gm-Message-State: AOAM530PD6wfeluCkQX+jOSpTxh5kOSflLW7qNrOODLqpNFUfyTohBL+
+ W9N724knVvfevy9dc+BbON8BCHcdiy0AGzuPQxCpEN4wxcgc4lyUnQQc+8CkdZMNt6MFeLclrBG
+ 7gslsndg+w61zb0tV/M4isijMNpIIS2k=
+X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
+ a2-20020a671a02000000b00320a51f8067mr3334405vsa.38.1653002296429; 
+ Thu, 19 May 2022 16:18:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUBtTTFMACdU9Pb6pyF4MSra9CJi1qDff41w/iA1PDyeeu+NQ313BxdIPteJrv+DLJqywLcPndlQEBLyeVMBg=
+X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
+ a2-20020a671a02000000b00320a51f8067mr3334395vsa.38.1653002296240; Thu, 19 May
+ 2022 16:18:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
- <YoUgufuA8/pjYwTE@redhat.com>
- <CAFn=p-YUQm-spxrbOgv8xKB3wDMWdTRfSVB6oVOiYh=Eqw=sfA@mail.gmail.com>
- <YoX30Aa0x40CKe7G@redhat.com> <YoX+5VEe/ET8+5W8@redhat.com>
-In-Reply-To: <YoX+5VEe/ET8+5W8@redhat.com>
+References: <20220516165321.872394-1-danielhb413@gmail.com>
+ <20220516165321.872394-3-danielhb413@gmail.com>
+In-Reply-To: <20220516165321.872394-3-danielhb413@gmail.com>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 19 May 2022 18:15:39 -0400
-Message-ID: <CAFn=p-Z-dEQkNJm2nJt=G+Y-mUVZb+6kZ5t5LwJ6JHHh-WMBGQ@mail.gmail.com>
-Subject: Re: The fate of iotest 297
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000884a5305df64b71f"
+Date: Thu, 19 May 2022 19:18:06 -0400
+Message-ID: <CAFn=p-bn3PrUiX4ZCyBa8_BPd8Nfgo2u4fs3+M2Z42y8O2vdkQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] machine.py: add default pseries params in machine.py
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au, 
+ clg@kaod.org, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000ae457b05df65962e"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -78,7 +78,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,322 +95,241 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000884a5305df64b71f
+--000000000000ae457b05df65962e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 19, 2022, 4:25 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-wrote:
+On Mon, May 16, 2022, 12:53 PM Daniel Henrique Barboza <
+danielhb413@gmail.com> wrote:
 
-> On Thu, May 19, 2022 at 09:54:56AM +0200, Kevin Wolf wrote:
-> > Am 18.05.2022 um 20:21 hat John Snow geschrieben:
-> > > To wire it up to "make check" by *default*, I believe I need to expan=
-d
-> the
-> > > configure script to poll for certain requisites and then create some
-> > > wrapper script of some kind that only engages the python tests if the
-> > > requisites were met ... and I lose some control over the mypy/pylint
-> > > versioning windows. I have to tolerate a wider versioning, or it'll
-> never
-> > > get run in practice.
-> > >
-> > > I have some reluctance to doing this, because pylint and mypy change =
-so
-> > > frequently that I don't want "make check" to fail spuriously in the
-> future.
-> > >
-> > > (In practice, these failures occur 100% of the time when I am on
-> vacation.)
-> >
-> > So we seem to agree that it's something that we do expect to fail from
-> > time to time. Maybe this is how I could express my point better: If it'=
-s
-> > a hard failure, it should fail as early as possible - i.e. ideally
-> > before the developer sends a patch, but certainly before failing a pull
-> > request.
+> pSeries guests set a handful of machine capabilities on by default, all
+> of them related to security mitigations, that aren't always available in
+> the host.
 >
-> At least with pylint we can make an explicit list of which lint
-> checks we want to run, so we should not get new failures when a
-> new pylint is released. If there are rare cases where we none
-> the less see a new failure from a new release, then so be it,
-> whoever hits it first can send a patch. IOW, I think we should
-> just enable pylint all the time with a fixed list of tests we
-> care about. Over time we can enable more of its checks when
-> desired.
+> This means that, as is today, running avocado in a Power9 server without
+> the proper firmware support, and with --disable-tcg, this error will
+> occur:
 >
-
-Yeh, this might help a bit. If we use system packages by default, we'll
-also generally avoid using bleeding edge packages and I'll (generally)
-catch those myself via check-tox before people run into them organically.
-
-
-> I don't know enough about mypy to know if it can provide similar
-> level of control. Possibly the answer for "should we run it by default"
-> will be different for pylint vs mypy.
+>  (1/1) tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd: ERROR:
+> ConnectError:
+> Failed to establish session: EOFError\n  Exit code: 1\n  (...)
+> (...)
+>         Command: ./qemu-system-ppc64 -display none -vga none (...)
+>         Output: qemu-system-ppc64: warning: netdev vnet has no peer
+> qemu-system-ppc64: Requested safe cache capability level not supported by
+> KVM
+> Try appending -machine cap-cfpc=broken
 >
-
-Yeah, we can probably do different things. mypy is actually much more
-stable than pylint IMO, it's probably actually okay to just let that one
-behave as-is.
-
-(I know I have a fix for 0.950 in my recent rfc series, but anecdotally I
-feel mypy changes behavior a lot less often than pylint. isort and flake8
-have basically never ever broken on update for me, either.)
-
-Still, none of this is all that different from the case where
-> new GCC or CLang are released and developers find new warnings
-> have arrived. People just send patches when they hit this.
-> Given python is a core part of QEMU's dev tooling, I think it
-> is reasonable to expect developers to cope with this for python
-> too, as long as the frequency of problems is not unreasonably
-> high.
+> info_usernet.py happens to trigger this error first, but all tests would
+> fail in this configuration because the host does not support the default
+> 'cap-cfpc' capability.
 >
-
-To some extent, though it's still a bummer to get warnings and errors that
-have nothing to do with your changes. I have made sure I test a wide matrix
-to the best of my ability, so it should be fine. I guess I'm just super
-conservative about it ...
-
-(Well, and even when I had the check-tox test set to allow failure, the
-yellow exclamation mark still annoyed people. I'm just keen to avoid more
-nastygrams.)
-
-
-> > > That said ... maybe I can add a controlled venv version of
-> "check-python"
-> > > and just have a --disable-check-python or something that spec files
-> can opt
-> > > into. Maybe that will work well enough?
-> > >
-> > > i.e. maybe configure can check for the presence of pip, the python ve=
-nv
-> > > module (debian doesnt ship it standard...), and PyPI connectivity and
-> if
-> > > so, enables the test. Otherwise, we skip it.
-> >
-> > I think this should work. If detecting the right environment is hard, I
-> > don't think there is even a requirement to do so. You can make
-> > --enable-check-python the default and if people don't want it, they can
-> > explicitly disable it. (I understand that until you run 'make check', i=
-t
-> > doesn't make a difference anyway, so pure users would never have to
-> > change the option, right?)
+> A similar situation was already fixed a couple of years ago by Greg Kurz
+> (commit 63d57c8f91d0) but it was focused on TCG warnings for these same
+> capabilities and running C qtests. This commit ended up preventing the
+> problem we're facing with avocado when running qtests with KVM support.
 >
-> I think it should just be the default too. Contributors have to accept
-> that python is a core part of our project and we expect such code to
-> pass various python quality control tests, on the wide variety of OS
-> platforms we run on.
+> This patch does a similar approach by amending machine.py to disable
+> these security capabilities in case we're running a pseries guest. The
+> change is made in the _launch() callback to be sure that we're already
+> commited into launching the guest. It's also worth noticing that we're
+> relying on self._machine being set accordingly (i.e. via tag:machine),
+> which is currently the case for all ppc64 related avocado tests.
+>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  python/qemu/machine/machine.py | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/python/qemu/machine/machine.py
+> b/python/qemu/machine/machine.py
+> index 07ac5a710b..12e5e37bff 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -51,6 +51,11 @@
+>
+>
+>  LOG = logging.getLogger(__name__)
+> +PSERIES_DEFAULT_CAPABILITIES = ("cap-cfpc=broken,"
+> +                                "cap-sbbc=broken,"
+> +                                "cap-ibs=broken,"
+> +                                "cap-ccf-assist=off,"
+> +                                "cap-fwnmi=off")
+>
+>
+>  class QEMUMachineError(Exception):
+> @@ -447,6 +452,14 @@ def _launch(self) -> None:
+>          """
+>          Launch the VM and establish a QMP connection
+>          """
+> +
+> +        # pseries needs extra machine options to disable Spectre/Meltdown
+> +        # KVM related capabilities that might not be available in the
+> +        # host.
+> +        if "qemu-system-ppc64" in self._binary:
+> +            if self._machine is None or "pseries" in self._machine:
+> +                self._args.extend(['-machine',
+> PSERIES_DEFAULT_CAPABILITIES])
+> +
+>          self._pre_launch()
+>          LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
+>
+> --
+> 2.32.0
 >
 
-I meant that I'd have the default be "auto", but if you're arguing for the
-default to be "on", I suppose I could. I have a weak preference for keeping
-the min requisites for a no-option configure set small. This should be
-trivial to change in either direction, though.
+Hm, okay.
 
-The requisites aren't steep: you just need python and the venv stdlib
-module. If you have python, you meet that requisite on every platform
-except debian/ubuntu, which ships venv separately. In practice, it probably
-will be enabled for most people by default.
+I have plans to try and factor the machine appliance out and into an
+upstream package in the near future, so I want to avoid more hardcoding of
+defaults.
 
+Does avocado have a subclass of QEMUMachine where it might be more
+appropriate to stick this bandaid? Can we make one?
 
-> > > Got it. I'll see what I can come up with that checks the boxes for
-> > > everyone, thanks for clarifying yours.
-> > >
-> > > I want to make everything "just work" but I'm also afraid of writing
-> too
-> > > much magic crap that could break and frustrate people who have no
-> desire to
-> > > understand python packaging junk, so I'm trying to balance that.
-> >
-> > Yes, sounds like we need to find some balance there. Test infrastructur=
-e
-> > breaking locally for no obvious reason can be quite frustrating. But
-> > sending a patch and getting it queued, only to be notified that it's
-> > dropped again because of a mypy problem two weeks later when the
-> > maintainer sends the pull request, can be equally (if not even more)
-> > frustrating.
->
-> The other benefit to having the checks turned on by default for everyone
-> is that it removes John as the centralized point responsible for finding,
-> investigating and addressing python style issues, and distributes it
-> amongst all the QEMU contributors.
->
+(I don't think iotests runs into this problem because we always use
+machine:none there, I think. VM tests might have a similar problem though,
+and then it'd be reasonable to want the bandaid here in machine.py ...
+well, boo. okay.)
 
-Haha. I won't hold my breath for anyone else to have patience enough to
-track it down, but I appreciate the sentiment :)
+My verdict is that it's a bandaid, but I'll accept it if the avocado folks
+agree to it and I'll sort it out later when I do my rewrite.
 
-Thanks for the feedback. I'm still working on my RFC for the actual unit
-testing venv but ran into some difficulties with vm tests and Avocado tests
-being a little flaky, and testing has been slow.
-
-So: v2 RFC coming up soon and I'll put code and test results to all these
-worrrrrrrrrds.
+I don't think I have access to a power9 machine to test this with either,
+so I might want a tested-by from someone who does.
 
 --js
 
---000000000000884a5305df64b71f
+>
+
+--000000000000ae457b05df65962e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, May 19, 2022, 4:25 AM Daniel P. Berrang=C3=A9 =
-&lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">On Thu, May 19, 2022 at 09:54:56=
-AM +0200, Kevin Wolf wrote:<br>
-&gt; Am 18.05.2022 um 20:21 hat John Snow geschrieben:<br>
-&gt; &gt; To wire it up to &quot;make check&quot; by *default*, I believe I=
- need to expand the<br>
-&gt; &gt; configure script to poll for certain requisites and then create s=
-ome<br>
-&gt; &gt; wrapper script of some kind that only engages the python tests if=
- the<br>
-&gt; &gt; requisites were met ... and I lose some control over the mypy/pyl=
-int<br>
-&gt; &gt; versioning windows. I have to tolerate a wider versioning, or it&=
-#39;ll never<br>
-&gt; &gt; get run in practice.<br>
-&gt; &gt; <br>
-&gt; &gt; I have some reluctance to doing this, because pylint and mypy cha=
-nge so<br>
-&gt; &gt; frequently that I don&#39;t want &quot;make check&quot; to fail s=
-puriously in the future.<br>
-&gt; &gt; <br>
-&gt; &gt; (In practice, these failures occur 100% of the time when I am on =
-vacation.)<br>
-&gt; <br>
-&gt; So we seem to agree that it&#39;s something that we do expect to fail =
-from<br>
-&gt; time to time. Maybe this is how I could express my point better: If it=
-&#39;s<br>
-&gt; a hard failure, it should fail as early as possible - i.e. ideally<br>
-&gt; before the developer sends a patch, but certainly before failing a pul=
-l<br>
-&gt; request.<br>
+class=3D"gmail_attr">On Mon, May 16, 2022, 12:53 PM Daniel Henrique Barboza=
+ &lt;<a href=3D"mailto:danielhb413@gmail.com" target=3D"_blank" rel=3D"nore=
+ferrer">danielhb413@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">pSeries guests set a handful of machine capabilities on by defaul=
+t, all<br>
+of them related to security mitigations, that aren&#39;t always available i=
+n<br>
+the host.<br>
 <br>
-At least with pylint we can make an explicit list of which lint<br>
-checks we want to run, so we should not get new failures when a<br>
-new pylint is released. If there are rare cases where we none<br>
-the less see a new failure from a new release, then so be it,<br>
-whoever hits it first can send a patch. IOW, I think we should<br>
-just enable pylint all the time with a fixed list of tests we<br>
-care about. Over time we can enable more of its checks when<br>
-desired.<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Yeh, this might help a bit. If we use system packages by default,=
- we&#39;ll also generally avoid using bleeding edge packages and I&#39;ll (=
-generally) catch those myself via check-tox before people run into them org=
-anically.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"=
-gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">
-<br>
-I don&#39;t know enough about mypy to know if it can provide similar<br>
-level of control. Possibly the answer for &quot;should we run it by default=
-&quot;<br>
-will be different for pylint vs mypy.<br></blockquote></div></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Yeah, we can probably do different th=
-ings. mypy is actually much more stable than pylint IMO, it&#39;s probably =
-actually okay to just let that one behave as-is.</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">(I know I have a fix for 0.950 in my recent rfc se=
-ries, but anecdotally I feel mypy changes behavior a lot less often than py=
-lint. isort and flake8 have basically never ever broken on update for me, e=
-ither.)</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gm=
-ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">
-Still, none of this is all that different from the case where<br>
-new GCC or CLang are released and developers find new warnings<br>
-have arrived. People just send patches when they hit this.<br>
-Given python is a core part of QEMU&#39;s dev tooling, I think it<br>
-is reasonable to expect developers to cope with this for python<br>
-too, as long as the frequency of problems is not unreasonably<br>
-high.<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">To some extent, though it&#39;s still a bummer to get warnings and err=
-ors that have nothing to do with your changes. I have made sure I test a wi=
-de matrix to the best of my ability, so it should be fine. I guess I&#39;m =
-just super conservative about it ...</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">(Well, and even when I had the check-tox test set to allow fai=
-lure, the yellow exclamation mark still annoyed people. I&#39;m just keen t=
-o avoid more nastygrams.)</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-&gt; &gt; That said ... maybe I can add a controlled venv version of &quot;=
-check-python&quot;<br>
-&gt; &gt; and just have a --disable-check-python or something that spec fil=
-es can opt<br>
-&gt; &gt; into. Maybe that will work well enough?<br>
-&gt; &gt; <br>
-&gt; &gt; i.e. maybe configure can check for the presence of pip, the pytho=
-n venv<br>
-&gt; &gt; module (debian doesnt ship it standard...), and PyPI connectivity=
- and if<br>
-&gt; &gt; so, enables the test. Otherwise, we skip it.<br>
-&gt; <br>
-&gt; I think this should work. If detecting the right environment is hard, =
-I<br>
-&gt; don&#39;t think there is even a requirement to do so. You can make<br>
-&gt; --enable-check-python the default and if people don&#39;t want it, the=
-y can<br>
-&gt; explicitly disable it. (I understand that until you run &#39;make chec=
-k&#39;, it<br>
-&gt; doesn&#39;t make a difference anyway, so pure users would never have t=
-o<br>
-&gt; change the option, right?)<br>
-<br>
-I think it should just be the default too. Contributors have to accept<br>
-that python is a core part of our project and we expect such code to<br>
-pass various python quality control tests, on the wide variety of OS<br>
-platforms we run on.<br></blockquote></div></div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto">I meant that I&#39;d have the default be &quot;auto&quo=
-t;, but if you&#39;re arguing for the default to be &quot;on&quot;, I suppo=
-se I could. I have a weak preference for keeping the min requisites for a n=
-o-option configure set small. This should be trivial to change in either di=
-rection, though.</div><div dir=3D"auto"><br></div><div dir=3D"auto">The req=
-uisites aren&#39;t steep: you just need python and the venv stdlib module. =
-If you have python, you meet that requisite on every platform except debian=
-/ubuntu, which ships venv separately. In practice, it probably will be enab=
-led for most people by default.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-&gt; &gt; Got it. I&#39;ll see what I can come up with that checks the boxe=
-s for<br>
-&gt; &gt; everyone, thanks for clarifying yours.<br>
-&gt; &gt; <br>
-&gt; &gt; I want to make everything &quot;just work&quot; but I&#39;m also =
-afraid of writing too<br>
-&gt; &gt; much magic crap that could break and frustrate people who have no=
- desire to<br>
-&gt; &gt; understand python packaging junk, so I&#39;m trying to balance th=
-at.<br>
-&gt; <br>
-&gt; Yes, sounds like we need to find some balance there. Test infrastructu=
-re<br>
-&gt; breaking locally for no obvious reason can be quite frustrating. But<b=
-r>
-&gt; sending a patch and getting it queued, only to be notified that it&#39=
-;s<br>
-&gt; dropped again because of a mypy problem two weeks later when the<br>
-&gt; maintainer sends the pull request, can be equally (if not even more)<b=
-r>
-&gt; frustrating.<br>
-<br>
-The other benefit to having the checks turned on by default for everyone<br=
+This means that, as is today, running avocado in a Power9 server without<br=
 >
-is that it removes John as the centralized point responsible for finding,<b=
-r>
-investigating and addressing python style issues, and distributes it<br>
-amongst all the QEMU contributors.<br></blockquote></div></div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Haha. I won&#39;t hold my breath for anyo=
-ne else to have patience enough to track it down, but I appreciate the sent=
-iment :)</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for the =
-feedback. I&#39;m still working on my RFC for the actual unit testing venv =
-but ran into some difficulties with vm tests and Avocado tests being a litt=
-le flaky, and testing has been slow.</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">So: v2 RFC coming up soon and I&#39;ll put code and test resul=
-ts to all these worrrrrrrrrds.</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto">--js</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div></=
-div>
+the proper firmware support, and with --disable-tcg, this error will<br>
+occur:<br>
+<br>
+=C2=A0(1/1) tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd: ERROR: =
+ConnectError:<br>
+Failed to establish session: EOFError\n=C2=A0 Exit code: 1\n=C2=A0 (...)<br=
+>
+(...)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Command: ./qemu-system-ppc64 -display none -vga=
+ none (...)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Output: qemu-system-ppc64: warning: netdev vnet=
+ has no peer<br>
+qemu-system-ppc64: Requested safe cache capability level not supported by K=
+VM<br>
+Try appending -machine cap-cfpc=3Dbroken<br>
+<br>
+info_usernet.py happens to trigger this error first, but all tests would<br=
+>
+fail in this configuration because the host does not support the default<br=
+>
+&#39;cap-cfpc&#39; capability.<br>
+<br>
+A similar situation was already fixed a couple of years ago by Greg Kurz<br=
+>
+(commit 63d57c8f91d0) but it was focused on TCG warnings for these same<br>
+capabilities and running C qtests. This commit ended up preventing the<br>
+problem we&#39;re facing with avocado when running qtests with KVM support.=
+<br>
+<br>
+This patch does a similar approach by amending machine.py to disable<br>
+these security capabilities in case we&#39;re running a pseries guest. The<=
+br>
+change is made in the _launch() callback to be sure that we&#39;re already<=
+br>
+commited into launching the guest. It&#39;s also worth noticing that we&#39=
+;re<br>
+relying on self._machine being set accordingly (i.e. via tag:machine),<br>
+which is currently the case for all ppc64 related avocado tests.<br>
+<br>
+Signed-off-by: Daniel Henrique Barboza &lt;<a href=3D"mailto:danielhb413@gm=
+ail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">danielhb413@gmail.=
+com</a>&gt;<br>
+---<br>
+=C2=A0python/qemu/machine/machine.py | 13 +++++++++++++<br>
+=C2=A01 file changed, 13 insertions(+)<br>
+<br>
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.p=
+y<br>
+index 07ac5a710b..12e5e37bff 100644<br>
+--- a/python/qemu/machine/machine.py<br>
++++ b/python/qemu/machine/machine.py<br>
+@@ -51,6 +51,11 @@<br>
+<br>
+<br>
+=C2=A0LOG =3D logging.getLogger(__name__)<br>
++PSERIES_DEFAULT_CAPABILITIES =3D (&quot;cap-cfpc=3Dbroken,&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-sbbc=3Dbroken,&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-ibs=3Dbroken,&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-ccf-assist=3Doff,&quot;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-fwnmi=3Doff&quot;)<br>
+<br>
+<br>
+=C2=A0class QEMUMachineError(Exception):<br>
+@@ -447,6 +452,14 @@ def _launch(self) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Launch the VM and establish a QMP connect=
+ion<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # pseries needs extra machine options to disab=
+le Spectre/Meltdown<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # KVM related capabilities that might not be a=
+vailable in the<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # host.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;qemu-system-ppc64&quot; in self._bina=
+ry:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self._machine is None or &quo=
+t;pseries&quot; in self._machine:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._args.extend(=
+[&#39;-machine&#39;, PSERIES_DEFAULT_CAPABILITIES])<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._pre_launch()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0LOG.debug(&#39;VM launch command: %r&#39;=
+, &#39; &#39;.join(self._qemu_full_args))<br>
+<br>
+-- <br>
+2.32.0<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Hm, okay.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">I =
+have plans to try and factor the machine appliance out and into an upstream=
+ package in the near future, so I want to avoid more hardcoding of defaults=
+.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Does avocado have a su=
+bclass of QEMUMachine where it might be more appropriate to stick this band=
+aid? Can we make one?</div><div dir=3D"auto"><br></div><div dir=3D"auto">(I=
+ don&#39;t think iotests runs into this problem because we always use machi=
+ne:none there, I think. VM tests might have a similar problem though, and t=
+hen it&#39;d be reasonable to want the bandaid here in machine.py ... well,=
+ boo. okay.)</div><div dir=3D"auto"><br></div><div dir=3D"auto">My verdict =
+is that it&#39;s a bandaid, but I&#39;ll accept it if the avocado folks agr=
+ee to it and I&#39;ll sort it out later when I do my rewrite.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">I don&#39;t think I have access to a =
+power9 machine to test this with either, so I might want a tested-by from s=
+omeone who does.</div><div dir=3D"auto"><br></div><div dir=3D"auto">--js</d=
+iv><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex">
+</blockquote></div></div></div>
 
---000000000000884a5305df64b71f--
+--000000000000ae457b05df65962e--
 
 
