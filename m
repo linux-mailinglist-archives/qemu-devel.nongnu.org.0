@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB0C52DBD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:50:51 +0200 (CEST)
-Received: from localhost ([::1]:58684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4F452DC4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 20:05:55 +0200 (CEST)
+Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkIU-0005av-Hh
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:50:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59628)
+	id 1nrkX4-0004Fv-4B
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 14:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5J-0006RU-K0
- for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:13 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:42611)
+ id 1nrk5K-0006U4-7K
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:14 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5H-0000sm-0u
+ id 1nrk5F-0000sC-IC
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:13 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- r6-20020a1c2b06000000b00396fee5ebc9so3094730wmr.1
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:37:10 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id
+ a14-20020a7bc1ce000000b00393fb52a386so5464340wmj.1
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sSZXFwuswjQ2jiay/orYwKt8+o5lsq+T5fVa2+sUtKM=;
- b=vEsEzqE8Sfhq+67Gu0/vv1xtjOjpKgZ1+DlRjbOdbUNPv3WMTVN5kD96HhZRHEtlOv
- HzASnKuZvnmSDx1bJwQ0o2Oqykm3m98xkYbNyz4U36QkJm8PojQn6gtZv0jgswtT3Aus
- ZWlficcCZ2UK1zZ3RfftbXPEacJXo1Dqk6baOEItxvflfpoEpDIxWkfTpYQxp9rPqZJZ
- 0iN+cBjjLscKCwiXV9l0w5HKlGpTHYfvjjInXDm/l5x0lpJeBnqQZ2uypOu9utsf/0kk
- OqgEkBl2vghHYcnB9fYMRTvNgf/ZBHpReyvPjw6lbvD70BlvkU3EWbzoWTB9sV1a4CN6
- XSTQ==
+ bh=FynhDtYvj3CxzRLSU4kAPvr9JvgtqP8FYx4t0cBZfdo=;
+ b=sCleLE3+GRF7BkRcXrtM2g4vH9rq4MNTLDHIam2tzpoeQgMOSaqwuF3sneE1KhDN1u
+ bKO0OhbH+8bh1v3weUKRgL6aw0oTn+KS+PZTyxz2FMU+W0zGHeVX/P+HocbCVvBacWac
+ I+TV7OVXJhDMF0AXqspY7EYdUUsvz3K9Dh3pK8mhAreewFz0hqPWRipnuK0Bs3DxuUr2
+ tysoiLAoTnL1gwIZwQzSSlhXRmoztAYV++rhTfdeZBYsPnmZTSuQFsapbdlt9hRQYIqJ
+ BTP0O/WYgEdsEdpNXloFvhv25aRUP6HVzHI5sFjtGmo3nQ504qoBL/cnZuG3B9S4DRFl
+ OcoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sSZXFwuswjQ2jiay/orYwKt8+o5lsq+T5fVa2+sUtKM=;
- b=2ScXqcdza14MfIXJZzvaFB/Q4Hu48SmlDgLcr8qCnSnRzfMW+kq/dwSo0GwVAOxT2K
- 1YZKQg+xfZzx97SBCZYXbnPI8MFiR1kjgn/ZFTlwixwT+r7IE/YZvS2/HeOrYBkOXaOO
- YaaJ/4X+ZeuwkumVjbWEN9eLrkPA+FSo3R95QG1lZ8SDX7CGKrBBGvS4jwA7fBF1384+
- TMKVVIZt1MY5n7O1OZVfY2WixaOEFcRe3SDudfgqKzzjQrY5RXf+BWX8TKy+qigZIT79
- aHh/01ZODve0tSCHSv/Iyv/b7ImyLzkbFLC3Bb+x4IkVMWWtEUcTutFNhEwmh4/lq2OE
- 3irQ==
-X-Gm-Message-State: AOAM530nkB5sWVPx2ltKl5VcVJZ5xYKMgZ5Sy0oORwFyLB4mpRBXDwza
- 3PRbPVYtDv+aDdaMO7FZlWNU60Mv+7ifHQ==
-X-Google-Smtp-Source: ABdhPJzKFS4FVZdeTJsHJShdlwFQ/cxAlXN2DEQVVw0HaLL3hEPmwCkv45ueV1r0GoUyXaJr7UyT3A==
-X-Received: by 2002:a7b:c403:0:b0:38e:7c57:9af7 with SMTP id
- k3-20020a7bc403000000b0038e7c579af7mr4762114wmi.144.1652981829498; 
- Thu, 19 May 2022 10:37:09 -0700 (PDT)
+ bh=FynhDtYvj3CxzRLSU4kAPvr9JvgtqP8FYx4t0cBZfdo=;
+ b=tSwv0e+IehNFAGL/fHkIXqN/6AGXWNz3GEJCY6qKatJBUNwt9fQASebRUd8kBBQR9c
+ RL4KDsmvVogfKqGPI0Dpc/d3t+66Qonptpy6xq8tT9WuQg/gQAWGCKxw0aIgSxZUKI9Z
+ KRUsSmcV5PpWV4B+Q/tKNYF+N+D3YxwLEofOMNroobgtXnpFKTnR0BOVYxEt08X7PK/+
+ wQqlTg17KXzbcaU68ITB/PYhsLpPNeunNiNQYgPAE1dsZOQnNPkx9KsRw4dnqJC+MyD8
+ mIsdkYCYYKTCHjljVrsRVPdhAsGVA79rO1BqFr57gPwiRTQTcv1vsME40qZOvPFwpK7B
+ qS4w==
+X-Gm-Message-State: AOAM5334oNy0o4hoKXC31T4IDNbGiMTiA9BUp8iUv6A0TcoUwQSjI/ZS
+ VIvW7GMgUx55y7qXtcbten3h0QoZAPT8Ug==
+X-Google-Smtp-Source: ABdhPJxrmbYKy5kcEk3kjNJXdyYdxOsCE6dYb3VQbgem33HGr79nz9356F2hpDYX4+ooNeT47Txhsg==
+X-Received: by 2002:a7b:c015:0:b0:397:3685:5148 with SMTP id
+ c21-20020a7bc015000000b0039736855148mr920509wmb.174.1652981826987; 
+ Thu, 19 May 2022 10:37:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.37.08
+ e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.37.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 10:37:09 -0700 (PDT)
+ Thu, 19 May 2022 10:37:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/22] ptimer: Rename PTIMER_POLICY_DEFAULT to
- PTIMER_POLICY_LEGACY
-Date: Thu, 19 May 2022 18:36:48 +0100
-Message-Id: <20220519173651.399295-20-peter.maydell@linaro.org>
+Subject: [PULL 16/22] target/arm: Make number of counters in PMCR follow the
+ CPU
+Date: Thu, 19 May 2022 18:36:45 +0100
+Message-Id: <20220519173651.399295-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
 References: <20220519173651.399295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,442 +90,291 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The traditional ptimer behaviour includes a collection of weird edge
-case behaviours.  In 2016 we improved the ptimer implementation to
-fix these and generally make the behaviour more flexible, with
-ptimers opting in to the new behaviour by passing an appropriate set
-of policy flags to ptimer_init().  For backwards-compatibility, we
-defined PTIMER_POLICY_DEFAULT (which sets no flags) to give the old
-weird behaviour.
+Currently we give all the v7-and-up CPUs a PMU with 4 counters.  This
+means that we don't provide the 6 counters that are required by the
+Arm BSA (Base System Architecture) specification if the CPU supports
+the Virtualization extensions.
 
-This turns out to be a poor choice of name, because people writing
-new devices which use ptimers are misled into thinking that the
-default is probably a sensible choice of flags, when in fact it is
-almost always not what you want.  Rename PTIMER_POLICY_DEFAULT to
-PTIMER_POLICY_LEGACY and beef up the comment to more clearly say that
-new devices should not be using it.
+Instead of having a single PMCR_NUM_COUNTERS, make each CPU type
+specify the PMCR reset value (obtained from the appropriate TRM), and
+use the 'N' field of that value to define the number of counters
+provided.
 
-The code-change part of this commit was produced by
-  sed -i -e 's/PTIMER_POLICY_DEFAULT/PTIMER_POLICY_LEGACY/g' $(git grep -l PTIMER_POLICY_DEFAULT)
-with the exception of a test name string change in
-tests/unit/ptimer-test.c which was added manually.
+This means that we now supply 6 counters instead of 4 for:
+ Cortex-A9, Cortex-A15, Cortex-A53, Cortex-A57, Cortex-A72,
+ Cortex-A76, Neoverse-N1, '-cpu max'
+This CPU goes from 4 to 8 counters:
+ A64FX
+These CPUs remain with 4 counters:
+ Cortex-A7, Cortex-A8
+This CPU goes down from 4 to 3 counters:
+ Cortex-R5
+
+Note that because we now use the PMCR reset value of the specific
+implementation, we no longer set the LC bit out of reset.  This has
+an UNKNOWN value out of reset for all cores with any AArch32 support,
+so guest software should be setting it anyway if it wants it.
+
+This change was originally landed in commit f7fb73b8cdd3f7 (during
+the 6.0 release cycle) but was then reverted by commit
+21c2dd77a6aa517 before that release because it did not work with KVM.
+This version fixes that by creating the scratch vCPU in
+kvm_arm_get_host_cpu_features() with the KVM_ARM_VCPU_PMU_V3 feature
+if KVM supports it, and then only asking KVM for the PMCR_EL0 value
+if the vCPU has a PMU.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220516103058.162280-1-peter.maydell@linaro.org
+[PMM: Added the correct value for a64fx]
+Message-id: 20220513122852.4063586-1-peter.maydell@linaro.org
 ---
- include/hw/ptimer.h          | 16 ++++++++++++----
- hw/arm/musicpal.c            |  2 +-
- hw/dma/xilinx_axidma.c       |  2 +-
- hw/dma/xlnx_csu_dma.c        |  2 +-
- hw/m68k/mcf5206.c            |  2 +-
- hw/m68k/mcf5208.c            |  2 +-
- hw/net/can/xlnx-zynqmp-can.c |  2 +-
- hw/net/fsl_etsec/etsec.c     |  2 +-
- hw/net/lan9118.c             |  2 +-
- hw/rtc/exynos4210_rtc.c      |  4 ++--
- hw/timer/allwinner-a10-pit.c |  2 +-
- hw/timer/altera_timer.c      |  2 +-
- hw/timer/arm_timer.c         |  2 +-
- hw/timer/digic-timer.c       |  2 +-
- hw/timer/etraxfs_timer.c     |  6 +++---
- hw/timer/exynos4210_mct.c    |  6 +++---
- hw/timer/exynos4210_pwm.c    |  2 +-
- hw/timer/grlib_gptimer.c     |  2 +-
- hw/timer/imx_epit.c          |  4 ++--
- hw/timer/imx_gpt.c           |  2 +-
- hw/timer/mss-timer.c         |  2 +-
- hw/timer/sh_timer.c          |  2 +-
- hw/timer/slavio_timer.c      |  2 +-
- hw/timer/xilinx_timer.c      |  2 +-
- tests/unit/ptimer-test.c     |  6 +++---
- 25 files changed, 44 insertions(+), 36 deletions(-)
+ target/arm/cpu.h       |  1 +
+ target/arm/internals.h |  4 +++-
+ target/arm/cpu64.c     | 11 +++++++++++
+ target/arm/cpu_tcg.c   |  6 ++++++
+ target/arm/helper.c    | 25 ++++++++++++++-----------
+ target/arm/kvm64.c     | 12 ++++++++++++
+ 6 files changed, 47 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/ptimer.h b/include/hw/ptimer.h
-index c443218475b..4dc02b0de47 100644
---- a/include/hw/ptimer.h
-+++ b/include/hw/ptimer.h
-@@ -33,9 +33,17 @@
-  * to stderr when the guest attempts to enable the timer.
-  */
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index a42464eb57a..3dc79f121b5 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -965,6 +965,7 @@ struct ArchCPU {
+         uint64_t id_aa64dfr0;
+         uint64_t id_aa64dfr1;
+         uint64_t id_aa64zfr0;
++        uint64_t reset_pmcr_el0;
+     } isar;
+     uint64_t midr;
+     uint32_t revidr;
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 9b354eea7e4..b654bee4682 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1304,7 +1304,9 @@ enum MVEECIState {
  
--/* The default ptimer policy retains backward compatibility with the legacy
-- * timers. Custom policies are adjusting the default one. Consider providing
-- * a correct policy for your timer.
-+/*
-+ * The 'legacy' ptimer policy retains backward compatibility with the
-+ * traditional ptimer behaviour from before policy flags were introduced.
-+ * It has several weird behaviours which don't match typical hardware
-+ * timer behaviour. For a new device using ptimers, you should not
-+ * use PTIMER_POLICY_LEGACY, but instead check the actual behaviour
-+ * that you need and specify the right set of policy flags to get that.
-+ *
-+ * If you are overhauling an existing device that uses PTIMER_POLICY_LEGACY
-+ * and are in a position to check or test the real hardware behaviour,
-+ * consider updating it to specify the right policy flags.
-  *
-  * The rough edges of the default policy:
-  *  - Starting to run with a period = 0 emits error message and stops the
-@@ -54,7 +62,7 @@
-  *    since the last period, effectively restarting the timer with a
-  *    counter = counter value at the moment of change (.i.e. one less).
-  */
--#define PTIMER_POLICY_DEFAULT               0
-+#define PTIMER_POLICY_LEGACY                0
- 
- /* Periodic timer counter stays with "0" for a one period before wrapping
-  * around.  */
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index 7c840fb4283..b65c020115a 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -464,7 +464,7 @@ static void mv88w8618_timer_init(SysBusDevice *dev, mv88w8618_timer_state *s,
-     sysbus_init_irq(dev, &s->irq);
-     s->freq = freq;
- 
--    s->ptimer = ptimer_init(mv88w8618_timer_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(mv88w8618_timer_tick, s, PTIMER_POLICY_LEGACY);
- }
- 
- static uint64_t mv88w8618_pit_read(void *opaque, hwaddr offset,
-diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index bc383f53cca..cbb8f0f1696 100644
---- a/hw/dma/xilinx_axidma.c
-+++ b/hw/dma/xilinx_axidma.c
-@@ -552,7 +552,7 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
- 
-         st->dma = s;
-         st->nr = i;
--        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
-+        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(st->ptimer);
-         ptimer_set_freq(st->ptimer, s->freqhz);
-         ptimer_transaction_commit(st->ptimer);
-diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
-index 60ada3286b4..1ce52ea5a2b 100644
---- a/hw/dma/xlnx_csu_dma.c
-+++ b/hw/dma/xlnx_csu_dma.c
-@@ -666,7 +666,7 @@ static void xlnx_csu_dma_realize(DeviceState *dev, Error **errp)
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- 
-     s->src_timer = ptimer_init(xlnx_csu_dma_src_timeout_hit,
--                               s, PTIMER_POLICY_DEFAULT);
-+                               s, PTIMER_POLICY_LEGACY);
- 
-     s->attr = MEMTXATTRS_UNSPECIFIED;
- 
-diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-index 6d93d761a5e..2ab1b4f0593 100644
---- a/hw/m68k/mcf5206.c
-+++ b/hw/m68k/mcf5206.c
-@@ -152,7 +152,7 @@ static m5206_timer_state *m5206_timer_init(qemu_irq irq)
-     m5206_timer_state *s;
- 
-     s = g_new0(m5206_timer_state, 1);
--    s->timer = ptimer_init(m5206_timer_trigger, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(m5206_timer_trigger, s, PTIMER_POLICY_LEGACY);
-     s->irq = irq;
-     m5206_timer_reset(s);
-     return s;
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index 655207e393d..be1033f84f8 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -197,7 +197,7 @@ static void mcf5208_sys_init(MemoryRegion *address_space, qemu_irq *pic)
-     /* Timers.  */
-     for (i = 0; i < 2; i++) {
-         s = g_new0(m5208_timer_state, 1);
--        s->timer = ptimer_init(m5208_timer_trigger, s, PTIMER_POLICY_DEFAULT);
-+        s->timer = ptimer_init(m5208_timer_trigger, s, PTIMER_POLICY_LEGACY);
-         memory_region_init_io(&s->iomem, NULL, &m5208_timer_ops, s,
-                               "m5208-timer", 0x00004000);
-         memory_region_add_subregion(address_space, 0xfc080000 + 0x4000 * i,
-diff --git a/hw/net/can/xlnx-zynqmp-can.c b/hw/net/can/xlnx-zynqmp-can.c
-index 22bb8910fa8..82ac48cee24 100644
---- a/hw/net/can/xlnx-zynqmp-can.c
-+++ b/hw/net/can/xlnx-zynqmp-can.c
-@@ -1079,7 +1079,7 @@ static void xlnx_zynqmp_can_realize(DeviceState *dev, Error **errp)
- 
-     /* Allocate a new timer. */
-     s->can_timer = ptimer_init(xlnx_zynqmp_can_ptimer_cb, s,
--                               PTIMER_POLICY_DEFAULT);
-+                               PTIMER_POLICY_LEGACY);
- 
-     ptimer_transaction_begin(s->can_timer);
- 
-diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
-index 6d50c395439..4e6cc708dec 100644
---- a/hw/net/fsl_etsec/etsec.c
-+++ b/hw/net/fsl_etsec/etsec.c
-@@ -393,7 +393,7 @@ static void etsec_realize(DeviceState *dev, Error **errp)
-                               object_get_typename(OBJECT(dev)), dev->id, etsec);
-     qemu_format_nic_info_str(qemu_get_queue(etsec->nic), etsec->conf.macaddr.a);
- 
--    etsec->ptimer = ptimer_init(etsec_timer_hit, etsec, PTIMER_POLICY_DEFAULT);
-+    etsec->ptimer = ptimer_init(etsec_timer_hit, etsec, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(etsec->ptimer);
-     ptimer_set_freq(etsec->ptimer, 100);
-     ptimer_transaction_commit(etsec->ptimer);
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index 6aff424cbe5..456ae38107b 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -1363,7 +1363,7 @@ static void lan9118_realize(DeviceState *dev, Error **errp)
-     s->pmt_ctrl = 1;
-     s->txp = &s->tx_packet;
- 
--    s->timer = ptimer_init(lan9118_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(lan9118_tick, s, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(s->timer);
-     ptimer_set_freq(s->timer, 10000);
-     ptimer_set_limit(s->timer, 0xffff, 1);
-diff --git a/hw/rtc/exynos4210_rtc.c b/hw/rtc/exynos4210_rtc.c
-index ae67641de66..d1620c7a2ac 100644
---- a/hw/rtc/exynos4210_rtc.c
-+++ b/hw/rtc/exynos4210_rtc.c
-@@ -564,14 +564,14 @@ static void exynos4210_rtc_init(Object *obj)
-     Exynos4210RTCState *s = EXYNOS4210_RTC(obj);
-     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
- 
--    s->ptimer = ptimer_init(exynos4210_rtc_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(exynos4210_rtc_tick, s, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(s->ptimer);
-     ptimer_set_freq(s->ptimer, RTC_BASE_FREQ);
-     exynos4210_rtc_update_freq(s, 0);
-     ptimer_transaction_commit(s->ptimer);
- 
-     s->ptimer_1Hz = ptimer_init(exynos4210_rtc_1Hz_tick,
--                                s, PTIMER_POLICY_DEFAULT);
-+                                s, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(s->ptimer_1Hz);
-     ptimer_set_freq(s->ptimer_1Hz, RTC_BASE_FREQ);
-     ptimer_transaction_commit(s->ptimer_1Hz);
-diff --git a/hw/timer/allwinner-a10-pit.c b/hw/timer/allwinner-a10-pit.c
-index c3fc2a4daaf..971f78462ab 100644
---- a/hw/timer/allwinner-a10-pit.c
-+++ b/hw/timer/allwinner-a10-pit.c
-@@ -275,7 +275,7 @@ static void a10_pit_init(Object *obj)
- 
-         tc->container = s;
-         tc->index = i;
--        s->timer[i] = ptimer_init(a10_pit_timer_cb, tc, PTIMER_POLICY_DEFAULT);
-+        s->timer[i] = ptimer_init(a10_pit_timer_cb, tc, PTIMER_POLICY_LEGACY);
-     }
- }
- 
-diff --git a/hw/timer/altera_timer.c b/hw/timer/altera_timer.c
-index c6e02d2b5a7..0f1f54206a3 100644
---- a/hw/timer/altera_timer.c
-+++ b/hw/timer/altera_timer.c
-@@ -185,7 +185,7 @@ static void altera_timer_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    t->ptimer = ptimer_init(timer_hit, t, PTIMER_POLICY_DEFAULT);
-+    t->ptimer = ptimer_init(timer_hit, t, PTIMER_POLICY_LEGACY);
-     ptimer_transaction_begin(t->ptimer);
-     ptimer_set_freq(t->ptimer, t->freq_hz);
-     ptimer_transaction_commit(t->ptimer);
-diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
-index 84cf2726bb3..69c88634722 100644
---- a/hw/timer/arm_timer.c
-+++ b/hw/timer/arm_timer.c
-@@ -180,7 +180,7 @@ static arm_timer_state *arm_timer_init(uint32_t freq)
-     s->freq = freq;
-     s->control = TIMER_CTRL_IE;
- 
--    s->timer = ptimer_init(arm_timer_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(arm_timer_tick, s, PTIMER_POLICY_LEGACY);
-     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_arm_timer, s);
-     return s;
- }
-diff --git a/hw/timer/digic-timer.c b/hw/timer/digic-timer.c
-index e3aae4a45a4..d5186f44549 100644
---- a/hw/timer/digic-timer.c
-+++ b/hw/timer/digic-timer.c
-@@ -139,7 +139,7 @@ static void digic_timer_init(Object *obj)
+ static inline uint32_t pmu_num_counters(CPUARMState *env)
  {
-     DigicTimerState *s = DIGIC_TIMER(obj);
- 
--    s->ptimer = ptimer_init(digic_timer_tick, NULL, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(digic_timer_tick, NULL, PTIMER_POLICY_LEGACY);
- 
-     /*
-      * FIXME: there is no documentation on Digic timer
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index 139e5b86a44..ecc2831bafb 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -370,9 +370,9 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
-     ETRAXTimerState *t = ETRAX_TIMER(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
- 
--    t->ptimer_t0 = ptimer_init(timer0_hit, t, PTIMER_POLICY_DEFAULT);
--    t->ptimer_t1 = ptimer_init(timer1_hit, t, PTIMER_POLICY_DEFAULT);
--    t->ptimer_wd = ptimer_init(watchdog_hit, t, PTIMER_POLICY_DEFAULT);
-+    t->ptimer_t0 = ptimer_init(timer0_hit, t, PTIMER_POLICY_LEGACY);
-+    t->ptimer_t1 = ptimer_init(timer1_hit, t, PTIMER_POLICY_LEGACY);
-+    t->ptimer_wd = ptimer_init(watchdog_hit, t, PTIMER_POLICY_LEGACY);
- 
-     sysbus_init_irq(sbd, &t->irq);
-     sysbus_init_irq(sbd, &t->nmi);
-diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
-index d0e53439968..e175a9f5b9b 100644
---- a/hw/timer/exynos4210_mct.c
-+++ b/hw/timer/exynos4210_mct.c
-@@ -1503,17 +1503,17 @@ static void exynos4210_mct_init(Object *obj)
- 
-     /* Global timer */
-     s->g_timer.ptimer_frc = ptimer_init(exynos4210_gfrc_event, s,
--                                        PTIMER_POLICY_DEFAULT);
-+                                        PTIMER_POLICY_LEGACY);
-     memset(&s->g_timer.reg, 0, sizeof(struct gregs));
- 
-     /* Local timers */
-     for (i = 0; i < 2; i++) {
-         s->l_timer[i].tick_timer.ptimer_tick =
-             ptimer_init(exynos4210_ltick_event, &s->l_timer[i],
--                        PTIMER_POLICY_DEFAULT);
-+                        PTIMER_POLICY_LEGACY);
-         s->l_timer[i].ptimer_frc =
-             ptimer_init(exynos4210_lfrc_event, &s->l_timer[i],
--                        PTIMER_POLICY_DEFAULT);
-+                        PTIMER_POLICY_LEGACY);
-         s->l_timer[i].id = i;
-     }
- 
-diff --git a/hw/timer/exynos4210_pwm.c b/hw/timer/exynos4210_pwm.c
-index 220088120ee..02924a9e5b3 100644
---- a/hw/timer/exynos4210_pwm.c
-+++ b/hw/timer/exynos4210_pwm.c
-@@ -400,7 +400,7 @@ static void exynos4210_pwm_init(Object *obj)
-         sysbus_init_irq(dev, &s->timer[i].irq);
-         s->timer[i].ptimer = ptimer_init(exynos4210_pwm_tick,
-                                          &s->timer[i],
--                                         PTIMER_POLICY_DEFAULT);
-+                                         PTIMER_POLICY_LEGACY);
-         s->timer[i].id = i;
-         s->timer[i].parent = s;
-     }
-diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
-index d5118901097..5c4923c1e09 100644
---- a/hw/timer/grlib_gptimer.c
-+++ b/hw/timer/grlib_gptimer.c
-@@ -383,7 +383,7 @@ static void grlib_gptimer_realize(DeviceState *dev, Error **errp)
- 
-         timer->unit   = unit;
-         timer->ptimer = ptimer_init(grlib_gptimer_hit, timer,
--                                    PTIMER_POLICY_DEFAULT);
-+                                    PTIMER_POLICY_LEGACY);
-         timer->id     = i;
- 
-         /* One IRQ line for each timer */
-diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index ebd58254d15..2bf8c754b21 100644
---- a/hw/timer/imx_epit.c
-+++ b/hw/timer/imx_epit.c
-@@ -347,9 +347,9 @@ static void imx_epit_realize(DeviceState *dev, Error **errp)
-                           0x00001000);
-     sysbus_init_mmio(sbd, &s->iomem);
- 
--    s->timer_reload = ptimer_init(imx_epit_reload, s, PTIMER_POLICY_DEFAULT);
-+    s->timer_reload = ptimer_init(imx_epit_reload, s, PTIMER_POLICY_LEGACY);
- 
--    s->timer_cmp = ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_DEFAULT);
-+    s->timer_cmp = ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
+-  return (env->cp15.c9_pmcr & PMCRN_MASK) >> PMCRN_SHIFT;
++    ARMCPU *cpu = env_archcpu(env);
++
++    return (cpu->isar.reset_pmcr_el0 & PMCRN_MASK) >> PMCRN_SHIFT;
  }
  
- static void imx_epit_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
-index 5c0d9a269ce..80b83026399 100644
---- a/hw/timer/imx_gpt.c
-+++ b/hw/timer/imx_gpt.c
-@@ -505,7 +505,7 @@ static void imx_gpt_realize(DeviceState *dev, Error **errp)
-                           0x00001000);
-     sysbus_init_mmio(sbd, &s->iomem);
- 
--    s->timer = ptimer_init(imx_gpt_timeout, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(imx_gpt_timeout, s, PTIMER_POLICY_LEGACY);
+ /* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 7628f4fa39d..a752b648568 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -79,6 +79,7 @@ static void aarch64_a57_initfn(Object *obj)
+     cpu->isar.id_aa64isar0 = 0x00011120;
+     cpu->isar.id_aa64mmfr0 = 0x00001124;
+     cpu->isar.dbgdidr = 0x3516d000;
++    cpu->isar.reset_pmcr_el0 = 0x41013000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
+@@ -133,6 +134,7 @@ static void aarch64_a53_initfn(Object *obj)
+     cpu->isar.id_aa64isar0 = 0x00011120;
+     cpu->isar.id_aa64mmfr0 = 0x00001122; /* 40 bit physical addr */
+     cpu->isar.dbgdidr = 0x3516d000;
++    cpu->isar.reset_pmcr_el0 = 0x41033000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
+@@ -185,6 +187,7 @@ static void aarch64_a72_initfn(Object *obj)
+     cpu->isar.id_aa64isar0 = 0x00011120;
+     cpu->isar.id_aa64mmfr0 = 0x00001124;
+     cpu->isar.dbgdidr = 0x3516d000;
++    cpu->isar.reset_pmcr_el0 = 0x41023000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
+@@ -261,6 +264,9 @@ static void aarch64_a76_initfn(Object *obj)
+     cpu->isar.mvfr0 = 0x10110222;
+     cpu->isar.mvfr1 = 0x13211111;
+     cpu->isar.mvfr2 = 0x00000043;
++
++    /* From D5.1 AArch64 PMU register summary */
++    cpu->isar.reset_pmcr_el0 = 0x410b3000;
  }
  
- static void imx_gpt_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/timer/mss-timer.c b/hw/timer/mss-timer.c
-index fe0ca905f3c..ee7438f1684 100644
---- a/hw/timer/mss-timer.c
-+++ b/hw/timer/mss-timer.c
-@@ -232,7 +232,7 @@ static void mss_timer_init(Object *obj)
-     for (i = 0; i < NUM_TIMERS; i++) {
-         struct Msf2Timer *st = &t->timers[i];
+ static void aarch64_neoverse_n1_initfn(Object *obj)
+@@ -327,6 +333,9 @@ static void aarch64_neoverse_n1_initfn(Object *obj)
+     cpu->isar.mvfr0 = 0x10110222;
+     cpu->isar.mvfr1 = 0x13211111;
+     cpu->isar.mvfr2 = 0x00000043;
++
++    /* From D5.1 AArch64 PMU register summary */
++    cpu->isar.reset_pmcr_el0 = 0x410c3000;
+ }
  
--        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
-+        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(st->ptimer);
-         ptimer_set_freq(st->ptimer, t->freq_hz);
-         ptimer_transaction_commit(st->ptimer);
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index c72c327bfaf..77889397669 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -239,7 +239,7 @@ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
-     s->enabled = 0;
-     s->irq = irq;
+ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+@@ -1022,6 +1031,8 @@ static void aarch64_a64fx_initfn(Object *obj)
+     set_bit(1, cpu->sve_vq_supported); /* 256bit */
+     set_bit(3, cpu->sve_vq_supported); /* 512bit */
  
--    s->timer = ptimer_init(sh_timer_tick, s, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(sh_timer_tick, s, PTIMER_POLICY_LEGACY);
++    cpu->isar.reset_pmcr_el0 = 0x46014040;
++
+     /* TODO:  Add A64FX specific HPC extension registers */
+ }
  
-     sh_timer_write(s, OFFSET_TCOR >> 2, s->tcor);
-     sh_timer_write(s, OFFSET_TCNT >> 2, s->tcnt);
-diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
-index 90fdce4c442..8c4f6eb06b6 100644
---- a/hw/timer/slavio_timer.c
-+++ b/hw/timer/slavio_timer.c
-@@ -405,7 +405,7 @@ static void slavio_timer_init(Object *obj)
-         tc->timer_index = i;
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index ea4eccddc35..b751a19c8a7 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -425,6 +425,7 @@ static void cortex_a8_initfn(Object *obj)
+     cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
+     cpu->ccsidr[2] = 0xf0000000; /* No L2 icache. */
+     cpu->reset_auxcr = 2;
++    cpu->isar.reset_pmcr_el0 = 0x41002000;
+     define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
+ }
  
-         s->cputimer[i].timer = ptimer_init(slavio_timer_irq, tc,
--                                           PTIMER_POLICY_DEFAULT);
-+                                           PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(s->cputimer[i].timer);
-         ptimer_set_period(s->cputimer[i].timer, TIMER_PERIOD);
-         ptimer_transaction_commit(s->cputimer[i].timer);
-diff --git a/hw/timer/xilinx_timer.c b/hw/timer/xilinx_timer.c
-index 1eb927eb847..c7f17cd6460 100644
---- a/hw/timer/xilinx_timer.c
-+++ b/hw/timer/xilinx_timer.c
-@@ -223,7 +223,7 @@ static void xilinx_timer_realize(DeviceState *dev, Error **errp)
+@@ -496,6 +497,7 @@ static void cortex_a9_initfn(Object *obj)
+     cpu->clidr = (1 << 27) | (1 << 24) | 3;
+     cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
+     cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
++    cpu->isar.reset_pmcr_el0 = 0x41093000;
+     define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
+ }
  
-         xt->parent = t;
-         xt->nr = i;
--        xt->ptimer = ptimer_init(timer_hit, xt, PTIMER_POLICY_DEFAULT);
-+        xt->ptimer = ptimer_init(timer_hit, xt, PTIMER_POLICY_LEGACY);
-         ptimer_transaction_begin(xt->ptimer);
-         ptimer_set_freq(xt->ptimer, t->freq_hz);
-         ptimer_transaction_commit(xt->ptimer);
-diff --git a/tests/unit/ptimer-test.c b/tests/unit/ptimer-test.c
-index 9176b96c1ce..a80ef5aff4c 100644
---- a/tests/unit/ptimer-test.c
-+++ b/tests/unit/ptimer-test.c
-@@ -768,8 +768,8 @@ static void add_ptimer_tests(uint8_t policy)
-     char policy_name[256] = "";
-     char *tmp;
+@@ -565,6 +567,7 @@ static void cortex_a7_initfn(Object *obj)
+     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+     cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
++    cpu->isar.reset_pmcr_el0 = 0x41072000;
+     define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
+ }
  
--    if (policy == PTIMER_POLICY_DEFAULT) {
--        g_sprintf(policy_name, "default");
-+    if (policy == PTIMER_POLICY_LEGACY) {
-+        g_sprintf(policy_name, "legacy");
+@@ -607,6 +610,7 @@ static void cortex_a15_initfn(Object *obj)
+     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+     cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
++    cpu->isar.reset_pmcr_el0 = 0x410F3000;
+     define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
+ }
+ 
+@@ -835,6 +839,7 @@ static void cortex_r5_initfn(Object *obj)
+     cpu->isar.id_isar6 = 0x0;
+     cpu->mp_is_up = true;
+     cpu->pmsav7_dregion = 16;
++    cpu->isar.reset_pmcr_el0 = 0x41151800;
+     define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
+ }
+ 
+@@ -1093,6 +1098,7 @@ static void arm_max_initfn(Object *obj)
+     cpu->isar.id_isar5 = 0x00011121;
+     cpu->isar.id_isar6 = 0;
+     cpu->isar.dbgdidr = 0x3516d000;
++    cpu->isar.reset_pmcr_el0 = 0x41013000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d4db21dc92c..aa7a8e05721 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -39,7 +39,6 @@
+ #include "cpregs.h"
+ 
+ #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
+-#define PMCR_NUM_COUNTERS 4 /* QEMU IMPDEF choice */
+ 
+ #ifndef CONFIG_USER_ONLY
+ 
+@@ -5544,13 +5543,6 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .resetvalue = 0,
+       .writefn = gt_hyp_ctl_write, .raw_writefn = raw_write },
+ #endif
+-    /* The only field of MDCR_EL2 that has a defined architectural reset value
+-     * is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
+-     */
+-    { .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
+-      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
+-      .access = PL2_RW, .resetvalue = PMCR_NUM_COUNTERS,
+-      .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el2), },
+     { .name = "HPFAR", .state = ARM_CP_STATE_AA32,
+       .cp = 15, .opc1 = 4, .crn = 6, .crm = 0, .opc2 = 4,
+       .access = PL2_RW, .accessfn = access_el3_aa32ns,
+@@ -6604,7 +6596,7 @@ static void define_pmu_regs(ARMCPU *cpu)
+      * field as main ID register, and we implement four counters in
+      * addition to the cycle count register.
+      */
+-    unsigned int i, pmcrn = PMCR_NUM_COUNTERS;
++    unsigned int i, pmcrn = pmu_num_counters(&cpu->env);
+     ARMCPRegInfo pmcr = {
+         .name = "PMCR", .cp = 15, .crn = 9, .crm = 12, .opc1 = 0, .opc2 = 0,
+         .access = PL0_RW,
+@@ -6619,10 +6611,10 @@ static void define_pmu_regs(ARMCPU *cpu)
+         .access = PL0_RW, .accessfn = pmreg_access,
+         .type = ARM_CP_IO,
+         .fieldoffset = offsetof(CPUARMState, cp15.c9_pmcr),
+-        .resetvalue = (cpu->midr & 0xff000000) | (pmcrn << PMCRN_SHIFT) |
+-                      PMCRLC,
++        .resetvalue = cpu->isar.reset_pmcr_el0,
+         .writefn = pmcr_write, .raw_writefn = raw_write,
+     };
++
+     define_one_arm_cp_reg(cpu, &pmcr);
+     define_one_arm_cp_reg(cpu, &pmcr64);
+     for (i = 0; i < pmcrn; i++) {
+@@ -7979,6 +7971,17 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .type = ARM_CP_EL3_NO_EL2_C_NZ,
+               .fieldoffset = offsetof(CPUARMState, cp15.vmpidr_el2) },
+         };
++        /*
++         * The only field of MDCR_EL2 that has a defined architectural reset
++         * value is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
++         */
++        ARMCPRegInfo mdcr_el2 = {
++            .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
++            .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
++            .access = PL2_RW, .resetvalue = pmu_num_counters(env),
++            .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el2),
++        };
++        define_one_arm_cp_reg(cpu, &mdcr_el2);
+         define_arm_cp_regs(cpu, vpidr_regs);
+         define_arm_cp_regs(cpu, el2_cp_reginfo);
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index b8cfaf5782a..363032da903 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -505,6 +505,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+      */
+     int fdarray[3];
+     bool sve_supported;
++    bool pmu_supported = false;
+     uint64_t features = 0;
+     uint64_t t;
+     int err;
+@@ -537,6 +538,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+                              1 << KVM_ARM_VCPU_PTRAUTH_GENERIC);
      }
  
-     if (policy & PTIMER_POLICY_WRAP_AFTER_ONE_PERIOD) {
-@@ -862,7 +862,7 @@ static void add_ptimer_tests(uint8_t policy)
- static void add_all_ptimer_policies_comb_tests(void)
- {
-     int last_policy = PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT;
--    int policy = PTIMER_POLICY_DEFAULT;
-+    int policy = PTIMER_POLICY_LEGACY;
++    if (kvm_arm_pmu_supported()) {
++        init.features[0] |= 1 << KVM_ARM_VCPU_PMU_V3;
++        pmu_supported = true;
++    }
++
+     if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
+         return false;
+     }
+@@ -659,6 +665,12 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+             dbgdidr |= (1 << 15); /* RES1 bit */
+             ahcf->isar.dbgdidr = dbgdidr;
+         }
++
++        if (pmu_supported) {
++            /* PMCR_EL0 is only accessible if the vCPU has feature PMU_V3 */
++            err |= read_sys_reg64(fdarray[2], &ahcf->isar.reset_pmcr_el0,
++                                  ARM64_SYS_REG(3, 3, 9, 12, 0));
++        }
+     }
  
-     for (; policy < (last_policy << 1); policy++) {
-         if ((policy & PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT) &&
+     sve_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SVE) > 0;
 -- 
 2.25.1
 
