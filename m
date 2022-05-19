@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DAA52CA6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:39:08 +0200 (CEST)
-Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C532C52CA72
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:40:08 +0200 (CEST)
+Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrX0F-0000MG-C2
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43028)
+	id 1nrX1D-00022r-TM
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:40:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nrWyG-0006kQ-8h
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:04 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:53949
+ id 1nrWyI-0006n6-Mv
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:06 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:53986
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nrWyC-0008NU-RE
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:04 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nrWyH-0008Nq-2A
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:06 -0400
 HMM_SOURCE_IP: 172.18.0.188:58888.87199194
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-36.111.64.84 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id B7F642800B7;
- Thu, 19 May 2022 11:36:54 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id BCB44280106;
+ Thu, 19 May 2022 11:36:56 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 4157e27bc8a54bb39a7d2a00bc9f1456 for
- qemu-devel@nongnu.org; Thu, 19 May 2022 11:36:56 CST
-X-Transaction-ID: 4157e27bc8a54bb39a7d2a00bc9f1456
+ by app0023 with ESMTP id 887ea5c217db4d77908cdf60f585659e for
+ qemu-devel@nongnu.org; Thu, 19 May 2022 11:37:01 CST
+X-Transaction-ID: 887ea5c217db4d77908cdf60f585659e
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
@@ -39,10 +39,9 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Hyman Huang <huangy81@chinatelecom.cn>
-Subject: [PATCH v24 1/8] accel/kvm/kvm-all: Refactor per-vcpu dirty ring
- reaping
-Date: Thu, 19 May 2022 11:36:41 +0800
-Message-Id: <bc37b83d5a189add887433728a0f632d35fb3e3e.1652931128.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v24 2/8] cpus: Introduce cpu_list_generation_id
+Date: Thu, 19 May 2022 11:36:42 +0800
+Message-Id: <4d7a5f2c86066839054282b1c224067d89d32fc1.1652931128.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1652931128.git.huangy81@chinatelecom.cn>
 References: <cover.1652931128.git.huangy81@chinatelecom.cn>
@@ -75,98 +74,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Add a non-required argument 'CPUState' to kvm_dirty_ring_reap so
-that it can cover single vcpu dirty-ring-reaping scenario.
+Introduce cpu_list_generation_id to track cpu list generation so
+that cpu hotplug/unplug can be detected during measurement of
+dirty page rate.
+
+cpu_list_generation_id could be used to detect changes of cpu
+list, which is prepared for dirty page rate measurement.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ cpus-common.c             | 8 ++++++++
+ include/exec/cpu-common.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 32e177b..b13cd27 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -756,17 +756,20 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
+diff --git a/cpus-common.c b/cpus-common.c
+index db459b4..793364d 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -73,6 +73,12 @@ static int cpu_get_free_index(void)
  }
  
- /* Must be with slots_lock held */
--static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
-+static uint64_t kvm_dirty_ring_reap_locked(KVMState *s, CPUState* cpu)
+ CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
++static unsigned int cpu_list_generation_id;
++
++unsigned int cpu_list_generation_id_get(void)
++{
++    return cpu_list_generation_id;
++}
+ 
+ void cpu_list_add(CPUState *cpu)
  {
-     int ret;
--    CPUState *cpu;
-     uint64_t total = 0;
-     int64_t stamp;
- 
-     stamp = get_clock();
- 
--    CPU_FOREACH(cpu) {
--        total += kvm_dirty_ring_reap_one(s, cpu);
-+    if (cpu) {
-+        total = kvm_dirty_ring_reap_one(s, cpu);
-+    } else {
-+        CPU_FOREACH(cpu) {
-+            total += kvm_dirty_ring_reap_one(s, cpu);
-+        }
+@@ -84,6 +90,7 @@ void cpu_list_add(CPUState *cpu)
+         assert(!cpu_index_auto_assigned);
      }
- 
-     if (total) {
-@@ -787,7 +790,7 @@ static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
-  * Currently for simplicity, we must hold BQL before calling this.  We can
-  * consider to drop the BQL if we're clear with all the race conditions.
-  */
--static uint64_t kvm_dirty_ring_reap(KVMState *s)
-+static uint64_t kvm_dirty_ring_reap(KVMState *s, CPUState *cpu)
- {
-     uint64_t total;
- 
-@@ -807,7 +810,7 @@ static uint64_t kvm_dirty_ring_reap(KVMState *s)
-      *     reset below.
-      */
-     kvm_slots_lock();
--    total = kvm_dirty_ring_reap_locked(s);
-+    total = kvm_dirty_ring_reap_locked(s, cpu);
-     kvm_slots_unlock();
- 
-     return total;
-@@ -854,7 +857,7 @@ static void kvm_dirty_ring_flush(void)
-      * vcpus out in a synchronous way.
-      */
-     kvm_cpu_synchronize_kick_all();
--    kvm_dirty_ring_reap(kvm_state);
-+    kvm_dirty_ring_reap(kvm_state, NULL);
-     trace_kvm_dirty_ring_flush(1);
+     QTAILQ_INSERT_TAIL_RCU(&cpus, cpu, node);
++    cpu_list_generation_id++;
  }
  
-@@ -1398,7 +1401,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                  * Not easy.  Let's cross the fingers until it's fixed.
-                  */
-                 if (kvm_state->kvm_dirty_ring_size) {
--                    kvm_dirty_ring_reap_locked(kvm_state);
-+                    kvm_dirty_ring_reap_locked(kvm_state, NULL);
-                 } else {
-                     kvm_slot_get_dirty_log(kvm_state, mem);
-                 }
-@@ -1470,7 +1473,7 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
-         r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
+ void cpu_list_remove(CPUState *cpu)
+@@ -96,6 +103,7 @@ void cpu_list_remove(CPUState *cpu)
  
-         qemu_mutex_lock_iothread();
--        kvm_dirty_ring_reap(s);
-+        kvm_dirty_ring_reap(s, NULL);
-         qemu_mutex_unlock_iothread();
+     QTAILQ_REMOVE_RCU(&cpus, cpu, node);
+     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
++    cpu_list_generation_id++;
+ }
  
-         r->reaper_iteration++;
-@@ -2957,7 +2960,7 @@ int kvm_cpu_exec(CPUState *cpu)
-              */
-             trace_kvm_dirty_ring_full(cpu->cpu_index);
-             qemu_mutex_lock_iothread();
--            kvm_dirty_ring_reap(kvm_state);
-+            kvm_dirty_ring_reap(kvm_state, NULL);
-             qemu_mutex_unlock_iothread();
-             ret = 0;
-             break;
+ CPUState *qemu_get_cpu(int index)
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 5968551..2281be4 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -35,6 +35,7 @@ extern intptr_t qemu_host_page_mask;
+ void qemu_init_cpu_list(void);
+ void cpu_list_lock(void);
+ void cpu_list_unlock(void);
++unsigned int cpu_list_generation_id_get(void);
+ 
+ void tcg_flush_softmmu_tlb(CPUState *cs);
+ 
 -- 
 1.8.3.1
 
