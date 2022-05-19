@@ -2,68 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2917252D260
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:23:49 +0200 (CEST)
-Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1363752D2A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:37:50 +0200 (CEST)
+Received: from localhost ([::1]:37140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrfC0-0004HS-9o
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49624)
+	id 1nrfPY-0003vp-K3
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nrf3H-0008O4-SH; Thu, 19 May 2022 08:14:52 -0400
-Received: from mga14.intel.com ([192.55.52.115]:8763)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrfNG-0002XX-1f
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:35:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nrf3G-0001Ql-04; Thu, 19 May 2022 08:14:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652962486; x=1684498486;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=5jkNoKW+g5NqPa2RqdSoClc/EH5ZdRJoFq4ON35Wqzg=;
- b=jCDqly+S7beG/PGS2EXQFrc4wfet0vCCs9V6oVP6plQdtMPfQZJ0rJW4
- ZW55V5hro4ARy5kMAkJjUklS3z49HYu13cSUdb3NrcwiXBYJATRaODib1
- 7B05lisqJdvwpL9bf8jBsHc99u+gLqfl9WEA1Wf3hiG2Ql6UNSFo8TszL
- 3wZjCl66zBZADNyLjmFq6SdY5ke612xzEvXuYzmgOx6I+zxsF6uffcfFB
- EQDUHPGP5MWDVI91+K3IEQhgly5CK9Vslj11zZxSRtvvhoiTC4P0bggdR
- +7CCSXyraEy9+7s5dKEe+GwTzeK/ZHUGnqL0omivwvlhOQMOqUUZrle/L g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="272302993"
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="272302993"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 05:14:40 -0700
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="546060556"
-Received: from kpiekosz-mobl.ger.corp.intel.com ([10.213.24.244])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 05:14:32 -0700
-Date: Thu, 19 May 2022 14:14:28 +0200
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-To: Klaus Jensen <its@irrelevant.dk>, lukasz.gieryk@linux.intel.com
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, ani@anisinha.ca,
- armbru@redhat.com, f4bug@amsat.org, fam@euphon.net,
- hreitz@redhat.com, imammedo@redhat.com, kbusch@kernel.org,
- k.jensen@samsung.com, kwolf@redhat.com, marcel.apfelbaum@gmail.com,
- mst@redhat.com, stefanha@redhat.com, xypron.glpk@gmx.de
-Subject: Re: [PATCH v8 00/12] hw/nvme: SR-IOV with Virtualization Enhancements
-Message-ID: <YoY0pMW7dH/+5nWW@kpiekosz-mobl.ger.corp.intel.com>
-References: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
- <YoJs//DV4ZTW9tDv@pbrzezix-mobl.ger.corp.intel.com>
- <YoOBWMmnW2Lc5a+/@apples>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrfNC-0004P8-7d
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:35:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652963720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CbgkYy4m4VFHVC37D6c6zUapc2kx6vrU9/NZ/u5fI28=;
+ b=E1p4z+n5qDQW3zWkPsnJWYRFp3pymuSCcNC0MbHXmxAf541SMJbQFXLefqOr86ZIZdvEkp
+ MwV3ykIcjpMuT5M/mkkUTZQWRT31s/j1u5kXNCp4Bj5sqFCLDs0Kz+BKpPjwB2QhC++A4e
+ ioRaGY6SitWRGvKqbnq/uiPR+GptA4U=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-552-hQ8vx_EsOVeDBBYeImGEyQ-1; Thu, 19 May 2022 08:35:19 -0400
+X-MC-Unique: hQ8vx_EsOVeDBBYeImGEyQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o13-20020adfa10d000000b0020c6fa5a77cso1506738wro.23
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 05:35:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CbgkYy4m4VFHVC37D6c6zUapc2kx6vrU9/NZ/u5fI28=;
+ b=fb/VdUd7LXcETmj3diwZ3ggtYk9NjiU6D9yEKURaNpcifZMmVw4u3DO6b+oo0uXcSv
+ XX2mxzn85LYljV5KeIpKzB8MgxzI09f9YpK3TrrdVaV/0Y2Wlpv9GE+Q1dW7Af5n93Z4
+ 4rtTc948Yr8Xkbag4iLEUXagfeeWuzXBCWhnEo7w6gZ88q4zRAVf0d8Km/UPQ7fZy2Xg
+ rJhIpILJfokFmmENBr1ZWXzsJayt6HswMD2uMrcnVrGtzjegcQs4+6Temz7cl5TTSrG/
+ Ff/0I5JmpNw2VWfh1zXOeo3vPZ66u88ikgtljpZtrIAUbENoxyrTaB7vM7FTVzsNGy5d
+ SWFQ==
+X-Gm-Message-State: AOAM533fOHL6dsJlLReK6GWgxIn7ov/ScuTkCkhwIQMGBkXyYinl5tbZ
+ C0bM1MRX6vzAAHEpFcAiDL9yRbPyXXresKGYsh2GEFXiZhmBijnMjLhxDkpxKrdzVmurGuVYDRL
+ TQNK6vhxgXfK9FcY=
+X-Received: by 2002:a5d:588d:0:b0:20c:86d5:5840 with SMTP id
+ n13-20020a5d588d000000b0020c86d55840mr3897166wrf.5.1652963718460; 
+ Thu, 19 May 2022 05:35:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3sD2YU3uFc19RcgC+wqcChPlNbA0ZORxmsnqYzULf9yy6lF22YzcXlCnz73VwOR56vpuvdw==
+X-Received: by 2002:a5d:588d:0:b0:20c:86d5:5840 with SMTP id
+ n13-20020a5d588d000000b0020c86d55840mr3897146wrf.5.1652963718239; 
+ Thu, 19 May 2022 05:35:18 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ q21-20020adfb195000000b0020c5253d8basm5397757wra.6.2022.05.19.05.35.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 05:35:17 -0700 (PDT)
+Date: Thu, 19 May 2022 14:35:15 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, ani@anisinha.ca,
+ qemu-devel@nongnu.org, dan.j.williams@intel.com, jingqi.liu@intel.com,
+ robert.hu@intel.com
+Subject: Re: [PATCH 1/2] acpi/nvdimm: Create _LS{I,R,W} method for NVDIMM
+ device
+Message-ID: <20220519143515.16732953@redhat.com>
+In-Reply-To: <0be96ded3470de79150112d8c23cad94b1ea8b46.camel@linux.intel.com>
+References: <20220412065753.3216538-1-robert.hu@linux.intel.com>
+ <20220412065753.3216538-2-robert.hu@linux.intel.com>
+ <20220427163401.20c69375@redhat.com>
+ <5ceada8ba94790b07a2d651153001eead0f35705.camel@linux.intel.com>
+ <20220503102742.0d5bab41@redhat.com>
+ <dc177dd8eb6051ab9ab2752d657188fba83f0773.camel@linux.intel.com>
+ <20220505105006.7c1e78cc@redhat.com>
+ <e0f2a0ff9c2a35beb5c2ad06b522d8f6c1aaee31.camel@linux.intel.com>
+ <20220506112319.175028c6@redhat.com>
+ <0be96ded3470de79150112d8c23cad94b1ea8b46.camel@linux.intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YoOBWMmnW2Lc5a+/@apples>
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,77 +111,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 17, 2022 at 01:04:56PM +0200, Klaus Jensen wrote:
-> On May 16 17:25, Lukasz Maniak wrote:
-> > On Mon, May 09, 2022 at 04:16:08PM +0200, Lukasz Maniak wrote:
-> > > Changes since v7:
-> > > - Fixed description of hw/acpi: Make the PCI hot-plug aware of SR-IOV
-> > > - Added description to docs: Add documentation for SR-IOV and
-> > >   Virtualization Enhancements
-> > > - Added Reviewed-by and Acked-by tags
-> > > - Rebased on master
+On Wed, 18 May 2022 08:20:56 +0800
+Robert Hoo <robert.hu@linux.intel.com> wrote:
+
+> On Fri, 2022-05-06 at 11:23 +0200, Igor Mammedov wrote:
+> >   
 > > > 
-> > > Lukasz Maniak (4):
-> > >   hw/nvme: Add support for SR-IOV
-> > >   hw/nvme: Add support for Primary Controller Capabilities
-> > >   hw/nvme: Add support for Secondary Controller List
-> > >   docs: Add documentation for SR-IOV and Virtualization Enhancements
+> > > No, sorry, I didn't explain it clear.
+> > > No extra interface/ABI but these 3 must _LS{I,R,W} nvdimm-sub-
+> > > device
+> > > methods. Of course, I'm going to extract 'SystemIO' and
+> > > 'SystemMemory'
+> > > operation regions out of NACL to be globally available.
 > > > 
-> > > Łukasz Gieryk (8):
-> > >   hw/nvme: Implement the Function Level Reset
-> > >   hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
-> > >   hw/nvme: Remove reg_size variable and update BAR0 size calculation
-> > >   hw/nvme: Calculate BAR attributes in a function
-> > >   hw/nvme: Initialize capability structures for primary/secondary
-> > >     controllers
-> > >   hw/nvme: Add support for the Virtualization Management command
-> > >   hw/nvme: Update the initalization place for the AER queue
-> > >   hw/acpi: Make the PCI hot-plug aware of SR-IOV
-> > > 
-> > >  docs/system/devices/nvme.rst |  82 +++++
-> > >  hw/acpi/pcihp.c              |   6 +-
-> > >  hw/nvme/ctrl.c               | 673 ++++++++++++++++++++++++++++++++---
-> > >  hw/nvme/ns.c                 |   2 +-
-> > >  hw/nvme/nvme.h               |  55 ++-
-> > >  hw/nvme/subsys.c             |  75 +++-
-> > >  hw/nvme/trace-events         |   6 +
-> > >  include/block/nvme.h         |  65 ++++
-> > >  include/hw/pci/pci_ids.h     |   1 +
-> > >  9 files changed, 909 insertions(+), 56 deletions(-)
-> > > 
-> > > -- 
-> > > 2.25.1
-> > > 
+> > > The buffer (BUFF in above patch) will be gone. It is added by my
+> > > this
+> > > patch, its mere use is to covert param of _LS{I,R,W} into those of
+> > > NACL. If I implemented each _LS{I,R,W} on their own, rather than
+> > > wrap
+> > > the multi-purpose NACL, no buffer needed, at least I now assume so.
+> > > And, why declare the 4K buffer global to sub-nvdimm? I now recall
+> > > that
+> > > it is because if not each sub-nvdimm device would contain a 4K
+> > > buff,
+> > > which will make this SSDT enormously large.  
 > > 
-> > Hi Klaus,
-> > 
-> > Should we consider this series ready to merge?
-> > 
+> > ok, lets see how it will look like when you are done.  
 > 
-> Hi Lukasz and Lukasz :)
+> In ASL, can we define package with Arg in? e.g.
 > 
-> Yes, I'm queing this up.
+> Name (PKG1, Package ()
+>             {
+>                 Arg0,
+>                 Arg1,
+>                 Arg2
+>             })
+
+Looking at the spec it doesn't seem to be a valid construct.
+see "DefPackage :=" and "PackageElement :=" definitions.
+
+However you can try to play with RefOf to turn ArgX into
+reference (mind 'read' rules fro ArgTerm).
+
+> But it cannot pass compilation. Any approach to achieve this? if so, we
+> can still use simpler wrap scheme like v1 and save the 4K buffer.
+
+
+
+> >   
+> > > > 
+> > > > So unless we have to add new host/guest ABI, I'd prefer reusing
+> > > > existing one and complicate only new _LS{I,R,W} AML without
+> > > > touching NACL or host side.    
+> > > 
+> > > As mentioned above, I assume no new host/guest ABI, just extract
+> > > 'SystemIO' and 'SystemMemory' operation regions to a higher level
+> > > scope.  
+> > > >    
 > 
-> I found a problem when used with SPDK introduced by the "hw/nvme: Add
-> support for the Virtualization Management command" patch. However, it's
-> not really a problem in your patch, its related to the general handling
-> of CSTS and CC in nvme_write_bar(). I'll follow up with a patch on top
-> of this series and when reviewed, I'll apply this series and that patch
-> to nvme-next together.
-> 
-
-Thank you, will do a review.
-
-> Thanks for following through on this major feature! :)
-
-We are very pleased to contribute to such an important and robust
-project :)
-
-Lukasz
-
-> 
-> 
-> Klaus
-
 
 
