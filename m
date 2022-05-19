@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC50652CFB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 11:51:10 +0200 (CEST)
-Received: from localhost ([::1]:50664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A877C52CFDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 11:55:10 +0200 (CEST)
+Received: from localhost ([::1]:54820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrcoH-0005ci-T4
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 05:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44322)
+	id 1nrcs9-00007H-OB
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 05:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrci6-0001MY-H2
- for qemu-devel@nongnu.org; Thu, 19 May 2022 05:44:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54406)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nrcjL-0002nH-TV
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 05:46:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nrci3-0001Pf-9c
- for qemu-devel@nongnu.org; Thu, 19 May 2022 05:44:45 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nrcjI-0001lV-T7
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 05:46:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652953482;
+ s=mimecast20190719; t=1652953560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XbrqxlH9P/dJO3AoFBltM9QUwnjU6dmhxXWLLuO036s=;
- b=dG40JwFbh2SJOefPrX/hV133uSdaynH0wt20Eal9jnaA9AZtE3ZgeNcfm2NeHP2p2rQcCq
- fQpPUr8VLVHz7lHCrqMummWAtAXZjxvcjcn1FYbEIf+wc2OwGhzj4F/1lt3rkJ1CU/+OVh
- 8i/2TmE2l9fmOyrJnZmTxcBYeqcAj5Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zPzGGKVSdD0ipxYCJsxuaWo608I5yscWbpKxUqkgpEg=;
+ b=BmhNJk3UzOMmNqVS8LiQWUQJtZ4DsK3O+ANBnrvhw2uVz5CQKEyqyl0uYsrTNHq8FN/NwO
+ fpeBZjKdSwPSr+HnnF/oYJOibfPXJZDNvCPjbhfIswHb03Stg1eUyIVbCBfwNfnBZa6pOz
+ FrwT+8VGgLwG6CLI/NeAx2iVqv69epY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-PKWmby4pNwCypxOmrFRlYA-1; Thu, 19 May 2022 05:44:39 -0400
-X-MC-Unique: PKWmby4pNwCypxOmrFRlYA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8B59294EDD8;
- Thu, 19 May 2022 09:44:38 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FDAE7774;
- Thu, 19 May 2022 09:44:38 +0000 (UTC)
-Date: Thu, 19 May 2022 10:44:37 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Yongji Xie <xieyongji@bytedance.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, mreitz@redhat.com,
- mlureau@redhat.com, jsnow@redhat.com,
- Eric Blake <eblake@redhat.com>, Coiby.Xu@gmail.com,
- hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 8/8] libvduse: Add support for reconnecting
-Message-ID: <YoYRhX2J6kTlcoQU@stefanha-x1.localdomain>
-References: <20220504074051.90-1-xieyongji@bytedance.com>
- <20220504074051.90-9-xieyongji@bytedance.com>
- <YoT8vKuUnGhfaaSJ@stefanha-x1.localdomain>
- <CACycT3s9gt9D7VU2Bkh7Lo2FjR+MQpEC06ZQpRDcVQMC_LmjXw@mail.gmail.com>
+ us-mta-387-cqgjCKKvN2ShAD8s4Q5KeQ-1; Thu, 19 May 2022 05:45:59 -0400
+X-MC-Unique: cqgjCKKvN2ShAD8s4Q5KeQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ x4-20020a5d4444000000b0020d130e8a36so1364023wrr.9
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 02:45:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=zPzGGKVSdD0ipxYCJsxuaWo608I5yscWbpKxUqkgpEg=;
+ b=VPYZyZiyrIrbI1HRjVVNolYPUskBvFzblxIEBR2ALuVarVTKB6urSqRAid+NAV2Oea
+ JmijlexWtJg/4LiaZ8lgFjtWMau288IL+wpeM7AcBQWK3c7ph6EcLWe4DoXOpZgyTYn9
+ N7YtUA+PJP2iiyNO4hVOLyEDUuuLgQlsAsXVKca9rIl1Nhce9XRzK0w7La1V0CRepf0J
+ hKnW2VL5b1ssHEl7wjazhNTPdmzwc65dBbVJFv0jD3qbVw5kL3sNBRS7PXvoJAdHqKM0
+ v0FeNQmsCqNBcMz5DeGkFSf8sJz087oeFEtBGSli1n1qayWZYUKmXC/ylL5H9IdAmsPX
+ miJg==
+X-Gm-Message-State: AOAM532RK8dFYwZDBXYezFc8cW3eKXmupuoBA9rtyjpPHYFz5NmypAxJ
+ qflATXSp48LNeeNtr5hHsZlvBZAz7uOUe28G+gMaRvYB4305gGYv5TlFI61X1g3/mIagQNJWnUF
+ regwKBZe5pFjtIck=
+X-Received: by 2002:adf:e481:0:b0:20e:5a67:6f9 with SMTP id
+ i1-20020adfe481000000b0020e5a6706f9mr3218172wrm.334.1652953557671; 
+ Thu, 19 May 2022 02:45:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjq+LPFZ5XqiKTHvJHqigEhZcDwoLra1Xkob1DOrz44VJhIhwymbq++aZpSaVvhNS2PDCS7Q==
+X-Received: by 2002:adf:e481:0:b0:20e:5a67:6f9 with SMTP id
+ i1-20020adfe481000000b0020e5a6706f9mr3218157wrm.334.1652953557493; 
+ Thu, 19 May 2022 02:45:57 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ r18-20020a05600c159200b003949dbc3790sm3538866wmf.18.2022.05.19.02.45.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 02:45:57 -0700 (PDT)
+Date: Thu, 19 May 2022 10:45:55 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v6 11/13] tests: Add postcopy tls migration test
+Message-ID: <YoYR08m9UiHZHzXC@work-vm>
+References: <20220517195730.32312-1-peterx@redhat.com>
+ <20220517195730.32312-12-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yCOloFgoNFTMstHi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACycT3s9gt9D7VU2Bkh7Lo2FjR+MQpEC06ZQpRDcVQMC_LmjXw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220517195730.32312-12-peterx@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -71,7 +86,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,57 +102,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Peter Xu (peterx@redhat.com) wrote:
+> We just added TLS tests for precopy but not postcopy.  Add the
+> corresponding test for vanilla postcopy.
+> 
+> Rename the vanilla postcopy to "postcopy/plain" because all postcopy tests
+> will only use unix sockets as channel.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
---yCOloFgoNFTMstHi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-On Thu, May 19, 2022 at 04:25:13PM +0800, Yongji Xie wrote:
-> On Wed, May 18, 2022 at 10:03 PM Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> >
-> > On Wed, May 04, 2022 at 03:40:51PM +0800, Xie Yongji wrote:
-> > > @@ -291,6 +294,15 @@ static int vduse_blk_exp_create(BlockExport *exp=
-, BlockExportOptions *opts,
-> > >          return -ENOMEM;
-> > >      }
-> > >
-> > > +    vblk_exp->recon_file =3D g_strdup_printf("%s/vduse-blk-%s",
-> > > +                                           g_get_tmp_dir(), exp->id);
-> >
-> > g_get_tmp_dir() returns the $TMPDIR environment variable. This means
-> > exp->id must be unique across the host. Please document this.
-> >
->=20
-> Now we also use exp->id as the name of vduse device which should also
-> be unique across the host. So I'm not sure if it's better to add a new
-> unique id for vduse since the exp->id is now used by all block
-> exports.
-
-Good point, I forgot that the VDUSE device name must be unique! It's a
-little more flexible to have a separate vduse-name=3D option which is used
-for the VDUSE device name and the reconnection filename, but also a
-little more typing. I'm not sure if it's necessary to separate the two
-concepts.
-
-Stefan
-
---yCOloFgoNFTMstHi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKGEYUACgkQnKSrs4Gr
-c8jZ+wgAwboo400b3cOoG0dhT9c2KJVWqFFwxwcw9oZrQJYl4iQp/K934Mn5z0Wp
-LpLwDaTfABOfAsS/CtEzxZqsp45Iy0oUG4iq0pI1FmTbLPqRCZOKy0Y13oX2Wmpg
-jj2+pYzw3QSa2jU5PJZ0iE+cAb0dzdA9p1azfZpwC7niyfK2ztLPfzAMtwdHi1+7
-D8jVhR7m085JNjZWtGsSccHBmXiBhpx3ItupbpVKHWVmIpzTp+hd9upYirsG2H/0
-YhKk+Obj20vrebj8zq7cIKJXEfobGGDAgffPYtKV7v2e5k1FW+28VGZYCgoFhnfz
-0HgJaoJEgLhdbE2FtP75VtxDLmvNCA==
-=0ES+
------END PGP SIGNATURE-----
-
---yCOloFgoNFTMstHi--
+> ---
+>  tests/qtest/migration-test.c | 50 +++++++++++++++++++++++++++++++-----
+>  1 file changed, 43 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index d33e8060f9..e8304aa454 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -481,6 +481,10 @@ typedef struct {
+>      bool only_target;
+>      /* Use dirty ring if true; dirty logging otherwise */
+>      bool use_dirty_ring;
+> +    /* Whether use TLS channels for postcopy test? */
+> +    bool postcopy_tls;
+> +    /* Used only if postcopy_tls==true, to cache the data object */
+> +    void *postcopy_tls_data;
+>      const char *opts_source;
+>      const char *opts_target;
+>  } MigrateStart;
+> @@ -980,6 +984,10 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>          return -1;
+>      }
+>  
+> +    if (args->postcopy_tls) {
+> +        args->postcopy_tls_data = test_migrate_tls_psk_start_match(from, to);
+> +    }
+> +
+>      migrate_set_capability(from, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-blocktime", true);
+> @@ -1004,7 +1012,8 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>      return 0;
+>  }
+>  
+> -static void migrate_postcopy_complete(QTestState *from, QTestState *to)
+> +static void migrate_postcopy_complete(QTestState *from, QTestState *to,
+> +                                      MigrateStart *args)
+>  {
+>      wait_for_migration_complete(from);
+>  
+> @@ -1015,19 +1024,38 @@ static void migrate_postcopy_complete(QTestState *from, QTestState *to)
+>          read_blocktime(to);
+>      }
+>  
+> +    if (args->postcopy_tls) {
+> +        assert(args->postcopy_tls_data);
+> +        test_migrate_tls_psk_finish(from, to, args->postcopy_tls_data);
+> +        args->postcopy_tls_data = NULL;
+> +    }
+> +
+>      test_migrate_end(from, to, true);
+>  }
+>  
+> -static void test_postcopy(void)
+> +static void test_postcopy_common(MigrateStart *args)
+>  {
+> -    MigrateStart args = {};
+>      QTestState *from, *to;
+>  
+> -    if (migrate_postcopy_prepare(&from, &to, &args)) {
+> +    if (migrate_postcopy_prepare(&from, &to, args)) {
+>          return;
+>      }
+>      migrate_postcopy_start(from, to);
+> -    migrate_postcopy_complete(from, to);
+> +    migrate_postcopy_complete(from, to, args);
+> +}
+> +
+> +static void test_postcopy(void)
+> +{
+> +    MigrateStart args = { };
+> +
+> +    test_postcopy_common(&args);
+> +}
+> +
+> +static void test_postcopy_tls_psk(void)
+> +{
+> +    MigrateStart args = { .postcopy_tls = true };
+> +
+> +    test_postcopy_common(&args);
+>  }
+>  
+>  static void test_postcopy_recovery(void)
+> @@ -1089,7 +1117,7 @@ static void test_postcopy_recovery(void)
+>      /* Restore the postcopy bandwidth to unlimited */
+>      migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
+>  
+> -    migrate_postcopy_complete(from, to);
+> +    migrate_postcopy_complete(from, to, &args);
+>  }
+>  
+>  static void test_baddest(void)
+> @@ -2133,7 +2161,15 @@ int main(int argc, char **argv)
+>  
+>      module_call_init(MODULE_INIT_QOM);
+>  
+> -    qtest_add_func("/migration/postcopy/unix", test_postcopy);
+> +    qtest_add_func("/migration/postcopy/plain", test_postcopy);
+> +#ifdef CONFIG_GNUTLS
+> +    /*
+> +     * NOTE: psk test is enough for postcopy, as other types of TLS
+> +     * channels are tested under precopy.  Here what we want to test is the
+> +     * general postcopy path that has TLS channel enabled.
+> +     */
+> +    qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
+> +#endif /* CONFIG_GNUTLS */
+>      qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
+>      qtest_add_func("/migration/bad_dest", test_baddest);
+>      qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
