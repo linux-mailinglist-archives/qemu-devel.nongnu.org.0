@@ -2,125 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A1552D2BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:43:56 +0200 (CEST)
-Received: from localhost ([::1]:42218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFED52D2B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:43:47 +0200 (CEST)
+Received: from localhost ([::1]:41958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrfVT-0000pP-F3
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
+	id 1nrfVJ-0000HB-Jz
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfNg-0002vq-81
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:35:53 -0400
-Received: from mail-tycjpn01on20726.outbound.protection.outlook.com
- ([2a01:111:f403:7010::726]:38415
- helo=JPN01-TYC-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrfPm-0005kX-DT
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:38:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfNc-0004a9-PX
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:35:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mdmdxYVogCFe/B+YN3r9abTuc/EAmADMgK+uGoGpQpiRc5xppQDIEYrQ1qrl8Pg2d434K7bxdnVC6oeM31JZub1/pzOAxTD/9Orx5jlvw6kTypnmTrFdgz0R28bfqCxVAN6w4NKRs0BJEsQ074IgyVUkPF4hincRKAUJ/HKTvZ23PMddo7OZAIrJ/u68BfCkGHHNEMRCYX70Ya9KvvxGpE5cLUjVwUvzCVghZi4JFRGxW6I7cKBapWWPE/seICkyzlM4i5VejXna1HXvWZ3ZWVUF9FA95g/9k1i7UKOA4VNKL56jPhXCpTSgTxSQh9C4QZ6GXZLGZsuHLEKGcx7PkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fa0HlXyTCt1H6ksCc3oSbuuV8BkqTjyjVYB4R9H6eWs=;
- b=SCfCB/w1QqHKOTD2AzEuEe2SJ9XGXDQgpWgnzZS2pBS0jur/vlBnLjAiQEkhP6MKhz5mofNAuy2TAaIaOtqqI6/zf75A8mC0PkFuL2+HsM6QCcf1kpTUtn2zRCytjB6461QtNBHrUo67Nk3IB9+1QXceTI1UeRflxbAzoyMmdNTvEnSpTzlNRnZwCsnEFDwObhdjiHX6Gla10Octx25eDJu0v8UJHsqX/oAm0yKcvJKR6iw4i44cMbS4Xznu70r/lqhu1e3SOxt4nbnBUyDbbmUwR7ikpOfcCBHRzmMQ79MzfjsfM327WDHFyTpsCpZPBd+8yXxguUOQwAngLSRzOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
- dkim=pass header.d=zenithal.me; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fa0HlXyTCt1H6ksCc3oSbuuV8BkqTjyjVYB4R9H6eWs=;
- b=FW2LlUON5h83bmL+MLydpapp4WNdQqSbvN3Yy3Bnn5xUPjKqbgalPK65nri4pudAC3xYQtMBMMxxhKoXq/Rcyg2jM+kyc+xiXd/gpHjryKu5d8oUD9jY2ovBhDhlzyrK3DtyCiZ0+1EyQZVo0Afa6P+tN+L7ye6FLLkc88UZOUM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=zenithal.me;
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
- OS3P286MB1541.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:17c::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.14; Thu, 19 May 2022 12:35:39 +0000
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::bd99:5c83:e2dc:a8f7]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::bd99:5c83:e2dc:a8f7%7]) with mapi id 15.20.5273.015; Thu, 19 May 2022
- 12:35:39 +0000
-Date: Thu, 19 May 2022 20:35:31 +0800
-From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, contact@canokeys.org
-Subject: [PATCH v5 0/6] Introduce CanoKey QEMU
-Message-ID: <YoY5k0PQny8WtAHi@Sun>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Operating-System: Linux Sun 5.15.26
-X-Mailer: Mutt 2.2.1 (2022-02-19)
-X-ClientProxiedBy: SJ0PR03CA0164.namprd03.prod.outlook.com
- (2603:10b6:a03:338::19) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:c0::6)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrfPj-00051R-FU
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:38:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652963878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ooXy62Hk5UIolIn739nYxWhogJuzneb7edsCPxC3GZk=;
+ b=ITimvj7n42LN4E2N3tiH1TlP2LibC6rLEIr0/rYwy51AYxRjPOiB91z6FHDhN/isa3S6lI
+ izp/AmM4paakVSYxLiBF/IKtGrUGpygG1ZACkVyM4anDkwecR39E8+UFSMA5dqUR5Q2WtB
+ Zajp/3Eu1zaphgg7izFBTe82Wpk2Vr4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-637-pyhWe45IMO6xuSaZ6IsaRA-1; Thu, 19 May 2022 08:37:57 -0400
+X-MC-Unique: pyhWe45IMO6xuSaZ6IsaRA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bi5-20020a05600c3d8500b0039489e1d18dso4463127wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 05:37:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ooXy62Hk5UIolIn739nYxWhogJuzneb7edsCPxC3GZk=;
+ b=n5baaQpqzOsIB4dRnJUlV1Y9oqRI2UunjFjB6juhdJMjCYvGUcqPfqXsMbnpv/hzjT
+ HzgSsvhRQBkMIC8YybmOUTESXYxD3JNurYCq2KyB0FMVWSzO/JoiGV8Yt9nJY6Jo8fGp
+ QQBGTHdx1DqpKxHumLNL9Lnwpe5DZqV/sCZ0/HYMU79RnD9e4dQCuLc49U5jytiUOhF5
+ QhrRj3rFbmmlwHX5jQqylA+76vYHQDB+ihJcPnVmrC4F6OitrBTtD8el+G5J2VTh0vF6
+ zTN6tMZPXHwz/ghOjKJfqSRJJOztCqXkOQ0nCzY3YZvpoe46zyqLkw8w4xJ3xJV0KmYY
+ GaQg==
+X-Gm-Message-State: AOAM533IQYFdq4umbo1dWHpgkjsDUp6on+1bpWqP1a+MHRKIOIHe98dc
+ eOIlW9HaFYlibhmUVlovnzel6Cpcd2mdvoIe9oyM0NYQHQJK7Wid48d2lhnlKj+jiCIKWjmb6cA
+ 9PTOKE7J6E3DKB3k=
+X-Received: by 2002:a05:600c:1989:b0:394:8dc0:b57f with SMTP id
+ t9-20020a05600c198900b003948dc0b57fmr4100062wmq.110.1652963876155; 
+ Thu, 19 May 2022 05:37:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZurGK55aOxwDs8GUH802k74wXHc/P9rPHHxGWxNxApFNWQgHlpMMq1ZVpay7s8Z2vAIuItg==
+X-Received: by 2002:a05:600c:1989:b0:394:8dc0:b57f with SMTP id
+ t9-20020a05600c198900b003948dc0b57fmr4100049wmq.110.1652963875973; 
+ Thu, 19 May 2022 05:37:55 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ bi24-20020a05600c3d9800b00396f8c79d22sm4025257wmb.11.2022.05.19.05.37.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 05:37:55 -0700 (PDT)
+Date: Thu, 19 May 2022 14:37:54 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, eduardo@habkost.net, jon.grimm@amd.com
+Subject: Re: [PATCH] pc: q35: Bump max_cpus to 512
+Message-ID: <20220519143754.42b200d4@redhat.com>
+In-Reply-To: <2cec4bba-4400-ae74-231e-c064f03df691@amd.com>
+References: <20220504131639.13570-1-suravee.suthikulpanit@amd.com>
+ <20220509091249.392fdab6@redhat.com>
+ <20220513072007-mutt-send-email-mst@kernel.org>
+ <2cec4bba-4400-ae74-231e-c064f03df691@amd.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2ae5d26a-704e-42cd-e294-08da39941456
-X-MS-TrafficTypeDiagnostic: OS3P286MB1541:EE_
-X-Microsoft-Antispam-PRVS: <OS3P286MB1541289887FCA77064D5B5F7BCD09@OS3P286MB1541.JPNP286.PROD.OUTLOOK.COM>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sIHpf9ZpD+4kgWWlgZQywl10/lPukC87owtJtMYKBlvV1XwcUcZg+IF5GcaBICOSlQzClvQPhBkBkKrDaNXx8Yblndccuc2hnv5vb7SOzLnf9zPpiyY5paleL1eEVomTDEAdST/Q9V1hSxRZAtQvN1PTbv4mqyEXAgeKb29NbXaqtFK914MAaJeYtH9H/xQOqdrRHYh8arv0sPxWUox+v8a07zb0k4AOhW4JkkQGSPVP/3eKex+Xq0EKK1JlLu336vtjF9LhuBZD+fLfEsKqmJy7jAkOg4NtR6EmaIv+xJPA/i7EL4yO7goEBMdmxAYWGNxxP6E8oTXEtXSKIb+FoKuLewT8klnqwb7mV9RhOuguZLkUMiymnQEfUCtIyrgEyzVFXpY1E0Gnd5ZAxeCTWf2szL48nITie5MQCpPHWOQ2LQMMf90bWrIGpKyIGfKF5nRyhveTrRzK4TyGKpHOgxmGzETD+xLEKMAzSdNKt1kp2xj6dQu5suzUszVu0xIlP6Akx9XrXesZ1qhj1/qZyWRk4ik1yAOjb/7Pd7eKpEZa9QG0oeD8Q6zM+8mQhg6/cUgK8DnL3IgDHZEj/rJL1VTzKRCCCgu07frUByUYXrLSwFn6kRa3DnCMwEFIsV4kDZW2X7ZvQcSW1WiY43YuDRCuhvg4YMmeXzmBs2ym7EgK/h8GKamZKJmsFkRjPEfyv493zwpK2vs8XGbB3vPMsnzWDcqqYq8B6AoRRRrhWvh1rDKwjYb7Sc1G59qgOEe/a/kwgrACSmIKdoM7OgbzOw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(396003)(366004)(136003)(376002)(346002)(39830400003)(786003)(66556008)(66476007)(41300700001)(52116002)(316002)(41320700001)(6506007)(83380400001)(5660300002)(38100700002)(8676002)(8936002)(9686003)(33716001)(110136005)(966005)(6486002)(6512007)(6666004)(86362001)(186003)(2906002)(66946007)(508600001)(4326008)(49092004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WJzC9RCKr+kCh50OHsXNTwxMgJ9FslqVYBBgOVmN9XHdZhdQfEg6Z9eb3Zer?=
- =?us-ascii?Q?gau2feF2tlT/wV7JEPehjh45NyWCQd3x1/lHvIdS51PIA/oAE+Nl8Esj2rn4?=
- =?us-ascii?Q?ultpZfnbv8iJNsCp29IKYWx1NRwi7K8tcAcmCE7H1rRYxMG4eO7rETOvlELm?=
- =?us-ascii?Q?PuT9vnpsLfh+3fuWp15gojZeSJL/fcq6X/CzbJ/DdcZyQEvs2P0vxasKHaaR?=
- =?us-ascii?Q?v8sw9XagAWB0UcHHlu9e880qvtn67a9XVwGIa8xitgSn9HxhlwXmNylXyZMD?=
- =?us-ascii?Q?/d0sxpZ9dIovGPqo/aSGooRKHrh6+h8T/mYoJsyL1zc919RYvDBzqF8AMVQv?=
- =?us-ascii?Q?Qetsf9iuzEAdqDfeR3EIReSrKNj4kp7L+lTZPHlsWN+KJL5U0ElotUgaOkqn?=
- =?us-ascii?Q?ZViWGdbvFVNfrDCz7eQn+LbrMIHw9RzhjKIpVsvnpAKtcZ+GZcwTjSi3W0Co?=
- =?us-ascii?Q?Rw+kIM5PGz/CSmUmeX07d9fQQTAGYX8n5eS8N2JACF/9GxcNCxWGe6OBMfQB?=
- =?us-ascii?Q?0SYkGI9ATIJgQnJsy8hsX5XqoU8CfZHfeA+FNETKRJ63Wu9SOYectKbbGpjW?=
- =?us-ascii?Q?LSSXtTlPEEFOl9CEQR+a5phEBEDv9aU09fJyKK5AIwC7izE3Ht6iXgRERdn0?=
- =?us-ascii?Q?LqoUI5sKFi9knQfjaF8l8ixunBmxijxh4mGY5EKRRKYXKRi9cpD28m1BSZic?=
- =?us-ascii?Q?whyxzX/10QmBOtNtpLnBRizBDDCkqu5qQZXWkwVWMHJP1Lx48kOyV1F60g1k?=
- =?us-ascii?Q?cDos+VtJhrAoSIiFu0FgUZ4ylUqin1la47dPduXSwKmOjl4mUiSRiOKKqa21?=
- =?us-ascii?Q?aEwPIGfj+JwOUE46/CKCAF8A70/VbEDbJA/GTXlZJOJQks/GQC0IssziihL7?=
- =?us-ascii?Q?/2VDJw7rb4y760RnKMqn0yqpDoRsgfX8qwWowMhYRSc1UH5354TyW21KQ/aX?=
- =?us-ascii?Q?tEI7dTU9C9aJdVuaOU060vr7oSpFPYAyYZQrnqv1chlccIjGF97bw81spLDQ?=
- =?us-ascii?Q?gnZZjgQ6DSv9FIXvDCI3bBH04mP/NW6i0ihwedatdEkqOyZ3UvY6RojkVwpP?=
- =?us-ascii?Q?DjXYEofjn1xrlgNXcRKlnhyWQfQ1VQ4KhrlaLnA/zc8tTVMwIDFrkgpAQseB?=
- =?us-ascii?Q?DcZVwmRA5LN55/35Pjz9SsRIzJ8rEb7P04tpQM01QfylNBkyFBrUqlBG6sQQ?=
- =?us-ascii?Q?ze7JNJa9xrkXfGCCKm1qCGDPuT7KsVROEarE2z6cslzjLbEIhvx7OEl9xJEc?=
- =?us-ascii?Q?HVJRIxGuAYSWbWFyrm5xoQM/76413PEsUtDPJ78EgKcVNPGRsz+ZbX8+geKw?=
- =?us-ascii?Q?JZRYTkKtYn7XXIbwE6PdtBl3oJEX9XTCK6b93RU8vUvw0yuCTHaigQPDKRT0?=
- =?us-ascii?Q?GAMS0UqzQbt3V6Da86DQQhpCOASQh2nqm58OZtn2SbcmhTshsUHXLFFciQec?=
- =?us-ascii?Q?BanS1IUjTximKjhPUcEV1+JYzEoFQ+XXD1PDaNKlgcTrPnOq1tN2PkMMPdKV?=
- =?us-ascii?Q?VpalM1aU7LyI+/NzEinsFAhHdnMXzGtTNHD0/vT5QzlrT5HKd3zco2FbZP4T?=
- =?us-ascii?Q?jOYbG7z6Wb1EFDF5t787LeDD8aslkMbKxeV0QAmoq+ImYznkzlaY9ebc2J1F?=
- =?us-ascii?Q?q57k0ctHszGrL4LiBR7qB+qamowMPQIQtobfbjOYRYC2A1UD4aocZjGoB5yC?=
- =?us-ascii?Q?6daCqEaj6ps8h2MMSBBkc9TR6NBIWsvE17oZ1MqpLswWd85Fy/wIh2he6PfY?=
- =?us-ascii?Q?dnL3xLdFTg=3D=3D?=
-X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ae5d26a-704e-42cd-e294-08da39941456
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 12:35:39.0215 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5X2YoIJIYe2Rtx4/R74f/lkvXWQKQOInciPUPer+3r0cW+7YT1IJ1PI7dRO/QmqA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3P286MB1541
-Received-SPF: pass client-ip=2a01:111:f403:7010::726;
- envelope-from=i@zenithal.me;
- helo=JPN01-TYC-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,128 +104,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- One sentense
+On Thu, 19 May 2022 13:53:49 +0700
+Suravee Suthikulpanit <suravee.suthikulpanit@amd.com> wrote:
 
-With this patch series, QEMU would fully emulate an open-source secure key,
-CanoKey, with supports of various features listed below:
+> On 5/13/22 6:23 PM, Michael S. Tsirkin wrote:
+> > On Mon, May 09, 2022 at 09:12:49AM +0200, Igor Mammedov wrote:  
+> >> On Wed, 4 May 2022 08:16:39 -0500
+> >> Suravee Suthikulpanit<suravee.suthikulpanit@amd.com>  wrote:
+> >>  
+> >>> This is the maximum number of vCPU supported by
+> >>> the AMD x2APIC virtualization.
+> >>>
+> >>> Signed-off-by: Suravee Suthikulpanit<suravee.suthikulpanit@amd.com>
+> >>> ---
+> >>>   hw/i386/pc_q35.c | 2 +-
+> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> >>> index 302288342a..e82b1c690d 100644
+> >>> --- a/hw/i386/pc_q35.c
+> >>> +++ b/hw/i386/pc_q35.c
+> >>> @@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
+> >>>       machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
+> >>>       machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+> >>>       machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+> >>> -    m->max_cpus = 288;
+> >>> +    m->max_cpus = 512;  
+> >> Maybe we should bump it to KVM VCPU maximum,
+> >> and make sure we error out if asked for combination of
+> >> hardware/irqchip is not usable.  
+> >
+> > So what happens if one does 710 and then tries to use AMD x2APIC?
+> > We'd like that to error out, right?
+> >   
+> 
+> Since the AMD SVM x2AVIC can support only upto 512 vCPUs,
+> KVM would return error when QEMU tries to create more than 512 vcpus
+> in the following call-path:
+> 
+>    kvm_vm_ioctl_create_vcpu
+>      kvm_arch_vcpu_create
+>        svm_vcpu_create
+>          avic_init_vcpu
 
- * U2F / FIDO2 with Ed25519 and HMAC-secret
- * OpenPGP Card V3.4 with RSA4096, Ed25519 and more
- * PIV (NIST SP 800-73-4)
- * HOTP / TOTP
+what is actual error message that end user will get from that failure?
 
-- What's New
-
-Although we have seen multiple emulated devices providing different
-functionalities for different purposes such as U2F (hw/usb/u2f-emulated.c)
-and CAC (hw/usb/ccid-card-emulated.c), modern secure key needs more advanced
-protocols like FIDO2 (WebAuthn, in comparison to U2f) and PIV
-(in comparison to CAC), which is not implemented previously.
-
-Other features like OpenPGP / TOTP are also not implemented before, at least
-as an emulated functionality.
-
-- Why get upstreamed
-
-At Canokeys.org, virtual cards on its own are for testing and debugging
-on the key itself. We have implemented various virt-cards including
-fido-hid-over-udp and USB/IP on our CI for testing and developer debuging.
-
-As we found emulated U2F and CAC in QEMU mainline, we estimated we could
-implement such features as well, which is good for testing since now
-we can emulate the whole key as an USB device, and we implemented it!
-as presented by this patch series.
-
-The story doesn't end here. As CanoKey QEMU is a fully functional key and it is
-inside QEMU, we think this emulated device could reach a wider audience
-other than CanoKey developers: projects using secure key can also benefit
-from it.
-
-For example, this device can be used in CI for projects using secure key.
-Bringing up a VM using QEMU with CanoKey QEMU, now we have an environment
-with secure key, and we can test the correctness of the behavior of the code.
-
-Another example is that as it is fully emulated rather than some hardware,
-all traces/debug logs can be easily extracted, which is helpful for
-developpers to debug.
-
-One note though, using CanoKey QEMU as a daily secure key is not recommended
-as the secret key in the emulated key is not protected by hardware.
-
-- Implementation details
-
-CanoKey implements all these platform independent features in canokey-core
-https://github.com/canokeys/canokey-core, and leaves the USB implementation
-to the platform, thus in this patch series we implemented the USB part
-in QEMU platform using QEMU's USB APIs, therefore the emulated CanoKey
-can communicate with the guest OS using USB.
-
-Some note though, CanoKey also has a NFC interface, thus we can implement
-the NFC part in QEMU and expose CanoKey to the guest as an NFC device.
-This is left as future work.
-
-In the meanwhile, unlike other emulated device which has a passthrough
-counterpart, CanoKey QEMU does not provide a passthrough mode as a whole
-since CanoKey has multiple interfaces which is hard to passthrough.
-(Left as future work, passthrough via WebUSB interface)
-You may try to use u2f-passthru and ccid-card-passthru to pass the U2F and
-CCID (e.g. OpenPGP, PIV) part of a real (or virtual, referring to USB/IP)
-CanoKey on the host to the guest.
-
----
-v1 -> v2:
-  * Use trace events instead of printf to log canokey.c function call
-  * Update debug instructions (trace, pcap) in CanoKey doc
-  * Drop commit about legacy -usbdevice usage
-
-v2 -> v3:
-  * Fix code style in commit hw/usb/canokey: Add trace events
-  * Move docs/canokey.txt to docs/system/devices/canokey.rst
-
-v3 -> v4:
-  * Refactor canokey.c into single thread version. This version
-    is much easier to understand and review
-  * Add more comments
-  * Add links to canokey.rst in usb.rst
-  * Update MAINTAINERS canokey docs file
-
-v4 -> v5:
-  * Fix compile when there is no libcanokey-qemu
-  * Separate canokey-qemu repo from canokey-core (doc change)
-  * Categorize canokey into Misc devices
-  * Add high speed support (thus usb-ehci) can use it
-  * State the limitation when used with qemu-xhci
-
-  About the qemu-xhci issue, see patch [PATCH v5 4/6] for more detail
-  This patchset passes the CI, see
-  https://gitlab.com/ZenithalHourlyRate/qemu/-/pipelines/543016316
-
-Hongren (Zenithal) Zheng (6):
-  hw/usb: Add CanoKey Implementation
-  hw/usb/canokey: Add trace events
-  meson: Add CanoKey
-  docs: Add CanoKey documentation
-  docs/system/devices/usb: Add CanoKey to USB devices examples
-  MAINTAINERS: add myself as CanoKey maintainer
-
- MAINTAINERS                      |   8 +
- docs/system/device-emulation.rst |   1 +
- docs/system/devices/canokey.rst  | 168 +++++++++++++++++
- docs/system/devices/usb.rst      |   4 +
- hw/usb/Kconfig                   |   5 +
- hw/usb/canokey.c                 | 313 +++++++++++++++++++++++++++++++
- hw/usb/canokey.h                 |  69 +++++++
- hw/usb/meson.build               |   5 +
- hw/usb/trace-events              |  16 ++
- meson.build                      |   6 +
- meson_options.txt                |   2 +
- scripts/meson-buildoptions.sh    |   3 +
- 12 files changed, 600 insertions(+)
- create mode 100644 docs/system/devices/canokey.rst
- create mode 100644 hw/usb/canokey.c
- create mode 100644 hw/usb/canokey.h
-
--- 
-2.35.1
+ 
+> Also, I tried to find a way to get the KVM VCPU max value via KVM_CAP_MAX_VCPUS ioctl,
+> but the accel/kvm/kvm-all.c:kvm_init() is called later than hw/core/machine-smp.c:
+> machine_parse_smp_config(), where it checks the specified QEMU -smp option.
+> 
+> So, if there is no objection, I will send out a patch to change m->max_cpus = 1024
+> to match current KVM limit.
+> 
+> Best Regards,
+> Suravee
+> 
 
 
