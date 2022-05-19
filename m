@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4168E52DC3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 20:02:53 +0200 (CEST)
-Received: from localhost ([::1]:57154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271C852DC6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 20:09:38 +0200 (CEST)
+Received: from localhost ([::1]:43916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkU8-0007g4-Ap
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 14:02:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
+	id 1nrkaf-0001VG-5q
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 14:09:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5L-0006Wk-IQ
- for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:15 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35619)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5J-0000tN-EQ
- for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:15 -0400
-Received: by mail-wr1-x429.google.com with SMTP id r23so8232746wrr.2
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:37:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=meQUJhRKZaTP1fZizivTTv8omOog8uzhP7A+DYadpWQ=;
- b=Y14yRL6yINm6csdwm+BOjUL4NNdyin0CgqLincXQZxcBJ0FZjKL1kzlEDsOo8wrcaT
- GU94QQaueqFUW/QSdQ71kE/PpQRKHIXv5gp8UDiuDN3lnbZnBJe0tFFVYna8ks3rh7vj
- ESXk6j9OFQoqQwDCTYM0N6uvMEtg0I7BJ+1PnGf0FmxrLrii+k4t+C4JFe9TZg0P3Heq
- isUZ0jeGs7jeUw2sGSVvYebys7p4d2Et8v07o8hZmAqCtH4uuGNbaqjJ7PghCG0phku7
- sNEB1NZ24YZAiN8hC+g2exYwfVZmrO6ZWWy7waFhT9NQQ0FtM/QxkkyOC/NA9LGsqpJx
- mwIQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrkNz-00029f-MZ
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:56:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37073)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrkNw-0003g5-5v
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:56:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652982987;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SsTZoX2bwKTrCHD08JXmVcitY2fQqIfRa/uQUDTWlLg=;
+ b=dcJIyFlkGui5od07i0ocfL1SRecYx8WgcWPwVgEBaAIzpKxJRJAGj/6wBWZTkBQa891WDA
+ krm5r2lMCBX7AwTyTA8P+CCD4V7WBWwiUzzqS8/ixXDReoEuCva0ovjqhV2PrfRd7rPORZ
+ 9klIq/N3vUn22UWHkGhxAY2E2XbF3Wg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-hprbpoL_M-CR48B1EL-KzA-1; Thu, 19 May 2022 13:56:25 -0400
+X-MC-Unique: hprbpoL_M-CR48B1EL-KzA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r83-20020a1c4456000000b003972daa86deso879865wma.4
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:56:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=meQUJhRKZaTP1fZizivTTv8omOog8uzhP7A+DYadpWQ=;
- b=IjbEweDw1ZvswWh0oolNRiutl1KlT8ss4Ihhpi+fLkw5289EbAg9OKc99TlbeNhTOs
- n/9iziVHN5mI1w84gocvB5VAze7Mu86zEH6d5lANvIXIq9gw8O7zQecgUHr+Kae4vrBt
- SwP5urqZw2uWDMUBEdqX8TBlB/tt8anUxUA8S7tJg3R5mMNwBssnqO4/CoxseQsoWsW3
- FdsaFzFMG0bjvL5WkJuWYhcmXIin/iSd/t9S8cC/cNO3rdOM+VtS0xPGlh5Y+6kQbsk8
- vfk4gtw9gpThRwpsx533t+XXA1xE0CWo6C/b+y2lByGWi6/jR89FF1sMw6RK7rZKyp8d
- vu0g==
-X-Gm-Message-State: AOAM531DJ2lG8rIconqKJ1XD1AgfxRfhSVTsdsPZZYw12Zx3YF4OuxTp
- iYBo4vVMTL2Q5MAYfmJPj/mVcXYAUpH+dg==
-X-Google-Smtp-Source: ABdhPJx2Lc0YDaZS8/+zpetvhcZnwdUm2XSvUk7Fzz7lQwYkfi8TByOMV6/wb1aD9iOz/Wb28SWHVA==
-X-Received: by 2002:a5d:6042:0:b0:20e:65c0:f69b with SMTP id
- j2-20020a5d6042000000b0020e65c0f69bmr5076252wrt.524.1652981831975; 
- Thu, 19 May 2022 10:37:11 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=SsTZoX2bwKTrCHD08JXmVcitY2fQqIfRa/uQUDTWlLg=;
+ b=L9i50ED91HmdtIl5+cuEml72EtB8vana3sNB8c8girQLUUadRhWvTpPZvtgdMf9bb3
+ 4oythzMgZKZ/0tSd4p+XhwO0/AWkAmNqYJwgWQygYMEJZtaRkVllFLWeETF3Jbezwhzf
+ JPmqecgZdSwRYw1N2oHtv3nhayuXpFVtLV4iX8NbfSUaYteiLSqo6sSayTDtDuWOVzR8
+ nRWsyQ1TGNUp8lE1lUxrMI4ec5G0YLhFwNIzj3pHr5tHz6XEVKV/g6qLKiphPePywEsb
+ iPgwKue8c0HXPDy/hMEuA0iO92ZY9SHmcDX8KF5RcWrHiHn0mWc6hCdAyRshVLb5e1Pk
+ tD/Q==
+X-Gm-Message-State: AOAM532CxEo/TeykoZ0ps6OmlcQXwLMSF6Jn/vxpdKs67d3gJYqRYNX0
+ XkVrMKHNrebLhuO/VUxi0AuUiIegX3Y8uX41R+6z0DIx7GHd0gvgPEdUsok6KciXB1Cpt7ZDd6d
+ 0sEDU5P9pYAMCxCs=
+X-Received: by 2002:a05:6000:381:b0:20c:5e07:f75f with SMTP id
+ u1-20020a056000038100b0020c5e07f75fmr5080925wrf.678.1652982984210; 
+ Thu, 19 May 2022 10:56:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDV0EFxTAm8Tf4iK9IwPtz3ih0xNaDgiYHV1DRJbcc/MN7FUJwCM6QwTCriso06F2sabrLfg==
+X-Received: by 2002:a05:6000:381:b0:20c:5e07:f75f with SMTP id
+ u1-20020a056000038100b0020c5e07f75fmr5080909wrf.678.1652982983891; 
+ Thu, 19 May 2022 10:56:23 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.37.11
- for <qemu-devel@nongnu.org>
+ o8-20020a1c7508000000b003942a244f2fsm216584wmc.8.2022.05.19.10.56.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 10:37:11 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 22/22] target/arm: Use FIELD definitions for CPACR, CPTR_ELx
-Date: Thu, 19 May 2022 18:36:51 +0100
-Message-Id: <20220519173651.399295-23-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
-References: <20220519173651.399295-1-peter.maydell@linaro.org>
+ Thu, 19 May 2022 10:56:23 -0700 (PDT)
+Date: Thu, 19 May 2022 19:56:21 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca, minyard@acm.org,
+ stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 28/35] acpi: pvpanic-isa: use
+ AcpiDevAmlIfClass:build_dev_aml to provide device's AML
+Message-ID: <20220519195621.121bfbb8@redhat.com>
+In-Reply-To: <20220516163547-mutt-send-email-mst@kernel.org>
+References: <20220516152610.1963435-1-imammedo@redhat.com>
+ <20220516152610.1963435-29-imammedo@redhat.com>
+ <20220516163547-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,313 +104,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Mon, 16 May 2022 16:46:29 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-We had a few CPTR_* bits defined, but missed quite a few.
-Complete all of the fields up to ARMv9.2.
-Use FIELD_EX64 instead of manual extract32.
+> On Mon, May 16, 2022 at 11:26:03AM -0400, Igor Mammedov wrote:
+> > .. and clean up not longer needed conditionals in DSTD build code
+> > pvpanic-isa AML will be fetched and included when ISA bridge will
+> > build its own AML code (including attached devices).
+> > 
+> > Expected AML change:
+> >    the device under separate _SB.PCI0.ISA scope is moved directly
+> >    under Device(ISA) node.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  include/hw/misc/pvpanic.h |  9 ---------
+> >  hw/i386/acpi-build.c      | 37 ----------------------------------
+> >  hw/misc/pvpanic-isa.c     | 42 +++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 42 insertions(+), 46 deletions(-)
+> > 
+> > diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
+> > index 7f16cc9b16..e520566ab0 100644
+> > --- a/include/hw/misc/pvpanic.h
+> > +++ b/include/hw/misc/pvpanic.h
+> > @@ -33,13 +33,4 @@ struct PVPanicState {
+> >  
+> >  void pvpanic_setup_io(PVPanicState *s, DeviceState *dev, unsigned size);
+> >  
+> > -static inline uint16_t pvpanic_port(void)
+> > -{
+> > -    Object *o = object_resolve_path_type("", TYPE_PVPANIC_ISA_DEVICE, NULL);
+> > -    if (!o) {
+> > -        return 0;
+> > -    }
+> > -    return object_property_get_uint(o, PVPANIC_IOPORT_PROP, NULL);
+> > -}
+> > -
+> >  #endif
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 517818cd9f..a42f41f373 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -30,7 +30,6 @@
+> >  #include "hw/pci/pci.h"
+> >  #include "hw/core/cpu.h"
+> >  #include "target/i386/cpu.h"
+> > -#include "hw/misc/pvpanic.h"
+> >  #include "hw/timer/hpet.h"
+> >  #include "hw/acpi/acpi-defs.h"
+> >  #include "hw/acpi/acpi.h"
+> > @@ -117,7 +116,6 @@ typedef struct AcpiMiscInfo {
+> >  #endif
+> >      const unsigned char *dsdt_code;
+> >      unsigned dsdt_size;
+> > -    uint16_t pvpanic_port;
+> >  } AcpiMiscInfo;
+> >  
+> >  typedef struct AcpiBuildPciBusHotplugState {
+> > @@ -302,7 +300,6 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
+> >  #ifdef CONFIG_TPM
+> >      info->tpm_version = tpm_get_version(tpm_find());
+> >  #endif
+> > -    info->pvpanic_port = pvpanic_port();
+> >  }
+> >  
+> >  /*
+> > @@ -1749,40 +1746,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          aml_append(dsdt, scope);
+> >      }
+> >  
+> > -    if (misc->pvpanic_port) {
+> > -        scope = aml_scope("\\_SB.PCI0.ISA");
+> > -
+> > -        dev = aml_device("PEVT");
+> > -        aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
+> > -
+> > -        crs = aml_resource_template();
+> > -        aml_append(crs,
+> > -            aml_io(AML_DECODE16, misc->pvpanic_port, misc->pvpanic_port, 1, 1)
+> > -        );
+> > -        aml_append(dev, aml_name_decl("_CRS", crs));
+> > -
+> > -        aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
+> > -                                              aml_int(misc->pvpanic_port), 1));
+> > -        field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
+> > -        aml_append(field, aml_named_field("PEPT", 8));
+> > -        aml_append(dev, field);
+> > -
+> > -        /* device present, functioning, decoding, shown in UI */
+> > -        aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+> > -
+> > -        method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
+> > -        aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
+> > -        aml_append(method, aml_return(aml_local(0)));
+> > -        aml_append(dev, method);
+> > -
+> > -        method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
+> > -        aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
+> > -        aml_append(dev, method);
+> > -
+> > -        aml_append(scope, dev);
+> > -        aml_append(dsdt, scope);
+> > -    }
+> > -
+> >      sb_scope = aml_scope("\\_SB");
+> >      {
+> >          Object *pci_host;
+> > diff --git a/hw/misc/pvpanic-isa.c b/hw/misc/pvpanic-isa.c
+> > index b84d4d458d..ccec50f61b 100644
+> > --- a/hw/misc/pvpanic-isa.c
+> > +++ b/hw/misc/pvpanic-isa.c
+> > @@ -22,6 +22,7 @@
+> >  #include "qom/object.h"
+> >  #include "hw/isa/isa.h"
+> >  #include "standard-headers/linux/pvpanic.h"
+> > +#include "hw/acpi/acpi_aml_interface.h"
+> >  
+> >  OBJECT_DECLARE_SIMPLE_TYPE(PVPanicISAState, PVPANIC_ISA_DEVICE)
+> >  
+> > @@ -63,6 +64,41 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
+> >      isa_register_ioport(d, &ps->mr, s->ioport);
+> >  }
+> >  
+> > +static void build_pvpanic_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+> > +{
+> > +    Aml *crs, *field, *method;
+> > +    PVPanicISAState *s = PVPANIC_ISA_DEVICE(adev);
+> > +    Aml *dev = aml_device("PEVT");
+> > +
+> > +    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
+> > +
+> > +    crs = aml_resource_template();
+> > +    aml_append(crs,
+> > +        aml_io(AML_DECODE16, s->ioport, s->ioport, 1, 1)
+> > +    );
+> > +    aml_append(dev, aml_name_decl("_CRS", crs));
+> > +
+> > +    aml_append(dev, aml_operation_region("PEOR", AML_SYSTEM_IO,
+> > +                                          aml_int(s->ioport), 1));
+> > +    field = aml_field("PEOR", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
+> > +    aml_append(field, aml_named_field("PEPT", 8));
+> > +    aml_append(dev, field);
+> > +
+> > +    /* device present, functioning, decoding, shown in UI */
+> > +    aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+> > +
+> > +    method = aml_method("RDPT", 0, AML_NOTSERIALIZED);
+> > +    aml_append(method, aml_store(aml_name("PEPT"), aml_local(0)));
+> > +    aml_append(method, aml_return(aml_local(0)));
+> > +    aml_append(dev, method);
+> > +
+> > +    method = aml_method("WRPT", 1, AML_NOTSERIALIZED);
+> > +    aml_append(method, aml_store(aml_arg(0), aml_name("PEPT")));
+> > +    aml_append(dev, method);
+> > +
+> > +    aml_append(scope, dev);
+> > +}
+> > +
+> >  static Property pvpanic_isa_properties[] = {
+> >      DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicISAState, ioport, 0x505),
+> >      DEFINE_PROP_UINT8("events", PVPanicISAState, pvpanic.events,
+> > @@ -73,10 +109,12 @@ static Property pvpanic_isa_properties[] = {
+> >  static void pvpanic_isa_class_init(ObjectClass *klass, void *data)
+> >  {
+> >      DeviceClass *dc = DEVICE_CLASS(klass);
+> > +    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+> >  
+> >      dc->realize = pvpanic_isa_realizefn;
+> >      device_class_set_props(dc, pvpanic_isa_properties);
+> >      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> > +    adevc->build_dev_aml = build_pvpanic_isa_aml;
+> >  }
+> >  
+> >  static const TypeInfo pvpanic_isa_info = {  
+> 
+> 
+> So this really makes the device depend on ACPI.
+> What if the device is also built for a platform without ACPI?
+> Looks like it will fail to build.
+> 
+> E.g. mips has ISA too. What if one was to add pvpanic there?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220517054850.177016-3-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h    | 44 +++++++++++++++++++++++++++++++-----
- hw/arm/boot.c       |  2 +-
- target/arm/cpu.c    | 11 ++++++---
- target/arm/helper.c | 54 ++++++++++++++++++++++-----------------------
- 4 files changed, 75 insertions(+), 36 deletions(-)
+it turns out meson somehow figures out dependency and pulls in
+CONFIG_ACPI implicitly for mips (well and the same for a bunch
+of other targets where acpi doesn't have any stake).
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index fac526a4905..c1865ad5dad 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1261,11 +1261,45 @@ void pmu_init(ARMCPU *cpu);
- #define SCTLR_SPINTMASK (1ULL << 62) /* FEAT_NMI */
- #define SCTLR_TIDCP   (1ULL << 63) /* FEAT_TIDCP1 */
- 
--#define CPTR_TCPAC    (1U << 31)
--#define CPTR_TTA      (1U << 20)
--#define CPTR_TFP      (1U << 10)
--#define CPTR_TZ       (1U << 8)   /* CPTR_EL2 */
--#define CPTR_EZ       (1U << 8)   /* CPTR_EL3 */
-+/* Bit definitions for CPACR (AArch32 only) */
-+FIELD(CPACR, CP10, 20, 2)
-+FIELD(CPACR, CP11, 22, 2)
-+FIELD(CPACR, TRCDIS, 28, 1)    /* matches CPACR_EL1.TTA */
-+FIELD(CPACR, D32DIS, 30, 1)    /* up to v7; RAZ in v8 */
-+FIELD(CPACR, ASEDIS, 31, 1)
-+
-+/* Bit definitions for CPACR_EL1 (AArch64 only) */
-+FIELD(CPACR_EL1, ZEN, 16, 2)
-+FIELD(CPACR_EL1, FPEN, 20, 2)
-+FIELD(CPACR_EL1, SMEN, 24, 2)
-+FIELD(CPACR_EL1, TTA, 28, 1)   /* matches CPACR.TRCDIS */
-+
-+/* Bit definitions for HCPTR (AArch32 only) */
-+FIELD(HCPTR, TCP10, 10, 1)
-+FIELD(HCPTR, TCP11, 11, 1)
-+FIELD(HCPTR, TASE, 15, 1)
-+FIELD(HCPTR, TTA, 20, 1)
-+FIELD(HCPTR, TAM, 30, 1)       /* matches CPTR_EL2.TAM */
-+FIELD(HCPTR, TCPAC, 31, 1)     /* matches CPTR_EL2.TCPAC */
-+
-+/* Bit definitions for CPTR_EL2 (AArch64 only) */
-+FIELD(CPTR_EL2, TZ, 8, 1)      /* !E2H */
-+FIELD(CPTR_EL2, TFP, 10, 1)    /* !E2H, matches HCPTR.TCP10 */
-+FIELD(CPTR_EL2, TSM, 12, 1)    /* !E2H */
-+FIELD(CPTR_EL2, ZEN, 16, 2)    /* E2H */
-+FIELD(CPTR_EL2, FPEN, 20, 2)   /* E2H */
-+FIELD(CPTR_EL2, SMEN, 24, 2)   /* E2H */
-+FIELD(CPTR_EL2, TTA, 28, 1)
-+FIELD(CPTR_EL2, TAM, 30, 1)    /* matches HCPTR.TAM */
-+FIELD(CPTR_EL2, TCPAC, 31, 1)  /* matches HCPTR.TCPAC */
-+
-+/* Bit definitions for CPTR_EL3 (AArch64 only) */
-+FIELD(CPTR_EL3, EZ, 8, 1)
-+FIELD(CPTR_EL3, TFP, 10, 1)
-+FIELD(CPTR_EL3, ESM, 12, 1)
-+FIELD(CPTR_EL3, TTA, 20, 1)
-+FIELD(CPTR_EL3, TAM, 30, 1)
-+FIELD(CPTR_EL3, TCPAC, 31, 1)
- 
- #define MDCR_EPMAD    (1U << 21)
- #define MDCR_EDAD     (1U << 20)
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index a47f38dfc90..a8de33fd647 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -761,7 +761,7 @@ static void do_cpu_reset(void *opaque)
-                         env->cp15.scr_el3 |= SCR_ATA;
-                     }
-                     if (cpu_isar_feature(aa64_sve, cpu)) {
--                        env->cp15.cptr_el[3] |= CPTR_EZ;
-+                        env->cp15.cptr_el[3] |= R_CPTR_EL3_EZ_MASK;
-                     }
-                     /* AArch64 kernels never boot in secure mode */
-                     assert(!info->secure_boot);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 029f644768b..d2bd74c2ed4 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -201,9 +201,11 @@ static void arm_cpu_reset(DeviceState *dev)
-         /* Trap on btype=3 for PACIxSP. */
-         env->cp15.sctlr_el[1] |= SCTLR_BT0;
-         /* and to the FP/Neon instructions */
--        env->cp15.cpacr_el1 = deposit64(env->cp15.cpacr_el1, 20, 2, 3);
-+        env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
-+                                         CPACR_EL1, FPEN, 3);
-         /* and to the SVE instructions */
--        env->cp15.cpacr_el1 = deposit64(env->cp15.cpacr_el1, 16, 2, 3);
-+        env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
-+                                         CPACR_EL1, ZEN, 3);
-         /* with reasonable vector length */
-         if (cpu_isar_feature(aa64_sve, cpu)) {
-             env->vfp.zcr_el[1] =
-@@ -252,7 +254,10 @@ static void arm_cpu_reset(DeviceState *dev)
-     } else {
- #if defined(CONFIG_USER_ONLY)
-         /* Userspace expects access to cp10 and cp11 for FP/Neon */
--        env->cp15.cpacr_el1 = deposit64(env->cp15.cpacr_el1, 20, 4, 0xf);
-+        env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
-+                                         CPACR, CP10, 3);
-+        env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
-+                                         CPACR, CP11, 3);
- #endif
-     }
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7d983d7fffb..40da63913c9 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -766,11 +766,14 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-          */
-         if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
-             /* VFP coprocessor: cp10 & cp11 [23:20] */
--            mask |= (1 << 31) | (1 << 30) | (0xf << 20);
-+            mask |= R_CPACR_ASEDIS_MASK |
-+                    R_CPACR_D32DIS_MASK |
-+                    R_CPACR_CP11_MASK |
-+                    R_CPACR_CP10_MASK;
- 
-             if (!arm_feature(env, ARM_FEATURE_NEON)) {
-                 /* ASEDIS [31] bit is RAO/WI */
--                value |= (1 << 31);
-+                value |= R_CPACR_ASEDIS_MASK;
-             }
- 
-             /* VFPv3 and upwards with NEON implement 32 double precision
-@@ -778,7 +781,7 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-              */
-             if (!cpu_isar_feature(aa32_simd_r32, env_archcpu(env))) {
-                 /* D32DIS [30] is RAO/WI if D16-31 are not implemented. */
--                value |= (1 << 30);
-+                value |= R_CPACR_D32DIS_MASK;
-             }
-         }
-         value &= mask;
-@@ -790,8 +793,8 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-      */
-     if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-         !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
--        value &= ~(0xf << 20);
--        value |= env->cp15.cpacr_el1 & (0xf << 20);
-+        mask = R_CPACR_CP11_MASK | R_CPACR_CP10_MASK;
-+        value = (value & ~mask) | (env->cp15.cpacr_el1 & mask);
-     }
- 
-     env->cp15.cpacr_el1 = value;
-@@ -807,7 +810,7 @@ static uint64_t cpacr_read(CPUARMState *env, const ARMCPRegInfo *ri)
- 
-     if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-         !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
--        value &= ~(0xf << 20);
-+        value = ~(R_CPACR_CP11_MASK | R_CPACR_CP10_MASK);
-     }
-     return value;
- }
-@@ -827,11 +830,11 @@ static CPAccessResult cpacr_access(CPUARMState *env, const ARMCPRegInfo *ri,
-     if (arm_feature(env, ARM_FEATURE_V8)) {
-         /* Check if CPACR accesses are to be trapped to EL2 */
-         if (arm_current_el(env) == 1 && arm_is_el2_enabled(env) &&
--            (env->cp15.cptr_el[2] & CPTR_TCPAC)) {
-+            FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TCPAC)) {
-             return CP_ACCESS_TRAP_EL2;
-         /* Check if CPACR accesses are to be trapped to EL3 */
-         } else if (arm_current_el(env) < 3 &&
--                   (env->cp15.cptr_el[3] & CPTR_TCPAC)) {
-+                   FIELD_EX64(env->cp15.cptr_el[3], CPTR_EL3, TCPAC)) {
-             return CP_ACCESS_TRAP_EL3;
-         }
-     }
-@@ -843,7 +846,8 @@ static CPAccessResult cptr_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                   bool isread)
- {
-     /* Check if CPTR accesses are set to trap to EL3 */
--    if (arm_current_el(env) == 2 && (env->cp15.cptr_el[3] & CPTR_TCPAC)) {
-+    if (arm_current_el(env) == 2 &&
-+        FIELD_EX64(env->cp15.cptr_el[3], CPTR_EL3, TCPAC)) {
-         return CP_ACCESS_TRAP_EL3;
-     }
- 
-@@ -5343,8 +5347,8 @@ static void cptr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
-      */
-     if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-         !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
--        value &= ~(0x3 << 10);
--        value |= env->cp15.cptr_el[2] & (0x3 << 10);
-+        uint64_t mask = R_HCPTR_TCP11_MASK | R_HCPTR_TCP10_MASK;
-+        value = (value & ~mask) | (env->cp15.cptr_el[2] & mask);
-     }
-     env->cp15.cptr_el[2] = value;
- }
-@@ -5359,7 +5363,7 @@ static uint64_t cptr_el2_read(CPUARMState *env, const ARMCPRegInfo *ri)
- 
-     if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-         !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
--        value |= 0x3 << 10;
-+        value |= R_HCPTR_TCP11_MASK | R_HCPTR_TCP10_MASK;
-     }
-     return value;
- }
-@@ -6147,8 +6151,7 @@ int sve_exception_el(CPUARMState *env, int el)
-     uint64_t hcr_el2 = arm_hcr_el2_eff(env);
- 
-     if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
--        /* Check CPACR.ZEN.  */
--        switch (extract32(env->cp15.cpacr_el1, 16, 2)) {
-+        switch (FIELD_EX64(env->cp15.cpacr_el1, CPACR_EL1, ZEN)) {
-         case 1:
-             if (el != 0) {
-                 break;
-@@ -6161,7 +6164,7 @@ int sve_exception_el(CPUARMState *env, int el)
-         }
- 
-         /* Check CPACR.FPEN.  */
--        switch (extract32(env->cp15.cpacr_el1, 20, 2)) {
-+        switch (FIELD_EX64(env->cp15.cpacr_el1, CPACR_EL1, FPEN)) {
-         case 1:
-             if (el != 0) {
-                 break;
-@@ -6178,8 +6181,7 @@ int sve_exception_el(CPUARMState *env, int el)
-      */
-     if (el <= 2) {
-         if (hcr_el2 & HCR_E2H) {
--            /* Check CPTR_EL2.ZEN.  */
--            switch (extract32(env->cp15.cptr_el[2], 16, 2)) {
-+            switch (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, ZEN)) {
-             case 1:
-                 if (el != 0 || !(hcr_el2 & HCR_TGE)) {
-                     break;
-@@ -6190,8 +6192,7 @@ int sve_exception_el(CPUARMState *env, int el)
-                 return 2;
-             }
- 
--            /* Check CPTR_EL2.FPEN.  */
--            switch (extract32(env->cp15.cptr_el[2], 20, 2)) {
-+            switch (FIELD_EX32(env->cp15.cptr_el[2], CPTR_EL2, FPEN)) {
-             case 1:
-                 if (el == 2 || !(hcr_el2 & HCR_TGE)) {
-                     break;
-@@ -6202,10 +6203,10 @@ int sve_exception_el(CPUARMState *env, int el)
-                 return 0;
-             }
-         } else if (arm_is_el2_enabled(env)) {
--            if (env->cp15.cptr_el[2] & CPTR_TZ) {
-+            if (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TZ)) {
-                 return 2;
-             }
--            if (env->cp15.cptr_el[2] & CPTR_TFP) {
-+            if (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TFP)) {
-                 return 0;
-             }
-         }
-@@ -6213,7 +6214,7 @@ int sve_exception_el(CPUARMState *env, int el)
- 
-     /* CPTR_EL3.  Since EZ is negative we must check for EL3.  */
-     if (arm_feature(env, ARM_FEATURE_EL3)
--        && !(env->cp15.cptr_el[3] & CPTR_EZ)) {
-+        && !FIELD_EX64(env->cp15.cptr_el[3], CPTR_EL3, EZ)) {
-         return 3;
-     }
- #endif
-@@ -13396,7 +13397,7 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-      * This register is ignored if E2H+TGE are both set.
-      */
-     if ((hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
--        int fpen = extract32(env->cp15.cpacr_el1, 20, 2);
-+        int fpen = FIELD_EX64(env->cp15.cpacr_el1, CPACR_EL1, FPEN);
- 
-         switch (fpen) {
-         case 0:
-@@ -13442,8 +13443,7 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-      */
-     if (cur_el <= 2) {
-         if (hcr_el2 & HCR_E2H) {
--            /* Check CPTR_EL2.FPEN.  */
--            switch (extract32(env->cp15.cptr_el[2], 20, 2)) {
-+            switch (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, FPEN)) {
-             case 1:
-                 if (cur_el != 0 || !(hcr_el2 & HCR_TGE)) {
-                     break;
-@@ -13454,14 +13454,14 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-                 return 2;
-             }
-         } else if (arm_is_el2_enabled(env)) {
--            if (env->cp15.cptr_el[2] & CPTR_TFP) {
-+            if (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TFP)) {
-                 return 2;
-             }
-         }
-     }
- 
-     /* CPTR_EL3 : present in v8 */
--    if (env->cp15.cptr_el[3] & CPTR_TFP) {
-+    if (FIELD_EX64(env->cp15.cptr_el[3], CPTR_EL3, TFP)) {
-         /* Trap all FP ops to EL3 */
-         return 3;
-     }
--- 
-2.25.1
+> I am not sure how important this is at the moment, but
+> I think the APIs should support this cleanly.
+> 
+> How about an inline function along the lines of:
+> 
+> acpi_set_build_dev_aml(DeviceClass *dc, ....)
+
+current docs/devel/build-system.rst suggests using
+stubs for conditional code (it even uses CONFIG_ACPI
+as example of such usage)
+
+> the build function itself is static, so compiler will
+> remove it if unused.
+
+what you are essentially suggesting is to make target
+in-depended file (that is built once. ex: fdc-isa)
+into several target dependent builds (due to dependency
+on build_aml_foo() symbol). While stubs allow to keep
+file independent by substituting build_aml_foo() with
+dummy stub. So I'm not sure we would like go that route.
+
+Anyways, I did try to give it a shot and failed,
+or maybe I misunderstood your idea completely 
+
+resistance I've met:
+  - CONFIG_ACPI define is poisoned (hacked around it,
+    pretty sure in wrong way)
+
+  - couldn't figure out meson.build rule that depends on several symbols yet
+    (meson docs suggest it's possble)
+      (i.e. add/build new fdc-isa-acpi.c file if both CONFIG_FDC_ISA & CONFIG_ACPI defined)
+    we can use only CONFIG_ACPI and hope that linker will discard object file
+    as unused if target has ACPI but does not have CONFIG_FDC_ISA (it's still
+    lost build time on use-less object).
+
+  - CONFIG_ACPI is not visible for target in-depended devices
+          gave up here ...
+
+my ugly attempt is here:
+ https://gitlab.com/imammedo/qemu/-/commit/9cb126c903a72582ac2f1643664b06414e25e0af
+
+
+> > @@ -85,6 +123,10 @@ static const TypeInfo pvpanic_isa_info = {
+> >      .instance_size = sizeof(PVPanicISAState),
+> >      .instance_init = pvpanic_isa_initfn,
+> >      .class_init    = pvpanic_isa_class_init,
+> > +    .interfaces = (InterfaceInfo[]) {
+> > +        { TYPE_ACPI_DEV_AML_IF },
+> > +        { },
+> > +    },
+> >  };
+> >  
+> >  static void pvpanic_register_types(void)
+> > -- 
+> > 2.31.1  
+> 
 
 
