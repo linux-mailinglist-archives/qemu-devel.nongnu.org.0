@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF1C52CD79
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 09:49:38 +0200 (CEST)
-Received: from localhost ([::1]:43234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653B152CD7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 09:49:48 +0200 (CEST)
+Received: from localhost ([::1]:43734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nraue-0003fY-QV
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 03:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51706)
+	id 1nrauo-00040A-Gx
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 03:49:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrar5-0001aA-Dd
- for qemu-devel@nongnu.org; Thu, 19 May 2022 03:45:55 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35767)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrarj-0001ti-A1
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 03:46:36 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:38516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrar3-0000vr-MK
- for qemu-devel@nongnu.org; Thu, 19 May 2022 03:45:55 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id y13so7511740eje.2
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 00:45:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nrarY-0000zN-SG
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 03:46:35 -0400
+Received: by mail-ej1-x634.google.com with SMTP id n10so8260918ejk.5
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 00:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4ia8jMc0hXir9lQIp+mopQnhQVEaorwUTwNLD3kv/qg=;
- b=DU/eJKwJKYxhoiDJCYxtBbNPWpB2OZl2aHfcbcppbirAJszGVf+SncoATl745mtmBB
- u8/xwtPuYQI2n3hmKb1DuosXjqpEgim5cMR1GtjMcSmXZmLHAyrJnBM6O6q8g+wP+NxN
- Z8W5oDHDb6QG40eNt9ZwQceP/aR3cW7hXSI0uoUh3X4J900smEPyb3WofioXfcE++Kyc
- Ym/WcVddLEQifIv3azPqdhAUbTUiG5iqYbUpRz4Csdyp21s/fzZMz/793E10C7m5cczL
- lyOgXwhud8xa9WV0BjCvBCvqet265JXvzSKpMbwp7nxkqVhs12ViQaUXyR5oLeCJ3YCD
- +5Vg==
+ :cc; bh=ivVXQrHKKQjbYAgPZaJWdmkvg33LDhHIDhSoq6p1i6c=;
+ b=qeCcrDabD4OVIOivQtBoCWhAkG0wAc3jk3jia30MnzuKA25M5lJrJfpWXqGg+IJRvE
+ gDmfUaSR0haeWo+HsWu2GkWjnTY0uVj2Qc/gtvVqGVDJhVJZbVZHl31IKjw08EXBza2U
+ Ae6fuZDJedr3njMuVUYo6w+jrgZcewZxhtv/pWSmHcdynAvRKXagVfdp1uQZM9DmE0Bh
+ iFxzie0j7f8yyJAi3LwGu5wnvV1hTKF2Bkz7qk3DtBpK4gy4iMGRmTLZnJDvMdQsScLw
+ zWYRNShGenHvabX1qDjjhbT5Q+CHyGpwB9Le/j78Ba0Jn8GQGnOKjeTkVQun04DEUc5a
+ ivoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4ia8jMc0hXir9lQIp+mopQnhQVEaorwUTwNLD3kv/qg=;
- b=N5m/3ooOiSm2RgxNKHC7RY8Ly1ot6w4ZC6gvoDOSamGKa2A300SYQUffTg+caXkVZj
- /8FVjCLvhd8oipv8lbk+qUu3PBw9n2S+eSyg6a9CmEkWmj2Gnnfei7aGcl2wWg2zkqGL
- Adt6e52BkW1MK+l57bPIlXx5uF9wzl4iacfz7Qp/sbmr1I8tz8eq/wYLpdd+SWR3TRZ1
- jkDVbddxx908TNcmo4vLenoCSKUe4oAw5s8/vBUr57oxzKeVh2Z3Fv2aixyAg03LCuYm
- 36Q/keQrUNemc/a6HBEUPvmMzDqh+zF5DL/+u4Odse2iQ1KwKj8DIgnKQITIa4o8fk6J
- lzgw==
-X-Gm-Message-State: AOAM530xKDfMQuJ8+T1lophsrg4u7x/hPc1GwGrxZRQSYOH/9qv2jsih
- 3rBXYJEa3VsLz3wc76YB5NNEV2PwAXp/Ka1BJlaZcA==
-X-Google-Smtp-Source: ABdhPJwcXH5r6sLdYY794q04x2QHjmdj8h4EI/F5t9r2D629khdFi0Q3Ka+Vcdo/sldqNF85spEFyvJjqJRsuoyMDOs=
+ bh=ivVXQrHKKQjbYAgPZaJWdmkvg33LDhHIDhSoq6p1i6c=;
+ b=k3QvMhmCwiLC/Xq0rf3ONJ2KPlz/w4xBwRB33nc3GoMyLL9LLVFqNQ8cIoIBU0Zohk
+ 1ZSopvrXh0eSXf3ehjytC23leMruAvAZIOJDY5WLM2Y0NSVYT+Uaao2rES47ksrTz9x8
+ fpjJj2YJ5dFFpe0P8oPvP9Dqkhvq9orCgyA+HR3f+uWSb9UAVGaLyH1LR9XuHAAJpVhd
+ 4UiN/JzB+ElaegsiyZqundXzKK/bluJcWC10OzSRiHf2NQfH+TV4QWyJHFq2mdjC+7uD
+ hRIOHzv0X+FW+Ar1HJrYDW5EqlFchVnSCO6Up/zaXdBCDuYSqmUMOujthZFQiEV0kAUx
+ GImA==
+X-Gm-Message-State: AOAM531DvVn3da0vmp4YIxh7rq/jkQFJ9e+rKvGf+pIXWLE3hJ5Ooyu4
+ 3eEelq5kINSq15aHHIVYsdgCizsqF0HJ1c3pPlP6dw==
+X-Google-Smtp-Source: ABdhPJxg228Ip6gGf2hJ67U/a2AcnBP/vJJo7ABaVTNszlhznilm/pY1tpbRTozl+RAVCUoGsl8vxAmq6uaKF3eGoWw=
 X-Received: by 2002:a17:907:94cf:b0:6f5:942:5db7 with SMTP id
- dn15-20020a17090794cf00b006f509425db7mr2944845ejc.625.1652946350839; Thu, 19
- May 2022 00:45:50 -0700 (PDT)
+ dn15-20020a17090794cf00b006f509425db7mr2946401ejc.625.1652946383229; Thu, 19
+ May 2022 00:46:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
- <20220518110839.8681-2-mark.cave-ayland@ilande.co.uk>
- <CAARzgwx4u0N1-XC2z18kKJZ3gkna22YMZ3nw+tikJt=sv-zc-w@mail.gmail.com>
- <db251587-d70e-76d7-e4e7-925075a2ed28@ilande.co.uk>
-In-Reply-To: <db251587-d70e-76d7-e4e7-925075a2ed28@ilande.co.uk>
+ <20220518110839.8681-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220518110839.8681-5-mark.cave-ayland@ilande.co.uk>
 From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 19 May 2022 13:15:40 +0530
-Message-ID: <CAARzgwxEU4hnSW4=1uYj_Pp6YZxm-FWahLoHwS_yArMvi7zbig@mail.gmail.com>
-Subject: Re: [PATCH 1/6] hw/acpi/viot: rename build_pci_range_node() to
- pci_host_bridges()
+Date: Thu, 19 May 2022 13:16:12 +0530
+Message-ID: <CAARzgwz-nrnHrdS312QJGd7TSeOx7dDgLH50_7hy2b1FcsZRhg@mail.gmail.com>
+Subject: Re: [PATCH 4/6] tests/acpi: virt: allow VIOT acpi table changes
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: mst@redhat.com, imammedo@redhat.com, jean-philippe@linaro.org, 
  qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::62c;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62c.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::634;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,61 +81,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 5:57 PM Mark Cave-Ayland
+On Wed, May 18, 2022 at 4:39 PM Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> On 18/05/2022 12:36, Ani Sinha wrote:
->
-> > On Wed, May 18, 2022 at 4:38 PM Mark Cave-Ayland
-> > <mark.cave-ayland@ilande.co.uk> wrote:
-> >>
-> >> This is in preparation for separating out the VIOT ACPI table build from the
-> >> PCI host bridge numeration.
-> >>
-> >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> >> ---
-> >>   hw/acpi/viot.c | 4 ++--
-> >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
-> >> index c1af75206e..2897aa8c88 100644
-> >> --- a/hw/acpi/viot.c
-> >> +++ b/hw/acpi/viot.c
-> >> @@ -17,7 +17,7 @@ struct viot_pci_ranges {
-> >>   };
-> >>
-> >>   /* Build PCI range for a given PCI host bridge */
-> >> -static int build_pci_range_node(Object *obj, void *opaque)
-> >> +static int pci_host_bridges(Object *obj, void *opaque)
-> >
-> > Please rename this as build_pci_host_bridges()
->
-> I'm not sure this makes sense?
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-How about enumerate_pci_host_bridges() then?
+Acked-by: Ani Sinha <ani@anisinha.ca>
 
- The naming here is deliberate since the whole aim of
-> patches 1-3 is to remove the ACPI table build code out of this function so that its
-> only purpose is to enumerate the PCI host bridges. This is similar to the approach
-> already taken in hw/arm/virt-acpi-build.c in build_iort().
+> ---
+>  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> >>   {
-> >>       struct viot_pci_ranges *pci_ranges = opaque;
-> >>       GArray *blob = pci_ranges->blob;
-> >> @@ -78,7 +78,7 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
-> >>       };
-> >>
-> >>       /* Build the list of PCI ranges that this viommu manages */
-> >> -    object_child_foreach_recursive(OBJECT(ms), build_pci_range_node,
-> >> +    object_child_foreach_recursive(OBJECT(ms), pci_host_bridges,
-> >>                                      &pci_ranges);
-> >>
-> >>       /* ACPI table header */
-> >> --
-> >> 2.20.1
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index dfb8523c8b..8367ffe1d4 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,2 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/virt/VIOT",
+> --
+> 2.20.1
 >
->
-> ATB,
->
-> Mark.
 
