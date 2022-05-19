@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037DD52D593
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:07:11 +0200 (CEST)
-Received: from localhost ([::1]:46186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518DB52D59E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:09:46 +0200 (CEST)
+Received: from localhost ([::1]:53146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrgo1-00011G-Md
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
+	id 1nrgqX-0006v7-Eg
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nrgga-0002CD-Kh; Thu, 19 May 2022 09:59:29 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:34659)
+ id 1nrggc-0002Cl-6I; Thu, 19 May 2022 09:59:30 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nrggY-0001ZC-4e; Thu, 19 May 2022 09:59:28 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- qe3-20020a17090b4f8300b001dc24e4da73so6090945pjb.1; 
- Thu, 19 May 2022 06:59:25 -0700 (PDT)
+ id 1nrgga-0001ZO-M8; Thu, 19 May 2022 09:59:29 -0400
+Received: by mail-pg1-x532.google.com with SMTP id a38so2280106pgl.9;
+ Thu, 19 May 2022 06:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rtvf9wMwhE+cLepszcQA0NiOqfuWl2f+Ach/5N2R/dw=;
- b=H+kYIJTOgxqDodtRYtZLkwnd5nBhjpmDa71h7ocbtAx91z+JzWpfIx6rAqdG+z+Vy2
- mTiqeUXMmKGTjJtOU5r+nbFCFAGaMje+yx/ugGVWL38xqTzzxc1z2garVEfSvtGiCYKa
- yWyh+tJIH6gQXGJYf4uS8bfShzrX4KPv4/67j1FRRQwHu1HoMjZcTbtP4lz3UXWtNVOK
- RAyQ8dcJyCnEyZEhuLn+QUf/zU9+NuJX6W821QNprQTtUgPOdny6KRcaMEEVXxzqr8KD
- +M1jNFNPqe905cGucc1WcBV/t+jKlZP8JUOXbCf6WXSQts6qCw0xjt1Q/rShNXgi2qQj
- mZQg==
+ bh=b6UlzvDweSn01XoFdH9Ht5swqfoLlqPhPpji1SjWP0s=;
+ b=Gjc0N3RFAU9sCJ29lrpZdgwDHKB9PwmBxFvmepYnLVCzwpPfn6yCA1YyRb4f7muegA
+ f8Wf13b1/nzW8/BsE9r+LNfTtN4RTfLFsRY/62eYJRtzWlqEObSuBgFSP6zivI5WjOol
+ nHWxR1DPD46kDcUF8BfruJMjiXIrhhXIpGxs4KwLZ30MGOeA4CRVuG9miQT/07ihTZet
+ 5zHrUg2nT+B0Ft5qnCZu9m7hmcLmgyR/FJVKuk6IHfMfQ5CI1i9eGKoYG6j5PcTe6IZb
+ drpS6sr01u2S8hR8H3h7xteVtTI9q6tvDdLIrvS+gznfwWFvtT8dARnTDw7+wZZNT953
+ V0rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rtvf9wMwhE+cLepszcQA0NiOqfuWl2f+Ach/5N2R/dw=;
- b=pGiLtRqiYkJb4td4L4UWABZ2bUj8nKaPHO0I764O4Sq0B9VM1WjgsHorUtKvu2WW32
- hjQqzJwVITCKEL4WP/oEQjSOabmONQua1Gp6oeEHrLeMWMzQavh78NWy/Cfgu8Kgq2uH
- dnD1N1mrAdahVibZ44XdtaKopWH5OTTnMjO9KH+XMOdncshOozpYCCQoUzGImo4O9DN+
- MxPCCDSrmiBxBvWqEzkpmBdlOoFyaSqM7x2foRJapl7fo36P9RB+JYIcWnNlzDMiVACr
- vWpaVgiSL4bARmySwp4VBdELKIS2B12uqdgyZ9aoD3OOi7qZVT65m1yEuKhvDzRfTS9M
- M/9A==
-X-Gm-Message-State: AOAM533ZOSewVSkGJoPBBYaJ+AClGwFM6GHYCM7zsTTS3H92vfmO217m
- PB9yc827v/MKQ9qhxvfE3kEnXY0oysfuKQ==
-X-Google-Smtp-Source: ABdhPJzgJqrxYrMkdhfmHPoESMAgi9l8ugdk4fkUw0kkWjngUDD9GjIRoImlN3tGl61AQm+z5E7auw==
-X-Received: by 2002:a17:902:ba97:b0:161:524d:5adb with SMTP id
- k23-20020a170902ba9700b00161524d5adbmr4971111pls.126.1652968764421; 
- Thu, 19 May 2022 06:59:24 -0700 (PDT)
+ bh=b6UlzvDweSn01XoFdH9Ht5swqfoLlqPhPpji1SjWP0s=;
+ b=3lqCX9saN3MM1TJHUcMhmbyGN5ARZQN5MCIzj3ZTjYtbwwiS4v9JdJtyrIshKkqopm
+ VUkOo9cK1PbeDGdpeeAJafZgr32Gj2kqB139JcLeYFSz8bjCNmeqT9DhH+onTX9e4oI8
+ i/5IIgf9g9DDHyBLWQByWLQzWO3qHwUcB8z6ZUbSqXf+AlvAngmXF4EE1efZgdHp3+Yc
+ yJbLeSwPk/bOrUiyezCRi7mHAYLP5KabF7FJyuuzrVCIPnr3rd99AYPPx4HqTp9zUJ7h
+ iBxul045PcG5zcy9Smzko83tzIDRAU0nONPSl5YL/YxBXRWZOYTtwRTzjysMnerrOOs8
+ OnqA==
+X-Gm-Message-State: AOAM531zYUUS9TEYx2Aa8hUcpEovDAZHNoJoASGBlqKEphLxAvUnAyw+
+ U2KBn9kOJXy+G0BtxxROuk3TiXMdKaL5DQ==
+X-Google-Smtp-Source: ABdhPJwU0eG4zY5wgQc70fq0Fqfkxp1ijTEQJfFs1jzs+eAl+8LQKyBqqJG68U1fCE8vC+j/NXVcIg==
+X-Received: by 2002:a65:5b8a:0:b0:3f5:d3d6:8782 with SMTP id
+ i10-20020a655b8a000000b003f5d3d68782mr4210132pgr.49.1652968766978; 
+ Thu, 19 May 2022 06:59:26 -0700 (PDT)
 Received: from bobo.ibm.com ([118.208.131.68])
  by smtp.gmail.com with ESMTPSA id
- l8-20020a17090b078800b001d9927ef1desm5603817pjz.34.2022.05.19.06.59.22
+ l8-20020a17090b078800b001d9927ef1desm5603817pjz.34.2022.05.19.06.59.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 06:59:24 -0700 (PDT)
+ Thu, 19 May 2022 06:59:26 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 2/4] tcg/ppc: ST_ST memory ordering is not provided with eieio
-Date: Thu, 19 May 2022 23:59:06 +1000
-Message-Id: <20220519135908.21282-3-npiggin@gmail.com>
+Subject: [PATCH 3/4] tcg/ppc: Optimize memory ordering generation with lwsync
+Date: Thu, 19 May 2022 23:59:07 +1000
+Message-Id: <20220519135908.21282-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220519135908.21282-1-npiggin@gmail.com>
 References: <20220519135908.21282-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=npiggin@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,28 +87,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-eieio does not provide ordering between stores to CI memory and stores
-to cacheable memory so it can't be used as a general ST_ST barrier.
+lwsync orders more than just LD_LD, importantly it matches x86 and
+s390 default memory ordering.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-of-by: Nicholas Piggin <npiggin@gmail.com>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- tcg/ppc/tcg-target.c.inc | 2 --
- 1 file changed, 2 deletions(-)
+ tcg/ppc/tcg-target.c.inc | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index cfcd121f9c..3ff845d063 100644
+index 3ff845d063..c0a5bca34f 100644
 --- a/tcg/ppc/tcg-target.c.inc
 +++ b/tcg/ppc/tcg-target.c.inc
-@@ -1836,8 +1836,6 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
-     a0 &= TCG_MO_ALL;
-     if (a0 == TCG_MO_LD_LD) {
+@@ -1832,11 +1832,14 @@ static void tcg_out_brcond2 (TCGContext *s, const TCGArg *args,
+ 
+ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+ {
+-    uint32_t insn = HWSYNC;
+-    a0 &= TCG_MO_ALL;
+-    if (a0 == TCG_MO_LD_LD) {
++    uint32_t insn;
++
++    if (a0 & TCG_MO_ST_LD) {
++        insn = HWSYNC;
++    } else {
          insn = LWSYNC;
--    } else if (a0 == TCG_MO_ST_ST) {
--        insn = EIEIO;
      }
++
      tcg_out32(s, insn);
  }
+ 
 -- 
 2.35.1
 
