@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE0952D7AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 17:33:23 +0200 (CEST)
-Received: from localhost ([::1]:59586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85F852D7ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 17:38:46 +0200 (CEST)
+Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nri9S-00076a-Ds
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 11:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34114)
+	id 1nriEf-0004lP-NV
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 11:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nri7G-0005b1-1z
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:31:06 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34472)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nri78-0007Ua-R0
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:31:05 -0400
-Received: by mail-pg1-x530.google.com with SMTP id g184so5410070pgc.1
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 08:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5SoyLHqlVjSaFxZRYoQQJzcjVwQG6Q9gtiImUx1M5iU=;
- b=tiZlJ1Z58kVIVasN8a9Dv75lzcGnHNq1f7VcKoFMN7KSaLT1DceXCGzCIcc9HyWznk
- ipTE8CUzg7kZ3oU4/c6Wz29GW4ovs/8VNPTLHf4CvCOt6cRqK4a3CmhgD1uPlRkKfJ9C
- rYqCtjcgx1bhim8Us9DztaC7cdUOpceCwguLRL5hpzLLai6a4DZ/otQSL7p44drYZred
- rbqCafP12WJg9tPK5pufqIaGlZhqmbRdNoy5N0stmDiFLJ5RMHEXlrWIwYKlBbJUXqws
- 3g8TvJTwQo1o+2wttJeoUG3ssttE1JQSPRhGT7zuHH2fbBGduZy3dUwJ2rAZhngeFtht
- a8Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5SoyLHqlVjSaFxZRYoQQJzcjVwQG6Q9gtiImUx1M5iU=;
- b=k3n9JN+onzhIJ/kHBc8tQ5qwwwl18tsfnC6QAWOkq5eR611oIpy10jkEQpj5jPDX1X
- Ama/Wz4KOG454nvO41QyhcLm7TOkETxKPJKqcP3PsN+AKAiEf9rsEey5qd6ZHmsbRCtD
- qO8CzmSzr0LNYAYWQhF8YMn+MEzS0f5365VLSPa7x60IPxObX8I4HrQaEviwpuXtGtbm
- GXqjclFzDzx1K2pEH9X3SDEB5luQgu9fylWsiUk229bZr/Ws/Pl+BpeF8JaIj31bRMPv
- IPLyBUD89FVsTJpCVQ5tyZmrHird91bLCSxyOwHqegZLewqAi3qryA0UA6JkFqFd7c0D
- EF1w==
-X-Gm-Message-State: AOAM532KnqQHy2bSinx5nRBWfpzNF4Z8dCUaFOuFTJI4ExtqRfipwgRU
- xwezCVoTu4D/r4AArTkAJ1yWqSullcEVIA==
-X-Google-Smtp-Source: ABdhPJyA2IejQA+PeVR1Y0f4PONJfkdZ4GEO78Fxe3hrMtGVDSI8ifv8JW8QJn8yZa6grL7+yMvGfg==
-X-Received: by 2002:a05:6a00:140a:b0:4e0:54d5:d01 with SMTP id
- l10-20020a056a00140a00b004e054d50d01mr5493771pfu.20.1652974257479; 
- Thu, 19 May 2022 08:30:57 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- m11-20020a63fd4b000000b003c14af50607sm3708268pgj.31.2022.05.19.08.30.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 08:30:56 -0700 (PDT)
-Message-ID: <1066cce6-6814-c8ef-b88e-e4bfe7172eb2@linaro.org>
-Date: Thu, 19 May 2022 08:30:55 -0700
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nriAe-0001an-56
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:38 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:48978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nriAY-0007oU-9x
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:34 -0400
+Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 2427520782;
+ Thu, 19 May 2022 15:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1652974465;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NGOPmWPSlJURdp1+Etg66IbtKhn2QjvwI3wOOK0kCxI=;
+ b=qo86juJh9emArtDQWQjeXmmUSZJPry7usQ29F1COOUPwf/gj1cn+0EerD/dZFqgczr+wcH
+ os/rlrVkoaJN0NXhriqb9mRzG/Ydts2X9SG8JXUZGlWnzB+v3pityH0CNZd8n2dis2kMZU
+ ZuBT99pFn/imNBi1OegZWN9K8kJczi0=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Cc: mark.burton@greensocs.com, edgari@xilinx.com,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v5 0/6] QAPI support for device cold-plug
+Date: Thu, 19 May 2022 17:33:56 +0200
+Message-Id: <20220519153402.41540-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 3/4] tcg/ppc: Optimize memory ordering generation with
- lwsync
-Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20220519135908.21282-1-npiggin@gmail.com>
- <20220519135908.21282-4-npiggin@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220519135908.21282-4-npiggin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,16 +71,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/22 06:59, Nicholas Piggin wrote:
-> lwsync orders more than just LD_LD, importantly it matches x86 and
-> s390 default memory ordering.
-> 
-> Signed-off-by: Nicholas Piggin<npiggin@gmail.com>
-> ---
->   tcg/ppc/tcg-target.c.inc | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
+Hi all,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As of now dynamic cold plug of device is only possible using the CLI
+"-device" option. This series add support for device cold-plug using QAPI.
 
-r~
+Patches 2, 5 and 6 are not reviewed yet.
+
+It relies on the use of the "preconfig" mode (only way to stop QEMU
+early enough) and requires more control on the machine phase than we had
+before.
+
+This work is part of our work towards to build a machine from scratch
+using QAPI (see v4 or [1]).
+But this is an independent part which can already be used to add
+devices on any machine using QAPI instead of having to use the CLI to
+pass some options.
+
+For example, in this command the network interface could be added using qapi:
+> $ qemu-system-aarch64 -display none -M virt -cpu cortex-a53 \
+>     -drive file=./images/rootfs.ext4,if=none,format=raw,id=hd0 \
+>     -device virtio-blk-device,drive=hd0 \
+>     -kernel ./images/Image -append "rootwait root=/dev/vda console=ttyAMA0" \
+>     -netdev user,id=eth0 -device virtio-net-device,netdev=eth0 \
+>     -serial stdio
+
+By using the following command line:
+> $ qemu-system-aarch64 -display none -M virt -cpu cortex-a53 \
+>    -drive file=./images/rootfs.ext4,if=none,format=raw,id=hd0 \
+>    -device virtio-blk-device,drive=hd0 \
+>    -kernel ./images/Image -append "rootwait root=/dev/vda console=ttyAMA0" \
+>    -serial stdio -preconfig -qmp socket,path=./qmpsocket,server
+and then qmp-shell (or any other qmp tool) to add the network interface and
+device:
+> $ qmp-shell ./qmpsocket
+> (QEMU) netdev_add type=user id=eth0
+> {"return": {}}
+> (QEMU) device_add driver=virtio-net-device netdev=eth0
+> {"return": {}}
+> (QEMU) x-exit-preconfig
+> {"return": {}}
+
+Thanks,
+--
+Damien
+
+v5:
+ + refactor patch 2 to avoid indentation changes
+
+v4: https://lore.kernel.org/qemu-devel/20220223090706.4888-1-damien.hedde@greensocs.com/
+
+[1]: https://github.com/GreenSocs/qemu-qmp-machines
+
+Damien Hedde (5):
+  machine: add phase_get() and document phase_check()/advance()
+  machine&vl: introduce phase_until() to handle phase transitions
+  vl: support machine-initialized target in phase_until()
+  qapi/device_add: compute is_hotplug flag
+  RFC qapi/device_add: handle the rom_order_override when cold-plugging
+
+Mirela Grujic (1):
+  qapi/device_add: Allow execution in machine initialized phase
+
+ qapi/qdev.json         |  3 +-
+ include/hw/qdev-core.h | 33 +++++++++++++++++++
+ hw/core/qdev.c         |  5 +++
+ monitor/misc.c         |  2 +-
+ softmmu/qdev-monitor.c | 20 ++++++++++--
+ softmmu/vl.c           | 72 ++++++++++++++++++++++++++++++++++++++----
+ hmp-commands.hx        |  1 +
+ 7 files changed, 126 insertions(+), 10 deletions(-)
+
+-- 
+2.36.1
+
 
