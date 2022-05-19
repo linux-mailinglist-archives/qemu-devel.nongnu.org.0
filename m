@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44FE52DB86
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:43:30 +0200 (CEST)
-Received: from localhost ([::1]:41390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED42E52DBA7
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:47:46 +0200 (CEST)
+Received: from localhost ([::1]:51054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkBN-0001U5-T7
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59382)
+	id 1nrkFW-0000Iw-1Y
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk57-00063n-Kt
+ id 1nrk58-00063s-D7
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:02 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41903)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk55-0000qR-DL
- for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:01 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id u27so7379624wru.8
+ id 1nrk56-0000qV-4J
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:02 -0400
+Received: by mail-wm1-x330.google.com with SMTP id k26so3287566wms.1
  for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:36:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LR98lCuTZ72eQ/SaoYxraGEoqfabudY/qxxQvB4DaA4=;
- b=vo87AVKClq9b+huEUS9S8gVet3nDSEGPchporgi5l5xPrT1ZhbcBSLWTMbFSV3tPxs
- VjT5Hk50oJbIhiG7/y2l43P5C4oPqhjgjGfdtnZEJSHJWEE6pRa6sXJ340s12NGFLXp8
- fsiEupBjqLTymBZ16w6HFZLEk5P+3uS5v4Nl8Z1CFJDLkJlJLDUq+90fTzP+X2QEFcbD
- LASUajE3YOCepIpk9kB7jrFaMXm1H+OEgIxWNR9T9BZ1z+QET55vZm1md0tI8ooLX+DW
- dMJQ3Vrb+BlqZuoUPq7xytK0lJaiVQs70w/9kkt7yDqywr0gAt5neDVlqdsbgAzsYiCi
- W1eA==
+ bh=eYdhmsAICvTZ9KCLNFtpG5BAhQNiiaRW87dMYr+EMt4=;
+ b=ixrbzNGXiRMxEkvqcc4Cv/vp5FFBwVgvukdRZZgUcLVu+XGC09vm0k08kSnryWNPlX
+ Kv30si1bAV0qD0byri2gfwUqVB7LVzEPJkmDtPSI1g3un22QUoAbF/IlldFoYJvgdi+m
+ hFxwS5YOh5/GOTKpFk7fTKdsdW2gOwz7Fzxb1bTK48zXgQtg7s9CB5tFZPylN3AOs9DZ
+ hrI8I8O+drlaP4ydrdbiax0bxPZvupYBc61V5AoWRHlf7lV7heWCyalk8wADT96Vm6Ci
+ SEx/gzyTO7DUGy2XUsYuKpZH1DDiqhCjEXfOg+fPwMKZ+7W2tXapEbLMdizioA6fQxcK
+ Gfpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LR98lCuTZ72eQ/SaoYxraGEoqfabudY/qxxQvB4DaA4=;
- b=6cXe8iLGI4FJytrUD9YvjHh9uzNb6srT5rr/7Mreov2/pWd/MfwhmdioyPiObfsu83
- 7SgNkTnsqYwM8fF8LCIqqm8DoH/waPn3tXccq5hkomc1M6jRRfFVrZGkR09Ww5IVAFIH
- gCx7KILYyif4zbyB8Q4XgKgL73stNZpXvRa3DhIhSiT18JSgHvMszGI0ATcJoSdJUFVu
- +L13ENFbtoCLfLVqSOVa/1gzY1SM5RnBhTX1vWyJ1/EKdnV5Gs1qy1gIyOXZ5XQLTtUG
- x9kf7LK9MsF2kTpOrZwOCmKQD/U92MpiOpe4hOmzazGcXIhS7LIaxpR00dFiyUiKfUrG
- 1Txg==
-X-Gm-Message-State: AOAM531EKIqg3Z0bjXpqBrv1AZdvrvqetyil6Fp51YTPoDqqGPbKC9c6
- LGYrlgWIrSCBf6x/K+tyxgwN+eIJOWbNhA==
-X-Google-Smtp-Source: ABdhPJw3bJaR+t8lHTMiPwE1m5ASqtTVe+Rpm4b0Yk03UdYVESBgQKk2WVXUdFZGpRQqJn0V0YP8nA==
-X-Received: by 2002:a5d:6550:0:b0:20e:6984:31d0 with SMTP id
- z16-20020a5d6550000000b0020e698431d0mr3681853wrv.257.1652981817980; 
- Thu, 19 May 2022 10:36:57 -0700 (PDT)
+ bh=eYdhmsAICvTZ9KCLNFtpG5BAhQNiiaRW87dMYr+EMt4=;
+ b=bHRTLa/Z4PRl2W69XibEWXIuhzhdlJtnsg174Pbb8Kbgyc7zDPjTk++kbKDc7mePh7
+ qs4JfvuS95RGK/39MqTBX9MPoNIhnTZIswIzkmdIHCoCYZV/su3n5ESk0REwUD0ddGbq
+ buNVF6oipWeqIxXMFd+USHO8SpXAe6/ITg5zFY1GV7sDpR2zkg7EPRl0Y0rcxm4Zbbz4
+ 6B4zogdlZGv6v/cKMWMiW04Me4cZWzn5bFOthDzoaOzfobS4sm2aeyVZJh9R42I2Ea+M
+ D9OzplUJVJkcgAvBm4DIscgLByDaFD5Z4GWmpiuhp4CK9yVztW9fDqgWB0BOl655d57A
+ egjQ==
+X-Gm-Message-State: AOAM53302EtfkQpjM1LSWxxTaFT1lN4nx7dTQJwWzFANu9w2UbXMin2L
+ reQAJWV0ONTc2FBCF8OkX3mmF3lE2Sju+A==
+X-Google-Smtp-Source: ABdhPJzBCzpdsoEQRJIJTo4RjlhvOHNXmDHebGk8bb1bkEKmSI1BxKdjsjywlG9zyicxRiastlm4Tg==
+X-Received: by 2002:a05:600c:2055:b0:397:2b06:57c7 with SMTP id
+ p21-20020a05600c205500b003972b0657c7mr5376411wmg.97.1652981818832; 
+ Thu, 19 May 2022 10:36:58 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.36.57
+ e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.36.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 10:36:57 -0700 (PDT)
+ Thu, 19 May 2022 10:36:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/22] target/arm: Implement FEAT_IDST
-Date: Thu, 19 May 2022 18:36:34 +0100
-Message-Id: <20220519173651.399295-6-peter.maydell@linaro.org>
+Subject: [PULL 06/22] target/arm: Drop unsupported_encoding() macro
+Date: Thu, 19 May 2022 18:36:35 +0100
+Message-Id: <20220519173651.399295-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
 References: <20220519173651.399295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,188 +89,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Armv8.4 feature FEAT_IDST specifies that exceptions generated by
-read accesses to the feature ID space should report a syndrome code
-of 0x18 (EC_SYSTEMREGISTERTRAP) rather than 0x00 (EC_UNCATEGORIZED).
-The feature ID space is defined to be:
- op0 == 3, op1 == {0,1,3}, CRn == 0, CRm == {0-7}, op2 == {0-7}
+The unsupported_encoding() macro logs a LOG_UNIMP message and then
+generates code to raise the usual exception for an unallocated
+encoding.  Back when we were still implementing the A64 decoder this
+was helpful for flagging up when guest code was using something we
+hadn't yet implemented.  Now we completely cover the A64 instruction
+set it is barely used.  The only remaining uses are for five
+instructions whose semantics are "UNDEF, unless being run under
+external halting debug":
+ * HLT (when not being used for semihosting)
+ * DCPSR1, DCPS2, DCPS3
+ * DRPS
 
-In our implementation we might return the EC_UNCATEGORIZED syndrome
-value for a system register access in four cases:
- * no reginfo struct in the hashtable
- * cp_access_ok() fails (ie ri->access doesn't permit the access)
- * ri->accessfn returns CP_ACCESS_TRAP_UNCATEGORIZED at runtime
- * ri->type includes ARM_CP_RAISES_EXC, and the readfn raises
-   an UNDEF exception at runtime
-
-We have very few regdefs that set ARM_CP_RAISES_EXC, and none of
-them are in the feature ID space. (In the unlikely event that any
-are added in future they would need to take care of setting the
-correct syndrome themselves.) This patch deals with the other
-three cases, and enables FEAT_IDST for AArch64 -cpu max.
+QEMU doesn't implement external halting debug, so for us the UNDEF is
+the architecturally correct behaviour (because it's not possible to
+execute these instructions with halting debug enabled).  The
+LOG_UNIMP doesn't serve a useful purpose; replace these uses of
+unsupported_encoding() with unallocated_encoding(), and delete the
+macro.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220509155457.3560724-1-peter.maydell@linaro.org
+Message-id: 20220509160443.3561604-1-peter.maydell@linaro.org
 ---
- docs/system/arm/emulation.rst |  1 +
- target/arm/cpregs.h           | 24 ++++++++++++++++++++++++
- target/arm/cpu.h              |  5 +++++
- target/arm/cpu64.c            |  1 +
- target/arm/op_helper.c        |  9 +++++++++
- target/arm/translate-a64.c    | 28 ++++++++++++++++++++++++++--
- 6 files changed, 66 insertions(+), 2 deletions(-)
+ target/arm/translate-a64.h | 9 ---------
+ target/arm/translate-a64.c | 8 ++++----
+ 2 files changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 8f25502ced7..3e95bba0d24 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -31,6 +31,7 @@ the following architecture extensions:
- - FEAT_FlagM2 (Enhancements to flag manipulation instructions)
- - FEAT_HPDS (Hierarchical permission disables)
- - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
-+- FEAT_IDST (ID space trap handling)
- - FEAT_IESB (Implicit error synchronization event)
- - FEAT_JSCVT (JavaScript conversion instructions)
- - FEAT_LOR (Limited ordering regions)
-diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index db03d6a7e13..d9b678c2f17 100644
---- a/target/arm/cpregs.h
-+++ b/target/arm/cpregs.h
-@@ -461,4 +461,28 @@ static inline bool cp_access_ok(int current_el,
- /* Raw read of a coprocessor register (as needed for migration, etc) */
- uint64_t read_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri);
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 38884158aab..f2e8ee0ee1f 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -18,15 +18,6 @@
+ #ifndef TARGET_ARM_TRANSLATE_A64_H
+ #define TARGET_ARM_TRANSLATE_A64_H
  
-+/*
-+ * Return true if the cp register encoding is in the "feature ID space" as
-+ * defined by FEAT_IDST (and thus should be reported with ER_ELx.EC
-+ * as EC_SYSTEMREGISTERTRAP rather than EC_UNCATEGORIZED).
-+ */
-+static inline bool arm_cpreg_encoding_in_idspace(uint8_t opc0, uint8_t opc1,
-+                                                 uint8_t opc2,
-+                                                 uint8_t crn, uint8_t crm)
-+{
-+    return opc0 == 3 && (opc1 == 0 || opc1 == 1 || opc1 == 3) &&
-+        crn == 0 && crm < 8;
-+}
-+
-+/*
-+ * As arm_cpreg_encoding_in_idspace(), but take the encoding from an
-+ * ARMCPRegInfo.
-+ */
-+static inline bool arm_cpreg_in_idspace(const ARMCPRegInfo *ri)
-+{
-+    return ri->state == ARM_CP_STATE_AA64 &&
-+        arm_cpreg_encoding_in_idspace(ri->opc0, ri->opc1, ri->opc2,
-+                                      ri->crn, ri->crm);
-+}
-+
- #endif /* TARGET_ARM_CPREGS_H */
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 98efc638bbc..a99b430e54e 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3946,6 +3946,11 @@ static inline bool isar_feature_aa64_fwb(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, FWB) != 0;
- }
- 
-+static inline bool isar_feature_aa64_ids(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, IDS) != 0;
-+}
-+
- static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index e83c013e1fe..804a54922cb 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -928,6 +928,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64MMFR2, IESB, 1);     /* FEAT_IESB */
-     t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1);  /* FEAT_LVA */
-     t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1);       /* FEAT_TTST */
-+    t = FIELD_DP64(t, ID_AA64MMFR2, IDS, 1);      /* FEAT_IDST */
-     t = FIELD_DP64(t, ID_AA64MMFR2, FWB, 1);      /* FEAT_S2FWB */
-     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1);      /* FEAT_TTL */
-     t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2);      /* FEAT_BBM at level 2 */
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 390b6578a89..c4bd6688702 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -631,6 +631,7 @@ uint32_t HELPER(mrs_banked)(CPUARMState *env, uint32_t tgtmode, uint32_t regno)
- void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
-                                  uint32_t isread)
- {
-+    ARMCPU *cpu = env_archcpu(env);
-     const ARMCPRegInfo *ri = rip;
-     CPAccessResult res = CP_ACCESS_OK;
-     int target_el;
-@@ -674,6 +675,14 @@ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
-     case CP_ACCESS_TRAP:
-         break;
-     case CP_ACCESS_TRAP_UNCATEGORIZED:
-+        if (cpu_isar_feature(aa64_ids, cpu) && isread &&
-+            arm_cpreg_in_idspace(ri)) {
-+            /*
-+             * FEAT_IDST says this should be reported as EC_SYSTEMREGISTERTRAP,
-+             * not EC_UNCATEGORIZED
-+             */
-+            break;
-+        }
-         syndrome = syn_uncategorized();
-         break;
-     default:
+-#define unsupported_encoding(s, insn)                                    \
+-    do {                                                                 \
+-        qemu_log_mask(LOG_UNIMP,                                         \
+-                      "%s:%d: unsupported instruction encoding 0x%08x "  \
+-                      "at pc=%016" PRIx64 "\n",                          \
+-                      __FILE__, __LINE__, insn, s->pc_curr);             \
+-        unallocated_encoding(s);                                         \
+-    } while (0)
+-
+ TCGv_i64 new_tmp_a64(DisasContext *s);
+ TCGv_i64 new_tmp_a64_local(DisasContext *s);
+ TCGv_i64 new_tmp_a64_zero(DisasContext *s);
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 6a27234a5c4..176a3c83ba2 100644
+index 176a3c83ba2..f5025453078 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -1795,6 +1795,30 @@ static void gen_set_nzcv(TCGv_i64 tcg_rt)
-     tcg_temp_free_i32(nzcv);
- }
- 
-+static void gen_sysreg_undef(DisasContext *s, bool isread,
-+                             uint8_t op0, uint8_t op1, uint8_t op2,
-+                             uint8_t crn, uint8_t crm, uint8_t rt)
-+{
-+    /*
-+     * Generate code to emit an UNDEF with correct syndrome
-+     * information for a failed system register access.
-+     * This is EC_UNCATEGORIZED (ie a standard UNDEF) in most cases,
-+     * but if FEAT_IDST is implemented then read accesses to registers
-+     * in the feature ID space are reported with the EC_SYSTEMREGISTERTRAP
-+     * syndrome.
-+     */
-+    uint32_t syndrome;
-+
-+    if (isread && dc_isar_feature(aa64_ids, s) &&
-+        arm_cpreg_encoding_in_idspace(op0, op1, op2, crn, crm)) {
-+        syndrome = syn_aa64_sysregtrap(op0, op1, op2, crn, crm, rt, isread);
-+    } else {
-+        syndrome = syn_uncategorized();
-+    }
-+    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syndrome,
-+                       default_exception_el(s));
-+}
-+
- /* MRS - move from system register
-  * MSR (register) - move to system register
-  * SYS
-@@ -1820,13 +1844,13 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
-         qemu_log_mask(LOG_UNIMP, "%s access to unsupported AArch64 "
-                       "system register op0:%d op1:%d crn:%d crm:%d op2:%d\n",
-                       isread ? "read" : "write", op0, op1, crn, crm, op2);
--        unallocated_encoding(s);
-+        gen_sysreg_undef(s, isread, op0, op1, op2, crn, crm, rt);
+@@ -2127,13 +2127,13 @@ static void disas_exc(DisasContext *s, uint32_t insn)
+              * with our 32-bit semihosting).
+              */
+             if (s->current_el == 0) {
+-                unsupported_encoding(s, insn);
++                unallocated_encoding(s);
+                 break;
+             }
+ #endif
+             gen_exception_internal_insn(s, s->pc_curr, EXCP_SEMIHOST);
+         } else {
+-            unsupported_encoding(s, insn);
++            unallocated_encoding(s);
+         }
+         break;
+     case 5:
+@@ -2142,7 +2142,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
+             break;
+         }
+         /* DCPS1, DCPS2, DCPS3 */
+-        unsupported_encoding(s, insn);
++        unallocated_encoding(s);
+         break;
+     default:
+         unallocated_encoding(s);
+@@ -2307,7 +2307,7 @@ static void disas_uncond_b_reg(DisasContext *s, uint32_t insn)
+         if (op3 != 0 || op4 != 0 || rn != 0x1f) {
+             goto do_unallocated;
+         } else {
+-            unsupported_encoding(s, insn);
++            unallocated_encoding(s);
+         }
          return;
-     }
- 
-     /* Check access permissions */
-     if (!cp_access_ok(s->current_el, ri, isread)) {
--        unallocated_encoding(s);
-+        gen_sysreg_undef(s, isread, op0, op1, op2, crn, crm, rt);
-         return;
-     }
  
 -- 
 2.25.1
