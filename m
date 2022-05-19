@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3B852D93E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 17:51:03 +0200 (CEST)
-Received: from localhost ([::1]:36352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B5552D7EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 17:38:45 +0200 (CEST)
+Received: from localhost ([::1]:40070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nriQX-000511-Ic
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 11:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34800)
+	id 1nriEd-0004iE-J8
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 11:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nriAp-0001cc-9h
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:54 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:49102)
+ id 1nriAn-0001cY-FX
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:53 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:49104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nriAf-0007pq-3l
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:45 -0400
+ id 1nriAh-0007ps-89
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:42 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPS id BFD9021EB6;
- Thu, 19 May 2022 15:34:27 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 390A321EBE;
+ Thu, 19 May 2022 15:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1652974467;
+ s=mail; t=1652974468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZMp/HqUEwGgcbMpnHPrC2IOeZfv+if927mN1x1VBfxg=;
- b=Mk3KF1Ge8bnQbwVh3ms3i7mPwyCPqsOFT0C/sBp3mvJZNgSwRTfS+7sAJH/4Vodu8q0rO/
- Y+yrqnuPFDUziO0H3cZatDG395fca1r0bSyk+1ZHJayjKuFkMK+jk6KbIjRb4XJVKdCfaW
- mJKwhAATv8jAcQcfN27BGEk+YxI//7U=
+ bh=QeWnil44tT+hHONeKx07OOPCoTcvcDXkdkPxA/V/xiI=;
+ b=tsQxZ92QZN/KtT5ew97zFbSnmo+Vm7c+C4cjk8jU5GCoVC7amRidFG1FD0eMcDFRYsemJC
+ 2anUHHRY8yvnQeoa2jU3xiqWQbkljvfneJcBOlqIXYErK/rtHXZGZIr2RNw6OZOQ/JDUP4
+ hnG6f73iHdb7r4McA20mzIr9v8kthTE=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
 Cc: mark.burton@greensocs.com, edgari@xilinx.com,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
  Damien Hedde <damien.hedde@greensocs.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v5 5/6] RFC qapi/device_add: handle the rom_order_override
- when cold-plugging
-Date: Thu, 19 May 2022 17:34:01 +0200
-Message-Id: <20220519153402.41540-6-damien.hedde@greensocs.com>
+Subject: [PATCH v5 6/6] qapi/device_add: Allow execution in machine
+ initialized phase
+Date: Thu, 19 May 2022 17:34:02 +0200
+Message-Id: <20220519153402.41540-7-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220519153402.41540-1-damien.hedde@greensocs.com>
 References: <20220519153402.41540-1-damien.hedde@greensocs.com>
@@ -71,110 +74,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-rom_set_order_override() and rom_reset_order_override() were called
-in qemu_create_cli_devices() to set the rom_order_override value
-once and for all when creating the devices added on CLI.
+From: Mirela Grujic <mirela.grujic@greensocs.com>
 
-Unfortunately this won't work with qapi commands.
+This commit allows to use the QMP command to add a cold-plugged
+device like we can do with the CLI option -device.
 
-Move the calls inside device_add so that it will be done in every
-case:
-+ CLI option: -device
-+ QAPI command: device_add
+Note: for device_add command in qdev.json adding the 'allow-preconfig'
+option has no effect because the command appears to bypass QAPI (see
+TODO at qapi/qdev.json:61). The option is added there solely to
+document the intent.
+For the same reason, the flags have to be explicitly set in
+monitor_init_qmp_commands() when the device_add command is registered.
 
-rom_[set|reset]_order_override() are implemented in hw/core/loader.c
-They either do nothing or call fw_cfg_[set|reset]_order_override().
-The later functions are implemented in hw/nvram/fw_cfg.c and only
-change an integer value of a "global" variable.
-In consequence, there are no complex side effects involved and we can
-safely move them from outside the -device option loop to the inner
-function.
-
+Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
 
-I see 2 other ways to handle this:
-
-1. Adding a new option to device_add.
-
-We could add a new boolean (_rom_order_override_ for example) option
-tot he qapi command. This flag would then be forced to "true" when
-handling "-device" parameter from CLI.
-The flag default could be:
-- always false
-- false on hot-plug, true on cold-plug.
-
-2. Adding a new qapi command
-We could add one or two commands to do the
-rom_[set|reset]_order_override() operation.
+v4:
+ + use phase_until()
+ + add missing flag in hmp-commands.hx
 ---
- softmmu/qdev-monitor.c | 11 +++++++++++
- softmmu/vl.c           |  2 --
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ qapi/qdev.json         | 3 ++-
+ monitor/misc.c         | 2 +-
+ softmmu/qdev-monitor.c | 4 ++++
+ hmp-commands.hx        | 1 +
+ 4 files changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/qapi/qdev.json b/qapi/qdev.json
+index 26cd10106b..2e2de41499 100644
+--- a/qapi/qdev.json
++++ b/qapi/qdev.json
+@@ -77,7 +77,8 @@
+ { 'command': 'device_add',
+   'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
+   'gen': false, # so we can get the additional arguments
+-  'features': ['json-cli', 'json-cli-hotplug'] }
++  'features': ['json-cli', 'json-cli-hotplug'],
++  'allow-preconfig': true }
+ 
+ ##
+ # @device_del:
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 6c5bb82d3b..d3d413d70c 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -233,7 +233,7 @@ static void monitor_init_qmp_commands(void)
+     qmp_init_marshal(&qmp_commands);
+ 
+     qmp_register_command(&qmp_commands, "device_add",
+-                         qmp_device_add, 0, 0);
++                         qmp_device_add, QCO_ALLOW_PRECONFIG, 0);
+ 
+     QTAILQ_INIT(&qmp_cap_negotiation_commands);
+     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
 diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index d68ef883b5..7cbee2b0d8 100644
+index 7cbee2b0d8..c53f62be51 100644
 --- a/softmmu/qdev-monitor.c
 +++ b/softmmu/qdev-monitor.c
-@@ -43,6 +43,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/clock.h"
- #include "hw/boards.h"
-+#include "hw/loader.h"
+@@ -855,6 +855,10 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
+     QemuOpts *opts;
+     DeviceState *dev;
  
- /*
-  * Aliases were a bad idea from the start.  Let's keep them
-@@ -673,6 +674,10 @@ DeviceState *qdev_device_add_from_qdict(const QDict *opts,
-         return NULL;
-     }
- 
-+    if (!is_hotplug) {
-+        rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
++    if (!phase_until(PHASE_MACHINE_INITIALIZED, errp)) {
++        return;
 +    }
 +
-     /* create device */
-     dev = qdev_new(driver);
+     opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, errp);
+     if (!opts) {
+         return;
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 03e6a73d1f..0091b8e2dd 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -672,6 +672,7 @@ ERST
+         .help       = "add device, like -device on the command line",
+         .cmd        = hmp_device_add,
+         .command_completion = device_add_completion,
++        .flags      = "p",
+     },
  
-@@ -714,6 +719,9 @@ DeviceState *qdev_device_add_from_qdict(const QDict *opts,
-     if (!qdev_realize(DEVICE(dev), bus, errp)) {
-         goto err_del_dev;
-     }
-+    if (!is_hotplug) {
-+        rom_reset_order_override();
-+    }
-     return dev;
- 
- err_del_dev:
-@@ -721,6 +729,9 @@ err_del_dev:
-         object_unparent(OBJECT(dev));
-         object_unref(OBJECT(dev));
-     }
-+    if (!is_hotplug) {
-+        rom_reset_order_override();
-+    }
-     return NULL;
- }
- 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ea15e37973..5a0d54b595 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2635,7 +2635,6 @@ static void qemu_create_cli_devices(void)
-     }
- 
-     /* init generic devices */
--    rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
-     qemu_opts_foreach(qemu_find_opts("device"),
-                       device_init_func, NULL, &error_fatal);
-     QTAILQ_FOREACH(opt, &device_opts, next) {
-@@ -2652,7 +2651,6 @@ static void qemu_create_cli_devices(void)
-         object_unref(OBJECT(dev));
-         loc_pop(&opt->loc);
-     }
--    rom_reset_order_override();
- }
- 
- static void qemu_machine_creation_done(void)
+ SRST
 -- 
 2.36.1
 
