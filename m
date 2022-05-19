@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DE852DEAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:48:54 +0200 (CEST)
-Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B329952DEED
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 23:03:43 +0200 (CEST)
+Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrn4l-0001iM-Br
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
+	id 1nrnJ8-000742-Bo
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 17:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@rivosinc.com>)
- id 1nrn1W-0000oi-Cb
- for qemu-devel@nongnu.org; Thu, 19 May 2022 16:45:30 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54045)
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1nrnHU-0006Lx-FB
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 17:02:00 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:34460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dylan@rivosinc.com>)
- id 1nrn1U-00023H-6l
- for qemu-devel@nongnu.org; Thu, 19 May 2022 16:45:29 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id f10so6287824pjs.3
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 13:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=h8DlWYA44S0oP/bz7EYgh16WwQxrQuTelIjXdqNLtU0=;
- b=Z+RKzpa8Q9AV60rUFnfz9lGoC5Al1LENNO8EWGkNuCJN7qAoBxlKQFf/arNatMs2Q8
- AmzCigkWwbGDqgLoMl3Qr+kWESO+m616C8fzmKzYEUaJNnD82tkxrMbusodhnBicB4yW
- sHbM+JmovWuw29xhZ6WGo4Rp1+Thh9zIPzEXQxUKIk0BEBT1Jg0PchsnjyCjLAnuGeHJ
- Ehy6pLh5mIJr1DdES+fzJtS4csj+osrJPFPXosTsB+VNp9+jS3MYtvT2RNv9zFXx1V3B
- YrfcJP5yDK6mM8OssQ5CNCq0vF2ZcWFD51kUwuH9IH0q6EAWBlvNM5MTmgNtHcm1UR1U
- 7kiA==
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1nrnHS-00048Q-L0
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 17:02:00 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id o80so11139313ybg.1
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 14:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nvfi/FkkRcQOxttlT1W4tUjOf5gCrt+pDxGf3qnwTek=;
+ b=vqMlLof0fuiWzd248UraP76doOdIz5iCAKkORAsgESDI3ML/Yh+wuv4bh22lKGaWte
+ VJFD8xu1QY90x8A2JxAEAor2S50Z8OIHycFD/5MIm9ijiVcMy/gn9zlO3hA2bkHfdD/o
+ 3UEx1e3vIVFEyHqMJEJoewgdkOmewkYmX+OwXt+6B+/6VoaEfEMQwaXFoGN6Oa1xOgz3
+ 344DT/L6UHbLY5AzfrKJUtUOr9RU6zjIDb5n6HwHv1f8V5loo6sPSBm8bSeO3ioUxA3s
+ o9+lXNGnjYBNyZWEhxcAjfxsZbuR+EE4ukIs9OR7RPpRCUv1JkM/pB+p5aW2hctxX0ph
+ zqpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=h8DlWYA44S0oP/bz7EYgh16WwQxrQuTelIjXdqNLtU0=;
- b=OY/HMEFMIr+3EzvYLUbyANRN775VdwPuRlZv44HF6ZsXbdZy5Xsdb5ONxpnrwGiBOx
- dw8RhrWw4t10l2qNvCa/RjhcgJRJLgvgvjDwm3/45wSkYI2HVmBCvMbLrAgNjsSwWPMy
- 34bRzLY5xYMYi2Cq1GRDenC7yMN1Xzzh+nLxHblKpI79WNQ1PxSCnaZQR/PCz28D3j8h
- j1/FG1T/718Yu1NypqYCK+hLzmwVUb3V5n67n77FtzZTlR6jGTJzkAjCBxQblRi3OEkA
- sE3943l9nEqqiRh9fPlvBSDkM5Mml8uoVc92fK/2t/CbcM4ZgGfq34+Cx3FC2Wqy0Foa
- Pryg==
-X-Gm-Message-State: AOAM532rxqSHfB4iy1af0DNr7aSGzUwJe30PlbQOG5tmTBCSN7RKv7ZT
- QW4O68u2Q6jdmX2c1Yv4Py7a3w==
-X-Google-Smtp-Source: ABdhPJyi248FFAwfnvRV7qdS57SDqO3Otct8AfaeneoUfeZTRKLCqTqWJpzttRvm0ljSfiql0eOdEg==
-X-Received: by 2002:a17:902:6b0b:b0:158:f889:edd9 with SMTP id
- o11-20020a1709026b0b00b00158f889edd9mr6416932plk.122.1652993126409; 
- Thu, 19 May 2022 13:45:26 -0700 (PDT)
-Received: from rivosinc.com ([12.3.194.138]) by smtp.gmail.com with ESMTPSA id
- n1-20020a170902e54100b0015e8d4eb219sm4300664plf.99.2022.05.19.13.45.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 13:45:25 -0700 (PDT)
-Date: Thu, 19 May 2022 20:45:22 +0000
-From: Dylan Reid <dylan@rivosinc.com>
-To: Anup Patel <anup@brainfault.org>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Dylan Reid <dgreid@rivosinc.com>
-Subject: Re: [PATCH] hw/riscv: virt: Avoid double FDT platform node
-Message-ID: <20220519204522.nckblef43pcl5x4k@rivosinc.com>
-References: <20220512182103.408627-1-dgreid@rivosinc.com>
- <CAAhSdy2Uoj0jGXJn1W_Vhewi9BLSN+9zd003qUf_ugKpDd2ihg@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nvfi/FkkRcQOxttlT1W4tUjOf5gCrt+pDxGf3qnwTek=;
+ b=qeQgEehUq8GodBo7GSbyHvTy91C12auHWnMui3sTVLDqfwJML5LGrMh2PE5Me0JY/U
+ ZhaIetWDaZfDtDfAXfgLSsVIqbcNSK4evZk/vAa4TkqFCVggApqtYF/83F3NnS7CHV5s
+ lIdo4YnaE0Eb3FDAlks4OliPUSYz9FXkgWAK/fTTaGGHm4Q5/XovUO8LKccOf+3PWxJv
+ ZhLCTJwGDBoh3OqzC9W3ZeEyVcTmkgPySByw7pBStW1uFchWtN53n1qisKnSuhR2DSyT
+ 3T4RpV149Q71C6V0XwTXs3YNh8D/oGQYGaHbyCZC3Q+UxwAeic6IhF1r4/KuESPHhiAf
+ ZDQg==
+X-Gm-Message-State: AOAM532Ip7P+zXQpG660R1F1+LiZQs8AoHrobKcOK4nldj0m5ENJxGZV
+ zFjEYfmGDNAeI9/M1nPv/b+mYYPrCn+N7w+ZVyyy1A==
+X-Google-Smtp-Source: ABdhPJzNR4Wrf4wpzc22TgZlDNFOvKX8B13v65Sh0nJdkJ3ys3ADKjrd+O0tl1MT1zi4j+gQah1jkYknq+wLogmQE2A=
+X-Received: by 2002:a5b:302:0:b0:64b:a20a:fcd9 with SMTP id
+ j2-20020a5b0302000000b0064ba20afcd9mr6226804ybp.492.1652994116812; Thu, 19
+ May 2022 14:01:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAhSdy2Uoj0jGXJn1W_Vhewi9BLSN+9zd003qUf_ugKpDd2ihg@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=dylan@rivosinc.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20201117233928.255671-1-linus.walleij@linaro.org>
+ <b63c04ff68340d367ad4138f3496d217df9b5151.camel@icenowy.me>
+In-Reply-To: <b63c04ff68340d367ad4138f3496d217df9b5151.camel@icenowy.me>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 19 May 2022 23:01:45 +0200
+Message-ID: <CACRpkdar8MeG4vYx+xJ5fh9U3+6LfKdMrNzNzYmC-7YUK=pQYA@mail.gmail.com>
+Subject: Re: [PATCH v4] fcntl: Add 32bit filesystem mode
+To: Icenowy Zheng <uwu@icenowy.me>, Chris Mason <clm@fb.clm>,
+ "Theodore Ts'o" <tytso@mit.edu>
+Cc: Andreas Dilger <adilger.kernel@dilger.ca>, linux-ext4@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ qemu-devel@nongnu.org, Florian Weimer <fw@deneb.enyo.de>, 
+ Peter Maydell <peter.maydell@linaro.org>, Andy Lutomirski <luto@kernel.org>, 
+ Eric Blake <eblake@redhat.com>,
+ =?UTF-8?B?572X5YuH5Yia?= <luoyonggang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=linus.walleij@linaro.org; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,57 +90,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 19, 2022 at 08:34:06PM +0530, Anup Patel wrote:
-> On Fri, May 13, 2022 at 1:34 AM Dylan Reid <dylan@rivosinc.com> wrote:
-> >
-> > When starting the virt machine with `-machine virt,aia=aplic-imsic`,
-> > both the imsic and aplic init code will add platform fdt nodes by
-> > calling `platform_bus_add_all_fdt_nodes`. This leads to an error at
-> > startup:
-> > ```
-> > qemu_fdt_add_subnode: Failed to create subnode /platform@4000000: FDT_ERR_EXISTS
-> > ```
-> >
-> > The call from `create_fdt_imsic` is not needed as an imsic is currently
-> > always combined with an aplic that will create the nodes.
-> >
-> > Fixes: 3029fab64309 ("hw/riscv: virt: Add support for generating platform FDT entries")
-> > Signed-off-by: Dylan Reid <dgreid@rivosinc.com>
-> > ---
-> >  hw/riscv/virt.c | 5 -----
-> >  1 file changed, 5 deletions(-)
-> >
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index 3326f4db96..d625f776a6 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -561,11 +561,6 @@ static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
-> >      }
-> >      qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_m_phandle);
-> >
-> > -    platform_bus_add_all_fdt_nodes(mc->fdt, imsic_name,
-> > -                                   memmap[VIRT_PLATFORM_BUS].base,
-> > -                                   memmap[VIRT_PLATFORM_BUS].size,
-> > -                                   VIRT_PLATFORM_BUS_IRQ);
-> > -
-> 
-> This patch only fixes for the case where there is only one socket.
-> 
-> I had send-out a similar fix which also handles multi-socket case.
-> https://lore.kernel.org/all/20220511144528.393530-9-apatel@ventanamicro.com/
+On Thu, May 19, 2022 at 4:23 PM Icenowy Zheng <uwu@icenowy.me> wrote:
+> =E5=9C=A8 2020-11-18=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 00:39 +0100=EF=
+=BC=8CLinus Walleij=E5=86=99=E9=81=93=EF=BC=9A
 
-Thanks Anup, that looks good to me.
+> > It was brought to my attention that this bug from 2018 was
+> > still unresolved: 32 bit emulators like QEMU were given
+> > 64 bit hashes when running 32 bit emulation on 64 bit systems.
+>
+> Sorry for replying such an old mail, but I found that using 32-bit file
+> syscalls in 32-bit QEMU user on 64-bit hosts are still broken today,
+> and google sent me here.
 
-> 
-> Regards,
-> Anup
-> 
-> 
-> >      g_free(imsic_name);
-> >
-> >      /* S-level IMSIC node */
-> > --
-> > 2.30.2
-> >
-> >
+Yeah the bug was 2 years old when I started patching it and now it
+is 4 years old...
+
+> This mail does not get any reply according to linux-ext4 patchwork, so
+> could I ping it?
+
+I suppose, I think the patch is authored according to the maintainer
+requirements, but I'm happy to revise and resend it if it no longer
+applies.
+
+Arnd and others suggested to maybe use F_SETFL instead:
+https://lore.kernel.org/linux-fsdevel/CAK8P3a2SN2zeK=3Ddj01Br-m86rJmK8mOyH=
+=3DgHAidwSPgKAEthVw@mail.gmail.com/
+
+I am happy to do it either way by need to have some input from the
+maintainer (Ted). Maybe someone else on the fsdevel list want to
+chime in? Maybe any FS maintainer can actually apply this?
+
+Yours,
+Linus Walleij
 
