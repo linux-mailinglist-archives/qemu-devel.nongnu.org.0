@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5A952CE01
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 10:13:11 +0200 (CEST)
-Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6341552CDEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 10:09:27 +0200 (CEST)
+Received: from localhost ([::1]:57156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrbHS-0001D8-6w
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 04:13:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53762)
+	id 1nrbDq-0005xD-G3
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 04:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrazw-0001IO-Rq
- for qemu-devel@nongnu.org; Thu, 19 May 2022 03:55:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrazv-0002Ia-D0
- for qemu-devel@nongnu.org; Thu, 19 May 2022 03:55:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652946902;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9mr7ZOLartBOG934gpd+VKWj/Ps+ZhokQq2B9+VVkw0=;
- b=Ci1gbH0/94eMvEa9YICclHxLxkNJWdGTzuQAf8aq9X9hYpHCWO4A74AyAcFAjZUcaF+5+g
- cACTBdHw6Vq1YO5hemtjlQIqmU5IsZ0qEQukxLZatTYaXDY1WX5sQDrmxeFD2R6fqWI72c
- 73ScI8cbg5xWrF4jqcIhpSGbbLbzAQI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-0URUsD8pMhyDbKnTPH6RxA-1; Thu, 19 May 2022 03:54:59 -0400
-X-MC-Unique: 0URUsD8pMhyDbKnTPH6RxA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E758685A5BE;
- Thu, 19 May 2022 07:54:58 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1826C2026D6A;
- Thu, 19 May 2022 07:54:57 +0000 (UTC)
-Date: Thu, 19 May 2022 09:54:56 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: The fate of iotest 297
-Message-ID: <YoX30Aa0x40CKe7G@redhat.com>
-References: <CAFn=p-aEc=uWyGi2758wDwJF=St4ZThkvuDqVXoxTtcHLFZkhA@mail.gmail.com>
- <YoUgufuA8/pjYwTE@redhat.com>
- <CAFn=p-YUQm-spxrbOgv8xKB3wDMWdTRfSVB6oVOiYh=Eqw=sfA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nrb7S-0003zX-Cv
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 04:02:50 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nrb7J-0003aJ-SJ
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 04:02:47 -0400
+Received: by mail-ej1-x630.google.com with SMTP id z2so8341222ejj.3
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 01:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tj8xxigeAsnFNxfBsnluLg5QYdHTlPrHAGVp2ukVnrg=;
+ b=7/38ktm3hxdwaX5SxqZ9tyjCt55lp+aOOKboGT5ANc5kmr+B4ane/+qTLVkwUZPqk0
+ B4tMj6U18rk6yzKLwYbdxQh0vmWh2HvONxloUDw79nf/JFgVzuJ0X4cWaE7XncIaFYI3
+ +fMhXP+rS9ziJpMpxhbaVg2FmNyqwQsI4WNDSlytMriXVaa0z1URou8c7SkIHgG+VlLt
+ oiLJZ9p/aPws4Qb0tMJ23Tqz0SjXTvru3tFNouCzjOuUthTK2q8KhmWjvtbDzxyvoqIg
+ HHM6vO5GlWgHZcLYg7pGlr+AIngDLeqIsf2JgOv8kX34e1hOZewQGnMq9nBHbQnAFN2W
+ Ui4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tj8xxigeAsnFNxfBsnluLg5QYdHTlPrHAGVp2ukVnrg=;
+ b=vUh0V075zOQlCIUd5iJ4Eh5/Qbh9+nZ+9dBpUmESos4b9VQWzPnEdId6+LXNwgu4cT
+ VOMPOIZOSSn7V7/hXRJJOYiHA36oYDfHk6qOEEZqykwYh2HuQ/S2t+Ur1KMQq/kkHvWp
+ 2Rv2N68jHfja3IWlBie6jZNqxSGw9ZizVoLHK35I/72v/a2P4J1piLoqOmcYm6yxBhag
+ 4wEbJR6COycI3IkYPCv4isZJ/PMlNogxO1lO6CU5fcKQ2xwlPbf/ZGAe3V5l64anfEfs
+ WXJfIEzQ59og+n1c7lRqdNZNjwDmn4g7yfSnOcMxZ61d6NYQA82IIIr+ijeNc5HRe+Nj
+ 5Fag==
+X-Gm-Message-State: AOAM530Z4URlDIjVTO2+6lfnpkgt1ZYxOaEsYiSLk1YpKpPOm260b71E
+ AfEe10LbF1PDr8jcyHX1IsjWxJAJXcn+jMnd9IfU
+X-Google-Smtp-Source: ABdhPJyaVf0Wcgigisn5msOJMV8V6BwAYH+ioSEafp71fZvKit4ECB6Rnu0WfCK6DxeLBd/PX2dZ8xMpjlP0ZsSVcAc=
+X-Received: by 2002:a17:907:1623:b0:6f6:e9ce:9926 with SMTP id
+ hb35-20020a170907162300b006f6e9ce9926mr3018354ejc.360.1652947359440; Thu, 19
+ May 2022 01:02:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFn=p-YUQm-spxrbOgv8xKB3wDMWdTRfSVB6oVOiYh=Eqw=sfA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220504074051.90-1-xieyongji@bytedance.com>
+ <20220504074051.90-3-xieyongji@bytedance.com>
+ <YoTxwwS97POt79PQ@stefanha-x1.localdomain>
+In-Reply-To: <YoTxwwS97POt79PQ@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Thu, 19 May 2022 16:03:22 +0800
+Message-ID: <CACycT3skLBKJnWhCQVKyHrqX8-RkTSG_jsFP9Mrgpc4ZTRde1A@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] block-backend: Introduce blk_get_guest_block_size()
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ mreitz@redhat.com, 
+ mlureau@redhat.com, jsnow@redhat.com, Eric Blake <eblake@redhat.com>, 
+ Coiby.Xu@gmail.com, hreitz@redhat.com, qemu-block@nongnu.org, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,59 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2022 um 20:21 hat John Snow geschrieben:
-> To wire it up to "make check" by *default*, I believe I need to expand the
-> configure script to poll for certain requisites and then create some
-> wrapper script of some kind that only engages the python tests if the
-> requisites were met ... and I lose some control over the mypy/pylint
-> versioning windows. I have to tolerate a wider versioning, or it'll never
-> get run in practice.
-> 
-> I have some reluctance to doing this, because pylint and mypy change so
-> frequently that I don't want "make check" to fail spuriously in the future.
-> 
-> (In practice, these failures occur 100% of the time when I am on vacation.)
+On Wed, May 18, 2022 at 9:17 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Wed, May 04, 2022 at 03:40:45PM +0800, Xie Yongji wrote:
+> > Support getting the guest block size for the block backend.
+> > It's needed for the following commit.
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > ---
+> >  block/block-backend.c             | 6 ++++++
+> >  include/sysemu/block-backend-io.h | 1 +
+> >  2 files changed, 7 insertions(+)
+> >
+> > diff --git a/block/block-backend.c b/block/block-backend.c
+> > index 35457a6a1d..1582ff81c9 100644
+> > --- a/block/block-backend.c
+> > +++ b/block/block-backend.c
+> > @@ -2106,6 +2106,12 @@ void blk_set_guest_block_size(BlockBackend *blk, int align)
+> >      blk->guest_block_size = align;
+> >  }
+> >
+> > +int blk_get_guest_block_size(BlockBackend *blk)
+> > +{
+> > +    IO_CODE();
+> > +    return blk->guest_block_size;
+>
+> I have sent a patch to remove blk->guest_block_size because this field
+> is currently unused.
+>
 
-So we seem to agree that it's something that we do expect to fail from
-time to time. Maybe this is how I could express my point better: If it's
-a hard failure, it should fail as early as possible - i.e. ideally
-before the developer sends a patch, but certainly before failing a pull
-request.
+OK.
 
-This allows another option that would work for me (but probably not for
-you): Don't make it a hard failure. In practice, it would probably mean
-that you end up fixing up things after people like we sometimes have to
-do for the non-auto iotests.
+> I think there is a cleaner way for this patch series to store the guest
+> logical_block_size (see next patch). Stashing it in BlockBackend was
+> attractive because virtio-blk-handler.c lacks a struct to store its
+> parameters (writable, serial, logical_block_size), but if such a struct
+> is introduced then there's no need to stash it in BlockBackend.
+>
 
-> That said ... maybe I can add a controlled venv version of "check-python"
-> and just have a --disable-check-python or something that spec files can opt
-> into. Maybe that will work well enough?
-> 
-> i.e. maybe configure can check for the presence of pip, the python venv
-> module (debian doesnt ship it standard...), and PyPI connectivity and if
-> so, enables the test. Otherwise, we skip it.
+Looks good to me.
 
-I think this should work. If detecting the right environment is hard, I
-don't think there is even a requirement to do so. You can make
---enable-check-python the default and if people don't want it, they can
-explicitly disable it. (I understand that until you run 'make check', it
-doesn't make a difference anyway, so pure users would never have to
-change the option, right?)
-
-> Got it. I'll see what I can come up with that checks the boxes for
-> everyone, thanks for clarifying yours.
-> 
-> I want to make everything "just work" but I'm also afraid of writing too
-> much magic crap that could break and frustrate people who have no desire to
-> understand python packaging junk, so I'm trying to balance that.
-
-Yes, sounds like we need to find some balance there. Test infrastructure
-breaking locally for no obvious reason can be quite frustrating. But
-sending a patch and getting it queued, only to be notified that it's
-dropped again because of a mypy problem two weeks later when the
-maintainer sends the pull request, can be equally (if not even more)
-frustrating.
-
-Kevin
-
+Thanks,
+Yongji
 
