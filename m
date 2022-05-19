@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA3B52DA02
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 18:17:08 +0200 (CEST)
-Received: from localhost ([::1]:47562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469CC52DA0C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 18:20:17 +0200 (CEST)
+Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nripl-0008HX-Q9
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 12:17:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36598)
+	id 1nrisp-0004JB-UZ
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 12:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nriIO-0003Cz-4q
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:42:36 -0400
-Received: from mga11.intel.com ([192.55.52.93]:24018)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nriVy-0006u9-7p
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:56:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nriIM-0000ng-GF
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:42:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652974954; x=1684510954;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=XcUkjLL+YpWw11P834waxgWm/NgeT+vT/ACdu5U5CAo=;
- b=hNmMTSjG6ZyG5DvIkcC37fkWk4gVkU+UU75gX5fQWyunMg+U3ie1sf0g
- RhU80WBxJuoc5QqiSPY86hE0V1Wc3WnmkWcTvtO+R3G4dEh+fBi20zn2K
- Mv/YAkcpqEpyFgpN/qU4fkNG5jxmioHEF2T5pvpIL9z6i3wEpVTiJqf8A
- zuTGWgwSZjSlzdiYkvDsm369cuiABbWxfu7QzLwNOkHzSCQ4wxbC4dI7Q
- kwRdpz6xDvg+l1FCGEMvNt3C+/H0scBvtRkHbFg6oC3N6Irv9ClDlEt7Y
- mN0v/7FNDlElfNzw0qfialV/A5xycuq7IhSa55uiYSQFqRNBd08Vnu9wD A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="269837975"
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="269837975"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 08:42:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="598635609"
-Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:42:03 -0700
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- Chao Peng <chao.p.peng@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: [PATCH v6 8/8] memfd_create.2: Describe MFD_INACCESSIBLE flag
-Date: Thu, 19 May 2022 23:37:13 +0800
-Message-Id: <20220519153713.819591-9-chao.p.peng@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nriVs-00031J-O8
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:56:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652975791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5HU2KBYn2VJW41q/JVR3B+RtDrER9hEerHZegmEevIE=;
+ b=BNSmMqjBSV8fTuJrDM2d+ZqZoL4EIRDG09NwFmoVYSQvFnFFdP0ykEl78vW78cmbZSvN1h
+ BH8Ch8K2CFhU7I/n0W9Z7W4Tmru7fzyiItdKOL/uTNr6WYoX2unhnAPScurER/3gUDHuvr
+ hZbA3x9NrJrAgdVY0ZB+M2lqi0yfllg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-402-EpNlbN6mM4-GnljJm1I0jQ-1; Thu, 19 May 2022 11:56:30 -0400
+X-MC-Unique: EpNlbN6mM4-GnljJm1I0jQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03474101AA64
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 15:56:30 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95F70401E74;
+ Thu, 19 May 2022 15:56:28 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Gerd Hoffmann <kraxel@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3 0/3] ui: Remove deprecated sdl parameters and switch to
+ QAPI parser
+Date: Thu, 19 May 2022 17:56:22 +0200
+Message-Id: <20220519155625.1414365-1-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,36 +77,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
----
- man2/memfd_create.2 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+The "-display sdl" option still uses a hand-crafted parser for its
+parameters since some of them used underscores which is disliked in QAPI.
+Now that they've been deprecated and the deprecation period is over, we
+can remove the problematic parameters and switch to use the QAPI parser
+instead.
 
-diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
-index 89e9c4136..2698222ae 100644
---- a/man2/memfd_create.2
-+++ b/man2/memfd_create.2
-@@ -101,6 +101,19 @@ meaning that no other seals can be set on the file.
- .\" FIXME Why is the MFD_ALLOW_SEALING behavior not simply the default?
- .\" Is it worth adding some text explaining this?
- .TP
-+.BR MFD_INACCESSIBLE
-+Disallow userspace access through ordinary MMU accesses via
-+.BR read (2),
-+.BR write (2)
-+and
-+.BR mmap (2).
-+The file size cannot be changed once initialized.
-+This flag cannot coexist with
-+.B MFD_ALLOW_SEALING
-+and when this flag is set, the initial set of seals will be
-+.B F_SEAL_SEAL,
-+meaning that no other seals can be set on the file.
-+.TP
- .BR MFD_HUGETLB " (since Linux 4.14)"
- .\" commit 749df87bd7bee5a79cef073f5d032ddb2b211de8
- The anonymous file will be created in the hugetlbfs filesystem using
+While we're at it, also remove the deprecated "-sdl" and "-curses" options.
+
+v3:
+ - Fixed some texts according to Markus' and Eric's suggestions
+ - Renamed the GrabMod enum to HotKeyMod (to not confuse it so easily
+   with GrabToggleKeys)
+   
+v2:
+ - Rebase to current master branch to resolve conflicts in docs/about/*.rst
+ - Use an enum for the grab-mod parameter instead of a unconstrained string
+
+Thomas Huth (3):
+  ui: Remove deprecated parameters of the "-display sdl" option
+  ui: Switch "-display sdl" to use the QAPI parser
+  ui: Remove deprecated options "-sdl" and "-curses"
+
+ docs/about/deprecated.rst       |  26 -------
+ docs/about/removed-features.rst |  27 +++++++
+ qapi/ui.json                    |  26 ++++++-
+ include/sysemu/sysemu.h         |   2 -
+ softmmu/globals.c               |   2 -
+ softmmu/vl.c                    | 128 +-------------------------------
+ ui/sdl2.c                       |  10 +++
+ qemu-options.hx                 |  56 +-------------
+ 8 files changed, 67 insertions(+), 210 deletions(-)
+
 -- 
-2.17.1
+2.27.0
 
 
