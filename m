@@ -2,95 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBD952D518
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 15:52:42 +0200 (CEST)
-Received: from localhost ([::1]:56138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A3452D52F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 15:54:45 +0200 (CEST)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrga1-0004Ja-Db
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 09:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
+	id 1nrgc0-0005qC-Hm
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 09:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nrgXv-0002Dg-Ao
- for qemu-devel@nongnu.org; Thu, 19 May 2022 09:50:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60561)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1nrgay-0005Ak-A9; Thu, 19 May 2022 09:53:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nrgXt-0000QP-Ow
- for qemu-devel@nongnu.org; Thu, 19 May 2022 09:50:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652968229;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=10Z07xm9+4yDp9FHTSCirOKidiLmE/jL8kDj845Ymt8=;
- b=Lo42+tef/3XEACzeW6LcSNoD9mLiyS5e96biftNaPUdmiFOzCKcUj9UZ9pnIWbGu8V1pPN
- DBB7R3ClNryaM+hLbla1+R5sTJqM4pR/26KGl3hZDIB36KxQmZ9J9LaEvubm+B0ylG+mL0
- /1QXk55VtCUG5OTeFCF70TSPQzGaEV4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-xyEunfnLNECiEcurmJeAZg-1; Thu, 19 May 2022 09:50:20 -0400
-X-MC-Unique: xyEunfnLNECiEcurmJeAZg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u26-20020adfb21a000000b0020ac48a9aa4so1585615wra.5
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 06:50:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=10Z07xm9+4yDp9FHTSCirOKidiLmE/jL8kDj845Ymt8=;
- b=B4onGYioT0VN6bFr6PiO7r6lQJxoZrMmVKyjptqsWkGvifVYHyuzdiCgkPnorIipP3
- gc5JltPRrNcMpWIdb6IOgARkk61mC/ERGONwwNB+8lTSczsy94OjmIqCGSEfpHlDfRVx
- 8V6CvpgwetGdLzIs70FTyYgdYKmVSAkxUo5R0JFAVj40RhPKfEnfzDmgpD4CQHsMoauF
- 5iP+/dDJwcn7ifF6JnZEBQ/bLVcH7i5/Y+fWwT3AMZyzWkIlAUxxejOk7S4+MsO4ir8+
- zO1rFZ7w+tOEzbqrG9GWmPtHNTQp//UDJwlcK91khlVTjr5vjjhMELeXcpR6nFQ9O+e2
- bcfA==
-X-Gm-Message-State: AOAM530/+J3umazhVLZHB+E5KTyw+Bt04bvZCVf999p/BrSsXyD+HP88
- 4j88ukcWYkBMzsmvbSFU5v3yZiDVYukydT49vpjM0+PTtAMciBQqX89bGmX5eY3xS24IYNUHdR8
- 0jtWwQ6uODkZ+S3U=
-X-Received: by 2002:a7b:c94e:0:b0:397:28a6:3966 with SMTP id
- i14-20020a7bc94e000000b0039728a63966mr4390326wml.191.1652968219080; 
- Thu, 19 May 2022 06:50:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwy42Y7phuZ2O5h6x/n9NXbJ+HeD68wJztvYqDNnHKiR4c2krqc5K7DhQTdgLWZGC31VgRSmA==
-X-Received: by 2002:a7b:c94e:0:b0:397:28a6:3966 with SMTP id
- i14-20020a7bc94e000000b0039728a63966mr4390307wml.191.1652968218796; 
- Thu, 19 May 2022 06:50:18 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- q9-20020adf9dc9000000b0020d02ddf4d5sm4987242wre.5.2022.05.19.06.50.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 06:50:18 -0700 (PDT)
-Date: Thu, 19 May 2022 15:50:17 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Dario
- Faggioli <dfaggioli@suse.com>, dzejrou@gmail.com, qemu-devel@nongnu.org,
- david@redhat.com
-Subject: Re: [PATCH] hostmem: default the amount of prealloc-threads to
- smp-cpus
-Message-ID: <20220519155017.71f9ec6d@redhat.com>
-In-Reply-To: <9851633b-d9a3-bc71-afd1-d24fe8972177@redhat.com>
-References: <20220517123858.7933-1-dzejrou@gmail.com>
- <3994597b-c559-f62f-504d-3cde3493b713@redhat.com>
- <20220518121716.658ec569@redhat.com>
- <843da9ebf73d89a5084d4e29d972fdaa8b79bfae.camel@suse.com>
- <YoT1OolqFQ9+5t/q@redhat.com>
- <9851633b-d9a3-bc71-afd1-d24fe8972177@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1nrgaw-0000oI-A0; Thu, 19 May 2022 09:53:40 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24JDHTvN005967;
+ Thu, 19 May 2022 13:53:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ol55uRCvYWgWyBl/03RigGLhvv0+9Dp3mqx4dOkYdqQ=;
+ b=AzbVeVfiH1aCfxZAhCLkwVC/e+fZqRSmORMLpfrYw4btBjuv0l+ArmZdJ/Yw/yZskKwZ
+ 5lZSSWXS60MoBqbwv9QiktSRcv0o1wTFHBJTFBBEMnCtwpTAK8xE62Y4/Gc9Wf7p0ddO
+ NguHDPTNp56+SH+59m5t+rSK5r6lvSELBUAGC3AtFsisBJSpPtd/xzKTP1T0oCzLBnnd
+ AqBWzvKwjLOkoGXOGekh8HHPCi6XfWCErSGlef9Q1k2vcXyYdkHmqYp6Gcwlv1efQB6/
+ D75ZwY9dOWeDxqk6kFJc3ioYRTW8rFZgZbLs6PGP8+dhY6iHCOeZIpJEpUClq4rH7p3y 1Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5pn08vnq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 May 2022 13:53:33 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24JDrWMk010381;
+ Thu, 19 May 2022 13:53:32 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5pn08vmw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 May 2022 13:53:32 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24JDpAwR021419;
+ Thu, 19 May 2022 13:53:30 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma01fra.de.ibm.com with ESMTP id 3g2428x2us-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 May 2022 13:53:30 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24JDrQQN46072118
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 May 2022 13:53:26 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D8DAAAE045;
+ Thu, 19 May 2022 13:53:26 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F1271AE051;
+ Thu, 19 May 2022 13:53:25 +0000 (GMT)
+Received: from [9.171.37.72] (unknown [9.171.37.72])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 19 May 2022 13:53:25 +0000 (GMT)
+Message-ID: <384df8c6-4309-17a5-464e-46b23507f362@linux.ibm.com>
+Date: Thu, 19 May 2022 15:53:25 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/2] target/s390x: kvm: Honor storage keys during emulation
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220506153956.2217601-1-scgl@linux.ibm.com>
+ <20220506153956.2217601-3-scgl@linux.ibm.com>
+ <21468730-e57f-a54a-bde4-6bb927d6b651@redhat.com>
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+In-Reply-To: <21468730-e57f-a54a-bde4-6bb927d6b651@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: w43M2DY85xa053HGTy6E1PABTRj1Oh2X
+X-Proofpoint-ORIG-GUID: 68TDDuV0nj-oSeMZuhquhK1RIsgj38k5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-19_03,2022-05-19_03,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205190078
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,43 +122,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 May 2022 16:06:47 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+On 5/19/22 12:05, Thomas Huth wrote:
+> On 06/05/2022 17.39, Janis Schoetterl-Glausch wrote:
+>> Storage key controlled protection is currently not honored when
+>> emulating instructions.
+>> If available, enable key protection for the MEM_OP ioctl, thereby
+>> enabling it for the s390_cpu_virt_mem_* functions, when using kvm.
+>> As a result, the emulation of the following instructions honors storage
+>> keys:
+>>
+>> * CLP
+>>        The Synch I/O CLP command would need special handling in order
+>>        to support storage keys, but is currently not supported.
+>> * CHSC
+>>     Performing commands asynchronously would require special
+>>     handling, but commands are currently always synchronous.
+>> * STSI
+>> * TSCH
+>>     Must (and does) not change channel if terminated due to
+>>     protection.
+>> * MSCH
+>>     Suppressed on protection, works because fetching instruction.
+>> * SSCH
+>>     Suppressed on protection, works because fetching instruction.
+>> * STSCH
+>> * STCRW
+>>     Suppressed on protection, this works because no partial store is
+>>     possible, because the operand cannot span multiple pages.
+>> * PCISTB
+>> * MPCIFC
+>> * STPCIFC
+>>
+>> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+>> ---
+>>   target/s390x/kvm/kvm.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+>> index 53098bf541..7bd8db0e7b 100644
+>> --- a/target/s390x/kvm/kvm.c
+>> +++ b/target/s390x/kvm/kvm.c
+>> @@ -151,12 +151,15 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+>>   static int cap_sync_regs;
+>>   static int cap_async_pf;
+>>   static int cap_mem_op;
+>> +static int cap_mem_op_extension;
+>>   static int cap_s390_irq;
+>>   static int cap_ri;
+>>   static int cap_hpage_1m;
+>>   static int cap_vcpu_resets;
+>>   static int cap_protected;
+>>   +static bool mem_op_storage_key_support;
+>> +
+>>   static int active_cmma;
+>>     static int kvm_s390_query_mem_limit(uint64_t *memory_limit)
+>> @@ -354,6 +357,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>       cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
+>>       cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
+>>       cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
+>> +    cap_mem_op_extension = kvm_check_extension(s, KVM_CAP_S390_MEM_OP_EXTENSION);
+>> +    mem_op_storage_key_support = cap_mem_op_extension > 0;
+> 
+> Ah, so KVM_CAP_S390_MEM_OP_EXTENSION is a "version number", not a boolean flag? ... ok, now I've finally understood that ... ;-)
 
-> On 5/18/22 15:31, Daniel P. Berrang=C3=A9 wrote:
-> > When picking defaults there is never a perfect answer, it
-> > is more a matter of the least-worst option.
-> >=20
-> > It is pretty clear that nthreads=3D1 is terrible for any
-> > large VMs. Defaulting it to nvcpus made conceptual sense
-> > as the user has implicit said that they expect the VM to
-> > be able to consume nvcpus worth of CPU time on the host,
-> > so we might as well consume that allotted resource.
-
-that assumes that allocation threads a permitted to actually
-use all resources and not limited to 1 pcpu only and then it
-also assumes 'more vcpus' =3D> 'large RAM'.
-
-> I agree.  Yes, one could argue that the regression was on the libvirt=20
-> side, but it's easier to fix it in QEMU.
-
-libvirt already provides means to set threads number,
-what needs fixing is setting up reasonable value in config
-which depends on how VM is configured and constrains mgmt/host
-put on it.
-
-> If we later add the ability to create a memory backend before machine=20
-> creation (for example with a QMP-only binary), then it's of course okay=20
-> for those backends to use only one thread and require a manual choice=20
-> for the # or preallocation threads.
-
-What I'm vehemently against is putting back direct machine
-references into backend code. I'm fine with 'prealloc-threads'
-property set from machine code (whether it's compat property or
-some sugar_prop() crutch in vl.c to appease CLI users).
-
->=20
-> Paolo
->=20
+Yeah, potentially having a bunch of memop capabilities didn't seem nice to me.
+We can remove extensions if, when introducing an extension, we define that version x supports functionality y, z...,
+but for the storage keys I've written in api.rst that it's supported if the cap > 0.
+So we'd need a new cap if we want to get rid of the skey extension and still support some other extension, 
+but that doesn't seem particularly likely.
+> 
+> (would it be better to treat it as a flag field, so that certain extensions could go away again in the future? In that case, it would be better to check with "& 1" instead of "> 0" here)
+> 
+>  Thomas
+> 
 
 
