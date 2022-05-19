@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01BB52DC0D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:56:07 +0200 (CEST)
-Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A2E52DC03
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:53:59 +0200 (CEST)
+Received: from localhost ([::1]:39526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkNa-0007qb-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59530)
+	id 1nrkLX-0003a4-35
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:53:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5F-0006GW-RN
+ id 1nrk5F-0006GO-RD
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:09 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37430)
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk5B-0000rj-4S
+ id 1nrk5B-0000ru-VB
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:08 -0400
-Received: by mail-wr1-x431.google.com with SMTP id t6so8207742wra.4
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:37:04 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id j24so8228240wrb.1
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cDg27z3KyHbPbarrHVcyFJzaD45Oepe53yYZfpMG7LE=;
- b=ZlRIbuI8lrw532z67hIFFpfziEMHYHtDIw3rR16lNaMAyBKwBvpMNu8o2dRCIzIBa7
- S4S8ZoI3OqQ+iYweK7QkXIDm8JBT3XsCDq895OZzh/vjhH7ouxLpHnfSfGB7BqRBDy9f
- uNYpK9DhcB3XyRw/oCoZgFjf+JZhrFzxlli591iHE9XunitQErumlesxWIwNRnF/t3uH
- i8sjHb81+knzgXnASw6XYRje5LiahWBoh3Fhg1HW4zWc0Z7nSi1FNiwvKQ2utYx0vUuK
- B5dmrgTphprNy+5tqkJ5lNgH1jtFP2aWNmwbXnNBsu7z31UZlQzJXw3m1pzPzWBq3cmV
- ApCA==
+ bh=SwlSNMVyYJRRVMWIULpkVvT++is//M7hOpaH8y7DNvk=;
+ b=T+8vAD3htLu7gOSPfsTUx0o3faiJGffU8oPM9KCuabZpJifmzApDTtBl7E5BNEu2PW
+ ah/xiKbtkBcI0V6R+G6kTJMxGD6Ajbl94kCDxcKB2vxG5daDWs6cmgFq0L5Ny1DsN/uK
+ PNDBKUsrTLlsyJQWUaWhszby46a+gbkPbmY7wReljpy7y1N6rvNc9OncaWcVoxDVXhbM
+ qpQaH2fH8YxRGdssE2KVID20PDbZXY6oV3geZ3b6uEHzX/VJRI+uNedSN/kJ8i3Izkmv
+ QyMDC+u7PciC3F4ukXH4OI5g/cGhBV1vsGGRUPf+QHroqmaOnlVWtkdqOAUgHDa+oXkI
+ hZ8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cDg27z3KyHbPbarrHVcyFJzaD45Oepe53yYZfpMG7LE=;
- b=Nyb9ctgeQzHUKil5+fHPh4iE/Qq7fQTylM3Z6JbIE0kc2k0+Ocn6rlucNnscd6n6JB
- QTP91ju5dPR/hT62Ub4OhluCARng4Warm5cu860qGNPkhWkQa0ePHXLmi7ADMd3YZM8t
- WAUQAWiL8KLad+S1V/TUl0VIJbb8fbhwOROgOZpp5H4ZcWqc3gvIKAHVFupjVE0nzzIg
- 8s4wy0DUPB5dK8QYApxVhDwfH68KKDk4xAI7W/SHNoa71Wv2ROSYJa3EWyAUppsckh46
- 2xQ5evxe0c183jmu+5H/p+5wb0QTo5Ch909dS2ptL3zlEbUrKdubGYCjVw5h0zu2kVma
- FYSg==
-X-Gm-Message-State: AOAM531i5UNkBQ3n2tiU61FmSuU4NnRIGbMJhcGNdF6+EDAKDeLCFGXa
- FQuHSCgCBfv9mnRYHfsRWZaFmby5zH6Q/w==
-X-Google-Smtp-Source: ABdhPJzlk5zGWEWFBWwaER5v8ogdeFNwml+6u6OPeB9o/wbbIk+LZjQmukIzEchqs1ce14qqfSuy2Q==
-X-Received: by 2002:a5d:6286:0:b0:20d:9b5:6a97 with SMTP id
- k6-20020a5d6286000000b0020d09b56a97mr5042200wru.165.1652981823828; 
- Thu, 19 May 2022 10:37:03 -0700 (PDT)
+ bh=SwlSNMVyYJRRVMWIULpkVvT++is//M7hOpaH8y7DNvk=;
+ b=fUwARvSalpzG5G5/pxCz1t53AbmcaopzxAf2Y7ewLvunG1TWrARGtyp0fQop1u4ZnM
+ VhmjK7+/R8JS0CNp0AiaFJuj685bNPQ5uoRPDQu75ocPaCq4+AMOa4ZFOTr5mv0Er7hs
+ vF/OYMytOSFgqqcCQC19WdMECaYTwpE8jwunUl4XiVGcK6DwTaWpiGXNW8krLhFuikvJ
+ w8rRUsPvbEGh7p9s40YTV5c/OqBPRxnq4h+M8yzXotSfpPkq4hxeDlbwl5o/CDYjkFrk
+ V9K/azVip8QeIbooUBm0hpROHw6u+ZEnlmS+4zx7OfaucguiGFYcke0n1NOdzH7oqX6J
+ USFQ==
+X-Gm-Message-State: AOAM533zJsnyTYeL+n7PQq2DH+j6t7IgrCJWa7h2Fhq+qrNZaQMyEiWM
+ 8xkXB5n2AXrH2rMQKle4lFLIGxbANLTn4Q==
+X-Google-Smtp-Source: ABdhPJwEFNtgXe5u1qkujCc0eIjqHrt8wz57ezxJZnNCBS34+ZG+zy23s7n/3d2mD34Qmi1AfMJZxQ==
+X-Received: by 2002:a05:6000:1f94:b0:20e:744a:214 with SMTP id
+ bw20-20020a0560001f9400b0020e744a0214mr1120228wrb.65.1652981824623; 
+ Thu, 19 May 2022 10:37:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.37.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 10:37:03 -0700 (PDT)
+ Thu, 19 May 2022 10:37:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/22] hw/intc/arm_gicv3: Provide ich_num_aprs()
-Date: Thu, 19 May 2022 18:36:41 +0100
-Message-Id: <20220519173651.399295-13-peter.maydell@linaro.org>
+Subject: [PULL 13/22] Fix aarch64 debug register names.
+Date: Thu, 19 May 2022 18:36:42 +0100
+Message-Id: <20220519173651.399295-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
 References: <20220519173651.399295-1-peter.maydell@linaro.org>
@@ -88,61 +88,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We previously open-coded the expression for the number of virtual APR
-registers and the assertion that it was not going to cause us to
-overflow the cs->ich_apr[] array.  Factor this out into a new
-ich_num_aprs() function, for consistency with the icc_num_aprs()
-function we just added for the physical APR handling.
+From: Chris Howard <cvz185@web.de>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Give all the debug registers their correct names including the
+index, rather than having multiple registers all with the
+same name string, which is confusing when viewed over the
+gdbstub interface.
+
+Signed-off-by: CHRIS HOWARD <cvz185@web.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220512151457.3899052-7-peter.maydell@linaro.org
-Message-id: 20220506162129.2896966-6-peter.maydell@linaro.org
+Message-id: 4127D8CA-D54A-47C7-A039-0DB7361E30C0@web.de
+[PMM: expanded commit message]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_cpuif.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ target/arm/helper.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 66e06b787c7..8867e2e496f 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -49,6 +49,14 @@ static inline int icv_min_vbpr(GICv3CPUState *cs)
-     return 7 - cs->vprebits;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 073d6509c8c..91f78c91cea 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6554,14 +6554,16 @@ static void define_debug_regs(ARMCPU *cpu)
+     }
+ 
+     for (i = 0; i < brps; i++) {
++        char *dbgbvr_el1_name = g_strdup_printf("DBGBVR%d_EL1", i);
++        char *dbgbcr_el1_name = g_strdup_printf("DBGBCR%d_EL1", i);
+         ARMCPRegInfo dbgregs[] = {
+-            { .name = "DBGBVR", .state = ARM_CP_STATE_BOTH,
++            { .name = dbgbvr_el1_name, .state = ARM_CP_STATE_BOTH,
+               .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 4,
+               .access = PL1_RW, .accessfn = access_tda,
+               .fieldoffset = offsetof(CPUARMState, cp15.dbgbvr[i]),
+               .writefn = dbgbvr_write, .raw_writefn = raw_write
+             },
+-            { .name = "DBGBCR", .state = ARM_CP_STATE_BOTH,
++            { .name = dbgbcr_el1_name, .state = ARM_CP_STATE_BOTH,
+               .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 5,
+               .access = PL1_RW, .accessfn = access_tda,
+               .fieldoffset = offsetof(CPUARMState, cp15.dbgbcr[i]),
+@@ -6569,17 +6571,21 @@ static void define_debug_regs(ARMCPU *cpu)
+             },
+         };
+         define_arm_cp_regs(cpu, dbgregs);
++        g_free(dbgbvr_el1_name);
++        g_free(dbgbcr_el1_name);
+     }
+ 
+     for (i = 0; i < wrps; i++) {
++        char *dbgwvr_el1_name = g_strdup_printf("DBGWVR%d_EL1", i);
++        char *dbgwcr_el1_name = g_strdup_printf("DBGWCR%d_EL1", i);
+         ARMCPRegInfo dbgregs[] = {
+-            { .name = "DBGWVR", .state = ARM_CP_STATE_BOTH,
++            { .name = dbgwvr_el1_name, .state = ARM_CP_STATE_BOTH,
+               .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 6,
+               .access = PL1_RW, .accessfn = access_tda,
+               .fieldoffset = offsetof(CPUARMState, cp15.dbgwvr[i]),
+               .writefn = dbgwvr_write, .raw_writefn = raw_write
+             },
+-            { .name = "DBGWCR", .state = ARM_CP_STATE_BOTH,
++            { .name = dbgwcr_el1_name, .state = ARM_CP_STATE_BOTH,
+               .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 7,
+               .access = PL1_RW, .accessfn = access_tda,
+               .fieldoffset = offsetof(CPUARMState, cp15.dbgwcr[i]),
+@@ -6587,6 +6593,8 @@ static void define_debug_regs(ARMCPU *cpu)
+             },
+         };
+         define_arm_cp_regs(cpu, dbgregs);
++        g_free(dbgwvr_el1_name);
++        g_free(dbgwcr_el1_name);
+     }
  }
  
-+static inline int ich_num_aprs(GICv3CPUState *cs)
-+{
-+    /* Return the number of virtual APR registers (1, 2, or 4) */
-+    int aprmax = 1 << (cs->vprebits - 5);
-+    assert(aprmax <= ARRAY_SIZE(cs->ich_apr[0]));
-+    return aprmax;
-+}
-+
- /* Simple accessor functions for LR fields */
- static uint32_t ich_lr_vintid(uint64_t lr)
- {
-@@ -145,9 +153,7 @@ static int ich_highest_active_virt_prio(GICv3CPUState *cs)
-      * in the ICH Active Priority Registers.
-      */
-     int i;
--    int aprmax = 1 << (cs->vprebits - 5);
--
--    assert(aprmax <= ARRAY_SIZE(cs->ich_apr[0]));
-+    int aprmax = ich_num_aprs(cs);
- 
-     for (i = 0; i < aprmax; i++) {
-         uint32_t apr = cs->ich_apr[GICV3_G0][i] |
-@@ -1333,9 +1339,7 @@ static int icv_drop_prio(GICv3CPUState *cs)
-      * 32 bits are actually relevant.
-      */
-     int i;
--    int aprmax = 1 << (cs->vprebits - 5);
--
--    assert(aprmax <= ARRAY_SIZE(cs->ich_apr[0]));
-+    int aprmax = ich_num_aprs(cs);
- 
-     for (i = 0; i < aprmax; i++) {
-         uint64_t *papr0 = &cs->ich_apr[GICV3_G0][i];
 -- 
 2.25.1
 
