@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3220252DA9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 18:50:59 +0200 (CEST)
-Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D4252DAA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 18:52:08 +0200 (CEST)
+Received: from localhost ([::1]:42484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrjMX-0001oQ-OA
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 12:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50144)
+	id 1nrjNe-0003o5-R4
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 12:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@redhat.com>)
- id 1nrjKg-00008B-Va
- for qemu-devel@nongnu.org; Thu, 19 May 2022 12:49:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26178)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nrjLb-0001vI-EU
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 12:49:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@redhat.com>)
- id 1nrjKd-0002QK-5V
- for qemu-devel@nongnu.org; Thu, 19 May 2022 12:49:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nrjLZ-0002Ur-To
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 12:49:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652978937;
+ s=mimecast20190719; t=1652978997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=fkYaPJZ5+Qd9CDGHA3uqtT/cDtvXW/OfvbFVg6Bs+G0=;
- b=YdjAaRUpCCzvdh+7PnzWJPEDfrYSO/oUrTgQ0+Uh7njqCHZZBUiqlDIteBfhn7+xSKcV4W
- aM1AeRUGdJDxx2KTlnQck67IVltHjzDfhsG7ulfT3k5K0vXXfhguZAXJe+BgYA+ROi7oDt
- yfZMRNedE5bAe7+e8D/PCtroHoUeRnQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1K/1Y82TQhVYsOzAx3lwxurCz15d/9wdaJIG2gbjOfQ=;
+ b=QjB11NPvaCFz2JUfwZbjTW1cH1attw1j3/5WhNe7QqP3y58TAC2XnJWcX2khri+V3h8O1O
+ fGw/gMlLOTSothK199sB8i3uliw20Ki2kho+I1opt+95NPkXe3nCOPVwqftIIchQMK5i5O
+ EU8dgri+aslQk8Hbh/szW47f9d1HjtA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-p_F39id4MxuhShEa9_eMgw-1; Thu, 19 May 2022 12:48:53 -0400
-X-MC-Unique: p_F39id4MxuhShEa9_eMgw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38368800882;
- Thu, 19 May 2022 16:48:53 +0000 (UTC)
-Received: from vp-pc.redhat.com (unknown [10.40.192.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68AB940C1438;
- Thu, 19 May 2022 16:48:51 +0000 (UTC)
-From: Viktor Prutyanov <viktor.prutyanov@redhat.com>
-To: thuth@redhat.com, pbonzini@redhat.com, f4bug@amsat.org,
- peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org,
-	yan@daynix.com,
-	viktor.prutyanov@phystech.edu
-Subject: [PATCH] contrib/elf2dmp: add ELF dump header checking
-Date: Thu, 19 May 2022 19:48:49 +0300
-Message-Id: <20220519164849.112847-1-viktor.prutyanov@redhat.com>
+ us-mta-449-Qxe4uAgRMniLH7IjGgL1ng-1; Thu, 19 May 2022 12:49:48 -0400
+X-MC-Unique: Qxe4uAgRMniLH7IjGgL1ng-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w20-20020adfd1b4000000b0020cbb4347e6so1761882wrc.17
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 09:49:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1K/1Y82TQhVYsOzAx3lwxurCz15d/9wdaJIG2gbjOfQ=;
+ b=hK9yvt/Yuv6cXIlAMvplcCtOZjbaVUcWTfjfDJ1bh5mG7w7puXsLzqgfj6BMWQvjcJ
+ /kiSJtfOns+JsParu0rUlWZwH9wBtScGzsKIi5t5W21nL/KQYRaZfdON9Y8MfISCfNhe
+ cSgM3mAhQzCisDQUhc9//+BAQiAB2lSHNnAQEBRbZFfZDFw3dxUpGTj6mmQQuhUbN/f9
+ F13vbkDvfcQrZG8olxl4YaFmIEhJ3KZCvHkvP8JzQQEKW/J23h6kj5M84ONpAGgg0C8o
+ QueRYZuEFxa36LDGQb4adqQ0OX9AJlzAWwMkKXPjea5CHue09KXLn2pMC5FjN9sKxX9v
+ EFfQ==
+X-Gm-Message-State: AOAM5324lNf56N8Kgbz++OYXNCWXG/abvJb0B2Axntty/3K0h5fI+Si6
+ W7aGDTtmST2FxjUr0QwztYqRaVZ4MBdDR30kLttHOkQeAXhnExk1ZSxWMZKn7ExFU6apvJ9C4vN
+ y9P6nz0sIt5DI8UY=
+X-Received: by 2002:a1c:4c17:0:b0:397:2d36:7241 with SMTP id
+ z23-20020a1c4c17000000b003972d367241mr4026430wmf.10.1652978986790; 
+ Thu, 19 May 2022 09:49:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJDoI+mzBo4RWhq4xLzMKEqY+keAKfdwWh0pS9N4OjT0Wjgzo1sIFgo8bb0IM215ZuQgQIBA==
+X-Received: by 2002:a1c:4c17:0:b0:397:2d36:7241 with SMTP id
+ z23-20020a1c4c17000000b003972d367241mr4026414wmf.10.1652978986537; 
+ Thu, 19 May 2022 09:49:46 -0700 (PDT)
+Received: from redhat.com ([151.81.230.224]) by smtp.gmail.com with ESMTPSA id
+ o4-20020a05600c338400b00394708a3d7dsm60453wmp.15.2022.05.19.09.49.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 09:49:45 -0700 (PDT)
+Date: Thu, 19 May 2022 12:49:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Wenliang Wang <wangwenliang.1995@bytedance.com>
+Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com
+Subject: Re: [PATCH] hw/pci/pcie.c: Fix invalid PCI_EXP_LNKCAP setting
+Message-ID: <20220519124909-mutt-send-email-mst@kernel.org>
+References: <1652971559-22126-1-git-send-email-wangwenliang.1995@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=viktor.prutyanov@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1652971559-22126-1-git-send-email-wangwenliang.1995@bytedance.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,73 +94,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add ELF header checking to prevent processing input file which is not
-QEMU guest memory dump or even not ELF.
+On Thu, May 19, 2022 at 10:45:59PM +0800, Wenliang Wang wrote:
+> pcie_cap_fill_slot_lnk() wrongly set PCI_EXP_LNKCAP when slot speed
+> and width is not set, causing strange downstream port link cap
+> (Speed unknown, Width x0) and pcie devices native hotplug error on Linux:
+> 
+> [    3.545654] pcieport 0000:02:00.0: pciehp: link training error: status 0x2000
+> [    3.547143] pcieport 0000:02:00.0: pciehp: Failed to check link status
+> 
+> We do not touch PCI_EXP_LNKCAP when speed=0 or width=0, as pcie_cap_v1_fill()
+> already do the default setting for us.
+> 
+> Signed-off-by: Wenliang Wang <wangwenliang.1995@bytedance.com>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1013
 
-Signed-off-by: Viktor Prutyanov <viktor.prutyanov@redhat.com>
----
- contrib/elf2dmp/qemu_elf.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+do we need machine type compat dance with this?
+can you check whether this affects cross version
+migration please?
 
-diff --git a/contrib/elf2dmp/qemu_elf.c b/contrib/elf2dmp/qemu_elf.c
-index b601b6d7ba..941b573f17 100644
---- a/contrib/elf2dmp/qemu_elf.c
-+++ b/contrib/elf2dmp/qemu_elf.c
-@@ -118,6 +118,39 @@ static void exit_states(QEMU_Elf *qe)
-     free(qe->state);
- }
- 
-+static bool check_ehdr(QEMU_Elf *qe)
-+{
-+    Elf64_Ehdr *ehdr = qe->map;
-+
-+    if (sizeof(Elf64_Ehdr) > qe->size) {
-+        eprintf("Invalid input dump file size\n");
-+        return false;
-+    }
-+
-+    if (memcmp(ehdr->e_ident, ELFMAG, SELFMAG)) {
-+        eprintf("Invalid ELF signature, input file is not ELF\n");
-+        return false;
-+    }
-+
-+    if (ehdr->e_ident[EI_CLASS] != ELFCLASS64 ||
-+            ehdr->e_ident[EI_DATA] != ELFDATA2LSB) {
-+        eprintf("Invalid ELF class or byte order, must be 64-bit LE\n");
-+        return false;
-+    }
-+
-+    if (ehdr->e_type != ET_CORE) {
-+        eprintf("Invalid ELF type, must be core file\n");
-+        return false;
-+    }
-+
-+    if (!ehdr->e_phnum) {
-+        eprintf("Invalid number of ELF program headers\n");
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
- int QEMU_Elf_init(QEMU_Elf *qe, const char *filename)
- {
-     GError *gerr = NULL;
-@@ -133,6 +166,11 @@ int QEMU_Elf_init(QEMU_Elf *qe, const char *filename)
-     qe->map = g_mapped_file_get_contents(qe->gmf);
-     qe->size = g_mapped_file_get_length(qe->gmf);
- 
-+    if (!check_ehdr(qe)) {
-+        err = 1;
-+        goto out_unmap;
-+    }
-+
-     if (init_states(qe)) {
-         eprintf("Failed to extract QEMU CPU states\n");
-         err = 1;
--- 
-2.35.1
+> ---
+>  hw/pci/pcie.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 68a62da..c82e7fc 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -92,6 +92,11 @@ static void pcie_cap_fill_slot_lnk(PCIDevice *dev)
+>          return;
+>      }
+>  
+> +    /* Use default LNKCAP setting */
+> +    if (s->speed == 0 || s->width == 0) {
+> +        return;
+> +    }
+> +
+>      /* Clear and fill LNKCAP from what was configured above */
+>      pci_long_test_and_clear_mask(exp_cap + PCI_EXP_LNKCAP,
+>                                   PCI_EXP_LNKCAP_MLW | PCI_EXP_LNKCAP_SLS);
+> -- 
+> 2.7.4
 
 
