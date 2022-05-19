@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C0852D3F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 15:28:40 +0200 (CEST)
-Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B71052D3F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 15:29:16 +0200 (CEST)
+Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrgCl-00062j-5E
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 09:28:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34986)
+	id 1nrgDK-0006qW-V5
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 09:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nrgAj-0004af-JB
- for qemu-devel@nongnu.org; Thu, 19 May 2022 09:26:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nrgAf-00054g-J3
- for qemu-devel@nongnu.org; Thu, 19 May 2022 09:26:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652966788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BIcqEtUbbjJY9jgAqC5sOu0mE8I4xkBNPq5OCgRsHFk=;
- b=F0Cssl2cAFs4DyIwCkPZpEFsS/cpBFXxBsA6ElP0Oq8f8jNEplOp6WNkUfLKh8J6t4F0Pz
- Cddi5ws6ipkT8RMfmMMhKM2Nteo+hMP6hffgCf9983pOGvZe8auO+bcQmBdtZQTd678WSk
- jO9dbN1w3Wn/FRUE1SeNkSE7pHemokE=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-262-Xhs1MJhNPResZMocADZwkQ-1; Thu, 19 May 2022 09:26:27 -0400
-X-MC-Unique: Xhs1MJhNPResZMocADZwkQ-1
-Received: by mail-io1-f69.google.com with SMTP id
- y13-20020a056602164d00b0065a9dec1ef2so2267169iow.23
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 06:26:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nrgBo-0005C8-2n; Thu, 19 May 2022 09:27:41 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nrgBm-0005Ec-I5; Thu, 19 May 2022 09:27:39 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ t11-20020a17090a6a0b00b001df6f318a8bso8791108pjj.4; 
+ Thu, 19 May 2022 06:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:mime-version:message-id
+ :content-transfer-encoding;
+ bh=aAfMhAAVU/jNB46Wq+jQDLgAFRhYtLEWiQlsvJKBnxs=;
+ b=D1mc5pOP7O3YSwpfANiDt5auXIaOTcYVA2yQXf5X9l2LmzRhF0b6jAfRBqeuaRdTTC
+ mHuyrHvcpXu6HKaIhDTTVp4uS2GBfZeBC3wjPgarJ8j2e9hiEU3xGbovaTQlPMQqMMSB
+ lUHhlb8cvXK9myIhVs2ACv4ylq0fzw8ztxvQkOWKtydtztklj4fY/9idMvNjGalXWuZt
+ C/POJ0/cZNyL49XIoo5H4sV7D2ZyE24epzGxW3H14GsJZ1haH6/hfW3zzFQf+zzoAhhf
+ jAQi4dEJoOo4+/vmGty2ZIssoQu7t83h9RlFF0o4QJ9cOF2xGWukSTQ5weWGEYH33gy1
+ NCIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BIcqEtUbbjJY9jgAqC5sOu0mE8I4xkBNPq5OCgRsHFk=;
- b=kBHnooIoRdkGObQLXlTlSVKM4v7kYincO5k5arIWFkcf/6J0zwrBNONmymQ+rmDXv1
- oTgSdePByNTuSLQg1NWgizX609VKGcctvDw261rx4dW+J3EypMRtpp8fdYpEABu8dYMJ
- A+eptstG4/JSbMDVVJ8zqAPG4Rr7KdpuiBwRmeeQ5zU7FYh9DpM18J+L4qnPqYqZePFO
- f4K0vMHR0fRo/06M7LGi5oApXJmABEVPmOtUkQM8yJ0z8VosNnRs5tfkzNvmMVhr8R+o
- oK9ffUL20zXY2XblAqDpYyxohep/UyaIThVlC5FI7e/uleyW1GaVBdCwjibJssWDqChN
- NnuQ==
-X-Gm-Message-State: AOAM530ur0ginEh8G96JTem6lWsg+GHqeH2O0d7iz6hY6HQW9gvg0g1R
- PZwVNHsFrO4AJthutJzksJihm2wacDmGUwxf3AXNTTpBUMX9gZBP3ey63OlueLSLMT9/tQqoi8z
- bPBRa75KdNFco4YiCz1O3L6SNBiNMhIY=
-X-Received: by 2002:a05:6e02:1788:b0:2d1:67a5:53ba with SMTP id
- y8-20020a056e02178800b002d167a553bamr1725784ilu.200.1652966786595; 
- Thu, 19 May 2022 06:26:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzslwib0uplfJlWIi+vnLDtx1M+lWJ3eCJE2B5Hrep1EjutpO52BrZMIfxQno6lTAuAwALHHPO5WrvQpEvJFc4=
-X-Received: by 2002:a05:6e02:1788:b0:2d1:67a5:53ba with SMTP id
- y8-20020a056e02178800b002d167a553bamr1725774ilu.200.1652966786448; Thu, 19
- May 2022 06:26:26 -0700 (PDT)
+ h=x-gm-message-state:date:from:subject:to:cc:mime-version:message-id
+ :content-transfer-encoding;
+ bh=aAfMhAAVU/jNB46Wq+jQDLgAFRhYtLEWiQlsvJKBnxs=;
+ b=B9lxL54uV1Pf/CNW3xBSO6ck57MzMAiApDm+1LCQ/RetbCiQQiP7G0shC/p65l+JFm
+ 9ruPM3ddwns2FRkXxvICMtBgQz+Y4XNz2nOtlJHiW69j0Zxq+in0iJKqcpW7ELn6mucX
+ ye3+12qmeybw2WHpNHulQHFrYQQoswgYmqDTzwjgaL3nkk+E497D+SyyKzVY54v7vVN9
+ 4z06fW9YM5KF2tlBnoIpUk5nZMOl7kFfr4+1xPFLMKerftxkR/tmyFMYG8E0RVQ9MvBc
+ 7m4NlvX+z7LcoCh5DCI6NyA3BaK1Kh6y4KtGrRlg4SX3WzYt20XRdq4Jv8qXmJ1IM0de
+ Ivbw==
+X-Gm-Message-State: AOAM530QPzs7I9xCkiyVKm0Ri7VOaKzYMnSvb2ucPF3tmBvweJ2n167R
+ 2fP0rSRAUu19SJ+gzv5KcXGoDg9BHQPLCg==
+X-Google-Smtp-Source: ABdhPJy5Zm4ReuH1rMQDh1IR3MOb/bHSg9vCUau3Ul/1BA4p2mwxHgQJRBkm+B61Juu5ssvTdQwmCA==
+X-Received: by 2002:a17:902:d502:b0:161:8e01:b4f1 with SMTP id
+ b2-20020a170902d50200b001618e01b4f1mr4837108plg.137.1652966855206; 
+ Thu, 19 May 2022 06:27:35 -0700 (PDT)
+Received: from localhost ([118.208.131.68]) by smtp.gmail.com with ESMTPSA id
+ 3-20020a630e43000000b003c14af50626sm3485902pgo.62.2022.05.19.06.27.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 06:27:34 -0700 (PDT)
+Date: Thu, 19 May 2022 23:27:29 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: g_assert(cpu->halted) in mttcg_cpu_thread_fn()
+To: qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, Alex =?iso-8859-1?q?Benn=E9e?=
+ <alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20220517113524.197910-1-afaria@redhat.com>
- <20220517113837.199696-2-afaria@redhat.com>
- <0a27845b-0b9a-992a-3360-a7cf16892a08@redhat.com>
- <265a7c93-ed2a-6464-eeb4-c396970c418a@redhat.com>
-In-Reply-To: <265a7c93-ed2a-6464-eeb4-c396970c418a@redhat.com>
-From: Alberto Faria <afaria@redhat.com>
-Date: Thu, 19 May 2022 14:25:50 +0100
-Message-ID: <CAELaAXwTsopo1RoWhSDGbHjWrroF0TL1fugfpxktuNn9U+3QmQ@mail.gmail.com>
-Subject: Re: [PATCH 06/18] block: Implement blk_{pread,
- pwrite}() using generated_co_wrapper
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Message-Id: <1652966220.h07etcvkcs.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,22 +85,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 2:34 PM Emanuele Giuseppe Esposito
-<eesposit@redhat.com> wrote:
-> This is the main patch: it just moves headers from block/coroutines.h to
-> the script (block_gen.c).
->
-> This allows you to keep generated_co_wrapper functions in the header
-> where they originally were (no need to move the function in coroutines.h
-> and include it everywhere).
+I hit this assert in a ppc spapr guest with several CPUs.
 
-Thanks. It doesn't look like it will conflict with this series.
+There are some paths where cpu1->halted is set to 0 by cpu2, e.g.,=20
+h_prod(). AFAIKS this could trigger the assert if another thread raced=20
+with the thread that is halting.
 
-> Btw @Alberto can you also cc me in the next series? So that I can follow
-> too.
+Is this just a false positive in the assert, or is our handling of
+halted wrong?
 
-Will do!
-
-Alberto
-
+Thanks,
+Nick
 
