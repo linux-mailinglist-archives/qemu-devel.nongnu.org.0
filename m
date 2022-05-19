@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A63452DE6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:31:41 +0200 (CEST)
-Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1424752DE7E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:36:19 +0200 (CEST)
+Received: from localhost ([::1]:53904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrmo8-0001br-Az
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
+	id 1nrmsc-0000IS-5y
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmez-0006QV-8x; Thu, 19 May 2022 16:22:15 -0400
+ id 1nrmf1-0006Qv-R2; Thu, 19 May 2022 16:22:16 -0400
 Received: from [187.72.171.209] (port=38888 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmew-0007Ny-KF; Thu, 19 May 2022 16:22:13 -0400
+ id 1nrmf0-0007Ny-DX; Thu, 19 May 2022 16:22:15 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 19 May 2022 17:18:47 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 02E22800150;
+ by p9ibm (Postfix) with ESMTP id 2581F800C32;
  Thu, 19 May 2022 17:18:47 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,16 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH v2 08/12] target/ppc: declare xxextractuw and xxinsertw
- helpers with call flags
-Date: Thu, 19 May 2022 17:18:18 -0300
-Message-Id: <20220519201822.465229-9-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 09/12] target/ppc: introduce do_va_helper
+Date: Thu, 19 May 2022 17:18:19 -0300
+Message-Id: <20220519201822.465229-10-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
 References: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 19 May 2022 20:18:47.0230 (UTC)
- FILETIME=[A53785E0:01D86BBD]
+X-OriginalArrivalTime: 19 May 2022 20:18:47.0387 (UTC)
+ FILETIME=[A54F7AB0:01D86BBD]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,179 +65,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Move xxextractuw and xxinsertw to decodetree, declare both helpers with
-TCG_CALL_NO_RWG, and drop the unused env argument.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  4 +-
- target/ppc/insn32.decode            |  9 ++++-
- target/ppc/int_helper.c             |  6 +--
- target/ppc/translate/vsx-impl.c.inc | 63 +++++++++++++----------------
- target/ppc/translate/vsx-ops.c.inc  |  2 -
- 5 files changed, 39 insertions(+), 45 deletions(-)
+ target/ppc/translate/vmx-impl.c.inc | 32 +++++------------------------
+ 1 file changed, 5 insertions(+), 27 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index f96d7f2fcf..69e1d3e327 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -527,9 +527,9 @@ DEF_HELPER_FLAGS_2(XXGENPCVDM_be_exp, TCG_CALL_NO_RWG, void, vsr, avr)
- DEF_HELPER_FLAGS_2(XXGENPCVDM_be_comp, TCG_CALL_NO_RWG, void, vsr, avr)
- DEF_HELPER_FLAGS_2(XXGENPCVDM_le_exp, TCG_CALL_NO_RWG, void, vsr, avr)
- DEF_HELPER_FLAGS_2(XXGENPCVDM_le_comp, TCG_CALL_NO_RWG, void, vsr, avr)
--DEF_HELPER_4(xxextractuw, void, env, vsr, vsr, i32)
-+DEF_HELPER_FLAGS_3(XXEXTRACTUW, TCG_CALL_NO_RWG, void, vsr, vsr, i32)
- DEF_HELPER_FLAGS_5(XXPERMX, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, tl)
--DEF_HELPER_4(xxinsertw, void, env, vsr, vsr, i32)
-+DEF_HELPER_FLAGS_3(XXINSERTW, TCG_CALL_NO_RWG, void, vsr, vsr, i32)
- DEF_HELPER_FLAGS_2(XVXSIGSP, TCG_CALL_NO_RWG, void, vsr, vsr)
- DEF_HELPER_FLAGS_5(XXEVAL, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, i32)
- DEF_HELPER_FLAGS_5(XXBLENDVB, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, i32)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 483349ff6d..435cf1320c 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -161,8 +161,10 @@
- &XX2            xt xb
- @XX2            ...... ..... ..... ..... ......... ..           &XX2 xt=%xx_xt xb=%xx_xb
- 
--&XX2_uim2       xt xb uim:uint8_t
--@XX2_uim2       ...... ..... ... uim:2 ..... ......... ..       &XX2_uim2 xt=%xx_xt xb=%xx_xb
-+&XX2_uim        xt xb uim:uint8_t
-+@XX2_uim2       ...... ..... ... uim:2 ..... ......... ..       &XX2_uim xt=%xx_xt xb=%xx_xb
-+
-+@XX2_uim4       ...... ..... . uim:4 ..... ......... ..         &XX2_uim xt=%xx_xt xb=%xx_xb
- 
- &XX2_bf_xb      bf xb
- @XX2_bf_xb      ...... bf:3 .. ..... ..... ......... . .        &XX2_bf_xb xb=%xx_xb
-@@ -666,6 +668,9 @@ XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2_uim2
- 
- ## VSX Permute Instructions
- 
-+XXEXTRACTUW     111100 ..... - .... ..... 010100101 ..  @XX2_uim4
-+XXINSERTW       111100 ..... - .... ..... 010110101 ..  @XX2_uim4
-+
- XXPERM          111100 ..... ..... ..... 00011010 ...   @XX3
- XXPERMR         111100 ..... ..... ..... 00111010 ...   @XX3
- XXPERMDI        111100 ..... ..... ..... 0 .. 01010 ... @XX3_dm
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 8c1674510b..9a361ad241 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1647,8 +1647,7 @@ VSTRI(VSTRIHL, H, 8, true)
- VSTRI(VSTRIHR, H, 8, false)
- #undef VSTRI
- 
--void helper_xxextractuw(CPUPPCState *env, ppc_vsr_t *xt,
--                        ppc_vsr_t *xb, uint32_t index)
-+void helper_XXEXTRACTUW(ppc_vsr_t *xt, ppc_vsr_t *xb, uint32_t index)
- {
-     ppc_vsr_t t = { };
-     size_t es = sizeof(uint32_t);
-@@ -1663,8 +1662,7 @@ void helper_xxextractuw(CPUPPCState *env, ppc_vsr_t *xt,
-     *xt = t;
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 764ac45409..e66301c007 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -2553,20 +2553,17 @@ static void gen_vmladduhm(DisasContext *ctx)
+     tcg_temp_free_ptr(rd);
  }
  
--void helper_xxinsertw(CPUPPCState *env, ppc_vsr_t *xt,
--                      ppc_vsr_t *xb, uint32_t index)
-+void helper_XXINSERTW(ppc_vsr_t *xt, ppc_vsr_t *xb, uint32_t index)
+-static bool trans_VPERM(DisasContext *ctx, arg_VA *a)
++static bool do_va_helper(DisasContext *ctx, arg_VA *a,
++    void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
  {
-     ppc_vsr_t t = *xt;
-     size_t es = sizeof(uint32_t);
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 70cc97b0db..f980fb6f58 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1589,7 +1589,7 @@ static bool trans_XXSEL(DisasContext *ctx, arg_XX4 *a)
+     TCGv_ptr vrt, vra, vrb, vrc;
+-
+-    REQUIRE_INSNS_FLAGS(ctx, ALTIVEC);
+     REQUIRE_VECTOR(ctx);
+ 
+     vrt = gen_avr_ptr(a->vrt);
+     vra = gen_avr_ptr(a->vra);
+     vrb = gen_avr_ptr(a->vrb);
+     vrc = gen_avr_ptr(a->rc);
+-
+-    gen_helper_VPERM(vrt, vra, vrb, vrc);
+-
++    gen_helper(vrt, vra, vrb, vrc);
+     tcg_temp_free_ptr(vrt);
+     tcg_temp_free_ptr(vra);
+     tcg_temp_free_ptr(vrb);
+@@ -2575,27 +2572,8 @@ static bool trans_VPERM(DisasContext *ctx, arg_VA *a)
      return true;
  }
  
--static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2_uim2 *a)
-+static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2_uim *a)
+-static bool trans_VPERMR(DisasContext *ctx, arg_VA *a)
+-{
+-    TCGv_ptr vrt, vra, vrb, vrc;
+-
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-    REQUIRE_VECTOR(ctx);
+-
+-    vrt = gen_avr_ptr(a->vrt);
+-    vra = gen_avr_ptr(a->vra);
+-    vrb = gen_avr_ptr(a->vrb);
+-    vrc = gen_avr_ptr(a->rc);
+-
+-    gen_helper_VPERMR(vrt, vra, vrb, vrc);
+-
+-    tcg_temp_free_ptr(vrt);
+-    tcg_temp_free_ptr(vra);
+-    tcg_temp_free_ptr(vrb);
+-    tcg_temp_free_ptr(vrc);
+-
+-    return true;
+-}
++TRANS_FLAGS(ALTIVEC, VPERM, do_va_helper, gen_helper_VPERM)
++TRANS_FLAGS2(ISA300, VPERMR, do_va_helper, gen_helper_VPERMR)
+ 
+ static bool trans_VSEL(DisasContext *ctx, arg_VA *a)
  {
-     int tofs, bofs;
- 
-@@ -1799,42 +1799,35 @@ static void gen_xxsldwi(DisasContext *ctx)
-     tcg_temp_free_i64(xtl);
- }
- 
--#define VSX_EXTRACT_INSERT(name)                                \
--static void gen_##name(DisasContext *ctx)                       \
--{                                                               \
--    TCGv_ptr xt, xb;                                            \
--    TCGv_i32 t0;                                                \
--    TCGv_i64 t1;                                                \
--    uint8_t uimm = UIMM4(ctx->opcode);                          \
--                                                                \
--    if (unlikely(!ctx->vsx_enabled)) {                          \
--        gen_exception(ctx, POWERPC_EXCP_VSXU);                  \
--        return;                                                 \
--    }                                                           \
--    xt = gen_vsr_ptr(xT(ctx->opcode));                          \
--    xb = gen_vsr_ptr(xB(ctx->opcode));                          \
--    t0 = tcg_temp_new_i32();                                    \
--    t1 = tcg_temp_new_i64();                                    \
--    /*                                                          \
--     * uimm > 15 out of bound and for                           \
--     * uimm > 12 handle as per hardware in helper               \
--     */                                                         \
--    if (uimm > 15) {                                            \
--        tcg_gen_movi_i64(t1, 0);                                \
--        set_cpu_vsr(xT(ctx->opcode), t1, true);                 \
--        set_cpu_vsr(xT(ctx->opcode), t1, false);                \
--        return;                                                 \
--    }                                                           \
--    tcg_gen_movi_i32(t0, uimm);                                 \
--    gen_helper_##name(cpu_env, xt, xb, t0);                     \
--    tcg_temp_free_ptr(xb);                                      \
--    tcg_temp_free_ptr(xt);                                      \
--    tcg_temp_free_i32(t0);                                      \
--    tcg_temp_free_i64(t1);                                      \
-+static bool do_vsx_extract_insert(DisasContext *ctx, arg_XX2_uim *a,
-+    void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i32))
-+{
-+    TCGv_i64 zero = tcg_constant_i64(0);
-+    TCGv_ptr xt, xb;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_VSX(ctx);
-+
-+    /*
-+     * uim > 15 out of bound and for
-+     * uim > 12 handle as per hardware in helper
-+     */
-+    if (a->uim > 15) {
-+        set_cpu_vsr(a->xt, zero, true);
-+        set_cpu_vsr(a->xt, zero, false);
-+    } else {
-+        xt = gen_vsr_ptr(a->xt);
-+        xb = gen_vsr_ptr(a->xb);
-+        gen_helper(xt, xb, tcg_constant_i32(a->uim));
-+        tcg_temp_free_ptr(xb);
-+        tcg_temp_free_ptr(xt);
-+    }
-+
-+    return true;
- }
- 
--VSX_EXTRACT_INSERT(xxextractuw)
--VSX_EXTRACT_INSERT(xxinsertw)
-+TRANS(XXEXTRACTUW, do_vsx_extract_insert, gen_helper_XXEXTRACTUW)
-+TRANS(XXINSERTW, do_vsx_extract_insert, gen_helper_XXINSERTW)
- 
- #ifdef TARGET_PPC64
- static void gen_xsxexpdp(DisasContext *ctx)
-diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index 4524c5b02a..bff14bbece 100644
---- a/target/ppc/translate/vsx-ops.c.inc
-+++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -320,5 +320,3 @@ VSX_LOGICAL(xxlorc, 0x8, 0x15, PPC2_VSX207),
- GEN_XX3FORM(xxmrghw, 0x08, 0x02, PPC2_VSX),
- GEN_XX3FORM(xxmrglw, 0x08, 0x06, PPC2_VSX),
- GEN_XX3FORM_DM(xxsldwi, 0x08, 0x00),
--GEN_XX2FORM_EXT(xxextractuw, 0x0A, 0x0A, PPC2_ISA300),
--GEN_XX2FORM_EXT(xxinsertw, 0x0A, 0x0B, PPC2_ISA300),
 -- 
 2.25.1
 
