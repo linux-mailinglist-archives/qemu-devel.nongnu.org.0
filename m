@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B71052D3F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 15:29:16 +0200 (CEST)
-Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7F152D40F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 15:31:00 +0200 (CEST)
+Received: from localhost ([::1]:58470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrgDK-0006qW-V5
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 09:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1nrgF2-0000qg-43
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 09:31:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nrgBo-0005C8-2n; Thu, 19 May 2022 09:27:41 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nrgBm-0005Ec-I5; Thu, 19 May 2022 09:27:39 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- t11-20020a17090a6a0b00b001df6f318a8bso8791108pjj.4; 
- Thu, 19 May 2022 06:27:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:subject:to:cc:mime-version:message-id
- :content-transfer-encoding;
- bh=aAfMhAAVU/jNB46Wq+jQDLgAFRhYtLEWiQlsvJKBnxs=;
- b=D1mc5pOP7O3YSwpfANiDt5auXIaOTcYVA2yQXf5X9l2LmzRhF0b6jAfRBqeuaRdTTC
- mHuyrHvcpXu6HKaIhDTTVp4uS2GBfZeBC3wjPgarJ8j2e9hiEU3xGbovaTQlPMQqMMSB
- lUHhlb8cvXK9myIhVs2ACv4ylq0fzw8ztxvQkOWKtydtztklj4fY/9idMvNjGalXWuZt
- C/POJ0/cZNyL49XIoo5H4sV7D2ZyE24epzGxW3H14GsJZ1haH6/hfW3zzFQf+zzoAhhf
- jAQi4dEJoOo4+/vmGty2ZIssoQu7t83h9RlFF0o4QJ9cOF2xGWukSTQ5weWGEYH33gy1
- NCIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:subject:to:cc:mime-version:message-id
- :content-transfer-encoding;
- bh=aAfMhAAVU/jNB46Wq+jQDLgAFRhYtLEWiQlsvJKBnxs=;
- b=B9lxL54uV1Pf/CNW3xBSO6ck57MzMAiApDm+1LCQ/RetbCiQQiP7G0shC/p65l+JFm
- 9ruPM3ddwns2FRkXxvICMtBgQz+Y4XNz2nOtlJHiW69j0Zxq+in0iJKqcpW7ELn6mucX
- ye3+12qmeybw2WHpNHulQHFrYQQoswgYmqDTzwjgaL3nkk+E497D+SyyKzVY54v7vVN9
- 4z06fW9YM5KF2tlBnoIpUk5nZMOl7kFfr4+1xPFLMKerftxkR/tmyFMYG8E0RVQ9MvBc
- 7m4NlvX+z7LcoCh5DCI6NyA3BaK1Kh6y4KtGrRlg4SX3WzYt20XRdq4Jv8qXmJ1IM0de
- Ivbw==
-X-Gm-Message-State: AOAM530QPzs7I9xCkiyVKm0Ri7VOaKzYMnSvb2ucPF3tmBvweJ2n167R
- 2fP0rSRAUu19SJ+gzv5KcXGoDg9BHQPLCg==
-X-Google-Smtp-Source: ABdhPJy5Zm4ReuH1rMQDh1IR3MOb/bHSg9vCUau3Ul/1BA4p2mwxHgQJRBkm+B61Juu5ssvTdQwmCA==
-X-Received: by 2002:a17:902:d502:b0:161:8e01:b4f1 with SMTP id
- b2-20020a170902d50200b001618e01b4f1mr4837108plg.137.1652966855206; 
- Thu, 19 May 2022 06:27:35 -0700 (PDT)
-Received: from localhost ([118.208.131.68]) by smtp.gmail.com with ESMTPSA id
- 3-20020a630e43000000b003c14af50626sm3485902pgo.62.2022.05.19.06.27.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 06:27:34 -0700 (PDT)
-Date: Thu, 19 May 2022 23:27:29 +1000
-From: Nicholas Piggin <npiggin@gmail.com>
-Subject: g_assert(cpu->halted) in mttcg_cpu_thread_fn()
-To: qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, Alex =?iso-8859-1?q?Benn=E9e?=
- <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
+ id 1nrgCZ-0006wd-NO
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 09:28:27 -0400
+Received: from [106.39.185.57] (port=51204 helo=smtp.cecloud.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luzhipeng@cestc.cn>) id 1nrgCW-0005Ix-ES
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 09:28:27 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.cecloud.com (Postfix) with ESMTP id E1B7C100002E0;
+ Thu, 19 May 2022 21:28:06 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [111.48.58.11])
+ by smtp.cecloud.com (postfix) whith ESMTP id
+ P3903393T281470731940208S1652966885511986_; 
+ Thu, 19 May 2022 21:28:06 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <10ab1ce37dedf6aca7123a97516f473c>
+X-RL-SENDER: luzhipeng@cestc.cn
+X-SENDER: luzhipeng@cestc.cn
+X-LOGIN-NAME: luzhipeng@cestc.cn
+X-FST-TO: qemu-devel@nongnu.org
+X-RCPT-COUNT: 7
+X-SENDER-IP: 111.48.58.11
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: luzhipeng <luzhipeng@cestc.cn>
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, luzhipeng <luzhipeng@cestc.cn>
+Subject: [PATCH v4] qga: add guest-get-diskstats command for Linux guests
+Date: Thu, 19 May 2022 21:27:45 +0800
+Message-Id: <20220519132745.1724-1-luzhipeng@cestc.cn>
+X-Mailer: git-send-email 2.34.0.windows.1
 MIME-Version: 1.0
-Message-Id: <1652966220.h07etcvkcs.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.57 (failed)
+Received-SPF: pass client-ip=106.39.185.57; envelope-from=luzhipeng@cestc.cn;
+ helo=smtp.cecloud.com
+X-Spam_score_int: 22
+X-Spam_score: 2.2
+X-Spam_bar: ++
+X-Spam_report: (2.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_SBL_CSS=3.335,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,15 +76,274 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I hit this assert in a ppc spapr guest with several CPUs.
+Add a new 'guest-get-diskstats' command for report disk io statistics
+for Linux guests. This can be useful for getting io flow or handling
+IO fault, no need to enter guests.
 
-There are some paths where cpu1->halted is set to 0 by cpu2, e.g.,=20
-h_prod(). AFAIKS this could trigger the assert if another thread raced=20
-with the thread that is halting.
+Signed-off-by: luzhipeng <luzhipeng@cestc.cn>
+---
+ Changes v3->v4: https://patchew.org/QEMU/20220515095437.1291-1-luzhipeng@cestc.cn/
+ Changes v2->v3: bugfix for memory leak 
+ Changes v1->v2: v1:https://patchew.org/QEMU/20220512011930.214-1-luzhipeng@cestc.cn/
+ 
+ qga/commands-posix.c | 123 +++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-win32.c |   6 +++
+ qga/qapi-schema.json |  86 ++++++++++++++++++++++++++++++
+ 3 files changed, 215 insertions(+)
 
-Is this just a false positive in the assert, or is our handling of
-halted wrong?
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 69f209af87..12b50b7124 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2783,6 +2783,122 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
+     return info;
+ }
+ 
++#define MAX_NAME_LEN 128
++static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)
++{
++#ifdef CONFIG_LINUX
++    GuestDiskStatsInfoList *head = NULL, **tail = &head;
++    const char *diskstats = "/proc/diskstats";
++    FILE *fp;
++    size_t n;
++    char *line = NULL;
++
++    fp = fopen(diskstats, "r");
++    if (fp  == NULL) {
++        error_setg_errno(errp, errno, "open(\"%s\")", diskstats);
++        return NULL;
++    }
++
++    while (getline(&line, &n, fp) != -1) {
++        g_autofree GuestDiskStatsInfo *diskstatinfo = NULL;
++        g_autofree GuestDiskStats *diskstat = NULL;
++        char dev_name[MAX_NAME_LEN];
++        unsigned int ios_pgr, tot_ticks, rq_ticks, wr_ticks, dc_ticks, fl_ticks;
++        unsigned long rd_ios, rd_merges_or_rd_sec, rd_ticks_or_wr_sec, wr_ios;
++        unsigned long wr_merges, rd_sec_or_wr_ios, wr_sec;
++        unsigned long dc_ios, dc_merges, dc_sec, fl_ios;
++        unsigned int major, minor;
++        int i;
++
++        i = sscanf(line, "%u %u %s %lu %lu %lu"
++                   "%lu %lu %lu %lu %u %u %u %u"
++                   "%lu %lu %lu %u %lu %u",
++                   &major, &minor, dev_name,
++                   &rd_ios, &rd_merges_or_rd_sec, &rd_sec_or_wr_ios,
++                   &rd_ticks_or_wr_sec, &wr_ios, &wr_merges, &wr_sec,
++                   &wr_ticks, &ios_pgr, &tot_ticks, &rq_ticks,
++                   &dc_ios, &dc_merges, &dc_sec, &dc_ticks,
++                   &fl_ios, &fl_ticks);
++
++        if (i < 7) {
++            continue;
+B
++        }
++
++        diskstatinfo = g_new0(GuestDiskStatsInfo, 1);
++        diskstatinfo->name = g_strdup(dev_name);
++        diskstatinfo->major = major;
++        diskstatinfo->minor = minor;
++
++        diskstat = g_new0(GuestDiskStats, 1);
++        if (i == 7) {
++            diskstat->has_read_ios = true;
++            diskstat->read_ios = rd_ios;
++            diskstat->has_read_sectors = true;
++            diskstat->read_sectors = rd_merges_or_rd_sec;
++            diskstat->has_write_ios = true;
++            diskstat->write_ios = rd_sec_or_wr_ios;
++            diskstat->has_write_sectors = true;
++            diskstat->write_sectors = rd_ticks_or_wr_sec;
++        }
++        if (i >= 14) {
++            diskstat->has_read_ios = true;
++            diskstat->read_ios = rd_ios;
++            diskstat->has_read_sectors = true;
++            diskstat->read_sectors = rd_sec_or_wr_ios;
++            diskstat->has_read_merges = true;
++            diskstat->read_merges = rd_merges_or_rd_sec;
++            diskstat->has_read_ticks = true;
++            diskstat->read_ticks = rd_ticks_or_wr_sec;
++            diskstat->has_write_ios = true;
++            diskstat->write_ios = wr_ios;
++            diskstat->has_write_sectors = true;
++            diskstat->write_sectors = wr_sec;
++            diskstat->has_write_merges = true;
++            diskstat->write_merges = wr_merges;
++            diskstat->has_write_ticks = true;
++            diskstat->write_ticks = wr_ticks;
++            diskstat->has_ios_pgr = true;
++            diskstat->ios_pgr = ios_pgr;
++            diskstat->has_total_ticks = true;
++            diskstat->total_ticks = tot_ticks;
++            diskstat->has_weight_ticks = true;
++            diskstat->weight_ticks = rq_ticks;
++        }
++        if (i >= 18) {
++            diskstat->has_discard_ios = true;
++            diskstat->discard_ios = dc_ios;
++            diskstat->has_discard_merges = true;
++            diskstat->discard_merges = dc_merges;
++            diskstat->has_discard_sectors = true;
++            diskstat->discard_sectors = dc_sec;
++            diskstat->has_discard_ticks = true;
++            diskstat->discard_ticks = dc_ticks;
++        }
++        if (i >= 20) {
++            diskstat->has_flush_ios = true;
++            diskstat->flush_ios = fl_ios;
++            diskstat->has_flush_ticks = true;
++            diskstat->flush_ticks = fl_ticks;
++        }
++
++        diskstatinfo->stats = g_steal_pointer(&diskstat);
++        QAPI_LIST_APPEND(tail, diskstatinfo);
++        diskstatinfo = NULL;
++    }
++    free(line);
++    fclose(fp);
++    return head;
++#else
++    g_debug("disk stats reporting available only for Linux");
++    return NULL;
++#endif
++}
++
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
++{
++    return guest_get_diskstats(errp);
++}
++
+ #else /* defined(__linux__) */
+ 
+ void qmp_guest_suspend_disk(Error **errp)
+@@ -3131,6 +3247,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+     return NULL;
+ }
+ 
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
++
++
+ #endif /* CONFIG_FSFREEZE */
+ 
+ #if !defined(CONFIG_FSTRIM)
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index d56b5fd2a7..dcdeb76a68 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)
+ 
+     return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
+ }
++
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 4d8e506c9e..75d2bddf4b 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1490,3 +1490,89 @@
+ { 'command': 'guest-ssh-remove-authorized-keys',
+   'data': { 'username': 'str', 'keys': ['str'] },
+   'if': 'CONFIG_POSIX' }
++
++##
++# @GuestDiskStats:
++#
++# @read-sectors: sectors read
++#
++# @write-sectors: sectors written
++#
++# @discard-sectors: sectors discarded
++#
++# @read-ios: reads completed successfully
++#
++# @read-merges: Number of read requests merged
++#
++# @write-ios: writes completed
++#
++# @write-merges: Number of write requests merged
++#
++# @discard-ios: Number of discards completed successfully
++#
++# @discard-merges: NUmber of discard requests merged
++#
++# @flush-ios: Number of flush requests completed successfully
++#
++# @read-ticks: time spent reading(ms)
++#
++# @write-ticks: time spent writing(ms)
++#
++# @discard-ticks: time spent discarding(ms)
++#
++# @flush-ticks: time spent flushing(ms)
++#
++# @ios-pgr: Number of I/Os currently in flight
++#
++# @total-ticks: time spent doing I/Os (ms)
++#
++# @weight-ticks: weighted time spent doing I/Os since the last update of this field(ms)
++#
++# Since: 7.1
++##
++{ 'struct': 'GuestDiskStats',
++  'data': {'*read-sectors': 'uint64',
++           '*write-sectors': 'uint64',
++           '*discard-sectors': 'uint64',
++           '*read-ios': 'uint64',
++           '*read-merges': 'uint64',
++           '*write-ios': 'uint64',
++           '*write-merges': 'uint64',
++           '*discard-ios': 'uint64',
++           '*discard-merges': 'uint64',
++           '*flush-ios': 'uint64',
++           '*read-ticks': 'uint64',
++           '*write-ticks': 'uint64',
++           '*discard-ticks': 'uint64',
++           '*flush-ticks': 'uint64',
++           '*ios-pgr': 'uint64',
++           '*total-ticks': 'uint64',
++           '*weight-ticks': 'uint64'
++           } }
++
++##
++# @GuestDiskStatsInfo:
++#
++# @name disk name
++#
++# @major major of disk
++#
++# @minor minor of disk
++##
++{ 'struct': 'GuestDiskStatsInfo',
++  'data': {'name': 'str',
++           'major': 'uint64',
++           'minor': 'uint64',
++           'stats': 'GuestDiskStats' } }
++
++##
++# @guest-get-diskstats:
++#
++# Retrieve information about disk stats.
++# Returns: List of disk stats of guest.
++#
++# Since: 7.1
++##
++{ 'command': 'guest-get-diskstats',
++  'returns': ['GuestDiskStatsInfo']
++}
+-- 
+2.31.1
 
-Thanks,
-Nick
+
+
 
