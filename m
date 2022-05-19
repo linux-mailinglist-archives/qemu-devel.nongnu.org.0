@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE9652D247
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:20:20 +0200 (CEST)
-Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2917252D260
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:23:49 +0200 (CEST)
+Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrf8X-0001xT-OY
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:20:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49314)
+	id 1nrfC0-0004HS-9o
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrf0j-0005cX-VR
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:12:10 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:42790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrf0h-0001DT-94
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:12:09 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id i11so8666734ybq.9
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 05:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5BetFvIc0HVsaHteoQ6Rjz1VwkaGhJjTCasD6WIXwSM=;
- b=NqJk8MGLheXUYWFaT1tl8PNvo4A6IL2fe6eq4Irk4y6AYJsMB1MyYnrCkIluHqlrR7
- +yHg96uaFZ1VdqYYm2fhNiY1ii9xLQWDczFM8l4r9KbFumtgALManvc9wi7zja0fLiKY
- cdd3zNzcIhJHV2sVBGaG6jtuFRnaRy0DbhYzzFmwtJLXVsxLxvYtoZDF6QIGMJ2LBaz6
- BhV8sZLsU0vHns4k5QE7Lp68ArU/gdP2oQ2Kn6YtKynsY5xor9v4LKCAEgrY+Pnv7cgm
- XhqNx397dFdJ+d+xGGQe23K0l28ues2T48Ah9MmknC8ObNa7E8buDd47Pzy0aGce6KJZ
- 4PTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5BetFvIc0HVsaHteoQ6Rjz1VwkaGhJjTCasD6WIXwSM=;
- b=TFskaL4zp+cEHAAUw/O03rvxkGrXHotY4q2mtgFvpr47yZFtwPUXvtN/2o07LAHvu0
- S4QE5RaWePCrv3SF46YA4LJVShv1UynM8WJ9m5gh9a2aC5fV7nAu9vraXDoLXy1KS3Nc
- MAwU0iWoq/GYRIlyQ2DgWMRXb9CbUPEfbWE/v7hHVLFYrVi2s502XTD05ZuMIOX7yny4
- l+07kHEYlIMWAFRaWrGR0ROpLif9BPOISMqxnQ0nKh+G2irVUv29yZYYlYtxIxmOy/Xq
- oFC0HG2xaxD48CV3+nOHTWA/mAbP159Z/2IJhfBUyXFci/EzbrhcP+j2iYGQAI5eoTDA
- BN8g==
-X-Gm-Message-State: AOAM532LIqQR97farilNW6sZL2HSJnh7C/Gu+k5Bs1scFs4ZmBt92f6I
- YY2HfEDIiu30VbGwbMj9ZtVMZLFQPWV5n2HoQupexyTwbTE=
-X-Google-Smtp-Source: ABdhPJw3pH4j5CQDe9DhKc+iXzIfgXaSyVntnESMT9Rr6o4GPHkoz38kSjHIYbK/7ck7yZRWl9F8f2ETjxswjZBZK10=
-X-Received: by 2002:a25:257:0:b0:64e:b1fd:2d54 with SMTP id
- 84-20020a250257000000b0064eb1fd2d54mr3924116ybc.193.1652962326415; Thu, 19
- May 2022 05:12:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nrf3H-0008O4-SH; Thu, 19 May 2022 08:14:52 -0400
+Received: from mga14.intel.com ([192.55.52.115]:8763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nrf3G-0001Ql-04; Thu, 19 May 2022 08:14:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652962486; x=1684498486;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=5jkNoKW+g5NqPa2RqdSoClc/EH5ZdRJoFq4ON35Wqzg=;
+ b=jCDqly+S7beG/PGS2EXQFrc4wfet0vCCs9V6oVP6plQdtMPfQZJ0rJW4
+ ZW55V5hro4ARy5kMAkJjUklS3z49HYu13cSUdb3NrcwiXBYJATRaODib1
+ 7B05lisqJdvwpL9bf8jBsHc99u+gLqfl9WEA1Wf3hiG2Ql6UNSFo8TszL
+ 3wZjCl66zBZADNyLjmFq6SdY5ke612xzEvXuYzmgOx6I+zxsF6uffcfFB
+ EQDUHPGP5MWDVI91+K3IEQhgly5CK9Vslj11zZxSRtvvhoiTC4P0bggdR
+ +7CCSXyraEy9+7s5dKEe+GwTzeK/ZHUGnqL0omivwvlhOQMOqUUZrle/L g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="272302993"
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="272302993"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 05:14:40 -0700
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="546060556"
+Received: from kpiekosz-mobl.ger.corp.intel.com ([10.213.24.244])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 05:14:32 -0700
+Date: Thu, 19 May 2022 14:14:28 +0200
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: Klaus Jensen <its@irrelevant.dk>, lukasz.gieryk@linux.intel.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, ani@anisinha.ca,
+ armbru@redhat.com, f4bug@amsat.org, fam@euphon.net,
+ hreitz@redhat.com, imammedo@redhat.com, kbusch@kernel.org,
+ k.jensen@samsung.com, kwolf@redhat.com, marcel.apfelbaum@gmail.com,
+ mst@redhat.com, stefanha@redhat.com, xypron.glpk@gmx.de
+Subject: Re: [PATCH v8 00/12] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <YoY0pMW7dH/+5nWW@kpiekosz-mobl.ger.corp.intel.com>
+References: <20220509141620.3868733-1-lukasz.maniak@linux.intel.com>
+ <YoJs//DV4ZTW9tDv@pbrzezix-mobl.ger.corp.intel.com>
+ <YoOBWMmnW2Lc5a+/@apples>
 MIME-Version: 1.0
-References: <20220517054850.177016-1-richard.henderson@linaro.org>
-In-Reply-To: <20220517054850.177016-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 May 2022 13:11:55 +0100
-Message-ID: <CAFEAcA-8NFhgZEYdbT7wFSOPdMhNhO4jSYYa+Ff-+1Jm-bLvWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] target/arm: SME prep patches
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YoOBWMmnW2Lc5a+/@apples>
+Received-SPF: none client-ip=192.55.52.115;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga14.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,20 +80,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 May 2022 at 06:49, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Changes for v2:
->   * Fixed the errors PMM noticed in patch 2.
->   * Cleanups for SVE vector length selection.
->   * Cleanups for SVE exception el selection.
->   * Add el_is_in_host -- I'm not sure this one will really help,
->     but it's certainly appearing more and more in the pseudocode.
->
->
+On Tue, May 17, 2022 at 01:04:56PM +0200, Klaus Jensen wrote:
+> On May 16 17:25, Lukasz Maniak wrote:
+> > On Mon, May 09, 2022 at 04:16:08PM +0200, Lukasz Maniak wrote:
+> > > Changes since v7:
+> > > - Fixed description of hw/acpi: Make the PCI hot-plug aware of SR-IOV
+> > > - Added description to docs: Add documentation for SR-IOV and
+> > >   Virtualization Enhancements
+> > > - Added Reviewed-by and Acked-by tags
+> > > - Rebased on master
+> > > 
+> > > Lukasz Maniak (4):
+> > >   hw/nvme: Add support for SR-IOV
+> > >   hw/nvme: Add support for Primary Controller Capabilities
+> > >   hw/nvme: Add support for Secondary Controller List
+> > >   docs: Add documentation for SR-IOV and Virtualization Enhancements
+> > > 
+> > > Łukasz Gieryk (8):
+> > >   hw/nvme: Implement the Function Level Reset
+> > >   hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
+> > >   hw/nvme: Remove reg_size variable and update BAR0 size calculation
+> > >   hw/nvme: Calculate BAR attributes in a function
+> > >   hw/nvme: Initialize capability structures for primary/secondary
+> > >     controllers
+> > >   hw/nvme: Add support for the Virtualization Management command
+> > >   hw/nvme: Update the initalization place for the AER queue
+> > >   hw/acpi: Make the PCI hot-plug aware of SR-IOV
+> > > 
+> > >  docs/system/devices/nvme.rst |  82 +++++
+> > >  hw/acpi/pcihp.c              |   6 +-
+> > >  hw/nvme/ctrl.c               | 673 ++++++++++++++++++++++++++++++++---
+> > >  hw/nvme/ns.c                 |   2 +-
+> > >  hw/nvme/nvme.h               |  55 ++-
+> > >  hw/nvme/subsys.c             |  75 +++-
+> > >  hw/nvme/trace-events         |   6 +
+> > >  include/block/nvme.h         |  65 ++++
+> > >  include/hw/pci/pci_ids.h     |   1 +
+> > >  9 files changed, 909 insertions(+), 56 deletions(-)
+> > > 
+> > > -- 
+> > > 2.25.1
+> > > 
+> > 
+> > Hi Klaus,
+> > 
+> > Should we consider this series ready to merge?
+> > 
+> 
+> Hi Lukasz and Lukasz :)
+> 
+> Yes, I'm queing this up.
+> 
+> I found a problem when used with SPDK introduced by the "hw/nvme: Add
+> support for the Virtualization Management command" patch. However, it's
+> not really a problem in your patch, its related to the general handling
+> of CSTS and CC in nvme_write_bar(). I'll follow up with a patch on top
+> of this series and when reviewed, I'll apply this series and that patch
+> to nvme-next together.
+> 
 
-I've applied the first 2 patches to target-arm.next.
+Thank you, will do a review.
 
-thanks
--- PMM
+> Thanks for following through on this major feature! :)
+
+We are very pleased to contribute to such an important and robust
+project :)
+
+Lukasz
+
+> 
+> 
+> Klaus
+
+
 
