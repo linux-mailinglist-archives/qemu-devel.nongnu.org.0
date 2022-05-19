@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED42E52DBA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:47:46 +0200 (CEST)
-Received: from localhost ([::1]:51054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C397A52DB87
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:43:32 +0200 (CEST)
+Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkFW-0000Iw-1Y
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
+	id 1nrkBP-0001X4-MH
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk58-00063s-D7
+ id 1nrk58-00064D-Ta
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:02 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52028)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk56-0000qV-4J
+ id 1nrk57-0000qv-3y
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:37:02 -0400
-Received: by mail-wm1-x330.google.com with SMTP id k26so3287566wms.1
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:36:59 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id s28so8079893wrb.7
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=eYdhmsAICvTZ9KCLNFtpG5BAhQNiiaRW87dMYr+EMt4=;
- b=ixrbzNGXiRMxEkvqcc4Cv/vp5FFBwVgvukdRZZgUcLVu+XGC09vm0k08kSnryWNPlX
- Kv30si1bAV0qD0byri2gfwUqVB7LVzEPJkmDtPSI1g3un22QUoAbF/IlldFoYJvgdi+m
- hFxwS5YOh5/GOTKpFk7fTKdsdW2gOwz7Fzxb1bTK48zXgQtg7s9CB5tFZPylN3AOs9DZ
- hrI8I8O+drlaP4ydrdbiax0bxPZvupYBc61V5AoWRHlf7lV7heWCyalk8wADT96Vm6Ci
- SEx/gzyTO7DUGy2XUsYuKpZH1DDiqhCjEXfOg+fPwMKZ+7W2tXapEbLMdizioA6fQxcK
- Gfpw==
+ bh=+lIxyYDzYt0zgG1WlaRF4O4Dv8mB78N3TjznoJBeFJI=;
+ b=YF8EDBpNj3fzI9PP8a5AdJpkrGc01ZaEYToBPC0Ty0FO3kVSYjGF5RnEUKa49Ic7t3
+ nJjDSCZWQvR6yx8y4Cm52AHbdmVSH7WckCinaNXG4wtMzkLqSzdr97IO3mI9nY8bRvB3
+ CzJspkCGZiMPQJFwp20MhOhY0M377iIo73HiUSFn6Cb4/yCniFh0l6EBxwO5NsEwN3he
+ eAdHkqBkHJw2plRhmDJJLioZasRzf/3YJ4RrBQs1W3zH3bd2E/0TSLAzLalqo+SdLjlX
+ Dn8xXR8YBhAzD8E8SlFX9pDyGQIRse57m6e8DhUMQ0YhFnmF3VqGmStPu7igEYA+zCLK
+ kLMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eYdhmsAICvTZ9KCLNFtpG5BAhQNiiaRW87dMYr+EMt4=;
- b=bHRTLa/Z4PRl2W69XibEWXIuhzhdlJtnsg174Pbb8Kbgyc7zDPjTk++kbKDc7mePh7
- qs4JfvuS95RGK/39MqTBX9MPoNIhnTZIswIzkmdIHCoCYZV/su3n5ESk0REwUD0ddGbq
- buNVF6oipWeqIxXMFd+USHO8SpXAe6/ITg5zFY1GV7sDpR2zkg7EPRl0Y0rcxm4Zbbz4
- 6B4zogdlZGv6v/cKMWMiW04Me4cZWzn5bFOthDzoaOzfobS4sm2aeyVZJh9R42I2Ea+M
- D9OzplUJVJkcgAvBm4DIscgLByDaFD5Z4GWmpiuhp4CK9yVztW9fDqgWB0BOl655d57A
- egjQ==
-X-Gm-Message-State: AOAM53302EtfkQpjM1LSWxxTaFT1lN4nx7dTQJwWzFANu9w2UbXMin2L
- reQAJWV0ONTc2FBCF8OkX3mmF3lE2Sju+A==
-X-Google-Smtp-Source: ABdhPJzBCzpdsoEQRJIJTo4RjlhvOHNXmDHebGk8bb1bkEKmSI1BxKdjsjywlG9zyicxRiastlm4Tg==
-X-Received: by 2002:a05:600c:2055:b0:397:2b06:57c7 with SMTP id
- p21-20020a05600c205500b003972b0657c7mr5376411wmg.97.1652981818832; 
- Thu, 19 May 2022 10:36:58 -0700 (PDT)
+ bh=+lIxyYDzYt0zgG1WlaRF4O4Dv8mB78N3TjznoJBeFJI=;
+ b=J1ztW4KdO/q+uqOwBdDAul45xGv0csay7ZPJStE09f6FMq5KJ4K1A1PO86a4TTzgoR
+ G0tOLfra6imN/tmfriKSQ6ZP3W2MQyA+1Ny7xngChA8zhWRnl6cJ7VW/vr/XBleXwOib
+ h/e9O0a8Hrtq8hy8R5VpGbO4QQek5z1tZp+2pxXdyuF0UOkdVwU6v4BiEj+4WzQ1feAf
+ yP7apA7dY8zdQrqtHDDK9rr8Z1rjZgwkGa816STXWZoM21MfMs3eYSeyguw9c+G0kMAL
+ jKCp6L+C7Wl0uP6oaTTSMaN2jo6yJ7AcLme8KSnbgdqhyZDHPg42Kkh6AHfwDA3oKyN6
+ Qnvw==
+X-Gm-Message-State: AOAM5329Bru4xsYD7tbR53WpTSdAaXGlhtO5DA4aluscLvvH4ubT0Fxv
+ U8pG0OpMCP2o5BWwz8wRJ+zvI0XScVv7zw==
+X-Google-Smtp-Source: ABdhPJwolYO4S6zbqIaCmWf9xh0jKVDpSmQPTHC4lw9+742MNkD9ptTsctGhDszGAhR7Wrxt1uuCWQ==
+X-Received: by 2002:adf:f6cd:0:b0:20e:673a:a3e6 with SMTP id
+ y13-20020adff6cd000000b0020e673aa3e6mr4522041wrp.694.1652981819657; 
+ Thu, 19 May 2022 10:36:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.36.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 10:36:58 -0700 (PDT)
+ Thu, 19 May 2022 10:36:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/22] target/arm: Drop unsupported_encoding() macro
-Date: Thu, 19 May 2022 18:36:35 +0100
-Message-Id: <20220519173651.399295-7-peter.maydell@linaro.org>
+Subject: [PULL 07/22] hw/intc/arm_gicv3_cpuif: Handle CPUs that don't specify
+ GICv3 parameters
+Date: Thu, 19 May 2022 18:36:36 +0100
+Message-Id: <20220519173651.399295-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
 References: <20220519173651.399295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,92 +89,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The unsupported_encoding() macro logs a LOG_UNIMP message and then
-generates code to raise the usual exception for an unallocated
-encoding.  Back when we were still implementing the A64 decoder this
-was helpful for flagging up when guest code was using something we
-hadn't yet implemented.  Now we completely cover the A64 instruction
-set it is barely used.  The only remaining uses are for five
-instructions whose semantics are "UNDEF, unless being run under
-external halting debug":
- * HLT (when not being used for semihosting)
- * DCPSR1, DCPS2, DCPS3
- * DRPS
+We allow a GICv3 to be connected to any CPU, but we don't do anything
+to handle the case where the CPU type doesn't in hardware have a
+GICv3 CPU interface and so the various GIC configuration fields
+(gic_num_lrs, vprebits, vpribits) are not specified.
 
-QEMU doesn't implement external halting debug, so for us the UNDEF is
-the architecturally correct behaviour (because it's not possible to
-execute these instructions with halting debug enabled).  The
-LOG_UNIMP doesn't serve a useful purpose; replace these uses of
-unsupported_encoding() with unallocated_encoding(), and delete the
-macro.
+The current behaviour is that we will add the EL1 CPU interface
+registers, but will not put in the EL2 CPU interface registers, even
+if the CPU has EL2, which will leave the GIC in a broken state and
+probably result in the guest crashing as it tries to set it up.  This
+only affects the virt board when using the cortex-a15 or cortex-a7
+CPU types (both 32-bit) with -machine gic-version=3 (or 'max')
+and -machine virtualization=on.
+
+Instead of failing to set up the EL2 registers, if the CPU doesn't
+define the GIC configuration set it to a reasonable default, matching
+the standard configuration for most Arm CPUs.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220509160443.3561604-1-peter.maydell@linaro.org
+Message-id: 20220512151457.3899052-2-peter.maydell@linaro.org
 ---
- target/arm/translate-a64.h | 9 ---------
- target/arm/translate-a64.c | 8 ++++----
- 2 files changed, 4 insertions(+), 13 deletions(-)
+ hw/intc/arm_gicv3_cpuif.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index 38884158aab..f2e8ee0ee1f 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -18,15 +18,6 @@
- #ifndef TARGET_ARM_TRANSLATE_A64_H
- #define TARGET_ARM_TRANSLATE_A64_H
+diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+index 9efba798f82..df2f8583564 100644
+--- a/hw/intc/arm_gicv3_cpuif.c
++++ b/hw/intc/arm_gicv3_cpuif.c
+@@ -2755,6 +2755,15 @@ void gicv3_init_cpuif(GICv3State *s)
+         ARMCPU *cpu = ARM_CPU(qemu_get_cpu(i));
+         GICv3CPUState *cs = &s->cpu[i];
  
--#define unsupported_encoding(s, insn)                                    \
--    do {                                                                 \
--        qemu_log_mask(LOG_UNIMP,                                         \
--                      "%s:%d: unsupported instruction encoding 0x%08x "  \
--                      "at pc=%016" PRIx64 "\n",                          \
--                      __FILE__, __LINE__, insn, s->pc_curr);             \
--        unallocated_encoding(s);                                         \
--    } while (0)
--
- TCGv_i64 new_tmp_a64(DisasContext *s);
- TCGv_i64 new_tmp_a64_local(DisasContext *s);
- TCGv_i64 new_tmp_a64_zero(DisasContext *s);
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 176a3c83ba2..f5025453078 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -2127,13 +2127,13 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-              * with our 32-bit semihosting).
-              */
-             if (s->current_el == 0) {
--                unsupported_encoding(s, insn);
-+                unallocated_encoding(s);
-                 break;
-             }
- #endif
-             gen_exception_internal_insn(s, s->pc_curr, EXCP_SEMIHOST);
-         } else {
--            unsupported_encoding(s, insn);
-+            unallocated_encoding(s);
-         }
-         break;
-     case 5:
-@@ -2142,7 +2142,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-             break;
-         }
-         /* DCPS1, DCPS2, DCPS3 */
--        unsupported_encoding(s, insn);
-+        unallocated_encoding(s);
-         break;
-     default:
-         unallocated_encoding(s);
-@@ -2307,7 +2307,7 @@ static void disas_uncond_b_reg(DisasContext *s, uint32_t insn)
-         if (op3 != 0 || op4 != 0 || rn != 0x1f) {
-             goto do_unallocated;
-         } else {
--            unsupported_encoding(s, insn);
-+            unallocated_encoding(s);
-         }
-         return;
++        /*
++         * If the CPU doesn't define a GICv3 configuration, probably because
++         * in real hardware it doesn't have one, then we use default values
++         * matching the one used by most Arm CPUs. This applies to:
++         *  cpu->gic_num_lrs
++         *  cpu->gic_vpribits
++         *  cpu->gic_vprebits
++         */
++
+         /* Note that we can't just use the GICv3CPUState as an opaque pointer
+          * in define_arm_cp_regs_with_opaque(), because when we're called back
+          * it might be with code translated by CPU 0 but run by CPU 1, in
+@@ -2763,13 +2772,12 @@ void gicv3_init_cpuif(GICv3State *s)
+          * get back to the GICv3CPUState from the CPUARMState.
+          */
+         define_arm_cp_regs(cpu, gicv3_cpuif_reginfo);
+-        if (arm_feature(&cpu->env, ARM_FEATURE_EL2)
+-            && cpu->gic_num_lrs) {
++        if (arm_feature(&cpu->env, ARM_FEATURE_EL2)) {
+             int j;
  
+-            cs->num_list_regs = cpu->gic_num_lrs;
+-            cs->vpribits = cpu->gic_vpribits;
+-            cs->vprebits = cpu->gic_vprebits;
++            cs->num_list_regs = cpu->gic_num_lrs ?: 4;
++            cs->vpribits = cpu->gic_vpribits ?: 5;
++            cs->vprebits = cpu->gic_vprebits ?: 5;
+ 
+             /* Check against architectural constraints: getting these
+              * wrong would be a bug in the CPU code defining these,
 -- 
 2.25.1
 
