@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05FC052D65A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:43:35 +0200 (CEST)
-Received: from localhost ([::1]:40462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A92A52D62D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:34:54 +0200 (CEST)
+Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrhNF-0003BK-Lu
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:43:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
+	id 1nrhEr-0001wN-1S
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1nrh4F-0001OS-Rx
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:23:55 -0400
-Received: from sender4-op-o18.zoho.com ([136.143.188.18]:17871)
+ (Exim 4.90_1)
+ (envelope-from <prvs=13100c9ce=anthony.perard@citrix.com>)
+ id 1nrhA5-0007d1-6x; Thu, 19 May 2022 10:29:57 -0400
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:24959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1nrh4D-0005Hx-L4
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:23:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1652970215; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=UUc/a1qTKCDlF2+3QHLcqhwsYBOdFfAQ7x8UUnDAfDnoqcAGOcnYXLkuOyS8wZwBT14i4dxF4lhlH7wXeORxMD8lVwEGIw7cXIdUfVdyIAWjh3uyqubLk6oy9jIhoowkpAAzVsP0RMuwLq/NfCBuYCL3Dq0VVbsBhs24+pEi2tY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1652970215;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=OU6h4AK10q/BZFnU+VciJzWkp2XjAXU1sgSVxL87nkU=; 
- b=VEOppScIwmi94N6RIbdn3BjOltknspwh14Xv3+QEjHnJpaZQocYGJ9PWpUBKmd9loJkx+p3jDaNFOA6gFprOGsfBFh0cygwLx4D5lXMSWfeurBcS+uCO2V5obYmlG4DrXi/hC7yeDWUvo/d+5YajrsjsbvSyU6W0lpsl7+om+gc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1652970215; 
- s=zmail; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=OU6h4AK10q/BZFnU+VciJzWkp2XjAXU1sgSVxL87nkU=;
- b=Wk64YyXTSZf+wXh+uDWh1ZOB9Ji+GiEqGpG2DeqPamXD2JXNweoKZi9aaEX4U9vO
- P5tjTYcOV3fXR1Ldcj/44RRy/FctA6dCWTCa+noc9+kN2JgdEHyZSVrc7ushuku33YA
- SXvcPhVMNGAvRbC5OXfQcllBTB98hmRV9tNjl9Pc=
-Received: from edelgard.icenowy.me (59.41.160.82 [59.41.160.82]) by
- mx.zohomail.com with SMTPS id 165297021293546.341349506360984;
- Thu, 19 May 2022 07:23:32 -0700 (PDT)
-Message-ID: <b63c04ff68340d367ad4138f3496d217df9b5151.camel@icenowy.me>
-Subject: Re: [PATCH v4] fcntl: Add 32bit filesystem mode
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Linus Walleij <linus.walleij@linaro.org>, Theodore Ts'o <tytso@mit.edu>,
- Andreas Dilger <adilger.kernel@dilger.ca>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-api@vger.kernel.org, qemu-devel@nongnu.org, Florian Weimer
- <fw@deneb.enyo.de>,  Peter Maydell <peter.maydell@linaro.org>, Andy
- Lutomirski <luto@kernel.org>, Eric Blake <eblake@redhat.com>, 
- =?gb2312?Q?=C2=DE=D3=C2=B8=D5?= <luoyonggang@gmail.com>
-Date: Thu, 19 May 2022 22:23:08 +0800
-In-Reply-To: <20201117233928.255671-1-linus.walleij@linaro.org>
-References: <20201117233928.255671-1-linus.walleij@linaro.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+ (Exim 4.90_1)
+ (envelope-from <prvs=13100c9ce=anthony.perard@citrix.com>)
+ id 1nrhA2-00066d-Hi; Thu, 19 May 2022 10:29:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1652970594;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=r9lkrrxfjkjFuwcAENsqT/4XhkccjDDyecQwXCzjSPY=;
+ b=AFheTfYcClJMnnxb5RY2Ow1RcmoiAYiraTKWf6rwFlmx0AYLdglURw2g
+ x6LitFi+1UWp79RlReC7zvAjXjAcNHo+TMQb3d3q0Q2qsIKTTStYOBPaH
+ TCxbvGLHZ6+vIoRg2+KHLvNKp+aYvLXRfwJQrFozQevr+WB12SNMHQgq+ s=;
+Authentication-Results: esa1.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 5.1
+X-MesageID: 72097988
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:v3GPyqzBMmFL99XFBYd6t+dowSrEfRIJ4+MujC+fZmUNrF6WrkVWy
+ zEZXziPM/vYZzanf9skOYuy9EkB6JSGytNkG1dsqSAxQypGp/SeCIXCJC8cHc8zwu4v7q5Dx
+ 59DAjUVBJlsFhcwnj/0bv656yMUOZigHtIQMsadUsxKbVIiGX5JZS5LwbZj2NY12InhWmthh
+ PupyyHhEA79s9JLGjp8B5Kr8HuDa9yr5Vv0FnRnDRx6lAe2e0s9VfrzFonoR5fMeaFGH/bSe
+ gr25OrRElU1XfsaIojNfr7TKiXmS1NJVOSEoiI+t6OK2nCuqsGuu0qS2TV1hUp/0l20c95NJ
+ Nplm4WdSy1wAZL1le1MahQFOjk9Eb140eqSSZS/mZT7I0zudnLtx7NlDV0sPJ1e8eFyaY1M3
+ aVGcnZXNEnF3r/ohuLgIgVvrp1LwM3DNYUDunZm3HfBAOwvW5zrSKTW/95Imjw3g6iiGN6BP
+ ZJINms/PHwsZTUfEFE6NbwXld6npXDOXmRakUy/lfEetj27IAtZj+G2bYu9lsaxbcBOgm6Cq
+ 27G9ni/CRYfXPSSxSeM6H6rru/GlyD8Q55UErCkntZwgVaTz3YfTh0bU1e2u+K+jGa6WtRWM
+ UtS/TAhxYAr+Um2C9P5WBa7iHiDuBEaRpxXCeJSwAOWzK3LyxyUCmgNUnhKb9lOnMo/Xzcn0
+ hmAh93kATZmrbi9RneU97PSpjS3UQANJ2gEdy4CTCMf7tXjqZ11hRXKJv56Hauoy8HvGC/xy
+ jSiqi84iLMOy8kR2M2T5F3Cnnegq4bESiYz4QPYWH/j6Rl2DKa+Z4Gu9VXKxflFJYedCFKGu
+ RAsi8WYqewDE5yJvCiMW/kWWqGk4e6fNz/RikIpGIMunxy18mOnVZBd5nd5PkgBGt0fZTbjb
+ UvXuAVQzJxeJn2naelweY3ZNigx5fG+T5K/DKmSN4cQJMgqHOOawM1wTWCJ8mLHyXcTqKw2a
+ K6WLO+0TloKN40ymVJaWNwh+bMswyk/w0baSpb60wmr3NKiWZKFdVsWGADQN75ktctotC2Qq
+ o8CbJXSl32zRcWkOkHqHZgvwUfmxJTRLbT/sIRpe+GKOWKK80lxWqaKkdvNl2GI9pm5d9skH
+ FngAye0K3Kl3BUrzDlmjVg6MdvSsW5X9y5TAMDVFQ/AN4IfSYiu9rwDUJA8YKMq8udupdYtE
+ aRfK5zaXqkWFG+fk9j4UXUahNUyHClHeCrUZ3b1CNTBV8AIq/P1Fi/MIVK0qXhm4tufvsoiu
+ bywvj43srJYLzmO+P3+Mar1p3vo5CB1sLsrAyPgf4kCEG2xodMCA3Gg0ZcKzzQkdEyrKs2yj
+ F3NX3/1ZIDl/ucIzTU+rfnU8NjyS7EmRSK33QDztN6LCMUTxUL7qacobQpCVWq1uL/ckEl6W
+ dho8g==
+IronPort-HdrOrdr: A9a23:OeyjjKD0QigQIbzlHemu55DYdb4zR+YMi2TC1yhKKCC9Vvbo8P
+ xG/c5rsSMc5wx8ZJhNo7+90ey7MBXhHP1OkOws1NWZLWrbUQKTRekIh+bfKn/bak/DH4ZmpN
+ 5dmsNFaOEYY2IVsfrH
+X-IronPort-AV: E=Sophos;i="5.91,237,1647316800"; d="scan'208";a="72097988"
+Date: Thu, 19 May 2022 15:29:42 +0100
+To: Bernhard Beschow <shentey@gmail.com>
+CC: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>,
+ <sstabellini@kernel.org>, <paul@xen.org>, <xen-devel@lists.xenproject.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>, "open list:IDE"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 1/3] hw/ide/piix: Remove redundant "piix3-ide-xen"
+ device class
+Message-ID: <YoZUVvjL0EFjvqgj@perard.uk.xensource.com>
+References: <20220513180957.90514-1-shentey@gmail.com>
+ <20220513180957.90514-2-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.18; envelope-from=uwu@icenowy.me;
- helo=sender4-op-o18.zoho.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220513180957.90514-2-shentey@gmail.com>
+Received-SPF: pass client-ip=216.71.145.142;
+ envelope-from=prvs=13100c9ce=anthony.perard@citrix.com;
+ helo=esa1.hc3370-68.iphmx.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 19 May 2022 10:42:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,161 +101,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-=E5=9C=A8 2020-11-18=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 00:39 +0100=EF=BC=
-=8CLinus Walleij=E5=86=99=E9=81=93=EF=BC=9A
-> It was brought to my attention that this bug from 2018 was
-> still unresolved: 32 bit emulators like QEMU were given
-> 64 bit hashes when running 32 bit emulation on 64 bit systems.
->=20
+On Fri, May 13, 2022 at 08:09:55PM +0200, Bernhard Beschow wrote:
+> Commit 0f8445820f11a69154309863960328dda3dc1ad4 'xen: piix reuse pci
+> generic class init function' already resolved redundant code which in
+> turn rendered piix3-ide-xen redundant.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
-Sorry for replying such an old mail, but I found that using 32-bit file
-syscalls in 32-bit QEMU user on 64-bit hosts are still broken today,
-and google sent me here.
+Creating a guest and migrating a guest seems to work fine without
+"piix3-ide-xen", and I can't find this name used outside of QEMU. So I
+guess it's fine to remove it.
 
-This mail does not get any reply according to linux-ext4 patchwork, so
-could I ping it?
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 
 Thanks,
-Icenowy Zheng
 
-> This adds a flag to the fcntl() F_GETFD and F_SETFD operations
-> to set the underlying filesystem into 32bit mode even if the
-> file handle was opened using 64bit mode without the compat
-> syscalls.
->=20
-> Programs that need the 32 bit file system behavior need to
-> issue a fcntl() system call such as in this example:
->=20
-> =C2=A0 #define FD_32BIT_MODE 2
->=20
-> =C2=A0 int main(int argc, char** argv) {
-> =C2=A0=C2=A0=C2=A0 DIR* dir;
-> =C2=A0=C2=A0=C2=A0 int err;
-> =C2=A0=C2=A0=C2=A0 int mode;
-> =C2=A0=C2=A0=C2=A0 int fd;
->=20
-> =C2=A0=C2=A0=C2=A0 dir =3D opendir("/boot");
-> =C2=A0=C2=A0=C2=A0 fd =3D dirfd(dir);
-> =C2=A0=C2=A0=C2=A0 mode =3D fcntl(fd, F_GETFD);
-> =C2=A0=C2=A0=C2=A0 mode |=3D FD_32BIT_MODE;
-> =C2=A0=C2=A0=C2=A0 err =3D fcntl(fd, F_SETFD, mode);
-> =C2=A0=C2=A0=C2=A0 if (err) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 printf("fcntl() failed! err=3D%d\n", err);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;
-> =C2=A0=C2=A0=C2=A0 }
-> =C2=A0=C2=A0=C2=A0 printf("dir=3D%p\n", dir);
-> =C2=A0=C2=A0=C2=A0 printf("readdir(dir)=3D%p\n", readdir(dir));
-> =C2=A0=C2=A0=C2=A0 printf("errno=3D%d: %s\n", errno, strerror(errno));
-> =C2=A0=C2=A0=C2=A0 return 0;
-> =C2=A0 }
->=20
-> This can be pretty hard to test since C libraries and linux
-> userspace security extensions aggressively filter the parameters
-> that are passed down and allowed to commit into actual system
-> calls.
->=20
-> Cc: Florian Weimer <fw@deneb.enyo.de>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Eric Blake <eblake@redhat.com>
-> Reported-by: =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail=
-.com>
-> Suggested-by: Theodore Ts'o <tytso@mit.edu>
-> Link: https://bugs.launchpad.net/qemu/+bug/1805913
-> Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D205957
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v3 RESEND 1-> v4:
-> - Update the example in the commit message to a read/modify/write
-> =C2=A0 version.
-> - Notice that Yonggang Luo sees the sema problem on i386 binaries
-> =C2=A0 as we see on ARM 32bit binaries.
-> ChangeLog v3->v3 RESEND 1:
-> - Resending during the v5.10 merge window to get attention.
-> ChangeLog v2->v3:
-> - Realized that I also have to clear the flag correspondingly
-> =C2=A0 if someone ask for !FD_32BIT_MODE after setting it the
-> =C2=A0 first time.
-> ChangeLog v1->v2:
-> - Use a new flag FD_32BIT_MODE to F_GETFD and F_SETFD
-> =C2=A0 instead of a new fcntl operation, there is already a fcntl
-> =C2=A0 operation to set random flags.
-> - Sorry for taking forever to respin this patch :(
-> ---
-> =C2=A0fs/fcntl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | 7 +++++++
-> =C2=A0include/uapi/asm-generic/fcntl.h | 8 ++++++++
-> =C2=A02 files changed, 15 insertions(+)
->=20
-> diff --git a/fs/fcntl.c b/fs/fcntl.c
-> index 19ac5baad50f..6c32edc4099a 100644
-> --- a/fs/fcntl.c
-> +++ b/fs/fcntl.c
-> @@ -335,10 +335,17 @@ static long do_fcntl(int fd, unsigned int cmd,
-> unsigned long arg,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0break;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case F_GETFD:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0err =3D get_close_on_exec(fd) ? FD_CLOEXEC : 0;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0/* Report 32bit file system mode */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0if (filp->f_mode & FMODE_32BITHASH)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0err |=3D =
-FD_32BIT_MODE;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0break;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case F_SETFD:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0err =3D 0;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0set_close_on_exec(fd, arg & FD_CLOEXEC);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0if (arg & FD_32BIT_MODE)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0filp->f_m=
-ode |=3D FMODE_32BITHASH;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0else
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0filp->f_m=
-ode &=3D ~FMODE_32BITHASH;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0break;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case F_GETFL:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0err =3D filp->f_flags;
-> diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-
-> generic/fcntl.h
-> index 9dc0bf0c5a6e..edd3573cb7ef 100644
-> --- a/include/uapi/asm-generic/fcntl.h
-> +++ b/include/uapi/asm-generic/fcntl.h
-> @@ -160,6 +160,14 @@ struct f_owner_ex {
-> =C2=A0
-> =C2=A0/* for F_[GET|SET]FL */
-> =C2=A0#define FD_CLOEXEC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A01=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0/* actually anything with low bit set
-> goes */
-> +/*
-> + * This instructs the kernel to provide 32bit semantics (such as
-> hashes) from
-> + * the file system layer, when running a userland that depend on 32bit
-> + * semantics on a kernel that supports 64bit userland, but does not
-> use the
-> + * compat ioctl() for e.g. open(), so that the kernel would otherwise
-> assume
-> + * that the userland process is capable of dealing with 64bit
-> semantics.
-> + */
-> +#define FD_32BIT_MODE=C2=A0=C2=A02
-> =C2=A0
-> =C2=A0/* for posix fcntl() and lockf() */
-> =C2=A0#ifndef F_RDLCK
-
-
+-- 
+Anthony PERARD
 
