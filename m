@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2843E52DDE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 21:35:46 +0200 (CEST)
-Received: from localhost ([::1]:38986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2B152DE51
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:24:07 +0200 (CEST)
+Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrlw1-0006Mm-6t
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 15:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48330)
+	id 1nrmgo-0006z3-Eu
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nrlbE-0005mD-Ah
- for qemu-devel@nongnu.org; Thu, 19 May 2022 15:14:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39609)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nrlbC-0006Sf-0B
- for qemu-devel@nongnu.org; Thu, 19 May 2022 15:14:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652987653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jHl10Grav3jvcUIoLdASsUU4Pdelp1R4NU9Pmy7E2yc=;
- b=Kdy2aUyI9k8c4ZFXPVYP7jm0SqtKTsGyFhs8njirW5ZkUGWzvjVuulzFiJSozTqjE7QTLY
- Sd0YyWj6pvKySyMKYM06csUV41KLRyRTewNyz/AMThUtgxgc4rs0MXI8xRUbGlIjvVLzjg
- wEUP6aS7RVvtMZEzzK94EqTlLAHvYu8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-536-sYJ01E54OiiFRMKW6Fd3jw-1; Thu, 19 May 2022 15:14:12 -0400
-X-MC-Unique: sYJ01E54OiiFRMKW6Fd3jw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F9353C138B9;
- Thu, 19 May 2022 19:14:11 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.193.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 046A22026D6A;
- Thu, 19 May 2022 19:14:08 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Eric Blake <eblake@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Parav Pandit <parav@mellanox.com>
-Subject: [RFC PATCH v8 21/21] vdpa: Add x-cvq-svq
-Date: Thu, 19 May 2022 21:13:06 +0200
-Message-Id: <20220519191306.821774-22-eperezma@redhat.com>
-In-Reply-To: <20220519191306.821774-1-eperezma@redhat.com>
-References: <20220519191306.821774-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nrmdM-0003qT-2w; Thu, 19 May 2022 16:20:32 -0400
+Received: from [187.72.171.209] (port=43855 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nrmdC-00074v-AE; Thu, 19 May 2022 16:20:29 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 19 May 2022 17:18:45 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 8B97B800150;
+ Thu, 19 May 2022 17:18:45 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 00/12] Change helper declarations to use call flags
+Date: Thu, 19 May 2022 17:18:10 -0300
+Message-Id: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 19 May 2022 20:18:45.0840 (UTC)
+ FILETIME=[A4636D00:01D86BBD]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,232 +61,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This isolates shadow cvq in its own group.
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- qapi/net.json    |   8 ++-
- net/vhost-vdpa.c | 134 ++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 133 insertions(+), 9 deletions(-)
+In our "PowerISA Vector/VSX instruction batch" patch series, rth noted[1]
+that helpers that only access vector registers should be declared with
+DEF_HELPER_FLAGS_* and TCG_CALL_NO_RWG. We fixed helpers in that series,
+but there are older helpers that could use the same optimization.
 
-diff --git a/qapi/net.json b/qapi/net.json
-index cd7a1b32fe..f5b047ae15 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -447,9 +447,12 @@
- #
- # @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
- #         (default: false)
-+# @x-cvq-svq: Start device with (experimental) shadow virtqueue in its own
-+#             virtqueue group. (Since 7.1)
-+#             (default: false)
- #
- # Features:
--# @unstable: Member @x-svq is experimental.
-+# @unstable: Members @x-svq and x-cvq-svq are experimental.
- #
- # Since: 5.1
- ##
-@@ -457,7 +460,8 @@
-   'data': {
-     '*vhostdev':     'str',
-     '*queues':       'int',
--    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
-+    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] },
-+    '*x-cvq-svq':    {'type': 'bool', 'features' : [ 'unstable'] } } }
- 
- ##
- # @NetdevVmnetHostOptions:
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index ef8c82f92e..ad006a2bf3 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -70,6 +70,30 @@ const int vdpa_feature_bits[] = {
-     VHOST_INVALID_FEATURE_BIT
- };
- 
-+/** Supported device specific feature bits with SVQ */
-+static const uint64_t vdpa_svq_device_features =
-+    BIT_ULL(VIRTIO_NET_F_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_GUEST_OFFLOADS) |
-+    BIT_ULL(VIRTIO_NET_F_MTU) |
-+    BIT_ULL(VIRTIO_NET_F_MAC) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_MRG_RXBUF) |
-+    BIT_ULL(VIRTIO_NET_F_STATUS) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_VQ) |
-+    BIT_ULL(VIRTIO_NET_F_MQ) |
-+    BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
-+    BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-+    BIT_ULL(VIRTIO_NET_F_STANDBY);
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -352,6 +376,17 @@ static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
-     return ret;
- }
- 
-+static int vhost_vdpa_get_backend_features(int fd, uint64_t *features,
-+                                           Error **errp)
-+{
-+    int ret = ioctl(fd, VHOST_GET_BACKEND_FEATURES, features);
-+    if (ret) {
-+        error_setg_errno(errp, errno,
-+            "Fail to query backend features from vhost-vDPA device");
-+    }
-+    return ret;
-+}
-+
- static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
-                                           int *has_cvq, Error **errp)
- {
-@@ -385,16 +420,56 @@ static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
-     return 1;
- }
- 
-+/**
-+ * Check vdpa device to support CVQ group asid 1
-+ *
-+ * @vdpa_device_fd: Vdpa device fd
-+ * @queue_pairs: Queue pairs
-+ * @errp: Error
-+ */
-+static int vhost_vdpa_check_cvq_svq(int vdpa_device_fd, int queue_pairs,
-+                                    Error **errp)
-+{
-+    uint64_t backend_features;
-+    unsigned num_as;
-+    int r;
-+
-+    r = vhost_vdpa_get_backend_features(vdpa_device_fd, &backend_features,
-+                                        errp);
-+    if (unlikely(r)) {
-+        return -1;
-+    }
-+
-+    if (unlikely(!(backend_features & VHOST_BACKEND_F_IOTLB_ASID))) {
-+        error_setg(errp, "Device without IOTLB_ASID feature");
-+        return -1;
-+    }
-+
-+    r = ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
-+    if (unlikely(r)) {
-+        error_setg_errno(errp, errno,
-+                         "Cannot retrieve number of supported ASs");
-+        return -1;
-+    }
-+    if (unlikely(num_as < 2)) {
-+        error_setg(errp, "Insufficient number of ASs (%u, min: 2)", num_as);
-+    }
-+
-+    return 0;
-+}
-+
- int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp)
- {
-     const NetdevVhostVDPAOptions *opts;
-+    struct vhost_vdpa_iova_range iova_range;
-     uint64_t features;
-     int vdpa_device_fd;
-     g_autofree NetClientState **ncs = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i, has_cvq = 0;
-     g_autoptr(VhostIOVATree) iova_tree = NULL;
-+    ERRP_GUARD();
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -419,14 +494,35 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         qemu_close(vdpa_device_fd);
-         return queue_pairs;
-     }
--    if (opts->x_svq) {
--        struct vhost_vdpa_iova_range iova_range;
-+    if (opts->x_cvq_svq || opts->x_svq) {
-+        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+
-+        uint64_t invalid_dev_features =
-+            features & ~vdpa_svq_device_features &
-+            /* Transport are all accepted at this point */
-+            ~MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
-+                             VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F_START);
- 
--        if (has_cvq) {
--            error_setg(errp, "vdpa svq does not work with cvq");
-+        if (invalid_dev_features) {
-+            error_setg(errp, "vdpa svq does not work with features 0x%" PRIx64,
-+                       invalid_dev_features);
-             goto err_svq;
-         }
--        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+    }
-+
-+    if (opts->x_cvq_svq) {
-+        if (!has_cvq) {
-+            error_setg(errp, "Cannot use x-cvq-svq with a device without cvq");
-+            goto err_svq;
-+        }
-+
-+        r = vhost_vdpa_check_cvq_svq(vdpa_device_fd, queue_pairs, errp);
-+        if (unlikely(r)) {
-+            error_prepend(errp, "Cannot configure CVQ SVQ: ");
-+            goto err_svq;
-+        }
-+    }
-+    if (opts->x_svq) {
-         iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-     }
- 
-@@ -441,11 +537,35 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     }
- 
-     if (has_cvq) {
-+        g_autoptr(VhostIOVATree) cvq_iova_tree = NULL;
-+
-+        if (opts->x_cvq_svq) {
-+            cvq_iova_tree = vhost_iova_tree_new(iova_range.first,
-+                                                iova_range.last);
-+        } else if (opts->x_svq) {
-+            cvq_iova_tree = vhost_iova_tree_acquire(iova_tree);
-+        }
-+
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false, opts->x_svq,
--                                 iova_tree);
-+                                 vdpa_device_fd, i, 1, false,
-+                                 opts->x_cvq_svq || opts->x_svq,
-+                                 cvq_iova_tree);
-         if (!nc)
-             goto err;
-+
-+        if (opts->x_cvq_svq) {
-+            struct vhost_vring_state asid = {
-+                .index = 1,
-+                .num = 1,
-+            };
-+
-+            r = ioctl(vdpa_device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-+            if (unlikely(r)) {
-+                error_setg_errno(errp, errno,
-+                                 "Cannot set cvq group independent asid");
-+                goto err;
-+            }
-+        }
-     }
- 
-     return 0;
+Guided by the presence of env as the first argument, in patches 1~4 we
+change helpers that do not have access to the cpu_env pointer to modify
+any globals. Then, we change other helpers that receive cpu_env but do
+not use it and apply the same fix, taking the opportunity to move them
+to decodetree.
+
+[1] https://lists.gnu.org/archive/html/qemu-ppc/2022-02/msg00568.html
+
+Patches without review: 06.
+
+v2:
+ - darn32/darn64 helpers declared with TCG_CALL_NO_RWG_SE;
+ - xscvspdpn implemented with helper_todouble, dropped helper_XSCVSPDPN;
+ - vmsumuhs and vmsumshs helpers declared with TCG_CALL_NO_RWG;
+ - Link to v1: https://lists.gnu.org/archive/html/qemu-ppc/2022-05/msg00287.html
+
+Matheus Ferst (12):
+  target/ppc: declare darn32/darn64 helpers with TCG_CALL_NO_RWG_SE
+  target/ppc: use TCG_CALL_NO_RWG in vector helpers without env
+  target/ppc: use TCG_CALL_NO_RWG in BCD helpers
+  target/ppc: use TCG_CALL_NO_RWG in VSX helpers without env
+  target/ppc: Use TCG_CALL_NO_RWG_SE in fsel helper
+  target/ppc: implement xscvspdpn with helper_todouble
+  target/ppc: declare xvxsigsp helper with call flags
+  target/ppc: declare xxextractuw and xxinsertw helpers with call flags
+  target/ppc: introduce do_va_helper
+  target/ppc: declare vmsum[um]bm helpers with call flags
+  target/ppc: declare vmsumuh[ms] helper with call flags
+  target/ppc: declare vmsumsh[ms] helper with call flags
+
+ target/ppc/fpu_helper.c             |  22 +--
+ target/ppc/helper.h                 | 225 ++++++++++++++--------------
+ target/ppc/insn32.decode            |  28 +++-
+ target/ppc/int_helper.c             |  22 +--
+ target/ppc/translate/fp-impl.c.inc  |  30 +++-
+ target/ppc/translate/fp-ops.c.inc   |   1 -
+ target/ppc/translate/vmx-impl.c.inc |  62 ++++----
+ target/ppc/translate/vmx-ops.c.inc  |   4 -
+ target/ppc/translate/vsx-impl.c.inc | 107 ++++++++-----
+ target/ppc/translate/vsx-ops.c.inc  |   4 -
+ 10 files changed, 284 insertions(+), 221 deletions(-)
+
 -- 
-2.27.0
+2.25.1
 
 
