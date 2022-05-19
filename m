@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85F852D7ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 17:38:46 +0200 (CEST)
-Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2763E52D873
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 17:45:19 +0200 (CEST)
+Received: from localhost ([::1]:50850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nriEf-0004lP-NV
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 11:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34712)
+	id 1nriKz-0003xd-3K
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 11:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nriAe-0001an-56
+ id 1nriAe-0001al-4k
  for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:38 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:48978)
+Received: from beetle.greensocs.com ([5.135.226.135]:48996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nriAY-0007oU-9x
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:34 -0400
+ id 1nriAY-0007oV-9m
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:34:33 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPS id 2427520782;
+ by beetle.greensocs.com (Postfix) with ESMTPS id B824E20896;
  Thu, 19 May 2022 15:34:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1652974465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NGOPmWPSlJURdp1+Etg66IbtKhn2QjvwI3wOOK0kCxI=;
- b=qo86juJh9emArtDQWQjeXmmUSZJPry7usQ29F1COOUPwf/gj1cn+0EerD/dZFqgczr+wcH
- os/rlrVkoaJN0NXhriqb9mRzG/Ydts2X9SG8JXUZGlWnzB+v3pityH0CNZd8n2dis2kMZU
- ZuBT99pFn/imNBi1OegZWN9K8kJczi0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yn/s3Oq39rzmoejHaHV+Y/8l9ePpuMuVvPWS30BJqRc=;
+ b=tePtb47uxCR+s8BRM3dV4PG45OkcPCEVKVM/+IkXy/ibaM0wtKpVX/5n/VNXniKYej4W18
+ Vcm5VRQ+zY2c3/BXB0ld5ZxFUu7a1qj2lAWUPcEKDqXag0lZDF236sMDxBIVCceuUEeuiU
+ Oj9M7FmIq9SFwCbDJFZmxBeVaXLbREc=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
 Cc: mark.burton@greensocs.com, edgari@xilinx.com,
  Damien Hedde <damien.hedde@greensocs.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 0/6] QAPI support for device cold-plug
-Date: Thu, 19 May 2022 17:33:56 +0200
-Message-Id: <20220519153402.41540-1-damien.hedde@greensocs.com>
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH v5 1/6] machine: add phase_get() and document
+ phase_check()/advance()
+Date: Thu, 19 May 2022 17:33:57 +0200
+Message-Id: <20220519153402.41540-2-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220519153402.41540-1-damien.hedde@greensocs.com>
+References: <20220519153402.41540-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,77 +73,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+phase_get() returns the current phase, we'll use it in next
+commit.
 
-As of now dynamic cold plug of device is only possible using the CLI
-"-device" option. This series add support for device cold-plug using QAPI.
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/qdev-core.h | 19 +++++++++++++++++++
+ hw/core/qdev.c         |  5 +++++
+ 2 files changed, 24 insertions(+)
 
-Patches 2, 5 and 6 are not reviewed yet.
-
-It relies on the use of the "preconfig" mode (only way to stop QEMU
-early enough) and requires more control on the machine phase than we had
-before.
-
-This work is part of our work towards to build a machine from scratch
-using QAPI (see v4 or [1]).
-But this is an independent part which can already be used to add
-devices on any machine using QAPI instead of having to use the CLI to
-pass some options.
-
-For example, in this command the network interface could be added using qapi:
-> $ qemu-system-aarch64 -display none -M virt -cpu cortex-a53 \
->     -drive file=./images/rootfs.ext4,if=none,format=raw,id=hd0 \
->     -device virtio-blk-device,drive=hd0 \
->     -kernel ./images/Image -append "rootwait root=/dev/vda console=ttyAMA0" \
->     -netdev user,id=eth0 -device virtio-net-device,netdev=eth0 \
->     -serial stdio
-
-By using the following command line:
-> $ qemu-system-aarch64 -display none -M virt -cpu cortex-a53 \
->    -drive file=./images/rootfs.ext4,if=none,format=raw,id=hd0 \
->    -device virtio-blk-device,drive=hd0 \
->    -kernel ./images/Image -append "rootwait root=/dev/vda console=ttyAMA0" \
->    -serial stdio -preconfig -qmp socket,path=./qmpsocket,server
-and then qmp-shell (or any other qmp tool) to add the network interface and
-device:
-> $ qmp-shell ./qmpsocket
-> (QEMU) netdev_add type=user id=eth0
-> {"return": {}}
-> (QEMU) device_add driver=virtio-net-device netdev=eth0
-> {"return": {}}
-> (QEMU) x-exit-preconfig
-> {"return": {}}
-
-Thanks,
---
-Damien
-
-v5:
- + refactor patch 2 to avoid indentation changes
-
-v4: https://lore.kernel.org/qemu-devel/20220223090706.4888-1-damien.hedde@greensocs.com/
-
-[1]: https://github.com/GreenSocs/qemu-qmp-machines
-
-Damien Hedde (5):
-  machine: add phase_get() and document phase_check()/advance()
-  machine&vl: introduce phase_until() to handle phase transitions
-  vl: support machine-initialized target in phase_until()
-  qapi/device_add: compute is_hotplug flag
-  RFC qapi/device_add: handle the rom_order_override when cold-plugging
-
-Mirela Grujic (1):
-  qapi/device_add: Allow execution in machine initialized phase
-
- qapi/qdev.json         |  3 +-
- include/hw/qdev-core.h | 33 +++++++++++++++++++
- hw/core/qdev.c         |  5 +++
- monitor/misc.c         |  2 +-
- softmmu/qdev-monitor.c | 20 ++++++++++--
- softmmu/vl.c           | 72 ++++++++++++++++++++++++++++++++++++++----
- hmp-commands.hx        |  1 +
- 7 files changed, 126 insertions(+), 10 deletions(-)
-
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 92c3d65208..e29c705b74 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -887,7 +887,26 @@ typedef enum MachineInitPhase {
+     PHASE_MACHINE_READY,
+ } MachineInitPhase;
+ 
++/*
++ * phase_get:
++ * Returns the current phase
++ */
++MachineInitPhase phase_get(void);
++
++/**
++ * phase_check:
++ * Test if current phase is at least @phase.
++ *
++ * Returns true if this is the case.
++ */
+ extern bool phase_check(MachineInitPhase phase);
++
++/**
++ * @phase_advance:
++ * Update the current phase to @phase.
++ *
++ * Must only be used to make a single phase step.
++ */
+ extern void phase_advance(MachineInitPhase phase);
+ 
+ #endif
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 84f3019440..632dc0a4be 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -910,6 +910,11 @@ Object *qdev_get_machine(void)
+ 
+ static MachineInitPhase machine_phase;
+ 
++MachineInitPhase phase_get(void)
++{
++    return machine_phase;
++}
++
+ bool phase_check(MachineInitPhase phase)
+ {
+     return machine_phase >= phase;
 -- 
 2.36.1
 
