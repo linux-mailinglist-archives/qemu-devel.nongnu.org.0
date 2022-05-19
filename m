@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A9852CDC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 10:02:03 +0200 (CEST)
-Received: from localhost ([::1]:52382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867FD52CDEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 10:09:00 +0200 (CEST)
+Received: from localhost ([::1]:56334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrb6f-0002A7-RC
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 04:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53032)
+	id 1nrbDP-0005Ml-C3
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 04:08:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nraw7-0006JN-NP
- for qemu-devel@nongnu.org; Thu, 19 May 2022 03:51:08 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nraw2-0001o0-RL
- for qemu-devel@nongnu.org; Thu, 19 May 2022 03:51:07 -0400
-Received: by mail-ed1-x531.google.com with SMTP id en5so5995516edb.1
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 00:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ilk3DT7PucRdWo5pPlhPaT0vhyvSwy19Bk3y5DiP588=;
- b=tfktKtxtDKuTASpEihOhkvW29geEaTtloRxbJnFhE2m5DSV+ix9UWp29TAUo9KPsEc
- LBysTGePBmRuRKLEdh+PJA5kCKULL2imBUq6wHtcmLss/K4NUW4Y8hm1CAGxN4glJx40
- UB0zYv4Ji1hfe0J2dEG0v5R+FCGFLhpiCqAJV5VqsmdOHfuiu5z4IDv7LKW5464lV00I
- 3UEdRSTOwtenXKcVW92NnbIptqLCh/4Efdb19eSn64et6J1SYruiS3TY8aEn0pfR8607
- 6zTIiM86jV00Sh6agJXSKRY8Iv3LRTRvBqz2KSRymwP2hTVBAS0kwMK+LAztM4TAx4DC
- 45rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ilk3DT7PucRdWo5pPlhPaT0vhyvSwy19Bk3y5DiP588=;
- b=GhnsbFX6WjLq/IIDmSUcZetuRl/Wjal59vcYSf+GEvBbZp1HsYjT/HvQJMBvPbU5Sb
- TDVafLmxPW51+bDCltudxI42wvPF+JigXfVrarAPkqEcko8UUyRZPHeVJliPm6YAgjgg
- JQ/c5/R72NPUQbBLKxj47cPTOUWXU2J9myeVrBJp9OjtyBZZXxzHK+m8MR7Bz3nEXo2V
- sDN+Gawp1GLEIc19/gbXOwxY8ZwXMx8HaUJB8SAk4wmgwae+fgd34iYl73z0WtAyfF0w
- t3uS+kurdag2Rw8uTuhI4UhPyFhyY6jnmnWPk6XiAi+gQf8XYQVujO+A3dBX11vY6q5R
- uSAQ==
-X-Gm-Message-State: AOAM531/mRFtyEde4pff+1RXFxskpVU04WSmsOY1rpxetZ+UO+zNTXPi
- SXQvxSOLMBTuy7uk3c9qtDE2D3gjizR421u6wKqg+w==
-X-Google-Smtp-Source: ABdhPJwCsOiYP0a+rSVq8LuQX0a8b7uKVgxwdj+F9wVqOl3SWN6Q2yx+MmFiMaaPve4kDFDhjfAEzxMNESuGZ90hMm0=
-X-Received: by 2002:a05:6402:4001:b0:42b:212:57c3 with SMTP id
- d1-20020a056402400100b0042b021257c3mr1366852eda.109.1652946660234; Thu, 19
- May 2022 00:51:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nrawq-0007LJ-Rb
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 03:51:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nrawe-0001sK-VQ
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 03:51:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652946700;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BpENLha1vZ1UVposCqYg/cy3lpAcHZblIs2aPgGDdH8=;
+ b=hiTGnaNJJv3JIkmKzBeqTAkRBcUHIhF5IZPlZGtoUHufEgEIPKy7QjX3hi0XpctTHMIJ0j
+ uYQ8oLf4IGILUK6Q3w3ZUjLc0z6zEsvSkE76b0n4Mm5mXkVffkluWMIleNLGU6oq1TDQYI
+ a72ZmiHXqODJQ/+xHXc/dCPh6lMTagU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-279-mPd6eu3MN-2aG9qGXVR2iw-1; Thu, 19 May 2022 03:51:36 -0400
+X-MC-Unique: mPd6eu3MN-2aG9qGXVR2iw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F5F3803D45;
+ Thu, 19 May 2022 07:51:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32682C28101;
+ Thu, 19 May 2022 07:51:32 +0000 (UTC)
+Date: Thu, 19 May 2022 08:51:28 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ libvir-list@redhat.com, Ryan El Kochta <relkochta@gmail.com>
+Subject: Re: [PATCH v2 2/3] ui: Switch "-display sdl" to use the QAPI parser
+Message-ID: <YoX3AFUoXCFxI4Sa@redhat.com>
+References: <20220518134446.211632-1-thuth@redhat.com>
+ <20220518134446.211632-3-thuth@redhat.com>
+ <87pmkakhdk.fsf@pond.sub.org>
+ <f1e31bd1-551e-0366-8a59-d012b23bb88e@redhat.com>
+ <fa3d97ca-ae63-30aa-4b0b-10f786069e15@redhat.com>
+ <0fa5a892-0053-4172-60f3-d6e5a49a23fd@redhat.com>
 MIME-Version: 1.0
-References: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
- <20220518110839.8681-6-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220518110839.8681-6-mark.cave-ayland@ilande.co.uk>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 19 May 2022 13:20:49 +0530
-Message-ID: <CAARzgwwepTkx0-ss8Ayitg=-kbFajkSW-V6e_cUxLBBTnXY4qQ@mail.gmail.com>
-Subject: Re: [PATCH 5/6] hw/acpi/viot: sort VIOT ACPI table entries by PCI
- host bus min_bus
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: mst@redhat.com, imammedo@redhat.com, jean-philippe@linaro.org, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::531;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0fa5a892-0053-4172-60f3-d6e5a49a23fd@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,64 +87,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 4:39 PM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> This ensures that the VIOT ACPI table output is always stable for a given PCI
-> topology by ensuring that entries are ordered according to min_bus.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-other than the nit below,
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
+On Thu, May 19, 2022 at 09:27:08AM +0200, Thomas Huth wrote:
+> On 19/05/2022 09.08, Thomas Huth wrote:
+> > On 19/05/2022 08.39, Thomas Huth wrote:
+> > > On 18/05/2022 17.08, Markus Armbruster wrote:
+> > > > Thomas Huth <thuth@redhat.com> writes:
+> > > > 
+> > > > > The "-display sdl" option still uses a hand-crafted parser for its
+> > > > > parameters since we didn't want to drag an interface we considered
+> > > > > somewhat flawed into the QAPI schema. Since the flaws are gone now,
+> > > > > it's time to QAPIfy.
+> > > > > 
+> > > > > This introduces the new "DisplaySDL" QAPI struct that is used to hold
+> > > > > the parameters that are unique to the SDL display. The only specific
+> > > > > parameter is currently "grab-mod" that is used to specify the required
+> > > > > modifier keys to escape from the mouse grabbing mode.
+> > > > > 
+> > > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > > > ---
+> > > > >   qapi/ui.json            | 27 +++++++++++++++-
+> > > > >   include/sysemu/sysemu.h |  2 --
+> > > > >   softmmu/globals.c       |  2 --
+> > > > >   softmmu/vl.c            | 70 +----------------------------------------
+> > > > >   ui/sdl2.c               | 10 ++++++
+> > > > >   5 files changed, 37 insertions(+), 74 deletions(-)
+> > > > > 
+> > > > > diff --git a/qapi/ui.json b/qapi/ui.json
+> > > > > index 11a827d10f..a244e26e0f 100644
+> > > > > --- a/qapi/ui.json
+> > > > > +++ b/qapi/ui.json
+> > > > > @@ -1295,6 +1295,30 @@
+> > > > >         '*swap-opt-cmd': 'bool'
+> > > > >     } }
+> > > > > +##
+> > > > > +# @GrabMod:
+> > > > > +#
+> > > > > +# Set of modifier keys that need to be hold for shortcut key actions.
+> > > > > +#
+> > > > > +# Since: 7.1
+> > > > > +##
+> > > > > +{ 'enum'  : 'GrabMod',
+> > > > > +  'data'  : [ 'lctrl-lalt', 'lshift-lctrl-lalt', 'rctrl' ] }
+> > > > 
+> > > > This is fine now.  If we ever generalize to "arbitrary set of modifier
+> > > > keys", it'll become somewhat awkward.  No objection from me.
+> 
+> Oh well, I just noticed that we already have a GrabToggleKeys enum in
+> qapi/common.json ... I wonder whether I should try to use that instead? It
+> seems to be used in a slightly different context, though, if I get that
+> right ...?
 
-> ---
->  hw/acpi/viot.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->
-> diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
-> index ce3b7b8c75..f5714b95bd 100644
-> --- a/hw/acpi/viot.c
-> +++ b/hw/acpi/viot.c
-> @@ -64,6 +64,20 @@ static int pci_host_bridges(Object *obj, void *opaque)
->      return 0;
->  }
->
-> +static int pci_host_range_compare(gconstpointer a, gconstpointer b)
+It also doesn't distinguish left & right control/alt/shift keys
+for some reason.  So you would end up having to add more enum
+entries for SDL, none of which overlap with existing enum entries.
+Rather a pity, as the consistency would have been nice
 
-nit: shouldn't this have a gint return type since we use gconstpointer
-as arguments anyway?
-https://docs.gtk.org/glib/callback.CompareFunc.html
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> +{
-> +    struct viot_pci_host_range *range_a = (struct viot_pci_host_range *)a;
-> +    struct viot_pci_host_range *range_b = (struct viot_pci_host_range *)b;
-> +
-> +    if (range_a->min_bus < range_b->min_bus) {
-> +        return -1;
-> +    } else if (range_a->min_bus > range_b->min_bus) {
-> +        return 1;
-> +    } else {
-> +        return 0;
-> +    }
-> +}
-> +
->  /*
->   * Generate a VIOT table with one PCI-based virtio-iommu that manages PCI
->   * endpoints.
-> @@ -87,6 +101,9 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
->      object_child_foreach_recursive(OBJECT(ms), pci_host_bridges,
->                                     pci_host_ranges);
->
-> +    /* Sort the pci host ranges by min_bus */
-> +    g_array_sort(pci_host_ranges, pci_host_range_compare);
-> +
->      /* ACPI table header */
->      acpi_table_begin(&table, table_data);
->      /* Node count */
-> --
-> 2.20.1
->
 
