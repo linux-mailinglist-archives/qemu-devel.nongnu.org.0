@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE7E52DB85
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:43:24 +0200 (CEST)
-Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1257352DB89
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:44:00 +0200 (CEST)
+Received: from localhost ([::1]:42726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkBF-00011I-J5
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
+	id 1nrkBr-0002f8-4R
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk54-00061l-AU
+ id 1nrk54-00061k-B5
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:36:59 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39625)
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk51-0000oe-Ix
+ id 1nrk52-0000og-1y
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:36:57 -0400
-Received: by mail-wr1-x429.google.com with SMTP id h14so8223524wrc.6
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:36:54 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i204-20020a1c3bd5000000b003972dda143eso1001164wma.3
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pu3PGXHIw4yczAbnbKnFKBdpJfWd9TM/Fm6NP128j4Y=;
- b=u+faNHHt9kNTI61B5fwVuUOrRCgCIE+Y5x/W54pnPpJMMjeaxgb1QEszYISIjoQKPt
- gdPFTDXzaO4cUwYcDKwcI2TbCv1c0As+SDKZAdDcsqgOCd5AwdD85NJdoT/RMMsTXPUl
- GRoGBrMl4e9A/dMwX2Bit/Bem0Dxs5D7URF5iiCeIf70ZEqD1hKTnnswU5d7sO1JyGty
- ng2HZXUuJtZUdbwhVGmv3hZ+7StmfXw5JiSfcSV+zmyQ2639yPv0P+ng/f7LY1IxQ+3s
- uGO/FUCZpI9NXGSfKYCfYzIM5GkG+s652AmUzzsJrsSKseEemLUgbcwsxZFFcKi3oNnw
- 9Tcw==
+ bh=NuzCT3jd427MAyssQ0Yn5enOl1i+/jsuzDXmexAnHqU=;
+ b=VlEhnktt7FuNJcx6823v+scS+QIwd1HQdmWbE48Y5P3viXbolHCqJHTFYfjecs2Chi
+ iqSkTN5isWDuSUXNrXS3L3DY1nDvT/LVjdTtCkh0mDOgilhYvKoF6ulxWwBuSsbJvbAU
+ 43cSWw1vYzanpsvBgFX+32+l/XNmIuIkuinCkYJ8x+RM2yn5XOSXJN1keCf5kj53Zng1
+ j8N4bReiNrf4bcMp2UWpF/DnMUw3Do8gfxW+3vgaTO3n0W/tsDiisFzu58fv2sq0vwgv
+ ovQ4yHo6r/nexLBvNapNkUI1dy2ZdisLDhoXaJU/5A6UvOJifcGupOfYD5Uq4nJbg2Km
+ WQww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pu3PGXHIw4yczAbnbKnFKBdpJfWd9TM/Fm6NP128j4Y=;
- b=KpEJYgUd5P8mFKQe9I2qKQO394d5NzFU592pEdSMHb5rBi87MorO6BCgN3djCfaHZF
- CFMzP754wEtbH3CASv057/VS73mrhBfooUzy0mYxyoCCOOuaJbnzbGq68NguKDy9A3yL
- YXzctNleSeXZeEHmcze27ZPDU/3esTqJHeHK8RGTaY36/C6tfozLR/1QG3eQ8XA9x2ur
- 0w6STY4w6sUuVZ5dzXxEeaZunhSMQzuXaUNuA3rw80Fx44OfiPBV+eT+blAPp+HFsleJ
- E/3tshqNq5xa/WMsWvp0+86pAMoZtwwqWWaBNscDCtt153Xe+t+pkq17j/5JblNL3I8P
- siuA==
-X-Gm-Message-State: AOAM531v/fy0LKZ5L8xI/T4Xn0dPsD+tbycW850nXpn0EuUfXtnH4Qyq
- ydZ6wlxmVRodF0dYzaALJuBQUn7YhPzuqw==
-X-Google-Smtp-Source: ABdhPJwqyv7gZHzu0TQMnx5k+kwQgQfUWwZhfutjD/EKmqS4eytjmKtsh/AD+GWFXvNgaQDqBZQhbg==
-X-Received: by 2002:a5d:680b:0:b0:20d:932:8d55 with SMTP id
- w11-20020a5d680b000000b0020d09328d55mr5164867wru.389.1652981813576; 
- Thu, 19 May 2022 10:36:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NuzCT3jd427MAyssQ0Yn5enOl1i+/jsuzDXmexAnHqU=;
+ b=Okr4AHxda6H0alzLk0txie8z1amLbzL3/gzC8KxBz+xLxZE69uiQDUoJtaYiVADbO3
+ 2Deb30iJtLkZ4LIjZ4KZ0EJdMGkbOkzsIyQZj1Qgb2kR3RsXE2WOaBfKVa+9qlU0V9Qw
+ M+6cAYscpD0DByNSFqnjgx0aTf0P7Lw714jPj3xKMPEZ2YynZS1TvF2l508hMD471siM
+ rpdFgafrWVxYEX9WE7t3jUTlmKd8/zF1VpLB+mwzeoUi1IHo+zy8tCaq9Vzz5CqYIQrW
+ QrJhuwsHhltBSvyn8Lk8114Hxezv7DlxfMhAvPllxWz0CNzZdAYD77V5CiiiEg4ObObU
+ dS/w==
+X-Gm-Message-State: AOAM533qg0YXXWYGh0ZRFK/GYNzkYLQy4SNbTEG6NdOy3LHNP7ZVhABf
+ 3P6d5evDu4ZTuwb78xfATYIYo2vlR6b9jw==
+X-Google-Smtp-Source: ABdhPJyUNVvCAEP2tnkLHz7NVDp8JPDx/NLLKHVmuhrg97x8hdBYgd/FYDFGlD+Q/qokoOe10VWUkA==
+X-Received: by 2002:a05:600c:3658:b0:394:725:be12 with SMTP id
+ y24-20020a05600c365800b003940725be12mr4923549wmq.192.1652981814401; 
+ Thu, 19 May 2022 10:36:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.36.52
+ e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.36.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 10:36:53 -0700 (PDT)
+ Thu, 19 May 2022 10:36:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/22] target-arm queue
-Date: Thu, 19 May 2022 18:36:29 +0100
-Message-Id: <20220519173651.399295-1-peter.maydell@linaro.org>
+Subject: [PULL 01/22] target/arm: Postpone interpretation of stage 2
+ descriptor attribute bits
+Date: Thu, 19 May 2022 18:36:30 +0100
+Message-Id: <20220519173651.399295-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
+References: <20220519173651.399295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,117 +90,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-target-arm queue: mostly patches from me this time round.
-Nothing too exciting.
+In the original Arm v8 two-stage translation, both stage 1 and stage
+2 specify memory attributes (memory type, cacheability,
+shareability); these are then combined to produce the overall memory
+attributes for the whole stage 1+2 access.  In QEMU we implement this
+by having get_phys_addr() fill in an ARMCacheAttrs struct, and we
+convert both the stage 1 and stage 2 attribute bit formats to the
+same encoding (an 8-bit attribute value matching the MAIR_EL1 fields,
+plus a 2-bit shareability value).
 
--- PMM
+The new FEAT_S2FWB feature allows the guest to enable a different
+interpretation of the attribute bits in the stage 2 descriptors.
+These bits can now be used to control details of how the stage 1 and
+2 attributes should be combined (for instance they can say "always
+use the stage 1 attributes" or "ignore the stage 1 attributes and
+always be Device memory").  This means we need to pass the raw bit
+information for stage 2 down to the function which combines the stage
+1 and stage 2 information.
 
-The following changes since commit 78ac2eebbab9150edf5d0d00e3648f5ebb599001:
+Add a field to ARMCacheAttrs that indicates whether the attrs field
+should be interpreted as MAIR format, or as the raw stage 2 attribute
+bits from the descriptor, and store the appropriate values when
+filling in cacheattrs.
 
-  Merge tag 'artist-cursor-fix-final-pull-request' of https://github.com/hdeller/qemu-hppa into staging (2022-05-18 09:32:15 -0700)
+We only need to interpret the attrs field in a few places:
+ * in do_ats_write(), where we know to expect a MAIR value
+   (there is no ATS instruction to do a stage-2-only walk)
+ * in S1_ptw_translate(), where we want to know whether the
+   combined S1 + S2 attributes indicate Device memory that
+   should provoke a fault
+ * in combine_cacheattrs(), which does the S1 + S2 combining
+Update those places accordingly.
 
-are available in the Git repository at:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220505183950.2781801-2-peter.maydell@linaro.org
+---
+ target/arm/internals.h |  7 ++++++-
+ target/arm/helper.c    | 42 ++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 42 insertions(+), 7 deletions(-)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220519
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 6ca0e957468..9b354eea7e4 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1149,8 +1149,13 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
+ 
+ /* Cacheability and shareability attributes for a memory access */
+ typedef struct ARMCacheAttrs {
+-    unsigned int attrs:8; /* as in the MAIR register encoding */
++    /*
++     * If is_s2_format is true, attrs is the S2 descriptor bits [5:2]
++     * Otherwise, attrs is the same as the MAIR_EL1 8-bit format
++     */
++    unsigned int attrs:8;
+     unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
++    bool is_s2_format:1;
+ } ARMCacheAttrs;
+ 
+ bool get_phys_addr(CPUARMState *env, target_ulong address,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 432bd819195..93c58ad29ab 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3187,6 +3187,12 @@ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+     ret = get_phys_addr(env, value, access_type, mmu_idx, &phys_addr, &attrs,
+                         &prot, &page_size, &fi, &cacheattrs);
+ 
++    /*
++     * ATS operations only do S1 or S1+S2 translations, so we never
++     * have to deal with the ARMCacheAttrs format for S2 only.
++     */
++    assert(!cacheattrs.is_s2_format);
++
+     if (ret) {
+         /*
+          * Some kinds of translation fault must cause exceptions rather
+@@ -10717,6 +10723,19 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
+     return true;
+ }
+ 
++static bool ptw_attrs_are_device(CPUARMState *env, ARMCacheAttrs cacheattrs)
++{
++    /*
++     * For an S1 page table walk, the stage 1 attributes are always
++     * some form of "this is Normal memory". The combined S1+S2
++     * attributes are therefore only Device if stage 2 specifies Device.
++     * With HCR_EL2.FWB == 0 this is when descriptor bits [5:4] are 0b00,
++     * ie when cacheattrs.attrs bits [3:2] are 0b00.
++     */
++    assert(cacheattrs.is_s2_format);
++    return (cacheattrs.attrs & 0xc) == 0;
++}
++
+ /* Translate a S1 pagetable walk through S2 if needed.  */
+ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+                                hwaddr addr, bool *is_secure,
+@@ -10745,7 +10764,7 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+             return ~0;
+         }
+         if ((arm_hcr_el2_eff(env) & HCR_PTW) &&
+-            (cacheattrs.attrs & 0xf0) == 0) {
++            ptw_attrs_are_device(env, cacheattrs)) {
+             /*
+              * PTW set and S1 walk touched S2 Device memory:
+              * generate Permission fault.
+@@ -11817,12 +11836,14 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+     }
+ 
+     if (mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S) {
+-        cacheattrs->attrs = convert_stage2_attrs(env, extract32(attrs, 0, 4));
++        cacheattrs->is_s2_format = true;
++        cacheattrs->attrs = extract32(attrs, 0, 4);
+     } else {
+         /* Index into MAIR registers for cache attributes */
+         uint8_t attrindx = extract32(attrs, 0, 3);
+         uint64_t mair = env->cp15.mair_el[regime_el(env, mmu_idx)];
+         assert(attrindx <= 7);
++        cacheattrs->is_s2_format = false;
+         cacheattrs->attrs = extract64(mair, attrindx * 8, 8);
+     }
+ 
+@@ -12560,14 +12581,22 @@ static uint8_t combine_cacheattr_nibble(uint8_t s1, uint8_t s2)
+ /* Combine S1 and S2 cacheability/shareability attributes, per D4.5.4
+  * and CombineS1S2Desc()
+  *
++ * @env:     CPUARMState
+  * @s1:      Attributes from stage 1 walk
+  * @s2:      Attributes from stage 2 walk
+  */
+-static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
++static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
++                                        ARMCacheAttrs s1, ARMCacheAttrs s2)
+ {
+     uint8_t s1lo, s2lo, s1hi, s2hi;
+     ARMCacheAttrs ret;
+     bool tagged = false;
++    uint8_t s2_mair_attrs;
++
++    assert(s2.is_s2_format && !s1.is_s2_format);
++    ret.is_s2_format = false;
++
++    s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
+ 
+     if (s1.attrs == 0xf0) {
+         tagged = true;
+@@ -12575,9 +12604,9 @@ static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
+     }
+ 
+     s1lo = extract32(s1.attrs, 0, 4);
+-    s2lo = extract32(s2.attrs, 0, 4);
++    s2lo = extract32(s2_mair_attrs, 0, 4);
+     s1hi = extract32(s1.attrs, 4, 4);
+-    s2hi = extract32(s2.attrs, 4, 4);
++    s2hi = extract32(s2_mair_attrs, 4, 4);
+ 
+     /* Combine shareability attributes (table D4-43) */
+     if (s1.shareability == 2 || s2.shareability == 2) {
+@@ -12731,7 +12760,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                 }
+                 cacheattrs->shareability = 0;
+             }
+-            *cacheattrs = combine_cacheattrs(*cacheattrs, cacheattrs2);
++            *cacheattrs = combine_cacheattrs(env, *cacheattrs, cacheattrs2);
+ 
+             /* Check if IPA translates to secure or non-secure PA space. */
+             if (arm_is_secure_below_el3(env)) {
+@@ -12849,6 +12878,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+         /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
+         hcr = arm_hcr_el2_eff(env);
+         cacheattrs->shareability = 0;
++        cacheattrs->is_s2_format = false;
+         if (hcr & HCR_DC) {
+             if (hcr & HCR_DCT) {
+                 memattr = 0xf0;  /* Tagged, Normal, WB, RWA */
+-- 
+2.25.1
 
-for you to fetch changes up to fab8ad39fb75a0d9f097db67b2a334444754e88e:
-
-  target/arm: Use FIELD definitions for CPACR, CPTR_ELx (2022-05-19 18:34:10 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Implement FEAT_S2FWB
- * Implement FEAT_IDST
- * Drop unsupported_encoding() macro
- * hw/intc/arm_gicv3: Use correct number of priority bits for the CPU
- * Fix aarch64 debug register names
- * hw/adc/zynq-xadc: Use qemu_irq typedef
- * target/arm/helper.c: Delete stray obsolete comment
- * Make number of counters in PMCR follow the CPU
- * hw/arm/virt: Fix dtb nits
- * ptimer: Rename PTIMER_POLICY_DEFAULT to PTIMER_POLICY_LEGACY
- * target/arm: Fix PAuth keys access checks for disabled SEL2
- * Enable FEAT_HCX for -cpu max
- * Use FIELD definitions for CPACR, CPTR_ELx
-
-----------------------------------------------------------------
-Chris Howard (1):
-      Fix aarch64 debug register names.
-
-Florian Lugou (1):
-      target/arm: Fix PAuth keys access checks for disabled SEL2
-
-Peter Maydell (17):
-      target/arm: Postpone interpretation of stage 2 descriptor attribute bits
-      target/arm: Factor out FWB=0 specific part of combine_cacheattrs()
-      target/arm: Implement FEAT_S2FWB
-      target/arm: Enable FEAT_S2FWB for -cpu max
-      target/arm: Implement FEAT_IDST
-      target/arm: Drop unsupported_encoding() macro
-      hw/intc/arm_gicv3_cpuif: Handle CPUs that don't specify GICv3 parameters
-      hw/intc/arm_gicv3: report correct PRIbits field in ICV_CTLR_EL1
-      hw/intc/arm_gicv3_kvm.c: Stop using GIC_MIN_BPR constant
-      hw/intc/arm_gicv3: Support configurable number of physical priority bits
-      hw/intc/arm_gicv3: Use correct number of priority bits for the CPU
-      hw/intc/arm_gicv3: Provide ich_num_aprs()
-      target/arm/helper.c: Delete stray obsolete comment
-      target/arm: Make number of counters in PMCR follow the CPU
-      hw/arm/virt: Fix incorrect non-secure flash dtb node name
-      hw/arm/virt: Drop #size-cells and #address-cells from gpio-keys dtb node
-      ptimer: Rename PTIMER_POLICY_DEFAULT to PTIMER_POLICY_LEGACY
-
-Philippe Mathieu-Daudé (1):
-      hw/adc/zynq-xadc: Use qemu_irq typedef
-
-Richard Henderson (2):
-      target/arm: Enable FEAT_HCX for -cpu max
-      target/arm: Use FIELD definitions for CPACR, CPTR_ELx
-
- docs/system/arm/emulation.rst      |   2 +
- include/hw/adc/zynq-xadc.h         |   3 +-
- include/hw/intc/arm_gicv3_common.h |   8 +-
- include/hw/ptimer.h                |  16 +-
- target/arm/cpregs.h                |  24 +++
- target/arm/cpu.h                   |  76 +++++++-
- target/arm/internals.h             |  11 +-
- target/arm/translate-a64.h         |   9 -
- hw/adc/zynq-xadc.c                 |   4 +-
- hw/arm/boot.c                      |   2 +-
- hw/arm/musicpal.c                  |   2 +-
- hw/arm/virt.c                      |   4 +-
- hw/core/machine.c                  |   4 +-
- hw/dma/xilinx_axidma.c             |   2 +-
- hw/dma/xlnx_csu_dma.c              |   2 +-
- hw/intc/arm_gicv3_common.c         |   5 +
- hw/intc/arm_gicv3_cpuif.c          | 225 +++++++++++++++++-------
- hw/intc/arm_gicv3_kvm.c            |  16 +-
- hw/m68k/mcf5206.c                  |   2 +-
- hw/m68k/mcf5208.c                  |   2 +-
- hw/net/can/xlnx-zynqmp-can.c       |   2 +-
- hw/net/fsl_etsec/etsec.c           |   2 +-
- hw/net/lan9118.c                   |   2 +-
- hw/rtc/exynos4210_rtc.c            |   4 +-
- hw/timer/allwinner-a10-pit.c       |   2 +-
- hw/timer/altera_timer.c            |   2 +-
- hw/timer/arm_timer.c               |   2 +-
- hw/timer/digic-timer.c             |   2 +-
- hw/timer/etraxfs_timer.c           |   6 +-
- hw/timer/exynos4210_mct.c          |   6 +-
- hw/timer/exynos4210_pwm.c          |   2 +-
- hw/timer/grlib_gptimer.c           |   2 +-
- hw/timer/imx_epit.c                |   4 +-
- hw/timer/imx_gpt.c                 |   2 +-
- hw/timer/mss-timer.c               |   2 +-
- hw/timer/sh_timer.c                |   2 +-
- hw/timer/slavio_timer.c            |   2 +-
- hw/timer/xilinx_timer.c            |   2 +-
- target/arm/cpu.c                   |  11 +-
- target/arm/cpu64.c                 |  30 ++++
- target/arm/cpu_tcg.c               |   6 +
- target/arm/helper.c                | 348 ++++++++++++++++++++++++++++---------
- target/arm/kvm64.c                 |  12 ++
- target/arm/op_helper.c             |   9 +
- target/arm/translate-a64.c         |  36 +++-
- tests/unit/ptimer-test.c           |   6 +-
- 46 files changed, 697 insertions(+), 228 deletions(-)
 
