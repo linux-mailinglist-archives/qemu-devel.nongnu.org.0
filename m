@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D8E52C9BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 04:19:45 +0200 (CEST)
-Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3063E52C9FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:05:59 +0200 (CEST)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrVlQ-0004KZ-3L
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 22:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59980)
+	id 1nrWU9-00038n-HL
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nrVkJ-0003ab-6V
- for qemu-devel@nongnu.org; Wed, 18 May 2022 22:18:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34006)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nrVkF-0005v1-Sy
- for qemu-devel@nongnu.org; Wed, 18 May 2022 22:18:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652926710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mGqZw2cMmNl3pAAyNL25pfnd4+IrupH+VnKF7OzaqnA=;
- b=jAJ+9qId/vXfPnm9w6FrAauYcZlAcmV6bVLmbxIG1as3jeDyO83QKViZELhBV+2+DA179Y
- nnE0jbNLU8J55dQpasV6U4WhEe6NCCy2/Z6R27J0fnUHwUfVLFvWTg6wMuD8YBrnf/R1TR
- qQYQf15lEfEN9QbEAQcNWIRA//GuGt4=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-qLCZLUVGNquZlyPKYcrRlg-1; Wed, 18 May 2022 22:18:27 -0400
-X-MC-Unique: qLCZLUVGNquZlyPKYcrRlg-1
-Received: by mail-lf1-f70.google.com with SMTP id
- bu3-20020a056512168300b0047791fb1d68so1896439lfb.23
- for <qemu-devel@nongnu.org>; Wed, 18 May 2022 19:18:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mGqZw2cMmNl3pAAyNL25pfnd4+IrupH+VnKF7OzaqnA=;
- b=tBR0ciIDvoJBOZkrhbvbbGlNQu0Ie6roGMx9aJJJK576EUNjdu01YafaTfpnAz/gVR
- J8k036BfuZ8b/KUayDLYmvVoPpfUdsCipTSE2rSLpf8ASKJOQC237xuB5N+ZiYzyU5KQ
- /vrroEz6bv09gmebQbMfyRu/lcWo5VXMwCEjDT8IiQz6A6SYPSXBO2y5P9gcsYZzcE9u
- 9246s19LMV56ejT83NCzt+RQYHkGHhwI/rAvpiDgOkvVIyp6t+C7Rb3yufTZEpdHGSIY
- RxHS31BNCsHUnZxS2nqs/v4SQu3h50fJW7jgUgD9+BY7xXWBiC1d9vg+Ni5wI5TMdWkR
- M+cg==
-X-Gm-Message-State: AOAM532TeYSrUNAZEhA9UMSZEX8Xt3ZbcDi17LxtGoTZF4bF4mxRHN7H
- OIUSpy6RcpDlihNaiMWYlBqj8KmUCQomV1KZZIV7au78uvVrgRpaViU5RRgnww6BUygPkPplDdh
- PqaQB1BiXNxvwhmj7/A22H+cvbsxSTmg=
-X-Received: by 2002:a2e:81c1:0:b0:24b:f44:3970 with SMTP id
- s1-20020a2e81c1000000b0024b0f443970mr1350724ljg.97.1652926705030; 
- Wed, 18 May 2022 19:18:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2W4/dLBJiYdyKCSKssZlmBKZgMhBa89ex6Ds8lz339rRPnviNL9c7TI1BbZXqlzQU0ijyYqcFtHHf58tDkEE=
-X-Received: by 2002:a2e:81c1:0:b0:24b:f44:3970 with SMTP id
- s1-20020a2e81c1000000b0024b0f443970mr1350716ljg.97.1652926704807; Wed, 18 May
- 2022 19:18:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1nrWSR-0002Pn-KE
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:04:12 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:52038 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nrWSO-0003ns-VK
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:04:11 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxqtiYs4ViVrUbAA--.17795S3; 
+ Thu, 19 May 2022 11:03:52 +0800 (CST)
+Subject: Re: [PATCH v4 34/43] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
+ imammedo@redhat.com, ani@anisinha.ca
+References: <20220517113023.3051143-1-yangxiaojuan@loongson.cn>
+ <20220517113023.3051143-35-yangxiaojuan@loongson.cn>
+ <79bbbf79-a019-17f4-9008-f57a8c375fcb@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <d6e43d35-9b63-70f2-ceb8-ec464131e202@loongson.cn>
+Date: Thu, 19 May 2022 11:03:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20220401034702.687057-1-chen.zhang@intel.com>
- <20220401034702.687057-2-chen.zhang@intel.com>
- <CACGkMEs7FeRCr4E9E68gS+GBTgdebeD=f0dYnPivyZ2G1mWmvw@mail.gmail.com>
- <MWHPR11MB0031EE757A9C70E8F506BC899BFA9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <MWHPR11MB00318C5C371743AD30AB9CE69BC49@MWHPR11MB0031.namprd11.prod.outlook.com>
- <CACGkMEtdaP6x0xdwVWfHmBLWOJQ=ffepbmz-6quWq3g8FC5GCg@mail.gmail.com>
- <YoTv6hUkdggrfd4l@work-vm>
-In-Reply-To: <YoTv6hUkdggrfd4l@work-vm>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 19 May 2022 10:18:14 +0800
-Message-ID: <CACGkMEu6nxmZiyi=w_+hwemETfRJfhvwMypeSiLY1QZ_g9tJ4A@mail.gmail.com>
-Subject: Re: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition support
- form COLO to PRELAUNCH
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: "Zhang, Chen" <chen.zhang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>, 
- Like Xu <like.xu@linux.intel.com>, Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <79bbbf79-a019-17f4-9008-f57a8c375fcb@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------0615451CA53C0311D143113B"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9AxqtiYs4ViVrUbAA--.17795S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7GF4kJF4Dtr1DCw17Ary7KFg_yoWxZwcEgF
+ Z8KwsrG39IvrsrWrn7trs5A3y3Xw4xtryUtrWrW3y8K34rXFWkKwn8Crn5Xrs3Xa1kWr9x
+ u3sIvasFvwn8ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbs8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r106r15McIj
+ 6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c
+ 0EjII2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+ 026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+ JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+ vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
+ aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
+ ZEXa7VU889N3UUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,114 +80,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 9:09 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Jason Wang (jasowang@redhat.com) wrote:
-> > On Sat, May 7, 2022 at 10:03 AM Zhang, Chen <chen.zhang@intel.com> wrote:
-> > >
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Zhang, Chen
-> > > > Sent: Wednesday, April 27, 2022 5:26 PM
-> > > > To: Jason Wang <jasowang@redhat.com>; Paolo Bonzini
-> > > > <pbonzini@redhat.com>
-> > > > Cc: Li Zhijian <lizhijian@cn.fujitsu.com>; qemu-dev <qemu-
-> > > > devel@nongnu.org>; Like Xu <like.xu@linux.intel.com>
-> > > > Subject: RE: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition
-> > > > support form COLO to PRELAUNCH
-> > > >
-> > > >
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Jason Wang <jasowang@redhat.com>
-> > > > > Sent: Wednesday, April 27, 2022 4:57 PM
-> > > > > To: Zhang, Chen <chen.zhang@intel.com>
-> > > > > Cc: Li Zhijian <lizhijian@cn.fujitsu.com>; qemu-dev <qemu-
-> > > > > devel@nongnu.org>; Like Xu <like.xu@linux.intel.com>
-> > > > > Subject: Re: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition
-> > > > > support form COLO to PRELAUNCH
-> > > > >
-> > > > > On Fri, Apr 1, 2022 at 11:59 AM Zhang Chen <chen.zhang@intel.com> wrote:
-> > > > > >
-> > > > > > If the checkpoint occurs when the guest finishes restarting but has
-> > > > > > not started running, the runstate_set() may reject the transition
-> > > > > > from COLO to PRELAUNCH with the crash log:
-> > > > > >
-> > > > > > {"timestamp": {"seconds": 1593484591, "microseconds": 26605},\
-> > > > > > "event": "RESET", "data": {"guest": true, "reason": "guest-reset"}}
-> > > > > > qemu-system-x86_64: invalid runstate transition: 'colo' -> 'prelaunch'
-> > > > > >
-> > > > > > Long-term testing says that it's pretty safe.
-> > > > > >
-> > > > > > Signed-off-by: Like Xu <like.xu@linux.intel.com>
-> > > > > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > > > >
-> > > > > I'd expect this to get ack from the relevant maintainers.
-> > > > >
-> > > >
-> > > > The scripts/get_maintainer.pl can't find relevant maintainers for this patch.
-> > > > Maybe Paolo have time to cover this simple patch related to runstate?
-> > >
-> > > No news for a while, any comments for unmaintained files changes ?
-> > > Ping...
-> >
-> > Adding David and Juan.
->
-> This looks OK to me;
->
-> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+This is a multi-part message in MIME format.
+--------------0615451CA53C0311D143113B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Great.
+Hi Richard
 
+On 2022/5/19 上午2:04, Richard Henderson wrote:
 >
-> it should be fine to merge it along with the pull that takes the other
-> patches.
+>>> +    uint64_t sw_isr[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP][EXTIOI_IRQS 
+>>> / 64];
+>
+> This has not been declared with DECLARE_BITMAP, therefore you will see 
+> a compile-time error when building on an ILP32 (i686) or P64 (win64) 
+> host.
+>
+> I pointed this out to you as recently as v2 of this series.
+> I am really disappointed to see this regress in just one month.
+>
+> You can test this yourself with
+>
+>   IMAGES='fedora-i386-cross fedora-win32-cross fedora-win64-cross' \
+>   make docker-test-build
+>
+> Please do so before your next submission. 
+Thank you for your patient guidance, we will carefully correct them.
 
-Yes, I've queued this series.
+Thanks.
+Xiaojuan
 
-Thanks
 
->
-> Dave
->
-> > Thanks
-> >
-> > >
-> > > Thanks
-> > > Chen
-> > >
-> > > >
-> > > > Thanks
-> > > > Chen
-> > > >
-> > > > > Thanks
-> > > > >
-> > > > > > ---
-> > > > > >  softmmu/runstate.c | 1 +
-> > > > > >  1 file changed, 1 insertion(+)
-> > > > > >
-> > > > > > diff --git a/softmmu/runstate.c b/softmmu/runstate.c index
-> > > > > > e0d869b21a..c021c56338 100644
-> > > > > > --- a/softmmu/runstate.c
-> > > > > > +++ b/softmmu/runstate.c
-> > > > > > @@ -127,6 +127,7 @@ static const RunStateTransition
-> > > > > runstate_transitions_def[] = {
-> > > > > >      { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
-> > > > > >
-> > > > > >      { RUN_STATE_COLO, RUN_STATE_RUNNING },
-> > > > > > +    { RUN_STATE_COLO, RUN_STATE_PRELAUNCH },
-> > > > > >      { RUN_STATE_COLO, RUN_STATE_SHUTDOWN},
-> > > > > >
-> > > > > >      { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
-> > > > > > --
-> > > > > > 2.25.1
-> > > > > >
-> > >
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+--------------0615451CA53C0311D143113B
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Richard<br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/5/19 上午2:04, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:79bbbf79-a019-17f4-9008-f57a8c375fcb@linaro.org"><br>
+      <blockquote type="cite" style="color: #000000;">
+        <blockquote type="cite" style="color: #000000;">+    uint64_t
+          sw_isr[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP][EXTIOI_IRQS / 64];
+          <br>
+        </blockquote>
+      </blockquote>
+      <br>
+      This has not been declared with DECLARE_BITMAP, therefore you will
+      see a compile-time error when building on an ILP32 (i686) or P64
+      (win64) host.
+      <br>
+      <br>
+      I pointed this out to you as recently as v2 of this series.
+      <br>
+      I am really disappointed to see this regress in just one month.
+      <br>
+      <br>
+      You can test this yourself with
+      <br>
+      <br>
+        IMAGES='fedora-i386-cross fedora-win32-cross fedora-win64-cross'
+      \
+      <br>
+        make docker-test-build
+      <br>
+      <br>
+      Please do so before your next submission.
+    </blockquote>
+    Thank you for your patient guidance, we will carefully correct them.<br>
+    <br>
+    Thanks.<br>
+    Xiaojuan<br>
+    <br>
+  </body>
+</html>
+
+--------------0615451CA53C0311D143113B--
 
 
