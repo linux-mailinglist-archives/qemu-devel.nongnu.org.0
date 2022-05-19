@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F0452CED6
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 11:02:07 +0200 (CEST)
-Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C44052CEEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 11:03:58 +0200 (CEST)
+Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrc2n-0007sO-EA
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 05:02:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
+	id 1nrc4b-0000oT-3u
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 05:03:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nrby8-0006TZ-Dv
- for qemu-devel@nongnu.org; Thu, 19 May 2022 04:57:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32400)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nrbzF-0007Md-EA
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 04:58:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nrby5-00035l-63
- for qemu-devel@nongnu.org; Thu, 19 May 2022 04:57:14 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nrbzC-0003AC-DJ
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 04:58:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652950631;
+ s=mimecast20190719; t=1652950701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HyC1m8uL4ebwZcYwkSdrG24434KguMQl0Ep9z5j1PZ4=;
- b=AvrTb2hHxeUCHkE7TYdqMmCEB3zALNYqxyG7CQghzoHNEG4PB5YZ57eZgwOCQA9AfcJwS2
- 0OPZiJFasxUMIYy5KeBBc7AAjkcOES7WydD2t0rPTaXbFc+fDah7TMVNHV4DX8WrK47eCN
- 020zgtPfcqwz1VsaLlyvSJ00NPQovgI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V4PNkKlrf+QU6pWUzerwzfxK98zc3emiFr8Fr/L+vLw=;
+ b=D6zSoQdCYOWw+4dnnTR4pFt9qLWnJKXA1AvRUWbTjF7o2WoGfhomKqam3y3aMHxNvpZFx0
+ ptFy/qqUYayoVlZsziISaB5ltQNGjoRbiMx9548iiOtHOOhdmBpugIrVb98L0Wl2Ud1ow7
+ 7T2gZU7iOqYBrtwKpYszTBaRXGce+uw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-vl3TsWTIP8Wp2vDaJvqyqA-1; Thu, 19 May 2022 04:57:10 -0400
-X-MC-Unique: vl3TsWTIP8Wp2vDaJvqyqA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C7A93817A65;
- Thu, 19 May 2022 08:57:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13A2B2166B25;
- Thu, 19 May 2022 08:57:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D263F21E690D; Thu, 19 May 2022 10:57:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,  Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,  qemu-devel@nongnu.org,  Eric Blake
- <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- libvir-list@redhat.com,  Ryan El Kochta <relkochta@gmail.com>
-Subject: Re: [PATCH v2 2/3] ui: Switch "-display sdl" to use the QAPI parser
-References: <20220518134446.211632-1-thuth@redhat.com>
- <20220518134446.211632-3-thuth@redhat.com>
- <87pmkakhdk.fsf@pond.sub.org>
- <f1e31bd1-551e-0366-8a59-d012b23bb88e@redhat.com>
- <fa3d97ca-ae63-30aa-4b0b-10f786069e15@redhat.com>
- <0fa5a892-0053-4172-60f3-d6e5a49a23fd@redhat.com>
- <YoX3AFUoXCFxI4Sa@redhat.com>
-Date: Thu, 19 May 2022 10:57:08 +0200
-In-Reply-To: <YoX3AFUoXCFxI4Sa@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 19 May 2022 08:51:28 +0100")
-Message-ID: <87o7zthpcr.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-358-YbQepg1VMZeaj4PP5Kh7Yw-1; Thu, 19 May 2022 04:58:20 -0400
+X-MC-Unique: YbQepg1VMZeaj4PP5Kh7Yw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m26-20020a05600c3b1a00b00397220d6329so1278522wms.5
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 01:58:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=V4PNkKlrf+QU6pWUzerwzfxK98zc3emiFr8Fr/L+vLw=;
+ b=CawFWmqKsUZtbDXcjMZTHNSWWVIry2mjK2eli86GmS5bH3f0kNc2d4w/PPOmYp0Kky
+ 9Fdn5XeK62H62nuw617GF5IIaAQKfoDVHNKK8b6PjjBB6H0Xkq3BTVmV9tGqdoxmMUEf
+ +ZDBWnr2J6QB0A1rIx0HUL/eT6WC6qAyrW1pGPo3ap2pBTwcco33eMO6ynOkUGAO4c6t
+ M9US3+2iawaR3N0nmbwJ2WP4oL+asCGCJ3mGPEb8BdudVYdXbNFr7ZPmSkIFkmdVBDzn
+ /5eU/x5jKEl7tgJYi9r55Rp15EUHBGrQg6srr+q/k5xprEv9lZMI1BlaP0fa9LG4MhPB
+ gsEg==
+X-Gm-Message-State: AOAM5336rWdmr7xpmejCvvm1A/SWhniZdO13qmNQ+Lyhr6zSIsi2Z4NC
+ LHP+Cig69ZpvGm7WtMU3AOrS8xY4XWQtgW979IA0OXUKqRb80Qo0a/27xChcErG+gQ3WLGYqUK+
+ CwNHOeJ1aWTuVgQM=
+X-Received: by 2002:a5d:584a:0:b0:20c:5bad:11c1 with SMTP id
+ i10-20020a5d584a000000b0020c5bad11c1mr3143054wrf.62.1652950699346; 
+ Thu, 19 May 2022 01:58:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzWzEd4InDAJsN8QgY8k/Tbdh12081KXQtGUNL/ZhRhnX5peIyGyRxawA5u5WGoCTGIhWrBFA==
+X-Received: by 2002:a5d:584a:0:b0:20c:5bad:11c1 with SMTP id
+ i10-20020a5d584a000000b0020c5bad11c1mr3143031wrf.62.1652950699109; 
+ Thu, 19 May 2022 01:58:19 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ f20-20020a7bcc14000000b003948f4e750fsm6152773wmh.23.2022.05.19.01.58.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 01:58:18 -0700 (PDT)
+Date: Thu, 19 May 2022 09:58:16 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v6 13/13] tests: Add postcopy preempt tests
+Message-ID: <YoYGqB3jDA1k9BGc@work-vm>
+References: <20220517195730.32312-1-peterx@redhat.com>
+ <20220517195730.32312-14-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220517195730.32312-14-peterx@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,79 +102,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+* Peter Xu (peterx@redhat.com) wrote:
+> Four tests are added for preempt mode:
+> 
+>   - Postcopy plain
+>   - Postcopy recovery
+>   - Postcopy tls
+>   - Postcopy tls+recovery
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-> On Thu, May 19, 2022 at 09:27:08AM +0200, Thomas Huth wrote:
->> On 19/05/2022 09.08, Thomas Huth wrote:
->> > On 19/05/2022 08.39, Thomas Huth wrote:
->> > > On 18/05/2022 17.08, Markus Armbruster wrote:
->> > > > Thomas Huth <thuth@redhat.com> writes:
->> > > >=20
->> > > > > The "-display sdl" option still uses a hand-crafted parser for i=
-ts
->> > > > > parameters since we didn't want to drag an interface we consider=
-ed
->> > > > > somewhat flawed into the QAPI schema. Since the flaws are gone n=
-ow,
->> > > > > it's time to QAPIfy.
->> > > > >=20
->> > > > > This introduces the new "DisplaySDL" QAPI struct that is used to=
- hold
->> > > > > the parameters that are unique to the SDL display. The only spec=
-ific
->> > > > > parameter is currently "grab-mod" that is used to specify the re=
-quired
->> > > > > modifier keys to escape from the mouse grabbing mode.
->> > > > >=20
->> > > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
->> > > > > ---
->> > > > > =C2=A0 qapi/ui.json=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 27 +++++++++++++++-
->> > > > > =C2=A0 include/sysemu/sysemu.h |=C2=A0 2 --
->> > > > > =C2=A0 softmmu/globals.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 2 --
->> > > > > =C2=A0 softmmu/vl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 70 +----------------------------------------
->> > > > > =C2=A0 ui/sdl2.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 10 ++++++
->> > > > > =C2=A0 5 files changed, 37 insertions(+), 74 deletions(-)
->> > > > >=20
->> > > > > diff --git a/qapi/ui.json b/qapi/ui.json
->> > > > > index 11a827d10f..a244e26e0f 100644
->> > > > > --- a/qapi/ui.json
->> > > > > +++ b/qapi/ui.json
->> > > > > @@ -1295,6 +1295,30 @@
->> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '*swap-opt-cmd': 'boo=
-l'
->> > > > > =C2=A0=C2=A0=C2=A0 } }
->> > > > > +##
->> > > > > +# @GrabMod:
->> > > > > +#
->> > > > > +# Set of modifier keys that need to be hold for shortcut key ac=
-tions.
->> > > > > +#
->> > > > > +# Since: 7.1
->> > > > > +##
->> > > > > +{ 'enum'=C2=A0 : 'GrabMod',
->> > > > > +=C2=A0 'data'=C2=A0 : [ 'lctrl-lalt', 'lshift-lctrl-lalt', 'rct=
-rl' ] }
->> > > >=20
->> > > > This is fine now.=C2=A0 If we ever generalize to "arbitrary set of=
- modifier
->> > > > keys", it'll become somewhat awkward.=C2=A0 No objection from me.
->>=20
->> Oh well, I just noticed that we already have a GrabToggleKeys enum in
->> qapi/common.json ... I wonder whether I should try to use that instead? =
-It
->> seems to be used in a slightly different context, though, if I get that
->> right ...?
->
-> It also doesn't distinguish left & right control/alt/shift keys
-> for some reason.  So you would end up having to add more enum
-> entries for SDL, none of which overlap with existing enum entries.
-> Rather a pity, as the consistency would have been nice
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Speaking of consistency: stick to the key names we use in QKeyCode?
-Sadly, they contain '_'.
+> ---
+>  tests/qtest/migration-test.c | 54 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index ba7e4a2ed2..26264c7872 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -477,6 +477,7 @@ typedef struct {
+>       */
+>      bool hide_stderr;
+>      bool use_shmem;
+> +    bool postcopy_preempt;
+>      /* only launch the target process */
+>      bool only_target;
+>      /* Use dirty ring if true; dirty logging otherwise */
+> @@ -992,6 +993,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>      migrate_set_capability(to, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-blocktime", true);
+>  
+> +    if (args->postcopy_preempt) {
+> +        migrate_set_capability(from, "postcopy-preempt", true);
+> +        migrate_set_capability(to, "postcopy-preempt", true);
+> +    }
+> +
+>      /* We want to pick a speed slow enough that the test completes
+>       * quickly, but that it doesn't complete precopy even on a slow
+>       * machine, so also set the downtime.
+> @@ -1058,6 +1064,25 @@ static void test_postcopy_tls_psk(void)
+>      test_postcopy_common(&args);
+>  }
+>  
+> +static void test_postcopy_preempt(void)
+> +{
+> +    MigrateStart args = {
+> +        .postcopy_preempt = true,
+> +    };
+> +
+> +    test_postcopy_common(&args);
+> +}
+> +
+> +static void test_postcopy_preempt_tls_psk(void)
+> +{
+> +    MigrateStart args = {
+> +        .postcopy_preempt = true,
+> +        .postcopy_tls = true,
+> +    };
+> +
+> +    test_postcopy_common(&args);
+> +}
+> +
+>  static void test_postcopy_recovery_common(MigrateStart *args)
+>  {
+>      QTestState *from, *to;
+> @@ -1134,6 +1159,24 @@ static void test_postcopy_recovery_tls_psk(void)
+>      test_postcopy_recovery_common(&args);
+>  }
+>  
+> +static void test_postcopy_preempt_recovery(void)
+> +{
+> +    MigrateStart args = { .postcopy_preempt = true };
+> +
+> +    test_postcopy_recovery_common(&args);
+> +}
+> +
+> +/* This contains preempt+recovery+tls test altogether */
+> +static void test_postcopy_preempt_all(void)
+> +{
+> +    MigrateStart args = {
+> +        .postcopy_preempt = true,
+> +        .postcopy_tls = true,
+> +    };
+> +
+> +    test_postcopy_recovery_common(&args);
+> +}
+> +
+>  static void test_baddest(void)
+>  {
+>      MigrateStart args = {
+> @@ -2190,6 +2233,17 @@ int main(int argc, char **argv)
+>      qtest_add_func("/migration/postcopy/recovery/tls/psk",
+>                     test_postcopy_recovery_tls_psk);
+>  #endif /* CONFIG_GNUTLS */
+> +
+> +    qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
+> +    qtest_add_func("/migration/postcopy/preempt/recovery/plain",
+> +                   test_postcopy_preempt_recovery);
+> +#ifdef CONFIG_GNUTLS
+> +    qtest_add_func("/migration/postcopy/preempt/tls/psk",
+> +                   test_postcopy_preempt_tls_psk);
+> +    qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
+> +                   test_postcopy_preempt_all);
+> +#endif /* CONFIG_GNUTLS */
+> +
+>      qtest_add_func("/migration/bad_dest", test_baddest);
+>      qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+>      qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
