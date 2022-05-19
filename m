@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F0052DE7F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:36:56 +0200 (CEST)
-Received: from localhost ([::1]:56296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94BF52DE5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:26:25 +0200 (CEST)
+Received: from localhost ([::1]:34616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrmtD-0002IV-VT
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:36:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59324)
+	id 1nrmiz-0001TT-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmdk-0004Tx-4k; Thu, 19 May 2022 16:20:56 -0400
+ id 1nrmdq-0004Zn-AB; Thu, 19 May 2022 16:21:02 -0400
 Received: from [187.72.171.209] (port=43855 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmdi-00074v-5H; Thu, 19 May 2022 16:20:55 -0400
+ id 1nrmdl-00074v-Jt; Thu, 19 May 2022 16:20:59 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 19 May 2022 17:18:46 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 70399800C32;
+ by p9ibm (Postfix) with ESMTP id 9CBEF800150;
  Thu, 19 May 2022 17:18:46 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
@@ -29,16 +29,16 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH v2 05/12] target/ppc: Use TCG_CALL_NO_RWG_SE in fsel helper
-Date: Thu, 19 May 2022 17:18:15 -0300
-Message-Id: <20220519201822.465229-6-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 06/12] target/ppc: implement xscvspdpn with helper_todouble
+Date: Thu, 19 May 2022 17:18:16 -0300
+Message-Id: <20220519201822.465229-7-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
 References: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 19 May 2022 20:18:46.0699 (UTC)
- FILETIME=[A4E67FB0:01D86BBD]
+X-OriginalArrivalTime: 19 May 2022 20:18:46.0840 (UTC)
+ FILETIME=[A4FC0380:01D86BBD]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,142 +65,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-fsel doesn't change FPSCR and CR1 is handled by gen_set_cr1_from_fpscr,
-so helper_fsel doesn't need the env argument and can be declared with
-TCG_CALL_NO_RWG_SE. We also take this opportunity to move the insn to
-decodetree.
+Move xscvspdpn to decodetree, drop helper_xscvspdpn and use
+helper_todouble directly.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/fpu_helper.c            | 15 +++++++--------
- target/ppc/helper.h                |  2 +-
- target/ppc/insn32.decode           |  7 +++++++
- target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++++++--
- target/ppc/translate/fp-ops.c.inc  |  1 -
- 5 files changed, 43 insertions(+), 12 deletions(-)
+ target/ppc/fpu_helper.c             |  5 -----
+ target/ppc/helper.h                 |  1 -
+ target/ppc/insn32.decode            |  1 +
+ target/ppc/translate/vsx-impl.c.inc | 26 +++++++++++++++++++++++++-
+ target/ppc/translate/vsx-ops.c.inc  |  1 -
+ 5 files changed, 26 insertions(+), 8 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index f6c8318a71..b4d6f6ed4c 100644
+index b4d6f6ed4c..9bde333006 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -916,18 +916,17 @@ float64 helper_frsqrtes(CPUPPCState *env, float64 arg)
+@@ -2875,11 +2875,6 @@ uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
+     return (result << 32) | result;
  }
  
- /* fsel - fsel. */
--uint64_t helper_fsel(CPUPPCState *env, uint64_t arg1, uint64_t arg2,
--                     uint64_t arg3)
-+uint64_t helper_FSEL(uint64_t a, uint64_t b, uint64_t c)
- {
--    CPU_DoubleU farg1;
-+    CPU_DoubleU fa;
- 
--    farg1.ll = arg1;
-+    fa.ll = a;
- 
--    if ((!float64_is_neg(farg1.d) || float64_is_zero(farg1.d)) &&
--        !float64_is_any_nan(farg1.d)) {
--        return arg2;
-+    if ((!float64_is_neg(fa.d) || float64_is_zero(fa.d)) &&
-+        !float64_is_any_nan(fa.d)) {
-+        return c;
-     } else {
--        return arg3;
-+        return b;
-     }
- }
- 
+-uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
+-{
+-    return helper_todouble(xb >> 32);
+-}
+-
+ /*
+  * VSX_CVT_FP_TO_INT - VSX floating point to integer conversion
+  *   op    - instruction mnemonic
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index ba70d2133b..4a7cbdf922 100644
+index 4a7cbdf922..5cee55176b 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -120,7 +120,7 @@ DEF_HELPER_2(fre, i64, env, i64)
- DEF_HELPER_2(fres, i64, env, i64)
- DEF_HELPER_2(frsqrte, i64, env, i64)
- DEF_HELPER_2(frsqrtes, i64, env, i64)
--DEF_HELPER_4(fsel, i64, env, i64, i64, i64)
-+DEF_HELPER_FLAGS_3(FSEL, TCG_CALL_NO_RWG_SE, i64, i64, i64, i64)
- 
- DEF_HELPER_FLAGS_2(ftdiv, TCG_CALL_NO_RWG_SE, i32, i64, i64)
- DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
+@@ -395,7 +395,6 @@ DEF_HELPER_3(XSCVSQQP, void, env, vsr, vsr)
+ DEF_HELPER_3(xscvhpdp, void, env, vsr, vsr)
+ DEF_HELPER_4(xscvsdqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_3(xscvspdp, void, env, vsr, vsr)
+-DEF_HELPER_2(xscvspdpn, i64, env, i64)
+ DEF_HELPER_3(xscvdpsxds, void, env, vsr, vsr)
+ DEF_HELPER_3(xscvdpsxws, void, env, vsr, vsr)
+ DEF_HELPER_3(xscvdpuxds, void, env, vsr, vsr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 39372fe673..1d0b55bde3 100644
+index 1d0b55bde3..d4c2615b1a 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -17,6 +17,9 @@
- # License along with this library; if not, see <http://www.gnu.org/licenses/>.
- #
+@@ -708,6 +708,7 @@ XSCVUQQP        111111 ..... 00011 ..... 1101000100 -   @X_tb
+ XSCVSQQP        111111 ..... 01011 ..... 1101000100 -   @X_tb
+ XVCVBF16SPN     111100 ..... 10000 ..... 111011011 ..   @XX2
+ XVCVSPBF16      111100 ..... 10001 ..... 111011011 ..   @XX2
++XSCVSPDPN       111100 ..... ----- ..... 101001011 ..   @XX2
  
-+&A              frt fra frb frc rc:bool
-+@A              ...... frt:5 fra:5 frb:5 frc:5 ..... rc:1       &A
+ ## VSX Vector Test Least-Significant Bit by Byte Instruction
+ 
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 3692740736..cc0601a14e 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -1045,7 +1045,31 @@ GEN_VSX_HELPER_R2(xscvqpuwz, 0x04, 0x1A, 0x01, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xscvhpdp, 0x16, 0x15, 0x10, PPC2_ISA300)
+ GEN_VSX_HELPER_R2(xscvsdqp, 0x04, 0x1A, 0x0A, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xscvspdp, 0x12, 0x14, 0, PPC2_VSX)
+-GEN_VSX_HELPER_XT_XB_ENV(xscvspdpn, 0x16, 0x14, 0, PPC2_VSX207)
 +
- &D              rt ra si:int64_t
- @D              ...... rt:5 ra:5 si:s16                 &D
- 
-@@ -308,6 +311,10 @@ STFDU           110111 ..... ...... ...............     @D
- STFDX           011111 ..... ...... .... 1011010111 -   @X
- STFDUX          011111 ..... ...... .... 1011110111 -   @X
- 
-+### Floating-Point Select Instruction
-+
-+FSEL            111111 ..... ..... ..... ..... 10111 .  @A
-+
- ### Move To/From System Register Instructions
- 
- SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index cfb27bd020..f9b58b844e 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -222,8 +222,34 @@ static void gen_frsqrtes(DisasContext *ctx)
-     tcg_temp_free_i64(t1);
- }
- 
--/* fsel */
--_GEN_FLOAT_ACB(sel, 0x3F, 0x17, 0, PPC_FLOAT_FSEL);
-+static bool trans_FSEL(DisasContext *ctx, arg_A *a)
++bool trans_XSCVSPDPN(DisasContext *ctx, arg_XX2 *a)
 +{
-+    TCGv_i64 t0, t1, t2;
++    TCGv_i64 t;
++    TCGv_i32 b;
 +
-+    REQUIRE_INSNS_FLAGS(ctx, FLOAT_FSEL);
-+    REQUIRE_FPU(ctx);
++    REQUIRE_INSNS_FLAGS2(ctx, VSX207);
++    REQUIRE_VSX(ctx);
 +
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    t2 = tcg_temp_new_i64();
++    t = tcg_temp_new_i64();
++    b = tcg_temp_new_i32();
 +
-+    get_fpr(t0, a->fra);
-+    get_fpr(t1, a->frb);
-+    get_fpr(t2, a->frc);
++    tcg_gen_ld_i32(b, cpu_env, offsetof(CPUPPCState, vsr[a->xb].VsrW(0)));
 +
-+    gen_helper_FSEL(t0, t0, t1, t2);
-+    set_fpr(a->frt, t0);
-+    if (a->rc) {
-+        gen_set_cr1_from_fpscr(ctx);
-+    }
++    gen_helper_todouble(t, b);
 +
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(t2);
++    set_cpu_vsr(a->xt, t, true);
++    set_cpu_vsr(a->xt, tcg_constant_i64(0), false);
++
++    tcg_temp_free_i64(t);
++    tcg_temp_free_i32(b);
 +
 +    return true;
 +}
 +
- /* fsub - fsubs */
- GEN_FLOAT_AB(sub, 0x14, 0x000007C0, 1, PPC_FLOAT);
- /* Optional: */
-diff --git a/target/ppc/translate/fp-ops.c.inc b/target/ppc/translate/fp-ops.c.inc
-index 4260635a12..0538ab2d2d 100644
---- a/target/ppc/translate/fp-ops.c.inc
-+++ b/target/ppc/translate/fp-ops.c.inc
-@@ -24,7 +24,6 @@ GEN_FLOAT_AC(mul, 0x19, 0x0000F800, 1, PPC_FLOAT),
- GEN_FLOAT_BS(re, 0x3F, 0x18, 1, PPC_FLOAT_EXT),
- GEN_FLOAT_BS(res, 0x3B, 0x18, 1, PPC_FLOAT_FRES),
- GEN_FLOAT_BS(rsqrte, 0x3F, 0x1A, 1, PPC_FLOAT_FRSQRTE),
--_GEN_FLOAT_ACB(sel, sel, 0x3F, 0x17, 0, 0, PPC_FLOAT_FSEL),
- GEN_FLOAT_AB(sub, 0x14, 0x000007C0, 1, PPC_FLOAT),
- GEN_FLOAT_ACB(madd, 0x1D, 1, PPC_FLOAT),
- GEN_FLOAT_ACB(msub, 0x1C, 1, PPC_FLOAT),
+ GEN_VSX_HELPER_X2(xscvdpsxds, 0x10, 0x15, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xscvdpsxws, 0x10, 0x05, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xscvdpuxds, 0x10, 0x14, 0, PPC2_VSX)
+diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
+index b8fd116728..52d7ab30cd 100644
+--- a/target/ppc/translate/vsx-ops.c.inc
++++ b/target/ppc/translate/vsx-ops.c.inc
+@@ -200,7 +200,6 @@ GEN_XX2FORM(xscvdpspn, 0x16, 0x10, PPC2_VSX207),
+ GEN_XX2FORM_EO(xscvhpdp, 0x16, 0x15, 0x10, PPC2_ISA300),
+ GEN_VSX_XFORM_300_EO(xscvsdqp, 0x04, 0x1A, 0x0A, 0x00000001),
+ GEN_XX2FORM(xscvspdp, 0x12, 0x14, PPC2_VSX),
+-GEN_XX2FORM(xscvspdpn, 0x16, 0x14, PPC2_VSX207),
+ GEN_XX2FORM(xscvdpsxds, 0x10, 0x15, PPC2_VSX),
+ GEN_XX2FORM(xscvdpsxws, 0x10, 0x05, PPC2_VSX),
+ GEN_XX2FORM(xscvdpuxds, 0x10, 0x14, PPC2_VSX),
 -- 
 2.25.1
 
