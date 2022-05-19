@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D4252DAA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 18:52:08 +0200 (CEST)
-Received: from localhost ([::1]:42484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3842252DAD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:09:08 +0200 (CEST)
+Received: from localhost ([::1]:54846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrjNe-0003o5-R4
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 12:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50322)
+	id 1nrje6-0005X8-Nb
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:09:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nrjLb-0001vI-EU
- for qemu-devel@nongnu.org; Thu, 19 May 2022 12:49:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28024)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nrjat-0004MR-BX
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:05:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nrjLZ-0002Ur-To
- for qemu-devel@nongnu.org; Thu, 19 May 2022 12:49:59 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nrjaq-0004z4-HB
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:05:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652978997;
+ s=mimecast20190719; t=1652979943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1K/1Y82TQhVYsOzAx3lwxurCz15d/9wdaJIG2gbjOfQ=;
- b=QjB11NPvaCFz2JUfwZbjTW1cH1attw1j3/5WhNe7QqP3y58TAC2XnJWcX2khri+V3h8O1O
- fGw/gMlLOTSothK199sB8i3uliw20Ki2kho+I1opt+95NPkXe3nCOPVwqftIIchQMK5i5O
- EU8dgri+aslQk8Hbh/szW47f9d1HjtA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=js/cUE92OW1J9nmLaX35578BLxYQlNs4jRj/O/CGgfw=;
+ b=fEPgnDD/2uKoH09uBY1MIUOtiU9czT+yJWJEi68ioYkFGORbijOyijeWAvU8NxNyC6aKry
+ hM84L5DK5sCoTFvef/OiHrkJ8ZA74Y3E8g4/XEByI80iXMriz/LLxVoYb6hXdtQygqQmD9
+ VCNMZnSRr8ZL+IncKHBkZ00hXgWJfjw=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-Qxe4uAgRMniLH7IjGgL1ng-1; Thu, 19 May 2022 12:49:48 -0400
-X-MC-Unique: Qxe4uAgRMniLH7IjGgL1ng-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w20-20020adfd1b4000000b0020cbb4347e6so1761882wrc.17
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 09:49:47 -0700 (PDT)
+ us-mta-215-tKOuNu8aN5CzF3YBnmApVQ-1; Thu, 19 May 2022 13:05:42 -0400
+X-MC-Unique: tKOuNu8aN5CzF3YBnmApVQ-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-2ff3eeb2dfbso50330457b3.4
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:05:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1K/1Y82TQhVYsOzAx3lwxurCz15d/9wdaJIG2gbjOfQ=;
- b=hK9yvt/Yuv6cXIlAMvplcCtOZjbaVUcWTfjfDJ1bh5mG7w7puXsLzqgfj6BMWQvjcJ
- /kiSJtfOns+JsParu0rUlWZwH9wBtScGzsKIi5t5W21nL/KQYRaZfdON9Y8MfISCfNhe
- cSgM3mAhQzCisDQUhc9//+BAQiAB2lSHNnAQEBRbZFfZDFw3dxUpGTj6mmQQuhUbN/f9
- F13vbkDvfcQrZG8olxl4YaFmIEhJ3KZCvHkvP8JzQQEKW/J23h6kj5M84ONpAGgg0C8o
- QueRYZuEFxa36LDGQb4adqQ0OX9AJlzAWwMkKXPjea5CHue09KXLn2pMC5FjN9sKxX9v
- EFfQ==
-X-Gm-Message-State: AOAM5324lNf56N8Kgbz++OYXNCWXG/abvJb0B2Axntty/3K0h5fI+Si6
- W7aGDTtmST2FxjUr0QwztYqRaVZ4MBdDR30kLttHOkQeAXhnExk1ZSxWMZKn7ExFU6apvJ9C4vN
- y9P6nz0sIt5DI8UY=
-X-Received: by 2002:a1c:4c17:0:b0:397:2d36:7241 with SMTP id
- z23-20020a1c4c17000000b003972d367241mr4026430wmf.10.1652978986790; 
- Thu, 19 May 2022 09:49:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJDoI+mzBo4RWhq4xLzMKEqY+keAKfdwWh0pS9N4OjT0Wjgzo1sIFgo8bb0IM215ZuQgQIBA==
-X-Received: by 2002:a1c:4c17:0:b0:397:2d36:7241 with SMTP id
- z23-20020a1c4c17000000b003972d367241mr4026414wmf.10.1652978986537; 
- Thu, 19 May 2022 09:49:46 -0700 (PDT)
-Received: from redhat.com ([151.81.230.224]) by smtp.gmail.com with ESMTPSA id
- o4-20020a05600c338400b00394708a3d7dsm60453wmp.15.2022.05.19.09.49.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 09:49:45 -0700 (PDT)
-Date: Thu, 19 May 2022 12:49:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Wenliang Wang <wangwenliang.1995@bytedance.com>
-Cc: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com
-Subject: Re: [PATCH] hw/pci/pcie.c: Fix invalid PCI_EXP_LNKCAP setting
-Message-ID: <20220519124909-mutt-send-email-mst@kernel.org>
-References: <1652971559-22126-1-git-send-email-wangwenliang.1995@bytedance.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=js/cUE92OW1J9nmLaX35578BLxYQlNs4jRj/O/CGgfw=;
+ b=kZhOWQu53l/scPWcmD9QMIsenc0UCWVmMbjM5wDjDilmwgHCk9sdqw6BxgYSVCvwDI
+ fYl4UKdmvk9CIqmGO8ACk/AevvwKffdak73s4cF47D9tJcdXQEJ39T3naBIPTqMc/j5D
+ EF8o5/gpOuVkpMBl9FKzTjMGiBDsAvEFQKudiQXPmD2flhdO+ZJuyjjuid2dScd4vIvB
+ n0dtt0CQkayquUodWTwJ/z9lllZJyH3dvkeDNgfNrSJYy342YAvN1j+P3KMAr3CyYFBu
+ lXN3bLddROJKF+lluzah7YSCS5VwqEsqRCO7qezEHhm2kRty9q5oNubtAJhpK9ei3WGt
+ IvAw==
+X-Gm-Message-State: AOAM532t+h1yoMEbNYWhl7p40Q3ptd0j0kKxQzKa+ayY/Yr/TMnx8hhX
+ evwwHonZ/CXbE2rleNzsjqHF0ER8dGpUqDR/FqVhB5WsF3KW1r3CvOoy0ZP1je2KQVcUbSQuPCl
+ w9uf53KJzcpmFqyeOeFVq9daaNkk4bLg=
+X-Received: by 2002:a0d:cdc6:0:b0:2f1:47b9:ce93 with SMTP id
+ p189-20020a0dcdc6000000b002f147b9ce93mr5625099ywd.445.1652979941508; 
+ Thu, 19 May 2022 10:05:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDkuAcDqTVwhORxfDLaI07QCbztM2IO/68W1Xb0Fy9nVkCxBOE2aE0zo/wOu9NfLDYSsLRR0Epq7beQsxC+Jo=
+X-Received: by 2002:a0d:cdc6:0:b0:2f1:47b9:ce93 with SMTP id
+ p189-20020a0dcdc6000000b002f147b9ce93mr5625082ywd.445.1652979941327; Thu, 19
+ May 2022 10:05:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652971559-22126-1-git-send-email-wangwenliang.1995@bytedance.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 19 May 2022 19:05:30 +0200
+Message-ID: <CAMxuvaw4_Evg8LFihv7UjC5_hY05uhaRFCi=bH=uP4e8G1BggQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/15] Misc cleanups
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, 
+ Markus Armbruster <armbru@redhat.com>, "Bonzini, Paolo" <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -94,45 +95,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 19, 2022 at 10:45:59PM +0800, Wenliang Wang wrote:
-> pcie_cap_fill_slot_lnk() wrongly set PCI_EXP_LNKCAP when slot speed
-> and width is not set, causing strange downstream port link cap
-> (Speed unknown, Width x0) and pcie devices native hotplug error on Linux:
-> 
-> [    3.545654] pcieport 0000:02:00.0: pciehp: link training error: status 0x2000
-> [    3.547143] pcieport 0000:02:00.0: pciehp: Failed to check link status
-> 
-> We do not touch PCI_EXP_LNKCAP when speed=0 or width=0, as pcie_cap_v1_fill()
-> already do the default setting for us.
-> 
-> Signed-off-by: Wenliang Wang <wangwenliang.1995@bytedance.com>
+Hi
 
+Before I send a v4 and hopefully final version, could somebody review
+those patches:
 
-do we need machine type compat dance with this?
-can you check whether this affects cross version
-migration please?
+- include: move qemu_*_exec_dir() to cutils
+- osdep: export qemu_open_cloexec()
 
-> ---
->  hw/pci/pcie.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index 68a62da..c82e7fc 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -92,6 +92,11 @@ static void pcie_cap_fill_slot_lnk(PCIDevice *dev)
->          return;
->      }
->  
-> +    /* Use default LNKCAP setting */
-> +    if (s->speed == 0 || s->width == 0) {
-> +        return;
-> +    }
-> +
->      /* Clear and fill LNKCAP from what was configured above */
->      pci_long_test_and_clear_mask(exp_cap + PCI_EXP_LNKCAP,
->                                   PCI_EXP_LNKCAP_MLW | PCI_EXP_LNKCAP_SLS);
-> -- 
-> 2.7.4
+- qga: replace qemu_open_old() with qemu_open_cloexec()
+- test/qga: use G_TEST_DIR to locate os-release test file
+
+(Paolo sortof acked the v1, but not quite rigorously)
+
+thanks!
+
+On Fri, May 13, 2022 at 8:08 PM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Hi,
+>
+> v3:
+> - changed error_report_err() back to g_critical()
+> - added "qga: make build_fs_mount_list() return a bool"
+> - replaced g_clear_pointer() usage by open-coded version
+> - dropped needless g_autoptr(GError) in tests
+> - rebased, (dropped "include: adjust header guards after renaming")
+> - some commit message rewording
+> - added r-b tags
+>
+> v2:
+> - drop "compiler.h: add QEMU_{BEGIN,END}_IGNORE_INITIALIZER_OVERRIDES",
+>   "qobject/json-lexer: disable -Winitializer-overrides warnings" &
+>   "qapi/error: add g_autoptr(Error) support" and adjust related code.
+> - add "test/qga: use g_auto wherever sensible"
+> - add r-b tags
+>
+> Marc-Andr=C3=A9 Lureau (15):
+>   include: move qemu_*_exec_dir() to cutils
+>   util/win32: simplify qemu_get_local_state_dir()
+>   tests: make libqmp buildable for win32
+>   qga: flatten safe_open_or_create()
+>   osdep: export qemu_open_cloexec()
+>   qga: use qemu_open_cloexec() for safe_open_or_create()
+>   qga: throw an Error in ga_channel_open()
+>   qga: replace qemu_open_old() with qemu_open_cloexec()
+>   qga: make build_fs_mount_list() return a bool
+>   test/qga: use G_TEST_DIR to locate os-release test file
+>   qga/wixl: prefer variables over environment
+>   qga/wixl: require Mingw_bin
+>   qga/wixl: simplify some pre-processing
+>   qga/wixl: replace QEMU_GA_MSI_MINGW_BIN_PATH with glib bindir
+>   test/qga: use g_auto wherever sensible
+>
+>  configure                            |   9 +-
+>  include/qemu/cutils.h                |   7 ++
+>  include/qemu/osdep.h                 |   9 +-
+>  meson.build                          |   5 +-
+>  qemu-io.c                            |   1 +
+>  qga/channel-posix.c                  |  55 +++++----
+>  qga/commands-posix.c                 | 164 +++++++++++++--------------
+>  qga/installer/qemu-ga.wxs            |  83 +++++---------
+>  qga/meson.build                      |  11 +-
+>  storage-daemon/qemu-storage-daemon.c |   1 +
+>  tests/qtest/fuzz/fuzz.c              |   1 +
+>  tests/qtest/libqmp.c                 |  34 +++++-
+>  tests/qtest/libqmp.h                 |   2 +
+>  tests/unit/test-qga.c                | 130 ++++++++-------------
+>  util/cutils.c                        | 108 ++++++++++++++++++
+>  util/osdep.c                         |  10 +-
+>  util/oslib-posix.c                   |  81 -------------
+>  util/oslib-win32.c                   |  53 +--------
+>  18 files changed, 358 insertions(+), 406 deletions(-)
+>
+> --
+> 2.36.1
+>
 
 
