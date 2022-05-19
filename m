@@ -2,121 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D37152D2C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:44:23 +0200 (CEST)
-Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E33552D2CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:44:25 +0200 (CEST)
+Received: from localhost ([::1]:43732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrfVu-0001mO-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53646)
+	id 1nrfVw-0001sm-BT
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:44:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfRk-0006nW-T2
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:40:05 -0400
-Received: from mail-os0jpn01on20723.outbound.protection.outlook.com
- ([2a01:111:f403:700c::723]:43512
- helo=JPN01-OS0-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfS4-0006yh-LB
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:40:26 -0400
+Received: from mail-tycjpn01on20705.outbound.protection.outlook.com
+ ([2a01:111:f403:7010::705]:8514
+ helo=JPN01-TYC-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfRU-0005N5-EF
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:39:50 -0400
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfS0-0005g3-T6
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:40:23 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cOlpo64gFvpC5twBVki3Z03z/tFKQRqhOgnL6KMkgKXO9f2H40rX0c6L44+O8Ltu73Ul7h+If7Q2dMGORyGZHRACkB8XyyUc+yi0tsxwgYjd6iDv5WpJygZrR+zGK1BfAqLgipGVRyS7+m/ROmEdU67V6z9yCCC7mM2OBPFlPAVqSldkFtV/kAKHYrEUR/C4dXiHawYQSHEjtAoHghfbXDmf2b6EQWEKbwx1nAE66WgsyAlzRVDcZGtE+JAx6MXFBn0BxNv6SB/kiASKkrXkZOrAeamTC69QXMFuXjUQ0NZYbrQm/7/Gb8jXUJhMAdU6ZywCZZYc2lD/sJXRfyexpA==
+ b=oEq5nVr3WpNUxhB+X+rwjhFueHrdfSSY2WH1QkbnVlmQR3mjCMlVSqMszz7r2FEpr/49o1v/bXRF0Fot1Iw86F4Cnn//1HSxDH9TxJG4crp0ZND7FeBc5Kt1whldQh3p1q1usoFGpqF+OzCA/kSL235DdGczoc82TgiVOuaerWEnSiJlqcwiCxoOzKuYnCaBQ1tK9RiHLFKbkprOSClzIBgibhTkPFa/2y15Kqz4Bg0FMjrofDLYLNcJofWpouWLMXsjTNxhZEr9DjAnYaibJuiyNlrrm0SiRf5d2tWlwy2BHcmWJfMmfwfc6Mf3eJuAlI7Q8EsVhg56chVBTfUu0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bJm0wwotQL94hKe1osYOGi8+1nATB70YGkLh/Pbh0ns=;
- b=geJXJ51ydK3bWNL9SF7rv/eQ9U1Mto9uiPX4NjjNM7xNpJWk63N2ryTixI4GeCMNr5ND6aVNXnM9bAmkLdQi1JKE+eNRBvDCmBKTql3/gQIHCz6diBO9wpkJHsKNEsc95gKr8uOPZPdIvZCjT3WYzlXyXdOckAajzSCt514dw3zqAHV+SzOBKnXp6fRnczwmnpuJ1GUvs43S0KvNN/i1V2CdYlaHhIxE65Km6+pTMAuicSmssBqRP2sao4Qt7tFmToObBbcDZwC+b0PkguKD8l2zgHaevcfnhCasCDoW2PQnqU/osPhbtUlKbOyFsEG92s92ofeChlU0Ck2IYGMnxg==
+ bh=YdCC+gP1XGz7HTI3Eu/AG4LoNCOCg5qyKDk7DRjqKQQ=;
+ b=aTT1LGlRZ2RqVbtjFqebHVsHBK5wXl/ceHEBgUCLFcH//uVOaVqYKOJLOeXuKeRrj/J5oUdgNhipdRJzcGASEmOK/rxw+NJfWaHRAmGA4W0LyPT42QVtP3eneO1xNWCJjwbUjvwSdKk3JmFJ7jlgNVkkS+TgGgt4fTnCN+AkvSnsaJ2T/zuSmkP1ynR1UPBQK0Dbe8e7eAViB1KNp4py1cla0ioJ50BQ+ipkOAQQatUhwzkSxsFX58jU5Adq2n4UR3M/zzoEt4wHs1My7wEd6G1eTl582fE8eCewafpT3YC0wAoCRZwLs8GBHsJHSk/Ai29BTyphuPDl2sYdr4gHIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
  dkim=pass header.d=zenithal.me; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bJm0wwotQL94hKe1osYOGi8+1nATB70YGkLh/Pbh0ns=;
- b=fK1u0FXetHSpt2wqurdl2NPQa7vLB4s54Q2giJJ/gRJfP59CdV4tEu5XU/ySIt89KWAO/pJcoeitLTcdmhyuogdBygGkGN0LNqKjgZMP7NBa62vlRB4lFJ7I34n8hSoFbVJGPEf9ST5c6qM3ZPLRBpHVRanILYhj/p1Fh3Io14U=
+ bh=YdCC+gP1XGz7HTI3Eu/AG4LoNCOCg5qyKDk7DRjqKQQ=;
+ b=g/Kumqg2BUCKQfBa5ZlXUMZ0Y+rdfHIj3zPMywqiKnJvc0GR8gCgXSaDSvg/aZ3F+FrDJmz6BpsslFC+Fv29Lb8ZA1zuub2uvUhDxivPBROHFOMBliRn6mvEc7dSKCiCl/FaQqCLuGNtkcIWCCEkYCoGmhUPS8O4XW+QLcwkijU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=zenithal.me;
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
  TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:9e::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.14; Thu, 19 May 2022 12:39:45 +0000
+ 15.20.5273.14; Thu, 19 May 2022 12:40:10 +0000
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::bd99:5c83:e2dc:a8f7]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::bd99:5c83:e2dc:a8f7%7]) with mapi id 15.20.5273.015; Thu, 19 May 2022
- 12:39:45 +0000
-Date: Thu, 19 May 2022 20:39:38 +0800
+ 12:40:10 +0000
+Date: Thu, 19 May 2022 20:40:03 +0800
 From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
 To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>
 Cc: qemu-devel@nongnu.org, contact@canokeys.org
-Subject: [PATCH v5 4/6] docs: Add CanoKey documentation
-Message-ID: <YoY6ilQimrK+l5NN@Sun>
+Subject: [PATCH v5 5/6] docs/system/devices/usb: Add CanoKey to USB devices
+ examples
+Message-ID: <YoY6o+QFhzA7VHcZ@Sun>
 References: <YoY5k0PQny8WtAHi@Sun>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <YoY5k0PQny8WtAHi@Sun>
-X-Operating-System: Linux Sun 5.15.26
+X-Operating-System: Linux Sun 5.15.26 
 X-Mailer: Mutt 2.2.1 (2022-02-19)
-X-ClientProxiedBy: BYAPR02CA0070.namprd02.prod.outlook.com
- (2603:10b6:a03:54::47) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BYAPR02CA0049.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::26) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:400:c0::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 61fe58b8-47e1-46cc-65e2-08da3994a730
+X-MS-Office365-Filtering-Correlation-Id: 27ffac06-9a3b-48a2-d9f6-08da3994b66d
 X-MS-TrafficTypeDiagnostic: TYCP286MB0941:EE_
-X-Microsoft-Antispam-PRVS: <TYCP286MB094162B5C8E783447546B62EBCD09@TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM>
+X-Microsoft-Antispam-PRVS: <TYCP286MB094189F05B7DF3EB9C773B15BCD09@TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R9e3P92UFT0aKebkwjy1sTBKBWqnLhCPFMdjy8crzl7OKpcLJAoUkHgsDxeH0Cp99FFS83G+IdcQD+jZJPyBU2On7+jhqnW6of3HM9yxv6T9z8lGLcDk+N3fKxBP9+wepR6BTbTwWvA9uJ/SiD3BKEA2N0Eg2z6AdWsESyQrzAt09zIxeOF2vJkcXXKUu4ZBUdHxSk0b6QBCGEtkgFyXz+AIrHzWMo1HFgURu9mUNwBKCD0VZovgiV3VjO8gN/grhg7a9QtsIWForkLj/oOMSd/nThSvuetfzDf6W0qCKZyMvn0CoZ8iJqwRXYbmeWmxcK7JgqnZ5+ilpvjxHLiJm9XlkYpxmTAYS9mGZciDKQPk9JMjSZCXXfduVEESVUhycsaoQ3jsFB+13R9xXPbK3X2Dv4UjsClvwvU4RHvMOA/GLuMCLNkpe83zUa+3Z2ZbiPhgvrt7lwwYbMGpjnXp2R+ytXlvpqnIa3djloDm16ya2Mv4yPKwLWlFk5qChhrN73xjO/xkQxJ1j49xERZEE+ksF+d+Tv1S1YdGdUeR3pDc6LUBH4vOxjAWeR6LD2SajREFpojbaPoR39QyQXp1z51k3Olf07L3agw448TdsO/X7zFLgqNOPhvPgX2qPZFVYhGWbjsO1Px2u+PabceL358oIX0Gu95Be85LCs6W+nq2xbYKye6XJ3MrFKyhlk0JcTpz9/wpQCfih9GkV3dmc+HcdbmLIxjN9GHk7LRNzPnDV3ar5J2zzfGdYGV65zYkMvuLpgDTBnD7HVjBg4NtWHFlGv58mqz4L72qQIr3XRc=
+X-Microsoft-Antispam-Message-Info: SQVzoidqwyd0/AeyzC7USDnt+jkgkdSn5F5GoG3YlosxG0W8LJJn02H+lyUzfMYrn1ikfhVnYUSnN+p5az8Ho6cLay+wwW7U+ywGR7LBhbbu5gRHa02KTNbrnlt2YAaLmB5AyDopCBKTT7PETOyfocVl2aIieHKGJ6IQ9k8ytHSG2mCuMFzt1fZC+7evbJAeij22wTqCpznLZ0lXuBLaTv+Y+U8R9Eeo1ZLF7SyZ/fbnvyf5alLbGfCxViSy3MXaHOgBIrTbspgB3d+zuDyv01KVYyC899EydOMygYiF68uPojt8azhsdSCB4ImXx6hKFRd78U1aDu/DMiPlPrcTrfpc3N56GU9ND2SqzCVYQ+U58oXEMgfMtdtIM5QOXeqnH0XQ6Ka040t+gr5W3mLeCQx7uTb9AUXZtejeiADLmWrXkuiZmW4obZbVLktzFk6GHztr3J0P3UxK29QOzO5O5QOrN9hNKPAlKxlKW5u1tZY3h3j+nJlWLHyLCn4nN3G0dOJwOR93KwxzwDA4Oz9q3q4OjHH9mAB8raJrMk0v1qr+t5Zd1YRdjpk/AWFIHXn4vxYcRYbqD5FRh3UppWUo8RZGGVAd1ZcAq0Jv82kLYdM1Szwt89P+TRJyu5lW1kaSFPi4CTbCEguOmCDgX1XvNwTheXWhcMhWlrYZegCZkWozef/gXzPEllhjxdGPYT+Yh9fV240DvkECrAdiVCv9rfEXL5lPJXHl85L8uTLe+qI=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(136003)(396003)(39830400003)(346002)(376002)(33716001)(2906002)(41300700001)(8676002)(508600001)(38100700002)(110136005)(4326008)(41320700001)(6486002)(966005)(316002)(786003)(6666004)(83380400001)(52116002)(9686003)(6512007)(6506007)(5660300002)(66476007)(66946007)(66556008)(8936002)(86362001)(186003)(49092004)(67856001);
+ SFS:(13230001)(7916004)(366004)(136003)(396003)(39830400003)(346002)(376002)(33716001)(2906002)(41300700001)(8676002)(508600001)(38100700002)(110136005)(4326008)(41320700001)(6486002)(316002)(786003)(6666004)(52116002)(9686003)(6512007)(6506007)(5660300002)(66476007)(66946007)(66556008)(8936002)(4744005)(86362001)(186003)(49092004)(67856001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ydtGwFzwM0+XNQsQgYlPFwogTvxU4+qjVPg2pMkHLtchKAw7xCgfqysl84s6?=
- =?us-ascii?Q?yNGhbpe6CQZaA3J8WEPt42H8rM6Ea6+xtIN1Ajh0a2A77FP8gM1NZdMgeBWc?=
- =?us-ascii?Q?Oz3p+R1B778cAIWcjvmEQ1U4DWNTvtTjcri2EmLFO0gX1UoYtVEMlQ27BT15?=
- =?us-ascii?Q?e1VV2oVevJjJjVVTANJmpuK3yVOsvmTPKECaX9nGWAZZd5//HfkifOtGAcVH?=
- =?us-ascii?Q?ngIkckR75BYmiVCapS/tC0BRWE/H2ntnKHdzCyAA9DJzXwtvQs7y+A7AO98I?=
- =?us-ascii?Q?Ce8mlCbBLqs04nbmxghW8P30Kqfua5KYoHcYUdSICEavcJXajrXlVIbi+b3n?=
- =?us-ascii?Q?Sy3SRQBD4o7dm43ftAda6n3JvLNGCLK8QGPGUkAwc8Cvnsfp1FSxl8oqONCj?=
- =?us-ascii?Q?2wygXbBDK8u7quy8TIjnufVU0HUKGiN1/oOp4PriB/M6HgL9RLwRUnH5QicH?=
- =?us-ascii?Q?hKdeRNrl+ke3HyFo81H6vq99sKqCYGYaHzZIVL/R/iSfZHhvH2CLKki7oeso?=
- =?us-ascii?Q?D4cE+Z3qDV7BZOG+N3cLON1EjNNQ2DKZxggdkb6A7mMRmvlBJZSywg8kRxhs?=
- =?us-ascii?Q?6YDVn+dScagbFziT6ChLSTCdAGIl66Mw8wjs2MdcxYD06zbNStl1lUtT8bEt?=
- =?us-ascii?Q?54WGNdZpRLbqUZ+2Q9sVP/hYAg4B0uEmv0u2BD3WT4D0jcD/HtOGQ58r2lTM?=
- =?us-ascii?Q?ID3O65rykf+LWfa7ASzOroZaRzA06rE/OHFYEaVLuhYvVIsgpBF3vDN4OMsS?=
- =?us-ascii?Q?OG8EJz679Dym9L6Qen0MLxEkNuOQIv8sGVHu6ozEm0lYU01td6Lw1ECes19f?=
- =?us-ascii?Q?5ly+fKOQQetdJR31kArFTJUo9eZlYN8DYhyEidji/+FmQxLAjRkgsSMzVHhz?=
- =?us-ascii?Q?l1bgbFND2XFsMCRB8qzdcY8f9/YYx0L3nTQRWRX1pPTR/383D61hsExUM2Ft?=
- =?us-ascii?Q?xmu/085QiBmGmmYRg4fxet2o+BlTjZYfI3dV8PUC9ig71X78QzMVH6H6L56y?=
- =?us-ascii?Q?Bbkpfv/vymH34StcMZButl6kLKYFrs94yQ0wIT7yKBWh78dGFzfK/RXJNMeH?=
- =?us-ascii?Q?CIXPgdx+YKFXtPV36NncjybG2PhS7ZOW3iVnPqoc/GcagbPIvtcoLi/WQl6D?=
- =?us-ascii?Q?h9vjRS6C9veOgWs6cdaijUQuUu0bZDnQb1RatwIirSoLiIh51cuQN+RqNV6/?=
- =?us-ascii?Q?OqYK8SE3y/m0r6xIQfvIgK2XdK2+6wHZT8v9T3mqFeU7xh1I6O4f0ONAitFg?=
- =?us-ascii?Q?3B+N6r01X9WdMZcBBd3YKCtHaf7jki/gN3Blzuh/0TkLIASo95PT6RmiQdPR?=
- =?us-ascii?Q?n77K9dY3JpfErfPDO024e+tKH7eyaI/crfpdeUdnyC3yepvqpEZPNb+Wpu7e?=
- =?us-ascii?Q?NENm06CPI2lRDIc7wAgUBnaZn0pgLwcrCpYx1Cw4mi5x6EetPATV1NE5i4/I?=
- =?us-ascii?Q?jHmHYW6t03QlYIvUppWkclpSK0iyDlg3PcHt8fYekscuW3GhJ4gxi7H14R65?=
- =?us-ascii?Q?Pn10NtC/62eFUj7BgX9ozV39X4nwurv8o9Ckw3SX96uUkdw2GQEsFHHasUXK?=
- =?us-ascii?Q?aDzqtvaef81SsPAZ6y4P5+4VbAvJ+AjDo7yOeLnyqx1i4eN0oV8jVs86Eznk?=
- =?us-ascii?Q?rxtQEsXL3RjB+8UJHe/TPYSqE92//iorTrI8r+odugHH/3NJfgeWJT0ZLJp5?=
- =?us-ascii?Q?WPDIqNwO3ZqT4BI9og2sPr7Vd/fHz9N2psMJwkwO5PFRi2pv0YvrpBer+5T5?=
- =?us-ascii?Q?u/3T/rPeeg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TtJR0k5OlN1gffZ6T6BTPixY94b9Oh131YkljZZGmSxdkNQJ/sX8anvxjG4X?=
+ =?us-ascii?Q?tjVqevffQktsWDycQv43FwwhywivqvktvK2KjvtK1jKWNhpLituGaTBgNIOr?=
+ =?us-ascii?Q?cDjdHeqZhVNK3kiJFtpxIN38gmMsDKSwhYgYlVVuUfLF5JXvjzTb2jsr2TR5?=
+ =?us-ascii?Q?oUbPaqwp2NWfOaPsCIfdXrZU2SDPpmSn8rsR4czBM3tfTGwKg1/dYY0IEklq?=
+ =?us-ascii?Q?wP5oxl9wIVGkMM4Jjk2fUtkPLkIIvaHfYTvHF2gd2KzFFtE5n1WUE1x2rvMI?=
+ =?us-ascii?Q?NsmdYYUwM2PKa7G/0XhcsiAmNQTxeWjlfE1wRRGEF84ahEaZNNAJxM3yUAxt?=
+ =?us-ascii?Q?Wo+ClqBff+Y0T5X9qYkHCmOJ/FzP7Z9MPLVquW5Wp6/TV4YueVT2aX6iPOWF?=
+ =?us-ascii?Q?xvDxYu5q7e8L0LahJE2yn4RSQxqGGYJHmI/+xWCOTaABuWT3uDnKjdYKxk8m?=
+ =?us-ascii?Q?4S4+qP0WKiECmDBhrxRko6wicRfLdBNS++VeU0E0eAQE95jdqUTIm5Jv8MhY?=
+ =?us-ascii?Q?5IsMyxY00LxZeiZWjQS09XTKCkbTb+jY/Rp5nGp5//L9h75eWAeLTScH15dY?=
+ =?us-ascii?Q?8BfhKM8AUlDLJsDrx1/aMO9WrV9V/ZoZ0TySKPtUgoIHrER9LtRuegjvHCIZ?=
+ =?us-ascii?Q?WTruG8In/Zbij6+hawmbwHT6afx+5To8mbj6p0Eaee6Z4ukHWHK4v+sc2Tq/?=
+ =?us-ascii?Q?tqWA5hr51pv40y4rnoyTPWupr6eqGqeaKHGDQ+I42/2ospUeU07/FnAdlbI2?=
+ =?us-ascii?Q?K11L7iwvYuIzUUG7lMZRkQhqy6j+PC3xx4ZKAlK/5O6V3P8DRr3pLHyPsWNH?=
+ =?us-ascii?Q?UbZRi/yJBPh8ObAooHtmNGqNKci/oedeyP+1zB6cGTPfmO2wC2jBLkFBp4v3?=
+ =?us-ascii?Q?0S5Z5sdCN0r2wzlyilSPLrb12I6DuwltoCCdy7oUpGBoZEAY3QEeQVa2a319?=
+ =?us-ascii?Q?QBKb2dJkCOhbdQzVhm9788CLfOuutm23b23dJFfqHbBPl6rFq1KxXOkX6h0Z?=
+ =?us-ascii?Q?eUboKKho0YGEe0uJn9xVekN8lMFnwwaqJ4qio2Z2xnXMoi+BUaylEbXl9QIs?=
+ =?us-ascii?Q?pYdFUy0qghbOrJvt+9hP7bU2E7uo9BiYYEpZ8tFfJcTWX9HiZkgSMGRPQoxu?=
+ =?us-ascii?Q?6is5BXLptbTWcMW3d3gwW6c1WYE6pYa5y0azy7KCjUTlr5Y+k+nPG9mVQnyj?=
+ =?us-ascii?Q?qWhSu8WK8WK8yb47cWDo7wofwI0wreyOZffwx6X95o39hgC3SeZGgCivxp4U?=
+ =?us-ascii?Q?e5QpzluQ2grCLbpvAcqJSWCwVyMqJ8IqO0lyHgrV0+uYlqsTZ/bqGAFj0NIs?=
+ =?us-ascii?Q?uZvAPSZUateL+jVppYvEexh4gcKjOvU76sjR6pSkj8z1CZuM6x6JS0zqsstU?=
+ =?us-ascii?Q?ksNbIV24VgpQiwxPjYPbnnkty0gxjNBGHaLjGEdMjDRmry8RXZbKPtEmUM8S?=
+ =?us-ascii?Q?tP3R6rix1Z/oHPVVCfqes1oigKlgbr7Prk8JcO7Zbvv/lS8kR/+tJJaOCzKC?=
+ =?us-ascii?Q?FF3cv82Zw+Gyo+ZQD2s2baTaHv5KPfgdeeWGw11uIupVMDWn5MVUjCVv71IU?=
+ =?us-ascii?Q?ds/3P/iGOTq5iFUvqQowmbpDIoQE/huwIWKGx+ztNsJdVihZJCqadiboe3uT?=
+ =?us-ascii?Q?St/IvgBOVqkXLCeXWHNgbFpLnfvwwhUQAUhj3YWLhnJSkVnLD9afKtT2qMWH?=
+ =?us-ascii?Q?NTlmu4UIAthVcFk35w+ZEHi3naVfNhqvlI703QporZgNF4ZAzPyBKbanPxFI?=
+ =?us-ascii?Q?Qx3Jo2Nagc/LcMgQOlePGnIu2jqva+g=3D?=
 X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61fe58b8-47e1-46cc-65e2-08da3994a730
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27ffac06-9a3b-48a2-d9f6-08da3994b66d
 X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 12:39:45.2727 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 12:40:10.8078 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0wDQgHB+iqa3ky837ekgOhZ2MSaX+dxbHjuzOiYv3KRL4Qnj9faJRFTw29u8sex8
+X-MS-Exchange-CrossTenant-UserPrincipalName: N/tyr2aBVGTS5G/kugEKoyA5TunvPEMGCeizb0Ik+CTXVJlZKkRi9nfOQMkye9er
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB0941
-Received-SPF: pass client-ip=2a01:111:f403:700c::723;
+Received-SPF: pass client-ip=2a01:111:f403:7010::705;
  envelope-from=i@zenithal.me;
- helo=JPN01-OS0-obe.outbound.protection.outlook.com
+ helo=JPN01-TYC-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,286 +141,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
 ---
- docs/system/device-emulation.rst |   1 +
- docs/system/devices/canokey.rst  | 168 +++++++++++++++++++++++++++++++
- 2 files changed, 169 insertions(+)
- create mode 100644 docs/system/devices/canokey.rst
+ docs/system/devices/usb.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Note on the qemu-xhci issue:
-
-For FIDO2 packets, they follow the pattern below
-
-  Interrupt IN (size 64)
-  Interrupt OUT (size 128 with payload)
-  Interrupt OUT ACK (size 64)
-  Interrupt IN ACK (size 128 with payload)
-
-This can be captured by `fido2-token -I /dev/hidraw0` or
-`systemd-cryptenroll --fido2-device=auto`. I doubt this
-is a feature of libfido2 that it sends IN before OUT.
-I've been coping with this pattern for a long miserable
-time, you can see the url below for a example
-https://github.com/canokeys/canokey-usbip/blob/e9db44f1aa7f46c7dd7266a682d778921edbeb49/Src/usbip.c#L33-L36
-
-In qemu-xhci, it assumes a pattern like this
-
-  Interrupt IN (size 64)
-   -> usb_handle_packet
-  Interrupt IN ACK (size 128 with payload (not possible))
-   <- usb_handle_packet returns
-  Interrupt OUT (size 128 with payload)
-   -> the next usb_handle_packet
-  Interrupt OUT ACK (size 64)
-   <- the next usb_handle_packet returns
-
-However, for device, it can not ack the IN token if the payload
-in OUT token has not been passed.
-
-Also, we can not have a trace like this because we
-are single threaded (not async) and the next usb_handle_packet
-must be called after the return of the first usb-handle_packet
-(emulating async interrupt ep with sync thread is painful)
-
-  Interrupt IN (size 64)
-   -> usb_handle_packet
-  Interrupt OUT (size 128 with payload)
-   -> the next usb_handle_packet (not possible)
-  Interrupt OUT ACK (size 64)
-   <- the next usb_handle_packet returns
-  Interrupt IN ACK (size 128 with payload)
-   <- the first usb_handle_packet returns
-
-The code works for uhci/ehci in the following way
-
-  Interrupt IN (size 64)
-   -> usb_handle_packet
-  Interrupt IN NAK (size 64)
-   <- usb_handle_packet returns
-  ... there are many IN NAK here
-  ... uhci/ehci reschedule OUT before IN now
-  Interrupt OUT (size 128 with payload)
-   -> the next usb_handle_packet
-  Interrupt OUT ACK (size 64)
-   <- the next usb_handle_packet returns
-  Interrupt IN (size 64)
-   -> last usb_handle_packet
-  Interrupt IN ACK (size 128 with payload)
-   <- last usb_handle_packet returns
-
-I think qemu-xhci should retry/schedule the failed IN token after
-receiving NAK instead of failing immediately, because interrupt
-endpoint is async. However, I'm not so familiar with qemu-xhci
-and I tried to debug it but in vain. The debug trace only showed
-that after the first IN NAK it retried and then use
-`xhci_ep_nuke_xfers` to cancel the IN packet. After
-handling the OUT packet, the IN packet is not retried and
-the whole QEMU stuck there.
-
-  Interrupt IN (size 64)
-   -> usb_handle_packet
-  Interrupt IN NAK (size 64)
-   <- usb_handle_packet returns
-    ... nuke_xfers
-  Interrupt IN (size 64)
-   -> usb_handle_packet
-  Interrupt IN NAK (size 64)
-   <- usb_handle_packet returns
-  Interrupt OUT (size 128 with payload)
-   -> the next usb_handle_packet
-  Interrupt OUT ACK (size 64)
-   <- the next usb_handle_packet returns
-    ... xhci_try_complete_packet
-    ... the whole QEMU stuck here as there is no more IN token scheduled
-
-You can see that in canokey_handle_data of hw/usb/canokey.c
-I NAKed for early INTR IN, this is what u2f_key_handle_data
-also does so I think the bug is not in canokey.c
-Also, canokey.c works with uhci/ehci controllers
-
-
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 3b729b920d..0506006056 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -92,3 +92,4 @@ Emulated Devices
-    devices/vhost-user.rst
-    devices/virtio-pmem.rst
-    devices/vhost-user-rng.rst
-+   devices/canokey.rst
-diff --git a/docs/system/devices/canokey.rst b/docs/system/devices/canokey.rst
-new file mode 100644
-index 0000000000..169f99b8eb
---- /dev/null
-+++ b/docs/system/devices/canokey.rst
-@@ -0,0 +1,168 @@
-+.. _canokey:
+diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
+index afb7d6c226..872d916758 100644
+--- a/docs/system/devices/usb.rst
++++ b/docs/system/devices/usb.rst
+@@ -199,6 +199,10 @@ option or the ``device_add`` monitor command. Available devices are:
+ ``u2f-{emulated,passthru}``
+    Universal Second Factor device
+ 
++``canokey``
++   An Open-source Secure Key implementing FIDO2, OpenPGP, PIV and more.
++   For more information, see :ref:`canokey`.
 +
-+CanoKey QEMU
-+------------
-+
-+CanoKey [1]_ is an open-source secure key with supports of
-+
-+* U2F / FIDO2 with Ed25519 and HMAC-secret
-+* OpenPGP Card V3.4 with RSA4096, Ed25519 and more [2]_
-+* PIV (NIST SP 800-73-4)
-+* HOTP / TOTP
-+* NDEF
-+
-+All these platform-independent features are in canokey-core [3]_.
-+
-+For different platforms, CanoKey has different implementations,
-+including both hardware implementions and virtual cards:
-+
-+* CanoKey STM32 [4]_
-+* CanoKey Pigeon [5]_
-+* (virt-card) CanoKey USB/IP
-+* (virt-card) CanoKey FunctionFS
-+
-+In QEMU, yet another CanoKey virt-card is implemented.
-+CanoKey QEMU exposes itself as a USB device to the guest OS.
-+
-+With the same software configuration as a hardware key,
-+the guest OS can use all the functionalities of a secure key as if
-+there was actually an hardware key plugged in.
-+
-+CanoKey QEMU provides much convenience for debuging:
-+
-+* libcanokey-qemu supports debuging output thus developers can
-+  inspect what happens inside a secure key
-+* CanoKey QEMU supports trace event thus event
-+* QEMU USB stack supports pcap thus USB packet between the guest
-+  and key can be captured and analysed
-+
-+Then for developers:
-+
-+* For developers on software with secure key support (e.g. FIDO2, OpenPGP),
-+  they can see what happens inside the secure key
-+* For secure key developers, USB packets between guest OS and CanoKey
-+  can be easily captured and analysed
-+
-+Also since this is a virtual card, it can be easily used in CI for testing
-+on code coping with secure key.
-+
-+Building
-+========
-+
-+libcanokey-qemu is required to use CanoKey QEMU.
-+
-+.. code-block:: shell
-+
-+    git clone https://github.com/canokeys/canokey-qemu
-+    mkdir canokey-qemu/build
-+    pushd canokey-qemu/build
-+
-+If you want to install libcanokey-qemu in a different place,
-+add ``-DCMAKE_INSTALL_PREFIX=/path/to/your/place`` to cmake below.
-+
-+.. code-block:: shell
-+
-+    cmake ..
-+    make
-+    make install # may need sudo
-+    popd
-+
-+Then configuring and building:
-+
-+.. code-block:: shell
-+
-+    # depending on your env, lib/pkgconfig can be lib64/pkgconfig
-+    export PKG_CONFIG_PATH=/path/to/your/place/lib/pkgconfig:$PKG_CONFIG_PATH
-+    ./configure --enable-canokey && make
-+
-+Using CanoKey QEMU
-+==================
-+
-+CanoKey QEMU stores all its data on a file of the host specified by the argument
-+when invoking qemu.
-+
-+.. parsed-literal::
-+
-+    |qemu_system| -usb -device canokey,file=$HOME/.canokey-file
-+
-+Note: you should keep this file carefully as it may contain your private key!
-+
-+The first time when the file is used, it is created and initialized by CanoKey,
-+afterwards CanoKey QEMU would just read this file.
-+
-+After the guest OS boots, you can check that there is a USB device.
-+
-+For example, If the guest OS is an Linux machine. You may invoke lsusb
-+and find CanoKey QEMU there:
-+
-+.. code-block:: shell
-+
-+    $ lsusb
-+    Bus 001 Device 002: ID 20a0:42d4 Clay Logic CanoKey QEMU
-+
-+You may setup the key as guided in [6]_. The console for the key is at [7]_.
-+
-+Debuging
-+========
-+
-+CanoKey QEMU consists of two parts, ``libcanokey-qemu.so`` and ``canokey.c``,
-+the latter of which resides in QEMU. The former provides core functionality
-+of a secure key while the latter provides platform-dependent functions:
-+USB packet handling.
-+
-+If you want to trace what happens inside the secure key, when compiling
-+libcanokey-qemu, you should add ``-DQEMU_DEBUG_OUTPUT=ON`` in cmake command
-+line:
-+
-+.. code-block:: shell
-+
-+    cmake .. -DQEMU_DEBUG_OUTPUT=ON
-+
-+If you want to trace events happened in canokey.c, use
-+
-+.. parsed-literal::
-+
-+    |qemu_system| --trace "canokey_*" \\
-+        -usb -device canokey,file=$HOME/.canokey-file
-+
-+If you want to capture USB packets between the guest and the host, you can:
-+
-+.. parsed-literal::
-+
-+    |qemu_system| -usb -device canokey,file=$HOME/.canokey-file,pcap=key.pcap
-+
-+Limitations
-+===========
-+
-+Currently libcanokey-qemu.so has dozens of global variables as it was originally
-+designed for embedded systems. Thus one qemu instance can not have
-+multiple CanoKey QEMU running, namely you can not
-+
-+.. parsed-literal::
-+
-+    |qemu_system| -usb -device canokey,file=$HOME/.canokey-file \\
-+         -device canokey,file=$HOME/.canokey-file2
-+
-+Also, there is no lock on canokey-file, thus two CanoKey QEMU instance
-+can not read one canokey-file at the same time.
-+
-+Another limitation is that this device is not compatible with ``qemu-xhci``,
-+in that this device would hang when there are FIDO2 packets (traffic on
-+interrupt endpoints). If you do not use FIDO2 then it works as intended,
-+but for full functionality you should use old uhci/ehci bus and attach canokey
-+to it, for example
-+
-+.. parsed-literal::
-+
-+   |qemu_system| -device piix3-usb-uhci,id=uhci -device canokey,bus=uhci.0
-+
-+References
-+==========
-+
-+.. [1] `<https://canokeys.org>`_
-+.. [2] `<https://docs.canokeys.org/userguide/openpgp/#supported-algorithm>`_
-+.. [3] `<https://github.com/canokeys/canokey-core>`_
-+.. [4] `<https://github.com/canokeys/canokey-stm32>`_
-+.. [5] `<https://github.com/canokeys/canokey-pigeon>`_
-+.. [6] `<https://docs.canokeys.org/>`_
-+.. [7] `<https://console.canokeys.org/>`_
+ Physical port addressing
+ ^^^^^^^^^^^^^^^^^^^^^^^^
+ 
 -- 
 2.35.1
 
