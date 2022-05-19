@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1257352DB89
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:44:00 +0200 (CEST)
-Received: from localhost ([::1]:42726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E18D52DBA5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 19:47:34 +0200 (CEST)
+Received: from localhost ([::1]:50280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrkBr-0002f8-4R
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59288)
+	id 1nrkFJ-0008CA-55
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 13:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk54-00061k-B5
+ id 1nrk55-000628-JN
  for qemu-devel@nongnu.org; Thu, 19 May 2022 13:36:59 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38881)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrk52-0000og-1y
- for qemu-devel@nongnu.org; Thu, 19 May 2022 13:36:57 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- i204-20020a1c3bd5000000b003972dda143eso1001164wma.3
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:36:55 -0700 (PDT)
+ id 1nrk52-0000pu-KM
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 13:36:58 -0400
+Received: by mail-wr1-x436.google.com with SMTP id w4so8171222wrg.12
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 10:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NuzCT3jd427MAyssQ0Yn5enOl1i+/jsuzDXmexAnHqU=;
- b=VlEhnktt7FuNJcx6823v+scS+QIwd1HQdmWbE48Y5P3viXbolHCqJHTFYfjecs2Chi
- iqSkTN5isWDuSUXNrXS3L3DY1nDvT/LVjdTtCkh0mDOgilhYvKoF6ulxWwBuSsbJvbAU
- 43cSWw1vYzanpsvBgFX+32+l/XNmIuIkuinCkYJ8x+RM2yn5XOSXJN1keCf5kj53Zng1
- j8N4bReiNrf4bcMp2UWpF/DnMUw3Do8gfxW+3vgaTO3n0W/tsDiisFzu58fv2sq0vwgv
- ovQ4yHo6r/nexLBvNapNkUI1dy2ZdisLDhoXaJU/5A6UvOJifcGupOfYD5Uq4nJbg2Km
- WQww==
+ bh=im07PMAPEhfDlj+n2/I268ITiDkRmFr35n3lbLJx7Mg=;
+ b=AVgnuCiu8YMErjsA234hHaJ0cx8vMWxkpw+HfSAUGy5HyGCsAW6t9s6UejHCt6FIpX
+ XQa71iIs0R++ZC2c6oA/Kt2Is0jZ1b1Hdun0B8loUrZIsVtPBUTl0iw4V2afSukElPr6
+ eJdOz3ffs8SYQaFXsNg+SA1fEp0rAZvZS0W1WTXcdVYTzc9o1ovE0oMWqmtI3DuPsqTE
+ XVYxLEVx2JUPK+ApAPkcwQ8XXkpEhhIXhYa5T7+duADUZxJSh2Yl4HYlmPh6NsNaflyq
+ CnyNUeKi9EDK71uXJZ1lFt+2zv1E+5gGC28x0hiW8mFwiAtUZBIHoNdkmy7CbKXGi39+
+ e42g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NuzCT3jd427MAyssQ0Yn5enOl1i+/jsuzDXmexAnHqU=;
- b=Okr4AHxda6H0alzLk0txie8z1amLbzL3/gzC8KxBz+xLxZE69uiQDUoJtaYiVADbO3
- 2Deb30iJtLkZ4LIjZ4KZ0EJdMGkbOkzsIyQZj1Qgb2kR3RsXE2WOaBfKVa+9qlU0V9Qw
- M+6cAYscpD0DByNSFqnjgx0aTf0P7Lw714jPj3xKMPEZ2YynZS1TvF2l508hMD471siM
- rpdFgafrWVxYEX9WE7t3jUTlmKd8/zF1VpLB+mwzeoUi1IHo+zy8tCaq9Vzz5CqYIQrW
- QrJhuwsHhltBSvyn8Lk8114Hxezv7DlxfMhAvPllxWz0CNzZdAYD77V5CiiiEg4ObObU
- dS/w==
-X-Gm-Message-State: AOAM533qg0YXXWYGh0ZRFK/GYNzkYLQy4SNbTEG6NdOy3LHNP7ZVhABf
- 3P6d5evDu4ZTuwb78xfATYIYo2vlR6b9jw==
-X-Google-Smtp-Source: ABdhPJyUNVvCAEP2tnkLHz7NVDp8JPDx/NLLKHVmuhrg97x8hdBYgd/FYDFGlD+Q/qokoOe10VWUkA==
-X-Received: by 2002:a05:600c:3658:b0:394:725:be12 with SMTP id
- y24-20020a05600c365800b003940725be12mr4923549wmq.192.1652981814401; 
- Thu, 19 May 2022 10:36:54 -0700 (PDT)
+ bh=im07PMAPEhfDlj+n2/I268ITiDkRmFr35n3lbLJx7Mg=;
+ b=vQ2v50rIjP64PxFxyN5G8ZtaRfYPFPn1XVbeiPK95nq68HMx8tK4GfVu74LZL15qZM
+ DVGBMJwMskJqiLZoRv1emz0LX9YRGrFiViJen9q9d9787dtMVn5WF3iOP7LMeQVppb4t
+ T9w356lleRwIHOagqoEyXutqyh5YbCj7ICaKSQ9I3EsUUYfwJ40RGvif/VHOvlqdXcXr
+ 858y300sOQKROrzDc39cHsE6O/v2B0fVEjTXM73oQYsYJJVYfOmHA8d/UymKDAY2ZL5I
+ NYLAnO3domJBtB7wnLPZ5jz+L7VgMHbsLCO8j9ycy4eQlXQMIpQUZQFiMCnr8PhJ1w9H
+ XFEw==
+X-Gm-Message-State: AOAM531I8pZVqUDnF6LTZ+56oNypsXhuqEi1OdHEDnYp7B9eFoOLMSGk
+ 8Wz52osi30ImI/p7hPlORsf0fPiex1eIzA==
+X-Google-Smtp-Source: ABdhPJxNDxNvreR8CZyN+xnayzqTpqhaL3uGPW0dQ7nSlPjcovKA+bLS7OUbg8IVZpB5bAYK442Y5A==
+X-Received: by 2002:a5d:4b8b:0:b0:20c:f8c5:b9bc with SMTP id
+ b11-20020a5d4b8b000000b0020cf8c5b9bcmr5280708wrt.282.1652981815291; 
+ Thu, 19 May 2022 10:36:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.36.53
+ e2-20020adfa742000000b0020c5253d8f2sm180183wrd.62.2022.05.19.10.36.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 May 2022 10:36:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/22] target/arm: Postpone interpretation of stage 2
- descriptor attribute bits
-Date: Thu, 19 May 2022 18:36:30 +0100
-Message-Id: <20220519173651.399295-2-peter.maydell@linaro.org>
+Subject: [PULL 02/22] target/arm: Factor out FWB=0 specific part of
+ combine_cacheattrs()
+Date: Thu, 19 May 2022 18:36:31 +0100
+Message-Id: <20220519173651.399295-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
 References: <20220519173651.399295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,180 +89,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the original Arm v8 two-stage translation, both stage 1 and stage
-2 specify memory attributes (memory type, cacheability,
-shareability); these are then combined to produce the overall memory
-attributes for the whole stage 1+2 access.  In QEMU we implement this
-by having get_phys_addr() fill in an ARMCacheAttrs struct, and we
-convert both the stage 1 and stage 2 attribute bit formats to the
-same encoding (an 8-bit attribute value matching the MAIR_EL1 fields,
-plus a 2-bit shareability value).
+Factor out the part of combine_cacheattrs() that is specific to
+handling HCR_EL2.FWB == 0.  This is the part where we combine the
+memory type and cacheability attributes.
 
-The new FEAT_S2FWB feature allows the guest to enable a different
-interpretation of the attribute bits in the stage 2 descriptors.
-These bits can now be used to control details of how the stage 1 and
-2 attributes should be combined (for instance they can say "always
-use the stage 1 attributes" or "ignore the stage 1 attributes and
-always be Device memory").  This means we need to pass the raw bit
-information for stage 2 down to the function which combines the stage
-1 and stage 2 information.
-
-Add a field to ARMCacheAttrs that indicates whether the attrs field
-should be interpreted as MAIR format, or as the raw stage 2 attribute
-bits from the descriptor, and store the appropriate values when
-filling in cacheattrs.
-
-We only need to interpret the attrs field in a few places:
- * in do_ats_write(), where we know to expect a MAIR value
-   (there is no ATS instruction to do a stage-2-only walk)
- * in S1_ptw_translate(), where we want to know whether the
-   combined S1 + S2 attributes indicate Device memory that
-   should provoke a fault
- * in combine_cacheattrs(), which does the S1 + S2 combining
-Update those places accordingly.
+The "force Outer Shareable for Device or Normal Inner-NC Outer-NC"
+logic remains in combine_cacheattrs() because it holds regardless
+(this is the equivalent of the pseudocode EffectiveShareability()
+function).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220505183950.2781801-2-peter.maydell@linaro.org
+Message-id: 20220505183950.2781801-3-peter.maydell@linaro.org
 ---
- target/arm/internals.h |  7 ++++++-
- target/arm/helper.c    | 42 ++++++++++++++++++++++++++++++++++++------
- 2 files changed, 42 insertions(+), 7 deletions(-)
+ target/arm/helper.c | 88 +++++++++++++++++++++++++--------------------
+ 1 file changed, 50 insertions(+), 38 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 6ca0e957468..9b354eea7e4 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1149,8 +1149,13 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
- 
- /* Cacheability and shareability attributes for a memory access */
- typedef struct ARMCacheAttrs {
--    unsigned int attrs:8; /* as in the MAIR register encoding */
-+    /*
-+     * If is_s2_format is true, attrs is the S2 descriptor bits [5:2]
-+     * Otherwise, attrs is the same as the MAIR_EL1 8-bit format
-+     */
-+    unsigned int attrs:8;
-     unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
-+    bool is_s2_format:1;
- } ARMCacheAttrs;
- 
- bool get_phys_addr(CPUARMState *env, target_ulong address,
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 432bd819195..93c58ad29ab 100644
+index 93c58ad29ab..a2a96358410 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -3187,6 +3187,12 @@ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
-     ret = get_phys_addr(env, value, access_type, mmu_idx, &phys_addr, &attrs,
-                         &prot, &page_size, &fi, &cacheattrs);
- 
-+    /*
-+     * ATS operations only do S1 or S1+S2 translations, so we never
-+     * have to deal with the ARMCacheAttrs format for S2 only.
-+     */
-+    assert(!cacheattrs.is_s2_format);
-+
-     if (ret) {
-         /*
-          * Some kinds of translation fault must cause exceptions rather
-@@ -10717,6 +10723,19 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
-     return true;
+@@ -12578,6 +12578,46 @@ static uint8_t combine_cacheattr_nibble(uint8_t s1, uint8_t s2)
+     }
  }
  
-+static bool ptw_attrs_are_device(CPUARMState *env, ARMCacheAttrs cacheattrs)
++/*
++ * Combine the memory type and cacheability attributes of
++ * s1 and s2 for the HCR_EL2.FWB == 0 case, returning the
++ * combined attributes in MAIR_EL1 format.
++ */
++static uint8_t combined_attrs_nofwb(CPUARMState *env,
++                                    ARMCacheAttrs s1, ARMCacheAttrs s2)
 +{
-+    /*
-+     * For an S1 page table walk, the stage 1 attributes are always
-+     * some form of "this is Normal memory". The combined S1+S2
-+     * attributes are therefore only Device if stage 2 specifies Device.
-+     * With HCR_EL2.FWB == 0 this is when descriptor bits [5:4] are 0b00,
-+     * ie when cacheattrs.attrs bits [3:2] are 0b00.
-+     */
-+    assert(cacheattrs.is_s2_format);
-+    return (cacheattrs.attrs & 0xc) == 0;
++    uint8_t s1lo, s2lo, s1hi, s2hi, s2_mair_attrs, ret_attrs;
++
++    s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
++
++    s1lo = extract32(s1.attrs, 0, 4);
++    s2lo = extract32(s2_mair_attrs, 0, 4);
++    s1hi = extract32(s1.attrs, 4, 4);
++    s2hi = extract32(s2_mair_attrs, 4, 4);
++
++    /* Combine memory type and cacheability attributes */
++    if (s1hi == 0 || s2hi == 0) {
++        /* Device has precedence over normal */
++        if (s1lo == 0 || s2lo == 0) {
++            /* nGnRnE has precedence over anything */
++            ret_attrs = 0;
++        } else if (s1lo == 4 || s2lo == 4) {
++            /* non-Reordering has precedence over Reordering */
++            ret_attrs = 4;  /* nGnRE */
++        } else if (s1lo == 8 || s2lo == 8) {
++            /* non-Gathering has precedence over Gathering */
++            ret_attrs = 8;  /* nGRE */
++        } else {
++            ret_attrs = 0xc; /* GRE */
++        }
++    } else { /* Normal memory */
++        /* Outer/inner cacheability combine independently */
++        ret_attrs = combine_cacheattr_nibble(s1hi, s2hi) << 4
++                  | combine_cacheattr_nibble(s1lo, s2lo);
++    }
++    return ret_attrs;
 +}
 +
- /* Translate a S1 pagetable walk through S2 if needed.  */
- static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-                                hwaddr addr, bool *is_secure,
-@@ -10745,7 +10764,7 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-             return ~0;
-         }
-         if ((arm_hcr_el2_eff(env) & HCR_PTW) &&
--            (cacheattrs.attrs & 0xf0) == 0) {
-+            ptw_attrs_are_device(env, cacheattrs)) {
-             /*
-              * PTW set and S1 walk touched S2 Device memory:
-              * generate Permission fault.
-@@ -11817,12 +11836,14 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-     }
- 
-     if (mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S) {
--        cacheattrs->attrs = convert_stage2_attrs(env, extract32(attrs, 0, 4));
-+        cacheattrs->is_s2_format = true;
-+        cacheattrs->attrs = extract32(attrs, 0, 4);
-     } else {
-         /* Index into MAIR registers for cache attributes */
-         uint8_t attrindx = extract32(attrs, 0, 3);
-         uint64_t mair = env->cp15.mair_el[regime_el(env, mmu_idx)];
-         assert(attrindx <= 7);
-+        cacheattrs->is_s2_format = false;
-         cacheattrs->attrs = extract64(mair, attrindx * 8, 8);
-     }
- 
-@@ -12560,14 +12581,22 @@ static uint8_t combine_cacheattr_nibble(uint8_t s1, uint8_t s2)
  /* Combine S1 and S2 cacheability/shareability attributes, per D4.5.4
   * and CombineS1S2Desc()
   *
-+ * @env:     CPUARMState
-  * @s1:      Attributes from stage 1 walk
-  * @s2:      Attributes from stage 2 walk
-  */
--static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
-+static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
-+                                        ARMCacheAttrs s1, ARMCacheAttrs s2)
+@@ -12588,26 +12628,17 @@ static uint8_t combine_cacheattr_nibble(uint8_t s1, uint8_t s2)
+ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
+                                         ARMCacheAttrs s1, ARMCacheAttrs s2)
  {
-     uint8_t s1lo, s2lo, s1hi, s2hi;
+-    uint8_t s1lo, s2lo, s1hi, s2hi;
      ARMCacheAttrs ret;
      bool tagged = false;
-+    uint8_t s2_mair_attrs;
-+
-+    assert(s2.is_s2_format && !s1.is_s2_format);
-+    ret.is_s2_format = false;
-+
-+    s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
+-    uint8_t s2_mair_attrs;
  
+     assert(s2.is_s2_format && !s1.is_s2_format);
+     ret.is_s2_format = false;
+ 
+-    s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
+-
      if (s1.attrs == 0xf0) {
          tagged = true;
-@@ -12575,9 +12604,9 @@ static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
+         s1.attrs = 0xff;
      }
  
-     s1lo = extract32(s1.attrs, 0, 4);
--    s2lo = extract32(s2.attrs, 0, 4);
-+    s2lo = extract32(s2_mair_attrs, 0, 4);
-     s1hi = extract32(s1.attrs, 4, 4);
--    s2hi = extract32(s2.attrs, 4, 4);
-+    s2hi = extract32(s2_mair_attrs, 4, 4);
- 
+-    s1lo = extract32(s1.attrs, 0, 4);
+-    s2lo = extract32(s2_mair_attrs, 0, 4);
+-    s1hi = extract32(s1.attrs, 4, 4);
+-    s2hi = extract32(s2_mair_attrs, 4, 4);
+-
      /* Combine shareability attributes (table D4-43) */
      if (s1.shareability == 2 || s2.shareability == 2) {
-@@ -12731,7 +12760,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-                 }
-                 cacheattrs->shareability = 0;
-             }
--            *cacheattrs = combine_cacheattrs(*cacheattrs, cacheattrs2);
-+            *cacheattrs = combine_cacheattrs(env, *cacheattrs, cacheattrs2);
+         /* if either are outer-shareable, the result is outer-shareable */
+@@ -12621,37 +12652,18 @@ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
+     }
  
-             /* Check if IPA translates to secure or non-secure PA space. */
-             if (arm_is_secure_below_el3(env)) {
-@@ -12849,6 +12878,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-         /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
-         hcr = arm_hcr_el2_eff(env);
-         cacheattrs->shareability = 0;
-+        cacheattrs->is_s2_format = false;
-         if (hcr & HCR_DC) {
-             if (hcr & HCR_DCT) {
-                 memattr = 0xf0;  /* Tagged, Normal, WB, RWA */
+     /* Combine memory type and cacheability attributes */
+-    if (s1hi == 0 || s2hi == 0) {
+-        /* Device has precedence over normal */
+-        if (s1lo == 0 || s2lo == 0) {
+-            /* nGnRnE has precedence over anything */
+-            ret.attrs = 0;
+-        } else if (s1lo == 4 || s2lo == 4) {
+-            /* non-Reordering has precedence over Reordering */
+-            ret.attrs = 4;  /* nGnRE */
+-        } else if (s1lo == 8 || s2lo == 8) {
+-            /* non-Gathering has precedence over Gathering */
+-            ret.attrs = 8;  /* nGRE */
+-        } else {
+-            ret.attrs = 0xc; /* GRE */
+-        }
++    ret.attrs = combined_attrs_nofwb(env, s1, s2);
+ 
+-        /* Any location for which the resultant memory type is any
+-         * type of Device memory is always treated as Outer Shareable.
+-         */
++    /*
++     * Any location for which the resultant memory type is any
++     * type of Device memory is always treated as Outer Shareable.
++     * Any location for which the resultant memory type is Normal
++     * Inner Non-cacheable, Outer Non-cacheable is always treated
++     * as Outer Shareable.
++     * TODO: FEAT_XS adds another value (0x40) also meaning iNCoNC
++     */
++    if ((ret.attrs & 0xf0) == 0 || ret.attrs == 0x44) {
+         ret.shareability = 2;
+-    } else { /* Normal memory */
+-        /* Outer/inner cacheability combine independently */
+-        ret.attrs = combine_cacheattr_nibble(s1hi, s2hi) << 4
+-                  | combine_cacheattr_nibble(s1lo, s2lo);
+-
+-        if (ret.attrs == 0x44) {
+-            /* Any location for which the resultant memory type is Normal
+-             * Inner Non-cacheable, Outer Non-cacheable is always treated
+-             * as Outer Shareable.
+-             */
+-            ret.shareability = 2;
+-        }
+     }
+ 
+     /* TODO: CombineS1S2Desc does not consider transient, only WB, RWA. */
 -- 
 2.25.1
 
