@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BBB52D605
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:28:27 +0200 (CEST)
-Received: from localhost ([::1]:45714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D59152D608
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:29:13 +0200 (CEST)
+Received: from localhost ([::1]:47586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrh8c-0004ts-S8
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
+	id 1nrh9M-0006E6-F2
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
- id 1nrh6x-000399-SW
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:26:43 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:45556)
+ id 1nrh54-0001v3-Om
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 10:24:47 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:42618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
- id 1nrh6w-0005ob-1d
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:26:43 -0400
-Received: from iva8-c5ee4261001e.qloud-c.yandex.net
- (iva8-c5ee4261001e.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 13EBA2E1235
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 17:19:23 +0300 (MSK)
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- b6l8nKjJHT-JMJa5ImQ; Thu, 19 May 2022 17:19:23 +0300
+ id 1nrh50-0005KD-Mv
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 10:24:45 -0400
+Received: from iva5-51baefb7689f.qloud-c.yandex.net
+ (iva5-51baefb7689f.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:69d:0:640:51ba:efb7])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id E6C8A2E1244
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 17:19:28 +0300 (MSK)
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by iva5-51baefb7689f.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ PoFtB88yer-JSJaVLIY; Thu, 19 May 2022 17:19:28 +0300
 X-Yandex-Fwd: 2
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1652969963; bh=OBW+DOcvNFsp9zy53T0iKmoM3mgMnqocER2nZ23A/GU=;
+ t=1652969968; bh=cN8v+N1otPUnPS0jN2PPj36nG7yorTuIWe6DiO1ILv8=;
  h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
- b=vdB1JQd80065g632lGWlptFNxMhwEo6jrhiQ+fecMkj3mjSaF0iU/8leuPpeMjeKZ
- qKJ8qOXiZjgoPmNM3MG/V8NqWAhllomD8XTwUdgiWlZLbwhVYwCeE98H7LxdANcfQs
- 6LWFGymyi1qoek0exn9fcSjSRz5KX8P0fO/lz35s=
-Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
+ b=ZQ5Gvo8sra4R9je07dZogT/w+rHQcWctttIDpYWC0Tm2OFzoxNNYmGjOgG/6fxtnU
+ 5YzgfSUDM3SdwPluflMgdVdqHf7wiR/eg0JWVQdGH5eD04fdp7zlcNWnfBMJdey5fT
+ /Ayp47PTRUWMQ+5a8eGWZDmG9YvWwY5oXCpadAZc=
+Authentication-Results: iva5-51baefb7689f.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from localhost (unknown [2a02:6b8:b081:8819::1:2b])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- QnX7l4U12g-JMMm9ieY; Thu, 19 May 2022 17:19:22 +0300
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ YbyDbFFlF5-JSNCjT4n; Thu, 19 May 2022 17:19:28 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
-Subject: [PATCH 2/4] virtio: forward errors into qdev_report_runtime_error()
+Subject: [PATCH 3/4] vhost: add method vhost_set_vring_err
 From: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 To: qemu-devel@nongnu.org
 Cc: yc-core@yandex-team.ru
-Date: Thu, 19 May 2022 17:19:22 +0300
-Message-ID: <165296996264.196133.14408996533965098582.stgit@buzz>
+Date: Thu, 19 May 2022 17:19:28 +0300
+Message-ID: <165296996817.196133.17069691714549471819.stgit@buzz>
 In-Reply-To: <165296995578.196133.16183155555450040914.stgit@buzz>
 References: <165296995578.196133.16183155555450040914.stgit@buzz>
 User-Agent: StGit/1.5
@@ -78,63 +78,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Repalce virtio_error() with macro which forms structured Error and
-reports it as device runtime-error in addition to present actions.
+Kernel and user vhost may report virtqueue errors via eventfd.
+This is only reliable way to get notification about protocol error.
 
 Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 ---
- hw/virtio/virtio.c         |    9 +++------
- include/hw/virtio/virtio.h |   10 +++++++++-
- 2 files changed, 12 insertions(+), 7 deletions(-)
+ hw/virtio/vhost-backend.c         |    7 +++++++
+ hw/virtio/vhost-user.c            |    6 ++++++
+ include/hw/virtio/vhost-backend.h |    3 +++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 5d607aeaa0..638d779bf2 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3642,13 +3642,10 @@ void virtio_device_set_child_bus_name(VirtIODevice *vdev, char *bus_name)
-     vdev->bus_name = g_strdup(bus_name);
+diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+index 4de8b6b3b0..8e581575c9 100644
+--- a/hw/virtio/vhost-backend.c
++++ b/hw/virtio/vhost-backend.c
+@@ -146,6 +146,12 @@ static int vhost_kernel_set_vring_call(struct vhost_dev *dev,
+     return vhost_kernel_call(dev, VHOST_SET_VRING_CALL, file);
  }
  
--void G_GNUC_PRINTF(2, 3) virtio_error(VirtIODevice *vdev, const char *fmt, ...)
-+void virtio_fatal_error(VirtIODevice *vdev, Error *err)
- {
--    va_list ap;
--
--    va_start(ap, fmt);
--    error_vreport(fmt, ap);
--    va_end(ap);
-+    qdev_report_runtime_error(&vdev->parent_obj, err);
-+    error_report_err(err);
- 
-     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-         vdev->status = vdev->status | VIRTIO_CONFIG_S_NEEDS_RESET;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index db1c0ddf6b..a165e35b0b 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -16,6 +16,7 @@
- 
- #include "exec/memory.h"
- #include "hw/qdev-core.h"
-+#include "qapi/error.h"
- #include "net/net.h"
- #include "migration/vmstate.h"
- #include "qemu/event_notifier.h"
-@@ -172,7 +173,14 @@ void virtio_init(VirtIODevice *vdev, uint16_t device_id, size_t config_size);
- 
- void virtio_cleanup(VirtIODevice *vdev);
- 
--void virtio_error(VirtIODevice *vdev, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-+#define virtio_error(vdev, fmt, ...) {              \
-+    Error *_err = NULL;                             \
-+    error_setg(&_err, (fmt), ## __VA_ARGS__);       \
-+    virtio_fatal_error(vdev, _err);                 \
-+} while (0)
++static int vhost_kernel_set_vring_err(struct vhost_dev *dev,
++                                      struct vhost_vring_file *file)
++{
++    return vhost_kernel_call(dev, VHOST_SET_VRING_ERR, file);
++}
 +
-+/* Reports and frees error, breaks device */
-+void virtio_fatal_error(VirtIODevice *vdev, Error *err);
+ static int vhost_kernel_set_vring_busyloop_timeout(struct vhost_dev *dev,
+                                                    struct vhost_vring_state *s)
+ {
+@@ -309,6 +315,7 @@ const VhostOps kernel_ops = {
+         .vhost_get_vring_base = vhost_kernel_get_vring_base,
+         .vhost_set_vring_kick = vhost_kernel_set_vring_kick,
+         .vhost_set_vring_call = vhost_kernel_set_vring_call,
++        .vhost_set_vring_err = vhost_kernel_set_vring_err,
+         .vhost_set_vring_busyloop_timeout =
+                                 vhost_kernel_set_vring_busyloop_timeout,
+         .vhost_set_features = vhost_kernel_set_features,
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index b040c1ad2b..37f8d4ab6f 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1313,6 +1313,11 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
+     return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
+ }
  
- /* Set the child bus name. */
- void virtio_device_set_child_bus_name(VirtIODevice *vdev, char *bus_name);
++static int vhost_user_set_vring_err(struct vhost_dev *dev,
++                                    struct vhost_vring_file *file)
++{
++    return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_ERR, file);
++}
+ 
+ static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
+ {
+@@ -2618,6 +2623,7 @@ const VhostOps user_ops = {
+         .vhost_get_vring_base = vhost_user_get_vring_base,
+         .vhost_set_vring_kick = vhost_user_set_vring_kick,
+         .vhost_set_vring_call = vhost_user_set_vring_call,
++        .vhost_set_vring_err = vhost_user_set_vring_err,
+         .vhost_set_features = vhost_user_set_features,
+         .vhost_get_features = vhost_user_get_features,
+         .vhost_set_owner = vhost_user_set_owner,
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index 81bf3109f8..eab46d7f0b 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -69,6 +69,8 @@ typedef int (*vhost_set_vring_kick_op)(struct vhost_dev *dev,
+                                        struct vhost_vring_file *file);
+ typedef int (*vhost_set_vring_call_op)(struct vhost_dev *dev,
+                                        struct vhost_vring_file *file);
++typedef int (*vhost_set_vring_err_op)(struct vhost_dev *dev,
++                                      struct vhost_vring_file *file);
+ typedef int (*vhost_set_vring_busyloop_timeout_op)(struct vhost_dev *dev,
+                                                    struct vhost_vring_state *r);
+ typedef int (*vhost_set_features_op)(struct vhost_dev *dev,
+@@ -145,6 +147,7 @@ typedef struct VhostOps {
+     vhost_get_vring_base_op vhost_get_vring_base;
+     vhost_set_vring_kick_op vhost_set_vring_kick;
+     vhost_set_vring_call_op vhost_set_vring_call;
++    vhost_set_vring_err_op vhost_set_vring_err;
+     vhost_set_vring_busyloop_timeout_op vhost_set_vring_busyloop_timeout;
+     vhost_set_features_op vhost_set_features;
+     vhost_get_features_op vhost_get_features;
 
 
