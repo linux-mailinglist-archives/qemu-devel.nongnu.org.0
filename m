@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3063E52C9FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:05:59 +0200 (CEST)
-Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CAB52CA02
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:07:40 +0200 (CEST)
+Received: from localhost ([::1]:40562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrWU9-00038n-HL
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39206)
+	id 1nrWVn-0004gE-Gt
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nrWSR-0002Pn-KE
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:04:12 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:52038 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nrWSO-0003ns-VK
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:04:11 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxqtiYs4ViVrUbAA--.17795S3; 
- Thu, 19 May 2022 11:03:52 +0800 (CST)
-Subject: Re: [PATCH v4 34/43] hw/intc: Add LoongArch extioi interrupt
- controller(EIOINTC)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
- imammedo@redhat.com, ani@anisinha.ca
-References: <20220517113023.3051143-1-yangxiaojuan@loongson.cn>
- <20220517113023.3051143-35-yangxiaojuan@loongson.cn>
- <79bbbf79-a019-17f4-9008-f57a8c375fcb@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <d6e43d35-9b63-70f2-ceb8-ec464131e202@loongson.cn>
-Date: Thu, 19 May 2022 11:03:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nrWTr-0003Oa-L0
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:05:39 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.221]:45690
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nrWTo-00043h-Ep
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:05:39 -0400
+HMM_SOURCE_IP: 172.18.0.188:60442.528550548
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id B939E2800A6;
+ Thu, 19 May 2022 11:05:19 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 3b4a54c44df847b1aad1be99357f43b7 for
+ eblake@redhat.com; Thu, 19 May 2022 11:05:21 CST
+X-Transaction-ID: 3b4a54c44df847b1aad1be99357f43b7
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <53512b9d-2a0b-5353-b0f6-b712de80f909@chinatelecom.cn>
+Date: Thu, 19 May 2022 11:05:18 +0800
 MIME-Version: 1.0
-In-Reply-To: <79bbbf79-a019-17f4-9008-f57a8c375fcb@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------0615451CA53C0311D143113B"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9AxqtiYs4ViVrUbAA--.17795S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7GF4kJF4Dtr1DCw17Ary7KFg_yoWxZwcEgF
- Z8KwsrG39IvrsrWrn7trs5A3y3Xw4xtryUtrWrW3y8K34rXFWkKwn8Crn5Xrs3Xa1kWr9x
- u3sIvasFvwn8ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbs8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r106r15McIj
- 6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c
- 0EjII2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vI
- Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
- 026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
- JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
- vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
- aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
- ZEXa7VU889N3UUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [RFC 1/6] qapi/migration: Introduce vcpu-dirtylimit-period
+ parameters
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <cover.1652762652.git.huangy81@chinatelecom.cn>
+ <23b507e7d9d230f1ea46bfe907acc09315505174.1652762652.git.huangy81@chinatelecom.cn>
+ <20220518150504.w3atejqy6xalap5g@redhat.com>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <20220518150504.w3atejqy6xalap5g@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.221;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,89 +75,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------0615451CA53C0311D143113B
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Richard
-
-On 2022/5/19 上午2:04, Richard Henderson wrote:
->
->>> +    uint64_t sw_isr[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP][EXTIOI_IRQS 
->>> / 64];
->
-> This has not been declared with DECLARE_BITMAP, therefore you will see 
-> a compile-time error when building on an ILP32 (i686) or P64 (win64) 
-> host.
->
-> I pointed this out to you as recently as v2 of this series.
-> I am really disappointed to see this regress in just one month.
->
-> You can test this yourself with
->
->   IMAGES='fedora-i386-cross fedora-win32-cross fedora-win64-cross' \
->   make docker-test-build
->
-> Please do so before your next submission. 
-Thank you for your patient guidance, we will carefully correct them.
-
-Thanks.
-Xiaojuan
 
 
---------------0615451CA53C0311D143113B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+在 2022/5/18 23:05, Eric Blake 写道:
+> On Tue, May 17, 2022 at 02:35:01PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Introduce "vcpu-dirtylimit-period" migration parameters,
+>> which is used to makes dirtyrate calculation period
+> 
+> make
+> 
+>> configurable.
+>>
+>> To implement that, refactor vcpu_dirty_rate_stat_collect
+>> so that period can be configured instead of hardcode.
+> 
+> hardcoded
+> 
+>>
+>> Meanwhile, introduce migrate_dirtylimit function to help
+>> check if dirtylimit enabled during live migration, set
+>> it false by default.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> ---
+> 
+> Focusing just on UI...
+> 
+>> +++ b/qapi/migration.json
+>> @@ -760,6 +760,9 @@
+>>   #                        block device name if there is one, and to their node name
+>>   #                        otherwise. (Since 5.2)
+>>   #
+>> +# @vcpu-dirtylimit-period: Periodic time (ms) of dirtylimit during live migration.
+>> +#                          Defaults to 500ms. (Since 7.0)
+> 
+> The next release is 7.1.  You'll need to fix this and all other references.
+Ok, i'll fix that in the v1.
+> 
+> Do we want 'dirty-limit' instead of 'dirtylimit'?  There was a recent
+> thread on how to translate QAPI to other languages that are a bit more
+> insistent on MixedCase, where properly separating English words makes
+> it easier to translate to the expected case.
+> 
+Changing the parameter name sounds ok to me, i'm not insistent that。
+>>   ##
+>>   # @migrate-set-parameters:
+>> @@ -1125,6 +1132,9 @@
+>>   #                        block device name if there is one, and to their node name
+>>   #                        otherwise. (Since 5.2)
+>>   #
+>> +# @vcpu-dirtylimit-period: Periodic time (ms) of dirtylimit during live migration.
+>> +#                          Defaults to 500ms. (Since 7.0)
+>> +#
+>>   # Features:
+>>   # @unstable: Member @x-checkpoint-delay is experimental.
+> 
+> Is this feature ready for prime time, or do we want to initially name
+> it x-vcpu-dirty[-]limit-period to mark it experimental?
+Indeed, for this fresh new feature, finding factors affecting migration 
+need more practice, marking it experimental could be much safer, i'll do 
+that in v1.
+> 
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi Richard<br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/5/19 上午2:04, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:79bbbf79-a019-17f4-9008-f57a8c375fcb@linaro.org"><br>
-      <blockquote type="cite" style="color: #000000;">
-        <blockquote type="cite" style="color: #000000;">+    uint64_t
-          sw_isr[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP][EXTIOI_IRQS / 64];
-          <br>
-        </blockquote>
-      </blockquote>
-      <br>
-      This has not been declared with DECLARE_BITMAP, therefore you will
-      see a compile-time error when building on an ILP32 (i686) or P64
-      (win64) host.
-      <br>
-      <br>
-      I pointed this out to you as recently as v2 of this series.
-      <br>
-      I am really disappointed to see this regress in just one month.
-      <br>
-      <br>
-      You can test this yourself with
-      <br>
-      <br>
-        IMAGES='fedora-i386-cross fedora-win32-cross fedora-win64-cross'
-      \
-      <br>
-        make docker-test-build
-      <br>
-      <br>
-      Please do so before your next submission.
-    </blockquote>
-    Thank you for your patient guidance, we will carefully correct them.<br>
-    <br>
-    Thanks.<br>
-    Xiaojuan<br>
-    <br>
-  </body>
-</html>
+-- 
+Best regard
 
---------------0615451CA53C0311D143113B--
-
+Hyman Huang(黄勇)
 
