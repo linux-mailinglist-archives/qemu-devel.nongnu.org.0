@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C532C52CA72
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:40:08 +0200 (CEST)
-Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDA252CA78
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:42:00 +0200 (CEST)
+Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrX1D-00022r-TM
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43042)
+	id 1nrX31-0003xA-8u
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nrWyI-0006n6-Mv
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:06 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:53986
+ id 1nrWyM-0006wD-VP
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:10 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:54009
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nrWyH-0008Nq-2A
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:06 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nrWyJ-0008O4-SB
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:37:10 -0400
 HMM_SOURCE_IP: 172.18.0.188:58888.87199194
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-36.111.64.84 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id BCB44280106;
- Thu, 19 May 2022 11:36:56 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 3728C2800B7;
+ Thu, 19 May 2022 11:37:01 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 887ea5c217db4d77908cdf60f585659e for
- qemu-devel@nongnu.org; Thu, 19 May 2022 11:37:01 CST
-X-Transaction-ID: 887ea5c217db4d77908cdf60f585659e
+ by app0023 with ESMTP id 0fe766ae781e40418db176beb7af0061 for
+ qemu-devel@nongnu.org; Thu, 19 May 2022 11:37:06 CST
+X-Transaction-ID: 0fe766ae781e40418db176beb7af0061
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
@@ -39,9 +39,10 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Hyman Huang <huangy81@chinatelecom.cn>
-Subject: [PATCH v24 2/8] cpus: Introduce cpu_list_generation_id
-Date: Thu, 19 May 2022 11:36:42 +0800
-Message-Id: <4d7a5f2c86066839054282b1c224067d89d32fc1.1652931128.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v24 3/8] migration/dirtyrate: Refactor dirty page rate
+ calculation
+Date: Thu, 19 May 2022 11:36:43 +0800
+Message-Id: <1d65b53c19cfc7dca0114422129515055fa18fb8.1652931128.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1652931128.git.huangy81@chinatelecom.cn>
 References: <cover.1652931128.git.huangy81@chinatelecom.cn>
@@ -74,65 +75,391 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Introduce cpu_list_generation_id to track cpu list generation so
-that cpu hotplug/unplug can be detected during measurement of
+abstract out dirty log change logic into function
+global_dirty_log_change.
+
+abstract out dirty page rate calculation logic via
+dirty-ring into function vcpu_calculate_dirtyrate.
+
+abstract out mathematical dirty page rate calculation
+into do_calculate_dirtyrate, decouple it from DirtyStat.
+
+rename set_sample_page_period to dirty_stat_wait, which
+is well-understood and will be reused in dirtylimit.
+
+handle cpu hotplug/unplug scenario during measurement of
 dirty page rate.
 
-cpu_list_generation_id could be used to detect changes of cpu
-list, which is prepared for dirty page rate measurement.
+export util functions outside migration.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- cpus-common.c             | 8 ++++++++
- include/exec/cpu-common.h | 1 +
- 2 files changed, 9 insertions(+)
+ include/sysemu/dirtyrate.h |  28 ++++++
+ migration/dirtyrate.c      | 227 ++++++++++++++++++++++++++++-----------------
+ migration/dirtyrate.h      |   7 +-
+ 3 files changed, 174 insertions(+), 88 deletions(-)
+ create mode 100644 include/sysemu/dirtyrate.h
 
-diff --git a/cpus-common.c b/cpus-common.c
-index db459b4..793364d 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -73,6 +73,12 @@ static int cpu_get_free_index(void)
- }
- 
- CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
-+static unsigned int cpu_list_generation_id;
+diff --git a/include/sysemu/dirtyrate.h b/include/sysemu/dirtyrate.h
+new file mode 100644
+index 0000000..4d3b9a4
+--- /dev/null
++++ b/include/sysemu/dirtyrate.h
+@@ -0,0 +1,28 @@
++/*
++ * dirty page rate helper functions
++ *
++ * Copyright (c) 2022 CHINA TELECOM CO.,LTD.
++ *
++ * Authors:
++ *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+unsigned int cpu_list_generation_id_get(void)
-+{
-+    return cpu_list_generation_id;
-+}
++#ifndef QEMU_DIRTYRATE_H
++#define QEMU_DIRTYRATE_H
++
++typedef struct VcpuStat {
++    int nvcpu; /* number of vcpu */
++    DirtyRateVcpu *rates; /* array of dirty rate for each vcpu */
++} VcpuStat;
++
++int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
++                                 VcpuStat *stat,
++                                 unsigned int flag,
++                                 bool one_shot);
++
++void global_dirty_log_change(unsigned int flag,
++                             bool start);
++#endif
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index aace12a..795fab5 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -46,7 +46,7 @@ static struct DirtyRateStat DirtyStat;
+ static DirtyRateMeasureMode dirtyrate_mode =
+                 DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
  
- void cpu_list_add(CPUState *cpu)
+-static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
++static int64_t dirty_stat_wait(int64_t msec, int64_t initial_time)
  {
-@@ -84,6 +90,7 @@ void cpu_list_add(CPUState *cpu)
-         assert(!cpu_index_auto_assigned);
+     int64_t current_time;
+ 
+@@ -60,6 +60,132 @@ static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
+     return msec;
+ }
+ 
++static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
++                                     CPUState *cpu, bool start)
++{
++    if (start) {
++        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
++    } else {
++        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
++    }
++}
++
++static int64_t do_calculate_dirtyrate(DirtyPageRecord dirty_pages,
++                                      int64_t calc_time_ms)
++{
++    uint64_t memory_size_MB;
++    uint64_t increased_dirty_pages =
++        dirty_pages.end_pages - dirty_pages.start_pages;
++
++    memory_size_MB = (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
++
++    return memory_size_MB * 1000 / calc_time_ms;
++}
++
++void global_dirty_log_change(unsigned int flag, bool start)
++{
++    qemu_mutex_lock_iothread();
++    if (start) {
++        memory_global_dirty_log_start(flag);
++    } else {
++        memory_global_dirty_log_stop(flag);
++    }
++    qemu_mutex_unlock_iothread();
++}
++
++/*
++ * global_dirty_log_sync
++ * 1. sync dirty log from kvm
++ * 2. stop dirty tracking if needed.
++ */
++static void global_dirty_log_sync(unsigned int flag, bool one_shot)
++{
++    qemu_mutex_lock_iothread();
++    memory_global_dirty_log_sync();
++    if (one_shot) {
++        memory_global_dirty_log_stop(flag);
++    }
++    qemu_mutex_unlock_iothread();
++}
++
++static DirtyPageRecord *vcpu_dirty_stat_alloc(VcpuStat *stat)
++{
++    CPUState *cpu;
++    DirtyPageRecord *records;
++    int nvcpu = 0;
++
++    CPU_FOREACH(cpu) {
++        nvcpu++;
++    }
++
++    stat->nvcpu = nvcpu;
++    stat->rates = g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
++
++    records = g_malloc0(sizeof(DirtyPageRecord) * nvcpu);
++
++    return records;
++}
++
++static void vcpu_dirty_stat_collect(VcpuStat *stat,
++                                    DirtyPageRecord *records,
++                                    bool start)
++{
++    CPUState *cpu;
++
++    CPU_FOREACH(cpu) {
++        record_dirtypages(records, cpu, start);
++    }
++}
++
++int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
++                                 VcpuStat *stat,
++                                 unsigned int flag,
++                                 bool one_shot)
++{
++    DirtyPageRecord *records;
++    int64_t init_time_ms;
++    int64_t duration;
++    int64_t dirtyrate;
++    int i = 0;
++    unsigned int gen_id;
++
++retry:
++    init_time_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++
++    cpu_list_lock();
++    gen_id = cpu_list_generation_id_get();
++    records = vcpu_dirty_stat_alloc(stat);
++    vcpu_dirty_stat_collect(stat, records, true);
++    cpu_list_unlock();
++
++    duration = dirty_stat_wait(calc_time_ms, init_time_ms);
++
++    global_dirty_log_sync(flag, one_shot);
++
++    cpu_list_lock();
++    if (gen_id != cpu_list_generation_id_get()) {
++        g_free(records);
++        g_free(stat->rates);
++        cpu_list_unlock();
++        goto retry;
++    }
++    vcpu_dirty_stat_collect(stat, records, false);
++    cpu_list_unlock();
++
++    for (i = 0; i < stat->nvcpu; i++) {
++        dirtyrate = do_calculate_dirtyrate(records[i], duration);
++
++        stat->rates[i].id = i;
++        stat->rates[i].dirty_rate = dirtyrate;
++
++        trace_dirtyrate_do_calculate_vcpu(i, dirtyrate);
++    }
++
++    g_free(records);
++
++    return duration;
++}
++
+ static bool is_sample_period_valid(int64_t sec)
+ {
+     if (sec < MIN_FETCH_DIRTYRATE_TIME_SEC ||
+@@ -396,44 +522,6 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
+     return true;
+ }
+ 
+-static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
+-                                     CPUState *cpu, bool start)
+-{
+-    if (start) {
+-        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
+-    } else {
+-        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
+-    }
+-}
+-
+-static void dirtyrate_global_dirty_log_start(void)
+-{
+-    qemu_mutex_lock_iothread();
+-    memory_global_dirty_log_start(GLOBAL_DIRTY_DIRTY_RATE);
+-    qemu_mutex_unlock_iothread();
+-}
+-
+-static void dirtyrate_global_dirty_log_stop(void)
+-{
+-    qemu_mutex_lock_iothread();
+-    memory_global_dirty_log_sync();
+-    memory_global_dirty_log_stop(GLOBAL_DIRTY_DIRTY_RATE);
+-    qemu_mutex_unlock_iothread();
+-}
+-
+-static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
+-{
+-    uint64_t memory_size_MB;
+-    int64_t time_s;
+-    uint64_t increased_dirty_pages =
+-        dirty_pages.end_pages - dirty_pages.start_pages;
+-
+-    memory_size_MB = (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
+-    time_s = DirtyStat.calc_time;
+-
+-    return memory_size_MB / time_s;
+-}
+-
+ static inline void record_dirtypages_bitmap(DirtyPageRecord *dirty_pages,
+                                             bool start)
+ {
+@@ -444,11 +532,6 @@ static inline void record_dirtypages_bitmap(DirtyPageRecord *dirty_pages,
      }
-     QTAILQ_INSERT_TAIL_RCU(&cpus, cpu, node);
-+    cpu_list_generation_id++;
  }
  
- void cpu_list_remove(CPUState *cpu)
-@@ -96,6 +103,7 @@ void cpu_list_remove(CPUState *cpu)
+-static void do_calculate_dirtyrate_bitmap(DirtyPageRecord dirty_pages)
+-{
+-    DirtyStat.dirty_rate = do_calculate_dirtyrate_vcpu(dirty_pages);
+-}
+-
+ static inline void dirtyrate_manual_reset_protect(void)
+ {
+     RAMBlock *block = NULL;
+@@ -492,71 +575,49 @@ static void calculate_dirtyrate_dirty_bitmap(struct DirtyRateConfig config)
+     DirtyStat.start_time = start_time / 1000;
  
-     QTAILQ_REMOVE_RCU(&cpus, cpu, node);
-     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
-+    cpu_list_generation_id++;
+     msec = config.sample_period_seconds * 1000;
+-    msec = set_sample_page_period(msec, start_time);
++    msec = dirty_stat_wait(msec, start_time);
+     DirtyStat.calc_time = msec / 1000;
+ 
+     /*
+-     * dirtyrate_global_dirty_log_stop do two things.
++     * do two things.
+      * 1. fetch dirty bitmap from kvm
+      * 2. stop dirty tracking
+      */
+-    dirtyrate_global_dirty_log_stop();
++    global_dirty_log_sync(GLOBAL_DIRTY_DIRTY_RATE, true);
+ 
+     record_dirtypages_bitmap(&dirty_pages, false);
+ 
+-    do_calculate_dirtyrate_bitmap(dirty_pages);
++    DirtyStat.dirty_rate = do_calculate_dirtyrate(dirty_pages, msec);
  }
  
- CPUState *qemu_get_cpu(int index)
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 5968551..2281be4 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -35,6 +35,7 @@ extern intptr_t qemu_host_page_mask;
- void qemu_init_cpu_list(void);
- void cpu_list_lock(void);
- void cpu_list_unlock(void);
-+unsigned int cpu_list_generation_id_get(void);
+ static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
+ {
+-    CPUState *cpu;
+-    int64_t msec = 0;
+-    int64_t start_time;
++    int64_t duration;
+     uint64_t dirtyrate = 0;
+     uint64_t dirtyrate_sum = 0;
+-    DirtyPageRecord *dirty_pages;
+-    int nvcpu = 0;
+     int i = 0;
  
- void tcg_flush_softmmu_tlb(CPUState *cs);
+-    CPU_FOREACH(cpu) {
+-        nvcpu++;
+-    }
+-
+-    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
+-
+-    DirtyStat.dirty_ring.nvcpu = nvcpu;
+-    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
+-
+-    dirtyrate_global_dirty_log_start();
+-
+-    CPU_FOREACH(cpu) {
+-        record_dirtypages(dirty_pages, cpu, true);
+-    }
+-
+-    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+-    DirtyStat.start_time = start_time / 1000;
++    /* start log sync */
++    global_dirty_log_change(GLOBAL_DIRTY_DIRTY_RATE, true);
  
+-    msec = config.sample_period_seconds * 1000;
+-    msec = set_sample_page_period(msec, start_time);
+-    DirtyStat.calc_time = msec / 1000;
++    DirtyStat.start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+ 
+-    dirtyrate_global_dirty_log_stop();
++    /* calculate vcpu dirtyrate */
++    duration = vcpu_calculate_dirtyrate(config.sample_period_seconds * 1000,
++                                        &DirtyStat.dirty_ring,
++                                        GLOBAL_DIRTY_DIRTY_RATE,
++                                        true);
+ 
+-    CPU_FOREACH(cpu) {
+-        record_dirtypages(dirty_pages, cpu, false);
+-    }
++    DirtyStat.calc_time = duration / 1000;
+ 
++    /* calculate vm dirtyrate */
+     for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
+-        dirtyrate = do_calculate_dirtyrate_vcpu(dirty_pages[i]);
+-        trace_dirtyrate_do_calculate_vcpu(i, dirtyrate);
+-
+-        DirtyStat.dirty_ring.rates[i].id = i;
++        dirtyrate = DirtyStat.dirty_ring.rates[i].dirty_rate;
+         DirtyStat.dirty_ring.rates[i].dirty_rate = dirtyrate;
+         dirtyrate_sum += dirtyrate;
+     }
+ 
+     DirtyStat.dirty_rate = dirtyrate_sum;
+-    free(dirty_pages);
+ }
+ 
+ static void calculate_dirtyrate_sample_vm(struct DirtyRateConfig config)
+@@ -574,7 +635,7 @@ static void calculate_dirtyrate_sample_vm(struct DirtyRateConfig config)
+     rcu_read_unlock();
+ 
+     msec = config.sample_period_seconds * 1000;
+-    msec = set_sample_page_period(msec, initial_time);
++    msec = dirty_stat_wait(msec, initial_time);
+     DirtyStat.start_time = initial_time / 1000;
+     DirtyStat.calc_time = msec / 1000;
+ 
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 69d4c5b..594a5c0 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -13,6 +13,8 @@
+ #ifndef QEMU_MIGRATION_DIRTYRATE_H
+ #define QEMU_MIGRATION_DIRTYRATE_H
+ 
++#include "sysemu/dirtyrate.h"
++
+ /*
+  * Sample 512 pages per GB as default.
+  */
+@@ -65,11 +67,6 @@ typedef struct SampleVMStat {
+     uint64_t total_block_mem_MB; /* size of total sampled pages in MB */
+ } SampleVMStat;
+ 
+-typedef struct VcpuStat {
+-    int nvcpu; /* number of vcpu */
+-    DirtyRateVcpu *rates; /* array of dirty rate for each vcpu */
+-} VcpuStat;
+-
+ /*
+  * Store calculation statistics for each measure.
+  */
 -- 
 1.8.3.1
 
