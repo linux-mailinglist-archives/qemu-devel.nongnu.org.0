@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4745C52DE69
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:31:28 +0200 (CEST)
-Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB63D52DE7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:34:48 +0200 (CEST)
+Received: from localhost ([::1]:50930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrmnv-000124-BT
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:31:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59544)
+	id 1nrmr9-0005Zk-TB
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:34:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmf5-0006T2-02; Thu, 19 May 2022 16:22:20 -0400
+ id 1nrmf8-0006Tc-M5; Thu, 19 May 2022 16:22:24 -0400
 Received: from [187.72.171.209] (port=38888 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmf3-0007Ny-Dn; Thu, 19 May 2022 16:22:18 -0400
+ id 1nrmf6-0007Ny-0H; Thu, 19 May 2022 16:22:21 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 19 May 2022 17:18:47 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 562AB800150;
+ by p9ibm (Postfix) with ESMTP id 89CEC800C32;
  Thu, 19 May 2022 17:18:47 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH v2 10/12] target/ppc: declare vmsum[um]bm helpers with call
+Subject: [PATCH v2 11/12] target/ppc: declare vmsumuh[ms] helper with call
  flags
-Date: Thu, 19 May 2022 17:18:20 -0300
-Message-Id: <20220519201822.465229-11-matheus.ferst@eldorado.org.br>
+Date: Thu, 19 May 2022 17:18:21 -0300
+Message-Id: <20220519201822.465229-12-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
 References: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 19 May 2022 20:18:47.0559 (UTC)
- FILETIME=[A569B970:01D86BBD]
+X-OriginalArrivalTime: 19 May 2022 20:18:47.0762 (UTC)
+ FILETIME=[A588B320:01D86BBD]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,106 +66,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Move vmsumubm and vmsummbm to decodetree, declare both helpers with
-TCG_CALL_NO_RWG, and drop the unused env argument.
+Move vmsumuhm and vmsumuhs to decodetree, declare both helpers with
+TCG_CALL_NO_RWG, and drop the unused env argument of vmsumuhm.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 | 4 ++--
- target/ppc/insn32.decode            | 3 +++
- target/ppc/int_helper.c             | 6 ++----
- target/ppc/translate/vmx-impl.c.inc | 5 ++++-
- target/ppc/translate/vmx-ops.c.inc  | 2 --
- 5 files changed, 11 insertions(+), 9 deletions(-)
+ target/ppc/helper.h                 |  4 ++--
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/int_helper.c             |  5 ++---
+ target/ppc/translate/vmx-impl.c.inc | 24 ++++++++++++++++++++++--
+ target/ppc/translate/vmx-ops.c.inc  |  1 -
+ 5 files changed, 28 insertions(+), 8 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 69e1d3e327..efbbd34feb 100644
+index efbbd34feb..223b4c941a 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -223,8 +223,8 @@ DEF_HELPER_FLAGS_2(vupkhsw, TCG_CALL_NO_RWG, void, avr, avr)
- DEF_HELPER_FLAGS_2(vupklsb, TCG_CALL_NO_RWG, void, avr, avr)
- DEF_HELPER_FLAGS_2(vupklsh, TCG_CALL_NO_RWG, void, avr, avr)
- DEF_HELPER_FLAGS_2(vupklsw, TCG_CALL_NO_RWG, void, avr, avr)
--DEF_HELPER_5(vmsumubm, void, env, avr, avr, avr, avr)
--DEF_HELPER_5(vmsummbm, void, env, avr, avr, avr, avr)
-+DEF_HELPER_FLAGS_4(VMSUMUBM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
-+DEF_HELPER_FLAGS_4(VMSUMMBM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_4(VPERM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_4(VPERMR, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
- DEF_HELPER_4(vpkshss, void, env, avr, avr, avr)
+@@ -242,8 +242,8 @@ DEF_HELPER_4(vpkudum, void, env, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(vpkpx, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_5(vmhaddshs, void, env, avr, avr, avr, avr)
+ DEF_HELPER_5(vmhraddshs, void, env, avr, avr, avr, avr)
+-DEF_HELPER_5(vmsumuhm, void, env, avr, avr, avr, avr)
+-DEF_HELPER_5(vmsumuhs, void, env, avr, avr, avr, avr)
++DEF_HELPER_FLAGS_4(VMSUMUHM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
++DEF_HELPER_FLAGS_5(VMSUMUHS, TCG_CALL_NO_RWG, void, env, avr, avr, avr, avr)
+ DEF_HELPER_5(vmsumshm, void, env, avr, avr, avr, avr)
+ DEF_HELPER_5(vmsumshs, void, env, avr, avr, avr, avr)
+ DEF_HELPER_FLAGS_4(vmladduhm, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 435cf1320c..fdb8d76456 100644
+index fdb8d76456..43ea03c3e7 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -599,6 +599,9 @@ VMULLD          000100 ..... ..... ..... 00111001001    @VX
+@@ -601,6 +601,8 @@ VMULLD          000100 ..... ..... ..... 00111001001    @VX
  
- ## Vector Multiply-Sum Instructions
+ VMSUMUBM        000100 ..... ..... ..... ..... 100100   @VA
+ VMSUMMBM        000100 ..... ..... ..... ..... 100101   @VA
++VMSUMUHM        000100 ..... ..... ..... ..... 100110   @VA
++VMSUMUHS        000100 ..... ..... ..... ..... 100111   @VA
  
-+VMSUMUBM        000100 ..... ..... ..... ..... 100100   @VA
-+VMSUMMBM        000100 ..... ..... ..... ..... 100101   @VA
-+
  VMSUMCUD        000100 ..... ..... ..... ..... 010111   @VA
  VMSUMUDM        000100 ..... ..... ..... ..... 100011   @VA
- 
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 9a361ad241..85a7442103 100644
+index 85a7442103..9285a1c2a1 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
-@@ -875,8 +875,7 @@ VMRG(w, u32, VsrW)
- #undef VMRG_DO
- #undef VMRG
- 
--void helper_vmsummbm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
--                     ppc_avr_t *b, ppc_avr_t *c)
-+void helper_VMSUMMBM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
- {
-     int32_t prod[16];
-     int i;
-@@ -928,8 +927,7 @@ void helper_vmsumshs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
+@@ -942,8 +942,7 @@ void helper_VMSUMUBM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
      }
  }
  
--void helper_vmsumubm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
+-void helper_vmsumuhm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
 -                     ppc_avr_t *b, ppc_avr_t *c)
-+void helper_VMSUMUBM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
++void helper_VMSUMUHM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
  {
-     uint16_t prod[16];
+     uint32_t prod[8];
      int i;
+@@ -957,7 +956,7 @@ void helper_vmsumuhm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
+     }
+ }
+ 
+-void helper_vmsumuhs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
++void helper_VMSUMUHS(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
+                      ppc_avr_t *b, ppc_avr_t *c)
+ {
+     uint32_t prod[8];
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index e66301c007..4cbd724641 100644
+index 4cbd724641..da81296b96 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -2587,9 +2587,12 @@ static bool trans_VSEL(DisasContext *ctx, arg_VA *a)
+@@ -2587,11 +2587,31 @@ static bool trans_VSEL(DisasContext *ctx, arg_VA *a)
      return true;
  }
  
--GEN_VAFORM_PAIRED(vmsumubm, vmsummbm, 18)
- GEN_VAFORM_PAIRED(vmsumuhm, vmsumuhs, 19)
+-GEN_VAFORM_PAIRED(vmsumuhm, vmsumuhs, 19)
  GEN_VAFORM_PAIRED(vmsumshm, vmsumshs, 20)
+-
+ TRANS_FLAGS(ALTIVEC, VMSUMUBM, do_va_helper, gen_helper_VMSUMUBM)
+ TRANS_FLAGS(ALTIVEC, VMSUMMBM, do_va_helper, gen_helper_VMSUMMBM)
++TRANS_FLAGS(ALTIVEC, VMSUMUHM, do_va_helper, gen_helper_VMSUMUHM)
 +
-+TRANS_FLAGS(ALTIVEC, VMSUMUBM, do_va_helper, gen_helper_VMSUMUBM)
-+TRANS_FLAGS(ALTIVEC, VMSUMMBM, do_va_helper, gen_helper_VMSUMMBM)
++static bool do_va_env_helper(DisasContext *ctx, arg_VA *a,
++    void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
++{
++    TCGv_ptr vrt, vra, vrb, vrc;
++    REQUIRE_VECTOR(ctx);
 +
++    vrt = gen_avr_ptr(a->vrt);
++    vra = gen_avr_ptr(a->vra);
++    vrb = gen_avr_ptr(a->vrb);
++    vrc = gen_avr_ptr(a->rc);
++    gen_helper(cpu_env, vrt, vra, vrb, vrc);
++    tcg_temp_free_ptr(vrt);
++    tcg_temp_free_ptr(vra);
++    tcg_temp_free_ptr(vrb);
++    tcg_temp_free_ptr(vrc);
++
++    return true;
++}
++
++TRANS_FLAGS(ALTIVEC, VMSUMUHS, do_va_env_helper, gen_helper_VMSUMUHS)
+ 
  GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23)
  
- GEN_VXFORM_NOA(vclzb, 1, 28)
 diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index d960648d52..5b85322c06 100644
+index 5b85322c06..15b3e06410 100644
 --- a/target/ppc/translate/vmx-ops.c.inc
 +++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -221,11 +221,9 @@ GEN_VXFORM_UIMM(vcfsx, 5, 13),
- GEN_VXFORM_UIMM(vctuxs, 5, 14),
- GEN_VXFORM_UIMM(vctsxs, 5, 15),
- 
--
+@@ -224,7 +224,6 @@ GEN_VXFORM_UIMM(vctsxs, 5, 15),
  #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
      GEN_HANDLER(name0##_##name1, 0x04, opc2, 0xFF, 0x00000000, PPC_ALTIVEC)
  GEN_VAFORM_PAIRED(vmhaddshs, vmhraddshs, 16),
--GEN_VAFORM_PAIRED(vmsumubm, vmsummbm, 18),
- GEN_VAFORM_PAIRED(vmsumuhm, vmsumuhs, 19),
+-GEN_VAFORM_PAIRED(vmsumuhm, vmsumuhs, 19),
  GEN_VAFORM_PAIRED(vmsumshm, vmsumshs, 20),
  GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23),
+ 
 -- 
 2.25.1
 
