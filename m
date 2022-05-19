@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A7C52CA57
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:27:42 +0200 (CEST)
-Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9650952CA5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 05:29:35 +0200 (CEST)
+Received: from localhost ([::1]:52386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrWpB-000116-2W
-	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
+	id 1nrWr0-0005HU-Gd
+	for lists+qemu-devel@lfdr.de; Wed, 18 May 2022 23:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nrWnE-0007lZ-FH
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:25:40 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:44938
+ id 1nrWnF-0007m2-IX
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:25:41 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:44941
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nrWnB-0006oo-K1
- for qemu-devel@nongnu.org; Wed, 18 May 2022 23:25:40 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nrWnB-0006ot-Jq
+ for qemu-devel@nongnu.org; Wed, 18 May 2022 23:25:41 -0400
 HMM_SOURCE_IP: 172.18.0.188:41488.828472601
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-36.111.64.84 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 241302800CC;
- Thu, 19 May 2022 11:25:26 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id E52692800ED;
+ Thu, 19 May 2022 11:25:29 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.188])
- by app0023 with ESMTP id c1a47fc9f854496581c82ccdb80a2555 for
- qemu-devel@nongnu.org; Thu, 19 May 2022 11:25:29 CST
-X-Transaction-ID: c1a47fc9f854496581c82ccdb80a2555
+ by app0023 with ESMTP id fb85c775ff4b4583a9ea07c99899ceef for
+ qemu-devel@nongnu.org; Thu, 19 May 2022 11:25:31 CST
+X-Transaction-ID: fb85c775ff4b4583a9ea07c99899ceef
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
@@ -39,10 +39,15 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Hyman Huang <huangy81@chinatelecom.cn>
-Subject: [PATCH v23 0/8] support dirty restraint on vCPU 
-Date: Thu, 19 May 2022 11:25:11 +0800
-Message-Id: <cover.1652929816.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v23 1/8] accel/kvm/kvm-all: Refactor per-vcpu dirty ring
+ reaping
+Date: Thu, 19 May 2022 11:25:12 +0800
+Message-Id: <bc37b83d5a189add887433728a0f632d35fb3e3e.1652929817.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1652929816.git.huangy81@chinatelecom.cn>
+References: <cover.1652929816.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1652929816.git.huangy81@chinatelecom.cn>
+References: <cover.1652929816.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -70,146 +75,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-This is v23 of dirtylimit series. Since v22 posted abount 1 month ago,
-i did some modifications to make sure it's ready to be queued:
+Add a non-required argument 'CPUState' to kvm_dirty_ring_reap so
+that it can cover single vcpu dirty-ring-reaping scenario.
 
-- rebased the master and changed the qapi version tag from 7.0 to 7.1
-- do not set error if when query_vcpu_dirty_limit find dirtylimit not
-  in service, returning NULL is sufficient. (PATCH v22 [7/8]). 
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+---
+ accel/kvm/kvm-all.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-The following is the history of the patchset, since v22 kind of different from
-the original version, i made abstracts of changelog:
-
-RFC and v1: https://lore.kernel.org/qemu-devel/cover.1637214721.git.huangy81@chinatelecom.cn/
-v2: https://lore.kernel.org/qemu-devel/cover.1637256224.git.huangy81@chinatelecom.cn/
-v1->v2 changelog: 
-- rename some function and variables. refactor the original algo of dirtylimit. Thanks for
-  the comments given by Juan Quintela.
-v3: https://lore.kernel.org/qemu-devel/cover.1637403404.git.huangy81@chinatelecom.cn/
-v4: https://lore.kernel.org/qemu-devel/cover.1637653303.git.huangy81@chinatelecom.cn/
-v5: https://lore.kernel.org/qemu-devel/cover.1637759139.git.huangy81@chinatelecom.cn/
-v6: https://lore.kernel.org/qemu-devel/cover.1637856472.git.huangy81@chinatelecom.cn/
-v7: https://lore.kernel.org/qemu-devel/cover.1638202004.git.huangy81@chinatelecom.cn/
-v2->v7 changelog:
-- refactor the docs, annotation and fix bugs of the original algo of dirtylimit.
-  Thanks for the review given by Markus Armbruster. 
-v8: https://lore.kernel.org/qemu-devel/cover.1638463260.git.huangy81@chinatelecom.cn/
-v9: https://lore.kernel.org/qemu-devel/cover.1638495274.git.huangy81@chinatelecom.cn/
-v10: https://lore.kernel.org/qemu-devel/cover.1639479557.git.huangy81@chinatelecom.cn/
-v7->v10 changelog:
-- introduce a simpler but more efficient algo of dirtylimit inspired by Peter Xu.
-- keep polishing the annotation suggested by Markus Armbruster.
-v11: https://lore.kernel.org/qemu-devel/cover.1641315745.git.huangy81@chinatelecom.cn/
-v12: https://lore.kernel.org/qemu-devel/cover.1642774952.git.huangy81@chinatelecom.cn/
-v13: https://lore.kernel.org/qemu-devel/cover.1644506963.git.huangy81@chinatelecom.cn/
-v10->v13 changelog:
-- handle the hotplug/unplug scenario.
-- refactor the new algo, split the commit and make the code more clean.
-v14: https://lore.kernel.org/qemu-devel/cover.1644509582.git.huangy81@chinatelecom.cn/
-v13->v14 changelog:
-- sent by accident.
-v15: https://lore.kernel.org/qemu-devel/cover.1644976045.git.huangy81@chinatelecom.cn/ 
-v16: https://lore.kernel.org/qemu-devel/cover.1645067452.git.huangy81@chinatelecom.cn/ 
-v17: https://lore.kernel.org/qemu-devel/cover.1646243252.git.huangy81@chinatelecom.cn/
-v14->v17 changelog: 
-- do some code clean and fix test bug reported by Dr. David Alan Gilbert.
-v18: https://lore.kernel.org/qemu-devel/cover.1646247968.git.huangy81@chinatelecom.cn/
-v19: https://lore.kernel.org/qemu-devel/cover.1647390160.git.huangy81@chinatelecom.cn/
-v20: https://lore.kernel.org/qemu-devel/cover.1647396907.git.huangy81@chinatelecom.cn/
-v21: https://lore.kernel.org/qemu-devel/cover.1647435820.git.huangy81@chinatelecom.cn/
-v17->v21 changelog:
-- add qtest, fix bug and do code clean. 
-v21->v22 changelog:
-- move the vcpu dirty limit test into migration-test and do some modification suggested
-  by Peter.
-
-Please review.
-
-Yong.
-
-Abstract
-========
-
-This patchset introduce a mechanism to impose dirty restraint
-on vCPU, aiming to keep the vCPU running in a certain dirtyrate
-given by user. dirty restraint on vCPU maybe an alternative
-method to implement convergence logic for live migration,
-which could improve guest memory performance during migration
-compared with traditional method in theory.
-
-For the current live migration implementation, the convergence
-logic throttles all vCPUs of the VM, which has some side effects.
--'read processes' on vCPU will be unnecessarily penalized
-- throttle increase percentage step by step, which seems
-  struggling to find the optimal throttle percentage when
-  dirtyrate is high.
-- hard to predict the remaining time of migration if the
-  throttling percentage reachs 99%
-
-to a certain extent, the dirty restraint machnism can fix these
-effects by throttling at vCPU granularity during migration.
-
-the implementation is rather straightforward, we calculate
-vCPU dirtyrate via the Dirty Ring mechanism periodically
-as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
-does, for vCPU that be specified to impose dirty restraint,
-we throttle it periodically as the auto-converge does, once after
-throttling, we compare the quota dirtyrate with current dirtyrate,
-if current dirtyrate is not under the quota, increase the throttling
-percentage until current dirtyrate is under the quota.
-
-this patchset is the basis of implmenting a new auto-converge method
-for live migration, we introduce two qmp commands for impose/cancel
-the dirty restraint on specified vCPU, so it also can be an independent
-api to supply the upper app such as libvirt, which can use it to
-implement the convergence logic during live migration, supplemented
-with the qmp 'calc-dirty-rate' command or whatever.
-
-we post this patchset for RFC and any corrections and suggetions about
-the implementation, api, throttleing algorithm or whatever are very
-appreciated!
-
-Please review, thanks !
-
-Best Regards !
-
-Hyman Huang (8):
-  accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
-  cpus: Introduce cpu_list_generation_id
-  migration/dirtyrate: Refactor dirty page rate calculation
-  softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
-  accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
-  softmmu/dirtylimit: Implement virtual CPU throttle
-  softmmu/dirtylimit: Implement dirty page rate limit
-  tests: Add dirty page rate limit test
-
- accel/kvm/kvm-all.c             |  46 ++-
- accel/stubs/kvm-stub.c          |   6 +
- cpus-common.c                   |   8 +
- hmp-commands-info.hx            |  13 +
- hmp-commands.hx                 |  32 +++
- include/exec/cpu-common.h       |   1 +
- include/exec/memory.h           |   5 +-
- include/hw/core/cpu.h           |   6 +
- include/monitor/hmp.h           |   3 +
- include/sysemu/dirtylimit.h     |  37 +++
- include/sysemu/dirtyrate.h      |  28 ++
- include/sysemu/kvm.h            |   2 +
- migration/dirtyrate.c           | 227 +++++++++------
- migration/dirtyrate.h           |   7 +-
- qapi/migration.json             |  80 ++++++
- softmmu/dirtylimit.c            | 601 ++++++++++++++++++++++++++++++++++++++++
- softmmu/meson.build             |   1 +
- softmmu/trace-events            |   7 +
- tests/qtest/migration-helpers.c |  22 ++
- tests/qtest/migration-helpers.h |   2 +
- tests/qtest/migration-test.c    | 255 +++++++++++++++++
- tests/qtest/qmp-cmd-test.c      |   2 +
- 22 files changed, 1292 insertions(+), 99 deletions(-)
- create mode 100644 include/sysemu/dirtylimit.h
- create mode 100644 include/sysemu/dirtyrate.h
- create mode 100644 softmmu/dirtylimit.c
-
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 32e177b..b13cd27 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -756,17 +756,20 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
+ }
+ 
+ /* Must be with slots_lock held */
+-static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
++static uint64_t kvm_dirty_ring_reap_locked(KVMState *s, CPUState* cpu)
+ {
+     int ret;
+-    CPUState *cpu;
+     uint64_t total = 0;
+     int64_t stamp;
+ 
+     stamp = get_clock();
+ 
+-    CPU_FOREACH(cpu) {
+-        total += kvm_dirty_ring_reap_one(s, cpu);
++    if (cpu) {
++        total = kvm_dirty_ring_reap_one(s, cpu);
++    } else {
++        CPU_FOREACH(cpu) {
++            total += kvm_dirty_ring_reap_one(s, cpu);
++        }
+     }
+ 
+     if (total) {
+@@ -787,7 +790,7 @@ static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
+  * Currently for simplicity, we must hold BQL before calling this.  We can
+  * consider to drop the BQL if we're clear with all the race conditions.
+  */
+-static uint64_t kvm_dirty_ring_reap(KVMState *s)
++static uint64_t kvm_dirty_ring_reap(KVMState *s, CPUState *cpu)
+ {
+     uint64_t total;
+ 
+@@ -807,7 +810,7 @@ static uint64_t kvm_dirty_ring_reap(KVMState *s)
+      *     reset below.
+      */
+     kvm_slots_lock();
+-    total = kvm_dirty_ring_reap_locked(s);
++    total = kvm_dirty_ring_reap_locked(s, cpu);
+     kvm_slots_unlock();
+ 
+     return total;
+@@ -854,7 +857,7 @@ static void kvm_dirty_ring_flush(void)
+      * vcpus out in a synchronous way.
+      */
+     kvm_cpu_synchronize_kick_all();
+-    kvm_dirty_ring_reap(kvm_state);
++    kvm_dirty_ring_reap(kvm_state, NULL);
+     trace_kvm_dirty_ring_flush(1);
+ }
+ 
+@@ -1398,7 +1401,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+                  * Not easy.  Let's cross the fingers until it's fixed.
+                  */
+                 if (kvm_state->kvm_dirty_ring_size) {
+-                    kvm_dirty_ring_reap_locked(kvm_state);
++                    kvm_dirty_ring_reap_locked(kvm_state, NULL);
+                 } else {
+                     kvm_slot_get_dirty_log(kvm_state, mem);
+                 }
+@@ -1470,7 +1473,7 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
+         r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
+ 
+         qemu_mutex_lock_iothread();
+-        kvm_dirty_ring_reap(s);
++        kvm_dirty_ring_reap(s, NULL);
+         qemu_mutex_unlock_iothread();
+ 
+         r->reaper_iteration++;
+@@ -2957,7 +2960,7 @@ int kvm_cpu_exec(CPUState *cpu)
+              */
+             trace_kvm_dirty_ring_full(cpu->cpu_index);
+             qemu_mutex_lock_iothread();
+-            kvm_dirty_ring_reap(kvm_state);
++            kvm_dirty_ring_reap(kvm_state, NULL);
+             qemu_mutex_unlock_iothread();
+             ret = 0;
+             break;
 -- 
 1.8.3.1
 
