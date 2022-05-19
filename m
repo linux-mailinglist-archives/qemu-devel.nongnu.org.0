@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F295C52D9F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 18:14:00 +0200 (CEST)
-Received: from localhost ([::1]:43194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A720952D9F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 18:14:20 +0200 (CEST)
+Received: from localhost ([::1]:44232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nriml-0004yF-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 12:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
+	id 1nrin5-0005ow-J4
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 12:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nriHb-0001gm-50
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:41:47 -0400
-Received: from mga12.intel.com ([192.55.52.136]:33686)
+ id 1nriHw-0002VA-Jm
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:42:10 -0400
+Received: from mga09.intel.com ([134.134.136.24]:26282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nriHY-0000gZ-K5
- for qemu-devel@nongnu.org; Thu, 19 May 2022 11:41:46 -0400
+ id 1nriHu-0000jv-B9
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 11:42:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652974904; x=1684510904;
+ t=1652974926; x=1684510926;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Ki9Xo5okkP+R+vbuSBF5h8cquKe/X5fGFu1xJg+soHM=;
- b=hRG/rOiuuuWaRNucR6DErFci//rm/AEvx6Lw8MPTumq3jDNrqjS/L7jU
- MBDY4jtrk34PslHsuHvBwxalXB5NSddqjJaYzw0lnRGPFwBTgi9NKB+6V
- 71KnjOfPKcKxipUgDJtx+rl2Z7vGsnKQnBX0ugEmR9MRMVsOlelAZAu1C
- 93mfKL+5WfqV/lv75BRdIT2y4OB994K6cQ5bLO7n5qzLhMVrJBipo1Yic
- KaD+VUdSbhtmas3R8nUdh71jHvzPOrd6Cm0oLGVXa2QoTFyRSmkHSVhef
- qiLRQqXV683JtuUVJ3P/sASpCeaiuRS7TlZRgBIdGIe0Cnu0s5asf9NsX w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="252143225"
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="252143225"
+ bh=XNQbqAIKiaRmaWRPdxk1Vbrl7jFMm+MnDgt+/EH9OEE=;
+ b=g/Eu0E0jKRJtGrGavcAoSrAAi+8/aFx8yuXDsF8a52rq3ifujvyLSVKC
+ Dp8Z9GAiRDPnLtdHOi9yhXFetDuRNoZIJUxw1sCA30kv8nqk+n5kVBRNt
+ Xkh7oJD4uHW7q+3CR3tJrRC3oM0hf7YjLbUIkL2IluidcEZQW8X9XtdzN
+ dSMdf3Sf0xwcdQ+Ih2OZz5Mx3fe1qJCwQBtv+LHEcNMMYmpTr7jI9iW2E
+ wVAoktSjF9Vad533PPAw3ylP1sWS69don5ITzvlQ8Kuei8x3Mn7ZxLVWV
+ VVudBZFIQVy5RNZDxSL6KQhSyfyP1ha9uWSNqUliXUX8ksfoAHJEwOVVr A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="271951291"
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="271951291"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 08:41:43 -0700
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 08:42:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="598635316"
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="598635481"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:41:32 -0700
+ by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:41:53 -0700
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -64,23 +64,23 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
  dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
  Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: [PATCH v6 5/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Date: Thu, 19 May 2022 23:37:10 +0800
-Message-Id: <20220519153713.819591-6-chao.p.peng@linux.intel.com>
+Subject: [PATCH v6 7/8] KVM: Enable and expose KVM_MEM_PRIVATE
+Date: Thu, 19 May 2022 23:37:12 +0800
+Message-Id: <20220519153713.819591-8-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
 References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,98 +96,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new KVM exit allows userspace to handle memory-related errors. It
-indicates an error happens in KVM at guest memory range [gpa, gpa+size).
-The flags includes additional information for userspace to handle the
-error. Currently bit 0 is defined as 'private memory' where '1'
-indicates error happens due to private memory access and '0' indicates
-error happens due to shared memory access.
+Register private memslot to fd-based memory backing store and handle the
+memfile notifiers to zap the existing mappings.
 
-After private memory is enabled, this new exit will be used for KVM to
-exit to userspace for shared memory <-> private memory conversion in
-memory encryption usage.
+Currently the register is happened at memslot creating time and the
+initial support does not include page migration/swap.
 
-In such usage, typically there are two kind of memory conversions:
-  - explicit conversion: happens when guest explicitly calls into KVM to
-    map a range (as private or shared), KVM then exits to userspace to
-    do the map/unmap operations.
-  - implicit conversion: happens in KVM page fault handler.
-    * if the fault is due to a private memory access then causes a
-      userspace exit for a shared->private conversion request when the
-      page has not been allocated in the private memory backend.
-    * If the fault is due to a shared memory access then causes a
-      userspace exit for a private->shared conversion request when the
-      page has already been allocated in the private memory backend.
+KVM_MEM_PRIVATE is not exposed by default, architecture code can turn
+on it by implementing kvm_arch_private_mem_supported().
 
-Suggested-by: Sean Christopherson <seanjc@google.com>
+A 'kvm' reference is added in memslot structure since in
+memfile_notifier callbacks we can only obtain a memslot reference while
+kvm is need to do the zapping. The zapping itself reuses code from
+existing mmu notifier handling.
+
 Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- Documentation/virt/kvm/api.rst | 22 ++++++++++++++++++++++
- include/uapi/linux/kvm.h       |  9 +++++++++
- 2 files changed, 31 insertions(+)
+ include/linux/kvm_host.h |  10 ++-
+ virt/kvm/kvm_main.c      | 132 ++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 131 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index b959445b64cc..2421c012278b 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6341,6 +6341,28 @@ array field represents return values. The userspace should update the return
- values of SBI call before resuming the VCPU. For more details on RISC-V SBI
- spec refer, https://github.com/riscv/riscv-sbi-doc.
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index b0a7910505ed..00efb4b96bc7 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -246,7 +246,7 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+ int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
+ #endif
  
-+::
-+
-+		/* KVM_EXIT_MEMORY_FAULT */
-+		struct {
-+  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-+			__u32 flags;
-+			__u32 padding;
-+			__u64 gpa;
-+			__u64 size;
-+		} memory;
-+If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
-+encountered a memory error which is not handled by KVM kernel module and
-+userspace may choose to handle it. The 'flags' field indicates the memory
-+properties of the exit.
-+
-+ - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-+   private memory access when the bit is set otherwise the memory error is
-+   caused by shared memory access when the bit is clear.
-+
-+'gpa' and 'size' indicate the memory range the error occurs at. The userspace
-+may handle the error and return to KVM to retry the previous memory access.
-+
- ::
+-#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
++#if defined(KVM_ARCH_WANT_MMU_NOTIFIER) || defined(CONFIG_MEMFILE_NOTIFIER)
+ struct kvm_gfn_range {
+ 	struct kvm_memory_slot *slot;
+ 	gfn_t start;
+@@ -577,6 +577,7 @@ struct kvm_memory_slot {
+ 	struct file *private_file;
+ 	loff_t private_offset;
+ 	struct memfile_notifier notifier;
++	struct kvm *kvm;
+ };
  
- 		/* Fix the size of the union. */
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 28cacd3656d4..6ca864be258f 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -294,6 +294,7 @@ struct kvm_xen_exit {
- #define KVM_EXIT_X86_BUS_LOCK     33
- #define KVM_EXIT_XEN              34
- #define KVM_EXIT_RISCV_SBI        35
-+#define KVM_EXIT_MEMORY_FAULT     36
+ static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
+@@ -769,9 +770,13 @@ struct kvm {
+ 	struct hlist_head irq_ack_notifier_list;
+ #endif
  
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -518,6 +519,14 @@ struct kvm_run {
- 			unsigned long args[6];
- 			unsigned long ret[2];
- 		} riscv_sbi;
-+		/* KVM_EXIT_MEMORY_FAULT */
-+		struct {
-+#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-+			__u32 flags;
-+			__u32 padding;
-+			__u64 gpa;
-+			__u64 size;
-+		} memory;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
++#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)) ||\
++	defined(CONFIG_MEMFILE_NOTIFIER)
++	unsigned long mmu_notifier_seq;
++#endif
++
+ #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
+ 	struct mmu_notifier mmu_notifier;
+-	unsigned long mmu_notifier_seq;
+ 	long mmu_notifier_count;
+ 	unsigned long mmu_notifier_range_start;
+ 	unsigned long mmu_notifier_range_end;
+@@ -1438,6 +1443,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
+ int kvm_arch_post_init_vm(struct kvm *kvm);
+ void kvm_arch_pre_destroy_vm(struct kvm *kvm);
+ int kvm_arch_create_vm_debugfs(struct kvm *kvm);
++bool kvm_arch_private_mem_supported(struct kvm *kvm);
+ 
+ #ifndef __KVM_HAVE_ARCH_VM_ALLOC
+ /*
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index db9d39a2d3a6..f93ac7cdfb53 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -843,6 +843,73 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
+ 
+ #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
+ 
++#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
++static void kvm_private_mem_notifier_handler(struct memfile_notifier *notifier,
++					     pgoff_t start, pgoff_t end)
++{
++	int idx;
++	struct kvm_memory_slot *slot = container_of(notifier,
++						    struct kvm_memory_slot,
++						    notifier);
++	struct kvm_gfn_range gfn_range = {
++		.slot		= slot,
++		.start		= start - (slot->private_offset >> PAGE_SHIFT),
++		.end		= end - (slot->private_offset >> PAGE_SHIFT),
++		.may_block 	= true,
++	};
++	struct kvm *kvm = slot->kvm;
++
++	gfn_range.start = slot->base_gfn + gfn_range.start;
++	gfn_range.end = slot->base_gfn + min((unsigned long)gfn_range.end, slot->npages);
++
++	if (WARN_ON_ONCE(gfn_range.start >= gfn_range.end))
++		return;
++
++	idx = srcu_read_lock(&kvm->srcu);
++	KVM_MMU_LOCK(kvm);
++	if (kvm_unmap_gfn_range(kvm, &gfn_range))
++		kvm_flush_remote_tlbs(kvm);
++	kvm->mmu_notifier_seq++;
++	KVM_MMU_UNLOCK(kvm);
++	srcu_read_unlock(&kvm->srcu, idx);
++}
++
++static struct memfile_notifier_ops kvm_private_mem_notifier_ops = {
++	.populate = kvm_private_mem_notifier_handler,
++	.invalidate = kvm_private_mem_notifier_handler,
++};
++
++#define KVM_MEMFILE_FLAGS MEMFILE_F_USER_INACCESSIBLE | \
++			  MEMFILE_F_UNMOVABLE | \
++			  MEMFILE_F_UNRECLAIMABLE
++
++static inline int kvm_private_mem_register(struct kvm_memory_slot *slot)
++{
++	slot->notifier.ops = &kvm_private_mem_notifier_ops;
++	return memfile_register_notifier(slot->private_file, KVM_MEMFILE_FLAGS,
++					 &slot->notifier);
++}
++
++static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
++{
++	memfile_unregister_notifier(&slot->notifier);
++}
++
++#else /* !CONFIG_HAVE_KVM_PRIVATE_MEM */
++
++static inline int kvm_private_mem_register(struct kvm_memory_slot *slot)
++{
++	WARN_ON_ONCE(1);
++	return -EOPNOTSUPP;
++}
++
++static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
++{
++	WARN_ON_ONCE(1);
++}
++
++#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
++
+ #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
+ static int kvm_pm_notifier_call(struct notifier_block *bl,
+ 				unsigned long state,
+@@ -887,6 +954,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
+ /* This does not remove the slot from struct kvm_memslots data structures */
+ static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
+ {
++	if (slot->flags & KVM_MEM_PRIVATE) {
++		kvm_private_mem_unregister(slot);
++		fput(slot->private_file);
++	}
++
+ 	kvm_destroy_dirty_bitmap(slot);
+ 
+ 	kvm_arch_free_memslot(kvm, slot);
+@@ -1437,10 +1509,21 @@ static void kvm_replace_memslot(struct kvm *kvm,
+ 	}
+ }
+ 
+-static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
++bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
++{
++	return false;
++}
++
++static int check_memory_region_flags(struct kvm *kvm,
++				     const struct kvm_user_mem_region *mem)
+ {
+ 	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+ 
++#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
++	if (kvm_arch_private_mem_supported(kvm))
++		valid_flags |= KVM_MEM_PRIVATE;
++#endif
++
+ #ifdef __KVM_HAVE_READONLY_MEM
+ 	valid_flags |= KVM_MEM_READONLY;
+ #endif
+@@ -1516,6 +1599,12 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
+ {
+ 	int r;
+ 
++	if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE) {
++		r = kvm_private_mem_register(new);
++		if (r)
++			return r;
++	}
++
+ 	/*
+ 	 * If dirty logging is disabled, nullify the bitmap; the old bitmap
+ 	 * will be freed on "commit".  If logging is enabled in both old and
+@@ -1544,6 +1633,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
+ 	if (r && new && new->dirty_bitmap && old && !old->dirty_bitmap)
+ 		kvm_destroy_dirty_bitmap(new);
+ 
++	if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
++	    kvm_private_mem_unregister(new);
++
+ 	return r;
+ }
+ 
+@@ -1840,7 +1932,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 	int as_id, id;
+ 	int r;
+ 
+-	r = check_memory_region_flags(mem);
++	r = check_memory_region_flags(kvm, mem);
+ 	if (r)
+ 		return r;
+ 
+@@ -1859,6 +1951,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+ 			mem->memory_size))
+ 		return -EINVAL;
++	if (mem->flags & KVM_MEM_PRIVATE &&
++		(mem->private_offset & (PAGE_SIZE - 1) ||
++		 mem->private_offset > U64_MAX - mem->memory_size))
++		return -EINVAL;
+ 	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
+ 		return -EINVAL;
+ 	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
+@@ -1897,6 +1993,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
+ 			return -EINVAL;
+ 	} else { /* Modify an existing slot. */
++		/* Private memslots are immutable, they can only be deleted. */
++		if (mem->flags & KVM_MEM_PRIVATE)
++			return -EINVAL;
+ 		if ((mem->userspace_addr != old->userspace_addr) ||
+ 		    (npages != old->npages) ||
+ 		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
+@@ -1925,10 +2024,27 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 	new->npages = npages;
+ 	new->flags = mem->flags;
+ 	new->userspace_addr = mem->userspace_addr;
++	if (mem->flags & KVM_MEM_PRIVATE) {
++		new->private_file = fget(mem->private_fd);
++		if (!new->private_file) {
++			r = -EINVAL;
++			goto out;
++		}
++		new->private_offset = mem->private_offset;
++	}
++
++	new->kvm = kvm;
+ 
+ 	r = kvm_set_memslot(kvm, old, new, change);
+ 	if (r)
+-		kfree(new);
++		goto out;
++
++	return 0;
++
++out:
++	if (new->private_file)
++		fput(new->private_file);
++	kfree(new);
+ 	return r;
+ }
+ EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
+@@ -4512,12 +4628,10 @@ static long kvm_vm_ioctl(struct file *filp,
+ 			(u32 __user *)(argp + offsetof(typeof(mem), flags))))
+ 			goto out;
+ 
+-		if (flags & KVM_MEM_PRIVATE) {
+-			r = -EINVAL;
+-			goto out;
+-		}
+-
+-		size = sizeof(struct kvm_userspace_memory_region);
++		if (flags & KVM_MEM_PRIVATE)
++			size = sizeof(struct kvm_userspace_memory_region_ext);
++		else
++			size = sizeof(struct kvm_userspace_memory_region);
+ 
+ 		if (copy_from_user(&mem, argp, size))
+ 			goto out;
 -- 
 2.25.1
 
