@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A873F52D70C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 17:10:01 +0200 (CEST)
-Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAA952D69A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:59:17 +0200 (CEST)
+Received: from localhost ([::1]:35938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrhmq-0007cP-Os
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 11:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
+	id 1nrhcS-0003J0-JP
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nrhSs-00077Y-71
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:49:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33659)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nrhSt-0007C6-E2
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 10:49:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nrhSq-0000zz-F3
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:49:21 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nrhSr-00010C-H8
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 10:49:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652971758;
+ s=mimecast20190719; t=1652971760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aXuojH7qaiz5OlVUW21ydihwYkyvvFZ9rUfCNGLVOZ4=;
- b=StcdichXfZ8gAb+Gu7sFIjtDoL7z+C69jD5lp06W364kg5XwVT2GyuWCu1W3ZUSRcN+Zho
- rCpSCDU8q4iyQScErnrrSDpSXg1c8LgPArwoCSAxSSyt90QRSx9+UsnhnZnWc51H6w4qe9
- mSkCuVm4YprLqjxq36VY6eky8ZQtttI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FYkBzLLtmlIkJEpoQJ4WaoAUoOIG4EPcEIw6zgksXzY=;
+ b=djK4Y12RNurN30L2sqP2K5RBOgpDYh4fUnc3yiRiPhrQPUnuZuCcBBl0f5bUeEDE2WD90L
+ AnKTGURq/RlyJWCPTQ2ldRxWIqvyhEpODMq8zCmTemR5I2jWvpW1jFbn8uaFbjAcauooee
+ uJ7eQ3QAQG39X0tU5T4GRHDWvVbQFbg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-dA8v_hNBN7-TJ8jOAIYSog-1; Thu, 19 May 2022 10:49:14 -0400
-X-MC-Unique: dA8v_hNBN7-TJ8jOAIYSog-1
+ us-mta-551-LGtzrC5bNr2UMIzY1Lj6jg-1; Thu, 19 May 2022 10:49:16 -0400
+X-MC-Unique: LGtzrC5bNr2UMIzY1Lj6jg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A71C1010368;
- Thu, 19 May 2022 14:49:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E78B1395AFE5;
+ Thu, 19 May 2022 14:49:15 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.39.192.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 853CC400E115;
- Thu, 19 May 2022 14:49:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F318400E115;
+ Thu, 19 May 2022 14:49:13 +0000 (UTC)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Denis V. Lunev" <den@openvz.org>,
@@ -52,10 +52,10 @@ Cc: "Denis V. Lunev" <den@openvz.org>,
  Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
  Fam Zheng <fam@euphon.net>, Ari Sundholm <ari@tuxera.com>,
  Alberto Faria <afaria@redhat.com>
-Subject: [PATCH v3 09/10] block: Use bdrv_co_pwrite_sync() when caller is
- coroutine_fn
-Date: Thu, 19 May 2022 15:48:39 +0100
-Message-Id: <20220519144841.784780-10-afaria@redhat.com>
+Subject: [PATCH v3 10/10] block/qcow2: Use bdrv_pwrite_sync() in
+ qcow2_mark_dirty()
+Date: Thu, 19 May 2022 15:48:40 +0100
+Message-Id: <20220519144841.784780-11-afaria@redhat.com>
 In-Reply-To: <20220519144841.784780-1-afaria@redhat.com>
 References: <20220519144841.784780-1-afaria@redhat.com>
 MIME-Version: 1.0
@@ -85,62 +85,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert uses of bdrv_pwrite_sync() into bdrv_co_pwrite_sync() when the
-callers are already coroutine_fn.
+Use bdrv_pwrite_sync() instead of calling bdrv_pwrite() and bdrv_flush()
+separately.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/parallels.c      | 2 +-
- block/qcow2-snapshot.c | 6 +++---
- block/qcow2.c          | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ block/qcow2.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index f22444efff..8b23b9580d 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -481,7 +481,7 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
- 
-     ret = 0;
-     if (flush_bat) {
--        ret = bdrv_pwrite_sync(bs->file, 0, s->header_size, s->header, 0);
-+        ret = bdrv_co_pwrite_sync(bs->file, 0, s->header_size, s->header, 0);
-         if (ret < 0) {
-             res->check_errors++;
-             goto out;
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 60e0461632..d1d46facbf 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -512,9 +512,9 @@ int coroutine_fn qcow2_check_read_snapshot_table(BlockDriverState *bs,
-         assert(fix & BDRV_FIX_ERRORS);
- 
-         snapshot_table_pointer.nb_snapshots = cpu_to_be32(s->nb_snapshots);
--        ret = bdrv_pwrite_sync(bs->file, offsetof(QCowHeader, nb_snapshots),
--                               sizeof(snapshot_table_pointer.nb_snapshots),
--                               &snapshot_table_pointer.nb_snapshots, 0);
-+        ret = bdrv_co_pwrite_sync(bs->file, offsetof(QCowHeader, nb_snapshots),
-+                                  sizeof(snapshot_table_pointer.nb_snapshots),
-+                                  &snapshot_table_pointer.nb_snapshots, 0);
-         if (ret < 0) {
-             result->check_errors++;
-             fprintf(stderr, "ERROR failed to update the snapshot count in the "
 diff --git a/block/qcow2.c b/block/qcow2.c
-index c43238a006..f2fb54c51f 100644
+index f2fb54c51f..90a2dd406b 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -4551,8 +4551,8 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+@@ -516,12 +516,9 @@ int qcow2_mark_dirty(BlockDriverState *bs)
+     }
  
-     /* write updated header.size */
-     offset = cpu_to_be64(offset);
--    ret = bdrv_pwrite_sync(bs->file, offsetof(QCowHeader, size),
--                           sizeof(offset), &offset, 0);
-+    ret = bdrv_co_pwrite_sync(bs->file, offsetof(QCowHeader, size),
-+                              sizeof(offset), &offset, 0);
+     val = cpu_to_be64(s->incompatible_features | QCOW2_INCOMPAT_DIRTY);
+-    ret = bdrv_pwrite(bs->file, offsetof(QCowHeader, incompatible_features),
+-                      sizeof(val), &val, 0);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-    ret = bdrv_flush(bs->file->bs);
++    ret = bdrv_pwrite_sync(bs->file,
++                           offsetof(QCowHeader, incompatible_features),
++                           sizeof(val), &val, 0);
      if (ret < 0) {
-         error_setg_errno(errp, -ret, "Failed to update the image size");
-         goto fail;
+         return ret;
+     }
 -- 
 2.35.3
 
