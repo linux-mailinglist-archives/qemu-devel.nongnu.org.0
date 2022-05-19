@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2B152DE51
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:24:07 +0200 (CEST)
-Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9651852DE64
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:28:45 +0200 (CEST)
+Received: from localhost ([::1]:39324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrmgo-0006z3-Eu
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:24:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59162)
+	id 1nrmlI-0004yz-MU
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmdM-0003qT-2w; Thu, 19 May 2022 16:20:32 -0400
+ id 1nrmdP-0003sj-TN; Thu, 19 May 2022 16:20:35 -0400
 Received: from [187.72.171.209] (port=43855 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nrmdC-00074v-AE; Thu, 19 May 2022 16:20:29 -0400
+ id 1nrmdN-00074v-SE; Thu, 19 May 2022 16:20:35 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 19 May 2022 17:18:45 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 8B97B800150;
+ by p9ibm (Postfix) with ESMTP id B2F1B800C32;
  Thu, 19 May 2022 17:18:45 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
@@ -29,14 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH v2 00/12] Change helper declarations to use call flags
-Date: Thu, 19 May 2022 17:18:10 -0300
-Message-Id: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 01/12] target/ppc: declare darn32/darn64 helpers with
+ TCG_CALL_NO_RWG_SE
+Date: Thu, 19 May 2022 17:18:11 -0300
+Message-Id: <20220519201822.465229-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
+References: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 19 May 2022 20:18:45.0840 (UTC)
- FILETIME=[A4636D00:01D86BBD]
+X-OriginalArrivalTime: 19 May 2022 20:18:45.0949 (UTC)
+ FILETIME=[A4740ED0:01D86BBD]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,53 +66,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-In our "PowerISA Vector/VSX instruction batch" patch series, rth noted[1]
-that helpers that only access vector registers should be declared with
-DEF_HELPER_FLAGS_* and TCG_CALL_NO_RWG. We fixed helpers in that series,
-but there are older helpers that could use the same optimization.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/helper.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Guided by the presence of env as the first argument, in patches 1~4 we
-change helpers that do not have access to the cpu_env pointer to modify
-any globals. Then, we change other helpers that receive cpu_env but do
-not use it and apply the same fix, taking the opportunity to move them
-to decodetree.
-
-[1] https://lists.gnu.org/archive/html/qemu-ppc/2022-02/msg00568.html
-
-Patches without review: 06.
-
-v2:
- - darn32/darn64 helpers declared with TCG_CALL_NO_RWG_SE;
- - xscvspdpn implemented with helper_todouble, dropped helper_XSCVSPDPN;
- - vmsumuhs and vmsumshs helpers declared with TCG_CALL_NO_RWG;
- - Link to v1: https://lists.gnu.org/archive/html/qemu-ppc/2022-05/msg00287.html
-
-Matheus Ferst (12):
-  target/ppc: declare darn32/darn64 helpers with TCG_CALL_NO_RWG_SE
-  target/ppc: use TCG_CALL_NO_RWG in vector helpers without env
-  target/ppc: use TCG_CALL_NO_RWG in BCD helpers
-  target/ppc: use TCG_CALL_NO_RWG in VSX helpers without env
-  target/ppc: Use TCG_CALL_NO_RWG_SE in fsel helper
-  target/ppc: implement xscvspdpn with helper_todouble
-  target/ppc: declare xvxsigsp helper with call flags
-  target/ppc: declare xxextractuw and xxinsertw helpers with call flags
-  target/ppc: introduce do_va_helper
-  target/ppc: declare vmsum[um]bm helpers with call flags
-  target/ppc: declare vmsumuh[ms] helper with call flags
-  target/ppc: declare vmsumsh[ms] helper with call flags
-
- target/ppc/fpu_helper.c             |  22 +--
- target/ppc/helper.h                 | 225 ++++++++++++++--------------
- target/ppc/insn32.decode            |  28 +++-
- target/ppc/int_helper.c             |  22 +--
- target/ppc/translate/fp-impl.c.inc  |  30 +++-
- target/ppc/translate/fp-ops.c.inc   |   1 -
- target/ppc/translate/vmx-impl.c.inc |  62 ++++----
- target/ppc/translate/vmx-ops.c.inc  |   4 -
- target/ppc/translate/vsx-impl.c.inc | 107 ++++++++-----
- target/ppc/translate/vsx-ops.c.inc  |   4 -
- 10 files changed, 284 insertions(+), 221 deletions(-)
-
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index aa6773c4a5..718ab6bc7b 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -59,8 +59,8 @@ DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
+ DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_2(bpermd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ DEF_HELPER_3(srad, tl, env, tl, tl)
+-DEF_HELPER_0(darn32, tl)
+-DEF_HELPER_0(darn64, tl)
++DEF_HELPER_FLAGS_0(darn32, TCG_CALL_NO_RWG_SE, tl)
++DEF_HELPER_FLAGS_0(darn64, TCG_CALL_NO_RWG_SE, tl)
+ #endif
+ 
+ DEF_HELPER_FLAGS_1(cntlsw32, TCG_CALL_NO_RWG_SE, i32, i32)
 -- 
 2.25.1
 
