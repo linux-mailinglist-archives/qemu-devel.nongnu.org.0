@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B008552DE8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:42:44 +0200 (CEST)
-Received: from localhost ([::1]:35442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57DE852DEAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 22:48:54 +0200 (CEST)
+Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrmyp-0007dV-Rb
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60298)
+	id 1nrn4l-0001iM-Br
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 16:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrmlh-00007L-D9
- for qemu-devel@nongnu.org; Thu, 19 May 2022 16:29:13 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:46793)
+ (Exim 4.90_1) (envelope-from <dylan@rivosinc.com>)
+ id 1nrn1W-0000oi-Cb
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 16:45:30 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nrmlf-00086J-B2
- for qemu-devel@nongnu.org; Thu, 19 May 2022 16:29:09 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id i8so5720013plr.13
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 13:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=vpVDiHRJOOhtdDYB3oUwfGUElaU0wpyxFNEnwKBU5j0=;
- b=hVpTpMvq8ZG0EXis3p9Oauopd56jT/2tpfgSE1a/SBi856RsXrLYC5nERfgypdwYxM
- chKtRgTTd4nNdOWfhTxAYvmz0LiphkWLKeyebitKj+Bb1VGJMi419/NaJCTMOGOqw2ZO
- gcc58cyX87ImR2/a05DGorvI0UeXqYxbik/Yp4gL0+OiOqoS8iUZCPC78A47/0YB7PKJ
- h9ttSj2mI/cjshxf/hX649C+rrJRokYJXZEJCcNR6R5A8Jc05PDJLgMp9zXqJBAJ247Z
- /ZHu6pw6hFxmnBTckhdmwEZNshu0olQpA9krpAY9ouZLB2/yzvS7pHAj7hHx+ZAnoz4g
- mwpw==
+ (Exim 4.90_1) (envelope-from <dylan@rivosinc.com>)
+ id 1nrn1U-00023H-6l
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 16:45:29 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id f10so6287824pjs.3
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 13:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=h8DlWYA44S0oP/bz7EYgh16WwQxrQuTelIjXdqNLtU0=;
+ b=Z+RKzpa8Q9AV60rUFnfz9lGoC5Al1LENNO8EWGkNuCJN7qAoBxlKQFf/arNatMs2Q8
+ AmzCigkWwbGDqgLoMl3Qr+kWESO+m616C8fzmKzYEUaJNnD82tkxrMbusodhnBicB4yW
+ sHbM+JmovWuw29xhZ6WGo4Rp1+Thh9zIPzEXQxUKIk0BEBT1Jg0PchsnjyCjLAnuGeHJ
+ Ehy6pLh5mIJr1DdES+fzJtS4csj+osrJPFPXosTsB+VNp9+jS3MYtvT2RNv9zFXx1V3B
+ YrfcJP5yDK6mM8OssQ5CNCq0vF2ZcWFD51kUwuH9IH0q6EAWBlvNM5MTmgNtHcm1UR1U
+ 7kiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vpVDiHRJOOhtdDYB3oUwfGUElaU0wpyxFNEnwKBU5j0=;
- b=FUT/otCDFEYNTNqE07FxHCsSIJ0vp3O1am1iog4uVagI2SoPUuuC8SSGUh8Oo4KTjL
- 5AqtGtum9WzDhZrU3k6ZR/2rtJ0Gv62ELLPiApMki/DEumB6N0/9cEzl0mJR2Y8gQ8T2
- +R8bGdBXcHyquRTnQI6KDoejBoEP4DPUWtJIH3VzZSMrfagA1ZCtUXzxB1w3zNf8UfFU
- KEQGwtqnf+GZQVfqePrY0mx+XrZx5SEeV8sswTRUe3rQfUK/pfOamCrv8hrbSy1plqVV
- FXkcjgEBUthc1VZyv3sB7WAK8gOPHZ1+r1yrLnienzsAp7HMyLBDAxVztfjVuxYWedir
- WMQA==
-X-Gm-Message-State: AOAM532gOIgre36QTZ3yJhfDrTbnPWPPFlKNo7rNFOhKHQK2Z2DZIxSq
- A4zdyCCcTVYvFpAcTgTjYYhXCg==
-X-Google-Smtp-Source: ABdhPJy+56ybV81yB+1Ta546G19W0rLiR0eiUpVtLIvpaIc70h2HkzWiflXbmzRwGCHI5xT+1Rl05A==
-X-Received: by 2002:a17:902:ed82:b0:158:fef8:b501 with SMTP id
- e2-20020a170902ed8200b00158fef8b501mr6151566plj.47.1652992145768; 
- Thu, 19 May 2022 13:29:05 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- c5-20020a170902d48500b0015e8d4eb20esm4251565plg.88.2022.05.19.13.29.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 13:29:05 -0700 (PDT)
-Message-ID: <062166ea-7d1e-a871-57f2-8f52dbf2a577@linaro.org>
-Date: Thu, 19 May 2022 13:29:03 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=h8DlWYA44S0oP/bz7EYgh16WwQxrQuTelIjXdqNLtU0=;
+ b=OY/HMEFMIr+3EzvYLUbyANRN775VdwPuRlZv44HF6ZsXbdZy5Xsdb5ONxpnrwGiBOx
+ dw8RhrWw4t10l2qNvCa/RjhcgJRJLgvgvjDwm3/45wSkYI2HVmBCvMbLrAgNjsSwWPMy
+ 34bRzLY5xYMYi2Cq1GRDenC7yMN1Xzzh+nLxHblKpI79WNQ1PxSCnaZQR/PCz28D3j8h
+ j1/FG1T/718Yu1NypqYCK+hLzmwVUb3V5n67n77FtzZTlR6jGTJzkAjCBxQblRi3OEkA
+ sE3943l9nEqqiRh9fPlvBSDkM5Mml8uoVc92fK/2t/CbcM4ZgGfq34+Cx3FC2Wqy0Foa
+ Pryg==
+X-Gm-Message-State: AOAM532rxqSHfB4iy1af0DNr7aSGzUwJe30PlbQOG5tmTBCSN7RKv7ZT
+ QW4O68u2Q6jdmX2c1Yv4Py7a3w==
+X-Google-Smtp-Source: ABdhPJyi248FFAwfnvRV7qdS57SDqO3Otct8AfaeneoUfeZTRKLCqTqWJpzttRvm0ljSfiql0eOdEg==
+X-Received: by 2002:a17:902:6b0b:b0:158:f889:edd9 with SMTP id
+ o11-20020a1709026b0b00b00158f889edd9mr6416932plk.122.1652993126409; 
+ Thu, 19 May 2022 13:45:26 -0700 (PDT)
+Received: from rivosinc.com ([12.3.194.138]) by smtp.gmail.com with ESMTPSA id
+ n1-20020a170902e54100b0015e8d4eb219sm4300664plf.99.2022.05.19.13.45.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 13:45:25 -0700 (PDT)
+Date: Thu, 19 May 2022 20:45:22 +0000
+From: Dylan Reid <dylan@rivosinc.com>
+To: Anup Patel <anup@brainfault.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Dylan Reid <dgreid@rivosinc.com>
+Subject: Re: [PATCH] hw/riscv: virt: Avoid double FDT platform node
+Message-ID: <20220519204522.nckblef43pcl5x4k@rivosinc.com>
+References: <20220512182103.408627-1-dgreid@rivosinc.com>
+ <CAAhSdy2Uoj0jGXJn1W_Vhewi9BLSN+9zd003qUf_ugKpDd2ihg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/22] target-arm queue
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220519173651.399295-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220519173651.399295-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAhSdy2Uoj0jGXJn1W_Vhewi9BLSN+9zd003qUf_ugKpDd2ihg@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=dylan@rivosinc.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,127 +92,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/22 10:36, Peter Maydell wrote:
-> target-arm queue: mostly patches from me this time round.
-> Nothing too exciting.
+On Thu, May 19, 2022 at 08:34:06PM +0530, Anup Patel wrote:
+> On Fri, May 13, 2022 at 1:34 AM Dylan Reid <dylan@rivosinc.com> wrote:
+> >
+> > When starting the virt machine with `-machine virt,aia=aplic-imsic`,
+> > both the imsic and aplic init code will add platform fdt nodes by
+> > calling `platform_bus_add_all_fdt_nodes`. This leads to an error at
+> > startup:
+> > ```
+> > qemu_fdt_add_subnode: Failed to create subnode /platform@4000000: FDT_ERR_EXISTS
+> > ```
+> >
+> > The call from `create_fdt_imsic` is not needed as an imsic is currently
+> > always combined with an aplic that will create the nodes.
+> >
+> > Fixes: 3029fab64309 ("hw/riscv: virt: Add support for generating platform FDT entries")
+> > Signed-off-by: Dylan Reid <dgreid@rivosinc.com>
+> > ---
+> >  hw/riscv/virt.c | 5 -----
+> >  1 file changed, 5 deletions(-)
+> >
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index 3326f4db96..d625f776a6 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -561,11 +561,6 @@ static void create_fdt_imsic(RISCVVirtState *s, const MemMapEntry *memmap,
+> >      }
+> >      qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_m_phandle);
+> >
+> > -    platform_bus_add_all_fdt_nodes(mc->fdt, imsic_name,
+> > -                                   memmap[VIRT_PLATFORM_BUS].base,
+> > -                                   memmap[VIRT_PLATFORM_BUS].size,
+> > -                                   VIRT_PLATFORM_BUS_IRQ);
+> > -
 > 
-> -- PMM
+> This patch only fixes for the case where there is only one socket.
 > 
-> The following changes since commit 78ac2eebbab9150edf5d0d00e3648f5ebb599001:
-> 
->    Merge tag 'artist-cursor-fix-final-pull-request' of https://github.com/hdeller/qemu-hppa into staging (2022-05-18 09:32:15 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220519
-> 
-> for you to fetch changes up to fab8ad39fb75a0d9f097db67b2a334444754e88e:
-> 
->    target/arm: Use FIELD definitions for CPACR, CPTR_ELx (2022-05-19 18:34:10 +0100)
-> 
-> ----------------------------------------------------------------
-> target-arm queue:
->   * Implement FEAT_S2FWB
->   * Implement FEAT_IDST
->   * Drop unsupported_encoding() macro
->   * hw/intc/arm_gicv3: Use correct number of priority bits for the CPU
->   * Fix aarch64 debug register names
->   * hw/adc/zynq-xadc: Use qemu_irq typedef
->   * target/arm/helper.c: Delete stray obsolete comment
->   * Make number of counters in PMCR follow the CPU
->   * hw/arm/virt: Fix dtb nits
->   * ptimer: Rename PTIMER_POLICY_DEFAULT to PTIMER_POLICY_LEGACY
->   * target/arm: Fix PAuth keys access checks for disabled SEL2
->   * Enable FEAT_HCX for -cpu max
->   * Use FIELD definitions for CPACR, CPTR_ELx
+> I had send-out a similar fix which also handles multi-socket case.
+> https://lore.kernel.org/all/20220511144528.393530-9-apatel@ventanamicro.com/
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
-
-
-r~
-
+Thanks Anup, that looks good to me.
 
 > 
-> ----------------------------------------------------------------
-> Chris Howard (1):
->        Fix aarch64 debug register names.
+> Regards,
+> Anup
 > 
-> Florian Lugou (1):
->        target/arm: Fix PAuth keys access checks for disabled SEL2
 > 
-> Peter Maydell (17):
->        target/arm: Postpone interpretation of stage 2 descriptor attribute bits
->        target/arm: Factor out FWB=0 specific part of combine_cacheattrs()
->        target/arm: Implement FEAT_S2FWB
->        target/arm: Enable FEAT_S2FWB for -cpu max
->        target/arm: Implement FEAT_IDST
->        target/arm: Drop unsupported_encoding() macro
->        hw/intc/arm_gicv3_cpuif: Handle CPUs that don't specify GICv3 parameters
->        hw/intc/arm_gicv3: report correct PRIbits field in ICV_CTLR_EL1
->        hw/intc/arm_gicv3_kvm.c: Stop using GIC_MIN_BPR constant
->        hw/intc/arm_gicv3: Support configurable number of physical priority bits
->        hw/intc/arm_gicv3: Use correct number of priority bits for the CPU
->        hw/intc/arm_gicv3: Provide ich_num_aprs()
->        target/arm/helper.c: Delete stray obsolete comment
->        target/arm: Make number of counters in PMCR follow the CPU
->        hw/arm/virt: Fix incorrect non-secure flash dtb node name
->        hw/arm/virt: Drop #size-cells and #address-cells from gpio-keys dtb node
->        ptimer: Rename PTIMER_POLICY_DEFAULT to PTIMER_POLICY_LEGACY
-> 
-> Philippe Mathieu-Daudé (1):
->        hw/adc/zynq-xadc: Use qemu_irq typedef
-> 
-> Richard Henderson (2):
->        target/arm: Enable FEAT_HCX for -cpu max
->        target/arm: Use FIELD definitions for CPACR, CPTR_ELx
-> 
->   docs/system/arm/emulation.rst      |   2 +
->   include/hw/adc/zynq-xadc.h         |   3 +-
->   include/hw/intc/arm_gicv3_common.h |   8 +-
->   include/hw/ptimer.h                |  16 +-
->   target/arm/cpregs.h                |  24 +++
->   target/arm/cpu.h                   |  76 +++++++-
->   target/arm/internals.h             |  11 +-
->   target/arm/translate-a64.h         |   9 -
->   hw/adc/zynq-xadc.c                 |   4 +-
->   hw/arm/boot.c                      |   2 +-
->   hw/arm/musicpal.c                  |   2 +-
->   hw/arm/virt.c                      |   4 +-
->   hw/core/machine.c                  |   4 +-
->   hw/dma/xilinx_axidma.c             |   2 +-
->   hw/dma/xlnx_csu_dma.c              |   2 +-
->   hw/intc/arm_gicv3_common.c         |   5 +
->   hw/intc/arm_gicv3_cpuif.c          | 225 +++++++++++++++++-------
->   hw/intc/arm_gicv3_kvm.c            |  16 +-
->   hw/m68k/mcf5206.c                  |   2 +-
->   hw/m68k/mcf5208.c                  |   2 +-
->   hw/net/can/xlnx-zynqmp-can.c       |   2 +-
->   hw/net/fsl_etsec/etsec.c           |   2 +-
->   hw/net/lan9118.c                   |   2 +-
->   hw/rtc/exynos4210_rtc.c            |   4 +-
->   hw/timer/allwinner-a10-pit.c       |   2 +-
->   hw/timer/altera_timer.c            |   2 +-
->   hw/timer/arm_timer.c               |   2 +-
->   hw/timer/digic-timer.c             |   2 +-
->   hw/timer/etraxfs_timer.c           |   6 +-
->   hw/timer/exynos4210_mct.c          |   6 +-
->   hw/timer/exynos4210_pwm.c          |   2 +-
->   hw/timer/grlib_gptimer.c           |   2 +-
->   hw/timer/imx_epit.c                |   4 +-
->   hw/timer/imx_gpt.c                 |   2 +-
->   hw/timer/mss-timer.c               |   2 +-
->   hw/timer/sh_timer.c                |   2 +-
->   hw/timer/slavio_timer.c            |   2 +-
->   hw/timer/xilinx_timer.c            |   2 +-
->   target/arm/cpu.c                   |  11 +-
->   target/arm/cpu64.c                 |  30 ++++
->   target/arm/cpu_tcg.c               |   6 +
->   target/arm/helper.c                | 348 ++++++++++++++++++++++++++++---------
->   target/arm/kvm64.c                 |  12 ++
->   target/arm/op_helper.c             |   9 +
->   target/arm/translate-a64.c         |  36 +++-
->   tests/unit/ptimer-test.c           |   6 +-
->   46 files changed, 697 insertions(+), 228 deletions(-)
-> 
-
+> >      g_free(imsic_name);
+> >
+> >      /* S-level IMSIC node */
+> > --
+> > 2.30.2
+> >
+> >
 
