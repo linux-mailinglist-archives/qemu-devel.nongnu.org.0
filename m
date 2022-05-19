@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE2752D5B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:14:10 +0200 (CEST)
-Received: from localhost ([::1]:33528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE15B52D62C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:34:48 +0200 (CEST)
+Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrgun-0004VT-6V
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
+	id 1nrhEl-0001uj-Ed
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:34:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nrgsc-0002PI-BI; Thu, 19 May 2022 10:11:56 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:34719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nrgsW-0003eJ-BJ; Thu, 19 May 2022 10:11:54 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- qe3-20020a17090b4f8300b001dc24e4da73so6110881pjb.1; 
- Thu, 19 May 2022 07:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+Nv+HdUBzbWB3FQruXCG+Vr04O93PrLwUpsvaMFd8dM=;
- b=Msl/wseJB/E2nEpsSfbGCs/zqIlDIjSN7fJQp7NeYZvM4eUjt2yd1XSoTrlrl0CPVc
- 9++7xlV8K6Xw3YeQL/HTDIP3jORY6CQK/10t99WmdbTcHsM37ppAWHmKKKQHV65E1qy4
- 01e7p9gmr8F59gIY7a001keIu6sJ0ltHJKoONkC9LN+r/Xy2Wijfs+wJwZfPoRgyiYFy
- lMFU2GqO+3xtqWxv42WXCCq/k2waY3Y4WHULKLQyC7CduOpj/uMxYARiPvq1Tya2IbH1
- WhuT+0eH+h44xpPdpsuUEbje+wZTDITGCSGiS9XPd11gtt2YFevrWRLgvqlaO5qB7JkR
- 0M0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+Nv+HdUBzbWB3FQruXCG+Vr04O93PrLwUpsvaMFd8dM=;
- b=ffsNHWa62ba8GvAQYV7RRYrtLh4kMuNYOF90kXevyiAjiYQcuOHzOfbogZgeoKKVCD
- NUoWtqvhRm17w5ypcouD05ptjWOdele+LrL8Y+PR0pWMxmuQJ0Wt7o1SxnVUp+29W7HF
- 2fiigl0n6BV4nzIuoSwvyeN6SBByQ/eb3yVCzalnWh6pcLWO8IB/f2eE64lfjW06n8Se
- eoZ4R8Wo1HZ7Sa7SoCoNkWGB0fVQF2NSbr5Sc3Lpm0QCsuCeTbfGIXQHEeI7qXrwyIeR
- h/pQ8GEV+Uu2Cm2hURSNHI0HG2b4H1jZIp5JGwdN6ytH0SQS+6zlnxzZlOI+0eT0yPE2
- V+1Q==
-X-Gm-Message-State: AOAM532uYA8EiTcf+7ygTBL8xyz35hYzDsfIpd/cB4yZ2nqzmr5Lmuhd
- EUkwBz3CX3PbCnGCRMucP2VnpeQSumfpSg==
-X-Google-Smtp-Source: ABdhPJx8oYK9nBni2YNd4vHIj34ZNMA9m71A5hYv4NVuiziWIT+uBj2N2j7r3SOaSpC3F0jRZ+pyIQ==
-X-Received: by 2002:a17:90b:386:b0:1df:2d85:e4f3 with SMTP id
- ga6-20020a17090b038600b001df2d85e4f3mr5340320pjb.204.1652969500579; 
- Thu, 19 May 2022 07:11:40 -0700 (PDT)
-Received: from bobo.ibm.com ([118.208.131.68])
- by smtp.gmail.com with ESMTPSA id
- d14-20020a170902654e00b0015e8d4eb1c1sm3814943pln.11.2022.05.19.07.11.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 07:11:40 -0700 (PDT)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Cc: Nicholas Piggin <npiggin@gmail.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] util: optimise flush_idcache_range when the ppc host has
- coherent icache
-Date: Fri, 20 May 2022 00:11:31 +1000
-Message-Id: <20220519141131.29839-1-npiggin@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
+ id 1nrhAK-00083c-LK
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 10:30:12 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:51728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
+ id 1nrhAH-00068O-88
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 10:30:11 -0400
+Received: from iva8-c5ee4261001e.qloud-c.yandex.net
+ (iva8-c5ee4261001e.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 7FBA62E1BA9
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 17:19:17 +0300 (MSK)
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ XmWlW6l1Nc-JGJO4Do3; Thu, 19 May 2022 17:19:17 +0300
+X-Yandex-Fwd: 2
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1652969957; bh=+lnBFJkxE6O97fmB06bbtmCTeGfVAV2hJLeXs9zD96Y=;
+ h=Cc:Date:To:From:Subject:Message-ID;
+ b=sI3R0qxXC+xI3kxCTHIpm2xEKJeqncc0ycelHuySugonMIn6psP0Nw6xlBk44nwJW
+ R0bi3FSWLrUoctk4ZaH+FZNxOvrHFMhVEiVmYUIF2wph5rGvokgXlcPZLHDh28YHdn
+ K7YdqfkZDL10EbOWeWcj+e/5QKMR0eE2S3Fl7XNo=
+Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from localhost (unknown [2a02:6b8:b081:8819::1:2b])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ GuRTDs5rqz-JGNO74EJ; Thu, 19 May 2022 17:19:16 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: [PATCH 1/4] qdev: add DEVICE_RUNTIME_ERROR event
+From: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru
+Date: Thu, 19 May 2022 17:19:16 +0300
+Message-ID: <165296995578.196133.16183155555450040914.stgit@buzz>
+User-Agent: StGit/1.5
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1031.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=khlebnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,96 +77,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dcache writeback and icache invalidate is not required when icache is
-coherent, a shorter fixed-length sequence can be used which just has to
-flush and re-fetch instructions that were in-flight.
+This event represents device runtime errors to give time and
+reason why device is broken.
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 ---
+ hw/core/qdev.c         |    7 +++++++
+ include/hw/qdev-core.h |    1 +
+ qapi/qdev.json         |   26 ++++++++++++++++++++++++++
+ 3 files changed, 34 insertions(+)
 
-I haven't been able to measure a significant performance difference
-with this, qemu isn't flushing large ranges frequently so the old sequence
-is not that slow.
-
- include/qemu/cacheflush.h |  4 ++++
- util/cacheflush.c         |  9 +++++++++
- util/cacheinfo.c          | 16 ++++++++++++++--
- 3 files changed, 27 insertions(+), 2 deletions(-)
-
-diff --git a/include/qemu/cacheflush.h b/include/qemu/cacheflush.h
-index ae20bcda73..f65349ce3c 100644
---- a/include/qemu/cacheflush.h
-+++ b/include/qemu/cacheflush.h
-@@ -28,6 +28,10 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- 
- #else
- 
-+#if defined(__powerpc__)
-+extern bool have_coherent_icache;
-+#endif
-+
- void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len);
- 
- #endif
-diff --git a/util/cacheflush.c b/util/cacheflush.c
-index 4b57186d89..15060f78b8 100644
---- a/util/cacheflush.c
-+++ b/util/cacheflush.c
-@@ -108,7 +108,16 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
-     size_t isize = qemu_icache_linesize;
- 
-     b = rw & ~(dsize - 1);
-+
-+    if (have_coherent_icache) {
-+        asm volatile ("sync" : : : "memory");
-+        asm volatile ("icbi 0,%0" : : "r"(b) : "memory");
-+        asm volatile ("isync" : : : "memory");
-+        return;
-+    }
-+
-     e = (rw + len + dsize - 1) & ~(dsize - 1);
-+
-     for (p = b; p < e; p += dsize) {
-         asm volatile ("dcbst 0,%0" : : "r"(p) : "memory");
-     }
-diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-index ab1644d490..b632ff47ae 100644
---- a/util/cacheinfo.c
-+++ b/util/cacheinfo.c
-@@ -133,18 +133,30 @@ static void arch_cache_info(int *isize, int *dsize)
-     }
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 84f3019440..e95ceb071b 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -347,6 +347,13 @@ void qdev_unrealize(DeviceState *dev)
+     object_property_set_bool(OBJECT(dev), "realized", false, &error_abort);
  }
  
--#elif defined(_ARCH_PPC) && defined(__linux__)
--# include "elf.h"
-+#elif defined(__powerpc__)
- 
-+bool have_coherent_icache = false;
++void qdev_report_runtime_error(DeviceState *dev, const Error *err)
++{
++    qapi_event_send_device_runtime_error(!!dev->id, dev->id,
++                                         dev->canonical_path,
++                                         error_get_pretty(err));
++}
 +
-+# if defined(_ARCH_PPC) && defined(__linux__)
-+#  include "elf.h"
- static void arch_cache_info(int *isize, int *dsize)
+ static int qdev_assert_realized_properly_cb(Object *obj, void *opaque)
  {
-+#  ifdef PPC_FEATURE_ICACHE_SNOOP
-+    unsigned long hwcap = qemu_getauxval(AT_HWCAP);
-+#  endif
+     DeviceState *dev = DEVICE(object_dynamic_cast(obj, TYPE_DEVICE));
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 92c3d65208..9ced2e0f09 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -396,6 +396,7 @@ bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
+  * the life of the simulation and should not be unrealized and freed.
+  */
+ void qdev_unrealize(DeviceState *dev);
++void qdev_report_runtime_error(DeviceState *dev, const Error *err);
+ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+                                  int required_for_version);
+ HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
+diff --git a/qapi/qdev.json b/qapi/qdev.json
+index 26cd10106b..89ef32eef7 100644
+--- a/qapi/qdev.json
++++ b/qapi/qdev.json
+@@ -159,3 +159,29 @@
+ ##
+ { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
+   'data': { '*device': 'str', 'path': 'str' } }
 +
-     if (*isize == 0) {
-         *isize = qemu_getauxval(AT_ICACHEBSIZE);
-     }
-     if (*dsize == 0) {
-         *dsize = qemu_getauxval(AT_DCACHEBSIZE);
-     }
-+
-+#  ifdef PPC_FEATURE_ICACHE_SNOOP
-+    have_coherent_icache = (hwcap & PPC_FEATURE_ICACHE_SNOOP) != 0;
-+#  endif
- }
-+# endif
- 
- #else
- static void arch_cache_info(int *isize, int *dsize) { }
--- 
-2.35.1
++##
++# @DEVICE_RUNTIME_ERROR:
++#
++# Emitted when a device fails in runtime.
++#
++# @device: the device's ID if it has one
++#
++# @path: the device's QOM path
++#
++# @reason: human readable description
++#
++# Since: 7.1
++#
++# Example:
++#
++# <- { "event": "DEVICE_RUNTIME_ERROR"
++#      "data": { "device": "virtio-net-pci-0",
++#                "path": "/machine/peripheral/virtio-net-pci-0",
++#                "reason": "virtio-net header incorrect" },
++#      },
++#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
++#
++##
++{ 'event': 'DEVICE_RUNTIME_ERROR',
++        'data': { '*device': 'str', 'path': 'str', 'reason': 'str' } }
 
 
