@@ -2,90 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5BDC52D2EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:48:28 +0200 (CEST)
-Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB65252D2EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:49:17 +0200 (CEST)
+Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrfZr-0007nf-OO
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:48:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
+	id 1nrfae-0001Gi-RY
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nrfSG-00074E-83
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:40:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31001)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfSp-0007PJ-6J
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:41:11 -0400
+Received: from mail-os0jpn01on20730.outbound.protection.outlook.com
+ ([2a01:111:f403:700c::730]:5753
+ helo=JPN01-OS0-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nrfSE-0005zK-4J
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:40:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652964033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BXtMtkD+aDGLMwQD+cNwTBtEf9p+tx75X0/A4hW9ViY=;
- b=h6Niyc5LvL89+KG7Pwlu6Vv5owQ/13zL7KsBMltqYU6Kr10rRwsum9Iw5fvscJgp0w4Hw5
- rHlaNUifvGcESTZ+T2jXNesSClyumjTCVYUl42qEG/XzEBJdY6/eI1cQEg5I9Mi3LWj22D
- BSZdqG5C489xRtwQ0FrX+BErAleLagk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-489-b1gR7s-0NtuzZjW5zi7F_Q-1; Thu, 19 May 2022 08:40:32 -0400
-X-MC-Unique: b1gR7s-0NtuzZjW5zi7F_Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u17-20020a056000161100b0020cda98f292so1515451wrb.21
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 05:40:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BXtMtkD+aDGLMwQD+cNwTBtEf9p+tx75X0/A4hW9ViY=;
- b=J9xQgUBfQli1zgmmd2w4x8v9hOxUiBAJ72QMz1x8yNmjnXcLILShPDieJ9i2kwfc3F
- 8DfUPqsspmltbxu+Gkb2sg5H7X/MOSXo/mECWjJTipVt9DqGY1yF/oUQoSliA8pK/lrF
- +YfZR6/WXp3RqxYui+FVcIOQx0aFw+VxPj7ncims1G46JzddpJn/mmZx3i3lElFQmaqF
- LiV3oUs/F/r4vzWPkcn0SXWYrc/Ir4AQNZdgnyxMnq0iHWzXEEOaTLLPfajEsuflAb7Y
- Bbxf2mF1w0pmJKSefSy8TEJsE0vDwEQUsvoiuDBlI4X0uYlX2t4sQ7GOmwHWYHbvRK1h
- nlmg==
-X-Gm-Message-State: AOAM531I/VEUuIpePKJ6r1PtQOISuXlnIJKtaNhsbAfoX8gYCjYE0Ffl
- DpAPCFqA6U0QHe7u1ipWLVnX1V85mIOw+VFJwXnkPvHcOw5Oja9hHla6VnqjYffI9wCjtkJHB5A
- yaxcAVMorCT05gMo=
-X-Received: by 2002:a05:6000:18a2:b0:20e:6698:924 with SMTP id
- b2-20020a05600018a200b0020e66980924mr3670326wri.385.1652964031021; 
- Thu, 19 May 2022 05:40:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy29j5cjEVRhAHlj+TOFOKg1FZpLMl4ot1eIKJRl4cMJyfFYklmhAF2pctPe95WDFytH3j7og==
-X-Received: by 2002:a05:6000:18a2:b0:20e:6698:924 with SMTP id
- b2-20020a05600018a200b0020e66980924mr3670301wri.385.1652964030708; 
- Thu, 19 May 2022 05:40:30 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- p8-20020adf9d88000000b0020d06e7c16fsm4633496wre.84.2022.05.19.05.40.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 05:40:30 -0700 (PDT)
-Date: Thu, 19 May 2022 14:40:29 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Eric DeVolder <eric.devolder@oracle.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] acpi/erst: fix fallthrough code upon validation failure
-Message-ID: <20220519144029.0ff26644@redhat.com>
-In-Reply-To: <20220513141005.1929422-1-ani@anisinha.ca>
-References: <20220513141005.1929422-1-ani@anisinha.ca>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfSm-00065S-4m
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:41:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BVOvSTKex9U6dQ4i0UG3pvL9E1HSzhOXkoiZ7qE2ikY082AxWx7e5HyCMe2JGaegbN/pboVb0Tirg9J1p5uR2Tv4TpQN0QZAgfsgPK1Jwf8MKio6mmf7mydTHP+oqreE7krSW3mSOi5nB28galaImXuOD5MJdFIHFAgq7Ux/r8D+Ei5qKm32bN/AfJYfxf8BXRKAhbhKNvz5dMOylAFkCAuwCBnzuSG9Yi3TpA73dP2RBtlDIfhIBrNyXUMdv+7P0e4s6rC6SRdIXGtBL5tTkNzToY9qbYrlj9VF1cCPSDNO9Bym3DGjWrBnKbibAPlSnbjPkXFh8o1gPA1boMEiVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8IQE1soOTIizTTC6+UVyyiO5n4GeQIZ7tCp0tozzoWQ=;
+ b=n0SUnsoone2GoT8Os3o/ANceonzcJ7TUdbNflJgxoBbYO981ae65nxdqsnkt5jPiy2o60OI+HkLtkIzXT0p8Y9CINn2vXILakXQlSZshiTN7tiLK5bDPYf4wEk+xX+uGp6AzW+NUPAA+yeBHv7FkqYKZasclFb9KWODOX7eVCb+wsIoMJ8bGvYdGfvC2tJP8JIPbKWmSKUxwbLhwLIXC7uFvuYtChpb9/3bzPGzU8pQxZYhseQZJDqlqDcZKeX/T1g8oE0Rsn9Z35lqkerdeMurWsBCmILSRD1XUoNj1a0aFzuVk2rkeJf0K5DLdokoWJIDVRxwTK9gHdhUdBNZMkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
+ dkim=pass header.d=zenithal.me; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8IQE1soOTIizTTC6+UVyyiO5n4GeQIZ7tCp0tozzoWQ=;
+ b=TY4kT3Li2R0155Eg/af8FSGP6nSV0f8fR0sfGcnjc8J5s7ZaeelOxvMXYY7mjqFjjq0wflkPMb4N4intEd7wlYLdGmS9man+p5Pi4A3XKKJn1oBPDZ8A5gcLgad0QSDTNgCubEx/GXeenaP575hjOJ4L8+3JK7ah11KAC3TFzkA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=zenithal.me;
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
+ TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:9e::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5273.14; Thu, 19 May 2022 12:41:03 +0000
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::bd99:5c83:e2dc:a8f7]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::bd99:5c83:e2dc:a8f7%7]) with mapi id 15.20.5273.015; Thu, 19 May 2022
+ 12:41:03 +0000
+Date: Thu, 19 May 2022 20:40:55 +0800
+From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
+To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, contact@canokeys.org
+Subject: [PATCH v5 6/6] MAINTAINERS: add myself as CanoKey maintainer
+Message-ID: <YoY61xI0IcFT1fOP@Sun>
+References: <YoY5k0PQny8WtAHi@Sun>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoY5k0PQny8WtAHi@Sun>
+X-Operating-System: Linux Sun 5.15.26
+X-Mailer: Mutt 2.2.1 (2022-02-19)
+X-ClientProxiedBy: BYAPR02CA0041.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::18) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:c0::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1529b2f6-2cc1-40c0-5324-08da3994d5bc
+X-MS-TrafficTypeDiagnostic: TYCP286MB0941:EE_
+X-Microsoft-Antispam-PRVS: <TYCP286MB0941F320DF5D10DCC37A0927BCD09@TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rq/0sx01uGGWxjSI4lqFcNYhKgprl3RC1OYjdnKFWWc29N4IX9Vc243aWjO8k8RsxBg8pkTb6eJQNThRrGpfsQ5F0ISgYb1WrZc8oaDIMeEAxjmSIkWsCAPbiOUWsM0PzoxIVXgEWrI9MSRROd2+v3Pp24VTbFDIRi+RMrAznka3dWqEzhzKsPV6XdErsruMH91QgIa2uPg7lH2P+7kU9VKPR/WqrzaSMx7YrYNsTAVE8q3RxrhlxTOZcgaAHJAA4NlKHxj6kkzDSG/MpCjypJ9QF0IEysVlXviyTeb74JFCD6fDuJeX+szSqAliLgliGGwk3gqWtG2bYn3gcxUVM3SMa28HJPl49TPF3MOZPqdE9qVEn87iK3oQc/01oIsSZRytNvEdIOU2Xl0azce24hUEDnYG8pgohcEky73/yMOp4yDPYC52UFuY82ssBP/jtd38Mv4ECmU6kXq8dE5khGQpSsFYBVHaT2WA7koGXHDXY+SrzSDK+zdf6yNO1ecnJSTNomIgopD/Dlz99Bz5em+9cVT4M5HKZWTzl90ISLMQir25n/Nije2ywzWboHwK35mSzegTWbdgIaw8U8yfxVrMPD2ik7X4V8CsezRTO7OD5ulTnMxzeMh5cXFc8KYdRyucN/3NGelXLB8LYrqbiyp4F/JN/DyGC+UzzSrB4Yx1bMi12V5UQpDPHNyyFdFpksF2XkcdX1+Wke0JlDyvDg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(136003)(396003)(39830400003)(346002)(376002)(33716001)(2906002)(41300700001)(8676002)(508600001)(38100700002)(110136005)(4326008)(41320700001)(6486002)(316002)(786003)(6666004)(52116002)(9686003)(6512007)(6506007)(5660300002)(66476007)(66946007)(66556008)(8936002)(4744005)(86362001)(186003)(49092004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/dFPBMy0VqGgiYaF/vNr3I3tW8bk+YNzwCKDlN+DpAXPRRkizhgTgKi3Hkzp?=
+ =?us-ascii?Q?rnK5rWZWz1u4klvcW4bxKiGUvyAYemm0BWmBtr068AUlGbMfI+gDl7Fmoepg?=
+ =?us-ascii?Q?/W9G9PKlf1uQWfdx8F6q+LqMWxP86iEuelKybbHtGpFd7CKBTrx9cNFhFOpg?=
+ =?us-ascii?Q?JlpUCkwmUBTXnqRRGLdeqvfhT7w7HlWCjdQWMPvkpv4Y0kWm1KSbVMFR3elz?=
+ =?us-ascii?Q?KMWLUPvuvpAcfsZLUqTtPQKUs1np38HucZDUaH0gMtxxamT8XBI41D0uu5yu?=
+ =?us-ascii?Q?A/vGJG/gRSMs6b3Rxlsr3LZA7L+gyI1A3G0Bmd6U0swi6JuobIEUZ+Kpn++Z?=
+ =?us-ascii?Q?af+/y8bflU7sVGmTbMspBwyR5bJMpTUZw/4EQbNDm65HFySaEWyx2lJWrP0p?=
+ =?us-ascii?Q?jn9WLLUeiSHfHYnEEro9Y9vILbzyJXHMgkzEEcsKTo7nRVwxcB/60uVjup1R?=
+ =?us-ascii?Q?j6yYEMDCidnCfxXN8CinaZ0NMgy8ihhQF1WyToDpr/82RdoaogpG6Y/O1SKu?=
+ =?us-ascii?Q?H0wn45JzUvJgNa/+b4Emf5CQT1DyPJF3dWCZLREvav/1sFXvvKLnTsYSClV5?=
+ =?us-ascii?Q?U6QcBBqwXs9rIBBrHvS7zgE6lLVuxKUlJ04Ww7GXbTpRaGqQ/GwOJx8748nA?=
+ =?us-ascii?Q?m4p1XlOlUc7wVyt8c2+BelMAkHcBh+ZKXrUqgSe5bL0rkm/IwgkT2d0GEnaI?=
+ =?us-ascii?Q?7oXMpWj5O6onfFYPWqfMY9fOMtZrrzFP8AZkUIf6UVNWtvrRIYy0c/jCvIev?=
+ =?us-ascii?Q?ffwvjuusdvbJyLu3nANaOsEXXmgXTeSyGvgfFVaXZ/y8H3k7OpqQ6tiTWQP/?=
+ =?us-ascii?Q?EGZO91qZTH/QlxVvls/A7wQNz7DjCa06kuEh98IA4Fd+YeOwrcXuRUSqNJOa?=
+ =?us-ascii?Q?v/2VCk371n/GqC5iA/ZvyYOSAe28yz0P1Jnvyel/d5/gGDqrS/17GQRbj1P+?=
+ =?us-ascii?Q?k4G1mrXeTe07h+MH5QsBniyxrRqruprqHVJ2Vx21EYiMxamxnGbyODnofBmW?=
+ =?us-ascii?Q?ltpqw4Kpws/Cd/fV2q9qKUE18oRc7hkHlVPL8IMNw2ZmQ07yrVU96mhNA/VQ?=
+ =?us-ascii?Q?agHb7zlFy96NqLGIN+VA/tDQMIDwLokFnmwxFUjhU9kBbayu45o0k9tcCJsN?=
+ =?us-ascii?Q?G5FZwhzMTX2swvjf/BcEzzs583azjF57I9YU0I6JVeGIAsuYO60IETJ5dMlh?=
+ =?us-ascii?Q?pZzctLNXKdFgUMHF0ZouOEWMEqMjmSzk2d1ewWEEVfOpu1FsXCzxpEqHh9gn?=
+ =?us-ascii?Q?NfdZag9k4yvKIDzCJ2NPMQEmDMW4sZ3V5gyghNpLbG1Pk/1P/q/7E7FKZr+K?=
+ =?us-ascii?Q?JXnLcpXj6IPw3KvEKruby6Ho3zo0QNbqQCSKXtxbqCUf8nTDezckLZqgfXsl?=
+ =?us-ascii?Q?fdceYTWWX1I+2I2SSSjNUbuFQkxHZWoHlLgt1htkuusXvkfttPHgZTf1QXVf?=
+ =?us-ascii?Q?Y6ydD7/ogJIllbVSUtmB/L7Q1u0vO0Fe8NW2hAq/AWsABW2pUOpLSQbtc2HV?=
+ =?us-ascii?Q?tU2drVO1fbUjoLbe+ajtQsoy4AhNvazJy9O/3rAfVYT7zNP8fIBGKqwIl6s3?=
+ =?us-ascii?Q?1mTgidFW0JteCSw5bq6GoyuKm0ZxGtn3b3uEVbepSPiJ5WHVZEPV8Pc9cKxj?=
+ =?us-ascii?Q?IgxzS5Qfaw38ZIfBfM7/nIGWol7FTefETCXDnr1KlOUg4RkHRVN5ESbc7apy?=
+ =?us-ascii?Q?Cbok0OCdRnBkI+vjNp7st/rbB6kU8DFDsLooBkh3hhSk0U3/eHI9CTPCXueJ?=
+ =?us-ascii?Q?05qJTPZjpJXWdf7+Hzmgxq3XtuO4vQ8=3D?=
+X-OriginatorOrg: zenithal.me
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1529b2f6-2cc1-40c0-5324-08da3994d5bc
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 12:41:03.1584 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G/55urVP6INuyHmvh50+eUVF4Irpa2zdFBElT+8uC5J7wUDgnoFvp4dpxwu5Fmt9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB0941
+Received-SPF: pass client-ip=2a01:111:f403:700c::730;
+ envelope-from=i@zenithal.me;
+ helo=JPN01-OS0-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,52 +138,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 May 2022 19:40:05 +0530
-Ani Sinha <ani@anisinha.ca> wrote:
+Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> At any step when any validation fail in check_erst_backend_storage(), there is
-> no need to continue further through other validation checks. Further, by
-> continuing even when record_size is 0, we run the risk of triggering a divide
-> by zero error if we continued with other validation checks. Hence, we should
-> simply return from this function upon validation failure.
-> 
-> CC: Peter Maydell <peter.maydell@linaro.org>
-> CC: Eric DeVolder <eric.devolder@oracle.com>
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  hw/acpi/erst.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> index de509c2b48..df856b2669 100644
-> --- a/hw/acpi/erst.c
-> +++ b/hw/acpi/erst.c
-> @@ -440,6 +440,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
->          (record_size >= 4096) /* PAGE_SIZE */
->          )) {
->          error_setg(errp, "ERST record_size %u is invalid", record_size);
-> +        return;
->      }
->  
->      /* Validity check header */
-> @@ -450,6 +451,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
->          (le16_to_cpu(header->reserved) == 0)
->          )) {
->          error_setg(errp, "ERST backend storage header is invalid");
-> +        return;
->      }
->  
->      /* Check storage_size against record_size */
-> @@ -457,6 +459,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
->           (record_size > s->storage_size)) {
->          error_setg(errp, "ACPI ERST requires storage size be multiple of "
->              "record size (%uKiB)", record_size);
-> +        return;
->      }
->  
->      /* Compute offset of first and last record storage slot */
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dff0200f70..03856c558f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2397,6 +2397,14 @@ F: hw/intc/s390_flic*.c
+ F: include/hw/s390x/s390_flic.h
+ L: qemu-s390x@nongnu.org
+ 
++CanoKey
++M: Hongren (Zenithal) Zheng <i@zenithal.me>
++S: Maintained
++R: Canokeys.org <contact@canokeys.org>
++F: hw/usb/canokey.c
++F: hw/usb/canokey.h
++F: docs/system/devices/canokey.rst
++
+ Subsystems
+ ----------
+ Overall Audio backends
+-- 
+2.35.1
 
 
