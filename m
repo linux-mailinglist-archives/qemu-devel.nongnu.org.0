@@ -2,70 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754F952D1A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 13:40:58 +0200 (CEST)
-Received: from localhost ([::1]:55812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0099B52D1B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 13:45:40 +0200 (CEST)
+Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nreWN-0006nJ-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 07:40:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41690)
+	id 1nreau-0001dh-SE
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 07:45:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nreLi-0000Ie-U2
- for qemu-devel@nongnu.org; Thu, 19 May 2022 07:29:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22571)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nreQZ-000223-8x; Thu, 19 May 2022 07:34:48 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9128
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nreLh-0002be-7h
- for qemu-devel@nongnu.org; Thu, 19 May 2022 07:29:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652959784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nHUVTNY086Mjq705wRBwIU6qLJvp6k0zDBGbDgfdBu0=;
- b=GcBDlKUpYLok4SmJXp20DtmQqq7dLeDj/RMmwqwxH1NZGml22oLoE7wbyXaWGZYVIu6IAe
- QQpzmojm4Fox6qya/zRJ2u+/N9QP35GrtjzSlnp/A2wgcksyae/IAl3ux0ekix72PV164S
- VlfF96wLw2asYYfxIWnZH+qhHs4IZnU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-347-4dcIqlbzPRy_Cn5XRo2Q7g-1; Thu, 19 May 2022 07:29:43 -0400
-X-MC-Unique: 4dcIqlbzPRy_Cn5XRo2Q7g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2590802803;
- Thu, 19 May 2022 11:29:42 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 664BE40C1421;
- Thu, 19 May 2022 11:29:42 +0000 (UTC)
-Date: Thu, 19 May 2022 12:29:41 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PULL 0/8] Misc patches (Gitlab-CI, qtest, Capstone, ...)
-Message-ID: <YoYqJbeTyTGgMIHe@stefanha-x1.localdomain>
-References: <20220518090438.158475-1-thuth@redhat.com>
- <c3fdc5fa-9bb1-dfb8-d763-1a0946f15aa5@linaro.org>
- <47c757d4-5576-cb24-6f90-027892a30720@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nreQW-0003DL-NR; Thu, 19 May 2022 07:34:46 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24JAxslS032493;
+ Thu, 19 May 2022 11:34:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=ZKWEKWVYggwlzYSsSgviLk4EijstQBj1/Ceh8fbe/xo=;
+ b=U911tTlakubWCjBbAbYrGOd8zUN62aAxtXS75izwvjJA+S8UXAhVUJqSiNk3q6IHorR9
+ Nrgqtw60y6SDdAyOtGXgZfQJDx3Emfk4AVL1ekIZZI7UsLZklZSAHbEKWKX88fCVsqno
+ CY9OEtcrXyZwElrsgK+UCIt8jE5YxxNY4qXV5KyOcLaw+Wbk0wsJ2OG6S6J9IWBAM4OH
+ e0KYQxURiKPdueMcYxr9Nkz/JuIcjVShhWYU+lQAvWxPtFFQndL5TLg901Wn4/1DOobk
+ oGn0gVA/SApIFRxoBITFwvHkk6LGhLw4++LR9Z5kTpBoTxeUcLnkFQiQIVd/gCRpDwZH hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5mmt8rm1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 May 2022 11:34:41 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24JBNh7M030233;
+ Thu, 19 May 2022 11:34:40 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5mmt8rkk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 May 2022 11:34:40 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24JBXIkT009654;
+ Thu, 19 May 2022 11:34:38 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3g2429f78n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 May 2022 11:34:38 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24JBYZDf47579596
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 May 2022 11:34:35 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AE6E24C050;
+ Thu, 19 May 2022 11:34:35 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E9534C046;
+ Thu, 19 May 2022 11:34:35 +0000 (GMT)
+Received: from [9.155.208.113] (unknown [9.155.208.113])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 19 May 2022 11:34:35 +0000 (GMT)
+Message-ID: <03b9e56549edc455d8afe89a9fcad01715b88475.camel@linux.ibm.com>
+Subject: PING: [PATCH 2/2] tests/tcg/s390x: Test unwinding from signal handlers
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
+ <david@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Ulrich Weigand <ulrich.weigand@de.ibm.com>
+Date: Thu, 19 May 2022 13:34:35 +0200
+In-Reply-To: <20220503225157.1696774-3-iii@linux.ibm.com>
+References: <20220503225157.1696774-1-iii@linux.ibm.com>
+ <20220503225157.1696774-3-iii@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EjTA/szm0TjdRxV3"
-Content-Disposition: inline
-In-Reply-To: <47c757d4-5576-cb24-6f90-027892a30720@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Bs8xkxEJJ5zr6y1ZDFduP4-1usOlh-vK
+X-Proofpoint-GUID: -nyuOmBL7D6DlVgIygSTYTfDrCGeQ-9Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-19_03,2022-05-19_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ spamscore=0 clxscore=1011 mlxscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 impostorscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205190065
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,76 +117,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 2022-05-04 at 00:51 +0200, Ilya Leoshkevich wrote:
+> Add a small test to prevent regressions.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>  tests/tcg/s390x/signals-s390x.c | 69 ++++++++++++++++++++++++++-----
+> --
+>  1 file changed, 55 insertions(+), 14 deletions(-)
+> 
+> diff --git a/tests/tcg/s390x/signals-s390x.c
+> b/tests/tcg/s390x/signals-s390x.c
+> index dc2f8ee59a..48c3b6cdfd 100644
+> --- a/tests/tcg/s390x/signals-s390x.c
+> +++ b/tests/tcg/s390x/signals-s390x.c
+> @@ -1,4 +1,5 @@
+>  #include <assert.h>
+> +#include <execinfo.h>
+>  #include <signal.h>
+>  #include <string.h>
+>  #include <sys/mman.h>
+> @@ -11,22 +12,28 @@
+>   * inline asm is used instead.
+>   */
+>  
+> +#define DEFINE_ASM_FUNCTION(name, body) \
+> +    asm(".globl " #name "\n" \
+> +        #name ":\n" \
+> +        ".cfi_startproc\n" \
+> +        body "\n" \
+> +        "br %r14\n" \
+> +        ".cfi_endproc");
+> +
+>  void illegal_op(void);
+> -void after_illegal_op(void);
+> -asm(".globl\tillegal_op\n"
+> -    "illegal_op:\t.byte\t0x00,0x00\n"
+> -    "\t.globl\tafter_illegal_op\n"
+> -    "after_illegal_op:\tbr\t%r14");
+> +extern const char after_illegal_op;
+> +DEFINE_ASM_FUNCTION(illegal_op,
+> +    ".byte 0x00,0x00\n"
+> +    ".globl after_illegal_op\n"
+> +    "after_illegal_op:")
+>  
+>  void stg(void *dst, unsigned long src);
+> -asm(".globl\tstg\n"
+> -    "stg:\tstg\t%r3,0(%r2)\n"
+> -    "\tbr\t%r14");
+> +DEFINE_ASM_FUNCTION(stg, "stg %r3,0(%r2)")
+>  
+>  void mvc_8(void *dst, void *src);
+> -asm(".globl\tmvc_8\n"
+> -    "mvc_8:\tmvc\t0(8,%r2),0(%r3)\n"
+> -    "\tbr\t%r14");
+> +DEFINE_ASM_FUNCTION(mvc_8, "mvc 0(8,%r2),0(%r3)")
+> +
+> +extern const char return_from_main_1;
+>  
+>  static void safe_puts(const char *s)
+>  {
+> @@ -49,8 +56,9 @@ static struct {
+>  
+>  static void handle_signal(int sig, siginfo_t *info, void *ucontext)
+>  {
+> +    int err, i, n_frames;
+> +    void *frames[16];
+>      void *page;
+> -    int err;
+>  
+>      if (sig != expected.sig) {
+>          safe_puts("[  FAILED  ] wrong signal");
+> @@ -86,6 +94,17 @@ static void handle_signal(int sig, siginfo_t
+> *info, void *ucontext)
+>      default:
+>          break;
+>      }
+> +
+> +    n_frames = backtrace(frames, sizeof(frames) /
+> sizeof(frames[0]));
+> +    for (i = 0; i < n_frames; i++) {
+> +        if (frames[i] == &return_from_main_1) {
+> +            break;
+> +        }
+> +    }
+> +    if (i == n_frames) {
+> +        safe_puts("[  FAILED  ] backtrace() is broken");
+> +        _exit(1);
+> +    }
+>  }
+>  
+>  static void check_sigsegv(void *func, enum exception exception,
+> @@ -122,7 +141,7 @@ static void check_sigsegv(void *func, enum
+> exception exception,
+>      assert(err == 0);
+>  }
+>  
+> -int main(void)
+> +int main_1(void)
+>  {
+>      struct sigaction act;
+>      int err;
+> @@ -138,7 +157,7 @@ int main(void)
+>      safe_puts("[ RUN      ] Operation exception");
+>      expected.sig = SIGILL;
+>      expected.addr = illegal_op;
+> -    expected.psw_addr = (unsigned long)after_illegal_op;
+> +    expected.psw_addr = (unsigned long)&after_illegal_op;
+>      expected.exception = exception_operation;
+>      illegal_op();
+>      safe_puts("[       OK ]");
+> @@ -163,3 +182,25 @@ int main(void)
+>  
+>      _exit(0);
+>  }
+> +
+> +/*
+> + * Define main() in assembly in order to test that unwinding from
+> signal
+> + * handlers until main() works. This way we can define a specific
+> point that
+> + * the unwinder should reach. This is also better than defining
+> main() in C
+> + * and using inline assembly to call main_1(), since it's not easy
+> to get all
+> + * the clobbers right.
+> + */
+> +
+> +DEFINE_ASM_FUNCTION(main,
+> +    "stmg %r14,%r15,112(%r15)\n"
+> +    ".cfi_offset 14,-48\n"
+> +    ".cfi_offset 15,-40\n"
+> +    "lay %r15,-160(%r15)\n"
+> +    ".cfi_def_cfa_offset 320\n"
+> +    "brasl %r14,main_1\n"
+> +    ".globl return_from_main_1\n"
+> +    "return_from_main_1:\n"
+> +    "lmg %r14,%r15,272(%r15)\n"
+> +    ".cfi_restore 15\n"
+> +    ".cfi_restore 14\n"
+> +    ".cfi_def_cfa_offset 160");
 
---EjTA/szm0TjdRxV3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 19, 2022 at 08:29:09AM +0200, Thomas Huth wrote:
-> On 18/05/2022 18.12, Richard Henderson wrote:
-> > On 5/18/22 02:04, Thomas Huth wrote:
-> > > =A0 Hi Richard!
-> > >=20
-> > > The following changes since commit eec398119fc6911d99412c37af06a6bc27=
-871f85:
-> > >=20
-> > > =A0=A0 Merge tag 'for_upstream' of
-> > > git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging
-> > > (2022-05-16 16:31:01 -0700)
-> > >=20
-> > > are available in the Git repository at:
-> > >=20
-> > > =A0=A0 https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-18
-> > >=20
-> > > for you to fetch changes up to 83602083b4ada6ceb86bfb327e83556ebab120=
-fc:
-> > >=20
-> > > =A0=A0 capstone: Remove the capstone submodule (2022-05-18 08:54:22 +=
-0200)
-> > >=20
-> > > ----------------------------------------------------------------
-> > > * Remove Ubuntu 18.04 containers (not supported anymore)
-> > > * Improve the cleanup of the QEMU binary in case of failing qtests
-> > > * Update the Windows support statement
-> > > * Remove the capstone submodule (and rely on Capstone of the distros =
-instead)
-> >=20
-> > Fails centos-stream-8-x86_64 test,
-> >=20
-> > Run-time dependency capstone found: NO (tried pkgconfig)
-> > ../meson.build:2539:2: ERROR: Dependency "capstone" not found, tried pk=
-gconfig
-> >=20
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2473935684
->=20
-> That's a custom runner ... who has access to that one? Cleber? Stefan? I
-> didn't spot an entry for it on https://wiki.qemu.org/AdminContacts ...
->=20
-> Anyway, somebody needs to install "capstone-devel" on that machine - or we
-> need to disable capstone in scripts/ci/org.centos/stream/8/x86_64/configu=
-re
-> now if the machine can't be changed...
-
-I don't manage a custom CI runner for QEMU.
-
-Stefan
-
---EjTA/szm0TjdRxV3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKGKiUACgkQnKSrs4Gr
-c8imeAgAtUea+5feyF25n0XmIne/+YYPzvj9vUHsk5KRnBypgQfPZymz8qIvf6aR
-gRgdB0cuMD9XYTcp/Atm0SMQ930gwX95QGvBj0FfZnfdiCWkNxw40qVRcGYCoK9Q
-4l1b26DaFfXeLEBzXH4nnooS8nhe6Omuh7mh1fN5nG4a9ZX4nZKgCQtmMmT0Gopd
-zF0IAnaTbOqApptFFU9XwdoBEyKn6aTczD8UHG4iwOMcZBl777pkYzr1rBL9V8WB
-QQjL8i/gdvrxyZpzgA7VkH7PI/fj2rQjUJVEqiFm6L6ycXFFY5oxnNfUFVbkcI0t
-8kvfcRqb2VC3UmsS5KdwhjcreV5k6Q==
-=ifpY
------END PGP SIGNATURE-----
-
---EjTA/szm0TjdRxV3--
-
+Ping.
 
