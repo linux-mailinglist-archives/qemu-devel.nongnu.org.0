@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E08652D5B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:13:34 +0200 (CEST)
-Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE2752D5B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 16:14:10 +0200 (CEST)
+Received: from localhost ([::1]:33528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrguC-0003zb-Cx
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43770)
+	id 1nrgun-0004VT-6V
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 10:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrgrG-0000jJ-0a
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:10:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nrgrB-0003Ml-Rl
- for qemu-devel@nongnu.org; Thu, 19 May 2022 10:10:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652969424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=N8kGEbTrTEeHt4NwMjp2TuqdkAELMIVAn53F1kvMq94=;
- b=TStWXq77IsI0/SocLtsVH/ws2SBSyfHzJOhgOuiWj/W8qBYHSdeF2Ai4rVYAXiYFY62GUj
- jA6KJ02olvGqVMantS3ufhiR6YFVDdEo+OVSKY8aCQ1sKwbscW9HYSj9IUhMbU0mX/uXDw
- onBE3YeF9ZQda3U4gfIvqTCjGiKINUk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-ODLQJ5aDPW-6zvVOsjDIJQ-1; Thu, 19 May 2022 10:10:21 -0400
-X-MC-Unique: ODLQJ5aDPW-6zvVOsjDIJQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8F591C08968;
- Thu, 19 May 2022 14:10:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 342BE400E115;
- Thu, 19 May 2022 14:10:18 +0000 (UTC)
-Date: Thu, 19 May 2022 09:10:17 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- xen-devel@lists.xenproject.org, qemu-block@nongnu.org,
- Fam Zheng <fam@euphon.net>, Anthony Perard <anthony.perard@citrix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, Xie Yongji <xieyongji@bytedance.com>
-Subject: Re: [PATCH] block: get rid of blk->guest_block_size
-Message-ID: <20220519141017.3xkntu4x7yslgpge@redhat.com>
-References: <20220518130945.2657905-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nrgsc-0002PI-BI; Thu, 19 May 2022 10:11:56 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:34719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nrgsW-0003eJ-BJ; Thu, 19 May 2022 10:11:54 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ qe3-20020a17090b4f8300b001dc24e4da73so6110881pjb.1; 
+ Thu, 19 May 2022 07:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+Nv+HdUBzbWB3FQruXCG+Vr04O93PrLwUpsvaMFd8dM=;
+ b=Msl/wseJB/E2nEpsSfbGCs/zqIlDIjSN7fJQp7NeYZvM4eUjt2yd1XSoTrlrl0CPVc
+ 9++7xlV8K6Xw3YeQL/HTDIP3jORY6CQK/10t99WmdbTcHsM37ppAWHmKKKQHV65E1qy4
+ 01e7p9gmr8F59gIY7a001keIu6sJ0ltHJKoONkC9LN+r/Xy2Wijfs+wJwZfPoRgyiYFy
+ lMFU2GqO+3xtqWxv42WXCCq/k2waY3Y4WHULKLQyC7CduOpj/uMxYARiPvq1Tya2IbH1
+ WhuT+0eH+h44xpPdpsuUEbje+wZTDITGCSGiS9XPd11gtt2YFevrWRLgvqlaO5qB7JkR
+ 0M0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+Nv+HdUBzbWB3FQruXCG+Vr04O93PrLwUpsvaMFd8dM=;
+ b=ffsNHWa62ba8GvAQYV7RRYrtLh4kMuNYOF90kXevyiAjiYQcuOHzOfbogZgeoKKVCD
+ NUoWtqvhRm17w5ypcouD05ptjWOdele+LrL8Y+PR0pWMxmuQJ0Wt7o1SxnVUp+29W7HF
+ 2fiigl0n6BV4nzIuoSwvyeN6SBByQ/eb3yVCzalnWh6pcLWO8IB/f2eE64lfjW06n8Se
+ eoZ4R8Wo1HZ7Sa7SoCoNkWGB0fVQF2NSbr5Sc3Lpm0QCsuCeTbfGIXQHEeI7qXrwyIeR
+ h/pQ8GEV+Uu2Cm2hURSNHI0HG2b4H1jZIp5JGwdN6ytH0SQS+6zlnxzZlOI+0eT0yPE2
+ V+1Q==
+X-Gm-Message-State: AOAM532uYA8EiTcf+7ygTBL8xyz35hYzDsfIpd/cB4yZ2nqzmr5Lmuhd
+ EUkwBz3CX3PbCnGCRMucP2VnpeQSumfpSg==
+X-Google-Smtp-Source: ABdhPJx8oYK9nBni2YNd4vHIj34ZNMA9m71A5hYv4NVuiziWIT+uBj2N2j7r3SOaSpC3F0jRZ+pyIQ==
+X-Received: by 2002:a17:90b:386:b0:1df:2d85:e4f3 with SMTP id
+ ga6-20020a17090b038600b001df2d85e4f3mr5340320pjb.204.1652969500579; 
+ Thu, 19 May 2022 07:11:40 -0700 (PDT)
+Received: from bobo.ibm.com ([118.208.131.68])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020a170902654e00b0015e8d4eb1c1sm3814943pln.11.2022.05.19.07.11.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 07:11:40 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Cc: Nicholas Piggin <npiggin@gmail.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] util: optimise flush_idcache_range when the ppc host has
+ coherent icache
+Date: Fri, 20 May 2022 00:11:31 +1000
+Message-Id: <20220519141131.29839-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518130945.2657905-1-stefanha@redhat.com>
-User-Agent: NeoMutt/20220429-71-6f7d3e
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,28 +87,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 02:09:45PM +0100, Stefan Hajnoczi wrote:
-> Commit 1b7fd729559c ("block: rename buffer_alignment to
-> guest_block_size") noted:
-> 
->   At this point, the field is set by the device emulation, but completely
->   ignored by the block layer.
-> 
-> The last time the value of buffer_alignment/guest_block_size was
-> actually used was before commit 339064d50639 ("block: Don't use guest
-> sector size for qemu_blockalign()").
-> 
-> This value has not been used since 2013. Get rid of it.
-> 
-> Cc: Xie Yongji <xieyongji@bytedance.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
+dcache writeback and icache invalidate is not required when icache is
+coherent, a shorter fixed-length sequence can be used which just has to
+flush and re-fetch instructions that were in-flight.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
 
+I haven't been able to measure a significant performance difference
+with this, qemu isn't flushing large ranges frequently so the old sequence
+is not that slow.
+
+ include/qemu/cacheflush.h |  4 ++++
+ util/cacheflush.c         |  9 +++++++++
+ util/cacheinfo.c          | 16 ++++++++++++++--
+ 3 files changed, 27 insertions(+), 2 deletions(-)
+
+diff --git a/include/qemu/cacheflush.h b/include/qemu/cacheflush.h
+index ae20bcda73..f65349ce3c 100644
+--- a/include/qemu/cacheflush.h
++++ b/include/qemu/cacheflush.h
+@@ -28,6 +28,10 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ 
+ #else
+ 
++#if defined(__powerpc__)
++extern bool have_coherent_icache;
++#endif
++
+ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len);
+ 
+ #endif
+diff --git a/util/cacheflush.c b/util/cacheflush.c
+index 4b57186d89..15060f78b8 100644
+--- a/util/cacheflush.c
++++ b/util/cacheflush.c
+@@ -108,7 +108,16 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+     size_t isize = qemu_icache_linesize;
+ 
+     b = rw & ~(dsize - 1);
++
++    if (have_coherent_icache) {
++        asm volatile ("sync" : : : "memory");
++        asm volatile ("icbi 0,%0" : : "r"(b) : "memory");
++        asm volatile ("isync" : : : "memory");
++        return;
++    }
++
+     e = (rw + len + dsize - 1) & ~(dsize - 1);
++
+     for (p = b; p < e; p += dsize) {
+         asm volatile ("dcbst 0,%0" : : "r"(p) : "memory");
+     }
+diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+index ab1644d490..b632ff47ae 100644
+--- a/util/cacheinfo.c
++++ b/util/cacheinfo.c
+@@ -133,18 +133,30 @@ static void arch_cache_info(int *isize, int *dsize)
+     }
+ }
+ 
+-#elif defined(_ARCH_PPC) && defined(__linux__)
+-# include "elf.h"
++#elif defined(__powerpc__)
+ 
++bool have_coherent_icache = false;
++
++# if defined(_ARCH_PPC) && defined(__linux__)
++#  include "elf.h"
+ static void arch_cache_info(int *isize, int *dsize)
+ {
++#  ifdef PPC_FEATURE_ICACHE_SNOOP
++    unsigned long hwcap = qemu_getauxval(AT_HWCAP);
++#  endif
++
+     if (*isize == 0) {
+         *isize = qemu_getauxval(AT_ICACHEBSIZE);
+     }
+     if (*dsize == 0) {
+         *dsize = qemu_getauxval(AT_DCACHEBSIZE);
+     }
++
++#  ifdef PPC_FEATURE_ICACHE_SNOOP
++    have_coherent_icache = (hwcap & PPC_FEATURE_ICACHE_SNOOP) != 0;
++#  endif
+ }
++# endif
+ 
+ #else
+ static void arch_cache_info(int *isize, int *dsize) { }
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.35.1
 
 
