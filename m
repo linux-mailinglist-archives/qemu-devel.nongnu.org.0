@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2C552DDA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 21:21:49 +0200 (CEST)
-Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7FF52DDCA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 21:25:31 +0200 (CEST)
+Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrliW-00066j-0M
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 15:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48140)
+	id 1nrlm4-0005hd-FC
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 15:25:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nrlaj-0005FT-Su
- for qemu-devel@nongnu.org; Thu, 19 May 2022 15:13:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50842)
+ id 1nrlam-0005OB-A1
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 15:13:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nrlaf-0006Om-F5
- for qemu-devel@nongnu.org; Thu, 19 May 2022 15:13:44 -0400
+ id 1nrlak-0006PL-G7
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 15:13:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652987620;
+ s=mimecast20190719; t=1652987623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BN5qT8006jrUJpSdXRMJdAu+K0oZUNtCZ5Uz1NjXk+0=;
- b=ZgmHf0ZDKhuoIdCcJU413t89yL9Hk6DsB2592f74mA5geVomBo/cKhUYYqNUuigdyDL4yg
- PjjvoF5WfjQT3FmEn+W52OlpwUPYfX3+vlGpzMpR2wGfR8c19AvENnu9y//3z9PcMjc1rv
- klmiornuZNbeKUDq9EvT5TZmHKHYdMk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4Rk5vuJjlEY7VO/1pCIBCwcJaBWNUxkAO+ircCyr+84=;
+ b=f8m+oPNaG4+er28xWKz8GpdLbdmlsKoUNJ/59iOuhd5SAfqtYyrvewvZdBvEeYQVaXfWAf
+ Zbc3giRTGNEsgxo9OSd7VsBnNil7AyKad2rPzAY29lr8Bw39RQ4cdnerxIrIqoB2Llh20i
+ J31Od8pm3wftbgeJd3ybwPMOnAHx5BU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-Rrue_lnAOy6iKwMxH22ZZw-1; Thu, 19 May 2022 15:13:37 -0400
-X-MC-Unique: Rrue_lnAOy6iKwMxH22ZZw-1
+ us-mta-401-LTRMZHbePYyNPZUxoVGy8w-1; Thu, 19 May 2022 15:13:40 -0400
+X-MC-Unique: LTRMZHbePYyNPZUxoVGy8w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CA5585A5BC;
- Thu, 19 May 2022 19:13:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3956A29AB3E1;
+ Thu, 19 May 2022 19:13:40 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAB072026D6A;
- Thu, 19 May 2022 19:13:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F4962026D6A;
+ Thu, 19 May 2022 19:13:37 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -55,16 +55,16 @@ Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Eric Blake <eblake@redhat.com>,
  Cindy Lu <lulu@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Parav Pandit <parav@mellanox.com>
-Subject: [RFC PATCH v8 09/21] vhost: Add svq copy desc mode
-Date: Thu, 19 May 2022 21:12:54 +0200
-Message-Id: <20220519191306.821774-10-eperezma@redhat.com>
+Subject: [RFC PATCH v8 10/21] vhost: Add vhost_svq_inject
+Date: Thu, 19 May 2022 21:12:55 +0200
+Message-Id: <20220519191306.821774-11-eperezma@redhat.com>
 In-Reply-To: <20220519191306.821774-1-eperezma@redhat.com>
 References: <20220519191306.821774-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,412 +88,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable SVQ to not to forward the descriptor translating its address to
-qemu's IOVA but copying to a region outside of the guest.
+This allows qemu to inject buffers to the device without guest's notice.
 
-Virtio-net control VQ will use this mode, so we don't need to send all
-the guest's memory every time there is a change, but only on messages.
-Reversely, CVQ will only have access to control messages.  This lead to
-less messing with memory listeners.
-
-We could also try to send only the required translation by message, but
-this presents a problem when many control messages occupy the same
-guest's memory region.
-
-Lastly, this allows us to inject messages from QEMU to the device in a
-simple manner.  CVQ should be used rarely and with small messages, so all
-the drawbacks should be assumible.
+This will be use to inject net CVQ messages to restore status in the
+destination.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  10 ++
- include/hw/virtio/vhost-vdpa.h     |   1 +
- hw/virtio/vhost-shadow-virtqueue.c | 174 +++++++++++++++++++++++++++--
- hw/virtio/vhost-vdpa.c             |   1 +
- net/vhost-vdpa.c                   |   1 +
- 5 files changed, 175 insertions(+), 12 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.h |  5 +++
+ hw/virtio/vhost-shadow-virtqueue.c | 72 +++++++++++++++++++++++++-----
+ 2 files changed, 65 insertions(+), 12 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index e06ac52158..79cb2d301f 100644
+index 79cb2d301f..8fe0367944 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.h
 +++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -17,6 +17,12 @@
+@@ -23,6 +23,9 @@ typedef struct SVQElement {
  
- typedef struct SVQElement {
-     VirtQueueElement elem;
+     /* Length of in buffer */
+     size_t in_len;
 +
-+    /* SVQ IOVA address of in buffer and out buffer if cloned */
-+    hwaddr in_iova, out_iova;
-+
-+    /* Length of in buffer */
-+    size_t in_len;
++    /* Buffer has been injected by QEMU, not by the guest */
++    bool not_from_guest;
  } SVQElement;
  
  typedef void (*VirtQueueElementCallback)(VirtIODevice *vdev,
-@@ -102,6 +108,9 @@ typedef struct VhostShadowVirtqueue {
- 
-     /* Next head to consume from the device */
-     uint16_t last_used_idx;
-+
-+    /* Copy each descriptor to QEMU iova */
-+    bool copy_descs;
- } VhostShadowVirtqueue;
+@@ -115,6 +118,8 @@ typedef struct VhostShadowVirtqueue {
  
  bool vhost_svq_valid_features(uint64_t features, Error **errp);
-@@ -119,6 +128,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq);
  
- VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_map,
-                                     const VhostShadowVirtqueueOps *ops,
-+                                    bool copy_descs,
-                                     const VhostShadowVirtqueueMapOps *map_ops,
-                                     void *map_ops_opaque);
- 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index f1ba46a860..dc2884eea4 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -33,6 +33,7 @@ typedef struct vhost_vdpa {
-     struct vhost_vdpa_iova_range iova_range;
-     uint64_t acked_features;
-     bool shadow_vqs_enabled;
-+    bool svq_copy_descs;
-     /* IOVA mapping used by the Shadow Virtqueue */
-     VhostIOVATree *iova_tree;
-     GPtrArray *shadow_vqs;
++int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
++                     size_t out_num, size_t in_num);
+ void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
+ void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd);
+ void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 044005ba89..5a8feb1cbc 100644
+index 5a8feb1cbc..c535c99905 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -16,6 +16,7 @@
- #include "qemu/log.h"
- #include "qemu/memalign.h"
- #include "linux-headers/linux/vhost.h"
-+#include "qemu/iov.h"
- 
- /**
-  * Validate the transport device features that both guests can use with the SVQ
-@@ -70,6 +71,30 @@ static uint16_t vhost_svq_available_slots(const VhostShadowVirtqueue *svq)
-     return svq->vring.num - (svq->shadow_avail_idx - svq->shadow_used_idx);
- }
- 
-+static void vhost_svq_alloc_buffer(void **base, size_t *len,
-+                                   const struct iovec *iov, size_t num,
-+                                   bool write)
-+{
-+    *len = iov_size(iov, num);
-+    size_t buf_size = ROUND_UP(*len, 4096);
-+
-+    if (!num) {
-+        return;
-+    }
-+
-+    /*
-+     * Linearize element. If guest had a descriptor chain, we expose the device
-+     * a single buffer.
-+     */
-+    *base = qemu_memalign(4096, buf_size);
-+    if (!write) {
-+        iov_to_buf(iov, num, 0, *base, *len);
-+        memset(*base + *len, 0, buf_size - *len);
-+    } else {
-+        memset(*base, 0, *len);
-+    }
-+}
-+
- /**
-  * Translate addresses between the qemu's virtual address and the SVQ IOVA
-  *
-@@ -126,7 +151,9 @@ static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
-  * Write descriptors to SVQ vring
-  *
-  * @svq: The shadow virtqueue
-+ * @svq_elem: The shadow virtqueue element
-  * @sg: Cache for hwaddr
-+ * @descs_len: Total written buffer if svq->copy_descs.
-  * @iovec: The iovec from the guest
-  * @num: iovec length
-  * @more_descs: True if more descriptors come in the chain
-@@ -134,7 +161,9 @@ static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
-  *
-  * Return true if success, false otherwise and print error.
-  */
--static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-+static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq,
-+                                        SVQElement *svq_elem, hwaddr *sg,
-+                                        size_t *descs_len,
-                                         const struct iovec *iovec, size_t num,
-                                         bool more_descs, bool write)
- {
-@@ -142,18 +171,41 @@ static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-     unsigned n;
-     uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
-     vring_desc_t *descs = svq->vring.desc;
--    bool ok;
--
-     if (num == 0) {
-         return true;
-     }
- 
--    ok = vhost_svq_translate_addr(svq, sg, iovec, num);
--    if (unlikely(!ok)) {
--        return false;
-+    if (svq->copy_descs) {
-+        void *buf;
-+        DMAMap map = {};
-+        int r;
-+
-+        vhost_svq_alloc_buffer(&buf, descs_len, iovec, num, write);
-+        map.translated_addr = (hwaddr)(uintptr_t)buf;
-+        map.size = ROUND_UP(*descs_len, 4096) - 1;
-+        map.perm = write ? IOMMU_RW : IOMMU_RO,
-+        r = vhost_iova_tree_map_alloc(svq->iova_tree, &map);
-+        if (unlikely(r != IOVA_OK)) {
-+            error_report("Cannot map injected element");
-+            return false;
-+        }
-+
-+        r = svq->map_ops->map(map.iova, map.size + 1,
-+                              (void *)map.translated_addr, !write,
-+                              svq->map_ops_opaque);
-+        /* TODO: Handle error */
-+        assert(r == 0);
-+        num = 1;
-+        sg[0] = map.iova;
-+    } else {
-+        bool ok = vhost_svq_translate_addr(svq, sg, iovec, num);
-+        if (unlikely(!ok)) {
-+            return false;
-+        }
-     }
- 
-     for (n = 0; n < num; n++) {
-+        uint32_t len = svq->copy_descs ? *descs_len : iovec[n].iov_len;
-         if (more_descs || (n + 1 < num)) {
-             descs[i].flags = flags | cpu_to_le16(VRING_DESC_F_NEXT);
-             descs[i].next = cpu_to_le16(svq->desc_next[i]);
-@@ -161,7 +213,7 @@ static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-             descs[i].flags = flags;
-         }
-         descs[i].addr = cpu_to_le64(sg[n]);
--        descs[i].len = cpu_to_le32(iovec[n].iov_len);
-+        descs[i].len = cpu_to_le32(len);
- 
-         last = i;
-         i = cpu_to_le16(svq->desc_next[i]);
-@@ -178,7 +230,8 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq, SVQElement *svq_elem,
-     unsigned avail_idx;
-     vring_avail_t *avail = svq->vring.avail;
-     bool ok;
--    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
-+    g_autofree hwaddr *sgs = NULL;
-+    hwaddr *in_sgs, *out_sgs;
- 
-     *head = svq->free_head;
- 
-@@ -189,15 +242,24 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq, SVQElement *svq_elem,
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
-+    if (!svq->copy_descs) {
-+        sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
-+        in_sgs = out_sgs = sgs;
-+    } else {
-+        in_sgs = &svq_elem->in_iova;
-+        out_sgs = &svq_elem->out_iova;
-+    }
-+    ok = vhost_svq_vring_write_descs(svq, svq_elem, out_sgs, (size_t[]){},
-+                                     elem->out_sg, elem->out_num,
-                                      elem->in_num > 0, false);
-     if (unlikely(!ok)) {
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
--                                     true);
-+    ok = vhost_svq_vring_write_descs(svq, svq_elem, in_sgs, &svq_elem->in_len,
-+                                     elem->in_sg, elem->in_num, false, true);
-     if (unlikely(!ok)) {
-+        /* TODO unwind out_sg */
-         return false;
-     }
- 
-@@ -276,6 +338,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-             SVQElement *svq_elem;
-             VirtQueueElement *elem;
-             bool ok;
-+            uint32_t needed_slots;
- 
-             if (svq->next_guest_avail_elem) {
-                 svq_elem = g_steal_pointer(&svq->next_guest_avail_elem);
-@@ -288,7 +351,8 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-             }
- 
-             elem = &svq_elem->elem;
--            if (elem->out_num + elem->in_num > vhost_svq_available_slots(svq)) {
-+            needed_slots = svq->copy_descs ? 1 : elem->out_num + elem->in_num;
-+            if (needed_slots > vhost_svq_available_slots(svq)) {
-                 /*
-                  * This condition is possible since a contiguous buffer in GPA
-                  * does not imply a contiguous buffer in qemu's VA
-@@ -411,6 +475,76 @@ static SVQElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq, uint32_t *len)
-     return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
+@@ -312,6 +312,43 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
+     event_notifier_set(&svq->hdev_kick);
  }
  
 +/**
-+ * Unmap a descriptor chain of a SVQ element, optionally copying its in buffers
++ * Inject a chain of buffers to the device
 + *
 + * @svq: Shadow VirtQueue
-+ * @iova: SVQ IO Virtual address of descriptor
-+ * @iov: Optional iovec to store device writable buffer
-+ * @iov_cnt: iov length
-+ * @buf_len: Length written by the device
-+ *
-+ * Print error message in case of error
++ * @iov: Descriptors buffer
++ * @out_num: Number of out elements
++ * @in_num: Number of in elements
 + */
-+static bool vhost_svq_unmap_iov(VhostShadowVirtqueue *svq, hwaddr iova,
-+                                const struct iovec *iov, size_t iov_cnt,
-+                                size_t buf_len)
++int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
++                     size_t out_num, size_t in_num)
 +{
-+    DMAMap needle = {
-+        /*
-+         * No need to specify size since contiguous iova chunk was allocated
-+         * by SVQ.
-+         */
-+        .iova = iova,
-+    };
-+    const DMAMap *map = vhost_iova_tree_find(svq->iova_tree, &needle);
-+    int r;
++    SVQElement *svq_elem;
++    uint16_t num_slots = (in_num ? 1 : 0) + (out_num ? 1 : 0);
 +
-+    if (!map) {
-+        error_report("Cannot locate expected map");
-+        return false;
++    /*
++     * To inject buffers in a SVQ that does not copy descriptors is not
++     * supported. All vhost_svq_inject calls are controlled by qemu so we won't
++     * hit these assertions.
++     */
++    assert(svq->copy_descs);
++    assert(num_slots > 0);
++
++    if (unlikely(svq->next_guest_avail_elem)) {
++        error_report("Injecting in a full queue");
++        return -ENOMEM;
 +    }
 +
-+    r = svq->map_ops->unmap(map->iova, map->size + 1, svq->map_ops_opaque);
-+    if (unlikely(r != 0)) {
-+        error_report("Device cannot unmap: %s(%d)", g_strerror(r), r);
-+        return false;
-+    }
++    svq_elem = virtqueue_alloc_element(sizeof(*svq_elem), out_num, in_num);
++    iov_copy(svq_elem->elem.in_sg, in_num, iov + out_num, in_num, 0, SIZE_MAX);
++    iov_copy(svq_elem->elem.out_sg, out_num, iov, out_num, 0, SIZE_MAX);
++    svq_elem->not_from_guest = true;
++    vhost_svq_add(svq, svq_elem);
++    vhost_svq_kick(svq);
 +
-+    if (iov) {
-+        iov_from_buf(iov, iov_cnt, 0, (const void *)map->translated_addr, buf_len);
-+    }
-+    qemu_vfree((void *)map->translated_addr);
-+    vhost_iova_tree_remove(svq->iova_tree, &needle);
-+    return true;
++    return 0;
 +}
 +
-+/**
-+ * Unmap shadow virtqueue element
-+ *
-+ * @svq_elem: Shadow VirtQueue Element
-+ * @copy_in: Copy in buffer to the element at unmapping
-+ */
-+static bool vhost_svq_unmap_elem(VhostShadowVirtqueue *svq, SVQElement *svq_elem, uint32_t len, bool copy_in)
-+{
-+    VirtQueueElement *elem = &svq_elem->elem;
-+    const struct iovec *in_iov = copy_in ? elem->in_sg : NULL;
-+    size_t in_count = copy_in ? elem->in_num : 0;
-+    if (elem->out_num) {
-+        bool ok = vhost_svq_unmap_iov(svq, svq_elem->out_iova, NULL, 0, 0);
-+        if (unlikely(!ok)) {
-+            return false;
-+        }
-+    }
-+
-+    if (elem->in_num) {
-+        return vhost_svq_unmap_iov(svq, svq_elem->in_iova, in_iov, in_count,
-+                                   len);
-+    }
-+
-+    return true;
-+}
-+
- static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-                             bool check_for_avail_queue)
- {
-@@ -429,6 +563,13 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+ /**
+  * Forward available buffers.
+  *
+@@ -350,6 +387,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
                  break;
              }
  
-+            if (svq->copy_descs) {
-+                bool ok = vhost_svq_unmap_elem(svq, svq_elem, len, true);
-+                if (unlikely(!ok)) {
++            svq_elem->not_from_guest = false;
+             elem = &svq_elem->elem;
+             needed_slots = svq->copy_descs ? 1 : elem->out_num + elem->in_num;
+             if (needed_slots > vhost_svq_available_slots(svq)) {
+@@ -575,19 +613,24 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+                 svq->ops->used_elem_handler(svq->vdev, elem);
+             }
+ 
+-            if (unlikely(i >= svq->vring.num)) {
+-                qemu_log_mask(LOG_GUEST_ERROR,
+-                         "More than %u used buffers obtained in a %u size SVQ",
+-                         i, svq->vring.num);
+-                virtqueue_fill(vq, elem, len, i);
+-                virtqueue_flush(vq, i);
+-                return;
++            if (!svq_elem->not_from_guest) {
++                if (unlikely(i >= svq->vring.num)) {
++                    qemu_log_mask(
++                        LOG_GUEST_ERROR,
++                        "More than %u used buffers obtained in a %u size SVQ",
++                        i, svq->vring.num);
++                    virtqueue_fill(vq, elem, len, i);
++                    virtqueue_flush(vq, i);
 +                    return;
 +                }
-+            }
++                virtqueue_fill(vq, elem, len, i++);
+             }
+-            virtqueue_fill(vq, elem, len, i++);
+         }
+ 
+-        virtqueue_flush(vq, i);
+-        event_notifier_set(&svq->svq_call);
++        if (i > 0) {
++            virtqueue_flush(vq, i);
++            event_notifier_set(&svq->svq_call);
++        }
+ 
+         if (check_for_avail_queue && svq->next_guest_avail_elem) {
+             /*
+@@ -755,7 +798,10 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+             if (svq->copy_descs) {
+                 vhost_svq_unmap_elem(svq, svq_elem, 0, false);
+             }
+-            virtqueue_detach_element(svq->vq, &svq_elem->elem, 0);
 +
-             elem = &svq_elem->elem;
-             if (svq->ops && svq->ops->used_elem_handler) {
-                 svq->ops->used_elem_handler(svq->vdev, elem);
-@@ -611,12 +752,18 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-         g_autofree SVQElement *svq_elem = NULL;
-         svq_elem = g_steal_pointer(&svq->ring_id_maps[i]);
-         if (svq_elem) {
-+            if (svq->copy_descs) {
-+                vhost_svq_unmap_elem(svq, svq_elem, 0, false);
++            if (!svq_elem->not_from_guest) {
++                virtqueue_detach_element(svq->vq, &svq_elem->elem, 0);
 +            }
-             virtqueue_detach_element(svq->vq, &svq_elem->elem, 0);
          }
      }
  
-     next_avail_elem = g_steal_pointer(&svq->next_guest_avail_elem);
-     if (next_avail_elem) {
-+        if (svq->copy_descs) {
-+            vhost_svq_unmap_elem(svq, next_avail_elem, 0, false);
+@@ -764,7 +810,9 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+         if (svq->copy_descs) {
+             vhost_svq_unmap_elem(svq, next_avail_elem, 0, false);
+         }
+-        virtqueue_detach_element(svq->vq, &next_avail_elem->elem, 0);
++        if (!next_avail_elem->not_from_guest) {
++            virtqueue_detach_element(svq->vq, &next_avail_elem->elem, 0);
 +        }
-         virtqueue_detach_element(svq->vq, &next_avail_elem->elem, 0);
      }
      svq->vq = NULL;
-@@ -632,6 +779,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-  *
-  * @iova_tree: Tree to perform descriptors translations
-  * @ops: SVQ operations hooks
-+ * @copy_descs: Copy each descriptor to QEMU iova
-  * @map_ops: SVQ mapping operation hooks
-  * @map_ops_opaque: Opaque data to pass to mapping operations
-  *
-@@ -641,6 +789,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-  */
- VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree,
-                                     const VhostShadowVirtqueueOps *ops,
-+                                    bool copy_descs,
-                                     const VhostShadowVirtqueueMapOps *map_ops,
-                                     void *map_ops_opaque)
- {
-@@ -665,6 +814,7 @@ VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree,
-     event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle_call);
-     svq->iova_tree = iova_tree;
-     svq->ops = ops;
-+    svq->copy_descs = copy_descs;
-     svq->map_ops = map_ops;
-     svq->map_ops_opaque = map_ops_opaque;
-     return g_steal_pointer(&svq);
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index e6ef944e23..31b3d4d013 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -436,6 +436,7 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
-     for (unsigned n = 0; n < hdev->nvqs; ++n) {
-         g_autoptr(VhostShadowVirtqueue) svq = vhost_svq_new(v->iova_tree,
-                                                        v->shadow_vq_ops,
-+                                                       v->svq_copy_descs,
-                                                        &vhost_vdpa_svq_map_ops,
-                                                        v);
- 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index ef12fc284c..174fec5e77 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -254,6 +254,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     s->vhost_vdpa.index = queue_pair_index;
-     if (!is_datapath) {
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-+        s->vhost_vdpa.svq_copy_descs = true;
-     }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
+     g_free(svq->desc_next);
 -- 
 2.27.0
 
