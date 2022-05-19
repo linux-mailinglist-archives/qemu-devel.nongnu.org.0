@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3E752D32E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:56:34 +0200 (CEST)
-Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0AA52D356
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:57:48 +0200 (CEST)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrfhh-0005l7-2g
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56268)
+	id 1nrfit-0008Fi-MS
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrfdo-0004Kt-5g
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:52:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41886)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrffq-0005jr-GV
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:54:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nrfdj-00086W-Su
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:52:29 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nrffo-0008JH-Jr
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:54:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652964744;
+ s=mimecast20190719; t=1652964876;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TCZK8Jq8LxXt+dZVbiz16itIrrFwWL7SjKWrqb7Gsu8=;
- b=PEUCUL7IKVwo37ENc0glgX27Ny+8d35/FYxMFttIkZge9b5BjPIKSts3uQPgZ5JxCLFIx+
- 2hZh7L9DCQGWSQbM8U7KuytanzuT94Lu/K7ttFtSWs86biMRQhWkZYzqbKycna5d8LPSxK
- lJbX/b38rRzjBlA3UQrMVkal2bPya0I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UdV0MLNvfcYTlJ9EiavGP/WmtrfOneUYxC3sXtYXn98=;
+ b=YsZlfMDdmgp3T21ACxX72YK+c/WAMgqfktru7lq78jVcmTA46SwJ2Xvh2OyxixePFg3V8h
+ P456RECf+YClDgbNmSh5oR/3+yXCiCoIDEi6QkAdIRA09DI+J1wgXjYvAmQd3d4P6RW8PR
+ 4O/XtcAacOpdpFkWWZKgBzjQu5etJbc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-4aAC_a8DMLaBG0SyOIIXwg-1; Thu, 19 May 2022 08:52:20 -0400
-X-MC-Unique: 4aAC_a8DMLaBG0SyOIIXwg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66AD985A5BA;
- Thu, 19 May 2022 12:52:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FD782166B25;
- Thu, 19 May 2022 12:52:18 +0000 (UTC)
-Date: Thu, 19 May 2022 14:52:17 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Message-ID: <YoY9gbDm9CBRYm1m@redhat.com>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
- <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
- <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
- <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
- <YoUbWYfl0Bft3LiU@redhat.com>
- <YoYpjVdPcIDyd7i+@stefanha-x1.localdomain>
+ us-mta-191-byb9eMHWNHmy7qZCWdyN5w-1; Thu, 19 May 2022 08:54:34 -0400
+X-MC-Unique: byb9eMHWNHmy7qZCWdyN5w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c187-20020a1c35c4000000b003970013833aso2014525wma.1
+ for <qemu-devel@nongnu.org>; Thu, 19 May 2022 05:54:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UdV0MLNvfcYTlJ9EiavGP/WmtrfOneUYxC3sXtYXn98=;
+ b=m8UjxmcDvziJfli+PhxsgzeAe/pE5/BOkHUbyOGtbLsKBnzvC9V7QAdsKH7+JEuaKw
+ kkqk9Uky4xOc7qKICpFd1nE9StcIDKAqUoEHiplV7j3HA1S1VbG+TNRc+FHDl13g7WKo
+ GIvbJqT20V7ojjBXdJB9c4aVsNcOzE+bTaFl0MkNTDPxDaopHb7Os5BOCbqxbdKutsEG
+ fxlfdfVIGZNREGqt4fynUuU3g0DQFut5goCRKuPcQSrFVf0PjqgjsaOrtRWByCyct14g
+ 88zHCfm6FmKjKN+KxBKKr3l1hraz+zI0D+9u3wBWDiVU/oQ+DRn83jT75cpvCjFTa8iJ
+ NRew==
+X-Gm-Message-State: AOAM533c65gjNr0Uua8YM+erxtoCIGOexY0PBpF8oUx1bIhaXcvQJl0A
+ k9Gn0Vd30cdb+llX9e7vqLkRtdcNfH21GypSJ3PtJs5aBHOpy7PmlP5o2Quiy13Y8ReR/Cxwxoa
+ is6yS67CIAB167wk=
+X-Received: by 2002:a5d:47c8:0:b0:20c:630f:7df5 with SMTP id
+ o8-20020a5d47c8000000b0020c630f7df5mr3845914wrc.689.1652964873126; 
+ Thu, 19 May 2022 05:54:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3NSUbJPVi0E5J6TKtFKxP01yInc5LKi/hQu0Mo8JhisKgXZ8F7OmVQfCFM66nND+nvECr0g==
+X-Received: by 2002:a5d:47c8:0:b0:20c:630f:7df5 with SMTP id
+ o8-20020a5d47c8000000b0020c630f7df5mr3845897wrc.689.1652964872928; 
+ Thu, 19 May 2022 05:54:32 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ 22-20020a05600c229600b003970b2fa72dsm6615963wmf.22.2022.05.19.05.54.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 05:54:32 -0700 (PDT)
+Date: Thu, 19 May 2022 14:54:31 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, minyard@acm.org,
+ stefanb@linux.vnet.ibm.com, marcandre.lureau@redhat.com, kraxel@redhat.com
+Subject: Re: [PATCH 01/35] acpi: add interface to build device specific AML
+Message-ID: <20220519145431.366d77d3@redhat.com>
+In-Reply-To: <CAARzgwxhiJZtXQ=tPaJxxbOPL6LRB4QBu7UhuZSWBMkE-93iVg@mail.gmail.com>
+References: <20220516152610.1963435-1-imammedo@redhat.com>
+ <20220516152610.1963435-2-imammedo@redhat.com>
+ <CAARzgwxhiJZtXQ=tPaJxxbOPL6LRB4QBu7UhuZSWBMkE-93iVg@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iVZjRYF2OtjL5dmr"
-Content-Disposition: inline
-In-Reply-To: <YoYpjVdPcIDyd7i+@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -89,97 +102,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 18 May 2022 15:30:07 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
---iVZjRYF2OtjL5dmr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Mon, May 16, 2022 at 8:56 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > There is already ISADeviceClass::build_aml() callback which
+> > builds device specific AML blob for some ISA devices.
+> > To extend the same idea to other devices, add TYPE_ACPI_DEV_AML_IF
+> > Interface that will provide a more generic callback which
+> > will be used not only for ISA but other devices. It will
+> > allow get rid of some data-mining and ad-hoc AML building,
+> > by asking device(s) to generate its own AML blob like it's
+> > done for ISA devices.
+> >
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  include/hw/acpi/acpi_aml_interface.h | 40 ++++++++++++++++++++++++++++
+> >  hw/acpi/acpi_interface.c             |  8 ++++++
+> >  hw/acpi/meson.build                  |  2 +-
+> >  3 files changed, 49 insertions(+), 1 deletion(-)
+> >  create mode 100644 include/hw/acpi/acpi_aml_interface.h
+> >
+> > diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
+> > new file mode 100644
+> > index 0000000000..ab76f0e55d
+> > --- /dev/null
+> > +++ b/include/hw/acpi/acpi_aml_interface.h
+> > @@ -0,0 +1,40 @@
+> > +#ifndef ACPI_AML_INTERFACE_H
+> > +#define ACPI_AML_INTERFACE_H
+> > +
+> > +#include "qom/object.h"
+> > +#include "hw/acpi/aml-build.h"
+> > +
+> > +#define TYPE_ACPI_DEV_AML_IF "acpi-dev-aml-interface"
+> > +typedef struct AcpiDevAmlIfClass AcpiDevAmlIfClass;
+> > +DECLARE_CLASS_CHECKERS(AcpiDevAmlIfClass, ACPI_DEV_AML_IF, TYPE_ACPI_DEV_AML_IF)
+> > +#define ACPI_DEV_AML_IF(obj) \
+> > +     INTERFACE_CHECK(AcpiDevAmlIf, (obj), TYPE_ACPI_DEV_AML_IF)
+> > +
+> > +typedef struct AcpiDevAmlIf AcpiDevAmlIf;  
+> 
+> I do not see where struct AcpiDevAmlIf is defined. I guess this is
+> through the macro magic.
 
-Am 19.05.2022 um 13:27 hat Stefan Hajnoczi geschrieben:
-> On Wed, May 18, 2022 at 06:14:17PM +0200, Kevin Wolf wrote:
-> > If we want to use drain for locking, we need to make sure that drain
-> > actually does the job correctly. I see two major problems with it:
-> >=20
-> > The first one is that drain only covers I/O paths, but we need to
-> > protect against _anything_ touching block nodes. This might mean a
-> > massive audit and making sure that everything in QEMU that could
-> > possibly touch a block node is integrated with drain.
->=20
-> > I think Emanuele has argued before that because writes to the graph only
-> > happen in the main thread and we believe that currently only I/O
-> > requests are processed in iothreads, this is safe and we don't actually
-> > need to audit everything.
->=20
-> I'm interested in the non-I/O code path cases you're thinking about:
->=20
-> Block jobs receive callbacks during drain. They are safe.
+it's used for type checking only of opaque pointer
+(Interfaces are not supposed to have any state)
 
-We've had bugs in the callbacks before, so while they are probably as
-safe as they can get when each user has to actively support drain, I'm
-a bit less than 100% confident.
+> > +typedef void (*dev_aml_fn)(AcpiDevAmlIf *adev, Aml *scope);
+> > +
+> > +/**
+> > + * AcpiDevAmlIfClass:
+> > + *
+> > + * build_dev_aml: adds device specific AML blob to provided scope
+> > + *
+> > + * Interface is designed for providing generic callback that builds device
+> > + * specific AML blob.
+> > + */
+> > +struct AcpiDevAmlIfClass {
+> > +    /* <private> */
+> > +    InterfaceClass parent_class;
+> > +
+> > +    /* <public> */
+> > +    dev_aml_fn build_dev_aml;
+> > +};
+> > +
+> > +static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
+> > +{
+> > +    if (object_dynamic_cast(OBJECT(dev), TYPE_ACPI_DEV_AML_IF)) {
+> > +        AcpiDevAmlIfClass *klass = ACPI_DEV_AML_IF_GET_CLASS(dev);
+> > +        klass->build_dev_aml(ACPI_DEV_AML_IF(dev), scope);
+> > +    }
+> > +}
+> > +
+> > +#endif
+> > diff --git a/hw/acpi/acpi_interface.c b/hw/acpi/acpi_interface.c
+> > index 6583917b8e..c668d361f6 100644
+> > --- a/hw/acpi/acpi_interface.c
+> > +++ b/hw/acpi/acpi_interface.c
+> > @@ -1,5 +1,6 @@
+> >  #include "qemu/osdep.h"
+> >  #include "hw/acpi/acpi_dev_interface.h"
+> > +#include "hw/acpi/acpi_aml_interface.h"
+> >  #include "qemu/module.h"
+> >
+> >  void acpi_send_event(DeviceState *dev, AcpiEventStatusBits event)
+> > @@ -18,8 +19,15 @@ static void register_types(void)
+> >          .parent        = TYPE_INTERFACE,
+> >          .class_size = sizeof(AcpiDeviceIfClass),
+> >      };
+> > +    static const TypeInfo acpi_dev_aml_if_info = {
+> > +        .name          = TYPE_ACPI_DEV_AML_IF,
+> > +        .parent        = TYPE_INTERFACE,
+> > +        .class_size = sizeof(AcpiDevAmlIfClass),
+> > +    };
+> > +
+> >
+> >      type_register_static(&acpi_dev_if_info);
+> > +    type_register_static(&acpi_dev_aml_if_info);
+> >  }
+> >
+> >  type_init(register_types)
+> > diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+> > index 8bea2e6933..9504f5ce09 100644
+> > --- a/hw/acpi/meson.build
+> > +++ b/hw/acpi/meson.build
+> > @@ -28,7 +28,7 @@ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+> >  if have_tpm
+> >    acpi_ss.add(files('tpm.c'))
+> >  endif
+> > -softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c'))
+> > +softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c', 'acpi_interface.c'))  
+> 
+> This is wrong. It should be the stub file not the real thing.
 
-> Exports:
-> - The nbd export has code to deal with drain and looks safe.
-> - vhost-user-blk uses aio_set_fd_handler(is_external=3Dtrue) for virtqueue
->   kick fds but not for the vhost-user UNIX domain socket (not sure if
->   that's a problem).
-> - FUSE uses aio_set_fd_handler(is_external=3Dtrue) and looks safe.
->=20
-> The monitor runs with the BQL in the main loop and doesn't use
-> coroutines. It should be safe.
+I can put type definition into acpi-stub.c, but will be exact duplicate
+(i.e. you can't stub QOM type definition), hence acpi_interface.c (which is
+mostly QOM type definitions) is being included in non acpi build to avoid
+duplication.
 
-The monitor does use coroutines (though I think this doesn't make a
-difference; the more important point is that this coroutine runs in
-qemu_aio_context while executing commands) and is not safe with respect
-to drain and we're seeing bugs coming from it:
-
-https://lists.gnu.org/archive/html/qemu-block/2022-03/msg00582.html
-
-The broader point here is that even running with the BQL in the main
-loop doesn't help you at all if the graph writer it could interfere with
-polls or is a coroutine that yields. You're only safe if _both_ sides
-run with the BQL in the main thread and neither poll nor yield. This is
-the condition I explained under which Emanuele's reasoning holds true.
-
-So you can choose between verifying that the monitor actively respects
-drain (it doesn't currently) or verifying that no graph writer can poll
-or yield during its drain section so that holding the BQL is enough (not
-true today and I'm not sure if it could be made true even in theory).
-
-> Anything else?
-
-How to figure this out is precisely my question to you. :-) Maybe
-migration completion? Some random BHs? A guest enabling a virtio-blk
-device so that the dataplane gets started and its backend is moved to a
-different AioContext? I'm not sure if these cases are bad. Maybe they
-aren't. But how do I tell without reading every code path?
-
-Well, and the follow-up question: How do we make sure that the list of
-"anything else" doesn't change over time when we rely on auditing every
-item on it for the correctness of drain?
-
-Kevin
-
---iVZjRYF2OtjL5dmr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmKGPYEACgkQfwmycsiP
-L9bgcQ/+PEl/x3DUK8VUHOv8sXIALmsa61C247e9kAKvP79Smum8B6Sqss9Sctfw
-/0nui/slRj/1fhyL2GkhkVTq5kS4kbQufigElkRkLLRntxEAes2PaZ8FA2/hFRTg
-hY1WB2Ksh5oFozqpxRF5Z7Ec7oZ72bY3x2YBY4F8bDl8K5zBFu2K8qBwhMP16oo1
-BzCv2qh+dSg//JG+Ssr4pO7TVa60wO2lOwfHPXadIaWV49E+8Cut7a3sPeSrvDEe
-TWGsmH+TJJ5U+5G9Vjh49laf5QroXof474/JM/gHMZ80X6xYJUusu0PB4kINR/76
-Jbup5+Suq+31gOfNBFDcfAZ4DH7Ew/xSKSEqIl6QdYAN33g3FXFA3XjRrunsnMaH
-SD1vAjyNoF4AY6OSNknxnTvYdNw5vL562IgDC9CJPPTpe/F89Jb59dowA6M3puVF
-pZsuSP3r7e2nVxBZNNjge0k3uuV8clWRuy+tEE2usPlM5zf0NUD4s8kURvMZyRWY
-o9g3NGeTRT5K2lPOtWsMiba6HHr2+QsKP2wtq2sdjo+vWjC3YjHVPkCGm3WohElo
-8B2eRvzCsciN1s/KMslD0/zJ51VmP8M3MB0AOaXyrqU+lbev0aRZneW8/fII3SBJ
-CmpqtOhz51L0Jsfpmi52//xIZC9DKIRprLxUAfH5ooHQiFzTET0=
-=bpQd
------END PGP SIGNATURE-----
-
---iVZjRYF2OtjL5dmr--
+> 
+> >  softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
+> >  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
+> >                                                    'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c',
+> > --
+> > 2.31.1
+> >  
+> 
 
 
