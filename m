@@ -2,121 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E99052D2DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:47:06 +0200 (CEST)
-Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0984F52D305
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 May 2022 14:51:44 +0200 (CEST)
+Received: from localhost ([::1]:57730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrfYX-0006Ln-KE
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
+	id 1nrfd1-0003HO-4q
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 08:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfQC-00063x-L1
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:38:32 -0400
-Received: from mail-os0jpn01on20706.outbound.protection.outlook.com
- ([2a01:111:f403:700c::706]:11246
- helo=JPN01-OS0-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfQT-0006Aw-FF
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:38:45 -0400
+Received: from mail-tycjpn01on20708.outbound.protection.outlook.com
+ ([2a01:111:f403:7010::708]:60716
+ helo=JPN01-TYC-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfQ9-00054N-4H
- for qemu-devel@nongnu.org; Thu, 19 May 2022 08:38:27 -0400
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1nrfQQ-00058Y-Aw
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 08:38:44 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dC5MXJ7DB8btZ1Vc7Il7nTXJycODhKIZOT/57J4q7A8n7RMj0Mwz37O1bBEAzOpzpZvPu5VCP3QHfFVR91ZBLG/8yhRBg7eyNBpJh5pKoJf80CQuIPUC19TFMhGQrNFsLOzc/JAu2yU15BwlU5uY3wLBfOEhqIqEtedRNGaFiKVSBVhLQGCUpxn+PGKe/tzwG4q1Fs687wr/pZqIcjaeOlupwQtrtmnjzyykTXGV+6No0lYkgZ6pskUEv028nRApoNmkfdpvOjMu/cBZzRS9lXNJcwbFNhS/achVcvtJGdIiKiD+IVcNCDA12CbUyFLaNJq+aDMnf/fV4quQzvoq8g==
+ b=V8+oYkqQ1jIjKcQKCBDdTYGCwWYmcQ4G6c49Q4UcKrMANanjynhevqVKNiaIfh7K1jmES4wNCDWpMFMa8ZXT7ryzO2KMuwNtZGq3Ri27B3SKP9rNqQjSBuixKY9766T006+5YcecDyqJOvZ1eGJX6bATTj5L5waAM8oTrHktqEYPXZ/jwJEpXt+gEmh6XR79n8Rl9M2tcqmYqzQcV2iW8W6yp0rtgosKIKqzfzGp/kQe9AvRXdh68NHUAM+SQJx+moCt2LdA6hzRYHXBYarK1pJA5D60HzKYRmSbbHqun55SI2F+Pc0C6smCYv4OcEk8UL6daP1fL/17zgmobwdxOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j/nYA9TCGBF3bCrJvOG/Xxrf72cbKZDGM39yAMvR4bE=;
- b=lZ7OTIGMD5dIJQjIjk1QFzg6FIQ9bkpoOZXXxYojb1Ujx+b+lgGyMXfsl/FQ0IruinCC0X9WNPeZUTugjK5lzn5FCVW6gpjvnkmCFI+cdAvcZKDAqdsAA5IcKqkEsXeznOXmZ4PZy58DKBXbCwroBUXLWOxkynTiGzcSCKuCyAcvakd/7Z/3N89tB6JWGyBFiqf1hPt8WNgLZ7yZVjICGfoj/Qmm5kEb8m7woa57DKXRhVNN7czi+Hq9e/OATkiHdU8XZ/LdQ8M3MA+nWS14yluw0yGGZ1zZ8zybK7jeTdeSb/IWTlUkY517PgZQz+Ycyx563xrU/sNfKuWtu744TQ==
+ bh=IIUCUuY2Lh3MTCQEfkNzPB9zDFOZpY6Y7IexX1kQCY8=;
+ b=fLOYyix9mzxZxPY0rgooSSXRMmNdyqFZK04wuXvz7ZmeogLwNVaPJcP9yUp68hVH2j7J3GC+LeYdcfMNZDH6yG9AUljhDeS4jYWn7UEMATNTv2KsUbyXyeeHDT8iF+9tzHwJljtBPfIF5q3bUT46JVEvUG1A+zGpsnHiU47H/R5draILL1akppW27TH4piPHxd47SvWzsJZYzdAX4QIkvp6csbr14Bvy+mPwhoxnLAf50oQzi9z9KsI6zzJVrff1mwhXsjV65Pw8URbB+lo7OAMJkbyQPT8GCsPWaQQAQmSzdF/WQTyA2V6gibXWADyuCtMPos511ekCjSOFmtwdJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
  dkim=pass header.d=zenithal.me; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j/nYA9TCGBF3bCrJvOG/Xxrf72cbKZDGM39yAMvR4bE=;
- b=iSCakH3PcmWOX9yblXEU3A7TM+D9HXuaK6qcFFvPBTZ4xqA9YIWbqJQbMAOeeoaBCn4b47N3pfXv991sBXsrYRDFXrngE2MyWVNFksI5mRc3xueSnYvQICfMbspnfnUnipcS0WtH/k6RDqCq/SwOzQ8IRdJrfwLjNsm+I4ON49o=
+ bh=IIUCUuY2Lh3MTCQEfkNzPB9zDFOZpY6Y7IexX1kQCY8=;
+ b=SvqIvg9m45fdihRMohVGMjbiCPBM6RC8QQ6BpSz4Zs4o2Ql4aIOJmUeTI7IosAV3cJmRX1e/RxgDphsho5xa2TVjrmstVY0hileHhRzOYa/x9QNVsAAd3ulfYArDCV1k5AjmP2V/acdHrd/nU7fbrpKLXIIpg/X73e5eLF5vmlU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=zenithal.me;
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
  TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:9e::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.14; Thu, 19 May 2022 12:38:17 +0000
+ 15.20.5273.14; Thu, 19 May 2022 12:38:38 +0000
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::bd99:5c83:e2dc:a8f7]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::bd99:5c83:e2dc:a8f7%7]) with mapi id 15.20.5273.015; Thu, 19 May 2022
- 12:38:17 +0000
-Date: Thu, 19 May 2022 20:38:10 +0800
+ 12:38:38 +0000
+Date: Thu, 19 May 2022 20:38:30 +0800
 From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
 To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>
 Cc: qemu-devel@nongnu.org, contact@canokeys.org
-Subject: [PATCH v5 1/6] hw/usb: Add CanoKey Implementation
-Message-ID: <YoY6Mgph6f6Hc/zI@Sun>
+Subject: [PATCH v5 2/6] hw/usb/canokey: Add trace events
+Message-ID: <YoY6RoDKQIxSkFwL@Sun>
 References: <YoY5k0PQny8WtAHi@Sun>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <YoY5k0PQny8WtAHi@Sun>
 X-Operating-System: Linux Sun 5.15.26 
 X-Mailer: Mutt 2.2.1 (2022-02-19)
-X-ClientProxiedBy: BYAPR02CA0038.namprd02.prod.outlook.com
- (2603:10b6:a03:54::15) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BYAPR02CA0037.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::14) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:400:c0::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4990aa1c-7e47-42c3-3cd1-08da399472d6
+X-MS-Office365-Filtering-Correlation-Id: 2f8c9c44-34c7-4e0a-c3dc-08da39947f24
 X-MS-TrafficTypeDiagnostic: TYCP286MB0941:EE_
-X-Microsoft-Antispam-PRVS: <TYCP286MB09418DAA90E107138000756DBCD09@TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM>
+X-Microsoft-Antispam-PRVS: <TYCP286MB0941FF65B6049432DB37D27CBCD09@TYCP286MB0941.JPNP286.PROD.OUTLOOK.COM>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bhH8vh9i3IiyEozyARaEOdfxK2GA5P/67qfvj8c3NEWLCZkwQKQxaU3w7XcHMcjC3MtGKiAaMdTY2Orw5lp7gn7HST5QVvkZLrestq1dQnkeXXKaKe6dbO9r8pzXUUCGVfKvQIKSZ3P+yhCekAJEUpwBx0BDSFx+Ubu3mNtAbMAk9JB/CVxtBIdGGuF56cFIMKvAuSSArv4OkHWOlOvfafHmKponEZJeGGulgWkAkCGGY8TaeRGX6qP5XybYoA/VDg7uNpdk2SMz5sCW52W2sz+M5zCkk45dzzmBicDvAkbz2Sf3NS6DOgcokvXUIfUDY1ONXz6+Yt+Uc8YStQYbicxaU+GMRSX9t+73MnzpqbQX8mneUB/u+scSzrSOy76y2vLaKp6OPt7krFpuIYXPK5swPH9MhNMRbITjkz0bX4CTpRcCMPutWEDeC7+nvbTYYRv8VlH5obFMX0RoeDmwC5i4gzDPATLfWYi/eVN1YIusvh+/kKzHS3mubLYbqtoEDApB6z1WYSaZl6jin4ZZLMsA1lJX/z3xbkql5G2DE2ZUTGYnJbSEXaYFZT60+n3MygTUbwFYabEoiBGiTeyz8OxfzDqpAUQ/eHSPECHilZJ+7Lbd2oEua3HawxcCMqIDnKzG7mgDWw1rFAcme6/mZJr2uYj9XyY9oamd6ZPdmwGFrJEbJtrrdMCOaJCnRldQUVVKyIk0ckko/anhXWRJJHmK2b3CRId0M1l8d1DQ1yWC6sbrXPlm2QOXPD36D1FFZNZe9g/XD5KPoCMY+D9BYbg13U30h1wdLhGvlmVHrGY=
+X-Microsoft-Antispam-Message-Info: 12ZCZI4WXSTEnC5WlIhC/pjNbiW4zHLYpDLOCk6zfnsDKwRLYjZtaZjPrAApQ+0rKmA3azHSjS/89yno6OyExR+kd3ev872hxmQ4tzH3CodjeQQvjIMFrfcmetdmKq95LLK6M5mE7kAdVYC2QJ95XDmA1e+YdIC9h2wZyqHqTMN1ZJQg7EKyi0/j8v6yTP/Q9ZRQdnS6yVZba8Lss1N9WCPifjvQ/BwupXRh7YsQTOjbTyXPFvBrDcDEuC9ssckeQcioH3Py5pKaVsr/3oJ1hEiyg7WBMzsdMxxDDf67XOi/wyd7nUSRqM7M+uHN5wtG0fiuUff0EbhsvwZcPqWamoXQLiE3hVz35gE8RZOIB2fXe118pNaRx9CZcoMfoo9OJad8CHAYIa4jSdPGFdRcjHXWKraYT0wvsDTMsA9w1rbn7TAc6NyMjNDBbotkbcxMfVc8CRGC1es0ffCvHNTsyv7zTJ/YyOb//So7d6a8qizS69F2uPM4yeVZ3ei+rGPPsD0oPdOMONYyc7mFcidgKOknSmwrTOG5wBBP4Zt6srmNfHTZgCdff4FYKV4lN2ICA9pgyL70y009y4W0wx+p8uR8AjoiY6HYyCQYx6vw6hcsm1RrQ8+H886fy+ywSy+FudiTUEYB5okKxk/BvGjpQ/LxebSI4ws1D7i8xdzNR+YNWk+h6QeA4SYDCp/1hS8KE3RDf43KV6YVdOmCnjCNkQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(136003)(396003)(39830400003)(346002)(376002)(33716001)(2906002)(41300700001)(8676002)(508600001)(38100700002)(110136005)(4326008)(41320700001)(6486002)(966005)(316002)(786003)(6666004)(83380400001)(52116002)(9686003)(6512007)(6506007)(5660300002)(30864003)(66476007)(66946007)(66556008)(8936002)(86362001)(186003)(3714002)(49092004);
+ SFS:(13230001)(7916004)(366004)(136003)(396003)(39830400003)(346002)(376002)(33716001)(2906002)(41300700001)(8676002)(508600001)(38100700002)(110136005)(4326008)(41320700001)(6486002)(316002)(786003)(6666004)(83380400001)(52116002)(9686003)(6512007)(6506007)(5660300002)(66476007)(66946007)(66556008)(8936002)(86362001)(186003)(49092004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KqCyDEdEIjyataOFnoId6ohiB2wpkXdPdDHVhowBf/tpX9+slgGIlMOtKehb?=
- =?us-ascii?Q?o5o34oH3VM8Ry1mP1dnk0BBdhP1CT/aaUAJi7/l2TMJpjEj4mrcUh3t3B8YE?=
- =?us-ascii?Q?XpTNY4DwhyJw/Qjp/zGtzhxauHReWwzuaIdWIsy/59VLciCkX7HwYObHCRu7?=
- =?us-ascii?Q?w27608c6wv7X83pCcyDesa6JRhA4x36aMGA9j4IcAuAvsKGMRl4EsTvX1WUd?=
- =?us-ascii?Q?FHc8dAmPvFvQR6RKG9M/u0PtCf3yhkuJtEboZoroGdpMK78VuX3IyM3EhtFX?=
- =?us-ascii?Q?O5qR0KsRXrkAvGm0t86Li39OZpkxJrH/bSKR0ICNumdGDHPklVrBvt93za27?=
- =?us-ascii?Q?P3UaDiLwqB/Jp8hmOml9Wd6r7f/iChrsGfEus6wYl/Mrrl2/GtkpyZwJUuw3?=
- =?us-ascii?Q?w92O3x8S9e+W0qe67HoqlRpGphjGDkGAM2mE6F/G1WJkO5Ciw6AYDQnNwXNk?=
- =?us-ascii?Q?kDD2UtiAn64QsV2/Qaityuh1NDbgBmEWvJt2QIEcFDrSJyAZE4JWtPBoJ+91?=
- =?us-ascii?Q?DIWXpW8/xAIs3hK6PBis5OEFYHZhmTK5mC9VW8QgL6JOsD+w91eNYEy2wq+0?=
- =?us-ascii?Q?O7L84EBhq5EibRkYLv5S4hXARLqAr60oCibfwz17IrZlUuPlBQITf13mx0zr?=
- =?us-ascii?Q?1mSqqJXBCGp2XVP2yCnPZ3ykTk6aPO/yifzQ2p8edA+wCsERuSFxkvU35+BT?=
- =?us-ascii?Q?iinQ/g12VugQvnouaBPdrzMJzCmWHxNR7Ac50sZ6LCiwn34jdiejh43b7YkW?=
- =?us-ascii?Q?zS6787XEE+8/i/pXDO8NYHUBCDpWTQK9FTUsropXY+kK0V8W8ei9ayBiJeah?=
- =?us-ascii?Q?/oBx4PC5fT6/SiPLrl8g63UCH8XnMRbOzWtMzoi53bPk+ZdEisobeSHcY5r7?=
- =?us-ascii?Q?vXdBX4vD7SeQy+UOmg6QRGvpHHzVzFQNHCVd25wdrE+B/44mSDsz2ti9X5cL?=
- =?us-ascii?Q?hYZ5IZXSgB+7vxskdxXEgSdfPuj8G619uQ1TcPMhDjtr5m2yk6O5pbi0fbza?=
- =?us-ascii?Q?fmXa7MMG+cyZcw72vED7eeBW2whcztm4nBWMRCTtIkpT7+NcbAZRQD0ekHZQ?=
- =?us-ascii?Q?eKs8AepK7IEXQ+81YwPvG4aS2cYwrFTE/nqfS9D5qmmFJEPpgWBd/Qig1sz6?=
- =?us-ascii?Q?MZWQdWd8hVn7as9ywsEyGAdsphicmicu/Y5Co6lNHaOzS1a45gnVnSQ1+uC8?=
- =?us-ascii?Q?n45dxqcf8VRiyU0XkLIWEPCHfydx4kbtFccEq8ZV8XHh7baye3UWrrGkKkYF?=
- =?us-ascii?Q?QhYrUYodXXuhavVBvan+lptIeuetPzPiDr6V9igNWqRcSf9BSSQoIfVTiBui?=
- =?us-ascii?Q?xPWhBWdfMEfFQNEZzfvNTYVReV9wGUJGIz/uYqLFQQMTAOGxtkF/W63ywJEs?=
- =?us-ascii?Q?2+MtZuT+1ul9dgC/i5CeWAPDpwW/XGNqSXO7OZ5ovAbvlxqJPp2SUcCSKxra?=
- =?us-ascii?Q?rY3Y2etq5pbcjnZotMs8TmIp5Tx+Eu7MXVajRbrAIcpqpYK9ZGUoPqVrRaFE?=
- =?us-ascii?Q?xyGyyVwTHkwAN6mUAbu20DLESHNF2aB1Kg+QjYQazVYN+s1UTvYi9nQK3HjW?=
- =?us-ascii?Q?OMce4zDaOiAsVbrB8lO/rn+QJmFjwND2ErLtTRipYXABuWrU9UMKGyZ8sexN?=
- =?us-ascii?Q?1TZDqo6O2zW2jB0mn3dpe/xDM1zv5/auOjC8HGp0IsPZDsDbltKeIUIjEHoJ?=
- =?us-ascii?Q?Z5c2y8EKl6SpgTGvP1bTgMmC3nAyMz5dGcmLN89lPhLigJwgx0ZXAwFbqDN4?=
- =?us-ascii?Q?qt0MdKXAFQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6aN9PNs/NfOPv7U+XIOqv4UT7fRx+IiyROY/SFgpYt1842kmQvPbHz5sdZeU?=
+ =?us-ascii?Q?OaYIrmdQIF2y1U+fYA2CBI8Iztg4c/yKM7+IXOK0mrGvfE1bOO9rjAVOqL6u?=
+ =?us-ascii?Q?j5M8E5vHlTvPmqmjwCPR3J8K0KAVjnc3C1Y9MmXkJF1zr9Xg82R9Aki0Nr8z?=
+ =?us-ascii?Q?kd7/igFtX33MX1T/GBt9H5danKNe/kI3ZfO2bPxyxEmFPf6ZwNU/lLSdwoeI?=
+ =?us-ascii?Q?X0yOys3T9luVhw9jJHiWzyX+18rNOOeNhGOBHA6FkuHHksbFHkAtqVOvIqzO?=
+ =?us-ascii?Q?eMFNR9N3NvhWVGv5tSVzQu46CtacW1X5IblvwyGoHZc7KIJ1KD2kPDQNfKxq?=
+ =?us-ascii?Q?vAcyT/L42XQsRluFu0g4mRYVJdSmTLUgwcJUt00A9YTRV9Ki0Sjf10IufbAL?=
+ =?us-ascii?Q?78cG+MlR04e9PjpKy3wJoYIiAN1bMDqZkSeMQVxJz8gDD7wFqdY0SP4eQ+xY?=
+ =?us-ascii?Q?6NsXTS2MZL4+Zt6fPlgEsQMPQH5ZZx7ci7GCk+i9o0tCfMqBQg9TeHL7qffp?=
+ =?us-ascii?Q?pMYC5Azvtor35cGihW86sP9BhQB9C5XkdZHxcLKgKzRtjKXw0QUZEjOb0Uwf?=
+ =?us-ascii?Q?r0Lf+aqciBLxhbpP1tFYnYkstk2pxxqMJf+kPhdVZR8JpiwyDdoIy+/AjCwL?=
+ =?us-ascii?Q?dxAO6Mpc1AFc3mY+kuGuV+Pwu3tVlvDy7xw0t6zlupRWVjshBBcsAvZtN3Ef?=
+ =?us-ascii?Q?i9hoiiY0fLJJlJnVEVWcxvmTAq/5nxVh8A0OsJaTT7Zg/M+BlI7ArRXuc7uD?=
+ =?us-ascii?Q?roTzvjb8ziF+U1mIhacVFKHsl/D1fRoUWfoKduhvbsfAXuF0n9oeBq1ioBcP?=
+ =?us-ascii?Q?qnLWQp37610GxekrM2+DBh3yAj/Dm4dArpRkTAsHAIGwJtG+Xk0Ob8Hj0sF7?=
+ =?us-ascii?Q?Y89QVyDS+UouTi7d6NbWzWQx/h0qg7uxA1UHLdSWqkfMc6ZxxeRdYPz3daXg?=
+ =?us-ascii?Q?oP0OGxFdkUrPsJDgNwUOEyM1zLRDMlj3gewwloIervvkDOaUv4MWbiVjJGDJ?=
+ =?us-ascii?Q?HlBt7ijPDq9ORhdBhzAlKy/wy59WlRh6SxERnt+AaeJhi6i3T6O9VfYaX2tr?=
+ =?us-ascii?Q?XSdfwa/z1h3qA09WtUD7y5nk1GQE6iCxoIsByg5fI1ac/ggxLy+L/pM46lhz?=
+ =?us-ascii?Q?JIR9XUlPYlu5e9mL0oXFlI6rNS3/YjSqsbmo7ni007TcHV9VhqPx8RPPH1e3?=
+ =?us-ascii?Q?k/OeyttF9vEgCgZ4MiQe7Zy1YodviO6ggYrrm/bXZ8xGT5mFgNJW8825VDKb?=
+ =?us-ascii?Q?JYJ9D+krh3hxFYGqCaYYgfpx1V/wKQPU7QTNMNXeCXXYC3kOJcVHSSTA9X2n?=
+ =?us-ascii?Q?liXcOVC/D7+MRlcpOijqyxrbSAY3f3uJrFKoWceyWs8n1Ff12hQELs3OyELE?=
+ =?us-ascii?Q?vfYG0g/IaPufvnZcjD4ZOfR/0JFmgGq53rLBvdr8KtUFPxKtKKvVr/dTMjBQ?=
+ =?us-ascii?Q?A34HYS1yonF3q0068vzjGNJz09GyxdUL4kSHjy1+E8dp8yio81G5zazphnj1?=
+ =?us-ascii?Q?BsQO58SuDcDt85UleYjXnMJXwsZx26q8IwKmBboNEy21P1k3ZnYrt68piXJQ?=
+ =?us-ascii?Q?v/zf8OLhiKzi/Nda8ne/IzgMdBG+NJ4xQxMq5wAdbmyC4sXy6MkFwgxfaI7X?=
+ =?us-ascii?Q?NXIlpFLjTYuGUwUV6x0Mkz+HESdAT2ew4HQAkH/VyiIfB0dpE+7JkfY0RH44?=
+ =?us-ascii?Q?gf0L1cawWLHfIAbVOHX3udKMUOFYCEqyJ+LQODoiB18PG4z+ErXAl/qWj4W4?=
+ =?us-ascii?Q?XHzOhyBnfw=3D=3D?=
 X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4990aa1c-7e47-42c3-3cd1-08da399472d6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f8c9c44-34c7-4e0a-c3dc-08da39947f24
 X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 12:38:17.4212 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 12:38:38.0529 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0Gdvt0w6BuI/JHbSjU0IQu9gZHaL2dQySmuEhkt43BjksGXcdEkul10GUufdrCFG
+X-MS-Exchange-CrossTenant-UserPrincipalName: cHq/7QVyYBYlK6v4uSXqCL0OPLGS+15OFpErzMqocz8aD2hSoX1lSn2XEcVfkubA
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB0941
-Received-SPF: pass client-ip=2a01:111:f403:700c::706;
+Received-SPF: pass client-ip=2a01:111:f403:7010::708;
  envelope-from=i@zenithal.me;
- helo=JPN01-OS0-obe.outbound.protection.outlook.com
+ helo=JPN01-TYC-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -138,404 +138,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit added a new emulated device called CanoKey to QEMU.
-
-CanoKey implements platform independent features in canokey-core
-https://github.com/canokeys/canokey-core, and leaves the USB implementation
-to the platform.
-
-In this commit the USB part was implemented in QEMU using QEMU's USB APIs,
-therefore the emulated CanoKey can communicate with the guest OS using USB.
-
 Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
 ---
- hw/usb/canokey.c | 300 +++++++++++++++++++++++++++++++++++++++++++++++
- hw/usb/canokey.h |  69 +++++++++++
- 2 files changed, 369 insertions(+)
- create mode 100644 hw/usb/canokey.c
- create mode 100644 hw/usb/canokey.h
+ hw/usb/canokey.c    | 13 +++++++++++++
+ hw/usb/trace-events | 16 ++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
 diff --git a/hw/usb/canokey.c b/hw/usb/canokey.c
-new file mode 100644
-index 0000000000..6cb8b7cdb0
---- /dev/null
+index 6cb8b7cdb0..4a08b1cbd7 100644
+--- a/hw/usb/canokey.c
 +++ b/hw/usb/canokey.c
-@@ -0,0 +1,300 @@
-+/*
-+ * CanoKey QEMU device implementation.
-+ *
-+ * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
-+ * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
-+ *
-+ * This code is licensed under the Apache-2.0.
-+ */
+@@ -14,6 +14,7 @@
+ #include "qapi/error.h"
+ #include "hw/usb.h"
+ #include "hw/qdev-properties.h"
++#include "trace.h"
+ #include "desc.h"
+ #include "canokey.h"
+ 
+@@ -66,6 +67,7 @@ static const USBDesc desc_canokey = {
+  */
+ int canokey_emu_stall_ep(void *base, uint8_t ep)
+ {
++    trace_canokey_emu_stall_ep(ep);
+     CanoKeyState *key = base;
+     uint8_t ep_in = CANOKEY_EP_IN(ep); /* INTR IN has ep 129 */
+     key->ep_in_size[ep_in] = 0;
+@@ -75,6 +77,7 @@ int canokey_emu_stall_ep(void *base, uint8_t ep)
+ 
+ int canokey_emu_set_address(void *base, uint8_t addr)
+ {
++    trace_canokey_emu_set_address(addr);
+     CanoKeyState *key = base;
+     key->dev.addr = addr;
+     return 0;
+@@ -83,6 +86,7 @@ int canokey_emu_set_address(void *base, uint8_t addr)
+ int canokey_emu_prepare_receive(
+         void *base, uint8_t ep, uint8_t *pbuf, uint16_t size)
+ {
++    trace_canokey_emu_prepare_receive(ep, size);
+     CanoKeyState *key = base;
+     key->ep_out[ep] = pbuf;
+     key->ep_out_size[ep] = size;
+@@ -92,6 +96,7 @@ int canokey_emu_prepare_receive(
+ int canokey_emu_transmit(
+         void *base, uint8_t ep, const uint8_t *pbuf, uint16_t size)
+ {
++    trace_canokey_emu_transmit(ep, size);
+     CanoKeyState *key = base;
+     uint8_t ep_in = CANOKEY_EP_IN(ep); /* INTR IN has ep 129 */
+     memcpy(key->ep_in[ep_in] + key->ep_in_size[ep_in],
+@@ -125,6 +130,7 @@ uint32_t canokey_emu_get_rx_data_size(void *base, uint8_t ep)
+  */
+ static void canokey_handle_reset(USBDevice *dev)
+ {
++    trace_canokey_handle_reset();
+     CanoKeyState *key = CANOKEY(dev);
+     for (int i = 0; i != CANOKEY_EP_NUM; ++i) {
+         key->ep_in_state[i] = CANOKEY_EP_IN_WAIT;
+@@ -137,6 +143,7 @@ static void canokey_handle_reset(USBDevice *dev)
+ static void canokey_handle_control(USBDevice *dev, USBPacket *p,
+                int request, int value, int index, int length, uint8_t *data)
+ {
++    trace_canokey_handle_control_setup(request, value, index, length);
+     CanoKeyState *key = CANOKEY(dev);
+ 
+     canokey_emu_setup(request, value, index, length);
+@@ -144,6 +151,7 @@ static void canokey_handle_control(USBDevice *dev, USBPacket *p,
+     uint32_t dir_in = request & DeviceRequest;
+     if (!dir_in) {
+         /* OUT */
++        trace_canokey_handle_control_out();
+         if (key->ep_out[0] != NULL) {
+             memcpy(key->ep_out[0], data, length);
+         }
+@@ -163,6 +171,7 @@ static void canokey_handle_control(USBDevice *dev, USBPacket *p,
+     case CANOKEY_EP_IN_READY:
+         memcpy(data, key->ep_in[0], key->ep_in_size[0]);
+         p->actual_length = key->ep_in_size[0];
++        trace_canokey_handle_control_in(p->actual_length);
+         /* reset state */
+         key->ep_in_state[0] = CANOKEY_EP_IN_WAIT;
+         key->ep_in_size[0] = 0;
+@@ -182,6 +191,7 @@ static void canokey_handle_data(USBDevice *dev, USBPacket *p)
+     uint32_t out_len;
+     switch (p->pid) {
+     case USB_TOKEN_OUT:
++        trace_canokey_handle_data_out(ep_out, p->iov.size);
+         usb_packet_copy(p, key->ep_out_buffer[ep_out], p->iov.size);
+         out_pos = 0;
+         while (out_pos != p->iov.size) {
+@@ -226,6 +236,7 @@ static void canokey_handle_data(USBDevice *dev, USBPacket *p)
+                 key->ep_in_size[ep_in] = 0;
+                 key->ep_in_pos[ep_in] = 0;
+             }
++            trace_canokey_handle_data_in(ep_in, in_len);
+             break;
+         }
+         break;
+@@ -237,6 +248,7 @@ static void canokey_handle_data(USBDevice *dev, USBPacket *p)
+ 
+ static void canokey_realize(USBDevice *base, Error **errp)
+ {
++    trace_canokey_realize();
+     CanoKeyState *key = CANOKEY(base);
+ 
+     if (key->file == NULL) {
+@@ -260,6 +272,7 @@ static void canokey_realize(USBDevice *base, Error **errp)
+ 
+ static void canokey_unrealize(USBDevice *base)
+ {
++    trace_canokey_unrealize();
+ }
+ 
+ static Property canokey_properties[] = {
+diff --git a/hw/usb/trace-events b/hw/usb/trace-events
+index 9773cb5330..914ca71668 100644
+--- a/hw/usb/trace-events
++++ b/hw/usb/trace-events
+@@ -345,3 +345,19 @@ usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%u baud rate %d"
+ usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%u parity %c, data bits %d, stop bits %d"
+ usb_serial_set_flow_control(int bus, int addr, int index) "dev %d:%u flow control %d"
+ usb_serial_set_xonxoff(int bus, int addr, uint8_t xon, uint8_t xoff) "dev %d:%u xon 0x%x xoff 0x%x"
 +
-+#include "qemu/osdep.h"
-+#include <canokey-qemu.h>
-+
-+#include "qemu/module.h"
-+#include "qapi/error.h"
-+#include "hw/usb.h"
-+#include "hw/qdev-properties.h"
-+#include "desc.h"
-+#include "canokey.h"
-+
-+#define CANOKEY_EP_IN(ep) ((ep) & 0x7F)
-+
-+#define CANOKEY_VENDOR_NUM     0x20a0
-+#define CANOKEY_PRODUCT_NUM    0x42d2
-+
-+/*
-+ * placeholder, canokey-qemu implements its own usb desc
-+ * Namely we do not use usb_desc_handle_contorl
-+ */
-+enum {
-+    STR_MANUFACTURER = 1,
-+    STR_PRODUCT,
-+    STR_SERIALNUMBER
-+};
-+
-+static const USBDescStrings desc_strings = {
-+    [STR_MANUFACTURER]     = "canokeys.org",
-+    [STR_PRODUCT]          = "CanoKey QEMU",
-+    [STR_SERIALNUMBER]     = "0"
-+};
-+
-+static const USBDescDevice desc_device_canokey = {
-+    .bcdUSB                        = 0x0,
-+    .bMaxPacketSize0               = 16,
-+    .bNumConfigurations            = 0,
-+    .confs = NULL,
-+};
-+
-+static const USBDesc desc_canokey = {
-+    .id = {
-+        .idVendor          = CANOKEY_VENDOR_NUM,
-+        .idProduct         = CANOKEY_PRODUCT_NUM,
-+        .bcdDevice         = 0x0100,
-+        .iManufacturer     = STR_MANUFACTURER,
-+        .iProduct          = STR_PRODUCT,
-+        .iSerialNumber     = STR_SERIALNUMBER,
-+    },
-+    .full = &desc_device_canokey,
-+    .high = &desc_device_canokey,
-+    .str  = desc_strings,
-+};
-+
-+
-+/*
-+ * libcanokey-qemu.so side functions
-+ * All functions are called from canokey_emu_device_loop
-+ */
-+int canokey_emu_stall_ep(void *base, uint8_t ep)
-+{
-+    CanoKeyState *key = base;
-+    uint8_t ep_in = CANOKEY_EP_IN(ep); /* INTR IN has ep 129 */
-+    key->ep_in_size[ep_in] = 0;
-+    key->ep_in_state[ep_in] = CANOKEY_EP_IN_STALL;
-+    return 0;
-+}
-+
-+int canokey_emu_set_address(void *base, uint8_t addr)
-+{
-+    CanoKeyState *key = base;
-+    key->dev.addr = addr;
-+    return 0;
-+}
-+
-+int canokey_emu_prepare_receive(
-+        void *base, uint8_t ep, uint8_t *pbuf, uint16_t size)
-+{
-+    CanoKeyState *key = base;
-+    key->ep_out[ep] = pbuf;
-+    key->ep_out_size[ep] = size;
-+    return 0;
-+}
-+
-+int canokey_emu_transmit(
-+        void *base, uint8_t ep, const uint8_t *pbuf, uint16_t size)
-+{
-+    CanoKeyState *key = base;
-+    uint8_t ep_in = CANOKEY_EP_IN(ep); /* INTR IN has ep 129 */
-+    memcpy(key->ep_in[ep_in] + key->ep_in_size[ep_in],
-+            pbuf, size);
-+    key->ep_in_size[ep_in] += size;
-+    key->ep_in_state[ep_in] = CANOKEY_EP_IN_READY;
-+    /*
-+     * ready for more data in device loop
-+     *
-+     * Note: this is a quirk for CanoKey CTAPHID
-+     * because it calls multiple emu_transmit in one device_loop
-+     * but w/o data_in it would stuck in device_loop
-+     * This has no side effect for CCID as it is strictly
-+     * OUT then IN transfer
-+     * However it has side effect for Control transfer
-+     */
-+    if (ep_in != 0) {
-+        canokey_emu_data_in(ep_in);
-+    }
-+    return 0;
-+}
-+
-+uint32_t canokey_emu_get_rx_data_size(void *base, uint8_t ep)
-+{
-+    CanoKeyState *key = base;
-+    return key->ep_out_size[ep];
-+}
-+
-+/*
-+ * QEMU side functions
-+ */
-+static void canokey_handle_reset(USBDevice *dev)
-+{
-+    CanoKeyState *key = CANOKEY(dev);
-+    for (int i = 0; i != CANOKEY_EP_NUM; ++i) {
-+        key->ep_in_state[i] = CANOKEY_EP_IN_WAIT;
-+        key->ep_in_pos[i] = 0;
-+        key->ep_in_size[i] = 0;
-+    }
-+    canokey_emu_reset();
-+}
-+
-+static void canokey_handle_control(USBDevice *dev, USBPacket *p,
-+               int request, int value, int index, int length, uint8_t *data)
-+{
-+    CanoKeyState *key = CANOKEY(dev);
-+
-+    canokey_emu_setup(request, value, index, length);
-+
-+    uint32_t dir_in = request & DeviceRequest;
-+    if (!dir_in) {
-+        /* OUT */
-+        if (key->ep_out[0] != NULL) {
-+            memcpy(key->ep_out[0], data, length);
-+        }
-+        canokey_emu_data_out(p->ep->nr, data);
-+    }
-+
-+    canokey_emu_device_loop();
-+
-+    /* IN */
-+    switch (key->ep_in_state[0]) {
-+    case CANOKEY_EP_IN_WAIT:
-+        p->status = USB_RET_NAK;
-+        break;
-+    case CANOKEY_EP_IN_STALL:
-+        p->status = USB_RET_STALL;
-+        break;
-+    case CANOKEY_EP_IN_READY:
-+        memcpy(data, key->ep_in[0], key->ep_in_size[0]);
-+        p->actual_length = key->ep_in_size[0];
-+        /* reset state */
-+        key->ep_in_state[0] = CANOKEY_EP_IN_WAIT;
-+        key->ep_in_size[0] = 0;
-+        key->ep_in_pos[0] = 0;
-+        break;
-+    }
-+}
-+
-+static void canokey_handle_data(USBDevice *dev, USBPacket *p)
-+{
-+    CanoKeyState *key = CANOKEY(dev);
-+
-+    uint8_t ep_in = CANOKEY_EP_IN(p->ep->nr);
-+    uint8_t ep_out = p->ep->nr;
-+    uint32_t in_len;
-+    uint32_t out_pos;
-+    uint32_t out_len;
-+    switch (p->pid) {
-+    case USB_TOKEN_OUT:
-+        usb_packet_copy(p, key->ep_out_buffer[ep_out], p->iov.size);
-+        out_pos = 0;
-+        while (out_pos != p->iov.size) {
-+            /*
-+             * key->ep_out[ep_out] set by prepare_receive
-+             * to be a buffer inside libcanokey-qemu.so
-+             * key->ep_out_size[ep_out] set by prepare_receive
-+             * to be the buffer length
-+             */
-+            out_len = MIN(p->iov.size - out_pos, key->ep_out_size[ep_out]);
-+            memcpy(key->ep_out[ep_out],
-+                    key->ep_out_buffer[ep_out] + out_pos, out_len);
-+            out_pos += out_len;
-+            /* update ep_out_size to actual len */
-+            key->ep_out_size[ep_out] = out_len;
-+            canokey_emu_data_out(ep_out, NULL);
-+        }
-+        break;
-+    case USB_TOKEN_IN:
-+        if (key->ep_in_pos[ep_in] == 0) { /* first time IN */
-+            canokey_emu_data_in(ep_in);
-+            canokey_emu_device_loop(); /* may call transmit multiple times */
-+        }
-+        switch (key->ep_in_state[ep_in]) {
-+        case CANOKEY_EP_IN_WAIT:
-+            /* NAK for early INTR IN */
-+            p->status = USB_RET_NAK;
-+            break;
-+        case CANOKEY_EP_IN_STALL:
-+            p->status = USB_RET_STALL;
-+            break;
-+        case CANOKEY_EP_IN_READY:
-+            /* submit part of ep_in buffer to USBPacket */
-+            in_len = MIN(key->ep_in_size[ep_in] - key->ep_in_pos[ep_in],
-+                    p->iov.size);
-+            usb_packet_copy(p,
-+                    key->ep_in[ep_in] + key->ep_in_pos[ep_in], in_len);
-+            key->ep_in_pos[ep_in] += in_len;
-+            /* reset state if all data submitted */
-+            if (key->ep_in_pos[ep_in] == key->ep_in_size[ep_in]) {
-+                key->ep_in_state[ep_in] = CANOKEY_EP_IN_WAIT;
-+                key->ep_in_size[ep_in] = 0;
-+                key->ep_in_pos[ep_in] = 0;
-+            }
-+            break;
-+        }
-+        break;
-+    default:
-+        p->status = USB_RET_STALL;
-+        break;
-+    }
-+}
-+
-+static void canokey_realize(USBDevice *base, Error **errp)
-+{
-+    CanoKeyState *key = CANOKEY(base);
-+
-+    if (key->file == NULL) {
-+        error_setg(errp, "You must provide file=/path/to/canokey-file");
-+        return;
-+    }
-+
-+    usb_desc_init(base);
-+
-+    for (int i = 0; i != CANOKEY_EP_NUM; ++i) {
-+        key->ep_in_state[i] = CANOKEY_EP_IN_WAIT;
-+        key->ep_in_size[i] = 0;
-+        key->ep_in_pos[i] = 0;
-+    }
-+
-+    if (canokey_emu_init(key, key->file)) {
-+        error_setg(errp, "canokey can not create or read %s", key->file);
-+        return;
-+    }
-+}
-+
-+static void canokey_unrealize(USBDevice *base)
-+{
-+}
-+
-+static Property canokey_properties[] = {
-+    DEFINE_PROP_STRING("file", CanoKeyState, file),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void canokey_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    USBDeviceClass *uc = USB_DEVICE_CLASS(klass);
-+
-+    uc->product_desc   = "CanoKey QEMU";
-+    uc->usb_desc       = &desc_canokey;
-+    uc->handle_reset   = canokey_handle_reset;
-+    uc->handle_control = canokey_handle_control;
-+    uc->handle_data    = canokey_handle_data;
-+    uc->handle_attach  = usb_desc_attach;
-+    uc->realize        = canokey_realize;
-+    uc->unrealize      = canokey_unrealize;
-+    dc->desc           = "CanoKey QEMU";
-+    device_class_set_props(dc, canokey_properties);
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static const TypeInfo canokey_info = {
-+    .name = TYPE_CANOKEY,
-+    .parent = TYPE_USB_DEVICE,
-+    .instance_size = sizeof(CanoKeyState),
-+    .class_init = canokey_class_init
-+};
-+
-+static void canokey_register_types(void)
-+{
-+    type_register_static(&canokey_info);
-+}
-+
-+type_init(canokey_register_types)
-diff --git a/hw/usb/canokey.h b/hw/usb/canokey.h
-new file mode 100644
-index 0000000000..24cf304203
---- /dev/null
-+++ b/hw/usb/canokey.h
-@@ -0,0 +1,69 @@
-+/*
-+ * CanoKey QEMU device header.
-+ *
-+ * Copyright (c) 2021-2022 Canokeys.org <contact@canokeys.org>
-+ * Written by Hongren (Zenithal) Zheng <i@zenithal.me>
-+ *
-+ * This code is licensed under the Apache-2.0.
-+ */
-+
-+#ifndef CANOKEY_H
-+#define CANOKEY_H
-+
-+#include "hw/qdev-core.h"
-+
-+#define TYPE_CANOKEY "canokey"
-+#define CANOKEY(obj) \
-+    OBJECT_CHECK(CanoKeyState, (obj), TYPE_CANOKEY)
-+
-+/*
-+ * State of Canokey (i.e. hw/canokey.c)
-+ */
-+
-+/* CTRL INTR BULK */
-+#define CANOKEY_EP_NUM 3
-+/* BULK/INTR IN can be up to 1352 bytes, e.g. get key info */
-+#define CANOKEY_EP_IN_BUFFER_SIZE 2048
-+/* BULK OUT can be up to 270 bytes, e.g. PIV import cert */
-+#define CANOKEY_EP_OUT_BUFFER_SIZE 512
-+
-+typedef enum {
-+    CANOKEY_EP_IN_WAIT,
-+    CANOKEY_EP_IN_READY,
-+    CANOKEY_EP_IN_STALL
-+} CanoKeyEPState;
-+
-+typedef struct CanoKeyState {
-+    USBDevice dev;
-+
-+    /* IN packets from canokey device loop */
-+    uint8_t ep_in[CANOKEY_EP_NUM][CANOKEY_EP_IN_BUFFER_SIZE];
-+    /*
-+     * See canokey_emu_transmit
-+     *
-+     * For large INTR IN, receive multiple data from canokey device loop
-+     * in this case ep_in_size would increase with every call
-+     */
-+    uint32_t ep_in_size[CANOKEY_EP_NUM];
-+    /*
-+     * Used in canokey_handle_data
-+     * for IN larger than p->iov.size, we would do multiple handle_data()
-+     *
-+     * The difference between ep_in_pos and ep_in_size:
-+     * We first increase ep_in_size to fill ep_in buffer in device_loop,
-+     * then use ep_in_pos to submit data from ep_in buffer in handle_data
-+     */
-+    uint32_t ep_in_pos[CANOKEY_EP_NUM];
-+    CanoKeyEPState ep_in_state[CANOKEY_EP_NUM];
-+
-+    /* OUT pointer to canokey recv buffer */
-+    uint8_t *ep_out[CANOKEY_EP_NUM];
-+    uint32_t ep_out_size[CANOKEY_EP_NUM];
-+    /* For large BULK OUT, multiple write to ep_out is needed */
-+    uint8_t ep_out_buffer[CANOKEY_EP_NUM][CANOKEY_EP_OUT_BUFFER_SIZE];
-+
-+    /* Properties */
-+    char *file; /* canokey-file */
-+} CanoKeyState;
-+
-+#endif /* CANOKEY_H */
++# canokey.c
++canokey_emu_stall_ep(uint8_t ep) "ep %d"
++canokey_emu_set_address(uint8_t addr) "addr %d"
++canokey_emu_prepare_receive(uint8_t ep, uint16_t size) "ep %d size %d"
++canokey_emu_transmit(uint8_t ep, uint16_t size) "ep %d size %d"
++canokey_thread_start(void)
++canokey_thread_stop(void)
++canokey_handle_reset(void)
++canokey_handle_control_setup(int request, int value, int index, int length) "request 0x%04X value 0x%04X index 0x%04X length 0x%04X"
++canokey_handle_control_out(void)
++canokey_handle_control_in(int actual_len) "len %d"
++canokey_handle_data_out(uint8_t ep_out, uint32_t out_len) "ep %d len %d"
++canokey_handle_data_in(uint8_t ep_in, uint32_t in_len) "ep %d len %d"
++canokey_realize(void)
++canokey_unrealize(void)
 -- 
 2.35.1
 
