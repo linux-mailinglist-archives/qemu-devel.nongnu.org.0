@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F3152F0E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 18:42:05 +0200 (CEST)
-Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E52652F0F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 18:45:53 +0200 (CEST)
+Received: from localhost ([::1]:35044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns5hU-0000G5-17
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 12:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
+	id 1ns5lA-0002PE-Db
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 12:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ns5e8-0005n5-Dq
- for qemu-devel@nongnu.org; Fri, 20 May 2022 12:38:36 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ns5e6-0008AF-KD
- for qemu-devel@nongnu.org; Fri, 20 May 2022 12:38:36 -0400
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4L4XPW6Rkkz67P5L;
- Sat, 21 May 2022 00:34:39 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 18:38:31 +0200
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 17:38:31 +0100
-To: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-CC: "Michael S . Tsirkin" <mst@redhat.com>, Ben Widawsky
- <ben.widawsky@intel.com>, <linux-cxl@vger.kernel.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- <linuxarm@huawei.com>
-Subject: [PATCH v11 2/2] qtest/cxl: Add aarch64 virt test for CXL
-Date: Fri, 20 May 2022 17:37:32 +0100
-Message-ID: <20220520163732.27545-3-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220520163732.27545-1-Jonathan.Cameron@huawei.com>
-References: <20220520163732.27545-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ns5j0-0001P7-Af; Fri, 20 May 2022 12:43:38 -0400
+Received: from [187.72.171.209] (port=21590 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ns5iy-0000cW-5G; Fri, 20 May 2022 12:43:37 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 20 May 2022 13:42:31 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id EFAA18000A0;
+ Fri, 20 May 2022 13:42:30 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------0cOpxycAtNOoO70Kju7oxVv7"
+Message-ID: <d791d9b8-6a77-c2ec-67af-d9e208fa2e22@eldorado.org.br>
+Date: Fri, 20 May 2022 13:42:30 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml737-chm.china.huawei.com (10.201.108.187) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 5/8] target/ppc: Implemented xvf16ger*
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
+ <20220520135129.63664-6-lucas.araujo@eldorado.org.br>
+ <299dec56-ecfd-440e-42f8-df6024561cf7@linaro.org>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <299dec56-ecfd-440e-42f8-df6024561cf7@linaro.org>
+X-OriginalArrivalTime: 20 May 2022 16:42:31.0167 (UTC)
+ FILETIME=[994B30F0:01D86C68]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,99 +68,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Add a single complex case for aarch64 virt machine.
+This is a multi-part message in MIME format.
+--------------0cOpxycAtNOoO70Kju7oxVv7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- tests/qtest/cxl-test.c  | 48 +++++++++++++++++++++++++++++++++--------
- tests/qtest/meson.build |  1 +
- 2 files changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-index 079011af6a..ac7d71fd74 100644
---- a/tests/qtest/cxl-test.c
-+++ b/tests/qtest/cxl-test.c
-@@ -17,6 +17,11 @@
-                       "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-                       "-cxl-fixed-memory-window targets.0=cxl.0,targets.1=cxl.1,size=4G "
- 
-+#define QEMU_VIRT_2PXB_CMD "-machine virt,cxl=on "                      \
-+                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-+                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "  \
-+                      "-cxl-fixed-memory-window targets.0=cxl.0,targets.1=cxl.1,size=4G "
-+
- #define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
- 
- /* Dual ports on first pxb */
-@@ -134,18 +139,43 @@ static void cxl_2pxb_4rp_4t3d(void)
-     qtest_end();
- }
- 
-+static void cxl_virt_2pxb_4rp_4t3d(void)
-+{
-+    g_autoptr(GString) cmdline = g_string_new(NULL);
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    g_string_printf(cmdline, QEMU_VIRT_2PXB_CMD QEMU_4RP QEMU_4T3D,
-+                    tmpfs, tmpfs, tmpfs, tmpfs, tmpfs, tmpfs,
-+                    tmpfs, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+}
-+
- int main(int argc, char **argv)
- {
-+    const char *arch = qtest_get_arch();
-+
-     g_test_init(&argc, &argv, NULL);
- 
--    qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
--    qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
--    qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
--    qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
--    qtest_add_func("/pci/cxl/rp", cxl_root_port);
--    qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
--    qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
--    qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
--    qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
-+        qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
-+        qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
-+        qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
-+        qtest_add_func("/pci/cxl/rp", cxl_root_port);
-+        qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
-+        qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
-+        qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
-+        qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4",
-+                       cxl_2pxb_4rp_4t3d);
-+    } else if (strcmp(arch, "aarch64") == 0) {
-+        qtest_add_func("/pci/cxl/virt/pxb_x2_root_port_x4_type3_x4",
-+                       cxl_virt_2pxb_4rp_4t3d);
-+    }
-+
-     return g_test_run();
- }
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 31287a9173..0fa93da13a 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -215,6 +215,7 @@ qtests_aarch64 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
-+  qtests_cxl +                                                                                  \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
+On 20/05/2022 12:47, Richard Henderson wrote:
+>
+> On 5/20/22 06:51, Lucas Mateus Castro(alqotel) wrote:
+>> +                if (acc) {
+>> +                    aux_acc = at[i].VsrSF(j);
+>> +                    if (!neg_mul && !neg_acc) {
+>> +                        r = float32_add(r, aux_acc, excp_ptr);
+>> +                    } else if (!neg_mul) {
+>> +                        r = float32_add(r, bfp32_neg(aux_acc), 
+>> excp_ptr);
+>> +                    } else if (!neg_acc) {
+>> +                        r = float32_add(bfp32_neg(r), aux_acc, 
+>> excp_ptr);
+>> +                    } else {
+>> +                        r = float32_add(bfp32_neg(r), 
+>> bfp32_neg(aux_acc), excp_ptr);
+>> +                    }
+>
+> There's no point in the 3 if's when using bfp32_neg.
+> Just use
+>
+>   if (neg_mul) {
+>   }
+>   if (neg_acc) {
+>   }
+>   float32_add(...);
+
+You mean negate separately? Like:
+
+     if (neg_mul) {
+         r = bfp32_neg(r);
+     }
+     if (neg_acc) {
+         aux_acc = bfp32_neg(aux_acc);
+     }
+     r = float32_add(r, aux_acc, excp_ptr);
+
+If so I'll send a new version with this change later today
+
+>
+> With that,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+>
+> r~
 -- 
-2.32.0
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--------------0cOpxycAtNOoO70Kju7oxVv7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 20/05/2022 12:47, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:299dec56-ecfd-440e-42f8-df6024561cf7@linaro.org"><br>
+      On 5/20/22 06:51, Lucas Mateus Castro(alqotel) wrote:
+      <br>
+      <blockquote type="cite">+                if (acc) {
+        <br>
+        +                    aux_acc = at[i].VsrSF(j);
+        <br>
+        +                    if (!neg_mul &amp;&amp; !neg_acc) {
+        <br>
+        +                        r = float32_add(r, aux_acc, excp_ptr);
+        <br>
+        +                    } else if (!neg_mul) {
+        <br>
+        +                        r = float32_add(r, bfp32_neg(aux_acc),
+        excp_ptr);
+        <br>
+        +                    } else if (!neg_acc) {
+        <br>
+        +                        r = float32_add(bfp32_neg(r), aux_acc,
+        excp_ptr);
+        <br>
+        +                    } else {
+        <br>
+        +                        r = float32_add(bfp32_neg(r),
+        bfp32_neg(aux_acc), excp_ptr);
+        <br>
+        +                    }
+        <br>
+      </blockquote>
+      <br>
+      There's no point in the 3 if's when using bfp32_neg.
+      <br>
+      Just use
+      <br>
+      <br>
+        if (neg_mul) {
+      <br>
+        }
+      <br>
+        if (neg_acc) {
+      <br>
+        }
+      <br>
+        float32_add(...);
+      <br>
+    </blockquote>
+    <p>You mean negate separately? Like:<br>
+    </p>
+    <p>    if (neg_mul) {<br>
+              r = bfp32_neg(r);<br>
+          }<br>
+          if (neg_acc) {<br>
+              aux_acc = bfp32_neg(aux_acc);<br>
+          }<br>
+          r = float32_add(r, aux_acc, excp_ptr);</p>
+    <p>If so I'll send a new version with this change later today<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:299dec56-ecfd-440e-42f8-df6024561cf7@linaro.org">
+      <br>
+      With that,
+      <br>
+      Reviewed-by: Richard Henderson
+      <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+      <br>
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------0cOpxycAtNOoO70Kju7oxVv7--
 
