@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B074E52F21B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:10:56 +0200 (CEST)
-Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F12E52F210
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:08:24 +0200 (CEST)
+Received: from localhost ([::1]:38392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns75T-0001HY-Qp
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:10:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37972)
+	id 1ns731-0004zY-GK
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:08:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wd-00040d-CP; Fri, 20 May 2022 14:01:47 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:34461)
+ id 1ns6wf-00041O-Hh; Fri, 20 May 2022 14:01:49 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:43866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wb-0004IB-QW; Fri, 20 May 2022 14:01:47 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id n13so15109757ejv.1;
+ id 1ns6wc-0004Fd-E4; Fri, 20 May 2022 14:01:48 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id m20so16968911ejj.10;
  Fri, 20 May 2022 11:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JDiYaKv05xlAnTCFF/GxQrTBnijEkAdSBVZLfqAvB1o=;
- b=n+ZlzKQO7XNgG420rQZwx3sT1jwTuwHFibrvRTYDlf6pUfwW8KTMShsayATJSvKYh6
- jqEWugbTEq73gaP1m0SE3pT1FDXSoTsAxZ/l51JO23DUiERotDj5GNXWrOcXLux93lIr
- XfnWsokK13zbQkUbZhRhBsnegq6qQALsBQND1RkeTzHdgpNaoCa+g+oeVndBa8X2cxPw
- BVr7KxJcvLlWDFLF5XeQZ/+/D0gzUEW0eaeX+tvXTcaD7///9gsTdbSlistS+izWO0w4
- ebUR0Qp1vMybmobGIGPuCXNI97i9fDTVobahD/V970sWXVr0ABaSV9nlOxRyB9lXyTyS
- KRgw==
+ bh=DBvS+pFO863lsAYFzkOqAuhOuaOf26uAgucILAzfDNA=;
+ b=ku0NzfoMSPHBIXgJV4k4tW+lmZAK47zJXjXOuPdUn0lQ55zxtREkpP/Ps3RCLoCrWT
+ ZH8KAs1kIgEKfQc2n90ClrSm8uPaSNg4yGRc7j0vJxD65pPpmRZ9NTKVie85YjkcaaR4
+ c41/+fupoBD1uOXmBPsrToZz04hViZMyGJLzwza0ipfCOESYaL9O8pKbE4ySysuSTQs9
+ BggGKqLXyVq7uh/vLvy6eaHV4vfon09IynHeI32k0s9aK+COLBmCJ93IjSZ6+UB50DYt
+ 5Yd7OUtCYTgWJeiG1UryMMzbd7a/w0CYKIh88D9HGJLjlViX9B6ZD9I11BKLQma2KLxV
+ aI2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JDiYaKv05xlAnTCFF/GxQrTBnijEkAdSBVZLfqAvB1o=;
- b=yJY6fQik/jgHljI8JYbnweU/AiFNq5ynB88haCp+A+3p6hMEfykpcohj3zvdcSpvpK
- O2WwhUAOE+sPtRRTvo95wJqRSkpCekkumqZJk6iqKL5oPNV5tr/stgCIn/CKQ/45vCZM
- JzDQycqxj7pYo7VnUxckM7jS0d2o2ajRMoxRdjbuLbHdtIBoD4l1MSEkSfTgR2OpENlB
- VfuVxKij25xRpai8A0Y4BYflZpOi+3qjoA1t6Rq8PgFJ/KVuHMYd/1XCeNS+V1FW/iSk
- aAraA+nmalDMOcm1v2KMj0yy0lpiZMqgWBfSXP+6/bq1qKMYzm9LFS3LlE1z8iYARGkn
- 4yFg==
-X-Gm-Message-State: AOAM531Z3/8Az01c8WvNKrfQ4pqLKCLlTmOEgZjgTlAhim5/nFYrUpET
- Hw5zEspAANiFkaw3aqWl83FmWG2da0s=
-X-Google-Smtp-Source: ABdhPJwfo3zc+GpKd8RILJ+KQpeOR+UBL5CUdyAeu17RKRGvVeMjMLZAhGPqpJjVBObg6FssxpSESA==
-X-Received: by 2002:a17:907:9490:b0:6fa:7970:3eb8 with SMTP id
- dm16-20020a170907949000b006fa79703eb8mr10101795ejc.457.1653069704060; 
- Fri, 20 May 2022 11:01:44 -0700 (PDT)
+ bh=DBvS+pFO863lsAYFzkOqAuhOuaOf26uAgucILAzfDNA=;
+ b=Ymmp5/qbgG6B4dAC10YXRioHxteZDk/VaMKYca4seZW5woPh/wHa1HYGJoBrFlpuEq
+ epHoNOgbTRI+wk7PrYGLyhheYW7mJyBQ74poZGQRiRSSU9iaX7hTzMjPzfM0UxlTpSCM
+ bx8mlTlsUgo6DKU5i1VDFfL+6j9BI/UW61elECmkiM+VYPBo/9YxbtpSTbvuDevjX/hO
+ JOzecYQPuE6WuCbCqHxQF5xfcAY4PARYNTkDe4OixhQCJZKEmZc7L1IzlzgOwpYNue+s
+ ey9HlZv5faNGg6CJ8AltcSDHasdwayPOOFukFAEnNDFcaGYE7c0HQqjX+PLBd0T2Umnd
+ zksA==
+X-Gm-Message-State: AOAM530LMkaB8cyD1fHHYIQi/HCh1qKvzR8uwL5OAgrFonZEA2O5SVL4
+ xLOCohabIOm1QmdPx5DlJYc+PTsXRnM=
+X-Google-Smtp-Source: ABdhPJweJv0UWDL1Lk+iwZvv5wTTV32BOSYaVDMJKDjQdAjkP0z4DAjpM6K4f59JyVx2V7k04VAYuQ==
+X-Received: by 2002:a17:907:d9e:b0:6f4:2983:c371 with SMTP id
+ go30-20020a1709070d9e00b006f42983c371mr9960076ejc.558.1653069705205; 
+ Fri, 20 May 2022 11:01:45 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-089-014-209-236.89.14.pool.telefonica.de. [89.14.209.236])
  by smtp.gmail.com with ESMTPSA id
- w5-20020aa7cb45000000b0042aa7e0f892sm4622029edt.15.2022.05.20.11.01.43
+ w5-20020aa7cb45000000b0042aa7e0f892sm4622029edt.15.2022.05.20.11.01.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 11:01:43 -0700 (PDT)
+ Fri, 20 May 2022 11:01:44 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 08/10] accel/tcg/cpu-exec: Unexport dump_drift_info()
-Date: Fri, 20 May 2022 20:01:07 +0200
-Message-Id: <20220520180109.8224-9-shentey@gmail.com>
+Subject: [PATCH v2 09/10] accel/tcg: Inline dump_opcount_info() and remove it
+Date: Fri, 20 May 2022 20:01:08 +0200
+Message-Id: <20220520180109.8224-10-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220520180109.8224-1-shentey@gmail.com>
 References: <20220520180109.8224-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,43 +89,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 3a841ab53f165910224dc4bebabf1a8f1d04200c 'qapi: introduce
-x-query-jit QMP command' basically moved the only function using
-dump_drift_info() to cpu-exec.c. Therefore, dump_drift_info() doesn't
-need to be exported any longer.
+dump_opcount_info() is a one-line wrapper around tcg_dump_op_count()
+which is also exported. So use the latter directly.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- accel/tcg/cpu-exec.c   | 2 +-
- include/exec/cpu-all.h | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ accel/tcg/cpu-exec.c      | 2 +-
+ accel/tcg/translate-all.c | 5 -----
+ include/exec/cpu-all.h    | 1 -
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 635aeecc0a..7cbf9996b7 100644
+index 7cbf9996b7..a565a3f8ec 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -1048,7 +1048,7 @@ void tcg_exec_unrealizefn(CPUState *cpu)
+@@ -1091,7 +1091,7 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
+         return NULL;
+     }
  
- #ifndef CONFIG_USER_ONLY
+-    dump_opcount_info(buf);
++    tcg_dump_op_count(buf);
  
--void dump_drift_info(GString *buf)
-+static void dump_drift_info(GString *buf)
- {
-     if (!icount_enabled()) {
-         return;
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 5d5290deb5..9a716be80d 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -419,8 +419,6 @@ static inline bool tlb_hit(target_ulong tlb_addr, target_ulong addr)
+     return human_readable_text_from_str(buf);
+ }
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 291034cb09..8fd23a9d05 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2124,11 +2124,6 @@ void dump_exec_info(GString *buf)
+     tcg_dump_info(buf);
  }
  
+-void dump_opcount_info(GString *buf)
+-{
+-    tcg_dump_op_count(buf);
+-}
+-
+ #else /* CONFIG_USER_ONLY */
+ 
+ void cpu_interrupt(CPUState *cpu, int mask)
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 9a716be80d..f5bda2c3ca 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -421,7 +421,6 @@ static inline bool tlb_hit(target_ulong tlb_addr, target_ulong addr)
  #ifdef CONFIG_TCG
--/* accel/tcg/cpu-exec.c */
--void dump_drift_info(GString *buf);
  /* accel/tcg/translate-all.c */
  void dump_exec_info(GString *buf);
- void dump_opcount_info(GString *buf);
+-void dump_opcount_info(GString *buf);
+ #endif /* CONFIG_TCG */
+ 
+ #endif /* !CONFIG_USER_ONLY */
 -- 
 2.36.1
 
