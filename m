@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278E252E7F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 10:45:49 +0200 (CEST)
-Received: from localhost ([::1]:51308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D83452E817
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 10:54:19 +0200 (CEST)
+Received: from localhost ([::1]:56652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nryGY-0004vD-VI
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 04:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49006)
+	id 1nryOo-0000jw-8W
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 04:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nryAi-0002mD-3N
- for qemu-devel@nongnu.org; Fri, 20 May 2022 04:39:46 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39574)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nryEH-0004eJ-TK
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 04:43:25 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nryAg-0008LV-EY
- for qemu-devel@nongnu.org; Fri, 20 May 2022 04:39:43 -0400
-Received: by mail-pg1-x529.google.com with SMTP id a19so7172321pgw.6
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 01:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nryEG-0000dq-89
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 04:43:25 -0400
+Received: by mail-wm1-x331.google.com with SMTP id p189so4158875wmp.3
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 01:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=BM1kBrWq+bqE3NESx8j54Gj/7nlZoqCE0tR894m4XZo=;
- b=RB/4Ym/pY71msstsDqTtRbJwkGylTJ6is4Bh3nUD4jcWz/ro8rCt0XGAqvylEqtImo
- Ai4/YNO4piE89OS11p7p6QsqqLIt4bFZCt68f7tqKXVK9i69kqU6KZr8sWLPETDoMzlp
- IW/ZlDmdxtnVYS2XagRoExQOVvO4aSMwO4mPxPe6yqYYW8YQweaBmRxTCQpMUPq1v3DQ
- BNnqVJ/0zik5hu5wU/CVDGeBKs++XeQKqBXPM4DGHb5BH32d1fEwTGu1sNNVWfLR8fVI
- hknibW/effHMx1U51CT44dCAFa3pJYV3uyaoq+efHuz0FJVAId+6p4O5cV+Q0HxJ2TMx
- ihdQ==
+ bh=5feKW7i1IZnmMlhHxIUEq2OpW0lCNJGHr98ysF/4oF4=;
+ b=df4b/lGByY3q6Hpmqr2QhPdOWESEgJF7KCSVYkcYuyozaZm8zTrlJdHeqsWs7o5btJ
+ 0cuS8J2KLUyXOqUI3RCQ+3PP1Vc/84fEQhg3ZrBEkATXyPP/UsuN5FlTCF+Fg77Ote9i
+ kakwao9dRyAeKlQyNdXLYQES5cyfqEjfyrRxs12uVVVe5SKeTAcB5JPTNfArK1RwC2Tt
+ obwmcTF1yvc1+8jw1c6MtmZkPLXYdEbyQnzaNBmvl9NvRgF7/Pg62y6l8SzLCfo6Me2U
+ RmtyJGu8O4hxszsirildcxCWpdWfdocorAyJG3Xd2WrX2RI/BA2jgzN62gJgl7wVl3Aw
+ vBRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=BM1kBrWq+bqE3NESx8j54Gj/7nlZoqCE0tR894m4XZo=;
- b=or29Sgzu6oqmbXEQpbcZI0+IuLobI+476GsVJ3T1osRKZVVE3gm9DbnbiJ5PNjDyvZ
- LES5dKfIXMvDZzl8s5r4/q9iClc5YhujnrIM5H2zXLGVaKRkw0c13M6zpUw9VdCZOBXI
- Sbm075q0jh/y1FYpJYtRw7Qe9uEWO+Z7FD0ptugq2g88fDggpeupCR3bQa3hJzWxYw4j
- ffPr0hKxb3Df0Owei4yYpVW1HBG6RMApFZyUYlvSqDGHNV2TxXBHtt4scSmZp816hhmZ
- 2j/Svm2e3fI78AdTr+g2mAIqUsf6ObSqh5kHyM9JlKhyhByxbADRwKlEhRUOEoYj3PPi
- TmMQ==
-X-Gm-Message-State: AOAM530Lk4q+QTDuHuBsMLJslYTzcYwUtjffCw+BTHd8JQ4rszAnc6Au
- AaO0Nn3okshqwnMbardwb5EAGPbKX7I=
-X-Google-Smtp-Source: ABdhPJwU4YgKlC+l2bl+Rssj8E3jBVVXZwxmXXIf4OMJNx0fhZ6N9xhmwljH5sWZVPljs6GP+bdH2g==
-X-Received: by 2002:a63:1c03:0:b0:3f2:75a7:b25c with SMTP id
- c3-20020a631c03000000b003f275a7b25cmr7316633pgc.463.1653035980585; 
- Fri, 20 May 2022 01:39:40 -0700 (PDT)
-Received: from localhost.localdomain (p7443c068.hyognt01.ap.so-net.ne.jp.
- [116.67.192.104]) by smtp.gmail.com with ESMTPSA id
- a13-20020aa7864d000000b0051829b1595dsm1188111pfo.130.2022.05.20.01.39.39
+ bh=5feKW7i1IZnmMlhHxIUEq2OpW0lCNJGHr98ysF/4oF4=;
+ b=Ihnv2LOrpOb4+rxwDhLe+cyHGmOZ1E9x5egfB7VAxHnpPej6WWwcRHr666MiGGBF1q
+ e/8l7JwzrrnggGx2djGmRr9lCR9l2kcAufiDn6IuJ/FUfog06Ww47bnyIDUDvx6V/Yj1
+ HnPcXzzIzSd+QqVBJezyREWH+gJqerwA06taIKk6Kx3sA/XXv1tebZ9IBYp73iYDJZWh
+ OFGK66qeNrNkn75eHAfU2+oWKINwp9OV+fRgJd2CrYn9+ngdaL+0SpqX3ZMWj+H5hNav
+ Vi5nTTERVuIORI2y1qcLv5rnW6JJjJvDQr2ELwUdunhQAsWuwbYiV6TKlhI2zgnBvao9
+ olCQ==
+X-Gm-Message-State: AOAM5321qufFzPIj0zfY5p/RvtY73YYrQlOcEd+bZAbbM4epy0Wy0DCD
+ CGXidEnX1P0SbcRYe3lv3PKXug==
+X-Google-Smtp-Source: ABdhPJzZmBYjtvHP/QfYuPZtJCh3qsWkDKxumZfpcsCyrjmWI0XqfQck6IHYjj0PlQuQWiLKlJRNJQ==
+X-Received: by 2002:a05:600c:3c86:b0:397:9a4:fa06 with SMTP id
+ bg6-20020a05600c3c8600b0039709a4fa06mr7673636wmb.43.1653036202647; 
+ Fri, 20 May 2022 01:43:22 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ l16-20020a1c7910000000b003972dcfb614sm1513139wme.14.2022.05.20.01.43.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 01:39:40 -0700 (PDT)
-From: Itaru Kitayama <itaru.kitayama@gmail.com>
-X-Google-Original-From: Itaru Kitayama <itaru.kitayama@fujitsu.com>
-To: qemu-devel@nongnu.org
-Cc: Itaru Kitayama <itaru.kitayama@fujitsu.com>
-Subject: [PATCH] Add A64FX CPU support to the sbsa-ref board.
-Date: Fri, 20 May 2022 17:39:11 +0900
-Message-Id: <20220520083911.401134-1-itaru.kitayama@fujitsu.com>
+ Fri, 20 May 2022 01:43:22 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH] docs/system/arm: Add FEAT_HCX to list of emulated features
+Date: Fri, 20 May 2022 09:43:20 +0100
+Message-Id: <20220520084320.424166-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=itaru.kitayama@gmail.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,26 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In target/arm/cpu64.c, CPU init function for A64FX is there, add this
-CPU to the sbsa-ref board.
+In commit 5814d587fe861fe9 we added support for emulating
+FEAT_HCX (Support for the HCRX_EL2 register). However we
+forgot to add it to the list in emulated.rst. Correct the
+omission.
 
-Signed-off-by: Itaru Kitayama <itaru.kitayama@fujitsu.com>
+Fixes: 5814d587fe861fe9 ("target/arm: Enable FEAT_HCX for -cpu max")
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/sbsa-ref.c | 1 +
+Oops, missed this during review...
+
+ docs/system/arm/emulation.rst | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 4bb444684f..a7d27b2e55 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -146,6 +146,7 @@ static const char * const valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-     ARM_CPU_TYPE_NAME("cortex-a76"),
-+    ARM_CPU_TYPE_NAME("a64fx"),
-     ARM_CPU_TYPE_NAME("neoverse-n1"),
-     ARM_CPU_TYPE_NAME("max"),
- };
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index 3e95bba0d24..49cc3e8340e 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -29,6 +29,7 @@ the following architecture extensions:
+ - FEAT_FRINTTS (Floating-point to integer instructions)
+ - FEAT_FlagM (Flag manipulation instructions v2)
+ - FEAT_FlagM2 (Enhancements to flag manipulation instructions)
++- FEAT_HCX (Support for the HCRX_EL2 register)
+ - FEAT_HPDS (Hierarchical permission disables)
+ - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
+ - FEAT_IDST (ID space trap handling)
 -- 
 2.25.1
 
