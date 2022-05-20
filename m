@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE3152E628
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 09:23:13 +0200 (CEST)
-Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6181052E645
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 09:28:40 +0200 (CEST)
+Received: from localhost ([::1]:47728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrwye-0007xC-7f
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 03:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
+	id 1nrx3v-0003B6-G3
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 03:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nrwnB-0001Sf-8U
- for qemu-devel@nongnu.org; Fri, 20 May 2022 03:11:21 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44984)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nrwn8-0002kt-Us
- for qemu-devel@nongnu.org; Fri, 20 May 2022 03:11:20 -0400
-Received: by mail-pl1-x636.google.com with SMTP id q4so6658334plr.11
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 00:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AcmzJOzPR+Ia8HJiIMGPj5CDWhLF1KgwG7dO785wAu8=;
- b=A0nQCkLpP35fe+2qqNfB61rJWWZH+vuZQpxhrIwhVTH7e5mfj6w+yuEv6I2d4+JXRw
- +6Ek45o5L7qXnq5/pKGjwJNYfVgeY48anAbRZKAQTabT1b5rnXZ7pJezmXsgdFjdbg8p
- fqXn0MteyQaW5mrKNAJe9Rwpc0yPmq0SIGWfpQPPNDLcqtbU3ams2uRTqk07GD8UJaAt
- 8oNBIblOasQXNByJCJMxsrOYHOdhJX9tKtwpAyorUwC6M/nfD/ebKDTK+Rnwbl6opRoF
- WTAyYHzGq/HV1hs3JIZu1rO8BoQ9JD/uVOvXOwb0Ib+7JNC9AyUMc7R2pr0UbT71zPI8
- fnEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AcmzJOzPR+Ia8HJiIMGPj5CDWhLF1KgwG7dO785wAu8=;
- b=zWVUoDHNZRZQgGN62hR4K5wQcgwjuS/TBHudEEfJNzeCTnKPFijL3zJIQgFmUkQ4Ov
- mnfr26ueiqdX5Km6aWEF1+fkxgL/m1vGavrNfMJdL6GX8Ea25Lzr16MulY4qOyi98YdQ
- aE+VpeeHUdRkZWDhDOK3WB3ANicPddSlD3Xe2jHzucjlEhc73Lu1EUW0ljtVrlNjAbxo
- VMtq83Ry0vDg+Xxtd3JcebIYg8CTOoggTqnea2eSwkp9bfcoSJvuFWJWwTodBvvgz71E
- g30rhxLd8eB5uAsDgMWjRfoGU0oxTd1s23PqFV+Y2VNOmlzFXyAUQxCJhyfj6ee1pslt
- X1lA==
-X-Gm-Message-State: AOAM5317UGcP/ETXUs9f6cjYqASVxlD9s2lWF/nrCuACHyRGRSy/k7aJ
- EU9dcVye94+8Gj7i14VKJ6GBTw==
-X-Google-Smtp-Source: ABdhPJzKQ9ackIa173Rjwv32aTPTzmgH2+zL8vuf9scjZz/raHWoG0u3Ac7BZ4O6zg0PZhxCEvhFdA==
-X-Received: by 2002:a17:902:c951:b0:161:b2dc:b524 with SMTP id
- i17-20020a170902c95100b00161b2dcb524mr8298345pla.42.1653030677549; 
- Fri, 20 May 2022 00:11:17 -0700 (PDT)
-Received: from always-x1.www.tendawifi.com ([139.177.225.255])
- by smtp.gmail.com with ESMTPSA id
- t18-20020a170902d21200b00161b3d5e3e4sm4965168ply.304.2022.05.20.00.11.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 00:11:16 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: akpm@linux-foundation.org, naoya.horiguchi@nec.com, mst@redhat.com,
- david@redhat.com
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, jasowang@redhat.com,
- virtualization@lists.linux-foundation.org, pbonzini@redhat.com,
- peterx@redhat.com, qemu-devel@nongnu.org,
- zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH 3/3] virtio_balloon: Introduce memory recover
-Date: Fri, 20 May 2022 15:06:48 +0800
-Message-Id: <20220520070648.1794132-4-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220520070648.1794132-1-pizhenwei@bytedance.com>
-References: <20220520070648.1794132-1-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nrwpH-00035o-PS
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 03:13:31 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:44707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nrwpE-00031x-Ga
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 03:13:31 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.136])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0D885224C1;
+ Fri, 20 May 2022 07:13:16 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 20 May
+ 2022 09:13:15 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004f522b33c-b8db-44dc-b0bb-a5d65b45c4c7,
+ 0DD4A5C779302D20AC70C8CF8FF45AED8889647F) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <fa28d338-1e63-cc5c-6c4f-2236bd0c561a@kaod.org>
+Date: Fri, 20 May 2022 09:13:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] hw/net: Add LiteEth model
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>, <qemu-devel@nongnu.org>
+CC: Jason Wang <jasowang@redhat.com>, Gabriel Somlo <gsomlo@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, Brian Swetland <swetland@frotz.net>
+References: <20220520065302.715904-1-joel@jms.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220520065302.715904-1-joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x636.google.com
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: af5d023b-b930-4a08-ac09-00cc5e6f8623
+X-Ovh-Tracer-Id: 4579034922430335782
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedriedvgdduudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshifvghtlhgrnhgusehfrhhothiirdhnvght
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,421 +74,452 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a new queue 'recover VQ', this allows guest to recover
-hardware corrupted page:
+On 5/20/22 08:53, Joel Stanley wrote:
+> LiteX is a soft system-on-chip that targets FPGAs. LiteETH is a basic
+> network device that is commonly used in LiteX designs.
+> 
+> There is an upstream Linux kernel driver for this device and support in
+> various other firmware projects for it.
 
-Guest              5.MF -> 6.RVQ FE    10.Unpoison page
-                    /           \            /
--------------------+-------------+----------+-----------
-                   |             |          |
-                4.MCE        7.RVQ BE   9.RVQ Event
- QEMU             /               \       /
-             3.SIGBUS              8.Remap
-                /
-----------------+------------------------------------
-                |
-            +--2.MF
- Host       /
-       1.HW error
 
-The workflow:
-1, HardWare page error occurs randomly.
-2, host side handles corrupted page by Memory Failure mechanism, sends
-   SIGBUS to the user process if early-kill is enabled.
-3, QEMU handles SIGBUS, if the address belongs to guest RAM, then:
-4, QEMU tries to inject MCE into guest.
-5, guest handles memory failure again.
+I see that the mmc driver has been merged. What about the SPI flash ?
+If you are interested, here is one :
 
-1-5 is already supported for a long time, the next steps are supported
-in this patch(also related driver patch):
-6, guest balloon driver gets noticed of the corrupted PFN, and sends
-   request to host side by Recover VQ FrontEnd.
-7, QEMU handles request from Recover VQ BackEnd, then:
-8, QEMU remaps the corrupted HVA fo fix the memory failure, then:
-9, QEMU acks the guest side the result by Recover VQ.
-10, guest unpoisons the page if the corrupted page gets recoverd
-    successfully.
+   https://github.com/legoater/linux/commits/microwatt
 
-Then the guest fixes the HW page error dynamiclly without rebooting.
+The whole can be tested with these microwatt SoC models :
 
-Emulate MCE by QEMU, the guest works fine:
- mce: [Hardware Error]: Machine check events logged
- Memory failure: 0x61646: recovery action for dirty LRU page: Recovered
- virtio_balloon virtio5: recovered pfn 0x61646
- Unpoison: Unpoisoned page 0x61646 by virtio-balloon
- MCE: Killing stress:24502 due to hardware memory corruption fault at 7f5be2e5a010
+   https://github.com/legoater/qemu/commits/ppc-microwatt
 
-The 'HardwareCorrupted' in /proc/meminfo also shows 0 kB.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- drivers/virtio/virtio_balloon.c     | 243 ++++++++++++++++++++++++++++
- include/uapi/linux/virtio_balloon.h |  16 ++
- 2 files changed, 259 insertions(+)
+> Co-developed-by: Cédric Le Goater <clg@kaod.org>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
-index f4c34a2a6b8e..f9d95d1d8a4d 100644
---- a/drivers/virtio/virtio_balloon.c
-+++ b/drivers/virtio/virtio_balloon.c
-@@ -52,6 +52,7 @@ enum virtio_balloon_vq {
- 	VIRTIO_BALLOON_VQ_STATS,
- 	VIRTIO_BALLOON_VQ_FREE_PAGE,
- 	VIRTIO_BALLOON_VQ_REPORTING,
-+	VIRTIO_BALLOON_VQ_RECOVER,
- 	VIRTIO_BALLOON_VQ_MAX
- };
- 
-@@ -59,6 +60,12 @@ enum virtio_balloon_config_read {
- 	VIRTIO_BALLOON_CONFIG_READ_CMD_ID = 0,
- };
- 
-+/* the request body to commucate with host side */
-+struct __virtio_balloon_recover {
-+	struct virtio_balloon_recover vbr;
-+	__virtio32 pfns[VIRTIO_BALLOON_PAGES_PER_PAGE];
-+};
-+
- struct virtio_balloon {
- 	struct virtio_device *vdev;
- 	struct virtqueue *inflate_vq, *deflate_vq, *stats_vq, *free_page_vq;
-@@ -126,6 +133,16 @@ struct virtio_balloon {
- 	/* Free page reporting device */
- 	struct virtqueue *reporting_vq;
- 	struct page_reporting_dev_info pr_dev_info;
-+
-+	/* Memory recover VQ - VIRTIO_BALLOON_F_RECOVER */
-+	struct virtqueue *recover_vq;
-+	spinlock_t recover_vq_lock;
-+	struct notifier_block memory_failure_nb;
-+	struct list_head corrupted_page_list;
-+	struct list_head recovered_page_list;
-+	spinlock_t recover_page_list_lock;
-+	struct __virtio_balloon_recover in_vbr;
-+	struct work_struct unpoison_memory_work;
- };
- 
- static const struct virtio_device_id id_table[] = {
-@@ -494,6 +511,198 @@ static void update_balloon_size_func(struct work_struct *work)
- 		queue_work(system_freezable_wq, work);
- }
- 
-+/*
-+ * virtballoon_memory_failure - notified by memory failure, try to fix the
-+ *                              corrupted page.
-+ * The memory failure notifier is designed to call back when the kernel handled
-+ * successfully only, WARN_ON_ONCE on the unlikely condition to find out any
-+ * error(memory error handling is a best effort, not 100% coverd).
-+ */
-+static int virtballoon_memory_failure(struct notifier_block *notifier,
-+				      unsigned long pfn, void *parm)
-+{
-+	struct virtio_balloon *vb = container_of(notifier, struct virtio_balloon,
-+						 memory_failure_nb);
-+	struct page *page;
-+	struct __virtio_balloon_recover *out_vbr;
-+	struct scatterlist sg;
-+	unsigned long flags;
-+	int err;
-+
-+	page = pfn_to_online_page(pfn);
-+	if (WARN_ON_ONCE(!page))
-+		return NOTIFY_DONE;
-+
-+	if (PageHuge(page))
-+		return NOTIFY_DONE;
-+
-+	if (WARN_ON_ONCE(!PageHWPoison(page)))
-+		return NOTIFY_DONE;
-+
-+	if (WARN_ON_ONCE(page_count(page) != 1))
-+		return NOTIFY_DONE;
-+
-+	get_page(page); /* balloon reference */
-+
-+	out_vbr = kzalloc(sizeof(*out_vbr), GFP_KERNEL);
-+	if (WARN_ON_ONCE(!out_vbr))
-+		return NOTIFY_BAD;
-+
-+	spin_lock(&vb->recover_page_list_lock);
-+	balloon_page_push(&vb->corrupted_page_list, page);
-+	spin_unlock(&vb->recover_page_list_lock);
-+
-+	out_vbr->vbr.cmd = VIRTIO_BALLOON_R_CMD_RECOVER;
-+	set_page_pfns(vb, out_vbr->pfns, page);
-+	sg_init_one(&sg, out_vbr, sizeof(*out_vbr));
-+
-+	spin_lock_irqsave(&vb->recover_vq_lock, flags);
-+	err = virtqueue_add_outbuf(vb->recover_vq, &sg, 1, out_vbr, GFP_KERNEL);
-+	if (unlikely(err)) {
-+		spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
-+		return NOTIFY_DONE;
-+	}
-+	virtqueue_kick(vb->recover_vq);
-+	spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static int recover_vq_get_response(struct virtio_balloon *vb)
-+{
-+	struct __virtio_balloon_recover *in_vbr;
-+	struct scatterlist sg;
-+	unsigned long flags;
-+	int err;
-+
-+	spin_lock_irqsave(&vb->recover_vq_lock, flags);
-+	in_vbr = &vb->in_vbr;
-+	memset(in_vbr, 0x00, sizeof(*in_vbr));
-+	sg_init_one(&sg, in_vbr, sizeof(*in_vbr));
-+	err = virtqueue_add_inbuf(vb->recover_vq, &sg, 1, in_vbr, GFP_KERNEL);
-+	if (unlikely(err)) {
-+		spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
-+		return err;
-+	}
-+
-+	virtqueue_kick(vb->recover_vq);
-+	spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
-+
-+	return 0;
-+}
-+
-+static void recover_vq_handle_response(struct virtio_balloon *vb, unsigned int len)
-+{
-+	struct __virtio_balloon_recover *in_vbr;
-+	struct virtio_balloon_recover *vbr;
-+	struct page *page;
-+	unsigned int pfns;
-+	u32 pfn0, pfn1;
-+	__u8 status;
-+
-+	/* the response is not expected */
-+	if (unlikely(len != sizeof(struct __virtio_balloon_recover)))
-+		return;
-+
-+	in_vbr = &vb->in_vbr;
-+	vbr = &in_vbr->vbr;
-+	if (unlikely(vbr->cmd != VIRTIO_BALLOON_R_CMD_RESPONSE))
-+		return;
-+
-+	/* to make sure the contiguous balloon PFNs */
-+	for (pfns = 1; pfns < VIRTIO_BALLOON_PAGES_PER_PAGE; pfns++) {
-+		pfn0 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[pfns - 1]);
-+		pfn1 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[pfns]);
-+		if (pfn1 - pfn0 != 1)
-+			return;
-+	}
-+
-+	pfn0 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[0]);
-+	if (!pfn_valid(pfn0))
-+		return;
-+
-+	pfn1 = -1;
-+	spin_lock(&vb->recover_page_list_lock);
-+	list_for_each_entry(page, &vb->corrupted_page_list, lru) {
-+		pfn1 = page_to_pfn(page);
-+		if (pfn1 == pfn0)
-+			break;
-+	}
-+	spin_unlock(&vb->recover_page_list_lock);
-+
-+	status = vbr->status;
-+	switch (status) {
-+	case VIRTIO_BALLOON_R_STATUS_RECOVERED:
-+		if (pfn1 == pfn0) {
-+			spin_lock(&vb->recover_page_list_lock);
-+			list_del(&page->lru);
-+			balloon_page_push(&vb->recovered_page_list, page);
-+			spin_unlock(&vb->recover_page_list_lock);
-+			queue_work(system_freezable_wq, &vb->unpoison_memory_work);
-+			dev_info_ratelimited(&vb->vdev->dev, "recovered pfn 0x%x", pfn0);
-+		}
-+		break;
-+	case VIRTIO_BALLOON_R_STATUS_FAILED:
-+		/* the hypervisor can't fix this corrupted page, balloon puts page */
-+		if (pfn1 == pfn0) {
-+			spin_lock(&vb->recover_page_list_lock);
-+			list_del(&page->lru);
-+			spin_unlock(&vb->recover_page_list_lock);
-+			put_page(page);
-+			dev_info_ratelimited(&vb->vdev->dev, "failed to recover pfn 0x%x", pfn0);
-+		}
-+	default:
-+		break;
-+	};
-+
-+	/* continue to get response from host side if the response gets handled successfully */
-+	recover_vq_get_response(vb);
-+}
-+
-+static void unpoison_memory_func(struct work_struct *work)
-+{
-+	struct virtio_balloon *vb;
-+	struct page *page;
-+
-+	vb = container_of(work, struct virtio_balloon, unpoison_memory_work);
-+
-+	do {
-+		spin_lock(&vb->recover_page_list_lock);
-+		page = list_first_entry_or_null(&vb->recovered_page_list,
-+						struct page, lru);
-+		if (page)
-+			list_del(&page->lru);
-+		spin_unlock(&vb->recover_page_list_lock);
-+
-+		if (page) {
-+			put_page(page);
-+			unpoison_memory(page_to_pfn(page), true, "virtio-balloon");
-+		}
-+	} while (page);
-+}
-+
-+static void recover_vq_cb(struct virtqueue *vq)
-+{
-+	struct virtio_balloon *vb = vq->vdev->priv;
-+	struct __virtio_balloon_recover *vbr;
-+	unsigned long flags;
-+	unsigned int len;
-+
-+	spin_lock_irqsave(&vb->recover_vq_lock, flags);
-+	do {
-+		virtqueue_disable_cb(vq);
-+		while ((vbr = virtqueue_get_buf(vq, &len)) != NULL) {
-+			spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
-+			if (vbr == &vb->in_vbr)
-+				recover_vq_handle_response(vb, len);
-+			else
-+				kfree(vbr); /* just free the memory for out vbr request */
-+			spin_lock_irqsave(&vb->recover_vq_lock, flags);
-+		}
-+	} while (!virtqueue_enable_cb(vq));
-+	spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
-+}
-+
- static int init_vqs(struct virtio_balloon *vb)
- {
- 	struct virtqueue *vqs[VIRTIO_BALLOON_VQ_MAX];
-@@ -515,6 +724,7 @@ static int init_vqs(struct virtio_balloon *vb)
- 	callbacks[VIRTIO_BALLOON_VQ_FREE_PAGE] = NULL;
- 	names[VIRTIO_BALLOON_VQ_FREE_PAGE] = NULL;
- 	names[VIRTIO_BALLOON_VQ_REPORTING] = NULL;
-+	names[VIRTIO_BALLOON_VQ_RECOVER] = NULL;
- 
- 	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_STATS_VQ)) {
- 		names[VIRTIO_BALLOON_VQ_STATS] = "stats";
-@@ -531,6 +741,11 @@ static int init_vqs(struct virtio_balloon *vb)
- 		callbacks[VIRTIO_BALLOON_VQ_REPORTING] = balloon_ack;
- 	}
- 
-+	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_RECOVER)) {
-+		names[VIRTIO_BALLOON_VQ_RECOVER] = "recover_vq";
-+		callbacks[VIRTIO_BALLOON_VQ_RECOVER] = recover_vq_cb;
-+	}
-+
- 	err = virtio_find_vqs(vb->vdev, VIRTIO_BALLOON_VQ_MAX, vqs,
- 			      callbacks, names, NULL);
- 	if (err)
-@@ -566,6 +781,9 @@ static int init_vqs(struct virtio_balloon *vb)
- 	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_REPORTING))
- 		vb->reporting_vq = vqs[VIRTIO_BALLOON_VQ_REPORTING];
- 
-+	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_RECOVER))
-+		vb->recover_vq = vqs[VIRTIO_BALLOON_VQ_RECOVER];
-+
- 	return 0;
- }
- 
-@@ -1015,12 +1233,31 @@ static int virtballoon_probe(struct virtio_device *vdev)
- 			goto out_unregister_oom;
- 	}
- 
-+	if (virtio_has_feature(vdev, VIRTIO_BALLOON_F_RECOVER)) {
-+		err = recover_vq_get_response(vb);
-+		if (err)
-+			goto out_unregister_reporting;
-+
-+		vb->memory_failure_nb.notifier_call = virtballoon_memory_failure;
-+		spin_lock_init(&vb->recover_page_list_lock);
-+		spin_lock_init(&vb->recover_vq_lock);
-+		INIT_LIST_HEAD(&vb->corrupted_page_list);
-+		INIT_LIST_HEAD(&vb->recovered_page_list);
-+		INIT_WORK(&vb->unpoison_memory_work, unpoison_memory_func);
-+		err = register_memory_failure_notifier(&vb->memory_failure_nb);
-+		if (err)
-+			goto out_unregister_reporting;
-+	}
-+
- 	virtio_device_ready(vdev);
- 
- 	if (towards_target(vb))
- 		virtballoon_changed(vdev);
- 	return 0;
- 
-+out_unregister_reporting:
-+	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_REPORTING))
-+		page_reporting_unregister(&vb->pr_dev_info);
- out_unregister_oom:
- 	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
- 		unregister_oom_notifier(&vb->oom_nb);
-@@ -1082,6 +1319,11 @@ static void virtballoon_remove(struct virtio_device *vdev)
- 		destroy_workqueue(vb->balloon_wq);
- 	}
- 
-+	if (virtio_has_feature(vdev, VIRTIO_BALLOON_F_RECOVER)) {
-+		unregister_memory_failure_notifier(&vb->memory_failure_nb);
-+		cancel_work_sync(&vb->unpoison_memory_work);
-+	}
-+
- 	remove_common(vb);
- #ifdef CONFIG_BALLOON_COMPACTION
- 	if (vb->vb_dev_info.inode)
-@@ -1147,6 +1389,7 @@ static unsigned int features[] = {
- 	VIRTIO_BALLOON_F_FREE_PAGE_HINT,
- 	VIRTIO_BALLOON_F_PAGE_POISON,
- 	VIRTIO_BALLOON_F_REPORTING,
-+	VIRTIO_BALLOON_F_RECOVER,
- };
- 
- static struct virtio_driver virtio_balloon_driver = {
-diff --git a/include/uapi/linux/virtio_balloon.h b/include/uapi/linux/virtio_balloon.h
-index ddaa45e723c4..41d0ffa2fb54 100644
---- a/include/uapi/linux/virtio_balloon.h
-+++ b/include/uapi/linux/virtio_balloon.h
-@@ -37,6 +37,7 @@
- #define VIRTIO_BALLOON_F_FREE_PAGE_HINT	3 /* VQ to report free pages */
- #define VIRTIO_BALLOON_F_PAGE_POISON	4 /* Guest is using page poisoning */
- #define VIRTIO_BALLOON_F_REPORTING	5 /* Page reporting virtqueue */
-+#define VIRTIO_BALLOON_F_RECOVER	6 /* Memory recover virtqueue */
- 
- /* Size of a PFN in the balloon interface. */
- #define VIRTIO_BALLOON_PFN_SHIFT 12
-@@ -59,6 +60,8 @@ struct virtio_balloon_config {
- 	};
- 	/* Stores PAGE_POISON if page poisoning is in use */
- 	__le32 poison_val;
-+	/* Number of hardware corrupted pages, guest read only */
-+	__le32 corrupted_pages;
- };
- 
- #define VIRTIO_BALLOON_S_SWAP_IN  0   /* Amount of memory swapped in */
-@@ -116,4 +119,17 @@ struct virtio_balloon_stat {
- 	__virtio64 val;
- } __attribute__((packed));
- 
-+#define VIRTIO_BALLOON_R_CMD_RECOVER      0
-+#define VIRTIO_BALLOON_R_CMD_RESPONSE     0x80
-+
-+#define VIRTIO_BALLOON_R_STATUS_CORRUPTED 0
-+#define VIRTIO_BALLOON_R_STATUS_RECOVERED 1
-+#define VIRTIO_BALLOON_R_STATUS_FAILED    2
-+
-+struct virtio_balloon_recover {
-+	__u8 cmd;
-+	__u8 status;
-+	__u8 padding[6];
-+};
-+
- #endif /* _LINUX_VIRTIO_BALLOON_H */
--- 
-2.20.1
+
+Thanks,
+
+C.
+
+
+> ---
+>   include/hw/net/liteeth.h |  56 ++++++++
+>   hw/net/liteeth.c         | 299 +++++++++++++++++++++++++++++++++++++++
+>   hw/net/Kconfig           |   3 +
+>   hw/net/meson.build       |   1 +
+>   hw/net/trace-events      |   6 +
+>   5 files changed, 365 insertions(+)
+>   create mode 100644 include/hw/net/liteeth.h
+>   create mode 100644 hw/net/liteeth.c
+> 
+> diff --git a/include/hw/net/liteeth.h b/include/hw/net/liteeth.h
+> new file mode 100644
+> index 000000000000..8abdfd46bc8e
+> --- /dev/null
+> +++ b/include/hw/net/liteeth.h
+> @@ -0,0 +1,56 @@
+> +/*
+> + * LiteX Liteeth Ethernet controller
+> + *
+> + * Copyright (c) 2021, IBM Corporation.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef LITEETH_H
+> +#define LITEETH_H
+> +
+> +#include "net/net.h"
+> +#include "hw/sysbus.h"
+> +
+> +struct LiteEthState {
+> +    SysBusDevice parent;
+> +
+> +    MemoryRegion mmio;
+> +    MemoryRegion mmio_buf_container;
+> +    MemoryRegion mmio_buf;
+> +    AddressSpace mmio_buf_as;
+> +
+> +    qemu_irq irq;
+> +    NICState *nic;
+> +    NICConf conf;
+> +
+> +    /*
+> +     * Hardware configuration
+> +     *
+> +     * n slots, slot_size bytes each.
+> +     *
+> +     *  -----   <- rx_base
+> +     * |  1  |
+> +     * |  2  |
+> +     * |  .  |
+> +     * |  n  |
+> +     * |-----|  <- tx_base
+> +     * |  1  |
+> +     * |  2  |
+> +     * |  .  |
+> +     * |  n  |
+> +     *  -----
+> +     */
+> +    uint32_t rx_current;
+> +
+> +    uint32_t tx_slots;
+> +    uint32_t rx_slots;
+> +    uint32_t slot_size;
+> +
+> +    uint32_t regs[0x100 / 4];
+> +};
+> +
+> +#define TYPE_LITEETH "liteeth"
+> +OBJECT_DECLARE_SIMPLE_TYPE(LiteEthState, LITEETH)
+> +
+> +#endif
+> diff --git a/hw/net/liteeth.c b/hw/net/liteeth.c
+> new file mode 100644
+> index 000000000000..daea8a165337
+> --- /dev/null
+> +++ b/hw/net/liteeth.c
+> @@ -0,0 +1,299 @@
+> +/*
+> + * LiteX Liteeth Ethernet controller
+> + *
+> + * Copyright (c) 2021, IBM Corporation.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/net/liteeth.h"
+> +#include "net/eth.h"
+> +#include "qemu/log.h"
+> +#include "qemu/units.h"
+> +#include "sysemu/dma.h"
+> +#include "trace.h"
+> +
+> +#define LITEETH_WRITER_SLOT       (0x00 / 4)
+> +#define LITEETH_WRITER_LENGTH     (0x04 / 4)
+> +#define LITEETH_WRITER_ERRORS     (0x08 / 4) /* backend FIFO errors */
+> +#define LITEETH_WRITER_EV_STATUS  (0x0C / 4) /* raw IRQ level bits */
+> +#define LITEETH_WRITER_EV_PENDING (0x10 / 4) /* to read and clear level */
+> +#define LITEETH_WRITER_EV_ENABLE  (0x14 / 4)
+> +#define LITEETH_READER_START      (0x18 / 4)
+> +#define LITEETH_READER_READY      (0x1C / 4)
+> +#define LITEETH_READER_LEVEL      (0x20 / 4)
+> +#define LITEETH_READER_SLOT       (0x24 / 4)
+> +#define LITEETH_READER_LENGTH     (0x28 / 4)
+> +#define LITEETH_READER_EV_STATUS  (0x2C / 4) /* raw IRQ level bits */
+> +#define LITEETH_READER_EV_PENDING (0x30 / 4)
+> +#define LITEETH_READER_EV_ENABLE  (0x34 / 4)
+> +#define LITEETH_PREAMBLE_CRC      (0x38 / 4) /* ??? */
+> +#define LITEETH_PREAMBLE_ERRORS   (0x3C / 4) /* ??? */
+> +#define LITEETH_CRC_ERRORS        (0x40 / 4) /* ??? */
+> +
+> +#define LITEETH_SLOT_SIZE         (2 * KiB)
+> +
+> +static void liteeth_update_irq(LiteEthState *s)
+> +{
+> +    bool level = s->regs[LITEETH_READER_EV_PENDING] ||
+> +        s->regs[LITEETH_WRITER_EV_PENDING];
+> +
+> +    qemu_set_irq(s->irq, level);
+> +}
+> +
+> +static hwaddr liteeth_rx_addr(LiteEthState *s)
+> +{
+> +    return s->rx_current * LITEETH_SLOT_SIZE;
+> +}
+> +
+> +static hwaddr liteeth_tx_addr(LiteEthState *s)
+> +{
+> +    hwaddr tx_offset = s->rx_slots * LITEETH_SLOT_SIZE;
+> +    uint8_t slot = s->regs[LITEETH_READER_SLOT];
+> +
+> +    return tx_offset + slot * LITEETH_SLOT_SIZE;
+> +}
+> +
+> +static void liteeth_xmit(LiteEthState *s)
+> +{
+> +    uint8_t buf[LITEETH_SLOT_SIZE];
+> +    uint16_t len = s->regs[LITEETH_READER_LENGTH];
+> +    hwaddr addr = liteeth_tx_addr(s);
+> +    MemTxResult result;
+> +
+> +    trace_liteeth_xmit(len, s->regs[LITEETH_READER_SLOT]);
+> +
+> +    assert(len <= LITEETH_SLOT_SIZE);
+> +
+> +    result = address_space_read(&s->mmio_buf_as, addr, MEMTXATTRS_UNSPECIFIED,
+> +                                buf, len);
+> +    if (result != MEMTX_OK) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: failed to read packet @0x%"HWADDR_PRIx "\n",
+> +                      __func__, addr);
+> +        /* TODO: report TX errors ? */
+> +        return;
+> +    }
+> +
+> +    qemu_send_packet(qemu_get_queue(s->nic), buf, len);
+> +
+> +    if (s->regs[LITEETH_READER_EV_ENABLE]) {
+> +        s->regs[LITEETH_READER_EV_PENDING] = 1;
+> +    }
+> +}
+> +
+> +static bool liteeth_can_receive(NetClientState *nc)
+> +{
+> +    LiteEthState *s = LITEETH(qemu_get_nic_opaque(nc));
+> +    return s->regs[LITEETH_WRITER_EV_ENABLE];
+> +}
+> +
+> +static ssize_t liteeth_receive(NetClientState *nc, const uint8_t *buf,
+> +                               size_t len)
+> +{
+> +    LiteEthState *s = LITEETH(qemu_get_nic_opaque(nc));
+> +    hwaddr addr = liteeth_rx_addr(s);
+> +    MemTxResult result;
+> +
+> +    trace_liteeth_receive(len, s->rx_current);
+> +
+> +    if (len > LITEETH_SLOT_SIZE) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too big : %zd bytes\n",
+> +                      __func__, len);
+> +        len = LITEETH_SLOT_SIZE;
+> +    }
+> +
+> +    /* Copy data into memory */
+> +    result = address_space_write(&s->mmio_buf_as, addr, MEMTXATTRS_UNSPECIFIED,
+> +                                 buf, len);
+> +    if (result != MEMTX_OK) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: failed to write packet @0x%"HWADDR_PRIx "\n",
+> +                      __func__, addr);
+> +        return -1;
+> +    }
+> +
+> +    /* Update registers */
+> +    s->regs[LITEETH_WRITER_SLOT] = s->rx_current;
+> +    s->regs[LITEETH_WRITER_LENGTH] = len;
+> +
+> +    if (s->regs[LITEETH_WRITER_EV_ENABLE]) {
+> +        s->regs[LITEETH_WRITER_EV_PENDING] = 1;
+> +    }
+> +
+> +    s->rx_current = (s->rx_current + 1) % s->rx_slots;
+> +
+> +    liteeth_update_irq(s);
+> +    return len;
+> +}
+> +
+> +static void liteeth_reset(DeviceState *dev)
+> +{
+> +    LiteEthState *s = LITEETH(dev);
+> +
+> +    memset(s->regs, 0, sizeof(s->regs));
+> +    s->regs[LITEETH_READER_READY] = 1;
+> +
+> +    s->rx_current = 0;
+> +    qemu_set_irq(s->irq, 0);
+> +}
+> +
+> +static uint64_t liteeth_read(void *opaque, hwaddr addr, unsigned width)
+> +{
+> +    LiteEthState *s = LITEETH(opaque);
+> +    uint32_t reg = addr >> 2;
+> +    uint64_t val = s->regs[reg];
+> +
+> +    trace_liteeth_read(addr, val);
+> +
+> +    return val;
+> +}
+> +
+> +static void liteeth_write(void *opaque, hwaddr addr, uint64_t val,
+> +                         unsigned width)
+> +{
+> +    LiteEthState *s = LITEETH(opaque);
+> +    uint32_t reg = addr >> 2;
+> +
+> +    trace_liteeth_write(addr, val);
+> +
+> +    switch (reg) {
+> +    case LITEETH_READER_START:
+> +        if (s->regs[LITEETH_READER_EV_ENABLE]) {
+> +            s->regs[LITEETH_READER_READY] = 0;
+> +            liteeth_xmit(s);
+> +            s->regs[LITEETH_READER_READY] = 1;
+> +        }
+> +        if (liteeth_can_receive(qemu_get_queue(s->nic))) {
+> +            qemu_flush_queued_packets(qemu_get_queue(s->nic));
+> +        }
+> +        break;
+> +
+> +    case LITEETH_READER_EV_PENDING:
+> +    case LITEETH_WRITER_EV_PENDING:
+> +        s->regs[reg] = 0;
+> +        break;
+> +
+> +    case LITEETH_READER_LENGTH:
+> +        if (val > LITEETH_SLOT_SIZE) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "%s: frame too big : %"PRIx64" bytes\n",
+> +                          __func__, val);
+> +            val = LITEETH_SLOT_SIZE;
+> +        }
+> +        s->regs[reg] = val;
+> +        break;
+> +    case LITEETH_READER_SLOT:
+> +        s->regs[reg] = val % s->tx_slots;
+> +        break;
+> +
+> +    case LITEETH_READER_READY:
+> +    case LITEETH_WRITER_LENGTH:
+> +    case LITEETH_WRITER_SLOT:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid write @%"HWADDR_PRIx"\n",
+> +                      __func__, addr);
+> +        break;
+> +
+> +    default:
+> +        s->regs[reg] = val;
+> +    }
+> +
+> +    liteeth_update_irq(s);
+> +}
+> +
+> +static const MemoryRegionOps liteeth_ops = {
+> +    .read = liteeth_read,
+> +    .write = liteeth_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 4,
+> +    },
+> +};
+> +
+> +static void liteeth_cleanup(NetClientState *nc)
+> +{
+> +    LiteEthState *s = LITEETH(qemu_get_nic_opaque(nc));
+> +
+> +    s->nic = NULL;
+> +}
+> +
+> +struct NetClientInfo net_liteeth_info = {
+> +    .type = NET_CLIENT_DRIVER_NIC,
+> +    .size = sizeof(NICState),
+> +    .can_receive = liteeth_can_receive,
+> +    .receive = liteeth_receive,
+> +    .cleanup = liteeth_cleanup,
+> +};
+> +
+> +static void liteeth_realize(DeviceState *dev, Error **errp)
+> +{
+> +    LiteEthState *s = LITEETH(dev);
+> +    Error *err = NULL;
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +    uint64_t membuf_size = (s->tx_slots + s->rx_slots) * LITEETH_SLOT_SIZE;
+> +
+> +    sysbus_init_irq(sbd, &s->irq);
+> +
+> +    /* MAC registers */
+> +    memory_region_init_io(&s->mmio, OBJECT(s), &liteeth_ops, s,
+> +                          TYPE_LITEETH "-regs", 0x44);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
+> +
+> +    /* Packet buffers */
+> +    memory_region_init(&s->mmio_buf_container, OBJECT(s),
+> +                       TYPE_LITEETH "-buf-container", membuf_size);
+> +    sysbus_init_mmio(sbd, &s->mmio_buf_container);
+> +
+> +    memory_region_init_ram(&s->mmio_buf, OBJECT(s), TYPE_LITEETH "-buf",
+> +                           membuf_size, &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +    memory_region_add_subregion(&s->mmio_buf_container, 0x0, &s->mmio_buf);
+> +
+> +    address_space_init(&s->mmio_buf_as, &s->mmio_buf, TYPE_LITEETH "-buf");
+> +
+> +
+> +    qemu_macaddr_default_if_unset(&s->conf.macaddr);
+> +    s->nic = qemu_new_nic(&net_liteeth_info, &s->conf,
+> +                          object_get_typename(OBJECT(dev)), dev->id, s);
+> +    qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
+> +}
+> +
+> +static Property liteeth_properties[] = {
+> +    DEFINE_PROP_UINT32("tx-slots", struct LiteEthState, tx_slots, 2),
+> +    DEFINE_PROP_UINT32("rx-slots", struct LiteEthState, rx_slots, 2),
+> +    DEFINE_NIC_PROPERTIES(struct LiteEthState, conf),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void liteeth_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->desc    = "LiteX Ethernet";
+> +    dc->realize = liteeth_realize;
+> +    dc->reset = liteeth_reset;
+> +    device_class_set_props(dc, liteeth_properties);
+> +    set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
+> +}
+> +
+> +static const TypeInfo liteeth_info = {
+> +    .name = TYPE_LITEETH,
+> +    .parent = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(struct LiteEthState),
+> +    .class_init = liteeth_class_init,
+> +};
+> +
+> +static void liteeth_register_types(void)
+> +{
+> +    type_register_static(&liteeth_info);
+> +}
+> +
+> +type_init(liteeth_register_types);
+> diff --git a/hw/net/Kconfig b/hw/net/Kconfig
+> index 6d795ec75256..e2c0f43f96b6 100644
+> --- a/hw/net/Kconfig
+> +++ b/hw/net/Kconfig
+> @@ -61,6 +61,9 @@ config LAN9118
+>       bool
+>       select PTIMER
+>   
+> +config LITEETH
+> +    bool
+> +
+>   config NE2000_ISA
+>       bool
+>       default y
+> diff --git a/hw/net/meson.build b/hw/net/meson.build
+> index ebac26154261..c8197685c603 100644
+> --- a/hw/net/meson.build
+> +++ b/hw/net/meson.build
+> @@ -33,6 +33,7 @@ softmmu_ss.add(when: 'CONFIG_STELLARIS_ENET', if_true: files('stellaris_enet.c')
+>   softmmu_ss.add(when: 'CONFIG_LANCE', if_true: files('lance.c'))
+>   softmmu_ss.add(when: 'CONFIG_LASI_I82596', if_true: files('lasi_i82596.c'))
+>   softmmu_ss.add(when: 'CONFIG_I82596_COMMON', if_true: files('i82596.c'))
+> +softmmu_ss.add(when: 'CONFIG_LITEETH', if_true: files('liteeth.c'))
+>   softmmu_ss.add(when: 'CONFIG_SUNHME', if_true: files('sunhme.c'))
+>   softmmu_ss.add(when: 'CONFIG_FTGMAC100', if_true: files('ftgmac100.c'))
+>   softmmu_ss.add(when: 'CONFIG_SUNGEM', if_true: files('sungem.c'))
+> diff --git a/hw/net/trace-events b/hw/net/trace-events
+> index 4c0ec3fda167..30400401359b 100644
+> --- a/hw/net/trace-events
+> +++ b/hw/net/trace-events
+> @@ -19,6 +19,12 @@ mdio_bitbang(bool mdc, bool mdio, int state, uint16_t cnt, unsigned int drive) "
+>   lance_mem_readw(uint64_t addr, uint32_t ret) "addr=0x%"PRIx64"val=0x%04x"
+>   lance_mem_writew(uint64_t addr, uint32_t val) "addr=0x%"PRIx64"val=0x%04x"
+>   
+> +# liteeth.c
+> +liteeth_read(uint64_t addr, uint64_t data)  "@0x%" PRIx64 " value=0x%"PRIx64
+> +liteeth_write(uint64_t addr, uint64_t data) "@0x%" PRIx64 " value=0x%"PRIx64
+> +liteeth_xmit(uint16_t len, uint8_t slot) "len=%d slot=%d"
+> +liteeth_receive(uint16_t len, uint8_t slot) "len=%d slot=%d"
+> +
+>   # mipsnet.c
+>   mipsnet_send(uint32_t size) "sending len=%u"
+>   mipsnet_receive(uint32_t size) "receiving len=%u"
 
 
