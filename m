@@ -2,86 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401BB52F3DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 21:41:16 +0200 (CEST)
-Received: from localhost ([::1]:40300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130ED52F41E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 21:59:00 +0200 (CEST)
+Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns8Us-0001b9-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 15:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54604)
+	id 1ns8m2-00089L-Ue
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 15:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anders@apitman.com>)
- id 1ns8Sd-0000mD-5x
- for qemu-devel@nongnu.org; Fri, 20 May 2022 15:38:59 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:36627)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anders@apitman.com>)
- id 1ns8Sb-0001T3-6L
- for qemu-devel@nongnu.org; Fri, 20 May 2022 15:38:54 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 42D685C029C
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 15:38:50 -0400 (EDT)
-Received: from imap46 ([10.202.2.96])
- by compute4.internal (MEProxy); Fri, 20 May 2022 15:38:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apitman.com; h=
- cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1653075530; x=1653161930; bh=pd4ukk+POnURbqiOhWiYbfecBzEZUw1oXGG
- UkoqCqPU=; b=fPPKkzCMgjNXW4lfT6jIvb9nvwW5alcEGqp/PkOAxcyNyae1TFg
- G5ywuvTDT36eBIXeae1/709djcRoQDyxYVZU21xDeMDLH9RkM14JaZLHIwmzuqaj
- xwB31lf2TMkjFTxd03EcsUHb3NEeSQmv0dOpiKD7JyVmFTvjVuwL6+R+64SczJw5
- oGIRsvKLD3fnm0+J9hKzOPNGOO+V3cwp3LlbBrBHBvIPFqLdVPHa78VGWjE17bNY
- Pio7zC8S3j/+BtpB5+4aaqDDCEF7PisKdpTiBNYfPdIwvNqm+t5oAsfkuyklIKEk
- 3oSUn68Q6MqHJcQRYQekXSU/HUCAXlLzP3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653075530; x=
- 1653161930; bh=pd4ukk+POnURbqiOhWiYbfecBzEZUw1oXGGUkoqCqPU=; b=Z
- PydAsdBeOm9FJXbWum4iks7BIeTKZB1Sorc1I9B99XXYKymE13rA52sOdbApt2cl
- JRQF7T1EOvAIlgM7hBgN1QRTfrJYiSdLZycCm0nm0c/21nFs14LHHhnV7JHMOay5
- EWmORJm7lvhQ82V5VTeK9n523snBtpjqyunPuJfyMCpPCzp23k0oUGD6/3hLrhV7
- s1hSozVUKUijg7bAojEnQ+MjcQYJlC4fezyocDtFk+eXb9njYvNlMAjsiBn5ZQYf
- OjYHSpYVfIzHYiIoBIpjQe53v+Y8Wx6Awizd2w3Y786XJKtFBex0U/XBPZRQoYNL
- SGvqRXxeN0lHCpH4CHXPw==
-X-ME-Sender: <xms:Se6HYvR7HkFjUAO0I8scuVNIATblGq3aUNssZEXVe9REQUKxTJMPrw>
- <xme:Se6HYgwbPkLkC7wZH3C2XD8h21ainlcQxY_nFOjjIhcvLOcNcl35IGSVSqdI426vv
- rwJl-EEDs10Dz5aOlU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrieefgddufeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfffhffvufgtsegrtderre
- erredtnecuhfhrohhmpedftehnuggvrhhsucfrihhtmhgrnhdfuceorghnuggvrhhssegr
- phhithhmrghnrdgtohhmqeenucggtffrrghtthgvrhhnpefgudfhuddufffgudefleelie
- ffjefgvedtkeefhefhheffhfeikefgvddtgfeiffenucffohhmrghinhepqhgvmhhurdho
- rhhgpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
- epmhgrihhlfhhrohhmpegrnhguvghrshesrghpihhtmhgrnhdrtghomh
-X-ME-Proxy: <xmx:Se6HYk2kLk_Dm4bTNV5659bKCWY5dSxhjf8T-PkpQxrt-bbQJ1bAlg>
- <xmx:Se6HYvCOWCBMQJu7DHPUM5i2QWZxLz1LYdhhOBSq7Bz9SFoeh_BXQg>
- <xmx:Se6HYohApHcrHNFAM5NR_s7yMwNd5sZOk3MfoyY1o5VoZvSHV7ixaw>
- <xmx:Su6HYjvxflb0n-BS7dcqzC2W3k4qzlag4R-30L-4lHWB4xfWOMUGaw>
-Feedback-ID: i90714442:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C3F792A20069; Fri, 20 May 2022 15:38:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
-Mime-Version: 1.0
-Message-Id: <bd656b69-73b5-4091-9509-dbb76dbbb124@www.fastmail.com>
-Date: Fri, 20 May 2022 13:38:29 -0600
-From: "Anders Pitman" <anders@apitman.com>
-To: qemu-devel@nongnu.org
-Subject: Sharing directories from Windows hosts
-Content-Type: multipart/alternative; boundary=61141eae99a142028b71763d5daeaf29
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=anders@apitman.com;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ns8hv-00054c-Rq; Fri, 20 May 2022 15:54:44 -0400
+Received: from [187.72.171.209] (port=9134 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ns8hu-0003kf-0T; Fri, 20 May 2022 15:54:43 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 20 May 2022 16:54:21 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 3B4C68000A0;
+ Fri, 20 May 2022 16:54:21 -0300 (-03)
+From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+To: qemu-ppc@nongnu.org
+Cc: richard.henderson@linaro.org,
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH v5 0/8] VSX MMA Implementation
+Date: Fri, 20 May 2022 16:54:11 -0300
+Message-Id: <20220520195419.109177-1-lucas.araujo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 20 May 2022 19:54:21.0488 (UTC)
+ FILETIME=[65FACB00:01D86C83]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,42 +62,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---61141eae99a142028b71763d5daeaf29
-Content-Type: text/plain
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-I'm running QEMU on a Windows host with multiple Linux guest VMs. I'm trying to share a host directory with all the guests.
+Based-on: <20220517161522.36132-1-victor.colombo@eldorado.org.br>
 
-As I understand it, the way to do this with Linux hosts would be to configure a 9p share[0]. However, it appears that 9p support for Windows hosts is currently a work in progress[1].
+This patch series is a patch series of the Matrix-Multiply Assist (MMA)
+instructions implementation from the PowerISA 3.1
 
-Is there another common option known to work for Windows? I would guess something like running a users-space NFS server might work, but before I went down that rabbit hole I wanted to see if there's something built into QEMU that would be better.
+These and the VDIV/VMOD implementation are the last new PowerISA 3.1
+instructions left to be implemented.
 
-Bonus question: once 9p support is implemented, would that be expected to have better performance than something like NFS over a QEMU slirp network? I need to use slirp because I don't have admin privileges on the host.
+The XVFGER instructions accumulate the exception status and at the end
+set the FPSCR and take a Program interrupt on a trap-enabled exception,
+previous versions were based on Victor's rework of FPU exceptions, but
+as that patch was rejected this version worked around the fact that
+OX/UX/XX and invalid instructions were handled in different functions
+by disabling all enable bits then re-enabling them and calling the mtfsf
+deferred exception helper.
 
-[0]: https://wiki.qemu.org/Documentation/9psetup
+v5 changes:
+    - Changed VSXGER16 accumulation to negate the multiplication and
+      accumulation in independent if's (if necessary) and sum their
+      values.
 
-[1]: https://lore.kernel.org/qemu-devel/20220425142705.2099270-1-bmeng.cn@gmail.com/
---61141eae99a142028b71763d5daeaf29
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
+v4 changes:
+    - Changed VSXGER16 accumulation to always use float32_sum and negate
+      the elements according to the type of accumulation
 
-<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
-Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>I'm running QEM=
-U on a Windows host with multiple Linux guest VMs. I'm trying to share a=
- host directory with all the guests.<br></div><div><br></div><div>As I u=
-nderstand it, the way to do this with Linux hosts would be to configure =
-a 9p share[0]. However, it appears that 9p support for Windows hosts is =
-currently a work in progress[1].<br></div><div><br></div><div>Is there a=
-nother common option known to work for Windows? I would guess something =
-like running a users-space NFS server might work, but before I went down=
- that rabbit hole I wanted to see if there's something built into QEMU t=
-hat would be better.<br></div><div><br></div><div>Bonus question: once 9=
-p support is implemented, would that be expected to have better performa=
-nce than something like NFS over a QEMU slirp network? I need to use sli=
-rp because I don't have admin privileges on the host.<br></div><div><br>=
-</div><div>[0]: <a href=3D"https://wiki.qemu.org/Documentation/9psetup">=
-https://wiki.qemu.org/Documentation/9psetup</a><br></div><div><br></div>=
-<div>[1]: <a href=3D"https://lore.kernel.org/qemu-devel/20220425142705.2=
-099270-1-bmeng.cn@gmail.com/">https://lore.kernel.org/qemu-devel/2022042=
-5142705.2099270-1-bmeng.cn@gmail.com/</a></div></body></html>
---61141eae99a142028b71763d5daeaf29--
+v3 changes:
+    - GER helpers now use ppc_acc_t instead of ppc_vsr_t for passing acc
+    - Removed do_ger_XX3 and updated the decodetree to pass the masks in
+      32 bits instructions
+    - Removed unnecessary rounding mode function
+    - Moved float32_neg to fpu_helper.c and renamed it bfp32_negate to
+      make it clearer that it's a 32 bit version of the PowerISA
+      bfp_NEGATE
+    - Negated accumulation now a subtraction
+    - Changed exception handling by disabling all enable FPSCR enable
+      bits to set all FPSCR bits (except FEX) correctly, then re-enable
+      them and call do_fpscr_check_status to raise the exception
+      accordingly and set FEX if necessary
+
+v2 changes:
+    - Changed VSXGER, VSXGER16 and XVIGER macros to functions
+    - Set rounding mode in floating-point instructions based on RN
+      before operations
+    - Separated accumulate and with saturation instructions in
+      different helpers
+    - Used FIELD, FIELD_EX32 and FIELD_DP32 for packing/unpacking masks
+
+
+Joel Stanley (1):
+  linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
+
+Lucas Mateus Castro (alqotel) (7):
+  target/ppc: Implement xxm[tf]acc and xxsetaccz
+  target/ppc: Implemented xvi*ger* instructions
+  target/ppc: Implemented pmxvi*ger* instructions
+  target/ppc: Implemented xvf*ger*
+  target/ppc: Implemented xvf16ger*
+  target/ppc: Implemented pmxvf*ger*
+  target/ppc: Implemented [pm]xvbf16ger2*
+
+ linux-user/elfload.c                |   4 +
+ target/ppc/cpu.h                    |  13 ++
+ target/ppc/fpu_helper.c             | 324 +++++++++++++++++++++++++++-
+ target/ppc/helper.h                 |  33 +++
+ target/ppc/insn32.decode            |  52 +++++
+ target/ppc/insn64.decode            |  79 +++++++
+ target/ppc/int_helper.c             | 130 +++++++++++
+ target/ppc/internal.h               |  15 ++
+ target/ppc/translate/vsx-impl.c.inc | 130 +++++++++++
+ 9 files changed, 778 insertions(+), 2 deletions(-)
+
+-- 
+2.31.1
+
 
