@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C3D52E4EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 08:24:40 +0200 (CEST)
-Received: from localhost ([::1]:50472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9572E52E640
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 09:28:28 +0200 (CEST)
+Received: from localhost ([::1]:47390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrw3y-0007Fh-Ts
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 02:24:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
+	id 1nrx3j-0002sJ-Lp
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 03:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrw25-0006Uz-8i
- for qemu-devel@nongnu.org; Fri, 20 May 2022 02:22:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35555)
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1nrwna-0001hh-Nt
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 03:11:46 -0400
+Received: from mga05.intel.com ([192.55.52.43]:8077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nrw1w-0003xt-NY
- for qemu-devel@nongnu.org; Fri, 20 May 2022 02:22:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653027750;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lcjbrIIdYLuV5YPsgNRAEPKakdoVSz5FWX+E7Subbw8=;
- b=Xv5sWipfFpirTZlEUEZ7fqcXGM2VXe+vuR+UPUlgvLWE+HE2BBboiKyPXY2pAcmF3CPs5K
- P0/xS1z326efqg/z04KIOnaIvGDx9PdNqmibjgiD2hv33iQ+yXdsya55Iisx5WJ1z37MBs
- lehrvcqUSsSJAj56vXMpRw0MhI7syes=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-Qf2dF9RSMdmdeVv9vAFpEQ-1; Fri, 20 May 2022 02:22:29 -0400
-X-MC-Unique: Qf2dF9RSMdmdeVv9vAFpEQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- n9-20020aa7d049000000b0042aab725949so5002850edo.23
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 23:22:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lcjbrIIdYLuV5YPsgNRAEPKakdoVSz5FWX+E7Subbw8=;
- b=FJMJs/IX1SdyRpHStCb6acBWLYHFTBM4Hrm+tZuJgVE1Y00kIpe6p9q+/TGR4JCwH9
- y5m+numCbiAIaLEO0iyErFTzbPzrwjoY4rNzwXrpyp7mbVwcChcLdjR3GfnkLOF5ANOl
- xL2Zwm+N9wu586o2wOiPTI5wg7LJ0gNkUWtqhwHuUqHPpX+L3zwJbYLOj3mHeTflZklw
- Nvy/sT8alkW0vUxCo8HDK/cgsEpe2zihrYq3IwfDCS/nH8rwzG4JXQTZJwT3k/MMkhi7
- YkFRtJ616G2dsL+kI+0HdUZQr7Sx1LkKN5+vHBmg/g3FlBA+yCbHRnjIdwfuvN95W7QV
- Dw4w==
-X-Gm-Message-State: AOAM530PTK+7F1O6pxG6Wvgi9+l7nV5W01pAMCZiIqeQCdjtYJQc5ieJ
- SY4aeRf/37IQDmlEh7Z+HDvNMXDDcdhm1klGmrBqPJXIssMRbZ6JHw+h7NwI7D7UZpp2HJD1NPO
- fLfcE8BweQ7o1pB0=
-X-Received: by 2002:a05:6402:3705:b0:42a:ba63:18b7 with SMTP id
- ek5-20020a056402370500b0042aba6318b7mr9120305edb.296.1653027747903; 
- Thu, 19 May 2022 23:22:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyiS1PaIOuTomsLFEi6nWsWSIDr2Qb4DSB46NAokqBjL3WJzErCdiNFDkSP0McBb+RCMCXaAQ==
-X-Received: by 2002:a05:6402:3705:b0:42a:ba63:18b7 with SMTP id
- ek5-20020a056402370500b0042aba6318b7mr9120283edb.296.1653027747668; 
- Thu, 19 May 2022 23:22:27 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
- [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- jx7-20020a170907760700b006fe978983f1sm1567670ejc.47.2022.05.19.23.22.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 23:22:26 -0700 (PDT)
-Message-ID: <ffc1a4f6-5ef5-291e-c7aa-b392d4beffe6@redhat.com>
-Date: Fri, 20 May 2022 08:22:25 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PULL 0/8] Misc patches (Gitlab-CI, qtest, Capstone, ...)
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220518090438.158475-1-thuth@redhat.com>
- <c3fdc5fa-9bb1-dfb8-d763-1a0946f15aa5@linaro.org>
- <47c757d4-5576-cb24-6f90-027892a30720@redhat.com>
- <CAFEAcA9JjSy2BE5FHaGY+JVRX7QHQnA43i=sRndtADfBE1yWuw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAFEAcA9JjSy2BE5FHaGY+JVRX7QHQnA43i=sRndtADfBE1yWuw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1nrwnY-0002pv-CH
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 03:11:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653030704; x=1684566704;
+ h=from:to:cc:subject:date:message-id;
+ bh=uf7bQKdvNgjIJ75NdNzkRfUPgeKm6dafbA5aTQIT7TA=;
+ b=K5Pks6gxoQlWLTjuj0OZiYRZ5XK6uXTVBRV3d2Na+1QT6P0zAyyNkrkv
+ PMQm9onMd7ISCValCmLIlxFFwxAL2bs76ZFRQbfWnConj7fqZ5TXr24Q9
+ 6vEZef0FSFX4cL0sX0Gr7dob9WhCQn+u4L/CBJ7zkIWMFv/SY/xy80Pt8
+ bvJy6PP12aC1ab3np8OjH6osgj7yOvOtSJi8PnjhIrbQnELfx+s1nyQut
+ GrJd6aCcBQRHKwtRQX3fNKh/BcDpMGFGaST/os7+wKUf8c/rf0q5IyFFd
+ ey/976ef4YKUDFSy8oPLlV6Urf8sjWl18ZUccPzKroO1SOOh+QmpZdOBe Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="358923642"
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="358923642"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2022 00:11:35 -0700
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="599062888"
+Received: from arthur-vostro-3668.sh.intel.com ([10.239.13.120])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2022 00:11:32 -0700
+From: Zeng Guang <guang.zeng@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org, Gao Chao <chao.gao@intel.com>,
+ Zeng Guang <guang.zeng@intel.com>
+Subject: [QEMU PATCH] x86: Set maximum APIC ID to KVM prior to vCPU creation
+Date: Fri, 20 May 2022 14:39:28 +0800
+Message-Id: <20220520063928.23645-1-guang.zeng@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=guang.zeng@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,52 +76,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/2022 13.55, Peter Maydell wrote:
-> On Thu, 19 May 2022 at 07:32, Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 18/05/2022 18.12, Richard Henderson wrote:
->>> On 5/18/22 02:04, Thomas Huth wrote:
->>>>    Hi Richard!
->>>>
->>>> The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
->>>>
->>>>     Merge tag 'for_upstream' of
->>>> git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16
->>>> 16:31:01 -0700)
->>>>
->>>> are available in the Git repository at:
->>>>
->>>>     https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-18
->>>>
->>>> for you to fetch changes up to 83602083b4ada6ceb86bfb327e83556ebab120fc:
->>>>
->>>>     capstone: Remove the capstone submodule (2022-05-18 08:54:22 +0200)
->>>>
->>>> ----------------------------------------------------------------
->>>> * Remove Ubuntu 18.04 containers (not supported anymore)
->>>> * Improve the cleanup of the QEMU binary in case of failing qtests
->>>> * Update the Windows support statement
->>>> * Remove the capstone submodule (and rely on Capstone of the distros instead)
->>>
->>> Fails centos-stream-8-x86_64 test,
->>>
->>> Run-time dependency capstone found: NO (tried pkgconfig)
->>> ../meson.build:2539:2: ERROR: Dependency "capstone" not found, tried pkgconfig
->>>
->>> https://gitlab.com/qemu-project/qemu/-/jobs/2473935684
->>
->> That's a custom runner ... who has access to that one? Cleber? Stefan? I
->> didn't spot an entry for it on https://wiki.qemu.org/AdminContacts ...
-> 
-> The 'Runner' string on the web page says:
-> "(Managed by Red Hat - willianr/clebergnu)"
+Specify maximum possible APIC ID assigned for current VM session prior to
+the creation of vCPUs. KVM need set up VM-scoped data structure indexed by
+the APIC ID, e.g. Posted-Interrupt Descriptor table to support Intel IPI
+virtualization.
 
-Willian left, Cleber seems to be currently away from keyboard ... but I 
-found someone who has access, so capstone-devel should hopefully be there now.
+It can be achieved by calling KVM_ENABLE_CAP for KVM_CAP_MAX_VCPU_ID
+capability once KVM has already enabled it. Otherwise, simply prompts
+that KVM doesn't support this capability yet.
 
-Richard, could you please re-try to merge the pull request?
+Signed-off-by: Zeng Guang <guang.zeng@intel.com>
+---
+ hw/i386/x86.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-  Thanks,
-   Thomas
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 4cf107baea..ff74492325 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -106,7 +106,7 @@ out:
+ 
+ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+ {
+-    int i;
++    int i, ret;
+     const CPUArchIdList *possible_cpus;
+     MachineState *ms = MACHINE(x86ms);
+     MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+@@ -123,6 +123,13 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+      */
+     x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
+                                                       ms->smp.max_cpus - 1) + 1;
++
++    ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_MAX_VCPU_ID,
++                            0, x86ms->apic_id_limit);
++    if (ret < 0) {
++        error_report("kvm: Set max vcpu id not supported: %s", strerror(-ret));
++    }
++
+     possible_cpus = mc->possible_cpu_arch_ids(ms);
+     for (i = 0; i < ms->smp.cpus; i++) {
+         x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
+-- 
+2.27.0
 
 
