@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E01E52E073
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 01:19:31 +0200 (CEST)
-Received: from localhost ([::1]:40992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696BA52E100
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 02:10:25 +0200 (CEST)
+Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrpQY-0003Nj-0r
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 19:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57204)
+	id 1nrqDo-0006AJ-2R
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 20:10:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nrpPU-0002Rv-EV
- for qemu-devel@nongnu.org; Thu, 19 May 2022 19:18:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56104)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nrpPR-0006ES-0h
- for qemu-devel@nongnu.org; Thu, 19 May 2022 19:18:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653002300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bxMTEvQmUmsLQf4mRLb8KbfhCAE39bQ22z9GQylg4E4=;
- b=SbOaK1y0DcJczV0TisySVsxd6GK7r8BaP3p/wsyUFcQ/HWRT8xTECxBCBwzHXTlH3Jr1oJ
- vG0k8qplz1iuxMQQfuzL9K/GbjdG4kth5wDKH+BjUGu9UyQyTYG1VCDaXcG4LM1YPmhsW4
- OEGaqGeEn9vab9L+laz6Q/QmtbFZizs=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-fibRXu_oPJesA00Nxq66Wg-1; Thu, 19 May 2022 19:18:17 -0400
-X-MC-Unique: fibRXu_oPJesA00Nxq66Wg-1
-Received: by mail-vs1-f72.google.com with SMTP id
- g20-20020a67e214000000b0032cdb80e1ffso1008856vsa.17
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 16:18:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nrq7u-0004Fr-AO; Thu, 19 May 2022 20:04:22 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nrq7s-0003rI-AW; Thu, 19 May 2022 20:04:17 -0400
+Received: by mail-pg1-x529.google.com with SMTP id a19so6368659pgw.6;
+ Thu, 19 May 2022 17:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=ofSJm7/RTl5ayLudeGZ4EitIR0SoejW9KYF8QkDFdrg=;
+ b=PpFTPHGZBMtCsbdbS2S85CRYCvyWteVNxAhuiaGwfS6MaBlNJVVRcz0ffhvgnpsKz8
+ r6Un6woxBWYZuWNnPh3mw8UNL384Hx9G2lkSZdteefC8ZAp4RkUrtO2AbfxtN6Md5RoV
+ G2AooNeWe4SGG0ctphJFXPKh1SyeAwJrinVinqwWAXORAlwDXkjS9CO1nCgixy3ZGmnF
+ oSCaGMtbFqpQXRuq1KgBGQ+cBno+HL/NMaszaDmpb62i/AqOkvWPBfmMZUazpldtE79l
+ 5HprfCRt03Hodw9fwefTYuQqk+/y5OF+3iom0FiIR8xtFngc1URxXbAc+OcS/xxY6A+l
+ 6ybw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bxMTEvQmUmsLQf4mRLb8KbfhCAE39bQ22z9GQylg4E4=;
- b=I4byDGxLBIhuPzIeL6/Si5gktb85tf6BCrKlCOlrbq/nDvxPUm2Dja3GWrN9YLQC30
- iJgU/lGVFyQJAad5p7eNCHRo5sCKI2xt8olo9fToOkGAZ6QvQtE1Dk7+QSBqsbEsRLia
- LwUJKNgUrQJZQ98HVe/xp8BZvHZ0JZYWgyfVGMGZFNw3WErcZmW0U82QxNlPtxf3y6vP
- SvhH3pnfa1ZYisIgdlmVRkPBFWc/NXmLClEifhFM1gRkjAtgP8CTeI9PhJ37cq1G6OsQ
- hypMXI8xdo+a1S2BxFMv+QPccehsL60OKasC4EhnjOnU1Oovn4ZKVpsjqUR6nzp2rPfM
- +4dg==
-X-Gm-Message-State: AOAM530PD6wfeluCkQX+jOSpTxh5kOSflLW7qNrOODLqpNFUfyTohBL+
- W9N724knVvfevy9dc+BbON8BCHcdiy0AGzuPQxCpEN4wxcgc4lyUnQQc+8CkdZMNt6MFeLclrBG
- 7gslsndg+w61zb0tV/M4isijMNpIIS2k=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr3334405vsa.38.1653002296429; 
- Thu, 19 May 2022 16:18:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUBtTTFMACdU9Pb6pyF4MSra9CJi1qDff41w/iA1PDyeeu+NQ313BxdIPteJrv+DLJqywLcPndlQEBLyeVMBg=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr3334395vsa.38.1653002296240; Thu, 19 May
- 2022 16:18:16 -0700 (PDT)
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=ofSJm7/RTl5ayLudeGZ4EitIR0SoejW9KYF8QkDFdrg=;
+ b=hmyLM5vj9EnMPxgGkfhMj5Ud38E3oBlRcNcPZMK1gPjFIuuwJYUtJaLisMhID7axOO
+ fIWuaf1FsJQs/xvGkZ5Thcz4rfMa3IdDp9VRkRfPj7JGiFWVspiRKA4AS/D83pUPN/j4
+ Cb9ZnSCAcrpwHf3dTkooPoeKhIDJbprUKICxY+fLVBdrZksnsLD33nE94yMck1gSIL7S
+ gV/4GbDNmEYYCkzGDn1ZlKcDl/FrlnrJAe7fxbCQMxnf6qESGahOHOKKsCUi94MTAYcH
+ ytQDsN0HapKn4oVzQwII+DBSaTYpUNOxJUAk50S0C66ksLTeNVeBeGtk29pavwIX9Esd
+ x5KQ==
+X-Gm-Message-State: AOAM5309fCndPIP79ldRLn3lHwpU1bj//gmAd8eUc6vq0bf7DgvVe2U/
+ MJ0VkhMNBtF6mQjluHsfsX5ssyDhYBo=
+X-Google-Smtp-Source: ABdhPJw64yidW16u1ogy8oRE8RO2fDTpIoVQ8YpjkC6pPK89TB3zglQMWOTt7bfbt/yOd8IORvhDWg==
+X-Received: by 2002:a63:f204:0:b0:3c6:a549:567c with SMTP id
+ v4-20020a63f204000000b003c6a549567cmr5959150pgh.618.1653005051075; 
+ Thu, 19 May 2022 17:04:11 -0700 (PDT)
+Received: from localhost ([118.208.131.68]) by smtp.gmail.com with ESMTPSA id
+ r19-20020a63ce53000000b003c6a80e54cfsm4139491pgi.75.2022.05.19.17.04.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 17:04:10 -0700 (PDT)
+Date: Fri, 20 May 2022 10:04:04 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH] util: optimise flush_idcache_range when the ppc host has
+ coherent icache
+To: qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20220519141131.29839-1-npiggin@gmail.com>
+ <e9d693db-f195-4bb1-c883-0805d910fe61@linaro.org>
+In-Reply-To: <e9d693db-f195-4bb1-c883-0805d910fe61@linaro.org>
 MIME-Version: 1.0
-References: <20220516165321.872394-1-danielhb413@gmail.com>
- <20220516165321.872394-3-danielhb413@gmail.com>
-In-Reply-To: <20220516165321.872394-3-danielhb413@gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 19 May 2022 19:18:06 -0400
-Message-ID: <CAFn=p-bn3PrUiX4ZCyBa8_BPd8Nfgo2u4fs3+M2Z42y8O2vdkQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] machine.py: add default pseries params in machine.py
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, 
- clg@kaod.org, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ae457b05df65962e"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Message-Id: <1653004360.c5nktxvrgu.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=npiggin@gmail.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,241 +87,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ae457b05df65962e
-Content-Type: text/plain; charset="UTF-8"
+Excerpts from Richard Henderson's message of May 20, 2022 4:31 am:
+> On 5/19/22 07:11, Nicholas Piggin wrote:
+>> dcache writeback and icache invalidate is not required when icache is
+>> coherent, a shorter fixed-length sequence can be used which just has to
+>> flush and re-fetch instructions that were in-flight.
+>>=20
+>> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+>> ---
+>>=20
+>> I haven't been able to measure a significant performance difference
+>> with this, qemu isn't flushing large ranges frequently so the old sequen=
+ce
+>> is not that slow.
+>=20
+> Yeah, we should be flushing smallish regions (< 1-4k), as we generate Tra=
+nslationBlocks.=20
+> And hopefully the translation cache is large enough that we spend more ti=
+me executing=20
+> blocks than re-compiling them.  ;-)
+>=20
+>=20
+>> +++ b/include/qemu/cacheflush.h
+>> @@ -28,6 +28,10 @@ static inline void flush_idcache_range(uintptr_t rx, =
+uintptr_t rw, size_t len)
+>>  =20
+>>   #else
+>>  =20
+>> +#if defined(__powerpc__)
+>> +extern bool have_coherent_icache;
+>> +#endif
+>=20
+> Ug.  I'm undecided where to put this.  I'm tempted to say...
+>=20
+>> --- a/util/cacheflush.c
+>> +++ b/util/cacheflush.c
+>> @@ -108,7 +108,16 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw=
+, size_t len)
+>=20
+> ... here in cacheflush.c, with a comment that the variable is defined and=
+ initialized in=20
+> cacheinfo.c.
+>=20
+> I'm even more tempted to merge the two files to put all of the machine-sp=
+ecific cache data=20
+> in the same place, then this variable can be static.  There's even an exi=
+sting TODO=20
+> comment in cacheflush.c for aarch64.
 
-On Mon, May 16, 2022, 12:53 PM Daniel Henrique Barboza <
-danielhb413@gmail.com> wrote:
+That might be nice. Do you want me to look at doing that first?
 
-> pSeries guests set a handful of machine capabilities on by default, all
-> of them related to security mitigations, that aren't always available in
-> the host.
->
-> This means that, as is today, running avocado in a Power9 server without
-> the proper firmware support, and with --disable-tcg, this error will
-> occur:
->
->  (1/1) tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd: ERROR:
-> ConnectError:
-> Failed to establish session: EOFError\n  Exit code: 1\n  (...)
-> (...)
->         Command: ./qemu-system-ppc64 -display none -vga none (...)
->         Output: qemu-system-ppc64: warning: netdev vnet has no peer
-> qemu-system-ppc64: Requested safe cache capability level not supported by
-> KVM
-> Try appending -machine cap-cfpc=broken
->
-> info_usernet.py happens to trigger this error first, but all tests would
-> fail in this configuration because the host does not support the default
-> 'cap-cfpc' capability.
->
-> A similar situation was already fixed a couple of years ago by Greg Kurz
-> (commit 63d57c8f91d0) but it was focused on TCG warnings for these same
-> capabilities and running C qtests. This commit ended up preventing the
-> problem we're facing with avocado when running qtests with KVM support.
->
-> This patch does a similar approach by amending machine.py to disable
-> these security capabilities in case we're running a pseries guest. The
-> change is made in the _launch() callback to be sure that we're already
-> commited into launching the guest. It's also worth noticing that we're
-> relying on self._machine being set accordingly (i.e. via tag:machine),
-> which is currently the case for all ppc64 related avocado tests.
->
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  python/qemu/machine/machine.py | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/python/qemu/machine/machine.py
-> b/python/qemu/machine/machine.py
-> index 07ac5a710b..12e5e37bff 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -51,6 +51,11 @@
->
->
->  LOG = logging.getLogger(__name__)
-> +PSERIES_DEFAULT_CAPABILITIES = ("cap-cfpc=broken,"
-> +                                "cap-sbbc=broken,"
-> +                                "cap-ibs=broken,"
-> +                                "cap-ccf-assist=off,"
-> +                                "cap-fwnmi=off")
->
->
->  class QEMUMachineError(Exception):
-> @@ -447,6 +452,14 @@ def _launch(self) -> None:
->          """
->          Launch the VM and establish a QMP connection
->          """
-> +
-> +        # pseries needs extra machine options to disable Spectre/Meltdown
-> +        # KVM related capabilities that might not be available in the
-> +        # host.
-> +        if "qemu-system-ppc64" in self._binary:
-> +            if self._machine is None or "pseries" in self._machine:
-> +                self._args.extend(['-machine',
-> PSERIES_DEFAULT_CAPABILITIES])
-> +
->          self._pre_launch()
->          LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
->
-> --
-> 2.32.0
->
+>>       b =3D rw & ~(dsize - 1);
+>> +
+>> +    if (have_coherent_icache) {
+>> +        asm volatile ("sync" : : : "memory");
+>> +        asm volatile ("icbi 0,%0" : : "r"(b) : "memory");
+>> +        asm volatile ("isync" : : : "memory");
+>> +        return;
+>> +    }
+>=20
+> Where can I find definitive rules on this?
 
-Hm, okay.
+In processor manuals (I don't know if there are any notes about this in=20
+the ISA, I would be tempted to say there should be since many processors
+implement it).
 
-I have plans to try and factor the machine appliance out and into an
-upstream package in the near future, so I want to avoid more hardcoding of
-defaults.
+POWER9 UM, 4.6.2.2 Instruction Cache Block Invalidate (icbi)=20
 
-Does avocado have a subclass of QEMUMachine where it might be more
-appropriate to stick this bandaid? Can we make one?
+https://ibm.ent.box.com/s/tmklq90ze7aj8f4n32er1mu3sy9u8k3k
 
-(I don't think iotests runs into this problem because we always use
-machine:none there, I think. VM tests might have a similar problem though,
-and then it'd be reasonable to want the bandaid here in machine.py ...
-well, boo. okay.)
+> Note that rx may not equal rw, and that we've got two virtual mappings fo=
+r the same=20
+> memory, one for "data" that is read-write and one for "execute" that is r=
+ead-execute.=20
+> (This split is enabled only for --enable-debug-tcg builds on linux, to ma=
+ke sure we don't=20
+> regress apple m1, which requires the split all of the time.)
+>=20
+> In particular, you're flushing one icache line with the dcache address, a=
+nd that you're=20
+> not flushing any of the other lines.  Is the coherent icache thing really=
+ that we may=20
+> simply skip the dcache flush step, but must still flush all of the icache=
+ lines?
 
-My verdict is that it's a bandaid, but I'll accept it if the avocado folks
-agree to it and I'll sort it out later when I do my rewrite.
+Yeah it's just a funny sequence the processor implements. It treats icbi=20
+almost as a no-op except that it sets a flag such that the next isync=20
+will flush and refetch the pipeline. It doesn't do any cache flushing.
 
-I don't think I have access to a power9 machine to test this with either,
-so I might want a tested-by from someone who does.
+> Without docs, "icache snoop" to me would imply that we only need the two =
+barriers and no=20
+> flushes at all, just to make sure all memory writes complete before any n=
+ew instructions=20
+> are executed.  This would be like the two AArch64 bits, IDC and DIC, whic=
+h indicate that=20
+> the two caches are coherent to Point of Unification, which leaves us with=
+ just the=20
+> Instruction Sequence Barrier at the end of the function.
+>=20
+>=20
+>> +bool have_coherent_icache =3D false;
+>=20
+> scripts/checkpatch.pl should complain this is initialized to 0.
+>=20
+>=20
+>>   static void arch_cache_info(int *isize, int *dsize)
+>>   {
+>> +#  ifdef PPC_FEATURE_ICACHE_SNOOP
+>> +    unsigned long hwcap =3D qemu_getauxval(AT_HWCAP);
+>> +#  endif
+>> +
+>>       if (*isize =3D=3D 0) {
+>>           *isize =3D qemu_getauxval(AT_ICACHEBSIZE);
+>>       }
+>>       if (*dsize =3D=3D 0) {
+>>           *dsize =3D qemu_getauxval(AT_DCACHEBSIZE);
+>>       }
+>> +
+>> +#  ifdef PPC_FEATURE_ICACHE_SNOOP
+>> +    have_coherent_icache =3D (hwcap & PPC_FEATURE_ICACHE_SNOOP) !=3D 0;
+>> +#  endif
+>=20
+> Better with only one ifdef, moving this second hunk up.
 
---js
+Will clean those bits up, thanks.
 
->
+> It would be nice if there were some kernel documentation for this...
 
---000000000000ae457b05df65962e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+arm64 has kernel docs for hwcaps... powerpc probably should as well.
+Good point, I might do a patch for that.
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, May 16, 2022, 12:53 PM Daniel Henrique Barboza=
- &lt;<a href=3D"mailto:danielhb413@gmail.com" target=3D"_blank" rel=3D"nore=
-ferrer">danielhb413@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">pSeries guests set a handful of machine capabilities on by defaul=
-t, all<br>
-of them related to security mitigations, that aren&#39;t always available i=
-n<br>
-the host.<br>
-<br>
-This means that, as is today, running avocado in a Power9 server without<br=
->
-the proper firmware support, and with --disable-tcg, this error will<br>
-occur:<br>
-<br>
-=C2=A0(1/1) tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd: ERROR: =
-ConnectError:<br>
-Failed to establish session: EOFError\n=C2=A0 Exit code: 1\n=C2=A0 (...)<br=
->
-(...)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Command: ./qemu-system-ppc64 -display none -vga=
- none (...)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Output: qemu-system-ppc64: warning: netdev vnet=
- has no peer<br>
-qemu-system-ppc64: Requested safe cache capability level not supported by K=
-VM<br>
-Try appending -machine cap-cfpc=3Dbroken<br>
-<br>
-info_usernet.py happens to trigger this error first, but all tests would<br=
->
-fail in this configuration because the host does not support the default<br=
->
-&#39;cap-cfpc&#39; capability.<br>
-<br>
-A similar situation was already fixed a couple of years ago by Greg Kurz<br=
->
-(commit 63d57c8f91d0) but it was focused on TCG warnings for these same<br>
-capabilities and running C qtests. This commit ended up preventing the<br>
-problem we&#39;re facing with avocado when running qtests with KVM support.=
-<br>
-<br>
-This patch does a similar approach by amending machine.py to disable<br>
-these security capabilities in case we&#39;re running a pseries guest. The<=
-br>
-change is made in the _launch() callback to be sure that we&#39;re already<=
-br>
-commited into launching the guest. It&#39;s also worth noticing that we&#39=
-;re<br>
-relying on self._machine being set accordingly (i.e. via tag:machine),<br>
-which is currently the case for all ppc64 related avocado tests.<br>
-<br>
-Signed-off-by: Daniel Henrique Barboza &lt;<a href=3D"mailto:danielhb413@gm=
-ail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">danielhb413@gmail.=
-com</a>&gt;<br>
----<br>
-=C2=A0python/qemu/machine/machine.py | 13 +++++++++++++<br>
-=C2=A01 file changed, 13 insertions(+)<br>
-<br>
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.p=
-y<br>
-index 07ac5a710b..12e5e37bff 100644<br>
---- a/python/qemu/machine/machine.py<br>
-+++ b/python/qemu/machine/machine.py<br>
-@@ -51,6 +51,11 @@<br>
-<br>
-<br>
-=C2=A0LOG =3D logging.getLogger(__name__)<br>
-+PSERIES_DEFAULT_CAPABILITIES =3D (&quot;cap-cfpc=3Dbroken,&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-sbbc=3Dbroken,&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-ibs=3Dbroken,&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-ccf-assist=3Doff,&quot;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cap-fwnmi=3Doff&quot;)<br>
-<br>
-<br>
-=C2=A0class QEMUMachineError(Exception):<br>
-@@ -447,6 +452,14 @@ def _launch(self) -&gt; None:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Launch the VM and establish a QMP connect=
-ion<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # pseries needs extra machine options to disab=
-le Spectre/Meltdown<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # KVM related capabilities that might not be a=
-vailable in the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # host.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;qemu-system-ppc64&quot; in self._bina=
-ry:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self._machine is None or &quo=
-t;pseries&quot; in self._machine:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._args.extend(=
-[&#39;-machine&#39;, PSERIES_DEFAULT_CAPABILITIES])<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._pre_launch()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0LOG.debug(&#39;VM launch command: %r&#39;=
-, &#39; &#39;.join(self._qemu_full_args))<br>
-<br>
--- <br>
-2.32.0<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">Hm, okay.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">I =
-have plans to try and factor the machine appliance out and into an upstream=
- package in the near future, so I want to avoid more hardcoding of defaults=
-.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Does avocado have a su=
-bclass of QEMUMachine where it might be more appropriate to stick this band=
-aid? Can we make one?</div><div dir=3D"auto"><br></div><div dir=3D"auto">(I=
- don&#39;t think iotests runs into this problem because we always use machi=
-ne:none there, I think. VM tests might have a similar problem though, and t=
-hen it&#39;d be reasonable to want the bandaid here in machine.py ... well,=
- boo. okay.)</div><div dir=3D"auto"><br></div><div dir=3D"auto">My verdict =
-is that it&#39;s a bandaid, but I&#39;ll accept it if the avocado folks agr=
-ee to it and I&#39;ll sort it out later when I do my rewrite.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">I don&#39;t think I have access to a =
-power9 machine to test this with either, so I might want a tested-by from s=
-omeone who does.</div><div dir=3D"auto"><br></div><div dir=3D"auto">--js</d=
-iv><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">
-</blockquote></div></div></div>
-
---000000000000ae457b05df65962e--
-
+Thanks,
+Nick
 
