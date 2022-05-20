@@ -2,45 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB20652F2FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:35:14 +0200 (CEST)
-Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CC552F36E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:52:45 +0200 (CEST)
+Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns7So-0005a2-UC
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44444)
+	id 1ns7jw-0000o8-Bf
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1ns7R9-0004O4-Fk
- for qemu-devel@nongnu.org; Fri, 20 May 2022 14:33:19 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:46096)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1ns7R7-0000pg-Ka
- for qemu-devel@nongnu.org; Fri, 20 May 2022 14:33:19 -0400
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1ns7Qs-0008MU-2p; Fri, 20 May 2022 20:33:02 +0200
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
-Cc: kvm@vger.kernel.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/i386/kvm: Fix disabling MPX on "-cpu host" with
- MPX-capable host
-Date: Fri, 20 May 2022 20:32:56 +0200
-Message-Id: <be14c1e895a2f452047451f050d269217dcee6d9.1653071510.git.maciej.szmigiero@oracle.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ns7iU-0008Sb-LC
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 14:51:14 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:47044)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ns7iS-0003hh-N4
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 14:51:14 -0400
+Received: by mail-pl1-x633.google.com with SMTP id w3so1443073plp.13
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 11:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=tr3xl0rCiYgQXSFd1VPGsG9CD17YIe/PxaCpmjeUE+A=;
+ b=mu7Q0wG5+8a6jQqhiwz56ueHFPzWanlS4Xd/ca8guVbe7tGSPtG3x4hTjFwibawJE0
+ lGgAc6Olf/pIu2t7dqJsQN71b+HnxREptpGq3QIcrOCEiWXfrGxbqZf/ISCPPhhcOnkK
+ BpyxDHbJkFiX34mBsYLrpEJ5/J4KJeoJuDku01irW8IMJF7zQP/I3RrqkKvTp2BFtvDd
+ toXRgjbX0tEDAgUa5EWK0kyzf9EBw1mTlxWXgyOak4Dun0YtTztvmJ9kYuyEch+BP2EU
+ wMNGSdaibbWD2d3JoOgixL5atGkBWxideYjvqS6Pb6MTheZ+eWz1bcSBnN/RKqmKg+TF
+ vRcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tr3xl0rCiYgQXSFd1VPGsG9CD17YIe/PxaCpmjeUE+A=;
+ b=6V2xKNibY+5RSQ8c5aW0A+NvE3KQY0LyWdywmfA3SvhVbjgjluh7UC+3dBqHQtuRO/
+ weJVrmftwD1FbkO/XjZxQmpc5BJ07WivkWnH+45yLuX0by1COl5qePFOH5bVWbOcMS5w
+ LFn1WAPxaOeU+Euj3dNqMMO7nNwVYYevwxl1OYdkADEnF5Mnnb/GCswYgDTItjVHStyZ
+ HN+IdJix0hTPCTK6kd2nnT8yuWbSvXUpdZ8yQe5LUGFn0aWqAfi/lP5TGuz7/nA4KSLo
+ Dcj8M6H7RwN22XLQ36zrvOXfXXCggLVW84bvpDCyN6L08vvYEmtDr2sp3LRWWZ8vKRAg
+ kVDg==
+X-Gm-Message-State: AOAM531Fuut14VJpdIjQsNvPOyZp/gIDwxL4HToYVOPkrRrHYkNpvqK9
+ Bcxl0gN5PYGDjwwzIs0J9cnrdg==
+X-Google-Smtp-Source: ABdhPJwBKNdP9YjaI207CnUaBYoaSzbwmgC+dWmZx02yMacXipw4FsvFkm8VOwmRUcSgOKk+BxDE4A==
+X-Received: by 2002:a17:90a:6487:b0:1df:7e0f:c93e with SMTP id
+ h7-20020a17090a648700b001df7e0fc93emr12892684pjj.77.1653072671004; 
+ Fri, 20 May 2022 11:51:11 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ cp25-20020a056a00349900b0050dc76281c0sm2056197pfb.154.2022.05.20.11.51.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 May 2022 11:51:10 -0700 (PDT)
+Message-ID: <f7b77aaa-66be-fea9-a785-da16e97e6621@linaro.org>
+Date: Fri, 20 May 2022 11:51:08 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 0/8] Misc patches (Gitlab-CI, qtest, Capstone, ...)
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220518090438.158475-1-thuth@redhat.com>
+ <c3fdc5fa-9bb1-dfb8-d763-1a0946f15aa5@linaro.org>
+ <47c757d4-5576-cb24-6f90-027892a30720@redhat.com>
+ <CAFEAcA9JjSy2BE5FHaGY+JVRX7QHQnA43i=sRndtADfBE1yWuw@mail.gmail.com>
+ <ffc1a4f6-5ef5-291e-c7aa-b392d4beffe6@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ffc1a4f6-5ef5-291e-c7aa-b392d4beffe6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,76 +97,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+On 5/19/22 23:22, Thomas Huth wrote:
+> On 19/05/2022 13.55, Peter Maydell wrote:
+>> On Thu, 19 May 2022 at 07:32, Thomas Huth <thuth@redhat.com> wrote:
+>>>
+>>> On 18/05/2022 18.12, Richard Henderson wrote:
+>>>> On 5/18/22 02:04, Thomas Huth wrote:
+>>>>>    Hi Richard!
+>>>>>
+>>>>> The following changes since commit eec398119fc6911d99412c37af06a6bc27871f85:
+>>>>>
+>>>>>     Merge tag 'for_upstream' of
+>>>>> git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-05-16
+>>>>> 16:31:01 -0700)
+>>>>>
+>>>>> are available in the Git repository at:
+>>>>>
+>>>>>     https://gitlab.com/thuth/qemu.git tags/pull-request-2022-05-18
+>>>>>
+>>>>> for you to fetch changes up to 83602083b4ada6ceb86bfb327e83556ebab120fc:
+>>>>>
+>>>>>     capstone: Remove the capstone submodule (2022-05-18 08:54:22 +0200)
+>>>>>
+>>>>> ----------------------------------------------------------------
+>>>>> * Remove Ubuntu 18.04 containers (not supported anymore)
+>>>>> * Improve the cleanup of the QEMU binary in case of failing qtests
+>>>>> * Update the Windows support statement
+>>>>> * Remove the capstone submodule (and rely on Capstone of the distros instead)
+>>>>
+>>>> Fails centos-stream-8-x86_64 test,
+>>>>
+>>>> Run-time dependency capstone found: NO (tried pkgconfig)
+>>>> ../meson.build:2539:2: ERROR: Dependency "capstone" not found, tried pkgconfig
+>>>>
+>>>> https://gitlab.com/qemu-project/qemu/-/jobs/2473935684
+>>>
+>>> That's a custom runner ... who has access to that one? Cleber? Stefan? I
+>>> didn't spot an entry for it on https://wiki.qemu.org/AdminContacts ...
+>>
+>> The 'Runner' string on the web page says:
+>> "(Managed by Red Hat - willianr/clebergnu)"
+> 
+> Willian left, Cleber seems to be currently away from keyboard ... but I found someone who 
+> has access, so capstone-devel should hopefully be there now.
+> 
+> Richard, could you please re-try to merge the pull request?
 
-Since KVM commit 5f76f6f5ff96 ("KVM: nVMX: Do not expose MPX VMX controls when guest MPX disabled")
-it is not possible to disable MPX on a "-cpu host" just by adding "-mpx"
-there if the host CPU does indeed support MPX.
-QEMU will fail to set MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS MSRs in this case
-and so trigger an assertion failure.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Instead, besides "-mpx" one has to explicitly add also
-"-vmx-exit-clear-bndcfgs" and "-vmx-entry-load-bndcfgs" to QEMU command
-line to make it work, which is a bit convoluted.
 
-Sanitize MPX-related bits in MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS after
-setting the vCPU CPUID instead so such workarounds are no longer necessary.
+r~
 
-Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
----
- target/i386/kvm/kvm.c | 34 ++++++++++++++++++++++++++++------
- 1 file changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a9ee8eebd7..435cb18753 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -2934,6 +2934,17 @@ static uint64_t make_vmx_msr_value(uint32_t index, uint32_t features)
-     return must_be_one | (((uint64_t)can_be_one) << 32);
- }
- 
-+static void kvm_msr_entry_add_if_supported(X86CPU *cpu, uint32_t msr,
-+                                           uint32_t mask, uint32_t features,
-+                                           uint64_t value_or)
-+{
-+    uint32_t supported =
-+        kvm_arch_get_supported_msr_feature(kvm_state, msr) >> 32;
-+    uint32_t feat_eff = features & (~mask | (mask & supported));
-+
-+    kvm_msr_entry_add(cpu, msr, make_vmx_msr_value(msr, feat_eff) | value_or);
-+}
-+
- static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
- {
-     uint64_t kvm_vmx_basic =
-@@ -2996,12 +3007,23 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
-     kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_PINBASED_CTLS,
-                       make_vmx_msr_value(MSR_IA32_VMX_TRUE_PINBASED_CTLS,
-                                          f[FEAT_VMX_PINBASED_CTLS]));
--    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_EXIT_CTLS,
--                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_EXIT_CTLS,
--                                         f[FEAT_VMX_EXIT_CTLS]) | fixed_vmx_exit);
--    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_ENTRY_CTLS,
--                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_ENTRY_CTLS,
--                                         f[FEAT_VMX_ENTRY_CTLS]));
-+
-+    /*
-+     * When disabling MPX on a host that supports this function it is not
-+     * enough to clear the relevant CPUID bit, MPX-related bits in
-+     * MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS have to be cleared, too.
-+     *
-+     * Otherwise setting these MSRs will fail.
-+     */
-+    kvm_msr_entry_add_if_supported(cpu, MSR_IA32_VMX_TRUE_EXIT_CTLS,
-+                                   VMX_VM_EXIT_CLEAR_BNDCFGS,
-+                                   f[FEAT_VMX_EXIT_CTLS],
-+                                   fixed_vmx_exit);
-+    kvm_msr_entry_add_if_supported(cpu, MSR_IA32_VMX_TRUE_ENTRY_CTLS,
-+                                   VMX_VM_ENTRY_LOAD_BNDCFGS,
-+                                   f[FEAT_VMX_ENTRY_CTLS],
-+                                   0);
-+
-     kvm_msr_entry_add(cpu, MSR_IA32_VMX_PROCBASED_CTLS2,
-                       make_vmx_msr_value(MSR_IA32_VMX_PROCBASED_CTLS2,
-                                          f[FEAT_VMX_SECONDARY_CTLS]));
 
