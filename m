@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374BA52E861
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 11:09:03 +0200 (CEST)
-Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDCF52E870
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 11:12:19 +0200 (CEST)
+Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nryd4-0001OC-BI
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 05:09:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
+	id 1nrygC-0004ln-QE
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 05:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nryUz-0004WZ-NA
- for qemu-devel@nongnu.org; Fri, 20 May 2022 05:00:41 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:39832)
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1nryXC-0005Y7-Qt
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 05:02:58 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:42831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nryUu-0003HL-2V
- for qemu-devel@nongnu.org; Fri, 20 May 2022 05:00:41 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id i187so10905201ybg.6
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 02:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1nryX6-0003Wx-Vu
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 05:02:57 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id q10so9270248oia.9
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 02:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0hhkGjR7lMnsrw+d/mq6+4NmC0RWWYlNXrMvwpsME9Q=;
- b=b6HPJozL3VdPI/z6C0ybucRlwjaFBrM+Y7C29kfJs24RIZ6jO1oSy6zGY2dNn2s3VQ
- +j5AcRapquos0h8Cbvpnfwx5OM1yj2OPFJAmksHc/4+ST7P/pEXVMhXNw0ZcV/7t0VXr
- MoKNtbGhNZbj3olHQf+vaUuPv6k8JXhsb2Ca7FJOxtJPTtJgbkM14H3wCh/oVWGtHCiQ
- UyMkMqgs4QHz8lfuuvDKiy742cRFn716EusN8xnLgry/LarWIkZ7rNAsluv1k0Ht+CQH
- sH9ZH3c3BHoq00qFrHNdqMNAdLdpYo40o6OJNi3R6HMHAoB4d6JvUyg8suAzhkixMEC+
- 5E/w==
+ :cc; bh=dfsoJeepJBeAfMLO17JXcaVRr8lEloZCGNcgQCUuG/4=;
+ b=FbTi0rmVr/wl+mYPkudHkvYMbnimZapmN7rNXzIQAeiKfh8YvEqw3bFrhyhpinI+8i
+ nOhkiky0yhBrCD4AT/+xiA8mogQn78KV0pZv4IkBZl5lq/VFCUl9u9y34YqcX7qUmxfj
+ pz0RMYuFwqzzscVrasZwdZb7wOSVRYsvqOLZRsGtgkAe+YwLRueC1Y80aE+E0dvGmZgz
+ vLjsQySKzz/C24n3OIUtwln8a05qVXU3XSIVc5yvEfxI2+pc3Ccu1nepl1wDKGSaJ0NK
+ xE/cIjLE/dUkHB1D5OQ0Itb3tb7eC5gwsC4/5Wv/a/q4uqp/1sRXAciZsoCtjz0b+mNX
+ lFpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0hhkGjR7lMnsrw+d/mq6+4NmC0RWWYlNXrMvwpsME9Q=;
- b=DlbZTVBn7GJ051QNcg5QuA6ZlY9aaeLKa4n4IacZ/AXX5rTRE3EZsfoAuDO+9mWZe2
- fkwkOhd82vBqaCoDVUnEB9BrHAa/2ZBlXanyq1XM7cwptaQxAaAtPv8Zjy8jMalizMCC
- zUBHf84Q59AqScCaUgNZ7AtBE21A++Eit78jTdqO8JeU4k6IWboQvA3a3Ej5S/tjOwhp
- uGFzI8NP3voYXccOvw4u8EP2Ge2FpN/LFZLAt+I3XARvPVKjG3OV/90r9OPH9/Mo810R
- PN76VRztaQB+n4ajVc5w/dwewkZcJ0HyarrDVaNuj8ygSjl6Hdw1NbRodo8GbwfYJk7N
- yvFQ==
-X-Gm-Message-State: AOAM533PJnsIGwOkDmlDWHKU4UwN5aeJzNU7ohFV4Utf5fJkoL464USr
- c2fGSQ1nvn9s0A6svVZsZs43AvZKB7X1hupJf+FOTJ3cOZc=
-X-Google-Smtp-Source: ABdhPJzCBtXXo36pl06tFX2f6bgzO3+JXSH+TzoZPpQZ5r5u6koXrAeaBj5j0ZrJM+Ndr4pP11eFsATTUQgwLgkAE98=
-X-Received: by 2002:a25:2e06:0:b0:64d:b6a5:261a with SMTP id
- u6-20020a252e06000000b0064db6a5261amr8080827ybu.140.1653037235031; Fri, 20
- May 2022 02:00:35 -0700 (PDT)
+ bh=dfsoJeepJBeAfMLO17JXcaVRr8lEloZCGNcgQCUuG/4=;
+ b=E578vN/MFVNe3mKI9tw/KpdPwl+e/lYuKmCYrrqH9QPF9/m16wJfTFUDu6pjR3+pCG
+ Rdb+ytm5NmeSZgFlEqFI/UDdBeEmoXfjTcZ5T3gZt41Rxhg0LczlZUtC/umix0srxj1+
+ 3As7lfVOIe94p3e2Nwn00h665i8jqSD0VJ1wvEZYr1o7ADiKQdwPZ8CE7xDrGLYWg4vm
+ iLLT551RlLEbiXVC2a5FwwOoqECnMoYBwrsSOJtkB0pYSwu3Ja+hf2NE77FsGd/Wlrc2
+ 00pdggBGI5dp2rTMAlVZnJTXyJsapqVnF4Q9tvwpURSyneTwjNjITzCDGf3RYbu24O/D
+ jMOA==
+X-Gm-Message-State: AOAM533u5Eb3nmgksFR5SyycP4qMde3UlVNiTkLqw/waxAD3BL/+yh0h
+ k98sWTTmS9V0A9ajH1leZrbx2QbchKRNU9tUGCV7DPgo
+X-Google-Smtp-Source: ABdhPJxk1PeSnWtaqBqH/2oKcYvcqW2bshoT+eQ9g/N/s5haegSMj/lHq1LDB7p9YxoBMQlfMUkeSd62CAogAiTZNmw=
+X-Received: by 2002:aca:aa54:0:b0:32a:f3f3:93ac with SMTP id
+ t81-20020acaaa54000000b0032af3f393acmr2835698oie.89.1653037371813; Fri, 20
+ May 2022 02:02:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220520083911.401134-1-itaru.kitayama@fujitsu.com>
-In-Reply-To: <20220520083911.401134-1-itaru.kitayama@fujitsu.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 May 2022 10:00:24 +0100
-Message-ID: <CAFEAcA9q-JePE-9sMvo3jeu7s8r93xHDAfP36DqU069y3Fp3-w@mail.gmail.com>
-Subject: Re: [PATCH] Add A64FX CPU support to the sbsa-ref board.
-To: Itaru Kitayama <itaru.kitayama@gmail.com>
-Cc: qemu-devel@nongnu.org, Itaru Kitayama <itaru.kitayama@fujitsu.com>, 
- Radoslaw Biernacki <rad@semihalf.com>, Leif Lindholm <leif@nuviainc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+References: <CANW9uyss4-NC3SH7xzofpMbu-cn4aDVT9Vvwjk6_JUzBwX4ioQ@mail.gmail.com>
+ <CANW9uysaP5dFbXNi-ZmvhMJ9ESzHbqrhoLqXR05c2gBhQS6Hfw@mail.gmail.com>
+ <CAFEAcA8XW0DGvysnn08m+dVVnfUADS4khV1jgXea2JgZEPzVaw@mail.gmail.com>
+In-Reply-To: <CAFEAcA8XW0DGvysnn08m+dVVnfUADS4khV1jgXea2JgZEPzVaw@mail.gmail.com>
+From: Itaru Kitayama <itaru.kitayama@gmail.com>
+Date: Fri, 20 May 2022 18:02:40 +0900
+Message-ID: <CANW9uytx_ocywwRVBLbze32-Vp1qR8FGMWx1691_ji_J8Ngfhw@mail.gmail.com>
+Subject: Re: CPUs supported by the sbsa-ref board
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000058f31905df6dc1ce"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=itaru.kitayama@gmail.com; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,45 +83,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 May 2022 at 09:46, Itaru Kitayama <itaru.kitayama@gmail.com> wrote:
+--00000000000058f31905df6dc1ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+By calling a57=E2=80=99s CPU init function inside the max=E2=80=99s, I can =
+bring up the
+sbsa-ref board with the latest kernel. I=E2=80=99ll try to patch a64=E2=80=
+=99s unit
+function with Shuichiro next week.
+
+On Fri, May 20, 2022 at 17:57 Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Mon, 16 May 2022 at 02:58, Itaru Kitayama <itaru.kitayama@gmail.com>
+> wrote:
+> >
+> > With the latest, manually built TF-A, I was able to boot a72, but not
+> > max. Since `max` type is supported by TF-A, I think it might be
+> > a Qemu issue.
 >
-> In target/arm/cpu64.c, CPU init function for A64FX is there, add this
-> CPU to the sbsa-ref board.
-
-(cc'ing the sbsa-ref maintainers)
-
-This isn't an objection, but I would like to know what the
-sbsa-ref maintainers' view is on what CPUs the board type
-is supposed to handle. Is this like the virt board, where we
-add basically any CPU type that might possibly work? Or is
-it more like a piece of 'real' hardware, where there are only
-one or two CPU types that that hardware might have shipped with,
-and the firmware/software stack might not be built to cope with
-anything more ?
-
-If we can answer the general question, then specific
-patches like this one will be easy to review.
-
-> Signed-off-by: Itaru Kitayama <itaru.kitayama@fujitsu.com>
-> ---
->  hw/arm/sbsa-ref.c | 1 +
->  1 file changed, 1 insertion(+)
+> How far did boot go? Does '-cpu max,lpa2=3Doff' work? There's a
+> bug in older Linux kernels that makes them fail to boot on
+> CPUs with the LPA2 feature.
 >
-> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> index 4bb444684f..a7d27b2e55 100644
-> --- a/hw/arm/sbsa-ref.c
-> +++ b/hw/arm/sbsa-ref.c
-> @@ -146,6 +146,7 @@ static const char * const valid_cpus[] = {
->      ARM_CPU_TYPE_NAME("cortex-a57"),
->      ARM_CPU_TYPE_NAME("cortex-a72"),
->      ARM_CPU_TYPE_NAME("cortex-a76"),
-> +    ARM_CPU_TYPE_NAME("a64fx"),
->      ARM_CPU_TYPE_NAME("neoverse-n1"),
->      ARM_CPU_TYPE_NAME("max"),
->  };
-> --
-> 2.25.1
+> -- PMM
+>
 
-thanks
--- PMM
+--00000000000058f31905df6dc1ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">By calling a57=E2=80=99s CPU init function inside the max=
+=E2=80=99s, I can bring up the sbsa-ref board with the latest kernel. I=E2=
+=80=99ll try to patch a64=E2=80=99s unit function with Shuichiro next week.=
+</div><div dir=3D"auto"><br></div><div><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, May 20, 2022 at 17:57 Peter Maydell &=
+lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, 16 May 2022 at =
+02:58, Itaru Kitayama &lt;<a href=3D"mailto:itaru.kitayama@gmail.com" targe=
+t=3D"_blank">itaru.kitayama@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; With the latest, manually built TF-A, I was able to boot a72, but not<=
+br>
+&gt; max. Since `max` type is supported by TF-A, I think it might be<br>
+&gt; a Qemu issue.<br>
+<br>
+How far did boot go? Does &#39;-cpu max,lpa2=3Doff&#39; work? There&#39;s a=
+<br>
+bug in older Linux kernels that makes them fail to boot on<br>
+CPUs with the LPA2 feature.<br>
+<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--00000000000058f31905df6dc1ce--
 
