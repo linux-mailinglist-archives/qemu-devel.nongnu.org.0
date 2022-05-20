@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361F752ED9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:56:10 +0200 (CEST)
-Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814FF52EDA8
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:59:07 +0200 (CEST)
+Received: from localhost ([::1]:57810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns36v-0000OE-1k
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:56:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
+	id 1ns39m-0006GH-Kf
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32p-0005MU-Eq; Fri, 20 May 2022 09:51:55 -0400
+ id 1ns32u-0005Vi-SX; Fri, 20 May 2022 09:52:02 -0400
 Received: from [187.72.171.209] (port=41153 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32n-0007xw-F2; Fri, 20 May 2022 09:51:55 -0400
+ id 1ns32t-0007xw-1x; Fri, 20 May 2022 09:52:00 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Fri, 20 May 2022 10:51:33 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id EB8B6800C32;
- Fri, 20 May 2022 10:51:32 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 46AB1800C32;
+ Fri, 20 May 2022 10:51:33 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-ppc@nongnu.org
 Cc: richard.henderson@linaro.org,
@@ -31,16 +31,16 @@ Cc: richard.henderson@linaro.org,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v4 5/8] target/ppc: Implemented xvf16ger*
-Date: Fri, 20 May 2022 10:51:26 -0300
-Message-Id: <20220520135129.63664-6-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v4 7/8] target/ppc: Implemented [pm]xvbf16ger2*
+Date: Fri, 20 May 2022 10:51:28 -0300
+Message-Id: <20220520135129.63664-8-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
 References: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 May 2022 13:51:33.0201 (UTC)
- FILETIME=[B711CC10:01D86C50]
+X-OriginalArrivalTime: 20 May 2022 13:51:33.0531 (UTC)
+ FILETIME=[B74426B0:01D86C50]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -68,233 +68,178 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-xvf16ger2:   VSX Vector 16-bit Floating-Point GER (rank-2 update)
-xvf16ger2nn: VSX Vector 16-bit Floating-Point GER (rank-2 update) Negative
-multiply, Negative accumulate
-xvf16ger2np: VSX Vector 16-bit Floating-Point GER (rank-2 update) Negative
-multiply, Positive accumulate
-xvf16ger2pn: VSX Vector 16-bit Floating-Point GER (rank-2 update) Positive
-multiply, Negative accumulate
-xvf16ger2pp: VSX Vector 16-bit Floating-Point GER (rank-2 update) Positive
-multiply, Positive accumulate
+xvbf16ger2:   VSX Vector bfloat16 GER (rank-2 update)
+xvbf16ger2nn: VSX Vector bfloat16 GER (rank-2 update) Negative multiply,
+Negative accumulate
+xvbf16ger2np: VSX Vector bfloat16 GER (rank-2 update) Negative multiply,
+Positive accumulate
+xvbf16ger2pn: VSX Vector bfloat16 GER (rank-2 update) Positive multiply,
+Negative accumulate
+xvbf16ger2pp: VSX Vector bfloat16 GER (rank-2 update) Positive multiply,
+Positive accumulate
+pmxvbf16ger2:   Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+pmxvbf16ger2nn: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+Negative multiply, Negative accumulate
+pmxvbf16ger2np: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+Negative multiply, Positive accumulate
+pmxvbf16ger2pn: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+Positive multiply, Negative accumulate
+pmxvbf16ger2pp: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
+Positive multiply, Positive accumulate
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-It was suggested in last version of this patch that since negate is
-being used to use it more, so this version tries to recreate the
-operation as it's described in the ISA:
- if "[pm]xvf16ger2pp" then v2 <-bfp_ADD(r1, acc)
- if "[pm]xvf16ger2pn" then v2 <-bfp_ADD(r1, bfp_NEGATE(acc))
- if "[pm]xvf16ger2np" then v2 <-bfp_ADD(bfp_NEGATE(r1), acc)
- if "[pm]xvf16ger2nn" then v2 <-bfp_ADD(bfp_NEGATE(r1), bfp_NEGATE(acc))
-A version using float32_sub instead of always add + neg was tried but in
-the case of [pm]xvf16ger2np it would be necessary to invert the operations
-so in a NaN - NaN situation the result could differ from the hardware.
-(xvbf16ger2* behaves the same way as xvf16ger2*)
----
- target/ppc/cpu.h                    |  3 +
- target/ppc/fpu_helper.c             | 93 +++++++++++++++++++++++++++++
- target/ppc/helper.h                 |  5 ++
- target/ppc/insn32.decode            |  6 ++
- target/ppc/translate/vsx-impl.c.inc |  6 ++
- 5 files changed, 113 insertions(+)
+ target/ppc/fpu_helper.c             | 40 +++++++++++++++++++++++++++++
+ target/ppc/helper.h                 |  5 ++++
+ target/ppc/insn32.decode            |  6 +++++
+ target/ppc/insn64.decode            | 11 ++++++++
+ target/ppc/translate/vsx-impl.c.inc | 12 +++++++++
+ 5 files changed, 74 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index bdedf4138e..46769a5647 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -227,6 +227,7 @@ typedef union _ppc_vsr_t {
-     int16_t s16[8];
-     int32_t s32[4];
-     int64_t s64[2];
-+    float16 f16[8];
-     float32 f32[4];
-     float64 f64[2];
-     float128 f128;
-@@ -2641,6 +2642,7 @@ static inline bool lsw_reg_in_range(int start, int nregs, int rx)
- #define VsrSW(i) s32[i]
- #define VsrD(i) u64[i]
- #define VsrSD(i) s64[i]
-+#define VsrHF(i) f16[i]
- #define VsrSF(i) f32[i]
- #define VsrDF(i) f64[i]
- #else
-@@ -2652,6 +2654,7 @@ static inline bool lsw_reg_in_range(int start, int nregs, int rx)
- #define VsrSW(i) s32[3 - (i)]
- #define VsrD(i) u64[1 - (i)]
- #define VsrSD(i) s64[1 - (i)]
-+#define VsrHF(i) f16[7 - (i)]
- #define VsrSF(i) f32[3 - (i)]
- #define VsrDF(i) f64[1 - (i)]
- #endif
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 1766da5bcf..f7da92a51a 100644
+index f7da92a51a..46e82b7b26 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -36,6 +36,15 @@ static inline float128 float128_snan_to_qnan(float128 x)
- #define float32_snan_to_qnan(x) ((x) | 0x00400000)
- #define float16_snan_to_qnan(x) ((x) | 0x0200)
- 
-+static inline float32 bfp32_neg(float32 a)
-+{
-+    if (unlikely(float32_is_any_nan(a))) {
-+        return a;
-+    } else {
-+        return float32_chs(a);
-+    }
-+}
-+
- static inline bool fp_exceptions_enabled(CPUPPCState *env)
- {
- #ifdef CONFIG_USER_ONLY
-@@ -3502,6 +3511,55 @@ static inline void vsxger_excp(CPUPPCState *env, uintptr_t retaddr)
-     do_fpscr_check_status(env, retaddr);
+@@ -3518,6 +3518,11 @@ static float64 extract_hf16(float16 in, float_status *fp_status)
+     return float16_to_float64(in, true, fp_status);
  }
  
-+typedef float64 extract_f16(float16, float_status *);
-+
-+static float64 extract_hf16(float16 in, float_status *fp_status)
++static float64 extract_bf16(bfloat16 in, float_status *fp_status)
 +{
-+    return float16_to_float64(in, true, fp_status);
++    return bfloat16_to_float64(in, fp_status);
 +}
 +
-+static void vsxger16(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                     ppc_acc_t  *at, uint32_t mask, bool acc,
-+                     bool neg_mul, bool neg_acc, extract_f16 extract)
-+{
-+    float32 r, aux_acc;
-+    float64 psum, va, vb, vc, vd;
-+    int i, j, xmsk_bit, ymsk_bit;
-+    uint8_t pmsk = FIELD_EX32(mask, GER_MSK, PMSK),
-+            xmsk = FIELD_EX32(mask, GER_MSK, XMSK),
-+            ymsk = FIELD_EX32(mask, GER_MSK, YMSK);
-+    float_status *excp_ptr = &env->fp_status;
-+    for (i = 0, xmsk_bit = 1 << 3; i < 4; i++, xmsk_bit >>= 1) {
-+        for (j = 0, ymsk_bit = 1 << 3; j < 4; j++, ymsk_bit >>= 1) {
-+            if ((xmsk_bit & xmsk) && (ymsk_bit & ymsk)) {
-+                va = !(pmsk & 2) ? float64_zero : extract(a->VsrHF(2 * i), excp_ptr);
-+                vb = !(pmsk & 2) ? float64_zero : extract(b->VsrHF(2 * j), excp_ptr);
-+                vc = !(pmsk & 1) ? float64_zero : extract(a->VsrHF(2 * i + 1), excp_ptr);
-+                vd = !(pmsk & 1) ? float64_zero : extract(b->VsrHF(2 * j + 1), excp_ptr);
-+                psum = float64_mul(va, vb, excp_ptr);
-+                psum = float64r32_muladd(vc, vd, psum, 0, excp_ptr);
-+                r = float64_to_float32(psum, excp_ptr);
-+                if (acc) {
-+                    aux_acc = at[i].VsrSF(j);
-+                    if (!neg_mul && !neg_acc) {
-+                        r = float32_add(r, aux_acc, excp_ptr);
-+                    } else if (!neg_mul) {
-+                        r = float32_add(r, bfp32_neg(aux_acc), excp_ptr);
-+                    } else if (!neg_acc) {
-+                        r = float32_add(bfp32_neg(r), aux_acc, excp_ptr);
-+                    } else {
-+                        r = float32_add(bfp32_neg(r), bfp32_neg(aux_acc), excp_ptr);
-+                    }
-+                }
-+                at[i].VsrSF(j) = r;
-+            } else {
-+                at[i].VsrSF(j) = float32_zero;
-+            }
-+        }
-+    }
-+    vsxger_excp(env, GETPC());
-+}
-+
- typedef void vsxger_zero(ppc_vsr_t *at, int, int);
- 
- typedef void vsxger_muladd_f(ppc_vsr_t *, ppc_vsr_t *, ppc_vsr_t *, int, int,
-@@ -3579,6 +3637,41 @@ static void vsxger(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b, ppc_acc_t  *at,
+ static void vsxger16(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+                      ppc_acc_t  *at, uint32_t mask, bool acc,
+                      bool neg_mul, bool neg_acc, extract_f16 extract)
+@@ -3637,6 +3642,41 @@ static void vsxger(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b, ppc_acc_t  *at,
      vsxger_excp(env, GETPC());
  }
  
 +QEMU_FLATTEN
-+void helper_XVF16GER2(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                     ppc_acc_t *at, uint32_t mask)
++void helper_XVBF16GER2(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
++                       ppc_acc_t *at, uint32_t mask)
 +{
-+    vsxger16(env, a, b, at, mask, false, false, false, extract_hf16);
++    vsxger16(env, a, b, at, mask, false, false, false, extract_bf16);
 +}
 +
 +QEMU_FLATTEN
-+void helper_XVF16GER2PP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                        ppc_acc_t *at, uint32_t mask)
++void helper_XVBF16GER2PP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
++                         ppc_acc_t *at, uint32_t mask)
 +{
-+    vsxger16(env, a, b, at, mask, true, false, false, extract_hf16);
++    vsxger16(env, a, b, at, mask, true, false, false, extract_bf16);
 +}
 +
 +QEMU_FLATTEN
-+void helper_XVF16GER2PN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                        ppc_acc_t *at, uint32_t mask)
++void helper_XVBF16GER2PN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
++                         ppc_acc_t *at, uint32_t mask)
 +{
-+    vsxger16(env, a, b, at, mask, true, false, true, extract_hf16);
++    vsxger16(env, a, b, at, mask, true, false, true, extract_bf16);
 +}
 +
 +QEMU_FLATTEN
-+void helper_XVF16GER2NP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                        ppc_acc_t *at, uint32_t mask)
++void helper_XVBF16GER2NP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
++                         ppc_acc_t *at, uint32_t mask)
 +{
-+    vsxger16(env, a, b, at, mask, true, true, false, extract_hf16);
++    vsxger16(env, a, b, at, mask, true, true, false, extract_bf16);
 +}
 +
 +QEMU_FLATTEN
-+void helper_XVF16GER2NN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                        ppc_acc_t *at, uint32_t mask)
++void helper_XVBF16GER2NN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
++                         ppc_acc_t *at, uint32_t mask)
 +{
-+    vsxger16(env, a, b, at, mask, true, true, true, extract_hf16);
++    vsxger16(env, a, b, at, mask, true, true, true, extract_bf16);
 +}
 +
  QEMU_FLATTEN
- void helper_XVF32GER(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+ void helper_XVF16GER2(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
                       ppc_acc_t *at, uint32_t mask)
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 054d25f3b0..7ab5ac8ee7 100644
+index 7ab5ac8ee7..06203fd893 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -550,6 +550,11 @@ DEF_HELPER_5(XVI16GER2, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVI16GER2S, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVI16GER2PP, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVI16GER2SPP, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVF16GER2, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVF16GER2PP, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVF16GER2PN, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVF16GER2NP, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVF16GER2NN, void, env, vsr, vsr, acc, i32)
+@@ -555,6 +555,11 @@ DEF_HELPER_5(XVF16GER2PP, void, env, vsr, vsr, acc, i32)
+ DEF_HELPER_5(XVF16GER2PN, void, env, vsr, vsr, acc, i32)
+ DEF_HELPER_5(XVF16GER2NP, void, env, vsr, vsr, acc, i32)
+ DEF_HELPER_5(XVF16GER2NN, void, env, vsr, vsr, acc, i32)
++DEF_HELPER_5(XVBF16GER2, void, env, vsr, vsr, acc, i32)
++DEF_HELPER_5(XVBF16GER2PP, void, env, vsr, vsr, acc, i32)
++DEF_HELPER_5(XVBF16GER2PN, void, env, vsr, vsr, acc, i32)
++DEF_HELPER_5(XVBF16GER2NP, void, env, vsr, vsr, acc, i32)
++DEF_HELPER_5(XVBF16GER2NN, void, env, vsr, vsr, acc, i32)
  DEF_HELPER_5(XVF32GER, void, env, vsr, vsr, acc, i32)
  DEF_HELPER_5(XVF32GERPP, void, env, vsr, vsr, acc, i32)
  DEF_HELPER_5(XVF32GERPN, void, env, vsr, vsr, acc, i32)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index c561a17c7d..c774227d8c 100644
+index c774227d8c..dfd12e9801 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
 @@ -739,6 +739,12 @@ XVI8GER4SPP     111011 ... -- ..... ..... 01100011 ..-  @XX3_at xa=%xx_xa
  XVI16GER2S      111011 ... -- ..... ..... 00101011 ..-  @XX3_at xa=%xx_xa
  XVI16GER2SPP    111011 ... -- ..... ..... 00101010 ..-  @XX3_at xa=%xx_xa
  
-+XVF16GER2       111011 ... -- ..... ..... 00010011 ..-  @XX3_at xa=%xx_xa
-+XVF16GER2PP     111011 ... -- ..... ..... 00010010 ..-  @XX3_at xa=%xx_xa
-+XVF16GER2PN     111011 ... -- ..... ..... 10010010 ..-  @XX3_at xa=%xx_xa
-+XVF16GER2NP     111011 ... -- ..... ..... 01010010 ..-  @XX3_at xa=%xx_xa
-+XVF16GER2NN     111011 ... -- ..... ..... 11010010 ..-  @XX3_at xa=%xx_xa
++XVBF16GER2      111011 ... -- ..... ..... 00110011 ..-  @XX3_at xa=%xx_xa
++XVBF16GER2PP    111011 ... -- ..... ..... 00110010 ..-  @XX3_at xa=%xx_xa
++XVBF16GER2PN    111011 ... -- ..... ..... 10110010 ..-  @XX3_at xa=%xx_xa
++XVBF16GER2NP    111011 ... -- ..... ..... 01110010 ..-  @XX3_at xa=%xx_xa
++XVBF16GER2NN    111011 ... -- ..... ..... 11110010 ..-  @XX3_at xa=%xx_xa
 +
- XVF32GER        111011 ... -- ..... ..... 00011011 ..-  @XX3_at xa=%xx_xa
- XVF32GERPP      111011 ... -- ..... ..... 00011010 ..-  @XX3_at xa=%xx_xa
- XVF32GERPN      111011 ... -- ..... ..... 10011010 ..-  @XX3_at xa=%xx_xa
+ XVF16GER2       111011 ... -- ..... ..... 00010011 ..-  @XX3_at xa=%xx_xa
+ XVF16GER2PP     111011 ... -- ..... ..... 00010010 ..-  @XX3_at xa=%xx_xa
+ XVF16GER2PN     111011 ... -- ..... ..... 10010010 ..-  @XX3_at xa=%xx_xa
+diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
+index 5ecc5c85bf..de115c1943 100644
+--- a/target/ppc/insn64.decode
++++ b/target/ppc/insn64.decode
+@@ -150,6 +150,17 @@ PMXVI16GER2S    000001 11 1001 -- - - pmsk:2 ------ ........       \
+ PMXVI16GER2SPP  000001 11 1001 -- - - pmsk:2 ------ ........       \
+                 111011 ... -- ..... ..... 00101010 ..-  @MMIRR_XX3
+ 
++PMXVBF16GER2    000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 00110011 ..-  @MMIRR_XX3
++PMXVBF16GER2PP  000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 00110010 ..-  @MMIRR_XX3
++PMXVBF16GER2PN  000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 10110010 ..-  @MMIRR_XX3
++PMXVBF16GER2NP  000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 01110010 ..-  @MMIRR_XX3
++PMXVBF16GER2NN  000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 11110010 ..-  @MMIRR_XX3
++
+ PMXVF16GER2     000001 11 1001 -- - - pmsk:2 ------ ........ \
+                 111011 ... -- ..... ..... 00010011 ..-  @MMIRR_XX3
+ PMXVF16GER2PP   000001 11 1001 -- - - pmsk:2 ------ ........ \
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 76747956bb..232a4d881e 100644
+index 7218394b45..c1f3205c83 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
 @@ -2869,6 +2869,12 @@ TRANS64(PMXVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
  TRANS64(PMXVI16GER2S, do_ger, gen_helper_XVI16GER2S)
  TRANS64(PMXVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
  
-+TRANS(XVF16GER2, do_ger, gen_helper_XVF16GER2)
-+TRANS(XVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
-+TRANS(XVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
-+TRANS(XVF16GER2NP, do_ger, gen_helper_XVF16GER2NP)
-+TRANS(XVF16GER2NN, do_ger, gen_helper_XVF16GER2NN)
++TRANS(XVBF16GER2, do_ger, gen_helper_XVBF16GER2)
++TRANS(XVBF16GER2PP, do_ger, gen_helper_XVBF16GER2PP)
++TRANS(XVBF16GER2PN, do_ger, gen_helper_XVBF16GER2PN)
++TRANS(XVBF16GER2NP, do_ger, gen_helper_XVBF16GER2NP)
++TRANS(XVBF16GER2NN, do_ger, gen_helper_XVBF16GER2NN)
 +
- TRANS(XVF32GER, do_ger, gen_helper_XVF32GER)
- TRANS(XVF32GERPP, do_ger, gen_helper_XVF32GERPP)
- TRANS(XVF32GERPN, do_ger, gen_helper_XVF32GERPN)
+ TRANS(XVF16GER2, do_ger, gen_helper_XVF16GER2)
+ TRANS(XVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
+ TRANS(XVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
+@@ -2887,6 +2893,12 @@ TRANS(XVF64GERPN, do_ger, gen_helper_XVF64GERPN)
+ TRANS(XVF64GERNP, do_ger, gen_helper_XVF64GERNP)
+ TRANS(XVF64GERNN, do_ger, gen_helper_XVF64GERNN)
+ 
++TRANS64(PMXVBF16GER2, do_ger, gen_helper_XVBF16GER2)
++TRANS64(PMXVBF16GER2PP, do_ger, gen_helper_XVBF16GER2PP)
++TRANS64(PMXVBF16GER2PN, do_ger, gen_helper_XVBF16GER2PN)
++TRANS64(PMXVBF16GER2NP, do_ger, gen_helper_XVBF16GER2NP)
++TRANS64(PMXVBF16GER2NN, do_ger, gen_helper_XVBF16GER2NN)
++
+ TRANS64(PMXVF16GER2, do_ger, gen_helper_XVF16GER2)
+ TRANS64(PMXVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
+ TRANS64(PMXVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
 -- 
 2.31.1
 
