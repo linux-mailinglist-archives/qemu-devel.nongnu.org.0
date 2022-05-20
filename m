@@ -2,82 +2,168 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8C652E9D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 12:22:30 +0200 (CEST)
-Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D9352EA51
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 12:51:38 +0200 (CEST)
+Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrzm6-0005P7-Sv
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 06:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38048)
+	id 1ns0EL-0003ft-0v
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 06:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nrzjN-0004bQ-Ti
- for qemu-devel@nongnu.org; Fri, 20 May 2022 06:19:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48518)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1ns095-00016V-LC
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 06:46:11 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:8390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nrzjK-0006C9-3D
- for qemu-devel@nongnu.org; Fri, 20 May 2022 06:19:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653041973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=alkTkirvG7buE08UmW+vOc7qC+CRBBEyL4pbeNgzNDE=;
- b=KrJdth3SbvqP3LfZWTkt3q3DaVP35WuDTlwJq4T9w0F4FCcvzNHb3AMZe5PJ+xtqlDmXrP
- SDleH0kOYTVC/MFCw/men+KyhbOOTmRfzt400Ju9SAvX0O113Is8qFh2FdX6nZdjxXuATJ
- 2GURVE3Qylv6YzwH1mG9llJKDIqkZEg=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-koDZzHvOOvyX_1PtyO-djQ-1; Fri, 20 May 2022 06:19:31 -0400
-X-MC-Unique: koDZzHvOOvyX_1PtyO-djQ-1
-Received: by mail-yb1-f198.google.com with SMTP id
- j2-20020a2597c2000000b0064b3e54191aso6712807ybo.20
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 03:19:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=alkTkirvG7buE08UmW+vOc7qC+CRBBEyL4pbeNgzNDE=;
- b=CLmk0V4omwgpeL1hpFw3kzDh1HscR3Zr9znCCOKaAPlH6YCGnuoUttb7tbnGUjAOJV
- gqNqembjRe8jbAUCUugRc7eZb12WqMis+kuIuUslB+1vev1pu+UK9y6gZiZSBDwdNZBP
- Fc8SWDGc6cf7xg3mbpp2jxL2mZ/pE0CxAbziKVpCBhPwzzpFlreV+0K111EM0STsQh7Q
- wdhtNrKOqAhGczz3kJCkuE81fwvCFnYCRU03Zhapx3NAJmo16x8zOqhCeSOsyz+6Jvnl
- loI9dpUPvAmZFNXDN7luRoScErZatxHGxaJoedhkjzupp591BWhed1P/KbhSOBeXS3ui
- Z+sA==
-X-Gm-Message-State: AOAM532jPDp60D23bViPJLyRZ8L1LIbH01zrEq9ma5sB73hsXSHz7T2e
- OC3pJQ2X5iU4fOiZz9NnVw9GZh5i/OHiNhX1Wqp3H1/GzrPxg1Gi7gzQdLP68VzyrgIHtH6tXIJ
- WtFFP/eWOyLrytDcO/UNHfItry5gm3RM=
-X-Received: by 2002:a5b:f41:0:b0:64a:7639:3bab with SMTP id
- y1-20020a5b0f41000000b0064a76393babmr8450520ybr.138.1653041971109; 
- Fri, 20 May 2022 03:19:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsBfgg0B0hAQDH/8bUe8tw/E278YWsy69PE7jlHHCI9cV9G3RhULIPyh0VQyPdKrshhrGZVbRoz6gwx/VqcxY=
-X-Received: by 2002:a5b:f41:0:b0:64a:7639:3bab with SMTP id
- y1-20020a5b0f41000000b0064a76393babmr8450493ybr.138.1653041970787; Fri, 20
- May 2022 03:19:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1ns092-00020d-16
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 06:46:10 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24K9jQOw025974;
+ Fri, 20 May 2022 10:45:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2021-07-09; bh=EI4wLz+ONh7Lf6M+8DwGGbBhgnukVgYb0eAaeu6q3EI=;
+ b=n4b6CUUxjFj2yY2ULYBm9vkH37mjP1exjdVN+vdOwx9ebH7m8PGc0OGLCQDOOmL/bs3J
+ RYrQCwAAHNSaOeUQ9ToE0Xu4bXFiYFnkx2oS0z3Vj3H4xhVcd656sv7pNmCgjiLjL4jo
+ 8WQHTYnWph0ceiM1J9MvV37zoyGMyXfTGqAilAUndZ3ypEr1jZPYAGQ5kDz3wsUtRqcJ
+ uS/8aX0w02TQ7SuNuOdC6z5/T7Clvx+YRHekItIV5NSY/ymQIzkJQdxOELj5CTRPBKus
+ Qu2ju2TYStQxDD5ZQRo9p9D2fKb88LxnoLk6c8x9Xj4Mt21HwEDlcQ60fQiojiqFkc3k jg== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g22uce95w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 May 2022 10:45:57 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 24KAjodM012000; Fri, 20 May 2022 10:45:56 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3g37csbefn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 May 2022 10:45:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XjvhB+/zDNMFV5ksvLmtweWT4P89twB3Ej8cGqlLe+zlKXhdgQPVnBNqJRWjhLFBL4XciyBmvC9U1B+z3PHF/bPsJNWx9ki6kW9N0PPzXXggKrr9y/WoCLtF2vHl5AevsiBxYfmv3qKPaCW4lvQbV/0eKAUS638Mi3L/8t/8/XRBbcdfG+3v3bqrBhPH0aSjfDh3y+pdA/N4sntsWmmFHyKrQM1ZaDlucclHQdd4IZwdIqwiYjzKflU91vDVtuk0UpoFk7lYgwQiEMOvO6PlAFlsc83NEnzGz++8LE2ehlmszXL01NYObE8dKpvDbDU4HB1SNmEYj/i5+TiEGvxyyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EI4wLz+ONh7Lf6M+8DwGGbBhgnukVgYb0eAaeu6q3EI=;
+ b=WIbAUs+3sEwS+ViTTLO2Dm84GZJL4R5ipLGhhyVFOWfFiHqwgjcsBch1HvYIqE8qlBBuCZz+Vg0xDDsgGaCZji/QYjGE9K9MEaJifxJ4Lu3sRFmvfKzVvEkkfBXLke9sMO0LbQ51DueXVxrPBBQnHl2UIc7CuA3cljco8fZa6pBlozVDNJBNEXo7WSCkVG7LxeFNrGM7NdKJpavVkQRftSjerKNF1dLmAW+zjtPVTymzZef2PPA3bxx4dBdz1mCMspw3VfNLkBCHnosJ3pbf6SFh/HmgcEieYyTPLmsG+ts2gr3Wzp54IJj6ZiFz4RuFFl5llEFtQtpy5/GckdbbdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EI4wLz+ONh7Lf6M+8DwGGbBhgnukVgYb0eAaeu6q3EI=;
+ b=UO6ZG2Sjs30x782sIf07ezj1xJsUcZ4TMuh2bU+nAbzPkLD9rAy5lAU2CpNA01TCWSp9hFY+SWo/r0VszK5ktEbUg7UJlfEKNoYfVJEcHuQ79JH2NrWo4/PiqbqmmExGOLDkmXuQkMggTgztNqnWSTchwkeRg2nN3ovZ/BnmeKE=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by MW4PR10MB5838.namprd10.prod.outlook.com (2603:10b6:303:18e::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Fri, 20 May
+ 2022 10:45:53 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b9e5:d1b6:b4be:f9d%5]) with mapi id 15.20.5273.018; Fri, 20 May 2022
+ 10:45:53 +0000
+From: Joao Martins <joao.m.martins@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v5 0/5] i386/pc: Fix creation of >= 1010G guests on AMD
+ systems with IOMMU
+Date: Fri, 20 May 2022 11:45:27 +0100
+Message-Id: <20220520104532.9816-1-joao.m.martins@oracle.com>
+X-Mailer: git-send-email 2.11.0
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0392.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:f::20) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-References: <20220520021935.676-1-luzhipeng@cestc.cn>
-In-Reply-To: <20220520021935.676-1-luzhipeng@cestc.cn>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Fri, 20 May 2022 13:19:19 +0300
-Message-ID: <CAPMcbCr3dodeqwjj_4a+Oz3jqKJD4prqAyMRZ7XLxz0YEkW0RA@mail.gmail.com>
-Subject: Re: [PATCH v5] qga: add guest-get-diskstats command for Linux guests
-To: luzhipeng <luzhipeng@cestc.cn>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Michal Privoznik <mprivozn@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000077c99905df6ed329"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b6a3ae12-3973-4659-0a44-08da3a4de9ac
+X-MS-TrafficTypeDiagnostic: MW4PR10MB5838:EE_
+X-Microsoft-Antispam-PRVS: <MW4PR10MB583857B8B3BC8FFB15A69D52BBD39@MW4PR10MB5838.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Voiwxs/nctE0vK/iNvLgnOFUnZStVtsH+lB3s4zQqGk9n1Qh5EBQ7I3aH/aenQ+qXdCTx6rJLiZMoJK7IzDw0UFjrSs5uYFtwZpmx2OfIkCFkF5gLmFGa8ffieB2CIfVmnqpYXQtjNh+rxk1kPg2ArufPZQlng1PNz4QZx+TUqfcZR+b5ZCDNFtPdLawBAjAQn/A9GEYA6AjmQiF64QFLLHZdae4Jki9dFX0RLjdYSapjbW8PwUlP9bQP9kZSS2Az3J9w66Yp6BMx461JiPquk9FG5KoA8zZmTifKuinzmKHiijyaUXrBd3Xzox8YwY21LAPktc8ycxXul0Q2T3t57Zww2xnhOiJPzCN2SnrNh8BjZN3ib3ef4HGh0nuQwUSbbxeYpIi7A0qY3wDcP/Oq2PYUHk7xn5rxrUwD19YdY+R2tzaR8XUHLhjADjxSARISoALrnzRn0Pao4nlrcxu/GzY0In9VHwkhq30kIqQ7D4yjrFaR1ndYOgEQb7itLGPwiZY7WLse5DuBQqf0rTgZ3be1nTYJIam5hF/j8OjVfRfL4zhERl7xS2hrApedPJR6r/7ThbzHDvZg5R0wJ/pgjoyVNAXn3dzkUmNUcPVQ/bn50Et5YOxjpwg5Hdt8SxjrJaImAQvbXh7EjxdDWuOcS9As5mcXTzH5pBhrYjHmqiUmx/KQJlggXrqz0Vjtq9k+QPGXR7N2W9iDZPFjfFLFLe7Z8scEvoWzBfXDoA6VTfSfTyLteGgfknDSuSSF5mZ9aIgqd56pNMTFgcbPvYBzXiC77NRitXa3xPUoXQR4H9GdSimY4N7VpXkSHTXbVOmlnLZ4JYK6DJLelFw+JElRnOigFExi/X1XQaUjG9LbZM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(52116002)(83380400001)(26005)(38350700002)(6506007)(508600001)(966005)(186003)(1076003)(2616005)(316002)(6916009)(6512007)(54906003)(107886003)(6486002)(86362001)(103116003)(38100700002)(2906002)(4326008)(36756003)(8936002)(66946007)(66476007)(66556008)(6666004)(7416002)(5660300002)(8676002)(43620500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tbbMncng2ymKL/OQoxH4AOYMy5Ui+vxyJrVjT70kNmHQGbNzFwMVOhcok+es?=
+ =?us-ascii?Q?Utd3aRdFF2hE1DD1JTwo8nVvtl004PkY9AtVZqUR7fqdIel3POuQ8Afm4nzz?=
+ =?us-ascii?Q?BkynJFacx2+nNkUnOGSh2n28ciNZCYEjQhX8Cr4eOwNktPFsHD7rKU2mMyvh?=
+ =?us-ascii?Q?YHMdHskHzEE9ZB0hIzRQeYWGwy62evYxTIZfBdYWd23/VN0o+gmW39bdWnVk?=
+ =?us-ascii?Q?zSaXXTU5gkTki9inqFbWsLSWxg9Dy83jzUPoVe3R0li5yquH/dMdYvy88CnM?=
+ =?us-ascii?Q?mGmC+XGPf4eRYN3rp5p2QJpt7Ge1FeDM9mECuYRdbjhEgF/JCU79WILFi5t6?=
+ =?us-ascii?Q?gxPlCT5noB0rUaGP9VABtP28/YBTwSqy0bCKqx3T50WdF4VHYc1uUJZefPma?=
+ =?us-ascii?Q?SfablHZnwEZqTmr/bWMjL8IxpyojewD0mtKDpGSuFHpeHcyoQZuuMvUdUWAu?=
+ =?us-ascii?Q?yUc1Prf3RnYJ+SQFYVmMX5T1JamOBmSsHOyJQ73r4C++vGlcRZfJn8GRX5AN?=
+ =?us-ascii?Q?DnOMLHAc0aXfeofUc+FvVhx1z4nCp06KQHwAaxyMDd27p/AZ91oiSS0xd5sw?=
+ =?us-ascii?Q?+ngoUGCeqNJUHk1o+BG73clypVg11ZAYYNogAcVUUbDQeRVReW0JbyuK5iFF?=
+ =?us-ascii?Q?1peZpisSY8HFIJ/757SYP5oBr+bFFDGI6LyNwQAz1F4ylhmx6DD/Nh9Pobam?=
+ =?us-ascii?Q?jtaIUE5GDjW1afhS9GiZgM3Mz2Q2Wx38+SNuwAWkKR83mvCGOmAd2kv6US4b?=
+ =?us-ascii?Q?v8DCT/GhGiQconIVBAN1DkuaHu7OtqkKx+0oTC9mgcSD9dN5ldtCUVQBW+kx?=
+ =?us-ascii?Q?OAXb+4wxs/09MJ1hwRzL8rfJzMnL3M+Xn5AKnHGWwAfKIEjl82Pk/vo3kyYY?=
+ =?us-ascii?Q?+0CPNSRXK5BVtwGaKi2KaydxWfMascYQoeB0BH0kqCTmDHSk5eLB24pJkfl4?=
+ =?us-ascii?Q?j5l4L0sUNkVbAi5QYXVeITtCvGohd0KogF5b2aD5ApenS0rcA1Y/vZvxuVyV?=
+ =?us-ascii?Q?seUY9LgfiLTLSdR7nHvGL44SKj2Iw0Zne2CYqEk5kIxPLARkaLwzDMvZS8WQ?=
+ =?us-ascii?Q?AKZsP+mqhAJYj96MLpgpqTgec1pj1/EMYIJBkZXe3LkaHraNuii6hLHo46ay?=
+ =?us-ascii?Q?+xBNLm4lzb+H4dtecSE299rvAO90z5vU0DUDNPMhrTTClgYoZFlEaaHN2ntW?=
+ =?us-ascii?Q?yl4INO0SjCvCwaC/CTIor7okntVFKjFqwdpIx1eSw832S0rovybjP5xLHA/o?=
+ =?us-ascii?Q?s89kWqITbJck6A1AQN/NQP3AcHKXYpRgbJndw2OdFycZ0ZLI643jRCZ4sEqn?=
+ =?us-ascii?Q?BsFXsnh5uG9gSRaOvmpLiPa2hDG/JGaODYOHlpZS0j2Kasj61Xrj2DUP0j+w?=
+ =?us-ascii?Q?mFzC/53YVKPLF1e5JyAjYU9wQ3Fjbeihqv8lV8y22BL7cWDXdlVWljxj9D1s?=
+ =?us-ascii?Q?45eb27nAcfFnv8Ydl3zyo/KTDBZ//8JMS0LTfLFWdyWCs7O50pehWE++YCES?=
+ =?us-ascii?Q?8ehNo1eH97EJLHSZv5N8l/XXH6fEXbGZyQVgR0waF7AbvbJXT02hVB7pYEk1?=
+ =?us-ascii?Q?ix9HkS+5MVcGjnW589/uFeuB8FYUD5kLtm9iqQ3QKG+inTsyGZh/+uotON6g?=
+ =?us-ascii?Q?a52ThPl/Qtua5cWBW6jso9awP+JqLnwymI455XkANRcrxTbeXNPavC9/ucdU?=
+ =?us-ascii?Q?BHUHBEwNO9HwURta2i3+qKv18lfo4kVYAhbTtfzcCITuTKI3bdLqZlyoZsJO?=
+ =?us-ascii?Q?CAPdTgpK0zz+zkunogfSbZMXjYa/gwQ=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6a3ae12-3973-4659-0a44-08da3a4de9ac
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2022 10:45:53.6741 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n6Hli8hB46s++WVzr4B2HrZB3Lm9IERZ5u+Bt/TJ+u/JTiPor+07JCzvYztWFugCNJFYzodffLbzS/d2GHaKbHT6FgCJDE+P6hY/yREsUow=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5838
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.874
+ definitions=2022-05-20_03:2022-05-20,
+ 2022-05-20 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 mlxscore=0
+ phishscore=0 bulkscore=0 mlxlogscore=999 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205200079
+X-Proofpoint-GUID: c3xoFQZZ4LFbhxFak-qE_ElnQz3qcVdZ
+X-Proofpoint-ORIG-GUID: c3xoFQZZ4LFbhxFak-qE_ElnQz3qcVdZ
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,674 +180,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000077c99905df6ed329
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v4[5] -> v5:
+* Fixed the 32-bit build(s) (patch 1, Michael Tsirkin)
+* Fix wrong reference (patch 4) to TCG_PHYS_BITS in code comment and
+commit message;
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+---
 
-On Fri, May 20, 2022 at 5:20 AM luzhipeng <luzhipeng@cestc.cn> wrote:
+This series lets Qemu spawn i386 guests with >= 1010G with VFIO,
+particularly when running on AMD systems with an IOMMU.
 
-> Add a new 'guest-get-diskstats' command for report disk io statistics
-> for Linux guests. This can be useful for getting io flow or handling
-> IO fault, no need to enter guests.
->
-> Signed-off-by: luzhipeng <luzhipeng@cestc.cn>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  Changes v4->v5: fix Typo and adjust fileds order in qapi-schema
->  Changes v3->v4:
-> https://patchew.org/QEMU/20220515095437.1291-1-luzhipeng@cestc.cn/
->  Changes v2->v3: bugfix for memory leak
->  Changes v1->v2: v1:
-> https://patchew.org/QEMU/20220512011930.214-1-luzhipeng@cestc.cn/
->
->  qga/commands-posix.c | 123 +++++++++++++++++++++++++++++++++++++++++++
->  qga/commands-win32.c |   6 +++
->  qga/qapi-schema.json |  86 ++++++++++++++++++++++++++++++
->  3 files changed, 215 insertions(+)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 69f209af87..12b50b7124 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -2783,6 +2783,122 @@ GuestMemoryBlockInfo
-> *qmp_guest_get_memory_block_info(Error **errp)
->      return info;
->  }
->
-> +#define MAX_NAME_LEN 128
-> +static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)
-> +{
-> +#ifdef CONFIG_LINUX
-> +    GuestDiskStatsInfoList *head =3D NULL, **tail =3D &head;
-> +    const char *diskstats =3D "/proc/diskstats";
-> +    FILE *fp;
-> +    size_t n;
-> +    char *line =3D NULL;
-> +
-> +    fp =3D fopen(diskstats, "r");
-> +    if (fp  =3D=3D NULL) {
-> +        error_setg_errno(errp, errno, "open(\"%s\")", diskstats);
-> +        return NULL;
-> +    }
-> +
-> +    while (getline(&line, &n, fp) !=3D -1) {
-> +        g_autofree GuestDiskStatsInfo *diskstatinfo =3D NULL;
-> +        g_autofree GuestDiskStats *diskstat =3D NULL;
-> +        char dev_name[MAX_NAME_LEN];
-> +        unsigned int ios_pgr, tot_ticks, rq_ticks, wr_ticks, dc_ticks,
-> fl_ticks;
-> +        unsigned long rd_ios, rd_merges_or_rd_sec, rd_ticks_or_wr_sec,
-> wr_ios;
-> +        unsigned long wr_merges, rd_sec_or_wr_ios, wr_sec;
-> +        unsigned long dc_ios, dc_merges, dc_sec, fl_ios;
-> +        unsigned int major, minor;
-> +        int i;
-> +
-> +        i =3D sscanf(line, "%u %u %s %lu %lu %lu"
-> +                   "%lu %lu %lu %lu %u %u %u %u"
-> +                   "%lu %lu %lu %u %lu %u",
-> +                   &major, &minor, dev_name,
-> +                   &rd_ios, &rd_merges_or_rd_sec, &rd_sec_or_wr_ios,
-> +                   &rd_ticks_or_wr_sec, &wr_ios, &wr_merges, &wr_sec,
-> +                   &wr_ticks, &ios_pgr, &tot_ticks, &rq_ticks,
-> +                   &dc_ios, &dc_merges, &dc_sec, &dc_ticks,
-> +                   &fl_ios, &fl_ticks);
-> +
-> +        if (i < 7) {
-> +            continue;
-> +        }
-> +
-> +        diskstatinfo =3D g_new0(GuestDiskStatsInfo, 1);
-> +        diskstatinfo->name =3D g_strdup(dev_name);
-> +        diskstatinfo->major =3D major;
-> +        diskstatinfo->minor =3D minor;
-> +
-> +        diskstat =3D g_new0(GuestDiskStats, 1);
-> +        if (i =3D=3D 7) {
-> +            diskstat->has_read_ios =3D true;
-> +            diskstat->read_ios =3D rd_ios;
-> +            diskstat->has_read_sectors =3D true;
-> +            diskstat->read_sectors =3D rd_merges_or_rd_sec;
-> +            diskstat->has_write_ios =3D true;
-> +            diskstat->write_ios =3D rd_sec_or_wr_ios;
-> +            diskstat->has_write_sectors =3D true;
-> +            diskstat->write_sectors =3D rd_ticks_or_wr_sec;
-> +        }
-> +        if (i >=3D 14) {
-> +            diskstat->has_read_ios =3D true;
-> +            diskstat->read_ios =3D rd_ios;
-> +            diskstat->has_read_sectors =3D true;
-> +            diskstat->read_sectors =3D rd_sec_or_wr_ios;
-> +            diskstat->has_read_merges =3D true;
-> +            diskstat->read_merges =3D rd_merges_or_rd_sec;
-> +            diskstat->has_read_ticks =3D true;
-> +            diskstat->read_ticks =3D rd_ticks_or_wr_sec;
-> +            diskstat->has_write_ios =3D true;
-> +            diskstat->write_ios =3D wr_ios;
-> +            diskstat->has_write_sectors =3D true;
-> +            diskstat->write_sectors =3D wr_sec;
-> +            diskstat->has_write_merges =3D true;
-> +            diskstat->write_merges =3D wr_merges;
-> +            diskstat->has_write_ticks =3D true;
-> +            diskstat->write_ticks =3D wr_ticks;
-> +            diskstat->has_ios_pgr =3D true;
-> +            diskstat->ios_pgr =3D ios_pgr;
-> +            diskstat->has_total_ticks =3D true;
-> +            diskstat->total_ticks =3D tot_ticks;
-> +            diskstat->has_weight_ticks =3D true;
-> +            diskstat->weight_ticks =3D rq_ticks;
-> +        }
-> +        if (i >=3D 18) {
-> +            diskstat->has_discard_ios =3D true;
-> +            diskstat->discard_ios =3D dc_ios;
-> +            diskstat->has_discard_merges =3D true;
-> +            diskstat->discard_merges =3D dc_merges;
-> +            diskstat->has_discard_sectors =3D true;
-> +            diskstat->discard_sectors =3D dc_sec;
-> +            diskstat->has_discard_ticks =3D true;
-> +            diskstat->discard_ticks =3D dc_ticks;
-> +        }
-> +        if (i >=3D 20) {
-> +            diskstat->has_flush_ios =3D true;
-> +            diskstat->flush_ios =3D fl_ios;
-> +            diskstat->has_flush_ticks =3D true;
-> +            diskstat->flush_ticks =3D fl_ticks;
-> +        }
-> +
-> +        diskstatinfo->stats =3D g_steal_pointer(&diskstat);
-> +        QAPI_LIST_APPEND(tail, diskstatinfo);
-> +        diskstatinfo =3D NULL;
-> +    }
-> +    free(line);
-> +    fclose(fp);
-> +    return head;
-> +#else
-> +    g_debug("disk stats reporting available only for Linux");
-> +    return NULL;
-> +#endif
-> +}
-> +
-> +GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-> +{
-> +    return guest_get_diskstats(errp);
-> +}
-> +
->  #else /* defined(__linux__) */
->
->  void qmp_guest_suspend_disk(Error **errp)
-> @@ -3131,6 +3247,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **err=
-p)
->      return NULL;
->  }
->
-> +GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-> +{
-> +    error_setg(errp, QERR_UNSUPPORTED);
-> +    return NULL;
-> +}
-> +
-> +
->  #endif /* CONFIG_FSFREEZE */
->
->  #if !defined(CONFIG_FSTRIM)
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index d56b5fd2a7..dcdeb76a68 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)
->
->      return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
->  }
-> +
-> +GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-> +{
-> +    error_setg(errp, QERR_UNSUPPORTED);
-> +    return NULL;
-> +}
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 4d8e506c9e..3aa652e4d2 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -1490,3 +1490,89 @@
->  { 'command': 'guest-ssh-remove-authorized-keys',
->    'data': { 'username': 'str', 'keys': ['str'] },
->    'if': 'CONFIG_POSIX' }
-> +
-> +##
-> +# @GuestDiskStats:
-> +#
-> +# @read-sectors: sectors read
-> +#
-> +# @read-ios: reads completed successfully
-> +#
-> +# @read-merges: read requests merged
-> +#
-> +# @write-sectors: sectors written
-> +#
-> +# @write-ios: writes completed
-> +#
-> +# @write-merges: write requests merged
-> +#
-> +# @discard-sectors: sectors discarded
-> +#
-> +# @discard-ios: discards completed successfully
-> +#
-> +# @discard-merges: discard requests merged
-> +#
-> +# @flush-ios: flush requests completed successfully
-> +#
-> +# @read-ticks: time spent reading(ms)
-> +#
-> +# @write-ticks: time spent writing(ms)
-> +#
-> +# @discard-ticks: time spent discarding(ms)
-> +#
-> +# @flush-ticks: time spent flushing(ms)
-> +#
-> +# @ios-pgr: number of I/Os currently in flight
-> +#
-> +# @total-ticks: time spent doing I/Os (ms)
-> +#
-> +# @weight-ticks: weighted time spent doing I/Os since the last update of
-> this field(ms)
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'GuestDiskStats',
-> +  'data': {'*read-sectors': 'uint64',
-> +           '*read-ios': 'uint64',
-> +           '*read-merges': 'uint64',
-> +           '*write-sectors': 'uint64',
-> +           '*write-ios': 'uint64',
-> +           '*write-merges': 'uint64',
-> +           '*discard-sectors': 'uint64',
-> +           '*discard-ios': 'uint64',
-> +           '*discard-merges': 'uint64',
-> +           '*flush-ios': 'uint64',
-> +           '*read-ticks': 'uint64',
-> +           '*write-ticks': 'uint64',
-> +           '*discard-ticks': 'uint64',
-> +           '*flush-ticks': 'uint64',
-> +           '*ios-pgr': 'uint64',
-> +           '*total-ticks': 'uint64',
-> +           '*weight-ticks': 'uint64'
-> +           } }
-> +
-> +##
-> +# @GuestDiskStatsInfo:
-> +#
-> +# @name disk name
-> +#
-> +# @major major device number of disk
-> +#
-> +# @minor minor device number of disk
-> +##
-> +{ 'struct': 'GuestDiskStatsInfo',
-> +  'data': {'name': 'str',
-> +           'major': 'uint64',
-> +           'minor': 'uint64',
-> +           'stats': 'GuestDiskStats' } }
-> +
-> +##
-> +# @guest-get-diskstats:
-> +#
-> +# Retrieve information about disk stats.
-> +# Returns: List of disk stats of guest.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'command': 'guest-get-diskstats',
-> +  'returns': ['GuestDiskStatsInfo']
-> +}
-> --
-> 2.31.1
->
->
->
->
+Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
+will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
+affected by this extra validation. But AMD systems with IOMMU have a hole in
+the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
+here: FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
+section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
 
---00000000000077c99905df6ed329
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
+ -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
+of the failure:
 
-<div dir=3D"ltr"><div id=3D"gmail-:219" class=3D"gmail-a3s gmail-aiL"><div =
-dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@=
-redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div></div></div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri=
-, May 20, 2022 at 5:20 AM luzhipeng &lt;<a href=3D"mailto:luzhipeng@cestc.c=
-n">luzhipeng@cestc.cn</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Add a new &#39;guest-get-diskstats&#39; command for re=
-port disk io statistics<br>
-for Linux guests. This can be useful for getting io flow or handling<br>
-IO fault, no need to enter guests.<br>
-<br>
-Signed-off-by: luzhipeng &lt;<a href=3D"mailto:luzhipeng@cestc.cn" target=
-=3D"_blank">luzhipeng@cestc.cn</a>&gt;<br>
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
----<br>
-=C2=A0Changes v4-&gt;v5: fix Typo and adjust fileds order in qapi-schema<br=
->
-=C2=A0Changes v3-&gt;v4: <a href=3D"https://patchew.org/QEMU/20220515095437=
-.1291-1-luzhipeng@cestc.cn/" rel=3D"noreferrer" target=3D"_blank">https://p=
-atchew.org/QEMU/20220515095437.1291-1-luzhipeng@cestc.cn/</a><br>
-=C2=A0Changes v2-&gt;v3: bugfix for memory leak <br>
-=C2=A0Changes v1-&gt;v2: v1:<a href=3D"https://patchew.org/QEMU/20220512011=
-930.214-1-luzhipeng@cestc.cn/" rel=3D"noreferrer" target=3D"_blank">https:/=
-/patchew.org/QEMU/20220512011930.214-1-luzhipeng@cestc.cn/</a><br>
-<br>
-=C2=A0qga/commands-posix.c | 123 ++++++++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0qga/commands-win32.c |=C2=A0 =C2=A06 +++<br>
-=C2=A0qga/qapi-schema.json |=C2=A0 86 ++++++++++++++++++++++++++++++<br>
-=C2=A03 files changed, 215 insertions(+)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 69f209af87..12b50b7124 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -2783,6 +2783,122 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_in=
-fo(Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return info;<br>
-=C2=A0}<br>
-<br>
-+#define MAX_NAME_LEN 128<br>
-+static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)<br>
-+{<br>
-+#ifdef CONFIG_LINUX<br>
-+=C2=A0 =C2=A0 GuestDiskStatsInfoList *head =3D NULL, **tail =3D &amp;head;=
-<br>
-+=C2=A0 =C2=A0 const char *diskstats =3D &quot;/proc/diskstats&quot;;<br>
-+=C2=A0 =C2=A0 FILE *fp;<br>
-+=C2=A0 =C2=A0 size_t n;<br>
-+=C2=A0 =C2=A0 char *line =3D NULL;<br>
-+<br>
-+=C2=A0 =C2=A0 fp =3D fopen(diskstats, &quot;r&quot;);<br>
-+=C2=A0 =C2=A0 if (fp=C2=A0 =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;open(\&quo=
-t;%s\&quot;)&quot;, diskstats);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 while (getline(&amp;line, &amp;n, fp) !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree GuestDiskStatsInfo *diskstatinfo =
-=3D NULL;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree GuestDiskStats *diskstat =3D NULL;<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 char dev_name[MAX_NAME_LEN];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int ios_pgr, tot_ticks, rq_ticks, wr_=
-ticks, dc_ticks, fl_ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long rd_ios, rd_merges_or_rd_sec, rd_=
-ticks_or_wr_sec, wr_ios;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long wr_merges, rd_sec_or_wr_ios, wr_=
-sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long dc_ios, dc_merges, dc_sec, fl_io=
-s;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int major, minor;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int i;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 i =3D sscanf(line, &quot;%u %u %s %lu %lu %lu&=
-quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;%lu %lu %lu %lu %u %u %u %u&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;%lu %lu %lu %u %lu %u&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;=
-major, &amp;minor, dev_name,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;=
-rd_ios, &amp;rd_merges_or_rd_sec, &amp;rd_sec_or_wr_ios,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;=
-rd_ticks_or_wr_sec, &amp;wr_ios, &amp;wr_merges, &amp;wr_sec,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;=
-wr_ticks, &amp;ios_pgr, &amp;tot_ticks, &amp;rq_ticks,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;=
-dc_ios, &amp;dc_merges, &amp;dc_sec, &amp;dc_ticks,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;=
-fl_ios, &amp;fl_ticks);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &lt; 7) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo =3D g_new0(GuestDiskStatsInfo, 1)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;name =3D g_strdup(dev_name);<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;major =3D major;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;minor =3D minor;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat =3D g_new0(GuestDiskStats, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i =3D=3D 7) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_read_ios =3D tr=
-ue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_ios =3D rd_ios=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_read_sectors =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_sectors =3D rd=
-_merges_or_rd_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_write_ios =3D t=
-rue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_ios =3D rd_se=
-c_or_wr_ios;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_write_sectors =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_sectors =3D r=
-d_ticks_or_wr_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &gt;=3D 14) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_read_ios =3D tr=
-ue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_ios =3D rd_ios=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_read_sectors =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_sectors =3D rd=
-_sec_or_wr_ios;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_read_merges =3D=
- true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_merges =3D rd_=
-merges_or_rd_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_read_ticks =3D =
-true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;read_ticks =3D rd_t=
-icks_or_wr_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_write_ios =3D t=
-rue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_ios =3D wr_io=
-s;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_write_sectors =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_sectors =3D w=
-r_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_write_merges =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_merges =3D wr=
-_merges;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_write_ticks =3D=
- true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;write_ticks =3D wr_=
-ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_ios_pgr =3D tru=
-e;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;ios_pgr =3D ios_pgr=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_total_ticks =3D=
- true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;total_ticks =3D tot=
-_ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_weight_ticks =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;weight_ticks =3D rq=
-_ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &gt;=3D 18) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_discard_ios =3D=
- true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_ios =3D dc_=
-ios;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_discard_merges =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_merges =3D =
-dc_merges;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_discard_sectors=
- =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_sectors =3D=
- dc_sec;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_discard_ticks =
-=3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;discard_ticks =3D d=
-c_ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i &gt;=3D 20) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_flush_ios =3D t=
-rue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;flush_ios =3D fl_io=
-s;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;has_flush_ticks =3D=
- true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstat-&gt;flush_ticks =3D fl_=
-ticks;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo-&gt;stats =3D g_steal_pointer(&am=
-p;diskstat);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_APPEND(tail, diskstatinfo);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 diskstatinfo =3D NULL;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 free(line);<br>
-+=C2=A0 =C2=A0 fclose(fp);<br>
-+=C2=A0 =C2=A0 return head;<br>
-+#else<br>
-+=C2=A0 =C2=A0 g_debug(&quot;disk stats reporting available only for Linux&=
-quot;);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+#endif<br>
-+}<br>
-+<br>
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 return guest_get_diskstats(errp);<br>
-+}<br>
-+<br>
-=C2=A0#else /* defined(__linux__) */<br>
-<br>
-=C2=A0void qmp_guest_suspend_disk(Error **errp)<br>
-@@ -3131,6 +3247,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)=
-<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0}<br>
-<br>
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+}<br>
-+<br>
-+<br>
-=C2=A0#endif /* CONFIG_FSFREEZE */<br>
-<br>
-=C2=A0#if !defined(CONFIG_FSTRIM)<br>
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index d56b5fd2a7..dcdeb76a68 100644<br>
---- a/qga/commands-win32.c<br>
-+++ b/qga/commands-win32.c<br>
-@@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);<br=
->
-=C2=A0}<br>
-+<br>
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+}<br>
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json<br>
-index 4d8e506c9e..3aa652e4d2 100644<br>
---- a/qga/qapi-schema.json<br>
-+++ b/qga/qapi-schema.json<br>
-@@ -1490,3 +1490,89 @@<br>
-=C2=A0{ &#39;command&#39;: &#39;guest-ssh-remove-authorized-keys&#39;,<br>
-=C2=A0 =C2=A0&#39;data&#39;: { &#39;username&#39;: &#39;str&#39;, &#39;keys=
-&#39;: [&#39;str&#39;] },<br>
-=C2=A0 =C2=A0&#39;if&#39;: &#39;CONFIG_POSIX&#39; }<br>
-+<br>
-+##<br>
-+# @GuestDiskStats:<br>
-+#<br>
-+# @read-sectors: sectors read<br>
-+#<br>
-+# @read-ios: reads completed successfully<br>
-+#<br>
-+# @read-merges: read requests merged<br>
-+#<br>
-+# @write-sectors: sectors written<br>
-+#<br>
-+# @write-ios: writes completed<br>
-+#<br>
-+# @write-merges: write requests merged<br>
-+#<br>
-+# @discard-sectors: sectors discarded<br>
-+#<br>
-+# @discard-ios: discards completed successfully<br>
-+#<br>
-+# @discard-merges: discard requests merged<br>
-+#<br>
-+# @flush-ios: flush requests completed successfully<br>
-+#<br>
-+# @read-ticks: time spent reading(ms)<br>
-+#<br>
-+# @write-ticks: time spent writing(ms)<br>
-+#<br>
-+# @discard-ticks: time spent discarding(ms)<br>
-+#<br>
-+# @flush-ticks: time spent flushing(ms)<br>
-+#<br>
-+# @ios-pgr: number of I/Os currently in flight<br>
-+#<br>
-+# @total-ticks: time spent doing I/Os (ms)<br>
-+#<br>
-+# @weight-ticks: weighted time spent doing I/Os since the last update of t=
-his field(ms)<br>
-+#<br>
-+# Since: 7.1<br>
-+##<br>
-+{ &#39;struct&#39;: &#39;GuestDiskStats&#39;,<br>
-+=C2=A0 &#39;data&#39;: {&#39;*read-sectors&#39;: &#39;uint64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*read-ios&#39;: &#39;uint64&=
-#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*read-merges&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*write-sectors&#39;: &#39;ui=
-nt64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*write-ios&#39;: &#39;uint64=
-&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*write-merges&#39;: &#39;uin=
-t64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*discard-sectors&#39;: &#39;=
-uint64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*discard-ios&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*discard-merges&#39;: &#39;u=
-int64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*flush-ios&#39;: &#39;uint64=
-&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*read-ticks&#39;: &#39;uint6=
-4&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*write-ticks&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*discard-ticks&#39;: &#39;ui=
-nt64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*flush-ticks&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*ios-pgr&#39;: &#39;uint64&#=
-39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*total-ticks&#39;: &#39;uint=
-64&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*weight-ticks&#39;: &#39;uin=
-t64&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} }<br>
-+<br>
-+##<br>
-+# @GuestDiskStatsInfo:<br>
-+#<br>
-+# @name disk name<br>
-+#<br>
-+# @major major device number of disk<br>
-+#<br>
-+# @minor minor device number of disk<br>
-+##<br>
-+{ &#39;struct&#39;: &#39;GuestDiskStatsInfo&#39;,<br>
-+=C2=A0 &#39;data&#39;: {&#39;name&#39;: &#39;str&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;major&#39;: &#39;uint64&#39;=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;minor&#39;: &#39;uint64&#39;=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;stats&#39;: &#39;GuestDiskSt=
-ats&#39; } }<br>
-+<br>
-+##<br>
-+# @guest-get-diskstats:<br>
-+#<br>
-+# Retrieve information about disk stats.<br>
-+# Returns: List of disk stats of guest.<br>
-+#<br>
-+# Since: 7.1<br>
-+##<br>
-+{ &#39;command&#39;: &#39;guest-get-diskstats&#39;,<br>
-+=C2=A0 &#39;returns&#39;: [&#39;GuestDiskStatsInfo&#39;]<br>
-+}<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
+	failed to setup container for group 258: memory listener initialization failed:
+		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
 
---00000000000077c99905df6ed329--
+Prior to v5.4, we could map to these IOVAs *but* that's still not the right thing
+to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
+spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
+as documented on the links down below.
+
+This small series tries to address that by dealing with this AMD-specific 1Tb hole,
+but rather than dealing like the 4G hole, it instead relocates RAM above 4G
+to be above the 1T if the maximum RAM range crosses the HT reserved range.
+It is organized as following:
+
+patch 1: Introduce a @above_4g_mem_start which defaults to 4 GiB as starting
+         address of the 4G boundary
+
+patches 2-3: Move pci-host qdev creation to be before pc_memory_init(),
+	     to get accessing to pci_hole64_size. The actual pci-host
+	     initialization is kept as is, only the qdev_new.
+
+patch 4: Change @above_4g_mem_start to 1TiB /if we are on AMD and the max
+possible address acrosses the HT region. Errors out if the phys-bits is too
+low, which is only the case for >=1010G configurations or something that
+crosses the HT region.
+
+patch 5: Ensure valid IOVAs only on new machine types, but not older
+ones (<= v7.0.0)
+
+The 'consequence' of this approach is that we may need more than the default
+phys-bits e.g. a guest with >1010G, will have most of its RAM after the 1TB
+address, consequently needing 41 phys-bits as opposed to the default of 40
+(TCG_PHYS_ADDR_BITS). Today there's already a precedent to depend on the user to
+pick the right value of phys-bits (regardless of this series), so we warn in
+case phys-bits aren't enough. Finally, CMOS loosing its meaning of the above 4G
+ram blocks, but it was mentioned over RFC that CMOS is only useful for very
+old seabios. 
+
+Additionally, the reserved region is added to E820 if the relocation is done.
+
+Alternative options considered (in RFC[0]):
+
+a) Dealing with the 1T hole like the 4G hole -- which also represents what
+hardware closely does.
+
+Thanks,
+	Joao
+
+Older Changelog,
+
+v3[4] -> v4[5]:
+(changes in patch 4 and 5 only)
+* Rebased to 7.1.0, hence move compat machine attribute to <= 7.0.0 versions
+* Check guest vCPU vendor rather than host CPU vendor (Michael Tsirkin)
+* Squash previous patch 5 into patch 4 to tie in the phys-bits check
+  into the relocate-4g-start logic: We now error out if the phys-bits
+  aren't enough on configurations that require above-4g ram relocation. (Michael Tsirkin)
+* Make the error message more explicit when phys-bits isn't enough to also
+  mention: "cannot avoid AMD HT range"
+* Add comments inside x86_update_above_4g_mem_start() explaining the
+  logic behind it. (Michael Tsirkin)
+* Tested on old guests old guests with Linux 2.6.32/3.10/4.14.35/4.1 based kernels
+  alongside Win2008/2K12/2K16/2K19 on configs spanning 1T and 2T (Michael Tsirkin)
+  Validated -numa topologies too as well as making sure qtests observe no regressions;
+
+ Notes from v4:
+
+* the machine attribute that enables this new logic (see last patch)
+is called ::enforce_valid_iova since the RFC. Let me know if folks think it
+is poorly named, and whether something a bit more obvious is preferred
+(e.g. ::amd_relocate_1t).
+
+* @mst one of the comments you said was to add "host checks" in vdpa/vfio devices.
+In discussion with Alex and you over the last version of the patches it seems
+that we weren't keen on making this device-specific or behind any machine
+property flags (besides machine-compat). Just to reiterate there, making sure we do
+the above-4g relocation requiring properly sized phys-bits and AMD as vCPU
+vendor (as this series) already ensures thtat this is going to be right for
+offending configuration with VDPA/VFIO device that might be
+configured/hotplugged. Unless you were thinking that somehow vfio/vdpa devices
+start poking into machine-specific details when we fail to relocate due to the
+lack of phys-bits? Otherwise Qemu, just doesn't have enough information to tell
+what's a valid IOVA or not, in which case kernel vhost-iotlb/vhost-vdpa is the one
+that needs fixing (as VFIO did in v5.4).
+
+RFCv2[3] -> v3[4]:
+
+* Add missing brackets in single line statement, in patch 5 (David)
+* Change ranges printf to use PRIx64, in patch 5 (David)
+* Move the check to after changing above_4g_mem_start, in patch 5 (David)
+* Make the check generic and move it to pc_memory_init rather being specific
+to AMD, as the check is useful to capture invalid phys-bits
+configs (patch 5, Igor).
+* Fix comment as 'Start address of the initial RAM above 4G' in patch 1 (Igor)
+* Consider pci_hole64_size in patch 4 (Igor)
+* To consider pci_hole64_size in max used addr we need to get it from pci-host,
+so introduce two new patches (2 and 3) which move only the qdev_new("i440fx") or
+qdev_new("q35") to be before pc_memory_init().
+* Consider sgx_epc.size in max used address, in patch 4 (Igor)
+* Rename relocate_4g() to x86_update_above_4g_mem_start() (Igor)
+* Keep warn_report() in patch 5, as erroring out will break a few x86_64 qtests
+due to pci_hole64 accounting surprass phys-bits possible maxphysaddr.
+
+RFC[0] -> RFCv2[3]:
+
+* At Igor's suggestion in one of the patches I reworked the series enterily,
+and more or less as he was thinking it is far simpler to relocate the
+ram-above-4g to be at 1TiB where applicable. The changeset is 3x simpler,
+and less intrusive. (patch 1 & 2)
+* Check phys-bits is big enough prior to relocating (new patch 3)
+* Remove the machine property, and it's only internal and set by new machine
+version (Igor, patch 4).
+* Clarify whether it's GPA or HPA as a more clear meaning (Igor, patch 2)
+* Add IOMMU SDM in the commit message (Igor, patch 2)
+
+[0] https://lore.kernel.org/qemu-devel/20210622154905.30858-1-joao.m.martins@oracle.com/
+[1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+[2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
+[3] https://lore.kernel.org/qemu-devel/20220207202422.31582-1-joao.m.martins@oracle.com/T/#u
+[4] https://lore.kernel.org/all/20220223184455.9057-1-joao.m.martins@oracle.com/
+[5] https://lore.kernel.org/qemu-devel/20220420201138.23854-1-joao.m.martins@oracle.com/
+
+Joao Martins (5):
+  hw/i386: add 4g boundary start to X86MachineState
+  i386/pc: create pci-host qdev prior to pc_memory_init()
+  i386/pc: pass pci_hole64_size to pc_memory_init()
+  i386/pc: relocate 4g start to 1T where applicable
+  i386/pc: restrict AMD only enforcing of valid IOVAs to new machine
+    type
+
+ hw/i386/acpi-build.c         |   2 +-
+ hw/i386/pc.c                 | 126 +++++++++++++++++++++++++++++++++--
+ hw/i386/pc_piix.c            |  12 +++-
+ hw/i386/pc_q35.c             |  14 +++-
+ hw/i386/sgx.c                |   2 +-
+ hw/i386/x86.c                |   1 +
+ hw/pci-host/i440fx.c         |  10 ++-
+ include/hw/i386/pc.h         |   4 +-
+ include/hw/i386/x86.h        |   3 +
+ include/hw/pci-host/i440fx.h |   3 +-
+ 10 files changed, 161 insertions(+), 16 deletions(-)
+
+-- 
+2.17.2
 
 
