@@ -2,67 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EEDF52E26E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 04:22:14 +0200 (CEST)
-Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18FB52E326
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 05:34:12 +0200 (CEST)
+Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrsHN-0007FM-4b
-	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 22:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48522)
+	id 1nrtP1-00089h-D9
+	for lists+qemu-devel@lfdr.de; Thu, 19 May 2022 23:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
- id 1nrsFZ-0005xp-N0
- for qemu-devel@nongnu.org; Thu, 19 May 2022 22:20:21 -0400
-Received: from [106.39.185.58] (port=54132 helo=smtp.cecloud.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luzhipeng@cestc.cn>) id 1nrsFW-00054P-JD
- for qemu-devel@nongnu.org; Thu, 19 May 2022 22:20:21 -0400
-Received: from localhost (localhost [127.0.0.1])
- by smtp.cecloud.com (Postfix) with ESMTP id 3C462300001A0;
- Fri, 20 May 2022 10:20:11 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from localhost.localdomain (unknown [111.48.58.11])
- by smtp.cecloud.com (postfix) whith ESMTP id
- P4032146T281471335919984S1653013209789365_; 
- Fri, 20 May 2022 10:20:10 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <003489a142330becbdae76a8e46d701c>
-X-RL-SENDER: luzhipeng@cestc.cn
-X-SENDER: luzhipeng@cestc.cn
-X-LOGIN-NAME: luzhipeng@cestc.cn
-X-FST-TO: qemu-devel@nongnu.org
-X-RCPT-COUNT: 7
-X-SENDER-IP: 111.48.58.11
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: luzhipeng <luzhipeng@cestc.cn>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Michael Roth <michael.roth@amd.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>, luzhipeng <luzhipeng@cestc.cn>
-Subject: [PATCH v5] qga: add guest-get-diskstats command for Linux guests
-Date: Fri, 20 May 2022 10:19:35 +0800
-Message-Id: <20220520021935.676-1-luzhipeng@cestc.cn>
-X-Mailer: git-send-email 2.34.0.windows.1
+ (Exim 4.90_1) (envelope-from <Suravee.Suthikulpanit@amd.com>)
+ id 1nrtLy-0007OG-6L
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 23:31:02 -0400
+Received: from mail-co1nam11on2062a.outbound.protection.outlook.com
+ ([2a01:111:f400:7eab::62a]:27105
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Suravee.Suthikulpanit@amd.com>)
+ id 1nrtLv-0005z8-Hz
+ for qemu-devel@nongnu.org; Thu, 19 May 2022 23:31:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EM+hPo+Akb+EW7GV44Ln4NQt9TtrAcBImmoll2I0wiDTd4tZxYA0YpMwhzLIb7KvrpB57QcLkuYFlYxSmBqkMj0X8yASzpjxAdwd+29V+cpLNwb+0sRYlWPTvHqBokfBuqoliWyT6bqEXsacDRtBJeTUrt3d7lrj9m9o4q2IygE1IGCmyPFcLYJxbRH2amke/wbP6/z7XZS3AL6esZtwmrbJYcuJ2nJoFbCrFgMKkjHkD15qe5qGobUgGFH8ulYm8ljPO6yqVqLjvX/DtmMxIaNcqt6QLgIctRCalVz3vmNj7QhCHcLOmDWSc2KDkwYj6nMhvo14lLPY1B0qYT2Asg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q/WklhcN2+QnaZEE5vKxvMbHsBV1Rk/N0sC5gtIV1/8=;
+ b=hPmR1cLBXm39wzP7eFsjB84soCbyvHBRXmOG1fWF0ln/TcbMC1tW+eliGAtCyv1DIac6DR6GOvjyDktlMkT2C1Cxx3PG62nTZnUdHubyQlYMkHX3lw2cLHcCBbbSrvJ/3py59F02Bu+r1v2egyR9Hqg+qu7TDEFOkB5KtVqGzyaqHRuc7N7mJvIPtOTAL8e5thZ5v+19ckHhEYpa3n6s5VqcENMhFh4e/AufPyxtwrEQzfRKPp/ILVVEbKFt+lEdqfNB7WVdOrA43Ckb/agKZIbW4yN18KV1dJkyQFOK3CRXTXjzcs6nt8Y/gyEPWl59msiV6gZ9v41hpWuJ1ikAng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q/WklhcN2+QnaZEE5vKxvMbHsBV1Rk/N0sC5gtIV1/8=;
+ b=j2s7C2+i3B7Q59e8jtsojjJQZ+3GOHOWiCTqwNj1pTL2csGrUZPctb2DlzWmKgqL4LB2g99N2IlQtvBzihQlIQsYNzghJYiGSW6x9VP/iH0mWDKizDoPdQ0eNjiM40AZWf1A1Sv/K1YpS2Yy/mLTwLcRGpXKHzzlr6o1DrzPiXs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM8PR12MB5445.namprd12.prod.outlook.com (2603:10b6:8:24::7) by
+ BYAPR12MB4696.namprd12.prod.outlook.com (2603:10b6:a03:9d::15) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5273.15; Fri, 20 May 2022 03:30:52 +0000
+Received: from DM8PR12MB5445.namprd12.prod.outlook.com
+ ([fe80::8c27:b470:84f9:82b8]) by DM8PR12MB5445.namprd12.prod.outlook.com
+ ([fe80::8c27:b470:84f9:82b8%7]) with mapi id 15.20.5273.017; Fri, 20 May 2022
+ 03:30:52 +0000
+Message-ID: <7e0d22fa-b9b0-ad1a-3a37-a450ec5d73e8@amd.com>
+Date: Fri, 20 May 2022 10:30:40 +0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+From: "Suthikulpanit, Suravee" <suravee.suthikulpanit@amd.com>
+Subject: [RFC] KVM / QEMU: Introduce Interface for Querying APICv Info
+To: qemu-devel@nongnu.org, "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, mst@redhat.com, "Grimm, Jon" <jon.grimm@amd.com>,
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "Roth, Michael" <Michael.Roth@amd.com>, Wei Huang <wei.huang2@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0105.apcprd02.prod.outlook.com
+ (2603:1096:4:92::21) To DM8PR12MB5445.namprd12.prod.outlook.com
+ (2603:10b6:8:24::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.58 (failed)
-Received-SPF: pass client-ip=106.39.185.58; envelope-from=luzhipeng@cestc.cn;
- helo=smtp.cecloud.com
-X-Spam_score_int: 22
-X-Spam_score: 2.2
-X-Spam_bar: ++
-X-Spam_report: (2.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_SBL_CSS=3.335,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 90f6b351-aa4d-444d-f2f4-08da3a112438
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4696:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB4696FA367B57C72AADD33256F3D39@BYAPR12MB4696.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: w4G87EhZ6Qu/uqItxzh9U5aQXIry5lKmg0eSUOuRZypj3lEiHmUJL7VTxi+p/SXH44brtp7zVSEooAKg2Ec2LZLyXgk7CRcHvrfHLm0xob3wgL7VK7gt3kG9f45t2yVamiZ9zRolJaA5VYBU+5TOwlRvmcWcQ86GslqFgQitbs5D4shoPcn7af++7E8Uzwyd0p1voPe+RWsPxC2yl9NuzzBpulaj/zoxyRALigN6xV/IWtVEE7CADQCNab/q4un7084MWDa0aNszRq9y0zxqztzgqtrwniFDB9yuREe0JxSI7HbEJgpAcPtHyPPZVndUcVKeXtSw1K5hLOoX9x6FQEh+ULDJmpdTskKEACmoRc4yLAZbdMa9MfesOzrVbwlOi/fmZtfK5qJf0dKg07vEkGcge1HtoEF/qjfwK2t97Ri1O0LJrfDylhfEUPk3xekgxX0xE0n0EW8PiGbkZmRjrI+Fq3VXokavQtsmrHG/dQoXlmdFaXG04DFlBR7FNO9f6LxY/ctWXQnViHRDHtpKm8UdAYZDolByQV/k8z1C3FSDWiHkpXd9gXIL3qzPX/AEKBuBFv0BRa320LdWLlqeJmHhfpQsNe9lRyaTFism1Ar8QJxupvLeGcIdHOnk9ARY/cmH7ZZV6Cs5k5BcWCuOcxjqSvrlx1LvMfcOEN2HraVxRt1vphZgC3KWGQbkboNjXnRPaJrZ0Ruk7u51P7zVN6+bj8AmsudHwYzXxa0Dt3ve/MtiWFgRUOJE84z+yKmp
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR12MB5445.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6666004)(38100700002)(6506007)(2906002)(186003)(6512007)(26005)(2616005)(4326008)(66476007)(8676002)(6486002)(508600001)(86362001)(54906003)(6916009)(66556008)(31696002)(316002)(36756003)(66946007)(5660300002)(8936002)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?anhUZVFabmlsTWFDTEVJS3BKQ0FJbElJSk5kN0tHS1drRDYybWdLcGU4akU5?=
+ =?utf-8?B?OVlvc3JlckprZWZSWVZRVEE3em1MUm9PdHlvTERVaXhaaDBrZmFmMFY1ektL?=
+ =?utf-8?B?ZDNXRDZjZ0ZXOWVUUHQvenJ4K2w3bG9FZXcrSFFjcWt4eEx6M2ZDQytOWDRE?=
+ =?utf-8?B?V1F3OW0vM1hjR0RhS0FHVitQRml3SVRTY2IrWEwzNE1RaFk0cW85b2ZhS0N2?=
+ =?utf-8?B?cDdFZ0treTRFSkp5V25aMjlPMzViSm0zVmRNQXRaY3NtRFR3RHBjY1Rhc1Aw?=
+ =?utf-8?B?TnRkRUxEYm1TTjVKU2UrQ3BjL0ZQdFJ0VVg5VHZUbU12aTFmeCtHa3ZhVnZu?=
+ =?utf-8?B?UDdWUi9pbDQ5c3JkczFYbXRXY3JCWEt4cTljSlRyODJBN1IwekNFVWc0NERz?=
+ =?utf-8?B?S0pmaVdKa0QwRlBCekpoSnZib05LYlFGVld1OC93VWZjWTdJWHE0MHZrYk10?=
+ =?utf-8?B?clcwK3M4cnNaSTZCZ01nWWNnNUI0MFBhSUN0SVVHbmFMTGZNSWFPTTFMbTNL?=
+ =?utf-8?B?SVF4enlCRjNmS3NQZmtaaW02V2xBb2pscEJEeHRQaGxRQ0t0WGR4UXJwakhF?=
+ =?utf-8?B?akZMQ2NqcGJJRjV5VW5HTGtCbDBBRzVlQU5PcDdJbVBCaGF2ZzNQQ3ZIazNv?=
+ =?utf-8?B?WCtQVkJ4YlJqRnR4TW1heW1vNUxOMFJtalVaR0ZoOFBseWo2a3Z2TlFIN0hZ?=
+ =?utf-8?B?TDZWbG43R1NuNk4zeEdJZW93cUdLdmhvNUNLK0lKaWFlSGR4UWxXb2hrYkFM?=
+ =?utf-8?B?cUpmVUtrbkNFVElESGZaTW5abjZJZUJvMzhQV3p5cjBQamc3enJ0VGhKcDA5?=
+ =?utf-8?B?TzNCUlRVREV4OTVYNE1YN2JKRVVwMUZ1OUZ3enNBckt3YTRXRU1UeUZjWFQr?=
+ =?utf-8?B?UXRZcWNYR1NHN0NOaDVraS9xMGl5SUI4T3ZqeitwYThBUmZ0cVpPcDhjOW0r?=
+ =?utf-8?B?Q2dUNWZmSVpyL2UwRTgwRUxlK211MFJuWHlzUE5weUlMd2pvNFM5VE1oZGFH?=
+ =?utf-8?B?RE9tQjdLMFhMTDNtcDBadnN3ZEtrdnlXdWsyaGhoVnovemlHOG1JRVdMYjdm?=
+ =?utf-8?B?QkhHK1M5THJaclVDUFN6SmVpelFnQlYvV25FTGNoYlRkYkpuS2IrR3dMeFZV?=
+ =?utf-8?B?SWl2YndzVlg3N2RZSWVjQU9YVndWMnhBTmtFTTJXYVhSbUdqdTE5U3JQT1lK?=
+ =?utf-8?B?SFhxN05wcFZUVStjV3djenRhY0VpcjNCc0xHblZHdkY1eVZja3NEOGs0YWdW?=
+ =?utf-8?B?VEpzY0NUWm5VZjg4cWpJRXN5NUFrUjhPZjVBRnd6QlZEKyt3dFJwTEtjVDF2?=
+ =?utf-8?B?VUFGU3cxb0RtWmdBZ2dLYlRaUHczZ2F2SkMyd3pmdDBwaU14NUp4S1cwSHBM?=
+ =?utf-8?B?c0k5WWdIbnhobXk3UUd1U3JMMVZUazUvNnd2ZDVzV0xQVW12c2hqODJwMFdu?=
+ =?utf-8?B?V29HUmJLbTJkSTYra3BQSGMyeWNVeXlUUXF4UjJya3liL3BWWnJ0YkN3SEha?=
+ =?utf-8?B?cUFyZ3hXWXd6SktHWnNHckNnbEFrS3JpaUtTdjZuMlRVQWpRRWNtTWZVT0lh?=
+ =?utf-8?B?RzNuSHQ4dnIxdUovRldqQmtaVUlkRE45cnJzTTJYWFl3MERwZFcyOFlBRGhV?=
+ =?utf-8?B?T29sTmZ0Nk96UkJCTDdXTkdpNm9HNk9hTHpuK3ZNYlZudnQxWWh1REFsZStx?=
+ =?utf-8?B?Y0VRNWNtVGpNMEFyRWpHR2xMcmhmV2llb1h0K0ozNXd3RjhBR25TVEpIZnZO?=
+ =?utf-8?B?LzN3aUNXaUFVZjE3WU9hQW9uKzhJVWZpL25Sb3laaHM1NUtHaGxCSmx2Q2JE?=
+ =?utf-8?B?OHY3eUtlZXVSRkliS2h1Q1Evc3RRQXBCSndaZWpZVUhBZmlkRGpSczlTRjI1?=
+ =?utf-8?B?TlJRS0RjVk11bmZlMEFCT1NsY2ZodWllWlZTS3NGdEEyZzhDdnY0aGs5UGNL?=
+ =?utf-8?B?dEoyUC9zRDNWQjk0ZnUydk5JTklEd1VhRi9GTUxqSVViZ1ZOVTBBbXE1Umtw?=
+ =?utf-8?B?L2NWeFZ1bnIwbzVZQnd3Sm93NFA5dWZJSjZnNUZyVUJtWWdNQ3hEUlprZjA1?=
+ =?utf-8?B?Vk5vY2ExelNvWElaVlJLVTc5V2tBMWZSRCs2Uk9QekJld0hHNE00Z25xOGNY?=
+ =?utf-8?B?MHpZNW16bS9iVE8zNGpwdEV2dHIxdjVOdDJ4aWdGNjFOVDRKYVQ3R1g1OXBZ?=
+ =?utf-8?B?aE95V0JOblNIVU9IZXZMTUs1eW9DWmtBb2FROWpwVHdHd3pmN2NQSnBxTHFo?=
+ =?utf-8?B?QkdTK3ZBQUpzK1Zxa3JQSlR3MVl5Ukg2Rm90ckhySEJrNmVhQ1Yxbk01WUw2?=
+ =?utf-8?B?RGtwSURSVFd0eG5LcTJXUVFrMWY3aEp4V0htdWtEZ29Qc213Rm85Zz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90f6b351-aa4d-444d-f2f4-08da3a112438
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5445.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2022 03:30:52.6506 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IA/zhc6jrnrtqKHGDr/Qw/RIEowRrESDGb9sAwOxc27rDfiRZbKfpPREjYuTGeGxN+SBUXvl1Mi4vUiMbwYrXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB4696
+Received-SPF: softfail client-ip=2a01:111:f400:7eab::62a;
+ envelope-from=Suravee.Suthikulpanit@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,275 +153,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new 'guest-get-diskstats' command for report disk io statistics
-for Linux guests. This can be useful for getting io flow or handling
-IO fault, no need to enter guests.
+Hi All,
 
-Signed-off-by: luzhipeng <luzhipeng@cestc.cn>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- Changes v4->v5: fix Typo and adjust fileds order in qapi-schema
- Changes v3->v4: https://patchew.org/QEMU/20220515095437.1291-1-luzhipeng@cestc.cn/
- Changes v2->v3: bugfix for memory leak 
- Changes v1->v2: v1:https://patchew.org/QEMU/20220512011930.214-1-luzhipeng@cestc.cn/
- 
- qga/commands-posix.c | 123 +++++++++++++++++++++++++++++++++++++++++++
- qga/commands-win32.c |   6 +++
- qga/qapi-schema.json |  86 ++++++++++++++++++++++++++++++
- 3 files changed, 215 insertions(+)
+Currently, we don't have a good way to check whether APICV is active on a VM.
+Normally, For AMD SVM AVIC, users either have to check for trace point, or using
+"perf kvm stat live" to catch AVIC-related #VMEXIT.
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 69f209af87..12b50b7124 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2783,6 +2783,122 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
-     return info;
- }
- 
-+#define MAX_NAME_LEN 128
-+static GuestDiskStatsInfoList *guest_get_diskstats(Error **errp)
-+{
-+#ifdef CONFIG_LINUX
-+    GuestDiskStatsInfoList *head = NULL, **tail = &head;
-+    const char *diskstats = "/proc/diskstats";
-+    FILE *fp;
-+    size_t n;
-+    char *line = NULL;
-+
-+    fp = fopen(diskstats, "r");
-+    if (fp  == NULL) {
-+        error_setg_errno(errp, errno, "open(\"%s\")", diskstats);
-+        return NULL;
-+    }
-+
-+    while (getline(&line, &n, fp) != -1) {
-+        g_autofree GuestDiskStatsInfo *diskstatinfo = NULL;
-+        g_autofree GuestDiskStats *diskstat = NULL;
-+        char dev_name[MAX_NAME_LEN];
-+        unsigned int ios_pgr, tot_ticks, rq_ticks, wr_ticks, dc_ticks, fl_ticks;
-+        unsigned long rd_ios, rd_merges_or_rd_sec, rd_ticks_or_wr_sec, wr_ios;
-+        unsigned long wr_merges, rd_sec_or_wr_ios, wr_sec;
-+        unsigned long dc_ios, dc_merges, dc_sec, fl_ios;
-+        unsigned int major, minor;
-+        int i;
-+
-+        i = sscanf(line, "%u %u %s %lu %lu %lu"
-+                   "%lu %lu %lu %lu %u %u %u %u"
-+                   "%lu %lu %lu %u %lu %u",
-+                   &major, &minor, dev_name,
-+                   &rd_ios, &rd_merges_or_rd_sec, &rd_sec_or_wr_ios,
-+                   &rd_ticks_or_wr_sec, &wr_ios, &wr_merges, &wr_sec,
-+                   &wr_ticks, &ios_pgr, &tot_ticks, &rq_ticks,
-+                   &dc_ios, &dc_merges, &dc_sec, &dc_ticks,
-+                   &fl_ios, &fl_ticks);
-+
-+        if (i < 7) {
-+            continue;
-+        }
-+
-+        diskstatinfo = g_new0(GuestDiskStatsInfo, 1);
-+        diskstatinfo->name = g_strdup(dev_name);
-+        diskstatinfo->major = major;
-+        diskstatinfo->minor = minor;
-+
-+        diskstat = g_new0(GuestDiskStats, 1);
-+        if (i == 7) {
-+            diskstat->has_read_ios = true;
-+            diskstat->read_ios = rd_ios;
-+            diskstat->has_read_sectors = true;
-+            diskstat->read_sectors = rd_merges_or_rd_sec;
-+            diskstat->has_write_ios = true;
-+            diskstat->write_ios = rd_sec_or_wr_ios;
-+            diskstat->has_write_sectors = true;
-+            diskstat->write_sectors = rd_ticks_or_wr_sec;
-+        }
-+        if (i >= 14) {
-+            diskstat->has_read_ios = true;
-+            diskstat->read_ios = rd_ios;
-+            diskstat->has_read_sectors = true;
-+            diskstat->read_sectors = rd_sec_or_wr_ios;
-+            diskstat->has_read_merges = true;
-+            diskstat->read_merges = rd_merges_or_rd_sec;
-+            diskstat->has_read_ticks = true;
-+            diskstat->read_ticks = rd_ticks_or_wr_sec;
-+            diskstat->has_write_ios = true;
-+            diskstat->write_ios = wr_ios;
-+            diskstat->has_write_sectors = true;
-+            diskstat->write_sectors = wr_sec;
-+            diskstat->has_write_merges = true;
-+            diskstat->write_merges = wr_merges;
-+            diskstat->has_write_ticks = true;
-+            diskstat->write_ticks = wr_ticks;
-+            diskstat->has_ios_pgr = true;
-+            diskstat->ios_pgr = ios_pgr;
-+            diskstat->has_total_ticks = true;
-+            diskstat->total_ticks = tot_ticks;
-+            diskstat->has_weight_ticks = true;
-+            diskstat->weight_ticks = rq_ticks;
-+        }
-+        if (i >= 18) {
-+            diskstat->has_discard_ios = true;
-+            diskstat->discard_ios = dc_ios;
-+            diskstat->has_discard_merges = true;
-+            diskstat->discard_merges = dc_merges;
-+            diskstat->has_discard_sectors = true;
-+            diskstat->discard_sectors = dc_sec;
-+            diskstat->has_discard_ticks = true;
-+            diskstat->discard_ticks = dc_ticks;
-+        }
-+        if (i >= 20) {
-+            diskstat->has_flush_ios = true;
-+            diskstat->flush_ios = fl_ios;
-+            diskstat->has_flush_ticks = true;
-+            diskstat->flush_ticks = fl_ticks;
-+        }
-+
-+        diskstatinfo->stats = g_steal_pointer(&diskstat);
-+        QAPI_LIST_APPEND(tail, diskstatinfo);
-+        diskstatinfo = NULL;
-+    }
-+    free(line);
-+    fclose(fp);
-+    return head;
-+#else
-+    g_debug("disk stats reporting available only for Linux");
-+    return NULL;
-+#endif
-+}
-+
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-+{
-+    return guest_get_diskstats(errp);
-+}
-+
- #else /* defined(__linux__) */
- 
- void qmp_guest_suspend_disk(Error **errp)
-@@ -3131,6 +3247,13 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-     return NULL;
- }
- 
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+
- #endif /* CONFIG_FSFREEZE */
- 
- #if !defined(CONFIG_FSTRIM)
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index d56b5fd2a7..dcdeb76a68 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -2532,3 +2532,9 @@ char *qga_get_host_name(Error **errp)
- 
-     return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
- }
-+
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 4d8e506c9e..3aa652e4d2 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1490,3 +1490,89 @@
- { 'command': 'guest-ssh-remove-authorized-keys',
-   'data': { 'username': 'str', 'keys': ['str'] },
-   'if': 'CONFIG_POSIX' }
-+
-+##
-+# @GuestDiskStats:
-+#
-+# @read-sectors: sectors read
-+#
-+# @read-ios: reads completed successfully
-+#
-+# @read-merges: read requests merged
-+#
-+# @write-sectors: sectors written
-+#
-+# @write-ios: writes completed
-+#
-+# @write-merges: write requests merged
-+#
-+# @discard-sectors: sectors discarded
-+#
-+# @discard-ios: discards completed successfully
-+#
-+# @discard-merges: discard requests merged
-+#
-+# @flush-ios: flush requests completed successfully
-+#
-+# @read-ticks: time spent reading(ms)
-+#
-+# @write-ticks: time spent writing(ms)
-+#
-+# @discard-ticks: time spent discarding(ms)
-+#
-+# @flush-ticks: time spent flushing(ms)
-+#
-+# @ios-pgr: number of I/Os currently in flight
-+#
-+# @total-ticks: time spent doing I/Os (ms)
-+#
-+# @weight-ticks: weighted time spent doing I/Os since the last update of this field(ms)
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'GuestDiskStats',
-+  'data': {'*read-sectors': 'uint64',
-+           '*read-ios': 'uint64',
-+           '*read-merges': 'uint64',
-+           '*write-sectors': 'uint64',
-+           '*write-ios': 'uint64',
-+           '*write-merges': 'uint64',
-+           '*discard-sectors': 'uint64',
-+           '*discard-ios': 'uint64',
-+           '*discard-merges': 'uint64',
-+           '*flush-ios': 'uint64',
-+           '*read-ticks': 'uint64',
-+           '*write-ticks': 'uint64',
-+           '*discard-ticks': 'uint64',
-+           '*flush-ticks': 'uint64',
-+           '*ios-pgr': 'uint64',
-+           '*total-ticks': 'uint64',
-+           '*weight-ticks': 'uint64'
-+           } }
-+
-+##
-+# @GuestDiskStatsInfo:
-+#
-+# @name disk name
-+#
-+# @major major device number of disk
-+#
-+# @minor minor device number of disk
-+##
-+{ 'struct': 'GuestDiskStatsInfo',
-+  'data': {'name': 'str',
-+           'major': 'uint64',
-+           'minor': 'uint64',
-+           'stats': 'GuestDiskStats' } }
-+
-+##
-+# @guest-get-diskstats:
-+#
-+# Retrieve information about disk stats.
-+# Returns: List of disk stats of guest.
-+#
-+# Since: 7.1
-+##
-+{ 'command': 'guest-get-diskstats',
-+  'returns': ['GuestDiskStatsInfo']
-+}
--- 
-2.31.1
+For KVM, I would like to propose introducing a new IOCTL interface (i.e. KVM_GET_APICV_INFO),
+where user-space tools (e.g. QEMU monitor) can query run-time information of APICv for VM and vCPUs
+such as APICv inhibit reason flags.
 
+For QEMU, we can leverage the "info lapic" command, and append the APICV information after
+all LAPIC register information:
 
+For example:
 
+----- Begin Snippet -----
+(qemu) info lapic 0
+dumping local APIC state for CPU 0
+
+LVT0     0x00010700 active-hi edge  masked                      ExtINT (vec 0)
+LVT1     0x00000400 active-hi edge                              NMI
+LVTPC    0x00010000 active-hi edge  masked                      Fixed  (vec 0)
+LVTERR   0x000000fe active-hi edge                              Fixed  (vec 254)
+LVTTHMR  0x00010000 active-hi edge  masked                      Fixed  (vec 0)
+LVTT     0x000400ee active-hi edge                 tsc-deadline Fixed  (vec 238)
+Timer    DCR=0x0 (divide by 2) initial_count = 0 current_count = 0
+SPIV     0x000001ff APIC enabled, focus=off, spurious vec 255
+ICR      0x000000fd physical edge de-assert no-shorthand
+ICR2     0x00000005 cpu 5 (X2APIC ID)
+ESR      0x00000000
+ISR      (none)
+IRR      (none)
+
+APR 0x00 TPR 0x00 DFR 0x0f LDR 0x00PPR 0x00
+
+APICV   vm inhibit: 0x10 <-- HERE
+APICV vcpu inhibit: 0 <-- HERE
+
+------ End Snippet ------
+
+Otherwise, we can have APICv-specific info command (e.g. info apicv).
+
+Any suggestions are much appreciated.
+
+Best Regards,
+Suravee
 
