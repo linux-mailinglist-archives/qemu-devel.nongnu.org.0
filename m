@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FCF52EC89
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 14:48:06 +0200 (CEST)
-Received: from localhost ([::1]:55114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4C652ECA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 14:51:44 +0200 (CEST)
+Received: from localhost ([::1]:59550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns232-00033V-De
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 08:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59622)
+	id 1ns26a-0006ns-0s
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 08:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>)
- id 1ns1xX-0000UZ-NZ; Fri, 20 May 2022 08:42:26 -0400
-Received: from sender4-op-o18.zoho.com ([136.143.188.18]:17846)
+ (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns23r-0005QW-BS
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 08:48:55 -0400
+Received: from mga17.intel.com ([192.55.52.151]:12814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>)
- id 1ns1xV-00044C-Qu; Fri, 20 May 2022 08:42:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1653050535; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=W8GaDLRNwTTJH4lL3dpvyJwn9tbhlDT3YQeyQyAfCVhspa7KvI9Mxqs3GJdflMMbuBaufvY8FzoY0XaDrbr3q6gTTvV2uZMWRFRJ6ROfVnUua/9atHU3OvYaf11tcy1d/jK9DEfu/k0bjkAboveVIDySrtiuFCbDToOtaVEbiqc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1653050535;
- h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
- bh=gBXY50Hr95KuxeUxlVOTZnaUhvHZ5Aw8fPCec2+svQA=; 
- b=cNlouEBNcNkJOHwG0iHLAfFydWo2QfFRROLxAmdjsJhX5YqW31L77p+D66OUTsiU5JHkQrmwCFf1KzQ+9BB9eYJX+cwdgo3K5ZRFmc9GKCdnQtaAgSKHJlSFxKHiH9ojhv9LiPaec7mzpiuKqYD5EqiLKTc9IczwaHlHNHMG8qk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653050535; 
- s=zmail; d=icenowy.me; i=uwu@icenowy.me;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
- bh=gBXY50Hr95KuxeUxlVOTZnaUhvHZ5Aw8fPCec2+svQA=;
- b=YKAOFVrXIhNjMqXZSRb8klhBYjJL6kIupO+d5jYLNJxZD1jTgABgzwKG/P3RsAEz
- DNSR4/Vu9HKe5TNS/KQLjT8mEgQ8ayRr1rlldpBB1ezsL2DKB+VTt4jgYwSjESrVgMf
- BGSEEri6D7PbTd9Fmms+RS/rN7jEaM+VsXbW9l00=
-Received: from edelgard.icenowy.me (59.41.160.101 [59.41.160.101]) by
- mx.zohomail.com with SMTPS id 1653050532902282.85132173993804;
- Fri, 20 May 2022 05:42:12 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Beniamino Galvani <b.galvani@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH] hw/sd/allwinner-sdhost: report FIFO water level as 1 when
- data ready
-Date: Fri, 20 May 2022 20:42:00 +0800
-Message-Id: <20220520124200.2112699-1-uwu@icenowy.me>
-X-Mailer: git-send-email 2.36.0
+ (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns23n-0005eX-Vl
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 08:48:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653050931; x=1684586931;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ydq2rAxzxy58oJMneM/mj2UuLnLEiLOSmzW01gULOvU=;
+ b=BXhQ4aTxD8SIS1oiK1OfqbeMQEJazdzeDNtW0glkWARgocZkRhsSN+vP
+ GqQFyXMW94E7tmHCxkCFLxsqajYHfQ5XlWA1ntPXBSSK1mO9ZMOHgCE/t
+ D5p0E1mZpkKwq5G3aOd4V80NPr50O40wgKwyobvMZNHS8PUVoqiwKHxAC
+ 8m1IqXlMl6Fm3TuTglwaAfUDC5UQlBKFehuU50ncA8b6V+c+nJcoFFP2k
+ uP4zhv+2M3FZxZ3S/2wj7AENLbYQMhrWs0ZfZLRCfxmw7oKYi5sFPssaK
+ Y3ZiCFjN3WC6KECxMpWEz4LrSwQ65wiSYIi0WMG0OEW5794ZZ6fJNL+K1 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="253112299"
+X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="253112299"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2022 05:48:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="662248000"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 20 May 2022 05:48:44 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ns23g-0004hw-5m;
+ Fri, 20 May 2022 12:48:44 +0000
+Date: Fri, 20 May 2022 20:48:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: zhenwei pi <pizhenwei@bytedance.com>, akpm@linux-foundation.org,
+ naoya.horiguchi@nec.com, mst@redhat.com, david@redhat.com
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, jasowang@redhat.com,
+ virtualization@lists.linux-foundation.org, pbonzini@redhat.com,
+ peterx@redhat.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>
+Subject: Re: [PATCH 3/3] virtio_balloon: Introduce memory recover
+Message-ID: <202205202014.mgqgBrKd-lkp@intel.com>
+References: <20220520070648.1794132-4-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.18; envelope-from=uwu@icenowy.me;
- helo=sender4-op-o18.zoho.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220520070648.1794132-4-pizhenwei@bytedance.com>
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=lkp@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,44 +81,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U-Boot queries the FIFO water level to reduce checking status register
-when doing PIO SD card operation.
+Hi zhenwei,
 
-Report a FIFO water level of 1 when data is ready, to prevent the code
-from trying to read 0 words from the FIFO each time.
+Thank you for the patch! Perhaps something to improve:
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- hw/sd/allwinner-sdhost.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20220519]
+[cannot apply to linux/master linus/master v5.18-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-index 041e45c680..b66fd9bce7 100644
---- a/hw/sd/allwinner-sdhost.c
-+++ b/hw/sd/allwinner-sdhost.c
-@@ -114,7 +114,9 @@ enum {
- };
- 
- enum {
-+    SD_STAR_FIFO_EMPTY      = (1 << 2),
-     SD_STAR_CARD_PRESENT    = (1 << 8),
-+    SD_STAR_FIFO_LEVEL_1    = (1 << 17),
- };
- 
- enum {
-@@ -467,6 +469,11 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-         break;
-     case REG_SD_STAR:      /* Status */
-         res = s->status;
-+        if (sdbus_data_ready(&s->sdbus)) {
-+            res |= SD_STAR_FIFO_LEVEL_1;
-+        } else {
-+            res |= SD_STAR_FIFO_EMPTY;
-+        }
-         break;
-     case REG_SD_FWLR:      /* FIFO Water Level */
-         res = s->fifo_wlevel;
+url:    https://github.com/intel-lab-lkp/linux/commits/zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+config: hexagon-randconfig-r041-20220519 (https://download.01.org/0day-ci/archive/20220520/202205202014.mgqgBrKd-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e00cbbec06c08dc616a0d52a20f678b8fbd4e304)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a42127073dd4adb6354649c8235c5cde033d01f2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
+        git checkout a42127073dd4adb6354649c8235c5cde033d01f2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/virtio/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/virtio/virtio_balloon.c:654:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   drivers/virtio/virtio_balloon.c:654:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   1 warning generated.
+
+
+vim +654 drivers/virtio/virtio_balloon.c
+
+   593	
+   594	static void recover_vq_handle_response(struct virtio_balloon *vb, unsigned int len)
+   595	{
+   596		struct __virtio_balloon_recover *in_vbr;
+   597		struct virtio_balloon_recover *vbr;
+   598		struct page *page;
+   599		unsigned int pfns;
+   600		u32 pfn0, pfn1;
+   601		__u8 status;
+   602	
+   603		/* the response is not expected */
+   604		if (unlikely(len != sizeof(struct __virtio_balloon_recover)))
+   605			return;
+   606	
+   607		in_vbr = &vb->in_vbr;
+   608		vbr = &in_vbr->vbr;
+   609		if (unlikely(vbr->cmd != VIRTIO_BALLOON_R_CMD_RESPONSE))
+   610			return;
+   611	
+   612		/* to make sure the contiguous balloon PFNs */
+   613		for (pfns = 1; pfns < VIRTIO_BALLOON_PAGES_PER_PAGE; pfns++) {
+   614			pfn0 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[pfns - 1]);
+   615			pfn1 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[pfns]);
+   616			if (pfn1 - pfn0 != 1)
+   617				return;
+   618		}
+   619	
+   620		pfn0 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[0]);
+   621		if (!pfn_valid(pfn0))
+   622			return;
+   623	
+   624		pfn1 = -1;
+   625		spin_lock(&vb->recover_page_list_lock);
+   626		list_for_each_entry(page, &vb->corrupted_page_list, lru) {
+   627			pfn1 = page_to_pfn(page);
+   628			if (pfn1 == pfn0)
+   629				break;
+   630		}
+   631		spin_unlock(&vb->recover_page_list_lock);
+   632	
+   633		status = vbr->status;
+   634		switch (status) {
+   635		case VIRTIO_BALLOON_R_STATUS_RECOVERED:
+   636			if (pfn1 == pfn0) {
+   637				spin_lock(&vb->recover_page_list_lock);
+   638				list_del(&page->lru);
+   639				balloon_page_push(&vb->recovered_page_list, page);
+   640				spin_unlock(&vb->recover_page_list_lock);
+   641				queue_work(system_freezable_wq, &vb->unpoison_memory_work);
+   642				dev_info_ratelimited(&vb->vdev->dev, "recovered pfn 0x%x", pfn0);
+   643			}
+   644			break;
+   645		case VIRTIO_BALLOON_R_STATUS_FAILED:
+   646			/* the hypervisor can't fix this corrupted page, balloon puts page */
+   647			if (pfn1 == pfn0) {
+   648				spin_lock(&vb->recover_page_list_lock);
+   649				list_del(&page->lru);
+   650				spin_unlock(&vb->recover_page_list_lock);
+   651				put_page(page);
+   652				dev_info_ratelimited(&vb->vdev->dev, "failed to recover pfn 0x%x", pfn0);
+   653			}
+ > 654		default:
+   655			break;
+   656		};
+   657	
+   658		/* continue to get response from host side if the response gets handled successfully */
+   659		recover_vq_get_response(vb);
+   660	}
+   661	
+
 -- 
-2.36.0
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
