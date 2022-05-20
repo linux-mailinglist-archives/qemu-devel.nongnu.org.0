@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55B352F1E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 19:50:47 +0200 (CEST)
-Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B6952F1F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 19:59:06 +0200 (CEST)
+Received: from localhost ([::1]:51680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns6ly-0005Q8-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 13:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
+	id 1ns6u1-0002nG-CD
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 13:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6hV-0002cn-2z; Fri, 20 May 2022 13:46:09 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6hT-0002Dk-Cg; Fri, 20 May 2022 13:46:08 -0400
-Received: by mail-ej1-x633.google.com with SMTP id gi33so8448618ejc.3;
- Fri, 20 May 2022 10:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=C41Pk0vCO8V+AJMtMv+Bt9tIl1e7vmq6beORcxBkGfQ=;
- b=qlC2t8JX1/MfO36JQyiZe+2cYLC1ZQYAoRXcob0NOcleZY4zRE/ACLmzpT+oUaSH+p
- kMWoUiBeIKlM64EZRi7TZkerV1pS5KMAn45PXSGyVbDsH5VeUng7JEsy55Z1poZPGOnV
- tQI2tt+foxBGtlwmXB+y7G66iNDtvLQiWA/3XAniq9lBUyittvuWH/lw73Qtr9iS9Jjd
- EXwZSRM8RAy3Lkns7qplOHPSY9lJCOWU/5WBQdpc85/rPnMEYuVk9d/uufGxInL1a/T1
- 2ptgR7w+ekboOe9r2l2bd5iq9ZVmmsWMBeahEpdat4pHAEur+9TORoCKjlYKtCIzgdPq
- XaCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=C41Pk0vCO8V+AJMtMv+Bt9tIl1e7vmq6beORcxBkGfQ=;
- b=6womMqKOATmE8hHoLoudTr5FY4xW8nLaTqPDQ5CwIw0ayGDDjV87xG/I6foZXfubYq
- 1wrubKn8ngYecP8y4RNtxueYaR21t73UjfpknjZzMCOCjjFiqLWx7YDm0sQtBsWE/SKe
- ur1JnTTNFUC/Gvr9xbsGDgZhj8Y48WPEzbaUahmyfGT9HAvhV54/MiVr+Wapr2N41nx0
- N4UX4kXLV6xY83kSTv6JbwTEZ0bUzjb5HZTKDfjMK7OSDZY6iHzCTL7dEYOzqbOj7vI0
- lWz4DCtbOruUobHoUALaMq9IFX0PUF4KsYo6WNbDfHlg4TshsjpJ7FBH+qly9XPdqdLr
- Y6lA==
-X-Gm-Message-State: AOAM530SuFsQvSNyDBcFTRvmKe3kp5HAcL8wTmUwiYOBTBH207Eer9V+
- gli7H6e/49Eqf5FU4UZZoETJ0eT5VWA=
-X-Google-Smtp-Source: ABdhPJzGZ1GQlw6tDuKSsth+/K1pRabgo8mIVktr8kP18YZaoNqSHLiMWr+zb3CZ6B2GcRqpWM4V3g==
-X-Received: by 2002:a17:906:4786:b0:6fe:a20a:fcd1 with SMTP id
- cw6-20020a170906478600b006fea20afcd1mr5699315ejc.442.1653068765429; 
- Fri, 20 May 2022 10:46:05 -0700 (PDT)
-Received: from localhost.localdomain
- (dynamic-089-014-209-236.89.14.pool.telefonica.de. [89.14.209.236])
- by smtp.gmail.com with ESMTPSA id
- h22-20020aa7cdd6000000b0042abb914d6asm4410209edw.69.2022.05.20.10.46.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 10:46:04 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH 2/2] rtc/mc146818rtc: QOM'ify io_base offset
-Date: Fri, 20 May 2022 19:45:37 +0200
-Message-Id: <20220520174537.5827-3-shentey@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220520174537.5827-1-shentey@gmail.com>
-References: <20220520174537.5827-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ns6sv-000274-ET
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 13:57:58 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:40200)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ns6st-0003fc-9C
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 13:57:56 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A84EFB82D50;
+ Fri, 20 May 2022 17:57:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABACEC385A9;
+ Fri, 20 May 2022 17:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653069464;
+ bh=zWCwftlejUqTmbDmnupK8x4rMoq86l14ym8GOJl1Vus=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JxH9rJ90e0wDL/jdzIjTJxmZhEpDMrRjJIMUx2sa6kb221GDAtu2VbFDQOBj59hCr
+ guVOEe1jNrYERLB4NBxjj/KFnQkO8Z/84oeszUfZSb8VnnSpRPy8yMRtGAPYe7ZS1A
+ D3XFII/b4mizSxjM9c8yeG1DZsawt5/OzqQa5d/0OhDiwpiip9YrglBMwCNwJ3A81X
+ sxEk+YBXvT0hWRhvycNKDkxKxBiyFwlGXVZ8EQU6g/oTseuSwwSJC/oJMAdmfEEV7X
+ +65DZBOwtR9GL41sAgm1wqyIqsd1PNs/HNHB+xOU3bqYhNak20Fsr3iWeaiGKqm0VQ
+ gvoN3AIWAdrug==
+Message-ID: <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+Date: Fri, 20 May 2022 10:57:41 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+From: Andy Lutomirski <luto@kernel.org>
+In-Reply-To: <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=luto@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,108 +94,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Exposing the io_base offset as a QOM property not only allows it to be
-configurable but also to be displayed in HMP:
+On 5/19/22 08:37, Chao Peng wrote:
+> Extend the memslot definition to provide guest private memory through a
+> file descriptor(fd) instead of userspace_addr(hva). Such guest private
+> memory(fd) may never be mapped into userspace so no userspace_addr(hva)
+> can be used. Instead add another two new fields
+> (private_fd/private_offset), plus the existing memory_size to represent
+> the private memory range. Such memslot can still have the existing
+> userspace_addr(hva). When use, a single memslot can maintain both
+> private memory through private fd(private_fd/private_offset) and shared
+> memory through hva(userspace_addr). A GPA is considered private by KVM
+> if the memslot has private fd and that corresponding page in the private
+> fd is populated, otherwise, it's shared.
+> 
 
-Before:
 
-(qemu) info qtree
-       ...
-          dev: mc146818rtc, id ""
-            gpio-out "" 1
-            base_year = 0 (0x0)
-            irq = 8 (0x8)
-            lost_tick_policy = "discard"
+So this is a strange API and, IMO, a layering violation.  I want to make 
+sure that we're all actually on board with making this a permanent part 
+of the Linux API.  Specifically, we end up with a multiplexing situation 
+as you have described. For a given GPA, there are *two* possible host 
+backings: an fd-backed one (from the fd, which is private for now might 
+might end up potentially shared depending on future extensions) and a 
+VMA-backed one.  The selection of which one backs the address is made 
+internally by whatever backs the fd.
 
-After:
+This, IMO, a clear layering violation.  Normally, an fd has an 
+associated address space, and pages in that address space can have 
+contents, can be holes that appear to contain all zeros, or could have 
+holes that are inaccessible.  If you try to access a hole, you get 
+whatever is in the hole.
 
-          dev: mc146818rtc, id ""
-            gpio-out "" 1
-            base_year = 0 (0x0)
-            iobase = 112 (0x70)
-            irq = 8 (0x8)
-            lost_tick_policy = "discard"
+But now, with this patchset, the fd is more of an overlay and you get 
+*something else* if you try to access through the hole.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/i386/microvm-dt.c         | 2 +-
- hw/rtc/mc146818rtc.c         | 7 ++++---
- include/hw/rtc/mc146818rtc.h | 2 +-
- 3 files changed, 6 insertions(+), 5 deletions(-)
+This results in operations on the fd bubbling up to the KVM mapping in 
+what is, IMO, a strange way.  If the user punches a hole, KVM has to 
+modify its mappings such that the GPA goes to whatever VMA may be there. 
+  (And update the RMP, the hypervisor's tables, or whatever else might 
+actually control privateness.)  Conversely, if the user does fallocate 
+to fill a hole, the guest mapping *to an unrelated page* has to be 
+zapped so that the fd's page shows up.  And the RMP needs updating, etc.
 
-diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
-index a5db9e4e5a..39fe425b26 100644
---- a/hw/i386/microvm-dt.c
-+++ b/hw/i386/microvm-dt.c
-@@ -209,7 +209,7 @@ static void dt_add_isa_rtc(MicrovmMachineState *mms, ISADevice *dev)
- {
-     const char compat[] = "motorola,mc146818";
-     uint32_t irq = object_property_get_uint(OBJECT(dev), "irq", NULL);
--    hwaddr base = RTC_ISA_BASE;
-+    hwaddr base = object_property_get_int(OBJECT(dev), "iobase", NULL);
-     hwaddr size = 8;
-     char *nodename;
- 
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index f235c2ddbe..484f91b6f8 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -941,7 +941,7 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     qemu_register_suspend_notifier(&s->suspend_notifier);
- 
-     memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
--    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
-+    isa_register_ioport(isadev, &s->io, s->io_base);
- 
-     /* register rtc 0x70 port for coalesced_pio */
-     memory_region_set_flush_coalesced(&s->io);
-@@ -950,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
-     memory_region_add_coalescing(&s->coalesced_io, 0, 1);
- 
--    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
-+    qdev_set_legacy_instance_id(dev, s->io_base, 3);
- 
-     object_property_add_tm(OBJECT(s), "date", rtc_get_date);
- 
-@@ -983,6 +983,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
- 
- static Property mc146818rtc_properties[] = {
-     DEFINE_PROP_INT32("base_year", RTCState, base_year, 1980),
-+    DEFINE_PROP_UINT32("iobase", RTCState, io_base, 0x70),
-     DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
-     DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
-                                lost_tick_policy, LOST_TICK_POLICY_DISCARD),
-@@ -1028,7 +1029,7 @@ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
-      * does, even though qemu only responds to the first two ports.
-      */
-     crs = aml_resource_template();
--    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
-+    aml_append(crs, aml_io(AML_DECODE16, s->io_base, s->io_base,
-                            0x01, 0x08));
-     aml_append(crs, aml_irq_no_flags(s->isairq));
- 
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 33d85753c0..1f7942a9f8 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -26,6 +26,7 @@ struct RTCState {
-     uint8_t cmos_data[128];
-     uint8_t cmos_index;
-     uint8_t isairq;
-+    uint32_t io_base;
-     int32_t base_year;
-     uint64_t base_rtc;
-     uint64_t last_update;
-@@ -49,7 +50,6 @@ struct RTCState {
- };
- 
- #define RTC_ISA_IRQ 8
--#define RTC_ISA_BASE 0x70
- 
- ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
--- 
-2.36.1
+I am lukewarm on this for a few reasons.
 
+1. This is weird.  AFAIK nothing else works like this.  Obviously this 
+is subjecting, but "weird" and "layering violation" sometimes translate 
+to "problematic locking".
+
+2. fd-backed private memory can't have normal holes.  If I make a memfd, 
+punch a hole in it, and mmap(MAP_SHARED) it, I end up with a page that 
+reads as zero.  If I write to it, the page gets allocated.  But with 
+this new mechanism, if I punch a hole and put it in a memslot, reads and 
+writes go somewhere else.  So what if I actually wanted lazily allocated 
+private zeros?
+
+2b. For a hypothetical future extension in which an fd can also have 
+shared pages (for conversion, for example, or simply because the fd 
+backing might actually be more efficient than indirecting through VMAs 
+and therefore get used for shared memory or entirely-non-confidential 
+VMs), lazy fd-backed zeros sound genuinely useful.
+
+3. TDX hardware capability is not fully exposed.  TDX can have a private 
+page and a shared page at GPAs that differ only by the private bit. 
+Sure, no one plans to use this today, but baking this into the user ABI 
+throws away half the potential address space.
+
+3b. Any software solution that works like TDX (which IMO seems like an 
+eminently reasonable design to me) has the same issue.
+
+
+The alternative would be to have some kind of separate table or bitmap 
+(part of the memslot?) that tells KVM whether a GPA should map to the fd.
+
+What do you all think?
 
