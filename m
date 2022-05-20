@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A8C52E8E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 11:35:03 +0200 (CEST)
-Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE0652E8EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 11:35:19 +0200 (CEST)
+Received: from localhost ([::1]:56444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrz2E-0005yh-2g
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 05:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59226)
+	id 1nrz2U-0006KC-G5
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 05:35:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nryzL-00043u-Iy
- for qemu-devel@nongnu.org; Fri, 20 May 2022 05:32:06 -0400
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f]:41578)
+ id 1nryzi-0004Ow-DF
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 05:32:26 -0400
+Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d]:43161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1nryzH-00083W-SR
- for qemu-devel@nongnu.org; Fri, 20 May 2022 05:32:03 -0400
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-f1eafa567cso6278674fac.8
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 02:31:58 -0700 (PDT)
+ id 1nryzg-00084e-T4
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 05:32:26 -0400
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-f1d2ea701dso9674440fac.10
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 02:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cAvbg5XLwWV258fHW0fxO8WsltNK4deVnaNFewOabcQ=;
- b=nV1lfrC0JeXSCMnwVeJ92mD92dWxHWeI5g2JPMPoeTrws/Oom8PErxn2Hjfozs1H9D
- 7bmi4wF8CWNLLoy/rB5LCeicj4Yy+8REcctZO5Y1TN1UvECdZ6qDlZaHjXkBUF5fyCew
- EA76h6t2/V6i3zgsAbU8fRJZGIwd6UIsoddqLZ7BdUFsj/i9qPmsicwbJpf/A7KdLWgq
- ljKOQ2RUaA5C5zAeTtrV4STP0dBwBVcImL9yyYLg2D3hjfrNoFrwNo/WqQRRPoHu47Gn
- NxpYlscm5II0Ss0tVvj0r55edGKY28Lu7yaVfUpZNQRMXiUsxxLG7gInRPQap7FYevOj
- eSaw==
+ :cc; bh=AkcUhc9EAE+2h03wfwi5gg45tpyte4JTYPXqsJV89tQ=;
+ b=YQmt2Hd6DAw26/wjMntskeurDv72vwnaer7utiuJ4jwQDmDzctM7dQaR8WRkAf7jE3
+ wGhWdnFgrYEcXDo5/AVN29ZNaUnMejxMkRMB0GopF+ExKNXxkheZMDEY0qtpUbWyB+uB
+ 3nlc70rcWf6nE7+nVC7Xixay70lYegv33mXwPdnLjviGIUMKf3CTWRYU3E7WZRuekztg
+ fiWO0ULR5C+nQs9rb0EhECjyBxJEyW1uRLvlK86s1qsLkcwQmpy055nngYNStiVP+4po
+ jgeru9dfM+/+hfs6bIc2oMbIksE5B1HxJFm8iUNrqAm4C7EaEjH7ij/OsM9oADx9ziKZ
+ zklQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cAvbg5XLwWV258fHW0fxO8WsltNK4deVnaNFewOabcQ=;
- b=HT20GcdDgGbLQXNPmrj6vRTbz177QcNfyGcqQTT+aSDX9Foz3vAPSXfwSYs8y9khv3
- GzKLFqrfjEOPx/tAE0pYjjVabq49rjW/ry4rg67GBtyCKyhAn6Y6PZFNZGY4t0fokZaV
- SLLL7c3pUgMUQoCkAgSNV63WLukq0ftw6A0w1GvES3PqSreCP0slWBZQ/DsxoIbIiMhW
- uPMGNI3ABwiujS8EaWooZbr9kVunjMC19xhRchoOmq2Jy9LSmZZs02A3dq/xaEeKDebD
- r1S71lzIHeN2MXNLXsp2Bj02rreONo0lvlRR+DvFShMUqAfTGRRS3Pv46GVLLsbBJp4f
- qUWw==
-X-Gm-Message-State: AOAM530Oq8Vsj5pAkZdn9GqQEG8JwFBhxnDuJM2nX30aSgeSCgpQQcyd
- lUiQavuxSnzC22+VCNSj8tJnQlqu1t+gXOw3ytU=
-X-Google-Smtp-Source: ABdhPJxneWPr7zDcwsN/Fabq4CpNjMd7vAl8PTxEXxdPubXXWGWnIVsbZTBnSE+H44l+NYyFZ0QJIAIivML5bZ69RSg=
-X-Received: by 2002:a05:6870:a79c:b0:e6:30d9:c7fc with SMTP id
- x28-20020a056870a79c00b000e630d9c7fcmr5354716oao.248.1653039117874; Fri, 20
- May 2022 02:31:57 -0700 (PDT)
+ bh=AkcUhc9EAE+2h03wfwi5gg45tpyte4JTYPXqsJV89tQ=;
+ b=vhK2iFWrJLC4v2rt5re4NRZiP7yXhGngW+GZbP5B7omzUK+1GgQt+x+cF5NpM2CD0r
+ sCMBdxr4nycZkGh6vw9ub+Zuk1YD+RtFmUwl/56zvPLpXV1smBwLahF0UoKER7ILMdmL
+ bi9cDqPh8QpXSJFmYseTpNYdty/TuE2spEZT9vG+MtEARJh/a2GtyOGKsP0UF6BQnli3
+ 7GnUOT1JnoJV3XlYWH5UqH6PXHwvaA4nW/WzI2W5kTGSNs26CFYRn6Gy+pUzXLfXcx0H
+ 5ObzYDxqQ65LKj1U3YR0JyWzfZilUAZquIO8Fd4KpEcpiLCj4hHFX5h3Q4hxI5ZGWA2Q
+ hUdg==
+X-Gm-Message-State: AOAM53175VwLwTLeaERyUCJkraMUa8QO52CIkCamL194iXkdg6m4mHmY
+ zDra6ZrLGC/HZ/tWW+IvyZ9pbq44HWnl0sDlrsc=
+X-Google-Smtp-Source: ABdhPJypNoNx4J5XIUL82gH0hWUlb5pPk0NaDAjdLKSbwbytKQZrJZb+cfpOdUCQcEVL8UkLdlNcKc+EnaPdA+E0cxo=
+X-Received: by 2002:a05:6870:538e:b0:e6:7957:31ab with SMTP id
+ h14-20020a056870538e00b000e6795731abmr5412474oan.89.1653039143720; Fri, 20
+ May 2022 02:32:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <CANW9uyss4-NC3SH7xzofpMbu-cn4aDVT9Vvwjk6_JUzBwX4ioQ@mail.gmail.com>
  <CANW9uysaP5dFbXNi-ZmvhMJ9ESzHbqrhoLqXR05c2gBhQS6Hfw@mail.gmail.com>
  <CAFEAcA8XW0DGvysnn08m+dVVnfUADS4khV1jgXea2JgZEPzVaw@mail.gmail.com>
  <CANW9uytx_ocywwRVBLbze32-Vp1qR8FGMWx1691_ji_J8Ngfhw@mail.gmail.com>
  <CAFEAcA_4oqeQTLqi=KE3vgCH-BeSRDLsBxSLCanvQX0s6irc=Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA_4oqeQTLqi=KE3vgCH-BeSRDLsBxSLCanvQX0s6irc=Q@mail.gmail.com>
+ <CANW9uysep-A29wHhB6XZnL2q4TkZHYrYqikd-WTzokpwsGiWYw@mail.gmail.com>
+In-Reply-To: <CANW9uysep-A29wHhB6XZnL2q4TkZHYrYqikd-WTzokpwsGiWYw@mail.gmail.com>
 From: Itaru Kitayama <itaru.kitayama@gmail.com>
-Date: Fri, 20 May 2022 18:31:46 +0900
-Message-ID: <CANW9uysep-A29wHhB6XZnL2q4TkZHYrYqikd-WTzokpwsGiWYw@mail.gmail.com>
+Date: Fri, 20 May 2022 18:32:12 +0900
+Message-ID: <CANW9uyvyoxbTj6YuWB+DhJaDUqTOQqQurzBXgYEWrixeu3QL8A@mail.gmail.com>
 Subject: Re: CPUs supported by the sbsa-ref board
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000006bb9ab05df6e296a"
-Received-SPF: pass client-ip=2001:4860:4864:20::2f;
- envelope-from=itaru.kitayama@gmail.com; helo=mail-oa1-x2f.google.com
+Content-Type: multipart/alternative; boundary="000000000000f61b4205df6e2afd"
+Received-SPF: pass client-ip=2001:4860:4864:20::2d;
+ envelope-from=itaru.kitayama@gmail.com; helo=mail-oa1-x2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,47 +87,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006bb9ab05df6e296a
+--000000000000f61b4205df6e2afd
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I=E2=80=99ve verified only a57 and a72 boot on sbsa ref board, but not N1 a=
-nd
-=E2=80=98max=E2=80=99. As I said, I=E2=80=99ll try to figure out how CPU in=
-it is done in QEMU for
-those not working CPU types.
+If Leif can jump in that=E2=80=99d be great.
 
-On Fri, May 20, 2022 at 18:27 Peter Maydell <peter.maydell@linaro.org>
+On Fri, May 20, 2022 at 18:31 Itaru Kitayama <itaru.kitayama@gmail.com>
 wrote:
 
-> On Fri, 20 May 2022 at 10:02, Itaru Kitayama <itaru.kitayama@gmail.com>
+> I=E2=80=99ve verified only a57 and a72 boot on sbsa ref board, but not N1=
+ and
+> =E2=80=98max=E2=80=99. As I said, I=E2=80=99ll try to figure out how CPU =
+init is done in QEMU for
+> those not working CPU types.
+>
+> On Fri, May 20, 2022 at 18:27 Peter Maydell <peter.maydell@linaro.org>
 > wrote:
-> >
-> > By calling a57=E2=80=99s CPU init function inside the max=E2=80=99s, I =
-can bring up
-> > the sbsa-ref board with the latest kernel.
 >
-> I'm not sure exactly what you're doing, but this sounds like
-> a workaround for something -- we should find out exactly
-> what is going wrong and why.
->
-> -- PMM
+>> On Fri, 20 May 2022 at 10:02, Itaru Kitayama <itaru.kitayama@gmail.com>
+>> wrote:
+>> >
+>> > By calling a57=E2=80=99s CPU init function inside the max=E2=80=99s, I=
+ can bring up
+>> > the sbsa-ref board with the latest kernel.
+>>
+>> I'm not sure exactly what you're doing, but this sounds like
+>> a workaround for something -- we should find out exactly
+>> what is going wrong and why.
+>>
+>> -- PMM
+>>
 >
 
---0000000000006bb9ab05df6e296a
+--000000000000f61b4205df6e2afd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">I=E2=80=99ve verified only a57 and a72 boot on sbsa ref b=
-oard, but not N1 and =E2=80=98max=E2=80=99. As I said, I=E2=80=99ll try to =
-figure out how CPU init is done in QEMU for those not working CPU types.</d=
-iv><div dir=3D"auto"><br></div><div><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Fri, May 20, 2022 at 18:27 Peter Maydell &lt;<=
-a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, 20 May 2022 at 10:0=
-2, Itaru Kitayama &lt;<a href=3D"mailto:itaru.kitayama@gmail.com" target=3D=
-"_blank">itaru.kitayama@gmail.com</a>&gt; wrote:<br>
+<div dir=3D"auto">If Leif can jump in that=E2=80=99d=C2=A0be great.</div><d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Fri, May 20, 2022 at 18:31 Itaru Kitayama &lt;<a href=3D"mailto:itaru.kitay=
+ama@gmail.com">itaru.kitayama@gmail.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex"><div dir=3D"auto">I=E2=80=99ve verified only a57 and a7=
+2 boot on sbsa ref board, but not N1 and =E2=80=98max=E2=80=99. As I said, =
+I=E2=80=99ll try to figure out how CPU init is done in QEMU for those not w=
+orking CPU types.</div><div dir=3D"auto"><br></div><div><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 20, 2022 at 18:27=
+ Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_b=
+lank">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex">On Fri, 20 May 2022 at 10:02, Itaru Kitayama &lt;<a href=3D"mail=
+to:itaru.kitayama@gmail.com" target=3D"_blank">itaru.kitayama@gmail.com</a>=
+&gt; wrote:<br>
 &gt;<br>
 &gt; By calling a57=E2=80=99s CPU init function inside the max=E2=80=99s, I=
  can bring up<br>
@@ -138,6 +151,7 @@ what is going wrong and why.<br>
 <br>
 -- PMM<br>
 </blockquote></div></div>
+</blockquote></div></div>
 
---0000000000006bb9ab05df6e296a--
+--000000000000f61b4205df6e2afd--
 
