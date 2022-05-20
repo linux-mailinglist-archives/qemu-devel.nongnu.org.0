@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5F152E842
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 11:05:57 +0200 (CEST)
-Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374BA52E861
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 11:09:03 +0200 (CEST)
+Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrya3-0004mv-Ob
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 05:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52316)
+	id 1nryd4-0001OC-BI
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 05:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrySN-0002i3-EP
- for qemu-devel@nongnu.org; Fri, 20 May 2022 04:58:00 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:40401)
+ id 1nryUz-0004WZ-NA
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 05:00:41 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:39832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nrySK-0002mV-Q9
- for qemu-devel@nongnu.org; Fri, 20 May 2022 04:57:58 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2fedd26615cso80419637b3.7
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 01:57:56 -0700 (PDT)
+ id 1nryUu-0003HL-2V
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 05:00:41 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id i187so10905201ybg.6
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 02:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5v7rcfJGcXB4/yuw6lJjgI3mfIXirFMKeyQR+LJM0Os=;
- b=tCepznhsZsbgvYljvM3K7f2neNN321vZ7FlBNUpQ00R4n6ginWCoyhVwdwGM1zm5e3
- m8wrRV1sZcS1+1eqobpiMWkq1M/117m00laHW6DllMVBExLP628xW3ITFWBDdVJLj2v0
- y8W6JZphOPkRyO3RwUzjUCcuzNpq99/3Lb8SUs6HGO5WRzvLWdkbuDrdoSl0RnnbT5GD
- vA0dgf+q/1+nzQI4Zvyg0FfRoRS4TqYd6Csx1aEp5BVjfytqcoeJlg0gf2dRXpaiTDcu
- UGpeyx02t9QEkgwtbP2mV6XB9dFFg5lngvwWKhkSqV7Wc4c8Dpd+J7LsRnFgoopZo7oH
- jxcw==
+ :cc; bh=0hhkGjR7lMnsrw+d/mq6+4NmC0RWWYlNXrMvwpsME9Q=;
+ b=b6HPJozL3VdPI/z6C0ybucRlwjaFBrM+Y7C29kfJs24RIZ6jO1oSy6zGY2dNn2s3VQ
+ +j5AcRapquos0h8Cbvpnfwx5OM1yj2OPFJAmksHc/4+ST7P/pEXVMhXNw0ZcV/7t0VXr
+ MoKNtbGhNZbj3olHQf+vaUuPv6k8JXhsb2Ca7FJOxtJPTtJgbkM14H3wCh/oVWGtHCiQ
+ UyMkMqgs4QHz8lfuuvDKiy742cRFn716EusN8xnLgry/LarWIkZ7rNAsluv1k0Ht+CQH
+ sH9ZH3c3BHoq00qFrHNdqMNAdLdpYo40o6OJNi3R6HMHAoB4d6JvUyg8suAzhkixMEC+
+ 5E/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5v7rcfJGcXB4/yuw6lJjgI3mfIXirFMKeyQR+LJM0Os=;
- b=UzT6w1udOKD0kr1aAYQkotQJ6Bpi8hTxuxBfU0mobfu7MowNHwzn8k2AbKigoKgPIh
- sDXQqtjawEQEL7D/ap3wsSORk0b2ogqc2b8Y2NREpZ0BtsyXEwfuD7qzUvqbPqdxiHoO
- 2WxZIhbaLtLIM7FyS9tau1ESyL7qB26hKB3mUdiN5c1TcBYBD2KOHKZ8bUm4Wpe8+8kn
- T0ouim6I8dUjwJfEPrqJceyWah1MvCJDqWzw81Mdazfs3B9byL9yj3nIZsiA6WJtLVqy
- tcV2Ar26bbq+tzI2CN4pnVMk6ZTCvJYy69gLRJt6AED4WTApPeDaakiYwPz82ss/6/Ch
- ZDGQ==
-X-Gm-Message-State: AOAM531pBb5CCGrjhfGOi5V46/xFoDkYIs/a63PlzHoE78iioEgiQh0Q
- EITNVrMYyHPatROVYwI7kbfHCulV1UXXrX97ngJ+gdTnd9c=
-X-Google-Smtp-Source: ABdhPJx5hOnXwpZtgE8cFpgUT6i7LomGN6dKF4ljzSM6DL1fdYQFRBeFihjnzaBvnsohVlsFewpYJneFtdafw+0ZOnc=
-X-Received: by 2002:a81:1dcf:0:b0:2fa:d094:14ff with SMTP id
- d198-20020a811dcf000000b002fad09414ffmr8884083ywd.10.1653037075594; Fri, 20
- May 2022 01:57:55 -0700 (PDT)
+ bh=0hhkGjR7lMnsrw+d/mq6+4NmC0RWWYlNXrMvwpsME9Q=;
+ b=DlbZTVBn7GJ051QNcg5QuA6ZlY9aaeLKa4n4IacZ/AXX5rTRE3EZsfoAuDO+9mWZe2
+ fkwkOhd82vBqaCoDVUnEB9BrHAa/2ZBlXanyq1XM7cwptaQxAaAtPv8Zjy8jMalizMCC
+ zUBHf84Q59AqScCaUgNZ7AtBE21A++Eit78jTdqO8JeU4k6IWboQvA3a3Ej5S/tjOwhp
+ uGFzI8NP3voYXccOvw4u8EP2Ge2FpN/LFZLAt+I3XARvPVKjG3OV/90r9OPH9/Mo810R
+ PN76VRztaQB+n4ajVc5w/dwewkZcJ0HyarrDVaNuj8ygSjl6Hdw1NbRodo8GbwfYJk7N
+ yvFQ==
+X-Gm-Message-State: AOAM533PJnsIGwOkDmlDWHKU4UwN5aeJzNU7ohFV4Utf5fJkoL464USr
+ c2fGSQ1nvn9s0A6svVZsZs43AvZKB7X1hupJf+FOTJ3cOZc=
+X-Google-Smtp-Source: ABdhPJzCBtXXo36pl06tFX2f6bgzO3+JXSH+TzoZPpQZ5r5u6koXrAeaBj5j0ZrJM+Ndr4pP11eFsATTUQgwLgkAE98=
+X-Received: by 2002:a25:2e06:0:b0:64d:b6a5:261a with SMTP id
+ u6-20020a252e06000000b0064db6a5261amr8080827ybu.140.1653037235031; Fri, 20
+ May 2022 02:00:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANW9uyss4-NC3SH7xzofpMbu-cn4aDVT9Vvwjk6_JUzBwX4ioQ@mail.gmail.com>
- <CANW9uysaP5dFbXNi-ZmvhMJ9ESzHbqrhoLqXR05c2gBhQS6Hfw@mail.gmail.com>
-In-Reply-To: <CANW9uysaP5dFbXNi-ZmvhMJ9ESzHbqrhoLqXR05c2gBhQS6Hfw@mail.gmail.com>
+References: <20220520083911.401134-1-itaru.kitayama@fujitsu.com>
+In-Reply-To: <20220520083911.401134-1-itaru.kitayama@fujitsu.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 May 2022 09:57:44 +0100
-Message-ID: <CAFEAcA8XW0DGvysnn08m+dVVnfUADS4khV1jgXea2JgZEPzVaw@mail.gmail.com>
-Subject: Re: CPUs supported by the sbsa-ref board
+Date: Fri, 20 May 2022 10:00:24 +0100
+Message-ID: <CAFEAcA9q-JePE-9sMvo3jeu7s8r93xHDAfP36DqU069y3Fp3-w@mail.gmail.com>
+Subject: Re: [PATCH] Add A64FX CPU support to the sbsa-ref board.
 To: Itaru Kitayama <itaru.kitayama@gmail.com>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Itaru Kitayama <itaru.kitayama@fujitsu.com>, 
+ Radoslaw Biernacki <rad@semihalf.com>, Leif Lindholm <leif@nuviainc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,15 +82,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 May 2022 at 02:58, Itaru Kitayama <itaru.kitayama@gmail.com> wrote:
+On Fri, 20 May 2022 at 09:46, Itaru Kitayama <itaru.kitayama@gmail.com> wrote:
 >
-> With the latest, manually built TF-A, I was able to boot a72, but not
-> max. Since `max` type is supported by TF-A, I think it might be
-> a Qemu issue.
+> In target/arm/cpu64.c, CPU init function for A64FX is there, add this
+> CPU to the sbsa-ref board.
 
-How far did boot go? Does '-cpu max,lpa2=off' work? There's a
-bug in older Linux kernels that makes them fail to boot on
-CPUs with the LPA2 feature.
+(cc'ing the sbsa-ref maintainers)
 
+This isn't an objection, but I would like to know what the
+sbsa-ref maintainers' view is on what CPUs the board type
+is supposed to handle. Is this like the virt board, where we
+add basically any CPU type that might possibly work? Or is
+it more like a piece of 'real' hardware, where there are only
+one or two CPU types that that hardware might have shipped with,
+and the firmware/software stack might not be built to cope with
+anything more ?
+
+If we can answer the general question, then specific
+patches like this one will be easy to review.
+
+> Signed-off-by: Itaru Kitayama <itaru.kitayama@fujitsu.com>
+> ---
+>  hw/arm/sbsa-ref.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index 4bb444684f..a7d27b2e55 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -146,6 +146,7 @@ static const char * const valid_cpus[] = {
+>      ARM_CPU_TYPE_NAME("cortex-a57"),
+>      ARM_CPU_TYPE_NAME("cortex-a72"),
+>      ARM_CPU_TYPE_NAME("cortex-a76"),
+> +    ARM_CPU_TYPE_NAME("a64fx"),
+>      ARM_CPU_TYPE_NAME("neoverse-n1"),
+>      ARM_CPU_TYPE_NAME("max"),
+>  };
+> --
+> 2.25.1
+
+thanks
 -- PMM
 
