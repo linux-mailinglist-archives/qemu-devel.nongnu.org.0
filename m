@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC6E52F13A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 19:01:34 +0200 (CEST)
-Received: from localhost ([::1]:40664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A3C52F13E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 19:03:50 +0200 (CEST)
+Received: from localhost ([::1]:42924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns60L-00076e-FJ
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 13:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55088)
+	id 1ns62W-0000J4-SV
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 13:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ns5yA-0006Od-Kv
- for qemu-devel@nongnu.org; Fri, 20 May 2022 12:59:18 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2571)
+ id 1ns60J-0007h1-QH
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 13:01:31 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ns5y7-0003PY-Ff
- for qemu-devel@nongnu.org; Fri, 20 May 2022 12:59:18 -0400
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4L4XtB2Sm4z67QNS;
- Sat, 21 May 2022 00:56:02 +0800 (CST)
+ id 1ns60H-0003xP-2Y
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 13:01:31 -0400
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4L4Xvz0fhKz687qT;
+ Sat, 21 May 2022 00:57:35 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 18:59:07 +0200
+ 15.1.2375.24; Fri, 20 May 2022 19:01:27 +0200
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 17:59:07 +0100
+ 15.1.2375.24; Fri, 20 May 2022 18:01:26 +0100
 To: <qemu-devel@nongnu.org>, Klaus Jensen <its@irrelevant.dk>
 CC: <linux-cxl@vger.kernel.org>, Corey Minyard <minyard@acm.org>, Damien Hedde
  <damien.hedde@greensocs.com>, Peter Delevoryas <pdel@fb.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Ben Widawsky
- <ben.widawsky@intel.com>
+ <ben.widawsky@intel.com>, <linuarm@huawei.com>
 Subject: [RFC PATCH 0/2] CXL FMAPI interface over MCTP/I2C
-Date: Fri, 20 May 2022 17:59:09 +0100
-Message-ID: <20220520165909.4369-1-Jonathan.Cameron@huawei.com>
+Date: Fri, 20 May 2022 18:01:26 +0100
+Message-ID: <20220520170128.4436-1-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
