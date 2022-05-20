@@ -2,100 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C1952F2E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:33:20 +0200 (CEST)
-Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB20652F2FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:35:14 +0200 (CEST)
+Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns7R9-0003a5-9v
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44104)
+	id 1ns7So-0005a2-UC
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ns7P6-0002sh-0s
- for qemu-devel@nongnu.org; Fri, 20 May 2022 14:31:12 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ns7P2-0000h2-TF
- for qemu-devel@nongnu.org; Fri, 20 May 2022 14:31:11 -0400
-Received: by mail-pf1-x434.google.com with SMTP id c14so8444055pfn.2
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 11:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/D44zTPGmOvqCz58NoXY7GJ7Oz3KVoVYsKXMavYtIGY=;
- b=hXnBtM8ClLBza+ZRSfpaH9QJs4e70zsjGGwXTB768f+j3vqY+PwjCmxCHfgcbOWUIo
- WkA4z40qGEeH8ye8nA+9vKsDvo6jzo3aKNFN66eMopiC5L5Nz2Rul1xe3uZjLa1NNsDS
- u417yZ070yvLbJ7u7T7AavZQoAUrK7xIHezbfLj969JZM7ZTkx89y4HMQ1l2TNDF2Sq2
- 0LpzAaltp9AMFcI6xh0jpic9+djmA9wPzf6w2Yikovx4w7ogKachx1moE40EDvrT0Jd+
- 1BUoZb8r51kRFW2pPCxPq3BYf2iYgtUzn0y36Ygbn7Tx0RaCNfgu370pJo+mNPyz2DS+
- NhRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/D44zTPGmOvqCz58NoXY7GJ7Oz3KVoVYsKXMavYtIGY=;
- b=O/X5aIRZdvxFzDttElHwKTSbkPqrnOPmIDwm1v//VN2uxYhU+FdcFBsFH8iIABhSiq
- e73vMaZmFqjM91FCBoamJGg/enUGr6t/cKN/GTCjMO9K/BRMPUH5movZfdlfF4oXLgNA
- HbTPc+Ntg50Vcrt0hYu6AXW63qFTQsESxK6Rm/ZtRng92canT5zfLFDeZPrmQJwHuckz
- kP3qxgi9ROk4NHGrwB/Kzuv/L3BpD0/qTidPNX4YresG2YSf+gaT2VsH3ZpgaEABYRpX
- BGd3uCIrcoh//blEI0JVnDAaaqcjKSzkoeZesnUegWdbuak2xCbz/MJ58/20Bg8dZdCS
- VZKQ==
-X-Gm-Message-State: AOAM532ZLbuLUpo3GUCtQx9Y0VXkPdUlYxULBzUAlX48fwtK0K698AW1
- xFPSbzPB7Q52kcHSb9NQEmKROg==
-X-Google-Smtp-Source: ABdhPJyXfnLY4U/z7B1YcpHIUBMTDAqIQuWt14grJnUQKMT9mxPH1mHBF0sFVeaMIPjRZNdy0Y/CKw==
-X-Received: by 2002:a63:8243:0:b0:3f9:6c94:5112 with SMTP id
- w64-20020a638243000000b003f96c945112mr2534146pgd.173.1653071466429; 
- Fri, 20 May 2022 11:31:06 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
- a201-20020a621ad2000000b0050dc76281e9sm2105316pfa.195.2022.05.20.11.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 11:31:05 -0700 (PDT)
-Date: Fri, 20 May 2022 18:31:02 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YofeZps9YXgtP3f1@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1ns7R9-0004O4-Fk
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 14:33:19 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:46096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1ns7R7-0000pg-Ka
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 14:33:19 -0400
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1ns7Qs-0008MU-2p; Fri, 20 May 2022 20:33:02 +0200
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
+Cc: kvm@vger.kernel.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/i386/kvm: Fix disabling MPX on "-cpu host" with
+ MPX-capable host
+Date: Fri, 20 May 2022 20:32:56 +0200
+Message-Id: <be14c1e895a2f452047451f050d269217dcee6d9.1653071510.git.maciej.szmigiero@oracle.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=seanjc@google.com; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,29 +56,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 20, 2022, Andy Lutomirski wrote:
-> The alternative would be to have some kind of separate table or bitmap (part
-> of the memslot?) that tells KVM whether a GPA should map to the fd.
-> 
-> What do you all think?
+From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
 
-My original proposal was to have expolicit shared vs. private memslots, and punch
-holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
-handle memslot updates, conversions would be painfully slow.  That's how we ended
-up with the current propsoal.
+Since KVM commit 5f76f6f5ff96 ("KVM: nVMX: Do not expose MPX VMX controls when guest MPX disabled")
+it is not possible to disable MPX on a "-cpu host" just by adding "-mpx"
+there if the host CPU does indeed support MPX.
+QEMU will fail to set MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS MSRs in this case
+and so trigger an assertion failure.
 
-But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
-and wouldn't necessarily even need to interact with the memslots.  It could be a
-consumer of memslots, e.g. if we wanted to disallow registering regions without an
-associated memslot, but I think we'd want to avoid even that because things will
-get messy during memslot updates, e.g. if dirty logging is toggled or a shared
-memory region is temporarily removed then we wouldn't want to destroy the tracking.
+Instead, besides "-mpx" one has to explicitly add also
+"-vmx-exit-clear-bndcfgs" and "-vmx-entry-load-bndcfgs" to QEMU command
+line to make it work, which is a bit convoluted.
 
-I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-should be far more efficient.
+Sanitize MPX-related bits in MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS after
+setting the vCPU CPUID instead so such workarounds are no longer necessary.
 
-One benefit to explicitly tracking this in KVM is that it might be useful for
-software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
-based on guest hypercalls to share/unshare memory, and then complete the transaction
-when userspace invokes the ioctl() to complete the share/unshare.
+Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+---
+ target/i386/kvm/kvm.c | 34 ++++++++++++++++++++++++++++------
+ 1 file changed, 28 insertions(+), 6 deletions(-)
+
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index a9ee8eebd7..435cb18753 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -2934,6 +2934,17 @@ static uint64_t make_vmx_msr_value(uint32_t index, uint32_t features)
+     return must_be_one | (((uint64_t)can_be_one) << 32);
+ }
+ 
++static void kvm_msr_entry_add_if_supported(X86CPU *cpu, uint32_t msr,
++                                           uint32_t mask, uint32_t features,
++                                           uint64_t value_or)
++{
++    uint32_t supported =
++        kvm_arch_get_supported_msr_feature(kvm_state, msr) >> 32;
++    uint32_t feat_eff = features & (~mask | (mask & supported));
++
++    kvm_msr_entry_add(cpu, msr, make_vmx_msr_value(msr, feat_eff) | value_or);
++}
++
+ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+ {
+     uint64_t kvm_vmx_basic =
+@@ -2996,12 +3007,23 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+     kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_PINBASED_CTLS,
+                       make_vmx_msr_value(MSR_IA32_VMX_TRUE_PINBASED_CTLS,
+                                          f[FEAT_VMX_PINBASED_CTLS]));
+-    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_EXIT_CTLS,
+-                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_EXIT_CTLS,
+-                                         f[FEAT_VMX_EXIT_CTLS]) | fixed_vmx_exit);
+-    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_ENTRY_CTLS,
+-                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_ENTRY_CTLS,
+-                                         f[FEAT_VMX_ENTRY_CTLS]));
++
++    /*
++     * When disabling MPX on a host that supports this function it is not
++     * enough to clear the relevant CPUID bit, MPX-related bits in
++     * MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS have to be cleared, too.
++     *
++     * Otherwise setting these MSRs will fail.
++     */
++    kvm_msr_entry_add_if_supported(cpu, MSR_IA32_VMX_TRUE_EXIT_CTLS,
++                                   VMX_VM_EXIT_CLEAR_BNDCFGS,
++                                   f[FEAT_VMX_EXIT_CTLS],
++                                   fixed_vmx_exit);
++    kvm_msr_entry_add_if_supported(cpu, MSR_IA32_VMX_TRUE_ENTRY_CTLS,
++                                   VMX_VM_ENTRY_LOAD_BNDCFGS,
++                                   f[FEAT_VMX_ENTRY_CTLS],
++                                   0);
++
+     kvm_msr_entry_add(cpu, MSR_IA32_VMX_PROCBASED_CTLS2,
+                       make_vmx_msr_value(MSR_IA32_VMX_PROCBASED_CTLS2,
+                                          f[FEAT_VMX_SECONDARY_CTLS]));
 
