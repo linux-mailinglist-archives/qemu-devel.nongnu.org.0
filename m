@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C1C52EF3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 17:30:51 +0200 (CEST)
-Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4414852EF3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 17:31:00 +0200 (CEST)
+Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns4aY-0007qP-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 11:30:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34044)
+	id 1ns4ah-00087y-Bk
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 11:30:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns4Yo-0006KJ-DG
- for qemu-devel@nongnu.org; Fri, 20 May 2022 11:29:02 -0400
-Received: from mga18.intel.com ([134.134.136.126]:3667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns4Yl-0005Yk-Pq
- for qemu-devel@nongnu.org; Fri, 20 May 2022 11:29:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653060539; x=1684596539;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2leG2LmaeymdY17ZfAaPpngzgqFnDp+gD2t1Nl2U6Yo=;
- b=OHtPM/ExGeqGKmrJek4RqpzRwxRE9IEM62FePiIIckvWxYgegBYNGhEC
- WHSBEC/tugm1+o+ei2i35j/ZZXGAx/8TZ6fi9WbwZvtaDybQHV1HQ21v3
- wcy+L/M1iBFMLyT3SfQ7z79VGjvs0FIcuIb9bQyJ+jT/AtZGq0PyA0+24
- BaFwYTAUI/NbLXxTSATlDdRt+H9lhqjYarkNNeoMmuHeFPlKCj292L3kP
- pK+GetB1q1wlwv9acbYvkmgbt7UlojzG9Hcrv0tCgYDjmhA6YaSOrSE5i
- V+bIqPp7vwGB01D2DNFwNOK6lsHkJNym0LcQNSvS9LyDcPlJDmRtG+e4T Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="254693431"
-X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="254693431"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2022 08:28:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="899369665"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
- by fmsmga005.fm.intel.com with ESMTP; 20 May 2022 08:28:50 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1ns4Yb-0004rl-NI;
- Fri, 20 May 2022 15:28:49 +0000
-Date: Fri, 20 May 2022 23:28:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: zhenwei pi <pizhenwei@bytedance.com>, akpm@linux-foundation.org,
- naoya.horiguchi@nec.com, mst@redhat.com, david@redhat.com
-Cc: kbuild-all@lists.01.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, jasowang@redhat.com,
- virtualization@lists.linux-foundation.org, pbonzini@redhat.com,
- peterx@redhat.com, qemu-devel@nongnu.org,
- zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH 3/3] virtio_balloon: Introduce memory recover
-Message-ID: <202205202330.u0vQWiWG-lkp@intel.com>
-References: <20220520070648.1794132-4-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ns4YM-0005o7-Ks
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 11:28:36 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:37609)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ns4YK-0005WR-Bu
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 11:28:33 -0400
+Received: by mail-pg1-x530.google.com with SMTP id z3so6519153pgn.4
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 08:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+Dw+PCh7vE4HmyaWCoATXE71EdMyH1CLwN4WMVYFoqE=;
+ b=BcDIOc8Ls8UOmwuyzdBEHtwX1Lb1bLKCWn6FQcTb2Qst/OWmiae4fpt2sRGuv+JVoc
+ uCq7zNfCkP25Ky+a/0pCV6PWjeh5jHQ95cdt1LUUaH9hEhqbJqR7hm2hOnXDNcholKoQ
+ ddygVGOQsPsVZGmKhrJ62INzVKyZCYnZBqWQ3vNkP52HVdbmFMAb7itMfo5XeDJ4rrhm
+ n+D26v48otJkEtLhG2o37fMvQSK3dy5aOdJse7ApaLCjj1QoKg6TctsH2WAZYanA1C/k
+ viSLrwIFH416YiEm3VFesQh0U8AyHj3So0HVv6Kn4Hw7x19o6BwQgCik72NCY8MpiPH1
+ iTZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+Dw+PCh7vE4HmyaWCoATXE71EdMyH1CLwN4WMVYFoqE=;
+ b=SC6HvS+L6485XmcRyIHa5OIiIQz1IEeisFOGAbYkV4FF9rShw2hcpHiwkwsHAYX0Eh
+ 6D5krp8CxBpsL3bG73J/WCxIyCxh07s+i3Tc+7wIFzjWPo8vNb5ueJcbhrGggRXkqh5r
+ xAn+Uin2noGIeAH8VDxN664sxUrqMXVUPIlbdK4dGoes7zFppBvqKPQc03KjVJroqrlD
+ wzkAhj1MUxsfa1VaZhHTGNXkCgZd846Lynip5ai8CMOmvVFSCt0SD+dt5cdBSV1X3Y5E
+ wmSaWc0DJ16r/2E1kdI6mZ/TgszkGybwiGL/lWvCgyhjxro256S1tvYBY1JB4JSfDSTu
+ rYUw==
+X-Gm-Message-State: AOAM530xD+YWjRK4En+eSq2dt02BUcabJ7xyYFD3THs5B3YPSAUCfTyC
+ hjukXL97Kynx9GUwPwiA6JEe/A==
+X-Google-Smtp-Source: ABdhPJzfCziL0zJE+U2FO2vmCQ+RwZbXFjLDQFC6bBUf9ysONHO6q6ZSEXDfLCYiE61KjXAgMRa0+g==
+X-Received: by 2002:a63:ff54:0:b0:3db:9acf:a087 with SMTP id
+ s20-20020a63ff54000000b003db9acfa087mr8708441pgk.185.1653060510887; 
+ Fri, 20 May 2022 08:28:30 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ p26-20020a62b81a000000b005180ea859d7sm1986127pfe.123.2022.05.20.08.28.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 May 2022 08:28:30 -0700 (PDT)
+Message-ID: <eb0920fd-3c9f-f2a3-d268-ca1a2c6cec7c@linaro.org>
+Date: Fri, 20 May 2022 08:28:27 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220520070648.1794132-4-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=134.134.136.126; envelope-from=lkp@intel.com;
- helo=mga18.intel.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 06/12] target/ppc: implement xscvspdpn with
+ helper_todouble
+Content-Language: en-US
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org
+References: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
+ <20220519201822.465229-7-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220519201822.465229-7-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,45 +95,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi zhenwei,
+On 5/19/22 13:18, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> 
+> Move xscvspdpn to decodetree, drop helper_xscvspdpn and use
+> helper_todouble directly.
+> 
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+>   target/ppc/fpu_helper.c             |  5 -----
+>   target/ppc/helper.h                 |  1 -
+>   target/ppc/insn32.decode            |  1 +
+>   target/ppc/translate/vsx-impl.c.inc | 26 +++++++++++++++++++++++++-
+>   target/ppc/translate/vsx-ops.c.inc  |  1 -
+>   5 files changed, 26 insertions(+), 8 deletions(-)
 
-Thank you for the patch! Yet something to improve:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20220519]
-[cannot apply to linux/master linus/master v5.18-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-config: arm-randconfig-r026-20220519 (https://download.01.org/0day-ci/archive/20220520/202205202330.u0vQWiWG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a42127073dd4adb6354649c8235c5cde033d01f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
-        git checkout a42127073dd4adb6354649c8235c5cde033d01f2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: drivers/virtio/virtio_balloon.o: in function `unpoison_memory_func':
->> virtio_balloon.c:(.text+0x89a): undefined reference to `unpoison_memory'
-   arm-linux-gnueabi-ld: drivers/virtio/virtio_balloon.o: in function `virtballoon_probe':
->> virtio_balloon.c:(.text+0x111a): undefined reference to `register_memory_failure_notifier'
-   arm-linux-gnueabi-ld: drivers/virtio/virtio_balloon.o: in function `virtballoon_remove':
->> virtio_balloon.c:(.text+0x12a2): undefined reference to `unregister_memory_failure_notifier'
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+r~
 
