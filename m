@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB7D52EDCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 16:08:04 +0200 (CEST)
-Received: from localhost ([::1]:42228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EE452EE2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 16:31:15 +0200 (CEST)
+Received: from localhost ([::1]:47642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns3IQ-0007IK-U2
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 10:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
+	id 1ns3es-0003y0-FV
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 10:31:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32s-0005TP-28; Fri, 20 May 2022 09:51:58 -0400
-Received: from [187.72.171.209] (port=41153 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32q-0007xw-9T; Fri, 20 May 2022 09:51:57 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 20 May 2022 10:51:33 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 1F7498000A0;
- Fri, 20 May 2022 10:51:33 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-ppc@nongnu.org
-Cc: richard.henderson@linaro.org,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v4 6/8] target/ppc: Implemented pmxvf*ger*
-Date: Fri, 20 May 2022 10:51:27 -0300
-Message-Id: <20220520135129.63664-7-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
-References: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ns3cY-0003Gl-6e
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 10:28:50 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:44550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ns3cW-0004p8-EX
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 10:28:49 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id eg11so10984651edb.11
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 07:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TsPetF85W3uANq0kX+QUef4ngWmdiCVM3E5uXbjXvH8=;
+ b=S3YYjyJWEAK1R0tGMyhGCBJmHO9OqpwaTPxZe0M1U6cHUoCtAip9uCUtkCqxzrT/xy
+ FhEjEzqR8C/ZvHLpDMhfT9O76J66zDgaDWQhN7sSTDazHAIJgrj8PvFXK28GxLP+bF8X
+ jL/C0HfHXRHTjqoPmUeTqlcup62A6omUFjOdrpvI/zngLVETdRNOSdTX0rCiJogegQ9N
+ 4lib6VDsipO8kceE+e0bW/lxDWXnVvaSBbYErVIZgcVY2shPJhSD2E+sTJlq3uU1qh7S
+ oIjzRhhNt+vGEyYtyFD3/kRH/lzo4hqhSvjNaLiiPPew+1t2D5WCGfAzV3bN5JK2pdGa
+ tjww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TsPetF85W3uANq0kX+QUef4ngWmdiCVM3E5uXbjXvH8=;
+ b=Xo91Pv0yJEK4AeJxOeMtOwzg1OF2of8Irsy/wGyheHfZbfqmAVYN1jCOmOchaHf4pn
+ b/okYjqwTGGSGkNLQq1rJuVGceIcBx+EkpdZdQ/4yAbRbKxD1TNbsuWWXnbHXAb//zvL
+ Ss/hvSJEu/HWLymnAsw53i6Yhm+UNish/aBfljVP+TwD7/lKWs9OXFIUu2IJjxSi4k7a
+ kUJv8HrSK6zn18mcIX43/qnv69dTCmo3tV3id94UBe4DMmiG4KwuCqs9PPatZ1QBUL4/
+ ZYEFl5yMyWwIZVq4yMuRHofeStTDSZUiA4HgXXQgudx16ofdDvqSN+DBDsx4YGYfThwP
+ fwUQ==
+X-Gm-Message-State: AOAM533hTF+TA9mOShD27IAIJQfaXgbXdCOqgs3XCya/qVb9J4XPRo14
+ 6E8A9t6aYz9U5ZuPFbq+HHweVMQjMcXzsiw/0Vi9Ug==
+X-Google-Smtp-Source: ABdhPJzdpKZR7DlPjaJq+rwz+D9RzmMulhhFIve0PpYJgeDtVI5M2Hyrr89MiIq7Fu0jQEc4JSRwXMVZi7/q290DG78=
+X-Received: by 2002:a05:6402:4001:b0:42b:212:57c3 with SMTP id
+ d1-20020a056402400100b0042b021257c3mr8681427eda.109.1653056922742; Fri, 20
+ May 2022 07:28:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 May 2022 13:51:33.0326 (UTC)
- FILETIME=[B724DEE0:01D86C50]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
+ <20220518110839.8681-4-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220518110839.8681-4-mark.cave-ayland@ilande.co.uk>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 20 May 2022 19:58:31 +0530
+Message-ID: <CAARzgwxeEWEbK7zmufnt2UbyTGmLvo2pP9MxWCujur4Csqk6MA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] hw/acpi/viot: build array of PCI host bridges before
+ generating VIOT ACPI table
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: mst@redhat.com, imammedo@redhat.com, jean-philippe@linaro.org, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::52d;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,137 +82,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+On Wed, May 18, 2022 at 4:39 PM Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> Perform the generation of the VIOT ACPI table in 2 separate passes: the first pass
+> enumerates all of the PCI host bridges and adds the min_bus and max_bus information
+> to an array.
+>
+> Once this is done the VIOT table header is generated using the size of the array
+> to calculate the node count, which means it is no longer necessary to use a
+> sub-array to hold the PCI host bridge range information along with viommu_off.
+>
+> Finally the PCI host bridge array is iterated again to add the required entries
+> to the final VIOT ACPI table.
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Implement the following PowerISA v3.1 instructions:
-pmxvf16ger2:   Prefixed Masked VSX Vector 16-bit Floating-Point GER
-(rank-2 update)
-pmxvf16ger2nn: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-(rank-2 update) Negative multiply, Negative accumulate
-pmxvf16ger2np: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-(rank-2 update) Negative multiply, Positive accumulate
-pmxvf16ger2pn: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-(rank-2 update) Positive multiply, Negative accumulate
-pmxvf16ger2pp: Prefixed Masked VSX Vector 16-bit Floating-Point GER
-(rank-2 update) Positive multiply, Positive accumulate
-pmxvf32ger:    Prefixed Masked VSX Vector 32-bit Floating-Point GER
-(rank-1 update)
-pmxvf32gernn:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-(rank-1 update) Negative multiply, Negative accumulate
-pmxvf32gernp:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-(rank-1 update) Negative multiply, Positive accumulate
-pmxvf32gerpn:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-(rank-1 update) Positive multiply, Negative accumulate
-pmxvf32gerpp:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
-(rank-1 update) Positive multiply, Positive accumulate
-pmxvf64ger:    Prefixed Masked VSX Vector 64-bit Floating-Point GER
-(rank-1 update)
-pmxvf64gernn:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-(rank-1 update) Negative multiply, Negative accumulate
-pmxvf64gernp:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-(rank-1 update) Negative multiply, Positive accumulate
-pmxvf64gerpn:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-(rank-1 update) Positive multiply, Negative accumulate
-pmxvf64gerpp:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
-(rank-1 update) Positive multiply, Positive accumulate
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/insn64.decode            | 38 +++++++++++++++++++++++++++++
- target/ppc/translate/vsx-impl.c.inc | 18 ++++++++++++++
- 2 files changed, 56 insertions(+)
-
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 0eed35c8cd..5ecc5c85bf 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -73,10 +73,15 @@
- %xx3_xa         2:1 16:5
- %xx3_xb         1:1 11:5
- %xx3_at         23:3
-+%xx3_xa_pair    2:1 17:4 !function=times_2
- @MMIRR_XX3      ...... .. .... .. . . ........ xmsk:4 ymsk:4  \
-                 ...... ... .. ..... ..... ........ ...  \
-                 &MMIRR_XX3 xa=%xx3_xa xb=%xx3_xb xt=%xx3_at
- 
-+@MMIRR_XX3_NO_P ...... .. .... .. . . ........ xmsk:4 .... \
-+                ...... ... .. ..... ..... ........ ... \
-+                &MMIRR_XX3 xb=%xx3_xb xt=%xx3_at pmsk=1
-+
- ### Fixed-Point Load Instructions
- 
- PLBZ            000001 10 0--.-- .................. \
-@@ -145,6 +150,39 @@ PMXVI16GER2S    000001 11 1001 -- - - pmsk:2 ------ ........       \
- PMXVI16GER2SPP  000001 11 1001 -- - - pmsk:2 ------ ........       \
-                 111011 ... -- ..... ..... 00101010 ..-  @MMIRR_XX3
- 
-+PMXVF16GER2     000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 00010011 ..-  @MMIRR_XX3
-+PMXVF16GER2PP   000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 00010010 ..-  @MMIRR_XX3
-+PMXVF16GER2PN   000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 10010010 ..-  @MMIRR_XX3
-+PMXVF16GER2NP   000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 01010010 ..-  @MMIRR_XX3
-+PMXVF16GER2NN   000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 11010010 ..-  @MMIRR_XX3
-+
-+PMXVF32GER      000001 11 1001 -- - - -------- .... ymsk:4 \
-+                111011 ... -- ..... ..... 00011011 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
-+PMXVF32GERPP    000001 11 1001 -- - - -------- .... ymsk:4 \
-+                111011 ... -- ..... ..... 00011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
-+PMXVF32GERPN    000001 11 1001 -- - - -------- .... ymsk:4 \
-+                111011 ... -- ..... ..... 10011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
-+PMXVF32GERNP    000001 11 1001 -- - - -------- .... ymsk:4 \
-+                111011 ... -- ..... ..... 01011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
-+PMXVF32GERNN    000001 11 1001 -- - - -------- .... ymsk:4 \
-+                111011 ... -- ..... ..... 11011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
-+
-+PMXVF64GER      000001 11 1001 -- - - -------- .... ymsk:2 -- \
-+                111011 ... -- ....0 ..... 00111011 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
-+PMXVF64GERPP    000001 11 1001 -- - - -------- .... ymsk:2 -- \
-+                111011 ... -- ....0 ..... 00111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
-+PMXVF64GERPN    000001 11 1001 -- - - -------- .... ymsk:2 -- \
-+                111011 ... -- ....0 ..... 10111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
-+PMXVF64GERNP    000001 11 1001 -- - - -------- .... ymsk:2 -- \
-+                111011 ... -- ....0 ..... 01111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
-+PMXVF64GERNN    000001 11 1001 -- - - -------- .... ymsk:2 -- \
-+                111011 ... -- ....0 ..... 11111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
-+
- ### Prefixed No-operation Instruction
- 
- @PNOP           000001 11 0000-- 000000000000000000     \
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 232a4d881e..7218394b45 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -2887,6 +2887,24 @@ TRANS(XVF64GERPN, do_ger, gen_helper_XVF64GERPN)
- TRANS(XVF64GERNP, do_ger, gen_helper_XVF64GERNP)
- TRANS(XVF64GERNN, do_ger, gen_helper_XVF64GERNN)
- 
-+TRANS64(PMXVF16GER2, do_ger, gen_helper_XVF16GER2)
-+TRANS64(PMXVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
-+TRANS64(PMXVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
-+TRANS64(PMXVF16GER2NP, do_ger, gen_helper_XVF16GER2NP)
-+TRANS64(PMXVF16GER2NN, do_ger, gen_helper_XVF16GER2NN)
-+
-+TRANS64(PMXVF32GER, do_ger, gen_helper_XVF32GER)
-+TRANS64(PMXVF32GERPP, do_ger, gen_helper_XVF32GERPP)
-+TRANS64(PMXVF32GERPN, do_ger, gen_helper_XVF32GERPN)
-+TRANS64(PMXVF32GERNP, do_ger, gen_helper_XVF32GERNP)
-+TRANS64(PMXVF32GERNN, do_ger, gen_helper_XVF32GERNN)
-+
-+TRANS64(PMXVF64GER, do_ger, gen_helper_XVF64GER)
-+TRANS64(PMXVF64GERPP, do_ger, gen_helper_XVF64GERPP)
-+TRANS64(PMXVF64GERPN, do_ger, gen_helper_XVF64GERPN)
-+TRANS64(PMXVF64GERNP, do_ger, gen_helper_XVF64GERNP)
-+TRANS64(PMXVF64GERNN, do_ger, gen_helper_XVF64GERNN)
-+
- #undef GEN_XX2FORM
- #undef GEN_XX3FORM
- #undef GEN_XX2IFORM
--- 
-2.31.1
-
+> ---
+>  hw/acpi/viot.c | 42 ++++++++++++++++++++++++------------------
+>  1 file changed, 24 insertions(+), 18 deletions(-)
+>
+> diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
+> index 662124812f..ce3b7b8c75 100644
+> --- a/hw/acpi/viot.c
+> +++ b/hw/acpi/viot.c
+> @@ -10,10 +10,9 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_host.h"
+>
+> -struct viot_pci_ranges {
+> -    GArray *blob;
+> -    size_t count;
+> -    uint16_t output_node;
+> +struct viot_pci_host_range {
+> +    int min_bus;
+> +    int max_bus;
+>  };
+>
+>  static void build_pci_host_range(GArray *table_data, int min_bus, int max_bus,
+> @@ -44,8 +43,7 @@ static void build_pci_host_range(GArray *table_data, int min_bus, int max_bus,
+>  /* Build PCI range for a given PCI host bridge */
+>  static int pci_host_bridges(Object *obj, void *opaque)
+>  {
+> -    struct viot_pci_ranges *pci_ranges = opaque;
+> -    GArray *blob = pci_ranges->blob;
+> +    GArray *pci_host_ranges = opaque;
+>
+>      if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+>          PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+> @@ -55,9 +53,11 @@ static int pci_host_bridges(Object *obj, void *opaque)
+>
+>              pci_bus_range(bus, &min_bus, &max_bus);
+>
+> -            build_pci_host_range(blob, min_bus, max_bus,
+> -                                 pci_ranges->output_node);
+> -            pci_ranges->count++;
+> +            struct viot_pci_host_range pci_host_range = {
+> +                .min_bus = min_bus,
+> +                .max_bus = max_bus,
+> +            };
+> +            g_array_append_val(pci_host_ranges, pci_host_range);
+>          }
+>      }
+>
+> @@ -78,19 +78,19 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
+>      int viommu_off = 48;
+>      AcpiTable table = { .sig = "VIOT", .rev = 0,
+>                          .oem_id = oem_id, .oem_table_id = oem_table_id };
+> -    struct viot_pci_ranges pci_ranges = {
+> -        .output_node = viommu_off,
+> -        .blob = g_array_new(false, true /* clear */, 1),
+> -    };
+> +    GArray *pci_host_ranges =  g_array_new(false, true,
+> +                                           sizeof(struct viot_pci_host_range));
+> +    struct viot_pci_host_range *pci_host_range;
+> +    int i;
+>
+>      /* Build the list of PCI ranges that this viommu manages */
+>      object_child_foreach_recursive(OBJECT(ms), pci_host_bridges,
+> -                                   &pci_ranges);
+> +                                   pci_host_ranges);
+>
+>      /* ACPI table header */
+>      acpi_table_begin(&table, table_data);
+>      /* Node count */
+> -    build_append_int_noprefix(table_data, pci_ranges.count + 1, 2);
+> +    build_append_int_noprefix(table_data, pci_host_ranges->len + 1, 2);
+>      /* Node offset */
+>      build_append_int_noprefix(table_data, viommu_off, 2);
+>      /* Reserved */
+> @@ -111,9 +111,15 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
+>      build_append_int_noprefix(table_data, 0, 8);
+>
+>      /* PCI ranges found above */
+> -    g_array_append_vals(table_data, pci_ranges.blob->data,
+> -                        pci_ranges.blob->len);
+> -    g_array_free(pci_ranges.blob, true);
+> +    for (i = 0; i < pci_host_ranges->len; i++) {
+> +        pci_host_range = &g_array_index(pci_host_ranges,
+> +                                        struct viot_pci_host_range, i);
+> +
+> +        build_pci_host_range(table_data, pci_host_range->min_bus,
+> +                             pci_host_range->max_bus, viommu_off);
+> +    }
+> +
+> +    g_array_free(pci_host_ranges, true);
+>
+>      acpi_table_end(linker, &table);
+>  }
+> --
+> 2.20.1
+>
 
