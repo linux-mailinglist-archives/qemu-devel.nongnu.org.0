@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F12E52F210
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:08:24 +0200 (CEST)
-Received: from localhost ([::1]:38392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D5552F277
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:17:55 +0200 (CEST)
+Received: from localhost ([::1]:59128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns731-0004zY-GK
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37998)
+	id 1ns7CE-0002Xj-RS
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:17:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wf-00041O-Hh; Fri, 20 May 2022 14:01:49 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:43866)
+ id 1ns6wi-0004B2-Pv; Fri, 20 May 2022 14:01:52 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:35574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wc-0004Fd-E4; Fri, 20 May 2022 14:01:48 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id m20so16968911ejj.10;
- Fri, 20 May 2022 11:01:45 -0700 (PDT)
+ id 1ns6wf-0004Ip-IA; Fri, 20 May 2022 14:01:52 -0400
+Received: by mail-ed1-x536.google.com with SMTP id c10so11777311edr.2;
+ Fri, 20 May 2022 11:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DBvS+pFO863lsAYFzkOqAuhOuaOf26uAgucILAzfDNA=;
- b=ku0NzfoMSPHBIXgJV4k4tW+lmZAK47zJXjXOuPdUn0lQ55zxtREkpP/Ps3RCLoCrWT
- ZH8KAs1kIgEKfQc2n90ClrSm8uPaSNg4yGRc7j0vJxD65pPpmRZ9NTKVie85YjkcaaR4
- c41/+fupoBD1uOXmBPsrToZz04hViZMyGJLzwza0ipfCOESYaL9O8pKbE4ySysuSTQs9
- BggGKqLXyVq7uh/vLvy6eaHV4vfon09IynHeI32k0s9aK+COLBmCJ93IjSZ6+UB50DYt
- 5Yd7OUtCYTgWJeiG1UryMMzbd7a/w0CYKIh88D9HGJLjlViX9B6ZD9I11BKLQma2KLxV
- aI2g==
+ bh=6rHOlZhcSAmUz+LYlTjXbwVj8AtLeaPWMpPlecCUMcU=;
+ b=LQes4T2Q7dUXvDjqW8i9MNLsvvCQ+8+u1EnDaPEoFII0bgxb/6fsyijhfXNBBltmy2
+ 3oaPss/k9DIULOZ23bx6YKJpvGAloa1Q6L/iFZJMrQ/wWlmgKuijnPv8CRdPoMrO5f01
+ G8QNNlxQZKTo9QD1+4bF7le6vuYlBvgmP+qsWFazy9uOkbBN9OHLlUNcNJcRpEez9iHY
+ g1p3FqGvq8jSwnqYh+sqvAuGpjPeoGtl0mkB75CtB2f0zSdPSEcDOiNvbXSW1vIcdRnN
+ dk1m39LUhs+njDzkF6rv+zcrdDS6df+tSiCKQjB7PqbrZMpiMeLSMFR4LyhfYPro136p
+ ouTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DBvS+pFO863lsAYFzkOqAuhOuaOf26uAgucILAzfDNA=;
- b=Ymmp5/qbgG6B4dAC10YXRioHxteZDk/VaMKYca4seZW5woPh/wHa1HYGJoBrFlpuEq
- epHoNOgbTRI+wk7PrYGLyhheYW7mJyBQ74poZGQRiRSSU9iaX7hTzMjPzfM0UxlTpSCM
- bx8mlTlsUgo6DKU5i1VDFfL+6j9BI/UW61elECmkiM+VYPBo/9YxbtpSTbvuDevjX/hO
- JOzecYQPuE6WuCbCqHxQF5xfcAY4PARYNTkDe4OixhQCJZKEmZc7L1IzlzgOwpYNue+s
- ey9HlZv5faNGg6CJ8AltcSDHasdwayPOOFukFAEnNDFcaGYE7c0HQqjX+PLBd0T2Umnd
- zksA==
-X-Gm-Message-State: AOAM530LMkaB8cyD1fHHYIQi/HCh1qKvzR8uwL5OAgrFonZEA2O5SVL4
- xLOCohabIOm1QmdPx5DlJYc+PTsXRnM=
-X-Google-Smtp-Source: ABdhPJweJv0UWDL1Lk+iwZvv5wTTV32BOSYaVDMJKDjQdAjkP0z4DAjpM6K4f59JyVx2V7k04VAYuQ==
-X-Received: by 2002:a17:907:d9e:b0:6f4:2983:c371 with SMTP id
- go30-20020a1709070d9e00b006f42983c371mr9960076ejc.558.1653069705205; 
- Fri, 20 May 2022 11:01:45 -0700 (PDT)
+ bh=6rHOlZhcSAmUz+LYlTjXbwVj8AtLeaPWMpPlecCUMcU=;
+ b=lr/gW0IChGfouPuoZd2LlvbkDr8ENZtFcHrxkqMR4qmg+i4977PVa7K2XDLwEj3MbM
+ FBqI+LSC0YKhqgXPFz/UAmPHckJXnBqSPyXiCfksnYSc76nB9Khy1Tr094BnCBMm/zP4
+ 3ixdD4RUXr781Dw1RCPmYOeb1BvpgKmCp9ut9SdgSrzI9h4EW/IoQX/6aIKlC6WHrIFQ
+ zU8AibQO9/eAqrqHzNiLiMEuLRwk7U5MeuEIz1RyXjGfLcYKoTCcIiJi8L9MN0x55L6P
+ +AIlrI9Pe0RweFXjZNY9uWaQqw437RVNchrEgPoFCEdOqKaQsWy/UAWWNc21pOPtpJ4h
+ 6cZA==
+X-Gm-Message-State: AOAM531TIFnnRrZjzOU2/EMDyHdMOIV5zWznsKSwEM48bBcbIT0ILjoJ
+ qFnPLYn75T1q+lK/NmLtkcLWAnYJOm8=
+X-Google-Smtp-Source: ABdhPJypnHD85eZ7BXazWYqZQFaP0RQLw0JWBOoYkbtq0iRStoGLwOGnudbfIMHGVtvwqEli5XI8ww==
+X-Received: by 2002:a05:6402:d0e:b0:413:3d99:f2d6 with SMTP id
+ eb14-20020a0564020d0e00b004133d99f2d6mr12217907edb.189.1653069706358; 
+ Fri, 20 May 2022 11:01:46 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-089-014-209-236.89.14.pool.telefonica.de. [89.14.209.236])
  by smtp.gmail.com with ESMTPSA id
- w5-20020aa7cb45000000b0042aa7e0f892sm4622029edt.15.2022.05.20.11.01.44
+ w5-20020aa7cb45000000b0042aa7e0f892sm4622029edt.15.2022.05.20.11.01.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 11:01:44 -0700 (PDT)
+ Fri, 20 May 2022 11:01:46 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 09/10] accel/tcg: Inline dump_opcount_info() and remove it
-Date: Fri, 20 May 2022 20:01:08 +0200
-Message-Id: <20220520180109.8224-10-shentey@gmail.com>
+ qemu-stable@nongnu.org
+Subject: [PATCH v2 10/10] docs/devel: Fix link to developer mailing lists
+Date: Fri, 20 May 2022 20:01:09 +0200
+Message-Id: <20220520180109.8224-11-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220520180109.8224-1-shentey@gmail.com>
 References: <20220520180109.8224-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,57 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dump_opcount_info() is a one-line wrapper around tcg_dump_op_count()
-which is also exported. So use the latter directly.
+Ammends commit 9f73de8df0335c9387f4ee39e207a65a1615676f 'docs: rSTify
+the "SubmitAPatch" wiki'.
 
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- accel/tcg/cpu-exec.c      | 2 +-
- accel/tcg/translate-all.c | 5 -----
- include/exec/cpu-all.h    | 1 -
- 3 files changed, 1 insertion(+), 7 deletions(-)
+ docs/devel/submitting-a-patch.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 7cbf9996b7..a565a3f8ec 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -1091,7 +1091,7 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
-         return NULL;
-     }
- 
--    dump_opcount_info(buf);
-+    tcg_dump_op_count(buf);
- 
-     return human_readable_text_from_str(buf);
- }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 291034cb09..8fd23a9d05 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2124,11 +2124,6 @@ void dump_exec_info(GString *buf)
-     tcg_dump_info(buf);
- }
- 
--void dump_opcount_info(GString *buf)
--{
--    tcg_dump_op_count(buf);
--}
--
- #else /* CONFIG_USER_ONLY */
- 
- void cpu_interrupt(CPUState *cpu, int mask)
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 9a716be80d..f5bda2c3ca 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -421,7 +421,6 @@ static inline bool tlb_hit(target_ulong tlb_addr, target_ulong addr)
- #ifdef CONFIG_TCG
- /* accel/tcg/translate-all.c */
- void dump_exec_info(GString *buf);
--void dump_opcount_info(GString *buf);
- #endif /* CONFIG_TCG */
- 
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
+index e51259eb9c..21ed52bd82 100644
+--- a/docs/devel/submitting-a-patch.rst
++++ b/docs/devel/submitting-a-patch.rst
+@@ -18,9 +18,9 @@ one-shot fix, the bare minimum we ask is that:
+    <http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__
+    policy.) ``git commit -s`` or ``git format-patch -s`` will add one.
+ -  All contributions to QEMU must be **sent as patches** to the
+-   qemu-devel `mailing list <MailingLists>`__. Patch contributions
+-   should not be posted on the bug tracker, posted on forums, or
+-   externally hosted and linked to. (We have other mailing lists too,
++   qemu-devel `mailing list <https://wiki.qemu.org/Contribute/MailingLists>`__.
++   Patch contributions should not be posted on the bug tracker, posted on
++   forums, or externally hosted and linked to. (We have other mailing lists too,
+    but all patches must go to qemu-devel, possibly with a Cc: to another
+    list.) ``git send-email`` (`step-by-step setup
+    guide <https://git-send-email.io/>`__ and `hints and
 -- 
 2.36.1
 
