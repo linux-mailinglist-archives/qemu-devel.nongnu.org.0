@@ -2,146 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCFB52ED14
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:27:15 +0200 (CEST)
-Received: from localhost ([::1]:53542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81ED52ED62
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:43:08 +0200 (CEST)
+Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns2ew-00076I-PU
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
+	id 1ns2uI-0006pD-RL
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:43:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1ns2cZ-00068n-TR
- for qemu-devel@nongnu.org; Fri, 20 May 2022 09:24:47 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:14428)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ns2rm-0004L3-U3
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 09:40:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1ns2cX-0003Se-SO
- for qemu-devel@nongnu.org; Fri, 20 May 2022 09:24:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1653053085; x=1653657885;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=QggnhgAR0iin12AvrQcQw3W6TjZyRRJPjb7BILKH0HM=;
- b=sdzfb3TwflY/oSCOEyT4geGtf0JNo9BujikRplXTRjTehm/zBczt+4Xi
- Z6Mhf44ZXygAZa0MaflINGy6A783GJ2L1maOuK/X6NPAQAIRCkD6exMNf
- Cjzh96bTB3rrUTElmdhZmwwmE6cyF9lWU+mli+7yxWk0htNiSV5e9h52R E=;
-Received: from mail-dm6nam12lp2174.outbound.protection.outlook.com (HELO
- NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.174])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2022 13:24:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gPtDXrQlvP+bUDCiUSCrmvR/8Y4jXlUG0C71ublkb3u3lh/dbX8YAuYGzn9yuFPN/OUgcsZknYoENgp9INwa8j6YWpVKYTrCGncdVajBrcgm87OLi/htAdQXDgmcgXwY/RPsP9ty9GLITl6hQN7Q8oN1YIc3HldoWFOuWj+Q1PuuT6xsGvgVxE3PR6RGSnZ/NXYa1ks/d+yYxdPy/BliGikhGOzPDbtjtm0U2Wbq/8V6ZeDmY+Pgs+xyzuhcuaWlbmOLJ+CmR7ya/NrhraAvVe8j+8nmUcMej24kF0IUdQrSlB12yAs4bDppfNLW9iMyGa1ALA10ldgTtRd2HqAkFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QggnhgAR0iin12AvrQcQw3W6TjZyRRJPjb7BILKH0HM=;
- b=lswhFGAWXgCTf242nUn+d+EcnJW1Q3ihuK2bi8nY0Z2TShP2fdR5DbRxW1vnsQxIKVzhyklsuMdq1PWvjcZCZqImMPqzfOyFpGRpczQNliOwwuv1RiuOQ2pZZ4NzOk9LLfkMk8djIcIeuANMf83dLrt3LScnOeTwGFyU7RlNfKd5uMIbsIt7+3pcj/wHvMp61uKLjXqqiGVNMMaKSutTCe+nBj7VoJLQC9mbS4c56+TjHmc1ne4NyMwYVDwOl9CaHudNMTRaYtw4xTMx0345DgBAesX4Vw8vllkyCo+pvId19ylONPPHKNqvmiNnxz3Z7y5ScSDcIkuRPYBoZa5plw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com (2603:10b6:805:35::17)
- by DM6PR02MB5497.namprd02.prod.outlook.com (2603:10b6:5:7a::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.17; Fri, 20 May
- 2022 13:24:41 +0000
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::40eb:1458:8e6c:68c3]) by SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::40eb:1458:8e6c:68c3%7]) with mapi id 15.20.5273.018; Fri, 20 May 2022
- 13:24:41 +0000
-From: Brian Cain <bcain@quicinc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, =?utf-8?B?QWxleCBCZW5uw6ll?=
- <alex.bennee@linaro.org>
-Subject: RE: [PATCH] tests: Remove unused "wcount" from linux-test.c
-Thread-Topic: [PATCH] tests: Remove unused "wcount" from linux-test.c
-Thread-Index: AdhsSqReCQiW0XIpTEStdckuNm/cZAAAd2EAAAAJHtA=
-Date: Fri, 20 May 2022 13:24:41 +0000
-Message-ID: <SN6PR02MB420531CD8091D3A8D8FC1E5AB8D39@SN6PR02MB4205.namprd02.prod.outlook.com>
-References: <SN6PR02MB4205DA19E31A951F2B5A6C42B8D39@SN6PR02MB4205.namprd02.prod.outlook.com>
- <CAFEAcA8n5r4LP-9gu+v+zgALG=Svx65xJWEqGvx1ba9JmMEpfQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8n5r4LP-9gu+v+zgALG=Svx65xJWEqGvx1ba9JmMEpfQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d31d79e9-ddf3-4fb7-ba0b-08da3a6418bc
-x-ms-traffictypediagnostic: DM6PR02MB5497:EE_
-x-microsoft-antispam-prvs: <DM6PR02MB549711C3D50A53EC2FD623A5B8D39@DM6PR02MB5497.namprd02.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nnAKdsVPQXzyd6YquMhmaeZ9huEM7FXlvs2kZwSrcxQ/vvQqs09oyppTQPJJCUTBS1i3tRkMycw0H7VY0UkuIB8EYAjkwo2bPm9qLDRSwlv1HXT1S2EE1W1UGaNriGevCc4lIrrZXqZVJDvMAl6ZN6F1NEegQ5E6lRq3q3C7bqtkh/h6D6w5Tbt+G60OF5sCnne2vMKL8mW0dyn7T6QQsd9eqCRzvDRKzSnp3C/ZN9Ytm9ts7cNBlD8Ndc4i1AlKBcLKWc5QLqVnSmWSWs5Eq2wHx8L+ilm6TkajOv8sN9nF7NZ7zXyoi0YHr4AP6RIcB1CmHWx8BIiW5JtMn7j5xRL6Q3sdm+mZoyiqCNLZKr8gylUrkOYiaNRqglCZ/FvhD3EPomfTAqi3hUAOuTGcNZCZQEldaJwBPwnIK425QxizIfeacq4r1TGO5GXjZAWBlLs6kXrB751oSqxmI55MX4LIZNKJtimjqlVUe/c3+sYvFcp9YUJfP97mxLBDrsN234txJsAI5I+kIr/M6j5SDidLdTmw64L3/jfD+8r6E6byPM5asDaEQczOcTgnV1UGSFFWBVZEUXKgOB39YouHwXUxLCeVqrw3DctGuS+OvOaBGPYvwlgYP5nVQW/AqCRAf4tcd+KeM9pJu/o//cyFmPZbsiEjVgd9NlbDdVmsiHq1oqj1/f6UM2HuuCwd9FYL4KbqTcElr1bHVlu6tVOvNw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(122000001)(66574015)(55016003)(316002)(38070700005)(64756008)(9686003)(83380400001)(6506007)(5660300002)(508600001)(8936002)(52536014)(71200400001)(53546011)(8676002)(26005)(2906002)(186003)(7696005)(6916009)(76116006)(4326008)(86362001)(54906003)(66946007)(66446008)(33656002)(38100700002)(66556008)(66476007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VE9xTnhkb3g4T0Y0MWFwdnFRanFFeEVXK0VXS29jSlY4QkU0SHhaWmQ4aGpt?=
- =?utf-8?B?cFBCL0F4cVpReEVPMWZZOTJ1UHpzaWY1N3BrQm94VHZUYnB2cS9LUmRERFFs?=
- =?utf-8?B?WmJyZjNzdStSazFzQloxL3ZuSUR3OUMvM3BNVWZWOXMxZ2JEdm9MOWhVaGMz?=
- =?utf-8?B?QWZXOENpUVhoQWtGVlZobzU5VWQyNW50cmZzKzVTV2o1NGxIRXp4OTM4OVF0?=
- =?utf-8?B?ODB4UWhZbkRJRlNSWDVvZFQvbXdIaS9LWVR3aTlLVkF3M1JFVWtIdGhmUU1K?=
- =?utf-8?B?MXRKV29ZMytKWHg4Y0tPNmJHRmxJRzdtU3RYdjE1SXRWYWh1eW8xY3pXSncw?=
- =?utf-8?B?RG1yN2NkYWs3amFVNDFVSzNERnk3ck80UGtvcmdUZ3g2QjBkZ1E2REY1Rksv?=
- =?utf-8?B?eTBNNUF5bVNVV2FpN1p0YU1MV0ZBYXdiZ3hZaENuRTJNR1NhYW53eHFuV2JV?=
- =?utf-8?B?ZENIbGdLUDl0UTV2dXFuOGFGbks4eEdpcWU1L25nRFg2WmNMUHZXY0YyUytt?=
- =?utf-8?B?RkUxa1lMN3BUSnJzUVNLOER4SVZBZE5zMDBHSnU1UldjdkEvaWdmMXlQK0l4?=
- =?utf-8?B?RVFwK3BtTW5BaVFRMHQ3WUF4eHdHTCszNUlyZmhpK0NSa1M3U3VNSzVTTTJ4?=
- =?utf-8?B?SU53RnNUUFhnYlZvT3RHb2t3Smx4MzdCcXNPL0xBN3RLYjcvK2l0WGtGcm1j?=
- =?utf-8?B?SDBSOXM5Y090MkRaM2pYcmR3d283d2F2Z0lIY0o5cjJvRUpsRFl1WkhOZEZ3?=
- =?utf-8?B?SUNSLzhKY0hYL3lUcnNINURKVU1wcmxQUEZmd2g0RkloZzMrR3dvblRoSEw2?=
- =?utf-8?B?bnlGdndvLzZlaWl5ZVVETFNld05UZ25EbHNkZVpzYm04SnJGdFpHMlVQVFg2?=
- =?utf-8?B?QjdYcEw5QVdsMzVFcGFpekdRTXliNkFsekZsYjZQZEhlMjk1bS9pS1BMc1JT?=
- =?utf-8?B?ZWZpYzJ4M3FlNDBqS09MdE5zeHhuT1NNODlrY2pJUHZwQUpzNzBldUVGaXVG?=
- =?utf-8?B?dmtQSis1bjBVUkZnRThUL0wwTEN6MU9aczk2dFJnVDBncXM4d0RiblIxcjk2?=
- =?utf-8?B?cmRhM3VTN1NSWkJ6eTVqZ2h2TzRMaWg5U3Y5OWtCeXJGOW03SXlkTC83bklo?=
- =?utf-8?B?cDVIamtyaEhDWWRHSDRQL3FVVm9TUHFQcXJYQzNmc3FRT1d0cjBONzVhZUhr?=
- =?utf-8?B?T3ZJajV6SHRnb2o4OW5ENUhIeUlucVU4UHdFS1NOVkFYUHVHZnpMUkxQUStt?=
- =?utf-8?B?dmhLNFFXRU0xMk4vdm1kajdEd01maWJJSDBiUStOak16R1JNc1hUTmpPZWRF?=
- =?utf-8?B?NXpXWXI1dHpYdThUbVBvL1lKeHowZ3dQdjFpN1E5aWo4aWUzUE9Lam5NR0o2?=
- =?utf-8?B?Y1ZqRU9KUnRlVGdJWm5YOGFjSER4OE0yWlgvVy9PQWNha1A4T25tWG01Tmor?=
- =?utf-8?B?S1Z0Y2Y2bkVtbkt1S3NZWjRwbnY4VHBaLzJJZExGcEFxR0ptZHNmNFllcHVx?=
- =?utf-8?B?OXp1eVdacC9DMzhxSDgyREpMZTlUcG5NajlyZ0NDT3hkMlYrYWVmczdmNEdJ?=
- =?utf-8?B?N25tYy90bVUxL3JpREpZbDNqZEFJUjJXellrVjEzZk5QVU1pRTFnUFFYMDdI?=
- =?utf-8?B?d09xMlVDOC9tMFZqK1RFb1hpZ2JIcElXYkhwMmFZQUEyNmF4a0YvMEVBOXpu?=
- =?utf-8?B?NUp5Z1JaNUdNOG95em9lSFlQWjdMYk11WC9GdFl5Y1ZVVVBwb3ZqRVBRcWlU?=
- =?utf-8?B?Wkp2c25kTWYxdXYvS2tKOVlhei9pbGk2dlpwQW1zYzRGb3YyWkhFTVpoRm9x?=
- =?utf-8?B?V1gvL3VrNCtXMDNJZ0ZqS3VFWmJicUVVdGdOMHV6VldZRjZ0Z0xkdlZ5dG03?=
- =?utf-8?B?OC9TR0lZZm9zZFRodzF1NDJLcmNSRW1KMnRKVWJhUGtzNjRXaVdjU0FIckh6?=
- =?utf-8?B?aGF3K3NlOWNpcUtzckxCZytjY0NQZWdtZVdyTkxQQUNMb3k2bXJIZXU3QzNV?=
- =?utf-8?B?ZXFDREpHYmUrZ3lvK3VXYk5YSzNYMVZjL0FDY3dNS0ZULzQyVEJNVG1IN3pQ?=
- =?utf-8?B?dkdXdmpDdTUwZGt4TXhRMGVvN092R1ZNRHhPdnZ3VzdNTnAvZk5La0VyQ1kz?=
- =?utf-8?B?VDV6WGE5d2JyMm5XZllaRUxxazRjT0VIQm5LZjVHZjA1RjZEUUFEbENHMHZT?=
- =?utf-8?B?R0QvY2lxVEd0cUIzVzNKR1JPTi9IZnlCTGlWckhEYmtHZHVpZzFLWWZwRm5u?=
- =?utf-8?B?dFRZbE1wWnViTEFjUGNYL0JudjFaUGFvS0ZhVWYycUYvYzA4M3l5UGpqdzN0?=
- =?utf-8?B?aVRYa1ZJNXAvZ3pIK2tpeThmSFU1dE8zNXpkR2ZlUHE3UjVMbjVIdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ns2rj-00066s-8t
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 09:40:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653054025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WVPJddcS2AFoOu+9FM5vzvM7YGjEuDqNNkxaPWsrtk4=;
+ b=OqQbKiYTiUrjUWS1agegFcAsdive3B6uqVlpRPolFFTgPfqgngKzC7m3wCyU1Qb1FmKZqk
+ yHAD8AtzPDt+BRtIXsdJmmwQByAgKvpHDt6ahcva3rs20Il3TPToIgjICf+QpJA59r3O+H
+ tuawMvvmkqE6/uvAFGIdeCeMshRzSX8=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-515-RwcpnEUnN7-6kCh4UDnyzA-1; Fri, 20 May 2022 09:39:36 -0400
+X-MC-Unique: RwcpnEUnN7-6kCh4UDnyzA-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ p5-20020a254205000000b0064da2110759so7140968yba.12
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 06:39:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WVPJddcS2AFoOu+9FM5vzvM7YGjEuDqNNkxaPWsrtk4=;
+ b=lWrRLakH+d9YNy1QPuvbzN4kttad2PpV/tLW92wibs+zFA+WStxB8QcoUix8UqWnWh
+ u9wf9Dn1LLX5j6Yf98qWGiHN41TDs9mUl82e0KJCyZGC3jKItUw4EhKjcjGfDSWR19e8
+ c3v2CGXez0X/XmfwOFyT40JgJEjKYuLoKdpYT8abgLyLHckdl8NBM8mfhcH8WM/y+A/d
+ WNa7i2hYOFC6VHmvVGZi3vonEIvNAXvuiOmT03O5fvPT1GqStsoEIJV7ckkXsqxt6F6s
+ BlRko4XAIHDwCXreSWJ8sGOZYFeWjHtEQ2grVHBwlshIbrAijOLr2hTKOFGOC0Zg93qA
+ nOnQ==
+X-Gm-Message-State: AOAM531n+WFYXr7JlTFVnmt2YqViwibMF9gpYDdT45AiGGKTsn5eedZl
+ K1FCSe6qBAeZcTbOzH8HM1aDXVF+22pK6qMN0RdaPIgN+bEalvHGiiOhmTTGtUx4sEduWNT9CZd
+ mUtaxKjeCk0cwwBGdGkd/tRxj1CxHwGY=
+X-Received: by 2002:a05:6902:729:b0:64f:3cfb:6d28 with SMTP id
+ l9-20020a056902072900b0064f3cfb6d28mr6964076ybt.30.1653053973278; 
+ Fri, 20 May 2022 06:39:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1XHEGx5Cc/4fils3CBHqyNi6zVXUb5XZruuAwXGx+O9KgoAmelBXBSyKYAd9TNYmMIaZu9bv5BPK5LddfRe0=
+X-Received: by 2002:a05:6902:729:b0:64f:3cfb:6d28 with SMTP id
+ l9-20020a056902072900b0064f3cfb6d28mr6964060ybt.30.1653053973055; Fri, 20 May
+ 2022 06:39:33 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4205.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d31d79e9-ddf3-4fb7-ba0b-08da3a6418bc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2022 13:24:41.2352 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8vxz54Q7Dj6vC8yWNREFI+k8zGvKSuPJNhPBQVoC7P71blbRt2F9N9zRy23epK2rcxSvZkhGhOgc43wrCPqn9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5497
-Received-SPF: pass client-ip=216.71.142.165; envelope-from=bcain@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+ <20220513180821.905149-9-marcandre.lureau@redhat.com>
+In-Reply-To: <20220513180821.905149-9-marcandre.lureau@redhat.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Fri, 20 May 2022 16:39:21 +0300
+Message-ID: <CAPMcbCq3XU+zRLtZet2v9ZHzgGhwofLsM3_Ur7Br3muAU5yFJA@mail.gmail.com>
+Subject: Re: [PATCH v3 08/15] qga: replace qemu_open_old() with
+ qemu_open_cloexec()
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000dbdffa05df719e56"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -157,41 +94,356 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxsIDxwZXRl
-ci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+IFNlbnQ6IEZyaWRheSwgTWF5IDIwLCAyMDIyIDg6MjEg
-QU0NCj4gVG86IEJyaWFuIENhaW4gPGJjYWluQHF1aWNpbmMuY29tPg0KPiBDYzogRGFuaWVsIFAu
-IEJlcnJhbmfDqSA8YmVycmFuZ2VAcmVkaGF0LmNvbT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsN
-Cj4gQWxleCBCZW5uw6llIDxhbGV4LmJlbm5lZUBsaW5hcm8ub3JnPg0KPiBTdWJqZWN0OiBSZTog
-W1BBVENIXSB0ZXN0czogUmVtb3ZlIHVudXNlZCAid2NvdW50IiBmcm9tIGxpbnV4LXRlc3QuYw0K
-PiANCj4gV0FSTklORzogVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lkZSBvZiBRdWFs
-Y29tbS4gUGxlYXNlIGJlIHdhcnkgb2YNCj4gYW55IGxpbmtzIG9yIGF0dGFjaG1lbnRzLCBhbmQg
-ZG8gbm90IGVuYWJsZSBtYWNyb3MuDQo+IA0KPiBPbiBGcmksIDIwIE1heSAyMDIyIGF0IDE0OjE2
-LCBCcmlhbiBDYWluIDxiY2FpbkBxdWljaW5jLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBjbGFuZyBy
-ZXBvcnRzIHRoaXMgdmFyaWFibGUgYXMgJ3NldCBidXQgbm90IHVzZWQnLg0KPiA+DQo+ID4gU2ln
-bmVkLW9mZi1ieTogQnJpYW4gQ2FpbiA8YmNhaW5AcXVpY2luYy5jb20+DQo+ID4gLS0tDQo+ID4g
-IHRlc3RzL3RjZy9tdWx0aWFyY2gvbGludXgvbGludXgtdGVzdC5jIHwgNCArLS0tDQo+ID4gIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRp
-ZmYgLS1naXQgYS90ZXN0cy90Y2cvbXVsdGlhcmNoL2xpbnV4L2xpbnV4LXRlc3QuYw0KPiBiL3Rl
-c3RzL3RjZy9tdWx0aWFyY2gvbGludXgvbGludXgtdGVzdC5jDQo+ID4gaW5kZXggMDE5ZDgxNzVj
-YS4uZDU3ODFiYjQ3NiAxMDA2NDQNCj4gPiAtLS0gYS90ZXN0cy90Y2cvbXVsdGlhcmNoL2xpbnV4
-L2xpbnV4LXRlc3QuYw0KPiA+ICsrKyBiL3Rlc3RzL3RjZy9tdWx0aWFyY2gvbGludXgvbGludXgt
-dGVzdC5jDQo+ID4gQEAgLTMzMiwxMiArMzMyLDExIEBAIHN0YXRpYyB2b2lkIHRlc3RfcGlwZSh2
-b2lkKQ0KPiA+ICAgICAgZmRfc2V0IHJmZHMsIHdmZHM7DQo+ID4gICAgICBpbnQgZmRzWzJdLCBm
-ZF9tYXgsIHJldDsNCj4gPiAgICAgIHVpbnQ4X3QgY2g7DQo+ID4gLSAgICBpbnQgd2NvdW50LCBy
-Y291bnQ7DQo+ID4gKyAgICBpbnQgcmNvdW50Ow0KPiA+DQo+ID4gICAgICBjaGtfZXJyb3IocGlw
-ZShmZHMpKTsNCj4gPiAgICAgIGNoa19lcnJvcihmY250bChmZHNbMF0sIEZfU0VURkwsIE9fTk9O
-QkxPQ0spKTsNCj4gPiAgICAgIGNoa19lcnJvcihmY250bChmZHNbMV0sIEZfU0VURkwsIE9fTk9O
-QkxPQ0spKTsNCj4gPiAtICAgIHdjb3VudCA9IDA7DQo+ID4gICAgICByY291bnQgPSAwOw0KPiA+
-ICAgICAgZm9yKDs7KSB7DQo+ID4gICAgICAgICAgRkRfWkVSTygmcmZkcyk7DQo+ID4gQEAgLTM2
-MCw3ICszNTksNiBAQCBzdGF0aWMgdm9pZCB0ZXN0X3BpcGUodm9pZCkNCj4gPiAgICAgICAgICAg
-ICAgaWYgKEZEX0lTU0VUKGZkc1sxXSwgJndmZHMpKSB7DQo+ID4gICAgICAgICAgICAgICAgICBj
-aCA9ICdhJzsNCj4gPiAgICAgICAgICAgICAgICAgIGNoa19lcnJvcih3cml0ZShmZHNbMV0sICZj
-aCwgMSkpOw0KPiA+IC0gICAgICAgICAgICAgICAgd2NvdW50Kys7DQo+ID4gICAgICAgICAgICAg
-IH0NCj4gPiAgICAgICAgICB9DQo+ID4gICAgICB9DQo+IA0KPiBBbm90aGVyICdjb3VudCcgcmVs
-YXRlZCBvZGRpdHkgaW4gdGhpcyB0ZXN0IGNvZGU6DQo+IA0KPiAgICAgICAgICAgICAgICAgaWYg
-KHJjb3VudCA+PSBXQ09VTlRfTUFYKQ0KPiAgICAgICAgICAgICAgICAgICAgIGJyZWFrOw0KPiB3
-aHkgZG8gd2UgY29tcGFyZSBfcl9jb3VudCBhZ2FpbnN0IF9XX0NPVU5UX01BWCA/DQoNCkkgdGhv
-dWdodCBpdCB3YXMgcGVjdWxpYXIgbXlzZWxmIGJ1dCAqcG9zc2libHkqIGludGVudGlvbmFsLiAg
-T3IgbWF5YmUgd2NvdW50IHNob3VsZCBiZSBjb21wYXJlZCB3aXRoIFdDT1VOVF9NQVggYW5kIHJj
-b3VudCBjb3VsZCBiZSBvbWl0dGVkPw0KDQotQnJpYW4NCg0K
+--000000000000dbdffa05df719e56
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+
+On Fri, May 13, 2022 at 9:08 PM <marcandre.lureau@redhat.com> wrote:
+
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> qemu_open_old() uses qemu_open_internal() which handles special
+> "/dev/fdset/" path for monitor fd sets, set CLOEXEC, and uses Error
+> reporting (and some O_DIRECT special error casing).
+>
+> The monitor fdset handling is unnecessary for qga, use
+> qemu_open_cloexec() instead.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  qga/channel-posix.c  | 14 +++++++++-----
+>  qga/commands-posix.c | 24 ++++++++++++------------
+>  2 files changed, 21 insertions(+), 17 deletions(-)
+>
+> diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+> index 039e1ddcb2..affee485fc 100644
+> --- a/qga/channel-posix.c
+> +++ b/qga/channel-posix.c
+> @@ -1,4 +1,5 @@
+>  #include "qemu/osdep.h"
+> +#include "qemu/cutils.h"
+>  #include <termios.h>
+>  #include "qapi/error.h"
+>  #include "qemu/sockets.h"
+> @@ -128,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c, const
+> gchar *path,
+>      switch (c->method) {
+>      case GA_CHANNEL_VIRTIO_SERIAL: {
+>          assert(fd < 0);
+> -        fd =3D qemu_open_old(path, O_RDWR | O_NONBLOCK
+> +        fd =3D qemu_open_cloexec(
+> +            path,
+>  #ifndef CONFIG_SOLARIS
+> -                           | O_ASYNC
+> +            O_ASYNC |
+>  #endif
+> -                           );
+> +            O_RDWR | O_NONBLOCK,
+> +            0,
+> +            errp
+> +        );
+>          if (fd =3D=3D -1) {
+>              error_setg_errno(errp, errno, "error opening channel");
+>              return false;
+> @@ -157,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, const
+> gchar *path,
+>          struct termios tio;
+>
+>          assert(fd < 0);
+> -        fd =3D qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
+> +        fd =3D qemu_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0=
+,
+> errp);
+>          if (fd =3D=3D -1) {
+> -            error_setg_errno(errp, errno, "error opening channel");
+>              return false;
+>          }
+>          tcgetattr(fd, &tio);
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 7761458ce1..e8eafad74d 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -1394,6 +1394,7 @@ static GuestDiskInfoList *get_disk_partitions(
+>
+>  static void get_nvme_smart(GuestDiskInfo *disk)
+>  {
+> +    Error *err =3D NULL;
+>      int fd;
+>      GuestNVMeSmart *smart;
+>      NvmeSmartLog log =3D {0};
+> @@ -1406,9 +1407,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)
+>                   | (((sizeof(log) >> 2) - 1) << 16)
+>      };
+>
+> -    fd =3D qemu_open_old(disk->name, O_RDONLY);
+> +    fd =3D qemu_open_cloexec(disk->name, O_RDONLY, 0, &err);
+>      if (fd =3D=3D -1) {
+> -        g_debug("Failed to open device: %s: %s", disk->name,
+> g_strerror(errno));
+> +        g_debug("Failed to open device: %s: %s", disk->name,
+> error_get_pretty(err));
+> +        error_free(err);
+>          return;
+>      }
+>
+> @@ -1739,9 +1741,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool
+> has_mountpoints,
+>              }
+>          }
+>
+> -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
+> +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
+>          if (fd =3D=3D -1) {
+> -            error_setg_errno(errp, errno, "failed to open %s",
+> mount->dirname);
+>              goto error;
+>          }
+>
+> @@ -1806,7 +1807,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+>
+>      QTAILQ_FOREACH(mount, &mounts, next) {
+>          logged =3D false;
+> -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
+> +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, NULL);
+>          if (fd =3D=3D -1) {
+>              continue;
+>          }
+> @@ -1866,21 +1867,20 @@ static void guest_fsfreeze_cleanup(void)
+>  GuestFilesystemTrimResponse *
+>  qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+>  {
+> +    ERRP_GUARD();
+>      GuestFilesystemTrimResponse *response;
+>      GuestFilesystemTrimResult *result;
+>      int ret =3D 0;
+>      FsMountList mounts;
+>      struct FsMount *mount;
+>      int fd;
+> -    Error *local_err =3D NULL;
+>      struct fstrim_range r;
+>
+>      slog("guest-fstrim called");
+>
+>      QTAILQ_INIT(&mounts);
+> -    build_fs_mount_list(&mounts, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> +    build_fs_mount_list(&mounts, errp);
+> +    if (*errp) {
+>          return NULL;
+>      }
+>
+> @@ -1892,11 +1892,11 @@ qmp_guest_fstrim(bool has_minimum, int64_t
+> minimum, Error **errp)
+>
+>          QAPI_LIST_PREPEND(response->paths, result);
+>
+> -        fd =3D qemu_open_old(mount->dirname, O_RDONLY);
+> +        fd =3D qemu_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
+>          if (fd =3D=3D -1) {
+> -            result->error =3D g_strdup_printf("failed to open: %s",
+> -                                            strerror(errno));
+> +            result->error =3D g_strdup(error_get_pretty(*errp));
+>              result->has_error =3D true;
+> +            g_clear_pointer(errp, error_free);
+>              continue;
+>          }
+>
+> --
+> 2.36.1
+>
+>
+
+--000000000000dbdffa05df719e56
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 1=
+3, 2022 at 9:08 PM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marca=
+ndre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:ma=
+rcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a=
+>&gt;<br>
+<br>
+qemu_open_old() uses qemu_open_internal() which handles special<br>
+&quot;/dev/fdset/&quot; path for monitor fd sets, set CLOEXEC, and uses Err=
+or<br>
+reporting (and some O_DIRECT special error casing).<br>
+<br>
+The monitor fdset handling is unnecessary for qga, use<br>
+qemu_open_cloexec() instead.<br>
+<br>
+Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qga/channel-posix.c=C2=A0 | 14 +++++++++-----<br>
+=C2=A0qga/commands-posix.c | 24 ++++++++++++------------<br>
+=C2=A02 files changed, 21 insertions(+), 17 deletions(-)<br>
+<br>
+diff --git a/qga/channel-posix.c b/qga/channel-posix.c<br>
+index 039e1ddcb2..affee485fc 100644<br>
+--- a/qga/channel-posix.c<br>
++++ b/qga/channel-posix.c<br>
+@@ -1,4 +1,5 @@<br>
+=C2=A0#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qemu/cutils.h&quot;<br>
+=C2=A0#include &lt;termios.h&gt;<br>
+=C2=A0#include &quot;qapi/error.h&quot;<br>
+=C2=A0#include &quot;qemu/sockets.h&quot;<br>
+@@ -128,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c, const g=
+char *path,<br>
+=C2=A0 =C2=A0 =C2=A0switch (c-&gt;method) {<br>
+=C2=A0 =C2=A0 =C2=A0case GA_CHANNEL_VIRTIO_SERIAL: {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(fd &lt; 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(path, O_RDWR | O_NONBLOCK=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 path,<br>
+=C2=A0#ifndef CONFIG_SOLARIS<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| O_ASYNC<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O_ASYNC |<br>
+=C2=A0#endif<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O_RDWR | O_NONBLOCK,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errp<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 );<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg_errno(errp, errn=
+o, &quot;error opening channel&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+@@ -157,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
+ar *path,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct termios tio;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(fd &lt; 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(path, O_RDWR | O_NOCTTY |=
+ O_NONBLOCK);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(path, O_RDWR | O_NOCT=
+TY | O_NONBLOCK, 0, errp);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcgetattr(fd, &amp;tio);<br>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index 7761458ce1..e8eafad74d 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -1394,6 +1394,7 @@ static GuestDiskInfoList *get_disk_partitions(<br>
+<br>
+=C2=A0static void get_nvme_smart(GuestDiskInfo *disk)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 Error *err =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0int fd;<br>
+=C2=A0 =C2=A0 =C2=A0GuestNVMeSmart *smart;<br>
+=C2=A0 =C2=A0 =C2=A0NvmeSmartLog log =3D {0};<br>
+@@ -1406,9 +1407,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | (((sizeof(=
+log) &gt;&gt; 2) - 1) &lt;&lt; 16)<br>
+=C2=A0 =C2=A0 =C2=A0};<br>
+<br>
+-=C2=A0 =C2=A0 fd =3D qemu_open_old(disk-&gt;name, O_RDONLY);<br>
++=C2=A0 =C2=A0 fd =3D qemu_open_cloexec(disk-&gt;name, O_RDONLY, 0, &amp;er=
+r);<br>
+=C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;Failed to open device: %s: %s&qu=
+ot;, disk-&gt;name, g_strerror(errno));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;Failed to open device: %s: %s&qu=
+ot;, disk-&gt;name, error_get_pretty(err));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_free(err);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+@@ -1739,9 +1741,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mount=
+points,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(mount-&gt;dirname, O_RDON=
+LY);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(mount-&gt;dirname, O_=
+RDONLY, 0, errp);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;failed to open %s&quot;, mount-&gt;dirname);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto error;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+@@ -1806,7 +1807,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0QTAILQ_FOREACH(mount, &amp;mounts, next) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logged =3D false;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(mount-&gt;dirname, O_RDON=
+LY);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(mount-&gt;dirname, O_=
+RDONLY, 0, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+@@ -1866,21 +1867,20 @@ static void guest_fsfreeze_cleanup(void)<br>
+=C2=A0GuestFilesystemTrimResponse *<br>
+=C2=A0qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 ERRP_GUARD();<br>
+=C2=A0 =C2=A0 =C2=A0GuestFilesystemTrimResponse *response;<br>
+=C2=A0 =C2=A0 =C2=A0GuestFilesystemTrimResult *result;<br>
+=C2=A0 =C2=A0 =C2=A0int ret =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0FsMountList mounts;<br>
+=C2=A0 =C2=A0 =C2=A0struct FsMount *mount;<br>
+=C2=A0 =C2=A0 =C2=A0int fd;<br>
+-=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0struct fstrim_range r;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0slog(&quot;guest-fstrim called&quot;);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0QTAILQ_INIT(&amp;mounts);<br>
+-=C2=A0 =C2=A0 build_fs_mount_list(&amp;mounts, &amp;local_err);<br>
+-=C2=A0 =C2=A0 if (local_err) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
++=C2=A0 =C2=A0 build_fs_mount_list(&amp;mounts, errp);<br>
++=C2=A0 =C2=A0 if (*errp) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+@@ -1892,11 +1892,11 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum,=
+ Error **errp)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QAPI_LIST_PREPEND(response-&gt;paths, res=
+ult);<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_old(mount-&gt;dirname, O_RDON=
+LY);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qemu_open_cloexec(mount-&gt;dirname, O_=
+RDONLY, 0, errp);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =3D g_strdup_pr=
+intf(&quot;failed to open: %s&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 strerror(errno));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result-&gt;error =3D g_strdup(er=
+ror_get_pretty(*errp));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result-&gt;has_error =3D tr=
+ue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_clear_pointer(errp, error_free=
+);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-- <br>
+2.36.1<br>
+<br>
+</blockquote></div>
+
+--000000000000dbdffa05df719e56--
+
 
