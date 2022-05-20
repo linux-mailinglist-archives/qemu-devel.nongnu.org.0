@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D5552F277
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:17:55 +0200 (CEST)
-Received: from localhost ([::1]:59128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB4852F21E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:11:35 +0200 (CEST)
+Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns7CE-0002Xj-RS
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:17:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38014)
+	id 1ns766-00031U-Pd
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wi-0004B2-Pv; Fri, 20 May 2022 14:01:52 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:35574)
+ id 1ns6xp-00067D-Ks; Fri, 20 May 2022 14:03:02 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:42958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wf-0004Ip-IA; Fri, 20 May 2022 14:01:52 -0400
-Received: by mail-ed1-x536.google.com with SMTP id c10so11777311edr.2;
- Fri, 20 May 2022 11:01:47 -0700 (PDT)
+ id 1ns6xn-0004OK-VE; Fri, 20 May 2022 14:03:01 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id s3so11713840edr.9;
+ Fri, 20 May 2022 11:02:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
+ h=date:from:to:cc:subject:in-reply-to:references:message-id
  :mime-version:content-transfer-encoding;
- bh=6rHOlZhcSAmUz+LYlTjXbwVj8AtLeaPWMpPlecCUMcU=;
- b=LQes4T2Q7dUXvDjqW8i9MNLsvvCQ+8+u1EnDaPEoFII0bgxb/6fsyijhfXNBBltmy2
- 3oaPss/k9DIULOZ23bx6YKJpvGAloa1Q6L/iFZJMrQ/wWlmgKuijnPv8CRdPoMrO5f01
- G8QNNlxQZKTo9QD1+4bF7le6vuYlBvgmP+qsWFazy9uOkbBN9OHLlUNcNJcRpEez9iHY
- g1p3FqGvq8jSwnqYh+sqvAuGpjPeoGtl0mkB75CtB2f0zSdPSEcDOiNvbXSW1vIcdRnN
- dk1m39LUhs+njDzkF6rv+zcrdDS6df+tSiCKQjB7PqbrZMpiMeLSMFR4LyhfYPro136p
- ouTw==
+ bh=tDa1dDpAyuUboWjaxNd8pdfd70CjgmOvNosK2Pg1Fac=;
+ b=o0nl8uQgek/AuSB3kg9m+ndYw1LJg98n2diNnN6HVpphzOfWUej2UmIkbWt2gRfm6e
+ n/wR9Ftl9IuojRdqiVDG5hvV+EDjae9XZuCgbma9ZtdUmCzI467bj7wQ7I3dJDJ9Mzee
+ 5s6Xnqn/6paoXX4pEq7buhhrvmTlWuO86HUoCiDVkuA9+ldLteKsEFIs4WAQuSORfCl/
+ d3Bb5lir3F1rsV9U4sax/Zw62KdKK4cKbdMy2E0sd3dZHwO0kTOthdyxx6p7HYDKZcz+
+ wxPFDMIkQDaajNGsayToVmkHZ+1TL02OMUSexb50OiHpl7otPxO8hlpcVy4Io17p1mPK
+ XZtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6rHOlZhcSAmUz+LYlTjXbwVj8AtLeaPWMpPlecCUMcU=;
- b=lr/gW0IChGfouPuoZd2LlvbkDr8ENZtFcHrxkqMR4qmg+i4977PVa7K2XDLwEj3MbM
- FBqI+LSC0YKhqgXPFz/UAmPHckJXnBqSPyXiCfksnYSc76nB9Khy1Tr094BnCBMm/zP4
- 3ixdD4RUXr781Dw1RCPmYOeb1BvpgKmCp9ut9SdgSrzI9h4EW/IoQX/6aIKlC6WHrIFQ
- zU8AibQO9/eAqrqHzNiLiMEuLRwk7U5MeuEIz1RyXjGfLcYKoTCcIiJi8L9MN0x55L6P
- +AIlrI9Pe0RweFXjZNY9uWaQqw437RVNchrEgPoFCEdOqKaQsWy/UAWWNc21pOPtpJ4h
- 6cZA==
-X-Gm-Message-State: AOAM531TIFnnRrZjzOU2/EMDyHdMOIV5zWznsKSwEM48bBcbIT0ILjoJ
- qFnPLYn75T1q+lK/NmLtkcLWAnYJOm8=
-X-Google-Smtp-Source: ABdhPJypnHD85eZ7BXazWYqZQFaP0RQLw0JWBOoYkbtq0iRStoGLwOGnudbfIMHGVtvwqEli5XI8ww==
-X-Received: by 2002:a05:6402:d0e:b0:413:3d99:f2d6 with SMTP id
- eb14-20020a0564020d0e00b004133d99f2d6mr12217907edb.189.1653069706358; 
- Fri, 20 May 2022 11:01:46 -0700 (PDT)
-Received: from localhost.localdomain
- (dynamic-089-014-209-236.89.14.pool.telefonica.de. [89.14.209.236])
- by smtp.gmail.com with ESMTPSA id
- w5-20020aa7cb45000000b0042aa7e0f892sm4622029edt.15.2022.05.20.11.01.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 11:01:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=tDa1dDpAyuUboWjaxNd8pdfd70CjgmOvNosK2Pg1Fac=;
+ b=QL2k5sSfkzgXV8uQzOGkb5P4cyk/z/Wzp4E9N015+wefNXsOA+I7hK5n+Y3ej/AcxR
+ f9SAoPrp3EkvQLcVcWJFhPnoU/vAFogejJ7xRfqQ7yrwBsaQmc5NVSrsgGSBxcbbWqRK
+ hBlmT/LCAmo4pkAvwGVtPFFPbh1++cXTxynE5p3/sC7UR1hZaBe2MxJmJB5nM5CspaAy
+ fB2kOGYAeZE9Irq7X/zkqiSW6WiE7yI1kjRcfuTC00DddIFIBLN4m5Qtqucq772oW3Qe
+ tbznds/exBGn+bcDsdEtm4Ri8N6fZy26I+/kqcPcDQdK4P67UysZj9VL4gVEaBg1CztS
+ +dow==
+X-Gm-Message-State: AOAM5323N++WhHWBEq/bUEn6+SMbWBpVml/ZFXuL2gp6+HtEkL7RJKZy
+ zzHaVa/kYYXP4qQjZ1Idu63wDUs4c+Q=
+X-Google-Smtp-Source: ABdhPJzGg0fhzn/V8fR9sUW0GhW+U9iaXCGfYnLNtMfQBqhyxx5BNUbqkdGxXjsioJcBDPM0dea23Q==
+X-Received: by 2002:a05:6402:1d48:b0:427:dfa3:2272 with SMTP id
+ dz8-20020a0564021d4800b00427dfa32272mr12122156edb.333.1653069777979; 
+ Fri, 20 May 2022 11:02:57 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-089-014-209-236.89.14.pool.telefonica.de.
+ [89.14.209.236]) by smtp.gmail.com with ESMTPSA id
+ d13-20020a05640208cd00b0042617ba639esm4598054edz.40.2022.05.20.11.02.56
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 20 May 2022 11:02:57 -0700 (PDT)
+Date: Fri, 20 May 2022 18:02:53 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- qemu-stable@nongnu.org
-Subject: [PATCH v2 10/10] docs/devel: Fix link to developer mailing lists
-Date: Fri, 20 May 2022 20:01:09 +0200
-Message-Id: <20220520180109.8224-11-shentey@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220520180109.8224-1-shentey@gmail.com>
+CC: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 08/10] accel/tcg/cpu-exec: Unexport dump_drift_info()
+In-Reply-To: <20220520180109.8224-9-shentey@gmail.com>
 References: <20220520180109.8224-1-shentey@gmail.com>
+ <20220520180109.8224-9-shentey@gmail.com>
+Message-ID: <B372FB7B-2E70-400C-8320-46F32F42068A@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,33 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ammends commit 9f73de8df0335c9387f4ee39e207a65a1615676f 'docs: rSTify
-the "SubmitAPatch" wiki'.
+Am 20=2E Mai 2022 18:01:07 UTC schrieb Bernhard Beschow <shentey@gmail=2Eco=
+m>:
+>Commit 3a841ab53f165910224dc4bebabf1a8f1d04200c 'qapi: introduce
+>x-query-jit QMP command' basically moved the only function using
+>dump_drift_info() to cpu-exec=2Ec=2E Therefore, dump_drift_info() doesn't
+>need to be exported any longer=2E
+>
+>Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>---
+> accel/tcg/cpu-exec=2Ec   | 2 +-
+> include/exec/cpu-all=2Eh | 2 --
+> 2 files changed, 1 insertion(+), 3 deletions(-)
+>
+>diff --git a/accel/tcg/cpu-exec=2Ec b/accel/tcg/cpu-exec=2Ec
+>index 635aeecc0a=2E=2E7cbf9996b7 100644
+>--- a/accel/tcg/cpu-exec=2Ec
+>+++ b/accel/tcg/cpu-exec=2Ec
+>@@ -1048,7 +1048,7 @@ void tcg_exec_unrealizefn(CPUState *cpu)
+>=20
+> #ifndef CONFIG_USER_ONLY
+>=20
+>-void dump_drift_info(GString *buf)
+>+static void dump_drift_info(GString *buf)
+> {
+>     if (!icount_enabled()) {
+>         return;
+>diff --git a/include/exec/cpu-all=2Eh b/include/exec/cpu-all=2Eh
+>index 5d5290deb5=2E=2E9a716be80d 100644
+>--- a/include/exec/cpu-all=2Eh
+>+++ b/include/exec/cpu-all=2Eh
+>@@ -419,8 +419,6 @@ static inline bool tlb_hit(target_ulong tlb_addr, tar=
+get_ulong addr)
+> }
+>=20
+> #ifdef CONFIG_TCG
+>-/* accel/tcg/cpu-exec=2Ec */
+>-void dump_drift_info(GString *buf);
+> /* accel/tcg/translate-all=2Ec */
+> void dump_exec_info(GString *buf);
+> void dump_opcount_info(GString *buf);
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- docs/devel/submitting-a-patch.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
-index e51259eb9c..21ed52bd82 100644
---- a/docs/devel/submitting-a-patch.rst
-+++ b/docs/devel/submitting-a-patch.rst
-@@ -18,9 +18,9 @@ one-shot fix, the bare minimum we ask is that:
-    <http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__
-    policy.) ``git commit -s`` or ``git format-patch -s`` will add one.
- -  All contributions to QEMU must be **sent as patches** to the
--   qemu-devel `mailing list <MailingLists>`__. Patch contributions
--   should not be posted on the bug tracker, posted on forums, or
--   externally hosted and linked to. (We have other mailing lists too,
-+   qemu-devel `mailing list <https://wiki.qemu.org/Contribute/MailingLists>`__.
-+   Patch contributions should not be posted on the bug tracker, posted on
-+   forums, or externally hosted and linked to. (We have other mailing lists too,
-    but all patches must go to qemu-devel, possibly with a Cc: to another
-    list.) ``git send-email`` (`step-by-step setup
-    guide <https://git-send-email.io/>`__ and `hints and
--- 
-2.36.1
-
+Ping
 
