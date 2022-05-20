@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3A452EDB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 16:03:37 +0200 (CEST)
-Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB7D52EDCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 16:08:04 +0200 (CEST)
+Received: from localhost ([::1]:42228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns3E7-0001sK-84
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 10:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
+	id 1ns3IQ-0007IK-U2
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 10:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32j-00056U-Bn; Fri, 20 May 2022 09:51:49 -0400
+ id 1ns32s-0005TP-28; Fri, 20 May 2022 09:51:58 -0400
 Received: from [187.72.171.209] (port=41153 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32h-0007xw-Pk; Fri, 20 May 2022 09:51:49 -0400
+ id 1ns32q-0007xw-9T; Fri, 20 May 2022 09:51:57 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 20 May 2022 10:51:32 -0300
+ Fri, 20 May 2022 10:51:33 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 9C62D800C32;
- Fri, 20 May 2022 10:51:32 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 1F7498000A0;
+ Fri, 20 May 2022 10:51:33 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-ppc@nongnu.org
 Cc: richard.henderson@linaro.org,
@@ -31,16 +31,16 @@ Cc: richard.henderson@linaro.org,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v4 3/8] target/ppc: Implemented pmxvi*ger* instructions
-Date: Fri, 20 May 2022 10:51:24 -0300
-Message-Id: <20220520135129.63664-4-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v4 6/8] target/ppc: Implemented pmxvf*ger*
+Date: Fri, 20 May 2022 10:51:27 -0300
+Message-Id: <20220520135129.63664-7-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
 References: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 May 2022 13:51:32.0858 (UTC)
- FILETIME=[B6DD75A0:01D86C50]
+X-OriginalArrivalTime: 20 May 2022 13:51:33.0326 (UTC)
+ FILETIME=[B724DEE0:01D86C50]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -68,97 +68,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-pmxvi4ger8:     Prefixed Masked VSX Vector 8-bit Signed/Unsigned Integer
-GER (rank-4 update)
-pmxvi4ger8pp:   Prefixed Masked VSX Vector 8-bit Signed/Unsigned Integer
-GER (rank-4 update) Positive multiply, Positive accumulate
-pmxvi8ger4:     Prefixed Masked VSX Vector 4-bit Signed Integer GER
-(rank-8 update)
-pmxvi8ger4pp:   Prefixed Masked VSX Vector 4-bit Signed Integer GER
-(rank-8 update) Positive multiply, Positive accumulate
-pmxvi8ger4spp:  Prefixed Masked VSX Vector 8-bit Signed/Unsigned Integer
-GER (rank-4 update) with Saturate Positive multiply, Positive accumulate
-pmxvi16ger2:    Prefixed Masked VSX Vector 16-bit Signed Integer GER
+pmxvf16ger2:   Prefixed Masked VSX Vector 16-bit Floating-Point GER
 (rank-2 update)
-pmxvi16ger2pp:  Prefixed Masked VSX Vector 16-bit Signed Integer GER
+pmxvf16ger2nn: Prefixed Masked VSX Vector 16-bit Floating-Point GER
+(rank-2 update) Negative multiply, Negative accumulate
+pmxvf16ger2np: Prefixed Masked VSX Vector 16-bit Floating-Point GER
+(rank-2 update) Negative multiply, Positive accumulate
+pmxvf16ger2pn: Prefixed Masked VSX Vector 16-bit Floating-Point GER
+(rank-2 update) Positive multiply, Negative accumulate
+pmxvf16ger2pp: Prefixed Masked VSX Vector 16-bit Floating-Point GER
 (rank-2 update) Positive multiply, Positive accumulate
-pmxvi16ger2s:   Prefixed Masked VSX Vector 16-bit Signed Integer GER
-(rank-2 update) with Saturation
-pmxvi16ger2spp: Prefixed Masked VSX Vector 16-bit Signed Integer GER
-(rank-2 update) with Saturation Positive multiply, Positive accumulate
+pmxvf32ger:    Prefixed Masked VSX Vector 32-bit Floating-Point GER
+(rank-1 update)
+pmxvf32gernn:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
+(rank-1 update) Negative multiply, Negative accumulate
+pmxvf32gernp:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
+(rank-1 update) Negative multiply, Positive accumulate
+pmxvf32gerpn:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
+(rank-1 update) Positive multiply, Negative accumulate
+pmxvf32gerpp:  Prefixed Masked VSX Vector 32-bit Floating-Point GER
+(rank-1 update) Positive multiply, Positive accumulate
+pmxvf64ger:    Prefixed Masked VSX Vector 64-bit Floating-Point GER
+(rank-1 update)
+pmxvf64gernn:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
+(rank-1 update) Negative multiply, Negative accumulate
+pmxvf64gernp:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
+(rank-1 update) Negative multiply, Positive accumulate
+pmxvf64gerpn:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
+(rank-1 update) Positive multiply, Negative accumulate
+pmxvf64gerpp:  Prefixed Masked VSX Vector 64-bit Floating-Point GER
+(rank-1 update) Positive multiply, Positive accumulate
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/insn64.decode            | 30 +++++++++++++++++++++++++++++
- target/ppc/translate/vsx-impl.c.inc | 10 ++++++++++
- 2 files changed, 40 insertions(+)
+ target/ppc/insn64.decode            | 38 +++++++++++++++++++++++++++++
+ target/ppc/translate/vsx-impl.c.inc | 18 ++++++++++++++
+ 2 files changed, 56 insertions(+)
 
 diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 691e8fe6c0..0eed35c8cd 100644
+index 0eed35c8cd..5ecc5c85bf 100644
 --- a/target/ppc/insn64.decode
 +++ b/target/ppc/insn64.decode
-@@ -68,6 +68,15 @@
-                 ...... ..... ..... ..... ..... .. ....   \
-                 &8RR_XX4_uim3 xt=%8rr_xx_xt xa=%8rr_xx_xa xb=%8rr_xx_xb xc=%8rr_xx_xc
+@@ -73,10 +73,15 @@
+ %xx3_xa         2:1 16:5
+ %xx3_xb         1:1 11:5
+ %xx3_at         23:3
++%xx3_xa_pair    2:1 17:4 !function=times_2
+ @MMIRR_XX3      ...... .. .... .. . . ........ xmsk:4 ymsk:4  \
+                 ...... ... .. ..... ..... ........ ...  \
+                 &MMIRR_XX3 xa=%xx3_xa xb=%xx3_xb xt=%xx3_at
  
-+# Format MMIRR:XX3
-+&MMIRR_XX3      !extern xa xb xt pmsk xmsk ymsk
-+%xx3_xa         2:1 16:5
-+%xx3_xb         1:1 11:5
-+%xx3_at         23:3
-+@MMIRR_XX3      ...... .. .... .. . . ........ xmsk:4 ymsk:4  \
-+                ...... ... .. ..... ..... ........ ...  \
-+                &MMIRR_XX3 xa=%xx3_xa xb=%xx3_xb xt=%xx3_at
++@MMIRR_XX3_NO_P ...... .. .... .. . . ........ xmsk:4 .... \
++                ...... ... .. ..... ..... ........ ... \
++                &MMIRR_XX3 xb=%xx3_xb xt=%xx3_at pmsk=1
 +
  ### Fixed-Point Load Instructions
  
  PLBZ            000001 10 0--.-- .................. \
-@@ -115,6 +124,27 @@ PSTFS           000001 10 0--.-- .................. \
- PSTFD           000001 10 0--.-- .................. \
-                 110110 ..... ..... ................     @PLS_D
+@@ -145,6 +150,39 @@ PMXVI16GER2S    000001 11 1001 -- - - pmsk:2 ------ ........       \
+ PMXVI16GER2SPP  000001 11 1001 -- - - pmsk:2 ------ ........       \
+                 111011 ... -- ..... ..... 00101010 ..-  @MMIRR_XX3
  
-+## VSX GER instruction
++PMXVF16GER2     000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 00010011 ..-  @MMIRR_XX3
++PMXVF16GER2PP   000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 00010010 ..-  @MMIRR_XX3
++PMXVF16GER2PN   000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 10010010 ..-  @MMIRR_XX3
++PMXVF16GER2NP   000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 01010010 ..-  @MMIRR_XX3
++PMXVF16GER2NN   000001 11 1001 -- - - pmsk:2 ------ ........ \
++                111011 ... -- ..... ..... 11010010 ..-  @MMIRR_XX3
 +
-+PMXVI4GER8      000001 11 1001 -- - - pmsk:8 ........              \
-+                111011 ... -- ..... ..... 00100011 ..-  @MMIRR_XX3
-+PMXVI4GER8PP    000001 11 1001 -- - - pmsk:8 ........              \
-+                111011 ... -- ..... ..... 00100010 ..-  @MMIRR_XX3
-+PMXVI8GER4      000001 11 1001 -- - - pmsk:4 ---- ........         \
-+                111011 ... -- ..... ..... 00000011 ..-  @MMIRR_XX3
-+PMXVI8GER4PP    000001 11 1001 -- - - pmsk:4 ---- ........         \
-+                111011 ... -- ..... ..... 00000010 ..-  @MMIRR_XX3
-+PMXVI16GER2     000001 11 1001 -- - - pmsk:2 ------ ........       \
-+                111011 ... -- ..... ..... 01001011 ..-  @MMIRR_XX3
-+PMXVI16GER2PP   000001 11 1001 -- - - pmsk:2 ------ ........       \
-+                111011 ... -- ..... ..... 01101011 ..-  @MMIRR_XX3
-+PMXVI8GER4SPP   000001 11 1001 -- - - pmsk:4 ---- ........         \
-+                111011 ... -- ..... ..... 01100011 ..-  @MMIRR_XX3
-+PMXVI16GER2S    000001 11 1001 -- - - pmsk:2 ------ ........       \
-+                111011 ... -- ..... ..... 00101011 ..-  @MMIRR_XX3
-+PMXVI16GER2SPP  000001 11 1001 -- - - pmsk:2 ------ ........       \
-+                111011 ... -- ..... ..... 00101010 ..-  @MMIRR_XX3
++PMXVF32GER      000001 11 1001 -- - - -------- .... ymsk:4 \
++                111011 ... -- ..... ..... 00011011 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
++PMXVF32GERPP    000001 11 1001 -- - - -------- .... ymsk:4 \
++                111011 ... -- ..... ..... 00011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
++PMXVF32GERPN    000001 11 1001 -- - - -------- .... ymsk:4 \
++                111011 ... -- ..... ..... 10011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
++PMXVF32GERNP    000001 11 1001 -- - - -------- .... ymsk:4 \
++                111011 ... -- ..... ..... 01011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
++PMXVF32GERNN    000001 11 1001 -- - - -------- .... ymsk:4 \
++                111011 ... -- ..... ..... 11011010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa
++
++PMXVF64GER      000001 11 1001 -- - - -------- .... ymsk:2 -- \
++                111011 ... -- ....0 ..... 00111011 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
++PMXVF64GERPP    000001 11 1001 -- - - -------- .... ymsk:2 -- \
++                111011 ... -- ....0 ..... 00111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
++PMXVF64GERPN    000001 11 1001 -- - - -------- .... ymsk:2 -- \
++                111011 ... -- ....0 ..... 10111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
++PMXVF64GERNP    000001 11 1001 -- - - -------- .... ymsk:2 -- \
++                111011 ... -- ....0 ..... 01111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
++PMXVF64GERNN    000001 11 1001 -- - - -------- .... ymsk:2 -- \
++                111011 ... -- ....0 ..... 11111010 ..-  @MMIRR_XX3_NO_P xa=%xx3_xa_pair
 +
  ### Prefixed No-operation Instruction
  
  @PNOP           000001 11 0000-- 000000000000000000     \
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 9d4309e841..c9ed898bb6 100644
+index 232a4d881e..7218394b45 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -2859,6 +2859,16 @@ TRANS(XVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
- TRANS(XVI16GER2S, do_ger, gen_helper_XVI16GER2S)
- TRANS(XVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
+@@ -2887,6 +2887,24 @@ TRANS(XVF64GERPN, do_ger, gen_helper_XVF64GERPN)
+ TRANS(XVF64GERNP, do_ger, gen_helper_XVF64GERNP)
+ TRANS(XVF64GERNN, do_ger, gen_helper_XVF64GERNN)
  
-+TRANS64(PMXVI4GER8, do_ger, gen_helper_XVI4GER8)
-+TRANS64(PMXVI4GER8PP, do_ger, gen_helper_XVI4GER8PP)
-+TRANS64(PMXVI8GER4, do_ger, gen_helper_XVI8GER4)
-+TRANS64(PMXVI8GER4PP, do_ger, gen_helper_XVI8GER4PP)
-+TRANS64(PMXVI8GER4SPP, do_ger, gen_helper_XVI8GER4SPP)
-+TRANS64(PMXVI16GER2, do_ger, gen_helper_XVI16GER2)
-+TRANS64(PMXVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
-+TRANS64(PMXVI16GER2S, do_ger, gen_helper_XVI16GER2S)
-+TRANS64(PMXVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
++TRANS64(PMXVF16GER2, do_ger, gen_helper_XVF16GER2)
++TRANS64(PMXVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
++TRANS64(PMXVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
++TRANS64(PMXVF16GER2NP, do_ger, gen_helper_XVF16GER2NP)
++TRANS64(PMXVF16GER2NN, do_ger, gen_helper_XVF16GER2NN)
++
++TRANS64(PMXVF32GER, do_ger, gen_helper_XVF32GER)
++TRANS64(PMXVF32GERPP, do_ger, gen_helper_XVF32GERPP)
++TRANS64(PMXVF32GERPN, do_ger, gen_helper_XVF32GERPN)
++TRANS64(PMXVF32GERNP, do_ger, gen_helper_XVF32GERNP)
++TRANS64(PMXVF32GERNN, do_ger, gen_helper_XVF32GERNN)
++
++TRANS64(PMXVF64GER, do_ger, gen_helper_XVF64GER)
++TRANS64(PMXVF64GERPP, do_ger, gen_helper_XVF64GERPP)
++TRANS64(PMXVF64GERPN, do_ger, gen_helper_XVF64GERPN)
++TRANS64(PMXVF64GERNP, do_ger, gen_helper_XVF64GERNP)
++TRANS64(PMXVF64GERNN, do_ger, gen_helper_XVF64GERNN)
 +
  #undef GEN_XX2FORM
  #undef GEN_XX3FORM
