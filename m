@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D286252F20F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:08:05 +0200 (CEST)
-Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0E852F21A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 20:10:43 +0200 (CEST)
+Received: from localhost ([::1]:44662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns72h-0004JL-LX
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37820)
+	id 1ns75G-0000ou-9d
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 14:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wW-0003o1-Bp; Fri, 20 May 2022 14:01:40 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45880)
+ id 1ns6wY-0003rM-5d; Fri, 20 May 2022 14:01:42 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:43866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ns6wU-0004FL-IN; Fri, 20 May 2022 14:01:39 -0400
-Received: by mail-ej1-x633.google.com with SMTP id jx22so3546763ejb.12;
- Fri, 20 May 2022 11:01:37 -0700 (PDT)
+ id 1ns6wW-0004Fd-Cp; Fri, 20 May 2022 14:01:41 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id m20so16968911ejj.10;
+ Fri, 20 May 2022 11:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WuOiQ2vcTETClbMc2XlIIc/4ePmzXGMTxL5W/8IV79c=;
- b=h3QSCAApZbYbktnQmv+Tgw6NjOB+og9pBmE99u9OJ11n4RndA9hZTC2BzFKY69NAHC
- f8ju5NxfKquBpcVZAS2jSC32bgs6a39uxKEcUivweTXGXBcdeilRfknfy3wEkbNPJ4i2
- 3ThVew+maAqN1dtLk2oxgjv2VztCIa9e3jx3ggw7g22FWrFz0TSkpIm9tG0NqPrG+IPt
- VRf1YUReZHPfHNTNfwEYui0ntASuaNXfCWTHIwA8KCzST7xPDyAfkYvPRho5BhW+K1Ot
- qdQ/WER6Hi4xuFPtNTNP5Y5gAp7Sip33cHVqtTJu9bx4u+8cf/1IWsBS27no5oJgV6eg
- PxTg==
+ bh=2JfOSXedVx9zd/uj2U6R7U6NlLpjul8WVbgYbN02e5g=;
+ b=ebi6bPToYWk4BUV0EvqKGDP4zpqySNZ5ajFoul4NlDAsyQ9VnbgpoLQNFtCST15sT6
+ e4zIIIPnfx92vC8olRbiNk6+bHskr78u49dmD3HCUX0aGzMj1/3i1hT6nXgcIGP8s6bK
+ xwe0xLau48k178Yuxeai+nbI/C3/HMN3k5t8aQHPMAgB8rsOdYD2ssH1cJGOzgtdy5sF
+ BORXnpnEuURlCZL2+cG1QSXqWPGtGk/OG3s+OVhlTZoZC+VaN7/qKOfrxme0Rdvw3ray
+ cZmLknuyKKYbUuoUCBaaGmXmHAyk6rmEw5QEqBtNmwOj/hDtGTmRoBZbIv7CPsFuhUNf
+ YkuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WuOiQ2vcTETClbMc2XlIIc/4ePmzXGMTxL5W/8IV79c=;
- b=0YCY9hJbqRJSEww26Kncp/bZGn9SzgAi8fO3Ha8R+y/owQOPbgTj/LVZKhf4usIijN
- UpCCihyRDzMMGDdcfYBKw2fJcMaa+SLYTPP2FhCOm5VzPin5z0FuMMgZ2JrYZkntoYAB
- H7KyYxtGGDRNzvVOxPb8EnEJKKvhjS4/1JvL+HA3DzEulW2DrIfkwQb3tBparpRA9Z35
- W0rMNefH3DoXnLIuunhc35TIC9FAlkSEf+ZLKvYQxb/8xjjxc/IgCy+TLPJKmr22LBBD
- tvtuFJXPwYVsqbfHZDKKTyUBlLeT2f88NFB8tmewlOLNaUeBlXo17q1ZF+hZDkGzbCbR
- HupA==
-X-Gm-Message-State: AOAM532d7m9ghYEWSBMZmdkrS4XP1UQVXJfyoxqXyrgH7K+QQs4AOeeF
- D0ljAsgndSxfU9qIrF4ZZCBrQvLCriU=
-X-Google-Smtp-Source: ABdhPJx507p8y+0w+lF08x+eJCgbJOJHX9mBvW9kCERe9Lzh3/+QrgMSZSQybSVzES8aa8avLvLHuQ==
-X-Received: by 2002:a17:906:6d91:b0:6f4:5433:72f5 with SMTP id
- h17-20020a1709066d9100b006f4543372f5mr9522912ejt.414.1653069696757; 
- Fri, 20 May 2022 11:01:36 -0700 (PDT)
+ bh=2JfOSXedVx9zd/uj2U6R7U6NlLpjul8WVbgYbN02e5g=;
+ b=Pfp/+Wt9XJn3pF+VYscPftVyDcaYRb7v4Ymu7y8RsEvyWjRz4ZIt8tLWC+ajO20vQI
+ rAUSYNJOoWWxHzGIPqoN6wlqfIsznXq5eCKTZSumrELCN+pjzoUisYkwlxf75TlY6/gd
+ wU+GRfkGc2Dzs3XBB+P+1R5bh3lmKXyE618Aw6d0Mccash+vY5yAhfYNfV7tZq0d41Kr
+ nf7Bz5NwARCwVN0bMtCOY7GuOGvNKOrLfsFcMILrr5uRN3KchKrlLgo7W+pYwgqs9tcO
+ fq3Nv8vUskwuBSSA1eQXTV0s3ezfjjue21+L3byntFj+HofSjpfkE5tAdjhAFzSI3Yo/
+ yaUA==
+X-Gm-Message-State: AOAM532hSqjB/yEs/MDiESs5RvmzDa+UWxcf7TA3Xy6y2R46hyMNv8Kc
+ +I7/7Wzsu+GriWlnlse8M4vyS1uwW8c=
+X-Google-Smtp-Source: ABdhPJwAIa6JMAX7NhXQXDdrHB+Phu01dccMM8fqoIQabowHveKI/UR660lBBeZwSOXexcNvHK95bQ==
+X-Received: by 2002:a17:907:9609:b0:6f4:d4d7:7c82 with SMTP id
+ gb9-20020a170907960900b006f4d4d77c82mr9467330ejc.483.1653069698191; 
+ Fri, 20 May 2022 11:01:38 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-089-014-209-236.89.14.pool.telefonica.de. [89.14.209.236])
  by smtp.gmail.com with ESMTPSA id
- w5-20020aa7cb45000000b0042aa7e0f892sm4622029edt.15.2022.05.20.11.01.35
+ w5-20020aa7cb45000000b0042aa7e0f892sm4622029edt.15.2022.05.20.11.01.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 11:01:36 -0700 (PDT)
+ Fri, 20 May 2022 11:01:37 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 02/10] hw/audio/cs4231a: Const'ify global tables
-Date: Fri, 20 May 2022 20:01:01 +0200
-Message-Id: <20220520180109.8224-3-shentey@gmail.com>
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH v2 03/10] hw/i386/pc: Unexport PC_CPU_MODEL_IDS macro
+Date: Fri, 20 May 2022 20:01:02 +0200
+Message-Id: <20220520180109.8224-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220520180109.8224-1-shentey@gmail.com>
 References: <20220520180109.8224-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,53 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tables contain spcifically crafted constants for algorithms, so make
-them immutable.
+The macro seems to be used only internally, so remove it.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/audio/cs4231a.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/i386/pc.c         | 9 +++++++++
+ include/hw/i386/pc.h | 8 --------
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
-index 0723e39430..7f17a72a9c 100644
---- a/hw/audio/cs4231a.c
-+++ b/hw/audio/cs4231a.c
-@@ -84,7 +84,7 @@ struct CSState {
-     int transferred;
-     int aci_counter;
-     SWVoiceOut *voice;
--    int16_t *tab;
-+    const int16_t *tab;
- };
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c914ac0154..2ffaac52fb 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -96,6 +96,15 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
  
- #define MODE2 (1 << 6)
-@@ -142,13 +142,13 @@ enum {
-     Capture_Lower_Base_Count
- };
++/*
++ * Helper for setting model-id for CPU models that changed model-id
++ * depending on QEMU versions up to QEMU 2.4.
++ */
++#define PC_CPU_MODEL_IDS(v) \
++    { "qemu32-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
++    { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
++    { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
++
+ GlobalProperty pc_compat_7_0[] = {};
+ const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
  
--static int freqs[2][8] = {
-+static const int freqs[2][8] = {
-     { 8000, 16000, 27420, 32000,    -1,    -1, 48000, 9000 },
-     { 5510, 11025, 18900, 22050, 37800, 44100, 33075, 6620 }
- };
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index ffcac5121e..38be346a13 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -287,14 +287,6 @@ extern const size_t pc_compat_1_5_len;
+ extern GlobalProperty pc_compat_1_4[];
+ extern const size_t pc_compat_1_4_len;
  
- /* Tables courtesy http://hazelware.luggle.com/tutorials/mulawcompression.html */
--static int16_t MuLawDecompressTable[256] =
-+static const int16_t MuLawDecompressTable[256] =
- {
-      -32124,-31100,-30076,-29052,-28028,-27004,-25980,-24956,
-      -23932,-22908,-21884,-20860,-19836,-18812,-17788,-16764,
-@@ -184,7 +184,7 @@ static int16_t MuLawDecompressTable[256] =
-          56,    48,    40,    32,    24,    16,     8,     0
- };
- 
--static int16_t ALawDecompressTable[256] =
-+static const int16_t ALawDecompressTable[256] =
- {
-      -5504, -5248, -6016, -5760, -4480, -4224, -4992, -4736,
-      -7552, -7296, -8064, -7808, -6528, -6272, -7040, -6784,
+-/* Helper for setting model-id for CPU models that changed model-id
+- * depending on QEMU versions up to QEMU 2.4.
+- */
+-#define PC_CPU_MODEL_IDS(v) \
+-    { "qemu32-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
+-    { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
+-    { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
+-
+ #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
+     static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
+     { \
 -- 
 2.36.1
 
