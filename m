@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B70652EDA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:59:00 +0200 (CEST)
-Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3A452EDB8
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 16:03:37 +0200 (CEST)
+Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns39f-000651-CP
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43522)
+	id 1ns3E7-0001sK-84
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 10:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32x-0005W4-4s; Fri, 20 May 2022 09:52:04 -0400
+ id 1ns32j-00056U-Bn; Fri, 20 May 2022 09:51:49 -0400
 Received: from [187.72.171.209] (port=41153 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32v-0007xw-Pp; Fri, 20 May 2022 09:52:02 -0400
+ id 1ns32h-0007xw-Pk; Fri, 20 May 2022 09:51:49 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 20 May 2022 10:51:33 -0300
+ Fri, 20 May 2022 10:51:32 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 6BA3E8000A0;
- Fri, 20 May 2022 10:51:33 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 9C62D800C32;
+ Fri, 20 May 2022 10:51:32 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-ppc@nongnu.org
-Cc: richard.henderson@linaro.org, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v4 8/8] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
-Date: Fri, 20 May 2022 10:51:29 -0300
-Message-Id: <20220520135129.63664-9-lucas.araujo@eldorado.org.br>
+Cc: richard.henderson@linaro.org,
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH v4 3/8] target/ppc: Implemented pmxvi*ger* instructions
+Date: Fri, 20 May 2022 10:51:24 -0300
+Message-Id: <20220520135129.63664-4-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
 References: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 May 2022 13:51:33.0640 (UTC)
- FILETIME=[B754C880:01D86C50]
+X-OriginalArrivalTime: 20 May 2022 13:51:32.0858 (UTC)
+ FILETIME=[B6DD75A0:01D86C50]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,39 +65,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-These are new hwcap bits added for power10.
+Implement the following PowerISA v3.1 instructions:
+pmxvi4ger8:     Prefixed Masked VSX Vector 8-bit Signed/Unsigned Integer
+GER (rank-4 update)
+pmxvi4ger8pp:   Prefixed Masked VSX Vector 8-bit Signed/Unsigned Integer
+GER (rank-4 update) Positive multiply, Positive accumulate
+pmxvi8ger4:     Prefixed Masked VSX Vector 4-bit Signed Integer GER
+(rank-8 update)
+pmxvi8ger4pp:   Prefixed Masked VSX Vector 4-bit Signed Integer GER
+(rank-8 update) Positive multiply, Positive accumulate
+pmxvi8ger4spp:  Prefixed Masked VSX Vector 8-bit Signed/Unsigned Integer
+GER (rank-4 update) with Saturate Positive multiply, Positive accumulate
+pmxvi16ger2:    Prefixed Masked VSX Vector 16-bit Signed Integer GER
+(rank-2 update)
+pmxvi16ger2pp:  Prefixed Masked VSX Vector 16-bit Signed Integer GER
+(rank-2 update) Positive multiply, Positive accumulate
+pmxvi16ger2s:   Prefixed Masked VSX Vector 16-bit Signed Integer GER
+(rank-2 update) with Saturation
+pmxvi16ger2spp: Prefixed Masked VSX Vector 16-bit Signed Integer GER
+(rank-2 update) with Saturation Positive multiply, Positive accumulate
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/ppc/insn64.decode            | 30 +++++++++++++++++++++++++++++
+ target/ppc/translate/vsx-impl.c.inc | 10 ++++++++++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 61063fd974..0908692e62 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -779,6 +779,8 @@ enum {
-     QEMU_PPC_FEATURE2_DARN = 0x00200000, /* darn random number insn */
-     QEMU_PPC_FEATURE2_SCV = 0x00100000, /* scv syscall */
-     QEMU_PPC_FEATURE2_HTM_NO_SUSPEND = 0x00080000, /* TM w/o suspended state */
-+    QEMU_PPC_FEATURE2_ARCH_3_1 = 0x00040000, /* ISA 3.1 */
-+    QEMU_PPC_FEATURE2_MMA = 0x00020000, /* Matrix-Multiply Assist */
- };
+diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
+index 691e8fe6c0..0eed35c8cd 100644
+--- a/target/ppc/insn64.decode
++++ b/target/ppc/insn64.decode
+@@ -68,6 +68,15 @@
+                 ...... ..... ..... ..... ..... .. ....   \
+                 &8RR_XX4_uim3 xt=%8rr_xx_xt xa=%8rr_xx_xa xb=%8rr_xx_xb xc=%8rr_xx_xc
  
- #define ELF_HWCAP get_elf_hwcap()
-@@ -836,6 +838,8 @@ static uint32_t get_elf_hwcap2(void)
-                   QEMU_PPC_FEATURE2_VEC_CRYPTO);
-     GET_FEATURE2(PPC2_ISA300, QEMU_PPC_FEATURE2_ARCH_3_00 |
-                  QEMU_PPC_FEATURE2_DARN | QEMU_PPC_FEATURE2_HAS_IEEE128);
-+    GET_FEATURE2(PPC2_ISA310, QEMU_PPC_FEATURE2_ARCH_3_1 |
-+                 QEMU_PPC_FEATURE2_MMA);
++# Format MMIRR:XX3
++&MMIRR_XX3      !extern xa xb xt pmsk xmsk ymsk
++%xx3_xa         2:1 16:5
++%xx3_xb         1:1 11:5
++%xx3_at         23:3
++@MMIRR_XX3      ...... .. .... .. . . ........ xmsk:4 ymsk:4  \
++                ...... ... .. ..... ..... ........ ...  \
++                &MMIRR_XX3 xa=%xx3_xa xb=%xx3_xb xt=%xx3_at
++
+ ### Fixed-Point Load Instructions
  
- #undef GET_FEATURE
- #undef GET_FEATURE2
+ PLBZ            000001 10 0--.-- .................. \
+@@ -115,6 +124,27 @@ PSTFS           000001 10 0--.-- .................. \
+ PSTFD           000001 10 0--.-- .................. \
+                 110110 ..... ..... ................     @PLS_D
+ 
++## VSX GER instruction
++
++PMXVI4GER8      000001 11 1001 -- - - pmsk:8 ........              \
++                111011 ... -- ..... ..... 00100011 ..-  @MMIRR_XX3
++PMXVI4GER8PP    000001 11 1001 -- - - pmsk:8 ........              \
++                111011 ... -- ..... ..... 00100010 ..-  @MMIRR_XX3
++PMXVI8GER4      000001 11 1001 -- - - pmsk:4 ---- ........         \
++                111011 ... -- ..... ..... 00000011 ..-  @MMIRR_XX3
++PMXVI8GER4PP    000001 11 1001 -- - - pmsk:4 ---- ........         \
++                111011 ... -- ..... ..... 00000010 ..-  @MMIRR_XX3
++PMXVI16GER2     000001 11 1001 -- - - pmsk:2 ------ ........       \
++                111011 ... -- ..... ..... 01001011 ..-  @MMIRR_XX3
++PMXVI16GER2PP   000001 11 1001 -- - - pmsk:2 ------ ........       \
++                111011 ... -- ..... ..... 01101011 ..-  @MMIRR_XX3
++PMXVI8GER4SPP   000001 11 1001 -- - - pmsk:4 ---- ........         \
++                111011 ... -- ..... ..... 01100011 ..-  @MMIRR_XX3
++PMXVI16GER2S    000001 11 1001 -- - - pmsk:2 ------ ........       \
++                111011 ... -- ..... ..... 00101011 ..-  @MMIRR_XX3
++PMXVI16GER2SPP  000001 11 1001 -- - - pmsk:2 ------ ........       \
++                111011 ... -- ..... ..... 00101010 ..-  @MMIRR_XX3
++
+ ### Prefixed No-operation Instruction
+ 
+ @PNOP           000001 11 0000-- 000000000000000000     \
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 9d4309e841..c9ed898bb6 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2859,6 +2859,16 @@ TRANS(XVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
+ TRANS(XVI16GER2S, do_ger, gen_helper_XVI16GER2S)
+ TRANS(XVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
+ 
++TRANS64(PMXVI4GER8, do_ger, gen_helper_XVI4GER8)
++TRANS64(PMXVI4GER8PP, do_ger, gen_helper_XVI4GER8PP)
++TRANS64(PMXVI8GER4, do_ger, gen_helper_XVI8GER4)
++TRANS64(PMXVI8GER4PP, do_ger, gen_helper_XVI8GER4PP)
++TRANS64(PMXVI8GER4SPP, do_ger, gen_helper_XVI8GER4SPP)
++TRANS64(PMXVI16GER2, do_ger, gen_helper_XVI16GER2)
++TRANS64(PMXVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
++TRANS64(PMXVI16GER2S, do_ger, gen_helper_XVI16GER2S)
++TRANS64(PMXVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
++
+ #undef GEN_XX2FORM
+ #undef GEN_XX3FORM
+ #undef GEN_XX2IFORM
 -- 
 2.31.1
 
