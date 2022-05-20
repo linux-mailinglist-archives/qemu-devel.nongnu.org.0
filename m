@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F41352EF2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 17:28:45 +0200 (CEST)
-Received: from localhost ([::1]:39442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C1C52EF3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 17:30:51 +0200 (CEST)
+Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns4YV-00058a-LD
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 11:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33444)
+	id 1ns4aY-0007qP-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 11:30:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ns4Wg-0003nj-3c
- for qemu-devel@nongnu.org; Fri, 20 May 2022 11:26:50 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:34465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ns4Wd-0005HM-3n
- for qemu-devel@nongnu.org; Fri, 20 May 2022 11:26:49 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- ob14-20020a17090b390e00b001dff2a43f8cso1769441pjb.1
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 08:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pNiOnw83gybudP+Rv+OLS398lDs61YHhuRK5MDIWlVg=;
- b=IiOlElK4rFZh1NaQe03caSWh+Mzt0WMNKU9O9n8PUnSfHx1c9k29WnEF1Khzd+etvJ
- Bb7V/QJtqawCL73/WvhkutH8ZwDTN98IitvTLmksLxeBr+sa3HcVO16q3Jz4D3UtxEnb
- J6azA6h3giwvBXVEL7DLrkVjcGcFZkOXJZR4qi9etu8TXyV2U1FKMusfjBLtF/YdQfGL
- xemPpXloS6zWxsm5/l/U3QDdO/2B048H9XooKSP3SN3B/RPT+vyu9uNH2JAQhWI9bo8E
- fYTUohgPSBmfiuZdmBBJzx8oQvNr/chExO+NtioT+cLievFwJv0fc9TfyDKEmMCGEIOG
- e+WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pNiOnw83gybudP+Rv+OLS398lDs61YHhuRK5MDIWlVg=;
- b=m6lQvaixajZ9QvX7qw2IXVDTYAlDWuLRojFg11TDfPE0drHloTB+y+ezknkyctRQnI
- W+OHFu5tCtNa8olWUDBFTuBphAIDGq8MVYrqKk5AZuDGuEYYuMfGhzE1tsh7oXk1k9kC
- T9Zre0FkHUomCkF1pADA/XJfX8m1mIsTka0X7Icq7bYEePjdmV8HpbkfvyJsEY0ub7R1
- p/m0LnCnjxsLTE7x2oNtrJXz+5eQiiq0Hug/BUEDmNBUdzG8vPSYhLP0nRdPAsmbCBZq
- jiICeXdeVsz8wtvtaZFidZFvWmmSnAY4/VkefonQZoyXxvSkbjjAxOO9aDFrjtGE8oXZ
- PjUQ==
-X-Gm-Message-State: AOAM532UFkf3Q+83o4h2sI2nNJ2SopWFM8xSIAVl2Mu1f14RdGaLiSDq
- xcu9SgJigelMjLIsYT8wv7NYOA==
-X-Google-Smtp-Source: ABdhPJzlpWVh3wHPorf3LkjrbKlI6x7vP8u/lqQcQ1ph/hMpCaqA4mTfKh0ue1s1UwqUp6bUM8mLAg==
-X-Received: by 2002:a17:90b:3806:b0:1df:99ce:d142 with SMTP id
- mq6-20020a17090b380600b001df99ced142mr11443357pjb.241.1653060404207; 
- Fri, 20 May 2022 08:26:44 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- q15-20020a170902dacf00b0015e8d4eb272sm6070304plx.188.2022.05.20.08.26.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 May 2022 08:26:43 -0700 (PDT)
-Message-ID: <c3e52915-38f1-c555-5caa-19d5308eef02@linaro.org>
-Date: Fri, 20 May 2022 08:26:40 -0700
+ (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns4Yo-0006KJ-DG
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 11:29:02 -0400
+Received: from mga18.intel.com ([134.134.136.126]:3667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns4Yl-0005Yk-Pq
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 11:29:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653060539; x=1684596539;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2leG2LmaeymdY17ZfAaPpngzgqFnDp+gD2t1Nl2U6Yo=;
+ b=OHtPM/ExGeqGKmrJek4RqpzRwxRE9IEM62FePiIIckvWxYgegBYNGhEC
+ WHSBEC/tugm1+o+ei2i35j/ZZXGAx/8TZ6fi9WbwZvtaDybQHV1HQ21v3
+ wcy+L/M1iBFMLyT3SfQ7z79VGjvs0FIcuIb9bQyJ+jT/AtZGq0PyA0+24
+ BaFwYTAUI/NbLXxTSATlDdRt+H9lhqjYarkNNeoMmuHeFPlKCj292L3kP
+ pK+GetB1q1wlwv9acbYvkmgbt7UlojzG9Hcrv0tCgYDjmhA6YaSOrSE5i
+ V+bIqPp7vwGB01D2DNFwNOK6lsHkJNym0LcQNSvS9LyDcPlJDmRtG+e4T Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="254693431"
+X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="254693431"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2022 08:28:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="899369665"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 20 May 2022 08:28:50 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ns4Yb-0004rl-NI;
+ Fri, 20 May 2022 15:28:49 +0000
+Date: Fri, 20 May 2022 23:28:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: zhenwei pi <pizhenwei@bytedance.com>, akpm@linux-foundation.org,
+ naoya.horiguchi@nec.com, mst@redhat.com, david@redhat.com
+Cc: kbuild-all@lists.01.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, jasowang@redhat.com,
+ virtualization@lists.linux-foundation.org, pbonzini@redhat.com,
+ peterx@redhat.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>
+Subject: Re: [PATCH 3/3] virtio_balloon: Introduce memory recover
+Message-ID: <202205202330.u0vQWiWG-lkp@intel.com>
+References: <20220520070648.1794132-4-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] util: optimise flush_idcache_range when the ppc host has
- coherent icache
-Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20220519141131.29839-1-npiggin@gmail.com>
- <e9d693db-f195-4bb1-c883-0805d910fe61@linaro.org>
- <1653004360.c5nktxvrgu.astroid@bobo.none>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <1653004360.c5nktxvrgu.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220520070648.1794132-4-pizhenwei@bytedance.com>
+Received-SPF: pass client-ip=134.134.136.126; envelope-from=lkp@intel.com;
+ helo=mga18.intel.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,44 +81,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/22 17:04, Nicholas Piggin wrote:
->> I'm even more tempted to merge the two files to put all of the machine-specific cache data
->> in the same place, then this variable can be static.  There's even an existing TODO
->> comment in cacheflush.c for aarch64.
-> 
-> That might be nice. Do you want me to look at doing that first?
+Hi zhenwei,
 
-If you wouldn't mind, please do.  I'll take care of aarch64 cleanup related to the TODO 
-afterward.
+Thank you for the patch! Yet something to improve:
 
->>>        b = rw & ~(dsize - 1);
->>> +
->>> +    if (have_coherent_icache) {
->>> +        asm volatile ("sync" : : : "memory");
->>> +        asm volatile ("icbi 0,%0" : : "r"(b) : "memory");
->>> +        asm volatile ("isync" : : : "memory");
->>> +        return;
->>> +    }
->>
->> Where can I find definitive rules on this?
-> 
-> In processor manuals (I don't know if there are any notes about this in
-> the ISA, I would be tempted to say there should be since many processors
-> implement it).
-> 
-> POWER9 UM, 4.6.2.2 Instruction Cache Block Invalidate (icbi)
-> 
-> https://ibm.ent.box.com/s/tmklq90ze7aj8f4n32er1mu3sy9u8k3k
-...
-> Yeah it's just a funny sequence the processor implements. It treats icbi
-> almost as a no-op except that it sets a flag such that the next isync
-> will flush and refetch the pipeline. It doesn't do any cache flushing.
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on next-20220519]
+[cannot apply to linux/master linus/master v5.18-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thanks.  A short comment in the code would be helpful here.
+url:    https://github.com/intel-lab-lkp/linux/commits/zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+config: arm-randconfig-r026-20220519 (https://download.01.org/0day-ci/archive/20220520/202205202330.u0vQWiWG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a42127073dd4adb6354649c8235c5cde033d01f2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
+        git checkout a42127073dd4adb6354649c8235c5cde033d01f2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
-Also, since the docs say "any address", you might as well just use rx unmodified and sink 
-the computation of 'b' back next to 'e'.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
 
-r~
+   arm-linux-gnueabi-ld: drivers/virtio/virtio_balloon.o: in function `unpoison_memory_func':
+>> virtio_balloon.c:(.text+0x89a): undefined reference to `unpoison_memory'
+   arm-linux-gnueabi-ld: drivers/virtio/virtio_balloon.o: in function `virtballoon_probe':
+>> virtio_balloon.c:(.text+0x111a): undefined reference to `register_memory_failure_notifier'
+   arm-linux-gnueabi-ld: drivers/virtio/virtio_balloon.o: in function `virtballoon_remove':
+>> virtio_balloon.c:(.text+0x12a2): undefined reference to `unregister_memory_failure_notifier'
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
