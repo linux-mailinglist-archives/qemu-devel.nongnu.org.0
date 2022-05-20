@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B6D52E987
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 11:58:49 +0200 (CEST)
-Received: from localhost ([::1]:34646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C28E52E992
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 12:04:26 +0200 (CEST)
+Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrzPD-000489-UU
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 05:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34178)
+	id 1nrzUf-0006j2-97
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 06:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nrzMg-0002pz-W2
- for qemu-devel@nongnu.org; Fri, 20 May 2022 05:56:12 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:45488)
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1nrzQl-0005CD-Eu
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 06:00:24 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:44925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nrzMf-00032o-4d
- for qemu-devel@nongnu.org; Fri, 20 May 2022 05:56:10 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5118D21C6C;
- Fri, 20 May 2022 09:56:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1653040567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=a9ZUWsR88M0w2f9oKCi7WLiBbv6G8NHWHfsRFagG5ZM=;
- b=W/7w217AOdRIp0G0sN8NXf6SFfUkU8/C/p10y3utheYVIMR5mDHdRusRrTDPULp0QwmipI
- Cmud5ioaJhPNnCuC90Z+Dxv/mTkm9ZqpOyptrFaIDQOC7L5exlkocbpJjbNGgP1RjwcyMj
- S4ARY05Es5fK0IBVB47VFZ2TM8uNOpA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1653040567;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=a9ZUWsR88M0w2f9oKCi7WLiBbv6G8NHWHfsRFagG5ZM=;
- b=Ztudi1uNjPGKTN1UTG+P2m1rWXBTQLpqNjG+hPuch4K86CU0sOb1ohlYzxeK1rpR5loCHN
- +glByLOr92Ik3/Cg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 140D513AF4;
- Fri, 20 May 2022 09:56:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id NMYyA7dlh2LiewAAMHmgww
- (envelope-from <lizhang@suse.de>); Fri, 20 May 2022 09:56:07 +0000
-From: Li Zhang <lizhang@suse.de>
-To: eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, qemu-devel@nongnu.org
-Cc: Li Zhang <lizhang@suse.de>
-Subject: [PATCH v2 1/1] Fix the coredump when memory backend id conflicts with
- default_ram_id
-Date: Fri, 20 May 2022 11:56:02 +0200
-Message-Id: <20220520095602.17379-1-lizhang@suse.de>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1nrzQX-0003IB-RA
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 06:00:19 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-f18e6ff0f6so9715608fac.11
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 02:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Vs3++WtH18GKrwuwc8mzWvZ5D1n21lilUyyQG42j/z0=;
+ b=VrudwDIZbOOpfDwCOBUBWyEhqMo2IszYSLT8je/AdyWAKPgQKWvb61g3h4xdo9KCRp
+ H7zdtWrqENM/JYoJ0WArB74CExA3OUzk9fNKobpjMzfcR4uLx5PmVlijck5hJrco8CAZ
+ 0vdE96mam6iH76M8hTQrmv9LFyrBCSgGujLdfhA/mPqXwmf1RtnsWGh1NyfGrIOelwUT
+ letqpY2YzLTcBKJjH5QnFnW3giR/ojq7dXAZpGUteKDW4Ik1zJZbVD1wdbso0gxmOykZ
+ KNHM9EA6ZfSplQpHlUWZeTIoH8cdKnk/y3iV4LI6XDbYERHZQe1qH2u9HDsJSAq1aMO2
+ FQ2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Vs3++WtH18GKrwuwc8mzWvZ5D1n21lilUyyQG42j/z0=;
+ b=3+htU4tfY0JViXe6niSQJvBcE0K/M+ROhi7bofEi5CeS70rFsOS4M/Ol/pslqgTtDh
+ O8qADt5eJTO97GEPMdPbmpqjuIWUqQYgKeYDe1wmcMegbVWCAw+ks4D8OCBCyMuu/dcv
+ 0e7D3xC+Kljc5yRb+hfDcsYzgDMzJBHGsJqsq8dlkl50A78wWjmUCwI4jhoVZCobVr8T
+ 7mozC8virpMZReUYoGEyS4ERUe9HzytGgwpAXvpMJOK62Tki9qI3IDVrjP4pFhaLQSz+
+ jOqb97NHsXEvLWW7Ewt9pVAOdrgKBBCx+dFuDPIWG/sQspQSenoTicfguIrmmrmw3RNt
+ wRVw==
+X-Gm-Message-State: AOAM530WQO6K6zd0kwye6YZPJ2EKjkBNzUapMdjLPNmwPybv+qwxDsp0
+ 9jogCSEL65CvY287JwkYtE9kTl69cwLHsiVMKXc=
+X-Google-Smtp-Source: ABdhPJxM6xQ6A6WshUp3dPR6IK967APFt3hoWRrdWs9vdY06QjrYHwViO6Q0S7Q1HxyTp5EdljRofWStkjyaNcPAprc=
+X-Received: by 2002:a05:6870:538e:b0:e6:7957:31ab with SMTP id
+ h14-20020a056870538e00b000e6795731abmr5459766oan.89.1653040798697; Fri, 20
+ May 2022 02:59:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220520083911.401134-1-itaru.kitayama@fujitsu.com>
+ <CAFEAcA9q-JePE-9sMvo3jeu7s8r93xHDAfP36DqU069y3Fp3-w@mail.gmail.com>
+In-Reply-To: <CAFEAcA9q-JePE-9sMvo3jeu7s8r93xHDAfP36DqU069y3Fp3-w@mail.gmail.com>
+From: Itaru Kitayama <itaru.kitayama@gmail.com>
+Date: Fri, 20 May 2022 18:59:47 +0900
+Message-ID: <CANW9uyt989bOPXYhzQmOq6xbw_Lvp390YJ1i_9_hno72ZphkXg@mail.gmail.com>
+Subject: Re: [PATCH] Add A64FX CPU support to the sbsa-ref board.
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Itaru Kitayama <itaru.kitayama@fujitsu.com>,
+ Leif Lindholm <leif@nuviainc.com>, 
+ Radoslaw Biernacki <rad@semihalf.com>, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000009b0de905df6e8d00"
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=itaru.kitayama@gmail.com; helo=mail-oa1-x29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,64 +85,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When no memory backend is specified in machine options,
-a default memory device will be added with default_ram_id.
-However, if a memory backend object is added in QEMU options
-and id is the same as default_ram_id, a coredump happens.
+--0000000000009b0de905df6e8d00
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Command line:
-qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
--machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
--smp 16,sockets=16,cores=1,threads=1 \
--m 4G \
--object memory-backend-ram,id=pc.ram,size=4G \
--no-user-config -nodefaults -nographic
+Doesn=E2=80=99t =E2=80=98max=E2=80=99 support being there mean we are suppo=
+sed to support various
+types of CPUs on the SBSA board?
 
-Stack trace of thread 16903:
-    #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
-    #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
-    #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 0x9c89be)
-    #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
-    #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 0x9c8ccf)
-    #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64 + 0x7f6899)
-    #6  0x0000558c349f7df8 object_property_try_add_child (qemu-system-x86_64 + 0x7f7df8)
-    #7  0x0000558c349f7e91 object_property_add_child (qemu-system-x86_64 + 0x7f7e91)
-    #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 0x34686d)
-    #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 0x346f58)
-    #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 0x3471b9)
-    #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
-    #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
-    #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
-    #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
+On Fri, May 20, 2022 at 18:00 Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Signed-off-by: Li Zhang <lizhang@suse.de>
----
- hw/core/machine.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> On Fri, 20 May 2022 at 09:46, Itaru Kitayama <itaru.kitayama@gmail.com>
+> wrote:
+> >
+> > In target/arm/cpu64.c, CPU init function for A64FX is there, add this
+> > CPU to the sbsa-ref board.
+>
+> (cc'ing the sbsa-ref maintainers)
+>
+> This isn't an objection, but I would like to know what the
+> sbsa-ref maintainers' view is on what CPUs the board type
+> is supposed to handle. Is this like the virt board, where we
+> add basically any CPU type that might possibly work? Or is
+> it more like a piece of 'real' hardware, where there are only
+> one or two CPU types that that hardware might have shipped with,
+> and the firmware/software stack might not be built to cope with
+> anything more ?
+>
+> If we can answer the general question, then specific
+> patches like this one will be easy to review.
+>
+> > Signed-off-by: Itaru Kitayama <itaru.kitayama@fujitsu.com>
+> > ---
+> >  hw/arm/sbsa-ref.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> > index 4bb444684f..a7d27b2e55 100644
+> > --- a/hw/arm/sbsa-ref.c
+> > +++ b/hw/arm/sbsa-ref.c
+> > @@ -146,6 +146,7 @@ static const char * const valid_cpus[] =3D {
+> >      ARM_CPU_TYPE_NAME("cortex-a57"),
+> >      ARM_CPU_TYPE_NAME("cortex-a72"),
+> >      ARM_CPU_TYPE_NAME("cortex-a76"),
+> > +    ARM_CPU_TYPE_NAME("a64fx"),
+> >      ARM_CPU_TYPE_NAME("neoverse-n1"),
+> >      ARM_CPU_TYPE_NAME("max"),
+> >  };
+> > --
+> > 2.25.1
+>
+> thanks
+> -- PMM
+>
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index b03d9192ba..3867af7a8a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1290,9 +1290,17 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
- static bool create_default_memdev(MachineState *ms, const char *path, Error **errp)
- {
-     Object *obj;
-+    ObjectProperty *prop;
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-     bool r = false;
- 
-+    prop = object_property_find(object_get_objects_root(), mc->default_ram_id);
-+    if (prop) {
-+        error_report("Memory backend id conflicts with default_ram_id %s",
-+                     mc->default_ram_id);
-+        exit(EXIT_FAILURE);
-+    }
-+
-     obj = object_new(path ? TYPE_MEMORY_BACKEND_FILE : TYPE_MEMORY_BACKEND_RAM);
-     if (path) {
-         if (!object_property_set_str(obj, "mem-path", path, errp)) {
--- 
-2.34.1
+--0000000000009b0de905df6e8d00
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto">Doesn=E2=80=99t =E2=80=98max=E2=80=99 support being there=
+ mean we are supposed to support various types of CPUs on the SBSA board?</=
+div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Fri, May 20, 2022 at 18:00 Peter Maydell &lt;<a href=3D"mailto:peter.=
+maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">On Fri, 20 May 2022 at 09:46, Itaru Kitayama &lt;<=
+a href=3D"mailto:itaru.kitayama@gmail.com" target=3D"_blank">itaru.kitayama=
+@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; In target/arm/cpu64.c, CPU init function for A64FX is there, add this<=
+br>
+&gt; CPU to the sbsa-ref board.<br>
+<br>
+(cc&#39;ing the sbsa-ref maintainers)<br>
+<br>
+This isn&#39;t an objection, but I would like to know what the<br>
+sbsa-ref maintainers&#39; view is on what CPUs the board type<br>
+is supposed to handle. Is this like the virt board, where we<br>
+add basically any CPU type that might possibly work? Or is<br>
+it more like a piece of &#39;real&#39; hardware, where there are only<br>
+one or two CPU types that that hardware might have shipped with,<br>
+and the firmware/software stack might not be built to cope with<br>
+anything more ?<br>
+<br>
+If we can answer the general question, then specific<br>
+patches like this one will be easy to review.<br>
+<br>
+&gt; Signed-off-by: Itaru Kitayama &lt;<a href=3D"mailto:itaru.kitayama@fuj=
+itsu.com" target=3D"_blank">itaru.kitayama@fujitsu.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/arm/sbsa-ref.c | 1 +<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt;<br>
+&gt; diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c<br>
+&gt; index 4bb444684f..a7d27b2e55 100644<br>
+&gt; --- a/hw/arm/sbsa-ref.c<br>
+&gt; +++ b/hw/arm/sbsa-ref.c<br>
+&gt; @@ -146,6 +146,7 @@ static const char * const valid_cpus[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ARM_CPU_TYPE_NAME(&quot;cortex-a57&quot;),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ARM_CPU_TYPE_NAME(&quot;cortex-a72&quot;),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ARM_CPU_TYPE_NAME(&quot;cortex-a76&quot;),<br>
+&gt; +=C2=A0 =C2=A0 ARM_CPU_TYPE_NAME(&quot;a64fx&quot;),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ARM_CPU_TYPE_NAME(&quot;neoverse-n1&quot;),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ARM_CPU_TYPE_NAME(&quot;max&quot;),<br>
+&gt;=C2=A0 };<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--0000000000009b0de905df6e8d00--
 
