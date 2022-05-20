@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9773152ED5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:42:55 +0200 (CEST)
-Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9898252ED69
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:44:55 +0200 (CEST)
+Received: from localhost ([::1]:39988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns2u6-0006GA-8J
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41530)
+	id 1ns2w2-0001p4-Ny
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns2rG-0003vm-HR
- for qemu-devel@nongnu.org; Fri, 20 May 2022 09:39:58 -0400
-Received: from mga14.intel.com ([192.55.52.115]:8458)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ns2un-0000W4-3L
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 09:43:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkp@intel.com>) id 1ns2rD-0005qz-Nl
- for qemu-devel@nongnu.org; Fri, 20 May 2022 09:39:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653053995; x=1684589995;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tEsNkD67VlMRMMbJpoolW2AuTZVamWWhFYXi0Uoe5Js=;
- b=Vrf15X/M/Lgk6F+ZIdjtyAWw5OpWech5p9v5OD53sqeNT+ibdDAlAaYd
- HbzZLcNp8NJ7vFYCw0JUeweiQCOQiHRl1196D5eNZ1PUISUP+LZ8DE4GR
- x1LlcQEHqN/zH2kaPfgzcr1ZtVCp9JFu9VnRltX5nyVolLGeRA5X/+5B+
- XuZDEUsVvJ7jbHESl7AueBd4RaPs8YvL0DfQi9L5bFRVZDeNfEUG9OOGW
- ti2rHCn56q7tRqkHkGce9+yJoS9iKwzzVhXCxjGtlQoCe1i+cAf0NNdOY
- ter/pLm1+ookOZOYxpDu1owOU4F4CHg7d7xDJ/Jq4ynRMRCUw4jH/LYI1 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="272733756"
-X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="272733756"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2022 06:39:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,239,1647327600"; d="scan'208";a="818556999"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
- by fmsmga006.fm.intel.com with ESMTP; 20 May 2022 06:39:46 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1ns2r3-0004k5-Eb;
- Fri, 20 May 2022 13:39:45 +0000
-Date: Fri, 20 May 2022 21:39:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: zhenwei pi <pizhenwei@bytedance.com>, akpm@linux-foundation.org,
- naoya.horiguchi@nec.com, mst@redhat.com, david@redhat.com
-Cc: kbuild-all@lists.01.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, jasowang@redhat.com,
- virtualization@lists.linux-foundation.org, pbonzini@redhat.com,
- peterx@redhat.com, qemu-devel@nongnu.org,
- zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH 3/3] virtio_balloon: Introduce memory recover
-Message-ID: <202205202151.7T3K7Szf-lkp@intel.com>
-References: <20220520070648.1794132-4-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ns2ul-0006lJ-9G
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 09:43:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653054214;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cvqHoI6xuUJ4ZP29DcTeU1JkZgn8Sa7wpgLOB5dcdpk=;
+ b=LjJ6KKO8qR5kV/PG5XJt86fYXSBGPhknxJnc5QWtyRhhqkEVb0IRd9RKVhLITfRuJEMKCs
+ K0gGEuvgrUl4tsv4q5qVEfqkTqWQLKLSgSv2KEpdemGciqllNw0fTw6dJ8iLRminwnHR9u
+ uC6FPzDazKxPsg8Oi3Hl3/dpk9Uiv5s=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-670-jZKFsmBKNWadlZSJTn_YfQ-1; Fri, 20 May 2022 09:43:32 -0400
+X-MC-Unique: jZKFsmBKNWadlZSJTn_YfQ-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-2dc7bdd666fso71998587b3.7
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 06:43:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cvqHoI6xuUJ4ZP29DcTeU1JkZgn8Sa7wpgLOB5dcdpk=;
+ b=QpX38uaLsWJuosWA33u5HUvrugEXoJMntWHkw/V5Kh8r0Iciu5Jpb589U6X0f7TmYV
+ 4+q0aySyq2EH4SNZZPg8MT4obCwY4+Km1HSsEvlbUgoKsDoMlgoYTah6EiWzdB9/7f4i
+ ogIlYirepQyyiMMMSgrJIMo4GEQpHORSyJi6rvtfFLZ5AAJdGGQNTFceUgUA8bWKvYTc
+ i0tyXtCysqlu6oh4gIqBI5Slgz9TKfVE476MDLzWl3QkoCjue6TyiTujpZ3/INezzBDB
+ F89DZkG1pKH+WKZ/lSoiVsDKIGAUe0U8dJvp8E+R+R0T/eQlrgJfEhSwuKM5MP1c1QH8
+ Yu6Q==
+X-Gm-Message-State: AOAM530z6i/laBBz1v77CFtebNCAJ5EofeDqmPWaOaW2sZH1//Vmeh1Y
+ JTS4CpOqG9TE7LZ4nRqfOwuzidQrEGxhgz3j6pod01t1pPrDY6oN0IzYaGrl5lEiIOzVDf0dMGM
+ Zg3Wnl/3XAROsIH9GCL1xo2+xgtOcBmE=
+X-Received: by 2002:a05:6902:729:b0:64f:3cfb:6d28 with SMTP id
+ l9-20020a056902072900b0064f3cfb6d28mr6979898ybt.30.1653054212385; 
+ Fri, 20 May 2022 06:43:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjI8qvlzS0fLVSzFAOlDXDyLSp/upii7UR9s+eEZI3Gwh9e9OjrkJOxIh4nwZ8jlevaTKZh4FBIRMKCoYzF04=
+X-Received: by 2002:a05:6902:729:b0:64f:3cfb:6d28 with SMTP id
+ l9-20020a056902072900b0064f3cfb6d28mr6979883ybt.30.1653054212183; Fri, 20 May
+ 2022 06:43:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220520070648.1794132-4-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=lkp@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+ <20220513180821.905149-11-marcandre.lureau@redhat.com>
+In-Reply-To: <20220513180821.905149-11-marcandre.lureau@redhat.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Fri, 20 May 2022 16:43:21 +0300
+Message-ID: <CAPMcbCqtiJeN58Bj+n_TXQeHCVEx1LJvwKB2qjKQ8T+U3b-+hA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/15] test/qga: use G_TEST_DIR to locate os-release
+ test file
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001ca7f105df71ad55"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,75 +94,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi zhenwei,
+--0000000000001ca7f105df71ad55
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for the patch! Yet something to improve:
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20220519]
-[cannot apply to linux/master linus/master v5.18-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+On Fri, May 13, 2022 at 9:08 PM <marcandre.lureau@redhat.com> wrote:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-config: nios2-randconfig-r002-20220519 (https://download.01.org/0day-ci/archive/20220520/202205202151.7T3K7Szf-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a42127073dd4adb6354649c8235c5cde033d01f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review zhenwei-pi/recover-hardware-corrupted-page-by-virtio-balloon/20220520-151328
-        git checkout a42127073dd4adb6354649c8235c5cde033d01f2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> This a more accurate way to lookup the test data, and will allow to move
+> the test in a subproject.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  tests/unit/test-qga.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+> index d6df1ee92e..ab0b12a2dd 100644
+> --- a/tests/unit/test-qga.c
+> +++ b/tests/unit/test-qga.c
+> @@ -914,15 +914,14 @@ static void test_qga_guest_get_osinfo(gconstpointer
+> data)
+>  {
+>      TestFixture fixture;
+>      const gchar *str;
+> -    gchar *cwd, *env[2];
+> -    QDict *ret, *val;
+> +    QDict *ret =3D NULL;
+> +    char *env[2];
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
++    QDict *val;
+>
+> -    cwd =3D g_get_current_dir();
+>      env[0] =3D g_strdup_printf(
+> -        "QGA_OS_RELEASE=3D%s%ctests%cdata%ctest-qga-os-release",
+> -        cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
+> +        "QGA_OS_RELEASE=3D%s%c..%cdata%ctest-qga-os-release",
+> +        g_test_get_dir(G_TEST_DIST), G_DIR_SEPARATOR, G_DIR_SEPARATOR,
+> G_DIR_SEPARATOR);
+>      env[1] =3D NULL;
+> -    g_free(cwd);
+>      fixture_setup(&fixture, NULL, env);
+>
+>      ret =3D qmp_fd(fixture.fd, "{'execute': 'guest-get-osinfo'}");
+> --
+> 2.36.1
+>
+>
 
-All errors (new ones prefixed by >>):
+--0000000000001ca7f105df71ad55
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   nios2-linux-ld: drivers/virtio/virtio_balloon.o: in function `unpoison_memory_func':
->> drivers/virtio/virtio_balloon.c:679: undefined reference to `unpoison_memory'
-   drivers/virtio/virtio_balloon.c:679:(.text+0xc00): relocation truncated to fit: R_NIOS2_CALL26 against `unpoison_memory'
-   nios2-linux-ld: drivers/virtio/virtio_balloon.o: in function `virtballoon_probe':
->> drivers/virtio/virtio_balloon.c:1247: undefined reference to `register_memory_failure_notifier'
-   drivers/virtio/virtio_balloon.c:1247:(.text+0x1940): relocation truncated to fit: R_NIOS2_CALL26 against `register_memory_failure_notifier'
-   nios2-linux-ld: drivers/virtio/virtio_balloon.o: in function `virtballoon_remove':
->> drivers/virtio/virtio_balloon.c:1323: undefined reference to `unregister_memory_failure_notifier'
-   drivers/virtio/virtio_balloon.c:1323:(.text+0x1bcc): relocation truncated to fit: R_NIOS2_CALL26 against `unregister_memory_failure_notifier'
+<div dir=3D"ltr"><div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a hr=
+ef=3D"mailto:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>=
+&gt;</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
+tr">On Fri, May 13, 2022 at 9:08 PM &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com">marcandre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a =
+href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lur=
+eau@redhat.com</a>&gt;<br>
+<br>
+This a more accurate way to lookup the test data, and will allow to move<br=
+>
+the test in a subproject.<br>
+<br>
+Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0tests/unit/test-qga.c | 11 +++++------<br>
+=C2=A01 file changed, 5 insertions(+), 6 deletions(-)<br>
+<br>
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c<br>
+index d6df1ee92e..ab0b12a2dd 100644<br>
+--- a/tests/unit/test-qga.c<br>
++++ b/tests/unit/test-qga.c<br>
+@@ -914,15 +914,14 @@ static void test_qga_guest_get_osinfo(gconstpointer d=
+ata)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0TestFixture fixture;<br>
+=C2=A0 =C2=A0 =C2=A0const gchar *str;<br>
+-=C2=A0 =C2=A0 gchar *cwd, *env[2];<br>
+-=C2=A0 =C2=A0 QDict *ret, *val;<br>
++=C2=A0 =C2=A0 QDict *ret =3D NULL;<br>
++=C2=A0 =C2=A0 char *env[2];</blockquote><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">
++=C2=A0 =C2=A0 QDict *val;<br>
+<br>
+-=C2=A0 =C2=A0 cwd =3D g_get_current_dir();<br>
+=C2=A0 =C2=A0 =C2=A0env[0] =3D g_strdup_printf(<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;QGA_OS_RELEASE=3D%s%ctests%cdata%ctest-q=
+ga-os-release&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR, G_DIR_S=
+EPARATOR);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;QGA_OS_RELEASE=3D%s%c..%cdata%ctest-qga-=
+os-release&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_test_get_dir(G_TEST_DIST), G_DIR_SEPARATOR, =
+G_DIR_SEPARATOR, G_DIR_SEPARATOR);<br>
+=C2=A0 =C2=A0 =C2=A0env[1] =3D NULL;<br>
+-=C2=A0 =C2=A0 g_free(cwd);<br>
+=C2=A0 =C2=A0 =C2=A0fixture_setup(&amp;fixture, NULL, env);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0ret =3D qmp_fd(fixture.fd, &quot;{&#39;execute&#39;: &#=
+39;guest-get-osinfo&#39;}&quot;);<br>
+-- <br>
+2.36.1<br>
+<br>
+</blockquote></div></div>
 
+--0000000000001ca7f105df71ad55--
 
-vim +679 drivers/virtio/virtio_balloon.c
-
-   661	
-   662	static void unpoison_memory_func(struct work_struct *work)
-   663	{
-   664		struct virtio_balloon *vb;
-   665		struct page *page;
-   666	
-   667		vb = container_of(work, struct virtio_balloon, unpoison_memory_work);
-   668	
-   669		do {
-   670			spin_lock(&vb->recover_page_list_lock);
-   671			page = list_first_entry_or_null(&vb->recovered_page_list,
-   672							struct page, lru);
-   673			if (page)
-   674				list_del(&page->lru);
-   675			spin_unlock(&vb->recover_page_list_lock);
-   676	
-   677			if (page) {
-   678				put_page(page);
- > 679				unpoison_memory(page_to_pfn(page), true, "virtio-balloon");
-   680			}
-   681		} while (page);
-   682	}
-   683	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
 
