@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8FE552ED95
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:54:57 +0200 (CEST)
-Received: from localhost ([::1]:47510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B606552EDA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 15:58:33 +0200 (CEST)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ns35k-0007cK-BO
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:54:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43352)
+	id 1ns39E-0004yt-Qo
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 09:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32b-0004s8-86; Fri, 20 May 2022 09:51:41 -0400
+ id 1ns32d-0004wb-TE; Fri, 20 May 2022 09:51:43 -0400
 Received: from [187.72.171.209] (port=41153 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ns32Z-0007xw-IX; Fri, 20 May 2022 09:51:41 -0400
+ id 1ns32c-0007xw-3q; Fri, 20 May 2022 09:51:43 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Fri, 20 May 2022 10:51:32 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 1CFA78000A0;
+ by p9ibm (Postfix) with ESMTP id 49A72800C32;
  Fri, 20 May 2022 10:51:32 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-ppc@nongnu.org
 Cc: richard.henderson@linaro.org,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH v4 0/8] VSX MMA Implementation
-Date: Fri, 20 May 2022 10:51:21 -0300
-Message-Id: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH v4 1/8] target/ppc: Implement xxm[tf]acc and xxsetaccz
+Date: Fri, 20 May 2022 10:51:22 -0300
+Message-Id: <20220520135129.63664-2-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
+References: <20220520135129.63664-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 May 2022 13:51:32.0389 (UTC)
- FILETIME=[B695E550:01D86C50]
+X-OriginalArrivalTime: 20 May 2022 13:51:32.0514 (UTC)
+ FILETIME=[B6A8F820:01D86C50]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,73 +67,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Based-on: <20220517161522.36132-1-victor.colombo@eldorado.org.br>
+Implement the following PowerISA v3.1 instructions:
+xxmfacc: VSX Move From Accumulator
+xxmtacc: VSX Move To Accumulator
+xxsetaccz: VSX Set Accumulator to Zero
 
-This patch series is a patch series of the Matrix-Multiply Assist (MMA)
-instructions implementation from the PowerISA 3.1
+The PowerISA 3.1 mentions that for the current version of the
+architecture, "the hardware implementation provides the effect of ACC[i]
+and VSRs 4*i to 4*i + 3 logically containing the same data" and "The
+Accumulators introduce no new logical state at this time" (page 501).
+For now it seems unnecessary to create new structures, so this patch
+just uses ACC[i] as VSRs 4*i to 4*i+3 and therefore move to and from
+accumulators are no-ops.
 
-These and the VDIV/VMOD implementation are the last new PowerISA 3.1
-instructions left to be implemented.
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/cpu.h                    |  5 +++++
+ target/ppc/insn32.decode            |  9 +++++++++
+ target/ppc/translate/vsx-impl.c.inc | 31 +++++++++++++++++++++++++++++
+ 3 files changed, 45 insertions(+)
 
-The XVFGER instructions accumulate the exception status and at the end
-set the FPSCR and take a Program interrupt on a trap-enabled exception,
-previous versions were based on Victor's rework of FPU exceptions, but
-as that patch was rejected this version worked around the fact that
-OX/UX/XX and invalid instructions were handled in different functions
-by disabling all enable bits then re-enabling them and calling the mtfsf
-deferred exception helper.
-
-Patch without review: 5
-
-v4 changes:
-    - Changed VSXGER16 accumulation to always use float32_sum and negate
-      the elements according to the type of accumulation
-
-v3 changes:
-    - GER helpers now use ppc_acc_t instead of ppc_vsr_t for passing acc
-    - Removed do_ger_XX3 and updated the decodetree to pass the masks in
-      32 bits instructions
-    - Removed unnecessary rounding mode function
-    - Moved float32_neg to fpu_helper.c and renamed it bfp32_negate to
-      make it clearer that it's a 32 bit version of the PowerISA
-      bfp_NEGATE
-    - Negated accumulation now a subtraction
-    - Changed exception handling by disabling all enable FPSCR enable
-      bits to set all FPSCR bits (except FEX) correctly, then re-enable
-      them and call do_fpscr_check_status to raise the exception
-      accordingly and set FEX if necessary
-
-v2 changes:
-    - Changed VSXGER, VSXGER16 and XVIGER macros to functions
-    - Set rounding mode in floating-point instructions based on RN
-      before operations
-    - Separated accumulate and with saturation instructions in
-      different helpers
-    - Used FIELD, FIELD_EX32 and FIELD_DP32 for packing/unpacking masks
-
-Joel Stanley (1):
-  linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
-
-Lucas Mateus Castro (alqotel) (7):
-  target/ppc: Implement xxm[tf]acc and xxsetaccz
-  target/ppc: Implemented xvi*ger* instructions
-  target/ppc: Implemented pmxvi*ger* instructions
-  target/ppc: Implemented xvf*ger*
-  target/ppc: Implemented xvf16ger*
-  target/ppc: Implemented pmxvf*ger*
-  target/ppc: Implemented [pm]xvbf16ger2*
-
- linux-user/elfload.c                |   4 +
- target/ppc/cpu.h                    |  13 ++
- target/ppc/fpu_helper.c             | 326 +++++++++++++++++++++++++++-
- target/ppc/helper.h                 |  33 +++
- target/ppc/insn32.decode            |  52 +++++
- target/ppc/insn64.decode            |  79 +++++++
- target/ppc/int_helper.c             | 130 +++++++++++
- target/ppc/internal.h               |  15 ++
- target/ppc/translate/vsx-impl.c.inc | 130 +++++++++++
- 9 files changed, 780 insertions(+), 2 deletions(-)
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 901ded79e9..2e80d0978f 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2661,6 +2661,11 @@ static inline int vsr_full_offset(int i)
+     return offsetof(CPUPPCState, vsr[i].u64[0]);
+ }
+ 
++static inline int acc_full_offset(int i)
++{
++    return vsr_full_offset(i * 4);
++}
++
+ static inline int fpr_offset(int i)
+ {
+     return vsr64_offset(i, true);
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 39372fe673..7a76bedfa6 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -151,6 +151,9 @@
+ &X_vrt_frbp     vrt frbp
+ @X_vrt_frbp     ...... vrt:5 ..... ....0 .......... .           &X_vrt_frbp frbp=%x_frbp
+ 
++&X_a            ra
++@X_a            ...... ra:3 .. ..... ..... .......... .         &X_a
++
+ %xx_xt          0:1 21:5
+ %xx_xb          1:1 11:5
+ %xx_xa          2:1 16:5
+@@ -710,3 +713,9 @@ XVTLSBB         111100 ... -- 00010 ..... 111011011 . - @XX2_bf_xb
+ &XL_s           s:uint8_t
+ @XL_s           ......-------------- s:1 .......... -   &XL_s
+ RFEBB           010011-------------- .   0010010010 -   @XL_s
++
++## Accumulator Instructions
++
++XXMFACC         011111 ... -- 00000 ----- 0010110001 -   @X_a
++XXMTACC         011111 ... -- 00001 ----- 0010110001 -   @X_a
++XXSETACCZ       011111 ... -- 00011 ----- 0010110001 -   @X_a
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 3692740736..dc8875d5d3 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2787,6 +2787,37 @@ static bool trans_XVCVBF16SPN(DisasContext *ctx, arg_XX2 *a)
+     return true;
+ }
+ 
++    /*
++     *  The PowerISA 3.1 mentions that for the current version of the
++     *  architecture, "the hardware implementation provides the effect of
++     *  ACC[i] and VSRs 4*i to 4*i + 3 logically containing the same data"
++     *  and "The Accumulators introduce no new logical state at this time"
++     *  (page 501). For now it seems unnecessary to create new structures,
++     *  so ACC[i] is the same as VSRs 4*i to 4*i+3 and therefore
++     *  move to and from accumulators are no-ops.
++     */
++static bool trans_XXMFACC(DisasContext *ctx, arg_X_a *a)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VSX(ctx);
++    return true;
++}
++
++static bool trans_XXMTACC(DisasContext *ctx, arg_X_a *a)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VSX(ctx);
++    return true;
++}
++
++static bool trans_XXSETACCZ(DisasContext *ctx, arg_X_a *a)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VSX(ctx);
++    tcg_gen_gvec_dup_imm(MO_64, acc_full_offset(a->ra), 64, 64, 0);
++    return true;
++}
++
+ #undef GEN_XX2FORM
+ #undef GEN_XX3FORM
+ #undef GEN_XX2IFORM
 -- 
 2.31.1
 
