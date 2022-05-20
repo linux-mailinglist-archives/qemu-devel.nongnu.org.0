@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9188B52E457
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 07:29:19 +0200 (CEST)
-Received: from localhost ([::1]:37142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF33052E458
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 May 2022 07:30:18 +0200 (CEST)
+Received: from localhost ([::1]:38982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nrvCQ-0002ZG-1A
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 01:29:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40420)
+	id 1nrvDO-0003pm-3J
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 01:30:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangwenliang.1995@bytedance.com>)
- id 1nrv9Y-0001pw-Id
- for qemu-devel@nongnu.org; Fri, 20 May 2022 01:26:20 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45930)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wangwenliang.1995@bytedance.com>)
- id 1nrv9S-0004Nc-3s
- for qemu-devel@nongnu.org; Fri, 20 May 2022 01:26:16 -0400
-Received: by mail-pf1-x431.google.com with SMTP id y41so6843746pfw.12
- for <qemu-devel@nongnu.org>; Thu, 19 May 2022 22:26:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:cc:in-reply-to:content-transfer-encoding;
- bh=fdNwaxFrm9HFLfOL0VlvICZLFltxdcxYlQCK0s7OZOg=;
- b=oGTm5S3SjdMghtuQuq1Q7MQHME8CobcZr9+bBMQzlQo0H32LgOITRKlXSNWbrxO9wk
- 7dcY4DedRFS1y1KCrm24G6sRqYYloVXE1wAvcBGUquYjlp6KMu74Dl6DSCmU8DVEw1DP
- G5Dm4wrf9ud0quqy2q4KI9z5VOSaDHAVYMgrruNU5sZQ/u9jeOpiHhvVbyBmaXXlHMN7
- iMHu/YPhZIKv2f4wvu2/J6CzWsBqfrfXAHBTpSK/1WoOw7jKipXwVscroYe6WlRVvQpI
- WQl3vstGAorRcAe+8notOqgymN36V6hAxnFtm3m2L1axFhctE2ZHlOY+yjv84sZkqxv4
- lfAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:cc:in-reply-to
- :content-transfer-encoding;
- bh=fdNwaxFrm9HFLfOL0VlvICZLFltxdcxYlQCK0s7OZOg=;
- b=3TChz9CSic2INC3RpjatLSlq3LKlJqMTLJ1zg9J3+lSiCmvLgI8x0p1Ut38367lErm
- Dhfv2CqnQTrDKyiAalQ30venufEfwzDyhWRgFqsBzFg8yqmZo8HL64S3dY5g/q6BgJxM
- Fu39Qf/ohSVXUck95xi361PYMxKzZKT7N2i/s1Zyy1QpvdZ1jkERshRefhq4Fp0pHQK4
- K0ENDu0CRwJD/cJLMcgEcyy+nqNCShxmR9oNEFGuPRf2lG5Mw+t6uLJQnB+O+aikNiif
- 9n6MHK970j+Usbf0pAAfdhoNMnNBYoVJ8HVUNGtv6BfRyuGsJhPAmGEwekXGDi0asd+p
- icYQ==
-X-Gm-Message-State: AOAM531goBoI6R3+ar3FWenCe78h+EK8fjshOC5MQ5GroxpUJXsmGPIM
- iKJRIOpBZO6LOL3tgUPIcv66VA==
-X-Google-Smtp-Source: ABdhPJwhnmLuDeWhWcwJsYblaTzlgOFq2Vy4v15GWcZKO8BS8Zdlh3Ai56iSq9tYqVbOJLwL8mVi7Q==
-X-Received: by 2002:a63:5a09:0:b0:3c2:5dfa:285c with SMTP id
- o9-20020a635a09000000b003c25dfa285cmr6980863pgb.381.1653024367990; 
- Thu, 19 May 2022 22:26:07 -0700 (PDT)
-Received: from ?IPV6:2408:8207:2434:25c0:d880:cd6:e882:4c95?
- ([2408:8207:2434:25c0:d880:cd6:e882:4c95])
- by smtp.gmail.com with ESMTPSA id
- m10-20020a170902db0a00b0015e8d4eb1d9sm4738276plx.35.2022.05.19.22.26.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 22:26:07 -0700 (PDT)
-Message-ID: <32d9bea4-d44b-ec80-3169-da1439bb21aa@bytedance.com>
-Date: Fri, 20 May 2022 13:26:02 +0800
+ (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
+ id 1nrvAI-0002QO-Uv
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 01:27:07 -0400
+Received: from mga17.intel.com ([192.55.52.151]:43098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
+ id 1nrvAG-0004WE-FH
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 01:27:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653024424; x=1684560424;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=cI9uGBjhJtWFGhhOy8Mi22BCW4I7JOWQiAbMT6V9JNg=;
+ b=kFREKulpCmvKs7Vu6jX4NQcNIbXfcibOnmRgjm57uK0cZLjp+wcUES2r
+ YYOYiykbZanoxICbfYO3WbprHjPyKQf1kJiDNxB3oSIXiD1C/BhwSrHGo
+ DLbW174b79OeHh7Tojz7CjizrT4JUAbm8iebvNfbNy8T7e6x7mbhEYFKT
+ SfQq1MhRSfQbLO7Omw10x6bxrth9SJR2nTO1i1QfXkFjMGBGcX7Ueawgm
+ lEL4PqGtqRH1f1a9Ko7WNdeKL3lYGeEZ67/JCTHXr7WLdrwMI1C6hSYhn
+ P1SUQjPW2ClM7eQlQ+dDqEH99+V0J7dAIrDT2P5Fj8snXVNlr5iFKC62g A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="253010187"
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="253010187"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 22:27:01 -0700
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="599018451"
+Received: from gao-cwp.sh.intel.com (HELO gao-cwp) ([10.239.159.23])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 22:26:58 -0700
+Date: Fri, 20 May 2022 13:26:49 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: "Suthikulpanit, Suravee" <suravee.suthikulpanit@amd.com>
+Cc: qemu-devel@nongnu.org, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ mst@redhat.com, "Grimm, Jon" <jon.grimm@amd.com>,
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "Roth, Michael" <Michael.Roth@amd.com>, Wei Huang <wei.huang2@amd.com>
+Subject: Re: [RFC] KVM / QEMU: Introduce Interface for Querying APICv Info
+Message-ID: <20220520052644.GA15937@gao-cwp>
+References: <7e0d22fa-b9b0-ad1a-3a37-a450ec5d73e8@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [External] Re: [PATCH] hw/pci/pcie.c: Fix invalid PCI_EXP_LNKCAP
- setting
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <1652971559-22126-1-git-send-email-wangwenliang.1995@bytedance.com>
- <20220519124909-mutt-send-email-mst@kernel.org>
-From: Wenliang Wang <wangwenliang.1995@bytedance.com>
-Cc: marcel.apfelbaum@gmail.com, qemu-devel@nongnu.org
-In-Reply-To: <20220519124909-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=wangwenliang.1995@bytedance.com; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7e0d22fa-b9b0-ad1a-3a37-a450ec5d73e8@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=chao.gao@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,50 +84,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As PCI_EXP_LNKCAP is never masked when loading, this patch does affect 
-cross version migration. It seems we need machine type compat to deal 
-with that. What do you suggest, Michael?
+On Fri, May 20, 2022 at 10:30:40AM +0700, Suthikulpanit, Suravee wrote:
+>Hi All,
+>
+>Currently, we don't have a good way to check whether APICV is active on a VM.
+>Normally, For AMD SVM AVIC, users either have to check for trace point, or using
+>"perf kvm stat live" to catch AVIC-related #VMEXIT.
+>
+>For KVM, I would like to propose introducing a new IOCTL interface (i.e. KVM_GET_APICV_INFO),
+>where user-space tools (e.g. QEMU monitor) can query run-time information of APICv for VM and vCPUs
+>such as APICv inhibit reason flags.
+>
+>For QEMU, we can leverage the "info lapic" command, and append the APICV information after
+>all LAPIC register information:
+>
+>For example:
+>
+>----- Begin Snippet -----
+>(qemu) info lapic 0
+>dumping local APIC state for CPU 0
+>
+>LVT0     0x00010700 active-hi edge  masked                      ExtINT (vec 0)
+>LVT1     0x00000400 active-hi edge                              NMI
+>LVTPC    0x00010000 active-hi edge  masked                      Fixed  (vec 0)
+>LVTERR   0x000000fe active-hi edge                              Fixed  (vec 254)
+>LVTTHMR  0x00010000 active-hi edge  masked                      Fixed  (vec 0)
+>LVTT     0x000400ee active-hi edge                 tsc-deadline Fixed  (vec 238)
+>Timer    DCR=0x0 (divide by 2) initial_count = 0 current_count = 0
+>SPIV     0x000001ff APIC enabled, focus=off, spurious vec 255
+>ICR      0x000000fd physical edge de-assert no-shorthand
+>ICR2     0x00000005 cpu 5 (X2APIC ID)
+>ESR      0x00000000
+>ISR      (none)
+>IRR      (none)
+>
+>APR 0x00 TPR 0x00 DFR 0x0f LDR 0x00PPR 0x00
+>
+>APICV   vm inhibit: 0x10 <-- HERE
+>APICV vcpu inhibit: 0 <-- HERE
+>
+>------ End Snippet ------
+>
+>Otherwise, we can have APICv-specific info command (e.g. info apicv).
 
-On 5/20/22 12:49 AM, Michael S. Tsirkin wrote:
-> On Thu, May 19, 2022 at 10:45:59PM +0800, Wenliang Wang wrote:
->> pcie_cap_fill_slot_lnk() wrongly set PCI_EXP_LNKCAP when slot speed
->> and width is not set, causing strange downstream port link cap
->> (Speed unknown, Width x0) and pcie devices native hotplug error on Linux:
->>
->> [    3.545654] pcieport 0000:02:00.0: pciehp: link training error: status 0x2000
->> [    3.547143] pcieport 0000:02:00.0: pciehp: Failed to check link status
->>
->> We do not touch PCI_EXP_LNKCAP when speed=0 or width=0, as pcie_cap_v1_fill()
->> already do the default setting for us.
->>
->> Signed-off-by: Wenliang Wang <wangwenliang.1995@bytedance.com>
-> 
-> 
-> do we need machine type compat dance with this?
-> can you check whether this affects cross version
-> migration please?
-> 
->> ---
->>   hw/pci/pcie.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
->> index 68a62da..c82e7fc 100644
->> --- a/hw/pci/pcie.c
->> +++ b/hw/pci/pcie.c
->> @@ -92,6 +92,11 @@ static void pcie_cap_fill_slot_lnk(PCIDevice *dev)
->>           return;
->>       }
->>   
->> +    /* Use default LNKCAP setting */
->> +    if (s->speed == 0 || s->width == 0) {
->> +        return;
->> +    }
->> +
->>       /* Clear and fill LNKCAP from what was configured above */
->>       pci_long_test_and_clear_mask(exp_cap + PCI_EXP_LNKCAP,
->>                                    PCI_EXP_LNKCAP_MLW | PCI_EXP_LNKCAP_SLS);
->> -- 
->> 2.7.4
-> 
+I think this information can be added to kvm per-vm/vcpu debugfs. Then no
+qemu change is needed.
 
