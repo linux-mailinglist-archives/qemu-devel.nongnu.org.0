@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDE552F73E
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 03:02:33 +0200 (CEST)
-Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D23552F6FD
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:50:16 +0200 (CEST)
+Received: from localhost ([::1]:60096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsDVo-0005hq-LP
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 21:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59618)
+	id 1nsDJv-0004Nx-5l
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:50:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCc6-0008CB-BS
+ id 1nsCc7-0008CP-CN
  for qemu-devel@nongnu.org; Fri, 20 May 2022 20:05:00 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:41867)
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:50709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbv-00042m-FE
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:50 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id p8so8949934pfh.8
+ id 1nsCbw-00042v-94
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:57 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id ds11so9333068pjb.0
  for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xEiQkbmkP3Pvevruu+pGV3TN8GeAApZMdugII/EnImY=;
- b=qZaGPRzD/idX/MG9PMfe4gX4E+cE6HujhAB3uSA5Pny4YwEH55kpFA2hgIw6OzNWZ8
- E5i14n8Z1eaQUE+q3ssGoY7os9gDZfRcMJ4EY2mVHimuvnc/iJBbK+dQoGCi6lE4f3iX
- QCK650O5aJN+niYeKw7BFXh/zrlWl0l911le+BAU9OvO8vX+Q7H7Xv23Vk4CIN8gm3FB
- Jz9YNgsE1LPZHF8RVyjJbww1G0Tr1Mo3ZSZKJYTzgZP0mJmNQQB9I82JfmXmLvHY1Yr+
- wKR81cZ5Qy5qN1kmJoO3iYiblK1lOBYbQdHsWggC9tXcLfgy1evggMezWn/6y8nu7fan
- eRQA==
+ bh=NkYDWZD4Kl/AmjNy/kSwweyafB44BYvhT/zKiCaM700=;
+ b=NF36B6opwH1/yH8in3Gz8o1zhOVYxCJDM6o8+tMoKDSIkXYZeK1DwhY/sAbWXc24Lz
+ FfWx01tddEH3skAkoQjPj2yRdhsPgQIwPQqUuXqez0HJzmKaXBliD2wXMivvn9txdK0l
+ FYpTko7kMg3biIOcQu7bjCiteZTknxCOAFeXrTZYFuOcPk4zEOuJ0M4m6+rR/NM9gqbq
+ PBg1kiK1QNDTvwX2Uu671NkAAYPclu9NoZe4K7Y7s4xYchfTRzaZ/TI1IHHeQ4O4agmp
+ fuXC6Gij20DOCGMEmbnXpswdZoshLkFlYXBhJ5iIMDuDropAoq2Q74BOX1k68ZPJoike
+ /s+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xEiQkbmkP3Pvevruu+pGV3TN8GeAApZMdugII/EnImY=;
- b=39WrIK0dtBnSJ9iloKeSzZAOWFzvdVBOQBPFrK/KpJyDzbcd53YBRXlKoh7lBkNqw3
- x43dRHhmO4fDrg+De5uRhmsklcwy8RJqk8bvUT9IDCalYJdO8JoidjssdSJ/Ar5mnr0r
- rDDNn1Zqr1xoH54M0/sqaBm15F8rNTDdQancVkG7PiMRF1sAuSr7xcLsufOYr/Zee/u0
- K3gA2EX0CNjB53DTcUQ6WgY3ZbcmSVRb/SxHFF7NVVxp0hECIskM9sfcKTEJJxxN/MnE
- rGU2BbuJn0jDlBHctzqGqYmtfIOr8jNcwZ8SkUu50gOoEO+WbF1ers8iRQQmNn/IpMlj
- buzw==
-X-Gm-Message-State: AOAM530DqdkACU276Dr+bFA17BCBxaQdWhXY+qYHzQyJRl/p0pS1Zif1
- iRfDUs+EBWxssVEwR3DboZdg3F2/m/5m6g==
-X-Google-Smtp-Source: ABdhPJxWV7GbxOdJgyCU8Dmm0k2oH4PSG2esZnRBQiN1IFH8vqZj1jyoxg2F1lZLmTFylJO4YZWe2g==
-X-Received: by 2002:a63:202:0:b0:3f2:75a7:cd28 with SMTP id
- 2-20020a630202000000b003f275a7cd28mr10621770pgc.537.1653091483019; 
- Fri, 20 May 2022 17:04:43 -0700 (PDT)
+ bh=NkYDWZD4Kl/AmjNy/kSwweyafB44BYvhT/zKiCaM700=;
+ b=mSvdjeFzEbNUsaTZMngyemI7EuxbO0wqPrUqxYqDykhf1BRxZk2WVXY1NrQxIHDBr+
+ znpbNVXGdkNvOzyQgZpOcJVH9noYeZGYrw/ab7gvbnD4zWjv1QR/hmREtpcDwD7RDyoe
+ jH/p22M7m/2s2pBkmyR/mt5Z40NvJE5h8tVDipKqoeLSvt4WBo/NVs3wQzUxvGr40Vx3
+ inuHmHlrKv4tj0JTn/0Zw0R4oZDFziCHMJ6RRmFbQH1Rq5hr4WUHu25J0mOLXCw+I44g
+ sUefkq4rCUmwFt1I5HsJb7odKF9A9pzw04sdzFGjAWMWAsgfdlJJ98CtkDhmfp63hmJV
+ FmjA==
+X-Gm-Message-State: AOAM530xIdZRykE+rxGO6M/LbpaabA9R9wtDd0x1WN/smZgaB4risBmb
+ boSgukysCcIncUc2TPKP5tEMdheZVkBbcQ==
+X-Google-Smtp-Source: ABdhPJzwAl96d+3W1/6D9EC4/usCKYov7Z5RPC/9Le5sJmWCJox09TLDJn8X48JgH8Xtpi3+V0vQ5A==
+X-Received: by 2002:a17:90b:4a07:b0:1df:7c10:7d3e with SMTP id
+ kk7-20020a17090b4a0700b001df7c107d3emr14371970pjb.109.1653091484088; 
+ Fri, 20 May 2022 17:04:44 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.42
+ h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:42 -0700 (PDT)
+ Fri, 20 May 2022 17:04:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 37/49] semihosting: Fix docs comment for
+Subject: [PATCH v3 38/49] semihosting: Pass CPUState to
  qemu_semihosting_console_inc
-Date: Fri, 20 May 2022 17:03:48 -0700
-Message-Id: <20220521000400.454525-38-richard.henderson@linaro.org>
+Date: Fri, 20 May 2022 17:03:49 -0700
+Message-Id: <20220521000400.454525-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,34 +89,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The implementation of qemu_semihosting_console_inc does not
-defer to gdbstub, but only reads from the fifo in console.c.
+We don't need CPUArchState, and we do want the CPUState of the
+thread performing the operation -- use this instead of current_cpu.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/console.h | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ include/semihosting/console.h |  4 ++--
+ linux-user/semihost.c         |  2 +-
+ semihosting/arm-compat-semi.c |  2 +-
+ semihosting/console.c         | 12 ++++++------
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/include/semihosting/console.h b/include/semihosting/console.h
-index 0238f540f4..4f6217bf10 100644
+index 4f6217bf10..afc961057c 100644
 --- a/include/semihosting/console.h
 +++ b/include/semihosting/console.h
-@@ -41,11 +41,10 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+@@ -39,7 +39,7 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+ 
+ /**
   * qemu_semihosting_console_inc:
-  * @env: CPUArchState
+- * @env: CPUArchState
++ * @: CPUState
   *
-- * Receive single character from debug console. This may be the remote
-- * gdb session if a softmmu guest is currently being debugged. As this
-- * call may block if no data is available we suspend the CPU and will
-- * re-execute the instruction when data is there. Therefore two
-- * conditions must be met:
-+ * Receive single character from debug console.  As this call may block
-+ * if no data is available we suspend the CPU and will re-execute the
-+ * instruction when data is there. Therefore two conditions must be met:
-+ *
-  *   - CPUState is synchronized before calling this function
-  *   - pc is only updated once the character is successfully returned
+  * Receive single character from debug console.  As this call may block
+  * if no data is available we suspend the CPU and will re-execute the
+@@ -50,7 +50,7 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
   *
+  * Returns: character read OR cpu_loop_exit!
+  */
+-target_ulong qemu_semihosting_console_inc(CPUArchState *env);
++target_ulong qemu_semihosting_console_inc(CPUState *cs);
+ 
+ /**
+  * qemu_semihosting_log_out:
+diff --git a/linux-user/semihost.c b/linux-user/semihost.c
+index 17f074ac56..f14c6ae21d 100644
+--- a/linux-user/semihost.c
++++ b/linux-user/semihost.c
+@@ -56,7 +56,7 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
+  * program is expecting more normal behaviour. This is slow but
+  * nothing using semihosting console reading is expecting to be fast.
+  */
+-target_ulong qemu_semihosting_console_inc(CPUArchState *env)
++target_ulong qemu_semihosting_console_inc(CPUState *cs)
+ {
+     uint8_t c;
+     struct termios old_tio, new_tio;
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 3eb9d1c049..5d10a2b932 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -415,7 +415,7 @@ void do_common_semihosting(CPUState *cs)
+         break;
+ 
+     case TARGET_SYS_READC:
+-        ret = qemu_semihosting_console_inc(env);
++        ret = qemu_semihosting_console_inc(cs);
+         common_semi_set_ret(cs, ret);
+         break;
+ 
+diff --git a/semihosting/console.c b/semihosting/console.c
+index 3dd0ac60e2..7b896fe43b 100644
+--- a/semihosting/console.c
++++ b/semihosting/console.c
+@@ -144,17 +144,17 @@ static void console_read(void *opaque, const uint8_t *buf, int size)
+     c->sleeping_cpus = NULL;
+ }
+ 
+-target_ulong qemu_semihosting_console_inc(CPUArchState *env)
++target_ulong qemu_semihosting_console_inc(CPUState *cs)
+ {
+     uint8_t ch;
+     SemihostingConsole *c = &console;
++
+     g_assert(qemu_mutex_iothread_locked());
+-    g_assert(current_cpu);
+     if (fifo8_is_empty(&c->fifo)) {
+-        c->sleeping_cpus = g_slist_prepend(c->sleeping_cpus, current_cpu);
+-        current_cpu->halted = 1;
+-        current_cpu->exception_index = EXCP_HALTED;
+-        cpu_loop_exit(current_cpu);
++        c->sleeping_cpus = g_slist_prepend(c->sleeping_cpus, cs);
++        cs->halted = 1;
++        cs->exception_index = EXCP_HALTED;
++        cpu_loop_exit(cs);
+         /* never returns */
+     }
+     ch = fifo8_pop(&c->fifo);
 -- 
 2.34.1
 
