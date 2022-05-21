@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97D152F73F
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 03:04:45 +0200 (CEST)
-Received: from localhost ([::1]:47718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF1052F72E
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:58:29 +0200 (CEST)
+Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsDXx-0007Of-2O
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 21:04:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
+	id 1nsDRs-0002c2-VZ
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCc6-0008CE-Cp
+ id 1nsCc6-0008CC-Bi
  for qemu-devel@nongnu.org; Fri, 20 May 2022 20:05:00 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38536)
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:34072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbl-000421-6Z
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:48 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id n18so8566303plg.5
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:35 -0700 (PDT)
+ id 1nsCbl-000429-CX
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:49 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ ob14-20020a17090b390e00b001dff2a43f8cso2445022pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iVi2WL9LYbp1NIow410Rcdf8IJcyVNGeWO58E9XwFhI=;
- b=zE6/YyLhILpXCuNNPPxSFbE/JYyKSntu7d2b4IJRa6sj2rFFKqZYX3WCDUWs42GWbe
- CiU4f7uKdfD+8yyLVpgZwtChx82o0cpcBV2CoAxqP6gYdiH0tzdFofcP1+u1F99EHQ2H
- Y3uq6pcb/6eaFe88oH3cN7vtATMz08e4oKR/bi0nkDlPwp6MY+wuecsadhyI/RUkYOn3
- qy4O8Wp4uQJ5BRC0gsFFaDp2jYQ3q8xm+WKe38oFqhz3Jerfp8KcQuqxe1k6kDuZBrFD
- Fnbhhqn+xeHqhH0/cz+oaDEcsWQBqzIAymzjkijCWE7yxBpd7yWOrgxXlVC9oI7R9lcX
- kDkw==
+ bh=TzUwl9qms3llKSXLrofbP99q2dV9evxhKXHM3ias5fg=;
+ b=xLTKpjl7z/VKNrW0RL+BeVNnK5pkLHdeJqH/kBfk7HfpchqFSi2T9JNOfo4PAVWLAD
+ SOAuJgmbDOfnzOxKe8EwBk+xBCblscU+EhMJ2wJpaWFaMMl+ATDlZr6u2Gp5FCzWHLrD
+ BG0mylVkj7u/FzsnmEBJiPS3yd309wAJYZ6kfDYzPem1ML7+Oye/5zcLLGU+LlLZ0owQ
+ 5Ph8LezMzLl6pebrsBiW4fHDknAyyRl2mlrTPHDIMI6GwR73ZHu5TnEeDKLYseODChHe
+ 9vk17KiuV30Iw/awPSUp0WwJZV3cB6OGJvFjARNelJWqNSnmGBtmxeZxtPc6YVuhVfT7
+ +Tmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iVi2WL9LYbp1NIow410Rcdf8IJcyVNGeWO58E9XwFhI=;
- b=1DvVWh5tTQ3VFtoUM+WM4w6iPkqOAEbQhbJE42paNJK3pG3ReR/whgadCkHOKE7omm
- +LD1S4t+TEDq33WbAmN/4vjDgxIPHNinFcrwqi2P3zrN7Mcp3eCWMit65+LaW/kdNvQs
- coQCBYv57vgYmFcdc9cVP8d9wlxI64kOZh/WJfVQ27n9/K7sKkOFVUqtz2HC8qri4eZ7
- 6jFFRpg1iqIxlCSvxCKGzcDJruu8Co3W3l54J6j+7VOpoSG/IdXaHyKKUH8X+7MlQ/da
- KO8xRQWZlIA2S2fvpich3kCWak1k7KsVPmaXzDjtsRkPV5PfKZG+JZsLUXwaBTnIx0iy
- RhTA==
-X-Gm-Message-State: AOAM531Y+lnpJt3N8c8T85PPc4U9WrORkWAN1RD63jTAzVP1pQZaUpUY
- NNAxNsf1Zn+9ZVzjJyM2N0OMbzVe/oWv0Q==
-X-Google-Smtp-Source: ABdhPJwyNbkg3jl3RWzjilnvlhLYYJ6jKP/Sqam1YayCWCTyLxSmSSq/gYulh+jzvxwycqKaYnXLyA==
-X-Received: by 2002:a17:90b:4a43:b0:1df:d1e3:6fd4 with SMTP id
- lb3-20020a17090b4a4300b001dfd1e36fd4mr12601515pjb.30.1653091474893; 
- Fri, 20 May 2022 17:04:34 -0700 (PDT)
+ bh=TzUwl9qms3llKSXLrofbP99q2dV9evxhKXHM3ias5fg=;
+ b=AGTrbNslOPCf9oUMQ+RmkhZNwgvWBCT2jSeT2GPj3DZ7m2SSqIpUPCgX3X0HbeqJhn
+ aBoeaQk4TZaQNLwbhGYAdnQNExqdhNK8QhbNiUfhbuOxWG4B63iTi2DRIbl3T35RHdia
+ NfODtM1Y4GMeeRj4TYupFfGreofsrxpIYudIgGDsKDMrErkg9ODbfHaaJS9AU2POxhpg
+ wnfskLzgROGJMkjUYVrN6Z/9gd5S4HpsaVPLPfQCJuADjGsBiCPy9rLREVzFOZDdDou4
+ oR7oSmtI6jETtNS5UeZRTONuOvK8pfd2qaKzeFScfbQ+US+lf+aAK+zOEvWKgWn0AlI8
+ HRUg==
+X-Gm-Message-State: AOAM533aTYwGEgJYNcS52qyDwU0dxLmBCFFAZJPrJ1iAaqhNt+elUpMJ
+ VJ+mpqHY+HUgggJmgZCa2Md3N6jnG9sZ6g==
+X-Google-Smtp-Source: ABdhPJxO/URDVxpNwLK4jHiF7pAcTt7O1Qek7WLUCWoF8njnI875kjKHk5FOaqGWnS05YbJAL1Tc2A==
+X-Received: by 2002:a17:90b:3708:b0:1df:56ac:65c6 with SMTP id
+ mg8-20020a17090b370800b001df56ac65c6mr14315066pjb.23.1653091476005; 
+ Fri, 20 May 2022 17:04:36 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.34
+ h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:34 -0700 (PDT)
+ Fri, 20 May 2022 17:04:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 29/49] semihosting: Split out semihost_sys_isatty
-Date: Fri, 20 May 2022 17:03:40 -0700
-Message-Id: <20220521000400.454525-30-richard.henderson@linaro.org>
+Subject: [PATCH v3 30/49] semihosting: Split out semihost_sys_flen
+Date: Fri, 20 May 2022 17:03:41 -0700
+Message-Id: <20220521000400.454525-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,172 +89,237 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out the non-ARM specific portions of SYS_ISTTY to a
-reusable function.  This handles all GuestFD.
+The ARM-specific SYS_FLEN isn't really something that can be
+reused by other semihosting apis, but there are parts that can
+reused for the implementation of semihost_sys_fstat.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  include/exec/gdbstub.h         |  1 +
- include/semihosting/syscalls.h |  3 +++
- semihosting/arm-compat-semi.c  | 27 +------------------------
- semihosting/syscalls.c         | 36 ++++++++++++++++++++++++++++++++++
- 4 files changed, 41 insertions(+), 26 deletions(-)
+ include/semihosting/syscalls.h |  4 ++
+ semihosting/arm-compat-semi.c  | 74 ++++++----------------------------
+ semihosting/syscalls.c         | 49 ++++++++++++++++++++++
+ 4 files changed, 67 insertions(+), 61 deletions(-)
 
 diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 056db1a0d0..fd4bc4e937 100644
+index fd4bc4e937..8e9cdcb1c1 100644
 --- a/include/exec/gdbstub.h
 +++ b/include/exec/gdbstub.h
-@@ -41,6 +41,7 @@
- #define GDB_EROFS          30
+@@ -42,6 +42,7 @@
  #define GDB_ENAMETOOLONG   91
  #define GDB_EUNKNOWN       9999
-+#define GDB_ENOTTY         GDB_EUNKNOWN
+ #define GDB_ENOTTY         GDB_EUNKNOWN
++#define GDB_EOVERFLOW      GDB_EUNKNOWN
  
  /* For gdb file i/o remote protocol lseek whence. */
  #define GDB_SEEK_SET  0
 diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-index 841a93d25b..c60ebafb85 100644
+index c60ebafb85..1ae5ba6716 100644
 --- a/include/semihosting/syscalls.h
 +++ b/include/semihosting/syscalls.h
-@@ -42,4 +42,7 @@ void semihost_sys_write_gf(CPUState *cs, gdb_syscall_complete_cb complete,
- void semihost_sys_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
-                         int fd, int64_t off, int gdb_whence);
+@@ -45,4 +45,8 @@ void semihost_sys_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+ void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
+                          int fd);
  
-+void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
-+                         int fd);
++void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
++                       gdb_syscall_complete_cb flen_cb,
++                       int fd, target_ulong fstat_addr);
 +
  #endif /* SEMIHOSTING_SYSCALLS_H */
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index e7e568a77e..973b0a68ab 100644
+index 973b0a68ab..5dd8c800cc 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -291,14 +291,8 @@ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
-  * do the work and return the required return value to the guest
-  * via common_semi_cb.
-  */
--typedef void sys_isattyfn(CPUState *cs, GuestFD *gf);
- typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
- 
--static void host_isattyfn(CPUState *cs, GuestFD *gf)
--{
--    common_semi_cb(cs, isatty(gf->hostfd), 0);
--}
--
- static void host_flenfn(CPUState *cs, GuestFD *gf)
- {
-     struct stat buf;
-@@ -310,11 +304,6 @@ static void host_flenfn(CPUState *cs, GuestFD *gf)
-     }
+@@ -272,44 +272,25 @@ static target_ulong common_semi_flen_buf(CPUState *cs)
  }
  
--static void gdb_isattyfn(CPUState *cs, GuestFD *gf)
+ static void
+-common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
++common_semi_flen_fstat_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ {
+     if (!err) {
+         /* The size is always stored in big-endian order, extract the value. */
+         uint64_t size;
+-        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
+-                            offsetof(struct gdb_stat, gdb_st_size),
+-                            &size, 8, 0);
+-        ret = be64_to_cpu(size);
++        if (cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
++                                offsetof(struct gdb_stat, gdb_st_size),
++                                &size, 8, 0)) {
++            ret = -1, err = GDB_EFAULT;
++        } else {
++            size = be64_to_cpu(size);
++            if (ret != size) {
++                ret = -1, err = GDB_EOVERFLOW;
++            }
++        }
+     }
+     common_semi_cb(cs, ret, err);
+ }
+ 
+-/*
+- * Types for functions implementing various semihosting calls
+- * for specific types of guest file descriptor. These must all
+- * do the work and return the required return value to the guest
+- * via common_semi_cb.
+- */
+-typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
+-
+-static void host_flenfn(CPUState *cs, GuestFD *gf)
 -{
--    gdb_do_syscall(common_semi_cb, "isatty,%x", gf->hostfd);
+-    struct stat buf;
+-
+-    if (fstat(gf->hostfd, &buf)) {
+-        common_semi_cb(cs, -1, errno);
+-    } else {
+-        common_semi_cb(cs, buf.st_size, 0);
+-    }
 -}
 -
- static void gdb_flenfn(CPUState *cs, GuestFD *gf)
- {
-     gdb_do_syscall(common_semi_flen_cb, "fstat,%x,%x",
-@@ -338,32 +327,23 @@ static const uint8_t featurefile_data[] = {
+-static void gdb_flenfn(CPUState *cs, GuestFD *gf)
+-{
+-    gdb_do_syscall(common_semi_flen_cb, "fstat,%x,%x",
+-                   gf->hostfd, common_semi_flen_buf(cs));
+-}
+-
+ #define SHFB_MAGIC_0 0x53
+ #define SHFB_MAGIC_1 0x48
+ #define SHFB_MAGIC_2 0x46
+@@ -327,27 +308,6 @@ static const uint8_t featurefile_data[] = {
      SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
  };
  
--static void staticfile_isattyfn(CPUState *cs, GuestFD *gf)
+-static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
 -{
--    common_semi_cb(cs, 0, 0);
+-    common_semi_cb(cs, gf->staticfile.len, 0);
 -}
 -
- static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
- {
-     common_semi_cb(cs, gf->staticfile.len, 0);
- }
+-typedef struct GuestFDFunctions {
+-    sys_flenfn *flenfn;
+-} GuestFDFunctions;
+-
+-static const GuestFDFunctions guestfd_fns[] = {
+-    [GuestFDHost] = {
+-        .flenfn = host_flenfn,
+-    },
+-    [GuestFDGDB] = {
+-        .flenfn = gdb_flenfn,
+-    },
+-    [GuestFDStatic] = {
+-        .flenfn = staticfile_flenfn,
+-    },
+-};
+-
+ /*
+  * Do a semihosting call.
+  *
+@@ -366,7 +326,6 @@ void do_common_semihosting(CPUState *cs)
+     char * s;
+     int nr;
+     uint32_t ret;
+-    GuestFD *gf;
+     int64_t elapsed;
  
- typedef struct GuestFDFunctions {
--    sys_isattyfn *isattyfn;
-     sys_flenfn *flenfn;
- } GuestFDFunctions;
+     nr = common_semi_arg(cs, 0) & 0xffffffffU;
+@@ -479,12 +438,8 @@ void do_common_semihosting(CPUState *cs)
  
- static const GuestFDFunctions guestfd_fns[] = {
-     [GuestFDHost] = {
--        .isattyfn = host_isattyfn,
-         .flenfn = host_flenfn,
-     },
-     [GuestFDGDB] = {
--        .isattyfn = gdb_isattyfn,
-         .flenfn = gdb_flenfn,
-     },
-     [GuestFDStatic] = {
--        .isattyfn = staticfile_isattyfn,
-         .flenfn = staticfile_flenfn,
-     },
- };
-@@ -488,12 +468,7 @@ void do_common_semihosting(CPUState *cs)
- 
-     case TARGET_SYS_ISTTY:
+     case TARGET_SYS_FLEN:
          GET_ARG(0);
 -
 -        gf = get_guestfd(arg0);
 -        if (!gf) {
 -            goto do_badf;
 -        }
--        guestfd_fns[gf->type].isattyfn(cs, gf);
-+        semihost_sys_isatty(cs, common_semi_cb, arg0);
+-        guestfd_fns[gf->type].flenfn(cs, gf);
++        semihost_sys_flen(cs, common_semi_flen_fstat_cb, common_semi_cb,
++                          arg0, common_semi_flen_buf(cs));
          break;
  
-     case TARGET_SYS_SEEK:
+     case TARGET_SYS_TMPNAM:
+@@ -806,9 +761,6 @@ void do_common_semihosting(CPUState *cs)
+         cpu_dump_state(cs, stderr, 0);
+         abort();
+ 
+-    do_badf:
+-        common_semi_cb(cs, -1, EBADF);
+-        break;
+     do_fault:
+         common_semi_cb(cs, -1, EFAULT);
+         break;
 diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index db8891535b..702541b270 100644
+index 702541b270..1425156bf6 100644
 --- a/semihosting/syscalls.c
 +++ b/semihosting/syscalls.c
-@@ -151,6 +151,12 @@ static void gdb_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
-                    (target_ulong)gf->hostfd, off, (target_ulong)gdb_whence);
+@@ -157,6 +157,12 @@ static void gdb_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
+     gdb_do_syscall(complete, "isatty,%x", (target_ulong)gf->hostfd);
  }
  
-+static void gdb_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       GuestFD *gf)
++static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
++                      GuestFD *gf, target_ulong addr)
 +{
-+    gdb_do_syscall(complete, "isatty,%x", (target_ulong)gf->hostfd);
++    gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
 +}
 +
  /*
   * Host semihosting syscall implementations.
   */
-@@ -276,6 +282,13 @@ static void host_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
-     complete(cs, ret, err);
+@@ -289,6 +295,18 @@ static void host_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
+     complete(cs, ret, ret ? 0 : errno_for_gdb());
  }
  
-+static void host_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
-+                        GuestFD *gf)
++static void host_flen(CPUState *cs, gdb_syscall_complete_cb complete,
++                      GuestFD *gf)
 +{
-+    int ret = isatty(gf->hostfd);
-+    complete(cs, ret, ret ? 0 : errno_for_gdb());
++    struct stat buf;
++
++    if (fstat(gf->hostfd, &buf) < 0) {
++        complete(cs, -1, errno_for_gdb());
++    } else {
++        complete(cs, buf.st_size, 0);
++    }
 +}
 +
  /*
   * Static file semihosting syscall implementations.
   */
-@@ -467,3 +480,26 @@ void semihost_sys_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -341,6 +359,12 @@ static void staticfile_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+     }
+ }
+ 
++static void staticfile_flen(CPUState *cs, gdb_syscall_complete_cb complete,
++                            GuestFD *gf)
++{
++    complete(cs, gf->staticfile.len, 0);
++}
++
+ /*
+  * Syscall entry points.
+  */
+@@ -503,3 +527,28 @@ void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
          g_assert_not_reached();
      }
  }
 +
-+void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
++void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
++                       gdb_syscall_complete_cb flen_cb, int fd,
++                       target_ulong fstat_addr)
 +{
 +    GuestFD *gf = get_guestfd(fd);
 +
 +    if (!gf) {
-+        complete(cs, 0, GDB_EBADF);
++        flen_cb(cs, -1, GDB_EBADF);
 +        return;
 +    }
 +    switch (gf->type) {
 +    case GuestFDGDB:
-+        gdb_isatty(cs, complete, gf);
++        gdb_fstat(cs, fstat_cb, gf, fstat_addr);
 +        break;
 +    case GuestFDHost:
-+        host_isatty(cs, complete, gf);
++        host_flen(cs, flen_cb, gf);
 +        break;
 +    case GuestFDStatic:
-+        complete(cs, 0, GDB_ENOTTY);
++        staticfile_flen(cs, flen_cb, gf);
 +        break;
 +    default:
 +        g_assert_not_reached();
