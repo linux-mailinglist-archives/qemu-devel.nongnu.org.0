@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B9352FA1F
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:56:00 +0200 (CEST)
-Received: from localhost ([::1]:33490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B734D52FA20
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:56:41 +0200 (CEST)
+Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsKtz-0000GZ-OC
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53758)
+	id 1nsKue-0001HZ-Sc
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKhd-0004Qa-OK; Sat, 21 May 2022 04:43:15 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44776)
+ id 1nsKnG-0007fB-5p; Sat, 21 May 2022 04:49:02 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKhb-00053X-RB; Sat, 21 May 2022 04:43:13 -0400
+ id 1nsKnE-00067Y-LE; Sat, 21 May 2022 04:49:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Wc3EJS6B/NJeu+zziQ1yBv0Hvri41Xqcgz7WCswFw04=; b=LeBq9C3XB/2nX93vLDohgzutMK
- eVeDpj8NJ9GUjsQZWONghmb3RV/Qll98mOSPhptRzNKssOO60dflTMoY2U+WBPjB3VlMjzAAWsk9R
- kSFmJcWd7HqkyC0tUovbEICDJOAySy0gGfd3Ha6RawcFvCCwil7HzfKNS6ntWKxPOWrk98ajHhn/K
- q++8yNN8MFDzCxNAxpYXRHPS93INoKV0ZDA713Ul/mZkVZ11sphUhuo7lD1p8z4irf3ZtpdR8Obqc
- SmwBQNvuVEmgnk2XqPfRgtRQuiHlpHcR3GuFgPDDylDVt0Y7XOFmEHkTPkD6hlWRXS16eU0apI3bj
- 2WYehuzauYSjytq+cqOj0mxg62NkcRO6SKsYmX3HxU1bhWF+U1C/BiQO2Iw/ym0580foOmfms2+z/
- fV33ENfwIP28ykFtsl74XlRw5AzucXfJPTL0DBYEe5o8BSfyOt3dQW8+A4CV44BArfRW3f554G7Mw
- OMelKon2kp+Oka6UOpYZLLm4nEXrEPU53CkCxGuzIguQ6D8U65ux+htehGIH3liTgJiq3UQdMmwGB
- SA70lqXCL80o/4hn19+pV/3RhqnYKhAlrwK5aQxsQx1jDHtJ38Yu2TtGBY7SZHD8m8/m7e2XmKT5h
- 6O7AnFn9fctKuBacV4jt/4wZzaGK3hMEe93v7/Eyc=;
+ bh=y5TCq19/3COv1+K29StwKAqRGzoA7qsUy+O/T7yyrZ4=; b=zD6/hFkjMg9x0jXZNhiLExWuVk
+ Tjbi3+QKGCXbm4DFrJQ1mO4ZQ7Ysf6JWLbZ5O+3fmYVHX2Vx4hqVucOt64GdxfWy0Mp/yfIPrGfvE
+ rOYQKyRDnj4/2D3SPArv1xIAknxQ9uOfmL7fdW4e5xNyNdrC7e3PVT6q5sLsP1UBkcBl1IQ+7KyfY
+ V/20GD4dqOJQaiVJ77nthgBGT7b/kc5qP9XysLh/rwGcG+MBd3+SlaLaVEfJuud0T2UlxdaD7eyvV
+ jidYJD+nB9z+iAJigfnTwdZir04r+aWWi46W8uNoJGjhbp9COSc1gaZjG8GLI4f/zYJM04BsDrj4e
+ h61IPzpl6+LE4XZupQJvXn040syBkxlSzlrtqCzwvxiWgA6XNJj8ox42ALdiPikZRPOfdttTZujWu
+ 1zcX+lywpxtg7C/pcuCA87CVhLqcTtdtdKVAmHL4kRuSASVSmgzqZUYBahl1eJKWMjWnhXvH/8tkv
+ kp7SSjmiMQO9MdzDG9iNVFZ2OopJKKyvrZ4i0sDbU/SbnFECzPRl5HPDYciIbgae6iXWwQjyh0FbR
+ 6ycjLkPRTJhv9qZ4h4WUHCrdme82xpN/DGLJXHG3IAOyt85p0XMDwuX5Xn6ZpJCNM/TOgAkeJiWgR
+ ENgEYMNUGk0z+HG0BDeiZ2zeoDQfq99rfaIWTlrXA=;
 Received: from host86-135-55-247.range86-135.btcentralplus.com
  ([86.135.55.247] helo=[192.168.50.176])
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKgX-000AIS-2a; Sat, 21 May 2022 09:42:09 +0100
-Message-ID: <aa93e92d-464b-366c-8724-7933db06f50c@ilande.co.uk>
-Date: Sat, 21 May 2022 09:43:03 +0100
+ id 1nsKmF-000AKw-8s; Sat, 21 May 2022 09:47:59 +0100
+Message-ID: <3b381726-1bf3-06b3-c989-6b0ee564b90f@ilande.co.uk>
+Date: Sat, 21 May 2022 09:48:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Cc: qemu-trivial@nongnu.org
 References: <20220513175445.89616-1-shentey@gmail.com>
- <20220513175445.89616-7-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220513175445.89616-7-shentey@gmail.com>
+In-Reply-To: <20220513175445.89616-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.135.55.247
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 6/6] hw/isa/piix{3,4}: Inline and remove create() functions
+Subject: Re: [PATCH 0/6] QOM'ify PIIX southbridge creation
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -89,129 +82,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13/05/2022 18:54, Bernhard Beschow wrote:
 
-> During the previous changesets the create() functions became trivial
-> wrappers around more generic functions. Modernize the code.
+> The piix3 and piix4 southbridge devices still rely on create() functions which
+> are deprecated. This series resolves these functions piece by piece to
+> modernize the code.
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/i386/pc_piix.c             |  6 +++++-
->   hw/isa/piix3.c                | 16 ----------------
->   hw/isa/piix4.c                | 10 ----------
->   hw/mips/malta.c               |  3 ++-
->   include/hw/southbridge/piix.h |  6 ++----
->   5 files changed, 9 insertions(+), 32 deletions(-)
+> Both devices are modified in lockstep where possible to provide more context.
 > 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 47932448fd..82c7941958 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -196,6 +196,9 @@ static void pc_init1(MachineState *machine,
->   
->       if (pcmc->pci_enabled) {
->           PIIX3State *piix3;
-> +        PCIDevice *pci_dev;
-> +        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
-> +                                         : TYPE_PIIX3_DEVICE;
->   
->           pci_bus = i440fx_init(host_type,
->                                 pci_type,
-> @@ -206,7 +209,8 @@ static void pc_init1(MachineState *machine,
->                                 pci_memory, ram_memory);
->           pcms->bus = pci_bus;
->   
-> -        piix3 = piix3_create(pci_bus);
-> +        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
-> +        piix3 = PIIX3_PCI_DEVICE(pci_dev);
->           piix3->pic = x86ms->gsi;
->           piix3_devfn = piix3->dev.devfn;
->           isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
-> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-> index 6eacb22dd0..01c376b39a 100644
-> --- a/hw/isa/piix3.c
-> +++ b/hw/isa/piix3.c
-> @@ -36,9 +36,6 @@
->   
->   #define XEN_PIIX_NUM_PIRQS      128ULL
->   
-> -#define TYPE_PIIX3_DEVICE "PIIX3"
-> -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
-> -
->   static void piix3_set_irq_pic(PIIX3State *piix3, int pic_irq)
->   {
->       qemu_set_irq(piix3->pic[pic_irq],
-> @@ -402,16 +399,3 @@ static void piix3_register_types(void)
->   }
->   
->   type_init(piix3_register_types)
-> -
-> -PIIX3State *piix3_create(PCIBus *pci_bus)
-> -{
-> -    PIIX3State *piix3;
-> -    PCIDevice *pci_dev;
-> -    const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
-> -                                     : TYPE_PIIX3_DEVICE;
-> -
-> -    pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
-> -    piix3 = PIIX3_PCI_DEVICE(pci_dev);
-> -
-> -    return piix3;
-> -}
-> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 852e5c4db1..a70063bc77 100644
-> --- a/hw/isa/piix4.c
-> +++ b/hw/isa/piix4.c
-> @@ -300,13 +300,3 @@ static void piix4_register_types(void)
->   }
->   
->   type_init(piix4_register_types)
-> -
-> -PCIDevice *piix4_create(PCIBus *pci_bus)
-> -{
-> -    PCIDevice *pci;
-> -
-> -    pci = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
-> -                                          TYPE_PIIX4_PCI_DEVICE);
-> -
-> -    return pci;
-> -}
-> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> index d4bd3549d0..57b5eddc74 100644
-> --- a/hw/mips/malta.c
-> +++ b/hw/mips/malta.c
-> @@ -1400,7 +1400,8 @@ void mips_malta_init(MachineState *machine)
->       empty_slot_init("GT64120", 0, 0x20000000);
->   
->       /* Southbridge */
-> -    piix4 = piix4_create(pci_bus);
-> +    piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
-> +                                            TYPE_PIIX4_PCI_DEVICE);
->       dev = DEVICE(piix4);
->       isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
->       smbus = piix4_pm_init(pci_bus, piix4->devfn + 3, 0x1100,
-> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-> index bea3b44551..2d55dbdef7 100644
-> --- a/include/hw/southbridge/piix.h
-> +++ b/include/hw/southbridge/piix.h
-> @@ -70,10 +70,8 @@ typedef struct PIIXState PIIX3State;
->   DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
->                            TYPE_PIIX3_PCI_DEVICE)
->   
-> +#define TYPE_PIIX3_DEVICE "PIIX3"
-> +#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
->   #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> Testing done:
+> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+> 
+> In both cases the system booted successfully and it was possible to shut down
+> the system using the `poweroff` command.
+> 
+> Bernhard Beschow (6):
+>    include/hw: Move TYPE_PIIX4_PCI_DEVICE to southbridge/piix.h
+>    hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
+>    hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
+>    hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
+>    hw/isa/piix4: Factor out SM bus initialization from create() function
+>    hw/isa/piix{3,4}: Inline and remove create() functions
+> 
+>   hw/i386/pc_piix.c             |  7 ++-
+>   hw/isa/piix3.c                | 98 +++++++++++++++++++----------------
+>   hw/isa/piix4.c                | 91 +++++++++++++-------------------
+>   hw/mips/malta.c               |  9 +++-
+>   include/hw/isa/isa.h          |  2 -
+>   include/hw/southbridge/piix.h |  6 +--
+>   6 files changed, 105 insertions(+), 108 deletions(-)
 
-I think it would make sense for the movement of these types to be included in patch 1 
-in a single place.
+I've just reviewed these, and other than a couple of minor issues these look good to 
+me and definitely help to improve the code.
 
-> -PIIX3State *piix3_create(PCIBus *pci_bus);
-> -
-> -PCIDevice *piix4_create(PCIBus *pci_bus);
-> -
->   #endif
-
-Otherwise:
-
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+One thing reading over this patches has made me realise is that there is quite a 
+model violation here in that the PIIX3 and PIIX4 devices (which are the PCI-ISA 
+bridges) are actually setting the PCI host bridge IRQs(!). What should happen is that 
+the PCI bus IRQs and routing should be done in the PCI host bridge, and gpios used in 
+the PCI-ISA bridges to pass them up. But that's definitely something outside the 
+scope of these improvements.
 
 
 ATB,
