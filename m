@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74B152FA75
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 11:57:30 +0200 (CEST)
-Received: from localhost ([::1]:46008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1E052FC58
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 14:28:46 +0200 (CEST)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsLrV-0006oq-HV
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 05:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33510)
+	id 1nsODt-0005GR-B5
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 08:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsLpQ-0005h0-Ri; Sat, 21 May 2022 05:55:20 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44908)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nsOCb-0004SA-KL
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 08:27:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsLpP-0006qy-AN; Sat, 21 May 2022 05:55:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=W02tl1KtgNM28VgY1AVx7beIZUFgI7X0edt/YgWQKa8=; b=hgEss0wANUWiaTqOBQs/9Wdobd
- okbVpboDG3gzMidNUdrAkTKCvx9S5bWsImEQojmmdkUbAxHaIF6rE9qjY6q+F3dlPhpjAU2JPTNXx
- 3iOyfoGAhKLX8blAL3ICxLaFYXAGPtXEgkw1mqAZ5yEASc4afWupBNJhHk8NudkhK7rKmqER8VHRF
- OUvUq5O0Nkt253z/OFG3gGTKb4AHtADdOvRO+H6WPS5Zwerh20fAV+KWubwlTo3H14j0jo8l9e2Cp
- KCSue0IdMwrjET9BOLBwK4rwoGsFV8fPh2WH6mk52aKxL5MYFB2m0KGM0g94xc2UZxzNOgEYQIDmb
- z7JuHHcKzSzyU3N4tlSijMRSg7LHeP6jrdq8sYZ/ZXlGrxUVnPY/XXhLkwmRWnaFaOKeQkfHsUMRt
- 5O34qRhVkhkgROLrDWPSyWGSs45WqgSbGWuT5u4jNOHGrbDBZSk9vCUUXeR9UwchZQUuvbRmwrIAh
- fSOP1I7ZGSBdpnOrOCfKdT9pE35zWTqT7BYuIdA4ezya2dhc1OMzPy4SSGtO9Aw/eQp1Y8oaMbQm7
- RsNe/LbGFra3d/d9pesebfKe+yhsZRItng3sZt6QTp4dCIzM0/2db25ydj70EDfN57dPKeTQOS61M
- dQ7FnHxHekBWbHVONVp+UmcPQ8OP/tPf9/baiNDto=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsLoK-000AlS-GF; Sat, 21 May 2022 10:54:16 +0100
-Message-ID: <48f571d0-e783-4b31-7c90-3d330629c18c@ilande.co.uk>
-Date: Sat, 21 May 2022 10:55:10 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nsOCY-0004Pe-4J
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 08:27:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653136040;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wvXhbPS7hVBm/8feD5MuwktUPL8dIvt3Gf7KcPIfcgA=;
+ b=MClpyY8mGDYsPulRud4bjN+P9k2QTglFF1k2MQSqbnoWThLJEzarS0cJSx9MoCyhs74OcW
+ 6mqM9u4m6/UBz5dVOY95Ld6nABzVjV/UbTNTt1TjDT0RwhybWIxyxHCCfM7chxS3yntjtc
+ Z6P5e/jnQ3FPpqkH0WQZz/ILucut/vI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-H3LdqiJ8PHyCTZzcsH4r7w-1; Sat, 21 May 2022 08:27:16 -0400
+X-MC-Unique: H3LdqiJ8PHyCTZzcsH4r7w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8477B1857F17;
+ Sat, 21 May 2022 12:27:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 189DB1410DD5;
+ Sat, 21 May 2022 12:27:15 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>,
+	qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Alberto Faria <afaria@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: [PATCH] block: drop unused bdrv_co_drain() API
+Date: Sat, 21 May 2022 13:27:14 +0100
+Message-Id: <20220521122714.3837731-1-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20220520180109.8224-1-shentey@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220520180109.8224-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 00/10] Random cleanup patches
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,50 +79,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/05/2022 19:00, Bernhard Beschow wrote:
+bdrv_co_drain() has not been used since commit 9a0cec664eef ("mirror:
+use bdrv_drained_begin/bdrv_drained_end") in 2016. Remove it so there
+are fewer drain scenarios to worry about.
 
-> v2:
-> * Omit removal of isa_connect_gpio_out() (Mark)
-> 
-> v1:
-> This patch series contains random cleanups that I made while studying the code.
-> 
-> Bernhard Beschow (10):
->    hw: Reuse TYPE_I8042 define
->    hw/audio/cs4231a: Const'ify global tables
->    hw/i386/pc: Unexport PC_CPU_MODEL_IDS macro
->    hw/i386/pc: Unexport functions used only internally
->    hw/i386/pc: Remove orphan declarations
->    hw/ppc/e500: Remove unused BINARY_DEVICE_TREE_FILE
->    hw/net/fsl_etsec/etsec: Remove obsolete and unused etsec_create()
->    accel/tcg/cpu-exec: Unexport dump_drift_info()
->    accel/tcg: Inline dump_opcount_info() and remove it
->    docs/devel: Fix link to developer mailing lists
-> 
->   accel/tcg/cpu-exec.c              |  4 ++--
->   accel/tcg/translate-all.c         |  5 -----
->   docs/devel/submitting-a-patch.rst |  6 +++---
->   hw/audio/cs4231a.c                |  8 ++++----
->   hw/i386/pc.c                      | 17 +++++++++++++----
->   hw/net/fsl_etsec/etsec.c          | 23 -----------------------
->   hw/net/fsl_etsec/etsec.h          |  7 -------
->   hw/ppc/e500.c                     |  1 -
->   hw/sparc64/sun4u.c                |  2 +-
->   include/exec/cpu-all.h            |  3 ---
->   include/hw/i386/pc.h              | 14 --------------
->   11 files changed, 23 insertions(+), 67 deletions(-)
+Use bdrv_drained_begin()/bdrv_drained_end() instead. They are "mixed"
+functions that can be called from coroutine context. Unlike
+bdrv_co_drain(), these functions provide control of the length of the
+drained section, which is usually the right thing.
 
-In general these changes look okay, so I'd be fine to give an:
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/block/block-io.h |  1 -
+ block/io.c               | 15 ---------------
+ 2 files changed, 16 deletions(-)
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 62c84f0519..053a27141a 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -270,7 +270,6 @@ void bdrv_drained_end_no_poll(BlockDriverState *bs, int *drained_end_counter);
+                    cond); })
+ 
+ void bdrv_drain(BlockDriverState *bs);
+-void coroutine_fn bdrv_co_drain(BlockDriverState *bs);
+ 
+ int generated_co_wrapper
+ bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+diff --git a/block/io.c b/block/io.c
+index 789e6373d5..1e9bf09a49 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -588,21 +588,6 @@ void bdrv_unapply_subtree_drain(BdrvChild *child, BlockDriverState *old_parent)
+     BDRV_POLL_WHILE(child->bs, qatomic_read(&drained_end_counter) > 0);
+ }
+ 
+-/*
+- * Wait for pending requests to complete on a single BlockDriverState subtree,
+- * and suspend block driver's internal I/O until next request arrives.
+- *
+- * Note that unlike bdrv_drain_all(), the caller must hold the BlockDriverState
+- * AioContext.
+- */
+-void coroutine_fn bdrv_co_drain(BlockDriverState *bs)
+-{
+-    IO_OR_GS_CODE();
+-    assert(qemu_in_coroutine());
+-    bdrv_drained_begin(bs);
+-    bdrv_drained_end(bs);
+-}
+-
+ void bdrv_drain(BlockDriverState *bs)
+ {
+     IO_OR_GS_CODE();
+-- 
+2.36.1
 
-for those I haven't already given a Reviewed-by tag for.
-
-Laurent, are you happy to take these patches with their current tags via 
-qemu-trivial? Or would you prefer an extra set of eyes on the two accel/tcg ones first?
-
-
-ATB,
-
-Mark.
 
