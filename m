@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C200E52F6AA
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:18:08 +0200 (CEST)
-Received: from localhost ([::1]:55588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A578052F699
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:11:47 +0200 (CEST)
+Received: from localhost ([::1]:38422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsCop-0003aO-TM
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:18:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59124)
+	id 1nsCig-0000SV-PM
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbT-00082K-Ba
+ id 1nsCbT-00082L-E3
  for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:25 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:52022)
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbP-0003zO-2f
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:16 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id gg20so9309381pjb.1
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:14 -0700 (PDT)
+ id 1nsCbQ-0003zT-KN
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:17 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id h186so8978566pgc.3
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iO8bYt33Tjxv9WbhuJst+fUaLLVWutotkQNg/qYeZ+o=;
- b=zOgAcsH65e8tEgDT1U3HYry9Ssa+0RFHW+Ml5JEbaTmywW9n5tLfuwblJ/MSddLXv/
- Q/lZVVnl6tyD0ndIGhckJ6A6WwDP+Jj9wIQLjVpIZKL1WIRq6Lgg1LoKd+tc8Osg2CNq
- IqQGwo243pqUmRC3slp4pmg0FtpLMhxiV7QcmCvgR8y5dKuFBtXxtBft+WLk6Tm3C/iZ
- bn1Ccj0806BUDt8+46X5xKrkG9cua8skO3xNyqyvQJw6uclOaAJJ4NN3+Rt0Q7c9RYAW
- elLJVNTNIdP2WAg4ZGC4gx7j3faMea82SouzwKfx67GDHJGinEx73Q08y3pvNLskVOt9
- 0z9g==
+ bh=kCDHy7lpceuAK2eVJ1Y4445ZF33BxGk4+3bwHnJ8e7o=;
+ b=RfC5JEDDnCstDE1FKe79gc7KvW1iIO0/gU0ng4P9TPCdmxbsRYFtHYbcZvaLQXSERD
+ kKREE09StcBztZtgaMJUKHRFqLBtcWH5cJQPup2vSyHhkf44V5dIyLphY0Yt0+K0jXOS
+ pOtgp+d9zmMogOiHEjArozZ1Nx7kMlNhl4jG99Zb1b16lY5WoWb1ktp+42vywg3tSURJ
+ i541OWZ9ghKmaaBS9IUMbnmJmiDAKe7JOxpY0tQatbQ1Ec0JWJhYd6uBar1tnG7c4UAj
+ y96Fr4sI43PRm33xzpqkE8AB8SxxyHlITrlBmAjBqazj4U2tha3bbBUJ7IpD5U30AucZ
+ U7kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iO8bYt33Tjxv9WbhuJst+fUaLLVWutotkQNg/qYeZ+o=;
- b=BIi7Plebs0gRlop9hZY+lYpFJgfIi+q7hMPjjvpJ0zUcDS9pZOuzdlbnSU2RGUZa9R
- vrHdabUzwWxakM6m/DJN/99YJDl5f904TmamegNfGQuFtDlHtZ7lOXlJp24eig3eb21m
- jyHE53k61/TglswPi9kWfQBMLWvzbAvTWHmBg2rhxP3+YPfU6RhkLtijqDuUXdYtaQEO
- x27RGw/V/WyV5HVogWPxT4tUMwHOcbFoLcqJMgNdFuOCP9UBGt//SSjWk6horu77jC4v
- CZh2uPjk1IaU0nTHnk/Fsm2anrOYhmlmt5zP/pvtAffgnAZ59fzw+GxQ6fCMdNV2fHwY
- TzLQ==
-X-Gm-Message-State: AOAM533T4IdyRS1Af+lnCVXiacMf1cj3vTPLCCkTcODZY163kxoAQEw1
- MCPUD3vTAoGNX5raaSjkbdDPDXH9jrcbvw==
-X-Google-Smtp-Source: ABdhPJws5HLnGCQxi7aCw4nF8jZjJMdD2H8CRD8H32UwlIEJ/SJCoT4/v+8Q+c8tp8rRdvS404jhyw==
-X-Received: by 2002:a17:90a:149:b0:1df:3da1:3549 with SMTP id
- z9-20020a17090a014900b001df3da13549mr13398787pje.90.1653091453882; 
- Fri, 20 May 2022 17:04:13 -0700 (PDT)
+ bh=kCDHy7lpceuAK2eVJ1Y4445ZF33BxGk4+3bwHnJ8e7o=;
+ b=Br3E7kpr+uXEs8xQAjWSmBeisWevrMa585p17R2bq9Ky3XEe8yVH1dG2kmvkkTP/mK
+ B9goLaWp0y29l9lxKoD8e0sY5L0C21Gyipi9AC/eV5FgrFtwLeDXJmRedMsjaa6lETUZ
+ sqyeY/jHBSLz7kBS7SjHS43AFPYRTgVh8Au4XLsLvXkLsDqzPM5UZVHNh85Vezm5ot7S
+ c5JxabSau1ybB+alfLQDlWw2Ua6mMqCDYdl+hZ8ws66Hid8GWUGEjbXP4E3NL3buB8jp
+ lJ0LBPrBuK+J3+wjrZ6DPkcJEofiv8v1Q9/B8aCmm7opawh/4ORhRuSAQI0HvPnXGwsF
+ /Kqg==
+X-Gm-Message-State: AOAM531JpGigaPGDRb10+ctblVMofNLn9atzHwyrvDl0JvDj0FqQlpIq
+ VPxaZQaDF5T4eK1kUllTOJJu6UOcPbQS5A==
+X-Google-Smtp-Source: ABdhPJzqTsDwjRUa//ZWVF/KXqWYnbYI7+9xrCRX1mJAN02knfB5o025m6hrA1gk6LCxZnEF84D+Tg==
+X-Received: by 2002:a63:1d5f:0:b0:3c6:e822:2eb1 with SMTP id
+ d31-20020a631d5f000000b003c6e8222eb1mr10566233pgm.99.1653091454946; 
+ Fri, 20 May 2022 17:04:14 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.12
+ h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:13 -0700 (PDT)
+ Fri, 20 May 2022 17:04:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 09/49] semihosting: Adjust error checking in common_semi_cb
-Date: Fri, 20 May 2022 17:03:20 -0700
-Message-Id: <20220521000400.454525-10-richard.henderson@linaro.org>
+Subject: [PATCH v3 10/49] semihosting: Clean up common_semi_flen_cb
+Date: Fri, 20 May 2022 17:03:21 -0700
+Message-Id: <20220521000400.454525-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,31 +88,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The err parameter is non-zero if and only if an error occured.
-Use this instead of ret == -1 for determining if we need to
-update the saved errno.
-
-This fixes the errno setting of SYS_ISTTY, which returns 0 on
-error, not -1.
+Do not read from the gdb struct stat buffer if the callback is
+reporting an error. Use common_semi_cb to finish returning results.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ semihosting/arm-compat-semi.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index b00ed2c6d1..88e1c286ba 100644
+index 88e1c286ba..8792180974 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -290,7 +290,7 @@ static target_ulong common_semi_syscall_len;
- 
- static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
+@@ -346,15 +346,17 @@ static target_ulong common_semi_flen_buf(CPUState *cs)
+ static void
+ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
  {
--    if (ret == (target_ulong)-1) {
-+    if (err) {
- #ifdef CONFIG_USER_ONLY
-         TaskState *ts = cs->opaque;
-         ts->swi_errno = err;
+-    /* The size is always stored in big-endian order, extract
+-       the value. We assume the size always fit in 32 bits.  */
+-    uint32_t size;
+-    cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) + 32,
+-                        (uint8_t *)&size, 4, 0);
+-    size = be32_to_cpu(size);
+-    common_semi_set_ret(cs, size);
+-    errno = err;
+-    set_swi_errno(cs, -1);
++    if (!err) {
++        /*
++         * The size is always stored in big-endian order, extract
++         * the value. We assume the size always fit in 32 bits.
++         */
++        uint32_t size;
++        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) + 32,
++                            (uint8_t *)&size, 4, 0);
++        ret = be32_to_cpu(size);
++    }
++    common_semi_cb(cs, ret, err);
+ }
+ 
+ static int common_semi_open_guestfd;
 -- 
 2.34.1
 
