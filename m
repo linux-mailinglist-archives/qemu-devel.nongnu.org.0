@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E341252F8EA
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 07:31:21 +0200 (CEST)
-Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF1352F9F7
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:11:11 +0200 (CEST)
+Received: from localhost ([::1]:37716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsHhx-00037y-1C
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 01:31:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
+	id 1nsKCc-0006ut-1u
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:11:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nsHfV-0001ch-CD
- for qemu-devel@nongnu.org; Sat, 21 May 2022 01:28:49 -0400
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:51527)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nsK8D-00051V-4C; Sat, 21 May 2022 04:06:37 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nsHfT-00049B-B8
- for qemu-devel@nongnu.org; Sat, 21 May 2022 01:28:48 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9649D23EE5;
- Sat, 21 May 2022 05:28:42 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Sat, 21 May
- 2022 07:28:42 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006c7b3ec6d-c49e-4853-8a1b-5d9202cba6e8,
- 16F2342D0FBC755F7D0F76E80D3941A00D825290) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <03ddc64e-7ab4-7463-bb00-6fe1090b1cb2@kaod.org>
-Date: Sat, 21 May 2022 07:28:41 +0200
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nsK8B-0008R1-0M; Sat, 21 May 2022 04:06:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KneofULAbAsyUtKW2b3s9I5+VrMV5EtWm9AwdsWEs/g=; b=blsiWM0AVSCdtB8EtrS1QpXDaq
+ MKyKTJrx2MJ+ajr4jHfuXGp42f/2TKkrl70d507hpnqmPPQJrWm8hlZa2W1szhELbXTbJ+0lWFX4L
+ PwKGp/tI38kQIQzG2rE+N3UA8NZ3dUGroboNx3/fWlS4P+NdKtW/2dhIkl1467m7+nn31GhC03nRh
+ iGIeOHiX8p1BbxwNceisMzHt/TTF86VraBLtyh81Fei9rsVu5a74EXl4Wi78U3o7LJJFu18yllfFm
+ fYgv7eL5hIVAbrtO4ilxj4tQvONFapNto0W9KrYInd/11mGrvKwpana92JNHS5vaFQXTnSvNFm7tA
+ pk73xcK9RnFQtBcXSdwn4BsqkySJBXZE9Jgq9V50/5HwZU9gcHSmksVgh4WWSQ4pkmTGCQnMXGE7d
+ VFO0GquiZtXmgWhjhfQ6TNbBJLgrzeUh+LrqGWk4G/wnE81o8jl9zlRkwk4T4XQApmIN/HoFyR4lT
+ mzV8UxkNTZ1b+AGbTclZkPU5cmnxZOMWUQ7McoTe6j2+fvFt/O6zrzob4XwSy3n/W25cpwj/KeILO
+ xwY1G9vJrP4CIFfLLrcXnofC+aVBJQza4np1nY2jC08/Ii+m7MsmVB2Hk/K4vU25ljub1bnz9AbNV
+ NJNbT2AOSbKQBRuDWMM8HtHRHGz68HJS+ILuqdJWQ=;
+Received: from host86-135-55-247.range86-135.btcentralplus.com
+ ([86.135.55.247] helo=[192.168.50.176])
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nsK75-000A1g-29; Sat, 21 May 2022 09:05:31 +0100
+Message-ID: <ae830cac-8d63-4f29-cfaf-51f947ebd523@ilande.co.uk>
+Date: Sat, 21 May 2022 09:06:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 0/3] ppc: Implement ISA 3.00 tlbie[l]
 Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>, 
- <qemu-ppc@nongnu.org>
-CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>, 
- Nicholas Piggin <npiggin@gmail.com>
-References: <20220520173346.20807-1-leandro.lupori@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220520173346.20807-1-leandro.lupori@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20220513175445.89616-1-shentey@gmail.com>
+ <20220513175445.89616-2-shentey@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220513175445.89616-2-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 7ed53695-e72f-48d9-b6e8-1fc3ac63cb8a
-X-Ovh-Tracer-Id: 8685754833134586729
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrieehgdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-SA-Exim-Connect-IP: 86.135.55.247
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 1/6] include/hw: Move TYPE_PIIX4_PCI_DEVICE to
+ southbridge/piix.h
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,36 +86,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/22 19:33, Leandro Lupori wrote:
-> Add support for ISA 3.00 tlbie/tlbiel instructions, with
-> RIC, PRS and R operands.
+On 13/05/2022 18:54, Bernhard Beschow wrote:
+
+> TYPE_PIIX3_PCI_DEVICE resides there as well.
 > 
-> Also, for Radix MMU, add support for the TLB invalidation of a
-> single page. Flush by PID/LPID, or based in process/partition
-> scope is not supported, because it would make using the
-> generic QEMU TLB implementation hard. In these cases, all
-> entries are flushed.
-
-Adding Nick.
-
-Thanks,
-
-C.
-
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   include/hw/isa/isa.h          | 2 --
+>   include/hw/southbridge/piix.h | 2 ++
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> Leandro Lupori (3):
->    target/ppc: Move tlbie to decode tree
->    target/ppc: Move tlbiel to decode tree
->    target/ppc: Implement ISA 3.00 tlbie[l]
-> 
->   target/ppc/cpu_init.c                        |   4 +-
->   target/ppc/helper.h                          |  18 +++
->   target/ppc/insn32.decode                     |   8 +
->   target/ppc/mmu_helper.c                      | 154 +++++++++++++++++++
->   target/ppc/translate.c                       |  64 +-------
->   target/ppc/translate/storage-ctrl-impl.c.inc | 102 ++++++++++++
->   6 files changed, 286 insertions(+), 64 deletions(-)
->   create mode 100644 target/ppc/translate/storage-ctrl-impl.c.inc
-> 
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index 034d706ba1..e9fa2f5cea 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -144,6 +144,4 @@ static inline ISABus *isa_bus_from_device(ISADevice *d)
+>       return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));
+>   }
+>   
+> -#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> -
+>   #endif
+> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+> index f63f83e5c6..a304fc6041 100644
+> --- a/include/hw/southbridge/piix.h
+> +++ b/include/hw/southbridge/piix.h
+> @@ -70,6 +70,8 @@ typedef struct PIIXState PIIX3State;
+>   DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+>                            TYPE_PIIX3_PCI_DEVICE)
+>   
+> +#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> +
+>   PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
+>   
+>   DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
 
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+ATB,
+
+Mark.
 
