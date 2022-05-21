@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59ACA52F692
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:09:10 +0200 (CEST)
-Received: from localhost ([::1]:57984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1D152F69E
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:14:04 +0200 (CEST)
+Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsCg9-0002mb-0X
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59058)
+	id 1nsCkt-0006Bo-7A
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbN-00080X-Mq
+ id 1nsCbN-00080Y-Nn
  for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:14 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:44659)
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:45837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbK-0003yV-9P
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:12 -0400
-Received: by mail-pl1-x633.google.com with SMTP id q4so8553498plr.11
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:09 -0700 (PDT)
+ id 1nsCbL-0003ym-RE
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:13 -0400
+Received: by mail-pl1-x629.google.com with SMTP id q18so8553221pln.12
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2OyP2Wnw9umWfxtpbUetMIm1XRFLbapKewV58Lgr8fc=;
- b=Vl7I20wHocej6ezd+GOhft8MprLJBf9xVnw8ipS9GDYNOuoT+MHgc+N247SsfEqbxP
- Q1ZIkyYZUJt6DPPjlz+rEWUJwNgF9FNgp7kKe4eFJ4RV41T1/Uz8wqttXA6LQw5GiHvY
- j7c6k+KtcDnUtS8KEDVPoZAXrXciR05F7mWaOio3VLIG+ccDLieB5TJyXhamRXlnReYc
- JDAHpdBhe64aJVLX4GO4l0m5toGLm7r+upvS0rkneXJssuOndMhjoQf+t/FjoMfSVm23
- rjDQRWMZArEmzoRkdXWFf5kUQmWJ8zV/kFKaxqyDX72JKY2s+Dr7S2Mwt0TQNkBU75AC
- lMPg==
+ bh=2UWwm+1enZhNATgFL33PYQ1DN6Mmw/PBhL6/pzVSSaU=;
+ b=Fgu3qTbk2lWuWYI4rssD4eziEK2qZP5OTJdBnQUacie1mPi8z38I0R1i9IyaLtMOMR
+ F3r89ZKIOS1U4+4w1KO5oHRQZY8kqucoOrsyc1bQwIKq+BuLpD2qUsHO4bYUUb+ZgOH/
+ 3r2Rv9PuBKE+xUuK8ab7zShR3mp95Wtbc6TuVxxYw4/cXBvg9O4QwPlZ7WG253F8fLrr
+ 71zxZbCzc2ISiq64fz1Ns5KDlgNBrTN/7dhNZ4AD6jLRIS1L+TiAQbeLaekisoHiTjYJ
+ Hyd2SI6EfJYwwAknBGEFxC12ZzVzZMevbbTI7yUCYfb5BRbhNI8xRKzV8UX0sCGfoOuL
+ g3Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2OyP2Wnw9umWfxtpbUetMIm1XRFLbapKewV58Lgr8fc=;
- b=opOrmB3m6WrWP+N+G18m3BHfYhbbleNxv42Hk7ZsqUN4Pk7LC8bQ+pZqv6rfRAqHgZ
- 2h7leq8EIjCKvpQGL3IKgq8PNIIf7Xh+A987mVa1DbYvgRthaWcert8M+qFVdpYwAXZd
- uRI/Zp/WZu2gx5I4qtHcY+2oXnD+iTaGBt6V8KiB6vLk/v45apR6SDRGd1JYZEAzHL3v
- lqBNFLzfzvP7LFPrQ9QR/sUKoBAzjANacWUhXB2sUZx8jW6Mk89zpqJzg/Nne/DbB6bO
- EmGYlbwQd2aJpi0lWm5ho4NBnRFRepbZUtg0gccC2Pr0F/6zLs4My6E8kgM88L9T2Pu7
- aBpQ==
-X-Gm-Message-State: AOAM532Cv/stYndlvSK4Y9/ygDXT9cAFzmtDhGPdwYCwgq5lNZD81ErK
- mpKhJIigoszE4Q2574gHBkhHaQmB19Jhkg==
-X-Google-Smtp-Source: ABdhPJzB6gVq463DOmcWC06vjYcw/y4qlye6RnVe8nLFqNw33ElSVHl+XRF8wFvMgrdE3+EMULYwmQ==
-X-Received: by 2002:a17:902:a387:b0:15e:f63f:237f with SMTP id
- x7-20020a170902a38700b0015ef63f237fmr12010647pla.32.1653091448990; 
- Fri, 20 May 2022 17:04:08 -0700 (PDT)
+ bh=2UWwm+1enZhNATgFL33PYQ1DN6Mmw/PBhL6/pzVSSaU=;
+ b=qY2D2pGiVrM09PGUyHotHg7axNPwWYe/rV+IS/JNBBWWYz0FCYnWNJ5z677bIOolpK
+ /IhsZGnTC0yUkVwWl65F5lzYy3UfD1LpBPSmA6dSUgonOc985uoWAWO2FFsjJ1YohI39
+ caWP3gxHej6jrsAR+uPgsdk/kLN6gCZuj2xjKoBmArHtXssKe9WHH82hPCL589PeFZkf
+ 5en9OEHvV1IN42pQ3yD7x+gzBBZKU7xZqV/0LcvjG9S90rDGJbal7JEkolafq++Pvizv
+ TJzhvqtpPqtuATvqjuM6ptmBvPayHnEDa0L1x7fyCtYlrv9XHHuRw9/ERGacyOJeS/uJ
+ chWg==
+X-Gm-Message-State: AOAM533hLiZGf8/BytP8w2UO0HWo7zTmfdNYr6myXjHwWkUpEPRALVW6
+ 7PfkX5qdjZOwdkGvj9p3d8W/9kgUKQrPiw==
+X-Google-Smtp-Source: ABdhPJxu44nZvWi22IGrNblmW7qaAO6O0n41xZwOCjxFejBZkJDIK2uC/FjIRwRX13XLqdv/+WIBnQ==
+X-Received: by 2002:a17:902:700b:b0:15f:a51a:cdeb with SMTP id
+ y11-20020a170902700b00b0015fa51acdebmr11680558plk.137.1653091450309; 
+ Fri, 20 May 2022 17:04:10 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.07
+ h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:08 -0700 (PDT)
+ Fri, 20 May 2022 17:04:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 05/49] semihosting: Add target_strlen for softmmu-uaccess.h
-Date: Fri, 20 May 2022 17:03:16 -0700
-Message-Id: <20220521000400.454525-6-richard.henderson@linaro.org>
+Subject: [PATCH v3 06/49] semihosting: Simplify softmmu_lock_user_string
+Date: Fri, 20 May 2022 17:03:17 -0700
+Message-Id: <20220521000400.454525-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,97 +88,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mirror the interface of the user-only function of the same name.
-Use probe_access_flags for the common case of ram, and
-cpu_memory_rw_debug for the uncommon case of mmio.
+We are not currently bounding the search to the 1024 bytes
+that we allocated, possibly overrunning the buffer.
+Use softmmu_strlen_user to find the length and allocate the
+correct size from the beginning.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v3: Use probe_access_flags (pmm)
----
- include/semihosting/softmmu-uaccess.h |  3 ++
- semihosting/uaccess.c                 | 49 +++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ semihosting/uaccess.c | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-diff --git a/include/semihosting/softmmu-uaccess.h b/include/semihosting/softmmu-uaccess.h
-index 03300376d3..4f08dfc098 100644
---- a/include/semihosting/softmmu-uaccess.h
-+++ b/include/semihosting/softmmu-uaccess.h
-@@ -53,4 +53,7 @@ void softmmu_unlock_user(CPUArchState *env, void *p,
-                          target_ulong addr, target_ulong len);
- #define unlock_user(s, args, len) softmmu_unlock_user(env, s, args, len)
- 
-+ssize_t softmmu_strlen_user(CPUArchState *env, target_ulong addr);
-+#define target_strlen(p) softmmu_strlen_user(env, p)
-+
- #endif /* SEMIHOSTING_SOFTMMU_UACCESS_H */
 diff --git a/semihosting/uaccess.c b/semihosting/uaccess.c
-index 0d3b32b75d..51019b79ff 100644
+index 51019b79ff..9894f40feb 100644
 --- a/semihosting/uaccess.c
 +++ b/semihosting/uaccess.c
-@@ -8,6 +8,7 @@
-  */
+@@ -74,20 +74,11 @@ ssize_t softmmu_strlen_user(CPUArchState *env, target_ulong addr)
  
- #include "qemu/osdep.h"
-+#include "exec/exec-all.h"
- #include "semihosting/softmmu-uaccess.h"
- 
- void *softmmu_lock_user(CPUArchState *env, target_ulong addr,
-@@ -23,6 +24,54 @@ void *softmmu_lock_user(CPUArchState *env, target_ulong addr,
-     return p;
- }
- 
-+ssize_t softmmu_strlen_user(CPUArchState *env, target_ulong addr)
-+{
-+    int mmu_idx = cpu_mmu_index(env, false);
-+    size_t len = 0;
-+
-+    while (1) {
-+        size_t left_in_page;
-+        int flags;
-+        void *h;
-+
-+        /* Find the number of bytes remaining in the page. */
-+        left_in_page = -(addr | TARGET_PAGE_MASK);
-+
-+        flags = probe_access_flags(env, addr, MMU_DATA_LOAD,
-+                                   mmu_idx, true, &h, 0);
-+        if (flags & TLB_INVALID_MASK) {
-+            return -1;
-+        }
-+        if (flags & TLB_MMIO) {
-+            do {
-+                uint8_t c;
-+                if (cpu_memory_rw_debug(env_cpu(env), addr, &c, 1, 0)) {
-+                    return -1;
-+                }
-+                if (c == 0) {
-+                    return len;
-+                }
-+                addr++;
-+                len++;
-+                if (len > INT32_MAX) {
-+                    return -1;
-+                }
-+            } while (--left_in_page != 0);
-+        } else {
-+            char *p = memchr(h, 0, left_in_page);
-+            if (p) {
-+                len += p - (char *)h;
-+                return len <= INT32_MAX ? (ssize_t)len : -1;
-+            }
-+            addr += left_in_page;
-+            len += left_in_page;
-+            if (len > INT32_MAX) {
-+                return -1;
-+            }
-+        }
-+    }
-+}
-+
  char *softmmu_lock_user_string(CPUArchState *env, target_ulong addr)
  {
-     /* TODO: Make this something that isn't fixed size.  */
+-    /* TODO: Make this something that isn't fixed size.  */
+-    char *s = malloc(1024);
+-    size_t len = 0;
+-
+-    if (!s) {
++    ssize_t len = softmmu_strlen_user(env, addr);
++    if (len < 0) {
+         return NULL;
+     }
+-    do {
+-        if (cpu_memory_rw_debug(env_cpu(env), addr++, s + len, 1, 0)) {
+-            free(s);
+-            return NULL;
+-        }
+-    } while (s[len++]);
+-    return s;
++    return softmmu_lock_user(env, addr, len + 1, true);
+ }
+ 
+ void softmmu_unlock_user(CPUArchState *env, void *p,
 -- 
 2.34.1
 
