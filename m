@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4929F52F9F8
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:14:01 +0200 (CEST)
-Received: from localhost ([::1]:41482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BD152FA06
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:32:05 +0200 (CEST)
+Received: from localhost ([::1]:46760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsKFM-0001Bn-7t
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49988)
+	id 1nsKWp-0005YU-Sr
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:32:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsK9f-0006IC-DB; Sat, 21 May 2022 04:08:07 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44688)
+ id 1nsKSO-0004YE-Il; Sat, 21 May 2022 04:27:28 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsK9d-000068-Lo; Sat, 21 May 2022 04:08:07 -0400
+ id 1nsKSM-0002vB-EE; Sat, 21 May 2022 04:27:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=phD4lVSEidEogJ/VmGrJfjM3Jv9C4aMCKAl36y3+Iu0=; b=YTjmkhY7T5lf3zr3HUp2qdXUOf
- abRGAJkm2l8TEL6PPfZXZymME2EQCJIdrVkkve71qND8AmOXoiFNaSrYvZF0Yt/YpAwO1t6KfIjDO
- 3LyFR0JvTM8MDYWlZRJHHJpNb840MiJfZJU4vnPnNzf61k+liPXkHmhZ2sGoHjzIse4hp+i3cmRaX
- JtnlRKyxGxWaxoE9ao9xvdiwmOh4OGd5P0Ad1FIDBF0hR3msvMqU/zlNbOOKi9FyO0yNjeDlVwIay
- IqjDqx7LpktkwhYf+4ZjmAUZCKVaQUdhcKZ/xT7+ns2D++NBhYcMRoBOH7hHyzHVzyDLBI2LPVZJ/
- 4zwP17qTNdRW8sgFTYvSKc85S+zMCIuiaqzt1wDsG/Dlg3kn2R//0xzH325Txh1WODWMIBKONGUpn
- Xr00yzcPSkuUUYOvsyZdUePq1VPW4Cjuo3r6t8Vi4Qj4i8VaPrk4uCfVMcIgyaMytAJMNqZD4K6q3
- xLTX03mk8FqS6XwFdN7qC7ImmpXSY794bfkl62p8g14eOKJB2eufoaxO2W464uG76KcFaKPfk5t5t
- vQqx2c/CMcOYFWwxRkiO7oAcXFV07U1Kn5nsaEPGRhzupnaIvuEYI3H3j8dwhF38tpwRwIrBApytv
- 7i0WnR9qYVf+1TIsOcaV5tvi6vBl7TzMKpsU/FPXM=;
+ bh=prrCHIfuRyn6PU3oRShSKo3ZLXnchbRe12m/T4u3d94=; b=SSe5Z0fZgJZzWcoyfAF7qAiaMU
+ dSP8Ga7rQ6lm6IMGCX/ZzjWlRFM8sjHPAPPuTN+phslVAVflUzgXvYGfyFzw6JLGnENof+UW96pzt
+ Ax8sot9DujH7ok85HcrUkDP21xWIVQbUiO3Ws1W3/oVwySxjTOCTNVdBqkd2w3+ehSmSi8mPL4SFN
+ qVcITYOKCc9uuAw+A/dT3PfvmHTWUvjk/NY7BkGoJcLTl6ZqvisbySaeDeXB/xw0MSRx3QfZJwyo8
+ qVaiRglgFAloAVNHDr15rNKUnnCi+UUHXRQknIZpjYs5qsYObIP1TciGx4AE3hZ9JU2UD+M7gENX2
+ kguYUzTSDd9v0IhQr8VFZ2dtxX1CkcK06eB4A55Zobd9ATG0XNsp8OweRAmuv4vGqO0hTCEMkyyA6
+ 9yRSyHtYVF4nQNs+c1gNMexchw/BYX2AoklM5bHkxYFnhtOqhXYBp9kk1WRrdtLcexl5bAcd9BHQZ
+ Y7YmjuEtdu+yiQuGRJ0N2NZkc9NTa8vkO/gCqPl76Eb+Rnnjqd9US4QpbH69B2DQxfFifa9Wi0a/D
+ GQO7zkagp7GdqNDEJRM8+cpN1YmGn+0rBhqTlbqfq+NILT/OvYnS+vc7l6oaLuu8/JBjfDUgCR8PD
+ Rk7tqRvWGQWhtEZXuCjVFeHFrZ8u+etm557HeT9R4=;
 Received: from host86-135-55-247.range86-135.btcentralplus.com
  ([86.135.55.247] helo=[192.168.50.176])
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsK8Z-000A2Q-C1; Sat, 21 May 2022 09:07:03 +0100
-Message-ID: <403fbb9b-f8d9-406d-6233-559415222ae1@ilande.co.uk>
-Date: Sat, 21 May 2022 09:07:58 +0100
+ id 1nsKRI-000AAy-2k; Sat, 21 May 2022 09:26:24 +0100
+Message-ID: <d4fecb8f-f764-f6ab-1a0b-851d4b15e0a4@ilande.co.uk>
+Date: Sat, 21 May 2022 09:27:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
@@ -51,15 +51,15 @@ Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 References: <20220513175445.89616-1-shentey@gmail.com>
- <20220513175445.89616-3-shentey@gmail.com>
+ <20220513175445.89616-4-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220513175445.89616-3-shentey@gmail.com>
+In-Reply-To: <20220513175445.89616-4-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.135.55.247
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 2/6] hw/isa/piix{3, 4}: Move pci_map_irq_fn's near
- pci_set_irq_fn's
+Subject: Re: [PATCH 3/6] hw/isa/piix{3,4}: QOM'ify PCI device creation and
+ wiring
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -88,123 +88,215 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13/05/2022 18:54, Bernhard Beschow wrote:
 
-> The pci_map_irq_fn's were implemented below type_init() which made them
-> inaccessible to QOM functions. So move them up.
+> PCI interrupt wiring and device creation (piix4 only) were performed
+> in create() functions which are obsolete. Move these tasks into QOM
+> functions to modernize the code.
+> 
+> In order to avoid duplicate checking for xen_enabled() the piix3 realize
+> methods are now split.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/isa/piix3.c | 22 +++++++++++-----------
->   hw/isa/piix4.c | 50 +++++++++++++++++++++++++-------------------------
->   2 files changed, 36 insertions(+), 36 deletions(-)
+>   hw/isa/piix3.c | 67 +++++++++++++++++++++++++++++++++-----------------
+>   hw/isa/piix4.c | 20 +++++++++------
+>   2 files changed, 57 insertions(+), 30 deletions(-)
 > 
 > diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-> index dab901c9ad..7d69420967 100644
+> index 7d69420967..d15117a7c7 100644
 > --- a/hw/isa/piix3.c
 > +++ b/hw/isa/piix3.c
-> @@ -81,6 +81,17 @@ static void piix3_set_irq(void *opaque, int pirq, int level)
->       piix3_set_irq_level(piix3, pirq, level);
+> @@ -24,6 +24,7 @@
+>   
+>   #include "qemu/osdep.h"
+>   #include "qemu/range.h"
+> +#include "qapi/error.h"
+>   #include "hw/southbridge/piix.h"
+>   #include "hw/irq.h"
+>   #include "hw/isa/isa.h"
+> @@ -280,7 +281,7 @@ static const MemoryRegionOps rcr_ops = {
+>       .endianness = DEVICE_LITTLE_ENDIAN
+>   };
+>   
+> -static void piix3_realize(PCIDevice *dev, Error **errp)
+> +static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+>   {
+>       PIIX3State *d = PIIX3_PCI_DEVICE(dev);
+>   
+> @@ -305,7 +306,6 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+>       dc->desc        = "ISA bridge";
+>       dc->vmsd        = &vmstate_piix3;
+>       dc->hotpluggable   = false;
+> -    k->realize      = piix3_realize;
+>       k->vendor_id    = PCI_VENDOR_ID_INTEL;
+>       /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
+>       k->device_id    = PCI_DEVICE_ID_INTEL_82371SB_0;
+> @@ -329,11 +329,28 @@ static const TypeInfo piix3_pci_type_info = {
+>       },
+>   };
+>   
+> +static void piix3_realize(PCIDevice *dev, Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +    PIIX3State *piix3 = PIIX3_PCI_DEVICE(dev);
+> +    PCIBus *pci_bus = pci_get_bus(dev);
+> +
+> +    pci_piix3_realize(dev, errp);
+> +    if (*errp) {
+> +        return;
+> +    }
+> +
+> +    pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
+> +                 piix3, PIIX_NUM_PIRQS);
+> +    pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
+> +};
+> +
+
+Oooof. So the reason this looks a bit odd is because we don't have an equivalent of 
+device_class_set_parent_realize() for PCIDevice realize(). Having had a look in pci.c 
+this looks like a similar approach for handling errors, execpt that here errp is 
+accessed directly.
+
+I think this is probably the best we can do for now though. Have you tried forcing 
+pci_piix3_realize() to throw an error during testing to make sure this works as expected?
+
+>   static void piix3_class_init(ObjectClass *klass, void *data)
+>   {
+>       PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>   
+>       k->config_write = piix3_write_config;
+> +    k->realize = piix3_realize;
 >   }
 >   
-> +/*
-> + * Return the global irq number corresponding to a given device irq
-> + * pin. We could also use the bus number to have a more precise mapping.
-> + */
-> +static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
+>   static const TypeInfo piix3_info = {
+> @@ -342,11 +359,33 @@ static const TypeInfo piix3_info = {
+>       .class_init    = piix3_class_init,
+>   };
+>   
+> +static void piix3_xen_realize(PCIDevice *dev, Error **errp)
 > +{
-> +    int slot_addend;
-> +    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
-> +    return (pci_intx + slot_addend) & 3;
-> +}
+> +    ERRP_GUARD();
+> +    PIIX3State *piix3 = PIIX3_PCI_DEVICE(dev);
+> +    PCIBus *pci_bus = pci_get_bus(dev);
 > +
->   static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
+> +    pci_piix3_realize(dev, errp);
+> +    if (*errp) {
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * Xen supports additional interrupt routes from the PCI devices to
+> +     * the IOAPIC: the four pins of each PCI device on the bus are also
+> +     * connected to the IOAPIC directly.
+> +     * These additional routes can be discovered through ACPI.
+> +     */
+> +    pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
+> +                 piix3, XEN_PIIX_NUM_PIRQS);
+> +};
+> +
+>   static void piix3_xen_class_init(ObjectClass *klass, void *data)
 >   {
->       PIIX3State *piix3 = opaque;
-> @@ -353,17 +364,6 @@ static void piix3_register_types(void)
+>       PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
 >   
->   type_init(piix3_register_types)
+>       k->config_write = piix3_write_config_xen;
+> +    k->realize = piix3_xen_realize;
+>   };
 >   
-> -/*
-> - * Return the global irq number corresponding to a given device irq
-> - * pin. We could also use the bus number to have a more precise mapping.
-> - */
-> -static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
-> -{
-> -    int slot_addend;
-> -    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
-> -    return (pci_intx + slot_addend) & 3;
-> -}
-> -
->   PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
+>   static const TypeInfo piix3_xen_info = {
+> @@ -368,27 +407,11 @@ PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
 >   {
 >       PIIX3State *piix3;
+>       PCIDevice *pci_dev;
+> +    const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+> +                                     : TYPE_PIIX3_DEVICE;
+>   
+> -    /*
+> -     * Xen supports additional interrupt routes from the PCI devices to
+> -     * the IOAPIC: the four pins of each PCI device on the bus are also
+> -     * connected to the IOAPIC directly.
+> -     * These additional routes can be discovered through ACPI.
+> -     */
+> -    if (xen_enabled()) {
+> -        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true,
+> -                                                  TYPE_PIIX3_XEN_DEVICE);
+> -        piix3 = PIIX3_PCI_DEVICE(pci_dev);
+> -        pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
+> -                     piix3, XEN_PIIX_NUM_PIRQS);
+> -    } else {
+> -        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true,
+> -                                                  TYPE_PIIX3_DEVICE);
+> -        piix3 = PIIX3_PCI_DEVICE(pci_dev);
+> -        pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
+> -                     piix3, PIIX_NUM_PIRQS);
+> -        pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
+> -    }
+> +    pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
+> +    piix3 = PIIX3_PCI_DEVICE(pci_dev);
+>       *isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+>   
+>       return piix3;
 > diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 8607e0ac36..a223b69e24 100644
+> index a223b69e24..134d23aea7 100644
 > --- a/hw/isa/piix4.c
 > +++ b/hw/isa/piix4.c
-> @@ -73,6 +73,31 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+> @@ -204,6 +204,8 @@ static const MemoryRegionOps piix4_rcr_ops = {
+>   static void piix4_realize(PCIDevice *dev, Error **errp)
+>   {
+>       PIIX4State *s = PIIX4_PCI_DEVICE(dev);
+> +    PCIDevice *pci;
+> +    PCIBus *pci_bus = pci_get_bus(dev);
+>       ISABus *isa_bus;
+>       qemu_irq *i8259_out_irq;
+>   
+> @@ -242,6 +244,15 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+>           return;
 >       }
+>       s->rtc.irq = isa_get_irq(ISA_DEVICE(&s->rtc), s->rtc.isairq);
+> +
+> +    /* IDE */
+> +    pci = pci_create_simple(pci_bus, dev->devfn + 1, "piix4-ide");
+> +    pci_ide_create_devs(pci);
+> +
+> +    /* USB */
+> +    pci_create_simple(pci_bus, dev->devfn + 2, "piix4-usb-uhci");
+> +
+> +    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
 >   }
 >   
-> +static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-> +{
-> +    int slot;
-> +
-> +    slot = PCI_SLOT(pci_dev->devfn);
-> +
-> +    switch (slot) {
-> +    /* PIIX4 USB */
-> +    case 10:
-> +        return 3;
-> +    /* AMD 79C973 Ethernet */
-> +    case 11:
-> +        return 1;
-> +    /* Crystal 4281 Sound */
-> +    case 12:
-> +        return 2;
-> +    /* PCI slot 1 to 4 */
-> +    case 18 ... 21:
-> +        return ((slot - 18) + irq_num) & 0x03;
-> +    /* Unknown device, don't do any translation */
-> +    default:
-> +        return irq_num;
-> +    }
-> +}
-> +
->   static void piix4_isa_reset(DeviceState *dev)
->   {
->       PIIX4State *d = PIIX4_PCI_DEVICE(dev);
-> @@ -265,31 +290,6 @@ static void piix4_register_types(void)
+>   static void piix4_init(Object *obj)
+> @@ -292,7 +303,6 @@ type_init(piix4_register_types)
 >   
->   type_init(piix4_register_types)
->   
-> -static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-> -{
-> -    int slot;
-> -
-> -    slot = PCI_SLOT(pci_dev->devfn);
-> -
-> -    switch (slot) {
-> -    /* PIIX4 USB */
-> -    case 10:
-> -        return 3;
-> -    /* AMD 79C973 Ethernet */
-> -    case 11:
-> -        return 1;
-> -    /* Crystal 4281 Sound */
-> -    case 12:
-> -        return 2;
-> -    /* PCI slot 1 to 4 */
-> -    case 18 ... 21:
-> -        return ((slot - 18) + irq_num) & 0x03;
-> -    /* Unknown device, don't do any translation */
-> -    default:
-> -        return irq_num;
-> -    }
-> -}
-> -
 >   DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
 >   {
->       PIIX4State *s;
+> -    PIIX4State *s;
+>       PCIDevice *pci;
+>       DeviceState *dev;
+>       int devfn = PCI_DEVFN(10, 0);
+> @@ -300,22 +310,16 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+>       pci = pci_create_simple_multifunction(pci_bus, devfn,  true,
+>                                             TYPE_PIIX4_PCI_DEVICE);
+>       dev = DEVICE(pci);
+> -    s = PIIX4_PCI_DEVICE(pci);
+> +
+>       if (isa_bus) {
+>           *isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+>       }
+>   
+> -    pci = pci_create_simple(pci_bus, devfn + 1, "piix4-ide");
+> -    pci_ide_create_devs(pci);
+> -
+> -    pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
+>       if (smbus) {
+>           *smbus = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
+>                                  qdev_get_gpio_in_named(dev, "isa", 9),
+>                                  NULL, 0, NULL);
+>       }
+>   
+> -    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
+> -
+>       return dev;
+>   }
+
+As long as the error handling works as required:
 
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
