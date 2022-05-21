@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C905652F6BD
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:24:32 +0200 (CEST)
-Received: from localhost ([::1]:43912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4525652F6A8
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:17:57 +0200 (CEST)
+Received: from localhost ([::1]:55338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsCv1-0006om-Ss
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59422)
+	id 1nsCoe-0003Na-Bu
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:17:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbu-0008B0-Ua
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:46 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:44659)
+ id 1nsCbv-0008BA-2z
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:47 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:39765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbZ-0003yV-5M
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:39 -0400
-Received: by mail-pl1-x633.google.com with SMTP id q4so8553498plr.11
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:21 -0700 (PDT)
+ id 1nsCbZ-00040E-6b
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:40 -0400
+Received: by mail-pl1-x631.google.com with SMTP id bh5so8560203plb.6
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WN+exJ1hbQPzvMVT+L6AO18pYzO8jIYQwhbqxtMuNbU=;
- b=j3mwiRnWOm6xJO4niiOTKABBso0CB+lFjaSPON/oN71B7gjLR/+9ACd+HpY8FppmLI
- zW91gN8az12Y1HzChyG6SWVVKKq+rzWmC8PafJWDIX/HVG7l+iU6cOXFBMv5yrANCkwM
- 3j7Jl2MN1hpcYQ8i9ktLk9tsnphyykBoZCpyvyY/04dnxGllrgC9LL89wdFIjyGsP/UV
- 1wfpSlyeo/8d/g4J9A2VP8HUv594mnaM3WTkfOzneb2hQW5nBtN5a28saGo1yRlnxUVs
- EZfHwlVQ18WyrkUOOghUJmYMV5fGmeCCU8ONf7pH55OT458zt+12KrU1qaWdWafzPqKV
- IGJg==
+ bh=t4HrU8aBsDXJmwDfJHBNtFc0i86kohNVifRpodC+Hr4=;
+ b=QVHAOnOS0+4w2Gfmp0mHDxMMxWQgSrM7S0AyNrqBTB1E5Tvle/EJCsBOFWGOhQ7LE6
+ 3eMYmmtAVsh3t4t3U3PeZu9bDkQwf5gPrF1hz9nxK/5EglVlmG5Psu74QbQAW5ptonOK
+ 3Gf7NVhm8TdmByXw3P+36IBOokItIHkeEftQAwn8AqZ16vTv85GNenyS1XuBGjMCavXb
+ xyOSYZnYmui8KQa3o9MIIowuvioDN3tjIqe6xcnTkLXTzeLJevPalm4boQ8hMtVumaUd
+ rnnH2cNheS/EQrUpDW9f3vUj1thZ7tipbeLfAn8jWgyjt3fGaKzPf1YHjuxtreLdSueQ
+ cZjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WN+exJ1hbQPzvMVT+L6AO18pYzO8jIYQwhbqxtMuNbU=;
- b=MTq7PbamAgn6YBKjnTdOfHCs+PdFh2+6hs3WLZ4vUSYunqBP/IXNeoSOzhs3necZNR
- 9pGLaEHn7nRS+pEuTP+gxTGW+6bhTaHkSIFlQn507ellQc7jDE/7EBqHjE+utWd6s4rA
- r37n+2ijNYWAGF+QIDh3BZHA4xXh06awYhiHXu1YoYwm4yuj6Zu5KJ1d+uBO0/1+Adff
- qMwq4eMU5aiDbU6BNUVIW9iAOappsmxdhgb/7aRro+k1gpr0T+EAFeTxgbWdYW0gb5+/
- iCbevAXuR4nonCSg/rC2oF5Kvoo1e0xGlr6NS64qOQSupIK6elvm9BgTGszBK9viSVpO
- ANKg==
-X-Gm-Message-State: AOAM530HvaWo0Lu4LprJyfu6JzQKb9b6W0jQ8a+ZSNvhNopp7cROKRoy
- /h4AhYB1Ix/V7Jc69MbqfOhN9Cf/NKwtOA==
-X-Google-Smtp-Source: ABdhPJxDdwZhDcH5157a/EUtRaZlbYHqv40gC6aj5rw6a0hmHvHKAlzP65ZCLtBpoZSFiDYU8gRWhw==
-X-Received: by 2002:a17:902:ef45:b0:156:1858:71fc with SMTP id
- e5-20020a170902ef4500b00156185871fcmr11692853plx.23.1653091461501; 
- Fri, 20 May 2022 17:04:21 -0700 (PDT)
+ bh=t4HrU8aBsDXJmwDfJHBNtFc0i86kohNVifRpodC+Hr4=;
+ b=U3gieeTtuOPXdgxDeLLqVFh5ESvrgJ0+2CO5/shfJkv0dvCBv1lkTD6he+NZVb6zQO
+ zZokB7Wv5Mh30WxWaqlgnwykcKV5LgAcblW8pMUwtlKuf++0lpjsy3m5bcE/ygQ6QRo9
+ niCzyd9syTzTpDiHOFixHMf2CD+EsErHK85t0t4c090kwLmM5DQbTTCTHI7dyoOHEo32
+ BnYwiXU5Epx0q17TNr6KODbnn/iz31g6nMaVbXQhW59Ycvq215LamfrdKAuY4i4lUkZy
+ jI5hr/9NevlMw1fxlqL6SyDX2MRELFMor2YOvYm3qVHhbAdDd5+Q+x1o5xkdGg+kafgZ
+ Rl1Q==
+X-Gm-Message-State: AOAM532jzWym8YL+yjKZrrSWvLzovaKsCrT6OFOdnVq+B1xe6kQ/f1kG
+ TFbn/mdBuP8D9eT1moPyB6b6s805ZMecMQ==
+X-Google-Smtp-Source: ABdhPJwcyuHR8aCxQTkJkNnT6J/s4GSCfGP8alWCMmPQhh2pV6ggc6u5EoCYq/jkcw6nTWmgrnyhBg==
+X-Received: by 2002:a17:902:8303:b0:15f:86f:70a with SMTP id
+ bd3-20020a170902830300b0015f086f070amr12216102plb.5.1653091462701; 
+ Fri, 20 May 2022 17:04:22 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.20
+ h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:20 -0700 (PDT)
+ Fri, 20 May 2022 17:04:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 16/49] include/exec: Define errno values in gdbstub.h
-Date: Fri, 20 May 2022 17:03:27 -0700
-Message-Id: <20220521000400.454525-17-richard.henderson@linaro.org>
+Subject: [PATCH v3 17/49] semihosting: Use struct gdb_stat in
+ common_semi_flen_cb
+Date: Fri, 20 May 2022 17:03:28 -0700
+Message-Id: <20220521000400.454525-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,47 +89,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define constants for the errno values defined by the
-gdb remote fileio protocol.
+Use offsetof instead of an integer constant.
+Load the entire 64-bit size while we're at it.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/gdbstub.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ semihosting/arm-compat-semi.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 33a262a5a3..0a6e0d6eeb 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -20,6 +20,28 @@
- #define GDB_O_TRUNC   0x400
- #define GDB_O_EXCL    0x800
- 
-+/* For gdb file i/o remove protocol errno values */
-+#define GDB_EPERM           1
-+#define GDB_ENOENT          2
-+#define GDB_EINTR           4
-+#define GDB_EBADF           9
-+#define GDB_EACCES         13
-+#define GDB_EFAULT         14
-+#define GDB_EBUSY          16
-+#define GDB_EEXIST         17
-+#define GDB_ENODEV         19
-+#define GDB_ENOTDIR        20
-+#define GDB_EISDIR         21
-+#define GDB_EINVAL         22
-+#define GDB_ENFILE         23
-+#define GDB_EMFILE         24
-+#define GDB_EFBIG          27
-+#define GDB_ENOSPC         28
-+#define GDB_ESPIPE         29
-+#define GDB_EROFS          30
-+#define GDB_ENAMETOOLONG   91
-+#define GDB_EUNKNOWN       9999
-+
- /* For gdb file i/o stat/fstat. */
- typedef uint32_t gdb_mode_t;
- typedef uint32_t gdb_time_t;
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 2e0e7febb1..7becc14a81 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -325,14 +325,12 @@ static void
+ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ {
+     if (!err) {
+-        /*
+-         * The size is always stored in big-endian order, extract
+-         * the value. We assume the size always fit in 32 bits.
+-         */
+-        uint32_t size;
+-        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) + 32,
+-                            (uint8_t *)&size, 4, 0);
+-        ret = be32_to_cpu(size);
++        /* The size is always stored in big-endian order, extract the value. */
++        uint64_t size;
++        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
++                            offsetof(struct gdb_stat, gdb_st_size),
++                            &size, 8, 0);
++        ret = be64_to_cpu(size);
+     }
+     common_semi_cb(cs, ret, err);
+ }
 -- 
 2.34.1
 
