@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5CE52F8E3
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 07:24:25 +0200 (CEST)
-Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E341252F8EA
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 07:31:21 +0200 (CEST)
+Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsHbE-0000SJ-Ex
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 01:24:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33810)
+	id 1nsHhx-00037y-1C
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 01:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsHZx-0008AW-0m
- for qemu-devel@nongnu.org; Sat, 21 May 2022 01:23:05 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsHZv-0003Xp-3T
- for qemu-devel@nongnu.org; Sat, 21 May 2022 01:23:04 -0400
-Received: by mail-pl1-x634.google.com with SMTP id i1so8888128plg.7
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 22:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=DFA4MncQ6sBNd7XZxTWdCsbKjguT2fcTWJKM2w6rmpc=;
- b=rAifXUyWhLTQEZvPm5GqcjCUy5TMq3DMz8GNRrHYbdb5t/EQUmV0VBiFz+lQpuAcAy
- GjunlQsoQ5841g+Z08XpSp+Y5MkPE4l3Dx5OF0uu72oRaVieCSJd8CiZCH6rmaeCu1dd
- +t2bcijDvHWsP389WHr9nSRAg0LGEz1YbtQy5LSNdPzsRwvpb7hvreOsXuebQ+w/UE8z
- stqxWy5R/KU8ucQg96MP0pbLomLIDQi7waBaLG6dRpCYS1WUt7pR2IFOBxws14fGwbIT
- MkpST1d4LAayzjPqY8BRmQ++UQM69bPQ92GRgNnSdr4javD/goge//2Ulxxi5jhOCvx/
- f4rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=DFA4MncQ6sBNd7XZxTWdCsbKjguT2fcTWJKM2w6rmpc=;
- b=XHj4rzDLXWlwMr3kWUHo2FRvsKzb/WNdE97bziabhXPPz2b8Z7sO7Fkq8uKnFNFDDH
- 4vaeBGkG+RydojNXnG5jCcNQEChKhtX1iLo8k6O8YhIaB+6nl8pjRd9Cxxo5TgJkgrSu
- nTOhq3j2yxGjuQ5GtBQ5JAmhKlgNtesqTGJLIqwN++vK9GdGT3+5JdT7Nx7103lnO6L2
- Gv70CKGj07eiXvT40HPRJrkWj0ZIxKXqcwsjLvE/eqiVDQkk8tzyayeE1K19PHB/Hpuh
- 7TMvT6aO7/0Vwjw8Zvh1RDy4g7HB8GWj97AMozfe2H7ekSZ25vVcHfHsUr3yAgT/rGdd
- 0TLA==
-X-Gm-Message-State: AOAM532dgw7te6YSLMASFXIHdkT56KGrZjPqq27VeJV5XM5M5Zx2v93t
- tMX7v9JjUW1/5oFF5djYc1wQP1xq4HIscA==
-X-Google-Smtp-Source: ABdhPJzdfq2NuauTNa8qUXkBPPaZfAxlIZr1b89OtXmsZGpKPd1TzmTwZBTOss74tF4zh3ElDG3YvQ==
-X-Received: by 2002:a17:90b:3b81:b0:1dc:32ac:a66b with SMTP id
- pc1-20020a17090b3b8100b001dc32aca66bmr14665782pjb.49.1653110581674; 
- Fri, 20 May 2022 22:23:01 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- jf11-20020a170903268b00b0015e8d4eb225sm631881plb.111.2022.05.20.22.23.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 May 2022 22:23:01 -0700 (PDT)
-Message-ID: <835251e9-0cff-b9fa-89b2-bc377cd00928@linaro.org>
-Date: Fri, 20 May 2022 22:22:59 -0700
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nsHfV-0001ch-CD
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 01:28:49 -0400
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:51527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nsHfT-00049B-B8
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 01:28:48 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9649D23EE5;
+ Sat, 21 May 2022 05:28:42 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Sat, 21 May
+ 2022 07:28:42 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006c7b3ec6d-c49e-4853-8a1b-5d9202cba6e8,
+ 16F2342D0FBC755F7D0F76E80D3941A00D825290) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <03ddc64e-7ab4-7463-bb00-6fe1090b1cb2@kaod.org>
+Date: Sat, 21 May 2022 07:28:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v4 00/17] target/m68k: Conditional traps + trap cleanup
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 0/3] ppc: Implement ISA 3.00 tlbie[l]
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-References: <20220430175342.370628-1-richard.henderson@linaro.org>
-In-Reply-To: <20220430175342.370628-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>, 
+ <qemu-ppc@nongnu.org>
+CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>, 
+ Nicholas Piggin <npiggin@gmail.com>
+References: <20220520173346.20807-1-leandro.lupori@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220520173346.20807-1-leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7ed53695-e72f-48d9-b6e8-1fc3ac63cb8a
+X-Ovh-Tracer-Id: 8685754833134586729
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrieehgdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,55 +75,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+On 5/20/22 19:33, Leandro Lupori wrote:
+> Add support for ISA 3.00 tlbie/tlbiel instructions, with
+> RIC, PRS and R operands.
+> 
+> Also, for Radix MMU, add support for the TLB invalidation of a
+> single page. Flush by PID/LPID, or based in process/partition
+> scope is not supported, because it would make using the
+> generic QEMU TLB implementation hard. In these cases, all
+> entries are flushed.
 
-r~
+Adding Nick.
 
-On 4/30/22 10:53, Richard Henderson wrote:
-> Changes for v4:
->    - Rebase, which requires QEMU_NORETURN -> G_NORETURN.
->    - Cast -4096 to abi_ulong for print_syscall_err.
+Thanks,
+
+C.
+
 > 
+> Leandro Lupori (3):
+>    target/ppc: Move tlbie to decode tree
+>    target/ppc: Move tlbiel to decode tree
+>    target/ppc: Implement ISA 3.00 tlbie[l]
 > 
-> r~
-> 
-> 
-> v1: https://lore.kernel.org/qemu-devel/20211130103752.72099-1-richard.henderson@linaro.org/
-> v2: https://lore.kernel.org/qemu-devel/20211202204900.50973-1-richard.henderson@linaro.org/
-> v3: https://lore.kernel.org/qemu-devel/20220316055840.727571-1-richard.henderson@linaro.org/
-> 
-> 
-> Richard Henderson (17):
->    target/m68k: Raise the TRAPn exception with the correct pc
->    target/m68k: Switch over exception type in m68k_interrupt_all
->    target/m68k: Fix coding style in m68k_interrupt_all
->    linux-user/m68k: Handle EXCP_TRAP1 through EXCP_TRAP15
->    target/m68k: Remove retaddr in m68k_interrupt_all
->    target/m68k: Fix address argument for EXCP_CHK
->    target/m68k: Fix pc, c flag, and address argument for EXCP_DIV0
->    target/m68k: Fix address argument for EXCP_TRACE
->    target/m68k: Fix stack frame for EXCP_ILLEGAL
->    target/m68k: Implement TRAPcc
->    target/m68k: Implement TPF in terms of TRAPcc
->    target/m68k: Implement TRAPV
->    target/m68k: Implement FTRAPcc
->    tests/tcg/m68k: Add trap.c
->    linux-user/strace: Fix print_syscall_err
->    linux-user/strace: Adjust get_thread_area for m68k
->    target/m68k: Mark helper_raise_exception as noreturn
-> 
->   target/m68k/cpu.h              |   8 ++
->   target/m68k/helper.h           |  14 +--
->   linux-user/m68k/cpu_loop.c     |  11 +-
->   linux-user/strace.c            |   4 +-
->   target/m68k/cpu.c              |   1 +
->   target/m68k/op_helper.c        | 173 ++++++++++++++++--------------
->   target/m68k/translate.c        | 190 ++++++++++++++++++++++++---------
->   tests/tcg/m68k/trap.c          | 129 ++++++++++++++++++++++
->   linux-user/strace.list         |   5 +
->   tests/tcg/m68k/Makefile.target |   3 +
->   10 files changed, 394 insertions(+), 144 deletions(-)
->   create mode 100644 tests/tcg/m68k/trap.c
+>   target/ppc/cpu_init.c                        |   4 +-
+>   target/ppc/helper.h                          |  18 +++
+>   target/ppc/insn32.decode                     |   8 +
+>   target/ppc/mmu_helper.c                      | 154 +++++++++++++++++++
+>   target/ppc/translate.c                       |  64 +-------
+>   target/ppc/translate/storage-ctrl-impl.c.inc | 102 ++++++++++++
+>   6 files changed, 286 insertions(+), 64 deletions(-)
+>   create mode 100644 target/ppc/translate/storage-ctrl-impl.c.inc
 > 
 
 
