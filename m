@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394C052FA08
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:35:40 +0200 (CEST)
-Received: from localhost ([::1]:48212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB1752FA18
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:46:33 +0200 (CEST)
+Received: from localhost ([::1]:56298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsKaJ-0006fR-7j
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51972)
+	id 1nsKkp-0004qA-RQ
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKU4-00056e-RQ; Sat, 21 May 2022 04:29:13 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44734)
+ id 1nsKdb-0002X8-Uf; Sat, 21 May 2022 04:39:05 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKU1-0002yD-Mm; Sat, 21 May 2022 04:29:11 -0400
+ id 1nsKda-0004LI-Bi; Sat, 21 May 2022 04:39:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=pWFBM1TqPi8uwZUT8cwQPrhDipKObIjtqYk/taSH3DA=; b=qM/TTepzFyEUR6JlqiQFXC/Uw6
- H0XtyRpFN56J1vrvu0sF7u6qeRDV96nnf4+UnEkGPP5FYqkrydYd0lkvSDd74QdSwwwXUU+de5G9B
- p1kZCBJ50MQx03GW8wgq0SozuCQ8yLO1lrVqGOyAa2C2FdUCSuFqAU0P8Q1BdOpJv2atgOmY3ebWw
- Xx1HVxWNyP4OkS7sw4L2GdsTJSi97004608PEIMLA7uwfE6C1w2Sz9CQ/PVe+DkTtBOheTh0rcRWN
- dZBeBaapsVAjT7Viwmb6DghhMnxjda1dvDFOI/2WmDm+/67S9or3h3Fuj+oQa+aqfSYpix6/IBrUu
- schPpibdRNk183JcNPu4zWIpHKA2VkTu1cOFQSUOS4pvTedl6opJ+lSqxY9cuzm+7DUvhPCzehadf
- XGHuyscZwTWM5On6wzU6FkalHT8yXBm7m5yqPQA9PcksmGsbG8/guhK9ZvoPhCrzCfX9hXp2El0F8
- mPfxy+TBXlm3dCy5WutF68GB+6KcAFUsR82EwOi1OT6OgVwx2H1lsnh7YHmvpSZvysHZMu76108aY
- Z85FF3OclSUehEVOirsfJ1+yXpXRjVJVRtLujG27auJz/z70oQPtG323zWTmDm+VDRqwHwMwJNv/o
- vqasNN9207goTYc//iv3YpnGLWBVxfrQcpBdkRwHc=;
+ bh=hZUdct6hmS0k7QfCFgTw/xDEXqdmfBdUmzkuPKCNh1w=; b=I3JnL5XADFcXCYP4D4KZVBV3D4
+ YiWPgIzMJ4V78inYFw6P1fmYG1aD7HFYnS6TZUui8NtTPrCr9EU9TziVZjp1GfO725Vmlz6q5gbMd
+ sSE2Rv6cgY2UKI2oD60pEYqpNV/uqWcBIey5ke+cQwzX84s04ANIfzvoUgex6SNV0ixaHlxx8W00l
+ /Sfv4InSrsQbweVmC/nAE1flCbDVur73rKMMDG6O27Xe1brGrkjgQ3xI0JNC7L/szmOlOcW3kDEj7
+ 40pTVaQ2WljTsGPY+wRTGv0UXr02+p5e5YTTvQUcRLhQbl7zyxtFEsrtLj1rHzfQMnyZoEdVN7II0
+ sMzlwYXpt4mged9bC75Di5gub2/X22ACXYEtDROL82LCt9iD557hJrBeChZ7sMEGVepL5IhNHzfHV
+ M+4QtnKsaXEcxmaBze7E6Kytvfbea+V74955MsQHvseFTu7/XCfvSv4nBPCWiNujaxcVvxeHVPYz5
+ SF3Ll8L8D5Nw79KlEIDBKYdMsIbHvMPa8IBaC8l81CagSg/ZS7aYbj1fpiZAJvE6wAHRfgW2sEMmP
+ 2tzO5iqXM1/9/4SDeLeIUW0RK4qF7b3FHTYp8B55DjlNXXTjwCG3qnoXePBTnpX+u0ceDN04pst36
+ LlLf8IwfakYt39Qio2RZA2VMfQtf99oCYOLi0NVVE=;
 Received: from host86-135-55-247.range86-135.btcentralplus.com
  ([86.135.55.247] helo=[192.168.50.176])
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKSs-000ABm-Iv; Sat, 21 May 2022 09:28:02 +0100
-Message-ID: <6ea93f67-b58a-c709-616d-15da4cc2acfc@ilande.co.uk>
-Date: Sat, 21 May 2022 09:28:57 +0100
+ id 1nsKcZ-000AFp-K6; Sat, 21 May 2022 09:38:00 +0100
+Message-ID: <ca32eb63-7a23-706c-cf17-6f74da7f2161@ilande.co.uk>
+Date: Sat, 21 May 2022 09:38:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Cc: qemu-trivial@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20220513175445.89616-1-shentey@gmail.com>
- <20220513175445.89616-5-shentey@gmail.com>
+ <20220513175445.89616-6-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220513175445.89616-5-shentey@gmail.com>
+In-Reply-To: <20220513175445.89616-6-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.135.55.247
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 4/6] hw/isa/piix{3, 4}: Factor out ISABus retrieval from
- create() functions
+Subject: Re: [PATCH 5/6] hw/isa/piix4: Factor out SM bus initialization from
+ create() function
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -90,109 +88,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13/05/2022 18:54, Bernhard Beschow wrote:
 
-> Modernizes the code and even saves a few lines.
+> Initialize the SM bus just like is done for piix3 which modernizes the
+> code.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/i386/pc_piix.c             | 3 ++-
->   hw/isa/piix3.c                | 3 +--
->   hw/isa/piix4.c                | 6 +-----
->   hw/mips/malta.c               | 3 ++-
->   include/hw/southbridge/piix.h | 4 ++--
->   5 files changed, 8 insertions(+), 11 deletions(-)
+>   hw/isa/piix4.c                | 15 +++------------
+>   hw/mips/malta.c               |  7 ++++++-
+>   include/hw/southbridge/piix.h |  2 +-
+>   3 files changed, 10 insertions(+), 14 deletions(-)
 > 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index f843dd906f..47932448fd 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -206,9 +206,10 @@ static void pc_init1(MachineState *machine,
->                                 pci_memory, ram_memory);
->           pcms->bus = pci_bus;
->   
-> -        piix3 = piix3_create(pci_bus, &isa_bus);
-> +        piix3 = piix3_create(pci_bus);
->           piix3->pic = x86ms->gsi;
->           piix3_devfn = piix3->dev.devfn;
-> +        isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
->       } else {
->           pci_bus = NULL;
->           i440fx_state = NULL;
-> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-> index d15117a7c7..6eacb22dd0 100644
-> --- a/hw/isa/piix3.c
-> +++ b/hw/isa/piix3.c
-> @@ -403,7 +403,7 @@ static void piix3_register_types(void)
->   
->   type_init(piix3_register_types)
->   
-> -PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
-> +PIIX3State *piix3_create(PCIBus *pci_bus)
->   {
->       PIIX3State *piix3;
->       PCIDevice *pci_dev;
-> @@ -412,7 +412,6 @@ PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
->   
->       pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
->       piix3 = PIIX3_PCI_DEVICE(pci_dev);
-> -    *isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
->   
->       return piix3;
->   }
 > diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 134d23aea7..4968c69da9 100644
+> index 4968c69da9..852e5c4db1 100644
 > --- a/hw/isa/piix4.c
 > +++ b/hw/isa/piix4.c
-> @@ -301,7 +301,7 @@ static void piix4_register_types(void)
+> @@ -301,21 +301,12 @@ static void piix4_register_types(void)
 >   
 >   type_init(piix4_register_types)
 >   
-> -DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
-> +DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
+> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
+> +PCIDevice *piix4_create(PCIBus *pci_bus)
 >   {
 >       PCIDevice *pci;
->       DeviceState *dev;
-> @@ -311,10 +311,6 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
->                                             TYPE_PIIX4_PCI_DEVICE);
->       dev = DEVICE(pci);
+> -    DeviceState *dev;
+> -    int devfn = PCI_DEVFN(10, 0);
 >   
-> -    if (isa_bus) {
-> -        *isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+> -    pci = pci_create_simple_multifunction(pci_bus, devfn,  true,
+> +    pci = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
+>                                             TYPE_PIIX4_PCI_DEVICE);
+> -    dev = DEVICE(pci);
+>   
+> -    if (smbus) {
+> -        *smbus = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
+> -                               qdev_get_gpio_in_named(dev, "isa", 9),
+> -                               NULL, 0, NULL);
 > -    }
 > -
->       if (smbus) {
->           *smbus = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
->                                  qdev_get_gpio_in_named(dev, "isa", 9),
+> -    return dev;
+> +    return pci;
+>   }
+
+I don't think it makes sense to return PCIDevice here: when returning a QOM object 
+from a function, the general expectation is that for a device you would return a 
+DeviceState since then it can natively be used by the qdev API. So please keep the 
+original return type above.
+
 > diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> index 9ffdc5b8f1..e446b25ad0 100644
+> index e446b25ad0..d4bd3549d0 100644
 > --- a/hw/mips/malta.c
 > +++ b/hw/mips/malta.c
-> @@ -1399,7 +1399,8 @@ void mips_malta_init(MachineState *machine)
+> @@ -1238,6 +1238,7 @@ void mips_malta_init(MachineState *machine)
+>       int be;
+>       MaltaState *s;
+>       DeviceState *dev;
+> +    PCIDevice *piix4;
+>   
+>       s = MIPS_MALTA(qdev_new(TYPE_MIPS_MALTA));
+>       sysbus_realize_and_unref(SYS_BUS_DEVICE(s), &error_fatal);
+> @@ -1399,8 +1400,12 @@ void mips_malta_init(MachineState *machine)
 >       empty_slot_init("GT64120", 0, 0x20000000);
 >   
 >       /* Southbridge */
-> -    dev = piix4_create(pci_bus, &isa_bus, &smbus);
-> +    dev = piix4_create(pci_bus, &smbus);
-> +    isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
->   
+> -    dev = piix4_create(pci_bus, &smbus);
+> +    piix4 = piix4_create(pci_bus);
+> +    dev = DEVICE(piix4);
+>       isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+> +    smbus = piix4_pm_init(pci_bus, piix4->devfn + 3, 0x1100,
+> +                          qdev_get_gpio_in_named(dev, "isa", 9),
+> +                          NULL, 0, NULL);
+
+... then here you can do either "piix4 = PCI_DEVICE(dev)" or perhaps even inline it 
+directly as PCI_DEVICE(dev)->devfn if it isn't used elsewhere.
+
 >       /* Interrupt controller */
 >       qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
 > diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-> index a304fc6041..b768109f30 100644
+> index b768109f30..bea3b44551 100644
 > --- a/include/hw/southbridge/piix.h
 > +++ b/include/hw/southbridge/piix.h
-> @@ -72,8 +72,8 @@ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+> @@ -74,6 +74,6 @@ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
 >   
->   #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+>   PIIX3State *piix3_create(PCIBus *pci_bus);
 >   
-> -PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
-> +PIIX3State *piix3_create(PCIBus *pci_bus);
->   
-> -DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
-> +DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus);
+> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus);
+> +PCIDevice *piix4_create(PCIBus *pci_bus);
 >   
 >   #endif
-
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
