@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B734D52FA20
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:56:41 +0200 (CEST)
-Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB30F52FA21
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:57:43 +0200 (CEST)
+Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsKue-0001HZ-Sc
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:56:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54748)
+	id 1nsKve-0002sA-OA
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKnG-0007fB-5p; Sat, 21 May 2022 04:49:02 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44798)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nsKsf-0000iU-Fp
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 04:54:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKnE-00067Y-LE; Sat, 21 May 2022 04:49:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=y5TCq19/3COv1+K29StwKAqRGzoA7qsUy+O/T7yyrZ4=; b=zD6/hFkjMg9x0jXZNhiLExWuVk
- Tjbi3+QKGCXbm4DFrJQ1mO4ZQ7Ysf6JWLbZ5O+3fmYVHX2Vx4hqVucOt64GdxfWy0Mp/yfIPrGfvE
- rOYQKyRDnj4/2D3SPArv1xIAknxQ9uOfmL7fdW4e5xNyNdrC7e3PVT6q5sLsP1UBkcBl1IQ+7KyfY
- V/20GD4dqOJQaiVJ77nthgBGT7b/kc5qP9XysLh/rwGcG+MBd3+SlaLaVEfJuud0T2UlxdaD7eyvV
- jidYJD+nB9z+iAJigfnTwdZir04r+aWWi46W8uNoJGjhbp9COSc1gaZjG8GLI4f/zYJM04BsDrj4e
- h61IPzpl6+LE4XZupQJvXn040syBkxlSzlrtqCzwvxiWgA6XNJj8ox42ALdiPikZRPOfdttTZujWu
- 1zcX+lywpxtg7C/pcuCA87CVhLqcTtdtdKVAmHL4kRuSASVSmgzqZUYBahl1eJKWMjWnhXvH/8tkv
- kp7SSjmiMQO9MdzDG9iNVFZ2OopJKKyvrZ4i0sDbU/SbnFECzPRl5HPDYciIbgae6iXWwQjyh0FbR
- 6ycjLkPRTJhv9qZ4h4WUHCrdme82xpN/DGLJXHG3IAOyt85p0XMDwuX5Xn6ZpJCNM/TOgAkeJiWgR
- ENgEYMNUGk0z+HG0BDeiZ2zeoDQfq99rfaIWTlrXA=;
-Received: from host86-135-55-247.range86-135.btcentralplus.com
- ([86.135.55.247] helo=[192.168.50.176])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsKmF-000AKw-8s; Sat, 21 May 2022 09:47:59 +0100
-Message-ID: <3b381726-1bf3-06b3-c989-6b0ee564b90f@ilande.co.uk>
-Date: Sat, 21 May 2022 09:48:58 +0100
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nsKsc-0006pH-HU
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 04:54:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653123273;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uMXb1QJ8p+egwSXVcnqkwfUvACuYgu7JP1Fnnb6+/lg=;
+ b=iy8aVal33d4MLttEVic3n4rD6K+4QCU8f/u5lu+z+GBWIySEgh39X45whn2kIETNJFJSlj
+ dD/LY/vgc6N8P8uP5dWFMVoANrzby5svZXj7FmkS0730KpZp9XnKv44jmgFSVFCvra9g1Y
+ HFH9YUmjZgkFcZbugD4VuRQPoFNvgn4=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-43-_m3y5sKCN76rbiyIw6WRUQ-1; Sat, 21 May 2022 04:54:31 -0400
+X-MC-Unique: _m3y5sKCN76rbiyIw6WRUQ-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ e185-20020a6369c2000000b003d822d1900eso5250395pgc.19
+ for <qemu-devel@nongnu.org>; Sat, 21 May 2022 01:54:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uMXb1QJ8p+egwSXVcnqkwfUvACuYgu7JP1Fnnb6+/lg=;
+ b=fhXQF+WAzqDAeYidmT6saPeoU45EHPF2s+FvhLgTj2rue0D3+Rp9wnrH0veMYuTsv4
+ 7nyeKYpkNqv81JemSOfKfSG5TQvaySuUc0U/pzHhWcNDnP8//YZFbT4gWPZHCivz9rVb
+ yoDSwLlIQu/asnEGivRkub/LvS4Tqgnja13zkLcx0iKW+CtSxW8gDydQz1vl8BZ3n+uK
+ JgmvSvJEUYTOsCUWcX+s4i7SisZVHUxgUO0xcqUwT85CdqOlnHdO9sntyZIpfIqp01Rh
+ GEwT7sq0BqRp8mSfxaAfld3dCGt1oC/u96GDJ0wBqCGKWMydwvP1EE38Pq2aHC1lZJZ7
+ 8TWg==
+X-Gm-Message-State: AOAM531ii21PnPg3CbQN+BF/eq6C7Wq1+OlBCnXP+sD4QTIQX9d5eyke
+ Xu78e4kcxEqzgDC0oOhjYVSk/n3OMlnJg7sQDSOp3wbtX4IA7g3n2cXAmDhqEw1Qnt4xOmiLG++
+ ss24OPV53Fm8+tChqKPu1lu9wHkld8vI=
+X-Received: by 2002:a65:60d3:0:b0:39c:f431:5859 with SMTP id
+ r19-20020a6560d3000000b0039cf4315859mr11867854pgv.442.1653123270256; 
+ Sat, 21 May 2022 01:54:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjA/AY+yBQZ3IkzyAJpkZ/LIpp/XClXuv5SLddVQ0bSaa0iUKCDxgP6Y2iEEnyuNPzX1kC2Owyf7Cv1zoIaPo=
+X-Received: by 2002:a65:60d3:0:b0:39c:f431:5859 with SMTP id
+ r19-20020a6560d3000000b0039cf4315859mr11867841pgv.442.1653123269947; Sat, 21
+ May 2022 01:54:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20220513175445.89616-1-shentey@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220513175445.89616-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.135.55.247
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/6] QOM'ify PIIX southbridge creation
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <be14c1e895a2f452047451f050d269217dcee6d9.1653071510.git.maciej.szmigiero@oracle.com>
+In-Reply-To: <be14c1e895a2f452047451f050d269217dcee6d9.1653071510.git.maciej.szmigiero@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Sat, 21 May 2022 10:54:18 +0200
+Message-ID: <CABgObfZfV66MN11=xEjwH0PE944-OTcAZkSpWEcJeK=1EYWJnw@mail.gmail.com>
+Subject: Re: [PATCH] target/i386/kvm: Fix disabling MPX on "-cpu host" with
+ MPX-capable host
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>, kvm <kvm@vger.kernel.org>, 
+ qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,49 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/2022 18:54, Bernhard Beschow wrote:
+On Fri, May 20, 2022 at 8:33 PM Maciej S. Szmigiero
+<mail@maciej.szmigiero.name> wrote:
+>
+> From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+>
+> Since KVM commit 5f76f6f5ff96 ("KVM: nVMX: Do not expose MPX VMX controls when guest MPX disabled")
+> it is not possible to disable MPX on a "-cpu host" just by adding "-mpx"
+> there if the host CPU does indeed support MPX.
+> QEMU will fail to set MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS MSRs in this case
+> and so trigger an assertion failure.
+>
+> Instead, besides "-mpx" one has to explicitly add also
+> "-vmx-exit-clear-bndcfgs" and "-vmx-entry-load-bndcfgs" to QEMU command
+> line to make it work, which is a bit convoluted.
+>
+> Sanitize MPX-related bits in MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS after
+> setting the vCPU CPUID instead so such workarounds are no longer necessary.
 
-> The piix3 and piix4 southbridge devices still rely on create() functions which
-> are deprecated. This series resolves these functions piece by piece to
-> modernize the code.
-> 
-> Both devices are modified in lockstep where possible to provide more context.
-> 
-> Testing done:
-> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
-> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
-> 
-> In both cases the system booted successfully and it was possible to shut down
-> the system using the `poweroff` command.
-> 
-> Bernhard Beschow (6):
->    include/hw: Move TYPE_PIIX4_PCI_DEVICE to southbridge/piix.h
->    hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
->    hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
->    hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
->    hw/isa/piix4: Factor out SM bus initialization from create() function
->    hw/isa/piix{3,4}: Inline and remove create() functions
-> 
->   hw/i386/pc_piix.c             |  7 ++-
->   hw/isa/piix3.c                | 98 +++++++++++++++++++----------------
->   hw/isa/piix4.c                | 91 +++++++++++++-------------------
->   hw/mips/malta.c               |  9 +++-
->   include/hw/isa/isa.h          |  2 -
->   include/hw/southbridge/piix.h |  6 +--
->   6 files changed, 105 insertions(+), 108 deletions(-)
+Can you use feature_dependencies instead? See for example
 
-I've just reviewed these, and other than a couple of minor issues these look good to 
-me and definitely help to improve the code.
+    {
+        .from = { FEAT_7_0_EBX,             CPUID_7_0_EBX_RDSEED },
+        .to = { FEAT_VMX_SECONDARY_CTLS,    VMX_SECONDARY_EXEC_RDSEED_EXITING },
+    },
 
-One thing reading over this patches has made me realise is that there is quite a 
-model violation here in that the PIIX3 and PIIX4 devices (which are the PCI-ISA 
-bridges) are actually setting the PCI host bridge IRQs(!). What should happen is that 
-the PCI bus IRQs and routing should be done in the PCI host bridge, and gpios used in 
-the PCI-ISA bridges to pass them up. But that's definitely something outside the 
-scope of these improvements.
+Paolo
 
-
-ATB,
-
-Mark.
 
