@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1401452F6BB
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:24:28 +0200 (CEST)
-Received: from localhost ([::1]:43698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E252852F6E2
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:39:04 +0200 (CEST)
+Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsCux-0006eb-5y
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:24:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59644)
+	id 1nsD96-0001du-23
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:39:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCc7-0008CN-3o
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:05:00 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:39768)
+ id 1nsCes-0002tM-DY
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:07:50 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:54926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbw-000449-54
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:51 -0400
-Received: by mail-pl1-x633.google.com with SMTP id bh5so8560640plb.6
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:46 -0700 (PDT)
+ id 1nsCeq-0004Yj-Hu
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:07:50 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id ev18so9300459pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jZGKSwAg+QGOS7FPNjoYkg7xUN0QcDGNw7JjeaNbJgo=;
- b=fv+JnyGZIpYDi4RziscQCTjJ4hOwQc0tcbMkLlBVtjm0Uev+L3RRb5FonAh5y8wzMa
- nH6N/JIqnkU+05iaAFkxlHSDsYYpzDoZPdArLvsDzgHzCIwufIBn+08rh+s7DgXb/0rf
- kBj6H3Eil2M87qO9+PMY6AGgY0S+Hn4gmxvrSJ8QOzcMVhG+hFutzZpvgTLNSwbM00bf
- /yqVNuSRdxnc+VB6fpNK9ZBvjGHtEm6gOwenTSQhbJcbRaO7hwx4EhGaBQotAfJUVzzn
- coQM7IOmB+AEyTvTR6trjlyf9orjreIqFKH1bjXPjXxSh8sUhTVRhRx1jvFrsBwgnh4q
- M74A==
+ bh=E+fPmq/gIqgkSE063dcs/6u6fyml6PThxo/MDWH5lGI=;
+ b=hOEPrGxtacFaN+AzjEVQCzXCZELJdHG6ZFr+u3ARnbTTyiVYjSoRZfJe8PouDs7m0F
+ MkEBr1dpfwmjRBx5CbrQx5Ut+Ngl2U6jh3pqGviEkwue3UDeuBs7nT3sh/tf3bhi0+yz
+ L6etia1cE6UAFXWxtTiDOmapqXbURMygpOcyICnatpbWK0at8dEk0IKxfKlbVPk6pvcS
+ sspw/mDUwQKA3B5/PgTIVrHIkcFdVqFCLdrMYNfAQ9U9CHFKgF0a74zIRNp+1L6PUfIV
+ Nblve+86ceYd2qFE3++Wy31e+92BdYIf5xr40QvTHW89FXvj7u4iD0XC81ZjzdGHn2H5
+ cbcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jZGKSwAg+QGOS7FPNjoYkg7xUN0QcDGNw7JjeaNbJgo=;
- b=uP4HGM9Gqj29u7XLZpKteH8J4j8cXcJbeNox4gPThXqN3/y+716zLEsu0bKLU/w+3V
- wPaNVEky/1uQjne+zX5TmYERFrfDl2NUI3NAp82kZq090B39e85ifrVAgYgkf9sgodvE
- V8/7ZaZnPkqdRzzg7+b/gsUIrpwZlgknDPQ8Naew3WPtVu6hmge+nVtcr6qOLk7G+rge
- RU6x+Ji0ZOrW1ClTNz45G3d687/EuxAjqMdnPxXBGI+E8L/mETGkU7+Rl18sYptomsx/
- FZmPtNWPP4H6M/pEVhGblw8oG1qCamF34of7aY4+3X37OMy9dXMu3jCdS7b86h9n3OYw
- ApuQ==
-X-Gm-Message-State: AOAM532RV7zhMFdEj97vu5PZlXvrw2KGcGrrXQP8ZjL2cytqneOjTbJf
- OK4FpF45lt6Kr+Tbg52kjM/xKtSf9xBrmw==
-X-Google-Smtp-Source: ABdhPJxHi9GBuwl9LQr29n6AEzB6Nwwbj8mskdU3Bx7qZe5lYOgPvdL7RV+cYC7TNER/MwrdO6ZcUQ==
-X-Received: by 2002:a17:90a:db95:b0:1df:37e7:6a28 with SMTP id
- h21-20020a17090adb9500b001df37e76a28mr14257375pjv.204.1653091485288; 
- Fri, 20 May 2022 17:04:45 -0700 (PDT)
+ bh=E+fPmq/gIqgkSE063dcs/6u6fyml6PThxo/MDWH5lGI=;
+ b=rxUrRuI2ESj49lzVnbJXYjiON5X/DRBBOUNy/VgUFdIWrOAd5sNRyQt4+To8ZEsHgO
+ 8vh6vTCL9x379MQwdXeXKp5DpKORUPy04sUfcRyrRpzkZnYUszrEztRJ/NMvoC7/10fe
+ 13YHBXti/5lZAQpYCyCZWK2SRmxIFWmd9sZWUNIiUI/nJyQ5h3p8cisYXoUtXVdryjtz
+ Ahr7bWsXn4itV2bWNvoUEL+ArcI5qrUm6Epxr2cdgBtNCrilEINKJATf2Dai2lxADo8C
+ hvlmSaEpC4zIHOcgzpY+3U11SoDvO5hnKKqEFaMmf3B60fSb6EfzDOCO2MzI/k3DlSc8
+ UMAw==
+X-Gm-Message-State: AOAM533zLWmmqz25YHlDugomrdQPnZMvdzS1j2jTa5q73ZWRzoSTbHq8
+ irUI14dcc1yYPb4y71QZ9Z6ZgdsW4sOBIw==
+X-Google-Smtp-Source: ABdhPJzLqwM6MmgxWtYXwEF6xzIwdER6dZ7oOBuwY3Fyn96tFx503x4RSZyTS6dvzxpnxCRgrmsYfw==
+X-Received: by 2002:a17:902:6bc1:b0:15d:1e15:1a75 with SMTP id
+ m1-20020a1709026bc100b0015d1e151a75mr12477013plt.114.1653091667016; 
+ Fri, 20 May 2022 17:07:47 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.44
+ 1-20020a17090a0cc100b001d2bff34228sm2517703pjt.9.2022.05.20.17.07.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:44 -0700 (PDT)
+ Fri, 20 May 2022 17:07:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 39/49] semihosting: Expand qemu_semihosting_console_inc to
- read
-Date: Fri, 20 May 2022 17:03:50 -0700
-Message-Id: <20220521000400.454525-40-richard.henderson@linaro.org>
+Subject: [PATCH v3 40/49] semihosting: Cleanup chardev init
+Date: Fri, 20 May 2022 17:03:51 -0700
+Message-Id: <20220521000400.454525-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,141 +88,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow more than one character to be read at one time.
-Will be used by m68k and nios2 semihosting for stdio.
+Rename qemu_semihosting_connect_chardevs to
+qemu_semihosting_chardev_init; pass the result
+directly to qemu_semihosting_console_init.
+
+Store the chardev in SemihostingConsole instead
+of SemihostingConfig, which lets us drop
+semihosting_get_chardev.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/console.h | 14 ++++++++------
- linux-user/semihost.c         | 10 ++++++----
- semihosting/arm-compat-semi.c | 11 +++++++++--
- semihosting/console.c         | 16 ++++++++++++----
- 4 files changed, 35 insertions(+), 16 deletions(-)
+ include/semihosting/semihost.h | 13 ++-----------
+ semihosting/config.c           | 17 +++++++----------
+ semihosting/console.c          | 31 +++++++++++++++----------------
+ softmmu/vl.c                   |  3 +--
+ stubs/semihost.c               |  6 +-----
+ 5 files changed, 26 insertions(+), 44 deletions(-)
 
-diff --git a/include/semihosting/console.h b/include/semihosting/console.h
-index afc961057c..39dbf1b062 100644
---- a/include/semihosting/console.h
-+++ b/include/semihosting/console.h
-@@ -38,19 +38,21 @@ int qemu_semihosting_console_outs(CPUArchState *env, target_ulong s);
- void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
- 
- /**
-- * qemu_semihosting_console_inc:
-- * @: CPUState
-+ * qemu_semihosting_console_read:
-+ * @cs: CPUState
-+ * @buf: host buffer
-+ * @len: buffer size
-  *
-- * Receive single character from debug console.  As this call may block
-- * if no data is available we suspend the CPU and will re-execute the
-+ * Receive at least one character from debug console.  As this call may
-+ * block if no data is available we suspend the CPU and will re-execute the
-  * instruction when data is there. Therefore two conditions must be met:
-  *
-  *   - CPUState is synchronized before calling this function
-  *   - pc is only updated once the character is successfully returned
-  *
-- * Returns: character read OR cpu_loop_exit!
-+ * Returns: number of characters read, OR cpu_loop_exit!
-  */
--target_ulong qemu_semihosting_console_inc(CPUState *cs);
-+int qemu_semihosting_console_read(CPUState *cs, void *buf, int len);
- 
- /**
-  * qemu_semihosting_log_out:
-diff --git a/linux-user/semihost.c b/linux-user/semihost.c
-index f14c6ae21d..2029fb674c 100644
---- a/linux-user/semihost.c
-+++ b/linux-user/semihost.c
-@@ -56,21 +56,23 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
-  * program is expecting more normal behaviour. This is slow but
-  * nothing using semihosting console reading is expecting to be fast.
-  */
--target_ulong qemu_semihosting_console_inc(CPUState *cs)
-+int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
+diff --git a/include/semihosting/semihost.h b/include/semihosting/semihost.h
+index 0c55ade3ac..5b36a76f08 100644
+--- a/include/semihosting/semihost.h
++++ b/include/semihosting/semihost.h
+@@ -51,14 +51,6 @@ static inline const char *semihosting_get_cmdline(void)
  {
--    uint8_t c;
-+    int ret;
-     struct termios old_tio, new_tio;
- 
-     /* Disable line-buffering and echo */
-     tcgetattr(STDIN_FILENO, &old_tio);
-     new_tio = old_tio;
-     new_tio.c_lflag &= (~ICANON & ~ECHO);
-+    new_tio.c_cc[VMIN] = 1;
-+    new_tio.c_cc[VTIME] = 0;
-     tcsetattr(STDIN_FILENO, TCSANOW, &new_tio);
- 
--    c = getchar();
-+    ret = fread(buf, 1, len, stdin);
- 
-     /* restore config */
-     tcsetattr(STDIN_FILENO, TCSANOW, &old_tio);
- 
--    return (target_ulong) c;
-+    return ret;
+     return NULL;
  }
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 5d10a2b932..20d97290ff 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -415,8 +415,15 @@ void do_common_semihosting(CPUState *cs)
-         break;
+-
+-static inline Chardev *semihosting_get_chardev(void)
+-{
+-    return NULL;
+-}
+-static inline void qemu_semihosting_console_init(void)
+-{
+-}
+ #else /* !CONFIG_USER_ONLY */
+ bool semihosting_enabled(void);
+ SemihostingTarget semihosting_get_target(void);
+@@ -66,12 +58,11 @@ const char *semihosting_get_arg(int i);
+ int semihosting_get_argc(void);
+ const char *semihosting_get_cmdline(void);
+ void semihosting_arg_fallback(const char *file, const char *cmd);
+-Chardev *semihosting_get_chardev(void);
+ /* for vl.c hooks */
+ void qemu_semihosting_enable(void);
+ int qemu_semihosting_config_options(const char *opt);
+-void qemu_semihosting_connect_chardevs(void);
+-void qemu_semihosting_console_init(void);
++void qemu_semihosting_chardev_init(void);
++void qemu_semihosting_console_init(Chardev *);
+ #endif /* CONFIG_USER_ONLY */
  
-     case TARGET_SYS_READC:
--        ret = qemu_semihosting_console_inc(cs);
--        common_semi_set_ret(cs, ret);
-+        {
-+            uint8_t ch;
-+            int ret = qemu_semihosting_console_read(cs, &ch, 1);
-+            if (ret == 1) {
-+                common_semi_cb(cs, ch, 0);
-+            } else {
-+                common_semi_cb(cs, -1, EIO);
-+            }
-+        }
-         break;
+ #endif /* SEMIHOST_H */
+diff --git a/semihosting/config.c b/semihosting/config.c
+index 50d82108e6..4bca769fad 100644
+--- a/semihosting/config.c
++++ b/semihosting/config.c
+@@ -50,7 +50,6 @@ QemuOptsList qemu_semihosting_config_opts = {
+ typedef struct SemihostingConfig {
+     bool enabled;
+     SemihostingTarget target;
+-    Chardev *chardev;
+     char **argv;
+     int argc;
+     const char *cmdline; /* concatenated argv */
+@@ -121,11 +120,6 @@ void semihosting_arg_fallback(const char *file, const char *cmd)
+     }
+ }
  
-     case TARGET_SYS_ISERROR:
+-Chardev *semihosting_get_chardev(void)
+-{
+-    return semihosting.chardev;
+-}
+-
+ void qemu_semihosting_enable(void)
+ {
+     semihosting.enabled = true;
+@@ -171,16 +165,19 @@ int qemu_semihosting_config_options(const char *optarg)
+     return 0;
+ }
+ 
+-void qemu_semihosting_connect_chardevs(void)
++/* We had to defer this until chardevs were created */
++void qemu_semihosting_chardev_init(void)
+ {
+-    /* We had to defer this until chardevs were created */
++    Chardev *chr = NULL;
++
+     if (semihost_chardev) {
+-        Chardev *chr = qemu_chr_find(semihost_chardev);
++        chr = qemu_chr_find(semihost_chardev);
+         if (chr == NULL) {
+             error_report("semihosting chardev '%s' not found",
+                          semihost_chardev);
+             exit(1);
+         }
+-        semihosting.chardev = chr;
+     }
++
++    qemu_semihosting_console_init(chr);
+ }
 diff --git a/semihosting/console.c b/semihosting/console.c
-index 7b896fe43b..df618a28a4 100644
+index df618a28a4..4088192842 100644
 --- a/semihosting/console.c
 +++ b/semihosting/console.c
-@@ -144,12 +144,14 @@ static void console_read(void *opaque, const uint8_t *buf, int size)
-     c->sleeping_cpus = NULL;
- }
+@@ -27,11 +27,21 @@
+ #include "qapi/error.h"
+ #include "qemu/fifo8.h"
  
--target_ulong qemu_semihosting_console_inc(CPUState *cs)
-+int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
++/* Access to this structure is protected by the BQL */
++typedef struct SemihostingConsole {
++    CharBackend         backend;
++    Chardev             *chr;
++    GSList              *sleeping_cpus;
++    bool                got;
++    Fifo8               fifo;
++} SemihostingConsole;
++
++static SemihostingConsole console;
++
+ int qemu_semihosting_log_out(const char *s, int len)
  {
--    uint8_t ch;
-     SemihostingConsole *c = &console;
-+    int ret = 0;
- 
-     g_assert(qemu_mutex_iothread_locked());
-+
-+    /* Block if the fifo is completely empty. */
-     if (fifo8_is_empty(&c->fifo)) {
-         c->sleeping_cpus = g_slist_prepend(c->sleeping_cpus, cs);
-         cs->halted = 1;
-@@ -157,8 +159,14 @@ target_ulong qemu_semihosting_console_inc(CPUState *cs)
-         cpu_loop_exit(cs);
-         /* never returns */
+-    Chardev *chardev = semihosting_get_chardev();
+-    if (chardev) {
+-        return qemu_chr_write_all(chardev, (uint8_t *) s, len);
++    if (console.chr) {
++        return qemu_chr_write_all(console.chr, (uint8_t *) s, len);
+     } else {
+         return write(STDERR_FILENO, s, len);
      }
--    ch = fifo8_pop(&c->fifo);
--    return (target_ulong) ch;
-+
-+    /* Read until buffer full or fifo exhausted. */
-+    do {
-+        *(char *)(buf + ret) = fifo8_pop(&c->fifo);
-+        ret++;
-+    } while (ret < len && !fifo8_is_empty(&c->fifo));
-+
-+    return ret;
+@@ -106,16 +116,6 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
+ 
+ #define FIFO_SIZE   1024
+ 
+-/* Access to this structure is protected by the BQL */
+-typedef struct SemihostingConsole {
+-    CharBackend         backend;
+-    GSList              *sleeping_cpus;
+-    bool                got;
+-    Fifo8               fifo;
+-} SemihostingConsole;
+-
+-static SemihostingConsole console;
+-
+ static int console_can_read(void *opaque)
+ {
+     SemihostingConsole *c = opaque;
+@@ -169,10 +169,9 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
+     return ret;
  }
  
- void qemu_semihosting_console_init(void)
+-void qemu_semihosting_console_init(void)
++void qemu_semihosting_console_init(Chardev *chr)
+ {
+-    Chardev *chr = semihosting_get_chardev();
+-
++    console.chr = chr;
+     if  (chr) {
+         fifo8_create(&console.fifo, FIFO_SIZE);
+         qemu_chr_fe_init(&console.backend, chr, &error_abort);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 84a31eba76..3395c877aa 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2041,8 +2041,7 @@ static void qemu_create_late_backends(void)
+         exit(1);
+ 
+     /* now chardevs have been created we may have semihosting to connect */
+-    qemu_semihosting_connect_chardevs();
+-    qemu_semihosting_console_init();
++    qemu_semihosting_chardev_init();
+ }
+ 
+ static void cxl_set_opts(void)
+diff --git a/stubs/semihost.c b/stubs/semihost.c
+index 4bf2cf71b9..f486651afb 100644
+--- a/stubs/semihost.c
++++ b/stubs/semihost.c
+@@ -65,10 +65,6 @@ void semihosting_arg_fallback(const char *file, const char *cmd)
+ {
+ }
+ 
+-void qemu_semihosting_connect_chardevs(void)
+-{
+-}
+-
+-void qemu_semihosting_console_init(void)
++void qemu_semihosting_chardev_init(void)
+ {
+ }
 -- 
 2.34.1
 
