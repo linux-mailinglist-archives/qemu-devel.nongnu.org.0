@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A11C52F69D
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:13:52 +0200 (CEST)
-Received: from localhost ([::1]:46916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C200E52F6AA
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:18:08 +0200 (CEST)
+Received: from localhost ([::1]:55588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsCkh-00065l-AC
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59096)
+	id 1nsCop-0003aO-TM
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbP-00080t-TE
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:23 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:43873)
+ id 1nsCbT-00082K-Ba
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:25 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:52022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbO-0003z7-4F
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:15 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id q76so8965608pgq.10
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:13 -0700 (PDT)
+ id 1nsCbP-0003zO-2f
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:16 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id gg20so9309381pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LqMX+PYoPOvCfsrBf9LDk+x8oxX5ugoY/7ce6aNzp7o=;
- b=i9+1U34T9xd/bX6kw9dlFyDDOBIC7gL/Fj6msV5r+9FTA8bgcMozuTRa16UKlJSaNV
- w3jzZ4eHS+flNw97DZrO2+Bj02KW5YHuRhMv1CAQNKcHDVj8ort1SCLpsZHGYjbLFNOy
- 1YUfkzESNzuK4cTJnRHPjT0VecV5YtGNhMmjyQmghKOQ/xD2CsCRksviX+4L+ode7qxh
- V+bVFICiMEK0z57SEI3tOcotHWtPr+0u8E39s/ZeVqthVgZ4F4fFza4jYvq3WSOrMz4K
- 61MMwbyZ+YiyrS6zJPSsfto1UhUbHi7wWnpXFlC/Bmh/YgQOrWd2eMi5yN0eIm2+Avsg
- 6tag==
+ bh=iO8bYt33Tjxv9WbhuJst+fUaLLVWutotkQNg/qYeZ+o=;
+ b=zOgAcsH65e8tEgDT1U3HYry9Ssa+0RFHW+Ml5JEbaTmywW9n5tLfuwblJ/MSddLXv/
+ Q/lZVVnl6tyD0ndIGhckJ6A6WwDP+Jj9wIQLjVpIZKL1WIRq6Lgg1LoKd+tc8Osg2CNq
+ IqQGwo243pqUmRC3slp4pmg0FtpLMhxiV7QcmCvgR8y5dKuFBtXxtBft+WLk6Tm3C/iZ
+ bn1Ccj0806BUDt8+46X5xKrkG9cua8skO3xNyqyvQJw6uclOaAJJ4NN3+Rt0Q7c9RYAW
+ elLJVNTNIdP2WAg4ZGC4gx7j3faMea82SouzwKfx67GDHJGinEx73Q08y3pvNLskVOt9
+ 0z9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LqMX+PYoPOvCfsrBf9LDk+x8oxX5ugoY/7ce6aNzp7o=;
- b=FP9LqbVpheBbFzWBm4AfsMjzaUrOeKABzB/LXNCJEh+Vdjz5SPBelZRRs1Wg7tAnkH
- rp3kFOOSZlnTeWxQafCfDGK/EMsqp+AOaN1D9WeLgYtmwclTuuEeDTtNmaEipILqggO2
- rJi8xMViaC/xGoB39YLuc6Oqs/B0crpfmcKWprDlcZsAkxEqmbVC8Jod0uzdAQHONgnN
- rocH+4STA+xqFqDlkMqHTiBuuHOjGuaPftqH+jZu23DFuOjnSdOjRD1YPDN+OioqLaLa
- 7dPIprcVPgCdnF9zdaE3fEGZ+16eAotlU6lOhi/o9WJkjXh4Zk4GvijjN+G8OupnwyU4
- UnVQ==
-X-Gm-Message-State: AOAM5327rbMqiMJox/6dJ4dsPBGjvxfyR2GDGJcW1pgQkJfhmrz4uB/2
- 8NKIa7Z+bhw+K/NQU+31AXV1v1hgFycc+g==
-X-Google-Smtp-Source: ABdhPJws0x73K9yax4RseENN5YNTJfNOVhgvEDR7ntD/ZMPDKPENQGnsGn+UGg3uVCIdk3y0+e6bYg==
-X-Received: by 2002:a63:85c8:0:b0:3f9:e8c4:1eb1 with SMTP id
- u191-20020a6385c8000000b003f9e8c41eb1mr1019262pgd.203.1653091452774; 
- Fri, 20 May 2022 17:04:12 -0700 (PDT)
+ bh=iO8bYt33Tjxv9WbhuJst+fUaLLVWutotkQNg/qYeZ+o=;
+ b=BIi7Plebs0gRlop9hZY+lYpFJgfIi+q7hMPjjvpJ0zUcDS9pZOuzdlbnSU2RGUZa9R
+ vrHdabUzwWxakM6m/DJN/99YJDl5f904TmamegNfGQuFtDlHtZ7lOXlJp24eig3eb21m
+ jyHE53k61/TglswPi9kWfQBMLWvzbAvTWHmBg2rhxP3+YPfU6RhkLtijqDuUXdYtaQEO
+ x27RGw/V/WyV5HVogWPxT4tUMwHOcbFoLcqJMgNdFuOCP9UBGt//SSjWk6horu77jC4v
+ CZh2uPjk1IaU0nTHnk/Fsm2anrOYhmlmt5zP/pvtAffgnAZ59fzw+GxQ6fCMdNV2fHwY
+ TzLQ==
+X-Gm-Message-State: AOAM533T4IdyRS1Af+lnCVXiacMf1cj3vTPLCCkTcODZY163kxoAQEw1
+ MCPUD3vTAoGNX5raaSjkbdDPDXH9jrcbvw==
+X-Google-Smtp-Source: ABdhPJws5HLnGCQxi7aCw4nF8jZjJMdD2H8CRD8H32UwlIEJ/SJCoT4/v+8Q+c8tp8rRdvS404jhyw==
+X-Received: by 2002:a17:90a:149:b0:1df:3da1:3549 with SMTP id
+ z9-20020a17090a014900b001df3da13549mr13398787pje.90.1653091453882; 
+ Fri, 20 May 2022 17:04:13 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.11
+ h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:12 -0700 (PDT)
+ Fri, 20 May 2022 17:04:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 08/49] semihosting: Inline set_swi_errno into common_semi_cb
-Date: Fri, 20 May 2022 17:03:19 -0700
-Message-Id: <20220521000400.454525-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/49] semihosting: Adjust error checking in common_semi_cb
+Date: Fri, 20 May 2022 17:03:20 -0700
+Message-Id: <20220521000400.454525-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,57 +88,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not store 'err' into errno only to read it back immediately.
-Use 'ret' for the return value, not 'reg0'.
+The err parameter is non-zero if and only if an error occured.
+Use this instead of ret == -1 for determining if we need to
+update the saved errno.
+
+This fixes the errno setting of SYS_ISTTY, which returns 0 on
+error, not -1.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ semihosting/arm-compat-semi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index c6bfd4d1ba..b00ed2c6d1 100644
+index b00ed2c6d1..88e1c286ba 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -290,28 +290,29 @@ static target_ulong common_semi_syscall_len;
+@@ -290,7 +290,7 @@ static target_ulong common_semi_syscall_len;
  
  static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
  {
--    target_ulong reg0 = common_semi_arg(cs, 0);
--
-     if (ret == (target_ulong)-1) {
--        errno = err;
--        set_swi_errno(cs, -1);
--        reg0 = ret;
-+#ifdef CONFIG_USER_ONLY
-+        TaskState *ts = cs->opaque;
-+        ts->swi_errno = err;
-+#else
-+        syscall_err = err;
-+#endif
-     } else {
-         /* Fixup syscalls that use nonstardard return conventions.  */
-+        target_ulong reg0 = common_semi_arg(cs, 0);
-         switch (reg0) {
-         case TARGET_SYS_WRITE:
-         case TARGET_SYS_READ:
--            reg0 = common_semi_syscall_len - ret;
-+            ret = common_semi_syscall_len - ret;
-             break;
-         case TARGET_SYS_SEEK:
--            reg0 = 0;
-+            ret = 0;
-             break;
-         default:
--            reg0 = ret;
-             break;
-         }
-     }
--    common_semi_set_ret(cs, reg0);
-+    common_semi_set_ret(cs, ret);
- }
- 
- static target_ulong common_semi_flen_buf(CPUState *cs)
+-    if (ret == (target_ulong)-1) {
++    if (err) {
+ #ifdef CONFIG_USER_ONLY
+         TaskState *ts = cs->opaque;
+         ts->swi_errno = err;
 -- 
 2.34.1
 
