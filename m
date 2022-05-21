@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C69852F72B
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:57:00 +0200 (CEST)
-Received: from localhost ([::1]:39002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424ED52F727
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 02:55:06 +0200 (CEST)
+Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsDQR-00018T-H6
-	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59470)
+	id 1nsDOb-0007xU-Cr
+	for lists+qemu-devel@lfdr.de; Fri, 20 May 2022 20:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbw-0008Bc-5O
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:56 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33587)
+ id 1nsCc6-0008CA-Ct
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:05:00 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:43761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nsCbX-000404-Gj
- for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:45 -0400
-Received: by mail-pg1-x536.google.com with SMTP id r71so9015625pgr.0
- for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:20 -0700 (PDT)
+ id 1nsCbY-000408-E0
+ for qemu-devel@nongnu.org; Fri, 20 May 2022 20:04:48 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ l7-20020a17090aaa8700b001dd1a5b9965so9051593pjq.2
+ for <qemu-devel@nongnu.org>; Fri, 20 May 2022 17:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6dWKfH8zSLvUN3M0oH8qZ8MqlB5qlfA1EdENsRW07Xc=;
- b=Lq3A4/Qea0Y/E2qZy4Y4sz9PnWUBch6iJ5XMAP5aGt6KAeXccYgeY0Y1n04KMXFybt
- 7qXTL9ZHhTqB6wRJ1w0+EFRc1d/x+K+JZSCg19ZVCOImC5G+MgoLMhtPV6yQ9bWFxHpk
- 4icY1UUNvU869A37rcIZPxLxkg2yyw8mThlmODvYw3GYOGkdj4xKZW+zjWCh7La1N/Ts
- +0Z97GFDyeE/0EVpJ7ihW1iF1XxmGRjqP1GMhUDIV8/VBRRFTqnSzz/ibQ6Vl2vIc5Sb
- SEAAUiXCJIwNhqAdReyNnouQHAm0HzqP9kpjkoPeyyn/YwJZsERjaxZSRbT93seURcNp
- 1WgA==
+ bh=o7WLR0F1itSeL1D48lB12rI6iLH/uoOr7m0MR0rWKoM=;
+ b=cNUHDmDNyq+Ai9EELn3N5NwNo+tJRt6FtwsKwSpJHHrWz96WETSqad8TWgt30bmTfN
+ 8AsjlPzQIv0SFtW7EYJ2DXJr4tn2c3w2Cy6lqLISsUJ7b7gkfxqZNGfl9rZFUQ7JiM6Y
+ AiOdbDSG7jV7Cd4jE4t2kvhpQJYTW6bya7/w4f/2HGYLe5jkIsNjZpPaW3eM1Y4c7u2K
+ NS2YuJcGDBpLQtJye95oiKC0r4f8o+4+pQrh1pOYpki1hrFHhVMFpg6Ode0lmUlTv8WF
+ QK68950tH2TViVw1zh9qs0mZOUO0ocwRCjYnsgkUmrjXxrDDZT8q9pCVk9wjB9vnnFQ6
+ UdkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6dWKfH8zSLvUN3M0oH8qZ8MqlB5qlfA1EdENsRW07Xc=;
- b=H2ISrSFfAXOr2vd3+CrOMl1fyPHcpdIfZJLvRWwQIrKQPZd/DAS1HBZTnErtxyTHPs
- 1XeYhqGpfKfvTDdfdt/dClwh5KPVyddnUXaOCj3cc/LGn58T4VuMntTO19XLk2PmNLHK
- m8ww9UWbC+niojsiuozL1hgypFBQB0XTAMNpe2JSS+CokELYYNPXmjx+Zeswg4Lt/dt6
- 17gWJ4KaQU4QDuJxdNIqw4dymhvhChneH0MwWdkk4bk/PLJl53geZL8j3EhHuViJlybi
- ShnUXkwUzj4SPPEZ2++CiCMzZMjmcuLXbSE+FVr21MWJIruBPyjjPnqXopaa8En9UisM
- WHEw==
-X-Gm-Message-State: AOAM533/GYzDHi/TiS767a4tFwGHwSolT6RS0VaiYX6ycRoGqeDl0QHL
- /LTbafn0yzTcJjDhkhyRATvNYmePk10RAQ==
-X-Google-Smtp-Source: ABdhPJwiODPxdTxvnVKavL3N7qOLUmUFwwJ046nxMSENy2MYx6Nj0TPZRGHyClhcxU1/uVz0isuAbA==
-X-Received: by 2002:a63:d908:0:b0:3c1:f140:c1a4 with SMTP id
- r8-20020a63d908000000b003c1f140c1a4mr10458498pgg.393.1653091459272; 
- Fri, 20 May 2022 17:04:19 -0700 (PDT)
+ bh=o7WLR0F1itSeL1D48lB12rI6iLH/uoOr7m0MR0rWKoM=;
+ b=1QrMHbqNS/HNl3rblYVO3Pbq+CTC1CL44hojux0l8jKm3tIHaBAD0G/PWpycKbi1ey
+ oNc9TwSY6xgnMJvQJUjji/Zd3wjug79lLUaxGzonDvOIhnU7126ubZmYp5498fqshmOc
+ UhmQKyFXGXYz21NvJ0KyuRmuQ0XnVaeDD6Rysm10hHlRDv+a/whChJy6WYjBuzia4m18
+ V6dTEO6YUtFQTFzJo6ePWwziHEXRWs+fLCNQLsWBhb9jQ+wPacCv/iRvYY6jqVBgGnnL
+ 8OOcEP9ZzZY/6O7HJObSf80HJEMF9qkC3WYsYGaTsyMFJMH0+JezMafCPaIcPP7+H7ZW
+ hRlA==
+X-Gm-Message-State: AOAM530ckQOlZOZ4JdfHUIWUTCvqKEOv4Mf0PXQ4nMd1B7itPxNOyI6Y
+ Rby+Pu+xhQekVoEI3WHyN36XZ77scmck3w==
+X-Google-Smtp-Source: ABdhPJx+gRxTsf9CqjN3L7IZbU0dfMH3ag3qpeZO+vAzz22oIz/ACdCGwf6NUIOj8rogvEpl9y7b4g==
+X-Received: by 2002:a17:902:ea0a:b0:161:fb2f:ef9b with SMTP id
+ s10-20020a170902ea0a00b00161fb2fef9bmr3301166plg.22.1653091460357; 
+ Fri, 20 May 2022 17:04:20 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.18
+ h8-20020a654808000000b003f9d1c020cbsm306369pgs.51.2022.05.20.17.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 17:04:18 -0700 (PDT)
+ Fri, 20 May 2022 17:04:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	alex.bennee@linaro.org
-Subject: [PATCH v3 14/49] include/exec: Move gdb open flags to gdbstub.h
-Date: Fri, 20 May 2022 17:03:25 -0700
-Message-Id: <20220521000400.454525-15-richard.henderson@linaro.org>
+Subject: [PATCH v3 15/49] include/exec: Move gdb_stat and gdb_timeval to
+ gdbstub.h
+Date: Fri, 20 May 2022 17:03:26 -0700
+Message-Id: <20220521000400.454525-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220521000400.454525-1-richard.henderson@linaro.org>
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,95 +89,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There were 3 copies of these flags.  Place them in the
-file with gdb_do_syscall, with which they belong.
+We have two copies of these structures, and require them
+in semihosting/ going forward.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/gdbstub.h        | 10 ++++++++++
- semihosting/arm-compat-semi.c |  8 --------
- target/m68k/m68k-semi.c       |  8 --------
- target/nios2/nios2-semi.c     |  8 --------
- 4 files changed, 10 insertions(+), 24 deletions(-)
+ include/exec/gdbstub.h    | 25 +++++++++++++++++++++++++
+ target/m68k/m68k-semi.c   | 30 +++---------------------------
+ target/nios2/nios2-semi.c | 30 +++---------------------------
+ 3 files changed, 31 insertions(+), 54 deletions(-)
 
 diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index c35d7334b4..2aaba9c723 100644
+index 2aaba9c723..33a262a5a3 100644
 --- a/include/exec/gdbstub.h
 +++ b/include/exec/gdbstub.h
-@@ -10,6 +10,16 @@
- #define GDB_WATCHPOINT_READ      3
- #define GDB_WATCHPOINT_ACCESS    4
+@@ -20,6 +20,31 @@
+ #define GDB_O_TRUNC   0x400
+ #define GDB_O_EXCL    0x800
  
-+/* For gdb file i/o remote protocol open flags. */
-+#define GDB_O_BINARY  0
-+#define GDB_O_RDONLY  0
-+#define GDB_O_WRONLY  1
-+#define GDB_O_RDWR    2
-+#define GDB_O_APPEND  8
-+#define GDB_O_CREAT   0x200
-+#define GDB_O_TRUNC   0x400
-+#define GDB_O_EXCL    0x800
++/* For gdb file i/o stat/fstat. */
++typedef uint32_t gdb_mode_t;
++typedef uint32_t gdb_time_t;
++
++struct gdb_stat {
++  uint32_t    gdb_st_dev;     /* device */
++  uint32_t    gdb_st_ino;     /* inode */
++  gdb_mode_t  gdb_st_mode;    /* protection */
++  uint32_t    gdb_st_nlink;   /* number of hard links */
++  uint32_t    gdb_st_uid;     /* user ID of owner */
++  uint32_t    gdb_st_gid;     /* group ID of owner */
++  uint32_t    gdb_st_rdev;    /* device type (if inode device) */
++  uint64_t    gdb_st_size;    /* total size, in bytes */
++  uint64_t    gdb_st_blksize; /* blocksize for filesystem I/O */
++  uint64_t    gdb_st_blocks;  /* number of blocks allocated */
++  gdb_time_t  gdb_st_atime;   /* time of last access */
++  gdb_time_t  gdb_st_mtime;   /* time of last modification */
++  gdb_time_t  gdb_st_ctime;   /* time of last change */
++} QEMU_PACKED;
++
++struct gdb_timeval {
++  gdb_time_t tv_sec;  /* second */
++  uint64_t tv_usec;   /* microsecond */
++} QEMU_PACKED;
 +
  #ifdef NEED_CPU_H
  #include "cpu.h"
  
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 7b56bae7db..2e0e7febb1 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -86,14 +86,6 @@
- #define O_BINARY 0
- #endif
- 
--#define GDB_O_RDONLY  0x000
--#define GDB_O_WRONLY  0x001
--#define GDB_O_RDWR    0x002
--#define GDB_O_APPEND  0x008
--#define GDB_O_CREAT   0x200
--#define GDB_O_TRUNC   0x400
--#define GDB_O_BINARY  0
--
- static int gdb_open_modeflags[12] = {
-     GDB_O_RDONLY,
-     GDB_O_RDONLY | GDB_O_BINARY,
 diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index a31db38fc3..475a6b13b7 100644
+index 475a6b13b7..da0186f3ef 100644
 --- a/target/m68k/m68k-semi.c
 +++ b/target/m68k/m68k-semi.c
-@@ -69,14 +69,6 @@ struct gdb_timeval {
-   uint64_t tv_usec;   /* microsecond */
- } QEMU_PACKED;
+@@ -45,30 +45,6 @@
+ #define HOSTED_ISATTY 12
+ #define HOSTED_SYSTEM 13
  
--#define GDB_O_RDONLY   0x0
--#define GDB_O_WRONLY   0x1
--#define GDB_O_RDWR     0x2
--#define GDB_O_APPEND   0x8
--#define GDB_O_CREAT  0x200
--#define GDB_O_TRUNC  0x400
--#define GDB_O_EXCL   0x800
+-typedef uint32_t gdb_mode_t;
+-typedef uint32_t gdb_time_t;
+-
+-struct m68k_gdb_stat {
+-  uint32_t    gdb_st_dev;     /* device */
+-  uint32_t    gdb_st_ino;     /* inode */
+-  gdb_mode_t  gdb_st_mode;    /* protection */
+-  uint32_t    gdb_st_nlink;   /* number of hard links */
+-  uint32_t    gdb_st_uid;     /* user ID of owner */
+-  uint32_t    gdb_st_gid;     /* group ID of owner */
+-  uint32_t    gdb_st_rdev;    /* device type (if inode device) */
+-  uint64_t    gdb_st_size;    /* total size, in bytes */
+-  uint64_t    gdb_st_blksize; /* blocksize for filesystem I/O */
+-  uint64_t    gdb_st_blocks;  /* number of blocks allocated */
+-  gdb_time_t  gdb_st_atime;   /* time of last access */
+-  gdb_time_t  gdb_st_mtime;   /* time of last modification */
+-  gdb_time_t  gdb_st_ctime;   /* time of last change */
+-} QEMU_PACKED;
+-
+-struct gdb_timeval {
+-  gdb_time_t tv_sec;  /* second */
+-  uint64_t tv_usec;   /* microsecond */
+-} QEMU_PACKED;
 -
  static int translate_openflags(int flags)
  {
      int hf;
+@@ -90,9 +66,9 @@ static int translate_openflags(int flags)
+ 
+ static void translate_stat(CPUM68KState *env, target_ulong addr, struct stat *s)
+ {
+-    struct m68k_gdb_stat *p;
++    struct gdb_stat *p;
+ 
+-    if (!(p = lock_user(VERIFY_WRITE, addr, sizeof(struct m68k_gdb_stat), 0)))
++    if (!(p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0)))
+         /* FIXME - should this return an error code? */
+         return;
+     p->gdb_st_dev = cpu_to_be32(s->st_dev);
+@@ -114,7 +90,7 @@ static void translate_stat(CPUM68KState *env, target_ulong addr, struct stat *s)
+     p->gdb_st_atime = cpu_to_be32(s->st_atime);
+     p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
+     p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
+-    unlock_user(p, addr, sizeof(struct m68k_gdb_stat));
++    unlock_user(p, addr, sizeof(struct gdb_stat));
+ }
+ 
+ static void m68k_semi_return_u32(CPUM68KState *env, uint32_t ret, uint32_t err)
 diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index 373e6b9436..0eec1f9a1c 100644
+index 0eec1f9a1c..3e504a6c5f 100644
 --- a/target/nios2/nios2-semi.c
 +++ b/target/nios2/nios2-semi.c
-@@ -71,14 +71,6 @@ struct gdb_timeval {
-   uint64_t tv_usec;   /* microsecond */
- } QEMU_PACKED;
+@@ -47,30 +47,6 @@
+ #define HOSTED_ISATTY 12
+ #define HOSTED_SYSTEM 13
  
--#define GDB_O_RDONLY   0x0
--#define GDB_O_WRONLY   0x1
--#define GDB_O_RDWR     0x2
--#define GDB_O_APPEND   0x8
--#define GDB_O_CREAT  0x200
--#define GDB_O_TRUNC  0x400
--#define GDB_O_EXCL   0x800
+-typedef uint32_t gdb_mode_t;
+-typedef uint32_t gdb_time_t;
+-
+-struct nios2_gdb_stat {
+-  uint32_t    gdb_st_dev;     /* device */
+-  uint32_t    gdb_st_ino;     /* inode */
+-  gdb_mode_t  gdb_st_mode;    /* protection */
+-  uint32_t    gdb_st_nlink;   /* number of hard links */
+-  uint32_t    gdb_st_uid;     /* user ID of owner */
+-  uint32_t    gdb_st_gid;     /* group ID of owner */
+-  uint32_t    gdb_st_rdev;    /* device type (if inode device) */
+-  uint64_t    gdb_st_size;    /* total size, in bytes */
+-  uint64_t    gdb_st_blksize; /* blocksize for filesystem I/O */
+-  uint64_t    gdb_st_blocks;  /* number of blocks allocated */
+-  gdb_time_t  gdb_st_atime;   /* time of last access */
+-  gdb_time_t  gdb_st_mtime;   /* time of last modification */
+-  gdb_time_t  gdb_st_ctime;   /* time of last change */
+-} QEMU_PACKED;
+-
+-struct gdb_timeval {
+-  gdb_time_t tv_sec;  /* second */
+-  uint64_t tv_usec;   /* microsecond */
+-} QEMU_PACKED;
 -
  static int translate_openflags(int flags)
  {
      int hf;
+@@ -102,9 +78,9 @@ static int translate_openflags(int flags)
+ static bool translate_stat(CPUNios2State *env, target_ulong addr,
+                            struct stat *s)
+ {
+-    struct nios2_gdb_stat *p;
++    struct gdb_stat *p;
+ 
+-    p = lock_user(VERIFY_WRITE, addr, sizeof(struct nios2_gdb_stat), 0);
++    p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0);
+ 
+     if (!p) {
+         return false;
+@@ -128,7 +104,7 @@ static bool translate_stat(CPUNios2State *env, target_ulong addr,
+     p->gdb_st_atime = cpu_to_be32(s->st_atime);
+     p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
+     p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
+-    unlock_user(p, addr, sizeof(struct nios2_gdb_stat));
++    unlock_user(p, addr, sizeof(struct gdb_stat));
+     return true;
+ }
+ 
 -- 
 2.34.1
 
