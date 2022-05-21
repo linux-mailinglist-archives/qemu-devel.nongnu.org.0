@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1E052FC58
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 14:28:46 +0200 (CEST)
-Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E503652FF83
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 22:53:03 +0200 (CEST)
+Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsODt-0005GR-B5
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 08:28:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49948)
+	id 1nsW5u-0002Hx-FN
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 16:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nsOCb-0004SA-KL
- for qemu-devel@nongnu.org; Sat, 21 May 2022 08:27:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36835)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1nsW3m-0001Vm-Fd
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 16:50:50 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:52690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nsOCY-0004Pe-4J
- for qemu-devel@nongnu.org; Sat, 21 May 2022 08:27:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653136040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=wvXhbPS7hVBm/8feD5MuwktUPL8dIvt3Gf7KcPIfcgA=;
- b=MClpyY8mGDYsPulRud4bjN+P9k2QTglFF1k2MQSqbnoWThLJEzarS0cJSx9MoCyhs74OcW
- 6mqM9u4m6/UBz5dVOY95Ld6nABzVjV/UbTNTt1TjDT0RwhybWIxyxHCCfM7chxS3yntjtc
- Z6P5e/jnQ3FPpqkH0WQZz/ILucut/vI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-H3LdqiJ8PHyCTZzcsH4r7w-1; Sat, 21 May 2022 08:27:16 -0400
-X-MC-Unique: H3LdqiJ8PHyCTZzcsH4r7w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1nsW3k-0000qs-7E
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 16:50:50 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8477B1857F17;
- Sat, 21 May 2022 12:27:16 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 189DB1410DD5;
- Sat, 21 May 2022 12:27:15 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Alberto Faria <afaria@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH] block: drop unused bdrv_co_drain() API
-Date: Sat, 21 May 2022 13:27:14 +0100
-Message-Id: <20220521122714.3837731-1-stefanha@redhat.com>
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id E1D483F599
+ for <qemu-devel@nongnu.org>; Sat, 21 May 2022 20:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1653166243;
+ bh=u+JKrvUhlkyNnBuznKwQfEUYE/vaFFBDaRrcZ81ziMg=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=ErVxabiOu0IHxZ4OWPY1bq1ia9ZGRqpHqNZJg0JM2hOs0ftKIM48kchCG1FXHKWX3
+ 0skTtvtcphiSk+uhVbsmw8Xsa/zl8W6AB0DlIWom9HfyiWs8SBubTgKMvbPdSaNMoX
+ nBwHQdLQD1vgKUuBle35i7eVrx8f21dq/ycIHkt8Ds3rhmA/2N7tR+VUaMr8gv3HVB
+ e7ks8a9av/JAHkQwKTzHqQHEKRlbkEby7ghXCrecxnz0jeRRy2UOIZB1iZAEEgNRev
+ VlUZSRmAu3+JzTFfQYMPkrMV4CBOYt3uUcx+Zs1RkdHN1tIWvVKLkNltSFts7UAOqi
+ QxhLowBxcdJUQ==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7104C2E8264
+ for <qemu-devel@nongnu.org>; Sat, 21 May 2022 20:50:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 21 May 2022 20:43:45 -0000
+From: Lev Kujawski <1639394@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor jnsnow lkujaw madgemade-v xtrondo
+X-Launchpad-Bug-Reporter: xtrondo (xtrondo)
+X-Launchpad-Bug-Modifier: Lev Kujawski (lkujaw)
+References: <20161105021624.30133.98019.malonedeb@wampee.canonical.com>
+Message-Id: <165316582556.49659.2705129043971733047.malone@daniels.canonical.com>
+Subject: [Bug 1639394] Re: Unable to boot Solaris 8/9 x86 under Fedora 24
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b94d9e1863e34c2bb2e616313c72421407e026e2"; Instance="production"
+X-Launchpad-Hash: a0069d2b865405ee6513398815dc1db63d3f5f88
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,63 +83,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1639394 <1639394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_co_drain() has not been used since commit 9a0cec664eef ("mirror:
-use bdrv_drained_begin/bdrv_drained_end") in 2016. Remove it so there
-are fewer drain scenarios to worry about.
+Hello, I believe I have solved the underlying issue with the attached
+patch. Verified against the behavior of an actual i440FX IDE controller.
 
-Use bdrv_drained_begin()/bdrv_drained_end() instead. They are "mixed"
-functions that can be called from coroutine context. Unlike
-bdrv_co_drain(), these functions provide control of the length of the
-drained section, which is usually the right thing.
+See https://lists.nongnu.org/archive/html/qemu-
+devel/2022-05/msg04229.html .
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/block/block-io.h |  1 -
- block/io.c               | 15 ---------------
- 2 files changed, 16 deletions(-)
+** Patch added: "0001-ide_ioport_read-Return-lower-octet-of-data-register-.=
+patch"
+   https://bugs.launchpad.net/qemu/+bug/1639394/+attachment/5591880/+files/=
+0001-ide_ioport_read-Return-lower-octet-of-data-register-.patch
 
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 62c84f0519..053a27141a 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -270,7 +270,6 @@ void bdrv_drained_end_no_poll(BlockDriverState *bs, int *drained_end_counter);
-                    cond); })
- 
- void bdrv_drain(BlockDriverState *bs);
--void coroutine_fn bdrv_co_drain(BlockDriverState *bs);
- 
- int generated_co_wrapper
- bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
-diff --git a/block/io.c b/block/io.c
-index 789e6373d5..1e9bf09a49 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -588,21 +588,6 @@ void bdrv_unapply_subtree_drain(BdrvChild *child, BlockDriverState *old_parent)
-     BDRV_POLL_WHILE(child->bs, qatomic_read(&drained_end_counter) > 0);
- }
- 
--/*
-- * Wait for pending requests to complete on a single BlockDriverState subtree,
-- * and suspend block driver's internal I/O until next request arrives.
-- *
-- * Note that unlike bdrv_drain_all(), the caller must hold the BlockDriverState
-- * AioContext.
-- */
--void coroutine_fn bdrv_co_drain(BlockDriverState *bs)
--{
--    IO_OR_GS_CODE();
--    assert(qemu_in_coroutine());
--    bdrv_drained_begin(bs);
--    bdrv_drained_end(bs);
--}
--
- void bdrv_drain(BlockDriverState *bs)
- {
-     IO_OR_GS_CODE();
--- 
-2.36.1
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1639394
+
+Title:
+  Unable to boot Solaris 8/9 x86 under Fedora 24
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  qemu-system-x86_64 -version
+  QEMU emulator version 2.6.2 (qemu-2.6.2-4.fc24), Copyright (c) 2003-2008 =
+Fabrice Bellard
+
+  Try several ways without success, I think it was a regression because pro=
+blem seems to be related with ide fixed on 0.6.0:
+  - int13 CDROM BIOS fix (aka Solaris x86 install CD fix)
+  - int15, ah=3D86 BIOS fix (aka Solaris x86 hardware probe hang up fix)
+
+  Solaris 10/11 works without a problem, also booting with "scsi" will
+  circumvent initial problem, but later found problems related with
+  "scsi" cdrom boot and also will not found the "ide" disk device.
+
+ =20
+  qemu-system-i386 -m 712 -drive file=3D/dev/Virtual_hdd/beryllium0,format=
+=3Draw -cdrom /repo/Isos/sol-9_905_x86.iso
+
+  SunOS Secondary Boot version 3.00
+
+  prom_panic: Could not mount filesystem.
+  Entering boot debugger:
+  [136419]
+
+ =20
+  Regards,
+  \\CA,
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1639394/+subscriptions
 
 
