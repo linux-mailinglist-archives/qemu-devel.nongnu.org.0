@@ -2,82 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB30F52FA21
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 10:57:43 +0200 (CEST)
-Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF4F52FA28
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 11:08:38 +0200 (CEST)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsKve-0002sA-OA
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 04:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55356)
+	id 1nsL6D-0006oK-4a
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 05:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nsKsf-0000iU-Fp
- for qemu-devel@nongnu.org; Sat, 21 May 2022 04:54:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nsKsc-0006pH-HU
- for qemu-devel@nongnu.org; Sat, 21 May 2022 04:54:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653123273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uMXb1QJ8p+egwSXVcnqkwfUvACuYgu7JP1Fnnb6+/lg=;
- b=iy8aVal33d4MLttEVic3n4rD6K+4QCU8f/u5lu+z+GBWIySEgh39X45whn2kIETNJFJSlj
- dD/LY/vgc6N8P8uP5dWFMVoANrzby5svZXj7FmkS0730KpZp9XnKv44jmgFSVFCvra9g1Y
- HFH9YUmjZgkFcZbugD4VuRQPoFNvgn4=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-_m3y5sKCN76rbiyIw6WRUQ-1; Sat, 21 May 2022 04:54:31 -0400
-X-MC-Unique: _m3y5sKCN76rbiyIw6WRUQ-1
-Received: by mail-pg1-f199.google.com with SMTP id
- e185-20020a6369c2000000b003d822d1900eso5250395pgc.19
- for <qemu-devel@nongnu.org>; Sat, 21 May 2022 01:54:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nsL57-00066z-Ty
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 05:07:30 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nsL55-000056-Rz
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 05:07:29 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id j4so8879392edq.6
+ for <qemu-devel@nongnu.org>; Sat, 21 May 2022 02:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qCtW9rb8rGhJd6K30RuLhTSgw/3fmThEspP/NPQCgXc=;
+ b=nuKMJUkpHfayyGVrKvMotpsVxBSt7eCgLVEfqyJnZ4v2++RzwduORI7I8NwsEazJO2
+ GkRuI4iDifwdg3tWfBU+WeuS7pF7j4l0a13fWbdm4dFJUvbZS7bsorAEob5POxGpAtYn
+ eVICuvVM3Lp7j47Z5YbSDNkRCAO2RVKIzF2xOy3Cha9+ZD1xMuRbPoZM2VRCG45rslGt
+ E04yHFzvzHF97xbgLPzNKMYG9DOInEMaS9W75rRhMdcEQzbzec1p4oyDmMH1r1UHlGUz
+ OYeFEKgqmfstd+rlRB4NitcB7p+zMEDu4VIKpKWzr5i6h9Ycarp8cX9ym29ksGo1aMbc
+ DZ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uMXb1QJ8p+egwSXVcnqkwfUvACuYgu7JP1Fnnb6+/lg=;
- b=fhXQF+WAzqDAeYidmT6saPeoU45EHPF2s+FvhLgTj2rue0D3+Rp9wnrH0veMYuTsv4
- 7nyeKYpkNqv81JemSOfKfSG5TQvaySuUc0U/pzHhWcNDnP8//YZFbT4gWPZHCivz9rVb
- yoDSwLlIQu/asnEGivRkub/LvS4Tqgnja13zkLcx0iKW+CtSxW8gDydQz1vl8BZ3n+uK
- JgmvSvJEUYTOsCUWcX+s4i7SisZVHUxgUO0xcqUwT85CdqOlnHdO9sntyZIpfIqp01Rh
- GEwT7sq0BqRp8mSfxaAfld3dCGt1oC/u96GDJ0wBqCGKWMydwvP1EE38Pq2aHC1lZJZ7
- 8TWg==
-X-Gm-Message-State: AOAM531ii21PnPg3CbQN+BF/eq6C7Wq1+OlBCnXP+sD4QTIQX9d5eyke
- Xu78e4kcxEqzgDC0oOhjYVSk/n3OMlnJg7sQDSOp3wbtX4IA7g3n2cXAmDhqEw1Qnt4xOmiLG++
- ss24OPV53Fm8+tChqKPu1lu9wHkld8vI=
-X-Received: by 2002:a65:60d3:0:b0:39c:f431:5859 with SMTP id
- r19-20020a6560d3000000b0039cf4315859mr11867854pgv.442.1653123270256; 
- Sat, 21 May 2022 01:54:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjA/AY+yBQZ3IkzyAJpkZ/LIpp/XClXuv5SLddVQ0bSaa0iUKCDxgP6Y2iEEnyuNPzX1kC2Owyf7Cv1zoIaPo=
-X-Received: by 2002:a65:60d3:0:b0:39c:f431:5859 with SMTP id
- r19-20020a6560d3000000b0039cf4315859mr11867841pgv.442.1653123269947; Sat, 21
- May 2022 01:54:29 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qCtW9rb8rGhJd6K30RuLhTSgw/3fmThEspP/NPQCgXc=;
+ b=1xU8/GCSnGkKz64vkSdgZ9LuzZ+eU8qMu+vkExj0FhbmRPz7X8acFuBzXzwNaJjrMc
+ IoGWl70oFLY9pX9Er4IzezM6mnD44sKluKWbtV1f8xz3hQ6KsEapPT4d2YbQvoh9QBMs
+ T4X52+P03XmWm7/ATlOO8pR94qgdGRJyAn6iRvWqQNRA1gy6fAC81tEPa2jxTz0R1eQS
+ XT+7nY/j48HFrnRlcYbFUMm9CfedZk71WzOjYTJrYinH5wDszIPeH/aaZg3tN1yTlnzE
+ 7QLUJlrMpIRbnLjOURj45vXEu5SkX3b3aFtFJq2lpyEzh2PUBBbwjaR8FTOveVaOMd1J
+ ldLQ==
+X-Gm-Message-State: AOAM532M+DdxiSEWKKMycFBlT31NfzXE4bidXw08VyA+B6nUtJtswMlO
+ W6hRA/oxPrKTs4kxsjzHXpg=
+X-Google-Smtp-Source: ABdhPJxQvSD/XURWxmbw1MDP3r1D2+JA7dD91BdQBa8/5pUoz7VGGxrkHWoiFj2t8VOXbUseqiDP2Q==
+X-Received: by 2002:aa7:dd07:0:b0:42a:eeba:a0a8 with SMTP id
+ i7-20020aa7dd07000000b0042aeebaa0a8mr14817690edv.371.1653124044371; 
+ Sat, 21 May 2022 02:07:24 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ el21-20020a170907285500b006f3ef214e50sm3950339ejc.182.2022.05.21.02.07.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 May 2022 02:07:23 -0700 (PDT)
+Message-ID: <0c0055ac-8d94-37d9-62c2-58c3da5461d3@redhat.com>
+Date: Sat, 21 May 2022 11:07:13 +0200
 MIME-Version: 1.0
-References: <be14c1e895a2f452047451f050d269217dcee6d9.1653071510.git.maciej.szmigiero@oracle.com>
-In-Reply-To: <be14c1e895a2f452047451f050d269217dcee6d9.1653071510.git.maciej.szmigiero@oracle.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v10 27/45] hw/cxl/host: Add support for CXL Fixed Memory
+ Windows.
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, linuxarm@huawei.com,
+ qemu-devel@nongnu.org, alex.bennee@linaro.org,
+ Marcel Apfelbaum <marcel@redhat.com>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Adam Manzanares <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>
+Cc: linux-cxl@vger.kernel.org, Ben Widawsky <ben.widawsky@intel.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ f4bug@amsat.org, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Saransh Gupta1 <saransh@ibm.com>,
+ Shreyas Shah <shreyas.shah@elastics.cloud>,
+ Chris Browy <cbrowy@avery-design.com>, Samarth Saxena
+ <samarths@cadence.com>, Dan Williams <dan.j.williams@intel.com>,
+ k.jensen@samsung.com, dave@stgolabs.net,
+ Alison Schofield <alison.schofield@intel.com>
+References: <20220429144110.25167-1-Jonathan.Cameron@huawei.com>
+ <20220429144110.25167-28-Jonathan.Cameron@huawei.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Sat, 21 May 2022 10:54:18 +0200
-Message-ID: <CABgObfZfV66MN11=xEjwH0PE944-OTcAZkSpWEcJeK=1EYWJnw@mail.gmail.com>
-Subject: Re: [PATCH] target/i386/kvm: Fix disabling MPX on "-cpu host" with
- MPX-capable host
-To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, kvm <kvm@vger.kernel.org>, 
- qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220429144110.25167-28-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,31 +112,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 20, 2022 at 8:33 PM Maciej S. Szmigiero
-<mail@maciej.szmigiero.name> wrote:
->
-> From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
->
-> Since KVM commit 5f76f6f5ff96 ("KVM: nVMX: Do not expose MPX VMX controls when guest MPX disabled")
-> it is not possible to disable MPX on a "-cpu host" just by adding "-mpx"
-> there if the host CPU does indeed support MPX.
-> QEMU will fail to set MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS MSRs in this case
-> and so trigger an assertion failure.
->
-> Instead, besides "-mpx" one has to explicitly add also
-> "-vmx-exit-clear-bndcfgs" and "-vmx-entry-load-bndcfgs" to QEMU command
-> line to make it work, which is a bit convoluted.
->
-> Sanitize MPX-related bits in MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS after
-> setting the vCPU CPUID instead so such workarounds are no longer necessary.
+On 4/29/22 16:40, Jonathan Cameron via wrote:
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+> 
+> The concept of these is introduced in [1] in terms of the
+> description the CEDT ACPI table. The principal is more general.
+> Unlike once traffic hits the CXL root bridges, the host system
+> memory address routing is implementation defined and effectively
+> static once observable by standard / generic system software.
+> Each CXL Fixed Memory Windows (CFMW) is a region of PA space
+> which has fixed system dependent routing configured so that
+> accesses can be routed to the CXL devices below a set of target
+> root bridges. The accesses may be interleaved across multiple
+> root bridges.
+> 
+> For QEMU we could have fully specified these regions in terms
+> of a base PA + size, but as the absolute address does not matter
+> it is simpler to let individual platforms place the memory regions.
+> 
+> ExampleS:
+> -cxl-fixed-memory-window targets.0=cxl.0,size=128G
+> -cxl-fixed-memory-window targets.0=cxl.1,size=128G
+> -cxl-fixed-memory-window targets.0=cxl0,targets.1=cxl.1,size=256G,interleave-granularity=2k
 
-Can you use feature_dependencies instead? See for example
+Sorry for the late review, but: no more command line options should
+be added to QEMU.  This should be:
 
-    {
-        .from = { FEAT_7_0_EBX,             CPUID_7_0_EBX_RDSEED },
-        .to = { FEAT_VMX_SECONDARY_CTLS,    VMX_SECONDARY_EXEC_RDSEED_EXITING },
-    },
+-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=128G \
+-M cxl-fmw.1.targets.0=cxl.1,cxl-fmw.1.size=128G \
+-M cxl-fmw.2.targets.0=cxl.0,cxl-fmw.2.targets.1=cxl.1,cxl-fmw.2.size=128G,cxl-fmw.2.interleave-granularity=2k
+
+I'm not against adding a shortcut as above, but the implementation should
+be entirely in MachineState using a QOM property.
+
+The reason for this is that we're looking into doing machine setup entirely
+via RPC, and any extra option is a new command to be implemented.
+
+Would you be able to do the change?  Since you are already using QAPI to
+deserialize the option it should not be hard.  I can promise a quick review,
+and I can also provide with an example conversion for -boot at
+https://lore.kernel.org/r/20220414165300.555321-3-pbonzini@redhat.com/.
 
 Paolo
-
 
