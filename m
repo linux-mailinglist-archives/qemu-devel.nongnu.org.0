@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E503652FF83
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 May 2022 22:53:03 +0200 (CEST)
-Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C508053002D
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 03:10:05 +0200 (CEST)
+Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsW5u-0002Hx-FN
-	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 16:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
+	id 1nsa6e-00058W-Eq
+	for lists+qemu-devel@lfdr.de; Sat, 21 May 2022 21:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1nsW3m-0001Vm-Fd
- for qemu-devel@nongnu.org; Sat, 21 May 2022 16:50:50 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:52690)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1nsW3k-0000qs-7E
- for qemu-devel@nongnu.org; Sat, 21 May 2022 16:50:50 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id E1D483F599
- for <qemu-devel@nongnu.org>; Sat, 21 May 2022 20:50:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1653166243;
- bh=u+JKrvUhlkyNnBuznKwQfEUYE/vaFFBDaRrcZ81ziMg=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=ErVxabiOu0IHxZ4OWPY1bq1ia9ZGRqpHqNZJg0JM2hOs0ftKIM48kchCG1FXHKWX3
- 0skTtvtcphiSk+uhVbsmw8Xsa/zl8W6AB0DlIWom9HfyiWs8SBubTgKMvbPdSaNMoX
- nBwHQdLQD1vgKUuBle35i7eVrx8f21dq/ycIHkt8Ds3rhmA/2N7tR+VUaMr8gv3HVB
- e7ks8a9av/JAHkQwKTzHqQHEKRlbkEby7ghXCrecxnz0jeRRy2UOIZB1iZAEEgNRev
- VlUZSRmAu3+JzTFfQYMPkrMV4CBOYt3uUcx+Zs1RkdHN1tIWvVKLkNltSFts7UAOqi
- QxhLowBxcdJUQ==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7104C2E8264
- for <qemu-devel@nongnu.org>; Sat, 21 May 2022 20:50:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nsa4K-0003oN-Ue
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 21:07:40 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:35781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nsa4J-0002Sk-7v
+ for qemu-devel@nongnu.org; Sat, 21 May 2022 21:07:40 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id c14so10744321pfn.2
+ for <qemu-devel@nongnu.org>; Sat, 21 May 2022 18:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=YZq0yiv3/zQootdX6oKs5HIpFRNpMv3IoPcLNB+EHbI=;
+ b=HEvrPJRRlthQCgLMCIhRMDzGeFqtKZK0hxD9p83Q5XuLnI+LRY3l9MylbYE3+MKYwC
+ nY/BCo/Te4VA1dfx8wWW42O7rLtPCOqGCEzJ9nU+5K+ypINDAyRb04Y21tr++149V/Sd
+ 3l0NGGywb8W/3bF2nG8/UpMisPbAkLZXE4cN7BIqkxl+TK9/6P9RhUtKpbTS5/MqNlKu
+ okIsWxHkAJTUt4rEhHHR02Ox+yeoDbmHU2EhOVDx5+QECjkx6p9SdJClYJb8BDavAk/Q
+ qJEPHDGx0XwkEoBvL92UcLnhaEgGuuwkh3z4z+kyRvBkPAjGSRfdpgkDDP1aDXA1NKOs
+ 5FBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YZq0yiv3/zQootdX6oKs5HIpFRNpMv3IoPcLNB+EHbI=;
+ b=RixmaPE5ppEEiMtMgyQusKA6CE+TGdV0FooublY3nM6BnMuc1Ii2RgEidalNFqjQyB
+ gHnxCOoaeOxnIAKbVdXwb4b+HDVleSYJC0JIyvj7T4odXfmPIf/SPow4l33lXDu31iF4
+ CTRiPTpPEBiPp2pWSnfBrH5rGnOCliDnon82WC1AVMBc2a6dxPs/d+dN2W2j+LJcGfZ2
+ O3TWt3BhuXS4h2ar1oLrl6/WiI67PLpiIRQg3k/ncMbxiRYdbvXgci3l/38bpx1y0L8F
+ dPSvkL53zFLf4HkotMWVJJ/5JdxHcXuJyvOgggK+BHBE7dLMUA3nJzfXc4c/elSzq3ww
+ DXAw==
+X-Gm-Message-State: AOAM532n8sLQWT3Y0rHTkOJ9Jg4uROpzXuo1p1mo5S9+HqqSh48iv8QR
+ AxSsl8O7Vw9xuVzAEk/0eEhS3Q==
+X-Google-Smtp-Source: ABdhPJxDPsd5yn55Ik9xg05vrK9uVuIMdQVD7bxWbitsajBQsJk28r1JELDk/UiCXNkcjgm5/+gS0Q==
+X-Received: by 2002:a63:dd57:0:b0:3f6:44f:9d72 with SMTP id
+ g23-20020a63dd57000000b003f6044f9d72mr15135128pgj.62.1653181655990; 
+ Sat, 21 May 2022 18:07:35 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a170902d4c200b0016168e90f2csm2166193plg.208.2022.05.21.18.07.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 May 2022 18:07:35 -0700 (PDT)
+Message-ID: <37f4c866-4344-37ba-b64b-fd338dc96887@linaro.org>
+Date: Sat, 21 May 2022 18:07:33 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 May 2022 20:43:45 -0000
-From: Lev Kujawski <1639394@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jnsnow lkujaw madgemade-v xtrondo
-X-Launchpad-Bug-Reporter: xtrondo (xtrondo)
-X-Launchpad-Bug-Modifier: Lev Kujawski (lkujaw)
-References: <20161105021624.30133.98019.malonedeb@wampee.canonical.com>
-Message-Id: <165316582556.49659.2705129043971733047.malone@daniels.canonical.com>
-Subject: [Bug 1639394] Re: Unable to boot Solaris 8/9 x86 under Fedora 24
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b94d9e1863e34c2bb2e616313c72421407e026e2"; Instance="production"
-X-Launchpad-Hash: a0069d2b865405ee6513398815dc1db63d3f5f88
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Emulating CPUs with larger atomic accesses
+Content-Language: en-US
+To: Florian Weimer <fweimer@redhat.com>, qemu-devel@nongnu.org
+References: <87k0apeor5.fsf@oldenburg.str.redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87k0apeor5.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,61 +88,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1639394 <1639394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello, I believe I have solved the underlying issue with the attached
-patch. Verified against the behavior of an actual i440FX IDE controller.
+On 5/13/22 03:00, Florian Weimer wrote:
+> What's QEMU's approach to emulating CPU instructions that atomatically
+> operate on values larger than what is supported by the host CPU?
+> 
+> I assume that for full system emulation, this is not a problem, but
+> qemu-user will not achieve atomic behavior on shared memory mappings.
+> How much of a problem is this in practice?
 
-See https://lists.nongnu.org/archive/html/qemu-
-devel/2022-05/msg04229.html .
+Well, it doesn't work, no.  In practice, x86_64 supports 128-bit atomic operations, and 
+guest requires more than that.  No one really cares anymore about 32-bit hosts with 
+smaller atomic operations.
 
-** Patch added: "0001-ide_ioport_read-Return-lower-octet-of-data-register-.=
-patch"
-   https://bugs.launchpad.net/qemu/+bug/1639394/+attachment/5591880/+files/=
-0001-ide_ioport_read-Return-lower-octet-of-data-register-.patch
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1639394
-
-Title:
-  Unable to boot Solaris 8/9 x86 under Fedora 24
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  qemu-system-x86_64 -version
-  QEMU emulator version 2.6.2 (qemu-2.6.2-4.fc24), Copyright (c) 2003-2008 =
-Fabrice Bellard
-
-  Try several ways without success, I think it was a regression because pro=
-blem seems to be related with ide fixed on 0.6.0:
-  - int13 CDROM BIOS fix (aka Solaris x86 install CD fix)
-  - int15, ah=3D86 BIOS fix (aka Solaris x86 hardware probe hang up fix)
-
-  Solaris 10/11 works without a problem, also booting with "scsi" will
-  circumvent initial problem, but later found problems related with
-  "scsi" cdrom boot and also will not found the "ide" disk device.
-
- =20
-  qemu-system-i386 -m 712 -drive file=3D/dev/Virtual_hdd/beryllium0,format=
-=3Draw -cdrom /repo/Isos/sol-9_905_x86.iso
-
-  SunOS Secondary Boot version 3.00
-
-  prom_panic: Could not mount filesystem.
-  Entering boot debugger:
-  [136419]
-
- =20
-  Regards,
-  \\CA,
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1639394/+subscriptions
-
+r~
 
