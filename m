@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016CA53051F
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 20:22:34 +0200 (CEST)
-Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18EC530525
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 20:26:18 +0200 (CEST)
+Received: from localhost ([::1]:33158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsqDo-0001gp-Rp
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 14:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41018)
+	id 1nsqHS-0007OD-2n
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 14:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqAT-0006gX-Sq; Sun, 22 May 2022 14:19:05 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47270)
+ id 1nsqAU-0006gf-6M; Sun, 22 May 2022 14:19:10 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqAN-0003Vo-I0; Sun, 22 May 2022 14:19:01 -0400
+ id 1nsqAP-0003Vv-De; Sun, 22 May 2022 14:19:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=I/7X60NHpNMLYj93Sc/a3t3DaVFXSUTIAHNkh05T/tM=; b=KjQ4kCWagEQ83+d/nvGhtf0zKI
- IU78idm4tlBlmJbKsbB4fxewidJf+HJ+aut0/vbk838YURNkCWUh49MpzMmmHKKaPGX35ZFRwfeOr
- sIENMI6OPvcBCVRHPQ4YbVpMjwaArVT258vZi3Du2MMdaIWHHb9EGfci6/u8GTB+LrsDEfvVqKXCw
- KJy/xQhqYC013rkoYpHS92aBm4paR9PXkmZ3ZVUMsOBqSvZFFZxiEoRGJDr6q+U1kgkqj+fy58XJg
- SZIR3kwsJYJf8C3KT/tEffvD5WH/fvKuImj1g7nUCAdSXdKdteXyV+iUTGk+bgmkvXX43MV2/t8te
- Yo3HfG1WW61IpKDczQQNDm+EBbnaw7UaIEm4uwEvNhOwHtTvvYtnmFjFygmU+bqS8tVsr85WnBhDK
- 4PmwtsE+CJ+2z+n1/cjxN+pE0yVenJEvOYV5EfBKdOiJUwB5UvJyn7prRtX/tMbX2FjU3ObbkR8hL
- 6js2K+kC6qSV2LlpaWgeYbBXiWXpCnHPnhv+j+zxMJBBy4JfRgu4cWjxFFbl8DDfoZurGB3yHOXtJ
- xUHSYT7epQ24xTTPKk2GS8gnr1xzZad+zxMJEqcK2hkXtVsGv85+ZXJla0WsjC9Dpvi3fVyX0wCxZ
- 13aLkT0MxSwZI0rq2KWdWjXLPiRlMBRwbZvGkGmn8=;
+ References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=exnlTfS0pKIxz/Waxt0OF1ETIHTM7CRo2Ez6G0229e8=; b=ZjtJE4drOIDqHBsnfr0c7K6Xik
+ CUqOY2pG4cW2bIojsTUhG9HllZeoSnD5ulfgvPVzC1zYbTEoqOjhfabDR2n4AfxQ6PUAqLBc2RkOG
+ /TW+9OkIBXt0/qSmUzv7LLCZXtMth6BB0sHQcbgCdgfjZmwaAaqbUU9OeX+jmvnulkij+mC1RgQdO
+ Aj4EVXTO9Y/5ed3xB+edQQ0SWJ4jM9k0Zbnyc0c9veujnIv6xwsSJ6qqf4pbDmn2B9Jh/+HU5gQdQ
+ wFB2dN5GsqIwAF2OKlqnQLGsCiJEUyUoQ0aShzGVc3fSNVZ/5v5r47bF1DSY5z193kkH+gXiaXUpz
+ 9a5Qd7i6XxBNttQG/Bzgim+wFUnKsvfylsuYDvGzvFFMZTZ7dF7lblMALMNqCqFibRf8TuiSVyFKc
+ /Oj6K7S0UPU+JKsb0MYLV0lxQ5lByDnnKyPGTvdH/vaVtqjnBy8Pjp/U9lKBKro2QHgzJVMMQ6nen
+ +9mHY0kcLgWacJEzkOgDau9OlWDsffUrhyIN3MHaLIdpQ7bU236nB65lqCIXWDma3UvQYxSEYpv++
+ 1yhBf7UOpciTnYy6ELuttG8O1euRQgLSoHOwHLaKhu46YqXM0cQ7m0pxAo5XLmwmqH/kgeqo1WY8i
+ Pv20sKINBrSKMajeeVvHWkW5GtlGB09rB5D66Lf18=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsq99-0007pH-WE; Sun, 22 May 2022 19:17:48 +0100
+ id 1nsq9E-0007pH-Ck; Sun, 22 May 2022 19:17:52 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Date: Sun, 22 May 2022 19:17:46 +0100
-Message-Id: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 22 May 2022 19:17:47 +0100
+Message-Id: <20220522181836.864-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 00/50] PS2 device QOMification - part 1
+Subject: [PATCH 01/50] ps2: checkpatch fixes
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -75,125 +77,336 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series came about when looking at improving the LASI PS2 device for
-the HPPA machine: there were improvements that I was keen to make, but
-was restricted because the PS2 device(s) weren't QOMified.
-
-Trying to do everything in a single patchset would be a very large series
-indeed, so here is part 1 of the series which does the basic QOMification
-process and consists of:
-
-- QOMifying the basic PS2, PS2 keyboard and PS2 mouse types
-
-- Moving any functionality that exists in a global device init function
-  directly into the relevant device, so that all device behaviour is
-  configured using qdev properties and QOM
-
-- Introducing a new I8042_MMIO type for use by the MIPS magnum machine
-
-- Switch all PS2 devices to use qdev gpios for IRQs instead of using the
-  update_irq() callback function along with the update_arg opaque
-
-Once this work has been done, a follow-up part 2 series will finish the
-remainder of the work which involves i) improving the QOM object model
-now QOMification is complete and ii) removing the legacy global device
-init functions for PS2 and related devices.
-
-Testing for this series has comprised of booting a machine with each type
-of PS2 device and confirming that i) the machine responds to keypresses
-when using a graphical console and ii) completing a successful migration
-from a machine with this series applies back to a machine running latest
-git master. The test machines I used were:
-
-- qemu-system-x86_64 -M pc for the I8042 device
-- qemu-system-hppa for the LASIPS2 device
-- qemu-system-arm -M versatilepb for the PL050 device
-- qemu-system-mips64el -M magnum for the I8042_MMIO device
-
-Finally the QOM tree changes caused by QOMification of the PS2 devices
-trigger a failure due to a bug in the bios-tables-test qtest for subtest
-/x86_64/acpi/q35/viot. This can be fixed by applying the series at
-https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg04266.html
-"hw/acpi/viot: generate stable VIOT ACPI tables" first.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/input/ps2.c | 154 +++++++++++++++++++++++++++----------------------
+ 1 file changed, 86 insertions(+), 68 deletions(-)
 
-
-Mark Cave-Ayland (50):
-  ps2: checkpatch fixes
-  ps2: QOMify PS2State
-  ps2: QOMify PS2KbdState
-  ps2: QOMify PS2MouseState
-  ps2: move QOM type definitions from ps2.c to ps2.h
-  ps2: improve function prototypes in ps2.c and ps2.h
-  ps2: introduce PS2DeviceClass
-  ps2: implement ps2_reset() for the PS2_DEVICE QOM type based upon
-    ps2_common_reset()
-  ps2: remove duplicate setting of scancode_set in ps2_kbd_init()
-  ps2: implement ps2_kbd_realize() and use it to register
-    ps2_keyboard_handler
-  ps2: implement ps2_mouse_realize() and use it to register
-    ps2_mouse_handler
-  ps2: don't use vmstate_register() in ps2_kbd_init()
-  ps2: don't use vmstate_register() in ps2_mouse_init()
-  pl050: checkpatch fixes
-  pl050: split pl050_update_irq() into separate pl050_set_irq() and
-    pl050_update_irq() functions
-  lasips2: spacing fixes
-  lasips2: rename ps2dev_update_irq() to lasips2_port_set_irq()
-  pckbd: checkpatch fixes
-  pckbd: move KBDState from pckbd.c to i8042.h
-  pckbd: move ISAKBDState from pckbd.c to i8042.h
-  pckbd: introduce new I8042_MMIO QOM type
-  pckbd: implement i8042_mmio_reset() for I8042_MMIO device
-  pckbd: add mask qdev property to I8042_MMIO device
-  pckbd: add size qdev property to I8042_MMIO device
-  pckbd: implement i8042_mmio_realize() function
-  pckbd: implement i8042_mmio_init() function
-  pckbd: alter i8042_mm_init() to return a I8042_MMIO device
-  pckbd: move mapping of I8042_MMIO registers to MIPS magnum machine
-  pckbd: more vmstate_register() from i8042_mm_init() to
-    i8042_mmio_realize()
-  pckbd: move ps2_kbd_init() and ps2_mouse_init() to
-    i8042_mmio_realize()
-  ps2: make ps2_raise_irq() function static
-  ps2: use ps2_raise_irq() instead of calling update_irq() directly
-  ps2: introduce ps2_lower_irq() instead of calling update_irq()
-    directly
-  ps2: add gpio for output IRQ and optionally use it in ps2_raise_irq()
-    and ps2_lower_irq()
-  pckbd: replace irq_kbd and irq_mouse with qemu_irq array in KBDState
-  pl050: switch over from update_irq() function to PS2 device gpio
-  lasips2: QOMify LASIPS2State
-  lasips2: move lasips2 QOM types from lasips2.c to lasips2.h
-  lasips2: rename lasips2_init() to lasips2_initfn() and update it to
-    return the LASIPS2 device
-  lasips2: implement lasips2_init() function
-  lasips2: move mapping of LASIPS2 registers to HPPA machine
-  lasips2: move initialisation of PS2 ports from lasi_initfn() to
-    lasi_init()
-  lasips2: add base property
-  lasips2: implement lasips2_realize()
-  lasips2: use qdev gpio for output IRQ
-  lasips2: switch over from update_irq() function to PS2 device gpio
-  pckbd: switch I8042_MMIO device from update_irq() function to PS2
-    device gpio
-  pckbd: add i8042_reset() function to I8042 device
-  pckbd: switch I8042 device from update_irq() function to PS2 device
-    gpio
-  ps2: remove update_irq() function and update_arg parameter
-
- hw/hppa/machine.c          |  11 +-
- hw/input/lasips2.c         | 110 +++++---
- hw/input/pckbd.c           | 321 ++++++++++++++++--------
- hw/input/pl050.c           |  50 ++--
- hw/input/ps2.c             | 500 +++++++++++++++++++++----------------
- hw/mips/jazz.c             |  11 +-
- include/hw/input/i8042.h   |  54 +++-
- include/hw/input/lasips2.h |  27 +-
- include/hw/input/ps2.h     |  79 +++++-
- 9 files changed, 775 insertions(+), 388 deletions(-)
-
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index c16df1de7a..67dd2eca84 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -34,41 +34,41 @@
+ #include "trace.h"
+ 
+ /* Keyboard Commands */
+-#define KBD_CMD_SET_LEDS	0xED	/* Set keyboard leds */
+-#define KBD_CMD_ECHO     	0xEE
+-#define KBD_CMD_SCANCODE	0xF0	/* Get/set scancode set */
+-#define KBD_CMD_GET_ID 	        0xF2	/* get keyboard ID */
+-#define KBD_CMD_SET_RATE	0xF3	/* Set typematic rate */
+-#define KBD_CMD_ENABLE		0xF4	/* Enable scanning */
+-#define KBD_CMD_RESET_DISABLE	0xF5	/* reset and disable scanning */
+-#define KBD_CMD_RESET_ENABLE   	0xF6    /* reset and enable scanning */
+-#define KBD_CMD_RESET		0xFF	/* Reset */
++#define KBD_CMD_SET_LEDS        0xED    /* Set keyboard leds */
++#define KBD_CMD_ECHO            0xEE
++#define KBD_CMD_SCANCODE        0xF0    /* Get/set scancode set */
++#define KBD_CMD_GET_ID          0xF2    /* get keyboard ID */
++#define KBD_CMD_SET_RATE        0xF3    /* Set typematic rate */
++#define KBD_CMD_ENABLE          0xF4    /* Enable scanning */
++#define KBD_CMD_RESET_DISABLE   0xF5    /* reset and disable scanning */
++#define KBD_CMD_RESET_ENABLE    0xF6    /* reset and enable scanning */
++#define KBD_CMD_RESET           0xFF    /* Reset */
+ #define KBD_CMD_SET_MAKE_BREAK  0xFC    /* Set Make and Break mode */
+ #define KBD_CMD_SET_TYPEMATIC   0xFA    /* Set Typematic Make and Break mode */
+ 
+ /* Keyboard Replies */
+-#define KBD_REPLY_POR		0xAA	/* Power on reset */
+-#define KBD_REPLY_ID		0xAB	/* Keyboard ID */
+-#define KBD_REPLY_ACK		0xFA	/* Command ACK */
+-#define KBD_REPLY_RESEND	0xFE	/* Command NACK, send the cmd again */
++#define KBD_REPLY_POR       0xAA    /* Power on reset */
++#define KBD_REPLY_ID        0xAB    /* Keyboard ID */
++#define KBD_REPLY_ACK       0xFA    /* Command ACK */
++#define KBD_REPLY_RESEND    0xFE    /* Command NACK, send the cmd again */
+ 
+ /* Mouse Commands */
+-#define AUX_SET_SCALE11		0xE6	/* Set 1:1 scaling */
+-#define AUX_SET_SCALE21		0xE7	/* Set 2:1 scaling */
+-#define AUX_SET_RES		0xE8	/* Set resolution */
+-#define AUX_GET_SCALE		0xE9	/* Get scaling factor */
+-#define AUX_SET_STREAM		0xEA	/* Set stream mode */
+-#define AUX_POLL		0xEB	/* Poll */
+-#define AUX_RESET_WRAP		0xEC	/* Reset wrap mode */
+-#define AUX_SET_WRAP		0xEE	/* Set wrap mode */
+-#define AUX_SET_REMOTE		0xF0	/* Set remote mode */
+-#define AUX_GET_TYPE		0xF2	/* Get type */
+-#define AUX_SET_SAMPLE		0xF3	/* Set sample rate */
+-#define AUX_ENABLE_DEV		0xF4	/* Enable aux device */
+-#define AUX_DISABLE_DEV		0xF5	/* Disable aux device */
+-#define AUX_SET_DEFAULT		0xF6
+-#define AUX_RESET		0xFF	/* Reset aux device */
+-#define AUX_ACK			0xFA	/* Command byte ACK. */
++#define AUX_SET_SCALE11     0xE6    /* Set 1:1 scaling */
++#define AUX_SET_SCALE21     0xE7    /* Set 2:1 scaling */
++#define AUX_SET_RES         0xE8    /* Set resolution */
++#define AUX_GET_SCALE       0xE9    /* Get scaling factor */
++#define AUX_SET_STREAM      0xEA    /* Set stream mode */
++#define AUX_POLL            0xEB    /* Poll */
++#define AUX_RESET_WRAP      0xEC    /* Reset wrap mode */
++#define AUX_SET_WRAP        0xEE    /* Set wrap mode */
++#define AUX_SET_REMOTE      0xF0    /* Set remote mode */
++#define AUX_GET_TYPE        0xF2    /* Get type */
++#define AUX_SET_SAMPLE      0xF3    /* Set sample rate */
++#define AUX_ENABLE_DEV      0xF4    /* Enable aux device */
++#define AUX_DISABLE_DEV     0xF5    /* Disable aux device */
++#define AUX_SET_DEFAULT     0xF6
++#define AUX_RESET           0xFF    /* Reset aux device */
++#define AUX_ACK             0xFA    /* Command byte ACK. */
+ 
+ #define MOUSE_STATUS_REMOTE     0x40
+ #define MOUSE_STATUS_ENABLED    0x20
+@@ -436,8 +436,9 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
+                 }
+             }
+         } else {
+-            if (qcode < qemu_input_map_qcode_to_atset1_len)
++            if (qcode < qemu_input_map_qcode_to_atset1_len) {
+                 keycode = qemu_input_map_qcode_to_atset1[qcode];
++            }
+             if (keycode) {
+                 if (keycode & 0xff00) {
+                     ps2_put_keycode(s, keycode >> 8);
+@@ -530,8 +531,9 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
+                 }
+             }
+         } else {
+-            if (qcode < qemu_input_map_qcode_to_atset2_len)
++            if (qcode < qemu_input_map_qcode_to_atset2_len) {
+                 keycode = qemu_input_map_qcode_to_atset2[qcode];
++            }
+             if (keycode) {
+                 if (keycode & 0xff00) {
+                     ps2_put_keycode(s, keycode >> 8);
+@@ -546,8 +548,9 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
+             }
+         }
+     } else if (s->scancode_set == 3) {
+-        if (qcode < qemu_input_map_qcode_to_atset3_len)
++        if (qcode < qemu_input_map_qcode_to_atset3_len) {
+             keycode = qemu_input_map_qcode_to_atset3[qcode];
++        }
+         if (keycode) {
+             /* FIXME: break code should be configured on a key by key basis */
+             if (!key->down) {
+@@ -569,8 +572,10 @@ uint32_t ps2_read_data(PS2State *s)
+     trace_ps2_read_data(s);
+     q = &s->queue;
+     if (q->count == 0) {
+-        /* NOTE: if no data left, we return the last keyboard one
+-           (needed for EMM386) */
++        /*
++         * NOTE: if no data left, we return the last keyboard one
++         * (needed for EMM386)
++         */
+         /* XXX: need a timer to do things correctly */
+         index = q->rptr - 1;
+         if (index < 0) {
+@@ -619,10 +624,10 @@ void ps2_write_keyboard(void *opaque, int val)
+ 
+     trace_ps2_write_keyboard(opaque, val);
+     ps2_cqueue_reset(&s->common);
+-    switch(s->common.write_cmd) {
++    switch (s->common.write_cmd) {
+     default:
+     case -1:
+-        switch(val) {
++        switch (val) {
+         case 0x00:
+             ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
+             break;
+@@ -632,7 +637,7 @@ void ps2_write_keyboard(void *opaque, int val)
+         case KBD_CMD_GET_ID:
+             /* We emulate a MF2 AT keyboard here */
+             ps2_cqueue_3(&s->common, KBD_REPLY_ACK, KBD_REPLY_ID,
+-                s->translate ? 0x41 : 0x83);
++                         s->translate ? 0x41 : 0x83);
+             break;
+         case KBD_CMD_ECHO:
+             ps2_cqueue_1(&s->common, KBD_CMD_ECHO);
+@@ -661,8 +666,8 @@ void ps2_write_keyboard(void *opaque, int val)
+         case KBD_CMD_RESET:
+             ps2_reset_keyboard(s);
+             ps2_cqueue_2(&s->common,
+-                KBD_REPLY_ACK,
+-                KBD_REPLY_POR);
++                         KBD_REPLY_ACK,
++                         KBD_REPLY_POR);
+             break;
+         case KBD_CMD_SET_TYPEMATIC:
+             ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
+@@ -700,9 +705,11 @@ void ps2_write_keyboard(void *opaque, int val)
+     }
+ }
+ 
+-/* Set the scancode translation mode.
+-   0 = raw scancodes.
+-   1 = translated scancodes (used by qemu internally).  */
++/*
++ * Set the scancode translation mode.
++ * 0 = raw scancodes.
++ * 1 = translated scancodes (used by qemu internally).
++ */
+ 
+ void ps2_keyboard_set_translation(void *opaque, int mode)
+ {
+@@ -727,30 +734,33 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+     dz1 = s->mouse_dz;
+     dw1 = s->mouse_dw;
+     /* XXX: increase range to 8 bits ? */
+-    if (dx1 > 127)
++    if (dx1 > 127) {
+         dx1 = 127;
+-    else if (dx1 < -127)
++    } else if (dx1 < -127) {
+         dx1 = -127;
+-    if (dy1 > 127)
++    }
++    if (dy1 > 127) {
+         dy1 = 127;
+-    else if (dy1 < -127)
++    } else if (dy1 < -127) {
+         dy1 = -127;
++    }
+     b = 0x08 | ((dx1 < 0) << 4) | ((dy1 < 0) << 5) | (s->mouse_buttons & 0x07);
+     ps2_queue_noirq(&s->common, b);
+     ps2_queue_noirq(&s->common, dx1 & 0xff);
+     ps2_queue_noirq(&s->common, dy1 & 0xff);
+     /* extra byte for IMPS/2 or IMEX */
+-    switch(s->mouse_type) {
++    switch (s->mouse_type) {
+     default:
+         /* Just ignore the wheels if not supported */
+         s->mouse_dz = 0;
+         s->mouse_dw = 0;
+         break;
+     case 3:
+-        if (dz1 > 127)
++        if (dz1 > 127) {
+             dz1 = 127;
+-        else if (dz1 < -127)
+-                dz1 = -127;
++        } else if (dz1 < -127) {
++            dz1 = -127;
++        }
+         ps2_queue_noirq(&s->common, dz1 & 0xff);
+         s->mouse_dz -= dz1;
+         s->mouse_dw = 0;
+@@ -816,8 +826,9 @@ static void ps2_mouse_event(DeviceState *dev, QemuConsole *src,
+     InputBtnEvent *btn;
+ 
+     /* check if deltas are recorded when disabled */
+-    if (!(s->mouse_status & MOUSE_STATUS_ENABLED))
++    if (!(s->mouse_status & MOUSE_STATUS_ENABLED)) {
+         return;
++    }
+ 
+     switch (evt->type) {
+     case INPUT_EVENT_KIND_REL:
+@@ -868,8 +879,10 @@ static void ps2_mouse_sync(DeviceState *dev)
+         qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, NULL);
+     }
+     if (!(s->mouse_status & MOUSE_STATUS_REMOTE)) {
+-        /* if not remote, send event. Multiple events are sent if
+-           too big deltas */
++        /*
++         * if not remote, send event. Multiple events are sent if
++         * too big deltas
++         */
+         while (ps2_mouse_send_packet(s)) {
+             if (s->mouse_dx == 0 && s->mouse_dy == 0
+                     && s->mouse_dz == 0 && s->mouse_dw == 0) {
+@@ -892,7 +905,7 @@ void ps2_write_mouse(void *opaque, int val)
+     PS2MouseState *s = (PS2MouseState *)opaque;
+ 
+     trace_ps2_write_mouse(opaque, val);
+-    switch(s->common.write_cmd) {
++    switch (s->common.write_cmd) {
+     default:
+     case -1:
+         /* mouse command */
+@@ -906,7 +919,7 @@ void ps2_write_mouse(void *opaque, int val)
+                 return;
+             }
+         }
+-        switch(val) {
++        switch (val) {
+         case AUX_SET_SCALE11:
+             s->mouse_status &= ~MOUSE_STATUS_SCALE21;
+             ps2_queue(&s->common, AUX_ACK);
+@@ -980,28 +993,32 @@ void ps2_write_mouse(void *opaque, int val)
+     case AUX_SET_SAMPLE:
+         s->mouse_sample_rate = val;
+         /* detect IMPS/2 or IMEX */
+-        switch(s->mouse_detect_state) {
++        switch (s->mouse_detect_state) {
+         default:
+         case 0:
+-            if (val == 200)
++            if (val == 200) {
+                 s->mouse_detect_state = 1;
++            }
+             break;
+         case 1:
+-            if (val == 100)
++            if (val == 100) {
+                 s->mouse_detect_state = 2;
+-            else if (val == 200)
++            } else if (val == 200) {
+                 s->mouse_detect_state = 3;
+-            else
++            } else {
+                 s->mouse_detect_state = 0;
++            }
+             break;
+         case 2:
+-            if (val == 80)
++            if (val == 80) {
+                 s->mouse_type = 3; /* IMPS/2 */
++            }
+             s->mouse_detect_state = 0;
+             break;
+         case 3:
+-            if (val == 80)
++            if (val == 80) {
+                 s->mouse_type = 4; /* IMEX */
++            }
+             s->mouse_detect_state = 0;
+             break;
+         }
+@@ -1154,13 +1171,14 @@ static const VMStateDescription vmstate_ps2_keyboard_cqueue = {
+     }
+ };
+ 
+-static int ps2_kbd_post_load(void* opaque, int version_id)
++static int ps2_kbd_post_load(void *opaque, int version_id)
+ {
+-    PS2KbdState *s = (PS2KbdState*)opaque;
++    PS2KbdState *s = (PS2KbdState *)opaque;
+     PS2State *ps2 = &s->common;
+ 
+-    if (version_id == 2)
+-        s->scancode_set=2;
++    if (version_id == 2) {
++        s->scancode_set = 2;
++    }
+ 
+     ps2_common_post_load(ps2);
+ 
+@@ -1176,10 +1194,10 @@ static const VMStateDescription vmstate_ps2_keyboard = {
+         VMSTATE_STRUCT(common, PS2KbdState, 0, vmstate_ps2_common, PS2State),
+         VMSTATE_INT32(scan_enabled, PS2KbdState),
+         VMSTATE_INT32(translate, PS2KbdState),
+-        VMSTATE_INT32_V(scancode_set, PS2KbdState,3),
++        VMSTATE_INT32_V(scancode_set, PS2KbdState, 3),
+         VMSTATE_END_OF_LIST()
+     },
+-    .subsections = (const VMStateDescription*[]) {
++    .subsections = (const VMStateDescription * []) {
+         &vmstate_ps2_keyboard_ledstate,
+         &vmstate_ps2_keyboard_need_high_bit,
+         &vmstate_ps2_keyboard_cqueue,
 -- 
 2.20.1
 
