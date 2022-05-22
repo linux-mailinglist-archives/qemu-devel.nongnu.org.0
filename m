@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A5953068B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:31:55 +0200 (CEST)
-Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C980F53068C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:34:01 +0200 (CEST)
+Received: from localhost ([::1]:52364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsu77-0003bz-QA
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52262)
+	id 1nsu9A-0005xg-Tm
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nsu4s-0002h7-ET; Sun, 22 May 2022 18:29:34 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:38482)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nsu4q-0006tR-RR; Sun, 22 May 2022 18:29:34 -0400
-Received: by mail-pf1-x432.google.com with SMTP id h13so5861295pfq.5;
- Sun, 22 May 2022 15:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=36kH56MXj2vS/f1baq535OmNhPgotNq0slfSdgGopwY=;
- b=asQ8ASE0x4j3stbvC1yxlUvIE926fFiCSXXCbzgQdBriQ7J0Mb1RH5+w2wgYSQuXMU
- lPvprv0/N+Kxrl/27U/k/+b6x78AQ+Z6Sm3dWFDEz/x8IODJeRgz6XggnSh4lgxkem4j
- e9SWZXj9KULT1bwgfsIVu/DYdLecqLlnSnM8Suz3PQp81jcaLuCTUlo9bu9C0WCtQC3P
- 43mH/MglTPkgJHpW/0Owlo7g991+4VjWfNgIwHUzhl05yunoYG+0U0cKI+8Wfu+Vii25
- ofmnHPo16L3XGt6NDqV7m5zd+OCw2ELkVz8HK2VVmWCjsXD4lQQccNBagYQ/GRxtCzhT
- EA5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=36kH56MXj2vS/f1baq535OmNhPgotNq0slfSdgGopwY=;
- b=qUfrJlsCCF7995WC5DpvCaGghkKgxc7vBw7ICpbYZJbe8Pl6mVPzPGZy6wh7+BZu7e
- OUIJHPET39yTkI+P63bN8ZmZn0MrlafAwgfEQXxJrCU4yIJqziBtguVEMYVkHi8SLUSW
- HjMEgkrww3lh8OStC6FCuGbSqMx+5o/5iDMLvLmNFz3fMaDdO96D5Kz1RK4FcJU7iRr2
- XNW9ZR4D9E8zOgcGY+gYXlafLMdOl9vqnax2PrPA6lsHpkVxn7PEGBviP4QdinV6gaym
- IuQCFmQFgPLZwTo33jq2EmiZtk8d//DPHCiCV4NjjGpdlCe9cwKuSq8X+4m3BKLd1RkU
- e+hQ==
-X-Gm-Message-State: AOAM531tHr1lqO9OoIoqj3b4qQE6HgQ1IUBD2fPq9a8MAj86vN2Ius4m
- RzP8VI2Lh3P6Awv61fKIxEo=
-X-Google-Smtp-Source: ABdhPJzX7J7F87HpVqD/iuglfNO36aMNSSDl74UGJOtuUsrwMR5waCBy9CKQanBZwPupdk+Jp8cEMw==
-X-Received: by 2002:a05:6a00:2481:b0:50d:4839:5896 with SMTP id
- c1-20020a056a00248100b0050d48395896mr20965206pfv.37.1653258570918; 
- Sun, 22 May 2022 15:29:30 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- r18-20020a170903411200b001619b47ae61sm3564486pld.245.2022.05.22.15.29.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 15:29:30 -0700 (PDT)
-Message-ID: <2de65552-2c29-549a-3839-65cd3d090f3a@amsat.org>
-Date: Mon, 23 May 2022 00:29:25 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nsu7S-0004g2-IB; Sun, 22 May 2022 18:32:15 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:42681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nsu7P-0007QJ-Rn; Sun, 22 May 2022 18:32:13 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id F2B92745958;
+ Mon, 23 May 2022 00:32:06 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B940974581A; Mon, 23 May 2022 00:32:06 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B78D874579D;
+ Mon, 23 May 2022 00:32:06 +0200 (CEST)
+Date: Mon, 23 May 2022 00:32:06 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: Re: [PATCH v2 1/6] include/hw/southbridge/piix: Aggregate all PIIX
+ soughbridge type names
+In-Reply-To: <20220522212431.14598-2-shentey@gmail.com>
+Message-ID: <e1654d8d-53c4-d01c-1288-f74fa4fdfcfd@eik.bme.hu>
+References: <20220522212431.14598-1-shentey@gmail.com>
+ <20220522212431.14598-2-shentey@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH 00/50] PS2 device QOMification - part 1
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
- aleksandar.rikalo@syrmia.com, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,37 +66,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 22/5/22 20:17, Mark Cave-Ayland wrote:
+On Sun, 22 May 2022, Bernhard Beschow wrote:
+> TYPE_PIIX3_PCI_DEVICE resides there as already, so add the remaining
+> ones, too.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+> hw/isa/piix3.c                | 3 ---
+> include/hw/isa/isa.h          | 2 --
+> include/hw/southbridge/piix.h | 4 ++++
+> 3 files changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+> index dab901c9ad..d96ce2b788 100644
+> --- a/hw/isa/piix3.c
+> +++ b/hw/isa/piix3.c
+> @@ -35,9 +35,6 @@
+>
+> #define XEN_PIIX_NUM_PIRQS      128ULL
+>
+> -#define TYPE_PIIX3_DEVICE "PIIX3"
+> -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+> -
+> static void piix3_set_irq_pic(PIIX3State *piix3, int pic_irq)
+> {
+>     qemu_set_irq(piix3->pic[pic_irq],
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index 034d706ba1..e9fa2f5cea 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -144,6 +144,4 @@ static inline ISABus *isa_bus_from_device(ISADevice *d)
+>     return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));
+> }
+>
+> -#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> -
+> #endif
+> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+> index f63f83e5c6..4d17400dfd 100644
+> --- a/include/hw/southbridge/piix.h
+> +++ b/include/hw/southbridge/piix.h
+> @@ -70,6 +70,10 @@ typedef struct PIIXState PIIX3State;
+> DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+>                          TYPE_PIIX3_PCI_DEVICE)
+>
+> +#define TYPE_PIIX3_DEVICE "PIIX3"
+> +#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+> +#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
 
-> Mark Cave-Ayland (50):
->    ps2: checkpatch fixes
->    ps2: QOMify PS2State
->    ps2: QOMify PS2KbdState
->    ps2: QOMify PS2MouseState
->    ps2: move QOM type definitions from ps2.c to ps2.h
->    ps2: improve function prototypes in ps2.c and ps2.h
->    ps2: introduce PS2DeviceClass
->    ps2: implement ps2_reset() for the PS2_DEVICE QOM type based upon
->      ps2_common_reset()
->    ps2: remove duplicate setting of scancode_set in ps2_kbd_init()
->    ps2: implement ps2_kbd_realize() and use it to register
->      ps2_keyboard_handler
->    ps2: implement ps2_mouse_realize() and use it to register
->      ps2_mouse_handler
->    ps2: don't use vmstate_register() in ps2_kbd_init()
->    ps2: don't use vmstate_register() in ps2_mouse_init()
->    pl050: checkpatch fixes
->    pl050: split pl050_update_irq() into separate pl050_set_irq() and
->      pl050_update_irq() functions
->    lasips2: spacing fixes
->    lasips2: rename ps2dev_update_irq() to lasips2_port_set_irq()
->    pckbd: checkpatch fixes
->    pckbd: move KBDState from pckbd.c to i8042.h
->    pckbd: move ISAKBDState from pckbd.c to i8042.h
+This naming seems to go back to 9b74b190d6c so it's not directly related 
+to this series but there seems to be a bit of a confusion here that I 
+wonder could be cleaned up now. We have:
 
-Patches 1-20:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+#define TYPE_PIIX3_PCI_DEVICE "pci-piix3"
+and
+#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+
+and both of these have mismatched #define and device name. These are not 
+user creatable so so the device names don't appear anywhere (except maybe 
+in info qtree output) but this could still be confusing as normally type 
+defines should match device names. If these are the ISA bridges then maybe 
+piix?-isa is a good name so maybe we should have
+
+#define TYPE_PIIX3_ISA "piix3-isa"
+#defint TYPE_PIIX4_ISA "piix4-isa"
+
+(then also matching e.g. "via-isa") but I'm not sure changing "pci-piix3" 
+to "piix3-isa" could break anything (I don't expect changing the defines 
+themselces could cause any problem).
+
+It's just something I've noticed and brought up for consideration but I 
+have no strong opinion on it so up to you what you do with it.
+
+Regards,
+BALATON Zoltan
+
+> +
+> PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
+>
+> DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
+>
 
