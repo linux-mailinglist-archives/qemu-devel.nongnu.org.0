@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0F453E109
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 08:28:47 +0200 (CEST)
-Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1785453056A
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 21:20:35 +0200 (CEST)
+Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ny6EI-0000U5-3F
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 02:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40400)
+	id 1nsr7y-0004qW-6T
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 15:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1ny620-0001Yb-5q; Mon, 06 Jun 2022 02:16:14 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:48000)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nsqCg-0000wq-90
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 14:21:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1ny61n-0000h4-Nw; Mon, 06 Jun 2022 02:15:57 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id CF0B311EF1E;
- Mon,  6 Jun 2022 06:15:45 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Thu, 12 May 2022 00:47:44 -0700
-Subject: [PATCH qemu v19 02/16] target/riscv: rvv: Prune redundant access_type
- parameter passed
-Message-ID: <165449614532.19704.7000832880482980398-2@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <165449614532.19704.7000832880482980398-0@git.sr.ht>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nsqCc-00045g-JJ
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 14:21:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653243676;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Pm/RkB+pCyRAJxbLjF01swK03hQqe7NL3b05VmIRHbQ=;
+ b=iJ55/77M2JZfHAf//WW4Vp2EXcTjKuXpRmCiciX2pRoXfH+Czmnrx+F9GIxZ/9sLUScmVW
+ Vh207eVEc+b0d/izhzPfBWCTEiubvAhCweRGLG8js44gm3a6S3G+uTbko4OOrNoNdL8Gkv
+ Eae28DGkeaMP3ChINV3fEWYtXTt756Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-5A3XzL_LPYmCZXHG7nKxWQ-1; Sun, 22 May 2022 14:21:14 -0400
+X-MC-Unique: 5A3XzL_LPYmCZXHG7nKxWQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A54F85A5AA;
+ Sun, 22 May 2022 18:21:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC4C7492C3B;
+ Sun, 22 May 2022 18:21:13 +0000 (UTC)
+Date: Sun, 22 May 2022 16:06:34 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <YopRejAj7AbIXH9i@stefanha-x1.localdomain>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
+ <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
+ <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
+ <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
+ <YoUbWYfl0Bft3LiU@redhat.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 36
-X-Spam_score: 3.6
-X-Spam_bar: +++
-X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1BS5V72QdcdBPKdK"
+Content-Disposition: inline
+In-Reply-To: <YoUbWYfl0Bft3LiU@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,177 +87,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <yueh.ting.chen@gmail.com>
 
-No functional change intended in this commit.
+--1BS5V72QdcdBPKdK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/vector_helper.c | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
+On Wed, May 18, 2022 at 06:14:17PM +0200, Kevin Wolf wrote:
+> Am 18.05.2022 um 14:43 hat Paolo Bonzini geschrieben:
+> > On 5/18/22 14:28, Emanuele Giuseppe Esposito wrote:
+> > > For example, all callers of bdrv_open() always take the AioContext lo=
+ck.
+> > > Often it is taken very high in the call stack, but it's always taken.
+> >=20
+> > I think it's actually not a problem of who takes the AioContext lock or
+> > where; the requirements are contradictory:
+> >=20
+> > * IO_OR_GS_CODE() functions, when called from coroutine context, expect=
+ to
+> > be called with the AioContext lock taken (example: bdrv_co_yield_to_dra=
+in)
+> >=20
+> > * to call these functions with the lock taken, the code has to run in t=
+he
+> > BDS's home iothread.  Attempts to do otherwise results in deadlocks (the
+> > main loop's AIO_WAIT_WHILEs expect progress from the iothread, that can=
+not
+> > happen without releasing the aiocontext lock)
+> >=20
+> > * running the code in the BDS's home iothread is not possible for
+> > GLOBAL_STATE_CODE() functions (unless the BDS home iothread is the main
+> > thread, but that cannot be guaranteed in general)
+> >=20
+> > > We might suppose that many callbacks are called under drain and in
+> > > GLOBAL_STATE, which should be enough, but from our experimentation in
+> > > the previous series we saw that currently not everything is under dra=
+in,
+> > > leaving some operations unprotected (remember assert_graph_writable
+> > > temporarily disabled, since drain coverage for bdrv_replace_child_nop=
+erm
+> > > was not 100%?).
+> > > Therefore we need to add more drains. But isn't drain what we decided=
+ to
+> > > drop at the beginning? Why isn't drain good?
+> >=20
+> > To sum up the patch ordering deadlock that we have right now:
+> >=20
+> > * in some cases, graph manipulations are protected by the AioContext lo=
+ck
+> >=20
+> > * eliminating the AioContext lock is needed to move callbacks to corout=
+ine
+> > contexts (see above for the deadlock scenario)
+> >=20
+> > * moving callbacks to coroutine context is needed by the graph rwlock
+> > implementation
+> >=20
+> > On one hand, we cannot protect the graph across manipulations with a gr=
+aph
+> > rwlock without removing the AioContext lock; on the other hand, the
+> > AioContext lock is what _right now_ protects the graph.
+> >=20
+> > So I'd rather go back to Emanuele's draining approach.  It may not be
+> > beautiful, but it allows progress.  Once that is in place, we can remov=
+e the
+> > AioContext lock (which mostly protects virtio-blk/virtio-scsi code right
+> > now) and reevaluate our next steps.
+>=20
+> If we want to use drain for locking, we need to make sure that drain
+> actually does the job correctly. I see two major problems with it:
+>=20
+> The first one is that drain only covers I/O paths, but we need to
+> protect against _anything_ touching block nodes. This might mean a
+> massive audit and making sure that everything in QEMU that could
+> possibly touch a block node is integrated with drain.
+>=20
+> I think Emanuele has argued before that because writes to the graph only
+> happen in the main thread and we believe that currently only I/O
+> requests are processed in iothreads, this is safe and we don't actually
+> need to audit everything.
+>=20
+> This is true as long as the assumption holds true (how do we ensure that
+> nobody ever introduces non-I/O code touching a block node in an
+> iothread?) and as long as the graph writer never yields or polls. I
+> think the latter condition is violated today, a random example is that
+> adjusting drain counts in bdrv_replace_child_noperm() does poll. Without
+> cooperation from all relevant places, the effectively locked code
+> section ends right there, even if the drained section continues. Even if
+> we can fix this, verifying that the conditions are met everywhere seems
+> not trivial.
+>=20
+> And that's exactly my second major concern: Even if we manage to
+> correctly implement things with drain, I don't see a way to meaningfully
+> review it. I just don't know how to verify with some confidence that
+> it's actually correct and covering everything that needs to be covered.
+>=20
+> Drain is not really a lock. But if you use it as one, the best it can
+> provide is advisory locking (callers, inside and outside the block
+> layer, need to explicitly support drain instead of having the lock
+> applied somewhere in the block layer functions). And even if all
+> relevant pieces actually make use of it, it still has an awkward
+> interface for locking:
+>=20
+> /* Similar to rdlock(), but doesn't wait for writers to finish. It is
+>  * the callers responsibility to make sure that there are no writers. */
+> bdrv_inc_in_flight()
+>=20
+> /* Similar to wrlock(). Waits for readers to finish. New readers are not
+>  * prevented from starting after it returns. Third parties are politely
+>  * asked not to touch the block node while it is drained. */
+> bdrv_drained_begin()
+>=20
+> (I think the unlock counterparts actually behave as expected from a real
+> lock.)
+>=20
+> Having an actual rdlock() (that waits for writers), and using static
+> analysis to verify that all relevant places use it (so that wrlock()
+> doesn't rely on politely asking third parties to leave the node alone)
+> gave me some confidence that we could verify the result.
+>=20
+> I'm not sure at all how to achieve the same with the drain interface. In
+> theory, it's possible. But it complicates the conditions so much that
+> I'm pretty much sure that the review wouldn't only be very time
+> consuming, but I would make mistakes during the review, rendering it
+> useless.
+>=20
+> Maybe throwing some more static analysis on the code can help, not sure.
+> It's going to be a bit more complex than with the other approach,
+> though.
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 85dd611cd9..60840325c4 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -231,7 +231,7 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
-                  target_ulong stride, CPURISCVState *env,
-                  uint32_t desc, uint32_t vm,
-                  vext_ldst_elem_fn *ldst_elem,
--                 uint32_t esz, uintptr_t ra, MMUAccessType access_type)
-+                 uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -259,7 +259,7 @@ void HELPER(NAME)(void *vd, void * v0, target_ulong base,=
-               \
- {                                                                       \
-     uint32_t vm =3D vext_vm(desc);                                        \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN,      \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }
-=20
- GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
-@@ -274,7 +274,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-               \
- {                                                                       \
-     uint32_t vm =3D vext_vm(desc);                                        \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, STORE_FN,     \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }
-=20
- GEN_VEXT_ST_STRIDE(vsse8_v,  int8_t,  ste_b)
-@@ -290,7 +290,7 @@ GEN_VEXT_ST_STRIDE(vsse64_v, int64_t, ste_d)
- static void
- vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
-              vext_ldst_elem_fn *ldst_elem, uint32_t esz, uint32_t evl,
--             uintptr_t ra, MMUAccessType access_type)
-+             uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -319,14 +319,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
-ng base,         \
- {                                                                       \
-     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));             \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, false, LOAD_FN,   \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                     \
- }                                                                       \
-                                                                         \
- void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
-                   CPURISCVState *env, uint32_t desc)                    \
- {                                                                       \
-     vext_ldst_us(vd, base, env, desc, LOAD_FN,                          \
--                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_LOAD); \
-+                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                \
- }
-=20
- GEN_VEXT_LD_US(vle8_v,  int8_t,  lde_b)
-@@ -340,14 +340,14 @@ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulo=
-ng base,          \
- {                                                                        \
-     uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));              \
-     vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,   \
--                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);      \
-+                     ctzl(sizeof(ETYPE)), GETPC());                      \
- }                                                                        \
-                                                                          \
- void HELPER(NAME)(void *vd, void *v0, target_ulong base,                 \
-                   CPURISCVState *env, uint32_t desc)                     \
- {                                                                        \
-     vext_ldst_us(vd, base, env, desc, STORE_FN,                          \
--                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_STORE); \
-+                 ctzl(sizeof(ETYPE)), env->vl, GETPC());                 \
- }
-=20
- GEN_VEXT_ST_US(vse8_v,  int8_t,  ste_b)
-@@ -364,7 +364,7 @@ void HELPER(vlm_v)(void *vd, void *v0, target_ulong base,
-     /* evl =3D ceil(vl/8) */
-     uint8_t evl =3D (env->vl + 7) >> 3;
-     vext_ldst_us(vd, base, env, desc, lde_b,
--                 0, evl, GETPC(), MMU_DATA_LOAD);
-+                 0, evl, GETPC());
- }
-=20
- void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
-@@ -373,7 +373,7 @@ void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
-     /* evl =3D ceil(vl/8) */
-     uint8_t evl =3D (env->vl + 7) >> 3;
-     vext_ldst_us(vd, base, env, desc, ste_b,
--                 0, evl, GETPC(), MMU_DATA_STORE);
-+                 0, evl, GETPC());
- }
-=20
- /*
-@@ -399,7 +399,7 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
-                 void *vs2, CPURISCVState *env, uint32_t desc,
-                 vext_get_index_addr get_index_addr,
-                 vext_ldst_elem_fn *ldst_elem,
--                uint32_t esz, uintptr_t ra, MMUAccessType access_type)
-+                uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k;
-     uint32_t nf =3D vext_nf(desc);
-@@ -427,7 +427,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-                  \
-                   void *vs2, CPURISCVState *env, uint32_t desc)            \
- {                                                                          \
-     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,                \
--                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD); \
-+                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC());                \
- }
-=20
- GEN_VEXT_LD_INDEX(vlxei8_8_v,   int8_t,  idx_b, lde_b)
-@@ -453,7 +453,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base, =
-        \
- {                                                                \
-     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,      \
-                     STORE_FN, ctzl(sizeof(ETYPE)),               \
--                    GETPC(), MMU_DATA_STORE);                    \
-+                    GETPC());                                    \
- }
-=20
- GEN_VEXT_ST_INDEX(vsxei8_8_v,   int8_t,  idx_b, ste_b)
-@@ -576,8 +576,7 @@ GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
-  */
- static void
- vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t de=
-sc,
--                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra,
--                MMUAccessType access_type)
-+                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra)
- {
-     uint32_t i, k, off, pos;
-     uint32_t nf =3D vext_nf(desc);
-@@ -612,8 +611,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
-                   CPURISCVState *env, uint32_t desc) \
- {                                                    \
-     vext_ldst_whole(vd, base, env, desc, LOAD_FN,    \
--                    ctzl(sizeof(ETYPE)), GETPC(),    \
--                    MMU_DATA_LOAD);                  \
-+                    ctzl(sizeof(ETYPE)), GETPC());   \
- }
-=20
- GEN_VEXT_LD_WHOLE(vl1re8_v,  int8_t,  lde_b)
-@@ -638,8 +636,7 @@ void HELPER(NAME)(void *vd, target_ulong base,       \
-                   CPURISCVState *env, uint32_t desc) \
- {                                                    \
-     vext_ldst_whole(vd, base, env, desc, STORE_FN,   \
--                    ctzl(sizeof(ETYPE)), GETPC(),    \
--                    MMU_DATA_STORE);                 \
-+                    ctzl(sizeof(ETYPE)), GETPC());   \
- }
-=20
- GEN_VEXT_ST_WHOLE(vs1r_v, int8_t, ste_b)
---=20
-2.34.2
+Hi,
+Sorry for the long email. I've included three topics that may help us discu=
+ss
+draining and AioContext removal further.
+
+The shortcomings of drain
+-------------------------
+I wanted to explore the logical argument that making graph modifications wi=
+thin
+a drained section is correct:
+- Graph modifications and BB/BDS lookup are Global State (GS).
+- Graph traversal from a BB/BDS pointer is IO.
+- Only one thread executes GS code at a time.
+- IO is quiesced within a drained section.
+- Therefore a drained section in GS code suspends graph traversal, other gr=
+aph
+  modifications, and BB/BDS lookup.
+- Therefore it is safe to modify the graph from a GS drained section.
+
+However, I hit on a problem that I think Emanuele and Paolo have already
+pointed out: draining is GS & IO. This might have worked under the 1 IOThre=
+ad
+model but it does not make sense for multi-queue. It is possible to submit =
+I/O
+requests in drained sections. How can multiple threads be in drained sectio=
+ns
+simultaneously and possibly submit further I/O requests in their drained
+sections? Those sections wouldn't be "drained" in any useful sense of the w=
+ord.
+
+It is necessary to adjust how recursive drained sections work:
+bdrv_drained_begin() must not return while there are deeper nested drained
+sections.
+
+This is allowed:
+
+     Monitor command            Block job
+     ---------------            ---------
+  > bdrv_drained_begin()
+           .                 > bdrv_drained_begin()
+           .                 < bdrv_drained_begin()
+           .                          .
+           .                          .
+           .                 > bdrv_drained_end()
+           .                 < bdrv_drained_end()
+  < bdrv_drained_begin()
+           .
+           .
+  > bdrv_drained_end()
+  < bdrv_drained_end()
+
+This is not allowed:
+
+     Monitor command            Block job
+     ---------------            ---------
+  > bdrv_drained_begin()
+           .                 > bdrv_drained_begin()
+           .                 < bdrv_drained_begin()
+           .                          .
+           .                          .
+  < bdrv_drained_begin()              .
+           .                          .
+           .                 > bdrv_drained_end()
+           .                 < bdrv_drained_end()
+  > bdrv_drained_end()
+  < bdrv_drained_end()
+
+This restriction creates an ordering between bdrv_drained_begin() callers. =
+In
+this example the block job must not depend on the monitor command completing
+first. Otherwise there would be a deadlock just like with two threads wait =
+for
+each other while holding a mutex.
+
+For sanity I think draining should be GS-only. IO code should not invoke
+bdrv_drained_begin() to avoid ordering problems when multiple threads drain
+simultaneously and have dependencies on each other.
+
+block/mirror.c needs to be modified because it currently drains from IO when
+mirroring is about to end.
+
+With this change to draining I think the logical argument for correctness w=
+ith
+graph modifications holds.
+
+Enforcing GS/IO separation at compile time
+------------------------------------------
+Right now GS/IO asserts check assumptions at runtime. The next step may be
+using the type system to separate GS and IO APIs so it's impossible for IO =
+code
+to accidentally call GS code, for example.
+
+  typedef struct {
+      BlockDriverState *bs;
+  } BlockDriverStateIOPtr;
+
+  typedef struct {
+      BlockDriverState *bs;
+  } BlockDriverStateGSPtr;
+
+Then APIs can be protected as follows:
+
+  void bdrv_set_aio_context_ignore(BlockDriverStateGSPtr bs, ...);
+
+A function that only has a BlockDriverStateIOPtr cannot call
+bdrv_set_aio_context_ignore() by mistake since the compiler will complain t=
+hat
+the first argument must be a BlockDriverStateGSPtr.
+
+Possible steps for AioContext removal
+-------------------------------------
+I also wanted to share my assumptions about multi-queue and AioContext remo=
+val.
+Please let me know if anything seems wrong or questionable:
+
+- IO code can execute in any thread that has an AioContext.
+- Multiple threads may execute a IO code at the same time.
+- GS code only execute under the BQL.
+
+For AioContext removal this means:
+
+- bdrv_get_aio_context() becomes mostly meaningless since there is no need =
+for
+  a special "home" AioContext.
+- bdrv_coroutine_enter() becomes mostly meaningless because there is no nee=
+d to
+  run a coroutine in the BDS's AioContext.
+- aio_disable_external(bdrv_get_aio_context(bs)) no longer works because ma=
+ny
+  threads/AioContexts may submit new I/O requests. BlockDevOps.drained_begi=
+n()
+  may be used instead (e.g. to temporarily disable ioeventfds on a multi-qu=
+eue
+  virtio-blk device).
+- AIO_WAIT_WHILE() simplifies to
+
+    while ((cond)) {
+        aio_poll(qemu_get_current_aio_context(), true);
+        ...
+    }
+
+  and the distinction between home AioContext and non-home context is
+  eliminated. AioContext unlocking is dropped.
+
+Does this make sense? I haven't seen these things in recent patch series.
+
+Stefan
+
+--1BS5V72QdcdBPKdK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKKUXoACgkQnKSrs4Gr
+c8hR5Qf8DDjifSAHDuEhEXWz+LuLoNUVgXpX1co6goxumku7kTvJBOZ+6vhEN3SC
+La9MB1Sq14g5aGw+do+fAwqxr4txEPlCz/kuhH08pqHy3rBg9VzADk74Erg//yL/
+C/84WRcsO+bhlNGuKkxYV02Gb3l/47RZbj7mLtMDNrgwdCvD8YFkdCXnjwXQKKq1
+PEASNeXWyXkwTk41Eo2gCh8MTkkgZ6VL7GQBuyz+kxu4PC3nsEsS+qVFOOxJtKZE
+lBAwl9fEaaaJIrhmMcQntO4BHg8om+4GApMgLlYIybYIbpS3k1IZIDjjR7fL2ATB
+1mm+ukZRHUkLDnWd29nhrbqo72WrMQ==
+=fgb5
+-----END PGP SIGNATURE-----
+
+--1BS5V72QdcdBPKdK--
 
 
