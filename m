@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EFD5303FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 17:57:16 +0200 (CEST)
-Received: from localhost ([::1]:33376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E8C5303F8
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 17:57:13 +0200 (CEST)
+Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsnxD-0008J8-DV
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 11:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51168)
+	id 1nsnxA-0008Er-7n
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 11:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsnqi-0007EK-LV
- for qemu-devel@nongnu.org; Sun, 22 May 2022 11:50:32 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47084)
+ id 1nsnqm-0007J1-O2
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 11:50:36 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsnqh-00084I-8G
- for qemu-devel@nongnu.org; Sun, 22 May 2022 11:50:32 -0400
+ id 1nsnql-00084j-8e
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 11:50:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=XilbPG9QOPj9XejKsWc7M3oiDwtb+9UTHECd9ZERYaI=; b=rFsCODy07ddNbiLB3BvAkSp5ZX
- DKkDuWj1qhSpJmvQC8XThGJ5lG7HD5a2AKoayACiqBblNozR1AE6mzXX95L6xlcMH5H0uiZrg8ptN
- GkEGI0puNG1lG3gwX1UmIJVXK3vjAzUpDUTfr99Xpw3kZR4PEmpfgirblMJezn8RAPDJzIKq2Her+
- mjr00/Z3Ge6hBY61sXA0Dy5QUTjF1S4J7x6p7CImtx3EC4bxFDqJMwXWCQpeEZ3yiNlvcuzznzTu7
- vYQkKHm2ALc4BffA8EKjvaxI9XHzzktrRg7RtQ+SV7Bece4ikbVFBfqGt8EXldgOCeTi7n9lIqMPT
- 2HnmziJjCkAXcipIqQihdHpIGeXAZjt+OFtnPZUH4j7G3I7Fv4XkJ/oyW8+CZVL29SzXynHT2yLdh
- Wpo/ART3/go9/MeC/py9wieHt1otLaQqvY4XQdvRGzNfI0qDKHukoY37is7FHmEPE7mwta8b81VJK
- NQnSkaXAYMtktXsCm4IatbRrkyv7kaxOx7yTuwYZJSXfzNdPgtDtJpkO1xGsGrXB3CfAdwxiuKqLL
- 1l1LAB2ZIVqo8xhdXJF4AJ3Dp4TD33ZetJPuOYoNPbIitiY3LAzzT+1fGDsJM0MxsJSoOg9Cipu+J
- Hj7l9ZM9N80LGOjh8xdQPd6koRNO5kke72BPqhyjo=;
+ bh=R6D8Ayin6wAdGj7XiIWsL9Jb38aKCyQebycCOGDxBLw=; b=L1P0IeMzBExjQ6bSZIUr+cOcNW
+ Z2mDyVUHdZrcXHRyLPzJDV12Alae6njrmG+hRG4nxflV8rzDSyicWMDq08c4NCPeFnGwsteCqRJq/
+ iGrMZph0/eBFIVayjfx7CqxheR7NeAzXq82oPSf5uaX+/bJXdZIrY4yMaeE7fzKxgkL4dv0c/+Wof
+ 33EoLoWhO/kax31txXZsZsu1CUQqNtES9vR/TAztbHC1V+RdlT7t5sQKfvb/oXZvOxQ2f+Qnw71BG
+ yNkqILSOgKFXuqWhFp+xGec98hZkvz91aH74YztdI3CCLyu2E45PBnsBBwshvH4ruBbgWrBfVCYOF
+ drfmJvm4ZPazNjThueWhOMplANRASqRPkdN3dsLD83OLBFNijlgrknyHE+K2GwMiIhreaG0SNuGjy
+ T9EWoLDn1+lxl+YgVNZYmgyK5T64yEHZGnn9Wlda4zz97AVAhxX2O517wZ0aKeNJAPcIpEwrUv6gV
+ EnRVL3QFXWMw+5eiK36/IzZ/5TKZMqTIHjXDYphjoNmRREhonrrWeCVS7ZrdzKTyKVQQFYtq9x6Sa
+ ZcpUrSlXcNR4Qa6b7MGRvOachSlys1mtJXRuJlLPh/IRcrO/T2AwvcJYvFRgrvhmgLpKBUn4ynE7n
+ aObaoOQB4Cfs5vU8EHRqHUkaIQAaGe/0yXb8cMKZw=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsnpd-0006zJ-4m; Sun, 22 May 2022 16:49:29 +0100
+ id 1nsnph-0006zJ-BR; Sun, 22 May 2022 16:49:33 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
  jean-philippe@linaro.org, qemu-devel@nongnu.org
-Date: Sun, 22 May 2022 16:50:06 +0100
-Message-Id: <20220522155008.21832-5-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 22 May 2022 16:50:07 +0100
+Message-Id: <20220522155008.21832-6-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220522155008.21832-1-mark.cave-ayland@ilande.co.uk>
 References: <20220522155008.21832-1-mark.cave-ayland@ilande.co.uk>
@@ -51,7 +51,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 4/6] tests/acpi: virt: allow VIOT acpi table changes
+Subject: [PATCH v2 5/6] hw/acpi/viot: sort VIOT ACPI table entries by PCI host
+ bridge min_bus
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -77,19 +78,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Acked-by: Ani Sinha <ani@anisinha.ca>
----
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+This ensures that the VIOT ACPI table output is always stable for a given PCI
+topology by ensuring that entries are ordered according to min_bus.
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..8367ffe1d4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/VIOT",
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/acpi/viot.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
+index 6ca041d18e..ff46703d87 100644
+--- a/hw/acpi/viot.c
++++ b/hw/acpi/viot.c
+@@ -64,6 +64,20 @@ static int enumerate_pci_host_bridges(Object *obj, void *opaque)
+     return 0;
+ }
+ 
++static gint pci_host_range_compare(gconstpointer a, gconstpointer b)
++{
++    struct viot_pci_host_range *range_a = (struct viot_pci_host_range *)a;
++    struct viot_pci_host_range *range_b = (struct viot_pci_host_range *)b;
++
++    if (range_a->min_bus < range_b->min_bus) {
++        return -1;
++    } else if (range_a->min_bus > range_b->min_bus) {
++        return 1;
++    } else {
++        return 0;
++    }
++}
++
+ /*
+  * Generate a VIOT table with one PCI-based virtio-iommu that manages PCI
+  * endpoints.
+@@ -87,6 +101,9 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
+     object_child_foreach_recursive(OBJECT(ms), enumerate_pci_host_bridges,
+                                    pci_host_ranges);
+ 
++    /* Sort the pci host ranges by min_bus */
++    g_array_sort(pci_host_ranges, pci_host_range_compare);
++
+     /* ACPI table header */
+     acpi_table_begin(&table, table_data);
+     /* Node count */
 -- 
 2.20.1
 
