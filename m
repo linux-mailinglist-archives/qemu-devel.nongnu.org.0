@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED5453052A
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 20:29:41 +0200 (CEST)
-Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3A353055C
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 21:09:38 +0200 (CEST)
+Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsqKg-0004bb-Ai
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 14:29:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
+	id 1nsqxN-0006pv-QJ
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 15:09:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqBi-0007y8-Ij; Sun, 22 May 2022 14:20:23 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47704)
+ id 1nsqBi-0007y9-J0; Sun, 22 May 2022 14:20:23 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqBW-0003bw-Mb; Sun, 22 May 2022 14:20:19 -0400
+ id 1nsqBX-0003c8-Gp; Sun, 22 May 2022 14:20:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=I0VPS71VXtn5mqfuBaY8i3Y6GRXsjpQM3fNl/iuWzEQ=; b=pVbRkz0Ejst9+5YobYZb7cMKLH
- 5RXH0Lcu/X0qAKCT3QQFfvk7DxOzDgpg7Grj/tKO+g5vEjMVSvNRnVXmGljrrIEA4iowJwBT8Ffsk
- 8JOPkcXBnHxBGo0xovlYoY0XGLo34pZc6vY0BOwfBjvONn2YW1dZz9QZEwoKVm58D49fBOfMPKm9C
- kCC2xnzw2pXHrg/89dbDfZZ6DIFXUdeCV/eU+u842Tiz6FjpQgkWUIx3fESp4Xp7ch2UXZxbdq4Pj
- 5SzYLQ4Dm6Z1Pipgt3/SyWvc7jBVm4FEmJY067S2w/0RIPUZomcRhvJjzhm1IbMkNNJW2XCxcKDfL
- Iaq3D8yqQcu/XRo+AjwInH88MC0oo6JrtqdUSGY1wBJ3xH5+O6A+YZJo6hQAq30PLlgXPJBhwVjx+
- L/RQ9+zrDLyDybl+ApPWWALbT+3KK7R6ue39fkwGJ3w1ADYhHKO2nqv+Eq9/yCHauDxhkXYJYAN+f
- hUtxAc/oH3Huj9chOFWdd+WiTa/O5kVsGOfoTkA2UvKxHSCpknb0LrTNna/WpukMSWLOZTY4PN22h
- S1ovc3N6UnR+ZPvVNJVGvBpsG/STm58tdXsTZep6MpzrB8OaAQFLsuiKOQu0hXKN/ZW6m6kiQp0uK
- 1LNZNalgxthC52smXTGzgISqGz24PyaChc7722iss=;
+ bh=ccWy+DLbu1PIuWO3Y6JNkCW/BApqMBOppBBa7UTUAAw=; b=GzBSn1n4ZdSSSnm1Y8JRWWX2UO
+ BUuNy61ZlKq4U0ppF2Z0TPcURFRQIXs9Uw2Jp0n6aa7uZGBUH5Oqrt+cDhQjd8hP8bJUOYziR1oy2
+ leE03xgaopBIMiPbwdFqZzv4fp28nL+BfgiId3ueGgOF9d5Ra3C/J0YaX1KJAwLr9O+bqBKQ6IGq8
+ rvqvXH/s+KPCqC8J2WyFoeSJG58T42qwL6Ov2DmzYtG+w87VUzYmQkZ2WYSe1x0pPEBWGUdwPu8M2
+ PcPpAI/7u+1nb5mczPnImuboVVzdWgIPMyBKOhX5gg01dLg0/3FquQdmIo2yFGn+BRvRvhofoM8EQ
+ +WWKyH8wmDN0+DRajKhBm3VW7qcHO3pRPLsFtROq3QRxkgcavdbJPUHcfCvfMuwA2BQpd3K+SFmyH
+ jkNxuBL8iOkdyxfAHEvQLwbfnv89SMGZCQAutrHIKNHDggTJV8sjlgf0WtbR4DtrZnGBXwwo24EOm
+ ujuKbXYTwuz79R2d6VI6/v2QSfpCejZXwnHnoAwZvYIRSfvkQDVG8sbTxsnWGEEa3+ZudpPAQ2c1y
+ DpDTyj3fUjejiu3rn0/v3TqSpu0slSJA1CSZzzxDiztf6/TXm2iuxbtC/FJTw5XB7K1MBnHTFh5Nb
+ v2R6P+z2pJ28l8fpC6wG2y0bKpMmMbtF6dEVEwE4I=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqA2-0007pH-RT; Sun, 22 May 2022 19:18:42 +0100
+ id 1nsqA7-0007pH-4g; Sun, 22 May 2022 19:18:43 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Date: Sun, 22 May 2022 19:18:09 +0100
-Message-Id: <20220522181836.864-24-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 22 May 2022 19:18:10 +0100
+Message-Id: <20220522181836.864-25-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
@@ -51,7 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 23/50] pckbd: add mask qdev property to I8042_MMIO device
+Subject: [PATCH 24/50] pckbd: add size qdev property to I8042_MMIO device
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -77,50 +77,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows the KBDState mask value to be set using a qdev property rather
-than directly in i8042_mm_init().
+This will soon be used to set the size of the register memory region using a
+qdev property.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/pckbd.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/input/pckbd.c         | 2 ++
+ include/hw/input/i8042.h | 1 +
+ 2 files changed, 3 insertions(+)
 
 diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index df443aaff2..9da602fb47 100644
+index 9da602fb47..e13a62bd4f 100644
 --- a/hw/input/pckbd.c
 +++ b/hw/input/pckbd.c
-@@ -674,11 +674,17 @@ static void i8042_mmio_reset(DeviceState *dev)
-     kbd_reset(ks);
- }
+@@ -676,6 +676,7 @@ static void i8042_mmio_reset(DeviceState *dev)
  
-+static Property i8042_mmio_properties[] = {
-+    DEFINE_PROP_UINT64("mask", MMIOKBDState, kbd.mask, UINT64_MAX),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void i8042_mmio_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
+ static Property i8042_mmio_properties[] = {
+     DEFINE_PROP_UINT64("mask", MMIOKBDState, kbd.mask, UINT64_MAX),
++    DEFINE_PROP_UINT32("size", MMIOKBDState, size, -1),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-     dc->reset = i8042_mmio_reset;
-+    device_class_set_props(dc, i8042_mmio_properties);
-     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
- }
- 
-@@ -690,12 +696,12 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
-     KBDState *s;
+@@ -697,6 +698,7 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
  
      dev = qdev_new(TYPE_I8042_MMIO);
-+    qdev_prop_set_uint64(dev, "mask", mask);
+     qdev_prop_set_uint64(dev, "mask", mask);
++    qdev_prop_set_uint32(dev, "size", size);
      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
      s = &I8042_MMIO(dev)->kbd;
  
-     s->irq_kbd = kbd_irq;
-     s->irq_mouse = mouse_irq;
--    s->mask = mask;
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index b7df9ace6e..ac4098b957 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -57,6 +57,7 @@ struct MMIOKBDState {
+     SysBusDevice parent_obj;
  
-     vmstate_register(NULL, 0, &vmstate_kbd, s);
+     KBDState kbd;
++    uint32_t size;
+ };
  
+ #define I8042_A20_LINE "a20"
 -- 
 2.20.1
 
