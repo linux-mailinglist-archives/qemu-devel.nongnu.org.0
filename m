@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABBC530207
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 11:12:35 +0200 (CEST)
-Received: from localhost ([::1]:32812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C3353020A
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 11:16:57 +0200 (CEST)
+Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nshda-0002Aa-Eg
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 05:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36392)
+	id 1nshho-0003hy-6h
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 05:16:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nshZD-0000P8-G9; Sun, 22 May 2022 05:08:03 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:40734)
+ id 1nshb4-0001Gp-9q; Sun, 22 May 2022 05:09:59 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:40639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nshZB-0007SK-9M; Sun, 22 May 2022 05:08:03 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id p3so10230263qvi.7;
- Sun, 22 May 2022 02:08:00 -0700 (PDT)
+ id 1nshb2-0007gM-0D; Sun, 22 May 2022 05:09:57 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id g3so10778017qtb.7;
+ Sun, 22 May 2022 02:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8oFgiB5Aj96kEvZ65+rLqzrtsm6Ywa9IubVbiv7Wn7Q=;
- b=COWPSB6S7Xzk/fG0oSks8xmgwvF4jONAHSPwNYkJzQcvIeZenr06hf2aVH6GQME+ND
- DmbBW3eGv8AyAZ+hk+p1RETU5qxtwJfcO/nIaFmsD3+kMOUNW9eHKUr/5geHs/kX2Goi
- CTDakR/cXLxbEl3se6WHZ8U3qWL0E0i8uw6nT1mT2SMWsy9bfjAhvEoCTcd/RcJ6HA51
- pBqH/Xvp9SwCfVXOwqAaatajCUs8q6+wG3hHWh9qMW6Q586rdUxaJTW4JWF0h1Z70IJd
- 7ioO0Wu4lhx80rvwW422myPhuzPKxvfBpBWYyl/RQUV+CKCcGeYCobD9cMTqvvo6ZwFR
- DaJg==
+ :cc; bh=OC3OcWYlWLim1wtksJxZjMtt4CvKvPzG/iLlj4zrGe0=;
+ b=j38InLQVzPP/75crdWPeagEKxlSXqdUcax3dXM/fhtFgRNSk2MwaKQxVOQNjI3VTS8
+ 1msoHHPdpGUmmeu2F41nQTyyFrUdnUqItZTd2Wupw2C+DttRczYOL/45P/DkmfQCLux9
+ FjiOdxc7zo92+bL8I9+vjeumqvRvVv6cVcYDJ37ycuUKWqEbRo0ZTnfHBagzqMX/IiQV
+ 6bzlk6KNABfE5q2s44P6DhiqS1fqRc5BicEgRwJa1yzh46hycC8KARbg1cSUafZ/c4Fu
+ ZGC4tQBd2KKqCpZpGidTu0eQ73rFy9m5AbBWp736EJE93SbczZZtRpe31C6Q2aAXss75
+ TjJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8oFgiB5Aj96kEvZ65+rLqzrtsm6Ywa9IubVbiv7Wn7Q=;
- b=Ya6ZShu97wcVsKP6Q/fDYKVl1EJSKEqv7MPXxr7TKDQqG/fgeKL4YuBkeBa68/oQ62
- tdYT6UttILuYzp/LJtQSsTS9V+6zU2Jq6AJkuC5HYQj86KmP4gu9AKd1iR4C/JjfZ/3S
- +hAoVF3xO0rDLvjQ8ftqo+e/5xU7DHWUpngS8dD2R/BV9dDfMz/ZF+GHSQ41Od3QeDsC
- xPwO/7b02ht29t2YwnBSygudcQFkXfoPn4pclnwAnl7oL4FxE+Hw0p33vNUfaNWWpkNF
- 9ggyvnizMj03sPaLZtElKBimaYigBd01KAh3CzltaSMF4s3BC2smosF2Js/gocHODfHQ
- rKPw==
-X-Gm-Message-State: AOAM531Iqsc+3y2gu/iq0kXctllC5OiWGWoT2Y6gX10jH5lCplXbFTVJ
- GPGILBK6YtN34wpvtJtybr2o3yxece8eI/alak8=
-X-Google-Smtp-Source: ABdhPJydexMj/fQ9bFUN8TdBHvGir3JIt0CX8iBQBSwuh8Gf4p0emXvwQ/gcbGTbQ5ZC9fxFog3evqreM/kQoNschmI=
-X-Received: by 2002:a05:6214:2265:b0:45a:84e4:42c with SMTP id
- gs5-20020a056214226500b0045a84e4042cmr13644507qvb.109.1653210479878; Sun, 22
- May 2022 02:07:59 -0700 (PDT)
+ bh=OC3OcWYlWLim1wtksJxZjMtt4CvKvPzG/iLlj4zrGe0=;
+ b=CJh6CmwmWvqGb8efdQx96+ogLQ2Gc5thswDYStPpvQTnp9gD0oZPqAO+H2egkmIjsA
+ YwVEgbvvlQLLxPrXI29/V3hFPtDjrY7CdCo7mzLA0pl6xM8ZOp+Pl5o8Lak39Lf13Ull
+ NIo7adcUOHlWgFN1itZG+ctViQDSJ1fbbuKMG33aqyDXXcWQg0SWdsXyDNMQR5fEDrJs
+ jLjnOQNK6VkhqhtScNmTBw65QMpbZwb8Kfpx7Z6I+wOmArZSkzTL9jLXxaMMedqUVE+W
+ oR7kPIfp2OojL8I6PaaZ7lWbne/BAfuaRH9gG38W/xeKQysEe0aPylk6OZuGq7OaqnJy
+ T8qA==
+X-Gm-Message-State: AOAM530dyLFqIsInigjy5Xq2Y4GsPADYgu4b82HYrrvlYHhxz0iCemHf
+ 5WKv6euqv4NxNN6k7SjUIYBpvVRYMStBWIYGmHc=
+X-Google-Smtp-Source: ABdhPJxgxHHl1xXDPwetNDWsUmzQI8A1+5+XjuOobh+TB5WAauoGMNO1Jdc6rKgXzbNOEKw1vhwBaYfBvNmz6oMqH28=
+X-Received: by 2002:a05:622a:387:b0:2f3:d59f:c12c with SMTP id
+ j7-20020a05622a038700b002f3d59fc12cmr13221261qtx.482.1653210594742; Sun, 22
+ May 2022 02:09:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220520174537.5827-1-shentey@gmail.com>
- <20220520174537.5827-3-shentey@gmail.com>
- <233ae2da-ca1c-ea11-8af5-3eb8f936dbba@ilande.co.uk>
-In-Reply-To: <233ae2da-ca1c-ea11-8af5-3eb8f936dbba@ilande.co.uk>
+References: <20220513175445.89616-1-shentey@gmail.com>
+ <20220513175445.89616-7-shentey@gmail.com>
+ <aa93e92d-464b-366c-8724-7933db06f50c@ilande.co.uk>
+In-Reply-To: <aa93e92d-464b-366c-8724-7933db06f50c@ilande.co.uk>
 From: Bernhard Beschow <shentey@gmail.com>
-Date: Sun, 22 May 2022 11:07:43 +0200
-Message-ID: <CAG4p6K4yNa7g8o1kLKp81+cZYzh8WNETJuW4NKm_6X9ChtgEEQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rtc/mc146818rtc: QOM'ify io_base offset
+Date: Sun, 22 May 2022 11:09:37 +0200
+Message-ID: <CAG4p6K67H+-P9+J4JmdSJKmUGxfbbZCsE2NFrHDdpPHShpjVSw@mail.gmail.com>
+Subject: Re: [PATCH 6/6] hw/isa/piix{3,
+ 4}: Inline and remove create() functions
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: QEMU Developers <qemu-devel@nongnu.org>,
  QEMU Trivial <qemu-trivial@nongnu.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, 
- Eduardo Habkost <eduardo@habkost.net>
-Content-Type: multipart/alternative; boundary="0000000000006468ce05df960f69"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=shentey@gmail.com; helo=mail-qv1-xf2e.google.com
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
+Content-Type: multipart/alternative; boundary="0000000000003d144e05df96167c"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=shentey@gmail.com; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,139 +90,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006468ce05df960f69
+--0000000000003d144e05df96167c
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, May 21, 2022 at 11:24 AM Mark Cave-Ayland <
+On Sat, May 21, 2022 at 10:43 AM Mark Cave-Ayland <
 mark.cave-ayland@ilande.co.uk> wrote:
 
-> On 20/05/2022 18:45, Bernhard Beschow wrote:
+> On 13/05/2022 18:54, Bernhard Beschow wrote:
 >
-> > Exposing the io_base offset as a QOM property not only allows it to be
-> > configurable but also to be displayed in HMP:
-> >
-> > Before:
-> >
-> > (qemu) info qtree
-> >         ...
-> >            dev: mc146818rtc, id ""
-> >              gpio-out "" 1
-> >              base_year = 0 (0x0)
-> >              irq = 8 (0x8)
-> >              lost_tick_policy = "discard"
-> >
-> > After:
-> >
-> >            dev: mc146818rtc, id ""
-> >              gpio-out "" 1
-> >              base_year = 0 (0x0)
-> >              iobase = 112 (0x70)
-> >              irq = 8 (0x8)
-> >              lost_tick_policy = "discard"
+> > During the previous changesets the create() functions became trivial
+> > wrappers around more generic functions. Modernize the code.
 > >
 > > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > > ---
-> >   hw/i386/microvm-dt.c         | 2 +-
-> >   hw/rtc/mc146818rtc.c         | 7 ++++---
-> >   include/hw/rtc/mc146818rtc.h | 2 +-
-> >   3 files changed, 6 insertions(+), 5 deletions(-)
+> >   hw/i386/pc_piix.c             |  6 +++++-
+> >   hw/isa/piix3.c                | 16 ----------------
+> >   hw/isa/piix4.c                | 10 ----------
+> >   hw/mips/malta.c               |  3 ++-
+> >   include/hw/southbridge/piix.h |  6 ++----
+> >   5 files changed, 9 insertions(+), 32 deletions(-)
 > >
-> > diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
-> > index a5db9e4e5a..39fe425b26 100644
-> > --- a/hw/i386/microvm-dt.c
-> > +++ b/hw/i386/microvm-dt.c
-> > @@ -209,7 +209,7 @@ static void dt_add_isa_rtc(MicrovmMachineState *mms,
-> ISADevice *dev)
+> > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> > index 47932448fd..82c7941958 100644
+> > --- a/hw/i386/pc_piix.c
+> > +++ b/hw/i386/pc_piix.c
+> > @@ -196,6 +196,9 @@ static void pc_init1(MachineState *machine,
+> >
+> >       if (pcmc->pci_enabled) {
+> >           PIIX3State *piix3;
+> > +        PCIDevice *pci_dev;
+> > +        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+> > +                                         : TYPE_PIIX3_DEVICE;
+> >
+> >           pci_bus = i440fx_init(host_type,
+> >                                 pci_type,
+> > @@ -206,7 +209,8 @@ static void pc_init1(MachineState *machine,
+> >                                 pci_memory, ram_memory);
+> >           pcms->bus = pci_bus;
+> >
+> > -        piix3 = piix3_create(pci_bus);
+> > +        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true,
+> type);
+> > +        piix3 = PIIX3_PCI_DEVICE(pci_dev);
+> >           piix3->pic = x86ms->gsi;
+> >           piix3_devfn = piix3->dev.devfn;
+> >           isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+> > diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+> > index 6eacb22dd0..01c376b39a 100644
+> > --- a/hw/isa/piix3.c
+> > +++ b/hw/isa/piix3.c
+> > @@ -36,9 +36,6 @@
+> >
+> >   #define XEN_PIIX_NUM_PIRQS      128ULL
+> >
+> > -#define TYPE_PIIX3_DEVICE "PIIX3"
+> > -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+> > -
+> >   static void piix3_set_irq_pic(PIIX3State *piix3, int pic_irq)
 > >   {
-> >       const char compat[] = "motorola,mc146818";
-> >       uint32_t irq = object_property_get_uint(OBJECT(dev), "irq", NULL);
-> > -    hwaddr base = RTC_ISA_BASE;
-> > +    hwaddr base = object_property_get_int(OBJECT(dev), "iobase", NULL);
+> >       qemu_set_irq(piix3->pic[pic_irq],
+> > @@ -402,16 +399,3 @@ static void piix3_register_types(void)
+> >   }
+> >
+> >   type_init(piix3_register_types)
+> > -
+> > -PIIX3State *piix3_create(PCIBus *pci_bus)
+> > -{
+> > -    PIIX3State *piix3;
+> > -    PCIDevice *pci_dev;
+> > -    const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+> > -                                     : TYPE_PIIX3_DEVICE;
+> > -
+> > -    pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
+> > -    piix3 = PIIX3_PCI_DEVICE(pci_dev);
+> > -
+> > -    return piix3;
+> > -}
+> > diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> > index 852e5c4db1..a70063bc77 100644
+> > --- a/hw/isa/piix4.c
+> > +++ b/hw/isa/piix4.c
+> > @@ -300,13 +300,3 @@ static void piix4_register_types(void)
+> >   }
+> >
+> >   type_init(piix4_register_types)
+> > -
+> > -PCIDevice *piix4_create(PCIBus *pci_bus)
+> > -{
+> > -    PCIDevice *pci;
+> > -
+> > -    pci = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+> true,
+> > -                                          TYPE_PIIX4_PCI_DEVICE);
+> > -
+> > -    return pci;
+> > -}
+> > diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> > index d4bd3549d0..57b5eddc74 100644
+> > --- a/hw/mips/malta.c
+> > +++ b/hw/mips/malta.c
+> > @@ -1400,7 +1400,8 @@ void mips_malta_init(MachineState *machine)
+> >       empty_slot_init("GT64120", 0, 0x20000000);
+> >
+> >       /* Southbridge */
+> > -    piix4 = piix4_create(pci_bus);
+> > +    piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+> true,
+> > +                                            TYPE_PIIX4_PCI_DEVICE);
+> >       dev = DEVICE(piix4);
+> >       isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+> >       smbus = piix4_pm_init(pci_bus, piix4->devfn + 3, 0x1100,
+> > diff --git a/include/hw/southbridge/piix.h
+> b/include/hw/southbridge/piix.h
+> > index bea3b44551..2d55dbdef7 100644
+> > --- a/include/hw/southbridge/piix.h
+> > +++ b/include/hw/southbridge/piix.h
+> > @@ -70,10 +70,8 @@ typedef struct PIIXState PIIX3State;
+> >   DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+> >                            TYPE_PIIX3_PCI_DEVICE)
+> >
+> > +#define TYPE_PIIX3_DEVICE "PIIX3"
+> > +#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+> >   #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
 >
-> Same comment here re: &error_abort.
->
-
-Ack.
-
->
-> >       hwaddr size = 8;
-> >       char *nodename;
-> >
-> > diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> > index f235c2ddbe..484f91b6f8 100644
-> > --- a/hw/rtc/mc146818rtc.c
-> > +++ b/hw/rtc/mc146818rtc.c
-> > @@ -941,7 +941,7 @@ static void rtc_realizefn(DeviceState *dev, Error
-> **errp)
-> >       qemu_register_suspend_notifier(&s->suspend_notifier);
-> >
-> >       memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
-> > -    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
-> > +    isa_register_ioport(isadev, &s->io, s->io_base);
-> >
-> >       /* register rtc 0x70 port for coalesced_pio */
-> >       memory_region_set_flush_coalesced(&s->io);
-> > @@ -950,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error
-> **errp)
-> >       memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
-> >       memory_region_add_coalescing(&s->coalesced_io, 0, 1);
-> >
-> > -    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
-> > +    qdev_set_legacy_instance_id(dev, s->io_base, 3);
-> >
-> >       object_property_add_tm(OBJECT(s), "date", rtc_get_date);
-> >
-> > @@ -983,6 +983,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int
-> base_year, qemu_irq intercept_irq)
-> >
-> >   static Property mc146818rtc_properties[] = {
-> >       DEFINE_PROP_INT32("base_year", RTCState, base_year, 1980),
-> > +    DEFINE_PROP_UINT32("iobase", RTCState, io_base, 0x70),
->
-> I think this should be RTC_ISA_BASE?
->
-> >       DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
-> >       DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
-> >                                  lost_tick_policy,
-> LOST_TICK_POLICY_DISCARD),
-> > @@ -1028,7 +1029,7 @@ static void rtc_build_aml(ISADevice *isadev, Aml
-> *scope)
-> >        * does, even though qemu only responds to the first two ports.
-> >        */
-> >       crs = aml_resource_template();
-> > -    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
-> > +    aml_append(crs, aml_io(AML_DECODE16, s->io_base, s->io_base,
-> >                              0x01, 0x08));
-> >       aml_append(crs, aml_irq_no_flags(s->isairq));
-> >
-> > diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-> > index 33d85753c0..1f7942a9f8 100644
-> > --- a/include/hw/rtc/mc146818rtc.h
-> > +++ b/include/hw/rtc/mc146818rtc.h
-> > @@ -26,6 +26,7 @@ struct RTCState {
-> >       uint8_t cmos_data[128];
-> >       uint8_t cmos_index;
-> >       uint8_t isairq;
-> > +    uint32_t io_base;
-> >       int32_t base_year;
-> >       uint64_t base_rtc;
-> >       uint64_t last_update;
-> > @@ -49,7 +50,6 @@ struct RTCState {
-> >   };
-> >
-> >   #define RTC_ISA_IRQ 8
-> > -#define RTC_ISA_BASE 0x70
->
-> ... and so you'll need to keep this.
+> I think it would make sense for the movement of these types to be included
+> in patch 1
+> in a single place.
 >
 
-My intention was indeed to remove it since it is now redundant. Keeping the
-constant public has the risk of using it instead of the user-configurable
-QOM property which could cause bugs.
+This makes sense indeed. I'll change it.
 
-
-> >   ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-> >                                qemu_irq intercept_irq);
+>
+> > -PIIX3State *piix3_create(PCIBus *pci_bus);
+> > -
+> > -PCIDevice *piix4_create(PCIBus *pci_bus);
+> > -
+> >   #endif
 >
 > Otherwise:
 >
@@ -231,176 +237,173 @@ QOM property which could cause bugs.
 > Mark.
 >
 
---0000000000006468ce05df960f69
+--0000000000003d144e05df96167c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Sat, May 21, 2022 at 11:24 AM Mark Cave-Ayland &lt;<a href=3D"mai=
-lto:mark.cave-ayland@ilande.co.uk">mark.cave-ayland@ilande.co.uk</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 20/05/20=
-22 18:45, Bernhard Beschow wrote:<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, May 21, 2022 at 10:43 AM Mark=
+ Cave-Ayland &lt;<a href=3D"mailto:mark.cave-ayland@ilande.co.uk">mark.cave=
+-ayland@ilande.co.uk</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On 13/05/2022 18:54, Bernhard Beschow wrote:<br>
 <br>
-&gt; Exposing the io_base offset as a QOM property not only allows it to be=
-<br>
-&gt; configurable but also to be displayed in HMP:<br>
-&gt; <br>
-&gt; Before:<br>
-&gt; <br>
-&gt; (qemu) info qtree<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0...<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev: mc146818rtc, id &quot;&q=
-uot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gpio-out &quot;&quot; =
-1<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 base_year =3D 0 (0x0)<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 irq =3D 8 (0x8)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lost_tick_policy =3D &=
-quot;discard&quot;<br>
-&gt; <br>
-&gt; After:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev: mc146818rtc, id &quot;&q=
-uot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gpio-out &quot;&quot; =
-1<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 base_year =3D 0 (0x0)<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iobase =3D 112 (0x70)<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 irq =3D 8 (0x8)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lost_tick_policy =3D &=
-quot;discard&quot;<br>
+&gt; During the previous changesets the create() functions became trivial<b=
+r>
+&gt; wrappers around more generic functions. Modernize the code.<br>
 &gt; <br>
 &gt; Signed-off-by: Bernhard Beschow &lt;<a href=3D"mailto:shentey@gmail.co=
 m" target=3D"_blank">shentey@gmail.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/i386/microvm-dt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 =
-+-<br>
-&gt;=C2=A0 =C2=A0hw/rtc/mc146818rtc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 7 =
-++++---<br>
-&gt;=C2=A0 =C2=A0include/hw/rtc/mc146818rtc.h | 2 +-<br>
-&gt;=C2=A0 =C2=A03 files changed, 6 insertions(+), 5 deletions(-)<br>
+&gt;=C2=A0 =C2=A0hw/i386/pc_piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 6 +++++-<br>
+&gt;=C2=A0 =C2=A0hw/isa/piix3.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 16 ----------------<br>
+&gt;=C2=A0 =C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 10 ----------<br>
+&gt;=C2=A0 =C2=A0hw/mips/malta.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 3 ++-<br>
+&gt;=C2=A0 =C2=A0include/hw/southbridge/piix.h |=C2=A0 6 ++----<br>
+&gt;=C2=A0 =C2=A05 files changed, 9 insertions(+), 32 deletions(-)<br>
 &gt; <br>
-&gt; diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c<br>
-&gt; index a5db9e4e5a..39fe425b26 100644<br>
-&gt; --- a/hw/i386/microvm-dt.c<br>
-&gt; +++ b/hw/i386/microvm-dt.c<br>
-&gt; @@ -209,7 +209,7 @@ static void dt_add_isa_rtc(MicrovmMachineState *mm=
-s, ISADevice *dev)<br>
+&gt; diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c<br>
+&gt; index 47932448fd..82c7941958 100644<br>
+&gt; --- a/hw/i386/pc_piix.c<br>
+&gt; +++ b/hw/i386/pc_piix.c<br>
+&gt; @@ -196,6 +196,9 @@ static void pc_init1(MachineState *machine,<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (pcmc-&gt;pci_enabled) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PIIX3State *piix3;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 PCIDevice *pci_dev;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *type =3D xen_enabled() ? TYPE=
+_PIIX3_XEN_DEVICE<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0: TYPE_PIIX3_DEVICE;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pci_bus =3D i440fx_init(host_t=
+ype,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pci_type,<br>
+&gt; @@ -206,7 +209,8 @@ static void pc_init1(MachineState *machine,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pci_memory, ram_memory);<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pcms-&gt;bus =3D pci_bus;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 piix3 =3D piix3_create(pci_bus);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pci_dev =3D pci_create_simple_multifuncti=
+on(pci_bus, -1, true, type);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 piix3 =3D PIIX3_PCI_DEVICE(pci_dev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0piix3-&gt;pic =3D x86ms-&gt;gs=
+i;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0piix3_devfn =3D piix3-&gt;dev.=
+devfn;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0isa_bus =3D ISA_BUS(qdev_get_c=
+hild_bus(DEVICE(piix3), &quot;isa.0&quot;));<br>
+&gt; diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c<br>
+&gt; index 6eacb22dd0..01c376b39a 100644<br>
+&gt; --- a/hw/isa/piix3.c<br>
+&gt; +++ b/hw/isa/piix3.c<br>
+&gt; @@ -36,9 +36,6 @@<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0#define XEN_PIIX_NUM_PIRQS=C2=A0 =C2=A0 =C2=A0 128ULL<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -#define TYPE_PIIX3_DEVICE &quot;PIIX3&quot;<br>
+&gt; -#define TYPE_PIIX3_XEN_DEVICE &quot;PIIX3-xen&quot;<br>
+&gt; -<br>
+&gt;=C2=A0 =C2=A0static void piix3_set_irq_pic(PIIX3State *piix3, int pic_i=
+rq)<br>
 &gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0const char compat[] =3D &quot;motorola,mc146=
-818&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t irq =3D object_property_get_uint(OB=
-JECT(dev), &quot;irq&quot;, NULL);<br>
-&gt; -=C2=A0 =C2=A0 hwaddr base =3D RTC_ISA_BASE;<br>
-&gt; +=C2=A0 =C2=A0 hwaddr base =3D object_property_get_int(OBJECT(dev), &q=
-uot;iobase&quot;, NULL);<br>
-<br>
-Same comment here re: &amp;error_abort.<br></blockquote><div><br></div><div=
->Ack. <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr size =3D 8;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0char *nodename;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_set_irq(piix3-&gt;pic[pic_irq],<br>
+&gt; @@ -402,16 +399,3 @@ static void piix3_register_types(void)<br>
+&gt;=C2=A0 =C2=A0}<br>
 &gt;=C2=A0 =C2=A0<br>
-&gt; diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c<br>
-&gt; index f235c2ddbe..484f91b6f8 100644<br>
-&gt; --- a/hw/rtc/mc146818rtc.c<br>
-&gt; +++ b/hw/rtc/mc146818rtc.c<br>
-&gt; @@ -941,7 +941,7 @@ static void rtc_realizefn(DeviceState *dev, Error =
-**errp)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_register_suspend_notifier(&amp;s-&gt;su=
-spend_notifier);<br>
+&gt;=C2=A0 =C2=A0type_init(piix3_register_types)<br>
+&gt; -<br>
+&gt; -PIIX3State *piix3_create(PCIBus *pci_bus)<br>
+&gt; -{<br>
+&gt; -=C2=A0 =C2=A0 PIIX3State *piix3;<br>
+&gt; -=C2=A0 =C2=A0 PCIDevice *pci_dev;<br>
+&gt; -=C2=A0 =C2=A0 const char *type =3D xen_enabled() ? TYPE_PIIX3_XEN_DEV=
+ICE<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: TYPE_PIIX3=
+_DEVICE;<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 pci_dev =3D pci_create_simple_multifunction(pci_bus, -1=
+, true, type);<br>
+&gt; -=C2=A0 =C2=A0 piix3 =3D PIIX3_PCI_DEVICE(pci_dev);<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 return piix3;<br>
+&gt; -}<br>
+&gt; diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c<br>
+&gt; index 852e5c4db1..a70063bc77 100644<br>
+&gt; --- a/hw/isa/piix4.c<br>
+&gt; +++ b/hw/isa/piix4.c<br>
+&gt; @@ -300,13 +300,3 @@ static void piix4_register_types(void)<br>
+&gt;=C2=A0 =C2=A0}<br>
 &gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_init_io(&amp;s-&gt;io, OBJECT(=
-s), &amp;cmos_ops, s, &quot;rtc&quot;, 2);<br>
-&gt; -=C2=A0 =C2=A0 isa_register_ioport(isadev, &amp;s-&gt;io, RTC_ISA_BASE=
-);<br>
-&gt; +=C2=A0 =C2=A0 isa_register_ioport(isadev, &amp;s-&gt;io, s-&gt;io_bas=
-e);<br>
+&gt;=C2=A0 =C2=A0type_init(piix4_register_types)<br>
+&gt; -<br>
+&gt; -PCIDevice *piix4_create(PCIBus *pci_bus)<br>
+&gt; -{<br>
+&gt; -=C2=A0 =C2=A0 PCIDevice *pci;<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 pci =3D pci_create_simple_multifunction(pci_bus, PCI_DE=
+VFN(10, 0), true,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 TYPE_PIIX4_PCI_DEVICE);<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 return pci;<br>
+&gt; -}<br>
+&gt; diff --git a/hw/mips/malta.c b/hw/mips/malta.c<br>
+&gt; index d4bd3549d0..57b5eddc74 100644<br>
+&gt; --- a/hw/mips/malta.c<br>
+&gt; +++ b/hw/mips/malta.c<br>
+&gt; @@ -1400,7 +1400,8 @@ void mips_malta_init(MachineState *machine)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0empty_slot_init(&quot;GT64120&quot;, 0, 0x20=
+000000);<br>
 &gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* register rtc 0x70 port for coalesced_pio =
-*/<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_set_flush_coalesced(&amp;s-&gt=
-;io);<br>
-&gt; @@ -950,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error =
-**errp)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(&amp;s-&gt;io, 0=
-, &amp;s-&gt;coalesced_io);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_add_coalescing(&amp;s-&gt;coal=
-esced_io, 0, 1);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);<br>
-&gt; +=C2=A0 =C2=A0 qdev_set_legacy_instance_id(dev, s-&gt;io_base, 3);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0object_property_add_tm(OBJECT(s), &quot;date=
-&quot;, rtc_get_date);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -983,6 +983,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base=
-_year, qemu_irq intercept_irq)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static Property mc146818rtc_properties[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_INT32(&quot;base_year&quot;, RTC=
-State, base_year, 1980),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_UINT32(&quot;iobase&quot;, RTCState, io_bas=
-e, 0x70),<br>
-<br>
-I think this should be RTC_ISA_BASE?<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT8(&quot;irq&quot;, RTCState,=
- isairq, RTC_ISA_IRQ),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_LOSTTICKPOLICY(&quot;lost_tick_p=
-olicy&quot;, RTCState,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Southbridge */<br>
+&gt; -=C2=A0 =C2=A0 piix4 =3D piix4_create(pci_bus);<br>
+&gt; +=C2=A0 =C2=A0 piix4 =3D pci_create_simple_multifunction(pci_bus, PCI_=
+DEVFN(10, 0), true,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 TYPE_PIIX4_PCI_DEVICE);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0dev =3D DEVICE(piix4);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, =
+&quot;isa.0&quot;));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0smbus =3D piix4_pm_init(pci_bus, piix4-&gt;d=
+evfn + 3, 0x1100,<br>
+&gt; diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/pi=
+ix.h<br>
+&gt; index bea3b44551..2d55dbdef7 100644<br>
+&gt; --- a/include/hw/southbridge/piix.h<br>
+&gt; +++ b/include/hw/southbridge/piix.h<br>
+&gt; @@ -70,10 +70,8 @@ typedef struct PIIXState PIIX3State;<br>
+&gt;=C2=A0 =C2=A0DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,<br>
 &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lost_tick_policy, LOST_TIC=
-K_POLICY_DISCARD),<br>
-&gt; @@ -1028,7 +1029,7 @@ static void rtc_build_aml(ISADevice *isadev, Aml=
- *scope)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 * does, even though qemu only responds to t=
-he first two ports.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0crs =3D aml_resource_template();<br>
-&gt; -=C2=A0 =C2=A0 aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_=
-ISA_BASE,<br>
-&gt; +=C2=A0 =C2=A0 aml_append(crs, aml_io(AML_DECODE16, s-&gt;io_base, s-&=
-gt;io_base,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x01, 0x08));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0aml_append(crs, aml_irq_no_flags(s-&gt;isair=
-q));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 TYPE_PIIX3_PCI_DEVICE)<br>
 &gt;=C2=A0 =C2=A0<br>
-&gt; diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc=
-.h<br>
-&gt; index 33d85753c0..1f7942a9f8 100644<br>
-&gt; --- a/include/hw/rtc/mc146818rtc.h<br>
-&gt; +++ b/include/hw/rtc/mc146818rtc.h<br>
-&gt; @@ -26,6 +26,7 @@ struct RTCState {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t cmos_data[128];<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t cmos_index;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t isairq;<br>
-&gt; +=C2=A0 =C2=A0 uint32_t io_base;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int32_t base_year;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t base_rtc;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t last_update;<br>
-&gt; @@ -49,7 +50,6 @@ struct RTCState {<br>
-&gt;=C2=A0 =C2=A0};<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0#define RTC_ISA_IRQ 8<br>
-&gt; -#define RTC_ISA_BASE 0x70<br>
+&gt; +#define TYPE_PIIX3_DEVICE &quot;PIIX3&quot;<br>
+&gt; +#define TYPE_PIIX3_XEN_DEVICE &quot;PIIX3-xen&quot;<br>
+&gt;=C2=A0 =C2=A0#define TYPE_PIIX4_PCI_DEVICE &quot;piix4-isa&quot;<br>
 <br>
-... and so you&#39;ll need to keep this.<br></blockquote><div><br></div><di=
-v><div>My intention was indeed  to remove it since it is now redundant.=20
-Keeping the constant public has the risk of using it instead of the user-co=
-nfigurable QOM property which could cause bugs.<br></div>=C2=A0<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-&gt;=C2=A0 =C2=A0ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq intercept_irq);<br>
+I think it would make sense for the movement of these types to be included =
+in patch 1 <br>
+in a single place.<br></blockquote><div><br></div><div>This makes sense ind=
+eed. I&#39;ll change it. <br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+&gt; -PIIX3State *piix3_create(PCIBus *pci_bus);<br>
+&gt; -<br>
+&gt; -PCIDevice *piix4_create(PCIBus *pci_bus);<br>
+&gt; -<br>
+&gt;=C2=A0 =C2=A0#endif<br>
 <br>
 Otherwise:<br>
 <br>
@@ -413,5 +416,5 @@ ATB,<br>
 Mark.<br>
 </blockquote></div></div>
 
---0000000000006468ce05df960f69--
+--0000000000003d144e05df96167c--
 
