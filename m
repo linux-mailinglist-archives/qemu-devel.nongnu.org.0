@@ -2,115 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D822530078
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 06:06:34 +0200 (CEST)
-Received: from localhost ([::1]:36428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D8B5301C3
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 10:01:52 +0200 (CEST)
+Received: from localhost ([::1]:34476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nscrR-0004vT-51
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 00:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39266)
+	id 1nsgX7-0002ED-Hf
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 04:01:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nscof-00048E-S4
- for qemu-devel@nongnu.org; Sun, 22 May 2022 00:03:42 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:52122)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1nsgQQ-0006yA-JK
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 03:54:54 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:57423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nscod-0000hT-M6
- for qemu-devel@nongnu.org; Sun, 22 May 2022 00:03:41 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B381DB80ADE;
- Sun, 22 May 2022 04:03:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A320C34118;
- Sun, 22 May 2022 04:03:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653192207;
- bh=H8VxeRRGU1YvvB/gDGQdsDIur//wMHZ+GBccWBSTA4s=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=ogO7bURGMZjZY7Se7Ca+PlvmooeylSGOcmEVhlOvBfxQ6eNBOuYSlc7lye/lzX1gw
- oSZpH68lcUNhCGBQPbOoCPttQczz9lqiGvLSS7zpjlBVCKhlvLJT8sgEYqFORXxr88
- LMa7WENGD63Rs+0T7UBliYzNh0naPxCDjvfVYxbFM53JAyW+3GAlREGLSiBfnCMvU1
- LRmIXsOvNqqm3Z7p8jDzMg8ntEJaWd8QxCHVKjPWh48mnpAzrD3Va7p6rC5eMABYu0
- X/VekAVyZqB/w/yNgdEOTq2RhTUrVFjxKVBv0le1cPXUJ6sXoz0egBoAsTMe93KYsW
- vVtz8zIpWIjmw==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailauth.nyi.internal (Postfix) with ESMTP id E57B027C0054;
- Sun, 22 May 2022 00:03:24 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
- by compute2.internal (MEProxy); Sun, 22 May 2022 00:03:24 -0400
-X-ME-Sender: <xms:C7aJYqXjGfM4wQuodo607NjCU7PYVCu2Nf4CmUoeKrg1BJLSx7XzZg>
- <xme:C7aJYmlHnv72dQ8EoYnKirE_LOZ3kTXO40X-kdOe5RXnWn49nNecmEywlY7yQopLh
- 28ExrBKGpBdj_3Cstk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrieejgdejjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- hicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenucggtf
- frrghtthgvrhhnpedvhfeuvddthfdufffhkeekffetgffhledtleegffetheeugeejffdu
- hefgteeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedukeeh
- ieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinhhugi
- drlhhuthhordhush
-X-ME-Proxy: <xmx:C7aJYuYVuXc6-n2rtnHJr-4hXRuGMt2-n6Fi-6i-PRQbwWRrklD5pQ>
- <xmx:C7aJYhVjZixJLh_aI5dYUZ-ppl2q-9UUAw-iaNwXiutFsbo6JXT1jg>
- <xmx:C7aJYknSPK7hrO2kEN3oZsQQWBSL9WHgDO8QD1SQXxvC326OwMbEKA>
- <xmx:DLaJYuvHWMkfc_q-57cYIYJF2SXVodDLkZm9p2keZbWlQiDzjMXLE8biMqU>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 3F6EB31A005D; Sun, 22 May 2022 00:03:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
-Mime-Version: 1.0
-Message-Id: <f0f9c66d-ae94-4eb1-b7e5-6a0a9f0d4798@www.fastmail.com>
-In-Reply-To: <YofeZps9YXgtP3f1@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
- <YofeZps9YXgtP3f1@google.com>
-Date: Sat, 21 May 2022 21:03:01 -0700
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "Sean Christopherson" <seanjc@google.com>
-Cc: "Chao Peng" <chao.p.peng@linux.intel.com>,
- "kvm list" <kvm@vger.kernel.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, "Paolo Bonzini" <pbonzini@redhat.com>,
- "Jonathan Corbet" <corbet@lwn.net>,
- "Vitaly Kuznetsov" <vkuznets@redhat.com>,
- "Wanpeng Li" <wanpengli@tencent.com>,
- "Jim Mattson" <jmattson@google.com>, "Joerg Roedel" <joro@8bytes.org>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "the arch/x86 maintainers" <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, "Hugh Dickins" <hughd@google.com>,
- "Jeff Layton" <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Mike Rapoport" <rppt@kernel.org>, "Steven Price" <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- "Vlastimil Babka" <vbabka@suse.cz>,
- "Vishal Annapurve" <vannapurve@google.com>,
- "Yu Zhang" <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, "Nakajima,
- Jun" <jun.nakajima@intel.com>, "Dave Hansen" <dave.hansen@intel.com>,
- "Andi Kleen" <ak@linux.intel.com>,
- "David Hildenbrand" <david@redhat.com>, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- "Quentin Perret" <qperret@google.com>,
- "Michael Roth" <michael.roth@amd.com>, "Michal Hocko" <mhocko@suse.com>
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Content-Type: text/plain
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=luto@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1nsgQO-0005xZ-EN
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 03:54:54 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id A5B5240107;
+ Sun, 22 May 2022 10:54:40 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 2764A12D;
+ Sun, 22 May 2022 10:54:40 +0300 (MSK)
+Message-ID: <ef7e3563-dd54-e838-c429-e9359c9e77e2@msgid.tls.msk.ru>
+Date: Sun, 22 May 2022 10:54:39 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: qemu-user (arm64) fails (null ptr deref) under qemu-system-x86_64
+ w/o avx?
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <7c82caac-4426-b107-af3c-79b99856fca9@msgid.tls.msk.ru>
+ <7ebb70a9-96ff-a3c0-f872-ea2eefdda18c@linaro.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <7ebb70a9-96ff-a3c0-f872-ea2eefdda18c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -127,35 +62,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello Richard!
 
+22.05.2022 04:17, Richard Henderson wrote:
+> On 5/18/22 02:13, Michael Tokarev wrote:
+>> Hi!
+>>
+>> Here's an interesting bug. Interesting because qemu-user does not run under qemu-system.
+>>
+>> Running 7.0.0 qemu-aarch64-static under 7.0.0 qemu-system-x86_64 -enable-kvm with
+>> default cpu type, getting:
+> 
+> What is the test case?
+> 
+> I thought I'd be able to see the same problem by disabling AVX support in tcg/i386/tcg-target.c.inc.  But so far everything I have tried works.
 
-On Fri, May 20, 2022, at 11:31 AM, Sean Christopherson wrote:
+Do you really mean "everything", that is, you didn't able to reproduce it at all?
 
-> But a dedicated KVM ioctl() to add/remove shared ranges would be easy 
-> to implement
-> and wouldn't necessarily even need to interact with the memslots.  It 
-> could be a
-> consumer of memslots, e.g. if we wanted to disallow registering regions 
-> without an
-> associated memslot, but I think we'd want to avoid even that because 
-> things will
-> get messy during memslot updates, e.g. if dirty logging is toggled or a 
-> shared
-> memory region is temporarily removed then we wouldn't want to destroy 
-> the tracking.
->
-> I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-> should be far more efficient.
->
-> One benefit to explicitly tracking this in KVM is that it might be 
-> useful for
-> software-only protected VMs, e.g. KVM could mark a region in the XArray 
-> as "pending"
-> based on guest hypercalls to share/unshare memory, and then complete 
-> the transaction
-> when userspace invokes the ioctl() to complete the share/unshare.
+> And for completeness, what's the compiler that produced the qemu-aarch64-static binary?
 
-That makes sense.
+And this is a *very* good question really. Even better than I initially thought.
 
-If KVM goes this route, perhaps there the allowed states for a GPA should include private, shared, and also private-and-shared.  Then anyone who wanted to use the same masked GPA for shared and private on TDX could do so if they wanted to.
+Because I think it all started after gcc upgrade on debian and recompiling
+qemu-user with the new compiler. There was no other user-related changes in
+the version of qemu-user binary in debian which triggered this issue in the
+first place.  Becaise the reporter found which particular package upgrade
+causes this new issue to appear. It is the upgrade of qemu-user-static
+package in debian, minor version upgrade from 7.0.0-2 to 7.0.0-3 with
+changes in the packaging which are unrelated to qemu-user (actually to
+any code, - just the packaging stuff).
+
+Now I'm even more puzzled than before.  Because both packages were compiled
+by the same tool set versions. In particular, it was gcc-12 (= 12-20220428-1).
+I *thought* it is a gcc upgrade which caused that, but it is not. Compiler
+flags used, other relevant packages - it's all the same (we did upgrade, say,
+libsdl, but it is obviously has no effect on qemu-user).
+
+(Here's the initial bug report about this: https://bugs.debian.org/1011003 -
+but it contains too much unrelated information).
+
+I can reproduce the problem locally quite easily. I can't reproduce it on
+a baremetal system without AVX support (tried on a few older systems, in
+particular on a Celeron N3050) - it works there just fine, the same binary
+which fails under qemu-system. Previous qemu-aarch64-static works fine,
+this qemu-aarch64-static breaks, this qemu-aarch64-static but built on
+an older debian system (bullseye, with older toolchain) works fine either
+way.
+
+Even under qemu-system it has somewhat strange (but 100% reproducible, with
+exactly the same null-ptr deref) results: eg. it still fails with
+qemu-system-x86_64 -cpu Westmere,+avx, - so turning on avx for westmere does
+not fix it. But removing avx from SandyBridge does trigger it.  So it is not
+*just* avx, it is something more interesting than that. Maybe it is the
+qemu-system which does something wrong, not the qemu-user - because we can't
+reproduce it on a few baremetal systems (but it is way more difficult to
+experiment in this context obviously, since you can't turn CPU features on/off
+at will there).
+
+Hmm...... :)
+
+/mjt
 
