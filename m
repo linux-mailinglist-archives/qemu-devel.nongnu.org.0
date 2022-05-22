@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767F5530694
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:36:30 +0200 (CEST)
-Received: from localhost ([::1]:54920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF84E530696
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:40:38 +0200 (CEST)
+Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsuBZ-0008AG-Bs
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52690)
+	id 1nsuFZ-00023m-Rk
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nsu9o-00072I-Qs; Sun, 22 May 2022 18:34:40 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:35382)
+ id 1nsuDn-0000sH-Qm; Sun, 22 May 2022 18:38:47 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nsu9k-0007bK-5k; Sun, 22 May 2022 18:34:40 -0400
-Received: by mail-pf1-x430.google.com with SMTP id c14so12165826pfn.2;
- Sun, 22 May 2022 15:34:35 -0700 (PDT)
+ id 1nsuDm-0008Bc-9c; Sun, 22 May 2022 18:38:47 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id n10so12436727pjh.5;
+ Sun, 22 May 2022 15:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vgD49tBgA1o3bdYP/piVah1ryCYVvRbRi6jN9OL4Q8o=;
- b=LPD5mnYqo+/q0Sxm76Q7TCOVB19WZ093jA85leGdYva3cHAVj0x1zfzPBoBHfdjPhE
- FtTFdzWr71i9zBI8yoXc/N/OBYqs5N+k8yOBA/LyffEShVnWfQsgxYcu5YmkMwt31VZO
- qsSGX7jWuBLk9llbGjtQumn+mVAmJOZANJ3/0BZbJgd9zcYrv/nDXVEUI0HO//LJpdqs
- ldcJWKuH0bL1Sr7vnEjC3lMvMhoCD8RNysY3JIXcewln5JxJA7x0wV7Iws36i5JNpkG+
- K/8yC3Rk0Kbm3zTYkqx/LqCfglRbw28uTz4wHjkvy3iimAMu7ayMIf1ixOSqT+k+Nwqm
- iPLQ==
+ bh=oHX9poT5pIw4v3K2FeScvYWSM7W/h8jX/GSh+J84w+4=;
+ b=W7tjX2eHTSDXFOj+wBN2EfQRA8JB8ZwU6tKAHhinunBcGL4CfXaToIKQfRjmZ/Qq/+
+ voeOcXOog3Xh/xe/Oc1NuZ98YpVnWEZun1Xh1BjlxgnJY5+xjYGeQRe8x5cN7Q+fDSUV
+ qZJ9QuaiNP4ReHstkG3oXSeq0pIBAC+MVAFWLVW772ytfsZz7hKfvbm4ntAESujIwytv
+ Hw30UO1ZEfpG5/kbCjeqpvjKSvyzTRwa8//wt2fqOt+ImXmIR1DMzkoTAIoyrAvo+Ub9
+ KRFpW++tMOjqFDLRYLzkyoN2FUuPfecmIpBjn4zBJwOhZ8fenL8enFk6Utx2gXAvQfXy
+ ZPHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vgD49tBgA1o3bdYP/piVah1ryCYVvRbRi6jN9OL4Q8o=;
- b=tF5mZmiL3pdg2lAmDJlQiGZrhmDIhWcAFeTlnydrTkc9BEC3CymzAIto5yjZF0r4JF
- AcW2RYAasjR4c0X1NCj3NUs8CtPK6Q6C4efiX47vEOfgyW4Wp3Dr6fhbjXWodoJ2P0NI
- rhqfsOWzLn7PCyl2QAkDb95vTkJcjpYD1RlQt/cAd4iujIUkfT8mxO4VOZWh58Z5tKR+
- HQRX9vZ1sgeBrxewiEjoEzS2TA9viSzbyJxnd3pG8yqR6y+a1q8qBc4otwUYa739Mefr
- C364RcrPirAg5iqTYYAezAn3cAsXSR2Vbd2tsIoBQrEMhC+/ln/i6pdonH0Qz9SFZzZf
- Yj0g==
-X-Gm-Message-State: AOAM531xhY9YeuzrmW6PMrlKFYCLLk75FmyH894WjfAKDyZbSMamgJ/B
- UjEveb0P7f2avLMI2qV0kTU=
-X-Google-Smtp-Source: ABdhPJwUTScuRPCB/wgJyp6Wl1Au0HBhFzRoiFqnKkOjiv27qQjBwoNCVebt6lX6IcZnomzA/gG7LA==
-X-Received: by 2002:a05:6a00:16cb:b0:517:c8ff:6ff6 with SMTP id
- l11-20020a056a0016cb00b00517c8ff6ff6mr20903007pfc.46.1653258874443; 
- Sun, 22 May 2022 15:34:34 -0700 (PDT)
+ bh=oHX9poT5pIw4v3K2FeScvYWSM7W/h8jX/GSh+J84w+4=;
+ b=po+FJogH0VlMJch1E6uzddktJBoObbplV7DwwAoOLur8ICYuo9kPL9DKwZRdwhtdCD
+ WPNFDRmkiwmMKHOK1yffMjkejA+QrWyGCcJolRWldvipVLJMCrA5CeWVIZxbBW+iOhv3
+ Kq88JYMW/OfcnsLexh4W56A7l3MxQ6yG+yQyTgBXnRrvgm3Dy2ykQpj/cBbqpg8IT9uZ
+ e1JDwUdykO75wEIm0W7MMwtgUUU5nv245G3JIMnGwEOOFQ29YW8GpbLZ9ZnTNCVYNl2m
+ xtOene+QPVWxkUGZNY71H/8N80PjimL4803jJzu6ZyN/BFX+kyV6R+lzXfk/JpKvq29d
+ Ur1A==
+X-Gm-Message-State: AOAM5302BIHwLaNz5esCVhre9xE1qTv+QzDY6HtaAhffOUHlJN4/5CWk
+ 95XzWe4vyLQgLZidkfjyPXh2YlCpvzY=
+X-Google-Smtp-Source: ABdhPJxcX1dkYBSW9xlWS1G8MuPak9zIY9NYxpdD/Sl9KZKNpHBL3RpCgc9ZDq5WThtLOuRRGQc7ZQ==
+X-Received: by 2002:a17:90a:2f84:b0:1dd:940:50e7 with SMTP id
+ t4-20020a17090a2f8400b001dd094050e7mr23469379pjd.210.1653259124187; 
+ Sun, 22 May 2022 15:38:44 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- b4-20020a170902d50400b0015e8d4eb1dcsm3593464plg.38.2022.05.22.15.34.32
+ bh11-20020a170902a98b00b00161d80dd1d1sm3560288plb.292.2022.05.22.15.38.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 15:34:34 -0700 (PDT)
-Message-ID: <e08e95b6-8fb6-2695-1cc3-13c232f05a14@amsat.org>
-Date: Mon, 23 May 2022 00:34:30 +0200
+ Sun, 22 May 2022 15:38:43 -0700 (PDT)
+Message-ID: <0f74fb58-9c50-e69a-20c5-b74eadcc6e5f@amsat.org>
+Date: Mon, 23 May 2022 00:38:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH 0/6] QOM'ify PIIX southbridge creation
+Subject: Re: [PATCH v2 08/10] accel/tcg/cpu-exec: Unexport dump_drift_info()
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20220513175445.89616-1-shentey@gmail.com>
- <3b381726-1bf3-06b3-c989-6b0ee564b90f@ilande.co.uk>
-In-Reply-To: <3b381726-1bf3-06b3-c989-6b0ee564b90f@ilande.co.uk>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Richard Henderson
+ <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220520180109.8224-1-shentey@gmail.com>
+ <20220520180109.8224-9-shentey@gmail.com>
+In-Reply-To: <20220520180109.8224-9-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,28 +95,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 21/5/22 10:48, Mark Cave-Ayland wrote:
-> On 13/05/2022 18:54, Bernhard Beschow wrote:
-
->> Bernhard Beschow (6):
->>    include/hw: Move TYPE_PIIX4_PCI_DEVICE to southbridge/piix.h
->>    hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
->>    hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
->>    hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
->>    hw/isa/piix4: Factor out SM bus initialization from create() function
->>    hw/isa/piix{3,4}: Inline and remove create() functions
-
-> I've just reviewed these, and other than a couple of minor issues these 
-> look good to me and definitely help to improve the code.
+On 20/5/22 20:01, Bernhard Beschow wrote:
+> Commit 3a841ab53f165910224dc4bebabf1a8f1d04200c 'qapi: introduce
+> x-query-jit QMP command' basically moved the only function using
+> dump_drift_info() to cpu-exec.c. Therefore, dump_drift_info() doesn't
+> need to be exported any longer.
 > 
-> One thing reading over this patches has made me realise is that there is 
-> quite a model violation here in that the PIIX3 and PIIX4 devices (which 
-> are the PCI-ISA bridges) are actually setting the PCI host bridge 
-> IRQs(!). What should happen is that the PCI bus IRQs and routing should 
-> be done in the PCI host bridge, and gpios used in the PCI-ISA bridges to 
-> pass them up. But that's definitely something outside the scope of these 
-> improvements.
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   accel/tcg/cpu-exec.c   | 2 +-
+>   include/exec/cpu-all.h | 2 --
+>   2 files changed, 1 insertion(+), 3 deletions(-)
 
-Yes. Do you mind opening a GitLab issue?
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
