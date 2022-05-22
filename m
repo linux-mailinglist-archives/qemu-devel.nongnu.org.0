@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A537A530657
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 23:49:33 +0200 (CEST)
-Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3F253065C
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 23:53:23 +0200 (CEST)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nstS8-0004P4-Ni
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 17:49:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
+	id 1nstVq-00062x-RI
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 17:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstRI-0003db-4Z
- for qemu-devel@nongnu.org; Sun, 22 May 2022 17:48:40 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36697)
+ id 1nstUs-0005Nn-Fh
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 17:52:22 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:35595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstRG-0000QL-MN
- for qemu-devel@nongnu.org; Sun, 22 May 2022 17:48:39 -0400
-Received: by mail-pf1-x429.google.com with SMTP id u15so12052177pfi.3
- for <qemu-devel@nongnu.org>; Sun, 22 May 2022 14:48:38 -0700 (PDT)
+ id 1nstUq-0000xA-Ay
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 17:52:22 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ nk9-20020a17090b194900b001df2fcdc165so15891172pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 22 May 2022 14:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oeu3aVxYQRTKtBxVdCmgWXsOXQs0aaSVb5H3s4KYL/0=;
- b=N9eIzTisXjtqM3kAVMI+86lt82lqMVm+4bC26KBTxeTssm09Q/pP7+MBbfzzFocJFj
- HtjBY0PCMJTuO5kTJVJsRBr1FmK2YnIyGtHfVBNqCuPld9jeBzk4oxIDTxllDpy/CwVF
- kf7TXidQdHKlG2ujx/cZ6qSQTP4IOk+/xNMzjACEkM0ON0JcbFpoU8k7IogEqtRaoSh1
- XGpvONdDf2V36sLbjTWHuCaEG9TZ/+doBO/W5i2ZPVXJ6N6jXfgkUXI56wgIFA47RPIR
- Sev3l+IBEBmr7psaN9ZLY2BjdZHTLTbfGcJD+CLkXoIYjdl2YCKXBU0aivA/65wPLUHe
- B43Q==
+ bh=ye/ieyy2cQGInrwD+W99/8R9n3KIre/3qKdqqyrmTlc=;
+ b=n13t/SbRhpPLggMzgk3VEN+6b4+XaFegF0sRMeYoT0xOOiQUVMHCEEVPee+yoeWRpg
+ 9I4MNuhSLII2q1QbWkD5JlWztgW873x+CZmW1x+LhVFlIV/7OqHGGrBp9KcPQkVhRz/5
+ 4OwMBZXWAHGqc/xCZQFhUfB4inzA5zZu0CNOxeF7Is3RKZLFx3036gdLtOee0LjeNi2p
+ LB9T2hSWgKrHG1WmTlNTsrWXiEvHqcbKyUSkJLbqpQh9kJ3aR27QHgdKjVwZrmGHXqPR
+ cGFP9ipBl+PmKizBLw4X1ZtccDVcugsBa1ferq1gPxpcukVt8HRypaKAh9nyqQ+v3Azo
+ 2Tug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oeu3aVxYQRTKtBxVdCmgWXsOXQs0aaSVb5H3s4KYL/0=;
- b=llzY0EFkI8SuMxU1/Z9nsRBwI8PPEY8QN7GgeEMYw8HQEMxIKee9wr/xbwHqh9bPs6
- PKTAHQxax9WuihN9Sy5sYW2SOi+rJT9EEQgYB+nOtzIt4p6KTu+NospeLZTktOeQKay2
- ioEWHWoAJMhKnC5StYtoSnzgEbGUL1mia2/MiqdsRgy9MDXFmqVDFVYDJxWW7jTuHCQa
- 5/kgI6WaeS/BRMlYrrrAsuy8eU3Ub81pJa9ckGHBkL4+wJ1iP7htu51+0/Eu5inVMG/A
- t5WLtzs2n2MelB75fAh88KcPbgph7FAZUzmc/sgefBoQDMDiEPRXUSK478dYWlDQHRRo
- hgRg==
-X-Gm-Message-State: AOAM5311UdaCc2sQptplPNe9Lt7Xf+I00gaJmogJ7QQ582eJ/eDtLaf7
- 4wtvKKwTDNYPuNhLmAxxHKlMOw8l7Vw=
-X-Google-Smtp-Source: ABdhPJx01WY80+KRi4enE7KVTqpz+0IJuWNUVRWU15XhBqRVIaoeqiA32WQtk/rP3rf8+tyYfCb3cg==
-X-Received: by 2002:a63:6886:0:b0:3c5:11f4:f055 with SMTP id
- d128-20020a636886000000b003c511f4f055mr18087453pgc.44.1653256117548; 
- Sun, 22 May 2022 14:48:37 -0700 (PDT)
+ bh=ye/ieyy2cQGInrwD+W99/8R9n3KIre/3qKdqqyrmTlc=;
+ b=crLWhcwFNMXm4iorSGvPVT7UH4QSLKNI1J057CI2PwVR/c3TPODKqcTR3GJcx5EXB1
+ M/zc8tZWUbQlYlyGHBkmSUjIlnjZOqP6CZTm8SlWCH6XoD+JxTIJQu0MgiV2i2CvnnaS
+ zblvxSb8rXHQaCnK4mpSf42v58Ey9MyzDRrbScujeY8uPrAIq8BlQ+IAtY+PXNG388wc
+ cvGp3qbv/dxYyC4M9Wif78xabWxIeNBi9pXbTJlLpiSptgp89UJQPu+qBHj2QMRN/2N7
+ spL2R3JD2iQ1dFdBSdJ6BfuedTCnnDh2DkxeCmP3G4ezSH8zcWSBAhzXHzYVMQjRSoj0
+ 2dMQ==
+X-Gm-Message-State: AOAM533gJm/psraWD8S2eimSJZJSIiah7XStctNr7gyW6BTd2b4dVIgK
+ 0cvR4gNZF7mzwmrycQexfoM=
+X-Google-Smtp-Source: ABdhPJy+N97wtZlA7Lkpo+qw7AGOyIM/vZfjPXijKFqzhQ5V/5e6VroD67T/JQLE/A6/L9EzS7JIjg==
+X-Received: by 2002:a17:902:f688:b0:162:28c7:73cb with SMTP id
+ l8-20020a170902f68800b0016228c773cbmr1398283plg.63.1653256338903; 
+ Sun, 22 May 2022 14:52:18 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h188-20020a6283c5000000b005183fc7c6dasm5607247pfe.5.2022.05.22.14.48.35
+ e9-20020a633709000000b003f5d4d4f947sm3401431pga.78.2022.05.22.14.52.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 14:48:37 -0700 (PDT)
-Message-ID: <df1df490-1946-16b4-4431-ca4c458d14e4@amsat.org>
-Date: Sun, 22 May 2022 23:48:34 +0200
+ Sun, 22 May 2022 14:52:18 -0700 (PDT)
+Message-ID: <ec227a28-87bf-04e9-3a03-fbe65c302e1d@amsat.org>
+Date: Sun, 22 May 2022 23:52:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH v4 17/17] target/m68k: Mark helper_raise_exception as
- noreturn
+Subject: Re: [PATCH v4 11/17] target/m68k: Implement TPF in terms of TRAPcc
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: laurent@vivier.eu
 References: <20220430175342.370628-1-richard.henderson@linaro.org>
- <20220430175342.370628-18-richard.henderson@linaro.org>
-In-Reply-To: <20220430175342.370628-18-richard.henderson@linaro.org>
+ <20220430175342.370628-12-richard.henderson@linaro.org>
+In-Reply-To: <20220430175342.370628-12-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,14 +98,15 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 30/4/22 19:53, Richard Henderson wrote:
-> Also mark raise_exception_ra and raise_exception, lest we
-> generate a warning about helper_raise_exception returning.
+> TPF stands for "trap false", and is a long-form nop for ColdFire.
+> Re-use the immediate consumption code from trapcc; the insn will
+> already expand to a nop because of the TCG_COND_NEVER test
+> within do_trapcc.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/m68k/helper.h    | 2 +-
->   target/m68k/op_helper.c | 5 +++--
->   2 files changed, 4 insertions(+), 3 deletions(-)
+>   target/m68k/translate.c | 18 +-----------------
+>   1 file changed, 1 insertion(+), 17 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
