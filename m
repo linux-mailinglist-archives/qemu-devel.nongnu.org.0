@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF84E530696
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:40:38 +0200 (CEST)
-Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9257530697
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:43:25 +0200 (CEST)
+Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsuFZ-00023m-Rk
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53046)
+	id 1nsuIG-0003yJ-RT
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nsuDn-0000sH-Qm; Sun, 22 May 2022 18:38:47 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55958)
+ id 1nsuEc-0001y9-L0; Sun, 22 May 2022 18:39:40 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nsuDm-0008Bc-9c; Sun, 22 May 2022 18:38:47 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id n10so12436727pjh.5;
- Sun, 22 May 2022 15:38:45 -0700 (PDT)
+ id 1nsuEY-0008I8-Nk; Sun, 22 May 2022 18:39:38 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ t11-20020a17090a6a0b00b001df6f318a8bso15880167pjj.4; 
+ Sun, 22 May 2022 15:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oHX9poT5pIw4v3K2FeScvYWSM7W/h8jX/GSh+J84w+4=;
- b=W7tjX2eHTSDXFOj+wBN2EfQRA8JB8ZwU6tKAHhinunBcGL4CfXaToIKQfRjmZ/Qq/+
- voeOcXOog3Xh/xe/Oc1NuZ98YpVnWEZun1Xh1BjlxgnJY5+xjYGeQRe8x5cN7Q+fDSUV
- qZJ9QuaiNP4ReHstkG3oXSeq0pIBAC+MVAFWLVW772ytfsZz7hKfvbm4ntAESujIwytv
- Hw30UO1ZEfpG5/kbCjeqpvjKSvyzTRwa8//wt2fqOt+ImXmIR1DMzkoTAIoyrAvo+Ub9
- KRFpW++tMOjqFDLRYLzkyoN2FUuPfecmIpBjn4zBJwOhZ8fenL8enFk6Utx2gXAvQfXy
- ZPHg==
+ bh=hIlzF2vXz8kWIiStaeHNN6uVHepC/TD8OXL/PXdF3F0=;
+ b=p7kbgUkuuL18aoaJAo7lXX7h+SOu6w1mxQQP/Op5rd+++FmZZ8N0TL97wVDZPwruqI
+ qRm+ovBeQcTgxnFpAoRda7bfa6GWkEWIXzX0+Ch9OUxZXgN4cKHxIV5RGFCDlk9Hjuki
+ muTXUdeiYW/gb7Hyusj6zxj8MlAuovX0eSJ2x0S2HWeyzIeipqD5wnkCdnyWRxHpx/kl
+ KYsXMJhBze5DoAX3joWyUylHYVYbV/DlocVYl/zzWwcGmqcBiPBK7XV4SbDRdAKWH8WN
+ 8VPGZbxtuKVrJKOZ7VFTCgCDfFAjH+sz0o/5ZF/qiDO9IH6LLmVI1utP2bGCzehcuvKg
+ /w7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oHX9poT5pIw4v3K2FeScvYWSM7W/h8jX/GSh+J84w+4=;
- b=po+FJogH0VlMJch1E6uzddktJBoObbplV7DwwAoOLur8ICYuo9kPL9DKwZRdwhtdCD
- WPNFDRmkiwmMKHOK1yffMjkejA+QrWyGCcJolRWldvipVLJMCrA5CeWVIZxbBW+iOhv3
- Kq88JYMW/OfcnsLexh4W56A7l3MxQ6yG+yQyTgBXnRrvgm3Dy2ykQpj/cBbqpg8IT9uZ
- e1JDwUdykO75wEIm0W7MMwtgUUU5nv245G3JIMnGwEOOFQ29YW8GpbLZ9ZnTNCVYNl2m
- xtOene+QPVWxkUGZNY71H/8N80PjimL4803jJzu6ZyN/BFX+kyV6R+lzXfk/JpKvq29d
- Ur1A==
-X-Gm-Message-State: AOAM5302BIHwLaNz5esCVhre9xE1qTv+QzDY6HtaAhffOUHlJN4/5CWk
- 95XzWe4vyLQgLZidkfjyPXh2YlCpvzY=
-X-Google-Smtp-Source: ABdhPJxcX1dkYBSW9xlWS1G8MuPak9zIY9NYxpdD/Sl9KZKNpHBL3RpCgc9ZDq5WThtLOuRRGQc7ZQ==
-X-Received: by 2002:a17:90a:2f84:b0:1dd:940:50e7 with SMTP id
- t4-20020a17090a2f8400b001dd094050e7mr23469379pjd.210.1653259124187; 
- Sun, 22 May 2022 15:38:44 -0700 (PDT)
+ bh=hIlzF2vXz8kWIiStaeHNN6uVHepC/TD8OXL/PXdF3F0=;
+ b=BsdvcIwvQbzHQeMABnNsj3z9UHoP2h4+dQiabW/kSP1J75UeS0u7wKrF7KV5IdTosD
+ +4uQaR+CtKtrFkcGCnTvoUa/RVmogQNCbJQtT23OPEEchkMxXWLvQhyljCJDlcpcAXPE
+ DOsKxgLBr7WHgrC4fLrO4FY/qph7yNb+jwSnSfJhDJDFwTQzynzh3kEPhpLxGqHFr2Je
+ pTeZo0zevq4dgD74t7lgr4wQ9k376Th+Xait3xsyn5JoNks1JCQ5kx0gHuJwdb/MYyPh
+ LMzX3i7kU5zK33mIdq1TvwJUQ+Sv9tkE+un0Z61i7lMQl9vgHrlIE3DtvEfIsYNwWsFA
+ tjmw==
+X-Gm-Message-State: AOAM530HyY1t5nGIHdD3JollOCaFEqEaNKJRVRiBKuFfBz/j37Ax3RZm
+ nUjX+SY6xzslt3B1eLOAReN6aTc/Bh8=
+X-Google-Smtp-Source: ABdhPJy5Jc9LxU3EjqQaIw35Bt1IMZcBUF322dr7wCVJVsRECVGSh+mgPHhFmi/z1P9+xieju2uUyg==
+X-Received: by 2002:a17:902:8f81:b0:161:f4a7:f2fc with SMTP id
+ z1-20020a1709028f8100b00161f4a7f2fcmr13297732plo.117.1653259173210; 
+ Sun, 22 May 2022 15:39:33 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bh11-20020a170902a98b00b00161d80dd1d1sm3560288plb.292.2022.05.22.15.38.42
+ g14-20020a056a001a0e00b0050dc76281bdsm5703882pfv.151.2022.05.22.15.39.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 15:38:43 -0700 (PDT)
-Message-ID: <0f74fb58-9c50-e69a-20c5-b74eadcc6e5f@amsat.org>
-Date: Mon, 23 May 2022 00:38:40 +0200
+ Sun, 22 May 2022 15:39:32 -0700 (PDT)
+Message-ID: <3cb9354f-1d38-e491-e803-6443102160e2@amsat.org>
+Date: Mon, 23 May 2022 00:39:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH v2 08/10] accel/tcg/cpu-exec: Unexport dump_drift_info()
+Subject: Re: [PATCH v2 09/10] accel/tcg: Inline dump_opcount_info() and remove
+ it
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Richard Henderson
  <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20220520180109.8224-1-shentey@gmail.com>
- <20220520180109.8224-9-shentey@gmail.com>
-In-Reply-To: <20220520180109.8224-9-shentey@gmail.com>
+ <20220520180109.8224-10-shentey@gmail.com>
+In-Reply-To: <20220520180109.8224-10-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,16 +98,15 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 20/5/22 20:01, Bernhard Beschow wrote:
-> Commit 3a841ab53f165910224dc4bebabf1a8f1d04200c 'qapi: introduce
-> x-query-jit QMP command' basically moved the only function using
-> dump_drift_info() to cpu-exec.c. Therefore, dump_drift_info() doesn't
-> need to be exported any longer.
+> dump_opcount_info() is a one-line wrapper around tcg_dump_op_count()
+> which is also exported. So use the latter directly.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   accel/tcg/cpu-exec.c   | 2 +-
->   include/exec/cpu-all.h | 2 --
->   2 files changed, 1 insertion(+), 3 deletions(-)
+>   accel/tcg/cpu-exec.c      | 2 +-
+>   accel/tcg/translate-all.c | 5 -----
+>   include/exec/cpu-all.h    | 1 -
+>   3 files changed, 1 insertion(+), 7 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
