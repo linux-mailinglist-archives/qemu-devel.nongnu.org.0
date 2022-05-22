@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE71530655
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 23:48:31 +0200 (CEST)
-Received: from localhost ([::1]:56490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A537A530657
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 23:49:33 +0200 (CEST)
+Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nstR8-0002tj-Lu
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 17:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
+	id 1nstS8-0004P4-Ni
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 17:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstQ9-0001ZL-6M
- for qemu-devel@nongnu.org; Sun, 22 May 2022 17:47:29 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51932)
+ id 1nstRI-0003db-4Z
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 17:48:40 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstQ7-0000Lm-Hh
- for qemu-devel@nongnu.org; Sun, 22 May 2022 17:47:28 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id gg20so12394620pjb.1
- for <qemu-devel@nongnu.org>; Sun, 22 May 2022 14:47:27 -0700 (PDT)
+ id 1nstRG-0000QL-MN
+ for qemu-devel@nongnu.org; Sun, 22 May 2022 17:48:39 -0400
+Received: by mail-pf1-x429.google.com with SMTP id u15so12052177pfi.3
+ for <qemu-devel@nongnu.org>; Sun, 22 May 2022 14:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=eZeHGdVd3Txq2Fkk7SfCu4PKcT0lZ8WnQbQAr+8Efnc=;
- b=iB1lsYaTVI7DVF1HcKJ9rSzp6qdL4JgB+h/J46QnNNQm+cA9s9KOxEUybCT81XT7tn
- 83xo1LXQ3442f0HzZT4KPx+Da7gEsBjmX6ruguLeWC3Id/COhB6I+rhdwPN7KQfav1i3
- 55u0BgSGkEQEVBbrbPrZ1hxKsKdYOUddCpeN4GXgmbJEaWovCimTr93ZWLlHM+H0who9
- lga33lm1Z08PcCLSl6RjjBsAD4Iqm41nSnUVFIlxa3TVOEl479+oq2oBfY+2FazHBiAd
- bLe8C3rqZ8NctEXJ9GBj64LQjvS/j7/7swdTFSkT/PD+WRoVJF5HKXn1BjvUeasaDQtQ
- Q3Yg==
+ bh=oeu3aVxYQRTKtBxVdCmgWXsOXQs0aaSVb5H3s4KYL/0=;
+ b=N9eIzTisXjtqM3kAVMI+86lt82lqMVm+4bC26KBTxeTssm09Q/pP7+MBbfzzFocJFj
+ HtjBY0PCMJTuO5kTJVJsRBr1FmK2YnIyGtHfVBNqCuPld9jeBzk4oxIDTxllDpy/CwVF
+ kf7TXidQdHKlG2ujx/cZ6qSQTP4IOk+/xNMzjACEkM0ON0JcbFpoU8k7IogEqtRaoSh1
+ XGpvONdDf2V36sLbjTWHuCaEG9TZ/+doBO/W5i2ZPVXJ6N6jXfgkUXI56wgIFA47RPIR
+ Sev3l+IBEBmr7psaN9ZLY2BjdZHTLTbfGcJD+CLkXoIYjdl2YCKXBU0aivA/65wPLUHe
+ B43Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=eZeHGdVd3Txq2Fkk7SfCu4PKcT0lZ8WnQbQAr+8Efnc=;
- b=B9p9S30fQ0ZY1E3EMpz0LJNJ8cq5U0LPmeDm6Jr/3m6r8+hcu/0pqPShA03LB5GUfe
- oyfFzSe8Q1kDhCqdvW/7ufH8jXE/mpxLsmQrVs4gtgpHg3kJZwpgNyt2Umxj1KlHrJpV
- M7dF7spo4UVfGMoxphwzpiSS5aA7Cw5GrZmrD84NC+U8nnNdJFX+g39KWQsu7RLrl9Tq
- rriEzAGIcJtZZHaRP15gqp6rtLFfy2wRvDn71aZ8xpA9egWRGqv8hEnRql9Izl6/J0Vv
- SnVBdIZngtpN36NXDzxL8Y4FCtVbqILDuF7dx37aZvTzJsOd5OirTGADeNjGrNl4zW57
- /VdQ==
-X-Gm-Message-State: AOAM531rBvgZPp4H8LfMdqCmV3fa7Nk/FKc4kpVQtYyegnX89zoi0vrZ
- KMekOFhSBnz/TZF1tGu6K3U=
-X-Google-Smtp-Source: ABdhPJxsUcpxfaQnOBkuf70i3au9a0HaAELYoMMgYJ10t6tKU5VV/b94b4jpPa0o+4KrxmjtvB0OPg==
-X-Received: by 2002:a17:902:d5d2:b0:161:f03a:eb41 with SMTP id
- g18-20020a170902d5d200b00161f03aeb41mr14455579plh.65.1653256046142; 
- Sun, 22 May 2022 14:47:26 -0700 (PDT)
+ bh=oeu3aVxYQRTKtBxVdCmgWXsOXQs0aaSVb5H3s4KYL/0=;
+ b=llzY0EFkI8SuMxU1/Z9nsRBwI8PPEY8QN7GgeEMYw8HQEMxIKee9wr/xbwHqh9bPs6
+ PKTAHQxax9WuihN9Sy5sYW2SOi+rJT9EEQgYB+nOtzIt4p6KTu+NospeLZTktOeQKay2
+ ioEWHWoAJMhKnC5StYtoSnzgEbGUL1mia2/MiqdsRgy9MDXFmqVDFVYDJxWW7jTuHCQa
+ 5/kgI6WaeS/BRMlYrrrAsuy8eU3Ub81pJa9ckGHBkL4+wJ1iP7htu51+0/Eu5inVMG/A
+ t5WLtzs2n2MelB75fAh88KcPbgph7FAZUzmc/sgefBoQDMDiEPRXUSK478dYWlDQHRRo
+ hgRg==
+X-Gm-Message-State: AOAM5311UdaCc2sQptplPNe9Lt7Xf+I00gaJmogJ7QQ582eJ/eDtLaf7
+ 4wtvKKwTDNYPuNhLmAxxHKlMOw8l7Vw=
+X-Google-Smtp-Source: ABdhPJx01WY80+KRi4enE7KVTqpz+0IJuWNUVRWU15XhBqRVIaoeqiA32WQtk/rP3rf8+tyYfCb3cg==
+X-Received: by 2002:a63:6886:0:b0:3c5:11f4:f055 with SMTP id
+ d128-20020a636886000000b003c511f4f055mr18087453pgc.44.1653256117548; 
+ Sun, 22 May 2022 14:48:37 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p66-20020a62d045000000b0050dc762817csm5689680pfg.86.2022.05.22.14.47.24
+ h188-20020a6283c5000000b005183fc7c6dasm5607247pfe.5.2022.05.22.14.48.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 14:47:25 -0700 (PDT)
-Message-ID: <235df19a-1a1c-f7a0-96e8-885f15aff831@amsat.org>
-Date: Sun, 22 May 2022 23:47:22 +0200
+ Sun, 22 May 2022 14:48:37 -0700 (PDT)
+Message-ID: <df1df490-1946-16b4-4431-ca4c458d14e4@amsat.org>
+Date: Sun, 22 May 2022 23:48:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH v4 03/17] target/m68k: Fix coding style in
- m68k_interrupt_all
+Subject: Re: [PATCH v4 17/17] target/m68k: Mark helper_raise_exception as
+ noreturn
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: laurent@vivier.eu
 References: <20220430175342.370628-1-richard.henderson@linaro.org>
- <20220430175342.370628-4-richard.henderson@linaro.org>
-In-Reply-To: <20220430175342.370628-4-richard.henderson@linaro.org>
+ <20220430175342.370628-18-richard.henderson@linaro.org>
+In-Reply-To: <20220430175342.370628-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,17 +98,14 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 30/4/22 19:53, Richard Henderson wrote:
-> Add parenthesis around & vs &&.
+> Also mark raise_exception_ra and raise_exception, lest we
+> generate a warning about helper_raise_exception returning.
 > 
-> Remove assignment to sr in function call argument -- note that
-> sr is unused after the call, so the assignment was never needed,
-> only the result of the & expression.
-> 
-> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/m68k/op_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   target/m68k/helper.h    | 2 +-
+>   target/m68k/op_helper.c | 5 +++--
+>   2 files changed, 4 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
