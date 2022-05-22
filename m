@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC61530575
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 21:34:39 +0200 (CEST)
-Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0A9530547
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 20:50:49 +0200 (CEST)
+Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsrLa-0001pB-9i
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 15:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
+	id 1nsqfA-00026g-4o
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 14:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqCU-0000k4-Rz; Sun, 22 May 2022 14:21:12 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48148)
+ id 1nsqEk-0005dm-8i; Sun, 22 May 2022 14:23:30 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqCR-0003wZ-71; Sun, 22 May 2022 14:21:08 -0400
+ id 1nsqEi-0004Gn-8C; Sun, 22 May 2022 14:23:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/7Xk7MW3L+6OR4js6piTEuV3VzyW4LoopXb+vIlieq8=; b=Uk25omJPA4uEfiy46/Qmr/oV+7
- kpisCmTUMSRc3PgX/gW65hcmo1++Qmlojbz0c6rVDzXRWU55YFI0oJyKnoVYmnOiugheT5a3x989A
- oYejaUcmW1KInUH+ar1ibmj94CpT8ZiKMHrqdvYBGGdGcWkv2l2MfGnaF7gxBvFjnl9vNO3EKOLZk
- MiZyPgB3G3sF/e0B1kPfPzSk4IATbsOMT97HRTUiLYqqkRtgJTWA12fDB4HAloGu0/iLRDWEWSpSs
- MJEMvueZ+1qbjiP0pzfXkgMIJAVxhiWpU64MFhsZPEmoBGd2NlE1cn7epUHhZbK7EC1RHjsb44/e1
- P5FiR7QSv3Y6/PK1c6TWi134CuNf67bf/o2xqT16+HcCN8Q4rcJMtCOLZ+UmQ/LueLbDiHQz+5kxH
- mlp94tGZv+peuiSnDHCvvQSYfKVFN+FxvkIlGHdpD1yOW9albpWT6tpubQABaAvkOmqTYELW1DRIn
- xmvSz9RbjsYMLjH/BSJq12KiNYeIHP6TnxoKSUy7makRvoeOSm01xSLMRfbhwumpCZHuyl+0PQ8zo
- SmPhPK7/z8Yr4wR413+/HGMyg4wVPccljSDuB9+EMcEB/RVtqzbVp63/3Zh5eHok7qJvs1B7pzlE7
- J2xJqI8jEu3P4HnH6yUTBsmcKAhrmMXcYffvoaTxg=;
+ bh=XIPR6lFgwAQaAIhZvmGdJL2uNtDF68AKdSUAgyoWpFI=; b=P5lHKlWmAZnCs3n/WUqAQns9q5
+ 074ZlYcGzKKfxl8Q31bPDlnLYkNx9hYNJp6oeOuJRohXsEfO48wC+XL7JPoyz0KzEqCqppiYe14cK
+ kwaBoFRpEeBVLfKgXCwKXVq5OlX5GIukGGp8VYYSuSPsHWrEOvr3cqws7lb0/iPhdXyUaVsQcZ43h
+ VhmJegQTzihPoJsKvYUL6bOXoQ0G5Yto/ughTtNzMCSxjh7IFPxdeLLAU2chc/nnHanTltv+a5/AX
+ TI9gJcYjCxWrpUUCdHvTFjMCdMy2I85BPjngjR9gR0/aUoj2c2Gcflpw8jZ3pjlNbQiYrtfEXKj1r
+ 1Zw3tpKEvUa2xS195yStmXHelhbxZDc3+3lEDTc+g553HLm3IGTLPdgpOmQceHrc/23vLpFjL6ofR
+ hjQ4jlmeIpzTHkGh31RhKgHTnGh4Bqg6Ur/dEcdJNu49N2J8bzDZAFC4CBaQSkMMTH8GpZZ19DcKr
+ cJdIJy5VRg7LPthzR2/hNbigSeGLqVuAEPHTKqvYj8xN4nBV+ZzeKoRsgkjyPmnb3jS5l9djGOlhU
+ KFC21qndwvef5SIwfh6fOvBvmZRscwVHKVJHWoQWcWd5FyIovHQd3tBobl9t4ah/t4P88s/X6P5+R
+ bOE7LujPjUlI4LzG6AdxynD5uuYsQhSsrQABh1jFc=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqB2-0007pH-9c; Sun, 22 May 2022 19:19:40 +0100
+ id 1nsqB2-0007pH-Ro; Sun, 22 May 2022 19:19:45 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Date: Sun, 22 May 2022 19:18:35 +0100
-Message-Id: <20220522181836.864-50-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 22 May 2022 19:18:36 +0100
+Message-Id: <20220522181836.864-51-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
@@ -51,8 +51,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 49/50] pckbd: switch I8042 device from update_irq() function
- to PS2 device gpio
+Subject: [PATCH 50/50] ps2: remove update_irq() function and update_arg
+ parameter
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,73 +78,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define a new qdev input gpio for handling incoming PS2 IRQs, and then wire up the
-PS2 keyboard and mouse devices to use it. At the same time set update_irq() and
-update_arg to NULL in ps2_kbd_init() and ps2_mouse_init() to ensure that any
-accidental attempt to use the legacy update_irq() function will cause a NULL
-pointer dereference.
+Now that all the PS2 devices have been converted to use GPIOs the update_irq()
+callback function and the update_arg parameter can be removed.
+
+This allows these arguments to be completely removed from ps2_kbd_init() and
+ps2_mouse_init(), along with the transitional logic that was added to
+ps2_raise_irq() and ps2_lower_irq().
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/pckbd.c | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+ hw/input/lasips2.c     |  4 ++--
+ hw/input/pckbd.c       |  8 ++++----
+ hw/input/pl050.c       |  4 ++--
+ hw/input/ps2.c         | 25 ++++---------------------
+ include/hw/input/ps2.h |  6 ++----
+ 5 files changed, 14 insertions(+), 33 deletions(-)
 
+diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
+index 12ff95a05f..80ec9891be 100644
+--- a/hw/input/lasips2.c
++++ b/hw/input/lasips2.c
+@@ -267,10 +267,10 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
+ 
+     vmstate_register(NULL, s->base, &vmstate_lasips2, s);
+ 
+-    s->kbd.dev = ps2_kbd_init(NULL, NULL);
++    s->kbd.dev = ps2_kbd_init();
+     qdev_connect_gpio_out(DEVICE(s->kbd.dev), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in(dev, LASIPS2_KBD_INPUT_IRQ));
+-    s->mouse.dev = ps2_mouse_init(NULL, NULL);
++    s->mouse.dev = ps2_mouse_init();
+     qdev_connect_gpio_out(DEVICE(s->mouse.dev), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in(dev, LASIPS2_MOUSE_INPUT_IRQ));
+ }
 diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index b2fdd1c999..f1eeab9952 100644
+index f1eeab9952..e53285a126 100644
 --- a/hw/input/pckbd.c
 +++ b/hw/input/pckbd.c
-@@ -801,6 +801,18 @@ static const MemoryRegionOps i8042_cmd_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
+@@ -700,10 +700,10 @@ static void i8042_mmio_realize(DeviceState *dev, Error **errp)
+     /* Note we can't use dc->vmsd without breaking migration compatibility */
+     vmstate_register(NULL, 0, &vmstate_kbd, ks);
  
-+static void i8042_set_irq(void *opaque, int n, int level)
-+{
-+    ISAKBDState *s = I8042(opaque);
-+    KBDState *ks = &s->kbd;
-+
-+    if (n) {
-+        kbd_update_aux_irq(ks, level);
-+    } else {
-+        kbd_update_kbd_irq(ks, level);
-+    }
-+}
-+
- static void i8042_reset(DeviceState *dev)
- {
-     ISAKBDState *s = I8042(dev);
-@@ -820,6 +832,9 @@ static void i8042_initfn(Object *obj)
-                           "i8042-cmd", 1);
- 
-     qdev_init_gpio_out_named(DEVICE(obj), &s->a20_out, I8042_A20_LINE, 1);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, 2);
-+    qdev_init_gpio_in(DEVICE(obj), i8042_set_irq, 2);
+-    ks->kbd = ps2_kbd_init(NULL, NULL);
++    ks->kbd = ps2_kbd_init();
+     qdev_connect_gpio_out(DEVICE(ks->kbd), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in(dev, I8042_KBD_INPUT_IRQ));
+-    ks->mouse = ps2_mouse_init(NULL, NULL);
++    ks->mouse = ps2_mouse_init();
+     qdev_connect_gpio_out(DEVICE(ks->mouse), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in(dev, I8042_MOUSE_INPUT_IRQ));
  }
- 
- static void i8042_realizefn(DeviceState *dev, Error **errp)
-@@ -840,14 +855,18 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    s->irqs[I8042_KBD_IRQ] = isa_get_irq(isadev, isa_s->kbd_irq);
--    s->irqs[I8042_MOUSE_IRQ] = isa_get_irq(isadev, isa_s->mouse_irq);
-+    isa_connect_gpio_out(isadev, I8042_KBD_IRQ, isa_s->kbd_irq);
-+    isa_connect_gpio_out(isadev, I8042_MOUSE_IRQ, isa_s->mouse_irq);
- 
+@@ -861,10 +861,10 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
      isa_register_ioport(isadev, isa_s->io + 0, 0x60);
      isa_register_ioport(isadev, isa_s->io + 1, 0x64);
  
--    s->kbd = ps2_kbd_init(kbd_update_kbd_irq, s);
--    s->mouse = ps2_mouse_init(kbd_update_aux_irq, s);
-+    s->kbd = ps2_kbd_init(NULL, NULL);
-+    qdev_connect_gpio_out(DEVICE(s->kbd), PS2_DEVICE_IRQ,
-+                          qdev_get_gpio_in(dev, I8042_KBD_INPUT_IRQ));
-+    s->mouse = ps2_mouse_init(NULL, NULL);
-+    qdev_connect_gpio_out(DEVICE(s->mouse), PS2_DEVICE_IRQ,
-+                          qdev_get_gpio_in(dev, I8042_MOUSE_INPUT_IRQ));
+-    s->kbd = ps2_kbd_init(NULL, NULL);
++    s->kbd = ps2_kbd_init();
+     qdev_connect_gpio_out(DEVICE(s->kbd), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in(dev, I8042_KBD_INPUT_IRQ));
+-    s->mouse = ps2_mouse_init(NULL, NULL);
++    s->mouse = ps2_mouse_init();
+     qdev_connect_gpio_out(DEVICE(s->mouse), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in(dev, I8042_MOUSE_INPUT_IRQ));
      if (isa_s->kbd_throttle && !isa_s->kbd.extended_state) {
-         warn_report(TYPE_I8042 ": can't enable kbd-throttle without"
-                     " extended-state, disabling kbd-throttle");
+diff --git a/hw/input/pl050.c b/hw/input/pl050.c
+index fe6a281307..3e48fee92a 100644
+--- a/hw/input/pl050.c
++++ b/hw/input/pl050.c
+@@ -166,9 +166,9 @@ static void pl050_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->irq);
+     if (s->is_mouse) {
+-        s->dev = ps2_mouse_init(NULL, NULL);
++        s->dev = ps2_mouse_init();
+     } else {
+-        s->dev = ps2_kbd_init(NULL, NULL);
++        s->dev = ps2_kbd_init();
+     }
+     qdev_connect_gpio_out(DEVICE(s->dev), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in(dev, PL050_INPUT_IRQ));
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 891eb7181c..9d109f019a 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -175,20 +175,12 @@ void ps2_queue_noirq(PS2State *s, int b)
+ 
+ static void ps2_raise_irq(PS2State *s)
+ {
+-    if (s->irq) {
+-        qemu_set_irq(s->irq, 1);
+-    } else {
+-        s->update_irq(s->update_arg, 1);
+-    }
++    qemu_set_irq(s->irq, 1);
+ }
+ 
+ static void ps2_lower_irq(PS2State *s)
+ {
+-    if (s->irq) {
+-        qemu_set_irq(s->irq, 0);
+-    } else {
+-        s->update_irq(s->update_arg, 0);
+-    }
++    qemu_set_irq(s->irq, 0);
+ }
+ 
+ void ps2_queue(PS2State *s, int b)
+@@ -1232,21 +1224,16 @@ static void ps2_kbd_realize(DeviceState *dev, Error **errp)
+     qemu_input_handler_register(dev, &ps2_keyboard_handler);
+ }
+ 
+-void *ps2_kbd_init(void (*update_irq)(void *, int), void *update_arg)
++void *ps2_kbd_init(void)
+ {
+     DeviceState *dev;
+     PS2KbdState *s;
+-    PS2State *ps2;
+ 
+     dev = qdev_new(TYPE_PS2_KBD_DEVICE);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     s = PS2_KBD_DEVICE(dev);
+-    ps2 = PS2_DEVICE(s);
+ 
+     trace_ps2_kbd_init(s);
+-    ps2->update_irq = update_irq;
+-    ps2->update_arg = update_arg;
+-
+     return s;
+ }
+ 
+@@ -1262,20 +1249,16 @@ static void ps2_mouse_realize(DeviceState *dev, Error **errp)
+     qemu_input_handler_register(dev, &ps2_mouse_handler);
+ }
+ 
+-void *ps2_mouse_init(void (*update_irq)(void *, int), void *update_arg)
++void *ps2_mouse_init(void)
+ {
+     DeviceState *dev;
+     PS2MouseState *s;
+-    PS2State *ps2;
+ 
+     dev = qdev_new(TYPE_PS2_MOUSE_DEVICE);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     s = PS2_MOUSE_DEVICE(dev);
+-    ps2 = PS2_DEVICE(s);
+ 
+     trace_ps2_mouse_init(s);
+-    ps2->update_irq = update_irq;
+-    ps2->update_arg = update_arg;
+     return s;
+ }
+ 
+diff --git a/include/hw/input/ps2.h b/include/hw/input/ps2.h
+index 6e5c404cb5..df685a54c5 100644
+--- a/include/hw/input/ps2.h
++++ b/include/hw/input/ps2.h
+@@ -59,8 +59,6 @@ struct PS2State {
+     PS2Queue queue;
+     int32_t write_cmd;
+     qemu_irq irq;
+-    void (*update_irq)(void *, int);
+-    void *update_arg;
+ };
+ 
+ #define TYPE_PS2_DEVICE "ps2-device"
+@@ -100,8 +98,8 @@ struct PS2MouseState {
+ OBJECT_DECLARE_SIMPLE_TYPE(PS2MouseState, PS2_MOUSE_DEVICE)
+ 
+ /* ps2.c */
+-void *ps2_kbd_init(void (*update_irq)(void *, int), void *update_arg);
+-void *ps2_mouse_init(void (*update_irq)(void *, int), void *update_arg);
++void *ps2_kbd_init(void);
++void *ps2_mouse_init(void);
+ void ps2_write_mouse(PS2MouseState *s, int val);
+ void ps2_write_keyboard(PS2KbdState *s, int val);
+ uint32_t ps2_read_data(PS2State *s);
 -- 
 2.20.1
 
