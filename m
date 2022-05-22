@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD0053053F
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 20:46:02 +0200 (CEST)
-Received: from localhost ([::1]:43994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292AA53053D
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 20:43:27 +0200 (CEST)
+Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsqaW-0001tb-VQ
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 14:46:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41330)
+	id 1nsqY2-0008JV-87
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 14:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqBI-0007bP-A4; Sun, 22 May 2022 14:19:56 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47536)
+ id 1nsqBL-0007lv-PH; Sun, 22 May 2022 14:19:59 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqBF-0003a1-33; Sun, 22 May 2022 14:19:56 -0400
+ id 1nsqBK-0003aN-7t; Sun, 22 May 2022 14:19:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=99ZsLsVSKZKYLmNzVWibXfl0svDvqCK/Kq9Rs95rMvU=; b=0Uz5rur0aiLC6yAwrMZrLrF97A
- mTuEdE8NZg6UVnyVZT3o1wfuYJYgd1nIPv0yaSsB30ns/GlodMhQhsqPcp0FUk8a1DFNP/YB/3BGX
- wo8zfkJeEyPiLIZsi1n0u+NuhQkWVa6cwU7ilCd3vdx/iL/K/eu6wLGtdeLeyo3auCbnHwAitxd2n
- fUvE6eokB9T8Rk8xChsJGnHMWXeV36od9G8ICAgKWHdZiFMxmNot9mzH8vMjxT4r13VtKGr3+DbSw
- j0pvEb7nOvL6TDvo4hEQDArmx1SvSpnfHOEQva8yvblbA/7o1bTJABKpkDiQIeS/OI2tDJZR6cZLT
- NaDwkjXVxiddTcK/gFKetE0mhahzblcLr0xh+lwUd3vn5HrQSV4byPNCnBUH6eubyTXUPrPKrEcyi
- YjvJi1x9KfZrKdAEDGgOp/KrcATTgk7BhcJ9xMJnXFipKeGEz3NFPqFK2aeexSwQzoVslIrGFBB1t
- bV8V2gdRmKAQWFp5+65SGltCjzS7qeY3AaKVuyFPY2CNiX181SPI4S52lVVIivpZZ8kpNV6FyC6ul
- npyKBQanxJYynjWIWsUD2bINRtHCxqwvT+Kld3Ybc/1HhqVCL04haFz4gJZoTWqDXvk6Uu4nuj8WK
- ISc8Js2X22hzUWySBdPBtdXpZePdgS1GnjlWp8XZQ=;
+ bh=oBbrmboxI2bOPyV9kjKCEFJMiErNmCGv2G8E9N42jsY=; b=ZECAW4yBfvPn4dvbwclvXNZoMh
+ o7e7oW2NWSLzcb7muSsvhaI4dXInbn7p7+01lWDMu1EdygVLUS/n9hVOM+yg+r+ETemteieK7w4bu
+ 9OnoR6W9WQT0AiDt/mt8f+HEe2xOn3DzWwjSbV6fHv6dJtJ7V+uNzlbT8EQB1LKGw3X+rpcfZBUct
+ q2C9wwbFtq5Z3yhu2WXLmdYDmx6LY9NloIPKgLA13dwsdtvXIm1dNRrysYvECFoYG8+X8Dr7e9tmQ
+ htL+GTY/kBCG4kRVM3IihWD9gJTFgwQBJZ44YvTNhxafLxf52Xfn9FWyl+h2LOwaMGkCeyfFavrqc
+ BwZLfOWx/2WuTeyGuGWtYlUyOF77NNBOs92QbrODvbeSG/bq7I2PtErm2xCYcOLq390KgzIuuGOH9
+ Osz1IhKDSWPNbMemgeoLSjN0cZQQ/9qoFbBX5hIfOIF4WAsjIRhvDOc8wSQgdnGW6uHQ3g8vIkt5o
+ nKmeeLYnuGF2tlgmjRfhu8qZ5Hs7OqVeQ9WrieU5afrbMaYiztr0UrEeXGQI8PvB/UQwPkM9yTgks
+ c+asEoJR4Zn6ECovcCNFWtRDmIPw8F8Td6oO83+Ss5WQXZp7W6KWLs064HLsVZhhwc6UlTXz5AujB
+ 8CzX+ywWhlc1CzKDa07fenh0mZnq/vgKTAwvSh0+Q=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsq9m-0007pH-68; Sun, 22 May 2022 19:18:26 +0100
+ id 1nsq9q-0007pH-G7; Sun, 22 May 2022 19:18:30 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Date: Sun, 22 May 2022 19:18:01 +0100
-Message-Id: <20220522181836.864-16-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 22 May 2022 19:18:02 +0100
+Message-Id: <20220522181836.864-17-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
@@ -51,8 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 15/50] pl050: split pl050_update_irq() into separate
- pl050_set_irq() and pl050_update_irq() functions
+Subject: [PATCH 16/50] lasips2: spacing fixes
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,64 +77,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will soon allow pl050_set_irq() to be used as a GPIO input function.
+This helps improve the readability of lasips2.c.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/pl050.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ hw/input/lasips2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/input/pl050.c b/hw/input/pl050.c
-index 889a0674d3..66f8c20d9f 100644
---- a/hw/input/pl050.c
-+++ b/hw/input/pl050.c
-@@ -57,15 +57,20 @@ static const unsigned char pl050_id[] = {
-     0x50, 0x10, 0x04, 0x00, 0x0d, 0xf0, 0x05, 0xb1
- };
- 
--static void pl050_update(void *opaque, int level)
-+static void pl050_update_irq(PL050State *s)
-+{
-+    int level = (s->pending && (s->cr & 0x10) != 0)
-+                 || (s->cr & 0x08) != 0;
-+
-+    qemu_set_irq(s->irq, level);
-+}
-+
-+static void pl050_set_irq(void *opaque, int level)
- {
-     PL050State *s = (PL050State *)opaque;
--    int raise;
- 
-     s->pending = level;
--    raise = (s->pending && (s->cr & 0x10) != 0)
--            || (s->cr & 0x08) != 0;
--    qemu_set_irq(s->irq, raise);
-+    pl050_update_irq(s);
- }
- 
- static uint64_t pl050_read(void *opaque, hwaddr offset,
-@@ -124,7 +129,7 @@ static void pl050_write(void *opaque, hwaddr offset,
-     switch (offset >> 2) {
-     case 0: /* KMICR */
-         s->cr = value;
--        pl050_update(s, s->pending);
-+        pl050_update_irq(s);
-         /* ??? Need to implement the enable/disable bit.  */
+diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
+index 94f18be4cd..2ac3433014 100644
+--- a/hw/input/lasips2.c
++++ b/hw/input/lasips2.c
+@@ -205,7 +205,6 @@ static uint64_t lasips2_reg_read(void *opaque, hwaddr addr, unsigned size)
          break;
-     case 2: /* KMIDATA */
-@@ -159,9 +164,9 @@ static void pl050_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(sbd, &s->iomem);
-     sysbus_init_irq(sbd, &s->irq);
-     if (s->is_mouse) {
--        s->dev = ps2_mouse_init(pl050_update, s);
-+        s->dev = ps2_mouse_init(pl050_set_irq, s);
-     } else {
--        s->dev = ps2_kbd_init(pl050_update, s);
-+        s->dev = ps2_kbd_init(pl050_set_irq, s);
+ 
+     case REG_PS2_STATUS:
+-
+         ret = LASIPS2_STATUS_DATSHD | LASIPS2_STATUS_CLKSHD;
+ 
+         if (port->control & LASIPS2_CONTROL_DIAG) {
+@@ -238,9 +237,9 @@ static uint64_t lasips2_reg_read(void *opaque, hwaddr addr, unsigned size)
+                       __func__, addr);
+         break;
      }
++
+     trace_lasips2_reg_read(size, port->id, addr,
+                            lasips2_read_reg_name(addr), ret);
+-
+     return ret;
  }
  
+@@ -257,6 +256,7 @@ static const MemoryRegionOps lasips2_reg_ops = {
+ static void ps2dev_update_irq(void *opaque, int level)
+ {
+     LASIPS2Port *port = opaque;
++
+     port->irq = level;
+     lasips2_update_irq(port->parent);
+ }
 -- 
 2.20.1
 
