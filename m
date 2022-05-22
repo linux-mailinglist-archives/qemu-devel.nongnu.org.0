@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E627F53062D
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 23:29:31 +0200 (CEST)
-Received: from localhost ([::1]:38734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E3753062C
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 23:29:30 +0200 (CEST)
+Received: from localhost ([::1]:38812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nst8k-0006q9-Qn
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 17:29:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42410)
+	id 1nst8j-0006tm-H7
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 17:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nst4Q-0002sj-FV; Sun, 22 May 2022 17:25:02 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42619)
+ id 1nst4R-0002sw-4t; Sun, 22 May 2022 17:25:03 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nst4O-0005RW-Pp; Sun, 22 May 2022 17:25:02 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id s3so16845421edr.9;
+ id 1nst4P-0005Ra-JX; Sun, 22 May 2022 17:25:02 -0400
+Received: by mail-ed1-x536.google.com with SMTP id g12so16889770edq.4;
  Sun, 22 May 2022 14:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fBaH0kZiR6dSw7H2/eqC6uMYlqPGxjuaHc4FE2BaAQU=;
- b=FOuN+JhHa8oQ98t84+sncM85riB+9bhJIzqRahoGMfixZm/9ZizZSOy1QnBRcevAnK
- fD0UjbOwXFLFPzpN5Y/KedCVDUOKcObU97UQlnLNDEkJF55187v7aa7F/RhpQfZAGTdc
- sPbYg0YVbqQmVWzo9QiSeTnYsFG5WEXzeBrHV++Ds0CGNzjEBb78QlCutJI84F2a6LN9
- EkEXh48TMrAa0kxloT5HDaUY+y4ryEhYOSHcaW9VRKc4EDBoCxDa/hqSIxdxXj3NCf4B
- FoHy3GntlcSeo34AUB1cWZuklLwvChO7jdSlOC6VxLudzwA+TH486WSkfDVJNyU+850X
- xrvQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ySy5Qh2/rqashHeRzCYokfJk5ESmG04Yqr6Wb5D5T6o=;
+ b=cfRODoXcIlJCFvIx0iMeIzEh48ff7fNjDZ4xMPtBrpUc2fC6J/bRxjLW1OYe1LwVYR
+ 9RlncBU6YHG6nSqyhl3CSVT4ZQ/XBy4c2LkTmelF3YDrzQyYBWD5KP5H25gLUHQphBiu
+ GlQcubc2KksuGgy8lHWzC1OqcN5ERCNMPu/gSqSHAXVzGEs96n3pfoWzUlGW7j88XXxB
+ sOA3mdLMBwWrk1OPiGORQAP8YBA/Ykb5eZIjUO6lOvEChhg7EY2f79kG4DVx0Q2oWGf0
+ Natz7b18z8rDoArdy1NIo9wx2wwK7yuKaS9Y8UgKyWeeRizp0JvqoqaQRRsjayV5zNFH
+ 1wcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fBaH0kZiR6dSw7H2/eqC6uMYlqPGxjuaHc4FE2BaAQU=;
- b=mEcdX/T9CSnQvTLGvDtUl1ZcQrtYJRFJCo8wjcsAl9wQXwumX7sGqaL+db2FgIcLG6
- lMyfsHuN/y10OfmEkKqQ/ZnfofKPTyBL/xrHIhS8wYfl9mXjWvLCEqSLBPQ82OPAOUgo
- lhhzDnKeokSSUOTvu3bVaeZNZNRgh/WWyXvBIb2uN+BN8rJNL+o/gL9Ha92F3V8wuQzZ
- K/HhZkp43Y/T2UMqx9uzZkmuW/c75otK2bNTLMFCrgdKp5CSblTUIEqcc7Nr/81lZOkB
- FSDlGDeglCZz38ypiSWK4pUkk2es0Hwqzw/poG1Fh7QCW9DCcl/Emn8eQmncgX8E0EPf
- OAog==
-X-Gm-Message-State: AOAM533sqW9zoepLczFSgrgfbydQ4UpUKrpc84pAE2Ix1GVv6SvrCj1l
- 7roosaB3PyUQqcQZZfetWcxMGWS3miQ=
-X-Google-Smtp-Source: ABdhPJzkPD1+JHJOoaQGjPuPLLCDkzYmldWglEdQkzP6CQs7gUezmv+yWXGiSEuimSPEeQg6I0rr4w==
-X-Received: by 2002:a05:6402:440d:b0:412:9e8a:5e51 with SMTP id
- y13-20020a056402440d00b004129e8a5e51mr20511407eda.362.1653254698594; 
- Sun, 22 May 2022 14:24:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ySy5Qh2/rqashHeRzCYokfJk5ESmG04Yqr6Wb5D5T6o=;
+ b=5ysnV3/+srhUFkt1NcSbGwEgj//SLRDFym3UdJVAHyn6GbkulHrCkevY8La+rCvHA0
+ wy34Vb0Lu1WcKgoDW7GbwXoD6VPAwpCPjj71jg26QhjKaExQHxPXNBU0Kk2Ebw/nC0RG
+ h/NKNH4Mt2TkyF53yh+BAzI4eFYYKv9Fll3MdgJlgQXAztOItXFyQYLKqHrLZPAkyI8f
+ yu5EkblI5LMI2c+bxb27Sij4QPvv4uXDIxWMo3jI4XB9P8kbpJBRwzObv+GtvuPHvfNr
+ G3/uNMcG2fIcIXvY942ytVSftg7DAnNUdATQfLrn2YEFLboWK7vA6j5+qfJKLvUfGbyS
+ WYZQ==
+X-Gm-Message-State: AOAM532L13E+Hjvxv6qqeYhqORDrZPvENFmPryZf3AH6L1Cl0VkUmihi
+ dl+ptHyyLzNjKhPE1nG05Y/DMMKa4Io=
+X-Google-Smtp-Source: ABdhPJwBccSjUCiu/CJktam61QhuWe9hLftYUXK/D7h33Hg+AS2c4KnMJBp3q2HIVu10l4VicWYCVA==
+X-Received: by 2002:a05:6402:2996:b0:42b:49a:6d24 with SMTP id
+ eq22-20020a056402299600b0042b049a6d24mr18239671edb.145.1653254699759; 
+ Sun, 22 May 2022 14:24:59 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-078-054-075-232.78.54.pool.telefonica.de. [78.54.75.232])
  by smtp.gmail.com with ESMTPSA id
- w4-20020a170907270400b006f3ef214e22sm5418768ejk.136.2022.05.22.14.24.57
+ w4-20020a170907270400b006f3ef214e22sm5418768ejk.136.2022.05.22.14.24.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 May 2022 14:24:58 -0700 (PDT)
+ Sun, 22 May 2022 14:24:59 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org,
-	Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 0/6] QOM'ify PIIX southbridge creation
-Date: Sun, 22 May 2022 23:24:25 +0200
-Message-Id: <20220522212431.14598-1-shentey@gmail.com>
+Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: [PATCH v2 1/6] include/hw/southbridge/piix: Aggregate all PIIX
+ soughbridge type names
+Date: Sun, 22 May 2022 23:24:26 +0200
+Message-Id: <20220522212431.14598-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220522212431.14598-1-shentey@gmail.com>
+References: <20220522212431.14598-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,55 +94,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-* Preserve `DeviceState *` as return value of piix4_create() (Mark)
-* Aggregate all type name movements into first commit (Mark)
-* Have piix4 southbridge rather than malta board instantiate piix4 pm (me)
+TYPE_PIIX3_PCI_DEVICE resides there as already, so add the remaining
+ones, too.
 
-Testing done:
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/isa/piix3.c                | 3 ---
+ include/hw/isa/isa.h          | 2 --
+ include/hw/southbridge/piix.h | 4 ++++
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-1)
-`make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
-Result: All pass.
-
-2)
-Modify pci_piix3_realize() to start with
-    error_setg(errp, "This is a test");
-Then start `qemu-system-x86_64 -M pc -m 1G -accel kvm -cpu host -cdrom archlinux-2022.05.01-x86_64.iso`.
-Result: qemu-system-x86_64 aborts with: "This is a test"
-
-
-v1:
-The piix3 and piix4 southbridge devices still rely on create() functions which
-are deprecated. This series resolves these functions piece by piece to
-modernize the code.
-
-Both devices are modified in lockstep where possible to provide more context.
-
-Testing done:
-* `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
-* `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda 
-debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
-
-In both cases the system booted successfully and it was possible to shut down
-the system using the `poweroff` command.
-
-Bernhard Beschow (6):
-  include/hw/southbridge/piix: Aggregate all PIIX soughbridge type names
-  hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
-  hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
-  hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
-  hw/isa/piix4: QOM'ify PIIX4 PM creation
-  hw/isa/piix{3,4}: Inline and remove create() functions
-
- hw/i386/pc_piix.c             |  7 ++-
- hw/isa/piix3.c                | 98 +++++++++++++++++++----------------
- hw/isa/piix4.c                | 97 +++++++++++++++-------------------
- hw/mips/malta.c               |  7 ++-
- include/hw/isa/isa.h          |  2 -
- include/hw/southbridge/piix.h |  6 +--
- 6 files changed, 109 insertions(+), 108 deletions(-)
-
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index dab901c9ad..d96ce2b788 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -35,9 +35,6 @@
+ 
+ #define XEN_PIIX_NUM_PIRQS      128ULL
+ 
+-#define TYPE_PIIX3_DEVICE "PIIX3"
+-#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+-
+ static void piix3_set_irq_pic(PIIX3State *piix3, int pic_irq)
+ {
+     qemu_set_irq(piix3->pic[pic_irq],
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 034d706ba1..e9fa2f5cea 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -144,6 +144,4 @@ static inline ISABus *isa_bus_from_device(ISADevice *d)
+     return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));
+ }
+ 
+-#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+-
+ #endif
+diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+index f63f83e5c6..4d17400dfd 100644
+--- a/include/hw/southbridge/piix.h
++++ b/include/hw/southbridge/piix.h
+@@ -70,6 +70,10 @@ typedef struct PIIXState PIIX3State;
+ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+                          TYPE_PIIX3_PCI_DEVICE)
+ 
++#define TYPE_PIIX3_DEVICE "PIIX3"
++#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
++#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
++
+ PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
+ 
+ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
 -- 
 2.36.1
 
