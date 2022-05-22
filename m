@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA4C530687
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:24:23 +0200 (CEST)
-Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A5953068B
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:31:55 +0200 (CEST)
+Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nstzW-0000M0-5U
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:24:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
+	id 1nsu77-0003bz-QA
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:31:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstyQ-0007wj-T8; Sun, 22 May 2022 18:22:54 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44823)
+ id 1nsu4s-0002h7-ET; Sun, 22 May 2022 18:29:34 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:38482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstyI-00055D-Rv; Sun, 22 May 2022 18:22:53 -0400
-Received: by mail-pl1-x636.google.com with SMTP id q4so11529765plr.11;
- Sun, 22 May 2022 15:22:36 -0700 (PDT)
+ id 1nsu4q-0006tR-RR; Sun, 22 May 2022 18:29:34 -0400
+Received: by mail-pf1-x432.google.com with SMTP id h13so5861295pfq.5;
+ Sun, 22 May 2022 15:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=h9uGHw/2QJC05+meai4sit5HDdWT9EtwfGrc8QJ0kKs=;
- b=W2Uln1QAj6fJUdpcoWGSMi57ga6HFPnscqBQqelTMaqMf0T3IvvK9ro2uMHjWBxc+C
- qJluf8GPnX3nFMrwBvD30H2yuOBp83+OJkpabtEjqXY50SJm1CGm8F9elVnAwhst31b3
- LAN+pIDI0dN0jbtilfWISsQhXGijvvE7l91eajYXtwweRbfMshmUB23NlyXSxCB1nUnf
- dWO4H+vA+71GdUEV42oiZ2lM0d+yP5QH1AbVdR//vPB5EIZC/a9IViRrvp1pMFs8gQKu
- puJH5u+0NWdMAArJaBg8hqx2e0h27SeKeuOyrP/c8BkDHq9Wb6slXtLIatDcjhfwmSxe
- /JoA==
+ bh=36kH56MXj2vS/f1baq535OmNhPgotNq0slfSdgGopwY=;
+ b=asQ8ASE0x4j3stbvC1yxlUvIE926fFiCSXXCbzgQdBriQ7J0Mb1RH5+w2wgYSQuXMU
+ lPvprv0/N+Kxrl/27U/k/+b6x78AQ+Z6Sm3dWFDEz/x8IODJeRgz6XggnSh4lgxkem4j
+ e9SWZXj9KULT1bwgfsIVu/DYdLecqLlnSnM8Suz3PQp81jcaLuCTUlo9bu9C0WCtQC3P
+ 43mH/MglTPkgJHpW/0Owlo7g991+4VjWfNgIwHUzhl05yunoYG+0U0cKI+8Wfu+Vii25
+ ofmnHPo16L3XGt6NDqV7m5zd+OCw2ELkVz8HK2VVmWCjsXD4lQQccNBagYQ/GRxtCzhT
+ EA5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=h9uGHw/2QJC05+meai4sit5HDdWT9EtwfGrc8QJ0kKs=;
- b=PDC5T2xLWryBg1ojHv/IZMKfEcvbupuDSECTMEuRg5UBhpagvKRgjEktIgx2PJVHzR
- VE2HDqtfhYbpj61BV0dRbncASIAeOax8P6E/fcrM+MeK09GqFOwpEjNps51gWk5XYmJH
- pRaMZsMhd9B0HBWq2reLBz2xvHjyXfMxJzjlx1s2oOCy28rat9h/2pXw5W/UzlibuC6U
- 9G3zXH0S7oEjPfV/GkI84x2h7uJI/tWoOBKF9MG/7QyF0mzuQuYIwnRUePhwgbX1GvpD
- 1cVTzOfgDq5yV8HXJKEd+ymAtf0zal45O2Dw5/1RVD2Q1K6zhg+crKa+E+/EUZGxd3b+
- pDBg==
-X-Gm-Message-State: AOAM532uDMbBoM08Qc00reXo8IUQP+W+70fAbWw9hvtQ5az+o9xX+ZT6
- PgbkpLPaYwsi6LefFHgR8Mg=
-X-Google-Smtp-Source: ABdhPJwaesH/HDvE15pcUPC7iQy0GoP5LPbp38SIIM6Y8V1RK3HvizeKOAX8l8IrvbofM25jPkoRlg==
-X-Received: by 2002:a17:902:e3d4:b0:162:23a7:a7e7 with SMTP id
- r20-20020a170902e3d400b0016223a7a7e7mr2699495ple.32.1653258149761; 
- Sun, 22 May 2022 15:22:29 -0700 (PDT)
+ bh=36kH56MXj2vS/f1baq535OmNhPgotNq0slfSdgGopwY=;
+ b=qUfrJlsCCF7995WC5DpvCaGghkKgxc7vBw7ICpbYZJbe8Pl6mVPzPGZy6wh7+BZu7e
+ OUIJHPET39yTkI+P63bN8ZmZn0MrlafAwgfEQXxJrCU4yIJqziBtguVEMYVkHi8SLUSW
+ HjMEgkrww3lh8OStC6FCuGbSqMx+5o/5iDMLvLmNFz3fMaDdO96D5Kz1RK4FcJU7iRr2
+ XNW9ZR4D9E8zOgcGY+gYXlafLMdOl9vqnax2PrPA6lsHpkVxn7PEGBviP4QdinV6gaym
+ IuQCFmQFgPLZwTo33jq2EmiZtk8d//DPHCiCV4NjjGpdlCe9cwKuSq8X+4m3BKLd1RkU
+ e+hQ==
+X-Gm-Message-State: AOAM531tHr1lqO9OoIoqj3b4qQE6HgQ1IUBD2fPq9a8MAj86vN2Ius4m
+ RzP8VI2Lh3P6Awv61fKIxEo=
+X-Google-Smtp-Source: ABdhPJzX7J7F87HpVqD/iuglfNO36aMNSSDl74UGJOtuUsrwMR5waCBy9CKQanBZwPupdk+Jp8cEMw==
+X-Received: by 2002:a05:6a00:2481:b0:50d:4839:5896 with SMTP id
+ c1-20020a056a00248100b0050d48395896mr20965206pfv.37.1653258570918; 
+ Sun, 22 May 2022 15:29:30 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- mp11-20020a17090b190b00b001d96bc27a57sm5571903pjb.54.2022.05.22.15.22.26
+ r18-20020a170903411200b001619b47ae61sm3564486pld.245.2022.05.22.15.29.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 15:22:29 -0700 (PDT)
-Message-ID: <b3c11eaa-7549-1695-6987-c181141c576f@amsat.org>
-Date: Mon, 23 May 2022 00:22:25 +0200
+ Sun, 22 May 2022 15:29:30 -0700 (PDT)
+Message-ID: <2de65552-2c29-549a-3839-65cd3d090f3a@amsat.org>
+Date: Mon, 23 May 2022 00:29:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH 09/50] ps2: remove duplicate setting of scancode_set in
- ps2_kbd_init()
+Subject: Re: [PATCH 00/50] PS2 device QOMification - part 1
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
@@ -67,12 +66,11 @@ To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  aleksandar.rikalo@syrmia.com, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-10-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-10-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,14 +97,33 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 22/5/22 20:17, Mark Cave-Ayland wrote:
-> The default value for scancode_set is already set in ps2_reset() so there is no
 
-ps2_reset -> ps2_reset_keyboard ?
+> Mark Cave-Ayland (50):
+>    ps2: checkpatch fixes
+>    ps2: QOMify PS2State
+>    ps2: QOMify PS2KbdState
+>    ps2: QOMify PS2MouseState
+>    ps2: move QOM type definitions from ps2.c to ps2.h
+>    ps2: improve function prototypes in ps2.c and ps2.h
+>    ps2: introduce PS2DeviceClass
+>    ps2: implement ps2_reset() for the PS2_DEVICE QOM type based upon
+>      ps2_common_reset()
+>    ps2: remove duplicate setting of scancode_set in ps2_kbd_init()
+>    ps2: implement ps2_kbd_realize() and use it to register
+>      ps2_keyboard_handler
+>    ps2: implement ps2_mouse_realize() and use it to register
+>      ps2_mouse_handler
+>    ps2: don't use vmstate_register() in ps2_kbd_init()
+>    ps2: don't use vmstate_register() in ps2_mouse_init()
+>    pl050: checkpatch fixes
+>    pl050: split pl050_update_irq() into separate pl050_set_irq() and
+>      pl050_update_irq() functions
+>    lasips2: spacing fixes
+>    lasips2: rename ps2dev_update_irq() to lasips2_port_set_irq()
+>    pckbd: checkpatch fixes
+>    pckbd: move KBDState from pckbd.c to i8042.h
+>    pckbd: move ISAKBDState from pckbd.c to i8042.h
 
-> need to duplicate this in ps2_kbd_init().
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/input/ps2.c | 1 -
->   1 file changed, 1 deletion(-)
+Patches 1-20:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
