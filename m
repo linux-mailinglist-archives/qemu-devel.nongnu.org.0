@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FF3530671
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:16:07 +0200 (CEST)
-Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA4C530687
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 00:24:23 +0200 (CEST)
+Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nstrq-0006ck-O0
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:16:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
+	id 1nstzW-0000M0-5U
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 18:24:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstp9-0005RZ-GH
- for qemu-devel@nongnu.org; Sun, 22 May 2022 18:13:19 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:39840)
+ id 1nstyQ-0007wj-T8; Sun, 22 May 2022 18:22:54 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nstp8-0003wX-2i
- for qemu-devel@nongnu.org; Sun, 22 May 2022 18:13:19 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- t11-20020a17090a6a0b00b001df6f318a8bso15851027pjj.4
- for <qemu-devel@nongnu.org>; Sun, 22 May 2022 15:13:17 -0700 (PDT)
+ id 1nstyI-00055D-Rv; Sun, 22 May 2022 18:22:53 -0400
+Received: by mail-pl1-x636.google.com with SMTP id q4so11529765plr.11;
+ Sun, 22 May 2022 15:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/qw9ZnAtp1QPiZ8n+jUTEc7msv4Muy9qbVc8HGiWCC0=;
- b=cMoUKkwk/OTQ1bTrJUt8EW3aVyyRERmzSO1p0j3uoEmxEXe0zpdmOzUYf/bpGKgt7I
- ui7g1aV3ODCl6EpPLuMpPpaciqjOsbnXi12Lz2hQavZPC7fBucpN5gB0Q2uRqB+DtIvF
- gLnyzmA00DG8PPY45L/OF6s63oD0YqKttCaX6Tpf5GVdqir0EDTlsv9i8W6I+OF62CHJ
- BpWSHHpoUxeFg9ReiiKmk7GQkXpCygibpsad0yX8h7x7R9+/eooFQG0uN4nPxMSZcq6P
- 4vasfgoSGyrz/cjh0J8BCvutdKZyGOvAkFxJJG4TyKNHSGT5ZIH+Ze8BUCKlqDJLZV6G
- SHvA==
+ bh=h9uGHw/2QJC05+meai4sit5HDdWT9EtwfGrc8QJ0kKs=;
+ b=W2Uln1QAj6fJUdpcoWGSMi57ga6HFPnscqBQqelTMaqMf0T3IvvK9ro2uMHjWBxc+C
+ qJluf8GPnX3nFMrwBvD30H2yuOBp83+OJkpabtEjqXY50SJm1CGm8F9elVnAwhst31b3
+ LAN+pIDI0dN0jbtilfWISsQhXGijvvE7l91eajYXtwweRbfMshmUB23NlyXSxCB1nUnf
+ dWO4H+vA+71GdUEV42oiZ2lM0d+yP5QH1AbVdR//vPB5EIZC/a9IViRrvp1pMFs8gQKu
+ puJH5u+0NWdMAArJaBg8hqx2e0h27SeKeuOyrP/c8BkDHq9Wb6slXtLIatDcjhfwmSxe
+ /JoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/qw9ZnAtp1QPiZ8n+jUTEc7msv4Muy9qbVc8HGiWCC0=;
- b=3OA/3gurqRmZhT55Di2iDnFjiHvNCd0wP2TzLR+jAwcOyXkuV/U/xMqkNFPcQ9P+iX
- wnwIwJZMecLv6v2B/LZKbva9y3oT5ck1bNXmEy6kevnTjTldWIVg3QE9c4at5mSB8stK
- h+zqoumuDG2feQ9VVsU03TLggZoegLxpzeSSk2Qf0O0YXyP1snndsyguDt7GEBbFggsR
- 9Ozy6IYyRTiMExXQDOlzd0lbdN/UYPCmz+7wImZc5Q3AhnprJKEiTnqeS29kw4y5kun0
- 1CAJ62AwXihjeV9FnWDeR0L6hUHkuMWZSOPyUvu41vpPUd8TMCTKeiXknLqvTdAEx/bB
- XF9g==
-X-Gm-Message-State: AOAM5334uthQuVLoiq8wNBgTGg5V+tRQIUu5Uo0hF33qTIrRmJgiaTAm
- 7dGa3lZKBYQ70jQDE44fw4w=
-X-Google-Smtp-Source: ABdhPJxe5vig1G2Tq4FBxMQSUEW7d46sB1uut7d7saW80KDG4114I6UtVAwsdTBeM6NzAMe7TGtb9Q==
-X-Received: by 2002:a17:903:1107:b0:15e:f451:4034 with SMTP id
- n7-20020a170903110700b0015ef4514034mr20251416plh.3.1653257596696; 
- Sun, 22 May 2022 15:13:16 -0700 (PDT)
+ bh=h9uGHw/2QJC05+meai4sit5HDdWT9EtwfGrc8QJ0kKs=;
+ b=PDC5T2xLWryBg1ojHv/IZMKfEcvbupuDSECTMEuRg5UBhpagvKRgjEktIgx2PJVHzR
+ VE2HDqtfhYbpj61BV0dRbncASIAeOax8P6E/fcrM+MeK09GqFOwpEjNps51gWk5XYmJH
+ pRaMZsMhd9B0HBWq2reLBz2xvHjyXfMxJzjlx1s2oOCy28rat9h/2pXw5W/UzlibuC6U
+ 9G3zXH0S7oEjPfV/GkI84x2h7uJI/tWoOBKF9MG/7QyF0mzuQuYIwnRUePhwgbX1GvpD
+ 1cVTzOfgDq5yV8HXJKEd+ymAtf0zal45O2Dw5/1RVD2Q1K6zhg+crKa+E+/EUZGxd3b+
+ pDBg==
+X-Gm-Message-State: AOAM532uDMbBoM08Qc00reXo8IUQP+W+70fAbWw9hvtQ5az+o9xX+ZT6
+ PgbkpLPaYwsi6LefFHgR8Mg=
+X-Google-Smtp-Source: ABdhPJwaesH/HDvE15pcUPC7iQy0GoP5LPbp38SIIM6Y8V1RK3HvizeKOAX8l8IrvbofM25jPkoRlg==
+X-Received: by 2002:a17:902:e3d4:b0:162:23a7:a7e7 with SMTP id
+ r20-20020a170902e3d400b0016223a7a7e7mr2699495ple.32.1653258149761; 
+ Sun, 22 May 2022 15:22:29 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s67-20020a637746000000b003c6a71b2ab7sm3399853pgc.46.2022.05.22.15.13.14
+ mp11-20020a17090b190b00b001d96bc27a57sm5571903pjb.54.2022.05.22.15.22.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 15:13:16 -0700 (PDT)
-Message-ID: <28a2c667-1910-0a20-60e6-510f662a8b2b@amsat.org>
-Date: Mon, 23 May 2022 00:13:13 +0200
+ Sun, 22 May 2022 15:22:29 -0700 (PDT)
+Message-ID: <b3c11eaa-7549-1695-6987-c181141c576f@amsat.org>
+Date: Mon, 23 May 2022 00:22:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH 0/6] hw/acpi/viot: generate stable VIOT ACPI tables
+Subject: Re: [PATCH 09/50] ps2: remove duplicate setting of scancode_set in
+ ps2_kbd_init()
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, mst@redhat.com,
- imammedo@redhat.com, ani@anisinha.ca, jean-philippe@linaro.org,
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
+ pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
+ aleksandar.rikalo@syrmia.com, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
-References: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220518110839.8681-1-mark.cave-ayland@ilande.co.uk>
+References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-10-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220522181836.864-10-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,22 +98,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 18/5/22 13:08, Mark Cave-Ayland wrote:
+On 22/5/22 20:17, Mark Cave-Ayland wrote:
+> The default value for scancode_set is already set in ps2_reset() so there is no
 
-> Mark Cave-Ayland (6):
->    hw/acpi/viot: rename build_pci_range_node() to pci_host_bridges()
->    hw/acpi/viot: move the individual PCI host bridge entry generation to
->      a new function
->    hw/acpi/viot: build array of PCI host bridges before generating VIOT
->      ACPI table
->    tests/acpi: virt: allow VIOT acpi table changes
->    hw/acpi/viot: sort VIOT ACPI table entries by PCI host bus min_bus
->    tests/acpi: virt: update golden masters for VIOT
-> 
->   hw/acpi/viot.c                | 107 +++++++++++++++++++++-------------
->   tests/data/acpi/q35/VIOT.viot | Bin 112 -> 112 bytes
->   2 files changed, 68 insertions(+), 39 deletions(-)
-> 
+ps2_reset -> ps2_reset_keyboard ?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> need to duplicate this in ps2_kbd_init().
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>   hw/input/ps2.c | 1 -
+>   1 file changed, 1 deletion(-)
 
