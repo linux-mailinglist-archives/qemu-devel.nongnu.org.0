@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E60153056B
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 21:20:37 +0200 (CEST)
-Received: from localhost ([::1]:50610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D398B530534
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 May 2022 20:36:43 +0200 (CEST)
+Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nsr80-0004va-M2
-	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 15:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41838)
+	id 1nsqRW-0006Uy-V0
+	for lists+qemu-devel@lfdr.de; Sun, 22 May 2022 14:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqC7-0008IG-4C; Sun, 22 May 2022 14:20:47 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47898)
+ id 1nsqC7-0008II-5U; Sun, 22 May 2022 14:20:47 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqBp-0003qA-6I; Sun, 22 May 2022 14:20:40 -0400
+ id 1nsqBp-0003q8-0v; Sun, 22 May 2022 14:20:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=AaAUTlhTqrpPSPZnLu5z09pTzeglbwj2cDCyzCng+VQ=; b=zTKmMvuxEiLZSPFdHHemaL/4vN
- wsLPCxLJ52fkP7YxBqNv1Sz084RaEMBTZHNT6nBQaamsMyKhP1aFqqtVc5zt+mJMdk3pAP8i1ZD95
- vksPP3JZquLXxXW1IsAMtyTZ183j2BwExjowacmiu3WyXGG0TPbGgBy8pWkE3xHa33lEB+o3HmAcj
- aPEPPvZ/3Bx/bJyHo4aZskb3HyL0yB78mX1Ko77ncZUwlKvNxyUwHS/gWtoeWS7kf1ZAVGaIsAM2t
- YKPVE0dKsujryZcgjQ/IRz2nMgoptG3Ny2wsofJ+X1r3MQj/XMfbxDnTF7C6fHju7fJA1LT04EtLE
- 1woc3mSug/o3GgQS/diZtEiR+ziTVRp5SzvL52xfAzZkJ0rUdbIqOZTRJDJckHivOT/oVX8JSFDwE
- 58jmsT15DVr5dFdH6Inpwoef/KnUSLl0vxmT6PAiHQz22pok98v5rz1Edfkr2HGK0qsptUwn+mWaJ
- TOW9GF8qyUKiVZOCh+G9XSUcPPO/EFC35VUZo0uMURm2N6zZzuPz6RIWH2AxjDFiMjqBepHTR73Eg
- laiCrCI1Nvv+IHtrtqR4gyoXHIdkg9fF90pZvYXx7DisrLyV3od/akMsCcfhVDa6PlN3ojr/71nd3
- vauDS8OilU/obgCHg4gMQZ8K5UZ9FvygJiRu3C9z4=;
+ bh=lRk97FSn/zFjn/zLFI1vCEGQSUKky7kiDMJ+Xl85PTQ=; b=IsmYHelKcYPaB5QLB9Ynwo5U9q
+ bJPB08YialFfIizV/2xrWopd3twpBZhvo48bCoByMn33IURY+YxFGpbe+ijIHb6Kr/Tl6G8WroKO9
+ Wm15XFNTi3stXBZHalwFP2I65mX4B6WYKWCnHLtlHN3VUBrL1hJ1Lo/xVuEwSPridU1SaHAf/IhRA
+ nNkANf9waIVI+jQUEv6rBggrj19z1yhR1AvCOysAE5l80vM/g8fB1HeAk+LkKU/hP6eqnMzABgN+d
+ 4U9VNUYUnDKb3q+8gFLGqr7CCWbUziFJ/PEMUHQ7ckEVRRvUZyrFVuOdjF6R9l3ODv3Tq3a9CPA9S
+ Us+vLRLfgZh7J0CBxkrulbCT56Cf072D0mmeyxXx8SxCw42JQ584bTdirpKc73yTqD15Et+k9xwRe
+ VP8thI1dSnIVDAv03nI2kRefxn0heUqcL5TyIT0SaZFsRY0fihhw7/M5+LXGCL9fRzJsLuryB4tDv
+ Zs8Qh/tU8mBPXOdeBUOYDGaRtyvFZ8DrBKFz+oX6uAqDdWfenLTdAEBUnkFXxWMAIRC9jr0qDl8n2
+ yzUMzCMu8AZN49UOp9VK4cEcZI++XJ6P/7cFAv5++ik0WxqMD3o3Ti7PWZLnOVDXbyzY2/bESnrFF
+ 2K0kd4MR8I2qyi1anqMx8xCs4EQmYcHJlrQxi3T4A=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nsqAO-0007pH-21; Sun, 22 May 2022 19:19:00 +0100
+ id 1nsqAO-0007pH-RM; Sun, 22 May 2022 19:19:01 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Date: Sun, 22 May 2022 19:18:19 +0100
-Message-Id: <20220522181836.864-34-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 22 May 2022 19:18:20 +0100
+Message-Id: <20220522181836.864-35-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
@@ -51,8 +51,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 33/50] ps2: introduce ps2_lower_irq() instead of calling
- update_irq() directly
+Subject: [PATCH 34/50] ps2: add gpio for output IRQ and optionally use it in
+ ps2_raise_irq() and ps2_lower_irq()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,47 +78,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This consolidates the logic of lowering the PS2 IRQ into one single function.
+Define the gpio for the PS2 output IRQ in ps2_init() and add logic to optionally
+use it in ps2_raise_irq() and ps2_lower_irq() if the gpio is connected. If the
+gpio is not connected then call the legacy update_irq() function as before.
+
+This allows the incremental conversion of devices from the legacy update_irq()
+function to use gpios instead.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/ps2.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ hw/input/ps2.c         | 21 +++++++++++++++++++--
+ include/hw/input/ps2.h |  4 ++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 55a2ac08c2..214dda60bf 100644
+index 214dda60bf..891eb7181c 100644
 --- a/hw/input/ps2.c
 +++ b/hw/input/ps2.c
-@@ -177,6 +177,11 @@ static void ps2_raise_irq(PS2State *s)
-     s->update_irq(s->update_arg, 1);
+@@ -24,6 +24,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "hw/irq.h"
+ #include "hw/sysbus.h"
+ #include "hw/input/ps2.h"
+ #include "migration/vmstate.h"
+@@ -174,12 +175,20 @@ void ps2_queue_noirq(PS2State *s, int b)
+ 
+ static void ps2_raise_irq(PS2State *s)
+ {
+-    s->update_irq(s->update_arg, 1);
++    if (s->irq) {
++        qemu_set_irq(s->irq, 1);
++    } else {
++        s->update_irq(s->update_arg, 1);
++    }
  }
  
-+static void ps2_lower_irq(PS2State *s)
+ static void ps2_lower_irq(PS2State *s)
+ {
+-    s->update_irq(s->update_arg, 0);
++    if (s->irq) {
++        qemu_set_irq(s->irq, 0);
++    } else {
++        s->update_irq(s->update_arg, 0);
++    }
+ }
+ 
+ void ps2_queue(PS2State *s, int b)
+@@ -1305,6 +1314,13 @@ static const TypeInfo ps2_mouse_info = {
+     .class_init    = ps2_mouse_class_init
+ };
+ 
++static void ps2_init(Object *obj)
 +{
-+    s->update_irq(s->update_arg, 0);
++    PS2State *s = PS2_DEVICE(obj);
++
++    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
 +}
 +
- void ps2_queue(PS2State *s, int b)
+ static void ps2_class_init(ObjectClass *klass, void *data)
  {
-     if (PS2_QUEUE_SIZE - s->queue.count < 1) {
-@@ -554,7 +559,7 @@ uint32_t ps2_read_data(PS2State *s)
-             q->cwptr = -1;
-         }
-         /* reading deasserts IRQ */
--        s->update_irq(s->update_arg, 0);
-+        ps2_lower_irq(s);
-         /* reassert IRQs if data left */
-         if (q->count) {
-             ps2_raise_irq(s);
-@@ -1001,7 +1006,7 @@ static void ps2_reset(DeviceState *dev)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -1316,6 +1332,7 @@ static void ps2_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo ps2_info = {
+     .name          = TYPE_PS2_DEVICE,
+     .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_init = ps2_init,
+     .instance_size = sizeof(PS2State),
+     .class_init    = ps2_class_init,
+     .abstract      = true
+diff --git a/include/hw/input/ps2.h b/include/hw/input/ps2.h
+index d04d291287..6e5c404cb5 100644
+--- a/include/hw/input/ps2.h
++++ b/include/hw/input/ps2.h
+@@ -50,11 +50,15 @@ typedef struct {
+     int rptr, wptr, cwptr, count;
+ } PS2Queue;
  
-     s->write_cmd = -1;
-     ps2_reset_queue(s);
--    s->update_irq(s->update_arg, 0);
-+    ps2_lower_irq(s);
- }
++/* Output IRQ */
++#define PS2_DEVICE_IRQ      0
++
+ struct PS2State {
+     SysBusDevice parent_obj;
  
- static void ps2_common_post_load(PS2State *s)
+     PS2Queue queue;
+     int32_t write_cmd;
++    qemu_irq irq;
+     void (*update_irq)(void *, int);
+     void *update_arg;
+ };
 -- 
 2.20.1
 
