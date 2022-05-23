@@ -2,57 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11133530E98
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 13:54:36 +0200 (CEST)
-Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C16530EA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:05:08 +0200 (CEST)
+Received: from localhost ([::1]:34292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt6du-0004S6-Jb
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 07:54:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
+	id 1nt6o6-0003o8-Q9
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nt6b6-0003Xv-UZ
- for qemu-devel@nongnu.org; Mon, 23 May 2022 07:51:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56738)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nt6lD-00020w-Rk
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:02:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nt6b3-0005mq-Tp
- for qemu-devel@nongnu.org; Mon, 23 May 2022 07:51:39 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nt6lB-0007yL-6X
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:02:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653306694;
+ s=mimecast20190719; t=1653307320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bb+MtcQac3JEVv5fdPzKPxEg8ue5FbgO3Vg1fXNMn5E=;
- b=TD0JtTpJ7lzNYrHyGe/Hl6/1/cR0X4RyWj0cYU4Gex2Ps+GYQo8eg4lej7VLietzi+h9x2
- hlPQ6dqseCpvwp6g+rvuPlCglC4MeISrSsVWBDnrA8brYUE2VNK4Zd+02O0bRY08T3c5qt
- lJ7M4Zi3Wipgh5kzG6OCPayDhOdz27E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CC8bJCauQJ9oTCHwwTDM4HSg39wSWV60eXPBT6s5oNQ=;
+ b=FJ2x01sgYk7K45N1vsvfbw0bpE3cBiPMzArUo/lOo/nXLR5Pkg9wCNFNbANuLCphhtJGvg
+ Tyx5doZxgVRI+CW+awhU5C6P7fawOIDHNSLa0JyqwUyYH1QKRyCb3HVJzK7/ia2mSkZVeG
+ vulq6qsBa+TEGblBJihZsslbFWGfXJc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-9m3G_YS4MIKVmvtJCigXtA-1; Mon, 23 May 2022 07:51:30 -0400
-X-MC-Unique: 9m3G_YS4MIKVmvtJCigXtA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-357-KEXLGHSINDaN5QcwZw8tmg-1; Mon, 23 May 2022 08:01:59 -0400
+X-MC-Unique: KEXLGHSINDaN5QcwZw8tmg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 660721C0CE67;
- Mon, 23 May 2022 11:51:30 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.195.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 98888407E1C0;
- Mon, 23 May 2022 11:51:29 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, david@redhat.com, richard.henderson@linaro.org,
- thuth@redhat.com
-Subject: [PATCH] s390: Typo fix FLOATING_POINT_SUPPPORT_ENH
-Date: Mon, 23 May 2022 12:51:23 +0100
-Message-Id: <20220523115123.150340-1-dgilbert@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD96B188142F;
+ Mon, 23 May 2022 12:01:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80F96492C3B;
+ Mon, 23 May 2022 12:01:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 49D9021E6906; Mon, 23 May 2022 14:01:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v3 05/15] osdep: export qemu_open_cloexec()
+References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+ <20220513180821.905149-6-marcandre.lureau@redhat.com>
+Date: Mon, 23 May 2022 14:01:57 +0200
+In-Reply-To: <20220513180821.905149-6-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Fri, 13 May 2022 20:08:11 +0200")
+Message-ID: <87mtf88nka.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,88 +83,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+marcandre.lureau@redhat.com writes:
 
-One less P needed.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Used in the next patch, to simplify qga code.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- target/s390x/cpu_features_def.h.inc | 2 +-
- target/s390x/gen-features.c         | 6 +++---
- target/s390x/tcg/translate.c        | 8 ++++----
- 3 files changed, 8 insertions(+), 8 deletions(-)
+The commit mesage makes me expect a change to external linkage plus a
+declaration in the header, but ...
 
-diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
-index e86662bb3b..3603e5fb12 100644
---- a/target/s390x/cpu_features_def.h.inc
-+++ b/target/s390x/cpu_features_def.h.inc
-@@ -58,7 +58,7 @@ DEF_FEAT(ENHANCED_MONITOR, "emon", STFL, 36, "Enhanced-monitor facility")
- DEF_FEAT(FLOATING_POINT_EXT, "fpe", STFL, 37, "Floating-point extension facility")
- DEF_FEAT(ORDER_PRESERVING_COMPRESSION, "opc", STFL, 38, "Order Preserving Compression facility")
- DEF_FEAT(SET_PROGRAM_PARAMETERS, "sprogp", STFL, 40, "Set-program-parameters facility")
--DEF_FEAT(FLOATING_POINT_SUPPPORT_ENH, "fpseh", STFL, 41, "Floating-point-support-enhancement facilities")
-+DEF_FEAT(FLOATING_POINT_SUPPORT_ENH, "fpseh", STFL, 41, "Floating-point-support-enhancement facilities")
- DEF_FEAT(DFP, "dfp", STFL, 42, "DFP (decimal-floating-point) facility")
- DEF_FEAT(DFP_FAST, "dfphp", STFL, 43, "DFP (decimal-floating-point) facility has high performance")
- DEF_FEAT(PFPO, "pfpo", STFL, 44, "PFPO instruction")
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index c03ec2c9a9..ad140184b9 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -374,7 +374,7 @@ static uint16_t base_GEN10_GA1[] = {
-     S390_FEAT_COMPARE_AND_SWAP_AND_STORE_2,
-     S390_FEAT_GENERAL_INSTRUCTIONS_EXT,
-     S390_FEAT_EXECUTE_EXT,
--    S390_FEAT_FLOATING_POINT_SUPPPORT_ENH,
-+    S390_FEAT_FLOATING_POINT_SUPPORT_ENH,
-     S390_FEAT_DFP,
-     S390_FEAT_DFP_FAST,
-     S390_FEAT_PFPO,
-@@ -476,7 +476,7 @@ static uint16_t full_GEN9_GA2[] = {
-     S390_FEAT_MOVE_WITH_OPTIONAL_SPEC,
-     S390_FEAT_EXTRACT_CPU_TIME,
-     S390_FEAT_COMPARE_AND_SWAP_AND_STORE,
--    S390_FEAT_FLOATING_POINT_SUPPPORT_ENH,
-+    S390_FEAT_FLOATING_POINT_SUPPORT_ENH,
-     S390_FEAT_DFP,
- };
- 
-@@ -700,7 +700,7 @@ static uint16_t qemu_V3_1[] = {
-     S390_FEAT_GENERAL_INSTRUCTIONS_EXT,
-     S390_FEAT_EXECUTE_EXT,
-     S390_FEAT_SET_PROGRAM_PARAMETERS,
--    S390_FEAT_FLOATING_POINT_SUPPPORT_ENH,
-+    S390_FEAT_FLOATING_POINT_SUPPORT_ENH,
-     S390_FEAT_STFLE_45,
-     S390_FEAT_STFLE_49,
-     S390_FEAT_LOCAL_TLB_CLEARING,
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index b40cb84bae..fd2433d625 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6185,17 +6185,17 @@ enum DisasInsnEnum {
- #define FAC_Z           S390_FEAT_ZARCH
- #define FAC_CASS        S390_FEAT_COMPARE_AND_SWAP_AND_STORE
- #define FAC_DFP         S390_FEAT_DFP
--#define FAC_DFPR        S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* DFP-rounding */
-+#define FAC_DFPR        S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* DFP-rounding */
- #define FAC_DO          S390_FEAT_STFLE_45 /* distinct-operands */
- #define FAC_EE          S390_FEAT_EXECUTE_EXT
- #define FAC_EI          S390_FEAT_EXTENDED_IMMEDIATE
- #define FAC_FPE         S390_FEAT_FLOATING_POINT_EXT
--#define FAC_FPSSH       S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* FPS-sign-handling */
--#define FAC_FPRGR       S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* FPR-GR-transfer */
-+#define FAC_FPSSH       S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* FPS-sign-handling */
-+#define FAC_FPRGR       S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* FPR-GR-transfer */
- #define FAC_GIE         S390_FEAT_GENERAL_INSTRUCTIONS_EXT
- #define FAC_HFP_MA      S390_FEAT_HFP_MADDSUB
- #define FAC_HW          S390_FEAT_STFLE_45 /* high-word */
--#define FAC_IEEEE_SIM   S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* IEEE-exception-simulation */
-+#define FAC_IEEEE_SIM   S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* IEEE-exception-simulation */
- #define FAC_MIE         S390_FEAT_STFLE_49 /* misc-instruction-extensions */
- #define FAC_LAT         S390_FEAT_STFLE_49 /* load-and-trap */
- #define FAC_LOC         S390_FEAT_STFLE_45 /* load/store on condition 1 */
--- 
-2.36.1
+> ---
+>  include/qemu/osdep.h |  1 +
+>  util/osdep.c         | 10 ++++++++--
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 67cc465416..64f51cfb7a 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -489,6 +489,7 @@ void sigaction_invoke(struct sigaction *action,
+>   */
+>  int qemu_open_old(const char *name, int flags, ...);
+>  int qemu_open(const char *name, int flags, Error **errp);
+> +int qemu_open_cloexec(const char *name, int flags, mode_t mode, Error **=
+errp);
+>  int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+>  int qemu_close(int fd);
+>  int qemu_unlink(const char *name);
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 60fcbbaebe..545a88e1fd 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -279,9 +279,11 @@ int qemu_lock_fd_test(int fd, int64_t start, int64_t=
+ len, bool exclusive)
+>  }
+>  #endif
+>=20=20
+> -static int qemu_open_cloexec(const char *name, int flags, mode_t mode)
+> +int qemu_open_cloexec(const char *name, int flags, mode_t mode, Error **=
+errp)
+>  {
+> +    ERRP_GUARD();
+
+Looks redundant to me.
+
+>      int ret;
+> +
+>  #ifdef O_CLOEXEC
+>      ret =3D open(name, flags | O_CLOEXEC, mode);
+>  #else
+> @@ -290,6 +292,10 @@ static int qemu_open_cloexec(const char *name, int f=
+lags, mode_t mode)
+>          qemu_set_cloexec(ret);
+>      }
+>  #endif
+> +    if (ret =3D=3D -1) {
+> +        error_setg_errno(errp, errno, "Failed to open file '%s'", name);
+> +    }
+> +
+>      return ret;
+>  }
+>=20=20
+> @@ -327,7 +333,7 @@ qemu_open_internal(const char *name, int flags, mode_=
+t mode, Error **errp)
+>      }
+>  #endif
+>=20=20
+> -    ret =3D qemu_open_cloexec(name, flags, mode);
+> +    ret =3D qemu_open_cloexec(name, flags, mode, NULL);
+>=20=20
+>      if (ret =3D=3D -1) {
+>          const char *action =3D flags & O_CREAT ? "create" : "open";
+
+... the patch additionally changes how errors are communicated.  Please
+cover that in the commit message.
 
 
