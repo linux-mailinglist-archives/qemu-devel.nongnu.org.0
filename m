@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F31B530EBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:54:50 +0200 (CEST)
-Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425E4530EC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 15:10:06 +0200 (CEST)
+Received: from localhost ([::1]:50166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt7aB-00011s-IB
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50134)
+	id 1nt7oz-0001i7-4s
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 09:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt7Vw-0007Ih-Cm
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:50:24 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:36240)
+ id 1nt7XU-00006V-GA
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:52:00 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:38081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt7Vu-0000ih-SD
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:50:24 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2fee9fe48c2so146910757b3.3
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:50:22 -0700 (PDT)
+ id 1nt7XM-00010C-3C
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:51:54 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-2ff7b90e635so80815457b3.5
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:51:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PgxVeUuGk6ylF1oYes5stwEMPPvFJcZqB+IRErCvQH4=;
- b=RYYU4Ho78D4z+fu9pMbeglYytFz5vaJ9YokUFVbWfhk573qMI9NoF++fRVtLD6+pq7
- +39hVNvvB3DTvRDv2FU5yCswID7iVh/aAqTf+G+TLTXaAwbnEy0oIyKVy/ujAP877K0K
- 02CPjxdMkIKUNMMXT0msiTfnJIFWfNiLBMs72X23BhTT9dmzgYBZAnmvYvVaMtTmLWSl
- Q+ywq1JkTAD13AkHwcnTQTvXlYo6WGdbp1fGgZtgSXFLbM4fODpK9IN0BN3u1kK3wf1R
- VcLm2LUh3shieYu53bKSohCPs8GN4LH2dGiH2GKUXSDCsQ003Wbi3L+dL3PlSY78ldDI
- wUKQ==
+ :cc; bh=8XT9898Iy4+tQ6cFvs53DFxmFi5BqF6WzZcJnMs1x0Q=;
+ b=zE9gZXi1jP/dPewH0mRKQqxIv3/IYG4b9h0TGMD9Kj+gxdyolUH59Lg3QFMYsc1czn
+ qbUAylulV03iYwSVF439ZcPbDwQmhdS51MuNPnYMFqdM+WZfFIvVKbJ9RRMqF9LY06iN
+ +Y0uDJVLCwjAgjUJaDfRuHiMErE8vz/tKh2Ky8dnO3d7MlRtlgnjAEJ+bhEwFc2J9YsM
+ XApV7ak+YZ65osZVaX5cC7Lpp8Us7BjtGUyWY0LuaqzeE4wcpmSEULvLGdKuwkizzmvW
+ L2Kx1VRze9SHo1EBSmK+LpIxd1ZjY/XKfOxj4pju4KWNjOo35CTe1gD0d3wlhbnw4iPV
+ fhLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PgxVeUuGk6ylF1oYes5stwEMPPvFJcZqB+IRErCvQH4=;
- b=4zFQ3UoXp9phwbYSUiZMnUHSA950zWtq9ufld0WyQX0WgEeg9gUxi6XVnxV7Zl0Auj
- FCqTEE2syxSqwqLktbw2xKkSOJWqnv97FubPHlSybLyliG+y2lqIVVzyaiDnlwZ9I6Wu
- n5FbaST2FxYOzDxHiG1Uwi3NjAHmwXLhwsMhKOwyZEiF9RUDMXJd+YzoARjwsNWkn/Vm
- nusc6h5lhzZsNvTInGzOqNWxmnhF7f8kQSj/faOM27giw13okUKTkhci+veIeD4VI5X6
- tRPfAQ8D3/aTcK9K5bMPzMizptWyoo9HkXZM/vSXC8HF6CxUpr+SNzFvcyrFMmAaulXG
- zkZQ==
-X-Gm-Message-State: AOAM530dIeu1WMgda7/g7nYiSNl+RAoLK0ln1HR0kkQgpACUEHYbMCJ7
- Z+KbxhcZ2xTL4cwcGNLFjqucaW8x+mXxjCetkRNrquEnp7E=
-X-Google-Smtp-Source: ABdhPJyPQnz1cSfHEXtYswUB41mpQhl+uDkF10ZRIUg2XNhFzVsApIoUXF4JfYMuRfXiiTHqoq0p1P3ac3iqJk0R1Ds=
-X-Received: by 2002:a0d:caca:0:b0:2ff:47bc:ed48 with SMTP id
- m193-20020a0dcaca000000b002ff47bced48mr22673873ywd.64.1653310221774; Mon, 23
- May 2022 05:50:21 -0700 (PDT)
+ bh=8XT9898Iy4+tQ6cFvs53DFxmFi5BqF6WzZcJnMs1x0Q=;
+ b=iIBgIPxl0chEirTqIZedntATZ7lZ0r1WGY3fnY2enhzRX0UxH/AZybZ0ADEpJK4rNd
+ f+06shFa91En0t8/0xP98u0Plkh+8strE7WSUUGTQDQKafJ8U54sWnKZCii6bWq0bCZt
+ IgxjyX725YcCkBTTsmBJYv0rqloYDn9Bkx2Me3IHaafReUMMpnxX11rIsej1Pn6b8LF7
+ umFmE8DtrFBCyw239+dwULsQpYtklj05Po18sCZwF3COnhf2etX/wLTiSbmtS/s+Yvbi
+ R9DenzkAysys078mbNIhMgkFiKSAvRFxe52Kj426xnZ1gfDf8Ruc/M4kYSAmQCL9mr5S
+ oaLg==
+X-Gm-Message-State: AOAM530/+HQbUt5/eoxvL8xmJ20H9S+R8xwkbFZd9mST/i/AGyn0VaFn
+ e3kUhMAHPEGx9GLUqhKqhIl16AjeqSeuuJRQccC1aA==
+X-Google-Smtp-Source: ABdhPJyh7bjOO0V4pNFNItnxImb7cTx6R0KHS71w5sbeU1NYhnuSmS3hs+B8g8ifjJStQSq9aXjlOG5ZEImFXKRhL0w=
+X-Received: by 2002:a81:6904:0:b0:2fe:e670:318a with SMTP id
+ e4-20020a816904000000b002fee670318amr23214073ywc.329.1653310311138; Mon, 23
+ May 2022 05:51:51 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-20-richard.henderson@linaro.org>
-In-Reply-To: <20220521000400.454525-20-richard.henderson@linaro.org>
+ <20220521000400.454525-21-richard.henderson@linaro.org>
+In-Reply-To: <20220521000400.454525-21-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 May 2022 13:50:10 +0100
-Message-ID: <CAFEAcA9-DbF2Kk3oi_cwfLqxzcGOV=yr7QcB2=qBA0voDFDaWA@mail.gmail.com>
-Subject: Re: [PATCH v3 19/49] semihosting: Split common_semi_flen_buf per
- target
+Date: Mon, 23 May 2022 13:51:39 +0100
+Message-ID: <CAFEAcA_kPbHMrO17LjkQAvtBcyQ0oC7XwuhxDOuqQuAPmUJuzA@mail.gmail.com>
+Subject: Re: [PATCH v3 20/49] semihosting: Split out common_semi_has_synccache
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org, 
  Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,17 +88,30 @@ On Sat, 21 May 2022 at 01:04, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > We already have some larger ifdef blocks for ARM and RISCV;
-> split out common_semi_stack_bottom per target.
+> split out a boolean test for SYS_SYNCCACHE.
 >
 > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  semihosting/arm-compat-semi.c | 44 +++++++++++++++++------------------
->  1 file changed, 21 insertions(+), 23 deletions(-)
+>  semihosting/arm-compat-semi.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
 >
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+> index 9ea985beee..c53cb1891f 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -224,6 +224,12 @@ static inline target_ulong common_semi_stack_bottom(CPUState *cs)
+>      CPUARMState *env = &cpu->env;
+>      return is_a64(env) ? env->xregs[31] : env->regs[13];
+>  }
+> +
+> +static inline bool common_semi_has_synccache(CPUArchState *env)
+> +{
+> +    /* Invalid for A32/T32. */
+> +    return !is_a64(env);
+> +}
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Condition seems to be inverted ?
 
-thanks
 -- PMM
 
