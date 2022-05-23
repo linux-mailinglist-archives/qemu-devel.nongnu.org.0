@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1035315D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 21:53:19 +0200 (CEST)
-Received: from localhost ([::1]:40220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7186C5315FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 22:44:45 +0200 (CEST)
+Received: from localhost ([::1]:53094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntE7C-0007Cw-5f
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 15:53:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59392)
+	id 1ntEux-0005xa-VS
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 16:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ntE55-0006I5-Hq; Mon, 23 May 2022 15:51:07 -0400
-Received: from [187.72.171.209] (port=15687 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ntE52-0004hR-T6; Mon, 23 May 2022 15:51:07 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 23 May 2022 16:50:56 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E23D880031F;
- Mon, 23 May 2022 16:50:55 -0300 (-03)
-Message-ID: <12327888-5ab9-d82c-08e4-49a68e46fd30@eldorado.org.br>
-Date: Mon, 23 May 2022 16:50:55 -0300
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntEt7-0005GD-Rp
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 16:42:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:60969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntEt5-0004BF-M3
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 16:42:49 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N5G1V-1nl1hx2Opx-011AW0; Mon, 23 May 2022 22:42:44 +0200
+Message-ID: <6034ff1e-0f52-e571-8a4a-ed76843f7b39@vivier.eu>
+Date: Mon, 23 May 2022 22:42:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 2/5] machine.py: add default pseries params in machine.py
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, clg@kaod.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-References: <20220516165321.872394-1-danielhb413@gmail.com>
- <20220516165321.872394-3-danielhb413@gmail.com>
- <CAFn=p-bn3PrUiX4ZCyBa8_BPd8Nfgo2u4fs3+M2Z42y8O2vdkQ@mail.gmail.com>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <CAFn=p-bn3PrUiX4ZCyBa8_BPd8Nfgo2u4fs3+M2Z42y8O2vdkQ@mail.gmail.com>
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2] linux-user/syscall.c: fix build without RLIMIT_RTTIME
+Content-Language: fr
+To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+Cc: qemu-devel@nongnu.org
+References: <20220523105239.1499162-1-fontaine.fabrice@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220523105239.1499162-1-fontaine.fabrice@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 23 May 2022 19:50:56.0602 (UTC)
- FILETIME=[6B18EBA0:01D86EDE]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:tnUvmi3MEk7iXqbPCG6616hCUaHPEe93cKhlvStSSL71qZlcYoY
+ vEDnGk1PVEgGuZvPm+8dTDNrLL+OTP+/xM7jYfoM8Z3VB1LXHQonjVOayWOYWjic4JuEj7R
+ /jZBd4+HyXQdS2RQpUOaD0oYm0PAlEGMTLBjDjSGe7ebQhLH7tbSYq8wIpqvwVRLxVHU1yi
+ D37f/Jkk1asvy9Tdu6/Gw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OpqkjjkjnV8=:0N4PIap5f1YEngVWMtW9BX
+ J4clNoUS/e/r8JifEDX+wZHJNbbQ8goYDBZ4NI+O3DpSIwWY9+ZrHV8oExFobiouZQf2W0ZQO
+ RF2WD85OEjn+EsbEzlgAZKfuWyE4OkQpUHP1f5gbK0SH2qJMLRWmEA65JoR/Dwr8qGZGbpFR7
+ Sc1jcMTex2uCSmGjuCSDldBDdUQdKGz6l5lZGRkzykqEo9UmLutRknvMSO3sPP3Mx/kSDnPmg
+ VsfU06pLXGE4VVRMkR2pSuOFL9lvjL7i7erAxC0+mSbTxzPQKQzd/kJKUgBpbvExdLeXHtBiX
+ jqsIEvPPNrpjp/+tgZuNt0+uM4elqJikeOnxasQdCtLYZj3j2PJtZFQQY2CrqxdVr7jsPxtoR
+ fniWnRoIZtK1Hu3k+vbla9cPpaGoW5HdvIOyShMy9GyiId8BSU2fskyUi/KBa5JR3I9RVqKWO
+ cQ9GOjsWaBbJLD2SgHwbycJGsjhRVdQJIlfPr6TzHbUPPKnFJF2XoueLFGIh8WWD1bemts6V0
+ 8Hunf5aPtta8IcDzFTqg6FSjMfUSaH6ub5M6uJuNOx90PzVnYjiD+H4154u908Rq02onibTaW
+ ivKxsYD2HTUwbV1dCkGiSm3L8Hsc9XuK+BNaLexkJ7Xu2tFYspCwbVixtL/j72Zot3VFbqTvH
+ +MSPDVNCUi8/vsPPLY1NHGPyXLTktjNjDvbQfpAQCRE3H7XWGjvqkCRqHrhVvSbJGEgsSj7DH
+ FWkEIBP8Sf9S7GlZZEA8lEDxsoRA3kbdnU7ojg==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,100 +73,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMTkvMDUvMjAyMiAyMDoxOCwgSm9obiBTbm93IHdyb3RlOg0KPiBPbiBNb24sIE1heSAx
-NiwgMjAyMiwgMTI6NTMgUE0gRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEgDQo+IDxkYW5pZWxo
-YjQxM0BnbWFpbC5jb20gPG1haWx0bzpkYW5pZWxoYjQxM0BnbWFpbC5jb20+PiB3cm90ZToN
-Cj4gDQo+ICAgICBwU2VyaWVzIGd1ZXN0cyBzZXQgYSBoYW5kZnVsIG9mIG1hY2hpbmUgY2Fw
-YWJpbGl0aWVzIG9uIGJ5IGRlZmF1bHQsIGFsbA0KPiAgICAgb2YgdGhlbSByZWxhdGVkIHRv
-IHNlY3VyaXR5IG1pdGlnYXRpb25zLCB0aGF0IGFyZW4ndCBhbHdheXMgYXZhaWxhYmxlIGlu
-DQo+ICAgICB0aGUgaG9zdC4NCj4gDQo+ICAgICBUaGlzIG1lYW5zIHRoYXQsIGFzIGlzIHRv
-ZGF5LCBydW5uaW5nIGF2b2NhZG8gaW4gYSBQb3dlcjkgc2VydmVyIHdpdGhvdXQNCj4gICAg
-IHRoZSBwcm9wZXIgZmlybXdhcmUgc3VwcG9ydCwgYW5kIHdpdGggLS1kaXNhYmxlLXRjZywg
-dGhpcyBlcnJvciB3aWxsDQo+ICAgICBvY2N1cjoNCj4gDQo+ICAgICAgwqAoMS8xKSB0ZXN0
-cy9hdm9jYWRvL2luZm9fdXNlcm5ldC5weTpJbmZvVXNlcm5ldC50ZXN0X2hvc3Rmd2Q6DQo+
-ICAgICBFUlJPUjogQ29ubmVjdEVycm9yOg0KPiAgICAgRmFpbGVkIHRvIGVzdGFibGlzaCBz
-ZXNzaW9uOiBFT0ZFcnJvclxuwqAgRXhpdCBjb2RlOiAxXG7CoCAoLi4uKQ0KPiAgICAgKC4u
-LikNCj4gICAgICDCoCDCoCDCoCDCoCBDb21tYW5kOiAuL3FlbXUtc3lzdGVtLXBwYzY0IC1k
-aXNwbGF5IG5vbmUgLXZnYSBub25lICguLi4pDQo+ICAgICAgwqAgwqAgwqAgwqAgT3V0cHV0
-OiBxZW11LXN5c3RlbS1wcGM2NDogd2FybmluZzogbmV0ZGV2IHZuZXQgaGFzIG5vIHBlZXIN
-Cj4gICAgIHFlbXUtc3lzdGVtLXBwYzY0OiBSZXF1ZXN0ZWQgc2FmZSBjYWNoZSBjYXBhYmls
-aXR5IGxldmVsIG5vdA0KPiAgICAgc3VwcG9ydGVkIGJ5IEtWTQ0KPiAgICAgVHJ5IGFwcGVu
-ZGluZyAtbWFjaGluZSBjYXAtY2ZwYz1icm9rZW4NCj4gDQo+ICAgICBpbmZvX3VzZXJuZXQu
-cHkgaGFwcGVucyB0byB0cmlnZ2VyIHRoaXMgZXJyb3IgZmlyc3QsIGJ1dCBhbGwgdGVzdHMg
-d291bGQNCj4gICAgIGZhaWwgaW4gdGhpcyBjb25maWd1cmF0aW9uIGJlY2F1c2UgdGhlIGhv
-c3QgZG9lcyBub3Qgc3VwcG9ydCB0aGUgZGVmYXVsdA0KPiAgICAgJ2NhcC1jZnBjJyBjYXBh
-YmlsaXR5Lg0KPiANCj4gICAgIEEgc2ltaWxhciBzaXR1YXRpb24gd2FzIGFscmVhZHkgZml4
-ZWQgYSBjb3VwbGUgb2YgeWVhcnMgYWdvIGJ5IEdyZWcgS3Vyeg0KPiAgICAgKGNvbW1pdCA2
-M2Q1N2M4ZjkxZDApIGJ1dCBpdCB3YXMgZm9jdXNlZCBvbiBUQ0cgd2FybmluZ3MgZm9yIHRo
-ZXNlIHNhbWUNCj4gICAgIGNhcGFiaWxpdGllcyBhbmQgcnVubmluZyBDIHF0ZXN0cy4gVGhp
-cyBjb21taXQgZW5kZWQgdXAgcHJldmVudGluZyB0aGUNCj4gICAgIHByb2JsZW0gd2UncmUg
-ZmFjaW5nIHdpdGggYXZvY2FkbyB3aGVuIHJ1bm5pbmcgcXRlc3RzIHdpdGggS1ZNIHN1cHBv
-cnQuDQo+IA0KPiAgICAgVGhpcyBwYXRjaCBkb2VzIGEgc2ltaWxhciBhcHByb2FjaCBieSBh
-bWVuZGluZyBtYWNoaW5lLnB5IHRvIGRpc2FibGUNCj4gICAgIHRoZXNlIHNlY3VyaXR5IGNh
-cGFiaWxpdGllcyBpbiBjYXNlIHdlJ3JlIHJ1bm5pbmcgYSBwc2VyaWVzIGd1ZXN0LiBUaGUN
-Cj4gICAgIGNoYW5nZSBpcyBtYWRlIGluIHRoZSBfbGF1bmNoKCkgY2FsbGJhY2sgdG8gYmUg
-c3VyZSB0aGF0IHdlJ3JlIGFscmVhZHkNCj4gICAgIGNvbW1pdGVkIGludG8gbGF1bmNoaW5n
-IHRoZSBndWVzdC4gSXQncyBhbHNvIHdvcnRoIG5vdGljaW5nIHRoYXQgd2UncmUNCj4gICAg
-IHJlbHlpbmcgb24gc2VsZi5fbWFjaGluZSBiZWluZyBzZXQgYWNjb3JkaW5nbHkgKGkuZS4g
-dmlhIHRhZzptYWNoaW5lKSwNCj4gICAgIHdoaWNoIGlzIGN1cnJlbnRseSB0aGUgY2FzZSBm
-b3IgYWxsIHBwYzY0IHJlbGF0ZWQgYXZvY2FkbyB0ZXN0cy4NCj4gDQo+ICAgICBTaWduZWQt
-b2ZmLWJ5OiBEYW5pZWwgSGVucmlxdWUgQmFyYm96YSA8ZGFuaWVsaGI0MTNAZ21haWwuY29t
-DQo+ICAgICA8bWFpbHRvOmRhbmllbGhiNDEzQGdtYWlsLmNvbT4+DQo+ICAgICAtLS0NCj4g
-ICAgICDCoHB5dGhvbi9xZW11L21hY2hpbmUvbWFjaGluZS5weSB8IDEzICsrKysrKysrKysr
-KysNCj4gICAgICDCoDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspDQo+IA0KPiAg
-ICAgZGlmZiAtLWdpdCBhL3B5dGhvbi9xZW11L21hY2hpbmUvbWFjaGluZS5weQ0KPiAgICAg
-Yi9weXRob24vcWVtdS9tYWNoaW5lL21hY2hpbmUucHkNCj4gICAgIGluZGV4IDA3YWM1YTcx
-MGIuLjEyZTVlMzdiZmYgMTAwNjQ0DQo+ICAgICAtLS0gYS9weXRob24vcWVtdS9tYWNoaW5l
-L21hY2hpbmUucHkNCj4gICAgICsrKyBiL3B5dGhvbi9xZW11L21hY2hpbmUvbWFjaGluZS5w
-eQ0KPiAgICAgQEAgLTUxLDYgKzUxLDExIEBADQo+IA0KPiANCj4gICAgICDCoExPRyA9IGxv
-Z2dpbmcuZ2V0TG9nZ2VyKF9fbmFtZV9fKQ0KPiAgICAgK1BTRVJJRVNfREVGQVVMVF9DQVBB
-QklMSVRJRVMgPSAoImNhcC1jZnBjPWJyb2tlbiwiDQo+ICAgICArwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgImNhcC1zYmJjPWJyb2tlbiwiDQo+
-ICAgICArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-ImNhcC1pYnM9YnJva2VuLCINCj4gICAgICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCAiY2FwLWNjZi1hc3Npc3Q9b2ZmLCINCj4gICAgICvCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAiY2FwLWZ3bm1p
-PW9mZiIpDQo+IA0KPiANCj4gICAgICDCoGNsYXNzIFFFTVVNYWNoaW5lRXJyb3IoRXhjZXB0
-aW9uKToNCj4gICAgIEBAIC00NDcsNiArNDUyLDE0IEBAIGRlZiBfbGF1bmNoKHNlbGYpIC0+
-IE5vbmU6DQo+ICAgICAgwqAgwqAgwqAgwqAgwqAiIiINCj4gICAgICDCoCDCoCDCoCDCoCDC
-oExhdW5jaCB0aGUgVk0gYW5kIGVzdGFibGlzaCBhIFFNUCBjb25uZWN0aW9uDQo+ICAgICAg
-wqAgwqAgwqAgwqAgwqAiIiINCj4gICAgICsNCj4gICAgICvCoCDCoCDCoCDCoCAjIHBzZXJp
-ZXMgbmVlZHMgZXh0cmEgbWFjaGluZSBvcHRpb25zIHRvIGRpc2FibGUNCj4gICAgIFNwZWN0
-cmUvTWVsdGRvd24NCj4gICAgICvCoCDCoCDCoCDCoCAjIEtWTSByZWxhdGVkIGNhcGFiaWxp
-dGllcyB0aGF0IG1pZ2h0IG5vdCBiZSBhdmFpbGFibGUgaW4gdGhlDQo+ICAgICArwqAgwqAg
-wqAgwqAgIyBob3N0Lg0KPiAgICAgK8KgIMKgIMKgIMKgIGlmICJxZW11LXN5c3RlbS1wcGM2
-NCIgaW4gc2VsZi5fYmluYXJ5Og0KPiAgICAgK8KgIMKgIMKgIMKgIMKgIMKgIGlmIHNlbGYu
-X21hY2hpbmUgaXMgTm9uZSBvciAicHNlcmllcyIgaW4gc2VsZi5fbWFjaGluZToNCj4gICAg
-ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBzZWxmLl9hcmdzLmV4dGVuZChbJy1tYWNoaW5l
-JywNCj4gICAgIFBTRVJJRVNfREVGQVVMVF9DQVBBQklMSVRJRVNdKQ0KPiAgICAgKw0KPiAg
-ICAgIMKgIMKgIMKgIMKgIMKgc2VsZi5fcHJlX2xhdW5jaCgpDQo+ICAgICAgwqAgwqAgwqAg
-wqAgwqBMT0cuZGVidWcoJ1ZNIGxhdW5jaCBjb21tYW5kOiAlcicsICcNCj4gICAgICcuam9p
-bihzZWxmLl9xZW11X2Z1bGxfYXJncykpDQo+IA0KPiAgICAgLS0gDQo+ICAgICAyLjMyLjAN
-Cj4gDQo+IA0KPiBIbSwgb2theS4NCj4gDQo+IEkgaGF2ZSBwbGFucyB0byB0cnkgYW5kIGZh
-Y3RvciB0aGUgbWFjaGluZSBhcHBsaWFuY2Ugb3V0IGFuZCBpbnRvIGFuIA0KPiB1cHN0cmVh
-bSBwYWNrYWdlIGluIHRoZSBuZWFyIGZ1dHVyZSwgc28gSSB3YW50IHRvIGF2b2lkIG1vcmUg
-aGFyZGNvZGluZyANCj4gb2YgZGVmYXVsdHMuDQo+IA0KPiBEb2VzIGF2b2NhZG8gaGF2ZSBh
-IHN1YmNsYXNzIG9mIFFFTVVNYWNoaW5lIHdoZXJlIGl0IG1pZ2h0IGJlIG1vcmUgDQo+IGFw
-cHJvcHJpYXRlIHRvIHN0aWNrIHRoaXMgYmFuZGFpZD8gQ2FuIHdlIG1ha2Ugb25lPw0KPiAN
-Cj4gKEkgZG9uJ3QgdGhpbmsgaW90ZXN0cyBydW5zIGludG8gdGhpcyBwcm9ibGVtIGJlY2F1
-c2Ugd2UgYWx3YXlzIHVzZSANCj4gbWFjaGluZTpub25lIHRoZXJlLCBJIHRoaW5rLiBWTSB0
-ZXN0cyBtaWdodCBoYXZlIGEgc2ltaWxhciBwcm9ibGVtIA0KPiB0aG91Z2gsIGFuZCB0aGVu
-IGl0J2QgYmUgcmVhc29uYWJsZSB0byB3YW50IHRoZSBiYW5kYWlkIGhlcmUgaW4gDQo+IG1h
-Y2hpbmUucHkgLi4uIHdlbGwsIGJvby4gb2theS4pDQo+IA0KPiBNeSB2ZXJkaWN0IGlzIHRo
-YXQgaXQncyBhIGJhbmRhaWQsIGJ1dCBJJ2xsIGFjY2VwdCBpdCBpZiB0aGUgYXZvY2FkbyAN
-Cj4gZm9sa3MgYWdyZWUgdG8gaXQgYW5kIEknbGwgc29ydCBpdCBvdXQgbGF0ZXIgd2hlbiBJ
-IGRvIG15IHJld3JpdGUuDQo+IA0KPiBJIGRvbid0IHRoaW5rIEkgaGF2ZSBhY2Nlc3MgdG8g
-YSBwb3dlcjkgbWFjaGluZSB0byB0ZXN0IHRoaXMgd2l0aCANCj4gZWl0aGVyLCBzbyBJIG1p
-Z2h0IHdhbnQgYSB0ZXN0ZWQtYnkgZnJvbSBzb21lb25lIHdobyBkb2VzLg0KPiANCj4gLS1q
-cw0KPiANCg0KVW5mb3J0dW5hdGVseSwgbm9uZSBvZiBvdXIgUE9XRVI5IG1hY2hpbmVzIGhh
-ZCBhIGZpcm13YXJlIG9sZCBlbm91Z2ggdG8gDQpiZSBhZmZlY3RlZCBieSB0aGlzIGlzc3Vl
-LiBUaGUgY2xvc2VzdCBJIGNhbiB0ZXN0IGlzIGEgbmVzdGVkIEtWTS1IViANCndpdGggTDAg
-dXNpbmcgY2FwLWNmcGM9YnJva2VuLCBzbyB0aGUgTDEgcmVjZWl2ZXMgdGhlIHF1b3RlZCBt
-ZXNzYWdlIA0Kd2hlbiBydW5uaW5nICdtYWtlIGNoZWNrLWF2b2NhZG8nLg0KDQpXaXRoIHRo
-aXMgc2V0dXAgSSBjYW4gY29uZmlybSB0aGF0IHRoZSBwYXRjaCBmaXhlcyB0aGlzIGVycm9y
-LCBzbw0KVGVzdGVkLWJ5OiBNYXRoZXVzIEZlcnN0IDxtYXRoZXVzLmZlcnN0QGVsZG9yYWRv
-Lm9yZy5icj4NCg0KVGhhbmtzLA0KTWF0aGV1cyBLLiBGZXJzdA0KSW5zdGl0dXRvIGRlIFBl
-c3F1aXNhcyBFTERPUkFETyA8aHR0cDovL3d3dy5lbGRvcmFkby5vcmcuYnIvPg0KQW5hbGlz
-dGEgZGUgU29mdHdhcmUNCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cu
-ZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
+Le 23/05/2022 à 12:52, Fabrice Fontaine a écrit :
+> RLIMIT_RTTIME is not provided by uclibc-ng or by musl prior to version
+> 1.2.0 and
+> https://github.com/bminor/musl/commit/2507e7f5312e79620f6337935d0a6c9045ccba09
+> resulting in the following build failure since
+> https://git.qemu.org/?p=qemu.git;a=commit;h=244fd08323088db73590ff2317dfe86f810b51d7:
+> 
+> ../linux-user/syscall.c: In function 'target_to_host_resource':
+> ../linux-user/syscall.c:1057:16: error: 'RLIMIT_RTTIME' undeclared (first use in this function); did you mean 'RLIMIT_NOFILE'?
+>   1057 |         return RLIMIT_RTTIME;
+>        |                ^~~~~~~~~~~~~
+>        |                RLIMIT_NOFILE
+> 
+> Fixes:
+>   - http://autobuild.buildroot.org/results/22d3b584b704613d030e1ea9e6b709b713e4cc26
+> 
+> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+> ---
+> Changes v1 -> v2 (after review of Laurent Vivier):
+>   - Use an ifdef block instead of defining RLIMIT_RTTIME
+> 
+>   linux-user/syscall.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index dd0d92ba4e..488facb356 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1053,8 +1053,10 @@ static inline int target_to_host_resource(int code)
+>           return RLIMIT_RSS;
+>       case TARGET_RLIMIT_RTPRIO:
+>           return RLIMIT_RTPRIO;
+> +#ifdef RLIMIT_RTTIME
+>       case TARGET_RLIMIT_RTTIME:
+>           return RLIMIT_RTTIME;
+> +#endif
+>       case TARGET_RLIMIT_SIGPENDING:
+>           return RLIMIT_SIGPENDING;
+>       case TARGET_RLIMIT_STACK:
+
+
+Applied to my linux-user-for-7.1 branch.
+
+Thanks,
+Laurent
 
