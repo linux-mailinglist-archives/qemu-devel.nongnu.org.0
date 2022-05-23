@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983FA53119B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:32:37 +0200 (CEST)
-Received: from localhost ([::1]:53010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEBE53119F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:34:00 +0200 (CEST)
+Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntA2r-0005At-J0
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60614)
+	id 1ntA4F-0008K9-9T
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt9z7-0002Dk-DG
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:28:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33853)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1ntA10-0004Vx-SK
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:30:41 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:18298 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt9z4-0003d9-I3
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:28:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653319716;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=loD9d+RLdPf6FqmNTQT6GM59VeTiSIN5y+QF8lRXcqI=;
- b=iCP/2Wu1HK9CwYMVaq1Bjzl8EDEVcxu1Exdxf8ki9IIvuRK+291gK0gKV0Wfrv++s1jYLi
- KblaQKwq9fstBXXQMYJ89abghwXQXxoSDl2kOKNz5tyHSj1d+UmipfU/Q9IotHaJ7aZQbL
- FATsWPXnj/q1wfi1mpqdrRoiIR/v248=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-tGA2jZSdNhqcau2I5GGOdQ-1; Mon, 23 May 2022 11:28:32 -0400
-X-MC-Unique: tGA2jZSdNhqcau2I5GGOdQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05D99395AFE4;
- Mon, 23 May 2022 15:28:32 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDA5F1121319;
- Mon, 23 May 2022 15:28:31 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2A60718000B4; Mon, 23 May 2022 17:28:30 +0200 (CEST)
-Date: Mon, 23 May 2022 17:28:30 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Geoffrey McRae <geoff@hostfission.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: Windows QXL Display Driver
-Message-ID: <20220523152830.3n6xnletrexmvjiq@sirius.home.kraxel.org>
-References: <0c317d39fa81e000a1b7717ab4fde75d@hostfission.com>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1ntA0y-0003zo-3d
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:30:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653319836; x=1684855836;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=7OenGLB7dGpptwRRzjJaPmhu5ShRYU9QhFSj1l1mbT8=;
+ b=UzcBEGKL1Wu/KphG8gADqESTRDsbuTUfkClpOqDTtSDzdyqk1FylQUDq
+ ysA8Wz4Mj4uYZOWWWF3qi8KgCVlvDgz9YQ5yoTwSya76zZmpCo8zWU6Yr
+ m2P2VzDnZ2Nn3I9c6ZVtvOldPWwU1NCfayc9HIZ+oWpB2+z0yaygYMYXc
+ G9E4Isc/pA1gaM9aLGddPilHUvk9HGfcjz0x9KDBzLWmH8o5X+wmg2tyq
+ 3C9tGiuQI0YO/E6vc9nIsYeISA8hSBpqtpBLOVmytQvYBot2lo52PUI8N
+ T+An3TDYbwNTlOjcgLqeFI7l+0nDIRkQG0qtnncVfLwFNEhUHE7icQdWo w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="333901290"
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="333901290"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 08:30:30 -0700
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="600706775"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.171.127])
+ ([10.249.171.127])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 08:30:24 -0700
+Message-ID: <ee52e4e9-e84f-4654-5414-a9a3fe3a46d7@intel.com>
+Date: Mon, 23 May 2022 23:30:21 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c317d39fa81e000a1b7717ab4fde75d@hostfission.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.9.0
+Subject: Re: [RFC PATCH v4 06/36] i386/tdx: Get tdx_capabilities via
+ KVM_TDX_CAPABILITIES
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-7-xiaoyao.li@intel.com>
+ <20220523084530.baedwpbwldc7cbnz@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220523084530.baedwpbwldc7cbnz@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,29 +93,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 24, 2022 at 12:35:49AM +1000, Geoffrey McRae wrote:
-> Hi Gerd,
+On 5/23/2022 4:45 PM, Gerd Hoffmann wrote:
+>    Hi,
 > 
-> Over the past few weeks I have been adding spice display support to Looking
-> Glass as a fallback mechanism for during system boot (or diags) before our
-> application is loaded in the guest VM. The idea is to have the VFIO GPU
-> duplicate it's output to the QXL device, which works fine until you load the
-> QXL display driver.
+>> +    do {
+>> +        size = sizeof(struct kvm_tdx_capabilities) +
+>> +               max_ent * sizeof(struct kvm_tdx_cpuid_config);
+>> +        caps = g_malloc0(size);
+>> +        caps->nr_cpuid_configs = max_ent;
+>> +
+>> +        r = tdx_platform_ioctl(KVM_TDX_CAPABILITIES, 0, caps);
+>> +        if (r == -E2BIG) {
+>> +            g_free(caps);
+>> +            max_ent *= 2;
+>> +        } else if (r < 0) {
+>> +            error_report("KVM_TDX_CAPABILITIES failed: %s\n", strerror(-r));
+>> +            exit(1);
+>> +        }
+>> +    }
+>> +    while (r == -E2BIG);
 > 
-> The issue is that once the driver is loaded windows removes the option to
-> duplicate the output.
+> This should have a limit for the number of loop runs.
 
-Just don't load the driver then?  Or use stdvga instead?  Shouldn't make
-a big difference performance-wise given that qxl supports 2d accel only
-which is pretty much dead these days.
+Actually, this logic is copied from get_supported_cpuid().
 
-> Is this something that needs to be tweaked in the
-> driver to allow this? or is there a technical reason why this can't be done?
+Anyway, I can put a maximum limit as 256 (it should be large enough) or 
+maybe re-use KVM_MAX_CPUID_ENTRIES. When it gets hit, we know we need to 
+update QEMU to fit with TDX on new platform.
 
-I don't have much insight into the inner workings of the qxl windows
-driver, sorry.
-
-take care,
-  Gerd
+> take care,
+>    Gerd
+> 
 
 
