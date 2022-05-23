@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EB9531179
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:02:06 +0200 (CEST)
-Received: from localhost ([::1]:60366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07FDD53117B
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:07:39 +0200 (CEST)
+Received: from localhost ([::1]:35012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt9ZN-0001X8-4q
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:02:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
+	id 1nt9ej-00050f-Rw
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1nt9XC-0008IO-G3
- for qemu-devel@nongnu.org; Mon, 23 May 2022 10:59:50 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:46832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1nt9X9-0007Jh-Cv
- for qemu-devel@nongnu.org; Mon, 23 May 2022 10:59:50 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id j21so13700379pga.13
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 07:59:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DFcYVXODv/uBzvDJHDbZg+Ml/E4lGZcMHzTQgnzw4EM=;
- b=NwQWARYR4RZn2CAjQsYJadNYKaVW7MzIoN/nMg9jqwZlNBfbREqbdLtvZDoDO4Z2kK
- frsixTGjYcfMSjEKLZrD2vdypr6UgcYPwluAhmygBe7J0iPQPRRpsxKMuCD2XDLMU5Fw
- YKIk0kZtQaTotXXV0gEALpq61WUPMlRJ9s9udlSDwkyZ0fPDfCadLx/guzuApI5THQjy
- kVJps1ZbRB1fgjk14rCp7iryt8xav4rO6OQDBi5GVJiXZ7FLYPXd4kEvJAx6VhVSOrDz
- v/7LuT/Ze0wUPUT03WLrgJzZdIC9iRn6D+edqU24cB0Z510B9DqpPeLekOs55zxrqupz
- JLnQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nt9cY-00046m-Jp
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:05:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nt9cU-0008K9-WF
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:05:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653318317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=F94WVMcVA687IFyPqefx+vrPFuTSjfQuyqDxwX9/BGM=;
+ b=T8Y6GEJDUG/MMiTh8TX0EdvxBcu2e1quN9ZTVzpSMpF8bdNP783zwQt07aQgfHH5y5Cs0P
+ V/jZ7dyoBMimb/NkAUCkvsOAulc+ciSb/xqy5qX1REAgsTZWtHRXRoBJR8ewTDn8e6Yxmu
+ Cug8dSRPjug12jTsCi4Y3Pa48WHh4zg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-113-mRHYH3e4MeOSzReKRMVxdA-1; Mon, 23 May 2022 11:05:15 -0400
+X-MC-Unique: mRHYH3e4MeOSzReKRMVxdA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ p7-20020a170906614700b006f87f866117so6154981ejl.21
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:05:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DFcYVXODv/uBzvDJHDbZg+Ml/E4lGZcMHzTQgnzw4EM=;
- b=sHDoFNLmFn6fCFJZ5qWnQ+dy8rgZi3AJX4Pnhlw+qwrkagPIq6XKJ1SkYZl90nSHrA
- i7yylrJHFPyQOoOudHk7YIQ8hKyixK6k8QovzrWOFMVRWLhC75V8fipzA9ZidJ8mOMfQ
- UU/yecQoAGCU38iTmgX+tvmuW35tYi9Se0zRjZH4TPYTrWpztJADJCer/4/cPD4jiVVg
- zqqywSE1fRVX8lSbFKMrKdMElniaU8nSVC5+lo29TNCFDPnfBBcrO85GrcT5LbJ6fh7n
- 94y1CpWJabLJXj15fyDmFlzR74NGMNO4QgxOj6ARz6ulsVvgDjs20Vzb0xB2xNjkvy+B
- yhQA==
-X-Gm-Message-State: AOAM531GY3U8j6FLN/xxD0ojufRO7xh/d4wpQMug/8XfJS70E65p47Ln
- 6VgdbdGPr5XI9YWZytuT/eI=
-X-Google-Smtp-Source: ABdhPJzQGTfhJi9vv+DQqQOwi2a4+S5UgWmHwyMRqF95siRlqXEmNb/p7WKMlsk/F/iLSiOqPhXFmQ==
-X-Received: by 2002:a63:fc1d:0:b0:3fa:218e:1329 with SMTP id
- j29-20020a63fc1d000000b003fa218e1329mr7403816pgi.268.1653317986095; 
- Mon, 23 May 2022 07:59:46 -0700 (PDT)
-Received: from localhost ([192.55.54.48]) by smtp.gmail.com with ESMTPSA id
- h11-20020a170902f2cb00b0015f33717794sm5211722plc.42.2022.05.23.07.59.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F94WVMcVA687IFyPqefx+vrPFuTSjfQuyqDxwX9/BGM=;
+ b=spanXR7McHCS578Agu1+lNa7r+LhJl4S/d8ShmNFnWz56Enj+8l+Yx+h6sUzileBLG
+ vvcNBqk6o5EJU0OS48uMDjIfPIYKW4RFmLdhPFKbDJITf2FSeqp8+tsf6kN9aaMDJaV7
+ 2Q5mkGQmOcn2gESdLuHX/iXiSvy7nt7O0Iw2X0yAATaqP5tIyaDD+4IURlUvcL3Lm5PZ
+ y8MPqEVtN/I+/rUI7Pm5Z6y0YUK4VpRudfw7MroFia5TUou5Wa1MSjkJrYR8OF8BG1L9
+ W6xix6RN+Y9gRDrxWwaF0p5ksVTBnmZCHjmQc2VU5/lI6YSuF3JVlaXoey2JYofsv4ZO
+ wJLQ==
+X-Gm-Message-State: AOAM530wZW+1HkEZTF9h60CzQE3pj50tjIhnrCqOiP8rBzyx6xfzUOgt
+ Nv2F0GJARSkXtirJwDSzP+rx+PpTDQYF3WkYnAFAoFyICw8/WvmDMrUCOeqCtVIj9PwAwkpM/gh
+ 8YE5RKjDWJqU3sjYpXxsECsYsxPCpaeuiaCc2bbi2tifUBsMdlkfgdRi8HUU0P69Nl0Q=
+X-Received: by 2002:a17:906:412:b0:6fe:a4f4:9605 with SMTP id
+ d18-20020a170906041200b006fea4f49605mr15056828eja.661.1653318313559; 
+ Mon, 23 May 2022 08:05:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxd+05mSYA5vHtHzxSdQSmGvePYJs7TMb1NF8EUSrWK1kLEIL8CtxBxlcbOZRCcERMkEpxj9Q==
+X-Received: by 2002:a17:906:412:b0:6fe:a4f4:9605 with SMTP id
+ d18-20020a170906041200b006fea4f49605mr15056798eja.661.1653318313206; 
+ Mon, 23 May 2022 08:05:13 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ gj22-20020a170907741600b006feded0fa96sm1377793ejc.199.2022.05.23.08.05.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 07:59:45 -0700 (PDT)
-Date: Mon, 23 May 2022 07:59:44 -0700
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 07/36] i386/tdx: Introduce is_tdx_vm() helper and
- cache tdx_guest object
-Message-ID: <20220523145944.GB3095181@ls.amr.corp.intel.com>
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-8-xiaoyao.li@intel.com>
- <20220523084817.ydle4f4acsoppbgr@sirius.home.kraxel.org>
+ Mon, 23 May 2022 08:05:10 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com
+Subject: [PATCH v4 0/8] qmp, hmp: statistics subsystem and KVM suport.
+Date: Mon, 23 May 2022 17:05:01 +0200
+Message-Id: <20220523150509.349412-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220523084817.ydle4f4acsoppbgr@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,48 +96,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 23, 2022 at 10:48:17AM +0200,
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+This patchset adds QEMU support for querying fd-based KVM statistics.
+This allows the user to analyze the behavior of the VM without access
+to debugfs.
 
-> > diff --git a/target/i386/kvm/tdx.h b/target/i386/kvm/tdx.h
-> > index c8a23d95258d..4036ca2f3f99 100644
-> > --- a/target/i386/kvm/tdx.h
-> > +++ b/target/i386/kvm/tdx.h
-> > @@ -1,6 +1,10 @@
-> >  #ifndef QEMU_I386_TDX_H
-> >  #define QEMU_I386_TDX_H
-> >  
-> > +#ifndef CONFIG_USER_ONLY
-> > +#include CONFIG_DEVICES /* CONFIG_TDX */
-> > +#endif
-> > +
-> >  #include "exec/confidential-guest-support.h"
-> >  
-> >  #define TYPE_TDX_GUEST "tdx-guest"
-> > @@ -16,6 +20,12 @@ typedef struct TdxGuest {
-> >      uint64_t attributes;    /* TD attributes */
-> >  } TdxGuest;
-> >  
-> > +#ifdef CONFIG_TDX
-> > +bool is_tdx_vm(void);
-> > +#else
-> > +#define is_tdx_vm() 0
-> 
-> Just add that to the tdx-stubs.c file you already created in one of the
-> previous patches and drop this #ifdef mess ;)
+However, instead of adding an ad hoc command, the new QMP entry point
+can be extended in the future to more statistics provider than KVM
+(for example TCG, tap, or the block layer) and to more objects than
+the VM and vCPUS (for example network interfaces or block devices).
 
-This is for consistency with SEV.  Anyway Either way is okay.
+Because the statistics exposed by KVM are not known at compile time,
+the kernel interface also comes with an introspectable schema.  This
+schema is exposed by the query-stats-schemas QMP command.
 
-From target/i386/sev.h
-  ...
-  #ifdef CONFIG_SEV
-  bool sev_enabled(void);
-  bool sev_es_enabled(void);
-  #else
-  #define sev_enabled() 0
-  #define sev_es_enabled() 0
-  #endif
+Patches 1 and 2 add the basic support, respectively the QMP command
+and the KVM producer.
+
+Patches 3 and 4 add a basic HMP implementation.  The first of the two
+adds a basic filtering mechanism to the QMP command, which is then used
+by HMP (which only shows vCPU statistics for the currently selected
+guest CPU; this is consistent with other HMP commands and does not
+flood the user with an overwhelming amount of output).
+
+The remaining patches add more filtering, respectively by provider
+and by the name of a statistic.
+
+Paolo
+
+v3->v4:
+- correctly handle errors from the callbacks (patch 1)
+- renamed str_in_list to apply_str_list_filter (patch 3)
+- handle empty filter early by avoiding the query altogether (patch 3, 7)
+
+(patches 2/4/6/8 are identical to v3; patch 5 only has context changes)
+
+Mark Kanda (3):
+  qmp: Support for querying stats
+  kvm: Support for querying fd-based stats
+  hmp: add basic "info stats" implementation
+
+Paolo Bonzini (5):
+  qmp: add filtering of statistics by target vCPU
+  qmp: add filtering of statistics by provider
+  hmp: add filtering of statistics by provider
+  qmp: add filtering of statistics by name
+  hmp: add filtering of statistics by name
+
+ accel/kvm/kvm-all.c     | 414 ++++++++++++++++++++++++++++++++++++++++
+ hmp-commands-info.hx    |  14 ++
+ include/monitor/hmp.h   |   1 +
+ include/monitor/stats.h |  45 +++++
+ monitor/hmp-cmds.c      | 229 ++++++++++++++++++++++
+ monitor/qmp-cmds.c      | 149 +++++++++++++++
+ qapi/meson.build        |   1 +
+ qapi/qapi-schema.json   |   1 +
+ qapi/stats.json         | 246 ++++++++++++++++++++++++
+ 9 files changed, 1100 insertions(+)
+ create mode 100644 include/monitor/stats.h
+ create mode 100644 qapi/stats.json
 
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+2.36.0
+
 
