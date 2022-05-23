@@ -2,148 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5ED530967
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 08:24:24 +0200 (CEST)
-Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551A9530966
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 08:18:35 +0200 (CEST)
+Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt1UN-0006tX-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 02:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59944)
+	id 1nt1Oj-0004um-Uj
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 02:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1nt1NE-000591-59
- for qemu-devel@nongnu.org; Mon, 23 May 2022 02:17:00 -0400
-Received: from mail-mw2nam12on2062.outbound.protection.outlook.com
- ([40.107.244.62]:13953 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nt1Ka-00046P-Jp
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 02:14:18 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:60591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1nt1N2-00020i-Fd
- for qemu-devel@nongnu.org; Mon, 23 May 2022 02:16:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UxnlS4H4eUQ8Io4qDypU1F+lrmzxR5GCP+t4ur33aocTy5BryGoArj5sIcxV2qGAUpj8rizsWS/R35n7jivn5Qvyb09Q2DR870x/AK7MmpjRsUa2D7L5xCVJ37OtG4Foqh0kGVdnw5VHpoNVm7osJYm78SO3WJqoCn+lDBdQcZYS1zuZkBCL0q4xp/LhGM4Glrc+d2MErdV9uHEk5VYi5V8fKaqT83i8hPpT7y4oJLOg8XWDzzxZkPpkO7Y3exeMTeJpNTed0fSZem6Cfq06jvohllzHlgIWcETzGmqgs8G2etJyVYcaX8A8ZYa4iFnIk8tE6LGKgPQ9PtW2GIKgCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ww8qGYP9wYRQQFqWUMCj7MyUgK+JxsVTSIC4knJ2A8=;
- b=NM6VEvdtWV+c4wYpT0ZrkbUjIlzq89UmFOpSfQfJyWYiSAqYmlx7iBz2tkPV1ltxhjDKYGxVWBGN3DAy6Yt7iSRnzP66Y5ogMn8Z0htwYVIEkXeBzj457Y0z4+km04U1nU7zQqtfW82azl1nn8xOFgeT409z394QQk6UI+HZnaAA3V/v5ZCF74ykPaGLrLIuNvhA7NbC9QGIHz+6halMrT/QZpd241AwjotWaD/ZIjNhNe8AhKDJ0eaiyYrUvDKm7wX274EM6z3fzHwCc3VaxXFbEE2jG0amZROgh0u+DYpYXpXNYMOhp1LzPi0RHOI2hnG2SFq9CNmLspUWeP8SUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ww8qGYP9wYRQQFqWUMCj7MyUgK+JxsVTSIC4knJ2A8=;
- b=rDHcNmyy6AUmM2DNd9U7M42IOEsHUbXpkBUFLjeGLdXFAWaHYVKgJGnluWdaQUC9IJXNum8/s+AafKyulzAE4b0j5HDWtNAc74mtX0jxwyOCDRfX09BlBe/gUdAZ0ZCvMnY4knWNZAEbtEG+tEcppf1a69ozs0g/wa18yhplG2k/M2TalBf9UilraLB1ULJVdxJEPFufNp/2mqURYiw4xNWsqSFvvZY5lPaFDa/stR/WdV1vcfSqgfzNaOYISbYwWeSvc8QSleSmICBu0XfNOgP+0PeYA3cFjnnAut7zL5v5DiLJ8YRyvbqhqLrjWHSjFlpCG/MRuZ6RYaFmhoxurA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB5544.namprd12.prod.outlook.com (2603:10b6:a03:1d9::22)
- by DM6PR12MB4700.namprd12.prod.outlook.com (2603:10b6:5:35::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.17; Mon, 23 May
- 2022 06:11:43 +0000
-Received: from BY5PR12MB5544.namprd12.prod.outlook.com
- ([fe80::a1ca:addf:80ba:e6c3]) by BY5PR12MB5544.namprd12.prod.outlook.com
- ([fe80::a1ca:addf:80ba:e6c3%7]) with mapi id 15.20.5273.022; Mon, 23 May 2022
- 06:11:42 +0000
-Message-ID: <9d3084ab-2b5f-8ccf-5384-11d5679ae294@nvidia.com>
-Date: Mon, 23 May 2022 09:11:32 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 4/9] vfio/migration: Skip pre-copy if dirty page tracking
- is not supported
-Content-Language: en-US
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: Yishai Hadas <yishaih@nvidia.com>, qemu-devel@nongnu.org,
- Jason Gunthorpe <jgg@nvidia.com>, Juan Quintela <quintela@redhat.com>,
- Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220512154320.19697-1-avihaih@nvidia.com>
- <20220512154320.19697-5-avihaih@nvidia.com>
- <49f27f66-33e8-e6ed-c791-fb6e7b7a7938@oracle.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <49f27f66-33e8-e6ed-c791-fb6e7b7a7938@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0463.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::18) To BY5PR12MB5544.namprd12.prod.outlook.com
- (2603:10b6:a03:1d9::22)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nt1KY-0001WB-F6
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 02:14:16 -0400
+Received: from [192.168.100.1] ([82.64.211.94]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MQNF3-1oEpbE3iyn-00MOYB; Mon, 23 May 2022 08:14:10 +0200
+Message-ID: <c39724b6-7d16-927c-f487-f7ac8be55cc4@vivier.eu>
+Date: Mon, 23 May 2022 08:14:08 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd575bf8-e85b-40cb-ad31-08da3c831b87
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4700:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB47005238C3EE4EDA530A972FDED49@DM6PR12MB4700.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BtGsxGE6vN8QIoZMEWuianaqJx/hk4xU4xcrZ2iFhB5q4x+tBK5QBADjtpbfxacDGZqTlhJOniQvyoOG/obTITkS3au8wibjlITJB+v6JGi46QzX12oWfH1yPV8jctCIrAmIr+fDTFwz4ushdk0BLvdlExyuuEXE7wpu5+gAnpvi3H0s8qmeXNFYNR68qTIx5n0kitwubJoZRUS0Tvw7rw0pqpMRXbv/F/HoaYmJ6EiM417Cn7IYjtba50q28K5av92UEiQr58DNhBr8UPWWydmNKmseASSDOISEFbC4xPeM1fvh/RFZtcYj3pAp1ufzy5QyIg+iEl/sOPUCZY0Az1sAQWu9r2gtuXLV+AkSarZw6SUI5rieOJYFZUoemvixsU7PNsRm9TCQf5K+jBJcuSszjtYMFLTVJJSpaaMIm/4bMGM4MdrsPbWwh90bj7JSRcXrRfaLfKRmo/kipcA/qY9+J8po7Cj5R7AD0dEHj56jKeKTRTZ3cLNDQHdT8Aavmc3bSH0mvnQF1el7UCiID9okatanW9429H5PyBP0tmt6gcdrdR+oOGR5Xkf6BMQTdRly0wYfNdhhKUr5a/XZTflFa2g3fFp2vst9KXC9WL1bAS6dBhpfMbf/RAZEN8Ghmdolrneg06wrS8NH2BR/e/4b3ptLlYZsJLIAFijBODGpa2KoQpHtZz5xAK38DQsM+FJQJm35f3fcPjSNneAJCMIQscxZyzcy57yiiqWR5/myjt8Wf4UcLvD8gy4+vsEU
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB5544.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(508600001)(86362001)(31696002)(36756003)(186003)(6916009)(316002)(54906003)(6666004)(83380400001)(31686004)(66476007)(38100700002)(66946007)(2616005)(5660300002)(66556008)(4326008)(6506007)(2906002)(26005)(6486002)(8936002)(53546011)(6512007)(8676002)(14143004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDlickRqMmdIT1R1MGQrOWU1cVRZZXlvNlRHVE1MU3RXK2gwQU51YnpQa2g5?=
- =?utf-8?B?Wnl0aUYzUEZEeEJOc0drNXBUSU1JRFAwM0ppbW5CdUU5R3pXNkpia0NLYjNt?=
- =?utf-8?B?UXMxZXNWc05qVkJmWkFFSitITnhCamtiejhyNkkrNlpCR1NSelFWUkZmM1BG?=
- =?utf-8?B?aU1EY0tMZHJpNVlpYlc3bkpRLzZSS2ZHT0JOSk9FdlVVamk3NFFXZ2hNV0ZD?=
- =?utf-8?B?NGdkVTBnaWhzRXJ3RFU3UFB3ajl5ZE4rN1IwOUhPNlB3RHJUcTdaczRjVy9C?=
- =?utf-8?B?bURMZzVoYysxaEtlWU9ZWnpUNGtLbkh6SVhEakFBSGNycXBWMThBbXZHcmxQ?=
- =?utf-8?B?MDBEZDlFMHRGaGhSSmk4R2VrMUh1ZW5QVnk0NEhUdWRIcmZFZS9zTFI0cHZy?=
- =?utf-8?B?K09sc0lwcVFXdDdtVDF0WGJiYVJqNGdKejFvbFc2OGdrNjFsODNpVG5TU1JO?=
- =?utf-8?B?eGhpQmJDTWpiTGF0cU1qVlN0WXJRcHAzbzJ0K05LSzFmdmd0aS9OMmsyOGEw?=
- =?utf-8?B?VWI2cmpxUFNSR0g2OTY2U2pac09weDFJUVhmZitid085QXlIRkpWMkY3WGFo?=
- =?utf-8?B?Z2djV1NrM2IwUENUVDZLMS9TekN5eUtPQTk4dm0xMUF4WG8zZGJ5a0ROZHVs?=
- =?utf-8?B?NzlieVc2aGd4V1cwaEEzNUpLc1AxeWR1NFNBMFZBYzdZN21qZGhQcWN1KytF?=
- =?utf-8?B?NGs4R1pkZ3UydmQxZm1FaGJFREpEbWNtbjNVekUra3pWM0poOW8yaWFmZEJy?=
- =?utf-8?B?M2w5S21ub0FwVlRFZWlMWVdiQkJLWmQ2UnNGeVRtYnNoWFRpcnZUNndQZGhx?=
- =?utf-8?B?Nm9DWVl1REM1d0swb1M4cDN2RjlmSzNBWVN6aXlxRjlqR216T2wzTm4zZmZi?=
- =?utf-8?B?OUdicnlMQnFDZmx6Y2R1T0xQSVJINHNHSEp5K2EwZlJ2U0RMYi9CemVvaU0x?=
- =?utf-8?B?SDBxck41d25hZW1PMHAzOTMwODFhdURidGpYZEU0RVlqK3I5Tnp1ODlNRElZ?=
- =?utf-8?B?NHBHVXJUc2c5QzZVWDBGNVJDazJBSVV5cmoyWDA0Ry95ZnhwOVc1MmplYUNC?=
- =?utf-8?B?OExHSDZOc0R3M0FwcTlzRytHWEIxUnVIcFRiazN1YUxnVVRxbmNMRXBtT3BZ?=
- =?utf-8?B?czZvQWFRQW5iVW1GMWQyKytSdVBUVFNOYlVpZzI1MVQ2SlJRY05icUJSL1lv?=
- =?utf-8?B?c3hzNWZxTXc4R0xTV1k5eGtQMVM3WUprVWswbWxvQlVVbGVyYnJkVVQ4Zk1n?=
- =?utf-8?B?KzcrVWF0NlptZEoxVmp5VjM0UW9Sd3Yrb0pwaHZaTVdJVVI3VExxeGhyZGdV?=
- =?utf-8?B?V2p3UkVPY0FnajhBcWVUa2lLa0pGOEtFS2pXa0ROUzIrbUJ0UVlValkyWnBh?=
- =?utf-8?B?TENOSms2bm9CRGdsZUp3UHZOTllPc1JVU1M1SldNTUpmVGtxQWJPczZEczY5?=
- =?utf-8?B?bHVhOUdjZzFSZE1QUXllRCt0RmhVZEpUWllBNmtNK2RudCs1MVZiWkpwZlFP?=
- =?utf-8?B?d3lEZllLZmhhTGpzTy94NWxWbmppV3RhRzF1eVYzczBMaUJrMURsQ0hRZTBo?=
- =?utf-8?B?RlhNMzFwZ2wrTjc4dTJFMWZueFAzd2VteWxTaWhxSWhQem5iOTBRWmNqTFlO?=
- =?utf-8?B?c3ZWUnNRWEdBbjZ3Z2Y5SnovZDR6NVRwdWJYWU9QR2JEOVYxUWdSQUMwend2?=
- =?utf-8?B?dU9qS1pia2Y3UW52TzdHSGNueUVuMnYwd2FqSzU0dlMvTVQrS0xzVkF5MGx5?=
- =?utf-8?B?cFBIbEJzN0lRZEF2L2pFakh5a2FJdkRHdjNlUlJrQXoweklseXVYYkxxT0hO?=
- =?utf-8?B?aCswQXVHeENiekF2QWZYSURjWkRuTGpGZmFVblQ4YUdYOW9zLzhWOUt3YlVr?=
- =?utf-8?B?NmtRZzdoL044NTZNZmpnY2VNNEJnNEdwYXhWK2MzbjZzMHptUXRpTTRoUTdB?=
- =?utf-8?B?MlFxdmFQVU9SVDk2Nkl1RmRPK0liRzd5R0dtUGZLd2tMdTRYblNtN1pvWkU0?=
- =?utf-8?B?TDNiM0FFN3U3L2FDL3pBSVZndjIrZWswWEEwczNNaHVRR3FrVE9nSkx3eFhi?=
- =?utf-8?B?OXhLUGtrN2xZUUdZZE9MYmhORnkveWpoK05xcFJxTHZDY2VaTGVUaGVWeEt6?=
- =?utf-8?B?Ukx4bWs5eFQ3aVk4a3RHZzJ1VHA5eWhLN2I3RU9MV2x3SVdReWtlMjlzdlR2?=
- =?utf-8?B?TzV1K1A3c1lLenZJQ2VOZkVrbGp2Tm5iT2x4VDhGQ0xYMEhocEhsNW5JYnZ2?=
- =?utf-8?B?MWl2ZzY5alp3ejZGdzNSWVRLbzlMY2p2aStKaUxCMmtoekJ3RDJwek1RR0NO?=
- =?utf-8?B?b0VSYUxNbDIwem5MNSsvMWRZeUVlb2ZUa1lJMDJMQ3ZsOElWSW1lUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd575bf8-e85b-40cb-ad31-08da3c831b87
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB5544.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2022 06:11:42.8948 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: re+EU7ahGJDgot3ZeVXdD0vXwPfBLhE7NVjwhN/jwUZjz4IWA5VZgZGy7YetbgBlKjJyugFnOh+c99KFYlS7Pg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4700
-Received-SPF: softfail client-ip=40.107.244.62;
- envelope-from=avihaih@nvidia.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2] linux-user: Clean up arg_start/arg_end confusion
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+References: <20220427025129.160184-1-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220427025129.160184-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:IFx/SemDo8qqh6McInTwDE0SrIsUSYmuTljM00/h/73d2DS/Y2O
+ c7JcKTICuLQ3gr5/TU/1Qdr4vph2dmXadfuJ5InqvquqCU/wjoD9bXXUd0Nxwc99AGSUuPX
+ 66NpoTpnf+LLT90WGL/NwyXYxvrcfZqYqkxVnxvfK98MD8m9cQ3rBobuJfS0qVQQDMnCU3+
+ B94Ll9Y7n2cNbIbnb6OAQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cy1yOjxawq0=:2OjoC7XqTLVBCBhWQWpjyz
+ LAPwukA17GCalt6J5rQCWEb61ABHyYBGeEUxacPP9sNk25O6eVi2V4P+tiWmzO6OUd4qaCiNz
+ kBsPj4IOdQsT5jvmr4k1gcUIB9lOzcvaRfTVpw8l09i86TnIelwaFEBJwtHIaAo5cLwGcARbP
+ KbW6YOBFemewFqf9Lp2jVuQZ9uhu2UCItwo7uSR3eBQ/RROMwdh7v1tgVYvR1GD7UIV0iaKvt
+ 8NMvcmWaiyFmGylzsR/fbuEI+SdwECqNS0nMOC2Xo9lPnd8R/rPC0CRbt95zTTDXxU51N1PH7
+ PnPd8nJErrnCekA9Tyo5Glq7b7/CALCXPaYM0QLTmczMszlg5eNtkFPCsOACnLlp7S2zmQmf8
+ Tg7bnHR7EEo1+x+gAvZQYPvDFxT6+0zOSwpQ1KJ+5XSG06aIasVsl404gDr5+GFdJ1NHM01FE
+ wPY7Y4UgzjO9yPooJBcNVpsC2mpAO5hRz7PqfgQro1kLQP0pd/hOfgR2JJWyjvdT4T2r/s9SB
+ 3goF1kTl6D/6LesH+yUUT1qGTmBjjmljOL69Ieme3gQgqSr/cZzuJA1QFWxUb52oGHrKkNcn7
+ AuoTCzDn15fDzfByqDg/WkpbbywfA/aE0F11wyhOJUQMpT2M85ZP3+mGmAYnLi6a9jJW6fqsT
+ 7xIPPQwZAr+RoS26TaImPPRDp/kHsUIBnFs73O46iw2YD7LAKC9wqE7L76dQwcAsvXVnCYbQk
+ fXQrcc/kDLVfwJDB564uXZ0j76m/qJXMtaRk+A==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -160,67 +73,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 27/04/2022 à 04:51, Richard Henderson a écrit :
+> We had two sets of variables: arg_start/arg_end, and
+> arg_strings/env_strings.  In linuxload.c, we set the
+> first pair to the bounds of the argv strings, but in
+> elfload.c, we set the first pair to the bounds of the
+> argv pointers and the second pair to the bounds of
+> the argv strings.
+> 
+> Remove arg_start/arg_end, replacing them with the standard
+> argc/argv/envc/envp values.  Retain arg_strings/env_strings
+> with the meaning we were using in elfload.c.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/714
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/qemu.h             | 12 ++++++++----
+>   linux-user/elfload.c          | 10 ++++++----
+>   linux-user/linuxload.c        | 12 ++++++++++--
+>   linux-user/main.c             |  4 ++--
+>   semihosting/arm-compat-semi.c |  4 ++--
+>   5 files changed, 28 insertions(+), 14 deletions(-)
+> 
+> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+> index 46550f5e21..7d90de1b15 100644
+> --- a/linux-user/qemu.h
+> +++ b/linux-user/qemu.h
+> @@ -40,15 +40,19 @@ struct image_info {
+>           abi_ulong       data_offset;
+>           abi_ulong       saved_auxv;
+>           abi_ulong       auxv_len;
+> -        abi_ulong       arg_start;
+> -        abi_ulong       arg_end;
+> -        abi_ulong       arg_strings;
+> -        abi_ulong       env_strings;
+> +        abi_ulong       argc;
+> +        abi_ulong       argv;
+> +        abi_ulong       envc;
+> +        abi_ulong       envp;
+>           abi_ulong       file_string;
+>           uint32_t        elf_flags;
+>           int             personality;
+>           abi_ulong       alignment;
+>   
+> +        /* Generic semihosting knows about these pointers. */
+> +        abi_ulong       arg_strings;   /* strings for argv */
+> +        abi_ulong       env_strings;   /* strings for envp; ends arg_strings */
+> +
+>           /* The fields below are used in FDPIC mode.  */
+>           abi_ulong       loadmap_addr;
+>           uint16_t        nsegs;
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 61063fd974..8c0765dd4b 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -1516,8 +1516,8 @@ static inline void init_thread(struct target_pt_regs *regs,
+>       regs->iaoq[0] = infop->entry;
+>       regs->iaoq[1] = infop->entry + 4;
+>       regs->gr[23] = 0;
+> -    regs->gr[24] = infop->arg_start;
+> -    regs->gr[25] = (infop->arg_end - infop->arg_start) / sizeof(abi_ulong);
+> +    regs->gr[24] = infop->argv;
+> +    regs->gr[25] = infop->argc;
+>       /* The top-of-stack contains a linkage buffer.  */
+>       regs->gr[30] = infop->start_stack + 64;
+>       regs->gr[31] = infop->entry;
+> @@ -2120,8 +2120,10 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+>       u_envp = u_argv + (argc + 1) * n;
+>       u_auxv = u_envp + (envc + 1) * n;
+>       info->saved_auxv = u_auxv;
+> -    info->arg_start = u_argv;
+> -    info->arg_end = u_argv + argc * n;
+> +    info->argc = argc;
+> +    info->envc = envc;
+> +    info->argv = u_argv;
+> +    info->envp = u_envp;
+>   
+>       /* This is correct because Linux defines
+>        * elf_addr_t as Elf32_Off / Elf64_Off
+> diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
+> index 2ed5fc45ed..745cce70ab 100644
+> --- a/linux-user/linuxload.c
+> +++ b/linux-user/linuxload.c
+> @@ -92,6 +92,11 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+>       envp = sp;
+>       sp -= (argc + 1) * n;
+>       argv = sp;
+> +    ts->info->envp = envp;
+> +    ts->info->envc = envc;
+> +    ts->info->argv = argv;
+> +    ts->info->argc = argc;
+> +
+>       if (push_ptr) {
+>           /* FIXME - handle put_user() failures */
+>           sp -= n;
+> @@ -99,19 +104,22 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+>           sp -= n;
+>           put_user_ual(argv, sp);
+>       }
+> +
+>       sp -= n;
+>       /* FIXME - handle put_user() failures */
+>       put_user_ual(argc, sp);
+> -    ts->info->arg_start = stringp;
+> +
+> +    ts->info->arg_strings = stringp;
+>       while (argc-- > 0) {
+>           /* FIXME - handle put_user() failures */
+>           put_user_ual(stringp, argv);
+>           argv += n;
+>           stringp += target_strlen(stringp) + 1;
+>       }
+> -    ts->info->arg_end = stringp;
+>       /* FIXME - handle put_user() failures */
+>       put_user_ual(0, argv);
+> +
+> +    ts->info->env_strings = stringp;
+>       while (envc-- > 0) {
+>           /* FIXME - handle put_user() failures */
+>           put_user_ual(stringp, envp);
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 7ca48664e4..651e32f5f2 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -878,9 +878,9 @@ int main(int argc, char **argv, char **envp)
+>               fprintf(f, "entry       0x" TARGET_ABI_FMT_lx "\n",
+>                       info->entry);
+>               fprintf(f, "argv_start  0x" TARGET_ABI_FMT_lx "\n",
+> -                    info->arg_start);
+> +                    info->argv);
+>               fprintf(f, "env_start   0x" TARGET_ABI_FMT_lx "\n",
+> -                    info->arg_end + (abi_ulong)sizeof(abi_ulong));
+> +                    info->envp);
+>               fprintf(f, "auxv_start  0x" TARGET_ABI_FMT_lx "\n",
+>                       info->saved_auxv);
+>               qemu_log_unlock(f);
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+> index 7a51fd0737..b6ddaf863a 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -1106,7 +1106,7 @@ target_ulong do_common_semihosting(CPUState *cs)
+>   #else
+>               unsigned int i;
+>   
+> -            output_size = ts->info->arg_end - ts->info->arg_start;
+> +            output_size = ts->info->env_strings - ts->info->arg_strings;
+>               if (!output_size) {
+>                   /*
+>                    * We special-case the "empty command line" case (argc==0).
+> @@ -1146,7 +1146,7 @@ target_ulong do_common_semihosting(CPUState *cs)
+>                   goto out;
+>               }
+>   
+> -            if (copy_from_user(output_buffer, ts->info->arg_start,
+> +            if (copy_from_user(output_buffer, ts->info->arg_strings,
+>                                  output_size)) {
+>                   errno = EFAULT;
+>                   status = set_swi_errno(cs, -1);
 
-On 5/20/2022 1:58 PM, Joao Martins wrote:
-> External email: Use caution opening links or attachments
->
->
-> On 5/12/22 16:43, Avihai Horon wrote:
->> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
->> index 21e8f9d4d4..d4b6653026 100644
->> --- a/hw/vfio/migration.c
->> +++ b/hw/vfio/migration.c
->> @@ -863,10 +863,17 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
->>       struct vfio_region_info *info = NULL;
->>       int ret = -ENOTSUP;
->>
->> -    if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
->> +    if (!vbasedev->enable_migration) {
->>           goto add_blocker;
->>       }
->>
->> +    if (!container->dirty_pages_supported) {
->> +        warn_report(
->> +            "%s: IOMMU of the device's VFIO container doesn't support dirty page tracking, migration pre-copy phase will be skipped",
->> +            vbasedev->name);
-> Maybe warn_report_once(...) given that the following N devices would observe the
-> same thing in theory.
+Applied to my linux-user-for-7.1 branch.
 
-Yes, you are right. Will change.
+Thanks,
+Laurent
 
->> +        migrate_get_current()->skip_precopy = true;
->> +    }
->> +
-> Perhaps it might be easier to reuse the existing knob to disable pre-copy
-> per device that Kirti added some time ago, rather than changing migration core just
-> yet (e.g. you might wanna bail of the migration preemptively because the CPU is dirtying
-> too many pages for example?):
->
-> if (!container->dirty_pages_supported) {
->      warn_report_once(...)
->      pre_copy_dirty_page_tracking = ON_OFF_AUTO_OFF;
-> }
-
-But this doesn't prevent the VFIO device from dirtying RAM pages during 
-pre-copy phase.
-The VFIO device can dirty RAM pages during pre-copy and it won't have a 
-way to report the dirtied pages to QEMU and migration will be faulty.
-
-Thanks.
-
->
-> You might need to tackle the fact you will get when dirty_pages start/stop ioctls
-> returns you error messages. The errors is just because log_start() and log_stop() simply
-> fail because the ioctl doesn't exist, but everything else is fine -- at least that's what
-> I observed at least. Should be noted that it's a problem with the existing
-> `-device vfio-pci host=XX:YY.ZZ,x-pre-copy-dirty-page-tracking=true` regardless of this patch:
->
-> void vfio_listener_log_global_start()
-> {
->          if (vfio_devices_all_dirty_tracking(container)) {
->                  vfio_set_dirty_page_tracking(container, true);
->          }
-> }
->
-> ... And same for vfio_listener_log_global_stop() -- maybe a worthwhile predecessor patch.
 
