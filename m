@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EF353157A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:23:13 +0200 (CEST)
-Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4562F531599
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:53:24 +0200 (CEST)
+Received: from localhost ([::1]:42432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntCi0-0002DM-PC
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
+	id 1ntDBB-0005Pl-4P
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntCgi-0000yY-7d
- for qemu-devel@nongnu.org; Mon, 23 May 2022 14:21:52 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:37518)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ntD9O-0004cN-8D
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 14:51:31 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:40537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntCgg-0007Hk-LL
- for qemu-devel@nongnu.org; Mon, 23 May 2022 14:21:51 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id d38so357599pgm.4
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 11:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vgBTIqg/3P+gUsLc7USNKwsi7I47nRrZ4RwPqc2V2DY=;
- b=Zsavyj/1AUXVIeMOPDPNNwtF7ypxtkon0FaLVQ2e8DsIc3q9isxnMplbOAgARPPSr9
- BNrh88HlFUbDZLX5e66V08LPg37IgrenORtaRCRS5w6zmaYulJkB+Vz6itqxzMiTBEQv
- 3xMRNLF6UD1ZeiO53sE55V/ZEDRb6KA0cQvjguZYlSmk2JHN6BcPacJc/A/kIVaAVFpT
- re3++LT9ZCB/A3jLeJ8EIM7H1UR825zZyiPgo/L3/eOGzfxlkl/0cpJUlQKufe6jnX6Z
- ib3NADatzvSx+lnqj+W0GMJYueycXPoWV6qBGP2PpyyS/Hpn5cvY3ptZGfCiU8rj3Cn5
- Xs+g==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ntD9M-0003sF-6Z
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 14:51:29 -0400
+Received: by mail-io1-xd32.google.com with SMTP id y12so16254056ior.7
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 11:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KH8aTXvRUZQcEDhlIy2VYqtZiZKs33thWYfthIFeRS8=;
+ b=liiGiP7w3El6sNV9rBMT1MnJ2VS7n9j9I2+04ptKU+9N8lVigW9iPJHTB1G4FMh6BB
+ C876NbX5OKY4laDG1EaDxSc9KzflX19Idvbmp/oIXYkh2UX1pAv8RQyFzh4IEnLMd/G8
+ yvYiqUCE31H41xqFDybKyaySm42fcWMF4VojtEvZmeUTHyqSxYc5EXXEEkhsc6hqLmlU
+ F1lUo83n1mBslSqPIiP0Z7ryQkiVDUWzJbCW/Kg26dDd92b5DXUiYJ2RELDPJqjUWzcP
+ l9kIpkF3gS6msB3xDi86mRfWJUw43VwkU9FYq2TfOHPVEtq32U02GOMnNCFhEqeveSME
+ k95w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vgBTIqg/3P+gUsLc7USNKwsi7I47nRrZ4RwPqc2V2DY=;
- b=v0/E4tjMp9vinq37ZXIAKJ3m9fYv63a5Q7kfl9nb4+w9EWm97JfGmkJwCCA3UI4XoT
- CGKKGIPLTUoC4zXSNkeYbu8Z1/dBvhxz7I1I7qcXaM93xLEjZJ4VrtY9+4xJ5feC8AM+
- Kok5ktbxft/6EzsUo4ax3Kk1LEiaxva2ishq82Z/IMOcx7NpQE7xsooyFtCT8C0WY/UY
- ENkEhCujAboODj6+hZmPGpscOBWIJXHOzMQ7/Qi64w4dGrDcXXmyrCmTdrIgUT2g38jx
- x2VQeI6IXEWf/s7j7L27EIbmACpwU/SwNgfyOQgV7Wgl7LwCrHXax+SMh54Cx9xSfFnZ
- 0GxQ==
-X-Gm-Message-State: AOAM533NzHobjmsjhWLisyE/YICNNpZaUeIIUew4BegbzO0vgWNpv3AL
- yGFI4df/LZKKz1nqHY22aSYGWg==
-X-Google-Smtp-Source: ABdhPJyDDBY8jh7LTf/w956de+VrBreBnZppIOYman+Q8XsvK9Ri6+PFMT7RjK2YTLV3RlGTMKVH7w==
-X-Received: by 2002:a05:6a00:894:b0:518:7f19:f21d with SMTP id
- q20-20020a056a00089400b005187f19f21dmr13267642pfj.4.1653330109108; 
- Mon, 23 May 2022 11:21:49 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- p12-20020a170902eacc00b0015e8d4eb288sm5444039pld.210.2022.05.23.11.21.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 11:21:48 -0700 (PDT)
-Message-ID: <de7a2cbd-8025-6401-e7c1-1036bb79e37a@linaro.org>
-Date: Mon, 23 May 2022 11:21:46 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KH8aTXvRUZQcEDhlIy2VYqtZiZKs33thWYfthIFeRS8=;
+ b=oCUl5gzvAe27OGsEf0+suK15QRcxMeqGUu26f1eqyaz9eUBrvTqeI71A27xO9P4PRR
+ U7UmgIz0EkZyA+79uQDhANu7O3RJE6+VncG5Sep534m5yOH39JV0sWEsxpg8RQ1fU6Ev
+ fpWnr1s0Ud7eWVFacG1p1QZKOwWluQfN7f3ECspYOXhysMUljANIbtllVATDXCwLKbOV
+ 6AXp1ja/zrCFFdlMTmFs9CoHH5n+1/csfErSXdk03BoRUKvNdEcrZxWkjsnCm0P81Tlu
+ RY2OZpguSil1vaDoKUz3RhKLQYQmEhVB6sNszra1YRY6cRRlyt4ZhZ5t2AiSG8OmH1g0
+ B/sQ==
+X-Gm-Message-State: AOAM530uhouWAnEJMj458KA47akHIJAlsKblFw4duC0eYf5xPcGeEuVy
+ 2/43JADWnpqpxVKxBb+LLkmVzBJvmQvp0sH5V5s=
+X-Google-Smtp-Source: ABdhPJzRE5q/BZNJ1tHFaAb3Ob5e/wgRPMdEC4NwiHZSgmOVX+3UY7uL78IHg0AvuzyipqnDpNbiNP5Ck13Pb3yeGv0=
+X-Received: by 2002:a02:944e:0:b0:31a:2e9:bfa6 with SMTP id
+ a72-20020a02944e000000b0031a02e9bfa6mr12514292jai.277.1653331886624; Mon, 23
+ May 2022 11:51:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 23/49] semihosting: Split out semihost_sys_open
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
-References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-24-richard.henderson@linaro.org>
- <CAFEAcA8ENQo8258jw=CeBG6Qamk49_zQ9RQjuwd4ZfymD=cV-w@mail.gmail.com>
- <520b25a5-1270-6ccd-cf88-281a077cecb2@linaro.org>
- <CAFEAcA-4HToZFUaH4LpptA10hEOLK-ZJbHivgCxDfTiFm_CDoQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-4HToZFUaH4LpptA10hEOLK-ZJbHivgCxDfTiFm_CDoQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+References: <CAJSP0QW338v=VuVpO_6WWZMBjsT1FOTLytpSbgUHemcCHQ_szA@mail.gmail.com>
+ <CAKbZUD3ObTfkdFebT1hJir-dYAH21BUsW6dX4wb-pgP8Ue3zrg@mail.gmail.com>
+In-Reply-To: <CAKbZUD3ObTfkdFebT1hJir-dYAH21BUsW6dX4wb-pgP8Ue3zrg@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 23 May 2022 19:51:14 +0100
+Message-ID: <CAJSP0QUtgwqe7YYRPegB7gEKsPMzrTu1ZirXL4QGMN5dNgjo_A@mail.gmail.com>
+Subject: Re: TianoCore "Add QEMU support to MinPlatform (OpenQEMUBoardPkg)"
+ GSoC project
+To: Pedro Falcato <pedro.falcato@gmail.com>
+Cc: Isaac Oram <isaac.w.oram@intel.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=stefanha@gmail.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,22 +86,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/22 09:54, Peter Maydell wrote:
-> On Mon, 23 May 2022 at 16:46, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> Also, I think I mentioned this in the v2 cover but not here, that having done the errno
->> conversion here for arm semihosting, it worked less well for mips and xtensa, which have a
->> rather better defined set of errnos.
+On Mon, 23 May 2022 at 19:00, Pedro Falcato <pedro.falcato@gmail.com> wrote=
+:
+>
+> Hi Stefan, Gerd,
+>
+> Some questions: Is emulation of the current boards ever going to be expan=
+ded? For instance, can FW rely on the emulation being relatively simple or =
+do you actually need to look at chipset docs?
+> For example, I was looking at (most? all?) of the current chipset emulati=
+on [1] [2] and it looks relatively simple, such that writing something that=
+ directly interfaces with it isn't particularly hard.
+
+I suggest a mix of referencing the hardware datasheets and open source
+drivers or firmware code when developing new guest code.
+
+Firmware should follow hardware datasheets and avoid taking relying on
+QEMU implementation details.
+
+fw_cfg and other paravirt interfaces that are documented won't change
+in backwards incompatible ways. It's fine to rely on them.
+QEMU-specific hardware interfaces are documented in docs/specs/ (e.g.
+acpi_pci_hotplug.rst).
+
+Anything that isn't documented may not be a stable interface. I
+recommend discussing stabilization on qemu-devel before relying on it.
+
+New QEMU versions do not change the hardware interfaces when launched
+with a specific machine type version (e.g. -M pc-q35-6.2), so old
+firmware should continue working under new QEMU versions as long as a
+versioned machine type is specified on the command-line. But
+undocumented QEMU hardware interfaces could change in new machine
+types, so it's risky to rely on them.
+
+> I've been trying to figure out exactly what one needs to do in FW to get =
+a completely set up virtual machine environment. Are there good docs on tha=
+t or do you need to just read OVMF/SeaBios code? Have interfaces changed si=
+gnificantly over the years?
+> As an example, I remember seeing some OVMF CMOS memory detection shenanig=
+ans in the EDK2 mailing list but in my QEMU (7.0.0) you seem to just get th=
+e memory map straight from fw_cfg. Also, do you get ALL the ACPI tables fro=
+m fw_cfg, or do you need to modify them/generate them dynamically in firmwa=
+re?
+
+Gerd can answer these questions. Please clarify which machine types
+you are interested in (see the list from "qemu-system-x86_64 -machine
+\?").
+
+Stefan
+
+> Hopefully my questions make sense. Feel free to CC qemu-devel if you thin=
+k these questions are better suited there.
+>
+> Thanks,
+> Pedro
+>
+> [1] https://github.com/qemu/qemu/blob/master/hw/isa/lpc_ich9.c
+> [2] https://github.com/qemu/qemu/blob/master/hw/isa/piix4.c
+>
+> On Sat, May 21, 2022 at 8:58 PM Stefan Hajnoczi <stefanha@gmail.com> wrot=
+e:
 >>
->> My question from v2 was: should we in fact convert back from gdb's errno to host errno in
->> gdbstub.c handle_file_io(), and then let each semihosting backend convert from host to guest?
-> 
-> That sounds like it's probably a better idea (though I'm not sure
-> what host errno we use for the gdb "unknown errno" case)...
-
-An excellent question.  I note that both mips and xtensa use EINVAL when there is no exact 
-match for the guest.  It does seem to be the least bad option.
-
-
-r~
+>> Hi,
+>> I am a QEMU developer and saw the "Add QEMU support to MinPlatform
+>> (OpenQEMUBoardPkg)" TianoCore GSoC project:
+>> https://summerofcode.withgoogle.com/programs/2022/projects/s892c1ox
+>>
+>> You may already know each other from edk2, but in case not, I wanted
+>> to introduce Gerd. He's doing edk2 work for QEMU and has been an
+>> active QEMU developer for many years.
+>>
+>> Feel free to CC qemu-devel@nongnu.org if you ever want input or help
+>> from the QEMU community.
+>>
+>> Have a great summer!
+>>
+>> Stefan
+>
+>
+>
+> --
+> Pedro Falcato
 
