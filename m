@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D4F5315C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 21:43:51 +0200 (CEST)
-Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1035315D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 21:53:19 +0200 (CEST)
+Received: from localhost ([::1]:40220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntDy2-0007ax-Sn
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 15:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57816)
+	id 1ntE7C-0007Cw-5f
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 15:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntDve-0004zL-MP
- for qemu-devel@nongnu.org; Mon, 23 May 2022 15:41:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntDvc-0003MC-06
- for qemu-devel@nongnu.org; Mon, 23 May 2022 15:41:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653334879;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zXUsowygGlCzKSIzdN9drLRthvVTBHDjSjGFLMVkY4Y=;
- b=g0He4QXS9qx8ntsH3JNfjfKE8GGErzzRMJP1naW+giep3ZcbhTEcjOeE1VZ4UchTqwBjde
- 7E2F4dKiN18LuXhLsz8EmlWUvRK4J7EbN+lrP5K7zwjDcdC3Pf3weVoDlc8Ah8zlOJowzZ
- zrWmHZS1hO1cND/ewLelnxbEhwAqrOc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-327-gA4fXA3cMzWd0LbTSGB1dQ-1; Mon, 23 May 2022 15:41:18 -0400
-X-MC-Unique: gA4fXA3cMzWd0LbTSGB1dQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6CEA1D3386A;
- Mon, 23 May 2022 19:41:17 +0000 (UTC)
-Received: from kostyanf14nb.redhat.com (unknown [10.40.195.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9C072026D6A;
- Mon, 23 May 2022 19:41:16 +0000 (UTC)
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 3/3] trivial: qga: Log version on start
-Date: Mon, 23 May 2022 22:41:11 +0300
-Message-Id: <20220523194111.827805-4-kkostiuk@redhat.com>
-In-Reply-To: <20220523194111.827805-1-kkostiuk@redhat.com>
-References: <20220523194111.827805-1-kkostiuk@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1ntE55-0006I5-Hq; Mon, 23 May 2022 15:51:07 -0400
+Received: from [187.72.171.209] (port=15687 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1ntE52-0004hR-T6; Mon, 23 May 2022 15:51:07 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 23 May 2022 16:50:56 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id E23D880031F;
+ Mon, 23 May 2022 16:50:55 -0300 (-03)
+Message-ID: <12327888-5ab9-d82c-08e4-49a68e46fd30@eldorado.org.br>
+Date: Mon, 23 May 2022 16:50:55 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 2/5] machine.py: add default pseries params in machine.py
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au, clg@kaod.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+References: <20220516165321.872394-1-danielhb413@gmail.com>
+ <20220516165321.872394-3-danielhb413@gmail.com>
+ <CAFn=p-bn3PrUiX4ZCyBa8_BPd8Nfgo2u4fs3+M2Z42y8O2vdkQ@mail.gmail.com>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <CAFn=p-bn3PrUiX4ZCyBa8_BPd8Nfgo2u4fs3+M2Z42y8O2vdkQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 23 May 2022 19:50:56.0602 (UTC)
+ FILETIME=[6B18EBA0:01D86EDE]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,28 +69,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220523191644.823726-2-kkostiuk@redhat.com>
-Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
----
- qga/main.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/qga/main.c b/qga/main.c
-index 3b9546c185..c373fec3ee 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -1271,6 +1271,8 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
-     g_log_set_fatal_mask(NULL, G_LOG_LEVEL_ERROR);
-     ga_enable_logging(s);
- 
-+    g_debug("Guest agent version %s started", QEMU_FULL_VERSION);
-+
- #ifdef _WIN32
-     /* On win32 the state directory is application specific (be it the default
-      * or a user override). We got past the command line parsing; let's create
--- 
-2.25.1
-
+T24gMTkvMDUvMjAyMiAyMDoxOCwgSm9obiBTbm93IHdyb3RlOg0KPiBPbiBNb24sIE1heSAx
+NiwgMjAyMiwgMTI6NTMgUE0gRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEgDQo+IDxkYW5pZWxo
+YjQxM0BnbWFpbC5jb20gPG1haWx0bzpkYW5pZWxoYjQxM0BnbWFpbC5jb20+PiB3cm90ZToN
+Cj4gDQo+ICAgICBwU2VyaWVzIGd1ZXN0cyBzZXQgYSBoYW5kZnVsIG9mIG1hY2hpbmUgY2Fw
+YWJpbGl0aWVzIG9uIGJ5IGRlZmF1bHQsIGFsbA0KPiAgICAgb2YgdGhlbSByZWxhdGVkIHRv
+IHNlY3VyaXR5IG1pdGlnYXRpb25zLCB0aGF0IGFyZW4ndCBhbHdheXMgYXZhaWxhYmxlIGlu
+DQo+ICAgICB0aGUgaG9zdC4NCj4gDQo+ICAgICBUaGlzIG1lYW5zIHRoYXQsIGFzIGlzIHRv
+ZGF5LCBydW5uaW5nIGF2b2NhZG8gaW4gYSBQb3dlcjkgc2VydmVyIHdpdGhvdXQNCj4gICAg
+IHRoZSBwcm9wZXIgZmlybXdhcmUgc3VwcG9ydCwgYW5kIHdpdGggLS1kaXNhYmxlLXRjZywg
+dGhpcyBlcnJvciB3aWxsDQo+ICAgICBvY2N1cjoNCj4gDQo+ICAgICAgwqAoMS8xKSB0ZXN0
+cy9hdm9jYWRvL2luZm9fdXNlcm5ldC5weTpJbmZvVXNlcm5ldC50ZXN0X2hvc3Rmd2Q6DQo+
+ICAgICBFUlJPUjogQ29ubmVjdEVycm9yOg0KPiAgICAgRmFpbGVkIHRvIGVzdGFibGlzaCBz
+ZXNzaW9uOiBFT0ZFcnJvclxuwqAgRXhpdCBjb2RlOiAxXG7CoCAoLi4uKQ0KPiAgICAgKC4u
+LikNCj4gICAgICDCoCDCoCDCoCDCoCBDb21tYW5kOiAuL3FlbXUtc3lzdGVtLXBwYzY0IC1k
+aXNwbGF5IG5vbmUgLXZnYSBub25lICguLi4pDQo+ICAgICAgwqAgwqAgwqAgwqAgT3V0cHV0
+OiBxZW11LXN5c3RlbS1wcGM2NDogd2FybmluZzogbmV0ZGV2IHZuZXQgaGFzIG5vIHBlZXIN
+Cj4gICAgIHFlbXUtc3lzdGVtLXBwYzY0OiBSZXF1ZXN0ZWQgc2FmZSBjYWNoZSBjYXBhYmls
+aXR5IGxldmVsIG5vdA0KPiAgICAgc3VwcG9ydGVkIGJ5IEtWTQ0KPiAgICAgVHJ5IGFwcGVu
+ZGluZyAtbWFjaGluZSBjYXAtY2ZwYz1icm9rZW4NCj4gDQo+ICAgICBpbmZvX3VzZXJuZXQu
+cHkgaGFwcGVucyB0byB0cmlnZ2VyIHRoaXMgZXJyb3IgZmlyc3QsIGJ1dCBhbGwgdGVzdHMg
+d291bGQNCj4gICAgIGZhaWwgaW4gdGhpcyBjb25maWd1cmF0aW9uIGJlY2F1c2UgdGhlIGhv
+c3QgZG9lcyBub3Qgc3VwcG9ydCB0aGUgZGVmYXVsdA0KPiAgICAgJ2NhcC1jZnBjJyBjYXBh
+YmlsaXR5Lg0KPiANCj4gICAgIEEgc2ltaWxhciBzaXR1YXRpb24gd2FzIGFscmVhZHkgZml4
+ZWQgYSBjb3VwbGUgb2YgeWVhcnMgYWdvIGJ5IEdyZWcgS3Vyeg0KPiAgICAgKGNvbW1pdCA2
+M2Q1N2M4ZjkxZDApIGJ1dCBpdCB3YXMgZm9jdXNlZCBvbiBUQ0cgd2FybmluZ3MgZm9yIHRo
+ZXNlIHNhbWUNCj4gICAgIGNhcGFiaWxpdGllcyBhbmQgcnVubmluZyBDIHF0ZXN0cy4gVGhp
+cyBjb21taXQgZW5kZWQgdXAgcHJldmVudGluZyB0aGUNCj4gICAgIHByb2JsZW0gd2UncmUg
+ZmFjaW5nIHdpdGggYXZvY2FkbyB3aGVuIHJ1bm5pbmcgcXRlc3RzIHdpdGggS1ZNIHN1cHBv
+cnQuDQo+IA0KPiAgICAgVGhpcyBwYXRjaCBkb2VzIGEgc2ltaWxhciBhcHByb2FjaCBieSBh
+bWVuZGluZyBtYWNoaW5lLnB5IHRvIGRpc2FibGUNCj4gICAgIHRoZXNlIHNlY3VyaXR5IGNh
+cGFiaWxpdGllcyBpbiBjYXNlIHdlJ3JlIHJ1bm5pbmcgYSBwc2VyaWVzIGd1ZXN0LiBUaGUN
+Cj4gICAgIGNoYW5nZSBpcyBtYWRlIGluIHRoZSBfbGF1bmNoKCkgY2FsbGJhY2sgdG8gYmUg
+c3VyZSB0aGF0IHdlJ3JlIGFscmVhZHkNCj4gICAgIGNvbW1pdGVkIGludG8gbGF1bmNoaW5n
+IHRoZSBndWVzdC4gSXQncyBhbHNvIHdvcnRoIG5vdGljaW5nIHRoYXQgd2UncmUNCj4gICAg
+IHJlbHlpbmcgb24gc2VsZi5fbWFjaGluZSBiZWluZyBzZXQgYWNjb3JkaW5nbHkgKGkuZS4g
+dmlhIHRhZzptYWNoaW5lKSwNCj4gICAgIHdoaWNoIGlzIGN1cnJlbnRseSB0aGUgY2FzZSBm
+b3IgYWxsIHBwYzY0IHJlbGF0ZWQgYXZvY2FkbyB0ZXN0cy4NCj4gDQo+ICAgICBTaWduZWQt
+b2ZmLWJ5OiBEYW5pZWwgSGVucmlxdWUgQmFyYm96YSA8ZGFuaWVsaGI0MTNAZ21haWwuY29t
+DQo+ICAgICA8bWFpbHRvOmRhbmllbGhiNDEzQGdtYWlsLmNvbT4+DQo+ICAgICAtLS0NCj4g
+ICAgICDCoHB5dGhvbi9xZW11L21hY2hpbmUvbWFjaGluZS5weSB8IDEzICsrKysrKysrKysr
+KysNCj4gICAgICDCoDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspDQo+IA0KPiAg
+ICAgZGlmZiAtLWdpdCBhL3B5dGhvbi9xZW11L21hY2hpbmUvbWFjaGluZS5weQ0KPiAgICAg
+Yi9weXRob24vcWVtdS9tYWNoaW5lL21hY2hpbmUucHkNCj4gICAgIGluZGV4IDA3YWM1YTcx
+MGIuLjEyZTVlMzdiZmYgMTAwNjQ0DQo+ICAgICAtLS0gYS9weXRob24vcWVtdS9tYWNoaW5l
+L21hY2hpbmUucHkNCj4gICAgICsrKyBiL3B5dGhvbi9xZW11L21hY2hpbmUvbWFjaGluZS5w
+eQ0KPiAgICAgQEAgLTUxLDYgKzUxLDExIEBADQo+IA0KPiANCj4gICAgICDCoExPRyA9IGxv
+Z2dpbmcuZ2V0TG9nZ2VyKF9fbmFtZV9fKQ0KPiAgICAgK1BTRVJJRVNfREVGQVVMVF9DQVBB
+QklMSVRJRVMgPSAoImNhcC1jZnBjPWJyb2tlbiwiDQo+ICAgICArwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgImNhcC1zYmJjPWJyb2tlbiwiDQo+
+ICAgICArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+ImNhcC1pYnM9YnJva2VuLCINCj4gICAgICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCAiY2FwLWNjZi1hc3Npc3Q9b2ZmLCINCj4gICAgICvCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAiY2FwLWZ3bm1p
+PW9mZiIpDQo+IA0KPiANCj4gICAgICDCoGNsYXNzIFFFTVVNYWNoaW5lRXJyb3IoRXhjZXB0
+aW9uKToNCj4gICAgIEBAIC00NDcsNiArNDUyLDE0IEBAIGRlZiBfbGF1bmNoKHNlbGYpIC0+
+IE5vbmU6DQo+ICAgICAgwqAgwqAgwqAgwqAgwqAiIiINCj4gICAgICDCoCDCoCDCoCDCoCDC
+oExhdW5jaCB0aGUgVk0gYW5kIGVzdGFibGlzaCBhIFFNUCBjb25uZWN0aW9uDQo+ICAgICAg
+wqAgwqAgwqAgwqAgwqAiIiINCj4gICAgICsNCj4gICAgICvCoCDCoCDCoCDCoCAjIHBzZXJp
+ZXMgbmVlZHMgZXh0cmEgbWFjaGluZSBvcHRpb25zIHRvIGRpc2FibGUNCj4gICAgIFNwZWN0
+cmUvTWVsdGRvd24NCj4gICAgICvCoCDCoCDCoCDCoCAjIEtWTSByZWxhdGVkIGNhcGFiaWxp
+dGllcyB0aGF0IG1pZ2h0IG5vdCBiZSBhdmFpbGFibGUgaW4gdGhlDQo+ICAgICArwqAgwqAg
+wqAgwqAgIyBob3N0Lg0KPiAgICAgK8KgIMKgIMKgIMKgIGlmICJxZW11LXN5c3RlbS1wcGM2
+NCIgaW4gc2VsZi5fYmluYXJ5Og0KPiAgICAgK8KgIMKgIMKgIMKgIMKgIMKgIGlmIHNlbGYu
+X21hY2hpbmUgaXMgTm9uZSBvciAicHNlcmllcyIgaW4gc2VsZi5fbWFjaGluZToNCj4gICAg
+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBzZWxmLl9hcmdzLmV4dGVuZChbJy1tYWNoaW5l
+JywNCj4gICAgIFBTRVJJRVNfREVGQVVMVF9DQVBBQklMSVRJRVNdKQ0KPiAgICAgKw0KPiAg
+ICAgIMKgIMKgIMKgIMKgIMKgc2VsZi5fcHJlX2xhdW5jaCgpDQo+ICAgICAgwqAgwqAgwqAg
+wqAgwqBMT0cuZGVidWcoJ1ZNIGxhdW5jaCBjb21tYW5kOiAlcicsICcNCj4gICAgICcuam9p
+bihzZWxmLl9xZW11X2Z1bGxfYXJncykpDQo+IA0KPiAgICAgLS0gDQo+ICAgICAyLjMyLjAN
+Cj4gDQo+IA0KPiBIbSwgb2theS4NCj4gDQo+IEkgaGF2ZSBwbGFucyB0byB0cnkgYW5kIGZh
+Y3RvciB0aGUgbWFjaGluZSBhcHBsaWFuY2Ugb3V0IGFuZCBpbnRvIGFuIA0KPiB1cHN0cmVh
+bSBwYWNrYWdlIGluIHRoZSBuZWFyIGZ1dHVyZSwgc28gSSB3YW50IHRvIGF2b2lkIG1vcmUg
+aGFyZGNvZGluZyANCj4gb2YgZGVmYXVsdHMuDQo+IA0KPiBEb2VzIGF2b2NhZG8gaGF2ZSBh
+IHN1YmNsYXNzIG9mIFFFTVVNYWNoaW5lIHdoZXJlIGl0IG1pZ2h0IGJlIG1vcmUgDQo+IGFw
+cHJvcHJpYXRlIHRvIHN0aWNrIHRoaXMgYmFuZGFpZD8gQ2FuIHdlIG1ha2Ugb25lPw0KPiAN
+Cj4gKEkgZG9uJ3QgdGhpbmsgaW90ZXN0cyBydW5zIGludG8gdGhpcyBwcm9ibGVtIGJlY2F1
+c2Ugd2UgYWx3YXlzIHVzZSANCj4gbWFjaGluZTpub25lIHRoZXJlLCBJIHRoaW5rLiBWTSB0
+ZXN0cyBtaWdodCBoYXZlIGEgc2ltaWxhciBwcm9ibGVtIA0KPiB0aG91Z2gsIGFuZCB0aGVu
+IGl0J2QgYmUgcmVhc29uYWJsZSB0byB3YW50IHRoZSBiYW5kYWlkIGhlcmUgaW4gDQo+IG1h
+Y2hpbmUucHkgLi4uIHdlbGwsIGJvby4gb2theS4pDQo+IA0KPiBNeSB2ZXJkaWN0IGlzIHRo
+YXQgaXQncyBhIGJhbmRhaWQsIGJ1dCBJJ2xsIGFjY2VwdCBpdCBpZiB0aGUgYXZvY2FkbyAN
+Cj4gZm9sa3MgYWdyZWUgdG8gaXQgYW5kIEknbGwgc29ydCBpdCBvdXQgbGF0ZXIgd2hlbiBJ
+IGRvIG15IHJld3JpdGUuDQo+IA0KPiBJIGRvbid0IHRoaW5rIEkgaGF2ZSBhY2Nlc3MgdG8g
+YSBwb3dlcjkgbWFjaGluZSB0byB0ZXN0IHRoaXMgd2l0aCANCj4gZWl0aGVyLCBzbyBJIG1p
+Z2h0IHdhbnQgYSB0ZXN0ZWQtYnkgZnJvbSBzb21lb25lIHdobyBkb2VzLg0KPiANCj4gLS1q
+cw0KPiANCg0KVW5mb3J0dW5hdGVseSwgbm9uZSBvZiBvdXIgUE9XRVI5IG1hY2hpbmVzIGhh
+ZCBhIGZpcm13YXJlIG9sZCBlbm91Z2ggdG8gDQpiZSBhZmZlY3RlZCBieSB0aGlzIGlzc3Vl
+LiBUaGUgY2xvc2VzdCBJIGNhbiB0ZXN0IGlzIGEgbmVzdGVkIEtWTS1IViANCndpdGggTDAg
+dXNpbmcgY2FwLWNmcGM9YnJva2VuLCBzbyB0aGUgTDEgcmVjZWl2ZXMgdGhlIHF1b3RlZCBt
+ZXNzYWdlIA0Kd2hlbiBydW5uaW5nICdtYWtlIGNoZWNrLWF2b2NhZG8nLg0KDQpXaXRoIHRo
+aXMgc2V0dXAgSSBjYW4gY29uZmlybSB0aGF0IHRoZSBwYXRjaCBmaXhlcyB0aGlzIGVycm9y
+LCBzbw0KVGVzdGVkLWJ5OiBNYXRoZXVzIEZlcnN0IDxtYXRoZXVzLmZlcnN0QGVsZG9yYWRv
+Lm9yZy5icj4NCg0KVGhhbmtzLA0KTWF0aGV1cyBLLiBGZXJzdA0KSW5zdGl0dXRvIGRlIFBl
+c3F1aXNhcyBFTERPUkFETyA8aHR0cDovL3d3dy5lbGRvcmFkby5vcmcuYnIvPg0KQW5hbGlz
+dGEgZGUgU29mdHdhcmUNCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cu
+ZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
 
