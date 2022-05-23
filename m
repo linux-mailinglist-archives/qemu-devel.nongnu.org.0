@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DEE53118C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:18:11 +0200 (CEST)
-Received: from localhost ([::1]:54430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A721B531186
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:15:45 +0200 (CEST)
+Received: from localhost ([::1]:47398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt9ow-0002BJ-PL
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:18:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55124)
+	id 1nt9ma-0005hY-PC
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nt9fE-0006R3-6r
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:08:11 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:39481)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1nt9gm-00084J-FW
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:09:44 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:56269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nt9fC-0000BT-ER
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:08:07 -0400
-Received: by mail-pl1-x633.google.com with SMTP id a13so2843640plh.6
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:08:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=TOSjLvdO99vx5dltE7HY7kCbW4/uvuMNU8W3t9yW/rA=;
- b=gkdbriwidQ7lz3YQcwEwkMkqRFbS7nGbOs3EJ473cd8rU51k3O4X/3xim3Ae5PMHup
- UeAJlT7A4abu8J7ljAWMuypr0ZSzeqpyUZY0zLV4aYi4IGYHuBSAOGi1XqSP+es3y+gP
- Gddrl8MJ6x2sc2EsSa1X8d+VpQ2cn6PCFMyxNQjOOzMpTD2aFW322taD03s4+C2C0Jjv
- LLKiye+PDDk8GoC1jnq+wl7CrIl8CtQ/5gBU/ZXWflXrt+xjbEvfX3HnswdiTL4okyX2
- 8lhzZGcgmPrSnk1y7ZBb+WGkk1J3z3uS1qwLX1VKPVXTwS0CfYGRrlPwBDl9j4XgjGeY
- LROg==
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1nt9gc-0000Eh-Fd
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:09:44 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id n10so14332259pjh.5
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:from:to:cc:date:message-id:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=7Z9f85PlDPTQN4u2n+pOp7kSbWOWz6dZLvrHDyxQ4o4=;
+ b=GHpxTlOR0r9UfNRUQPXHVtEfm1iN58zn6/+s1oesheqbEG+Mr0pJok/bLinBnRcT2v
+ h7UPtOAbbgrcE7muWbeQk94N6qxSSCgK8nqkkbUOnE7IC3oTNn5bwDuKmhyK8t/po20u
+ hu3ktpQwL46PWh9NK2uWO6Sama5wklYMFcDp2tkktoJFZU1nXt9S1WbYe+TKnE59EOOI
+ I/1qR2FqhdT6D0cYDwApWhH0F3ZrlgNIdnzeHz5Q5njYE+WTXn/fqRyhESDVjdr5BRSx
+ 0RVS92gYZ+mZeGAwUfh04khmzS4tjBex0srrtXlIlcJcYsfZ/Q5Ne292nlCgBb5jc1Fq
+ dOIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TOSjLvdO99vx5dltE7HY7kCbW4/uvuMNU8W3t9yW/rA=;
- b=jMtdauCqzVOXLYEL9DHgZ5x6oL8bNcWlxL7oISkq+2VEJztLhIBZvSeUzkFBdmMtAg
- Ka1Ts+ZpVvPhGx4uV4zUek1f44deem2jHNIxI0249FJSlDRMn2x+zyYw/M8x/SQfYPNC
- KSEEk04ptwAXw9bI2GcUh+oNc+WZ1XLWF74/EOAZKrFnujJzp6KIqRtuMxkyF91psV8/
- RuMg2RkxHSA0Bhcx4nJcxOqtPZvtPRs56zmhAaHk+JMMRb+KmqTgsHLv2yyQMHxBx0hA
- dV5N2d+BLg8ukxIvyIp6zbZWARmw2zmFTnuaC7wR6PSBeI1DgWcyMdqUJXUxojmNQyAw
- Ip0g==
-X-Gm-Message-State: AOAM532fp+G3uM4Ynv5kwsw3GE8gDdxfRNYMF751oBJ4coZwgjD1kLul
- NVlIcPlUswr6TCKaktS1xJ0wsg==
-X-Google-Smtp-Source: ABdhPJwOj8atsteBZ+NsTpU7l8wh7OCHu/OTChvZOmMA5HzpgdZxR0vUg/gA+5245X4ByJOkhGovGQ==
-X-Received: by 2002:a17:902:7783:b0:15f:21f8:a1d6 with SMTP id
- o3-20020a170902778300b0015f21f8a1d6mr23236823pll.66.1653318484073; 
- Mon, 23 May 2022 08:08:04 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
+ h=x-gm-message-state:subject:from:to:cc:date:message-id:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=7Z9f85PlDPTQN4u2n+pOp7kSbWOWz6dZLvrHDyxQ4o4=;
+ b=SrY20I7DDcEWmtTaeVu6zqIhH/KnIW/UaxL/nBA2HwZjioqGOTtZ583i8QQWOJZ8bU
+ AEuyzq0MMNDlF37XspU9tAeiKGoCf+CRe5ksLSBqz2c+fSKf8CkWOpONyI7KkJZOdviL
+ zo3tsjCo9bdGtzO/Jlg3awCIT5dtoI1Omq1ScTYJ9rO8vb1f8Nwd0G4pEj8AuCuHESDH
+ P9gXKjx+rmARIE+THzuPySIsm+J76shIShAygqXi4ISJF2XdrY+/jtG+V/IcohTa4A8A
+ 9qweUx/MlHmumNOh/mfuStSUEoyvCs+1ePhcn+PcezVMc+s2HuiMQagvCEca4SzIBEwc
+ m1EQ==
+X-Gm-Message-State: AOAM5333JdwJ/okIu+wDTtv+IvfxOciSw1afZjjYZERNWMDwxXwzGQDy
+ Riqye7yfol/FZSyroUhaj8YVCI3HozE=
+X-Google-Smtp-Source: ABdhPJwvDqLBmVTcNlhrf32MDL6lN7uPGQ/xbrQqIWmGt6zmnjkDScVkzaySNFfX4HggwCHmEKMDyQ==
+X-Received: by 2002:a17:90a:6ac9:b0:1df:53ec:84bd with SMTP id
+ b9-20020a17090a6ac900b001df53ec84bdmr27074361pjm.148.1653318547717; 
+ Mon, 23 May 2022 08:09:07 -0700 (PDT)
+Received: from localhost.localdomain ([98.97.39.45])
  by smtp.gmail.com with ESMTPSA id
- y3-20020a170902b48300b001620eb3a2d6sm4483058plr.203.2022.05.23.08.08.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 08:08:03 -0700 (PDT)
-Message-ID: <a8f5f61a-c976-e48f-48e1-e87fecd61901@linaro.org>
-Date: Mon, 23 May 2022 08:08:00 -0700
+ o19-20020a170902e29300b0016213f0f99bsm3832299plc.57.2022.05.23.08.09.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 May 2022 08:09:07 -0700 (PDT)
+Subject: [RFC PATCH] mpqemu: Remove unlock/lock of iothread in mpqemu-link
+ send and recv functions
+From: Alexander Duyck <alexander.duyck@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: jag.raman@oracle.com, john.g.johnson@oracle.com, elena.ufimtseva@oracle.com
+Date: Mon, 23 May 2022 08:09:05 -0700
+Message-ID: <165331848622.286860.14764979875661796662.stgit@localhost.localdomain>
+User-Agent: StGit/1.5
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: proposed 7.1 release schedule
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-References: <CAFEAcA80ABJ+RXFeoH4mo5yJk5oNh4Zc5QTBN35vVOL4eg0cNQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA80ABJ+RXFeoH4mo5yJk5oNh4Zc5QTBN35vVOL4eg0cNQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,26 +88,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/22 02:53, Peter Maydell wrote:
-> I just put some proposed dates into the 7.1 schedule page:
-> https://wiki.qemu.org/Planning/7.1#Release_Schedule
-> 
-> * 2022-07-12  Softfreeze
-> * 2022-07-19  Hardfreeze. Tag rc0
-> * 2022-07-26  Tag rc1
-> * 2022-08-02  Tag rc2
-> * 2022-08-09  Tag rc3
-> * 2022-08-16  Release; or tag rc4 if needed
-> * 2022-08-23  Release if we needed an rc4
-> 
-> Does this work for people? I just worked backwards
-> from a final release date about 4 months after 7.0; easy
-> enough to shift it forward or back by a week or so if
-> that works better for some reason.
+From: Alexander Duyck <alexanderduyck@fb.com>
 
-Shifting later a week or so would be better. I'm on holiday from 13-22 July -- unless 
-someone would like to manage merges in that period?
+When I run Multi-process QEMU with an e1000 as the remote device and SMP
+enabled I see the combination lock up and become unresponsive. The QEMU build
+is a fairly standard x86_64-softmmu setup. After doing some digging I tracked
+the lockup down to the what appears to be a race with the mpqemu-link msg_send
+and msg_receive functions and the reacquisition of the lock.
+
+I am assuming the issue is some sort of lock inversion though I haven't
+identified exactly what the other lock involved is yet. For now removing
+the logic to unlock the iothread and then reacquire the lock seems to
+resolve the issue. I am assuming the releasing of the lock was some form of
+optimization but I am not certain so I am submitting this as an RFC.
+
+Signed-off-by: Alexander Duyck <alexanderduyck@fb.com>
+---
+ hw/remote/mpqemu-link.c |   25 -------------------------
+ 1 file changed, 25 deletions(-)
+
+diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+index 9bd98e82197e..3e7818f54a63 100644
+--- a/hw/remote/mpqemu-link.c
++++ b/hw/remote/mpqemu-link.c
+@@ -33,7 +33,6 @@
+  */
+ bool mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
+ {
+-    bool iolock = qemu_mutex_iothread_locked();
+     bool iothread = qemu_in_iothread();
+     struct iovec send[2] = {};
+     int *fds = NULL;
+@@ -57,16 +56,6 @@ bool mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
+      */
+     assert(qemu_in_coroutine() || !iothread);
+ 
+-    /*
+-     * Skip unlocking/locking iothread lock when the IOThread is running
+-     * in co-routine context. Co-routine context is asserted above
+-     * for IOThread case.
+-     * Also skip lock handling while in a co-routine in the main context.
+-     */
+-    if (iolock && !iothread && !qemu_in_coroutine()) {
+-        qemu_mutex_unlock_iothread();
+-    }
+-
+     if (!qio_channel_writev_full_all(ioc, send, G_N_ELEMENTS(send),
+                                     fds, nfds, 0, errp)) {
+         ret = true;
+@@ -74,11 +63,6 @@ bool mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
+         trace_mpqemu_send_io_error(msg->cmd, msg->size, nfds);
+     }
+ 
+-    if (iolock && !iothread && !qemu_in_coroutine()) {
+-        /* See above comment why skip locking here. */
+-        qemu_mutex_lock_iothread();
+-    }
+-
+     return ret;
+ }
+ 
+@@ -96,7 +80,6 @@ static ssize_t mpqemu_read(QIOChannel *ioc, void *buf, size_t len, int **fds,
+                            size_t *nfds, Error **errp)
+ {
+     struct iovec iov = { .iov_base = buf, .iov_len = len };
+-    bool iolock = qemu_mutex_iothread_locked();
+     bool iothread = qemu_in_iothread();
+     int ret = -1;
+ 
+@@ -106,16 +89,8 @@ static ssize_t mpqemu_read(QIOChannel *ioc, void *buf, size_t len, int **fds,
+      */
+     assert(qemu_in_coroutine() || !iothread);
+ 
+-    if (iolock && !iothread && !qemu_in_coroutine()) {
+-        qemu_mutex_unlock_iothread();
+-    }
+-
+     ret = qio_channel_readv_full_all_eof(ioc, &iov, 1, fds, nfds, errp);
+ 
+-    if (iolock && !iothread && !qemu_in_coroutine()) {
+-        qemu_mutex_lock_iothread();
+-    }
+-
+     return (ret <= 0) ? ret : iov.iov_len;
+ }
+ 
 
 
-r~
 
