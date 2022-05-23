@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60A3530C8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 12:16:24 +0200 (CEST)
-Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78174530C6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 11:55:02 +0200 (CEST)
+Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt56t-0006Xu-Lk
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 06:16:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39616)
+	id 1nt4mD-0005vU-It
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 05:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt4dc-0007sf-1B
- for qemu-devel@nongnu.org; Mon, 23 May 2022 05:46:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51700)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nt4e6-0008WE-9Z
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 05:46:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt4da-0000nY-KX
- for qemu-devel@nongnu.org; Mon, 23 May 2022 05:46:07 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nt4e3-0000tm-5l
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 05:46:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653299166;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AwlQtMbC814OlU2gRT2gVy4No1pGzM7Fqesio3HXtDQ=;
- b=MYtmoemMM+/cfKXsbykIXez59XYwysAwvUerRBTI4SRpTaFCV0eDt4xI8fyLc5BNH0LJJx
- LZKUlTahon5OzopUr1yeb2rPc/TnpLk8mjWPjVysTUibuEemTnVsHPs+vfe54DAurTSVp9
- PO8wz5ENMFnyJFnCITQyWeDjh2pDe0E=
+ s=mimecast20190719; t=1653299194;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hhtlmlKxSNsXkQSBYy7jFqr7wJq7OZFvbfv9iGDXvX4=;
+ b=KBk+qJh3eEBf/CHYQ728Yzg9wSdFRYS35ziwf1LYw5Gp54xrrOXdIR18UOLLiEi2CUU5Um
+ sZzWEIsAHuFHLDmRwStIe5f69Ud5rgbmYiHWr4dEe40s3yEqlw7WjMmoFocbRvHN6n7omV
+ cWpAO9qH2sOoP94sBhDR0heV2Pk1jQI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-HCs9_ZCzPoirzVLg27oWqg-1; Mon, 23 May 2022 05:46:01 -0400
-X-MC-Unique: HCs9_ZCzPoirzVLg27oWqg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-58-9MW44G2oO_K3RO6XZJNU3Q-1; Mon, 23 May 2022 05:46:28 -0400
+X-MC-Unique: 9MW44G2oO_K3RO6XZJNU3Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B3228032E5;
- Mon, 23 May 2022 09:46:00 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E1C21121314;
- Mon, 23 May 2022 09:46:00 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 847F418000B4; Mon, 23 May 2022 11:45:58 +0200 (CEST)
-Date: Mon, 23 May 2022 11:45:58 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 15/36] i386/tdx: Set kvm_readonly_mem_enabled to
- false for TDX VM
-Message-ID: <20220523094558.dtxsxezmt6eckrm5@sirius.home.kraxel.org>
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-16-xiaoyao.li@intel.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDBD9811E75;
+ Mon, 23 May 2022 09:46:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB1C4C27E8A;
+ Mon, 23 May 2022 09:46:26 +0000 (UTC)
+Date: Mon, 23 May 2022 10:46:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: mst@redhat.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org,
+ linux-crypto@vger.kernel.org, helei.sig11@bytedance.com,
+ jasowang@redhat.com, cohuck@redhat.com
+Subject: Re: [PATCH v6 4/9] crypto: add ASN.1 DER decoder
+Message-ID: <YotX8KouIzrVjX2R@redhat.com>
+References: <20220514005504.1042884-1-pizhenwei@bytedance.com>
+ <20220514005504.1042884-5-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220512031803.3315890-16-xiaoyao.li@intel.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <20220514005504.1042884-5-pizhenwei@bytedance.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -87,16 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 11:17:42AM +0800, Xiaoyao Li wrote:
-> TDX only supports readonly for shared memory but not for private memory.
+On Sat, May 14, 2022 at 08:54:59AM +0800, zhenwei pi wrote:
+> From: Lei He <helei.sig11@bytedance.com>
 > 
-> In the view of QEMU, it has no idea whether a memslot is used as shared
-> memory of private. Thus just mark kvm_readonly_mem_enabled to false to
-> TDX VM for simplicity.
+> Add an ANS.1 DER decoder which is used to parse asymmetric
+> cipher keys
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> Signed-off-by: lei he <helei.sig11@bytedance.com>
+> ---
+>  crypto/der.c                 | 189 +++++++++++++++++++++++
+>  crypto/der.h                 |  81 ++++++++++
+>  crypto/meson.build           |   1 +
+>  tests/unit/meson.build       |   1 +
+>  tests/unit/test-crypto-der.c | 290 +++++++++++++++++++++++++++++++++++
+>  5 files changed, 562 insertions(+)
+>  create mode 100644 crypto/der.c
+>  create mode 100644 crypto/der.h
+>  create mode 100644 tests/unit/test-crypto-der.c
+> 
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> index 264f2bc0c8..a8af85128d 100644
+> --- a/tests/unit/meson.build
+> +++ b/tests/unit/meson.build
+> @@ -47,6 +47,7 @@ tests = {
+>    'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
+>    'test-qapi-util': [],
+>    'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
+> +  'test-crypto-der': [crypto],
+>  }
+
+This needs to be moved to later in this file where the other
+test-crypto-XXXX rules are, otherwise it fails to build
+on a configuration  --without-system --without-tools.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
