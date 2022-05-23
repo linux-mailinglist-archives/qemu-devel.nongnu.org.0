@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1C453156C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:08:04 +0200 (CEST)
-Received: from localhost ([::1]:56720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC59531578
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:20:30 +0200 (CEST)
+Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntCTL-0007QK-8y
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38602)
+	id 1ntCfN-0006ug-9R
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:20:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ntCLG-0007Hi-51; Mon, 23 May 2022 13:59:42 -0400
+ id 1ntCLI-0007Ii-QG; Mon, 23 May 2022 13:59:44 -0400
 Received: from [187.72.171.209] (port=50371 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ntCLD-0003pW-J6; Mon, 23 May 2022 13:59:40 -0400
+ id 1ntCLH-0003pW-3D; Mon, 23 May 2022 13:59:44 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 23 May 2022 14:58:17 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id B133F801308;
+ by p9ibm (Postfix) with ESMTP id F1EA480031F;
  Mon, 23 May 2022 14:58:16 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
- victor.colombo@eldorado.org.br
-Subject: [PATCH v2 07/11] tests/tcg/ppc64: Add mffsce test
-Date: Mon, 23 May 2022 14:58:03 -0300
-Message-Id: <20220523175807.59333-8-victor.colombo@eldorado.org.br>
+ victor.colombo@eldorado.org.br,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 08/11] target/ppc: Add flag for ISA v2.06 BCDA instructions
+Date: Mon, 23 May 2022 14:58:04 -0300
+Message-Id: <20220523175807.59333-9-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220523175807.59333-1-victor.colombo@eldorado.org.br>
 References: <20220523175807.59333-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 23 May 2022 17:58:17.0101 (UTC)
- FILETIME=[AE1EEBD0:01D86ECE]
+X-OriginalArrivalTime: 23 May 2022 17:58:17.0163 (UTC)
+ FILETIME=[AE2861B0:01D86ECE]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,84 +65,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add mffsce test to check both the return value and the new fpscr
-stored in the cpu.
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
+Adds an insns_flags2 for the BCD assist instructions introduced in
+Power ISA 2.06. These instructions are not listed in the manuals for
+e5500[1] and e6500[2], so the flag is only added for POWER7/8/9/10
+models.
+
+[1] https://www.nxp.com/files-static/32bit/doc/ref_manual/EREF_RM.pdf
+[2] https://www.nxp.com/docs/en/reference-manual/E6500RM.pdf
+
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/ppc64/Makefile.target   |  1 +
- tests/tcg/ppc64le/Makefile.target |  1 +
- tests/tcg/ppc64le/mffsce.c        | 37 +++++++++++++++++++++++++++++++
- 3 files changed, 39 insertions(+)
- create mode 100644 tests/tcg/ppc64le/mffsce.c
+ target/ppc/cpu.h      | 4 +++-
+ target/ppc/cpu_init.c | 9 +++++----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index babd209573..331fae628e 100644
---- a/tests/tcg/ppc64/Makefile.target
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -11,6 +11,7 @@ endif
- $(PPC64_TESTS): CFLAGS += -mpower8-vector
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 48596cfb25..8d31e9578e 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2271,6 +2271,8 @@ enum {
+     PPC2_ISA300        = 0x0000000000080000ULL,
+     /* POWER ISA 3.1                                                         */
+     PPC2_ISA310        = 0x0000000000100000ULL,
++    /* ISA 2.06 BCD assist instructions                                      */
++    PPC2_BCDA_ISA206   = 0x0000000000200000ULL,
  
- PPC64_TESTS += mtfsf
-+PPC64_TESTS += mffsce
+ #define PPC_TCG_INSNS2 (PPC2_BOOKE206 | PPC2_VSX | PPC2_PRCNTL | PPC2_DBRX | \
+                         PPC2_ISA205 | PPC2_VSX207 | PPC2_PERM_ISA206 | \
+@@ -2279,7 +2281,7 @@ enum {
+                         PPC2_BCTAR_ISA207 | PPC2_LSQ_ISA207 | \
+                         PPC2_ALTIVEC_207 | PPC2_ISA207S | PPC2_DFP | \
+                         PPC2_FP_CVT_S64 | PPC2_TM | PPC2_PM_ISA206 | \
+-                        PPC2_ISA300 | PPC2_ISA310)
++                        PPC2_ISA300 | PPC2_ISA310 | PPC2_BCDA_ISA206)
+ };
  
- ifneq ($(CROSS_CC_HAS_POWER10),)
- PPC64_TESTS += byte_reverse sha512-vector
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 5b0eb5e870..6ca3003f02 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -24,6 +24,7 @@ run-sha512-vector: QEMU_OPTS+=-cpu POWER10
- run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
- 
- PPC64LE_TESTS += mtfsf
-+PPC64LE_TESTS += mffsce
- PPC64LE_TESTS += signal_save_restore_xer
- PPC64LE_TESTS += xxspltw
- 
-diff --git a/tests/tcg/ppc64le/mffsce.c b/tests/tcg/ppc64le/mffsce.c
-new file mode 100644
-index 0000000000..20d882cb45
---- /dev/null
-+++ b/tests/tcg/ppc64le/mffsce.c
-@@ -0,0 +1,37 @@
-+#include <stdlib.h>
-+#include <stdint.h>
-+#include <assert.h>
-+
-+#define MTFSF(FLM, FRB) asm volatile ("mtfsf %0, %1" :: "i" (FLM), "f" (FRB))
-+#define MFFS(FRT) asm("mffs %0" : "=f" (FRT))
-+#define MFFSCE(FRT) asm("mffsce %0" : "=f" (FRT))
-+
-+#define PPC_BIT_NR(nr) (63 - (nr))
-+
-+#define FP_VE  (1ull << PPC_BIT_NR(56))
-+#define FP_UE  (1ull << PPC_BIT_NR(58))
-+#define FP_ZE  (1ull << PPC_BIT_NR(59))
-+#define FP_XE  (1ull << PPC_BIT_NR(60))
-+#define FP_NI  (1ull << PPC_BIT_NR(61))
-+#define FP_RN1 (1ull << PPC_BIT_NR(63))
-+
-+int main(void)
-+{
-+    uint64_t frt, fpscr;
-+    uint64_t test_value = FP_VE | FP_UE | FP_ZE |
-+                          FP_XE | FP_NI | FP_RN1;
-+    MTFSF(0b11111111, test_value); /* set test value to cpu fpscr */
-+    MFFSCE(frt);
-+    MFFS(fpscr); /* read the value that mffsce stored to cpu fpscr */
-+
-+    /* the returned value should be as the cpu fpscr was before */
-+    assert((frt & 0xff) == test_value);
-+
-+    /*
-+     * the cpu fpscr last 3 bits should be unchanged
-+     * and enable bits should be unset
-+     */
-+    assert((fpscr & 0xff) == (test_value & 0x7));
-+
-+    return 0;
-+}
+ /*****************************************************************************/
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 527ad40fcb..e35d0c06ba 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5985,7 +5985,7 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
+                         PPC2_PERM_ISA206 | PPC2_DIVE_ISA206 |
+                         PPC2_ATOMIC_ISA206 | PPC2_FP_CVT_ISA206 |
+                         PPC2_FP_TST_ISA206 | PPC2_FP_CVT_S64 |
+-                        PPC2_PM_ISA206;
++                        PPC2_PM_ISA206 | PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_VSX) |
+@@ -6159,7 +6159,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_PM_ISA206;
++                        PPC2_TM | PPC2_PM_ISA206 | PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+@@ -6379,7 +6379,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
++                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+@@ -6596,7 +6596,8 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310;
++                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310 |
++                        PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
 -- 
 2.25.1
 
