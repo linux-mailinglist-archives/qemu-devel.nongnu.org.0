@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA412530EC1
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:58:06 +0200 (CEST)
-Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3775530EB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:52:47 +0200 (CEST)
+Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt7dN-0005m9-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49606)
+	id 1nt7YE-0007No-99
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt7Ta-0004wk-OJ
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:47:58 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:43172)
+ id 1nt7U3-0005LI-3e
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:48:27 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:41832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt7TZ-0000Jq-49
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:47:58 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2ec42eae76bso146342387b3.10
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:47:56 -0700 (PDT)
+ id 1nt7U1-0000Np-DE
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:48:26 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id x2so24845721ybi.8
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F+CMx8EtvatRcAR2CBmM5L5Pku6BQPdhomKTdUMyCw4=;
- b=xYZ5gR2Js2IdBrmq19+s4pqP4QVYRg8X6sCnAj+H67XiuYopnQ0roNBgM6QAL6NfSx
- YRcizrDInAX08euL4jn4MQwChVvqwQJ/6zOped+hHZ9ABlMxepUVfDUppA4+O63Wb0R1
- nfL4thMWN9eaDzCBqyNOFhLcccLRM6JKeK+/ISbbS2i0n5szwCEEg5xT0c1fbSrKY5xV
- 9j7wjyQsOsEE4hI96xSMq3Feon8DpfrG7AEsZ9b8B9YoBzYkeuVf0aS3i3tkTyNNpiqi
- NKB5TPwyPS0t/gbE7pWoCaYKLneDqWWgBTVszRGxKp2P0z8ca9J2AelEs6MvMTUPyBhC
- p/dA==
+ :cc; bh=fBtc7BXtI/ftVZMF3jNVYifsDzdCNO9+l2YdWvaMhGE=;
+ b=oKEWj5tkJ1zASJAY0eSMgWk7FkBMNImckFwioMmg3t46W0LIHLdLa73rb2+ej99gGg
+ zkcEL1zyw6rPqyv0vr8Z928SQXijv0uJ5HZ599kDJccPfTlfQ3MEy9pdWc1LQGotZ1xU
+ EnKAgxP9AGTb9uPbpoR6J/ptN5aj//iJV9Jt+nO4M8tf2xNjIqA1CH0Q801CqVTyBWbV
+ bdUUT4HQcC4XcV597S75sODXj0nmvYdUqY0xxgZnLST/3d/vqIopc0rFRTQJ1xLlSz47
+ +ZZXd2Wb0ii7eWftrq5OOsygb0adV24vbU1HEzJcZKBTeCB4oa6uHwhZlTInGSKznIEC
+ HaSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=F+CMx8EtvatRcAR2CBmM5L5Pku6BQPdhomKTdUMyCw4=;
- b=ScAw5Oc421Xlg5paEuR27YZe7zv/KpN8c1gygatUOdWzUlVpFeGtOZmC4a3Pye1b0O
- fMe7M74SOwulRMfe9D46zfUv54UFyPX5Idq3SnPCsLCU4Zdj2t8D11/YtJKoADCPRDm+
- TxtsHC1EEvJsn5jpeqOQ2iR5x31tnFvT6HBMQX23t0XDHHCBfFucFwlJhD+RZs0Wl5uB
- 5x/fc0g9DhPzuEH0yBy7BkHuZBMtqDgxeUyjOrgeCeHHFiW1J6mQdFkas+iVoKP8CMJP
- mMR4wxA+dwpX2pSxpF1GOdCV1MpS6CB55XJEOvNb/znxqC0oy0X3JbLkGLRnHR0DjmSu
- l52g==
-X-Gm-Message-State: AOAM532HeNdmDjpNwl8WBtSx8JzwI6PqYVY1UFeexbZPQ3xIttCc4oxe
- f/G/ZhkTy2KMOrAT2bLoUEtaHojXoqCc4BRKtkmCxg==
-X-Google-Smtp-Source: ABdhPJx4cG81fiJYVxLinOu3OVscCvMKsl8SjEl+FCm4ney52o/hl1Ws1BC171YVn9u7JxE0DlZQUdX/3A+lSJaNc8U=
-X-Received: by 2002:a81:6904:0:b0:2fe:e670:318a with SMTP id
- e4-20020a816904000000b002fee670318amr23197402ywc.329.1653310076007; Mon, 23
- May 2022 05:47:56 -0700 (PDT)
+ bh=fBtc7BXtI/ftVZMF3jNVYifsDzdCNO9+l2YdWvaMhGE=;
+ b=BSP3eFUoP0P9/AckJTuWsvdAwKByt++WMy5gIzDtVxUOXTwE0C1W7208HUoWvqYnvB
+ Qsy7tMSOU93ApoYseebnV+jxI9RKL31FohecNV2dsMXSe4eF4KMqJ/RS60z631LNUTep
+ nlX0rfb1odyLlwwXCnIw8I+qZFh8VAmc1sknA7rXUJAc82SbTnpvUq7wjnn/PxxWdDEP
+ MoolomgCBJd4rqyKHfrz+jgdUQgXLFKv7xWCJokWudKfYW1LYwK0xurcasgZbT0YJblR
+ sAldc3CiqTJtYt1MrHVOySvRi+OfMiuvH7HnCQnstFC6YYpSz+gRqCmmICi9lpEelbzZ
+ 9hgQ==
+X-Gm-Message-State: AOAM531+8ddak5gtGfSOyMMMnkgLWnn/07xcIzs6YFGcvr4/52wByQvw
+ Q1Db2jrxpNeyL7Au9qllPlHsEppSsbbrYAJJFPne9Q==
+X-Google-Smtp-Source: ABdhPJxP3tRXEFGoE1DaeQWO9Vydj8liL1TRXla4ibFn2uyPGQcfCyNO2xH0yNgQMs6f1jkp3iBevf/H8jhsm7c39PU=
+X-Received: by 2002:a5b:c08:0:b0:64f:de42:5ecc with SMTP id
+ f8-20020a5b0c08000000b0064fde425eccmr5067087ybq.85.1653310104396; Mon, 23 May
+ 2022 05:48:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-18-richard.henderson@linaro.org>
-In-Reply-To: <20220521000400.454525-18-richard.henderson@linaro.org>
+ <20220521000400.454525-19-richard.henderson@linaro.org>
+In-Reply-To: <20220521000400.454525-19-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 May 2022 13:47:44 +0100
-Message-ID: <CAFEAcA9UyYrnQ0uKF+eXRW4H_0AQrq8Q7_JLQqJbV4j16cnJvA@mail.gmail.com>
-Subject: Re: [PATCH v3 17/49] semihosting: Use struct gdb_stat in
- common_semi_flen_cb
+Date: Mon, 23 May 2022 13:48:13 +0100
+Message-ID: <CAFEAcA_bgE7+5P97vksC0net-tW=EDHymfVC4SwXMV919N+epQ@mail.gmail.com>
+Subject: Re: [PATCH v3 18/49] semihosting: Split is_64bit_semihosting per
+ target
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org, 
+ Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,18 +87,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, 21 May 2022 at 01:04, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Use offsetof instead of an integer constant.
-> Load the entire 64-bit size while we're at it.
+> We already have some larger ifdef blocks for ARM and RISCV;
+> split the function into multiple implementations per arch.
 >
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  semihosting/arm-compat-semi.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
-
-Commit message seems to put the cart before the horse, in that
-the important thing is the bugfix to read 64 bits and that
-we choose to do that by using the struct offset is a detail :-)
-
+>  semihosting/arm-compat-semi.c | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
