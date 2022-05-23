@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA49531117
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 15:33:39 +0200 (CEST)
-Received: from localhost ([::1]:41258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACB753111C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 15:34:34 +0200 (CEST)
+Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt8Bl-0000Fz-Su
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 09:33:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59002)
+	id 1nt8Cg-0001zs-1P
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 09:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt89B-0007j5-VI
- for qemu-devel@nongnu.org; Mon, 23 May 2022 09:30:58 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:33596)
+ id 1nt8BK-0000dQ-9I
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 09:33:10 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:36950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt899-0007vR-0V
- for qemu-devel@nongnu.org; Mon, 23 May 2022 09:30:57 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-2fffcc66fe2so22252797b3.0
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 06:30:54 -0700 (PDT)
+ id 1nt8BI-0008L8-JB
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 09:33:09 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-2ff90e0937aso73360647b3.4
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 06:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l6VqFaDsj1nnvTvtnSEweapb4m7Sbn88PHc9V5tOg9U=;
- b=ppYVcWMEEZZXuPjKwb1GLptdaHB6nWZRzrIsQaqxxcKujVxomooG830gliU6lWF8LU
- vlBjWJ/LQloFiAl4qQN1um13YiJF94sDfiSXsi3dryXblK29Ssnn6F2gu1efse3/izcR
- lWSL2Rvf7eNLeoLMI2pjUNGvFCr9a7aBFsBWC/m9/Gt1BGiQvB3K/P9Vug5u3uBTmKt3
- mculM5Uy+ba3rvmiWvv5pajM2OGhCERIVr8GqUCWgJEBEOe83VwsQPxbddojpZrnAzIf
- W2amRiGsFG/oleLyrot86vV1jGF2PX3xZfoQUwCEB4DvbyYkBeS6EKy4CRCzw1+QScFo
- ZvgA==
+ :cc; bh=SIupbZKH1pkg9WCLTCOQwWj+OIL2kXUr8gaH+BC23D4=;
+ b=NBhERg1IkM2vbn3xcQxft0MsVRAMVex0+kFkCF6jq6B805w4jCWmf703mlTbyV2stu
+ AJRvg+OvJIv9KcH7zM2OS/Ee3K2alZr+0eXhmwLnvAfkEWYb2E+yw6BBvWzoGt4ansxI
+ QrbmZfcQn6MLRDI8otmtJwzMvhehtyUI0+MJ8gaXJcACMgW01YfcvixbDVurAvHLQb+E
+ m9gTxw9RgbL9ma/JRH+tsZGQjygBmOJqRPgB56JElKImWjzSmYH54vhPKDiwln5ImQAU
+ 7Z0jqpfMncEFoBflPQ47XmNRoFpv596XDQ3x+eNKqiQl9JoUazyBZoDiC4yn6l6tN/BA
+ FrZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=l6VqFaDsj1nnvTvtnSEweapb4m7Sbn88PHc9V5tOg9U=;
- b=R1e5LbQQa2XUfXEtkboNp6f7DU9UY4cIAjpE0TGKL0nCEwAANIobKJOIILJj1o98Be
- adLQrG6VXnz++b/TySsgRftiQaLtX9odzryVUOdjfiwhxVmgKCoSGdxXWKBXHBTs1/ZK
- 5+5WB4Jlj/CIL1phS9pEkqaHL1havHUYvu9rmGvxeWunhF2xFLDINX7oAjoJ6nfIZzxV
- M5G3PXkzS0GT8BcVifl2zF3Dyf+nDF4atj9Bu7mcyKltFwoXzZ8//g6IX0UE2yOQgxYZ
- 7m2aoTANoTKbnhutqm1frrW0cY9AQ+bDtljQzYtpKFZ1Whe4m6J8yhtd2NTgkW3d01z3
- y2Ng==
-X-Gm-Message-State: AOAM530AFTwmuTqm5QFyvw3UfNI8VEjVqjMAn4/qmdkBgxuSmKMQoPrC
- H81sVksoBxgm3VHQOKzFpgS4Ro21LGMMN/+CsI+95g==
-X-Google-Smtp-Source: ABdhPJyQEYv26POojwRIDk8rUCd5IZ0gwK/pDIb8aYy/Jpg6DJ5+3TP/gznNawi6X/zKACirGHHW8vK+5kxBpOwvbLA=
-X-Received: by 2002:a81:6589:0:b0:2ff:e11d:3fb3 with SMTP id
- z131-20020a816589000000b002ffe11d3fb3mr6181894ywb.10.1653312653685; Mon, 23
- May 2022 06:30:53 -0700 (PDT)
+ bh=SIupbZKH1pkg9WCLTCOQwWj+OIL2kXUr8gaH+BC23D4=;
+ b=Il1XywSDTUDDUO3rPQ/7WTvr7aUJBi7F2FDhl1nF6Jxt7o4TdaK8ZaiiZkgSRyToXu
+ ISFTJbEo+SJGmSUGitrSFTJkTJraFtQQQ0Dy2B7mpkBdesi5LjoTuI2wtlbtMCfcNvKX
+ 4yKEIV3MlIFoluiZZ5ApVz727q7AA9roEZ5C00qdpHpDUXVKT28Zfy9cpUW5Tmg+AIsK
+ V4I6wK9RCRcJGSBtIRqdOrrWYradT+1hvoFSWr7uflnc8/FHQ14178/1/KzIK2Rwh7Ep
+ ouCRGD0ahU5V1c+psZHjgMI4AOYZ9UIoTNt9xKksQC3sx9gtaOzfUXxM+BA5NRY8t0OG
+ /Tnw==
+X-Gm-Message-State: AOAM531Ab679xaxAvm3fVMnEIf7BedKDaY/ZsF+XK3XSx0cqkjUN3+W0
+ rS182roFfnAGfjxODHmXqjPzZxMCVA93xYyJlHs4jg==
+X-Google-Smtp-Source: ABdhPJxToz7Np0kxhsgaiNhTKrw7TGCbUoLOtdd68t7XDOcACHbIPYVIPnghq8f4M7aI4WD5/rQoUKzhM0O3+LcgxQM=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr23953557ywb.257.1653312787465; Mon, 23
+ May 2022 06:33:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-24-richard.henderson@linaro.org>
-In-Reply-To: <20220521000400.454525-24-richard.henderson@linaro.org>
+ <20220521000400.454525-37-richard.henderson@linaro.org>
+In-Reply-To: <20220521000400.454525-37-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 May 2022 14:30:42 +0100
-Message-ID: <CAFEAcA8ENQo8258jw=CeBG6Qamk49_zQ9RQjuwd4ZfymD=cV-w@mail.gmail.com>
-Subject: Re: [PATCH v3 23/49] semihosting: Split out semihost_sys_open
+Date: Mon, 23 May 2022 14:32:56 +0100
+Message-ID: <CAFEAcA80XraBLoHUNQVm_d6T4G45o99MuYG+6Djk8zDG42863w@mail.gmail.com>
+Subject: Re: [PATCH v3 36/49] gdbstub: Widen gdb_syscall_complete_cb return
+ value
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,97 +87,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, 21 May 2022 at 01:04, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Split out the non-ARM specific portions of SYS_OPEN to a
-> reusable function.  This handles gdb and host file i/o.
->
-> Add helpers to validate the length of the filename string.
-> Prepare for usage by other semihosting by allowing the
-> filename length parameter to be 0, and calling strlen.
+> Always pass a uint64_t.  This resolves a FIXME in the
+> m68k and nios2 semihosting that we've lost data.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/exec/gdbstub.h        |  3 +--
+>  gdbstub.c                     |  7 ++++---
+>  semihosting/arm-compat-semi.c |  9 ++++-----
+>  semihosting/console.c         |  7 +++----
+>  semihosting/syscalls.c        |  2 +-
+>  target/m68k/m68k-semi.c       | 10 +++-------
+>  target/nios2/nios2-semi.c     |  8 +++-----
+>  7 files changed, 19 insertions(+), 27 deletions(-)
 
 
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-> index 7a7468799f..cc008d0338 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -35,9 +35,10 @@
->  #include "semihosting/semihost.h"
->  #include "semihosting/console.h"
->  #include "semihosting/common-semi.h"
-> -#include "semihosting/guestfd.h"
->  #include "qemu/timer.h"
->  #include "exec/gdbstub.h"
-> +#include "semihosting/guestfd.h"
-> +#include "semihosting/syscalls.h"
+> -typedef void (*gdb_syscall_complete_cb)(CPUState *cpu,
+> -                                        target_ulong ret, target_ulong err);
+> +typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
 
-Can we keep all the semihosting/ include lines together?
+Commit message says we're just changing the return value
+handling, but the code also changes the type used for errno.
 
-> diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-> index b6405f5663..7ac2e147a8 100644
-> --- a/semihosting/guestfd.c
-> +++ b/semihosting/guestfd.c
-> @@ -11,6 +11,11 @@
->  #include "qemu/osdep.h"
->  #include "exec/gdbstub.h"
->  #include "semihosting/guestfd.h"
-> +#ifdef CONFIG_USER_ONLY
-> +#include "qemu.h"
-> +#else
-> +#include "semihosting/softmmu-uaccess.h"
-> +#endif
-
-Does this need to be in this patch, or should it be somewhere else?
-
-> +static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                      target_ulong fname, target_ulong fname_len,
-> +                      int gdb_flags, int mode)
-> +{
-> +    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-> +    char *p;
-> +    int ret, host_flags;
-> +
-> +    ret = validate_lock_user_string(&p, cs, fname, fname_len);
-> +    if (ret < 0) {
-> +        complete(cs, -1, -ret);
-> +        return;
-> +    }
-> +
-> +    if (gdb_flags & GDB_O_WRONLY) {
-> +        host_flags = O_WRONLY;
-> +    } else if (gdb_flags & GDB_O_RDWR) {
-> +        host_flags = O_RDWR;
-> +    } else {
-> +        host_flags = O_RDONLY;
-> +    }
-> +    if (gdb_flags & GDB_O_CREAT) {
-> +        host_flags |= O_CREAT;
-> +    }
-> +    if (gdb_flags & GDB_O_TRUNC) {
-> +        host_flags |= O_TRUNC;
-> +    }
-> +    if (gdb_flags & GDB_O_EXCL) {
-> +        host_flags |= O_EXCL;
-> +    }
-> +
-> +    ret = open(p, host_flags, mode);
-> +    if (ret < 0) {
-> +        complete(cs, -1, errno_for_gdb());
-
-So this changes the errno values in the not-gdb case from being
-host errno values to the gdb protocol ones. Errnos in Arm semihosting
-are an unspecified mess, so maybe we can get away with changing
-the existing QEMU behaviour; but I'd rather we didn't do it
-one syscall at a time in a big refactoring series if we can avoid it.
-
-> +    } else {
-> +        int guestfd = alloc_guestfd();
-> +        associate_guestfd(guestfd, ret);
-> +        complete(cs, guestfd, 0);
-> +    }
-> +    unlock_user(p, fname, 0);
-> +}
-
-thanks
 -- PMM
 
