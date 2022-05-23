@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941215311BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:56:56 +0200 (CEST)
-Received: from localhost ([::1]:34776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9644F531556
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 19:42:44 +0200 (CEST)
+Received: from localhost ([::1]:37448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntAQR-0007gq-GT
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39392)
+	id 1ntC4m-0008Vb-Mz
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 13:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntAOQ-0006NJ-0R
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:54:50 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntAOM-0008T1-Fb
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:54:48 -0400
-Received: by mail-pg1-x533.google.com with SMTP id r71so14083820pgr.0
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:54:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=nNx+pOO36hyIRA22R39vbgnJWME7+8ZjeHNBeaJn698=;
- b=zTU+7DBIO86SF/C5kQIagSDMBIa2ag9snecLEk51SNVvBbYalKcC3GLdf+daxH27MR
- Qiaub2XL42RZlMDv05t6Ltwl2DV/cqPpj8JIiccpSME7cMjhdDbUcW5yNRFK3EQO7Knc
- liQf/viLqiIqmbUMmZjbPYZcr2s8n2x1eFVdlQVc1X0fddJfnkvPr/nSQ2gYnKB/LxEM
- GcLsh+V8NHstuG3/2dww93gH31V/U/6+QAgeKuLzwkZ112fMSipMopJNdybuJ/QNWX64
- q5lSR1Xw4hib+9YKxYRBs2YMx4/HslqsPjbV9WZIcQeo75ODmTq25j3W1SUx65PVXNT/
- N0ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nNx+pOO36hyIRA22R39vbgnJWME7+8ZjeHNBeaJn698=;
- b=7iL9dVYys1g92Y3U7edB4aZz78ZkG51YDxd0Kn+4L1tv195pDuLRytNu6ec5GNzkwE
- asOeQISXxAMR3cR7Qukime8ehlEYOYUCPutK+iB/lqws20uKBfLoIgyoVX+3JGMZETB4
- Bp2sIUGCXVj7/SRqtImMo9xdstJua3VwYraVjzV0NWm0k6bRajHadRPhGvXhFt7jug9x
- P0il9Tqlou59OUS67FGH6LirJ/4oRMGyc+5NmFEFvuLCljtBhD7HUeM/prAEccr0g9Vz
- e0irLooeXbVekSEzr3fxbReQi3Vwq3hPjgpHuszBgY4jPpiddQRqoZUkgEzQGreK20XX
- mIFw==
-X-Gm-Message-State: AOAM531fUIhWXztsgcLQ7R/X609BV9UdXL9HyKg0iSQ/1QNv7iG2KPk/
- bCWQsLoRtGJi/O/eZqr9OMGWlA==
-X-Google-Smtp-Source: ABdhPJyXZbpV/8fdcgWG8Gm4nQ5/80du/SlLB7InVVK27QQ4jt0nSNF8UFnB6QVHY9Qvcvlt0NNROg==
-X-Received: by 2002:a63:2317:0:b0:3c1:f437:2e7c with SMTP id
- j23-20020a632317000000b003c1f4372e7cmr20022158pgj.351.1653321285011; 
- Mon, 23 May 2022 08:54:45 -0700 (PDT)
-Received: from [192.168.1.6] ([71.212.142.129])
- by smtp.gmail.com with ESMTPSA id
- y132-20020a62ce8a000000b00518285976cdsm7362591pfg.9.2022.05.23.08.54.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 08:54:44 -0700 (PDT)
-Message-ID: <8197ab7c-0a6c-294a-c8e1-2c5ca787fc54@linaro.org>
-Date: Mon, 23 May 2022 08:54:42 -0700
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ntAip-0002gz-3D; Mon, 23 May 2022 12:15:55 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:43118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ntAil-0003hv-Fr; Mon, 23 May 2022 12:15:53 -0400
+Received: from myt6-79704c0e15e4.qloud-c.yandex.net
+ (myt6-79704c0e15e4.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:239b:0:640:7970:4c0e])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6AE372E1219;
+ Mon, 23 May 2022 19:04:52 +0300 (MSK)
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net [2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by myt6-79704c0e15e4.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ g6MjHgEeh5-4pJKA7XQ; Mon, 23 May 2022 19:04:52 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1653321892; bh=2nz+x//69YqDDfN8aMdhWX1z8+WFYGFsMdaX16q2Y0o=;
+ h=Cc:To:From:Subject:Message-ID:Date;
+ b=u+cT9YaFR1bEifAluJ3/Ht1kLGR/PQFdF3gIwYvfiW8mlmxctdcesFZPNUN2fytzo
+ ypTY6PTYI+/l+foyNqDAEMYYfnmkU2X8HLc2J3SsVRj4ozDM1XgiBZBYflVgIBne8W
+ dpASNiV/7wRgc34SenXU0Uj2O2lyGnehM3QxzJYU=
+Authentication-Results: myt6-79704c0e15e4.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:a521::1:28] (unknown
+ [2a02:6b8:b081:a521::1:28])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ iO9ZBTYofb-4pNC6W5w; Mon, 23 May 2022 19:04:51 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <5dacced9-5434-5d05-a826-c7acb9fcb2ed@yandex-team.ru>
+Date: Mon, 23 May 2022 19:04:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 06/12] target/ppc: implement xscvspdpn with
- helper_todouble
+ Thunderbird/91.8.1
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220519201822.465229-1-matheus.ferst@eldorado.org.br>
- <20220519201822.465229-7-matheus.ferst@eldorado.org.br>
- <137135f0-c764-bce3-6c18-da7478de6788@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <137135f0-c764-bce3-6c18-da7478de6788@gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, hreitz@redhat.com
+Subject: aio_wait_bh_oneshot() thread-safety question
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 23 May 2022 13:38:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,26 +79,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/22 06:48, Daniel Henrique Barboza wrote:
-> Checking 0006-target-ppc-declare-xscvspdpn-helper-with-call-flags.patch...
-> ERROR: spaces required around that '*' (ctx:WxV)
-> #69: FILE: target/ppc/translate/vsx-impl.c.inc:1049:
-> +bool trans_XSCVSPDPN(DisasContext *ctx, arg_XX2 *a)
->                                                   ^
-> 
-> My guess is that since the var 'arg_XX2' ends with a numeral the script
-> thinks that the following '*' is an arithmetic operation. Problem is that
-> we have other examples of this kind of declaration in the same file, e.g.:
-> 
-> 
-> static bool trans_XVCVBF16SPN(DisasContext *ctx, arg_XX2 *a)
-> 
-> 
-> 
-> Is there a way to convince checkpatch.pl that this is an okay format?
+Hi all (yes, that's my new address, I hope for a long time. )
 
-Not that I know of.  I just ignore these parsing errors.
+I have a doubt about how aio_wait_bh_oneshot() works. Exactly, I see that data->done is not accessed atomically, and doesn't have any barrier protecting it..
 
+Is following possible:
 
-r~
+main-loop                           iothread
+                                 |
+aio_wait_bh_oneshot()           |
+     aio_bh_schedule_oneshot()   |
+                                 |  handle bh:
+                                 | 1. set data->done = true
+                                 | 2. call aio_wait_kick(), inserting the
+                                 | dummy bh into main context
+                                 |
+  ... in AIO_WAIT_WHILE():
+    handle dummy bh, go to next
+    iteration, but still read
+    data->done=false due to some
+    processor data reordering,
+    go to next iteration of polling
+    and hang
+
+?
+
+I've seen a following dead-lock on 2.12-based Qemu, but failed to find is it (and how is it) fixed in master:
+
+1. main() thread is stuck in qemu_mutex_lock_iothread()
+
+2. The global mutex is taken by migration_thread(), which has the following stack:
+
+aio_poll ( ctx=qemu_aio_context, blocking=true )
+aio_wait_bh_oneshot ( ctx=context_of_iothread, cb=virtio_blk_data_plane_stop_bh )
+virtio_blk_data_plane_stop
+virtio_bus_stop_ioeventfd
+virtio_vmstate_change
+vm_state_notify
+do_vm_stop
+migration_completion
+
+The iothread itself is in qemu_poll_ns() -> ppoll(). data->done of the BH is true, so I assume iothread completely handled the BH. Also, there is no dummy_bh in the main qemu aio context bh-list, so I assume it's either already handled, or aio_wait_kick() was called even before entering AIO_WAIT_WHILE. But still, AIO_WAIT_WHILE somehow go into block aio_poll, like data->done was false.
+
+-- 
+Best regards,
+Vladimir
 
