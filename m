@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02263531550
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 19:36:36 +0200 (CEST)
-Received: from localhost ([::1]:33312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166A153155D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 19:57:48 +0200 (CEST)
+Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntByt-00055y-4a
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 13:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33042)
+	id 1ntCJO-0004a8-Mw
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 13:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ntBxZ-0004Bp-ER
- for qemu-devel@nongnu.org; Mon, 23 May 2022 13:35:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30106)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ntCHz-0003sH-U1
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 13:56:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ntBxW-00088u-VC
- for qemu-devel@nongnu.org; Mon, 23 May 2022 13:35:12 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ntCHx-0003S6-HU
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 13:56:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653327308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1653328576;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RNVvKOJa4H7FA/v7Hx9vM5mUhxaN32QiD697Uow6rNY=;
- b=C91iBh6zHJIk0J62A3yRAemHW0m9IUlhN3RX1i8lsqKEhkENXhk/vbYDig4m+WBA+up5T/
- Yh/k7vYZcnM7KSbaA3ag9mGptQHE+3icQHhmjeKsxI6k04ygx+Pfl5sg7F+u+OZmSZTuAK
- NWbp+dSCJwmbbApAOmjdFHXy033rxZU=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WIgf2Vi6/Ajyh/qUNXBjB3DzDQCEtKpl5AlZkZhsUOI=;
+ b=P0xHl74RQV2Dpq2go5ySAzQgpeQphMRmNv5V3OZl794+kc5vlCiRzY7FVPciWcPbXLOri1
+ zf9WHeqDvJ0t5+H8oPPfn6ANITcr93iQI9JmuItSYY6KwL9dfGCIF8swuniKEgKRzIeRD8
+ /CTuYuabO2LR2mfGYq10TkNg8D6BVUE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-A7wzzCnkNHC3J5KagfrK7g-1; Mon, 23 May 2022 13:35:07 -0400
-X-MC-Unique: A7wzzCnkNHC3J5KagfrK7g-1
-Received: by mail-yb1-f197.google.com with SMTP id
- j2-20020a2597c2000000b0064b3e54191aso13590234ybo.20
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 10:35:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RNVvKOJa4H7FA/v7Hx9vM5mUhxaN32QiD697Uow6rNY=;
- b=RGO8StVNYBkJEBwvhrcY3yRTcgYP/nVSw7ve+rXrlElh4PO7C+nsmjmlob+MqvWHXT
- u7ZriDmXttIdAWZVFITDAcE82KHK3ugjEwJlpzyXjs0iCdaE8h0h42W9ZibtgWJW2NQx
- M1un3QqLAeNF3B8i62jQUyts4XRAE77sFSUwEO1xWXfsVo05o0P2EONoteUj/D1vj3bb
- o6ZaJFs6mmLE4jnS/CYph/5t+5ammeOVQKI7vWYYIEh5AfW1SAx02vCqCeG0xQrWvyte
- H0uuvRblr7fWPkdLOlo1CeIwtOvXTekdq64WP8KSB/5b//ucg0jgbhWGVxx9Yt53JSqO
- 1Xrw==
-X-Gm-Message-State: AOAM532awiodEd5Lcqi7nDWxQv4bmNZdERs1Sy4/RHcXrjkX36Gz838z
- 3Km1gVnW4Gyajiy6YYMsoJvUY4YRia6/CZlXCLzVU4M9jN1RDIIoXZEMh41diSIRscu1xkGzhsm
- 14kdbvCJIz4QXtVw4b+8JdgE5AQOSgXk=
-X-Received: by 2002:a81:3d09:0:b0:2ff:51cc:fb52 with SMTP id
- k9-20020a813d09000000b002ff51ccfb52mr24413469ywa.456.1653327306680; 
- Mon, 23 May 2022 10:35:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyb8wLTTEzWAEqPXGnYH7Y/T7m6/ZdJ+nmVAa+vCiYxR7RnVTsoHgsJGBVMNMxmUVUGZwNWQMB8NlSycHUsFYM=
-X-Received: by 2002:a81:3d09:0:b0:2ff:51cc:fb52 with SMTP id
- k9-20020a813d09000000b002ff51ccfb52mr24413453ywa.456.1653327306503; Mon, 23
- May 2022 10:35:06 -0700 (PDT)
+ us-mta-586-HY3G-P0FMdGGMDw8LZ3GXg-1; Mon, 23 May 2022 13:56:13 -0400
+X-MC-Unique: HY3G-P0FMdGGMDw8LZ3GXg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12B053817A60;
+ Mon, 23 May 2022 17:56:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E91697AD8;
+ Mon, 23 May 2022 17:56:11 +0000 (UTC)
+Date: Mon, 23 May 2022 18:56:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 05/15] osdep: export qemu_open_cloexec()
+Message-ID: <YovKuQ6GZ79Ad9b0@redhat.com>
+References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+ <20220513180821.905149-6-marcandre.lureau@redhat.com>
+ <YouBGRfgzlsGi99n@redhat.com>
+ <CAJ+F1CKV0U8g9NCpX6LvE6HTVLdNv-RkHxLeaAU2PjeRKVT6fw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220523145610.809663-1-kkostiuk@redhat.com>
-In-Reply-To: <20220523145610.809663-1-kkostiuk@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 23 May 2022 19:34:54 +0200
-Message-ID: <CAMxuvay25hx1vvKNWbRH=BmA2Jhd09sfbDc5jhAY4Ai9rQmwaw@mail.gmail.com>
-Subject: Re: [PATCH] trivial: qga: Log version on start
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1CKV0U8g9NCpX6LvE6HTVLdNv-RkHxLeaAU2PjeRKVT6fw@mail.gmail.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -90,39 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 23, 2022 at 4:56 PM Konstantin Kostiuk <kkostiuk@redhat.com> wr=
-ote:
->
-> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+On Mon, May 23, 2022 at 07:30:42PM +0200, Marc-André Lureau wrote:
+> Hi
+> 
+> On Mon, May 23, 2022 at 2:43 PM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
+> 
+> > On Fri, May 13, 2022 at 08:08:11PM +0200, marcandre.lureau@redhat.com
+> > wrote:
+> > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > >
+> > > Used in the next patch, to simplify qga code.
+> > >
+> > > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > ---
+> > >  include/qemu/osdep.h |  1 +
+> > >  util/osdep.c         | 10 ++++++++--
+> > >  2 files changed, 9 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > > index 67cc465416..64f51cfb7a 100644
+> > > --- a/include/qemu/osdep.h
+> > > +++ b/include/qemu/osdep.h
+> > > @@ -489,6 +489,7 @@ void sigaction_invoke(struct sigaction *action,
+> > >   */
+> > >  int qemu_open_old(const char *name, int flags, ...);
+> > >  int qemu_open(const char *name, int flags, Error **errp);
+> > > +int qemu_open_cloexec(const char *name, int flags, mode_t mode, Error
+> > **errp);
+> >
+> > I don't think we should be exporting this - it is just a variant of the
+> > 'qemu_open_old' method that we wanted callers to stop using in favour
+> > of explicitly deciding between 'qemu_open' and 'qemu_create'.
+> >
+> 
+> 
+> qemu_open() has "/dev/fdset" handling, which qemu-ga and other tools don't
+> need.
 
-why not, and why not QEMU_FULL_VERSION? :)
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Right, but exporting this as 'qemu_open_cloexec' is going to mislead
+people into thinking it is a better version of 'qemu_open'. This will
+cause us to loose support for /dev/fdset in places where we actually
+need it.
 
-> ---
->  qga/main.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/qga/main.c b/qga/main.c
-> index 3b9546c185..a58368c75e 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -1271,6 +1271,8 @@ static GAState *initialize_agent(GAConfig *config, =
-int socket_activation)
->      g_log_set_fatal_mask(NULL, G_LOG_LEVEL_ERROR);
->      ga_enable_logging(s);
->
-> +    g_debug("Guest agent version %s started", QEMU_VERSION);
-> +
->  #ifdef _WIN32
->      /* On win32 the state directory is application specific (be it the d=
-efault
->       * or a user override). We got past the command line parsing; let's =
-create
-> --
-> 2.25.1
->
+It is pretty harmless to have /dev/fdset there, even if the tool does
+not need it - that's been the case with many QEMU tools for many years.
+If we think it is actually a real problem though, we should just have
+a way to toggle it on/off from the existing APIs.
+
+eg put  'bool allow_fdset = true"   in softmmu/vl.c, and
+'bool allow_fdset = false' in stubs/open.c, and then make
+qemu_open_internal conditionalize itself on this global 
+variable, so only the system emulators get fdset support
+activated.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
