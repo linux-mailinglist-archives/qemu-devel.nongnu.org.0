@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF51530B05
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 10:15:01 +0200 (CEST)
-Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989AB530B18
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 10:38:44 +0200 (CEST)
+Received: from localhost ([::1]:59164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt3DQ-0005a1-OB
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 04:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49658)
+	id 1nt3aN-0003pj-8c
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 04:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nt38X-0002e6-RJ; Mon, 23 May 2022 04:10:03 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:48060 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nt38P-00028M-P5; Mon, 23 May 2022 04:09:53 -0400
-Received: from [192.168.0.105] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAC3v4c8QYtiyhzSCQ--.51870S2;
- Mon, 23 May 2022 16:09:35 +0800 (CST)
-Subject: Re: [PATCH] target/riscv: add support for zmmul extension v0.1
-To: Alistair Francis <alistair23@gmail.com>, Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, "open list:RISC-V"
- <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?=
- <lazyparser@gmail.com>
-References: <20220518015316.20504-1-liweiwei@iscas.ac.cn>
- <CAKmqyKNBQo91af1m5t_wDOVMeh=6uYD9Q+KugoTOQYzQJUtf5w@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <3ed635e4-5705-007c-be5c-edd07936758d@iscas.ac.cn>
-Date: Mon, 23 May 2022 16:09:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt3YB-0002GQ-DO
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 04:36:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35981)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt3Y8-0006hM-Hx
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 04:36:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653294982;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q3l9MZburiv1aZYAOBum4ym3n0/kIvZg5BK4C46UJiU=;
+ b=OpA+Iprs2mpbOeCHcmRgHLVrfJYwgfmENbtC25i3Isb9UREtR3DAqZeI9MfHAxpiuPnAvv
+ JQfeKrBGhppAO3lNgag3CAUq+LDpZ7Fv6ulZSrgxYo4Y51NtrW9jM6jVgpZAE9YKa9AMYT
+ h5mDyTSP4SjdSCOd5ksvjtUkydHj+fQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-399-lPgvEKN7PCuXpCGnnhnRKg-1; Mon, 23 May 2022 04:36:19 -0400
+X-MC-Unique: lPgvEKN7PCuXpCGnnhnRKg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFD03185A7A4;
+ Mon, 23 May 2022 08:36:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 84C9A7AE4;
+ Mon, 23 May 2022 08:36:18 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 838F618000B4; Mon, 23 May 2022 10:36:16 +0200 (CEST)
+Date: Mon, 23 May 2022 10:36:16 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+Subject: Re: [RFC PATCH v4 03/36] target/i386: Implement mc->kvm_type() to
+ get VM type
+Message-ID: <20220523083616.uqd5amzbkt627ari@sirius.home.kraxel.org>
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-4-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKNBQo91af1m5t_wDOVMeh=6uYD9Q+KugoTOQYzQJUtf5w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: qwCowAC3v4c8QYtiyhzSCQ--.51870S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZr4fZryxWry3KryUCw18Grg_yoWrKw4Upr
- W8GFW7AFs8tFySvayIyan0qF1xJanagw47t39ayw4kJayfKrWDCF1DK3yakr4UAFyv9r1j
- y3WjyFnxZ3y0qa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
- JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUU
- UU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512031803.3315890-4-xiaoyao.li@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,145 +90,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hi,
 
-在 2022/5/23 下午2:34, Alistair Francis 写道:
-> On Wed, May 18, 2022 at 11:54 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->>   - includes all multiplication operations for M extension
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   target/riscv/cpu.c                      |  2 ++
->>   target/riscv/cpu.h                      |  1 +
->>   target/riscv/insn_trans/trans_rvm.c.inc | 18 ++++++++++++------
->>   3 files changed, 15 insertions(+), 6 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index e373c61ba2..01b57d3784 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -903,6 +903,7 @@ static Property riscv_cpu_properties[] = {
->>
->>       /* These are experimental so mark with 'x-' */
->>       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->> +    DEFINE_PROP_BOOL("x-zmmul", RISCVCPU, cfg.ext_zmmul, false),
-> Is this really experimental?
->
-> Alistair
+> +    if (!(kvm_check_extension(KVM_STATE(ms->accelerator), KVM_CAP_VM_TYPES) & BIT(kvm_type))) {
+> +        error_report("vm-type %s not supported by KVM", vm_type_name[kvm_type]);
+> +        exit(1);
+> +    }
 
-I think it's experimental currently. The zmmul version in latest riscv 
-spec is v0.1, even though described as  v1.0 in spike README.
+Not sure why TDX needs a new vm type whereas sev doesn't.  But that's up
+for debate in the kernel tdx patches, not here.  Assuming the kernel
+interface actually merged will look like this the patch makes sense.
 
-Its specification status 
-(https://wiki.riscv.org/display/home/specification+status) is Freeze 
-Complete and TSC Sign-Off Voting.
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-And It's not in the ratified extension 
-list(https://wiki.riscv.org/display/home/recently+ratified+extensions).
-
-Any status update I missed?
-
-Regards,
-
-Weiwei Li
-
->>       /* ePMP 0.9.3 */
->>       DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
->>       DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
->> @@ -1027,6 +1028,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->>        *    extensions by an underscore.
->>        */
->>       struct isa_ext_data isa_edata_arr[] = {
->> +        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
->>           ISA_EDATA_ENTRY(zfh, ext_zfh),
->>           ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
->>           ISA_EDATA_ENTRY(zfinx, ext_zfinx),
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index f5ff7294c6..68177eae12 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -405,6 +405,7 @@ struct RISCVCPUConfig {
->>       bool ext_zhinxmin;
->>       bool ext_zve32f;
->>       bool ext_zve64f;
->> +    bool ext_zmmul;
->>
->>       uint32_t mvendorid;
->>       uint64_t marchid;
->> diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
->> index 16b029edf0..ec7f705aab 100644
->> --- a/target/riscv/insn_trans/trans_rvm.c.inc
->> +++ b/target/riscv/insn_trans/trans_rvm.c.inc
->> @@ -18,6 +18,12 @@
->>    * this program.  If not, see <http://www.gnu.org/licenses/>.
->>    */
->>
->> +#define REQUIRE_M_OR_ZMMUL(ctx) do {                      \
->> +    if (!ctx->cfg_ptr->ext_zmmul && !has_ext(ctx, RVM)) { \
->> +        return false;                                     \
->> +    }                                                     \
->> +} while (0)
->> +
->>   static void gen_mulhu_i128(TCGv r2, TCGv r3, TCGv al, TCGv ah, TCGv bl, TCGv bh)
->>   {
->>       TCGv tmpl = tcg_temp_new();
->> @@ -65,7 +71,7 @@ static void gen_mul_i128(TCGv rl, TCGv rh,
->>
->>   static bool trans_mul(DisasContext *ctx, arg_mul *a)
->>   {
->> -    REQUIRE_EXT(ctx, RVM);
->> +    REQUIRE_M_OR_ZMMUL(ctx);
->>       return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, gen_mul_i128);
->>   }
->>
->> @@ -109,7 +115,7 @@ static void gen_mulh_w(TCGv ret, TCGv s1, TCGv s2)
->>
->>   static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
->>   {
->> -    REQUIRE_EXT(ctx, RVM);
->> +    REQUIRE_M_OR_ZMMUL(ctx);
->>       return gen_arith_per_ol(ctx, a, EXT_SIGN, gen_mulh, gen_mulh_w,
->>                               gen_mulh_i128);
->>   }
->> @@ -161,7 +167,7 @@ static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
->>
->>   static bool trans_mulhsu(DisasContext *ctx, arg_mulhsu *a)
->>   {
->> -    REQUIRE_EXT(ctx, RVM);
->> +    REQUIRE_M_OR_ZMMUL(ctx);
->>       return gen_arith_per_ol(ctx, a, EXT_NONE, gen_mulhsu, gen_mulhsu_w,
->>                               gen_mulhsu_i128);
->>   }
->> @@ -176,7 +182,7 @@ static void gen_mulhu(TCGv ret, TCGv s1, TCGv s2)
->>
->>   static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
->>   {
->> -    REQUIRE_EXT(ctx, RVM);
->> +    REQUIRE_M_OR_ZMMUL(ctx);
->>       /* gen_mulh_w works for either sign as input. */
->>       return gen_arith_per_ol(ctx, a, EXT_ZERO, gen_mulhu, gen_mulh_w,
->>                               gen_mulhu_i128);
->> @@ -349,7 +355,7 @@ static bool trans_remu(DisasContext *ctx, arg_remu *a)
->>   static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
->>   {
->>       REQUIRE_64_OR_128BIT(ctx);
->> -    REQUIRE_EXT(ctx, RVM);
->> +    REQUIRE_M_OR_ZMMUL(ctx);
->>       ctx->ol = MXL_RV32;
->>       return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, NULL);
->>   }
->> @@ -389,7 +395,7 @@ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
->>   static bool trans_muld(DisasContext *ctx, arg_muld *a)
->>   {
->>       REQUIRE_128BIT(ctx);
->> -    REQUIRE_EXT(ctx, RVM);
->> +    REQUIRE_M_OR_ZMMUL(ctx);
->>       ctx->ol = MXL_RV64;
->>       return gen_arith(ctx, a, EXT_SIGN, tcg_gen_mul_tl, NULL);
->>   }
->> --
->> 2.17.1
->>
->>
+take care,
+  Gerd
 
 
