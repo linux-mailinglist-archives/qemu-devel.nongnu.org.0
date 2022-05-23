@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7570B5315C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 21:43:22 +0200 (CEST)
-Received: from localhost ([::1]:56912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889285315C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 21:43:51 +0200 (CEST)
+Received: from localhost ([::1]:58160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntDxZ-0006ob-1v
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 15:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57532)
+	id 1ntDy2-0007ep-Bk
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 15:43:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1ntDuo-0003z3-Nd
- for qemu-devel@nongnu.org; Mon, 23 May 2022 15:40:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59656)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ntDvZ-0004ue-Tx
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 15:41:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1ntDuk-0002zS-SD
- for qemu-devel@nongnu.org; Mon, 23 May 2022 15:40:28 -0400
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ntDvY-0003Lb-8J
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 15:41:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653334824;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T8of/U3HBZJmeNDMSz2fYIpWd9dBSux8ToSl8t6HVVE=;
- b=LYMDs6OKmRbMGmoqgNDfyurBoUI7LcXJQrQhqL0zc4FX6+VXPbQSSi9SFh3bDzqsl8/zdh
- lcFnFJiaVwHzzhC7F5V+IVHr+FG5f3HI1AwRO1eioYfSzoLIF/k/gQXt13RV/ailgrOrSM
- RgzDgwnmvzI0GDq7Jc/3fWTtHf128DY=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1653334875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+6AJPjSGYC9QgDxShViT5+LTEO3UpiUlKtaItv1wfAA=;
+ b=elwqM5UEbHT4cyZGv9Wb1pJJL84N+euAIlkRbf47sNp0NotutYnLL1jCZ8EavnHEYvSyDz
+ 8OD61+uCQkH5yEcg9tqpIhSA7PXU1SCZAeHaWIT4GuHiC8th31ibmtorY4BGj09zoG/nAN
+ hGGH6LmrjOuJlyeqzHvhkJKwVeCo+fk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-hY5B2CorN0e4fZQqjz8UQg-1; Mon, 23 May 2022 15:40:23 -0400
-X-MC-Unique: hY5B2CorN0e4fZQqjz8UQg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bl27-20020a05620a1a9b00b0069994eeb30cso12028123qkb.11
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 12:40:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=T8of/U3HBZJmeNDMSz2fYIpWd9dBSux8ToSl8t6HVVE=;
- b=1eUV8dgDb8rujqQf/3YDvjQsVDEk6ym46xgaEbUT8QlXcPJJ/+DUwgpAwBFiuBtqIC
- ZwmYqsHHL2hXShX32s/Wkdai4Ef1UFM92c71C1d6Wv/Hf9P6k2ZrVw/kEPix6AH3iPXh
- UYtiVGrOBfmUmVkH/ZVMZhA/dFH4aU1GLhhnACrqjewR8dLoEqmZDuZ5dPX2+QsDmQvp
- iblxSxHBzFx6WE+em576O4gIpin8G6Mn/SIkSCGoOKkFqkJT5cxyrnSN8b644E0UQx60
- Qv5a9gJtjTdpCHaNPWgCWNhH5/f1D4ZGkGnvCugOCbLZ5qeJLBpznj/4D+W82Db8peAO
- YvDQ==
-X-Gm-Message-State: AOAM530Dgz30VkyNuihfUwJ+ViTZGT/uh/GBkAu07xjpt88qiHm2YyQ4
- iU3Kp7GnLAxk0xJ/7LToha0xEEarWH2j/7UFru/vQeJQrkLWuNqnBLnsTK+9v2oP/nc54h1TNIH
- IyfLxvqp4ikAmaSs=
-X-Received: by 2002:ac8:7f01:0:b0:2f9:1c7d:c68 with SMTP id
- f1-20020ac87f01000000b002f91c7d0c68mr12932333qtk.504.1653334822178; 
- Mon, 23 May 2022 12:40:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwuWCMzM9TcCDUpRXY1g0flOmiGKQslVVANkiH0kLLwJAkBWgUeCfbSvidvp7uj5aUSFiyPqA==
-X-Received: by 2002:ac8:7f01:0:b0:2f9:1c7d:c68 with SMTP id
- f1-20020ac87f01000000b002f91c7d0c68mr12932322qtk.504.1653334821906; 
- Mon, 23 May 2022 12:40:21 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- t128-20020a372d86000000b0069fc13ce22dsm4958881qkh.94.2022.05.23.12.40.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 12:40:21 -0700 (PDT)
-Message-ID: <7bb0e9e9-33bb-3fba-fbc0-5d5f740c5c26@redhat.com>
-Date: Mon, 23 May 2022 21:40:18 +0200
+ us-mta-479-2MNfki4UPca31yyZP0KrxA-1; Mon, 23 May 2022 15:41:14 -0400
+X-MC-Unique: 2MNfki4UPca31yyZP0KrxA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4F9585A5BB;
+ Mon, 23 May 2022 19:41:13 +0000 (UTC)
+Received: from kostyanf14nb.redhat.com (unknown [10.40.195.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A7D42026D6A;
+ Mon, 23 May 2022 19:41:12 +0000 (UTC)
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/3] qemu-ga patches
+Date: Mon, 23 May 2022 22:41:08 +0300
+Message-Id: <20220523194111.827805-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: can QEMU's arm smmu model handle non-PCI devices?
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA-NnZQ+4hoScoZMjOyta9EWv_LusXeZ5HRv4kXSqZjD0w@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <CAFEAcA-NnZQ+4hoScoZMjOyta9EWv_LusXeZ5HRv4kXSqZjD0w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,44 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-On 5/23/22 16:52, Peter Maydell wrote:
-> Hi; in real hardware an SMMUv3 might be sat in front of any
-> DMA-capable device. Putting one in front of a PCI bus is common
-> but not the only use case. Does QEMU's SMMUv3 model handle that,
-> or is the implementation currently restricted to only handling DMA
-> from PCI devices?
-only PCI is supported at the moment. IOMMU MR regions are only created
-for PCI devices
-(smmu_find_add_as() in hw/arm/smmu-common.c)
+The following changes since commit 3757b0d08b399c609954cf57f273b1167e5d7a8d:
 
-As a reminder, Chunming Li submitted several iterations of a series dedicated to that. See
+  Merge tag 'pull-request-2022-05-18' of https://gitlab.com/thuth/qemu into staging (2022-05-20 08:04:30 -0700)
 
-https://patchew.org/QEMU/1629878922-173270-1-git-send-email-chunming_li1234@163.com/
+are available in the Git repository at:
 
-It is not upstream though.
+  git@github.com:kostyanf14/qemu.git tags/qga-win32-pull-2022-05-23
 
-Thanks
+for you to fetch changes up to cb69e5d06bb8ba4929f277daa87160bf2f54c51e:
 
-Eric
+  trivial: qga: Log version on start (2022-05-23 22:27:15 +0300)
+
+----------------------------------------------------------------
+qga-win32-pull-2022-05-23
+
+----------------------------------------------------------------
+Konstantin Kostiuk (2):
+      qga-win32: Add support for NVME but type
+      trivial: qga: Log version on start
+
+luzhipeng (1):
+      qga: add guest-get-diskstats command for Linux guests
+
+ qga/commands-posix.c | 123 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-win32.c |  11 +++++++++++
+ qga/main.c           |   2 ++
+ qga/qapi-schema.json |  86 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 222 insertions(+)
 
 
-
-
->
-> I ask because for the Realm Management Extension (aka Confidential
-> Compute Architecture) we're going to need to put SMMUs in front of
-> other devices (such as the GIC), so that their DMA is checked against
-> the RME Granule Protection Tables. So if we don't currently handle
-> non-PCI devices then that's a bit of extra preliminary work that we'll
-> want to do :-)
->
-> thanks
-> -- PMM
->
+--
+2.25.1
 
 
