@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09638531165
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 16:48:54 +0200 (CEST)
-Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4178531166
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 16:51:23 +0200 (CEST)
+Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt9Mb-0000AO-5m
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 10:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49446)
+	id 1nt9P0-0001tc-Pt
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 10:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nt9I8-0004UA-A9; Mon, 23 May 2022 10:44:16 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:45858)
+ id 1nt9JU-0005cs-O4; Mon, 23 May 2022 10:45:43 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:33677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nt9I5-0004x8-R6; Mon, 23 May 2022 10:44:15 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id r68so3857045oie.12;
- Mon, 23 May 2022 07:44:13 -0700 (PDT)
+ id 1nt9JS-0005MY-H8; Mon, 23 May 2022 10:45:40 -0400
+Received: by mail-oi1-x232.google.com with SMTP id w130so18116673oig.0;
+ Mon, 23 May 2022 07:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8opQ6oWKhx91d+Tvz9OVJlY+758AG+PDs/tJiXjHJvE=;
- b=VTif1E09dTlM051Xe8qLnsDS6PW6LNt5Gu3cwx18UMeJuzVgeCKJtWg88AuFyG9hp/
- HvIL6tA26jWBcw1Tl8mb/77xLqe3xn8+222b4b4za/RswT1wO0lyMqRnHfZA0CvVzSa1
- ZVI+OOWNYBwOrfqUCRmbSVid9BE67UwiD4WFwP4O5KRGnu59PARB/2eoZubl53WMhGrP
- KfUT/XmsoZx1dwOQ47MXwGuH/ckEDZo4y4h6GecBYQp8FP6tpgJCJ3beZtX7AF5/iqJa
- cHBJOHfFNZufU6KjvniURlEGKNKlL5rgqrv0qx7S9dkx8q+ulEBHwXOcGLXr1OUeK46x
- dTvw==
+ bh=Gw2e1P92iH/NMsL54rAh+lwgM3jZeQ3yPORvdkF6kck=;
+ b=cN+E8my3U+iJk/++vhFOM0As3kF84JGir50SE1dnaljiHnNnqzug4cyQU0lZOb00gG
+ /uvc+wu1EPwjAb5y/ivbR60e0yoH8CJfER3ITr5lQRq6tpM+lDWyAzSCyb1OSz/ON4wa
+ Cz8+GWAJMOWye16fbZTSTkiSTexm7lntENrk4CnL9PQRltXpl7j262GtE3SjXRLnlJyE
+ CtynjpP+oc68VMD7juAPoNaE3vNQn4Uarn7K3vSInT26BqAXPryubPp1n6RCFNkhu4rC
+ SONk0tt3HWbUwDk2GDvE8KITzBL4cej76rNPbNrtNRMb/7eyBCYvT1zzMWpcyaJs+5MG
+ uZwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8opQ6oWKhx91d+Tvz9OVJlY+758AG+PDs/tJiXjHJvE=;
- b=m1+dob5p6q1t4pTa7CwKui35vRWZTLWq99xYJNcV6wpSk1tzHhQA4GERfImIyzegOg
- nwt2n2EF/rB4JvElrLNcCo1o0zoloszqw2vyQ/ue9BqGmPRnXPwlu0J95uH9HB/mhk4R
- 3Ykw7t4gC5BG5N38I0Zb0pbfXnvcHja6zia7GnvoxZHshnhSo5xjMBjjcungAwhL9Fb7
- zm/uDklGOZL7LKNfQmysOg8VfkZMxYTA8QSpsXV3HuSEN7AQHCupNkHzQRtga4M5V9nE
- w2Te1w6cDT/hcwjG2wcrAvGserwXE0nJByFfh5JGbt1rEGexEOnCC0lWPPQXJNtQlU3o
- Y8fA==
-X-Gm-Message-State: AOAM530ANFigmSLw1OWXBMAlUIACSyoreHXknvf8oIdR+5PO3LYVTpBU
- a8sIXHuMsQ7EC+CBbliAX+g=
-X-Google-Smtp-Source: ABdhPJzsd8xmiKMuNc7zSuiNV6jP5I7WZjmvMO9Sogd9u/j+kQ4wHBtmpB+j1eOSRJfadF+dnO1yIA==
-X-Received: by 2002:a05:6808:d50:b0:328:c9e6:3c52 with SMTP id
- w16-20020a0568080d5000b00328c9e63c52mr10647296oik.231.1653317052341; 
- Mon, 23 May 2022 07:44:12 -0700 (PDT)
+ bh=Gw2e1P92iH/NMsL54rAh+lwgM3jZeQ3yPORvdkF6kck=;
+ b=StBUgIJsIA01HaRB0lOhTY8s1F45+ZX5IQ/4sx4CCOfYGAdMNTcbgOOEdaAFGmj5n7
+ qIkpxGJcxh0hlq1F46N6DZEoYFBFeYcogsy4e32BVtyUk1Ql+VVny6hiq/DJHEysaS4h
+ CSm97DiB9FRFkZmpUhp/5gmNknw4h4XF7gRA/xLDUXaX17s1fddEC8n8XJiKZyc2Kf9p
+ ariGnGkIMZgvJU9hkTBHTwR4VZuqIXJ452VHPqD4sign5Yu8fqY3L32nZuNFRU+ZuQ22
+ S0qx4hlc1Ik9X1OcoEBp6EU7SUVfME1x8Kd9s+Lahq9/5QN+C6KuHZGljyCp5ps1nZZy
+ f71Q==
+X-Gm-Message-State: AOAM531FQlgjIp35yuq5q0xYEnumMGRXtZf60GP4rYVUWNDwUNzasEoy
+ se+XIpLiMIFA2vxBH1/ZX5A=
+X-Google-Smtp-Source: ABdhPJwH9EGuMbUu5j69e5yfaNnycoALTBq7P4gOMR+r6bwWRD2nem7iorckKLZXxl1+JuNIJwbRkw==
+X-Received: by 2002:aca:4154:0:b0:322:7a9c:7daa with SMTP id
+ o81-20020aca4154000000b003227a9c7daamr12127995oia.52.1653317136719; 
+ Mon, 23 May 2022 07:45:36 -0700 (PDT)
 Received: from [192.168.10.102] (189-46-169-45.dsl.telesp.net.br.
  [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
- j77-20020acaeb50000000b0032aea9c2c23sm4062207oih.40.2022.05.23.07.44.10
+ p13-20020a0568301d4d00b0060603221236sm4025880oth.6.2022.05.23.07.45.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 07:44:12 -0700 (PDT)
-Message-ID: <2a4bdabd-0bf9-6b03-238a-c982e17904d9@gmail.com>
-Date: Mon, 23 May 2022 11:44:08 -0300
+ Mon, 23 May 2022 07:45:36 -0700 (PDT)
+Message-ID: <684ce3b0-db0c-7f93-0b39-dd3564231f76@gmail.com>
+Date: Mon, 23 May 2022 11:45:33 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v5 2/8] target/ppc: Implemented xvi*ger* instructions
+Subject: Re: [PATCH v5 5/8] target/ppc: Implemented xvf16ger*
 Content-Language: en-US
 To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
  qemu-ppc@nongnu.org
@@ -66,13 +66,13 @@ Cc: richard.henderson@linaro.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
  Greg Kurz <groug@kaod.org>,
  "open list:All patches CC here" <qemu-devel@nongnu.org>
 References: <20220520195419.109177-1-lucas.araujo@eldorado.org.br>
- <20220520195419.109177-3-lucas.araujo@eldorado.org.br>
+ <20220520195419.109177-6-lucas.araujo@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220520195419.109177-3-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220520195419.109177-6-lucas.araujo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -96,339 +96,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-./scripts/checkpatch.pl does not like this long line:
+checkpatch.pl didn't like this patch:
 
 
-$ ../scripts/checkpatch.pl v5-2-8-target-ppc-Implemented-xvi-ger-instructions.patch
+
+Checking v5-5-8-target-ppc-Implemented-xvf16ger.patch...
 WARNING: line over 80 characters
-#382: FILE: target/ppc/translate/vsx-impl.c.inc:2829:
-+                   void (*helper)(TCGv_env, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32))
+#177: FILE: target/ppc/fpu_helper.c:3535:
++                va = !(pmsk & 2) ? float64_zero : extract(a->VsrHF(2 * i), excp_ptr);
 
-total: 0 errors, 1 warnings, 273 lines checked
+WARNING: line over 80 characters
+#178: FILE: target/ppc/fpu_helper.c:3536:
++                vb = !(pmsk & 2) ? float64_zero : extract(b->VsrHF(2 * j), excp_ptr);
 
+WARNING: line over 80 characters
+#179: FILE: target/ppc/fpu_helper.c:3537:
++                vc = !(pmsk & 1) ? float64_zero : extract(a->VsrHF(2 * i + 1), excp_ptr);
 
-Down there:
+WARNING: line over 80 characters
+#180: FILE: target/ppc/fpu_helper.c:3538:
++                vd = !(pmsk & 1) ? float64_zero : extract(b->VsrHF(2 * j + 1), excp_ptr);
 
+total: 0 errors, 4 warnings, 165 lines checked
 
-
-
-On 5/20/22 16:54, Lucas Mateus Castro(alqotel) wrote:
-> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-> 
-> Implement the following PowerISA v3.1 instructions:
-> xvi4ger8:     VSX Vector 8-bit Signed/Unsigned Integer GER (rank-4 update)
-> xvi4ger8pp:   VSX Vector 8-bit Signed/Unsigned Integer GER (rank-4 update)
-> Positive multiply, Positive accumulate
-> xvi8ger4:     VSX Vector 4-bit Signed Integer GER (rank-8 update)
-> xvi8ger4pp:   VSX Vector 4-bit Signed Integer GER (rank-8 update)
-> Positive multiply, Positive accumulate
-> xvi8ger4spp:  VSX Vector 8-bit Signed/Unsigned Integer GER (rank-4 update)
-> with Saturate Positive multiply, Positive accumulate
-> xvi16ger2:    VSX Vector 16-bit Signed Integer GER (rank-2 update)
-> xvi16ger2pp:  VSX Vector 16-bit Signed Integer GER (rank-2 update)
-> Positive multiply, Positive accumulate
-> xvi16ger2s:   VSX Vector 16-bit Signed Integer GER (rank-2 update)
-> with Saturation
-> xvi16ger2spp: VSX Vector 16-bit Signed Integer GER (rank-2 update)
-> with Saturation Positive multiply, Positive accumulate
-> 
-> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/ppc/cpu.h                    |   1 +
->   target/ppc/helper.h                 |  13 +++
->   target/ppc/insn32.decode            |  18 ++++
->   target/ppc/int_helper.c             | 130 ++++++++++++++++++++++++++++
->   target/ppc/internal.h               |  15 ++++
->   target/ppc/translate/vsx-impl.c.inc |  41 +++++++++
->   6 files changed, 218 insertions(+)
-> 
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 2e80d0978f..c8a12a3985 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -238,6 +238,7 @@ typedef union _ppc_vsr_t {
->   
->   typedef ppc_vsr_t ppc_avr_t;
->   typedef ppc_vsr_t ppc_fprp_t;
-> +typedef ppc_vsr_t ppc_acc_t;
->   
->   #if !defined(CONFIG_USER_ONLY)
->   /* Software TLB cache */
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index aa6773c4a5..29354276f0 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -133,6 +133,10 @@ DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
->   #define dh_ctype_vsr ppc_vsr_t *
->   #define dh_typecode_vsr dh_typecode_ptr
->   
-> +#define dh_alias_acc ptr
-> +#define dh_ctype_acc ppc_acc_t *
-> +#define dh_typecode_acc dh_typecode_ptr
-> +
->   DEF_HELPER_3(vavgub, void, avr, avr, avr)
->   DEF_HELPER_3(vavguh, void, avr, avr, avr)
->   DEF_HELPER_3(vavguw, void, avr, avr, avr)
-> @@ -537,6 +541,15 @@ DEF_HELPER_5(XXBLENDVB, void, vsr, vsr, vsr, vsr, i32)
->   DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
->   DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
->   DEF_HELPER_5(XXBLENDVD, void, vsr, vsr, vsr, vsr, i32)
-> +DEF_HELPER_5(XVI4GER8, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI4GER8PP, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI8GER4, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI8GER4PP, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI8GER4SPP, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI16GER2, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI16GER2S, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI16GER2PP, void, env, vsr, vsr, acc, i32)
-> +DEF_HELPER_5(XVI16GER2SPP, void, env, vsr, vsr, acc, i32)
->   
->   DEF_HELPER_2(efscfsi, i32, env, i32)
->   DEF_HELPER_2(efscfui, i32, env, i32)
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index 7a76bedfa6..899a04bf77 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -170,6 +170,12 @@
->   &XX3            xt xa xb
->   @XX3            ...... ..... ..... ..... ........ ...           &XX3 xt=%xx_xt xa=%xx_xa xb=%xx_xb
->   
-> +# 32 bit GER instructions have all mask bits considered 1
-> +&MMIRR_XX3      xa xb xt pmsk xmsk ymsk
-> +%xx_at          23:3
-> +@XX3_at         ...... ... .. ..... ..... ........ ...          &MMIRR_XX3 xt=%xx_at xb=%xx_xb \
-> +                                                                pmsk=255 xmsk=15 ymsk=15
-> +
->   &XX3_dm         xt xa xb dm
->   @XX3_dm         ...... ..... ..... ..... . dm:2 ..... ...       &XX3_dm xt=%xx_xt xa=%xx_xa xb=%xx_xb
->   
-> @@ -719,3 +725,15 @@ RFEBB           010011-------------- .   0010010010 -   @XL_s
->   XXMFACC         011111 ... -- 00000 ----- 0010110001 -   @X_a
->   XXMTACC         011111 ... -- 00001 ----- 0010110001 -   @X_a
->   XXSETACCZ       011111 ... -- 00011 ----- 0010110001 -   @X_a
-> +
-> +## VSX GER instruction
-> +
-> +XVI4GER8        111011 ... -- ..... ..... 00100011 ..-  @XX3_at xa=%xx_xa
-> +XVI4GER8PP      111011 ... -- ..... ..... 00100010 ..-  @XX3_at xa=%xx_xa
-> +XVI8GER4        111011 ... -- ..... ..... 00000011 ..-  @XX3_at xa=%xx_xa
-> +XVI8GER4PP      111011 ... -- ..... ..... 00000010 ..-  @XX3_at xa=%xx_xa
-> +XVI16GER2       111011 ... -- ..... ..... 01001011 ..-  @XX3_at xa=%xx_xa
-> +XVI16GER2PP     111011 ... -- ..... ..... 01101011 ..-  @XX3_at xa=%xx_xa
-> +XVI8GER4SPP     111011 ... -- ..... ..... 01100011 ..-  @XX3_at xa=%xx_xa
-> +XVI16GER2S      111011 ... -- ..... ..... 00101011 ..-  @XX3_at xa=%xx_xa
-> +XVI16GER2SPP    111011 ... -- ..... ..... 00101010 ..-  @XX3_at xa=%xx_xa
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index 8c1674510b..32a7d99718 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -782,6 +782,136 @@ VCT(uxs, cvtsduw, u32)
->   VCT(sxs, cvtsdsw, s32)
->   #undef VCT
->   
-> +typedef int64_t do_ger(uint32_t, uint32_t, uint32_t);
-> +
-> +static int64_t ger_rank8(uint32_t a, uint32_t b, uint32_t mask)
-> +{
-> +    int64_t psum = 0;
-> +    for (int i = 0; i < 8; i++, mask >>= 1) {
-> +        if (mask & 1) {
-> +            psum += sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
-> +        }
-> +    }
-> +    return psum;
-> +}
-> +
-> +static int64_t ger_rank4(uint32_t a, uint32_t b, uint32_t mask)
-> +{
-> +    int64_t psum = 0;
-> +    for (int i = 0; i < 4; i++, mask >>= 1) {
-> +        if (mask & 1) {
-> +            psum += sextract32(a, 8 * i, 8) * (int64_t)extract32(b, 8 * i, 8);
-> +        }
-> +    }
-> +    return psum;
-> +}
-> +
-> +static int64_t ger_rank2(uint32_t a, uint32_t b, uint32_t mask)
-> +{
-> +    int64_t psum = 0;
-> +    for (int i = 0; i < 2; i++, mask >>= 1) {
-> +        if (mask & 1) {
-> +            psum += sextract32(a, 16 * i, 16) * sextract32(b, 16 * i, 16);
-> +        }
-> +    }
-> +    return psum;
-> +}
-> +
-> +static void xviger(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b, ppc_acc_t  *at,
-> +                   uint32_t mask, bool sat, bool acc, do_ger ger)
-> +{
-> +    uint8_t pmsk = FIELD_EX32(mask, GER_MSK, PMSK),
-> +            xmsk = FIELD_EX32(mask, GER_MSK, XMSK),
-> +            ymsk = FIELD_EX32(mask, GER_MSK, YMSK);
-> +    uint8_t xmsk_bit, ymsk_bit;
-> +    int64_t psum;
-> +    int i, j;
-> +    for (i = 0, xmsk_bit = 1 << 3; i < 4; i++, xmsk_bit >>= 1) {
-> +        for (j = 0, ymsk_bit = 1 << 3; j < 4; j++, ymsk_bit >>= 1) {
-> +            if ((xmsk_bit & xmsk) && (ymsk_bit & ymsk)) {
-> +                psum = ger(a->VsrW(i), b->VsrW(j), pmsk);
-> +                if (acc) {
-> +                    psum += at[i].VsrSW(j);
-> +                }
-> +                if (sat && psum > INT32_MAX) {
-> +                    set_vscr_sat(env);
-> +                    at[i].VsrSW(j) = INT32_MAX;
-> +                } else if (sat && psum < INT32_MIN) {
-> +                    set_vscr_sat(env);
-> +                    at[i].VsrSW(j) = INT32_MIN;
-> +                } else {
-> +                    at[i].VsrSW(j) = (int32_t) psum;
-> +                }
-> +            } else {
-> +                at[i].VsrSW(j) = 0;
-> +            }
-> +        }
-> +    }
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI4GER8(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                     ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, false, false, ger_rank8);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI4GER8PP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                       ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, false, true, ger_rank8);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI8GER4(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                     ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, false, false, ger_rank4);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI8GER4PP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                       ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, false, true, ger_rank4);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI8GER4SPP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                        ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, true, true, ger_rank4);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI16GER2(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                      ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, false, false, ger_rank2);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI16GER2S(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                       ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, true, false, ger_rank2);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI16GER2PP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                        ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, false, true, ger_rank2);
-> +}
-> +
-> +QEMU_FLATTEN
-> +void helper_XVI16GER2SPP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-> +                         ppc_acc_t *at, uint32_t mask)
-> +{
-> +    xviger(env, a, b, at, mask, true, true, ger_rank2);
-> +}
-> +
->   target_ulong helper_vclzlsbb(ppc_avr_t *r)
->   {
->       target_ulong count = 0;
-> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> index 8094e0b033..2add128cd1 100644
-> --- a/target/ppc/internal.h
-> +++ b/target/ppc/internal.h
-> @@ -18,6 +18,8 @@
->   #ifndef PPC_INTERNAL_H
->   #define PPC_INTERNAL_H
->   
-> +#include "hw/registerfields.h"
-> +
->   #define FUNC_MASK(name, ret_type, size, max_val)                  \
->   static inline ret_type name(uint##size##_t start,                 \
->                                 uint##size##_t end)                 \
-> @@ -291,4 +293,17 @@ G_NORETURN void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->                                               uintptr_t retaddr);
->   #endif
->   
-> +FIELD(GER_MSK, XMSK, 0, 4)
-> +FIELD(GER_MSK, YMSK, 4, 4)
-> +FIELD(GER_MSK, PMSK, 8, 8)
-> +
-> +static inline int ger_pack_masks(int pmsk, int ymsk, int xmsk)
-> +{
-> +    int msk = 0;
-> +    msk = FIELD_DP32(msk, GER_MSK, XMSK, xmsk);
-> +    msk = FIELD_DP32(msk, GER_MSK, YMSK, ymsk);
-> +    msk = FIELD_DP32(msk, GER_MSK, PMSK, pmsk);
-> +    return msk;
-> +}
-> +
->   #endif /* PPC_INTERNAL_H */
-> diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-> index dc8875d5d3..9d4309e841 100644
-> --- a/target/ppc/translate/vsx-impl.c.inc
-> +++ b/target/ppc/translate/vsx-impl.c.inc
-> @@ -17,6 +17,13 @@ static inline TCGv_ptr gen_vsr_ptr(int reg)
->       return r;
->   }
->   
-> +static inline TCGv_ptr gen_acc_ptr(int reg)
-> +{
-> +    TCGv_ptr r = tcg_temp_new_ptr();
-> +    tcg_gen_addi_ptr(r, cpu_env, acc_full_offset(reg));
-> +    return r;
-> +}
-> +
->   #define VSX_LOAD_SCALAR(name, operation)                      \
->   static void gen_##name(DisasContext *ctx)                     \
->   {                                                             \
-> @@ -2818,6 +2825,40 @@ static bool trans_XXSETACCZ(DisasContext *ctx, arg_X_a *a)
->       return true;
->   }
->   
-> +static bool do_ger(DisasContext *ctx, arg_MMIRR_XX3 *a,
-> +                   void (*helper)(TCGv_env, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32))
-
-^
+v5-5-8-target-ppc-Implemented-xvf16ger.patch has style problems, please review.  If any of these errors
+are false positives report them to the maintainer, see
+CHECKPATCH in MAINTAINERS.
 
 
-I believe you can indent it just like do_helper_XX3() does:
-
-
-static bool do_helper_XX3(DisasContext *ctx, arg_XX3 *a,
-     void (*helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
-{
-
-
-I would amend it myself but since patch 04 requires a bit more work you can amend
-this in the v6.
 
 
 Thanks,
@@ -436,40 +131,222 @@ Thanks,
 
 Daniel
 
-
+On 5/20/22 16:54, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+> 
+> Implement the following PowerISA v3.1 instructions:
+> xvf16ger2:   VSX Vector 16-bit Floating-Point GER (rank-2 update)
+> xvf16ger2nn: VSX Vector 16-bit Floating-Point GER (rank-2 update) Negative
+> multiply, Negative accumulate
+> xvf16ger2np: VSX Vector 16-bit Floating-Point GER (rank-2 update) Negative
+> multiply, Positive accumulate
+> xvf16ger2pn: VSX Vector 16-bit Floating-Point GER (rank-2 update) Positive
+> multiply, Negative accumulate
+> xvf16ger2pp: VSX Vector 16-bit Floating-Point GER (rank-2 update) Positive
+> multiply, Positive accumulate
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/ppc/cpu.h                    |  3 +
+>   target/ppc/fpu_helper.c             | 91 +++++++++++++++++++++++++++++
+>   target/ppc/helper.h                 |  5 ++
+>   target/ppc/insn32.decode            |  6 ++
+>   target/ppc/translate/vsx-impl.c.inc |  6 ++
+>   5 files changed, 111 insertions(+)
+> 
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index bdedf4138e..46769a5647 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -227,6 +227,7 @@ typedef union _ppc_vsr_t {
+>       int16_t s16[8];
+>       int32_t s32[4];
+>       int64_t s64[2];
+> +    float16 f16[8];
+>       float32 f32[4];
+>       float64 f64[2];
+>       float128 f128;
+> @@ -2641,6 +2642,7 @@ static inline bool lsw_reg_in_range(int start, int nregs, int rx)
+>   #define VsrSW(i) s32[i]
+>   #define VsrD(i) u64[i]
+>   #define VsrSD(i) s64[i]
+> +#define VsrHF(i) f16[i]
+>   #define VsrSF(i) f32[i]
+>   #define VsrDF(i) f64[i]
+>   #else
+> @@ -2652,6 +2654,7 @@ static inline bool lsw_reg_in_range(int start, int nregs, int rx)
+>   #define VsrSW(i) s32[3 - (i)]
+>   #define VsrD(i) u64[1 - (i)]
+>   #define VsrSD(i) s64[1 - (i)]
+> +#define VsrHF(i) f16[7 - (i)]
+>   #define VsrSF(i) f32[3 - (i)]
+>   #define VsrDF(i) f64[1 - (i)]
+>   #endif
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index 1766da5bcf..7a7aa03ac4 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -36,6 +36,15 @@ static inline float128 float128_snan_to_qnan(float128 x)
+>   #define float32_snan_to_qnan(x) ((x) | 0x00400000)
+>   #define float16_snan_to_qnan(x) ((x) | 0x0200)
+>   
+> +static inline float32 bfp32_neg(float32 a)
 > +{
-> +    uint32_t mask;
-> +    TCGv_ptr xt, xa, xb;
-> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-> +    REQUIRE_VSX(ctx);
-> +    if (unlikely((a->xa / 4 == a->xt) || (a->xb / 4 == a->xt))) {
-> +        gen_invalid(ctx);
-> +        return true;
+> +    if (unlikely(float32_is_any_nan(a))) {
+> +        return a;
+> +    } else {
+> +        return float32_chs(a);
 > +    }
-> +
-> +    xt = gen_acc_ptr(a->xt);
-> +    xa = gen_vsr_ptr(a->xa);
-> +    xb = gen_vsr_ptr(a->xb);
-> +
-> +    mask = ger_pack_masks(a->pmsk, a->ymsk, a->xmsk);
-> +    helper(cpu_env, xa, xb, xt, tcg_constant_i32(mask));
-> +    tcg_temp_free_ptr(xt);
-> +    tcg_temp_free_ptr(xa);
-> +    tcg_temp_free_ptr(xb);
-> +    return true;
 > +}
 > +
-> +TRANS(XVI4GER8, do_ger, gen_helper_XVI4GER8)
-> +TRANS(XVI4GER8PP, do_ger,  gen_helper_XVI4GER8PP)
-> +TRANS(XVI8GER4, do_ger, gen_helper_XVI8GER4)
-> +TRANS(XVI8GER4PP, do_ger,  gen_helper_XVI8GER4PP)
-> +TRANS(XVI8GER4SPP, do_ger, gen_helper_XVI8GER4SPP)
-> +TRANS(XVI16GER2, do_ger, gen_helper_XVI16GER2)
-> +TRANS(XVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
-> +TRANS(XVI16GER2S, do_ger, gen_helper_XVI16GER2S)
-> +TRANS(XVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
+>   static inline bool fp_exceptions_enabled(CPUPPCState *env)
+>   {
+>   #ifdef CONFIG_USER_ONLY
+> @@ -3502,6 +3511,53 @@ static inline void vsxger_excp(CPUPPCState *env, uintptr_t retaddr)
+>       do_fpscr_check_status(env, retaddr);
+>   }
+>   
+> +typedef float64 extract_f16(float16, float_status *);
 > +
->   #undef GEN_XX2FORM
->   #undef GEN_XX3FORM
->   #undef GEN_XX2IFORM
+> +static float64 extract_hf16(float16 in, float_status *fp_status)
+> +{
+> +    return float16_to_float64(in, true, fp_status);
+> +}
+> +
+> +static void vsxger16(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+> +                     ppc_acc_t  *at, uint32_t mask, bool acc,
+> +                     bool neg_mul, bool neg_acc, extract_f16 extract)
+> +{
+> +    float32 r, aux_acc;
+> +    float64 psum, va, vb, vc, vd;
+> +    int i, j, xmsk_bit, ymsk_bit;
+> +    uint8_t pmsk = FIELD_EX32(mask, GER_MSK, PMSK),
+> +            xmsk = FIELD_EX32(mask, GER_MSK, XMSK),
+> +            ymsk = FIELD_EX32(mask, GER_MSK, YMSK);
+> +    float_status *excp_ptr = &env->fp_status;
+> +    for (i = 0, xmsk_bit = 1 << 3; i < 4; i++, xmsk_bit >>= 1) {
+> +        for (j = 0, ymsk_bit = 1 << 3; j < 4; j++, ymsk_bit >>= 1) {
+> +            if ((xmsk_bit & xmsk) && (ymsk_bit & ymsk)) {
+> +                va = !(pmsk & 2) ? float64_zero : extract(a->VsrHF(2 * i), excp_ptr);
+> +                vb = !(pmsk & 2) ? float64_zero : extract(b->VsrHF(2 * j), excp_ptr);
+> +                vc = !(pmsk & 1) ? float64_zero : extract(a->VsrHF(2 * i + 1), excp_ptr);
+> +                vd = !(pmsk & 1) ? float64_zero : extract(b->VsrHF(2 * j + 1), excp_ptr);
+> +                psum = float64_mul(va, vb, excp_ptr);
+> +                psum = float64r32_muladd(vc, vd, psum, 0, excp_ptr);
+> +                r = float64_to_float32(psum, excp_ptr);
+> +                if (acc) {
+> +                    aux_acc = at[i].VsrSF(j);
+> +                    if (neg_mul) {
+> +                        r = bfp32_neg(r);
+> +                    }
+> +                    if (neg_acc) {
+> +                        aux_acc = bfp32_neg(aux_acc);
+> +                    }
+> +                    r = float32_add(r, aux_acc, excp_ptr);
+> +                }
+> +                at[i].VsrSF(j) = r;
+> +            } else {
+> +                at[i].VsrSF(j) = float32_zero;
+> +            }
+> +        }
+> +    }
+> +    vsxger_excp(env, GETPC());
+> +}
+> +
+>   typedef void vsxger_zero(ppc_vsr_t *at, int, int);
+>   
+>   typedef void vsxger_muladd_f(ppc_vsr_t *, ppc_vsr_t *, ppc_vsr_t *, int, int,
+> @@ -3579,6 +3635,41 @@ static void vsxger(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b, ppc_acc_t  *at,
+>       vsxger_excp(env, GETPC());
+>   }
+>   
+> +QEMU_FLATTEN
+> +void helper_XVF16GER2(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+> +                     ppc_acc_t *at, uint32_t mask)
+> +{
+> +    vsxger16(env, a, b, at, mask, false, false, false, extract_hf16);
+> +}
+> +
+> +QEMU_FLATTEN
+> +void helper_XVF16GER2PP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+> +                        ppc_acc_t *at, uint32_t mask)
+> +{
+> +    vsxger16(env, a, b, at, mask, true, false, false, extract_hf16);
+> +}
+> +
+> +QEMU_FLATTEN
+> +void helper_XVF16GER2PN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+> +                        ppc_acc_t *at, uint32_t mask)
+> +{
+> +    vsxger16(env, a, b, at, mask, true, false, true, extract_hf16);
+> +}
+> +
+> +QEMU_FLATTEN
+> +void helper_XVF16GER2NP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+> +                        ppc_acc_t *at, uint32_t mask)
+> +{
+> +    vsxger16(env, a, b, at, mask, true, true, false, extract_hf16);
+> +}
+> +
+> +QEMU_FLATTEN
+> +void helper_XVF16GER2NN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+> +                        ppc_acc_t *at, uint32_t mask)
+> +{
+> +    vsxger16(env, a, b, at, mask, true, true, true, extract_hf16);
+> +}
+> +
+>   QEMU_FLATTEN
+>   void helper_XVF32GER(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
+>                        ppc_acc_t *at, uint32_t mask)
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 054d25f3b0..7ab5ac8ee7 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -550,6 +550,11 @@ DEF_HELPER_5(XVI16GER2, void, env, vsr, vsr, acc, i32)
+>   DEF_HELPER_5(XVI16GER2S, void, env, vsr, vsr, acc, i32)
+>   DEF_HELPER_5(XVI16GER2PP, void, env, vsr, vsr, acc, i32)
+>   DEF_HELPER_5(XVI16GER2SPP, void, env, vsr, vsr, acc, i32)
+> +DEF_HELPER_5(XVF16GER2, void, env, vsr, vsr, acc, i32)
+> +DEF_HELPER_5(XVF16GER2PP, void, env, vsr, vsr, acc, i32)
+> +DEF_HELPER_5(XVF16GER2PN, void, env, vsr, vsr, acc, i32)
+> +DEF_HELPER_5(XVF16GER2NP, void, env, vsr, vsr, acc, i32)
+> +DEF_HELPER_5(XVF16GER2NN, void, env, vsr, vsr, acc, i32)
+>   DEF_HELPER_5(XVF32GER, void, env, vsr, vsr, acc, i32)
+>   DEF_HELPER_5(XVF32GERPP, void, env, vsr, vsr, acc, i32)
+>   DEF_HELPER_5(XVF32GERPN, void, env, vsr, vsr, acc, i32)
+> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+> index c561a17c7d..c774227d8c 100644
+> --- a/target/ppc/insn32.decode
+> +++ b/target/ppc/insn32.decode
+> @@ -739,6 +739,12 @@ XVI8GER4SPP     111011 ... -- ..... ..... 01100011 ..-  @XX3_at xa=%xx_xa
+>   XVI16GER2S      111011 ... -- ..... ..... 00101011 ..-  @XX3_at xa=%xx_xa
+>   XVI16GER2SPP    111011 ... -- ..... ..... 00101010 ..-  @XX3_at xa=%xx_xa
+>   
+> +XVF16GER2       111011 ... -- ..... ..... 00010011 ..-  @XX3_at xa=%xx_xa
+> +XVF16GER2PP     111011 ... -- ..... ..... 00010010 ..-  @XX3_at xa=%xx_xa
+> +XVF16GER2PN     111011 ... -- ..... ..... 10010010 ..-  @XX3_at xa=%xx_xa
+> +XVF16GER2NP     111011 ... -- ..... ..... 01010010 ..-  @XX3_at xa=%xx_xa
+> +XVF16GER2NN     111011 ... -- ..... ..... 11010010 ..-  @XX3_at xa=%xx_xa
+> +
+>   XVF32GER        111011 ... -- ..... ..... 00011011 ..-  @XX3_at xa=%xx_xa
+>   XVF32GERPP      111011 ... -- ..... ..... 00011010 ..-  @XX3_at xa=%xx_xa
+>   XVF32GERPN      111011 ... -- ..... ..... 10011010 ..-  @XX3_at xa=%xx_xa
+> diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+> index 76747956bb..232a4d881e 100644
+> --- a/target/ppc/translate/vsx-impl.c.inc
+> +++ b/target/ppc/translate/vsx-impl.c.inc
+> @@ -2869,6 +2869,12 @@ TRANS64(PMXVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
+>   TRANS64(PMXVI16GER2S, do_ger, gen_helper_XVI16GER2S)
+>   TRANS64(PMXVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
+>   
+> +TRANS(XVF16GER2, do_ger, gen_helper_XVF16GER2)
+> +TRANS(XVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
+> +TRANS(XVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
+> +TRANS(XVF16GER2NP, do_ger, gen_helper_XVF16GER2NP)
+> +TRANS(XVF16GER2NN, do_ger, gen_helper_XVF16GER2NN)
+> +
+>   TRANS(XVF32GER, do_ger, gen_helper_XVF32GER)
+>   TRANS(XVF32GERPP, do_ger, gen_helper_XVF32GERPP)
+>   TRANS(XVF32GERPN, do_ger, gen_helper_XVF32GERPN)
 
