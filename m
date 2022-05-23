@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3E9530EBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:57:04 +0200 (CEST)
-Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5C0530EC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 15:01:41 +0200 (CEST)
+Received: from localhost ([::1]:36882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt7cN-0003yp-3c
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50638)
+	id 1nt7gq-0000B3-7g
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 09:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt7Yl-0001Br-BG
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:53:20 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:36266)
+ id 1nt7Z7-0001KU-58
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:53:41 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:38091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt7Yj-00016x-N4
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:53:18 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2fee9fe48c2so147002847b3.3
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:53:17 -0700 (PDT)
+ id 1nt7Z4-00017b-OB
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:53:40 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2ff7b90e635so80870847b3.5
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+vrQWuBJsV0zTWOieEgP+MGT/FNfLdQFUVCiETNkS2c=;
- b=LhsQDDzIvPTXVBAyUiA14njrvKwQreE7IEL7BdeJB4PSROotrUlWR8smqgY7Rn6Ju8
- 7nzrkc+VzNp2atKZmGfb5ySTGKc55CWWZsvLz4Ibj5s/DC6bGOuUJda3EW+8PFn7nhEk
- glgR9Zkf+aPOWMxm31dYqwE8hTJKjm+5MINW77cEkA+t55fBkd1S9G97QfD2pmJ+WGpg
- jp7tUi11yG/8Hah7lKWI92tLLPRatHp3ktjuegk2SyhYNhbGiybEUoLRr3tBlAhiUKs3
- u2J4muI0kF4Wxg8TyMAW0Dh9j5K1cf1wOgCfPnWcIAJDnduLIlhCni/xeNUnGldujaFQ
- Hwkw==
+ :cc; bh=HBdzIM5bKFTimdjlgtfAuDatMHcPXX/q8mtXkhOh92k=;
+ b=mvGyC64igVpehMNHaiWrJmtUmRC6aHpAG9nzSX5pE7JYdSnE5m36vXwUuR+P2EnQ3L
+ I99nzuMursfgRs7OyFrHQmd6j8mkn+VX52D+9nhbXRzFwHpPm2zjq9mQNLLjqAX89uFM
+ NrktjT7uZAbNSH64qsgHE30WYC2n611slirL+QJfVw6iPXcLPYJaQeKddNBsVYzDw3KJ
+ b2okqkhEk5g8hFIFn0ersFvOM6B/MhIAbPA8c3eOY/oX32BcQuiKpZbKwUK3JX5R5ALJ
+ rDTFMYXo1GfyABt8Scr4sJtGVBtLKNl6YTVrPh6HCh/5ajQqDltA2GEmyHdNBEv2W927
+ z2bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+vrQWuBJsV0zTWOieEgP+MGT/FNfLdQFUVCiETNkS2c=;
- b=PyEzkOBFAZGsbrEhhOLciXrXFSPw6S9abDGgeY0+tVxrlXu87TuAEVdpB0Hf3KYxkz
- vW1a/PAsKGe3P6z6kqA7njh670cCk0MiHvQO96oWtmvRpJylvF8LAmiLO4V6NwOe/gBU
- iQFzda2KToqZf83tc/Py+o3QQ0WMCzPy58nZwuLTe+WLnwKa/bIskFynQpRY2ypKSnI3
- bn0UaxhjmLlvca+5Z+hQwm1XAjX/rSklJxENae+H7/ZnhF8tdfD+XkUvUo5X4GFLAmGa
- 76vLFyv4q36vIChPKm3A6YpzJ6jNYTMcq/E1LIT+5PYjwcykoQf1/m4D3b0PynuGaeEG
- qJyg==
-X-Gm-Message-State: AOAM532bTmf1Mpy0Mm9ET4PqGNnknqq+3SqI4lwG+u3rtzCEh8sW1u6a
- 7wtfo/K9CZ0u/8ZwssCRNmPAzId9zPQvJCnE78kHpQ==
-X-Google-Smtp-Source: ABdhPJzxDy3fwEVsjYYNi47Vy+Q/wisIaFWuvLubolccd8apms0Qi1jx8DSf92EdHaGiVc8FQ4aIFNlo3aWhKxoGlhE=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr23564938ywf.347.1653310396553; Mon, 23
- May 2022 05:53:16 -0700 (PDT)
+ bh=HBdzIM5bKFTimdjlgtfAuDatMHcPXX/q8mtXkhOh92k=;
+ b=iHLMASKcKS06ETkgfSvcoDA8ujyWa4tIyD+TknFSPf/39HIoqMMTsgYNQIC98XWVZJ
+ gl2C3GqVFDjLhDw37nJmuVgFGwfDoexUa2ikmldp/hAZalZkbmWD1TcVNK4mToNRHrCg
+ vTYrkfRQcGXgdJbdEukiaeBU3pMLojntuIbDh6LsOe4yL2dn1tv2uLA+t66mUj5pQ937
+ 4VRTQZALMyiQ1aPCiEfmkhd/k9BFig/RG3BBnrLW8C4T6q0aVdOvpk5bb+LqZyusTHR0
+ YyOM6pL5hBn1Xj3adaHKRdnPiKvpIXt4bB/M0ApFcGpEsuoUuYVI6ySWWYAuHiuNR3d4
+ vW3w==
+X-Gm-Message-State: AOAM533QGG+P9siz89XrBW58C1uGURuvYrvYX8RYrwqzwjqX7U1gDa2i
+ I70ITnYA+9HuIhyDQMDepaeUiwYg0ZQPgvL7ephZsg==
+X-Google-Smtp-Source: ABdhPJzYWZeWx/jH43Y0M3sYdiAodARcfwN9duqt8XF73j9EnbLriTAvnqqzIyOdali+VqshlsECVJTeRqMA4m+d0wk=
+X-Received: by 2002:a0d:d4d0:0:b0:2fe:b86b:472d with SMTP id
+ w199-20020a0dd4d0000000b002feb86b472dmr24288452ywd.469.1653310417756; Mon, 23
+ May 2022 05:53:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-22-richard.henderson@linaro.org>
-In-Reply-To: <20220521000400.454525-22-richard.henderson@linaro.org>
+ <20220521000400.454525-23-richard.henderson@linaro.org>
+In-Reply-To: <20220521000400.454525-23-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 May 2022 13:53:05 +0100
-Message-ID: <CAFEAcA9K8ZLQGUo3OW6TZGGjG1O3TOwNguBpnSa7RvH24JB+DA@mail.gmail.com>
-Subject: Re: [PATCH v3 21/49] semihosting: Use env more often in
- do_common_semihosting
+Date: Mon, 23 May 2022 13:53:26 +0100
+Message-ID: <CAFEAcA-jb45mD7m70qLr_QhdMa2_9jBEFkHCMon1cDT0w2KX5w@mail.gmail.com>
+Subject: Re: [PATCH v3 22/49] semihosting: Move GET_ARG/SET_ARG earlier in the
+ file
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,20 +87,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, 21 May 2022 at 01:04, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We've already loaded cs->env_ptr into a local variable; use it.
-> Since env is unconditionally used, we don't need a dummy use.
+> Moving this to be useful for another function
+> besides do_common_semihosting.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/common-semi-target.h   |  62 ++++++++++++++++++
->  target/riscv/common-semi-target.h |  50 +++++++++++++++
->  semihosting/arm-compat-semi.c     | 101 ++----------------------------
->  3 files changed, 116 insertions(+), 97 deletions(-)
->  create mode 100644 target/arm/common-semi-target.h
->  create mode 100644 target/riscv/common-semi-target.h
 
-Commit message doesn't match contents -- two changes accidentally
-squashed together here ?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
