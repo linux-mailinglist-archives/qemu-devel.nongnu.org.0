@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BF6531572
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:14:41 +0200 (CEST)
-Received: from localhost ([::1]:38818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75B353157C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:25:32 +0200 (CEST)
+Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntCZk-0007tP-Nl
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38944)
+	id 1ntCkF-0003zE-S5
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:25:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ntCN0-00083s-Bu
- for qemu-devel@nongnu.org; Mon, 23 May 2022 14:01:37 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:39215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ntCMP-0004Bs-Fq
- for qemu-devel@nongnu.org; Mon, 23 May 2022 14:00:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=kdOaPNqdKiUqGPqTepXude0v1LHBppL38xhTNFAbyUE=; b=JFgRBwGvqStc/xVkxZN1fSAgNI
- eoeei7L1fZ2sul7FXSHr1xAG5XHoKLc3P9YsQeH4W3SZhO0xWCXJJOiXyyTGCf3z5cowiATentBeT
- ndpFHvaIAP4qcSLaZkRigQWE++Wtc/C8eeT2fsVxJhOvjo3FmLSR0Tqxa4G3wiqJra0T9kmtwJPhc
- OVXC8q1IGfcerbwhca97OkTFuK7igLWk6048kz8aKrbjn+zSir21oG/aUxa85ZBdgpspT9nzUlFQc
- of+YJ+muE3Kc2v8OZClQotwRyVp6Mw4Ub4D0pmOWzj1TTh2iwLSUctqH1MJwIE7KnVkHOY8jI+PeI
- UzGWzXO7Tune+mjnH0oxIRuOLqr5y93m2iB6KPrNyLzneTJelcJRl4D4HqGK8az4isVKT4vg47tbq
- 7zKwrZl6gi5zDkCr4lsx0rOEDgRrXFspjFDKRScxA8A06lR3G1pdjaTHMm0oB//byzf0A+oWkptnO
- MVePdl1LLPVNcPMiQmfUh99FYyXoiuAfh8EDMvm949esGEGCWFRM194LlPYx61A7Xuai+MOu7Uc1s
- Y2Rr94yywbsz5ugOX85CeUvUE/ZBOToXlAPjFJfD2ajRCqSUtOTofTv/JYvRcSxVIhrGSUCG+Ysr1
- hsDCvgiT3HHzNQpIXMO9ytusaKgOYCRzFwgQrTXME=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Latchesar Ionkov <lucho@ionkov.net>,
- Eric Van Hensbergen <ericvh@gmail.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
- netdev@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
- Dominique Martinet <asmadeus@codewreck.org>
-Subject: Re: [RFC PATCH] 9p: case-insensitive host filesystems
-Date: Mon, 23 May 2022 19:59:55 +0200
-Message-ID: <6485122.aT25ngTQys@silver>
-In-Reply-To: <YmMItCb97KqegQw5@codewreck.org>
-References: <1757498.AyhHxzoH2B@silver> <YmMItCb97KqegQw5@codewreck.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ntCOU-000225-BL
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 14:03:02 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:33395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ntCOR-0004TV-66
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 14:03:01 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id 27so13205053ljw.0
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 11:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MH+M8Bh0CbR9eUgXzdNFfMgvhBhrHXgI9Ctwz+nFHl4=;
+ b=oZMsBRj/kE1aQ0oA9aSuahJGK5rl8h/QEWGwn0BXiReD92Eyldb565s44GqBEgAO3A
+ Yq+HcVWK7dI7cojg2O3V2/m3Ibw7Fd5/3kGatEWkNvpfXJYRhy+J4WPSLIWhwbx9RPtK
+ 2a2H1pjm6IgyDdFdGNSD0vTCpUELwwpOhEtAlNSXQUaC3VGSoE9+BbixItux/WQ3LkuG
+ BS1jkPeBsm7hqHDkRWDLahIzDn6AZBuuv7xy3eSkEZHroQy2M64966fKHlnGks6XbgXX
+ 7Xl5Fvgpy0/KxTGDpT82BgVrsBcUNYULPgQ60v/v0ODaaXDj7+0tj1uTtNY28fCZ8fpX
+ 36tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MH+M8Bh0CbR9eUgXzdNFfMgvhBhrHXgI9Ctwz+nFHl4=;
+ b=2UcYlgKK7eGHSUnBYTruB+lNZYnLQEaU95HiwrOlO+jB4lLy25yhWMjvAY9EeEePs8
+ 5qMTXVfewoxLbquxMC7GU9abG1abf5C0abm7AQvunUhUrlT8xy8IzjHkjWbD5sxHLwsI
+ +rcncStNHo77rtSbdDlL+2WjaMXqLvefO0iHk7kfxHGg0p4pKNnY9ZZYTwEA9H30M033
+ PapS37N9FFLxYf3eK4aFBLaOteKAQdBtg4ZXPkp4ZBvzj482KCARJnwUoxEhRnZtsKLE
+ lItW93cDA2tk4y+o+9h72C3BC7A/0EdLFdHqQmOWIew3fF1ArKK4+8gJf4xbLXoZUchs
+ JHiA==
+X-Gm-Message-State: AOAM532V6FUv4MnAJjDjTNoXrr+mGi7nTcAkIKzpZEGjZd1J2ERM8yuN
+ IckAz636JG4EaVCd8Ok6AnFOVh/BqvSNk4lrHvk=
+X-Google-Smtp-Source: ABdhPJzcQrb4IcuCsuqylhivPFgD1Rnu5eGyEPRCF8lHTe6zgvYpwdxnk2O9+sTEsE4H7LMSg43WcEgPdBFtP6S08Fk=
+X-Received: by 2002:a2e:9ec9:0:b0:253:e132:6e3d with SMTP id
+ h9-20020a2e9ec9000000b00253e1326e3dmr8027191ljk.345.1653328977307; Mon, 23
+ May 2022 11:02:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+ <20220513180821.905149-6-marcandre.lureau@redhat.com>
+ <YouBGRfgzlsGi99n@redhat.com>
+ <CAJ+F1CKV0U8g9NCpX6LvE6HTVLdNv-RkHxLeaAU2PjeRKVT6fw@mail.gmail.com>
+ <YovKuQ6GZ79Ad9b0@redhat.com>
+In-Reply-To: <YovKuQ6GZ79Ad9b0@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 23 May 2022 20:02:45 +0200
+Message-ID: <CAJ+F1CK9ta=5XKfuH+ec6EOM3kdFmfzf5QZz=bdSquwQxbKW6g@mail.gmail.com>
+Subject: Re: [PATCH v3 05/15] osdep: export qemu_open_cloexec()
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Konstantin Kostiuk <kkostiuk@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000063af1105dfb1a618"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,48 +86,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 22. April 2022 21:57:40 CEST Dominique Martinet wrote:
-> Christian Schoenebeck wrote on Fri, Apr 22, 2022 at 08:02:46PM +0200:
-> > So maybe it's better to handle case-insensitivity entirely on client side?
-> > I've read that some generic "case fold" code has landed in the Linux
-> > kernel
-> > recently that might do the trick?
-> 
-> I haven't tried, but settings S_CASEFOLD on every inodes i_flags might do
-> what you want client-side.
-> That's easy enough to test and could be a mount option
+--00000000000063af1105dfb1a618
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I just made a quick test using:
+Hi
 
-diff --git a/fs/9p/vfs_inode.c b/fs/9p/vfs_inode.c
-index 08f48b70a741..5d8e77daed53 100644
---- a/fs/9p/vfs_inode.c
-+++ b/fs/9p/vfs_inode.c
-@@ -257,6 +257,7 @@ int v9fs_init_inode(struct v9fs_session_info *v9ses,
-        inode->i_atime = inode->i_mtime = inode->i_ctime = 
-current_time(inode);
-        inode->i_mapping->a_ops = &v9fs_addr_operations;
-        inode->i_private = NULL;
-+       inode->i_flags |= S_CASEFOLD;
- 
-        switch (mode & S_IFMT) {
-        case S_IFIFO:
+On Mon, May 23, 2022 at 7:56 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-Unfortunately that did not help much. I still get EEXIST error e.g. when 
-trying 'ln -s foo FOO'.
+> On Mon, May 23, 2022 at 07:30:42PM +0200, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
+> >
+> > On Mon, May 23, 2022 at 2:43 PM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com>
+> > wrote:
+> >
+> > > On Fri, May 13, 2022 at 08:08:11PM +0200, marcandre.lureau@redhat.com
+> > > wrote:
+> > > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > >
+> > > > Used in the next patch, to simplify qga code.
+> > > >
+> > > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > > ---
+> > > >  include/qemu/osdep.h |  1 +
+> > > >  util/osdep.c         | 10 ++++++++--
+> > > >  2 files changed, 9 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > > > index 67cc465416..64f51cfb7a 100644
+> > > > --- a/include/qemu/osdep.h
+> > > > +++ b/include/qemu/osdep.h
+> > > > @@ -489,6 +489,7 @@ void sigaction_invoke(struct sigaction *action,
+> > > >   */
+> > > >  int qemu_open_old(const char *name, int flags, ...);
+> > > >  int qemu_open(const char *name, int flags, Error **errp);
+> > > > +int qemu_open_cloexec(const char *name, int flags, mode_t mode,
+> Error
+> > > **errp);
+> > >
+> > > I don't think we should be exporting this - it is just a variant of t=
+he
+> > > 'qemu_open_old' method that we wanted callers to stop using in favour
+> > > of explicitly deciding between 'qemu_open' and 'qemu_create'.
+> > >
+> >
+> >
+> > qemu_open() has "/dev/fdset" handling, which qemu-ga and other tools
+> don't
+> > need.
+>
+> Right, but exporting this as 'qemu_open_cloexec' is going to mislead
+> people into thinking it is a better version of 'qemu_open'. This will
+> cause us to loose support for /dev/fdset in places where we actually
+> need it.
+>
 
-I am not sure though whether there would be more code places to touch or 
-whether that's even the expected behaviour with S_CASEFOLD for some reason.
+> It is pretty harmless to have /dev/fdset there, even if the tool does
+> not need it - that's been the case with many QEMU tools for many years.
+> If we think it is actually a real problem though, we should just have
+> a way to toggle it on/off from the existing APIs.
+>
+>
+It's a bit problematic to make qemu-ga standalone, and have a common shared
+subproject/library.
 
-> Even with that it's possible to do a direct open without readdir first
-> if one knows the path and I that would only be case-insensitive if the
-> backing server is case insensitive though, so just setting the option
-> and expecting it to work all the time might be a little bit
-> optimistic... I believe guess that should be an optimization at best.
-> 
-> Ideally the server should tell the client they are casefolded somehow,
-> but 9p doesn't have any capability/mount time negotiation besides msize
-> so that's difficult with the current protocol.
+Maybe introduce a callback for QEMU/QMP "/dev/fdset" handling ? any better
+idea ?
 
+eg put  'bool allow_fdset =3D true"   in softmmu/vl.c, and
+> 'bool allow_fdset =3D false' in stubs/open.c, and then make
+> qemu_open_internal conditionalize itself on this global
+> variable, so only the system emulators get fdset support
+> activated.
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000063af1105dfb1a618
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 23, 2022 at 7:56 PM Dan=
+iel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@re=
+dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Mon, May 23, 2022 at 07:30:42PM +0200, Marc-Andr=C3=A9 Lureau wr=
+ote:<br>
+&gt; Hi<br>
+&gt; <br>
+&gt; On Mon, May 23, 2022 at 2:43 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
+br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Fri, May 13, 2022 at 08:08:11PM +0200, <a href=3D"mailto:marca=
+ndre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a><b=
+r>
+&gt; &gt; wrote:<br>
+&gt; &gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre=
+.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<b=
+r>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Used in the next patch, to simplify qga code.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:=
+marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com<=
+/a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 include/qemu/osdep.h |=C2=A0 1 +<br>
+&gt; &gt; &gt;=C2=A0 util/osdep.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 10 +++=
++++++--<br>
+&gt; &gt; &gt;=C2=A0 2 files changed, 9 insertions(+), 2 deletions(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h<br>
+&gt; &gt; &gt; index 67cc465416..64f51cfb7a 100644<br>
+&gt; &gt; &gt; --- a/include/qemu/osdep.h<br>
+&gt; &gt; &gt; +++ b/include/qemu/osdep.h<br>
+&gt; &gt; &gt; @@ -489,6 +489,7 @@ void sigaction_invoke(struct sigaction *=
+action,<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0*/<br>
+&gt; &gt; &gt;=C2=A0 int qemu_open_old(const char *name, int flags, ...);<b=
+r>
+&gt; &gt; &gt;=C2=A0 int qemu_open(const char *name, int flags, Error **err=
+p);<br>
+&gt; &gt; &gt; +int qemu_open_cloexec(const char *name, int flags, mode_t m=
+ode, Error<br>
+&gt; &gt; **errp);<br>
+&gt; &gt;<br>
+&gt; &gt; I don&#39;t think we should be exporting this - it is just a vari=
+ant of the<br>
+&gt; &gt; &#39;qemu_open_old&#39; method that we wanted callers to stop usi=
+ng in favour<br>
+&gt; &gt; of explicitly deciding between &#39;qemu_open&#39; and &#39;qemu_=
+create&#39;.<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; <br>
+&gt; qemu_open() has &quot;/dev/fdset&quot; handling, which qemu-ga and oth=
+er tools don&#39;t<br>
+&gt; need.<br>
+<br>
+Right, but exporting this as &#39;qemu_open_cloexec&#39; is going to mislea=
+d<br>
+people into thinking it is a better version of &#39;qemu_open&#39;. This wi=
+ll<br>
+cause us to loose support for /dev/fdset in places where we actually<br>
+need it. <br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+<br>
+It is pretty harmless to have /dev/fdset there, even if the tool does<br>
+not need it - that&#39;s been the case with many QEMU tools for many years.=
+<br>
+If we think it is actually a real problem though, we should just have<br>
+a way to toggle it on/off from the existing APIs.<br>
+<br></blockquote><div><br></div><div>It&#39;s a bit problematic to make qem=
+u-ga standalone, and have a common shared subproject/library.</div><div><br=
+></div><div>Maybe introduce a callback for QEMU/QMP &quot;/dev/fdset&quot; =
+handling ? any better idea ?=C2=A0 <br></div><div><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
+eg put=C2=A0 &#39;bool allow_fdset =3D true&quot;=C2=A0 =C2=A0in softmmu/vl=
+.c, and<br>
+&#39;bool allow_fdset =3D false&#39; in stubs/open.c, and then make<br>
+qemu_open_internal conditionalize itself on this global <br>
+variable, so only the system emulators get fdset support<br>
+activated.<br>
+<br>
+With regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000063af1105dfb1a618--
 
