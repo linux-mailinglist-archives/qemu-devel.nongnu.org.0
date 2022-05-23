@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2655D53118D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:18:33 +0200 (CEST)
-Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DEE53118C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:18:11 +0200 (CEST)
+Received: from localhost ([::1]:54430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt9pI-0002cl-8v
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
+	id 1nt9ow-0002BJ-PL
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nt9ek-0005pK-Ia
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:07:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nt9ei-00009i-J5
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:07:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653318456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ELvj6VgD11o8u/IhmceJwp3wsrjN9bVDxMSOiBdpaLs=;
- b=eR2hH0UYdPNx5BTm6X3nhE8tzp1cn0aUZhmy+nxWW2z9zJgnVI7m67mpgJtkvhkoBWF4p2
- ulG8Ml1X67Bd+Gjj9DJdR1VSegeb+PBKZBCl9haxyxAja3PwJnMedInbHd0XCTSe7XJsMi
- apCXTfIc2EccnNTlmzI8MUsOV0qsjLM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-Kx3xofe5OnaeDyDVUgxPrQ-1; Mon, 23 May 2022 11:07:34 -0400
-X-MC-Unique: Kx3xofe5OnaeDyDVUgxPrQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59C9729ABA2B;
- Mon, 23 May 2022 15:07:34 +0000 (UTC)
-Received: from avogadro.redhat.com (unknown [10.39.195.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82AFA40D1B98;
- Mon, 23 May 2022 15:07:33 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com,
-	Mark Kanda <mark.kanda@oracle.com>
-Subject: [PATCH 8/8] hmp: add filtering of statistics by name
-Date: Mon, 23 May 2022 17:07:22 +0200
-Message-Id: <20220523150722.349700-8-pbonzini@redhat.com>
-In-Reply-To: <20220523150722.349700-1-pbonzini@redhat.com>
-References: <20220523150509.349412-1-pbonzini@redhat.com>
- <20220523150722.349700-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nt9fE-0006R3-6r
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:08:11 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:39481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nt9fC-0000BT-ER
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:08:07 -0400
+Received: by mail-pl1-x633.google.com with SMTP id a13so2843640plh.6
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=TOSjLvdO99vx5dltE7HY7kCbW4/uvuMNU8W3t9yW/rA=;
+ b=gkdbriwidQ7lz3YQcwEwkMkqRFbS7nGbOs3EJ473cd8rU51k3O4X/3xim3Ae5PMHup
+ UeAJlT7A4abu8J7ljAWMuypr0ZSzeqpyUZY0zLV4aYi4IGYHuBSAOGi1XqSP+es3y+gP
+ Gddrl8MJ6x2sc2EsSa1X8d+VpQ2cn6PCFMyxNQjOOzMpTD2aFW322taD03s4+C2C0Jjv
+ LLKiye+PDDk8GoC1jnq+wl7CrIl8CtQ/5gBU/ZXWflXrt+xjbEvfX3HnswdiTL4okyX2
+ 8lhzZGcgmPrSnk1y7ZBb+WGkk1J3z3uS1qwLX1VKPVXTwS0CfYGRrlPwBDl9j4XgjGeY
+ LROg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TOSjLvdO99vx5dltE7HY7kCbW4/uvuMNU8W3t9yW/rA=;
+ b=jMtdauCqzVOXLYEL9DHgZ5x6oL8bNcWlxL7oISkq+2VEJztLhIBZvSeUzkFBdmMtAg
+ Ka1Ts+ZpVvPhGx4uV4zUek1f44deem2jHNIxI0249FJSlDRMn2x+zyYw/M8x/SQfYPNC
+ KSEEk04ptwAXw9bI2GcUh+oNc+WZ1XLWF74/EOAZKrFnujJzp6KIqRtuMxkyF91psV8/
+ RuMg2RkxHSA0Bhcx4nJcxOqtPZvtPRs56zmhAaHk+JMMRb+KmqTgsHLv2yyQMHxBx0hA
+ dV5N2d+BLg8ukxIvyIp6zbZWARmw2zmFTnuaC7wR6PSBeI1DgWcyMdqUJXUxojmNQyAw
+ Ip0g==
+X-Gm-Message-State: AOAM532fp+G3uM4Ynv5kwsw3GE8gDdxfRNYMF751oBJ4coZwgjD1kLul
+ NVlIcPlUswr6TCKaktS1xJ0wsg==
+X-Google-Smtp-Source: ABdhPJwOj8atsteBZ+NsTpU7l8wh7OCHu/OTChvZOmMA5HzpgdZxR0vUg/gA+5245X4ByJOkhGovGQ==
+X-Received: by 2002:a17:902:7783:b0:15f:21f8:a1d6 with SMTP id
+ o3-20020a170902778300b0015f21f8a1d6mr23236823pll.66.1653318484073; 
+ Mon, 23 May 2022 08:08:04 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ y3-20020a170902b48300b001620eb3a2d6sm4483058plr.203.2022.05.23.08.08.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 May 2022 08:08:03 -0700 (PDT)
+Message-ID: <a8f5f61a-c976-e48f-48e1-e87fecd61901@linaro.org>
+Date: Mon, 23 May 2022 08:08:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: proposed 7.1 release schedule
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+References: <CAFEAcA80ABJ+RXFeoH4mo5yJk5oNh4Zc5QTBN35vVOL4eg0cNQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA80ABJ+RXFeoH4mo5yJk5oNh4Zc5QTBN35vVOL4eg0cNQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,113 +93,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the user to request only a specific subset of statistics.
-This can be useful when working on a feature or optimization that is
-known to affect that statistic.
+On 5/23/22 02:53, Peter Maydell wrote:
+> I just put some proposed dates into the 7.1 schedule page:
+> https://wiki.qemu.org/Planning/7.1#Release_Schedule
+> 
+> * 2022-07-12  Softfreeze
+> * 2022-07-19  Hardfreeze. Tag rc0
+> * 2022-07-26  Tag rc1
+> * 2022-08-02  Tag rc2
+> * 2022-08-09  Tag rc3
+> * 2022-08-16  Release; or tag rc4 if needed
+> * 2022-08-23  Release if we needed an rc4
+> 
+> Does this work for people? I just worked backwards
+> from a final release date about 4 months after 7.0; easy
+> enough to shift it forward or back by a week or so if
+> that works better for some reason.
 
-Extracted from a patch by Mark Kanda.
+Shifting later a week or so would be better. I'm on holiday from 13-22 July -- unless 
+someone would like to manage merges in that period?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hmp-commands-info.hx |  8 ++++----
- monitor/hmp-cmds.c   | 35 +++++++++++++++++++++++++----------
- 2 files changed, 29 insertions(+), 14 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index d4d8a1e618..767aafd1ea 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -897,10 +897,10 @@ ERST
- 
-     {
-         .name       = "stats",
--        .args_type  = "target:s,provider:s?",
--        .params     = "target [provider]",
--        .help       = "show statistics for the given target (vm or vcpu); optionally filter by "
--                      "provider",
-+        .args_type  = "target:s,names:s?,provider:s?",
-+        .params     = "target [names] [provider]",
-+        .help       = "show statistics for the given target (vm or vcpu); optionally filter by"
-+                      "name (comma-separated list, or * for all) and provider",
-         .cmd        = hmp_info_stats,
-     },
- 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 02a455090d..7fe8a9cdc8 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2356,10 +2356,12 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
- }
- 
- /* Create the StatsFilter that is needed for an "info stats" invocation.  */
--static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
--                                 StatsProvider provider)
-+static StatsFilter *stats_filter(StatsTarget target, const char *names,
-+                                 int cpu_index, StatsProvider provider)
- {
-     StatsFilter *filter = g_malloc0(sizeof(*filter));
-+    StatsProvider provider_idx;
-+    StatsRequestList *request_list = NULL;
- 
-     filter->target = target;
-     switch (target) {
-@@ -2380,15 +2382,27 @@ static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
-         break;
-     }
- 
--    if (provider == STATS_PROVIDER__MAX) {
-+    if (!names && provider == STATS_PROVIDER__MAX) {
-         return filter;
-     }
- 
--    /* "info stats" can only query either one or all the providers.  */
--    StatsRequest *request = g_new0(StatsRequest, 1);
--    request->provider = provider;
--    StatsRequestList *request_list = g_new0(StatsRequestList, 1);
--    QAPI_LIST_PREPEND(request_list, request);
-+    /*
-+     * "info stats" can only query either one or all the providers.  Querying
-+     * by name, but not by provider, requires the creation of one filter per
-+     * provider.
-+     */
-+    for (provider_idx = 0; provider_idx < STATS_PROVIDER__MAX; provider_idx++) {
-+        if (provider == STATS_PROVIDER__MAX || provider == provider_idx) {
-+            StatsRequest *request = g_new0(StatsRequest, 1);
-+            request->provider = provider_idx;
-+            if (names && !g_str_equal(names, "*")) {
-+                request->has_names = true;
-+                request->names = strList_from_comma_list(names);
-+            }
-+            QAPI_LIST_PREPEND(request_list, request);
-+        }
-+    }
-+
-     filter->has_providers = true;
-     filter->providers = request_list;
-     return filter;
-@@ -2398,6 +2412,7 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
- {
-     const char *target_str = qdict_get_str(qdict, "target");
-     const char *provider_str = qdict_get_try_str(qdict, "provider");
-+    const char *names = qdict_get_try_str(qdict, "names");
- 
-     StatsProvider provider = STATS_PROVIDER__MAX;
-     StatsTarget target;
-@@ -2428,11 +2443,11 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
- 
-     switch (target) {
-     case STATS_TARGET_VM:
--        filter = stats_filter(target, -1, provider);
-+        filter = stats_filter(target, names, -1, provider);
-         break;
-     case STATS_TARGET_VCPU: {}
-         int cpu_index = monitor_get_cpu_index(mon);
--        filter = stats_filter(target, cpu_index, provider);
-+        filter = stats_filter(target, names, cpu_index, provider);
-         break;
-     default:
-         abort();
--- 
-2.36.0
-
+r~
 
