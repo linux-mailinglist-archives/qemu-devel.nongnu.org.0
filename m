@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3655311B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:49:13 +0200 (CEST)
-Received: from localhost ([::1]:58378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CD15311B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:47:55 +0200 (CEST)
+Received: from localhost ([::1]:52638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntAIy-0003rR-Ac
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36848)
+	id 1ntAHi-0000XJ-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:47:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ntAD2-00036m-1i
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:43:04 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:19612 helo=mga06.intel.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ntACv-0006mu-WF
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:43:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653320577; x=1684856577;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Q+ZiO1z9B8ZfHHXuPMSjVYlMGYaRBpz3wImSx3yeLTc=;
- b=Mm13ZffBQO6h2BurmMIuJjXMo8TRhmOkRKY3z9XL4MctP8Kq1zjzARsw
- z72MISxFWxxBvYmFiw9o4GROnoW/1QSSQI9Ts5ZuFoQlam6YE+2s+lRlg
- CAFZBqj/q2ioH5TwzV0FpzAqczEpDe4giI4A8duRupyvHOq2bqfUNXUuc
- UbTewYwngQl29ONjKA2y0vp0g3TMEb2ztA0eUFniVZmp6ym/WBNP+HOzd
- WKvC30tImuBWhXoP6nOGZn2eJQAKinNaL+jtuevOlBvVeuE2yqdj63hi9
- TE5JcDWxLFhfjSRNsfiBu0lJarPxVtJD2FGqrs/25acLoQqbW11RMgGaI Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="333905284"
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="333905284"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 08:42:55 -0700
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="600713440"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.171.127])
- ([10.249.171.127])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 08:42:51 -0700
-Message-ID: <d3e967f3-917f-27ce-1367-2dba23e5c241@intel.com>
-Date: Mon, 23 May 2022 23:42:47 +0800
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ntAES-0004xO-C4
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:44:32 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:40538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ntAEQ-0006wL-Jd
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:44:32 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id z7so4860385ybf.7
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FqOr8ZVJa9lqYyIwxwYspqIEoDCp8zcSCeOOhUH62lc=;
+ b=lKNd2Lo0SxCAbnoZeFYrgKP4i644DJlpNf/Is+jFbZJsSgjG4LjvfZaekLFvqNwifp
+ qRAJIXJX1lQ2MSwvFazfYKSQJt/HFfl2oQh9VuooP641JRMa/pUcBYGSn/pyuTrCLst+
+ I6JOQ0/kZ2fNodUfsmed8fwZFBcJx2/VOPjNBgfTCmEJULz+pQDJEEnm1Kl0f4uVYxGa
+ 1/TY+Uq2SKo8Po2KqW1rdcj2BQf38fZin26Jf1kZZP052qpdzQnoLzYuNr4CXtbK5pDE
+ C1WQ6vDbJPiTzZk3jBbREaI4XXyTp2MX+u//T9bEsy0EpKAPjWXiIL3arlxeggfuCI8x
+ uNBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FqOr8ZVJa9lqYyIwxwYspqIEoDCp8zcSCeOOhUH62lc=;
+ b=0b5j0dBEFMTSxYJk0DJvbvPNoA21Z9dvEEtvMoHPTFVXGe1d5/St/gGfMeLuUxaHDO
+ kvGNtUrL1lS7XmvSbnJwJWLEIo22ritqN1b8X+UHxhRJQGfePttklPKDBwn+GfK+xyBT
+ yXtaIw1yg7JS6O/QIkRKEKNR7UrZVPOVnW/dYrBqhVxpS4qyxa4Dq01SNZIxevnaGquN
+ 21LeoM85Or9ESQqAl8+jScdggeRBcpVijLwQwVjoJ0vbECtrVznPZxem1eYIddouojJ+
+ +licHfCPFvXquMDc3OV63uJHX8bYoEfQ2A5BZhGaaHSM3fCvXYePsHDS4NGl4sZMTdyJ
+ koww==
+X-Gm-Message-State: AOAM531b/U6bE28qegXZXRzGopWeI2IHJ4knRDjGGaaff5XnPv7A3KnW
+ 2npEHcPoljlaMCe6E0DHljdvisDDQ2BHNVXYuxmfNA==
+X-Google-Smtp-Source: ABdhPJzku/Pz6sYtIE+11eMyMlrwXmcQBxxU/pkNQKMZfXNcQP6Cq7PK1bsHzY9P1huYinA6XaDYVgpaq5X4qHFRQjM=
+X-Received: by 2002:a05:6902:1021:b0:64f:51d0:f421 with SMTP id
+ x1-20020a056902102100b0064f51d0f421mr17878763ybt.39.1653320669577; Mon, 23
+ May 2022 08:44:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 11/36] i386/tdx: Initialize TDX before creating TD
- vcpus
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-12-xiaoyao.li@intel.com>
- <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20220521000400.454525-1-richard.henderson@linaro.org>
+ <20220521000400.454525-10-richard.henderson@linaro.org>
+ <CAFEAcA9x+xCFkLQX8wMnTr4JfFLN0nOnLan6y-Qt-tmzRe5mpA@mail.gmail.com>
+ <840c75f7-069b-9c53-37ca-399489989758@linaro.org>
+In-Reply-To: <840c75f7-069b-9c53-37ca-399489989758@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 May 2022 16:44:18 +0100
+Message-ID: <CAFEAcA9zt_sLhvFA0h2ySjJSJu7R=Gp8nYYT=0Onn7RknTORbQ@mail.gmail.com>
+Subject: Re: [PATCH v3 09/49] semihosting: Adjust error checking in
+ common_semi_cb
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,52 +85,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/2022 5:20 PM, Gerd Hoffmann wrote:
->> +int tdx_pre_create_vcpu(CPUState *cpu)
->> +{
->> +    MachineState *ms = MACHINE(qdev_get_machine());
->> +    X86CPU *x86cpu = X86_CPU(cpu);
->> +    CPUX86State *env = &x86cpu->env;
->> +    struct kvm_tdx_init_vm init_vm;
->> +    int r = 0;
->> +
->> +    qemu_mutex_lock(&tdx_guest->lock);
->> +    if (tdx_guest->initialized) {
->> +        goto out;
->> +    }
->> +
->> +    memset(&init_vm, 0, sizeof(init_vm));
->> +    init_vm.cpuid.nent = kvm_x86_arch_cpuid(env, init_vm.entries, 0);
->> +
->> +    init_vm.attributes = tdx_guest->attributes;
->> +    init_vm.max_vcpus = ms->smp.cpus;
->> +
->> +    r = tdx_vm_ioctl(KVM_TDX_INIT_VM, 0, &init_vm);
->> +    if (r < 0) {
->> +        error_report("KVM_TDX_INIT_VM failed %s", strerror(-r));
->> +        goto out;
->> +    }
->> +
->> +    tdx_guest->initialized = true;
->> +
->> +out:
->> +    qemu_mutex_unlock(&tdx_guest->lock);
->> +    return r;
->> +}
-> 
-> Hmm, hooking *vm* initialization into *vcpu* creation looks wrong to me.
+On Mon, 23 May 2022 at 16:35, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> On 5/23/22 05:13, Peter Maydell wrote:
+> > The gdb implementation of the isatty call returns 0 or 1 on
+> > success, and -1 on failure (though the only failure mode it has
+> > is "you messed up the protocol packet format"):
+> > https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=gdb/remote-fileio.c;h=fe191fb6069a53a3844656a81e77069afa781946;hb=HEAD#l1039
+>
+> Technically, isatty = 0 is failure not success and should also set ENOTTY.
 
-That's because for TDX, it has to do VM-scope (feature) initialization 
-before creating vcpu. This is new to KVM and QEMU, that every feature is 
-vcpu-scope and configured per-vcpu before.
+There are multiple different APIs here with similar names but
+not necessarily always the exact same behaviour in all cases:
 
-To minimize the change to QEMU, we want to utilize @cpu and @cpu->env to 
-grab the configuration info. That's why it goes this way.
+Arm semihosting SYS_ISTTY:
+https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.rst#sys-istty-0x09
+ returns 1 if the handle identifies an interactive device.
+         0 if the handle identifies a file.
+         A value other than 1 or 0 if an error occurs
+         (and implicitly sets errno, I assume)
 
-Do you have any better idea on it?
+GDB File-I/O isatty:
+https://sourceware.org/gdb/onlinedocs/gdb/isatty.html#isatty
+  Returns 1 if fd refers to the GDB console, 0 otherwise
+Documentation doesn't say how it reports errors. Actual implementation
+returns -1 and sets errno. (We should probably report some of these
+spec issues as gdb bugs...)
 
-> take care,
->    Gerd
-> 
+isatty() POSIX function:
+ returns 1 for a terminal
+         0 with errno ENOTTY for not-a-terminal
+         0 with some other errno for error cases
 
+It looks like our 'host' implementation of the semihosting SYS_ISTTY
+doesn't correctly do the matching up between the semihosting spec
+and the isatty() function, so it will return the wrong value for
+the error case.
+
+thanks
+-- PMM
 
