@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78174530C6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 11:55:02 +0200 (CEST)
-Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64B5530C76
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 11:58:34 +0200 (CEST)
+Received: from localhost ([::1]:50888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt4mD-0005vU-It
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 05:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39684)
+	id 1nt4pd-0001gj-Tr
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 05:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nt4e6-0008WE-9Z
- for qemu-devel@nongnu.org; Mon, 23 May 2022 05:46:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nt4e3-0000tm-5l
- for qemu-devel@nongnu.org; Mon, 23 May 2022 05:46:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653299194;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=hhtlmlKxSNsXkQSBYy7jFqr7wJq7OZFvbfv9iGDXvX4=;
- b=KBk+qJh3eEBf/CHYQ728Yzg9wSdFRYS35ziwf1LYw5Gp54xrrOXdIR18UOLLiEi2CUU5Um
- sZzWEIsAHuFHLDmRwStIe5f69Ud5rgbmYiHWr4dEe40s3yEqlw7WjMmoFocbRvHN6n7omV
- cWpAO9qH2sOoP94sBhDR0heV2Pk1jQI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-9MW44G2oO_K3RO6XZJNU3Q-1; Mon, 23 May 2022 05:46:28 -0400
-X-MC-Unique: 9MW44G2oO_K3RO6XZJNU3Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDBD9811E75;
- Mon, 23 May 2022 09:46:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB1C4C27E8A;
- Mon, 23 May 2022 09:46:26 +0000 (UTC)
-Date: Mon, 23 May 2022 10:46:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: mst@redhat.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org, helei.sig11@bytedance.com,
- jasowang@redhat.com, cohuck@redhat.com
-Subject: Re: [PATCH v6 4/9] crypto: add ASN.1 DER decoder
-Message-ID: <YotX8KouIzrVjX2R@redhat.com>
-References: <20220514005504.1042884-1-pizhenwei@bytedance.com>
- <20220514005504.1042884-5-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nt4lC-0006Lj-5n
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 05:53:59 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:39553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nt4lA-0001pd-HP
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 05:53:57 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id i187so22194172ybg.6
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 02:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=YCSE82z/wK1eCcX7YBl5CEXo+ma1OJyBWdDUPID9pIo=;
+ b=hasF+3X/ZzWec2Zp4i9DLyH8DyRfn1f3Upn9a79NLvs2Rv+yuIiD5vLyRAvZsVJPYd
+ dSbWro5n3yAT07CCSWPfx7NBA2JV5kOPuLxvj7/ZmJ1q+0M2bB2Pk0PjI6xjAHqKkH7U
+ IiPLKQ5MxwuJW+5RiEqRz5KSnPf8PTyiUjPC62mO7/OqCLdYdObrEM4kkJqNGjhxATwD
+ AD7bFl4ehWU2CrZGW9pBoK43Ch8YX70Wij1OVSyoM/ELACGV/FgG1BeXBf/az3fK1Q3W
+ iYynBD6YunEMqyjJtklzMszECU5MjK1CBM7vdKFeE9+rnKcX1Hev5iYNhKXf22bkTRHu
+ BeoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=YCSE82z/wK1eCcX7YBl5CEXo+ma1OJyBWdDUPID9pIo=;
+ b=gcjbgZF1OJabUL7dVhe1TO+npli1eMCi2ldmr1AT3r5LfV+NDqGk/pbOTpjKEcFGXC
+ uNBFRJDzZNR/aV6Dmgr14VSEbW4kjNaFfwFa2NM5R9uptJ6ieCpdiG6lYJujZdvL+3B0
+ maqgu+7j9CenmujasGbt50InTDACT56PK3jwBJPzrCR0jLVxf1TdfphavBNDtyUCrgzs
+ Dw750gGwXU0TgVB/ggHlgOnukSKJQaEfIG0NfRG960bNputJbH62afgcu+lMKzf74+8k
+ lnMCi2PpxX4Uvi8mH5JlCEWyH4wV9gmDpU3eIYgEVvR9c+pSPeUhA5b5dntdbwYtwb3/
+ cUKQ==
+X-Gm-Message-State: AOAM531iT+kSYhasaOu0mwmJwCj1ZDpWX7rYOsaCAU94llmer5PLf32a
+ ozTRp2Yq5drXleWtRM2BQYTKANYhSD21cVqROhT4JyVoMgl1Yw==
+X-Google-Smtp-Source: ABdhPJyIfleL7QmomhRpdxXqCxAoig6eYA88XCDdgpkejldTzj+766GVRuVO7QxqCgZsZaV0OKXBdGzkmC2Llz9Pp/8=
+X-Received: by 2002:a25:257:0:b0:64e:b1fd:2d54 with SMTP id
+ 84-20020a250257000000b0064eb1fd2d54mr20290594ybc.193.1653299635121; Mon, 23
+ May 2022 02:53:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220514005504.1042884-5-pizhenwei@bytedance.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 May 2022 10:53:44 +0100
+Message-ID: <CAFEAcA80ABJ+RXFeoH4mo5yJk5oNh4Zc5QTBN35vVOL4eg0cNQ@mail.gmail.com>
+Subject: proposed 7.1 release schedule
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,51 +76,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 14, 2022 at 08:54:59AM +0800, zhenwei pi wrote:
-> From: Lei He <helei.sig11@bytedance.com>
-> 
-> Add an ANS.1 DER decoder which is used to parse asymmetric
-> cipher keys
-> 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> Signed-off-by: lei he <helei.sig11@bytedance.com>
-> ---
->  crypto/der.c                 | 189 +++++++++++++++++++++++
->  crypto/der.h                 |  81 ++++++++++
->  crypto/meson.build           |   1 +
->  tests/unit/meson.build       |   1 +
->  tests/unit/test-crypto-der.c | 290 +++++++++++++++++++++++++++++++++++
->  5 files changed, 562 insertions(+)
->  create mode 100644 crypto/der.c
->  create mode 100644 crypto/der.h
->  create mode 100644 tests/unit/test-crypto-der.c
-> 
+I just put some proposed dates into the 7.1 schedule page:
+https://wiki.qemu.org/Planning/7.1#Release_Schedule
 
-> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-> index 264f2bc0c8..a8af85128d 100644
-> --- a/tests/unit/meson.build
-> +++ b/tests/unit/meson.build
-> @@ -47,6 +47,7 @@ tests = {
->    'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
->    'test-qapi-util': [],
->    'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
-> +  'test-crypto-der': [crypto],
->  }
+* 2022-07-12  Softfreeze
+* 2022-07-19  Hardfreeze. Tag rc0
+* 2022-07-26  Tag rc1
+* 2022-08-02  Tag rc2
+* 2022-08-09  Tag rc3
+* 2022-08-16  Release; or tag rc4 if needed
+* 2022-08-23  Release if we needed an rc4
 
-This needs to be moved to later in this file where the other
-test-crypto-XXXX rules are, otherwise it fails to build
-on a configuration  --without-system --without-tools.
+Does this work for people? I just worked backwards
+from a final release date about 4 months after 7.0; easy
+enough to shift it forward or back by a week or so if
+that works better for some reason.
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
