@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B65530996
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 08:40:39 +0200 (CEST)
-Received: from localhost ([::1]:40134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09F553099E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 08:42:52 +0200 (CEST)
+Received: from localhost ([::1]:41352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt1k4-0003rf-7z
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 02:40:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34186)
+	id 1nt1mF-0004iM-J3
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 02:42:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nt1cx-0001vd-8C
- for qemu-devel@nongnu.org; Mon, 23 May 2022 02:33:18 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39462)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nt1ec-0002TW-Cb; Mon, 23 May 2022 02:34:59 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:44708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nt1cv-0004EL-5W
- for qemu-devel@nongnu.org; Mon, 23 May 2022 02:33:14 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id gh17so13526353ejc.6
- for <qemu-devel@nongnu.org>; Sun, 22 May 2022 23:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nt1eY-0004Jx-P9; Mon, 23 May 2022 02:34:56 -0400
+Received: by mail-io1-xd30.google.com with SMTP id e194so14263216iof.11;
+ Sun, 22 May 2022 23:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uGqwRFkVHtYMVe8PZB5ERLKlhkVKMBbfz3Vyxg1AhIU=;
- b=3GkdLab/B2yvxCAa/w9/4suXvgys6UR/A6taxX8ho2mPx8VDu1vqCqtLZj2/kjY0d4
- 1N/Fv4aNIRmTxtfsHu0ZqokFlzXxtCayF2XjhbqDm3eZC3vCxMRmri4vBnL/s4C4YCYM
- 8EkYWYfoEy4Ze2s3mWGXl1Zf1DcS/M6gWvRQM1PZRmddJwtrHTXnZtSKulb+nGgpcwij
- LF0Vr0Fp+BUcxMBzswzLJbAUQEJkq+eEipATxUuVwXTVeFLvJyO9sJFYO3xse6gI4GAo
- iPK+IPVR5eY3TKKdRgaBYDp3rmX1qXBLMHIJ7CXfu6AQr9akyBCmJzAxsRuLf7578TGk
- Dxhg==
+ :cc; bh=FfcZWKgpoAxs7FqtQNt3Id20uJCMlGfOEIDDDGc46f0=;
+ b=RnrVwffzRLT7aUyAfKavEzcbknpYF0TsclpsapHsewo2JKilwrKZ+WIX9RKyE0FQOw
+ uzJv9wx3x3tTYZ8zI/FJ8hjkIScOr8EFsq2fZU9kiUrcJ5G95doN0h3Jz1qiq7xn2kdj
+ 6IOTjePgMHvowx2gtWx0SVspzGR9CVwOnGqUWArd6dzZ4jAIsF9J692Yj8kXov7aOJEB
+ T0sz7OzeRPUfL9oZXTOjbgAq3H3nJxoOe1IQ81PWIoTKM0zv1Fcl0p6KW0F38xKq8Mfp
+ dsqS0Ah6QmqNmAyNJ2mjnbplpfhbHcisV9qmZzXbFYwMcxnihuMl1MSZD5QKGGF4lZoa
+ y/sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uGqwRFkVHtYMVe8PZB5ERLKlhkVKMBbfz3Vyxg1AhIU=;
- b=VRYzM8tpY6KXjFc2Y++8wMqkGRTrR1hWZE5vI6fP7kNux/DC7+7bsoYuSpVF/tqpk+
- bdoA5WDK1Pyjk9e62M0D05eiteCE4ne9CcFhVTbNowKDnHfLGcUdxO/xY9Dg7xyvlfP2
- SNQVToCe/so4Eis/gXd5ykz7vTnCuKLOaAMGr5zl67tY2YTgLWDuTOIseoPHVRoZlMYs
- wUXM0pLuCw96iMD7tlyDKiQK4NL0BqiBrV9Ef1KjXI46Xb1jIuP6kYA67VKL43d31w8v
- 0xCte9IWWFDg/r1eUt/EA6mvB5EPlpG0ncGSJlOVa3AZt+4PvGd6qJ8pKge+olooLBnW
- x+4w==
-X-Gm-Message-State: AOAM531ZCRNownEPXvV09nErcBGlk/CLt7vtVVW2obtZ5kydB9WaC1yC
- mHrgcIilb4yDyFM7cgF0ter6UOwFyWNqbYRF71BTnA==
-X-Google-Smtp-Source: ABdhPJzAEtBcRhiTd4evYPH//Yc15Xq96I4VDCyURNDw8dTbQ1Fme+Wd8REgKIPASkIlKwPyuOg91G6F3ntemfZuuCE=
-X-Received: by 2002:a17:907:868e:b0:6fe:293:e7cc with SMTP id
- qa14-20020a170907868e00b006fe0293e7ccmr18017606ejc.716.1653287588754; Sun, 22
- May 2022 23:33:08 -0700 (PDT)
+ bh=FfcZWKgpoAxs7FqtQNt3Id20uJCMlGfOEIDDDGc46f0=;
+ b=x3GeUxMzOGEUHYtJX2GzRiL8rehv9z8uy/hbEYnFKnDKfrQfarm/a/GHoftDsvmuoh
+ AmPMMKkcFvk1Di/itKbzIeBZY9yn3sNiuZLQf/IycwDlLdsTj7FgrNm93quw4+XWerb3
+ l/s+PKijgJz2p3YjoXt6/fdZnS8/zPyEGizYJjcG0ypf+yIV0S32NswqJOinDW1DSJJm
+ pxoObepNLi58T3sY1k4Brss6hmiAPDZiGU4/G9vmnp0fj+qLQLvj6P1f6Ygm66rS2nF1
+ ulXd9DgRBQShc4Our2ay9YMCc936CxL04H3/+yWK1IhhPTxkulMP+NEQZwU1Kc97sNYW
+ DCug==
+X-Gm-Message-State: AOAM5335VYKZmApVugn2fNKfJXG4C/fxNqz5sAbNAcb7ywe3ytzXVM0W
+ ERkRT+U00m0bZkEeFiEpS76Y4+m3iJIWJ+q9Tcw=
+X-Google-Smtp-Source: ABdhPJyvVU0ujGFEfFQlwS2fEo2dzt290cexLvURzUCKNebpIB/HenbTgc9yx8ihRpQkC0PIB9NMVDtG+iKI07eJkDQ=
+X-Received: by 2002:a05:6638:370b:b0:32e:a6ce:edcf with SMTP id
+ k11-20020a056638370b00b0032ea6ceedcfmr6177774jav.267.1653287693012; Sun, 22
+ May 2022 23:34:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220522155008.21832-1-mark.cave-ayland@ilande.co.uk>
- <20220522155008.21832-2-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522155008.21832-2-mark.cave-ayland@ilande.co.uk>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 23 May 2022 12:02:58 +0530
-Message-ID: <CAARzgww-xZL9-x2QHdCDHs5hv7dQUqh56WmbFFMvXfWfs07dPw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] hw/acpi/viot: rename build_pci_range_node() to
- enumerate_pci_host_bridges()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: mst@redhat.com, imammedo@redhat.com, jean-philippe@linaro.org, 
- qemu-devel@nongnu.org
+References: <20220518015316.20504-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220518015316.20504-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 23 May 2022 16:34:27 +1000
+Message-ID: <CAKmqyKNBQo91af1m5t_wDOVMeh=6uYD9Q+KugoTOQYzQJUtf5w@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: add support for zmmul extension v0.1
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, 
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::62b;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,43 +85,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 22, 2022 at 9:20 PM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
+On Wed, May 18, 2022 at 11:54 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> This is in preparation for separating out the VIOT ACPI table build from the
-> PCI host bridge numeration.
+>  - includes all multiplication operations for M extension
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 > ---
->  hw/acpi/viot.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  target/riscv/cpu.c                      |  2 ++
+>  target/riscv/cpu.h                      |  1 +
+>  target/riscv/insn_trans/trans_rvm.c.inc | 18 ++++++++++++------
+>  3 files changed, 15 insertions(+), 6 deletions(-)
 >
-> diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
-> index c1af75206e..a41daded71 100644
-> --- a/hw/acpi/viot.c
-> +++ b/hw/acpi/viot.c
-> @@ -17,7 +17,7 @@ struct viot_pci_ranges {
->  };
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index e373c61ba2..01b57d3784 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -903,6 +903,7 @@ static Property riscv_cpu_properties[] = {
 >
->  /* Build PCI range for a given PCI host bridge */
-> -static int build_pci_range_node(Object *obj, void *opaque)
-> +static int enumerate_pci_host_bridges(Object *obj, void *opaque)
+>      /* These are experimental so mark with 'x-' */
+>      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+> +    DEFINE_PROP_BOOL("x-zmmul", RISCVCPU, cfg.ext_zmmul, false),
+
+Is this really experimental?
+
+Alistair
+
+>      /* ePMP 0.9.3 */
+>      DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+>      DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+> @@ -1027,6 +1028,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+>       *    extensions by an underscore.
+>       */
+>      struct isa_ext_data isa_edata_arr[] = {
+> +        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
+>          ISA_EDATA_ENTRY(zfh, ext_zfh),
+>          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+>          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index f5ff7294c6..68177eae12 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -405,6 +405,7 @@ struct RISCVCPUConfig {
+>      bool ext_zhinxmin;
+>      bool ext_zve32f;
+>      bool ext_zve64f;
+> +    bool ext_zmmul;
+>
+>      uint32_t mvendorid;
+>      uint64_t marchid;
+> diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
+> index 16b029edf0..ec7f705aab 100644
+> --- a/target/riscv/insn_trans/trans_rvm.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvm.c.inc
+> @@ -18,6 +18,12 @@
+>   * this program.  If not, see <http://www.gnu.org/licenses/>.
+>   */
+>
+> +#define REQUIRE_M_OR_ZMMUL(ctx) do {                      \
+> +    if (!ctx->cfg_ptr->ext_zmmul && !has_ext(ctx, RVM)) { \
+> +        return false;                                     \
+> +    }                                                     \
+> +} while (0)
+> +
+>  static void gen_mulhu_i128(TCGv r2, TCGv r3, TCGv al, TCGv ah, TCGv bl, TCGv bh)
 >  {
->      struct viot_pci_ranges *pci_ranges = opaque;
->      GArray *blob = pci_ranges->blob;
-> @@ -78,7 +78,7 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
->      };
+>      TCGv tmpl = tcg_temp_new();
+> @@ -65,7 +71,7 @@ static void gen_mul_i128(TCGv rl, TCGv rh,
 >
->      /* Build the list of PCI ranges that this viommu manages */
-> -    object_child_foreach_recursive(OBJECT(ms), build_pci_range_node,
-> +    object_child_foreach_recursive(OBJECT(ms), enumerate_pci_host_bridges,
->                                     &pci_ranges);
+>  static bool trans_mul(DisasContext *ctx, arg_mul *a)
+>  {
+> -    REQUIRE_EXT(ctx, RVM);
+> +    REQUIRE_M_OR_ZMMUL(ctx);
+>      return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, gen_mul_i128);
+>  }
 >
->      /* ACPI table header */
+> @@ -109,7 +115,7 @@ static void gen_mulh_w(TCGv ret, TCGv s1, TCGv s2)
+>
+>  static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
+>  {
+> -    REQUIRE_EXT(ctx, RVM);
+> +    REQUIRE_M_OR_ZMMUL(ctx);
+>      return gen_arith_per_ol(ctx, a, EXT_SIGN, gen_mulh, gen_mulh_w,
+>                              gen_mulh_i128);
+>  }
+> @@ -161,7 +167,7 @@ static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
+>
+>  static bool trans_mulhsu(DisasContext *ctx, arg_mulhsu *a)
+>  {
+> -    REQUIRE_EXT(ctx, RVM);
+> +    REQUIRE_M_OR_ZMMUL(ctx);
+>      return gen_arith_per_ol(ctx, a, EXT_NONE, gen_mulhsu, gen_mulhsu_w,
+>                              gen_mulhsu_i128);
+>  }
+> @@ -176,7 +182,7 @@ static void gen_mulhu(TCGv ret, TCGv s1, TCGv s2)
+>
+>  static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
+>  {
+> -    REQUIRE_EXT(ctx, RVM);
+> +    REQUIRE_M_OR_ZMMUL(ctx);
+>      /* gen_mulh_w works for either sign as input. */
+>      return gen_arith_per_ol(ctx, a, EXT_ZERO, gen_mulhu, gen_mulh_w,
+>                              gen_mulhu_i128);
+> @@ -349,7 +355,7 @@ static bool trans_remu(DisasContext *ctx, arg_remu *a)
+>  static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
+>  {
+>      REQUIRE_64_OR_128BIT(ctx);
+> -    REQUIRE_EXT(ctx, RVM);
+> +    REQUIRE_M_OR_ZMMUL(ctx);
+>      ctx->ol = MXL_RV32;
+>      return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, NULL);
+>  }
+> @@ -389,7 +395,7 @@ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
+>  static bool trans_muld(DisasContext *ctx, arg_muld *a)
+>  {
+>      REQUIRE_128BIT(ctx);
+> -    REQUIRE_EXT(ctx, RVM);
+> +    REQUIRE_M_OR_ZMMUL(ctx);
+>      ctx->ol = MXL_RV64;
+>      return gen_arith(ctx, a, EXT_SIGN, tcg_gen_mul_tl, NULL);
+>  }
 > --
-> 2.20.1
+> 2.17.1
+>
 >
 
