@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFA0530E80
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 13:04:57 +0200 (CEST)
-Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6BD530E8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 13:14:38 +0200 (CEST)
+Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt5rs-0003wU-Uo
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 07:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53978)
+	id 1nt61F-0004E5-Fp
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 07:14:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nt5jb-0007Xx-RS
- for qemu-devel@nongnu.org; Mon, 23 May 2022 06:56:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nt5jY-0004FC-Gy
- for qemu-devel@nongnu.org; Mon, 23 May 2022 06:56:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653303379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xCIQ07LJk4eNQTP9D28bb4xS5JvcaiG1kYItB/4WJXg=;
- b=SiusNb5qp4lMRpgK5zHJDnvUIbey8REzAtoGhxB9IrkxHGytJ03qbmgy1i8PyAPSPCf03X
- 0bIULMTly3vkhvpwmk8VRYTVSop55Abwnil+YLlg0W1Tv5g1+Eq6vkuI+KRb+Po9UOtBVg
- ymyvx2g0HFWWcVts6IgRpHMLTLhboX8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-374-DJBSISEqNoW4FcJ1s53thg-1; Mon, 23 May 2022 06:56:18 -0400
-X-MC-Unique: DJBSISEqNoW4FcJ1s53thg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l16-20020a05600c1d1000b003974df9b91cso1055622wms.8
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 03:56:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nt5mM-0001hm-IK
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 06:59:14 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:44811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nt5mH-0004Sz-G0
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 06:59:14 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2fee010f509so143121967b3.11
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 03:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2ixtvlZAOecweODTacxGQolihYXuP5TsvlJj3SalHQY=;
+ b=lQS2ie2L8Sesdzf1NiMdy4JaKUAKUjCl5BSZjsmgyGE+0ZvBnvySJ1m9jhtxBcWMBI
+ KgUhYJpVSDcvIVIePQigswNcGKRBVCT4AiJG1MaLpjPFFz6h41Yx5fPogbgDYIQQfEsj
+ Rj3JwtRPIGXRib/CcomSm3x9OnuYw4rX/cRnpvuvkh8BIHZcT8aApfHRx/71JriZiqIM
+ CD0lhZvyu8ArpNyyqOn9PVDCqXwdxmjTW/+MEL3nXGIIiWPqYe9psV+kv21O/8hAmEzF
+ cpl5/5MpL1s6t3/isatgFftzMUrxoVWCkXwOYQmIhsMy5eGPxQZ3/Q/dRKAyHa4u92KT
+ Z+hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xCIQ07LJk4eNQTP9D28bb4xS5JvcaiG1kYItB/4WJXg=;
- b=Cbyi5aSmXUTCVl4kxli2v1OisFNoIZCMEKTPE7GtmCz7wgiluwMq+Qmb6bqFGd8RlK
- 95wXUGYooaFdg7t8whnTVk6bv3hp31Ko7jhVVboivNZHgRMD1/WA6Jt4dwFXZtuv79BU
- hcAMPLGid6PhsfQTJftOMrfk5VJRQ4UpF88RosuGlZ1Wz5+ZB/ttLyid35oWVE1z+Blc
- lEimVSOOu8unTWwqTyxzCJgTqWCD0MKISX5LGG0sRpsyzGAg4yuMWKwkzyd1TKxzWf3Y
- KVUNmPUJnYyKMghizfINXxTWZjzsDLFuxOSqmnKKfJJm68kDPcX9Cf7sQkyuXh7toRv3
- ED5g==
-X-Gm-Message-State: AOAM5329mBJor7GFZRePGt1fGrNKW1ed5uxYmbW/FbIv4/7E5IC8Neet
- WxD81sF2wShYJzmq49KMvJACTZiF3fDZglJWhMn0q0rtrf7mh0WKnEl5hG+0M80N9egtjHe/Bi5
- CrmDnrzD2PQ3vl48=
-X-Received: by 2002:a7b:c401:0:b0:397:26fb:ebf7 with SMTP id
- k1-20020a7bc401000000b0039726fbebf7mr19722446wmi.90.1653303377006; 
- Mon, 23 May 2022 03:56:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAwuFgDpThzX5s2cnzpmZiyaLx4zprOvn7U+afrsX/XwLx1twZvv7GbH4LIMkkRcdEyx5MUw==
-X-Received: by 2002:a7b:c401:0:b0:397:26fb:ebf7 with SMTP id
- k1-20020a7bc401000000b0039726fbebf7mr19722435wmi.90.1653303376741; 
- Mon, 23 May 2022 03:56:16 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- l10-20020a7bcf0a000000b00397473ae25esm4097733wmg.34.2022.05.23.03.56.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 03:56:16 -0700 (PDT)
-Date: Mon, 23 May 2022 11:56:14 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH v6 10/13] migration: Respect postcopy request order in
- preemption mode
-Message-ID: <YotoTrRaTIaQdVR4@work-vm>
-References: <20220517195730.32312-1-peterx@redhat.com>
- <20220517195730.32312-11-peterx@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2ixtvlZAOecweODTacxGQolihYXuP5TsvlJj3SalHQY=;
+ b=hPQ5Q+JScfZPjVtn5qtg6iGM1+6PEER+rw/NjGz2U2caGm0Ap3Mr7r/jczZGcSfm3F
+ DXDUi99s/AOxGoPXT4io9uN6MhLSDm7Dw/rypiD2OXU9OX9iplpPAaETAtkh1JpqvngB
+ oxaaJIE9NRy4oUJaVQP+LydfnFOCp8VIVGZgQ5Cs64b2cGNgNcTMoneHNQ4xoz8sUN42
+ iVag9Mmj0ZAN8+K2O1RLK/26hfLkMi9zZy3j8qCjwfl8bwYcHj/2AfQv/KXxMteEJ/p/
+ LbTJcaiYys4yA0d+RYxt828+KziWGLPuw1Qsm28qyqDW4WfIBA/olr/J8pYFoUPv/oWk
+ QbtA==
+X-Gm-Message-State: AOAM532Z+UuNpy3iv8QXj5fwU2fETxL3ae07kcQT2j8O1IkejslG353D
+ PloEA95QXp9lDC8fJbREykWVb1ZgrSa+/eZPnJsKcg==
+X-Google-Smtp-Source: ABdhPJwa4FO7G5PTqro1jMM9ah7RgNo3F7yP/EJAqgObcPUWScRqp4UUjVlhFWTxao8ClWA0Bx2QlaW/fMhfonQxVwM=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr23221295ywb.257.1653303548346; Mon, 23
+ May 2022 03:59:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220517195730.32312-11-peterx@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20220521000400.454525-1-richard.henderson@linaro.org>
+ <20220521000400.454525-9-richard.henderson@linaro.org>
+In-Reply-To: <20220521000400.454525-9-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 May 2022 11:58:57 +0100
+Message-ID: <CAFEAcA8oja0sCwyCZgmCMW-y7fXTGhYrOvZAyz4LHtPH9CKzLw@mail.gmail.com>
+Subject: Re: [PATCH v3 08/49] semihosting: Inline set_swi_errno into
+ common_semi_cb
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URG_BIZ=0.573 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,230 +84,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> With preemption mode on, when we see a postcopy request that was requesting
-> for exactly the page that we have preempted before (so we've partially sent
-> the page already via PRECOPY channel and it got preempted by another
-> postcopy request), currently we drop the request so that after all the
-> other postcopy requests are serviced then we'll go back to precopy stream
-> and start to handle that.
-> 
-> We dropped the request because we can't send it via postcopy channel since
-> the precopy channel already contains partial of the data, and we can only
-> send a huge page via one channel as a whole.  We can't split a huge page
-> into two channels.
-> 
-> That's a very corner case and that works, but there's a change on the order
-> of postcopy requests that we handle since we're postponing this (unlucky)
-> postcopy request to be later than the other queued postcopy requests.  The
-> problem is there's a possibility that when the guest was very busy, the
-> postcopy queue can be always non-empty, it means this dropped request will
-> never be handled until the end of postcopy migration. So, there's a chance
-> that there's one dest QEMU vcpu thread waiting for a page fault for an
-> extremely long time just because it's unluckily accessing the specific page
-> that was preempted before.
-> 
-> The worst case time it needs can be as long as the whole postcopy migration
-> procedure.  It's extremely unlikely to happen, but when it happens it's not
-> good.
-> 
-> The root cause of this problem is because we treat pss->postcopy_requested
-> variable as with two meanings bound together, as the variable shows:
-> 
->   1. Whether this page request is urgent, and,
->   2. Which channel we should use for this page request.
-> 
-> With the old code, when we set postcopy_requested it means either both (1)
-> and (2) are true, or both (1) and (2) are false.  We can never have (1)
-> and (2) to have different values.
-> 
-> However it doesn't necessarily need to be like that.  It's very legal that
-> there's one request that has (1) very high urgency, but (2) we'd like to
-> use the precopy channel.  Just like the corner case we were discussing
-> above.
-> 
-> To differenciate the two meanings better, introduce a new field called
-> postcopy_target_channel, showing which channel we should use for this page
-> request, so as to cover the old meaning (2) only.  Then we leave the
-> postcopy_requested variable to stand only for meaning (1), which is the
-> urgency of this page request.
-> 
-> With this change, we can easily boost priority of a preempted precopy page
-> as long as we know that page is also requested as a postcopy page.  So with
-> the new approach in get_queued_page() instead of dropping that request, we
-> send it right away with the precopy channel so we get back the ordering of
-> the page faults just like how they're requested on dest.
-> 
-> Alongside, I touched up find_dirty_block() to only set the postcopy fields
-> in the pss section if we're going through a postcopy migration.  That's a
-> very light optimization and shouldn't affect much.
-> 
-> Reported-by: manish.mishra@nutanix.com
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-
-So I think this is OK; getting a bit complicated!
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-
+On Sat, 21 May 2022 at 01:04, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Do not store 'err' into errno only to read it back immediately.
+> Use 'ret' for the return value, not 'reg0'.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  migration/ram.c | 69 +++++++++++++++++++++++++++++++++++++++----------
->  1 file changed, 55 insertions(+), 14 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 9d76db8491..fdcd9984fa 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -441,8 +441,28 @@ struct PageSearchStatus {
->      unsigned long page;
->      /* Set once we wrap around */
->      bool         complete_round;
-> -    /* Whether current page is explicitly requested by postcopy */
-> +    /*
-> +     * [POSTCOPY-ONLY] Whether current page is explicitly requested by
-> +     * postcopy.  When set, the request is "urgent" because the dest QEMU
-> +     * threads are waiting for us.
-> +     */
->      bool         postcopy_requested;
-> +    /*
-> +     * [POSTCOPY-ONLY] The target channel to use to send current page.
-> +     *
-> +     * Note: This may _not_ match with the value in postcopy_requested
-> +     * above. Let's imagine the case where the postcopy request is exactly
-> +     * the page that we're sending in progress during precopy. In this case
-> +     * we'll have postcopy_requested set to true but the target channel
-> +     * will be the precopy channel (so that we don't split brain on that
-> +     * specific page since the precopy channel already contains partial of
-> +     * that page data).
-> +     *
-> +     * Besides that specific use case, postcopy_target_channel should
-> +     * always be equal to postcopy_requested, because by default we send
-> +     * postcopy pages via postcopy preempt channel.
-> +     */
-> +    bool         postcopy_target_channel;
->  };
->  typedef struct PageSearchStatus PageSearchStatus;
->  
-> @@ -496,6 +516,9 @@ static QemuCond decomp_done_cond;
->  static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
->                                   ram_addr_t offset, uint8_t *source_buf);
->  
-> +static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss,
-> +                                     bool postcopy_requested);
-> +
->  static void *do_data_compress(void *opaque)
+>  semihosting/arm-compat-semi.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+>
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+> index c6bfd4d1ba..b00ed2c6d1 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -290,28 +290,29 @@ static target_ulong common_semi_syscall_len;
+>
+>  static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
 >  {
->      CompressParam *param = opaque;
-> @@ -1516,8 +1539,14 @@ retry:
->   */
->  static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
->  {
-> -    /* This is not a postcopy requested page */
-> -    pss->postcopy_requested = false;
-> +    if (migration_in_postcopy()) {
-> +        /*
-> +         * This is not a postcopy requested page, mark it "not urgent", and
-> +         * use precopy channel to send it.
-> +         */
-> +        pss->postcopy_requested = false;
-> +        pss->postcopy_target_channel = RAM_CHANNEL_PRECOPY;
-> +    }
-
-Do you need the 'if' here?
-
-Dave
-
->      pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
->      if (pss->complete_round && pss->block == rs->last_seen_block &&
-> @@ -2038,15 +2067,20 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
->      RAMBlock  *block;
->      ram_addr_t offset;
->  
-> -again:
->      block = unqueue_page(rs, &offset);
->  
->      if (block) {
->          /* See comment above postcopy_preempted_contains() */
->          if (postcopy_preempted_contains(rs, block, offset)) {
->              trace_postcopy_preempt_hit(block->idstr, offset);
-> -            /* This request is dropped */
-> -            goto again;
-> +            /*
-> +             * If what we preempted previously was exactly what we're
-> +             * requesting right now, restore the preempted precopy
-> +             * immediately, boosting its priority as it's requested by
-> +             * postcopy.
-> +             */
-> +            postcopy_preempt_restore(rs, pss, true);
-> +            return true;
->          }
->      } else {
->          /*
-> @@ -2070,7 +2104,9 @@ again:
->           * really rare.
->           */
->          pss->complete_round = false;
-> +        /* Mark it an urgent request, meanwhile using POSTCOPY channel */
->          pss->postcopy_requested = true;
-> +        pss->postcopy_target_channel = RAM_CHANNEL_POSTCOPY;
->      }
->  
->      return !!block;
-> @@ -2324,7 +2360,8 @@ static bool postcopy_preempt_triggered(RAMState *rs)
->      return rs->postcopy_preempt_state.preempted;
->  }
->  
-> -static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss)
-> +static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss,
-> +                                     bool postcopy_requested)
->  {
->      PostcopyPreemptState *state = &rs->postcopy_preempt_state;
->  
-> @@ -2332,8 +2369,15 @@ static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss)
->  
->      pss->block = state->ram_block;
->      pss->page = state->ram_page;
-> -    /* This is not a postcopy request but restoring previous precopy */
-> -    pss->postcopy_requested = false;
-> +
-> +    /* Whether this is a postcopy request? */
-> +    pss->postcopy_requested = postcopy_requested;
-> +    /*
-> +     * When restoring a preempted page, the old data resides in PRECOPY
-> +     * slow channel, even if postcopy_requested is set.  So always use
-> +     * PRECOPY channel here.
-> +     */
-> +    pss->postcopy_target_channel = RAM_CHANNEL_PRECOPY;
->  
->      trace_postcopy_preempt_restored(pss->block->idstr, pss->page);
->  
-> @@ -2344,12 +2388,9 @@ static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss)
->  static void postcopy_preempt_choose_channel(RAMState *rs, PageSearchStatus *pss)
->  {
->      MigrationState *s = migrate_get_current();
-> -    unsigned int channel;
-> +    unsigned int channel = pss->postcopy_target_channel;
->      QEMUFile *next;
->  
-> -    channel = pss->postcopy_requested ?
-> -        RAM_CHANNEL_POSTCOPY : RAM_CHANNEL_PRECOPY;
+> -    target_ulong reg0 = common_semi_arg(cs, 0);
 > -
->      if (channel != rs->postcopy_channel) {
->          if (channel == RAM_CHANNEL_PRECOPY) {
->              next = s->to_dst_file;
-> @@ -2505,7 +2546,7 @@ static int ram_find_and_save_block(RAMState *rs)
->               * preempted precopy.  Otherwise find the next dirty bit.
->               */
->              if (postcopy_preempt_triggered(rs)) {
-> -                postcopy_preempt_restore(rs, &pss);
-> +                postcopy_preempt_restore(rs, &pss, false);
->                  found = true;
->              } else {
->                  /* priority queue empty, so just search for something dirty */
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>      if (ret == (target_ulong)-1) {
+> -        errno = err;
+> -        set_swi_errno(cs, -1);
+> -        reg0 = ret;
+> +#ifdef CONFIG_USER_ONLY
+> +        TaskState *ts = cs->opaque;
+> +        ts->swi_errno = err;
+> +#else
+> +        syscall_err = err;
+> +#endif
+>      } else {
+>          /* Fixup syscalls that use nonstardard return conventions.  */
+> +        target_ulong reg0 = common_semi_arg(cs, 0);
 
+This should be "ret = ", right? (Otherwise I think this fails to
+compile. I assume that some later patch has this fix in it.)
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
