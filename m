@@ -2,77 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08551531192
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:21:43 +0200 (CEST)
-Received: from localhost ([::1]:33010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A2A531194
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:24:18 +0200 (CEST)
+Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt9sK-0007HO-VK
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
+	id 1nt9ur-0003QM-Sr
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:24:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nt9pL-00049V-IJ
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:18:35 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:42513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nt9pJ-0001ok-7j
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:18:34 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id a38so11090302pgl.9
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:18:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a5XlyGgGUyxRxhc5UCrHgjGkBfg44+H9qGio3HRyORE=;
- b=Tk8hyUQQzow4SkR0iptagnizWiPHcIQeHjPM184E/RiVpSuiytwAXTtCZApx2iYAb2
- RzOvHnC6F5KUe7Y0IOt3OsBXEXNirf+qijHuPYh2zRn3Vva+oYM3Y/KTzgedO6XtwGnV
- O28I/1ptBiFyQXztm0pjiq5Fcq0NvsJDmsDLa+mz3AhUU/H7d/fX2rGoYAYuTxE1EeOh
- yQ5Fd3vzHNezaAK4KDxUBD8kmy9/QUO1FvuEkSPxDtbV2n1oSUO7TPE1EE4f88cypAbc
- EmjdXu4yKaJ5YIIYUiXH5bt3f+PAW0SFxTTRvz3NGP7UkmRQPv1TKCurQUglLjObiQe/
- NL7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a5XlyGgGUyxRxhc5UCrHgjGkBfg44+H9qGio3HRyORE=;
- b=WE9SjzgK370Qcx1hNsxA/Lhg37WIlMXMsC78clqOyhed0mWXvlRUB1dQaXArqTI2jg
- PBI2qNzP+XTgDAWq0Wm28GEE4ctfjNo5ewD0zwr0E40po2fFJjC05uYLTeVWKi5luMHL
- 9bdguUl34dLWjVZkRAFi7S1aFqujox/+ANWctD0velmVLmVOTDUFH8GpJRRHOsh01k89
- lyO3XD3NyMrF/lgTx5T1LCildMr4A0EViOOe4V6Zr4tTgbXWvRkvkoGD6zeN4/SHInAs
- Z4vk68ftMBzeVTlzS6QuvqnmoENqdq9i981WAlXj+biIE7Hm/AlrqfjyfPgpXFXC6q87
- sRqw==
-X-Gm-Message-State: AOAM533wpDDxurMHdcHnAUdrW+Vy03BNh29sBmKx6lSXU+kn1lGJrCNx
- xyIbPAfgjk+AK2zpWPFa6aq4HW1W7nGT8J8l
-X-Google-Smtp-Source: ABdhPJwkM/nt4lbz8ThGeuk0kqjz+xV7zYDXpil99a3zr1R+Ky4l8eN1PYO4Roi+UGf8dDt+HEWtqA==
-X-Received: by 2002:a05:6a00:885:b0:510:950f:f787 with SMTP id
- q5-20020a056a00088500b00510950ff787mr23721500pfj.83.1653319110866; 
- Mon, 23 May 2022 08:18:30 -0700 (PDT)
-Received: from hsinchu16.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id
- f28-20020aa79d9c000000b0050dc762818fsm7499442pfq.105.2022.05.23.08.18.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 08:18:30 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org
-Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
-Subject: [PATCH v2] target/riscv: Fix typo of mimpid cpu option
-Date: Mon, 23 May 2022 23:18:23 +0800
-Message-Id: <20220523151825.7759-1-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1nt9px-0005fg-BY; Mon, 23 May 2022 11:19:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1nt9pu-0001sa-Vm; Mon, 23 May 2022 11:19:12 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24NEDnZO000646;
+ Mon, 23 May 2022 15:19:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : subject :
+ date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Z/QnyGJE/Jt4VwRjgxFUuA9Vilv8WYux9KEpfURHGL4=;
+ b=dDYtNwQi7nmwYa0Xp3tBgizb1erG3kEqcz1C/oD3MJNxh1+Q4C6tFSJsNN2ed5YuG696
+ Hu75yRa2b7Z1PMKtPKkZRvbEsPKX+/lTCcCXnGYVAcPyQmRT5y34/o7n7mk+T6Gi5NUs
+ 5YzbPopLWpeFXOKHAkTngquBvY6ITJN4D1Ebd3ifj3OwyQb6/by54/CfAgUTX1daHq/V
+ pcNSE0fOd9aRBfTkyYi5WuppPs4xehttBLO5QNodGtcFtbRbtR9wl5ooJ5C5FzcqPUzO
+ e3OMdwf09K3Ri2Gx/1Mbl9HTC+1+kzkC+jI5KWLuMyWN1isilL7Pg0sobRkE2LDSd7ni OA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g8bun9bk9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 May 2022 15:19:05 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24NEuns2016902;
+ Mon, 23 May 2022 15:19:04 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g8bun9bj7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 May 2022 15:19:04 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24NF8WD5011864;
+ Mon, 23 May 2022 15:19:02 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3g6qq931nc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 May 2022 15:19:02 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24NFJ0cM47251888
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 May 2022 15:19:00 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E99724203F;
+ Mon, 23 May 2022 15:18:59 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B6D1542041;
+ Mon, 23 May 2022 15:18:59 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.89.174])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 23 May 2022 15:18:59 +0000 (GMT)
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH] pnv/xive2: Don't overwrite PC registers when writing TCTXT
+ registers
+Date: Mon, 23 May 2022 17:18:59 +0200
+Message-Id: <20220523151859.72283-1-fbarrat@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: TeiqcP7uIYL-15ZqRhtkG0tio1IM3A2w
+X-Proofpoint-GUID: G5G64sSH1zmXtSO62AeOBxVmboty5GAX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-23_06,2022-05-23_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=959 spamscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 suspectscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205230085
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,84 +110,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+When writing a register from the TCTXT memory region (4th page within
+the IC BAR), we were overwriting the Presentation Controller (PC)
+register at the same offset. It looks like a silly cut and paste
+error.
 
-"mimpid" cpu option was mistyped to "mipid".
+We were somehow lucky: the TCTXT registers being touched are
+TCTXT_ENx/_SET/_RESET to enable physical threads and the PC registers
+at the same offset are either not used by our model or the update was
+harmless.
 
-Fixes: 9951ba94 ("target/riscv: Support configuarable marchid, mvendorid, mipid CSR values")
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Found through code inspection.
+
+Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
 ---
- target/riscv/cpu.c | 4 ++--
- target/riscv/cpu.h | 2 +-
- target/riscv/csr.c | 8 ++++----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ hw/intc/pnv_xive2.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6d01569cad..a1f847176e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -37,7 +37,7 @@
- #define RISCV_CPU_MARCHID   ((QEMU_VERSION_MAJOR << 16) | \
-                              (QEMU_VERSION_MINOR << 8)  | \
-                              (QEMU_VERSION_MICRO))
--#define RISCV_CPU_MIPID     RISCV_CPU_MARCHID
-+#define RISCV_CPU_MIMPID    RISCV_CPU_MARCHID
- 
- static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
- 
-@@ -869,7 +869,7 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
-     DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCHID),
--    DEFINE_PROP_UINT64("mipid", RISCVCPU, cfg.mipid, RISCV_CPU_MIPID),
-+    DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID),
- 
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f5ff7294c6..44975e3e5a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -408,7 +408,7 @@ struct RISCVCPUConfig {
- 
-     uint32_t mvendorid;
-     uint64_t marchid;
--    uint64_t mipid;
-+    uint64_t mimpid;
- 
-     /* Vendor-specific custom extensions */
-     bool ext_XVentanaCondOps;
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 4ea7df02c9..0d5bc2f41d 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -674,13 +674,13 @@ static RISCVException read_marchid(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
--static RISCVException read_mipid(CPURISCVState *env, int csrno,
--                                 target_ulong *val)
-+static RISCVException read_mimpid(CPURISCVState *env, int csrno,
-+                                  target_ulong *val)
+diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+index 87303b4064..a39e070e82 100644
+--- a/hw/intc/pnv_xive2.c
++++ b/hw/intc/pnv_xive2.c
+@@ -1295,7 +1295,6 @@ static void pnv_xive2_ic_tctxt_write(void *opaque, hwaddr offset,
+                                      uint64_t val, unsigned size)
  {
-     CPUState *cs = env_cpu(env);
-     RISCVCPU *cpu = RISCV_CPU(cs);
+     PnvXive2 *xive = PNV_XIVE2(opaque);
+-    uint32_t reg = offset >> 3;
  
--    *val = cpu->cfg.mipid;
-+    *val = cpu->cfg.mimpid;
-     return RISCV_EXCP_NONE;
+     switch (offset) {
+     /*
+@@ -1322,8 +1321,6 @@ static void pnv_xive2_ic_tctxt_write(void *opaque, hwaddr offset,
+         xive2_error(xive, "TCTXT: invalid write @%"HWADDR_PRIx, offset);
+         return;
+     }
+-
+-    xive->pc_regs[reg] = val;
  }
  
-@@ -3372,7 +3372,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     /* Machine Information Registers */
-     [CSR_MVENDORID] = { "mvendorid", any,   read_mvendorid },
-     [CSR_MARCHID]   = { "marchid",   any,   read_marchid   },
--    [CSR_MIMPID]    = { "mimpid",    any,   read_mipid     },
-+    [CSR_MIMPID]    = { "mimpid",    any,   read_mimpid    },
-     [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid   },
- 
-     [CSR_MCONFIGPTR]  = { "mconfigptr", any,   read_zero,
+ static const MemoryRegionOps pnv_xive2_ic_tctxt_ops = {
 -- 
-2.35.1
+2.35.3
 
 
