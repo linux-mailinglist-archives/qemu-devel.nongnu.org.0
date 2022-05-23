@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACB753111C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 15:34:34 +0200 (CEST)
-Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856DE531127
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 15:42:18 +0200 (CEST)
+Received: from localhost ([::1]:50476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt8Cg-0001zs-1P
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 09:34:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59600)
+	id 1nt8K9-0008T6-6g
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 09:42:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt8BK-0000dQ-9I
- for qemu-devel@nongnu.org; Mon, 23 May 2022 09:33:10 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:36950)
+ id 1nt8Gv-00078w-JE
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 09:38:57 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:43919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt8BI-0008L8-JB
- for qemu-devel@nongnu.org; Mon, 23 May 2022 09:33:09 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2ff90e0937aso73360647b3.4
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 06:33:08 -0700 (PDT)
+ id 1nt8Gt-0000xA-RR
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 09:38:57 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id q135so25448087ybg.10
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 06:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SIupbZKH1pkg9WCLTCOQwWj+OIL2kXUr8gaH+BC23D4=;
- b=NBhERg1IkM2vbn3xcQxft0MsVRAMVex0+kFkCF6jq6B805w4jCWmf703mlTbyV2stu
- AJRvg+OvJIv9KcH7zM2OS/Ee3K2alZr+0eXhmwLnvAfkEWYb2E+yw6BBvWzoGt4ansxI
- QrbmZfcQn6MLRDI8otmtJwzMvhehtyUI0+MJ8gaXJcACMgW01YfcvixbDVurAvHLQb+E
- m9gTxw9RgbL9ma/JRH+tsZGQjygBmOJqRPgB56JElKImWjzSmYH54vhPKDiwln5ImQAU
- 7Z0jqpfMncEFoBflPQ47XmNRoFpv596XDQ3x+eNKqiQl9JoUazyBZoDiC4yn6l6tN/BA
- FrZA==
+ :cc; bh=q+cAlghHtqbFF8bsElpa+5iZHyD0apXcrdgr73SHaN4=;
+ b=oEp0tioixwXw84jLmP7w+V92PTDBZqz/q5y8l4aK5APUL2uq7mfg8pQRc8OJRDCJQQ
+ hXjG0TuEsDcQCgE3lrYTg0PFqyK6uipNof6iL2KxOZIVD370lcggl8u2vtauZNwqkb+O
+ J5z93Qar0qO+LU9gt68BDSVebLRezUNLndRc49I+yqjIQHc1GAzrje4ndpUAvCv202ya
+ 5KJk4tFIQ79I6SxcvoE/CoAYPQ7XuWQF90kMjeMikCadNMYjyKkQI7qM2Go9DaDreRJA
+ ZySIfDiqrvoQgv4DQ1TFVf/4TQ+gUMvDhZbzzbswV+96uqNZFYph5XsCz/OYZSZniEdl
+ IC/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SIupbZKH1pkg9WCLTCOQwWj+OIL2kXUr8gaH+BC23D4=;
- b=Il1XywSDTUDDUO3rPQ/7WTvr7aUJBi7F2FDhl1nF6Jxt7o4TdaK8ZaiiZkgSRyToXu
- ISFTJbEo+SJGmSUGitrSFTJkTJraFtQQQ0Dy2B7mpkBdesi5LjoTuI2wtlbtMCfcNvKX
- 4yKEIV3MlIFoluiZZ5ApVz727q7AA9roEZ5C00qdpHpDUXVKT28Zfy9cpUW5Tmg+AIsK
- V4I6wK9RCRcJGSBtIRqdOrrWYradT+1hvoFSWr7uflnc8/FHQ14178/1/KzIK2Rwh7Ep
- ouCRGD0ahU5V1c+psZHjgMI4AOYZ9UIoTNt9xKksQC3sx9gtaOzfUXxM+BA5NRY8t0OG
- /Tnw==
-X-Gm-Message-State: AOAM531Ab679xaxAvm3fVMnEIf7BedKDaY/ZsF+XK3XSx0cqkjUN3+W0
- rS182roFfnAGfjxODHmXqjPzZxMCVA93xYyJlHs4jg==
-X-Google-Smtp-Source: ABdhPJxToz7Np0kxhsgaiNhTKrw7TGCbUoLOtdd68t7XDOcACHbIPYVIPnghq8f4M7aI4WD5/rQoUKzhM0O3+LcgxQM=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr23953557ywb.257.1653312787465; Mon, 23
- May 2022 06:33:07 -0700 (PDT)
+ bh=q+cAlghHtqbFF8bsElpa+5iZHyD0apXcrdgr73SHaN4=;
+ b=PayJGGJRtPvvOsRBPXUALkV2sEgBCMH+4IXyk4elXCZxPsJkqqPp1znN1Hq5OAa9ge
+ Oc/+FW1QLlHvMjaRveXFOSqMMg56QnfLVkBREFyrcsQqKT32oHsfwBCx6pK2o9aEVkGp
+ X9AhusjNWs2Hsk1SKDHchnPP0r70fcUMFVAN1KIt2ZteeIp8ORFp3fQec0dz2f96SV4j
+ ITgKjf12x6yuoO9EVZ5EJKSl2V3JoCY8nX+XumHoBHo1Z8ymZZih1aw0v0TVynk4F6by
+ GWVyuPMDnIkfMqYWvDnl6VIX3tFjtT/wU55u9/q0tDOYD68ipimm2DLnIW0EqIj81ZPl
+ NKug==
+X-Gm-Message-State: AOAM532xVpWeRofCXK8S9CzESuxtkCg5esjNk2abunliwdLZdnfPZTGt
+ 5q3EezQGaZGvyF9GwIN/2Nc9ZJx587OmnqtBKcR7BQ==
+X-Google-Smtp-Source: ABdhPJys7ltMfYbHZaL7GL5e2zPzRr595pS4OmfBFEsVkwduUYoqOtgVvTh50new/IE5mBZ68GmIX9Doua4rLmqHwYs=
+X-Received: by 2002:a05:6902:1021:b0:64f:51d0:f421 with SMTP id
+ x1-20020a056902102100b0064f51d0f421mr17299310ybt.39.1653313134658; Mon, 23
+ May 2022 06:38:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-37-richard.henderson@linaro.org>
-In-Reply-To: <20220521000400.454525-37-richard.henderson@linaro.org>
+ <20220521000400.454525-38-richard.henderson@linaro.org>
+In-Reply-To: <20220521000400.454525-38-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 May 2022 14:32:56 +0100
-Message-ID: <CAFEAcA80XraBLoHUNQVm_d6T4G45o99MuYG+6Djk8zDG42863w@mail.gmail.com>
-Subject: Re: [PATCH v3 36/49] gdbstub: Widen gdb_syscall_complete_cb return
- value
+Date: Mon, 23 May 2022 14:38:43 +0100
+Message-ID: <CAFEAcA9fi=NS_Si8DUbhJQtkAg1Zsy3G2evSctXjPF9NuVhGsA@mail.gmail.com>
+Subject: Re: [PATCH v3 37/49] semihosting: Fix docs comment for
+ qemu_semihosting_console_inc
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,27 +86,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, 21 May 2022 at 01:04, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Always pass a uint64_t.  This resolves a FIXME in the
-> m68k and nios2 semihosting that we've lost data.
+> The implementation of qemu_semihosting_console_inc does not
+> defer to gdbstub, but only reads from the fifo in console.c.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/exec/gdbstub.h        |  3 +--
->  gdbstub.c                     |  7 ++++---
->  semihosting/arm-compat-semi.c |  9 ++++-----
->  semihosting/console.c         |  7 +++----
->  semihosting/syscalls.c        |  2 +-
->  target/m68k/m68k-semi.c       | 10 +++-------
->  target/nios2/nios2-semi.c     |  8 +++-----
->  7 files changed, 19 insertions(+), 27 deletions(-)
+>  include/semihosting/console.h | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/include/semihosting/console.h b/include/semihosting/console.h
+> index 0238f540f4..4f6217bf10 100644
+> --- a/include/semihosting/console.h
+> +++ b/include/semihosting/console.h
+> @@ -41,11 +41,10 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+>   * qemu_semihosting_console_inc:
+>   * @env: CPUArchState
+>   *
+> - * Receive single character from debug console. This may be the remote
+> - * gdb session if a softmmu guest is currently being debugged. As this
+> - * call may block if no data is available we suspend the CPU and will
+> - * re-execute the instruction when data is there. Therefore two
+> - * conditions must be met:
+> + * Receive single character from debug console.  As this call may block
+> + * if no data is available we suspend the CPU and will re-execute the
+> + * instruction when data is there. Therefore two conditions must be met:
+> + *
+>   *   - CPUState is synchronized before calling this function
+>   *   - pc is only updated once the character is successfully returned
+>   *
 
+Most functions declared here do use the remote gdb connection,
+so I think that like qemu_semihosting_log_out() (whose doc comment
+includes a sentence "Unlike..." explaining this) we should
+explain why this is an exception to that rule ("Unlike...")
+rather than just silently not mentioning it. Having 'inc' not
+be reading from the same place that 'outc' writes to is rather
+unexpected, after all.
 
-> -typedef void (*gdb_syscall_complete_cb)(CPUState *cpu,
-> -                                        target_ulong ret, target_ulong err);
-> +typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
-
-Commit message says we're just changing the return value
-handling, but the code also changes the type used for errno.
-
+thanks
 -- PMM
 
