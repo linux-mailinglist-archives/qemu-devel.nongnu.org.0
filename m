@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B09531D4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 23:04:22 +0200 (CEST)
-Received: from localhost ([::1]:55670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390EA531DA3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 23:23:27 +0200 (CEST)
+Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntFDx-0002Pi-8m
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 17:04:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42408)
+	id 1ntFWQ-0006xa-BK
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 17:23:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntEyG-0000MI-CZ
- for qemu-devel@nongnu.org; Mon, 23 May 2022 16:48:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:39361)
+ (Exim 4.90_1) (envelope-from <anders@apitman.com>)
+ id 1ntF1j-0006VB-8c
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 16:51:46 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:56589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntEy8-00053f-HL
- for qemu-devel@nongnu.org; Mon, 23 May 2022 16:48:08 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MEFfB-1o2psD1kIP-00AI9D; Mon, 23 May 2022 22:47:52 +0200
-Message-ID: <86d08093-1754-a176-4c6d-2aee660ea219@vivier.eu>
-Date: Mon, 23 May 2022 22:47:51 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 0/3] linux-user: Use CPUArchState* instead of void*
- when possible
-Content-Language: fr
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220509205728.51912-1-philippe.mathieu.daude@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220509205728.51912-1-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZpikAMTMue2/ODI0w5M7fVE3JHxyPr9cMlvdSeXxVhEPx2f/UX6
- 9K9T6w8AH8DMJSD17F3Cqskjr7ywuHFI/HSgyEICQpWJrSov45ClNxG1KlAfDMeWCAa2Ul7
- gxgOn5jsBi6ZDn0wtIy49XD2GBNfXbY0Q4iH4BxpDZUgFdB3vEFNA5gGIkd/O7nDeMJY4Y0
- trl5j2IyfYIj0Ga5Y/ePQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nK+wtBboT3A=:kQJU/YCDNHjMnNWh+rU4ML
- CzObhpkxetHyUAaFGjechPvISthKAHCbv2fc8O3UmMsns07nVOvA1CwYute5zi23lmhkhYLa6
- bRvSLeeZ/2Tot/M1TFqOQW37WQ5TjWzvLmrWo97MWkvDr6KLaDpnda1aurCpiMyhO0jH7w+YR
- gYMyyP+iUtl8NT9zPgshwXXLgHzPi0krwrU+6L+4qIAhs13mAzKdi8b1n/MXpb8y2VbL19lEw
- V64CP/iDcyPLcBXQNlHWOto+nrwQiMUj3ZS9aFCROQlnHuevFsbWbnLkpKRBKX3zdOQoY6DsA
- eOOR0GlwshzwlWU3Ci84FTKvjODe80ySX1OB1nkHS5UJSWx0MlzuIkdrilAy15bHzn6GKS+af
- WI+JfWzUJCxUDSsrsdRKsS17uHufO5NouZZRN728UBtEbjVzKbZUOl9BxrWi7tkD57/wtkKKB
- guI+1/PeNqJpJ/TJhhxGhC0Y7Wy6rcMBX+wro47q4DOyQkmmLhRVG4coo/VKfZ0w51ICJfMwy
- ahgW1CNYmw+pEiWZ9kX2PO2tdPQ/xOBGqWP+JgF0bhPb9x66Pe/jJp0556QOVSyip3Rb76xOa
- lG6rPc70PC7nkxSRrh4SZJBI7yGFZW3aZ0wDrJacy/NmiS87PvSho84XB9+frq0qznunFaoTZ
- senwS8+aL5s6o6wcQTVUs4zcqF93o58oGaelukd3RdA1hVZWFnf2Lrhm+SdMuk6hIsbK8pMnk
- GJ/Q3Q6HAj7boWiVslvS17oEBbVOlJrWlj3xUw==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <anders@apitman.com>)
+ id 1ntF1h-0005kG-CS
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 16:51:42 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id C16555C0170;
+ Mon, 23 May 2022 16:51:38 -0400 (EDT)
+Received: from imap46 ([10.202.2.96])
+ by compute4.internal (MEProxy); Mon, 23 May 2022 16:51:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apitman.com; h=
+ cc:cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1653339098; x=1653425498; bh=jF74fjCQp1sSTIL9BmhWt9ZBNyJaMRmgFjh
+ vkprFL/M=; b=XIjo9RahGVM1MtI2LU3GiEjiLALaEkiJJ188ncYOCl1rrobDR5u
+ pYkhr2MQo/djM93lnUSW2dfbDiMHUF5AJLUAG5yNSTijD6U6Bh2Z0ZdtQf8AYnwl
+ SueSbr5OtMZoPDZyaL/YSQsHs84FSBbkL6V1Q/xuoh87RVLfMFCMpjX20AgI3Bev
+ rrPzdIRpfJkRl9mIF+JG6kq62iXFUFljowtxnSfevJM1F0YHZ++rcMPcnzv0kM0U
+ 5pjSBCoY/VMqG6QezC6I1FEvgHY5w1xWUIyb5+IPerfd/uA5I7Bw/LHafljajB49
+ dTSWrTJLCASPpn7s4nGchvL16gOdbbhHz+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653339098; x=
+ 1653425498; bh=jF74fjCQp1sSTIL9BmhWt9ZBNyJaMRmgFjhvkprFL/M=; b=f
+ G0F06r3gsOlZ49c7huEOX0fetew1g3+UR6BCGsQ4m31azo4Gbp0AjnEYsrr83xYL
+ aKyF45rNKkGojQqFxHVw2eD1N1Gc0pQk9acFDmxF+dYY13tG/QpqHMXc3UaAZ9vJ
+ Yh6RgTs7+nSAxN3WuNXqGctRAGimVP4oJqgOVv4Lh5b1ZkMaQvZX86Q2ILTuhh/2
+ dZKVqZQWH10C7gBQIKYMG6cBOnJtpbsS9TJF9h2WMdVrv6L7KNFedqGTmEhbzRiV
+ szeQ+TxEuAHC64JCe92MxiSVXx70Yc3BfJY3yCRL036VuirJIf6w79G0LuvdAul2
+ wBKY07B65dKVMH7Mf/1Zg==
+X-ME-Sender: <xms:2vOLYsu_cMT5KSiQytKZGSyyWX1AJ02X6R0dIwiE5-nAiSD7ADS6Xw>
+ <xme:2vOLYpcnbBFZq7667JWH3gFwWoIVKZ-i40HtYe5pwZbQmF9WyngY4Qvet9h-NbEDW
+ 9eydAF6-kYWxqKVNQ0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrjedugdduvdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfffhffvvefutgesrgdtre
+ erreertdenucfhrhhomhepfdetnhguvghrshcurfhithhmrghnfdcuoegrnhguvghrshes
+ rghpihhtmhgrnhdrtghomheqnecuggftrfgrthhtvghrnhepffdvveehudetjeevvdehud
+ fhheeugefffedvveduueelleejteetgffgvdeiledvnecuffhomhgrihhnpehvmhhsphhl
+ ihgtvgdrnhgvthenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpegrnhguvghrshesrghpihhtmhgrnhdrtghomh
+X-ME-Proxy: <xmx:2vOLYnzdMv8ZHxT8peaq_aICaAsAtb_SaQupB2YJFXoZhila3xakaQ>
+ <xmx:2vOLYvMh2VbUhGjM8UMmjybjBWfmrSEb1TSDWJ7XHo5yORNswCSSdw>
+ <xmx:2vOLYs-KO1FLipPhi6ghVgyH1WkHJ8wybMxWdKd4dh9YKDJSc19fDA>
+ <xmx:2vOLYlIWH12-j1r9m3joR9ZtGLXRNbekah-HndSq93PZjAFv8MP_7Q>
+Feedback-ID: i90714442:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 83BBF2A20069; Mon, 23 May 2022 16:51:38 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
+Mime-Version: 1.0
+Message-Id: <d859a414-ca5a-48a8-ab96-2cb869f8978f@www.fastmail.com>
+Date: Mon, 23 May 2022 14:51:17 -0600
+From: "Anders Pitman" <anders@apitman.com>
+To: qemu-devel@nongnu.org
+Cc: stefanha@gmail.com
+Subject: Fast usermode networking with QEMU
+Content-Type: multipart/alternative; boundary=ad098eaf00944f6999debf375a5e5c02
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=anders@apitman.com;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,31 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/05/2022 à 22:57, Philippe Mathieu-Daudé a écrit :
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> Since v1:
-> - Rebased
-> 
-> v1: https://lore.kernel.org/qemu-devel/20220306234005.52511-1-philippe.mathieu.daude@gmail.com/
-> 
-> Philippe Mathieu-Daudé (3):
->    linux-user/elfload: Remove pointless non-const CPUArchState cast
->    linux-user: Have do_syscall() use CPUArchState* instead of void*
->    linux-user: Remove pointless CPU{ARCH}State casts
-> 
->   linux-user/elfload.c        |   2 +-
->   linux-user/strace.c         | 202 ++++++++++++++++++------------------
->   linux-user/strace.h         |   4 +-
->   linux-user/syscall.c        |  81 +++++++--------
->   linux-user/uname.c          |   4 +-
->   linux-user/uname.h          |   2 +-
->   linux-user/user-internals.h |  18 ++--
->   7 files changed, 155 insertions(+), 158 deletions(-)
-> 
+--ad098eaf00944f6999debf375a5e5c02
+Content-Type: text/plain
 
-Series applied to my linux-user-for-7.1 branch.
+I came across this blog post[0] concerning passt, which is an alternative usermode networking implementation for QEMU.
+
+I'm working on a project that uses QEMU on Windows hosts running Linux guests. I'm trying to get faster usermode networking than is available with libslirp. My performance target is 200Mbps even on older or less powerful hardware, such as Celeron mini PCs. Currently I'm seeing 15-30MBps with libslirp.
+
+It appears that passt doesn't currently support Windows, correct? Is there a guess as to how difficult that might be to implement? If the speedup is significant, I would be interested in taking a crack at adding Windows support.
 
 Thanks,
-Laurent
+//anders
+
+[0]: http://blog.vmsplice.net/2021/10/a-new-approach-to-usermode-networking.html
+--ad098eaf00944f6999debf375a5e5c02
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
+Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>I came across t=
+his blog post[0] concerning passt, which is an alternative usermode netw=
+orking implementation for QEMU.<br></div><div><br></div><div>I'm working=
+ on a project that uses QEMU on Windows hosts running Linux guests. I'm =
+trying to get faster usermode networking than is available with libslirp=
+. My performance target is 200Mbps even on older or less powerful hardwa=
+re, such as Celeron mini PCs. Currently I'm seeing 15-30MBps with libsli=
+rp.<br></div><div><br></div><div>It appears that passt doesn't currently=
+ support Windows, correct? Is there a guess as to how difficult that mig=
+ht be to implement? If the speedup is significant, I would be interested=
+ in taking a crack at adding Windows support.<br></div><div><br></div><d=
+iv>Thanks,<br></div><div>//anders<br></div><div><br></div><div>[0]: <a h=
+ref=3D"http://blog.vmsplice.net/2021/10/a-new-approach-to-usermode-netwo=
+rking.html">http://blog.vmsplice.net/2021/10/a-new-approach-to-usermode-=
+networking.html</a><br></div></body></html>
+--ad098eaf00944f6999debf375a5e5c02--
 
