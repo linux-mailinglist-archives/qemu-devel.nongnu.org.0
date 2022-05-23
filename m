@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8859B530EA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:16:47 +0200 (CEST)
-Received: from localhost ([::1]:46298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C864530EA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:18:30 +0200 (CEST)
+Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt6zO-00040d-L6
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
+	id 1nt713-000605-9C
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt6xc-0001x6-Ep
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:14:56 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:37393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt6xa-00020s-SL
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:14:56 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2ff90e0937aso70831017b3.4
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nhhp8R671t1gHTu79XBmXqyzoApdJ7W1PBn6qQGow3U=;
- b=LED9BmRVS3km947fVK4mRbt3Uov9KKTRkluOEeHAAer7kRaF+oAHfL7rHixSk6tz45
- UmvB9zrQrHtb3AdN+RHfBGYawzORMLgmImt93Fl1Cm05KDhRZ/rlXKsUedPDMPeJQu4D
- zh2jfeYwOaFoGSu5H5t1sVYkwt4xA4QtPxeV7k7NI84dYHQxG4L440SpYouqbczpUYe6
- pLVIg6ieLjOCCNq6daY7YkqoXtdvk+jR1HjgrZr3Jqrm7PPq02FuTKxzepEGJzyWbThl
- s9/q6VkaqFalYVpyZeR8n44sMK+7rnSR4N1UvB2XNb2hhiwTdmEBLMDOeE/ejzTsevSx
- 8RPA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nt6yJ-0002xy-CG
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:15:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47903)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nt6yG-0002Rs-GD
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:15:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653308134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ba3S7XvZKlgqOC8q5mCc2RDYNkea0rXg1xHcbYWEmIc=;
+ b=hRX98jartQgv5E33L3UWLSTX1V+SwIUNS6V91uzcBFPrHd4kKU/7RUXd/Pdt7ENYFZNEiG
+ ZUm0EISintjzIakYgryHA+Pq+XGSRjt3EFpyXLU17kMJWg10vy97b96zMLTpkwwNz1vVVy
+ PxcFCpu1inJ0VrKRs/70DZ4nSLH4nAY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-364-VvjgNifSO4CGYlA1C98Tmw-1; Mon, 23 May 2022 08:15:33 -0400
+X-MC-Unique: VvjgNifSO4CGYlA1C98Tmw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r11-20020a1c440b000000b00397335edc7dso5898043wma.7
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:15:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nhhp8R671t1gHTu79XBmXqyzoApdJ7W1PBn6qQGow3U=;
- b=yzUgxvN1P2rTkdjjXbPUeuRZ80lQ1uto4nRMnX3dUkHB2Tjz9AzVwADDR2axBoV5OF
- jOkljTEn+K39q2KOhiZk/NlS/LUZLszv6y08mf5exQbQ3t2fPYs2yG6c0lsMMadn/hZ4
- zrnUgDhVNY+sIjMEhdTD8OMe4rwHvE9nFItjBM6bzuq7FUczZQz5ZP1L9AJgFbR/4fpR
- HQ4+NukoKVEbKQ6787d+vRKVqw6DlMUOLGr72HFi63mRCOlwhudNaIeiba+aManOBvPL
- 1I4sICidKaK22mTZd4yw9PROX4GC4PHjC5OIZekXgBdLhoCt9p/ovbBImL5lyeyd2MCW
- 2d6g==
-X-Gm-Message-State: AOAM532VZGmUCe0c50cEHK+IOfv7rhDaAS6AVJczBugTtdRlCdJmqPB8
- r3dCvNElLzB6s9hhBotEy+zJgHkA0w4G8KpuUNta/KbcuZU=
-X-Google-Smtp-Source: ABdhPJwfjGldlhuP2ouOs9GzsCn/oZL13vGM4PJplIs5Ed88MSVi5vonAoI7+bBsoogP00UKyWbodUClGaMOOBF//qE=
-X-Received: by 2002:a0d:e903:0:b0:2ff:43a3:90c8 with SMTP id
- s3-20020a0de903000000b002ff43a390c8mr22665722ywe.455.1653308093839; Mon, 23
- May 2022 05:14:53 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ba3S7XvZKlgqOC8q5mCc2RDYNkea0rXg1xHcbYWEmIc=;
+ b=gzePi2WHqQp5O05C44AOcJ/l0Ju1CRXE76FKUY8mr0ST49umMgSyj9h+2UbIShufCi
+ LfXaZVzgiJkkJzs/teMtnXPQ4qkG+7rXEisPUJ1J6lT6d35UghEiTntWT4AaSpE6ise1
+ YSsb0wraN9XLnwcuVjdmb/HCJwFRXlJv0H6ZBmixXpPG95ZnTfEmGA2myhxdVMdcPOAF
+ PQOb0fo1Mtn0BLTV9Qq5pVfNQW1dkJONFV43maNH1TXY3LGb0xgQlknsvbLopoZsxUYL
+ mE4b9ncByD9d1mQEQdOkSTL5SFSVgs0woS6p138LnWcG3kDxzoRGSbp2CyKAB+kZLx82
+ nJbg==
+X-Gm-Message-State: AOAM530Ff3nsv4Uos90A5QR7FaeSujyLyj4MOv3kfc2po6pdKODnzsZO
+ BfzOXPTYWUxL7dBw9AWnrZVWrozN2gTrRy4XcT6NJHoorhyC2fT3xsbvxb5sXQdEuacVX9urSDv
+ 7DxAUO0ucxGusM0Y=
+X-Received: by 2002:a05:600c:209:b0:397:4a0f:7 with SMTP id
+ 9-20020a05600c020900b003974a0f0007mr5116065wmi.91.1653308132418; 
+ Mon, 23 May 2022 05:15:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIaN+2SutCuPm879LVVBRWwB3m7CAj55tTpwlgdRwJJzPn/9frS8Cp8OCJFe9Zd9Dm1foecQ==
+X-Received: by 2002:a05:600c:209:b0:397:4a0f:7 with SMTP id
+ 9-20020a05600c020900b003974a0f0007mr5116048wmi.91.1653308132238; 
+ Mon, 23 May 2022 05:15:32 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-177-5.web.vodafone.de. [109.43.177.5])
+ by smtp.gmail.com with ESMTPSA id
+ ay28-20020a05600c1e1c00b003973c4bb19bsm7847276wmb.16.2022.05.23.05.15.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 May 2022 05:15:31 -0700 (PDT)
+Message-ID: <f614c7f6-2523-d587-ea44-fe4c70e8c630@redhat.com>
+Date: Mon, 23 May 2022 14:15:29 +0200
 MIME-Version: 1.0
-References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-14-richard.henderson@linaro.org>
-In-Reply-To: <20220521000400.454525-14-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 May 2022 13:14:42 +0100
-Message-ID: <CAFEAcA_n6MJZ-MjVin6wT4eJoeupX7=jtgThbD2=k=WBuaGEJQ@mail.gmail.com>
-Subject: Re: [PATCH v3 13/49] semihosting: Move common-semi.h to
- include/semihosting/
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 3/3] capstone: Remove the capstone submodule
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220516145823.148450-1-thuth@redhat.com>
+ <20220516145823.148450-4-thuth@redhat.com>
+ <CAFEAcA8t37wT2D-tT0n0O2HP1sTtYfeS8p2Wd+4QE6jsJ0k9Hw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAFEAcA8t37wT2D-tT0n0O2HP1sTtYfeS8p2Wd+4QE6jsJ0k9Hw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,27 +104,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 21 May 2022 at 01:04, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This header is not private to the top-level semihosting directory,
-> so place it in the public include directory.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  {semihosting => include/semihosting}/common-semi.h | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename {semihosting => include/semihosting}/common-semi.h (100%)
->
-> diff --git a/semihosting/common-semi.h b/include/semihosting/common-semi.h
-> similarity index 100%
-> rename from semihosting/common-semi.h
-> rename to include/semihosting/common-semi.h
-> --
+On 19/05/2022 13.41, Peter Maydell wrote:
+> On Mon, 16 May 2022 at 16:22, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> Now that we allow compiling with Capstone v3.05 again, all our supported
+>> build hosts should provide at least this version of the disassembler
+>> library, so we do not need to ship this as a submodule anymore.
+> 
+> When this eventually goes in, please remember to update the
+> wiki changelog page's 'Build Information' section to let
+> users know.
+
+Done: https://wiki.qemu.org/ChangeLog/7.1#Build_Dependencies
+
+  Thomas
 
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
