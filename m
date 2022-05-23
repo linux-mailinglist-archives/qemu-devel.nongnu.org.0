@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7168530B1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 10:39:49 +0200 (CEST)
-Received: from localhost ([::1]:60930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120B3530B1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 10:45:02 +0200 (CEST)
+Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt3bQ-00053K-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 04:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54572)
+	id 1nt3gT-00075o-30
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 04:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt3Z8-0003Su-R4
- for qemu-devel@nongnu.org; Mon, 23 May 2022 04:37:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30559)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt3aF-0004ob-SR
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 04:38:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt3Z6-0006m4-5y
- for qemu-devel@nongnu.org; Mon, 23 May 2022 04:37:25 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt3aD-0006pl-4p
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 04:38:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653295043;
+ s=mimecast20190719; t=1653295112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bcXxU70wKW28bonY1woM1aSyWTB80rKrYl8RHEifxJQ=;
- b=emoFr0Jp9ajKBth1DUijDf+moA1OAXmvxFHmfsnuWMU7oJRIPfxWV9roGAtQEzy/4ODdM+
- GtA1fakTcKUJxpVe5qogSgzOseg7SqIGlUaeMzL5X+AEfnZSOI5hgLUbCfzk75pJ5Jkfsm
- WN3D3ZXBPFoK+59aEstg+0Z/XTomqH0=
+ bh=vZ4Hz1nQWB6CT/JwotTjgVD4R4kTe0eJe0FBrhrJfjY=;
+ b=ENn9DMXMfJZRfVrhjAx90NIRPHT4SofT1zXGX7hBKDrx6xBDW1nY1rm8qFxXOj7CcgIrHZ
+ 9t8uF/lnN/hiX/8OTkfszMkNRwqCdiUhkTo27Z80yC/vhXMeepBHxQecl5cBklSgjq5/HZ
+ MAlC79owrVCddiRwwzNMRqIT4yDXdFs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-7ATJMByOMHaJaD-kPM00Ew-1; Mon, 23 May 2022 04:37:08 -0400
-X-MC-Unique: 7ATJMByOMHaJaD-kPM00Ew-1
+ us-mta-352-zPbnne3sN6K7BlGwDsui3w-1; Mon, 23 May 2022 04:38:28 -0400
+X-MC-Unique: zPbnne3sN6K7BlGwDsui3w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA672185A79C;
- Mon, 23 May 2022 08:37:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1DD7802803;
+ Mon, 23 May 2022 08:38:27 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5DBB1410DD7;
- Mon, 23 May 2022 08:37:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8964A1400E75;
+ Mon, 23 May 2022 08:38:27 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 38F0C18000B4; Mon, 23 May 2022 10:37:05 +0200 (CEST)
-Date: Mon, 23 May 2022 10:37:05 +0200
+ id 9899618000B4; Mon, 23 May 2022 10:38:25 +0200 (CEST)
+Date: Mon, 23 May 2022 10:38:25 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Xiaoyao Li <xiaoyao.li@intel.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -56,15 +56,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
  Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 04/36] target/i386: Introduce
- kvm_confidential_guest_init()
-Message-ID: <20220523083705.7xgdqt74tveb3ga6@sirius.home.kraxel.org>
+Subject: Re: [RFC PATCH v4 05/36] i386/tdx: Implement tdx_kvm_init() to
+ initialize TDX VM context
+Message-ID: <20220523083825.3opso4pkzd5g55lz@sirius.home.kraxel.org>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-5-xiaoyao.li@intel.com>
+ <20220512031803.3315890-6-xiaoyao.li@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220512031803.3315890-5-xiaoyao.li@intel.com>
+In-Reply-To: <20220512031803.3315890-6-xiaoyao.li@intel.com>
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,9 +90,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 11:17:31AM +0800, Xiaoyao Li wrote:
-> Introduce a separate function kvm_confidential_guest_init() for SEV (and
-> future TDX).
+On Thu, May 12, 2022 at 11:17:32AM +0800, Xiaoyao Li wrote:
+> Introduce tdx_kvm_init() and invoke it in kvm_confidential_guest_init()
+> if it's a TDX VM. More initialization will be added later.
 > 
 > Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 
