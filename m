@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD105315C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 21:46:28 +0200 (CEST)
-Received: from localhost ([::1]:36458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D4F5315C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 21:43:51 +0200 (CEST)
+Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntE0Z-0004F7-Fv
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 15:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57814)
+	id 1ntDy2-0007ax-Sn
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 15:43:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntDve-0004zK-MG
+ id 1ntDve-0004zL-MP
  for qemu-devel@nongnu.org; Mon, 23 May 2022 15:41:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59843)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntDvb-0003Lx-Q0
+ id 1ntDvc-0003MC-06
  for qemu-devel@nongnu.org; Mon, 23 May 2022 15:41:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653334878;
+ s=mimecast20190719; t=1653334879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HfktU04Bgnt1dq6XqXQIM2pd9sGHsvPCMZ7hDbcmybw=;
- b=ImOByC+dKnbnIe70dndLSK1jX+OUgvYJeSy2jGiLwUtsr5dAE6/vEQbbhzebnMiw6hGZi3
- gIzptwLNj7pN2tU2PYS0+n8HsJrgZWrDAFfp40jtrbvlaZ3k4uNr2bEnAd2oZ01o8V+dW2
- Mv1GUa10FP0ptRvScCCxiNDK6m0EKQU=
+ bh=zXUsowygGlCzKSIzdN9drLRthvVTBHDjSjGFLMVkY4Y=;
+ b=g0He4QXS9qx8ntsH3JNfjfKE8GGErzzRMJP1naW+giep3ZcbhTEcjOeE1VZ4UchTqwBjde
+ 7E2F4dKiN18LuXhLsz8EmlWUvRK4J7EbN+lrP5K7zwjDcdC3Pf3weVoDlc8Ah8zlOJowzZ
+ zrWmHZS1hO1cND/ewLelnxbEhwAqrOc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-1JyuyF6bPaKbGdq4BakJ7A-1; Mon, 23 May 2022 15:41:16 -0400
-X-MC-Unique: 1JyuyF6bPaKbGdq4BakJ7A-1
+ us-mta-327-gA4fXA3cMzWd0LbTSGB1dQ-1; Mon, 23 May 2022 15:41:18 -0400
+X-MC-Unique: gA4fXA3cMzWd0LbTSGB1dQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79B813831C44;
- Mon, 23 May 2022 19:41:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6CEA1D3386A;
+ Mon, 23 May 2022 19:41:17 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (unknown [10.40.195.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A80F82026D6A;
- Mon, 23 May 2022 19:41:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9C072026D6A;
+ Mon, 23 May 2022 19:41:16 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/3] qga-win32: Add support for NVME but type
-Date: Mon, 23 May 2022 22:41:10 +0300
-Message-Id: <20220523194111.827805-3-kkostiuk@redhat.com>
+Subject: [PULL 3/3] trivial: qga: Log version on start
+Date: Mon, 23 May 2022 22:41:11 +0300
+Message-Id: <20220523194111.827805-4-kkostiuk@redhat.com>
 In-Reply-To: <20220523194111.827805-1-kkostiuk@redhat.com>
 References: <20220523194111.827805-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,33 +79,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bus type spaces (Indicates a storage spaces bus) is not
-supported, so return it as unknown.
-
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Message-Id: <20220520201401.706630-1-kkostiuk@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20220523191644.823726-2-kkostiuk@redhat.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/commands-win32.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ qga/main.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index dcdeb76a68..36f94c0f9c 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -490,6 +490,11 @@ static GuestDiskBusType win2qemu[] = {
- #if (_WIN32_WINNT >= 0x0601)
-     [BusTypeVirtual] = GUEST_DISK_BUS_TYPE_VIRTUAL,
-     [BusTypeFileBackedVirtual] = GUEST_DISK_BUS_TYPE_FILE_BACKED_VIRTUAL,
-+    /*
-+     * BusTypeSpaces currently is not suported
-+     */
-+    [BusTypeSpaces] = GUEST_DISK_BUS_TYPE_UNKNOWN,
-+    [BusTypeNvme] = GUEST_DISK_BUS_TYPE_NVME,
- #endif
- };
+diff --git a/qga/main.c b/qga/main.c
+index 3b9546c185..c373fec3ee 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -1271,6 +1271,8 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
+     g_log_set_fatal_mask(NULL, G_LOG_LEVEL_ERROR);
+     ga_enable_logging(s);
  
++    g_debug("Guest agent version %s started", QEMU_FULL_VERSION);
++
+ #ifdef _WIN32
+     /* On win32 the state directory is application specific (be it the default
+      * or a user override). We got past the command line parsing; let's create
 -- 
 2.25.1
 
