@@ -2,95 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51FF530B03
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 10:12:21 +0200 (CEST)
-Received: from localhost ([::1]:60952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF51530B05
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 10:15:01 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt3Aq-0002Cu-8O
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 04:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48254)
+	id 1nt3DQ-0005a1-OB
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 04:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nt31n-0008C7-El
- for qemu-devel@nongnu.org; Mon, 23 May 2022 04:02:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nt31j-0001BZ-Dk
- for qemu-devel@nongnu.org; Mon, 23 May 2022 04:02:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653292974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SzcFpesy3GNeXBCHGs8eHw/uo3jwebvAmETs+BryBOE=;
- b=RD/smr1VQdI5U2wwwqp5BunQ90+YcORAp5aBScsjcvbApBSW24iIploHvPPnYmMF2jFWBd
- 9avi4wQWjSyqXohC6pWBa5P9ppdDAnjEPRmcS8co4GekAYRcbKnm+jG6ootd48v6H3ckS/
- ZMBsCv0w9tCaQqCWdass8/9ipbSpQLY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-110-CTuAfBUcNz-_1vnARXlubg-1; Mon, 23 May 2022 04:02:53 -0400
-X-MC-Unique: CTuAfBUcNz-_1vnARXlubg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- z5-20020a5d4d05000000b0020e6457f2b4so3289143wrt.1
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 01:02:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SzcFpesy3GNeXBCHGs8eHw/uo3jwebvAmETs+BryBOE=;
- b=3sTI47YmUo8ZMiQcTtfSyvyJgDrM/fJGGiXCoGFhIUbjOJ4Z5u6DDwwh97jpiz+Ft8
- 0R3vDmK9WLnLS3kU9+mz31FxSfg17utfiYMXx46ydFLRf8cuiXe/l9WDnoP0Q/RTNrxE
- DOqyh7Pttofdm0bscJkCPovpuhDIzXnDY54VP1GLNe45pTPb1CiwyfFZ+9CnacYBmgXw
- palR8e5aTgFJM71zlx6U+fABYFsgadhozIUmNbbNKim2AbIj//jtOiLkgM/t6oZUlYI2
- LfyXw9LXJnRK5ueZQ9W7HsdoZipq/dROllOY/Hofy8dYCLArFjILr0xpOy5HAoD2sST0
- 1Ohg==
-X-Gm-Message-State: AOAM533MS9/glFoWFLCXrW5swMx2bzvvZW4Y4nbrQmJc8JYZkPOdjzLC
- U16UuW6chrtCwlj63Bhpsk5iQkCcSdXcAUNzivplAEtUNr+YdBBbIQUS5oKFJfWqRtgS2VvfzL+
- 34AaMB0FoDOhE0vM=
-X-Received: by 2002:a5d:584b:0:b0:20c:6317:1f77 with SMTP id
- i11-20020a5d584b000000b0020c63171f77mr18240351wrf.355.1653292971765; 
- Mon, 23 May 2022 01:02:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwivvofTazccRnFEpBzWclDpt3Vai1to356puEK0t06Cr4IMV/icqWKYZRVmB4L/RGuGwR93w==
-X-Received: by 2002:a5d:584b:0:b0:20c:6317:1f77 with SMTP id
- i11-20020a5d584b000000b0020c63171f77mr18240322wrf.355.1653292971371; 
- Mon, 23 May 2022 01:02:51 -0700 (PDT)
-Received: from [192.168.149.183]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- i17-20020adfaad1000000b0020d0c37b350sm11120428wrc.27.2022.05.23.01.02.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 01:02:50 -0700 (PDT)
-Message-ID: <d610a1f6-db5a-28c8-2cb7-5c383053b512@redhat.com>
-Date: Mon, 23 May 2022 10:02:54 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nt38X-0002e6-RJ; Mon, 23 May 2022 04:10:03 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:48060 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nt38P-00028M-P5; Mon, 23 May 2022 04:09:53 -0400
+Received: from [192.168.0.105] (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowAC3v4c8QYtiyhzSCQ--.51870S2;
+ Mon, 23 May 2022 16:09:35 +0800 (CST)
+Subject: Re: [PATCH] target/riscv: add support for zmmul extension v0.1
+To: Alistair Francis <alistair23@gmail.com>, Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V"
+ <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?=
+ <lazyparser@gmail.com>
+References: <20220518015316.20504-1-liweiwei@iscas.ac.cn>
+ <CAKmqyKNBQo91af1m5t_wDOVMeh=6uYD9Q+KugoTOQYzQJUtf5w@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <3ed635e4-5705-007c-be5c-edd07936758d@iscas.ac.cn>
+Date: Mon, 23 May 2022 16:09:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] block: drop unused bdrv_co_drain() API
+In-Reply-To: <CAKmqyKNBQo91af1m5t_wDOVMeh=6uYD9Q+KugoTOQYzQJUtf5w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Alberto Faria <afaria@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-References: <20220521122714.3837731-1-stefanha@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20220521122714.3837731-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: qwCowAC3v4c8QYtiyhzSCQ--.51870S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZr4fZryxWry3KryUCw18Grg_yoWrKw4Upr
+ W8GFW7AFs8tFySvayIyan0qF1xJanagw47t39ayw4kJayfKrWDCF1DK3yakr4UAFyv9r1j
+ y3WjyFnxZ3y0qa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUU
+ UU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,67 +84,144 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+在 2022/5/23 下午2:34, Alistair Francis 写道:
+> On Wed, May 18, 2022 at 11:54 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>>   - includes all multiplication operations for M extension
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/cpu.c                      |  2 ++
+>>   target/riscv/cpu.h                      |  1 +
+>>   target/riscv/insn_trans/trans_rvm.c.inc | 18 ++++++++++++------
+>>   3 files changed, 15 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index e373c61ba2..01b57d3784 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -903,6 +903,7 @@ static Property riscv_cpu_properties[] = {
+>>
+>>       /* These are experimental so mark with 'x-' */
+>>       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>> +    DEFINE_PROP_BOOL("x-zmmul", RISCVCPU, cfg.ext_zmmul, false),
+> Is this really experimental?
+>
+> Alistair
 
-Am 21/05/2022 um 14:27 schrieb Stefan Hajnoczi:
-> bdrv_co_drain() has not been used since commit 9a0cec664eef ("mirror:
-> use bdrv_drained_begin/bdrv_drained_end") in 2016. Remove it so there
-> are fewer drain scenarios to worry about.
-> 
-> Use bdrv_drained_begin()/bdrv_drained_end() instead. They are "mixed"
-> functions that can be called from coroutine context. Unlike
-> bdrv_co_drain(), these functions provide control of the length of the
-> drained section, which is usually the right thing.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+I think it's experimental currently. The zmmul version in latest riscv 
+spec is v0.1, even though described as  v1.0 in spike README.
 
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Its specification status 
+(https://wiki.riscv.org/display/home/specification+status) is Freeze 
+Complete and TSC Sign-Off Voting.
 
-Thank you,
-Emanuele
+And It's not in the ratified extension 
+list(https://wiki.riscv.org/display/home/recently+ratified+extensions).
 
-> ---
->  include/block/block-io.h |  1 -
->  block/io.c               | 15 ---------------
->  2 files changed, 16 deletions(-)
-> 
-> diff --git a/include/block/block-io.h b/include/block/block-io.h
-> index 62c84f0519..053a27141a 100644
-> --- a/include/block/block-io.h
-> +++ b/include/block/block-io.h
-> @@ -270,7 +270,6 @@ void bdrv_drained_end_no_poll(BlockDriverState *bs, int *drained_end_counter);
->                     cond); })
->  
->  void bdrv_drain(BlockDriverState *bs);
-> -void coroutine_fn bdrv_co_drain(BlockDriverState *bs);
->  
->  int generated_co_wrapper
->  bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
-> diff --git a/block/io.c b/block/io.c
-> index 789e6373d5..1e9bf09a49 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -588,21 +588,6 @@ void bdrv_unapply_subtree_drain(BdrvChild *child, BlockDriverState *old_parent)
->      BDRV_POLL_WHILE(child->bs, qatomic_read(&drained_end_counter) > 0);
->  }
->  
-> -/*
-> - * Wait for pending requests to complete on a single BlockDriverState subtree,
-> - * and suspend block driver's internal I/O until next request arrives.
-> - *
-> - * Note that unlike bdrv_drain_all(), the caller must hold the BlockDriverState
-> - * AioContext.
-> - */
-> -void coroutine_fn bdrv_co_drain(BlockDriverState *bs)
-> -{
-> -    IO_OR_GS_CODE();
-> -    assert(qemu_in_coroutine());
-> -    bdrv_drained_begin(bs);
-> -    bdrv_drained_end(bs);
-> -}
-> -
->  void bdrv_drain(BlockDriverState *bs)
->  {
->      IO_OR_GS_CODE();
-> 
+Any status update I missed?
+
+Regards,
+
+Weiwei Li
+
+>>       /* ePMP 0.9.3 */
+>>       DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+>>       DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+>> @@ -1027,6 +1028,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+>>        *    extensions by an underscore.
+>>        */
+>>       struct isa_ext_data isa_edata_arr[] = {
+>> +        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
+>>           ISA_EDATA_ENTRY(zfh, ext_zfh),
+>>           ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+>>           ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index f5ff7294c6..68177eae12 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -405,6 +405,7 @@ struct RISCVCPUConfig {
+>>       bool ext_zhinxmin;
+>>       bool ext_zve32f;
+>>       bool ext_zve64f;
+>> +    bool ext_zmmul;
+>>
+>>       uint32_t mvendorid;
+>>       uint64_t marchid;
+>> diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
+>> index 16b029edf0..ec7f705aab 100644
+>> --- a/target/riscv/insn_trans/trans_rvm.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvm.c.inc
+>> @@ -18,6 +18,12 @@
+>>    * this program.  If not, see <http://www.gnu.org/licenses/>.
+>>    */
+>>
+>> +#define REQUIRE_M_OR_ZMMUL(ctx) do {                      \
+>> +    if (!ctx->cfg_ptr->ext_zmmul && !has_ext(ctx, RVM)) { \
+>> +        return false;                                     \
+>> +    }                                                     \
+>> +} while (0)
+>> +
+>>   static void gen_mulhu_i128(TCGv r2, TCGv r3, TCGv al, TCGv ah, TCGv bl, TCGv bh)
+>>   {
+>>       TCGv tmpl = tcg_temp_new();
+>> @@ -65,7 +71,7 @@ static void gen_mul_i128(TCGv rl, TCGv rh,
+>>
+>>   static bool trans_mul(DisasContext *ctx, arg_mul *a)
+>>   {
+>> -    REQUIRE_EXT(ctx, RVM);
+>> +    REQUIRE_M_OR_ZMMUL(ctx);
+>>       return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, gen_mul_i128);
+>>   }
+>>
+>> @@ -109,7 +115,7 @@ static void gen_mulh_w(TCGv ret, TCGv s1, TCGv s2)
+>>
+>>   static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
+>>   {
+>> -    REQUIRE_EXT(ctx, RVM);
+>> +    REQUIRE_M_OR_ZMMUL(ctx);
+>>       return gen_arith_per_ol(ctx, a, EXT_SIGN, gen_mulh, gen_mulh_w,
+>>                               gen_mulh_i128);
+>>   }
+>> @@ -161,7 +167,7 @@ static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
+>>
+>>   static bool trans_mulhsu(DisasContext *ctx, arg_mulhsu *a)
+>>   {
+>> -    REQUIRE_EXT(ctx, RVM);
+>> +    REQUIRE_M_OR_ZMMUL(ctx);
+>>       return gen_arith_per_ol(ctx, a, EXT_NONE, gen_mulhsu, gen_mulhsu_w,
+>>                               gen_mulhsu_i128);
+>>   }
+>> @@ -176,7 +182,7 @@ static void gen_mulhu(TCGv ret, TCGv s1, TCGv s2)
+>>
+>>   static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
+>>   {
+>> -    REQUIRE_EXT(ctx, RVM);
+>> +    REQUIRE_M_OR_ZMMUL(ctx);
+>>       /* gen_mulh_w works for either sign as input. */
+>>       return gen_arith_per_ol(ctx, a, EXT_ZERO, gen_mulhu, gen_mulh_w,
+>>                               gen_mulhu_i128);
+>> @@ -349,7 +355,7 @@ static bool trans_remu(DisasContext *ctx, arg_remu *a)
+>>   static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
+>>   {
+>>       REQUIRE_64_OR_128BIT(ctx);
+>> -    REQUIRE_EXT(ctx, RVM);
+>> +    REQUIRE_M_OR_ZMMUL(ctx);
+>>       ctx->ol = MXL_RV32;
+>>       return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, NULL);
+>>   }
+>> @@ -389,7 +395,7 @@ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
+>>   static bool trans_muld(DisasContext *ctx, arg_muld *a)
+>>   {
+>>       REQUIRE_128BIT(ctx);
+>> -    REQUIRE_EXT(ctx, RVM);
+>> +    REQUIRE_M_OR_ZMMUL(ctx);
+>>       ctx->ol = MXL_RV64;
+>>       return gen_arith(ctx, a, EXT_SIGN, tcg_gen_mul_tl, NULL);
+>>   }
+>> --
+>> 2.17.1
+>>
+>>
 
 
