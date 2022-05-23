@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7495311A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:38:14 +0200 (CEST)
-Received: from localhost ([::1]:37498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23F15311AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:44:08 +0200 (CEST)
+Received: from localhost ([::1]:43274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntA8L-00060D-Lc
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33438)
+	id 1ntAE3-0001t6-Lt
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1ntA2L-0006Lc-45
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:32:04 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44575)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntA5s-00043f-Az
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:35:40 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:53803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1ntA2G-0004Nh-Hg
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:32:00 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id q4so13418486plr.11
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WiJzMuz84xw5wmmABM5sb4kbwcLrYRDhSlSku9cJw0g=;
- b=kUYPhJtXF5kPrR4H1ahLcjqJNfpZ25m35YPoscLrYZaK8sykNQVo9KGvfEWaR2xKKm
- loF2esAJd+lt2Nf0SKwSQbLUJBjsasB82Rpqa1Pu93a63NHyF0DZxE92tCxCzg+sNAMk
- QIVnQHX417ShCPlmehna5W4WyTaHebvBcUqHhvnyaU8GIx3AKPW1q3/ES5ugIo1vWc1B
- nwVlaAtT1SxNc/bj/pvIjgvPNz4JLRleVftpsGqwhFkQGx8zisNDkupf1XOG8En1mcG6
- 5v9HuCl5hPECUZTJ5XS2Ox3vz/6ChefteCaJC4RtPW2e6qlFRPDA8VyRrxkohjM+ncYz
- 678w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntA5q-0005FM-90
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:35:39 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id z11so4584453pjc.3
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 08:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=nb0gXLnG3vXymenlSwSKp6S0s3pBepFe4gi9gZLSRsc=;
+ b=uMeo4a/6Ngdlog3Hn2bnPn3h96EUVHN6wgF7+0bdQh1S4U77gqgC77Bv/tlrCW+Lmv
+ Q2N6xt5/JYkNlcCfTXAb1AmVCFkYMwqtcOZO65BuGXjl3/svnWGBFuVcN/tgOZO+c2uC
+ XT2b74qnwgh5St1/zrA+w4wqDgmAwOqoewjwi7ftJEx3ybw7cbcX1WdCOoKKoKIAKOcQ
+ GnjnM9FiWxpn/714R6NaL5nB698cyOSSmpu3a3IiBL9sPmwDJkjkFrRDKHWCpEqWsWuJ
+ EJhlmuABr0bhtMSu4MS2brKj+joM1IZNKh242g6jxQDdahE1+ga04ANd7rDKuO77hUcU
+ VLVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WiJzMuz84xw5wmmABM5sb4kbwcLrYRDhSlSku9cJw0g=;
- b=lfsUADL0RHOqUdIaUKsjJO8G2TaaUmTHm885X/T3uLaWCEvL979SMmsauwj6CEg2/M
- 1+l0lWtU1HZZqO6COdTEN+0H8CdDb2vwBXLDvJbFd5/UvRr7+L34OatY4UxKDvqLBvEe
- TJzxPo5A4iD93LdGggxPbl9GBxSQFeqAzSnd7pgsiyCuJ00yKXC1seQefbbf55E1kaJj
- KkhS73qZW+sAT/a/mqfoHePdWaDV2k8FWPgiO59bmj0JAHC/6BWvkO70rXR76FV+3B1K
- PbftTUlqs/eKk0PVlbCzIP8pW1hHRrMYGOdcXiIyw/TP7xCR3GO0z55CFxVhdzzgr35R
- Armw==
-X-Gm-Message-State: AOAM5313K6OcPUMAnNg6xwfC9Zksu6jtxPhMf5BheO2oltUll7JfSBpQ
- A6IOQmZcPOXET3tTkUSyrQIG/Y6NNK3jw/sh
-X-Google-Smtp-Source: ABdhPJy5KL4hlob/Hhg8wYV9bL05GVSh7ACauPuR3ykheubnat3vb4zgUXRQ3+VgGJS9z0eaCABySw==
-X-Received: by 2002:a17:90b:3908:b0:1df:56a8:aa with SMTP id
- ob8-20020a17090b390800b001df56a800aamr26683379pjb.28.1653319912370; 
- Mon, 23 May 2022 08:31:52 -0700 (PDT)
-Received: from hsinchu16.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ bh=nb0gXLnG3vXymenlSwSKp6S0s3pBepFe4gi9gZLSRsc=;
+ b=sy3qLlXuowumgm0yp5dP9HELe/58SchVyn96jwtFIuhe/05JZrsHzIl0zOsfW1mQ5A
+ fMatfml+SRAESkyT1rNNcKLw8iZgrc6XTk6gzIACnBx3EmaBPI1tjQLUxPtwpqC/XCit
+ MQL6A4mHaJb6OIcZaH4qdfRiU12Zl45VrDMHbkmpORs32G5wQ81CE9C/TznDwGZbYlmu
+ /7G4uLx96CTOpnIFs0zKDrnyis5MWeUWu46QvLQNo4HD8pNqO0CKiu7agA/LfA/R5wT5
+ C8/tHCNFOMYiMy1Tf9+ItKNDytxJ5XCRSOBfO1sZcqo6c+/CNzKQxj8NxZ9swhA4g3x7
+ xdaA==
+X-Gm-Message-State: AOAM5320J0HZ1g3At8tREE1iIqByCskV25BOuh0Xa4oPFwWL1ExKZlFo
+ n6Tvy7sp8dnXuA8tNpAJYA0GAQ==
+X-Google-Smtp-Source: ABdhPJyeSXRm3Xbos9R5GzWQp8M+T/ai1kFbazBnmUQ8ZwL6tqakgKO0YyQWMz/BLoHRVLPm/S+LUQ==
+X-Received: by 2002:a17:902:6505:b0:162:6c7:7236 with SMTP id
+ b5-20020a170902650500b0016206c77236mr11893205plk.96.1653320136849; 
+ Mon, 23 May 2022 08:35:36 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- s21-20020a639255000000b003f24a2be89asm4959507pgn.8.2022.05.23.08.31.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 08:31:51 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org
-Subject: [RESEND PATCH v2] target/riscv: Fix typo of mimpid cpu option
-Date: Mon, 23 May 2022 23:31:46 +0800
-Message-Id: <20220523153147.15371-1-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.35.1
+ z11-20020a170902cccb00b0015e8d4eb28fsm5330748ple.217.2022.05.23.08.35.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 May 2022 08:35:36 -0700 (PDT)
+Message-ID: <840c75f7-069b-9c53-37ca-399489989758@linaro.org>
+Date: Mon, 23 May 2022 08:35:34 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 09/49] semihosting: Adjust error checking in
+ common_semi_cb
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
+References: <20220521000400.454525-1-richard.henderson@linaro.org>
+ <20220521000400.454525-10-richard.henderson@linaro.org>
+ <CAFEAcA9x+xCFkLQX8wMnTr4JfFLN0nOnLan6y-Qt-tmzRe5mpA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9x+xCFkLQX8wMnTr4JfFLN0nOnLan6y-Qt-tmzRe5mpA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,85 +95,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On 5/23/22 05:13, Peter Maydell wrote:
+> On Sat, 21 May 2022 at 01:04, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> The err parameter is non-zero if and only if an error occured.
+>> Use this instead of ret == -1 for determining if we need to
+>> update the saved errno.
+> 
+> The gdb protocol isn't 100% clear on this, but what it says is:
+> https://sourceware.org/gdb/onlinedocs/gdb/The-F-Reply-Packet.html#The-F-Reply-Packet
+> 
+> # retcode is the return code of the system call as hexadecimal value.
+> # errno is the errno set by the call, in protocol-specific representation.
+> # This parameter can be omitted if the call was successful.
+> 
+> (and from the implementation in gdb it is basically just returning
+> the return value from a syscall plus errno).
+> 
+> That implies that our current code is right, in that the
+> way to check for "did the call fail" is to look at the
+> retcode, not the errno (in the same way that if you make a
+> native syscall or library call you look first at its return
+> value, not at errno). There's nothing in the protocol text
+> that makes a guarantee that the errno value is non-0 if and
+> only if the call failed.
 
-"mimpid" cpu option was mistyped to "mipid".
+I admit that I didn't check the gdb code.  I looked at our side and saw that when the 
+second result is missing that we'd supply 0, and interpreted "can be omitted" as "will be 
+omitted" on success.
 
-Fixes: 9951ba94 ("target/riscv: Support configuarable marchid, mvendorid, mipid CSR values")
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 4 ++--
- target/riscv/cpu.h | 2 +-
- target/riscv/csr.c | 8 ++++----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+> The gdb implementation of the isatty call returns 0 or 1 on
+> success, and -1 on failure (though the only failure mode it has
+> is "you messed up the protocol packet format"):
+> https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=gdb/remote-fileio.c;h=fe191fb6069a53a3844656a81e77069afa781946;hb=HEAD#l1039
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6d01569cad..a1f847176e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -37,7 +37,7 @@
- #define RISCV_CPU_MARCHID   ((QEMU_VERSION_MAJOR << 16) | \
-                              (QEMU_VERSION_MINOR << 8)  | \
-                              (QEMU_VERSION_MICRO))
--#define RISCV_CPU_MIPID     RISCV_CPU_MARCHID
-+#define RISCV_CPU_MIMPID    RISCV_CPU_MARCHID
- 
- static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
- 
-@@ -869,7 +869,7 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
-     DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCHID),
--    DEFINE_PROP_UINT64("mipid", RISCVCPU, cfg.mipid, RISCV_CPU_MIPID),
-+    DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID),
- 
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f5ff7294c6..44975e3e5a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -408,7 +408,7 @@ struct RISCVCPUConfig {
- 
-     uint32_t mvendorid;
-     uint64_t marchid;
--    uint64_t mipid;
-+    uint64_t mimpid;
- 
-     /* Vendor-specific custom extensions */
-     bool ext_XVentanaCondOps;
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 4ea7df02c9..0d5bc2f41d 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -674,13 +674,13 @@ static RISCVException read_marchid(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
--static RISCVException read_mipid(CPURISCVState *env, int csrno,
--                                 target_ulong *val)
-+static RISCVException read_mimpid(CPURISCVState *env, int csrno,
-+                                  target_ulong *val)
- {
-     CPUState *cs = env_cpu(env);
-     RISCVCPU *cpu = RISCV_CPU(cs);
- 
--    *val = cpu->cfg.mipid;
-+    *val = cpu->cfg.mimpid;
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -3372,7 +3372,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     /* Machine Information Registers */
-     [CSR_MVENDORID] = { "mvendorid", any,   read_mvendorid },
-     [CSR_MARCHID]   = { "marchid",   any,   read_marchid   },
--    [CSR_MIMPID]    = { "mimpid",    any,   read_mipid     },
-+    [CSR_MIMPID]    = { "mimpid",    any,   read_mimpid    },
-     [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid   },
- 
-     [CSR_MCONFIGPTR]  = { "mconfigptr", any,   read_zero,
--- 
-2.35.1
+Technically, isatty = 0 is failure not success and should also set ENOTTY.
 
+
+r~
 
