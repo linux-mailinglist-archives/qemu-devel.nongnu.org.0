@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA97530C7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 12:04:15 +0200 (CEST)
-Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90A9530C5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 11:43:11 +0200 (CEST)
+Received: from localhost ([::1]:58664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt4v8-0005WV-RP
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 06:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37842)
+	id 1nt4ak-0003lX-Jo
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 05:43:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt4XC-0001xy-7E
- for qemu-devel@nongnu.org; Mon, 23 May 2022 05:39:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60741)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nt4YD-0002JV-TI
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 05:40:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nt4X9-0007Va-Am
- for qemu-devel@nongnu.org; Mon, 23 May 2022 05:39:28 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nt4YB-00085f-3D
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 05:40:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653298766;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+TxRfMkI29EpV9M74qsZWsccffjGup9UXF5ZlzJ8zeo=;
- b=d4bqTLB+RXgQRrNDZIlCYMZW0gxy3lkfo1Z3NBkuyteScjt2oeFK+E9RhiXj35aYNO9enV
- I36tyzj8EE6ZO439yLMTCAHSpnTct2o9tLuAtwVpe8gaZ9Xl+P6TF3DbDeb7Jxy+a30vlO
- ftouE3wqOKf9FmEUxYl9dFLdurbLklo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1653298828;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Nx0F2upiPenzA/N8IHYkNFz5WS3VzOzTAlo4y6sAXjA=;
+ b=MYIKC1nel2iNaX/R1RknkT2huR7gY+hMD7hTqiXa1G6Xf3MkvJl+dr2uQIRtb4aIvW4Tsr
+ 5KuJ64GDoiIeI208ca3XnQ8eBzax/qcK4WCPM2m77ORF/2kQPlISU4Y/9nHTjzXqagGzZK
+ XfGzR5jmcOfHyfvMOFQXTILYMVIN11k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-WfOSOmZxPpO2UKkF9D2zuw-1; Mon, 23 May 2022 05:39:22 -0400
-X-MC-Unique: WfOSOmZxPpO2UKkF9D2zuw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-21-CtaIJETkONef60Hv_PfcFw-1; Mon, 23 May 2022 05:40:23 -0400
+X-MC-Unique: CtaIJETkONef60Hv_PfcFw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 197753C1022A;
- Mon, 23 May 2022 09:39:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFF322026D6A;
- Mon, 23 May 2022 09:39:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0A69E18000B4; Mon, 23 May 2022 11:39:20 +0200 (CEST)
-Date: Mon, 23 May 2022 11:39:20 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 13/36] i386/tdx: Validate TD attributes
-Message-ID: <20220523093920.o6pk5i7zig6enwnm@sirius.home.kraxel.org>
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-14-xiaoyao.li@intel.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA6C580419C;
+ Mon, 23 May 2022 09:40:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CFA4492CA2;
+ Mon, 23 May 2022 09:40:21 +0000 (UTC)
+Date: Mon, 23 May 2022 10:40:19 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: mst@redhat.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org,
+ linux-crypto@vger.kernel.org, helei.sig11@bytedance.com,
+ jasowang@redhat.com, cohuck@redhat.com
+Subject: Re: [PATCH v6 6/9] crypto: Implement RSA algorithm by gcrypt
+Message-ID: <YotWg3KXjbyx9CrN@redhat.com>
+References: <20220514005504.1042884-1-pizhenwei@bytedance.com>
+ <20220514005504.1042884-7-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220512031803.3315890-14-xiaoyao.li@intel.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <20220514005504.1042884-7-pizhenwei@bytedance.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,41 +80,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Validate TD attributes with tdx_caps that fixed-0 bits must be zero and
-> fixed-1 bits must be set.
-
-> -static void setup_td_guest_attributes(X86CPU *x86cpu)
-> +static int tdx_validate_attributes(TdxGuest *tdx)
+On Sat, May 14, 2022 at 08:55:01AM +0800, zhenwei pi wrote:
+> From: Lei He <helei.sig11@bytedance.com>
+> 
+> Added gcryt implementation of RSA algorithm, RSA algorithm
+> implemented by gcrypt has a higher priority than nettle because
+> it supports raw padding.
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> Signed-off-by: lei he <helei.sig11@bytedance.com>
+> ---
+>  crypto/akcipher-gcrypt.c.inc | 597 +++++++++++++++++++++++++++++++++++
+>  crypto/akcipher.c            |   4 +-
+>  2 files changed, 600 insertions(+), 1 deletion(-)
+>  create mode 100644 crypto/akcipher-gcrypt.c.inc
+> 
+> diff --git a/crypto/akcipher-gcrypt.c.inc b/crypto/akcipher-gcrypt.c.inc
+> new file mode 100644
+> index 0000000000..6c5daa301e
+> --- /dev/null
+> +++ b/crypto/akcipher-gcrypt.c.inc
+> @@ -0,0 +1,597 @@
+> +/*
+> + * QEMU Crypto akcipher algorithms
+> + *
+> + * Copyright (c) 2022 Bytedance
+> + * Author: lei he <helei.sig11@bytedance.com>
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + *
+> + */
+> +
+> +#include <gcrypt.h>
+> +static QCryptoGcryptRSA *qcrypto_gcrypt_rsa_new(
+> +    const QCryptoAkCipherOptionsRSA *opt,
+> +    QCryptoAkCipherKeyType type,
+> +    const uint8_t *key, size_t keylen,
+> +    Error **errp)
 > +{
-> +    if (((tdx->attributes & tdx_caps->attrs_fixed0) | tdx_caps->attrs_fixed1) !=
-> +        tdx->attributes) {
-> +            error_report("Invalid attributes 0x%lx for TDX VM (fixed0 0x%llx, fixed1 0x%llx)",
-> +                          tdx->attributes, tdx_caps->attrs_fixed0, tdx_caps->attrs_fixed1);
-> +            return -EINVAL;
+> +    QCryptoGcryptRSA *rsa = g_new0(QCryptoGcryptRSA, 1);
+> +    rsa->padding_alg = opt->padding_alg;
+> +    rsa->hash_alg = opt->hash_alg;
+> +    rsa->akcipher.driver = &gcrypt_rsa;
+> +
+> +    switch (type) {
+> +    case QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE:
+> +        if (qcrypto_gcrypt_parse_rsa_private_key(rsa, key, keylen, errp) != 0) {
+> +            error_setg(errp, "Failed to parse rsa private key");
+
+Not need now, since qcrypto_gcrypt_parse_rsa_private_key reports the
+real error message.
+
+> +            goto error;
+> +        }
+> +        break;
+> +
+> +    case QCRYPTO_AKCIPHER_KEY_TYPE_PUBLIC:
+> +        if (qcrypto_gcrypt_parse_rsa_public_key(rsa, key, keylen, errp) != 0) {
+> +            error_setg(errp, "Failed to parse rsa public rsa key");
+
+Likewise not needed.
+
+> +            goto error;
+> +        }
+> +        break;
+> +
+> +    default:
+> +        error_setg(errp, "Unknown akcipher key type %d", type);
+> +        goto error;
 > +    }
+> +
+> +    return rsa;
+> +
+> +error:
+> +    qcrypto_gcrypt_rsa_free((QCryptoAkCipher *)rsa);
+> +    return NULL;
+> +}
 
-So, how is this supposed to work?  Patch #2 introduces attributes as
-user-settable property.  So do users have to manually figure and pass
-the correct value, so the check passes?  Specifically the fixed1 check?
-
-I think 'attributes' should not be user-settable in the first place.
-Each feature-bit which is actually user-settable (and not already
-covered by another option like pmu) should be a separate attribute for
-tdx-object.  Then the tdx code can create attributes from hardware
-capabilities and user settings.
-
-When user-settable options might not be available depending on hardware
-capabilities best practice is to create them as OnOffAuto properties.
-
-  Auto == qemu can pick the value, typical behavior is to enable the
-          feature if the hardware supports it.
-  On == must enable, if it isn't possible throw an error and exit.
-  Off == must disable, if it isn't possible throw an error and exit. 
-
-take care,
-  Gerd
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
