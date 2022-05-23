@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE03530EAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:30:56 +0200 (CEST)
-Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF8D530EAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 14:34:08 +0200 (CEST)
+Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt7D5-000615-VH
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43806)
+	id 1nt7GB-0000qh-Iy
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 08:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt78y-0003N6-P9
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:26:41 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:43917)
+ id 1nt7CH-0006j4-Qp
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:30:08 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:37499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nt78v-0004BB-B7
- for qemu-devel@nongnu.org; Mon, 23 May 2022 08:26:38 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id q135so25089614ybg.10
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:26:36 -0700 (PDT)
+ id 1nt7CF-0004TG-Jv
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 08:30:05 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2ff90e0937aso71305987b3.4
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 05:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=22s/yZQ54LAEnzgVRfSPDgDEXerpejwAvvoZ38GFbkk=;
- b=n91+WGnl1uSAa1/X21e+PnB5enMFzRKqvp7IysdCE+5h0+dpCvz2CN/KSfvSSePNXM
- eTlMXtCDGtWQk+huYEfT/fNpXz7A1SU6YHLASVwO3BzXE3TScRox+FZLhMEzzx8sd6xZ
- qOt68TOntyY6ahS4YfRQKWqe0YAOkXqWebeuGiJF0JobbfhC32YoQOfoCKy0vO/StGeA
- jcwQcY/jG0CAnytYGH2BLvpM8B0Xsrb3VlAAod73ustnHAI1IWmGUjv7y3ae3OhOScfz
- 0IGRRNncx7aksugFWzM+o3O3wAz1klP05J6BlPQuEkxd9zPB4kK8Gry/VZiyazrc2RtV
- Arcg==
+ :cc:content-transfer-encoding;
+ bh=JqyyCqMA72dZNAZbcC8RLmbGpUM94xQI56dVpZ/5fNw=;
+ b=B+JQzCoRNa/UBacheyVJh3OJFiqodFNcditMqyQW9BX6lpIntiLebaewSqd1WDVo19
+ lzx7g6PhK+gTdm3fVh6Wpjaasq23zxjlfISG2EdaHhGGMIXwjHU55+bOL1TAt8i5UCxk
+ ZT6sLYvEm6Ac0mqaooer0PNyDFxnI4Tm6EPxLsmbn4rIZjoXJXf+JydnH54bsTaL3CQ7
+ Z/S9u6SteW8VTq+flm+nB4ATfJrvjOA2phlDetbsLacELSsItl6XLQu0TaiuLG1nPMtr
+ 65cFb1dOL5SV1/ncmqnuhp+J0yt1CyDr7BoqU1LjGsmaj4o6qUQjRTD0wMhxkmzH7YHO
+ Zt3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=22s/yZQ54LAEnzgVRfSPDgDEXerpejwAvvoZ38GFbkk=;
- b=OyCyu1kLze+zMv2biTlgLqhyisRBC7fBCj8HYxOdgfI97tPaMIJUwT3v+klXa+MFzL
- eUl2fEZHHhvtlxKWPrKahrPh1c6mO7LC4cNoJvFjVtKcrIqLXbmwevotMIgrLtx3aeqI
- ho/lhjeN+iGObzbnGmnQFXtCjh1hgJscPQ0jQakCRzBydfUKCBYBYoBECfBUrFvT5icX
- 5YJe2GUoXmza6Aua2ys//z7IBJJlZFKKJX5fFUOX8tFhjiEOniMRUbu6Enb6B5f8ofON
- FWiuSwVxHm/rXL8OSWbCndFQW1wl6A4zU/iaHNleZD8LYNxrWyweSwo6pnUlvSXGjCXg
- NPKA==
-X-Gm-Message-State: AOAM533o5cPWoVnnEI3l6+ZcX2WjHlr0tN2oHDov7w9lzFPssPyQmd8Z
- Ba5uKr71Nhijs1Sn8b0v5TO8EKqbY9xl71wDtEyB3g==
-X-Google-Smtp-Source: ABdhPJw8sCPabiyLYI/bpQjFU+0w7zUFkmxqHuADCmoBfegq05+y+FRoW8tNigaCSgw898PDiP85o4euEcNobqZTjh4=
-X-Received: by 2002:a25:2e06:0:b0:64d:b6a5:261a with SMTP id
- u6-20020a252e06000000b0064db6a5261amr20516748ybu.140.1653308796327; Mon, 23
- May 2022 05:26:36 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JqyyCqMA72dZNAZbcC8RLmbGpUM94xQI56dVpZ/5fNw=;
+ b=FLQsGTcbHl8ZO4/NUKGHF3J8dkCkcSjpkJ1KC8m2pUgBovWbMe5+pgVQcz2EooLdI2
+ WC1UU6N6Hyz9wWN1AwqFfp8LRE/NWVleDmiUaC7mSzMwHVDKvcmHy6AaKPixKTXoxdgp
+ jskf9eKtqg+R3AP0ckRlO9s5D3s3Ef9PAc1cBfPdAruBQkR64/JPY6a3tQV4pr/VCkpx
+ WlEUIBoIwyA+k1M8XsX8f9ACsN37b5ZAIGcp1HRICHRkob7/gi+y5TRP/gpPGE3Ybpe1
+ RY8KwmG3rahw20nEGZnFvIoxDWGnYAhDkW3KfNISaakOORL0hxt/dkCfOdKOWzzV2xXw
+ O1og==
+X-Gm-Message-State: AOAM532AY5JeHgERYo0x+GvtZorSouY4Qnl3Kv6Wj+KkDckMAr5UIp9X
+ Iu35ZshCi9oFYNX068kwMXixZLYNOQpRwu9ikPpTYg==
+X-Google-Smtp-Source: ABdhPJwKf4VmxX4KJ88xkkLpZm/rd8zuubsa9OyBJIHIqI9xhW7sm7A9NC2oekMdT62aBdAc8LxuS1DFmTTexTzYyBM=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr23460836ywf.347.1653309002010; Mon, 23
+ May 2022 05:30:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-15-richard.henderson@linaro.org>
-In-Reply-To: <20220521000400.454525-15-richard.henderson@linaro.org>
+References: <20220513180821.905149-1-marcandre.lureau@redhat.com>
+ <20220513180821.905149-6-marcandre.lureau@redhat.com>
+In-Reply-To: <20220513180821.905149-6-marcandre.lureau@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 May 2022 13:26:25 +0100
-Message-ID: <CAFEAcA8khr2dep51EO6iuP7vSNd+OvJ9Dxtp-H_FhnAhEi9k6Q@mail.gmail.com>
-Subject: Re: [PATCH v3 14/49] include/exec: Move gdb open flags to gdbstub.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
+Date: Mon, 23 May 2022 13:29:51 +0100
+Message-ID: <CAFEAcA-k2Z+NtQSUn2KkDa_VBn=P7JB6kBk2bOJ_CJTphBfGzg@mail.gmail.com>
+Subject: Re: [PATCH v3 05/15] osdep: export qemu_open_cloexec()
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,32 +86,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 21 May 2022 at 01:04, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, 13 May 2022 at 19:16, <marcandre.lureau@redhat.com> wrote:
 >
-> There were 3 copies of these flags.  Place them in the
-> file with gdb_do_syscall, with which they belong.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Used in the next patch, to simplify qga code.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  include/exec/gdbstub.h        | 10 ++++++++++
->  semihosting/arm-compat-semi.c |  8 --------
->  target/m68k/m68k-semi.c       |  8 --------
->  target/nios2/nios2-semi.c     |  8 --------
->  4 files changed, 10 insertions(+), 24 deletions(-)
+>  include/qemu/osdep.h |  1 +
+>  util/osdep.c         | 10 ++++++++--
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 67cc465416..64f51cfb7a 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -489,6 +489,7 @@ void sigaction_invoke(struct sigaction *action,
+>   */
+>  int qemu_open_old(const char *name, int flags, ...);
+>  int qemu_open(const char *name, int flags, Error **errp);
+> +int qemu_open_cloexec(const char *name, int flags, mode_t mode, Error **=
+errp);
+>  int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+>  int qemu_close(int fd);
+>  int qemu_unlink(const char *name);
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-Separately:
-
-> +#define GDB_O_BINARY  0
-
-The gdb remote protocol doesn't define an O_BINARY:
-https://sourceware.org/gdb/onlinedocs/gdb/Open-Flags.html#Open-Flags
-and files are always opened in binary mode:
-https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=gdb/remote-fileio.c;h=fe191fb6069a53a3844656a81e77069afa781946;hb=HEAD#l122
-
-so we should probably drop our definition and use of GDB_O_BINARY.
+Where we make a function global and put it in a header
+we should generally add a documentation comment describing it,
+please.
 
 thanks
 -- PMM
