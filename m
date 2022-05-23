@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387EE53169D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 22:52:12 +0200 (CEST)
-Received: from localhost ([::1]:35976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD70C531994
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 22:55:01 +0200 (CEST)
+Received: from localhost ([::1]:41800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntF2B-0005Su-61
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 16:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41994)
+	id 1ntF4u-0000xq-Ph
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 16:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntEy0-0008Dr-BW
+ id 1ntEy0-0008Ds-KJ
  for qemu-devel@nongnu.org; Mon, 23 May 2022 16:47:53 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:34590)
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:39654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntExw-0004zY-9u
+ id 1ntExx-0004zo-5p
  for qemu-devel@nongnu.org; Mon, 23 May 2022 16:47:52 -0400
-Received: by mail-pl1-x635.google.com with SMTP id n8so14140423plh.1
- for <qemu-devel@nongnu.org>; Mon, 23 May 2022 13:47:47 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id v11so14696327pff.6
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 13:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HJoYOaaLuB8gatH0dOhmGoPETBA6JA7xdiNzavM9zuM=;
- b=eFnp1B3RKHuwL1LsRt2UrnvVd39DBqmPiyF2mEAi8wmAZRELqu3C33fewhMTYHm+Yb
- kwvUBIwbR7zZRn9ro9dJZbM9AzxrAwbBPMAa4WRVSTafvawpuZDiszhGmNt4TvmP/G4h
- /q6iwzNYcvmmY4lEiw1ksvpe1Lxps1uDXB4QtB/T5IV4yLy8m1c9mAvYSHdY2sD5LtGl
- C1sFaVZEBI7qjxK6/Fln66PX/5i2AinxDHxBtdKq1bu0rhc4mWh9Cf3gMlehH0Wqte5t
- 3MSDqKuq2Qo6GMgIMZhe3BmH5vY0ZSY7USgpAGptSW9zcYsyZ5orkOZt5lYA9dYHMaki
- nmBw==
+ bh=MX1GOuVouWu0Qr0+DdSMTNcH8UOwJjn/VDcrD/8BMow=;
+ b=eLQDQRKBRxW8MeBz6zb6ZMyYdWo+28EiNR0n1eORp186evBDWesuRACOX3Llbjh+XV
+ ztsGcTODkuTm1zLOkPezGWlw4ee09NSa0+EUrj2tY9PD3ylf4JkA2zDjeUItTrz0P7xI
+ s48p4HGqnbhYqbAgm2uxhZoOAJnr3DvH9BwTTGJ83fPPZA7qALKfLNXVcOambYzi3Jmb
+ kPzb6TyrFnku9JxL1nAiDjF+c96Wx9NSeF4K6AeZhD9sXrzvFJkNg4yo0AId8XCHt9Pb
+ /b675T1DLyMQoE9mmrtCQLMvLY2SzHfjFDIs1zuq+QdDfSfp90J9w1xjUxWJoXBvfQZf
+ BDJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HJoYOaaLuB8gatH0dOhmGoPETBA6JA7xdiNzavM9zuM=;
- b=Iv8JKGJZUQM5/Knf6z7R8XXB6fM6H/GjbiOe/1sJv2hjgGJuKDWb1Vo9wPgUzgDUkR
- pDryE+0Xq4yjh9qMTSxWQd+ZVn990gMq9VNXLhcJ9bx828l+egRO6j9lH2fCYtw/l9eX
- Ml9COWwYWdm1pNIgBWKwvgb0zjquh1Tvr3BvBaCcyxvMEIpX4bFEYObPVUdEqNJTVQdN
- K8mboUYxOdDAoZ4Gb3XGeXTGmYBmKpQlXbJ4S+VoB8by/E0HVhRFvYNa3yYA/ey4nrJc
- ETIQjmRkg6L6I0MDO3dhs0B1r202H7H4MpAuBcyApMWdjV2w7hQ5ml6zNlElQP0Gwn05
- z4NQ==
-X-Gm-Message-State: AOAM532c/MkQ4s/sr5+BgLVaUVqZa1ESDmBQqVIga9WeMxqOv1WdomL2
- 8eIOYtrfyZAqJPpiRgTm7GJ0YwmJ2nZKig==
-X-Google-Smtp-Source: ABdhPJw5q/l2MlFrRnOsuHAKKssoBkEe7sG5ukLbsgD/Hgi7WKjbjJE7keCK7pzrMDcagdRK01APZw==
-X-Received: by 2002:a17:902:ea04:b0:161:c283:8c0b with SMTP id
- s4-20020a170902ea0400b00161c2838c0bmr24393937plg.52.1653338866899; 
- Mon, 23 May 2022 13:47:46 -0700 (PDT)
+ bh=MX1GOuVouWu0Qr0+DdSMTNcH8UOwJjn/VDcrD/8BMow=;
+ b=HX53geZn12DSQ+Oo+Y/hfP+N1UDbkh1Yd8WvOPj7muL6tQpk8WMhTikkP4BpL+Pk+a
+ 4rYRDAD4iTvOILVsmXWmP7NQLYQlDIijj7yvkox/Sl8XfOtUUNOWZe5XYjZv71ZpT4n6
+ tDmcQi59Rh/5nd25mJvrRwxkUk0RHgkSOzZFLSiGB9e/dvvx8jOhxDbJaLVWZzuH+diK
+ eL/pMN2PEocjEurlD4OLrLuXNXhxCtHAEBJDyar4ZKvJWliDMnunkul8X4VlK1GKBZmN
+ LqvxVTOSAEipJQD+RpiPCSC/2Dl/rTJqq8MKuOFzSTLTRiG5qa2C/MUV8irrJDDJw0Ir
+ EWHQ==
+X-Gm-Message-State: AOAM531Ra3Oq8PvJW+gMU5jIggEzSzykzGmMiGNAPBbkXlERQa1OLKMy
+ SIIwgZXGUSlVXfOjBCHP5aBKYebJ2lpw6Q==
+X-Google-Smtp-Source: ABdhPJwlzMgftkojCqJAi6idUU4tz5kwylO0DAKnSBIwufRfGRkDeNZ1zJxHewsVbgG/y2PlQDDVNA==
+X-Received: by 2002:a63:dd4c:0:b0:3fa:a80e:8ba0 with SMTP id
+ g12-20020a63dd4c000000b003faa80e8ba0mr269410pgj.167.1653338867855; 
+ Mon, 23 May 2022 13:47:47 -0700 (PDT)
 Received: from stoup.. ([71.212.142.129]) by smtp.gmail.com with ESMTPSA id
- c16-20020a624e10000000b0050dc7628142sm7721788pfb.28.2022.05.23.13.47.46
+ c16-20020a624e10000000b0050dc7628142sm7721788pfb.28.2022.05.23.13.47.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 13:47:46 -0700 (PDT)
+ Mon, 23 May 2022 13:47:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 03/18] target/arm: Move and expand parameters to
- exception_target_el
-Date: Mon, 23 May 2022 13:47:27 -0700
-Message-Id: <20220523204742.740932-4-richard.henderson@linaro.org>
+Subject: [PATCH 04/18] target/arm: Move HCR_TGE check into exception_target_el
+Date: Mon, 23 May 2022 13:47:28 -0700
+Message-Id: <20220523204742.740932-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220523204742.740932-1-richard.henderson@linaro.org>
 References: <20220523204742.740932-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,116 +87,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move exception_target_el out of line.
-Add cur_el parameter, because 2 of 3 users already have that handy.
-Add psyn parameter in preparation for more code movement.
+Move the TGE test from raise_exception into
+exception_target_el to consolidate tests in one place.
+Note that this ought to apply only to origin of EL0,
+but that cannot be confirmed at this time.
+Update the AdvSIMDFPAccessTrap doc reference to DDI0478H.a.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h  | 15 +--------------
- target/arm/op_helper.c  | 17 ++++++++++++++++-
- target/arm/tlb_helper.c | 10 ++++++----
- 3 files changed, 23 insertions(+), 19 deletions(-)
+ target/arm/op_helper.c | 47 +++++++++++++++++++++++++-----------------
+ 1 file changed, 28 insertions(+), 19 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 03363b0f32..a71f795628 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1091,20 +1091,7 @@ typedef struct ARMVAParameters {
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data);
- 
--static inline int exception_target_el(CPUARMState *env)
--{
--    int target_el = MAX(1, arm_current_el(env));
--
--    /*
--     * No such thing as secure EL1 if EL3 is aarch32,
--     * so update the target EL to EL3 in this case.
--     */
--    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3) && target_el == 1) {
--        target_el = 3;
--    }
--
--    return target_el;
--}
-+int exception_target_el(CPUARMState *env, int cur_el, uint32_t *psyn);
- 
- /* Determine if allocation tags are available.  */
- static inline bool allocation_tag_access_enabled(CPUARMState *env, int el,
 diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 61e9c1d903..6858b8980d 100644
+index 6858b8980d..55440dfa84 100644
 --- a/target/arm/op_helper.c
 +++ b/target/arm/op_helper.c
-@@ -28,6 +28,21 @@
- #define SIGNBIT (uint32_t)0x80000000
- #define SIGNBIT64 ((uint64_t)1 << 63)
+@@ -30,17 +30,39 @@
  
-+int exception_target_el(CPUARMState *env, int cur_el, uint32_t *psyn)
-+{
-+    int target_el = MAX(1, cur_el);
-+
+ int exception_target_el(CPUARMState *env, int cur_el, uint32_t *psyn)
+ {
+-    int target_el = MAX(1, cur_el);
 +    /*
-+     * No such thing as secure EL1 if EL3 is aarch32,
-+     * so update the target EL to EL3 in this case.
++     * FIXME: The following tests really apply to an EL0 origin,
++     * not to a target of EL1.  However, the origin will never be
++     * EL1 for these cases (no aa32 secure EL1, can't enter EL1
++     * with TGE set).  Delay fixing this until all places that
++     * might perform MAX(cur_el, 1) are audited.
 +     */
-+    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3) && target_el == 1) {
-+        target_el = 3;
++    if (cur_el >= 2) {
++        return 2;
++    }
+ 
+     /*
+      * No such thing as secure EL1 if EL3 is aarch32,
+      * so update the target EL to EL3 in this case.
+      */
+-    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3) && target_el == 1) {
+-        target_el = 3;
++    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
++        return 3;
+     }
+ 
+-    return target_el;
++    if (arm_hcr_el2_eff(env) & HCR_TGE) {
++        /*
++         * Redirect NS EL1 exceptions to NS EL2. These are reported with
++         * their original syndrome register value, with the exception of
++         * SIMD/FP access traps, which are reported as uncategorized
++         * (see DDI0487 H.a rule RJNBTN).
++         */
++        if (psyn && syn_get_ec(*psyn) == EC_ADVSIMDFPACCESSTRAP) {
++            *psyn = syn_uncategorized();
++        }
++        return 2;
 +    }
 +
-+    return target_el;
-+}
-+
++    return 1;
+ }
+ 
  void raise_exception(CPUARMState *env, uint32_t excp, uint32_t syndrome,
-                      uint32_t cur_or_target_el)
- {
-@@ -35,7 +50,7 @@ void raise_exception(CPUARMState *env, uint32_t excp, uint32_t syndrome,
+@@ -49,21 +71,8 @@ void raise_exception(CPUARMState *env, uint32_t excp, uint32_t syndrome,
+     CPUState *cs = env_cpu(env);
      int target_el = cur_or_target_el;
  
-     if (cur_or_target_el == 0) {
--        target_el = exception_target_el(env);
-+        target_el = exception_target_el(env, 0, &syndrome);
+-    if (cur_or_target_el == 0) {
+-        target_el = exception_target_el(env, 0, &syndrome);
+-    }
+-
+-    if (target_el == 1 && (arm_hcr_el2_eff(env) & HCR_TGE)) {
+-        /*
+-         * Redirect NS EL1 exceptions to NS EL2. These are reported with
+-         * their original syndrome register value, with the exception of
+-         * SIMD/FP access traps, which are reported as uncategorized
+-         * (see DDI0478C.a D1.10.4)
+-         */
+-        target_el = 2;
+-        if (syn_get_ec(syndrome) == EC_ADVSIMDFPACCESSTRAP) {
+-            syndrome = syn_uncategorized();
+-        }
++    if (cur_or_target_el <= 1) {
++        target_el = exception_target_el(env, cur_or_target_el, &syndrome);
      }
  
-     if (target_el == 1 && (arm_hcr_el2_eff(env) & HCR_TGE)) {
-diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-index 6421e16202..573e18f830 100644
---- a/target/arm/tlb_helper.c
-+++ b/target/arm/tlb_helper.c
-@@ -85,11 +85,13 @@ void arm_deliver_fault(ARMCPU *cpu, vaddr addr,
-                        int mmu_idx, ARMMMUFaultInfo *fi)
- {
-     CPUARMState *env = &cpu->env;
--    int target_el;
-+    int cur_el, target_el;
-     bool same_el;
-     uint32_t syn, exc, fsr, fsc;
- 
--    target_el = exception_target_el(env);
-+    cur_el = arm_current_el(env);
-+    target_el = exception_target_el(env, cur_el, NULL);
-+
-     if (fi->stage2) {
-         target_el = 2;
-         env->cp15.hpfar_el2 = extract64(fi->s2addr, 12, 47) << 4;
-@@ -97,7 +99,7 @@ void arm_deliver_fault(ARMCPU *cpu, vaddr addr,
-             env->cp15.hpfar_el2 |= HPFAR_NS;
-         }
-     }
--    same_el = (arm_current_el(env) == target_el);
-+    same_el = cur_el == target_el;
- 
-     fsr = compute_fsr_fsc(env, fi, target_el, mmu_idx, &fsc);
- 
-@@ -139,7 +141,7 @@ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
- void helper_exception_pc_alignment(CPUARMState *env, target_ulong pc)
- {
-     ARMMMUFaultInfo fi = { .type = ARMFault_Alignment };
--    int target_el = exception_target_el(env);
-+    int target_el = exception_target_el(env, arm_current_el(env), NULL);
-     int mmu_idx = cpu_mmu_index(env, true);
-     uint32_t fsc;
- 
+     assert(!excp_is_internal(excp));
 -- 
 2.34.1
 
