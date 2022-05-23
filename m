@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37254531573
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:15:57 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1C453156C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 20:08:04 +0200 (CEST)
+Received: from localhost ([::1]:56720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntCay-0000Eo-1P
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:15:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38390)
+	id 1ntCTL-0007QK-8y
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 14:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ntCKD-00062F-P0; Mon, 23 May 2022 13:58:37 -0400
-Received: from [187.72.171.209] (port=53435 helo=outlook.eldorado.org.br)
+ id 1ntCLG-0007Hi-51; Mon, 23 May 2022 13:59:42 -0400
+Received: from [187.72.171.209] (port=50371 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ntCKC-0003ei-9r; Mon, 23 May 2022 13:58:37 -0400
+ id 1ntCLD-0003pW-J6; Mon, 23 May 2022 13:59:40 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 23 May 2022 14:58:16 -0300
+ Mon, 23 May 2022 14:58:17 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 9C76A800761;
+ by p9ibm (Postfix) with ESMTP id B133F801308;
  Mon, 23 May 2022 14:58:16 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  victor.colombo@eldorado.org.br
-Subject: [PATCH v2 06/11] target/ppc: Implement mffscdrn[i] instructions
-Date: Mon, 23 May 2022 14:58:02 -0300
-Message-Id: <20220523175807.59333-7-victor.colombo@eldorado.org.br>
+Subject: [PATCH v2 07/11] tests/tcg/ppc64: Add mffsce test
+Date: Mon, 23 May 2022 14:58:03 -0300
+Message-Id: <20220523175807.59333-8-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220523175807.59333-1-victor.colombo@eldorado.org.br>
 References: <20220523175807.59333-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 23 May 2022 17:58:17.0038 (UTC)
- FILETIME=[AE154EE0:01D86ECE]
+X-OriginalArrivalTime: 23 May 2022 17:58:17.0101 (UTC)
+ FILETIME=[AE1EEBD0:01D86ECE]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,95 +64,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add mffsce test to check both the return value and the new fpscr
+stored in the cpu.
+
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/insn32.decode           |  5 ++++
- target/ppc/translate/fp-impl.c.inc | 41 ++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+ tests/tcg/ppc64/Makefile.target   |  1 +
+ tests/tcg/ppc64le/Makefile.target |  1 +
+ tests/tcg/ppc64le/mffsce.c        | 37 +++++++++++++++++++++++++++++++
+ 3 files changed, 39 insertions(+)
+ create mode 100644 tests/tcg/ppc64le/mffsce.c
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 76bd9e4f57..a333f33a55 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -130,6 +130,9 @@
- &X_imm2         rt imm
- @X_imm2         ...... rt:5 ..... ... imm:2 .......... .        &X_imm2
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index babd209573..331fae628e 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -11,6 +11,7 @@ endif
+ $(PPC64_TESTS): CFLAGS += -mpower8-vector
  
-+&X_imm3         rt imm
-+@X_imm3         ...... rt:5 ..... .. imm:3 .......... .         &X_imm3
+ PPC64_TESTS += mtfsf
++PPC64_TESTS += mffsce
+ 
+ ifneq ($(CROSS_CC_HAS_POWER10),)
+ PPC64_TESTS += byte_reverse sha512-vector
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 5b0eb5e870..6ca3003f02 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -24,6 +24,7 @@ run-sha512-vector: QEMU_OPTS+=-cpu POWER10
+ run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
+ 
+ PPC64LE_TESTS += mtfsf
++PPC64LE_TESTS += mffsce
+ PPC64LE_TESTS += signal_save_restore_xer
+ PPC64LE_TESTS += xxspltw
+ 
+diff --git a/tests/tcg/ppc64le/mffsce.c b/tests/tcg/ppc64le/mffsce.c
+new file mode 100644
+index 0000000000..20d882cb45
+--- /dev/null
++++ b/tests/tcg/ppc64le/mffsce.c
+@@ -0,0 +1,37 @@
++#include <stdlib.h>
++#include <stdint.h>
++#include <assert.h>
 +
- %x_xt           0:1 21:5
- &X_imm5         xt imm:uint8_t vrb
- @X_imm5         ...... ..... imm:5 vrb:5 .......... .           &X_imm5 xt=%x_xt
-@@ -329,7 +332,9 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
- MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
- MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
- MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-+MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
- MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-+MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
- MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
- 
- ### Decimal Floating-Point Arithmetic Instructions
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index 24adf0ad15..734c960436 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -670,6 +670,27 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
-     return true;
- }
- 
-+static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
++#define MTFSF(FLM, FRB) asm volatile ("mtfsf %0, %1" :: "i" (FLM), "f" (FRB))
++#define MFFS(FRT) asm("mffs %0" : "=f" (FRT))
++#define MFFSCE(FRT) asm("mffsce %0" : "=f" (FRT))
++
++#define PPC_BIT_NR(nr) (63 - (nr))
++
++#define FP_VE  (1ull << PPC_BIT_NR(56))
++#define FP_UE  (1ull << PPC_BIT_NR(58))
++#define FP_ZE  (1ull << PPC_BIT_NR(59))
++#define FP_XE  (1ull << PPC_BIT_NR(60))
++#define FP_NI  (1ull << PPC_BIT_NR(61))
++#define FP_RN1 (1ull << PPC_BIT_NR(63))
++
++int main(void)
 +{
-+    TCGv_i64 t1, fpscr;
++    uint64_t frt, fpscr;
++    uint64_t test_value = FP_VE | FP_UE | FP_ZE |
++                          FP_XE | FP_NI | FP_RN1;
++    MTFSF(0b11111111, test_value); /* set test value to cpu fpscr */
++    MFFSCE(frt);
++    MFFS(fpscr); /* read the value that mffsce stored to cpu fpscr */
 +
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_FPU(ctx);
++    /* the returned value should be as the cpu fpscr was before */
++    assert((frt & 0xff) == test_value);
 +
-+    t1 = tcg_temp_new_i64();
-+    get_fpr(t1, a->rb);
-+    tcg_gen_andi_i64(t1, t1, FP_DRN);
++    /*
++     * the cpu fpscr last 3 bits should be unchanged
++     * and enable bits should be unset
++     */
++    assert((fpscr & 0xff) == (test_value & 0x7));
 +
-+    gen_reset_fpstatus();
-+    fpscr = place_from_fpscr(a->rt, FP_DRN | FP_ENABLES | FP_NI | FP_RN);
-+    store_fpscr_masked(fpscr, FP_DRN, t1, 0x0100);
-+
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(fpscr);
-+
-+    return true;
++    return 0;
 +}
-+
- static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
- {
-     TCGv_i64 t1, fpscr;
-@@ -690,6 +711,26 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
-     return true;
- }
- 
-+static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
-+{
-+    TCGv_i64 t1, fpscr;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_FPU(ctx);
-+
-+    t1 = tcg_temp_new_i64();
-+    tcg_gen_movi_i64(t1, (uint64_t)a->imm << FPSCR_DRN0);
-+
-+    gen_reset_fpstatus();
-+    fpscr = place_from_fpscr(a->rt, FP_DRN | FP_ENABLES | FP_NI | FP_RN);
-+    store_fpscr_masked(fpscr, FP_DRN, t1, 0x0100);
-+
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(fpscr);
-+
-+    return true;
-+}
-+
- static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
- {
-     TCGv_i64 fpscr;
 -- 
 2.25.1
 
