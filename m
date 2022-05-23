@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E227531187
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:16:14 +0200 (CEST)
-Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2655D53118D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:18:33 +0200 (CEST)
+Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt9n3-000728-Oe
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:16:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55040)
+	id 1nt9pI-0002cl-8v
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nt9el-0005rd-Bc
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:07:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45046)
+ id 1nt9ek-0005pK-Ia
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:07:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nt9ej-00009t-Bj
- for qemu-devel@nongnu.org; Mon, 23 May 2022 11:07:39 -0400
+ id 1nt9ei-00009i-J5
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 11:07:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1653318456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jWJsr6yxVjbRD/uIh8DWVHS6y8TdKDs5i4FGVreGkNc=;
- b=TqEpTQnXonIXuyAFsKaAtwdIw2mMGsq8uzytJDGP/3TgV+Nm54EFu0SaoTDu+WpLcSAWif
- kmTGqD93vpRpmOKpuNoaTkyHt1Ojxt6CF+CTSA1YpxalpYyUSNj92BceHb9mAZRMIouYER
- xcfa9/RhoOzeDpwkFvcAakiHV2BBk20=
+ bh=ELvj6VgD11o8u/IhmceJwp3wsrjN9bVDxMSOiBdpaLs=;
+ b=eR2hH0UYdPNx5BTm6X3nhE8tzp1cn0aUZhmy+nxWW2z9zJgnVI7m67mpgJtkvhkoBWF4p2
+ ulG8Ml1X67Bd+Gjj9DJdR1VSegeb+PBKZBCl9haxyxAja3PwJnMedInbHd0XCTSe7XJsMi
+ apCXTfIc2EccnNTlmzI8MUsOV0qsjLM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-DpiLXVfcNLSz9f5xbT_O8A-1; Mon, 23 May 2022 11:07:33 -0400
-X-MC-Unique: DpiLXVfcNLSz9f5xbT_O8A-1
+ us-mta-641-Kx3xofe5OnaeDyDVUgxPrQ-1; Mon, 23 May 2022 11:07:34 -0400
+X-MC-Unique: Kx3xofe5OnaeDyDVUgxPrQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 383D229ABA2E;
- Mon, 23 May 2022 15:07:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59C9729ABA2B;
+ Mon, 23 May 2022 15:07:34 +0000 (UTC)
 Received: from avogadro.redhat.com (unknown [10.39.195.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E2E8400E400;
- Mon, 23 May 2022 15:07:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82AFA40D1B98;
+ Mon, 23 May 2022 15:07:33 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: armbru@redhat.com,
 	Mark Kanda <mark.kanda@oracle.com>
-Subject: [PATCH 7/8] qmp: add filtering of statistics by name
-Date: Mon, 23 May 2022 17:07:21 +0200
-Message-Id: <20220523150722.349700-7-pbonzini@redhat.com>
+Subject: [PATCH 8/8] hmp: add filtering of statistics by name
+Date: Mon, 23 May 2022 17:07:22 +0200
+Message-Id: <20220523150722.349700-8-pbonzini@redhat.com>
 In-Reply-To: <20220523150722.349700-1-pbonzini@redhat.com>
 References: <20220523150509.349412-1-pbonzini@redhat.com>
  <20220523150722.349700-1-pbonzini@redhat.com>
@@ -57,7 +57,7 @@ MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,217 +81,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow retrieving only a subset of statistics.  This can be useful
-for example in order to plot a subset of the statistics many times
-a second.
-
-KVM publishes ~40 statistics for each vCPU on x86; retrieving and
-serializing all of them would be useless
-
-Another use will be in HMP in the following patch; implementing the
-filter in the backend is easy enough that it was deemed okay to make
-this a public interface.
-
-Example:
-
-{ "execute": "query-stats",
-  "arguments": {
-    "target": "vcpu",
-    "vcpus": [ "/machine/unattached/device[2]",
-               "/machine/unattached/device[4]" ],
-    "providers": [
-      { "provider": "kvm",
-        "names": [ "l1d_flush", "exits" ] } } }
-
-{ "return": {
-    "vcpus": [
-      { "path": "/machine/unattached/device[2]"
-        "providers": [
-          { "provider": "kvm",
-            "stats": [ { "name": "l1d_flush", "value": 41213 },
-                       { "name": "exits", "value": 74291 } ] } ] },
-      { "path": "/machine/unattached/device[4]"
-        "providers": [
-          { "provider": "kvm",
-            "stats": [ { "name": "l1d_flush", "value": 16132 },
-                       { "name": "exits", "value": 57922 } ] } ] } ] } }
+Allow the user to request only a specific subset of statistics.
+This can be useful when working on a feature or optimization that is
+known to affect that statistic.
 
 Extracted from a patch by Mark Kanda.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
-v3->v4: handle empty filter early by avoiding the query altogether
+ hmp-commands-info.hx |  8 ++++----
+ monitor/hmp-cmds.c   | 35 +++++++++++++++++++++++++----------
+ 2 files changed, 29 insertions(+), 14 deletions(-)
 
- accel/kvm/kvm-all.c     | 17 +++++++++++------
- include/monitor/stats.h |  4 ++--
- monitor/qmp-cmds.c      | 16 +++++++++++++---
- qapi/stats.json         |  6 +++++-
- 4 files changed, 31 insertions(+), 12 deletions(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 461b6cf927..a61d17719e 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2311,7 +2311,7 @@ bool kvm_dirty_ring_enabled(void)
-     return kvm_state->kvm_dirty_ring_size ? true : false;
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index d4d8a1e618..767aafd1ea 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -897,10 +897,10 @@ ERST
+ 
+     {
+         .name       = "stats",
+-        .args_type  = "target:s,provider:s?",
+-        .params     = "target [provider]",
+-        .help       = "show statistics for the given target (vm or vcpu); optionally filter by "
+-                      "provider",
++        .args_type  = "target:s,names:s?,provider:s?",
++        .params     = "target [names] [provider]",
++        .help       = "show statistics for the given target (vm or vcpu); optionally filter by"
++                      "name (comma-separated list, or * for all) and provider",
+         .cmd        = hmp_info_stats,
+     },
+ 
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 02a455090d..7fe8a9cdc8 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -2356,10 +2356,12 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
  }
  
--static void query_stats_cb(StatsResultList **result, StatsTarget target,
-+static void query_stats_cb(StatsResultList **result, StatsTarget target, strList *names,
-                            strList *targets, Error **errp);
- static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
- 
-@@ -3713,6 +3713,7 @@ typedef struct StatsArgs {
-         StatsResultList **stats;
-         StatsSchemaList **schema;
-     } result;
-+    strList *names;
-     Error **errp;
- } StatsArgs;
- 
-@@ -3926,7 +3927,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
-     return descriptors;
- }
- 
--static void query_stats(StatsResultList **result, StatsTarget target,
-+static void query_stats(StatsResultList **result, StatsTarget target, strList *names,
-                         int stats_fd, Error **errp)
+ /* Create the StatsFilter that is needed for an "info stats" invocation.  */
+-static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
+-                                 StatsProvider provider)
++static StatsFilter *stats_filter(StatsTarget target, const char *names,
++                                 int cpu_index, StatsProvider provider)
  {
-     struct kvm_stats_desc *kvm_stats_desc;
-@@ -3969,6 +3970,9 @@ static void query_stats(StatsResultList **result, StatsTarget target,
+     StatsFilter *filter = g_malloc0(sizeof(*filter));
++    StatsProvider provider_idx;
++    StatsRequestList *request_list = NULL;
  
-         /* Add entry to the list */
-         stats = (void *)stats_data + pdesc->offset;
-+        if (!apply_str_list_filter(pdesc->name, names)) {
-+            continue;
-+        }
-         stats_list = add_kvmstat_entry(pdesc, stats, stats_list, errp);
-     }
- 
-@@ -4030,8 +4034,8 @@ static void query_stats_vcpu(CPUState *cpu, run_on_cpu_data data)
-         error_propagate(kvm_stats_args->errp, local_err);
-         return;
-     }
--    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU, stats_fd,
--                kvm_stats_args->errp);
-+    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU,
-+                kvm_stats_args->names, stats_fd, kvm_stats_args->errp);
-     close(stats_fd);
- }
- 
-@@ -4052,7 +4056,7 @@ static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
- }
- 
- static void query_stats_cb(StatsResultList **result, StatsTarget target,
--                           strList *targets, Error **errp)
-+                           strList *names, strList *targets, Error **errp)
- {
-     KVMState *s = kvm_state;
-     CPUState *cpu;
-@@ -4066,7 +4070,7 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target,
-             error_setg(errp, "KVM stats: ioctl failed");
-             return;
-         }
--        query_stats(result, target, stats_fd, errp);
-+        query_stats(result, target, names, stats_fd, errp);
-         close(stats_fd);
+     filter->target = target;
+     switch (target) {
+@@ -2380,15 +2382,27 @@ static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
          break;
      }
-@@ -4074,6 +4078,7 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target,
-     {
-         StatsArgs stats_args;
-         stats_args.result.stats = result;
-+        stats_args.names = names;
-         stats_args.errp = errp;
-         CPU_FOREACH(cpu) {
-             if (!apply_str_list_filter(cpu->parent_obj.canonical_path, targets)) {
-diff --git a/include/monitor/stats.h b/include/monitor/stats.h
-index 840c4ed08e..88f046f568 100644
---- a/include/monitor/stats.h
-+++ b/include/monitor/stats.h
-@@ -11,8 +11,8 @@
- #include "qapi/qapi-types-stats.h"
  
- typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target,
--                              strList *targets, Error **errp);
--typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
-+                              strList *names, strList *targets, Error **errp);
-+typedef void SchemaRetrieveFunc(StatsSchemaList **, Error **);
- 
- /*
-  * Register callbacks for the QMP query-stats command.
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 7be0e7414a..e822f1b0a9 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -467,15 +467,24 @@ void add_stats_callbacks(StatsProvider provider,
- }
- 
- static bool stats_provider_requested(StatsProvider provider,
--                                     StatsFilter *filter)
-+                                     StatsFilter *filter,
-+                                     strList **p_names)
- {
-     StatsRequestList *request;
- 
-+    *p_names = NULL;
-     if (!filter->has_providers) {
-         return true;
+-    if (provider == STATS_PROVIDER__MAX) {
++    if (!names && provider == STATS_PROVIDER__MAX) {
+         return filter;
      }
-     for (request = filter->providers; request; request = request->next) {
-         if (request->value->provider == provider) {
-+            if (request->value->has_names) {
-+                if (!request->value->names) {
-+                    /* No names allowed is the same as skipping the provider.  */
-+                    return false;
-+                }
-+                *p_names = request->value->names;
+ 
+-    /* "info stats" can only query either one or all the providers.  */
+-    StatsRequest *request = g_new0(StatsRequest, 1);
+-    request->provider = provider;
+-    StatsRequestList *request_list = g_new0(StatsRequestList, 1);
+-    QAPI_LIST_PREPEND(request_list, request);
++    /*
++     * "info stats" can only query either one or all the providers.  Querying
++     * by name, but not by provider, requires the creation of one filter per
++     * provider.
++     */
++    for (provider_idx = 0; provider_idx < STATS_PROVIDER__MAX; provider_idx++) {
++        if (provider == STATS_PROVIDER__MAX || provider == provider_idx) {
++            StatsRequest *request = g_new0(StatsRequest, 1);
++            request->provider = provider_idx;
++            if (names && !g_str_equal(names, "*")) {
++                request->has_names = true;
++                request->names = strList_from_comma_list(names);
 +            }
-             return true;
-         }
-     }
-@@ -506,8 +515,9 @@ StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
-     }
- 
-     QTAILQ_FOREACH(entry, &stats_callbacks, next) {
--        if (stats_provider_requested(entry->provider, filter)) {
--            entry->stats_cb(&stats_results, filter->target, targets, errp);
-+        strList *names = NULL;
-+        if (stats_provider_requested(entry->provider, filter, &names)) {
-+            entry->stats_cb(&stats_results, filter->target, names, targets, errp);
-             if (*errp) {
-                 qapi_free_StatsResultList(stats_results);
-                 return NULL;
-diff --git a/qapi/stats.json b/qapi/stats.json
-index b75bb86124..2dbf188d36 100644
---- a/qapi/stats.json
-+++ b/qapi/stats.json
-@@ -74,11 +74,14 @@
- # Indicates a set of statistics that should be returned by query-stats.
- #
- # @provider: provider for which to return statistics.
++            QAPI_LIST_PREPEND(request_list, request);
++        }
++    }
 +
-+# @names: statistics to be returned (all if omitted).
- #
- # Since: 7.1
- ##
- { 'struct': 'StatsRequest',
--  'data': { 'provider': 'StatsProvider' } }
-+  'data': { 'provider': 'StatsProvider',
-+            '*names': [ 'str' ] } }
+     filter->has_providers = true;
+     filter->providers = request_list;
+     return filter;
+@@ -2398,6 +2412,7 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
+ {
+     const char *target_str = qdict_get_str(qdict, "target");
+     const char *provider_str = qdict_get_try_str(qdict, "provider");
++    const char *names = qdict_get_try_str(qdict, "names");
  
- ##
- # @StatsVCPUFilter:
-@@ -98,6 +101,7 @@
- # that target:
- # - which vCPUs to request statistics for
- # - which provider to request statistics from
-+# - which values to return within each provider
- #
- # Since: 7.1
- ##
+     StatsProvider provider = STATS_PROVIDER__MAX;
+     StatsTarget target;
+@@ -2428,11 +2443,11 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
+ 
+     switch (target) {
+     case STATS_TARGET_VM:
+-        filter = stats_filter(target, -1, provider);
++        filter = stats_filter(target, names, -1, provider);
+         break;
+     case STATS_TARGET_VCPU: {}
+         int cpu_index = monitor_get_cpu_index(mon);
+-        filter = stats_filter(target, cpu_index, provider);
++        filter = stats_filter(target, names, cpu_index, provider);
+         break;
+     default:
+         abort();
 -- 
 2.36.0
-
 
 
