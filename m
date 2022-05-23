@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46AC531DAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 23:28:20 +0200 (CEST)
-Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC24531D91
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 23:17:16 +0200 (CEST)
+Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntFb9-0002mJ-Pd
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 17:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44074)
+	id 1ntFQR-00057g-8c
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 17:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ntF4m-0002ek-DO; Mon, 23 May 2022 16:54:53 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:38381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ntF4k-00066p-P7; Mon, 23 May 2022 16:54:52 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M1HuU-1nqVFh0LFK-002pEI; Mon, 23 May 2022 22:54:43 +0200
-Message-ID: <862f30f6-6b90-e949-0954-8d1d819dab96@vivier.eu>
-Date: Mon, 23 May 2022 22:54:42 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntF52-0003JA-IX
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 16:55:11 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntF50-0006J4-RH
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 16:55:08 -0400
+Received: by mail-pg1-x532.google.com with SMTP id a38so11802171pgl.9
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 13:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=LdsG1bXx3b+b+O8V5MkFuNZUtfdtFT54mP0ZfHqrwq0=;
+ b=Z35ePqkVP4QZiWbC3MiXVZfj0galFPVst0bgcXVNVbvjjOdZ3zpsYuRlaH8qIm/laO
+ kJwwqzBzs4Ltk3lHOWDTtUb0GkNYfGzo4wCEjy6R0SwEeYJPsz5TaHE2CHCLYvYFgxyR
+ 7j4o84zgCc/OWZUUknemb8Bpw37WTNJFb8YLgt8EP6+1rs1wsS3C9RFgTkPCtqa4pW2K
+ S/3DorYneDBBKkE0nlMd3G43h31kD3sW+mS4R+VDBEb+FRbeDwpUKmoqUfLS+XTXHVu1
+ lFiFxSXLhthw1nsa+LAKYPn7LeQrY9SVKc5hVXb0Ls0fvf1Fahka/iEbCptzFVElrQyO
+ Tm7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LdsG1bXx3b+b+O8V5MkFuNZUtfdtFT54mP0ZfHqrwq0=;
+ b=w2U4/YI2FG+WIle8TbiS65vlEX1ZHzG9paC3e9FU4JpJeZRdv2o6mAZc4AEWmsdRjS
+ bUnSLoaMmFqiTT30CT1tEdAX+s2Iavn6mAH6aI24KE+bPDPf/KXI7FfcKuUfXtWuGWCJ
+ AKk7oNvSS8NLY4iWwJaehI7l/AmuAsrL5VR7o3Oza3BHjRGmSTZAjHMGw0Mona9EvHop
+ BkZJS/xmPJyEzzrr+LzGwd2whYYrRWZpviK4DN+E3BDsQ6EH/B94ZkazBaWyIFhgn6s7
+ xBv/98aojt5rDRse2m524YyqsgpTq2jIMseOXXQUN00K5gqlzkGRlLr9YvIrpge+W6t9
+ K7Qg==
+X-Gm-Message-State: AOAM531uJCVFNTomCX7bIn+vMZHL2enXyJdybKBGUUjM6QcTOUQ7H1bg
+ 62vbpph74IGptZklanVJ0i9TJw==
+X-Google-Smtp-Source: ABdhPJwfpBvv4IBIu31ULSPL1y0tEOEBax6O63pXuJ2kbiSCHQbpjN8U1jw9RkhLsbVr/5wJvByorg==
+X-Received: by 2002:a63:9dc7:0:b0:3f6:17f0:f310 with SMTP id
+ i190-20020a639dc7000000b003f617f0f310mr21160379pgd.285.1653339304969; 
+ Mon, 23 May 2022 13:55:04 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ j19-20020a17090a841300b001df4a0e9357sm139965pjn.12.2022.05.23.13.55.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 May 2022 13:55:04 -0700 (PDT)
+Message-ID: <541f46cf-fc45-f7bb-e121-2aad216e11d5@linaro.org>
+Date: Mon, 23 May 2022 13:55:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] linux-user/host/s390: Treat EX and EXRL as writes
-Content-Language: fr
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20220504114819.1729737-1-iii@linux.ibm.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220504114819.1729737-1-iii@linux.ibm.com>
+ Thunderbird/91.8.0
+Subject: Re: [PULL 2/3] qga-win32: Add support for NVME but type
+Content-Language: en-US
+To: Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220523194111.827805-1-kkostiuk@redhat.com>
+ <20220523194111.827805-3-kkostiuk@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220523194111.827805-3-kkostiuk@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:umd5vFHMRJiElc5EAXdFzHlTZN33FGO9JWjgH1e1VVXlD2oTf5i
- b3IBIaXvZb3pOnBjQSww98s+kIKRNk5A9POegMPuGXL1cXTPON3hxfmoZTni7XqIta/ic7b
- kr8G32MfHh0EolN45z27l+D7VuPY9ud3DmMKip0thmDxvExEinO/+jHOhk5ChU1k+kXxaZO
- 0Y49/5qN5e2ilLcx0MzjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SK63QrcjU8s=:gnT1DAz/YQ+V/w8dCYHW/L
- xS6IrDtBYJZ97/mcNeG3oIallGd6riyvdaHEUY1GlTs1FFROZm3asU8ztajteqVd2eoBmXoaZ
- 1eRuEVc9qLGH416//73th6Vu7T7tsYTlqWmHOGdbw4O7q2wFgosLLXEflIVgXmmxgPgZhzPPH
- dcZtw5LMkLcUl9GqS3W/RQVqz/kqf6ko3KOi6Fb9b+k5iVeHrHaaKp1zbvQS/ysNNWNQeidIP
- 8p7Q3sXVyOD36mgMT/lr8QvqIWoEP57uzH5WafngURUHNSgjYRW6PGuzbRRcSRVMQOUNjkOAZ
- fWWvmF3LMG7i9okgKSTHSNTy4PScFkrOOdaRBw/DdkdsSGn04ZzebWTBYmpIDWy3iCMTaskyU
- L7c7lFWur6uPNuZ2E0YsKkaec98Hz1/SFnRUzHqoPndgSTTQ1B8pAr0j2catC1IHR4pQE9rsu
- 18WA4YVnyiRW1yXMXrTy88Axk/oVKttvw4xB4Al3jCiPSLzuT9TdDywNqrhhYtBTYOL6oqwcx
- hCDco/FRC0LQ9xqozBG4Yi1c2UXhdCh43za8GAL1Wbj23PkSuMs0tqk6v7nCr3A7fx7dF8uQl
- P5+z194lN43itg7QMudGjrasiMcsvZjXyL54KlRHcex4BQJtfl3DKkjrLuK0hzpWr15KkS9K/
- AMBLbv9zDgRYM+q65ylLgVXI4+5FUY+4mIvYGcBR0uGLOh62DBnKxXhzWfhbjymCzhrY88/Xj
- x664ZzH0Z/TT7zis8XRNNfJNTHISUymrQsup4Q==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,60 +93,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/05/2022 à 13:48, Ilya Leoshkevich a écrit :
-> clang-built s390x branch-relative-long test fails on clang-built s390x
-> QEMU due to the following sequence of events:
+On 5/23/22 12:41, Konstantin Kostiuk wrote:
+> Bus type spaces (Indicates a storage spaces bus) is not
+> supported, so return it as unknown.
 > 
-> - The test zeroes out a code page, clang generates exrl+xc for this.
-> 
-> - do_helper_xc() is called. Clang generates exrl+xc there as well.
-> 
-> - Since there already exists a TB for the code in question, its page is
->    read-only and SIGSEGV is raised.
-> 
-> - host_signal_handler() calls host_signal_write() and the latter does
->    not recognize exrl as a write. Therefore page_unprotect() is not
->    called and the signal is forwarded to the test.
-> 
-> Fix by treating EXRL (and EX, just in case) as writes. There may be
-> false positives, but they will lead only to an extra page_unprotect()
-> call.
-> 
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+> Message-Id: <20220520201401.706630-1-kkostiuk@redhat.com>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 > ---
->   linux-user/include/host/s390/host-signal.h | 7 +++++++
->   1 file changed, 7 insertions(+)
+>   qga/commands-win32.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/linux-user/include/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
-> index 6f191e64d7..25fefa00bd 100644
-> --- a/linux-user/include/host/s390/host-signal.h
-> +++ b/linux-user/include/host/s390/host-signal.h
-> @@ -50,6 +50,7 @@ static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
->       case 0x50: /* ST */
->       case 0x42: /* STC */
->       case 0x40: /* STH */
-> +    case 0x44: /* EX */
->       case 0xba: /* CS */
->       case 0xbb: /* CDS */
->           return true;
-> @@ -61,6 +62,12 @@ static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
->               return true;
->           }
->           break;
-> +    case 0xc6: /* RIL-b format insns */
-> +        switch (pinsn[0] & 0xf) {
-> +        case 0x0: /* EXRL */
-> +            return true;
-> +        }
-> +        break;
->       case 0xc8: /* SSF format insns */
->           switch (pinsn[0] & 0xf) {
->           case 0x2: /* CSST */
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index dcdeb76a68..36f94c0f9c 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -490,6 +490,11 @@ static GuestDiskBusType win2qemu[] = {
+>   #if (_WIN32_WINNT >= 0x0601)
+>       [BusTypeVirtual] = GUEST_DISK_BUS_TYPE_VIRTUAL,
+>       [BusTypeFileBackedVirtual] = GUEST_DISK_BUS_TYPE_FILE_BACKED_VIRTUAL,
+> +    /*
+> +     * BusTypeSpaces currently is not suported
+> +     */
+> +    [BusTypeSpaces] = GUEST_DISK_BUS_TYPE_UNKNOWN,
+> +    [BusTypeNvme] = GUEST_DISK_BUS_TYPE_NVME,
+>   #endif
+>   };
+>   
 
-Applied to my linux-user-for-7.1 branch.
+Build fails:
 
-Thanks,
-Laurent
+../qga/commands-win32.c:496:6: error: 'BusTypeSpaces' undeclared here (not in a function); 
+did you mean 'BusTypeSas'?
+   496 |     [BusTypeSpaces] = GUEST_DISK_BUS_TYPE_UNKNOWN,
+       |      ^~~~~~~~~~~~~
+       |      BusTypeSas
+../qga/commands-win32.c:496:6: error: array index in initializer not of integer type
+../qga/commands-win32.c:496:6: note: (near initialization for 'win2qemu')
+../qga/commands-win32.c:497:6: error: 'BusTypeNvme' undeclared here (not in a function); 
+did you mean 'BusTypeMmc'?
+   497 |     [BusTypeNvme] = GUEST_DISK_BUS_TYPE_NVME,
+       |      ^~~~~~~~~~~
+       |      BusTypeMmc
+../qga/commands-win32.c:497:6: error: array index in initializer not of integer type
+../qga/commands-win32.c:497:6: note: (near initialization for 'win2qemu')
 
+
+r~
 
