@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44DD531174
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 16:59:46 +0200 (CEST)
-Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F836531176
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 17:01:04 +0200 (CEST)
+Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nt9X7-0006cu-Ob
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 10:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52264)
+	id 1nt9YN-0008DY-Kx
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 11:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nt9To-0004wv-V7
- for qemu-devel@nongnu.org; Mon, 23 May 2022 10:56:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nt9Tl-000746-Ot
- for qemu-devel@nongnu.org; Mon, 23 May 2022 10:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653317775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=mRnzJCFNkmvvYhmV2sindAF+7xIAYGUK490k8Jr8qBg=;
- b=ADNg1k6bY1ujHif07ZC9YCkIbvqSGuLJmU4WBzMr+Q67rVJv7zhAO+1T4p0NdXtI9+K41C
- Xs6TRlm4CEyTe44tU54kJELnpRBf4n7Bh3DZA7aD0UlKKHcCZ5HuI5bI9ys2bMR3WV9zjY
- I02oTgTziyg83iMMEM2TsxLgDP2m+xs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-HbrDLoeGOsyYwo5RdPzLWA-1; Mon, 23 May 2022 10:56:14 -0400
-X-MC-Unique: HbrDLoeGOsyYwo5RdPzLWA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0EFA21C01B23;
- Mon, 23 May 2022 14:56:14 +0000 (UTC)
-Received: from kostyanf14nb.redhat.com (unknown [10.40.195.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0D3E40C1257;
- Mon, 23 May 2022 14:56:12 +0000 (UTC)
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>
-Subject: [PATCH] trivial: qga: Log version on start
-Date: Mon, 23 May 2022 17:56:10 +0300
-Message-Id: <20220523145610.809663-1-kkostiuk@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nt9Vg-0006H8-GH
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 10:58:18 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:42557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nt9Vd-0007EO-SO
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 10:58:16 -0400
+Received: by mail-pf1-x432.google.com with SMTP id y199so13925652pfb.9
+ for <qemu-devel@nongnu.org>; Mon, 23 May 2022 07:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=8drOiZKEgFbFB9FvgeCTB0n8/3CkfMepgeRtUB8JT7w=;
+ b=Db+agOjOGdjgVhGFcTt2IH4pn8pF/oWigzRQiWNIn6WDDzGv8LaI0uuvPhmx9ThBuE
+ forvh/vvwocBzbWzNqgP6hWH/772eaauO7vhSpWW1Ivgokjsb3HYKsKMTl1dhq/a7hLZ
+ r1WqtabveqELfGcmYzj1IFiVL0FOHLN1bNcj8CHtaWKQFkzcfAnOlP2GVybz5aH5cYLB
+ xexGHK0INzShbHxJVGTAn0er55H8hKxb907bt675rKTLTFb8+9fke9vM6iTK9PvagV8k
+ XtYfcAJCQuzrShST7DZtRAqCnYN20twPbM3rFQBT06qhJxa+R8/Kmpk3LskhB9AoAIKo
+ 41ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8drOiZKEgFbFB9FvgeCTB0n8/3CkfMepgeRtUB8JT7w=;
+ b=7SChkOYhmb1XK//592ICeUIpEY2rRWl6N0gd8LsnZVEhHCWT3E4Fzup6jrrk9QgcGJ
+ O9A5V9+/GW1+wHOTU6JUsAELrFmn1Vifb5uzNSIjT+wsKOibmZjKTYZEA1PXJBrOsFCz
+ 9trKhSI8Ps88ouxfBtLlrjIL3U+mqN4dX4vDx3jOCdbIeVwIqWij0ydwGE9Sv8XRFpT3
+ ZZ5ex1YRKE1UuYJhM378rALJIOsUXtmJhm3+HUOHSgTPRWT/MGraoDilazGljc23u1ju
+ 5+LSvmzS8vuj5SWojKwqqLwYW6uURnohbBrdxLyKdmNNBvfVxjXWjxdSufxnhY8hUcAI
+ 7Leg==
+X-Gm-Message-State: AOAM531trZKgDrmxEnJiB9zptGjGIRcCZIf1w3tZSZdr6om6cf+XKZ2t
+ vmle6ixror0cz86Qekpxs00VcA==
+X-Google-Smtp-Source: ABdhPJzJczySbVKrMhphIFjEVuORqBnrDWJwdoLhqVIy8ji5iYeog0n1QWimQhLnyRG71YL7wdKg5g==
+X-Received: by 2002:a63:d10a:0:b0:3c6:c6e0:9b1e with SMTP id
+ k10-20020a63d10a000000b003c6c6e09b1emr20855306pgg.410.1653317891415; 
+ Mon, 23 May 2022 07:58:11 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ e19-20020a170902f1d300b001617541c94fsm5217368plc.60.2022.05.23.07.58.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 May 2022 07:58:10 -0700 (PDT)
+Message-ID: <763bccc7-ca4e-aa6d-730f-90e0cc806cf4@linaro.org>
+Date: Mon, 23 May 2022 07:58:07 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 08/49] semihosting: Inline set_swi_errno into
+ common_semi_cb
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
+References: <20220521000400.454525-1-richard.henderson@linaro.org>
+ <20220521000400.454525-9-richard.henderson@linaro.org>
+ <CAFEAcA8oja0sCwyCZgmCMW-y7fXTGhYrOvZAyz4LHtPH9CKzLw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8oja0sCwyCZgmCMW-y7fXTGhYrOvZAyz4LHtPH9CKzLw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,25 +95,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
----
- qga/main.c | 2 ++
- 1 file changed, 2 insertions(+)
+On 5/23/22 03:58, Peter Maydell wrote:
+> On Sat, 21 May 2022 at 01:04, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Do not store 'err' into errno only to read it back immediately.
+>> Use 'ret' for the return value, not 'reg0'.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   semihosting/arm-compat-semi.c | 19 ++++++++++---------
+>>   1 file changed, 10 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+>> index c6bfd4d1ba..b00ed2c6d1 100644
+>> --- a/semihosting/arm-compat-semi.c
+>> +++ b/semihosting/arm-compat-semi.c
+>> @@ -290,28 +290,29 @@ static target_ulong common_semi_syscall_len;
+>>
+>>   static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
+>>   {
+>> -    target_ulong reg0 = common_semi_arg(cs, 0);
+>> -
+>>       if (ret == (target_ulong)-1) {
+>> -        errno = err;
+>> -        set_swi_errno(cs, -1);
+>> -        reg0 = ret;
+>> +#ifdef CONFIG_USER_ONLY
+>> +        TaskState *ts = cs->opaque;
+>> +        ts->swi_errno = err;
+>> +#else
+>> +        syscall_err = err;
+>> +#endif
+>>       } else {
+>>           /* Fixup syscalls that use nonstardard return conventions.  */
+>> +        target_ulong reg0 = common_semi_arg(cs, 0);
+> 
+> This should be "ret = ", right? (Otherwise I think this fails to
+> compile. I assume that some later patch has this fix in it.)
 
-diff --git a/qga/main.c b/qga/main.c
-index 3b9546c185..a58368c75e 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -1271,6 +1271,8 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
-     g_log_set_fatal_mask(NULL, G_LOG_LEVEL_ERROR);
-     ga_enable_logging(s);
- 
-+    g_debug("Guest agent version %s started", QEMU_VERSION);
-+
- #ifdef _WIN32
-     /* On win32 the state directory is application specific (be it the default
-      * or a user override). We got past the command line parsing; let's create
--- 
-2.25.1
+Eh?  No, we're extracting argument reg 0, and then switching on it.
+Why would it not compile -- I've moved the whole declaration down.
+
+
+r~
+
+
+> 
+> Otherwise
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> thanks
+> -- PMM
 
 
