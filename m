@@ -2,51 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE9A5314F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 18:28:31 +0200 (CEST)
-Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C0E5314EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 May 2022 18:28:24 +0200 (CEST)
+Received: from localhost ([::1]:54334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntAv0-00076B-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 12:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46968)
+	id 1ntAus-0006l8-UX
+	for lists+qemu-devel@lfdr.de; Mon, 23 May 2022 12:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1ntAtP-0005Qp-J1
- for qemu-devel@nongnu.org; Mon, 23 May 2022 12:26:51 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:37174)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ntAtK-0005LQ-2e
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 12:26:46 -0400
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:46829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1ntAtN-0005ag-7T
- for qemu-devel@nongnu.org; Mon, 23 May 2022 12:26:50 -0400
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1ntAt9-0007jE-Vj; Mon, 23 May 2022 18:26:36 +0200
-Message-ID: <58e76b42-22a7-3b54-e175-a3d01579525f@maciej.szmigiero.name>
-Date: Mon, 23 May 2022 18:26:29 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ntAtH-0005aj-JS
+ for qemu-devel@nongnu.org; Mon, 23 May 2022 12:26:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DDDA4210B4;
+ Mon, 23 May 2022 16:26:39 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 23 May
+ 2022 18:26:39 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S003a3e4c013-3c71-41fb-bc12-b92795263946,
+ C731B9A3BAA00D555485D2122847869B54396093) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <cacf4584-10b8-db7a-8565-b7b2a89f9394@kaod.org>
+Date: Mon, 23 May 2022 18:26:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
+Subject: Re: [PATCH] pnv/xive2: Don't overwrite PC registers when writing
+ TCTXT registers
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, kvm <kvm@vger.kernel.org>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <be14c1e895a2f452047451f050d269217dcee6d9.1653071510.git.maciej.szmigiero@oracle.com>
- <CABgObfZfV66MN11=xEjwH0PE944-OTcAZkSpWEcJeK=1EYWJnw@mail.gmail.com>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Subject: Re: [PATCH] target/i386/kvm: Fix disabling MPX on "-cpu host" with
- MPX-capable host
-In-Reply-To: <CABgObfZfV66MN11=xEjwH0PE944-OTcAZkSpWEcJeK=1EYWJnw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+To: Frederic Barrat <fbarrat@linux.ibm.com>, <danielhb413@gmail.com>,
+ <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220523151859.72283-1-fbarrat@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220523151859.72283-1-fbarrat@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 13d22c9c-b6b6-4b57-8f6a-540f1e57d782
+X-Ovh-Tracer-Id: 13096186243207039968
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrjedugdejtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,40 +74,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.05.2022 10:54, Paolo Bonzini wrote:
-> On Fri, May 20, 2022 at 8:33 PM Maciej S. Szmigiero
-> <mail@maciej.szmigiero.name> wrote:
->>
->> From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
->>
->> Since KVM commit 5f76f6f5ff96 ("KVM: nVMX: Do not expose MPX VMX controls when guest MPX disabled")
->> it is not possible to disable MPX on a "-cpu host" just by adding "-mpx"
->> there if the host CPU does indeed support MPX.
->> QEMU will fail to set MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS MSRs in this case
->> and so trigger an assertion failure.
->>
->> Instead, besides "-mpx" one has to explicitly add also
->> "-vmx-exit-clear-bndcfgs" and "-vmx-entry-load-bndcfgs" to QEMU command
->> line to make it work, which is a bit convoluted.
->>
->> Sanitize MPX-related bits in MSR_IA32_VMX_TRUE_{EXIT,ENTRY}_CTLS after
->> setting the vCPU CPUID instead so such workarounds are no longer necessary.
-> 
-> Can you use feature_dependencies instead? See for example
-> 
->      {
->          .from = { FEAT_7_0_EBX,             CPUID_7_0_EBX_RDSEED },
->          .to = { FEAT_VMX_SECONDARY_CTLS,    VMX_SECONDARY_EXEC_RDSEED_EXITING },
->      },
+On 5/23/22 17:18, Frederic Barrat wrote:
+> When writing a register from the TCTXT memory region (4th page within
+> the IC BAR), we were overwriting the Presentation Controller (PC)
+> register at the same offset. It looks like a silly cut and paste
+> error.
 
-The "feature_dependencies" way seems to work fine too,
-and it definitely looks neater.
+Very silly indeed :)
 
-Thanks for the pointer, will post v2 in a moment.
-
-> Paolo
+  
+> We were somehow lucky: the TCTXT registers being touched are
+> TCTXT_ENx/_SET/_RESET to enable physical threads and the PC registers
+> at the same offset are either not used by our model or the update was
+> harmless.
 > 
+> Found through code inspection.
+> 
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
-Maciej
+
+C.
+
+> ---
+>   hw/intc/pnv_xive2.c | 3 ---
+>   1 file changed, 3 deletions(-)
+> 
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index 87303b4064..a39e070e82 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -1295,7 +1295,6 @@ static void pnv_xive2_ic_tctxt_write(void *opaque, hwaddr offset,
+>                                        uint64_t val, unsigned size)
+>   {
+>       PnvXive2 *xive = PNV_XIVE2(opaque);
+> -    uint32_t reg = offset >> 3;
+>   
+>       switch (offset) {
+>       /*
+> @@ -1322,8 +1321,6 @@ static void pnv_xive2_ic_tctxt_write(void *opaque, hwaddr offset,
+>           xive2_error(xive, "TCTXT: invalid write @%"HWADDR_PRIx, offset);
+>           return;
+>       }
+> -
+> -    xive->pc_regs[reg] = val;
+>   }
+>   
+>   static const MemoryRegionOps pnv_xive2_ic_tctxt_ops = {
+
 
