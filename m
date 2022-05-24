@@ -2,114 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7299C532F15
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:37:39 +0200 (CEST)
-Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FB553325A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:18:59 +0200 (CEST)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntXXO-0007hH-Cv
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
+	id 1ntaza-0006dH-Ku
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1ntX5j-0004gq-QG; Tue, 24 May 2022 12:09:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51532)
+ (Exim 4.90_1) (envelope-from <bwidawsk@kernel.org>)
+ id 1ntXXJ-0000FJ-AE
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 12:37:33 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:42090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1ntX5e-0001Ew-RR; Tue, 24 May 2022 12:09:03 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24OFmBLR000855;
- Tue, 24 May 2022 16:08:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=Wrjsb1yctVKMuxHIRvKfOgu/rg22sLZgP1Xg/7sBDwg=;
- b=BT5KUdxdzhErZksN1vU2uhL1p+xxs+OeF9aHQ8GDeFQllwWh6qiLGdZjkZoJoJ74O8ZV
- 1+1sQXrC4cdCjwREPONwwJD9q+3GwgANSLg+86HtALIGx/mBnlI9gjCDTMvoonCqO5Zt
- ww8Neype60i0KwY/q/9BNwmeoW+5+xGVLehYSWE30n0kMl8RrykyNPvkznP4sCZ7Oupe
- 0XYPogz2Pg2bOhca36IuFq+WgGy1/93+q0rt+Z57X5k1B/q4+Jz/LpR573pqPiAkuI3y
- VCfjCr0VdHZao8eKNSq4ukaVdPo3UIELqZUmVruGgprBARzLoUA0Cm5GgewpkRqjrYdt MQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g92aw8gmt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 May 2022 16:08:52 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24OG76vV020050;
- Tue, 24 May 2022 16:08:52 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g92aw8gku-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 May 2022 16:08:51 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24OG6Se5021797;
- Tue, 24 May 2022 16:08:50 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 3g6qbjcr8t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 May 2022 16:08:49 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24OG8kHC20513192
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 24 May 2022 16:08:46 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A87DF4C04E;
- Tue, 24 May 2022 16:08:46 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E026D4C046;
- Tue, 24 May 2022 16:08:45 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.31.211])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 24 May 2022 16:08:45 +0000 (GMT)
-Date: Tue, 24 May 2022 18:08:37 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 2/2] target/s390x: kvm: Honor storage keys during emulation
-Message-ID: <20220524180837.6965cadb.pasic@linux.ibm.com>
-In-Reply-To: <17934f59-4425-cdae-80b2-cfeb9bd97f7d@redhat.com>
-References: <20220506153956.2217601-1-scgl@linux.ibm.com>
- <20220506153956.2217601-3-scgl@linux.ibm.com>
- <21468730-e57f-a54a-bde4-6bb927d6b651@redhat.com>
- <384df8c6-4309-17a5-464e-46b23507f362@linux.ibm.com>
- <17934f59-4425-cdae-80b2-cfeb9bd97f7d@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <bwidawsk@kernel.org>)
+ id 1ntXXG-0006HQ-Sj
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 12:37:32 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7C5DAB8172E;
+ Tue, 24 May 2022 16:37:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0298EC34115;
+ Tue, 24 May 2022 16:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653410246;
+ bh=OtVt6xY3rD+YkacskCHASEsxEolh/JCkruqucr9MjRQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=i4lh1odMMXSQR5E/OEvV5nEBgABv2U2w9EqmMw96ptj/VeN3YPv8quEvDyngyh6Py
+ G4WbzzXb5TW8khPtbBtweeWEm6yTJn1NUjBhQ7jtVPEQDU19CGR9GhFj6JW3gSt2tT
+ RD6mKh96RQh/boopffgGUY/7+/Qw3WVIgXoLI23WE98jEjpw83Cr/rzrhUCHcNOMjk
+ L7bJYxG95W6KtWJLr307ulJhXPLjUOwB5cVbpb7fJq4YsGQ6j+/+TNWtM3zfPDXfxB
+ tZ8SY0L/anoxcwySVzggONanX446fhO23/dL1c6D3+J3cWOuC1jMrAxc8runXA+ClW
+ PRv9xKVVXeFzw==
+Date: Tue, 24 May 2022 09:36:44 -0700
+From: Ben Widawsky <bwidawsk@kernel.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
+ linux-cxl@vger.kernel.org, Corey Minyard <minyard@acm.org>,
+ Damien Hedde <damien.hedde@greensocs.com>, Peter Delevoryas <pdel@fb.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, linuarm@huawei.com
+Subject: Re: [RFC PATCH 2/2] arm/virt: Add aspeed-i2c controller and MCTP EP
+ to enable MCTP testing
+Message-ID: <20220524163633.gycxq6v5i5ucz4ja@bwidawsk-mobl5>
+References: <20220520170128.4436-1-Jonathan.Cameron@huawei.com>
+ <20220520170128.4436-3-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0yBSXIvWGW0rV4Z1iPtO-uGX1gjOyG5d
-X-Proofpoint-GUID: ySrKifE5NbjOO8Aw4D46_x1VZQwH2YbW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-24_08,2022-05-23_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- impostorscore=0 adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
- clxscore=1011 mlxlogscore=999 phishscore=0 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205240083
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220520170128.4436-3-Jonathan.Cameron@huawei.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=bwidawsk@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 24 May 2022 16:15:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,97 +78,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 May 2022 12:43:29 +0200
-Thomas Huth <thuth@redhat.com> wrote:
-
-> On 19/05/2022 15.53, Janis Schoetterl-Glausch wrote:
-> > On 5/19/22 12:05, Thomas Huth wrote:  
-> >> On 06/05/2022 17.39, Janis Schoetterl-Glausch wrote:  
-> >>> Storage key controlled protection is currently not honored when
-> >>> emulating instructions.
-> >>> If available, enable key protection for the MEM_OP ioctl, thereby
-> >>> enabling it for the s390_cpu_virt_mem_* functions, when using kvm.
-> >>> As a result, the emulation of the following instructions honors storage
-> >>> keys:
-> >>>
-> >>> * CLP
-> >>>         The Synch I/O CLP command would need special handling in order
-> >>>         to support storage keys, but is currently not supported.
-> >>> * CHSC
-> >>>      Performing commands asynchronously would require special
-> >>>      handling, but commands are currently always synchronous.
-> >>> * STSI
-> >>> * TSCH
-> >>>      Must (and does) not change channel if terminated due to
-> >>>      protection.
-> >>> * MSCH
-> >>>      Suppressed on protection, works because fetching instruction.
-> >>> * SSCH
-> >>>      Suppressed on protection, works because fetching instruction.
-> >>> * STSCH
-> >>> * STCRW
-> >>>      Suppressed on protection, this works because no partial store is
-> >>>      possible, because the operand cannot span multiple pages.
-> >>> * PCISTB
-> >>> * MPCIFC
-> >>> * STPCIFC
-> >>>
-> >>> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> >>> ---
-> >>>    target/s390x/kvm/kvm.c | 9 +++++++++
-> >>>    1 file changed, 9 insertions(+)
-> >>>
-> >>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-> >>> index 53098bf541..7bd8db0e7b 100644
-> >>> --- a/target/s390x/kvm/kvm.c
-> >>> +++ b/target/s390x/kvm/kvm.c
-> >>> @@ -151,12 +151,15 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-> >>>    static int cap_sync_regs;
-> >>>    static int cap_async_pf;
-> >>>    static int cap_mem_op;
-> >>> +static int cap_mem_op_extension;
-> >>>    static int cap_s390_irq;
-> >>>    static int cap_ri;
-> >>>    static int cap_hpage_1m;
-> >>>    static int cap_vcpu_resets;
-> >>>    static int cap_protected;
-> >>>    +static bool mem_op_storage_key_support;
-> >>> +
-> >>>    static int active_cmma;
-> >>>      static int kvm_s390_query_mem_limit(uint64_t *memory_limit)
-> >>> @@ -354,6 +357,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >>>        cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
-> >>>        cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
-> >>>        cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
-> >>> +    cap_mem_op_extension = kvm_check_extension(s, KVM_CAP_S390_MEM_OP_EXTENSION);
-> >>> +    mem_op_storage_key_support = cap_mem_op_extension > 0;  
-> >>
-> >> Ah, so KVM_CAP_S390_MEM_OP_EXTENSION is a "version number", not a boolean flag? ... ok, now I've finally understood that ... ;-)  
-> > 
-> > Yeah, potentially having a bunch of memop capabilities didn't seem nice to me.
-> > We can remove extensions if, when introducing an extension, we define that version x supports functionality y, z...,
-> > but for the storage keys I've written in api.rst that it's supported if the cap > 0.
-> > So we'd need a new cap if we want to get rid of the skey extension and still support some other extension,
-> > but that doesn't seem particularly likely.  
+On 22-05-20 18:01:28, Jonathan Cameron wrote:
+> As the only I2C emulation in QEMU that supports being both
+> a master and a slave, suitable for MCTP over i2c is aspeed-i2c
+> add this controller to the arm virt model and hook up our new
+> i2c_mctp_cxl_fmapi device.
 > 
-> Oh well, never say that ... we've seen it in the past, that sometimes we 
-> want to get rid of features again, and if they don't have a separate feature 
-> flag bit somewhere, it's getting very ugly to disable them again.
+> The current Linux driver for aspeed-i2c has a hard requirement on
+> a reset controller.  Throw down the simplest reset controller
+> I could find so as to avoid need to make any chance to the kernel
+> code.
+
+s/chance/change
+
 > 
-> So since we don't have merged this patch yet, and thus we don't have a 
-> public userspace program using this interface yet, this is our last chance 
-> to redefine this interface before we might regret it later.
+> Patch also builds appropriate device tree.  Unfortunately for CXL
+> we need to use ACPI (no DT bindings yet defined). Enabling this will
+> either require appropriate support for MCTP on an i2c master that
+> has ACPI bindings, or modifications of the kernel driver to support
+> ACPI with aspeed-i2c (which might be a little controversial ;)
+
+I'm naive to what DT defines, but I assume what's there already is insufficient
+to make the bindings for CXL. I say this because I believe it wouldn't be too
+bad at all to make a cxl_dt.ko, and it's certainly less artificial than
+providing ACPI support for things which don't naturally have ACPI support.
+
 > 
-> I'm in strong favor of treating the KVM_CAP_S390_MEM_OP_EXTENSION as a flag 
-> field instead of a version number. What do others think? Christian? Halil?
-
-I don't fully understand the problem, and I don't have a strong opinion.
-What I understand is KVM_CAP_S390_MEM_OP_EXTENSION tells me if some mem
-op extensions may be available if non-zero or that none are available.
-Which mem-op extensions are available is not yet actually defined.
-
-I can think some more, but feel free to proceed without me.
-
-Regards,
-Halil
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  hw/arm/Kconfig        |  1 +
+>  hw/arm/virt.c         | 77 +++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/arm/virt.h |  2 ++
+>  3 files changed, 80 insertions(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 219262a8da..4a733298cd 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -30,6 +30,7 @@ config ARM_VIRT
+>      select ACPI_VIOT
+>      select VIRTIO_MEM_SUPPORTED
+>      select ACPI_CXL
+> +    select I2C_MCTP_CXL_FMAPI
+>  
+>  config CHEETAH
+>      bool
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index d818131b57..ea04279515 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -80,6 +80,9 @@
+>  #include "hw/char/pl011.h"
+>  #include "hw/cxl/cxl.h"
+>  #include "qemu/guest-random.h"
+> +#include "hw/i2c/i2c.h"
+> +#include "hw/i2c/aspeed_i2c.h"
+> +#include "hw/misc/i2c_mctp_cxl_fmapi.h"
+>  
+>  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+>      static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+> @@ -156,6 +159,8 @@ static const MemMapEntry base_memmap[] = {
+>      [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
+>      [VIRT_SECURE_GPIO] =        { 0x090b0000, 0x00001000 },
+>      [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+> +    [VIRT_I2C] =                { 0x0b000000, 0x00004000 },
+> +    [VIRT_RESET_FAKE] =         { 0x0b004000, 0x00000010 },
+>      /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
+>      [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
+>      [VIRT_SECURE_MEM] =         { 0x0e000000, 0x01000000 },
+> @@ -192,6 +197,7 @@ static const int a15irqmap[] = {
+>      [VIRT_GPIO] = 7,
+>      [VIRT_SECURE_UART] = 8,
+>      [VIRT_ACPI_GED] = 9,
+> +    [VIRT_I2C] = 10,
+>      [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
+>      [VIRT_GIC_V2M] = 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
+>      [VIRT_SMMU] = 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
+> @@ -1996,6 +2002,75 @@ static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
+>      }
+>  }
+>  
+> +static void create_mctp_test(MachineState *ms)
+> +{
+> +    VirtMachineState *vms = VIRT_MACHINE(ms);
+> +    MemoryRegion *sysmem = get_system_memory();
+> +    AspeedI2CState *aspeedi2c;
+> +    struct DeviceState  *dev;
+> +    char *nodename_i2c_master;
+> +    char *nodename_i2c_sub;
+> +    char *nodename_reset;
+> +    uint32_t clk_phandle, reset_phandle;
+> +    MemoryRegion *sysmem2;
+> +   
+> +    dev = qdev_new("aspeed.i2c-ast2600");
+> +    aspeedi2c = ASPEED_I2C(dev);
+> +    object_property_set_link(OBJECT(dev), "dram", OBJECT(ms->ram), &error_fatal);
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, vms->memmap[VIRT_I2C].base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&aspeedi2c->busses[0]), 0, qdev_get_gpio_in(vms->gic, vms->irqmap[VIRT_I2C]));
+> +
+> +    /* I2C bus DT */
+> +    reset_phandle = qemu_fdt_alloc_phandle(ms->fdt);
+> +    nodename_reset = g_strdup_printf("/reset@%" PRIx64, vms->memmap[VIRT_RESET_FAKE].base);
+> +    qemu_fdt_add_subnode(ms->fdt, nodename_reset);
+> +    qemu_fdt_setprop_string(ms->fdt, nodename_reset, "compatible", "snps,dw-low-reset");
+> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename_reset, "reg",
+> +                                 2, vms->memmap[VIRT_RESET_FAKE].base,
+> +                                 2, vms->memmap[VIRT_RESET_FAKE].size);
+> +    qemu_fdt_setprop_cell(ms->fdt, nodename_reset, "#reset-cells", 0x1);
+> +    qemu_fdt_setprop_cell(ms->fdt, nodename_reset, "phandle", reset_phandle);
+> +    sysmem2 =  g_new(MemoryRegion, 1);
+> +    memory_region_init_ram(sysmem2, NULL, "reset", vms->memmap[VIRT_RESET_FAKE].size, NULL);
+> +    memory_region_add_subregion(sysmem, vms->memmap[VIRT_RESET_FAKE].base, sysmem2);
+> +    
+> +    clk_phandle = qemu_fdt_alloc_phandle(ms->fdt);
+> +    
+> +    qemu_fdt_add_subnode(ms->fdt, "/mclk");
+> +    qemu_fdt_setprop_string(ms->fdt, "/mclk", "compatible", "fixed-clock");
+> +    qemu_fdt_setprop_cell(ms->fdt, "/mclk", "#clock-cells", 0x0);
+> +    qemu_fdt_setprop_cell(ms->fdt, "/mclk", "clock-frequency", 24000);
+> +    qemu_fdt_setprop_string(ms->fdt, "/mclk", "clock-output-names", "bobsclk");
+> +    qemu_fdt_setprop_cell(ms->fdt, "/mclk", "phandle", clk_phandle);
+> +
+> +    nodename_i2c_master = g_strdup_printf("/i2c@%" PRIx64, vms->memmap[VIRT_I2C].base);
+> +    qemu_fdt_add_subnode(ms->fdt, nodename_i2c_master);
+> +    qemu_fdt_setprop_string(ms->fdt, nodename_i2c_master, "compatible",  "aspeed,ast2600-i2c-bus");
+> +    qemu_fdt_setprop_cells(ms->fdt, nodename_i2c_master, "multi-master");
+> +    qemu_fdt_setprop_cell(ms->fdt, nodename_i2c_master, "#size-cells", 0);
+> +    qemu_fdt_setprop_cell(ms->fdt, nodename_i2c_master, "#address-cells", 1);
+> +    qemu_fdt_setprop_cell(ms->fdt, nodename_i2c_master, "clocks", clk_phandle);
+> +    qemu_fdt_setprop_string(ms->fdt, nodename_i2c_master, "clock-names", "bobsclk");
+> +    qemu_fdt_setprop(ms->fdt, nodename_i2c_master, "mctp-controller", NULL, 0);
+> +    qemu_fdt_setprop_cells(ms->fdt, nodename_i2c_master, "interrupts", GIC_FDT_IRQ_TYPE_SPI,
+> +                           vms->irqmap[VIRT_I2C], GIC_FDT_IRQ_FLAGS_LEVEL_HI);
+> +    /* Offset to the first bus is 0x80, next one at 0x100 etc */
+> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename_i2c_master, "reg",
+> +                                 2, vms->memmap[VIRT_I2C].base + 0x80,
+> +                                 2, 0x80);
+> +    qemu_fdt_setprop_cells(ms->fdt, nodename_i2c_master, "resets", reset_phandle,  0);
+> +
+> +    nodename_i2c_sub = g_strdup_printf("/i2c@%" PRIx64 "/mctp@%" PRIx64, vms->memmap[VIRT_I2C].base, 0x50l);
+> +    qemu_fdt_add_subnode(ms->fdt, nodename_i2c_sub);
+> +    qemu_fdt_setprop_string(ms->fdt, nodename_i2c_sub, "compatible",  "mctp-i2c-controller");
+> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename_i2c_sub, "reg", 1, 0x50 | 0x40000000);
+> +
+> +        
+> +    /* Slave device - linux doesn't use the presence of dt node for this so don't create one*/
+> +    i2c_slave_create_simple(aspeed_i2c_get_bus(aspeedi2c, 0), "i2c_mctp_cxl_switch", 0x4d);
+> +}
+> +
+>  static void machvirt_init(MachineState *machine)
+>  {
+>      VirtMachineState *vms = VIRT_MACHINE(machine);
+> @@ -2289,6 +2364,8 @@ static void machvirt_init(MachineState *machine)
+>          create_gpio_devices(vms, VIRT_SECURE_GPIO, secure_sysmem);
+>      }
+>  
+> +    create_mctp_test(machine);
+> +
+>       /* connect powerdown request */
+>       vms->powerdown_notifier.notify = virt_powerdown_req;
+>       qemu_register_powerdown_notifier(&vms->powerdown_notifier);
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 67c08a62af..abbfac7c48 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -71,6 +71,8 @@ enum {
+>      VIRT_SMMU,
+>      VIRT_UART,
+>      VIRT_MMIO,
+> +    VIRT_I2C,
+> +    VIRT_RESET_FAKE,
+>      VIRT_RTC,
+>      VIRT_FW_CFG,
+>      VIRT_PCIE,
+> -- 
+> 2.32.0
+> 
 
