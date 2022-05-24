@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1F3532A4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:24:37 +0200 (CEST)
-Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45275532A4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:23:03 +0200 (CEST)
+Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntTaW-0006R6-D7
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
+	id 1ntTZ0-0004O9-5V
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntSqG-0008OK-VC
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:37:12 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:41640)
+ id 1ntT1J-0005Lw-Vq
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:48:15 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:42623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ntSqE-0001N2-S6
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:36:48 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 31so16092661pgp.8
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 04:36:43 -0700 (PDT)
+ id 1ntT1I-0003dm-6l
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:48:13 -0400
+Received: by mail-pf1-x434.google.com with SMTP id y199so16205612pfb.9
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 04:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=l0PpHrECB9JnE54ijLCLCnzjp2NCKOde8VVM6+y+qfA=;
- b=U7a+5O+xQmLAA3VTe6unf6mA6zVR222slcjEcSUFGFDP2SjxEADrlU8Y9dilAJ7kXs
- k10Qb8sWCRRlhHRoDwWTlx7YEY5LGAfdGhYLVDEQ8tocbU9BNRV7XFvi2ypgNvEkIVEF
- ZdbNiCu8U3grg2t8knBjFhOlLz6J5VRWjx75C5D2zyZcLG1aUenPmmstrQRhVE49Zb/m
- /1LipZ2a3QcIT3l9qPgA8Re25pfkA0+XYvERnk+XNYjXHjpNtm60ZN5R7gcllTpi6PIZ
- gg32CojIMZSTrop8BrfJ3WcLlnk39GL2Dy+Dni6Tbuq6lDDxB8K7PJmqtYi29YkRW0+E
- 2l4g==
+ bh=FE0iwfme+sc8UyoN2QM/vJXxcsXcktKneiQYiZkRx1Q=;
+ b=usTiZwbTWaD6jJoFsQguQhXBJRitT96xZb+KKsxILzzsqucUCTe8TbfYoKCrmyzVqK
+ +G1MP2LbBI5qDSDQYPRWTD7CXSySjlPGH/fV5Akont3E8ORjUZw4/75muL7t+Ex9KQym
+ NTpAfDt+3Z/Dy3/XausWjKw3wQO0xMcxkDGx/BUPPFbHOyb6FPLbeIdrYpqBuoWl+oOj
+ zbPsa9xCs8Lv2A3qPesAcKGj1SPHTVmbYdhwRGf9YwT4Td+EOjrvuTT1m2TfrbmAMGek
+ FazLDtVcH987etQ0Isctrsb2N7iL4KzafKplXoD2FvdUl/YC4VO0Zu+d3qFgp19m6pXq
+ pepw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=l0PpHrECB9JnE54ijLCLCnzjp2NCKOde8VVM6+y+qfA=;
- b=KIKfc2jETlX+7x5Ppim+wT4a2kGrAzBEkUpjLyK4NQyo1FOsajKmUTrGvDoWYw6DxS
- focRI+hF+Tbv7c8hc88ffTr1//NVCLPPclL0/M/+pER7gGHNw4jJlYEdzPR2WANaX+TW
- PVXih2M0PNLjK8DjdU4xfuMopsNKzC3sP8B+k1Qu2UddBe1uuAD/IBX0T8wcHRkf0vI0
- m3kOCWOqD0RmeWUNYcwmJTjqvhHwFDPxFSP8Mubx3jz25iEgCNzCWxdhdcLC1T/YigsE
- DlP4w3n5Xy5uhmHgxrA/Tb5r8ugNy7mGC9SYYN3Xuv6EeQwaocgR+MlWni3kN4Ozx7p3
- n51A==
-X-Gm-Message-State: AOAM531UjU5s8QMaicXBFTR7euIfjYiCRWY7hg6KWapS3n5mhqDmtWWG
- 9/d5xRCN5uM9FEnNSn+nYundJw==
-X-Google-Smtp-Source: ABdhPJzez6upm+LvIKxaCs6kMTdkbr08FB/1A0cznMT+nh1egTr1b9BQQzqXuGeL0TebM911H5UUtA==
-X-Received: by 2002:a65:428c:0:b0:3db:822e:2163 with SMTP id
- j12-20020a65428c000000b003db822e2163mr23542266pgp.466.1653392202414; 
- Tue, 24 May 2022 04:36:42 -0700 (PDT)
+ bh=FE0iwfme+sc8UyoN2QM/vJXxcsXcktKneiQYiZkRx1Q=;
+ b=lok03d3yHllcJDcWmm1ZBwdXPAPVOO5PwhLr3v5QvcPu9T0Ft1SR/svDB1wpSgpNZM
+ 4UUBNVv947oJahlqbtEkTEZ2rAy98QMeSdZisMAsXwJFpuOCXF4FFieYM8p4J9sM+sJn
+ vcnzWQMChDQZZkz/2t8TMWHfWqdUOPg36yFMjeLAXyBYzvtULS6TQbXnVvSgXFnj/lO1
+ 7VQ1P0IKigJwRVedHYuSx8DoTd8eYvAqYGjuuJGsDx+rlYXopiVBtlj8JzXknQwnkLEi
+ 2hiCmQzxrkgh59GRuf21cZYcm9/eGVEodSJ/UV7SwiF6K5ySjORvXcDURIEYISXAQhsA
+ nvFg==
+X-Gm-Message-State: AOAM533jP8MPUNPjvfrzcF+LWFIybkS8HThaNjf3XDEcs6n73hi3Fgau
+ UAak3v+nBTtJlAuscHeLXErEoHurmSJS+w==
+X-Google-Smtp-Source: ABdhPJxK5OHC4T1sTVUVJlF5R1pjuaoXjGjdrFpCvEFTmx/SE6KOrcNtU+EPeK8I2UwmFRY9Z++hbA==
+X-Received: by 2002:aa7:8492:0:b0:518:7e1a:3359 with SMTP id
+ u18-20020aa78492000000b005187e1a3359mr17281314pfn.18.1653392890920; 
+ Tue, 24 May 2022 04:48:10 -0700 (PDT)
 Received: from [192.168.1.6] ([71.212.142.129])
  by smtp.gmail.com with ESMTPSA id
- v16-20020aa78510000000b0050dc7628184sm9351457pfn.94.2022.05.24.04.36.40
+ h6-20020a170902f70600b0015eb200cc00sm7008519plo.138.2022.05.24.04.48.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 04:36:41 -0700 (PDT)
-Message-ID: <b58e044c-e577-7c13-350d-43f3a3ea4686@linaro.org>
-Date: Tue, 24 May 2022 04:36:39 -0700
+ Tue, 24 May 2022 04:48:10 -0700 (PDT)
+Message-ID: <6d4b89e8-452f-521e-3464-7981e89794e0@linaro.org>
+Date: Tue, 24 May 2022 04:48:08 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] .gitlab-ci.d/crossbuilds: Fix the dependency of the
- cross-i386-tci job
+Subject: Re: Emulating CPUs with larger atomic accesses
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Stefan Weil <sw@weilnetz.de>
-References: <20220524092600.89997-1-thuth@redhat.com>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <87k0apeor5.fsf@oldenburg.str.redhat.com>
+ <37f4c866-4344-37ba-b64b-fd338dc96887@linaro.org>
+ <87sfozuvpf.fsf@oldenburg.str.redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220524092600.89997-1-thuth@redhat.com>
+In-Reply-To: <87sfozuvpf.fsf@oldenburg.str.redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,17 +94,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/22 02:26, Thomas Huth wrote:
-> The cross-i386-tci job uses the fedora-i386-cross image, so we should make sure
-> that the corresponding job that builds it (the i386-fedora-cross-container job)
-> has finished before we start the TCI job.
+On 5/24/22 02:27, Florian Weimer wrote:
+> * Richard Henderson:
 > 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
-> ---
->   .gitlab-ci.d/crossbuilds.yml | 2 ++
->   1 file changed, 2 insertions(+)
+>> On 5/13/22 03:00, Florian Weimer wrote:
+>>> What's QEMU's approach to emulating CPU instructions that atomatically
+>>> operate on values larger than what is supported by the host CPU?
+>>> I assume that for full system emulation, this is not a problem, but
+>>> qemu-user will not achieve atomic behavior on shared memory mappings.
+>>> How much of a problem is this in practice?
+>>
+>> Well, it doesn't work, no.  In practice, x86_64 supports 128-bit
+>> atomic operations, and guest requires more than that.  No one really
+>> cares anymore about 32-bit hosts with smaller atomic operations.
+> 
+> Which part doesn't work?  Full-system emulation?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+No, user-only.
+
+> Do guests really require wider-than-128 atomics?  That's quite
+> surprising?
+
+Typo there -- "and no guest requires...".
+
 
 r~
+
 
