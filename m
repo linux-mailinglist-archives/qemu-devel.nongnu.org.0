@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B91532E0B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:00:16 +0200 (CEST)
-Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E887532EEE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:29:08 +0200 (CEST)
+Received: from localhost ([::1]:40668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntWxC-0008C8-89
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:00:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
+	id 1ntXP8-0004wg-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntWep-0004II-Iu
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:15 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:43802)
+ id 1ntWeo-0004G0-O9
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:14 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntWen-0005PR-RN
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:15 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 67-20020a1c1946000000b00397382b44f4so1643509wmz.2
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 08:41:13 -0700 (PDT)
+ id 1ntWem-0005OV-VH
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:14 -0400
+Received: by mail-wr1-x435.google.com with SMTP id t13so7097652wrg.9
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 08:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0BYVTVZiKjXfpCfzCQnV5P+1PaZA5TNtHfPlJaQOz5w=;
- b=xnOug7AfIomU33Kc7qg3cEIpkRU7kqx0I97Ls3urj6QlKRPizGmVCaQMaMNgdxQNQL
- 4uTtHGCgE1RnB5t8XvDhlfPPVFnjfHz2lJ0i1Vi8oqTn/lOz45EQoLxWURMk7h9UD2Sr
- K3gVbM/XJtniBLib60gukwbV7MUEWdNojT9QIp5y0LeN6PaDdAKow6RLTNCOEuzBtdfP
- C0fxqnB+kjfVm+kFx/8ZVk1HAlJ6N1gqOBdNX+u+lZwA4lLGTfqliVlEiOWp0gVGCMPn
- Otib3d0ZSKpSjK/+UG75BmLVR8e7a3LTIGK1FydK/q40OwZh7oDDBaI3fOXVRf0iGsgT
- CNfQ==
+ bh=lIw/XzESBQ2ZIkAn8maFDXE0YZAEzzp1ypsC723X+go=;
+ b=gdpZI4BUKvCAhqLp2M0ofCADf0PazqBD6SQ7MfY0plJUJZ3cbvVyI3htPrrM2RFjTS
+ Sb3H9xEzsISa+OsSwzqYAkEMd+Ok/hfNYqCEaMB41FEWZwAzqk3HlZAVpDmMzManaRQy
+ j6FAuFj86gP3NhlvR+kZENLLEUnodkpRS6H5Em/uVbmWgQBTd87H549gVtRcXTDOtX6B
+ TLKJWBRVJ7US4cZ9yxrkiH00XurZXoS7Qa5KVDP8PoCxNuvCfWgPZhrRWFHokGjigOcm
+ 22ITGYqTdi03hl0PlADAPf8KReIoPXBjNZXv59KLHWu60zouqzB4Aaohm12yXEV1uWNV
+ Xq+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0BYVTVZiKjXfpCfzCQnV5P+1PaZA5TNtHfPlJaQOz5w=;
- b=FBSp9mwM+48KSmkY5qPh5ODYzNLY0FX9hO177pvUpDPOaUdRJUBmG0DLp+CZXhvGtH
- Po3PzGTARoCTmgqBXbJk0Rxca4m6jT/bhLKZlbKzKKpaEFQ5xIoG24hmP5OAqVziaUvm
- NnO/9N+jjTy2xvS+vBE8WKhBJBpav+Rihxl/7XUZpVEY/vPAPKiNOHi7KZThU3anWMtI
- Kkg3KlRD8pvffysqQcWgAHoNzAhVgpTpWjLCCV5e/qrHgC4E3jVBbvr7Z1QfGNZNZVm/
- Y03MzQQeFPxbZT5zRL0YNx31wdNGWiEJEBrBbZ/7IPElpwaT/cJaO/tIby9/Pck7bTq0
- OJew==
-X-Gm-Message-State: AOAM531N1c63K70uj+Q0u8gu0deSCyMBTpeOnGPMoBK/lpd3160qGEzb
- sh8H/KCzKfgYVPdfOmelvaTCcQ==
-X-Google-Smtp-Source: ABdhPJxP9a4/Optbq8Pk8kp7Jy2Q/qOJVBd4SWk6XtAdA12zQqIXWxXVjIw6Kryp3+cSFztGmOo3Kg==
-X-Received: by 2002:a7b:c5cd:0:b0:38c:8b1b:d220 with SMTP id
- n13-20020a7bc5cd000000b0038c8b1bd220mr4308413wmk.118.1653406872538; 
- Tue, 24 May 2022 08:41:12 -0700 (PDT)
+ bh=lIw/XzESBQ2ZIkAn8maFDXE0YZAEzzp1ypsC723X+go=;
+ b=wjxV7SU4Ym6tA7iingfiFkXKSgbUX1fjrngf50CIZJD/lviULtTFXVyGbA9zmv42iH
+ 85/Cgtzb9PSEyGoem10DVLU5qgsp/2BsArwxcBK/BNIlMIXboN8WoyiiOqN/88wxVDx2
+ kzGdfj5DJbhYMZotjFW/hf+vWFOUi/3HBHiMy6LEV6W/gtD+1949zKDKCuCPXYekICoK
+ hau2Ii6QP3OH3KEhbG4FxNOHML53M241bRo1njBLkdW2L0rJvqKpds1uU3VK6hugCiH6
+ tkddQ7RlN0QgRd9iiAK2rTB31AqDGkQL+BFJ3DR7s4ggW8cFFns0jmPQ+XnLxB+FcE8N
+ rCvw==
+X-Gm-Message-State: AOAM532Lf7pjGZsM+IAEXKgCzzYJwUqrjcSByOkd1IcQlLYuu85gfkOg
+ D6gCl2+KKV9lTr1IijD9RpGbZA==
+X-Google-Smtp-Source: ABdhPJzwLLjhJGOnTyvdUNf2/gw2XFx3/Daj/QYtBtHIpX9lbJoQRmzfK/UZuC5wUYGwSUsvMygOXg==
+X-Received: by 2002:a05:6000:186c:b0:20f:e176:df0b with SMTP id
+ d12-20020a056000186c00b0020fe176df0bmr8004355wri.608.1653406871606; 
+ Tue, 24 May 2022 08:41:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- u22-20020adfa196000000b0020c5253d8dcsm13477778wru.40.2022.05.24.08.41.01
+ u25-20020adfae59000000b0020d106c0386sm13283414wrd.89.2022.05.24.08.41.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 24 May 2022 08:41:09 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 50D3D1FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 5DAA41FFC3;
  Tue, 24 May 2022 16:40:57 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,17 +63,18 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH  v2 10/15] tests/qtest: catch unhandled vhost-user messages
-Date: Tue, 24 May 2022 16:40:51 +0100
-Message-Id: <20220524154056.2896913-11-alex.bennee@linaro.org>
+Subject: [PATCH v2 11/15] tests/qtest: use g_autofree for
+ test_server_create_chr
+Date: Tue, 24 May 2022 16:40:52 +0100
+Message-Id: <20220524154056.2896913-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220524154056.2896913-1-alex.bennee@linaro.org>
 References: <20220524154056.2896913-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,84 +97,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need to action every message but lets document the ones we
-are expecting to consume so future tests don't get confused about
-unhandled bits.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
 ---
-v1
-  - drop g_test_fail() when we get unexpected result, that just hangs
----
- tests/qtest/vhost-user-test.c | 40 +++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ tests/qtest/vhost-user-test.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 90749c147e..11da6ff07a 100644
+index 11da6ff07a..d0fa034601 100644
 --- a/tests/qtest/vhost-user-test.c
 +++ b/tests/qtest/vhost-user-test.c
-@@ -358,12 +358,41 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         }
-         break;
+@@ -565,14 +565,13 @@ static void chr_event(void *opaque, QEMUChrEvent event)
  
-+    case VHOST_USER_SET_OWNER:
-+        /*
-+         * We don't need to do anything here, the remote is just
-+         * letting us know it is in charge. Just log it.
-+         */
-+        qos_printf("set_owner: start of session\n");
-+        break;
-+
-     case VHOST_USER_GET_PROTOCOL_FEATURES:
-         if (s->vu_ops->get_protocol_features) {
-             s->vu_ops->get_protocol_features(s, chr, &msg);
-         }
-         break;
+ static void test_server_create_chr(TestServer *server, const gchar *opt)
+ {
+-    gchar *chr_path;
++    g_autofree gchar *chr_path = g_strdup_printf("unix:%s%s",
++                                                 server->socket_path, opt);
+     Chardev *chr;
  
-+    case VHOST_USER_SET_PROTOCOL_FEATURES:
-+        /*
-+         * We did set VHOST_USER_F_PROTOCOL_FEATURES so its valid for
-+         * the remote end to send this. There is no handshake reply so
-+         * just log the details for debugging.
-+         */
-+        qos_printf("set_protocol_features: 0x%"PRIx64 "\n", msg.payload.u64);
-+        break;
-+
-+        /*
-+         * A real vhost-user backend would actually set the size and
-+         * address of the vrings but we can simply report them.
-+         */
-+    case VHOST_USER_SET_VRING_NUM:
-+        qos_printf("set_vring_num: %d/%d\n",
-+                   msg.payload.state.index, msg.payload.state.num);
-+        break;
-+    case VHOST_USER_SET_VRING_ADDR:
-+        qos_printf("set_vring_addr:\n");
-+        break;
-+
-     case VHOST_USER_GET_VRING_BASE:
-         /* send back vring base to qemu */
-         msg.flags |= VHOST_USER_REPLY_MASK;
-@@ -428,7 +457,18 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
-         break;
+-    chr_path = g_strdup_printf("unix:%s%s", server->socket_path, opt);
+     chr = qemu_chr_new(server->chr_name, chr_path, server->context);
+-    g_free(chr_path);
++    g_assert(chr);
  
-+    case VHOST_USER_SET_VRING_ENABLE:
-+        /*
-+         * Another case we ignore as we don't need to respond. With a
-+         * fully functioning vhost-user we would enable/disable the
-+         * vring monitoring.
-+         */
-+        qos_printf("set_vring(%d)=%s\n", msg.payload.state.index,
-+                   msg.payload.state.num ? "enabled" : "disabled");
-+        break;
-+
-     default:
-+        qos_printf("vhost-user: un-handled message: %d\n", msg.request);
-         break;
-     }
- 
+-    g_assert_nonnull(chr);
+     qemu_chr_fe_init(&server->chr, chr, &error_abort);
+     qemu_chr_fe_set_handlers(&server->chr, chr_can_read, chr_read,
+                              chr_event, NULL, server, server->context, true);
 -- 
 2.30.2
 
