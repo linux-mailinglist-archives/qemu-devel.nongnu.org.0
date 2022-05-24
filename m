@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4305B532F9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 19:27:46 +0200 (CEST)
-Received: from localhost ([::1]:41960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED114532FAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 19:33:02 +0200 (CEST)
+Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntYJt-00080l-Cj
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 13:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
+	id 1ntYOz-0003A1-6t
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 13:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ntYHc-0005a6-E9; Tue, 24 May 2022 13:25:26 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ntYHa-0006iC-W0; Tue, 24 May 2022 13:25:24 -0400
-Received: by mail-ed1-x531.google.com with SMTP id i40so23972700eda.7;
- Tue, 24 May 2022 10:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Dnmwt+F26AMh7zif6d9yxcsZl1izCZHXXsocY6Cefno=;
- b=AUHqZWTk/UiOWp12ZiMFQufMEuPhkvLt7pYZH020T74atxxPHqv5mthgZIrM65FqVG
- JBQq7raml8nP1PJc19ZYhMSvkX94jhaxPMVjWAhpMAj6F+TrjTnwShHvR5xIW3TqXcCm
- UVsU8Wx5WpcN16lJpiEsFiTe9Ss/FNH87aKz19MxsBbdta/2UZv2ztQyNJsnCE9p9lg5
- BiqNz+tq3lPUSelBxXqUcHl56GCfVaB1pao6rYnBt3qo0JOOeiqO9uTOHNDS7d5c4QOc
- q3jFmgRseRs/l3t2Z6bA0unGSHqGM4FokVHi8mOj8PX2WupkBNcc04Wl0ihB0WNXEi86
- diDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Dnmwt+F26AMh7zif6d9yxcsZl1izCZHXXsocY6Cefno=;
- b=LeO2VrgwiKnIGB1/GPvQDUUcBbBlqxLZQIRe3hhAc1binRx113I4vw9e71XUQp9ffD
- 1wSuEufTcSuAKWictA28K6C7g61YHM/ngSNUJnfaM9AFfXOUr2C0vWVIVwnAVpqKHCQR
- dsUHPyIb/ZfOrqZzPTtZUj4c8sDbznMMV4w9gizVhy9s8rkG/Ficl0PUslCXjT3vLZB+
- pjTLBchg4ncKmNZv69VZ2YdqbLR3KC7bXY3wTjXsDZwOJnhv+A1BbXhnXGO76HLVC+UQ
- rPCoXvlZCYkhdC3UFC9xjw9glqLozhklaf1A8ebd6qIU1ehsPH7QEpy09lr5DGLYJlEA
- SclQ==
-X-Gm-Message-State: AOAM5337O5WZj9CgsI81gX9j+j/4zXsU954PHoMxEiiBQR2wTiXfH5Lc
- UiKLP1vn2ohQWTFeEiqPS64=
-X-Google-Smtp-Source: ABdhPJyryYDJB9/G2QpYaQdMWYqAnT7SGeXIHdusWBnJ9yzQ7+qI+qTjMEWoSk9rDkwFkzWw+K5lRg==
-X-Received: by 2002:a05:6402:1508:b0:42a:b5da:b112 with SMTP id
- f8-20020a056402150800b0042ab5dab112mr30156130edw.192.1653413121301; 
- Tue, 24 May 2022 10:25:21 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- gx13-20020a1709068a4d00b006f39ffe23fdsm7502536ejc.0.2022.05.24.10.25.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 10:25:20 -0700 (PDT)
-Message-ID: <f0552d30-2dc8-df5f-6de9-c59a2a2951c1@redhat.com>
-Date: Tue, 24 May 2022 19:25:19 +0200
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ntYN5-0002LF-CO
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 13:31:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ntYN2-0007VF-Jb
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 13:31:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653413459;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=osTHyGs0nqmm7hjgr8tAPoAOdNGO4iCmwQFpxy/y2dI=;
+ b=OG71lcjBuHlqwiPNB5NOW9VZTvVWHvfaKkGM78bwOFLX4mRXR6oilPZHWIAz6ER3Lzd2Ym
+ RWP5lMX1uyJoedczmS2EDGm7gNVRhyrD/TLslo4B1fWN2HQn5PaQS0ZiW79TunKOcVfOvO
+ rrXi/iIbOA5CyrGfCSx9xfPJUhb4qaI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-349-zLOoB9VnOFqz4M6Mx9eyLQ-1; Tue, 24 May 2022 13:30:57 -0400
+X-MC-Unique: zLOoB9VnOFqz4M6Mx9eyLQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18A8E3831C49;
+ Tue, 24 May 2022 17:30:57 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACE59492C3B;
+ Tue, 24 May 2022 17:30:56 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH] aio_wait_kick: add missing memory barrier
+Date: Tue, 24 May 2022 13:30:54 -0400
+Message-Id: <20220524173054.12651-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
- <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
- <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
- <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
- <YoUbWYfl0Bft3LiU@redhat.com> <YopRejAj7AbIXH9i@stefanha-x1.localdomain>
- <67993f7d-bc84-9929-0a28-10a441c3d5bd@redhat.com>
- <YoySiI+ReM2O8WEs@stefanha-x1.localdomain>
- <584d7d1a-94cc-9ebb-363b-2fddb8d79f5b@redhat.com>
- <Yoyxf4XDxhl4pDhr@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yoyxf4XDxhl4pDhr@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,23 +80,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/22 12:20, Stefan Hajnoczi wrote:
->> Maybe it's safe to run it without a lock because it runs after
->> virtio_set_status(vdev, 0) but I'd rather play it safe and protect s->rq
->> with a lock.
->
-> What does the lock protect?
-> 
-> A lock can prevent s->rq or req->vq corruption but it cannot prevent
-> request leaks. This loop's job is to free all requests so there is no
-> leak. If a lock is necessary then this code is already broken in a more
-> fundamental way because it can leak.
+It seems that aio_wait_kick always required a memory barrier
+or atomic operation in the caller, but nobody actually
+took care of doing it.
 
-Yes, you're right.  This particular list is always accessed in the 
-iothread (if any) and blk_drain() is enough.  virtio-blk should already 
-not need aio_context_{acquire,release}.
+Let's put the barrier in the function instead, and pair it
+with another one in AIO_WAIT_WHILE. Read aio_wait_kick()
+comment for further explanation.
 
-It's worth a comment, though!
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ include/block/aio-wait.h |  2 ++
+ util/aio-wait.c          | 16 +++++++++++++++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-Paolo
+diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
+index b39eefb38d..54840f8622 100644
+--- a/include/block/aio-wait.h
++++ b/include/block/aio-wait.h
+@@ -81,6 +81,8 @@ extern AioWait global_aio_wait;
+     AioContext *ctx_ = (ctx);                                      \
+     /* Increment wait_->num_waiters before evaluating cond. */     \
+     qatomic_inc(&wait_->num_waiters);                              \
++    /* Paired with smp_mb in aio_wait_kick(). */                   \
++    smp_mb();                                                      \
+     if (ctx_ && in_aio_context_home_thread(ctx_)) {                \
+         while ((cond)) {                                           \
+             aio_poll(ctx_, true);                                  \
+diff --git a/util/aio-wait.c b/util/aio-wait.c
+index bdb3d3af22..98c5accd29 100644
+--- a/util/aio-wait.c
++++ b/util/aio-wait.c
+@@ -35,7 +35,21 @@ static void dummy_bh_cb(void *opaque)
+ 
+ void aio_wait_kick(void)
+ {
+-    /* The barrier (or an atomic op) is in the caller.  */
++    /*
++     * Paired with smp_mb in AIO_WAIT_WHILE. Here we have:
++     * write(condition);
++     * aio_wait_kick() {
++     *      smp_mb();
++     *      read(num_waiters);
++     * }
++     *
++     * And in AIO_WAIT_WHILE:
++     * write(num_waiters);
++     * smp_mb();
++     * read(condition);
++     */
++    smp_mb();
++
+     if (qatomic_read(&global_aio_wait.num_waiters)) {
+         aio_bh_schedule_oneshot(qemu_get_aio_context(), dummy_bh_cb, NULL);
+     }
+-- 
+2.31.1
+
 
