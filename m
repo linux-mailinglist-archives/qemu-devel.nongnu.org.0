@@ -2,110 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3D253319F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 21:13:51 +0200 (CEST)
-Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52555331AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 21:19:32 +0200 (CEST)
+Received: from localhost ([::1]:44676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntZyY-0003ER-7C
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 15:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34102)
+	id 1nta43-0002L5-Tc
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 15:19:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1ntZop-0001d5-G4; Tue, 24 May 2022 15:03:48 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24888
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ntZpU-0002cS-Ef
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 15:04:28 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:33542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1ntZon-0005r5-VV; Tue, 24 May 2022 15:03:47 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24OJ3hvH030022;
- Tue, 24 May 2022 19:03:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=S0gLAmoUWqwEiTjFI6x4W+nFp1JcD8rWrh7o6GQOkf0=;
- b=cuVW8NYQOhd5CPQtb95OnVVjv+mZVQcgimY6zBgdVn9KeieGlXqhVjyFSGUGNAFQqPJ7
- 0MH6aENP76S4N9IcY5d5Si1NY0bJnEq7Hxp7nbE4zAHgMZGHugHO9MHQslPwPm/BwuR1
- tL3JDngB8uPtWhmH3auxSTBDIojfedSsny0NN7NLSjCZhS3CQjsPjnXt8Cyu1f7vE3Kv
- JjI5lolAlMeZi+J2HMBNvJ19RIYX24CngooV0GjU7bGhyhrGbyGaRHvg9Ruf1UV+Y3DA
- jftRZaV6HL/ZFzccUdJCuHCMr8M1kaKRGnhgeRCUHpKkyF+zZIbo/rZJwbVc2S63slra 3g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g956j0038-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 May 2022 19:03:44 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24OJ3iH4030094;
- Tue, 24 May 2022 19:03:44 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g956j002y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 May 2022 19:03:44 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24OJ2u45015885;
- Tue, 24 May 2022 19:03:43 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 3g93v80q7g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 May 2022 19:03:43 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24OJ3grZ39780798
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 24 May 2022 19:03:42 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 320DA124062;
- Tue, 24 May 2022 19:03:42 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8C53F124054;
- Tue, 24 May 2022 19:03:39 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown
- [9.163.3.233]) by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 24 May 2022 19:03:39 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
- thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-Subject: [PATCH v6 8/8] s390x/pci: reflect proper maxstbl for groups of
- interpreted devices
-Date: Tue, 24 May 2022 15:03:05 -0400
-Message-Id: <20220524190305.140717-9-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220524190305.140717-1-mjrosato@linux.ibm.com>
-References: <20220524190305.140717-1-mjrosato@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ntZpI-0005tS-7l
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 15:04:26 -0400
+Received: from myt6-79704c0e15e4.qloud-c.yandex.net
+ (myt6-79704c0e15e4.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:239b:0:640:7970:4c0e])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id B98082E12CD;
+ Tue, 24 May 2022 22:04:08 +0300 (MSK)
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net [2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by myt6-79704c0e15e4.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ lbEX1LRyNJ-47J8LDm5; Tue, 24 May 2022 22:04:08 +0300
+X-Yandex-Fwd: 2
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1653419048; bh=vp5S5dxqYsJk0F2O/a0VA1enIbG1yVcbvNQHgyRuLRg=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=VvnMuwAh/e+lbF8Nj1bNHOWKWBkNwH5hXdc+sSKDUGHaXpZVVG3xaYUiRNK0lOiW5
+ XuzMmTUQ30EOLQdwRszd3V5LUJz1FapiFroGV+R4q2BxZb0nPvQNX4++8dcfwNcdY7
+ C2OELkbGJkc7fRwQN1qE+B2gZ4uRYx9vBR87ZDtg=
+Authentication-Results: myt6-79704c0e15e4.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:b6b7::1:23] (unknown
+ [2a02:6b8:b081:b6b7::1:23])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ qdU0J8FyE6-47NSjKGe; Tue, 24 May 2022 22:04:07 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <f0f173e2-66b1-393f-447d-2d8f102241d8@yandex-team.ru>
+Date: Tue, 24 May 2022 22:04:06 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: a0zoOKOFQiGlQFAITf8-gCyL17R6ixTZ
-X-Proofpoint-ORIG-GUID: jJ9-UWAcNWq3MMPrAl-_FeTotAuSF64k
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-24_09,2022-05-23_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 mlxscore=0 clxscore=1015 phishscore=0 adultscore=0
- malwarescore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205240094
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/4] qdev: add DEVICE_RUNTIME_ERROR event
+Content-Language: en-US
+To: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>, qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, eblake@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, mst@redhat.com,
+ Denis Plotnikov <den-plotnikov@yandex-team.ru>
+References: <165296995578.196133.16183155555450040914.stgit@buzz>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <165296995578.196133.16183155555450040914.stgit@buzz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -117,35 +85,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The maximum supported store block length might be different depending
-on whether the instruction is interpretively executed (firmware-reported
-maximum) or handled via userspace intercept (host kernel API maximum).
-Choose the best available value during group creation.
+First, cover letter is absent. Konstantin, could you please provide a description what the whole series does?
 
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-vfio.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Second, add maintainers to CC:
++Micheal
++Eric
++Markus
 
-diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-index 985980f021..212dd053f7 100644
---- a/hw/s390x/s390-pci-vfio.c
-+++ b/hw/s390x/s390-pci-vfio.c
-@@ -213,7 +213,11 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
-         resgrp->msia = cap->msi_addr;
-         resgrp->mui = cap->mui;
-         resgrp->i = cap->noi;
--        resgrp->maxstbl = cap->maxstbl;
-+        if (pbdev->interp && hdr->version >= 2) {
-+            resgrp->maxstbl = cap->imaxstbl;
-+        } else {
-+            resgrp->maxstbl = cap->maxstbl;
-+        }
-         resgrp->version = cap->version;
-         resgrp->dtsm = ZPCI_DTSM;
-     }
+On 5/19/22 17:19, Konstantin Khlebnikov wrote:
+> This event represents device runtime errors to give time and
+> reason why device is broken.
+> 
+> Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+> ---
+
+The patch itself seems good to me:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
 -- 
-2.27.0
-
+Best regards,
+Vladimir
 
