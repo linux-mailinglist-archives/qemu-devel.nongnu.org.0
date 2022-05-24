@@ -2,95 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2BF532EAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:12:47 +0200 (CEST)
-Received: from localhost ([::1]:36566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA125532EB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:16:39 +0200 (CEST)
+Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntX9K-0007nW-VR
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:12:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
+	id 1ntXD4-0003jI-VE
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntWkC-0003R5-Jp
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:46:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntWk8-0006Fk-1N
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:46:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653407203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+ejcjmb578npCw1cx3vPBWcmaxbZvcEH3IuM8m7K0/4=;
- b=Huw4WhZmw70Tf5XCyBqzenMu+L7q8DjJDbDvyp5rxwzTFFanfxjHkR+c+AwMsEnlyYUeYt
- R14cN4+MNN9zGODfXvf9luloSo+P6GAyX+9CDOpmrGrVV7gFcdCc+5yyUo3LJWaqfv+ekS
- xr9oOm9uZ5IB/GzkVJKXXwlgrzI5+gI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-7RHqk1HUPruGq4PWcd3QYg-1; Tue, 24 May 2022 11:46:42 -0400
-X-MC-Unique: 7RHqk1HUPruGq4PWcd3QYg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- a4-20020adfe5c4000000b0020ffb06bcaaso258822wrn.2
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 08:46:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+ejcjmb578npCw1cx3vPBWcmaxbZvcEH3IuM8m7K0/4=;
- b=igEYRg9cwgI92KcibGmz2MgWpFJcoQfgUaHOUPZ4MNoHKRfos6D76q/LSI8Y1hyU2q
- xklBNWwYil6rLl/kczDbNROepQ32YYf9Su5KOPHMy79o66D+GO0nuAZ+uoTUc7S0dNxb
- XrVYWcoQS4MZcbp0eY7T98DUmyH7hqX8pQ9Aj1Xcqv/z+oGlx5Cj1PYUP/5+YSA1kaTe
- RudChyFS4ZQQZMGJtEWcell9EC0kJ4LUnUpt9EvUAwaiebffrzY6MB1O7EFktnCjiqGy
- RbXt/BVuaYBw6hno2Nv02Z78J1zNe3P7/1IIVJDM/5w6wo4Ncp/Ne6YuRaJNtR+d8PRf
- aPWw==
-X-Gm-Message-State: AOAM532BN9dyS7S5tpm8bmsBj/U330mDIBBr4MWam3uZOG3A1zgJRgX8
- FEUIOVeTZSdJNWpY/+cdgtTx6XTq3A3lvWMIVhNXTgU/qpHErlVN1Md+8yUUqrXuNSKnfMSQs51
- Ule9TwM5s/vce1Vc=
-X-Received: by 2002:a05:600c:2b8f:b0:397:46f2:7a10 with SMTP id
- j15-20020a05600c2b8f00b0039746f27a10mr4214563wmc.75.1653407200833; 
- Tue, 24 May 2022 08:46:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8+CTdHk4ta2/xUQwuVeKTEFyNSVFXvoecW4HVXhBrJ1cxqqv6pCKglIH4yY25eii9Unn8iA==
-X-Received: by 2002:a05:600c:2b8f:b0:397:46f2:7a10 with SMTP id
- j15-20020a05600c2b8f00b0039746f27a10mr4214552wmc.75.1653407200669; 
- Tue, 24 May 2022 08:46:40 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-082-126.customers.d1-online.com.
- [80.187.82.126]) by smtp.gmail.com with ESMTPSA id
- o30-20020a05600c511e00b00394351e35edsm2849871wms.26.2022.05.24.08.46.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 08:46:39 -0700 (PDT)
-Message-ID: <eed37275-dff1-419b-ed01-6f3952273480@redhat.com>
-Date: Tue, 24 May 2022 17:46:37 +0200
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1ntWld-00060w-Jk; Tue, 24 May 2022 11:48:17 -0400
+Received: from [187.72.171.209] (port=47623 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1ntWlb-0006N2-4U; Tue, 24 May 2022 11:48:16 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 24 May 2022 12:48:09 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 732B58002AF;
+ Tue, 24 May 2022 12:48:09 -0300 (-03)
+Message-ID: <47f77b6c-58ff-db5a-cf11-13658dc185b9@eldorado.org.br>
+Date: Tue, 24 May 2022 12:48:09 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 08/15] tests/qtest: add a timeout for
- subprocess_run_one_test
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 2/5] target/riscv: Disable "G" by default
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20220524154056.2896913-1-alex.bennee@linaro.org>
- <20220524154056.2896913-9-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220524154056.2896913-9-alex.bennee@linaro.org>
+To: Tsukasa OI <research_trasio@irq.a4lg.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <cover.1652435138.git.research_trasio@irq.a4lg.com>
+ <cover.1652583332.git.research_trasio@irq.a4lg.com>
+ <cab7205f1d7668f642fa242386543334af6bc1bd.1652583332.git.research_trasio@irq.a4lg.com>
+ <e803a275-c54b-bc9c-430a-1bbbf5b14115@eldorado.org.br>
+ <dbe0a9b9-00bc-870d-f678-13a45e5a3930@irq.a4lg.com>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <dbe0a9b9-00bc-870d-f678-13a45e5a3930@irq.a4lg.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 24 May 2022 15:48:09.0718 (UTC)
+ FILETIME=[AAF89160:01D86F85]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,29 +67,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2022 17.40, Alex Bennée wrote:
-> Hangs have been observed in the tests and currently we don't timeout
-> if a subprocess hangs. Rectify that.
+On 24/05/2022 06:07, Tsukasa OI wrote:
+> On 2022/05/17 3:04, Víctor Colombo wrote:
+>> On 14/05/2022 23:56, Tsukasa OI wrote:
+>>> Because "G" virtual extension expands to "IMAFD", we cannot separately
+>>> disable extensions like "F" or "D" without disabling "G".  Because all
+>>> "IMAFD" are enabled by default, it's harmless to disable "G" by default.
+>>>
+>>> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+>>> ---
+>>>    target/riscv/cpu.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>>> index 00bf26ec8b..3ea68d5cd7 100644
+>>> --- a/target/riscv/cpu.c
+>>> +++ b/target/riscv/cpu.c
+>>> @@ -812,7 +812,7 @@ static Property riscv_cpu_properties[] = {
+>>>        /* Defaults for standard extensions */
+>>>        DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
+>>>        DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
+>>> -    DEFINE_PROP_BOOL("g", RISCVCPU, cfg.ext_g, true),
+>>> +    DEFINE_PROP_BOOL("g", RISCVCPU, cfg.ext_g, false),
+>>>        DEFINE_PROP_BOOL("m", RISCVCPU, cfg.ext_m, true),
+>>>        DEFINE_PROP_BOOL("a", RISCVCPU, cfg.ext_a, true),
+>>>        DEFINE_PROP_BOOL("f", RISCVCPU, cfg.ext_f, true),
+>>> --
+>>> 2.34.1
+>>>
+>>>
+>>
+>> I think the logic looks ok, and (with my limited understanding of the
+>> code) I agree on the reasoning for the changes in patches 2 and 3.
+>> Just some clarification needed: where is the value of 'g' checked?
+>> can the behavior change in this patch cause a situation where
+>> IMAFD_Zicsr_Zifencei is set but 'g' is not, or does patch 3
+>> guarantee that in this case 'g' will be set?
+>>
+>>
+>> Thanks!
+>>
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/qtest/qos-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Probably too late to answer but on Alistair's riscv-to-apply.next tree...
 > 
-> diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-> index 7e1c8fc579..46623da731 100644
-> --- a/tests/qtest/qos-test.c
-> +++ b/tests/qtest/qos-test.c
-> @@ -185,7 +185,7 @@ static void run_one_test(const void *arg)
->   static void subprocess_run_one_test(const void *arg)
->   {
->       const gchar *path = arg;
-> -    g_test_trap_subprocess(path, 0,
-> +    g_test_trap_subprocess(path, 60 * G_USEC_PER_SEC,
+> target/riscv/cpu.c (19f13a9) line 599-611:
+> if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
+>                          cpu->cfg.ext_a && cpu->cfg.ext_f &&
+>                          cpu->cfg.ext_d &&
+>                          cpu->cfg.ext_icsr && cpu->cfg.ext_ifencei)) {
+>      warn_report("Setting G will also set IMAFD_Zicsr_Zifencei");
+>      cpu->cfg.ext_i = true;
+>      cpu->cfg.ext_m = true;
+>      cpu->cfg.ext_a = true;
+>      cpu->cfg.ext_f = true;
+>      cpu->cfg.ext_d = true;
+>      cpu->cfg.ext_icsr = true;
+>      cpu->cfg.ext_ifencei = true;
+> }
+> 
+> This is the only place where "G" (ext_g) is read.  Here, if G is enabled
+> and not all IMAFD_Zicsr_Zifencei are enabled, it enables them with a
+> warning message.
+> 
+> So, even if "G" is disabled alone, it's harmless.  Note that
+> IMAFD_Zicsr_Zifencei are enabled by default.
+> 
+> Thanks,
+> Tsukasa
 
-60 seconds is not that much for a slow test running on a slow and overloaded 
-CI host ... maybe rather go for 180 seconds or even more?
+Hello!
+Thank you very much for the clarification, it was helpful.
+Still getting used to the riscv code base in QEMU
 
-  Thomas
+Best regards,
 
+-- 
+Víctor Cora Colombo
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
