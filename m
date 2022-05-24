@@ -2,94 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7555333B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 00:58:59 +0200 (CEST)
-Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668F25333C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 01:02:59 +0200 (CEST)
+Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntdUQ-0002as-SM
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 18:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59898)
+	id 1ntdYI-0001Ua-Ga
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 19:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdGr-0007lf-B5
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:44:57 -0400
+ id 1ntdGu-0007nB-6G
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:01 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdGp-0002Yx-ES
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:44:57 -0400
+ id 1ntdGs-0002Yx-77
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:44:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1653432295; x=1684968295;
+ t=1653432298; x=1684968298;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JR57HeR2olH0bmChhNxfRbTCxi6KS+tPhpEG8JNS1u0=;
- b=GkjjqVLqu4Yj+ZshR/JhGsZbI66scG1GXb1bbvQ9mxVMvoQWDFnRWprf
- +s6XWEx0azp+LMNO5jrIPK6v38i4GWA1e/QfoDvwaptw1A/Hj1vxElxBn
- lh4wEoI0e+RHcNfwFKKtEN5ZdhiX/kRs3ZtFlaZ8hU9qvMz7YfA0gNPjG
- Gs8PTFz75/jtMDRUAqcJyo6nFFw057e/vAX8WSJNJ+fnu3SIc0QiNVcvM
- Z3TGqZgeZh0cWIhSLglj3+Fu7hR9cWO2ZY97p6NAdkSv6Ub6Bp1J1Kkg4
- C3gA5ArXQZOCBgXx4Mbr2m2n8pV5+jxtTfXVDOZPjKhYXw5nJH8101Z8S Q==;
-X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305566663"
+ bh=OaZEqH/Jgf/h/iHh5cHRITvnD6CrreQJbyp/cHKr9gg=;
+ b=PfDms6pc2w0JInzgHiCiz3pRcjlUsdsLYJxjo8eiwLNqa7HOdeJsz7Ew
+ y1Y42CksGXtrJ9Z60aRXxspBk1v+Fhqz4Lskcs/egoZ6Fzy7E3THGfrPZ
+ 8pf+gACB6nWBnbWkLz1WUg2a8lhKDBLEFkja1C2IxPycinFNaxIKUk9tR
+ dnANQg8RV4CZOBBo+82a+A1q/gpipWRPuh6n1QdHeJVlM/zyS4WDS3e6b
+ bBP6TXtKxmWyq+LdTY6ysGN28notoj4LeIbdVeyh/HQ9dO+P7rihw/1rK
+ lpyqVoQj5Q7ZLU++PFsXgWIwTMs/IF/cVH7a8d1PzvlT3vymQ7ZQbGPzR Q==;
+X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305566666"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:44:54 +0800
-IronPort-SDR: XFkVZpmOIIfK8LPpqf5Mp0/oHeLJexhjM8Utpv5dbmmVZ8OzHxwyPTU72fHHsDsWZ6rtwSpxtw
- 6DRVZdXCccrpHxLL6J87iG/nFLEGI0Z0/3En2qf3e9BfSyy7DU5E6/R4bqXePlrjp4Issaznzu
- UHzW48JfGXHNJdn3XGzXtl5wUefPxn5//qCL4eigy129Hbb4eef4H1J+E2VI1AbEywguJsaiLE
- JAgZghDOS1YNrw4UdTe9pDPfrWjddEyDnm+nZB1kNy2axStWsbdjH0XA7MiJcLKrbkv876FLzZ
- wenPlrTycMLiWVD09WKZGqQn
+ by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:44:57 +0800
+IronPort-SDR: l8qQn7RcS9iO6RDZXzghS/gKJkYfqnt73oVloi9ZgT+0hc1lBeHDoHmQRv9wDgZ0oLUE3JHxOU
+ H8tTxHG3iDcF3wWntg/Dc3DE0/Lt+ayGCKVfWoOks8vj6z5cjv9TAS078f4p21Pof0rsjAQvT1
+ wAlnnvLAtExaWWJFhVemLInUzC/rarme7LxrjicZmn0riYk1htItRPEn9j6BZv6fnqAYeky98s
+ xS2dq7BkhQI73dONu7rwhfs4CdcTIP1MxiW23IzJtlM3PATi5Kv5lNVKcT2B/4LIKvy9hNAb5U
+ uk5spMUkM/ue5R3BKIuDlleV
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:04:26 -0700
-IronPort-SDR: 3tV2o75DSzKMcCQkI1EhGttWuDj21jAnfV8jCA7E4vdzskN5QBXWd2YnUnBLCU8yw64mJcdl1R
- +Pp4MrM18mkccpJmj5uEGeSPSTB6Ls9DKtZ6s346BSJ8jnVDsYYkTHhsnbDUHvF1V+SBA5R2cW
- BP9Rm6qdSrOY338XK0SScZBcnBslBhWIjDK/gdBrsEymrsQhAT/EDFI9CZbYAT2sttvQvkZXpK
- qh5J0Ioao6QN4ikn/SzkOOBN3+LPrzKwVfIDTkLFNSSzq9Boo1LqXEvzHmV0TIClIiPV3IZpm5
- jwE=
+ 24 May 2022 15:04:29 -0700
+IronPort-SDR: k0myKYrqS02PYlzxB5+Ykrj9XFN9XJlLsrNkpP15znZSS5w6dDEhE44AOHOH5HDVqUG0Ply0Mt
+ IyBMn5vpdyCiuhSFwJ7ySyD3QP8/zTYik58XZ2AmaftWhUY2elzXN/65c0pCwM1PJcC97oQmkq
+ KqjFM0aOyU/gdaeXRtrSj5KzVqHWvvBgUWWRj5YCOWtp9nrn7Qs5k2+XqltYGHWrDCWAaEAKTk
+ pnG/2bWo66pvtzfPmZMh5Bk3q5rVg2WL0Hcp6Uc6ubWv0J8n9UaKTd0jVRM7LQn6iXqR6QqHe9
+ Voo=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:44:55 -0700
+ 24 May 2022 15:44:58 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78Qt43Sfz1Rvlx
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:44:54 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78Qx2JCYz1SVnx
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:44:57 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1653432294; x=1656024295; bh=JR57HeR2olH0bmChhN
- xfRbTCxi6KS+tPhpEG8JNS1u0=; b=j9Te2hl4a1apTDmkgYWobmLrEIOvlenrLj
- 4+KHLBmYX1xuK4J/7iLm3IIioSsOSlDSUpjEM/wsZLo8qQM+wxibTaiM7YY1xe3p
- 2Ok88rSiDBO7CLpW56pWIjK8WidCXwikW7paTRDXqf7yrMk38wYNandbcw4omx8V
- bNQpO4mi+iKa1G9el+56qW++u1E8duq1dfjvRpdgGOGdUacAYxlwr6L7n23wXfEB
- PishjwLS4i0OvGOGe2jzfMpDzXZ3zKe3Uzrxzy4vKXB+OWPO0ZxPjN7NycvysxOT
- SCNUrxMAcnQOmlegLdDrf+dcXQ8foi/WJTgy5V5cL6X7ar+Lfd2A==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1653432296; x=1656024297; bh=OaZEqH/
+ Jgf/h/iHh5cHRITvnD6CrreQJbyp/cHKr9gg=; b=OZdcNx0su+7oTZogVmRbnlm
+ igvBy2pVXGLguEW8Lx9NvMlpqzkVqihDBSxNJEnxI+60Rojn7CqcblfTDk9FdwRF
+ /2VeJ0GBng4xuexUNaykBvs2BRqCpyu7LpvkAMyBF4S2Ltd4nJ7eRvIP3or1ELmT
+ RRraz4jJ785lhDrneHE9tfHxWRL7cMcmHlaY72rnZTPLgo13dobj2sq4iOhMCnTs
+ Kt53HBwC2a8c05exFcCDhS7enarb7eca+3JfggvfEr2o5oyOsisatb/IEg+LS8C9
+ EMyXY/PQqMzY5opBtT5HkoMHn7VyrVP9uYU19OfO4w/epWy6Y+AFsUN6TpQ0o0A=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id ruf70VJDkxYC for <qemu-devel@nongnu.org>;
- Tue, 24 May 2022 15:44:54 -0700 (PDT)
+ port 10026) with ESMTP id RB2j8aTBwdng for <qemu-devel@nongnu.org>;
+ Tue, 24 May 2022 15:44:56 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.5])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78Qr2PDsz1Rvlc;
- Tue, 24 May 2022 15:44:52 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78Qt5Pc6z1Rvlc;
+ Tue, 24 May 2022 15:44:54 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Tsukasa OI <research_trasio@irq.a4lg.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 07/23] hw/riscv: Make CPU config error handling generous
- (sifive_e/u/opentitan)
-Date: Wed, 25 May 2022 08:44:12 +1000
-Message-Id: <20220524224428.552334-8-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+Subject: [PULL 08/23] target/riscv: Fix coding style on "G" expansion
+Date: Wed, 25 May 2022 08:44:13 +1000
+Message-Id: <20220524224428.552334-9-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
 References: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=1363756b6=alistair.francis@opensource.wdc.com;
@@ -118,77 +120,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tsukasa OI <research_trasio@irq.a4lg.com>
 
-If specified CPU configuration is not valid, not just it prints error
-message, it aborts and generates core dumps (depends on the operating
-system).  This kind of error handling should be used only when a serious
-runtime error occurs.
-
-This commit makes error handling on CPU configuration more generous on
-sifive_e/u and opentitan machines.  It now just prints error message and
-quits (without coredumps and aborts).
-
-This is separate from spike/virt because it involves different type
-(TYPE_RISCV_HART_ARRAY) on sifive_e/u and opentitan machines.
+Because ext_? members are boolean variables, operator `&&' should be
+used instead of `&'.
 
 Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <09e61e58a7543da44bdb0e0f5368afc8903b4aa6.1652509778.git.rese=
+Reviewed-by: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
+Message-Id: <91633f8349253656dd08bc8dc36498a9c7538b10.1652583332.git.rese=
 arch_trasio@irq.a4lg.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/opentitan.c | 2 +-
- hw/riscv/sifive_e.c  | 2 +-
- hw/riscv/sifive_u.c  | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ target/riscv/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 2d401dcb23..4495a2c039 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -142,7 +142,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
-_soc, Error **errp)
-     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error=
-_abort);
--    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index dc93412395..e439716337 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -596,8 +596,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error=
+ **errp)
+             return;
+         }
 =20
-     /* Boot ROM */
-     memory_region_init_rom(&s->rom, OBJECT(dev_soc), "riscv.lowrisc.ibex=
-.rom",
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index dcb87b6cfd..d65d2fd869 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -195,7 +195,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Er=
-ror **errp)
-=20
-     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
-                             &error_abort);
--    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
-=20
-     /* Mask ROM */
-     memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mr=
-om",
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index cc8c7637cb..a2495b5ae7 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -830,8 +830,8 @@ static void sifive_u_soc_realize(DeviceState *dev, Er=
-ror **errp)
-     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
-     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
-=20
--    sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_abort);
--    sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_abort);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_fatal);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_fatal);
-     /*
-      * The cluster must be realized after the RISC-V hart array containe=
-r,
-      * as the container's CPU object is only created on realize, and the
+-        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
+-                                cpu->cfg.ext_a & cpu->cfg.ext_f &
++        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
++                                cpu->cfg.ext_a && cpu->cfg.ext_f &&
+                                 cpu->cfg.ext_d)) {
+             warn_report("Setting G will also set IMAFD");
+             cpu->cfg.ext_i =3D true;
 --=20
 2.35.3
 
