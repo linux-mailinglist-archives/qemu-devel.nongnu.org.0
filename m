@@ -2,96 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F316F532793
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:29:34 +0200 (CEST)
-Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E20532818
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:48:12 +0200 (CEST)
+Received: from localhost ([::1]:42742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntRnB-0005ly-Vw
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
+	id 1ntS5E-00088K-1b
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntRiN-0004E0-Kz
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:24:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46427)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ntRsT-0007d2-IR
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntRiJ-0005hT-MZ
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:24:35 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ntRsR-0007Mp-3b
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653387870;
+ s=mimecast20190719; t=1653388497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5cbDvebDcx75dcIDAd5jrYOpt/YZQ72FMoMX2F277a8=;
- b=cdWcOUQmQ1IqwCPRsB/aTKYDdTl7pzUzPQJNaM3jZeyXIBAaJSZ3RI65U/TLO1fbJvAuxB
- 44fjPOywhQuEKP5E+oOHezfyoV2qqT39NHxy+j7jMaco/uPrZV4oTKcrsfNIYw6rrBfhs5
- Q6Qjc5XTJR5DK38L/aGvjdj0+dRIxWM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7qmCb7W7mz/c6R1MmBYiClS9PmRqAlgom/79dNIsJ/8=;
+ b=b4uDonKOKZlrSHV9QZYo7zdfmv7ACzWwgHbdNK46PmcotwxpW9IY5J3t9Xm2zicyKEn1ug
+ JnNkmwZRAUXLzlh6BRNccCuhwYH6G1FJNzwSqTEjjROHl6rVmDiIx14FjqsiCMWuXwf16M
+ urOPjN7gC69toQRcLB7QkxZZaX9gUgo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-ptQ3rPfYOmytd9BX4dwVCg-1; Tue, 24 May 2022 06:24:29 -0400
-X-MC-Unique: ptQ3rPfYOmytd9BX4dwVCg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z5-20020a5d4d05000000b0020e6457f2b4so4211997wrt.1
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 03:24:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5cbDvebDcx75dcIDAd5jrYOpt/YZQ72FMoMX2F277a8=;
- b=vFtlIJuDKuD1fqgXgHcxk/qBsstJKxD2WRQkR7gEtYqidjQnQjMoap7f3SoVnayDaJ
- dZDW6wE8Jpa4x1o3MlrUW9NI9y/vtiC3slmK/yhocwZ1pXKT0FeIsGnTYmDq/iv+Vzis
- KIV7gJ0eRuiztZgk2dSXMCLHqysgt11FL8zeKJchWM7vBXy+06EDMUTww5e2TTMOeZEL
- Zzd0PpIQl76GaJGZyxO703NjQVmZ8MdfJaSipwHekGpcqq5mivM2Ld1VYxZ4/Je3KnQC
- m4cA2eu7o6pdO/yePH1UdAYvcQ+5CLGhNz+PUn+wPhZRriTd7LC31xEgJ6V4GqD3TL/Y
- whJg==
-X-Gm-Message-State: AOAM5330JD9oC/EhYHEt85ua6LlZywg7hDqKo39Is90cXEnGKOeAjvzA
- b6W2b8IRTUXvb1CCdjtMDGPXA1dVryhm92a8K9AYNesS7f1ooDC9oCZLX0wF5qZArDZZ/VKqhCf
- cYZM+RALnAlfelrA=
-X-Received: by 2002:a05:600c:2351:b0:397:3259:1600 with SMTP id
- 17-20020a05600c235100b0039732591600mr3062388wmq.87.1653387868027; 
- Tue, 24 May 2022 03:24:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzf6CAuOcgcFCdMa3LDMyZOny5Dw1SzdLPQhSlmu/Lz/r5EJ01waPX4e99QwGLoN+xvazJDA==
-X-Received: by 2002:a05:600c:2351:b0:397:3259:1600 with SMTP id
- 17-20020a05600c235100b0039732591600mr3062371wmq.87.1653387867789; 
- Tue, 24 May 2022 03:24:27 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- m185-20020a1ca3c2000000b003942a244ee7sm1658713wme.44.2022.05.24.03.24.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 03:24:27 -0700 (PDT)
-Message-ID: <f4f5afc8-0b01-e134-bb83-b3d0ded0439a@redhat.com>
-Date: Tue, 24 May 2022 12:24:26 +0200
+ us-mta-280-Lt1NjNmeOK-5Ij0bUelOmw-1; Tue, 24 May 2022 06:34:54 -0400
+X-MC-Unique: Lt1NjNmeOK-5Ij0bUelOmw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BAC0811E76;
+ Tue, 24 May 2022 10:34:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20E0CC08087;
+ Tue, 24 May 2022 10:34:53 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v4 00/15] Misc cleanups
+Date: Tue, 24 May 2022 12:34:38 +0200
+Message-Id: <20220524103453.162665-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PULL 2/3] qga-win32: Add support for NVME but type
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Stefan Weil <sw@weilnetz.de>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220523194111.827805-1-kkostiuk@redhat.com>
- <20220523194111.827805-3-kkostiuk@redhat.com>
- <541f46cf-fc45-f7bb-e121-2aad216e11d5@linaro.org>
- <CAPMcbCq7fzubG4ej7p164vwQkCMChjWBubx27R=kVxukWDhuBg@mail.gmail.com>
- <CAPMcbCqeQ_7YuJg+eS9Qqtq9ptRb57_wfT=jGOuHYtx64M5azA@mail.gmail.com>
- <CAMxuvawvaZBp0sxV-jwQuDwxahuFjN10BDcBcgOn88XpN87RPA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAMxuvawvaZBp0sxV-jwQuDwxahuFjN10BDcBcgOn88XpN87RPA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,37 +79,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2022 12.14, Marc-André Lureau wrote:
-> Hi
-> 
-> On Tue, May 24, 2022 at 12:02 PM Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
->>
->> Hi Richard and Marc-André
->>
->> I looked into the compilation problem and have 2 solutions:
->> 1. We can add some conditions to the win2qemu definition and
->> skip NVME support when old mingw-headers are used.
->> 2. We can bump the version of the Fedora docker image to 36 or 37
->> that is used for cross-compilation tests.
->>
->> I think the second option is more valuable because we remove
->> pregenerated qga-vss.tlb file and now we can check VSS build only
->> at Fedora 37.
->>
->> What do you think?
-> 
-> I'd try to do both: fix compilation with older headers, and bump our
-> CI to f36. I don't know if our windows build environment has strict
-> requirements like the unix/distro (build on old-stable for 2y).
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-See https://www.qemu.org/docs/master/about/build-platforms.html#windows :
+Hi,
 
-"The project supports building QEMU with current versions of the MinGW 
-toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows."
+More preliminary cleanups before a series to make qemu-ga a meson subproject().
 
-Since Fedora 35 is still a supported build host, I think you should make 
-sure that it works with the MinGW toolchain from that distro, too.
+v4:
+- remove some unnecessary ERRP_GUARD()
+- open-code some g_clear_pointer()
+- don't export qemu_open_cloexec, introduce qga_open_cloexec instead
+- some formatting improvements
+- add new r-b tags
 
-  Thomas
+v3:
+- changed error_report_err() back to g_critical()
+- added "qga: make build_fs_mount_list() return a bool"
+- replaced g_clear_pointer() usage by open-coded version
+- dropped needless g_autoptr(GError) in tests
+- rebased, (dropped "include: adjust header guards after renaming")
+- some commit message rewording
+- added r-b tags
+
+v2:
+- drop "compiler.h: add QEMU_{BEGIN,END}_IGNORE_INITIALIZER_OVERRIDES",
+  "qobject/json-lexer: disable -Winitializer-overrides warnings" &
+  "qapi/error: add g_autoptr(Error) support" and adjust related code.
+- add "test/qga: use g_auto wherever sensible"
+- add r-b tags
+
+Marc-André Lureau (15):
+  include: move qemu_*_exec_dir() to cutils
+  util/win32: simplify qemu_get_local_state_dir()
+  tests: make libqmp buildable for win32
+  qga: flatten safe_open_or_create()
+  qga: add qga_open_cloexec() helper
+  qga: use qga_open_cloexec() for safe_open_or_create()
+  qga: throw an Error in ga_channel_open()
+  qga: replace qemu_open_old() with qga_open_cloexec()
+  qga: make build_fs_mount_list() return a bool
+  test/qga: use G_TEST_DIR to locate os-release test file
+  qga/wixl: prefer variables over environment
+  qga/wixl: require Mingw_bin
+  qga/wixl: simplify some pre-processing
+  qga/wixl: replace QEMU_GA_MSI_MINGW_BIN_PATH with glib bindir
+  test/qga: use g_auto wherever sensible
+
+ configure                            |   9 +-
+ include/qemu/cutils.h                |   7 ++
+ include/qemu/osdep.h                 |   8 --
+ meson.build                          |   5 +-
+ qemu-io.c                            |   1 +
+ qga/channel-posix.c                  |  55 +++++----
+ qga/commands-posix.c                 | 165 +++++++++++++--------------
+ qga/cutils.c                         |  37 ++++++
+ qga/cutils.h                         |   8 ++
+ qga/installer/qemu-ga.wxs            |  83 +++++---------
+ qga/meson.build                      |  12 +-
+ storage-daemon/qemu-storage-daemon.c |   1 +
+ tests/qtest/fuzz/fuzz.c              |   1 +
+ tests/qtest/libqmp.c                 |  34 +++++-
+ tests/qtest/libqmp.h                 |   2 +
+ tests/unit/test-qga.c                | 130 ++++++++-------------
+ util/cutils.c                        | 108 ++++++++++++++++++
+ util/oslib-posix.c                   |  81 -------------
+ util/oslib-win32.c                   |  53 +--------
+ 19 files changed, 396 insertions(+), 404 deletions(-)
+ create mode 100644 qga/cutils.c
+ create mode 100644 qga/cutils.h
+
+-- 
+2.36.1
 
 
