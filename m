@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5574E532F87
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 19:21:53 +0200 (CEST)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE379532F91
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 19:23:09 +0200 (CEST)
+Received: from localhost ([::1]:34546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntYEC-0000ur-E6
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 13:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40264)
+	id 1ntYFR-0002Xf-0U
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 13:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntYCc-0008KN-Nf; Tue, 24 May 2022 13:20:15 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntYCa-0005u7-VA; Tue, 24 May 2022 13:20:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1wsh6fKAWRgaJulWZL8xCU/ms5PKQhxkXyxoe5NQ2BU=; b=KBKEjDMxZyPpqtkOAowzcpGv6/
- TP/mVU9wNA6UtX5BLOW47CRUNCtqdfvHek7AXHYR25LQUFBl84IG1TuJXMPU9YaElTg03a/ijCHFV
- bT3hHplRce/VR9yjcG7i/vUrCsBRDqV28ygS0vaW4c7zSx56N6aaB9yjgCwsgLI4btIemBJQE1fxH
- xqhkr9hIJ2ydtSLHpl4hXiti9qNtJVyISOZdk7uEl55+x7V4196yweOwoPPZACzKY3QgON4iHDrWw
- Qfd1Hp6F9XKafGTO+tf42q4Di5aw3elAXzF/gTmdFOAH/Qyk5+neJUClGcKV4KyiET0FpC4I7Mp/P
- OGZlTqStIPq/K+JYSuM1pOUU1kW3y0S6OE/Llg2cRH3q2BzS0efNmDAm/DpEyIU6kBGYWh029bTLV
- Nvan2Ih4H2CxlPxay89dfxSu47apB/lLAUc/NYzj8DmGl+z2jnX18rd2WiutQLuzfwcijAQ1jDyTC
- TyTtn+avM9PMtEms9z0H5NxETEtwCZI58ONv8nfYGjMQ5ceusgbcwk+Eq3a5umPzwLEx1TY9MIrd0
- hO5hkZPiqaei0gWlORfsXKM49y1NwrPUCTbaGHT2LXMf8J9l8AlzXCAVK8aIYCPAp64TWDS5vsdWY
- aLGHPMsjCIik53vc1sLMYPWis7mqRDrhdYysv1QYk=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntYBL-000AWi-Lp; Tue, 24 May 2022 18:18:59 +0100
-Message-ID: <bdf51239-7b32-66f7-9d42-46b2cbbb8a6d@ilande.co.uk>
-Date: Tue, 24 May 2022 18:19:55 +0100
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntYE5-0001Nw-Vu; Tue, 24 May 2022 13:21:46 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntYE1-0006AW-PR; Tue, 24 May 2022 13:21:45 -0400
+Received: by mail-ej1-x630.google.com with SMTP id f21so23057199ejh.11;
+ Tue, 24 May 2022 10:21:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pCZc2GZ7ce+m7uO2uTr8Fps01j8ntxHNbwvLL3iphs4=;
+ b=o394bzoJ1sYtq+wkQrvDRDIJx7eQtQ26Xqh8L3K5K2O6kfrE4vYhkIgSeWE4BD9+Mc
+ m5o2a6nWSjR0J/2bT9Kv3tR7TRf2ExlpViC0fnUCMsJR9pQiNsrNv775aqZEy5R68wsC
+ 2xXAN/RTI+ikGE052tmXhzc9vu/XRUnzhm13ol0H2eBQO3DJw0o2SxY+qhgu1tll65mP
+ hDnDapqx6ID66xOoOEODLtA22S8sQUy5UKXJLL2YKtuDM3TSIpM/w3IxJPcxf6Lmp0B5
+ htMUMaTSnP/VRhmHnxKRz7HX0mZl1w5Eg0rBm7KpplL4G6rWd4+/SkX2OdelDm/N6hSa
+ mDlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pCZc2GZ7ce+m7uO2uTr8Fps01j8ntxHNbwvLL3iphs4=;
+ b=0TbytpXwk2ZQFc55hG/du5sR8pj9HfIZib8CTR35XcLrt7bd1qSHDtel2UFphKHu6I
+ 1Eb+AV4h+st3/wl02USoVlhX8KAYiobfoxjlrahrQCvZL/b+Doqq13k9TaK8E2rcS8of
+ 0d8vyH/qqXOeMJfckTGO2NO1CW5YimdYs2leF7foa8eFLdPLgyqGyIqUYzZ8bldL71WU
+ d0TGOACNrnXIQ0mp4zdZDMXO+W+Y40sxmjtTV2F5cC8c5ChjVA9rIfM4Uc+WmKHHQJFX
+ I4TnjAKjpc18pEiv2pDB2QeYUpfy1/4TFnARxxThoEySkS5AqojhdvaaXw/PPUAiPh07
+ TZag==
+X-Gm-Message-State: AOAM532ma8p4XLfAJrzyeAOvxRJXclwm10qAqUGjRiQ87NfNPhKLyy3y
+ peIuH/eA4qoRC5cn+eZYEsY=
+X-Google-Smtp-Source: ABdhPJzShWdZfxU3XvncRj6xYRAwRe6XVOtd9iSek8V1AEKIOG+EhA+clgJUk/6L5nB5dZVoYxmUgA==
+X-Received: by 2002:a17:907:8688:b0:6fe:c083:75e1 with SMTP id
+ qa8-20020a170907868800b006fec08375e1mr15271724ejc.734.1653412899380; 
+ Tue, 24 May 2022 10:21:39 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ w9-20020aa7d289000000b0042ae2d4e2f2sm9634479edq.86.2022.05.24.10.21.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 May 2022 10:21:38 -0700 (PDT)
+Message-ID: <84c5fad5-9e8c-84df-9aad-90ab1b79a5db@redhat.com>
+Date: Tue, 24 May 2022 19:21:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.8.0
+Subject: Re: aio_wait_bh_oneshot() thread-safety question
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
- aleksandar.rikalo@syrmia.com, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-10-mark.cave-ayland@ilande.co.uk>
- <b3c11eaa-7549-1695-6987-c181141c576f@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <b3c11eaa-7549-1695-6987-c181141c576f@amsat.org>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, hreitz@redhat.com,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+References: <5dacced9-5434-5d05-a826-c7acb9fcb2ed@yandex-team.ru>
+ <a774787e-46ac-36e0-8573-8adc114df784@redhat.com>
+ <YozSW5PT4L//qVOk@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YozSW5PT4L//qVOk@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 09/50] ps2: remove duplicate setting of scancode_set in
- ps2_kbd_init()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,24 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/05/2022 23:22, Philippe Mathieu-Daudé via wrote:
-
-> On 22/5/22 20:17, Mark Cave-Ayland wrote:
->> The default value for scancode_set is already set in ps2_reset() so there is no
+On 5/24/22 14:40, Kevin Wolf wrote:
+> Why is the barrier in aio_bh_enqueue() not enough? Is the comment there
+> wrong?
 > 
-> ps2_reset -> ps2_reset_keyboard ?
+> aio_notify() has another barrier. This is a little bit too late, but if
+> I misunderstood the aio_bh_enqueue() one, it could explain why it was
+> never observed.
 
-Ah yes, it's just a typo in the commit message where ps2_reset() should be changed to 
-ps2_kbd_reset(). I can fix this for v2.
+The missing one that I (and I think Vladimir) were talking about is at the
+end of the execution of the bottom half, not at the beginning:
 
->> need to duplicate this in ps2_kbd_init().
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/input/ps2.c | 1 -
->>   1 file changed, 1 deletion(-)
+/* Context: BH in IOThread */
+static void aio_wait_bh(void *opaque)
+{
+     AioWaitBHData *data = opaque;
 
-ATB,
+     data->cb(data->opaque);
 
-Mark.
+     data->done = true;
+     aio_wait_kick();
+}
+
+void aio_wait_kick(void)
+{
+     /* The barrier (or an atomic op) is in the caller.  */
+     if (qatomic_read(&global_aio_wait.num_waiters)) {
+         aio_bh_schedule_oneshot(qemu_get_aio_context(), dummy_bh_cb, NULL);
+     }
+}
+
+where there is no barrier in the caller to separate reading data->done
+(qatomic_set would be nice, if only for clarity) from reading num_waiters.
+
+Paolo
 
