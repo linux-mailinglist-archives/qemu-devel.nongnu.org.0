@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96569532A21
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:14:43 +0200 (CEST)
-Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54651532A3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:19:23 +0200 (CEST)
+Received: from localhost ([::1]:44622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntTQv-0001ce-Vj
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
+	id 1ntTVS-0008U1-5i
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSbF-0003aR-Mv
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:21:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20721)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntShL-0000UM-IA
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:27:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSbB-0007QF-PY
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:21:15 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntShH-0008Dn-NR
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:27:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653391273;
+ s=mimecast20190719; t=1653391650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WifcL3GWboBhV6VCepRqMi5lRGmaISZXF2VzmYsE6Kc=;
- b=aHEscB9INDxkpI7zRmEn/AfS84QSo6t9/T9nMWCmJtFnkRsmHdP4jHQjY5LbiL4bZ9jQXt
- CBtxcn09kWVgFzSLFaYjpraUsEt1PqF+XYlqx48psEh53pjNA9fGDLhONKy8G6Wlpi11Wl
- 1dONbmGqmcrGGv+zxm2JG4rR8oFex6I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bhG5Ck13GAPrVJ8vbRNY/0IdFeWvv/sdaevWgalHSV0=;
+ b=FFYo3Iqv49VZjV4SKF8/4o9ukAOAIVWuvtRHPrRXoWbT9Z6pyqxwTsAnb1X/trcEYlKEBg
+ +gulMabIYtmN+Ngos30m6xUjFqGU10lNeWkxTfWQ2TklZaL8zQRH89O81BiXJzK71HUSjZ
+ avhCGYah/PgMzFi5qY1JDNvuPv7e3uY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-578-7kWrfM-4PEqe80cyRCk0JA-1; Tue, 24 May 2022 07:21:11 -0400
-X-MC-Unique: 7kWrfM-4PEqe80cyRCk0JA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j14-20020a05600c1c0e00b003973bf0d146so1159783wms.4
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 04:21:11 -0700 (PDT)
+ us-mta-600-mCIW_b32PPafZPzLIg0g2w-1; Tue, 24 May 2022 07:27:29 -0400
+X-MC-Unique: mCIW_b32PPafZPzLIg0g2w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c187-20020a1c35c4000000b003970013833aso6960191wma.1
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 04:27:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WifcL3GWboBhV6VCepRqMi5lRGmaISZXF2VzmYsE6Kc=;
- b=rMkQIXNP6+Zjky6cXwEXTSn4+fKWAEYpDNF+4ZLF7Y1HEzGq+tZvWsaXasrDzoqJov
- FUPqb87DTw+LMOd/QiqaNxbcujNZDPdwXBakpK8kSn2OaW5gD+5RLkBOqGr8/8Zb+hRL
- yUSwb6+2ZVhejDJkAcsJn9MRsBgMxnT8W6yUK8Y6hKCC5nHUDrbeSEhGmkjfwDZSoByB
- cIkNvOulidZfvA8Xfv6cv+qBwPnq5RCLXrLLWv5AjNr6vy20J8L0c09XUX11bRr86C0A
- VAMzayrDTB4Oy5kiBi1U0OjcvJZpk9IlG7SOWyUEnSJZqeRSesBKfybG3UnpfqXXHwAr
- NuXw==
-X-Gm-Message-State: AOAM533IuZCzZvLzYxFCjeX6jMMWx4gY+KDpKU1l7sOQW9Gfr6jiSXDL
- chMAhoALjJMATFN+v8YyVx1sxLgyBPvohlrlpvXXhj+CrGtC0BL+xhIC9vVhrdSSDxdmt2DYoG6
- tN7h3la3fjt+WufQ=
-X-Received: by 2002:a5d:47a3:0:b0:20e:5c89:9da2 with SMTP id
- 3-20020a5d47a3000000b0020e5c899da2mr23193577wrb.277.1653391270550; 
- Tue, 24 May 2022 04:21:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5BQ8RVKG2Jspp3aI6yQs1df/0NKWIyX8kwfamTDA1yTEZ8OVXBNnNISey7yGgYhen6YymJw==
-X-Received: by 2002:a5d:47a3:0:b0:20e:5c89:9da2 with SMTP id
- 3-20020a5d47a3000000b0020e5c899da2mr23193551wrb.277.1653391270251; 
- Tue, 24 May 2022 04:21:10 -0700 (PDT)
+ bh=bhG5Ck13GAPrVJ8vbRNY/0IdFeWvv/sdaevWgalHSV0=;
+ b=HIIfH6ghm4PFmOYnC3/rKpm+WzCQUwifGIdQhmyDTt2P1jdRh9RAtZ+l9A6y1qHGtS
+ iHK6YNZPPa8Xv6jAG3HpvWCoZIHfJOw2UxZj9ptSYhF0UHdBYBdFC/sjqXfvEbyToG/W
+ hGy4Mgnc21CB7Pwwy30+WyvGNROh/bsj1YF/jvHxs/rRNCM5jukIk3z9OCwF729AbeOz
+ 2Y/c0CviXjSZVdWpCNq/fBsPHNAoy/E4qZ1XpG9Z6EcFo37uPVdte0XqQzSafXDIcfKU
+ BjZkaLkeg9OBcijUhRplpD5kbPBwgHjkuc3cB6FAvQsvt/8fgaxVe8OiweG0iMIgzRK3
+ HQxA==
+X-Gm-Message-State: AOAM533t8U5HBy1tuSHItBI/DFpDfcukQDutQy1obLy0GE7EBynK0hEY
+ pU1sEaSWBt9wrp9LlNGLRGPxRy7W5keMAxXPcHtVNGNz40VC0n4JhAVAM+jtBYcO+uXIqam69tg
+ VFksyfVDqgylYoQA=
+X-Received: by 2002:a05:6000:1f0a:b0:20e:674a:ce2 with SMTP id
+ bv10-20020a0560001f0a00b0020e674a0ce2mr22220260wrb.450.1653391648496; 
+ Tue, 24 May 2022 04:27:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypT0T4ipNG9nB+q5Xa3blcQoYRizXV4S+8aqy+n5YSEXzafFH9TBbGRIax40l9njwM0/vvXw==
+X-Received: by 2002:a05:6000:1f0a:b0:20e:674a:ce2 with SMTP id
+ bv10-20020a0560001f0a00b0020e674a0ce2mr22220225wrb.450.1653391648250; 
+ Tue, 24 May 2022 04:27:28 -0700 (PDT)
 Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- c8-20020a05600c0ac800b0039729309a84sm1792690wmr.20.2022.05.24.04.21.09
+ n1-20020a7bc5c1000000b003976525c38bsm95660wmk.3.2022.05.24.04.27.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 04:21:09 -0700 (PDT)
-Message-ID: <489c9e03-417d-e201-26b9-bf2835127734@redhat.com>
-Date: Tue, 24 May 2022 13:21:08 +0200
+ Tue, 24 May 2022 04:27:27 -0700 (PDT)
+Message-ID: <87783273-6abd-f31e-f5f3-a5cf21b1594f@redhat.com>
+Date: Tue, 24 May 2022 13:27:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
+Subject: Re: [PATCH v7 10/13] s390x: kvm: topology: interception of PTF
+ instruction
 Content-Language: en-US
-To: Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
- qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-References: <20220506153956.2217601-1-scgl@linux.ibm.com>
- <20220506153956.2217601-3-scgl@linux.ibm.com>
- <21468730-e57f-a54a-bde4-6bb927d6b651@redhat.com>
- <384df8c6-4309-17a5-464e-46b23507f362@linux.ibm.com>
- <17934f59-4425-cdae-80b2-cfeb9bd97f7d@redhat.com>
- <e948f801-c3bf-7f85-3afd-b336146398a9@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com
+References: <20220420115745.13696-1-pmorel@linux.ibm.com>
+ <20220420115745.13696-11-pmorel@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/2] target/s390x: kvm: Honor storage keys during emulation
-In-Reply-To: <e948f801-c3bf-7f85-3afd-b336146398a9@linux.ibm.com>
+In-Reply-To: <20220420115745.13696-11-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -110,129 +108,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2022 13.10, Christian Borntraeger wrote:
+On 20/04/2022 13.57, Pierre Morel wrote:
+> When the host supports the CPU topology facility, the PTF
+> instruction with function code 2 is interpreted by the SIE,
+> provided that the userland hypervizor activates the interpretation
+> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
 > 
+> The PTF instructions with function code 0 and 1 are intercepted
+> and must be emulated by the userland hypervizor.
 > 
-> Am 24.05.22 um 12:43 schrieb Thomas Huth:
->> On 19/05/2022 15.53, Janis Schoetterl-Glausch wrote:
->>> On 5/19/22 12:05, Thomas Huth wrote:
->>>> On 06/05/2022 17.39, Janis Schoetterl-Glausch wrote:
->>>>> Storage key controlled protection is currently not honored when
->>>>> emulating instructions.
->>>>> If available, enable key protection for the MEM_OP ioctl, thereby
->>>>> enabling it for the s390_cpu_virt_mem_* functions, when using kvm.
->>>>> As a result, the emulation of the following instructions honors storage
->>>>> keys:
->>>>>
->>>>> * CLP
->>>>>         The Synch I/O CLP command would need special handling in order
->>>>>         to support storage keys, but is currently not supported.
->>>>> * CHSC
->>>>>      Performing commands asynchronously would require special
->>>>>      handling, but commands are currently always synchronous.
->>>>> * STSI
->>>>> * TSCH
->>>>>      Must (and does) not change channel if terminated due to
->>>>>      protection.
->>>>> * MSCH
->>>>>      Suppressed on protection, works because fetching instruction.
->>>>> * SSCH
->>>>>      Suppressed on protection, works because fetching instruction.
->>>>> * STSCH
->>>>> * STCRW
->>>>>      Suppressed on protection, this works because no partial store is
->>>>>      possible, because the operand cannot span multiple pages.
->>>>> * PCISTB
->>>>> * MPCIFC
->>>>> * STPCIFC
->>>>>
->>>>> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
->>>>> ---
->>>>>    target/s390x/kvm/kvm.c | 9 +++++++++
->>>>>    1 file changed, 9 insertions(+)
->>>>>
->>>>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->>>>> index 53098bf541..7bd8db0e7b 100644
->>>>> --- a/target/s390x/kvm/kvm.c
->>>>> +++ b/target/s390x/kvm/kvm.c
->>>>> @@ -151,12 +151,15 @@ const KVMCapabilityInfo 
->>>>> kvm_arch_required_capabilities[] = {
->>>>>    static int cap_sync_regs;
->>>>>    static int cap_async_pf;
->>>>>    static int cap_mem_op;
->>>>> +static int cap_mem_op_extension;
->>>>>    static int cap_s390_irq;
->>>>>    static int cap_ri;
->>>>>    static int cap_hpage_1m;
->>>>>    static int cap_vcpu_resets;
->>>>>    static int cap_protected;
->>>>>    +static bool mem_op_storage_key_support;
->>>>> +
->>>>>    static int active_cmma;
->>>>>      static int kvm_s390_query_mem_limit(uint64_t *memory_limit)
->>>>> @@ -354,6 +357,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>>>>        cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
->>>>>        cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
->>>>>        cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
->>>>> +    cap_mem_op_extension = kvm_check_extension(s, 
->>>>> KVM_CAP_S390_MEM_OP_EXTENSION);
->>>>> +    mem_op_storage_key_support = cap_mem_op_extension > 0;
->>>>
->>>> Ah, so KVM_CAP_S390_MEM_OP_EXTENSION is a "version number", not a 
->>>> boolean flag? ... ok, now I've finally understood that ... ;-)
->>>
->>> Yeah, potentially having a bunch of memop capabilities didn't seem nice 
->>> to me.
->>> We can remove extensions if, when introducing an extension, we define 
->>> that version x supports functionality y, z...,
->>> but for the storage keys I've written in api.rst that it's supported if 
->>> the cap > 0.
->>> So we'd need a new cap if we want to get rid of the skey extension and 
->>> still support some other extension,
->>> but that doesn't seem particularly likely.
->>
->> Oh well, never say that ... we've seen it in the past, that sometimes we 
->> want to get rid of features again, and if they don't have a separate 
->> feature flag bit somewhere, it's getting very ugly to disable them again.
->>
->> So since we don't have merged this patch yet, and thus we don't have a 
->> public userspace program using this interface yet, this is our last chance 
->> to redefine this interface before we might regret it later.
->>
->> I'm in strong favor of treating the KVM_CAP_S390_MEM_OP_EXTENSION as a 
->> flag field instead of a version number. What do others think? Christian? 
->> Halil?
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   hw/s390x/s390-virtio-ccw.c         | 50 ++++++++++++++++++++++++++++++
+>   include/hw/s390x/s390-virtio-ccw.h |  6 ++++
+>   target/s390x/kvm/kvm.c             | 14 +++++++++
+>   3 files changed, 70 insertions(+)
 > 
-> Its too late for that. This is part of 5.18.
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 93d1a43583..1ffaddebcc 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
 
-Is it? We don't have to change the source code of the kernel,
-it's just about rewording what we have in api.rst documentation
-(which should be OK as long as there is no userspace program
-using this yet), e.g.:
+Why do you put this into s390-virtio-ccw.c and not into cpu_topology.c ?
 
-diff a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -3759,7 +3759,7 @@ If the KVM_S390_MEMOP_F_SKEY_PROTECTION flag is set, storage key
-  protection is also in effect and may cause exceptions if accesses are
-  prohibited given the access key designated by "key"; the valid range is 0..15.
-  KVM_S390_MEMOP_F_SKEY_PROTECTION is available if KVM_CAP_S390_MEM_OP_EXTENSION
--is > 0.
-+has the lowest bit set.
-  
-  Absolute read/write:
-  ^^^^^^^^^^^^^^^^^^^^
-@@ -3770,7 +3770,7 @@ the checks required for storage key protection as one operation (as opposed to
-  user space getting the storage keys, performing the checks, and accessing
-  memory thereafter, which could lead to a delay between check and access).
-  Absolute accesses are permitted for the VM ioctl if KVM_CAP_S390_MEM_OP_EXTENSION
--is > 0.
-+has the lowest bit set.
-  Currently absolute accesses are not permitted for VCPU ioctls.
-  Absolute accesses are permitted for non-protected guests only.
-  
-What do you think?
+> @@ -434,6 +434,56 @@ static void s390_pv_prepare_reset(S390CcwMachineState *ms)
+>       s390_pv_prep_reset();
+>   }
+>   
+> +/*
+> + * s390_handle_ptf:
+> + *
+> + * @register 1: contains the function code
+> + *
+> + * Function codes 0 and 1 handle the CPU polarization.
+> + * We assume an horizontal topology, the only one supported currently
+> + * by Linux, consequently we answer to function code 0, requesting
+> + * horizontal polarization that it is already the current polarization
+> + * and reject vertical polarization request without further explanation.
+> + *
+> + * Function code 2 is handling topology changes and is interpreted
+> + * by the SIE.
+> + */
+> +int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
+> +{
+> +    CPUS390XState *env = &cpu->env;
+> +    uint64_t reg = env->regs[r1];
+> +    uint8_t fc = reg & S390_TOPO_FC_MASK;
+> +
+> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+> +        s390_program_interrupt(env, PGM_OPERATION, ra);
+> +        return 0;
+> +    }
+> +
+> +    if (env->psw.mask & PSW_MASK_PSTATE) {
+> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
+> +        return 0;
+> +    }
+> +
+> +    if (reg & ~S390_TOPO_FC_MASK) {
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> +        return 0;
+> +    }
+> +
+> +    switch (fc) {
+> +    case 0:    /* Horizontal polarization is already set */
+> +        env->regs[r1] |= S390_PTF_REASON_DONE;
+> +        return 2;
+> +    case 1:    /* Vertical polarization is not supported */
+> +        env->regs[r1] |= S390_PTF_REASON_NONE;
+> +        return 2;
+> +    default:
+> +        /* Note that fc == 2 is interpreted by the SIE */
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static void s390_machine_reset(MachineState *machine)
+>   {
+>       S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 3331990e02..ac4b4a92e7 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -30,6 +30,12 @@ struct S390CcwMachineState {
+>       uint8_t loadparm[8];
+>   };
+>   
+> +#define S390_PTF_REASON_NONE (0x00 << 8)
+> +#define S390_PTF_REASON_DONE (0x01 << 8)
+> +#define S390_PTF_REASON_BUSY (0x02 << 8)
+> +#define S390_TOPO_FC_MASK 0xffUL
+> +int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
+> +
+>   struct S390CcwMachineClass {
+>       /*< private >*/
+>       MachineClass parent_class;
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index 27b3fbfa09..e3792e52c2 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -98,6 +98,7 @@
+>   
+>   #define PRIV_B9_EQBS                    0x9c
+>   #define PRIV_B9_CLP                     0xa0
+> +#define PRIV_B9_PTF                     0xa2
+>   #define PRIV_B9_PCISTG                  0xd0
+>   #define PRIV_B9_PCILG                   0xd2
+>   #define PRIV_B9_RPCIT                   0xd3
+> @@ -1453,6 +1454,16 @@ static int kvm_mpcifc_service_call(S390CPU *cpu, struct kvm_run *run)
+>       }
+>   }
+>   
+> +static int kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
+> +{
+> +    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
+> +    int ret;
+> +
+> +    ret = s390_handle_ptf(cpu, r1, RA_IGNORED);
+> +    setcc(cpu, ret);
+
+So you're still setting the CC in case the s390_handle_ptf() function 
+injected a program interrupt? ... feels wrong. Maybe the CC should be set 
+within s390_handle_ptf() instead?
 
   Thomas
+
+
+> +    return 0;
+> +}
+> +
+>   static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+>   {
+>       int r = 0;
+> @@ -1470,6 +1481,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+>       case PRIV_B9_RPCIT:
+>           r = kvm_rpcit_service_call(cpu, run);
+>           break;
+> +    case PRIV_B9_PTF:
+> +        r = kvm_handle_ptf(cpu, run);
+> +        break;
+>       case PRIV_B9_EQBS:
+>           /* just inject exception */
+>           r = -1;
 
 
