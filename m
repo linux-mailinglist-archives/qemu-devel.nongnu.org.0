@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E89653230C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 08:23:36 +0200 (CEST)
-Received: from localhost ([::1]:40152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84352532346
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 08:33:26 +0200 (CEST)
+Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntNx8-00025Z-Ms
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 02:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38368)
+	id 1ntO6f-0007x0-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 02:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNt0-0007jR-BE
- for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:18 -0400
-Received: from mga17.intel.com ([192.55.52.151]:41945)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNt3-0007nN-Hx
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:21 -0400
+Received: from mga17.intel.com ([192.55.52.151]:41972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNsy-0000EA-Fv
- for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:18 -0400
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNt1-0000GZ-Q6
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653373156; x=1684909156;
+ t=1653373159; x=1684909159;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Vv7gnOasp6/ZZp3HaPei/aQKyYTdtUk1origL7k3ekM=;
- b=Mt1Yiby3fSnbReYn9ky7DEKB8Rs2lkh3QFA6p2HVcFPZP228V2JqElxJ
- 0m2jGh5J9bUQbAuy8evckEj3z+h2F56GgxxLjqqPM3vXWkSriJkpreqCs
- goPTA+RvtFOowaUG9et8KyImJCamT3Bww+zgDz3T/DT0RRrKGY2/NvaW4
- BmgQLWFvRcr5lCC06zVXcpcvYuKuF47lwq5DfFRsHmN8bMsooz1cSORgy
- OvbwrSwPKljcTb4N5Rl3eQnzfcxC5K8lP98mF3y4i9t/vVVCoNBVxSsTH
- sJDPSgPVuOKO5YdyLeWahXeIK8SkBWub5e0SDVimzC/eFlMNb91xskKf+ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="253943179"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="253943179"
+ bh=4mb5xQjmgPF5412Sdh4ynXjM0cMFDDt2pd56fHCzg4U=;
+ b=X8dUCAA7SBOCJdN75jEejjxeTDaisah6W2vJDfAtfkrmZAAzqutA5oMe
+ /VMxaFOe1lBnlGtps4UaIGMlL3BW7ELGbN8wdBxrKr0aeh1uU4LOiG3uU
+ Md5pwvl/N3qm1N12mMnO6hVDaARAwh1N1XOEjYeBWxXBuHjTQKdtgdPwR
+ wqk6OBcEQ5XJmxdHyjnznlfhv1OC0Z1M+Nf0vKzFA9y1X86JAh7uofE0x
+ XffjpzSciQXVuwRl3EphfSekTv7LrAtConpzDn01+iqdK+lMkj+riv5W8
+ M5MBxpa3PKY23DVmtPToAwHc8NA3nyxDzafNU9kN6l7JlbZuzbpOKiyFg Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="253943190"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="253943190"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 23:19:14 -0700
+ 23 May 2022 23:19:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="601059662"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="601059692"
 Received: from leirao-pc.bj.intel.com ([10.238.156.102])
- by orsmga008.jf.intel.com with ESMTP; 23 May 2022 23:19:11 -0700
+ by orsmga008.jf.intel.com with ESMTP; 23 May 2022 23:19:15 -0700
 From: Lei Rao <lei.rao@intel.com>
 To: alex.williamson@redhat.com, kevin.tian@intel.com, eddie.dong@intel.com,
  jason.zeng@intel.com, quintela@redhat.com, dgilbert@redhat.com,
  yadong.li@intel.com, yi.l.liu@intel.com
 Cc: qemu-devel@nongnu.org,
 	Lei Rao <lei.rao@intel.com>
-Subject: [RFC PATCH 03/13] vfio/migration: move vfio_get_dev_region_info out
- of vfio_migration_probe
-Date: Tue, 24 May 2022 14:18:38 +0800
-Message-Id: <20220524061848.1615706-4-lei.rao@intel.com>
+Subject: [RFC PATCH 04/13] vfio/migration: Separated functions that relate to
+ the In-Band approach
+Date: Tue, 24 May 2022 14:18:39 +0800
+Message-Id: <20220524061848.1615706-5-lei.rao@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220524061848.1615706-1-lei.rao@intel.com>
 References: <20220524061848.1615706-1-lei.rao@intel.com>
@@ -77,102 +77,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vfio_get_dev_region_info() in vfio_migration_probe() is a specific operation of
-In-Band approach.  So, it's better to put it in vfio_migration_init() because
-most of the setup of In-Band approach are handled there. The vfio_migration_init
-will be rename to vfio_migration_probe_local().
+Split functions of In-Band approach from common function, to prepare for
+the introduction of generic VFIO live migration layer and another Sub-Ops.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
+Reviewed-by: Eddie Dong <eddie.dong@intel.com>
 ---
- hw/vfio/migration.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ hw/vfio/migration.c | 64 ++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 49 insertions(+), 15 deletions(-)
 
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 11ce87bb1a..e61c19171a 100644
+index e61c19171a..c2df2caae6 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -802,12 +802,12 @@ static int vfio_migration_check(VFIODevice *vbasedev)
-     return 0;
+@@ -394,7 +394,7 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+     return qemu_file_get_error(f);
  }
  
--static int vfio_migration_init(VFIODevice *vbasedev,
--                               struct vfio_region_info *info)
-+static int vfio_migration_init(VFIODevice *vbasedev)
+-static void vfio_migration_cleanup(VFIODevice *vbasedev)
++static void vfio_migration_cleanup_local(VFIODevice *vbasedev)
  {
-     int ret;
-     Object *obj;
-     char id[256] = "";
-+    struct vfio_region_info *info = NULL;
-     g_autofree char *path = NULL, *oid = NULL;
      VFIOMigration *migration = vbasedev->migration;
  
-@@ -816,6 +816,14 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-         return -EINVAL;
+@@ -403,17 +403,17 @@ static void vfio_migration_cleanup(VFIODevice *vbasedev)
      }
- 
-+    ret = vfio_get_dev_region_info(vbasedev,
-+                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
-+                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
-+                                   &info);
-+    if (ret) {
-+        return -EINVAL;
-+    }
-+
-     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
-                             info->index, "migration");
-     if (ret) {
-@@ -847,10 +855,14 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-                                                            vbasedev);
-     migration->migration_state.notify = vfio_migration_state_notifier;
-     add_migration_state_change_notifier(&migration->migration_state);
-+
-+    trace_vfio_migration_probe(vbasedev->name, info->index);
-+    g_free(info);
-     return 0;
- 
- err:
-     vfio_migration_exit(vbasedev);
-+    g_free(info);
-     return ret;
  }
  
-@@ -863,7 +875,6 @@ int64_t vfio_mig_bytes_transferred(void)
++static void vfio_migration_cleanup(VFIODevice *vbasedev)
++{
++    vfio_migration_cleanup_local(vbasedev);
++}
++
+ /* ---------------------------------------------------------------------- */
  
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+-static int vfio_save_setup(QEMUFile *f, void *opaque)
++static int vfio_migration_save_setup_local(VFIODevice *vbasedev)
  {
--    struct vfio_region_info *info = NULL;
-     int ret = -ENOTSUP;
- 
-     ret = vfio_migration_check(vbasedev);
-@@ -874,27 +885,16 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-     vbasedev->migration = g_new0(VFIOMigration, 1);
-     vbasedev->migration->vbasedev = vbasedev;
- 
--    ret = vfio_get_dev_region_info(vbasedev,
--                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
--                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
--                                   &info);
--    if (ret) {
--        goto add_blocker;
--    }
+-    VFIODevice *vbasedev = opaque;
+     VFIOMigration *migration = vbasedev->migration;
+-    int ret;
 -
--    ret = vfio_migration_init(vbasedev, info);
-+    ret = vfio_migration_init(vbasedev);
-     if (ret) {
-         goto add_blocker;
+-    trace_vfio_save_setup(vbasedev->name);
+-
+-    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
++    int ret = -1;
+ 
+     if (migration->region.mmaps) {
+         /*
+@@ -430,6 +430,24 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+             error_report("%s: Falling back to slow path", vbasedev->name);
+         }
      }
++    return ret;
++}
++
++static int vfio_save_setup(QEMUFile *f, void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++    int ret;
++
++    trace_vfio_save_setup(vbasedev->name);
++
++    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
++
++    ret = vfio_migration_save_setup_local(vbasedev);
++    if (ret) {
++        error_report("%s: Failed to vfio lm save setup:%s",
++                     vbasedev->name, strerror(-ret));
++        return ret;
++    }
  
--    trace_vfio_migration_probe(vbasedev->name, info->index);
--    g_free(info);
-     return 0;
+     ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
+                                    VFIO_DEVICE_STATE_V1_SAVING);
+@@ -592,11 +610,10 @@ static void vfio_save_state(QEMUFile *f, void *opaque)
+     }
+ }
  
- add_blocker:
-     error_setg(&vbasedev->migration_blocker,
-                "VFIO device doesn't support migration");
--    g_free(info);
+-static int vfio_load_setup(QEMUFile *f, void *opaque)
++static int vfio_migration_load_setup_local(VFIODevice *vbasedev)
+ {
+-    VFIODevice *vbasedev = opaque;
+     VFIOMigration *migration = vbasedev->migration;
+-    int ret = 0;
++    int ret = -1;
  
-     ret = migrate_add_blocker(vbasedev->migration_blocker, errp);
-     if (ret < 0) {
+     if (migration->region.mmaps) {
+         ret = vfio_region_mmap(&migration->region);
+@@ -607,14 +624,26 @@ static int vfio_load_setup(QEMUFile *f, void *opaque)
+             error_report("%s: Falling back to slow path", vbasedev->name);
+         }
+     }
++    return ret;
++}
++
++static int vfio_load_setup(QEMUFile *f, void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++    int ret = 0;
++
++    ret = vfio_migration_load_setup_local(vbasedev);
++    if (ret < 0) {
++        error_report("%s: Failed to migration load setup", vbasedev->name);
++        return ret;
++    }
+ 
+     ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
+                                    VFIO_DEVICE_STATE_V1_RESUMING);
+     if (ret) {
+         error_report("%s: Failed to set state RESUMING", vbasedev->name);
+-        if (migration->region.mmaps) {
+-            vfio_region_unmap(&migration->region);
+-        }
++        vfio_migration_cleanup(vbasedev);
++        return ret;
+     }
+     return ret;
+ }
+@@ -777,12 +806,17 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+     }
+ }
+ 
+-static void vfio_migration_exit(VFIODevice *vbasedev)
++static void vfio_migration_exit_local(VFIODevice *vbasedev)
+ {
+     VFIOMigration *migration = vbasedev->migration;
+ 
+     vfio_region_exit(&migration->region);
+     vfio_region_finalize(&migration->region);
++}
++
++static void vfio_migration_exit(VFIODevice *vbasedev)
++{
++    vfio_migration_exit_local(vbasedev);
+     g_free(vbasedev->migration);
+     vbasedev->migration = NULL;
+ }
 -- 
 2.32.0
 
