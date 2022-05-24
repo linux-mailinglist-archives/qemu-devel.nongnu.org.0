@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63D85326E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 11:54:37 +0200 (CEST)
-Received: from localhost ([::1]:56878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855A25326F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 11:57:12 +0200 (CEST)
+Received: from localhost ([::1]:59640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntRFM-000146-PF
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 05:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42360)
+	id 1ntRHr-0002zW-As
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 05:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntQtZ-00050J-1k
- for qemu-devel@nongnu.org; Tue, 24 May 2022 05:32:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56410)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ntR9O-0005xV-SH
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 05:48:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntQtV-0005Sa-Tv
- for qemu-devel@nongnu.org; Tue, 24 May 2022 05:32:03 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ntR9L-00089P-4J
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 05:48:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653384721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1653385701;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q9wnLjUO29owPqHRKSOlxfq5Jw64hibembQsJpsWj7Y=;
- b=HzNvrMNz3zWnteyqJ2DUWqYfyDpKBdh8YbOP/g5b4/1wXvvzim+kzOIHy2L83QD7FaODFy
- eksERL8b/ScsYXnTBOEB/cqjQgrw22hRMZotgMzERTiGznZEObWA8ursANc4oYkQ58rA4S
- VeSHuW0o7qclo9kfzPoAvQAM4BtXjyc=
+ bh=iO7rsLNE01F1eqbbsrxQVaklbtQS2w2TpD0dHT+B3dY=;
+ b=Z0HERN7jXZobHXBWqP0dXVDU/P4xgINKNTWMv6tLSRQj2VgnEK0uhSIOQRcnPalc7Y41KU
+ 7PtSzEgK4K52CbBqGLkEPBtLGrxJCH3S0uSooirFK2TWZe8XXGJLj3snsDLdYYez5IscuM
+ ABgJD3w5p80zbSz0b4ZxM9Rwj+GE9Ms=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-211-npdCMQU1Nq6lPPCG1Bqv7A-1; Tue, 24 May 2022 05:31:59 -0400
-X-MC-Unique: npdCMQU1Nq6lPPCG1Bqv7A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-257-IGLc4EFYOL2BvOP9kqYX6w-1; Tue, 24 May 2022 05:48:19 -0400
+X-MC-Unique: IGLc4EFYOL2BvOP9kqYX6w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A8B1185A79C
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 09:31:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 316CF407DEC3;
- Tue, 24 May 2022 09:31:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id ECA2921E6906; Tue, 24 May 2022 11:31:57 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,  qemu-devel@nongnu.org,  Gerd Hoffmann
- <kraxel@redhat.com>,  Eric Blake <eblake@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 2/3] ui: Switch "-display sdl" to use the QAPI parser
-References: <20220519155625.1414365-1-thuth@redhat.com>
- <20220519155625.1414365-3-thuth@redhat.com>
- <87v8tw7470.fsf@pond.sub.org>
- <dd189cec-06ed-5015-cab5-99abd3f69ecf@redhat.com>
- <YoyVfgrJiYCI8bEO@redhat.com>
-Date: Tue, 24 May 2022 11:31:57 +0200
-In-Reply-To: <YoyVfgrJiYCI8bEO@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 24 May 2022 09:21:18 +0100")
-Message-ID: <87k0ab1dki.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8304D85A5BB
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 09:48:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D8ED740D1B98;
+ Tue, 24 May 2022 09:48:17 +0000 (UTC)
+Date: Tue, 24 May 2022 10:48:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] ui: move 'pc-bios/keymaps' to 'ui/keymaps'
+Message-ID: <Yoyp3l9bHYRcGpAX@redhat.com>
+References: <20220426160150.812530-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220426160150.812530-1-berrange@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,107 +79,266 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Ping, any thoughts on this ?
 
-> On Mon, May 23, 2022 at 09:23:48PM +0200, Thomas Huth wrote:
->> On 23/05/2022 15.45, Markus Armbruster wrote:
->> > Thomas Huth <thuth@redhat.com> writes:
->> >=20
->> > > The "-display sdl" option still uses a hand-crafted parser for its
->> > > parameters since we didn't want to drag an interface we considered
->> > > somewhat flawed into the QAPI schema. Since the flaws are gone now,
->> > > it's time to QAPIfy.
->> > >=20
->> > > This introduces the new "DisplaySDL" QAPI struct that is used to hold
->> > > the parameters that are unique to the SDL display. The only specific
->> > > parameter is currently "grab-mod" that is used to specify the requir=
-ed
->> > > modifier keys to escape from the mouse grabbing mode.
->> > >=20
->> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
->> > > ---
->> > >   qapi/ui.json            | 26 ++++++++++++++-
->> > >   include/sysemu/sysemu.h |  2 --
->> > >   softmmu/globals.c       |  2 --
->> > >   softmmu/vl.c            | 70 +------------------------------------=
-----
->> > >   ui/sdl2.c               | 10 ++++++
->> > >   5 files changed, 36 insertions(+), 74 deletions(-)
->> > >=20
->> > > diff --git a/qapi/ui.json b/qapi/ui.json
->> > > index 11a827d10f..413371d5e8 100644
->> > > --- a/qapi/ui.json
->> > > +++ b/qapi/ui.json
->> > > @@ -1295,6 +1295,29 @@
->> > >         '*swap-opt-cmd': 'bool'
->> > >     } }
->> > > +##
->> > > +# @HotKeyMod:
->> > > +#
->> > > +# Set of modifier keys that need to be held for shortcut key action=
-s.
->> > > +#
->> > > +# Since: 7.1
->> > > +##
->> > > +{ 'enum'  : 'HotKeyMod',
->> > > +  'data'  : [ 'lctrl-lalt', 'lshift-lctrl-lalt', 'rctrl' ] }
->> >=20
->> > I have a somewhat uneasy feeling about encoding what is essentially a
->> > subset of the sets of modifier keys as an enumeration, but it's what we
->> > have to do to QAPIfy existing grab-mod.
->>=20
->> Well, that's exactly what you suggested here:
->>=20
->>  https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg03401.html
->>=20
->> So I really don't understand your uneasy feeling now?
+On Tue, Apr 26, 2022 at 05:01:50PM +0100, Daniel P. Berrangé wrote:
+> The 'keymaps' directory contents is nothing to do with the firmware
+> blobs. The 'pc-bios/keymaps' directory appears to have been used
+> previously as a convenience for getting the files installed into
+> a subdir of the firmware install dir. This install time arrangement
+> does not need to be reflected in the source tree arrangement. These
+> keymaps logically belong with the UI code.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  pc-bios/meson.build                 | 1 -
+>  {pc-bios => ui}/keymaps/ar          | 0
+>  {pc-bios => ui}/keymaps/bepo        | 0
+>  {pc-bios => ui}/keymaps/cz          | 0
+>  {pc-bios => ui}/keymaps/da          | 0
+>  {pc-bios => ui}/keymaps/de          | 0
+>  {pc-bios => ui}/keymaps/de-ch       | 0
+>  {pc-bios => ui}/keymaps/en-gb       | 0
+>  {pc-bios => ui}/keymaps/en-us       | 0
+>  {pc-bios => ui}/keymaps/es          | 0
+>  {pc-bios => ui}/keymaps/et          | 0
+>  {pc-bios => ui}/keymaps/fi          | 0
+>  {pc-bios => ui}/keymaps/fo          | 0
+>  {pc-bios => ui}/keymaps/fr          | 0
+>  {pc-bios => ui}/keymaps/fr-be       | 0
+>  {pc-bios => ui}/keymaps/fr-ca       | 0
+>  {pc-bios => ui}/keymaps/fr-ch       | 0
+>  {pc-bios => ui}/keymaps/hr          | 0
+>  {pc-bios => ui}/keymaps/hu          | 0
+>  {pc-bios => ui}/keymaps/is          | 0
+>  {pc-bios => ui}/keymaps/it          | 0
+>  {pc-bios => ui}/keymaps/ja          | 0
+>  {pc-bios => ui}/keymaps/lt          | 0
+>  {pc-bios => ui}/keymaps/lv          | 0
+>  {pc-bios => ui}/keymaps/meson.build | 0
+>  {pc-bios => ui}/keymaps/mk          | 0
+>  {pc-bios => ui}/keymaps/nl          | 0
+>  {pc-bios => ui}/keymaps/no          | 0
+>  {pc-bios => ui}/keymaps/pl          | 0
+>  {pc-bios => ui}/keymaps/pt          | 0
+>  {pc-bios => ui}/keymaps/pt-br       | 0
+>  {pc-bios => ui}/keymaps/ru          | 0
+>  {pc-bios => ui}/keymaps/sl          | 0
+>  {pc-bios => ui}/keymaps/sv          | 0
+>  {pc-bios => ui}/keymaps/th          | 0
+>  {pc-bios => ui}/keymaps/tr          | 0
+>  ui/meson.build                      | 1 +
+>  37 files changed, 1 insertion(+), 1 deletion(-)
+>  rename {pc-bios => ui}/keymaps/ar (100%)
+>  rename {pc-bios => ui}/keymaps/bepo (100%)
+>  rename {pc-bios => ui}/keymaps/cz (100%)
+>  rename {pc-bios => ui}/keymaps/da (100%)
+>  rename {pc-bios => ui}/keymaps/de (100%)
+>  rename {pc-bios => ui}/keymaps/de-ch (100%)
+>  rename {pc-bios => ui}/keymaps/en-gb (100%)
+>  rename {pc-bios => ui}/keymaps/en-us (100%)
+>  rename {pc-bios => ui}/keymaps/es (100%)
+>  rename {pc-bios => ui}/keymaps/et (100%)
+>  rename {pc-bios => ui}/keymaps/fi (100%)
+>  rename {pc-bios => ui}/keymaps/fo (100%)
+>  rename {pc-bios => ui}/keymaps/fr (100%)
+>  rename {pc-bios => ui}/keymaps/fr-be (100%)
+>  rename {pc-bios => ui}/keymaps/fr-ca (100%)
+>  rename {pc-bios => ui}/keymaps/fr-ch (100%)
+>  rename {pc-bios => ui}/keymaps/hr (100%)
+>  rename {pc-bios => ui}/keymaps/hu (100%)
+>  rename {pc-bios => ui}/keymaps/is (100%)
+>  rename {pc-bios => ui}/keymaps/it (100%)
+>  rename {pc-bios => ui}/keymaps/ja (100%)
+>  rename {pc-bios => ui}/keymaps/lt (100%)
+>  rename {pc-bios => ui}/keymaps/lv (100%)
+>  rename {pc-bios => ui}/keymaps/meson.build (100%)
+>  rename {pc-bios => ui}/keymaps/mk (100%)
+>  rename {pc-bios => ui}/keymaps/nl (100%)
+>  rename {pc-bios => ui}/keymaps/no (100%)
+>  rename {pc-bios => ui}/keymaps/pl (100%)
+>  rename {pc-bios => ui}/keymaps/pt (100%)
+>  rename {pc-bios => ui}/keymaps/pt-br (100%)
+>  rename {pc-bios => ui}/keymaps/ru (100%)
+>  rename {pc-bios => ui}/keymaps/sl (100%)
+>  rename {pc-bios => ui}/keymaps/sv (100%)
+>  rename {pc-bios => ui}/keymaps/th (100%)
+>  rename {pc-bios => ui}/keymaps/tr (100%)
+> 
+> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+> index c86dedf7df..8c7caa0164 100644
+> --- a/pc-bios/meson.build
+> +++ b/pc-bios/meson.build
+> @@ -90,4 +90,3 @@ if get_option('install_blobs')
+>  endif
+>  
+>  subdir('descriptors')
+> -subdir('keymaps')
+> diff --git a/pc-bios/keymaps/ar b/ui/keymaps/ar
+> similarity index 100%
+> rename from pc-bios/keymaps/ar
+> rename to ui/keymaps/ar
+> diff --git a/pc-bios/keymaps/bepo b/ui/keymaps/bepo
+> similarity index 100%
+> rename from pc-bios/keymaps/bepo
+> rename to ui/keymaps/bepo
+> diff --git a/pc-bios/keymaps/cz b/ui/keymaps/cz
+> similarity index 100%
+> rename from pc-bios/keymaps/cz
+> rename to ui/keymaps/cz
+> diff --git a/pc-bios/keymaps/da b/ui/keymaps/da
+> similarity index 100%
+> rename from pc-bios/keymaps/da
+> rename to ui/keymaps/da
+> diff --git a/pc-bios/keymaps/de b/ui/keymaps/de
+> similarity index 100%
+> rename from pc-bios/keymaps/de
+> rename to ui/keymaps/de
+> diff --git a/pc-bios/keymaps/de-ch b/ui/keymaps/de-ch
+> similarity index 100%
+> rename from pc-bios/keymaps/de-ch
+> rename to ui/keymaps/de-ch
+> diff --git a/pc-bios/keymaps/en-gb b/ui/keymaps/en-gb
+> similarity index 100%
+> rename from pc-bios/keymaps/en-gb
+> rename to ui/keymaps/en-gb
+> diff --git a/pc-bios/keymaps/en-us b/ui/keymaps/en-us
+> similarity index 100%
+> rename from pc-bios/keymaps/en-us
+> rename to ui/keymaps/en-us
+> diff --git a/pc-bios/keymaps/es b/ui/keymaps/es
+> similarity index 100%
+> rename from pc-bios/keymaps/es
+> rename to ui/keymaps/es
+> diff --git a/pc-bios/keymaps/et b/ui/keymaps/et
+> similarity index 100%
+> rename from pc-bios/keymaps/et
+> rename to ui/keymaps/et
+> diff --git a/pc-bios/keymaps/fi b/ui/keymaps/fi
+> similarity index 100%
+> rename from pc-bios/keymaps/fi
+> rename to ui/keymaps/fi
+> diff --git a/pc-bios/keymaps/fo b/ui/keymaps/fo
+> similarity index 100%
+> rename from pc-bios/keymaps/fo
+> rename to ui/keymaps/fo
+> diff --git a/pc-bios/keymaps/fr b/ui/keymaps/fr
+> similarity index 100%
+> rename from pc-bios/keymaps/fr
+> rename to ui/keymaps/fr
+> diff --git a/pc-bios/keymaps/fr-be b/ui/keymaps/fr-be
+> similarity index 100%
+> rename from pc-bios/keymaps/fr-be
+> rename to ui/keymaps/fr-be
+> diff --git a/pc-bios/keymaps/fr-ca b/ui/keymaps/fr-ca
+> similarity index 100%
+> rename from pc-bios/keymaps/fr-ca
+> rename to ui/keymaps/fr-ca
+> diff --git a/pc-bios/keymaps/fr-ch b/ui/keymaps/fr-ch
+> similarity index 100%
+> rename from pc-bios/keymaps/fr-ch
+> rename to ui/keymaps/fr-ch
+> diff --git a/pc-bios/keymaps/hr b/ui/keymaps/hr
+> similarity index 100%
+> rename from pc-bios/keymaps/hr
+> rename to ui/keymaps/hr
+> diff --git a/pc-bios/keymaps/hu b/ui/keymaps/hu
+> similarity index 100%
+> rename from pc-bios/keymaps/hu
+> rename to ui/keymaps/hu
+> diff --git a/pc-bios/keymaps/is b/ui/keymaps/is
+> similarity index 100%
+> rename from pc-bios/keymaps/is
+> rename to ui/keymaps/is
+> diff --git a/pc-bios/keymaps/it b/ui/keymaps/it
+> similarity index 100%
+> rename from pc-bios/keymaps/it
+> rename to ui/keymaps/it
+> diff --git a/pc-bios/keymaps/ja b/ui/keymaps/ja
+> similarity index 100%
+> rename from pc-bios/keymaps/ja
+> rename to ui/keymaps/ja
+> diff --git a/pc-bios/keymaps/lt b/ui/keymaps/lt
+> similarity index 100%
+> rename from pc-bios/keymaps/lt
+> rename to ui/keymaps/lt
+> diff --git a/pc-bios/keymaps/lv b/ui/keymaps/lv
+> similarity index 100%
+> rename from pc-bios/keymaps/lv
+> rename to ui/keymaps/lv
+> diff --git a/pc-bios/keymaps/meson.build b/ui/keymaps/meson.build
+> similarity index 100%
+> rename from pc-bios/keymaps/meson.build
+> rename to ui/keymaps/meson.build
+> diff --git a/pc-bios/keymaps/mk b/ui/keymaps/mk
+> similarity index 100%
+> rename from pc-bios/keymaps/mk
+> rename to ui/keymaps/mk
+> diff --git a/pc-bios/keymaps/nl b/ui/keymaps/nl
+> similarity index 100%
+> rename from pc-bios/keymaps/nl
+> rename to ui/keymaps/nl
+> diff --git a/pc-bios/keymaps/no b/ui/keymaps/no
+> similarity index 100%
+> rename from pc-bios/keymaps/no
+> rename to ui/keymaps/no
+> diff --git a/pc-bios/keymaps/pl b/ui/keymaps/pl
+> similarity index 100%
+> rename from pc-bios/keymaps/pl
+> rename to ui/keymaps/pl
+> diff --git a/pc-bios/keymaps/pt b/ui/keymaps/pt
+> similarity index 100%
+> rename from pc-bios/keymaps/pt
+> rename to ui/keymaps/pt
+> diff --git a/pc-bios/keymaps/pt-br b/ui/keymaps/pt-br
+> similarity index 100%
+> rename from pc-bios/keymaps/pt-br
+> rename to ui/keymaps/pt-br
+> diff --git a/pc-bios/keymaps/ru b/ui/keymaps/ru
+> similarity index 100%
+> rename from pc-bios/keymaps/ru
+> rename to ui/keymaps/ru
+> diff --git a/pc-bios/keymaps/sl b/ui/keymaps/sl
+> similarity index 100%
+> rename from pc-bios/keymaps/sl
+> rename to ui/keymaps/sl
+> diff --git a/pc-bios/keymaps/sv b/ui/keymaps/sv
+> similarity index 100%
+> rename from pc-bios/keymaps/sv
+> rename to ui/keymaps/sv
+> diff --git a/pc-bios/keymaps/th b/ui/keymaps/th
+> similarity index 100%
+> rename from pc-bios/keymaps/th
+> rename to ui/keymaps/th
+> diff --git a/pc-bios/keymaps/tr b/ui/keymaps/tr
+> similarity index 100%
+> rename from pc-bios/keymaps/tr
+> rename to ui/keymaps/tr
+> diff --git a/ui/meson.build b/ui/meson.build
+> index 64286ba150..dc44610abb 100644
+> --- a/ui/meson.build
+> +++ b/ui/meson.build
+> @@ -169,6 +169,7 @@ if have_system or xkbcommon.found()
+>  endif
+>  
+>  subdir('shader')
+> +subdir('keymaps')
+>  
+>  if have_system
+>    subdir('icons')
+> -- 
+> 2.35.1
+> 
 
-I did mention the set of modifiers (encoded as list) design alternative.
-You pointed out that you're merely QAPIfying what we have.  Valid point,
-well taken, I don't want to block that.
-
-> I think we should consider what happens if we want to allow arbitrary
-> key combinations in future, consisting of one or more modifiers together
-> witha non-modifier key. For example CtrlL+ShiftL+F12.  We won't want
-> to be expressing the combinatorial expansion of all possible key
-> combinations as an enum.  Instead I think we would want to have an
-> enum for keycode names and accept an array of them. We already
-> have QKeyCode, so for SDL grab sequence we need to accept an
-> arrray of QKeyCode.
->
->   { 'struct'  : 'DisplaySDL',
->     'data'    : { '*grab-mod'   : [ 'QKeyCode' ] }
->
-> Good for QMP but not entirely pretty on the CLI. But we need back
-> compat for existing CLI syntax too, so we would have to use an
-> alternate allowing plain string for the legacy key codes combinations.
->
-> IOW we end up needing
->
->    { 'alternate': 'SDLGrabSeq',
->      'data': { 'grab-mod': 'HotKeyMod',
->                'grab-keys: [ 'QKeyCode' ] } }
->
->   { 'struct'  : 'DisplaySDL',
->     'data'    : { '*grab-mod' : [ 'SDLGrabSeq' ] }
->
-> deprecating 'grab-mod' for a while, eventually leaving just the
-> first example above.
->
-> Since  IIUC, we can retrofit the alternate after the fact if we
-> decide to allow arbitrary key combos, it means we could safely
-> start with what Thomas proposes
->
->   { 'struct'  : 'DisplaySDL',
->     'data'    : { '*grab-mod' : 'HotKeyMod' }
->
-> and worry about the more general solution another day/month/year
-
-Right.
-
-[...]
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
