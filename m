@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FC6532BDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 16:00:59 +0200 (CEST)
-Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54975532BB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 15:54:01 +0200 (CEST)
+Received: from localhost ([::1]:35126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntV5l-0003il-QI
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 10:00:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
+	id 1ntUz2-0005Pt-5e
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 09:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1ntUtW-0002gS-6D
- for qemu-devel@nongnu.org; Tue, 24 May 2022 09:48:18 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:53556)
+ id 1ntUtV-0002gI-LG
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 09:48:17 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:53578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1ntUtT-0001e4-Hs
+ id 1ntUtT-0001e8-Ku
  for qemu-devel@nongnu.org; Tue, 24 May 2022 09:48:17 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPS id 0571321A87;
- Tue, 24 May 2022 13:48:11 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id A8EB421C39;
+ Tue, 24 May 2022 13:48:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1653400091;
+ s=mail; t=1653400093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kGbmojpONS/3zhVqPidkTxkp029lvf47gykf1NPvoaE=;
- b=S1jsl5zvPCr08CbX9qKvwqQ8VsK+UGYwLq7N8LT5z+t02SRGAs1e8i+XvTG3I47SDeA84a
- egXSIYasQDrInVBZ4xm/bnWPC9s9ehj+CcbwiWAS2iGqIPL3V9u6wnCrJmXnaDbih+flub
- BA52uqXzn7VPKXkUfSzE1ocnQRxSjfw=
+ bh=1ho6E4EofZqGPbs7w9w8YeE2RX5pQNJmeaNyyWDoGcM=;
+ b=F/u3kW3FxaICP7++Ypz8As8Gcu8+UFJw+XGNyzaTne/ZlzC//ymZfhp5miKu89j30Vyj/m
+ r0W0+bq7hVGdW/EBnap0tDtPWk7HlIFDuVSfP3Nnwhe/UfMgLSsiv/XBdAvpMGXeO56jNl
+ 3RLhUCU7Q4bz4H61/kq/5f4toipGo7s=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
@@ -45,9 +45,10 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC PATCH v5 1/3] none-machine: allow cold plugging sysbus devices
-Date: Tue, 24 May 2022 15:48:07 +0200
-Message-Id: <20220524134809.40732-2-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v5 2/3] softmmu/memory: add
+ memory_region_try_add_subregion function
+Date: Tue, 24 May 2022 15:48:08 +0200
+Message-Id: <20220524134809.40732-3-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220524134809.40732-1-damien.hedde@greensocs.com>
 References: <20220524134809.40732-1-damien.hedde@greensocs.com>
@@ -77,48 +78,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow plugging any sysbus device on this machine (the sysbus
-devices still need to be 'user-creatable').
+It allows adding a subregion to a memory region with error handling.
+Like memory_region_add_subregion_overlap(), it handles priority as
+well. Apart from the error handling, the behavior is the same. It
+can be used to do the simple memory_region_add_subregion() (with no
+overlap) by setting the priority parameter to 0.
 
-This commit is needed to use the 'none' machine as a base, and
-subsequently to dynamically populate it with sysbus devices using
-qapi commands.
-
-Note that this only concern cold-plug: sysbus devices can not be
-hot-plugged because the sysbus bus does not support it.
+This commit is a preparation to further use of this function in the
+context of qapi command which needs error handling support.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
-
 v5:
-  + fix commit message (Philippe)
----
- hw/core/null-machine.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ + rebase, new callsite
 
-diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
-index f586a4bef5..21bc2aca23 100644
---- a/hw/core/null-machine.c
-+++ b/hw/core/null-machine.c
-@@ -16,6 +16,7 @@
- #include "hw/boards.h"
- #include "exec/address-spaces.h"
- #include "hw/core/cpu.h"
-+#include "hw/sysbus.h"
+---
+ include/exec/memory.h | 22 ++++++++++++++++++++++
+ softmmu/memory.c      | 26 +++++++++++++++++---------
+ 2 files changed, 39 insertions(+), 9 deletions(-)
+
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index f1c19451bc..36f2e86be5 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2215,6 +2215,28 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+                                          MemoryRegion *subregion,
+                                          int priority);
  
- static void machine_none_init(MachineState *mch)
- {
-@@ -54,6 +55,9 @@ static void machine_none_machine_init(MachineClass *mc)
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
-     mc->no_sdcard = 1;
++/**
++ * memory_region_try_add_subregion: Add a subregion to a container
++ *                                  with error handling.
++ *
++ * Behaves like memory_region_add_subregion_overlap(), but errors are
++ * reported if the subregion cannot be added.
++ *
++ * @mr: the region to contain the new subregion; must be a container
++ *      initialized with memory_region_init().
++ * @offset: the offset relative to @mr where @subregion is added.
++ * @subregion: the subregion to be added.
++ * @priority: used for resolving overlaps; highest priority wins.
++ * @errp: pointer to Error*, to store an error if it happens.
++ *
++ * Returns: True in case of success, false otherwise.
++ */
++bool memory_region_try_add_subregion(MemoryRegion *mr,
++                                     hwaddr offset,
++                                     MemoryRegion *subregion,
++                                     int priority,
++                                     Error **errp);
 +
-+    /* allow cold plugging any any "user-creatable" sysbus device */
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SYS_BUS_DEVICE);
+ /**
+  * memory_region_get_ram_addr: Get the ram address associated with a memory
+  *                             region
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 7ba2048836..5ea4000830 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2541,27 +2541,34 @@ done:
+     memory_region_transaction_commit();
  }
  
- DEFINE_MACHINE("none", machine_none_machine_init)
+-static void memory_region_add_subregion_common(MemoryRegion *mr,
+-                                               hwaddr offset,
+-                                               MemoryRegion *subregion)
++bool memory_region_try_add_subregion(MemoryRegion *mr,
++                                     hwaddr offset,
++                                     MemoryRegion *subregion,
++                                     int priority,
++                                     Error **errp)
+ {
+     MemoryRegion *alias;
+ 
+-    assert(!subregion->container);
++    if (subregion->container) {
++        error_setg(errp, "The memory region is already in another region");
++        return false;
++    }
++
++    subregion->priority = priority;
+     subregion->container = mr;
+     for (alias = subregion->alias; alias; alias = alias->alias) {
+         alias->mapped_via_alias++;
+     }
+     subregion->addr = offset;
+     memory_region_update_container_subregions(subregion);
++    return true;
+ }
+ 
+ void memory_region_add_subregion(MemoryRegion *mr,
+                                  hwaddr offset,
+                                  MemoryRegion *subregion)
+ {
+-    subregion->priority = 0;
+-    memory_region_add_subregion_common(mr, offset, subregion);
++    memory_region_try_add_subregion(mr, offset, subregion, 0, &error_abort);
+ }
+ 
+ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+@@ -2569,8 +2576,8 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+                                          MemoryRegion *subregion,
+                                          int priority)
+ {
+-    subregion->priority = priority;
+-    memory_region_add_subregion_common(mr, offset, subregion);
++    memory_region_try_add_subregion(mr, offset, subregion, priority,
++                                    &error_abort);
+ }
+ 
+ void memory_region_del_subregion(MemoryRegion *mr,
+@@ -2626,7 +2633,8 @@ static void memory_region_readd_subregion(MemoryRegion *mr)
+         memory_region_transaction_begin();
+         memory_region_ref(mr);
+         memory_region_del_subregion(container, mr);
+-        memory_region_add_subregion_common(container, mr->addr, mr);
++        memory_region_try_add_subregion(container, mr->addr, mr, mr->priority,
++                                        &error_abort);
+         memory_region_unref(mr);
+         memory_region_transaction_commit();
+     }
 -- 
 2.36.1
 
