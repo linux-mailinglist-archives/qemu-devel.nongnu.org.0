@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5C8532BF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 16:08:22 +0200 (CEST)
-Received: from localhost ([::1]:55038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E12532BB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 15:53:59 +0200 (CEST)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntVCu-0002y6-Qa
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 10:08:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43474)
+	id 1ntUz0-0005Ox-K5
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 09:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ntV1i-0000f3-Rt; Tue, 24 May 2022 09:56:46 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:49216)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1ntUtV-0002gB-50
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 09:48:17 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:53540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ntV1f-0003Fw-02; Tue, 24 May 2022 09:56:45 -0400
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 632B42E1C57;
- Tue, 24 May 2022 16:46:22 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- VhDdaEscfP-kMK8LXjl; Tue, 24 May 2022 16:46:22 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1653399982; bh=Bdo2N2HvQm9jXTDMAjG8tsfvU+qvyFtR8y0jN/zupJM=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=zH4Gho+sOIZBAzy3qglINuLUa4eDOJ5pWCtT0ZlXyMJHuAy+1T0vUXTt7FuA77WC+
- RKZRsszlYpBfBYGso2OuYMaPi3K8OwE3mUeEn+z6Q1qJoqhYZeY+T8XFws3/mXDEkZ
- LnahWyLsYKQWNjwsXdbPjRcIuYCINMGrhimRTLOA=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:b6b7::1:23] (unknown
- [2a02:6b8:b081:b6b7::1:23])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- kcCfNwFmJc-kLM0Bu6C; Tue, 24 May 2022 16:46:22 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <0c14bb32-d408-6436-bc03-f6d7f4a78b30@yandex-team.ru>
-Date: Tue, 24 May 2022 16:46:21 +0300
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1ntUtT-0001ck-2P
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 09:48:16 -0400
+Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
+ by beetle.greensocs.com (Postfix) with ESMTPS id CB28F2078C;
+ Tue, 24 May 2022 13:48:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1653400090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/DbmTJ7SmKta5MOScm8maz8BCE8MVV87FxWDKOubGFU=;
+ b=LAQrizlWjrDYtKySvkf7tNvxkkWJvMEPhjWgnPCVLrHa0iA0sfyiSZ3sXzHuyvD4xmnX5C
+ 0TYydwtjqNjkRASHzpL7UKHSr8wSotqbQSqsPYIkGT/yjeu2wNVAMSBo8huVCvehE7WVy+
+ Ygj2Yrn2jI+hRjZng03pomeeX23Pduo=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Hildenbrand <david@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [RFC PATCH v5 0/3] Sysbus device generic QAPI plug support
+Date: Tue, 24 May 2022 15:48:06 +0200
+Message-Id: <20220524134809.40732-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: aio_wait_bh_oneshot() thread-safety question
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, hreitz@redhat.com,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <5dacced9-5434-5d05-a826-c7acb9fcb2ed@yandex-team.ru>
- <a774787e-46ac-36e0-8573-8adc114df784@redhat.com>
- <YozSW5PT4L//qVOk@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <YozSW5PT4L//qVOk@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,79 +74,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/22 15:40, Kevin Wolf wrote:
-> Am 24.05.2022 um 09:08 hat Paolo Bonzini geschrieben:
->> On 5/23/22 18:04, Vladimir Sementsov-Ogievskiy wrote:
->>>
->>> I have a doubt about how aio_wait_bh_oneshot() works. Exactly, I see
->>> that data->done is not accessed atomically, and doesn't have any barrier
->>> protecting it..
->>>
->>> Is following possible:
->>>
->>> main-loop                           iothread
->>>                                   |
->>> aio_wait_bh_oneshot()           |
->>>       aio_bh_schedule_oneshot()   |
->>>                                   |  handle bh:
->>>                                   | 1. set data->done = true
->>>                                   | 2. call aio_wait_kick(), inserting the
->>>                                   | dummy bh into main context
->>>                                   |
->>>    ... in AIO_WAIT_WHILE():
->>>      handle dummy bh, go to next
->>>      iteration, but still read
->>>      data->done=false due to some
->>>      processor data reordering,
->>>      go to next iteration of polling
->>>      and hang
->> Yes, barriers are missing:
->>
->> https://lore.kernel.org/qemu-devel/You6FburTi7gVyxy@stefanha-x1.localdomain/T/#md97146c6eae1fce2ddd687fdc3f2215eee03f6f4
->>
->> It seems like the issue was never observed, at least on x86.
-> 
-> Why is the barrier in aio_bh_enqueue() not enough? Is the comment there
-> wrong?
-> 
-> aio_notify() has another barrier. This is a little bit too late, but if
-> I misunderstood the aio_bh_enqueue() one, it could explain why it was
-> never observed.
-> 
-> Kevin
-> 
+Hi all,
 
-I'd consider two cases:
+This series is about enabling to plug sysbus devices with
+device_add QAPI command. I've put RFC because, there are several
+options and I would like to know if you think the current version
+is ok to be added in qemu.
 
-1. aio_wait_kick() reads num_waiters as 0 and don't schedule any BH into main ctx.
+Right now only a few sysbus device can be plugged using "-device"
+CLI option and a custom plugging mechanism. A machine defines a
+list of allowed/supported sysbus devices and provides some code to
+handle the plug. For example, it sets up the memory map and irq
+connections.
 
-In this case aio_wait_kick() only do one atomic operation: qatomic_read(&global_aio_wait.num_waiters), which is not a barrier as I understand.
-So, data->done=true may be reordered with this operation.
+In order to configure a machine from scratch with qapi, we want to
+cold plug sysbus devices to the _none_ machine with qapi commands
+without requiring the machine to provide some specific per-device
+support.
 
-main-loop                                iothread
+There are mostly 2 options (option 1 is in these patches). Note that
+in any case this only applies to "user-creatable" device.
 
-   aio_wait_bh_oneshot()          |
-      aio_bh_schedule_oneshot()   |
-                                  |  atomic read num_waiters = 0 => don't kick
-      AIO_WAIT_WHILE              |
-       atomic inc num_waiters     |
-       read done = false, go      |
-       into blocking aio_poll()   |
-                                  |  set data->done = true  # reordered to the end
-                                  |    - but that doesn't help to wake main loop
++ Option 1: Use the current plug mechanism by allowing any sysbus
+device, without adding handle code in the machine.
 
++ Option 2: Add a boolean flag in the machine to allow to plug any
+sysbus device. We can additionally differentiate the sysbus devices
+requiring the legacy plug mechanism (with a flag, for example) and
+the others.
 
-For this case, iothread just don't call aio_bh_enqueue() and aio_notify(), so any barriers in them doesn't help
+The setup of the memory map and irq connections is not related to
+the option choice above. We planned to rely on qapi commands to do
+these operations. A new _sysbus-mmio-map_ command is proposed in this
+series to setup the mapping. Irqs can already be connected using the
+_qom-set_ command.
+Alternatively we could probably add parameters/properties to device_add
+to handle the memory map, but it looks more complicated to achieve.
 
+Based-on: <20220519153402.41540-1-damien.hedde@greensocs.com>
+    ( QAPI support for device cold-plug )
+Note that it does not stricly require this to be merged, but this series
+does not make much sense without the ability to cold plug with device_add
+first.
 
-2. aio_wait_kick() reads num_waiters>0 and do schedule BH
+Thanks for your feedback,
+--
+Damien
 
-In this case it seems you are right: if main-loop dequeued  dummy BH, it should be guaranteed that after handling this BH the main loop will see data->done=true.. That's if the comment is correct, hope it is. At least it corresponds to what I've read here : https://www.kernel.org/doc/Documentation/atomic_t.txt . How much generic this information is - I don't know.
+Damien Hedde (3):
+  none-machine: allow cold plugging sysbus devices
+  softmmu/memory: add memory_region_try_add_subregion function
+  add sysbus-mmio-map qapi command
 
-In 2.12 there was no enque() deque() functions, but there was smp_wmb() in aio_bh_schedule_oneshot(), paired with atomic_xchg() in aio_bh_poll(), with similar comment about implicit barrier.
-
+ qapi/qdev.json         | 31 ++++++++++++++++++++++++++
+ include/exec/memory.h  | 22 +++++++++++++++++++
+ hw/core/null-machine.c |  4 ++++
+ hw/core/sysbus.c       | 49 ++++++++++++++++++++++++++++++++++++++++++
+ softmmu/memory.c       | 26 ++++++++++++++--------
+ 5 files changed, 123 insertions(+), 9 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.36.1
+
 
