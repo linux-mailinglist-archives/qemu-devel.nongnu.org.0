@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DA15328DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:24:17 +0200 (CEST)
-Received: from localhost ([::1]:53268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700F353299A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:44:14 +0200 (CEST)
+Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntSe8-0003xy-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
+	id 1ntSxR-0000Wt-HR
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ntSJR-0005lx-KS
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:02:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55155)
+ id 1ntSJZ-0005oR-Fr
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:03:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ntSJP-0003Nt-C8
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:02:53 -0400
+ id 1ntSJR-0003OK-58
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:03:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653390170;
+ s=mimecast20190719; t=1653390172;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7vOYCuiFOHwKEcxHDxUfpctKHL9UqUSBew1/Mv+uIlM=;
- b=RQDbpf6Dx7WpFitq6VfOtSEZ7LzvRJvOJ11ZKupoUd3EN1BvAQF+P0wehdY0wLkByxLgVT
- QLJJxqBwj1exiKSVpx+/8T393gMSEh8xTmWOwCvjih1x00Kf9SiAN7km4poaxZySG9HYNA
- VRo80Uqsdvy/fd/5cHkVtq4aPCoofok=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qGlbz4JQtuwlpJepdxpwXrbrRevMxa81DsGXR3VsqtE=;
+ b=O2Q6puhcZAV8BylyQH0eAGnmKD/LStvq+K9vjSfKoDE2E2Mj6iisqzxH178W9EXNSyMKC8
+ gBxQEUaOShxbodjk2AMp4UKnTeVNIbnWjSoVImMMSI6E3qxMRintuSrlTQBx2R8zQNAJu6
+ XVE9ob8qwbtsfH/o+AnmwbLs5IZZJh4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-JWh46h7tMeetnjnxg-q8pQ-1; Tue, 24 May 2022 07:02:49 -0400
-X-MC-Unique: JWh46h7tMeetnjnxg-q8pQ-1
+ us-mta-79-huqXIpBYMhCi8z4PlyVEew-1; Tue, 24 May 2022 07:02:51 -0400
+X-MC-Unique: huqXIpBYMhCi8z4PlyVEew-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23B17101A54E;
- Tue, 24 May 2022 11:02:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3ABD3817A6B;
+ Tue, 24 May 2022 11:02:50 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5446112131B;
- Tue, 24 May 2022 11:02:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65DCC1121315;
+ Tue, 24 May 2022 11:02:49 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -50,17 +50,17 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH 06/20] migration: rename qemu_ftell to
- qemu_file_total_transferred
-Date: Tue, 24 May 2022 12:02:21 +0100
-Message-Id: <20220524110235.145079-7-berrange@redhat.com>
+Subject: [PATCH 07/20] migration: rename qemu_update_position to
+ qemu_file_credit_transfer
+Date: Tue, 24 May 2022 12:02:22 +0100
+Message-Id: <20220524110235.145079-8-berrange@redhat.com>
 In-Reply-To: <20220524110235.145079-1-berrange@redhat.com>
 References: <20220524110235.145079-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,184 +84,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The name 'ftell' gives the misleading impression that the QEMUFile
-objects are seekable. This is not the case, as in general we just
-have an opaque stream. The users of this method are only interested
-in the total bytes processed. This switches to a new name that
-reflects the intended usage.
+The qemu_update_position method name gives the misleading impression
+that it is changing the current file offset. Most of the files are
+just streams, however, so there's no concept of a file offset in the
+general case.
+
+What this method is actually used for is to report on the number of
+bytes that have been transferred out of band from the main I/O methods.
+This new name better reflects this purpose.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/block.c     | 10 +++++-----
- migration/migration.c |  2 +-
- migration/qemu-file.c |  4 ++--
- migration/qemu-file.h | 40 ++++++++++++++++++++++++++++++++++++++--
- migration/savevm.c    |  6 +++---
- migration/vmstate.c   |  4 ++--
- 6 files changed, 51 insertions(+), 15 deletions(-)
+ migration/qemu-file.c | 4 ++--
+ migration/qemu-file.h | 8 +++++++-
+ migration/ram.c       | 2 +-
+ 3 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/migration/block.c b/migration/block.c
-index 077a413325..823453c977 100644
---- a/migration/block.c
-+++ b/migration/block.c
-@@ -756,8 +756,8 @@ static int block_save_setup(QEMUFile *f, void *opaque)
- static int block_save_iterate(QEMUFile *f, void *opaque)
- {
-     int ret;
--    int64_t last_ftell = qemu_ftell(f);
--    int64_t delta_ftell;
-+    int64_t last_bytes = qemu_file_total_transferred(f);
-+    int64_t delta_bytes;
- 
-     trace_migration_block_save("iterate", block_mig_state.submitted,
-                                block_mig_state.transferred);
-@@ -809,10 +809,10 @@ static int block_save_iterate(QEMUFile *f, void *opaque)
-     }
- 
-     qemu_put_be64(f, BLK_MIG_FLAG_EOS);
--    delta_ftell = qemu_ftell(f) - last_ftell;
--    if (delta_ftell > 0) {
-+    delta_bytes = qemu_file_total_transferred(f) - last_bytes;
-+    if (delta_bytes > 0) {
-         return 1;
--    } else if (delta_ftell < 0) {
-+    } else if (delta_bytes < 0) {
-         return -1;
-     } else {
-         return 0;
-diff --git a/migration/migration.c b/migration/migration.c
-index 31739b2af9..ab1e9610ef 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3544,7 +3544,7 @@ static MigThrError migration_detect_error(MigrationState *s)
- /* How many bytes have we transferred since the beginning of the migration */
- static uint64_t migration_total_bytes(MigrationState *s)
- {
--    return qemu_ftell(s->to_dst_file) + ram_counters.multifd_bytes;
-+    return qemu_file_total_transferred(s->to_dst_file) + ram_counters.multifd_bytes;
- }
- 
- static void migration_calculate_complete(MigrationState *s)
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index b21da4c5bf..664ac77067 100644
+index 664ac77067..9a7f715e17 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -657,7 +657,7 @@ int qemu_get_byte(QEMUFile *f)
-     return result;
+@@ -319,7 +319,7 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
+         if (ret != RAM_SAVE_CONTROL_DELAYED &&
+             ret != RAM_SAVE_CONTROL_NOT_SUPP) {
+             if (bytes_sent && *bytes_sent > 0) {
+-                qemu_update_position(f, *bytes_sent);
++                qemu_file_credit_transfer(f, *bytes_sent);
+             } else if (ret < 0) {
+                 qemu_file_set_error(f, ret);
+             }
+@@ -374,7 +374,7 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+     return len;
  }
  
--int64_t qemu_ftell_fast(QEMUFile *f)
-+int64_t qemu_file_total_transferred_fast(QEMUFile *f)
+-void qemu_update_position(QEMUFile *f, size_t size)
++void qemu_file_credit_transfer(QEMUFile *f, size_t size)
  {
-     int64_t ret = f->total_transferred;
-     int i;
-@@ -669,7 +669,7 @@ int64_t qemu_ftell_fast(QEMUFile *f)
-     return ret;
+     f->total_transferred += size;
  }
- 
--int64_t qemu_ftell(QEMUFile *f)
-+int64_t qemu_file_total_transferred(QEMUFile *f)
- {
-     qemu_fflush(f);
-     return f->total_transferred;
 diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 3f36d4dc8c..febc961aa9 100644
+index febc961aa9..81f6fd7db8 100644
 --- a/migration/qemu-file.h
 +++ b/migration/qemu-file.h
-@@ -124,8 +124,44 @@ QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops, bool has_ioc);
- void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
- int qemu_get_fd(QEMUFile *f);
- int qemu_fclose(QEMUFile *f);
--int64_t qemu_ftell(QEMUFile *f);
--int64_t qemu_ftell_fast(QEMUFile *f);
-+
+@@ -186,7 +186,13 @@ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src);
+  */
+ int qemu_peek_byte(QEMUFile *f, int offset);
+ void qemu_file_skip(QEMUFile *f, int size);
+-void qemu_update_position(QEMUFile *f, size_t size);
 +/*
-+ * qemu_file_total_transferred:
++ * qemu_file_credit_transfer:
 + *
-+ * Report the total number of bytes transferred with 
-+ * this file.
-+ *
-+ * For writable files, any pending buffers will be
-+ * flushed, so the reported value will be equal to
-+ * the number of bytes transferred on the wire.
-+ *
-+ * For readable files, the reported value will be
-+ * equal to the number of bytes transferred on the
-+ * wire.
-+ *
-+ * Returns: the total bytes transferred
++ * Report on a number of bytes that have been transferred
++ * out of band from the main file object I/O methods.
 + */
-+int64_t qemu_file_total_transferred(QEMUFile *f);
-+
-+/*
-+ * qemu_file_total_transferred_fast:
-+ *
-+ * Report the total number of bytes transferred with 
-+ * this file.
-+ *
-+ * For writable files, no pending buffers will be
-+ * flushed, but the reported value will include the
-+ * size of any queued buffers, on top of the amount
-+ * actually transferred.
-+ *
-+ * For readable files, the reported value will be
-+ * equal to the number of bytes transferred on the
-+ * wire.
-+ *
-+ * Returns: the total bytes transferred and queued
-+ */
-+int64_t qemu_file_total_transferred_fast(QEMUFile *f);
-+
- /*
-  * put_buffer without copying the buffer.
-  * The buffer should be available till it is sent asynchronously.
-diff --git a/migration/savevm.c b/migration/savevm.c
-index d9076897b8..75d05f1a84 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -916,9 +916,9 @@ static void vmstate_save_old_style(QEMUFile *f, SaveStateEntry *se,
- {
-     int64_t old_offset, size;
- 
--    old_offset = qemu_ftell_fast(f);
-+    old_offset = qemu_file_total_transferred_fast(f);
-     se->ops->save_state(f, se->opaque);
--    size = qemu_ftell_fast(f) - old_offset;
-+    size = qemu_file_total_transferred_fast(f) - old_offset;
- 
-     if (vmdesc) {
-         json_writer_int64(vmdesc, "size", size);
-@@ -2887,7 +2887,7 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
-         goto the_end;
++void qemu_file_credit_transfer(QEMUFile *f, size_t size);
+ void qemu_file_reset_rate_limit(QEMUFile *f);
+ void qemu_file_update_transfer(QEMUFile *f, int64_t len);
+ void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
+diff --git a/migration/ram.c b/migration/ram.c
+index 89082716d6..bf321e1e72 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2301,7 +2301,7 @@ void acct_update_position(QEMUFile *f, size_t size, bool zero)
+     } else {
+         ram_counters.normal += pages;
+         ram_transferred_add(size);
+-        qemu_update_position(f, size);
++        qemu_file_credit_transfer(f, size);
      }
-     ret = qemu_savevm_state(f, errp);
--    vm_state_size = qemu_ftell(f);
-+    vm_state_size = qemu_file_total_transferred(f);
-     ret2 = qemu_fclose(f);
-     if (ret < 0) {
-         goto the_end;
-diff --git a/migration/vmstate.c b/migration/vmstate.c
-index 36ae8b9e19..b0551e82c6 100644
---- a/migration/vmstate.c
-+++ b/migration/vmstate.c
-@@ -360,7 +360,7 @@ int vmstate_save_state_v(QEMUFile *f, const VMStateDescription *vmsd,
-                 void *curr_elem = first_elem + size * i;
+ }
  
-                 vmsd_desc_field_start(vmsd, vmdesc_loop, field, i, n_elems);
--                old_offset = qemu_ftell_fast(f);
-+                old_offset = qemu_file_total_transferred_fast(f);
-                 if (field->flags & VMS_ARRAY_OF_POINTER) {
-                     assert(curr_elem);
-                     curr_elem = *(void **)curr_elem;
-@@ -390,7 +390,7 @@ int vmstate_save_state_v(QEMUFile *f, const VMStateDescription *vmsd,
-                     return ret;
-                 }
- 
--                written_bytes = qemu_ftell_fast(f) - old_offset;
-+                written_bytes = qemu_file_total_transferred_fast(f) - old_offset;
-                 vmsd_desc_field_end(vmsd, vmdesc_loop, field, written_bytes, i);
- 
-                 /* Compressed arrays only care about the first element */
 -- 
 2.36.1
 
