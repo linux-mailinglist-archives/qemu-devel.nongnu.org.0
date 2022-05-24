@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6477B532A20
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:14:16 +0200 (CEST)
-Received: from localhost ([::1]:34654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988C7532A53
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:25:58 +0200 (CEST)
+Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntTQV-0001Jc-GU
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
+	id 1ntTbp-0000kB-KS
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1ntT2q-0006LN-1a
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:49:49 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:45556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1ntT2m-0003lO-VD
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:49:46 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6F86921A02;
- Tue, 24 May 2022 11:49:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1653392983; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
+ id 1ntT4E-000874-Kl
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:51:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
+ id 1ntT47-000486-KF
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:51:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653393066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=yoHwGliRSGKTY2b9iTzE0DGHoM408AwkxdCdwwQukos=;
- b=njsAKFVDMSoUWPqnjdiNvFMy80V6tZyq7itkZZt8UiY2HTk1q4h3eF/UVJnBwA5OhLGhBa
- OqW4Ttz/9SWmy4BpI9E8x4Pf3fy4fFkM3bz1exfEPAG9pyou1z+EZnod4W5m2AolHY74iw
- UQ0sHsGVTWpYw+sILthhMlOfvkQ1YDw=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=NUPBtXAvW3CgSVsiim3MnCbFervsXUd4IfaLy2+PRIg=;
+ b=Q9OzyZ+hCTvfevolAXKCOCbP5yVDMSxo3PoBrTUaUoCHtDn3YcIJknO1M/ZUc2C7YHNsdq
+ xqFUN/dDabxsucrp4F/YQKTAIMxzT2g996Y4tNNlDZzTVvRiUIVjn3wXlMDiGNhpSAskXH
+ 2nDYAcB10KHfwrXen/4dB5rSe4LgvRU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-NntLAmnFNlusBROBA5zzZQ-1; Tue, 24 May 2022 07:51:03 -0400
+X-MC-Unique: NntLAmnFNlusBROBA5zzZQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2661213ADF;
- Tue, 24 May 2022 11:49:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id /T80BlfGjGIaSAAAMHmgww
- (envelope-from <dfaggioli@suse.com>); Tue, 24 May 2022 11:49:43 +0000
-Message-ID: <077c28cfd3a7d10df6a08d26bcb721aa2d46bec1.camel@suse.com>
-Subject: Re: [PATCH v3 0/2] modules: Improve modinfo.c support
-From: Dario Faggioli <dfaggioli@suse.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
-Date: Tue, 24 May 2022 13:49:41 +0200
-In-Reply-To: <20210929050908.3fqf3wwbk6vrtziu@sirius.home.kraxel.org>
-References: <20210928204628.20001-1-jziviani@suse.de>
- <20210929050908.3fqf3wwbk6vrtziu@sirius.home.kraxel.org>
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-bf/93m+bu5InezDO49Xp"
-User-Agent: Evolution 3.44.1 (by Flathub.org)) 
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B821C299E76A;
+ Tue, 24 May 2022 11:51:02 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2414401E4C;
+ Tue, 24 May 2022 11:51:01 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: Emulating CPUs with larger atomic accesses
+References: <87k0apeor5.fsf@oldenburg.str.redhat.com>
+ <37f4c866-4344-37ba-b64b-fd338dc96887@linaro.org>
+ <87sfozuvpf.fsf@oldenburg.str.redhat.com>
+ <6d4b89e8-452f-521e-3464-7981e89794e0@linaro.org>
+Date: Tue, 24 May 2022 13:51:00 +0200
+In-Reply-To: <6d4b89e8-452f-521e-3464-7981e89794e0@linaro.org> (Richard
+ Henderson's message of "Tue, 24 May 2022 04:48:08 -0700")
+Message-ID: <87r14jtahn.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=dfaggioli@suse.com;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=fweimer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,111 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Richard Henderson:
 
---=-bf/93m+bu5InezDO49Xp
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> On 5/24/22 02:27, Florian Weimer wrote:
+>> * Richard Henderson:
+>> 
+>>> On 5/13/22 03:00, Florian Weimer wrote:
+>>>> What's QEMU's approach to emulating CPU instructions that atomatically
+>>>> operate on values larger than what is supported by the host CPU?
+>>>> I assume that for full system emulation, this is not a problem, but
+>>>> qemu-user will not achieve atomic behavior on shared memory mappings.
+>>>> How much of a problem is this in practice?
+>>>
+>>> Well, it doesn't work, no.  In practice, x86_64 supports 128-bit
+>>> atomic operations, and guest requires more than that.  No one really
+>>> cares anymore about 32-bit hosts with smaller atomic operations.
+>> Which part doesn't work?  Full-system emulation?
+>
+> No, user-only.
+>
+>> Do guests really require wider-than-128 atomics?  That's quite
+>> surprising?
+>
+> Typo there -- "and no guest requires...".
 
-Hello! Sorry for bringing up an old thread, but I'd have a question
-about this series.
+Okay, thanks.  So the overall situation is okay even if we end up with
+x86 guests that require CPU support for 128-bit loads.
 
-As far as I can see, the patches were fine, and they were Acked, but
-then the series was never committed... Is this correct?
+Florian
 
-If yes, can it be committed (I'm up for rebasing and resending, if it's
-necessary)? If not, would it be possible to know what's missing, so
-that we can continue working on it?
-
-The reason I'm asking is that in our (openSUSE) build system, we're
-still seeing the failures shown below; so far, we've had some rather
-ugly downstream patches to deal with those, but we've recently
-discovered they're not only ugly... they're also broken! :-/
-
-I'm not sure if (and if yes why) this seems to be a problem only for
-us, but it'd be great to get rid of both the failures and the patches
-(assuming that what is implemented in this series is also of general
-use, and good for the project... which, AFAIUI, it should be).
-
-Any kind of feedback would be greatly appreciated.
-
-Thanks and Regards
-
-[PS. I've removed Jose, as his SUSE email address is no longer valid]
-
-On Wed, 2021-09-29 at 07:09 +0200, Gerd Hoffmann wrote:
-> On Tue, Sep 28, 2021 at 05:46:26PM -0300, Jose R. Ziviani wrote:
-> > This patchset introduces the modinfo_kconfig aiming for a fine-tune
-> > control of module loading by simply checking Kconfig options during
-> > the
-> > compile time, then generates one modinfo-<target>-softmmu.c per
-> > target.
-> >=20
-> > The main reason of this change is to fix problems like:
-> > $ ./qemu-system-s390x -nodefaults -display none -accel tcg -M none
-> > -device help | head
-> > Failed to open module: /.../hw-display-qxl.so: undefined symbol:
-> > vga_ioport_read
-> > Failed to open module: /.../hw-display-virtio-vga.so: undefined
-> > symbol: vmstate_vga_common
-> > Failed to open module: /.../hw-display-virtio-vga.so: undefined
-> > symbol: vmstate_vga_common
-> > Failed to open module: /.../hw-display-virtio-vga-gl.so: undefined
-> > symbol: have_vga
-> > Failed to open module: /.../hw-usb-smartcard.so: undefined symbol:
-> > ccid_card_ccid_attach
-> > Failed to open module: /.../hw-usb-redirect.so: undefined symbol:
-> > vmstate_usb_device
-> > Failed to open module: /.../hw-usb-host.so: undefined symbol:
-> > vmstate_usb_device
-> >=20
-> > With this patch, I run this small script successfuly:
-> > =C2=A0=C2=A0=C2=A0 #!/bin/bash
-> > =C2=A0=C2=A0=C2=A0 pushd ~/suse/virtualization/qemu/build
-> > =C2=A0=C2=A0=C2=A0 for qemu in qemu-system-*
-> > =C2=A0=C2=A0=C2=A0 do
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [[ -f "$qemu" ]] || continue
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 res=3D$(./$qemu -nodefaults =
--display none -accel tcg -M none
-> > -device help 2>&1 | grep "Failed to" > /dev/null; echo $?)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [[ $res -eq 0 ]] && echo "Er=
-ror: $qemu"
-> > =C2=A0=C2=A0=C2=A0 done
-> > =C2=A0=C2=A0=C2=A0 popd
-> >=20
-> > Also run 'make check' and 'check-acceptance' without any failures.
->=20
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
->=20
-> take care,
-> =C2=A0 Gerd
---=20
-Dario Faggioli, Ph.D
-http://about.me/dario.faggioli
-Virtualization Software Engineer
-SUSE Labs, SUSE https://www.suse.com/
--------------------------------------------------------------------
-<<This happens because _I_ choose it to happen!>> (Raistlin Majere)
-
---=-bf/93m+bu5InezDO49Xp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEES5ssOj3Vhr0WPnOLFkJ4iaW4c+4FAmKMxlUACgkQFkJ4iaW4
-c+7hnhAAkj8x5jATmgTH5ypaC3f5f5fWTQx+3Df7Me4x+BRnvZyVz01nJLeB+VOy
-8ACZ7RH52DB0TKP978odyX/Z3yobi77LN0mMMbmcqJKSa/bw6jUlNWXha/OgDvDr
-aj8s4GZXKaujcmJ1bsXBsXGqsLkun4y7PPoUbQSxkwx0lqSjdTcXGyl0SZfzIybU
-AbcTZF/lFnJh/Kt2bh1BXYlg9r+9/3OdNSZ5LPcaSTbIAkQVh1lt39jrZUo1udYr
-qzG7AvGAP6xe/aew4Y/MuTRrmQARLDBPJBMiCJuZSPIIUbSSMNv+R8GeT5h9d50H
-BZjnZ3DB98oXY+P3+qUh2MLbkp4iWmSPYUugFKyYKlUtcDuA/lhIzHvDewwPRGOs
-Jz6VUS/1mEMLXoJ8dFuk0doPqjAaMHngxFCZB0uKozORWTnoUveOKzStJSo/3TpN
-LMBbCyw0ft/ivDGP3XkyeHeSpElMa+WCx4WT7q4PUTnvF3nvNe37DmWJsgSqcxNP
-0iJ6W4YH2QihUi56W1oeUOk3FL23RkSVAlh00kpG/zmT0alp0He1wUkyOLtYLlaJ
-oMClzvrkDw4qQ7ADNvFEUG3Z0uxdKqCdd/JObLaM8/IlvACJ+BcBta5sbuSXNopz
-XOLJ8i7rl8fujcS/HwOY0Py6b362gGJAHeibC/iiGEzIzr+sXjY=
-=5DqY
------END PGP SIGNATURE-----
-
---=-bf/93m+bu5InezDO49Xp--
 
