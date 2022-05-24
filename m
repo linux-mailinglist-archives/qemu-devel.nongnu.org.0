@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44BC53289A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:16:17 +0200 (CEST)
-Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B025328A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:18:30 +0200 (CEST)
+Received: from localhost ([::1]:46310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntSWO-0005Jn-Pz
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57520)
+	id 1ntSYS-0007K6-S4
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntS0m-0007Xh-OX
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:43:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52838)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSFw-0004CT-QO
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:59:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntS0k-0000cE-5J
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:43:35 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSFu-0002iZ-AQ
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:59:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653389013;
+ s=mimecast20190719; t=1653389953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lbhkzfYMThZQ1URKp2sj4y10vmYT3Yj+H0kJy/RFPt8=;
- b=Fvcg41MDA+bcVluV2HXCr/9N+9HA3xbg4uLxMQ0hxOpvWzHBn6esvKGO74WrLuWwg2+XoY
- aOdJim/j7P/5OZgzsbQHrFPttiXkiVnr0RXTQhE41f9nG+q6nrfn7/V7ePaLQR7dOtCJGT
- NznzHH4+pm+IPPejFY5DLmg5Q40uzMI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iNIHolXOtba/KfroUvm6+nuHO3iQXM82ADLznV2LFSw=;
+ b=YI1Oz5NFqR2b7lEBmOzbJvc2n7nkCyE5aZdiJWrvSC8IhHT33EqkZduW2AyzzC0Uq7/IkA
+ rbMn+Va/tttHL1umS2fXSZYqyXZXRTEtbbxmyiv34DdaHkLGBIUg7hilGhnTMWdyBp07Dl
+ 4+9P6QpdIcGHCJ8nLYZZcpv23ZnfzFg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-650-LyQxaGJ-ODuE_pAhQ6zk-A-1; Tue, 24 May 2022 06:43:32 -0400
-X-MC-Unique: LyQxaGJ-ODuE_pAhQ6zk-A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q10-20020adfcd8a000000b0020ff96b68c2so203202wrj.19
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 03:43:32 -0700 (PDT)
+ us-mta-618-f0PMH7t7MKKZPRFX_YImkw-1; Tue, 24 May 2022 06:59:12 -0400
+X-MC-Unique: f0PMH7t7MKKZPRFX_YImkw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s18-20020a5d6a92000000b0020ffa2781beso92581wru.20
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 03:59:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent
  :content-language:to:cc:references:from:subject:in-reply-to
  :content-transfer-encoding;
- bh=lbhkzfYMThZQ1URKp2sj4y10vmYT3Yj+H0kJy/RFPt8=;
- b=cE9dXt+EvsIDKLe4HAA/qgFz28ILX8gcljTc5CuFGU+u/HMdkMo5xoi5RdOiiYefs7
- PpIEpKXSglSqbIGzhd2aJBv0jTVX/5/StNEJd4uvepKORgqrCBCjR5m/vk8o61huXV6T
- IFuBjbcwn2WFE6csaIGv379Gqn+dbo6bCAmvMEq39oUztmOJyENYhA9ukJziSkKghGVb
- +yIkEwhobFGWuaGdEvDAV0FmuRInbQgqn+S0ZzcGLfjMhKSiOXFk4mDRN9+y8fVEgvGJ
- vEUYhXKyvJidmmC2ZEfC9MPTnYYfCQP4IiOy1U8vuZsR9+KpufBxogFLas3f2vTqqJKC
- NWjQ==
-X-Gm-Message-State: AOAM532h253sRfNGPrKSDBuYszYdJecNwwaYi18XZ9m/WBBXvP8MX6yb
- Slwet6sKkTPqRDNTNHrnRzumlaeTDt7fmCEASNdWLv+QsRhIHtgK/ohtJgaOIg1jls1TbTM+a4L
- DBMnxDHlmq/gG+FI=
-X-Received: by 2002:adf:d192:0:b0:20f:fad6:a96c with SMTP id
- v18-20020adfd192000000b0020ffad6a96cmr50553wrc.136.1653389011174; 
- Tue, 24 May 2022 03:43:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVw3mkNAZVlpGvLJpg1F9xhUTgjJNnLMLWjR6zu2/OcaAz61eX7GRYEw7ihFRFTdiPPR5pDg==
-X-Received: by 2002:adf:d192:0:b0:20f:fad6:a96c with SMTP id
- v18-20020adfd192000000b0020ffad6a96cmr50521wrc.136.1653389010752; 
- Tue, 24 May 2022 03:43:30 -0700 (PDT)
+ bh=iNIHolXOtba/KfroUvm6+nuHO3iQXM82ADLznV2LFSw=;
+ b=oNl8d2F/9o0maFkwt6yXOWjcWnCkk5fZl5E/qrlIgThm4HItCAh0jhHro41IwXt7N9
+ /htdInMiM+PvKD8nQU/1D7egA7ubDYyGP777KRxyhGpTr6i0ArRjXb1eLzHIfgwfIiSc
+ K/RvrhbDlbrz7lYZF2WM+BlnD7LSKA9s5hHVV6eHCsG7z/wRQQuScolG51nfRSeYE10y
+ k5S4oDtO/x8USI1CInn6ulpw9WVZJlVaBtosmVfA0na4yoP4Ywd/CrIBdgyrQBCW+CCg
+ iPXPHAKIjEiAGLz6mJ6AWDZmjnm0gYEKVljQ+bSqrjzmV2j7FtbqlcvpOsVW1YhYPi7W
+ EkPQ==
+X-Gm-Message-State: AOAM532pVFRFz6Qcv0t+do1efEfQlpbJ1KNgJH6apEc53auDoSqhKxso
+ 8cDh+g84DruB+k+C01WIiJmxplbwa45KiyCMvKFipafoI+c5ScmY2BMPYuA9xDhT+f0vxJUKRu4
+ /EBw2T+DILY/Sbzg=
+X-Received: by 2002:a1c:f207:0:b0:397:450f:f247 with SMTP id
+ s7-20020a1cf207000000b00397450ff247mr3285621wmc.145.1653389950916; 
+ Tue, 24 May 2022 03:59:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9ey+Wqex4qtAgv2ZF8qzeJqk1XGx+dUVsSADF4mHmLgu5sfKwPjaFxIOECu+x1Qg4oYdiWA==
+X-Received: by 2002:a1c:f207:0:b0:397:450f:f247 with SMTP id
+ s7-20020a1cf207000000b00397450ff247mr3285587wmc.145.1653389950662; 
+ Tue, 24 May 2022 03:59:10 -0700 (PDT)
 Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- h11-20020a7bc92b000000b00397122e63b6sm1776145wml.29.2022.05.24.03.43.29
+ v2-20020adfc5c2000000b0020fcd1704a4sm8734363wrg.61.2022.05.24.03.59.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 03:43:30 -0700 (PDT)
-Message-ID: <17934f59-4425-cdae-80b2-cfeb9bd97f7d@redhat.com>
-Date: Tue, 24 May 2022 12:43:29 +0200
+ Tue, 24 May 2022 03:59:09 -0700 (PDT)
+Message-ID: <6e426ed7-d3a6-2ae8-badc-80fc7a31c3ea@redhat.com>
+Date: Tue, 24 May 2022 12:59:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Content-Language: en-US
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
- qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-References: <20220506153956.2217601-1-scgl@linux.ibm.com>
- <20220506153956.2217601-3-scgl@linux.ibm.com>
- <21468730-e57f-a54a-bde4-6bb927d6b651@redhat.com>
- <384df8c6-4309-17a5-464e-46b23507f362@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, philmd@redhat.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220420115745.13696-1-pmorel@linux.ibm.com>
+ <20220420115745.13696-5-pmorel@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/2] target/s390x: kvm: Honor storage keys during emulation
-In-Reply-To: <384df8c6-4309-17a5-464e-46b23507f362@linux.ibm.com>
+Subject: Re: [PATCH v7 04/13] s390x: topology: implementating Store Topology
+ System Information
+In-Reply-To: <20220420115745.13696-5-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -107,86 +107,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/2022 15.53, Janis Schoetterl-Glausch wrote:
-> On 5/19/22 12:05, Thomas Huth wrote:
->> On 06/05/2022 17.39, Janis Schoetterl-Glausch wrote:
->>> Storage key controlled protection is currently not honored when
->>> emulating instructions.
->>> If available, enable key protection for the MEM_OP ioctl, thereby
->>> enabling it for the s390_cpu_virt_mem_* functions, when using kvm.
->>> As a result, the emulation of the following instructions honors storage
->>> keys:
->>>
->>> * CLP
->>>         The Synch I/O CLP command would need special handling in order
->>>         to support storage keys, but is currently not supported.
->>> * CHSC
->>>      Performing commands asynchronously would require special
->>>      handling, but commands are currently always synchronous.
->>> * STSI
->>> * TSCH
->>>      Must (and does) not change channel if terminated due to
->>>      protection.
->>> * MSCH
->>>      Suppressed on protection, works because fetching instruction.
->>> * SSCH
->>>      Suppressed on protection, works because fetching instruction.
->>> * STSCH
->>> * STCRW
->>>      Suppressed on protection, this works because no partial store is
->>>      possible, because the operand cannot span multiple pages.
->>> * PCISTB
->>> * MPCIFC
->>> * STPCIFC
->>>
->>> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
->>> ---
->>>    target/s390x/kvm/kvm.c | 9 +++++++++
->>>    1 file changed, 9 insertions(+)
->>>
->>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->>> index 53098bf541..7bd8db0e7b 100644
->>> --- a/target/s390x/kvm/kvm.c
->>> +++ b/target/s390x/kvm/kvm.c
->>> @@ -151,12 +151,15 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
->>>    static int cap_sync_regs;
->>>    static int cap_async_pf;
->>>    static int cap_mem_op;
->>> +static int cap_mem_op_extension;
->>>    static int cap_s390_irq;
->>>    static int cap_ri;
->>>    static int cap_hpage_1m;
->>>    static int cap_vcpu_resets;
->>>    static int cap_protected;
->>>    +static bool mem_op_storage_key_support;
->>> +
->>>    static int active_cmma;
->>>      static int kvm_s390_query_mem_limit(uint64_t *memory_limit)
->>> @@ -354,6 +357,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>>        cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
->>>        cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
->>>        cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
->>> +    cap_mem_op_extension = kvm_check_extension(s, KVM_CAP_S390_MEM_OP_EXTENSION);
->>> +    mem_op_storage_key_support = cap_mem_op_extension > 0;
->>
->> Ah, so KVM_CAP_S390_MEM_OP_EXTENSION is a "version number", not a boolean flag? ... ok, now I've finally understood that ... ;-)
+On 20/04/2022 13.57, Pierre Morel wrote:
+> The handling of STSI is enhanced with the interception of the
+> function code 15 for storing CPU topology.
 > 
-> Yeah, potentially having a bunch of memop capabilities didn't seem nice to me.
-> We can remove extensions if, when introducing an extension, we define that version x supports functionality y, z...,
-> but for the storage keys I've written in api.rst that it's supported if the cap > 0.
-> So we'd need a new cap if we want to get rid of the skey extension and still support some other extension,
-> but that doesn't seem particularly likely.
+> Using the objects built during the pluging of CPU, we build the
 
-Oh well, never say that ... we've seen it in the past, that sometimes we 
-want to get rid of features again, and if they don't have a separate feature 
-flag bit somewhere, it's getting very ugly to disable them again.
+s/pluging/plugging/
 
-So since we don't have merged this patch yet, and thus we don't have a 
-public userspace program using this interface yet, this is our last chance 
-to redefine this interface before we might regret it later.
+> SYSIB 15_1_x structures.
+> 
+> With this patch the maximum MNEST level is 2, this is also
+> the only level allowed and only SYSIB 15_1_2 will be built.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+...
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index f6969b76c5..a617c943ff 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -889,4 +889,5 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
+>   
+>   #include "exec/cpu-all.h"
+>   
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+>   #endif
 
-I'm in strong favor of treating the KVM_CAP_S390_MEM_OP_EXTENSION as a flag 
-field instead of a version number. What do others think? Christian? Halil?
+Please keep an empty line before the #endif
+
+> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+> new file mode 100644
+> index 0000000000..7f6db18829
+> --- /dev/null
+> +++ b/target/s390x/cpu_topology.c
+> @@ -0,0 +1,112 @@
+> +/*
+> + * QEMU S390x CPU Topology
+> + *
+> + * Copyright IBM Corp. 2021
+
+2022 ?
+
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+...
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+> +{
+> +    const MachineState *machine = MACHINE(qdev_get_machine());
+> +    void *p;
+> +    int ret, cc;
+> +
+> +    /*
+> +     * Until the SCLP STSI Facility reporting the MNEST value is used,
+> +     * a sel2 value of 2 is the only value allowed in STSI 15.1.x.
+> +     */
+> +    if (sel2 != 2) {
+> +        setcc(cpu, 3);
+> +        return;
+> +    }
+> +
+> +    p = g_malloc0(TARGET_PAGE_SIZE);
+> +
+> +    setup_stsi(machine, p, 2);
+> +
+> +    if (s390_is_pv()) {
+> +        ret = s390_cpu_pv_mem_write(cpu, 0, p, TARGET_PAGE_SIZE);
+> +    } else {
+> +        ret = s390_cpu_virt_mem_write(cpu, addr, ar, p, TARGET_PAGE_SIZE);
+> +    }
+> +    cc = ret ? 3 : 0;
+> +    setcc(cpu, cc);
+
+Just a matter of taste (i.e. keep it if you like) - but you could scratch 
+the cc variable in this function by just doing:
+
+     setcc(cpu, ret ? 3 : 0);
+
+> +    g_free(p);
+> +}
+> +
 
   Thomas
 
