@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FA5532D0D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:14:24 +0200 (CEST)
-Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6145F532D0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:13:47 +0200 (CEST)
+Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntWEq-0003iT-2c
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:14:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
+	id 1ntWED-0002Um-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ntWB9-0008R6-UT
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:10:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35106)
+ id 1ntWCS-0000mk-9m
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:11:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ntWB4-00081p-RQ
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:10:33 -0400
+ id 1ntWCO-0008Fj-5o
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:11:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653405027;
+ s=mimecast20190719; t=1653405111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c0+Q8Q2QWyfQUVdjOYB2v7xNZl6MDE6k18lDrgIZPXA=;
- b=db1A6f3O4F/hfREkF3hJAoP8050306nTFZW1yNkipo/4WRl2YONIZgBujj9qRLTo/sd2vz
- ZpdUlRqRxmrsNFpdGWZwpMi+aFqWbRd8JGWovrDPP9lwvcrC/l9qBDvp3yvYQR8rCQ7wIc
- Q4O8dqoNKtaFV+Sp+273JfnRDQmQSds=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ASyypiKIaTA9T8oki1qDGXZMHxAzCXjFV+TR++Lcy44=;
+ b=TaE6H6Z/g4bzDrd9SZQLAPRMuCaYww2Y+oMIlQp9rKXUukRmPsXtUtTEH0JNonfzOo+O/N
+ r1xVlxWN9LN6BvSGctPjZn3MPz64HszuRBTZwm9s1RuGU5cX9rHv1e+KWJuhOuFIpndN4+
+ o/OHBAJ0A/pg9zUMFpl1H7/srvwylQc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-1t-qOfJ4OGG3fAr7eIAIaw-1; Tue, 24 May 2022 11:10:24 -0400
-X-MC-Unique: 1t-qOfJ4OGG3fAr7eIAIaw-1
+ us-mta-99-hf14hXBxMMeEMsOjkvPQQg-1; Tue, 24 May 2022 11:10:25 -0400
+X-MC-Unique: hf14hXBxMMeEMsOjkvPQQg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D46BE100BAB1;
- Tue, 24 May 2022 15:10:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E54A33831C50;
+ Tue, 24 May 2022 15:10:24 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07F342166B29;
- Tue, 24 May 2022 15:10:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 176EB2166B2A;
+ Tue, 24 May 2022 15:10:23 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, richard.henderson@linaro.org, f4bug@amsat.org,
  yang.zhong@intel.com
-Subject: [PATCH 1/2] x86: cpu: make sure number of addressable IDs for
- processor cores meets the spec
-Date: Tue, 24 May 2022 11:10:19 -0400
-Message-Id: <20220524151020.2541698-2-imammedo@redhat.com>
+Subject: [PATCH 2/2] x86: cpu: fixup number of addressable IDs for logical
+ processors sharing cache
+Date: Tue, 24 May 2022 11:10:20 -0400
+Message-Id: <20220524151020.2541698-3-imammedo@redhat.com>
 In-Reply-To: <20220524151020.2541698-1-imammedo@redhat.com>
 References: <20220524151020.2541698-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,31 +82,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accourding Intel's CPUID[EAX=04H] resulting bits 31 - 26 in EAX
-should be:
-"
- **** The nearest power-of-2 integer that is not smaller than (1 + EAX[31:26]) is the number of unique
-    Core_IDs reserved for addressing different processor cores in a physical package. Core ID is a subset of
-    bits of the initial APIC ID.
-"
+When QEMU is started with '-cpu host,host-cache-info=on', it will
+passthrough host's number of logical processors sharing cache and
+number of processor cores in the physical package. QEMU already
+fixes up the later to correctly reflect number of configured cores
+for VM, however number of logical processors sharing cache is still
+comes from host CPU, which confuses guest started with:
 
-ensure that values stored in EAX[31-26] always meets this condition.
+       -machine q35,accel=kvm \
+       -cpu host,host-cache-info=on,l3-cache=off \
+       -smp 20,sockets=2,dies=1,cores=10,threads=1  \
+       -numa node,nodeid=0,memdev=ram-node0 \
+       -numa node,nodeid=1,memdev=ram-node1 \
+       -numa cpu,socket-id=0,node-id=0 \
+       -numa cpu,socket-id=1,node-id=1
+
+on 2 socket Xeon 4210R host with 10 cores per socket
+with CPUID[04H]:
+      ...
+        --- cache 3 ---
+      cache type                           = unified cache (3)
+      cache level                          = 0x3 (3)
+      self-initializing cache level        = true
+      fully associative cache              = false
+      maximum IDs for CPUs sharing cache   = 0x1f (31)
+      maximum IDs for cores in pkg         = 0xf (15)
+      ...
+that doesn't match number of logical processors VM was
+configured with and as result RHEL 9.0 guest complains:
+
+   sched: CPU #10's llc-sibling CPU #0 is not on the same node! [node: 1 != 0]. Ignoring dependency.
+   WARNING: CPU: 10 PID: 0 at arch/x86/kernel/smpboot.c:421 topology_sane.isra.0+0x67/0x80
+   ...
+   Call Trace:
+     set_cpu_sibling_map+0x176/0x590
+     start_secondary+0x5b/0x150
+     secondary_startup_64_no_verify+0xc2/0xcb
+
+Fix it by capping max number of logical processors to vcpus/socket
+as it was configured, which fixes the issue.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2088311
 ---
- target/i386/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+PS:
+ capping to logical cpus/socket was arbitrarily chosen (maybe
+ it should be per die or something else but don't see that in spec)
+---
+ target/i386/cpu.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 35c3475e6c..bbe37dce2e 100644
+index bbe37dce2e..ffb274dcf6 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5279,7 +5279,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             /* QEMU gives out its own APIC IDs, never pass down bits 31..26.  */
-             *eax &= ~0xFC000000;
-             if ((*eax & 31) && cs->nr_cores > 1) {
--                *eax |= (cs->nr_cores - 1) << 26;
-+                *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
+@@ -5276,10 +5276,22 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         /* cache info: needed for Core compatibility */
+         if (cpu->cache_info_passthrough) {
+             x86_cpu_get_cache_cpuid(index, count, eax, ebx, ecx, edx);
+-            /* QEMU gives out its own APIC IDs, never pass down bits 31..26.  */
+-            *eax &= ~0xFC000000;
+-            if ((*eax & 31) && cs->nr_cores > 1) {
+-                *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
++            /*
++             * QEMU has its own number of cores/logical cpus,
++             * set 24..14, 31..26 bit to configured values
++             */
++            if (*eax & 31) {
++                int host_vcpus_per_cache = 1 + ((*eax & 0x3FFC000) >> 14);
++                int vcpus_per_socket = env->nr_dies * cs->nr_cores *
++                                       cs->nr_threads;
++                if (cs->nr_cores > 1) {
++                    *eax &= ~0xFC000000;
++                    *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
++                }
++                if (host_vcpus_per_cache > vcpus_per_socket) {
++                    *eax &= ~0x3FFC000;
++                    *eax |= (pow2ceil(vcpus_per_socket) - 1) << 14;
++                }
              }
          } else if (cpu->vendor_cpuid_only && IS_AMD_CPU(env)) {
              *eax = *ebx = *ecx = *edx = 0;
