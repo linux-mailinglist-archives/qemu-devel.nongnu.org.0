@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A6A532254
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 06:55:14 +0200 (CEST)
-Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4760E53230B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 08:23:32 +0200 (CEST)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntMZd-0005oU-5T
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 00:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54690)
+	id 1ntNx4-0001wA-Rt
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 02:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ntMYC-00051E-Iw; Tue, 24 May 2022 00:53:44 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:52954 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ntMY9-0004Bt-Ef; Tue, 24 May 2022 00:53:44 -0400
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAAnL4fJZIxiHf8DCg--.18894S2;
- Tue, 24 May 2022 12:53:31 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2] target/riscv: add support for zmmul extension v0.1
-Date: Tue, 24 May 2022 12:53:20 +0800
-Message-Id: <20220524045320.18606-1-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowAAnL4fJZIxiHf8DCg--.18894S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAw43Gw1fGFyfWrWDtw1fZwb_yoWrCFW8pr
- W8WrW7tF4UtFyfAayfJF1qqF1xGanag3yxt39avw4kGF4fCrZ8XF1DK3yakr15JFWkZF13
- C3WUAF98X3yjqa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0E
- wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
- k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
- 1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNsy-0007j5-LR
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:16 -0400
+Received: from mga17.intel.com ([192.55.52.151]:41945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNsr-0000EA-4K
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653373149; x=1684909149;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=05nkXmjDWjVDIsuhPNnXULjBc/R+6HEy5I2WA06OJ0s=;
+ b=Q5tKA8rxwpf13ueRnORbKqroFRVmhoBAFUs/dI4h2KUxjAnz3LoHItiM
+ +z+/PL7SB5C0w2mC+G+1s7cPi6EfVsGp+OLEEoOUYZtOQqGfwxeS6MiKE
+ duMTVVIHkI0emIB9nuIECd6/mNfm6nLzVL5M0BOmHVZN3wVYCiXn5p85f
+ DrzkbmAyUsrv5KWhVbUSh3g9YWY9a02S4HzSiCJ4wr1acyisPG3NaMavG
+ 9BsvTdkMLZ23Sfs0h1MVzLfdRxQ7ohYR9jfuuEmt+TJ0tgnHkIkVRARXb
+ vzwyBypqstnUntNoY9OtjN/J/uFTdqsp2OZLz7MGpwamz5Nw1YFtNzctb Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="253943131"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="253943131"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 23:19:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="601059563"
+Received: from leirao-pc.bj.intel.com ([10.238.156.102])
+ by orsmga008.jf.intel.com with ESMTP; 23 May 2022 23:18:58 -0700
+From: Lei Rao <lei.rao@intel.com>
+To: alex.williamson@redhat.com, kevin.tian@intel.com, eddie.dong@intel.com,
+ jason.zeng@intel.com, quintela@redhat.com, dgilbert@redhat.com,
+ yadong.li@intel.com, yi.l.liu@intel.com
+Cc: qemu-devel@nongnu.org,
+	Lei Rao <lei.rao@intel.com>
+Subject: [RFC PATCH 00/13] Add a plugin to support out-of-band live migration
+ for VFIO pass-through device
+Date: Tue, 24 May 2022 14:18:35 +0800
+Message-Id: <20220524061848.1615706-1-lei.rao@intel.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=lei.rao@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,136 +75,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- - includes all multiplication operations for M extension
+Migration of a VFIO passthrough device can be supported by using a device 
+specific kernel driver to save/restore the device state thru device specific 
+interfaces. But this approach doesn't work for devices that lack a state 
+migration interface, e.g. NVMe.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+On the other hand, Infrastructure Process Unit (IPU) or Data Processing Unit 
+(DPU) vendors may choose to implement an out-of-band interface from the SoC to 
+help manage the state of such non-migratable devices e.g. via gRPC or JSON-RPC 
+protocols.
 
-v2:
-* disable M when both M and Zmmul are enabled
- 
----
- target/riscv/cpu.c                      |  7 +++++++
- target/riscv/cpu.h                      |  1 +
- target/riscv/insn_trans/trans_rvm.c.inc | 18 ++++++++++++------
- 3 files changed, 20 insertions(+), 6 deletions(-)
+This RFC attempts to support such out-of-band migration interface by introducing
+the concept of migration backends in vfio. The existing logic around vfio 
+migration uAPI is now called the 'local' backend while a new 'out-of-band' 
+backend is further introduced allowing vfio to redirect VMState ops to an 
+external plugin.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index e373c61ba2..aec6882c5f 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -598,6 +598,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             cpu->cfg.ext_ifencei = true;
-         }
- 
-+        if (cpu->cfg.ext_m && cpu->cfg.ext_zmmul) {
-+            warn_report("Zmmul will override M");
-+            cpu->cfg.ext_m = false;
-+        }
-+
-         if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
-             error_setg(errp,
-                        "I and E extensions are incompatible");
-@@ -903,6 +908,7 @@ static Property riscv_cpu_properties[] = {
- 
-     /* These are experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-+    DEFINE_PROP_BOOL("x-zmmul", RISCVCPU, cfg.ext_zmmul, false),
-     /* ePMP 0.9.3 */
-     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
-     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
-@@ -1027,6 +1033,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-      *    extensions by an underscore.
-      */
-     struct isa_ext_data isa_edata_arr[] = {
-+        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
-         ISA_EDATA_ENTRY(zfh, ext_zfh),
-         ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
-         ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f5ff7294c6..68177eae12 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -405,6 +405,7 @@ struct RISCVCPUConfig {
-     bool ext_zhinxmin;
-     bool ext_zve32f;
-     bool ext_zve64f;
-+    bool ext_zmmul;
- 
-     uint32_t mvendorid;
-     uint64_t marchid;
-diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
-index 16b029edf0..ec7f705aab 100644
---- a/target/riscv/insn_trans/trans_rvm.c.inc
-+++ b/target/riscv/insn_trans/trans_rvm.c.inc
-@@ -18,6 +18,12 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#define REQUIRE_M_OR_ZMMUL(ctx) do {                      \
-+    if (!ctx->cfg_ptr->ext_zmmul && !has_ext(ctx, RVM)) { \
-+        return false;                                     \
-+    }                                                     \
-+} while (0)
-+
- static void gen_mulhu_i128(TCGv r2, TCGv r3, TCGv al, TCGv ah, TCGv bl, TCGv bh)
- {
-     TCGv tmpl = tcg_temp_new();
-@@ -65,7 +71,7 @@ static void gen_mul_i128(TCGv rl, TCGv rh,
- 
- static bool trans_mul(DisasContext *ctx, arg_mul *a)
- {
--    REQUIRE_EXT(ctx, RVM);
-+    REQUIRE_M_OR_ZMMUL(ctx);
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, gen_mul_i128);
- }
- 
-@@ -109,7 +115,7 @@ static void gen_mulh_w(TCGv ret, TCGv s1, TCGv s2)
- 
- static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
- {
--    REQUIRE_EXT(ctx, RVM);
-+    REQUIRE_M_OR_ZMMUL(ctx);
-     return gen_arith_per_ol(ctx, a, EXT_SIGN, gen_mulh, gen_mulh_w,
-                             gen_mulh_i128);
- }
-@@ -161,7 +167,7 @@ static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
- 
- static bool trans_mulhsu(DisasContext *ctx, arg_mulhsu *a)
- {
--    REQUIRE_EXT(ctx, RVM);
-+    REQUIRE_M_OR_ZMMUL(ctx);
-     return gen_arith_per_ol(ctx, a, EXT_NONE, gen_mulhsu, gen_mulhsu_w,
-                             gen_mulhsu_i128);
- }
-@@ -176,7 +182,7 @@ static void gen_mulhu(TCGv ret, TCGv s1, TCGv s2)
- 
- static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
- {
--    REQUIRE_EXT(ctx, RVM);
-+    REQUIRE_M_OR_ZMMUL(ctx);
-     /* gen_mulh_w works for either sign as input. */
-     return gen_arith_per_ol(ctx, a, EXT_ZERO, gen_mulhu, gen_mulh_w,
-                             gen_mulhu_i128);
-@@ -349,7 +355,7 @@ static bool trans_remu(DisasContext *ctx, arg_remu *a)
- static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
- {
-     REQUIRE_64_OR_128BIT(ctx);
--    REQUIRE_EXT(ctx, RVM);
-+    REQUIRE_M_OR_ZMMUL(ctx);
-     ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, NULL);
- }
-@@ -389,7 +395,7 @@ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
- static bool trans_muld(DisasContext *ctx, arg_muld *a)
- {
-     REQUIRE_128BIT(ctx);
--    REQUIRE_EXT(ctx, RVM);
-+    REQUIRE_M_OR_ZMMUL(ctx);
-     ctx->ol = MXL_RV64;
-     return gen_arith(ctx, a, EXT_SIGN, tcg_gen_mul_tl, NULL);
- }
+Currently, the backend migration Ops is defined close to SaveVMHandlers. We also
+considered whether there is value of abstracting it in a lower level e.g. close 
+to vfio migration uAPI but no clear conclusion. Hence this is one part which 
+we'd like to hear suggestions.
+
+This proposal adopts a plugin mechanism (an example can be found in [1]) given 
+that IPU/DPU vendors usually implement proprietary migration interfaces without
+a standard. But we are also open if an alternative option makes better sense,
+e.g. via loadable modules (with Qemu supporting gRPC or JSON-RPC support) or an
+IPC mechanism similar to vhost-user.
+
+The following graph describes the overall component relationship:
+
+ +----------------------------------------------------+
+ | QEMU                                               |
+ | +------------------------------------------------+ |
+ | |        VFIO Live Migration Framework           | |
+ | |    +--------------------------------------+    | |
+ | |    |         VFIOMigrationOps             |    | |
+ | |    +-------^---------------------^--------+    | |
+ | |            |                     |             | |
+ | |    +-------v-------+     +-------v--------+    | |
+ | |    | LM Backend Via|     | LM Backend Via |    | |
+ | |    |   Device Fd   |     |    Plugins     |    | |
+ | |    +-------^-------+     |     +----------+    | |
+ | |            |             |     |Plugin Ops+----+-+------------+
+ | |            |             +-----+----------+    | |            |
+ | |            |                                   | |  +---------v----------+
+ | +------------+-----------------------------------+ |  |  Vendor Specific   |
+ |              |                                     |  |    Plugins(.so)    |
+ +--------------+-------------------------------------+  +----------+---------+
+  UserSpace     |                                                   |
+----------------+---------------------------------------------      |
+  Kernel        |                                                   |
+                |                                                   |
+     +----------v----------------------+                            |
+     |        Kernel VFIO Driver       |                            |
+     |    +-------------------------+  |                            |
+     |    |                         |  |                            | Network
+     |    | Vendor-Specific Driver  |  |                            |
+     |    |                         |  |                            |
+     |    +----------^--------------+  |                            |
+     |               |                 |                            |
+     +---------------+-----------------+                            |
+                     |                                              |
+                     |                                              |
+---------------------+-----------------------------------------     |
+  Hardware           |                                              |
+                     |            +-----+-----+-----+----+-----+    |
+          +----------v------+     | VF0 | VF1 | VF2 | ...| VFn |    |
+          |   Traditional   |     +-----+-----+-----+----+-----+    |
+          |  PCIe Devices   |     |                            |    |
+          +-----------------+     |   +--------+------------+  |    |
+                                  |   |        |   Agent    |<-+----+
+                                  |   |        +------------+  |
+                                  |   |                     |  |
+                                  |   | SOC                 |  |
+                                  |   +---------------------+  |
+                                  | IPU                        |
+                                  +----------------------------+
+
+Two command-line parameters (x-plugin-path and x-plugin-arg) are introduced to 
+enable the out-of-band backend. If specified, vfio will attempt to use the 
+out-of-band backend.
+
+The following is an example of VFIO command-line parameters for OOB-Approach:
+
+  -device vfio-pci,id=$ID,host=$bdf,x-enable-migration,x-plugin-path=$plugin_path,x-plugin-arg=$plugin_arg
+
+[1] https://github.com/raolei-intel/vfio-lm-plugin-example.git
+
+Lei Rao (13):
+  vfio/migration: put together checks of migration initialization
+    conditions
+  vfio/migration: move migration struct allocation out of
+    vfio_migration_init
+  vfio/migration: move vfio_get_dev_region_info out of
+    vfio_migration_probe
+  vfio/migration: Separated functions that relate to the In-Band
+    approach
+  vfio/migration: rename functions that relate to the In-Band approach
+  vfio/migration: introduce VFIOMigrationOps layer in VFIO live
+    migration framework
+  vfio/migration: move the statistics of bytes_transferred to generic
+    VFIO migration layer
+  vfio/migration: split migration handler registering from
+    vfio_migration_init
+  vfio/migration: move the functions of In-Band approach to a new file
+  vfio/pci: introduce command-line parameters to specify migration
+    method
+  vfio/migration: add a plugin layer to support out-of-band live
+    migration
+  vfio/migration: add some trace-events for vfio migration plugin
+  vfio/migration: make the region and plugin member of struct
+    VFIOMigration to be a union
+
+ docs/devel/vfio-migration-plugin.rst    | 165 +++++++
+ hw/vfio/meson.build                     |   2 +
+ hw/vfio/migration-local.c               | 456 +++++++++++++++++++
+ hw/vfio/migration-plugin.c              | 266 +++++++++++
+ hw/vfio/migration.c                     | 577 ++++++------------------
+ hw/vfio/pci.c                           |   2 +
+ hw/vfio/trace-events                    |   9 +-
+ include/hw/vfio/vfio-common.h           |  37 +-
+ include/hw/vfio/vfio-migration-plugin.h |  21 +
+ 9 files changed, 1096 insertions(+), 439 deletions(-)
+ create mode 100644 docs/devel/vfio-migration-plugin.rst
+ create mode 100644 hw/vfio/migration-local.c
+ create mode 100644 hw/vfio/migration-plugin.c
+ create mode 100644 include/hw/vfio/vfio-migration-plugin.h
+
 -- 
-2.17.1
+2.32.0
 
 
