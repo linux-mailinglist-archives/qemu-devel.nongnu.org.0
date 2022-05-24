@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2726A53325C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:21:55 +0200 (CEST)
-Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2724553325D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:22:16 +0200 (CEST)
+Received: from localhost ([::1]:38470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntb2Q-0002nh-5r
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
+	id 1ntb2k-0003Nr-Mp
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntarI-0007D8-IW
- for qemu-devel@nongnu.org; Tue, 24 May 2022 16:10:36 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:39755)
+ id 1ntarN-0007DK-Sk
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 16:10:45 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:44745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntarE-0002Wp-Ib
- for qemu-devel@nongnu.org; Tue, 24 May 2022 16:10:22 -0400
-Received: by mail-ej1-x629.google.com with SMTP id gh17so24524523ejc.6
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 13:10:20 -0700 (PDT)
+ id 1ntarL-0002ZD-6R
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 16:10:28 -0400
+Received: by mail-ej1-x631.google.com with SMTP id f21so23890284ejh.11
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 13:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QRmC23NW00XLdsTPuPDKi6TxjTM7VoA4NR3QjZ2jx4s=;
- b=GdBrjuvotRF5Hc3aTxvGZ8UnRKtmzO1QLJUfoq4DKRLbdT1MC7ALP5dsBFLWNJ3cIf
- sFEOL9ID9kzPdPlL2H0YQ5gmmQeb1MDxv0n1prVexHHw3gfI02iSqOfQG+mJlzu4xo9/
- +xvql6CoNWkKkkfxu3F+W1dDWA5nBc5tLansPfgybdDvSDmxchDb6hamALcfIpGHqitt
- jgoTW6KJ8Ric9MTItJnia1WK2bpMNvw/5mGQ2V7JGj26h/x5F02MY9RO4xIqI/wEPaMP
- ZmwNYdonFRz8xjpYz+IPXYGA02Rtt40MFkzWR474e5znLaCuvzDa7cR5evEldjojdICH
- CWKw==
+ :cc; bh=Lnpx2w6hgRjk2fSwfipIkCFa5m7JWfQ2A6xJnvD2FYw=;
+ b=Yh5qA4u7s7/0c8tiYPea2gVhZ/hXkInrncZvAup4skkOQV3FP6I5K8OQusF44Odw0T
+ Int6U79Q2OBrYagr3ufumwESc38LguuVD8LKjFgZrKuLVM1Tm+OWG+5WkrH6vbBUOdeG
+ WQwyvbAQuJHI1S88A6nctejayNbbeHV4HuqrfxznKwpFIigCQCngQnwVvbHFp3gR+HcJ
+ 6maoSp2xfOrHx9ENXlxPWWW4YbBa1ksZ4hDPOsK261or1gXb+reD/90HZPRcTRCwvv0P
+ Uwt4EN+9HolV8B1Amu96Xyazm1DjsU4uf+bsJ7Ks7y4JetBmu2oVm9wewBOT2yWpb38z
+ l4Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=QRmC23NW00XLdsTPuPDKi6TxjTM7VoA4NR3QjZ2jx4s=;
- b=bcGOC4pMFHspq4dPwp/0LSYl5kfzIMMUzp1UDRPUHydXr37erFnbFi5+fhQ1T3yfXJ
- 3Wblicu1dRfKhgbiKsRukZVCZm+LR8FUn+1pSc43vJy/F9aQ//cKAB7+RLbCLMjzLepl
- 6RZAH5f15LWUT+Z5Ebjx1BSyqDNxAbDuy7DZko5EtPcXE2vN8qx3UgHVx8yfa6moHPZu
- olFlAV34tC7DFOjiIfCPrdq6M3qulOLDTwLIKldsPPOQcZWF2FzRlYP1XAJ00WrbHSFb
- +/bCsmBvgNKRX1wyVxJcF7MJByhXRQDazsNto6a5onbIHBjIkoa+bLjLln736JnfGheM
- A8/w==
-X-Gm-Message-State: AOAM530EDRRaziHxIfnc5cCpRNanOGEKzCGZFAG7TXFH4HkKDHSywhZh
- Vm7GdgH9l3oJYSM/ml6gqBU5NLDYOKB+EUBnjNvdKoQJaig=
-X-Google-Smtp-Source: ABdhPJw9vIl4SFxGcU+h7rlamXlLsiBYYoXxy24RfWlt5fOmY+KgbAuLStX2HQOGghU/g/FxoyOEqpjtcjwVejYUPZQ=
-X-Received: by 2002:a17:907:9709:b0:6fd:c0e1:c86b with SMTP id
- jg9-20020a170907970900b006fdc0e1c86bmr25498536ejc.600.1653423019332; Tue, 24
- May 2022 13:10:19 -0700 (PDT)
+ bh=Lnpx2w6hgRjk2fSwfipIkCFa5m7JWfQ2A6xJnvD2FYw=;
+ b=5e2mSX5zJy1rtN3TVZ/j4OYeYIdju3DmEzkyjqTSmBZy2UtGBwrp2iBMjlo2rmTnq2
+ VfH8dLEkEWWywMhbzYkhpo1l6YlZVv4rulH4d4pMJdznAZ5UeaVJCEDM1y4GHLiiMuI7
+ x2CHY/6GXR4oh/DdwZz2Cq58TX8PBdJ9NToj1VNmZTwHXupPuljNwgOorJvG4wrWfzIj
+ ThQSmabqOtKj7TJ/xUPqv/uWOa08F25ptpqYwAdOpXd7gyRUS79ewyM3jviugIkjRXRN
+ IS/Z6So7krz3qJe1csdr1hc2A58oWKc6y3vk8YfgqDKhdfnfCVCVWfZVqy7ZwYi0AVMx
+ ydRg==
+X-Gm-Message-State: AOAM530TsH35ovqyJPo923TjZgCrYVTPZvj6V2aiMjC7fKaHRG+Pj+2C
+ lxBxDbfR1uEKcQhTgYlNzZJJnQrRXs/XfdRs6FGGLw==
+X-Google-Smtp-Source: ABdhPJzYUff9q4FxBVc99bOobp9isNlHAMoZezDv6w/G4iGtQmyfziB6CtYqVtbb5VojbXBxgiX8sSXIO3I4vuqPFxU=
+X-Received: by 2002:a17:907:7248:b0:6fe:a121:d060 with SMTP id
+ ds8-20020a170907724800b006fea121d060mr22595069ejc.9.1653423024481; Tue, 24
+ May 2022 13:10:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-14-damien.hedde@greensocs.com>
-In-Reply-To: <20220223090706.4888-14-damien.hedde@greensocs.com>
+ <20220223090706.4888-15-damien.hedde@greensocs.com>
+ <5eadd17a-9fb4-4a0a-2608-c2ca08b18645@gmail.com>
+In-Reply-To: <5eadd17a-9fb4-4a0a-2608-c2ca08b18645@gmail.com>
 From: Jim Shu <jim.shu@sifive.com>
-Date: Wed, 25 May 2022 04:10:06 +0800
-Message-ID: <CALw707o4+ZiEh-bOTEnsRZJznLXLPKm=DS4-ME_mo-10YeBT6Q@mail.gmail.com>
-Subject: Re: [PATCH v4 13/14] hw/mem/system-memory: add a memory sysbus device
-To: Damien Hedde <damien.hedde@greensocs.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+Date: Wed, 25 May 2022 04:10:11 +0800
+Message-ID: <CALw707oqr+aYHo0BScJffcsSA7=wLdkDb2iXVVNEh-ghkxeDmQ@mail.gmail.com>
+Subject: Re: [PATCH v4 14/14] hw: set user_creatable on opentitan/sifive_e
+ devices
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  mark.burton@greensocs.com, edgari@xilinx.com, 
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000bb2bba05dfc78b64"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=jim.shu@sifive.com; helo=mail-ej1-x629.google.com
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:OpenTitan" <qemu-riscv@nongnu.org>, 
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: multipart/alternative; boundary="00000000000009ca3905dfc78c55"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=jim.shu@sifive.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,353 +95,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bb2bba05dfc78b64
+--00000000000009ca3905dfc78c55
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Tested-by: Jim Shu <jim.shu@sifive.com>
 
-On Wed, Feb 23, 2022 at 5:14 PM Damien Hedde <damien.hedde@greensocs.com>
-wrote:
+On Fri, Mar 4, 2022 at 11:23 PM Philippe Mathieu-Daud=C3=A9 <
+philippe.mathieu.daude@gmail.com> wrote:
 
-> This device can be used to create a memory wrapped into a
-> sysbus device.
-> This device has one property 'readonly' which allows
-> to choose between a ram or a rom.
+> On 23/2/22 10:07, Damien Hedde wrote:
+> > The devices are:
+> > + ibex-timer
+> > + ibex-uart
+> > + riscv.aclint.swi
+> > + riscv.aclint.mtimer
+> > + riscv.hart_array
+> > + riscv.sifive.e.prci
+> > + riscv.sifive.plic
+> > + riscv.sifive.uart
+> > + sifive_soc.gpio
+> > + unimplemented-device
+> >
+> > These devices are clean regarding error handling in realize.
+> >
+> > They are all sysbus devices, so setting user-creatable will only
+> > enable cold-plugging them on machine having explicitely allowed them
+> > (only _none_ machine does that).
+> >
+> > Note that this commit include the ricv_array which embeds cpus. There
 >
-> The purpose for this device is to be used with qapi command
-> device_add.
+> Typo "includes" I guess.
 >
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
->  include/hw/mem/sysbus-memory.h | 28 ++++++++++++
->  hw/mem/sysbus-memory.c         | 80 ++++++++++++++++++++++++++++++++++
->  hw/mem/meson.build             |  2 +
->  3 files changed, 110 insertions(+)
->  create mode 100644 include/hw/mem/sysbus-memory.h
->  create mode 100644 hw/mem/sysbus-memory.c
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
-> diff --git a/include/hw/mem/sysbus-memory.h
-> b/include/hw/mem/sysbus-memory.h
-> new file mode 100644
-> index 0000000000..5c596f8b4f
-> --- /dev/null
-> +++ b/include/hw/mem/sysbus-memory.h
-> @@ -0,0 +1,28 @@
-> +/*
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * SysBusDevice Memory
-> + *
-> + * Copyright (c) 2021 Greensocs
-> + */
-> +
-> +#ifndef HW_SYSBUS_MEMORY_H
-> +#define HW_SYSBUS_MEMORY_H
-> +
-> +#include "hw/sysbus.h"
-> +#include "qom/object.h"
-> +
-> +#define TYPE_SYSBUS_MEMORY "sysbus-memory"
-> +OBJECT_DECLARE_SIMPLE_TYPE(SysBusMemoryState, SYSBUS_MEMORY)
-> +
-> +struct SysBusMemoryState {
-> +    /* <private> */
-> +    SysBusDevice parent_obj;
-> +    uint64_t size;
-> +    bool readonly;
-> +
-> +    /* <public> */
-> +    MemoryRegion mem;
-> +};
-> +
-> +#endif /* HW_SYSBUS_MEMORY_H */
-> diff --git a/hw/mem/sysbus-memory.c b/hw/mem/sysbus-memory.c
-> new file mode 100644
-> index 0000000000..f1ad7ba7ec
-> --- /dev/null
-> +++ b/hw/mem/sysbus-memory.c
-> @@ -0,0 +1,80 @@
-> +/*
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * SysBusDevice Memory
-> + *
-> + * Copyright (c) 2021 Greensocs
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/mem/sysbus-memory.h"
-> +#include "hw/qdev-properties.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +#include "qapi/error.h"
-> +
-> +static Property sysbus_memory_properties[] = {
-> +    DEFINE_PROP_UINT64("size", SysBusMemoryState, size, 0),
-> +    DEFINE_PROP_BOOL("readonly", SysBusMemoryState, readonly, false),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void sysbus_memory_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SysBusMemoryState *s = SYSBUS_MEMORY(dev);
-> +    gchar *name;
-> +
-> +    if (!s->size) {
-> +        error_setg(errp, "'size' must be non-zero.");
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * We impose having an id (which is unique) because we need to
-> generate
-> +     * a unique name for the memory region.
-> +     * memory_region_init_ram/rom() will abort() (in qemu_ram_set_idstr()
-> +     * function if 2 system-memory devices are created with the same name
-> +     * for the memory region).
-> +     */
-> +    if (!dev->id) {
-> +        error_setg(errp, "system-memory device must have an id.");
-> +        return;
-> +    }
-> +    name = g_strdup_printf("%s.region", dev->id);
-> +
-> +    if (s->readonly) {
-> +        memory_region_init_rom(&s->mem, OBJECT(dev), name, s->size, errp);
-> +    } else {
-> +        memory_region_init_ram(&s->mem, OBJECT(dev), name, s->size, errp);
-> +    }
-> +
-> +    g_free(name);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
-> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mem);
-> +}
-> +
-> +static void sysbus_memory_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->user_creatable = true;
-> +    dc->realize = sysbus_memory_realize;
-> +    device_class_set_props(dc, sysbus_memory_properties);
-> +}
-> +
-> +static const TypeInfo sysbus_memory_info = {
-> +    .name          = TYPE_SYSBUS_MEMORY,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(SysBusMemoryState),
-> +    .class_init    = sysbus_memory_class_init,
-> +};
-> +
-> +static void sysbus_memory_register_types(void)
-> +{
-> +    type_register_static(&sysbus_memory_info);
-> +}
-> +
-> +type_init(sysbus_memory_register_types)
-> diff --git a/hw/mem/meson.build b/hw/mem/meson.build
-> index 82f86d117e..04c74e12f2 100644
-> --- a/hw/mem/meson.build
-> +++ b/hw/mem/meson.build
-> @@ -7,3 +7,5 @@ mem_ss.add(when: 'CONFIG_NVDIMM', if_true:
-> files('nvdimm.c'))
->  softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
->
->  softmmu_ss.add(when: 'CONFIG_SPARSE_MEM', if_true: files('sparse-mem.c'))
-> +
-> +softmmu_ss.add(files('sysbus-memory.c'))
-> --
-> 2.35.1
->
+> > are some deep internal constraints about them: you cannot create more
+> > cpus than the machine's maxcpus. TCG accelerator's code will for exampl=
+e
+> > assert if a user try to create too many cpus.
+> >
+> > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> > ---
+> >
+> > I can also split this patch if you think it's better.
+> > But it is mostly a one-line fix per file.
+> >
+> > This patch requires first some cleanups in order to fix error errors
+> > and some more memory leaks that could happend in legit user-related
+> > life cycles: a miss-configuration should not be a fatal error anymore.
+> >
+> https://lore.kernel.org/qemu-devel/20220218164646.132112-1-damien.hedde@g=
+reensocs.com
+> > ---
+> >   hw/char/ibex_uart.c     | 1 +
+> >   hw/char/sifive_uart.c   | 1 +
+> >   hw/gpio/sifive_gpio.c   | 1 +
+> >   hw/intc/riscv_aclint.c  | 2 ++
+> >   hw/intc/sifive_plic.c   | 1 +
+> >   hw/misc/sifive_e_prci.c | 8 ++++++++
+> >   hw/misc/unimp.c         | 1 +
+> >   hw/riscv/riscv_hart.c   | 1 +
+> >   hw/timer/ibex_timer.c   | 1 +
+> >   9 files changed, 17 insertions(+)
 >
 >
 
---000000000000bb2bba05dfc78b64
+--00000000000009ca3905dfc78c55
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Tested-by: Jim Shu &lt;<a href=3D"mailto:=
-jim.shu@sifive.com" target=3D"_blank">jim.shu@sifive.com</a>&gt;<br></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed,=
- Feb 23, 2022 at 5:14 PM Damien Hedde &lt;<a href=3D"mailto:damien.hedde@gr=
-eensocs.com" target=3D"_blank">damien.hedde@greensocs.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">This device can be=
- used to create a memory wrapped into a<br>
-sysbus device.<br>
-This device has one property &#39;readonly&#39; which allows<br>
-to choose between a ram or a rom.<br>
-<br>
-The purpose for this device is to be used with qapi command<br>
-device_add.<br>
-<br>
-Signed-off-by: Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.co=
-m" target=3D"_blank">damien.hedde@greensocs.com</a>&gt;<br>
----<br>
-=C2=A0include/hw/mem/sysbus-memory.h | 28 ++++++++++++<br>
-=C2=A0hw/mem/sysbus-memory.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 80 ++++++++=
-++++++++++++++++++++++++++<br>
-=C2=A0hw/mem/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 2 +<br>
-=C2=A03 files changed, 110 insertions(+)<br>
-=C2=A0create mode 100644 include/hw/mem/sysbus-memory.h<br>
-=C2=A0create mode 100644 hw/mem/sysbus-memory.c<br>
-<br>
-diff --git a/include/hw/mem/sysbus-memory.h b/include/hw/mem/sysbus-memory.=
-h<br>
-new file mode 100644<br>
-index 0000000000..5c596f8b4f<br>
---- /dev/null<br>
-+++ b/include/hw/mem/sysbus-memory.h<br>
-@@ -0,0 +1,28 @@<br>
-+/*<br>
-+ * SPDX-License-Identifier: GPL-2.0-or-later<br>
-+ *<br>
-+ * SysBusDevice Memory<br>
-+ *<br>
-+ * Copyright (c) 2021 Greensocs<br>
-+ */<br>
-+<br>
-+#ifndef HW_SYSBUS_MEMORY_H<br>
-+#define HW_SYSBUS_MEMORY_H<br>
-+<br>
-+#include &quot;hw/sysbus.h&quot;<br>
-+#include &quot;qom/object.h&quot;<br>
-+<br>
-+#define TYPE_SYSBUS_MEMORY &quot;sysbus-memory&quot;<br>
-+OBJECT_DECLARE_SIMPLE_TYPE(SysBusMemoryState, SYSBUS_MEMORY)<br>
-+<br>
-+struct SysBusMemoryState {<br>
-+=C2=A0 =C2=A0 /* &lt;private&gt; */<br>
-+=C2=A0 =C2=A0 SysBusDevice parent_obj;<br>
-+=C2=A0 =C2=A0 uint64_t size;<br>
-+=C2=A0 =C2=A0 bool readonly;<br>
-+<br>
-+=C2=A0 =C2=A0 /* &lt;public&gt; */<br>
-+=C2=A0 =C2=A0 MemoryRegion mem;<br>
-+};<br>
-+<br>
-+#endif /* HW_SYSBUS_MEMORY_H */<br>
-diff --git a/hw/mem/sysbus-memory.c b/hw/mem/sysbus-memory.c<br>
-new file mode 100644<br>
-index 0000000000..f1ad7ba7ec<br>
---- /dev/null<br>
-+++ b/hw/mem/sysbus-memory.c<br>
-@@ -0,0 +1,80 @@<br>
-+/*<br>
-+ * SPDX-License-Identifier: GPL-2.0-or-later<br>
-+ *<br>
-+ * SysBusDevice Memory<br>
-+ *<br>
-+ * Copyright (c) 2021 Greensocs<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;hw/mem/sysbus-memory.h&quot;<br>
-+#include &quot;hw/qdev-properties.h&quot;<br>
-+#include &quot;qemu/log.h&quot;<br>
-+#include &quot;qemu/module.h&quot;<br>
-+#include &quot;qapi/error.h&quot;<br>
-+<br>
-+static Property sysbus_memory_properties[] =3D {<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_UINT64(&quot;size&quot;, SysBusMemoryState, size=
-, 0),<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;readonly&quot;, SysBusMemoryState, re=
-adonly, false),<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_END_OF_LIST(),<br>
-+};<br>
-+<br>
-+static void sysbus_memory_realize(DeviceState *dev, Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 SysBusMemoryState *s =3D SYSBUS_MEMORY(dev);<br>
-+=C2=A0 =C2=A0 gchar *name;<br>
-+<br>
-+=C2=A0 =C2=A0 if (!s-&gt;size) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;&#39;size&#39; must be =
-non-zero.&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* We impose having an id (which is unique) because we =
-need to generate<br>
-+=C2=A0 =C2=A0 =C2=A0* a unique name for the memory region.<br>
-+=C2=A0 =C2=A0 =C2=A0* memory_region_init_ram/rom() will abort() (in qemu_r=
-am_set_idstr()<br>
-+=C2=A0 =C2=A0 =C2=A0* function if 2 system-memory devices are created with=
- the same name<br>
-+=C2=A0 =C2=A0 =C2=A0* for the memory region).<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 if (!dev-&gt;id) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;system-memory device mu=
-st have an id.&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 name =3D g_strdup_printf(&quot;%s.region&quot;, dev-&gt;id);=
-<br>
-+<br>
-+=C2=A0 =C2=A0 if (s-&gt;readonly) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_init_rom(&amp;s-&gt;mem, OBJECT(=
-dev), name, s-&gt;size, errp);<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_init_ram(&amp;s-&gt;mem, OBJECT(=
-dev), name, s-&gt;size, errp);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 g_free(name);<br>
-+=C2=A0 =C2=A0 if (*errp) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 sysbus_init_mmio(SYS_BUS_DEVICE(s), &amp;s-&gt;mem);<br>
-+}<br>
-+<br>
-+static void sysbus_memory_class_init(ObjectClass *klass, void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
-+<br>
-+=C2=A0 =C2=A0 dc-&gt;user_creatable =3D true;<br>
-+=C2=A0 =C2=A0 dc-&gt;realize =3D sysbus_memory_realize;<br>
-+=C2=A0 =C2=A0 device_class_set_props(dc, sysbus_memory_properties);<br>
-+}<br>
-+<br>
-+static const TypeInfo sysbus_memory_info =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_SYSBUS_MEMO=
-RY,<br>
-+=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_SYS_BUS_DEVICE,<=
+<div dir=3D"ltr">Tested-by: Jim Shu &lt;<a href=3D"mailto:jim.shu@sifive.co=
+m" target=3D"_blank">jim.shu@sifive.com</a>&gt;<br></div><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 4, 2022 at 1=
+1:23 PM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philippe.mathieu.=
+daude@gmail.com" target=3D"_blank">philippe.mathieu.daude@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 23/2/=
+22 10:07, Damien Hedde wrote:<br>
+&gt; The devices are:<br>
+&gt; + ibex-timer<br>
+&gt; + ibex-uart<br>
+&gt; + riscv.aclint.swi<br>
+&gt; + riscv.aclint.mtimer<br>
+&gt; + riscv.hart_array<br>
+&gt; + riscv.sifive.e.prci<br>
+&gt; + riscv.sifive.plic<br>
+&gt; + riscv.sifive.uart<br>
+&gt; + sifive_soc.gpio<br>
+&gt; + unimplemented-device<br>
+&gt; <br>
+&gt; These devices are clean regarding error handling in realize.<br>
+&gt; <br>
+&gt; They are all sysbus devices, so setting user-creatable will only<br>
+&gt; enable cold-plugging them on machine having explicitely allowed them<b=
+r>
+&gt; (only _none_ machine does that).<br>
+&gt; <br>
+&gt; Note that this commit include the ricv_array which embeds cpus. There<=
 br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(SysBusMemoryState),<br>
-+=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =3D sysbus_memory_class_init,<br>
-+};<br>
-+<br>
-+static void sysbus_memory_register_types(void)<br>
-+{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;sysbus_memory_info);<br>
-+}<br>
-+<br>
-+type_init(sysbus_memory_register_types)<br>
-diff --git a/hw/mem/meson.build b/hw/mem/meson.build<br>
-index 82f86d117e..04c74e12f2 100644<br>
---- a/hw/mem/meson.build<br>
-+++ b/hw/mem/meson.build<br>
-@@ -7,3 +7,5 @@ mem_ss.add(when: &#39;CONFIG_NVDIMM&#39;, if_true: files(&#=
-39;nvdimm.c&#39;))<br>
-=C2=A0softmmu_ss.add_all(when: &#39;CONFIG_MEM_DEVICE&#39;, if_true: mem_ss=
-)<br>
 <br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_SPARSE_MEM&#39;, if_true: files(&#39=
-;sparse-mem.c&#39;))<br>
-+<br>
-+softmmu_ss.add(files(&#39;sysbus-memory.c&#39;))<br>
--- <br>
-2.35.1<br>
+Typo &quot;includes&quot; I guess.<br>
 <br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+<br>
+&gt; are some deep internal constraints about them: you cannot create more<=
+br>
+&gt; cpus than the machine&#39;s maxcpus. TCG accelerator&#39;s code will f=
+or example<br>
+&gt; assert if a user try to create too many cpus.<br>
+&gt; <br>
+&gt; Signed-off-by: Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greenso=
+cs.com" target=3D"_blank">damien.hedde@greensocs.com</a>&gt;<br>
+&gt; ---<br>
+&gt; <br>
+&gt; I can also split this patch if you think it&#39;s better.<br>
+&gt; But it is mostly a one-line fix per file.<br>
+&gt; <br>
+&gt; This patch requires first some cleanups in order to fix error errors<b=
+r>
+&gt; and some more memory leaks that could happend in legit user-related<br=
+>
+&gt; life cycles: a miss-configuration should not be a fatal error anymore.=
+<br>
+&gt; <a href=3D"https://lore.kernel.org/qemu-devel/20220218164646.132112-1-=
+damien.hedde@greensocs.com" rel=3D"noreferrer" target=3D"_blank">https://lo=
+re.kernel.org/qemu-devel/20220218164646.132112-1-damien.hedde@greensocs.com=
+</a><br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0hw/char/ibex_uart.c=C2=A0 =C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A0hw/char/sifive_uart.c=C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A0hw/gpio/sifive_gpio.c=C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A0hw/intc/riscv_aclint.c=C2=A0 | 2 ++<br>
+&gt;=C2=A0 =C2=A0hw/intc/sifive_plic.c=C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A0hw/misc/sifive_e_prci.c | 8 ++++++++<br>
+&gt;=C2=A0 =C2=A0hw/misc/unimp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A0hw/riscv/riscv_hart.c=C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A0hw/timer/ibex_timer.c=C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 =C2=A09 files changed, 17 insertions(+)<br>
 <br>
 </blockquote></div>
-</div>
 
---000000000000bb2bba05dfc78b64--
+--00000000000009ca3905dfc78c55--
 
