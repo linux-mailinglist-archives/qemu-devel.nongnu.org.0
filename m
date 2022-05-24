@@ -2,83 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E6453251C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 10:17:52 +0200 (CEST)
-Received: from localhost ([::1]:32904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2597B53256D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 10:37:25 +0200 (CEST)
+Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntPjj-0003iF-0a
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 04:17:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55802)
+	id 1ntQ2e-0005RV-7l
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 04:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ntPeI-0000TB-RN
- for qemu-devel@nongnu.org; Tue, 24 May 2022 04:12:15 -0400
-Received: from mga07.intel.com ([134.134.136.100]:15031)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ntPeC-0001LV-9R
- for qemu-devel@nongnu.org; Tue, 24 May 2022 04:12:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653379928; x=1684915928;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=p0AzvFL26WE5tpeWJg9IQQ/7Q4siWy3k1jt1lWZOFkY=;
- b=CUmxKje+wsSZ6vNxx6R5cU05JUmf63Hnp6vWA/Gk2rRPDe/kUi0LmfTv
- 5ZDM53uq8reF6PdM0uOv5BD+0BpAUA4N4HQ/5JlmwaBY8y2WabfQiuyz3
- dC4dEsFxu1H4uGKZ0avv4PeEm/LspXbPMGmuYZFsLFnmZhelqBLryDWQB
- yP3u/tuEQCEywxn75qjrJgO6fJJuXn4M1hbBlhXtb9KBMiVS6Ao47c83a
- ZqN7dnb2KbWyAevWgIoZG+3e2Z7X3Pw8klJWXMYkLPs9/2b2CIwun8EjX
- 2TLUlVDVGzSwuQHwdCL13CWeHfrW9yg99XXZg0U+baWKn9CqXsTDpwG3d w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="336519915"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="336519915"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 01:12:04 -0700
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="601105029"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.170.252])
- ([10.249.170.252])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 01:11:59 -0700
-Message-ID: <89534991-1850-be09-8abd-6d29bef5958e@intel.com>
-Date: Tue, 24 May 2022 16:11:56 +0800
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1ntPkb-0006LH-5i
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 04:18:46 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:46732 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1ntPkO-0002C0-D6
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 04:18:42 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axqti8lIxi2v8gAA--.27451S2; 
+ Tue, 24 May 2022 16:18:05 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn,
+ mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
+ ani@anisinha.ca
+Subject: [PATCH v5 00/43] Add LoongArch softmmu support
+Date: Tue, 24 May 2022 16:17:21 +0800
+Message-Id: <20220524081804.3608101-1-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 13/36] i386/tdx: Validate TD attributes
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-14-xiaoyao.li@intel.com>
- <20220523093920.o6pk5i7zig6enwnm@sirius.home.kraxel.org>
- <1e0f0051-f7c1-ed3b-be02-d16f0cf9f25d@intel.com>
- <20220524065959.umzmlhwcspfwi7m2@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220524065959.umzmlhwcspfwi7m2@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=xiaoyao.li@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Axqti8lIxi2v8gAA--.27451S2
+X-Coremail-Antispam: 1UD129KBjvJXoWfJFyfAw1rArWUXFyDZFW5Jrb_yoWkAw45pr
+ W7ur15KF48JrZ7Jrs2qa45Wr95Xa1xGr4293WSqryrCrWIqry5ZF1kK3sFqFy3J3W8Wry0
+ qF1Fkw1UWa1UXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,29 +61,257 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/2022 2:59 PM, Gerd Hoffmann wrote:
-> On Tue, May 24, 2022 at 12:19:51PM +0800, Xiaoyao Li wrote:
->> On 5/23/2022 5:39 PM, Gerd Hoffmann wrote:
->>> So, how is this supposed to work?  Patch #2 introduces attributes as
->>> user-settable property.  So do users have to manually figure and pass
->>> the correct value, so the check passes?  Specifically the fixed1 check?
->>>
->>> I think 'attributes' should not be user-settable in the first place.
->>> Each feature-bit which is actually user-settable (and not already
->>> covered by another option like pmu) should be a separate attribute for
->>> tdx-object.  Then the tdx code can create attributes from hardware
->>> capabilities and user settings.
->>
->> In patch #2, tdx-guest.attributes is defined as a field to hold a 64 bits
->> value of attributes but it doesn't provide any getter/setter for it. So it's
->> *not* user-settable.
-> 
-> Ok.  Why it is declared as object property in the first place then?
+Hi All,
 
-Is there another way to define a member/field of object besides property?
+As this series only supports running binary files in ELF format, and
+does not depend on BIOS and kernel file. so this series are changed from RFC to patch vX. 
 
-> take care,
->    Gerd
-> 
+
+The manual:
+  - https://github.com/loongson/LoongArch-Documentation/releases/tag/2022.03.17
+
+Old series:
+  - https://patchew.org/QEMU/20220328125749.2918087-1-yangxiaojuan@loongson.cn/
+  - https://patchew.org/QEMU/20220106094200.1801206-1-gaosong@loongson.cn/
+
+Need review patches:
+  - 0034-hw-intc-Add-LoongArch-extioi-interrupt-controller-EI.patch
+  - 0038-hw-loongarch-Add-LoongArch-ls7a-rtc-device-support.patch
+
+This patch need ACPI maintainers review:
+  - 0040-hw-loongarch-Add-LoongArch-ls7a-acpi-device-support.patch
+    
+
+Thanks.
+Xiaojuan
+
+-----
+v5:
+  - Fixed loongarch extioi device emulation.
+  - Fixed loongarch rtc device emulation.
+  - Fixed 'make docker-test-build' error.
+
+v4:
+  - Use 'la464' cpu type.
+  - Fixed loongarch extioi device emulation.
+  - Fixed loongarch rtc device emulation.
+  - Fixed loongarch load elf function.
+
+v3:
+  - Add Check csr_names.
+  - Drop CSR_CPUID, use cpu->cpu_index.
+  - Fixed loongarch extioi device emulation. ipmap and coremap register
+    change to 32bits.
+  - Check_iocsr() function moved to loongarch_ipi_writel().
+  - Pch_pic/msi use qdev_init_gpio_out() to init irq, and use
+    qdev_connect_gpio_out() to connect irq.
+  - Load elf function moved to hw/loongarch/loongson.c
+
+v2:
+  - Improvents to CSR/IOCSR instructions translation.
+  - Fixed extioi device emulation. It is represented by only one memory
+    region.
+  - Fixed IPI device emulation. The registers are represented with
+    uint64_t.
+  - Use do_cpu_reset() and cpu_set_pc() to specify the load address.
+
+V4: https://patchew.org/QEMU/20220517113023.3051143-1-yangxiaojuan@loongson.cn/
+v3: https://patchew.org/QEMU/20220429100729.1572481-1-yangxiaojuan@loongson.cn/
+v2: https://patchew.org/QEMU/20220425091027.2877892-1-yangxiaojuan@loongson.cn/
+v1: https://patchew.org/QEMU/20220415094058.3584233-1-yangxiaojuan@loongson.cn/
+
+Song Gao (21):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  target/loongarch: Add target build suport
+  hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+  hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+  hw/loongarch: Add LoongArch ls7a acpi device support
+  target/loongarch: 'make check-tcg' support
+
+Xiaojuan Yang (22):
+  target/loongarch: Add system emulation introduction
+  target/loongarch: Add CSRs definition
+  target/loongarch: Add basic vmstate description of CPU.
+  target/loongarch: Implement qmp_query_cpu_definitions()
+  target/loongarch: Add MMU support for LoongArch CPU.
+  target/loongarch: Add LoongArch interrupt and exception handle
+  target/loongarch: Add constant timer support
+  target/loongarch: Add LoongArch CSR instruction
+  target/loongarch: Add LoongArch IOCSR instruction
+  target/loongarch: Add TLB instruction support
+  target/loongarch: Add other core instructions support
+  target/loongarch: Add timer related instructions support.
+  hw/loongarch: Add support loongson3 virt machine type.
+  hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+  hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+  hw/loongarch: Add irq hierarchy for the system
+  Enable common virtio pci support for LoongArch
+  hw/loongarch: Add some devices support for 3A5000.
+  hw/loongarch: Add LoongArch ls7a rtc device support
+  hw/loongarch: Add LoongArch load elf function.
+  target/loongarch: Add gdb support.
+  tests/tcg/loongarch64: Add hello/memory test in loongarch64 system
+
+ MAINTAINERS                                   |  26 +
+ .../devices/loongarch64-softmmu/default.mak   |   3 +
+ configs/targets/loongarch64-softmmu.mak       |   4 +
+ docs/system/loongarch/loongson3.rst           |  41 +
+ gdb-xml/loongarch-base64.xml                  |  44 +
+ gdb-xml/loongarch-fpu64.xml                   |  57 ++
+ hw/Kconfig                                    |   1 +
+ hw/acpi/Kconfig                               |   4 +
+ hw/acpi/ls7a.c                                | 374 ++++++++
+ hw/acpi/meson.build                           |   1 +
+ hw/intc/Kconfig                               |  15 +
+ hw/intc/loongarch_extioi.c                    | 298 ++++++
+ hw/intc/loongarch_ipi.c                       | 237 +++++
+ hw/intc/loongarch_pch_msi.c                   |  73 ++
+ hw/intc/loongarch_pch_pic.c                   | 431 +++++++++
+ hw/intc/meson.build                           |   4 +
+ hw/intc/trace-events                          |  22 +
+ hw/loongarch/Kconfig                          |  18 +
+ hw/loongarch/loongson3.c                      | 349 +++++++
+ hw/loongarch/meson.build                      |   4 +
+ hw/meson.build                                |   1 +
+ hw/rtc/Kconfig                                |   3 +
+ hw/rtc/ls7a_rtc.c                             | 528 +++++++++++
+ hw/rtc/meson.build                            |   1 +
+ include/disas/dis-asm.h                       |   2 +
+ include/exec/poison.h                         |   2 +
+ include/hw/acpi/ls7a.h                        |  53 ++
+ include/hw/intc/loongarch_extioi.h            |  62 ++
+ include/hw/intc/loongarch_ipi.h               |  52 ++
+ include/hw/intc/loongarch_pch_msi.h           |  20 +
+ include/hw/intc/loongarch_pch_pic.h           |  69 ++
+ include/hw/loongarch/virt.h                   |  33 +
+ include/hw/pci-host/ls7a.h                    |  48 +
+ include/sysemu/arch_init.h                    |   1 +
+ meson.build                                   |   1 +
+ qapi/machine-target.json                      |   6 +-
+ qapi/machine.json                             |   2 +-
+ softmmu/qdev-monitor.c                        |   3 +-
+ target/Kconfig                                |   1 +
+ target/loongarch/Kconfig                      |   2 +
+ target/loongarch/README                       |  64 ++
+ target/loongarch/constant_timer.c             |  64 ++
+ target/loongarch/cpu-csr.h                    | 208 +++++
+ target/loongarch/cpu-param.h                  |  18 +
+ target/loongarch/cpu.c                        | 699 ++++++++++++++
+ target/loongarch/cpu.h                        | 391 ++++++++
+ target/loongarch/csr_helper.c                 |  87 ++
+ target/loongarch/disas.c                      | 757 +++++++++++++++
+ target/loongarch/fpu_helper.c                 | 862 ++++++++++++++++++
+ target/loongarch/gdbstub.c                    |  81 ++
+ target/loongarch/helper.h                     | 130 +++
+ target/loongarch/insn_trans/trans_arith.c.inc | 304 ++++++
+ .../loongarch/insn_trans/trans_atomic.c.inc   | 113 +++
+ target/loongarch/insn_trans/trans_bit.c.inc   | 212 +++++
+ .../loongarch/insn_trans/trans_branch.c.inc   |  83 ++
+ target/loongarch/insn_trans/trans_extra.c.inc | 101 ++
+ .../loongarch/insn_trans/trans_farith.c.inc   | 105 +++
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |  56 ++
+ target/loongarch/insn_trans/trans_fcnv.c.inc  |  33 +
+ .../loongarch/insn_trans/trans_fmemory.c.inc  | 153 ++++
+ target/loongarch/insn_trans/trans_fmov.c.inc  | 157 ++++
+ .../loongarch/insn_trans/trans_memory.c.inc   | 229 +++++
+ .../insn_trans/trans_privileged.c.inc         | 466 ++++++++++
+ target/loongarch/insn_trans/trans_shift.c.inc | 106 +++
+ target/loongarch/insns.decode                 | 486 ++++++++++
+ target/loongarch/internals.h                  |  56 ++
+ target/loongarch/iocsr_helper.c               |  67 ++
+ target/loongarch/machine.c                    | 102 +++
+ target/loongarch/meson.build                  |  30 +
+ target/loongarch/op_helper.c                  | 132 +++
+ target/loongarch/tlb_helper.c                 | 763 ++++++++++++++++
+ target/loongarch/translate.c                  | 280 ++++++
+ target/loongarch/translate.h                  |  45 +
+ target/meson.build                            |   1 +
+ tests/tcg/configure.sh                        |   1 +
+ tests/tcg/loongarch64/Makefile.softmmu-target |  33 +
+ tests/tcg/loongarch64/system/boot.S           |  56 ++
+ tests/tcg/loongarch64/system/kernel.ld        |  30 +
+ tests/tcg/loongarch64/system/regdef.h         |  86 ++
+ 79 files changed, 10539 insertions(+), 4 deletions(-)
+ create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+ create mode 100644 configs/targets/loongarch64-softmmu.mak
+ create mode 100644 docs/system/loongarch/loongson3.rst
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
+ create mode 100644 hw/acpi/ls7a.c
+ create mode 100644 hw/intc/loongarch_extioi.c
+ create mode 100644 hw/intc/loongarch_ipi.c
+ create mode 100644 hw/intc/loongarch_pch_msi.c
+ create mode 100644 hw/intc/loongarch_pch_pic.c
+ create mode 100644 hw/loongarch/Kconfig
+ create mode 100644 hw/loongarch/loongson3.c
+ create mode 100644 hw/loongarch/meson.build
+ create mode 100644 hw/rtc/ls7a_rtc.c
+ create mode 100644 include/hw/acpi/ls7a.h
+ create mode 100644 include/hw/intc/loongarch_extioi.h
+ create mode 100644 include/hw/intc/loongarch_ipi.h
+ create mode 100644 include/hw/intc/loongarch_pch_msi.h
+ create mode 100644 include/hw/intc/loongarch_pch_pic.h
+ create mode 100644 include/hw/loongarch/virt.h
+ create mode 100644 include/hw/pci-host/ls7a.h
+ create mode 100644 target/loongarch/Kconfig
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/constant_timer.c
+ create mode 100644 target/loongarch/cpu-csr.h
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/csr_helper.c
+ create mode 100644 target/loongarch/disas.c
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/gdbstub.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_privileged.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c.inc
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/iocsr_helper.c
+ create mode 100644 target/loongarch/machine.c
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/tlb_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+ create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/loongarch64/system/boot.S
+ create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+ create mode 100644 tests/tcg/loongarch64/system/regdef.h
+
+-- 
+2.31.1
 
 
