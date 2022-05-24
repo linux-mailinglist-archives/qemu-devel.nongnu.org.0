@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D5D533379
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 00:26:43 +0200 (CEST)
-Received: from localhost ([::1]:53296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B0A533388
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 00:29:00 +0200 (CEST)
+Received: from localhost ([::1]:59282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntczC-0005TF-H5
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 18:26:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53958)
+	id 1ntd1P-0001Bu-Bk
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 18:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ntclJ-0001YP-ON
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:12:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ntclH-0005iM-Om
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:12:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653430339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pl9/y1Ms5HKaK2fRTpzr83bTjAdGrZFDHRalNXpPH5o=;
- b=dnvV/5kRg83HFPY1YpHNrrd4ocyPqsQK8Xzg4QTMyJb6WyusD3MpynUV7s0WMTJkqbhNlG
- Qj2npkaFrRxcr3EtxTGreL0wVIqgM09WrDs5KX/+2dFH4yec2ncOHaPlTe0EAnh+2RzrTm
- iQJdq2LCf0EqCX1FFu0L0GXZHfsEFTo=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-BipL9PqHPryM7E6oYaOzbA-1; Tue, 24 May 2022 18:12:17 -0400
-X-MC-Unique: BipL9PqHPryM7E6oYaOzbA-1
-Received: by mail-il1-f198.google.com with SMTP id
- p12-20020a056e02144c00b002d196a4d73eso5613013ilo.18
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:12:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ntcsX-0005MW-9U; Tue, 24 May 2022 18:19:49 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:42958)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ntcsV-0006rM-BF; Tue, 24 May 2022 18:19:48 -0400
+Received: by mail-io1-xd34.google.com with SMTP id a10so19724766ioe.9;
+ Tue, 24 May 2022 15:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FCxNat54XVa9fvViwb5QCTzo3HmxCeuIBWKQfTwUm1g=;
+ b=Tke78/KGDD79ziXbcvR91aBsrE6W6kP3w8VrVGoCeAVgWd6503fwZV87mHiv2DPHUe
+ EryTzlVM7Rs/bsXkXWmFhm0j9Np0p5Pbiw760mvhu+/DQphFQjci7HcvYP7B/tIQE2Tw
+ r7msVIDfbpiyGp/Ad6GfwPuxZhhLojAA11aDtd99Wyfz0aCGW1jiw/3xGA0MSUvlrxv/
+ 4CMZ1uNS5UUuA8sjvz2qSHWdpLVh3X6LJdkISGG5RLQgYKSQNzAHtREfYEVptUPdikEg
+ aYrF1POkamWtvtmH4Yw769F8m/gCqvKtfFsAjtvi0WTsmdpIY63PxQiowUGSiWiEwZrD
+ u1vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Pl9/y1Ms5HKaK2fRTpzr83bTjAdGrZFDHRalNXpPH5o=;
- b=F7l78U43hWAH2nhgGb68q5FAsEnM3jGuwHIIXpcfXmTfK7f/MJqgZyDU/vQtReuVCm
- U55S8YRnA9R66ZjCLmF/PLCdG1eLzok1RDKYNflcMbC5oY4KWInTW4T0kgHLReNv3iyH
- jdNsSOBEnVLS63UCT/NcpSPCoVs9C9P57G5fmvEtVBKMuBUsjnfdqUV9AAXD2d3Ne+cE
- n1D0+M5TRBvsyAnsqcbs9p4/T6LnI0H3wih2D4t4nlMrAEd8WImVzRnM9wLiiiFxRrvU
- Kpw6/3e2P4/K0nviDhgj7wYvzK/zWNvEu+cqD1AU0KgcT05vQWn1jwKK6ugfJbVEoQN1
- 6Uvg==
-X-Gm-Message-State: AOAM531GzL5hBiySJYjIzdmc+1VyzPUMq13ZffDnIrAe3D6upfCZ0qQW
- Ox43o80Yud+Oj/slxyvjGpEx+B9rkHWBmw0YQRU3Xh8pfIWV9oibNUGEqF3tPBfmKqFegaDKx2L
- UOqFfCGOSdZjLb6r7HbyPX5AB/VD+zofjmMcgb0pj6C6zFMZW4K7H1aKXr81lvpDv
-X-Received: by 2002:a05:6e02:b27:b0:2d1:ceb0:9b99 with SMTP id
- e7-20020a056e020b2700b002d1ceb09b99mr2132452ilu.180.1653430336799; 
- Tue, 24 May 2022 15:12:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyy6GXRtYETR+aqZXZahu0rdMcMr451AuhViT9F/LFcsCz7YnCKwviKrMC0JQoKsALCsYRtNw==
-X-Received: by 2002:a05:6e02:b27:b0:2d1:ceb0:9b99 with SMTP id
- e7-20020a056e020b2700b002d1ceb09b99mr2132437ilu.180.1653430336517; 
- Tue, 24 May 2022 15:12:16 -0700 (PDT)
-Received: from localhost.localdomain
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- 6-20020a021d06000000b0032e2d3cc08csm3738045jaj.132.2022.05.24.15.12.15
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 24 May 2022 15:12:16 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>, peterx@redhat.com
-Subject: [PATCH v7 14/14] tests: Add postcopy preempt tests
-Date: Tue, 24 May 2022 18:11:51 -0400
-Message-Id: <20220524221151.18225-15-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220524221151.18225-1-peterx@redhat.com>
-References: <20220524221151.18225-1-peterx@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FCxNat54XVa9fvViwb5QCTzo3HmxCeuIBWKQfTwUm1g=;
+ b=u6QQ1uW9k8ap4K7r2Ct8wG0PG1Ey1LvPgIGr410VlG2K6W9cexCrAEvsVNXVHBPlln
+ u9FzRdcBHOasK0k36TNIII4iXXLSZKRpc6dv7vQ8H8sw1BaQksAQ8Hsva8KyL+e9rRMJ
+ Hr1jv8Il1Ev0nez3CupmXPKNAWYoQ6fmGE/bhH8pL+5Idhvr49kyjMFyRXwvMtZyMU4P
+ KA8IZA6G+p7JuJDmNE3EH+FP37ZZbYAHe+ethoz4cPdU+3wGdhedFJDFbYNfLm0cxvmJ
+ 8AREJCyRoyj0G0IZKCdYXcJwv4lgooAz+ludrCpqBUbDbjdcaYUMpllWm0qji07zRTR5
+ oEaQ==
+X-Gm-Message-State: AOAM530eEwHoR0JCqaTVdntqnA+p3pPnXPQ6SqA84+aF29tJE2MvCvhg
+ qTp+3jW6l46y6Z8i1MHYTbn4YUssEHncWslLNlw=
+X-Google-Smtp-Source: ABdhPJwVPE0OnvhL2O4ReZ71cSOXHSgOj3j6USKNoxcko6wFSKVuCNsODGY1+hToefUKktSA/vjWnvglXOue5AADoJ4=
+X-Received: by 2002:a05:6638:160d:b0:32b:d9d2:f2f2 with SMTP id
+ x13-20020a056638160d00b0032bd9d2f2f2mr14820438jas.68.1653430785664; Tue, 24
+ May 2022 15:19:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220511144528.393530-1-apatel@ventanamicro.com>
+In-Reply-To: <20220511144528.393530-1-apatel@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 25 May 2022 08:19:19 +1000
+Message-ID: <CAKmqyKPvFPsRDFi0Q5C=G6a27T-o6_u7Uhy4NdqDx2kc1wKWog@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] QEMU RISC-V nested virtualization fixes
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,116 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Four tests are added for preempt mode:
+On Thu, May 12, 2022 at 12:47 AM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> This series does fixes and improvements to have nested virtualization
+> on QEMU RISC-V.
+>
+> These patches can also be found in riscv_nested_fixes_v2 branch at:
+> https://github.com/avpatel/qemu.git
+>
+> The RISC-V nested virtualization was tested on QEMU RISC-V using
+> Xvisor RISC-V which has required hypervisor support to run another
+> hypervisor as Guest/VM.
+>
+> Changes since v1:
+>  - Set write_gva to env->two_stage_lookup which ensures that for
+>    HS-mode to HS-mode trap write_gva is true only for HLV/HSV
+>    instructions
+>  - Included "[PATCH 0/3] QEMU RISC-V priv spec version fixes"
+>    patches in this series for easy review
+>  - Re-worked PATCH7 to force disable extensions if required
+>    priv spec version is not staisfied
+>  - Added new PATCH8 to fix "aia=aplic-imsic" mode of virt machine
+>
+> Anup Patel (8):
+>   target/riscv: Fix csr number based privilege checking
+>   target/riscv: Fix hstatus.GVA bit setting for traps taken from HS-mode
+>   target/riscv: Set [m|s]tval for both illegal and virtual instruction
+>     traps
+>   target/riscv: Update [m|h]tinst CSR in riscv_cpu_do_interrupt()
+>   target/riscv: Don't force update priv spec version to latest
+>   target/riscv: Add dummy mcountinhibit CSR for priv spec v1.11 or
+>     higher
+>   target/riscv: Force disable extensions if priv spec version does not
+>     match
+>   hw/riscv: virt: Fix interrupt parent for dynamic platform devices
 
-  - Postcopy plain
-  - Postcopy recovery
-  - Postcopy tls
-  - Postcopy tls+recovery
+Thanks!
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- tests/qtest/migration-test.c | 58 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+I have applied some of these patches to riscv-to-apply.next
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 12f1e3a751..ca2082a7d9 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -558,6 +558,7 @@ typedef struct {
- 
-     /* Postcopy specific fields */
-     void *postcopy_data;
-+    bool postcopy_preempt;
- } MigrateCommon;
- 
- static int test_migrate_start(QTestState **from, QTestState **to,
-@@ -1063,6 +1064,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
-     migrate_set_capability(to, "postcopy-ram", true);
-     migrate_set_capability(to, "postcopy-blocktime", true);
- 
-+    if (args->postcopy_preempt) {
-+        migrate_set_capability(from, "postcopy-preempt", true);
-+        migrate_set_capability(to, "postcopy-preempt", true);
-+    }
-+
-     /* We want to pick a speed slow enough that the test completes
-      * quickly, but that it doesn't complete precopy even on a slow
-      * machine, so also set the downtime.
-@@ -1131,6 +1137,26 @@ static void test_postcopy_tls_psk(void)
-     test_postcopy_common(&args);
- }
- 
-+static void test_postcopy_preempt(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
-+static void test_postcopy_preempt_tls_psk(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+        .start_hook = test_migrate_tls_psk_start_match,
-+        .finish_hook = test_migrate_tls_psk_finish,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
- static void test_postcopy_recovery_common(MigrateCommon *args)
- {
-     QTestState *from, *to;
-@@ -1210,6 +1236,27 @@ static void test_postcopy_recovery_tls_psk(void)
-     test_postcopy_recovery_common(&args);
- }
- 
-+static void test_postcopy_preempt_recovery(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+    };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
-+/* This contains preempt+recovery+tls test altogether */
-+static void test_postcopy_preempt_all(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+        .start_hook = test_migrate_tls_psk_start_match,
-+        .finish_hook = test_migrate_tls_psk_finish,
-+    };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
- static void test_baddest(void)
- {
-     MigrateStart args = {
-@@ -2194,6 +2241,17 @@ int main(int argc, char **argv)
-     qtest_add_func("/migration/postcopy/recovery/tls/psk",
-                    test_postcopy_recovery_tls_psk);
- #endif /* CONFIG_GNUTLS */
-+
-+    qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
-+    qtest_add_func("/migration/postcopy/preempt/recovery/plain",
-+                   test_postcopy_preempt_recovery);
-+#ifdef CONFIG_GNUTLS
-+    qtest_add_func("/migration/postcopy/preempt/tls/psk",
-+                   test_postcopy_preempt_tls_psk);
-+    qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
-+                   test_postcopy_preempt_all);
-+#endif /* CONFIG_GNUTLS */
-+
-     qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
-     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
--- 
-2.32.0
+Alistair
 
+>
+>  hw/riscv/virt.c           |  25 +++---
+>  target/riscv/cpu.c        |  46 +++++++++-
+>  target/riscv/cpu.h        |   8 +-
+>  target/riscv/cpu_bits.h   |   3 +
+>  target/riscv/cpu_helper.c | 172 ++++++++++++++++++++++++++++++++++++--
+>  target/riscv/csr.c        |  10 ++-
+>  target/riscv/instmap.h    |  41 +++++++++
+>  target/riscv/translate.c  |  17 +++-
+>  8 files changed, 292 insertions(+), 30 deletions(-)
+>
+> --
+> 2.34.1
+>
+>
 
