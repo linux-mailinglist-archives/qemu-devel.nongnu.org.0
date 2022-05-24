@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A63B53230E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 08:23:41 +0200 (CEST)
-Received: from localhost ([::1]:40586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBDA53230D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 08:23:36 +0200 (CEST)
+Received: from localhost ([::1]:40354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntNxE-0002Od-6a
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 02:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38406)
+	id 1ntNxA-0002ED-06
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 02:23:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNt6-0007ti-Qh
- for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:24 -0400
-Received: from mga17.intel.com ([192.55.52.151]:41948)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNsz-0007jE-S7
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:17 -0400
+Received: from mga17.intel.com ([192.55.52.151]:41958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNsr-0000Fd-JQ
- for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:24 -0400
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ntNst-0000Fo-9f
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 02:19:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653373149; x=1684909149;
+ t=1653373151; x=1684909151;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uvCzKu9Uu5PXiNmmvrkHXtmIZIyrXKybleaiUQQ6ZLg=;
- b=QW4MnK2B1BBp659TlpNtHszUkdeSDejc3bDzygW6F52Dy+hB1Mxv+/1p
- kNoTnzaTYCFq3URasF530H/PIL4l5muVyH6Y+PN/ADTvJ+i0sVyVVI9w+
- tLePe3QtdqVYJZd1wKvYx52vPD4/3USvkoxyWRndr+q1sgEOwn+jKbj9I
- wtElu34TuT/kPfhmnP6ClhJODE/qXnYCRrq8W3wj2k2sI+MTiSs6ww1i6
- YfpZ+17nA+amzKaennHzlYPbwRWwr8+Ch68cP2DG6GveSSgGHwDwV+HAQ
- QFvzv6R+diHNrKMp1FaHxGwOqeyZB4307L8pqdDvJSLCj9URxWbEZPS7P A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="253943141"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="253943141"
+ bh=ExdLP7W0V6Rn/8DcMpfXQ8tmFgDyolan+OBovJ9wppc=;
+ b=DvNoS1Xl06TASXaxSc0Ni3Xw1LQZ54crQV5r1vQGTWNLK/BqR0EGZIPM
+ svM5kfBjFRgx7ms0utyp5aCJ8SejKCcLFvxRiXFaowHbOYucA0Q19AW2p
+ il73yhTcoxdEkgfNI4T8VSOhwhMAiqfiDAIeN+PZt38zocfjfhD2e4Jxu
+ 7Voxa7bZ6LhYib/VffNolcomTj/8Jv7Ic9mSjXn/jyTWw2kColxHW0Dhi
+ lGrzTJMW1tU5ZdgkUpb5vxg+IJHO3b78n26i8CmPHmKVevXAYR8XgysQt
+ XIaHHrwChUWP5InmrOVIyucPymWiiqZZG9a7720xNYBW1P6Fk65vW7Aqp A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="253943163"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="253943163"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 23:19:05 -0700
+ 23 May 2022 23:19:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="601059609"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="601059640"
 Received: from leirao-pc.bj.intel.com ([10.238.156.102])
- by orsmga008.jf.intel.com with ESMTP; 23 May 2022 23:19:02 -0700
+ by orsmga008.jf.intel.com with ESMTP; 23 May 2022 23:19:06 -0700
 From: Lei Rao <lei.rao@intel.com>
 To: alex.williamson@redhat.com, kevin.tian@intel.com, eddie.dong@intel.com,
  jason.zeng@intel.com, quintela@redhat.com, dgilbert@redhat.com,
  yadong.li@intel.com, yi.l.liu@intel.com
 Cc: qemu-devel@nongnu.org,
 	Lei Rao <lei.rao@intel.com>
-Subject: [RFC PATCH 01/13] vfio/migration: put together checks of migration
- initialization conditions
-Date: Tue, 24 May 2022 14:18:36 +0800
-Message-Id: <20220524061848.1615706-2-lei.rao@intel.com>
+Subject: [RFC PATCH 02/13] vfio/migration: move migration struct allocation
+ out of vfio_migration_init
+Date: Tue, 24 May 2022 14:18:37 +0800
+Message-Id: <20220524061848.1615706-3-lei.rao@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220524061848.1615706-1-lei.rao@intel.com>
 References: <20220524061848.1615706-1-lei.rao@intel.com>
@@ -55,12 +55,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.151; envelope-from=lei.rao@intel.com;
  helo=mga17.intel.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,70 +77,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Current VFIO live migration initialization code is tightly coupled with
-local migration region handling. It is necessary to decouple it to
-facilitate the introduction of a generic VFIO live migration framework so
-that other approaches can be possible besides the In-Band approach.
-
-This patch puts various checks of migration initialization conditions into
-one function vfio_migration_check().
+Migration struct is a common data structure. Memory allocation of migration
+struct is not unique to In-Band approach. So, move it from vfio_migration_init()
+to vfio_migration_probe().
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
-Reviewed-by: Eddie Dong <eddie.dong@intel.com>
 ---
- hw/vfio/migration.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ hw/vfio/migration.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index a6ad1f8945..770f535e81 100644
+index 770f535e81..11ce87bb1a 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -787,6 +787,21 @@ static void vfio_migration_exit(VFIODevice *vbasedev)
-     vbasedev->migration = NULL;
- }
- 
-+static int vfio_migration_check(VFIODevice *vbasedev)
-+{
-+    VFIOContainer *container = vbasedev->group->container;
-+
-+    if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
-+        return -EINVAL;
-+    }
-+
-+    if (!vbasedev->ops->vfio_get_object) {
-+        return -EINVAL;
-+    }
-+
-+    return 0;
-+}
-+
- static int vfio_migration_init(VFIODevice *vbasedev,
-                                struct vfio_region_info *info)
+@@ -807,17 +807,15 @@ static int vfio_migration_init(VFIODevice *vbasedev,
  {
-@@ -796,10 +811,6 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+     int ret;
+     Object *obj;
+-    VFIOMigration *migration;
      char id[256] = "";
      g_autofree char *path = NULL, *oid = NULL;
++    VFIOMigration *migration = vbasedev->migration;
  
--    if (!vbasedev->ops->vfio_get_object) {
--        return -EINVAL;
--    }
--
      obj = vbasedev->ops->vfio_get_object(vbasedev);
      if (!obj) {
          return -EINVAL;
-@@ -857,11 +868,11 @@ int64_t vfio_mig_bytes_transferred(void)
+     }
  
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
- {
--    VFIOContainer *container = vbasedev->group->container;
-     struct vfio_region_info *info = NULL;
-     int ret = -ENOTSUP;
+-    vbasedev->migration = g_new0(VFIOMigration, 1);
+-
+     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
+                             info->index, "migration");
+     if (ret) {
+@@ -833,9 +831,6 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+         goto err;
+     }
  
--    if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
-+    ret = vfio_migration_check(vbasedev);
-+    if (ret) {
+-    migration = vbasedev->migration;
+-    migration->vbasedev = vbasedev;
+-
+     oid = vmstate_if_get_id(VMSTATE_IF(DEVICE(obj)));
+     if (oid) {
+         path = g_strdup_printf("%s/vfio", oid);
+@@ -876,6 +871,9 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
          goto add_blocker;
      }
+ 
++    vbasedev->migration = g_new0(VFIOMigration, 1);
++    vbasedev->migration->vbasedev = vbasedev;
++
+     ret = vfio_get_dev_region_info(vbasedev,
+                                    VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
+                                    VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
+@@ -903,6 +901,8 @@ add_blocker:
+         error_free(vbasedev->migration_blocker);
+         vbasedev->migration_blocker = NULL;
+     }
++    g_free(vbasedev->migration);
++    vbasedev->migration = NULL;
+     return ret;
+ }
  
 -- 
 2.32.0
