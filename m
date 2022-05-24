@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4958E532DAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:38:11 +0200 (CEST)
-Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD9E532EA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:09:32 +0200 (CEST)
+Received: from localhost ([::1]:58376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntWbq-00078S-3i
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39898)
+	id 1ntX6A-0003Db-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1ntWVB-0008Co-1p
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:31:17 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:28892)
+ id 1ntWVF-0008FN-5n
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:31:22 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:43264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1ntWV8-0003RE-VX
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:31:16 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24OFKeGQ018506;
- Tue, 24 May 2022 15:31:11 GMT
+ id 1ntWVC-0003UK-Vq
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:31:20 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24OFPMQb001520;
+ Tue, 24 May 2022 15:31:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=uqM4fo1oaHQDQh56XS1RRp5KeUjXcP5uwdV6i5UnzOg=;
- b=THWEF9av5xELBCWGeg8f6GlWyiRnhzDuyKfrvx8mQ0iGcY6hkYq5Ok4WO1BxNWMiPsp/
- S/36hzJATyefCU6teBUb0Pqew6/boi+W/YeKaslVbLc8ORD829AoASVfIyJPlENyuniG
- CSrYOlpbgp0nCh8QDaNiavrnX1MVcHr/orI4w2paG8/K0ulY/zZlopfdZtIxl4qknkV9
- 86pXNMCOgcb96ASiFcY7QBWWM952m10ue/3YTUSJSEGKwfmcLM4dOjZGknyD6nAlX2np
- hcDuGQjoLxST3qlI8ZRAsd+9hSbQd0N8Xdt8YAF1/nMyOdBk+eywIPtrtbhPdilUyosR hA== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g6qps6tjn-1
+ subject : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=B51K62cS6ZkPHiXp68MWw29OqPcqZq+rplOVlnmUwks=;
+ b=0GkEne4Csis9M8YWqCnCUkle9wV84pyqcz9Gl0Y6K0lFer3ubwIAqTaVUsgvRmrCR+Js
+ WaIemlmZCrpqSmXNmgi1Xk38Rnz5fdobhuU1sn1x/juM0UnuKwrwHPNzPYMfQCXqj8pz
+ S3gi1vneAo2XDqJHSj4b4JW8eMRYEwfJehfjdEJtYxevgHm5NfCQbRRqPNE1JHmA93yn
+ YFasWKGnohYFxC8tyEQ1ibuusYJ2La0Unc8goGVFuwPTxpqNkuTIN8eex+QrctXP9/wG
+ 7X+DVLqZT/6A5sEQy91/4GwRk/pf9DB7iNEW9uanwqKzTpf4gzatwtBNvFfKCKpIoH4v eQ== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g6pgbpqa4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 24 May 2022 15:31:11 +0000
+ Tue, 24 May 2022 15:31:14 +0000
 Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 24OFSSVx020986; Tue, 24 May 2022 15:31:10 GMT
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 24OFFrjN015045; Tue, 24 May 2022 15:31:14 GMT
 Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2043.outbound.protection.outlook.com [104.47.74.43])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3g6ph2rj84-1
+ (mail-bn8nam08lp2047.outbound.protection.outlook.com [104.47.74.47])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3g6ph8x15x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 24 May 2022 15:31:10 +0000
+ Tue, 24 May 2022 15:31:13 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OdWzG355mhzHgfv0ZfGNQQqpIT/GKLOFSb5lg2sWwll31rm31mTriuT8rAj9ovWYbPFwm2/zrtmeZKR+nJzWxys9oHvZY8fFUJoH81YUJBhH/bEhjw5HJnYF6xPDHAa3A2sPDYLYrYSitFFnCe9zGoWL9+rcXtLKhglH6mjSQrks1b1AQcGLzqyr8KtgX8JNXsIiq/EX50OrreVP/xmUQS+8BxTlNV3vnhCDffv44Pq3t2FkRKG9oPWVSGRHtyYHefNrSGS2VIAqJDWySds7nDsMSIovSVsTgc5rhYpxKbPgo8lpL270Omizuw9dQdEk/UukzY3McWEehE+RjvZdYw==
+ b=VfGuVmWrNiE/mQtQBrS6NduVIXltEx3QAdsyGd50XC7rze+wMj8iSOYZjIbKXa7BqYv83gDoxcEHIP/RFhnw03Sku+M5/A2B36gpBmZd+T/ItR1WH/Ry8Ry7QbdTjYzYcgdZktIwAhlQjzYudjNah0CksVnOrRV/7I95PMy7eYsoJaCsYNPGWztBK7zN6P8FgmKU0nYIIBfwjcu7ckWjGEBvzJmKZmLqMh1FtABKwv9iF9xzfaXoBQxV/+pfMBNSZ66C1mdDaP98pevBsY7Vtk8mSXrl4hRmvS0asOH0Nu6AHVwd+I+m36ocuhFnM5xzG15Qv1yO9FjjcnBif1qDcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uqM4fo1oaHQDQh56XS1RRp5KeUjXcP5uwdV6i5UnzOg=;
- b=RlLvucuTw1bNOronYTy8uc89lYMIv2TScTx5XUBBq2zNL20tWkpbWZsoVlz3YVsfbA+U4z5kFbttrOPNMboV/I3Yhq06c4j3SIzyrXLL4MnNkTH4g3LxSFyO2au6YS0Kbk8UYZjSKkSriZAiP14kfyE1JWjez2QvGclyDD7DfY7NQLDd3Gt/inItS032S4WdxhkiVmOjrJtlCK3+MLjbCAKEMEOr5SonG8BB2gmZaTRWEnHGygX/5GWJ+FnYe/NMLIcsbeBrAn9NMW/reI7y/qWglRUN+XOzF/9exgd7PmKUBEzBsMlJNBhwlQyBoPLTENHBUQR8OjpQ1Sws/o80lQ==
+ bh=B51K62cS6ZkPHiXp68MWw29OqPcqZq+rplOVlnmUwks=;
+ b=ZS7iEFwLEgNzdh2ZXFaJ4APxFnzbAfd5ZvW/t4ejoNBFWlR49KsMPJfrAHaioc8z505xb0ac/qgQQ5g6QOFWKOrKMup2WvSCAF1gURHdZJpObpZLpohs+Rh70AlIHzghvruMguo7mJujLAwbYK6oNRz0xIj7ygcliBPXFsevvBK4oXNYON3nCWip0lmIzyLU9ohege3VQLySGhU6R++3bZfKR4ywFQUHp5mRhwXdJW+CSDFxcTomk28hK4jaPex6LZ/zO1wyvS0tC5zGcT83gSBw82tZrqQwZUYzbXZ/NSBhnYUSdw0mlqVToF5sgbUQF3jCOxAduvdoawaeLG6a+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uqM4fo1oaHQDQh56XS1RRp5KeUjXcP5uwdV6i5UnzOg=;
- b=J7Ia1CuZLCjOJw8J0F190UC/IJB33QRSPYQnOxEb2L3O46LOIKUSqXlo8xQsyD9PwrRLPhdEZB9EBP6uYUhKgICoOURfuGQAlNe35inGSATtsFK5Lsa/Gqih0oDM+E+cFidrNW6o/eGX1Wua/Ix0jL7/Zx2lk6QFiA3jp+t2zEw=
+ bh=B51K62cS6ZkPHiXp68MWw29OqPcqZq+rplOVlnmUwks=;
+ b=O6QxL8gyAmQKErZ8wMCslfmGBaYxDo3cyWLIWGocQe6WMe9KGxThdpu25eThdxQzQHi5xwGFwKkRV6OQiulKoguBRFCU9bsYdRoyU7PCbfqsFgZFZdqT/f9eQbiFZiIxPQYhms37GkwBvI8hHJBh4KBDUmW/ZrACfdOBnFR0hM4=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by MN2PR10MB3117.namprd10.prod.outlook.com (2603:10b6:208:12f::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Tue, 24 May
- 2022 15:31:08 +0000
+ 2022 15:31:11 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::e9cb:e1ca:8189:f191]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::e9cb:e1ca:8189:f191%7]) with mapi id 15.20.5273.023; Tue, 24 May 2022
- 15:31:08 +0000
+ 15:31:11 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, mst@redhat.com, f4bug@amsat.org, pbonzini@redhat.com, 
@@ -81,81 +81,90 @@ Cc: stefanha@redhat.com, mst@redhat.com, f4bug@amsat.org, pbonzini@redhat.com,
  peterx@redhat.com, john.levon@nutanix.com, thanos.makatos@nutanix.com,
  elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
  kanth.ghatraju@oracle.com, jag.raman@oracle.com
-Subject: [PATCH v10 09/14] vfio-user: handle PCI config space accesses
-Date: Tue, 24 May 2022 11:30:28 -0400
-Message-Id: <497de95cd7abe46350f62c748d45e691f7d64a8c.1653404595.git.jag.raman@oracle.com>
+Subject: [PATCH v10 10/14] vfio-user: IOMMU support for remote device
+Date: Tue, 24 May 2022 11:30:29 -0400
+Message-Id: <94611f75e1b7bda8a85b2cbb2b81f976c2d2e338.1653404595.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1653404595.git.jag.raman@oracle.com>
 References: <cover.1653404595.git.jag.raman@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: SA9P221CA0012.NAMP221.PROD.OUTLOOK.COM
  (2603:10b6:806:25::17) To MN2PR10MB4013.namprd10.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6f8f8567-5738-426e-2884-08da3d9a6ca0
+X-MS-Office365-Filtering-Correlation-Id: e1901279-1c3c-441a-cf2a-08da3d9a6e75
 X-MS-TrafficTypeDiagnostic: MN2PR10MB3117:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR10MB3117B7B2A86F4F01535AC43190D79@MN2PR10MB3117.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MN2PR10MB3117C50672410300399181C490D79@MN2PR10MB3117.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /HTupOOUwoHvGuGl6BRTbHpt7dFSe20roRhDGZMQQf+IlZYqqJYzBsOl85+H4iCyZI0LMfXNGvDWrcskylJbGdwo5QiuOF0y+0yZswauGSaiqFvapePeAJtEAGE1LcrV38N1Hva440tlFOvUMHG3PR6fi9R+l7v6FRr+ZsYI/nPoL3nk424J28J5vTCYmagV1NcG4hWgaQu/shYT3xGNpv5wWvburv0WkdTgQkG+mlD61xGvntotVqngSRltOcgY8mUZ2lSFc5YS5AbqcoB+mm7x+YuRQQ95JstSMy9KwzoksREoCJMIIohGbv8cboD/WEEkHqsbwdrYcVCyZjKWJIkWN2Xa0m30nin1hXmv7nENujGgHDAlK7LroY+zRMsiZ4IYQdCJRUMewPfbNgV6o9PY5+2vDD1Y2VZcOAh6/wuLQlky3Pcr8EWEELrZccCyV8Uq434R01Si21gmsiAih/NaQXY8c7nLXeX9EuBVQceIgg/gdm/ZfyUS/vUB57P5cyMtt4+4kpzn73DF8xaP3LUs/RE7BQtw+EoBeSfECCGOcztf/mKDE9ULifIz3kR/PLw2xdJsiArmUSmxp0x7TGsD8SOPz7VFNokToxQ2nYpNeBr9pfbTY33Kh3W7Rumb9wQCJ3YtwVqXhPERDMGx++bZw+Qjgys1bfSbb0OIKeR4UXarj9I2Pk3pAljJL7in9u6nwMfwF5CSSiFggl2UWw==
+X-Microsoft-Antispam-Message-Info: XXLa9iDURxKeQtjh5p5XhOearzL1M7Md8z8yqeILuXX4ZSxPgXJl0z5aC6llnZgM0iIoDwDsUzhSsqb4v5IrozpiQmh03HPq6PHxBS0uDRbXnmM7DaJ8fh213c14nqoi9SJWKyvzYjrHvsmXBzIYAfEOOOSC/KO14EjBtqqKZY7KV5o+595D0cj/ovQx4zVEMLOh8kDDw3ssapwLO05bQT2y7t+1I+Vq34GvCMYWiuBenN27NNDw1o/s+Huyb1xV9GU8TvnvFTzjshK5gIq8Ko9JIhmEB0CwMnWAaJQG4u3i9tDEKqERc3pGdEJrIH8p3+kI1n8UrWObD/PPUes5VsGkDC9NCKgk5KYUocPBw+mCcB7Xj6gCrwLJmaCWz62v+4l0u2SAyFBOKpVc/H+TAWoLuiiI7YsXjN1j1/sJovOISHn8DM+5WXBdTxkPrqVGYQJUFq3tE4BeMkfBKzaKsGdrrxeNI3yldk3wwUWSPL8Roi+c/OisAgpbzXyfrlJ7wJuvRKMk5dmmtc7ieDSJ15ti3PGUnm5Gpj9r54RJjWX1PeABDg+4vFbfukDphkPR9dR18+Jc4hqe+jqYJll+A83WYg30DeEfLlwnwMd9Ge3AIuwVfweYDBqH73fk89gV7TZsYVKPuaR9fDTPitGWm6HGZ9A8t7Psaoi5g+lhvYb4wAxT1S3FcyDcooIa/AGIeb0uBpvAEb0d1/9m5+mEeA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(366004)(2906002)(66556008)(38350700002)(5660300002)(38100700002)(7416002)(86362001)(508600001)(36756003)(4326008)(66946007)(2616005)(6486002)(186003)(6666004)(66476007)(83380400001)(107886003)(8676002)(6506007)(26005)(52116002)(316002)(6916009)(8936002)(6512007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2Z2CKHujXs0EUIiqF0s08ih+O8oZcsKfp+bH686aWN+fi3hdjvhKk2iEQElg?=
- =?us-ascii?Q?oc0ycc0yO4obAd+sTlAFHFohduCx4fhbKXRdvetnqdOrA2wR4jrIhDYURgur?=
- =?us-ascii?Q?8yyDDOneBGR8X/dwiAYJ9N63til+iif0O/4G+HV86/fFtjslUZukVEAItORH?=
- =?us-ascii?Q?5t+/SY88w9k99psl8+OxEkhQeHovDNNaYAnx4CSlBg6Mvn9htvUH8FHqpnwY?=
- =?us-ascii?Q?1Pm8+uUuEHTS/RXpK6Pef3fFcxdL/KOOWXP4EMZ+0IJE2Nk6vJ67j0SHKfXd?=
- =?us-ascii?Q?pMwqDdwq376rf5dZD/oJhkyXOOcXhEx591SVXSPhm3YoaFQHICfBDMyHgpd4?=
- =?us-ascii?Q?XuodBvSMX5L1asILd4mLZXeeO/pKOlGpi404WlRGw2IAK8PvdnuUPuckl+xm?=
- =?us-ascii?Q?idonrSsd40XhnPc8eyCtFT8t0jTAZafClyt4oh09ebCV+4TSgxd6Juu1BB0C?=
- =?us-ascii?Q?2daCYngBRdzwIhsaUQbyURyYWi41AWHHMn/yz20VdQhM2zEeQoelbJfZML6W?=
- =?us-ascii?Q?1l8NFAn40YEEZPBAcSeV49w6e1WmGNxCB3t+8ENpP0XffJUev2nowCZ/4Bq2?=
- =?us-ascii?Q?xrdFma2cLEPOn+NCHG7R/q9ThPgLBc2ChIxPYc3QznEdHsR1LQhkeoVUvB2z?=
- =?us-ascii?Q?sqRtxDDD9qojzhjcdbGU2NyN5oi+WHQDFNzic54HqXSAhJDcWbPhFkzxz4Yg?=
- =?us-ascii?Q?7/hB0Hy0Qw132y/unbunqkWKIbpZao/hmoH5Wui41s8aD57Al1/ehIseGwyh?=
- =?us-ascii?Q?8+8cQyPtwfogsXujqhE/AeN+tB6Wu1gt+oPqRoUyHc9skx8BS4H+9IfFJ3PQ?=
- =?us-ascii?Q?H/7MoB5AbX+e4MpLoIFZl+HW0bIbAdM50Ngdze2RiEGhtfg4CdHwT80+FfsF?=
- =?us-ascii?Q?m6DjKwKZHMgWIY9xDU9rgha1eK0zPRINIVkAcS3ku+5KJR9bxceXWSfwHHq5?=
- =?us-ascii?Q?jbCxwjpLWYGkG9wkZv2fQ/SXudVN42atDvRTHvFGh/AR+UJe35eBJkaHo2VI?=
- =?us-ascii?Q?KClJc/PGHXfqZpp1nJKk6YmJuPBh3nT24CUbf6/BMdAh6Xo5ZV+voYnR4h0d?=
- =?us-ascii?Q?bMcpSAqFkl6mHXXhIoWD3ED6g7C+cejBZvUDOiC7xapSoTUuialvYpO8BMai?=
- =?us-ascii?Q?OHPnae4IqxjykqrNsbDf5QWnTSo3kEU8HaTDeZ7+lqKHKAuZ8DHtc2EvDqtM?=
- =?us-ascii?Q?tvHofd3FbKChSDAp/YHwrI8Ni5s/rluI2mBx03ITXoNfEfnSU4WNIDDbtRQw?=
- =?us-ascii?Q?i3K3M3z3ltM0ut1oaJm9mDyvAcWMtsioQUWTFD6Zu2K5LC08ZskC/wSY5s5I?=
- =?us-ascii?Q?dEbyaFKtN90y1sX6bFIIBk6dbCWMYZCzErUzYLDqq1AOAryH12dpRONIJEw4?=
- =?us-ascii?Q?/55JwcXiiIcbAumaHOIcyExnV5sKEbbBSCBHVXOpb8YU0mEc8gLZ7yEhJTDc?=
- =?us-ascii?Q?LLGGNOjB5lCT7B7LL71T0MHNQ1v1JYPv0JliLbAVpn++cCn260YCPaESiLQW?=
- =?us-ascii?Q?Eb6z++LPgbaSGUewLJ39hQKFJMyOggQOLfw6cU3e9n2ywF9BYj363iWwMhTo?=
- =?us-ascii?Q?6gRSP3KZq44jf3Anhf6lV+genlwsdUFpwkUKH/IcvDDRpaqZkaOeXfNteSlb?=
- =?us-ascii?Q?g4C9ovXkklDnR4qaoKILK9DhmCV8Bvtvzil4V38E0j3nOSspydKE2Ze/dgjR?=
- =?us-ascii?Q?NTTKnBRiVWWDldbIbXCxje1ZrmYaAN/CjEsTel8vrcJB8KYm4nw7wG+V7aNe?=
- =?us-ascii?Q?2mkutsSYxg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UW8yWGd3MUhhZEFiejVzUG5ya09Cd0x0WTQwR3VzZmd6UGpJeVg3dWRjN3A0?=
+ =?utf-8?B?Q3YyeUVZeWVLNkxwK0hyOThHU251ZXlLUjdPTkpINXhPNnFhNjdEbis0d2RF?=
+ =?utf-8?B?Qkd5WjZ1MWdYQk5yY01JbjMyMzc5dDFhc2gxN0srUm43Zm92c3VQdnd5UmFN?=
+ =?utf-8?B?YmJpemtWQWUwZHNNOUlOeGVGK0x3Q2E4bXc0eWNvbTJ1NG9ob3Z5VUxCWTFQ?=
+ =?utf-8?B?eHFNeEVVSVp6Si9wcDRqVUxTMzhmVEUwVWZ6S09pWXRBbzR5RHFDSXAvYlNj?=
+ =?utf-8?B?NDcyR1pUSDdnMEpicUtkMUsrOW9FbU1XLy9rQWd5ZWMybmVxQktLSFkwcWhK?=
+ =?utf-8?B?SGFWWTFyYnh5MzJyYkViTk9lYkJqMTg5c2dYelBBRWg3b09CdFFoZkZvZ004?=
+ =?utf-8?B?d0NZeGlCcTFJdGN0K2ZWRnVlOWpPNUNiZHJNejBUelFURlg5VmFBRTRERS9K?=
+ =?utf-8?B?SldjQjV0OG95SXVQQ0t2Wk5WbW9IalVpZU5GSDhHK3N2c0ZXN0pxVHNpME9V?=
+ =?utf-8?B?NmVTcHNZN1NuYmcwbG45RVY0ME1TNWhIZHdramtIMVZDMHcycVIyYUovN1ps?=
+ =?utf-8?B?dC9UL2J6WVkwMTVMSDBWbXlLYWVBNlV2SjFoWGFrcXpUS2doa0VkN0dsQThy?=
+ =?utf-8?B?ckdzRW8zTzF2aVYwNGRZM25ZcnpabFRTVms3QTlPVzFWckI3WW5SZk5PcmRM?=
+ =?utf-8?B?ZG14S3FCalRUVHViMmJUdDZkQ0VYcEtsN1FjMEJvc3UvbEhHcG5ETGlNVGVw?=
+ =?utf-8?B?OWJldldrWlUxd3QrSUNaS2oxMDMrVkRzclJxOFV5cGR6K2NsUm1Nb0pGTjdi?=
+ =?utf-8?B?dmJTMEhFeE1RSDhOZkJiSEV2YXZHdXpkVlZOM0tnUll0QkxWNG5ad0NzK0s0?=
+ =?utf-8?B?VENqd2VIOWhnZnVoZUE2QnpoL242WitBanFLYUFqVCtUYnNpOHMzdEg5NjMr?=
+ =?utf-8?B?bkNBUFZYR0t5d2dGQi9CekUvQU9XVmpKaHlXZVAra1hLTVNrM2VXc09GUWg0?=
+ =?utf-8?B?NXFSQzNLeTBudE80eU1WNTFFZm4zd2JYU2dzMzV6amlUSDhETVZrV0xyTE85?=
+ =?utf-8?B?TGJ1UVNFUFVvY2RBMitLZUhIejRQSDVRaUpUYmZKelFWTUpxZTFSN2ErVUNN?=
+ =?utf-8?B?MEJCcFlFWkNVbnZQdFlvY09uU2VOZmNJTGNveHMya2h6cnRGc0JjeWwyazda?=
+ =?utf-8?B?WlZoQzhhK3VXZ3pCaGpaR2t4N0VEZ3cyTm9OYzFuSkYxaDVmK2tTVS90ZDl2?=
+ =?utf-8?B?TjR5Uk1nNCtYTExSY1ZmaGdVL1AvdkYxWTVaTkNpcjJBMEdYUHo5WS80aHRL?=
+ =?utf-8?B?elBweFRjY0ROTEZSLzRFQjZVV2tPUXdMcCsrT1I1RlNFdklPU1BoSUpEZmRU?=
+ =?utf-8?B?a2xqMDZwdStpaVJKZkVPUW4yMHk4ZE1rRURIZklsQy9XU2NmU3pzZG9UVnh0?=
+ =?utf-8?B?Nmt5R0hWakFPSFNlNXpXZUI2SjhjOVZvdW5OV3hVZWRERW9oaVdvcUZyR3NT?=
+ =?utf-8?B?SGtxTjliZHNINkJOTUlTNDhadCtJbUxCQ0xQRGhvS2JvNE51eUxwWEhkYWU1?=
+ =?utf-8?B?TUZZcDVKaFNjVmhsVUg4d3FzclJrZUdzQk9SVkxQNlg4QzU4NG95cFZESzVL?=
+ =?utf-8?B?cG54QTB5YnM2UmpVUlBiUkgvOGl0Q2QxY1FuNFMyaFJaSHdGbmxVOHVMTTlv?=
+ =?utf-8?B?LytCTnhVdE5BQkFtOWI1YkF5NEdta2Rycit2Nnk2UmhTS1RpVHZPWjEwSU96?=
+ =?utf-8?B?anVnTTdwd2J2NEFHNkNFbnpYeFVjeFRKYlJ4SWdxSUFVZDVmSWl3MS9HZXdz?=
+ =?utf-8?B?VmFiMHgzWlk2Vmg4NU5DOEkwb01TSVJyWml3TmZQSGk2RnMvVkRqalNPYzVl?=
+ =?utf-8?B?aVNTNCtrSmEzcFNQcVBPaGV0dXVUT2hFeXBHelFTUjlDTllrMHhxYU45T3g5?=
+ =?utf-8?B?Mk00Wk1hNjljWUxoVGdSR01YQytpemN0Wjk2ZDB6TTQ1bndBdE5JN3YrMmdt?=
+ =?utf-8?B?a3dEcDNSMXh1SUtrbVY5dTJwRkppNDlIU21kQWg3M3NaWEpvaXEwamcvWWg2?=
+ =?utf-8?B?SjVtYWs2L3F2NGxJdU81RWtlN0ZzbFpsMXAvY3hiWG4wSzdibHY1RTVEMTVZ?=
+ =?utf-8?B?M3VmZVlHWCtCbnFYNzBsSUl5dFlDY2ZRdW5icWxKdFM4N2ZGcnlxbG1YY09z?=
+ =?utf-8?B?YUtBV1EyWUV6eWdQKzAxV0JFSFJUdGZMN0x5Nm9QN093eDI4UG5kZjR5RW1X?=
+ =?utf-8?B?aWJiUjcrY0N1ZVMreFRYWnJGMGZuaTBZeldIV09rZVBSYTVudGlHL3FkbW1k?=
+ =?utf-8?B?ejRYR1cwUyt5SGxEbFZ0V0VlMk1ZYklLb0s1dzRMTG51NTBiaFEzUT09?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f8f8567-5738-426e-2884-08da3d9a6ca0
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1901279-1c3c-441a-cf2a-08da3d9a6e75
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2022 15:31:08.5852 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2022 15:31:11.6787 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cT3VfRrPM2fE2LaCAej4gfcSU8ZDI4/jH6/hDwlW1iiu0uaF9Y7cBcN2Lh5a/8BNvul8Jjya+GJErq+76EyA3A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: G7kTMmZM3VcXD1KdmogID+krkzitz/DoUZv4hozo5gESTSvU5/Bmg8nzv6NiBldEvo8TPRMK9dtzcjy5vmCMIg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3117
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.874
  definitions=2022-05-24_05:2022-05-23,
  2022-05-24 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 mlxscore=0
- phishscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 mlxlogscore=999
+ adultscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
  definitions=main-2205240079
-X-Proofpoint-ORIG-GUID: nPAuumOLT1cCLY8XOTN2CiUv6kvhEx80
-X-Proofpoint-GUID: nPAuumOLT1cCLY8XOTN2CiUv6kvhEx80
+X-Proofpoint-ORIG-GUID: 5HBA81X-xCiw6vzHp-rgVqApoLSgbUjr
+X-Proofpoint-GUID: 5HBA81X-xCiw6vzHp-rgVqApoLSgbUjr
 Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
  helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -180,103 +189,268 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define and register handlers for PCI config space accesses
+Assign separate address space for each device in the remote processes.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/remote/vfio-user-obj.c | 51 +++++++++++++++++++++++++++++++++++++++
- hw/remote/trace-events    |  2 ++
- 2 files changed, 53 insertions(+)
+ include/hw/remote/iommu.h |  40 ++++++++++++
+ hw/remote/iommu.c         | 131 ++++++++++++++++++++++++++++++++++++++
+ hw/remote/machine.c       |  13 +++-
+ MAINTAINERS               |   2 +
+ hw/remote/meson.build     |   1 +
+ 5 files changed, 186 insertions(+), 1 deletion(-)
+ create mode 100644 include/hw/remote/iommu.h
+ create mode 100644 hw/remote/iommu.c
 
-diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index fb5c46331c..575bd47397 100644
---- a/hw/remote/vfio-user-obj.c
-+++ b/hw/remote/vfio-user-obj.c
-@@ -46,6 +46,7 @@
- #include "qapi/qapi-events-misc.h"
- #include "qemu/notify.h"
- #include "qemu/thread.h"
-+#include "qemu/main-loop.h"
- #include "sysemu/sysemu.h"
- #include "libvfio-user.h"
- #include "hw/qdev-core.h"
-@@ -244,6 +245,45 @@ retry_attach:
-     qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_ctx_run, NULL, o);
- }
- 
-+static ssize_t vfu_object_cfg_access(vfu_ctx_t *vfu_ctx, char * const buf,
-+                                     size_t count, loff_t offset,
-+                                     const bool is_write)
-+{
-+    VfuObject *o = vfu_get_private(vfu_ctx);
-+    uint32_t pci_access_width = sizeof(uint32_t);
-+    size_t bytes = count;
-+    uint32_t val = 0;
-+    char *ptr = buf;
-+    int len;
+diff --git a/include/hw/remote/iommu.h b/include/hw/remote/iommu.h
+new file mode 100644
+index 0000000000..33b68a8f4b
+--- /dev/null
++++ b/include/hw/remote/iommu.h
+@@ -0,0 +1,40 @@
++/**
++ * Copyright © 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
-+    /*
-+     * Writes to the BAR registers would trigger an update to the
-+     * global Memory and IO AddressSpaces. But the remote device
-+     * never uses the global AddressSpaces, therefore overlapping
-+     * memory regions are not a problem
-+     */
-+    while (bytes > 0) {
-+        len = (bytes > pci_access_width) ? pci_access_width : bytes;
-+        if (is_write) {
-+            memcpy(&val, ptr, len);
-+            pci_host_config_write_common(o->pci_dev, offset,
-+                                         pci_config_size(o->pci_dev),
-+                                         val, len);
-+            trace_vfu_cfg_write(offset, val);
-+        } else {
-+            val = pci_host_config_read_common(o->pci_dev, offset,
-+                                              pci_config_size(o->pci_dev), len);
-+            memcpy(ptr, &val, len);
-+            trace_vfu_cfg_read(offset, val);
-+        }
-+        offset += len;
-+        ptr += len;
-+        bytes -= len;
++#ifndef REMOTE_IOMMU_H
++#define REMOTE_IOMMU_H
++
++#include "hw/pci/pci_bus.h"
++#include "hw/pci/pci.h"
++
++#ifndef INT2VOIDP
++#define INT2VOIDP(i) (void *)(uintptr_t)(i)
++#endif
++
++typedef struct RemoteIommuElem {
++    MemoryRegion *mr;
++
++    AddressSpace as;
++} RemoteIommuElem;
++
++#define TYPE_REMOTE_IOMMU "x-remote-iommu"
++OBJECT_DECLARE_SIMPLE_TYPE(RemoteIommu, REMOTE_IOMMU)
++
++struct RemoteIommu {
++    Object parent;
++
++    GHashTable *elem_by_devfn;
++
++    QemuMutex lock;
++};
++
++void remote_iommu_setup(PCIBus *pci_bus);
++
++void remote_iommu_unplug_dev(PCIDevice *pci_dev);
++
++#endif
+diff --git a/hw/remote/iommu.c b/hw/remote/iommu.c
+new file mode 100644
+index 0000000000..fd723d91f3
+--- /dev/null
++++ b/hw/remote/iommu.c
+@@ -0,0 +1,131 @@
++/**
++ * IOMMU for remote device
++ *
++ * Copyright © 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++
++#include "hw/remote/iommu.h"
++#include "hw/pci/pci_bus.h"
++#include "hw/pci/pci.h"
++#include "exec/memory.h"
++#include "exec/address-spaces.h"
++#include "trace.h"
++
++/**
++ * IOMMU for TYPE_REMOTE_MACHINE - manages DMA address space isolation
++ *     for remote machine. It is used by TYPE_VFIO_USER_SERVER.
++ *
++ * - Each TYPE_VFIO_USER_SERVER instance handles one PCIDevice on a PCIBus.
++ *   There is one RemoteIommu per PCIBus, so the RemoteIommu tracks multiple
++ *   PCIDevices by maintaining a ->elem_by_devfn mapping.
++ *
++ * - memory_region_init_iommu() is not used because vfio-user MemoryRegions
++ *   will be added to the elem->mr container instead. This is more natural
++ *   than implementing the IOMMUMemoryRegionClass APIs since vfio-user
++ *   provides something that is close to a full-fledged MemoryRegion and
++ *   not like an IOMMU mapping.
++ *
++ * - When a device is hot unplugged, the elem->mr reference is dropped so
++ *   all vfio-user MemoryRegions associated with this vfio-user server are
++ *   destroyed.
++ */
++
++static AddressSpace *remote_iommu_find_add_as(PCIBus *pci_bus,
++                                              void *opaque, int devfn)
++{
++    RemoteIommu *iommu = opaque;
++    RemoteIommuElem *elem = NULL;
++
++    qemu_mutex_lock(&iommu->lock);
++
++    elem = g_hash_table_lookup(iommu->elem_by_devfn, INT2VOIDP(devfn));
++
++    if (!elem) {
++        elem = g_malloc0(sizeof(RemoteIommuElem));
++        g_hash_table_insert(iommu->elem_by_devfn, INT2VOIDP(devfn), elem);
 +    }
 +
-+    return count;
++    if (!elem->mr) {
++        elem->mr = MEMORY_REGION(object_new(TYPE_MEMORY_REGION));
++        memory_region_set_size(elem->mr, UINT64_MAX);
++        address_space_init(&elem->as, elem->mr, NULL);
++    }
++
++    qemu_mutex_unlock(&iommu->lock);
++
++    return &elem->as;
 +}
 +
- /*
-  * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
-  * properties. It also depends on devices instantiated in QEMU. These
-@@ -336,6 +376,17 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
-                TYPE_VFU_OBJECT, o->device);
-     qdev_add_unplug_blocker(DEVICE(o->pci_dev), o->unplug_blocker);
- 
-+    ret = vfu_setup_region(o->vfu_ctx, VFU_PCI_DEV_CFG_REGION_IDX,
-+                           pci_config_size(o->pci_dev), &vfu_object_cfg_access,
-+                           VFU_REGION_FLAG_RW | VFU_REGION_FLAG_ALWAYS_CB,
-+                           NULL, 0, -1, 0);
-+    if (ret < 0) {
-+        error_setg(errp,
-+                   "vfu: Failed to setup config space handlers for %s- %s",
-+                   o->device, strerror(errno));
-+        goto fail;
++void remote_iommu_unplug_dev(PCIDevice *pci_dev)
++{
++    AddressSpace *as = pci_device_iommu_address_space(pci_dev);
++    RemoteIommuElem *elem = NULL;
++
++    if (as == &address_space_memory) {
++        return;
 +    }
 +
-     ret = vfu_realize_ctx(o->vfu_ctx);
-     if (ret < 0) {
-         error_setg(errp, "vfu: Failed to realize device %s- %s",
-diff --git a/hw/remote/trace-events b/hw/remote/trace-events
-index 7da12f0d96..2ef7884346 100644
---- a/hw/remote/trace-events
-+++ b/hw/remote/trace-events
-@@ -5,3 +5,5 @@ mpqemu_recv_io_error(int cmd, int size, int nfds) "failed to receive %d size %d,
++    elem = container_of(as, RemoteIommuElem, as);
++
++    address_space_destroy(&elem->as);
++
++    object_unref(elem->mr);
++
++    elem->mr = NULL;
++}
++
++static void remote_iommu_init(Object *obj)
++{
++    RemoteIommu *iommu = REMOTE_IOMMU(obj);
++
++    iommu->elem_by_devfn = g_hash_table_new_full(NULL, NULL, NULL, g_free);
++
++    qemu_mutex_init(&iommu->lock);
++}
++
++static void remote_iommu_finalize(Object *obj)
++{
++    RemoteIommu *iommu = REMOTE_IOMMU(obj);
++
++    qemu_mutex_destroy(&iommu->lock);
++
++    g_hash_table_destroy(iommu->elem_by_devfn);
++
++    iommu->elem_by_devfn = NULL;
++}
++
++void remote_iommu_setup(PCIBus *pci_bus)
++{
++    RemoteIommu *iommu = NULL;
++
++    g_assert(pci_bus);
++
++    iommu = REMOTE_IOMMU(object_new(TYPE_REMOTE_IOMMU));
++
++    pci_setup_iommu(pci_bus, remote_iommu_find_add_as, iommu);
++
++    object_property_add_child(OBJECT(pci_bus), "remote-iommu", OBJECT(iommu));
++
++    object_unref(OBJECT(iommu));
++}
++
++static const TypeInfo remote_iommu_info = {
++    .name = TYPE_REMOTE_IOMMU,
++    .parent = TYPE_OBJECT,
++    .instance_size = sizeof(RemoteIommu),
++    .instance_init = remote_iommu_init,
++    .instance_finalize = remote_iommu_finalize,
++};
++
++static void remote_iommu_register_types(void)
++{
++    type_register_static(&remote_iommu_info);
++}
++
++type_init(remote_iommu_register_types)
+diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+index 4d008ed721..cbb2add291 100644
+--- a/hw/remote/machine.c
++++ b/hw/remote/machine.c
+@@ -20,6 +20,7 @@
+ #include "qapi/error.h"
+ #include "hw/pci/pci_host.h"
+ #include "hw/remote/iohub.h"
++#include "hw/remote/iommu.h"
+ #include "hw/qdev-core.h"
  
- # vfio-user-obj.c
- vfu_prop(const char *prop, const char *val) "vfu: setting %s as %s"
-+vfu_cfg_read(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u -> 0x%x"
-+vfu_cfg_write(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u <- 0x%x"
+ static void remote_machine_init(MachineState *machine)
+@@ -99,6 +100,16 @@ static void remote_machine_instance_init(Object *obj)
+     s->auto_shutdown = true;
+ }
+ 
++static void remote_machine_dev_unplug_cb(HotplugHandler *hotplug_dev,
++                                         DeviceState *dev, Error **errp)
++{
++    qdev_unrealize(dev);
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
++        remote_iommu_unplug_dev(PCI_DEVICE(dev));
++    }
++}
++
+ static void remote_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -107,7 +118,7 @@ static void remote_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = remote_machine_init;
+     mc->desc = "Experimental remote machine";
+ 
+-    hc->unplug = qdev_simple_device_unplug_cb;
++    hc->unplug = remote_machine_dev_unplug_cb;
+ 
+     object_class_property_add_bool(oc, "vfio-user",
+                                    remote_machine_get_vfio_user,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8121671228..9d8695b68d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3604,6 +3604,8 @@ F: hw/remote/iohub.c
+ F: include/hw/remote/iohub.h
+ F: subprojects/libvfio-user
+ F: hw/remote/vfio-user-obj.c
++F: hw/remote/iommu.c
++F: include/hw/remote/iommu.h
+ 
+ EBPF:
+ M: Jason Wang <jasowang@redhat.com>
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+index 0eb5a0f375..ab25c04906 100644
+--- a/hw/remote/meson.build
++++ b/hw/remote/meson.build
+@@ -6,6 +6,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
++remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iommu.c'))
+ remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: files('vfio-user-obj.c'))
+ 
+ remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: libvfio_user_dep)
 -- 
 2.20.1
 
