@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9225532A82
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:39:38 +0200 (CEST)
-Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BA9532A57
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:28:31 +0200 (CEST)
+Received: from localhost ([::1]:33224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntTp3-0000Fj-Nt
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44442)
+	id 1ntTeI-0003UB-6r
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntTEe-0003xG-Ak
- for qemu-devel@nongnu.org; Tue, 24 May 2022 08:02:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33027)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntTMb-0003YS-AC
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 08:10:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntTEa-0005c9-Ur
- for qemu-devel@nongnu.org; Tue, 24 May 2022 08:01:58 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntTMY-0006k8-EO
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 08:10:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653393715;
+ s=mimecast20190719; t=1653394209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gTro9P/m0PFDFr1iDoi737zImcgmBf1lXhGvPQ660wk=;
- b=IpNvn+ryPxHkta9fjEtQ3ibQQzUWgyQZO1jKsqjao9PWMc/bhk6g+lg072lre5F3NqcKZN
- iXtHsCgExD0+p26tZznSK/m4loqIlP/N8t/K4Uzn+dTGVwHvC7X7ypxyNuvr8lghK3ieBH
- ogAWTOueytghnUA7I/ach6bp/vGJsi4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=N3dpTDhoSpOPXC4uSbJm4lLWrwzTnkQiWHaAvAZ+r/g=;
+ b=THyalllJ2AHyVmY2F5JX4H0iKpI7ybBq3ecTb34jB/u4Gk9NhPgxGZTwh3Z/TNbNdokg1N
+ QjtjBuYYY1moEoOCSelYG0iuh4R1mmPiOaJrMQZFqsTkW2i6iq4dM7pmMg8wci/6kwWEJy
+ gdQ64l7Fk7ddHIj6Rrg/lNi1TGW/zq0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-ZgoT5Hu8MqKHPKm-0I1NZw-1; Tue, 24 May 2022 08:01:51 -0400
-X-MC-Unique: ZgoT5Hu8MqKHPKm-0I1NZw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h133-20020a1c218b000000b003972dbb1066so1198698wmh.4
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 05:01:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gTro9P/m0PFDFr1iDoi737zImcgmBf1lXhGvPQ660wk=;
- b=ObQ0RP9qN5OjNRv82XBR19oPk82A0+5oMm3YMoY4B8C99MmKTXW3P4sjCI8kj0XaZ1
- yEYudeNZhWrjBzKXDai5SOot5Ac0RVU+3FmmaqjwjtR5va+xV/ObUvg43DuS2P3CjcE+
- vTRbZv6e9BaA6oXXGDEIZ5WXI9sVEnfg3tT5UJkF7XXVqlTjXeT5/G6WzG5ev8vUEEMo
- uES27ZepksNDAHuRi8Q8ArgRMlqLxspaVp3PGTx8VCcBC4KCAllKNAQAynbxTJBJL1KS
- R2JC7mr8wzjLRjA12PqVR0dPIY8PPTHggT0HrCVFYTiX0lq1GJyOv8ei4XePHrAqEWlb
- DcTA==
-X-Gm-Message-State: AOAM533a+biFv84oDLYbk8vD8ypQiBQpO3darexdTn8ETOQEZpL1kPWy
- sqqU/uhdTw3BzHpGL0OEbWnjNM9xtJ4upCBCPyiokgJ+PE8D9oCi4nDdtwZQ2p3RrEm3d+86fva
- NTK4ltEsVvrjiNko=
-X-Received: by 2002:a05:600c:4fd4:b0:397:4d74:e2c6 with SMTP id
- o20-20020a05600c4fd400b003974d74e2c6mr3381289wmq.179.1653393710600; 
- Tue, 24 May 2022 05:01:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAdOfkAIQ29HwuDrajQpQdINRTaUTkcJupo/lyh4+utd8I7nIyPUpfUvbZ8oYoBdgJtg08rg==
-X-Received: by 2002:a05:600c:4fd4:b0:397:4d74:e2c6 with SMTP id
- o20-20020a05600c4fd400b003974d74e2c6mr3381261wmq.179.1653393710319; 
- Tue, 24 May 2022 05:01:50 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- bi13-20020a05600c3d8d00b00396f8c79d22sm1843214wmb.11.2022.05.24.05.01.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 05:01:48 -0700 (PDT)
-Message-ID: <6933b872-7fd6-8e1f-d37f-b0f13b8aa1ed@redhat.com>
-Date: Tue, 24 May 2022 14:01:46 +0200
+ us-mta-16-LxAkvP8LM7KBKxX600qMYA-1; Tue, 24 May 2022 08:10:08 -0400
+X-MC-Unique: LxAkvP8LM7KBKxX600qMYA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAF231C0514C;
+ Tue, 24 May 2022 12:10:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4431F4087D63;
+ Tue, 24 May 2022 12:10:05 +0000 (UTC)
+Date: Tue, 24 May 2022 14:10:04 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <YozLHPif/jCmOfei@redhat.com>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
+ <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
+ <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 4/5] s390x: Add KVM PV dump interface
-Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, qemu-s390x@nongnu.org
-References: <20220310112547.3823-1-frankja@linux.ibm.com>
- <20220310112547.3823-5-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220310112547.3823-5-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,46 +84,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/03/2022 12.25, Janosch Frank wrote:
-> Let's add a few bits of code which hide the new KVM PV dump API from
-> us via new functions.
+Am 18.05.2022 um 14:28 hat Emanuele Giuseppe Esposito geschrieben:
+> label: // read till the end to see why I wrote this here
 > 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->   hw/s390x/pv.c         | 52 +++++++++++++++++++++++++++++++++++++++++++
->   include/hw/s390x/pv.h |  8 +++++++
->   2 files changed, 60 insertions(+)
+> I was hoping someone from the "No" party would answer to your question,
+> because as you know we reached this same conclusion together.
 > 
-> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-> index a5af4ddf46..d6625fa374 100644
-> --- a/hw/s390x/pv.c
-> +++ b/hw/s390x/pv.c
-> @@ -175,6 +175,58 @@ bool kvm_s390_pv_info_basic_valid(void)
->       return info_valid;
->   }
->   
-> +static int s390_pv_dump_cmd(uint64_t subcmd, uint64_t uaddr, uint64_t gaddr,
-> +                            uint64_t len)
-> +{
-> +    struct kvm_s390_pv_dmp dmp = {
-> +        .subcmd = subcmd,
-> +        .buff_addr = uaddr,
-> +        .buff_len = len,
-> +        .gaddr = gaddr,
-> +    };
-> +    int ret;
-> +
-> +    ret = s390_pv_cmd(KVM_PV_DUMP, (void *)&dmp);
-> +    if (ret) {
-> +        error_report("KVM DUMP command %ld failed", subcmd);
-> +
+> We thought about dropping the drain for various reasons, the main one
+> (at least as far as I understood) is that we are not sure if something
+> can still happen in between drain_begin/end, and it is a little bit
+> confusing to use the same mechanism to block I/O and protect the graph.
+> 
+> We then thought about implementing a rwlock. A rdlock would clarify what
+> we are protecting and who is using the lock. I had a rwlock draft
+> implementation sent in this thread, but this also lead to additional
+> problems.
+> Main problem was that this new lock would introduce nested event loops,
+> that together with such locking would just create deadlocks.
+> If readers are in coroutines and writers are not (because graph
+> operations are not running in coroutines), we have a lot of deadlocks.
+> If a writer has to take the lock, it must wait all other readers to
+> finish. And it does it by internally calling AIO_WAIT_WHILE, creating
+> nested event loop. We don't know what could execute when polling for
+> events, and for example another writer could be resumed.
 
-Please remove the empty line.
+Why is this a problem? Your AIO_WAIT_WHILE() condition would be that
+there are neither readers nor writers, so you would just keep waiting
+until the other writer is done.
 
-> +    }
-> +    return ret;
-> +}
+> Ideally, we want writers in coroutines too.
+>
+> Additionally, many readers are running in what we call "mixed"
+> functions: usually implemented automatically with generated_co_wrapper
+> tag, they let a function (usually bdrv callback) run always in a
+> coroutine, creating one if necessary. For example, bdrv_flush() makes
+> sure hat bs->bdrv_co_flush() is always run in a coroutine.
+> Such mixed functions are used in other callbacks too, making it really
+> difficult to understand if we are in a coroutine or not, and mostly
+> important make rwlock usage very difficult.
 
-  Thomas
+How do they make rwlock usage difficult?
+
+*goes back to old IRC discussions*
+
+Ah, the problem was not the AIO_WAIT_WHILE() while taking the lock, but
+taking the lock first and then running an AIO_WAIT_WHILE() inside the
+locked section. This is forbidden because the callbacks that run during
+AIO_WAIT_WHILE() may in turn wait for the lock that you own, causing a
+deadlock.
+
+This is indeed a problem that running in coroutines would avoid because
+the inner waiter would just yield and the outer one could complete its
+job as soon as it's its turn.
+
+My conclusion in the IRC discussion was that maybe we need to take the
+graph locks when we're entering coroutine context, i.e. the "mixed"
+functions would rdlock the graph when called from non-coroutine context
+and would assume that it's already locked when called from coroutine
+context.
+
+> Which lead us to stepping back once more and try to convert all
+> BlockDriverState callbacks in coroutines. This would greatly simplify
+> rwlock usage, because we could make the rwlock coroutine-frendly
+> (without any AIO_WAIT_WHILE, allowing a writer to wait for readers by
+> just yielding and queuing itself in coroutine queues).
+> 
+> First step was then to convert all callbacks in coroutines, using
+> generated_coroutine_wrapper (g_c_w).
+> A typical g_c_w is implemented in this way:
+> 	if (qemu_in_coroutine()) {
+> 		callback();
+> 	} else { // much simplified
+> 		co = qemu_coroutine_create(callback);
+> 		bdrv_coroutine_enter(bs, co);
+> 		BDRV_POLL_WHILE(bs, coroutine_in_progress);
+> 	}
+> Once all callbacks are implemented using g_c_w, we can start splitting
+> the two sides of the if function to only create a coroutine when we are
+> outside from a bdrv callback.
+> 
+> However, we immediately found a problem while starting to convert the
+> first callbacks: the AioContext lock is taken around some non coroutine
+> callbacks! For example, bs->bdrv_open() is always called with the
+> AioContext lock taken. In addition, callbacks like bdrv_open are
+> graph-modifying functions, which is probably why we are taking the
+> Aiocontext lock, and they do not like to run in coroutines.
+> Anyways, the real problem comes when we create a coroutine in such
+> places where the AioContext lock is taken and we have a graph-modifying
+> function.
+> 
+> bdrv_coroutine_enter() calls aio_co_enter(), which in turns first checks
+>  if the coroutine is entering another context from the current (which is
+> not the case for open) and if we are already in coroutine (for sure
+> not). Therefore it resorts to the following calls;
+> 	aio_context_acquire(ctx);
+>         qemu_aio_coroutine_enter(ctx, co);
+>         aio_context_release(ctx);
+> Which is clearly a problem, because we are taking the lock twice: once
+> from the original caller of the callback, and once here due to the
+> coroutine. This creates a lot of deadlock situations.
+
+What are the deadlock situations that are created by locking twice?
+
+The only problem I'm aware of is AIO_WAIT_WHILE(), which wants to
+temporarily unlock the AioContext It calls aio_context_release() once to
+achieve this, which obviously isn't enough when the context was locked
+twice.
+
+But AIO_WAIT_WHILE() isn't allowed in coroutines anyway. So how are we
+running into deadlocks here?
+
+Note that we're probably already doing this inside the .bdrv_open
+implementations: They will ususally read something from the image file,
+calling bdrv_preadv() which is already a generated_coroutine_wrapper
+today and creates a coroutine internally with the same locking pattern
+applied that you describe as problematic here.
+
+Making .bdrv_open itself a generated_coroutine_wrapper wouldn't really
+change anything fundamental, it would just pull the existing mechanism
+one function higher in the call stack.
+
+> For example, all callers of bdrv_open() always take the AioContext lock.
+> Often it is taken very high in the call stack, but it's always taken.
+> 
+> Getting rid of the lock around qemu_aio_coroutine_enter() is difficult
+> too, because coroutines expect to have the lock taken. For example, if
+> we want to drain from a coroutine, bdrv_co_yield_to_drain releases the
+> lock for us.
+
+It's not difficult at all in your case where you know that you're
+already in the right thread and the lock is taken: You can call
+qemu_aio_coroutine_enter() directly instead of bdrv_coroutine_enter() in
+this case.
+
+But as I said, I'm not sure why we need to get rid of it at all.
+
+Kevin
 
 
