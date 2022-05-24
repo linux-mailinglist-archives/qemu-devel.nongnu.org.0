@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766DA53325E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:22:35 +0200 (CEST)
-Received: from localhost ([::1]:39254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6B3533259
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:18:50 +0200 (CEST)
+Received: from localhost ([::1]:58590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntb34-0003uQ-J3
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58582)
+	id 1ntazR-0006CV-BZ
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:18:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntaqP-0006MC-IO
- for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:29 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36778)
+ id 1ntaqg-0006aT-D5
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:46 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:37878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntaqJ-0002AN-BK
- for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:25 -0400
-Received: by mail-ej1-x633.google.com with SMTP id gi33so29053107ejc.3
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 13:09:22 -0700 (PDT)
+ id 1ntaqe-0002F8-85
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:46 -0400
+Received: by mail-ej1-x629.google.com with SMTP id rq11so15444486ejc.4
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 13:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RoRm32DAUBvzTDWuU91wm+vveag3rgZu0Hmn9RQ3js0=;
- b=KrYNoNkU3z+iO06k3oe/NycUf/AjgM+TOGSly6R9+IKnLbojyBtyXbBCcatLnZtjGI
- YxB7wwTDfbNTCaAbqJ4gGPrKSNnKxGwrj8blnLmDUTIHbnbQsMg7VaP9xpbfaEzmmgvq
- sytFPBNYY73MfSMFCYMZU6rPrFpZWBPMpx4HvB1dMyKpxvJCB+Wd7ydjYpN+oWUasQFm
- 3V/MUU8u4BEZsvoJf7JNiJMFWPLI82r9OUayUB53lUf8rV8zn0xyQsCv9Os9mnfvsjWn
- tmzuvY9dEXC8c8TZwk7rjha1u83kjlZtx5W/TV5M/HoN5JULK+4vRzzGWAdG1DdybZeU
- K3wQ==
+ :cc; bh=kwet7AqFbAIpfjpoHJp8MnRdkykz0MtFqAh1niMiOCo=;
+ b=Il0qKILEkke7E4pH1AIgjc+KMY/DR6/1GVJHzN2PExrXITX6a2bT+50B9lCgq4zwBA
+ R3TR/cM6/T78pWdS/GHT/iT84YgNGWBpNvYrz1nLLcYrgFeT+xsqMxOuyXYr9N/L9vpX
+ SxGLcJD5hGfLu65VsPlV2kb28hYv5wbby10Jxy/07se7qzLL32M9LeslyKaIEA/OGWvD
+ x9OlN5vd26NK1x2lb9egMv7glpaLitgT0uSdPeC5zXlAwbLdZb892AJadHvoP9wtKvoB
+ EOxayirrtNvlCnxQmEa7GffnS1ApUGrs5Crbo/jFrUErUp8w5fXl5umEDXzMtoZCMf2e
+ NtAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RoRm32DAUBvzTDWuU91wm+vveag3rgZu0Hmn9RQ3js0=;
- b=gJh8EOHXKqFYYJqW2rAdB0MGaKclDej7zjBWbl77JlMuwlpWBMi8LIuvy8L1tWjiYc
- WtW4QL/LxwNfzuPVko0DQ1aLsV6EA+la1x7diSsH1mwgeTw2CEOSNuzCijNOar5v3BWw
- aOulfrxCuh7JrtpXcYCnAlsN3i8IeHuvRZJLKgqv4IXfn9m0cTKzGSyi3T9lcbr12brj
- Wj+6ysqvH6uUXeT+JO4ZGieKqYddFpd83daWOdWaXOsjUhoRxWHFE6qJ6UGw6RenrrKI
- m/ErOpR0qC4d+ZfeQVsT6Zc00R0BM1/82jjiCrocFlUROd6yo5hNNTpkp3HhEXq2Jr0b
- EcOw==
-X-Gm-Message-State: AOAM533AjYWmXDkZlEChdJkDTl374a+VkebMnAvtS8BklSr9hD/kGgpj
- y4ye8G8cmHEFD0NOZgjEgSHqXhgakZrlSdAhnnC+lA==
-X-Google-Smtp-Source: ABdhPJwyGGF52SWGoU12KF0arYo5hSp4XOFTNbesj7B/thPOtQIsTPtvkDWodnR1Ch1zTEZpsBBL0+5X65XtDV/t7oU=
-X-Received: by 2002:a17:907:9602:b0:6df:e82c:f84 with SMTP id
- gb2-20020a170907960200b006dfe82c0f84mr25714164ejc.590.1653422962035; Tue, 24
- May 2022 13:09:22 -0700 (PDT)
+ bh=kwet7AqFbAIpfjpoHJp8MnRdkykz0MtFqAh1niMiOCo=;
+ b=3MZ6A6RgxINoaGxGYYX/ZLbxLYaovJpBsdp1+ZgQyuMycrMo9uvgt3yCcrsNyI+9Q3
+ pyjqLCrXbDQRY732RurEd1HlXM1gg9FqqPuo7y8f8ijciXz39+g+4pTb21NLTit8zpCV
+ T4BkB6waBBOyedroMXmIvNog9XDP77oDwXOX/H2iHTfirxs1DSH2Q06iI+fQmJf6UKp6
+ kfOL0QMNAV9MKkijfr0nYaHcCbOxvclasR8S9VAnnsbyZSUZHYeQU5AdY8ODmL7zwSxD
+ H0vn1UMBvQEWPgtgzVYSrZuKpTnvtoHE0/C/TUsSI4ucBqeRDU4bY9KM8ls4XbRwYeJI
+ DyCw==
+X-Gm-Message-State: AOAM532tT088v1SkMCqbrp4kB0FmJWCmR2yiFU6HzjtL8b7UO7rw0cLY
+ aUPHzbUEQ3YOh/LinmMoUrJGdpabr2F1Ef6vimAAKA==
+X-Google-Smtp-Source: ABdhPJw4fhN+AwozCNai8eal5cMc0MWMV/C5LZa1dJYdSKfRF227JCaGtreEQbAq215eRApEKliiqNO2sg9k2dNnsHg=
+X-Received: by 2002:a17:907:7ea8:b0:6f5:941:cba9 with SMTP id
+ qb40-20020a1709077ea800b006f50941cba9mr25068736ejc.213.1653422982936; Tue, 24
+ May 2022 13:09:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-10-damien.hedde@greensocs.com>
- <abd92319-d751-3b62-a73b-674e12aab66c@gmail.com>
-In-Reply-To: <abd92319-d751-3b62-a73b-674e12aab66c@gmail.com>
+ <20220223090706.4888-13-damien.hedde@greensocs.com>
+In-Reply-To: <20220223090706.4888-13-damien.hedde@greensocs.com>
 From: Jim Shu <jim.shu@sifive.com>
-Date: Wed, 25 May 2022 04:09:09 +0800
-Message-ID: <CALw707pCwDyAXhpqfv87WD67gAA3P6Dcmg0fuc0UaxXYsS9-CQ@mail.gmail.com>
-Subject: Re: [PATCH v4 09/14] none-machine: allow cold plugging sysbus devices
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+Date: Wed, 25 May 2022 04:09:29 +0800
+Message-ID: <CALw707oDT_JcZ1yf0Xb+5qUKmPe2bFdHEnxRG4_QqGipx0FVGg@mail.gmail.com>
+Subject: Re: [PATCH v4 12/14] add sysbus-mmio-map qapi command
+To: Damien Hedde <damien.hedde@greensocs.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  mark.burton@greensocs.com, edgari@xilinx.com, 
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000050e89f05dfc7888e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=jim.shu@sifive.com; helo=mail-ej1-x633.google.com
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008fd26a05dfc789b5"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=jim.shu@sifive.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,78 +88,334 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000050e89f05dfc7888e
+--0000000000008fd26a05dfc789b5
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 Tested-by: Jim Shu <jim.shu@sifive.com>
 
-On Thu, Mar 3, 2022 at 10:46 PM Philippe Mathieu-Daud=C3=A9 <
-philippe.mathieu.daude@gmail.com> wrote:
+On Wed, Feb 23, 2022 at 5:37 PM Damien Hedde <damien.hedde@greensocs.com>
+wrote:
 
-> On 23/2/22 10:07, Damien Hedde wrote:
-> > Allow plugging any sysbus device on this machine (the sysbus
-> > devices still need to be 'user-creatable').
-> >
-> > This commit is needed to use the 'none' machine as a base, and
-> > subsequently to dynamically populate it with sysbus devices using
-> > qapi commands.
-> >
-> > Note that this only concern cold-plug: sysbus devices cann't be hot
+> This command allows to map an mmio region of sysbus device onto
+> the system memory. Its behavior mimics the sysbus_mmio_map()
+> function apart from the automatic unmap (the C function unmaps
+> the region if it is already mapped).
+> For the qapi function we consider it is an error to try to map
+> an already mapped function. If unmapping is required, it is
+> probably better to add a sysbus-mmip-unmap command.
 >
-> "can not" is easier to understand for non-native / not good level of
-> English speakers IMHO.
+> This command is still experimental (hence the 'unstable' feature),
+> as it is related to the sysbus device creation through qapi commands.
 >
-> > plugged because the sysbus bus does not support it.
-> >
-> > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> > ---
-> >   hw/core/null-machine.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
+> This command is required to be able to dynamically build a machine
+> from scratch as there is no qapi-way of doing a memory mapping.
 >
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+>
+> v4:
+>  + integrate priority parameter
+>  + use 'unstable' feature flag instead of 'x-' prefix
+>  + bump version to 7.0
+>  + dropped Alistair's reviewed-by as a consequence
+> ---
+>  qapi/qdev.json   | 31 ++++++++++++++++++++++++++++++
+>  hw/core/sysbus.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 80 insertions(+)
+>
+> diff --git a/qapi/qdev.json b/qapi/qdev.json
+> index 2e2de41499..4830e87a90 100644
+> --- a/qapi/qdev.json
+> +++ b/qapi/qdev.json
+> @@ -160,3 +160,34 @@
+>  ##
+>  { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
+>    'data': { '*device': 'str', 'path': 'str' } }
+> +
+> +##
+> +# @sysbus-mmio-map:
+> +#
+> +# Map a sysbus device mmio onto the main system bus.
+> +#
+> +# @device: the device's QOM path
+> +#
+> +# @mmio: The mmio number to be mapped (defaults to 0).
+> +#
+> +# @addr: The base address for the mapping.
+> +#
+> +# @priority: The priority of the mapping (defaults to 0).
+> +#
+> +# Features:
+> +# @unstable: Command is meant to map sysbus devices
+> +#            while in preconfig mode.
+> +#
+> +# Since: 7.0
+> +#
+> +# Returns: Nothing on success
+> +#
+> +##
+> +
+> +{ 'command': 'sysbus-mmio-map',
+> +  'data': { 'device': 'str',
+> +            '*mmio': 'uint8',
+> +            'addr': 'uint64',
+> +            '*priority': 'int32' },
+> +  'features': ['unstable'],
+> +  'allow-preconfig' : true }
+> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+> index 05c1da3d31..df1f1f43a5 100644
+> --- a/hw/core/sysbus.c
+> +++ b/hw/core/sysbus.c
+> @@ -23,6 +23,7 @@
+>  #include "hw/sysbus.h"
+>  #include "monitor/monitor.h"
+>  #include "exec/address-spaces.h"
+> +#include "qapi/qapi-commands-qdev.h"
+>
+>  static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent);
+>  static char *sysbus_get_fw_dev_path(DeviceState *dev);
+> @@ -154,6 +155,54 @@ static void sysbus_mmio_map_common(SysBusDevice *dev,
+> int n, hwaddr addr,
+>      }
+>  }
+>
+> +void qmp_sysbus_mmio_map(const char *device,
+> +                         bool has_mmio, uint8_t mmio,
+> +                         uint64_t addr,
+> +                         bool has_priority, int32_t priority,
+> +                         Error **errp)
+> +{
+> +    Object *obj = object_resolve_path_type(device, TYPE_SYS_BUS_DEVICE,
+> NULL);
+> +    SysBusDevice *dev;
+> +
+> +    if (phase_get() != PHASE_MACHINE_INITIALIZED) {
+> +        error_setg(errp, "The command is permitted only when "
+> +                         "the machine is in initialized phase");
+> +        return;
+> +    }
+> +
+> +    if (obj == NULL) {
+> +        error_setg(errp, "Device '%s' not found", device);
+> +        return;
+> +    }
+> +    dev = SYS_BUS_DEVICE(obj);
+> +
+> +    if (!has_mmio) {
+> +        mmio = 0;
+> +    }
+> +    if (!has_priority) {
+> +        priority = 0;
+> +    }
+> +
+> +    if (mmio >= dev->num_mmio) {
+> +        error_setg(errp, "MMIO index '%u' does not exist in '%s'",
+> +                   mmio, device);
+> +        return;
+> +    }
+> +
+> +    if (dev->mmio[mmio].addr != (hwaddr)-1) {
+> +        error_setg(errp, "MMIO index '%u' is already mapped", mmio);
+> +        return;
+> +    }
+> +
+> +    if (!memory_region_try_add_subregion(get_system_memory(), addr,
+> +                                         dev->mmio[mmio].memory, priority,
+> +                                         errp)) {
+> +        return;
+> +    }
+> +
+> +    dev->mmio[mmio].addr = addr;
+> +}
+> +
+>  void sysbus_mmio_unmap(SysBusDevice *dev, int n)
+>  {
+>      assert(n >= 0 && n < dev->num_mmio);
+> --
+> 2.35.1
+>
 >
 >
 
---00000000000050e89f05dfc7888e
+--0000000000008fd26a05dfc789b5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">Tested-by: Jim Shu &lt;<a href=3D"mailto:jim.shu@sifive.co=
 m" target=3D"_blank">jim.shu@sifive.com</a>&gt;<br></div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 3, 2022 at 1=
-0:46 PM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philippe.mathieu.=
-daude@gmail.com" target=3D"_blank">philippe.mathieu.daude@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 23/2/=
-22 10:07, Damien Hedde wrote:<br>
-&gt; Allow plugging any sysbus device on this machine (the sysbus<br>
-&gt; devices still need to be &#39;user-creatable&#39;).<br>
-&gt; <br>
-&gt; This commit is needed to use the &#39;none&#39; machine as a base, and=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 23, 2022 at =
+5:37 PM Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.com" targ=
+et=3D"_blank">damien.hedde@greensocs.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">This command allows to map an mmio =
+region of sysbus device onto<br>
+the system memory. Its behavior mimics the sysbus_mmio_map()<br>
+function apart from the automatic unmap (the C function unmaps<br>
+the region if it is already mapped).<br>
+For the qapi function we consider it is an error to try to map<br>
+an already mapped function. If unmapping is required, it is<br>
+probably better to add a sysbus-mmip-unmap command.<br>
 <br>
-&gt; subsequently to dynamically populate it with sysbus devices using<br>
-&gt; qapi commands.<br>
-&gt; <br>
-&gt; Note that this only concern cold-plug: sysbus devices cann&#39;t be ho=
-t<br>
+This command is still experimental (hence the &#39;unstable&#39; feature),<=
+br>
+as it is related to the sysbus device creation through qapi commands.<br>
 <br>
-&quot;can not&quot; is easier to understand for non-native / not good level=
- of<br>
-English speakers IMHO.<br>
+This command is required to be able to dynamically build a machine<br>
+from scratch as there is no qapi-way of doing a memory mapping.<br>
 <br>
-&gt; plugged because the sysbus bus does not support it.<br>
-&gt; <br>
-&gt; Signed-off-by: Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greenso=
-cs.com" target=3D"_blank">damien.hedde@greensocs.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/core/null-machine.c | 4 ++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+)<br>
+Signed-off-by: Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.co=
+m" target=3D"_blank">damien.hedde@greensocs.com</a>&gt;<br>
+---<br>
+Cc: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.com" target=
+=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
 <br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+v4:<br>
+=C2=A0+ integrate priority parameter<br>
+=C2=A0+ use &#39;unstable&#39; feature flag instead of &#39;x-&#39; prefix<=
+br>
+=C2=A0+ bump version to 7.0<br>
+=C2=A0+ dropped Alistair&#39;s reviewed-by as a consequence<br>
+---<br>
+=C2=A0qapi/qdev.json=C2=A0 =C2=A0| 31 ++++++++++++++++++++++++++++++<br>
+=C2=A0hw/core/sysbus.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A02 files changed, 80 insertions(+)<br>
+<br>
+diff --git a/qapi/qdev.json b/qapi/qdev.json<br>
+index 2e2de41499..4830e87a90 100644<br>
+--- a/qapi/qdev.json<br>
++++ b/qapi/qdev.json<br>
+@@ -160,3 +160,34 @@<br>
+=C2=A0##<br>
+=C2=A0{ &#39;event&#39;: &#39;DEVICE_UNPLUG_GUEST_ERROR&#39;,<br>
+=C2=A0 =C2=A0&#39;data&#39;: { &#39;*device&#39;: &#39;str&#39;, &#39;path&=
+#39;: &#39;str&#39; } }<br>
++<br>
++##<br>
++# @sysbus-mmio-map:<br>
++#<br>
++# Map a sysbus device mmio onto the main system bus.<br>
++#<br>
++# @device: the device&#39;s QOM path<br>
++#<br>
++# @mmio: The mmio number to be mapped (defaults to 0).<br>
++#<br>
++# @addr: The base address for the mapping.<br>
++#<br>
++# @priority: The priority of the mapping (defaults to 0).<br>
++#<br>
++# Features:<br>
++# @unstable: Command is meant to map sysbus devices<br>
++#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while in preconfig mode.<br>
++#<br>
++# Since: 7.0<br>
++#<br>
++# Returns: Nothing on success<br>
++#<br>
++##<br>
++<br>
++{ &#39;command&#39;: &#39;sysbus-mmio-map&#39;,<br>
++=C2=A0 &#39;data&#39;: { &#39;device&#39;: &#39;str&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*mmio&#39;: &#39;uint8&#39;=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;addr&#39;: &#39;uint64&#39;=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*priority&#39;: &#39;int32&=
+#39; },<br>
++=C2=A0 &#39;features&#39;: [&#39;unstable&#39;],<br>
++=C2=A0 &#39;allow-preconfig&#39; : true }<br>
+diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c<br>
+index 05c1da3d31..df1f1f43a5 100644<br>
+--- a/hw/core/sysbus.c<br>
++++ b/hw/core/sysbus.c<br>
+@@ -23,6 +23,7 @@<br>
+=C2=A0#include &quot;hw/sysbus.h&quot;<br>
+=C2=A0#include &quot;monitor/monitor.h&quot;<br>
+=C2=A0#include &quot;exec/address-spaces.h&quot;<br>
++#include &quot;qapi/qapi-commands-qdev.h&quot;<br>
+<br>
+=C2=A0static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int inde=
+nt);<br>
+=C2=A0static char *sysbus_get_fw_dev_path(DeviceState *dev);<br>
+@@ -154,6 +155,54 @@ static void sysbus_mmio_map_common(SysBusDevice *dev, =
+int n, hwaddr addr,<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
++void qmp_sysbus_mmio_map(const char *device,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0bool has_mmio, uint8_t mmio,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0uint64_t addr,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0bool has_priority, int32_t priority,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 Object *obj =3D object_resolve_path_type(device, TYPE_SYS_BU=
+S_DEVICE, NULL);<br>
++=C2=A0 =C2=A0 SysBusDevice *dev;<br>
++<br>
++=C2=A0 =C2=A0 if (phase_get() !=3D PHASE_MACHINE_INITIALIZED) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The command is permitte=
+d only when &quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&quot;the machine is in initialized phase&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (obj =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Device &#39;%s&#39; not=
+ found&quot;, device);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 dev =3D SYS_BUS_DEVICE(obj);<br>
++<br>
++=C2=A0 =C2=A0 if (!has_mmio) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mmio =3D 0;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (!has_priority) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 priority =3D 0;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (mmio &gt;=3D dev-&gt;num_mmio) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;MMIO index &#39;%u&#39;=
+ does not exist in &#39;%s&#39;&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmio,=
+ device);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (dev-&gt;mmio[mmio].addr !=3D (hwaddr)-1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;MMIO index &#39;%u&#39;=
+ is already mapped&quot;, mmio);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (!memory_region_try_add_subregion(get_system_memory(), ad=
+dr,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0de=
+v-&gt;mmio[mmio].memory, priority,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0er=
+rp)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 dev-&gt;mmio[mmio].addr =3D addr;<br>
++}<br>
++<br>
+=C2=A0void sysbus_mmio_unmap(SysBusDevice *dev, int n)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0assert(n &gt;=3D 0 &amp;&amp; n &lt; dev-&gt;num_mmio);=
+<br>
+-- <br>
+2.35.1<br>
+<br>
 <br>
 </blockquote></div>
 
---00000000000050e89f05dfc7888e--
+--0000000000008fd26a05dfc789b5--
 
