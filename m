@@ -2,70 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F6E532F12
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:35:56 +0200 (CEST)
-Received: from localhost ([::1]:51742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7299C532F15
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 18:37:39 +0200 (CEST)
+Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntXVj-0004Lq-8z
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
+	id 1ntXXO-0007hH-Cv
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 12:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ntX4D-0004LV-Cs; Tue, 24 May 2022 12:07:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:60855)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1ntX5j-0004gq-QG; Tue, 24 May 2022 12:09:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ntX4B-00019k-GU; Tue, 24 May 2022 12:07:29 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mbj3e-1nHjTO0cGM-00dGyH; Tue, 24 May 2022 18:07:16 +0200
-Message-ID: <2baaa63c-2ac2-7e8b-2d08-a7eb59644ac5@vivier.eu>
-Date: Tue, 24 May 2022 18:07:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: PING: [PATCH 2/2] tests/tcg/s390x: Test unwinding from signal
- handlers
-Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1ntX5e-0001Ew-RR; Tue, 24 May 2022 12:09:03 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24OFmBLR000855;
+ Tue, 24 May 2022 16:08:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Wrjsb1yctVKMuxHIRvKfOgu/rg22sLZgP1Xg/7sBDwg=;
+ b=BT5KUdxdzhErZksN1vU2uhL1p+xxs+OeF9aHQ8GDeFQllwWh6qiLGdZjkZoJoJ74O8ZV
+ 1+1sQXrC4cdCjwREPONwwJD9q+3GwgANSLg+86HtALIGx/mBnlI9gjCDTMvoonCqO5Zt
+ ww8Neype60i0KwY/q/9BNwmeoW+5+xGVLehYSWE30n0kMl8RrykyNPvkznP4sCZ7Oupe
+ 0XYPogz2Pg2bOhca36IuFq+WgGy1/93+q0rt+Z57X5k1B/q4+Jz/LpR573pqPiAkuI3y
+ VCfjCr0VdHZao8eKNSq4ukaVdPo3UIELqZUmVruGgprBARzLoUA0Cm5GgewpkRqjrYdt MQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g92aw8gmt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 May 2022 16:08:52 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24OG76vV020050;
+ Tue, 24 May 2022 16:08:52 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g92aw8gku-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 May 2022 16:08:51 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24OG6Se5021797;
+ Tue, 24 May 2022 16:08:50 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3g6qbjcr8t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 May 2022 16:08:49 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24OG8kHC20513192
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 24 May 2022 16:08:46 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A87DF4C04E;
+ Tue, 24 May 2022 16:08:46 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E026D4C046;
+ Tue, 24 May 2022 16:08:45 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.31.211])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 24 May 2022 16:08:45 +0000 (GMT)
+Date: Tue, 24 May 2022 18:08:37 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ulrich Weigand <ulrich.weigand@de.ibm.com>
-References: <20220503225157.1696774-1-iii@linux.ibm.com>
- <20220503225157.1696774-3-iii@linux.ibm.com>
- <03b9e56549edc455d8afe89a9fcad01715b88475.camel@linux.ibm.com>
- <f6e0826a-c60d-b806-79f1-1b5b5f6038e9@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <f6e0826a-c60d-b806-79f1-1b5b5f6038e9@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH 2/2] target/s390x: kvm: Honor storage keys during emulation
+Message-ID: <20220524180837.6965cadb.pasic@linux.ibm.com>
+In-Reply-To: <17934f59-4425-cdae-80b2-cfeb9bd97f7d@redhat.com>
+References: <20220506153956.2217601-1-scgl@linux.ibm.com>
+ <20220506153956.2217601-3-scgl@linux.ibm.com>
+ <21468730-e57f-a54a-bde4-6bb927d6b651@redhat.com>
+ <384df8c6-4309-17a5-464e-46b23507f362@linux.ibm.com>
+ <17934f59-4425-cdae-80b2-cfeb9bd97f7d@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mHAY2jsOvhruitFjlBdyxJZe52lcA0pUwpM36HRPfnjfNOtCw6G
- zF+z+CsloJw6Wzs8y0N9zRxKTFl5noDeYzwGyQ1K40hHBcxycl6Fz8Ax5tJn4JFPblRRxGw
- gJisy5VH+ZHydC2A3w5vSxrseeB2M6aPD5TVrNVyGxJlIjRis4zPQC2+HLasJ7EeKD2yVgD
- FG5Z3qgzdDQERyPBeNm4w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kWbeD8OJX+4=:k1ctrWmK5La+gaHS/buKVy
- 8NqXLEYGsYXoDJWKzAvq5nS/+TRO+IU/cvaakeV8rFRLTkImt9y7n4Xh2i3KI2Srwo4fzcC9L
- 5iQaBRFTXQ9/pBVULMK4/HH4GQI3B+YRf242+BHHMC5+A1pxf9UJYuUPKznrkGRISt2fYdyeP
- wnw8wcwZJ7UfAVl21AguARopaq7h5u01bcR/a8LDw8I8ntnQJ5TMnUhov3+eGPvaOmjgbqVjr
- NoUCf9bLHnQ/3yBwEwotCiGclBZ0m2dS3wm0BZldAwTjLFIXqtrwxWQakG1xl4ueLAYv90NjG
- B6SX7ccer1E2Rc1W6xLFjhHp/I/qmzHE07Uy+SD+1Vy7kY8MTz7kx8M+ohCnNSFylhonRV4fD
- M+2PIZkZUY8vvgUBnO1DygvLldXrg3gpd9I5d8pt7vt/Fi7hKFxGWnWPXNgEWskU8P6b1yfYB
- znqdWmWiZHQTQViCXbbTigF5JTC0+HbJu94DlpRcoU1YvY+uytclbf/B+RjuZhXShLeUVgCJI
- cvjtl7T3F6siJ8RLshhhTz5XEtp6+RmrexckEIKmoP307acxU/QMj4dRmJihKHpeKfy/HuoN5
- 3syuedy1mzuXSlNhOsbHo+e3IG8tLHKPaHgd1OULZYVwjbHfhv5dg9Ck/p5f27WzYC+AuhAiF
- BkBfkxOpfJZIO0fvHk21pXqhiYtKvIwW9tq2rIfllj7C1BHwkBCv2R3SDHvhc+5TBEPCHJhem
- nb6mt3K0npCINNKYvL1wNvJE+TlBsbuEX7icnA==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 0yBSXIvWGW0rV4Z1iPtO-uGX1gjOyG5d
+X-Proofpoint-GUID: ySrKifE5NbjOO8Aw4D46_x1VZQwH2YbW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-24_08,2022-05-23_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ clxscore=1011 mlxlogscore=999 phishscore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205240083
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,150 +124,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/05/2022 à 11:56, Thomas Huth a écrit :
-> On 19/05/2022 13.34, Ilya Leoshkevich wrote:
->> On Wed, 2022-05-04 at 00:51 +0200, Ilya Leoshkevich wrote:
->>> Add a small test to prevent regressions.
->>>
->>> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
->>> ---
->>>   tests/tcg/s390x/signals-s390x.c | 69 ++++++++++++++++++++++++++-----
->>> -- 
->>>   1 file changed, 55 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/tests/tcg/s390x/signals-s390x.c
->>> b/tests/tcg/s390x/signals-s390x.c
->>> index dc2f8ee59a..48c3b6cdfd 100644
->>> --- a/tests/tcg/s390x/signals-s390x.c
->>> +++ b/tests/tcg/s390x/signals-s390x.c
->>> @@ -1,4 +1,5 @@
->>>   #include <assert.h>
->>> +#include <execinfo.h>
->>>   #include <signal.h>
->>>   #include <string.h>
->>>   #include <sys/mman.h>
->>> @@ -11,22 +12,28 @@
->>>    * inline asm is used instead.
->>>    */
->>> +#define DEFINE_ASM_FUNCTION(name, body) \
->>> +    asm(".globl " #name "\n" \
->>> +        #name ":\n" \
->>> +        ".cfi_startproc\n" \
->>> +        body "\n" \
->>> +        "br %r14\n" \
->>> +        ".cfi_endproc");
->>> +
->>>   void illegal_op(void);
->>> -void after_illegal_op(void);
->>> -asm(".globl\tillegal_op\n"
->>> -    "illegal_op:\t.byte\t0x00,0x00\n"
->>> -    "\t.globl\tafter_illegal_op\n"
->>> -    "after_illegal_op:\tbr\t%r14");
->>> +extern const char after_illegal_op;
->>> +DEFINE_ASM_FUNCTION(illegal_op,
->>> +    ".byte 0x00,0x00\n"
->>> +    ".globl after_illegal_op\n"
->>> +    "after_illegal_op:")
->>>   void stg(void *dst, unsigned long src);
->>> -asm(".globl\tstg\n"
->>> -    "stg:\tstg\t%r3,0(%r2)\n"
->>> -    "\tbr\t%r14");
->>> +DEFINE_ASM_FUNCTION(stg, "stg %r3,0(%r2)")
->>>   void mvc_8(void *dst, void *src);
->>> -asm(".globl\tmvc_8\n"
->>> -    "mvc_8:\tmvc\t0(8,%r2),0(%r3)\n"
->>> -    "\tbr\t%r14");
->>> +DEFINE_ASM_FUNCTION(mvc_8, "mvc 0(8,%r2),0(%r3)")
->>> +
->>> +extern const char return_from_main_1;
->>>   static void safe_puts(const char *s)
->>>   {
->>> @@ -49,8 +56,9 @@ static struct {
->>>   static void handle_signal(int sig, siginfo_t *info, void *ucontext)
->>>   {
->>> +    int err, i, n_frames;
->>> +    void *frames[16];
->>>       void *page;
->>> -    int err;
->>>       if (sig != expected.sig) {
->>>           safe_puts("[  FAILED  ] wrong signal");
->>> @@ -86,6 +94,17 @@ static void handle_signal(int sig, siginfo_t
->>> *info, void *ucontext)
->>>       default:
->>>           break;
->>>       }
->>> +
->>> +    n_frames = backtrace(frames, sizeof(frames) /
->>> sizeof(frames[0]));
->>> +    for (i = 0; i < n_frames; i++) {
->>> +        if (frames[i] == &return_from_main_1) {
->>> +            break;
->>> +        }
->>> +    }
->>> +    if (i == n_frames) {
->>> +        safe_puts("[  FAILED  ] backtrace() is broken");
->>> +        _exit(1);
->>> +    }
->>>   }
->>>   static void check_sigsegv(void *func, enum exception exception,
->>> @@ -122,7 +141,7 @@ static void check_sigsegv(void *func, enum
->>> exception exception,
->>>       assert(err == 0);
->>>   }
->>> -int main(void)
->>> +int main_1(void)
->>>   {
->>>       struct sigaction act;
->>>       int err;
->>> @@ -138,7 +157,7 @@ int main(void)
->>>       safe_puts("[ RUN      ] Operation exception");
->>>       expected.sig = SIGILL;
->>>       expected.addr = illegal_op;
->>> -    expected.psw_addr = (unsigned long)after_illegal_op;
->>> +    expected.psw_addr = (unsigned long)&after_illegal_op;
->>>       expected.exception = exception_operation;
->>>       illegal_op();
->>>       safe_puts("[       OK ]");
->>> @@ -163,3 +182,25 @@ int main(void)
->>>       _exit(0);
->>>   }
->>> +
->>> +/*
->>> + * Define main() in assembly in order to test that unwinding from
->>> signal
->>> + * handlers until main() works. This way we can define a specific
->>> point that
->>> + * the unwinder should reach. This is also better than defining
->>> main() in C
->>> + * and using inline assembly to call main_1(), since it's not easy
->>> to get all
->>> + * the clobbers right.
->>> + */
->>> +
->>> +DEFINE_ASM_FUNCTION(main,
->>> +    "stmg %r14,%r15,112(%r15)\n"
->>> +    ".cfi_offset 14,-48\n"
->>> +    ".cfi_offset 15,-40\n"
->>> +    "lay %r15,-160(%r15)\n"
->>> +    ".cfi_def_cfa_offset 320\n"
->>> +    "brasl %r14,main_1\n"
->>> +    ".globl return_from_main_1\n"
->>> +    "return_from_main_1:\n"
->>> +    "lmg %r14,%r15,272(%r15)\n"
->>> +    ".cfi_restore 15\n"
->>> +    ".cfi_restore 14\n"
->>> +    ".cfi_def_cfa_offset 160");
->>
->> Ping.
+On Tue, 24 May 2022 12:43:29 +0200
+Thomas Huth <thuth@redhat.com> wrote:
+
+> On 19/05/2022 15.53, Janis Schoetterl-Glausch wrote:
+> > On 5/19/22 12:05, Thomas Huth wrote:  
+> >> On 06/05/2022 17.39, Janis Schoetterl-Glausch wrote:  
+> >>> Storage key controlled protection is currently not honored when
+> >>> emulating instructions.
+> >>> If available, enable key protection for the MEM_OP ioctl, thereby
+> >>> enabling it for the s390_cpu_virt_mem_* functions, when using kvm.
+> >>> As a result, the emulation of the following instructions honors storage
+> >>> keys:
+> >>>
+> >>> * CLP
+> >>>         The Synch I/O CLP command would need special handling in order
+> >>>         to support storage keys, but is currently not supported.
+> >>> * CHSC
+> >>>      Performing commands asynchronously would require special
+> >>>      handling, but commands are currently always synchronous.
+> >>> * STSI
+> >>> * TSCH
+> >>>      Must (and does) not change channel if terminated due to
+> >>>      protection.
+> >>> * MSCH
+> >>>      Suppressed on protection, works because fetching instruction.
+> >>> * SSCH
+> >>>      Suppressed on protection, works because fetching instruction.
+> >>> * STSCH
+> >>> * STCRW
+> >>>      Suppressed on protection, this works because no partial store is
+> >>>      possible, because the operand cannot span multiple pages.
+> >>> * PCISTB
+> >>> * MPCIFC
+> >>> * STPCIFC
+> >>>
+> >>> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> >>> ---
+> >>>    target/s390x/kvm/kvm.c | 9 +++++++++
+> >>>    1 file changed, 9 insertions(+)
+> >>>
+> >>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> >>> index 53098bf541..7bd8db0e7b 100644
+> >>> --- a/target/s390x/kvm/kvm.c
+> >>> +++ b/target/s390x/kvm/kvm.c
+> >>> @@ -151,12 +151,15 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+> >>>    static int cap_sync_regs;
+> >>>    static int cap_async_pf;
+> >>>    static int cap_mem_op;
+> >>> +static int cap_mem_op_extension;
+> >>>    static int cap_s390_irq;
+> >>>    static int cap_ri;
+> >>>    static int cap_hpage_1m;
+> >>>    static int cap_vcpu_resets;
+> >>>    static int cap_protected;
+> >>>    +static bool mem_op_storage_key_support;
+> >>> +
+> >>>    static int active_cmma;
+> >>>      static int kvm_s390_query_mem_limit(uint64_t *memory_limit)
+> >>> @@ -354,6 +357,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+> >>>        cap_sync_regs = kvm_check_extension(s, KVM_CAP_SYNC_REGS);
+> >>>        cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
+> >>>        cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
+> >>> +    cap_mem_op_extension = kvm_check_extension(s, KVM_CAP_S390_MEM_OP_EXTENSION);
+> >>> +    mem_op_storage_key_support = cap_mem_op_extension > 0;  
+> >>
+> >> Ah, so KVM_CAP_S390_MEM_OP_EXTENSION is a "version number", not a boolean flag? ... ok, now I've finally understood that ... ;-)  
+> > 
+> > Yeah, potentially having a bunch of memop capabilities didn't seem nice to me.
+> > We can remove extensions if, when introducing an extension, we define that version x supports functionality y, z...,
+> > but for the storage keys I've written in api.rst that it's supported if the cap > 0.
+> > So we'd need a new cap if we want to get rid of the skey extension and still support some other extension,
+> > but that doesn't seem particularly likely.  
 > 
-> Acked-by: Thomas Huth <thuth@redhat.com>
+> Oh well, never say that ... we've seen it in the past, that sometimes we 
+> want to get rid of features again, and if they don't have a separate feature 
+> flag bit somewhere, it's getting very ugly to disable them again.
 > 
-> Laurent, do you want to take these two patches through your linux-user branch, or shall I take them 
-> via the s390x branch?
+> So since we don't have merged this patch yet, and thus we don't have a 
+> public userspace program using this interface yet, this is our last chance 
+> to redefine this interface before we might regret it later.
+> 
+> I'm in strong favor of treating the KVM_CAP_S390_MEM_OP_EXTENSION as a flag 
+> field instead of a version number. What do others think? Christian? Halil?
 
-I will take both.
+I don't fully understand the problem, and I don't have a strong opinion.
+What I understand is KVM_CAP_S390_MEM_OP_EXTENSION tells me if some mem
+op extensions may be available if non-zero or that none are available.
+Which mem-op extensions are available is not yet actually defined.
 
-Thanks,
-Laurent
+I can think some more, but feel free to proceed without me.
 
+Regards,
+Halil
 
