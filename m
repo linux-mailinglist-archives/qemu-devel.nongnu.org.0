@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D395329EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:06:03 +0200 (CEST)
-Received: from localhost ([::1]:43662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFB4532A12
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:11:44 +0200 (CEST)
+Received: from localhost ([::1]:54620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntTIX-0004mS-KU
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
+	id 1ntTO3-00044g-NE
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSOh-0000b2-AU
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:08:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37282)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSRO-0002E8-4m
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:11:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSOe-0004QS-Ix
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:08:19 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntSRK-00058s-R4
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:11:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653390496;
+ s=mimecast20190719; t=1653390650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iNIHolXOtba/KfroUvm6+nuHO3iQXM82ADLznV2LFSw=;
- b=AuRtp0ORgbRGdfeWXTQ4r5EBeIafnFr+ZeXJ2XnouUledAUAljChMsBSipnLYa/HHQ+dSI
- yTq+n04nMdTL98rnoA41SGhvGXlvT6YXRO5OZDd63fhSkJB5/yA9COLYATBYPIW+9f9M+f
- 4Eh0tbruA79/0pJu8YAzP8O6fYEWwOE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=27j6k2cZCDZNWXJr0tCIl5JL3x96MfpkYNoEKRGmf48=;
+ b=Ui573emDTxI18JMuLN5A4PGpedrKUowggg7bZjzyc0Ct1pK6YCc9k6uEFDR02Jgu4DEA/j
+ QyVMVeHUYVRhhi0i+XEkWH/Al/jZkS4W9O555tQpoBpCg9oixPJ+j4B+sbjKJ+eAT98VbN
+ hH+t0weXP6dcDIY/mEWif/28m/3T7H0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-473-b26LuMYvP22viSKJcXwj9g-1; Tue, 24 May 2022 07:08:14 -0400
-X-MC-Unique: b26LuMYvP22viSKJcXwj9g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p21-20020a05600c359500b0039740f3d32dso1129093wmq.9
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 04:08:14 -0700 (PDT)
+ us-mta-450-eJHVqzUhMjaDPyvNVsubtw-1; Tue, 24 May 2022 07:10:48 -0400
+X-MC-Unique: eJHVqzUhMjaDPyvNVsubtw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j14-20020a05600c1c0e00b003973bf0d146so1149162wms.4
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 04:10:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent
  :content-language:to:cc:references:from:subject:in-reply-to
  :content-transfer-encoding;
- bh=iNIHolXOtba/KfroUvm6+nuHO3iQXM82ADLznV2LFSw=;
- b=r2xwZSmhjWrN01Csa+EaN4XuMbKw5GRBmLLPppuEAwt3N9H43kkYmHqApgYmzvN3VV
- wVDlq0c/EhvM7dd2y4ZVK/pSyUoRKY4eV5Bc2GIhLm7PddJKa3iQU2U/gjBZ2AtRqCN9
- ID0QaK25NAGM2reibnFGLwUxp4Og9ya+72rQECw6x5kDaSY0yXBsMoNwbzHL+UZfCuZs
- qtlMs0o9jQE3D+uXgcBxVptzvwLafokhdYaKlYNPf1HDiwkL9QK5VwQzWsRI5Yl+gv1Y
- 4WgnKoaLmbRD6UWVtgPsenTpUXcuITumg2KKcGpAtnj7pXet0jvikEi41fW9+ttdIV7F
- 7sZQ==
-X-Gm-Message-State: AOAM533b2egbzZyYLwVohjFMUdKirzwwPh+UWT1HnoApWd0ppetOsHNm
- rLIqTeSxutgNwrac9t6uFnEGRhG7uZsBg333m8urnj1ok9tG/li1i8f+1/dARbxxIcFbyZduqLf
- ontHABqE/txWvtpk=
-X-Received: by 2002:a05:6000:15c2:b0:20f:cf09:3a23 with SMTP id
- y2-20020a05600015c200b0020fcf093a23mr11381881wry.279.1653390493772; 
- Tue, 24 May 2022 04:08:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKK452n21cMT2trx8jRmBdVz1mtgVNKDiFkgNfgNGTDwrU1xsyxJSz/OC34PFLhZN8lSz4hg==
-X-Received: by 2002:a05:6000:15c2:b0:20f:cf09:3a23 with SMTP id
- y2-20020a05600015c200b0020fcf093a23mr11381865wry.279.1653390493556; 
- Tue, 24 May 2022 04:08:13 -0700 (PDT)
+ bh=27j6k2cZCDZNWXJr0tCIl5JL3x96MfpkYNoEKRGmf48=;
+ b=4pKpnaXEoybMFLbmSvhyqbV9qwwmWs0KIGYgHaQkCuPk7rHJ5bygORTDk8Q8yw0jue
+ c+ZqAR/iR9chn933YnLsOx14b3NQCwofsKZNUFiEPB3VzyA6WhV0DVWBThPNt84GDyP9
+ ivJdn3KD34y7G6/Kjhcbmek2ahmkAlanr+u0NnKW7l/S5uqXf8ewHL/RsAfi6GOJ2gwz
+ OPDDvwLuS/+wF8HJAQnbgVR+WJriteyGsWo1cppVyc9HyiXrwmzmfCBBYF+GuLlBh+hX
+ 98ptw8yaOiBzchz+zdcpp9Gm+ZmCJ78nKci1MefTJXh7gZ8bkReWjlVxe7Enwktli1o5
+ asYQ==
+X-Gm-Message-State: AOAM533gzGcqdiGkU+h3dF/d1Ec63CMsFTVbp32noD8euWNAoict7ttz
+ o8z8J6BE554QAMT0fBDUCtsb4EYbcaKzOhDod+Jl6wWIDh3o3KQ85Xm9cRWSoz8goBRQ9OrXvj2
+ rGcCeVz00iZRBCjY=
+X-Received: by 2002:a7b:cbda:0:b0:397:48d6:6c9f with SMTP id
+ n26-20020a7bcbda000000b0039748d66c9fmr3283910wmi.10.1653390647673; 
+ Tue, 24 May 2022 04:10:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFuRjqrd2lUrDP97pOCIWHVQ3Wg0Ph+eJi2dLo7cH1N3zJH+xRTY2kVQFxiQFrVE9wCVph6g==
+X-Received: by 2002:a7b:cbda:0:b0:397:48d6:6c9f with SMTP id
+ n26-20020a7bcbda000000b0039748d66c9fmr3283886wmi.10.1653390647451; 
+ Tue, 24 May 2022 04:10:47 -0700 (PDT)
 Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- r4-20020a5d6c64000000b0020ff9802ee3sm522576wrz.35.2022.05.24.04.08.12
+ s1-20020adf8901000000b0020c547f75easm12292388wrs.101.2022.05.24.04.10.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 04:08:12 -0700 (PDT)
-Message-ID: <3dba48f5-7e12-31b6-24b5-573956219020@redhat.com>
-Date: Tue, 24 May 2022 13:08:11 +0200
+ Tue, 24 May 2022 04:10:46 -0700 (PDT)
+Message-ID: <8110c080-b439-4ed8-ffc8-13323ba3790c@redhat.com>
+Date: Tue, 24 May 2022 13:10:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
@@ -76,14 +76,13 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
  nrb@linux.ibm.com, frankja@linux.ibm.com
 References: <20220420115745.13696-1-pmorel@linux.ibm.com>
- <20220420115745.13696-5-pmorel@linux.ibm.com>
+ <20220420115745.13696-9-pmorel@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v7 04/13] s390x: topology: implementating Store Topology
- System Information
-In-Reply-To: <20220420115745.13696-5-pmorel@linux.ibm.com>
+Subject: Re: [PATCH v7 08/13] s390x: topology: Adding drawers to STSI
+In-Reply-To: <20220420115745.13696-9-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,8 +90,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,89 +107,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 20/04/2022 13.57, Pierre Morel wrote:
-> The handling of STSI is enhanced with the interception of the
-> function code 15 for storing CPU topology.
-> 
-> Using the objects built during the pluging of CPU, we build the
-
-s/pluging/plugging/
-
-> SYSIB 15_1_x structures.
-> 
-> With this patch the maximum MNEST level is 2, this is also
-> the only level allowed and only SYSIB 15_1_2 will be built.
+> Let's add STSI support for the container level 4, drawers,
+> and provide the information back to the guest.
 > 
 > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
 ...
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index f6969b76c5..a617c943ff 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -889,4 +889,5 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
->   
->   #include "exec/cpu-all.h"
->   
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
->   #endif
-
-Please keep an empty line before the #endif
-
-> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
-> new file mode 100644
-> index 0000000000..7f6db18829
-> --- /dev/null
-> +++ b/target/s390x/cpu_topology.c
-> @@ -0,0 +1,112 @@
+> @@ -470,6 +520,69 @@ static const TypeInfo drawer_info = {
+>           { }
+>       }
+>   };
+> +
+> +/* --- NODE Definitions --- */
+> +
 > +/*
-> + * QEMU S390x CPU Topology
-> + *
-> + * Copyright IBM Corp. 2021
-
-2022 ?
-
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
+> + * Nodes are the first level of CPU topology we support
+> + * only one NODE for the moment.
 > + */
-...
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+> +static char *node_bus_get_dev_path(DeviceState *dev)
 > +{
-> +    const MachineState *machine = MACHINE(qdev_get_machine());
-> +    void *p;
-> +    int ret, cc;
-> +
-> +    /*
-> +     * Until the SCLP STSI Facility reporting the MNEST value is used,
-> +     * a sel2 value of 2 is the only value allowed in STSI 15.1.x.
-> +     */
-> +    if (sel2 != 2) {
-> +        setcc(cpu, 3);
-> +        return;
-> +    }
-> +
-> +    p = g_malloc0(TARGET_PAGE_SIZE);
-> +
-> +    setup_stsi(machine, p, 2);
-> +
-> +    if (s390_is_pv()) {
-> +        ret = s390_cpu_pv_mem_write(cpu, 0, p, TARGET_PAGE_SIZE);
-> +    } else {
-> +        ret = s390_cpu_virt_mem_write(cpu, addr, ar, p, TARGET_PAGE_SIZE);
-> +    }
-> +    cc = ret ? 3 : 0;
-> +    setcc(cpu, cc);
-
-Just a matter of taste (i.e. keep it if you like) - but you could scratch 
-the cc variable in this function by just doing:
-
-     setcc(cpu, ret ? 3 : 0);
-
-> +    g_free(p);
+> +    return g_strdup_printf("00");
 > +}
-> +
+g_strdup("00") please.
 
   Thomas
 
