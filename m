@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3B5532529
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 10:23:12 +0200 (CEST)
-Received: from localhost ([::1]:40650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A25325DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 10:59:37 +0200 (CEST)
+Received: from localhost ([::1]:55476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntPot-000112-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 04:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57062)
+	id 1ntQO6-0007KE-1v
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 04:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1ntPko-0006PL-4H
- for qemu-devel@nongnu.org; Tue, 24 May 2022 04:18:58 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:47256 helo=loongson.cn)
+ id 1ntPkp-0006R2-Al
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 04:18:59 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:47292 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1ntPkl-0002EK-4R
- for qemu-devel@nongnu.org; Tue, 24 May 2022 04:18:57 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1ntPkm-0002En-Bu
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 04:18:59 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axqti8lIxi2v8gAA--.27451S22; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axqti8lIxi2v8gAA--.27451S23; 
  Tue, 24 May 2022 16:18:35 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca
-Subject: [PATCH v5 20/43] target/loongarch: Add basic vmstate description of
- CPU.
-Date: Tue, 24 May 2022 16:17:41 +0800
-Message-Id: <20220524081804.3608101-21-yangxiaojuan@loongson.cn>
+Subject: [PATCH v5 21/43] target/loongarch: Implement
+ qmp_query_cpu_definitions()
+Date: Tue, 24 May 2022 16:17:42 +0800
+Message-Id: <20220524081804.3608101-22-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220524081804.3608101-1-yangxiaojuan@loongson.cn>
 References: <20220524081804.3608101-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Axqti8lIxi2v8gAA--.27451S22
-X-Coremail-Antispam: 1UD129KBjvJXoW3GryxGF45Ww1fXr1xXry5Arb_yoW7tF1Dpr
- y3uF17KFsFvrWxZw48G3s8Wrs8WF47W3WSkayakr1kGr1kJw4kWr10vw17XF1rJ34Yg342
- vr4rXasrWa1jyrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Axqti8lIxi2v8gAA--.27451S23
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFWxZFyrGw4ftFWDCFW3ZFb_yoW8Zr1xpF
+ sxZrZ8KrW8JrZxKw1fJFW8urnIgrs7Ww1jyF43J3yv9a13Xw48uF1vkrWqk3W8WrW8WrW7
+ uFs8AF1UuF4DJ3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -67,144 +67,65 @@ Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/cpu.c       |  1 +
- target/loongarch/internals.h |  2 +
- target/loongarch/machine.c   | 85 ++++++++++++++++++++++++++++++++++++
- target/loongarch/meson.build |  6 +++
- 4 files changed, 94 insertions(+)
- create mode 100644 target/loongarch/machine.c
+ qapi/machine-target.json |  6 ++++--
+ target/loongarch/cpu.c   | 26 ++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 2 deletions(-)
 
+diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+index 06b0d2ca61..2e267fa458 100644
+--- a/qapi/machine-target.json
++++ b/qapi/machine-target.json
+@@ -323,7 +323,8 @@
+                    'TARGET_ARM',
+                    'TARGET_I386',
+                    'TARGET_S390X',
+-                   'TARGET_MIPS' ] } }
++                   'TARGET_MIPS',
++                   'TARGET_LOONGARCH64' ] } }
+ 
+ ##
+ # @query-cpu-definitions:
+@@ -339,4 +340,5 @@
+                    'TARGET_ARM',
+                    'TARGET_I386',
+                    'TARGET_S390X',
+-                   'TARGET_MIPS' ] } }
++                   'TARGET_MIPS',
++                   'TARGET_LOONGARCH64' ] } }
 diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index b863f495db..c44b2b16a9 100644
+index c44b2b16a9..bb31502ff9 100644
 --- a/target/loongarch/cpu.c
 +++ b/target/loongarch/cpu.c
-@@ -331,6 +331,7 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
-     cc->class_by_name = loongarch_cpu_class_by_name;
-     cc->dump_state = loongarch_cpu_dump_state;
-     cc->set_pc = loongarch_cpu_set_pc;
-+    dc->vmsd = &vmstate_loongarch_cpu;
-     cc->disas_set_info = loongarch_cpu_disas_set_info;
- #ifdef CONFIG_TCG
-     cc->tcg_ops = &loongarch_tcg_ops;
-diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
-index 1a3b39e0be..39960dee27 100644
---- a/target/loongarch/internals.h
-+++ b/target/loongarch/internals.h
-@@ -25,4 +25,6 @@ const char *loongarch_exception_name(int32_t exception);
+@@ -360,3 +360,29 @@ static const TypeInfo loongarch_cpu_type_infos[] = {
+ };
  
- void restore_fp_status(CPULoongArchState *env);
- 
-+extern const VMStateDescription vmstate_loongarch_cpu;
+ DEFINE_TYPES(loongarch_cpu_type_infos)
 +
- #endif
-diff --git a/target/loongarch/machine.c b/target/loongarch/machine.c
-new file mode 100644
-index 0000000000..49a06fdf28
---- /dev/null
-+++ b/target/loongarch/machine.c
-@@ -0,0 +1,85 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU LoongArch Machine State
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
++static void loongarch_cpu_add_definition(gpointer data, gpointer user_data)
++{
++    ObjectClass *oc = data;
++    CpuDefinitionInfoList **cpu_list = user_data;
++    CpuDefinitionInfo *info = g_new0(CpuDefinitionInfo, 1);
++    const char *typename = object_class_get_name(oc);
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "migration/cpu.h"
++    info->name = g_strndup(typename,
++                           strlen(typename) - strlen("-" TYPE_LOONGARCH_CPU));
++    info->q_typename = g_strdup(typename);
 +
-+/* LoongArch CPU state */
++    QAPI_LIST_PREPEND(*cpu_list, info);
++}
 +
-+const VMStateDescription vmstate_loongarch_cpu = {
-+    .name = "cpu",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
++CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
++{
++    CpuDefinitionInfoList *cpu_list = NULL;
++    GSList *list;
 +
-+        VMSTATE_UINTTL_ARRAY(env.gpr, LoongArchCPU, 32),
-+        VMSTATE_UINTTL(env.pc, LoongArchCPU),
-+        VMSTATE_UINT64_ARRAY(env.fpr, LoongArchCPU, 32),
-+        VMSTATE_UINT32(env.fcsr0, LoongArchCPU),
-+        VMSTATE_BOOL_ARRAY(env.cf, LoongArchCPU, 8),
++    list = object_class_get_list(TYPE_LOONGARCH_CPU, false);
++    g_slist_foreach(list, loongarch_cpu_add_definition, &cpu_list);
++    g_slist_free(list);
 +
-+        /* Remaining CSRs */
-+        VMSTATE_UINT64(env.CSR_CRMD, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PRMD, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_EUEN, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_MISC, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_ECFG, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_ESTAT, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_ERA, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_BADV, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_BADI, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_EENTRY, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBIDX, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBEHI, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBELO0, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBELO1, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_ASID, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PGDL, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PGDH, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PGD, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PWCL, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PWCH, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_STLBPS, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_RVACFG, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PRCFG1, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PRCFG2, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_PRCFG3, LoongArchCPU),
-+        VMSTATE_UINT64_ARRAY(env.CSR_SAVE, LoongArchCPU, 16),
-+        VMSTATE_UINT64(env.CSR_TID, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TCFG, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TVAL, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_CNTC, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TICLR, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_LLBCTL, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_IMPCTL1, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_IMPCTL2, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBRENTRY, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBRBADV, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBRERA, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBRSAVE, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBRELO0, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBRELO1, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBREHI, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_TLBRPRMD, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_MERRCTL, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_MERRINFO1, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_MERRINFO2, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_MERRENTRY, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_MERRERA, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_MERRSAVE, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_CTAG, LoongArchCPU),
-+        VMSTATE_UINT64_ARRAY(env.CSR_DMW, LoongArchCPU, 4),
-+
-+        /* Debug CSRs */
-+        VMSTATE_UINT64(env.CSR_DBG, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_DERA, LoongArchCPU),
-+        VMSTATE_UINT64(env.CSR_DSAVE, LoongArchCPU),
-+
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index bcb076e55f..103f36ee15 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -14,6 +14,12 @@ loongarch_tcg_ss.add(files(
- ))
- loongarch_tcg_ss.add(zlib)
- 
-+loongarch_softmmu_ss = ss.source_set()
-+loongarch_softmmu_ss.add(files(
-+  'machine.c',
-+))
-+
- loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
- 
- target_arch += {'loongarch': loongarch_ss}
-+target_softmmu_arch += {'loongarch': loongarch_softmmu_ss}
++    return cpu_list;
++}
 -- 
 2.31.1
 
