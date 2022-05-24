@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BA9532A57
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:28:31 +0200 (CEST)
-Received: from localhost ([::1]:33224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF4C532A6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:34:16 +0200 (CEST)
+Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntTeI-0003UB-6r
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46222)
+	id 1ntTjr-0001gM-6v
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntTMb-0003YS-AC
- for qemu-devel@nongnu.org; Tue, 24 May 2022 08:10:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24963)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntTMY-0006k8-EO
- for qemu-devel@nongnu.org; Tue, 24 May 2022 08:10:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653394209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=N3dpTDhoSpOPXC4uSbJm4lLWrwzTnkQiWHaAvAZ+r/g=;
- b=THyalllJ2AHyVmY2F5JX4H0iKpI7ybBq3ecTb34jB/u4Gk9NhPgxGZTwh3Z/TNbNdokg1N
- QjtjBuYYY1moEoOCSelYG0iuh4R1mmPiOaJrMQZFqsTkW2i6iq4dM7pmMg8wci/6kwWEJy
- gdQ64l7Fk7ddHIj6Rrg/lNi1TGW/zq0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-LxAkvP8LM7KBKxX600qMYA-1; Tue, 24 May 2022 08:10:08 -0400
-X-MC-Unique: LxAkvP8LM7KBKxX600qMYA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAF231C0514C;
- Tue, 24 May 2022 12:10:07 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4431F4087D63;
- Tue, 24 May 2022 12:10:05 +0000 (UTC)
-Date: Tue, 24 May 2022 14:10:04 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Message-ID: <YozLHPif/jCmOfei@redhat.com>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
- <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
- <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1ntTN2-0004tI-If
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 08:10:40 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1ntTN0-0006sx-GY
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 08:10:40 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id x12so1166120wrg.2
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 05:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AzXZ0UGwJCBngpgI4uD8Azmg5dEBbjNzTqsntyumh3E=;
+ b=zt19TAKGS29nj9f1IqibbAoDCuibCuEnY2uxGsd2ylIfPoWljMTUbAgA2YGf8Tr8uL
+ IJFNZZMRUCz+XTyzy3IAXWxEVoHRanRpm4dF35E/Esdjc5IWLWO3TAvU9kXTnmd9q512
+ NLS7dmY3vUVmkhu4vmF5vW6NEUXuhiCZUWBUjI0E/5qDZUstC8/uMg+1rgodkGBNOGWb
+ ZyOdcs4CuCURiwsRK6nigXJSxiwIWXchCoeIFrMZslgv0BfeXkoAcQHDFlLLJjTDb+k5
+ z/ZPTXSpXCPe9jbqKmjkl6hJc30EvvTem32yKi+hbYguy5NDu2AU0DAFy8bqlW4+Em1b
+ 5dJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AzXZ0UGwJCBngpgI4uD8Azmg5dEBbjNzTqsntyumh3E=;
+ b=Wl+AcT4i0mkd5fopLlHNYm5OX+VV1gBzc5fYyDX7gCGdZcW5waGOSwnv7g7YPQKHla
+ AvGXz3UgeV2mI+8i69zt++bq9ZV17As2rjCQyY36hQgU+J3j+WXcayCAv40WqsgVgU4z
+ +OzVc5vemjNQNRsW8iyqgAXLhsO0mz5RupVL0VimLLgcU17CglVLxBNYDIj5t4AdYyz3
+ azAMD397Gd2kB8DZrsFtx317gawHgMrw1619e4XhQq8JqNYJlIKtjV9y7/A0V39zBr2Q
+ Rs0tIi5g+c3VwU2/C24ZCSOrWz0gJk0WdQFgV/XNGELqJu/mV8LRs6LxkrHHNAQCClet
+ Vfjg==
+X-Gm-Message-State: AOAM532Rddzz9TUrmbfTzAlPvHguXpEwdbJhXaMacnz6zho3tfNbEDnI
+ 1JzK4P4XyzktWJAjkqV26u6XBgIYcxBXfE77QTEjpQ==
+X-Google-Smtp-Source: ABdhPJzVz4OWO5u4A1821BG+t8orPZnkQ+O6wPQtwvwGJDa4mj890YntzLFurL2B76GM7sibH5xc98H6gPkSe9UXKDU=
+X-Received: by 2002:a05:6000:1f18:b0:20f:e61b:520e with SMTP id
+ bv24-20020a0560001f1800b0020fe61b520emr6532049wrb.214.1653394236298; Tue, 24
+ May 2022 05:10:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220511144528.393530-1-apatel@ventanamicro.com>
+ <20220511144528.393530-8-apatel@ventanamicro.com>
+ <CAKmqyKN5U927XfL7n_8S=3ykMyHPLM_kyM9qfYV5dq_eSmoEfA@mail.gmail.com>
+ <CAAhSdy1SRGnG9An-hKHBaEzoG=0eSZQCwQDhoJ3J387Lwe5Pdg@mail.gmail.com>
+ <CAKmqyKMy66XQsgmAnMEEaYrH7k1g2MC6kHqrPaRWKxvSuOz3Xw@mail.gmail.com>
+In-Reply-To: <CAKmqyKMy66XQsgmAnMEEaYrH7k1g2MC6kHqrPaRWKxvSuOz3Xw@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Tue, 24 May 2022 17:40:24 +0530
+Message-ID: <CAAhSdy0iP+js5JTSXBsD-O3KennBR++_v4z7m55bztEyrgwvPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] target/riscv: Force disable extensions if priv
+ spec version does not match
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Atish Patra <atishp@atishpatra.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::42f;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,141 +93,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2022 um 14:28 hat Emanuele Giuseppe Esposito geschrieben:
-> label: // read till the end to see why I wrote this here
-> 
-> I was hoping someone from the "No" party would answer to your question,
-> because as you know we reached this same conclusion together.
-> 
-> We thought about dropping the drain for various reasons, the main one
-> (at least as far as I understood) is that we are not sure if something
-> can still happen in between drain_begin/end, and it is a little bit
-> confusing to use the same mechanism to block I/O and protect the graph.
-> 
-> We then thought about implementing a rwlock. A rdlock would clarify what
-> we are protecting and who is using the lock. I had a rwlock draft
-> implementation sent in this thread, but this also lead to additional
-> problems.
-> Main problem was that this new lock would introduce nested event loops,
-> that together with such locking would just create deadlocks.
-> If readers are in coroutines and writers are not (because graph
-> operations are not running in coroutines), we have a lot of deadlocks.
-> If a writer has to take the lock, it must wait all other readers to
-> finish. And it does it by internally calling AIO_WAIT_WHILE, creating
-> nested event loop. We don't know what could execute when polling for
-> events, and for example another writer could be resumed.
-
-Why is this a problem? Your AIO_WAIT_WHILE() condition would be that
-there are neither readers nor writers, so you would just keep waiting
-until the other writer is done.
-
-> Ideally, we want writers in coroutines too.
+On Tue, May 24, 2022 at 3:22 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> Additionally, many readers are running in what we call "mixed"
-> functions: usually implemented automatically with generated_co_wrapper
-> tag, they let a function (usually bdrv callback) run always in a
-> coroutine, creating one if necessary. For example, bdrv_flush() makes
-> sure hat bs->bdrv_co_flush() is always run in a coroutine.
-> Such mixed functions are used in other callbacks too, making it really
-> difficult to understand if we are in a coroutine or not, and mostly
-> important make rwlock usage very difficult.
+> On Fri, May 20, 2022 at 1:07 AM Anup Patel <anup@brainfault.org> wrote:
+> >
+> > On Tue, May 17, 2022 at 5:46 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > >
+> > > On Thu, May 12, 2022 at 12:52 AM Anup Patel <apatel@ventanamicro.com> wrote:
+> > > >
+> > > > We should disable extensions in riscv_cpu_realize() if minimum required
+> > > > priv spec version is not satisfied. This also ensures that machines with
+> > > > priv spec v1.11 (or lower) cannot enable H, V, and various multi-letter
+> > > > extensions.
+> > > >
+> > > > Fixes: a775398be2e ("target/riscv: Add isa extenstion strings to the
+> > > > device tree")
+> > > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> > >
+> > > This will potentially confuse users as we just disable the extension
+> > > without telling them.
+> > >
+> > > Could we not just leave this as is and let users specify the
+> > > extensions they want? Then it's up to them to specify the correct
+> > > combinations
+> >
+> > The ISA extensions are not independent of the Priv spec version.
+> >
+> > For example, we have bits for Sstc, Svpbmt, and Zicbo[m|p|z] extensions
+> > in xenvcfg CSRs which are only available for Priv v1.12 spec.
+> >
+> > We can't allow users to enable extensions which don't meet
+> > the Priv spec version requirements.
+>
+> Fair point. Ok we should at least report a warning if any of these are
+> set though
 
-How do they make rwlock usage difficult?
+Okay, I will update this patch accordingly.
 
-*goes back to old IRC discussions*
+Regards,
+Anup
 
-Ah, the problem was not the AIO_WAIT_WHILE() while taking the lock, but
-taking the lock first and then running an AIO_WAIT_WHILE() inside the
-locked section. This is forbidden because the callbacks that run during
-AIO_WAIT_WHILE() may in turn wait for the lock that you own, causing a
-deadlock.
-
-This is indeed a problem that running in coroutines would avoid because
-the inner waiter would just yield and the outer one could complete its
-job as soon as it's its turn.
-
-My conclusion in the IRC discussion was that maybe we need to take the
-graph locks when we're entering coroutine context, i.e. the "mixed"
-functions would rdlock the graph when called from non-coroutine context
-and would assume that it's already locked when called from coroutine
-context.
-
-> Which lead us to stepping back once more and try to convert all
-> BlockDriverState callbacks in coroutines. This would greatly simplify
-> rwlock usage, because we could make the rwlock coroutine-frendly
-> (without any AIO_WAIT_WHILE, allowing a writer to wait for readers by
-> just yielding and queuing itself in coroutine queues).
-> 
-> First step was then to convert all callbacks in coroutines, using
-> generated_coroutine_wrapper (g_c_w).
-> A typical g_c_w is implemented in this way:
-> 	if (qemu_in_coroutine()) {
-> 		callback();
-> 	} else { // much simplified
-> 		co = qemu_coroutine_create(callback);
-> 		bdrv_coroutine_enter(bs, co);
-> 		BDRV_POLL_WHILE(bs, coroutine_in_progress);
-> 	}
-> Once all callbacks are implemented using g_c_w, we can start splitting
-> the two sides of the if function to only create a coroutine when we are
-> outside from a bdrv callback.
-> 
-> However, we immediately found a problem while starting to convert the
-> first callbacks: the AioContext lock is taken around some non coroutine
-> callbacks! For example, bs->bdrv_open() is always called with the
-> AioContext lock taken. In addition, callbacks like bdrv_open are
-> graph-modifying functions, which is probably why we are taking the
-> Aiocontext lock, and they do not like to run in coroutines.
-> Anyways, the real problem comes when we create a coroutine in such
-> places where the AioContext lock is taken and we have a graph-modifying
-> function.
-> 
-> bdrv_coroutine_enter() calls aio_co_enter(), which in turns first checks
->  if the coroutine is entering another context from the current (which is
-> not the case for open) and if we are already in coroutine (for sure
-> not). Therefore it resorts to the following calls;
-> 	aio_context_acquire(ctx);
->         qemu_aio_coroutine_enter(ctx, co);
->         aio_context_release(ctx);
-> Which is clearly a problem, because we are taking the lock twice: once
-> from the original caller of the callback, and once here due to the
-> coroutine. This creates a lot of deadlock situations.
-
-What are the deadlock situations that are created by locking twice?
-
-The only problem I'm aware of is AIO_WAIT_WHILE(), which wants to
-temporarily unlock the AioContext It calls aio_context_release() once to
-achieve this, which obviously isn't enough when the context was locked
-twice.
-
-But AIO_WAIT_WHILE() isn't allowed in coroutines anyway. So how are we
-running into deadlocks here?
-
-Note that we're probably already doing this inside the .bdrv_open
-implementations: They will ususally read something from the image file,
-calling bdrv_preadv() which is already a generated_coroutine_wrapper
-today and creates a coroutine internally with the same locking pattern
-applied that you describe as problematic here.
-
-Making .bdrv_open itself a generated_coroutine_wrapper wouldn't really
-change anything fundamental, it would just pull the existing mechanism
-one function higher in the call stack.
-
-> For example, all callers of bdrv_open() always take the AioContext lock.
-> Often it is taken very high in the call stack, but it's always taken.
-> 
-> Getting rid of the lock around qemu_aio_coroutine_enter() is difficult
-> too, because coroutines expect to have the lock taken. For example, if
-> we want to drain from a coroutine, bdrv_co_yield_to_drain releases the
-> lock for us.
-
-It's not difficult at all in your case where you know that you're
-already in the right thread and the lock is taken: You can call
-qemu_aio_coroutine_enter() directly instead of bdrv_coroutine_enter() in
-this case.
-
-But as I said, I'm not sure why we need to get rid of it at all.
-
-Kevin
-
+>
+> Alistair
+>
+> >
+> > Regards,
+> > Anup
+> >
+> > >
+> > > Alistair
+> > >
+> > > > ---
+> > > >  target/riscv/cpu.c | 34 ++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 34 insertions(+)
+> > > >
+> > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > > index f3b61dfd63..25a4ba3e22 100644
+> > > > --- a/target/riscv/cpu.c
+> > > > +++ b/target/riscv/cpu.c
+> > > > @@ -541,6 +541,40 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+> > > >          set_priv_version(env, priv_version);
+> > > >      }
+> > > >
+> > > > +    /* Force disable extensions if priv spec version does not match */
+> > > > +    if (env->priv_ver < PRIV_VERSION_1_12_0) {
+> > > > +        cpu->cfg.ext_h = false;
+> > > > +        cpu->cfg.ext_v = false;
+> > > > +        cpu->cfg.ext_zfh = false;
+> > > > +        cpu->cfg.ext_zfhmin = false;
+> > > > +        cpu->cfg.ext_zfinx = false;
+> > > > +        cpu->cfg.ext_zhinx = false;
+> > > > +        cpu->cfg.ext_zhinxmin = false;
+> > > > +        cpu->cfg.ext_zdinx = false;
+> > > > +        cpu->cfg.ext_zba = false;
+> > > > +        cpu->cfg.ext_zbb = false;
+> > > > +        cpu->cfg.ext_zbc = false;
+> > > > +        cpu->cfg.ext_zbkb = false;
+> > > > +        cpu->cfg.ext_zbkc = false;
+> > > > +        cpu->cfg.ext_zbkx = false;
+> > > > +        cpu->cfg.ext_zbs = false;
+> > > > +        cpu->cfg.ext_zk = false;
+> > > > +        cpu->cfg.ext_zkn = false;
+> > > > +        cpu->cfg.ext_zknd = false;
+> > > > +        cpu->cfg.ext_zkne = false;
+> > > > +        cpu->cfg.ext_zknh = false;
+> > > > +        cpu->cfg.ext_zkr = false;
+> > > > +        cpu->cfg.ext_zks = false;
+> > > > +        cpu->cfg.ext_zksed = false;
+> > > > +        cpu->cfg.ext_zksh = false;
+> > > > +        cpu->cfg.ext_zkt = false;
+> > > > +        cpu->cfg.ext_zve32f = false;
+> > > > +        cpu->cfg.ext_zve64f = false;
+> > > > +        cpu->cfg.ext_svinval = false;
+> > > > +        cpu->cfg.ext_svnapot = false;
+> > > > +        cpu->cfg.ext_svpbmt = false;
+> > > > +    }
+> > > > +
+> > > >      if (cpu->cfg.mmu) {
+> > > >          riscv_set_feature(env, RISCV_FEATURE_MMU);
+> > > >      }
+> > > > --
+> > > > 2.34.1
+> > > >
+> > > >
 
