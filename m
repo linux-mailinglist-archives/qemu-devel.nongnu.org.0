@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4D1532AD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 15:07:34 +0200 (CEST)
-Received: from localhost ([::1]:60314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306FC532AE2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 15:12:31 +0200 (CEST)
+Received: from localhost ([::1]:38012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntUG4-000351-Rk
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 09:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57696)
+	id 1ntUKr-000813-O6
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 09:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntU9T-0000wl-IX
- for qemu-devel@nongnu.org; Tue, 24 May 2022 09:00:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60806)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntUHT-0005yI-7b
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 09:08:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntU9M-0008Sd-4A
- for qemu-devel@nongnu.org; Tue, 24 May 2022 09:00:41 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntUHP-0001a3-RW
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 09:08:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653397234;
+ s=mimecast20190719; t=1653397734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rs2PA6n7+ljZRHyqaOmBttkMizJHJskhDScY9hiIO3o=;
- b=ZyvoDr36hA/LLh5oMUCPVL3PJ3CdQ14yj2Rqryq8S/GsZ7wnoScbtEE2uPhRwNNlxQFOUl
- E6PVp9M2RP8U++69LHV/XE+QCowoGJqETs8I9JTeOUVAdMGCD/j47GRUL7FOlvfR477zHy
- 5kbF3qlfPPy+rZcUB7HLHWHBuQMBQyc=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=t5kM8z94aqYdCtQdRFA4E3uOxiCi4S2Gnh/LNIY/9LY=;
+ b=D5Um3yDNWXQL7BuKoxRaWiAWB4fwmP03kfFDLWz4iIDgMx46g2gmzRTvrWF4xTsI1QvSt3
+ idwvGxCSeOXszASmu0nVrgqgJDXcNMBYZni2BCy9LPmYpflCrMYP3QVuz5+EdtxZ0ejlNR
+ f+lq/+bdDDFoCqNma/uWAzm+TOTCNxE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-6jpCFRlQNcq1bILtLEBrUg-1; Tue, 24 May 2022 09:00:32 -0400
-X-MC-Unique: 6jpCFRlQNcq1bILtLEBrUg-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-2ff37db94e8so150841557b3.16
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 06:00:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rs2PA6n7+ljZRHyqaOmBttkMizJHJskhDScY9hiIO3o=;
- b=LCpLhStgKARrX92nbvXJAlM/OtpNqCLmDZXjod7zvGSmsINlJob76HJx0uUt3oNDhg
- jYawD2BJp4ok246JDFXsF08AK1v44P2KY6wHVPFgAt07SwLPS72H2Dwx+eouwLApq2VX
- I9FTl+zRehRWCdpQGIuoGFv71K45m5C0wdRLeGbPw1fg5N9OtupHY6M3ce7LnwkrF6JG
- vXoOTu6t4IVDXwYyZ+5lBLUzMyAFbY/12iGu2YdSSELWubr45RHrGdyEkY1Zl2XcUKbv
- zNJkkg7DCHrR4LjjsDEej/dWx2UlSuE4N57kVtY1XCHoU/JRoEbbg5JImzMcgR7Cmuqc
- yC7g==
-X-Gm-Message-State: AOAM533+DbEaH3ltcggs4GiWba0IkHL9AEYp69tJ+EKbymbJSU3/RWET
- KnB1UQNeTvTTzXmoikC8QHaL67JU24qLVPTlxlryyHELY/0YDAn/yycb5SLr2U9JmeVHZbltSjG
- etd4mQ9bwwTsbSjS5o05Pljtz1EjR0Ys=
-X-Received: by 2002:a81:9387:0:b0:2f7:eb1b:d25e with SMTP id
- k129-20020a819387000000b002f7eb1bd25emr29134310ywg.402.1653397231622; 
- Tue, 24 May 2022 06:00:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMvPvRtKDyST4N09WQUBZrfSxTvjV540UtI3NaKU8mN+YBVB7CLok+7dW6r/2I40g5jcRb8K4nS44EJaIdvnU=
-X-Received: by 2002:a81:9387:0:b0:2f7:eb1b:d25e with SMTP id
- k129-20020a819387000000b002f7eb1bd25emr29134261ywg.402.1653397231259; Tue, 24
- May 2022 06:00:31 -0700 (PDT)
+ us-mta-450-_D4PSFMNNxmT6C9iqwAdeQ-1; Tue, 24 May 2022 09:08:53 -0400
+X-MC-Unique: _D4PSFMNNxmT6C9iqwAdeQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB6593C1618C;
+ Tue, 24 May 2022 13:08:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88C7840D1B98;
+ Tue, 24 May 2022 13:08:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5138D21E6906; Tue, 24 May 2022 15:08:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org,  Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH 7/8] qmp: add filtering of statistics by name
+References: <20220523150509.349412-1-pbonzini@redhat.com>
+ <20220523150722.349700-1-pbonzini@redhat.com>
+ <20220523150722.349700-7-pbonzini@redhat.com>
+Date: Tue, 24 May 2022 15:08:51 +0200
+In-Reply-To: <20220523150722.349700-7-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 23 May 2022 17:07:21 +0200")
+Message-ID: <87mtf7w00s.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220523194111.827805-1-kkostiuk@redhat.com>
- <20220523194111.827805-3-kkostiuk@redhat.com>
- <541f46cf-fc45-f7bb-e121-2aad216e11d5@linaro.org>
- <CAPMcbCq7fzubG4ej7p164vwQkCMChjWBubx27R=kVxukWDhuBg@mail.gmail.com>
- <CAPMcbCqeQ_7YuJg+eS9Qqtq9ptRb57_wfT=jGOuHYtx64M5azA@mail.gmail.com>
- <CAMxuvawvaZBp0sxV-jwQuDwxahuFjN10BDcBcgOn88XpN87RPA@mail.gmail.com>
- <f4f5afc8-0b01-e134-bb83-b3d0ded0439a@redhat.com>
-In-Reply-To: <f4f5afc8-0b01-e134-bb83-b3d0ded0439a@redhat.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Tue, 24 May 2022 16:00:20 +0300
-Message-ID: <CAPMcbCr8_zgYcMQ9Q0GSQL-TgvOGY-q16sMoVNxBpvwG4JDEng@mail.gmail.com>
-Subject: Re: [PULL 2/3] qga-win32: Add support for NVME but type
-To: Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
- QEMU <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000a4662705dfc18a1d"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,121 +81,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a4662705dfc18a1d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-On Tue, May 24, 2022 at 1:24 PM Thomas Huth <thuth@redhat.com> wrote:
-
-> On 24/05/2022 12.14, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Tue, May 24, 2022 at 12:02 PM Konstantin Kostiuk <kkostiuk@redhat.co=
-m>
-> wrote:
-> >>
-> >> Hi Richard and Marc-Andr=C3=A9
-> >>
-> >> I looked into the compilation problem and have 2 solutions:
-> >> 1. We can add some conditions to the win2qemu definition and
-> >> skip NVME support when old mingw-headers are used.
-> >> 2. We can bump the version of the Fedora docker image to 36 or 37
-> >> that is used for cross-compilation tests.
-> >>
-> >> I think the second option is more valuable because we remove
-> >> pregenerated qga-vss.tlb file and now we can check VSS build only
-> >> at Fedora 37.
-> >>
-> >> What do you think?
-> >
-> > I'd try to do both: fix compilation with older headers, and bump our
-> > CI to f36. I don't know if our windows build environment has strict
-> > requirements like the unix/distro (build on old-stable for 2y).
+> Allow retrieving only a subset of statistics.  This can be useful
+> for example in order to plot a subset of the statistics many times
+> a second.
 >
-> See https://www.qemu.org/docs/master/about/build-platforms.html#windows :
+> KVM publishes ~40 statistics for each vCPU on x86; retrieving and
+> serializing all of them would be useless
 >
-> "The project supports building QEMU with current versions of the MinGW
-> toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows=
-."
+> Another use will be in HMP in the following patch; implementing the
+> filter in the backend is easy enough that it was deemed okay to make
+> this a public interface.
 >
-> Since Fedora 35 is still a supported build host, I think you should make
-> sure that it works with the MinGW toolchain from that distro, too.
+> Example:
 >
-
-Currently, CI uses Fedora 33 which is already EOL. Fedora 35 has updated
-mingw-headers and the current version of code compiles without any errors.
-So if we want to support only Fedora 35+, we can just bump the CI docker
-image.
-
-
+> { "execute": "query-stats",
+>   "arguments": {
+>     "target": "vcpu",
+>     "vcpus": [ "/machine/unattached/device[2]",
+>                "/machine/unattached/device[4]" ],
+>     "providers": [
+>       { "provider": "kvm",
+>         "names": [ "l1d_flush", "exits" ] } } }
 >
->   Thomas
+> { "return": {
+>     "vcpus": [
+>       { "path": "/machine/unattached/device[2]"
+>         "providers": [
+>           { "provider": "kvm",
+>             "stats": [ { "name": "l1d_flush", "value": 41213 },
+>                        { "name": "exits", "value": 74291 } ] } ] },
+>       { "path": "/machine/unattached/device[4]"
+>         "providers": [
+>           { "provider": "kvm",
+>             "stats": [ { "name": "l1d_flush", "value": 16132 },
+>                        { "name": "exits", "value": 57922 } ] } ] } ] } }
 >
+> Extracted from a patch by Mark Kanda.
 >
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+> v3->v4: handle empty filter early by avoiding the query altogether
+>
+>  accel/kvm/kvm-all.c     | 17 +++++++++++------
+>  include/monitor/stats.h |  4 ++--
+>  monitor/qmp-cmds.c      | 16 +++++++++++++---
+>  qapi/stats.json         |  6 +++++-
+>  4 files changed, 31 insertions(+), 12 deletions(-)
+>
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 461b6cf927..a61d17719e 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2311,7 +2311,7 @@ bool kvm_dirty_ring_enabled(void)
+>      return kvm_state->kvm_dirty_ring_size ? true : false;
+>  }
+>  
+> -static void query_stats_cb(StatsResultList **result, StatsTarget target,
+> +static void query_stats_cb(StatsResultList **result, StatsTarget target, strList *names,
 
---000000000000a4662705dfc18a1d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Long line.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" c=
-lass=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr=
-"><br></div></div></div><br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, May 24, 2022 at 1:24 PM Thomas Huth &=
-lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">On 24/05/2022 12.14,=
- Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Hi<br>
-&gt; <br>
-&gt; On Tue, May 24, 2022 at 12:02 PM Konstantin Kostiuk &lt;<a href=3D"mai=
-lto:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt; wrot=
-e:<br>
-&gt;&gt;<br>
-&gt;&gt; Hi Richard and Marc-Andr=C3=A9<br>
-&gt;&gt;<br>
-&gt;&gt; I looked into the compilation problem and have 2 solutions:<br>
-&gt;&gt; 1. We can add some conditions to the win2qemu definition and<br>
-&gt;&gt; skip NVME support when old mingw-headers are used.<br>
-&gt;&gt; 2. We can bump the version of the Fedora docker image to 36 or 37<=
-br>
-&gt;&gt; that is used for cross-compilation tests.<br>
-&gt;&gt;<br>
-&gt;&gt; I think the second option is more valuable because we remove<br>
-&gt;&gt; pregenerated qga-vss.tlb file and now we can check VSS build only<=
-br>
-&gt;&gt; at Fedora 37.<br>
-&gt;&gt;<br>
-&gt;&gt; What do you think?<br>
-&gt; <br>
-&gt; I&#39;d try to do both: fix compilation with older headers, and bump o=
-ur<br>
-&gt; CI to f36. I don&#39;t know if our windows build environment has stric=
-t<br>
-&gt; requirements like the unix/distro (build on old-stable for 2y).<br>
-<br>
-See <a href=3D"https://www.qemu.org/docs/master/about/build-platforms.html#=
-windows" rel=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/mas=
-ter/about/build-platforms.html#windows</a> :<br>
-<br>
-&quot;The project supports building QEMU with current versions of the MinGW=
- <br>
-toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.&=
-quot;<br>
-<br>
-Since Fedora 35 is still a supported build host, I think you should make <b=
-r>
-sure that it works with the MinGW toolchain from that distro, too.<br></blo=
-ckquote><div><br></div><div>Currently, CI uses Fedora 33 which is already E=
-OL. Fedora 35 has updated</div><div>mingw-headers and the current version o=
-f code compiles without any errors.</div><div>So if we want to support only=
- Fedora 35+, we can just bump the CI docker image.<br></div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-=C2=A0 Thomas<br>
-<br>
-</blockquote></div></div>
+>                             strList *targets, Error **errp);
+>  static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
+>  
+> @@ -3713,6 +3713,7 @@ typedef struct StatsArgs {
+>          StatsResultList **stats;
+>          StatsSchemaList **schema;
+>      } result;
+> +    strList *names;
+>      Error **errp;
+>  } StatsArgs;
+>  
+> @@ -3926,7 +3927,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
+>      return descriptors;
+>  }
+>  
+> -static void query_stats(StatsResultList **result, StatsTarget target,
+> +static void query_stats(StatsResultList **result, StatsTarget target, strList *names,
 
---000000000000a4662705dfc18a1d--
+Long line.
+
+>                          int stats_fd, Error **errp)
+>  {
+>      struct kvm_stats_desc *kvm_stats_desc;
+> @@ -3969,6 +3970,9 @@ static void query_stats(StatsResultList **result, StatsTarget target,
+>  
+>          /* Add entry to the list */
+>          stats = (void *)stats_data + pdesc->offset;
+> +        if (!apply_str_list_filter(pdesc->name, names)) {
+> +            continue;
+> +        }
+>          stats_list = add_kvmstat_entry(pdesc, stats, stats_list, errp);
+>      }
+>  
+> @@ -4030,8 +4034,8 @@ static void query_stats_vcpu(CPUState *cpu, run_on_cpu_data data)
+>          error_propagate(kvm_stats_args->errp, local_err);
+>          return;
+>      }
+> -    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU, stats_fd,
+> -                kvm_stats_args->errp);
+> +    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU,
+> +                kvm_stats_args->names, stats_fd, kvm_stats_args->errp);
+>      close(stats_fd);
+>  }
+>  
+> @@ -4052,7 +4056,7 @@ static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
+>  }
+>  
+>  static void query_stats_cb(StatsResultList **result, StatsTarget target,
+> -                           strList *targets, Error **errp)
+> +                           strList *names, strList *targets, Error **errp)
+>  {
+>      KVMState *s = kvm_state;
+>      CPUState *cpu;
+> @@ -4066,7 +4070,7 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target,
+>              error_setg(errp, "KVM stats: ioctl failed");
+>              return;
+>          }
+> -        query_stats(result, target, stats_fd, errp);
+> +        query_stats(result, target, names, stats_fd, errp);
+>          close(stats_fd);
+>          break;
+>      }
+> @@ -4074,6 +4078,7 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target,
+>      {
+>          StatsArgs stats_args;
+>          stats_args.result.stats = result;
+> +        stats_args.names = names;
+>          stats_args.errp = errp;
+>          CPU_FOREACH(cpu) {
+>              if (!apply_str_list_filter(cpu->parent_obj.canonical_path, targets)) {
+> diff --git a/include/monitor/stats.h b/include/monitor/stats.h
+> index 840c4ed08e..88f046f568 100644
+> --- a/include/monitor/stats.h
+> +++ b/include/monitor/stats.h
+> @@ -11,8 +11,8 @@
+>  #include "qapi/qapi-types-stats.h"
+>  
+>  typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target,
+> -                              strList *targets, Error **errp);
+> -typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
+> +                              strList *names, strList *targets, Error **errp);
+> +typedef void SchemaRetrieveFunc(StatsSchemaList **, Error **);
+
+Did you drop the parameter names intentionally?
+
+>  
+>  /*
+>   * Register callbacks for the QMP query-stats command.
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 7be0e7414a..e822f1b0a9 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -467,15 +467,24 @@ void add_stats_callbacks(StatsProvider provider,
+>  }
+>  
+>  static bool stats_provider_requested(StatsProvider provider,
+> -                                     StatsFilter *filter)
+> +                                     StatsFilter *filter,
+> +                                     strList **p_names)
+>  {
+>      StatsRequestList *request;
+>  
+> +    *p_names = NULL;
+>      if (!filter->has_providers) {
+>          return true;
+>      }
+>      for (request = filter->providers; request; request = request->next) {
+>          if (request->value->provider == provider) {
+> +            if (request->value->has_names) {
+> +                if (!request->value->names) {
+> +                    /* No names allowed is the same as skipping the provider.  */
+
+Long line.
+
+> +                    return false;
+
+Any other elements of filter->providers that match @provider will be
+silently ignored.  Is this what you want?
+
+Uh, do we leak @p_names if earlier elements matched?
+
+> +                }
+> +                *p_names = request->value->names;
+> +            }
+>              return true;
+>          }
+>      }
+> @@ -506,8 +515,9 @@ StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
+>      }
+>  
+>      QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+> -        if (stats_provider_requested(entry->provider, filter)) {
+> -            entry->stats_cb(&stats_results, filter->target, targets, errp);
+> +        strList *names = NULL;
+> +        if (stats_provider_requested(entry->provider, filter, &names)) {
+> +            entry->stats_cb(&stats_results, filter->target, names, targets, errp);
+
+Brain cramp (broken night)... where is @names freed?
+
+Long line.
+
+>              if (*errp) {
+>                  qapi_free_StatsResultList(stats_results);
+>                  return NULL;
+> diff --git a/qapi/stats.json b/qapi/stats.json
+> index b75bb86124..2dbf188d36 100644
+> --- a/qapi/stats.json
+> +++ b/qapi/stats.json
+> @@ -74,11 +74,14 @@
+>  # Indicates a set of statistics that should be returned by query-stats.
+>  #
+>  # @provider: provider for which to return statistics.
+> +
+> +# @names: statistics to be returned (all if omitted).
+>  #
+>  # Since: 7.1
+>  ##
+>  { 'struct': 'StatsRequest',
+> -  'data': { 'provider': 'StatsProvider' } }
+> +  'data': { 'provider': 'StatsProvider',
+> +            '*names': [ 'str' ] } }
+>  
+>  ##
+>  # @StatsVCPUFilter:
+> @@ -98,6 +101,7 @@
+>  # that target:
+>  # - which vCPUs to request statistics for
+>  # - which provider to request statistics from
+
+Should this be "which providers"?
+
+> +# - which values to return within each provider
+
+This is member @provider sub-member @names.  Hmm.  "which named values
+to return"?
+
+>  #
+>  # Since: 7.1
+>  ##
 
 
