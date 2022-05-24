@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C426853283B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:52:24 +0200 (CEST)
-Received: from localhost ([::1]:51214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697E0532999
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:44:14 +0200 (CEST)
+Received: from localhost ([::1]:43188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntS9G-0005vf-4E
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56178)
+	id 1ntSxQ-0000bf-BK
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ntRtL-0007jm-Sf
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21092)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntRuO-0000dV-PW
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:37:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ntRsx-0007aN-VQ
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:35 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntRuM-0007rI-Uc
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:37:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653388516;
+ s=mimecast20190719; t=1653388617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VhOFY1x4JVyE2suVa09NKYg3nSAHShmA91SCUZkLQJo=;
- b=TlJsTefGRM0b+mxHT/umEe9kdCsiTNxmnuzVlCGfZr31AnQ3Go69dQu3yltLs4+gJbpiTD
- MugFPqDc5JFS5SdbJRNv8jPzPelZqwQMdyqTgeMK1PSSJLlUAOQqrZLVjBnXyrsY8vqoQ2
- qVBBMFI9iGEy8NhDPvPTgQkHx42e/g4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xGgFkrWJ8wpXPclw2uIuesXF7BKkgwxvHzjdrqQlv6M=;
+ b=Tx4IKbFRyyFKX3oVRBDGzLm97jFAT1UWxXlaiIwfuTVXXkp4VJR1CJGraYGflLSEGrqfGH
+ 6VH47T5HxgjHvGilqtoK5ah8d82XmJaaXqNby0dw4945h+8UXFW34HrVxAMIq0/Dy5TgQP
+ 3OoDyV0O44rWmqYMu8xqo+xYcNGbS2w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-358-WvcW-EPxMKaT1BBvRji3uA-1; Tue, 24 May 2022 06:35:13 -0400
-X-MC-Unique: WvcW-EPxMKaT1BBvRji3uA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-395-QTPkv-PPOICzy0RrUmNkMw-1; Tue, 24 May 2022 06:36:48 -0400
+X-MC-Unique: QTPkv-PPOICzy0RrUmNkMw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE4CE299E763;
- Tue, 24 May 2022 10:35:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D6D27ADE;
- Tue, 24 May 2022 10:35:12 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v4 15/15] test/qga: use g_auto wherever sensible
-Date: Tue, 24 May 2022 12:34:53 +0200
-Message-Id: <20220524103453.162665-16-marcandre.lureau@redhat.com>
-In-Reply-To: <20220524103453.162665-1-marcandre.lureau@redhat.com>
-References: <20220524103453.162665-1-marcandre.lureau@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 511AC101A52C;
+ Tue, 24 May 2022 10:36:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A076C08087;
+ Tue, 24 May 2022 10:36:45 +0000 (UTC)
+Date: Tue, 24 May 2022 12:36:44 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
+Message-ID: <Yoy1PJW2Ff6Xb8Ut@redhat.com>
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
+ <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
+ <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
+ <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,454 +85,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Am 18.05.2022 um 14:43 hat Paolo Bonzini geschrieben:
+> On 5/18/22 14:28, Emanuele Giuseppe Esposito wrote:
+> > For example, all callers of bdrv_open() always take the AioContext lock.
+> > Often it is taken very high in the call stack, but it's always taken.
+> 
+> I think it's actually not a problem of who takes the AioContext lock or
+> where; the requirements are contradictory:
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- tests/unit/test-qga.c | 121 +++++++++++++++---------------------------
- 1 file changed, 43 insertions(+), 78 deletions(-)
+Okay, now that I have explained which challenges I see with the drain
+solution, I'd also like to understand the problem that even motivates
+you to go back to drains.
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index ab0b12a2dd..530317044b 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -52,7 +52,10 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
- {
-     const gchar *extra_arg = data;
-     GError *error = NULL;
--    gchar *cwd, *path, *cmd, **argv = NULL;
-+    g_autofree char *cwd = NULL;
-+    g_autofree char *path = NULL;
-+    g_autofree char *cmd = NULL;
-+    g_auto(GStrv) argv = NULL;
- 
-     fixture->loop = g_main_loop_new(NULL, FALSE);
- 
-@@ -78,17 +81,12 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
- 
-     fixture->fd = connect_qga(path);
-     g_assert_cmpint(fixture->fd, !=, -1);
--
--    g_strfreev(argv);
--    g_free(cmd);
--    g_free(cwd);
--    g_free(path);
- }
- 
- static void
- fixture_tear_down(TestFixture *fixture, gconstpointer data)
- {
--    gchar *tmp;
-+    g_autofree char *tmp = NULL;
- 
-     kill(fixture->pid, SIGTERM);
- 
-@@ -107,7 +105,6 @@ fixture_tear_down(TestFixture *fixture, gconstpointer data)
- 
-     tmp = g_build_filename(fixture->test_dir, "sock", NULL);
-     g_unlink(tmp);
--    g_free(tmp);
- 
-     g_rmdir(fixture->test_dir);
-     g_free(fixture->test_dir);
-@@ -122,7 +119,7 @@ static void qmp_assertion_message_error(const char     *domain,
-                                         QDict          *dict)
- {
-     const char *class, *desc;
--    char *s;
-+    g_autofree char *s = NULL;
-     QDict *error;
- 
-     error = qdict_get_qdict(dict, "error");
-@@ -131,7 +128,6 @@ static void qmp_assertion_message_error(const char     *domain,
- 
-     s = g_strdup_printf("assertion failed %s: %s %s", expr, class, desc);
-     g_assertion_message(domain, file, line, func, s);
--    g_free(s);
- }
- 
- #define qmp_assert_no_error(err) do {                                   \
-@@ -146,7 +142,7 @@ static void test_qga_sync_delimited(gconstpointer fix)
-     const TestFixture *fixture = fix;
-     guint32 v, r = g_test_rand_int();
-     unsigned char c;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     qmp_fd_send_raw(fixture->fd, "\xff");
-     qmp_fd_send(fixture->fd,
-@@ -180,15 +176,13 @@ static void test_qga_sync_delimited(gconstpointer fix)
- 
-     v = qdict_get_int(ret, "return");
-     g_assert_cmpint(r, ==, v);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_sync(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-     guint32 v, r = g_test_rand_int();
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     /*
-      * TODO guest-sync is inherently limited: we cannot distinguish
-@@ -210,33 +204,27 @@ static void test_qga_sync(gconstpointer fix)
- 
-     v = qdict_get_int(ret, "return");
-     g_assert_cmpint(r, ==, v);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_ping(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
-     g_assert_nonnull(ret);
-     qmp_assert_no_error(ret);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_id(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping', 'id': 1}");
-     g_assert_nonnull(ret);
-     qmp_assert_no_error(ret);
-     g_assert_cmpint(qdict_get_int(ret, "id"), ==, 1);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_invalid_oob(gconstpointer fix)
-@@ -253,7 +241,8 @@ static void test_qga_invalid_oob(gconstpointer fix)
- static void test_qga_invalid_args(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping', "
-@@ -266,14 +255,13 @@ static void test_qga_invalid_args(gconstpointer fix)
- 
-     g_assert_cmpstr(class, ==, "GenericError");
-     g_assert_cmpstr(desc, ==, "Parameter 'foo' is unexpected");
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_invalid_cmd(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-invalid-cmd'}");
-@@ -285,14 +273,13 @@ static void test_qga_invalid_cmd(gconstpointer fix)
- 
-     g_assert_cmpstr(class, ==, "CommandNotFound");
-     g_assert_cmpint(strlen(desc), >, 0);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_info(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     const gchar *version;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-info'}");
-@@ -302,14 +289,12 @@ static void test_qga_info(gconstpointer fix)
-     val = qdict_get_qdict(ret, "return");
-     version = qdict_get_try_str(val, "version");
-     g_assert_cmpstr(version, ==, QEMU_VERSION);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_vcpus(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -322,14 +307,12 @@ static void test_qga_get_vcpus(gconstpointer fix)
-     entry = qlist_first(list);
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "online"));
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "logical-id"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_fsinfo(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -346,14 +329,13 @@ static void test_qga_get_fsinfo(gconstpointer fix)
-         g_assert(qdict_haskey(qobject_to(QDict, entry->value), "type"));
-         g_assert(qdict_haskey(qobject_to(QDict, entry->value), "disk"));
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_memory_block_info(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     int64_t size;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-memory-block-info'}");
-@@ -366,14 +348,12 @@ static void test_qga_get_memory_block_info(gconstpointer fix)
-         size = qdict_get_int(val, "size");
-         g_assert_cmpint(size, >, 0);
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_memory_blocks(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -391,14 +371,12 @@ static void test_qga_get_memory_blocks(gconstpointer fix)
-             g_assert(qdict_haskey(qobject_to(QDict, entry->value), "online"));
-         }
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_network_get_interfaces(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -410,8 +388,6 @@ static void test_qga_network_get_interfaces(gconstpointer fix)
-     list = qdict_get_qlist(ret, "return");
-     entry = qlist_first(list);
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "name"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_file_ops(gconstpointer fix)
-@@ -642,7 +618,7 @@ static void test_qga_file_write_read(gconstpointer fix)
- static void test_qga_get_time(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     int64_t time;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-time'}");
-@@ -651,8 +627,6 @@ static void test_qga_get_time(gconstpointer fix)
- 
-     time = qdict_get_int(ret, "return");
-     g_assert_cmpint(time, >, 0);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_blacklist(gconstpointer data)
-@@ -693,18 +667,22 @@ static void test_qga_blacklist(gconstpointer data)
- static void test_qga_config(gconstpointer data)
- {
-     GError *error = NULL;
--    char *cwd, *cmd, *out, *err, *str, **strv, **argv = NULL;
-+    g_autofree char *out = NULL;
-+    g_autofree char *err = NULL;
-+    g_autofree char *cwd = NULL;
-+    g_autofree char *cmd = NULL;
-+    g_auto(GStrv) argv = NULL;
-+    g_auto(GStrv) strv = NULL;
-+    g_autoptr(GKeyFile) kf = NULL;
-+    char *str;
-     char *env[2];
-     int status;
-     gsize n;
--    GKeyFile *kf;
- 
-     cwd = g_get_current_dir();
-     cmd = g_strdup_printf("%s%cqga%cqemu-ga -D",
-                           cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
--    g_free(cwd);
-     g_shell_parse_argv(cmd, NULL, &argv, &error);
--    g_free(cmd);
-     g_assert_no_error(error);
- 
-     env[0] = g_strdup_printf("QGA_CONF=tests%cdata%ctest-qga-config",
-@@ -712,7 +690,6 @@ static void test_qga_config(gconstpointer data)
-     env[1] = NULL;
-     g_spawn_sync(NULL, argv, env, 0,
-                  NULL, NULL, &out, &err, &status, &error);
--    g_strfreev(argv);
- 
-     g_assert_no_error(error);
-     g_assert_cmpstr(err, ==, "");
-@@ -759,18 +736,14 @@ static void test_qga_config(gconstpointer data)
-     g_assert_true(g_strv_contains((const char * const *)strv,
-                                   "guest-get-time"));
-     g_assert_no_error(error);
--    g_strfreev(strv);
- 
--    g_free(out);
--    g_free(err);
-     g_free(env[0]);
--    g_key_file_free(kf);
- }
- 
- static void test_qga_fsfreeze_status(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     const gchar *status;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-fsfreeze-status'}");
-@@ -779,16 +752,15 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
- 
-     status = qdict_get_try_str(ret, "return");
-     g_assert_cmpstr(status, ==, "thawed");
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_exec(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     const gchar *out;
--    guchar *decoded;
-+    g_autofree guchar *decoded = NULL;
-     int64_t pid, now, exitcode;
-     gsize len;
-     bool exited;
-@@ -827,14 +799,13 @@ static void test_qga_guest_exec(gconstpointer fix)
-     decoded = g_base64_decode(out, &len);
-     g_assert_cmpint(len, ==, 12);
-     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
--    g_free(decoded);
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_exec_invalid(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     /* invalid command */
-@@ -859,13 +830,13 @@ static void test_qga_guest_exec_invalid(gconstpointer fix)
-     desc = qdict_get_str(error, "desc");
-     g_assert_cmpstr(class, ==, "GenericError");
-     g_assert_cmpint(strlen(desc), >, 0);
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_host_name(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-host-name'}");
-     g_assert_nonnull(ret);
-@@ -873,14 +844,13 @@ static void test_qga_guest_get_host_name(gconstpointer fix)
- 
-     val = qdict_get_qdict(ret, "return");
-     g_assert(qdict_haskey(val, "host-name"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_timezone(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-timezone'}");
-     g_assert_nonnull(ret);
-@@ -889,14 +859,12 @@ static void test_qga_guest_get_timezone(gconstpointer fix)
-     /* Make sure there's at least offset */
-     val = qdict_get_qdict(ret, "return");
-     g_assert(qdict_haskey(val, "offset"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_users(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-users'}");
-@@ -906,15 +874,13 @@ static void test_qga_guest_get_users(gconstpointer fix)
-     /* There is not much to test here */
-     val = qdict_get_qlist(ret, "return");
-     g_assert_nonnull(val);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_osinfo(gconstpointer data)
- {
-     TestFixture fixture;
-     const gchar *str;
--    QDict *ret = NULL;
-+    g_autoptr(QDict) ret = NULL;
-     char *env[2];
-     QDict *val;
- 
-@@ -958,7 +924,6 @@ static void test_qga_guest_get_osinfo(gconstpointer data)
-     g_assert_nonnull(str);
-     g_assert_cmpstr(str, ==, "unit-test");
- 
--    qobject_unref(ret);
-     g_free(env[0]);
-     fixture_tear_down(&fixture, NULL);
- }
--- 
-2.36.1
+> * IO_OR_GS_CODE() functions, when called from coroutine context, expect to
+> be called with the AioContext lock taken (example: bdrv_co_yield_to_drain)
+
+Am I right to say this is not inherently part of the definition of
+IO_OR_GS_CODE(), but just a property that these functions have in
+practice?
+
+In practice, the functions that are IO_OR_GS_CODE() are those that call
+AIO_WAIT_WHILE() - which drops the lock, so it must have been taken
+first. Of course, when calling from coroutine context, AIO_WAIT_WHILE()
+is wrong, so these functions all have a different code path for
+coroutines (or they aren't suitable to be called in coroutines at all).
+
+Using a different code path means that the restrictions from
+AIO_WAIT_WHILE() don't really apply any more and these functions become
+effectively IO_CODE() when called in a coroutine. (At least I'm not
+aware of any other piece of code apart from AIO_WAIT_WHILE() that makes
+a function IO_OR_GS_CODE().)
+
+Surrounding IO_CODE() with aio_context_acquire/release() is in the
+definition of IO_CODE(), so your assumption seems right. (Not sure if
+it's actually necessary in all cases and whether all callers do this
+correctly, but with this definition we have declared that expections to
+this are in fact bugs.)
+
+(You mention bdrv_co_yield_to_drain() as an example. I don't think it's
+a good example. The function isn't annotated, but it seems to me that
+the correct annotation would be IO_CODE() anyway, i.e. safe to call from
+any thread, not just IO_OR_GS_CODE().)
+
+> * to call these functions with the lock taken, the code has to run in the
+> BDS's home iothread.  Attempts to do otherwise results in deadlocks (the
+> main loop's AIO_WAIT_WHILEs expect progress from the iothread, that cannot
+> happen without releasing the aiocontext lock)
+
+This problem can't happen in the main thread itself, AIO_WAIT_WHILE() is
+safe both in the home thread and the main thread (at least as long as
+you lock only once) because it temporarily drops the lock. It has also
+become the definition of IO_OR_GS_CODE(): This code has to run in the
+home thread or the main thread.
+
+
+Of course, above I just concluded that when called from coroutines, in
+practice IO_OR_GS_CODE() essentially turns into IO_CODE(). This is
+supposed to allow much more:
+
+ * I/O API functions. These functions are thread-safe, and therefore
+ * can run in any thread as long as the thread has called
+ * aio_context_acquire/release().
+
+Come to think of it, I believe that many of the functions we declared
+IO_CODE() are actually just IO_OR_GS_CODE() (at best; for iothreads,
+they certainly require running in the home thread, but the main thread
+allowed by IO_OR_GS_CODE() might not work). We have all the coroutine
+machinery so that the AioContext lock of the current thread is
+automatically released and reacquired across yield. However, this is the
+wrong AioContext when called from a different thread, so we need an
+additional lock - which should be dropped during yield, too, but it
+doesn't happen.
+
+Maybe this is really the scenario you mean with this point?
+
+Switching to drain for locking doesn't solve the problem, but only
+possibly defer it. In order to complete the multiqueue work, we need
+to make IO_CODE() functions actually conform to the definition of
+IO_CODE().
+
+Do we have a plan what this should look like in the final state when all
+the multiqueue work is completed? Will it require replacing the more or
+less automatic AioContext lock handling that we currently have in
+coroutines with explicit unlock/lock around all yield points? I assume
+that some kind of lock will still have to be held and it wouldn't just
+disappear with the removal of the AioContext lock? Or will we only have
+coroutine locks which don't have this problem?
+
+> * running the code in the BDS's home iothread is not possible for
+> GLOBAL_STATE_CODE() functions (unless the BDS home iothread is the main
+> thread, but that cannot be guaranteed in general)
+
+There is nothing that stops GLOBAL_STATE_CODE() from scheduling work in
+the home iothread of a BDS and then waiting for it - or if it is a
+coroutine, even to reschedule itself into the BDS home thread
+temporarily.
+
+This is essentially what all of the generated_co_wrapper functions do,
+and the coroutine case is what bdrv_co_enter() does.
+
+So I'm not sure what you mean by this?
+
+Kevin
 
 
