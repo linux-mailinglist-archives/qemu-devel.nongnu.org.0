@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08548533238
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:14:14 +0200 (CEST)
-Received: from localhost ([::1]:50476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3E053323A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:14:16 +0200 (CEST)
+Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntauz-0000Sv-3h
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58466)
+	id 1ntav1-0000Zy-JT
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntaqE-0005ub-8e
- for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:18 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35655)
+ id 1ntaqF-0005wd-IQ
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:19 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntaqC-00027h-5o
- for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:17 -0400
-Received: by mail-ej1-x636.google.com with SMTP id y13so36817278eje.2
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 13:09:11 -0700 (PDT)
+ id 1ntaqC-00028V-62
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 16:09:19 -0400
+Received: by mail-ed1-x532.google.com with SMTP id i40so24471995eda.7
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 13:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7PBJA3C62eoSkl6DhdyxP6mvWBig6wkMDoxUPX6PawE=;
- b=nZApcgahAWmq9C5jlp35Xgo/4eGzfSZK8wRlY+xgssi98KwzMNP6luS7BqZOaGNn3C
- 8P0L2quIodM60qJu7+1vIwCEZhlKa9G5LRd8HXpKao+S1e7MXgXfwoVuE5Qi/c4n3cox
- 0fLKjKABsoT/4Ztr1ICsTIWsQ0Q7mb9X1DdLRxBM03JRdYBJMzdTRyxJECpSOxVio4EC
- H+dknK9/Hv9P3moXXMBj0gW0WN1rLpv/TzswZW130H6uF1ICCAwQtF6cB9Uuus0rMUd4
- 8zJr15REw0wSLUMpVrgE1/5setfQHkVA4MK25tpjaYm4kj8Akqfb05PnnNrP1k5y9PmC
- kAsw==
+ :cc; bh=fKjUnk5hSt3R76kHvgP4rvHMrBaJH7wD/n2hz1M+Bgw=;
+ b=GDI6oD+ClxSUQjJlaI7FP0bN3yv9hkq5Vin3sdM0zRxuwOifhXhnp7qzJ/72SiYuIk
+ zVLLgeVRqXL7FKmHgXKDMj7Zdhgr/Xiz4ZD8TPwqDVNo3mdqUR7LLzUoYnjKP2VbE3Up
+ 3DrDVahHMg1sr0OhTg4xLgcATxF7mDIimGRP4WRa7oT/qwgbJOBopJyEsfVcNB/1zR+m
+ J+0IDXZ0mx8tU1tsw/fN8uP31CGL9JqrcR0XNr9PQifr6JL5X5f2/Y96GcSc3u25GZtM
+ BVYj0l1Ig/n+AyMEmdg8qR0j3yYCWoomdeSBgFBCGMontbVZa4Ryrugl9q9WsIai6kOl
+ ZcwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7PBJA3C62eoSkl6DhdyxP6mvWBig6wkMDoxUPX6PawE=;
- b=wH1A0bdUzcUuJIP9KFBRvI9yF2gZ07TR0l4KSGhZRNq3dgljx+kN0652dvHtFDB8k4
- 3cKQoIIOSfFibJni+lF4/C4iuRlay3DxDd8A7sQMgKF8vCI/Tlv16rz+TkqJcm7+vz7y
- DVN7xyj6SzGL7zoC1qBYzH81R3wQ7J5DtaVyM1gjBTwGholwQU5f8h963qrbx2iD4jBu
- Lcwn4JX2ffi8q+5H6c9bn9oiLuAX5hJTRAhjZ0gRkEOUyuaP+aiWssrzc61351ofTsY6
- JBbz6LSLx9LtzHFqaJEonJiHmdcXi3BcQG1h6lnhzhBR7YVPRgPxxNyawhbkSjUQ7mc0
- BWqA==
-X-Gm-Message-State: AOAM532X+tdXL8CEUvV0JXkOKwcAnVoruWdJpvR8R7WVEwZZ9sado3mH
- TKDVJ7pClI0wHi6qLYfpZmSj4/KO+936JQhs8nsD2A==
-X-Google-Smtp-Source: ABdhPJzYzdHIkHl4ctoOZGmvFZsHchjcLJyUcqqHxfWGsyrrT/Sw97i+OUxAdCHSlGp2eHLfoILwszlsl16Vpax2WBs=
-X-Received: by 2002:a17:907:6d12:b0:6fe:bef9:58d5 with SMTP id
- sa18-20020a1709076d1200b006febef958d5mr15913264ejc.548.1653422949861; Tue, 24
- May 2022 13:09:09 -0700 (PDT)
+ bh=fKjUnk5hSt3R76kHvgP4rvHMrBaJH7wD/n2hz1M+Bgw=;
+ b=J9/ruHscqN1ZZVffDINQl3mfmQ5/96Jr63QWlcC6K4i/I7miOYgcTd670JtTiJMS+r
+ QeI0IXhDZfMsplj9b08670XsgeOdhc6Si2Qh1YH6svKs+n2H2E7DcQMGZZ4BEgloG/dJ
+ 1KWfKIoiGcqrO7zUaeT24quVA/dKM10jQfjyS1/bRguu4jJMJ9EwGrGtQHuKoLhF1FA6
+ iFjnuTofqkILWaWMTo31j7BuvUtRiSCzTrMzt0LF1hGn/X2C70wfiR2l5v3rFzNWps/r
+ 5zN0Y3FVK3Fgtd2Kvfr04gKzcCp/vI7CNcwCzWgPnbVgJTNFoGBVZI5xHfVM7k8je2W9
+ I19A==
+X-Gm-Message-State: AOAM530NSWR4zk+EJ/r//xWDTb428vVC6OK2Oqx2SCaO0z2zUfTNUVwA
+ 8nMxsSqGNUuYZRMvhm7YsDy3cvXA4ypT8UNoG9n4Mg==
+X-Google-Smtp-Source: ABdhPJxiFtZd8jAJ+CkTS+yPOXuH1Ri1MAq+LpgqDBZCzw5nXPDWlAfGhm9FIKs3UqwSAPhxJ7uI2AlnJSK6oAXLhcU=
+X-Received: by 2002:aa7:d88f:0:b0:42a:adb3:be01 with SMTP id
+ u15-20020aa7d88f000000b0042aadb3be01mr31364124edq.219.1653422954415; Tue, 24
+ May 2022 13:09:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-6-damien.hedde@greensocs.com>
-In-Reply-To: <20220223090706.4888-6-damien.hedde@greensocs.com>
+ <20220223090706.4888-8-damien.hedde@greensocs.com>
+In-Reply-To: <20220223090706.4888-8-damien.hedde@greensocs.com>
 From: Jim Shu <jim.shu@sifive.com>
-Date: Wed, 25 May 2022 04:08:57 +0800
-Message-ID: <CALw707pHPz-bii8cnZ5WuegyFP4qay3o9gCyTvn0X=cbNheg1w@mail.gmail.com>
-Subject: Re: [PATCH v4 05/14] qapi/device_add: handle the rom_order_override
- when cold-plugging
+Date: Wed, 25 May 2022 04:09:01 +0800
+Message-ID: <CALw707q1Xsnr3JFUvSv1wh5Vh6TaeWyt6+FMiNswNJnFEny0JA@mail.gmail.com>
+Subject: Re: [PATCH v4 07/14] none-machine: add the NoneMachineState structure
 To: Damien Hedde <damien.hedde@greensocs.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  mark.burton@greensocs.com, edgari@xilinx.com, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>
-Content-Type: multipart/alternative; boundary="00000000000097340605dfc787bd"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=jim.shu@sifive.com; helo=mail-ej1-x636.google.com
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000dc9bf305dfc7872c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=jim.shu@sifive.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,221 +85,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000097340605dfc787bd
+--000000000000dc9bf305dfc7872c
 Content-Type: text/plain; charset="UTF-8"
 
 Tested-by: Jim Shu <jim.shu@sifive.com>
 
-On Wed, Feb 23, 2022 at 5:18 PM Damien Hedde <damien.hedde@greensocs.com>
+On Wed, Feb 23, 2022 at 5:59 PM Damien Hedde <damien.hedde@greensocs.com>
 wrote:
 
-> rom_set_order_override() and rom_reset_order_override() were called
-> in qemu_create_cli_devices() to set the rom_order_override value
-> once and for all when creating the devices added on CLI.
->
-> Unfortunately this won't work with qapi commands.
->
-> Move the calls inside device_add so that it will be done in every
-> case:
-> + CLI option: -device
-> + QAPI command: device_add
->
-> rom_[set|reset]_order_override() are implemented in hw/core/loader.c
-> They either do nothing or call fw_cfg_[set|reset]_order_override().
-> The later functions are implemented in hw/nvram/fw_cfg.c and only
-> change an integer value of a "global" variable.
-> In consequence, there are no complex side effects involved and we can
-> safely move them from outside the -device option loop to the inner
-> function.
+> The none machine was using the parent state structure.
+> We'll need a custom state to add a field in the following commit.
 >
 > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->  softmmu/qdev-monitor.c | 11 +++++++++++
->  softmmu/vl.c           |  2 --
->  2 files changed, 11 insertions(+), 2 deletions(-)
+>  hw/core/null-machine.c | 24 ++++++++++++++++++++++--
+>  1 file changed, 22 insertions(+), 2 deletions(-)
 >
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 47a89aee20..9ec3e0ebff 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -43,6 +43,7 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/clock.h"
->  #include "hw/boards.h"
-> +#include "hw/loader.h"
+> diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
+> index f586a4bef5..7eb258af07 100644
+> --- a/hw/core/null-machine.c
+> +++ b/hw/core/null-machine.c
+> @@ -17,6 +17,13 @@
+>  #include "exec/address-spaces.h"
+>  #include "hw/core/cpu.h"
 >
->  /*
->   * Aliases were a bad idea from the start.  Let's keep them
-> @@ -671,6 +672,10 @@ DeviceState *qdev_device_add_from_qdict(const QDict
-> *opts,
->          return NULL;
->      }
->
-> +    if (!is_hotplug) {
-> +        rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
-> +    }
+> +struct NoneMachineState {
+> +    MachineState parent;
+> +};
 > +
->      /* create device */
->      dev = qdev_new(driver);
->
-> @@ -712,6 +717,9 @@ DeviceState *qdev_device_add_from_qdict(const QDict
-> *opts,
->      if (!qdev_realize(DEVICE(dev), bus, errp)) {
->          goto err_del_dev;
+> +#define TYPE_NONE_MACHINE MACHINE_TYPE_NAME("none")
+> +OBJECT_DECLARE_SIMPLE_TYPE(NoneMachineState, NONE_MACHINE)
+> +
+>  static void machine_none_init(MachineState *mch)
+>  {
+>      CPUState *cpu = NULL;
+> @@ -42,8 +49,10 @@ static void machine_none_init(MachineState *mch)
 >      }
-> +    if (!is_hotplug) {
-> +        rom_reset_order_override();
-> +    }
->      return dev;
->
->  err_del_dev:
-> @@ -719,6 +727,9 @@ err_del_dev:
->          object_unparent(OBJECT(dev));
->          object_unref(OBJECT(dev));
->      }
-> +    if (!is_hotplug) {
-> +        rom_reset_order_override();
-> +    }
->      return NULL;
 >  }
 >
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 50337d68b9..b91ae1b8ae 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2680,7 +2680,6 @@ static void qemu_create_cli_devices(void)
->      }
->
->      /* init generic devices */
-> -    rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
->      qemu_opts_foreach(qemu_find_opts("device"),
->                        device_init_func, NULL, &error_fatal);
->      QTAILQ_FOREACH(opt, &device_opts, next) {
-> @@ -2697,7 +2696,6 @@ static void qemu_create_cli_devices(void)
->          object_unref(OBJECT(dev));
->          loc_pop(&opt->loc);
->      }
-> -    rom_reset_order_override();
+> -static void machine_none_machine_init(MachineClass *mc)
+> +static void machine_none_class_init(ObjectClass *oc, void *data)
+>  {
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +
+>      mc->desc = "empty machine";
+>      mc->init = machine_none_init;
+>      mc->max_cpus = 1;
+> @@ -56,4 +65,15 @@ static void machine_none_machine_init(MachineClass *mc)
+>      mc->no_sdcard = 1;
 >  }
 >
->  static void qemu_machine_creation_done(void)
+> -DEFINE_MACHINE("none", machine_none_machine_init)
+> +static const TypeInfo none_machine_info = {
+> +    .name          = TYPE_NONE_MACHINE,
+> +    .parent        = TYPE_MACHINE,
+> +    .instance_size = sizeof(NoneMachineState),
+> +    .class_init    = machine_none_class_init,
+> +};
+> +
+> +static void none_machine_register_types(void)
+> +{
+> +    type_register_static(&none_machine_info);
+> +}
+> +type_init(none_machine_register_types);
 > --
 > 2.35.1
 >
 >
 >
 
---00000000000097340605dfc787bd
+--000000000000dc9bf305dfc7872c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">Tested-by: Jim Shu &lt;<a href=3D"mailto:jim.shu@sifive.co=
 m" target=3D"_blank">jim.shu@sifive.com</a>&gt;<br></div><br><div class=3D"=
 gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 23, 2022 at =
-5:18 PM Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.com" targ=
+5:59 PM Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.com" targ=
 et=3D"_blank">damien.hedde@greensocs.com</a>&gt; wrote:<br></div><blockquot=
 e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">rom_set_order_override() and rom_re=
-set_order_override() were called<br>
-in qemu_create_cli_devices() to set the rom_order_override value<br>
-once and for all when creating the devices added on CLI.<br>
-<br>
-Unfortunately this won&#39;t work with qapi commands.<br>
-<br>
-Move the calls inside device_add so that it will be done in every<br>
-case:<br>
-+ CLI option: -device<br>
-+ QAPI command: device_add<br>
-<br>
-rom_[set|reset]_order_override() are implemented in hw/core/loader.c<br>
-They either do nothing or call fw_cfg_[set|reset]_order_override().<br>
-The later functions are implemented in hw/nvram/fw_cfg.c and only<br>
-change an integer value of a &quot;global&quot; variable.<br>
-In consequence, there are no complex side effects involved and we can<br>
-safely move them from outside the -device option loop to the inner<br>
-function.<br>
+olid rgb(204,204,204);padding-left:1ex">The none machine was using the pare=
+nt state structure.<br>
+We&#39;ll need a custom state to add a field in the following commit.<br>
 <br>
 Signed-off-by: Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.co=
 m" target=3D"_blank">damien.hedde@greensocs.com</a>&gt;<br>
 ---<br>
-=C2=A0softmmu/qdev-monitor.c | 11 +++++++++++<br>
-=C2=A0softmmu/vl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 --<br>
-=C2=A02 files changed, 11 insertions(+), 2 deletions(-)<br>
+=C2=A0hw/core/null-machine.c | 24 ++++++++++++++++++++++--<br>
+=C2=A01 file changed, 22 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c<br>
-index 47a89aee20..9ec3e0ebff 100644<br>
---- a/softmmu/qdev-monitor.c<br>
-+++ b/softmmu/qdev-monitor.c<br>
-@@ -43,6 +43,7 @@<br>
-=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
-=C2=A0#include &quot;hw/clock.h&quot;<br>
-=C2=A0#include &quot;hw/boards.h&quot;<br>
-+#include &quot;hw/loader.h&quot;<br>
+diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c<br>
+index f586a4bef5..7eb258af07 100644<br>
+--- a/hw/core/null-machine.c<br>
++++ b/hw/core/null-machine.c<br>
+@@ -17,6 +17,13 @@<br>
+=C2=A0#include &quot;exec/address-spaces.h&quot;<br>
+=C2=A0#include &quot;hw/core/cpu.h&quot;<br>
 <br>
-=C2=A0/*<br>
-=C2=A0 * Aliases were a bad idea from the start.=C2=A0 Let&#39;s keep them<=
-br>
-@@ -671,6 +672,10 @@ DeviceState *qdev_device_add_from_qdict(const QDict *o=
-pts,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 if (!is_hotplug) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rom_set_order_override(FW_CFG_ORDER_OVERRIDE_D=
-EVICE);<br>
-+=C2=A0 =C2=A0 }<br>
++struct NoneMachineState {<br>
++=C2=A0 =C2=A0 MachineState parent;<br>
++};<br>
 +<br>
-=C2=A0 =C2=A0 =C2=A0/* create device */<br>
-=C2=A0 =C2=A0 =C2=A0dev =3D qdev_new(driver);<br>
-<br>
-@@ -712,6 +717,9 @@ DeviceState *qdev_device_add_from_qdict(const QDict *op=
-ts,<br>
-=C2=A0 =C2=A0 =C2=A0if (!qdev_realize(DEVICE(dev), bus, errp)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_del_dev;<br>
++#define TYPE_NONE_MACHINE MACHINE_TYPE_NAME(&quot;none&quot;)<br>
++OBJECT_DECLARE_SIMPLE_TYPE(NoneMachineState, NONE_MACHINE)<br>
++<br>
+=C2=A0static void machine_none_init(MachineState *mch)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0CPUState *cpu =3D NULL;<br>
+@@ -42,8 +49,10 @@ static void machine_none_init(MachineState *mch)<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 if (!is_hotplug) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rom_reset_order_override();<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0return dev;<br>
-<br>
-=C2=A0err_del_dev:<br>
-@@ -719,6 +727,9 @@ err_del_dev:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_unparent(OBJECT(dev));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_unref(OBJECT(dev));<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 if (!is_hotplug) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rom_reset_order_override();<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
 =C2=A0}<br>
 <br>
-diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
-index 50337d68b9..b91ae1b8ae 100644<br>
---- a/softmmu/vl.c<br>
-+++ b/softmmu/vl.c<br>
-@@ -2680,7 +2680,6 @@ static void qemu_create_cli_devices(void)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* init generic devices */<br>
--=C2=A0 =C2=A0 rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);<br>
-=C2=A0 =C2=A0 =C2=A0qemu_opts_foreach(qemu_find_opts(&quot;device&quot;),<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0device_init_func, NULL, &amp;error_fatal);<br>
-=C2=A0 =C2=A0 =C2=A0QTAILQ_FOREACH(opt, &amp;device_opts, next) {<br>
-@@ -2697,7 +2696,6 @@ static void qemu_create_cli_devices(void)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_unref(OBJECT(dev));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loc_pop(&amp;opt-&gt;loc);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 rom_reset_order_override();<br>
+-static void machine_none_machine_init(MachineClass *mc)<br>
++static void machine_none_class_init(ObjectClass *oc, void *data)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 MachineClass *mc =3D MACHINE_CLASS(oc);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;desc =3D &quot;empty machine&quot;;<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;init =3D machine_none_init;<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;max_cpus =3D 1;<br>
+@@ -56,4 +65,15 @@ static void machine_none_machine_init(MachineClass *mc)<=
+br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;no_sdcard =3D 1;<br>
 =C2=A0}<br>
 <br>
-=C2=A0static void qemu_machine_creation_done(void)<br>
+-DEFINE_MACHINE(&quot;none&quot;, machine_none_machine_init)<br>
++static const TypeInfo none_machine_info =3D {<br>
++=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_NONE_MACHIN=
+E,<br>
++=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_MACHINE,<br>
++=C2=A0 =C2=A0 .instance_size =3D sizeof(NoneMachineState),<br>
++=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =3D machine_none_class_init,<br>
++};<br>
++<br>
++static void none_machine_register_types(void)<br>
++{<br>
++=C2=A0 =C2=A0 type_register_static(&amp;none_machine_info);<br>
++}<br>
++type_init(none_machine_register_types);<br>
 -- <br>
 2.35.1<br>
 <br>
 <br>
 </blockquote></div>
 
---00000000000097340605dfc787bd--
+--000000000000dc9bf305dfc7872c--
 
