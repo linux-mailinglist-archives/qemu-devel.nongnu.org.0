@@ -2,74 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CD6532F98
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 19:27:29 +0200 (CEST)
-Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4305B532F9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 19:27:46 +0200 (CEST)
+Received: from localhost ([::1]:41960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntYJc-0007ON-9u
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 13:27:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41164)
+	id 1ntYJt-00080l-Cj
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 13:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntYGp-0004ud-Pt; Tue, 24 May 2022 13:24:35 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntYGa-0006QM-F5; Tue, 24 May 2022 13:24:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EPGeL7ZRENlJWneVf0+6SMtnyDnUr6w+kVoTxUUYtLE=; b=JLCEtq4GWS1DwvKWJQTfqIw1ci
- iyZffB5SWczh9isOEkbZRlqRxPAYtviQDBxdkgc5VUpgOQ6tiTgESzr2CW5Z5mD/di3hGTMgDtQhb
- S5dokaGNnlFJRzSk6AC7c7ZIlJbTvy0JIVbH19v5+5XudAnMOO2BpKOX7qGr4iksz6CvYXqhipr6l
- mDN+Q+HZ1O5E30Ny+9B6eEqubKZlqZPoGO+8dElSzjXTovszhU1+Ie/Rv+xPX6PwNzkp893+rdWK9
- +2ib8cFrqNSfqice3vr6Whm4/09Qp+sEdWwp323bJgDLLNA8R78lCAN7nTl2kYS+HGrhyGhywL2c3
- fCTmQuVhQ/UcGsP3rVHRqUx+6/bAjMjHWEFaMh3Mit1CfjGiSmkRriQEfbSE3Xdf+1Vw4+byfDm8l
- KwxgFIdI983DrJV7GqZgyvUqxfD6BWLn5hLMDM8/UeTH85O1XaLe0uWOOUeVIflNnV5yEldal8HS+
- CCt7Ny1lMBDz82Jxt9rJ9bL4eIillnrrSdOS5QwUrav+T0PRBBRm6cU+qxPAJImjCCW0glIgFmokW
- EoXhop16nl6ha+SxbRVY+ivNhwTcD1r3Vsn86sRFCyDkCJxBFTpZ9wTZjVwX0pbtqNCLJUaAdlYh+
- q0b0NF6MHL3QavBKGNnWbJteudeQSGBbWxMeTAXxA=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntYFO-000AYV-Ua; Tue, 24 May 2022 18:23:11 +0100
-Message-ID: <758bf46a-9d89-d36d-071b-24865b3bb874@ilande.co.uk>
-Date: Tue, 24 May 2022 18:24:05 +0100
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntYHc-0005a6-E9; Tue, 24 May 2022 13:25:26 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntYHa-0006iC-W0; Tue, 24 May 2022 13:25:24 -0400
+Received: by mail-ed1-x531.google.com with SMTP id i40so23972700eda.7;
+ Tue, 24 May 2022 10:25:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Dnmwt+F26AMh7zif6d9yxcsZl1izCZHXXsocY6Cefno=;
+ b=AUHqZWTk/UiOWp12ZiMFQufMEuPhkvLt7pYZH020T74atxxPHqv5mthgZIrM65FqVG
+ JBQq7raml8nP1PJc19ZYhMSvkX94jhaxPMVjWAhpMAj6F+TrjTnwShHvR5xIW3TqXcCm
+ UVsU8Wx5WpcN16lJpiEsFiTe9Ss/FNH87aKz19MxsBbdta/2UZv2ztQyNJsnCE9p9lg5
+ BiqNz+tq3lPUSelBxXqUcHl56GCfVaB1pao6rYnBt3qo0JOOeiqO9uTOHNDS7d5c4QOc
+ q3jFmgRseRs/l3t2Z6bA0unGSHqGM4FokVHi8mOj8PX2WupkBNcc04Wl0ihB0WNXEi86
+ diDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Dnmwt+F26AMh7zif6d9yxcsZl1izCZHXXsocY6Cefno=;
+ b=LeO2VrgwiKnIGB1/GPvQDUUcBbBlqxLZQIRe3hhAc1binRx113I4vw9e71XUQp9ffD
+ 1wSuEufTcSuAKWictA28K6C7g61YHM/ngSNUJnfaM9AFfXOUr2C0vWVIVwnAVpqKHCQR
+ dsUHPyIb/ZfOrqZzPTtZUj4c8sDbznMMV4w9gizVhy9s8rkG/Ficl0PUslCXjT3vLZB+
+ pjTLBchg4ncKmNZv69VZ2YdqbLR3KC7bXY3wTjXsDZwOJnhv+A1BbXhnXGO76HLVC+UQ
+ rPCoXvlZCYkhdC3UFC9xjw9glqLozhklaf1A8ebd6qIU1ehsPH7QEpy09lr5DGLYJlEA
+ SclQ==
+X-Gm-Message-State: AOAM5337O5WZj9CgsI81gX9j+j/4zXsU954PHoMxEiiBQR2wTiXfH5Lc
+ UiKLP1vn2ohQWTFeEiqPS64=
+X-Google-Smtp-Source: ABdhPJyryYDJB9/G2QpYaQdMWYqAnT7SGeXIHdusWBnJ9yzQ7+qI+qTjMEWoSk9rDkwFkzWw+K5lRg==
+X-Received: by 2002:a05:6402:1508:b0:42a:b5da:b112 with SMTP id
+ f8-20020a056402150800b0042ab5dab112mr30156130edw.192.1653413121301; 
+ Tue, 24 May 2022 10:25:21 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ gx13-20020a1709068a4d00b006f39ffe23fdsm7502536ejc.0.2022.05.24.10.25.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 May 2022 10:25:20 -0700 (PDT)
+Message-ID: <f0552d30-2dc8-df5f-6de9-c59a2a2951c1@redhat.com>
+Date: Tue, 24 May 2022 19:25:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
+ ->children: new rwlock
 Content-Language: en-US
-To: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, aleksandar.rikalo@syrmia.com,
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-30-mark.cave-ayland@ilande.co.uk>
- <adb1830e-8b71-a889-7a2e-416f9f76d714@reactos.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <adb1830e-8b71-a889-7a2e-416f9f76d714@reactos.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220426085114.199647-1-eesposit@redhat.com>
+ <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
+ <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
+ <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
+ <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
+ <YoUbWYfl0Bft3LiU@redhat.com> <YopRejAj7AbIXH9i@stefanha-x1.localdomain>
+ <67993f7d-bc84-9929-0a28-10a441c3d5bd@redhat.com>
+ <YoySiI+ReM2O8WEs@stefanha-x1.localdomain>
+ <584d7d1a-94cc-9ebb-363b-2fddb8d79f5b@redhat.com>
+ <Yoyxf4XDxhl4pDhr@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Yoyxf4XDxhl4pDhr@stefanha-x1.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 29/50] pckbd: more vmstate_register() from i8042_mm_init()
- to i8042_mmio_realize()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,54 +107,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/05/2022 07:34, Hervé Poussineau wrote:
-
-> Hello,
+On 5/24/22 12:20, Stefan Hajnoczi wrote:
+>> Maybe it's safe to run it without a lock because it runs after
+>> virtio_set_status(vdev, 0) but I'd rather play it safe and protect s->rq
+>> with a lock.
+>
+> What does the lock protect?
 > 
-> If you want, you can break migration compatibility. I don't see it as a problem.
-> 
-> Hervé
+> A lock can prevent s->rq or req->vq corruption but it cannot prevent
+> request leaks. This loop's job is to free all requests so there is no
+> leak. If a lock is necessary then this code is already broken in a more
+> fundamental way because it can leak.
 
-Thanks for suggesting this. Given that migration of the magnum machine was broken for 
-a long time until I fixed it recently, I don't think it would be a problem either.
+Yes, you're right.  This particular list is always accessed in the 
+iothread (if any) and blk_drain() is enough.  virtio-blk should already 
+not need aio_context_{acquire,release}.
 
-I was considering a similar proposal for lasips2 but was planning to do the migration 
-break in the part 2 series as part of the QOM modelling improvements rather than in 
-this initial series. I'll update the I8042_MMIO accordingly when my current working 
-branch for part 2.
+It's worth a comment, though!
 
-> Le 22/05/2022 à 20:18, Mark Cave-Ayland a écrit :
->> Note in this case it is not possible to register a (new) VMStateDescription in
->> the DeviceClass without breaking migration compatibility for the MIPS magnum
->> machine.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/input/pckbd.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
->> index eb77ad193e..7f3578aa4d 100644
->> --- a/hw/input/pckbd.c
->> +++ b/hw/input/pckbd.c
->> @@ -681,6 +681,9 @@ static void i8042_mmio_realize(DeviceState *dev, Error **errp)
->>       memory_region_init_io(&s->region, OBJECT(dev), &i8042_mmio_ops, ks,
->>                             "i8042", s->size);
->> +
->> +    /* Note we can't use dc->vmsd without breaking migration compatibility */
->> +    vmstate_register(NULL, 0, &vmstate_kbd, ks);
->>   }
->>   static void i8042_mmio_init(Object *obj)
->> @@ -721,8 +724,6 @@ MMIOKBDState *i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
->>       s->irq_kbd = kbd_irq;
->>       s->irq_mouse = mouse_irq;
->> -    vmstate_register(NULL, 0, &vmstate_kbd, s);
->> -
->>       s->kbd = ps2_kbd_init(kbd_update_kbd_irq, s);
->>       s->mouse = ps2_mouse_init(kbd_update_aux_irq, s);
-
-
-ATB,
-
-Mark.
+Paolo
 
