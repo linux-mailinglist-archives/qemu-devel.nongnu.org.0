@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C345F5326CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 11:48:42 +0200 (CEST)
-Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41BC5326ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 11:55:42 +0200 (CEST)
+Received: from localhost ([::1]:58130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntR9d-0004kF-RB
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 05:48:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41348)
+	id 1ntRGP-0001w1-SF
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 05:55:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1ntQpB-0006rt-IO
- for qemu-devel@nongnu.org; Tue, 24 May 2022 05:27:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53250)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntQtK-0004r6-AQ
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 05:31:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1ntQpA-0004jl-13
- for qemu-devel@nongnu.org; Tue, 24 May 2022 05:27:33 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntQtI-0005Q1-P3
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 05:31:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653384451;
+ s=mimecast20190719; t=1653384707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=H2Qqaef//XkcG+pw5lVlymXwThryn9QBEMiUR3fU8i8=;
- b=H8atpI406kxQXIhcc31JOkbpzuh4viVtfrO16TOHv26TnXeSPseTEUuBcIugYETWgXFbaQ
- TSGPybeJyS4wvMPvKLWt1VNjgjIU3l/VmQ0m10f1vGY0TkXIZHmD8rVodbYGmjcD+W7JVO
- NA8j+KxwpPfT7fYbJhrlBj+Plc5lmpQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=91+1/G/0jIujtaA0K74LFBlXN9Q5WV1AKCVDf6cnkI8=;
+ b=J0PLm76vt2d3f+omRoYKkmSqT+mR8OCH+lCWhRZ7CzFuCOJAEPxSKOO2zQxeuln8texZ9A
+ OqRwHfrCma6sakfh8UnrfsLPnkCC+beSpw82T+q3BDpPDDBZNs5rM2zfvAIE9SNEg/U0Uy
+ TzT3+ErBiLo2FKb08td44OspkV0GZeI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-392-gU6ZymubOGS8llmuI856fw-1; Tue, 24 May 2022 05:27:27 -0400
-X-MC-Unique: gU6ZymubOGS8llmuI856fw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-126-0TCneGAIOyq4FOimmyCQrw-1; Tue, 24 May 2022 05:31:43 -0400
+X-MC-Unique: 0TCneGAIOyq4FOimmyCQrw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C19E3C025BB;
- Tue, 24 May 2022 09:27:27 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 853ECC27E8F;
- Tue, 24 May 2022 09:27:26 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: Emulating CPUs with larger atomic accesses
-References: <87k0apeor5.fsf@oldenburg.str.redhat.com>
- <37f4c866-4344-37ba-b64b-fd338dc96887@linaro.org>
-Date: Tue, 24 May 2022 11:27:24 +0200
-In-Reply-To: <37f4c866-4344-37ba-b64b-fd338dc96887@linaro.org> (Richard
- Henderson's message of "Sat, 21 May 2022 18:07:33 -0700")
-Message-ID: <87sfozuvpf.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41D42185A7A4;
+ Tue, 24 May 2022 09:31:43 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62E8D492C3B;
+ Tue, 24 May 2022 09:31:42 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-riscv@nongnu.org
+Subject: [PATCH] .gitlab-ci.d/container-cross: Fix RISC-V container
+ dependencies / stages
+Date: Tue, 24 May 2022 11:31:41 +0200
+Message-Id: <20220524093141.91012-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=fweimer@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,25 +77,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Richard Henderson:
+The "riscv64-debian-cross-container" job does not depend on any other
+container job from the first stage, so we can move it to the first
+stage, too.
 
-> On 5/13/22 03:00, Florian Weimer wrote:
->> What's QEMU's approach to emulating CPU instructions that atomatically
->> operate on values larger than what is supported by the host CPU?
->> I assume that for full system emulation, this is not a problem, but
->> qemu-user will not achieve atomic behavior on shared memory mappings.
->> How much of a problem is this in practice?
->
-> Well, it doesn't work, no.  In practice, x86_64 supports 128-bit
-> atomic operations, and guest requires more than that.  No one really
-> cares anymore about 32-bit hosts with smaller atomic operations.
+The "riscv64-debian-test-cross-container" job needs the debian11
+container, so we should add a proper "needs:" statement here.
 
-Which part doesn't work?  Full-system emulation?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/container-cross.yml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Do guests really require wider-than-128 atomics?  That's quite
-surprising?
-
-Thanks,
-Florian
+diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+index 26281ce4f9..f21d7a2a14 100644
+--- a/.gitlab-ci.d/container-cross.yml
++++ b/.gitlab-ci.d/container-cross.yml
+@@ -123,7 +123,7 @@ ppc64el-debian-cross-container:
+ 
+ riscv64-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   # as we are currently based on 'sid/unstable' we may break so...
+   allow_failure: true
+   variables:
+@@ -133,6 +133,7 @@ riscv64-debian-cross-container:
+ riscv64-debian-test-cross-container:
+   extends: .container_job_template
+   stage: containers-layer2
++  needs: ['amd64-debian11-container']
+   variables:
+     NAME: debian-riscv64-test-cross
+ 
+-- 
+2.27.0
 
 
