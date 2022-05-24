@@ -2,96 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C4A5333B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 00:55:54 +0200 (CEST)
-Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F29D5333BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 00:59:04 +0200 (CEST)
+Received: from localhost ([::1]:39300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntdRQ-0005yB-T0
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 18:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60134)
+	id 1ntdUV-0002rh-Nq
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 18:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdHJ-00088i-8U
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:25 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62474)
+ id 1ntdHM-0008AP-0R
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:29 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdHH-0002Yx-Eu
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:24 -0400
+ id 1ntdHK-0002oX-7j
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1653432323; x=1684968323;
+ t=1653432326; x=1684968326;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=N5cF/dKhhyij4qdfnlOlBNkdhxs3pRkkLV8LA+excZE=;
- b=mIyt1hnQIZ/889ByUltNkajDQkTnZ8ICKFmfUS2gjSLrjZ5vpLWgKDfY
- C8ZlobmzVr5ey/TK3peyxlQoWNmgAF5ABfZuK49Ke9BLhxmaPuqtIyqfD
- 2c5aNlZdF1VsGSy2mSfQ7ywYz+mmpsFf8aseY1S7I56+zE9OxeKQwuL6y
- FMLiDInQuam0vKm3kyb+i/NBJzoNZa4nY30OmEplVPhMAwIOwgrv7C3Z7
- oCBvQQw/xtFq2GxyIwBwqvKkETs2hFrQfsQi6KNL6FmwfYQzvor/aJZIp
- x2RiPPUs1CPOwz1Zmf99uYeAarn+hpRAEfHwCFGU0svq1duyjvFxU4KcL w==;
-X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305566685"
+ bh=/km2jMjpOPfQy5UybcLUCqHKpRCYx8nEX6nYcOp0r3w=;
+ b=IdAHmKQB96ROVsd5nuTqvt7bElUyL8Zm6PXEleOFfnOkgHPx0YPvmFUd
+ qGwX4oFk02sHBMoSnVJekr3C1uIujLXEWMUMBj8mmy+JfIm8iHn8qYOYJ
+ VQDc2N6NvxxC+TuU5JBlXmnLcl0zMZ7Tj8G1PJWzCrbLvcNg1Vx6KjYaP
+ xsyBv2lUk41sSJgmBG9QIJItQE+oxFOb0PGUutcS079uWDgeK4jDDvYn8
+ D4o8q8YxwB/RJyeqDtfa5UF9g6Ut6Q61LsaVU/QPNEcKdSwq1Yg1uy9Cg
+ jG/L67X5WAD62NLmf0Kp/hQNKizG7jvcWZjFtlTDNltlXekrbGxUPaQFA Q==;
+X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305566693"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:45:12 +0800
-IronPort-SDR: 265SSAN8H8pU0OCE+sOZF3OPBtckMj7TXveYMRUqarBzbRtX1ypx/SPu/QJ5s1Y//ijr17JOEJ
- J471kSzk4IFQO954NHpb4kEZictidfJk3WAhRzOCFIgUxPKlueRIz62vjdX7gu8T1mRsviPzBB
- wzrhIWP51MlXNb/kznh8G3eTaa6JeF8V5gmFAAsHLHZYnj8qB241qz94M3J3/zxaLc8ziFlntd
- V/aKy7QbIDhva/PV3vwbnALwYlnOMIwhBYalyaVJvuWGk4vv7U3N1Kp6+ohEyaPi1cal5rqUud
- yjV79kz8MbFz8otxrr3y61ij
+ by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:45:15 +0800
+IronPort-SDR: JskTBFVy2btLYftrokFySjnwT8kSim0gy4Yi3K+tsuoCHsfaLdbwl2UUjIwseNKnljTrl+Rdbf
+ 7XJJUUvcj5ahvPS1bhcen1Ypcjjn+/GtZYV2B87VDEXpAvtDWkzSoIYBh1yb4yvDQWYlafW/EH
+ B5BlnuS4MVDFp8b9Hqu8hJe0BZi3gZARrTEb4QGZBb7ofxcTHKF+rxYsNNzjwJ5gsp18mDr5gp
+ pDzerBfre61dZDkMysMcp3gotXRxi3dwbeefOaTtL+o2ZY3pXtRVLf6scN727MVgaCoyxZFPHG
+ dIofYKbbzpo5Rci6CNxFpLg/
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:04:44 -0700
-IronPort-SDR: 6M/yJFvBV4WMbbv8JxXvLMpqG0dbQgf9a0tqdd37ecvjikD/30qpeJiLtA1Wb/WU8DsyFed4ne
- xgO07PdBhEB0lvb3W0f80UZWCZsCXBubGGwT+6cnVaZIJcd7MxoEIv29FZHW0FEC11k/00tCbQ
- FzPS8uGXrVLkcO7qvL8P+vObNzg0zSd12i9DYEnJnXl9X1gJnzcZqkOJWi3rLmvXxH4K0m7/MK
- 9AuKVYpdbNFwPN2Tr3q+XcXUivd1ncUtCq4XmJRkWHIkcRhE2V5ah1uxM9PXMGfP8Vvz1FRDlm
- p/s=
+ 24 May 2022 15:04:47 -0700
+IronPort-SDR: UYkOdTzCVzQakLcPtkWUgT4XCqZUTbWNsvrdm49tjIueHt9ALOaqNtzbpEXBz59U5iRk0tR6Ta
+ q8aTrEn8sCmfpN58sXx3WRBScWwJgCgTIhvg427S5nLX82vs4UIW5fDr7/Sel2GR6EVh5f8mre
+ mJF9bVA1dVKo4xQaKpWZetpfhnohv7yHf8E19qIlH2Qb7eXWhl+hxNm0c64/8k4FlMGQ5x6cEv
+ kRU2uBhZ/J1L/6fefjzNkQVmpQyeLAG5VWhxZBRlTFj7SfJC2d4fjmNFnpJrJpo4BBpGcU06lr
+ aNs=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:45:13 -0700
+ 24 May 2022 15:45:16 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78RD3cx2z1SVp1
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:45:12 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78RH1fXnz1SVp0
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:45:15 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1653432312; x=1656024313; bh=N5cF/dK
- hhyij4qdfnlOlBNkdhxs3pRkkLV8LA+excZE=; b=YzmTf6q+ORRpYyJEG9jzfjn
- aQXu0GXVi80ylPF4a4Q28mmRu/ldjPx1DqU5lr9sttenfNDooSMSVMGEiZXTNyLZ
- eO9zHArLT9Wt1hIOvp2nPFDXDabtUKYZUXoopGqPIMDiUAMtsd92x4iHN5yrwTIs
- IBykVbo2zZMBrJ9CfvXj3RfIPnaj4t1lNbUrA3dHlAdVahgTDsM3cjbBcMXSw8AT
- 0E0ou4Aaf5vBlClxkxF29+yTvqHH9PdNFgKqrORsmI7Etu7fMF8W+GHONj0aPzmv
- GdQQ6XYHmKdlZ5aYsE0cwL9RlsKdjy5irjBqg2ExmQTKWWJQE+i4zmQ//kzMJYg=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1653432314; x=1656024315; bh=/km2jMjpOPfQy5Uybc
+ LUCqHKpRCYx8nEX6nYcOp0r3w=; b=mL8mu7QqfKu4Kk4OroWKEnRRuoEPh3wTD6
+ ho5jwndK/ytCWqmFJaTFe2PzVSFpEfhK2o8g3agyMHAk9JWAzLkENlXlIvZyPwe3
+ pn9CIA0yuUsoJLCPg2CKrq7KsBAMt03Us0ABuyGU55vRS+Ix0NV7GmsUKCgHjkgQ
+ SJuZg/6p7lRgw8IS9sKa/MgG42f2N6qXV3Bx1LLRZVJYJOBtPn2DNqAKTed36ecE
+ Y3dvooc+13nuRPzBpDPk+4qzeepAuR1f/NyLwpA6T1iFkCjZlNXMA4Uj6u7M0FA7
+ ukpFlJPSeCji3asAughoXHDrDU45XunLx4r6bBMEnm1d4ij11YXg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id a4mt1z2Cksza for <qemu-devel@nongnu.org>;
- Tue, 24 May 2022 15:45:12 -0700 (PDT)
+ port 10026) with ESMTP id ywdpEg9-KXCl for <qemu-devel@nongnu.org>;
+ Tue, 24 May 2022 15:45:14 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.5])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78R96mh8z1Rvlc;
- Tue, 24 May 2022 15:45:09 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78RD4zKRz1Rvlc;
+ Tue, 24 May 2022 15:45:12 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Junqiang Wang <wangjunqiang@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 14/23] hw/riscv/sifive_u: Resolve redundant property accessors
-Date: Wed, 25 May 2022 08:44:19 +1000
-Message-Id: <20220524224428.552334-15-alistair.francis@opensource.wdc.com>
+Subject: [PULL 15/23] target/riscv: check 'I' and 'E' after checking 'G' in
+ riscv_cpu_realize
+Date: Wed, 25 May 2022 08:44:20 +1000
+Message-Id: <20220524224428.552334-16-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
 References: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=1363756b6=alistair.francis@opensource.wdc.com;
@@ -118,71 +117,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-The QOM API already provides accessors for uint32 values, so reuse them.
+ - setting ext_g will implicitly set ext_i
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220301225220.239065-3-shentey@gmail.com>
+Message-Id: <20220518012611.6772-1-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 24 ++++--------------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+ target/riscv/cpu.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index a2495b5ae7..e4c814a3ea 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -713,36 +713,20 @@ static void sifive_u_machine_set_start_in_flash(Obj=
-ect *obj, bool value, Error *
-     s->start_in_flash =3D value;
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 00a068668f..87e1eddce6 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -584,18 +584,6 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+         uint32_t ext =3D 0;
 =20
--static void sifive_u_machine_get_uint32_prop(Object *obj, Visitor *v,
--                                             const char *name, void *opa=
-que,
--                                             Error **errp)
--{
--    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
--}
+         /* Do some ISA extension error checking */
+-        if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
+-            error_setg(errp,
+-                       "I and E extensions are incompatible");
+-            return;
+-        }
 -
--static void sifive_u_machine_set_uint32_prop(Object *obj, Visitor *v,
--                                             const char *name, void *opa=
-que,
--                                             Error **errp)
--{
--    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
--}
+-        if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
+-            error_setg(errp,
+-                       "Either I or E extension must be set");
+-            return;
+-        }
 -
- static void sifive_u_machine_instance_init(Object *obj)
- {
-     SiFiveUState *s =3D RISCV_U_MACHINE(obj);
+         if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
+                                 cpu->cfg.ext_a && cpu->cfg.ext_f &&
+                                 cpu->cfg.ext_d &&
+@@ -610,6 +598,18 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+             cpu->cfg.ext_ifencei =3D true;
+         }
 =20
-     s->start_in_flash =3D false;
-     s->msel =3D 0;
--    object_property_add(obj, "msel", "uint32",
--                        sifive_u_machine_get_uint32_prop,
--                        sifive_u_machine_set_uint32_prop, NULL, &s->msel=
-);
-+    object_property_add_uint32_ptr(obj, "msel", &s->msel,
-+                                   OBJ_PROP_FLAG_READWRITE);
-     object_property_set_description(obj, "msel",
-                                     "Mode Select (MSEL[3:0]) pin state")=
-;
-=20
-     s->serial =3D OTP_SERIAL;
--    object_property_add(obj, "serial", "uint32",
--                        sifive_u_machine_get_uint32_prop,
--                        sifive_u_machine_set_uint32_prop, NULL, &s->seri=
-al);
-+    object_property_add_uint32_ptr(obj, "serial", &s->serial,
-+                                   OBJ_PROP_FLAG_READWRITE);
-     object_property_set_description(obj, "serial", "Board serial number"=
-);
- }
-=20
++        if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
++            error_setg(errp,
++                       "I and E extensions are incompatible");
++            return;
++        }
++
++        if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
++            error_setg(errp,
++                       "Either I or E extension must be set");
++            return;
++        }
++
+         if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
+             error_setg(errp, "F extension requires Zicsr");
+             return;
 --=20
 2.35.3
 
