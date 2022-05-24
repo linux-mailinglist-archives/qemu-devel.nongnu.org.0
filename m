@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C165333CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 01:13:21 +0200 (CEST)
-Received: from localhost ([::1]:36932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE2B5333AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 00:52:19 +0200 (CEST)
+Received: from localhost ([::1]:52326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntdiK-0006Hv-5D
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 19:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35336)
+	id 1ntdNy-0008Ge-QY
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 18:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdU3-0004Yj-07
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:58:36 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:2257)
+ id 1ntdH8-0007xQ-O4
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:14 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdTn-0005It-8A
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:58:34 -0400
+ id 1ntdH2-0002oX-Ko
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1653433099; x=1684969099;
+ t=1653432308; x=1684968308;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=o33aK7IRIaR3yzkiXZGsKQ+ZxflfBO/YtB+tm9AfN88=;
- b=Cmo+my4eg8VsMzL/rX9jEPwOD/0Jb3fm9GcC+iA91Ldt+xYTu0C+QsZ7
- Vsr8Yw+49DKK0FaIhW38Mb3g++InA7cFeZIXevF7MqRrFmsRQFXfiuOx4
- Dce7qbwHikkj9to31bBUAlC7EU+H3X4gcy6d9vW2gmHRlE+58DtgN2SM7
- MmdUndxLAvI7/POg9VkWgcegGIeJXCqxk+in4MUXycy1ecy+fPYvY+7ep
- 9sYIj8d0cUitNvtit+nMg0plxgaA9pTgc4cdjYUAgKpl5naHXosCNRTnc
- qbzUzbvAfgIc0EuUdrjWB+i2D9r8lF2IpcPoIGU5dpxbyd2PYOs9PKuWR Q==;
-X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305567222"
+ bh=/TIOY+nvX4poh/55m167fBtn+VEzcKILhkO0mLZRjj8=;
+ b=NkZjL12yeG7V0nFqgxQTp7Ai5j8ttJNCaSRSfWqD5ihYxpm2wBz1nT48
+ zQqAP3SEEo3KPUO53FV3LZq38QLjSW5EzWepZCEakR3LrsOfqbGYIZOMD
+ aHsQ5EmVHdHZHsARN6B7w01QfKfLzU6FM/IBCjyMgN5iuNghD48ZJQdMa
+ Jd9M8oHBZFVLO2B7qLGLSkkMe2CXxTnysl179omkXuRvKSunq+BsC0x3m
+ dHPX7SWLWu6QVKIRcZoafsP3pCAoXsCRDV8pVsxlazVonlAyXgYt454k2
+ 1Idhnw59RZLcmUUJa7iR6L2JPbUQmSXbzWd+QVC8vcv7fzRiBC6HhwCUl w==;
+X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305566678"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:58:17 +0800
-IronPort-SDR: Yx69JYcKEcCF4GyihGiGOBzwMM+saiNPysQ2lv4SDsrTIWnMiJn6c8m3gq0N+bx9ru49hlW+pL
- 6BJc810ImasdoZWSILXqzVQ0/BVLbWd67Z70MVz3jOUAHfsQ3wradb/xgXlCHxlaqLrXOI+OWh
- 9ZSL51PjX0efqmTQ+8MasPJpQ8zl3ym2VkzfE41JXfA7/hlBEkzMcOm3bisqyQJCOqJPYPMEkh
- f0Kidd7oOcIB9S4kweQ6HPNnExegslYTIBuLIoxbzMq7iRhd2fU1fzM0XZsEd7GocP4GjOsIH9
- qB+9nBWVbP+nSL1FHEwF9439
+ by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:45:07 +0800
+IronPort-SDR: rJgetsfPI4y9c7RDZAOuOWa7VHGPJjQvT1AYNRx9Esja8zi7yWAuw+qL41Rrh52x8NrmR0K2ar
+ 0C1MeP6lOBFu0bci/E5V22SAUUGeCMpRJZDP4+iFie86jF9ntHSwZ/JeBORhPndoSK7L0s56jL
+ OZa5VUJwv/oSWNXnbZM2TNGIhDNIe8DSdgm3SrzCuUUTVMr4mYgAjiKx5dh3KFGmXlHLN+qAup
+ akDvN8jV9z+L5MIoAcHZHWH7ISkFeXFqcDUWQp80NStZxvpFp49qgu+GA9tCQK9wtotVgbEYyr
+ MCKuN/DPGS9LovogIWEN/1cO
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:17:49 -0700
-IronPort-SDR: NFwWIbjl1T1dm5CkZSiM5EvUH1Fbx6hACzN20S2SDBj/QLvVqwaqpdvvV3Pny0VFVX1EMDZ8gv
- 2PGRMWELMhTlMmjilLVF6Th2pAuPBavA+F/3NWOqzHXBQhCHveR489B6Gctk3BxtZelQ5ehsyI
- ZkDlgqkl3vxgX+eFFkPFdkTW0maQRL+hEdxES7iaazU4GUE4Abn+/gvXCMv+m05ZpuRF0RJQ3F
- LXW+TWa/5Pe/XnGg5qHWKeHvVIYsxMbfkQQKIL5YHuI0R6wnkggwAOTT3K69oPER7ct4PnkS98
- OiI=
+ 24 May 2022 15:04:39 -0700
+IronPort-SDR: h7qLj8hIAsJoEhiEMYfQmlhRGPgVedpIzXXBpOK6UY6/MkZ9a1mx6sX2ic+CdBvYx7RLhzqOvu
+ BE9Mg5XNGbaS9PDDUs4311bioQmnDbODqReB3t9DsWGQ+xNcprXCUO7vZpBKiLKOZ5csVpeoMt
+ +KgE2ZIr3QUKB30LRL687IhQYjie/AEII0xeJ8xpNpAnWy3ZIB+Rm+9sI7aH+SYuL3qBiq8NYv
+ xc0h2iiocooyp7j8d8Z65OITDmIIDXJmbRCj9ZlD0T7gBK0oHdEn3IKrsMjLNRhYiNKDlFUhRo
+ URU=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:58:18 -0700
+ 24 May 2022 15:45:07 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78R43tz2z1SHwl
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:45:04 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78R66x3yz1Rvlx
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:45:06 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1653432304; x=1656024305; bh=o33aK7IRIaR3yzkiXZ
- GsKQ+ZxflfBO/YtB+tm9AfN88=; b=g4P9eYJYF3iCReBhjb2iWh++aAkT3MZklh
- zgi3XHIuW84tWS4dUmXU/53o9nCuTpZUyvCZXWZDqUaOVBHF/QNmhUcZOch2Gltq
- rYibZNTk2ib1SxjZk9sfBhv+U9B97J6ltR3nkTU6byreIIoHsXlcSRoFMXY645P6
- UJTdoABT4Bm8wCfAB8bcUyoBbPVYs0IdC26D3HyERRYBNWip/QCcr/E93W65gqxA
- u1etapW3LXsni3nwBQPDXmDIsMnAf8bL14lJvuqGDCtS3kuEWdlE4sLaC04As2kq
- Ei0t5fAiV904oMpKo5javzFBqjFu9F0IPPsX0ureLu8zM+2VCNPw==
+ :from; s=dkim; t=1653432306; x=1656024307; bh=/TIOY+nvX4poh/55m1
+ 67fBtn+VEzcKILhkO0mLZRjj8=; b=RLRLhUFgQE1CaIw2CW5nYU+EjrcpYAAga+
+ Py2IoKzXqjaoKJw2vInIfbAf07TIGbZVe2DJ2IfJWOilAfLzulVsTDiUIevaznvo
+ G3B2NtGaAdnoY3brEbwC8PqM7NP8zzkZiI2qxPBMaeS/ZaFbxVr/vPQqYhw5pRoV
+ 5ZunLJp7BAv4Hld8UvW85VYNVM+46Mq2hStak/Z4kijzc13DQoTkDwpNqf7cMLHS
+ /0jx2DK7r6PZFfU2fM703cyAagzHqVp94ovCEVzZxC5M4sDEefQPBf4w19udH0YQ
+ xpW/xODyiyljVitoWg6oK5+CVbF9spGLf5bzPrxXeSkhK+AV8Zfg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id rsFN37qFYmAx for <qemu-devel@nongnu.org>;
- Tue, 24 May 2022 15:45:04 -0700 (PDT)
+ port 10026) with ESMTP id 2ybqTabL8IcT for <qemu-devel@nongnu.org>;
+ Tue, 24 May 2022 15:45:06 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.5])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78R22WYLz1Rvlc;
- Tue, 24 May 2022 15:45:02 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78R45VqFz1Rvlc;
+ Tue, 24 May 2022 15:45:04 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Tsukasa OI <research_trasio@irq.a4lg.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 11/23] target/riscv: FP extension requirements
-Date: Wed, 25 May 2022 08:44:16 +1000
-Message-Id: <20220524224428.552334-12-alistair.francis@opensource.wdc.com>
+Subject: [PULL 12/23] target/riscv: Move/refactor ISA extension checks
+Date: Wed, 25 May 2022 08:44:17 +1000
+Message-Id: <20220524224428.552334-13-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
 References: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
@@ -93,11 +93,12 @@ Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=1363756b6=alistair.francis@opensource.wdc.com;
  helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,76 +117,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tsukasa OI <research_trasio@irq.a4lg.com>
 
-QEMU allowed inconsistent configurations that made floating point
-arithmetic effectively unusable.
-
-This commit adds certain checks for consistent FP arithmetic:
-
--   F requires Zicsr
--   Zfinx requires Zicsr
--   Zfh/Zfhmin require F
--   D requires F
--   V requires D
-
-Because F/D/Zicsr are enabled by default (and an error will not occur unl=
-ess
-we manually disable one or more of prerequisites), this commit just enfor=
-ces
-the user to give consistent combinations.
+We should separate "check" and "configure" steps as possible.
+This commit separates both steps except vector/Zfinx-related checks.
 
 Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <00e7b1c6060dab32ac7d49813b1ca84d3eb63298.1652583332.git.rese=
+Message-Id: <c3145fa37a529484cf3047c8cb9841e9effad4b0.1652583332.git.rese=
 arch_trasio@irq.a4lg.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ target/riscv/cpu.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 4ca6a8623f..b960473f7d 100644
+index b960473f7d..00a068668f 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -610,11 +610,36 @@ static void riscv_cpu_realize(DeviceState *dev, Err=
+@@ -630,14 +630,27 @@ static void riscv_cpu_realize(DeviceState *dev, Err=
 or **errp)
-             cpu->cfg.ext_ifencei =3D true;
+             return;
          }
 =20
-+        if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
-+            error_setg(errp, "F extension requires Zicsr");
++        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ex=
+t_f) {
++            error_setg(errp, "Zve32f/Zve64f extensions require F extensi=
+on");
 +            return;
 +        }
 +
-+        if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f=
-) {
-+            error_setg(errp, "Zfh/Zfhmin extensions require F extension"=
-);
-+            return;
-+        }
-+
-+        if (cpu->cfg.ext_d && !cpu->cfg.ext_f) {
-+            error_setg(errp, "D extension requires F extension");
-+            return;
-+        }
-+
-+        if (cpu->cfg.ext_v && !cpu->cfg.ext_d) {
-+            error_setg(errp, "V extension requires D extension");
-+            return;
-+        }
-+
++        /* Set the ISA extensions, checks should have happened above */
          if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
              cpu->cfg.ext_zhinxmin) {
              cpu->cfg.ext_zfinx =3D true;
          }
 =20
-+        if (cpu->cfg.ext_zfinx && !cpu->cfg.ext_icsr) {
-+            error_setg(errp, "Zfinx extension requires Zicsr");
-+            return;
-+        }
-+
+-        if (cpu->cfg.ext_zfinx && !cpu->cfg.ext_icsr) {
+-            error_setg(errp, "Zfinx extension requires Zicsr");
+-            return;
++        if (cpu->cfg.ext_zfinx) {
++            if (!cpu->cfg.ext_icsr) {
++                error_setg(errp, "Zfinx extension requires Zicsr");
++                return;
++            }
++            if (cpu->cfg.ext_f) {
++                error_setg(errp,
++                    "Zfinx cannot be supported together with F extension=
+");
++                return;
++            }
+         }
+=20
          if (cpu->cfg.ext_zk) {
-             cpu->cfg.ext_zkn =3D true;
-             cpu->cfg.ext_zkr =3D true;
+@@ -663,7 +676,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error=
+ **errp)
+             cpu->cfg.ext_zksh =3D true;
+         }
+=20
+-        /* Set the ISA extensions, checks should have happened above */
+         if (cpu->cfg.ext_i) {
+             ext |=3D RVI;
+         }
+@@ -734,20 +746,9 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+             }
+             set_vext_version(env, vext_version);
+         }
+-        if ((cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f) && !cpu->cfg.ex=
+t_f) {
+-            error_setg(errp, "Zve32f/Zve64f extension depends upon RVF."=
+);
+-            return;
+-        }
+         if (cpu->cfg.ext_j) {
+             ext |=3D RVJ;
+         }
+-        if (cpu->cfg.ext_zfinx && ((ext & (RVF | RVD)) || cpu->cfg.ext_z=
+fh ||
+-                                   cpu->cfg.ext_zfhmin)) {
+-            error_setg(errp,
+-                    "'Zfinx' cannot be supported together with 'F', 'D',=
+ 'Zfh',"
+-                    " 'Zfhmin'");
+-            return;
+-        }
+=20
+         set_misa(env, env->misa_mxl, ext);
+     }
 --=20
 2.35.3
 
