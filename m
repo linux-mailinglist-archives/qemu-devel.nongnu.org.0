@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40F65332E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 23:17:59 +0200 (CEST)
-Received: from localhost ([::1]:37436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BEF05332E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 23:19:35 +0200 (CEST)
+Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntbug-0002hk-RK
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 17:17:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41232)
+	id 1ntbwE-0005ee-BR
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 17:19:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ntbrt-0008TQ-0Z
- for qemu-devel@nongnu.org; Tue, 24 May 2022 17:15:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53330)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ntbsl-0001AC-Pb
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 17:15:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ntbrp-0004BC-O5
- for qemu-devel@nongnu.org; Tue, 24 May 2022 17:15:04 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ntbsk-0004WD-A2
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 17:15:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653426900;
+ s=mimecast20190719; t=1653426957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3Jm/BvyUMXPHxPjLD+aYoEAk5H64QeB7AqVOFxPiknY=;
- b=W4lJxtzrJ4f3RkhnIS5D4y2mRWlVOKE3S9wkMNOVcl9nZaZBzZT6qD5aycJNqvvbAveb7F
- JD+rzUksqkj8iNb4KKOujFm/aYOLh+8J3G674Qjx31yD/urhEhpemqD8HbGsOrJ0PyK1lH
- 0Epdg7hOTMC6nkDUzGMKJqW6Pvzw0T0=
+ bh=1RlDgvOCqS+fV6Fd8lQppYYadK4DjDui6TQvkGli+4s=;
+ b=dDY2L9zNDhxppWhf6jj9XFgn53eNuPULyxKIUepSXQMHdJHVzrWSm50iC2LtA0984/hsdP
+ aW4FuBenhX0IRVCeMsmOPkMezmfTq1gcMN1GeZZbtgWifM3UHkFSsgk9FLhoe2qpv7le0Z
+ TycKdyhMPlLXJOp30XYihKnqKp9yDW4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-FCYg74ccNI-Zuj6PZH0jmg-1; Tue, 24 May 2022 17:14:57 -0400
-X-MC-Unique: FCYg74ccNI-Zuj6PZH0jmg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-227-hZNFmNkBM8awnRNQ_DD50g-1; Tue, 24 May 2022 17:15:54 -0400
+X-MC-Unique: hZNFmNkBM8awnRNQ_DD50g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27590858EEE;
- Tue, 24 May 2022 21:14:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0AA48038E3;
+ Tue, 24 May 2022 21:15:53 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 331292026D64;
- Tue, 24 May 2022 21:14:56 +0000 (UTC)
-Date: Tue, 24 May 2022 16:14:54 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48D131121315;
+ Tue, 24 May 2022 21:15:53 +0000 (UTC)
+Date: Tue, 24 May 2022 16:15:51 -0500
 From: Eric Blake <eblake@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- qemu-block@nongnu.org, integration@gluster.org,
- qemu-stable@nongnu.org, vsementsov@virtuozzo.com, sgarzare@redhat.com
-Subject: Re: [PATCH v3] block/gluster: correctly set max_pdiscard
-Message-ID: <20220524211454.i7sq4w3pwhgmpk7q@redhat.com>
-References: <20220520075922.43972-1-f.ebner@proxmox.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
+Subject: Re: [PATCH 02/20] migration: switch to use QIOChannelNull for dummy
+ channel
+Message-ID: <20220524211551.z775pfc6v7jngy5g@redhat.com>
+References: <20220524110235.145079-1-berrange@redhat.com>
+ <20220524110235.145079-3-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220520075922.43972-1-f.ebner@proxmox.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220524110235.145079-3-berrange@redhat.com>
 User-Agent: NeoMutt/20220429-77-e284d5
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,26 +84,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 20, 2022 at 09:59:22AM +0200, Fabian Ebner wrote:
-> On 64-bit platforms, assigning SIZE_MAX to the int64_t max_pdiscard
-> results in a negative value, and the following assertion would trigger
-> down the line (it's not the same max_pdiscard, but computed from the
-> other one):
-> qemu-system-x86_64: ../block/io.c:3166: bdrv_co_pdiscard: Assertion
-> `max_pdiscard >= bs->bl.request_alignment' failed.
+On Tue, May 24, 2022 at 12:02:17PM +0100, Daniel P. Berrangé wrote:
+> This removes one further custom impl of QEMUFile, in favour of a
+> QIOChannel based impl.
 > 
-> On 32-bit platforms, it's fine to keep using SIZE_MAX.
-> 
-> The assertion in qemu_gluster_co_pdiscard() is checking that the value
-> of 'bytes' can safely be passed to glfs_discard_async(), which takes a
-> size_t for the argument in question, so it is kept as is. And since
-> max_pdiscard is still <= SIZE_MAX, relying on max_pdiscard is still
-> fine.
-> 
-> Fixes: 0c8022876f ("block: use int64_t instead of int in driver discard handlers")
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
+>  migration/ram.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
