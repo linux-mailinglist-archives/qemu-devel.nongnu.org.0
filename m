@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1980F532CB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 16:57:00 +0200 (CEST)
-Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8082B532CC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:00:07 +0200 (CEST)
+Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntVxy-0006JD-IU
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 10:56:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58870)
+	id 1ntW10-0000sP-JG
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntVvE-0005I4-1G
- for qemu-devel@nongnu.org; Tue, 24 May 2022 10:54:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30658)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntVwN-0005sK-VB
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 10:55:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntVvA-0005M7-VY
- for qemu-devel@nongnu.org; Tue, 24 May 2022 10:54:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntVwK-0005bX-S4
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 10:55:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653404043;
+ s=mimecast20190719; t=1653404109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HQ00t7Dan4KJ7I67gZSfKWdtQyWp0J4tfS/aEuRxVKA=;
- b=CvpRaKOfPEGvOIorQn9mJ6gZTWKqAAuc4jAe5vqbOuO3xtXzPuajncDHwUWbDlYfA8g0Hx
- TzVyMkekfjj/tNztAmqNdkhRP1d4CrNJLxEkq0ZCB9SDa3n3GK4oQF8CIDqE1N/a2v2s8R
- j9leXvEXGmIddocqgkuP3LF74xUqn8U=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=06j0ywLpw5mXF1C88iracBZWbaht72MTVNmf2N9rt28=;
+ b=H0cyQi0mUHcj0EJIRT1auCQTPGped5FtOixSFb+kMJPhWGpxVXCOeSOebcIE3UPigkastu
+ F9NXpZeDdiD3n/uTw5QfWekVZQdDdc8MwsDtmgge8NveydDgUQwDSxbWa9zik+bFRY7eIQ
+ wDj3ps0rmSq61JKyCrMaBGnpptBdysk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-y6R1bJAXOK6OAqguoAXXSw-1; Tue, 24 May 2022 10:54:00 -0400
-X-MC-Unique: y6R1bJAXOK6OAqguoAXXSw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-64-wAGdmMZFPg6xlJJh4iIz4Q-1; Tue, 24 May 2022 10:55:07 -0400
+X-MC-Unique: wAGdmMZFPg6xlJJh4iIz4Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92BB02999B28;
- Tue, 24 May 2022 14:54:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 930D3101161C;
+ Tue, 24 May 2022 14:55:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 639C92026D2D;
- Tue, 24 May 2022 14:54:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A3381121315;
+ Tue, 24 May 2022 14:55:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4903221E6906; Tue, 24 May 2022 16:53:58 +0200 (CEST)
+ id 66AFA21E6906; Tue, 24 May 2022 16:55:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: marcandre.lureau@redhat.com
 Cc: qemu-devel@nongnu.org,  Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v4 06/15] qga: use qga_open_cloexec() for
- safe_open_or_create()
+Subject: Re: [PATCH v4 05/15] qga: add qga_open_cloexec() helper
 References: <20220524103453.162665-1-marcandre.lureau@redhat.com>
- <20220524103453.162665-7-marcandre.lureau@redhat.com>
-Date: Tue, 24 May 2022 16:53:58 +0200
-In-Reply-To: <20220524103453.162665-7-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 24 May 2022 12:34:44 +0200")
-Message-ID: <87wnebt20p.fsf@pond.sub.org>
+ <20220524103453.162665-6-marcandre.lureau@redhat.com>
+Date: Tue, 24 May 2022 16:55:06 +0200
+In-Reply-To: <20220524103453.162665-6-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 24 May 2022 12:34:43 +0200")
+Message-ID: <87sfozt1yt.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,117 +87,98 @@ marcandre.lureau@redhat.com writes:
 
 > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> The function takes care of setting CLOEXEC, and reporting error.
+> QGA calls qemu_open_old() in various places. Calling qemu_open() instead
+> isn't a great alternative, as it has special "/dev/fdset" handling and
+> depends on QEMU internal monitor data structures.
 >
-> The reported error message will differ, from:
->   "failed to open file 'foo' (mode: 'r')"
-> to:
->   "Failed to open file 'foo'"
+> Instead, provide a simple helper for QGA needs, with Error* support. The
+> following patches will make use of it.
 >
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  qga/commands-posix.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
+>  qga/cutils.c    | 37 +++++++++++++++++++++++++++++++++++++
+>  qga/cutils.h    |  8 ++++++++
+>  qga/meson.build |  1 +
+>  3 files changed, 46 insertions(+)
+>  create mode 100644 qga/cutils.c
+>  create mode 100644 qga/cutils.h
 >
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 8ee149e550..28fe19d932 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -27,6 +27,7 @@
->  #include "qemu/cutils.h"
->  #include "commands-common.h"
->  #include "block/nvme.h"
+> diff --git a/qga/cutils.c b/qga/cutils.c
+> new file mode 100644
+> index 0000000000..37dd877451
+> --- /dev/null
+> +++ b/qga/cutils.c
+> @@ -0,0 +1,37 @@
+> +/*
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
 > +#include "cutils.h"
->=20=20
->  #ifdef HAVE_UTMPX
->  #include <utmpx.h>
-> @@ -339,6 +340,7 @@ find_open_flag(const char *mode_str, Error **errp)
->  static FILE *
->  safe_open_or_create(const char *path, const char *mode, Error **errp)
->  {
-> +    ERRP_GUARD();
->      int oflag;
->      int fd =3D -1;
->      FILE *f =3D NULL;
-> @@ -370,20 +372,17 @@ safe_open_or_create(const char *path, const char *m=
-ode, Error **errp)
->       * open() is decisive and its third argument is ignored, and the sec=
-ond
->       * open() and the fchmod() are never called.
->       */
-> -    fd =3D open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
-> +    fd =3D qga_open_cloexec(path, oflag | ((oflag & O_CREAT) ? O_EXCL : =
-0), 0, errp);
+> +
+> +#include "qapi/error.h"
+> +
+> +/**
+> + * qga_open_cloexec:
+> + * @name: the pathname to open
+> + * @flags: as in open()
+> + * @mode: as in open()
+> + * @errp: pointer to Error*, or NULL
+> + *
+> + * A wrapper for open() function which sets O_CLOEXEC.
+> + *
+> + * On error, -1 is returned and @errp is set.
+> + */
+> +int qga_open_cloexec(const char *name, int flags, mode_t mode, Error **e=
+rrp)
+> +{
+> +    int ret;
+> +
+> +#ifdef O_CLOEXEC
+> +    ret =3D open(name, flags | O_CLOEXEC, mode);
+> +#else
+> +    ret =3D open(name, flags, mode);
+> +    if (ret >=3D 0) {
+> +        qemu_set_cloexec(ret);
+> +    }
+> +#endif
+> +    if (ret =3D=3D -1) {
+> +        error_setg_errno(errp, errno, "Failed to open file '%s'", name);
+> +    }
+> +
+> +    return ret;
+> +}
+> diff --git a/qga/cutils.h b/qga/cutils.h
+> new file mode 100644
+> index 0000000000..caccf79e45
+> --- /dev/null
+> +++ b/qga/cutils.h
+> @@ -0,0 +1,8 @@
+> +#ifndef CUTILS_H_
+> +#define CUTILS_H_
+> +
+> +#include "qemu/osdep.h"
+> +
+> +int qga_open_cloexec(const char *name, int flags, mode_t mode, Error **e=
+rrp);
+> +
+> +#endif /* CUTILS_H_ */
+> diff --git a/qga/meson.build b/qga/meson.build
+> index 6d9f39bb32..35fe2229e9 100644
+> --- a/qga/meson.build
+> +++ b/qga/meson.build
+> @@ -65,6 +65,7 @@ qga_ss.add(files(
+>    'commands.c',
+>    'guest-agent-command-state.c',
+>    'main.c',
+> +  'cutils.c',
+>  ))
+>  qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
+>    'channel-posix.c',
 
-Long line.
+I'd drop the @errp parameter, see my review of the next patch.
 
->      if (fd =3D=3D -1 && errno =3D=3D EEXIST) {
-> +        error_free(*errp);
-> +        *errp =3D NULL;
->          oflag &=3D ~(unsigned)O_CREAT;
-> -        fd =3D open(path, oflag);
-> +        fd =3D qga_open_cloexec(path, oflag, 0, errp);
->      }
->      if (fd =3D=3D -1) {
-> -        error_setg_errno(errp, errno,
-> -                         "failed to open file '%s' (mode: '%s')",
-> -                         path, mode);
->          goto end;
->      }
->=20=20
-> -    qemu_set_cloexec(fd);
-> -
->      if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) =3D=3D -1=
-) {
->          error_setg_errno(errp, errno, "failed to set permission "
->                           "0%03o on new file '%s' (mode: '%s')",
-
-Simpler:
-
-  diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-  index 8ee149e550..516658a7f6 100644
-  --- a/qga/commands-posix.c
-  +++ b/qga/commands-posix.c
-  @@ -27,6 +27,7 @@
-   #include "qemu/cutils.h"
-   #include "commands-common.h"
-   #include "block/nvme.h"
-  +#include "cutils.h"
-
-   #ifdef HAVE_UTMPX
-   #include <utmpx.h>
-  @@ -370,10 +371,10 @@ safe_open_or_create(const char *path, const char *m=
-ode, Error **errp)
-        * open() is decisive and its third argument is ignored, and the sec=
-ond
-        * open() and the fchmod() are never called.
-        */
-  -    fd =3D open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
-  +    fd =3D qga_open_cloexec(path, oflag | ((oflag & O_CREAT) ? O_EXCL : =
-0), 0, NULL);
-       if (fd =3D=3D -1 && errno =3D=3D EEXIST) {
-           oflag &=3D ~(unsigned)O_CREAT;
-  -        fd =3D open(path, oflag);
-  +        fd =3D qga_open_cloexec(path, oflag, 0, NULL);
-       }
-       if (fd =3D=3D -1) {
-           error_setg_errno(errp, errno,
-  @@ -382,8 +383,6 @@ safe_open_or_create(const char *path, const char *mod=
-e, Error **errp)
-           goto end;
-       }
-
-  -    qemu_set_cloexec(fd);
-  -
-       if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) =3D=3D -1=
-) {
-           error_setg_errno(errp, errno, "failed to set permission "
-                            "0%03o on new file '%s' (mode: '%s')",
-
-qga_open_cloexec()'s parameter @errp then has no user, and can be
-dropped.
-
-Recommendation, not demand.
+Recommendation, not demand, so
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
