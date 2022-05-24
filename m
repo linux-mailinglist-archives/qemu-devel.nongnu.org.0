@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCD1532C2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 16:26:49 +0200 (CEST)
-Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A03532C30
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 16:30:37 +0200 (CEST)
+Received: from localhost ([::1]:58614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntVUm-0004MG-F8
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 10:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
+	id 1ntVYR-0001q1-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 10:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ntVBF-0003Zq-UX; Tue, 24 May 2022 10:06:38 -0400
-Received: from [187.72.171.209] (port=60107 helo=outlook.eldorado.org.br)
+ id 1ntVCM-0004uv-5C; Tue, 24 May 2022 10:07:46 -0400
+Received: from [187.72.171.209] (port=59069 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ntVBB-0004xw-2b; Tue, 24 May 2022 10:06:37 -0400
+ id 1ntVCJ-0005Nz-Ir; Tue, 24 May 2022 10:07:44 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 24 May 2022 11:05:41 -0300
+ Tue, 24 May 2022 11:05:42 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id A64FF800761;
+ by p9ibm (Postfix) with ESMTP id D2EB38002AF;
  Tue, 24 May 2022 11:05:41 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-ppc@nongnu.org
-Cc: richard.henderson@linaro.org,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v6 7/8] target/ppc: Implemented [pm]xvbf16ger2*
-Date: Tue, 24 May 2022 11:05:36 -0300
-Message-Id: <20220524140537.27451-8-lucas.araujo@eldorado.org.br>
+Cc: richard.henderson@linaro.org, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH v6 8/8] linux-user: Add PowerPC ISA 3.1 and MMA to hwcap
+Date: Tue, 24 May 2022 11:05:37 -0300
+Message-Id: <20220524140537.27451-9-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220524140537.27451-1-lucas.araujo@eldorado.org.br>
 References: <20220524140537.27451-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 24 May 2022 14:05:41.0914 (UTC)
- FILETIME=[5A981FA0:01D86F77]
+X-OriginalArrivalTime: 24 May 2022 14:05:42.0054 (UTC)
+ FILETIME=[5AAD7C60:01D86F77]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,181 +64,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+From: Joel Stanley <joel@jms.id.au>
 
-Implement the following PowerISA v3.1 instructions:
-xvbf16ger2:   VSX Vector bfloat16 GER (rank-2 update)
-xvbf16ger2nn: VSX Vector bfloat16 GER (rank-2 update) Negative multiply,
-Negative accumulate
-xvbf16ger2np: VSX Vector bfloat16 GER (rank-2 update) Negative multiply,
-Positive accumulate
-xvbf16ger2pn: VSX Vector bfloat16 GER (rank-2 update) Positive multiply,
-Negative accumulate
-xvbf16ger2pp: VSX Vector bfloat16 GER (rank-2 update) Positive multiply,
-Positive accumulate
-pmxvbf16ger2:   Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
-pmxvbf16ger2nn: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
-Negative multiply, Negative accumulate
-pmxvbf16ger2np: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
-Negative multiply, Positive accumulate
-pmxvbf16ger2pn: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
-Positive multiply, Negative accumulate
-pmxvbf16ger2pp: Prefixed Masked VSX Vector bfloat16 GER (rank-2 update)
-Positive multiply, Positive accumulate
+These are new hwcap bits added for power10.
 
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/fpu_helper.c             | 40 +++++++++++++++++++++++++++++
- target/ppc/helper.h                 |  5 ++++
- target/ppc/insn32.decode            |  6 +++++
- target/ppc/insn64.decode            | 11 ++++++++
- target/ppc/translate/vsx-impl.c.inc | 12 +++++++++
- 5 files changed, 74 insertions(+)
+ linux-user/elfload.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index a9b2ef370f..fed0ce420a 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -3517,6 +3517,11 @@ static float64 extract_hf16(float16 in, float_status *fp_status)
-     return float16_to_float64(in, true, fp_status);
- }
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 61063fd974..0908692e62 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -779,6 +779,8 @@ enum {
+     QEMU_PPC_FEATURE2_DARN = 0x00200000, /* darn random number insn */
+     QEMU_PPC_FEATURE2_SCV = 0x00100000, /* scv syscall */
+     QEMU_PPC_FEATURE2_HTM_NO_SUSPEND = 0x00080000, /* TM w/o suspended state */
++    QEMU_PPC_FEATURE2_ARCH_3_1 = 0x00040000, /* ISA 3.1 */
++    QEMU_PPC_FEATURE2_MMA = 0x00020000, /* Matrix-Multiply Assist */
+ };
  
-+static float64 extract_bf16(bfloat16 in, float_status *fp_status)
-+{
-+    return bfloat16_to_float64(in, fp_status);
-+}
-+
- static void vsxger16(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-                      ppc_acc_t  *at, uint32_t mask, bool acc,
-                      bool neg_mul, bool neg_acc, extract_f16 extract)
-@@ -3639,6 +3644,41 @@ static void vsxger(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-     vsxger_excp(env, GETPC());
- }
+ #define ELF_HWCAP get_elf_hwcap()
+@@ -836,6 +838,8 @@ static uint32_t get_elf_hwcap2(void)
+                   QEMU_PPC_FEATURE2_VEC_CRYPTO);
+     GET_FEATURE2(PPC2_ISA300, QEMU_PPC_FEATURE2_ARCH_3_00 |
+                  QEMU_PPC_FEATURE2_DARN | QEMU_PPC_FEATURE2_HAS_IEEE128);
++    GET_FEATURE2(PPC2_ISA310, QEMU_PPC_FEATURE2_ARCH_3_1 |
++                 QEMU_PPC_FEATURE2_MMA);
  
-+QEMU_FLATTEN
-+void helper_XVBF16GER2(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                       ppc_acc_t *at, uint32_t mask)
-+{
-+    vsxger16(env, a, b, at, mask, false, false, false, extract_bf16);
-+}
-+
-+QEMU_FLATTEN
-+void helper_XVBF16GER2PP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                         ppc_acc_t *at, uint32_t mask)
-+{
-+    vsxger16(env, a, b, at, mask, true, false, false, extract_bf16);
-+}
-+
-+QEMU_FLATTEN
-+void helper_XVBF16GER2PN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                         ppc_acc_t *at, uint32_t mask)
-+{
-+    vsxger16(env, a, b, at, mask, true, false, true, extract_bf16);
-+}
-+
-+QEMU_FLATTEN
-+void helper_XVBF16GER2NP(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                         ppc_acc_t *at, uint32_t mask)
-+{
-+    vsxger16(env, a, b, at, mask, true, true, false, extract_bf16);
-+}
-+
-+QEMU_FLATTEN
-+void helper_XVBF16GER2NN(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-+                         ppc_acc_t *at, uint32_t mask)
-+{
-+    vsxger16(env, a, b, at, mask, true, true, true, extract_bf16);
-+}
-+
- QEMU_FLATTEN
- void helper_XVF16GER2(CPUPPCState *env, ppc_vsr_t *a, ppc_vsr_t *b,
-                      ppc_acc_t *at, uint32_t mask)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 4070c0891c..6233e28d85 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -555,6 +555,11 @@ DEF_HELPER_5(XVF16GER2PP, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVF16GER2PN, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVF16GER2NP, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVF16GER2NN, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVBF16GER2, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVBF16GER2PP, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVBF16GER2PN, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVBF16GER2NP, void, env, vsr, vsr, acc, i32)
-+DEF_HELPER_5(XVBF16GER2NN, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVF32GER, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVF32GERPP, void, env, vsr, vsr, acc, i32)
- DEF_HELPER_5(XVF32GERPN, void, env, vsr, vsr, acc, i32)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index b8e317159c..18a94fa3b5 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -763,6 +763,12 @@ XVI8GER4SPP     111011 ... -- ..... ..... 01100011 ..-  @XX3_at xa=%xx_xa
- XVI16GER2S      111011 ... -- ..... ..... 00101011 ..-  @XX3_at xa=%xx_xa
- XVI16GER2SPP    111011 ... -- ..... ..... 00101010 ..-  @XX3_at xa=%xx_xa
- 
-+XVBF16GER2      111011 ... -- ..... ..... 00110011 ..-  @XX3_at xa=%xx_xa
-+XVBF16GER2PP    111011 ... -- ..... ..... 00110010 ..-  @XX3_at xa=%xx_xa
-+XVBF16GER2PN    111011 ... -- ..... ..... 10110010 ..-  @XX3_at xa=%xx_xa
-+XVBF16GER2NP    111011 ... -- ..... ..... 01110010 ..-  @XX3_at xa=%xx_xa
-+XVBF16GER2NN    111011 ... -- ..... ..... 11110010 ..-  @XX3_at xa=%xx_xa
-+
- XVF16GER2       111011 ... -- ..... ..... 00010011 ..-  @XX3_at xa=%xx_xa
- XVF16GER2PP     111011 ... -- ..... ..... 00010010 ..-  @XX3_at xa=%xx_xa
- XVF16GER2PN     111011 ... -- ..... ..... 10010010 ..-  @XX3_at xa=%xx_xa
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 5ecc5c85bf..de115c1943 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -150,6 +150,17 @@ PMXVI16GER2S    000001 11 1001 -- - - pmsk:2 ------ ........       \
- PMXVI16GER2SPP  000001 11 1001 -- - - pmsk:2 ------ ........       \
-                 111011 ... -- ..... ..... 00101010 ..-  @MMIRR_XX3
- 
-+PMXVBF16GER2    000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 00110011 ..-  @MMIRR_XX3
-+PMXVBF16GER2PP  000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 00110010 ..-  @MMIRR_XX3
-+PMXVBF16GER2PN  000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 10110010 ..-  @MMIRR_XX3
-+PMXVBF16GER2NP  000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 01110010 ..-  @MMIRR_XX3
-+PMXVBF16GER2NN  000001 11 1001 -- - - pmsk:2 ------ ........ \
-+                111011 ... -- ..... ..... 11110010 ..-  @MMIRR_XX3
-+
- PMXVF16GER2     000001 11 1001 -- - - pmsk:2 ------ ........ \
-                 111011 ... -- ..... ..... 00010011 ..-  @MMIRR_XX3
- PMXVF16GER2PP   000001 11 1001 -- - - pmsk:2 ------ ........ \
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index e79752899a..7acdbceec4 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -2898,6 +2898,12 @@ TRANS64(PMXVI16GER2PP, do_ger, gen_helper_XVI16GER2PP)
- TRANS64(PMXVI16GER2S, do_ger, gen_helper_XVI16GER2S)
- TRANS64(PMXVI16GER2SPP, do_ger, gen_helper_XVI16GER2SPP)
- 
-+TRANS(XVBF16GER2, do_ger, gen_helper_XVBF16GER2)
-+TRANS(XVBF16GER2PP, do_ger, gen_helper_XVBF16GER2PP)
-+TRANS(XVBF16GER2PN, do_ger, gen_helper_XVBF16GER2PN)
-+TRANS(XVBF16GER2NP, do_ger, gen_helper_XVBF16GER2NP)
-+TRANS(XVBF16GER2NN, do_ger, gen_helper_XVBF16GER2NN)
-+
- TRANS(XVF16GER2, do_ger, gen_helper_XVF16GER2)
- TRANS(XVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
- TRANS(XVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
-@@ -2916,6 +2922,12 @@ TRANS(XVF64GERPN, do_ger, gen_helper_XVF64GERPN)
- TRANS(XVF64GERNP, do_ger, gen_helper_XVF64GERNP)
- TRANS(XVF64GERNN, do_ger, gen_helper_XVF64GERNN)
- 
-+TRANS64(PMXVBF16GER2, do_ger, gen_helper_XVBF16GER2)
-+TRANS64(PMXVBF16GER2PP, do_ger, gen_helper_XVBF16GER2PP)
-+TRANS64(PMXVBF16GER2PN, do_ger, gen_helper_XVBF16GER2PN)
-+TRANS64(PMXVBF16GER2NP, do_ger, gen_helper_XVBF16GER2NP)
-+TRANS64(PMXVBF16GER2NN, do_ger, gen_helper_XVBF16GER2NN)
-+
- TRANS64(PMXVF16GER2, do_ger, gen_helper_XVF16GER2)
- TRANS64(PMXVF16GER2PP, do_ger, gen_helper_XVF16GER2PP)
- TRANS64(PMXVF16GER2PN, do_ger, gen_helper_XVF16GER2PN)
+ #undef GET_FEATURE
+ #undef GET_FEATURE2
 -- 
 2.31.1
 
