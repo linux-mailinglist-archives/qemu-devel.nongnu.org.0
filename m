@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3613753271A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:09:33 +0200 (CEST)
-Received: from localhost ([::1]:42688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906DF532743
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:15:47 +0200 (CEST)
+Received: from localhost ([::1]:45996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntRTn-0003lX-P4
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49556)
+	id 1ntRZq-0006Bf-9s
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:15:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntRMb-0008IY-01
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:02:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntRMY-0002E8-DY
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:02:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653386521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u7t9PrbS5xnpy7o6Chd2rXC87BmInMmmfo6hj556i1Y=;
- b=RWtbHnfQthM/yKD4O4H4D6S6uuAw3w2rn8CI1ycqDYwC7xdyzwrwV73drrO3t136b2oScO
- tj+5B+A++yW0kpiRKSJV2Qo3voKtg2hG3LMVEZRqwxe2lfysEH38LYM/6ofyetxkEGX32B
- ICxz53bj96b3oY3OKdBwKYw/5ZmPJ0s=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-YrzfnZ9YMSCujKKj92RQtw-1; Tue, 24 May 2022 06:02:00 -0400
-X-MC-Unique: YrzfnZ9YMSCujKKj92RQtw-1
-Received: by mail-yb1-f197.google.com with SMTP id
- o7-20020a256b47000000b0064ddc3bea70so15378879ybm.4
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 03:02:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ntRX0-00050Q-9f
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:12:50 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:40562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ntRWx-0003k4-BK
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:12:49 -0400
+Received: by mail-ed1-x530.google.com with SMTP id i40so22416099eda.7
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 03:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zIolN5Duy4thOOuygd6HRrP0CLjOqOjbyR4k93rV3vg=;
+ b=YQoNyDSyDx+LDisqVb97GnoUeXmKG+Xf/mq7kKQQXLg5sR9d2mqVcOVAKrX6H/GLFb
+ RwVma988bHbYTTKZgLJwgWJglf2DSWA0TJe3I5YqUAm0IfSfzsH/GsIPKi0WTOB/xtoi
+ vqtnPO6EQIg9GRcPJvhhik/VN/K6+1HerfFy6uDEwkm06rcdvpucYujNK/F6COczugKu
+ Qx7GcR/CFkGlaeUM039Pi5/hz84GZHvhuws+NdFij99MiL2pdq9kFZJiUJtb9cJGV7sa
+ SRB3q4A2MGIWOMX01hir85aCfkLWV5Ah7EMGA6bsdscclVNX8BL0oJNBPfX9yKi28N7Y
+ gzrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=u7t9PrbS5xnpy7o6Chd2rXC87BmInMmmfo6hj556i1Y=;
- b=iRT7KVVS9ZKlUCCe49kBZWqDdf3MFaEE3GuOOZqxCshWsjU/vayv/j6m42sHZTVd4h
- d0Z8wIiamSURcqqlOh3jKnQYpLmX0BToKWpJSYI7IvGSjvIAnmct/6unnTNdl9mcFdSa
- wcR3SIYY/otKAX0EUshyBrWZO3WOQkBVbuz/f1YWP/j3wbTXDsdU+Uo7xHbosRKrk8qX
- qJzqs24CTToiqfg6GMeoslx7AoEWiP/GJQTBj5UldFi7abX5B8oORL4GUIdmPD7evgZ9
- V12yIMPDSs2Aolgj32hWNkpXdp0lLR+mjzSrTM2xDM7cmNSf+f1XKmwl9nLqfLcn3bkt
- PiKQ==
-X-Gm-Message-State: AOAM533GiB2LaqtYJnPVWVuUAhHUAVuDTQrBpLUJD+7e3m0alFmZtgtg
- 7ylxSOQEAi6i6ieIQe1v2cJZ3ryNXgZ96t4DIQJNRqZzf+FGxsHohtrmSpxlJZxRRgCypaNTWB0
- 89bcctqgGaGf0I+pHIluMzKe7deXhJDA=
-X-Received: by 2002:a25:7e84:0:b0:650:10e0:87bd with SMTP id
- z126-20020a257e84000000b0065010e087bdmr5744051ybc.257.1653386519300; 
- Tue, 24 May 2022 03:01:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzT3hzrfodNnuqcphg+TabHVolONMhbM8MiezV++lPB5+bN+AVPESl8O2crUWIQWmzsHt7AXrlrAWujHDglLw=
-X-Received: by 2002:a25:7e84:0:b0:650:10e0:87bd with SMTP id
- z126-20020a257e84000000b0065010e087bdmr5744035ybc.257.1653386519084; Tue, 24
- May 2022 03:01:59 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=zIolN5Duy4thOOuygd6HRrP0CLjOqOjbyR4k93rV3vg=;
+ b=RzEacdfLGhiZS5/PFmwLrAfiUMymtIbb+CTpwJPR+FmbCeFp/vJIQkKOSEBIsKWYaf
+ B0LVYDhPdn1TrhD5NIstB5+7o0i9sDxyOgv27kImQ5YDCUeUfl2KyY38AE2+YpX5D4vp
+ K+njjYUlSMNvwE9WHLQAuLkVeOAHTnkiEteSCoXonB42fUUGFrATEkfGjC5PfrFoev2i
+ np+yyE1wAr6tLI4MVmjTbPnn/mRWiEY7pOAAUpueoXdcUmwXk9mrcmwTG/8rzGHi4Id3
+ 7qtFQPiIOOR17RaLYDOHKpV81jBLT5zRITBcdXPS3XpvV7ABzvcdsOopXBaS9d6sVXmz
+ dgfA==
+X-Gm-Message-State: AOAM531kWd8CIrS7QvD9mPQwHE+JYksOybjP0FnONd3Fd8Mz7vOl8Y4N
+ pqEmoMURoW+iuzxi5K8ocX2k9w==
+X-Google-Smtp-Source: ABdhPJwqoCWdnnVZsUdoQExrEGMS17OgOuHYCOaEwBy18E5F9PLaOR7Gl8EzBEi0eZfDyVsFIymmeA==
+X-Received: by 2002:a05:6402:b8f:b0:42a:be5d:7a94 with SMTP id
+ cf15-20020a0564020b8f00b0042abe5d7a94mr27990413edb.150.1653387164965; 
+ Tue, 24 May 2022 03:12:44 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ mm24-20020a170906cc5800b006fe9ba21333sm5594306ejb.113.2022.05.24.03.12.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 May 2022 03:12:43 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9DEB91FFB7;
+ Tue, 24 May 2022 11:12:42 +0100 (BST)
+References: <20220422174059.4304-9-anjo@rev.ng>
+User-agent: mu4e 1.7.23; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Anton Johansson <anjo@rev.ng>
+Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com,
+ mlambert@quicinc.com, babush@rev.ng, nizzo@rev.ng,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v9 08/12] target/hexagon: import flex/bison to docker files
+Date: Tue, 24 May 2022 11:07:24 +0100
+In-reply-to: <20220422174059.4304-9-anjo@rev.ng>
+Message-ID: <87h75f6xyd.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220523194111.827805-1-kkostiuk@redhat.com>
- <20220523194111.827805-3-kkostiuk@redhat.com>
- <541f46cf-fc45-f7bb-e121-2aad216e11d5@linaro.org>
- <CAPMcbCq7fzubG4ej7p164vwQkCMChjWBubx27R=kVxukWDhuBg@mail.gmail.com>
-In-Reply-To: <CAPMcbCq7fzubG4ej7p164vwQkCMChjWBubx27R=kVxukWDhuBg@mail.gmail.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Tue, 24 May 2022 13:01:48 +0300
-Message-ID: <CAPMcbCqeQ_7YuJg+eS9Qqtq9ptRb57_wfT=jGOuHYtx64M5azA@mail.gmail.com>
-Subject: Re: [PULL 2/3] qga-win32: Add support for NVME but type
-To: Richard Henderson <richard.henderson@linaro.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000002594ff05dfbf0cfd"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,199 +94,764 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002594ff05dfbf0cfd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Richard and Marc-Andr=C3=A9
+Anton Johansson via <qemu-devel@nongnu.org> writes:
 
-I looked into the compilation problem and have 2 solutions:
-1. We can add some conditions to the win2qemu definition and
-skip NVME support when old mingw-headers are used.
-2. We can bump the version of the Fedora docker image to 36 or 37
-that is used for cross-compilation tests.
-
-I think the second option is more valuable because we remove
-pregenerated qga-vss.tlb file and now we can check VSS build only
-at Fedora 37.
-
-What do you think?
-
-Best Regards,
-Konstantin Kostiuk.
-
-
-On Tue, May 24, 2022 at 12:26 PM Konstantin Kostiuk <kkostiuk@redhat.com>
-wrote:
-
-> Thanks for the report. I will think about how to fix the build with old
-> mingw-headers.
-> BusTypeNvme and BusTypeSpaces were added to mingw-headers v 9.0.0
+> This patch points `tests/lcitool/libvirt-ci` to an upstreamed commit of
+> `libvirt-ci` which includes flex and bison. The `lcitool/refresh` script
+> was then ran to update the the generated docker/cirrus files.
 >
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Paolo Montesel <babush@rev.ng>
+> Signed-off-by: Anton Johansson <anjo@rev.ng>
+> ---
+>  .gitlab-ci.d/cirrus/freebsd-12.vars           |  2 +-
+>  .gitlab-ci.d/cirrus/freebsd-13.vars           |  2 +-
+>  .gitlab-ci.d/cirrus/macos-11.vars             |  2 +-
+>  .gitlab-ci.d/windows.yml                      |  2 ++
+>  tests/docker/dockerfiles/alpine.docker        |  6 ++++--
+>  tests/docker/dockerfiles/centos8.docker       |  7 ++++---
+>  tests/docker/dockerfiles/debian-amd64.docker  |  2 ++
+>  .../dockerfiles/debian-arm64-cross.docker     |  6 ++++--
+>  tests/docker/dockerfiles/debian-native.docker |  3 +++
+>  .../dockerfiles/debian-riscv64-cross.docker   |  3 +++
+>  .../dockerfiles/debian-s390x-cross.docker     |  6 ++++--
+>  .../dockerfiles/debian-tricore-cross.docker   |  1 +
+>  tests/docker/dockerfiles/debian10.docker      |  3 +++
+>  .../dockerfiles/fedora-i386-cross.docker      |  3 +++
+>  .../dockerfiles/fedora-win32-cross.docker     |  3 +++
+>  .../dockerfiles/fedora-win64-cross.docker     |  3 +++
+>  tests/docker/dockerfiles/fedora.docker        |  5 +++--
+>  tests/docker/dockerfiles/opensuse-leap.docker |  5 +++--
+>  tests/docker/dockerfiles/ubuntu1804.docker    |  4 +++-
+>  tests/docker/dockerfiles/ubuntu2004.docker    |  5 +++--
+>  tests/lcitool/libvirt-ci                      |  2 +-
+>  tests/lcitool/projects/qemu.yml               | 20 ++++++++++---------
+>  22 files changed, 66 insertions(+), 29 deletions(-)
 >
-> On Mon, May 23, 2022 at 11:55 PM Richard Henderson <
-> richard.henderson@linaro.org> wrote:
->
->> On 5/23/22 12:41, Konstantin Kostiuk wrote:
->> > Bus type spaces (Indicates a storage spaces bus) is not
->> > supported, so return it as unknown.
->> >
->> > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
->> > Message-Id: <20220520201401.706630-1-kkostiuk@redhat.com>
->> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
->> > ---
->> >   qga/commands-win32.c | 5 +++++
->> >   1 file changed, 5 insertions(+)
->> >
->> > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
->> > index dcdeb76a68..36f94c0f9c 100644
->> > --- a/qga/commands-win32.c
->> > +++ b/qga/commands-win32.c
->> > @@ -490,6 +490,11 @@ static GuestDiskBusType win2qemu[] =3D {
->> >   #if (_WIN32_WINNT >=3D 0x0601)
->> >       [BusTypeVirtual] =3D GUEST_DISK_BUS_TYPE_VIRTUAL,
->> >       [BusTypeFileBackedVirtual] =3D
->> GUEST_DISK_BUS_TYPE_FILE_BACKED_VIRTUAL,
->> > +    /*
->> > +     * BusTypeSpaces currently is not suported
->> > +     */
->> > +    [BusTypeSpaces] =3D GUEST_DISK_BUS_TYPE_UNKNOWN,
->> > +    [BusTypeNvme] =3D GUEST_DISK_BUS_TYPE_NVME,
->> >   #endif
->> >   };
->> >
->>
->> Build fails:
->>
->> ../qga/commands-win32.c:496:6: error: 'BusTypeSpaces' undeclared here
->> (not in a function);
->> did you mean 'BusTypeSas'?
->>    496 |     [BusTypeSpaces] =3D GUEST_DISK_BUS_TYPE_UNKNOWN,
->>        |      ^~~~~~~~~~~~~
->>        |      BusTypeSas
->> ../qga/commands-win32.c:496:6: error: array index in initializer not of
->> integer type
->> ../qga/commands-win32.c:496:6: note: (near initialization for 'win2qemu'=
-)
->> ../qga/commands-win32.c:497:6: error: 'BusTypeNvme' undeclared here (not
->> in a function);
->> did you mean 'BusTypeMmc'?
->>    497 |     [BusTypeNvme] =3D GUEST_DISK_BUS_TYPE_NVME,
->>        |      ^~~~~~~~~~~
->>        |      BusTypeMmc
->> ../qga/commands-win32.c:497:6: error: array index in initializer not of
->> integer type
->> ../qga/commands-win32.c:497:6: note: (near initialization for 'win2qemu'=
-)
->>
->>
->
->> r~
->>
->>
+> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/fr=
+eebsd-12.vars
+> index b4842271b2..0cfe18c67c 100644
+> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
+> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+> @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
+>  NINJA=3D'/usr/local/bin/ninja'
+>  PACKAGING_COMMAND=3D'pkg'
+>  PIP3=3D'/usr/local/bin/pip-3.8'
+> -PKGS=3D'alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoim=
+age ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib =
+gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libsp=
+ice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl=
+5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphin=
+x_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snap=
+py spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+> +PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-ge=
+nisoimage ctags curl cyrus-sasl dbus diffutils dtc flex gettext git glib gm=
+ake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspic=
+e-server libssh libtasn1 libxml2 llvm lzo2 meson ncurses nettle ninja openc=
+v perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38=
+-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_imag=
+e snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+>  PYPI_PKGS=3D''
+>  PYTHON=3D'/usr/local/bin/python3'
+> diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/fr=
+eebsd-13.vars
+> index 546a82dd75..33c8856fd4 100644
+> --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
+> +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+> @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
+>  NINJA=3D'/usr/local/bin/ninja'
+>  PACKAGING_COMMAND=3D'pkg'
+>  PIP3=3D'/usr/local/bin/pip-3.8'
+> -PKGS=3D'alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoim=
+age ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib =
+gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libsp=
+ice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl=
+5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphin=
+x_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snap=
+py spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+> +PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-ge=
+nisoimage ctags curl cyrus-sasl dbus diffutils dtc flex gettext git glib gm=
+ake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspic=
+e-server libssh libtasn1 libxml2 llvm lzo2 meson ncurses nettle ninja openc=
+v perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38=
+-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_imag=
+e snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+>  PYPI_PKGS=3D''
+>  PYTHON=3D'/usr/local/bin/python3'
 
---0000000000002594ff05dfbf0cfd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is quite a lot of containers at once which makes it hard to review.
+Do we actually build hexagon on all these various containers anyway?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Richard and Marc-Andr=C3=A9<br></=
-div><div><br></div><div>I looked into the compilation problem and have 2 so=
-lutions:</div><div>1. We can add some conditions to <span class=3D"gmail-im=
-">the win2qemu definition</span> and <br></div><div>skip NVME support when =
-old mingw-headers <span class=3D"gmail-im">are used.<br></span></div><div><=
-span class=3D"gmail-im">2. We can bump the version of the Fedora docker ima=
-ge to 36 or 37 <br></span></div><div><span class=3D"gmail-im">that is used =
-for cross-compilation tests.<br></span></div><div><span class=3D"gmail-im">=
-<br></span></div><div><span class=3D"gmail-im">I think the second option is=
- more valuable because we remove <br></span></div><div><span class=3D"gmail=
--im">pregenerated qga-vss.tlb file and now we can check VSS build only</spa=
-n></div><div><span class=3D"gmail-im">at Fedora 37.</span></div><div><span =
-class=3D"gmail-im"><br></span></div><div><span class=3D"gmail-im">What do y=
-ou think?<br></span></div><div><br></div><div><div><div dir=3D"ltr" class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><d=
-iv>Best Regards,</div><div>Konstantin Kostiuk.</div></div></div></div><br><=
-/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Tue, May 24, 2022 at 12:26 PM Konstantin Kostiuk &lt;<a href=3D"mai=
-lto:kkostiuk@redhat.com">kkostiuk@redhat.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Thanks fo=
-r the report. I will think about how to fix the build with old mingw-header=
-s.</div><div>BusTypeNvme and BusTypeSpaces were added to  mingw-headers v 9=
-.0.0<br></div><div><br></div><div><br></div><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Mon, May 23, 2022 at 11:55 PM Richard =
-Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_bl=
-ank">richard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On 5/23/22 12:41, Konstantin Kostiuk wrote=
-:<br>
-&gt; Bus type spaces (Indicates a storage spaces bus) is not<br>
-&gt; supported, so return it as unknown.<br>
-&gt; <br>
-&gt; Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redha=
-t.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:20220520201401.706630-1-kkostiuk@red=
-hat.com" target=3D"_blank">20220520201401.706630-1-kkostiuk@redhat.com</a>&=
-gt;<br>
-&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redha=
-t.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0qga/commands-win32.c | 5 +++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 5 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-&gt; index dcdeb76a68..36f94c0f9c 100644<br>
-&gt; --- a/qga/commands-win32.c<br>
-&gt; +++ b/qga/commands-win32.c<br>
-&gt; @@ -490,6 +490,11 @@ static GuestDiskBusType win2qemu[] =3D {<br>
-&gt;=C2=A0 =C2=A0#if (_WIN32_WINNT &gt;=3D 0x0601)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[BusTypeVirtual] =3D GUEST_DISK_BUS_TYPE_VIR=
-TUAL,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[BusTypeFileBackedVirtual] =3D GUEST_DISK_BU=
-S_TYPE_FILE_BACKED_VIRTUAL,<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* BusTypeSpaces currently is not suported<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 [BusTypeSpaces] =3D GUEST_DISK_BUS_TYPE_UNKNOWN,<br>
-&gt; +=C2=A0 =C2=A0 [BusTypeNvme] =3D GUEST_DISK_BUS_TYPE_NVME,<br>
-&gt;=C2=A0 =C2=A0#endif<br>
-&gt;=C2=A0 =C2=A0};<br>
-&gt;=C2=A0 =C2=A0<br>
-<br>
-Build fails:<br>
-<br>
-../qga/commands-win32.c:496:6: error: &#39;BusTypeSpaces&#39; undeclared he=
-re (not in a function); <br>
-did you mean &#39;BusTypeSas&#39;?<br>
-=C2=A0 =C2=A0496 |=C2=A0 =C2=A0 =C2=A0[BusTypeSpaces] =3D GUEST_DISK_BUS_TY=
-PE_UNKNOWN,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~~<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 BusTypeSas<br>
-../qga/commands-win32.c:496:6: error: array index in initializer not of int=
-eger type<br>
-../qga/commands-win32.c:496:6: note: (near initialization for &#39;win2qemu=
-&#39;)<br>
-../qga/commands-win32.c:497:6: error: &#39;BusTypeNvme&#39; undeclared here=
- (not in a function); <br>
-did you mean &#39;BusTypeMmc&#39;?<br>
-=C2=A0 =C2=A0497 |=C2=A0 =C2=A0 =C2=A0[BusTypeNvme] =3D GUEST_DISK_BUS_TYPE=
-_NVME,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 BusTypeMmc<br>
-../qga/commands-win32.c:497:6: error: array index in initializer not of int=
-eger type<br>
-../qga/commands-win32.c:497:6: note: (near initialization for &#39;win2qemu=
-&#39;)<br>=C2=A0 <br></blockquote><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-<br>
-r~<br>
-<br>
-</blockquote></div></div>
-</blockquote></div></div>
+Either way I'd be tempted to update one container per patch.
 
---0000000000002594ff05dfbf0cfd--
+> diff --git a/.gitlab-ci.d/cirrus/macos-11.vars b/.gitlab-ci.d/cirrus/maco=
+s-11.vars
+> index cfe9181fd4..1c7366c810 100644
+> --- a/.gitlab-ci.d/cirrus/macos-11.vars
+> +++ b/.gitlab-ci.d/cirrus/macos-11.vars
+> @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
+>  NINJA=3D'/usr/local/bin/ninja'
+>  PACKAGING_COMMAND=3D'brew'
+>  PIP3=3D'/usr/local/bin/pip3'
+> -PKGS=3D'bash bc bzip2 capstone ccache ctags curl dbus diffutils dtc gcov=
+r gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi=
+ libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo =
+make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl=
+2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vt=
+e3 zlib zstd'
+> +PKGS=3D'bash bc bison bzip2 capstone ccache ctags curl dbus diffutils dt=
+c flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libe=
+poxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libus=
+b libxml2 llvm lzo make meson ncurses nettle ninja perl pixman pkg-config p=
+ython3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texi=
+nfo usbredir vde vte3 zlib zstd'
+>  PYPI_PKGS=3D'PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
+>  PYTHON=3D'/usr/local/bin/python3'
+> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> index 1df1630349..b496109b89 100644
+> --- a/.gitlab-ci.d/windows.yml
+> +++ b/.gitlab-ci.d/windows.yml
+> @@ -33,6 +33,7 @@ msys2-64bit:
+>    script:
+>    - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
+>        diffutils git grep make sed
+> +      flex bison
+>        mingw-w64-x86_64-capstone
+>        mingw-w64-x86_64-curl
+>        mingw-w64-x86_64-cyrus-sasl
+> @@ -67,6 +68,7 @@ msys2-32bit:
+>    script:
+>    - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
+>        diffutils git grep make sed
+> +      flex bison
+>        mingw-w64-i686-capstone
+>        mingw-w64-i686-curl
+>        mingw-w64-i686-cyrus-sasl
+> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/docker=
+files/alpine.docker
+> index 3f4c0f95cb..ad5785be0f 100644
+> --- a/tests/docker/dockerfiles/alpine.docker
+> +++ b/tests/docker/dockerfiles/alpine.docker
+> @@ -13,6 +13,7 @@ RUN apk update && \
+>          attr-dev \
+>          bash \
+>          bc \
+> +        bison \
+>          bzip2 \
+>          bzip2-dev \
+>          ca-certificates \
+> @@ -29,7 +30,7 @@ RUN apk update && \
+>          dtc-dev \
+>          eudev-dev \
+>          findutils \
+> -        fuse3-dev \
 
+Why has this dropped?
+
+> +        flex \
+>          g++ \
+>          gcc \
+>          gcovr \
+> @@ -50,12 +51,12 @@ RUN apk update && \
+>          libnfs-dev \
+>          libpng-dev \
+>          libseccomp-dev \
+> -        libselinux-dev \
+
+Or this
+
+>          libslirp-dev \
+>          libssh-dev \
+>          libtasn1-dev \
+>          liburing-dev \
+>          libusb-dev \
+> +        libxml2-dev \
+
+this isn't flex/bison
+
+>          linux-pam-dev \
+>          llvm11 \
+>          lttng-ust-dev \
+> @@ -64,6 +65,7 @@ RUN apk update && \
+>          mesa-dev \
+>          meson \
+>          multipath-tools \
+> +        musl-dev \
+
+?
+
+>          ncurses-dev \
+>          ndctl-dev \
+>          net-tools \
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
+rfiles/centos8.docker
+> index 4b20925bbf..b51114d542 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -6,7 +6,7 @@
+>=20=20
+>  FROM quay.io/centos/centos:stream8
+>=20=20
+> -RUN dnf update -y && \
+> +RUN dnf distro-sync -y && \
+>      dnf install 'dnf-command(config-manager)' -y && \
+>      dnf config-manager --set-enabled -y powertools && \
+>      dnf install -y centos-release-advanced-virtualization && \
+> @@ -16,6 +16,7 @@ RUN dnf update -y && \
+>          alsa-lib-devel \
+>          bash \
+>          bc \
+> +        bison \
+>          brlapi-devel \
+>          bzip2 \
+>          bzip2-devel \
+> @@ -30,7 +31,7 @@ RUN dnf update -y && \
+>          device-mapper-multipath-devel \
+>          diffutils \
+>          findutils \
+> -        fuse3-devel \
+
+?
+
+> +        flex \
+>          gcc \
+>          gcc-c++ \
+>          genisoimage \
+> @@ -64,13 +65,13 @@ RUN dnf update -y && \
+>          libpng-devel \
+>          librbd-devel \
+>          libseccomp-devel \
+> -        libselinux-devel \
+
+?
+
+>          libslirp-devel \
+>          libssh-devel \
+>          libtasn1-devel \
+>          libubsan \
+>          liburing-devel \
+>          libusbx-devel \
+> +        libxml2-devel \
+>          libzstd-devel \
+>          llvm \
+>          lttng-ust-devel \
+> diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/=
+dockerfiles/debian-amd64.docker
+> index ed546edcd6..805fd6f981 100644
+> --- a/tests/docker/dockerfiles/debian-amd64.docker
+> +++ b/tests/docker/dockerfiles/debian-amd64.docker
+> @@ -14,9 +14,11 @@ RUN apt update && \
+>  RUN apt update && \
+>      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>      apt install -y --no-install-recommends \
+> +        bison \
+>          cscope \
+>          genisoimage \
+>          exuberant-ctags \
+> +        flex \
+>          global \
+>          libbz2-dev \
+>          liblzo2-dev \
+> diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/d=
+ocker/dockerfiles/debian-arm64-cross.docker
+> index b60426834c..e42bde8bc3 100644
+> --- a/tests/docker/dockerfiles/debian-arm64-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+> @@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>      eatmydata apt-get install --no-install-recommends -y \
+>              bash \
+>              bc \
+> +            bison \
+>              bsdextrautils \
+>              bzip2 \
+>              ca-certificates \
+> @@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              diffutils \
+>              exuberant-ctags \
+>              findutils \
+> +            flex \
+>              gcovr \
+>              genisoimage \
+>              gettext \
+>              git \
+>              hostname \
+> +            libglib2.0-dev \
+
+?
+
+>              libpcre2-dev \
+>              libspice-protocol-dev \
+>              llvm \
+> @@ -90,7 +93,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libepoxy-dev:arm64 \
+>              libfdt-dev:arm64 \
+>              libffi-dev:arm64 \
+> -            libfuse3-dev:arm64 \
+>              libgbm-dev:arm64 \
+>              libgcrypt20-dev:arm64 \
+>              libglib2.0-dev:arm64 \
+> @@ -117,7 +119,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libsdl2-dev:arm64 \
+>              libsdl2-image-dev:arm64 \
+>              libseccomp-dev:arm64 \
+> -            libselinux1-dev:arm64 \
+
+?
+
+>              libslirp-dev:arm64 \
+>              libsnappy-dev:arm64 \
+>              libspice-server-dev:arm64 \
+> @@ -133,6 +134,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libvirglrenderer-dev:arm64 \
+>              libvte-2.91-dev:arm64 \
+>              libxen-dev:arm64 \
+> +            libxml2-dev:arm64 \
+
+?
+
+>              libzstd-dev:arm64 \
+>              nettle-dev:arm64 \
+>              systemtap-sdt-dev:arm64 \
+> diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker=
+/dockerfiles/debian-native.docker
+> index efd55cb6e0..02ccaf98fd 100644
+> --- a/tests/docker/dockerfiles/debian-native.docker
+> +++ b/tests/docker/dockerfiles/debian-native.docker
+> @@ -26,13 +26,16 @@ RUN apt update && \
+>  RUN apt update && \
+>      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>      apt install -y --no-install-recommends \
+> +        bison \
+>          cscope \
+>          genisoimage \
+>          exuberant-ctags \
+> +        flex \
+>          global \
+>          libbz2-dev \
+>          liblzo2-dev \
+>          libgcrypt20-dev \
+> +        libglib2.0-dev \
+
+?
+>          libfdt-dev \
+>          librdmacm-dev \
+>          libsasl2-dev \
+> diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests=
+/docker/dockerfiles/debian-riscv64-cross.docker
+> index 594d97982c..f5553afc2e 100644
+> --- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+> @@ -17,12 +17,15 @@ RUN apt update && \
+>  # Install common build utilities
+>  RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy \
+>      bc \
+> +    bison \
+>      build-essential \
+>      ca-certificates \
+>      debian-ports-archive-keyring \
+>      dpkg-dev \
+> +    flex \
+>      gettext \
+>      git \
+> +    libglib2.0-dev \
+>      ninja-build \
+>      pkg-config \
+>      python3
+> diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/d=
+ocker/dockerfiles/debian-s390x-cross.docker
+> index ff79a2cc4f..1a304260fe 100644
+> --- a/tests/docker/dockerfiles/debian-s390x-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+> @@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>      eatmydata apt-get install --no-install-recommends -y \
+>              bash \
+>              bc \
+> +            bison \
+>              bsdextrautils \
+>              bzip2 \
+>              ca-certificates \
+> @@ -22,11 +23,13 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              diffutils \
+>              exuberant-ctags \
+>              findutils \
+> +            flex \
+>              gcovr \
+>              genisoimage \
+>              gettext \
+>              git \
+>              hostname \
+> +            libglib2.0-dev \
+>              libpcre2-dev \
+>              libspice-protocol-dev \
+>              llvm \
+> @@ -90,7 +93,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libepoxy-dev:s390x \
+>              libfdt-dev:s390x \
+>              libffi-dev:s390x \
+> -            libfuse3-dev:s390x \
+>              libgbm-dev:s390x \
+>              libgcrypt20-dev:s390x \
+>              libglib2.0-dev:s390x \
+> @@ -117,7 +119,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libsdl2-dev:s390x \
+>              libsdl2-image-dev:s390x \
+>              libseccomp-dev:s390x \
+> -            libselinux1-dev:s390x \
+>              libslirp-dev:s390x \
+>              libsnappy-dev:s390x \
+>              libssh-gcrypt-dev:s390x \
+> @@ -131,6 +132,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libvdeplug-dev:s390x \
+>              libvirglrenderer-dev:s390x \
+>              libvte-2.91-dev:s390x \
+> +            libxml2-dev:s390x \
+>              libzstd-dev:s390x \
+>              nettle-dev:s390x \
+>              systemtap-sdt-dev:s390x \
+> diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests=
+/docker/dockerfiles/debian-tricore-cross.docker
+> index b573b9ded2..203e096ea3 100644
+> --- a/tests/docker/dockerfiles/debian-tricore-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+> @@ -20,6 +20,7 @@ RUN apt update && \
+>         bzip2 \
+>         ca-certificates \
+>         ccache \
+> +       flex \
+>         g++ \
+>         gcc \
+>         git \
+> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dock=
+erfiles/debian10.docker
+> index b414af1b9f..23285e7aa4 100644
+> --- a/tests/docker/dockerfiles/debian10.docker
+> +++ b/tests/docker/dockerfiles/debian10.docker
+> @@ -18,15 +18,18 @@ RUN apt update && \
+>      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>      apt install -y --no-install-recommends \
+>          bc \
+> +        bison \
+>          build-essential \
+>          ca-certificates \
+>          ccache \
+>          clang \
+>          dbus \
+> +        flex \
+>          gdb-multiarch \
+>          gettext \
+>          git \
+>          libffi-dev \
+> +        libglib2.0-dev \
+>          libncurses5-dev \
+>          ninja-build \
+>          pkg-config \
+> diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/do=
+cker/dockerfiles/fedora-i386-cross.docker
+> index 0a3ec346e6..ebda006003 100644
+> --- a/tests/docker/dockerfiles/fedora-i386-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+> @@ -1,12 +1,15 @@
+>  FROM registry.fedoraproject.org/fedora:34
+>=20=20
+>  ENV PACKAGES \
+> +    bison \
+>      bzip2 \
+>      ccache \
+>      diffutils \
+>      findutils \
+> +    flex \
+>      gcc \
+>      git \
+> +    glib2-devel \
+>      libffi-devel.i686 \
+>      libselinux-devel.i686 \
+>      libtasn1-devel.i686 \
+> diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/d=
+ocker/dockerfiles/fedora-win32-cross.docker
+> index 84a8f5524d..c31d5ea544 100644
+> --- a/tests/docker/dockerfiles/fedora-win32-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+> @@ -3,13 +3,16 @@ FROM registry.fedoraproject.org/fedora:33
+>  # Please keep this list sorted alphabetically
+>  ENV PACKAGES \
+>      bc \
+> +    bison \
+>      bzip2 \
+>      ccache \
+>      diffutils \
+>      findutils \
+> +    flex \
+>      gcc \
+>      gettext \
+>      git \
+> +    glib2-devel \
+>      hostname \
+>      make \
+>      meson \
+> diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/d=
+ocker/dockerfiles/fedora-win64-cross.docker
+> index d7ed8eb1cf..34ee496bc4 100644
+> --- a/tests/docker/dockerfiles/fedora-win64-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+> @@ -3,12 +3,15 @@ FROM registry.fedoraproject.org/fedora:33
+>  # Please keep this list sorted alphabetically
+>  ENV PACKAGES \
+>      bc \
+> +    bison \
+>      bzip2 \
+>      ccache \
+>      diffutils \
+>      findutils \
+> +    flex \
+>      gcc \
+>      gettext \
+> +    glib2-devel \
+>      git \
+>      hostname \
+>      make \
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
+files/fedora.docker
+> index 2e6a84abfd..66f9b3263b 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -23,6 +23,7 @@ exec "$@"' > /usr/bin/nosync && \
+>          alsa-lib-devel \
+>          bash \
+>          bc \
+> +        bison \
+>          brlapi-devel \
+>          bzip2 \
+>          bzip2-devel \
+> @@ -37,7 +38,7 @@ exec "$@"' > /usr/bin/nosync && \
+>          device-mapper-multipath-devel \
+>          diffutils \
+>          findutils \
+> -        fuse3-devel \
+> +        flex \
+>          gcc \
+>          gcc-c++ \
+>          gcovr \
+> @@ -72,13 +73,13 @@ exec "$@"' > /usr/bin/nosync && \
+>          libpng-devel \
+>          librbd-devel \
+>          libseccomp-devel \
+> -        libselinux-devel \
+>          libslirp-devel \
+>          libssh-devel \
+>          libtasn1-devel \
+>          libubsan \
+>          liburing-devel \
+>          libusbx-devel \
+> +        libxml2-devel \
+>          libzstd-devel \
+>          llvm \
+>          lttng-ust-devel \
+> diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker=
+/dockerfiles/opensuse-leap.docker
+> index 6f5993d602..aab0bbe9e8 100644
+> --- a/tests/docker/dockerfiles/opensuse-leap.docker
+> +++ b/tests/docker/dockerfiles/opensuse-leap.docker
+> @@ -12,6 +12,7 @@ RUN zypper update -y && \
+>             alsa-lib-devel \
+>             bash \
+>             bc \
+> +           bison \
+>             brlapi-devel \
+>             bzip2 \
+>             ca-certificates \
+> @@ -22,7 +23,7 @@ RUN zypper update -y && \
+>             dbus-1 \
+>             diffutils \
+>             findutils \
+> -           fuse3-devel \
+> +           flex \
+>             gcc \
+>             gcc-c++ \
+>             gcovr \
+> @@ -63,7 +64,6 @@ RUN zypper update -y && \
+>             libpulse-devel \
+>             librbd-devel \
+>             libseccomp-devel \
+> -           libselinux-devel \
+>             libspice-server-devel \
+>             libssh-devel \
+>             libtasn1-devel \
+> @@ -71,6 +71,7 @@ RUN zypper update -y && \
+>             libudev-devel \
+>             liburing-devel \
+>             libusb-1_0-devel \
+> +           libxml2-devel \
+>             libzstd-devel \
+>             llvm \
+>             lttng-ust-devel \
+> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/do=
+ckerfiles/ubuntu1804.docker
+> index b3f2156580..b413c63129 100644
+> --- a/tests/docker/dockerfiles/ubuntu1804.docker
+> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
+> @@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>      eatmydata apt-get install --no-install-recommends -y \
+>              bash \
+>              bc \
+> +            bison \
+>              bsdmainutils \
+>              bzip2 \
+>              ca-certificates \
+> @@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              diffutils \
+>              exuberant-ctags \
+>              findutils \
+> +            flex \
+>              g++ \
+>              gcc \
+>              gcovr \
+> @@ -74,7 +76,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libsdl2-dev \
+>              libsdl2-image-dev \
+>              libseccomp-dev \
+> -            libselinux1-dev \
+>              libsnappy-dev \
+>              libspice-protocol-dev \
+>              libspice-server-dev \
+> @@ -89,6 +90,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libvirglrenderer-dev \
+>              libvte-2.91-dev \
+>              libxen-dev \
+> +            libxml2-dev \
+>              libzstd-dev \
+>              llvm \
+>              locales \
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/do=
+ckerfiles/ubuntu2004.docker
+> index a3b38884e3..f3d999b43f 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>      eatmydata apt-get install --no-install-recommends -y \
+>              bash \
+>              bc \
+> +            bison \
+>              bsdmainutils \
+>              bzip2 \
+>              ca-certificates \
+> @@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              diffutils \
+>              exuberant-ctags \
+>              findutils \
+> +            flex \
+>              g++ \
+>              gcc \
+>              gcovr \
+> @@ -46,7 +48,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libepoxy-dev \
+>              libfdt-dev \
+>              libffi-dev \
+> -            libfuse3-dev \
+>              libgbm-dev \
+>              libgcrypt20-dev \
+>              libglib2.0-dev \
+> @@ -75,7 +76,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libsdl2-dev \
+>              libsdl2-image-dev \
+>              libseccomp-dev \
+> -            libselinux1-dev \
+>              libslirp-dev \
+>              libsnappy-dev \
+>              libspice-protocol-dev \
+> @@ -91,6 +91,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libvirglrenderer-dev \
+>              libvte-2.91-dev \
+>              libxen-dev \
+> +            libxml2-dev \
+>              libzstd-dev \
+>              llvm \
+>              locales \
+> diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+> index f83b916d5e..43927ff508 160000
+> --- a/tests/lcitool/libvirt-ci
+> +++ b/tests/lcitool/libvirt-ci
+> @@ -1 +1 @@
+> -Subproject commit f83b916d5efa4bd33fbf4b7ea41bf6d535cc63fb
+> +Subproject commit 43927ff508e8ecb1ac225dabbc95b37c890db917
+> diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qem=
+u.yml
+> index d068a7a8de..1c2b03778c 100644
+> --- a/tests/lcitool/projects/qemu.yml
+> +++ b/tests/lcitool/projects/qemu.yml
+> @@ -3,6 +3,7 @@ packages:
+>   - alsa
+>   - bash
+>   - bc
+> + - bison
+>   - brlapi
+>   - bzip2
+>   - bzip2-libs
+> @@ -18,23 +19,24 @@ packages:
+>   - diffutils
+>   - dtrace
+>   - findutils
+> - - fuse3
+> + - flex
+>   - g++
+>   - gcc
+>   - gcovr
+> - - gettext
+>   - genisoimage
+> + - gettext
+>   - glib2
+> + - glib2-native
+>   - glib2-static
+> - - glibc-static
+>   - glusterfs
+>   - gnutls
+>   - gtk3
+>   - hostname
+>   - libaio
+> - - libattr
+>   - libasan
+> + - libattr
+>   - libbpf
+> + - libc-static
+>   - libcacard
+>   - libcap-ng
+>   - libcurl
+> @@ -55,7 +57,6 @@ packages:
+>   - librbd
+>   - librdmacm
+>   - libseccomp
+> - - libselinux
+>   - libslirp
+>   - libssh
+>   - libtasn1
+> @@ -64,18 +65,19 @@ packages:
+>   - liburing
+>   - libusbx
+>   - libvdeplug
+> + - libxml2
+>   - libzstd
+>   - llvm
+>   - lttng-ust
+>   - lzo
+> - - netcat
+> - - nettle
+> - - ninja
+> - - nsis
+>   - make
+>   - mesa-libgbm
+>   - meson
+>   - ncursesw
+> + - netcat
+> + - nettle
+> + - ninja
+> + - nsis
+>   - pam
+>   - pcre-static
+>   - perl
+
+OK I've obviously missed some subtly here but this doesn't seem to be a
+just add flex/bison to the list of build tools we need.
+
+--=20
+Alex Benn=C3=A9e
 
