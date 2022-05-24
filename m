@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697E0532999
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:44:14 +0200 (CEST)
-Received: from localhost ([::1]:43188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A279D532864
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:59:16 +0200 (CEST)
+Received: from localhost ([::1]:57654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntSxQ-0000bf-BK
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:44:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56480)
+	id 1ntSFv-0002Rc-Nt
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntRuO-0000dV-PW
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:37:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25172)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntRzD-0005t7-S9
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:42:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ntRuM-0007rI-Uc
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:37:00 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ntRz5-0000Pz-UT
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:41:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653388617;
+ s=mimecast20190719; t=1653388910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xGgFkrWJ8wpXPclw2uIuesXF7BKkgwxvHzjdrqQlv6M=;
- b=Tx4IKbFRyyFKX3oVRBDGzLm97jFAT1UWxXlaiIwfuTVXXkp4VJR1CJGraYGflLSEGrqfGH
- 6VH47T5HxgjHvGilqtoK5ah8d82XmJaaXqNby0dw4945h+8UXFW34HrVxAMIq0/Dy5TgQP
- 3OoDyV0O44rWmqYMu8xqo+xYcNGbS2w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tfzlq9xLMRo7lEfA5kt7IvvqPMwuFqryltWH3XKYWf4=;
+ b=eHV27aWGZCVOuPwn0mLhWa9qL6vxg2QjDthSGsbLbaOCCccanJ7BMjLfPBv+bce0rSDMQU
+ tMWkbq1MJ5F8N+ya1/E57xDyRoDbS+pIF1IAtMPUKdzZ3S2X7jJSNTvhrN0P+TPZrcf2Q0
+ fWH/gEXOBlbQVfQ4lWxCZCmuFk/NrYQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-395-QTPkv-PPOICzy0RrUmNkMw-1; Tue, 24 May 2022 06:36:48 -0400
-X-MC-Unique: QTPkv-PPOICzy0RrUmNkMw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-197-Ck49NFi2NmqGZwZ3quEMWQ-1; Tue, 24 May 2022 06:41:47 -0400
+X-MC-Unique: Ck49NFi2NmqGZwZ3quEMWQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 511AC101A52C;
- Tue, 24 May 2022 10:36:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A076C08087;
- Tue, 24 May 2022 10:36:45 +0000 (UTC)
-Date: Tue, 24 May 2022 12:36:44 +0200
-From: Kevin Wolf <kwolf@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 460E438041C5;
+ Tue, 24 May 2022 10:41:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DBB2140869CB;
+ Tue, 24 May 2022 10:41:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A247021E6906; Tue, 24 May 2022 12:41:45 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Message-ID: <Yoy1PJW2Ff6Xb8Ut@redhat.com>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
- <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
- <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
- <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
+Cc: qemu-devel@nongnu.org,  Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH 1/8] qmp: Support for querying stats
+References: <20220523150509.349412-1-pbonzini@redhat.com>
+ <20220523150722.349700-1-pbonzini@redhat.com>
+Date: Tue, 24 May 2022 12:41:45 +0200
+In-Reply-To: <20220523150722.349700-1-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 23 May 2022 17:07:15 +0200")
+Message-ID: <878rqr1ac6.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,107 +80,544 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.05.2022 um 14:43 hat Paolo Bonzini geschrieben:
-> On 5/18/22 14:28, Emanuele Giuseppe Esposito wrote:
-> > For example, all callers of bdrv_open() always take the AioContext lock.
-> > Often it is taken very high in the call stack, but it's always taken.
-> 
-> I think it's actually not a problem of who takes the AioContext lock or
-> where; the requirements are contradictory:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Okay, now that I have explained which challenges I see with the drain
-solution, I'd also like to understand the problem that even motivates
-you to go back to drains.
+> From: Mark Kanda <mark.kanda@oracle.com>
+>
+> Gathering statistics is important for development, for monitoring and
+> for performance measurement.  There are tools such as kvm_stat that do
+> this and they rely on the _user_ knowing the interesting data points
+> rather than the tool (which can treat them as opaque).
+>
+> The commands introduced in this commit introduce QMP support for
+> querying stats; the goal is to take the capabilities of these tools
+> and making them available throughout the whole virtualization stack,
+> so that one can observe, monitor and measure virtual machines without
+> having shell access + root on the host that runs them.
+>
+> query-stats returns a list of all stats per target type (only VM
+> and vCPU to start); future commits add extra options for specifying
+> stat names, vCPU qom paths, and providers.  All these are used by the
+> HMP command "info stats".  Because of the development usecases around
+> statistics, a good HMP interface is important.
+>
+> query-stats-schemas returns a list of stats included in each target
+> type, with an option for specifying the provider.  The concepts in the
+> schema are based on the KVM binary stats' own introspection data, just
+> translated to QAPI.
+>
+> There are two reasons to have a separate schema that is not tied to
+> the QAPI schema.  The first is the contents of the schemas: the new
+> introspection data provides different information than the QAPI data,
+> namely unit of measurement, how the numbers are gathered and change
+> (peak/instant/cumulative/histogram), and histogram bucket sizes.
+> There's really no reason to have this kind of metadata in the QAPI
+> introspection schema (except possibly for the unit of measure, but
+> there's a very weak justification).
+>
+> Another reason is the dynamicity of the schema.  The QAPI introspection
+> data is very much static; and while QOM is somewhat more dynamic,
+> generally we consider that to be a bug rather than a feature these days.
+> On the other hand, the statistics that are exposed by QEMU might be
+> passed through from another source, such as KVM, and the disadvantages of
+> manually updating the QAPI schema for outweight the benefits from vetting
+> the statistics and filtering out anything that seems "too unstable".
+> Running old QEMU with new kernel is a supported usecase; if old QEMU
+> cannot expose statistics from a new kernel, or if a kernel developer
+> needs to change QEMU before gathering new info from the new kernel,
+> then that is a poor user interface.
+>
+> The framework provides a method to register callbacks for these QMP
+> commands.  Most of the work in fact is done by the callbacks, and a
+> large majority of this patch is new QAPI structs and commands.
+>
+> Examples (with KVM stats):
+>
+> - Query all VM stats:
+>
+> { "execute": "query-stats", "arguments" : { "target": "vm" } }
+>
+> { "return": [
+>      { "provider": "kvm",
+>        "stats": [
+>           { "name": "max_mmu_page_hash_collisions", "value": 0 },
+>           { "name": "max_mmu_rmap_size", "value": 0 },
+>           { "name": "nx_lpage_splits", "value": 148 },
+>           ... ] },
+>      { "provider": "xyz",
+>        "stats": [ ... ] }
+> ] }
+>
+> - Query all vCPU stats:
+>
+> { "execute": "query-stats", "arguments" : { "target": "vcpu" } }
+>
+> { "return": [
+>      { "provider": "kvm",
+>        "qom_path": "/machine/unattached/device[0]"
+>        "stats": [
+>           { "name": "guest_mode", "value": 0 },
+>           { "name": "directed_yield_successful", "value": 0 },
+>           { "name": "directed_yield_attempted", "value": 106 },
+>           ... ] },
+>      { "provider": "kvm",
+>        "qom_path": "/machine/unattached/device[1]"
+>        "stats": [
+>           { "name": "guest_mode", "value": 0 },
+>           { "name": "directed_yield_successful", "value": 0 },
+>           { "name": "directed_yield_attempted", "value": 106 },
+>           ... ] },
+> ] }
+>
+> - Retrieve the schemas:
+>
+> { "execute": "query-stats-schemas" }
+>
+> { "return": [
+>     { "provider": "kvm",
+>       "target": "vcpu",
+>       "stats": [
+>          { "name": "guest_mode",
+>            "unit": "none",
+>            "base": 10,
+>            "exponent": 0,
+>            "type": "instant" },
+>         { "name": "directed_yield_successful",
+>            "unit": "none",
+>            "base": 10,
+>            "exponent": 0,
+>            "type": "cumulative" },
+>         ... ]
+>     },
+>     { "provider": "kvm",
+>       "target": "vm",
+>       "stats": [
+>         { "name": "max_mmu_page_hash_collisions",
+>            "unit": "none",
+>            "base": 10,
+>            "exponent": 0,
+>            "type": "peak" },
+>         ... ]
+>     },
+>     { "provider": "xyz",
+>       "target": "vm",
+>       "stats": [ ... ]
+>     }
+> ] }
+>
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+> v3->v4: correctly handle errors from the callbacks
+>
+>  include/monitor/stats.h |  34 +++++++
+>  monitor/qmp-cmds.c      |  82 +++++++++++++++
+>  qapi/meson.build        |   1 +
+>  qapi/qapi-schema.json   |   1 +
+>  qapi/stats.json         | 215 ++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 333 insertions(+)
+>  create mode 100644 include/monitor/stats.h
+>  create mode 100644 qapi/stats.json
+>
+> diff --git a/include/monitor/stats.h b/include/monitor/stats.h
+> new file mode 100644
+> index 0000000000..912eeadb2f
+> --- /dev/null
+> +++ b/include/monitor/stats.h
+> @@ -0,0 +1,34 @@
+> +/*
+> + * Copyright (c) 2022 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef STATS_H
+> +#define STATS_H
+> +
+> +#include "qapi/qapi-types-stats.h"
+> +
+> +typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target,
+> +                              Error **errp);
+> +typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
+> +
+> +/*
+> + * Register callbacks for the QMP query-stats command.
+> + *
+> + * @stats_fn: routine to query stats:
+> + * @schema_fn: routine to query stat schemas:
 
-> * IO_OR_GS_CODE() functions, when called from coroutine context, expect to
-> be called with the AioContext lock taken (example: bdrv_co_yield_to_drain)
+Contracts would be nice.
 
-Am I right to say this is not inherently part of the definition of
-IO_OR_GS_CODE(), but just a property that these functions have in
-practice?
+> + */
+> +void add_stats_callbacks(StatRetrieveFunc *stats_fn,
+> +                         SchemaRetrieveFunc *schemas_fn);
+> +
+> +/*
+> + * Helper routines for adding stats entries to the results lists.
+> + */
+> +void add_stats_entry(StatsResultList **, StatsProvider, const char *id,
+> +                     StatsList *stats_list);
+> +void add_stats_schema(StatsSchemaList **, StatsProvider, StatsTarget,
+> +                      StatsSchemaValueList *);
+> +
+> +#endif /* STATS_H */
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 1ebb89f46c..d65c5f0257 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -35,6 +35,7 @@
+>  #include "qapi/qapi-commands-control.h"
+>  #include "qapi/qapi-commands-machine.h"
+>  #include "qapi/qapi-commands-misc.h"
+> +#include "qapi/qapi-commands-stats.h"
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "qapi/type-helpers.h"
+>  #include "qapi/qmp/qerror.h"
+> @@ -43,6 +44,7 @@
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/intc/intc.h"
+>  #include "hw/rdma/rdma.h"
+> +#include "monitor/stats.h"
+>  
+>  NameInfo *qmp_query_name(Error **errp)
+>  {
+> @@ -441,3 +443,83 @@ HumanReadableText *qmp_x_query_irq(Error **errp)
+>  
+>      return human_readable_text_from_str(buf);
+>  }
+> +
+> +typedef struct StatsCallbacks {
+> +    StatRetrieveFunc *stats_cb;
+> +    SchemaRetrieveFunc *schemas_cb;
+> +    QTAILQ_ENTRY(StatsCallbacks) next;
+> +} StatsCallbacks;
+> +
+> +static QTAILQ_HEAD(, StatsCallbacks) stats_callbacks =
+> +    QTAILQ_HEAD_INITIALIZER(stats_callbacks);
+> +
+> +void add_stats_callbacks(StatRetrieveFunc *stats_fn,
+> +                         SchemaRetrieveFunc *schemas_fn)
+> +{
+> +    StatsCallbacks *entry = g_new(StatsCallbacks, 1);
+> +    entry->stats_cb = stats_fn;
+> +    entry->schemas_cb = schemas_fn;
+> +
+> +    QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
+> +}
+> +
+> +StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
+> +{
+> +    StatsResultList *stats_results = NULL;
+> +    StatsCallbacks *entry;
+> +    ERRP_GUARD();
+> +
+> +    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+> +        entry->stats_cb(&stats_results, filter->target, errp);
+> +        if (*errp) {
+> +            qapi_free_StatsResultList(stats_results);
+> +            return NULL;
+> +        }
+> +    }
+> +
+> +    return stats_results;
+> +}
+> +
+> +StatsSchemaList *qmp_query_stats_schemas(Error **errp)
+> +{
+> +    StatsSchemaList *stats_results = NULL;
+> +    StatsCallbacks *entry;
+> +    ERRP_GUARD();
+> +
+> +    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
+> +        entry->schemas_cb(&stats_results, errp);
+> +        if (*errp) {
+> +            qapi_free_StatsSchemaList(stats_results);
+> +            return NULL;
+> +        }
+> +    }
+> +
+> +    return stats_results;
+> +}
 
-In practice, the functions that are IO_OR_GS_CODE() are those that call
-AIO_WAIT_WHILE() - which drops the lock, so it must have been taken
-first. Of course, when calling from coroutine context, AIO_WAIT_WHILE()
-is wrong, so these functions all have a different code path for
-coroutines (or they aren't suitable to be called in coroutines at all).
+Have you considered making the callbacks return bool, following
+error.h's "Whenever practical, also return a value that indicates
+success / failure" recommendation?
 
-Using a different code path means that the restrictions from
-AIO_WAIT_WHILE() don't really apply any more and these functions become
-effectively IO_CODE() when called in a coroutine. (At least I'm not
-aware of any other piece of code apart from AIO_WAIT_WHILE() that makes
-a function IO_OR_GS_CODE().)
+> +
+> +void add_stats_entry(StatsResultList **stats_results, StatsProvider provider,
+> +                     const char *qom_path, StatsList *stats_list)
+> +{
+> +    StatsResult *entry = g_new0(StatsResult, 1);
+> +
+> +    entry->provider = provider;
+> +    if (qom_path) {
+> +        entry->has_qom_path = true;
+> +        entry->qom_path = g_strdup(qom_path);
+> +    }
+> +    entry->stats = stats_list;
+> +
+> +    QAPI_LIST_PREPEND(*stats_results, entry);
+> +}
+> +
+> +void add_stats_schema(StatsSchemaList **schema_results,
+> +                      StatsProvider provider, StatsTarget target,
+> +                      StatsSchemaValueList *stats_list)
+> +{
+> +    StatsSchema *entry = g_new0(StatsSchema, 1);
+> +
+> +    entry->provider = provider;
+> +    entry->target = target;
+> +    entry->stats = stats_list;
+> +    QAPI_LIST_PREPEND(*schema_results, entry);
+> +}
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index 656ef0e039..fd5c93d643 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -46,6 +46,7 @@ qapi_all_modules = [
+>    'replay',
+>    'run-state',
+>    'sockets',
+> +  'stats',
+>    'trace',
+>    'transaction',
+>    'yank',
+> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+> index 4912b9744e..92d7ecc52c 100644
+> --- a/qapi/qapi-schema.json
+> +++ b/qapi/qapi-schema.json
+> @@ -93,3 +93,4 @@
+>  { 'include': 'audio.json' }
+>  { 'include': 'acpi.json' }
+>  { 'include': 'pci.json' }
+> +{ 'include': 'stats.json' }
+> diff --git a/qapi/stats.json b/qapi/stats.json
+> new file mode 100644
+> index 0000000000..650d883297
+> --- /dev/null
+> +++ b/qapi/stats.json
+> @@ -0,0 +1,215 @@
+> +# -*- Mode: Python -*-
+> +# vim: filetype=python
+> +#
+> +# Copyright (c) 2022 Oracle and/or its affiliates.
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
+> +# See the COPYING file in the top-level directory.
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +##
+> +# = Statistics
+> +##
+> +
+> +##
+> +# @StatsType:
+> +#
+> +# Enumeration of statistics types
+> +#
+> +# @cumulative: stat is cumulative; value can only increase.
+> +# @instant: stat is instantaneous; value can increase or decrease.
+> +# @peak: stat is the peak value; value can only increase.
+> +# @linear-histogram: stat is a linear histogram.
+> +# @log2-histogram: stat is a logarithmic histogram, with one bucket
+> +#                  for each power of two.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum' : 'StatsType',
+> +  'data' : [ 'cumulative', 'instant', 'peak', 'linear-histogram', 'log2-histogram' ] }
 
-Surrounding IO_CODE() with aio_context_acquire/release() is in the
-definition of IO_CODE(), so your assumption seems right. (Not sure if
-it's actually necessary in all cases and whether all callers do this
-correctly, but with this definition we have declared that expections to
-this are in fact bugs.)
+Long line.
 
-(You mention bdrv_co_yield_to_drain() as an example. I don't think it's
-a good example. The function isn't annotated, but it seems to me that
-the correct annotation would be IO_CODE() anyway, i.e. safe to call from
-any thread, not just IO_OR_GS_CODE().)
+> +
+> +##
+> +# @StatsUnit:
+> +#
+> +# Enumeration of unit of measurement for statistics
+> +#
+> +# @bytes: stat reported in bytes.
+> +# @seconds: stat reported in seconds.
+> +# @cycles: stat reported in clock cycles.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum' : 'StatsUnit',
+> +  'data' : [ 'bytes', 'seconds', 'cycles' ] }
+> +
+> +##
+> +# @StatsProvider:
+> +#
+> +# Enumeration of statistics providers.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum': 'StatsProvider',
+> +  'data': [ ] }
+> +
+> +##
+> +# @StatsTarget:
+> +#
+> +# The kinds of objects on which one can request statistics.
+> +#
+> +# @vm: statistics that apply to the entire virtual machine or
+> +#      the entire QEMU process.
+> +#
+> +# @vcpu: statistics that apply to a single virtual CPU.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'enum': 'StatsTarget',
+> +  'data': [ 'vm', 'vcpu' ] }
+> +
+> +##
+> +# @StatsFilter:
+> +#
+> +# The arguments to the query-stats command; specifies a target for which to
+> +# request statistics.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsFilter',
+> +  'data': { 'target': 'StatsTarget' } }
+> +
+> +##
+> +# @StatsValue:
+> +#
+> +# @scalar: single unsigned 64-bit integers.
+> +# @list: list of unsigned 64-bit integers (used for histograms).
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'alternate': 'StatsValue',
+> +  'data': { 'scalar': 'uint64',
+> +            'list': [ 'uint64' ] } }
+> +
+> +##
+> +# @Stats:
+> +#
+> +# @name: name of stat.
+> +# @value: stat value.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'Stats',
+> +  'data': { 'name': 'str',
+> +            'value' : 'StatsValue' } }
+> +
+> +##
+> +# @StatsResult:
+> +#
+> +# @provider: provider for this set of statistics.
+> +#
+> +# @qom-path: Path to the object for which the statistics are returned,
+> +#            if the object is exposed in the QOM tree
+> +#
+> +# @stats: list of statistics.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsResult',
+> +  'data': { 'provider': 'StatsProvider',
+> +            '*qom-path': 'str',
+> +            'stats': [ 'Stats' ] } }
+> +
+> +##
+> +# @query-stats:
+> +#
+> +# Return runtime-collected statistics for objects such as the
+> +# VM or its vCPUs.
+> +#
+> +# The arguments are a StatsFilter and specify the provider and objects
+> +# to return statistics about.
+> +#
+> +# Returns: a list of StatsResult, one for each provider and object
+> +#          (e.g., for each vCPU).
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'command': 'query-stats',
+> +  'data': 'StatsFilter',
+> +  'boxed': true,
+> +  'returns': [ 'StatsResult' ] }
+> +
+> +##
+> +# @StatsSchemaValue:
+> +#
+> +# Schema for a single statistic.
+> +#
+> +# @name: name of the statistic; each element of the schema is uniquely
+> +#        identified by a target, a provider (both available in @StatsSchema)
+> +#        and the name.
+> +#
+> +# @type: kind of statistic.
+> +#
+> +# @unit: basic unit of measure for the statistic; if missing, the statistic
+> +#        is a simple number or counter.
+> +#
+> +# @base: base for the multiple of @unit in which the statistic is measured.
+> +#        Only present if @exponent is non-zero; @base and @exponent together
+> +#        form a SI prefix (e.g., _nano-_ for ``base=10`` and ``exponent=-9``)
+> +#        or IEC binary prefix (e.g. _kibi-_ for ``base=2`` and ``exponent=10``)
+> +#
+> +# @exponent: exponent for the multiple of @unit in which the statistic is
+> +#            expressed, or 0 for the basic unit
+> +#
+> +# @bucket-size: Present when @type is "linear-histogram", contains the width
+> +#               of each bucket of the histogram.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsSchemaValue',
+> +  'data': { 'name': 'str',
+> +            'type': 'StatsType',
+> +            '*unit': 'StatsUnit',
+> +            '*base': 'int8',
+> +            'exponent': 'int16',
+> +            '*bucket-size': 'uint32' } }
+> +
+> +##
+> +# @StatsSchema:
+> +#
+> +# Schema for all available statistics for a provider and target.
+> +#
+> +# @provider: provider for this set of statistics.
+> +#
+> +# @target: the kind of object that can be queried through the provider.
+> +#
+> +# @stats: list of statistics.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'StatsSchema',
+> +  'data': { 'provider': 'StatsProvider',
+> +            'target': 'StatsTarget',
+> +            'stats': [ 'StatsSchemaValue' ] } }
+> +
+> +##
+> +# @query-stats-schemas:
+> +#
+> +# Return the schema for all available runtime-collected statistics.
+> +#
+> +# Note: runtime-collected statistics and their names fall outside QEMU's
+> +# usual deprecation policies.  QEMU will try to keep the set of available
+> +# data stable, together with their names, but will not guarantee stability
+> +# at all costs; the same is true of providers that source statistics
+> +# externally, e.g. from Linux.  For example, if the same value is being
+> +# tracked with different names on different architectures or by different
+> +# providers, one of them might be renamed.  A statistic might go away if
+> +# an algorithm is changed or some code is removed; changing a default might
+> +# cause previously useful statistics to always report 0.  Such changes,
+> +# however, are expected to be rare.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'command': 'query-stats-schemas',
+> +  'data': { },
+> +  'returns': [ 'StatsSchema' ] }
 
-> * to call these functions with the lock taken, the code has to run in the
-> BDS's home iothread.  Attempts to do otherwise results in deadlocks (the
-> main loop's AIO_WAIT_WHILEs expect progress from the iothread, that cannot
-> happen without releasing the aiocontext lock)
-
-This problem can't happen in the main thread itself, AIO_WAIT_WHILE() is
-safe both in the home thread and the main thread (at least as long as
-you lock only once) because it temporarily drops the lock. It has also
-become the definition of IO_OR_GS_CODE(): This code has to run in the
-home thread or the main thread.
-
-
-Of course, above I just concluded that when called from coroutines, in
-practice IO_OR_GS_CODE() essentially turns into IO_CODE(). This is
-supposed to allow much more:
-
- * I/O API functions. These functions are thread-safe, and therefore
- * can run in any thread as long as the thread has called
- * aio_context_acquire/release().
-
-Come to think of it, I believe that many of the functions we declared
-IO_CODE() are actually just IO_OR_GS_CODE() (at best; for iothreads,
-they certainly require running in the home thread, but the main thread
-allowed by IO_OR_GS_CODE() might not work). We have all the coroutine
-machinery so that the AioContext lock of the current thread is
-automatically released and reacquired across yield. However, this is the
-wrong AioContext when called from a different thread, so we need an
-additional lock - which should be dropped during yield, too, but it
-doesn't happen.
-
-Maybe this is really the scenario you mean with this point?
-
-Switching to drain for locking doesn't solve the problem, but only
-possibly defer it. In order to complete the multiqueue work, we need
-to make IO_CODE() functions actually conform to the definition of
-IO_CODE().
-
-Do we have a plan what this should look like in the final state when all
-the multiqueue work is completed? Will it require replacing the more or
-less automatic AioContext lock handling that we currently have in
-coroutines with explicit unlock/lock around all yield points? I assume
-that some kind of lock will still have to be held and it wouldn't just
-disappear with the removal of the AioContext lock? Or will we only have
-coroutine locks which don't have this problem?
-
-> * running the code in the BDS's home iothread is not possible for
-> GLOBAL_STATE_CODE() functions (unless the BDS home iothread is the main
-> thread, but that cannot be guaranteed in general)
-
-There is nothing that stops GLOBAL_STATE_CODE() from scheduling work in
-the home iothread of a BDS and then waiting for it - or if it is a
-coroutine, even to reschedule itself into the BDS home thread
-temporarily.
-
-This is essentially what all of the generated_co_wrapper functions do,
-and the coroutine case is what bdrv_co_enter() does.
-
-So I'm not sure what you mean by this?
-
-Kevin
+With the long line wrapped:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
