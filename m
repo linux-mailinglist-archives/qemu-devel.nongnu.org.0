@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A88532A15
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 14:13:36 +0200 (CEST)
-Received: from localhost ([::1]:60246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD632532971
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:41:41 +0200 (CEST)
+Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntTPr-0007vY-Gf
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 08:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32958)
+	id 1ntSuy-0007m0-SH
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ntSJp-00066t-7Z
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:03:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34738)
+ id 1ntSKn-00069L-4E
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:04:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ntSJh-0003X9-I6
- for qemu-devel@nongnu.org; Tue, 24 May 2022 07:03:12 -0400
+ id 1ntSJl-0003aM-2O
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 07:03:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653390188;
+ s=mimecast20190719; t=1653390191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DuoS4lAc9nEl2/Uu9IBjdWqa4ATF2VoAuiAH2VLQaIU=;
- b=DMdmlPm7Xi0kijzf67ZG9j2nw4Egs9MIK4cGFGF73srbm1zpEqlcpceszYFdEdty/EkYN1
- 6BnxJJoiRAt90Ewzbj6M7ZP5wwH21NQiU2DvHMlit169Htl39OHkB6/J9IVqbG43AdR4Ja
- obdKZf7nnS+idA1HIj1Zb8SHyLJZfxM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RbbA8BocURo/qAoAek6v07EPRR57Pp5v+vIEMEShyTM=;
+ b=QLqzvSUe3YTh4ls8L2+wzewHnxcJ80K/DmSTi4fQhvgEFRhrd7PmXadbtHDKwfGDebfJKb
+ ja5S3AzgayBy5vvSXCGAy0jA6DoP58IaDpWE/S50tvAvAXzvSs8MKjk+h7TSZHSDcwxQji
+ ads+AMKMGUbKD3vp2C+8I8HOoGH1GHI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-246-sEJuZ6ZpPkCacYo5_Yb2Ew-1; Tue, 24 May 2022 07:03:05 -0400
-X-MC-Unique: sEJuZ6ZpPkCacYo5_Yb2Ew-1
+ us-mta-597-TFcTaLUBNLmp4FiDLwatcg-1; Tue, 24 May 2022 07:03:07 -0400
+X-MC-Unique: TFcTaLUBNLmp4FiDLwatcg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53D84801228;
- Tue, 24 May 2022 11:03:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F4E03817A6B;
+ Tue, 24 May 2022 11:03:07 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8FEE1121315;
- Tue, 24 May 2022 11:03:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F5351121315;
+ Tue, 24 May 2022 11:03:05 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -50,16 +50,16 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH 16/20] migration: remove the QEMUFileOps 'close' callback
-Date: Tue, 24 May 2022 12:02:31 +0100
-Message-Id: <20220524110235.145079-17-berrange@redhat.com>
+Subject: [PATCH 17/20] migration: remove the QEMUFileOps 'get_buffer' callback
+Date: Tue, 24 May 2022 12:02:32 +0100
+Message-Id: <20220524110235.145079-18-berrange@redhat.com>
 In-Reply-To: <20220524110235.145079-1-berrange@redhat.com>
 References: <20220524110235.145079-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,29 +83,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This directly implements the close logic using QIOChannel APIs.
+This directly implements the get_buffer logic using QIOChannel APIs.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/qemu-file-channel.c | 12 ------------
- migration/qemu-file.c         | 12 ++++++------
- migration/qemu-file.h         | 10 ----------
- 3 files changed, 6 insertions(+), 28 deletions(-)
+ migration/qemu-file-channel.c | 29 -----------------------------
+ migration/qemu-file.c         | 18 ++++++++++++++++--
+ migration/qemu-file.h         |  9 ---------
+ 3 files changed, 16 insertions(+), 40 deletions(-)
 
 diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-index 0350d367ec..8ff58e81f9 100644
+index 8ff58e81f9..7b32831752 100644
 --- a/migration/qemu-file-channel.c
 +++ b/migration/qemu-file-channel.c
-@@ -102,16 +102,6 @@ static ssize_t channel_get_buffer(void *opaque,
+@@ -74,34 +74,6 @@ static ssize_t channel_writev_buffer(void *opaque,
  }
  
  
--static int channel_close(void *opaque, Error **errp)
+-static ssize_t channel_get_buffer(void *opaque,
+-                                  uint8_t *buf,
+-                                  int64_t pos,
+-                                  size_t size,
+-                                  Error **errp)
 -{
--    int ret;
 -    QIOChannel *ioc = QIO_CHANNEL(opaque);
--    ret = qio_channel_close(ioc, errp);
--    object_unref(OBJECT(ioc));
+-    ssize_t ret;
+-
+-    do {
+-        ret = qio_channel_read(ioc, (char *)buf, size, errp);
+-        if (ret < 0) {
+-            if (ret == QIO_CHANNEL_ERR_BLOCK) {
+-                if (qemu_in_coroutine()) {
+-                    qio_channel_yield(ioc, G_IO_IN);
+-                } else {
+-                    qio_channel_wait(ioc, G_IO_IN);
+-                }
+-            } else {
+-                return -EIO;
+-            }
+-        }
+-    } while (ret == QIO_CHANNEL_ERR_BLOCK);
+-
 -    return ret;
 -}
 -
@@ -113,73 +131,67 @@ index 0350d367ec..8ff58e81f9 100644
  static QEMUFile *channel_get_input_return_path(void *opaque)
  {
      QIOChannel *ioc = QIO_CHANNEL(opaque);
-@@ -128,14 +118,12 @@ static QEMUFile *channel_get_output_return_path(void *opaque)
+@@ -117,7 +89,6 @@ static QEMUFile *channel_get_output_return_path(void *opaque)
+ }
  
  static const QEMUFileOps channel_input_ops = {
-     .get_buffer = channel_get_buffer,
--    .close = channel_close,
+-    .get_buffer = channel_get_buffer,
      .get_return_path = channel_get_input_return_path,
  };
  
- 
- static const QEMUFileOps channel_output_ops = {
-     .writev_buffer = channel_writev_buffer,
--    .close = channel_close,
-     .get_return_path = channel_get_output_return_path,
- };
- 
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 171b9f85bf..a855ce33dc 100644
+index a855ce33dc..e024b43851 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -405,16 +405,16 @@ void qemu_file_credit_transfer(QEMUFile *f, size_t size)
-  */
- int qemu_fclose(QEMUFile *f)
- {
--    int ret;
-+    int ret, ret2;
-     qemu_fflush(f);
-     ret = qemu_file_get_error(f);
- 
--    if (f->ops->close) {
--        int ret2 = f->ops->close(f->ioc, NULL);
--        if (ret >= 0) {
--            ret = ret2;
--        }
-+    ret2 = qio_channel_close(f->ioc, NULL);
-+    if (ret >= 0) {
-+        ret = ret2;
+@@ -374,8 +374,22 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+         return 0;
      }
-+    g_clear_pointer(&f->ioc, object_unref);
+ 
+-    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
+-                             IO_BUF_SIZE - pending, &local_error);
++    do {
++        len = qio_channel_read(f->ioc,
++                               (char *)f->buf + pending,
++                               IO_BUF_SIZE - pending,
++                               &local_error);
++        if (len == QIO_CHANNEL_ERR_BLOCK) {
++            if (qemu_in_coroutine()) {
++                qio_channel_yield(f->ioc, G_IO_IN);
++            } else {
++                qio_channel_wait(f->ioc, G_IO_IN);
++            }
++        } else if (len < 0) {
++            len = EIO;
++        }
++    } while (len == QIO_CHANNEL_ERR_BLOCK);
 +
-     /* If any error was spotted before closing, we should report it
-      * instead of the close() return value.
-      */
+     if (len > 0) {
+         f->buf_size += len;
+         f->total_transferred += len;
 diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 6db4bb9fdb..7ec105bf96 100644
+index 7ec105bf96..cd49184c00 100644
 --- a/migration/qemu-file.h
 +++ b/migration/qemu-file.h
-@@ -37,15 +37,6 @@ typedef ssize_t (QEMUFileGetBufferFunc)(void *opaque, uint8_t *buf,
-                                         int64_t pos, size_t size,
-                                         Error **errp);
+@@ -29,14 +29,6 @@
+ #include "exec/cpu-common.h"
+ #include "io/channel.h"
  
--/* Close a file
-- *
-- * Return negative error number on error, 0 or positive value on success.
-- *
-- * The meaning of return value on success depends on the specific back-end being
-- * used.
+-/* Read a chunk of data from a file at the given position.  The pos argument
+- * can be ignored if the file is only be used for streaming.  The number of
+- * bytes actually read should be returned.
 - */
--typedef int (QEMUFileCloseFunc)(void *opaque, Error **errp);
+-typedef ssize_t (QEMUFileGetBufferFunc)(void *opaque, uint8_t *buf,
+-                                        int64_t pos, size_t size,
+-                                        Error **errp);
 -
  /*
   * This function writes an iovec to file. The handler must write all
   * of the data or return a negative errno value.
-@@ -87,7 +78,6 @@ typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
+@@ -77,7 +69,6 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
+ typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
  
  typedef struct QEMUFileOps {
-     QEMUFileGetBufferFunc *get_buffer;
--    QEMUFileCloseFunc *close;
+-    QEMUFileGetBufferFunc *get_buffer;
      QEMUFileWritevBufferFunc *writev_buffer;
      QEMURetPathFunc *get_return_path;
  } QEMUFileOps;
