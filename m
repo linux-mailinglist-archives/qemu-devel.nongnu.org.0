@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89E453283A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:52:14 +0200 (CEST)
-Received: from localhost ([::1]:50936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E80532862
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:59:06 +0200 (CEST)
+Received: from localhost ([::1]:57392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntS97-0005iW-RF
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
+	id 1ntSFl-0002GW-UX
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ntRtL-0007jo-Um
+ id 1ntRtL-0007jp-V6
  for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23582)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ntRsy-0007YW-0h
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:47 -0400
+ id 1ntRsu-0007YP-RX
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653388506;
+ s=mimecast20190719; t=1653388505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vB+1qWz12PxGo4yIzXJpEL6LMO5HgKCGmVYg/eGp2FU=;
- b=Dtz0ala73dFubuKdJRwmM78hzRgLWuhLgBeTSSWxhRt+LN3pQtyv0fW+4Wb/ptf/hz6gql
- szNaIHs73W6MDI28PK9VhGXpvC8A+QCo7i80UqRVHBFKpxmIvAwCwP0x9thl2CjlMUSKJn
- Ha2cwnbAQO6B+GUTdGa5m9IkvejAsnA=
+ bh=yYmH7/LPGs2VixGKyKHcHumFjSKoWTOCFGb4FKoabFM=;
+ b=C175ZYDDHNLFGirJzVFdtxjL23/WLn67Ys1zwsktqGFuEYr27qjsCINm0fGdA1hFAfjbmu
+ dk/IOQ8/5hNg4FzJfRIi8GAhufX4p1gBvVc8BpB/wAEKzatZDBkuh37sA/7G4Wiyp9Zw9C
+ bqFvd7Duqq7ukjisty+DBDYIPaEOeec=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-7HhtsgdCO920vH5YnqHt0Q-1; Tue, 24 May 2022 06:35:03 -0400
-X-MC-Unique: 7HhtsgdCO920vH5YnqHt0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-584-Ll1GeqzgOAijRIMb2koXoA-1; Tue, 24 May 2022 06:35:04 -0400
+X-MC-Unique: Ll1GeqzgOAijRIMb2koXoA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C86F3101A52C;
- Tue, 24 May 2022 10:35:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07A87185A7B2;
+ Tue, 24 May 2022 10:35:04 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78C8FC08087;
- Tue, 24 May 2022 10:35:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFFDC2026D6A;
+ Tue, 24 May 2022 10:35:03 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v4 07/15] qga: throw an Error in ga_channel_open()
-Date: Tue, 24 May 2022 12:34:45 +0200
-Message-Id: <20220524103453.162665-8-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 08/15] qga: replace qemu_open_old() with qga_open_cloexec()
+Date: Tue, 24 May 2022 12:34:46 +0200
+Message-Id: <20220524103453.162665-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20220524103453.162665-1-marcandre.lureau@redhat.com>
 References: <20220524103453.162665-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -84,139 +84,151 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Allow for a single point of error reporting, and further refactoring.
+qemu_open_old() uses qemu_open_internal() which handles special
+"/dev/fdset/" path for monitor fd sets, set CLOEXEC, and uses Error
+reporting (and some O_DIRECT special error casing).
+
+The monitor fdset handling is unnecessary for qga, use
+qga_open_cloexec() instead.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/channel-posix.c | 42 +++++++++++++++++-------------------------
- 1 file changed, 17 insertions(+), 25 deletions(-)
+ qga/channel-posix.c  | 15 ++++++++++-----
+ qga/commands-posix.c | 25 +++++++++++++------------
+ 2 files changed, 23 insertions(+), 17 deletions(-)
 
 diff --git a/qga/channel-posix.c b/qga/channel-posix.c
-index a996858e24..25fcc5cb1a 100644
+index 25fcc5cb1a..6b9ab5191c 100644
 --- a/qga/channel-posix.c
 +++ b/qga/channel-posix.c
-@@ -119,7 +119,7 @@ static int ga_channel_client_add(GAChannel *c, int fd)
- }
+@@ -1,8 +1,10 @@
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include <termios.h>
+ #include "qapi/error.h"
+ #include "qemu/sockets.h"
+ #include "channel.h"
++#include "cutils.h"
  
- static gboolean ga_channel_open(GAChannel *c, const gchar *path,
--                                GAChannelMethod method, int fd)
-+                                GAChannelMethod method, int fd, Error **errp)
- {
-     int ret;
-     c->method = method;
-@@ -133,21 +133,20 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
- #endif
-                            );
-         if (fd == -1) {
--            g_critical("error opening channel: %s", strerror(errno));
-+            error_setg_errno(errp, errno, "error opening channel");
-             return false;
-         }
  #ifdef CONFIG_SOLARIS
-         ret = ioctl(fd, I_SETSIG, S_OUTPUT | S_INPUT | S_HIPRI);
-         if (ret == -1) {
--            g_critical("error setting event mask for channel: %s",
--                       strerror(errno));
-+            error_setg_errno(errp, errno, "error setting event mask for channel");
-             close(fd);
-             return false;
-         }
- #endif
-         ret = ga_channel_client_add(c, fd);
-         if (ret) {
--            g_critical("error adding channel to main loop");
-+            error_setg(errp, "error adding channel to main loop");
-             close(fd);
-             return false;
-         }
-@@ -159,7 +158,7 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
+ #include <stropts.h>
+@@ -127,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
+     switch (c->method) {
+     case GA_CHANNEL_VIRTIO_SERIAL: {
          assert(fd < 0);
-         fd = qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
+-        fd = qemu_open_old(path, O_RDWR | O_NONBLOCK
++        fd = qga_open_cloexec(
++            path,
+ #ifndef CONFIG_SOLARIS
+-                           | O_ASYNC
++            O_ASYNC |
+ #endif
+-                           );
++            O_RDWR | O_NONBLOCK,
++            0,
++            errp
++        );
          if (fd == -1) {
--            g_critical("error opening channel: %s", strerror(errno));
-+            error_setg_errno(errp, errno, "error opening channel");
+             error_setg_errno(errp, errno, "error opening channel");
+             return false;
+@@ -156,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
+         struct termios tio;
+ 
+         assert(fd < 0);
+-        fd = qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
++        fd = qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0, errp);
+         if (fd == -1) {
+-            error_setg_errno(errp, errno, "error opening channel");
              return false;
          }
          tcgetattr(fd, &tio);
-@@ -180,7 +179,7 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-         tcsetattr(fd, TCSANOW, &tio);
-         ret = ga_channel_client_add(c, fd);
-         if (ret) {
--            g_critical("error adding channel to main loop");
-+            error_setg(errp, "error adding channel to main loop");
-             close(fd);
-             return false;
-         }
-@@ -188,12 +187,8 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-     }
-     case GA_CHANNEL_UNIX_LISTEN: {
-         if (fd < 0) {
--            Error *local_err = NULL;
--
--            fd = unix_listen(path, &local_err);
--            if (local_err != NULL) {
--                g_critical("%s", error_get_pretty(local_err));
--                error_free(local_err);
-+            fd = unix_listen(path, errp);
-+            if (fd < 0) {
-                 return false;
-             }
-         }
-@@ -202,24 +197,19 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-     }
-     case GA_CHANNEL_VSOCK_LISTEN: {
-         if (fd < 0) {
--            Error *local_err = NULL;
-             SocketAddress *addr;
-             char *addr_str;
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 28fe19d932..e3b893cd47 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -1394,6 +1394,7 @@ static GuestDiskInfoList *get_disk_partitions(
  
-             addr_str = g_strdup_printf("vsock:%s", path);
--            addr = socket_parse(addr_str, &local_err);
-+            addr = socket_parse(addr_str, errp);
-             g_free(addr_str);
--            if (local_err != NULL) {
--                g_critical("%s", error_get_pretty(local_err));
--                error_free(local_err);
-+            if (!addr) {
-                 return false;
-             }
- 
--            fd = socket_listen(addr, 1, &local_err);
-+            fd = socket_listen(addr, 1, errp);
-             qapi_free_SocketAddress(addr);
--            if (local_err != NULL) {
--                g_critical("%s", error_get_pretty(local_err));
--                error_free(local_err);
-+            if (fd < 0) {
-                 return false;
-             }
-         }
-@@ -227,7 +217,7 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-         break;
-     }
-     default:
--        g_critical("error binding/listening to specified socket");
-+        error_setg(errp, "error binding/listening to specified socket");
-         return false;
-     }
- 
-@@ -272,12 +262,14 @@ GIOStatus ga_channel_read(GAChannel *c, gchar *buf, gsize size, gsize *count)
- GAChannel *ga_channel_new(GAChannelMethod method, const gchar *path,
-                           int listen_fd, GAChannelCallback cb, gpointer opaque)
+ static void get_nvme_smart(GuestDiskInfo *disk)
  {
 +    Error *err = NULL;
-     GAChannel *c = g_new0(GAChannel, 1);
-     c->event_cb = cb;
-     c->user_data = opaque;
+     int fd;
+     GuestNVMeSmart *smart;
+     NvmeSmartLog log = {0};
+@@ -1406,9 +1407,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)
+                  | (((sizeof(log) >> 2) - 1) << 16)
+     };
  
--    if (!ga_channel_open(c, path, method, listen_fd)) {
--        g_critical("error opening channel");
-+    if (!ga_channel_open(c, path, method, listen_fd, &err)) {
-+        g_critical("%s", error_get_pretty(err));
+-    fd = qemu_open_old(disk->name, O_RDONLY);
++    fd = qga_open_cloexec(disk->name, O_RDONLY, 0, &err);
+     if (fd == -1) {
+-        g_debug("Failed to open device: %s: %s", disk->name, g_strerror(errno));
++        g_debug("Failed to open device: %s: %s", disk->name, error_get_pretty(err));
 +        error_free(err);
-         ga_channel_free(c);
+         return;
+     }
+ 
+@@ -1739,9 +1741,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
+             }
+         }
+ 
+-        fd = qemu_open_old(mount->dirname, O_RDONLY);
++        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
+         if (fd == -1) {
+-            error_setg_errno(errp, errno, "failed to open %s", mount->dirname);
+             goto error;
+         }
+ 
+@@ -1806,7 +1807,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+ 
+     QTAILQ_FOREACH(mount, &mounts, next) {
+         logged = false;
+-        fd = qemu_open_old(mount->dirname, O_RDONLY);
++        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0, NULL);
+         if (fd == -1) {
+             continue;
+         }
+@@ -1866,21 +1867,20 @@ static void guest_fsfreeze_cleanup(void)
+ GuestFilesystemTrimResponse *
+ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+ {
++    ERRP_GUARD();
+     GuestFilesystemTrimResponse *response;
+     GuestFilesystemTrimResult *result;
+     int ret = 0;
+     FsMountList mounts;
+     struct FsMount *mount;
+     int fd;
+-    Error *local_err = NULL;
+     struct fstrim_range r;
+ 
+     slog("guest-fstrim called");
+ 
+     QTAILQ_INIT(&mounts);
+-    build_fs_mount_list(&mounts, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    build_fs_mount_list(&mounts, errp);
++    if (*errp) {
          return NULL;
      }
+ 
+@@ -1892,11 +1892,12 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+ 
+         QAPI_LIST_PREPEND(response->paths, result);
+ 
+-        fd = qemu_open_old(mount->dirname, O_RDONLY);
++        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
+         if (fd == -1) {
+-            result->error = g_strdup_printf("failed to open: %s",
+-                                            strerror(errno));
++            result->error = g_strdup(error_get_pretty(*errp));
+             result->has_error = true;
++            error_free(*errp);
++            *errp = NULL;
+             continue;
+         }
+ 
 -- 
 2.36.1
 
