@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFDD533227
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:05:48 +0200 (CEST)
-Received: from localhost ([::1]:38122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3102533235
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 22:11:02 +0200 (CEST)
+Received: from localhost ([::1]:46016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntamp-0007fK-UD
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55884)
+	id 1ntart-0005ca-L3
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 16:11:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntae6-00055t-3F
- for qemu-devel@nongnu.org; Tue, 24 May 2022 15:56:46 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35483)
+ id 1ntaeM-0005ju-6E
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 15:57:02 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ntae4-0000EM-0U
- for qemu-devel@nongnu.org; Tue, 24 May 2022 15:56:45 -0400
-Received: by mail-ej1-x635.google.com with SMTP id y13so36756518eje.2
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 12:56:43 -0700 (PDT)
+ id 1ntaeK-0000F6-9g
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 15:57:01 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id q21so17301987ejm.1
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 12:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i+mH/Xd7bZe/zEblIr5ufOOWbAi2+ClX8GBlt05AAZA=;
- b=kSU2fO3OcFannowuAypLGeY2nYwOinIV+Sgh16tIb3kzSL2dcQG30DRSohYlMg+SIV
- aZ91w+rGwTkJhoEp1+2WkjORbDLSk9cWtp1xuPoJwTBemdJXr0R6OaACVmF4nQ70q+v2
- kuPkbLy72gPtpbC+dppQ7d6a2i/tUqbl2m7PbDhMn1M4h6JsU9d36U6bT6im4EAEgNqc
- uC9FKmx7cZVkZ+G9F2KYZh4xTr4uKtR2ssnl3/XV9V9yFZM8dwfNItnA+fQyUJ4ER/pf
- MqXZwIrQRXtO/uqAucZjiH/tf2TiCUHgDTiS8ON4x/yuOCzIXdTU2QAm/q/SskM1P94j
- TTGg==
+ :cc; bh=PLKmYJXvdLzYjrkthFQ9bNuXdYRo5TlxyUr6SzxaTBo=;
+ b=aswS1Baag6CYpP6EEjBIqA9+8GeQrU4o+4Mnull42EPEtRxjCwVuf6fp7DHoYof1VJ
+ yD5f00wWE5OAMP2WeJCInaEJQdSpckGnOlTSUKeoWJUkGN+9hFcPSo0eSgmdOXkkrEV0
+ nguKSTeeGodGHUsNstBRM4ItxpKULgmIoeeOmfP+huUkDlaJtX4qFMSEcBK4ypi+s7eV
+ NVQrmY/znRgNHsrYi4cPaMj6i1Gr8bjQQeAiB8BG1X2WSwfP+4w/qB12/76yCO0oHgo2
+ hjgTf8CL3jHYxIpgh2C48Bv2g6lZ06jcTylZMnDlbmAfUFzOzAKQANz6f1c2E8V2Pvmp
+ FhJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=i+mH/Xd7bZe/zEblIr5ufOOWbAi2+ClX8GBlt05AAZA=;
- b=Lu2x7+xnnP5f/C8Vjag8pFNSt27bzxVC2oJXLORKtQ2/HUgG7Td0qh6jxu/sWL3oKC
- m1YdyxDvZYgO0PRrQI5lBIza2JK3e4ztQ/J9S6p6egXbKiyvPELnHF9TSJgt6LytQbaK
- HZZ5XV62bFx+zGURkPN6JloDEH1rmkSNbmcy98pU58umqKR893q5DdjNaRaEjD/8Lv1V
- dn5O3/kQr8h3vmrIRwiIV97ARLm6mZuEvyM57cn/poVcfy8REbVbk+1ivN0zbQbcAQrm
- czz/fXXySIQHAY7jtxGVpc7OjL9E3y5ZPbZOhY7kYJ3V3f5Lj+8VqfaOeC599gfimxpJ
- Q+OA==
-X-Gm-Message-State: AOAM533s4miWwgrqDKFrHEBC+tLrbf+75OSkfRYobhg3Q3iyNt9pSYfZ
- OfiG3raKviDiYV7OjJ6Dj8mHe1mYo4Im9h8ch+H1tLJx1O3McA==
-X-Google-Smtp-Source: ABdhPJxX/xMKwFKF8PtKis4Wy4178uXAWvmAEggRznon+AKq6qb3FzEFuCBUwuDgwjKwCcAblxEbezD9+4uYrugFwu4=
-X-Received: by 2002:a17:906:9c82:b0:6df:baa2:9f75 with SMTP id
- fj2-20020a1709069c8200b006dfbaa29f75mr25888713ejc.762.1653422202693; Tue, 24
- May 2022 12:56:42 -0700 (PDT)
+ bh=PLKmYJXvdLzYjrkthFQ9bNuXdYRo5TlxyUr6SzxaTBo=;
+ b=vswd9hhUCT51RJT7rYU84LjsoItseVWH265uWAnM8pFvnrp/vT4BI/8aTXfDj+IsPt
+ Zc/Qrao8jdstLWfu53sphEs/dI3vYMCITyb/bVCSB82PuGncpV8PF9+ipUv0it9RDBv9
+ da3yZlswZkzF65+hJ6T8GLwBOE+q7jGiFRxh8JlgPEuHKC27ojug7NxnTMBGDfvRSJjP
+ OcaxxtIUSRnwqS0r8Srpfc9L5wk3jW7wbTGK3FO9w8ArK5rr4JGnsBNquQvZucaLXx/1
+ Voh5/bMJ5DJttlIvb4cnXP9OIVabdvNyP3og35/6Y03J5Eysf/Ae6EhJC4VaL08e6MuF
+ 8OpA==
+X-Gm-Message-State: AOAM533qIY7kEliKMtfNxAuyV5aZO5kJgci1E+HdVUnUkHt3csS5PMkZ
+ 2VTr2FshQPcrW65g5whvmJdRBoAywj17C9/qU4Jy8Q==
+X-Google-Smtp-Source: ABdhPJzO8Titd5GGTJVbXDGl4ABDF+5STvR88z4gT6wg5JNOVppwNK6EF30WO5BaczdUCtCEZkPt/iuQzml7wF6+VhI=
+X-Received: by 2002:a17:907:9709:b0:6fd:c0e1:c86b with SMTP id
+ jg9-20020a170907970900b006fdc0e1c86bmr25448007ejc.600.1653422219043; Tue, 24
+ May 2022 12:56:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220519153402.41540-1-damien.hedde@greensocs.com>
- <20220519153402.41540-3-damien.hedde@greensocs.com>
-In-Reply-To: <20220519153402.41540-3-damien.hedde@greensocs.com>
+ <20220519153402.41540-4-damien.hedde@greensocs.com>
+In-Reply-To: <20220519153402.41540-4-damien.hedde@greensocs.com>
 From: Jim Shu <jim.shu@sifive.com>
-Date: Wed, 25 May 2022 03:56:30 +0800
-Message-ID: <CALw707q_53YGsyEc=B66-f8xQLTS2FtWtrRDYcHY92r63JAQDw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] machine&vl: introduce phase_until() to handle
- phase transitions
+Date: Wed, 25 May 2022 03:56:46 +0800
+Message-ID: <CALw707oTgZ-pJHjFq6wX4+EeeTiQQEuBsjebQJ4jvD_kcWvW+g@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] vl: support machine-initialized target in
+ phase_until()
 To: Damien Hedde <damien.hedde@greensocs.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  mark.burton@greensocs.com, edgari@xilinx.com, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>
-Content-Type: multipart/alternative; boundary="0000000000000e4c0805dfc75b86"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=jim.shu@sifive.com; helo=mail-ej1-x635.google.com
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000007bcce05dfc75cb5"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=jim.shu@sifive.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,279 +86,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000e4c0805dfc75b86
+--00000000000007bcce05dfc75cb5
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Tested-by: Jim Shu <jim.shu@sifive.com>
 
-On Thu, May 19, 2022 at 11:41 PM Damien Hedde <damien.hedde@greensocs.com>
+On Thu, May 19, 2022 at 11:36 PM Damien Hedde <damien.hedde@greensocs.com>
 wrote:
 
-> phase_until() is implemented in vl.c and is meant to be used
-> to make startup progress up to a specified phase being reached().
-> At this point, no behavior change is introduced: phase_until()
-> only supports a single double transition corresponding
-> to the functionality of qmp_exit_preconfig():
-> + accel-created -> machine-initialized -> machine-ready
+> phase_until() now supports the following transitions:
+> + accel-created -> machine-initialized
+> + machine-initialized -> machine-ready
 >
-> As a result qmp_exit_preconfig() now uses phase_until().
+> As a consequence we can now support the use of qmp_exit_preconfig()
+> from phases _accel-created_ and _machine-initialized_.
 >
 > This commit is a preparation to support cold plugging a device
-> using qapi command (which will be introduced in a following commit).
-> For this we need fine grain control of the phase.
+> using qapi (which will be introduced in a following commit). For this
+> we need fine grain control of the phase.
 >
 > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
 >
-> v5:
->   + refactor to avoid indentation change
+> v5: update due to refactor of previous commit
 > ---
->  include/hw/qdev-core.h | 14 +++++++++++++
->  softmmu/vl.c           | 46 ++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 60 insertions(+)
+>  softmmu/vl.c | 26 +++++++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 5 deletions(-)
 >
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index e29c705b74..5f73d06408 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -909,4 +909,18 @@ extern bool phase_check(MachineInitPhase phase);
->   */
->  extern void phase_advance(MachineInitPhase phase);
->
-> +/**
-> + * @phase_until:
-> + * @phase: the target phase
-> + * @errp: error report
-> + *
-> + * Make the machine init progress until the target phase is reached.
-> + *
-> + * Its is a no-op is the target phase is the current or an earlier
-> + * phase.
-> + *
-> + * Returns true in case of success.
-> + */
-> +extern bool phase_until(MachineInitPhase phase, Error **errp);
-> +
->  #endif
 > diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 84a31eba76..7f8d15b5b8 100644
+> index 7f8d15b5b8..ea15e37973 100644
 > --- a/softmmu/vl.c
 > +++ b/softmmu/vl.c
-> @@ -2702,11 +2702,17 @@ void qmp_x_exit_preconfig(Error **errp)
->          error_setg(errp, "The command is permitted only before machine
+> @@ -2698,8 +2698,9 @@ static void qemu_machine_creation_done(void)
+>
+>  void qmp_x_exit_preconfig(Error **errp)
+>  {
+> -    if (phase_check(PHASE_MACHINE_INITIALIZED)) {
+> -        error_setg(errp, "The command is permitted only before machine
 > initialization");
+> +    if (phase_check(PHASE_MACHINE_READY)) {
+> +        error_setg(errp, "The command is permitted only before"
+> +                         " machine is ready");
 >          return;
 >      }
-> +    phase_until(PHASE_MACHINE_READY, errp);
-> +}
+>      phase_until(PHASE_MACHINE_READY, errp);
+> @@ -2707,9 +2708,6 @@ void qmp_x_exit_preconfig(Error **errp)
 >
-> +static void qemu_phase_ready(Error **errp)
-> +{
->      qemu_init_board();
-> +    /* phase is now PHASE_MACHINE_INITIALIZED. */
->      qemu_create_cli_devices();
+>  static void qemu_phase_ready(Error **errp)
+>  {
+> -    qemu_init_board();
+> -    /* phase is now PHASE_MACHINE_INITIALIZED. */
+> -    qemu_create_cli_devices();
 >      cxl_fixed_memory_window_link_targets(errp);
 >      qemu_machine_creation_done();
-> +    /* Phase is now PHASE_MACHINE_READY. */
+>      /* Phase is now PHASE_MACHINE_READY. */
+> @@ -2749,6 +2747,24 @@ bool phase_until(MachineInitPhase phase, Error
+> **errp)
 >
->      if (loadvm) {
->          load_snapshot(loadvm, NULL, false, NULL, &error_fatal);
-> @@ -2729,6 +2735,46 @@ void qmp_x_exit_preconfig(Error **errp)
->      }
->  }
->
-> +bool phase_until(MachineInitPhase phase, Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    if (!phase_check(PHASE_ACCEL_CREATED)) {
-> +        error_setg(errp, "Phase transition is not supported until
-> accelerator"
-> +                   " is created");
-> +        return false;
-> +    }
-> +
-> +    while (!phase_check(phase)) {
-> +        MachineInitPhase cur_phase = phase_get();
-> +
-> +        switch (cur_phase) {
-> +        case PHASE_ACCEL_CREATED:
-> +            qemu_phase_ready(errp);
+>          switch (cur_phase) {
+>          case PHASE_ACCEL_CREATED:
+> +            qemu_init_board();
+> +            /* Phase is now PHASE_MACHINE_INITIALIZED. */
+> +            /*
+> +             * Handle CLI devices now in order leave this case in a stat=
+e
+> +             * where we can cold plug devices with QMP. The following ca=
+ll
+> +             * handles the CLI options:
+> +             * + -fw_cfg (has side effects on device cold plug)
+> +             * + -device
+> +             */
+> +            qemu_create_cli_devices();
+> +            /*
+> +             * At this point all CLI options are handled apart:
+> +             * + -S (autostart)
+> +             * + -incoming
+> +             */
 > +            break;
 > +
-> +        default:
-> +            /*
-> +             * If we end up here, it is because we miss a case above.
-> +             */
-> +            error_setg(&error_abort, "Requested phase transition is not"
-> +                       " implemented");
-> +            return false;
-> +        }
-> +
-> +        if (*errp) {
-> +            return false;
-> +        }
-> +
-> +        /*
-> +         * Ensure we made some progress.
-> +         * With the default case above, it should be enough to prevent
-> +         * any infinite loop.
-> +         */
-> +        assert(cur_phase < phase_get());
-> +    }
-> +    return true;
-> +}
-> +
->  void qemu_init(int argc, char **argv, char **envp)
->  {
->      QemuOpts *opts;
+> +        case PHASE_MACHINE_INITIALIZED:
+>              qemu_phase_ready(errp);
+>              break;
+>
 > --
 > 2.36.1
 >
 >
 >
 
---0000000000000e4c0805dfc75b86
+--00000000000007bcce05dfc75cb5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">Tested-by: Jim Shu &lt;<a href=3D"mailto:jim.shu@sifive.co=
 m" target=3D"_blank">jim.shu@sifive.com</a>&gt;<br></div><br><div class=3D"=
 gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 19, 2022 at =
-11:41 PM Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.com">dam=
+11:36 PM Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.com">dam=
 ien.hedde@greensocs.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
 quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">phase_until() is implemented in vl.c and is meant to=
- be used<br>
-to make startup progress up to a specified phase being reached().<br>
-At this point, no behavior change is introduced: phase_until()<br>
-only supports a single double transition corresponding<br>
-to the functionality of qmp_exit_preconfig():<br>
-+ accel-created -&gt; machine-initialized -&gt; machine-ready<br>
+204);padding-left:1ex">phase_until() now supports the following transitions=
+:<br>
++ accel-created -&gt; machine-initialized<br>
++ machine-initialized -&gt; machine-ready<br>
 <br>
-As a result qmp_exit_preconfig() now uses phase_until().<br>
+As a consequence we can now support the use of qmp_exit_preconfig()<br>
+from phases _accel-created_ and _machine-initialized_.<br>
 <br>
 This commit is a preparation to support cold plugging a device<br>
-using qapi command (which will be introduced in a following commit).<br>
-For this we need fine grain control of the phase.<br>
+using qapi (which will be introduced in a following commit). For this<br>
+we need fine grain control of the phase.<br>
 <br>
 Signed-off-by: Damien Hedde &lt;<a href=3D"mailto:damien.hedde@greensocs.co=
 m" target=3D"_blank">damien.hedde@greensocs.com</a>&gt;<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
 ---<br>
 <br>
-v5:<br>
-=C2=A0 + refactor to avoid indentation change<br>
+v5: update due to refactor of previous commit<br>
 ---<br>
-=C2=A0include/hw/qdev-core.h | 14 +++++++++++++<br>
-=C2=A0softmmu/vl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 46 +++++++++++=
-+++++++++++++++++++++++++++++++<br>
-=C2=A02 files changed, 60 insertions(+)<br>
+=C2=A0softmmu/vl.c | 26 +++++++++++++++++++++-----<br>
+=C2=A01 file changed, 21 insertions(+), 5 deletions(-)<br>
 <br>
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h<br>
-index e29c705b74..5f73d06408 100644<br>
---- a/include/hw/qdev-core.h<br>
-+++ b/include/hw/qdev-core.h<br>
-@@ -909,4 +909,18 @@ extern bool phase_check(MachineInitPhase phase);<br>
-=C2=A0 */<br>
-=C2=A0extern void phase_advance(MachineInitPhase phase);<br>
-<br>
-+/**<br>
-+ * @phase_until:<br>
-+ * @phase: the target phase<br>
-+ * @errp: error report<br>
-+ *<br>
-+ * Make the machine init progress until the target phase is reached.<br>
-+ *<br>
-+ * Its is a no-op is the target phase is the current or an earlier<br>
-+ * phase.<br>
-+ *<br>
-+ * Returns true in case of success.<br>
-+ */<br>
-+extern bool phase_until(MachineInitPhase phase, Error **errp);<br>
-+<br>
-=C2=A0#endif<br>
 diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
-index 84a31eba76..7f8d15b5b8 100644<br>
+index 7f8d15b5b8..ea15e37973 100644<br>
 --- a/softmmu/vl.c<br>
 +++ b/softmmu/vl.c<br>
-@@ -2702,11 +2702,17 @@ void qmp_x_exit_preconfig(Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;The command is per=
-mitted only before machine initialization&quot;);<br>
+@@ -2698,8 +2698,9 @@ static void qemu_machine_creation_done(void)<br>
+<br>
+=C2=A0void qmp_x_exit_preconfig(Error **errp)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 if (phase_check(PHASE_MACHINE_INITIALIZED)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The command is permitte=
+d only before machine initialization&quot;);<br>
++=C2=A0 =C2=A0 if (phase_check(PHASE_MACHINE_READY)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The command is permitte=
+d only before&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&quot; machine is ready&quot;);<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 phase_until(PHASE_MACHINE_READY, errp);<br>
-+}<br>
+=C2=A0 =C2=A0 =C2=A0phase_until(PHASE_MACHINE_READY, errp);<br>
+@@ -2707,9 +2708,6 @@ void qmp_x_exit_preconfig(Error **errp)<br>
 <br>
-+static void qemu_phase_ready(Error **errp)<br>
-+{<br>
-=C2=A0 =C2=A0 =C2=A0qemu_init_board();<br>
-+=C2=A0 =C2=A0 /* phase is now PHASE_MACHINE_INITIALIZED. */<br>
-=C2=A0 =C2=A0 =C2=A0qemu_create_cli_devices();<br>
+=C2=A0static void qemu_phase_ready(Error **errp)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 qemu_init_board();<br>
+-=C2=A0 =C2=A0 /* phase is now PHASE_MACHINE_INITIALIZED. */<br>
+-=C2=A0 =C2=A0 qemu_create_cli_devices();<br>
 =C2=A0 =C2=A0 =C2=A0cxl_fixed_memory_window_link_targets(errp);<br>
 =C2=A0 =C2=A0 =C2=A0qemu_machine_creation_done();<br>
-+=C2=A0 =C2=A0 /* Phase is now PHASE_MACHINE_READY. */<br>
+=C2=A0 =C2=A0 =C2=A0/* Phase is now PHASE_MACHINE_READY. */<br>
+@@ -2749,6 +2747,24 @@ bool phase_until(MachineInitPhase phase, Error **err=
+p)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0if (loadvm) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0load_snapshot(loadvm, NULL, false, NULL, =
-&amp;error_fatal);<br>
-@@ -2729,6 +2735,46 @@ void qmp_x_exit_preconfig(Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (cur_phase) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case PHASE_ACCEL_CREATED:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_init_board();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Phase is now PHASE_MACHINE_IN=
+ITIALIZED. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Handle CLI devices now i=
+n order leave this case in a state<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* where we can cold plug d=
+evices with QMP. The following call<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* handles the CLI options:=
 <br>
-+bool phase_until(MachineInitPhase phase, Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 ERRP_GUARD();<br>
-+=C2=A0 =C2=A0 if (!phase_check(PHASE_ACCEL_CREATED)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Phase transition is not=
- supported until accelerator&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-; is created&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 while (!phase_check(phase)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 MachineInitPhase cur_phase =3D phase_get();<br=
->
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (cur_phase) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case PHASE_ACCEL_CREATED:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_phase_ready(errp);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* + -fw_cfg (has side effe=
+cts on device cold plug)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* + -device<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_create_cli_devices();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* At this point all CLI op=
+tions are handled apart:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* + -S (autostart)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* + -incoming<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If we end up here, it is=
- because we miss a case above.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;error_abort, &qu=
-ot;Requested phase transition is not&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0&quot; implemented&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*errp) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Ensure we made some progress.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* With the default case above, it should=
- be enough to prevent<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* any infinite loop.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(cur_phase &lt; phase_get());<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return true;<br>
-+}<br>
-+<br>
-=C2=A0void qemu_init(int argc, char **argv, char **envp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0QemuOpts *opts;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case PHASE_MACHINE_INITIALIZED:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_phase_ready(errp);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+<br>
 -- <br>
 2.36.1<br>
 <br>
 <br>
 </blockquote></div>
 
---0000000000000e4c0805dfc75b86--
+--00000000000007bcce05dfc75cb5--
 
