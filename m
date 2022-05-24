@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D850B53276F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:23:19 +0200 (CEST)
-Received: from localhost ([::1]:53336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F316F532793
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:29:34 +0200 (CEST)
+Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntRh8-0003IW-Q9
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
+	id 1ntRnB-0005ly-Vw
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ntRet-0002MZ-3L
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:20:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35536)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntRiN-0004E0-Kz
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:24:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ntRer-00055s-Gq
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:20:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ntRiJ-0005hT-MZ
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:24:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653387656;
+ s=mimecast20190719; t=1653387870;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xN1zlC+JPwOjuLSADbTThmiRBNNWk+4P/B0MbIjo6cA=;
- b=DxrYBN/2pdXLhmar1pdby5nbpl1HqU/jkAFdzRzaMWK7c38BdP6YLo03ZG+e3GpZrV9p8l
- kIxIKQ8yLep3kH9GVE5rQJIEjNxudikkFaMfN/Us/jCjlbmKUKCGg+C8iDy2UGzkZ+Pvx3
- WPq1AZIl+MMAP7TFQg28Z5dTTmlNAO4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5cbDvebDcx75dcIDAd5jrYOpt/YZQ72FMoMX2F277a8=;
+ b=cdWcOUQmQ1IqwCPRsB/aTKYDdTl7pzUzPQJNaM3jZeyXIBAaJSZ3RI65U/TLO1fbJvAuxB
+ 44fjPOywhQuEKP5E+oOHezfyoV2qqT39NHxy+j7jMaco/uPrZV4oTKcrsfNIYw6rrBfhs5
+ Q6Qjc5XTJR5DK38L/aGvjdj0+dRIxWM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-1-glYlclRvOcKa6sK1TF3rrQ-1; Tue, 24 May 2022 06:20:51 -0400
-X-MC-Unique: glYlclRvOcKa6sK1TF3rrQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59B573C1022F;
- Tue, 24 May 2022 10:20:50 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE965492C3B;
- Tue, 24 May 2022 10:20:48 +0000 (UTC)
-Date: Tue, 24 May 2022 11:20:47 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/8] Removal of AioContext lock, bs->parents and
- ->children: new rwlock
-Message-ID: <Yoyxf4XDxhl4pDhr@stefanha-x1.localdomain>
-References: <20220426085114.199647-1-eesposit@redhat.com>
- <YnKB+SP678gNrAb1@stefanha-x1.localdomain>
- <YoN/935E4MfinZFQ@stefanha-x1.localdomain>
- <cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com>
- <6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com>
- <YoUbWYfl0Bft3LiU@redhat.com>
- <YopRejAj7AbIXH9i@stefanha-x1.localdomain>
- <67993f7d-bc84-9929-0a28-10a441c3d5bd@redhat.com>
- <YoySiI+ReM2O8WEs@stefanha-x1.localdomain>
- <584d7d1a-94cc-9ebb-363b-2fddb8d79f5b@redhat.com>
+ us-mta-189-ptQ3rPfYOmytd9BX4dwVCg-1; Tue, 24 May 2022 06:24:29 -0400
+X-MC-Unique: ptQ3rPfYOmytd9BX4dwVCg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ z5-20020a5d4d05000000b0020e6457f2b4so4211997wrt.1
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 03:24:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5cbDvebDcx75dcIDAd5jrYOpt/YZQ72FMoMX2F277a8=;
+ b=vFtlIJuDKuD1fqgXgHcxk/qBsstJKxD2WRQkR7gEtYqidjQnQjMoap7f3SoVnayDaJ
+ dZDW6wE8Jpa4x1o3MlrUW9NI9y/vtiC3slmK/yhocwZ1pXKT0FeIsGnTYmDq/iv+Vzis
+ KIV7gJ0eRuiztZgk2dSXMCLHqysgt11FL8zeKJchWM7vBXy+06EDMUTww5e2TTMOeZEL
+ Zzd0PpIQl76GaJGZyxO703NjQVmZ8MdfJaSipwHekGpcqq5mivM2Ld1VYxZ4/Je3KnQC
+ m4cA2eu7o6pdO/yePH1UdAYvcQ+5CLGhNz+PUn+wPhZRriTd7LC31xEgJ6V4GqD3TL/Y
+ whJg==
+X-Gm-Message-State: AOAM5330JD9oC/EhYHEt85ua6LlZywg7hDqKo39Is90cXEnGKOeAjvzA
+ b6W2b8IRTUXvb1CCdjtMDGPXA1dVryhm92a8K9AYNesS7f1ooDC9oCZLX0wF5qZArDZZ/VKqhCf
+ cYZM+RALnAlfelrA=
+X-Received: by 2002:a05:600c:2351:b0:397:3259:1600 with SMTP id
+ 17-20020a05600c235100b0039732591600mr3062388wmq.87.1653387868027; 
+ Tue, 24 May 2022 03:24:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzf6CAuOcgcFCdMa3LDMyZOny5Dw1SzdLPQhSlmu/Lz/r5EJ01waPX4e99QwGLoN+xvazJDA==
+X-Received: by 2002:a05:600c:2351:b0:397:3259:1600 with SMTP id
+ 17-20020a05600c235100b0039732591600mr3062371wmq.87.1653387867789; 
+ Tue, 24 May 2022 03:24:27 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ m185-20020a1ca3c2000000b003942a244ee7sm1658713wme.44.2022.05.24.03.24.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 May 2022 03:24:27 -0700 (PDT)
+Message-ID: <f4f5afc8-0b01-e134-bb83-b3d0ded0439a@redhat.com>
+Date: Tue, 24 May 2022 12:24:26 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="43zg45ctIgSAc08O"
-Content-Disposition: inline
-In-Reply-To: <584d7d1a-94cc-9ebb-363b-2fddb8d79f5b@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PULL 2/3] qga-win32: Add support for NVME but type
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220523194111.827805-1-kkostiuk@redhat.com>
+ <20220523194111.827805-3-kkostiuk@redhat.com>
+ <541f46cf-fc45-f7bb-e121-2aad216e11d5@linaro.org>
+ <CAPMcbCq7fzubG4ej7p164vwQkCMChjWBubx27R=kVxukWDhuBg@mail.gmail.com>
+ <CAPMcbCqeQ_7YuJg+eS9Qqtq9ptRb57_wfT=jGOuHYtx64M5azA@mail.gmail.com>
+ <CAMxuvawvaZBp0sxV-jwQuDwxahuFjN10BDcBcgOn88XpN87RPA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAMxuvawvaZBp0sxV-jwQuDwxahuFjN10BDcBcgOn88XpN87RPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,93 +107,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 24/05/2022 12.14, Marc-André Lureau wrote:
+> Hi
+> 
+> On Tue, May 24, 2022 at 12:02 PM Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
+>>
+>> Hi Richard and Marc-André
+>>
+>> I looked into the compilation problem and have 2 solutions:
+>> 1. We can add some conditions to the win2qemu definition and
+>> skip NVME support when old mingw-headers are used.
+>> 2. We can bump the version of the Fedora docker image to 36 or 37
+>> that is used for cross-compilation tests.
+>>
+>> I think the second option is more valuable because we remove
+>> pregenerated qga-vss.tlb file and now we can check VSS build only
+>> at Fedora 37.
+>>
+>> What do you think?
+> 
+> I'd try to do both: fix compilation with older headers, and bump our
+> CI to f36. I don't know if our windows build environment has strict
+> requirements like the unix/distro (build on old-stable for 2y).
 
---43zg45ctIgSAc08O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+See https://www.qemu.org/docs/master/about/build-platforms.html#windows :
 
-On Tue, May 24, 2022 at 11:17:06AM +0200, Paolo Bonzini wrote:
-> On 5/24/22 10:08, Stefan Hajnoczi wrote:
-> > On Tue, May 24, 2022 at 09:55:39AM +0200, Paolo Bonzini wrote:
-> > > On 5/22/22 17:06, Stefan Hajnoczi wrote:
-> > > > However, I hit on a problem that I think Emanuele and Paolo have al=
-ready
-> > > > pointed out: draining is GS & IO. This might have worked under the =
-1 IOThread
-> > > > model but it does not make sense for multi-queue. It is possible to=
- submit I/O
-> > > > requests in drained sections. How can multiple threads be in draine=
-d sections
-> > > > simultaneously and possibly submit further I/O requests in their dr=
-ained
-> > > > sections? Those sections wouldn't be "drained" in any useful sense =
-of the word.
-> > >=20
-> > > Yeah, that works only if the drained sections are well-behaved.
-> > >=20
-> > > "External" sources of I/O are fine; they are disabled using is_extern=
-al, and
-> > > don't drain themselves I think.
-> >=20
-> > I/O requests for a given BDS may be executing in multiple AioContexts,
-> > so how do you call aio_disable_external() on all relevant AioContexts?
->=20
-> With multiqueue yeah, we have to replace aio_disable_external() with
-> drained_begin/end() callbacks; but I'm not talking about that yet.
->=20
-> > > In parallel to the block layer discussions, it's possible to work on
-> > > introducing a request queue lock in virtio-blk and virtio-scsi.  That=
-'s the
-> > > only thing that relies on the AioContext lock outside the block layer.
-> >=20
-> > I'm not sure what the request queue lock protects in virtio-blk? In
-> > virtio-scsi I guess a lock is needed to protect SCSI target emulation
-> > state?
->=20
-> Yes, but even in virtio-blk there is this code that runs in the main thre=
-ad
-> and is currently protected by aio_context_acquire/release:
->=20
->     blk_drain(s->blk);
->=20
->     /* We drop queued requests after blk_drain() because blk_drain()
->      * itself can produce them. */
->     while (s->rq) {
->         req =3D s->rq;
->         s->rq =3D req->next;
->         virtqueue_detach_element(req->vq, &req->elem, 0);
->         virtio_blk_free_request(req);
->     }
->=20
-> Maybe it's safe to run it without a lock because it runs after
-> virtio_set_status(vdev, 0) but I'd rather play it safe and protect s->rq
-> with a lock.
+"The project supports building QEMU with current versions of the MinGW 
+toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows."
 
-What does the lock protect?
+Since Fedora 35 is still a supported build host, I think you should make 
+sure that it works with the MinGW toolchain from that distro, too.
 
-A lock can prevent s->rq or req->vq corruption but it cannot prevent
-request leaks. This loop's job is to free all requests so there is no
-leak. If a lock is necessary then this code is already broken in a more
-fundamental way because it can leak.
-
-Stefan
-
---43zg45ctIgSAc08O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKMsX8ACgkQnKSrs4Gr
-c8jigQf+M/6qUC4hljxC38JYpVCGTYsgfnG8d4phLmnYXbCC9ftynWxJSEtCHIdr
-ttw7hzhrrp1+oM9g2O3NrlzL7SRtPVxd/jm0i5pIzn6hHMkeasX7DMUQT9yXu520
-vRP0ZcA3EViqZVpeXTg+pLIlJvlqmgJcrRw6nfLGYcwGNdxeY1W+ml2SP5tXXjdj
-wUZgVJpK8zm2SQj/HRayfDiBN2BNi/fvcl8Bk5rZIUBEnn38JGZtCIpwY6S3VBsr
-hXSl2o4tToDYevogiFMgksYllg+dUQajQxfiR/h68RNpipG5tUkUOHf4YzWfQdkQ
-LxvMYT0vGXq4pwIHdx6/xQ9cHkD86w==
-=qAsB
------END PGP SIGNATURE-----
-
---43zg45ctIgSAc08O--
+  Thomas
 
 
