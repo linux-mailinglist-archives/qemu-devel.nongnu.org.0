@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A8C532BDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 16:01:57 +0200 (CEST)
-Received: from localhost ([::1]:47792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18D3532BC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 15:58:55 +0200 (CEST)
+Received: from localhost ([::1]:43384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntV6i-00063I-AU
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 10:01:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43546)
+	id 1ntV3l-00034k-9H
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 09:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1ntV1p-0000uo-Tl
- for qemu-devel@nongnu.org; Tue, 24 May 2022 09:56:54 -0400
-Received: from mga05.intel.com ([192.55.52.43]:62573)
+ id 1ntV1r-0000xw-Ag
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 09:56:55 -0400
+Received: from mga05.intel.com ([192.55.52.43]:62583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1ntV1n-0003Gp-56
- for qemu-devel@nongnu.org; Tue, 24 May 2022 09:56:53 -0400
+ id 1ntV1o-0003H8-Jz
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 09:56:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653400611; x=1684936611;
- h=from:to:cc:subject:date:message-id;
- bh=gY5w/fc1CrCywA3P9SvJffDd0T+qKJWSCObbmR+/MR4=;
- b=X6hrc0/hTKRB4M7s0xDgLc8Q6vpIcFaIbkad5C3uIUOmPGx3ZBVUU5FW
- 4OBQZTIx3ZS38PtDMRw2+vXzj6hdEuWkJxxzT+0CA+zESw/8RjZHdjwLa
- QgVLmDX/tC8MNkg36xwwJk5EGbxdsm8xjB9PJqbRBigtDmx6YODt2WBvt
- iorSktKyGupvSFc58IFMfdDOJRmc8o4z9LOIiW0OgoVWchYYlSod6ezH9
- RHdv68VYdILHXY22+8pthaK6uicDDy8vy5Pi/qTchIRGjsJn9OpxKBYUo
- dITeuyczoW6a7UssvVYHdy3fBCiUbmsi+vPs0W9vNRFWZxrMDUyruo0Nw Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="359928356"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="359928356"
+ t=1653400612; x=1684936612;
+ h=from:to:cc:subject:date:message-id:in-reply-to: references;
+ bh=JdShOr5JW3EdD/+1WRPhlMd9UsMATYvu9LGcy64jWZk=;
+ b=LpXIkH3Vzjg6GQ4OE+pq880Q/mn+e/w5Qj85N1yMnjQLx5su8aE72WME
+ x/1giQBUI7YElQDuqIE+10JHud1FG6rmNuhYrqlxQ4OyKiCTpZiiO3hPk
+ FMfAZ+AaaJEi1v8vqSl+gi7jDuC6Zrtpfnl+d9B6aqYatXqqIpF2s4Xkj
+ ZRGe/APIzLtBDXSnfsURdSBduAE4oOpPNAGUe1sr8ki7HwKhTODsxIs+w
+ lbvcvUaAbwnRdbhaRQAwv8OzkDT8z+nGnIsrgsmLKsVFsqNO5xY3prIqO
+ g4MVkJshkH1epbGfmtZq2y6Jlj0B5YsR5JXuAJStaUMYkdyYNfpC59Vhy A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="359928373"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="359928373"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 06:56:47 -0700
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="717179414"
+ 24 May 2022 06:56:50 -0700
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="717179432"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 06:56:45 -0700
+ 24 May 2022 06:56:48 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Sean Christopherson <seanjc@google.com>,
@@ -47,10 +47,12 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
 Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
  kvm@vger.kernel.org
-Subject: [PATCH v4 0/3] Enable notify VM exit
-Date: Tue, 24 May 2022 22:02:59 +0800
-Message-Id: <20220524140302.23272-1-chenyi.qiang@intel.com>
+Subject: [PATCH v4 1/3] linux-header: update linux header
+Date: Tue, 24 May 2022 22:03:00 +0800
+Message-Id: <20220524140302.23272-2-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220524140302.23272-1-chenyi.qiang@intel.com>
+References: <20220524140302.23272-1-chenyi.qiang@intel.com>
 Received-SPF: pass client-ip=192.55.52.43; envelope-from=chenyi.qiang@intel.com;
  helo=mga05.intel.com
 X-Spam_score_int: -44
@@ -75,53 +77,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Notify VM exit is introduced to mitigate the potential DOS attach from
-malicious VM. This series is the userspace part to enable this feature
-through a new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT. The detailed
-info can be seen in Patch 3.
+This linux-header update is only a reference to include some definitions
+related to notify VM exit.
 
-The corresponding KVM patches are avaiable at:
-https://lore.kernel.org/lkml/20220524135624.22988-1-chenyi.qiang@intel.com/
-
+Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 ---
-Change logs:
-v3 -> v4
-- Add a new KVM cap KVM_CAP_TRIPLE_FAULT_EVENT to guard the extension of triple fault
-  event save&restore.
-- v3: https://lore.kernel.org/qemu-devel/20220421074028.18196-1-chenyi.qiang@intel.com/
+ linux-headers/asm-x86/kvm.h |  6 +++++-
+ linux-headers/linux/kvm.h   | 11 +++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-v2 -> v3
-- Extend the argument to include both the notify window and some flags
-  when enabling KVM_CAP_X86_BUS_LOCK_EXIT CAP.
-- Change to use KVM_VCPUEVENTS_VALID_TRIPLE_FAULT in flags field and add
-  pending_triple_fault field in struct kvm_vcpu_events.
-- v2: https://lore.kernel.org/qemu-devel/20220318082934.25030-1-chenyi.qiang@intel.com/
-
-v1 -> v2
-- Add some commit message to explain why we disable Notify VM exit by default.
-- Rename KVM_VCPUEVENT_SHUTDOWN to KVM_VCPUEVENT_TRIPLE_FAULT.
-- Do the corresponding change to use the KVM_VCPUEVENTS_TRIPLE_FAULT
-  to save/restore the triple fault event to avoid lose some synthesized
-  triple fault from KVM.
-- v1: https://lore.kernel.org/qemu-devel/20220310090205.10645-1-chenyi.qiang@intel.com/
-
----
-
-Chenyi Qiang (3):
-  linux-header: update linux header
-  i386: kvm: extend kvm_{get, put}_vcpu_events to support pending triple
-    fault
-  i386: Add notify VM exit support
-
- hw/i386/x86.c               | 45 +++++++++++++++++++
- include/hw/i386/x86.h       |  5 +++
- linux-headers/asm-x86/kvm.h |  6 ++-
- linux-headers/linux/kvm.h   | 11 +++++
- target/i386/cpu.c           |  1 +
- target/i386/cpu.h           |  1 +
- target/i386/kvm/kvm.c       | 86 ++++++++++++++++++++++++++++---------
- 7 files changed, 134 insertions(+), 21 deletions(-)
-
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index bf6e96011d..8791f7c228 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -325,6 +325,7 @@ struct kvm_reinject_control {
+ #define KVM_VCPUEVENT_VALID_SHADOW	0x00000004
+ #define KVM_VCPUEVENT_VALID_SMM		0x00000008
+ #define KVM_VCPUEVENT_VALID_PAYLOAD	0x00000010
++#define KVM_VCPUEVENT_VALID_TRIPLE_FAULT	0x00000020
+ 
+ /* Interrupt shadow states */
+ #define KVM_X86_SHADOW_INT_MOV_SS	0x01
+@@ -359,7 +360,10 @@ struct kvm_vcpu_events {
+ 		__u8 smm_inside_nmi;
+ 		__u8 latched_init;
+ 	} smi;
+-	__u8 reserved[27];
++	struct {
++		__u8 pending;
++	} triple_fault;
++	__u8 reserved[26];
+ 	__u8 exception_has_payload;
+ 	__u64 exception_payload;
+ };
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index d232feaae9..81dfdcfaa1 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -270,6 +270,7 @@ struct kvm_xen_exit {
+ #define KVM_EXIT_X86_BUS_LOCK     33
+ #define KVM_EXIT_XEN              34
+ #define KVM_EXIT_RISCV_SBI        35
++#define KVM_EXIT_NOTIFY           36
+ 
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -487,6 +488,11 @@ struct kvm_run {
+ 			unsigned long args[6];
+ 			unsigned long ret[2];
+ 		} riscv_sbi;
++		/* KVM_EXIT_NOTIFY */
++		struct {
++#define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
++			__u32 flags;
++		} notify;
+ 		/* Fix the size of the union. */
+ 		char padding[256];
+ 	};
+@@ -1134,6 +1140,8 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_VM_GPA_BITS 207
+ #define KVM_CAP_XSAVE2 208
+ #define KVM_CAP_SYS_ATTRIBUTES 209
++#define KVM_CAP_TRIPLE_FAULT_EVENT 216
++#define KVM_CAP_X86_NOTIFY_VMEXIT 217
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -2051,4 +2059,7 @@ struct kvm_stats_desc {
+ /* Available with KVM_CAP_XSAVE2 */
+ #define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
+ 
++#define KVM_X86_NOTIFY_VMEXIT_ENABLED		(1ULL << 0)
++#define KVM_X86_NOTIFY_VMEXIT_USER		(1ULL << 1)
++
+ #endif /* __LINUX_KVM_H */
 -- 
 2.17.1
 
