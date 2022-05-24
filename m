@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD3D5332D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 23:08:22 +0200 (CEST)
-Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395875332E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 23:17:09 +0200 (CEST)
+Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntblN-0005xO-3z
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 17:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40098)
+	id 1ntbtr-0001J9-OU
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 17:17:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ntbk2-0004vP-Op
- for qemu-devel@nongnu.org; Tue, 24 May 2022 17:06:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31947)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ntbrT-0007po-Qk
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 17:14:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ntbjz-0003E7-Ej
- for qemu-devel@nongnu.org; Tue, 24 May 2022 17:06:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ntbrQ-00046z-LA
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 17:14:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653426413;
+ s=mimecast20190719; t=1653426875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=japWP58M+mFGiJPrnmvc3LaL5brYo3wVVXak/tLF2VM=;
- b=LXde8Nui//7DjOhfxYpVmILQ1hC1WXrkC1lf/eXOo+FrmyUgQtTiQOGf6HOXeYuqYZufnL
- ybFED+f9M6ZvqpM6SL15w0Kyqd1QEi7BIKPb8Wq8JUYaJjjr4LPySVCSZcnJTvgAknV2T4
- ousbarKao2az5iH8yg+Z9LXzScUD/Vs=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AC4sRrE7OzkgNdxcJQaHUMq3jFgoSWrf+jSxm51BweM=;
+ b=FKEkKVzLCRIJ5C4nKkckhwJI++QrMYISmQJv8B4C/ZLndpGkkQOXOO0c/QxWiGc+gKnpE6
+ mg05Vdj9zZkpczpBPab1Ahg8bkO8YxULscwen5MVA+rAEuPA+rM4IQ99KFNBz/G6erCH5n
+ 0bLuIpDH6KzwVpb5fi73T4TSUx9mX7Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-gdKZX1sOOd6_msPq9eQ16g-1; Tue, 24 May 2022 17:06:51 -0400
-X-MC-Unique: gdKZX1sOOd6_msPq9eQ16g-1
-Received: by mail-il1-f200.google.com with SMTP id
- a2-20020a923302000000b002d1ad5053feso4432095ilf.17
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 14:06:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=japWP58M+mFGiJPrnmvc3LaL5brYo3wVVXak/tLF2VM=;
- b=to8mMaSaIisN99PJUbWQHH5z0b2Lc/XbOeXomU2U46gwFEMEyON1HqA+XfuuQb0O12
- 9OVu1P4okJ+KpPUX3wdJCa1NtSFQ0cKkIbj6XaRAff3Hys15ybKFZEKob4WuaIrw7qUE
- akvqAHRfe8PQDW24nNXVTzCyJZ6T0dhvD38Brrq0WnPhQbBbrKdafWlz+K10ODIq+iOl
- KdExdn11fAkzsbuNaYZRc5t8M2CwY8Jp6DJdKrbv67o1LlBqYbHQEgNQtnGANNOb1z/k
- l8yuD5kdsAtDUXOrI9KUkHZlFqG5dxpI9zuRJoO2kWpFDax9oTwKMBGe9dNblZcqDR+F
- t8Ew==
-X-Gm-Message-State: AOAM530EjtnSBj5Z00HPA0imtQIi32DHkeu7GkZ+bxXcOv3/hVqXtCsm
- vO7+NHUEX9Z/2tDsZE+yTQvHZI7Fyr6hMKoYPgQM0ErKCoGlsbPSwePUaWyhPUul+eBlacNP2ex
- X2HaYQti/ZgtQbV4=
-X-Received: by 2002:a05:6638:2615:b0:32e:d246:8e27 with SMTP id
- m21-20020a056638261500b0032ed2468e27mr5442975jat.7.1653426410616; 
- Tue, 24 May 2022 14:06:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMTr1ntGar7LQSxCLd9pX010NqYwV5yAKqANpBmhuMV5FhjbW2JdH4GVYVu8ZJnUBPd1zwSg==
-X-Received: by 2002:a05:6638:2615:b0:32e:d246:8e27 with SMTP id
- m21-20020a056638261500b0032ed2468e27mr5442963jat.7.1653426410383; 
- Tue, 24 May 2022 14:06:50 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- i30-20020a02601e000000b0032e1e0ac289sm3705281jac.8.2022.05.24.14.06.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 May 2022 14:06:49 -0700 (PDT)
-Date: Tue, 24 May 2022 17:06:48 -0400
-From: Peter Xu <peterx@redhat.com>
+ us-mta-321-VPz1rK5FPmSqs58XjpFJcw-1; Tue, 24 May 2022 17:14:34 -0400
+X-MC-Unique: VPz1rK5FPmSqs58XjpFJcw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF326185A7A4;
+ Tue, 24 May 2022 21:14:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D130D2166B29;
+ Tue, 24 May 2022 21:14:32 +0000 (UTC)
+Date: Tue, 24 May 2022 16:14:31 -0500
+From: Eric Blake <eblake@redhat.com>
 To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v6 11/13] tests: Add postcopy tls migration test
-Message-ID: <Yo1I6PsxvvJDGVwr@xz-m1.local>
-References: <20220517195730.32312-1-peterx@redhat.com>
- <20220517195730.32312-12-peterx@redhat.com>
- <YoYX1rydzZcZekL3@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
+Subject: Re: [PATCH 01/20] io: add a QIOChannelNull equivalent to /dev/null
+Message-ID: <20220524211406.hskzsft3qezuepfp@redhat.com>
+References: <20220524110235.145079-1-berrange@redhat.com>
+ <20220524110235.145079-2-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YoYX1rydzZcZekL3@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <20220524110235.145079-2-berrange@redhat.com>
+User-Agent: NeoMutt/20220429-77-e284d5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,44 +83,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 19, 2022 at 11:11:34AM +0100, Daniel P. Berrangé wrote:
-> On Tue, May 17, 2022 at 03:57:28PM -0400, Peter Xu wrote:
-> > We just added TLS tests for precopy but not postcopy.  Add the
-> > corresponding test for vanilla postcopy.
-> > 
-> > Rename the vanilla postcopy to "postcopy/plain" because all postcopy tests
-> > will only use unix sockets as channel.
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >  tests/qtest/migration-test.c | 50 +++++++++++++++++++++++++++++++-----
-> >  1 file changed, 43 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> > index d33e8060f9..e8304aa454 100644
-> > --- a/tests/qtest/migration-test.c
-> > +++ b/tests/qtest/migration-test.c
-> > @@ -481,6 +481,10 @@ typedef struct {
-> >      bool only_target;
-> >      /* Use dirty ring if true; dirty logging otherwise */
-> >      bool use_dirty_ring;
-> > +    /* Whether use TLS channels for postcopy test? */
-> > +    bool postcopy_tls;
-> > +    /* Used only if postcopy_tls==true, to cache the data object */
-> > +    void *postcopy_tls_data;
+On Tue, May 24, 2022 at 12:02:16PM +0100, Daniel P. Berrangé wrote:
+> This is for code which needs a portable equivalent to a QIOChannelFile
+> connected to /dev/null.
 > 
-> Rather than adding these fields, I think it would be preferrable to
-> pass the hooks in the same way I did for the precopy tests.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  include/io/channel-null.h         |  55 +++++++
+>  io/channel-null.c                 | 237 ++++++++++++++++++++++++++++++
+>  io/meson.build                    |   1 +
+>  io/trace-events                   |   3 +
+>  tests/unit/meson.build            |   1 +
+>  tests/unit/test-io-channel-null.c |  95 ++++++++++++
+>  6 files changed, 392 insertions(+)
+>  create mode 100644 include/io/channel-null.h
+>  create mode 100644 io/channel-null.c
+>  create mode 100644 tests/unit/test-io-channel-null.c
 
-I can give it a shot.
+> +/**
+> + * QIOChannelNull:
+> + *
+> + * The QIOChannelNull object provides a channel implementation
+> + * that discards all writes and returns zero bytes for all reads.
 
-Ideally I think we should rename MigrationCommon to MigrationPrecopy and
-keep all the precopy stuff there, meanwhile we could have MigrationPostcopy
-which will also include MigrationStart but keeps the postcopy bits around.
-Then I'd need to move start_hook and so into MigrationStart.  But let me
-start from simple..
+That describes the behavior of /dev/zero, not /dev/null, where reads
+always fail with EOF.
+
+> + */
+> +
+> +struct QIOChannelNull {
+> +    QIOChannel parent;
+> +    bool closed;
+> +};
+> +
+
+> diff --git a/io/channel-null.c b/io/channel-null.c
+
+> +
+> +static ssize_t
+> +qio_channel_null_readv(QIOChannel *ioc,
+> +                       const struct iovec *iov,
+> +                       size_t niov,
+> +                       int **fds G_GNUC_UNUSED,
+> +                       size_t *nfds G_GNUC_UNUSED,
+> +                       Error **errp)
+> +{
+> +    QIOChannelNull *nioc = QIO_CHANNEL_NULL(ioc);
+> +
+> +    if (nioc->closed) {
+> +        error_setg_errno(errp, EINVAL,
+> +                         "Channel is closed");
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+
+But this behavior is returning early EOF instead of using iov_memset()
+to read all zeroes the way /dev/zero would.
+
+> +++ b/tests/unit/test-io-channel-null.c
+
+> +static void test_io_channel_null_io(void)
+> +{
+> +    g_autoptr(QIOChannelNull) null = qio_channel_null_new();
+> +    char buf[1024];
+> +    GIOCondition gotcond = 0;
+> +    Error *local_err = NULL;
+> +
+> +    g_assert(qio_channel_write(QIO_CHANNEL(null),
+> +                               "Hello World", 11,
+> +                               &error_abort) == 11);
+
+I still cringe seeing tests inside g_assert(), but this is not the
+first instance of it.
+
+> +
+> +    g_assert(qio_channel_read(QIO_CHANNEL(null),
+> +                              buf, sizeof(buf),
+> +                              &error_abort) == 0);
+
+Okay, you're testing for /dev/null behavior of early EOF.
+
+Other than misleading comments, this looks reasonable.  But those
+comments are core enough as to what this channel does that I don't
+feel comfortable giving R-b yet.
 
 -- 
-Peter Xu
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
