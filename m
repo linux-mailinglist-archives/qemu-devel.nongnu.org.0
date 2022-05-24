@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122DA5333C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 01:06:35 +0200 (CEST)
-Received: from localhost ([::1]:55190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03B85333A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 00:48:47 +0200 (CEST)
+Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntdbm-0007ap-5C
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 19:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
+	id 1ntdKY-0003pd-VA
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 18:48:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdHX-00005T-BT
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:39 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62474)
+ id 1ntdHZ-0000Ai-2d
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:41 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1363756b6=alistair.francis@opensource.wdc.com>)
- id 1ntdHT-0002Yx-Ez
- for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:36 -0400
+ id 1ntdHX-0002oX-AE
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 18:45:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1653432335; x=1684968335;
+ t=1653432339; x=1684968339;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Jnl2HtZnNmgFrBR2MT4hFh8QF2tgzWiVwAm6MaBeh6g=;
- b=LL6FBYpyAHtKqjamz4aP9EG4CziJeXvuLCvsa3Zxpq7c6qO2Yra7/VIA
- IA3VfrZwZwrIytsxnyaFLR1NWtjoWtTDcaR6WXMIbIQB5Dp++O6ep6P4T
- BU6z1KwpfPogNwt0o+jNZlcj+FPQunZCYulAt6XWXOfwg54EQQ38lVFSE
- mdipcfeyXfpg1z9ztNNhID4c5UBbB+2DNvtWcHjCbXOc2lmGnMTu9bi6W
- nuZoStB8orBOQmc7aHoiIsCsesEqhYdlFwphbDD+QIO3RRFVONjGHXDVV
- uWHeuj+uoWIx44v6VouLbjbGKVb0zYjIk/2nUwfRqTC23AtDoZA7sVCMn g==;
-X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305566702"
+ bh=6NkxVoKV+MyZURRtDEFl/naZ0w3j4SzRqRi1vZAomWQ=;
+ b=kGv1RNXe7nW8wa64qAj/thDKSXpeBaMjmwWvlGZboR7pm71XdflXGZNR
+ ZnfXOr8+XuyiadhFvIuOdluv56FD/0nCS0BfoJatCqkCfK+SUKdQQbVTw
+ B2sa1Quob48D41P5czOKW8YIUDDuuTM3gFeYmrNJbPKxPypF6joBCwkGW
+ eBjs0PveyBggTwjr0Sjow/pmgc7+Y9rmawNKK0B+HjelzY07FF8rqk3i2
+ 2cOZ1oi8Hg4mu9OFseAtbYwP0tCv+jZ8cLD7l66T9L/dXXlK5WQpc5WHm
+ jRz5JusDr/IGRbVtGJ1IKjAr8Pdr3mqEWXXEJtiB7bviy+mldR/YfIY8W Q==;
+X-IronPort-AV: E=Sophos;i="5.91,250,1647273600"; d="scan'208";a="305566705"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:45:20 +0800
-IronPort-SDR: 22eHD0rkJVTwS7ZD2gI4UpDSs89Ph4gZpqIKRZSrkHAEa0u/0zWYkgOAYrMZBfXyu/xqsogBy0
- jDFR8pyYgL1zPfmpieT+7fShNhl+xe3dsVLcbLCDxHNR149Uzn0EaAi6TeSYf0NY5KtJLXexug
- 5+a7xHk+QhfnIch24pq8Kje+b0xN4S3KeRzCK0TvYxzmfrlCXreykjaD4Wf1EMQqQRK/pLyoaQ
- xTH+P2SLji/kJ/vU9q87WB34bYzP8Mu4e96wpwoceu0pEUW5wX0yAK5NtKdBW+NpHOtdmRa3Qt
- V6UzTLBbBVUGY0Mj7OOkA973
+ by ob1.hgst.iphmx.com with ESMTP; 25 May 2022 06:45:22 +0800
+IronPort-SDR: p0D7LtBZfNNlgFTewVDnAsxWNidddtd8WL5ownUBSV1WmTigcJtCRO8eIHQ1k2p0c33e51n4q6
+ tzbR5HpxjO7zZmV3uh2MnmSV3ROhpOt7AThxuxYQQJ64Nr69K8zjkMAjcWT2hXGNeAloaJ0fK6
+ MFycAswlnStj90DmTZaW8U3wxQNF5XmFeuS+S3eia068HOF4lBFsg2hT0ogB1OIdOkNnZ59O/f
+ mog3kcen0VW9MW6wCZODXoFZ/k3wuKs+Du8dSCUqZoNDBfgzrJLRJGjrQalYxuZvas1OpyHDfh
+ Mx5o5VlGDb4Ume+zwGFZB3w2
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:04:52 -0700
-IronPort-SDR: /xKv0QHO1wVN+0NCuuj46in5VBWjzbhGwYpuw65IfurAuW2q1Apu4GfraZPhwAOgypu0AKTsTS
- v8Ch2Xbq4+ZV/HtePupvxCWsF22HccoaZkEBnMzwpoeAIFLP/x7RyECWUIMT0hXQmfskNDLQlr
- dp7hEXTnmjz2AHaeBN/UFgdq4tvYtASGg9dBcT3jABYeyeijl4NZqMAD2WPq1/GX4sAkhoDUfq
- h0aAmB3iWznxhI9xb6clgE9EKLUhON/sGQZz14x+u1nSUpEZVtGB9oPaUatSkihDF491P/X5GZ
- ocM=
+ 24 May 2022 15:04:54 -0700
+IronPort-SDR: TAOy85bVYjdHl94iuHMobmFtBUzxSKSc0lVi4U04jpWZLpGNFRNPvJoRkxdce4HGWLHpwnePN9
+ I/rFtSncW01MsctjIrKr2lm3ClCSmhVQCAIZJMIvaM6bLcwOIrEOrqtAnJ3o42Eq7SzQLf5qV3
+ NerILPB9XaunAEXZ4+G1gHWJW56PyCW/GZZmaXyvJcrpMspWFaJZVj1YNUKD7kd90dOuKlhZV0
+ WWQmVNs6tApE1bITIIc51FjTd0sgZYi2xbt9k5UJ4d8cKmHsl13pn6NG0PzGs1z6AZ2c1Tb3B3
+ HpQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 May 2022 15:45:21 -0700
+ 24 May 2022 15:45:23 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78RN2s4Xz1SVp1
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:45:20 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4L78RQ5nFSz1SVny
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 15:45:22 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1653432320; x=1656024321; bh=Jnl2HtZnNmgFrBR2MT
- 4hFh8QF2tgzWiVwAm6MaBeh6g=; b=arCDp6US0Sv/RRiKbHWAPy+4dkeV7s6rE+
- /AzQY+U13RksFHKPJ5PUs63aQcMNciJGd3Rgjzm1N3c6NshgeBUzqV5XoippGgKs
- qZ8bYvqrjYf8R+It9mgZ46u7GGbCLlMmm1LnCwL3yViB3HIPKQYoztHAXLFq60+U
- Lp97GgXSUhTqua0Fc5LsoJMC49Mid/oA5wghJSoFZPdPpj10E6wcYeHDYRFMsMbU
- TXloRmiub8ddPLVdXWqHpVjBawidr71YeRz27481vUwAYE7vjg2+CZ+VYgNQx5DF
- YmN9apP//meaYWQRfwMnk+/rqTyZvrCTu+85GG1/mtLVYn69fMfQ==
+ :from; s=dkim; t=1653432322; x=1656024323; bh=6NkxVoKV+MyZURRtDE
+ Fl/naZ0w3j4SzRqRi1vZAomWQ=; b=ABfupcybOY1eoXvzpFhwp9N7m6WfciEt5/
+ 2CwwJFq5CGpILwuTT8ozLDR53VnEkX4X9gYc62dHAWKUZQ6aZu9R/xks6kTv6sYp
+ lrrX1gYBqGvKpeWk/q1BuypzlEzBwrjsSnb2H4wIGkKtL7PiLeaMEl/rGd5wE6A6
+ CdXEsxFwWF43/0pURRNAfPZ/0TnxwTfrPFDpIJKlGzfzUaU90h4PXK8H4YmSF8KV
+ 8kwhDTwC6llF6eD6jZKvfCg0cmR8pdaODQf99scDs+uvDp7lbXPa/fEr84Ub9uty
+ gYIzxlGKlUt+Dx7I6oGZXg7dqISuCEphztILbDQOEuP8hyz8RC1A==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id CpZhvwdbyOsQ for <qemu-devel@nongnu.org>;
- Tue, 24 May 2022 15:45:20 -0700 (PDT)
+ port 10026) with ESMTP id UNNPstkddhlb for <qemu-devel@nongnu.org>;
+ Tue, 24 May 2022 15:45:22 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.5])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78RK682Dz1Rvlc;
- Tue, 24 May 2022 15:45:17 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4L78RN4HtZz1Rvlc;
+ Tue, 24 May 2022 15:45:20 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Anup Patel <apatel@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Frank Chang <frank.chang@sifive.com>
-Subject: [PULL 17/23] target/riscv: Fix csr number based privilege checking
-Date: Wed, 25 May 2022 08:44:22 +1000
-Message-Id: <20220524224428.552334-18-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 18/23] target/riscv: Fix hstatus.GVA bit setting for traps
+ taken from HS-mode
+Date: Wed, 25 May 2022 08:44:23 +1000
+Message-Id: <20220524224428.552334-19-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
 References: <20220524224428.552334-1-alistair.francis@opensource.wdc.com>
@@ -118,49 +118,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <apatel@ventanamicro.com>
 
-When hypervisor and VS CSRs are accessed from VS-mode or VU-mode,
-the riscv_csrrw_check() function should generate virtual instruction
-trap instead illegal instruction trap.
+Currently, QEMU does not set hstatus.GVA bit for traps taken from
+HS-mode into HS-mode which breaks the Xvisor nested MMU test suite
+on QEMU. This was working previously.
 
-Fixes: 0a42f4c44088 (" target/riscv: Fix CSR perm checking for HS mode")
+This patch updates riscv_cpu_do_interrupt() to fix the above issue.
+
+Fixes: 86d0c457396b ("target/riscv: Fixup setting GVA")
 Signed-off-by: Anup Patel <apatel@ventanamicro.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-Id: <20220511144528.393530-2-apatel@ventanamicro.com>
+Message-Id: <20220511144528.393530-3-apatel@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ target/riscv/cpu_helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0d5bc2f41d..6dbe9b541f 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3139,7 +3139,7 @@ static inline RISCVException riscv_csrrw_check(CPUR=
-ISCVState *env,
-     int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
-     int csr_min_priv =3D csr_ops[csrno].min_priv_ver;
- #if !defined(CONFIG_USER_ONLY)
--    int effective_priv =3D env->priv;
-+    int csr_priv, effective_priv =3D env->priv;
-=20
-     if (riscv_has_ext(env, RVH) && env->priv =3D=3D PRV_S) {
-         /*
-@@ -3152,7 +3152,11 @@ static inline RISCVException riscv_csrrw_check(CPU=
-RISCVState *env,
-         effective_priv++;
-     }
-=20
--    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
-+    csr_priv =3D get_field(csrno, 0x300);
-+    if (!env->debugger && (effective_priv < csr_priv)) {
-+        if (csr_priv =3D=3D (PRV_S + 1) && riscv_cpu_virt_enabled(env)) =
-{
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- #endif
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index e1aa4f2097..b16bfe0182 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1367,7 +1367,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         case RISCV_EXCP_INST_PAGE_FAULT:
+         case RISCV_EXCP_LOAD_PAGE_FAULT:
+         case RISCV_EXCP_STORE_PAGE_FAULT:
+-            write_gva =3D true;
++            write_gva =3D env->two_stage_lookup;
+             tval =3D env->badaddr;
+             break;
+         case RISCV_EXCP_ILLEGAL_INST:
+@@ -1434,7 +1434,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 /* Trap into HS mode */
+                 env->hstatus =3D set_field(env->hstatus, HSTATUS_SPV, fa=
+lse);
+                 htval =3D env->guest_phys_fault_addr;
+-                write_gva =3D false;
+             }
+             env->hstatus =3D set_field(env->hstatus, HSTATUS_GVA, write_=
+gva);
+         }
 --=20
 2.35.3
 
