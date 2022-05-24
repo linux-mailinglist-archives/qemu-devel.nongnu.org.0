@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B74532DE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:55:04 +0200 (CEST)
-Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39171532DC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:44:06 +0200 (CEST)
+Received: from localhost ([::1]:45556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntWs9-00034a-Ld
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
+	id 1ntWhZ-0006jS-7v
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntWej-00042Z-QC
+ id 1ntWej-00042U-OL
  for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:09 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37841)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntWec-0005Lz-LR
+ id 1ntWea-0005Lp-KS
  for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:09 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t6so26286248wra.4
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 08:41:02 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id z17so3978513wmf.1
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 08:41:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vBtL52cUVXRCn2Iw8uz2+J2VOEbS3hV9Ib2rQvMqV9g=;
- b=FB+WsbPWMMXudRzX/nrHkt/8nRUQMXPRKwDKsm7ykE8csKKpJ/kuARHxSrgXx08dz5
- RWNXbVpeVgNVivIVfWCV20b/ioGObn+PpBuY7UJWIANpX0Qe2tPAQlaZ9p6usidh3OhC
- pHbcUYy7/G9UY6FhD2L+mOZV5gcXjbZSd88S3p2vACVayEP1m+zypJjdlJtIlAs5dd8R
- 18z+Ot/es6sS8pyT6YS6ZkDoV2hmZtQxt2GcEpRfmj2vdrw8MlFa1uyhPsmPsHTBXuRf
- qAY+eFT5TQCyXKX2m7V9vLE+2yL4WOPKgRi6QNWcirJ2oayg/P0iEGEal3aEv0EKcno8
- 0Clg==
+ bh=wuv0XY2H3KqTbh7O/QyKEXQHF+ELTPI/LNmsm5wiDv4=;
+ b=lgIihCWikM2XdSIQsw1gRlsHXfdcEyoU6a2au0m2lylQxjv4oRorj1/qser3tYMsRq
+ uhj9bcgHsl6G/aCxkzaeriMiFDGZ06r9kCL9k6R4M3TmnO+XJSe1sk4uBnXBpCwjpfgv
+ LATH7qQ69E27UUdeO2+7ojltDfWhd1GRS/sIf7G3YsDjlgG/+Zz9WMumBRpg7MUKyTIe
+ s+qRRgi99So67IkY621FrOpPtjg0tMYtTF4ZGlbvhxpwie7wTFHR1WX/If2YCEqHNUBh
+ 6/vWweNEFXXs4CQGZxgeTyG78jvLDiTJW5weTAWgE1gs82SyJT59Sciopjeu3+ndJcIe
+ NcdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vBtL52cUVXRCn2Iw8uz2+J2VOEbS3hV9Ib2rQvMqV9g=;
- b=uhapn9sEDSjVdKxSVb8Jy4cEnJG5ha8LOnNGkAckc6OWG2IAl0pKaAc/pm/Le9Muhu
- /BjANOHCxByaXh99yB/RRYl40qFAV9UX6WhoaSpvV7Gc+2oLq9vPF4Eern3eupkKzPCJ
- SMq+lbxiQk8aVnf4kubvMMAiwYzQ8H1Bpw8eIknrO8MyjIPTQt1LGV1krhTJJicbM2/G
- 9OFPZTqkrPm2bdKKZD0kGZVdRpPgnc5uI3WCylKZHeiJQV71WiHFcwD8XW4Hd/kwcUEk
- 8PtPGkw63a1RfCKBQl8cGYfCGjoiQXeuAjJXNtjWoDVcsWH2vKf+s2E89Po/l6CAJnKL
- pJGg==
-X-Gm-Message-State: AOAM532wgON9nCNadGDjkTgsIo7PBAhcm4ePkFdT9dAivEeN9duy7KO6
- PE/F1RwMjraFpmLsEp4UQeaqdA==
-X-Google-Smtp-Source: ABdhPJxqcBqpANL5pnIvE0Vo/DEFOEk9VZKOf/8V02Gfz1spjbNxVQsShb6bYepOxRtcSdNgAyFuwQ==
-X-Received: by 2002:a5d:648e:0:b0:20f:d9b6:a35f with SMTP id
- o14-20020a5d648e000000b0020fd9b6a35fmr9739650wri.333.1653406861281; 
- Tue, 24 May 2022 08:41:01 -0700 (PDT)
+ bh=wuv0XY2H3KqTbh7O/QyKEXQHF+ELTPI/LNmsm5wiDv4=;
+ b=4vn/pJfxKw9a1LVxmXHKCgdO0rzVkoxygo6zbLtKFOAcooATtm5mNfjy3RsM0O5l9Y
+ qDr4eU+32MNIGVitgktLL+YjMY3tSl7M5vZIT4kNiSkSvlZ9xmLDa1HeabFjmx7cawSo
+ KO1CWwXsevui4fdag7Y1kTiI5/tCDp9Z+S9As2LqyZ5I0gPu/2dvb8oSV4iaq6qH/7mT
+ KGYsvMil9wQoT4HJ0IF1zjYmdlgBnee3cJQZHyB0InwSJ8rJ/ecf5QlIO/3UHQp+iYnz
+ aAyrIguqb/b7KscMhJRYBdLxdSnJ95fWit68slOihrZziK0pk2ZHRIaXQZk0evKbnFjk
+ /1KQ==
+X-Gm-Message-State: AOAM532nu2UgPzfpw6G9Ywe3MVOK7A/UV0LsNudoi4u2xS7TgkRZbrAo
+ GGcfag96/8UUKsSdmzjkpKIL+Q==
+X-Google-Smtp-Source: ABdhPJxtIvi7uAKswMNOG2G/xdqxQVaKkA62in5dR1jXwMZYFU0QtnI4zntmvydM2dg0dW0/PX+UPw==
+X-Received: by 2002:a7b:c841:0:b0:394:890e:9195 with SMTP id
+ c1-20020a7bc841000000b00394890e9195mr4368259wml.59.1653406859054; 
+ Tue, 24 May 2022 08:40:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- z16-20020adfbbd0000000b0020cfed0bb7fsm13081406wrg.53.2022.05.24.08.40.56
+ q2-20020adfb182000000b0020c5253d8d0sm13055061wra.28.2022.05.24.08.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 24 May 2022 08:40:57 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7EB501FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 8C3051FFBA;
  Tue, 24 May 2022 16:40:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH v2 01/15] contrib/vhost-user-blk: fix 32 bit build and enable
-Date: Tue, 24 May 2022 16:40:42 +0100
-Message-Id: <20220524154056.2896913-2-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v2 02/15] include/hw/virtio: more comment for
+ VIRTIO_F_BAD_FEATURE
+Date: Tue, 24 May 2022 16:40:43 +0100
+Message-Id: <20220524154056.2896913-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220524154056.2896913-1-alex.bennee@linaro.org>
 References: <20220524154056.2896913-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,74 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were not building the vhost-user-blk server due to 32 bit
-compilation problems. The problem was due to format string types so
-fix that and then enable the build. Tweak the rule to follow the same
-rules as other vhost-user daemons.
+When debugging a new vhost user you may be surprised to see
+VHOST_USER_F_PROTOCOL getting squashed in the maze of
+backend_features, acked_features and guest_features. Expand the
+description here to help the next poor soul trying to work through
+this.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220321153037.3622127-12-alex.bennee@linaro.org>
 ---
- meson.build                             | 2 +-
- contrib/vhost-user-blk/vhost-user-blk.c | 6 +++---
- contrib/vhost-user-blk/meson.build      | 3 +--
- 3 files changed, 5 insertions(+), 6 deletions(-)
+ include/hw/virtio/virtio.h | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 9ebc00f032..a33ed52b7a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1489,7 +1489,7 @@ have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
-            error_message: 'vhost_user_blk_server requires linux') \
-   .require(have_vhost_user,
-            error_message: 'vhost_user_blk_server requires vhost-user support') \
--  .disable_auto_if(not have_system) \
-+  .disable_auto_if(not have_tools and not have_system) \
-   .allowed()
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index db1c0ddf6b..2b2587d324 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -24,7 +24,12 @@
+ #include "qom/object.h"
+ #include "hw/virtio/vhost.h"
  
- if get_option('fuse').disabled() and get_option('fuse_lseek').enabled()
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index cd4a5d7335..9cb78ca1d0 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -146,7 +146,7 @@ vub_readv(VubReq *req, struct iovec *iov, uint32_t iovcnt)
-     req->size = vub_iov_size(iov, iovcnt);
-     rc = preadv(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512);
-     if (rc < 0) {
--        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n",
-+        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n",
-                 vdev_blk->blk_name, req->sector_num, req->size,
-                 strerror(errno));
-         return -1;
-@@ -169,7 +169,7 @@ vub_writev(VubReq *req, struct iovec *iov, uint32_t iovcnt)
-     req->size = vub_iov_size(iov, iovcnt);
-     rc = pwritev(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512);
-     if (rc < 0) {
--        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n",
-+        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n",
-                 vdev_blk->blk_name, req->sector_num, req->size,
-                 strerror(errno));
-         return -1;
-@@ -188,7 +188,7 @@ vub_discard_write_zeroes(VubReq *req, struct iovec *iov, uint32_t iovcnt,
+-/* A guest should never accept this.  It implies negotiation is broken. */
++/*
++ * A guest should never accept this.  It implies negotiation is
++ * broken between the driver frontend and the device. This bit is
++ * re-used for vhost to advertise VHOST_USER_F_PROTOCOL_FEATURES
++ * between QEMU and a vhost backend.
++ */
+ #define VIRTIO_F_BAD_FEATURE		30
  
-     size = vub_iov_size(iov, iovcnt);
-     if (size != sizeof(*desc)) {
--        fprintf(stderr, "Invalid size %ld, expect %ld\n", size, sizeof(*desc));
-+        fprintf(stderr, "Invalid size %zd, expect %zd\n", size, sizeof(*desc));
-         return -1;
-     }
-     buf = g_new0(char, size);
-diff --git a/contrib/vhost-user-blk/meson.build b/contrib/vhost-user-blk/meson.build
-index 601ea15ef5..dcb9e2ffcd 100644
---- a/contrib/vhost-user-blk/meson.build
-+++ b/contrib/vhost-user-blk/meson.build
-@@ -1,5 +1,4 @@
--# FIXME: broken on 32-bit architectures
- executable('vhost-user-blk', files('vhost-user-blk.c'),
-            dependencies: [qemuutil, vhost_user],
--           build_by_default: false,
-+           build_by_default: targetos == 'linux',
-            install: false)
+ #define VIRTIO_LEGACY_FEATURES ((0x1ULL << VIRTIO_F_BAD_FEATURE) | \
 -- 
 2.30.2
 
