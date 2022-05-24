@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA11532400
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 09:26:10 +0200 (CEST)
-Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CFC5323F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 09:20:02 +0200 (CEST)
+Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntOvh-0000WZ-5A
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 03:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44914)
+	id 1ntOpl-0005fK-4p
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 03:20:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ntOgF-0000ce-DA
- for qemu-devel@nongnu.org; Tue, 24 May 2022 03:10:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59758)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ntOhy-0001ZU-02
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 03:11:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ntOfw-0007lA-Fy
- for qemu-devel@nongnu.org; Tue, 24 May 2022 03:10:05 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ntOhw-0008Or-HQ
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 03:11:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653376180;
+ s=mimecast20190719; t=1653376315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7cMb6EhnKinKDmFjIgB7i5PNIATEusLxg6O0npg8IXY=;
- b=G5ibIV5cNs4mDRFBCQjm2jXMF1i4h6PpAH80+UlCaja6K33cL0+T5/L4xxM6MilXj3xIKr
- +0P2PIozmkLbxsR9v/fHVXTt0xsmDQNXeVLqC2LRHZFdEKgCj8vfILoz6xWhruzel9F0x8
- WbQLq6g9javlw124oznFu1EaujreEZY=
+ bh=8Fsbl6R43fPIFA1GC5vANa8/YINK4Hrhp6J5Uy/+KOE=;
+ b=TiTt2WCWWcqCnIEk9ugfW6SCm3Ycu6weYHhQj8piFDs/K0BZXZGxrYxNAcSy8PvTZcXjyJ
+ pI0TOhB4ekmX0YRyKwHgcVeWsYiHeJ1PSGqx1uNhgDj/yFaqR07tx9ncg2nQ0BvJVKlMMS
+ 9F7r6treFvYquLvvGLB9H4bS6dHF5e0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-zLObLhW-M9iJObWGthwNCg-1; Tue, 24 May 2022 03:09:35 -0400
-X-MC-Unique: zLObLhW-M9iJObWGthwNCg-1
+ us-mta-653-b1GPClzsNGyKzI2l9aBmGw-1; Tue, 24 May 2022 03:11:52 -0400
+X-MC-Unique: b1GPClzsNGyKzI2l9aBmGw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA313380673F;
- Tue, 24 May 2022 07:09:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBCD41C05139;
+ Tue, 24 May 2022 07:11:51 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BAE0492C14;
- Tue, 24 May 2022 07:09:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A6773492C14;
+ Tue, 24 May 2022 07:11:51 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B9D501800393; Tue, 24 May 2022 09:09:32 +0200 (CEST)
-Date: Tue, 24 May 2022 09:09:32 +0200
+ id F29E51800393; Tue, 24 May 2022 09:11:49 +0200 (CEST)
+Date: Tue, 24 May 2022 09:11:49 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Xiaoyao Li <xiaoyao.li@intel.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -56,15 +56,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
  Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 20/36] i386/tdx: Register a machine_init_done
- callback for TD
-Message-ID: <20220524070932.rmkmunar6q6brdbo@sirius.home.kraxel.org>
+Subject: Re: [RFC PATCH v4 21/36] i386/tdx: Track mem_ptr for each firmware
+ entry of TDVF
+Message-ID: <20220524071149.rs3hqhi5t5usdfv3@sirius.home.kraxel.org>
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-21-xiaoyao.li@intel.com>
+ <20220512031803.3315890-22-xiaoyao.li@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220512031803.3315890-21-xiaoyao.li@intel.com>
+In-Reply-To: <20220512031803.3315890-22-xiaoyao.li@intel.com>
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,23 +90,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 12, 2022 at 11:17:47AM +0800, Xiaoyao Li wrote:
-> Before a TD can run, it needs to
->  - setup/configure TD HOB list;
->  - initialize TDVF into TD's private memory;
->  - initialize TD vcpu state;
+On Thu, May 12, 2022 at 11:17:48AM +0800, Xiaoyao Li wrote:
+> For each TDVF sections, QEMU needs to copy the content to guest
+> private memory via KVM API (KVM_TDX_INIT_MEM_REGION).
 > 
-> Register a machine_init_done callback to all those stuff.
+> Introduce a field @mem_ptr for TdxFirmwareEntry to track the memory
+> pointer of each TDVF sections. So that QEMU can add/copy them to guest
+> private memory later.
+> 
+> TDVF sections can be classified into two groups:
+>  - Firmware itself, e.g., BFV and CFV, that locates separated from guest
+>    RAM. It's memory pointer is the bios pointer.
+> 
+>  - Sections located at guest RAM, e.g., TEMP_MEM and TD_HOB.
+>    mmap a new memory range for them.
+> 
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 
-> +static void tdx_finalize_vm(Notifier *notifier, void *unused)
-> +{
-> +    /* TODO */
-> +}
-
-I'd suggest to squash this into the patch actually implementing
-tdx_finalize_vm.
-
-take care,
-  Gerd
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
 
