@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5107E532DD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:49:32 +0200 (CEST)
-Received: from localhost ([::1]:55562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B74532DE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 17:55:04 +0200 (CEST)
+Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntWmp-0005RA-EI
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42890)
+	id 1ntWs9-00034a-Ld
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 11:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntWei-000403-A3
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:08 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45596)
+ id 1ntWej-00042Z-QC
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:09 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntWea-0005Ll-CE
- for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:07 -0400
-Received: by mail-wr1-x431.google.com with SMTP id p10so7649078wrg.12
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 08:40:59 -0700 (PDT)
+ id 1ntWec-0005Lz-LR
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 11:41:09 -0400
+Received: by mail-wr1-x436.google.com with SMTP id t6so26286248wra.4
+ for <qemu-devel@nongnu.org>; Tue, 24 May 2022 08:41:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5EpRm/9HHK85fo5gZK8auBcL4vBK6z84dOJ/Zm0/w68=;
- b=H3B6QgaIWPXzjDwGh7xqUtBVD6vxaaLK46FQHGxyes1+ACsXyM8RHc17XPKSgU4/Tf
- +Z6k6d+ohqxiBq4q/PkodHO+SsQUa+eAiNZPwCwtfeVxFnVFn42gdMLiA8jEpMfzoKWk
- jhTx34as0hmYqQJ1tuZm0Qt57udqXEQk7SJd5esszWYVcdB68jP13S3W9icf/A45yuQZ
- oZ2Oz4syPUE/KgLirD4SRvucJrsxikONRaPV3vsxYPPyqfVfWeIghkomiSTNo3gdr9ZA
- Sc1ZRUbpKaaN46WCW1xFayodx6qhiyiroANeX5zJbOUAtXPGntZ/RpWOR/evIO9CKGK9
- wSOg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vBtL52cUVXRCn2Iw8uz2+J2VOEbS3hV9Ib2rQvMqV9g=;
+ b=FB+WsbPWMMXudRzX/nrHkt/8nRUQMXPRKwDKsm7ykE8csKKpJ/kuARHxSrgXx08dz5
+ RWNXbVpeVgNVivIVfWCV20b/ioGObn+PpBuY7UJWIANpX0Qe2tPAQlaZ9p6usidh3OhC
+ pHbcUYy7/G9UY6FhD2L+mOZV5gcXjbZSd88S3p2vACVayEP1m+zypJjdlJtIlAs5dd8R
+ 18z+Ot/es6sS8pyT6YS6ZkDoV2hmZtQxt2GcEpRfmj2vdrw8MlFa1uyhPsmPsHTBXuRf
+ qAY+eFT5TQCyXKX2m7V9vLE+2yL4WOPKgRi6QNWcirJ2oayg/P0iEGEal3aEv0EKcno8
+ 0Clg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5EpRm/9HHK85fo5gZK8auBcL4vBK6z84dOJ/Zm0/w68=;
- b=LcaYCfREZNPKi8TzXpVNaw2r4Xk5oyQKh567NpEsQy5tztBDnfuenAH5QAYbN2KVTv
- fRXlsNX+fnNMBMQ+KAuoc573Pr+9gq4btDblmdxWvEH74WYXBEXdoct6NnayTbxFk8Eb
- ogXaPziFzJz1H/a6x2FTduzMpOFqDlTF472g6XF5oqhGX7mUwq9oqV4k1jXuI3b5WCEf
- IXPjsiJATuUjnI1cHEW4grrRLeDKRNTBHwsNm4FB5khFdpE4DBZguw7CwVpga4xuQnrv
- tSNQGszcWvvehC75DJpalVJ+HKTgQC8ajzJMId3mcdV6ZYEZFesFqu3jBnm+MmqfFkw7
- 7e2g==
-X-Gm-Message-State: AOAM533Ht/rSY4D/fEai/jHxMydpu5ekGSuulqZSrGIGlJFSlrFJc8ap
- L8BBI3uDCGTyg45W0WKs+ZJWKw==
-X-Google-Smtp-Source: ABdhPJxUXaOagc7FveAmVp8BFerCV0KvgdixFxC9Rcgx7e8JVf7Hmb2MKoqj6dfS9ags/LFJGcsL0g==
-X-Received: by 2002:a5d:6984:0:b0:20f:fadf:8849 with SMTP id
- g4-20020a5d6984000000b0020ffadf8849mr1086144wru.143.1653406858077; 
- Tue, 24 May 2022 08:40:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vBtL52cUVXRCn2Iw8uz2+J2VOEbS3hV9Ib2rQvMqV9g=;
+ b=uhapn9sEDSjVdKxSVb8Jy4cEnJG5ha8LOnNGkAckc6OWG2IAl0pKaAc/pm/Le9Muhu
+ /BjANOHCxByaXh99yB/RRYl40qFAV9UX6WhoaSpvV7Gc+2oLq9vPF4Eern3eupkKzPCJ
+ SMq+lbxiQk8aVnf4kubvMMAiwYzQ8H1Bpw8eIknrO8MyjIPTQt1LGV1krhTJJicbM2/G
+ 9OFPZTqkrPm2bdKKZD0kGZVdRpPgnc5uI3WCylKZHeiJQV71WiHFcwD8XW4Hd/kwcUEk
+ 8PtPGkw63a1RfCKBQl8cGYfCGjoiQXeuAjJXNtjWoDVcsWH2vKf+s2E89Po/l6CAJnKL
+ pJGg==
+X-Gm-Message-State: AOAM532wgON9nCNadGDjkTgsIo7PBAhcm4ePkFdT9dAivEeN9duy7KO6
+ PE/F1RwMjraFpmLsEp4UQeaqdA==
+X-Google-Smtp-Source: ABdhPJxqcBqpANL5pnIvE0Vo/DEFOEk9VZKOf/8V02Gfz1spjbNxVQsShb6bYepOxRtcSdNgAyFuwQ==
+X-Received: by 2002:a5d:648e:0:b0:20f:d9b6:a35f with SMTP id
+ o14-20020a5d648e000000b0020fd9b6a35fmr9739650wri.333.1653406861281; 
+ Tue, 24 May 2022 08:41:01 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- s1-20020adf8901000000b0020c547f75easm12886935wrs.101.2022.05.24.08.40.56
+ z16-20020adfbbd0000000b0020cfed0bb7fsm13081406wrg.53.2022.05.24.08.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 24 May 2022 08:40:57 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 624CF1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 7EB501FFB8;
  Tue, 24 May 2022 16:40:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v2 00/15] virtio-gpio and various virtio cleanups
-Date: Tue, 24 May 2022 16:40:41 +0100
-Message-Id: <20220524154056.2896913-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: [PATCH v2 01/15] contrib/vhost-user-blk: fix 32 bit build and enable
+Date: Tue, 24 May 2022 16:40:42 +0100
+Message-Id: <20220524154056.2896913-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220524154056.2896913-1-alex.bennee@linaro.org>
+References: <20220524154056.2896913-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,90 +95,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+We were not building the vhost-user-blk server due to 32 bit
+compilation problems. The problem was due to format string types so
+fix that and then enable the build. Tweak the rule to follow the same
+rules as other vhost-user daemons.
 
-This series ostensibly adds virtio-user-gpio stubs to the build for
-use with an external vhost-user daemon. We've been testing it with our
-rust daemons from:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220321153037.3622127-12-alex.bennee@linaro.org>
+---
+ meson.build                             | 2 +-
+ contrib/vhost-user-blk/vhost-user-blk.c | 6 +++---
+ contrib/vhost-user-blk/meson.build      | 3 +--
+ 3 files changed, 5 insertions(+), 6 deletions(-)
 
-  https://github.com/rust-vmm/vhost-device
-
-Getting the test enabled took some doing most likely because the need
-for CONFIG support exercised additional paths in the code that were
-not used for the simpler virtio-net tests. As a result the series has
-a number of cleanup and documentation patches.
-
-The final thing that needed fixing was the ensuring that
-VHOST_USER_F_PROTOCOL_FEATURES didn't get squashed in the negotiation
-process. This was the hardest thing to track down as we store the
-feature bits in several places variously as:
-
-  in VirtIODevice as:
-    uint64_t guest_features;
-    uint64_t host_features;
-    uint64_t backend_features;
-
- in vhost_dev as:
-    uint64_t features;
-    uint64_t acked_features;
-    uint64_t backend_features;
-
-and a number of the other device structures also have various features
-fields along with get/set function handlers. It wasn't super clear
-what the flow through this structures was meant to be but I'm fairly
-sure there is unnecessary duplication in there somewhere. We could
-certainly do with some docstrings to make the point of each field
-clear.
-
-Going forward I wonder if having a fake vhost-user daemon is
-sustainable in the long term. Maybe it would be better to spawn real
-vhost-user daemons in a test mode so we don't end up duplicating the
-whole protocol?
-
-Anyway please review.
-
-Alex Bennée (13):
-  contrib/vhost-user-blk: fix 32 bit build and enable
-  include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
-  include/hw/virtio: document vhost_get_features
-  include/hw/virtio: document vhost_ack_features
-  tests/qtest: pass stdout/stderr down to subtests
-  tests/qtest: add a timeout for subprocess_run_one_test
-  tests/qtest: use qos_printf instead of g_test_message
-  tests/qtest: catch unhandled vhost-user messages
-  tests/qtest: use g_autofree for test_server_create_chr
-  tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
-  tests/qtest: implement stub for VHOST_USER_GET_CONFIG
-  tests/qtest: add a get_features op to vhost-user-test
-  tests/qtest: enable tests for virtio-gpio
-
-Viresh Kumar (2):
-  hw/virtio: add boilerplate for vhost-user-gpio device
-  hw/virtio: add vhost-user-gpio-pci boilerplate
-
- meson.build                             |   2 +-
- include/hw/virtio/vhost-user-gpio.h     |  35 +++
- include/hw/virtio/vhost.h               |  21 ++
- include/hw/virtio/virtio.h              |   7 +-
- tests/qtest/libqos/virtio-gpio.h        |  35 +++
- contrib/vhost-user-blk/vhost-user-blk.c |   6 +-
- hw/virtio/vhost-user-gpio-pci.c         |  69 +++++
- hw/virtio/vhost-user-gpio.c             | 357 ++++++++++++++++++++++++
- tests/qtest/libqos/virtio-gpio.c        | 171 ++++++++++++
- tests/qtest/libqos/virtio.c             |   2 +-
- tests/qtest/qos-test.c                  |   8 +-
- tests/qtest/vhost-user-test.c           | 179 ++++++++++--
- contrib/vhost-user-blk/meson.build      |   3 +-
- hw/virtio/Kconfig                       |   5 +
- hw/virtio/meson.build                   |   2 +
- tests/qtest/libqos/meson.build          |   1 +
- 16 files changed, 872 insertions(+), 31 deletions(-)
- create mode 100644 include/hw/virtio/vhost-user-gpio.h
- create mode 100644 tests/qtest/libqos/virtio-gpio.h
- create mode 100644 hw/virtio/vhost-user-gpio-pci.c
- create mode 100644 hw/virtio/vhost-user-gpio.c
- create mode 100644 tests/qtest/libqos/virtio-gpio.c
-
+diff --git a/meson.build b/meson.build
+index 9ebc00f032..a33ed52b7a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1489,7 +1489,7 @@ have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
+            error_message: 'vhost_user_blk_server requires linux') \
+   .require(have_vhost_user,
+            error_message: 'vhost_user_blk_server requires vhost-user support') \
+-  .disable_auto_if(not have_system) \
++  .disable_auto_if(not have_tools and not have_system) \
+   .allowed()
+ 
+ if get_option('fuse').disabled() and get_option('fuse_lseek').enabled()
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index cd4a5d7335..9cb78ca1d0 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -146,7 +146,7 @@ vub_readv(VubReq *req, struct iovec *iov, uint32_t iovcnt)
+     req->size = vub_iov_size(iov, iovcnt);
+     rc = preadv(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512);
+     if (rc < 0) {
+-        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n",
++        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n",
+                 vdev_blk->blk_name, req->sector_num, req->size,
+                 strerror(errno));
+         return -1;
+@@ -169,7 +169,7 @@ vub_writev(VubReq *req, struct iovec *iov, uint32_t iovcnt)
+     req->size = vub_iov_size(iov, iovcnt);
+     rc = pwritev(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512);
+     if (rc < 0) {
+-        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n",
++        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n",
+                 vdev_blk->blk_name, req->sector_num, req->size,
+                 strerror(errno));
+         return -1;
+@@ -188,7 +188,7 @@ vub_discard_write_zeroes(VubReq *req, struct iovec *iov, uint32_t iovcnt,
+ 
+     size = vub_iov_size(iov, iovcnt);
+     if (size != sizeof(*desc)) {
+-        fprintf(stderr, "Invalid size %ld, expect %ld\n", size, sizeof(*desc));
++        fprintf(stderr, "Invalid size %zd, expect %zd\n", size, sizeof(*desc));
+         return -1;
+     }
+     buf = g_new0(char, size);
+diff --git a/contrib/vhost-user-blk/meson.build b/contrib/vhost-user-blk/meson.build
+index 601ea15ef5..dcb9e2ffcd 100644
+--- a/contrib/vhost-user-blk/meson.build
++++ b/contrib/vhost-user-blk/meson.build
+@@ -1,5 +1,4 @@
+-# FIXME: broken on 32-bit architectures
+ executable('vhost-user-blk', files('vhost-user-blk.c'),
+            dependencies: [qemuutil, vhost_user],
+-           build_by_default: false,
++           build_by_default: targetos == 'linux',
+            install: false)
 -- 
 2.30.2
 
