@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E80532862
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 12:59:06 +0200 (CEST)
-Received: from localhost ([::1]:57392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8BF53288B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 May 2022 13:11:39 +0200 (CEST)
+Received: from localhost ([::1]:36478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntSFl-0002GW-UX
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 06:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56190)
+	id 1ntSRs-0008LK-Pv
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 07:11:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ntRtL-0007jp-V6
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58083)
+ id 1ntRtP-0007o0-7x
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:36:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ntRsu-0007YP-RX
- for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:34 -0400
+ id 1ntRtL-0007Ya-It
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 06:35:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653388505;
+ s=mimecast20190719; t=1653388506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yYmH7/LPGs2VixGKyKHcHumFjSKoWTOCFGb4FKoabFM=;
- b=C175ZYDDHNLFGirJzVFdtxjL23/WLn67Ys1zwsktqGFuEYr27qjsCINm0fGdA1hFAfjbmu
- dk/IOQ8/5hNg4FzJfRIi8GAhufX4p1gBvVc8BpB/wAEKzatZDBkuh37sA/7G4Wiyp9Zw9C
- bqFvd7Duqq7ukjisty+DBDYIPaEOeec=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LzYI8ZC2ERXD7GLd1aEpB1Cn7FeyVs38oMYiGAHhcK0=;
+ b=ShNmGFexHgq5Lc9R+axpkUoaH5BDWy4uLK+eYjcgmQwmIXx2Qm5lEHH4ZTvq7pwhLTi17w
+ 1HVyoj+Oj0BENV1+SXVz8EkgmGiCv0dIBDI8ztdQ1bgbkeDbJZjzhA4bN28Bf9hX76x3Az
+ VxISSBDoRgr765NLnpWHAxrfbJQ97z0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-Ll1GeqzgOAijRIMb2koXoA-1; Tue, 24 May 2022 06:35:04 -0400
-X-MC-Unique: Ll1GeqzgOAijRIMb2koXoA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-475-cTLGrAAtNA2ioPEPrCzMqw-1; Tue, 24 May 2022 06:35:05 -0400
+X-MC-Unique: cTLGrAAtNA2ioPEPrCzMqw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07A87185A7B2;
- Tue, 24 May 2022 10:35:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3517E299E763;
+ Tue, 24 May 2022 10:35:05 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFFDC2026D6A;
- Tue, 24 May 2022 10:35:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE9B72166B25;
+ Tue, 24 May 2022 10:35:04 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v4 08/15] qga: replace qemu_open_old() with qga_open_cloexec()
-Date: Tue, 24 May 2022 12:34:46 +0200
-Message-Id: <20220524103453.162665-9-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 09/15] qga: make build_fs_mount_list() return a bool
+Date: Tue, 24 May 2022 12:34:47 +0200
+Message-Id: <20220524103453.162665-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20220524103453.162665-1-marcandre.lureau@redhat.com>
 References: <20220524103453.162665-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -84,150 +84,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-qemu_open_old() uses qemu_open_internal() which handles special
-"/dev/fdset/" path for monitor fd sets, set CLOEXEC, and uses Error
-reporting (and some O_DIRECT special error casing).
-
-The monitor fdset handling is unnecessary for qga, use
-qga_open_cloexec() instead.
+Change build_fs_mount_list() to return bool, in accordance
+with the guidance under = Rules = in include/qapi/error.h
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/channel-posix.c  | 15 ++++++++++-----
- qga/commands-posix.c | 25 +++++++++++++------------
- 2 files changed, 23 insertions(+), 17 deletions(-)
+ qga/commands-posix.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/qga/channel-posix.c b/qga/channel-posix.c
-index 25fcc5cb1a..6b9ab5191c 100644
---- a/qga/channel-posix.c
-+++ b/qga/channel-posix.c
-@@ -1,8 +1,10 @@
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include <termios.h>
- #include "qapi/error.h"
- #include "qemu/sockets.h"
- #include "channel.h"
-+#include "cutils.h"
- 
- #ifdef CONFIG_SOLARIS
- #include <stropts.h>
-@@ -127,11 +129,15 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-     switch (c->method) {
-     case GA_CHANNEL_VIRTIO_SERIAL: {
-         assert(fd < 0);
--        fd = qemu_open_old(path, O_RDWR | O_NONBLOCK
-+        fd = qga_open_cloexec(
-+            path,
- #ifndef CONFIG_SOLARIS
--                           | O_ASYNC
-+            O_ASYNC |
- #endif
--                           );
-+            O_RDWR | O_NONBLOCK,
-+            0,
-+            errp
-+        );
-         if (fd == -1) {
-             error_setg_errno(errp, errno, "error opening channel");
-             return false;
-@@ -156,9 +162,8 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-         struct termios tio;
- 
-         assert(fd < 0);
--        fd = qemu_open_old(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
-+        fd = qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0, errp);
-         if (fd == -1) {
--            error_setg_errno(errp, errno, "error opening channel");
-             return false;
-         }
-         tcgetattr(fd, &tio);
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 28fe19d932..e3b893cd47 100644
+index e3b893cd47..ae16e84e41 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -1394,6 +1394,7 @@ static GuestDiskInfoList *get_disk_partitions(
- 
- static void get_nvme_smart(GuestDiskInfo *disk)
+@@ -673,7 +673,7 @@ static int dev_major_minor(const char *devpath,
+ /*
+  * Walk the mount table and build a list of local file systems
+  */
+-static void build_fs_mount_list_from_mtab(FsMountList *mounts, Error **errp)
++static bool build_fs_mount_list_from_mtab(FsMountList *mounts, Error **errp)
  {
-+    Error *err = NULL;
-     int fd;
-     GuestNVMeSmart *smart;
-     NvmeSmartLog log = {0};
-@@ -1406,9 +1407,10 @@ static void get_nvme_smart(GuestDiskInfo *disk)
-                  | (((sizeof(log) >> 2) - 1) << 16)
-     };
- 
--    fd = qemu_open_old(disk->name, O_RDONLY);
-+    fd = qga_open_cloexec(disk->name, O_RDONLY, 0, &err);
-     if (fd == -1) {
--        g_debug("Failed to open device: %s: %s", disk->name, g_strerror(errno));
-+        g_debug("Failed to open device: %s: %s", disk->name, error_get_pretty(err));
-+        error_free(err);
-         return;
+     struct mntent *ment;
+     FsMount *mount;
+@@ -684,7 +684,7 @@ static void build_fs_mount_list_from_mtab(FsMountList *mounts, Error **errp)
+     fp = setmntent(mtab, "r");
+     if (!fp) {
+         error_setg(errp, "failed to open mtab file: '%s'", mtab);
+-        return;
++        return false;
      }
  
-@@ -1739,9 +1741,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
-             }
-         }
+     while ((ment = getmntent(fp))) {
+@@ -714,6 +714,7 @@ static void build_fs_mount_list_from_mtab(FsMountList *mounts, Error **errp)
+     }
  
--        fd = qemu_open_old(mount->dirname, O_RDONLY);
-+        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
-         if (fd == -1) {
--            error_setg_errno(errp, errno, "failed to open %s", mount->dirname);
-             goto error;
-         }
+     endmntent(fp);
++    return true;
+ }
  
-@@ -1806,7 +1807,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+ static void decode_mntname(char *name, int len)
+@@ -738,7 +739,7 @@ static void decode_mntname(char *name, int len)
+     }
+ }
  
-     QTAILQ_FOREACH(mount, &mounts, next) {
-         logged = false;
--        fd = qemu_open_old(mount->dirname, O_RDONLY);
-+        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0, NULL);
-         if (fd == -1) {
-             continue;
-         }
-@@ -1866,21 +1867,20 @@ static void guest_fsfreeze_cleanup(void)
- GuestFilesystemTrimResponse *
- qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+-static void build_fs_mount_list(FsMountList *mounts, Error **errp)
++static bool build_fs_mount_list(FsMountList *mounts, Error **errp)
  {
-+    ERRP_GUARD();
-     GuestFilesystemTrimResponse *response;
-     GuestFilesystemTrimResult *result;
-     int ret = 0;
-     FsMountList mounts;
-     struct FsMount *mount;
-     int fd;
--    Error *local_err = NULL;
-     struct fstrim_range r;
+     FsMount *mount;
+     char const *mountinfo = "/proc/self/mountinfo";
+@@ -751,8 +752,7 @@ static void build_fs_mount_list(FsMountList *mounts, Error **errp)
  
-     slog("guest-fstrim called");
+     fp = fopen(mountinfo, "r");
+     if (!fp) {
+-        build_fs_mount_list_from_mtab(mounts, errp);
+-        return;
++        return build_fs_mount_list_from_mtab(mounts, errp);
+     }
+ 
+     while (getline(&line, &n, fp) != -1) {
+@@ -794,6 +794,7 @@ static void build_fs_mount_list(FsMountList *mounts, Error **errp)
+     free(line);
+ 
+     fclose(fp);
++    return true;
+ }
+ #endif
+ 
+@@ -1594,8 +1595,7 @@ GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)
+     Error *local_err = NULL;
  
      QTAILQ_INIT(&mounts);
 -    build_fs_mount_list(&mounts, &local_err);
 -    if (local_err) {
--        error_propagate(errp, local_err);
-+    build_fs_mount_list(&mounts, errp);
-+    if (*errp) {
++    if (!build_fs_mount_list(&mounts, &local_err)) {
+         error_propagate(errp, local_err);
          return NULL;
      }
+@@ -1718,8 +1718,7 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
+     }
  
-@@ -1892,11 +1892,12 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+     QTAILQ_INIT(&mounts);
+-    build_fs_mount_list(&mounts, &local_err);
+-    if (local_err) {
++    if (!build_fs_mount_list(&mounts, &local_err)) {
+         error_propagate(errp, local_err);
+         return -1;
+     }
+@@ -1799,8 +1798,7 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+     Error *local_err = NULL;
  
-         QAPI_LIST_PREPEND(response->paths, result);
+     QTAILQ_INIT(&mounts);
+-    build_fs_mount_list(&mounts, &local_err);
+-    if (local_err) {
++    if (!build_fs_mount_list(&mounts, &local_err)) {
+         error_propagate(errp, local_err);
+         return 0;
+     }
+@@ -1879,8 +1877,7 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+     slog("guest-fstrim called");
  
--        fd = qemu_open_old(mount->dirname, O_RDONLY);
-+        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0, errp);
-         if (fd == -1) {
--            result->error = g_strdup_printf("failed to open: %s",
--                                            strerror(errno));
-+            result->error = g_strdup(error_get_pretty(*errp));
-             result->has_error = true;
-+            error_free(*errp);
-+            *errp = NULL;
-             continue;
-         }
+     QTAILQ_INIT(&mounts);
+-    build_fs_mount_list(&mounts, errp);
+-    if (*errp) {
++    if (!build_fs_mount_list(&mounts, errp)) {
+         return NULL;
+     }
  
 -- 
 2.36.1
