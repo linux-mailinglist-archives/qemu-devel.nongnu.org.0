@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7C9533BFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 13:52:06 +0200 (CEST)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881F1533C3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 14:07:08 +0200 (CEST)
+Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntpYE-00024i-Bt
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 07:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
+	id 1ntpmp-00071g-48
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 08:06:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ntpSz-0000Kk-Uq
- for qemu-devel@nongnu.org; Wed, 25 May 2022 07:46:22 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:44674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ntpSx-00076M-PI
- for qemu-devel@nongnu.org; Wed, 25 May 2022 07:46:17 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id q184so6929240ybg.11
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 04:46:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5XgHuY+pOkET2Lm9N7PcVM1CyP+W7NKRRXrZf6ymFYA=;
- b=jHSSbKJLwIthjaQPLjn23RnW/60FXUtMn2jdpdn7eXB57o+xVMHMfyIb6zyuiaorMQ
- eUogDzeLonk0HvGSfAWhOju3dRycIzKlnf7Ut2PzxrbP67GseeDs3oGsgJd3Dwjiny9I
- gjfb+5oYTUxHBvomCW62iZCvCC1gJKTIsSERfBosqZYYqEFiqXA3mHyK+4QuZ/0iLFER
- mFi+ISsOSLALHhhUN48/1hq9PnbUOcHob0IDNiNNNhj9iKAE2IEXyUEPt+9+30PEakdc
- E7bf0xSbfTibBErq23FadMiWk811kRw5+vgSg5VRDWmK9tGtowinM1FyRfRvbwC1lupz
- nfug==
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ntpfz-0004hA-JW
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 07:59:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27746)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ntpfw-0000it-Br
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 07:59:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653479978;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nxb4fSAIarMacD14/9tF8pNsk7gaRzrxr62i2CR0joc=;
+ b=a5yBfIgJt826hnMOZLktZ+0CuYhGBQ8nCa8UrbFBLYjNUreF5YGOW3Oejy7skZjrMdvQix
+ cJj8DcRntdXCcx26SQ1Yde943FR0aGySm0TLASCZYaAlM5yotVyCRQW5Yto/fjMcrdbBGJ
+ 965+jxIzL1A7lFdS3DWvCixpDD8DVbE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-467-Dn5AN6BPMr2uIkZhtCUjbA-1; Wed, 25 May 2022 07:59:37 -0400
+X-MC-Unique: Dn5AN6BPMr2uIkZhtCUjbA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ s9-20020aa7c549000000b0042ab6ab62f0so14654840edr.14
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 04:59:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5XgHuY+pOkET2Lm9N7PcVM1CyP+W7NKRRXrZf6ymFYA=;
- b=SVn1LS+/4F2dTaTwJy4gCsRzGSgFbo5RG2OjOyAe74+BSFGkfTN8okEz2Ps9WItO2x
- 6zySMRRX+YmHUZYwc+W06H+tYxz/YU53tzkr0VEe3uhDQ1LQBEOZf16v1IwGQYiP9QPu
- qwyrzVVhVbR/E8xQwS/1VgtSis6iI1vDl9rxv9yJCatZSA0Mxquh1UlmMpOpOZngizI8
- qb5TmM2aqDTgWOOr/mH5zbS0ula0JafVqoADAy/LBDaCcSjElYNf7eHRll85W55UG0Va
- EsP6g3JPkVVqF4/TQf6fMwvDuddEsNo0Z+LFzicHq9Kxi9qlTKqIE5zKj7IWmMEAAE0R
- SH7g==
-X-Gm-Message-State: AOAM5309Y8ffuiP2HOAkMmGfVz7NzA2nCUKzBovp9iRleMkYa13nlwZk
- SazSdNcBcK2YexI9xcSE5/JNoUSFZSBNgjDTdJVODg==
-X-Google-Smtp-Source: ABdhPJz8n7VWTyvUZ7rZxkFsXPNdVWb0WrxcLFaYwi/VIAfG6JbdMArz/8++8YaJpa4WT+qCK7n7tu/rAkXIJIx+MEM=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr30705132ybq.67.1653479164888; Wed, 25
- May 2022 04:46:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=nxb4fSAIarMacD14/9tF8pNsk7gaRzrxr62i2CR0joc=;
+ b=QCvK95agw72lTGoYSk2TBQFyLGP7D57+ylVXPM+6seVIMVjrKcyLLr4WzYT0kjHSZM
+ J9oDRjHNfSkMR51M3yCQnMx8agzWPL5aoCaPaUlAL8TY2Zd4tCiJWstO63LYcu2S5iw8
+ rQWq/29XQwD34dwXLABdrqhe23c/+nklFJqG7r1M6czWPqUnWr17xxC0G6J6Xbd8+ley
+ gGxysDI2OLWXjWSE3PZbIIab9sN17CD0FM11gaKBtYVFoclHNP3o8N3VDDWLKCG9BpJM
+ takMnBWmVSeNcf40H5930r/+mg2x34/Vy568BICQdJq25YjGnB6O6WbrezlwjFMr98qR
+ e8jg==
+X-Gm-Message-State: AOAM530un/7K8ZaLuWocl8s2NsQeLErXSuVCRz4sRzhFS+8bMqskT72r
+ kXJVzwdOQ5si1a+N4YjRJ5UTjVzCEx/C0qH761utbKPtPaT4BUHNdNy87r/u6nplaMf2/qPjd0K
+ 6KlSXo75c/cr/wqo=
+X-Received: by 2002:a05:6402:11cb:b0:42b:6315:7cde with SMTP id
+ j11-20020a05640211cb00b0042b63157cdemr16730335edw.264.1653479975963; 
+ Wed, 25 May 2022 04:59:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHr8ZH5o8nI1Sm71dVAvrlMg7EzczB98HgEjR8UX8XdtpwmyWBQ7Fx79Vne/ul9pOhhuEteA==
+X-Received: by 2002:a05:6402:11cb:b0:42b:6315:7cde with SMTP id
+ j11-20020a05640211cb00b0042b63157cdemr16730321edw.264.1653479975779; 
+ Wed, 25 May 2022 04:59:35 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id
+ zl20-20020a170906991400b006feb479fcb4sm5333798ejb.44.2022.05.25.04.59.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 May 2022 04:59:35 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v3 0/5] i386: Enable newly introduced KVM Hyper-V
+ enlightenments
+In-Reply-To: <87pml02qau.fsf@redhat.com>
+References: <20220429075451.292638-1-pbonzini@redhat.com>
+ <87pml02qau.fsf@redhat.com>
+Date: Wed, 25 May 2022 13:59:34 +0200
+Message-ID: <875yltstzt.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20220524134809.40732-1-damien.hedde@greensocs.com>
- <e494e267-acbf-e6bd-5590-22b6ae2d2a55@ilande.co.uk>
- <1a71b7ee-aac6-a191-5a9c-472d46999ff1@greensocs.com>
-In-Reply-To: <1a71b7ee-aac6-a191-5a9c-472d46999ff1@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 25 May 2022 12:45:53 +0100
-Message-ID: <CAFEAcA8UTLiab5Tg19y7pdJwyuqqxcrxL-9QmzK9r9skGVVGYQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 0/3] Sysbus device generic QAPI plug support
-To: Damien Hedde <damien.hedde@greensocs.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- David Hildenbrand <david@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,43 +98,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 May 2022 at 10:51, Damien Hedde <damien.hedde@greensocs.com> wrote:
-> On 5/24/22 19:44, Mark Cave-Ayland wrote:
-> > Sorry for coming late into this series, however one of the things I've
-> > been thinking about a lot recently is that with the advent of QOM and
-> > qdev, is there really any distinction between TYPE_DEVICE and
-> > TYPE_SYS_BUS_DEVICE anymore, and whether it makes sense to keep
-> > TYPE_SYS_BUS_DEVICE long term.
+Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+
+> Paolo Bonzini <pbonzini@redhat.com> writes:
 >
-> On QAPI/CLI level there is a huge difference since TYPE_SYS_BUS_DEVICE
-> is the only subtype of TYPE_DEVICE which is subject to special
-> treatment. It prevents to plug a sysbus device which has not be allowed
-> by code and that's what I want to get rid of (or workaround by allowing
-> all of them).
+>>> This series enables four new KVM Hyper-V enlightenmtes [...]
+>>>
+>>> docs/hyperv.txt                | 34 ++++++++++++++++++++++
+>>
+>> Queued, thanks.  
+>
+> Thanks!
+>
 
-Yes, but the fact that TYPE_SYS_BUS_DEVICE is a special subclass
-is an accident of history. At some point we really ought to tidy
-this up so that any TYPE_DEVICE can have MMIO regions and IRQs,
-and get rid of the subclass entirely. This isn't trivial, for
-reasons including problems with reset handling, but I would
-prefer it if we didn't bake "sysbus is special" into places like
-the QMP commands.
+It seems these patches didn't make it upstream yet but there's a
+(small) conflict with
 
-More generally, I don't think that the correct answer to "is this
-device OK to cold-plug via commandline and QMP is "is it a sysbus
-device?". I don't know what the right way to identify cold-pluggable
-devices is but I suspect it needs to be more complicated.
+commit 73d24074078a2cefb5305047e3bf50b73daa3f98
+Author: Jon Doron <arilou@gmail.com>
+Date:   Wed Feb 16 12:24:59 2022 +0200
 
-> I'm note sure what you mean by identification and enumeration. I do not
-> do any introspection and rely on knowing which mmio or irq index
-> corresponds to what. The "id" in `device_add` allows to reference the
-> device in following commands.
+    hyperv: Add support to process syndbg commands
 
-This is then baking in a device's choices of MMIO region
-ordering and arrangement and its IRQ numbering into a
-user-facing ABI. I can't say I'm very keen on that -- it
-would block us from being able to do a variety of
-refactorings and cleanups.
+which did.
 
--- PMM
+>> Would you please convert hyperv.txt to rST in docs/system/i386?
+>
+> Sure, it's on my TODO list.
+
+I've sent it out some time ago:
+https://lore.kernel.org/qemu-devel/20220503144906.3618426-1-vkuznets@redhat.com/
+
+but it also conflicts with 73d24074078a now because of 'hv-syndbg'. I'm
+going to send out 'v4' including the conversion to rst to (hopefully)
+facilitate acceptance.
+
+-- 
+Vitaly
+
 
