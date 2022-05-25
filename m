@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24037534248
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 19:38:12 +0200 (CEST)
-Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8929C534257
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 19:44:11 +0200 (CEST)
+Received: from localhost ([::1]:42256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntuxX-0004ft-9C
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 13:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54860)
+	id 1ntv3K-00004x-Lz
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 13:44:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntusL-0005J5-7h
- for qemu-devel@nongnu.org; Wed, 25 May 2022 13:32:49 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52670)
+ id 1ntusQ-0005Ob-Fu
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 13:32:55 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntusI-0002Fa-Ov
- for qemu-devel@nongnu.org; Wed, 25 May 2022 13:32:48 -0400
+ id 1ntusN-0002Gn-DK
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 13:32:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=X4b0jdgOJfgZEh31zO+z6gVMRnPFvOJcfyknX+J9Cl4=; b=Z0sb1o+sTntLQ593LkrgtWKKqV
- g2GNOeViPOTALNKpk3w9R/bOedwqXk4SRF1biKRfZDz2UNcQ4/x/Kzujpk/ryZnxoRGew8/yAGm/A
- VTc4kSU6tBGgX6MrphvZCI9itLVGWO6kz3ZSXN1qHTe1VvpLGN+a/vxfV5o41LbDVv08jDONWXGij
- 8zKz3fqjXKTRidKHnQgCMsRm+qOZ77XPYfSIB2xs7JaYwCiuaLAbon6StFMpHNrjcAGFjvaGCmnbP
- Qc2SnU3GpwJypYIVVyNeD7c3s9Ek90gluqKfYwERyQS09NPeD85qdTRwwFHsfS41CyyanRK1jL61c
- 9ZriXedj+FuGsD3/0ww6vDYrmH0+1pDGZFy14md83tGNnrWSn/Nr0cogRqrJs/j2/cdzEO5pTWzM0
- iexlNMP//oWB7YTPnhYqbo5EBkfa9s9wCzouqwt7bnxi0+eDkdbzAm8XvyKqkCIWPdwa6oqBoK0l5
- rit3XbI0u4BPX+tMHMRoSPtQXcc/3hhrorQMh8h7mPcArMObsCOW9ugZyfeP8Mph+xsbcm65Lsovh
- VelpW3tfoL1cRBqbFtTkGPff5yTFQer0buaXC+CWm6Sh1SY2I3bb1r/VeoyF90do7tV1olR9XAFgx
- hLw5GfrRT5luOFkVe4wRAXHhHPkDY22C85HtSHYZY=;
+ bh=1AlXwSipa/QydQbhCNvAwQqBiE+wqLc0gwT8RKCGB+o=; b=LECDagfIxujjqgEaGHqDQJk+uL
+ BuCpimx+5s8JW5N264NnlmTXSgUZ91zYlyL/z0Q+eYSTlT0ZnnBlTPdxS9SaIuM6RygRK0oaIBI3B
+ a24+UIgmAwEAFmJjEpWFTFtvS/wuPotw16TRDQgTE/wEqC1qwpQqSW9kttYL2tL12koUCHrXCm7T+
+ 0inf3fkb+a8wfBcMWVNHe1XjYVPTzkbMJ3l6RaY7OjRy1nAA1OWV+Ynnn2QOlkC3ycjZ8tdiwQ1/N
+ rCtgWH5wYDBm69u/cjUcfuzAbtgLtnHKaUNs/k1tIPcaZukVSh+0wmq4SGBAzGk5azqGGROxmnteO
+ tVhaVBgTM5ueI1N7UbplJW9RwEhJ5InQTIKkD7jM0VuA7d6ftUxlgSIMjTjGqiiDyLb7I2MJyRo/I
+ Ey/RbTUmSDLWpIK+aSGeGIBSmTbTL47fnPg4eRlmZAGDphzPA3TQABix3k+GTuHGNUzCerZ6Wq6KS
+ 2g6xOi+gv5p1/i0bDof4p5UwMSCYF3PaMKuAddYr0sIUwYDVwt1lp2KZer7Bc/Wn11EDcbabPZTOU
+ EBHGee/AE5w47VPcNZYXlEtO2loDcBl3iN3OoCOw39ENyJ3zSI0N2QqLrE5sHMEKMd/4yWSu8Pw9R
+ 6L2PKW3HwL44oNIOmPOo/KVxnaCskPvQzZLGN0WUY=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nturD-0006Pu-VR; Wed, 25 May 2022 18:31:43 +0100
+ id 1nturH-0006Pu-Ui; Wed, 25 May 2022 18:31:48 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
  jean-philippe@linaro.org, qemu-devel@nongnu.org
-Date: Wed, 25 May 2022 18:32:27 +0100
-Message-Id: <20220525173232.31429-2-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 25 May 2022 18:32:28 +0100
+Message-Id: <20220525173232.31429-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220525173232.31429-1-mark.cave-ayland@ilande.co.uk>
 References: <20220525173232.31429-1-mark.cave-ayland@ilande.co.uk>
@@ -52,8 +52,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 1/6] hw/acpi/viot: rename build_pci_range_node() to
- enumerate_pci_host_bridges()
+Subject: [PATCH v3 2/6] hw/acpi/viot: move the individual PCI host bridge
+ entry generation to a new function
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -79,38 +79,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is in preparation for separating out the VIOT ACPI table build from the
-PCI host bridge numeration.
+Instead of generating each table entry inline, move the individual PCI host bridge
+table entry generation to a separate build_pci_host_range() function.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/acpi/viot.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/acpi/viot.c | 48 +++++++++++++++++++++++++++---------------------
+ 1 file changed, 27 insertions(+), 21 deletions(-)
 
 diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
-index c1af75206e..a41daded71 100644
+index a41daded71..5dafcbf5ef 100644
 --- a/hw/acpi/viot.c
 +++ b/hw/acpi/viot.c
-@@ -17,7 +17,7 @@ struct viot_pci_ranges {
+@@ -16,6 +16,31 @@ struct viot_pci_ranges {
+     uint16_t output_node;
  };
  
++static void build_pci_host_range(GArray *table_data, int min_bus, int max_bus,
++                                 uint16_t output_node)
++{
++    /* Type */
++    build_append_int_noprefix(table_data, 1 /* PCI range */, 1);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 1);
++    /* Length */
++    build_append_int_noprefix(table_data, 24, 2);
++    /* Endpoint start */
++    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 4);
++    /* PCI Segment start */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* PCI Segment end */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* PCI BDF start */
++    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 2);
++    /* PCI BDF end */
++    build_append_int_noprefix(table_data, PCI_BUILD_BDF(max_bus, 0xff), 2);
++    /* Output node */
++    build_append_int_noprefix(table_data, output_node, 2);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 6);
++}
++
  /* Build PCI range for a given PCI host bridge */
--static int build_pci_range_node(Object *obj, void *opaque)
-+static int enumerate_pci_host_bridges(Object *obj, void *opaque)
+ static int enumerate_pci_host_bridges(Object *obj, void *opaque)
  {
-     struct viot_pci_ranges *pci_ranges = opaque;
-     GArray *blob = pci_ranges->blob;
-@@ -78,7 +78,7 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
-     };
+@@ -30,27 +55,8 @@ static int enumerate_pci_host_bridges(Object *obj, void *opaque)
  
-     /* Build the list of PCI ranges that this viommu manages */
--    object_child_foreach_recursive(OBJECT(ms), build_pci_range_node,
-+    object_child_foreach_recursive(OBJECT(ms), enumerate_pci_host_bridges,
-                                    &pci_ranges);
+             pci_bus_range(bus, &min_bus, &max_bus);
  
-     /* ACPI table header */
+-            /* Type */
+-            build_append_int_noprefix(blob, 1 /* PCI range */, 1);
+-            /* Reserved */
+-            build_append_int_noprefix(blob, 0, 1);
+-            /* Length */
+-            build_append_int_noprefix(blob, 24, 2);
+-            /* Endpoint start */
+-            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 4);
+-            /* PCI Segment start */
+-            build_append_int_noprefix(blob, 0, 2);
+-            /* PCI Segment end */
+-            build_append_int_noprefix(blob, 0, 2);
+-            /* PCI BDF start */
+-            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 2);
+-            /* PCI BDF end */
+-            build_append_int_noprefix(blob, PCI_BUILD_BDF(max_bus, 0xff), 2);
+-            /* Output node */
+-            build_append_int_noprefix(blob, pci_ranges->output_node, 2);
+-            /* Reserved */
+-            build_append_int_noprefix(blob, 0, 6);
+-
++            build_pci_host_range(blob, min_bus, max_bus,
++                                 pci_ranges->output_node);
+             pci_ranges->count++;
+         }
+     }
 -- 
 2.20.1
 
