@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7375153381C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 10:15:30 +0200 (CEST)
-Received: from localhost ([::1]:56898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6760C533835
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 10:18:52 +0200 (CEST)
+Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntmAy-0001Y7-K5
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 04:15:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48252)
+	id 1ntmEF-00042R-FJ
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 04:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ntm8g-0000jt-Vy; Wed, 25 May 2022 04:13:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59766)
+ id 1ntm9Q-0001jb-G9; Wed, 25 May 2022 04:13:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ntm8f-0003Vy-4d; Wed, 25 May 2022 04:13:06 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24P6hxmI026095;
- Wed, 25 May 2022 08:12:59 GMT
+ id 1ntm9L-0003XF-6A; Wed, 25 May 2022 04:13:52 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24P7wJBt013424;
+ Wed, 25 May 2022 08:13:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=dUHrFUWcr8DnMKLcjOCHBOd4hgOx0DtjBtrx+/alC64=;
- b=jHKkBaFU1/r/T6MxHNTXP9vj8tvuKEJFYd4sQECPJ2IPhB2BCClPox+84vAqAtt/yTW3
- LO0ooBsFcQLVty1XZbemQvTSTLExy6y/1gvzt+6nw/jf3w5e+0EKtSV48aP6eiqaq242
- RzgiJIIMxNlIZ2wvgGw2qi+Rai+2vkQqvrzFJIzkLhBBjmnrYl0oNKbBSFrNQKSNh925
- T46qrKUtQ6GqKYBNm6BmtGfMY7Z2WhY5hfqVjaMQ449LM5qOZOPKBFDp7reaM9x2E7Ur
- pO3XUcCVzJ/swd3Ux+q4OPYSSPQzF3wvXTkwp6RH+AK6eya0jCqS/9Kxe6qaYmBw/l8v tg== 
+ bh=44HovUO5tESBMhy/Lvt0/Y51H4ULWD/2eCSOhDkrJHE=;
+ b=QKtDAT4iRfwUKZYvkIEzbYQtHZAQX/Mw8V6TmiEBcIfFlIH6r1O9x6RMENPvne5vR4li
+ acfyfqthGs8WamDct1k0lSURNMj1QA9N9rufvTCMrD77e/4x5Ive6kjCnLID/KJmjmid
+ MU7rf4y12PId/sbbTaXwpoframaOUCRw5QsE5+4LdFshZ7aXfq3/YJZJLRvS997/3YNR
+ AGlTY8ppW8czZ31hzUEqejpjqP7DHgq6jxdZ5bBNOx1O0CY4v8+MhcN3TXNOLoa8DSbA
+ LwryZV5M11xQvsOVb2rROAjxxFlu2WzL5KPOQ7ro4MOkhLjDBMhhGmmHz27UEoR8L2yX Hw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9fedhs26-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9ghc8asp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 May 2022 08:12:58 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24P7r0lr021503;
- Wed, 25 May 2022 08:12:58 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9fedhs18-1
+ Wed, 25 May 2022 08:13:42 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24P7wRVp018898;
+ Wed, 25 May 2022 08:13:41 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9ghc8asa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 May 2022 08:12:58 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24P87sSH031921;
- Wed, 25 May 2022 08:12:56 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03fra.de.ibm.com with ESMTP id 3g93ur8mde-1
+ Wed, 25 May 2022 08:13:41 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24P87M0j001133;
+ Wed, 25 May 2022 08:13:39 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 3g93vc0u13-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 May 2022 08:12:56 +0000
+ Wed, 25 May 2022 08:13:39 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24P8Cq3s18612684
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24P8DZFH32768440
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 25 May 2022 08:12:52 GMT
+ Wed, 25 May 2022 08:13:36 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C6159A4051;
- Wed, 25 May 2022 08:12:52 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id CBA13A4055;
+ Wed, 25 May 2022 08:13:35 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D3D7FA404D;
- Wed, 25 May 2022 08:12:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C8236A4053;
+ Wed, 25 May 2022 08:13:34 +0000 (GMT)
 Received: from [9.171.31.97] (unknown [9.171.31.97])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 25 May 2022 08:12:51 +0000 (GMT)
-Message-ID: <8f69ba01-e1c2-5bb9-785d-658877559de8@linux.ibm.com>
-Date: Wed, 25 May 2022 10:16:49 +0200
+ Wed, 25 May 2022 08:13:34 +0000 (GMT)
+Message-ID: <ef9a6e4b-0f86-6d5f-3e70-54f46cc37e3d@linux.ibm.com>
+Date: Wed, 25 May 2022 10:17:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v7 04/13] s390x: topology: implementating Store Topology
- System Information
+Subject: Re: [PATCH v7 06/13] s390x: topology: Adding books to STSI
 Content-Language: en-US
 To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -81,26 +80,26 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
  nrb@linux.ibm.com, frankja@linux.ibm.com
 References: <20220420115745.13696-1-pmorel@linux.ibm.com>
- <20220420115745.13696-5-pmorel@linux.ibm.com>
- <6e426ed7-d3a6-2ae8-badc-80fc7a31c3ea@redhat.com>
+ <20220420115745.13696-7-pmorel@linux.ibm.com>
+ <85d42f91-2837-c73a-128f-e40de852f780@redhat.com>
 From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <6e426ed7-d3a6-2ae8-badc-80fc7a31c3ea@redhat.com>
+In-Reply-To: <85d42f91-2837-c73a-128f-e40de852f780@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1eWLYV5IkNWvIHTlKrllJnPM5zjxvceZ
-X-Proofpoint-GUID: TqQggPHNUgCWMTND4t4kLE4LCBNm9o_0
+X-Proofpoint-ORIG-GUID: eZYiJb3UVL_rfLs_LhJkdddvkDHrra8V
+X-Proofpoint-GUID: ZHqg-EFYInlQOz-gqDr2xFvkFxhHL2Rv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-05-25_02,2022-05-23_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- adultscore=0 clxscore=1015 bulkscore=0 suspectscore=0 mlxlogscore=999
- spamscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 mlxlogscore=999 clxscore=1015
+ malwarescore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2204290000 definitions=main-2205250037
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -125,104 +124,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 5/24/22 12:59, Thomas Huth wrote:
+On 5/24/22 13:07, Thomas Huth wrote:
 > On 20/04/2022 13.57, Pierre Morel wrote:
->> The handling of STSI is enhanced with the interception of the
->> function code 15 for storing CPU topology.
->>
->> Using the objects built during the pluging of CPU, we build the
-> 
-> s/pluging/plugging/
-> 
->> SYSIB 15_1_x structures.
->>
->> With this patch the maximum MNEST level is 2, this is also
->> the only level allowed and only SYSIB 15_1_2 will be built.
+>> Let's add STSI support for the container level 3, books,
+>> and provide the information back to the guest.
 >>
 >> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 >> ---
 > ...
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index f6969b76c5..a617c943ff 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -889,4 +889,5 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
->>   #include "exec/cpu-all.h"
->> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
->>   #endif
-> 
-> Please keep an empty line before the #endif
-
-OK
-
-> 
->> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
->> new file mode 100644
->> index 0000000000..7f6db18829
->> --- /dev/null
->> +++ b/target/s390x/cpu_topology.c
->> @@ -0,0 +1,112 @@
->> +/*
->> + * QEMU S390x CPU Topology
->> + *
->> + * Copyright IBM Corp. 2021
-> 
-> 2022 ?
-:) yes
-
-> 
->> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or 
->> (at
->> + * your option) any later version. See the COPYING file in the top-level
->> + * directory.
->> + */
-> ...
->> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+>> +static char *drawer_bus_get_dev_path(DeviceState *dev)
 >> +{
->> +    const MachineState *machine = MACHINE(qdev_get_machine());
->> +    void *p;
->> +    int ret, cc;
+>> +    S390TopologyDrawer *drawer = S390_TOPOLOGY_DRAWER(dev);
+>> +    DeviceState *node = dev->parent_bus->parent;
+>> +    char *id = qdev_get_dev_path(node);
+>> +    char *ret;
 >> +
->> +    /*
->> +     * Until the SCLP STSI Facility reporting the MNEST value is used,
->> +     * a sel2 value of 2 is the only value allowed in STSI 15.1.x.
->> +     */
->> +    if (sel2 != 2) {
->> +        setcc(cpu, 3);
->> +        return;
->> +    }
->> +
->> +    p = g_malloc0(TARGET_PAGE_SIZE);
->> +
->> +    setup_stsi(machine, p, 2);
->> +
->> +    if (s390_is_pv()) {
->> +        ret = s390_cpu_pv_mem_write(cpu, 0, p, TARGET_PAGE_SIZE);
+>> +    if (id) {
+>> +        ret = g_strdup_printf("%s:%02d", id, drawer->drawer_id);
+>> +        g_free(id);
 >> +    } else {
->> +        ret = s390_cpu_virt_mem_write(cpu, addr, ar, p, 
->> TARGET_PAGE_SIZE);
->> +    }
->> +    cc = ret ? 3 : 0;
->> +    setcc(cpu, cc);
+>> +        ret = g_malloc(6);
+>> +        snprintf(ret, 6, "_:%02d", drawer->drawer_id);
 > 
-> Just a matter of taste (i.e. keep it if you like) - but you could 
-> scratch the cc variable in this function by just doing:
-> 
->      setcc(cpu, ret ? 3 : 0);
-> 
+> Please use g_strdup_printf() here as well.
 
-OK I can do this.
-
+yes,
 Thanks
-Pierre
+pierre
 
->> +    g_free(p);
->> +}
->> +
 > 
 >   Thomas
+> 
+>> +    }
+>> +
+>> +    return ret;
+>> +}
 > 
 
 -- 
