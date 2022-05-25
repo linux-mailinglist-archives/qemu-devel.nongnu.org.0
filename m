@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE385345A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 23:07:43 +0200 (CEST)
-Received: from localhost ([::1]:43174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0F45344C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 22:19:26 +0200 (CEST)
+Received: from localhost ([::1]:42624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntyEH-0007W1-VK
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 17:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
+	id 1ntxTZ-0000b8-80
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 16:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <juew@google.com>) id 1ntxR3-0007nE-7U
- for qemu-devel@nongnu.org; Wed, 25 May 2022 16:16:49 -0400
-Received: from mail-vk1-xa34.google.com ([2607:f8b0:4864:20::a34]:38494)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntxRE-000815-6h
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 16:17:00 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <juew@google.com>) id 1ntxR1-0002OW-JB
- for qemu-devel@nongnu.org; Wed, 25 May 2022 16:16:48 -0400
-Received: by mail-vk1-xa34.google.com with SMTP id ay20so3310528vkb.5
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 13:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=sEG0icEbQWzQToljyqBgD3aSPQ/mar2lnW/ygu4neoY=;
- b=eEqJ7TQi6I6W8fbEV9Ibmb7lons3Vl5rNCaekxwVLzqN0iym/F9GFmW3m8TS31Fe45
- ePM+S2RHy/r20laDdii5e9VQiY5RSKaoLD/pgXZ2ghVStHsVV5ugwG8dbXSzeW5nOv7D
- MC9/aFVH0Dx69kSHo86+3frP64Ss6OcL9dq7i3UzIX7lf9daLy05BVveI+yKZVbFg464
- RBO63ztSg2not7N8aYKfyAshrQzRJpnlQfMOl16HBb484uCMYX8FkRSYqNpNIp2ZE1j2
- AQJiXPAQQOuoJxAGTQ7Gw+Iev/omSlrkzV5CgbHvyOKaLku4CDlo7dualO3zn2tzIivB
- nyDA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntxRC-0002P1-JN
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 16:16:59 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ o9-20020a17090a0a0900b001df3fc52ea7so2595416pjo.3
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 13:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=d1YX1cI8tQ9+wdiLzfn8SdNBP0qt9u1gcZj3rIByMDc=;
+ b=XLX7mE9uTy9qovQQSqjpXZdHOADqH/1OPHrkXucX6FbrQUBp0z6Bio75FwpGGONwnj
+ i4gdeu0tX1OVUyuyMsHJGnU3OcSRoznRBzLAZTxKoQW54J8adKSXTZuD26krzJ3pMh6k
+ D+QrnKg8abHYXQ7RbBwlFAlr3KSKKMbOewH7Q0LT4u1NLGyk7eR9GC1IYn4aFnJNyzBi
+ i0G44UtpmXVtpqFVjKgwJdCZLROM+cWHYs+NDyT7Q6v9Y+zJyg9VJw025msYweig3BsE
+ Be5M/kBhkAsPqQvtFy9FBXi2yOKQTKj5REAI2pH+GzlcgKRsGJ6vk7+h3K+AyW/LZzsX
+ vXWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=sEG0icEbQWzQToljyqBgD3aSPQ/mar2lnW/ygu4neoY=;
- b=pp+sqPpNbpewBtScEJSXpt0YQflg5NQVEVHr57SVJYYNmnXv57YrBEjCqKECfhRzBP
- 256TWVePQ2VLNcDv05khV/PyNFYhE3zl2+x5mu5EfuyUj+nJFrnhGjtO9a4He6X9qkE9
- LU4/IKqx4bMIQRw0Ln4ZLGoiV0PytHSw/YKiskFTDqDX34eDED2CMkMcwfRkSx6F11vK
- sW4WSATgZ8UtZKFpC22gbG5vUaMZdhRRwnC3E+Ut2h9AxnYaT840Puc2+fYWQygDLt8Q
- KMH8VXlJJKkMgzwBKX6lM/lZS9KviCjGVEXPY5mbO97v0Peu1IZ2P2uemYbv7HUlbUED
- RZ/A==
-X-Gm-Message-State: AOAM530jCc5NzF2UXznsav+GiQnA7SiFLs/5zERfh4nqEzYbE6av8xgQ
- 2l9VxT8Jij+7Ts37MEZQKjARIfXa4iXoSLjlACR8yA==
-X-Google-Smtp-Source: ABdhPJxXTD0b0wGt11g6Sf3EIcNgykMMnDOGoXDZJlAhtASlMQY8J+Li2flc5Z6ipSE6ZXPSEPSpTccxmE+am9GnerQ=
-X-Received: by 2002:ac5:cdec:0:b0:358:269a:8a24 with SMTP id
- v12-20020ac5cdec000000b00358269a8a24mr2737096vkn.22.1653509805414; Wed, 25
- May 2022 13:16:45 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d1YX1cI8tQ9+wdiLzfn8SdNBP0qt9u1gcZj3rIByMDc=;
+ b=mxg/UIHVamipNtnbRmArLb66ixaTjnDmdG7x6vC0xK2PiSZIHWphqtKnbyd9Vzqv0f
+ xp4yqwsyGggAu0Fn1h4BFN1RJ0JZ3DQgJp4XWcO2tlFNs7wFiZTxm61xdZLd4tMeQgpV
+ SUbDUVGQYUrXyP+Cap6DyJ8G+YCkseWT06DB3u9zTBsVjeptIKxaYYSw16k14FCTuVcK
+ LwBiqMKgsy311pJVcRYkE07tkGJqB633tGwcAETKo0+pul8Pp10LFHxrBG0CNKCWogEC
+ jodC363V/Y36+450Qrs3Efc28762bThfVGM/4oHzJOGStVlKFPRv5OVbCvRvaxu6Y3iI
+ BydQ==
+X-Gm-Message-State: AOAM531wI3WXsugoN+7zitrycFHYzqwyUHiTHw+0ZlzMR0Qdx8+IB8or
+ Wu6nYNCcNdb+UuN2RqP9tAUuyg==
+X-Google-Smtp-Source: ABdhPJwjisoWHy3UXWQZh5/DjtiyGM4NRSif0DZjp3QnRKdx19CVoIF8d3p4ZJNTJObYs4kUEDjnfw==
+X-Received: by 2002:a17:90b:4c4a:b0:1df:9cbf:879f with SMTP id
+ np10-20020a17090b4c4a00b001df9cbf879fmr12142658pjb.84.1653509817268; 
+ Wed, 25 May 2022 13:16:57 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ w76-20020a62824f000000b0050dc7628174sm11834019pfd.78.2022.05.25.13.16.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 May 2022 13:16:56 -0700 (PDT)
+Message-ID: <dbe09d66-dc14-c37a-af08-2378a4640e53@linaro.org>
+Date: Wed, 25 May 2022 13:16:54 -0700
 MIME-Version: 1.0
-From: Jue Wang <juew@google.com>
-Date: Wed, 25 May 2022 13:16:34 -0700
-Message-ID: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
-Subject: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
-To: pizhenwei@bytedance.com
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, jasowang@redhat.com, 
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- mst@redhat.com, 
- =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= <naoya.horiguchi@nec.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a34;
- envelope-from=juew@google.com; helo=mail-vk1-xa34.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v9 08/12] target/hexagon: import flex/bison to docker files
+Content-Language: en-US
+To: anjo@rev.ng, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com,
+ mlambert@quicinc.com, babush@rev.ng, nizzo@rev.ng, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>
+References: <a430eb4a-20db-8c04-e9ce-0d3e1d4c3c46@linaro.org>
+ <87czg11s8w.fsf@linaro.org> <67c27109-2bb4-7147-ab7d-215b6b03b4cf@rev.ng>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <67c27109-2bb4-7147-ab7d-215b6b03b4cf@rev.ng>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 25 May 2022 17:04:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,21 +96,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some points to consider:
+On 5/25/22 13:14, Anton Johansson wrote:
+> Just to make sure I understood you correctly, I should:
+> 
+>      1. Make a standalone patch that updates libvirt-ci and runs
+>          the refresh script, in case any package mappings changed
+> 
+>      2. Change this patch to add flex/bison to QEMU's qemu.yml,
+>          and run refresh
 
-The injected MCE has _done_ the damages to guest workload. Recovering
-the guest poisoned memory doesn't help with the already happened guest
-workload memory corruption / loss / interruption due to injected MCEs.
+No:
 
-The hypervisor _must_ emulate poisons identified in guest physical
-address space (could be transported from the source VM), this is to
-prevent silent data corruption in the guest. With a paravirtual
-approach like this patch series, the hypervisor can clear some of the
-poisoned HVAs knowing for certain that the guest OS has isolated the
-poisoned page. I wonder how much value it provides to the guest if the
-guest and workload are _not_ in a pressing need for the extra KB/MB
-worth of memory.
+* one patch to update libvirt-ci and does nothing else.
+* one patch to update yml template.
+* one patch to refresh.
 
-Thanks,
--Jue
+Just like you enumerated before.
+
+
+r~
+
 
