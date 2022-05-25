@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970095341A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:45:09 +0200 (CEST)
-Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21F253423F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 19:35:41 +0200 (CEST)
+Received: from localhost ([::1]:57426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntu8C-0002v1-NY
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:45:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
+	id 1ntuv6-0007bf-Bs
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 13:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntu2n-00013r-AV
- for qemu-devel@nongnu.org; Wed, 25 May 2022 12:39:33 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:37561)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntu2l-000283-Bi
- for qemu-devel@nongnu.org; Wed, 25 May 2022 12:39:32 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id d22so4068600edj.4
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 09:39:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pQ7uvzhXlKIls1d+/Ib90WEudZ08aaOcW/Y2UTFe3RA=;
- b=pMDRIbflfz2UxZbs1fro7VhbMeVm4UCe3IA4xHgtStCZOG9Law7i8YEQhAzu/LezuV
- INNZfMrSfd6fw0A7wSHNec/VeQsznOCBzlm7RCiACzQXotaVwJHUngKVXY4ANETi6hSk
- bwNVnMhDrjcsiNzL96I4n944nMfEEI4qqWGiJR7QlgDsPiAeC3rI+r0LgiCAEg8CnQw5
- d8EK5MgTo8x/3kHu6UA08Nbvkm8//egiZyyPFUY0iz7D33RetDwi2bh0yo1uaGNm4qiH
- pqwQrX9kRi1KogzgZx3Y6OeCdYKC5GOeE21EnsVFc8V+KOfHAwezLtS40huwyfIjs5OI
- jW/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pQ7uvzhXlKIls1d+/Ib90WEudZ08aaOcW/Y2UTFe3RA=;
- b=t4TDEOHEQIOR7+Ttwa+HA7kdgyT/PIks7VSuWylfHcBX7d7jSxjUPMNZFWUmkqX58E
- aeGu5DfOC5ILxaR75Gu/lxeGpSHZ9JJEpY/CvDBWY+CJ4+/rLBlxFXA8gZ8raipFKIWY
- kb+UmNzTml5sntVaRGsqCWAConVrxS+VoTPt3J0FzdQjqC/jV3RRdAAt/wnkMNshB5Rs
- Ee9/x/7ufYWRkSzrNgGX+BzDr+QyCPPscxtU0vDFnLeeYdtvvTpJa5c5ho39yLOZB0D0
- 5l9uNM4cVCXKZ2+z0BSBAh416BV/Lfgl+wINh9DKAQedHXbljZyR/FtUlhwxRKiGCHA8
- vXcA==
-X-Gm-Message-State: AOAM531S3E5A1z5Emf5CKlGY9liPkv2YyLDuhiz1tO4K1v3P82Sbi+Z5
- rIqrkepOmLLrzxCNsKtoHOTD7A==
-X-Google-Smtp-Source: ABdhPJyoBTIlyLZb+Latpwf4s+sX2Vxoogvx6aBGGNmYYaljmIR8qQ2ZMQI9PYwaAIFNFSxZAxVM7w==
-X-Received: by 2002:a05:6402:b12:b0:42b:cf04:3e11 with SMTP id
- bm18-20020a0564020b1200b0042bcf043e11mr2560392edb.85.1653496769544; 
- Wed, 25 May 2022 09:39:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- ej23-20020a056402369700b0042a2d9af0f8sm11121342edb.79.2022.05.25.09.39.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 09:39:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AB8461FFB7;
- Wed, 25 May 2022 17:39:27 +0100 (BST)
-References: <a430eb4a-20db-8c04-e9ce-0d3e1d4c3c46@linaro.org>
-User-agent: mu4e 1.7.23; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: anjo@rev.ng, ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com,
- mlambert@quicinc.com, babush@rev.ng, nizzo@rev.ng, qemu-devel@nongnu.org,
- Daniel P . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v9 08/12] target/hexagon: import flex/bison to docker files
-Date: Wed, 25 May 2022 17:38:16 +0100
-In-reply-to: <a430eb4a-20db-8c04-e9ce-0d3e1d4c3c46@linaro.org>
-Message-ID: <87czg11s8w.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ntusJ-0005Il-AE
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 13:32:47 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ntusH-0002Ed-LD
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 13:32:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=D2XMhFiaI7CNYOFS79YArOtwE4K/gnazqu2ejxKO0uA=; b=I/nrZ/xUiI1ett02p8hKAaf/Qp
+ oQ+bbZNH4sjqYrN1sIjq8jeQo7BIOIEMDbuu7cYfPqSj5tx4T655Ax7GrblATpfYdH3fCepZWYNZI
+ /JzqQY71C86mAdDmc1l849oqulG7j2oIL8AZobXXBL/NzVafKTLOgpx+J7KkZ8wmJjIDG4V3JUlVr
+ 0LleMsOA0uYUFXw/NOtyHutDyXo/gcj+H2eq96P9VaYW0tO8jS8JvU7kkZxo2kFNrfgeuiJoroP4/
+ p1ngj76TatDU/mt8A4kym+deUW+7pmIXQn7aELK63xFqzGAvH93+3KuE/ww1Y6bjb5yopMwh1NbjH
+ eEEjNjXpMaveRYBPySL5ig0ajeA1hrnjM6gGWFT0NaMIn+2m4nZGgqRcApF9VBiENflsAZpLsCeSn
+ le1w/qXMqu1FeNZfNcNhX0m2aybFkkyDQ1m/Kcm6neOvJ8/68ps2RMPcOBW6zem/Ri23SHcQRZ6/0
+ Xy6pJheLOoE7Oy4qYcC03yLWar73a8vglGyB3zuXTzwi8WLMWRyvcrh1stsyUS0C1v1V9mDQDe5Xc
+ YK7PlTGUDZ0fU2vr5N1aEbhd1ACb/rsYyTJi2sOEkG5cV6bLNz6cCN3A6aqS1qnNA2wLXs9KIJAz6
+ cAS6lJaQKw9bSQ8Ohhj+8w7zpsQAa8sGfWxPdR+6w=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ntur9-0006Pu-LL; Wed, 25 May 2022 18:31:39 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
+ jean-philippe@linaro.org, qemu-devel@nongnu.org
+Date: Wed, 25 May 2022 18:32:26 +0100
+Message-Id: <20220525173232.31429-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v3 0/6] hw/acpi/viot: generate stable VIOT ACPI tables
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,47 +76,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I was working away at some improvements for PS2 devices when I noticed that one
+small change to the instantiation of a PS2 mouse device caused a regression in
+tests/qtest/bios-tables-test, specifically the /x86_64/acpi/q35/viot subtest.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Closer examination of the failed test output showed the problem was that the
+order of the PCI host bridge entries had changed within the table causing the
+generated binary to fail to match the version in tests/data/acpi/q35/VIOT.viot.
 
-> On 5/25/22 05:29, Anton Johansson wrote:
->> For clarity's sake, here are the exact steps taken to produce this patch:
->>  =C2=A0=C2=A0=C2=A0 1. Update QEMU's libvirt-ci to the commit
->> https://gitlab.com/libvirt/libvirt-ci/-/commit/43927ff508e8ecb1ac225dabb=
-c95b37c890db917
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 which adds flex/bison, and a nativ=
-e glib2 (required since
->> idef-parser
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 is a build-time tool.)
->
-> This must be split out -- submodule updates should be a patch by
-> themselves.  Otherwise it can look like unintentional rebase breakage
-> (which, sadly, happens more often than legitimate submodule updates).
->
->>  =C2=A0=C2=A0=C2=A0 2. Copy in new `tests/lcitool/projects/qemu.yml` fro=
-m `libvirt-ci`
->>  =C2=A0=C2=A0=C2=A0 3. run `tests/lcitool/refresh` to generate new docke=
-r/cirrus
->> files
->
-> And, yes, having one patch that's simply auto-generated is helpful.
+The error occurs because there is no guarantee in the order of PCI host bridges
+being returned from object_child_foreach_recursive() used within
+hw/acpi/viot.c's build_viot() function, so any change to the QOM tree can
+potentially change the generated ACPI VIOT table ordering and cause the
+regression tests to fail.
 
-To quote danpb:
+Fortunately the solution is fairly easy: change build_viot() to build an array
+of PCI host bridges and then sort them first before generating the final ACPI
+VIOT table. I've chosen to sort the PCI host bridges based upon the min_bus
+number which seems to work okay here.
 
-   danpb: should our tests/lcitool/projects/qemu.yml match the one in
-      the lcitool repo or are they different use cases?
-  <danpb> the one in libvirt-ci.git should be deleted really
-  <danpb> the one in qemu.git is the source of truth
+The changes in this patchset were heavily inspired by the build_iort() function
+in hw/arm/virt-acpi-build.c which already does the right thing here. Patches 1-5
+make the required changes before patch 6 updates the VIOT binary to match the
+updated ACPI VIOT table ordering.
 
-so please just update the qemu.git qemu.yml for just what you need for
-flex/bison without bringing in all the other (stale?) stuff.
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
+v3:
+- Rebase onto master
+- Add Reviewed-by tag from Ani in patch 1
+- Declare struct viot_pci_host_range as const in enumerate_pci_host_bridges() in patch 3
+- Add Reviewed-by tags for the series from Phil
 
->
->
-> r~
+v2:
+- Rebase onto master
+- Rename pci_host_bridges() to enumerate_pci_host_bridges() in patch 1
+- Change return type of pci_host_range_compare() from int to gint in patch 5
+- Tweak subject line in patch 5: s/PCI host bus/PCI host bridge/
+- Add Acked-by and Reviewed-by tags from Ani
 
 
---=20
-Alex Benn=C3=A9e
+Mark Cave-Ayland (6):
+  hw/acpi/viot: rename build_pci_range_node() to
+    enumerate_pci_host_bridges()
+  hw/acpi/viot: move the individual PCI host bridge entry generation to
+    a new function
+  hw/acpi/viot: build array of PCI host bridges before generating VIOT
+    ACPI table
+  tests/acpi: virt: allow VIOT acpi table changes
+  hw/acpi/viot: sort VIOT ACPI table entries by PCI host bridge min_bus
+  tests/acpi: virt: update golden masters for VIOT
+
+ hw/acpi/viot.c                | 107 +++++++++++++++++++++-------------
+ tests/data/acpi/q35/VIOT.viot | Bin 112 -> 112 bytes
+ 2 files changed, 68 insertions(+), 39 deletions(-)
+
+-- 
+2.20.1
+
 
