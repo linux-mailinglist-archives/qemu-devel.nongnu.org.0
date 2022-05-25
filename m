@@ -2,103 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369F9533FEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:08:29 +0200 (CEST)
-Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42E7534051
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:25:22 +0200 (CEST)
+Received: from localhost ([::1]:44786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntsce-0007NE-AT
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46568)
+	id 1ntst0-0008QK-0Q
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:25:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1ntsSw-0002Dv-IA; Wed, 25 May 2022 10:58:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59160
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1ntsSu-00013b-Fd; Wed, 25 May 2022 10:58:26 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24PEGXv7009541;
- Wed, 25 May 2022 14:58:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=YXbxow3wTkP+tBnTKb0yYsyQqyKsmdDVqFAHzsT1wT4=;
- b=N9g9TKHbyhhCU9TKBypTQRuKej0X0ZUGCXyS9FR8Tjlu5nuScYO3ednK0tr84d5TTEzu
- rqakq2ZNe6HocCABfkM5d1r5RtGOXy0faXQJHBK6QBkRUGfn47WFLz7yfWLPvpHoJsNc
- YZrfMlJ0LfA//+aY8akK0/5CGZ/foHYnDgGex3J4gMiyFqDIWAwS1pQeZr1B0IEW4vmY
- VxznKFhpBrSRPWgb2aivVz1jYEl7NTH/lYgXYMe4n9IxLhbue7uZgZBvxNb+B2Fry9O6
- jrmcWEDaQlxrCeuucnFG9kCF1dSOWjcndC5Ow2lMWmbbolvn/D46BVOkb2UI/EmCheGM vA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9hfnxxww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 May 2022 14:58:21 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24PEBPpQ030565;
- Wed, 25 May 2022 14:58:21 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9hfnxxwc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 May 2022 14:58:21 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24PErLpM014853;
- Wed, 25 May 2022 14:58:19 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma02fra.de.ibm.com with ESMTP id 3g93v6hdmv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 May 2022 14:58:19 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24PEwGU855837090
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 25 May 2022 14:58:16 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4E516A404D;
- Wed, 25 May 2022 14:58:16 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3C180A4040;
- Wed, 25 May 2022 14:58:16 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 25 May 2022 14:58:16 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id DF038E7919; Wed, 25 May 2022 16:58:15 +0200 (CEST)
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Eric Farman <farman@linux.ibm.com>
-Subject: [PATCH] MAINTAINERS: Update s390 vhost entries
-Date: Wed, 25 May 2022 16:58:14 +0200
-Message-Id: <20220525145814.2750501-1-farman@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iWL6Q3l34flgYh2dEyy_VQH-3kk4ETt3
-X-Proofpoint-ORIG-GUID: dE8t9u297aWxfYQxqjnqVvSOyqpm5yML
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntspz-0006PR-AH
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 11:22:15 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:43979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntspx-0005Ix-CI
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 11:22:14 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ l7-20020a17090aaa8700b001dd1a5b9965so5413772pjq.2
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 08:22:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=NlWgbpUSuLPWQ0uB1U+GycGcFp9H5loi1W+WGC9Kmnk=;
+ b=bnOkAyIHbt4guHPdsbvaUNVZAgr8mGOUYYxKATMNsnlts1h/MrDJGki/E18noolsLZ
+ MLWsgc2Hdum3OoXe8hT6u1FmogZnzsgf9OTXwLKOd8Jb7IAPQZTyNPyyrP4bWZ/4AZkA
+ y/I59cMEUVIa40nZp8wzUpK7gPBPlbqlqsYdxqg6MfaoZb+N/Dx0DbsmoC/oy72FX4Ds
+ CIvMyLNdGRd0rKKPEehBAenHyQvJ18m9fVV+v2pu8oQcsYro6nT81AmIALH0XNtujOt/
+ Ds8+nN23NqvFhrQcMZRJSyYfQ/i48WNwuRLm/3aYLiy8xKQGq2PY4986fjn3ivcUofYb
+ yGKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NlWgbpUSuLPWQ0uB1U+GycGcFp9H5loi1W+WGC9Kmnk=;
+ b=sOQhZPV4FU6H+BWuNHbggnZVTVSBa5b6wkv/jqBnoMPVKxzI+5fe/0vTmHfWSCMG2q
+ teedOvyg3Vrr6tt0juRnsm5ixLpDoMuu6zmlX7qGsZimr83yWeUE7ZiYTyh+FqJIjBQi
+ cqNh3fnRIpM9td4tyfTq5Cd+iMVBko/4UbzawADt5hqzipgG6fbBCXkE1f0aG3p5s1uI
+ n0OtTMABJ7T4QldMB6P4nC3y8a/SUFzTVZrUnOXzGWaTXzrRTVVI2Yzh78hjqFI//RCm
+ yPQrX83ZCYhPVErclTdjTNIfuAOMxgw2ZrerJDzNdC/azVrh9xsfrC/F7OQYqBM1Wk+Y
+ RM6A==
+X-Gm-Message-State: AOAM530Ss9OL39LzrnK7AqQsL43GH3ezXumAzDN/G3ecDNtpWoJJL1K+
+ GXBMpi8NsmERDPdRuvoLed0fVw==
+X-Google-Smtp-Source: ABdhPJwn4xwxKoLXKtygB2XVhTr6Ez1c5nzlaT1r0P5KgvEVjTJpi20fMAkUZzwVmhDs3CCedTA5Bg==
+X-Received: by 2002:a17:90a:e7cd:b0:1e0:33c1:59dd with SMTP id
+ kb13-20020a17090ae7cd00b001e033c159ddmr10997081pjb.44.1653492130816; 
+ Wed, 25 May 2022 08:22:10 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ r5-20020a170902ea4500b0015f300ed0b7sm9414624plg.76.2022.05.25.08.22.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 May 2022 08:22:10 -0700 (PDT)
+Message-ID: <a430eb4a-20db-8c04-e9ce-0d3e1d4c3c46@linaro.org>
+Date: Wed, 25 May 2022 08:22:07 -0700
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-25_04,2022-05-25_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 bulkscore=0
- impostorscore=0 phishscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205250076
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v9 08/12] target/hexagon: import flex/bison to docker files
+Content-Language: en-US
+To: anjo@rev.ng, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com,
+ mlambert@quicinc.com, babush@rev.ng, nizzo@rev.ng, qemu-devel@nongnu.org
+References: <20220422174059.4304-9-anjo@rev.ng> <87h75f6xyd.fsf@linaro.org>
+ <952b8af1-486c-1e69-3ab2-42da0edb9fda@rev.ng>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <952b8af1-486c-1e69-3ab2-42da0edb9fda@rev.ng>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,35 +95,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 7a523d96a0 ("virtio-ccw: move vhost_ccw_scsi to a separate file")
-introduced a new file hw/s390x/vhost-scsi-ccw.c, which received a
-couple comments [1][2] to update MAINTAINERS that were missed.
+On 5/25/22 05:29, Anton Johansson wrote:
+> For clarity's sake, here are the exact steps taken to produce this patch:
+> 
+>      1. Update QEMU's libvirt-ci to the commit
+> 
+> https://gitlab.com/libvirt/libvirt-ci/-/commit/43927ff508e8ecb1ac225dabbc95b37c890db917
+> 
+>         which adds flex/bison, and a native glib2 (required since idef-parser
+>         is a build-time tool.)
 
-Fix that by making the vhost CCW entries a wildcard.
+This must be split out -- submodule updates should be a patch by themselves.  Otherwise it 
+can look like unintentional rebase breakage (which, sadly, happens more often than 
+legitimate submodule updates).
 
-[1] https://lore.kernel.org/r/d8d2bbd5021076bdba444d31a6da74f507baede3.camel@linux.ibm.com/
-[2] https://lore.kernel.org/r/87k0c4gb9f.fsf@redhat.com/
+>      2. Copy in new `tests/lcitool/projects/qemu.yml` from `libvirt-ci`
+> 
+>      3. run `tests/lcitool/refresh` to generate new docker/cirrus files
 
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
----
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+And, yes, having one patch that's simply auto-generated is helpful.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dff0200f70..77238c9338 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2012,8 +2012,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
- M: Eric Farman <farman@linux.ibm.com>
- S: Supported
- F: hw/s390x/virtio-ccw*.[hc]
--F: hw/s390x/vhost-vsock-ccw.c
--F: hw/s390x/vhost-user-fs-ccw.c
-+F: hw/s390x/vhost-*-ccw.c
- T: git https://gitlab.com/cohuck/qemu.git s390-next
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
--- 
-2.32.0
+
+r~
 
 
