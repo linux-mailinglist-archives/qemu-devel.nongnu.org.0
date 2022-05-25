@@ -2,51 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F70533EE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 16:13:41 +0200 (CEST)
-Received: from localhost ([::1]:33626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155FA533EF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 16:18:45 +0200 (CEST)
+Received: from localhost ([::1]:41834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntrlc-0005Y0-O9
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 10:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58420)
+	id 1ntrqW-00038a-6r
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 10:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ntrRO-00073q-77; Wed, 25 May 2022 09:52:46 -0400
-Received: from [187.72.171.209] (port=17311 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ntrRM-0004tU-Cl; Wed, 25 May 2022 09:52:45 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 25 May 2022 10:49:58 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id CCC8A8001D4;
- Wed, 25 May 2022 10:49:58 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-ppc@nongnu.org
-Cc: richard.henderson@linaro.org, clg@kaod.org, danielhb413@gmail.com,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH RESEND v3 8/8] target/ppc: Implemented vector module quadword
-Date: Wed, 25 May 2022 10:49:54 -0300
-Message-Id: <20220525134954.85056-9-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220525134954.85056-1-lucas.araujo@eldorado.org.br>
-References: <20220525134954.85056-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntra0-0000gf-Bh
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 10:01:40 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntrZx-0006hW-L8
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 10:01:40 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id i40so27183089eda.7
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 07:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Hd7UvpFrloWM0Iw9S+Myt2HHVMNNaqyQQJKGjyZCYZg=;
+ b=NC4bvFRs0uLLzwFf02kk/UvHjB6MqBumoAPFZ4Gk0CQF34H94pYNPY47VVSCRUuHxC
+ FTVJDqHnCjAIfX2zQEx/nmFiQf86TYi2w+X8iqwNEUNsIJ3LJN2Az32/8Daazcb5XouW
+ vOqw81MDERp34623bkFMrYIligtog11wjFUJeM2wFt86Eot2ZRezuPyv1tq9pioHFlVe
+ S1m6k6ff6G8uG9fjO6m7eUfEkjqiSgPwZJcsCmp33leEHepyVV5imdX9IVqBVLgwiExQ
+ Nj76JKZNa1rU5pqg/2T6zQ6JiLOOPdnD4PhhDM5QRtA5WEDDFxKmuDaFMSR7/El6qEDR
+ s7pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Hd7UvpFrloWM0Iw9S+Myt2HHVMNNaqyQQJKGjyZCYZg=;
+ b=mSYIl/D0QRM3mQ3Ty9V9+3AIJz60GYmhgsPK6eaIQPqODsnChAPntmKdWXve4yuwt1
+ xOcASuxH7+MHPIOfog/3qC8Nj38fkgkbW/tBQxg8E57YtgdZ/WINHNeVqnfrgGOdKvBV
+ vCdkRwr2zOt2es8qWGBw55sY2xzlGv+u9V1T7L8NnJ6cUkxC68NzgKQkZOrIwNGcZDd3
+ 40wMNi5IzzI2dhpwZICcEe0iE5mOsCaLLw+px5no3EiibfDoYj25Hig1lSZtJpNHpDhg
+ f6edix/km5wpug4sLLBRy/IDRGDDSto16d71fPZVoSbixCQXowvhZSZafumtjDiLma75
+ jGFg==
+X-Gm-Message-State: AOAM533SivO3YEvZ+AtTg7V7Ifhbh9Lcz8Ulq0pE/OTgDot5s3ekKDIW
+ U3x2744aJtG1CYtV9YEoY/I=
+X-Google-Smtp-Source: ABdhPJxQRs1zFXr1dH9wrAAeEy2LDO1yS5DCRYAWczsbyFkYQOYePisyjbHEuSn/pcVPUHmKVYjtBw==
+X-Received: by 2002:aa7:cb8f:0:b0:42a:e9bd:3b5f with SMTP id
+ r15-20020aa7cb8f000000b0042ae9bd3b5fmr34464673edt.8.1653487295970; 
+ Wed, 25 May 2022 07:01:35 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ 16-20020a17090600d000b006f3ef214da6sm8350202eji.12.2022.05.25.07.01.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 May 2022 07:01:35 -0700 (PDT)
+Message-ID: <af8559fb-888d-6803-d556-c79e06ac0146@redhat.com>
+Date: Wed, 25 May 2022 16:01:34 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 May 2022 13:49:59.0005 (UTC)
- FILETIME=[52FD60D0:01D8703E]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 6/8] hmp: add filtering of statistics by provider
+Content-Language: en-US
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, berrange@redhat.com,
+ Mark Kanda <mark.kanda@oracle.com>
+References: <20220516090058.1195767-1-pbonzini@redhat.com>
+ <20220516090234.1195907-5-pbonzini@redhat.com> <Yo4GiLam/J7nBOD/@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Yo4GiLam/J7nBOD/@work-vm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,91 +97,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+On 5/25/22 12:35, Dr. David Alan Gilbert wrote:
+>> +        return filter;
+>> +    }
+>> +
+>> +    /* "info stats" can only query either one or all the providers.  */
+>> +    StatsRequest *request = g_new0(StatsRequest, 1);
+>> +    request->provider = provider;
+>> +    StatsRequestList *request_list = g_new0(StatsRequestList, 1);
+> Why that g_new0 there? isn't that request_list = NULL and let the
+> PREPEND below do the alloc?
+> 
 
-Implement the following PowerISA v3.1 instructions:
-vmodsq: Vector Modulo Signed Quadword
-vmoduq: Vector Modulo Unsigned Quadword
+Yes, it is fixed in patch 8.
 
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/744
----
- target/ppc/helper.h                 |  2 ++
- target/ppc/insn32.decode            |  2 ++
- target/ppc/int_helper.c             | 21 +++++++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc |  2 ++
- 4 files changed, 27 insertions(+)
-
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index e7624300df..d627cfe6ed 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -181,6 +181,8 @@ DEF_HELPER_FLAGS_3(VDIVESD, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVEUD, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVESQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVEUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VMODSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VMODUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vslo, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vsro, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vsrv, TCG_CALL_NO_RWG, void, avr, avr, avr)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 75fa206b39..6ea48d5163 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -807,3 +807,5 @@ VMODSW          000100 ..... ..... ..... 11110001011    @VX
- VMODUW          000100 ..... ..... ..... 11010001011    @VX
- VMODSD          000100 ..... ..... ..... 11111001011    @VX
- VMODUD          000100 ..... ..... ..... 11011001011    @VX
-+VMODSQ          000100 ..... ..... ..... 11100001011    @VX
-+VMODUQ          000100 ..... ..... ..... 11000001011    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 42f0dcfc52..16357c0900 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1247,6 +1247,27 @@ void helper_VDIVEUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-     }
- }
- 
-+void helper_VMODSQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    Int128 neg1 = int128_makes64(-1);
-+    Int128 int128_min = int128_make128(0, INT64_MIN);
-+    if (likely(int128_nz(b->s128) &&
-+              (int128_ne(a->s128, int128_min) || int128_ne(b->s128, neg1)))) {
-+        t->s128 = int128_rems(a->s128, b->s128);
-+    } else {
-+        t->s128 = int128_zero(); /* Undefined behavior */
-+    }
-+}
-+
-+void helper_VMODUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    if (likely(int128_nz(b->s128))) {
-+        t->s128 = int128_remu(a->s128, b->s128);
-+    } else {
-+        t->s128 = int128_zero(); /* Undefined behavior */
-+    }
-+}
-+
- void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
- {
-     ppc_avr_t result;
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 78277fb018..0b563bed37 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3381,6 +3381,8 @@ TRANS_FLAGS2(ISA310, VMODSW, do_vdiv_vmod, MO_32, do_modsw , NULL)
- TRANS_FLAGS2(ISA310, VMODUW, do_vdiv_vmod, MO_32, do_moduw, NULL)
- TRANS_FLAGS2(ISA310, VMODSD, do_vdiv_vmod, MO_64, NULL, do_modsd)
- TRANS_FLAGS2(ISA310, VMODUD, do_vdiv_vmod, MO_64, NULL, do_modud)
-+TRANS_FLAGS2(ISA310, VMODSQ, do_vx_helper, gen_helper_VMODSQ)
-+TRANS_FLAGS2(ISA310, VMODUQ, do_vx_helper, gen_helper_VMODUQ)
- 
- #undef DIVS32
- #undef DIVU32
--- 
-2.31.1
-
+Paolo
 
