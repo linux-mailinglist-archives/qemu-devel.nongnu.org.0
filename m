@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE66B533A44
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 11:51:57 +0200 (CEST)
-Received: from localhost ([::1]:49222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D199533A3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 11:48:44 +0200 (CEST)
+Received: from localhost ([::1]:45206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntngK-0001me-IY
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 05:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34716)
+	id 1ntndD-0007R3-HO
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 05:48:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntnKz-00050K-28
+ id 1ntnKz-00051J-9y
  for qemu-devel@nongnu.org; Wed, 25 May 2022 05:29:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27110)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ntnKw-0007BU-Is
- for qemu-devel@nongnu.org; Wed, 25 May 2022 05:29:51 -0400
+ id 1ntnKx-0007Bd-5L
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 05:29:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653470989;
+ s=mimecast20190719; t=1653470990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zXUsowygGlCzKSIzdN9drLRthvVTBHDjSjGFLMVkY4Y=;
- b=ObxD/xU/gSUt4gditQuXAok3DxMjy8pvMa0AiHjqrFg0HaKPI/iiHUOTC9qCAczRGd3NhM
- teaOhfxn870ZAKkjjNQKNSPJKK0JFgxRZgyWrz8GTmvCyPglKHpbXbeMx8LOdmjQ7OJDrF
- xFuki7bfJyFDmU+8++qVdbA9tJ5xKG4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ntBPtPgUjbT4WO4EkQ0X2YfhGc/85yJrpd95Iet+7Ms=;
+ b=VsJRVcqZcZQxAdlXSH/6Atwm8Hd+4hjf0Sn4mmYARlYvTThKejtZmpPsQ0LGSKfa2iFGNZ
+ ZxbD4LZAgEHbDICdrZmetBjTO/1jnO+oHyytlZKXiP3lLaOF/hriV79/A78vMckQLL3sNC
+ RgOuAu5TPlTseGt8g1cayBYYsf5nDhI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-TaoyIB6DOfqxBNThHeqtbg-1; Wed, 25 May 2022 05:29:44 -0400
-X-MC-Unique: TaoyIB6DOfqxBNThHeqtbg-1
+ us-mta-371-mcKFNmzrOu6ypK2drqPSOg-1; Wed, 25 May 2022 05:29:46 -0400
+X-MC-Unique: mcKFNmzrOu6ypK2drqPSOg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1195A1C3E992;
- Wed, 25 May 2022 09:29:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 820EB811E7A;
+ Wed, 25 May 2022 09:29:46 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (unknown [10.40.195.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21E78112131E;
- Wed, 25 May 2022 09:29:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 685C1112131E;
+ Wed, 25 May 2022 09:29:44 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL v2 2/4] trivial: qga: Log version on start
-Date: Wed, 25 May 2022 12:29:36 +0300
-Message-Id: <20220525092938.945611-3-kkostiuk@redhat.com>
+Subject: [PULL v2 3/4] tests: Bump Fedora image version for cross-compilation
+Date: Wed, 25 May 2022 12:29:37 +0300
+Message-Id: <20220525092938.945611-4-kkostiuk@redhat.com>
 In-Reply-To: <20220525092938.945611-1-kkostiuk@redhat.com>
 References: <20220525092938.945611-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
@@ -79,27 +79,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+There are 2 reason for the bump:
+ - Fedora 33 is not supported anymore
+ - Some changes in the guest agent required updates of
+   mingw-headers
+
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220523191644.823726-2-kkostiuk@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220525085953.940116-2-kkostiuk@redhat.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/main.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qga/main.c b/qga/main.c
-index 3b9546c185..c373fec3ee 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -1271,6 +1271,8 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
-     g_log_set_fatal_mask(NULL, G_LOG_LEVEL_ERROR);
-     ga_enable_logging(s);
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 84a8f5524d..a06bd29e8e 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -1,4 +1,4 @@
+-FROM registry.fedoraproject.org/fedora:33
++FROM registry.fedoraproject.org/fedora:35
  
-+    g_debug("Guest agent version %s started", QEMU_FULL_VERSION);
-+
- #ifdef _WIN32
-     /* On win32 the state directory is application specific (be it the default
-      * or a user override). We got past the command line parsing; let's create
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index d7ed8eb1cf..b71624330f 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -1,4 +1,4 @@
+-FROM registry.fedoraproject.org/fedora:33
++FROM registry.fedoraproject.org/fedora:35
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
 -- 
 2.25.1
 
