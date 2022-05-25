@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 383CA533E49
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 15:52:43 +0200 (CEST)
-Received: from localhost ([::1]:50888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E5B533E4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 15:53:30 +0200 (CEST)
+Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntrRJ-0004eD-V1
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 09:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57354)
+	id 1ntrS5-0006kg-0O
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 09:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1ntrOA-0003iV-SE
- for qemu-devel@nongnu.org; Wed, 25 May 2022 09:49:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40904)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1ntrO7-00048t-PL
- for qemu-devel@nongnu.org; Wed, 25 May 2022 09:49:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653486562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CsQZJVD93vjCxhsZeh62nc14teJ5newsOMGeFQ9awvQ=;
- b=JNr+X/IlND7pKY268jJm3Tdjw/xSxxIRUuJ11fDAFAfvqSLe4LD67W+IW721BDMG83GkZG
- n1PVuejFhmdZ29tIxOtzy74D3XfBxtpCrM/jKKbYNRSU3dO+4HmZLU52YsPrTZC91ZVQff
- NgSJtPo1btNnzKqnoQO4kGGN8Sx9K6U=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-101-5LjJ0cwgOVGpZKn2lB70Zw-1; Wed, 25 May 2022 09:49:21 -0400
-X-MC-Unique: 5LjJ0cwgOVGpZKn2lB70Zw-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-2f4e17a5809so178756447b3.2
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 06:49:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntrOY-0004CR-8g
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 09:49:50 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ntrOW-0004Dc-LA
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 09:49:49 -0400
+Received: by mail-ej1-x636.google.com with SMTP id q21so21625532ejm.1
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 06:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dhVVJJNiGt4HH9joYfV8GIlYf82l8A6la2fDpzonC2g=;
+ b=LYFLM1hhkx6zaVln1xlUYfDRZz4T+++MePapEz+w/ZTZFFaU9SINJOakmtnt9PMVLu
+ 0w6sIVpVFQXdZ4gr8nkFfzBZi+vz/UxIIHTnieqhFP/961hce2rS8YdJJb6hOFzhLjvw
+ gBNOYiGjF99SSa2PKgaVJhLMD6CIlgo2e5l3aP2z+L5oQqnAc80aJ8uHSNqp4lo/LPlN
+ bJaZOHF6VbfMH36GEpNwssr9nG0GXebDBGQWK2fjV4UsL9KQtG8s4UexlQhsNklL/srX
+ uQfXH835HhXwNQD4lfq+EXNI2lLuACyLoJh6Sc0LSdHOEE2KiWyQ9fpYueQDtyt2rkng
+ RTQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc;
- bh=CsQZJVD93vjCxhsZeh62nc14teJ5newsOMGeFQ9awvQ=;
- b=5vmsGz2rQC6E6cO49cW/JAnVzRBen7jeXi2//iylsGe8rzeK18+V1a9W/pOTnt4PH7
- VwvWquQsOzc2ZkQG/wCl7kLgM+HlQmJ/4q8jirmVsQtHe1M2K7QfUEdWAhj80YCIsci6
- FAGwxsX7IUnq3x0vDgiuX3ZupQdqofpwkLqHBSwAQe+m36O5BZbNcsUq31W3mvoOEmti
- gyB/3ecKC3wW9EGvcuYYQr3TBCT7VID0F0eBwQANwvNSau079Bb+2NEUimjK/Wr15IhG
- TH4Ji/Xy3zrbpvZEZgzbuo1qoIcSPcBI52WdO6eeBuyAOOrtfJj6tx1BhVG5qKztLVwD
- SZ3g==
-X-Gm-Message-State: AOAM532H7kU6PxVk1eFHptOA7o/QBMTWUYiiRNe4fNe6Xyl/oTqlIzNq
- zaJhe2eGC1tw6Qqui3tk5QLccbdngfJbohiOVa3cIoZ23KBD4nN63XByv5pQ71n1lXCh7n94XJk
- 0hoq7t2fk+KU/p866MTz373eBWZmtGOc=
-X-Received: by 2002:a81:2143:0:b0:2fb:1274:247e with SMTP id
- h64-20020a812143000000b002fb1274247emr33240661ywh.384.1653486560293; 
- Wed, 25 May 2022 06:49:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyv9MIeUZvUJ2+DH8JHg2D/lr+DDquR6oO6fN30Sx5LR3t+FjkAIbnxT5yvq1tMdDCP+WTAN2gwmp4Z7Sh9KaA=
-X-Received: by 2002:a81:2143:0:b0:2fb:1274:247e with SMTP id
- h64-20020a812143000000b002fb1274247emr33240624ywh.384.1653486559932; Wed, 25
- May 2022 06:49:19 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 25 May 2022 08:49:19 -0500
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
- <87lev9mw7j.fsf@pond.sub.org> <YnpbuzKo681VwDkn@redhat.com>
- <87r150dugw.fsf@pond.sub.org> <20220518085548.gri7ojvp5ezrstsj@tapioca>
- <87mtffm3ak.fsf@pond.sub.org>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dhVVJJNiGt4HH9joYfV8GIlYf82l8A6la2fDpzonC2g=;
+ b=6ZW91hx42ac/cgRKgVF4hEwtvO7VOD0v++ZoPgG+MoHiZrkvSuFtBTm/NxD3l6L2MQ
+ lfiNcOdfIMqCeWTZL/NL7zw9o2OBmAGRLU6XE62cFxLzo4jpCvPBlYJqdkNJ8+Oj9bv0
+ G8YI5XVRwWLjwFZOzZ3MHhTiGQ+/NB1q9uRbDUvBCj0Wboq/lhSLpoQ8ZcoF7URvioDF
+ qBhl4hkly8L2kf0Binp1e1y8rLosv0Q9xJIgElmzE2o+olzOPVdYPk58G6YhzJtvs0bK
+ 9zTfcCTNdna5ZLDgLh8gAGWKMjYrkgfsY2qZbtkCK7/0tyGe6AuEiA8G3g19Jn0eke+9
+ 100A==
+X-Gm-Message-State: AOAM533+x1S9f+4faLFAYeMK9zY7PXW2VAmqfYn/waiIeTl2uYoCQisu
+ pgNvtEzvQWV1Wew97F2Ue7dYIxkZaySY0Q==
+X-Google-Smtp-Source: ABdhPJx7IibnvQY+PtkYjZizv4OXfZdkvgFfn50+jSiPRWsD8+2odVE+zOGXnywDcEGKuC7Yu2CPTA==
+X-Received: by 2002:a17:907:3e9d:b0:6fe:e980:d3de with SMTP id
+ hs29-20020a1709073e9d00b006fee980d3demr13663872ejc.586.1653486587107; 
+ Wed, 25 May 2022 06:49:47 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ jl11-20020a17090775cb00b006fe98fb9523sm6178108ejc.129.2022.05.25.06.49.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 May 2022 06:49:46 -0700 (PDT)
+Message-ID: <9c56b296-f51e-d290-df35-85bc4254cd0f@redhat.com>
+Date: Wed, 25 May 2022 15:49:45 +0200
 MIME-Version: 1.0
-In-Reply-To: <87mtffm3ak.fsf@pond.sub.org>
-Date: Wed, 25 May 2022 08:49:19 -0500
-Message-ID: <CABJz62Oi4Yq3n8Mf4uikycD_BZrDhCj8zG1pFVNhv+N2-Q8naw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Victor Toso <victortoso@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Problem running qos-test when building with gcc12 and LTO
+Content-Language: en-US
+To: Dario Faggioli <dfaggioli@suse.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Claudio Fontana <Claudio.Fontana@suse.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+References: <1d3bbff9e92e7c8a24db9e140dcf3f428c2df103.camel@suse.com>
+ <24c61f36e23339cb1ab80b41e906ea60a0d67d2a.camel@suse.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <24c61f36e23339cb1ab80b41e906ea60a0d67d2a.camel@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,48 +98,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 18, 2022 at 02:30:11PM +0200, Markus Armbruster wrote:
-> Victor Toso <victortoso@redhat.com> writes:
-> > IMHO, at this moment, qapi-go is targeting communicating with
-> > QEMU and handling multiple QEMU versions seems reasonable to me.
->
-> It's targeting communicating in *QMP*.  QMP is designed to support
-> communicating with a range of QEMU versions.  Full compatibility is
-> promised for a narrow range.  Outside that range, graceful degradation.
->
-> *If* you want to widen the full compatibility range, do it in *QMP*.  Or
-> do it on top of QEMU, e.g. in libvirt.
->
-> > Perhaps libvirt can use qapi-go in the future or other generated
-> > interface. That would be cool.
->
-> "Would be cool" and a dollar buys you a cup of bad coffee.
->
-> Is it a good use of our limited resources?
->
-> How much will it delay delivery of Go bindings compared to less
-> ambitious version?
+On 5/24/22 22:12, Dario Faggioli wrote:
+> Ok, apparently, v6.2.0 works (with GCC 12 and LTO), while as said
+> v7.0.0 doesn't.
+> 
+> Therefore, I run a bisect, and it pointed at:
+> 
+> 8dcb404bff6d9147765d7dd3e9c8493372186420
+> tests/qtest: enable more vhost-user tests by default
+> 
+> I've also confirmed that on v7.0.0 with 8dcb404bff6d914 reverted, the
+> test actually works.
+> 
+> As far as downstream packaging is concerned, I'll revert it locally.
+> But I'd be happy to help figuring our what is actually going wrong.
+> 
+> I'll try to dig further. Any idea/suggestion anyone has, feel free.:-)
 
-Yeah, this thread has basically branched to cover three topics:
+Does valgrind point out anything suspicious?
 
-  1. what an MVP Go interface for QMP should look like;
-  2. how to make sure said interface uses pretty names;
-  3. how to make it work across multiple QEMU versions.
-
-All of these are important in the long run, but as far as I'm
-concerned only 1. is an actual blocker to making progress.
-
-If we get to the point where we can generate a reasonably complete
-and well-typed Go interface that can be used to communicate with a
-single version of QEMU, we should just plaster EXPERIMENTAL all over
-it and get it merged.
-
-Basically get the MVP done and then iterate over it in-tree rather
-than trying to get everything perfect from the start.
-
-Sounds reasonable?
-
--- 
-Andrea Bolognani / Red Hat / Virtualization
-
+Paolo
 
