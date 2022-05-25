@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE79534198
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:38:04 +0200 (CEST)
-Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970095341A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:45:09 +0200 (CEST)
+Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntu1L-0006c8-Tz
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43548)
+	id 1ntu8C-0002v1-NY
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:45:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nttwk-0008UZ-8o
- for qemu-devel@nongnu.org; Wed, 25 May 2022 12:33:18 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52201)
+ id 1ntu2n-00013r-AV
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 12:39:33 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:37561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nttwi-0001Hk-H8
- for qemu-devel@nongnu.org; Wed, 25 May 2022 12:33:17 -0400
-Received: by mail-wm1-x330.google.com with SMTP id z17so5940263wmf.1
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 09:33:15 -0700 (PDT)
+ id 1ntu2l-000283-Bi
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 12:39:32 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id d22so4068600edj.4
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 09:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=xIFCTTJascEs3seVgPrjiaF+LpFjz4yDKM4qK7ETOCA=;
- b=oKsvO8FysnPtWyz+v+Z6O+2udE7lnvT47c0i6zj4wEUyRHMLBTRh2Z2HhFbTmbUdky
- MgPJjJMZ7zcAAbQ7rA4T3Nc3KqfyehhtKQMAZisDagiuIcZUfTuNpz1r+vhuQWhu2Fzn
- OoXqrgS9zDTy6eT4nMUUYyMy/BiApo0/ZSjyF9nJmbmyuLWbTrndOcOyUOWoqV+kOG4E
- aQ9psCe24w+r9RzA9QF8Zk7GHkMpWpJ6Zd0buuLA8LdDixYgK75eloMcEdqB7/fjPa1T
- x4Cjc4p4A4aLtdfAWhNH4xZgeQiL//4un97CZlXeRuWaF79B4qUuwz6r2agtevqrMYle
- O4aQ==
+ bh=pQ7uvzhXlKIls1d+/Ib90WEudZ08aaOcW/Y2UTFe3RA=;
+ b=pMDRIbflfz2UxZbs1fro7VhbMeVm4UCe3IA4xHgtStCZOG9Law7i8YEQhAzu/LezuV
+ INNZfMrSfd6fw0A7wSHNec/VeQsznOCBzlm7RCiACzQXotaVwJHUngKVXY4ANETi6hSk
+ bwNVnMhDrjcsiNzL96I4n944nMfEEI4qqWGiJR7QlgDsPiAeC3rI+r0LgiCAEg8CnQw5
+ d8EK5MgTo8x/3kHu6UA08Nbvkm8//egiZyyPFUY0iz7D33RetDwi2bh0yo1uaGNm4qiH
+ pqwQrX9kRi1KogzgZx3Y6OeCdYKC5GOeE21EnsVFc8V+KOfHAwezLtS40huwyfIjs5OI
+ jW/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xIFCTTJascEs3seVgPrjiaF+LpFjz4yDKM4qK7ETOCA=;
- b=YrXha+xTspDyjxp+V7jcSJYmUkiF1kk36GxsjeA13jSYcgNcQw5u9cpZCL0GmlA4pC
- 4rZKqqWsX03Ysu2QEwyEBVgtpueQt0cD8SGKpARoFVPJc1in9sfOC/CMIBXste8uyz2w
- dcCpRiswhbIu/sRTZ7oAVONgaf6WeJerFvWMjXS5E/0qwipkpWESeENXO/RAwxx5VLY9
- ghK6e/0DShXRUIhVwKALkhwYSv6ENVigmWosP+5Ra7sf0QJGfme+DJ66wlTmrMbtFijI
- GDuBVatRJ68E/qpozoLDfBmAXxYE7ZoFl1WHw2dJVJg58B0lS8MtukG796GkHMkzNblM
- yUKA==
-X-Gm-Message-State: AOAM5312YChYnw4D8YM6yZYC77AD+mHm8X15bJc+/q6F3LU2rBnN9lbz
- VNpCZi9XM8tTiQiyaGiaWvrLcw==
-X-Google-Smtp-Source: ABdhPJy0TR+7WyDibFfu22r2ECQc2cFvYsxLpmj4kDpUx30nrlYZZnBlWxADK181RQ5HCKoa/W62/Q==
-X-Received: by 2002:a7b:cb4b:0:b0:397:3dd8:917a with SMTP id
- v11-20020a7bcb4b000000b003973dd8917amr9347206wmj.20.1653496393562; 
- Wed, 25 May 2022 09:33:13 -0700 (PDT)
+ bh=pQ7uvzhXlKIls1d+/Ib90WEudZ08aaOcW/Y2UTFe3RA=;
+ b=t4TDEOHEQIOR7+Ttwa+HA7kdgyT/PIks7VSuWylfHcBX7d7jSxjUPMNZFWUmkqX58E
+ aeGu5DfOC5ILxaR75Gu/lxeGpSHZ9JJEpY/CvDBWY+CJ4+/rLBlxFXA8gZ8raipFKIWY
+ kb+UmNzTml5sntVaRGsqCWAConVrxS+VoTPt3J0FzdQjqC/jV3RRdAAt/wnkMNshB5Rs
+ Ee9/x/7ufYWRkSzrNgGX+BzDr+QyCPPscxtU0vDFnLeeYdtvvTpJa5c5ho39yLOZB0D0
+ 5l9uNM4cVCXKZ2+z0BSBAh416BV/Lfgl+wINh9DKAQedHXbljZyR/FtUlhwxRKiGCHA8
+ vXcA==
+X-Gm-Message-State: AOAM531S3E5A1z5Emf5CKlGY9liPkv2YyLDuhiz1tO4K1v3P82Sbi+Z5
+ rIqrkepOmLLrzxCNsKtoHOTD7A==
+X-Google-Smtp-Source: ABdhPJyoBTIlyLZb+Latpwf4s+sX2Vxoogvx6aBGGNmYYaljmIR8qQ2ZMQI9PYwaAIFNFSxZAxVM7w==
+X-Received: by 2002:a05:6402:b12:b0:42b:cf04:3e11 with SMTP id
+ bm18-20020a0564020b1200b0042bcf043e11mr2560392edb.85.1653496769544; 
+ Wed, 25 May 2022 09:39:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a056000144700b0020c5253d926sm2662048wrx.114.2022.05.25.09.33.12
+ ej23-20020a056402369700b0042a2d9af0f8sm11121342edb.79.2022.05.25.09.39.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 09:33:12 -0700 (PDT)
+ Wed, 25 May 2022 09:39:28 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 851A81FFB7;
- Wed, 25 May 2022 17:33:11 +0100 (BST)
-References: <20220525085953.940116-1-kkostiuk@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id AB8461FFB7;
+ Wed, 25 May 2022 17:39:27 +0100 (BST)
+References: <a430eb4a-20db-8c04-e9ce-0d3e1d4c3c46@linaro.org>
 User-agent: mu4e 1.7.23; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>, Thomas
- Huth <thuth@redhat.com>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, =?utf-8?Q?Daniel?=
- =?utf-8?Q?_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, Stefan Weil
- <sw@weilnetz.de>, Richard
- Henderson <richard.henderson@linaro.org>, =?utf-8?Q?Marc-Andr=C3=A9?=
- Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v2 0/1] tests: Bump Fedora image version for
- cross-compilation
-Date: Wed, 25 May 2022 17:33:06 +0100
-In-reply-to: <20220525085953.940116-1-kkostiuk@redhat.com>
-Message-ID: <87h75d1sjc.fsf@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: anjo@rev.ng, ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com,
+ mlambert@quicinc.com, babush@rev.ng, nizzo@rev.ng, qemu-devel@nongnu.org,
+ Daniel P . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v9 08/12] target/hexagon: import flex/bison to docker files
+Date: Wed, 25 May 2022 17:38:16 +0100
+In-reply-to: <a430eb4a-20db-8c04-e9ce-0d3e1d4c3c46@linaro.org>
+Message-ID: <87czg11s8w.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,15 +95,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Konstantin Kostiuk <kkostiuk@redhat.com> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> v1 -> v2: Fix spelling in the commit message
-> v1: https://patchew.org/QEMU/20220524181111.922031-1-kkostiuk@redhat.com/
+> On 5/25/22 05:29, Anton Johansson wrote:
+>> For clarity's sake, here are the exact steps taken to produce this patch:
+>>  =C2=A0=C2=A0=C2=A0 1. Update QEMU's libvirt-ci to the commit
+>> https://gitlab.com/libvirt/libvirt-ci/-/commit/43927ff508e8ecb1ac225dabb=
+c95b37c890db917
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 which adds flex/bison, and a nativ=
+e glib2 (required since
+>> idef-parser
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 is a build-time tool.)
 >
-> Konstantin Kostiuk (1):
->   tests: Bump Fedora image version for cross-compilation
+> This must be split out -- submodule updates should be a patch by
+> themselves.  Otherwise it can look like unintentional rebase breakage
+> (which, sadly, happens more often than legitimate submodule updates).
+>
+>>  =C2=A0=C2=A0=C2=A0 2. Copy in new `tests/lcitool/projects/qemu.yml` fro=
+m `libvirt-ci`
+>>  =C2=A0=C2=A0=C2=A0 3. run `tests/lcitool/refresh` to generate new docke=
+r/cirrus
+>> files
+>
+> And, yes, having one patch that's simply auto-generated is helpful.
 
-Queued to testing/next, thanks.
+To quote danpb:
+
+   danpb: should our tests/lcitool/projects/qemu.yml match the one in
+      the lcitool repo or are they different use cases?
+  <danpb> the one in libvirt-ci.git should be deleted really
+  <danpb> the one in qemu.git is the source of truth
+
+so please just update the qemu.git qemu.yml for just what you need for
+flex/bison without bringing in all the other (stale?) stuff.
+
+
+>
+>
+> r~
+
 
 --=20
 Alex Benn=C3=A9e
