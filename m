@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0115333F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 01:39:07 +0200 (CEST)
-Received: from localhost ([::1]:59758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABE553344C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 02:29:02 +0200 (CEST)
+Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nte7G-00068C-4D
-	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 19:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
+	id 1ntetZ-0001dO-7i
+	for lists+qemu-devel@lfdr.de; Tue, 24 May 2022 20:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nte5E-0005QD-JD
- for qemu-devel@nongnu.org; Tue, 24 May 2022 19:37:00 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nte56-0004GG-RR
- for qemu-devel@nongnu.org; Tue, 24 May 2022 19:36:54 -0400
-Received: by mail-pl1-x631.google.com with SMTP id 10so13702903plj.0
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 16:36:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=7d1GZoiIPgurRKHqYkbLbRfkJMBlTGlbTuzD6kjnHaA=;
- b=KeFIqxa6CCFetIxYiv9IdzoKB2DP/2IjtAPFyJN7ulMa+N9FmuID4xO83AXLE9XhxD
- QLC9D4pC5g086lAPfbPlDRGHNGdMHwddAVFaFt97S4GEoEBfL5enEWauuAld1AZRclVs
- vlk6RettmorUKl8wUHT10Vie0HCcM3Mx9wBPqG0i6qhZfHFc4kVMJS7KgOVSrQE0xBgI
- 9LIyRn2BTe72SSbfwn7J7ox7BQCmbUiHCfzzLsvKvnGb9uty97mnBsqi4usWbcRHpKsb
- 9kuGhvHlJM08XtjrVtsc39552A578wJHeQW3WGHq8tKjima0G3jN8kCS2zMVMq4kqLdj
- 4kKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7d1GZoiIPgurRKHqYkbLbRfkJMBlTGlbTuzD6kjnHaA=;
- b=Hv9e4PUcPxnYuEXBWCVXNgyR2YLi0FNiv6RDK51sF5SuiodtKOrYFu0RzITYBu75F4
- NAnW2GobkfKWDhxvmW9ZtdB262YhP9LfRtmBOjpW5sIZolYldyRjo7PmLH24K11/768+
- rTwJsXCtm1r4T2lGWp2PMwF+wKI3vkv9qcuhRB5YD5SWrhBJCMmuwvg/j9JTALFQ03DF
- MDPv1LcbjKV4Ntzgkkk/SuMM9FD5fvaZyZ9NxRmbFySnMUUucJX+F/NWq2hCDp0/Ufc4
- Yzv7xaFtCM166CsZHocaPgNKk4X05IdZ8L4Km/x0G2acb4bU2Tpimuwk3aT1Z8TxMhTx
- uSUQ==
-X-Gm-Message-State: AOAM5301sb2BJdwthZUPIKyvAchruvV6J/hJOrprrwnT9Kv3tELPwh1Z
- xb/BqlTJZ3aa/Hhtx6ATQS9EjQ==
-X-Google-Smtp-Source: ABdhPJyYL9A7b9Eq9H2YA+sOCWRW25ucZlQtBHk+GLvqCYdvPljMLdHOrNVkUrPOkTAZFApgB75bJQ==
-X-Received: by 2002:a17:90b:388c:b0:1df:cb4b:3e72 with SMTP id
- mu12-20020a17090b388c00b001dfcb4b3e72mr7391714pjb.130.1653435410036; 
- Tue, 24 May 2022 16:36:50 -0700 (PDT)
-Received: from [10.255.89.252] ([139.177.225.239])
- by smtp.gmail.com with ESMTPSA id
- t11-20020a17090abc4b00b001df54d74adbsm272232pjv.25.2022.05.24.16.36.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 16:36:49 -0700 (PDT)
-Message-ID: <79d17b10-3532-57d4-e70c-3ccf1ab0d87d@bytedance.com>
-Date: Wed, 25 May 2022 07:32:49 +0800
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1ntes0-0000vb-VL
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 20:27:25 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35520 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nterx-0004XP-MP
+ for qemu-devel@nongnu.org; Tue, 24 May 2022 20:27:24 -0400
+Received: from [192.168.199.219] (unknown [114.250.136.244])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cxn+bfd41itq4AAA--.5597S3;
+ Wed, 25 May 2022 08:27:11 +0800 (CST)
+Message-ID: <a55d4b74-163f-9643-f971-ba7e118312a7@loongson.cn>
+Date: Wed, 25 May 2022 08:27:09 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: Re: [PATCH 3/3] virtio_balloon: Introduce memory recover
-Content-Language: en-US
-To: Sean Christopherson <seanjc@google.com>, david@redhat.com
-Cc: akpm@linux-foundation.org, naoya.horiguchi@nec.com, mst@redhat.com,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, jasowang@redhat.com,
- virtualization@lists.linux-foundation.org, pbonzini@redhat.com,
- peterx@redhat.com, qemu-devel@nongnu.org
-References: <20220520070648.1794132-1-pizhenwei@bytedance.com>
- <20220520070648.1794132-4-pizhenwei@bytedance.com>
- <Yo0zmP28FqpivlxF@google.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <Yo0zmP28FqpivlxF@google.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v5 00/43] Add LoongArch softmmu support
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
+ imammedo@redhat.com, ani@anisinha.ca
+References: <20220524081804.3608101-1-yangxiaojuan@loongson.cn>
+ <3fce1517-2d55-0bce-eb7b-1bfbdcc7af22@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+In-Reply-To: <3fce1517-2d55-0bce-eb7b-1bfbdcc7af22@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x631.google.com
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Cxn+bfd41itq4AAA--.5597S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFyfZry7urW3Jw47Xr1xAFb_yoW8XFWrpF
+ Z3Aa9xtFs8Jw4vk3srKr90qF1Yyw1rGF93J3W5Ka40gF4UXF98Xr109FWvqas29w1rGFy7
+ uFyFqw1fJ3W5J3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvq14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+ 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkIecxEwVAFwVWDMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
+ 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+ xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+ 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E
+ 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
+ ZFpf9x0JU3DG5UUUUU=
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,78 +77,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Richard
 
+在 2022/5/25 6:32, Richard Henderson 写道:
+> On 5/24/22 01:17, Xiaojuan Yang wrote:
+>> Hi All,
+>>
+>> As this series only supports running binary files in ELF format, and
+>> does not depend on BIOS and kernel file. so this series are changed 
+>> from RFC to patch vX.
+>>
+>>
+>> The manual:
+>>    - 
+>> https://github.com/loongson/LoongArch-Documentation/releases/tag/2022.03.17
+>>
+>> Old series:
+>>    - 
+>> https://patchew.org/QEMU/20220328125749.2918087-1-yangxiaojuan@loongson.cn/
+>>    - 
+>> https://patchew.org/QEMU/20220106094200.1801206-1-gaosong@loongson.cn/
+>>
+>> Need review patches:
+>>    - 0034-hw-intc-Add-LoongArch-extioi-interrupt-controller-EI.patch
+>>    - 0038-hw-loongarch-Add-LoongArch-ls7a-rtc-device-support.patch
+>>
+>> This patch need ACPI maintainers review:
+>>    - 0040-hw-loongarch-Add-LoongArch-ls7a-acpi-device-support.patch
+>>
+>> Thanks.
+>> Xiaojuan
+>>
+>> -----
+>> v5:
+>>    - Fixed loongarch extioi device emulation.
+>>    - Fixed loongarch rtc device emulation.
+>>    - Fixed 'make docker-test-build' error.
+>
+> I had been tempted to accept the patch set as is, and let subsequent 
+> development happen on mainline, but this patch set does not compile, 
+> with obvious syntax errors.
+>
+> When the syntax errors are fixed, it does not pass "make check".
+>
+> How can you have tested this?
+>
+It `s my mistake.  I just tested   `IMAGES='fedora-i386-cross'  make 
+docker-test-build `,  I will correct it in v6.
 
-On 5/25/22 03:35, Sean Christopherson wrote:
-> On Fri, May 20, 2022, zhenwei pi wrote:
->> @@ -59,6 +60,12 @@ enum virtio_balloon_config_read {
->>   	VIRTIO_BALLOON_CONFIG_READ_CMD_ID = 0,
->>   };
->>   
->> +/* the request body to commucate with host side */
->> +struct __virtio_balloon_recover {
->> +	struct virtio_balloon_recover vbr;
->> +	__virtio32 pfns[VIRTIO_BALLOON_PAGES_PER_PAGE];
-> 
-> I assume this is copied from virtio_balloon.pfns, which also uses __virtio32, but
-> isn't that horribly broken?  PFNs are 'unsigned long', i.e. 64 bits on 64-bit kernels.
-> x86-64 at least most definitely generates 64-bit PFNs.  Unless there's magic I'm
-> missing, page_to_balloon_pfn() will truncate PFNs and feed the host bad info.
-> 
+Thanks.
+Xiaojuan
 
-Yes, I also noticed this point, I suppose the balloon device can not 
-work on a virtual machine which has physical address larger than 16T.
-
-I still let the recover VQ keep aligned with the inflate VQ and deflate 
-VQ. I prefer the recover VQ to be workable/unworkable with 
-inflate/deflate VQ together. So I leave this to the virtio balloon 
-maintainer to decide ...
-
->> @@ -494,6 +511,198 @@ static void update_balloon_size_func(struct work_struct *work)
->>   		queue_work(system_freezable_wq, work);
->>   }
->>   
->> +/*
->> + * virtballoon_memory_failure - notified by memory failure, try to fix the
->> + *                              corrupted page.
->> + * The memory failure notifier is designed to call back when the kernel handled
->> + * successfully only, WARN_ON_ONCE on the unlikely condition to find out any
->> + * error(memory error handling is a best effort, not 100% coverd).
->> + */
->> +static int virtballoon_memory_failure(struct notifier_block *notifier,
->> +				      unsigned long pfn, void *parm)
->> +{
->> +	struct virtio_balloon *vb = container_of(notifier, struct virtio_balloon,
->> +						 memory_failure_nb);
->> +	struct page *page;
->> +	struct __virtio_balloon_recover *out_vbr;
->> +	struct scatterlist sg;
->> +	unsigned long flags;
->> +	int err;
->> +
->> +	page = pfn_to_online_page(pfn);
->> +	if (WARN_ON_ONCE(!page))
->> +		return NOTIFY_DONE;
->> +
->> +	if (PageHuge(page))
->> +		return NOTIFY_DONE;
->> +
->> +	if (WARN_ON_ONCE(!PageHWPoison(page)))
->> +		return NOTIFY_DONE;
->> +
->> +	if (WARN_ON_ONCE(page_count(page) != 1))
->> +		return NOTIFY_DONE;
->> +
->> +	get_page(page); /* balloon reference */
->> +
->> +	out_vbr = kzalloc(sizeof(*out_vbr), GFP_KERNEL);
->> +	if (WARN_ON_ONCE(!out_vbr))
->> +		return NOTIFY_BAD;
-> 
-> Not that it truly matters, but won't failure at this point leak the poisoned page?
-
-I'll fix this, thanks!
-
--- 
-zhenwei pi
 
