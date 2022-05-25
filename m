@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE9C533D09
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 14:55:58 +0200 (CEST)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BFC533D11
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 14:58:58 +0200 (CEST)
+Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntqY5-0004HF-RO
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 08:55:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45276)
+	id 1ntqaz-0000Q6-JE
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 08:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1ntqTQ-0001VB-5n
- for qemu-devel@nongnu.org; Wed, 25 May 2022 08:50:48 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:47051)
+ id 1ntqUk-0002sf-2B
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 08:52:11 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:34448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1ntqTL-0001sh-Fw
- for qemu-devel@nongnu.org; Wed, 25 May 2022 08:50:45 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id j28so26833129eda.13
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 05:50:42 -0700 (PDT)
+ id 1ntqUf-00025m-6q
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 08:52:06 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id o28so68474edi.1
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 05:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0+zWfEcBn8R8qG6JRVAIvmLuc8kO+BbiDT3PmcxvLls=;
- b=MJd6SGtRBsE+DRWDvkyUJhMrHWBnuq56G5CxFv6whdRyfp20Ck3vH0Tp0SWFhcj9Ig
- txYLvIP8F+KKD022dG0/kLi9rQlruZCMCeEUjxH8G+XH42l9LykKt70uFQrjCRnd14pC
- c8r75yKnvJQ6QDPbELS2t0Ryz27Qt2KhIkU6HR2WOMAQv99V1WEUi7y50hVnQO/vbtB2
- ZYNxxaKJ9sBGqcmB/Gj58G72FrYtjH0ycUu0wYDzgZDx3UAcZPaF45aIL4XLxyRCRqOZ
- UiQ0J+Kr/YHt/Xbog68CoE8/oEdclrW9U8dOsnr/D0nE+2PtTqG9l1juRC32SOOggyOM
- TYaQ==
+ :cc; bh=jJoXS4QbTqY+6Ytj1ko3ad/fgmxmK4IBIn+8+xdwW2Q=;
+ b=LMbeFYYi83I6V7ixPr6WpqPsufujm8BryySMBwbZOd2kTTWTyWfEO8K5DI1HbbLvZu
+ obf4u1YGKQVgg0SdvImuT/Nvep1VnmZ2p4AhVOOHp2MP2Q5zqhpK51kRAnE6BRedFhZx
+ 5ngvW1LSuceJ7CEatTM6pZTDUPjKrb8BTH+HHeI2NRM9Ilt4g2RSp1MgHJgW3H/aqCNk
+ 7gNnRyKTCw+SylHm0VsHrqxdcoB1xkLgRPLCyOOA3rjf/klhxu8mFXyn6cVBzNW8uLjJ
+ 45NlchWsrNLP7hpVArR205NqUNFIyszJYDwdesMZMvPi0bVtzIk7CLQA4f9PP1GjdKn/
+ zm+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0+zWfEcBn8R8qG6JRVAIvmLuc8kO+BbiDT3PmcxvLls=;
- b=R2S0/ZpMfFgqN9QMioviUM5cTDylM/AAOJZzSK4csW8vRdyY7SRu3BdoERaGq2zg0C
- MJnaWJE0Op4ofgNdAKz8tyZzvrCicPo5qyiIgC00s322mxpKK4mG2nvkxqwI3qbYzZVS
- 3Vxb6hKAFFYPWLc50SGSVMnHBYJOVT/0FXu2jjfYkpfGlhCtrYenQdSQhEtkzPDJMjyD
- tTRlRP2xOOb2Lzkup+ofUCNEhwYA4NsK/uECIbySXYQYqZKBwVgLkwRp1v/U5uCQnhiG
- lS6LWsC1azkMXJtyYQ6c/0mpKyWb4mgMl6p5K42x7h+iBWKQV2+7vClBiFL1BTobcv+Y
- s8uQ==
-X-Gm-Message-State: AOAM532Sm2hi5Q4WAdkE9VCLRUEbLLnKU7NKX9sdbWcc8ybaV8UfQJRa
- iym5xw46aToB2mHF1Rpwvp4D9kLrdFEKeyrmi1Xm
-X-Google-Smtp-Source: ABdhPJxrUT9p9ntAQvqokYU0BkiOqlC8EAHPKKSgZUSUJU238IsZOZKqg29PY7Tm4TA225V0XEB//vuD5HTzj++dY98=
-X-Received: by 2002:aa7:ca44:0:b0:42a:cd1e:ac6f with SMTP id
- j4-20020aa7ca44000000b0042acd1eac6fmr33771264edt.328.1653483041326; Wed, 25
- May 2022 05:50:41 -0700 (PDT)
+ bh=jJoXS4QbTqY+6Ytj1ko3ad/fgmxmK4IBIn+8+xdwW2Q=;
+ b=XbVVXhCRfyA10ifIwTMTBtPnld0XvPOgA90lPcEIf4pRWlw72Lp3aKA1eGUdOdasCc
+ 6nPiyezxsuRTMmmb5FnFFdlx8S40xo9HehmFMVsFc1FSgcylp96xf81SKyoy8jvjpLAc
+ wSomAQL0UGq9f/euRCB9a4Kg+CTLmqtsRSYiXL6D50m88rpjVqYZacw7dfMpZ6oEdM81
+ KTYDrqyGCGKOnYoMT93YL3BSNQanTe69dLfjCNyKb/xg0NX70nNb4PNoSPxH0DUGsD1L
+ 9qw4cNI2Mmk04tXs5o7J5edizb5y8POBUxy60dQfOMHoGNI+YhDFS0jerdG4WCwt48gn
+ m7lg==
+X-Gm-Message-State: AOAM531xSGZnR/sWICOR/kL44WiABcZ8hvJJ3Qy6dFgxBFS5KdU+i0em
+ NMd34Bynshy5T2JcRk+YrFF+G2BQ4V6BoT3Hr8cG
+X-Google-Smtp-Source: ABdhPJwOSbdIt18QPElQsh9Qu2fFbH9O87pydoB99kkgnwBgJPYwVPU+UaeskWrn53Wq6f+teCFPXCnJrs1+vv17v7Y=
+X-Received: by 2002:a50:d0da:0:b0:42b:cfa8:f1ce with SMTP id
+ g26-20020a50d0da000000b0042bcfa8f1cemr1120090edf.365.1653483122490; Wed, 25
+ May 2022 05:52:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220523084611.91-1-xieyongji@bytedance.com>
- <Yo4ljbJKI9pfIQtf@stefanha-x1.localdomain>
-In-Reply-To: <Yo4ljbJKI9pfIQtf@stefanha-x1.localdomain>
+ <Yo4MyKif+2a5Cnw+@stefanha-x1.localdomain>
+In-Reply-To: <Yo4MyKif+2a5Cnw+@stefanha-x1.localdomain>
 From: Yongji Xie <xieyongji@bytedance.com>
-Date: Wed, 25 May 2022 20:51:27 +0800
-Message-ID: <CACycT3vmxSMXJiR_M0yXGzCg+aOQ=_A=j68=3TiKPuFGKmXmHg@mail.gmail.com>
+Date: Wed, 25 May 2022 20:52:48 +0800
+Message-ID: <CACycT3tC-6Cw_eX8tzi=04-7ZpJQKXou=HXDBn3jEBFqjasFTA@mail.gmail.com>
 Subject: Re: [PATCH v6 0/8] Support exporting BDSs via VDUSE
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
@@ -64,14 +64,15 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Coiby.Xu@gmail.com, hreitz@redhat.com, qemu-block@nongnu.org, 
  qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,7 +88,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 25, 2022 at 8:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Wed, May 25, 2022 at 7:02 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
 > On Mon, May 23, 2022 at 04:46:03PM +0800, Xie Yongji wrote:
 > > Hi all,
@@ -114,13 +115,24 @@ On Wed, May 25, 2022 at 8:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 > >
 > > Please review, thanks!
 >
-> I talked to Kevin about who should merge this. He will do a final
-> review and it can go through his tree.
+> Thanks, applied to my block tree:
+> https://gitlab.com/stefanha/qemu/commits/block
 >
-> I will drop it from my 'block' branch for now.
+> Successfully manually tested on Linux 5.17.6.
+>
+> Please send a follow-up patch that adds a tests/qemu-iotests/ test case
+> that launches qemu-storage-daemon with a vduse-blk export, writes a
+> pattern to the disk, and reads the pattern back to verify it. An
+> automated test will prevent bitrot.
 >
 
-OK, thank you!
+Will do it.
+
+> I am sending a follow-up patch with documentation so users can discover
+> and learn how to use this new feature.
+>
+
+OK.
 
 Thanks,
 Yongji
