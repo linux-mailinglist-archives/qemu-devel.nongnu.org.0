@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08456533792
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 09:43:02 +0200 (CEST)
-Received: from localhost ([::1]:39808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23FD533793
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 09:44:36 +0200 (CEST)
+Received: from localhost ([::1]:41574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntlfY-0004Hy-Mx
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 03:43:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42174)
+	id 1ntlh5-0005f8-SV
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 03:44:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ntlY0-0000oc-Er; Wed, 25 May 2022 03:35:12 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:60001)
+ id 1ntlYI-0000tI-6i; Wed, 25 May 2022 03:35:31 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:55609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ntlXx-000661-Ol; Wed, 25 May 2022 03:35:11 -0400
+ id 1ntlYG-00067d-Jf; Wed, 25 May 2022 03:35:29 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id EBDDC5C021C;
- Wed, 25 May 2022 03:35:06 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id E8E6E5C0242;
+ Wed, 25 May 2022 03:35:26 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 25 May 2022 03:35:06 -0400
+ by compute5.internal (MEProxy); Wed, 25 May 2022 03:35:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1653464106; x=1653550506; bh=4p
- 07rUpRzDcPNwe/EHrwavgfFz3YYtBgk+ZTkIWMYhM=; b=PZqgtsoxdPklaTLVIN
- MhBl0xYPnoubugDuA8N5MR8cRzys/1g1sEEBIl+n8zXZwq5LCTi7rk82Iyii1Q9B
- KVySbuuNlwc7U71CxOmu43xREsV0nRhTIiOhQvPmDlodJrzD81FoIughuVtUrR2d
- MnX5SgPLPsECLOpds76HacgdVd5XzZ/Fhc3CHYRHNBT/winNjAjmantNqig/YW3d
- ytJZmhbiZm+wQ75DmysMlIS5GEuM/nS6o2uWpveonGhl3/mr13Obn/IvFUNPaiIY
- xrBFVYnKr3Li3of0MEOi1lQdUK+ir6rRh06XalBsPt6WoeYxXi2ymFZHNu9BrFzS
- 9KpQ==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1653464126; x=1653550526; bh=COcy5zVGWu
+ b1NrTqSWYL0qyBJLgIKlRWXhwAuV3l0QE=; b=IAQLfsftGSeA0SqsrJeOD64mxd
+ dg/aGMquCAxaVY6yXHL3FIxfhjtFrchE7zMSJL2eW20A1NSUy7bQt2h3/ZKoWGs2
+ f7fS9lH/yAf7MJIXMhc/NALVy4FqjEH+GMsyv4iRPotW8GxybKgYAfkp8qN0dMCg
+ iMdYkg8dJp1Bn6WjrKnBuZtA9ALAuqeLCQauAJwE8gEcqzLEpd4UlIF4HaRKgglt
+ Hs92ATLoH+x3za1+LY/+GOLCwzeI68OibfSh9qWPJicB1/FW9UiKx2hLTDGghEoe
+ fQi722k0/Dt3Aa/fdUDxyG1rGMnP5aIL5jBl5ankENx5fC/N4ux4sU9+fv0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1653464106; x=1653550506; bh=4p07rUpRzDcPNwe/EHrwavgfFz3Y
- YtBgk+ZTkIWMYhM=; b=VTxC2CAZO5fugKMT0rpodw3MUsI1mBLrkSu40v8CkjLu
- 6CFJYlVZ1iISdNt0vRij2GkoM3qsvKM14Ngs8CHTNNlaogTVWaQJqqyiqFvJQEfj
- dmj6HZARFL9D6APw0Ik39EhajvxxdnmGSDtuaxJP8L+fVUKdjaRuA3tX9Z5nHnaJ
- XxGHoLPVUtMy/Rg4xCoQSQrWFHBuNZR+zdZzf+HuNjy5KtU57CE5skFXRGM7LcCc
- r9mIzLOEzDE66VoyI3siONRJQX8AagxxQAN2l5oaXSY6oK0tvDdeHdXO/VZX0uaS
- Av/4CRtthUMTOVg4BZpRp3JUTy521aVSrk+qYls4NQ==
-X-ME-Sender: <xms:KdyNYspmJr5CuWVtTplNYnPmzdVVw74Ex2QG5esOsQb2Zg0Xfn19tg>
- <xme:KdyNYipc4awhRvhCy791dzzI3jwP6NdwCQtgC0S8MoQO_VGg25DMiVsKnMMsBu7c4
- fngzo7ZUl4xkZGWCKc>
-X-ME-Received: <xmr:KdyNYhNS2m6R_G4fx2OGHxr6_qOk43QAHDYc8sWRsoiSIxsjTtssFdlL3yXS2K9WTgxjwHX5k5mY6FDmOlc>
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1653464126; x=1653550526; bh=COcy5zVGWub1NrTqSWYL0qyBJLgIKlRWXhw
+ AuV3l0QE=; b=nr2wIwtKmeqPrhtGt8jgV2AqsC8jdhkrkBUgK4ocVvh7ZjiHyD6
+ 0dXB1hgsF3rGeUXNDpzXxP789zK4zVKfqzH951w973merRFJlClhWo14mTmHlX8z
+ 8+OaM+citzrQe20M00o7aFHBte1fns0ltHSux231zAZ5o/hOAjTPhpVFK7dWAclE
+ PBO2dFCyw27tuCBS6bJ4DFcBvG0EpL/ahrd/+6bVTuF+kjoCP0JCbVO1BV32ML1p
+ 9r0a9Jwwr9QHjxEphgh6R867SQQ8cwabyLk1CHnq3VhI2d1ckz2FmGByrh8IChsj
+ eTw1GP5C26Qdkl8kF9nYRXkEjSybFyEpxEQ==
+X-ME-Sender: <xms:PtyNYho07lSZV6_0WbJIFGwIP6_z9oRoL1acttSyXhJt-HEKi2riKA>
+ <xme:PtyNYjqnKQiVx9bpldxXtpTNUsqls3Gszlnjfq8kcQNsTLXMb3CTU1j2lzvJS7FCu
+ 4i35trOxbBkRyzEXzc>
+X-ME-Received: <xmr:PtyNYuOn0lLuaZMST9U_1la579I0AraegfEHaCpbRLmdrmx7ohXRP_k6x9AlZ15EnabuSDiaaVsbfe_C9d0lNg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrjeeggdduudelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:KdyNYj5wGcGpUlid_0yU3sy4piB_QsBChEextLuB8F5Kzw2NyNCbjw>
- <xmx:KdyNYr5CGIyYJDJOAZOvMLKkrZpFSikBeha59U5E71UHzLaflaA49g>
- <xmx:KdyNYji7WT6xMOX1YxQ5n7exoiKp2bVg3Ag3PZm8YMFG73LjOlJVVA>
- <xmx:KtyNYhRNOLhtW0s2f9-_buSsk_c4q5siW2GdGdy0uYbb3LVibV54Gw>
+ cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnheptdeludfhgeelheelledtjefffeejtdeluedvgfetveffgeetvdevkeehieeikeet
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:PtyNYs7ZrmoWWGoYoNSzw4k5F0aQuULqmHdPbvAeCr8lOUoEZ8DGiw>
+ <xmx:PtyNYg6VTS7WMz7R9iPJDy_Wwxd1ziGgooVACxwBqwE7Y-jRUWEEZw>
+ <xmx:PtyNYkinwXjkCB0FOUT6kIfYcf0wmnutHBJvST5OoUsOfBWC6-1rIg>
+ <xmx:PtyNYr0BZTyvmnMw5FsaVfuM4HTMRgAe2a3gJHpyHe3QR1NuHqMpRQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 May 2022 03:35:04 -0400 (EDT)
-Date: Wed, 25 May 2022 09:35:02 +0200
+ 25 May 2022 03:35:25 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <k.jensen@samsung.com>, lukasz.gieryk@linux.intel.com
-Subject: Re: [PATCH] hw/nvme: clean up CC register write logic
-Message-ID: <Yo3cJsbCPST0zKcW@apples>
-References: <20220517111605.1494647-1-its@irrelevant.dk>
- <YoYziE8v2reg5kQ7@kpiekosz-mobl.ger.corp.intel.com>
+To: qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>,
+ Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH v2] hw/nvme: clean up CC register write logic
+Date: Wed, 25 May 2022 09:35:24 +0200
+Message-Id: <20220525073524.2227333-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2kLj/7KrrvsLrX1+"
-Content-Disposition: inline
-In-Reply-To: <YoYziE8v2reg5kQ7@kpiekosz-mobl.ger.corp.intel.com>
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
  helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -103,67 +98,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Klaus Jensen <k.jensen@samsung.com>
 
---2kLj/7KrrvsLrX1+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The SRIOV series exposed an issued with how CC register writes are
+handled and how CSTS is set in response to that. Specifically, after
+applying the SRIOV series, the controller could end up in a state with
+CC.EN set to '1' but with CSTS.RDY cleared to '0', causing drivers to
+expect CSTS.RDY to transition to '1' but timing out.
 
-On May 19 14:11, Lukasz Maniak wrote:
-> On Tue, May 17, 2022 at 01:16:05PM +0200, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > The SRIOV series exposed an issued with how CC register writes are
-> > handled and how CSTS is set in response to that. Specifically, after
-> > applying the SRIOV series, the controller could end up in a state with
-> > CC.EN set to '1' but with CSTS.RDY cleared to '0', causing drivers to
-> > expect CSTS.RDY to transition to '1' but timing out.
-> >=20
-> > Clean this up.
-> >=20
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >=20
-> > Note, this applies on top of nvme-next with v8 of Lukasz's sriov series.
-> >=20
-> >  hw/nvme/ctrl.c | 35 +++++++++++------------------------
-> >  1 file changed, 11 insertions(+), 24 deletions(-)
-> >=20
-> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > index 658584d417fe..47d971b2404c 100644
-> > --- a/hw/nvme/ctrl.c
-> > +++ b/hw/nvme/ctrl.c
-> > @@ -6190,9 +6190,8 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeRese=
-tType rst)
-> > =20
-> >      if (pci_is_vf(pci_dev)) {
-> >          sctrl =3D nvme_sctrl(n);
-> > +
-> >          stl_le_p(&n->bar.csts, sctrl->scs ? 0 : NVME_CSTS_FAILED);
-> > -    } else {
-> > -        stl_le_p(&n->bar.csts, 0);
->=20
-> Are you sure the registers do not need to be cleared for a reset type that
-> does not involve a CC register i.e. FLR?
-> Will these registers be zeroed out elsewhere during FLR?
->=20
+Clean this up.
 
-Indeed you are right. Posting a v2.
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 37 +++++++++++++++----------------------
+ 1 file changed, 15 insertions(+), 22 deletions(-)
 
---2kLj/7KrrvsLrX1+
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 658584d417fe..8b16b2b8febb 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -6190,8 +6190,12 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
+ 
+     if (pci_is_vf(pci_dev)) {
+         sctrl = nvme_sctrl(n);
++
+         stl_le_p(&n->bar.csts, sctrl->scs ? 0 : NVME_CSTS_FAILED);
+     } else {
++        stl_le_p(&n->bar.intms, 0);
++        stl_le_p(&n->bar.intmc, 0);
++        stl_le_p(&n->bar.cc, 0);
+         stl_le_p(&n->bar.csts, 0);
+     }
+ }
+@@ -6405,20 +6409,21 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         nvme_irq_check(n);
+         break;
+     case NVME_REG_CC:
++        stl_le_p(&n->bar.cc, data);
++
+         trace_pci_nvme_mmio_cfg(data & 0xffffffff);
+ 
+-        /* Windows first sends data, then sends enable bit */
+-        if (!NVME_CC_EN(data) && !NVME_CC_EN(cc) &&
+-            !NVME_CC_SHN(data) && !NVME_CC_SHN(cc))
+-        {
+-            cc = data;
++        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
++            trace_pci_nvme_mmio_shutdown_set();
++            nvme_ctrl_shutdown(n);
++            csts &= ~(CSTS_SHST_MASK << CSTS_SHST_SHIFT);
++            csts |= NVME_CSTS_SHST_COMPLETE;
++        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
++            trace_pci_nvme_mmio_shutdown_cleared();
++            csts &= ~(CSTS_SHST_MASK << CSTS_SHST_SHIFT);
+         }
+ 
+         if (NVME_CC_EN(data) && !NVME_CC_EN(cc)) {
+-            cc = data;
+-
+-            /* flush CC since nvme_start_ctrl() needs the value */
+-            stl_le_p(&n->bar.cc, cc);
+             if (unlikely(nvme_start_ctrl(n))) {
+                 trace_pci_nvme_err_startfail();
+                 csts = NVME_CSTS_FAILED;
+@@ -6429,22 +6434,10 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         } else if (!NVME_CC_EN(data) && NVME_CC_EN(cc)) {
+             trace_pci_nvme_mmio_stopped();
+             nvme_ctrl_reset(n, NVME_RESET_CONTROLLER);
+-            cc = 0;
+-            csts &= ~NVME_CSTS_READY;
+-        }
+ 
+-        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
+-            trace_pci_nvme_mmio_shutdown_set();
+-            nvme_ctrl_shutdown(n);
+-            cc = data;
+-            csts |= NVME_CSTS_SHST_COMPLETE;
+-        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
+-            trace_pci_nvme_mmio_shutdown_cleared();
+-            csts &= ~NVME_CSTS_SHST_COMPLETE;
+-            cc = data;
++            break;
+         }
+ 
+-        stl_le_p(&n->bar.cc, cc);
+         stl_le_p(&n->bar.csts, csts);
+ 
+         break;
+-- 
+2.36.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKN3CQACgkQTeGvMW1P
-DelGRwgAmCCq5srGeaw2j9gPisvbRlRp1CmwKcbmZNB6O/C6S5gkW4Zk6zpwoc9t
-jc3QL79x20si5bkMJyIQReGuoUaGZoTLd3ECukzOMBBxaa8evCaEp5ODXUFfC6bt
-J3g+/zrOoU/HvHjyURU/Ft2rtdnNZ8dnq3AenHTbuRUIjVzVRVyuK2G73DclzG6S
-V4pofRE9HHqUMXZNO/1PXK6aSnxKHdYDjUXpk3/mjETHTtLtN4mkq3C5yow3buyH
-0GR9rhn+7xx5JJ7QeiQt2eHXubUGvBYmFqIOt8xHiQJDH41zmPwz5zC7S/tkqPy4
-aN6ZODNG/Xn1o2ZP+jnE7Rcf7IHkOw==
-=jmeO
------END PGP SIGNATURE-----
-
---2kLj/7KrrvsLrX1+--
 
