@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A9C533ACA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 12:44:36 +0200 (CEST)
-Received: from localhost ([::1]:60762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2290A533AF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 12:52:07 +0200 (CEST)
+Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntoVG-0008Ro-Is
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 06:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49472)
+	id 1ntocY-0005fT-8Q
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 06:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntoRy-0005lU-3X
- for qemu-devel@nongnu.org; Wed, 25 May 2022 06:41:10 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:37541)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntoS0-0005p6-QT
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 06:41:12 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:49399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntoRw-0002FV-6h
- for qemu-devel@nongnu.org; Wed, 25 May 2022 06:41:09 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntoRy-0002G9-U3
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 06:41:12 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MvJjz-1nch4Q0N1d-00rEJp; Wed, 25
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N9d4t-1noq8g2YhJ-015XfF; Wed, 25
  May 2022 12:41:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 7/8] tests/tcg/s390x: Test unwinding from signal handlers
-Date: Wed, 25 May 2022 12:40:56 +0200
-Message-Id: <20220525104057.543354-8-laurent@vivier.eu>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 8/8] linux-user/host/s390: Treat EX and EXRL as writes
+Date: Wed, 25 May 2022 12:40:57 +0200
+Message-Id: <20220525104057.543354-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525104057.543354-1-laurent@vivier.eu>
 References: <20220525104057.543354-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fRZA+tzyOT9d6/WxR5L01ODdOPS5x6KMhoxkChQlRDaoRkvVMk0
- 1F8RqbfBnFs8WJZmi0PdOfX9NqHMSOf6zVntQHVrjdDIuAg3+CBfc0ZnOY2CwJDq5KNnxa9
- E1cOEDpqMtWXRIRBbB0js2+vK8vnKQjRQ1az6ueQA1ho8FN7LZV2ibWitTuBWsMx376Ez8i
- UVotYaQ0Je8oMC/TfeRwg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z/ilKW8M4V8=:P79UPbmagJGxjGraoV8M1i
- ukxXlYS5WSxSG6mQB2jXH2zsxYXq7oIDtd1qNDHg3Is5kqPsfxaG69wN9le+hjSLLymFNcPcb
- iHLDsOa+33kQflLbiko8pmjWvzdg+yfyd0yFuPilTPxRwFITgDAY6aXEtvCXRaM8bxC0xG9dY
- ICHzxtp30YhsEsn38JYo4sq365mW00Hkv5s6z14OA7++lSXcEDQNaWjWNSCvZID8YY0BaZomh
- /GEFo815JMpu8hHina0+5ASSC1dItha7LQZnoKTsdaofi6+QrTbrRlUoJTkYSaEdpwqBN06mm
- eEvw3nvpAlIMEaqFGlH5bKEh4lwkhlXN8DIyJGplfFcYl1ubMkwQbNe/th6PxHtnii7xx3puv
- XtBi30HtdvYgidzHTjTAq0PnAjsKEAOp/5oVAKxao0Zu1uiNeCUdVhGsNbjsLvrAPER2E07Ub
- Tw93OpNu0SRROwGvcV9HmMq3QTry10XWRbI1LBT/OWvWKJzRMcFvyjfafwRcj/vGMLTc9i6xh
- m2llOZ3Vbe4ZVho9ui4IExN33qejMatiW9fW03bfVVVLa63hf0JcVcfABimwQl/b3dYw+rUHT
- bBxpBCKmEb/g5E4qQqy21x7migO3WJVNM2aIDN5GCnb1XjwC+VA8Q9IwuRROaX3XStb//CZkq
- buJp08nwLm6synRCN/dCTq4CnzK51vIDgPIdPfejA3nTcIayCYl2oMSAoYn1rR8yysTqLEieJ
- eCpL589A3wpqO8Z70dbcGX7HOFcTAzs5onaENA==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:E7uktIn8xEbiP07ChoUZHCqQF6p6COz+l7TMfJ5Aq9qqJ9mV3d+
+ texx2foWmpKZvOj4Z/XJCHEDG4pu0K8OSa0SSKPF+PNmfXp5sYv8yTr6s+aaLaKoHtxYZ9x
+ REpQ7/bcUS7eUFvV4YO/DD0sdkbF6NbymP0cJTm0nQuMLWhvgjDgEgrO4Cgf68bv7pX7uYQ
+ 8nqq6f55EeyFOUzAsyDkQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2M9bJnVpquw=:+9QfgQ1VKXdfICrh2v7KSc
+ SWHxmMsf/1JoA0N7lVtc2O5/5tOH4AAte6gC9Km8KSa18kCtKvJnOmNR5RTrk8KGWtx0KeaEh
+ 6Iop4DXTnwPMBS8aGXUN+GSGrl76sYQPDbJge/ZrZK031hEbuDKJRDUzM+wR7y/6Dm0KNge5D
+ 9Hf/IULpuPPsw6n03vuzbDP+nyudzc6JqCulMKOVPZ2gTE4qxaGTWIvK9nCzxTUgY08ipGzif
+ yaypeAa1jIKh83VEsukwRMiBbcuX/58wk9ZIJ8K+6jwqJ7FOOLgQeTcHQC6600mDBdYCPJHbs
+ uKRrMMUZrcp8K+NNmsOS9Qbr3uZNavSL6kfPUs4qtJXEZqRkF3ogxpIz1istWJ6o4pFs0WBdb
+ dD4jpGdqv8puIWtxbci0vjXmvrVI/kWAqL/AzyJaxS3jKLdf8+eCvgOarJLYGpldlw3/iJ5EY
+ hib8Tb3K/TckpaABKl4jTV97Hxj4++ttqJafbfv0N9c0TIFOKSzIcdqM2kYHY69Pv8B2pvtrh
+ BR1gMs4jXZ0+aXOZsQStHvI5XA2gA3+YZYh6goha3qNHF8/+GweMXZB7BtI+azc+lAFgWgS2K
+ jTD45ZTJPo/A2L0iYVhEArh3N3wlXjMYosZp6ZfC/F8jzHkh3l041Sx31gya9A/TuVYERqz+f
+ 0jsovVCEErE+Ye9xnNjf2suQNu/DcM8YirGEmGvY1j41dueTW4WhRzeBB56T8YRUgxxxMunfj
+ 1pnkRguDVxpBlnT7Ui2Ofdv2fSZ6QiFN5BopAw==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,138 +74,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Add a small test to prevent regressions.
+clang-built s390x branch-relative-long test fails on clang-built s390x
+QEMU due to the following sequence of events:
 
+- The test zeroes out a code page, clang generates exrl+xc for this.
+
+- do_helper_xc() is called. Clang generates exrl+xc there as well.
+
+- Since there already exists a TB for the code in question, its page is
+  read-only and SIGSEGV is raised.
+
+- host_signal_handler() calls host_signal_write() and the latter does
+  not recognize exrl as a write. Therefore page_unprotect() is not
+  called and the signal is forwarded to the test.
+
+Fix by treating EXRL (and EX, just in case) as writes. There may be
+false positives, but they will lead only to an extra page_unprotect()
+call.
+
+Reported-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20220503225157.1696774-3-iii@linux.ibm.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220504114819.1729737-1-iii@linux.ibm.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/tcg/s390x/signals-s390x.c | 69 ++++++++++++++++++++++++++-------
- 1 file changed, 55 insertions(+), 14 deletions(-)
+ linux-user/include/host/s390/host-signal.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/tcg/s390x/signals-s390x.c b/tests/tcg/s390x/signals-s390x.c
-index dc2f8ee59ac7..48c3b6cdfdd3 100644
---- a/tests/tcg/s390x/signals-s390x.c
-+++ b/tests/tcg/s390x/signals-s390x.c
-@@ -1,4 +1,5 @@
- #include <assert.h>
-+#include <execinfo.h>
- #include <signal.h>
- #include <string.h>
- #include <sys/mman.h>
-@@ -11,22 +12,28 @@
-  * inline asm is used instead.
-  */
- 
-+#define DEFINE_ASM_FUNCTION(name, body) \
-+    asm(".globl " #name "\n" \
-+        #name ":\n" \
-+        ".cfi_startproc\n" \
-+        body "\n" \
-+        "br %r14\n" \
-+        ".cfi_endproc");
-+
- void illegal_op(void);
--void after_illegal_op(void);
--asm(".globl\tillegal_op\n"
--    "illegal_op:\t.byte\t0x00,0x00\n"
--    "\t.globl\tafter_illegal_op\n"
--    "after_illegal_op:\tbr\t%r14");
-+extern const char after_illegal_op;
-+DEFINE_ASM_FUNCTION(illegal_op,
-+    ".byte 0x00,0x00\n"
-+    ".globl after_illegal_op\n"
-+    "after_illegal_op:")
- 
- void stg(void *dst, unsigned long src);
--asm(".globl\tstg\n"
--    "stg:\tstg\t%r3,0(%r2)\n"
--    "\tbr\t%r14");
-+DEFINE_ASM_FUNCTION(stg, "stg %r3,0(%r2)")
- 
- void mvc_8(void *dst, void *src);
--asm(".globl\tmvc_8\n"
--    "mvc_8:\tmvc\t0(8,%r2),0(%r3)\n"
--    "\tbr\t%r14");
-+DEFINE_ASM_FUNCTION(mvc_8, "mvc 0(8,%r2),0(%r3)")
-+
-+extern const char return_from_main_1;
- 
- static void safe_puts(const char *s)
- {
-@@ -49,8 +56,9 @@ static struct {
- 
- static void handle_signal(int sig, siginfo_t *info, void *ucontext)
- {
-+    int err, i, n_frames;
-+    void *frames[16];
-     void *page;
--    int err;
- 
-     if (sig != expected.sig) {
-         safe_puts("[  FAILED  ] wrong signal");
-@@ -86,6 +94,17 @@ static void handle_signal(int sig, siginfo_t *info, void *ucontext)
-     default:
+diff --git a/linux-user/include/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
+index 6f191e64d7b5..25fefa00bd48 100644
+--- a/linux-user/include/host/s390/host-signal.h
++++ b/linux-user/include/host/s390/host-signal.h
+@@ -50,6 +50,7 @@ static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
+     case 0x50: /* ST */
+     case 0x42: /* STC */
+     case 0x40: /* STH */
++    case 0x44: /* EX */
+     case 0xba: /* CS */
+     case 0xbb: /* CDS */
+         return true;
+@@ -61,6 +62,12 @@ static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
+             return true;
+         }
          break;
-     }
-+
-+    n_frames = backtrace(frames, sizeof(frames) / sizeof(frames[0]));
-+    for (i = 0; i < n_frames; i++) {
-+        if (frames[i] == &return_from_main_1) {
-+            break;
++    case 0xc6: /* RIL-b format insns */
++        switch (pinsn[0] & 0xf) {
++        case 0x0: /* EXRL */
++            return true;
 +        }
-+    }
-+    if (i == n_frames) {
-+        safe_puts("[  FAILED  ] backtrace() is broken");
-+        _exit(1);
-+    }
- }
- 
- static void check_sigsegv(void *func, enum exception exception,
-@@ -122,7 +141,7 @@ static void check_sigsegv(void *func, enum exception exception,
-     assert(err == 0);
- }
- 
--int main(void)
-+int main_1(void)
- {
-     struct sigaction act;
-     int err;
-@@ -138,7 +157,7 @@ int main(void)
-     safe_puts("[ RUN      ] Operation exception");
-     expected.sig = SIGILL;
-     expected.addr = illegal_op;
--    expected.psw_addr = (unsigned long)after_illegal_op;
-+    expected.psw_addr = (unsigned long)&after_illegal_op;
-     expected.exception = exception_operation;
-     illegal_op();
-     safe_puts("[       OK ]");
-@@ -163,3 +182,25 @@ int main(void)
- 
-     _exit(0);
- }
-+
-+/*
-+ * Define main() in assembly in order to test that unwinding from signal
-+ * handlers until main() works. This way we can define a specific point that
-+ * the unwinder should reach. This is also better than defining main() in C
-+ * and using inline assembly to call main_1(), since it's not easy to get all
-+ * the clobbers right.
-+ */
-+
-+DEFINE_ASM_FUNCTION(main,
-+    "stmg %r14,%r15,112(%r15)\n"
-+    ".cfi_offset 14,-48\n"
-+    ".cfi_offset 15,-40\n"
-+    "lay %r15,-160(%r15)\n"
-+    ".cfi_def_cfa_offset 320\n"
-+    "brasl %r14,main_1\n"
-+    ".globl return_from_main_1\n"
-+    "return_from_main_1:\n"
-+    "lmg %r14,%r15,272(%r15)\n"
-+    ".cfi_restore 15\n"
-+    ".cfi_restore 14\n"
-+    ".cfi_def_cfa_offset 160");
++        break;
+     case 0xc8: /* SSF format insns */
+         switch (pinsn[0] & 0xf) {
+         case 0x2: /* CSST */
 -- 
 2.36.1
 
