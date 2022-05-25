@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677B25336DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 08:46:11 +0200 (CEST)
-Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D314533704
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 09:05:36 +0200 (CEST)
+Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntkmX-0000xh-Tu
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 02:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57486)
+	id 1ntl5H-000235-27
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 03:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ntkU0-0004ns-00
- for qemu-devel@nongnu.org; Wed, 25 May 2022 02:27:01 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:52499)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ntkZz-0000K6-UC
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 02:33:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ntkTx-0003BH-Ju
- for qemu-devel@nongnu.org; Wed, 25 May 2022 02:26:59 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3817C1039B842;
- Wed, 25 May 2022 08:26:53 +0200 (CEST)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 25 May
- 2022 08:26:53 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004db140786-3551-460d-b50a-7f33736346c7,
- D6A97ED6E11FF164423AFC60B0B43C9491D8EECB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <690b6f4c-f596-0c64-1b19-47af1d32a9ba@kaod.org>
-Date: Wed, 25 May 2022 08:26:52 +0200
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ntkZu-0003ro-5v
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 02:33:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653460382;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fXW4dqLHyGJ0Pp7orgwEEW/fdF6EXMY+e75gQh0gr/0=;
+ b=Zkx6kEeT53RdqhuaNChr5dD5MHjk2hHZuiEsoKCLqX49wW87zI32zXrdxMqymaTrfiMm8H
+ YneLW+IlRvKYJyo/kHHSWPnwWMw1Gh2YipcDYh0EceVfiWoQFmSHOHCkYNo//dUs5mnNvG
+ csueA5AlZAWXom8ha4k+i9zwCctAGLg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-eH2F4e4xOki08goealdRLA-1; Wed, 25 May 2022 02:32:59 -0400
+X-MC-Unique: eH2F4e4xOki08goealdRLA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18FC43802128;
+ Wed, 25 May 2022 06:32:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0C1F2166B29;
+ Wed, 25 May 2022 06:32:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 53C5F18000B4; Wed, 25 May 2022 08:32:57 +0200 (CEST)
+Date: Wed, 25 May 2022 08:32:57 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Dario Faggioli <dfaggioli@suse.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 0/2] modules: Improve modinfo.c support
+Message-ID: <20220525063257.zs6cqwgtaj7r52bp@sirius.home.kraxel.org>
+References: <20210928204628.20001-1-jziviani@suse.de>
+ <20210929050908.3fqf3wwbk6vrtziu@sirius.home.kraxel.org>
+ <077c28cfd3a7d10df6a08d26bcb721aa2d46bec1.camel@suse.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 4/4] hw/gpio: replace HWADDR_PRIx with PRIx64
-Content-Language: en-US
-To: Jamin Lin <jamin_lin@aspeedtech.com>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-CC: <steven_lee@aspeedtech.com>, <troy_lee@aspeedtech.com>
-References: <20220525053444.27228-1-jamin_lin@aspeedtech.com>
- <20220525053444.27228-5-jamin_lin@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220525053444.27228-5-jamin_lin@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 1fa6baee-4d56-49eb-8018-4b6f47d536df
-X-Ovh-Tracer-Id: 14712415560385661804
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrjeeggddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhm
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <077c28cfd3a7d10df6a08d26bcb721aa2d46bec1.camel@suse.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,78 +80,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/22 07:34, Jamin Lin wrote:
-> 1. replace HWADDR_PRIx with PRIx64
-> 2. fix indent issue
+On Tue, May 24, 2022 at 01:49:41PM +0200, Dario Faggioli wrote:
+> Hello! Sorry for bringing up an old thread, but I'd have a question
+> about this series.
 > 
-> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
-
-
-> ---
->   hw/gpio/aspeed_gpio.c         | 8 ++++----
->   include/hw/gpio/aspeed_gpio.h | 2 +-
->   2 files changed, 5 insertions(+), 5 deletions(-)
+> As far as I can see, the patches were fine, and they were Acked, but
+> then the series was never committed... Is this correct?
 > 
-> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-> index c834bf19f5..a62a673857 100644
-> --- a/hw/gpio/aspeed_gpio.c
-> +++ b/hw/gpio/aspeed_gpio.c
-> @@ -561,7 +561,7 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
->       reg = &agc->reg_table[idx];
->       if (reg->set_idx >= agc->nr_gpio_sets) {
->           qemu_log_mask(LOG_GUEST_ERROR, "%s: no getter for offset 0x%"
-> -                      HWADDR_PRIx"\n", __func__, offset);
-> +                      PRIx64"\n", __func__, offset);
->           return 0;
->       }
->   
-> @@ -611,7 +611,7 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
->           break;
->       default:
->           qemu_log_mask(LOG_GUEST_ERROR, "%s: no getter for offset 0x%"
-> -                      HWADDR_PRIx"\n", __func__, offset);
-> +                      PRIx64"\n", __func__, offset);
->           return 0;
->       }
->   
-> @@ -787,7 +787,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
->       reg = &agc->reg_table[idx];
->       if (reg->set_idx >= agc->nr_gpio_sets) {
->           qemu_log_mask(LOG_GUEST_ERROR, "%s: no setter for offset 0x%"
-> -                      HWADDR_PRIx"\n", __func__, offset);
-> +                      PRIx64"\n", __func__, offset);
->           return;
->       }
->   
-> @@ -872,7 +872,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
->           break;
->       default:
->           qemu_log_mask(LOG_GUEST_ERROR, "%s: no setter for offset 0x%"
-> -                      HWADDR_PRIx"\n", __func__, offset);
-> +                      PRIx64"\n", __func__, offset);
->           return;
->       }
->       aspeed_gpio_update(s, set, set->data_value);
-> diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
-> index 41b36524d0..904eecf62c 100644
-> --- a/include/hw/gpio/aspeed_gpio.h
-> +++ b/include/hw/gpio/aspeed_gpio.h
-> @@ -67,7 +67,7 @@ enum GPIORegIndexType {
->   typedef struct AspeedGPIOReg {
->       uint16_t set_idx;
->       enum GPIORegType type;
-> - } AspeedGPIOReg;
-> +} AspeedGPIOReg;
->   
->   struct AspeedGPIOClass {
->       SysBusDevice parent_obj;
+> If yes, can it be committed (I'm up for rebasing and resending, if it's
+> necessary)? If not, would it be possible to know what's missing, so
+> that we can continue working on it?
+
+rebase, run through ci, resend is probably the best way forward.
+Don't remember any problems, not sure why it wasn't picked up,
+maybe paolo (who does the meson + buildsystem stuff) was just busy
+so it fell through the cracks,
+
+take care,
+  Gerd
 
 
