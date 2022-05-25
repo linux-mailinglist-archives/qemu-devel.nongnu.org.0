@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D2B53448B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:49:44 +0200 (CEST)
-Received: from localhost ([::1]:50664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C2A534470
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:44:29 +0200 (CEST)
+Received: from localhost ([::1]:39584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntx0q-0007IU-27
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
+	id 1ntwvk-00081i-3i
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwhH-0005YV-1p
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23833)
+ id 1ntwhP-0005yv-9m
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwhF-0003sA-9t
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:30 -0400
+ id 1ntwhN-0003sn-GT
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653506968;
+ s=mimecast20190719; t=1653506976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gG9nneWWyjnupUUg6wVGpKu/gWNRRTAvNAqk45p9EZU=;
- b=datWObJ9ynHuEV7Yg0bi/cpkkPgZvt8rV5Yi1joj3IMzHBsrLVBT6MuWXJvw6TzZI3a+xG
- e4hIYtJZetcVFfNzjGN2ZQiv4cKXZSO5w0WTFbTv/9lZzWT0j57Ha19JKORTyZqTFDeu8t
- yxBLxjU1M1839fmMevRkZBJ4f6p8ztg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0DzK00baUHTmbKRJ3TcJG4y3BR529hjHpDHgIcJFN/U=;
+ b=f3dVsDWuyO31gl/sfrncxrYM2xxs4Aa3UrwYkgiq7vhuqtfvO+392NYUfCXK5sKcANXWVy
+ cJXLMMVWh+6k8/lKihykknWYwznRZZgo/x0LifHZxc4oGxsSwy+WiA0c9XWXHXBwhwyXDf
+ Rt+xyiizWIVf0zyLHzOHQxzsMDNjKPU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-Hqt4PTxbNA69lrG8KqwAmA-1; Wed, 25 May 2022 15:29:27 -0400
-X-MC-Unique: Hqt4PTxbNA69lrG8KqwAmA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- k7-20020a1709062a4700b006fe92440164so9212772eje.23
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:27 -0700 (PDT)
+ us-mta-592-tkm98hRzNtSAKuFY1a2d3g-1; Wed, 25 May 2022 15:29:29 -0400
+X-MC-Unique: tkm98hRzNtSAKuFY1a2d3g-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ l18-20020aa7d952000000b0042ab7be9adaso15477755eds.21
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gG9nneWWyjnupUUg6wVGpKu/gWNRRTAvNAqk45p9EZU=;
- b=WfFvOM7QGIzw7t/TmSM/pEyo/7xk/0d9+5J41YSeGWncAyuomdxautwku7gr0fjJI/
- TbmVbKDsGjjCKWblCe8GSH7jUpRib8AvoSrA7ZVH1BbrCDc5wFNXBLFJhsB8z37DmMzN
- XlHLUKyCMXAlKuBh+mf663wC6PDa6ggAFXrwdAfN3JBhV3sObIaPd5Ccrh8018/KnXEF
- p1uSxJEq+8ma2HiMNB1g9wTV1zwFqgwViIYhZtlO/L0ZWkFdyw/jV0qp8l9HMUfFJTkm
- qJnm+QntQvuvV3bQzyTHFwVG6daZok7ImoRdyrCbg7PB2+QHky3R9dqEp8sLCdFgdvqP
- lyRw==
-X-Gm-Message-State: AOAM531E3iJzsdbCyDy3UDonCJNJKC05cF4MkktyopjN5NWOQY6SPoOY
- iBzxKMEdylt1yNtHUbJZYjsX9EMeClkSpB9YRdXJWlrSx0qrskxv6RXbbjUO80ZElVNa2wOMpal
- TZK3D/ygH7pY2JQxebdjd2btWccLQTuv8ossRgNpL1wr6g/0NLvYv8oypJEoRz9FdX5o=
-X-Received: by 2002:a17:906:478b:b0:6f8:5850:4da9 with SMTP id
- cw11-20020a170906478b00b006f858504da9mr30080741ejc.619.1653506965690; 
- Wed, 25 May 2022 12:29:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyhLSCDttMfLvkvrQaYCw6iwBU9fRaZX/Whp06iIRxQhr/KBB/qWOTt6MT+29oqDec8sgGOg==
-X-Received: by 2002:a17:906:478b:b0:6f8:5850:4da9 with SMTP id
- cw11-20020a170906478b00b006f858504da9mr30080714ejc.619.1653506965345; 
- Wed, 25 May 2022 12:29:25 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- ej23-20020a056402369700b0042a2d9af0f8sm11268052edb.79.2022.05.25.12.29.23
+ bh=0DzK00baUHTmbKRJ3TcJG4y3BR529hjHpDHgIcJFN/U=;
+ b=2PZZpyDyORmo92m44OpG4aIaOXYRJdktck6xdIlO39ojWZayRgoG3IIM3JrXDxm7V+
+ ulAKcDYt6M3tuOWai86OwIu9whiSZR+Z9i1Vxi/DeBfxA63nXFB8dYwh2+SCZeTZlWNQ
+ 8kQ/H/mO/z2aT2Zj4HZLNNyneUnY8K4I8d/NeXlZy31GT5B0rns5CTj3C8k4ZcGCcCxu
+ 8lsZ1Lm3udZ7aVVGho273vY0TN4d8fK+6XETdwSzhEtzmXBFC6GMZTbfMjtGHjiqkXRf
+ +FOq4rugl6+vmTKk0Ey2AhPVz4zBEsqmTaR4uZiKuYk2D+2dPRo17IUfu0uBThipM/1N
+ 20LA==
+X-Gm-Message-State: AOAM532R7VCA+VaV0Wohc8mA5lnf9YiwaBwzTD1todUnCOhrQKH0jjiW
+ Y7Ld+dhqQINhCj+qIRG+BVz9jK5nkElv+CbizSQR4SOSY70fhFb2lN6FtlJMfSiBoxv2cACMPcV
+ IPQ2HMWgBsWPROtrKU7/pl6SJ22NRa9kwPJjzKQW/3PCLLrNWTH25Fme2bJ/GR5+u01w=
+X-Received: by 2002:a17:906:a0d5:b0:6f4:643f:a46f with SMTP id
+ bh21-20020a170906a0d500b006f4643fa46fmr31271269ejb.62.1653506967489; 
+ Wed, 25 May 2022 12:29:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPHXeVkibxMNbjSoSQ4Cexwf77UPcVhT2+V8+CWxIBeFpGf6Q9i1bS9Gnk0DW5xzpkTAt4gg==
+X-Received: by 2002:a17:906:a0d5:b0:6f4:643f:a46f with SMTP id
+ bh21-20020a170906a0d500b006f4643fa46fmr31271242ejb.62.1653506967185; 
+ Wed, 25 May 2022 12:29:27 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ ev7-20020a17090729c700b006fe9191f47asm4357463ejc.70.2022.05.25.12.29.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 12:29:24 -0700 (PDT)
+ Wed, 25 May 2022 12:29:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: [PULL 12/17] i386: Use hv_build_cpuid_leaf() for
- HV_CPUID_NESTED_FEATURES
-Date: Wed, 25 May 2022 21:28:47 +0200
-Message-Id: <20220525192852.301633-13-pbonzini@redhat.com>
+Subject: [PULL 13/17] i386: Hyper-V Enlightened MSR bitmap feature
+Date: Wed, 25 May 2022 21:28:48 +0200
+Message-Id: <20220525192852.301633-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525192852.301633-1-pbonzini@redhat.com>
 References: <20220525192852.301633-1-pbonzini@redhat.com>
@@ -102,113 +100,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Previously, HV_CPUID_NESTED_FEATURES.EAX CPUID leaf was handled differently
-as it was only used to encode the supported eVMCS version range. In fact,
-there are also feature (e.g. Enlightened MSR-Bitmap) bits there. In
-preparation to adding these features, move HV_CPUID_NESTED_FEATURES leaf
-handling to hv_build_cpuid_leaf() and drop now-unneeded 'hyperv_nested'.
-
-No functional change intended.
+The newly introduced enlightenment allow L0 (KVM) and L1 (Hyper-V)
+hypervisors to collaborate to avoid unnecessary updates to L2
+MSR-Bitmap upon vmexits.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20220525115949.1294004-2-vkuznets@redhat.com>
+Message-Id: <20220525115949.1294004-3-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h     |  1 -
- target/i386/kvm/kvm.c | 25 +++++++++++++++----------
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ docs/hyperv.txt                | 9 +++++++++
+ target/i386/cpu.h              | 1 +
+ target/i386/kvm/hyperv-proto.h | 5 +++++
+ target/i386/cpu.c              | 2 ++
+ target/i386/kvm/kvm.c          | 7 +++++++
+ 5 files changed, 24 insertions(+)
 
+diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+index 33588a0396..5d85569b99 100644
+--- a/docs/hyperv.txt
++++ b/docs/hyperv.txt
+@@ -239,6 +239,15 @@ This enlightenment requires a VMBus device (-device vmbus-bridge,irq=15)
+ and the follow enlightenments to work:
+ hv-relaxed,hv_time,hv-vapic,hv-vpindex,hv-synic,hv-runtime,hv-stimer
+ 
++3.22. hv-emsr-bitmap
++=====================
++The enlightenment is nested specific, it targets Hyper-V on KVM guests. When
++enabled, it allows L0 (KVM) and L1 (Hyper-V) hypervisors to collaborate to
++avoid unnecessary updates to L2 MSR-Bitmap upon vmexits. While the protocol is
++supported for both VMX (Intel) and SVM (AMD), the VMX implementation requires
++Enlightened VMCS ('hv-evmcs') feature to also be enabled.
++
++Recommended: hv-evmcs (Intel)
+ 
+ 4. Supplementary features
+ =========================
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 0d528ac58f..2e918daf6b 100644
+index 2e918daf6b..c788285736 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1804,7 +1804,6 @@ struct ArchCPU {
-     uint32_t hyperv_vendor_id[3];
-     uint32_t hyperv_interface_id[4];
-     uint32_t hyperv_limits[3];
--    uint32_t hyperv_nested[4];
-     bool hyperv_enforce_cpuid;
-     uint32_t hyperv_ver_id_build;
-     uint16_t hyperv_ver_id_major;
+@@ -1106,6 +1106,7 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+ #define HYPERV_FEAT_STIMER_DIRECT       14
+ #define HYPERV_FEAT_AVIC                15
+ #define HYPERV_FEAT_SYNDBG              16
++#define HYPERV_FEAT_MSR_BITMAP          17
+ 
+ #ifndef HYPERV_SPINLOCK_NEVER_NOTIFY
+ #define HYPERV_SPINLOCK_NEVER_NOTIFY             0xFFFFFFFF
+diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
+index e40e59411c..cea18dbc0e 100644
+--- a/target/i386/kvm/hyperv-proto.h
++++ b/target/i386/kvm/hyperv-proto.h
+@@ -86,6 +86,11 @@
+  */
+ #define HV_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING    (1u << 1)
+ 
++/*
++ * HV_CPUID_NESTED_FEATURES.EAX bits
++ */
++#define HV_NESTED_MSR_BITMAP                (1u << 19)
++
+ /*
+  * Basic virtualized MSRs
+  */
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 385691458f..474e9b582e 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6968,6 +6968,8 @@ static Property x86_cpu_properties[] = {
+                       HYPERV_FEAT_STIMER_DIRECT, 0),
+     DEFINE_PROP_BIT64("hv-avic", X86CPU, hyperv_features,
+                       HYPERV_FEAT_AVIC, 0),
++    DEFINE_PROP_BIT64("hv-emsr-bitmap", X86CPU, hyperv_features,
++                      HYPERV_FEAT_MSR_BITMAP, 0),
+     DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
+                             hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
+     DEFINE_PROP_BIT64("hv-syndbg", X86CPU, hyperv_features,
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index e2d675115b..38af0e4f04 100644
+index 38af0e4f04..f389bbedf2 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -831,6 +831,8 @@ static bool tsc_is_stable_and_known(CPUX86State *env)
-         || env->user_tsc_khz;
- }
- 
-+#define DEFAULT_EVMCS_VERSION ((1 << 8) | 1)
-+
- static struct {
-     const char *desc;
-     struct {
-@@ -1254,6 +1256,13 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
-         }
-     }
- 
-+    /* HV_CPUID_NESTED_FEATURES.EAX also encodes the supported eVMCS range */
-+    if (func == HV_CPUID_NESTED_FEATURES && reg == R_EAX) {
-+        if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
-+            r |= DEFAULT_EVMCS_VERSION;
+@@ -973,6 +973,13 @@ static struct {
+         .dependencies = BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_RELAXED)
+     },
+ #endif
++    [HYPERV_FEAT_MSR_BITMAP] = {
++        .desc = "enlightened MSR-Bitmap (hv-emsr-bitmap)",
++        .flags = {
++            {.func = HV_CPUID_NESTED_FEATURES, .reg = R_EAX,
++             .bits = HV_NESTED_MSR_BITMAP}
 +        }
-+    }
-+
-     return r;
- }
++    },
+ };
  
-@@ -1384,11 +1393,11 @@ static int hyperv_fill_cpuids(CPUState *cs,
-     struct kvm_cpuid_entry2 *c;
-     uint32_t signature[3];
-     uint32_t cpuid_i = 0, max_cpuid_leaf = 0;
-+    uint32_t nested_eax =
-+        hv_build_cpuid_leaf(cs, HV_CPUID_NESTED_FEATURES, R_EAX);
- 
--    max_cpuid_leaf = HV_CPUID_IMPLEMENT_LIMITS;
--    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
--        max_cpuid_leaf = MAX(max_cpuid_leaf, HV_CPUID_NESTED_FEATURES);
--    }
-+    max_cpuid_leaf = nested_eax ? HV_CPUID_NESTED_FEATURES :
-+        HV_CPUID_IMPLEMENT_LIMITS;
- 
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNDBG)) {
-         max_cpuid_leaf =
-@@ -1461,7 +1470,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
-     c->ecx = cpu->hyperv_limits[1];
-     c->edx = cpu->hyperv_limits[2];
- 
--    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
-+    if (nested_eax) {
-         uint32_t function;
- 
-         /* Create zeroed 0x40000006..0x40000009 leaves */
-@@ -1473,7 +1482,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
- 
-         c = &cpuid_ent[cpuid_i++];
-         c->function = HV_CPUID_NESTED_FEATURES;
--        c->eax = cpu->hyperv_nested[0];
-+        c->eax = nested_eax;
-     }
- 
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNDBG)) {
-@@ -1522,8 +1531,6 @@ static bool evmcs_version_supported(uint16_t evmcs_version,
-         (max_version <= max_supported_version);
- }
- 
--#define DEFAULT_EVMCS_VERSION ((1 << 8) | 1)
--
- static int hyperv_init_vcpu(X86CPU *cpu)
- {
-     CPUState *cs = CPU(cpu);
-@@ -1620,8 +1627,6 @@ static int hyperv_init_vcpu(X86CPU *cpu)
-                          supported_evmcs_version >> 8);
-             return -ENOTSUP;
-         }
--
--        cpu->hyperv_nested[0] = evmcs_version;
-     }
- 
-     if (cpu->hyperv_enforce_cpuid) {
+ static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max,
 -- 
 2.36.1
 
