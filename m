@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155BD533C53
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 14:12:24 +0200 (CEST)
-Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64032533C3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 14:07:46 +0200 (CEST)
+Received: from localhost ([::1]:51986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntpru-00064P-QO
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 08:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35912)
+	id 1ntpnR-00084b-7U
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 08:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1ntpgC-0004sC-D6
- for qemu-devel@nongnu.org; Wed, 25 May 2022 07:59:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43953)
+ id 1ntpgF-0004x5-G2
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 07:59:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1ntpg9-0000jK-M7
- for qemu-devel@nongnu.org; Wed, 25 May 2022 07:59:55 -0400
+ id 1ntpgA-0000jP-TN
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 07:59:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653479993;
+ s=mimecast20190719; t=1653479994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kdJwNu80Yun4pZzoPWq/lMDFmMdbsQIu3H5jWoK0WwE=;
- b=EAF6/kpjT1u+qsq2VfCG2ZidaDJPrMftPDx8DVUT4MLJ7j5J0ZOZMvFgcA4Q0F7hcjzajV
- sXTUvWaSFtmuY6RXn0NwOQklSCi7Z0IsqyMrVkmpiVCAcO+5o/s6Riu1kshZO9kEum780e
- TzYJA6AJ6eWAKC5KuvtDCSRrsuWGXwk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L0c0wH8nVBZDZtXQVlhIFGXfDP6ZgqXZXbc7Chx12Ig=;
+ b=Q4SJih3mrYzhMuCAPLkwyFzoDek/bE8zQAPdX+OFexNK6V+8RbYHPcWwtZxnzCOtOLlYt0
+ A5b6EMwQS18yDO83zBcK+Vqs+2iqUq7AjMjgNmRY1jTN5JNaac1BTporBXitswIVMPVknk
+ TWi58dpzo7CeCbJ69im9xIgHhPBuXU8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-tA_J4VxOP1aiUGNIui_-8g-1; Wed, 25 May 2022 07:59:51 -0400
-X-MC-Unique: tA_J4VxOP1aiUGNIui_-8g-1
+ us-mta-52-72i1lOKbNWioCjX-tJ_4UQ-1; Wed, 25 May 2022 07:59:53 -0400
+X-MC-Unique: 72i1lOKbNWioCjX-tJ_4UQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C442185A79C
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 11:59:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E22F01D3236B
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 11:59:52 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B29140CFD0A;
- Wed, 25 May 2022 11:59:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C89B940CFD0B;
+ Wed, 25 May 2022 11:59:51 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
 Cc: Marcelo Tosatti <mtosatti@redhat.com>
-Subject: [PATCH v4 0/6] i386: Enable newly introduced KVM Hyper-V
- enlightenments
-Date: Wed, 25 May 2022 13:59:43 +0200
-Message-Id: <20220525115949.1294004-1-vkuznets@redhat.com>
+Subject: [PATCH v4 1/6] i386: Use hv_build_cpuid_leaf() for
+ HV_CPUID_NESTED_FEATURES
+Date: Wed, 25 May 2022 13:59:44 +0200
+Message-Id: <20220525115949.1294004-2-vkuznets@redhat.com>
+In-Reply-To: <20220525115949.1294004-1-vkuznets@redhat.com>
+References: <20220525115949.1294004-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -78,53 +81,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since v3:
-- Rebase, resolve merge conflict with 73d24074078a ("hyperv: Add support to
-  process syndbg commands")
-- Include "i386: docs:  Convert hyperv.txt to rST" patch which was previously
-  posted separately.
+Previously, HV_CPUID_NESTED_FEATURES.EAX CPUID leaf was handled differently
+as it was only used to encode the supported eVMCS version range. In fact,
+there are also feature (e.g. Enlightened MSR-Bitmap) bits there. In
+preparation to adding these features, move HV_CPUID_NESTED_FEATURES leaf
+handling to hv_build_cpuid_leaf() and drop now-unneeded 'hyperv_nested'.
 
-Original description:
+No functional change intended.
 
-This series enables four new KVM Hyper-V enlightenmtes:
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ target/i386/cpu.h     |  1 -
+ target/i386/kvm/kvm.c | 25 +++++++++++++++----------
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-'XMM fast hypercall input feature' is supported by KVM since v5.14,
-it allows for faster Hyper-V hypercall processing.
-
-'Enlightened MSR-Bitmap' is a new nested specific enlightenment speeds up
-L2 vmexits by avoiding unnecessary updates to L2 MSR-Bitmap. KVM support
-for the feature on Intel CPUs is in v5.17 and in  5.18 for AMD CPUs.
-
-'Extended GVA ranges for TLB flush hypercalls' indicates that extended GVA
-ranges are allowed to be passed to Hyper-V TLB flush hypercalls.
-
-'Direct TLB flush hypercall' features allows L0 (KVM) to directly handle 
-L2's TLB flush hypercalls without the need to exit to L1 (Hyper-V).
-
-The last two features are not merged in KVM yet:
-https://lore.kernel.org/kvm/20220525090133.1264239-1-vkuznets@redhat.com/
-however, there's no direct dependency on the kernel part as thanks to
-KVM_GET_SUPPORTED_HV_CPUID no new capabilities are introduced.
-
-Vitaly Kuznetsov (6):
-  i386: Use hv_build_cpuid_leaf() for HV_CPUID_NESTED_FEATURES
-  i386: Hyper-V Enlightened MSR bitmap feature
-  i386: Hyper-V XMM fast hypercall input feature
-  i386: Hyper-V Support extended GVA ranges for TLB flush hypercalls
-  i386: Hyper-V Direct TLB flush hypercall
-  i386: docs:  Convert hyperv.txt to rST
-
- docs/hyperv.txt                | 270 -------------------------------
- docs/system/i386/hyperv.rst    | 288 +++++++++++++++++++++++++++++++++
- docs/system/target-i386.rst    |   1 +
- target/i386/cpu.c              |   8 +
- target/i386/cpu.h              |   5 +-
- target/i386/kvm/hyperv-proto.h |   9 +-
- target/i386/kvm/kvm.c          |  55 +++++--
- 7 files changed, 354 insertions(+), 282 deletions(-)
- delete mode 100644 docs/hyperv.txt
- create mode 100644 docs/system/i386/hyperv.rst
-
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 0d528ac58f32..2e918daf6bef 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1804,7 +1804,6 @@ struct ArchCPU {
+     uint32_t hyperv_vendor_id[3];
+     uint32_t hyperv_interface_id[4];
+     uint32_t hyperv_limits[3];
+-    uint32_t hyperv_nested[4];
+     bool hyperv_enforce_cpuid;
+     uint32_t hyperv_ver_id_build;
+     uint16_t hyperv_ver_id_major;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index a9ee8eebd76f..93bfefa4a79e 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -831,6 +831,8 @@ static bool tsc_is_stable_and_known(CPUX86State *env)
+         || env->user_tsc_khz;
+ }
+ 
++#define DEFAULT_EVMCS_VERSION ((1 << 8) | 1)
++
+ static struct {
+     const char *desc;
+     struct {
+@@ -1254,6 +1256,13 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
+         }
+     }
+ 
++    /* HV_CPUID_NESTED_FEATURES.EAX also encodes the supported eVMCS range */
++    if (func == HV_CPUID_NESTED_FEATURES && reg == R_EAX) {
++        if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
++            r |= DEFAULT_EVMCS_VERSION;
++        }
++    }
++
+     return r;
+ }
+ 
+@@ -1384,11 +1393,11 @@ static int hyperv_fill_cpuids(CPUState *cs,
+     struct kvm_cpuid_entry2 *c;
+     uint32_t signature[3];
+     uint32_t cpuid_i = 0, max_cpuid_leaf = 0;
++    uint32_t nested_eax =
++        hv_build_cpuid_leaf(cs, HV_CPUID_NESTED_FEATURES, R_EAX);
+ 
+-    max_cpuid_leaf = HV_CPUID_IMPLEMENT_LIMITS;
+-    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
+-        max_cpuid_leaf = MAX(max_cpuid_leaf, HV_CPUID_NESTED_FEATURES);
+-    }
++    max_cpuid_leaf = nested_eax ? HV_CPUID_NESTED_FEATURES :
++        HV_CPUID_IMPLEMENT_LIMITS;
+ 
+     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNDBG)) {
+         max_cpuid_leaf =
+@@ -1461,7 +1470,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
+     c->ecx = cpu->hyperv_limits[1];
+     c->edx = cpu->hyperv_limits[2];
+ 
+-    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
++    if (nested_eax) {
+         uint32_t function;
+ 
+         /* Create zeroed 0x40000006..0x40000009 leaves */
+@@ -1473,7 +1482,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
+ 
+         c = &cpuid_ent[cpuid_i++];
+         c->function = HV_CPUID_NESTED_FEATURES;
+-        c->eax = cpu->hyperv_nested[0];
++        c->eax = nested_eax;
+     }
+ 
+     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNDBG)) {
+@@ -1522,8 +1531,6 @@ static bool evmcs_version_supported(uint16_t evmcs_version,
+         (max_version <= max_supported_version);
+ }
+ 
+-#define DEFAULT_EVMCS_VERSION ((1 << 8) | 1)
+-
+ static int hyperv_init_vcpu(X86CPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
+@@ -1620,8 +1627,6 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+                          supported_evmcs_version >> 8);
+             return -ENOTSUP;
+         }
+-
+-        cpu->hyperv_nested[0] = evmcs_version;
+     }
+ 
+     if (cpu->hyperv_enforce_cpuid) {
 -- 
 2.35.3
 
