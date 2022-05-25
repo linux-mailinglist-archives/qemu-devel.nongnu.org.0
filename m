@@ -2,55 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27C7534060
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:30:06 +0200 (CEST)
-Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369F9533FEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:08:29 +0200 (CEST)
+Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntsxZ-0005BY-E2
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:30:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46148)
+	id 1ntsce-0007NE-AT
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1ntsQi-0006l4-Nx; Wed, 25 May 2022 10:56:09 -0400
-Received: from mail-sender-0.a4lg.com
- ([2401:2500:203:30b:4000:6bfe:4757:0]:49202)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1ntsSw-0002Dv-IA; Wed, 25 May 2022 10:58:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59160
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1ntsQb-0000tJ-9H; Wed, 25 May 2022 10:56:08 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 814FF300089;
- Wed, 25 May 2022 14:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1653490553;
- bh=k69BuVVag4rpuNaMHBPlmvNzkxxaww6sqFfSKpCc2Gs=;
- h=Message-ID:Date:Mime-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type:Content-Transfer-Encoding;
- b=D2+RdUnr+5leZqJM038L7/abmCi533xOCiOG95FXnSUN/oQqR1TsegJ1cwjoXd836
- ZZmStdwSHYrXLnEzwBdWfAYN5PtasvAUa6NUh/WG44nxjO0aS8b1MCnkeLxiHZdkTc
- 8nuGKfvh6WQXqVofzS1592rCYSI6JKZGF0mbxaN4=
-Message-ID: <347a7bef-9545-b715-de77-0bc80823d9cc@irq.a4lg.com>
-Date: Wed, 25 May 2022 23:55:51 +0900
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 2/3] target/riscv: Make CPU property names lowercase
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <cover.1652435208.git.research_trasio@irq.a4lg.com>
- <cover.1653472385.git.research_trasio@irq.a4lg.com>
- <dd7579a2a8b81632827d42a137c7f7720cc7ab5f.1653472385.git.research_trasio@irq.a4lg.com>
- <95b64f27-25e1-d2ad-f894-c890c3a1ffbb@eldorado.org.br>
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-In-Reply-To: <95b64f27-25e1-d2ad-f894-c890c3a1ffbb@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1ntsSu-00013b-Fd; Wed, 25 May 2022 10:58:26 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24PEGXv7009541;
+ Wed, 25 May 2022 14:58:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=YXbxow3wTkP+tBnTKb0yYsyQqyKsmdDVqFAHzsT1wT4=;
+ b=N9g9TKHbyhhCU9TKBypTQRuKej0X0ZUGCXyS9FR8Tjlu5nuScYO3ednK0tr84d5TTEzu
+ rqakq2ZNe6HocCABfkM5d1r5RtGOXy0faXQJHBK6QBkRUGfn47WFLz7yfWLPvpHoJsNc
+ YZrfMlJ0LfA//+aY8akK0/5CGZ/foHYnDgGex3J4gMiyFqDIWAwS1pQeZr1B0IEW4vmY
+ VxznKFhpBrSRPWgb2aivVz1jYEl7NTH/lYgXYMe4n9IxLhbue7uZgZBvxNb+B2Fry9O6
+ jrmcWEDaQlxrCeuucnFG9kCF1dSOWjcndC5Ow2lMWmbbolvn/D46BVOkb2UI/EmCheGM vA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9hfnxxww-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 May 2022 14:58:21 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24PEBPpQ030565;
+ Wed, 25 May 2022 14:58:21 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g9hfnxxwc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 May 2022 14:58:21 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24PErLpM014853;
+ Wed, 25 May 2022 14:58:19 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma02fra.de.ibm.com with ESMTP id 3g93v6hdmv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 May 2022 14:58:19 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24PEwGU855837090
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 25 May 2022 14:58:16 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E516A404D;
+ Wed, 25 May 2022 14:58:16 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3C180A4040;
+ Wed, 25 May 2022 14:58:16 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 25 May 2022 14:58:16 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id DF038E7919; Wed, 25 May 2022 16:58:15 +0200 (CEST)
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Eric Farman <farman@linux.ibm.com>
+Subject: [PATCH] MAINTAINERS: Update s390 vhost entries
+Date: Wed, 25 May 2022 16:58:14 +0200
+Message-Id: <20220525145814.2750501-1-farman@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: iWL6Q3l34flgYh2dEyy_VQH-3kk4ETt3
+X-Proofpoint-ORIG-GUID: dE8t9u297aWxfYQxqjnqVvSOyqpm5yML
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-25_04,2022-05-25_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 bulkscore=0
+ impostorscore=0 phishscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2205250076
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,120 +115,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/05/25 21:10, Víctor Colombo wrote:
-> On 25/05/2022 06:54, Tsukasa OI wrote:
->> Many CPU properties for RISC-V are in lowercase except those with
->> "capitalized" (or CamelCase) names:
->>
->> -   Counters
->> -   Zifencei
->> -   Zicsr
->> -   Zfh
->> -   Zfhmin
->> -   Zve32f
->> -   Zve64f
->>
->> This commit makes lowercase names primary but keeps capitalized names
->> as aliases (for backward comatibility, but with deprecated status).
-> 
-> 'compatibility'
+Commit 7a523d96a0 ("virtio-ccw: move vhost_ccw_scsi to a separate file")
+introduced a new file hw/s390x/vhost-scsi-ccw.c, which received a
+couple comments [1][2] to update MAINTAINERS that were missed.
 
-I think I somehow pressed a backspace while finalizing.
-I submitted v2.1 (PATCH 2/3 only) and that should be fine.
+Fix that by making the vhost CCW entries a wildcard.
 
-https://lists.gnu.org/archive/html/qemu-riscv/2022-05/msg00417.html
+[1] https://lore.kernel.org/r/d8d2bbd5021076bdba444d31a6da74f507baede3.camel@linux.ibm.com/
+[2] https://lore.kernel.org/r/87k0c4gb9f.fsf@redhat.com/
 
-Thanks!
-Tsukasa
+Signed-off-by: Eric Farman <farman@linux.ibm.com>
+---
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> 
->>
->> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
-> 
-> Tested-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-> 
->> ---
->>   target/riscv/cpu.c | 27 ++++++++++++++++++++-------
->>   1 file changed, 20 insertions(+), 7 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 3f21563f2d..83262586e4 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -840,6 +840,10 @@ static void riscv_cpu_init(Object *obj)
->>   }
->>
->>   static Property riscv_cpu_properties[] = {
->> +    /*
->> +     * Names for ISA extensions and features should be in lowercase.
->> +     */
->> +
->>       /* Base ISA and single-letter standard extensions */
->>       DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
->>       DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
->> @@ -855,11 +859,11 @@ static Property riscv_cpu_properties[] = {
->>       DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
->>
->>       /* Standard unprivileged extensions */
->> -    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->> -    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->> +    DEFINE_PROP_BOOL("zicsr", RISCVCPU, cfg.ext_icsr, true),
->> +    DEFINE_PROP_BOOL("zifencei", RISCVCPU, cfg.ext_ifencei, true),
->>
->> -    DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->> -    DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->> +    DEFINE_PROP_BOOL("zfh", RISCVCPU, cfg.ext_zfh, false),
->> +    DEFINE_PROP_BOOL("zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->>       DEFINE_PROP_BOOL("zfinx", RISCVCPU, cfg.ext_zfinx, false),
->>       DEFINE_PROP_BOOL("zdinx", RISCVCPU, cfg.ext_zdinx, false),
->>       DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
->> @@ -884,8 +888,8 @@ static Property riscv_cpu_properties[] = {
->>       DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
->>       DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
->>
->> -    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
->> -    DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
->> +    DEFINE_PROP_BOOL("zve32f", RISCVCPU, cfg.ext_zve32f, false),
->> +    DEFINE_PROP_BOOL("zve64f", RISCVCPU, cfg.ext_zve64f, false),
->>
->>       /* Standard supervisor-level extensions */
->>       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->> @@ -893,7 +897,7 @@ static Property riscv_cpu_properties[] = {
->>       DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
->>
->>       /* Base features */
->> -    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->> +    DEFINE_PROP_BOOL("counters", RISCVCPU, cfg.ext_counters, true),
->>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
->>       DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
->> @@ -922,6 +926,15 @@ static Property riscv_cpu_properties[] = {
->>       /* Other options */
->>       DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
->> cfg.short_isa_string, false),
->>
->> +    /* Capitalized aliases (deprecated and will be removed) */
->> +    DEFINE_PROP("Counters", RISCVCPU, cfg.ext_counters,
->> qdev_prop_bool, bool),
->> +    DEFINE_PROP("Zifencei", RISCVCPU, cfg.ext_ifencei,
->> qdev_prop_bool, bool),
->> +    DEFINE_PROP("Zicsr", RISCVCPU, cfg.ext_icsr, qdev_prop_bool, bool),
->> +    DEFINE_PROP("Zfh", RISCVCPU, cfg.ext_zfh, qdev_prop_bool, bool),
->> +    DEFINE_PROP("Zfhmin", RISCVCPU, cfg.ext_zfhmin, qdev_prop_bool,
->> bool),
->> +    DEFINE_PROP("Zve32f", RISCVCPU, cfg.ext_zve32f, qdev_prop_bool,
->> bool),
->> +    DEFINE_PROP("Zve64f", RISCVCPU, cfg.ext_zve64f, qdev_prop_bool,
->> bool),
->> +
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
->>
->> -- 
->> 2.34.1
->>
->>
-> 
-> Best regards,
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dff0200f70..77238c9338 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2012,8 +2012,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
+ M: Eric Farman <farman@linux.ibm.com>
+ S: Supported
+ F: hw/s390x/virtio-ccw*.[hc]
+-F: hw/s390x/vhost-vsock-ccw.c
+-F: hw/s390x/vhost-user-fs-ccw.c
++F: hw/s390x/vhost-*-ccw.c
+ T: git https://gitlab.com/cohuck/qemu.git s390-next
+ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+-- 
+2.32.0
+
 
