@@ -2,88 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D686533ABE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 12:39:44 +0200 (CEST)
-Received: from localhost ([::1]:55338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD72533AC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 12:44:35 +0200 (CEST)
+Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntoQY-0004OS-Vp
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 06:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48282)
+	id 1ntoVG-0008PH-N5
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 06:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ntoN0-0002Yb-KG
- for qemu-devel@nongnu.org; Wed, 25 May 2022 06:36:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21672)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntoRr-0005gi-0X
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 06:41:03 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:54437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ntoMx-0001Kk-AN
- for qemu-devel@nongnu.org; Wed, 25 May 2022 06:36:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653474958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q2k+wjvrfLxBNTC29lY9mldzTmhHpyxLBcEyXgo3EaI=;
- b=a3CYBNyg3r8CylI8RYQtwyRxXbR1u5w3bycf7/FbliIFTgFDuVDmZMtxPafUgiK87HdU2B
- LDX/wwCg97J5xcoOqiCZe9T/RaDyq5tl1+r+lJqTg1tIPXk8TTHqI2XXn4eSsKqSUihxin
- FAYj6nQb1AynDcfmpceqgo9CjEAUIYg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-p8VwWn4bOEK6fq7DVicorA-1; Wed, 25 May 2022 06:35:57 -0400
-X-MC-Unique: p8VwWn4bOEK6fq7DVicorA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so2676291wmj.0
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 03:35:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=q2k+wjvrfLxBNTC29lY9mldzTmhHpyxLBcEyXgo3EaI=;
- b=jvJx7TA6VzEslNwclJiOU/oYI4R68pmZCMKf9qhEITDcCNrloEjPIZihiNgRcmfj/4
- KGG0qV+2YUttaRYLHjM+kejs7jS0P4bTaEWjq6p8lnXVtipixbMJAzYu22Dc0fwsqOxo
- RpdCK8s0QWEsaH00wrPDYbx/7GumZy0gjAFP7u2oJgrQEFP6v6iXBoivT8YbuAAvP0SO
- wsHZP2XpLBkQhLryCSpm1YMsoQANAQt8XLb9FFi9xo7MuobUMyZMscQV1dsyqu/EKnNJ
- Er2G6u6HNLqBKLiqjwo4N6mWEG87jUnp9jxgzvYQQbJu3FiiANY7n+aFqRkUZfmH42TG
- eJVQ==
-X-Gm-Message-State: AOAM532MN9fSIyjUkIBBqP4soNhBJ/3aFShTlXCbhWOFP+DxEqsAwGTS
- 7pBbddi6HgRCw3+utCYULiSa7CMzMr5vmfeJMqZ8o3/gvl8elGhhsuFONBs+T3ztKdbzkg06IjL
- 7A2hXomK3B+7AAiY=
-X-Received: by 2002:a7b:c04d:0:b0:394:61ea:4fa2 with SMTP id
- u13-20020a7bc04d000000b0039461ea4fa2mr7543952wmc.40.1653474956136; 
- Wed, 25 May 2022 03:35:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1NuZ/0cQFZX1wkE7GBGcvyt7Vxl+mZqe1HbMjX2lAv1UH9Mks2iwRGZ9RkqggL35Su+blqQ==
-X-Received: by 2002:a7b:c04d:0:b0:394:61ea:4fa2 with SMTP id
- u13-20020a7bc04d000000b0039461ea4fa2mr7543928wmc.40.1653474955863; 
- Wed, 25 May 2022 03:35:55 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- u11-20020a5d6acb000000b0020d06e7c16fsm1703406wrw.84.2022.05.25.03.35.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 03:35:54 -0700 (PDT)
-Date: Wed, 25 May 2022 11:35:52 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, berrange@redhat.com,
- Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v3 6/8] hmp: add filtering of statistics by provider
-Message-ID: <Yo4GiLam/J7nBOD/@work-vm>
-References: <20220516090058.1195767-1-pbonzini@redhat.com>
- <20220516090234.1195907-5-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntoRp-0002ET-67
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 06:41:02 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M7KKA-1nuvyA3Izc-007mGO; Wed, 25
+ May 2022 12:40:58 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/8] Linux user for 7.1 patches
+Date: Wed, 25 May 2022 12:40:49 +0200
+Message-Id: <20220525104057.543354-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220516090234.1195907-5-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:4Gn85shOh5BVhuuxFLUOvzYb6LMKrcYTTx0+rhCKXRoRaHm/1Bi
+ bzJwlysVcP5plWeOHgzDKU+gwRKnSaejAGl+I8pV16VLkCOFZIMYx6520JOAdgRWYxl/AEi
+ XJY2v9rLOorpqpHptrhOZFqWzTsI2WeF3UvYX6J6HBMZ5+2rvVnGkBMK2V4qmX+vch9veF5
+ S6iaDfT9gohYCojgHtrUA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b+lSF8J2Lzg=:wf0LB+yLta4CdhJULfZ23X
+ cvI03JFTZ2r7NK0JRMkQcFS6l1Nk4XEUQ3dV9DkOHxJw6OFqP6baxdAmQuQsSx3J2YvUtFJZh
+ n/Zn6HPvrK0M5U8W77zWr/GFdhL1jgsSifWgxayRa6x+mflb9eIHWqIjjK+fWAvdu/cAah8kV
+ 4UcpXfc/F8sk8cxM4FaG8S8mpWS1eNf5cc+PPSrAwDIGvUOSLKwbJTR0b9gYw4h0BBskcohCu
+ KMbLugkDH+T7os3oKkeOxQHdqi9nxPT92HrCj8JMhWzyTzdRVLFiyAm1RXE3U3q5ZFBi4YABZ
+ 6O1yc/cH4GemJKp22sAJYFEZXUh3SGCa8vu0I9JCV3BVfXTJSMbwo3SSb8blm6927mUbSlyoU
+ RzlIwKUNmxQXdMIH2jYpPLZvUK7jo8vELBPUYppq7RDCLE/aeSPKp4lE7mTLATt52NI9IreRN
+ iv7+iUEOifBwOhgIvT1of54BHTVWohfJCpd020oWocgZprgojvkrRrVo01IXWCFeCB5GMRZ4Y
+ J6AibgDOOV2pjD2DutF6uJqDMT3IG479FeBsGbdn0I0zyhYMDTavdVHopkLZ2HKXp4JHxNcq3
+ Zy4nGp/7lDB5MEnBa1mCdSugcH0jrB6/QZ5kR9fBGHFLtgipxPIEWvviOqRjKAi4pOpjOHsep
+ vyCmBWLj6w0fOCShWgLO4vBFPzfZLwcYOup+vWXYOqcMi2+kxdWXPfDTWuvvLjuQKl46kJR5H
+ Sz2cYtxJ+sNHGkzJpT6LGonr6X4Kr7N+gYmSOg==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,145 +69,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> Allow the user to request statistics for a single provider of interest.
-> Extracted from a patch by Mark Kanda.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hmp-commands-info.hx |  7 ++++---
->  monitor/hmp-cmds.c   | 41 ++++++++++++++++++++++++++++++++++-------
->  2 files changed, 38 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index 221feab8c0..d4d8a1e618 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -897,9 +897,10 @@ ERST
->  
->      {
->          .name       = "stats",
-> -        .args_type  = "target:s",
-> -        .params     = "target",
-> -        .help       = "show statistics; target is either vm or vcpu",
-> +        .args_type  = "target:s,provider:s?",
-> +        .params     = "target [provider]",
-> +        .help       = "show statistics for the given target (vm or vcpu); optionally filter by "
-> +                      "provider",
->          .cmd        = hmp_info_stats,
->      },
->  
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 15f1743d8c..4fa671fe0a 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -2291,6 +2291,7 @@ static StatsSchemaValueList *find_schema_value_list(
->  }
->  
->  static void print_stats_results(Monitor *mon, StatsTarget target,
-> +                                bool show_provider,
->                                  StatsResult *result,
->                                  StatsSchemaList *schema)
->  {
-> @@ -2305,8 +2306,10 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
->          return;
->      }
->  
-> -    monitor_printf(mon, "provider: %s\n",
-> -                   StatsProvider_str(result->provider));
-> +    if (show_provider) {
-> +        monitor_printf(mon, "provider: %s\n",
-> +                       StatsProvider_str(result->provider));
-> +    }
->  
->      for (stats_list = result->stats; stats_list;
->               stats_list = stats_list->next,
-> @@ -2347,7 +2350,8 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
->  }
->  
->  /* Create the StatsFilter that is needed for an "info stats" invocation.  */
-> -static StatsFilter *stats_filter(StatsTarget target, int cpu_index)
-> +static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
-> +                                 StatsProvider provider)
->  {
->      StatsFilter *filter = g_malloc0(sizeof(*filter));
->  
-> @@ -2369,12 +2373,27 @@ static StatsFilter *stats_filter(StatsTarget target, int cpu_index)
->      default:
->          break;
->      }
-> +
-> +    if (provider == STATS_PROVIDER__MAX) {
-> +        return filter;
-> +    }
-> +
-> +    /* "info stats" can only query either one or all the providers.  */
-> +    StatsRequest *request = g_new0(StatsRequest, 1);
-> +    request->provider = provider;
-> +    StatsRequestList *request_list = g_new0(StatsRequestList, 1);
+The following changes since commit 3757b0d08b399c609954cf57f273b1167e5d7a8d:
 
-Why that g_new0 there? isn't that request_list = NULL and let the
-PREPEND below do the alloc?
+  Merge tag 'pull-request-2022-05-18' of https://gitlab.com/thuth/qemu into staging (2022-05-20 08:04:30 -0700)
 
-> +    QAPI_LIST_PREPEND(request_list, request);
-> +    filter->has_providers = true;
-> +    filter->providers = request_list;
->      return filter;
->  }
->  
->  void hmp_info_stats(Monitor *mon, const QDict *qdict)
->  {
->      const char *target_str = qdict_get_str(qdict, "target");
-> +    const char *provider_str = qdict_get_try_str(qdict, "provider");
-> +
-> +    StatsProvider provider = STATS_PROVIDER__MAX;
->      StatsTarget target;
->      Error *err = NULL;
->      g_autoptr(StatsSchemaList) schema = NULL;
-> @@ -2387,19 +2406,27 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
->          monitor_printf(mon, "invalid stats target %s\n", target_str);
->          goto exit_no_print;
->      }
-> +    if (provider_str) {
-> +        provider = qapi_enum_parse(&StatsProvider_lookup, provider_str, -1, &err);
-> +        if (err) {
-> +            monitor_printf(mon, "invalid stats provider %s\n", provider_str);
-> +            goto exit_no_print;
-> +        }
-> +    }
->  
-> -    schema = qmp_query_stats_schemas(false, 0, &err);
-> +    schema = qmp_query_stats_schemas(provider_str ? true : false,
-> +                                     provider, &err);
->      if (err) {
->          goto exit;
->      }
->  
->      switch (target) {
->      case STATS_TARGET_VM:
-> -        filter = stats_filter(target, -1);
-> +        filter = stats_filter(target, -1, provider);
->          break;
->      case STATS_TARGET_VCPU: {}
->          int cpu_index = monitor_get_cpu_index(mon);
-> -        filter = stats_filter(target, cpu_index);
-> +        filter = stats_filter(target, cpu_index, provider);
->          break;
->      default:
->          abort();
-> @@ -2410,7 +2437,7 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
->          goto exit;
->      }
->      for (entry = stats; entry; entry = entry->next) {
-> -        print_stats_results(mon, target, entry->value, schema);
-> +        print_stats_results(mon, target, provider_str == NULL, entry->value, schema);
->      }
->  
->  exit:
-> -- 
-> 2.36.0
-> 
+are available in the Git repository at:
+
+  https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
+
+for you to fetch changes up to 565a84c1e61acb6e2bce03e5ca88b5ce400231ca:
+
+  linux-user/host/s390: Treat EX and EXRL as writes (2022-05-23 22:54:02 +0200)
+
+----------------------------------------------------------------
+Pull request linux-user 20220525
+
+s390x fixes
+CPUArchState cleanup
+elfload cleanup
+fix for uclibc-ng and by musl
+
+----------------------------------------------------------------
+
+Fabrice Fontaine (1):
+  linux-user/syscall.c: fix build without RLIMIT_RTTIME
+
+Ilya Leoshkevich (3):
+  linux-user/s390x: Fix unwinding from signal handlers
+  tests/tcg/s390x: Test unwinding from signal handlers
+  linux-user/host/s390: Treat EX and EXRL as writes
+
+Philippe Mathieu-Daudé (3):
+  linux-user/elfload: Remove pointless non-const CPUArchState cast
+  linux-user: Have do_syscall() use CPUArchState* instead of void*
+  linux-user: Remove pointless CPU{ARCH}State casts
+
+Richard Henderson (1):
+  linux-user: Clean up arg_start/arg_end confusion
+
+ linux-user/elfload.c                       |  12 +-
+ linux-user/include/host/s390/host-signal.h |   7 +
+ linux-user/linuxload.c                     |  12 +-
+ linux-user/main.c                          |   4 +-
+ linux-user/qemu.h                          |  12 +-
+ linux-user/s390x/signal.c                  |   5 +
+ linux-user/strace.c                        | 202 ++++++++++-----------
+ linux-user/strace.h                        |   4 +-
+ linux-user/syscall.c                       |  83 +++++----
+ linux-user/uname.c                         |   4 +-
+ linux-user/uname.h                         |   2 +-
+ linux-user/user-internals.h                |  18 +-
+ semihosting/arm-compat-semi.c              |   4 +-
+ tests/tcg/s390x/signals-s390x.c            |  69 +++++--
+ 14 files changed, 252 insertions(+), 186 deletions(-)
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.36.1
 
 
