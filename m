@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03511534180
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:28:44 +0200 (CEST)
-Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AD5534154
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:20:38 +0200 (CEST)
+Received: from localhost ([::1]:35898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nttsJ-0001F6-4E
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36532)
+	id 1nttkT-00064I-Gh
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttSX-00074j-IX; Wed, 25 May 2022 12:02:07 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:57471)
+ id 1nttSb-00076f-9T; Wed, 25 May 2022 12:02:10 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:51697
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttST-00049Z-Ss; Wed, 25 May 2022 12:02:04 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRT6BYCz4xZv;
- Thu, 26 May 2022 02:01:57 +1000 (AEST)
+ id 1nttSU-00049r-IW; Wed, 25 May 2022 12:02:08 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRX19Rtz4xbt;
+ Thu, 26 May 2022 02:02:00 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRS0dmYz4xXj;
- Thu, 26 May 2022 02:01:55 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRV2jprz4xXj;
+ Thu, 26 May 2022 02:01:58 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <pdel@fb.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 06/15] hw: aspeed: Add missing UART's
-Date: Wed, 25 May 2022 18:01:27 +0200
-Message-Id: <20220525160136.556277-7-clg@kaod.org>
+Subject: [PULL 07/15] hw: aspeed: Add uarts_num SoC attribute
+Date: Wed, 25 May 2022 18:01:28 +0200
+Message-Id: <20220525160136.556277-8-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220525160136.556277-1-clg@kaod.org>
 References: <20220525160136.556277-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=Lufh=WB=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -16
 X-Spam_score: -1.7
@@ -65,148 +67,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-This adds the missing UART memory and IRQ mappings for the AST2400, AST2500,
-AST2600, and AST1030.
-
-This also includes the new UART interfaces added in the AST2600 and AST1030
-from UART6 to UART13. The addresses and interrupt numbers for these two
-later chips are identical.
+AST2400 and AST2500 have 5 UART's, while the AST2600 and AST1030 have 13.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220516062328.298336-2-pdel@fb.com>
+Message-Id: <20220516062328.298336-3-pdel@fb.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/arm/aspeed_soc.h |  8 ++++++++
- hw/arm/aspeed_ast10x0.c     | 24 ++++++++++++++++++++++++
- hw/arm/aspeed_ast2600.c     | 19 +++++++++++++++++++
- hw/arm/aspeed_soc.c         |  6 ++++++
- 4 files changed, 57 insertions(+)
+ include/hw/arm/aspeed_soc.h | 1 +
+ hw/arm/aspeed_ast10x0.c     | 1 +
+ hw/arm/aspeed_ast2600.c     | 1 +
+ hw/arm/aspeed_soc.c         | 2 ++
+ 4 files changed, 5 insertions(+)
 
 diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 3789f38603e5..709a78285b59 100644
+index 709a78285b59..669bc4985571 100644
 --- a/include/hw/arm/aspeed_soc.h
 +++ b/include/hw/arm/aspeed_soc.h
-@@ -105,6 +105,14 @@ enum {
-     ASPEED_DEV_UART3,
-     ASPEED_DEV_UART4,
-     ASPEED_DEV_UART5,
-+    ASPEED_DEV_UART6,
-+    ASPEED_DEV_UART7,
-+    ASPEED_DEV_UART8,
-+    ASPEED_DEV_UART9,
-+    ASPEED_DEV_UART10,
-+    ASPEED_DEV_UART11,
-+    ASPEED_DEV_UART12,
-+    ASPEED_DEV_UART13,
-     ASPEED_DEV_VUART,
-     ASPEED_DEV_FMC,
-     ASPEED_DEV_SPI1,
+@@ -91,6 +91,7 @@ struct AspeedSoCClass {
+     int ehcis_num;
+     int wdts_num;
+     int macs_num;
++    int uarts_num;
+     const int *irqmap;
+     const hwaddr *memmap;
+     uint32_t num_cpus;
 diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 9ae9efaac144..fa2cc4406c0d 100644
+index fa2cc4406c0d..bb8177e86c87 100644
 --- a/hw/arm/aspeed_ast10x0.c
 +++ b/hw/arm/aspeed_ast10x0.c
-@@ -33,14 +33,38 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
-     [ASPEED_DEV_SBC]       = 0x7E6F2000,
-     [ASPEED_DEV_GPIO]      = 0x7E780000,
-     [ASPEED_DEV_TIMER1]    = 0x7E782000,
-+    [ASPEED_DEV_UART1]     = 0x7E783000,
-+    [ASPEED_DEV_UART2]     = 0x7E78D000,
-+    [ASPEED_DEV_UART3]     = 0x7E78E000,
-+    [ASPEED_DEV_UART4]     = 0x7E78F000,
-     [ASPEED_DEV_UART5]     = 0x7E784000,
-+    [ASPEED_DEV_UART6]     = 0x7E790000,
-+    [ASPEED_DEV_UART7]     = 0x7E790100,
-+    [ASPEED_DEV_UART8]     = 0x7E790200,
-+    [ASPEED_DEV_UART9]     = 0x7E790300,
-+    [ASPEED_DEV_UART10]    = 0x7E790400,
-+    [ASPEED_DEV_UART11]    = 0x7E790500,
-+    [ASPEED_DEV_UART12]    = 0x7E790600,
-+    [ASPEED_DEV_UART13]    = 0x7E790700,
-     [ASPEED_DEV_WDT]       = 0x7E785000,
-     [ASPEED_DEV_LPC]       = 0x7E789000,
-     [ASPEED_DEV_I2C]       = 0x7E7B0000,
- };
- 
- static const int aspeed_soc_ast1030_irqmap[] = {
-+    [ASPEED_DEV_UART1]     = 47,
-+    [ASPEED_DEV_UART2]     = 48,
-+    [ASPEED_DEV_UART3]     = 49,
-+    [ASPEED_DEV_UART4]     = 50,
-     [ASPEED_DEV_UART5]     = 8,
-+    [ASPEED_DEV_UART6]     = 57,
-+    [ASPEED_DEV_UART7]     = 58,
-+    [ASPEED_DEV_UART8]     = 59,
-+    [ASPEED_DEV_UART9]     = 60,
-+    [ASPEED_DEV_UART10]    = 61,
-+    [ASPEED_DEV_UART11]    = 62,
-+    [ASPEED_DEV_UART12]    = 63,
-+    [ASPEED_DEV_UART13]    = 64,
-     [ASPEED_DEV_GPIO]      = 11,
-     [ASPEED_DEV_TIMER1]    = 16,
-     [ASPEED_DEV_TIMER2]    = 17,
+@@ -301,6 +301,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+     sc->ehcis_num = 0;
+     sc->wdts_num = 4;
+     sc->macs_num = 1;
++    sc->uarts_num = 13;
+     sc->irqmap = aspeed_soc_ast1030_irqmap;
+     sc->memmap = aspeed_soc_ast1030_memmap;
+     sc->num_cpus = 1;
 diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 4161a0cc4bbe..f3ecc0f3b7c0 100644
+index f3ecc0f3b7c0..a9523074a089 100644
 --- a/hw/arm/aspeed_ast2600.c
 +++ b/hw/arm/aspeed_ast2600.c
-@@ -61,7 +61,18 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_DEV_IBT]       = 0x1E789140,
-     [ASPEED_DEV_I2C]       = 0x1E78A000,
-     [ASPEED_DEV_UART1]     = 0x1E783000,
-+    [ASPEED_DEV_UART2]     = 0x1E78D000,
-+    [ASPEED_DEV_UART3]     = 0x1E78E000,
-+    [ASPEED_DEV_UART4]     = 0x1E78F000,
-     [ASPEED_DEV_UART5]     = 0x1E784000,
-+    [ASPEED_DEV_UART6]     = 0x1E790000,
-+    [ASPEED_DEV_UART7]     = 0x1E790100,
-+    [ASPEED_DEV_UART8]     = 0x1E790200,
-+    [ASPEED_DEV_UART9]     = 0x1E790300,
-+    [ASPEED_DEV_UART10]    = 0x1E790400,
-+    [ASPEED_DEV_UART11]    = 0x1E790500,
-+    [ASPEED_DEV_UART12]    = 0x1E790600,
-+    [ASPEED_DEV_UART13]    = 0x1E790700,
-     [ASPEED_DEV_VUART]     = 0x1E787000,
-     [ASPEED_DEV_I3C]       = 0x1E7A0000,
-     [ASPEED_DEV_SDRAM]     = 0x80000000,
-@@ -78,6 +89,14 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_DEV_UART3]     = 49,
-     [ASPEED_DEV_UART4]     = 50,
-     [ASPEED_DEV_UART5]     = 8,
-+    [ASPEED_DEV_UART6]     = 57,
-+    [ASPEED_DEV_UART7]     = 58,
-+    [ASPEED_DEV_UART8]     = 59,
-+    [ASPEED_DEV_UART9]     = 60,
-+    [ASPEED_DEV_UART10]    = 61,
-+    [ASPEED_DEV_UART11]    = 62,
-+    [ASPEED_DEV_UART12]    = 63,
-+    [ASPEED_DEV_UART13]    = 64,
-     [ASPEED_DEV_VUART]     = 8,
-     [ASPEED_DEV_FMC]       = 39,
-     [ASPEED_DEV_SDMC]      = 0,
+@@ -588,6 +588,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+     sc->ehcis_num    = 2;
+     sc->wdts_num     = 4;
+     sc->macs_num     = 4;
++    sc->uarts_num    = 13;
+     sc->irqmap       = aspeed_soc_ast2600_irqmap;
+     sc->memmap       = aspeed_soc_ast2600_memmap;
+     sc->num_cpus     = 2;
 diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index c339b5c74de5..96bc060680c9 100644
+index 96bc060680c9..7008cd1af716 100644
 --- a/hw/arm/aspeed_soc.c
 +++ b/hw/arm/aspeed_soc.c
-@@ -48,6 +48,9 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
-     [ASPEED_DEV_ETH1]   = 0x1E660000,
-     [ASPEED_DEV_ETH2]   = 0x1E680000,
-     [ASPEED_DEV_UART1]  = 0x1E783000,
-+    [ASPEED_DEV_UART2]  = 0x1E78D000,
-+    [ASPEED_DEV_UART3]  = 0x1E78E000,
-+    [ASPEED_DEV_UART4]  = 0x1E78F000,
-     [ASPEED_DEV_UART5]  = 0x1E784000,
-     [ASPEED_DEV_VUART]  = 0x1E787000,
-     [ASPEED_DEV_SDRAM]  = 0x40000000,
-@@ -80,6 +83,9 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
-     [ASPEED_DEV_ETH1]   = 0x1E660000,
-     [ASPEED_DEV_ETH2]   = 0x1E680000,
-     [ASPEED_DEV_UART1]  = 0x1E783000,
-+    [ASPEED_DEV_UART2]  = 0x1E78D000,
-+    [ASPEED_DEV_UART3]  = 0x1E78E000,
-+    [ASPEED_DEV_UART4]  = 0x1E78F000,
-     [ASPEED_DEV_UART5]  = 0x1E784000,
-     [ASPEED_DEV_VUART]  = 0x1E787000,
-     [ASPEED_DEV_SDRAM]  = 0x80000000,
+@@ -490,6 +490,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
+     sc->ehcis_num    = 1;
+     sc->wdts_num     = 2;
+     sc->macs_num     = 2;
++    sc->uarts_num    = 5;
+     sc->irqmap       = aspeed_soc_ast2400_irqmap;
+     sc->memmap       = aspeed_soc_ast2400_memmap;
+     sc->num_cpus     = 1;
+@@ -516,6 +517,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
+     sc->ehcis_num    = 2;
+     sc->wdts_num     = 3;
+     sc->macs_num     = 2;
++    sc->uarts_num    = 5;
+     sc->irqmap       = aspeed_soc_ast2500_irqmap;
+     sc->memmap       = aspeed_soc_ast2500_memmap;
+     sc->num_cpus     = 1;
 -- 
 2.35.3
 
