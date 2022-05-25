@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D294D53443C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:32:50 +0200 (CEST)
-Received: from localhost ([::1]:43250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8A4534465
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:41:11 +0200 (CEST)
+Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntwkS-00085U-QS
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47448)
+	id 1ntwsY-0003Rb-Ct
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:41:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwh7-0005Ej-D6
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58715)
+ id 1ntwhB-0005M8-6G
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwh5-0003rG-Q0
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:21 -0400
+ id 1ntwh9-0003rV-1g
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653506959;
+ s=mimecast20190719; t=1653506962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zenkTjX5ljSZMWPTNzlhekDXLg9kHf0n4nzmVZovVqU=;
- b=KkU3eiNUoi9mJ1UR5gx6ZrZcbeZdaVrLrQu0lCDGryePOUplqBG8MH/7UENnL+44WYrB4i
- T0ssnLQL5QQ8/qHMfRXpeJu8HTTrZI4wX6+kyV40tlmf/NbPzptNjcKAcEWFPDqTYmd0Xp
- ASwUz5+/CbYAr8UOjoh5wRlw07Zy1ZE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R5G8JJjNfgwnCLIL1ovYhV/3iQZmax8ele6WXpKp+TA=;
+ b=cBBvyJxqQP3QU94S1B5CX/qJlXqa8VNtSib/GheHWGCDAtV64j3lCuKvSZ76Sw3T4cesRc
+ ae9XonW7MHBDfz+CuZ7wOEym76O4tMfXBPYv7i2EJ7Mym/NY/WpE1WQQ0XIfWKnmHknALy
+ OS7glx2654/krGzVwDW8/mtsJR1UQi0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-WSq7p5SrPLyuaI2IJU-uTw-1; Wed, 25 May 2022 15:29:17 -0400
-X-MC-Unique: WSq7p5SrPLyuaI2IJU-uTw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- nb10-20020a1709071c8a00b006e8f89863ceso10005207ejc.18
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:17 -0700 (PDT)
+ us-mta-52-uj_VBgOJOD6QbkqZZYbyCQ-1; Wed, 25 May 2022 15:29:20 -0400
+X-MC-Unique: uj_VBgOJOD6QbkqZZYbyCQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ r10-20020aa7c14a000000b0042bcc99e4cdso1515405edp.18
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zenkTjX5ljSZMWPTNzlhekDXLg9kHf0n4nzmVZovVqU=;
- b=q3s6IpijeqiinX0lwxCRKmp7Cb4RoE81k16yiGdvDQ2/2g7oGGyMrcHeaAAmCunxi7
- 9QpFnAQoDFisqVXAkba9ZBWN4hQFSEK9xgJLlQA5as0PJb6Hx07J1i/EMCE7Cvy+k8xW
- 0XnomjSBa98WYgFlnQTfm4oDpbWO/5UI2TfblGVq/J7WIaEzyl68xisGB+uUfG1yxl/E
- LrE46rPlhZoZhsBwCp/dhiYp5eVycqOPZQ2arG85mzyP4pmPiomWct/MOPksrdbfA/P3
- Ie8hABBaB9/CLBsDmb6FYGUcX/NFQKnEiKKrlU/38O18JvmXdts1VMWFQzwODxivaFL6
- s5jg==
-X-Gm-Message-State: AOAM533YxcVZmfnlsnNvCw4/kSL7yEaAJ/eTLUF72V31Q/QpgI3gwv/M
- r0yYxmQZiMix/clh3TFth3GAeWTd0ny5AU0KRcD36eckqUjs9tfMUhlZGEqU06GrlFvgEZA1/U8
- SQQYGDqzwUL7O7s2lU/OneeNyvsaJ8EbmcAdIeMlJG3g5U6i2yyuxVRcXECC3YEeV0Fw=
-X-Received: by 2002:a17:906:b7d6:b0:6fe:a34a:a813 with SMTP id
- fy22-20020a170906b7d600b006fea34aa813mr25402924ejb.551.1653506955932; 
- Wed, 25 May 2022 12:29:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvWK2vIBwMbgNj5gQqZxH8ef+UcpySVmstzRQ4vqz/8ezQE25IVWQniZmwzoDl6n1DB/z2rw==
-X-Received: by 2002:a17:906:b7d6:b0:6fe:a34a:a813 with SMTP id
- fy22-20020a170906b7d600b006fea34aa813mr25402906ejb.551.1653506955699; 
- Wed, 25 May 2022 12:29:15 -0700 (PDT)
+ bh=R5G8JJjNfgwnCLIL1ovYhV/3iQZmax8ele6WXpKp+TA=;
+ b=gtFzHT9ypOliUzZsAeytZQDwTUdYkElSe59wxf/3liujFTeqBR6yF2kTxksWqVmwWL
+ MzdsS8S2qLn6M+e2NHhuy55qLOt7YRSnrTlsCF8xf8hje3SdAsz0jUejtMcyX65HvA7T
+ 4EeqEpnCS9RUb8YQFBY80MlsgkV21vXJFSOrb6za6Th818L8Fa3dj/ydBTqiSAEezkvo
+ jCZtnysmb1ita/VJiNiW+rBvyKi4Cr518DBVNA/lXWhjrMTQJqR6+90FyJOOOXXo/Z2P
+ 4IX4vyhGXG1T8BcQS+FZjaVkPcGOSyowa0nkrmRpUcFF/kBS7RwytECoKzo9uBYByts1
+ tB+w==
+X-Gm-Message-State: AOAM531emzZLdEf2vsqFRvgS5P5OFLJvDvgFgoQMie1kEAUzu4EcfFcD
+ TNOhl/7rDyFwf3eyyGbum4acFmuwID54eImXCz5Y5VniPpbhlPCzWUTo12iF3eFcMSsanwjHLTq
+ Y/cU6/0CqxI+VQ4ZsFWi/1hCDMReB4tYUI0pIn667vTGzK1fGXJ2ICh9chSEFI4+1Dik=
+X-Received: by 2002:a05:6402:1341:b0:42a:f7cb:44dc with SMTP id
+ y1-20020a056402134100b0042af7cb44dcmr35364303edw.165.1653506958339; 
+ Wed, 25 May 2022 12:29:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypLbNaXga1g287I1jlxDDifFoX55ZVFSdTuHIMY2jusb/R3LMhk4BDJucNglPWCIZL4sJZng==
+X-Received: by 2002:a05:6402:1341:b0:42a:f7cb:44dc with SMTP id
+ y1-20020a056402134100b0042af7cb44dcmr35364278edw.165.1653506958029; 
+ Wed, 25 May 2022 12:29:18 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- ck6-20020a170906c44600b006fecd0501b5sm4062125ejb.98.2022.05.25.12.29.14
+ z8-20020a1709060ac800b006fec5cef701sm4322318ejf.197.2022.05.25.12.29.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 12:29:14 -0700 (PDT)
+ Wed, 25 May 2022 12:29:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-Subject: [PULL 08/17] hw/audio/ac97: Remove unimplemented reset functions
-Date: Wed, 25 May 2022 21:28:43 +0200
-Message-Id: <20220525192852.301633-9-pbonzini@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 09/17] hw/audio/ac97: Remove unneeded local variables
+Date: Wed, 25 May 2022 21:28:44 +0200
+Message-Id: <20220525192852.301633-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525192852.301633-1-pbonzini@redhat.com>
 References: <20220525192852.301633-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,53 +102,313 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The warm_reset() and cold_reset() functions are not implemented and do
-nothing so no point in calling them or keep around as dead code.
-Therefore remove them for now.
+Several functions have a local variable that is just a copy of one of
+the function parameters. This is unneeded complication so just get rid
+of these.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Message-Id: <cc6e99fd498a9ae358ebce787fc04ab6e8201879.1650706617.git.balaton@eik.bme.hu>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <d959aa0b267eb139a994e41ca0b7ba87d9cef7a9.1650706617.git.balaton@eik.bme.hu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/audio/ac97.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ hw/audio/ac97.c | 102 +++++++++++++++++++++++-------------------------
+ 1 file changed, 49 insertions(+), 53 deletions(-)
 
 diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index 6b1c12bece..6584aa749e 100644
+index 6584aa749e..be2dd701a4 100644
 --- a/hw/audio/ac97.c
 +++ b/hw/audio/ac97.c
-@@ -222,16 +222,6 @@ static void po_callback(void *opaque, int free);
- static void pi_callback(void *opaque, int avail);
- static void mc_callback(void *opaque, int avail);
- 
--static void warm_reset(AC97LinkState *s)
--{
--    (void)s;
--}
--
--static void cold_reset(AC97LinkState *s)
--{
--    (void)s;
--}
--
- static void fetch_bd(AC97LinkState *s, AC97BusMasterRegs *r)
+@@ -557,9 +557,8 @@ static uint32_t nam_readb(void *opaque, uint32_t addr)
+ static uint32_t nam_readw(void *opaque, uint32_t addr)
  {
-     uint8_t b[8];
-@@ -921,12 +911,7 @@ static void nabm_writel(void *opaque, uint32_t addr, uint32_t val)
-         dolog("BDBAR[%d] <- 0x%x (bdbar 0x%x)\n", GET_BM(index), val, r->bdbar);
+     AC97LinkState *s = opaque;
+-    uint32_t index = addr;
+     s->cas = 0;
+-    return mixer_load(s, index);
++    return mixer_load(s, addr);
+ }
+ 
+ static uint32_t nam_readl(void *opaque, uint32_t addr)
+@@ -584,21 +583,21 @@ static void nam_writeb(void *opaque, uint32_t addr, uint32_t val)
+ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
+ {
+     AC97LinkState *s = opaque;
+-    uint32_t index = addr;
++
+     s->cas = 0;
+-    switch (index) {
++    switch (addr) {
+     case AC97_Reset:
+         mixer_reset(s);
+         break;
+     case AC97_Powerdown_Ctrl_Stat:
+         val &= ~0x800f;
+-        val |= mixer_load(s, index) & 0xf;
+-        mixer_store(s, index, val);
++        val |= mixer_load(s, addr) & 0xf;
++        mixer_store(s, addr, val);
+         break;
+     case AC97_PCM_Out_Volume_Mute:
+     case AC97_Master_Volume_Mute:
+     case AC97_Record_Gain_Mute:
+-        set_volume(s, index, val);
++        set_volume(s, addr, val);
+         break;
+     case AC97_Record_Select:
+         record_select(s, val);
+@@ -626,7 +625,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
+         break;
+     case AC97_PCM_Front_DAC_Rate:
+         if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRA) {
+-            mixer_store(s, index, val);
++            mixer_store(s, addr, val);
+             dolog("Set front DAC rate to %d\n", val);
+             open_voice(s, PO_INDEX, val);
+         } else {
+@@ -636,7 +635,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
+         break;
+     case AC97_MIC_ADC_Rate:
+         if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRM) {
+-            mixer_store(s, index, val);
++            mixer_store(s, addr, val);
+             dolog("Set MIC ADC rate to %d\n", val);
+             open_voice(s, MC_INDEX, val);
+         } else {
+@@ -646,7 +645,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
+         break;
+     case AC97_PCM_LR_ADC_Rate:
+         if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRA) {
+-            mixer_store(s, index, val);
++            mixer_store(s, addr, val);
+             dolog("Set front LR ADC rate to %d\n", val);
+             open_voice(s, PI_INDEX, val);
+         } else {
+@@ -673,7 +672,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
+         break;
+     default:
+         dolog("U nam writew 0x%x <- 0x%x\n", addr, val);
+-        mixer_store(s, index, val);
++        mixer_store(s, addr, val);
+         break;
+     }
+ }
+@@ -693,10 +692,9 @@ static uint32_t nabm_readb(void *opaque, uint32_t addr)
+ {
+     AC97LinkState *s = opaque;
+     AC97BusMasterRegs *r = NULL;
+-    uint32_t index = addr;
+     uint32_t val = ~0U;
+ 
+-    switch (index) {
++    switch (addr) {
+     case CAS:
+         dolog("CAS %d\n", s->cas);
+         val = s->cas;
+@@ -705,37 +703,37 @@ static uint32_t nabm_readb(void *opaque, uint32_t addr)
+     case PI_CIV:
+     case PO_CIV:
+     case MC_CIV:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->civ;
+-        dolog("CIV[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("CIV[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     case PI_LVI:
+     case PO_LVI:
+     case MC_LVI:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->lvi;
+-        dolog("LVI[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("LVI[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     case PI_PIV:
+     case PO_PIV:
+     case MC_PIV:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->piv;
+-        dolog("PIV[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("PIV[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     case PI_CR:
+     case PO_CR:
+     case MC_CR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->cr;
+-        dolog("CR[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("CR[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     case PI_SR:
+     case PO_SR:
+     case MC_SR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->sr & 0xff;
+-        dolog("SRb[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("SRb[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     default:
+         dolog("U nabm readb 0x%x -> 0x%x\n", addr, val);
+@@ -748,23 +746,22 @@ static uint32_t nabm_readw(void *opaque, uint32_t addr)
+ {
+     AC97LinkState *s = opaque;
+     AC97BusMasterRegs *r = NULL;
+-    uint32_t index = addr;
+     uint32_t val = ~0U;
+ 
+-    switch (index) {
++    switch (addr) {
+     case PI_SR:
+     case PO_SR:
+     case MC_SR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->sr;
+-        dolog("SR[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("SR[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     case PI_PICB:
+     case PO_PICB:
+     case MC_PICB:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->picb;
+-        dolog("PICB[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("PICB[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     default:
+         dolog("U nabm readw 0x%x -> 0x%x\n", addr, val);
+@@ -777,31 +774,30 @@ static uint32_t nabm_readl(void *opaque, uint32_t addr)
+ {
+     AC97LinkState *s = opaque;
+     AC97BusMasterRegs *r = NULL;
+-    uint32_t index = addr;
+     uint32_t val = ~0U;
+ 
+-    switch (index) {
++    switch (addr) {
+     case PI_BDBAR:
+     case PO_BDBAR:
+     case MC_BDBAR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->bdbar;
+-        dolog("BMADDR[%d] -> 0x%x\n", GET_BM(index), val);
++        dolog("BMADDR[%d] -> 0x%x\n", GET_BM(addr), val);
+         break;
+     case PI_CIV:
+     case PO_CIV:
+     case MC_CIV:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->civ | (r->lvi << 8) | (r->sr << 16);
+-        dolog("CIV LVI SR[%d] -> 0x%x, 0x%x, 0x%x\n", GET_BM(index),
++        dolog("CIV LVI SR[%d] -> 0x%x, 0x%x, 0x%x\n", GET_BM(addr),
+                r->civ, r->lvi, r->sr);
+         break;
+     case PI_PICB:
+     case PO_PICB:
+     case MC_PICB:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         val = r->picb | (r->piv << 16) | (r->cr << 24);
+-        dolog("PICB PIV CR[%d] -> 0x%x 0x%x 0x%x 0x%x\n", GET_BM(index),
++        dolog("PICB PIV CR[%d] -> 0x%x 0x%x 0x%x 0x%x\n", GET_BM(addr),
+                val, r->picb, r->piv, r->cr);
          break;
      case GLOB_CNT:
--        if (val & GC_WR) {
--            warm_reset(s);
--        }
--        if (val & GC_CR) {
--            cold_reset(s);
--        }
-+        /* TODO: Handle WR or CR being set (warm/cold reset requests) */
-         if (!(val & (GC_WR | GC_CR))) {
-             s->glob_cnt = val & GC_VALID_MASK;
+@@ -827,12 +823,12 @@ static void nabm_writeb(void *opaque, uint32_t addr, uint32_t val)
+ {
+     AC97LinkState *s = opaque;
+     AC97BusMasterRegs *r = NULL;
+-    uint32_t index = addr;
+-    switch (index) {
++
++    switch (addr) {
+     case PI_LVI:
+     case PO_LVI:
+     case MC_LVI:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         if ((r->cr & CR_RPBM) && (r->sr & SR_DCH)) {
+             r->sr &= ~(SR_DCH | SR_CELV);
+             r->civ = r->piv;
+@@ -840,12 +836,12 @@ static void nabm_writeb(void *opaque, uint32_t addr, uint32_t val)
+             fetch_bd(s, r);
          }
+         r->lvi = val % 32;
+-        dolog("LVI[%d] <- 0x%x\n", GET_BM(index), val);
++        dolog("LVI[%d] <- 0x%x\n", GET_BM(addr), val);
+         break;
+     case PI_CR:
+     case PO_CR:
+     case MC_CR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         if (val & CR_RR) {
+             reset_bm_regs(s, r);
+         } else {
+@@ -861,15 +857,15 @@ static void nabm_writeb(void *opaque, uint32_t addr, uint32_t val)
+                 voice_set_active(s, r - s->bm_regs, 1);
+             }
+         }
+-        dolog("CR[%d] <- 0x%x (cr 0x%x)\n", GET_BM(index), val, r->cr);
++        dolog("CR[%d] <- 0x%x (cr 0x%x)\n", GET_BM(addr), val, r->cr);
+         break;
+     case PI_SR:
+     case PO_SR:
+     case MC_SR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         r->sr |= val & ~(SR_RO_MASK | SR_WCLEAR_MASK);
+         update_sr(s, r, r->sr & ~(val & SR_WCLEAR_MASK));
+-        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(index), val, r->sr);
++        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(addr), val, r->sr);
+         break;
+     default:
+         dolog("U nabm writeb 0x%x <- 0x%x\n", addr, val);
+@@ -881,15 +877,15 @@ static void nabm_writew(void *opaque, uint32_t addr, uint32_t val)
+ {
+     AC97LinkState *s = opaque;
+     AC97BusMasterRegs *r = NULL;
+-    uint32_t index = addr;
+-    switch (index) {
++
++    switch (addr) {
+     case PI_SR:
+     case PO_SR:
+     case MC_SR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         r->sr |= val & ~(SR_RO_MASK | SR_WCLEAR_MASK);
+         update_sr(s, r, r->sr & ~(val & SR_WCLEAR_MASK));
+-        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(index), val, r->sr);
++        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(addr), val, r->sr);
+         break;
+     default:
+         dolog("U nabm writew 0x%x <- 0x%x\n", addr, val);
+@@ -901,14 +897,14 @@ static void nabm_writel(void *opaque, uint32_t addr, uint32_t val)
+ {
+     AC97LinkState *s = opaque;
+     AC97BusMasterRegs *r = NULL;
+-    uint32_t index = addr;
+-    switch (index) {
++
++    switch (addr) {
+     case PI_BDBAR:
+     case PO_BDBAR:
+     case MC_BDBAR:
+-        r = &s->bm_regs[GET_BM(index)];
++        r = &s->bm_regs[GET_BM(addr)];
+         r->bdbar = val & ~3;
+-        dolog("BDBAR[%d] <- 0x%x (bdbar 0x%x)\n", GET_BM(index), val, r->bdbar);
++        dolog("BDBAR[%d] <- 0x%x (bdbar 0x%x)\n", GET_BM(addr), val, r->bdbar);
+         break;
+     case GLOB_CNT:
+         /* TODO: Handle WR or CR being set (warm/cold reset requests) */
 -- 
 2.36.1
 
