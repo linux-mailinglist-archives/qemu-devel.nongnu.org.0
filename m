@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD435342BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 20:13:56 +0200 (CEST)
-Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A2E5342CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 20:17:59 +0200 (CEST)
+Received: from localhost ([::1]:37296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntvW6-0007d9-FN
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 14:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
+	id 1ntva3-0003s0-4V
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 14:17:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntvS3-0004Ym-6O; Wed, 25 May 2022 14:09:43 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntvS1-000812-Fg; Wed, 25 May 2022 14:09:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EyAap97/H9GKPR2EyhOebq5Fj+GVqX0xGZeT2x4AeS0=; b=azXLtPdhBZxEUrzX31eKW43TTi
- u2Xs1gMAAZ1Agxu5kB6nO71DIpPCKDySamb9S3f3S9q/hf+5TkAQxrToxzAEXL8aOIYPgfjJjOY2O
- gIX2EzZ0OlOEpVl1eayT2cKwpW/la1dDLqLGr6gZh2ScBbFW5F1H2j8ZCIsLk6QwQrkoB5hyr21eG
- gslW/TCm8mZTt13qsSwQmCOl7pej2enSbfoTkJBjR3ImOmf2G5hUxsGijo1ebC7hKQAcHXyeb3TmT
- XsL8vhLUJEuHrqph1ThhLHupnLIOf1aesYG1sjOUXOPq6sSkPrmXBYNeHCEcbWuJ/N3et0+DnrRVQ
- u2X3l7teA9aPisz9nYNGvBHta4Fi9N8GUUmWZkzchBX2tLk9ke3DDC8QtofcCZmPS1F23HZgnMW53
- UBfULZEo1m0ftDz/j8q8BJ17wkh+DIYYJPrADBxlGXJqkLCzKoVazkZJG6eQUjVePp0kcafERhU8e
- pOjn8OuRqN6x3sU2v7uUA8v+IE9mtMZ78yCyXKR93SZbn9UAdsfZlUzjG/ieztfXhQTr2Yzti64pt
- 6FhxkYFosbO7NGmbyjcp9aumgSFGV0//YliTWGyRuDJanSdubAA9wnZKT60UmZScrW0pi+p3bB6Uh
- MrjZif78e1rgDHBTJRgTfiMltPi/8VvC7uD+jmCAU=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntvQz-0006Yg-2T; Wed, 25 May 2022 19:08:37 +0100
-Message-ID: <a1f2e759-0e2c-df44-4a1b-eb2c6429298a@ilande.co.uk>
-Date: Wed, 25 May 2022 19:09:36 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntvYQ-0002XP-5p
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 14:16:18 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:54870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ntvYN-0001dy-MS
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 14:16:17 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id cv10so3746701pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 11:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=bjWbjO3HKVzxlxqZqmJchR117rxqRE9zzOdf7ceYj2Q=;
+ b=hmLN9gZ3ZuySufoo5blwmvkve6gZ2Y/8X0KMH2AQYpv9zRdJRV+KaSIpWjVjQJXT07
+ EP8lQuEYXVnOC1Kq9NBM7qr8v+Llesaj+Qd5vvV0rMrLc23v5PEzm4XaTNysFihVxi7F
+ F8UGSOlbmmZOZO6UF7jd0zTT725Sxmds3009lGvzzkMk+t4eY9INJvzNA5324oGYM6Cw
+ me24D7AdUSgntrJoi1v4rl0Ef8yjJd1z1r9MgF7vqPI0Vr2rhJCebgAFzhVb1VBeqoGz
+ b6ifBmDzH411+csM9JwlXQYkY2jZjHUTj2VhQ6htcpMxMsbE0d1PSpPZCp0nLXJ3TquL
+ F27Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bjWbjO3HKVzxlxqZqmJchR117rxqRE9zzOdf7ceYj2Q=;
+ b=pZlkVrFNEnDQpea70eol3/pmNgnyGRmx/aXY/3oczbYEMgNtAc2VPGCUo3WKDuje6a
+ i8vW88QF5YS/MKIvKRVY1VLH3rd/lcd/S8iWt034zGm3OJYSZpe9RllVG+hMQRhyG8hv
+ SzsZtw9rH8r/Phk5FPRfj3BJDoVjvhM+0dkkmNvHgR28he5duGZjPsCcXwNX+bbrGVsj
+ QRk34Odt66abg34DbB8sjBxmt94oJEWHbw1KouZ06gsa/leSwfX9mmAfKLBCRnEkWJCJ
+ rbBAxXVP6OIN5E7Y0g9D+QEFsu2Dc45QNZW3DPujpGfTfKV3wvLmu7UF0oLFYSqSd+5y
+ 9fQg==
+X-Gm-Message-State: AOAM533Dz0zAodoyW/A9DjEVSJuJhpgMGE5Qh6l5piiauvsnTcRYLL7I
+ vfHTTMkCxEnqcFY8m6HdtNcn+w==
+X-Google-Smtp-Source: ABdhPJzDRqqMmeF+Av92qfgjegfvqZqifr9nm+BBRarvwJ4NQxw9GmJpkB+fMhXnzuBTO7WrVCa/VQ==
+X-Received: by 2002:a17:902:70c1:b0:162:1fbb:33f7 with SMTP id
+ l1-20020a17090270c100b001621fbb33f7mr16992450plt.9.1653502572538; 
+ Wed, 25 May 2022 11:16:12 -0700 (PDT)
+Received: from [192.168.1.6] ([71.212.142.129])
+ by smtp.gmail.com with ESMTPSA id
+ c10-20020a170902aa4a00b00162451a825asm3910305plr.307.2022.05.25.11.16.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 May 2022 11:16:12 -0700 (PDT)
+Message-ID: <1d007c11-9bad-a776-4d2c-2822c1d0f44b@linaro.org>
+Date: Wed, 25 May 2022 11:16:10 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.8.0
+Subject: Re: [PULL 0/8] Linux user for 7.1 patches
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20220522212431.14598-1-shentey@gmail.com>
- <20220522212431.14598-6-shentey@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522212431.14598-6-shentey@gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220525104057.543354-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220525104057.543354-1-laurent@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 5/6] hw/isa/piix4: QOM'ify PIIX4 PM creation
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,105 +91,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/05/2022 22:24, Bernhard Beschow wrote:
-
-> Just like the real hardware, create the PIIX4 ACPI controller as part of
-> the PIIX4 southbridge. This also mirrors how the IDE and USB functions
-> are already created.
+On 5/25/22 03:40, Laurent Vivier wrote:
+> The following changes since commit 3757b0d08b399c609954cf57f273b1167e5d7a8d:
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/isa/piix4.c                | 14 +++++++-------
->   hw/mips/malta.c               |  3 ++-
->   include/hw/southbridge/piix.h |  2 +-
->   3 files changed, 10 insertions(+), 9 deletions(-)
+>    Merge tag 'pull-request-2022-05-18' of https://gitlab.com/thuth/qemu into staging (2022-05-20 08:04:30 -0700)
 > 
-> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 4968c69da9..1645f63450 100644
-> --- a/hw/isa/piix4.c
-> +++ b/hw/isa/piix4.c
-> @@ -206,6 +206,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
->       PIIX4State *s = PIIX4_PCI_DEVICE(dev);
->       PCIDevice *pci;
->       PCIBus *pci_bus = pci_get_bus(dev);
-> +    I2CBus *smbus;
->       ISABus *isa_bus;
->       qemu_irq *i8259_out_irq;
->   
-> @@ -252,6 +253,11 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
->       /* USB */
->       pci_create_simple(pci_bus, dev->devfn + 2, "piix4-usb-uhci");
->   
-> +    /* ACPI controller */
-> +    smbus = piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100, s->isa[9],
-> +                          NULL, 0, NULL);
-> +    object_property_add_const_link(OBJECT(s), "smbus", OBJECT(smbus));
-> +
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
+> 
+> for you to fetch changes up to 565a84c1e61acb6e2bce03e5ca88b5ce400231ca:
+> 
+>    linux-user/host/s390: Treat EX and EXRL as writes (2022-05-23 22:54:02 +0200)
+> 
+> ----------------------------------------------------------------
+> Pull request linux-user 20220525
+> 
+> s390x fixes
+> CPUArchState cleanup
+> elfload cleanup
+> fix for uclibc-ng and by musl
 
-Interesting hack here to expose the smbus so it is available to qdev_get_child_bus(), 
-but really this is still really working around the fact that piix4_pm_init() itself 
-should be removed first. Once that is done, you can then use a standard QOM pattern 
-to initialise the "internal" PCI devices via object_initialize_child() and realize 
-them in piix4_realize() instead of using pci_create_simple().
-
-Is that something you could take a look at? If not, I may be able to put something 
-together towards the end of the week. Other than that I think the rest of the series 
-looks good.
-
->       pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
->   }
->   
-> @@ -301,7 +307,7 @@ static void piix4_register_types(void)
->   
->   type_init(piix4_register_types)
->   
-> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
-> +DeviceState *piix4_create(PCIBus *pci_bus)
->   {
->       PCIDevice *pci;
->       DeviceState *dev;
-> @@ -311,11 +317,5 @@ DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
->                                             TYPE_PIIX4_PCI_DEVICE);
->       dev = DEVICE(pci);
->   
-> -    if (smbus) {
-> -        *smbus = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
-> -                               qdev_get_gpio_in_named(dev, "isa", 9),
-> -                               NULL, 0, NULL);
-> -    }
-> -
->       return dev;
->   }
-> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> index e446b25ad0..b0fc84ccbb 100644
-> --- a/hw/mips/malta.c
-> +++ b/hw/mips/malta.c
-> @@ -1399,8 +1399,9 @@ void mips_malta_init(MachineState *machine)
->       empty_slot_init("GT64120", 0, 0x20000000);
->   
->       /* Southbridge */
-> -    dev = piix4_create(pci_bus, &smbus);
-> +    dev = piix4_create(pci_bus);
->       isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-> +    smbus = I2C_BUS(qdev_get_child_bus(dev, "smbus"));
->   
->       /* Interrupt controller */
->       qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-> index 0bec7f8ca3..2c21359efa 100644
-> --- a/include/hw/southbridge/piix.h
-> +++ b/include/hw/southbridge/piix.h
-> @@ -76,6 +76,6 @@ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
->   
->   PIIX3State *piix3_create(PCIBus *pci_bus);
->   
-> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus);
-> +DeviceState *piix4_create(PCIBus *pci_bus);
->   
->   #endif
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
-ATB,
+r~
 
-Mark.
+
+> 
+> ----------------------------------------------------------------
+> 
+> Fabrice Fontaine (1):
+>    linux-user/syscall.c: fix build without RLIMIT_RTTIME
+> 
+> Ilya Leoshkevich (3):
+>    linux-user/s390x: Fix unwinding from signal handlers
+>    tests/tcg/s390x: Test unwinding from signal handlers
+>    linux-user/host/s390: Treat EX and EXRL as writes
+> 
+> Philippe Mathieu-Daudé (3):
+>    linux-user/elfload: Remove pointless non-const CPUArchState cast
+>    linux-user: Have do_syscall() use CPUArchState* instead of void*
+>    linux-user: Remove pointless CPU{ARCH}State casts
+> 
+> Richard Henderson (1):
+>    linux-user: Clean up arg_start/arg_end confusion
+> 
+>   linux-user/elfload.c                       |  12 +-
+>   linux-user/include/host/s390/host-signal.h |   7 +
+>   linux-user/linuxload.c                     |  12 +-
+>   linux-user/main.c                          |   4 +-
+>   linux-user/qemu.h                          |  12 +-
+>   linux-user/s390x/signal.c                  |   5 +
+>   linux-user/strace.c                        | 202 ++++++++++-----------
+>   linux-user/strace.h                        |   4 +-
+>   linux-user/syscall.c                       |  83 +++++----
+>   linux-user/uname.c                         |   4 +-
+>   linux-user/uname.h                         |   2 +-
+>   linux-user/user-internals.h                |  18 +-
+>   semihosting/arm-compat-semi.c              |   4 +-
+>   tests/tcg/s390x/signals-s390x.c            |  69 +++++--
+>   14 files changed, 252 insertions(+), 186 deletions(-)
+> 
+
 
