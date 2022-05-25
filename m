@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10504533ED4
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 16:09:46 +0200 (CEST)
-Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DE1533EB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 16:07:24 +0200 (CEST)
+Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntrhp-0002bU-5v
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 10:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46130)
+	id 1ntrfX-0005on-GL
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 10:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changpeng.liu@intel.com>)
- id 1ntqYR-0006DL-8m
+ id 1ntqYR-0006DO-9k
  for qemu-devel@nongnu.org; Wed, 25 May 2022 08:56:02 -0400
-Received: from mga05.intel.com ([192.55.52.43]:44955)
+Received: from mga05.intel.com ([192.55.52.43]:44960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changpeng.liu@intel.com>)
- id 1ntqYK-0002f8-N6
- for qemu-devel@nongnu.org; Wed, 25 May 2022 08:55:54 -0400
+ id 1ntqYN-0002fD-16
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 08:55:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653483352; x=1685019352;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Jnial1OdoHHEmwIKrBMigJZ/nCpjItNtIGHTTg7Ue+Q=;
- b=cZskVAekkqjDPy9O87QILQPxaWjQp7Rja4wlgm5feuJ4+1S8tqlXzNLP
- PWz6HfWIRK2w/2hhTKFDbGUTX5+84n3y6wXm9Y1L3pqk/2pzwgIWpkNe+
- DKrG0yZjaKjYnO89gLZUxdJp3tbzM9Wpd6bleLtQTGVM+82uZwKU2HCOt
- n7ubI5/1g7Wo/ya5D6cFnO6wFuk/I9+oTTJU6Ea0rvvhtWdRo6zp4Mhjk
- MlQva10IkqRA45aOjwfzUxKcnTnF3lTrCa/Ze3rxS+Opp9wFGM/hsn/4/
- 9GbfIXUZuVXq3/l5fFzR07RG4pKAaTibjZ68mKRWu5fY4TGY/kcgUIjbC g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10357"; a="360195204"
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="360195204"
+ t=1653483355; x=1685019355;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=3RnqZooBIpCs91x1mqVDqgiHf9TjlVDp8RGbzwP+T4U=;
+ b=fxJetUuDdY2T1NGwhn9TT2WPxoyaZfPZxDmBi4J3YNs4lj+gLWf5dUhM
+ Zcx3z9HeZKkum9lUgfG7P7Zjin3OlzsgWYGH40EtZkqb7y7/0mIJrJcYj
+ 3t0cisF+ekDfi6hR834hDo+eP5eYqDAu1dNkvsfXitHWzHotBL1dg/8+E
+ U+nvsu6ZcafxRhSq0IPCcZSLCpwXGjr8tM+Byrwpyuew9D3n3Sat39crQ
+ /brmbznNgHeYMfqC407oi0cSxlv/uBG4Se9zYQhHc2I3jLj60Go0+Na8y
+ /DLzYcdnu/smCof0soUmOf5tJgcQQXsY+PYVoajCjOTNb+fCAhOmfzfN0 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10357"; a="360195212"
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="360195212"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 05:55:48 -0700
+ 25 May 2022 05:55:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="601892511"
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="601892520"
 Received: from waikikibeach52.sh.intel.com ([10.67.111.57])
- by orsmga008.jf.intel.com with ESMTP; 25 May 2022 05:55:46 -0700
+ by orsmga008.jf.intel.com with ESMTP; 25 May 2022 05:55:51 -0700
 From: Changpeng Liu <changpeng.liu@intel.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	changpeng.liu@intel.com
-Subject: [PATCH 1/2] hw/virtio/vhost-user: don't use uninitialized variable
-Date: Wed, 25 May 2022 20:55:39 +0800
-Message-Id: <20220525125540.50979-1-changpeng.liu@intel.com>
+Subject: [PATCH 2/2] hw/vhost-user-scsi|blk: set `supports_config` flag
+ correctly
+Date: Wed, 25 May 2022 20:55:40 +0800
+Message-Id: <20220525125540.50979-2-changpeng.liu@intel.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20220525125540.50979-1-changpeng.liu@intel.com>
+References: <20220525125540.50979-1-changpeng.liu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.43;
@@ -75,43 +78,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Variable `vdev` in `struct vhost_dev` will not be ready
-until start the device, so let's not use it for the error
-output here.
-
-Fixes: 5653493 ("hw/virtio/vhost-user: don't suppress F_CONFIG when supported")
+Currently vhost-user-scsi driver doesn't allow to change
+the configuration space of virtio_scsi, while vhost-user-blk
+support that, so here we set the flag in vhost-user-blk driver
+and unset it in vhost-user-scsi.
 
 Signed-off-by: Changpeng Liu <changpeng.liu@intel.com>
 ---
- hw/virtio/vhost-user.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/block/vhost-user-blk.c | 1 +
+ hw/scsi/vhost-user-scsi.c | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index b040c1ad2b..0594178224 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -2031,18 +2031,16 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
-         if (supports_f_config) {
-             if (!virtio_has_feature(protocol_features,
-                                     VHOST_USER_PROTOCOL_F_CONFIG)) {
--                error_setg(errp, "vhost-user device %s expecting "
-+                error_setg(errp, "vhost-user device expecting "
-                            "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-user backend does "
--                           "not support it.", dev->vdev->name);
-+                           "not support it.");
-                 return -EPROTO;
-             }
-         } else {
-             if (virtio_has_feature(protocol_features,
-                                    VHOST_USER_PROTOCOL_F_CONFIG)) {
-                 warn_reportf_err(*errp, "vhost-user backend supports "
--                                 "VHOST_USER_PROTOCOL_F_CONFIG for "
--                                 "device %s but QEMU does not.",
--                                 dev->vdev->name);
-+                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU does not.");
-                 protocol_features &= ~(1ULL << VHOST_USER_PROTOCOL_F_CONFIG);
-             }
-         }
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 5dca4eab09..9117222456 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -337,6 +337,7 @@ static int vhost_user_blk_connect(DeviceState *dev, Error **errp)
+ 
+     vhost_dev_set_config_notifier(&s->dev, &blk_ops);
+ 
++    s->vhost_user.supports_config = true;
+     ret = vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_USER, 0,
+                          errp);
+     if (ret < 0) {
+diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+index 9be21d07ee..1b2f7eed98 100644
+--- a/hw/scsi/vhost-user-scsi.c
++++ b/hw/scsi/vhost-user-scsi.c
+@@ -121,7 +121,6 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
+     vsc->dev.backend_features = 0;
+     vqs = vsc->dev.vqs;
+ 
+-    s->vhost_user.supports_config = true;
+     ret = vhost_dev_init(&vsc->dev, &s->vhost_user,
+                          VHOST_BACKEND_TYPE_USER, 0, errp);
+     if (ret < 0) {
 -- 
 2.21.3
 
