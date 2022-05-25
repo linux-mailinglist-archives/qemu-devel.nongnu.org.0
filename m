@@ -2,86 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE76E533A9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 12:29:06 +0200 (CEST)
-Received: from localhost ([::1]:51192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D686533ABE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 12:39:44 +0200 (CEST)
+Received: from localhost ([::1]:55338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntoGH-0000WQ-Gi
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 06:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46272)
+	id 1ntoQY-0004OS-Vp
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 06:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1ntoBY-0007J4-Up
- for qemu-devel@nongnu.org; Wed, 25 May 2022 06:24:12 -0400
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b]:45733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1ntoBV-0007rX-Vu
- for qemu-devel@nongnu.org; Wed, 25 May 2022 06:24:12 -0400
-Received: by mail-vs1-xe2b.google.com with SMTP id j7so8840443vsp.12
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 03:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QXXQbcDTFZDjBFZGG5S0M7v7oPYzaDUiHzQuT2a6a3Y=;
- b=N7LuyNWRuDM/ABLa045KggWutu1+j9+KB/dI/Lui1asK7wniVnp6IqMBCzzbNBNARm
- tm9emFy7uFbdtHFDjm4Ozq1wVvopxwSByOO9c5qtqIIiijsUut5oWS0cMAsQBpWYpfzl
- owz1QjhGczN57wkxlcauz0p5LCqsifLH6qV4FE+m5jSvuGvgLJpDkresQjammZH48z5C
- AVeRiVIcmpv7RF7U/YO6fiuuYNDX3YUK2SWpcIY272CftWNpnaAnrBRBdnZK2PdztDQq
- w9BRYDl8t2XTNhRt5Ups96OxSd/D7wiGcU29ACdiNhlH6OG5a5oXQiSj/Z6+c4WbDn+0
- z/3Q==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ntoN0-0002Yb-KG
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 06:36:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ntoMx-0001Kk-AN
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 06:36:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653474958;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q2k+wjvrfLxBNTC29lY9mldzTmhHpyxLBcEyXgo3EaI=;
+ b=a3CYBNyg3r8CylI8RYQtwyRxXbR1u5w3bycf7/FbliIFTgFDuVDmZMtxPafUgiK87HdU2B
+ LDX/wwCg97J5xcoOqiCZe9T/RaDyq5tl1+r+lJqTg1tIPXk8TTHqI2XXn4eSsKqSUihxin
+ FAYj6nQb1AynDcfmpceqgo9CjEAUIYg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-526-p8VwWn4bOEK6fq7DVicorA-1; Wed, 25 May 2022 06:35:57 -0400
+X-MC-Unique: p8VwWn4bOEK6fq7DVicorA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k16-20020a7bc310000000b0038e6cf00439so2676291wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 03:35:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QXXQbcDTFZDjBFZGG5S0M7v7oPYzaDUiHzQuT2a6a3Y=;
- b=RBmpXsLN23+pXe9EDPawweKa1IEYVcH0KY+mZN6GxhGUP4Fq3KV6Zedn6hM6jVhLD0
- NBVEx8gSN1te6K9EbE8HSZ8iYf5cXdBuUGPFmvffoxcdKD0TSDAISYJXH6Lo7ghJTSeY
- Xuqj7880JTbgdpUIg7jDTUdy+jPGV8EVJU60n6ZVe8gEVM2ub8KIAxNn6s8dCdumP4PZ
- AIxzPmG8Mv50q2vR+rmGDWzP7955pZI5PdsmgNtGOrzHUs2QDZe4IWPEMVq2Z6jhqFqW
- L539veVCiYmu9j3DibtOxIU0dpH7yVKLLad9/DKkAtwqwH/JtgsuAJT3rawKvjPWpNWv
- DRyw==
-X-Gm-Message-State: AOAM53116upIyP7sZflU/cLSzPG2Pae1h3izjytbFQTeB4qDIUf1J3u/
- jULn4Yo/DsWIwIRrzHSr2XCujD6BRBvPoy64
-X-Google-Smtp-Source: ABdhPJwNRNwbYfvJYNf6ZVWtnuHyOY1/r5Nbd0Bmygou/pOKOy74KqI5Nf0nIQvIgxH4XsQuwk49vg==
-X-Received: by 2002:a67:f115:0:b0:335:c3b6:dd with SMTP id
- n21-20020a67f115000000b00335c3b600ddmr12318136vsk.67.1653474248530; 
- Wed, 25 May 2022 03:24:08 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com.
- [209.85.217.49]) by smtp.gmail.com with ESMTPSA id
- w5-20020ab06505000000b003626f894de3sm192942uam.17.2022.05.25.03.24.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 May 2022 03:24:07 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id 67so5730778vsh.2;
- Wed, 25 May 2022 03:24:07 -0700 (PDT)
-X-Received: by 2002:a05:6102:2044:b0:337:d8ed:84fe with SMTP id
- q4-20020a056102204400b00337d8ed84femr2554710vsr.30.1653474246964; Wed, 25 May
- 2022 03:24:06 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=q2k+wjvrfLxBNTC29lY9mldzTmhHpyxLBcEyXgo3EaI=;
+ b=jvJx7TA6VzEslNwclJiOU/oYI4R68pmZCMKf9qhEITDcCNrloEjPIZihiNgRcmfj/4
+ KGG0qV+2YUttaRYLHjM+kejs7jS0P4bTaEWjq6p8lnXVtipixbMJAzYu22Dc0fwsqOxo
+ RpdCK8s0QWEsaH00wrPDYbx/7GumZy0gjAFP7u2oJgrQEFP6v6iXBoivT8YbuAAvP0SO
+ wsHZP2XpLBkQhLryCSpm1YMsoQANAQt8XLb9FFi9xo7MuobUMyZMscQV1dsyqu/EKnNJ
+ Er2G6u6HNLqBKLiqjwo4N6mWEG87jUnp9jxgzvYQQbJu3FiiANY7n+aFqRkUZfmH42TG
+ eJVQ==
+X-Gm-Message-State: AOAM532MN9fSIyjUkIBBqP4soNhBJ/3aFShTlXCbhWOFP+DxEqsAwGTS
+ 7pBbddi6HgRCw3+utCYULiSa7CMzMr5vmfeJMqZ8o3/gvl8elGhhsuFONBs+T3ztKdbzkg06IjL
+ 7A2hXomK3B+7AAiY=
+X-Received: by 2002:a7b:c04d:0:b0:394:61ea:4fa2 with SMTP id
+ u13-20020a7bc04d000000b0039461ea4fa2mr7543952wmc.40.1653474956136; 
+ Wed, 25 May 2022 03:35:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1NuZ/0cQFZX1wkE7GBGcvyt7Vxl+mZqe1HbMjX2lAv1UH9Mks2iwRGZ9RkqggL35Su+blqQ==
+X-Received: by 2002:a7b:c04d:0:b0:394:61ea:4fa2 with SMTP id
+ u13-20020a7bc04d000000b0039461ea4fa2mr7543928wmc.40.1653474955863; 
+ Wed, 25 May 2022 03:35:55 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ u11-20020a5d6acb000000b0020d06e7c16fsm1703406wrw.84.2022.05.25.03.35.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 May 2022 03:35:54 -0700 (PDT)
+Date: Wed, 25 May 2022 11:35:52 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, berrange@redhat.com,
+ Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH v3 6/8] hmp: add filtering of statistics by provider
+Message-ID: <Yo4GiLam/J7nBOD/@work-vm>
+References: <20220516090058.1195767-1-pbonzini@redhat.com>
+ <20220516090234.1195907-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20220523235057.123882-1-atishp@rivosinc.com>
- <20220523235057.123882-10-atishp@rivosinc.com>
-In-Reply-To: <20220523235057.123882-10-atishp@rivosinc.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Wed, 25 May 2022 18:23:56 +0800
-X-Gmail-Original-Message-ID: <CANzO1D3o2iMV45hJW3-xWFtXW9g-iOO2EsrSUFzm_wDdMBNBSw@mail.gmail.com>
-Message-ID: <CANzO1D3o2iMV45hJW3-xWFtXW9g-iOO2EsrSUFzm_wDdMBNBSw@mail.gmail.com>
-Subject: Re: [PATCH v9 09/12] target/riscv: Simplify counter predicate function
-To: Atish Patra <atishp@rivosinc.com>
-Cc: linux-kernel@vger.kernel.org, Bin Meng <bmeng.cn@gmail.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000022bb8105dfd37940"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
- envelope-from=frank.chang@sifive.com; helo=mail-vs1-xe2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220516090234.1195907-5-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,339 +100,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000022bb8105dfd37940
-Content-Type: text/plain; charset="UTF-8"
-
-On Tue, May 24, 2022 at 8:02 AM Atish Patra <atishp@rivosinc.com> wrote:
-
-> All the hpmcounters and the fixed counters (CY, IR, TM) can be represented
-> as a unified counter. Thus, the predicate function doesn't need handle each
-> case separately.
->
-> Simplify the predicate function so that we just handle things differently
-> between RV32/RV64 and S/HS mode.
->
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> Allow the user to request statistics for a single provider of interest.
+> Extracted from a patch by Mark Kanda.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  target/riscv/csr.c | 111 ++++-----------------------------------------
->  1 file changed, 10 insertions(+), 101 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 723b52d836d3..e229f53c674d 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -74,6 +74,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
->      CPUState *cs = env_cpu(env);
->      RISCVCPU *cpu = RISCV_CPU(cs);
->      int ctr_index;
-> +    target_ulong ctr_mask;
->      int base_csrno = CSR_CYCLE;
->      bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
->
-> @@ -82,122 +83,30 @@ static RISCVException ctr(CPURISCVState *env, int
-> csrno)
->          base_csrno += 0x80;
+>  hmp-commands-info.hx |  7 ++++---
+>  monitor/hmp-cmds.c   | 41 ++++++++++++++++++++++++++++++++++-------
+>  2 files changed, 38 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index 221feab8c0..d4d8a1e618 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -897,9 +897,10 @@ ERST
+>  
+>      {
+>          .name       = "stats",
+> -        .args_type  = "target:s",
+> -        .params     = "target",
+> -        .help       = "show statistics; target is either vm or vcpu",
+> +        .args_type  = "target:s,provider:s?",
+> +        .params     = "target [provider]",
+> +        .help       = "show statistics for the given target (vm or vcpu); optionally filter by "
+> +                      "provider",
+>          .cmd        = hmp_info_stats,
+>      },
+>  
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 15f1743d8c..4fa671fe0a 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -2291,6 +2291,7 @@ static StatsSchemaValueList *find_schema_value_list(
+>  }
+>  
+>  static void print_stats_results(Monitor *mon, StatsTarget target,
+> +                                bool show_provider,
+>                                  StatsResult *result,
+>                                  StatsSchemaList *schema)
+>  {
+> @@ -2305,8 +2306,10 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
+>          return;
 >      }
->      ctr_index = csrno - base_csrno;
-> +    ctr_mask = BIT(ctr_index);
->
->      if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
->          (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
->          goto skip_ext_pmu_check;
+>  
+> -    monitor_printf(mon, "provider: %s\n",
+> -                   StatsProvider_str(result->provider));
+> +    if (show_provider) {
+> +        monitor_printf(mon, "provider: %s\n",
+> +                       StatsProvider_str(result->provider));
+> +    }
+>  
+>      for (stats_list = result->stats; stats_list;
+>               stats_list = stats_list->next,
+> @@ -2347,7 +2350,8 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
+>  }
+>  
+>  /* Create the StatsFilter that is needed for an "info stats" invocation.  */
+> -static StatsFilter *stats_filter(StatsTarget target, int cpu_index)
+> +static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
+> +                                 StatsProvider provider)
+>  {
+>      StatsFilter *filter = g_malloc0(sizeof(*filter));
+>  
+> @@ -2369,12 +2373,27 @@ static StatsFilter *stats_filter(StatsTarget target, int cpu_index)
+>      default:
+>          break;
 >      }
->
-> -    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
-> +    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & ctr_mask))) {
->          /* No counter is enabled in PMU or the counter is out of range */
->          return RISCV_EXCP_ILLEGAL_INST;
+> +
+> +    if (provider == STATS_PROVIDER__MAX) {
+> +        return filter;
+> +    }
+> +
+> +    /* "info stats" can only query either one or all the providers.  */
+> +    StatsRequest *request = g_new0(StatsRequest, 1);
+> +    request->provider = provider;
+> +    StatsRequestList *request_list = g_new0(StatsRequestList, 1);
+
+Why that g_new0 there? isn't that request_list = NULL and let the
+PREPEND below do the alloc?
+
+> +    QAPI_LIST_PREPEND(request_list, request);
+> +    filter->has_providers = true;
+> +    filter->providers = request_list;
+>      return filter;
+>  }
+>  
+>  void hmp_info_stats(Monitor *mon, const QDict *qdict)
+>  {
+>      const char *target_str = qdict_get_str(qdict, "target");
+> +    const char *provider_str = qdict_get_try_str(qdict, "provider");
+> +
+> +    StatsProvider provider = STATS_PROVIDER__MAX;
+>      StatsTarget target;
+>      Error *err = NULL;
+>      g_autoptr(StatsSchemaList) schema = NULL;
+> @@ -2387,19 +2406,27 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
+>          monitor_printf(mon, "invalid stats target %s\n", target_str);
+>          goto exit_no_print;
 >      }
->
->  skip_ext_pmu_check:
->
-> -    if (env->priv == PRV_S) {
-> -        switch (csrno) {
-> -        case CSR_CYCLE:
-> -            if (!get_field(env->mcounteren, COUNTEREN_CY)) {
-> -                return RISCV_EXCP_ILLEGAL_INST;
-> -            }
-> -            break;
-> -        case CSR_TIME:
-> -            if (!get_field(env->mcounteren, COUNTEREN_TM)) {
-> -                return RISCV_EXCP_ILLEGAL_INST;
-> -            }
-> -            break;
-> -        case CSR_INSTRET:
-> -            if (!get_field(env->mcounteren, COUNTEREN_IR)) {
-> -                return RISCV_EXCP_ILLEGAL_INST;
-> -            }
-> -            break;
-> -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> -            if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> -                return RISCV_EXCP_ILLEGAL_INST;
-> -            }
-> -            break;
-> -        }
-> -        if (rv32) {
-> -            switch (csrno) {
-> -            case CSR_CYCLEH:
-> -                if (!get_field(env->mcounteren, COUNTEREN_CY)) {
-> -                    return RISCV_EXCP_ILLEGAL_INST;
-> -                }
-> -                break;
-> -            case CSR_TIMEH:
-> -                if (!get_field(env->mcounteren, COUNTEREN_TM)) {
-> -                    return RISCV_EXCP_ILLEGAL_INST;
-> -                }
-> -                break;
-> -            case CSR_INSTRETH:
-> -                if (!get_field(env->mcounteren, COUNTEREN_IR)) {
-> -                    return RISCV_EXCP_ILLEGAL_INST;
-> -                }
-> -                break;
-> -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> -                if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> -                    return RISCV_EXCP_ILLEGAL_INST;
-> -                }
-> -                break;
-> -            }
-> -        }
-> +    if ((env->priv == PRV_S) && (!get_field(env->mcounteren, ctr_mask))) {
->
-
-Should we also check PRV_U against env->scounteren here?
-
-Regards,
-Frank Chang
-
-
-> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    if (provider_str) {
+> +        provider = qapi_enum_parse(&StatsProvider_lookup, provider_str, -1, &err);
+> +        if (err) {
+> +            monitor_printf(mon, "invalid stats provider %s\n", provider_str);
+> +            goto exit_no_print;
+> +        }
+> +    }
+>  
+> -    schema = qmp_query_stats_schemas(false, 0, &err);
+> +    schema = qmp_query_stats_schemas(provider_str ? true : false,
+> +                                     provider, &err);
+>      if (err) {
+>          goto exit;
 >      }
->
->      if (riscv_cpu_virt_enabled(env)) {
-> -        switch (csrno) {
-> -        case CSR_CYCLE:
-> -            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
-> -                get_field(env->mcounteren, COUNTEREN_CY)) {
-> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -            }
-> -            break;
-> -        case CSR_TIME:
-> -            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
-> -                get_field(env->mcounteren, COUNTEREN_TM)) {
-> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -            }
-> -            break;
-> -        case CSR_INSTRET:
-> -            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
-> -                get_field(env->mcounteren, COUNTEREN_IR)) {
-> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -            }
-> -            break;
-> -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> -            if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> -                 get_field(env->mcounteren, 1 << ctr_index)) {
-> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -            }
-> -            break;
-> -        }
-> -        if (rv32) {
-> -            switch (csrno) {
-> -            case CSR_CYCLEH:
-> -                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
-> -                    get_field(env->mcounteren, COUNTEREN_CY)) {
-> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -                }
-> -                break;
-> -            case CSR_TIMEH:
-> -                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
-> -                    get_field(env->mcounteren, COUNTEREN_TM)) {
-> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -                }
-> -                break;
-> -            case CSR_INSTRETH:
-> -                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
-> -                    get_field(env->mcounteren, COUNTEREN_IR)) {
-> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -                }
-> -                break;
-> -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> -                if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> -                     get_field(env->mcounteren, 1 << ctr_index)) {
-> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -                }
-> -                break;
-> -            }
-> +        if (!get_field(env->mcounteren, ctr_mask)) {
-> +            /* The bit must be set in mcountern for HS mode access */
-> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> +        } else if (!get_field(env->hcounteren, ctr_mask)) {
-> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->          }
+>  
+>      switch (target) {
+>      case STATS_TARGET_VM:
+> -        filter = stats_filter(target, -1);
+> +        filter = stats_filter(target, -1, provider);
+>          break;
+>      case STATS_TARGET_VCPU: {}
+>          int cpu_index = monitor_get_cpu_index(mon);
+> -        filter = stats_filter(target, cpu_index);
+> +        filter = stats_filter(target, cpu_index, provider);
+>          break;
+>      default:
+>          abort();
+> @@ -2410,7 +2437,7 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
+>          goto exit;
 >      }
->  #endif
-> --
-> 2.25.1
->
->
->
+>      for (entry = stats; entry; entry = entry->next) {
+> -        print_stats_results(mon, target, entry->value, schema);
+> +        print_stats_results(mon, target, provider_str == NULL, entry->value, schema);
+>      }
+>  
+>  exit:
+> -- 
+> 2.36.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
---00000000000022bb8105dfd37940
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-PGRpdiBkaXI9Imx0ciI+PGRpdiBkaXI9Imx0ciI+T24gVHVlLCBNYXkgMjQsIDIwMjIgYXQgODow
-MiBBTSBBdGlzaCBQYXRyYSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmF0aXNocEByaXZvc2luYy5jb20i
-PmF0aXNocEByaXZvc2luYy5jb208L2E+Jmd0OyB3cm90ZTo8YnI+PC9kaXY+PGRpdiBjbGFzcz0i
-Z21haWxfcXVvdGUiPjxibG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdp
-bjowcHggMHB4IDBweCAwLjhleDtib3JkZXItbGVmdDoxcHggc29saWQgcmdiKDIwNCwyMDQsMjA0
-KTtwYWRkaW5nLWxlZnQ6MWV4Ij5BbGwgdGhlIGhwbWNvdW50ZXJzIGFuZCB0aGUgZml4ZWQgY291
-bnRlcnMgKENZLCBJUiwgVE0pIGNhbiBiZSByZXByZXNlbnRlZDxicj4NCmFzIGEgdW5pZmllZCBj
-b3VudGVyLiBUaHVzLCB0aGUgcHJlZGljYXRlIGZ1bmN0aW9uIGRvZXNuJiMzOTt0IG5lZWQgaGFu
-ZGxlIGVhY2g8YnI+DQpjYXNlIHNlcGFyYXRlbHkuPGJyPg0KPGJyPg0KU2ltcGxpZnkgdGhlIHBy
-ZWRpY2F0ZSBmdW5jdGlvbiBzbyB0aGF0IHdlIGp1c3QgaGFuZGxlIHRoaW5ncyBkaWZmZXJlbnRs
-eTxicj4NCmJldHdlZW4gUlYzMi9SVjY0IGFuZCBTL0hTIG1vZGUuPGJyPg0KPGJyPg0KUmV2aWV3
-ZWQtYnk6IEJpbiBNZW5nICZsdDs8YSBocmVmPSJtYWlsdG86Ym1lbmcuY25AZ21haWwuY29tIiB0
-YXJnZXQ9Il9ibGFuayI+Ym1lbmcuY25AZ21haWwuY29tPC9hPiZndDs8YnI+DQpBY2tlZC1ieTog
-QWxpc3RhaXIgRnJhbmNpcyAmbHQ7PGEgaHJlZj0ibWFpbHRvOmFsaXN0YWlyLmZyYW5jaXNAd2Rj
-LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmFsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbTwvYT4mZ3Q7PGJy
-Pg0KU2lnbmVkLW9mZi1ieTogQXRpc2ggUGF0cmEgJmx0OzxhIGhyZWY9Im1haWx0bzphdGlzaHBA
-cml2b3NpbmMuY29tIiB0YXJnZXQ9Il9ibGFuayI+YXRpc2hwQHJpdm9zaW5jLmNvbTwvYT4mZ3Q7
-PGJyPg0KLS0tPGJyPg0KwqB0YXJnZXQvcmlzY3YvY3NyLmMgfCAxMTEgKysrKy0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tPGJyPg0KwqAxIGZpbGUgY2hhbmdlZCwgMTAg
-aW5zZXJ0aW9ucygrKSwgMTAxIGRlbGV0aW9ucygtKTxicj4NCjxicj4NCmRpZmYgLS1naXQgYS90
-YXJnZXQvcmlzY3YvY3NyLmMgYi90YXJnZXQvcmlzY3YvY3NyLmM8YnI+DQppbmRleCA3MjNiNTJk
-ODM2ZDMuLmUyMjlmNTNjNjc0ZCAxMDA2NDQ8YnI+DQotLS0gYS90YXJnZXQvcmlzY3YvY3NyLmM8
-YnI+DQorKysgYi90YXJnZXQvcmlzY3YvY3NyLmM8YnI+DQpAQCAtNzQsNiArNzQsNyBAQCBzdGF0
-aWMgUklTQ1ZFeGNlcHRpb24gY3RyKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNzcm5vKTxicj4N
-CsKgIMKgIMKgQ1BVU3RhdGUgKmNzID0gZW52X2NwdShlbnYpOzxicj4NCsKgIMKgIMKgUklTQ1ZD
-UFUgKmNwdSA9IFJJU0NWX0NQVShjcyk7PGJyPg0KwqAgwqAgwqBpbnQgY3RyX2luZGV4Ozxicj4N
-CivCoCDCoCB0YXJnZXRfdWxvbmcgY3RyX21hc2s7PGJyPg0KwqAgwqAgwqBpbnQgYmFzZV9jc3Ju
-byA9IENTUl9DWUNMRTs8YnI+DQrCoCDCoCDCoGJvb2wgcnYzMiA9IHJpc2N2X2NwdV9teGwoZW52
-KSA9PSBNWExfUlYzMiA/IHRydWUgOiBmYWxzZTs8YnI+DQo8YnI+DQpAQCAtODIsMTIyICs4Mywz
-MCBAQCBzdGF0aWMgUklTQ1ZFeGNlcHRpb24gY3RyKENQVVJJU0NWU3RhdGUgKmVudiwgaW50IGNz
-cm5vKTxicj4NCsKgIMKgIMKgIMKgIMKgYmFzZV9jc3JubyArPSAweDgwOzxicj4NCsKgIMKgIMKg
-fTxicj4NCsKgIMKgIMKgY3RyX2luZGV4ID0gY3Nybm8gLSBiYXNlX2Nzcm5vOzxicj4NCivCoCDC
-oCBjdHJfbWFzayA9IEJJVChjdHJfaW5kZXgpOzxicj4NCjxicj4NCsKgIMKgIMKgaWYgKChjc3Ju
-byAmZ3Q7PSBDU1JfQ1lDTEUgJmFtcDsmYW1wOyBjc3JubyAmbHQ7PSBDU1JfSU5TVFJFVCkgfHw8
-YnI+DQrCoCDCoCDCoCDCoCDCoChjc3JubyAmZ3Q7PSBDU1JfQ1lDTEVIICZhbXA7JmFtcDsgY3Ny
-bm8gJmx0Oz0gQ1NSX0lOU1RSRVRIKSkgezxicj4NCsKgIMKgIMKgIMKgIMKgZ290byBza2lwX2V4
-dF9wbXVfY2hlY2s7PGJyPg0KwqAgwqAgwqB9PGJyPg0KPGJyPg0KLcKgIMKgIGlmICgoIWNwdS0m
-Z3Q7Y2ZnLnBtdV9udW0gfHwgIShjcHUtJmd0O3BtdV9hdmFpbF9jdHJzICZhbXA7IEJJVChjdHJf
-aW5kZXgpKSkpIHs8YnI+DQorwqAgwqAgaWYgKCghY3B1LSZndDtjZmcucG11X251bSB8fCAhKGNw
-dS0mZ3Q7cG11X2F2YWlsX2N0cnMgJmFtcDsgY3RyX21hc2spKSkgezxicj4NCsKgIMKgIMKgIMKg
-IMKgLyogTm8gY291bnRlciBpcyBlbmFibGVkIGluIFBNVSBvciB0aGUgY291bnRlciBpcyBvdXQg
-b2YgcmFuZ2UgKi88YnI+DQrCoCDCoCDCoCDCoCDCoHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxf
-SU5TVDs8YnI+DQrCoCDCoCDCoH08YnI+DQo8YnI+DQrCoHNraXBfZXh0X3BtdV9jaGVjazo8YnI+
-DQo8YnI+DQotwqAgwqAgaWYgKGVudi0mZ3Q7cHJpdiA9PSBQUlZfUykgezxicj4NCi3CoCDCoCDC
-oCDCoCBzd2l0Y2ggKGNzcm5vKSB7PGJyPg0KLcKgIMKgIMKgIMKgIGNhc2UgQ1NSX0NZQ0xFOjxi
-cj4NCi3CoCDCoCDCoCDCoCDCoCDCoCBpZiAoIWdldF9maWVsZChlbnYtJmd0O21jb3VudGVyZW4s
-IENPVU5URVJFTl9DWSkpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmV0dXJuIFJJ
-U0NWX0VYQ1BfSUxMRUdBTF9JTlNUOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCB9PGJyPg0KLcKg
-IMKgIMKgIMKgIMKgIMKgIGJyZWFrOzxicj4NCi3CoCDCoCDCoCDCoCBjYXNlIENTUl9USU1FOjxi
-cj4NCi3CoCDCoCDCoCDCoCDCoCDCoCBpZiAoIWdldF9maWVsZChlbnYtJmd0O21jb3VudGVyZW4s
-IENPVU5URVJFTl9UTSkpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmV0dXJuIFJJ
-U0NWX0VYQ1BfSUxMRUdBTF9JTlNUOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCB9PGJyPg0KLcKg
-IMKgIMKgIMKgIMKgIMKgIGJyZWFrOzxicj4NCi3CoCDCoCDCoCDCoCBjYXNlIENTUl9JTlNUUkVU
-Ojxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCBpZiAoIWdldF9maWVsZChlbnYtJmd0O21jb3VudGVy
-ZW4sIENPVU5URVJFTl9JUikpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmV0dXJu
-IFJJU0NWX0VYQ1BfSUxMRUdBTF9JTlNUOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCB9PGJyPg0K
-LcKgIMKgIMKgIMKgIMKgIMKgIGJyZWFrOzxicj4NCi3CoCDCoCDCoCDCoCBjYXNlIENTUl9IUE1D
-T1VOVEVSMy4uLkNTUl9IUE1DT1VOVEVSMzE6PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIGlmICgh
-Z2V0X2ZpZWxkKGVudi0mZ3Q7bWNvdW50ZXJlbiwgMSAmbHQ7Jmx0OyBjdHJfaW5kZXgpKSB7PGJy
-Pg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5T
-VDs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCBicmVh
-azs8YnI+DQotwqAgwqAgwqAgwqAgfTxicj4NCi3CoCDCoCDCoCDCoCBpZiAocnYzMikgezxicj4N
-Ci3CoCDCoCDCoCDCoCDCoCDCoCBzd2l0Y2ggKGNzcm5vKSB7PGJyPg0KLcKgIMKgIMKgIMKgIMKg
-IMKgIGNhc2UgQ1NSX0NZQ0xFSDo8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgaWYgKCFn
-ZXRfZmllbGQoZW52LSZndDttY291bnRlcmVuLCBDT1VOVEVSRU5fQ1kpKSB7PGJyPg0KLcKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDs8
-YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCBicmVhazs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgY2FzZSBDU1JfVElNRUg6PGJyPg0K
-LcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGlmICghZ2V0X2ZpZWxkKGVudi0mZ3Q7bWNvdW50ZXJl
-biwgQ09VTlRFUkVOX1RNKSkgezxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBy
-ZXR1cm4gUklTQ1ZfRVhDUF9JTExFR0FMX0lOU1Q7PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIH08YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgYnJlYWs7PGJyPg0KLcKgIMKgIMKg
-IMKgIMKgIMKgIGNhc2UgQ1NSX0lOU1RSRVRIOjxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCBpZiAoIWdldF9maWVsZChlbnYtJmd0O21jb3VudGVyZW4sIENPVU5URVJFTl9JUikpIHs8YnI+
-DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmV0dXJuIFJJU0NWX0VYQ1BfSUxMRUdB
-TF9JTlNUOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCB9PGJyPg0KLcKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIGJyZWFrOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCBjYXNlIENTUl9IUE1D
-T1VOVEVSM0guLi5DU1JfSFBNQ09VTlRFUjMxSDo8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgaWYgKCFnZXRfZmllbGQoZW52LSZndDttY291bnRlcmVuLCAxICZsdDsmbHQ7IGN0cl9pbmRl
-eCkpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmV0dXJuIFJJU0NWX0VY
-Q1BfSUxMRUdBTF9JTlNUOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCB9PGJyPg0KLcKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIGJyZWFrOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCB9PGJy
-Pg0KLcKgIMKgIMKgIMKgIH08YnI+DQorwqAgwqAgaWYgKChlbnYtJmd0O3ByaXYgPT0gUFJWX1Mp
-ICZhbXA7JmFtcDsgKCFnZXRfZmllbGQoZW52LSZndDttY291bnRlcmVuLCBjdHJfbWFzaykpKSB7
-PGJyPjwvYmxvY2txdW90ZT48ZGl2Pjxicj48L2Rpdj48ZGl2PlNob3VsZCB3ZSBhbHNvIGNoZWNr
-IFBSVl9VIGFnYWluc3QgZW52LSZndDtzY291bnRlcmVuIGhlcmU/PC9kaXY+PGRpdj48YnI+PC9k
-aXY+PGRpdj5SZWdhcmRzLDwvZGl2PjxkaXY+RnJhbmsgQ2hhbmc8L2Rpdj48ZGl2PsKgPC9kaXY+
-PGJsb2NrcXVvdGUgY2xhc3M9ImdtYWlsX3F1b3RlIiBzdHlsZT0ibWFyZ2luOjBweCAwcHggMHB4
-IDAuOGV4O2JvcmRlci1sZWZ0OjFweCBzb2xpZCByZ2IoMjA0LDIwNCwyMDQpO3BhZGRpbmctbGVm
-dDoxZXgiPg0KK8KgIMKgIMKgIMKgIHJldHVybiBSSVNDVl9FWENQX0lMTEVHQUxfSU5TVDs8YnI+
-DQrCoCDCoCDCoH08YnI+DQo8YnI+DQrCoCDCoCDCoGlmIChyaXNjdl9jcHVfdmlydF9lbmFibGVk
-KGVudikpIHs8YnI+DQotwqAgwqAgwqAgwqAgc3dpdGNoIChjc3Jubykgezxicj4NCi3CoCDCoCDC
-oCDCoCBjYXNlIENTUl9DWUNMRTo8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgaWYgKCFnZXRfZmll
-bGQoZW52LSZndDtoY291bnRlcmVuLCBDT1VOVEVSRU5fQ1kpICZhbXA7JmFtcDs8YnI+DQotwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgZ2V0X2ZpZWxkKGVudi0mZ3Q7bWNvdW50ZXJlbiwgQ09VTlRF
-UkVOX0NZKSkgezxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCByZXR1cm4gUklTQ1ZfRVhD
-UF9WSVJUX0lOU1RSVUNUSU9OX0ZBVUxUOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCB9PGJyPg0K
-LcKgIMKgIMKgIMKgIMKgIMKgIGJyZWFrOzxicj4NCi3CoCDCoCDCoCDCoCBjYXNlIENTUl9USU1F
-Ojxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCBpZiAoIWdldF9maWVsZChlbnYtJmd0O2hjb3VudGVy
-ZW4sIENPVU5URVJFTl9UTSkgJmFtcDsmYW1wOzxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCBnZXRfZmllbGQoZW52LSZndDttY291bnRlcmVuLCBDT1VOVEVSRU5fVE0pKSB7PGJyPg0KLcKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIHJldHVybiBSSVNDVl9FWENQX1ZJUlRfSU5TVFJVQ1RJT05f
-RkFVTFQ7PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIH08YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAg
-YnJlYWs7PGJyPg0KLcKgIMKgIMKgIMKgIGNhc2UgQ1NSX0lOU1RSRVQ6PGJyPg0KLcKgIMKgIMKg
-IMKgIMKgIMKgIGlmICghZ2V0X2ZpZWxkKGVudi0mZ3Q7aGNvdW50ZXJlbiwgQ09VTlRFUkVOX0lS
-KSAmYW1wOyZhbXA7PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdldF9maWVsZChlbnYt
-Jmd0O21jb3VudGVyZW4sIENPVU5URVJFTl9JUikpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgcmV0dXJuIFJJU0NWX0VYQ1BfVklSVF9JTlNUUlVDVElPTl9GQVVMVDs8YnI+DQotwqAg
-wqAgwqAgwqAgwqAgwqAgfTxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCBicmVhazs8YnI+DQotwqAg
-wqAgwqAgwqAgY2FzZSBDU1JfSFBNQ09VTlRFUjMuLi5DU1JfSFBNQ09VTlRFUjMxOjxicj4NCi3C
-oCDCoCDCoCDCoCDCoCDCoCBpZiAoIWdldF9maWVsZChlbnYtJmd0O2hjb3VudGVyZW4sIDEgJmx0
-OyZsdDsgY3RyX2luZGV4KSAmYW1wOyZhbXA7PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgZ2V0X2ZpZWxkKGVudi0mZ3Q7bWNvdW50ZXJlbiwgMSAmbHQ7Jmx0OyBjdHJfaW5kZXgpKSB7
-PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHJldHVybiBSSVNDVl9FWENQX1ZJUlRfSU5T
-VFJVQ1RJT05fRkFVTFQ7PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIH08YnI+DQotwqAgwqAgwqAg
-wqAgwqAgwqAgYnJlYWs7PGJyPg0KLcKgIMKgIMKgIMKgIH08YnI+DQotwqAgwqAgwqAgwqAgaWYg
-KHJ2MzIpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgc3dpdGNoIChjc3Jubykgezxicj4NCi3C
-oCDCoCDCoCDCoCDCoCDCoCBjYXNlIENTUl9DWUNMRUg6PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIGlmICghZ2V0X2ZpZWxkKGVudi0mZ3Q7aGNvdW50ZXJlbiwgQ09VTlRFUkVOX0NZKSAm
-YW1wOyZhbXA7PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdldF9maWVsZChl
-bnYtJmd0O21jb3VudGVyZW4sIENPVU5URVJFTl9DWSkpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgcmV0dXJuIFJJU0NWX0VYQ1BfVklSVF9JTlNUUlVDVElPTl9GQVVMVDs8
-YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCBicmVhazs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgY2FzZSBDU1JfVElNRUg6PGJyPg0K
-LcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGlmICghZ2V0X2ZpZWxkKGVudi0mZ3Q7aGNvdW50ZXJl
-biwgQ09VTlRFUkVOX1RNKSAmYW1wOyZhbXA7PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIGdldF9maWVsZChlbnYtJmd0O21jb3VudGVyZW4sIENPVU5URVJFTl9UTSkpIHs8YnI+
-DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmV0dXJuIFJJU0NWX0VYQ1BfVklSVF9J
-TlNUUlVDVElPTl9GQVVMVDs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCi3C
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBicmVhazs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgY2Fz
-ZSBDU1JfSU5TVFJFVEg6PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGlmICghZ2V0X2Zp
-ZWxkKGVudi0mZ3Q7aGNvdW50ZXJlbiwgQ09VTlRFUkVOX0lSKSAmYW1wOyZhbXA7PGJyPg0KLcKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdldF9maWVsZChlbnYtJmd0O21jb3VudGVyZW4s
-IENPVU5URVJFTl9JUikpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmV0
-dXJuIFJJU0NWX0VYQ1BfVklSVF9JTlNUUlVDVElPTl9GQVVMVDs8YnI+DQotwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgfTxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBicmVhazs8YnI+DQot
-wqAgwqAgwqAgwqAgwqAgwqAgY2FzZSBDU1JfSFBNQ09VTlRFUjNILi4uQ1NSX0hQTUNPVU5URVIz
-MUg6PGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGlmICghZ2V0X2ZpZWxkKGVudi0mZ3Q7
-aGNvdW50ZXJlbiwgMSAmbHQ7Jmx0OyBjdHJfaW5kZXgpICZhbXA7JmFtcDs8YnI+DQotwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBnZXRfZmllbGQoZW52LSZndDttY291bnRlcmVuLCAx
-ICZsdDsmbHQ7IGN0cl9pbmRleCkpIHs8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgcmV0dXJuIFJJU0NWX0VYQ1BfVklSVF9JTlNUUlVDVElPTl9GQVVMVDs8YnI+DQotwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBicmVhazs8
-YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCivCoCDCoCDCoCDCoCBpZiAoIWdldF9maWVs
-ZChlbnYtJmd0O21jb3VudGVyZW4sIGN0cl9tYXNrKSkgezxicj4NCivCoCDCoCDCoCDCoCDCoCDC
-oCAvKiBUaGUgYml0IG11c3QgYmUgc2V0IGluIG1jb3VudGVybiBmb3IgSFMgbW9kZSBhY2Nlc3Mg
-Ki88YnI+DQorwqAgwqAgwqAgwqAgwqAgwqAgcmV0dXJuIFJJU0NWX0VYQ1BfVklSVF9JTlNUUlVD
-VElPTl9GQVVMVDs8YnI+DQorwqAgwqAgwqAgwqAgfSBlbHNlIGlmICghZ2V0X2ZpZWxkKGVudi0m
-Z3Q7aGNvdW50ZXJlbiwgY3RyX21hc2spKSB7PGJyPg0KK8KgIMKgIMKgIMKgIMKgIMKgIHJldHVy
-biBSSVNDVl9FWENQX1ZJUlRfSU5TVFJVQ1RJT05fRkFVTFQ7PGJyPg0KwqAgwqAgwqAgwqAgwqB9
-PGJyPg0KwqAgwqAgwqB9PGJyPg0KwqAjZW5kaWY8YnI+DQotLSA8YnI+DQoyLjI1LjE8YnI+DQo8
-YnI+DQo8YnI+DQo8L2Jsb2NrcXVvdGU+PC9kaXY+PC9kaXY+DQo=
---00000000000022bb8105dfd37940--
 
