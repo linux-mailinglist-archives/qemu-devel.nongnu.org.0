@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94ED534482
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:48:10 +0200 (CEST)
-Received: from localhost ([::1]:46220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D2B53448B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:49:44 +0200 (CEST)
+Received: from localhost ([::1]:50664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntwzK-0004Fs-0L
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47512)
+	id 1ntx0q-0007IU-27
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:49:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwhF-0005VL-Aw
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47119)
+ id 1ntwhH-0005YV-1p
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwhC-0003rs-Lp
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:29 -0400
+ id 1ntwhF-0003sA-9t
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653506966;
+ s=mimecast20190719; t=1653506968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EwHG27W5JtNl87FocLffTvijVYGVARLLmOjbH0L9euw=;
- b=inKt9Mynp9/RWIsfJL6FESHbWDKoeenyoAOsgdCKCFMrTePfwcnRrYn0qTfqQnz6sA6Jpi
- dj9KK3lsauiPr6TyPohThXM5RTtNlZ5IkjJ6WSyQkKJ2L3G3c9AdzPING1EiL52//ceiUJ
- 9isBT3SSvAycZPLz3Gjw3IZBZzhGR28=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gG9nneWWyjnupUUg6wVGpKu/gWNRRTAvNAqk45p9EZU=;
+ b=datWObJ9ynHuEV7Yg0bi/cpkkPgZvt8rV5Yi1joj3IMzHBsrLVBT6MuWXJvw6TzZI3a+xG
+ e4hIYtJZetcVFfNzjGN2ZQiv4cKXZSO5w0WTFbTv/9lZzWT0j57Ha19JKORTyZqTFDeu8t
+ yxBLxjU1M1839fmMevRkZBJ4f6p8ztg=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-JuFEIZp4NYebkML8oA7PUg-1; Wed, 25 May 2022 15:29:25 -0400
-X-MC-Unique: JuFEIZp4NYebkML8oA7PUg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- k7-20020a1709062a4700b006fe92440164so9212716eje.23
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:24 -0700 (PDT)
+ us-mta-554-Hqt4PTxbNA69lrG8KqwAmA-1; Wed, 25 May 2022 15:29:27 -0400
+X-MC-Unique: Hqt4PTxbNA69lrG8KqwAmA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ k7-20020a1709062a4700b006fe92440164so9212772eje.23
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EwHG27W5JtNl87FocLffTvijVYGVARLLmOjbH0L9euw=;
- b=DlbRz3iUwiF/iQ5dBttZuvoTN76hfa7bV5vrfbxywDO+VP6Rd+xza2DeXCPCCQsLyt
- ncF7EW06BhWcPFbPjb0l3aNAY2uwR+zSfItTLe0l0lWRxLBRcmCWyXB9P8VubC9hOeSh
- 6AxqMeNsSCfrfPEgCF9vALCuW2GfN/EylQ57yeWO3tDq//cDQkMXynMwdCffZoCVn0HU
- EBkTNMnrKm/Nfhkwg5vhlIRxYzgF2zAHDYJGW0/H04R+Zkrnl4+wVaGCU/EF7DhmOlP0
- DZa6WUzHPfIhaqFf2mCOt6gRX+b1kyvKrhQYEeQS0A2zhSvPznN8H4kOR+lIJijZhFEl
- Nddw==
-X-Gm-Message-State: AOAM530ah1D7QaV7XTmv73ZiUG7mqfTIdSvt98zGcN9fa7eCjdGDOhcR
- SB+edUfvdrYRVoMh2LDISBA8MWACM/05u4bAbUBzBxH3w+JBR3P1zUIIV4PIVwv7QxVS8i/vM4y
- qn5yr05Av1ef6sChzceaZVgxoaj+G01GF/aRq+htchCTCkhYKzywHtG7pMW306Lz3OBI=
-X-Received: by 2002:aa7:ce81:0:b0:42a:ee56:c948 with SMTP id
- y1-20020aa7ce81000000b0042aee56c948mr36042406edv.388.1653506962999; 
- Wed, 25 May 2022 12:29:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGAP06Ksg3JAO5gUgAlF+nYGwUVUeE0CeY8+9SQscdMfgn2fSoCIwIEM8ByBMkvwstlIfKOw==
-X-Received: by 2002:aa7:ce81:0:b0:42a:ee56:c948 with SMTP id
- y1-20020aa7ce81000000b0042aee56c948mr36042384edv.388.1653506962668; 
- Wed, 25 May 2022 12:29:22 -0700 (PDT)
+ bh=gG9nneWWyjnupUUg6wVGpKu/gWNRRTAvNAqk45p9EZU=;
+ b=WfFvOM7QGIzw7t/TmSM/pEyo/7xk/0d9+5J41YSeGWncAyuomdxautwku7gr0fjJI/
+ TbmVbKDsGjjCKWblCe8GSH7jUpRib8AvoSrA7ZVH1BbrCDc5wFNXBLFJhsB8z37DmMzN
+ XlHLUKyCMXAlKuBh+mf663wC6PDa6ggAFXrwdAfN3JBhV3sObIaPd5Ccrh8018/KnXEF
+ p1uSxJEq+8ma2HiMNB1g9wTV1zwFqgwViIYhZtlO/L0ZWkFdyw/jV0qp8l9HMUfFJTkm
+ qJnm+QntQvuvV3bQzyTHFwVG6daZok7ImoRdyrCbg7PB2+QHky3R9dqEp8sLCdFgdvqP
+ lyRw==
+X-Gm-Message-State: AOAM531E3iJzsdbCyDy3UDonCJNJKC05cF4MkktyopjN5NWOQY6SPoOY
+ iBzxKMEdylt1yNtHUbJZYjsX9EMeClkSpB9YRdXJWlrSx0qrskxv6RXbbjUO80ZElVNa2wOMpal
+ TZK3D/ygH7pY2JQxebdjd2btWccLQTuv8ossRgNpL1wr6g/0NLvYv8oypJEoRz9FdX5o=
+X-Received: by 2002:a17:906:478b:b0:6f8:5850:4da9 with SMTP id
+ cw11-20020a170906478b00b006f858504da9mr30080741ejc.619.1653506965690; 
+ Wed, 25 May 2022 12:29:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyhLSCDttMfLvkvrQaYCw6iwBU9fRaZX/Whp06iIRxQhr/KBB/qWOTt6MT+29oqDec8sgGOg==
+X-Received: by 2002:a17:906:478b:b0:6f8:5850:4da9 with SMTP id
+ cw11-20020a170906478b00b006f858504da9mr30080714ejc.619.1653506965345; 
+ Wed, 25 May 2022 12:29:25 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- m25-20020a1709066d1900b006fec6e1d856sm4221665ejr.82.2022.05.25.12.29.21
+ ej23-20020a056402369700b0042a2d9af0f8sm11268052edb.79.2022.05.25.12.29.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 12:29:21 -0700 (PDT)
+ Wed, 25 May 2022 12:29:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Lev Kujawski <lkujaw@member.fsf.org>
-Subject: [PULL 11/17] ide_ioport_read: Return lower octet of data register
- instead of 0xFF
-Date: Wed, 25 May 2022 21:28:46 +0200
-Message-Id: <20220525192852.301633-12-pbonzini@redhat.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: [PULL 12/17] i386: Use hv_build_cpuid_leaf() for
+ HV_CPUID_NESTED_FEATURES
+Date: Wed, 25 May 2022 21:28:47 +0200
+Message-Id: <20220525192852.301633-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525192852.301633-1-pbonzini@redhat.com>
 References: <20220525192852.301633-1-pbonzini@redhat.com>
@@ -100,67 +100,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lev Kujawski <lkujaw@member.fsf.org>
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Prior to this patch, the pre-GRUB Solaris x86 bootloader would fail to
-load on QEMU with the following screen output:
+Previously, HV_CPUID_NESTED_FEATURES.EAX CPUID leaf was handled differently
+as it was only used to encode the supported eVMCS version range. In fact,
+there are also feature (e.g. Enlightened MSR-Bitmap) bits there. In
+preparation to adding these features, move HV_CPUID_NESTED_FEATURES leaf
+handling to hv_build_cpuid_leaf() and drop now-unneeded 'hyperv_nested'.
 
-SunOS Secondary Boot version 3.00
+No functional change intended.
 
-prom_panic: Could not mount filesystem.
-Entering boot debugger:
-[136419]: _
-
-This occurs because the bootloader issues an ATA IDENTIFY DEVICE
-command, and then reads the resulting 256 words of parameter
-information using inb rather than the correct inw. As the previous
-behavior of QEMU was to return 0xFF and not advance the drive's sector
-buffer, DRQ would never be cleared and the bootloader would be blocked
-from selecting a secondary ATA device, such as an optical drive.
-
-Resolves:
-* [Bug 1639394] Unable to boot Solaris 8/9 x86 under Fedora 24
-
-Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
-Message-Id: <20220520235200.1138450-1-lkujaw@member.fsf.org>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Message-Id: <20220525115949.1294004-2-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/ide/core.c  | 6 +++++-
- hw/ide/macio.c | 4 +++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ target/i386/cpu.h     |  1 -
+ target/i386/kvm/kvm.c | 25 +++++++++++++++----------
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 3a5afff5d7..c2caa54285 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -2166,7 +2166,11 @@ uint32_t ide_ioport_read(void *opaque, uint32_t addr)
-     hob = bus->cmd & (IDE_CTRL_HOB);
-     switch (reg_num) {
-     case ATA_IOPORT_RR_DATA:
--        ret = 0xff;
-+        /*
-+         * The pre-GRUB Solaris x86 bootloader relies upon inb
-+         * consuming a word from the drive's sector buffer.
-+         */
-+        ret = ide_data_readw(bus, addr) & 0xff;
-         break;
-     case ATA_IOPORT_RR_ERROR:
-         if ((!bus->ifs[0].blk && !bus->ifs[1].blk) ||
-diff --git a/hw/ide/macio.c b/hw/ide/macio.c
-index f08318cf97..1c15c37ec5 100644
---- a/hw/ide/macio.c
-+++ b/hw/ide/macio.c
-@@ -267,7 +267,9 @@ static uint64_t pmac_ide_read(void *opaque, hwaddr addr, unsigned size)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 0d528ac58f..2e918daf6b 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1804,7 +1804,6 @@ struct ArchCPU {
+     uint32_t hyperv_vendor_id[3];
+     uint32_t hyperv_interface_id[4];
+     uint32_t hyperv_limits[3];
+-    uint32_t hyperv_nested[4];
+     bool hyperv_enforce_cpuid;
+     uint32_t hyperv_ver_id_build;
+     uint16_t hyperv_ver_id_major;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index e2d675115b..38af0e4f04 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -831,6 +831,8 @@ static bool tsc_is_stable_and_known(CPUX86State *env)
+         || env->user_tsc_khz;
+ }
  
-     switch (reg) {
-     case 0x0:
--        if (size == 2) {
-+        if (size == 1) {
-+            retval = ide_data_readw(&d->bus, 0) & 0xFF;
-+        } else if (size == 2) {
-             retval = ide_data_readw(&d->bus, 0);
-         } else if (size == 4) {
-             retval = ide_data_readl(&d->bus, 0);
++#define DEFAULT_EVMCS_VERSION ((1 << 8) | 1)
++
+ static struct {
+     const char *desc;
+     struct {
+@@ -1254,6 +1256,13 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
+         }
+     }
+ 
++    /* HV_CPUID_NESTED_FEATURES.EAX also encodes the supported eVMCS range */
++    if (func == HV_CPUID_NESTED_FEATURES && reg == R_EAX) {
++        if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
++            r |= DEFAULT_EVMCS_VERSION;
++        }
++    }
++
+     return r;
+ }
+ 
+@@ -1384,11 +1393,11 @@ static int hyperv_fill_cpuids(CPUState *cs,
+     struct kvm_cpuid_entry2 *c;
+     uint32_t signature[3];
+     uint32_t cpuid_i = 0, max_cpuid_leaf = 0;
++    uint32_t nested_eax =
++        hv_build_cpuid_leaf(cs, HV_CPUID_NESTED_FEATURES, R_EAX);
+ 
+-    max_cpuid_leaf = HV_CPUID_IMPLEMENT_LIMITS;
+-    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
+-        max_cpuid_leaf = MAX(max_cpuid_leaf, HV_CPUID_NESTED_FEATURES);
+-    }
++    max_cpuid_leaf = nested_eax ? HV_CPUID_NESTED_FEATURES :
++        HV_CPUID_IMPLEMENT_LIMITS;
+ 
+     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNDBG)) {
+         max_cpuid_leaf =
+@@ -1461,7 +1470,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
+     c->ecx = cpu->hyperv_limits[1];
+     c->edx = cpu->hyperv_limits[2];
+ 
+-    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
++    if (nested_eax) {
+         uint32_t function;
+ 
+         /* Create zeroed 0x40000006..0x40000009 leaves */
+@@ -1473,7 +1482,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
+ 
+         c = &cpuid_ent[cpuid_i++];
+         c->function = HV_CPUID_NESTED_FEATURES;
+-        c->eax = cpu->hyperv_nested[0];
++        c->eax = nested_eax;
+     }
+ 
+     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNDBG)) {
+@@ -1522,8 +1531,6 @@ static bool evmcs_version_supported(uint16_t evmcs_version,
+         (max_version <= max_supported_version);
+ }
+ 
+-#define DEFAULT_EVMCS_VERSION ((1 << 8) | 1)
+-
+ static int hyperv_init_vcpu(X86CPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
+@@ -1620,8 +1627,6 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+                          supported_evmcs_version >> 8);
+             return -ENOTSUP;
+         }
+-
+-        cpu->hyperv_nested[0] = evmcs_version;
+     }
+ 
+     if (cpu->hyperv_enforce_cpuid) {
 -- 
 2.36.1
 
