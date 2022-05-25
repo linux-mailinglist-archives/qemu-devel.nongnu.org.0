@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2D653411C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:12:32 +0200 (CEST)
-Received: from localhost ([::1]:44428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BDA534151
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:20:36 +0200 (CEST)
+Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nttcd-0000Mh-1e
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1nttkR-0005v3-Gp
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttSR-000742-OL; Wed, 25 May 2022 12:02:02 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:40143
+ id 1nttSV-00074a-Lr; Wed, 25 May 2022 12:02:07 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:48649
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttSN-00048z-F3; Wed, 25 May 2022 12:01:57 -0400
+ id 1nttSR-00049O-L0; Wed, 25 May 2022 12:02:03 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRP08MHz4ySn;
- Thu, 26 May 2022 02:01:53 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRR44pYz4xDK;
+ Thu, 26 May 2022 02:01:55 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRL4qmFz4xXj;
- Thu, 26 May 2022 02:01:50 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRP3qNdz4xXj;
+ Thu, 26 May 2022 02:01:53 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Iris Chen <irischenlj@fb.com>,
- Thomas Huth <thuth@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Francisco Iglesias <frasse.iglesias@gmail.com>
-Subject: [PULL 04/15] hw: m25p80: allow write_enable latch get/set
-Date: Wed, 25 May 2022 18:01:25 +0200
-Message-Id: <20220525160136.556277-5-clg@kaod.org>
+ Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>
+Subject: [PULL 05/15] aspeed: Introduce a get_irq AspeedSoCClass method
+Date: Wed, 25 May 2022 18:01:26 +0200
+Message-Id: <20220525160136.556277-6-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220525160136.556277-1-clg@kaod.org>
 References: <20220525160136.556277-1-clg@kaod.org>
@@ -67,239 +66,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Iris Chen <irischenlj@fb.com>
+and make routine aspeed_soc_get_irq() common to all SoCs. This will be
+useful to share code.
 
-The write_enable latch property is not currently exposed.
-This commit makes it a modifiable property.
-
-Signed-off-by: Iris Chen <irischenlj@fb.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Message-Id: <20220513055022.951759-1-irischenlj@fb.com>
+Cc: Jamin Lin <jamin_lin@aspeedtech.com>
+Cc: Peter Delevoryas <pdel@fb.com>
+Reviewed-by: Peter Delevoryas <pdel@fb.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20220516055620.2380197-1-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/qtest/libqtest.h         | 22 +++++++++++++++++
- hw/block/m25p80.c              |  1 +
- tests/qtest/aspeed_gpio-test.c | 40 +++++++------------------------
- tests/qtest/aspeed_smc-test.c  | 43 ++++++++++++++++++++++++++++++++++
- tests/qtest/libqtest.c         | 24 +++++++++++++++++++
- 5 files changed, 98 insertions(+), 32 deletions(-)
+ include/hw/arm/aspeed_soc.h |  3 +++
+ hw/arm/aspeed_ast10x0.c     |  5 +++--
+ hw/arm/aspeed_ast2600.c     |  5 +++--
+ hw/arm/aspeed_soc.c         | 13 ++++++++++---
+ 4 files changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-index 4ab0cad3266d..94b187837d3f 100644
---- a/tests/qtest/libqtest.h
-+++ b/tests/qtest/libqtest.h
-@@ -783,4 +783,26 @@ QTestState *qtest_inproc_init(QTestState **s, bool log, const char* arch,
-                     void (*send)(void*, const char*));
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index e13af374b923..3789f38603e5 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -94,6 +94,7 @@ struct AspeedSoCClass {
+     const int *irqmap;
+     const hwaddr *memmap;
+     uint32_t num_cpus;
++    qemu_irq (*get_irq)(AspeedSoCState *s, int dev);
+ };
  
- void qtest_client_inproc_recv(void *opaque, const char *str);
+ 
+@@ -153,4 +154,6 @@ enum {
+     ASPEED_DEV_I3C,
+ };
+ 
++qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
 +
-+/**
-+ * qtest_qom_set_bool:
-+ * @s: QTestState instance to operate on.
-+ * @path: Path to the property being set.
-+ * @property: Property being set.
-+ * @value: Value to set the property.
-+ *
-+ * Set the property with passed in value.
-+ */
-+void qtest_qom_set_bool(QTestState *s, const char *path, const char *property,
-+                         bool value);
-+
-+/**
-+ * qtest_qom_get_bool:
-+ * @s: QTestState instance to operate on.
-+ * @path: Path to the property being retrieved.
-+ * @property: Property from where the value is being retrieved.
-+ *
-+ * Returns: Value retrieved from property.
-+ */
-+bool qtest_qom_get_bool(QTestState *s, const char *path, const char *property);
- #endif
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 7d3d8b12e01f..81ba3da4df10 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -1533,6 +1533,7 @@ static int m25p80_pre_save(void *opaque)
+ #endif /* ASPEED_SOC_H */
+diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+index 427154928254..9ae9efaac144 100644
+--- a/hw/arm/aspeed_ast10x0.c
++++ b/hw/arm/aspeed_ast10x0.c
+@@ -61,11 +61,11 @@ static const int aspeed_soc_ast1030_irqmap[] = {
+     [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
+ };
  
- static Property m25p80_properties[] = {
-     /* This is default value for Micron flash */
-+    DEFINE_PROP_BOOL("write-enable", Flash, write_enable, false),
-     DEFINE_PROP_UINT32("nonvolatile-cfg", Flash, nonvolatile_cfg, 0x8FFF),
-     DEFINE_PROP_UINT8("spansion-cr1nv", Flash, spansion_cr1nv, 0x0),
-     DEFINE_PROP_UINT8("spansion-cr2nv", Flash, spansion_cr2nv, 0x8),
-diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
-index c1003f2d1bc4..bac63e8742f4 100644
---- a/tests/qtest/aspeed_gpio-test.c
-+++ b/tests/qtest/aspeed_gpio-test.c
-@@ -28,30 +28,6 @@
- #include "qapi/qmp/qdict.h"
- #include "libqtest-single.h"
- 
--static bool qom_get_bool(QTestState *s, const char *path, const char *property)
--{
--    QDict *r;
--    bool b;
--
--    r = qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
--                     "{ 'path': %s, 'property': %s } }", path, property);
--    b = qdict_get_bool(r, "return");
--    qobject_unref(r);
--
--    return b;
--}
--
--static void qom_set_bool(QTestState *s, const char *path, const char *property,
--                         bool value)
--{
--    QDict *r;
--
--    r = qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
--                     "{ 'path': %s, 'property': %s, 'value': %i } }",
--                     path, property, value);
--    qobject_unref(r);
--}
--
- static void test_set_colocated_pins(const void *data)
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
  {
-     QTestState *s = (QTestState *)data;
-@@ -60,14 +36,14 @@ static void test_set_colocated_pins(const void *data)
-      * gpioV4-7 occupy bits within a single 32-bit value, so we want to make
-      * sure that modifying one doesn't affect the other.
-      */
--    qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
--    qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
--    qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
--    qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
--    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
--    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
--    g_assert(qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
--    g_assert(!qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
-+    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV4", true);
-+    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV5", false);
-+    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV6", true);
-+    qtest_qom_set_bool(s, "/machine/soc/gpio", "gpioV7", false);
-+    g_assert(qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV4"));
-+    g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV5"));
-+    g_assert(qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV6"));
-+    g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+-    return qdev_get_gpio_in(DEVICE(&s->armv7m), sc->irqmap[ctrl]);
++    return qdev_get_gpio_in(DEVICE(&s->armv7m), sc->irqmap[dev]);
  }
  
- int main(int argc, char **argv)
-diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-index 87b40a0ef186..ec233315e6c6 100644
---- a/tests/qtest/aspeed_smc-test.c
-+++ b/tests/qtest/aspeed_smc-test.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "qemu/bswap.h"
- #include "libqtest-single.h"
-+#include "qemu/bitops.h"
- 
- /*
-  * ASPEED SPI Controller registers
-@@ -40,6 +41,7 @@
- #define   CTRL_FREADMODE       0x1
- #define   CTRL_WRITEMODE       0x2
- #define   CTRL_USERMODE        0x3
-+#define SR_WEL BIT(1)
- 
- #define ASPEED_FMC_BASE    0x1E620000
- #define ASPEED_FLASH_BASE  0x20000000
-@@ -49,6 +51,8 @@
-  */
- enum {
-     JEDEC_READ = 0x9f,
-+    RDSR = 0x5,
-+    WRDI = 0x4,
-     BULK_ERASE = 0xc7,
-     READ = 0x03,
-     PP = 0x02,
-@@ -348,6 +352,44 @@ static void test_write_page_mem(void)
-     flash_reset();
+ static void aspeed_soc_ast1030_init(Object *obj)
+@@ -280,6 +280,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+     sc->irqmap = aspeed_soc_ast1030_irqmap;
+     sc->memmap = aspeed_soc_ast1030_memmap;
+     sc->num_cpus = 1;
++    sc->get_irq = aspeed_soc_ast1030_get_irq;
  }
  
-+static void test_read_status_reg(void)
-+{
-+    uint8_t r;
-+
-+    spi_conf(CONF_ENABLE_W0);
-+
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r = readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+
-+    g_assert_cmphex(r & SR_WEL, ==, 0);
-+    g_assert(!qtest_qom_get_bool
-+            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-enable"));
-+
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r = readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+
-+    g_assert_cmphex(r & SR_WEL, ==, SR_WEL);
-+    g_assert(qtest_qom_get_bool
-+            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-enable"));
-+
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, WRDI);
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r = readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+
-+    g_assert_cmphex(r & SR_WEL, ==, 0);
-+    g_assert(!qtest_qom_get_bool
-+            (global_qtest, "/machine/soc/fmc/ssi.0/child[0]", "write-enable"));
-+
-+    flash_reset();
-+}
-+
- static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
+ static const TypeInfo aspeed_soc_ast1030_type_info = {
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index eedda7badc37..4161a0cc4bbe 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -114,11 +114,11 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+     [ASPEED_DEV_I3C]       = 102,   /* 102 -> 107 */
+ };
  
- int main(int argc, char **argv)
-@@ -373,6 +415,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/ast2400/smc/write_page", test_write_page);
-     qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
-     qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
-+    qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast2600_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
  
-     ret = g_test_run();
- 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 2e496184549d..8c159eacf5ed 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1440,3 +1440,27 @@ void qtest_client_inproc_recv(void *opaque, const char *str)
-     g_string_append(qts->rx, str);
-     return;
+-    return qdev_get_gpio_in(DEVICE(&s->a7mpcore), sc->irqmap[ctrl]);
++    return qdev_get_gpio_in(DEVICE(&s->a7mpcore), sc->irqmap[dev]);
  }
+ 
+ static void aspeed_soc_ast2600_init(Object *obj)
+@@ -572,6 +572,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2600_irqmap;
+     sc->memmap       = aspeed_soc_ast2600_memmap;
+     sc->num_cpus     = 2;
++    sc->get_irq      = aspeed_soc_ast2600_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2600_type_info = {
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 58714cb2a01d..c339b5c74de5 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -121,11 +121,11 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+ 
+ #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
+ 
+-static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
++static qemu_irq aspeed_soc_ast2400_get_irq(AspeedSoCState *s, int dev)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+ 
+-    return qdev_get_gpio_in(DEVICE(&s->vic), sc->irqmap[ctrl]);
++    return qdev_get_gpio_in(DEVICE(&s->vic), sc->irqmap[dev]);
+ }
+ 
+ static void aspeed_soc_init(Object *obj)
+@@ -487,6 +487,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2400_irqmap;
+     sc->memmap       = aspeed_soc_ast2400_memmap;
+     sc->num_cpus     = 1;
++    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2400_type_info = {
+@@ -512,6 +513,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
+     sc->irqmap       = aspeed_soc_ast2500_irqmap;
+     sc->memmap       = aspeed_soc_ast2500_memmap;
+     sc->num_cpus     = 1;
++    sc->get_irq      = aspeed_soc_ast2400_get_irq;
+ }
+ 
+ static const TypeInfo aspeed_soc_ast2500_type_info = {
+@@ -528,4 +530,9 @@ static void aspeed_soc_register_types(void)
+     type_register_static(&aspeed_soc_ast2500_type_info);
+ };
+ 
+-type_init(aspeed_soc_register_types)
++type_init(aspeed_soc_register_types);
 +
-+void qtest_qom_set_bool(QTestState *s, const char *path, const char *property,
-+                         bool value)
++qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
 +{
-+    QDict *r;
-+
-+    r = qtest_qmp(s, "{ 'execute': 'qom-set', 'arguments': "
-+                     "{ 'path': %s, 'property': %s, 'value': %i } }",
-+                     path, property, value);
-+    qobject_unref(r);
-+}
-+
-+bool qtest_qom_get_bool(QTestState *s, const char *path, const char *property)
-+{
-+    QDict *r;
-+    bool b;
-+
-+    r = qtest_qmp(s, "{ 'execute': 'qom-get', 'arguments': "
-+                     "{ 'path': %s, 'property': %s } }", path, property);
-+    b = qdict_get_bool(r, "return");
-+    qobject_unref(r);
-+
-+    return b;
++    return ASPEED_SOC_GET_CLASS(s)->get_irq(s, dev);
 +}
 -- 
 2.35.3
