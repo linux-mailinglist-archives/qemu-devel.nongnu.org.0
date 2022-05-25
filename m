@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E21B534241
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 19:35:51 +0200 (CEST)
-Received: from localhost ([::1]:58376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3825A534258
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 19:44:25 +0200 (CEST)
+Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntuvG-0008Ex-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 13:35:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55014)
+	id 1ntv3X-0000PW-SL
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 13:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntusg-0005cg-Kg
- for qemu-devel@nongnu.org; Wed, 25 May 2022 13:33:10 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52718)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ntuts-0007ut-Ag
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 13:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ntusd-0002Ib-Qo
- for qemu-devel@nongnu.org; Wed, 25 May 2022 13:33:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=woKDVkigAV02NSwbOVwI5aZKhHJTbOMMluSz0lsTcDc=; b=Pa2p4v13CKhozGQwss87N5RXrf
- gHCeE0W/fZcP9X83MnDqtgfPBA5sj3Z73V9mWRcpEW6QOHDWaVeUARPeznEpL/arMphmewpYmL6R4
- GlvJY3/47LyKqLL+YPjNxTupe4AbAOCQsKFpl7TiQxitwQ94EFRqmMaZWNPfih4YFvRWAmvR74v1K
- 26a9VNYnhGBTiJbb8/PDBd6Zedd35yBS/KEcKfeK4ROC0e2o0XVV3a2c5lNZS58wr/WdmqR7dIuKl
- 60HgPkJYaslY9UHdBBd6//S6E2ZdDJyKd/66jM0suB+CXK5iLwzLwB8iHVmcB91lw4TNuWtCeHTPC
- yZ/ZK+wXPlRRExeaLsMZ49UknPncWUCorgZpf4DP9/FeBVMbl+ArKFPAtRTgSBdsgUj96WP2Nu0O3
- +DPeA0Ca60ZVbDaF5iNtmG01VXf5SajR8bi9XuTSSOzL4IqOaDo15lhvyko07BJs40s2IVL7PMd+G
- Djpu0mSqN8ez4lZ4BSmIYWFDbUjd9GzN0nPS928+BPR3UyG/txLsJzAnR4SrzBOYjisyG9M8zARVB
- 1sm30mtxG8d/t9vgu+fXR9aqWmWmX0HsoSC0GHJMBmia41NAnly9kvXOacL4lxKkZzKn/MM0X2nFA
- Lb0MCPr1VcmFkmBlmQtKLAlLN+40Y/PtR3IVdnmhU=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nturY-0006Pu-VD; Wed, 25 May 2022 18:32:05 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
- jean-philippe@linaro.org, qemu-devel@nongnu.org
-Date: Wed, 25 May 2022 18:32:32 +0100
-Message-Id: <20220525173232.31429-7-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220525173232.31429-1-mark.cave-ayland@ilande.co.uk>
-References: <20220525173232.31429-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ntutk-0002S6-Uh
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 13:34:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653500055;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WcAQa9q9JQZJfjRfAG/dAoVAFml5Yzn56MKbJWuSlyo=;
+ b=AbU3RhIVArnmeLlae7f/cji7wXpp/PoP+2tkbrjrGOWZ+OeiURkOiO1NYal+iXN0K1yAbw
+ djp6e4HWhsXb/fLK8TxVvVyLftBfCfG8exLKd7cq3gSPJESF6Np3iGSLmQpGz1osVNg9BS
+ Lphblpp5G23gfxeSZFML2uX7dVgaiDU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-607-IOiZ9oGJOCOPTQ3Xcht9og-1; Wed, 25 May 2022 13:34:13 -0400
+X-MC-Unique: IOiZ9oGJOCOPTQ3Xcht9og-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E98D7185A794;
+ Wed, 25 May 2022 17:34:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FE792166B26;
+ Wed, 25 May 2022 17:34:12 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, f4bug@amsat.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH] gitlab-ci: add meson JUnit test result into report
+Date: Wed, 25 May 2022 19:34:11 +0200
+Message-Id: <20220525173411.612224-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 6/6] tests/acpi: virt: update golden masters for VIOT
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,74 +81,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Differences between disassembled ASL files for VIOT:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-+++ /tmp/asl-V69GM1.dsl 2022-05-18 10:22:27.239796759 +0100
-@@ -36,11 +36,11 @@
- [041h 0065   1]                     Reserved : 00
- [042h 0066   2]                       Length : 0018
-
--[044h 0068   4]               Endpoint start : 00003000
-+[044h 0068   4]               Endpoint start : 00001000
- [048h 0072   2]            PCI Segment start : 0000
- [04Ah 0074   2]              PCI Segment end : 0000
--[04Ch 0076   2]                PCI BDF start : 3000
--[04Eh 0078   2]                  PCI BDF end : 30FF
-+[04Ch 0076   2]                PCI BDF start : 1000
-+[04Eh 0078   2]                  PCI BDF end : 10FF
- [050h 0080   2]                  Output node : 0030
- [052h 0082   6]                     Reserved : 000000000000
-
-@@ -48,11 +48,11 @@
- [059h 0089   1]                     Reserved : 00
- [05Ah 0090   2]                       Length : 0018
-
--[05Ch 0092   4]               Endpoint start : 00001000
-+[05Ch 0092   4]               Endpoint start : 00003000
- [060h 0096   2]            PCI Segment start : 0000
- [062h 0098   2]              PCI Segment end : 0000
--[064h 0100   2]                PCI BDF start : 1000
--[066h 0102   2]                  PCI BDF end : 10FF
-+[064h 0100   2]                PCI BDF start : 3000
-+[066h 0102   2]                  PCI BDF end : 30FF
- [068h 0104   2]                  Output node : 0030
- [06Ah 0106   6]                     Reserved : 000000000000
-
-@@ -62,6 +62,6 @@
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 03 00 30 00 00 00 00 00 00 00 00 00  // ......0.........
-     0030: 03 00 10 00 00 00 10 00 00 00 00 00 00 00 00 00  // ................
--    0040: 01 00 18 00 00 30 00 00 00 00 00 00 00 30 FF 30  // .....0.......0.0
--    0050: 30 00 00 00 00 00 00 00 01 00 18 00 00 10 00 00  // 0...............
--    0060: 00 00 00 00 00 10 FF 10 30 00 00 00 00 00 00 00  // ........0.......
-+    0040: 01 00 18 00 00 10 00 00 00 00 00 00 00 10 FF 10  // ................
-+    0050: 30 00 00 00 00 00 00 00 01 00 18 00 00 30 00 00  // 0............0..
-+    0060: 00 00 00 00 00 30 FF 30 30 00 00 00 00 00 00 00  // .....0.00.......
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/data/acpi/q35/VIOT.viot               | Bin 112 -> 112 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
+ .gitlab-ci.d/buildtest-template.yml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
-index 9b179266ccbf84f1c250ee646812d17e27987764..275c78fbe8e93190321d957c91c3f17551f865d4 100644
-GIT binary patch
-delta 10
-RcmXRYnBY1wR(PU=1OOI`1E2r^
-
-delta 10
-RcmXRYnBY1wR(PU=1OOI`1E2r^
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 8367ffe1d4..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/VIOT",
+diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+index dc6d67aacf..b381345dbc 100644
+--- a/.gitlab-ci.d/buildtest-template.yml
++++ b/.gitlab-ci.d/buildtest-template.yml
+@@ -44,6 +44,8 @@
+     expire_in: 7 days
+     paths:
+       - build/meson-logs/testlog.txt
++    reports:
++      junit: build/meson-logs/testlog.junit.xml
+ 
+ .avocado_test_job_template:
+   extends: .common_test_job_template
 -- 
-2.20.1
+2.36.1
 
 
