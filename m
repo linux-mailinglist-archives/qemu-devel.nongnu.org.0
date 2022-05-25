@@ -2,86 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E5B533E4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 15:53:30 +0200 (CEST)
-Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB15533E53
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 15:56:36 +0200 (CEST)
+Received: from localhost ([::1]:59342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntrS5-0006kg-0O
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 09:53:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
+	id 1ntrV4-0002AB-LW
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 09:56:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ntrOY-0004CR-8g
- for qemu-devel@nongnu.org; Wed, 25 May 2022 09:49:50 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ntrOW-0004Dc-LA
- for qemu-devel@nongnu.org; Wed, 25 May 2022 09:49:49 -0400
-Received: by mail-ej1-x636.google.com with SMTP id q21so21625532ejm.1
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 06:49:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dhVVJJNiGt4HH9joYfV8GIlYf82l8A6la2fDpzonC2g=;
- b=LYFLM1hhkx6zaVln1xlUYfDRZz4T+++MePapEz+w/ZTZFFaU9SINJOakmtnt9PMVLu
- 0w6sIVpVFQXdZ4gr8nkFfzBZi+vz/UxIIHTnieqhFP/961hce2rS8YdJJb6hOFzhLjvw
- gBNOYiGjF99SSa2PKgaVJhLMD6CIlgo2e5l3aP2z+L5oQqnAc80aJ8uHSNqp4lo/LPlN
- bJaZOHF6VbfMH36GEpNwssr9nG0GXebDBGQWK2fjV4UsL9KQtG8s4UexlQhsNklL/srX
- uQfXH835HhXwNQD4lfq+EXNI2lLuACyLoJh6Sc0LSdHOEE2KiWyQ9fpYueQDtyt2rkng
- RTQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dhVVJJNiGt4HH9joYfV8GIlYf82l8A6la2fDpzonC2g=;
- b=6ZW91hx42ac/cgRKgVF4hEwtvO7VOD0v++ZoPgG+MoHiZrkvSuFtBTm/NxD3l6L2MQ
- lfiNcOdfIMqCeWTZL/NL7zw9o2OBmAGRLU6XE62cFxLzo4jpCvPBlYJqdkNJ8+Oj9bv0
- G8YI5XVRwWLjwFZOzZ3MHhTiGQ+/NB1q9uRbDUvBCj0Wboq/lhSLpoQ8ZcoF7URvioDF
- qBhl4hkly8L2kf0Binp1e1y8rLosv0Q9xJIgElmzE2o+olzOPVdYPk58G6YhzJtvs0bK
- 9zTfcCTNdna5ZLDgLh8gAGWKMjYrkgfsY2qZbtkCK7/0tyGe6AuEiA8G3g19Jn0eke+9
- 100A==
-X-Gm-Message-State: AOAM533+x1S9f+4faLFAYeMK9zY7PXW2VAmqfYn/waiIeTl2uYoCQisu
- pgNvtEzvQWV1Wew97F2Ue7dYIxkZaySY0Q==
-X-Google-Smtp-Source: ABdhPJx7IibnvQY+PtkYjZizv4OXfZdkvgFfn50+jSiPRWsD8+2odVE+zOGXnywDcEGKuC7Yu2CPTA==
-X-Received: by 2002:a17:907:3e9d:b0:6fe:e980:d3de with SMTP id
- hs29-20020a1709073e9d00b006fee980d3demr13663872ejc.586.1653486587107; 
- Wed, 25 May 2022 06:49:47 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- jl11-20020a17090775cb00b006fe98fb9523sm6178108ejc.129.2022.05.25.06.49.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 May 2022 06:49:46 -0700 (PDT)
-Message-ID: <9c56b296-f51e-d290-df35-85bc4254cd0f@redhat.com>
-Date: Wed, 25 May 2022 15:49:45 +0200
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ntrOo-0004W1-KU; Wed, 25 May 2022 09:50:06 -0400
+Received: from [187.72.171.209] (port=41510 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ntrOm-0004Ec-Ro; Wed, 25 May 2022 09:50:06 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 25 May 2022 10:49:55 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 4B3D2800761;
+ Wed, 25 May 2022 10:49:55 -0300 (-03)
+From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+To: qemu-ppc@nongnu.org
+Cc: richard.henderson@linaro.org, clg@kaod.org, danielhb413@gmail.com,
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH RESEND v3 1/8] target/ppc: Implemented vector divide
+ instructions
+Date: Wed, 25 May 2022 10:49:47 -0300
+Message-Id: <20220525134954.85056-2-lucas.araujo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220525134954.85056-1-lucas.araujo@eldorado.org.br>
+References: <20220525134954.85056-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: Problem running qos-test when building with gcc12 and LTO
-Content-Language: en-US
-To: Dario Faggioli <dfaggioli@suse.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: Claudio Fontana <Claudio.Fontana@suse.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
-References: <1d3bbff9e92e7c8a24db9e140dcf3f428c2df103.camel@suse.com>
- <24c61f36e23339cb1ab80b41e906ea60a0d67d2a.camel@suse.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <24c61f36e23339cb1ab80b41e906ea60a0d67d2a.camel@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 25 May 2022 13:49:55.0578 (UTC)
+ FILETIME=[50F275A0:01D8703E]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,24 +64,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/22 22:12, Dario Faggioli wrote:
-> Ok, apparently, v6.2.0 works (with GCC 12 and LTO), while as said
-> v7.0.0 doesn't.
-> 
-> Therefore, I run a bisect, and it pointed at:
-> 
-> 8dcb404bff6d9147765d7dd3e9c8493372186420
-> tests/qtest: enable more vhost-user tests by default
-> 
-> I've also confirmed that on v7.0.0 with 8dcb404bff6d914 reverted, the
-> test actually works.
-> 
-> As far as downstream packaging is concerned, I'll revert it locally.
-> But I'd be happy to help figuring our what is actually going wrong.
-> 
-> I'll try to dig further. Any idea/suggestion anyone has, feel free.:-)
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Does valgrind point out anything suspicious?
+Implement the following PowerISA v3.1 instructions:
+vdivsw: Vector Divide Signed Word
+vdivuw: Vector Divide Unsigned Word
+vdivsd: Vector Divide Signed Doubleword
+vdivud: Vector Divide Unsigned Doubleword
 
-Paolo
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+---
+ target/ppc/insn32.decode            |  7 +++
+ target/ppc/translate/vmx-impl.c.inc | 85 +++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 18a94fa3b5..6df405e398 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -786,3 +786,10 @@ XVF64GERPP      111011 ... -- .... 0 ..... 00111010 ..-  @XX3_at xa=%xx_xa_pair
+ XVF64GERPN      111011 ... -- .... 0 ..... 10111010 ..-  @XX3_at xa=%xx_xa_pair
+ XVF64GERNP      111011 ... -- .... 0 ..... 01111010 ..-  @XX3_at xa=%xx_xa_pair
+ XVF64GERNN      111011 ... -- .... 0 ..... 11111010 ..-  @XX3_at xa=%xx_xa_pair
++
++## Vector Division Instructions
++
++VDIVSW          000100 ..... ..... ..... 00110001011    @VX
++VDIVUW          000100 ..... ..... ..... 00010001011    @VX
++VDIVSD          000100 ..... ..... ..... 00111001011    @VX
++VDIVUD          000100 ..... ..... ..... 00011001011    @VX
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index d7524c3204..4c0b1a32ec 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -3238,6 +3238,91 @@ TRANS(VMULHSD, do_vx_mulh, true , do_vx_vmulhd_i64)
+ TRANS(VMULHUW, do_vx_mulh, false, do_vx_vmulhw_i64)
+ TRANS(VMULHUD, do_vx_mulh, false, do_vx_vmulhd_i64)
+ 
++static bool do_vdiv_vmod(DisasContext *ctx, arg_VX *a, const int vece,
++                         void (*func_32)(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b),
++                         void (*func_64)(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b))
++{
++    const GVecGen3 op = {
++        .fni4 = func_32,
++        .fni8 = func_64,
++        .vece = vece
++    };
++
++    REQUIRE_VECTOR(ctx);
++
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                   avr_full_offset(a->vrb), 16, 16, &op);
++
++    return true;
++}
++
++#define DIVU32(NAME, DIV)                                               \
++static void NAME(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)                    \
++{                                                                       \
++    TCGv_i32 zero = tcg_constant_i32(0);                                \
++    TCGv_i32 one = tcg_constant_i32(1);                                 \
++    tcg_gen_movcond_i32(TCG_COND_EQ, b, b, zero, one, b);               \
++    DIV(t, a, b);                                                       \
++}
++
++#define DIVS32(NAME, DIV)                                               \
++static void NAME(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)                    \
++{                                                                       \
++    TCGv_i32 t0 = tcg_temp_new_i32();                                   \
++    TCGv_i32 t1 = tcg_temp_new_i32();                                   \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t0, a, INT32_MIN);                \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t1, b, -1);                       \
++    tcg_gen_and_i32(t0, t0, t1);                                        \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t1, b, 0);                        \
++    tcg_gen_or_i32(t0, t0, t1);                                         \
++    tcg_gen_movi_i32(t1, 0);                                            \
++    tcg_gen_movcond_i32(TCG_COND_NE, b, t0, t1, t0, b);                 \
++    DIV(t, a, b);                                                       \
++    tcg_temp_free_i32(t0);                                              \
++    tcg_temp_free_i32(t1);                                              \
++}
++
++#define DIVU64(NAME, DIV)                                               \
++static void NAME(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)                    \
++{                                                                       \
++    TCGv_i64 zero = tcg_constant_i64(0);                                \
++    TCGv_i64 one = tcg_constant_i64(1);                                 \
++    tcg_gen_movcond_i64(TCG_COND_EQ, b, b, zero, one, b);               \
++    DIV(t, a, b);                                                       \
++}
++
++#define DIVS64(NAME, DIV)                                               \
++static void NAME(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)                    \
++{                                                                       \
++    TCGv_i64 t0 = tcg_temp_new_i64();                                   \
++    TCGv_i64 t1 = tcg_temp_new_i64();                                   \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t0, a, INT64_MIN);                \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, b, -1);                       \
++    tcg_gen_and_i64(t0, t0, t1);                                        \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, b, 0);                        \
++    tcg_gen_or_i64(t0, t0, t1);                                         \
++    tcg_gen_movi_i64(t1, 0);                                            \
++    tcg_gen_movcond_i64(TCG_COND_NE, b, t0, t1, t0, b);                 \
++    DIV(t, a, b);                                                       \
++    tcg_temp_free_i64(t0);                                              \
++    tcg_temp_free_i64(t1);                                              \
++}
++
++DIVS32(do_divsw, tcg_gen_div_i32)
++DIVU32(do_divuw, tcg_gen_divu_i32)
++DIVS64(do_divsd, tcg_gen_div_i64)
++DIVU64(do_divud, tcg_gen_divu_i64)
++
++TRANS_FLAGS2(ISA310, VDIVSW, do_vdiv_vmod, MO_32, do_divsw, NULL)
++TRANS_FLAGS2(ISA310, VDIVUW, do_vdiv_vmod, MO_32, do_divuw, NULL)
++TRANS_FLAGS2(ISA310, VDIVSD, do_vdiv_vmod, MO_64, NULL, do_divsd)
++TRANS_FLAGS2(ISA310, VDIVUD, do_vdiv_vmod, MO_64, NULL, do_divud)
++
++#undef DIVS32
++#undef DIVU32
++#undef DIVS64
++#undef DIVU64
++
+ #undef GEN_VR_LDX
+ #undef GEN_VR_STX
+ #undef GEN_VR_LVE
+-- 
+2.31.1
+
 
