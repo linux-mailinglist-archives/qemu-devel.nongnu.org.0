@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BDD53448D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:51:15 +0200 (CEST)
-Received: from localhost ([::1]:53060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC3753445D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:38:21 +0200 (CEST)
+Received: from localhost ([::1]:55184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntx2I-0000dK-R0
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47554)
+	id 1ntwpo-0007jm-UW
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwhL-0005mt-87
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41686)
+ id 1ntwhQ-00060w-4U
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ntwhJ-0003sV-8u
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:34 -0400
+ id 1ntwhL-0003sd-57
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:29:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653506972;
+ s=mimecast20190719; t=1653506974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A4COWhg2GjaPXUplNM84dH23IvoIBZrR6ECSXr0Lue8=;
- b=E9GZec7Bq3JPKkgnpbF+jJ3PDpkmmXZdJ7CQ0LhdzTPQDLRvlclgyDnAhoWBegCPfhftM0
- lrakvkPTUOfIRwtWZgbJ+DohjeLcwwSnnwZlrzfk+pwsxtweoBjarSi0w8elMH+/wRin90
- ofOaVPQRidG6Lrsyj7LPtLbWQx+yyuc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xyaAVt5qF1/CRxSwd34RasuaWblBBQKY8e8rZNkUw3c=;
+ b=Z1MtpvREHe4ZPNHGloClv7q7bkzLhNF0GIsReI+u1gvTNlCblx3QvaOMPMoG1qbaQLaifs
+ WUGDjeiFQmMET5JeSwacbjNFc/2F5VIslcZ2xNro8OstvxwoWXLyKrZQC4xxNostz40vyL
+ IrVAN4C9Z3yfAoy3VCCjsEfy1lohC8k=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-dOOY2SjcM_6bRBN-YdM7qQ-1; Wed, 25 May 2022 15:29:31 -0400
-X-MC-Unique: dOOY2SjcM_6bRBN-YdM7qQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- l18-20020aa7d952000000b0042ab7be9adaso15477803eds.21
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:31 -0700 (PDT)
+ us-mta-197--HVcI9mtN7uqlS_9vHzHlA-1; Wed, 25 May 2022 15:29:32 -0400
+X-MC-Unique: -HVcI9mtN7uqlS_9vHzHlA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ bt15-20020a170906b14f00b006fe9c3afbc2so8319201ejb.17
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 12:29:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A4COWhg2GjaPXUplNM84dH23IvoIBZrR6ECSXr0Lue8=;
- b=NA5UQ9EQEPtA2Rt1W/8+DtQXq+Zg6ztT1AxQgeLFfSKJl61w/pfAN9+rqHEOdGl5ma
- mmvcLToATuje1JxkQwwOWTzxGV1E1LhVUEf1f7e+xWyAzwngliYvX1SC8veHyi9rB7c1
- qP0/cLK+upCUg7r/hhe6Oikcgqa9CUylIsu0nugRGyTDKTlyu5x3UGorZVMrueymzVqr
- gUWG6Lv7OjCuCI025/f4vvZvPwA6dQBFDYiCG8JsYPdyRcDRp9OicipZ0iepXVWcVuWi
- EhBixL31QUTlC1AFhtwC0ZcOEV5UAaTrhCdvjzhJ638VuGetvgtH4q6OWsfi4HRA5CU4
- JfIw==
-X-Gm-Message-State: AOAM530vPr77YblxqIvoaCYB8rsZ7ZUt2Ao+1F/hgxZKctFxgs/v96QS
- 2hqgp8jzgYJ/IGpNoJGJpgkfy4OlLOE0e085Ko3iAtcuGB1VH+aDm5rfMh2JiXkvjo0PDeVz6ba
- APjjfLun9cMj8e0A7Fl0LBNz3hDuts7O3FGzY79CQHoPDhFlR2Tap+7j2pSpu1R05vuA=
-X-Received: by 2002:a17:907:11ce:b0:6fe:9dcc:b983 with SMTP id
- va14-20020a17090711ce00b006fe9dccb983mr28433156ejb.290.1653506969351; 
- Wed, 25 May 2022 12:29:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWQpB78tjOOs2KW7WwtzarYCGGkeqZvYODchgw8gbgPjlx82qTL5AnXs/E2ublO0nJoHwAAg==
-X-Received: by 2002:a17:907:11ce:b0:6fe:9dcc:b983 with SMTP id
- va14-20020a17090711ce00b006fe9dccb983mr28433123ejb.290.1653506968949; 
- Wed, 25 May 2022 12:29:28 -0700 (PDT)
+ bh=xyaAVt5qF1/CRxSwd34RasuaWblBBQKY8e8rZNkUw3c=;
+ b=OI0Opw1lNBcq+XWDDVYOegLz6vSqdOT4uIgSrcTdFZwr1VCuCiHoWwvnq11FEw3gy9
+ RnARAUw9awQI5zdheVSjxRR9v+80vAPt5GM3rCw+Cb9SsyqAqu7XV8MjclMO8AnaQaRC
+ wkXfjeswQiVhl14JcVhaERdBQtq4UmrGWgt+NXXrOtGJTcRfUuJ05qD7iBxwq+fiuMir
+ qIfoZJ8y58zpc7fVZUyhYq26nuy6n9BXHZY9u/a/VHwiGBAnR/FMbhHSeTg9MdfXwtdN
+ glBl0+2SMroAKb5VpVf0p8cvCowEQfPdZs3gKVXVV2uG6qk7S/TgmOE+tIvS64eeNhof
+ eohw==
+X-Gm-Message-State: AOAM531wAiaCnJQal16oT3GnbSJnfcUa8In0gwfJxc6GUeCVWm+6u6GI
+ tiGQbIjSCwY5yQ1hkHlOBRwtvThGE9L4tMX8F/ErUUiUG7TYeIC4yURsjvftORzGj8xx3zzTp0C
+ MG74SiZ5Q0+pELVr9krOjObyANjwzy9Wv/HRd8HGiqv4ZqrUUMxYIxtnPrBEPIlETyA4=
+X-Received: by 2002:a17:906:52c7:b0:6ce:a880:50a3 with SMTP id
+ w7-20020a17090652c700b006cea88050a3mr30022194ejn.437.1653506971102; 
+ Wed, 25 May 2022 12:29:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxIOPBPnZlUqEYXWPjstgOay212ZAwwHV3CHiYBgzOcApzDGAAiq/8d4tq2xFWXXrHLOgIuWg==
+X-Received: by 2002:a17:906:52c7:b0:6ce:a880:50a3 with SMTP id
+ w7-20020a17090652c700b006cea88050a3mr30022177ejn.437.1653506970820; 
+ Wed, 25 May 2022 12:29:30 -0700 (PDT)
 Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- b60-20020a509f42000000b0042bb1e2e2f7sm1561525edf.8.2022.05.25.12.29.27
+ y20-20020a50eb94000000b0042617ba63c4sm10993201edr.78.2022.05.25.12.29.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 12:29:28 -0700 (PDT)
+ Wed, 25 May 2022 12:29:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: [PULL 14/17] i386: Hyper-V XMM fast hypercall input feature
-Date: Wed, 25 May 2022 21:28:49 +0200
-Message-Id: <20220525192852.301633-15-pbonzini@redhat.com>
+Subject: [PULL 15/17] i386: Hyper-V Support extended GVA ranges for TLB flush
+ hypercalls
+Date: Wed, 25 May 2022 21:28:50 +0200
+Message-Id: <20220525192852.301633-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525192852.301633-1-pbonzini@redhat.com>
 References: <20220525192852.301633-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,96 +101,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Hyper-V specification allows to pass parameters for certain hypercalls
-using XMM registers ("XMM Fast Hypercall Input"). When the feature is
-in use, it allows for faster hypercalls processing as KVM can avoid
-reading guest's memory.
-
-KVM supports the feature since v5.14.
-
-Rename HV_HYPERCALL_{PARAMS_XMM_AVAILABLE -> XMM_INPUT_AVAILABLE} to
-comply with KVM.
+KVM kind of supported "extended GVA ranges" (up to 4095 additional GFNs
+per hypercall) since the implementation of Hyper-V PV TLB flush feature
+(Linux-4.18) as regardless of the request, full TLB flush was always
+performed. "Extended GVA ranges for TLB flush hypercalls" feature bit
+wasn't exposed then. Now, as KVM gains support for fine-grained TLB
+flush handling, exposing this feature starts making sense.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20220525115949.1294004-4-vkuznets@redhat.com>
+Message-Id: <20220525115949.1294004-5-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/hyperv.txt                | 6 ++++++
+ docs/hyperv.txt                | 7 +++++++
  target/i386/cpu.h              | 1 +
- target/i386/kvm/hyperv-proto.h | 2 +-
+ target/i386/kvm/hyperv-proto.h | 1 +
  target/i386/cpu.c              | 2 ++
- target/i386/kvm/kvm.c          | 7 +++++++
- 5 files changed, 17 insertions(+), 1 deletion(-)
+ target/i386/kvm/kvm.c          | 8 ++++++++
+ 5 files changed, 19 insertions(+)
 
 diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index 5d85569b99..af1b10c0b3 100644
+index af1b10c0b3..4b132b1c94 100644
 --- a/docs/hyperv.txt
 +++ b/docs/hyperv.txt
-@@ -249,6 +249,12 @@ Enlightened VMCS ('hv-evmcs') feature to also be enabled.
+@@ -255,6 +255,13 @@ Hyper-V specification allows to pass parameters for certain hypercalls using XMM
+ registers ("XMM Fast Hypercall Input"). When the feature is in use, it allows
+ for faster hypercalls processing as KVM can avoid reading guest's memory.
  
- Recommended: hv-evmcs (Intel)
- 
-+3.23. hv-xmm-input
-+===================
-+Hyper-V specification allows to pass parameters for certain hypercalls using XMM
-+registers ("XMM Fast Hypercall Input"). When the feature is in use, it allows
-+for faster hypercalls processing as KVM can avoid reading guest's memory.
++3.24. hv-tlbflush-ext
++=====================
++Allow for extended GVA ranges to be passed to Hyper-V TLB flush hypercalls
++(HvFlushVirtualAddressList/HvFlushVirtualAddressListEx).
++
++Requires: hv-tlbflush
 +
  4. Supplementary features
  =========================
  
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c788285736..37e9553584 100644
+index 37e9553584..5ff48257e5 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1107,6 +1107,7 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
- #define HYPERV_FEAT_AVIC                15
+@@ -1108,6 +1108,7 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
  #define HYPERV_FEAT_SYNDBG              16
  #define HYPERV_FEAT_MSR_BITMAP          17
-+#define HYPERV_FEAT_XMM_INPUT           18
+ #define HYPERV_FEAT_XMM_INPUT           18
++#define HYPERV_FEAT_TLBFLUSH_EXT        19
  
  #ifndef HYPERV_SPINLOCK_NEVER_NOTIFY
  #define HYPERV_SPINLOCK_NEVER_NOTIFY             0xFFFFFFFF
 diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
-index cea18dbc0e..f5f16474fa 100644
+index f5f16474fa..c7854ed6d3 100644
 --- a/target/i386/kvm/hyperv-proto.h
 +++ b/target/i386/kvm/hyperv-proto.h
-@@ -54,7 +54,7 @@
- #define HV_GUEST_DEBUGGING_AVAILABLE            (1u << 1)
- #define HV_PERF_MONITOR_AVAILABLE               (1u << 2)
- #define HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE   (1u << 3)
--#define HV_HYPERCALL_PARAMS_XMM_AVAILABLE       (1u << 4)
-+#define HV_HYPERCALL_XMM_INPUT_AVAILABLE        (1u << 4)
- #define HV_GUEST_IDLE_STATE_AVAILABLE           (1u << 5)
+@@ -59,6 +59,7 @@
  #define HV_FREQUENCY_MSRS_AVAILABLE             (1u << 8)
  #define HV_GUEST_CRASH_MSR_AVAILABLE            (1u << 10)
+ #define HV_FEATURE_DEBUG_MSRS_AVAILABLE         (1u << 11)
++#define HV_EXT_GVA_RANGES_FLUSH_AVAILABLE       (1u << 14)
+ #define HV_STIMER_DIRECT_MODE_AVAILABLE         (1u << 19)
+ 
+ /*
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 474e9b582e..63cec0ea68 100644
+index 63cec0ea68..3429a4e455 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6970,6 +6970,8 @@ static Property x86_cpu_properties[] = {
-                       HYPERV_FEAT_AVIC, 0),
-     DEFINE_PROP_BIT64("hv-emsr-bitmap", X86CPU, hyperv_features,
+@@ -6972,6 +6972,8 @@ static Property x86_cpu_properties[] = {
                        HYPERV_FEAT_MSR_BITMAP, 0),
-+    DEFINE_PROP_BIT64("hv-xmm-input", X86CPU, hyperv_features,
-+                      HYPERV_FEAT_XMM_INPUT, 0),
+     DEFINE_PROP_BIT64("hv-xmm-input", X86CPU, hyperv_features,
+                       HYPERV_FEAT_XMM_INPUT, 0),
++    DEFINE_PROP_BIT64("hv-tlbflush-ext", X86CPU, hyperv_features,
++                      HYPERV_FEAT_TLBFLUSH_EXT, 0),
      DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
                              hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
      DEFINE_PROP_BIT64("hv-syndbg", X86CPU, hyperv_features,
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index f389bbedf2..7e6f934eda 100644
+index 7e6f934eda..a11c8e88f6 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -980,6 +980,13 @@ static struct {
-              .bits = HV_NESTED_MSR_BITMAP}
+@@ -987,6 +987,14 @@ static struct {
+              .bits = HV_HYPERCALL_XMM_INPUT_AVAILABLE}
          }
      },
-+    [HYPERV_FEAT_XMM_INPUT] = {
-+        .desc = "XMM fast hypercall input (hv-xmm-input)",
++    [HYPERV_FEAT_TLBFLUSH_EXT] = {
++        .desc = "Extended gva ranges for TLB flush hypercalls (hv-tlbflush-ext)",
 +        .flags = {
 +            {.func = HV_CPUID_FEATURES, .reg = R_EDX,
-+             .bits = HV_HYPERCALL_XMM_INPUT_AVAILABLE}
-+        }
++             .bits = HV_EXT_GVA_RANGES_FLUSH_AVAILABLE}
++        },
++        .dependencies = BIT(HYPERV_FEAT_TLBFLUSH)
 +    },
  };
  
