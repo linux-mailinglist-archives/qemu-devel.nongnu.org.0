@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC815336B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 08:19:39 +0200 (CEST)
-Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD5C533694
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 07:53:17 +0200 (CEST)
+Received: from localhost ([::1]:55660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntkMs-0008VN-BU
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 02:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50362)
+	id 1ntjxM-0006B2-15
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 01:53:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1ntjgK-0000km-6V; Wed, 25 May 2022 01:35:40 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:36819)
+ id 1ntjgF-0000dS-N8; Wed, 25 May 2022 01:35:35 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:12563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1ntjgH-0003tW-2o; Wed, 25 May 2022 01:35:38 -0400
+ id 1ntjgD-0003st-3O; Wed, 25 May 2022 01:35:35 -0400
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 24P5Khsg022845;
- Wed, 25 May 2022 13:20:43 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 24P5Khgs022846;
+ Wed, 25 May 2022 13:20:44 +0800 (GMT-8)
  (envelope-from jamin_lin@aspeedtech.com)
 Received: from localhost.localdomain (192.168.70.123) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 25 May
- 2022 13:34:47 +0800
+ 2022 13:34:48 +0800
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
  <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
@@ -31,9 +31,9 @@ To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
  list:All patches CC here" <qemu-devel@nongnu.org>
 CC: <steven_lee@aspeedtech.com>, <troy_lee@aspeedtech.com>,
  <jamin_lin@aspeedtech.com>
-Subject: [PATCH v2 2/4] hw/gpio: Add ASPEED GPIO model for AST1030
-Date: Wed, 25 May 2022 13:34:42 +0800
-Message-ID: <20220525053444.27228-3-jamin_lin@aspeedtech.com>
+Subject: [PATCH v2 3/4] hw/gpio support GPIO index mode for write operation.
+Date: Wed, 25 May 2022 13:34:43 +0800
+Message-ID: <20220525053444.27228-4-jamin_lin@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220525053444.27228-1-jamin_lin@aspeedtech.com>
 References: <20220525053444.27228-1-jamin_lin@aspeedtech.com>
@@ -43,7 +43,7 @@ X-Originating-IP: [192.168.70.123]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 24P5Khsg022845
+X-MAIL: twspam01.aspeedtech.com 24P5Khgs022846
 Received-SPF: pass client-ip=211.20.114.71;
  envelope-from=jamin_lin@aspeedtech.com; helo=twspam01.aspeedtech.com
 X-Spam_score_int: -18
@@ -66,105 +66,239 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AST1030 integrates one set of Parallel GPIO Controller
-with maximum 151 control pins, which are 21 groups
-(A~U, exclude pin: M6 M7 Q5 Q6 Q7 R0 R1 R4 R5 R6 R7 S0 S3 S4
-S5 S6 S7 ) and the group T and U are input only.
+It did not support GPIO index mode for read operation.
 
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 ---
- hw/arm/aspeed_ast10x0.c | 11 +++++++++++
- hw/gpio/aspeed_gpio.c   | 27 +++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
+ hw/gpio/aspeed_gpio.c         | 168 ++++++++++++++++++++++++++++++++++
+ include/hw/gpio/aspeed_gpio.h |  14 +++
+ 2 files changed, 182 insertions(+)
 
-diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 4271549282..3a6b8122b6 100644
---- a/hw/arm/aspeed_ast10x0.c
-+++ b/hw/arm/aspeed_ast10x0.c
-@@ -113,6 +113,9 @@ static void aspeed_soc_ast1030_init(Object *obj)
-         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
-         object_initialize_child(obj, "wdt[*]", &s->wdt[i], typename);
-     }
-+
-+    snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
-+    object_initialize_child(obj, "gpio", &s->gpio, typename);
- }
- 
- static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-@@ -260,6 +263,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
-                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
-     }
-+
-+    /* GPIO */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, sc->memmap[ASPEED_DEV_GPIO]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_DEV_GPIO));
- }
- 
- static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
 diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 4620ea8e8b..5138fe812b 100644
+index 5138fe812b..c834bf19f5 100644
 --- a/hw/gpio/aspeed_gpio.c
 +++ b/hw/gpio/aspeed_gpio.c
-@@ -819,6 +819,15 @@ static GPIOSetProperties ast2600_1_8v_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
-     [1] = {0x0000000f,  0x0000000f,  {"18E"} },
- };
+@@ -16,6 +16,7 @@
+ #include "hw/irq.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
++#include "hw/registerfields.h"
  
-+static GPIOSetProperties ast1030_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
-+    [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-+    [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-+    [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-+    [3] = {0xffffff3f,  0xffffff3f,  {"M", "N", "O", "P"} },
-+    [4] = {0xff060c1f,  0x00060c1f,  {"Q", "R", "S", "T"} },
-+    [5] = {0x000000ff,  0x00000000,  {"U"} },
-+};
+ #define GPIOS_PER_GROUP 8
+ 
+@@ -204,6 +205,28 @@
+ #define GPIO_1_8V_MEM_SIZE            0x1D8
+ #define GPIO_1_8V_REG_ARRAY_SIZE      (GPIO_1_8V_MEM_SIZE >> 2)
+ 
++/*
++ * GPIO index mode support
++ * It only supports write operation
++ */
++REG32(GPIO_INDEX_REG, 0x2AC)
++    FIELD(GPIO_INDEX_REG, NUMBER, 0, 8)
++    FIELD(GPIO_INDEX_REG, COMMAND, 12, 1)
++    FIELD(GPIO_INDEX_REG, TYPE, 16, 4)
++    FIELD(GPIO_INDEX_REG, DATA_VALUE, 20, 1)
++    FIELD(GPIO_INDEX_REG, DIRECTION, 20, 1)
++    FIELD(GPIO_INDEX_REG, INT_ENABLE, 20, 1)
++    FIELD(GPIO_INDEX_REG, INT_SENS_0, 21, 1)
++    FIELD(GPIO_INDEX_REG, INT_SENS_1, 22, 1)
++    FIELD(GPIO_INDEX_REG, INT_SENS_2, 23, 1)
++    FIELD(GPIO_INDEX_REG, INT_STATUS, 24, 1)
++    FIELD(GPIO_INDEX_REG, DEBOUNCE_1, 20, 1)
++    FIELD(GPIO_INDEX_REG, DEBOUNCE_2, 21, 1)
++    FIELD(GPIO_INDEX_REG, RESET_TOLERANT, 20, 1)
++    FIELD(GPIO_INDEX_REG, COMMAND_SRC_0, 20, 1)
++    FIELD(GPIO_INDEX_REG, COMMAND_SRC_1, 21, 1)
++    FIELD(GPIO_INDEX_REG, INPUT_MASK, 20, 1)
 +
- static const MemoryRegionOps aspeed_gpio_ops = {
-     .read       = aspeed_gpio_read,
-     .write      = aspeed_gpio_write,
-@@ -971,6 +980,16 @@ static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
-     agc->reg_table = aspeed_1_8v_gpios;
+ static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int gpio)
+ {
+     uint32_t falling_edge = 0, rising_edge = 0;
+@@ -596,6 +619,144 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
+     return value;
  }
  
-+static void aspeed_gpio_1030_class_init(ObjectClass *klass, void *data)
++static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
++                                                uint64_t data, uint32_t size)
 +{
-+    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
 +
-+    agc->props = ast1030_set_props;
-+    agc->nr_gpio_pins = 151;
-+    agc->nr_gpio_sets = 6;
-+    agc->reg_table = aspeed_3_3v_gpios;
++    AspeedGPIOState *s = ASPEED_GPIO(opaque);
++    AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
++    const GPIOSetProperties *props;
++    GPIOSets *set;
++    uint32_t reg_idx_number = FIELD_EX32(data, GPIO_INDEX_REG, NUMBER);
++    uint32_t reg_idx_type = FIELD_EX32(data, GPIO_INDEX_REG, TYPE);
++    uint32_t reg_idx_command = FIELD_EX32(data, GPIO_INDEX_REG, COMMAND);
++    uint32_t set_idx = reg_idx_number / ASPEED_GPIOS_PER_SET;
++    uint32_t pin_idx = reg_idx_number % ASPEED_GPIOS_PER_SET;
++    uint32_t group_idx = pin_idx / GPIOS_PER_GROUP;
++    uint32_t reg_value = 0;
++    uint32_t cleared;
++
++    set = &s->sets[set_idx];
++    props = &agc->props[set_idx];
++
++    if (reg_idx_command)
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: offset 0x%" PRIx64 "data 0x%"
++            PRIx64 "index mode wrong command 0x%x\n",
++            __func__, offset, data, reg_idx_command);
++
++    switch (reg_idx_type) {
++    case gpio_reg_idx_data:
++        reg_value = set->data_read;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, DATA_VALUE));
++        reg_value &= props->output;
++        reg_value = update_value_control_source(set, set->data_value,
++                                                reg_value);
++        set->data_read = reg_value;
++        aspeed_gpio_update(s, set, reg_value);
++        return;
++    case gpio_reg_idx_direction:
++        reg_value = set->direction;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, DIRECTION));
++        /*
++         *   where data is the value attempted to be written to the pin:
++         *    pin type      | input mask | output mask | expected value
++         *    ------------------------------------------------------------
++         *   bidirectional  |   1       |   1        |  data
++         *   input only     |   1       |   0        |   0
++         *   output only    |   0       |   1        |   1
++         *   no pin         |   0       |   0        |   0
++         *
++         *  which is captured by:
++         *  data = ( data | ~input) & output;
++         */
++        reg_value = (reg_value | ~props->input) & props->output;
++        set->direction = update_value_control_source(set, set->direction,
++                                                     reg_value);
++        break;
++    case gpio_reg_idx_interrupt:
++        reg_value = set->int_enable;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, INT_ENABLE));
++        set->int_enable = update_value_control_source(set, set->int_enable,
++                                                      reg_value);
++        reg_value = set->int_sens_0;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, INT_SENS_0));
++        set->int_sens_0 = update_value_control_source(set, set->int_sens_0,
++                                                      reg_value);
++        reg_value = set->int_sens_1;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, INT_SENS_1));
++        set->int_sens_1 = update_value_control_source(set, set->int_sens_1,
++                                                      reg_value);
++        reg_value = set->int_sens_2;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, INT_SENS_2));
++        set->int_sens_2 = update_value_control_source(set, set->int_sens_2,
++                                                      reg_value);
++        /* set interrupt status */
++        reg_value = set->int_status;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, INT_STATUS));
++        cleared = ctpop32(reg_value & set->int_status);
++        if (s->pending && cleared) {
++            assert(s->pending >= cleared);
++            s->pending -= cleared;
++        }
++        set->int_status &= ~reg_value;
++        break;
++    case gpio_reg_idx_debounce:
++        reg_value = set->debounce_1;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, DEBOUNCE_1));
++        set->debounce_1 = update_value_control_source(set, set->debounce_1,
++                                                      reg_value);
++        reg_value = set->debounce_2;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, DEBOUNCE_2));
++        set->debounce_2 = update_value_control_source(set, set->debounce_2,
++                                                      reg_value);
++        return;
++    case gpio_reg_idx_tolerance:
++        reg_value = set->reset_tol;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, RESET_TOLERANT));
++        set->reset_tol = update_value_control_source(set, set->reset_tol,
++                                                     reg_value);
++        return;
++    case gpio_reg_idx_cmd_src:
++        reg_value = set->cmd_source_0;
++        reg_value = deposit32(reg_value, GPIOS_PER_GROUP * group_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, COMMAND_SRC_0));
++        set->cmd_source_0 = reg_value & ASPEED_CMD_SRC_MASK;
++        reg_value = set->cmd_source_1;
++        reg_value = deposit32(reg_value, GPIOS_PER_GROUP * group_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, COMMAND_SRC_1));
++        set->cmd_source_1 = reg_value & ASPEED_CMD_SRC_MASK;
++        return;
++    case gpio_reg_idx_input_mask:
++        reg_value = set->input_mask;
++        reg_value = deposit32(reg_value, pin_idx, 1,
++                              FIELD_EX32(data, GPIO_INDEX_REG, INPUT_MASK));
++        /*
++         * feeds into interrupt generation
++         * 0: read from data value reg will be updated
++         * 1: read from data value reg will not be updated
++         */
++        set->input_mask = reg_value & props->input;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: offset 0x%" PRIx64 "data 0x%"
++            PRIx64 "index mode wrong type 0x%x\n",
++            __func__, offset, data, reg_idx_type);
++        return;
++    }
++    aspeed_gpio_update(s, set, set->data_value);
++    return;
 +}
 +
- static const TypeInfo aspeed_gpio_info = {
-     .name           = TYPE_ASPEED_GPIO,
-     .parent         = TYPE_SYS_BUS_DEVICE,
-@@ -1008,6 +1027,13 @@ static const TypeInfo aspeed_gpio_ast2600_1_8v_info = {
-     .instance_init  = aspeed_gpio_init,
+ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+                               uint32_t size)
+ {
+@@ -610,6 +771,13 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+     trace_aspeed_gpio_write(offset, data);
+ 
+     idx = offset >> 2;
++
++    /* check gpio index mode */
++    if (idx == R_GPIO_INDEX_REG) {
++        aspeed_gpio_write_index_mode(opaque, offset, data, size);
++        return;
++    }
++
+     if (idx >= GPIO_DEBOUNCE_TIME_1 && idx <= GPIO_DEBOUNCE_TIME_3) {
+         idx -= GPIO_DEBOUNCE_TIME_1;
+         s->debounce_regs[idx] = (uint32_t) data;
+diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
+index 6dee3cd438..41b36524d0 100644
+--- a/include/hw/gpio/aspeed_gpio.h
++++ b/include/hw/gpio/aspeed_gpio.h
+@@ -50,6 +50,20 @@ enum GPIORegType {
+     gpio_reg_input_mask,
  };
  
-+static const TypeInfo aspeed_gpio_ast1030_info = {
-+    .name           = TYPE_ASPEED_GPIO "-ast1030",
-+    .parent         = TYPE_ASPEED_GPIO,
-+    .class_init     = aspeed_gpio_1030_class_init,
-+    .instance_init  = aspeed_gpio_init,
++/* GPIO index mode */
++enum GPIORegIndexType {
++    gpio_reg_idx_data = 0,
++    gpio_reg_idx_direction,
++    gpio_reg_idx_interrupt,
++    gpio_reg_idx_debounce,
++    gpio_reg_idx_tolerance,
++    gpio_reg_idx_cmd_src,
++    gpio_reg_idx_input_mask,
++    gpio_reg_idx_reserved,
++    gpio_reg_idx_new_w_cmd_src,
++    gpio_reg_idx_new_r_cmd_src,
 +};
 +
- static void aspeed_gpio_register_types(void)
- {
-     type_register_static(&aspeed_gpio_info);
-@@ -1015,6 +1041,7 @@ static void aspeed_gpio_register_types(void)
-     type_register_static(&aspeed_gpio_ast2500_info);
-     type_register_static(&aspeed_gpio_ast2600_3_3v_info);
-     type_register_static(&aspeed_gpio_ast2600_1_8v_info);
-+    type_register_static(&aspeed_gpio_ast1030_info);
- }
- 
- type_init(aspeed_gpio_register_types);
+ typedef struct AspeedGPIOReg {
+     uint16_t set_idx;
+     enum GPIORegType type;
 -- 
 2.17.1
 
