@@ -1,67 +1,152 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD76B533B8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 13:16:56 +0200 (CEST)
-Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18374533BE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 13:42:43 +0200 (CEST)
+Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntp0Z-0006ym-O8
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 07:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56142)
+	id 1ntpPB-0004cX-KD
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 07:42:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ntoyH-00066K-EX
- for qemu-devel@nongnu.org; Wed, 25 May 2022 07:14:33 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2577)
+ (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
+ id 1ntpES-0001aD-0j
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 07:31:19 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:55541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ntoyE-00008F-5x
- for qemu-devel@nongnu.org; Wed, 25 May 2022 07:14:33 -0400
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4L7Sz1359jz681D8;
- Wed, 25 May 2022 19:10:21 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 25 May 2022 13:14:26 +0200
-Received: from localhost (10.202.226.42) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 25 May
- 2022 12:14:25 +0100
-Date: Wed, 25 May 2022 12:14:22 +0100
-To: Corey Minyard <minyard@acm.org>
-CC: Ben Widawsky <bwidawsk@kernel.org>, <qemu-devel@nongnu.org>, Klaus Jensen
- <its@irrelevant.dk>, <linux-cxl@vger.kernel.org>, Damien Hedde
- <damien.hedde@greensocs.com>, Peter Delevoryas <pdel@fb.com>,
- =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, Alex =?ISO-8859-1?Q?B?=
- =?ISO-8859-1?Q?enn=E9e?= <alex.bennee@linaro.org>, <linuxarm@huawei.com>
-Subject: Re: [RFC PATCH 2/2] arm/virt: Add aspeed-i2c controller and MCTP EP
- to enable MCTP testing
-Message-ID: <20220525121422.00003a84@Huawei.com>
-In-Reply-To: <20220524181310.GI3767252@minyard.net>
-References: <20220520170128.4436-1-Jonathan.Cameron@huawei.com>
- <20220520170128.4436-3-Jonathan.Cameron@huawei.com>
- <20220524163633.gycxq6v5i5ucz4ja@bwidawsk-mobl5>
- <20220524175043.00002ae8@Huawei.com>
- <20220524181310.GI3767252@minyard.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
+ id 1ntpE3-00037g-EY
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 07:31:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1653478244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SzFFZImhWVntzvdg/nOoKY1uZQpMwVayPZ1I2qAM2hM=;
+ b=EdotXPOdOFKjilK19cZ9i0ALRh1RIrJ/zuoW6F4A/IZ0FqwYYjxhn7KxDkZxACyZ5RiTXM
+ ARQohErqrhfoNDubnQilaQkKqIYlTIi2xKBdR9jV3wV5xzFXk9OjXBwJ3MyqcGxfZ3PqHa
+ zI4bIBkbe8XoAwpJt18uyNsbHOIjeow=
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05lp2171.outbound.protection.outlook.com [104.47.17.171]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-25-2ZGVysbFPwGvYp7qMCM21g-2; Wed, 25 May 2022 13:30:43 +0200
+X-MC-Unique: 2ZGVysbFPwGvYp7qMCM21g-2
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JU/RAo3ySZDIa87z5aEBy6TOp7FhzYupyw6cxyzJxH/tTx/Pz3RD5Ld+947W+eusqm/XLQWeFQg6U8obB6gmLqf/sJp9APTqQgsXOqD+QbqE1SKfL4ZN5NZITMI0B6g7QhaW59eUFAO6rjhAftqXtgWaBTZGozthXIwQs3S7nzfAMvxTskO7m2h30LuxH10PhE0zdD9jQcuF3Vfjmn4vG7LQNChukezoFmWoBSrgPfTzQY5k/D5LdBSt0OhrEjjZqshe9xbItPQCZhcPYlxyxUdG3SISBdv18E2EIMmwdUoJRxBl/vGXOeLI2n4HHFvIoWLWvy+PWQNZiPEC8rGk8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SzFFZImhWVntzvdg/nOoKY1uZQpMwVayPZ1I2qAM2hM=;
+ b=AoE8RXQQAu/6y6Vggpg/jjLhrF3P0SWdwd95RbRzAZJbF9GTwmHyuipOTWxutCAF5uHo1XwoByO219B41Bp05kuI5ef7+iSJIOJD4NlTXWBNQgSCzIH5SMf6d72a92bvfLY2vr4YVvSYbBBOKDjxnf+5jkKyUAPmafeGERECmZdC2c7c/5KncUuGxJ84lxlzfJJTY8CzMT5x58fvjcv8KrLr9NDLc4MM0IohJu3oBeV3x8Zmd4Scb5MtY608MvRw/Z/IjiCRWBFnS/QLjnwJRWjH56VGksXtaDhBYgSkSlb3ummUfsjtPOWb+/66vfmhfPYjI3U1ZwzL8dCq+QBMQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Received: from PAXPR04MB9075.eurprd04.prod.outlook.com (2603:10a6:102:229::12)
+ by AM6PR0402MB3448.eurprd04.prod.outlook.com (2603:10a6:209:e::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Wed, 25 May
+ 2022 11:30:40 +0000
+Received: from PAXPR04MB9075.eurprd04.prod.outlook.com
+ ([fe80::dcf2:9231:4657:4c23]) by PAXPR04MB9075.eurprd04.prod.outlook.com
+ ([fe80::dcf2:9231:4657:4c23%7]) with mapi id 15.20.5186.021; Wed, 25 May 2022
+ 11:30:40 +0000
+From: Dario Faggioli <dfaggioli@suse.com>
+To: "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+CC: Claudio Fontana <Claudio.Fontana@suse.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: Problem running qos-test when building with gcc12 and LTO
+Thread-Topic: Problem running qos-test when building with gcc12 and LTO
+Thread-Index: AQHYbtn1TEp8uXfDDEibt4Y5btKKta0ud4sAgACvsICAADH6gIAAHs0A
+Date: Wed, 25 May 2022 11:30:39 +0000
+Message-ID: <0a7912b0604ebd53de7f79bfbf4e19cfeee620d8.camel@suse.com>
+References: <24c61f36e23339cb1ab80b41e906ea60a0d67d2a.camel@suse.com>
+ <87v8tu5cyy.fsf@linaro.org>
+ <5bcb5ceb44dd830770d66330e27de6a4345fcb69.camel@suse.com>
+In-Reply-To: <5bcb5ceb44dd830770d66330e27de6a4345fcb69.camel@suse.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.1 (by Flathub.org)) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 81488c18-d789-4b46-27ad-08da3e41ff4d
+x-ms-traffictypediagnostic: AM6PR0402MB3448:EE_
+x-ld-processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+x-microsoft-antispam-prvs: <AM6PR0402MB3448B04B271355E054AED3B0C5D69@AM6PR0402MB3448.eurprd04.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wY1D3zzT1656VQK8tElv18k+gx8DgiHsFlxVijbL906vrJ4Sq/GBhLtWmazfpNjOoVcnB138r5n6KBYQEYLfzyzIXyaHfWmjrh4a6x8OSEZeFalF8sZGe3U2o8nnQ1xtCzZokJgEnXhigID1QKv7FI+0XzXcOhkcKmUIveVf9MsV6y/WUiAyhsZu12xgN+k+HrNmfBeSaPsHfRlNe1fCOsmGodTc/0SHxrpWAssW22yFaeY7fldYJ2USscXnOafmZ27styUfgZVvniMFR2PIYOfuyiwVb62WpmaAHOFniSeevFxZ9psj/SNksKI/xmNbTYxI6WfFjmgdIdfnvSA1Zh++podJg+XNK9e900xQvxNl8HnavhZtGoapcy1aFbj4akvJRwfUBGrsnb1f4V0OPxCjep8FQsUliDNLMTdeA5jeYH860PrhW2p+5y9vvDmgm5eKxqbaql5lyhStNxwsVTZRNm8bLDyGJEwV9TwytkkWAO58qg6ZjS9D2CBY2X2IcOqbJEFkgg69AcHrWB0ApG+PdQImLjS3v9tYJo8DlDHgz03OxGof8EG//BlFQOfLzy/UlnavPHwq6D7VGxaSfTmKdQ/Lb3ikAvUU1WRmLwYwasXl6q+80Cf45HeaPilghMl/z1+UjeTgaZRAblAqzixcJYzAqe71XnOt1hXrlQXUett1bkFNLNt44sld0vQFhRJ09R/qn6YB3ERVo+Y/9ppRM+Z0K9AC2VU5bu82IHDI8Debx4vVYlISV6d1Mz2a3qlqhrUh/3d/4oKhiOlpftr64iVxxT+hmPi1CFMiVtwCLdGI3m2UOIPfa//mMEeFE+SmGxhs/rcsvmexB34qHQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9075.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(66574015)(54906003)(2616005)(122000001)(66446008)(66476007)(64756008)(38070700005)(5660300002)(71200400001)(83380400001)(99936003)(186003)(6916009)(38100700002)(2906002)(316002)(8936002)(86362001)(6506007)(966005)(6486002)(36756003)(6512007)(26005)(508600001)(91956017)(76116006)(66946007)(8676002)(4326008)(66556008);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?LzlGbVFIWllYdExleDJYcXdLQVpyR2VybFlBOFM3RHN6anBZclJxRU8yK000?=
+ =?utf-8?B?cmkyRXdaYU1JVmJSblBjRWsyci83dEVzVmdqVUkrUm5RY2RJWDhINlpUZ1F5?=
+ =?utf-8?B?WFZqTU5uWHcvMGdIMSt0SUkxVUtyT3hRWlh1RHphazR3Sk4xRENqTVpUK0ow?=
+ =?utf-8?B?SkdGbndUcmFkYmJRcTc4eGVQWnYwZkdLbW9qSmwxaWJDL0tqdTBXK1ZVdGRO?=
+ =?utf-8?B?QmtmNHZlUlRodW40VldnR2xyV0ZSQWwydTd6cTRzamJ4V1puRm1hTEJMWXYy?=
+ =?utf-8?B?ZFJPV3VTVmMvdlNGR2pnVFZVblQ2NGFaTmlLaG10WFNwNEw3S2RqY0llVlVy?=
+ =?utf-8?B?WGRjT2lPVFBBQnRTeGVIVzRGc25UZjNYZytDQm1DU1N0dVllSHhvR1dzb1Mr?=
+ =?utf-8?B?RkpLMkgyc0ZHWUVFbFlXSFljdGVhZjlCRUxYSUh4WkxPeWFJUnBFdGVaUTRO?=
+ =?utf-8?B?YTdvOEh2YlVGd3ZHV2crWUFLRU1rSjVOKzgydU0reG9hNFI5RWJweXovai9a?=
+ =?utf-8?B?aUJLZHFlblpoNm40bzNLZDN3R29LbGJ2RGpOa2xvZTRJSUhYSmJvTU55ZDRK?=
+ =?utf-8?B?eFczbVcraXV0a05MYW1pUUI4VUVjb3lvT0FHMmZ1NEdvZTRGNVR4VEdraUhI?=
+ =?utf-8?B?VWlWNnFOWUJ2VkpGVGNqeUlKNzNiRkxNRm9sRy9VaThlYkRwcEZ0eHNPQkZp?=
+ =?utf-8?B?WnZwbEpwMTQyUFVFOXpGMVM1U3VqdEwzWVJvVTRwVER3VnJ1T0F6dDdCbGRD?=
+ =?utf-8?B?MjVzUDZsY2p0aGh1alFCSjU5TWFnL010bnNmVHRGbGZzNFFrNmg3RW50UFk3?=
+ =?utf-8?B?R2w2dkdrWFp4ellzNXZrUytHMHNIMXR2cHB4VzhGeVNLd2UvYTVGSmk0VU5T?=
+ =?utf-8?B?SGhMbkwvNzB6WXE3K0RTc2lIaHAyUlA0U2VuUUdPMnlQUlpWMzBFd1ppRWdk?=
+ =?utf-8?B?SFRBUjV3Nlk0cmU5ajNLVVBPNVlWZlJCMkg0b2R0R292S0liSUJLeElHS3kr?=
+ =?utf-8?B?WXN5ekNZUVZiOUY1Z09yZGk4aWhTWS9jU3huRnBndXFkTlBheDFzQ1gyMlRr?=
+ =?utf-8?B?c0hvaEJ2NHRGQllEQWxBL0gxQm9LNEZSblRHRkhnQkpKendqb2dWNkxyTFZr?=
+ =?utf-8?B?c1Z6Qzh1MHNFczcyNWdudHhOV0lHZzJ4b0swaVMvTGkyZm5KKzJIWmJEMnhz?=
+ =?utf-8?B?UUIzQ1g4d2RyUFJvRCtCQXVHTVY3cFRXWjBrd2lVODhLbXVJT3Z3Mk1UYU5H?=
+ =?utf-8?B?ZThIckx0dW10NDBwV2NaRUxSR3hzRVVkcmpqOEx5WmJaTjcxV3ZEUlJDMHNR?=
+ =?utf-8?B?MVZvZk9QaWRiMGdVTDFOQVhZVGJrR3ZBV0l3cXU3S09jNTg2OVhXcllHLzhk?=
+ =?utf-8?B?SUtkVk9BM01mZnhnZEZ0bWpaNnlxZ25GMkNsQnp4Sy9uTWEzVGpZZW9yZzRD?=
+ =?utf-8?B?cnFOZjk3ZTYyYU1XWW9QWmd2MWVER1VPSFg4dWYreEZKTUlnTWNyN0Z4NTlD?=
+ =?utf-8?B?bXJuTzRTem8yS3FSNHpFSWtlb29Sa1dESURjcVBxeXdTZ2tSVmhoR3VNdWRP?=
+ =?utf-8?B?a3VHdUZZMk1WalYzMFI1cmFHcnIxN08wdFhCQytQRjNyYkxnN3AvV2dIbk9r?=
+ =?utf-8?B?TWdvQXpMdVUyRXlwcFpKUTZnVnBuRzloY1loQ3hDcW93cVJjWjhZclZ4Tkl2?=
+ =?utf-8?B?ck96T0NJa2kzaHRMeTM3aUxXeFk3U1Y1My9ZM2xXSWVOQjdUU1BZbkdaNzZ2?=
+ =?utf-8?B?OU9uUHRBQkFkRkd6b01xb0xHZ0tCWE50T2VvMVpKRXZoMkc0ZjI5K0R1T25u?=
+ =?utf-8?B?S1RVSkp5ZVFuRHdkSVFkaFJMWTJ6Myt3ZlVmQ0ErYTRXTk0vVVZReFJEYmxB?=
+ =?utf-8?B?aUYrb2Z1OEVvZWlCdm1XYTMvTTFwWG56UGR2c2dHcG5GaHk3OGRPNTJvWXVr?=
+ =?utf-8?B?Qmt5RnQ3SnJ2Sk9ZM1UrMzRZZFpVdTJwTTB6NGlZdU8zOXFtQXp2d3pwR3Zp?=
+ =?utf-8?B?L2VlK2JDUEZBSnBTbVA4VDBGVS8wMGtoZGFWZXhDSERpMXRJTTQ2bWx0N0J3?=
+ =?utf-8?B?UjR0RW5SdFRUMFM2empOdHNhRC90Z1UrY3NYUzFycDM2NGhGU0RJMGFNZE5U?=
+ =?utf-8?B?a1E3UWNWKzZKQ05WQ1BqcWprMXhJSXZEL1l2a0ltVkEvYklSTmlhdUtsdWZ4?=
+ =?utf-8?B?bGdsdzBLMWxpRGxXU2FNTittbDhQOHg3K24zTEtFVjVXUE0ySFk4cWthdzA4?=
+ =?utf-8?B?OERXMUVQUDMrdkplaFZhNU5sZXBkSWxNR1FJNTRxWGVPTnpiaEpsS3BOMTIr?=
+ =?utf-8?B?S3FjTnhwenVYMDlubndYV3Frc0UxeHE2MnZzNm5SbXpHcnZuL0M5dz09?=
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-GxTGcb8b7FiQkj5p4FLb"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhreml726-chm.china.huawei.com (10.201.108.77) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9075.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81488c18-d789-4b46-27ad-08da3e41ff4d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 May 2022 11:30:40.2920 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CYX+EipYOKP4P0ku2pcB36mCRhFHIVhmj+xT+Uj/le5qV5dx5hR2QuXmK9Tokpgt+pws0HQzQiExnS4tU8FKYw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3448
+Received-SPF: pass client-ip=194.104.109.102; envelope-from=dfaggioli@suse.com;
+ helo=de-smtp-delivery-102.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,339 +162,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Tue, 24 May 2022 13:13:10 -0500
-Corey Minyard <minyard@acm.org> wrote:
+--=-GxTGcb8b7FiQkj5p4FLb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, May 24, 2022 at 05:50:43PM +0100, Jonathan Cameron wrote:
-> > On Tue, 24 May 2022 09:36:44 -0700
-> > Ben Widawsky <bwidawsk@kernel.org> wrote:
-> >   
-> > > On 22-05-20 18:01:28, Jonathan Cameron wrote:  
-> > > > As the only I2C emulation in QEMU that supports being both
-> > > > a master and a slave, suitable for MCTP over i2c is aspeed-i2c
-> > > > add this controller to the arm virt model and hook up our new
-> > > > i2c_mctp_cxl_fmapi device.
-> > > > 
-> > > > The current Linux driver for aspeed-i2c has a hard requirement on
-> > > > a reset controller.  Throw down the simplest reset controller
-> > > > I could find so as to avoid need to make any chance to the kernel
-> > > > code.    
-> > > 
-> > > s/chance/change  
-> > oops :)  
-> > >   
-> > > > 
-> > > > Patch also builds appropriate device tree.  Unfortunately for CXL
-> > > > we need to use ACPI (no DT bindings yet defined). Enabling this will
-> > > > either require appropriate support for MCTP on an i2c master that
-> > > > has ACPI bindings, or modifications of the kernel driver to support
-> > > > ACPI with aspeed-i2c (which might be a little controversial ;)    
-> > > 
-> > > I'm naive to what DT defines, but I assume what's there already is insufficient
-> > > to make the bindings for CXL. I say this because I believe it wouldn't be too
-> > > bad at all to make a cxl_dt.ko, and it's certainly less artificial than
-> > > providing ACPI support for things which don't naturally have ACPI support.  
-> > 
-> > It wouldn't be that hard to work out a CXL dt binding, but it's not
-> > of sufficient interest to me that I'd want to do it (I'll review if someone
-> > else sends patches). Platforms I'm interested in CXL with are all strictly
-> > ACPI only.
-> > 
-> > The trick here I think, is going to be adding ACPI support for a suitable I2C controller
-> > which supports the requirement for supporting master and and I2C EP needed
-> > for MCTP. Either I find one that already has ACPI bindings and add enough
-> > emulation for this functionality, or work around the lack of ACPI bindings for the
-> > aspeed-i2c controller.
-> > 
-> > Based on a really quick check of I2C masters for which I have docs and that
-> > definitely have ACPI bindings, it's not a particularly common feature set.  
-> 
-> Ben already got my comments.
-> 
-> It's not common, but it's something you are using, so it obviously
-> exists.  What hardware do you have?  The most natural thing might be to
-> add your controller.
-> 
+On Wed, 2022-05-25 at 09:40 +0000, Dario Faggioli wrote:
+> On Wed, 2022-05-25 at 07:41 +0100, Alex Benn=C3=A9e wrote:
+>=20
+>=20
+> > Does it still trigger errors with my latest virtio cleanup series
+> > (which
+> > adds more tests to qos-test):
+> >=20
+> > =C2=A0 Subject: [PATCH=C2=A0 v2 00/15] virtio-gpio and various virtio
+> > cleanups
+> > =C2=A0 Date: Tue, 24 May 2022 16:40:41 +0100
+> > =C2=A0 Message-Id: <20220524154056.2896913-1-alex.bennee@linaro.org>
+> >=20
+> I'll try it. I know it fails on master (at least two days ago's
+> master). I'll apply the series and re-test.
+>=20
+Ok, so, yes: current master + the v2 of "virtio-gpio and various virtio
+cleanups", still fails (with GCC12 and LTO, of course), pretty much in
+the same way I've described in this thread.
 
-Right now, no hardware. My interest here isn't really in the i2c mctp thing as
-opposed to running other stuff over MCTP - it's just a convenient path
-to emulating what a Fabric Manager (probably a BMC) would be doing
-in a CXL system. I'm just making us of the existing infrastructure
-rather than rolling a different interface (I could do MCTP over PCI VDM
-for example and may well do that in future).
+I've also tried current master + above series + revert of
+8dcb404bff6d914 , although I'm not sure it even makes sense... :-O
 
-Actual system might look something like:
-- note that I don't need to model this to be able to
-  exercise the OS support etc... (see later)
-USP - normal upstream port
-DSP - normal downstream port
-vPPB -  is sort of like a virtual downstream port. These
-    are dynamically bound to either a single logical devices (SLD)
-    which has a whole physical CXL DSP to itself, or to one logical
-    device in an Multilogical device (MLD)
+Anyway, it also fails, but differently:
 
-What a host sees is either vPPB that has link down (nothing there)
-or a vPPB that has a device below it which it can discover
-via normal enumeration.
+MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))} \       =
+                                                                           =
+                                                   =20
+>   QTEST_QEMU_IMG=3D./qemu-img G_TEST_DBUS_DAEMON=3D../tests/dbus-vmstate-=
+daemon.sh \                                                                =
+                                                                           =
+                =20
+>   QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-daemon=
+ \                                                                         =
+                                                                           =
+              =20
+>   QTEST_QEMU_BINARY=3D./qemu-system-x86_64 ./tests/qtest/qos-test --tap -=
+k                                                                          =
+                                                                           =
+              =20
+# random seed: R02S69b7a984047f827959f7adb2e4161fb7                        =
+                                                                           =
+                                                                           =
+            =20
+# starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-31788.soc=
+k -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-31788.qmp,id=3Dcha=
+r0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine none -accel q=
+test                =20
+1..101                                                                     =
+                                                                           =
+                                                                           =
+            =20
+# Start of x86_64 tests                                                    =
+                                                                           =
+                                                                           =
+            =20
+# Start of pc tests                                                        =
+                                                                           =
+                                                                           =
+            =20
+# Start of i440FX-pcihost tests                                            =
+                                                                           =
+                                                                           =
+            =20
+# Start of pci-bus-pc tests
+# Start of pci-bus tests
+# Start of vhost-user-gpio-pci tests
+# Start of vhost-user-gpio tests
+# Start of vhost-user-gpio-tests tests
+# Start of read-guest-mem tests
+qemu-system-x86_64: Failed to set msg fds.
+qemu-system-x86_64: vhost VQ 0 ring restore failed: -22: Invalid argument (=
+22)
+qemu-system-x86_64: Failed to set msg fds.
+qemu-system-x86_64: vhost VQ 1 ring restore failed: -22: Invalid argument (=
+22)
+qemu-system-x86_64: Failed to set msg fds.
+qemu-system-x86_64: vhost_set_vring_call failed: Invalid argument (22)
+qemu-system-x86_64: Failed to set msg fds.
+qemu-system-x86_64: vhost_set_vring_call failed: Invalid argument (22)
+qemu-system-x86_64: Failed to write msg. Wrote -1 instead of 20.
+qemu-system-x86_64: vhost VQ 0 ring restore failed: -5: Input/output error =
+(5)                                                                        =
+                                                                           =
+            =20
+../tests/qtest/libqtest.c:165: kill_qemu() detected QEMU death from signal =
+11 (Segmentation fault)                                                    =
+                                                                           =
+            =20
+# child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/vhost-user-gp=
+io-pci/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subproc=
+ess [31850]) killed by signal 6 (Aborted)                                  =
+            =20
+# child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/vhost-user-gp=
+io-pci/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subproc=
+ess [31850]) stdout: ""                                                    =
+            =20
+# child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/vhost-user-gp=
+io-pci/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subproc=
+ess [31850]) stderr: "qemu-system-x86_64: Failed to set msg fds.\nqemu-syst=
+em-x86_64: vh
+ost VQ 0 ring restore failed: -22: Invalid argument (22)\nqemu-system-x86_6=
+4: Failed to set msg fds.\nqemu-system-x86_64: vhost VQ 1 ring restore fail=
+ed: -22: Invalid argument (22)\nqemu-system-x86_64: Failed to set msg fds.\=
+nqemu-system-
+x86_64: vhost_set_vring_call failed: Invalid argument (22)\nqemu-system-x86=
+_64: Failed to set msg fds.\nqemu-system-x86_64: vhost_set_vring_call faile=
+d: Invalid argument (22)\nqemu-system-x86_64: Failed to write msg. Wrote -1=
+ instead of 2
+0.\nqemu-system-x86_64: vhost VQ 0 ring restore failed: -5: Input/output er=
+ror (5)\n../tests/qtest/libqtest.c:165: kill_qemu() detected QEMU death fro=
+m signal 11 (Segmentation fault)\n"                                        =
+            =20
+**                                                                         =
+                                                                           =
+                                                                           =
+            =20
+ERROR:../tests/qtest/qos-test.c:190:subprocess_run_one_test: child process =
+(/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/vhost-user-gpio-pci/vhost-use=
+r-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess [31850]) fai=
+led unexpecte
+dly
+Bail out! ERROR:../tests/qtest/qos-test.c:190:subprocess_run_one_test: chil=
+d process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/vhost-user-gpio-pci=
+/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess [3=
+1850]) failed
+ unexpectedly
+Aborted
 
-Example here has
+With also this in dmesg:
 
-Host 0 with two root ports
-Each RP is connected to an upstream port on the switch
-with a small virtual hierarchy (VH0 and VH1) of two vPPB each
-As currently configured (and note it dynamically configuring this
-which is of interest) VH0 has one vPPB bound to a 
+[mer mag 25 13:11:18 2022] show_signal_msg: 46 callbacks suppressed
+[mer mag 25 13:11:18 2022] qemu-system-x86[23711]: segfault at 58 ip 000055=
+e6a0daa4b3 sp 00007ffc5699b870 error 4 in qemu-system-x86_64[55e6a0bdb000+6=
+17000]
+[mer mag 25 13:11:18 2022] Code: 83 26 4d 00 48 8d 2d 66 1e 4d 00 53 48 8d =
+1d 74 7d 44 00 48 89 da e8 cc a5 26 00 48 89 da 4c 8d 05 c0 78 50 00 b9 d8 =
+00 00 00 <48> 8b 78 58 48 8d 35 d0 78 49 00 e8 ad a5 26 00 b9 23 00 00 00 4=
+c
 
- _________________    ________________
-|  Host 0         |  |   Host 1       |    ---------
-|                 |  |                |   | Fabric  |
-| CXLRP0  CXLRP1  |  | CXLRP0  CXLRP1 |   | Manager |
-|_________________|  |________________|   |_________|
-    |        |            |      |              |
-    | CXL    | CXL        |CXL   |CXL           | I2C 
- ___|________|____________|______|______________|______
-|                                                      | 
-|  USP      USP          USP     USP            FM-API |
-|   |        |            |       |                    |
-|   | VH0    |VH1         |VH2    |VH3                 |
-|  / \      / \          / \     / \                   |
-| /   \        \        /   \       \                  |
-|/     \        \      /     \       \                 |
-|vPPB  vPPB    vPPB  vPPB    vPPB    vPPB              |
-| |    Unbound   |   Unbound   |      |                |
-| bound           \            LD1   LD2               |
-| |                \Bound LD0  |     /                 | 
-| |                 \          |    /                  |
-| DSP                ----DSP-MLD ---                   |
-|______________________________________________________|
-   |                           |
-  SLD Type 3                   MLD memory device
-  memory device
 
-However, to be able to poke all the OS interfaces and
-the fabric manager interfaces I just need the ability to
-model something more like.
- _______________________________________________________
-|  Host 0                                               |
-|                                           FM Software |
-| CXLRP0  CXLRP1                            Manager     |
-|_______________________________________________________|
-    |        |                                  |
-    | CXL    | CXL        Not connected         | I2C 
- ___|________|__________________________________|______
-|                                                      | 
-|  USP      USP          USP     USP            FM-API |
-|   |        |            |       |                    |
-|   | VH0    |VH1         |VH2    |VH3                 |
-|  / \      / \          / \     / \                   |
-| /   \        \        /   \       \                  |
-|/     \        \      /     \       \                 |
-|vPPB  vPPB    vPPB  vPPB    vPPB    vPPB              |
-| |    Unbound   |   Unbound   |      |                |
-| bound           \            LD1   LD2               |
-| |                \Bound LD0  |     /                 | 
-| |                 \          |    /                  |
-| DSP               -----DSP-MLD ---                   |
-|______________________________________________________|
-   |                           |
-  SLD Type 3                   MLD memory device
-  memory device
+Of course, I've also tried current master + above series, with GCC12
+and _no_ LTO. And that works.
 
-The reason for jumping through the hoops of mctp over i2c
-is that the software support is there and standard today
-+ this lets me use the existing DMTF MCTP bindings for CXL
-FM-API rather than wrapping them up in something custom.
-It's also nice and lightweight from the emulation point of view.
+Any other test I can run? :-)
 
-Clearly lots to do here yet though including...
-1. Hooking the FM-API agent up to the parts of the switch
-   (probably adding links to the USPs is sufficient)
-2. Adding infrastructure for vPPBs.
-3. Wire up everything to be able to trigger appropriate
-  hotplug events to the host for CXL devices being bound
-  to the vPPBs.
+Regards
+--=20
+Dario Faggioli, Ph.D
+http://about.me/dario.faggioli
+Virtualization Software Engineer
+SUSE Labs, SUSE https://www.suse.com/
+-------------------------------------------------------------------
+<<This happens because _I_ choose it to happen!>> (Raistlin Majere)
 
-I'm not that bothered by the lack of suitable i2c master
-with ACPI bindings in the short term, it just makes
-testing a bit fiddlier as kernel will need patching.
-It'll be a trivial patch, particularly if I can get moving
-most of the aspeed-i2c kernel firmware handling over to the
-generic property.h infrastructure (and then use the wonder
-that is PRP0001, plus bodge the clk and reset). 
+--=-GxTGcb8b7FiQkj5p4FLb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Longer term I might just switch to the PCI VDM route but
-that's a bigger job in both the kernel and QEMU.
+-----BEGIN PGP SIGNATURE-----
 
-Right now I'm loving the short cut other people's work gave me ;)
+iQIzBAABCAAdFiEES5ssOj3Vhr0WPnOLFkJ4iaW4c+4FAmKOE14ACgkQFkJ4iaW4
+c+75XhAA79VYzFWpvt2Q4Zid7b4MlMB81U8ruFgySbGvLUalOHKvd/h2dMRE/1vi
+yGorjBP/08HJtSFTs9kWp+1WJvdbEHRh7kjOpF/4APAHx0gR5I99wHMzGlv9jc4z
+Mpe2flJmmIpLzctV95oR56GyqW3fudCBL0iyIseVVao6E/Geq/lbLO4bGVuIZ5VV
+J0bQiBEtgWxPU4ixpLPSsXFO7IS/y6+pFBE/SFHLqeAPKeFAveoQj6jPLCAEmkYQ
+hLiopK/2UUjvmzTIy3J3c5l+v5xTeR0qjEIo7AbA2wztT8iDPWCau8z7IUKTZwSu
+Ih7VcAWpmg2RV+hccnIpg5cMUPFl0uw/uyUpIsGhukxGq+TXEvRfsTUCwX47RRvu
+hR4ay42O0M/w4JioifqlRS5wzvinVWuMCA66awyW7olFevB2DBFXu/Twk2pKEDic
+M11ws1vFMlROK8XjiZSmfMdE1qdPkt3P/m9AeocqvBU0Pcs9YwXGhj9SdypG8M70
+ZxtFbZxoM5x+iayOByNh2BcZhORik4j2QxXORs2BZRi3xMZAlN1PGZoKx1XL0U71
+FT8hxBYzPAQYS1gNI1VJwragkIQrQptvv3fDMF7dHEQbJW5ro/JTd+FLqjdu5ugi
+IAMe0Eb8UbyzwE4heWzycXdTr6mxSr/WOgJ3PH3wQcdvFznpDGg=
+=B50H
+-----END PGP SIGNATURE-----
 
-Thanks,
-
-Jonathan
- 
-
-> -corey
-> 
-> > 
-> > Jonathan
-> > 
-> > 
-> >   
-> > >   
-> > > > 
-> > > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > > ---
-> > > >  hw/arm/Kconfig        |  1 +
-> > > >  hw/arm/virt.c         | 77 +++++++++++++++++++++++++++++++++++++++++++
-> > > >  include/hw/arm/virt.h |  2 ++
-> > > >  3 files changed, 80 insertions(+)
-> > > > 
-> > > > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> > > > index 219262a8da..4a733298cd 100644
-> > > > --- a/hw/arm/Kconfig
-> > > > +++ b/hw/arm/Kconfig
-> > > > @@ -30,6 +30,7 @@ config ARM_VIRT
-> > > >      select ACPI_VIOT
-> > > >      select VIRTIO_MEM_SUPPORTED
-> > > >      select ACPI_CXL
-> > > > +    select I2C_MCTP_CXL_FMAPI
-> > > >  
-> > > >  config CHEETAH
-> > > >      bool
-> > > > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > > > index d818131b57..ea04279515 100644
-> > > > --- a/hw/arm/virt.c
-> > > > +++ b/hw/arm/virt.c
-> > > > @@ -80,6 +80,9 @@
-> > > >  #include "hw/char/pl011.h"
-> > > >  #include "hw/cxl/cxl.h"
-> > > >  #include "qemu/guest-random.h"
-> > > > +#include "hw/i2c/i2c.h"
-> > > > +#include "hw/i2c/aspeed_i2c.h"
-> > > > +#include "hw/misc/i2c_mctp_cxl_fmapi.h"
-> > > >  
-> > > >  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-> > > >      static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-> > > > @@ -156,6 +159,8 @@ static const MemMapEntry base_memmap[] = {
-> > > >      [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
-> > > >      [VIRT_SECURE_GPIO] =        { 0x090b0000, 0x00001000 },
-> > > >      [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
-> > > > +    [VIRT_I2C] =                { 0x0b000000, 0x00004000 },
-> > > > +    [VIRT_RESET_FAKE] =         { 0x0b004000, 0x00000010 },
-> > > >      /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
-> > > >      [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
-> > > >      [VIRT_SECURE_MEM] =         { 0x0e000000, 0x01000000 },
-> > > > @@ -192,6 +197,7 @@ static const int a15irqmap[] = {
-> > > >      [VIRT_GPIO] = 7,
-> > > >      [VIRT_SECURE_UART] = 8,
-> > > >      [VIRT_ACPI_GED] = 9,
-> > > > +    [VIRT_I2C] = 10,
-> > > >      [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
-> > > >      [VIRT_GIC_V2M] = 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
-> > > >      [VIRT_SMMU] = 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
-> > > > @@ -1996,6 +2002,75 @@ static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
-> > > >      }
-> > > >  }
-> > > >  
-> > > > +static void create_mctp_test(MachineState *ms)
-> > > > +{
-> > > > +    VirtMachineState *vms = VIRT_MACHINE(ms);
-> > > > +    MemoryRegion *sysmem = get_system_memory();
-> > > > +    AspeedI2CState *aspeedi2c;
-> > > > +    struct DeviceState  *dev;
-> > > > +    char *nodename_i2c_master;
-> > > > +    char *nodename_i2c_sub;
-> > > > +    char *nodename_reset;
-> > > > +    uint32_t clk_phandle, reset_phandle;
-> > > > +    MemoryRegion *sysmem2;
-> > > > +   
-> > > > +    dev = qdev_new("aspeed.i2c-ast2600");
-> > > > +    aspeedi2c = ASPEED_I2C(dev);
-> > > > +    object_property_set_link(OBJECT(dev), "dram", OBJECT(ms->ram), &error_fatal);
-> > > > +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> > > > +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, vms->memmap[VIRT_I2C].base);
-> > > > +    sysbus_connect_irq(SYS_BUS_DEVICE(&aspeedi2c->busses[0]), 0, qdev_get_gpio_in(vms->gic, vms->irqmap[VIRT_I2C]));
-> > > > +
-> > > > +    /* I2C bus DT */
-> > > > +    reset_phandle = qemu_fdt_alloc_phandle(ms->fdt);
-> > > > +    nodename_reset = g_strdup_printf("/reset@%" PRIx64, vms->memmap[VIRT_RESET_FAKE].base);
-> > > > +    qemu_fdt_add_subnode(ms->fdt, nodename_reset);
-> > > > +    qemu_fdt_setprop_string(ms->fdt, nodename_reset, "compatible", "snps,dw-low-reset");
-> > > > +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename_reset, "reg",
-> > > > +                                 2, vms->memmap[VIRT_RESET_FAKE].base,
-> > > > +                                 2, vms->memmap[VIRT_RESET_FAKE].size);
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, nodename_reset, "#reset-cells", 0x1);
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, nodename_reset, "phandle", reset_phandle);
-> > > > +    sysmem2 =  g_new(MemoryRegion, 1);
-> > > > +    memory_region_init_ram(sysmem2, NULL, "reset", vms->memmap[VIRT_RESET_FAKE].size, NULL);
-> > > > +    memory_region_add_subregion(sysmem, vms->memmap[VIRT_RESET_FAKE].base, sysmem2);
-> > > > +    
-> > > > +    clk_phandle = qemu_fdt_alloc_phandle(ms->fdt);
-> > > > +    
-> > > > +    qemu_fdt_add_subnode(ms->fdt, "/mclk");
-> > > > +    qemu_fdt_setprop_string(ms->fdt, "/mclk", "compatible", "fixed-clock");
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, "/mclk", "#clock-cells", 0x0);
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, "/mclk", "clock-frequency", 24000);
-> > > > +    qemu_fdt_setprop_string(ms->fdt, "/mclk", "clock-output-names", "bobsclk");
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, "/mclk", "phandle", clk_phandle);
-> > > > +
-> > > > +    nodename_i2c_master = g_strdup_printf("/i2c@%" PRIx64, vms->memmap[VIRT_I2C].base);
-> > > > +    qemu_fdt_add_subnode(ms->fdt, nodename_i2c_master);
-> > > > +    qemu_fdt_setprop_string(ms->fdt, nodename_i2c_master, "compatible",  "aspeed,ast2600-i2c-bus");
-> > > > +    qemu_fdt_setprop_cells(ms->fdt, nodename_i2c_master, "multi-master");
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, nodename_i2c_master, "#size-cells", 0);
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, nodename_i2c_master, "#address-cells", 1);
-> > > > +    qemu_fdt_setprop_cell(ms->fdt, nodename_i2c_master, "clocks", clk_phandle);
-> > > > +    qemu_fdt_setprop_string(ms->fdt, nodename_i2c_master, "clock-names", "bobsclk");
-> > > > +    qemu_fdt_setprop(ms->fdt, nodename_i2c_master, "mctp-controller", NULL, 0);
-> > > > +    qemu_fdt_setprop_cells(ms->fdt, nodename_i2c_master, "interrupts", GIC_FDT_IRQ_TYPE_SPI,
-> > > > +                           vms->irqmap[VIRT_I2C], GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-> > > > +    /* Offset to the first bus is 0x80, next one at 0x100 etc */
-> > > > +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename_i2c_master, "reg",
-> > > > +                                 2, vms->memmap[VIRT_I2C].base + 0x80,
-> > > > +                                 2, 0x80);
-> > > > +    qemu_fdt_setprop_cells(ms->fdt, nodename_i2c_master, "resets", reset_phandle,  0);
-> > > > +
-> > > > +    nodename_i2c_sub = g_strdup_printf("/i2c@%" PRIx64 "/mctp@%" PRIx64, vms->memmap[VIRT_I2C].base, 0x50l);
-> > > > +    qemu_fdt_add_subnode(ms->fdt, nodename_i2c_sub);
-> > > > +    qemu_fdt_setprop_string(ms->fdt, nodename_i2c_sub, "compatible",  "mctp-i2c-controller");
-> > > > +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename_i2c_sub, "reg", 1, 0x50 | 0x40000000);
-> > > > +
-> > > > +        
-> > > > +    /* Slave device - linux doesn't use the presence of dt node for this so don't create one*/
-> > > > +    i2c_slave_create_simple(aspeed_i2c_get_bus(aspeedi2c, 0), "i2c_mctp_cxl_switch", 0x4d);
-> > > > +}
-> > > > +
-> > > >  static void machvirt_init(MachineState *machine)
-> > > >  {
-> > > >      VirtMachineState *vms = VIRT_MACHINE(machine);
-> > > > @@ -2289,6 +2364,8 @@ static void machvirt_init(MachineState *machine)
-> > > >          create_gpio_devices(vms, VIRT_SECURE_GPIO, secure_sysmem);
-> > > >      }
-> > > >  
-> > > > +    create_mctp_test(machine);
-> > > > +
-> > > >       /* connect powerdown request */
-> > > >       vms->powerdown_notifier.notify = virt_powerdown_req;
-> > > >       qemu_register_powerdown_notifier(&vms->powerdown_notifier);
-> > > > diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> > > > index 67c08a62af..abbfac7c48 100644
-> > > > --- a/include/hw/arm/virt.h
-> > > > +++ b/include/hw/arm/virt.h
-> > > > @@ -71,6 +71,8 @@ enum {
-> > > >      VIRT_SMMU,
-> > > >      VIRT_UART,
-> > > >      VIRT_MMIO,
-> > > > +    VIRT_I2C,
-> > > > +    VIRT_RESET_FAKE,
-> > > >      VIRT_RTC,
-> > > >      VIRT_FW_CFG,
-> > > >      VIRT_PCIE,
-> > > > -- 
-> > > > 2.32.0
-> > > >     
-> >   
+--=-GxTGcb8b7FiQkj5p4FLb--
 
 
