@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E096534047
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:19:53 +0200 (CEST)
-Received: from localhost ([::1]:37018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EC5533F9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 16:55:55 +0200 (CEST)
+Received: from localhost ([::1]:50412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntsng-00029m-8a
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:19:52 -0400
+	id 1ntsQT-0004LI-QE
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 10:55:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1ntsGu-00033c-Nv; Wed, 25 May 2022 10:46:01 -0400
-Received: from mail-sender.a4lg.com ([153.120.152.154]:53432
- helo=mail-sender-0.a4lg.com)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ntsGo-00033c-9q
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 10:45:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nts4U-0003xL-BH; Wed, 25 May 2022 10:33:13 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 83873300089;
- Wed, 25 May 2022 14:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1653489181;
- bh=8Nn5Zhw/1XD5Dvkf9GOpgoxDYIXc9JhR0kUP1ltqkBE=;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
- Mime-Version:Content-Transfer-Encoding;
- b=dVCNWf6CDhfazZThPYJ/KdnLvmC2h0EYcuG57+XShZscqL32vRhSGO4gKMoWixsJ+
- QPk+zfT1MW9CSxIVrbYN2X03Bqn1D3XNKd9RYFVYEBidchxE2warAIG1ZmX1BRLXtZ
- 0SvFz0m/FnAsFHG2ZfDnzIZ9Xl3UYIZhPdhhlssM=
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-To: Tsukasa OI <research_trasio@irq.a4lg.com>,
- Alistair Francis <alistair23@gmail.com>
-Cc: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2.1 2/3] target/riscv: Make CPU property names lowercase
-Date: Wed, 25 May 2022 23:32:50 +0900
-Message-Id: <e20ce7622bb46023cd3b8c003df4f75f68a83f1a.1653489014.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <dd7579a2a8b81632827d42a137c7f7720cc7ab5f.1653472385.git.research_trasio@irq.a4lg.com>
-References: <dd7579a2a8b81632827d42a137c7f7720cc7ab5f.1653472385.git.research_trasio@irq.a4lg.com>
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ntsCn-00063d-Eh
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 10:41:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653489703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rlQJTRdxhajBqoJhN8/pZK7OQuqFhMI25iNN//qDPjY=;
+ b=f7pporfQV/FtC98+0IDV9B4oFy2lECydrRJ244v7UJdfxRbCMywQUzUCoATgL3bwDF+eSa
+ u04XrKN0KQ0O22UY7qZWFnZfwRSlYRiLq8clTTeWrrI0fgia+aUTd03boaGhLbSrmhAOGs
+ 9deVGt26nOwBDtCHF7YrpXlbWwx8b68=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-385-CAWFTj0iOM26qjA--nNFBQ-1; Wed, 25 May 2022 10:41:42 -0400
+X-MC-Unique: CAWFTj0iOM26qjA--nNFBQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCBB9858EED
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 14:41:41 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85A8640C128B;
+ Wed, 25 May 2022 14:41:41 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v5 00/15] Misc cleanups
+Date: Wed, 25 May 2022 16:41:25 +0200
+Message-Id: <20220525144140.591926-1-marcandre.lureau@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=153.120.152.154;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,93 +79,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Many CPU properties for RISC-V are in lowercase except those with
-"capitalized" (or CamelCase) names:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
--   Counters
--   Zifencei
--   Zicsr
--   Zfh
--   Zfhmin
--   Zve32f
--   Zve64f
+Hi,
 
-This commit makes lowercase names primary but keeps capitalized names
-as aliases (for backward compatibility, but with deprecated status).
+More preliminary cleanups before a series to make qemu-ga a meson subproject().
 
-Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
----
- target/riscv/cpu.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+v5:
+- drop Error argument from qga_open_cloexec()
+- add r-b tags
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 3f21563f2d..83262586e4 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -840,6 +840,10 @@ static void riscv_cpu_init(Object *obj)
- }
- 
- static Property riscv_cpu_properties[] = {
-+    /*
-+     * Names for ISA extensions and features should be in lowercase.
-+     */
-+
-     /* Base ISA and single-letter standard extensions */
-     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
-     DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
-@@ -855,11 +859,11 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
- 
-     /* Standard unprivileged extensions */
--    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
--    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-+    DEFINE_PROP_BOOL("zicsr", RISCVCPU, cfg.ext_icsr, true),
-+    DEFINE_PROP_BOOL("zifencei", RISCVCPU, cfg.ext_ifencei, true),
- 
--    DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
--    DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-+    DEFINE_PROP_BOOL("zfh", RISCVCPU, cfg.ext_zfh, false),
-+    DEFINE_PROP_BOOL("zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-     DEFINE_PROP_BOOL("zfinx", RISCVCPU, cfg.ext_zfinx, false),
-     DEFINE_PROP_BOOL("zdinx", RISCVCPU, cfg.ext_zdinx, false),
-     DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
-@@ -884,8 +888,8 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
-     DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
- 
--    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
--    DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
-+    DEFINE_PROP_BOOL("zve32f", RISCVCPU, cfg.ext_zve32f, false),
-+    DEFINE_PROP_BOOL("zve64f", RISCVCPU, cfg.ext_zve64f, false),
- 
-     /* Standard supervisor-level extensions */
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-@@ -893,7 +897,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
- 
-     /* Base features */
--    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-+    DEFINE_PROP_BOOL("counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
-@@ -922,6 +926,15 @@ static Property riscv_cpu_properties[] = {
-     /* Other options */
-     DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
- 
-+    /* Capitalized aliases (deprecated and will be removed) */
-+    DEFINE_PROP("Counters", RISCVCPU, cfg.ext_counters, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zifencei", RISCVCPU, cfg.ext_ifencei, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zicsr", RISCVCPU, cfg.ext_icsr, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zfh", RISCVCPU, cfg.ext_zfh, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zfhmin", RISCVCPU, cfg.ext_zfhmin, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zve32f", RISCVCPU, cfg.ext_zve32f, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zve64f", RISCVCPU, cfg.ext_zve64f, qdev_prop_bool, bool),
-+
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+v4:
+- remove some unnecessary ERRP_GUARD()
+- open-code some g_clear_pointer()
+- don't export qemu_open_cloexec, introduce qga_open_cloexec instead
+- some formatting improvements
+- add new r-b tags
+
+v3:
+- changed error_report_err() back to g_critical()
+- added "qga: make build_fs_mount_list() return a bool"
+- replaced g_clear_pointer() usage by open-coded version
+- dropped needless g_autoptr(GError) in tests
+- rebased, (dropped "include: adjust header guards after renaming")
+- some commit message rewording
+- added r-b tags
+
+v2:
+- drop "compiler.h: add QEMU_{BEGIN,END}_IGNORE_INITIALIZER_OVERRIDES",
+  "qobject/json-lexer: disable -Winitializer-overrides warnings" &
+  "qapi/error: add g_autoptr(Error) support" and adjust related code.
+- add "test/qga: use g_auto wherever sensible"
+- add r-b tags
+
+Marc-André Lureau (15):
+  include: move qemu_*_exec_dir() to cutils
+  util/win32: simplify qemu_get_local_state_dir()
+  tests: make libqmp buildable for win32
+  qga: flatten safe_open_or_create()
+  qga: add qga_open_cloexec() helper
+  qga: use qga_open_cloexec() for safe_open_or_create()
+  qga: throw an Error in ga_channel_open()
+  qga: replace qemu_open_old() with qga_open_cloexec()
+  qga: make build_fs_mount_list() return a bool
+  test/qga: use G_TEST_DIR to locate os-release test file
+  qga/wixl: prefer variables over environment
+  qga/wixl: require Mingw_bin
+  qga/wixl: simplify some pre-processing
+  qga/wixl: replace QEMU_GA_MSI_MINGW_BIN_PATH with glib bindir
+  test/qga: use g_auto wherever sensible
+
+ configure                            |   9 +-
+ meson.build                          |   5 +-
+ include/qemu/cutils.h                |   7 ++
+ include/qemu/osdep.h                 |   8 --
+ qga/cutils.h                         |   8 ++
+ tests/qtest/libqmp.h                 |   2 +
+ qemu-io.c                            |   1 +
+ qga/channel-posix.c                  |  55 +++++-----
+ qga/commands-posix.c                 | 154 +++++++++++++--------------
+ qga/cutils.c                         |  33 ++++++
+ storage-daemon/qemu-storage-daemon.c |   1 +
+ tests/qtest/fuzz/fuzz.c              |   1 +
+ tests/qtest/libqmp.c                 |  34 +++++-
+ tests/unit/test-qga.c                | 130 ++++++++--------------
+ util/cutils.c                        | 108 +++++++++++++++++++
+ util/oslib-posix.c                   |  81 --------------
+ util/oslib-win32.c                   |  53 +--------
+ qga/installer/qemu-ga.wxs            |  83 +++++----------
+ qga/meson.build                      |  12 +--
+ 19 files changed, 385 insertions(+), 400 deletions(-)
+ create mode 100644 qga/cutils.h
+ create mode 100644 qga/cutils.c
+
 -- 
-2.34.1
+2.36.1
 
 
