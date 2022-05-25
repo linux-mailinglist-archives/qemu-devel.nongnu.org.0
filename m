@@ -2,65 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFCD533F4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 16:35:07 +0200 (CEST)
-Received: from localhost ([::1]:35296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E096534047
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:19:53 +0200 (CEST)
+Received: from localhost ([::1]:37018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nts6M-0001Dq-4S
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 10:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37052)
+	id 1ntsng-00029m-8a
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ntrr9-0005Iy-At
- for qemu-devel@nongnu.org; Wed, 25 May 2022 10:19:23 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:33387)
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1ntsGu-00033c-Nv; Wed, 25 May 2022 10:46:01 -0400
+Received: from mail-sender.a4lg.com ([153.120.152.154]:53432
+ helo=mail-sender-0.a4lg.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ntrr7-0001HE-56
- for qemu-devel@nongnu.org; Wed, 25 May 2022 10:19:22 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.102])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6358120E96;
- Wed, 25 May 2022 14:19:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 25 May
- 2022 16:19:15 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001a83b4016-6d22-4fcd-990d-c5d7d53a019d,
- D6A97ED6E11FF164423AFC60B0B43C9491D8EECB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5d57d89f-05c5-d248-4fae-ff6d484bdb8c@kaod.org>
-Date: Wed, 25 May 2022 16:19:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] hw/arm/aspeed: Add i2c devices for AST2600 EVB
-Content-Language: en-US
-To: Howard Chiu <howard_chiu@aspeedtech.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: Troy Lee <troy_lee@aspeedtech.com>, Steven Lee
- <steven_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>
-References: <SG2PR06MB2315A0711B0DC6903A0291BAE6D69@SG2PR06MB2315.apcprd06.prod.outlook.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <SG2PR06MB2315A0711B0DC6903A0291BAE6D69@SG2PR06MB2315.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1nts4U-0003xL-BH; Wed, 25 May 2022 10:33:13 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 83873300089;
+ Wed, 25 May 2022 14:33:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
+ s=2017s01; t=1653489181;
+ bh=8Nn5Zhw/1XD5Dvkf9GOpgoxDYIXc9JhR0kUP1ltqkBE=;
+ h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+ Mime-Version:Content-Transfer-Encoding;
+ b=dVCNWf6CDhfazZThPYJ/KdnLvmC2h0EYcuG57+XShZscqL32vRhSGO4gKMoWixsJ+
+ QPk+zfT1MW9CSxIVrbYN2X03Bqn1D3XNKd9RYFVYEBidchxE2warAIG1ZmX1BRLXtZ
+ 0SvFz0m/FnAsFHG2ZfDnzIZ9Xl3UYIZhPdhhlssM=
+From: Tsukasa OI <research_trasio@irq.a4lg.com>
+To: Tsukasa OI <research_trasio@irq.a4lg.com>,
+ Alistair Francis <alistair23@gmail.com>
+Cc: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2.1 2/3] target/riscv: Make CPU property names lowercase
+Date: Wed, 25 May 2022 23:32:50 +0900
+Message-Id: <e20ce7622bb46023cd3b8c003df4f75f68a83f1a.1653489014.git.research_trasio@irq.a4lg.com>
+In-Reply-To: <dd7579a2a8b81632827d42a137c7f7720cc7ab5f.1653472385.git.research_trasio@irq.a4lg.com>
+References: <dd7579a2a8b81632827d42a137c7f7720cc7ab5f.1653472385.git.research_trasio@irq.a4lg.com>
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c4e98ebc-24a3-4cad-82ff-65565c9c4a78
-X-Ovh-Tracer-Id: 4243798224019295023
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrjeehgdejgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehjrghmihhnpghlihhnsegrshhpvggvughtvggthhdrtghomh
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
- helo=10.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=153.120.152.154;
+ envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,44 +64,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/22 12:00, Howard Chiu wrote:
-> Add EEPROM and LM75 temperature sensor according to hardware schematic
-> 
-> Signed-off-by: Howard Chiu <howard_chiu@aspeedtech.com>
+Many CPU properties for RISC-V are in lowercase except those with
+"capitalized" (or CamelCase) names:
 
+-   Counters
+-   Zifencei
+-   Zicsr
+-   Zfh
+-   Zfhmin
+-   Zve32f
+-   Zve64f
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+This commit makes lowercase names primary but keeps capitalized names
+as aliases (for backward compatibility, but with deprecated status).
 
-Thanks,
+Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+---
+ target/riscv/cpu.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-C.
-
-
-> ---
->   hw/arm/aspeed.c | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index a74c13ab0f..df74d3e955 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -526,8 +526,15 @@ static void ast2500_evb_i2c_init(AspeedMachineState *bmc)
->   
->   static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
->   {
-> -    /* Start with some devices on our I2C busses */
-> -    ast2500_evb_i2c_init(bmc);
-> +    AspeedSoCState *soc = &bmc->soc;
-> +    uint8_t *eeprom_buf = g_malloc0(8 * 1024);
-> +
-> +    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 7), 0x50,
-> +                          eeprom_buf);
-> +
-> +    /* LM75 is compatible with TMP105 driver */
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8),
-> +                     TYPE_TMP105, 0x4d);
->   }
->   
->   static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3f21563f2d..83262586e4 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -840,6 +840,10 @@ static void riscv_cpu_init(Object *obj)
+ }
+ 
+ static Property riscv_cpu_properties[] = {
++    /*
++     * Names for ISA extensions and features should be in lowercase.
++     */
++
+     /* Base ISA and single-letter standard extensions */
+     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
+     DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
+@@ -855,11 +859,11 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
+ 
+     /* Standard unprivileged extensions */
+-    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+-    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
++    DEFINE_PROP_BOOL("zicsr", RISCVCPU, cfg.ext_icsr, true),
++    DEFINE_PROP_BOOL("zifencei", RISCVCPU, cfg.ext_ifencei, true),
+ 
+-    DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+-    DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
++    DEFINE_PROP_BOOL("zfh", RISCVCPU, cfg.ext_zfh, false),
++    DEFINE_PROP_BOOL("zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+     DEFINE_PROP_BOOL("zfinx", RISCVCPU, cfg.ext_zfinx, false),
+     DEFINE_PROP_BOOL("zdinx", RISCVCPU, cfg.ext_zdinx, false),
+     DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
+@@ -884,8 +888,8 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
+     DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
+ 
+-    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+-    DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
++    DEFINE_PROP_BOOL("zve32f", RISCVCPU, cfg.ext_zve32f, false),
++    DEFINE_PROP_BOOL("zve64f", RISCVCPU, cfg.ext_zve64f, false),
+ 
+     /* Standard supervisor-level extensions */
+     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+@@ -893,7 +897,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+ 
+     /* Base features */
+-    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
++    DEFINE_PROP_BOOL("counters", RISCVCPU, cfg.ext_counters, true),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+     DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+@@ -922,6 +926,15 @@ static Property riscv_cpu_properties[] = {
+     /* Other options */
+     DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
+ 
++    /* Capitalized aliases (deprecated and will be removed) */
++    DEFINE_PROP("Counters", RISCVCPU, cfg.ext_counters, qdev_prop_bool, bool),
++    DEFINE_PROP("Zifencei", RISCVCPU, cfg.ext_ifencei, qdev_prop_bool, bool),
++    DEFINE_PROP("Zicsr", RISCVCPU, cfg.ext_icsr, qdev_prop_bool, bool),
++    DEFINE_PROP("Zfh", RISCVCPU, cfg.ext_zfh, qdev_prop_bool, bool),
++    DEFINE_PROP("Zfhmin", RISCVCPU, cfg.ext_zfhmin, qdev_prop_bool, bool),
++    DEFINE_PROP("Zve32f", RISCVCPU, cfg.ext_zve32f, qdev_prop_bool, bool),
++    DEFINE_PROP("Zve64f", RISCVCPU, cfg.ext_zve64f, qdev_prop_bool, bool),
++
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
+2.34.1
 
 
