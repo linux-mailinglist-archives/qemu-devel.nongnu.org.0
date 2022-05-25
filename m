@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0D25336EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 08:50:45 +0200 (CEST)
-Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9460E53371D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 09:11:53 +0200 (CEST)
+Received: from localhost ([::1]:56054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntkqy-0003uq-5p
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 02:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60392)
+	id 1ntlBQ-0001n7-A0
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 03:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntkk8-0001AT-Rc
- for qemu-devel@nongnu.org; Wed, 25 May 2022 02:43:40 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:44800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ntkk6-0005xo-Ob
- for qemu-devel@nongnu.org; Wed, 25 May 2022 02:43:40 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id f21so26005918ejh.11
- for <qemu-devel@nongnu.org>; Tue, 24 May 2022 23:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=SSXy3OfWReYoNf6zA0WH6gOUS1eqBgV8GsP1jSrZoxE=;
- b=HokauaDLYOBqynA+9s+mkzFX3WN2MSmfqdIfVoGv9L7bY/UHpsmvBUnzt1XWzG7xbU
- HydkJyAd82LqVNUsY9at2czVMJxf75fHteYFs/Ebk/essE/uidUQR8HNmPbDNG6P2qTc
- rEFOB12/K7BZqbIQXJonXiIeqYGkEX/KBd3os/0OB0PsxcxFEK00f8Umez+3pcybbKYO
- RJ6AYOTViwoJg/qEplYNCBFw9ycpsvs77Fdyxg4mYoQQkuJbnpAH9jn80woCL+QILpVI
- /NnBuG8akZ041pnr+lA+Zp3+YnhoLLSmdkAqkXQlIN7WqwaZo1Xz9JOmG5l265ghzxm3
- XEYw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ntl57-00054j-Bg
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 03:05:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ntl54-0001PL-8F
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 03:05:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653462317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=adsngsYHfk1UWYfYgZniLB3RrZMuGPkFD6OCwydYkyc=;
+ b=O0nmjl4x6N2vc/a2BZcIRWT/iIfKRg9LGN6Yc1n5ILxiRLN0W54fcBgsMYc1BM7YeLhDtK
+ w0Ac+LBw2bInRbPezm2Z+L3WTBdoIAYLDTEMHDajzGmOhuIOkrawDz1gyBWlfhqgOZXV6y
+ A/PGodsbEATctYRy3F6cJcKCY8Rlf2s=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-435-l66My9iEOqe8lDL7EtnlOA-1; Wed, 25 May 2022 03:05:10 -0400
+X-MC-Unique: l66My9iEOqe8lDL7EtnlOA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ ks1-20020a170906f84100b006fee53b22c2so4002100ejb.10
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 00:05:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=SSXy3OfWReYoNf6zA0WH6gOUS1eqBgV8GsP1jSrZoxE=;
- b=qh/2qG0KGytKKRWG/1nylUjgvWiPhSUR0CMMPBVIKs5xLjjBeP27JqT0zk57ziLvYU
- fKZGtUb2ECdjFkFbYOJ/9iRPBP1E3HbsOtK+XQbb7FmfGm/9d0JrOdDyzx8Ms4Sg/CcT
- Btlt1vaSKEMjqPiZJbi44YGvhfYeIqtgmKuabo7qsYMyuaHp9KJ1HmuZg3ien5LmN+bz
- CjjJ9tFzPszoG5yDvrax273l/mIST6h9BnowIq6SrJ1fz3MlHYz2FtfMNbyS+iCgyzK1
- gVrTskTa7fTGhgkDZ20Zfb8VxrwELY06KWtfSQr8f49l6fYL1gEJ5Wttigtkm8gi/Fzo
- vRCA==
-X-Gm-Message-State: AOAM530nJW+8hy6MeFWT+tkK4IltpUeiotljeUwXaDpbHQ/rru8XXj5D
- 32/h1WzBovdZTnP725GWYAmS3HzE6UMjDg==
-X-Google-Smtp-Source: ABdhPJyp1CM3RQMpCr6H+wggMkjSpB3D71R/bR3MrOvCCm+0yLpSLTv7gX0ZVFKg79ca1MkXJNPBng==
-X-Received: by 2002:a17:907:1b0c:b0:6fe:25bf:b3e5 with SMTP id
- mp12-20020a1709071b0c00b006fe25bfb3e5mr27797124ejc.689.1653461015224; 
- Tue, 24 May 2022 23:43:35 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=adsngsYHfk1UWYfYgZniLB3RrZMuGPkFD6OCwydYkyc=;
+ b=uEH/KnyJ4noRUWhpoezMiilkLrQFVUR2LY0AORiWQIkVf/SmLz0OCbrebqVJMca6Nn
+ qaj9qxoNhsBkadQNEGjWpBR4gtnFz82hjq+oJXKSSmkyEpT15u/zy+MEGN83qXx4/cpY
+ I+amdHfU0prhtZIwU/tia9rS1yfXBLVSMqmT9wKKWoePiyMDeo5eaB91AmsiN/DnzEl5
+ H4JQzgu567fqIw14r5c3bLUEWYBj+gYrYjYtIANIZo6xWLElIH74cfXODNmCOpIrieFP
+ mKVAnlsbhg2IvqRFIW3R1MPro6euqSzWigIM/tEzjJn3urtx4OQmGJno1g/1Nhkj8SWm
+ CHqg==
+X-Gm-Message-State: AOAM530bRd4tG5Wtnm0QOKQjRu3NGwTM1Vh6TWwVO+yWpcujfL/EG+a5
+ I/vRtT6oTU7hFLGMp+4SVd3NwIOesD5c36O0tk/afrGtaeI9IF6hD5GF4+ser3VBYkjOtW3Evjw
+ b6Z1ijsCfdinT5MM=
+X-Received: by 2002:a17:906:3104:b0:6ce:6b85:ecc9 with SMTP id
+ 4-20020a170906310400b006ce6b85ecc9mr27161270ejx.339.1653462308864; 
+ Wed, 25 May 2022 00:05:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMdO2zzDR4HQ8D02laLKFbjeEhH6jmR0Smo/f8Uc99FnYsjEKxInOYijrBE/vLNBzxdZl/aQ==
+X-Received: by 2002:a17:906:3104:b0:6ce:6b85:ecc9 with SMTP id
+ 4-20020a170906310400b006ce6b85ecc9mr27161247ejx.339.1653462308586; 
+ Wed, 25 May 2022 00:05:08 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- 3-20020a170906100300b006f3ef214dcdsm7865740ejm.51.2022.05.24.23.43.34
+ u27-20020a170906069b00b006fec2097d53sm4080161ejb.118.2022.05.25.00.05.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 May 2022 23:43:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B47C81FFB7;
- Wed, 25 May 2022 07:43:33 +0100 (BST)
-References: <24c61f36e23339cb1ab80b41e906ea60a0d67d2a.camel@suse.com>
-User-agent: mu4e 1.7.23; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Dario Faggioli <dfaggioli@suse.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Claudio Fontana
- <Claudio.Fontana@suse.com>
-Subject: Re: Problem running qos-test when building with gcc12 and LTO
-Date: Wed, 25 May 2022 07:41:31 +0100
-In-reply-to: <24c61f36e23339cb1ab80b41e906ea60a0d67d2a.camel@suse.com>
-Message-ID: <87v8tu5cyy.fsf@linaro.org>
+ Wed, 25 May 2022 00:05:08 -0700 (PDT)
+Date: Wed, 25 May 2022 09:05:06 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Moger, Babu" <babu.moger@amd.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/2] i386: fixup number of logical CPUs when
+ host-cache-info=on
+Message-ID: <20220525090506.63f55b4c@redhat.com>
+In-Reply-To: <e4df1ba6-1a11-21e8-e344-f5e24fa49ce8@amd.com>
+References: <20220524151020.2541698-1-imammedo@redhat.com>
+ <20220524171949.47508d9b@redhat.com>
+ <e4df1ba6-1a11-21e8-e344-f5e24fa49ce8@amd.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,61 +102,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 24 May 2022 14:48:29 -0500
+"Moger, Babu" <babu.moger@amd.com> wrote:
 
-Dario Faggioli <dfaggioli@suse.com> writes:
+> On 5/24/22 10:19, Igor Mammedov wrote:
+> > On Tue, 24 May 2022 11:10:18 -0400
+> > Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > CCing AMD folks as that might be of interest to them =20
+>=20
+> I am trying to recreate the bug on my AMD system here.. Seeing this messa=
+ge..
+>=20
+> qemu-system-x86_64: -numa node,nodeid=3D0,memdev=3Dram-node0: memdev=3Dra=
+m-node0
+> is ambiguous
+>=20
+> Here is my command line..
+>=20
+> #qemu-system-x86_64 -name rhel8 -m 4096 -hda vdisk.qcow2 -enable-kvm -net
+> nic=C2=A0 -nographic -machine q35,accel=3Dkvm -cpu
+> host,host-cache-info=3Don,l3-cache=3Doff -smp
+> 20,sockets=3D2,dies=3D1,cores=3D10,threads=3D1 -numa
+> node,nodeid=3D0,memdev=3Dram-node0 -numa node,nodeid=3D1,memdev=3Dram-nod=
+e1 -numa
+> cpu,socket-id=3D0,node-id=3D0 -numa cpu,socket-id=3D1,node-id=3D1
+>=20
+> Am I missing something?
+Yep, sorry I've omitted -object memory-backend-foo definitions for
+ram-node0 and ram-node1
 
-> [[PGP Signed Part:Undecided]]
-> On Mon, 2022-05-23 at 19:19 +0000, Dario Faggioli wrote:
->> As soon as I get rid of _both_ "-flto=3Dauto" _and_ "--enable-lto", the
->> above tests seem to work fine.
->>=20
->> When they fail, they fail immediately, while creating the graph, like
->> this:
->>=20
->> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
->> QTEST_QEMU_IMG=3D./qemu-img G_TEST_DBUS_DAEMON=3D../tests/dbus-vmstate-
->> daemon.sh QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-
->> storage-daemon QTEST_QEMU_BINARY=3D./qemu-system-x86_64
->> ./tests/qtest/qos-test --tap -k
->> # random seed: R02S90d4b61102dd94459f986c2367d6d375
->> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-
->> 28822.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-
->> 28822.qmp,id=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -
->> machine none -accel qtest
->> QOSStack: full stack, cannot pushAborted
->>=20
-> Ok, apparently, v6.2.0 works (with GCC 12 and LTO), while as said
-> v7.0.0 doesn't.
->
-> Therefore, I run a bisect, and it pointed at:
->
-> 8dcb404bff6d9147765d7dd3e9c8493372186420
-> tests/qtest: enable more vhost-user tests by default
->
-> I've also confirmed that on v7.0.0 with 8dcb404bff6d914 reverted, the
-> test actually works.
->
-> As far as downstream packaging is concerned, I'll revert it locally.
-> But I'd be happy to help figuring our what is actually going wrong.
->
-> I'll try to dig further. Any idea/suggestion anyone has, feel free.
-> :-)
-
-Sounds like there are still memory corruption/not initialised issues
-that are affected by moving things around.
-
-Does it still trigger errors with my latest virtio cleanup series (which
-adds more tests to qos-test):
-
-  Subject: [PATCH  v2 00/15] virtio-gpio and various virtio cleanups
-  Date: Tue, 24 May 2022 16:40:41 +0100
-  Message-Id: <20220524154056.2896913-1-alex.bennee@linaro.org>
+one can use any memory backend, it doesn't really matter in this case,
+for example following should do:
+  -object memory-backend-ram,id=3Dram-node0,size=3D2G \
+  -object memory-backend-ram,id=3Dram-node1,size=3D2G=20
 
 
->
-> Thanks and Regards
+>=20
+>=20
+> > =20
+> >> Igor Mammedov (2):
+> >>   x86: cpu: make sure number of addressable IDs for processor cores
+> >>     meets the spec
+> >>   x86: cpu: fixup number of addressable IDs for logical processors
+> >>     sharing cache
+> >>
+> >>  target/i386/cpu.c | 20 ++++++++++++++++----
+> >>  1 file changed, 16 insertions(+), 4 deletions(-)
+> >> =20
 
-
---=20
-Alex Benn=C3=A9e
 
