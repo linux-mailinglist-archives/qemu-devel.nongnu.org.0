@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA5D534190
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:33:05 +0200 (CEST)
-Received: from localhost ([::1]:60046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A32A534158
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:20:44 +0200 (CEST)
+Received: from localhost ([::1]:36124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nttwW-0006KF-Hp
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36616)
+	id 1nttkZ-0006D6-Iv
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:20:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttSh-0007Fj-MM; Wed, 25 May 2022 12:02:15 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:48649
+ id 1nttSj-0007Ie-8h; Wed, 25 May 2022 12:02:18 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:53757
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttSd-00049O-9L; Wed, 25 May 2022 12:02:15 -0400
+ id 1nttSg-0004B6-16; Wed, 25 May 2022 12:02:16 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRj2kGfz4xXj;
- Thu, 26 May 2022 02:02:09 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRl4jsjz4xZv;
+ Thu, 26 May 2022 02:02:11 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRg4J7kz4xDK;
- Thu, 26 May 2022 02:02:07 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRj6JLMz4xDK;
+ Thu, 26 May 2022 02:02:09 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jamin Lin <jamin_lin@aspeedtech.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 11/15] hw/gpio Add GPIO read/write trace event.
-Date: Wed, 25 May 2022 18:01:32 +0200
-Message-Id: <20220525160136.556277-12-clg@kaod.org>
+Subject: [PULL 12/15] hw/gpio: Add ASPEED GPIO model for AST1030
+Date: Wed, 25 May 2022 18:01:33 +0200
+Message-Id: <20220525160136.556277-13-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220525160136.556277-1-clg@kaod.org>
 References: <20220525160136.556277-1-clg@kaod.org>
@@ -68,137 +68,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 
-Add GPIO read/write trace event for aspeed model.
+AST1030 integrates one set of Parallel GPIO Controller
+with maximum 151 control pins, which are 21 groups
+(A~U, exclude pin: M6 M7 Q5 Q6 Q7 R0 R1 R4 R5 R6 R7 S0 S3 S4
+S5 S6 S7 ) and the group T and U are input only.
 
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220525053444.27228-2-jamin_lin@aspeedtech.com>
+Message-Id: <20220525053444.27228-3-jamin_lin@aspeedtech.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/gpio/aspeed_gpio.c | 54 +++++++++++++++++++++++++++++++------------
- hw/gpio/trace-events  |  4 ++++
- 2 files changed, 43 insertions(+), 15 deletions(-)
+ hw/arm/aspeed_ast10x0.c | 11 +++++++++++
+ hw/gpio/aspeed_gpio.c   | 27 +++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 9b736e7a9f26..4620ea8e8b83 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -15,6 +15,7 @@
- #include "qapi/visitor.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
-+#include "trace.h"
- 
- #define GPIOS_PER_GROUP 8
- 
-@@ -523,11 +524,15 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
-     uint64_t idx = -1;
-     const AspeedGPIOReg *reg;
-     GPIOSets *set;
-+    uint32_t value = 0;
-+    uint64_t debounce_value;
- 
-     idx = offset >> 2;
-     if (idx >= GPIO_DEBOUNCE_TIME_1 && idx <= GPIO_DEBOUNCE_TIME_3) {
-         idx -= GPIO_DEBOUNCE_TIME_1;
--        return (uint64_t) s->debounce_regs[idx];
-+        debounce_value = (uint64_t) s->debounce_regs[idx];
-+        trace_aspeed_gpio_read(offset, debounce_value);
-+        return debounce_value;
-     }
- 
-     reg = &agc->reg_table[idx];
-@@ -540,38 +545,55 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
-     set = &s->sets[reg->set_idx];
-     switch (reg->type) {
-     case gpio_reg_data_value:
--        return set->data_value;
-+        value = set->data_value;
-+        break;
-     case gpio_reg_direction:
--        return set->direction;
-+        value = set->direction;
-+        break;
-     case gpio_reg_int_enable:
--        return set->int_enable;
-+        value = set->int_enable;
-+        break;
-     case gpio_reg_int_sens_0:
--        return set->int_sens_0;
-+        value = set->int_sens_0;
-+        break;
-     case gpio_reg_int_sens_1:
--        return set->int_sens_1;
-+        value = set->int_sens_1;
-+        break;
-     case gpio_reg_int_sens_2:
--        return set->int_sens_2;
-+        value = set->int_sens_2;
-+        break;
-     case gpio_reg_int_status:
--        return set->int_status;
-+        value = set->int_status;
-+        break;
-     case gpio_reg_reset_tolerant:
--        return set->reset_tol;
-+        value = set->reset_tol;
-+        break;
-     case gpio_reg_debounce_1:
--        return set->debounce_1;
-+        value = set->debounce_1;
-+        break;
-     case gpio_reg_debounce_2:
--        return set->debounce_2;
-+        value = set->debounce_2;
-+        break;
-     case gpio_reg_cmd_source_0:
--        return set->cmd_source_0;
-+        value = set->cmd_source_0;
-+        break;
-     case gpio_reg_cmd_source_1:
--        return set->cmd_source_1;
-+        value = set->cmd_source_1;
-+        break;
-     case gpio_reg_data_read:
--        return set->data_read;
-+        value = set->data_read;
-+        break;
-     case gpio_reg_input_mask:
--        return set->input_mask;
-+        value = set->input_mask;
-+        break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: no getter for offset 0x%"
-                       HWADDR_PRIx"\n", __func__, offset);
-         return 0;
+diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+index 938615d55f4a..d53454168403 100644
+--- a/hw/arm/aspeed_ast10x0.c
++++ b/hw/arm/aspeed_ast10x0.c
+@@ -136,6 +136,9 @@ static void aspeed_soc_ast1030_init(Object *obj)
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+         object_initialize_child(obj, "wdt[*]", &s->wdt[i], typename);
      }
 +
-+    trace_aspeed_gpio_read(offset, value);
-+    return value;
++    snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
++    object_initialize_child(obj, "gpio", &s->gpio, typename);
  }
  
- static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-@@ -585,6 +607,8 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-     GPIOSets *set;
-     uint32_t cleared;
+ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+@@ -281,6 +284,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
+                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
+     }
++
++    /* GPIO */
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, sc->memmap[ASPEED_DEV_GPIO]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
++                       aspeed_soc_get_irq(s, ASPEED_DEV_GPIO));
+ }
  
-+    trace_aspeed_gpio_write(offset, data);
+ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index 4620ea8e8b83..5138fe812b9e 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -819,6 +819,15 @@ static GPIOSetProperties ast2600_1_8v_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
+     [1] = {0x0000000f,  0x0000000f,  {"18E"} },
+ };
+ 
++static GPIOSetProperties ast1030_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
++    [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
++    [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
++    [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
++    [3] = {0xffffff3f,  0xffffff3f,  {"M", "N", "O", "P"} },
++    [4] = {0xff060c1f,  0x00060c1f,  {"Q", "R", "S", "T"} },
++    [5] = {0x000000ff,  0x00000000,  {"U"} },
++};
 +
-     idx = offset >> 2;
-     if (idx >= GPIO_DEBOUNCE_TIME_1 && idx <= GPIO_DEBOUNCE_TIME_3) {
-         idx -= GPIO_DEBOUNCE_TIME_1;
-diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
-index 1dab99c5604d..9736b362ac18 100644
---- a/hw/gpio/trace-events
-+++ b/hw/gpio/trace-events
-@@ -27,3 +27,7 @@ sifive_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" P
- sifive_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 " value 0x%" PRIx64
- sifive_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
- sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
+ static const MemoryRegionOps aspeed_gpio_ops = {
+     .read       = aspeed_gpio_read,
+     .write      = aspeed_gpio_write,
+@@ -971,6 +980,16 @@ static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
+     agc->reg_table = aspeed_1_8v_gpios;
+ }
+ 
++static void aspeed_gpio_1030_class_init(ObjectClass *klass, void *data)
++{
++    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
 +
-+# aspeed_gpio.c
-+aspeed_gpio_read(uint64_t offset, uint64_t value) "offset: 0x%" PRIx64 " value 0x%" PRIx64
-+aspeed_gpio_write(uint64_t offset, uint64_t value) "offset: 0x%" PRIx64 " value 0x%" PRIx64
++    agc->props = ast1030_set_props;
++    agc->nr_gpio_pins = 151;
++    agc->nr_gpio_sets = 6;
++    agc->reg_table = aspeed_3_3v_gpios;
++}
++
+ static const TypeInfo aspeed_gpio_info = {
+     .name           = TYPE_ASPEED_GPIO,
+     .parent         = TYPE_SYS_BUS_DEVICE,
+@@ -1008,6 +1027,13 @@ static const TypeInfo aspeed_gpio_ast2600_1_8v_info = {
+     .instance_init  = aspeed_gpio_init,
+ };
+ 
++static const TypeInfo aspeed_gpio_ast1030_info = {
++    .name           = TYPE_ASPEED_GPIO "-ast1030",
++    .parent         = TYPE_ASPEED_GPIO,
++    .class_init     = aspeed_gpio_1030_class_init,
++    .instance_init  = aspeed_gpio_init,
++};
++
+ static void aspeed_gpio_register_types(void)
+ {
+     type_register_static(&aspeed_gpio_info);
+@@ -1015,6 +1041,7 @@ static void aspeed_gpio_register_types(void)
+     type_register_static(&aspeed_gpio_ast2500_info);
+     type_register_static(&aspeed_gpio_ast2600_3_3v_info);
+     type_register_static(&aspeed_gpio_ast2600_1_8v_info);
++    type_register_static(&aspeed_gpio_ast1030_info);
+ }
+ 
+ type_init(aspeed_gpio_register_types);
 -- 
 2.35.3
 
