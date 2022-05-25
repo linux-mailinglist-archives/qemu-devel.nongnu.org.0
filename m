@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A495342B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 20:12:42 +0200 (CEST)
-Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2405342B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 20:12:12 +0200 (CEST)
+Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntvUv-0006mR-6L
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 14:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57010)
+	id 1ntvUR-0005um-2k
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 14:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjothen@gmail.com>) id 1ntsy7-0007SW-8Z
- for qemu-devel@nongnu.org; Wed, 25 May 2022 11:30:39 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:36590)
+ (Exim 4.90_1) (envelope-from <sjothen@gmail.com>) id 1ntt0P-0002cn-RY
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 11:33:04 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:37593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjothen@gmail.com>) id 1ntsy3-00073K-9t
- for qemu-devel@nongnu.org; Wed, 25 May 2022 11:30:37 -0400
-Received: by mail-lj1-x232.google.com with SMTP id g7so5534971lja.3
- for <qemu-devel@nongnu.org>; Wed, 25 May 2022 08:30:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sjothen@gmail.com>) id 1ntt0O-0007cP-7A
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 11:33:01 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id i23so24902698ljb.4
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 08:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=Fa3X8w387s4kq6OsGl81jW8c6wOoEQ1BBFfsEgWlCx8=;
- b=H8Gqu8Ut657vHPxHAmDMvrj/LYLaYUWUQrQvmMGhuPNsvu6Hg2uMejjDM2Q5ItA6nh
- 7VEdzsyInsKqRTJPX9eKbCmm+FMwO2lH9qTJ/tAspSI6JmubYqUG88IeUjhwv2PciEBq
- xHy2bWwiseB5LrkvW3qqoOc+Ah1ZTxwEySS/BGYwiNI9Afg2Tnjy9dXxCagEimpMhwbq
- /XWXcHi3tCnX+x5E4gxBH5WxPubI7dmGxku+mXkQGghbk0PuL2YC4Woi0Gr4sWvtfaiE
- YSVVyE9o8g+llITJR9itqjklVV2sCvdShj5Ekj3n8Sk9eTALl6AhXDJylE2BMAmi5+fD
- j5bw==
+ bh=SQW3tbXRcm7w01g196uIiDidXkohVxyje/KoU0CG/0c=;
+ b=pYC4QG/g9JNA1BwDDqStqrvZESynddI/wIvP5FNq4yecofrR7GQEGDNzRv2HITyX3m
+ rJ9Mm4r5+ivibfFT8tJwBaK79AVFZXFYBr4XQMJ8Ys0nhlWYLtox8GQQglFl2myucmau
+ wTmIEW0UBmcQHMHCXv9Rui3C3q5WwC88ifbXnYS+fldxt9GTSadx1k/pu/C/mi1sO3Rs
+ I7TRC07u6jGX7B3EFyiNyzSPn8ekmje3qCw5Kcj+LMaKpMMy0rEg4EqsqDpsjOYMfB1r
+ htKquM8Y5FfQeTuZZV6rIi+ERnyBllHenfmSuiMRhh3mHoaEAJQcylr0lD0hT4Zv8UVj
+ TujQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
  :content-disposition;
- bh=Fa3X8w387s4kq6OsGl81jW8c6wOoEQ1BBFfsEgWlCx8=;
- b=8GQPPzWZDfKU4qpUSKX1cBsuun/M8bIkATtAsP8aRcbFIbQ1gBPS5P985sLrQcXHqc
- M7yaELKttKp0pwQc70c3CjxuP4bz6Sz4/OwC1yO6eXkkZJ23l3XOecqHkKVwV+V1VS8J
- MCrkcf+Fb1SLM8BwiOZQPM79Uap/UwE2toNsGFTotJRw9mnIV0VnS2fsjEpPReSdBmHI
- 20qIQX+rudP03iWqY26as1Ej9nsEaFzvMSjxGXFAcF7yOlS6unTmGDeVu8kCq24jeRQm
- P2ONV7ZONU3rH5MnOdWL6hT76QA7WCKmYt1P2LZ2re//xznAXElveQreNlpFrBPb6ZrM
- 56AQ==
-X-Gm-Message-State: AOAM5314LBFg8WlHMSzwpYYnb1kzuxB0t38ptm6rgQPNPeHOMqXDZp0j
- K0fnoMMVYM9fznj31ODL4RXh6GfA2nMiDw==
-X-Google-Smtp-Source: ABdhPJy7OnMXofyE+vw87aBTCWW/DtwMLHXH9Q0skP2CBBTvsT4HMPXJ7nShNJ5kbp9NKpQqJxQ91w==
-X-Received: by 2002:a2e:9655:0:b0:253:d575:9a6d with SMTP id
- z21-20020a2e9655000000b00253d5759a6dmr18799358ljh.207.1653492632536; 
- Wed, 25 May 2022 08:30:32 -0700 (PDT)
+ bh=SQW3tbXRcm7w01g196uIiDidXkohVxyje/KoU0CG/0c=;
+ b=J4a6KtBOALlQQFX8gxHUTrU23Hq8BlFnrimyUk7xbEqnWFlQUlHq4FMu49lo2PBMBc
+ 8TPTBYLBbGKCkM/H9eMCyo0AjkBN9fFnclPIgo+k1+kqKoutEE65YLU/heHidNbpNHmG
+ tME9aVgXy1Vta2elThspq2h+w+IGBoJqv3JkYuJY169JEQpZOPtC0xs3or68AD9AnLL8
+ C4v2wSX9eHlJIzfL9HCZ9M5KTojI70PHSyoGxYjYqEHeqPk8vcFawKYUk08uR12lVZUy
+ HzyzhhIk9S6Qz9xJVKhtmIbWw63Fset46fGloRAV+n8IehaX1TuH4Gy+CjEorsxfX52+
+ eTuw==
+X-Gm-Message-State: AOAM533yUGsRS9+WzXvXb0FilHZfIS22F0mr7Y2FKia4uHpKb6o4ohT7
+ Ts6aaY4bCUhMf8zckz96IAwASqmkiDscqTcj
+X-Google-Smtp-Source: ABdhPJxssNOVuLL8ojxLso0B0uFR4MerLCUveRK1W87/o4FAa7Qr4iC+qEh1nIYclZTPz9cPplaKHA==
+X-Received: by 2002:a2e:9949:0:b0:253:dc75:b5ab with SMTP id
+ r9-20020a2e9949000000b00253dc75b5abmr15654154ljj.30.1653492778335; 
+ Wed, 25 May 2022 08:32:58 -0700 (PDT)
 Received: from air-old.local ([84.213.16.196])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a2e3c10000000b00253c33d30f0sm3178820lja.87.2022.05.25.08.30.31
+ m10-20020a056512358a00b0047255d21152sm3160719lfr.129.2022.05.25.08.32.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 08:30:31 -0700 (PDT)
-Date: Wed, 25 May 2022 17:31:11 +0200
+ Wed, 25 May 2022 08:32:57 -0700 (PDT)
+Date: Wed, 25 May 2022 17:33:36 +0200
 From: Stephen Michael Jothen <sjothen@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: agraf@csgraf.de
-Subject: [PATCH] target/arm/hvf: Fix build failure due to missing cpregs.h
- header file
-Message-ID: <Yo5Lv4Hu4jrBbGCi@air-old.local>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net
+Subject: [PATCH] target/i386/tcg: Fix masking of real-mode addresses with A20
+ bit
+Message-ID: <Yo5MUMSz80jXtvt9@air-old.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=sjothen@gmail.com; helo=mail-lj1-x232.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=sjothen@gmail.com; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -70,7 +70,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 25 May 2022 14:09:02 -0400
+X-Mailman-Approved-At: Wed, 25 May 2022 14:09:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,32 +85,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpregs.h was previously split out from cpu.h into a separate file, but
-I think this was forgotten to be included in hvf.c. I got a build failure
-when trying to build on Apple Silicon:
+The correct A20 masking is done if paging is enabled (protected mode) but it
+seems to have been forgotten in real mode. For example from the AMD64 APM Vol. 2
+section 1.2.4:
 
-[...]
+> If the sum of the segment base and effective address carries over into bit 20,
+> that bit can be optionally truncated to mimic the 20-bit address wrapping of the
+> 8086 processor by using the A20M# input signal to mask the A20 address bit.
 
-../target/arm/hvf/hvf.c:591:33: error: use of undeclared identifier 'ARM_CP_NO_RAW'
-            assert(!(ri->type & ARM_CP_NO_RAW));
+Most BIOSes will enable the A20 line on boot, but I found by disabling the A20 line
+afterwards, the correct wrapping wasn't taking place.
+
+`handle_mmu_fault' in target/i386/tcg/sysemu/excp_helper.c seems to be the culprit.
+In real mode, it fills the TLB with the raw unmasked address. However, for the
+protected mode, the `mmu_translate' function does the correct A20 masking.
+
+The fix then should be to just apply the A20 mask in the first branch of the if
+statement.
 
 Signed-off-by: Stephen Michael Jothen <sjothen@gmail.com>
 ---
- target/arm/hvf/hvf.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/tcg/sysemu/excp_helper.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 86710509d2..6ecf4669a0 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -26,6 +26,7 @@
- #include "sysemu/cpus.h"
- #include "arm-powerctl.h"
- #include "target/arm/cpu.h"
-+#include "target/arm/cpregs.h"
- #include "target/arm/internals.h"
- #include "trace/trace-target_arm_hvf.h"
- #include "migration/vmstate.h"
+diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
+index e1b6d88683..48feba7e75 100644
+--- a/target/i386/tcg/sysemu/excp_helper.c
++++ b/target/i386/tcg/sysemu/excp_helper.c
+@@ -359,6 +359,7 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+     CPUX86State *env = &cpu->env;
+     int error_code = PG_ERROR_OK;
+     int pg_mode, prot, page_size;
++    int32_t a20_mask;
+     hwaddr paddr;
+     hwaddr vaddr;
+ 
+@@ -368,7 +369,8 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+ #endif
+ 
+     if (!(env->cr[0] & CR0_PG_MASK)) {
+-        paddr = addr;
++        a20_mask = x86_get_a20_mask(env);
++        paddr = addr & a20_mask;
+ #ifdef TARGET_X86_64
+         if (!(env->hflags & HF_LMA_MASK)) {
+             /* Without long mode we can only address 32bits in real mode */
 -- 
 2.30.1 (Apple Git-130)
 
