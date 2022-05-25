@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFC7533FE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:05:52 +0200 (CEST)
-Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E7E534049
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 17:22:10 +0200 (CEST)
+Received: from localhost ([::1]:40706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntsa7-0001Zl-3a
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44266)
+	id 1ntspt-00054I-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 11:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ntsHj-0004Ve-Uu
- for qemu-devel@nongnu.org; Wed, 25 May 2022 10:46:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49031)
+ id 1ntsOj-0004QX-B6
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 10:54:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ntsHh-0007d7-Bc
- for qemu-devel@nongnu.org; Wed, 25 May 2022 10:46:51 -0400
+ id 1ntsOg-0000Q8-Rn
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 10:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653490008;
+ s=mimecast20190719; t=1653490441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DRsL3lDTeZ9hE3OVhfVEl8uh4Wxzfz1sgv8k+m0d22U=;
- b=eRyo6FIMlj7V6SnMZ9CYKxnvq884mznr+PUBn+6LQJurPhKszvjbvcD1AJn9rkwh/UhsRC
- 8BsohF0tXg2n1Mu4WhhbTjVBeyKFF12evNlEXDkI45bNzCBcyhF6dPYCyCigqPzZiYGQMo
- n3UyaILCsxrWUg+tPv27CIW5tB68dZ8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XR1M5jNAKdvuxKDYoryBlGGXLGkKmN5jairdfjNu/qk=;
+ b=fI40vXJARYmFFUj46C0aUKHUHBT7j5p/xTL4lu1+995QKbVLo0C+XPdxVARLVqVXiLzcgn
+ NDpAQTlGnJ7P5sRRLrK/7NYyDra4xGtFsfDJ+Ca2hDyxsQE7yTbaCI2w8FzfgZKaZsoeIM
+ 3OQ07TSNMpgANcO5SwrJpOnZeilpr84=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-54Mm4wmwPl2jAPyDTAuEQw-1; Wed, 25 May 2022 10:46:45 -0400
-X-MC-Unique: 54Mm4wmwPl2jAPyDTAuEQw-1
+ us-mta-141-lUu_QCLMNKGiM3vSd4JXhg-1; Wed, 25 May 2022 10:54:00 -0400
+X-MC-Unique: lUu_QCLMNKGiM3vSd4JXhg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC9831D3236C;
- Wed, 25 May 2022 14:46:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BD8C802814;
+ Wed, 25 May 2022 14:53:59 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EDA3400F38;
- Wed, 25 May 2022 14:46:43 +0000 (UTC)
-Date: Wed, 25 May 2022 15:46:43 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CEE9D400F36;
+ Wed, 25 May 2022 14:53:58 +0000 (UTC)
+Date: Wed, 25 May 2022 15:53:57 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, f4bug@amsat.org,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
- bleal@redhat.com, berrange@redhat.com, peter.maydell@linaro.org,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
- imammedo@redhat.com, peterx@redhat.com, john.levon@nutanix.com,
+To: Jagannathan Raman <jag.raman@oracle.com>, mst@redhat.com,
+ alex.williamson@redhat.com
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, thuth@redhat.com, bleal@redhat.com,
+ berrange@redhat.com, peter.maydell@linaro.org, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com, imammedo@redhat.com,
+ peterx@redhat.com, john.levon@nutanix.com,
  thanos.makatos@nutanix.com, elena.ufimtseva@oracle.com,
  john.g.johnson@oracle.com, kanth.ghatraju@oracle.com
-Subject: Re: [PATCH v10 04/14] vfio-user: build library
-Message-ID: <Yo5BUxZ0ibeM3tI/@stefanha-x1.localdomain>
+Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
+Message-ID: <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
 References: <cover.1653404595.git.jag.raman@oracle.com>
- <f131bc091fc6abcdc9faf1ab22a86a7413300d6a.1653404595.git.jag.raman@oracle.com>
+ <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mvmaQexMHLjO3WKc"
+ protocol="application/pgp-signature"; boundary="RA6Lat2mk+2/L2gc"
 Content-Disposition: inline
-In-Reply-To: <f131bc091fc6abcdc9faf1ab22a86a7413300d6a.1653404595.git.jag.raman@oracle.com>
+In-Reply-To: <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -88,53 +89,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---mvmaQexMHLjO3WKc
+--RA6Lat2mk+2/L2gc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 24, 2022 at 11:30:23AM -0400, Jagannathan Raman wrote:
-> add the libvfio-user library as a submodule. build it as a meson
-> subproject.
->=20
-> libvfio-user is distributed with BSD 3-Clause license and
-> json-c with MIT (Expat) license
+On Tue, May 24, 2022 at 11:30:32AM -0400, Jagannathan Raman wrote:
+> Forward remote device's interrupts to the guest
 >=20
 > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > ---
->  configure                               | 17 +++++++++++++++++
->  meson.build                             | 23 ++++++++++++++++++++++-
->  .gitlab-ci.d/buildtest.yml              |  1 +
->  .gitmodules                             |  3 +++
->  Kconfig.host                            |  4 ++++
->  MAINTAINERS                             |  1 +
->  hw/remote/Kconfig                       |  4 ++++
->  hw/remote/meson.build                   |  2 ++
->  meson_options.txt                       |  2 ++
->  subprojects/libvfio-user                |  1 +
->  tests/docker/dockerfiles/centos8.docker |  2 ++
->  11 files changed, 59 insertions(+), 1 deletion(-)
->  create mode 160000 subprojects/libvfio-user
+>  include/hw/pci/pci.h              |  13 ++++
+>  include/hw/remote/vfio-user-obj.h |   6 ++
+>  hw/pci/msi.c                      |  16 ++--
+>  hw/pci/msix.c                     |  10 ++-
+>  hw/pci/pci.c                      |  13 ++++
+>  hw/remote/machine.c               |  14 +++-
+>  hw/remote/vfio-user-obj.c         | 123 ++++++++++++++++++++++++++++++
+>  stubs/vfio-user-obj.c             |   6 ++
+>  MAINTAINERS                       |   1 +
+>  hw/remote/trace-events            |   1 +
+>  stubs/meson.build                 |   1 +
+>  11 files changed, 193 insertions(+), 11 deletions(-)
+>  create mode 100644 include/hw/remote/vfio-user-obj.h
+>  create mode 100644 stubs/vfio-user-obj.c
+
+It would be great if Michael Tsirkin and Alex Williamson would review
+this.
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---mvmaQexMHLjO3WKc
+--RA6Lat2mk+2/L2gc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKOQVMACgkQnKSrs4Gr
-c8glcQgAld2oEi9QY49vzSwhfnGfWB6OC52sa/fm84W5W6qdgB0jSZwkTKAZGp2r
-i7SDOMGibvc1JNCVkDorq97+KsnBPieZZguuy/C1VnfcLVIgIDxct2G5X1abTzW6
-1oIkRajEI8yVIwAu9hnE1Q57UxCa4cI3BUFGbr11TPERUVi889KGAUSD3NcJ9RGL
-bzhgq45X9RmuwtBaNAhF1BLkA9afvsvqU2aAZ5idkgDC2oDlGzrHOkDT6xMVc9BP
-bc87Kd2g4NWx/4IILS0sr67tPItox86XfvTdVpyzCXGaNObZuaAQIOU9mfcCA3Yr
-BpQHuIAr8GQpCGCzOKqX3jCt/ymPTg==
-=j3Mf
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKOQwUACgkQnKSrs4Gr
+c8gZgwgAralOOppSEXCjcaXgyILqqqWwW6G5AE2J1uPLcZR/nOTJ02TNBWppkuhQ
+YrgqboQw9abOAqpFA6n5Kaz+vr0L0um97A2GMFB6GVde6k15dL4CJ9sISbRb0ucf
+EkUC7/+0EelgudhuiXjqjZqToEDjaN4fNCJ6n2f1QbxFNSz8lB4I3gmq7ZRpPlTp
+QC26bN8XQXFKxCXEutUhYJ9/WiA7ak9LDkX7oTJyfhfix7QOJ6zJtiIhfdsZdy1z
+xSYmtSG060O1Nff1PDoeyzpmet8RAyxsHGYo4RP17EunvDbhxteHiZg3wa71dEFn
+dwJxVzqHIZW7xyVpC+/jGIkLIenN8w==
+=lkIo
 -----END PGP SIGNATURE-----
 
---mvmaQexMHLjO3WKc--
+--RA6Lat2mk+2/L2gc--
 
 
