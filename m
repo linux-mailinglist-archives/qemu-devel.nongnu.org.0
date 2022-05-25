@@ -2,143 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797F15344A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 22:04:09 +0200 (CEST)
-Received: from localhost ([::1]:59334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646325344B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 22:07:26 +0200 (CEST)
+Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntxEm-0006rO-An
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 16:04:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52956)
+	id 1ntxHx-0000hD-6O
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 16:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1ntxCL-0005ES-QY
- for qemu-devel@nongnu.org; Wed, 25 May 2022 16:01:37 -0400
-Received: from mail-dm6nam08on2047.outbound.protection.outlook.com
- ([40.107.102.47]:19040 helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ id 1ntxF3-0007Zc-Ns
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 16:04:26 -0400
+Received: from mail-mw2nam08on20615.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8c::615]:32192
+ helo=NAM04-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1ntxCH-0000XU-GR
- for qemu-devel@nongnu.org; Wed, 25 May 2022 16:01:35 -0400
+ id 1ntxEy-0000eB-Gx
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 16:04:22 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JQvtp+UWmDsANfJ1hrJkAPM+k4oZx8NmRCaBcXiUUsajGiaOc6qR0wdc3jHS8zjLF7bNwltw0EUD6Z/LzowlUcrTkFpHA+AjcXAN0xAAd2F+/JLGRj7L1xPHPK+xKk6k0XuEEnjwcHHTwSkpdzr1nz918Dg2fcDcm5W/wBFmY0P0nKVmlAU0y6b3kEekHQvVHv2bUj3kZRWzYhK1yudEBBWgBNcpNytNQ2kSxdgy7ff9nW4dsv+fX6ngKeiNm1n67aDj4YQtMUrzCmq84H2LMlhppn363PBN2jnNqJRoFq/Ae+H/90WoE11WMHyAfYV3rO6JiGFCDhHkIGTlbZ8qlQ==
+ b=lit/XOAwQk10tCXHWcBaF2wDhtC2fkZP1n5VcfERNUatYa1uXs3D7Tr/ZL8zzGmRGsIL412xkLNJBl+rSX3sgCf7Vypqix3rlfnBqpb1llVeO4h2tQ0JhL2gvi6XVtcC6dGygyqEo1MB7na2nrLcsXVSPsx896cE+KCV6xP87Bcr9M/a+xP5dBrmo5XOWq/SAbmWVjc1Gw0Q9ne+4MCdG6Io34NuAQevxEUqE8CCQkOW02lpg8HW/548xbgv+gUzQqFl6uk0RokAkTiUJSpsHUADhfxerQuYjU1mtincnD0NkNHCM2wpv3pBj+860donKmDpY3fXI13XM8XSxwsofw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nb6E3h+M8ofXQV1v7IU3vJdrixlQomqO3zmK7l3nmIY=;
- b=LlzYK8r7OeINOoB9HNcvceff2Eru6PCgEjxtxbOYIetTUHM7u8g3JT4FLK8qQgbxAQNHDT2lg1AMqK1qErBdotm9QUUKn47tpmbX/veD49fISZVk09iEbzB1KsggKCC+1MX4wJgywYsymvb666yj7FvdZJqN/g6dINimjUtc/BwxZXBb0JabIXOV0enphUnPeo8RpvuIUhFH3pT6umy8ovm4qJoBOXnF3CB5youKZDWOE0PtDLvDtmsKBJ5seqHBBkwV++EFWr7TO0jJME2lwIhDWk/yJmhYxP//LdkpRLkhDQ4wnCa3qopdf8w2gG0EuK7Z/Q4k2ZQmXDldzja5JQ==
+ bh=OszbGhfXhhRpvohqtCiqvE4Vs0O4wru//CwnLmoJ4Cc=;
+ b=fDBoG7mwlE3Osi2XJX3ncf202IHMa3uRsYwOrJwyyfkM0PtzE8jxji3Ci70wZCqHcZlIW/d5uzvxEM8MQlxFC+qHCknAfc/3inNR74wKp/eU5qks6bTkw0twGfghnYknPRUelS2c+4ecRAAyH90m0uPD3yNE//UyeJ6DkVcnDv3LnhYISmw5K5tokAWgsoTXlQbOmmrLAtTWsn2LLUUv20jh/Yo5/wwXEYMxHmcpjUgmqXUZ9XB7GkOS34s+OP5Bo9e9hF8o8mzevya4SbVZ8K4J7rdjYJnJavTd8yqJNSkZoJd/KLcX5syFp8vmlCxz7LNRuYhwCbfDScvp14YIJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Nb6E3h+M8ofXQV1v7IU3vJdrixlQomqO3zmK7l3nmIY=;
- b=htWiQndBqAABXRNKl7J7GTci8ErDF+iuxshPq/uYjByy8a3fiXjOvjXUlIUu7DuYdoYaBIVRmRreNUteLM2SrhTES6B7WTI52w9dKWPNqegYf3i0vcwNJHYr1UAPzLqO6M/LaDE2URi27doBqDjRRVn/aU+e0vVgcaNC+gRaY8c=
+ bh=OszbGhfXhhRpvohqtCiqvE4Vs0O4wru//CwnLmoJ4Cc=;
+ b=K/2fOVqEpOjbDuSBmU7eyWXznzgT4r+4RQVNU4d/V9NdhnFSVhSs+vEOg8qhcE5ZAp/SIad/UcyKWrF14Y1AL8OB4Exdnc27NVs2qcTW7fZ/qf4cUG46utayYcFzyZguyO+dV/YHn6apHEmGYkYtYSruafTHyIBrYPZalfBwFmY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by BN9PR12MB5035.namprd12.prod.outlook.com (2603:10b6:408:134::8)
- with Microsoft SMTP Server (version=TLS1_2,
+ by MWHPR12MB1230.namprd12.prod.outlook.com (2603:10b6:300:f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Wed, 25 May
- 2022 19:56:28 +0000
+ 2022 20:04:16 +0000
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::6866:3634:77ac:4e87]) by MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::6866:3634:77ac:4e87%7]) with mapi id 15.20.5293.013; Wed, 25 May 2022
- 19:56:28 +0000
-Message-ID: <0159d16e-b789-25fc-9ea6-adbf5e3218ad@amd.com>
-Date: Wed, 25 May 2022 14:56:25 -0500
+ 20:04:16 +0000
+Message-ID: <4b8a1367-0ce1-0b75-a6cb-6fe5f91a5273@amd.com>
+Date: Wed, 25 May 2022 15:04:13 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
 Subject: Re: [PATCH 0/2] i386: fixup number of logical CPUs when
  host-cache-info=on
 Content-Language: en-US
-To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Cc: Joao Martins <joao.m.martins@oracle.com>,
- Igor Mammedov <imammedo@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org
 References: <20220524151020.2541698-1-imammedo@redhat.com>
  <20220524171949.47508d9b@redhat.com>
  <e4df1ba6-1a11-21e8-e344-f5e24fa49ce8@amd.com>
- <eba71ba0-1a38-0878-46a0-b10886d4447a@oracle.com>
+ <20220525090506.63f55b4c@redhat.com>
 From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <eba71ba0-1a38-0878-46a0-b10886d4447a@oracle.com>
+In-Reply-To: <20220525090506.63f55b4c@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR03CA0037.namprd03.prod.outlook.com
- (2603:10b6:208:32d::12) To MW3PR12MB4553.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0086.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::31) To MW3PR12MB4553.namprd12.prod.outlook.com
  (2603:10b6:303:2c::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e63527a3-f79d-47e4-35cc-08da3e88a835
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5035:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR12MB50353705A31FCE82B706732395D69@BN9PR12MB5035.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: c502589f-f0a5-4ce9-ae8a-08da3e89bf27
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1230:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1230FFABAA774C06A290771F95D69@MWHPR12MB1230.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pdfDNL9F0L/Mej7w8UOZaS+L27y7M9oX4b76i/DWB8uaJz0tJTq59N9fZ2YuttbUPPFjm4ze+gvTj4tZh2pcrX+Yf8qT0sRV+p3C9EsW/v4CzZdOWMJSG3m0sF8yhZxkXPEbFh+Abg9M0wltD2jhJhLfCxjckY9wEBiCZAqH8QyFMzoRKbi//zeqJ0ymXk5ZTHF7kvitIDn4WzrVlbSgJf1CT0S/bcvc/jOpAAIBVd5DJLTUaGHxhgcRV02iAvtO4DcCVKtDrS4GrY1HsnqhTaDO62lWS/WDklQxvWI9Wt+hKDEbk6UL2cl+5+LJxT9cNaDYImNsQmLlqwtwa1tzFG15Fn6KUTkweWIOFvEXEHKQA4w5yXNt5E2OXuvK8a1fyF9VOwl87AxJot8ffyLrf/RSfCiZC1nMGGR1pVQzGeydBOzE3wZlCzRTmgZJY4gvLjZUQxQJ8WWV0lLFUh9xMXPlT4CTFa3OyblQ3dV0t1cag6um6LjP8obV8krS2ArLgHmB/S7wvHBs8A2WlDlI4D2ETMgCgHGz36i3u1SLIG4hEpPe+yJNUAoo4AciIi6CcWmxRVFbk7n3IzWomh0r5xMmPu6x3nYBQnAmUkre1iwmErXZ71q+Itc8suyE9muNE01Zrjai90GPo7g+eq4A0HsqNcRWpR/BIcfkHA6F3l/+xpzR7aPzCvs6nnddUMdTF6P6n0rxOppXu6I6jy/IHjA5W6Q5GTod1Dw+wsq9U1g=
+X-Microsoft-Antispam-Message-Info: 5dE19+nnTOH8VsCOud+2ZJUoizr30C9Ek+mje/E9yL3RgkXIznzAXNG6EAW20rCge5raSwCsnMgYuzcTKnBqpR7v0Y8cPPRrU7vBZuqabNJzuLhj6+bvhQSDTq3QDtpqCRQ5bIE6Vv9jO/CnYp4ZXlhCYlPXAUa1SJ1K9u62U8JKSNfa+JrzwVFLn0IBOijWnQORzo4rPosqneX+rlxVA+OAmiubTIKQbJPtzlyhPd1KZeuONIjhL2jcDAAyCge79AOQXB+HgUH3YIkm831zUI4SRR8pZsCVEsDPkOUfaxXcD1QGgc5sCB7rjkAau6Zzd/bDa4B8JHQK9YQc8I2T2NxM97KT8R0QKPCTfJ0EOtYBXBgzcYRY2lKR69lGkG4j4dvXSyXRh/9wbmy0DnAY79SHFb/ZI53Dm40bEk2LEf2DwUYN2J73V4gkVeYlVS1k7nR01VD5Dvvr3CmV7er5gHmGjo4ApWZQq3bmIk4SaJO+0LMMiUYYyx1IkhSrH78REOHKQyKpqw2horI3CEGAtpQGQ9EG2AkNeb0BExWrFSjc+/V6SNC95shBX2zaq5JVRDoU7HNI5AWgBlJoQIremfAvtSZ7KX26/MYs5Vg7EBhyxwKc8lTR5VsCKX19n8Y5UgGZ3upr6nlsuPXYQGicvx969Et3G8KoJXYZTIX86P2wWjs09+Anb8xA8anctiJfNjcAyaG7UHfgvyJmRkmT4jk2+Sc/s1mxIfLCdEYjKSQ=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MW3PR12MB4553.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(54906003)(6512007)(5660300002)(6916009)(26005)(8936002)(31686004)(6666004)(6506007)(53546011)(66946007)(66556008)(66476007)(83380400001)(4326008)(8676002)(86362001)(2616005)(36756003)(316002)(186003)(6486002)(31696002)(3450700001)(38100700002)(508600001)(2906002)(43740500002)(45980500001);
+ SFS:(13230001)(4636009)(366004)(86362001)(26005)(31696002)(6512007)(186003)(6666004)(508600001)(2616005)(5660300002)(8936002)(3450700001)(2906002)(4326008)(38100700002)(83380400001)(66556008)(8676002)(66946007)(66476007)(53546011)(6486002)(6506007)(36756003)(31686004)(6916009)(316002)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZFdFV29nMGJjdzI5UDUvUUM0OHRmTDJvc3Y1elZYQ3NUckRWYkpKTmFpQ1Ry?=
- =?utf-8?B?VGtBWFZxZnJ3QUN0N1Y2eG9QOCtaWmRubjAvVWZNUTZrMVNBV09XN1hDMnVW?=
- =?utf-8?B?R2tWWFV1VDBZT0N6VUNjcmp1cEpHeE90NWM0cXJJMzBtR1VQYVJRS21IQzhx?=
- =?utf-8?B?MVFRVVNiSllWOHd6Z0k1aXYvc1dmWEhZVTNzME9QYXhpR0Z5Sm12WUpXNkF0?=
- =?utf-8?B?QXkxSUp5ai9MUnhJQmc5aTFUWWhDMTBRTnZKWWJBL0tETHpTamE5NkN4VXdt?=
- =?utf-8?B?Wjk1ZDR6bllvUVUzQXFsL1U1ZjdHSzhHd213TkZFRXNpNzloYmZzUkhSWitj?=
- =?utf-8?B?S0V5NDVkMHVHL09lRFArVG9KSUhTZTJ6dTJzZnNhRnBTd005SnpOanJHaCsx?=
- =?utf-8?B?NXo4SEFITEVjVnE2SmU3R20rUjFEWTZMQTFYS1pOMlpoTFltOHZhSmU1SDZF?=
- =?utf-8?B?dCtBWWpWMmhvVVdySHJNUzhKMFpJREw4YkIvYVVONzFOaDcwL3dTZ0d6RTJ6?=
- =?utf-8?B?VFF5N01vTEhXV1BHWmZuU2VIdU5hMmVnTUJBRkhnZFFIbFFQRkp2cTJxdUFP?=
- =?utf-8?B?UlZVWDhSYW54L3gwOExjQklCVjJDamZNL1NZbk1MTUkxSUlKQXl0TXF0b0hN?=
- =?utf-8?B?SiswUzA3MUJmdlByUnh0NWdscFJBSWtPdEZQckI4RXFlNkVCWGVwekxDNHJI?=
- =?utf-8?B?dGtEak9uTTBZV0xMakdua0Y4MkRlNjJVdHZuTDZERSt0eCtndnhyMk1RRzlo?=
- =?utf-8?B?cVdQV3ozZWZLdHhXcXlsQ3JLeitOaXcyTjRGZ2ZmOWlmbklydTFRb0ZsNkor?=
- =?utf-8?B?OFBkUytKUVlMQXJWU2hTbk5BU2dJUllqaWFCRUd2Zzlpai8reUVSVGZ4ZmR5?=
- =?utf-8?B?QkxuTHI5UjlJdWJQaU9VbzEyWXBnSlRwYmhDWG9ENENGQ3JBalA1NDRCUFE4?=
- =?utf-8?B?OUZhR2lHUDVWdGd3TjVJejNIbnB1RlpDbWprZWJLQmN0YjhEa3lPSTVoZTF4?=
- =?utf-8?B?OFN4dWtKcWJDbG5pNWp6VmQxN1ZiVHJHVTJUcXRWSkNpWlpNNjErcXdtRkFU?=
- =?utf-8?B?bksvd1BSdHIzdlZyRU1naVZETVdTZy95ZmRza0oyUlFtd0xJSjg2V1V0d3hy?=
- =?utf-8?B?a2lCZ0djTlBndjRlV1QvM1VEOWtYcUg3SE12MnlhUTN5VDEycEdvOG1raUdB?=
- =?utf-8?B?V3VuaVB0KyszR0orT3F3TGlzYVlndjMzeXlIaXJ1cWIvOU9jdS9NZnoxNkF6?=
- =?utf-8?B?VlhqMGthVVE5MFlwdmtvWkJPSTVnK0oxMmVlVVVlZHdUNkNyK2MzeXA2eHZQ?=
- =?utf-8?B?VjJUcWkzUkdxVVYvaWZtT01nd2taMTJOZ1dyMC94U2liUGlNZzM4d0MyK0or?=
- =?utf-8?B?UHEzZUJFZUxXU1JGRDZZSlJERGhQSGdHY0hHNmRiajl6amJHTUZGM1cyeGlJ?=
- =?utf-8?B?WkVERmpLSXp6MC9oaUtaQlE3eUZJa0VRV054M2Yyekg4dW5jUnJqdVJ5TGZ4?=
- =?utf-8?B?bS9qZmppdGhQSGxmS09ncFRuZmszUXBoSGdnV3VpTFU0WFQ1UUkxd3NSeUtp?=
- =?utf-8?B?SHZTc202bS8yMnhHS2NKQ1lhUGFwRXFGdTVIbW5SOHpZaUFOVmNVcGlYbUVo?=
- =?utf-8?B?R0ZkRzJ1VWoyVGx1bEEvazBxYkVDbnJUZW9kMkRCVmliQjhxWHorZzI5V1U1?=
- =?utf-8?B?WVY0UUZXckZ4ZDdLbU82d3dQMGY4cWVjYVFLclV5U29uRjZicmpPRW5qb2hI?=
- =?utf-8?B?MnQ1Z2s5R2FxQXErSGJZeG1yeHg2OWtrYnQyVEtqQWtiKy9rRzZvV3RUWFhx?=
- =?utf-8?B?WWEyTmhGbHJ0MXVaeG4zekRpaG54dk1vYmxsZzR3NkhuSUtMTnE3RGpUV2xX?=
- =?utf-8?B?ZDFJNzhoNFVBMnVid3NuWml3U1lqc3lra09FY1Nma2Q2clJ4VCtrT2dDME8x?=
- =?utf-8?B?WU5ISW4rWlBuOVRSckRmVWtacG92dmhXdUg5WW91RzNNTWluY2hUM05yKy9S?=
- =?utf-8?B?ZHVoQXZYaEg1NXV6b0xpcDFwQVZlU2VLOG54Zk4wd2dvY1dnVkRLYjNRK2Rh?=
- =?utf-8?B?cEF3UUE1bkxreE1qN0J2a1ZhN1pXeXU0blV0MnNIUWRUWGc4WGJTNVZianps?=
- =?utf-8?B?NnBDeTUyMVBtSkFmRTJ3TVBBQ3AxRUlUS05jUDIxUnBZcnd1dlZHdUk3UWpv?=
- =?utf-8?B?a0NuYWd0em5iTmdya2NrRWEzUFFqcGV6R2tzcjEzdjhSUEs1V29TRmlNNlBm?=
- =?utf-8?B?WlpvOHMvR2xzRW40a2ZTaEFHZEFBSHdnQS8xN0M4WVJJMkJYYjZDRndwL1hh?=
- =?utf-8?Q?zgWFmYE+ZPePFfkycN?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cUQ2bGxiQ3NoSndQK09LZ3AxM2pEUW5iVkxsMnQycFRraXdDL2daODhNcEMz?=
+ =?utf-8?B?bU9QYW1vQnJ3ZTBBN1UyczhxbE1GbkRIaXgvUVJKOGExb0hXSU40VEJMSlJ2?=
+ =?utf-8?B?VXhqdVVsRGR3U1B1UU01Q1JzM2ZTZ3MvRDR6bllXc2Q3d0ZZVm1jekxma3lK?=
+ =?utf-8?B?WmkxdVd2Lzg1aU1PZnhxVWJIeThJOVFGeS9LMzVReXVmc1hkWFRJbkJJdFNN?=
+ =?utf-8?B?QnB6em5vbGdvb2VibFB3UEZ4YUVxbERmc1NHNVliMHFrWnpmQkQ4ZWVLeXU0?=
+ =?utf-8?B?aGNsRndUWlNKc1pGNVBrSHhGZVdJU3dFWnF2czJHTWFwcWk3bi9BUGpLdGFq?=
+ =?utf-8?B?c2ptTzhkU1A0OXUwcElKcWd1QWN5Ny9jcTBNZ01PWjdUbW5VVkhFRnJsSzQ3?=
+ =?utf-8?B?VnBXWWVWanFEWGsxam82M2gvUDBCL0todEl6YlpKaWNjQWxPdm5Wa2FrMVB1?=
+ =?utf-8?B?OHcwRFRhRk14UEQ0NTQzT3AvY3Exam0xaUd5c3U4SCt2VW1sL05SbnR6bUc3?=
+ =?utf-8?B?dFBZZWExdG5ZZW9oR1pZVUZjUkgyVmdkWm84TC9Xcmp1aG15ZlZJeVBTenMy?=
+ =?utf-8?B?Yk53dUQ5ZUZJc3BIdWN1aFh5V1lGeWZWNEd4T1VSeXNMQ3FBcHZOQXp4cENO?=
+ =?utf-8?B?NjEzdVU4Z1B3NTh4QmM0enltN1NiYUZrM1NxU3FUZUd4N0JOSHpReGNjS2Ra?=
+ =?utf-8?B?Y3ltUC83VENENjZsYVlSSmNpMDNUU2tCVjdxMFRaUXVBbE55VW9RZkJJa2Y1?=
+ =?utf-8?B?UUE2N0VoWkxJeXZzMjd2blBoU2ZzTnBmQTNmTUsycWR3UEROWjJFVjRPeEY5?=
+ =?utf-8?B?aGNUYzhsYit3SXBuQXdmdDE2USsxOVpqTmJCU0V5Y3NWQ0V1MHpzV1plZU1L?=
+ =?utf-8?B?T0tPVExQem1EQmJlNVYzd3dwMFBDbG1WV3JQRHA3Nm9BQWFuV3RKK2tEVnJs?=
+ =?utf-8?B?RHZXL0pCME1UczZoS2lydklSS1ZJSTN0dk14M0svODdtU2dxd0JJQ0Jsb1Zp?=
+ =?utf-8?B?TExVc2VVMnhBTnN3bDQ0cE55QzBlSGVYRmZteGhxRlpIL3ptOEVZblpwUFpS?=
+ =?utf-8?B?NGxiZUVFcmRGVEpZVDlDUUV3RGd2QWlHbTNQZi9HaWptVmdSSUt2Z0YzdmY0?=
+ =?utf-8?B?MjQzUFEzYm1PekRYVlltM0c5V2F4b2dQOG9heUErWjlQL1F6S3VWbFh1QWpT?=
+ =?utf-8?B?N3pFZVJLSGlZUm5GU3hneE8wQm5iUU55Mzh2ZFNRUnZhSEZ2TjltQVFlRnB1?=
+ =?utf-8?B?RkRMQlhsM01MdmY3RnViZnczbFZ5ZHREemlHSk5TaUd4ZkJSVFB5TjJWcUlx?=
+ =?utf-8?B?NjdWR0NpL2YyQVpKWFhEelVaa0ZuZlFTUGxGNlUxYlhYWVdzbW9URUxYTUU0?=
+ =?utf-8?B?SCt1N2d6Q1hjSWtOU1hkY0dEVXAyenVIWi90KzcvVVRFNFRjQWNLSzkrc0hu?=
+ =?utf-8?B?dDcxRDBwT09pMysyVTUxY0xYUXdWVVFMYWdYQ2UxODF3SjU4TllieTVFZ0tw?=
+ =?utf-8?B?Y0cxeDVzclo4dllpMThMOVVSaUZsV1RaYURMQzlvS2YrdGhlQ3h6bWZvTEVS?=
+ =?utf-8?B?TVRpVjU3RHJ2QWUrYmN4bFlwZzFCbkNWSDJ5a3pmMU9nOW9CODZFQ2NSK01H?=
+ =?utf-8?B?WUpRaHNKSXBMeXRsdHNqcDdGSWxCVUdYOE92dmJsR2lOT3pVaDgwMFFNbzZl?=
+ =?utf-8?B?OUQvdXp3YmdXYTl6R1hJRXlTb2hCWXJrQlBTMXVodU9rVGtXeVVTWTBPK1pO?=
+ =?utf-8?B?MFIvK0dqc29xTUhwMG5UNTlmTmlMM2ZDL1JZS0xuNG5xNjFuNVRwUnRwcjYv?=
+ =?utf-8?B?UDRyWkRVaVJobE1uVURZNVNMTHhFRFBRQUlCeGMzVzBpVW9wZjBGYmdZdnVp?=
+ =?utf-8?B?dTNVLzdKeXppTXk0TWI2V0I2SEU0NGpCSjcvdGxBMXlqdCs2SHRJYkR6RVRh?=
+ =?utf-8?B?VHdnVGZPSUI5Mk8vSTk2RWdrdVNyQ0lPejVaTSttWElDN0JmTWY0bjh2cnFD?=
+ =?utf-8?B?TmVSQzJMSmJlc2c5QzdMV2FWeGRMSW5PYmx2YzJHWDE1RHI1THJrVUhpV0Y1?=
+ =?utf-8?B?ZENnWkJ1K1hYb0RBQVNyWHd4MTMxYVFneVo5NG5ua1ArWnhITGsvcWovVGlG?=
+ =?utf-8?B?a2ZNQ0RMdnVlS2JxV0JxOGZqZy9IT200UHl5bjRrWFJka0JZaG1FK0hmeVdM?=
+ =?utf-8?B?OXRRbW5SZksvQ1dnV2hScVhQcXlBcWVWSkpnLzZjNkFJTkg0cFhPWXRFVklT?=
+ =?utf-8?B?cm9ESEcva3pheHFLR3lQMnNtZU5MNDBlM0l5YW8zVnZkR0pvcUJiVVJYV01n?=
+ =?utf-8?Q?D+q96TrzW7iD3cpzWf?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e63527a3-f79d-47e4-35cc-08da3e88a835
+X-MS-Exchange-CrossTenant-Network-Message-Id: c502589f-f0a5-4ce9-ae8a-08da3e89bf27
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2022 19:56:28.7379 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2022 20:04:16.6867 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dOns9AX4smK/2CggfdmWKyJs2dLU8ZY3irmB9OA0AZb71wrJKtCftL9laOGXAEiS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5035
-Received-SPF: softfail client-ip=40.107.102.47;
+X-MS-Exchange-CrossTenant-UserPrincipalName: INZzHjMe+2YwZNUrxuju1GPREdDXL/S+t0yOEP0rq8kTHxAkIBLvxNrVm4xiusrQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1230
+Received-SPF: softfail client-ip=2a01:111:f400:7e8c::615;
  envelope-from=Babu.Moger@amd.com;
- helo=NAM04-DM6-obe.outbound.protection.outlook.com
+ helo=NAM04-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -156,17 +156,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 5/24/22 18:23, Alejandro Jimenez wrote:
-> On 5/24/2022 3:48 PM, Moger, Babu wrote:
->>
+On 5/25/22 02:05, Igor Mammedov wrote:
+> On Tue, 24 May 2022 14:48:29 -0500
+> "Moger, Babu" <babu.moger@amd.com> wrote:
+>
 >> On 5/24/22 10:19, Igor Mammedov wrote:
 >>> On Tue, 24 May 2022 11:10:18 -0400
 >>> Igor Mammedov <imammedo@redhat.com> wrote:
 >>>
->>> CCing AMD folks as that might be of interest to them
->>
->> I am trying to recreate the bug on my AMD system here.. Seeing this
->> message..
+>>> CCing AMD folks as that might be of interest to them  
+>> I am trying to recreate the bug on my AMD system here.. Seeing this message..
 >>
 >> qemu-system-x86_64: -numa node,nodeid=0,memdev=ram-node0: memdev=ram-node0
 >> is ambiguous
@@ -181,85 +180,34 @@ On 5/24/22 18:23, Alejandro Jimenez wrote:
 >> cpu,socket-id=0,node-id=0 -numa cpu,socket-id=1,node-id=1
 >>
 >> Am I missing something?
-> Hi Babu,
+> Yep, sorry I've omitted -object memory-backend-foo definitions for
+> ram-node0 and ram-node1
 >
-> Hopefully this will help you reproduce the issue if you are testing on
-> Milan/Genoa. Joao (CC'd) pointed out this warning to me late last year,
-> while I was working on patches for encoding the topology CPUID leaf in
-> different Zen platforms.
->
-> What I found from my experiments on Milan, is that the warning will
-> appear whenever the NUMA topology requested in QEMU cmdline assigns a
-> number of CPUs to each node that is smaller than the default # of CPUs
-> sharing a LLC on the host platform. In short, on a Milan host where we
-> have 16 CPUs sharing a CCX:
+> one can use any memory backend, it doesn't really matter in this case,
+> for example following should do:
+>   -object memory-backend-ram,id=ram-node0,size=2G \
+>   -object memory-backend-ram,id=ram-node1,size=2G 
 
-Yes. I recreated the issue with this following command line.
+Thanks Igor. However these changes(patch 1 and 2) does not affect AMD
+systems as far i can see.
 
-#qemu-system-x86_64 -name rhel8 -m 4096 -hda vdisk.qcow2 -enable-kvm -net
-nic  -nographic -machine q35,accel=kvm -cpu host,+topoext -smp
-16,sockets=1,dies=1,cores=16,threads=1 -object
-memory-backend-ram,id=ram-node0,size=2G -object
-memory-backend-ram,id=ram-node1,size=2G  -numa
-node,nodeid=0,cpus=0-7,memdev=ram-node0 -numa
-node,nodeid=1,cpus=8-15,memdev=ram-node1
+Thanks
 
-But solving this will be bit complicated. For AMD, this information comes
-from CPUID 0x8000001d. But, when this cpuid is being populated we don't
-have all the information about numa nodes etc..
-
-But you can work-around it by modifying the command line by including
-dies(dies=2 in this case) information.  Something like this.
-
-#qemu-system-x86_64 -name rhel8 -m 4096 -hda vdisk.qcow2 -enable-kvm -net
-nic  -nographic -machine q35,accel=kvm -cpu
-host,+topoext,host-cache-info=on -smp
-16,sockets=1,dies=2,cores=8,threads=1 -object
-memory-backend-ram,id=ram-node0,size=2G -object
-memory-backend-ram,id=ram-node1,size=2G  -numa
-node,nodeid=0,cpus=0-7,memdev=ram-node0 -numa
-node,nodeid=1,cpus=8-15,memdev=ram-node1
-
-But this may not be acceptable solution in all the cases.
+Babu
 
 >
-> # cat /sys/devices/system/cpu/cpu0/cache/index3/shared_cpu_list
-> 0-7,128-135
->
-> If a guest is launched with the following arguments:
->
-> -cpu host,+topoext \
-> -smp cpus=64,cores=32,threads=2,sockets=1 \
-> -numa node,nodeid=0,cpus=0-7 -numa node,nodeid=1,cpus=8-15 \
-> -numa node,nodeid=2,cpus=16-23 -numa node,nodeid=3,cpus=24-31 \
-> -numa node,nodeid=4,cpus=32-39 -numa node,nodeid=5,cpus=40-47 \
-> -numa node,nodeid=6,cpus=48-55 -numa node,nodeid=7,cpus=56-63 \
->
-> it assigns 8 cpus to each NUMA node, causing the error above to be
-> displayed.
->
-> Note that ultimately the guest topology is built based on the NUMA
-> information, so the LLC domains on the guest only end up spanning a
-> single NUMA node. e.g.:
->
-> # cat /sys/devices/system/cpu/cpu0/cache/index3/shared_cpu_list
-> 0-7
->
-> Hope that helps,
-> Alejandro
 >>
->>
->>>
+>>>  
 >>>> Igor Mammedov (2):
->>>>    x86: cpu: make sure number of addressable IDs for processor cores
->>>>      meets the spec
->>>>    x86: cpu: fixup number of addressable IDs for logical processors
->>>>      sharing cache
+>>>>   x86: cpu: make sure number of addressable IDs for processor cores
+>>>>     meets the spec
+>>>>   x86: cpu: fixup number of addressable IDs for logical processors
+>>>>     sharing cache
 >>>>
->>>>   target/i386/cpu.c | 20 ++++++++++++++++----
->>>>   1 file changed, 16 insertions(+), 4 deletions(-)
->>>>
->
+>>>>  target/i386/cpu.c | 20 ++++++++++++++++----
+>>>>  1 file changed, 16 insertions(+), 4 deletions(-)
+>>>>  
+
 -- 
 Thanks
 Babu Moger
