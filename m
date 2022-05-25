@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B847F534481
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:46:57 +0200 (CEST)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D5A534485
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 21:49:15 +0200 (CEST)
+Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ntwy8-0002nj-Gn
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48338)
+	id 1ntx0M-0005wG-WB
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 15:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntwkr-00030L-4k
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:33:13 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:39365)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntwwT-0001yV-BX
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:45:22 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:52467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntwkp-0004V6-AH
- for qemu-devel@nongnu.org; Wed, 25 May 2022 15:33:12 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ntwwP-0006lz-SF
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 15:45:12 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N1Ok1-1nieMQ0hgJ-012qN6; Wed, 25 May 2022 21:33:09 +0200
-Message-ID: <f4dfb739-18a2-2e3d-5917-6da8c9a5d030@vivier.eu>
-Date: Wed, 25 May 2022 21:33:08 +0200
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MowSu-1nU1CJ0uac-00qUkX; Wed, 25 May 2022 21:45:05 +0200
+Message-ID: <a6593cbe-b1ba-5836-ad90-7fe147f64f85@vivier.eu>
+Date: Wed, 25 May 2022 21:45:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v4 16/17] linux-user/strace: Adjust get_thread_area for
- m68k
+Subject: Re: [PATCH v4 17/17] target/m68k: Mark helper_raise_exception as
+ noreturn
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220430175342.370628-1-richard.henderson@linaro.org>
- <20220430175342.370628-17-richard.henderson@linaro.org>
+ <20220430175342.370628-18-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220430175342.370628-17-richard.henderson@linaro.org>
+In-Reply-To: <20220430175342.370628-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uYN3CHiIIJ8jrj8VzeCweCjGSBcI4yTOP8KvtU/O2lrSJ0eIxJp
- Pxblx6CLZTcmUXiQ8MeSSfQZ+7YG7DAFNpuREnHDkYnuzOJr4wwz4thod0f7iuZIjxeFGev
- wf0BJs7oNrFEpfdTklBO41K1rxC+DPPO/l4TV8H2IFnIMpS3rjDnR2gzcdpIRzx3hV6vexk
- timATCZ6JwEDJkIXShaIQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+rdWIcN4B5M=:X7LOLStxYvYlUdhCNfiUEI
- phjBNNY/ats7KAQ2jm1qhryZVCqI0fN8op5s1IKE7mOqtlsPkwYP6leO4OhA2d64qYA8hsFMP
- I4ij+0v72BbLsPuqL+zV/hW0VNFLrUt8LjCeDPqYDAg0kCaElbnaPnD+QevT0M+B+whqpI4rD
- Moro63v2GbN8CXxMOHXFDntIma8pCq99qc2nlu2teKZajrvJAPrVprpXtbiPR4c9ubWT6jsnI
- 7dPK95XyaKO7Gg3rhdSvxez0IjsGnCip644tt0E0SX9xPoBoy0t2yoTCu0PbSlZItSQu6fpuw
- DF884v32la1CnF09Ld3kHuF90N0ezn9QtVrL0Yf1pCzZfV8rQoAT2plQ5gFV05yy7Mu0fSgnW
- PQQwJ6ZWg1D1RNWEdhlILBBbRH/vuyeYBFfeZNC5fDcuQCBfXJjIKe3nVpJABlqcx6qYcEGcS
- zy5bFQp0FAMgkkY5kiBMjMeiRRAMZRLFeIhXyQ1iO48iubRQKCrDvIyqmGMHPcBEOOhPjQg9j
- mCiGQE8WiSgH0nh81FV2bfkRxUdoniUSQCCOA/P8nVLFh2sXtUtaQcq4WCdBG7qsXTj7Ynrn5
- E/MJ+D+0+zsWQz/5juCEca1uqqCNMw7lPD741/MQyUehiKdgCBszu/jHOh1OYimZfieTsf2HC
- tw6v7fDtQ/F7ec98jpLx3DWYaVc4MjuOvYRLm/h2GipB5jtkrswQk/yzxALfydia6dr/zetQJ
- UbqkGqEFxKD08pmikqUe7MW/8EHHEbpEGD6SBA==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:eSU20yfawAvm28SL+RpdDJhQqJh0IInkIUBtkuOB0Qa3zh+ZQIj
+ pr8Ae2fPch0SRmiz6y2vTH8zU/lOPgTfNIQvd36NLN3aisblJNlwN+MfAg51uIDfm5zJ3py
+ yaW7yXa9TUSFOzLApFdoX/d8d5OMhMV6WNuCZJH2qC0i0Yd9QuuYdfFjxdg7qFelUXVk6rq
+ 1zsn+98Z+B0MLkL2ERLSg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kTpSU7s0AQU=:ZypnX6jNtMwd9BvVyQGtB9
+ YFeGWQnjcKY8oF4DuxLzhRDTofJPIKbtTRLh6fGdnHFfiLurb7+eFguprnUiiYiZ8Bw070jo1
+ pkdMqJQAxLkBPGwjbrUcO0BUqNFhspuaNYKiZ12wyKy6RQEpX1ycpAvfgMHPejdc1hmJ3zs5b
+ DU7xloXuZcqdik6/OMQgv7auc99ho7KoOKpeq43+Y3KMx8PjUqgu3uGM454d5Rc204+XEml1a
+ V0oblHjgJJenpoeJbcuA/TuLoNWGBcYhuduYygMJG3l/IBAtYOcoBToXyRiHdrCeHsjSqz9mP
+ CVG3Cx1ZzkYSjssZWQUwfJv7OKvHKu4HxMtW7TD5g5RHPw7JnzF+EUABHOZNhUNGxu79SWo/n
+ rz0ApKnqKkdkWFtCowWbyJTfDfUwknnGwpQrfTsPcfqvz9fl3Vi0rTgdBoVMPerXVcNipEDUV
+ U7IZ37QUPg4qU20fsbYHNqT8972ox2qjygvbR/5+SGH28/9LYx+m9J32aLlEa1ig6+x8ozS7R
+ FTKX4+GT3yS1GXqRFq1uEnQJDWtaJqlBMDSeeXwDBfv+fwlv4fX4nNkAPlX5oVC5lMe0GEXJL
+ Uyu3mSTa9QYl8xwVIBkcwixEu4QOB76mjv+h8qAd3OxxIorFEIYpg64/7tHJMpJofs3of46c0
+ 1olxm+auq+pjvcXMILdY02TZaCvs4y4MBhW6sQySdhSmVpCb5Jqmk9baZ5P8vOoFKHY3FiFQV
+ Bev+3N4QhzFvHqedDvca9CNt8GaSNZgBKP0RKA==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,31 +75,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 30/04/2022 à 19:53, Richard Henderson a écrit :
-> Unlike i386, m68k get_thread_area has no arguments.
+> Also mark raise_exception_ra and raise_exception, lest we
+> generate a warning about helper_raise_exception returning.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/strace.list | 5 +++++
->   1 file changed, 5 insertions(+)
+>   target/m68k/helper.h    | 2 +-
+>   target/m68k/op_helper.c | 5 +++--
+>   2 files changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 278596acd1..72e17b1acf 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -384,8 +384,13 @@
->   { TARGET_NR_getsockopt, "getsockopt" , NULL, NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_get_thread_area
-> +#if defined(TARGET_I386) && defined(TARGET_ABI32)
->   { TARGET_NR_get_thread_area, "get_thread_area", "%s(0x"TARGET_ABI_FMT_lx")",
->     NULL, NULL },
-> +#elif defined(TARGET_M68K)
-> +{ TARGET_NR_get_thread_area, "get_thread_area" , "%s()",
-> +  NULL, print_syscall_ret_addr },
-> +#endif
->   #endif
->   #ifdef TARGET_NR_gettid
->   { TARGET_NR_gettid, "gettid" , "%s()", NULL, NULL },
+> diff --git a/target/m68k/helper.h b/target/m68k/helper.h
+> index f016c4c1c2..c9bed2b884 100644
+> --- a/target/m68k/helper.h
+> +++ b/target/m68k/helper.h
+> @@ -109,7 +109,7 @@ DEF_HELPER_3(set_mac_extu, void, env, i32, i32)
+>   DEF_HELPER_2(flush_flags, void, env, i32)
+>   DEF_HELPER_2(set_ccr, void, env, i32)
+>   DEF_HELPER_FLAGS_1(get_ccr, TCG_CALL_NO_WG_SE, i32, env)
+> -DEF_HELPER_2(raise_exception, void, env, i32)
+> +DEF_HELPER_2(raise_exception, noreturn, env, i32)
+>   
+>   DEF_HELPER_FLAGS_3(bfffo_reg, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
+>   
+> diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+> index 61948d92bb..d9937ca8dc 100644
+> --- a/target/m68k/op_helper.c
+> +++ b/target/m68k/op_helper.c
+> @@ -532,7 +532,8 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>   
+>   #endif /* !CONFIG_USER_ONLY */
+>   
+> -static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
+> +G_NORETURN static void
+> +raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
+>   {
+>       CPUState *cs = env_cpu(env);
+>   
+> @@ -540,7 +541,7 @@ static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
+>       cpu_loop_exit_restore(cs, raddr);
+>   }
+>   
+> -static void raise_exception(CPUM68KState *env, int tt)
+> +G_NORETURN static void raise_exception(CPUM68KState *env, int tt)
+>   {
+>       raise_exception_ra(env, tt, 0);
+>   }
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+And why not
+
+   G_NORETURN void HELPER(raise_exception)(CPUM68KState *env, uint32_t tt)
+
+?
+
+Thanks,
+Laurent
 
