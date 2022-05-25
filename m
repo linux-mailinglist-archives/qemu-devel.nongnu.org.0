@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973DC534172
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:23:02 +0200 (CEST)
-Received: from localhost ([::1]:42766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88B7534199
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 May 2022 18:38:18 +0200 (CEST)
+Received: from localhost ([::1]:44890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nttmn-0002Ro-Ny
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:23:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36672)
+	id 1ntu1Y-00071B-LZ
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 12:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttSm-0007QH-1l; Wed, 25 May 2022 12:02:20 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:48649
+ id 1nttT7-0008Fz-AK; Wed, 25 May 2022 12:02:41 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:53757
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=Lufh=WB=kaod.org=clg@ozlabs.org>)
- id 1nttSj-00049O-9C; Wed, 25 May 2022 12:02:19 -0400
+ id 1nttT5-0004B6-HX; Wed, 25 May 2022 12:02:41 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRr1qgTz4ySb;
- Thu, 26 May 2022 02:02:16 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4L7bRt3vsrz4ySg;
+ Thu, 26 May 2022 02:02:18 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRp3Ndgz4xDK;
- Thu, 26 May 2022 02:02:14 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4L7bRr5SjGz4xDK;
+ Thu, 26 May 2022 02:02:16 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jamin Lin <jamin_lin@aspeedtech.com>,
+ Howard Chiu <howard_chiu@aspeedtech.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 14/15] hw/gpio: replace HWADDR_PRIx with PRIx64
-Date: Wed, 25 May 2022 18:01:35 +0200
-Message-Id: <20220525160136.556277-15-clg@kaod.org>
+Subject: [PULL 15/15] hw/arm/aspeed: Add i2c devices for AST2600 EVB
+Date: Wed, 25 May 2022 18:01:36 +0200
+Message-Id: <20220525160136.556277-16-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220525160136.556277-1-clg@kaod.org>
 References: <20220525160136.556277-1-clg@kaod.org>
@@ -65,73 +65,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jamin Lin <jamin_lin@aspeedtech.com>
+From: Howard Chiu <howard_chiu@aspeedtech.com>
 
-1. replace HWADDR_PRIx with PRIx64
-2. fix indent issue
+Add EEPROM and LM75 temperature sensor according to hardware schematic
 
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+Signed-off-by: Howard Chiu <howard_chiu@aspeedtech.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220525053444.27228-5-jamin_lin@aspeedtech.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/gpio/aspeed_gpio.h | 2 +-
- hw/gpio/aspeed_gpio.c         | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ hw/arm/aspeed.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
-index 41b36524d062..904eecf62c4c 100644
---- a/include/hw/gpio/aspeed_gpio.h
-+++ b/include/hw/gpio/aspeed_gpio.h
-@@ -67,7 +67,7 @@ enum GPIORegIndexType {
- typedef struct AspeedGPIOReg {
-     uint16_t set_idx;
-     enum GPIORegType type;
-- } AspeedGPIOReg;
-+} AspeedGPIOReg;
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 725c169488dc..98dc185acd9a 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -527,8 +527,15 @@ static void ast2500_evb_i2c_init(AspeedMachineState *bmc)
  
- struct AspeedGPIOClass {
-     SysBusDevice parent_obj;
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index c834bf19f5ce..a62a673857c2 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -561,7 +561,7 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
-     reg = &agc->reg_table[idx];
-     if (reg->set_idx >= agc->nr_gpio_sets) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: no getter for offset 0x%"
--                      HWADDR_PRIx"\n", __func__, offset);
-+                      PRIx64"\n", __func__, offset);
-         return 0;
-     }
+ static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
+ {
+-    /* Start with some devices on our I2C busses */
+-    ast2500_evb_i2c_init(bmc);
++    AspeedSoCState *soc = &bmc->soc;
++    uint8_t *eeprom_buf = g_malloc0(8 * 1024);
++
++    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 7), 0x50,
++                          eeprom_buf);
++
++    /* LM75 is compatible with TMP105 driver */
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8),
++                     TYPE_TMP105, 0x4d);
+ }
  
-@@ -611,7 +611,7 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
-         break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: no getter for offset 0x%"
--                      HWADDR_PRIx"\n", __func__, offset);
-+                      PRIx64"\n", __func__, offset);
-         return 0;
-     }
- 
-@@ -787,7 +787,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-     reg = &agc->reg_table[idx];
-     if (reg->set_idx >= agc->nr_gpio_sets) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: no setter for offset 0x%"
--                      HWADDR_PRIx"\n", __func__, offset);
-+                      PRIx64"\n", __func__, offset);
-         return;
-     }
- 
-@@ -872,7 +872,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-         break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: no setter for offset 0x%"
--                      HWADDR_PRIx"\n", __func__, offset);
-+                      PRIx64"\n", __func__, offset);
-         return;
-     }
-     aspeed_gpio_update(s, set, set->data_value);
+ static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
 -- 
 2.35.3
 
