@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2CD5350AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 16:32:00 +0200 (CEST)
-Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE45D5350BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 16:37:00 +0200 (CEST)
+Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuEWs-0007Gk-Tl
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 10:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36774)
+	id 1nuEbj-0001Nr-Ue
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 10:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1nuEVJ-0006Le-Qf
- for qemu-devel@nongnu.org; Thu, 26 May 2022 10:30:21 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:34054)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nuEa2-0000OS-IM
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 10:35:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1nuEVF-0003P8-4G
- for qemu-devel@nongnu.org; Thu, 26 May 2022 10:30:20 -0400
-Received: from sas1-3cba3404b018.qloud-c.yandex.net
- (sas1-3cba3404b018.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bd26:0:640:3cba:3404])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 127BD2E0F22;
- Thu, 26 May 2022 17:30:04 +0300 (MSK)
-Received: from sas1-7470331623bb.qloud-c.yandex.net
- (sas1-7470331623bb.qloud-c.yandex.net [2a02:6b8:c08:bd1e:0:640:7470:3316])
- by sas1-3cba3404b018.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- sUNr6ntP3h-U3KWu0cN; Thu, 26 May 2022 17:30:03 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1653575403; bh=ROon8n2V5l5/lx9xwAqVB+YkO7Fxm6dTrl4qt/ktnzY=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=V/HSXUSbElA4KPjo9UE7JXFTPXXJZNmh0R3NJm/rfEc7oThBdQZE5gFXhoWMyyFoV
- UUYMbjbF6p0l9BX9EyRbRKebmPD5punSJD/sLVOv8xPEA9x3XiHTg2r5nkYOVhxHfe
- xJ/MPzuMfoiUSg1Vw2ckzdQhqNIMAXbDK9rMp/I4=
-Authentication-Results: sas1-3cba3404b018.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:b53f::1:17] (unknown
- [2a02:6b8:b081:b53f::1:17])
- by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- zAKPo8Ggn5-U2MKKhoG; Thu, 26 May 2022 17:30:03 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <d14025a4-01ff-d1ff-deca-e3613a5955bc@yandex-team.ru>
-Date: Thu, 26 May 2022 17:30:02 +0300
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nuEZz-0004OW-8p
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 10:35:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653575710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XGSCbESPGRBOjMwiDVzRc9IXbwYfQ6r+godCgm9R+1U=;
+ b=PIKPLtX/wTTt8bQkcykU7T3rKF41PC1MtdCGl7byJK2SCehmEkbKSQTWIq/Dfa9hLIGRzi
+ xSrDv5+ccjEZwEEtFYXnFLV9qi6p+gxzIoqzbIOw2LRyRntVUoiO3lkqC51LXXhpxDgCvq
+ B4gny7hicHEgZxpQurcSqtE/yRfrRW8=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-439-K2vYvdbIOxOKtcxBAzJPcA-1; Thu, 26 May 2022 10:35:08 -0400
+X-MC-Unique: K2vYvdbIOxOKtcxBAzJPcA-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ y15-20020ab0638f000000b00368a2d9b075so933581uao.13
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 07:35:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XGSCbESPGRBOjMwiDVzRc9IXbwYfQ6r+godCgm9R+1U=;
+ b=TwOevx8HByjp52WrsVmB17L+6IsoGoFpikZ2idyo9VWiY1OvY43q0ym37HNBIZzFNh
+ DrC8mpADwK5d3gILUgLVtAK/fP1hQDcChtga5lHnfmO/aGjDexoxkWfAUMYDomcHRTO+
+ kChowKW/OWERWAebqcDkEICOtbGjR6Xsa9DVUOJS4FhhpY8wOYYtFiBuM67DRFAsXYS1
+ FkEYuBzlWytw7lcKlThS6tFtRilb6PhVzHINu4gTO3hNMCSaD09X1jYF6HkMacp4A/qi
+ TAmdMIF9IJA9wRLljFjLByxnO2N84ae5NuDDYt2Ni5QNF/X2rSVm6N6/lSNA9gK8KHq9
+ ixlw==
+X-Gm-Message-State: AOAM531MmRlf4bgce0GvDBH+Thd5JOoZ2aM+Pxv2ztJK0vcV/ZaD7WOr
+ eIRVyX9At3glfFTtQliciHZvH2Myi69/S+SCIymsTkYPRm25v2yvIt0J6wd2jM70zkoKnl/KuKa
+ aNMixYUf6AfHqC9V6YLmBhwjIyk0H0PA=
+X-Received: by 2002:a67:c21e:0:b0:337:d926:347b with SMTP id
+ i30-20020a67c21e000000b00337d926347bmr5501842vsj.11.1653575707894; 
+ Thu, 26 May 2022 07:35:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlX1Lg/RkoTZ9dRaTiEIfLnUViB2rXYH8W/EkrcLqCWuHWjw5AeBiq/4iuevcw3QcZHDS+W+RFzSkOdecAVvI=
+X-Received: by 2002:a67:c21e:0:b0:337:d926:347b with SMTP id
+ i30-20020a67c21e000000b00337d926347bmr5501823vsj.11.1653575707661; Thu, 26
+ May 2022 07:35:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/2] python/machine.py: upgrade vm.command() method
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
- bleal@redhat.com, crosa@redhat.com, jsnow@redhat.com, eblake@redhat.com
-References: <20220408170214.45585-1-vsementsov@openvz.org>
- <20220408170214.45585-2-vsementsov@openvz.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220408170214.45585-2-vsementsov@openvz.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220526000921.1581503-1-jsnow@redhat.com>
+In-Reply-To: <20220526000921.1581503-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 26 May 2022 10:34:57 -0400
+Message-ID: <CAFn=p-bdvwdJY=cKZk9Q_N6CYj+Suetworw2Xa+3kc4bf_4Fug@mail.gmail.com>
+Subject: Re: [PATCH 0/9] tests, python: prepare to expand usage of test venv
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000aa2f4b05dfeb185d"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,245 +94,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/22 20:02, Vladimir Sementsov-Ogievskiy wrote:
-> The method is not popular, we prefer use vm.qmp() and then check
+--000000000000aa2f4b05dfeb185d
+Content-Type: text/plain; charset="UTF-8"
 
-Suddenly I found, that I missed a lot of existing users: in scripts, in avocado tests.
+On Wed, May 25, 2022, 8:09 PM John Snow <jsnow@redhat.com> wrote:
 
-Do you prefer to rename the method to "cmd()", and change all the occurrences, or keep longer "command()" name and update the second patch?
+> GitLab CI: https://gitlab.com/jsnow/qemu/-/pipelines/548326343
+>
+> This series collects some of the uncontroversial elements that serve as
+> pre-requisites for a later series that seeks to generate a testing venv
+> by default.
+>
+> This series makes the following material changes:
+>
+> - Install the 'qemu' package into the avocado testing venv
+> - Use the avocado testing venv to run vm-tests
+> - Use the avocado testing venv to run device-crash-test
+>
+> None of these changes impact 'make check'; these are all specialty
+> tests that are not run by default. This series also doesn't change how
+> iotests are run, doesn't add any new dependencies for SRPM builds, etc.
+>
+> NOTE: patch 8 isn't strictly required for this series, but including it
+> here "early" helps the subsequent series. Since the debian docker files
+> are layered, testing downstream pipelines can fail because the base
+> image is pulled from the main QEMU repo instead of the downstream.
+>
+> In other words: I need this patch in origin/main in order to have the
+> venv module available for later patches that will actually need it in
+> our debian10 derivative images.
+>
+> (in other-other-words: the 'clang-user' test *will* need it later.)
+>
+> John Snow (9):
+>   python: update for mypy 0.950
+>   tests: add "TESTS_PYTHON" variable to Makefile
+>   tests: use python3 as the python executable name
+>   tests: silence pip upgrade warnings during venv creation
+>   tests: add quiet-venv-pip macro
+>   tests: install "qemu" namespace package into venv
+>   tests: use tests/venv to run basevm.py-based scripts
+>   tests: add python3-venv to debian10.docker
+>   tests: run 'device-crash-test' from tests/venv
+>
+>  .gitlab-ci.d/buildtest.yml               |  8 +++++---
+>  python/qemu/qmp/util.py                  |  4 +++-
+>  python/setup.cfg                         |  1 +
+>  scripts/device-crash-test                | 14 +++++++++++---
+>  tests/Makefile.include                   | 18 ++++++++++--------
+>  tests/avocado/avocado_qemu/__init__.py   | 11 +++++------
+>  tests/avocado/virtio_check_params.py     |  1 -
+>  tests/avocado/virtio_version.py          |  1 -
+>  tests/docker/dockerfiles/debian10.docker |  1 +
+>  tests/requirements.txt                   |  1 +
+>  tests/vm/Makefile.include                | 13 +++++++------
+>  tests/vm/basevm.py                       |  6 +++---
+>  12 files changed, 47 insertions(+), 32 deletions(-)
+>
+> --
+> 2.34.1
+>
 
+Paolo: thanks for reviews.
 
-$ git grep '\.command('
-docs/devel/testing.rst:          res = self.vm.command('human-monitor-command',
-docs/devel/testing.rst:          first_res = first_machine.command(
-docs/devel/testing.rst:          second_res = second_machine.command(
-docs/devel/testing.rst:          third_res = self.get_vm(name='third_machine').command(
-python/qemu/machine/machine.py:        ret = self._qmp.command(cmd, **qmp_args)
-python/qemu/utils/qemu_ga_client.py:            return self.command('guest-' + name.replace('_', '-'), **kwds)
-python/qemu/utils/qom.py:        rsp = self.qmp.command(
-python/qemu/utils/qom.py:        rsp = self.qmp.command(
-python/qemu/utils/qom.py:                rsp = self.qmp.command('qom-get', path=path,
-python/qemu/utils/qom_common.py:        rsp = self.qmp.command('qom-list', path=path)
-python/qemu/utils/qom_fuse.py:            data = str(self.qmp.command('qom-get', path=path, property=prop))
-python/qemu/utils/qom_fuse.py:        return prefix + str(self.qmp.command('qom-get', path=path,
-scripts/device-crash-test:    types = vm.command('qom-list-types', **kwargs)
-scripts/device-crash-test:    devhelp = vm.command('human-monitor-command', **args)
-scripts/device-crash-test:            self.machines = list(m['name'] for m in vm.command('query-machines'))
-scripts/device-crash-test:            self.kvm_available = vm.command('query-kvm')['enabled']
-scripts/render_block_graph.py:    bds_nodes = qmp.command('query-named-block-nodes')
-scripts/render_block_graph.py:    job_nodes = qmp.command('query-block-jobs')
-scripts/render_block_graph.py:    block_graph = qmp.command('x-debug-query-block-graph')
-tests/avocado/avocado_qemu/__init__.py:        res = self.vm.command('human-monitor-command',
-tests/avocado/cpu_queries.py:        cpus = self.vm.command('query-cpu-definitions')
-tests/avocado/cpu_queries.py:            e = self.vm.command('query-cpu-model-expansion', model=model, type='full')
-tests/avocado/hotplug_cpu.py:        self.vm.command('device_add',
-tests/avocado/info_usernet.py:        res = self.vm.command('human-monitor-command',
-tests/avocado/machine_arm_integratorcp.py:        self.vm.command('human-monitor-command', command_line='stop')
-tests/avocado/machine_arm_integratorcp.py:        self.vm.command('human-monitor-command',
-tests/avocado/machine_m68k_nextcube.py:        self.vm.command('human-monitor-command',
-tests/avocado/machine_mips_malta.py:        self.vm.command('human-monitor-command', command_line='stop')
-tests/avocado/machine_mips_malta.py:        self.vm.command('human-monitor-command',
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('device_del', id='rn1')
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('device_del', id='rn2')
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('device_add', driver='virtio-net-ccw',
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('device_del', id='net_4711')
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('human-monitor-command', command_line='balloon 96')
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('human-monitor-command', command_line='balloon 128')
-tests/avocado/machine_s390_ccw_virtio.py:            self.vm.command('screendump', filename=ppmfile.name)
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('device_del', id='crypdev0')
-tests/avocado/machine_s390_ccw_virtio.py:        self.vm.command('object-del', id='cbe0')
-tests/avocado/migration.py:        return vm.command('query-migrate')['status'] in ('completed', 'failed')
-tests/avocado/migration.py:        self.assertEqual(src_vm.command('query-migrate')['status'], 'completed')
-tests/avocado/migration.py:        self.assertEqual(dst_vm.command('query-migrate')['status'], 'completed')
-tests/avocado/migration.py:        self.assertEqual(dst_vm.command('query-status')['status'], 'running')
-tests/avocado/migration.py:        self.assertEqual(src_vm.command('query-status')['status'],'postmigrate')
-tests/avocado/pc_cpu_hotplug_props.py:        self.assertEquals(len(self.vm.command('query-cpus-fast')), 2)
-tests/avocado/version.py:        res = self.vm.command('human-monitor-command',
-tests/avocado/virtio_check_params.py:        output = vm.command('human-monitor-command',
-tests/avocado/virtio_check_params.py:            machines = [m['name'] for m in vm.command('query-machines')]
-tests/avocado/virtio_version.py:    return devtype in [d['name'] for d in vm.command('qom-list-types', implements=implements)]
-tests/avocado/virtio_version.py:            pcibuses = vm.command('query-pci')
-tests/avocado/x86_cpu_model_versions.py:        cpus = dict((m['name'], m) for m in self.vm.command('query-cpu-definitions'))
-tests/avocado/x86_cpu_model_versions.py:        cpus = dict((m['name'], m) for m in self.vm.command('query-cpu-definitions'))
-tests/avocado/x86_cpu_model_versions.py:        cpus = dict((m['name'], m) for m in self.vm.command('query-cpu-definitions'))
-tests/avocado/x86_cpu_model_versions.py:        cpu_path = self.vm.command('query-cpus-fast')[0].get('qom-path')
-tests/avocado/x86_cpu_model_versions.py:        return self.vm.command('qom-get', path=cpu_path, property=prop)
-tests/docker/docker.py:        dkr.command(cmd="pull", quiet=args.quiet,
-tests/docker/docker.py:        dkr.command(cmd="tag", quiet=args.quiet,
-tests/docker/docker.py:        return Docker().command("images", argv, args.quiet)
-tests/migration/guestperf/engine.py:        info = vm.command("query-migrate")
-tests/migration/guestperf/engine.py:        vcpus = src.command("query-cpus-fast")
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = dst.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:        resp = src.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:        resp = src.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:            resp = dst.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = dst.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = dst.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = src.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:            resp = dst.command("migrate-set-capabilities",
-tests/migration/guestperf/engine.py:            resp = dst.command("migrate-set-parameters",
-tests/migration/guestperf/engine.py:        resp = src.command("migrate", uri=connect_uri)
-tests/migration/guestperf/engine.py:                    dst.command("cont")
-tests/migration/guestperf/engine.py:                src.command("migrate_cancel")
-tests/migration/guestperf/engine.py:                src.command("migrate_cancel")
-tests/migration/guestperf/engine.py:                resp = src.command("migrate-start-postcopy")
-tests/migration/guestperf/engine.py:                resp = src.command("stop")
+I have a follow-up series that does more adventurous things (the pythonized
+bootstrapper, sub-dependency groups, and switching iotests over), but it
+introduces some new problems that are more "rfc" tier again.
 
+In short: I allow iotests to bootstrap itself, but this creates two subtle
+problems:
 
+(1) If check is engaged without running check-venv first and iotests
+creates its own venv, the python binary it uses will be whichever one is
+your system default, not necessarily the one you configured your build with.
 
+This is reasonable behavior IMO, but if you later run "make check", there's
+no guarantee that Make will re-make the venv with the correct python
+binary  That's a subtle landmine.
 
-> success by hand.. But that's not optimal. To simplify movement to
-> vm.command() support same interface improvements like in vm.qmp() and
-> rename to shorter vm.cmd().
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> ---
->   python/qemu/machine/machine.py | 16 ++++++++++++---
->   tests/qemu-iotests/256         | 34 ++++++++++++++++----------------
->   tests/qemu-iotests/257         | 36 +++++++++++++++++-----------------
->   3 files changed, 48 insertions(+), 38 deletions(-)
-> 
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> index 07ac5a710b..a3fb840b93 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -648,14 +648,24 @@ def qmp(self, cmd: str,
->               self._quit_issued = True
->           return ret
->   
-> -    def command(self, cmd: str,
-> -                conv_keys: bool = True,
-> -                **args: Any) -> QMPReturnValue:
-> +    def cmd(self, cmd: str,
-> +            args_dict: Optional[Dict[str, object]] = None,
-> +            conv_keys: Optional[bool] = None,
-> +            **args: Any) -> QMPReturnValue:
->           """
->           Invoke a QMP command.
->           On success return the response dict.
->           On failure raise an exception.
->           """
-> +        if args_dict is not None:
-> +            assert not args
-> +            assert conv_keys is None
-> +            args = args_dict
-> +            conv_keys = False
-> +
-> +        if conv_keys is None:
-> +            conv_keys = True
-> +
->           qmp_args = self._qmp_args(conv_keys, args)
->           ret = self._qmp.command(cmd, **qmp_args)
->           if cmd == 'quit':
-> diff --git a/tests/qemu-iotests/256 b/tests/qemu-iotests/256
-> index 13666813bd..fffc8ef055 100755
-> --- a/tests/qemu-iotests/256
-> +++ b/tests/qemu-iotests/256
-> @@ -40,25 +40,25 @@ with iotests.FilePath('img0') as img0_path, \
->       def create_target(filepath, name, size):
->           basename = os.path.basename(filepath)
->           nodename = "file_{}".format(basename)
-> -        log(vm.command('blockdev-create', job_id='job1',
-> -                       options={
-> -                           'driver': 'file',
-> -                           'filename': filepath,
-> -                           'size': 0,
-> -                       }))
-> +        log(vm.cmd('blockdev-create', job_id='job1',
-> +                   options={
-> +                       'driver': 'file',
-> +                       'filename': filepath,
-> +                       'size': 0,
-> +                   }))
->           vm.run_job('job1')
-> -        log(vm.command('blockdev-add', driver='file',
-> -                       node_name=nodename, filename=filepath))
-> -        log(vm.command('blockdev-create', job_id='job2',
-> -                       options={
-> -                           'driver': iotests.imgfmt,
-> -                           'file': nodename,
-> -                           'size': size,
-> -                       }))
-> +        log(vm.cmd('blockdev-add', driver='file',
-> +                   node_name=nodename, filename=filepath))
-> +        log(vm.cmd('blockdev-create', job_id='job2',
-> +                   options={
-> +                       'driver': iotests.imgfmt,
-> +                       'file': nodename,
-> +                       'size': size,
-> +                   }))
->           vm.run_job('job2')
-> -        log(vm.command('blockdev-add', driver=iotests.imgfmt,
-> -                       node_name=name,
-> -                       file=nodename))
-> +        log(vm.cmd('blockdev-add', driver=iotests.imgfmt,
-> +                   node_name=name,
-> +                   file=nodename))
->   
->       log('--- Preparing images & VM ---\n')
->       vm.add_object('iothread,id=iothread0')
-> diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
-> index e7e7a2317e..7d3720b8e5 100755
-> --- a/tests/qemu-iotests/257
-> +++ b/tests/qemu-iotests/257
-> @@ -160,26 +160,26 @@ class Drive:
->           file_node_name = "file_{}".format(basename)
->           vm = self.vm
->   
-> -        log(vm.command('blockdev-create', job_id='bdc-file-job',
-> -                       options={
-> -                           'driver': 'file',
-> -                           'filename': self.path,
-> -                           'size': 0,
-> -                       }))
-> +        log(vm.cmd('blockdev-create', job_id='bdc-file-job',
-> +                   options={
-> +                       'driver': 'file',
-> +                       'filename': self.path,
-> +                       'size': 0,
-> +                   }))
->           vm.run_job('bdc-file-job')
-> -        log(vm.command('blockdev-add', driver='file',
-> -                       node_name=file_node_name, filename=self.path))
-> -
-> -        log(vm.command('blockdev-create', job_id='bdc-fmt-job',
-> -                       options={
-> -                           'driver': fmt,
-> -                           'file': file_node_name,
-> -                           'size': size,
-> -                       }))
-> +        log(vm.cmd('blockdev-add', driver='file',
-> +                   node_name=file_node_name, filename=self.path))
-> +
-> +        log(vm.cmd('blockdev-create', job_id='bdc-fmt-job',
-> +                   options={
-> +                       'driver': fmt,
-> +                       'file': file_node_name,
-> +                       'size': size,
-> +                   }))
->           vm.run_job('bdc-fmt-job')
-> -        log(vm.command('blockdev-add', driver=fmt,
-> -                       node_name=name,
-> -                       file=file_node_name))
-> +        log(vm.cmd('blockdev-add', driver=fmt,
-> +                   node_name=name,
-> +                   file=file_node_name))
->           self.fmt = fmt
->           self.size = size
->           self.node = name
+(2) Similarly, if the venv requirements.txt (or python/setup.cfg) change,
+iotests doesn't have the logic to notice it ought to re-make the venv. Only
+the makefile does. However, at least in this case, the makefile is
+guaranteed to notice if/when we run "check block" again. The odds of these
+files changing for most people who aren't *me* are pretty low, so it may
+not really come up much. Still, it's not bullet-proof.
 
+(Bonus not-at-all-subtle problem) I need to remove iotest 297, otherwise
+iotests under a venv that doesn't install mypy/pylint will never run. I
+discussed this upstream recently w/ Kevin, but my series to address it
+isn't ready yet. (Just pre-emptively pointing it out to say I'm aware of
+it!)
 
--- 
-Best regards,
-Vladimir
+WIP. Will send new RFC series today predicated on top of this series.
+
+--js
+
+>
+
+--000000000000aa2f4b05dfeb185d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, May 25, 2022, 8:09 PM John Snow &lt;<a href=3D=
+"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">GitLab CI: <a href=3D"https://gitlab.com/jsnow/qemu/=
+-/pipelines/548326343" rel=3D"noreferrer noreferrer" target=3D"_blank">http=
+s://gitlab.com/jsnow/qemu/-/pipelines/548326343</a><br>
+<br>
+This series collects some of the uncontroversial elements that serve as<br>
+pre-requisites for a later series that seeks to generate a testing venv<br>
+by default.<br>
+<br>
+This series makes the following material changes:<br>
+<br>
+- Install the &#39;qemu&#39; package into the avocado testing venv<br>
+- Use the avocado testing venv to run vm-tests<br>
+- Use the avocado testing venv to run device-crash-test<br>
+<br>
+None of these changes impact &#39;make check&#39;; these are all specialty<=
+br>
+tests that are not run by default. This series also doesn&#39;t change how<=
+br>
+iotests are run, doesn&#39;t add any new dependencies for SRPM builds, etc.=
+<br>
+<br>
+NOTE: patch 8 isn&#39;t strictly required for this series, but including it=
+<br>
+here &quot;early&quot; helps the subsequent series. Since the debian docker=
+ files<br>
+are layered, testing downstream pipelines can fail because the base<br>
+image is pulled from the main QEMU repo instead of the downstream.<br>
+<br>
+In other words: I need this patch in origin/main in order to have the<br>
+venv module available for later patches that will actually need it in<br>
+our debian10 derivative images.<br>
+<br>
+(in other-other-words: the &#39;clang-user&#39; test *will* need it later.)=
+<br>
+<br>
+John Snow (9):<br>
+=C2=A0 python: update for mypy 0.950<br>
+=C2=A0 tests: add &quot;TESTS_PYTHON&quot; variable to Makefile<br>
+=C2=A0 tests: use python3 as the python executable name<br>
+=C2=A0 tests: silence pip upgrade warnings during venv creation<br>
+=C2=A0 tests: add quiet-venv-pip macro<br>
+=C2=A0 tests: install &quot;qemu&quot; namespace package into venv<br>
+=C2=A0 tests: use tests/venv to run basevm.py-based scripts<br>
+=C2=A0 tests: add python3-venv to debian10.docker<br>
+=C2=A0 tests: run &#39;device-crash-test&#39; from tests/venv<br>
+<br>
+=C2=A0.gitlab-ci.d/buildtest.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 8 +++++---<br>
+=C2=A0python/qemu/qmp/util.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 4 +++-<br>
+=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A0scripts/device-crash-test=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 14 +++++++++++---<br>
+=C2=A0tests/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 18 ++++++++++--------<br>
+=C2=A0tests/avocado/avocado_qemu/__init__.py=C2=A0 =C2=A0| 11 +++++------<b=
+r>
+=C2=A0tests/avocado/virtio_check_params.py=C2=A0 =C2=A0 =C2=A0|=C2=A0 1 -<b=
+r>
+=C2=A0tests/avocado/virtio_version.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 1 -<br>
+=C2=A0tests/docker/dockerfiles/debian10.docker |=C2=A0 1 +<br>
+=C2=A0tests/requirements.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A0tests/vm/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 13 +++++++------<br>
+=C2=A0tests/vm/basevm.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +++---<br>
+=C2=A012 files changed, 47 insertions(+), 32 deletions(-)<br>
+<br>
+-- <br>
+2.34.1<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Paolo: thanks for reviews.</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">I have a follow-up series that does more adventurous things (the =
+pythonized bootstrapper, sub-dependency groups, and switching iotests over)=
+, but it introduces some new problems that are more &quot;rfc&quot; tier ag=
+ain.<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">In short: I all=
+ow iotests to bootstrap itself, but this creates two subtle problems:</div>=
+<div dir=3D"auto"><br></div><div dir=3D"auto">(1) If check is engaged witho=
+ut running check-venv first and iotests creates its own venv, the python bi=
+nary it uses will be whichever one is your system default, not necessarily =
+the one you configured your build with.</div><div dir=3D"auto"><br></div><d=
+iv dir=3D"auto">This is reasonable behavior IMO, but if you later run &quot=
+;make check&quot;, there&#39;s no guarantee that Make will re-make the venv=
+ with the correct python binary=C2=A0 That&#39;s a subtle landmine.</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">(2) Similarly, if the venv requ=
+irements.txt (or python/setup.cfg) change, iotests doesn&#39;t have the log=
+ic to notice it ought to re-make the venv. Only the makefile does. However,=
+ at least in this case, the makefile is guaranteed to notice if/when we run=
+ &quot;check block&quot; again. The odds of these files changing for most p=
+eople who aren&#39;t *me* are pretty low, so it may not really come up much=
+. Still, it&#39;s not bullet-proof.</div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto">(Bonus not-at-all-subtle problem) I need to remove iotest 297, =
+otherwise iotests under a venv that doesn&#39;t install mypy/pylint will ne=
+ver run. I discussed this upstream recently w/ Kevin, but my series to addr=
+ess it isn&#39;t ready yet. (Just pre-emptively pointing it out to say I&#3=
+9;m aware of it!)</div><div dir=3D"auto"><br></div><div dir=3D"auto">WIP. W=
+ill send new RFC series today predicated on top of this series.</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto">--js</div><div dir=3D"auto"><div cl=
+ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
+
+--000000000000aa2f4b05dfeb185d--
+
 
