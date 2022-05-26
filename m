@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044E153491A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 04:58:00 +0200 (CEST)
-Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806B153496A
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 05:45:30 +0200 (CEST)
+Received: from localhost ([::1]:51682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu3hH-0006MR-4c
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 22:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50266)
+	id 1nu4RF-0007EX-4m
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 23:45:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu3ep-0004fz-SU
- for qemu-devel@nongnu.org; Wed, 25 May 2022 22:55:27 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:12154 helo=mga06.intel.com)
+ id 1nu4QC-0006Zx-9J
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 23:44:24 -0400
+Received: from mga05.intel.com ([192.55.52.43]:1477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu3eo-0003UC-2G
- for qemu-devel@nongnu.org; Wed, 25 May 2022 22:55:27 -0400
+ id 1nu4Q9-00037w-N5
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 23:44:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653533726; x=1685069726;
+ t=1653536661; x=1685072661;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=SKSXqfdXaFViFgqPYeu8IfF3uZqYneWIagraOmfAULU=;
- b=JNIZnqyznyZugWDTBgWKPk8IB6x/mCeBp38K4CrFpBVAeZC9Yw9z0mVA
- dGNGnuYB0PFlB8jtu3+8LdK/1qiCkg9Z/DuLm1XxlAS8dh7bLopSGf6vg
- JfeLNuCrImJVn9KbnGfwiXBmf+S9xKyGSuG1NexThwrkn7OcNHxFWJw8s
- Y6X+kwa2cKm1+8kQvJcb32+xNcPpOBKe8FfFLyNGomtQ5hY8T6bI/JW78
- FmgC5P+ZlDyRZ/XhfRhmwyWC/gTgRurarFkIvP/rtigWEpef+jSKEU0kz
- aA2jp2WoGYA91cqRAiAoTKRqGZmNgUjTnZ6TErJvRxYxvpY4KQ7D4Xpio w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="334650393"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="334650393"
+ bh=oLdKtrVWRz08CWT64PN6UcYHzqiEl/ro32pb6xYNL4E=;
+ b=jm6BzpG+e26Abe/uDd5g4Bbd7uuZMt4Zly4KSt2C2wJD35KRyD1Ae8EL
+ OTe9m0B2+m/3m11rNM9QAxnkqxDHMxH9Atx50zfP4uBHS64je4+jjbFwP
+ WlahwzwH89nX8rs9NIsfJYfJOEdg1pfPoCdR8h0rba743Fh+eggsX3dBs
+ YoTAeRwjJeLuKJxqo67hGldWyX87yYoTpcqfuVABcwjJq14zuuAMqRLQu
+ 4bV9FSy2DoE6rvQ4Q6y2N2i4o/LLLaQLwigtArGdkMcPevnzCU/Un8kuU
+ 4fMF9yAXS9Z86T18IYhI1tPXklgw6YFjLTTO5czU8OohysBqBp8tOT/mC w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="360409880"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="360409880"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 19:52:33 -0700
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="573642153"
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 20:44:14 -0700
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="573662025"
 Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.212])
  ([10.255.28.212])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 19:52:28 -0700
-Message-ID: <afec66bf-3fa1-b9fe-44b0-11bd32c97f51@intel.com>
-Date: Thu, 26 May 2022 10:52:27 +0800
+ 25 May 2022 20:44:09 -0700
+Message-ID: <641d640a-398c-3004-382f-f208e779a26e@intel.com>
+Date: Thu, 26 May 2022 11:44:06 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 20/36] i386/tdx: Register a machine_init_done
- callback for TD
+Subject: Re: [RFC PATCH v4 13/36] i386/tdx: Validate TD attributes
 Content-Language: en-US
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -62,14 +61,18 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-21-xiaoyao.li@intel.com>
- <20220524070932.rmkmunar6q6brdbo@sirius.home.kraxel.org>
+ <20220512031803.3315890-14-xiaoyao.li@intel.com>
+ <20220523093920.o6pk5i7zig6enwnm@sirius.home.kraxel.org>
+ <1e0f0051-f7c1-ed3b-be02-d16f0cf9f25d@intel.com>
+ <20220524065959.umzmlhwcspfwi7m2@sirius.home.kraxel.org>
+ <89534991-1850-be09-8abd-6d29bef5958e@intel.com>
+ <20220524082939.2clruwficvkdwnzh@sirius.home.kraxel.org>
 From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220524070932.rmkmunar6q6brdbo@sirius.home.kraxel.org>
+In-Reply-To: <20220524082939.2clruwficvkdwnzh@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
- helo=mga06.intel.com
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
+ helo=mga05.intel.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -93,26 +96,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/2022 3:09 PM, Gerd Hoffmann wrote:
-> On Thu, May 12, 2022 at 11:17:47AM +0800, Xiaoyao Li wrote:
->> Before a TD can run, it needs to
->>   - setup/configure TD HOB list;
->>   - initialize TDVF into TD's private memory;
->>   - initialize TD vcpu state;
+On 5/24/2022 4:29 PM, Gerd Hoffmann wrote:
+> On Tue, May 24, 2022 at 04:11:56PM +0800, Xiaoyao Li wrote:
+>> On 5/24/2022 2:59 PM, Gerd Hoffmann wrote:
+>>> On Tue, May 24, 2022 at 12:19:51PM +0800, Xiaoyao Li wrote:
+>>>> On 5/23/2022 5:39 PM, Gerd Hoffmann wrote:
+>>>>> So, how is this supposed to work?  Patch #2 introduces attributes as
+>>>>> user-settable property.  So do users have to manually figure and pass
+>>>>> the correct value, so the check passes?  Specifically the fixed1 check?
+>>>>>
+>>>>> I think 'attributes' should not be user-settable in the first place.
+>>>>> Each feature-bit which is actually user-settable (and not already
+>>>>> covered by another option like pmu) should be a separate attribute for
+>>>>> tdx-object.  Then the tdx code can create attributes from hardware
+>>>>> capabilities and user settings.
+>>>>
+>>>> In patch #2, tdx-guest.attributes is defined as a field to hold a 64 bits
+>>>> value of attributes but it doesn't provide any getter/setter for it. So it's
+>>>> *not* user-settable.
+>>>
+>>> Ok.  Why it is declared as object property in the first place then?
 >>
->> Register a machine_init_done callback to all those stuff.
+>> Is there another way to define a member/field of object besides property?
 > 
->> +static void tdx_finalize_vm(Notifier *notifier, void *unused)
->> +{
->> +    /* TODO */
->> +}
+> Well, the C object struct is completely independent from the qapi
+> struct.  Typically qapi-generated structs are added as struct fields.
+> Look at ui/input-linux.c for example.
 > 
-> I'd suggest to squash this into the patch actually implementing
-> tdx_finalize_vm.
+> struct InputLinux holds all the object state.  It has a GrabToggleKeys
+> field, that is a qapi-generated enum (see qapi/common.json) and is
+> user-configurable (there are getter and setter for it).
+> 
+> So, you can have a private 'attributes' struct field in your tdx class,
+> but the field doesn't have to be in the qapi struct for that.
 
-OK. I'll squash it into the next patch.
+I see. Thanks for the explanation!
 
-> take care,
+I will remove the qom property definition in patch 2.
+
+> HTH,
 >    Gerd
 > 
 
