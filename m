@@ -2,79 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C13534E9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 13:52:35 +0200 (CEST)
-Received: from localhost ([::1]:51566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2026D534EAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 13:57:14 +0200 (CEST)
+Received: from localhost ([::1]:57700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuC2b-0004oo-LI
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 07:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
+	id 1nuC77-0000mr-5H
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 07:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nuBKA-0007aH-JG
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:06:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58748)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nuBKi-0007op-Qh
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 07:07:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nuBK7-0003FP-86
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:06:36 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nuBKg-0003LX-Vp
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 07:07:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653563194;
+ s=mimecast20190719; t=1653563230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5AOCKMnRthII/jcSrXlOblfI4KKz232aYEIs5MpCUbc=;
- b=CxfbBYg3NK6QBzSUAQ6vnP2drXI69o+pzvQfJAIWNeN2MnYGdyNEGbIMeBXpjhfG3JseBF
- Z5p/GdQHbnW3lkgyncHxoXBQuWe7obc95AXlN40MBEXZhhKExdtjQdQAqrpZ7usoOZfXXV
- +yBeFt9yaWKE1rEy3bs9wvvvXy0m9F8=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GTEXt67HrlP5FoMRAfoK2qvwsuOoXy4l8O61XksrrDk=;
+ b=Op19yERhmqsIkqn3EJGUxMw9y7TC+OSy5GWfGhl7CobqJ3HVe/XCPuQrVOS/fm+ZLTJNCP
+ MC6+I2WYpfuQ3CLWqfsc34DI+97D7NPudLcBSBlK0xvKXtrA6uR/XgbkKMZu9gkd9K6Mmc
+ C3q3RL1UV6x2FjVsN0NmSdg6IJvODnQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-49-F-HmU1BaM4ikmc0Rka2_cw-1; Thu, 26 May 2022 07:06:32 -0400
-X-MC-Unique: F-HmU1BaM4ikmc0Rka2_cw-1
-Received: by mail-il1-f199.google.com with SMTP id
- m9-20020a056e021c2900b002d13627892eso872833ilh.20
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 04:06:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5AOCKMnRthII/jcSrXlOblfI4KKz232aYEIs5MpCUbc=;
- b=3y4ry0pYYpXU4yuV+JXcL2n3T1ysyZUk6FaBG2W9ktkzJXu7vk7tsMSl0Dh4TswA9O
- gmQSv/FHh2J9ezdKG/icAPNRb2G12nYxUQLh7JLpyP/yeYz5l/1Qj6mSFtUmb7QAihEU
- 2jQKy7Z1Gx3e2+Mu6+m0ozfmQ6/lDWwTQFqYnRGXL7orVdRSd/mQzqY3QLwMFl97trLf
- CfCG6j4fW6IJ/FSQgri3CN3A6rg0VfpwQv8eFz+QFhY9y4Jy36G9XANPWW/NjFTA2c6p
- bCYHGSAimb4m2txDfiCVPHrRL/afZ+x2IJQsu16BVeyyI8xPxhqBgbotxSCEYYjxdf1c
- 3dKg==
-X-Gm-Message-State: AOAM532UMoJyox/kU7umGgPJadrfmGM0sRSRfls+nGp79tnTZNu/yhvR
- VAuI3RAB2Uxy7aTrgXPoENdIEvsRpd5mOcDGoyEoDsgL1UX/H3sTqd0bRCxJlFOIitFYEg/+OCb
- JjjLC7hD7HaV8MRv0ex2geDrVWPTCEV4=
-X-Received: by 2002:a92:cda6:0:b0:2d1:bc06:1d9b with SMTP id
- g6-20020a92cda6000000b002d1bc061d9bmr8107974ild.16.1653563191898; 
- Thu, 26 May 2022 04:06:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZ5SJiZIImVFkJVipWU501jQ1UV2yHhNwoqY7yM5UCT2o4nQ4ZPFse67e3Ue5D7vrIB27DwstT9fTu2YtlHlA=
-X-Received: by 2002:a92:cda6:0:b0:2d1:bc06:1d9b with SMTP id
- g6-20020a92cda6000000b002d1bc061d9bmr8107955ild.16.1653563191690; Thu, 26 May
- 2022 04:06:31 -0700 (PDT)
+ us-mta-447-4qY5cm05NF6KaGHaPqXVjQ-1; Thu, 26 May 2022 07:07:06 -0400
+X-MC-Unique: 4qY5cm05NF6KaGHaPqXVjQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AC421C068CF;
+ Thu, 26 May 2022 11:07:06 +0000 (UTC)
+Received: from virtlab420.virt.lab.eng.bos.redhat.com
+ (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50A631731B;
+ Thu, 26 May 2022 11:07:06 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 0/5] gitlab: restrict running jobs in forks and upstream master
+Date: Thu, 26 May 2022 07:07:00 -0400
+Message-Id: <20220526110705.59952-1-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20220519144841.784780-1-afaria@redhat.com>
- <20220519144841.784780-7-afaria@redhat.com>
- <Yo9BkD5gNPSVwHgn@stefanha-x1.localdomain>
-In-Reply-To: <Yo9BkD5gNPSVwHgn@stefanha-x1.localdomain>
-From: Alberto Faria <afaria@redhat.com>
-Date: Thu, 26 May 2022 12:05:55 +0100
-Message-ID: <CAELaAXwmOZsJWsUW=aqSHBj_bh-c8mL22JvcX+4+CBKS4ZSsBA@mail.gmail.com>
-Subject: Re: [PATCH v3 06/10] block: Make 'bytes' param of bdrv_co_{pread,
- pwrite, preadv, pwritev}() an int64_t
-To: Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org, "Denis V. Lunev" <den@openvz.org>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org, 
- Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, 
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Fam Zheng <fam@euphon.net>, Ari Sundholm <ari@tuxera.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,13 +82,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 26, 2022 at 10:00 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> Maybe let the existing bdrv_check_request32() call in bdrv_co_preadv()
-> check this? It returns -EIO if bytes is too large.
+Currently on upstream most jobs will run in both staging
+and master. This is quite wasteful of CI credits. The only
+need to run in master is for the jobs related to publishing
+the website
 
-I'd be okay with that. Does this warrant changing blk_co_pread() and
-blk_co_pwrite() as well?
+In forks we run jobs on every push. With restricted CI
+allowance this is quickly going to cause  problems.
 
-Eric, what do you think?
+With this series jobs will no longer run on forks at all,
+without an opt-in with QEMU_CI=1 (pipeline with manual
+jobs) or QEMU_CI=2 (pipeline with immediate jobs)
+
+This is a rewrite of a previous proposal:
+
+https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg02104.html
+
+where I've kept it simpler and also split up the patches
+into more understandable chunks
+
+Daniel P. Berrangé (5):
+  gitlab: introduce a common base job template
+  gitlab: convert Cirrus jobs to .base_job_template
+  gitlab: convert static checks to .base_job_template
+  gitlab: convert build/container jobs to .base_job_template
+  gitlab: don't run CI jobs in forks by default
+
+ .gitlab-ci.d/base.yml                | 72 +++++++++++++++++++++++
+ .gitlab-ci.d/buildtest-template.yml  | 16 ++---
+ .gitlab-ci.d/buildtest.yml           | 28 ++++-----
+ .gitlab-ci.d/cirrus.yml              | 16 ++---
+ .gitlab-ci.d/container-cross.yml     |  6 +-
+ .gitlab-ci.d/container-template.yml  |  1 +
+ .gitlab-ci.d/crossbuild-template.yml |  3 +
+ .gitlab-ci.d/qemu-project.yml        |  1 +
+ .gitlab-ci.d/static_checks.yml       | 19 +++---
+ .gitlab-ci.d/windows.yml             |  1 +
+ docs/devel/ci-jobs.rst.inc           | 88 +++++++++++++++++++++++++++-
+ 11 files changed, 199 insertions(+), 52 deletions(-)
+ create mode 100644 .gitlab-ci.d/base.yml
+
+-- 
+2.36.1
 
 
