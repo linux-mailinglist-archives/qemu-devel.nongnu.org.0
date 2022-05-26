@@ -2,64 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6781534FA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:53:10 +0200 (CEST)
-Received: from localhost ([::1]:49368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1D9534FF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 15:32:44 +0200 (CEST)
+Received: from localhost ([::1]:44388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCzF-0001dV-Oz
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54070)
+	id 1nuDbV-0005W6-6g
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 09:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nuCwV-0007ry-DU; Thu, 26 May 2022 08:50:19 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:46579)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nuCwT-0000S9-GW; Thu, 26 May 2022 08:50:19 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MBltK-1nzg2c2R3M-00CEFe; Thu, 26 May 2022 14:50:06 +0200
-Message-ID: <6770e5da-0025-b0ba-f5bd-b0940f6b0f51@vivier.eu>
-Date: Thu, 26 May 2022 14:50:05 +0200
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nuDWw-0003SB-1W; Thu, 26 May 2022 09:27:58 -0400
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f]:44989)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nuDWu-0008F5-4D; Thu, 26 May 2022 09:27:57 -0400
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-f2cbceefb8so2135696fac.11; 
+ Thu, 26 May 2022 06:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Vg/XE++AFxAL7hVrWByschj6Dia4LmCmI6HG8jqugIQ=;
+ b=g0oAr592c+C3m8aNq3PeT9sqqyMhmQzIsD1Z9IVNzeaBFPDOIbtRhPqVXKdn2WNNAt
+ xGjH5cri25nXA/aaXYGY6/Ose0Qg/1/j401lDj3byYOTmbreoTx+ZLatQcrFnL5N33p7
+ CT6PCh6eurhEJs7IXpTq4tMEXMhctIpi1SIc7rjWmdrSmXjywL82kBFEVKxrIbXMK2Tb
+ ev5xmGq+bWNeSOK+AhjRqRKl6jd9lxtk0I2AtezezisFILJcEFiSE42Som00PhhZl/LP
+ CV+V0cuEN+fjaN6gaqT/CtCLI2fiHJHysVJIH9FJOd1ZOb3EKLoPBL5IIrlaGIGbcupZ
+ Rx1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Vg/XE++AFxAL7hVrWByschj6Dia4LmCmI6HG8jqugIQ=;
+ b=VWVBTxKuaeFDPGw6weiFMh2ykyX7Sn2J7e0JMfz/f+juspAfvPyvKcxh3hOL1k+6C8
+ vMGudzSdNEBAn+7Hknvwg9mYq8464fiUAZzTr9Yca5dARdAX+06PwByHxZqGqllv52XN
+ 9E84uDiKaKHUrQIbQM0p7R+pbkzwjG4r/Ha95X2sqHlQYDl3IR2FWnr7RVNkF04BEfTD
+ 6YAxjnz/t4TOvwWj98/W3Y9FpiZxcBm9r7CGC5d1MGJk3AIgDKQofFeqjYM+WO2qCHlr
+ LFO9Cb020IMrmTcd1rtf1SWSyYau6YcufUzniBDFGHfmV97F3HtbUxdcnHQ9uvf3ipWA
+ ThWA==
+X-Gm-Message-State: AOAM530nybcRIj4C9f4UG1ffEP8dEjwxTFOHr/5oKpKty26ulOR5zYvb
+ MYtkmqcFHXJ05CGE7C0B/jk=
+X-Google-Smtp-Source: ABdhPJya4e/LPS06iJE3pqYAkQ1flXjjG+WMU6LZmBo7SjRenGnZIYk3g86KWZCSnP6UXA0cAoYcxQ==
+X-Received: by 2002:a05:6870:79e:b0:e1:f5bb:4627 with SMTP id
+ en30-20020a056870079e00b000e1f5bb4627mr1236372oab.74.1653571674386; 
+ Thu, 26 May 2022 06:27:54 -0700 (PDT)
+Received: from [192.168.10.102] (189-46-169-45.dsl.telesp.net.br.
+ [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
+ bi7-20020a056808188700b0032b7788af61sm622357oib.41.2022.05.26.06.27.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 May 2022 06:27:54 -0700 (PDT)
+Message-ID: <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
+Date: Thu, 26 May 2022 10:27:49 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2 03/11] scsi-disk: add MODE_PAGE_APPLE_VENDOR quirk for
- Macintosh
-Content-Language: fr
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- fam@euphon.net, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
- <20220424164935.7339-4-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220424164935.7339-4-mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
+ PCIE_MMCFG_SIZE_MAX
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, Cedric Le Goater <clg@kaod.org>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-76-mst@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220516204913.542894-76-mst@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ey/3pQpU1tjTFyzjbOH6WGD6rdC2g79PHdEPSbm/Ff2vX10NGel
- SiIic2zIdb9HDUD2B/0a/fWO8MbHRhdlw1PPZP/M5RzfUGhs8929tKfGQUPAomxDAWWX8B2
- xv1OdF18ogmxZ3VfxNmyOfsktmK2j26ZzmGgaqOgLDjk2SRYgDfNY8JNPxjlk8Ab+JT+Yft
- uSgkbPTyMK3yIspTzE7FA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:o/2sufoEPTA=:BOtwqiP6qA0gqStZfHismf
- 96HKuzTRMU1wlg4jFeZaXabi0GhnaBQ9vG+zZdp4OiKgww4yDcMcyRswiC5zUWs1j3y0AUUTI
- OqNBVoOOKa1kpA2haNrtrUsjVJmMA/Qp/OuMcty3PAdiKxjMwIbHpi8FiRvj6gnFhi5H7Tsql
- ZLNVvxVWRcVbQ0gt7tSkpl678kAPfqk7nPDQeoIrcpTY/+u/njAY0WvR1qjEsRqCxBl/mtgf3
- sJY/6zQV8eyACK1FF7fVKzY96yDXkV3jkgH630XRmd3wZbpRKJYSXOXKgFaRQGm5rqXlh9oQ5
- qaMhKOQ/7T9XQYk5CmHTTm9XkoNC+7uTQZ3jk1COk7lWzL+aI0IIqYxBXyny6zqOrDFozH/cw
- jgzzq8rep6BDH7XGCdLvKYb8usoUfcPXTxpxvRjPX1UHWcfyJ5CC4dHOjk25S2t1ACYEJwek0
- HVq0SCfkyIHqaikqMts8TpN5KSbrvA1UOqjY9Uh1JtBe6+w1qRBq5T1ytFoUMhPtGzH7lpCNF
- VaBfV9r1nmUqqfcykH+EkLwnSeEoD4aLR72wXHjuuRZh5d3B8q2rZ4esEo8Dd7ApS/KnGajN/
- m8fEBzmNTMK2A5O7OmVju6P3z/2f1hgURpmt0Tnep6IdJonfh9H/mssITA6yst908JDyYdGnJ
- wH6ceq6EjoeWoTPSF1NeHF/qd2n7tWtLN2k8OS8trK8j6VK7RyDisYjh7GdSqNFSUicn1/w4J
- UHNiuP9OJoBPsct6K2W+ECK1Y5EfLvUSeTAjVA==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Received-SPF: pass client-ip=2001:4860:4864:20::2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,89 +98,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/04/2022 à 18:49, Mark Cave-Ayland a écrit :
-> One of the mechanisms MacOS uses to identify drives compatible with MacOS is to
-> send a custom MODE SELECT command for page 0x30 to the drive. The response to
-> this is a hard-coded manufacturer string which must match in order for the
-> drive to be usable within MacOS.
-> 
-> Add an implementation of the MODE SELECT page 0x30 response guarded by a newly
-> defined SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR quirk bit so that drives attached
-> to non-Apple machines function exactly as before.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/scsi/scsi-disk.c      | 17 +++++++++++++++++
->   include/hw/scsi/scsi.h   |  3 +++
->   include/scsi/constants.h |  1 +
->   3 files changed, 21 insertions(+)
-> 
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index d89cdd4e4a..5de4506b97 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -1085,6 +1085,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
->           [MODE_PAGE_R_W_ERROR]              = (1 << TYPE_DISK) | (1 << TYPE_ROM),
->           [MODE_PAGE_AUDIO_CTL]              = (1 << TYPE_ROM),
->           [MODE_PAGE_CAPABILITIES]           = (1 << TYPE_ROM),
-> +        [MODE_PAGE_APPLE_VENDOR]           = (1 << TYPE_ROM),
->       };
->   
->       uint8_t *p = *p_outbuf + 2;
-> @@ -1229,6 +1230,20 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
->           p[19] = (16 * 176) & 0xff;
->           break;
->   
-> +     case MODE_PAGE_APPLE_VENDOR:
-> +        if (s->quirks & (1 << SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR)) {
-> +            length = 0x24;
-> +            if (page_control == 1) { /* Changeable Values */
-> +                break;
-> +            }
-> +
-> +            memset(p, 0, length);
-> +            strcpy((char *)p + 8, "APPLE COMPUTER, INC   ");
-> +            break;
-> +        } else {
-> +            return -1;
-> +        }
-> +
->       default:
->           return -1;
->       }
-> @@ -3042,6 +3057,8 @@ static Property scsi_hd_properties[] = {
->       DEFINE_PROP_UINT16("rotation_rate", SCSIDiskState, rotation_rate, 0),
->       DEFINE_PROP_INT32("scsi_version", SCSIDiskState, qdev.default_scsi_version,
->                         5),
-> +    DEFINE_PROP_BIT("quirk_mode_page_apple_vendor", SCSIDiskState, quirks,
-> +                    SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR, 0),
->       DEFINE_BLOCK_CHS_PROPERTIES(SCSIDiskState, qdev.conf),
->       DEFINE_PROP_END_OF_LIST(),
->   };
-> diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-> index 1ffb367f94..975d462347 100644
-> --- a/include/hw/scsi/scsi.h
-> +++ b/include/hw/scsi/scsi.h
-> @@ -226,4 +226,7 @@ SCSIDevice *scsi_device_get(SCSIBus *bus, int channel, int target, int lun);
->   /* scsi-generic.c. */
->   extern const SCSIReqOps scsi_generic_req_ops;
->   
-> +/* scsi-disk.c */
-> +#define SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR     0
-> +
->   #endif
-> diff --git a/include/scsi/constants.h b/include/scsi/constants.h
-> index 2a32c08b5e..891aa0f45c 100644
-> --- a/include/scsi/constants.h
-> +++ b/include/scsi/constants.h
-> @@ -234,6 +234,7 @@
->   #define MODE_PAGE_FAULT_FAIL                  0x1c
->   #define MODE_PAGE_TO_PROTECT                  0x1d
->   #define MODE_PAGE_CAPABILITIES                0x2a
-> +#define MODE_PAGE_APPLE_VENDOR                0x30
->   #define MODE_PAGE_ALLS                        0x3f
->   /* Not in Mt. Fuji, but in ATAPI 2.6 -- deprecated now in favor
->    * of MODE_PAGE_SENSE_POWER */
+Hi,
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+This patch broke the boot of the sam460ex ppc machine:
+
+qemu-system-ppc -M sam460ex -kernel ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
+-device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
+-nographic -snapshot
+qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init: Assertion `size <= PCIE_MMCFG_SIZE_MAX' failed.
+
+The reason is that it changed commit 58d5b22bbd5 ("ppc4xx: Add device models
+found in PPC440 core SoCs")) in a way that it wasn't expected by the board. The
+code seems to believe that, for a reason that isn't stated in the 58d5b22bbd5 commit
+message, PCIE_MMCFG_SIZE_MAX must be set to 1 << 29.
+
+I'm CCing BALATON Zoltan since he's the author of 58d5b22bbd5 and can provide context of
+his initial change and why the board seems to rely on it. qemu-ppc is being CCed for
+awareness of the sam460ex problem.
+
+
+Zoltan, I wasn't able to amend to quickly amend the code in a way that I could
+preserve the current PCIE_MMCFG_SIZE_MAX setting and make sam460ex work again.
+Can you please take a look?
+
+
+Thanks,
+
+
+Daniel
+
+
+
+On 5/16/22 17:55, Michael S. Tsirkin wrote:
+> From: Francisco Iglesias <frasse.iglesias@gmail.com>
+> 
+> According to 7.2.2 in [1] bit 27 is the last bit that can be part of the
+> bus number, this makes the ECAM max size equal to '1 << 28'. This patch
+> restores back this value into the PCIE_MMCFG_SIZE_MAX define (which was
+> changed in commit 58d5b22bbd5 ("ppc4xx: Add device models found in PPC440
+> core SoCs")).
+> 
+> [1] PCI Express® Base Specification Revision 5.0 Version 1.0
+> 
+> Signed-off-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+> Message-Id: <20220411221836.17699-3-frasse.iglesias@gmail.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>   include/hw/pci/pcie_host.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
+> index b3c8ce973c..82d92177da 100644
+> --- a/include/hw/pci/pcie_host.h
+> +++ b/include/hw/pci/pcie_host.h
+> @@ -65,7 +65,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
+>    * bit 12 - 14: function number
+>    * bit  0 - 11: offset in configuration space of a given device
+>    */
+> -#define PCIE_MMCFG_SIZE_MAX             (1ULL << 29)
+> +#define PCIE_MMCFG_SIZE_MAX             (1ULL << 28)
+>   #define PCIE_MMCFG_SIZE_MIN             (1ULL << 20)
+>   #define PCIE_MMCFG_BUS_BIT              20
+>   #define PCIE_MMCFG_BUS_MASK             0xff
 
