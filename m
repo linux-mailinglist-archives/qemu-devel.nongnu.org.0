@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1419E5351F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 18:23:23 +0200 (CEST)
-Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4BB53524B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 18:44:55 +0200 (CEST)
+Received: from localhost ([::1]:41104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuGGf-0005OZ-TV
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 12:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39710)
+	id 1nuGbW-0000n6-Dz
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 12:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nuGEp-0003nc-T9
- for qemu-devel@nongnu.org; Thu, 26 May 2022 12:21:27 -0400
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:43576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nuGEl-0006HO-MW
- for qemu-devel@nongnu.org; Thu, 26 May 2022 12:21:27 -0400
-Received: by mail-vs1-xe34.google.com with SMTP id c62so1861438vsc.10
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 09:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J100SEPKQyXjVRHZ+aN2Puog2bHT17/VIJf6A0OpCcI=;
- b=YIL6N+lOy5P3rVT1mHmm9RBuvusq/tLrOC2q+4GIwdQ/wtEMLGsjTTjAB8cQnpvtaJ
- tOJXU+nw/XfiZzFyeIQLheOx+0FY8zZxupudkZGtW+Y7HKz1XpIzcSHISYZCRNQmmAdd
- DprRIctG3p1LWLN0ks88cEmjLzjNSjHzGCTFiScs37+ujaNh5hm4kB0VLago9ee5TypD
- WA/bh3Q3qncZRappHcDEYC8aqD13fRT/zflBb6lNdKGusLsHyetkGu+cCYxtXW2T4Q3m
- maTjVf6jW3e3MVrq/IiM7Y84c4ogFlbP/o/w8YWEYAx/Ni2wBw+eYSGpgbuAfN4NXTrQ
- sNEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J100SEPKQyXjVRHZ+aN2Puog2bHT17/VIJf6A0OpCcI=;
- b=I8XwJfpU9Mh48M3ZTb7SVL07c9GMP4IM3uTZEmiuuzgy3jaqtj9HriESIQup37+1ky
- mZhDa6tGWmatiJD+/UFNNVJTlH7PfF6Sb1CrtnfFLvAZFJVAReAYfB5Dnkn0r4kTO0MP
- HK4zYEIz3QhIztNt9rCy9IKY5o6St+ds2wL34hu0OtEQJSZiU3TBNgQGTq0bZlE1wswK
- 3U6OgagQfg/Lf/yTV2DCLLrCG31GVXwa0vQtEsYfYVcv3lcwFL1Acms7m2wAE0mSOdLc
- U5OJORt+ZTof90gynHNbhXeXfwQru1bsPfbnqVMGWq1OnnLihhefb8ZdJ5AARY4/EkF7
- DzBA==
-X-Gm-Message-State: AOAM533ESWFTTQgX4GXVABrnEal5Mjz6+5Wlz0HLWQwjU7ONi3ej1mzO
- h8fjzuKjV39T+RQwB0vzBXdFVUdSG7KZbu4o0L4f+A==
-X-Google-Smtp-Source: ABdhPJznXuZswspN+hq98/vjYj/ijE+A9BAZ17KLV6a4MkpYxXf47aAzHjFFJuEbExsJzbLkrnxyHH1CvdooYyb19Dg=
-X-Received: by 2002:a05:6102:1622:b0:337:b6b2:f715 with SMTP id
- cu34-20020a056102162200b00337b6b2f715mr8868821vsb.35.1653582081744; Thu, 26
- May 2022 09:21:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nuGaE-0007i8-Jk; Thu, 26 May 2022 12:43:34 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:47428)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nuGaB-0001zv-JT; Thu, 26 May 2022 12:43:33 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5698D746324;
+ Thu, 26 May 2022 18:43:26 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E62FE7457EF; Thu, 26 May 2022 18:43:25 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E4B3A74579D;
+ Thu, 26 May 2022 18:43:25 +0200 (CEST)
+Date: Thu, 26 May 2022 18:43:25 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Francisco Iglesias <frasse.iglesias@gmail.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, 
+ Cedric Le Goater <clg@kaod.org>
+Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
+ PCIE_MMCFG_SIZE_MAX
+In-Reply-To: <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
+Message-ID: <28f2b859-7ca4-d779-d94b-c9dc3e21ed39@eik.bme.hu>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-76-mst@redhat.com>
+ <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
+ <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
 MIME-Version: 1.0
-References: <20220225174451.192304-1-wuhaotsh@google.com>
- <CAFEAcA8vcRme05raLOhtaxmvbbLhLrSZwEaz1BVk5uUYSdmL6w@mail.gmail.com>
-In-Reply-To: <CAFEAcA8vcRme05raLOhtaxmvbbLhLrSZwEaz1BVk5uUYSdmL6w@mail.gmail.com>
-From: Patrick Venture <venture@google.com>
-Date: Thu, 26 May 2022 09:21:10 -0700
-Message-ID: <CAO=notyz+SjAoomWGubV5pBuc4qSmNdJF5cmMBf7J8DevF9T4A@mail.gmail.com>
-Subject: Re: [PATCH v5] tests/qtest: add qtests for npcm7xx sdhci
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Hao Wu <wuhaotsh@google.com>, qemu-arm <qemu-arm@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, Chris Rauer <crauer@google.com>, 
- Shengtan Mao <stmao@google.com>, John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000097609905dfec94bc"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
- envelope-from=venture@google.com; helo=mail-vs1-xe34.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1194928126-1653583405=:52468"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,90 +68,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000097609905dfec94bc
-Content-Type: text/plain; charset="UTF-8"
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Thu, May 26, 2022 at 8:54 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+--3866299591-1194928126-1653583405=:52468
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> On Fri, 25 Feb 2022 at 17:45, Hao Wu <wuhaotsh@google.com> wrote:
-> >
-> > From: Shengtan Mao <stmao@google.com>
-> >
-> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> > Reviewed-by: Chris Rauer <crauer@google.com>
-> > Signed-off-by: Shengtan Mao <stmao@google.com>
-> > Signed-off-by: Patrick Venture <venture@google.com>
+On Thu, 26 May 2022, BALATON Zoltan wrote:
+> Hello,
 >
-> Hi; John Snow tells me that this test fails in the tests/vm/netbsd
-> VM (you can test this with 'make vm-build-netbsd') because the
-> assert() on the ftruncate() call fails:
->
-> > +    ret = ftruncate(fd, NPCM7XX_TEST_IMAGE_SIZE);
-> > +    g_assert_cmpint(ret, ==, 0);
->
-> > +#define NPCM7XX_TEST_IMAGE_SIZE (1 << 30)
->
-> I haven't investigated the exact cause, but this is a
-> gigabyte, right? That's a pretty massive file for a test case to
-> create -- can we make the test use a more sensible size of
-> sd card image ?
->
+> On Thu, 26 May 2022, Daniel Henrique Barboza wrote:
+>> Hi,
+>> 
+>> This patch broke the boot of the sam460ex ppc machine:
+>> 
+>> qemu-system-ppc -M sam460ex -kernel 
+>> ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
+>> -device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
+>> -nographic -snapshot
+>> qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init: Assertion 
+>> `size <= PCIE_MMCFG_SIZE_MAX' failed.
 
-It looks like the nuvoton part had an issue with a smaller image size, but
-we can resurrect that thread and poke at it a bit and see what shakes out.
+With just qemu-system-ppc -M sam460ex the assert seems to happen when the 
+guest (board firmware?) writes a value to CFGMSK reg:
 
+(gdb) bt
+#0  0x00007ffff68ff4a0 in raise () at /lib64/libc.so.6
+#1  0x00007ffff68ea536 in abort () at /lib64/libc.so.6
+#2  0x00007ffff68ea42f in _nl_load_domain.cold () at /lib64/libc.so.6
+#3  0x00007ffff68f7ed2 in  () at /lib64/libc.so.6
+#4  0x000055555596646f in pcie_host_mmcfg_init (e=e@entry=0x5555567942f0, size=size@entry=0x20000000) at ../hw/pci/pcie_host.c:97
+#5  0x000055555596653b in pcie_host_mmcfg_map (size=0x20000000, addr=0xd20000000, e=0x5555567942f0) at ../hw/pci/pcie_host.c:105
+#6  pcie_host_mmcfg_update (e=0x5555567942f0, enable=0x1, addr=0xd20000000, size=0x20000000) at ../hw/pci/pcie_host.c:118
+#7  0x0000555555a70d7c in ppc_dcr_write (dcr_env=0x555556669c10, dcrn=0x122, val=0xe0000001) at ../hw/ppc/ppc.c:1418
+#8  0x0000555555abdabb in helper_store_dcr (env=0x555556633360, dcrn=0x122, val=0xe0000001) at ../target/ppc/timebase_helper.c:188
 
+This is done in the board firmware here:
+
+https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD#l963
+
+when trying to map config space. Here the size is calculated as 0x20000000 
+which does not fit the assert. I'm not sure what this means though and 
+where is the problem. Any ideas?
+
+Regards,
+BALATON Zoltan
+
+> Thanks for noticing this. I usually only test it during the freeze. Wasn't 
+> there a test patch submitted by Philippe before? Isn't that yet merged or 
+> included in CI? That should catch these before breaking it.
 >
-> thanks
-> -- PMM
+>> The reason is that it changed commit 58d5b22bbd5 ("ppc4xx: Add device 
+>> models found in PPC440 core SoCs")) in a way that it wasn't expected by the 
+>> board. The code seems to believe that, for a reason that isn't stated in 
+>> the 58d5b22bbd5 commit message, PCIE_MMCFG_SIZE_MAX must be set to 1 << 29.
+>> 
+>> I'm CCing BALATON Zoltan since he's the author of 58d5b22bbd5 and can 
+>> provide context of his initial change and why the board seems to rely on 
+>> it. qemu-ppc is being CCed for awareness of the sam460ex problem.
 >
-
---00000000000097609905dfec94bc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 26, 2022 at 8:54 AM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Fri, 25 Feb 2022 at 17:45, Hao Wu &lt;<a href=3D"mailto:wuhaotsh@g=
-oogle.com" target=3D"_blank">wuhaotsh@google.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.com" target=3D"_=
-blank">stmao@google.com</a>&gt;<br>
-&gt;<br>
-&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
-=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
-&gt; Reviewed-by: Chris Rauer &lt;<a href=3D"mailto:crauer@google.com" targ=
-et=3D"_blank">crauer@google.com</a>&gt;<br>
-&gt; Signed-off-by: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.com" ta=
-rget=3D"_blank">stmao@google.com</a>&gt;<br>
-&gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@google.co=
-m" target=3D"_blank">venture@google.com</a>&gt;<br>
-<br>
-Hi; John Snow tells me that this test fails in the tests/vm/netbsd<br>
-VM (you can test this with &#39;make vm-build-netbsd&#39;) because the<br>
-assert() on the ftruncate() call fails:<br>
-<br>
-&gt; +=C2=A0 =C2=A0 ret =3D ftruncate(fd, NPCM7XX_TEST_IMAGE_SIZE);<br>
-&gt; +=C2=A0 =C2=A0 g_assert_cmpint(ret, =3D=3D, 0);<br>
-<br>
-&gt; +#define NPCM7XX_TEST_IMAGE_SIZE (1 &lt;&lt; 30)<br>
-<br>
-I haven&#39;t investigated the exact cause, but this is a<br>
-gigabyte, right? That&#39;s a pretty massive file for a test case to<br>
-create -- can we make the test use a more sensible size of<br>
-sd card image ?<br></blockquote><div><br></div><div>It looks like the nuvot=
-on part had an=C2=A0issue with a smaller image size, but we can resurrect t=
-hat thread and poke at it a bit and see what shakes out.</div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div></div>
-
---00000000000097609905dfec94bc--
+> I'm afraid I don't remember but maybe I did not have a definitive answer even 
+> back then as the docs for this PCIe controller were not available so I've 
+> mostly worked from docs for similar SoCs and U-Boot and Linux sources so 
+> there were a lot of guessing. Maybe it's related to that the board maps 
+> peripheral addresses above 4GB as the first 4GB is reserved for memory? Or 
+> maybe there's some mixup between address spaces and the PCIe controller 
+> should have a separate address space that's mapped in the system? I did not 
+> have any knowledge about this back then and my understanding may still be 
+> lacking on how this should work.
+>
+>> Zoltan, I wasn't able to amend to quickly amend the code in a way that I 
+>> could preserve the current PCIE_MMCFG_SIZE_MAX setting and make sam460ex 
+>> work again. Can you please take a look?
+>
+> The PCIe controllers of the 460EX are implemented at the end of 
+> hw/ppc/ppc440_uc.c (a lot of these 4xx SoCs are sharing components and the 
+> code organisation is a bit messy). As the comment near it says it's not 
+> really fully tested and working. only good enough for firmware and OSes get 
+> past testing it. I think trying to attach any device to it probably would 
+> fail or I would be surprised if the OS could actually talk to it as there may 
+> be some missing parts. So I'm happy with any solution that keeps the current 
+> state of being able to boot the OSes running on it (some of which like 
+> AmigaOS and MorphOS are closed source though so I don't know what their 
+> drivers need; closest open source OS to them is AROS but not sure that's 
+> working on real hardware). Some advice from somebody more knowledgeable about 
+> PCIe emulation in QEMU would be welcome here.
+>
+> Regards,
+> BALATON Zoltan
+>
+>> 
+>> Thanks,
+>> 
+>> 
+>> Daniel
+>> 
+>> 
+>> 
+>> On 5/16/22 17:55, Michael S. Tsirkin wrote:
+>>> From: Francisco Iglesias <frasse.iglesias@gmail.com>
+>>> 
+>>> According to 7.2.2 in [1] bit 27 is the last bit that can be part of the
+>>> bus number, this makes the ECAM max size equal to '1 << 28'. This patch
+>>> restores back this value into the PCIE_MMCFG_SIZE_MAX define (which was
+>>> changed in commit 58d5b22bbd5 ("ppc4xx: Add device models found in PPC440
+>>> core SoCs")).
+>>> 
+>>> [1] PCI Express® Base Specification Revision 5.0 Version 1.0
+>>> 
+>>> Signed-off-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+>>> Message-Id: <20220411221836.17699-3-frasse.iglesias@gmail.com>
+>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>>> ---
+>>>   include/hw/pci/pcie_host.h | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>> 
+>>> diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
+>>> index b3c8ce973c..82d92177da 100644
+>>> --- a/include/hw/pci/pcie_host.h
+>>> +++ b/include/hw/pci/pcie_host.h
+>>> @@ -65,7 +65,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
+>>>    * bit 12 - 14: function number
+>>>    * bit  0 - 11: offset in configuration space of a given device
+>>>    */
+>>> -#define PCIE_MMCFG_SIZE_MAX             (1ULL << 29)
+>>> +#define PCIE_MMCFG_SIZE_MAX             (1ULL << 28)
+>>>   #define PCIE_MMCFG_SIZE_MIN             (1ULL << 20)
+>>>   #define PCIE_MMCFG_BUS_BIT              20
+>>>   #define PCIE_MMCFG_BUS_MASK             0xff
+>> 
+>
+--3866299591-1194928126-1653583405=:52468--
 
