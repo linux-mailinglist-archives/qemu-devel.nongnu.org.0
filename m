@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4405351B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 17:56:21 +0200 (CEST)
-Received: from localhost ([::1]:53444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36785351B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 17:57:10 +0200 (CEST)
+Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuFqV-000257-Nm
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 11:56:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60308)
+	id 1nuFrK-0003E6-3h
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 11:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nuFoL-0000ny-38
- for qemu-devel@nongnu.org; Thu, 26 May 2022 11:54:05 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:36687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nuFoJ-0001Tk-Ec
- for qemu-devel@nongnu.org; Thu, 26 May 2022 11:54:04 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id t26so3582084ybt.3
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 08:54:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BwttWzckPGVuWP72wF1PabwLrM+OAc8xNfRmrrcbhF0=;
- b=g8N4IUHP3V9Tmsr9aJi2IZcrOdkMmURKoXeDrAj27wvStzr0LL9nHkWWnCeAr8GQum
- CfOvZqU4r8IyHSK1TvXCsRbjg8pNrdh4sDfAfb1LmoIH4MHBVJhZznCyjLOpyaAEW8CN
- FokaBIRUThdpzmeooijpcdqhn6SpdTTL3GMDU2GGxxedxCquY4Q1E69ltW5CpOfdMH9h
- 717YnOEiSxDtr+UR14D3t5LD1eh2mLSkX5wdGVqDEuklHuO2S8GnEuqQF0TpZV4R4JAJ
- AEyXbpvPmQ9GwLFzjkWcbjWH1/l3F5gjSOBEp/jMGteQTXNN3sf6dulUC2AwrOhP9GFM
- hpRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BwttWzckPGVuWP72wF1PabwLrM+OAc8xNfRmrrcbhF0=;
- b=GfndVQcDTNRfhKeDYXb6EFhPXhU0SkUgWjM9rSqiaQS4bxJGkA6xOhXmeMnVQW6YXP
- p0p1UX6YyTGIJ6aRR6VOKGg8HvUVloECY4OIJnA/ZqqUliVyb8Ljb7IxCorro2sGu/J8
- wHIxn6SVh+b8SiO/9xaE8H8zhhV4jKL88z9BC6hIZccCSmXHv4elBBmduRmq1W3cGv7R
- 2ZuhpseeK/qZRJMYwgN34jJ4ag8RhFODmwEQaU9WvJYNQQhB+vh8vPc6hT5jNMlNx3i6
- 4OunwYgzRNqPOvELeBunxPxGpTNzTN91dGRt1KI/blV3dQigSTdcWsy3doP5cMgBmk9T
- Pugw==
-X-Gm-Message-State: AOAM532YToM511cat1BQrzWlZCAxtVerdpGX6aN2DYI52h4bv3b1QzY6
- XY6EiEwHLyQyV6T/NQSTCbiczxaDiOXalrBMuNjXfg==
-X-Google-Smtp-Source: ABdhPJw4mTaqGSvuu6wO2my/frw5ZhLbFmAsSzsTkYPq1Ezjqn4FdsL8leZo228XMrMFo7tB8KZlbBOlR7sDJPT62n0=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr36413082ybq.67.1653580442083; Thu, 26
- May 2022 08:54:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nuFpB-0001bW-5c; Thu, 26 May 2022 11:54:57 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:26444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nuFp8-0001XS-E2; Thu, 26 May 2022 11:54:56 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 57E20747641;
+ Thu, 26 May 2022 17:54:48 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 227AB74763E; Thu, 26 May 2022 17:54:48 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 211C77470B9;
+ Thu, 26 May 2022 17:54:48 +0200 (CEST)
+Date: Thu, 26 May 2022 17:54:48 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Francisco Iglesias <frasse.iglesias@gmail.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, 
+ Cedric Le Goater <clg@kaod.org>
+Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
+ PCIE_MMCFG_SIZE_MAX
+In-Reply-To: <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
+Message-ID: <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-76-mst@redhat.com>
+ <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
 MIME-Version: 1.0
-References: <20220225174451.192304-1-wuhaotsh@google.com>
-In-Reply-To: <20220225174451.192304-1-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 May 2022 16:53:51 +0100
-Message-ID: <CAFEAcA8vcRme05raLOhtaxmvbbLhLrSZwEaz1BVk5uUYSdmL6w@mail.gmail.com>
-Subject: Re: [PATCH v5] tests/qtest: add qtests for npcm7xx sdhci
-To: Hao Wu <wuhaotsh@google.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Chris Rauer <crauer@google.com>, Shengtan Mao <stmao@google.com>, 
- Patrick Venture <venture@google.com>, John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-155999784-1653580488=:28167"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,29 +68,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Feb 2022 at 17:45, Hao Wu <wuhaotsh@google.com> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-155999784-1653580488=:28167
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+Hello,
+
+On Thu, 26 May 2022, Daniel Henrique Barboza wrote:
+> Hi,
 >
-> From: Shengtan Mao <stmao@google.com>
+> This patch broke the boot of the sam460ex ppc machine:
 >
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Chris Rauer <crauer@google.com>
-> Signed-off-by: Shengtan Mao <stmao@google.com>
-> Signed-off-by: Patrick Venture <venture@google.com>
+> qemu-system-ppc -M sam460ex -kernel 
+> ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
+> -device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
+> -nographic -snapshot
+> qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init: Assertion 
+> `size <= PCIE_MMCFG_SIZE_MAX' failed.
 
-Hi; John Snow tells me that this test fails in the tests/vm/netbsd
-VM (you can test this with 'make vm-build-netbsd') because the
-assert() on the ftruncate() call fails:
+Thanks for noticing this. I usually only test it during the freeze. Wasn't 
+there a test patch submitted by Philippe before? Isn't that yet merged or 
+included in CI? That should catch these before breaking it.
 
-> +    ret = ftruncate(fd, NPCM7XX_TEST_IMAGE_SIZE);
-> +    g_assert_cmpint(ret, ==, 0);
+> The reason is that it changed commit 58d5b22bbd5 ("ppc4xx: Add device 
+> models found in PPC440 core SoCs")) in a way that it wasn't expected by 
+> the board. The code seems to believe that, for a reason that isn't 
+> stated in the 58d5b22bbd5 commit message, PCIE_MMCFG_SIZE_MAX must be 
+> set to 1 << 29.
+>
+> I'm CCing BALATON Zoltan since he's the author of 58d5b22bbd5 and can 
+> provide context of his initial change and why the board seems to rely on 
+> it. qemu-ppc is being CCed for awareness of the sam460ex problem.
 
-> +#define NPCM7XX_TEST_IMAGE_SIZE (1 << 30)
+I'm afraid I don't remember but maybe I did not have a definitive answer 
+even back then as the docs for this PCIe controller were not available so 
+I've mostly worked from docs for similar SoCs and U-Boot and Linux sources 
+so there were a lot of guessing. Maybe it's related to that the board maps 
+peripheral addresses above 4GB as the first 4GB is reserved for memory? Or 
+maybe there's some mixup between address spaces and the PCIe controller 
+should have a separate address space that's mapped in the system? I did 
+not have any knowledge about this back then and my understanding may still 
+be lacking on how this should work.
 
-I haven't investigated the exact cause, but this is a
-gigabyte, right? That's a pretty massive file for a test case to
-create -- can we make the test use a more sensible size of
-sd card image ?
+> Zoltan, I wasn't able to amend to quickly amend the code in a way that I 
+> could preserve the current PCIE_MMCFG_SIZE_MAX setting and make sam460ex 
+> work again. Can you please take a look?
 
-thanks
--- PMM
+The PCIe controllers of the 460EX are implemented at the end of 
+hw/ppc/ppc440_uc.c (a lot of these 4xx SoCs are sharing components and the 
+code organisation is a bit messy). As the comment near it says it's not 
+really fully tested and working. only good enough for firmware and OSes 
+get past testing it. I think trying to attach any device to it probably 
+would fail or I would be surprised if the OS could actually talk to it as 
+there may be some missing parts. So I'm happy with any solution that keeps 
+the current state of being able to boot the OSes running on it (some of 
+which like AmigaOS and MorphOS are closed source though so I don't know 
+what their drivers need; closest open source OS to them is AROS but not 
+sure that's working on real hardware). Some advice from somebody more 
+knowledgeable about PCIe emulation in QEMU would be welcome here.
+
+Regards,
+BALATON Zoltan
+
+>
+> Thanks,
+>
+>
+> Daniel
+>
+>
+>
+> On 5/16/22 17:55, Michael S. Tsirkin wrote:
+>> From: Francisco Iglesias <frasse.iglesias@gmail.com>
+>> 
+>> According to 7.2.2 in [1] bit 27 is the last bit that can be part of the
+>> bus number, this makes the ECAM max size equal to '1 << 28'. This patch
+>> restores back this value into the PCIE_MMCFG_SIZE_MAX define (which was
+>> changed in commit 58d5b22bbd5 ("ppc4xx: Add device models found in PPC440
+>> core SoCs")).
+>> 
+>> [1] PCI Express® Base Specification Revision 5.0 Version 1.0
+>> 
+>> Signed-off-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+>> Message-Id: <20220411221836.17699-3-frasse.iglesias@gmail.com>
+>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>> ---
+>>   include/hw/pci/pcie_host.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
+>> index b3c8ce973c..82d92177da 100644
+>> --- a/include/hw/pci/pcie_host.h
+>> +++ b/include/hw/pci/pcie_host.h
+>> @@ -65,7 +65,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
+>>    * bit 12 - 14: function number
+>>    * bit  0 - 11: offset in configuration space of a given device
+>>    */
+>> -#define PCIE_MMCFG_SIZE_MAX             (1ULL << 29)
+>> +#define PCIE_MMCFG_SIZE_MAX             (1ULL << 28)
+>>   #define PCIE_MMCFG_SIZE_MIN             (1ULL << 20)
+>>   #define PCIE_MMCFG_BUS_BIT              20
+>>   #define PCIE_MMCFG_BUS_MASK             0xff
+>
+>
+--3866299591-155999784-1653580488=:28167--
 
