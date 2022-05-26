@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19087535118
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 16:58:22 +0200 (CEST)
-Received: from localhost ([::1]:51618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABA553513F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 17:13:01 +0200 (CEST)
+Received: from localhost ([::1]:36694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuEwO-0006P8-Eu
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 10:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
+	id 1nuFAZ-0000Ma-P0
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 11:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nuEuM-0005DF-2b
- for qemu-devel@nongnu.org; Thu, 26 May 2022 10:56:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51317)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuF90-0007Il-KT
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 11:11:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nuEuH-0007yj-IL
- for qemu-devel@nongnu.org; Thu, 26 May 2022 10:56:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuF8u-00025v-Fi
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 11:11:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653576968;
+ s=mimecast20190719; t=1653577875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2S9N1J/rCvSK+KUowqr5LFbfVCl8aAMCEEcX7nHjIYc=;
- b=BhsZVZB851/gGywffmuFLJaMp0d1ZfQtoW0KS9YrWuwbwUeWCoTZ5qSOp7YXCDDPDnFu7/
- 4TUfkwFiYwgkd/7MRDfUlzm0kDQRv3hECk5qaekl1wDqd9G1Ihz7fUQJDWf8b3LAn8uGMM
- 66CQn1PjabkRls0DUiQH+VzXgQqVErU=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uYOyGdip9wFAvquNLsuFNj+5PANcCgRxjrIpN5YI1n4=;
+ b=FD3qVSF5iyUurYf+C3z5qXlVqxEWYOLD7T9EWZlw5TgrRhsK7vUo4+Q9YcY9ng2H79d0EH
+ ue+HABEiLFgXlk2mf8KPJCxkid3IPQb5UqKp1RoUPoF0Mn+dv8PHV8YMch+Lzyfq9rcfnw
+ 8FmQ+hro11IbGl7k2APqkfWohfS+l+Q=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-M7sQIPc2PGCcMxZWHk1GtA-1; Thu, 26 May 2022 10:56:06 -0400
-X-MC-Unique: M7sQIPc2PGCcMxZWHk1GtA-1
-Received: by mail-vk1-f197.google.com with SMTP id
- m71-20020a1fa34a000000b003572cab1489so172250vke.4
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 07:56:06 -0700 (PDT)
+ us-mta-231-_pk1xvnrOS6lImSPwIEuLA-1; Thu, 26 May 2022 11:11:14 -0400
+X-MC-Unique: _pk1xvnrOS6lImSPwIEuLA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ gf24-20020a170906e21800b006fe8e7f8783so1008442ejb.2
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 08:11:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2S9N1J/rCvSK+KUowqr5LFbfVCl8aAMCEEcX7nHjIYc=;
- b=YL32QAJ0dtdC1rMPOUr9AhJ1ipeYvQEM7eg8vf29LMcZ4VSUN1hslEbqMxiBF6WHt+
- WLRvc/jBjcbwB0NQ0uP6DOv9SJtJQJ0J28mJe8w+jqF6xA+dblol3gYNM1s+/TJkAq0+
- DXoH76pY2gXw46Rx57W2U5wELnQx9yBOHjHVIbUOC0822yXUMBH+QhctXGCjut2dBdMY
- WqgzwI9GhOWBCG7OlTzIUjcPi5uChLKLeNHjCmQzpVhtiXloqvBvh10rzzHUjTY6sLKX
- 7roE6US8XYZ+sM8piuJGBuRE5YSO7LozuDCV0baEKh9oMAfCe6K096zr0W1hgbI3Y6sg
- ssHQ==
-X-Gm-Message-State: AOAM532i9h0+Jk/DVp1MjPhwlra6DGhTE9a86CBsO2ZiwDwNTesEqvcc
- eiG8byiXDftUlHIVNmzmNTO0J105yHZJr+Nw1FnyW7aU9qR3SRGawOZegB5Qa6iSFQIaB8c35HO
- bgPON2MaNWwWR78VQg4vnkhqAsreubYk=
-X-Received: by 2002:a05:6122:1687:b0:357:4e2d:53b9 with SMTP id
- 7-20020a056122168700b003574e2d53b9mr12897467vkl.3.1653576965997; 
- Thu, 26 May 2022 07:56:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaB/whJEanMAR6Te+77vtdrZtkBTZxNZ4yYc1dX1CdAUEepS6v+E6k/SHniZGh5qUtDUrfONkWwxjWRRo2HFw=
-X-Received: by 2002:a05:6122:1687:b0:357:4e2d:53b9 with SMTP id
- 7-20020a056122168700b003574e2d53b9mr12897456vkl.3.1653576965727; Thu, 26 May
- 2022 07:56:05 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uYOyGdip9wFAvquNLsuFNj+5PANcCgRxjrIpN5YI1n4=;
+ b=4Swy/faf/VDItA+hS+YrjzuEPzuBMvGg3VbS4jqrYcLyW4pg06QdDpFACBCUDyUX7U
+ N6ueaoUbEGfdn2BXTwJ3t88eMMbm54RPX+M1uWLLsX8ANzl/YbIxjMPfaZJlEzJxLiSI
+ 6is/+ifVB17JY44J7aQZ1tsf2fdEydiRUubYsJZP5MV2ohHsWXx+aKcb56UP5QYnJEsH
+ PpTV9MquOBxMb4p6V+1M1fWn2QiCpak+ZYth5v+1vCxdlJb+Ji2TMpjb4N0aNuaUBbV+
+ taO49fYoPcU9rvi5JcZSUlctgzkGmFOgq6ozlsTnLBzdqHbp+r/7+1eqBvNpV223Buq5
+ KsgA==
+X-Gm-Message-State: AOAM531+aucTD6V+5MPMKmiCMV65O+Nc/btD0kDTTfHGhJOPoVyie49o
+ UPhbAqThlb77+qoBD71WpXKEdTmwm7F5uYi+ynteqNvlIIPB/p5aDBI6dtnxAMxg69I4BVyei0H
+ vs6FHjR9/QT6gvWg=
+X-Received: by 2002:a05:6402:2804:b0:420:caf1:961c with SMTP id
+ h4-20020a056402280400b00420caf1961cmr39613823ede.280.1653577869754; 
+ Thu, 26 May 2022 08:11:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDpZviG2kbPYHreXo1P+1PpBI/k//aEpSLevpa9a3EMnoMbGiGue051QHkfoRl1ZHfebnDmA==
+X-Received: by 2002:a05:6402:2804:b0:420:caf1:961c with SMTP id
+ h4-20020a056402280400b00420caf1961cmr39613765ede.280.1653577869249; 
+ Thu, 26 May 2022 08:11:09 -0700 (PDT)
+Received: from redhat.com ([2.55.131.38]) by smtp.gmail.com with ESMTPSA id
+ gr21-20020a170906e2d500b006fe8c831632sm591626ejb.73.2022.05.26.08.11.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 May 2022 08:11:08 -0700 (PDT)
+Date: Thu, 26 May 2022 11:11:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Cc: qemu-devel@nongnu.org, boris.ostrovsky@oracle.com,
+ si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ qemu-block@nongnu.org, groug@kaod.org, qemu_oss@crudebyte.com,
+ stefanha@redhat.com, lvivier@redhat.com, mathieu.poirier@linaro.org,
+ arei.gonglei@huawei.com, eric.auger@redhat.com, kraxel@redhat.com,
+ dgilbert@redhat.com, david@redhat.com, marcandre.lureau@redhat.com,
+ armbru@redhat.com, michael.roth@amd.com, eblake@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, kwolf@redhat.com,
+ raphael.norwitz@nutanix.com
+Subject: Re: [PATCH v14 5/8] qmp: decode feature & status bits in virtio-status
+Message-ID: <20220526110546-mutt-send-email-mst@kernel.org>
+References: <1648819405-25696-1-git-send-email-jonah.palmer@oracle.com>
+ <1648819405-25696-6-git-send-email-jonah.palmer@oracle.com>
+ <20220516161200-mutt-send-email-mst@kernel.org>
+ <3e273430-762e-af04-21fa-d92a879ca28f@oracle.com>
 MIME-Version: 1.0
-References: <20220408170214.45585-1-vsementsov@openvz.org>
- <20220408170214.45585-2-vsementsov@openvz.org>
- <d14025a4-01ff-d1ff-deca-e3613a5955bc@yandex-team.ru>
-In-Reply-To: <d14025a4-01ff-d1ff-deca-e3613a5955bc@yandex-team.ru>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 26 May 2022 10:55:54 -0400
-Message-ID: <CAFn=p-Zij3ZjhPyJZEeMLSJmahGtKi0R+ogk2c-aD37mFuuc-g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] python/machine.py: upgrade vm.command() method
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>, 
- Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a6c28505dfeb63db"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3e273430-762e-af04-21fa-d92a879ca28f@oracle.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,847 +105,1199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a6c28505dfeb63db
-Content-Type: text/plain; charset="UTF-8"
+On Thu, May 19, 2022 at 02:30:43AM -0400, Jonah Palmer wrote:
+> 
+> On 5/16/22 16:26, Michael S. Tsirkin wrote:
+> 
+>     On Fri, Apr 01, 2022 at 09:23:22AM -0400, Jonah Palmer wrote:
+> 
+>         From: Laurent Vivier <lvivier@redhat.com>
+> 
+>         Display feature names instead of bitmaps for host, guest, and
+>         backend for VirtIODevices.
+> 
+>         Display status names instead of bitmaps for VirtIODevices.
+> 
+>         Display feature names instead of bitmaps for backend, protocol,
+>         acked, and features (hdev->features) for vhost devices.
+> 
+>         Decode features according to device ID. Decode statuses
+>         according to configuration status bitmap (config_status_map).
+>         Decode vhost user protocol features according to vhost user
+>         protocol bitmap (vhost_user_protocol_map).
+> 
+>         Transport features are on the first line. Undecoded bits (if
+>         any) are stored in a separate field.
+> 
+>         Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+> 
+> 
+>     So this has several problems that I missed previously.
+>     First, sign off from poster is missing.
+> 
+> My apologies, will add missing Laurent's SOB in correct order for
+> patches 3-8.
+> 
+> 
+> 
+> 
+> 
+>         ---
+>          hw/block/virtio-blk.c          |  29 ++++
+>          hw/char/virtio-serial-bus.c    |  11 ++
+>          hw/display/virtio-gpu.c        |  18 ++
+>          hw/input/virtio-input.c        |  10 ++
+>          hw/net/virtio-net.c            |  47 +++++
+>          hw/scsi/virtio-scsi.c          |  17 ++
+>          hw/virtio/vhost-user-fs.c      |  10 ++
+>          hw/virtio/vhost-user-i2c.c     |  14 ++
+>          hw/virtio/vhost-vsock-common.c |  10 ++
+>          hw/virtio/virtio-balloon.c     |  14 ++
+>          hw/virtio/virtio-crypto.c      |  10 ++
+>          hw/virtio/virtio-iommu.c       |  14 ++
+>          hw/virtio/virtio-mem.c         |  11 ++
+>          hw/virtio/virtio.c             | 302 ++++++++++++++++++++++++++++++++-
+>          include/hw/virtio/vhost.h      |   3 +
+>          include/hw/virtio/virtio.h     |  19 +++
+>          qapi/virtio.json               | 156 ++++++++++++++---
+>          17 files changed, 667 insertions(+), 28 deletions(-)
+> 
+>         diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+>         index 27c71ad316..f104603040 100644
+>         --- a/hw/block/virtio-blk.c
+>         +++ b/hw/block/virtio-blk.c
+>         @@ -13,6 +13,7 @@
+> 
+>          #include "qemu/osdep.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "qemu/iov.h"
+>          #include "qemu/module.h"
+>          #include "qemu/error-report.h"
+>         @@ -33,10 +34,38 @@
+>          #include "migration/qemu-file-types.h"
+>          #include "hw/virtio/virtio-access.h"
+>          #include "qemu/coroutine.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+> 
+>          /* Config size before the discard support (hide associated config fields) */
+>          #define VIRTIO_BLK_CFG_SIZE offsetof(struct virtio_blk_config, \
+>                                               max_discard_sectors)
+>         +
+>         +qmp_virtio_feature_map_t blk_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_BLK_F_##name, #name }
+>         +    FEATURE_ENTRY(SIZE_MAX),
+>         +    FEATURE_ENTRY(SEG_MAX),
+>         +    FEATURE_ENTRY(GEOMETRY),
+>         +    FEATURE_ENTRY(RO),
+>         +    FEATURE_ENTRY(BLK_SIZE),
+>         +    FEATURE_ENTRY(TOPOLOGY),
+>         +    FEATURE_ENTRY(MQ),
+>         +    FEATURE_ENTRY(DISCARD),
+>         +    FEATURE_ENTRY(WRITE_ZEROES),
+>         +#ifndef VIRTIO_BLK_NO_LEGACY
+>         +    FEATURE_ENTRY(BARRIER),
+>         +    FEATURE_ENTRY(SCSI),
+>         +    FEATURE_ENTRY(FLUSH),
+>         +    FEATURE_ENTRY(CONFIG_WCE),
+>         +#endif /* !VIRTIO_BLK_NO_LEGACY */
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          /*
+>           * Starting from the discard feature, we can use this array to properly
+>           * set the config size depending on the features enabled.
+>         diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+>         index 7d4601cb5d..fbb31a2b16 100644
+>         --- a/hw/char/virtio-serial-bus.c
+>         +++ b/hw/char/virtio-serial-bus.c
+>         @@ -20,6 +20,7 @@
+> 
+>          #include "qemu/osdep.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "qemu/iov.h"
+>          #include "qemu/main-loop.h"
+>          #include "qemu/module.h"
+>         @@ -32,6 +33,16 @@
+>          #include "hw/virtio/virtio-serial.h"
+>          #include "hw/virtio/virtio-access.h"
+> 
+>         +qmp_virtio_feature_map_t serial_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_CONSOLE_F_##name, #name }
+>         +    FEATURE_ENTRY(SIZE),
+>         +    FEATURE_ENTRY(MULTIPORT),
+>         +    FEATURE_ENTRY(EMERG_WRITE),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          static struct VirtIOSerialDevices {
+>              QLIST_HEAD(, VirtIOSerial) devices;
+>          } vserdevices;
+>         diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+>         index 529b5246b2..0bd5dc6232 100644
+>         --- a/hw/display/virtio-gpu.c
+>         +++ b/hw/display/virtio-gpu.c
+>         @@ -29,10 +29,28 @@
+>          #include "qemu/log.h"
+>          #include "qemu/module.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "qemu/error-report.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+> 
+>          #define VIRTIO_GPU_VM_VERSION 1
+> 
+>         +qmp_virtio_feature_map_t gpu_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_GPU_F_##name, #name }
+>         +    FEATURE_ENTRY(VIRGL),
+>         +    FEATURE_ENTRY(EDID),
+>         +    FEATURE_ENTRY(RESOURCE_UUID),
+>         +    FEATURE_ENTRY(RESOURCE_BLOB),
+>         +    FEATURE_ENTRY(CONTEXT_INIT),
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+> 
+> 
+>     Now I had some experience with this, the trick makes it
+>     harder to find where is a given macro used, and at the same
+>     time saves very little. Also should a macro name change, we
+>     do not want the name to change.
+>     Let's just keep it simple please.
+>     Plain array of macros and strings with no tricks.
+> 
+> Sure thing. Should I define the macro outside of the map
+> definition? E.g:
+> 
+> #define FEATURE_ENTRY(name) { ##name, #name }
+> qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
+>     FEATURE_ENTRY(VIRTIO_GPU_F_VIRGL),
+>     FEATURE_ENTRY(VIRTIO_GPU_F_EDID),
+>     ...
+>     { -1, "" }
+> };
+> Also, is that what you were thinking as a "plain array of macros
+> and strings"? Or was there something more simple you had in mind?
+> 
 
-On Thu, May 26, 2022, 10:31 AM Vladimir Sementsov-Ogievskiy <
-vsementsov@yandex-team.ru> wrote:
+That's not too bad, yes.
+But I think open-coding is even better since then you can add the
+description:
 
-> On 4/8/22 20:02, Vladimir Sementsov-Ogievskiy wrote:
-> > The method is not popular, we prefer use vm.qmp() and then check
->
-> Suddenly I found, that I missed a lot of existing users: in scripts, in
-> avocado tests.
->
-> Do you prefer to rename the method to "cmd()", and change all the
-> occurrences, or keep longer "command()" name and update the second patch?
->
+VIRTIO_GPU_F_VIRGL, "VIRTIO_GPU_F_VIRGL: virgl 3D mode is supported"
 
-I don't have a strong preference, I think.
-
-In (async) qmp I use .execute() as the form that raises exception, and
-._raw() as the form that doesn't. I use execute_msg() as an
-exception-raising form that takes a Mapping[str, obj].
-
-Notably, I tried to hide any interface that didn't raise exception, and the
-interfaces that remain always return the inner return field and not the
-entire wire object.
-
-command() IIRC has historically been the exception-raising version and
-cmd() has been the C-like version. (cmd_obj works like my execute_msg,
-except it doesn't raise, and returns the entire reply.)
-
-command() is longer, but there's precedent and continuity for it working
-this way. But shorter names are nicer for line length, so...
-
-...Go with what you feel is subjectively nicest? (That's not helpful,
-sorry.)
-
-oh, also: IIRC, command() also does not return the entire response object.
-This is how execute() works, but it might be a lot of churn to convert
-users of cmd() over to this form. It's something I want to do eventually
-anyway, but it's a lot for me to dump on your plate, so don't worry about
-that aspect.
-
---js
+I would advise against string concatenation for this since it
+again makes it harder to find the string.
 
 
->
-> $ git grep '\.command('
-> docs/devel/testing.rst:          res =
-> self.vm.command('human-monitor-command',
-> docs/devel/testing.rst:          first_res = first_machine.command(
-> docs/devel/testing.rst:          second_res = second_machine.command(
-> docs/devel/testing.rst:          third_res =
-> self.get_vm(name='third_machine').command(
-> python/qemu/machine/machine.py:        ret = self._qmp.command(cmd,
-> **qmp_args)
-> python/qemu/utils/qemu_ga_client.py:            return
-> self.command('guest-' + name.replace('_', '-'), **kwds)
-> python/qemu/utils/qom.py:        rsp = self.qmp.command(
-> python/qemu/utils/qom.py:        rsp = self.qmp.command(
-> python/qemu/utils/qom.py:                rsp = self.qmp.command('qom-get',
-> path=path,
-> python/qemu/utils/qom_common.py:        rsp = self.qmp.command('qom-list',
-> path=path)
-> python/qemu/utils/qom_fuse.py:            data =
-> str(self.qmp.command('qom-get', path=path, property=prop))
-> python/qemu/utils/qom_fuse.py:        return prefix +
-> str(self.qmp.command('qom-get', path=path,
-> scripts/device-crash-test:    types = vm.command('qom-list-types',
-> **kwargs)
-> scripts/device-crash-test:    devhelp =
-> vm.command('human-monitor-command', **args)
-> scripts/device-crash-test:            self.machines = list(m['name'] for m
-> in vm.command('query-machines'))
-> scripts/device-crash-test:            self.kvm_available =
-> vm.command('query-kvm')['enabled']
-> scripts/render_block_graph.py:    bds_nodes =
-> qmp.command('query-named-block-nodes')
-> scripts/render_block_graph.py:    job_nodes =
-> qmp.command('query-block-jobs')
-> scripts/render_block_graph.py:    block_graph =
-> qmp.command('x-debug-query-block-graph')
-> tests/avocado/avocado_qemu/__init__.py:        res =
-> self.vm.command('human-monitor-command',
-> tests/avocado/cpu_queries.py:        cpus =
-> self.vm.command('query-cpu-definitions')
-> tests/avocado/cpu_queries.py:            e =
-> self.vm.command('query-cpu-model-expansion', model=model, type='full')
-> tests/avocado/hotplug_cpu.py:        self.vm.command('device_add',
-> tests/avocado/info_usernet.py:        res =
-> self.vm.command('human-monitor-command',
-> tests/avocado/machine_arm_integratorcp.py:
-> self.vm.command('human-monitor-command', command_line='stop')
-> tests/avocado/machine_arm_integratorcp.py:
-> self.vm.command('human-monitor-command',
-> tests/avocado/machine_m68k_nextcube.py:
-> self.vm.command('human-monitor-command',
-> tests/avocado/machine_mips_malta.py:
-> self.vm.command('human-monitor-command', command_line='stop')
-> tests/avocado/machine_mips_malta.py:
-> self.vm.command('human-monitor-command',
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('device_del', id='rn1')
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('device_del', id='rn2')
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('device_add', driver='virtio-net-ccw',
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('device_del', id='net_4711')
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('human-monitor-command', command_line='balloon 96')
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('human-monitor-command', command_line='balloon 128')
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('screendump', filename=ppmfile.name)
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('device_del', id='crypdev0')
-> tests/avocado/machine_s390_ccw_virtio.py:
-> self.vm.command('object-del', id='cbe0')
-> tests/avocado/migration.py:        return
-> vm.command('query-migrate')['status'] in ('completed', 'failed')
-> tests/avocado/migration.py:
-> self.assertEqual(src_vm.command('query-migrate')['status'], 'completed')
-> tests/avocado/migration.py:
-> self.assertEqual(dst_vm.command('query-migrate')['status'], 'completed')
-> tests/avocado/migration.py:
-> self.assertEqual(dst_vm.command('query-status')['status'], 'running')
-> tests/avocado/migration.py:
-> self.assertEqual(src_vm.command('query-status')['status'],'postmigrate')
-> tests/avocado/pc_cpu_hotplug_props.py:
-> self.assertEquals(len(self.vm.command('query-cpus-fast')), 2)
-> tests/avocado/version.py:        res =
-> self.vm.command('human-monitor-command',
-> tests/avocado/virtio_check_params.py:        output =
-> vm.command('human-monitor-command',
-> tests/avocado/virtio_check_params.py:            machines = [m['name'] for
-> m in vm.command('query-machines')]
-> tests/avocado/virtio_version.py:    return devtype in [d['name'] for d in
-> vm.command('qom-list-types', implements=implements)]
-> tests/avocado/virtio_version.py:            pcibuses =
-> vm.command('query-pci')
-> tests/avocado/x86_cpu_model_versions.py:        cpus = dict((m['name'], m)
-> for m in self.vm.command('query-cpu-definitions'))
-> tests/avocado/x86_cpu_model_versions.py:        cpus = dict((m['name'], m)
-> for m in self.vm.command('query-cpu-definitions'))
-> tests/avocado/x86_cpu_model_versions.py:        cpus = dict((m['name'], m)
-> for m in self.vm.command('query-cpu-definitions'))
-> tests/avocado/x86_cpu_model_versions.py:        cpu_path =
-> self.vm.command('query-cpus-fast')[0].get('qom-path')
-> tests/avocado/x86_cpu_model_versions.py:        return
-> self.vm.command('qom-get', path=cpu_path, property=prop)
-> tests/docker/docker.py:        dkr.command(cmd="pull", quiet=args.quiet,
-> tests/docker/docker.py:        dkr.command(cmd="tag", quiet=args.quiet,
-> tests/docker/docker.py:        return Docker().command("images", argv,
-> args.quiet)
-> tests/migration/guestperf/engine.py:        info =
-> vm.command("query-migrate")
-> tests/migration/guestperf/engine.py:        vcpus =
-> src.command("query-cpus-fast")
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> dst.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:        resp =
-> src.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:        resp =
-> src.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:            resp =
-> dst.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> dst.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> dst.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> src.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:            resp =
-> dst.command("migrate-set-capabilities",
-> tests/migration/guestperf/engine.py:            resp =
-> dst.command("migrate-set-parameters",
-> tests/migration/guestperf/engine.py:        resp = src.command("migrate",
-> uri=connect_uri)
-> tests/migration/guestperf/engine.py:                    dst.command("cont")
-> tests/migration/guestperf/engine.py:
-> src.command("migrate_cancel")
-> tests/migration/guestperf/engine.py:
-> src.command("migrate_cancel")
-> tests/migration/guestperf/engine.py:                resp =
-> src.command("migrate-start-postcopy")
-> tests/migration/guestperf/engine.py:                resp =
-> src.command("stop")
->
->
->
->
-> > success by hand.. But that's not optimal. To simplify movement to
-> > vm.command() support same interface improvements like in vm.qmp() and
-> > rename to shorter vm.cmd().
-> >
-> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> > ---
-> >   python/qemu/machine/machine.py | 16 ++++++++++++---
-> >   tests/qemu-iotests/256         | 34 ++++++++++++++++----------------
-> >   tests/qemu-iotests/257         | 36 +++++++++++++++++-----------------
-> >   3 files changed, 48 insertions(+), 38 deletions(-)
-> >
-> > diff --git a/python/qemu/machine/machine.py
-> b/python/qemu/machine/machine.py
-> > index 07ac5a710b..a3fb840b93 100644
-> > --- a/python/qemu/machine/machine.py
-> > +++ b/python/qemu/machine/machine.py
-> > @@ -648,14 +648,24 @@ def qmp(self, cmd: str,
-> >               self._quit_issued = True
-> >           return ret
-> >
-> > -    def command(self, cmd: str,
-> > -                conv_keys: bool = True,
-> > -                **args: Any) -> QMPReturnValue:
-> > +    def cmd(self, cmd: str,
-> > +            args_dict: Optional[Dict[str, object]] = None,
-> > +            conv_keys: Optional[bool] = None,
-> > +            **args: Any) -> QMPReturnValue:
-> >           """
-> >           Invoke a QMP command.
-> >           On success return the response dict.
-> >           On failure raise an exception.
-> >           """
-> > +        if args_dict is not None:
-> > +            assert not args
-> > +            assert conv_keys is None
-> > +            args = args_dict
-> > +            conv_keys = False
-> > +
-> > +        if conv_keys is None:
-> > +            conv_keys = True
-> > +
-> >           qmp_args = self._qmp_args(conv_keys, args)
-> >           ret = self._qmp.command(cmd, **qmp_args)
-> >           if cmd == 'quit':
-> > diff --git a/tests/qemu-iotests/256 b/tests/qemu-iotests/256
-> > index 13666813bd..fffc8ef055 100755
-> > --- a/tests/qemu-iotests/256
-> > +++ b/tests/qemu-iotests/256
-> > @@ -40,25 +40,25 @@ with iotests.FilePath('img0') as img0_path, \
-> >       def create_target(filepath, name, size):
-> >           basename = os.path.basename(filepath)
-> >           nodename = "file_{}".format(basename)
-> > -        log(vm.command('blockdev-create', job_id='job1',
-> > -                       options={
-> > -                           'driver': 'file',
-> > -                           'filename': filepath,
-> > -                           'size': 0,
-> > -                       }))
-> > +        log(vm.cmd('blockdev-create', job_id='job1',
-> > +                   options={
-> > +                       'driver': 'file',
-> > +                       'filename': filepath,
-> > +                       'size': 0,
-> > +                   }))
-> >           vm.run_job('job1')
-> > -        log(vm.command('blockdev-add', driver='file',
-> > -                       node_name=nodename, filename=filepath))
-> > -        log(vm.command('blockdev-create', job_id='job2',
-> > -                       options={
-> > -                           'driver': iotests.imgfmt,
-> > -                           'file': nodename,
-> > -                           'size': size,
-> > -                       }))
-> > +        log(vm.cmd('blockdev-add', driver='file',
-> > +                   node_name=nodename, filename=filepath))
-> > +        log(vm.cmd('blockdev-create', job_id='job2',
-> > +                   options={
-> > +                       'driver': iotests.imgfmt,
-> > +                       'file': nodename,
-> > +                       'size': size,
-> > +                   }))
-> >           vm.run_job('job2')
-> > -        log(vm.command('blockdev-add', driver=iotests.imgfmt,
-> > -                       node_name=name,
-> > -                       file=nodename))
-> > +        log(vm.cmd('blockdev-add', driver=iotests.imgfmt,
-> > +                   node_name=name,
-> > +                   file=nodename))
-> >
-> >       log('--- Preparing images & VM ---\n')
-> >       vm.add_object('iothread,id=iothread0')
-> > diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
-> > index e7e7a2317e..7d3720b8e5 100755
-> > --- a/tests/qemu-iotests/257
-> > +++ b/tests/qemu-iotests/257
-> > @@ -160,26 +160,26 @@ class Drive:
-> >           file_node_name = "file_{}".format(basename)
-> >           vm = self.vm
-> >
-> > -        log(vm.command('blockdev-create', job_id='bdc-file-job',
-> > -                       options={
-> > -                           'driver': 'file',
-> > -                           'filename': self.path,
-> > -                           'size': 0,
-> > -                       }))
-> > +        log(vm.cmd('blockdev-create', job_id='bdc-file-job',
-> > +                   options={
-> > +                       'driver': 'file',
-> > +                       'filename': self.path,
-> > +                       'size': 0,
-> > +                   }))
-> >           vm.run_job('bdc-file-job')
-> > -        log(vm.command('blockdev-add', driver='file',
-> > -                       node_name=file_node_name, filename=self.path))
-> > -
-> > -        log(vm.command('blockdev-create', job_id='bdc-fmt-job',
-> > -                       options={
-> > -                           'driver': fmt,
-> > -                           'file': file_node_name,
-> > -                           'size': size,
-> > -                       }))
-> > +        log(vm.cmd('blockdev-add', driver='file',
-> > +                   node_name=file_node_name, filename=self.path))
-> > +
-> > +        log(vm.cmd('blockdev-create', job_id='bdc-fmt-job',
-> > +                   options={
-> > +                       'driver': fmt,
-> > +                       'file': file_node_name,
-> > +                       'size': size,
-> > +                   }))
-> >           vm.run_job('bdc-fmt-job')
-> > -        log(vm.command('blockdev-add', driver=fmt,
-> > -                       node_name=name,
-> > -                       file=file_node_name))
-> > +        log(vm.cmd('blockdev-add', driver=fmt,
-> > +                   node_name=name,
-> > +                   file=file_node_name))
-> >           self.fmt = fmt
-> >           self.size = size
-> >           self.node = name
->
->
-> --
-> Best regards,
-> Vladimir
->
-
---000000000000a6c28505dfeb63db
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, May 26, 2022, 10:31 AM Vladimir Sementsov-Ogie=
-vskiy &lt;<a href=3D"mailto:vsementsov@yandex-team.ru">vsementsov@yandex-te=
-am.ru</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 4/8/22 20:0=
-2, Vladimir Sementsov-Ogievskiy wrote:<br>
-&gt; The method is not popular, we prefer use vm.qmp() and then check<br>
-<br>
-Suddenly I found, that I missed a lot of existing users: in scripts, in avo=
-cado tests.<br>
-<br>
-Do you prefer to rename the method to &quot;cmd()&quot;, and change all the=
- occurrences, or keep longer &quot;command()&quot; name and update the seco=
-nd patch?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto"><div dir=3D"auto">I don&#39;t have a strong preference, I think.<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">In (async) qmp I use .ex=
-ecute() as the form that raises exception, and ._raw() as the form that doe=
-sn&#39;t. I use execute_msg() as an exception-raising form that takes a Map=
-ping[str, obj].</div><div dir=3D"auto"><br></div><div dir=3D"auto">Notably,=
- I tried to hide any interface that didn&#39;t raise exception, and the int=
-erfaces that remain always return the inner return field and not the entire=
- wire object.</div><div dir=3D"auto"><br></div><div dir=3D"auto">command() =
-IIRC has historically been the exception-raising version and cmd() has been=
- the C-like version. (cmd_obj works like my execute_msg, except it doesn&#3=
-9;t raise, and returns the entire reply.)</div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">command() is longer, but there&#39;s precedent and contin=
-uity for it working this way. But shorter names are nicer for line length, =
-so...</div><div dir=3D"auto"><br></div><div dir=3D"auto">...Go with what yo=
-u feel is subjectively nicest? (That&#39;s not helpful, sorry.)</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">oh, also: IIRC, command() also does=
- not return the entire response object. This is how execute() works, but it=
- might be a lot of churn to convert users of cmd() over to this form. It&#3=
-9;s something I want to do eventually anyway, but it&#39;s a lot for me to =
-dump on your plate, so don&#39;t worry about that aspect.</div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">--js</div></div><div dir=3D"auto"><br></d=
-iv><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">
-<br>
-<br>
-$ git grep &#39;\.command(&#39;<br>
-docs/devel/testing.rst:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D self.vm.c=
-ommand(&#39;human-monitor-command&#39;,<br>
-docs/devel/testing.rst:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 first_res =3D fir=
-st_machine.command(<br>
-docs/devel/testing.rst:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 second_res =3D se=
-cond_machine.command(<br>
-docs/devel/testing.rst:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 third_res =3D sel=
-f.get_vm(name=3D&#39;third_machine&#39;).command(<br>
-python/qemu/machine/machine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D self._qm=
-p.command(cmd, **qmp_args)<br>
-python/qemu/utils/qemu_ga_client.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return self.command(&#39;guest-&#39; + name.replace(&#39;_&#39;, &#39;-=
-&#39;), **kwds)<br>
-python/qemu/utils/qom.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 rsp =3D self.qmp.comma=
-nd(<br>
-python/qemu/utils/qom.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 rsp =3D self.qmp.comma=
-nd(<br>
-python/qemu/utils/qom.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 rsp =3D self.qmp.command(&#39;qom-get&#39;, path=3Dpath,<br>
-python/qemu/utils/qom_common.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 rsp =3D self.qm=
-p.command(&#39;qom-list&#39;, path=3Dpath)<br>
-python/qemu/utils/qom_fuse.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dat=
-a =3D str(self.qmp.command(&#39;qom-get&#39;, path=3Dpath, property=3Dprop)=
-)<br>
-python/qemu/utils/qom_fuse.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 return prefix + s=
-tr(self.qmp.command(&#39;qom-get&#39;, path=3Dpath,<br>
-scripts/device-crash-test:=C2=A0 =C2=A0 types =3D vm.command(&#39;qom-list-=
-types&#39;, **kwargs)<br>
-scripts/device-crash-test:=C2=A0 =C2=A0 devhelp =3D vm.command(&#39;human-m=
-onitor-command&#39;, **args)<br>
-scripts/device-crash-test:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ma=
-chines =3D list(m[&#39;name&#39;] for m in vm.command(&#39;query-machines&#=
-39;))<br>
-scripts/device-crash-test:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.kv=
-m_available =3D vm.command(&#39;query-kvm&#39;)[&#39;enabled&#39;]<br>
-scripts/render_block_graph.py:=C2=A0 =C2=A0 bds_nodes =3D qmp.command(&#39;=
-query-named-block-nodes&#39;)<br>
-scripts/render_block_graph.py:=C2=A0 =C2=A0 job_nodes =3D qmp.command(&#39;=
-query-block-jobs&#39;)<br>
-scripts/render_block_graph.py:=C2=A0 =C2=A0 block_graph =3D qmp.command(&#3=
-9;x-debug-query-block-graph&#39;)<br>
-tests/avocado/avocado_qemu/__init__.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D =
-self.vm.command(&#39;human-monitor-command&#39;,<br>
-tests/avocado/cpu_queries.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpus =3D self.vm.c=
-ommand(&#39;query-cpu-definitions&#39;)<br>
-tests/avocado/cpu_queries.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 e =
-=3D self.vm.command(&#39;query-cpu-model-expansion&#39;, model=3Dmodel, typ=
-e=3D&#39;full&#39;)<br>
-tests/avocado/hotplug_cpu.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.command(&#=
-39;device_add&#39;,<br>
-tests/avocado/info_usernet.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D self.vm.c=
-ommand(&#39;human-monitor-command&#39;,<br>
-tests/avocado/machine_arm_integratorcp.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.=
-vm.command(&#39;human-monitor-command&#39;, command_line=3D&#39;stop&#39;)<=
-br>
-tests/avocado/machine_arm_integratorcp.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.=
-vm.command(&#39;human-monitor-command&#39;,<br>
-tests/avocado/machine_m68k_nextcube.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.=
-command(&#39;human-monitor-command&#39;,<br>
-tests/avocado/machine_mips_malta.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.com=
-mand(&#39;human-monitor-command&#39;, command_line=3D&#39;stop&#39;)<br>
-tests/avocado/machine_mips_malta.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.com=
-mand(&#39;human-monitor-command&#39;,<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;device_del&#39;, id=3D&#39;rn1&#39;)<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;device_del&#39;, id=3D&#39;rn2&#39;)<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;device_add&#39;, driver=3D&#39;virtio-net-ccw&#39;,<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;device_del&#39;, id=3D&#39;net_4711&#39;)<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;human-monitor-command&#39;, command_line=3D&#39;balloon 96&#=
-39;)<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;human-monitor-command&#39;, command_line=3D&#39;balloon 128&=
-#39;)<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 self.vm.command(&#39;screendump&#39;, filename=3D<a href=3D"http://=
-ppmfile.name" rel=3D"noreferrer noreferrer" target=3D"_blank">ppmfile.name<=
-/a>)<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;object-add&#39;, qom_type=3D&#39;cryptodev-backend-builtin&#=
-39;,<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;device_add&#39;, driver=3D&#39;virtio-crypto-ccw&#39;, id=3D=
-&#39;crypdev0&#39;,<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;device_del&#39;, id=3D&#39;crypdev0&#39;)<br>
-tests/avocado/machine_s390_ccw_virtio.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.v=
-m.command(&#39;object-del&#39;, id=3D&#39;cbe0&#39;)<br>
-tests/avocado/migration.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 return vm.command(&#=
-39;query-migrate&#39;)[&#39;status&#39;] in (&#39;completed&#39;, &#39;fail=
-ed&#39;)<br>
-tests/avocado/migration.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(src=
-_vm.command(&#39;query-migrate&#39;)[&#39;status&#39;], &#39;completed&#39;=
-)<br>
-tests/avocado/migration.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(dst=
-_vm.command(&#39;query-migrate&#39;)[&#39;status&#39;], &#39;completed&#39;=
-)<br>
-tests/avocado/migration.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(dst=
-_vm.command(&#39;query-status&#39;)[&#39;status&#39;], &#39;running&#39;)<b=
-r>
-tests/avocado/migration.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(src=
-_vm.command(&#39;query-status&#39;)[&#39;status&#39;],&#39;postmigrate&#39;=
-)<br>
-tests/avocado/pc_cpu_hotplug_props.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.asse=
-rtEquals(len(self.vm.command(&#39;query-cpus-fast&#39;)), 2)<br>
-tests/avocado/version.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D self.vm.comman=
-d(&#39;human-monitor-command&#39;,<br>
-tests/avocado/virtio_check_params.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 output =3D=
- vm.command(&#39;human-monitor-command&#39;,<br>
-tests/avocado/virtio_check_params.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 machines =3D [m[&#39;name&#39;] for m in vm.command(&#39;query-machines=
-&#39;)]<br>
-tests/avocado/virtio_version.py:=C2=A0 =C2=A0 return devtype in [d[&#39;nam=
-e&#39;] for d in vm.command(&#39;qom-list-types&#39;, implements=3Dimplemen=
-ts)]<br>
-tests/avocado/virtio_version.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p=
-cibuses =3D vm.command(&#39;query-pci&#39;)<br>
-tests/avocado/x86_cpu_model_versions.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpus =
-=3D dict((m[&#39;name&#39;], m) for m in self.vm.command(&#39;query-cpu-def=
-initions&#39;))<br>
-tests/avocado/x86_cpu_model_versions.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpus =
-=3D dict((m[&#39;name&#39;], m) for m in self.vm.command(&#39;query-cpu-def=
-initions&#39;))<br>
-tests/avocado/x86_cpu_model_versions.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpus =
-=3D dict((m[&#39;name&#39;], m) for m in self.vm.command(&#39;query-cpu-def=
-initions&#39;))<br>
-tests/avocado/x86_cpu_model_versions.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_pat=
-h =3D self.vm.command(&#39;query-cpus-fast&#39;)[0].get(&#39;qom-path&#39;)=
-<br>
-tests/avocado/x86_cpu_model_versions.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 return =
-self.vm.command(&#39;qom-get&#39;, path=3Dcpu_path, property=3Dprop)<br>
-tests/docker/docker.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 dkr.command(cmd=3D&quot;=
-pull&quot;, quiet=3Dargs.quiet,<br>
-tests/docker/docker.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 dkr.command(cmd=3D&quot;=
-tag&quot;, quiet=3Dargs.quiet,<br>
-tests/docker/docker.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 return Docker().command(=
-&quot;images&quot;, argv, args.quiet)<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D vm=
-.command(&quot;query-migrate&quot;)<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 vcpus =3D s=
-rc.command(&quot;query-cpus-fast&quot;)<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D dst.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 resp =3D sr=
-c.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 resp =3D sr=
-c.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D dst.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D dst.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D dst.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D src.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D dst.command(&quot;migrate-set-capabilities&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 resp =3D dst.command(&quot;migrate-set-parameters&quot;,<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 resp =3D sr=
-c.command(&quot;migrate&quot;, uri=3Dconnect_uri)<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dst.command(&quot;cont&quot;)<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 src.command(&quot;migrate_cancel&quot;)<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 src.command(&quot;migrate_cancel&quot;)<br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 resp =3D src.command(&quot;migrate-start-postcopy&quot;)<=
-br>
-tests/migration/guestperf/engine.py:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 resp =3D src.command(&quot;stop&quot;)<br>
-<br>
-<br>
-<br>
-<br>
-&gt; success by hand.. But that&#39;s not optimal. To simplify movement to<=
-br>
-&gt; vm.command() support same interface improvements like in vm.qmp() and<=
-br>
-&gt; rename to shorter vm.cmd().<br>
-&gt; <br>
-&gt; Signed-off-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsem=
-entsov@openvz.org" target=3D"_blank" rel=3D"noreferrer">vsementsov@openvz.o=
-rg</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0python/qemu/machine/machine.py | 16 ++++++++++++---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/256=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
-34 ++++++++++++++++----------------<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/257=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
-36 +++++++++++++++++-----------------<br>
-&gt;=C2=A0 =C2=A03 files changed, 48 insertions(+), 38 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/mach=
-ine.py<br>
-&gt; index 07ac5a710b..a3fb840b93 100644<br>
-&gt; --- a/python/qemu/machine/machine.py<br>
-&gt; +++ b/python/qemu/machine/machine.py<br>
-&gt; @@ -648,14 +648,24 @@ def qmp(self, cmd: str,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._quit_issue=
-d =3D True<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 def command(self, cmd: str,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 conv_keys: bo=
-ol =3D True,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 **args: Any) =
--&gt; QMPReturnValue:<br>
-&gt; +=C2=A0 =C2=A0 def cmd(self, cmd: str,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args_dict: Optional[Dict[st=
-r, object]] =3D None,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 conv_keys: Optional[bool] =
-=3D None,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 **args: Any) -&gt; QMPRetur=
-nValue:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Invoke a QMP command.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On success return the response=
- dict.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On failure raise an exception.=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if args_dict is not None:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert not args<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert conv_keys is None<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args =3D args_dict<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 conv_keys =3D False<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if conv_keys is None:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 conv_keys =3D True<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qmp_args =3D self._qmp_args(co=
-nv_keys, args)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D self._qmp.command(cmd,=
- **qmp_args)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if cmd =3D=3D &#39;quit&#39;:<=
-br>
-&gt; diff --git a/tests/qemu-iotests/256 b/tests/qemu-iotests/256<br>
-&gt; index 13666813bd..fffc8ef055 100755<br>
-&gt; --- a/tests/qemu-iotests/256<br>
-&gt; +++ b/tests/qemu-iotests/256<br>
-&gt; @@ -40,25 +40,25 @@ with iotests.FilePath(&#39;img0&#39;) as img0_path=
-, \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0def create_target(filepath, name, size):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0basename =3D os.path.basename(=
-filepath)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nodename =3D &quot;file_{}&quo=
-t;.format(basename)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-create&#39;,=
- job_id=3D&#39;job1&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0options=3D{<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;driver&#39;: &#39;file&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;filename&#39;: filepath,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;size&#39;: 0,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0}))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-create&#39;, job=
-_id=3D&#39;job1&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-options=3D{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;driver&#39;: &#39;file&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;filename&#39;: filepath,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;size&#39;: 0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-}))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm.run_job(&#39;job1&#39;)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-add&#39;, dr=
-iver=3D&#39;file&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0node_name=3Dnodename, filename=3Dfilepath))<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-create&#39;,=
- job_id=3D&#39;job2&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0options=3D{<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;driver&#39;: iotests.imgfmt,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;file&#39;: nodename,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;size&#39;: size,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0}))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-add&#39;, driver=
-=3D&#39;file&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-node_name=3Dnodename, filename=3Dfilepath))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-create&#39;, job=
-_id=3D&#39;job2&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-options=3D{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;driver&#39;: iotests.imgfmt,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;file&#39;: nodename,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;size&#39;: size,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-}))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm.run_job(&#39;job2&#39;)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-add&#39;, dr=
-iver=3Diotests.imgfmt,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0node_name=3Dname,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0file=3Dnodename))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-add&#39;, driver=
-=3Diotests.imgfmt,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-node_name=3Dname,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-file=3Dnodename))<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0log(&#39;--- Preparing images &amp; VM ---\n=
-&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0vm.add_object(&#39;iothread,id=3Diothread0&#=
-39;)<br>
-&gt; diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257<br>
-&gt; index e7e7a2317e..7d3720b8e5 100755<br>
-&gt; --- a/tests/qemu-iotests/257<br>
-&gt; +++ b/tests/qemu-iotests/257<br>
-&gt; @@ -160,26 +160,26 @@ class Drive:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file_node_name =3D &quot;file_=
-{}&quot;.format(basename)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm =3D self.vm<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-create&#39;,=
- job_id=3D&#39;bdc-file-job&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0options=3D{<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;driver&#39;: &#39;file&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;filename&#39;: self.path,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;size&#39;: 0,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0}))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-create&#39;, job=
-_id=3D&#39;bdc-file-job&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-options=3D{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;driver&#39;: &#39;file&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;filename&#39;: self.path,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;size&#39;: 0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-}))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm.run_job(&#39;bdc-file-job&#=
-39;)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-add&#39;, dr=
-iver=3D&#39;file&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0node_name=3Dfile_node_name, filename=3Dself.path))<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-create&#39;,=
- job_id=3D&#39;bdc-fmt-job&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0options=3D{<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;driver&#39;: fmt,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;file&#39;: file_node_name,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;size&#39;: size,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0}))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-add&#39;, driver=
-=3D&#39;file&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-node_name=3Dfile_node_name, filename=3Dself.path))<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-create&#39;, job=
-_id=3D&#39;bdc-fmt-job&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-options=3D{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;driver&#39;: fmt,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;file&#39;: file_node_name,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0&#39;size&#39;: size,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-}))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm.run_job(&#39;bdc-fmt-job&#3=
-9;)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.command(&#39;blockdev-add&#39;, dr=
-iver=3Dfmt,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0node_name=3Dname,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0file=3Dfile_node_name))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log(vm.cmd(&#39;blockdev-add&#39;, driver=
-=3Dfmt,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-node_name=3Dname,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-file=3Dfile_node_name))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.fmt =3D fmt<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.size =3D size<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.node =3D name<br>
-<br>
-<br>
--- <br>
-Best regards,<br>
-Vladimir<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"></block=
-quote></div></div></div>
-
---000000000000a6c28505dfeb63db--
+> 
+> 
+> 
+>          static struct virtio_gpu_simple_resource*
+>          virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
+>          static struct virtio_gpu_simple_resource *
+>         diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
+>         index 5b5398b3ca..fe0ed6d5b4 100644
+>         --- a/hw/input/virtio-input.c
+>         +++ b/hw/input/virtio-input.c
+>         @@ -6,6 +6,7 @@
+> 
+>          #include "qemu/osdep.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "qemu/iov.h"
+>          #include "qemu/module.h"
+>          #include "trace.h"
+>         @@ -14,10 +15,19 @@
+>          #include "hw/qdev-properties.h"
+>          #include "hw/virtio/virtio-input.h"
+> 
+>         +#include "standard-headers/linux/vhost_types.h"
+>          #include "standard-headers/linux/input.h"
+> 
+>          #define VIRTIO_INPUT_VM_VERSION 1
+> 
+>         +qmp_virtio_feature_map_t input_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          /* ----------------------------------------------------------------- */
+> 
+>          void virtio_input_send(VirtIOInput *vinput, virtio_input_event *event)
+>         diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>         index 027ce40c6f..9356958fb6 100644
+>         --- a/hw/net/virtio-net.c
+>         +++ b/hw/net/virtio-net.c
+>         @@ -35,9 +35,11 @@
+>          #include "hw/qdev-properties.h"
+>          #include "qapi/qapi-types-migration.h"
+>          #include "qapi/qapi-events-migration.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "hw/virtio/virtio-access.h"
+>          #include "migration/misc.h"
+>          #include "standard-headers/linux/ethtool.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+>          #include "sysemu/sysemu.h"
+>          #include "trace.h"
+>          #include "monitor/qdev.h"
+>         @@ -90,6 +92,51 @@
+>                                                   VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | \
+>                                                   VIRTIO_NET_RSS_HASH_TYPE_UDP_EX)
+> 
+>         +qmp_virtio_feature_map_t net_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_NET_F_##name, #name }
+>         +    FEATURE_ENTRY(CSUM),
+>         +    FEATURE_ENTRY(GUEST_CSUM),
+>         +    FEATURE_ENTRY(CTRL_GUEST_OFFLOADS),
+>         +    FEATURE_ENTRY(MTU),
+>         +    FEATURE_ENTRY(MAC),
+>         +    FEATURE_ENTRY(GUEST_TSO4),
+>         +    FEATURE_ENTRY(GUEST_TSO6),
+>         +    FEATURE_ENTRY(GUEST_ECN),
+>         +    FEATURE_ENTRY(GUEST_UFO),
+>         +    FEATURE_ENTRY(HOST_TSO4),
+>         +    FEATURE_ENTRY(HOST_TSO6),
+>         +    FEATURE_ENTRY(HOST_ECN),
+>         +    FEATURE_ENTRY(HOST_UFO),
+>         +    FEATURE_ENTRY(MRG_RXBUF),
+>         +    FEATURE_ENTRY(STATUS),
+>         +    FEATURE_ENTRY(CTRL_VQ),
+>         +    FEATURE_ENTRY(CTRL_RX),
+>         +    FEATURE_ENTRY(CTRL_VLAN),
+>         +    FEATURE_ENTRY(CTRL_RX_EXTRA),
+>         +    FEATURE_ENTRY(GUEST_ANNOUNCE),
+>         +    FEATURE_ENTRY(MQ),
+>         +    FEATURE_ENTRY(CTRL_MAC_ADDR),
+>         +    FEATURE_ENTRY(HASH_REPORT),
+>         +    FEATURE_ENTRY(RSS),
+>         +    FEATURE_ENTRY(RSC_EXT),
+>         +    FEATURE_ENTRY(STANDBY),
+>         +    FEATURE_ENTRY(SPEED_DUPLEX),
+>         +#ifndef VIRTIO_NET_NO_LEGACY
+>         +    FEATURE_ENTRY(GSO),
+>         +#endif /* VIRTIO_NET_NO_LEGACY */
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_NET_F_##name, #name }
+>         +    FEATURE_ENTRY(VIRTIO_NET_HDR),
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          static const VirtIOFeature feature_sizes[] = {
+>              {.flags = 1ULL << VIRTIO_NET_F_MAC,
+>               .end = endof(struct virtio_net_config, mac)},
+>         diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+>         index 2a6141d081..9ca8faa40e 100644
+>         --- a/hw/scsi/virtio-scsi.c
+>         +++ b/hw/scsi/virtio-scsi.c
+>         @@ -15,7 +15,9 @@
+> 
+>          #include "qemu/osdep.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "standard-headers/linux/virtio_ids.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+>          #include "hw/virtio/virtio-scsi.h"
+>          #include "migration/qemu-file-types.h"
+>          #include "qemu/error-report.h"
+>         @@ -29,6 +31,21 @@
+>          #include "hw/virtio/virtio-access.h"
+>          #include "trace.h"
+> 
+>         +qmp_virtio_feature_map_t scsi_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_SCSI_F_##name, #name }
+>         +    FEATURE_ENTRY(INOUT),
+>         +    FEATURE_ENTRY(HOTPLUG),
+>         +    FEATURE_ENTRY(CHANGE),
+>         +    FEATURE_ENTRY(T10_PI),
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          static inline int virtio_scsi_get_lun(uint8_t *lun)
+>          {
+>              return ((lun[2] << 8) | lun[3]) & 0x3FFF;
+>         diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+>         index e513e4fdda..096cc07c44 100644
+>         --- a/hw/virtio/vhost-user-fs.c
+>         +++ b/hw/virtio/vhost-user-fs.c
+>         @@ -15,6 +15,7 @@
+>          #include <sys/ioctl.h>
+>          #include "standard-headers/linux/virtio_fs.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "hw/qdev-properties.h"
+>          #include "hw/qdev-properties-system.h"
+>          #include "hw/virtio/virtio-bus.h"
+>         @@ -23,6 +24,15 @@
+>          #include "hw/virtio/vhost-user-fs.h"
+>          #include "monitor/monitor.h"
+>          #include "sysemu/sysemu.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+>         +
+>         +qmp_virtio_feature_map_t fs_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+> 
+>          static const int user_feature_bits[] = {
+>              VIRTIO_F_VERSION_1,
+>         diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+>         index 6020eee093..931ec9836c 100644
+>         --- a/hw/virtio/vhost-user-i2c.c
+>         +++ b/hw/virtio/vhost-user-i2c.c
+>         @@ -8,11 +8,25 @@
+> 
+>          #include "qemu/osdep.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "hw/qdev-properties.h"
+>          #include "hw/virtio/virtio-bus.h"
+>          #include "hw/virtio/vhost-user-i2c.h"
+>          #include "qemu/error-report.h"
+>          #include "standard-headers/linux/virtio_ids.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+>         +
+>         +qmp_virtio_feature_map_t i2c_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_I2C_F_##name, #name }
+>         +    FEATURE_ENTRY(ZERO_LENGTH_REQUEST),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+> 
+>          static const int feature_bits[] = {
+>              VIRTIO_I2C_F_ZERO_LENGTH_REQUEST,
+>         diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+>         index 7394818e00..b03f94d8f8 100644
+>         --- a/hw/virtio/vhost-vsock-common.c
+>         +++ b/hw/virtio/vhost-vsock-common.c
+>         @@ -11,12 +11,22 @@
+>          #include "qemu/osdep.h"
+>          #include "standard-headers/linux/virtio_vsock.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "hw/virtio/virtio-access.h"
+>          #include "qemu/error-report.h"
+>          #include "hw/qdev-properties.h"
+>          #include "hw/virtio/vhost-vsock.h"
+>          #include "qemu/iov.h"
+>          #include "monitor/monitor.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+>         +
+>         +qmp_virtio_feature_map_t vsock_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+> 
+>          const int feature_bits[] = {
+>              VIRTIO_VSOCK_F_SEQPACKET,
+>         diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+>         index 193ff5261c..b2ae0a4d8c 100644
+>         --- a/hw/virtio/virtio-balloon.c
+>         +++ b/hw/virtio/virtio-balloon.c
+>         @@ -28,6 +28,7 @@
+>          #include "qapi/error.h"
+>          #include "qapi/qapi-events-machine.h"
+>          #include "qapi/visitor.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "trace.h"
+>          #include "qemu/error-report.h"
+>          #include "migration/misc.h"
+>         @@ -38,6 +39,19 @@
+> 
+>          #define BALLOON_PAGE_SIZE  (1 << VIRTIO_BALLOON_PFN_SHIFT)
+> 
+>         +qmp_virtio_feature_map_t balloon_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_BALLOON_F_##name, #name }
+>         +    FEATURE_ENTRY(MUST_TELL_HOST),
+>         +    FEATURE_ENTRY(STATS_VQ),
+>         +    FEATURE_ENTRY(DEFLATE_ON_OOM),
+>         +    FEATURE_ENTRY(FREE_PAGE_HINT),
+>         +    FEATURE_ENTRY(PAGE_POISON),
+>         +    FEATURE_ENTRY(REPORTING),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          typedef struct PartiallyBalloonedPage {
+>              ram_addr_t base_gpa;
+>              unsigned long *bitmap;
+>         diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+>         index 947a11c3af..5c9a3d045d 100644
+>         --- a/hw/virtio/virtio-crypto.c
+>         +++ b/hw/virtio/virtio-crypto.c
+>         @@ -16,6 +16,7 @@
+>          #include "qemu/main-loop.h"
+>          #include "qemu/module.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "qemu/error-report.h"
+> 
+>          #include "hw/virtio/virtio.h"
+>         @@ -23,10 +24,19 @@
+>          #include "hw/qdev-properties.h"
+>          #include "hw/virtio/virtio-access.h"
+>          #include "standard-headers/linux/virtio_ids.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+>          #include "sysemu/cryptodev-vhost.h"
+> 
+>          #define VIRTIO_CRYPTO_VM_VERSION 1
+> 
+>         +qmp_virtio_feature_map_t crypto_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_F_##name, #name }
+>         +    FEATURE_ENTRY(LOG_ALL),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          /*
+>           * Transfer virtqueue index to crypto queue index.
+>           * The control virtqueue is after the data virtqueues
+>         diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+>         index 4ed5bb16ba..d993106d10 100644
+>         --- a/hw/virtio/virtio-iommu.c
+>         +++ b/hw/virtio/virtio-iommu.c
+>         @@ -26,6 +26,7 @@
+>          #include "sysemu/kvm.h"
+>          #include "sysemu/reset.h"
+>          #include "qapi/error.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "qemu/error-report.h"
+>          #include "trace.h"
+> 
+>         @@ -41,6 +42,19 @@
+>          #define VIOMMU_DEFAULT_QUEUE_SIZE 256
+>          #define VIOMMU_PROBE_SIZE 512
+> 
+>         +qmp_virtio_feature_map_t iommu_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_IOMMU_F_##name, #name }
+>         +    FEATURE_ENTRY(INPUT_RANGE),
+>         +    FEATURE_ENTRY(DOMAIN_RANGE),
+>         +    FEATURE_ENTRY(MAP_UNMAP),
+>         +    FEATURE_ENTRY(BYPASS),
+>         +    FEATURE_ENTRY(PROBE),
+>         +    FEATURE_ENTRY(MMIO),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          typedef struct VirtIOIOMMUDomain {
+>              uint32_t id;
+>              bool bypass;
+>         diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+>         index 465a996214..31e7af834e 100644
+>         --- a/hw/virtio/virtio-mem.c
+>         +++ b/hw/virtio/virtio-mem.c
+>         @@ -25,6 +25,7 @@
+>          #include "hw/virtio/virtio-mem.h"
+>          #include "qapi/error.h"
+>          #include "qapi/visitor.h"
+>         +#include "qapi/qapi-visit-virtio.h"
+>          #include "exec/ram_addr.h"
+>          #include "migration/misc.h"
+>          #include "hw/boards.h"
+>         @@ -32,6 +33,16 @@
+>          #include CONFIG_DEVICES
+>          #include "trace.h"
+> 
+>         +qmp_virtio_feature_map_t mem_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_MEM_F_##name, #name }
+>         +#ifndef CONFIG_ACPI
+>         +    FEATURE_ENTRY(ACPI_PXM),
+>         +#endif /* CONFIG_ACPI */
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          /*
+>           * We only had legacy x86 guests that did not support
+>           * VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE. Other targets don't have legacy guests.
+>         diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>         index 7f8eb29ced..af376be933 100644
+>         --- a/hw/virtio/virtio.c
+>         +++ b/hw/virtio/virtio.c
+>         @@ -34,10 +34,99 @@
+>          #include "sysemu/dma.h"
+>          #include "sysemu/runstate.h"
+>          #include "standard-headers/linux/virtio_ids.h"
+>         +#include "standard-headers/linux/vhost_types.h"
+>         +#include CONFIG_DEVICES
+> 
+>          /* QAPI list of realized VirtIODevices */
+>          static QTAILQ_HEAD(, VirtIODevice) virtio_list;
+> 
+>         +/*
+>         + * Maximum size of virtio device config space
+>         + */
+>         +#define VHOST_USER_MAX_CONFIG_SIZE 256
+>         +
+>         +enum VhostUserProtocolFeature {
+>         +    VHOST_USER_PROTOCOL_F_MQ = 0,
+>         +    VHOST_USER_PROTOCOL_F_LOG_SHMFD = 1,
+>         +    VHOST_USER_PROTOCOL_F_RARP = 2,
+>         +    VHOST_USER_PROTOCOL_F_REPLY_ACK = 3,
+>         +    VHOST_USER_PROTOCOL_F_NET_MTU = 4,
+>         +    VHOST_USER_PROTOCOL_F_SLAVE_REQ = 5,
+>         +    VHOST_USER_PROTOCOL_F_CROSS_ENDIAN = 6,
+>         +    VHOST_USER_PROTOCOL_F_CRYPTO_SESSION = 7,
+>         +    VHOST_USER_PROTOCOL_F_PAGEFAULT = 8,
+>         +    VHOST_USER_PROTOCOL_F_CONFIG = 9,
+>         +    VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
+>         +    VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
+>         +    VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
+>         +    VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
+>         +    VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
+>         +    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
+>         +    VHOST_USER_PROTOCOL_F_MAX
+>         +};
+>         +
+>         +static qmp_virtio_feature_map_t transport_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_F_##name, #name }
+>         +#ifndef VIRTIO_CONFIG_NO_LEGACY
+>         +    FEATURE_ENTRY(NOTIFY_ON_EMPTY),
+>         +    FEATURE_ENTRY(ANY_LAYOUT),
+>         +#endif /* VIRTIO_CONFIG_NO_LEGACY */
+>         +    FEATURE_ENTRY(VERSION_1),
+>         +    FEATURE_ENTRY(IOMMU_PLATFORM),
+>         +    FEATURE_ENTRY(RING_PACKED),
+>         +    FEATURE_ENTRY(ORDER_PLATFORM),
+>         +    FEATURE_ENTRY(SR_IOV),
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VIRTIO_RING_F_##name, #name }
+>         +    FEATURE_ENTRY(INDIRECT_DESC),
+>         +    FEATURE_ENTRY(EVENT_IDX),
+>         +#undef FEATURE_ENTRY
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_USER_F_##name, #name }
+>         +    FEATURE_ENTRY(PROTOCOL_FEATURES),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>         +static qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
+>         +#define FEATURE_ENTRY(name) \
+>         +    { VHOST_USER_PROTOCOL_F_##name, #name }
+>         +    FEATURE_ENTRY(MQ),
+>         +    FEATURE_ENTRY(LOG_SHMFD),
+>         +    FEATURE_ENTRY(RARP),
+>         +    FEATURE_ENTRY(REPLY_ACK),
+>         +    FEATURE_ENTRY(NET_MTU),
+>         +    FEATURE_ENTRY(SLAVE_REQ),
+>         +    FEATURE_ENTRY(CROSS_ENDIAN),
+>         +    FEATURE_ENTRY(CRYPTO_SESSION),
+>         +    FEATURE_ENTRY(PAGEFAULT),
+>         +    FEATURE_ENTRY(CONFIG),
+>         +    FEATURE_ENTRY(SLAVE_SEND_FD),
+>         +    FEATURE_ENTRY(HOST_NOTIFIER),
+>         +    FEATURE_ENTRY(INFLIGHT_SHMFD),
+>         +    FEATURE_ENTRY(RESET_DEVICE),
+>         +    FEATURE_ENTRY(INBAND_NOTIFICATIONS),
+>         +    FEATURE_ENTRY(CONFIGURE_MEM_SLOTS),
+>         +#undef FEATURE_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>         +/* virtio device configuration statuses */
+>         +static qmp_virtio_feature_map_t config_status_map[] = {
+>         +#define STATUS_ENTRY(name) \
+>         +    { VIRTIO_CONFIG_S_##name, #name }
+>         +    STATUS_ENTRY(DRIVER_OK),
+>         +    STATUS_ENTRY(FEATURES_OK),
+>         +    STATUS_ENTRY(DRIVER),
+>         +    STATUS_ENTRY(NEEDS_RESET),
+>         +    STATUS_ENTRY(FAILED),
+>         +    STATUS_ENTRY(ACKNOWLEDGE),
+>         +#undef STATUS_ENTRY
+>         +    { -1, "" }
+>         +};
+>         +
+>          /*
+>           * The alignment to use between consumer and producer parts of vring.
+>           * x86 pagesize again. This is the default, used by transports like PCI
+>         @@ -3962,6 +4051,196 @@ static VirtIODevice *virtio_device_find(const char *path)
+>              return NULL;
+>          }
+> 
+>         +#define CONVERT_FEATURES(type, map, is_status, bitmap)   \
+>         +    ({                                                   \
+>         +        type *list = NULL;                               \
+>         +        type *node;                                      \
+>         +        for (i = 0; map[i].virtio_bit != -1; i++) {      \
+>         +            if (is_status) {                             \
+>         +                bit = map[i].virtio_bit;                 \
+>         +            }                                            \
+>         +            else {                                       \
+>         +                bit = 1ULL << map[i].virtio_bit;         \
+>         +            }                                            \
+>         +            if ((bitmap & bit) == 0) {                   \
+>         +                continue;                                \
+>         +            }                                            \
+>         +            node = g_new0(type, 1);                      \
+>         +            node->value = g_strdup(map[i].feature_name); \
+>         +            node->next = list;                           \
+>         +            list = node;                                 \
+>         +            bitmap ^= bit;                               \
+>         +        }                                                \
+>         +        list;                                            \
+>         +    })
+>         +
+>         +static VirtioDeviceStatus *qmp_decode_status(uint8_t bitmap)
+>         +{
+>         +    VirtioDeviceStatus *status;
+>         +    uint8_t bit;
+>         +    int i;
+>         +
+>         +    status = g_new0(VirtioDeviceStatus, 1);
+>         +    status->statuses = CONVERT_FEATURES(strList, config_status_map, 1, bitmap);
+>         +    status->has_unknown_statuses = bitmap != 0;
+>         +    if (status->has_unknown_statuses) {
+>         +        status->unknown_statuses = bitmap;
+>         +    }
+>         +
+>         +    return status;
+>         +}
+>         +
+>         +static VhostDeviceProtocols *qmp_decode_protocols(uint64_t bitmap)
+>         +{
+>         +    VhostDeviceProtocols *vhu_protocols;
+>         +    uint64_t bit;
+>         +    int i;
+>         +
+>         +    vhu_protocols = g_new0(VhostDeviceProtocols, 1);
+>         +    vhu_protocols->protocols =
+>         +                    CONVERT_FEATURES(strList,
+>         +                                     vhost_user_protocol_map, 0, bitmap);
+>         +    vhu_protocols->has_unknown_protocols = bitmap != 0;
+>         +    if (vhu_protocols->has_unknown_protocols) {
+>         +        vhu_protocols->unknown_protocols = bitmap;
+>         +    }
+>         +
+>         +    return vhu_protocols;
+>         +}
+>         +
+>         +static VirtioDeviceFeatures *qmp_decode_features(uint16_t device_id,
+>         +                                                 uint64_t bitmap)
+>         +{
+>         +    VirtioDeviceFeatures *features;
+>         +    uint64_t bit;
+>         +    int i;
+>         +
+>         +    features = g_new0(VirtioDeviceFeatures, 1);
+>         +    features->has_dev_features = true;
+>         +
+>         +    /* transport features */
+>         +    features->transports = CONVERT_FEATURES(strList, transport_map, 0, bitmap);
+>         +
+>         +    /* device features */
+>         +    switch (device_id) {
+>         +#ifdef CONFIG_VIRTIO_SERIAL
+>         +    case VIRTIO_ID_CONSOLE:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, serial_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_BLK
+>         +    case VIRTIO_ID_BLOCK:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, blk_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_GPU
+>         +    case VIRTIO_ID_GPU:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, gpu_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_NET
+>         +    case VIRTIO_ID_NET:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, net_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_SCSI
+>         +    case VIRTIO_ID_SCSI:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, scsi_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_BALLOON
+>         +    case VIRTIO_ID_BALLOON:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, balloon_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_IOMMU
+>         +    case VIRTIO_ID_IOMMU:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, iommu_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_INPUT
+>         +    case VIRTIO_ID_INPUT:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, input_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VHOST_USER_FS
+>         +    case VIRTIO_ID_FS:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, fs_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VHOST_VSOCK
+>         +    case VIRTIO_ID_VSOCK:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, vsock_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_CRYPTO
+>         +    case VIRTIO_ID_CRYPTO:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, crypto_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_MEM
+>         +    case VIRTIO_ID_MEM:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, mem_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +#ifdef CONFIG_VIRTIO_I2C_ADAPTER
+>         +    case VIRTIO_ID_I2C_ADAPTER:
+>         +        features->dev_features =
+>         +            CONVERT_FEATURES(strList, i2c_map, 0, bitmap);
+>         +        break;
+>         +#endif
+>         +    /* No features */
+>         +    case VIRTIO_ID_9P:
+>         +    case VIRTIO_ID_PMEM:
+>         +    case VIRTIO_ID_RNG:
+>         +    case VIRTIO_ID_IOMEM:
+>         +    case VIRTIO_ID_RPMSG:
+>         +    case VIRTIO_ID_CLOCK:
+>         +    case VIRTIO_ID_MAC80211_WLAN:
+>         +    case VIRTIO_ID_MAC80211_HWSIM:
+>         +    case VIRTIO_ID_RPROC_SERIAL:
+>         +    case VIRTIO_ID_MEMORY_BALLOON:
+>         +    case VIRTIO_ID_CAIF:
+>         +    case VIRTIO_ID_SIGNAL_DIST:
+>         +    case VIRTIO_ID_PSTORE:
+>         +    case VIRTIO_ID_SOUND:
+>         +    case VIRTIO_ID_BT:
+>         +    case VIRTIO_ID_RPMB:
+>         +    case VIRTIO_ID_VIDEO_ENCODER:
+>         +    case VIRTIO_ID_VIDEO_DECODER:
+>         +    case VIRTIO_ID_SCMI:
+>         +    case VIRTIO_ID_NITRO_SEC_MOD:
+>         +    case VIRTIO_ID_WATCHDOG:
+>         +    case VIRTIO_ID_CAN:
+>         +    case VIRTIO_ID_DMABUF:
+>         +    case VIRTIO_ID_PARAM_SERV:
+>         +    case VIRTIO_ID_AUDIO_POLICY:
+>         +    case VIRTIO_ID_GPIO:
+>         +        break;
+>         +    default:
+>         +        g_assert_not_reached();
+>         +    }
+>         +
+>         +    features->has_unknown_dev_features = bitmap != 0;
+>         +    if (features->has_unknown_dev_features) {
+>         +        features->unknown_dev_features = bitmap;
+>         +    }
+>         +
+>         +    return features;
+>         +}
+>         +
+>          VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+>          {
+>              VirtIODevice *vdev;
+>         @@ -3977,9 +4256,12 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+>              status->name = g_strdup(vdev->name);
+>              status->device_id = vdev->device_id;
+>              status->vhost_started = vdev->vhost_started;
+>         -    status->guest_features = vdev->guest_features;
+>         -    status->host_features = vdev->host_features;
+>         -    status->backend_features = vdev->backend_features;
+>         +    status->guest_features = qmp_decode_features(vdev->device_id,
+>         +                                                 vdev->guest_features);
+>         +    status->host_features = qmp_decode_features(vdev->device_id,
+>         +                                                vdev->host_features);
+>         +    status->backend_features = qmp_decode_features(vdev->device_id,
+>         +                                                   vdev->backend_features);
+> 
+>              switch (vdev->device_endian) {
+>              case VIRTIO_DEVICE_ENDIAN_LITTLE:
+>         @@ -3994,7 +4276,7 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+>              }
+> 
+>              status->num_vqs = virtio_get_num_queues(vdev);
+>         -    status->status = vdev->status;
+>         +    status->status = qmp_decode_status(vdev->status);
+>              status->isr = vdev->isr;
+>              status->queue_sel = vdev->queue_sel;
+>              status->vm_running = vdev->vm_running;
+>         @@ -4017,10 +4299,14 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+>                  status->vhost_dev->n_tmp_sections = hdev->n_tmp_sections;
+>                  status->vhost_dev->nvqs = hdev->nvqs;
+>                  status->vhost_dev->vq_index = hdev->vq_index;
+>         -        status->vhost_dev->features = hdev->features;
+>         -        status->vhost_dev->acked_features = hdev->acked_features;
+>         -        status->vhost_dev->backend_features = hdev->backend_features;
+>         -        status->vhost_dev->protocol_features = hdev->protocol_features;
+>         +        status->vhost_dev->features =
+>         +            qmp_decode_features(vdev->device_id, hdev->features);
+>         +        status->vhost_dev->acked_features =
+>         +            qmp_decode_features(vdev->device_id, hdev->acked_features);
+>         +        status->vhost_dev->backend_features =
+>         +            qmp_decode_features(vdev->device_id, hdev->backend_features);
+>         +        status->vhost_dev->protocol_features =
+>         +            qmp_decode_protocols(hdev->protocol_features);
+>                  status->vhost_dev->max_queues = hdev->max_queues;
+>                  status->vhost_dev->backend_cap = hdev->backend_cap;
+>                  status->vhost_dev->log_enabled = hdev->log_enabled;
+>         diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+>         index 58a73e7b7a..4aaa21faf6 100644
+>         --- a/include/hw/virtio/vhost.h
+>         +++ b/include/hw/virtio/vhost.h
+>         @@ -5,6 +5,9 @@
+>          #include "hw/virtio/virtio.h"
+>          #include "exec/memory.h"
+> 
+>         +#define VHOST_F_DEVICE_IOTLB 63
+>         +#define VHOST_USER_F_PROTOCOL_FEATURES 30
+>         +
+>          /* Generic structures common for any vhost based device. */
+> 
+>          struct vhost_inflight {
+>         diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+>         index ef99a626a8..9df4e081c9 100644
+>         --- a/include/hw/virtio/virtio.h
+>         +++ b/include/hw/virtio/virtio.h
+>         @@ -71,6 +71,25 @@ typedef struct VirtQueueElement
+>          #define TYPE_VIRTIO_DEVICE "virtio-device"
+>          OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
+> 
+>         +typedef struct {
+>         +    int virtio_bit;
+>         +    const char *feature_name;
+>         +} qmp_virtio_feature_map_t;
+>         +
+>         +extern qmp_virtio_feature_map_t serial_map[];
+>         +extern qmp_virtio_feature_map_t blk_map[];
+>         +extern qmp_virtio_feature_map_t gpu_map[];
+>         +extern qmp_virtio_feature_map_t net_map[];
+>         +extern qmp_virtio_feature_map_t scsi_map[];
+>         +extern qmp_virtio_feature_map_t balloon_map[];
+>         +extern qmp_virtio_feature_map_t iommu_map[];
+>         +extern qmp_virtio_feature_map_t input_map[];
+>         +extern qmp_virtio_feature_map_t fs_map[];
+>         +extern qmp_virtio_feature_map_t vsock_map[];
+>         +extern qmp_virtio_feature_map_t crypto_map[];
+>         +extern qmp_virtio_feature_map_t mem_map[];
+>         +extern qmp_virtio_feature_map_t i2c_map[];
+>         +
+> 
+> 
+>     So this hack where extern is in a common header, but the
+>     actual values are spread in individual C files is not really
+>     acceptable.
+> 
+> Understood. Will move these map definitions into virtio.c
+> instead.
+> 
+> 
+>     Also, the names are too generic and are not prefixed with
+>     virtio which is a problem for a generic virtio.h header.
+>     this kind of name is only ok as a static variable.
+> 
+> No problem, I can change them to something like
+> 'virtio_x_feature_map'.
+> 
+> 
+>     And, it seems to be causing problems when some devices
+>     are disabled at config time. E.g. with virtio gpu disabled
+>     we get:
+> 
+>     https://urldefense.com/v3/__https://gitlab.com/qemu-project/qemu/-/jobs/2463276202__;!!ACWV5N9M2RV99hQ!LxUl7ygdoZjKT_zWfAfkcior1j2Bn4E5okOrtbudwWyRsmGyRMxMdQlIVhn5AhR7n6LHvABmkhnR$
+>     https://urldefense.com/v3/__https://gitlab.com/qemu-project/qemu/-/jobs/2463276291__;!!ACWV5N9M2RV99hQ!LxUl7ygdoZjKT_zWfAfkcior1j2Bn4E5okOrtbudwWyRsmGyRMxMdQlIVhn5AhR7n6LHvK89VWxr$
+> 
+>     libqemu-ppc64-softmmu.fa.p/hw_virtio_virtio.c.o: In function `qmp_decode_features':
+>     /builds/qemu-project/qemu/build/../hw/virtio/virtio.c:4167: undefined reference to `gpu_map'
+>     /builds/qemu-project/qemu/build/../hw/virtio/virtio.c:4167: undefined reference to `gpu_map'
+> 
+> 
+>     I could not figure it out from a quick look, please debug.
+> 
+> Got it, will debug. May be missing an #ifdef somewhere I suspect...
+> 
+> It will take some time for me to get the next series (v15) out since
+> I'll be away next week but hopefully I'll be able to get them out sooner
+> rather than later once I'm back.
+> 
+> Thanks,
+> 
+> Jonah
+> 
+> 
+> 
+> 
+>          enum virtio_device_endian {
+>              VIRTIO_DEVICE_ENDIAN_UNKNOWN,
+>              VIRTIO_DEVICE_ENDIAN_LITTLE,
+>         diff --git a/qapi/virtio.json b/qapi/virtio.json
+>         index ba61d83df7..474a8bd64e 100644
+>         --- a/qapi/virtio.json
+>         +++ b/qapi/virtio.json
+>         @@ -106,10 +106,10 @@
+>                      'n-tmp-sections': 'int',
+>                      'nvqs': 'uint32',
+>                      'vq-index': 'int',
+>         -            'features': 'uint64',
+>         -            'acked-features': 'uint64',
+>         -            'backend-features': 'uint64',
+>         -            'protocol-features': 'uint64',
+>         +            'features': 'VirtioDeviceFeatures',
+>         +            'acked-features': 'VirtioDeviceFeatures',
+>         +            'backend-features': 'VirtioDeviceFeatures',
+>         +            'protocol-features': 'VhostDeviceProtocols',
+>                      'max-queues': 'uint64',
+>                      'backend-cap': 'uint64',
+>                      'log-enabled': 'bool',
+>         @@ -176,11 +176,11 @@
+>                      'device-id': 'uint16',
+>                      'vhost-started': 'bool',
+>                      'device-endian': 'str',
+>         -            'guest-features': 'uint64',
+>         -            'host-features': 'uint64',
+>         -            'backend-features': 'uint64',
+>         +            'guest-features': 'VirtioDeviceFeatures',
+>         +            'host-features': 'VirtioDeviceFeatures',
+>         +            'backend-features': 'VirtioDeviceFeatures',
+>                      'num-vqs': 'int',
+>         -            'status': 'uint8',
+>         +            'status': 'VirtioDeviceStatus',
+>                      'isr': 'uint8',
+>                      'queue-sel': 'uint16',
+>                      'vm-running': 'bool',
+>         @@ -222,14 +222,28 @@
+>          #            "name": "virtio-crypto",
+>          #            "started": true,
+>          #            "device-id": 20,
+>         -#            "backend-features": 0,
+>         +#            "backend-features": {
+>         +#               "transports": [],
+>         +#               "dev-features": []
+>         +#            },
+>          #            "start-on-kick": false,
+>          #            "isr": 1,
+>          #            "broken": false,
+>         -#            "status": 15,
+>         +#            "status": {
+>         +#               "statuses": ["ACKNOWLEDGE", "DRIVER", "FEATURES_OK",
+>         +#                            "DRIVER_OK"]
+>         +#            },
+>          #            "num-vqs": 2,
+>         -#            "guest-features": 5100273664,
+>         -#            "host-features": 6325010432,
+>         +#            "guest-features": {
+>         +#               "transports": ["EVENT_IDX", "INDIRECT_DESC", "VERSION_1"],
+>         +#               "dev-features": []
+>         +#            },
+>         +#            "host-features": {
+>         +#               "transports": ["PROTOCOL_FEATURES", "EVENT_IDX",
+>         +#                              "INDIRECT_DESC", "VERSION_1", "ANY_LAYOUT",
+>         +#                              "NOTIFY_ON_EMPTY"],
+>         +#               "dev-features": []
+>         +#            },
+>          #            "use-guest-notifier-mask": true,
+>          #            "vm-running": true,
+>          #            "queue-sel": 1,
+>         @@ -257,22 +271,65 @@
+>          #               "max-queues": 1,
+>          #               "backend-cap": 2,
+>          #               "log-size": 0,
+>         -#               "backend-features": 0,
+>         +#               "backend-features": {
+>         +#                  "transports": [],
+>         +#                  "dev-features": []
+>         +#               },
+>          #               "nvqs": 2,
+>         -#               "protocol-features": 0,
+>         +#               "protocol-features": {
+>         +#                  "protocols": []
+>         +#               },
+>          #               "vq-index": 0,
+>          #               "log-enabled": false,
+>         -#               "acked-features": 5100306432,
+>         -#               "features": 13908344832
+>         +#               "acked-features": {
+>         +#                  "transports": ["EVENT_IDX", "INDIRECT_DESC", "VERSION_1",
+>         +#                                 "ANY_LAYOUT", "NOTIFY_ON_EMPTY"],
+>         +#                  "dev-features": ["MRG_RXBUF"]
+>         +#               },
+>         +#               "features": {
+>         +#                  "transports": ["EVENT_IDX", "INDIRECT_DESC",
+>         +#                                 "IOMMU_PLATFORM", "VERSION_1", "ANY_LAYOUT",
+>         +#                                 "NOTIFY_ON_EMPTY"],
+>         +#                  "dev-features": ["LOG_ALL", "MRG_RXBUF"]
+>         +#               }
+>         +#            },
+>         +#            "backend-features": {
+>         +#               "transports": ["PROTOCOL_FEATURES", "EVENT_IDX", "INDIRECT_DESC",
+>         +#                              "VERSION_1", "ANY_LAYOUT", "NOTIFY_ON_EMPTY"],
+>         +#               "dev-features": ["GSO", "CTRL_MAC_ADDR", "GUEST_ANNOUNCE", "CTRL_RX_EXTRA",
+>         +#                                "CTRL_VLAN", "CTRL_RX", "CTRL_VQ", "STATUS", "MRG_RXBUF",
+>         +#                                "HOST_UFO", "HOST_ECN", "HOST_TSO6", "HOST_TSO4",
+>         +#                                "GUEST_UFO", "GUEST_ECN", "GUEST_TSO6", "GUEST_TSO4",
+>         +#                                "MAC", "CTRL_GUEST_OFFLOADS", "GUEST_CSUM", "CSUM"]
+>          #            },
+>         -#            "backend-features": 6337593319,
+>          #            "start-on-kick": false,
+>          #            "isr": 1,
+>          #            "broken": false,
+>         -#            "status": 15,
+>         +#            "status": {
+>         +#               "statuses": ["ACKNOWLEDGE", "DRIVER", "FEATURES_OK", "DRIVER_OK"]
+>         +#            },
+>          #            "num-vqs": 3,
+>         -#            "guest-features": 5111807911,
+>         -#            "host-features": 6337593319,
+>         +#            "guest-features": {
+>         +#               "transports": ["EVENT_IDX", "INDIRECT_DESC", "VERSION_1"],
+>         +#               "dev-features": ["CTRL_MAC_ADDR", "GUEST_ANNOUNCE", "CTRL_VLAN",
+>         +#                                "CTRL_RX", "CTRL_VQ", "STATUS", "MRG_RXBUF",
+>         +#                                "HOST_UFO", "HOST_ECN", "HOST_TSO6",
+>         +#                                "HOST_TSO4", "GUEST_UFO", "GUEST_ECN",
+>         +#                                "GUEST_TSO6", "GUEST_TSO4", "MAC",
+>         +#                                "CTRL_GUEST_OFFLOADS", "GUEST_CSUM", "CSUM"]
+>         +#            },
+>         +#            "host-features": {
+>         +#               "transports": ["PROTOCOL_FEATURES", "EVENT_IDX",
+>         +#                              "INDIRECT_DESC", "VERSION_1", "ANY_LAYOUT",
+>         +#                              "NOTIFY_ON_EMPTY"],
+>         +#               "dev-features": ["GSO", "CTRL_MAC_ADDR", "GUEST_ANNOUNCE",
+>         +#                                "CTRL_RX_EXTRA", "CTRL_VLAN", "CTRL_RX",
+>         +#                                "CTRL_VQ", "STATUS", "MRG_RXBUF", "HOST_UFO",
+>         +#                                "HOST_ECN", "HOST_TSO4", "HOST_TSO4",
+>         +#                                "GUEST_UFO", "GUEST_ECN", "GUEST_TSO6",
+>         +#                                "GUEST_TSO4", "MAC", "CTRL_GUEST_OFFLOADS",
+>         +#                                "GUEST_CSUM", "CSUM"]
+>         +#            },
+>          #            "use-guest-notifier-mask": true,
+>          #            "vm-running": true,
+>          #            "queue-sel": 2,
+>         @@ -288,3 +345,62 @@
+>            'data': { 'path': 'str' },
+>            'returns': 'VirtioStatus',
+>            'features': [ 'unstable' ] }
+>         +
+>         +##
+>         +# @VirtioDeviceStatus:
+>         +#
+>         +# A structure defined to list the configuration statuses of a virtio
+>         +# device
+>         +#
+>         +# @statuses: List of decoded configuration statuses of the virtio
+>         +#            device
+>         +#
+>         +# @unknown-statuses: Virtio device statuses bitmap that have not been decoded
+>         +#
+>         +# Since: 7.0
+>         +##
+>         +
+>         +{ 'struct': 'VirtioDeviceStatus',
+>         +  'data': { 'statuses': [ 'str' ],
+>         +            '*unknown-statuses': 'uint8' } }
+>         +
+>         +##
+>         +# @VhostDeviceProtocols:
+>         +#
+>         +# A structure defined to list the vhost user protocol features of a
+>         +# Vhost User device
+>         +#
+>         +# @protocols: List of decoded vhost user protocol features of a vhost
+>         +#             user device
+>         +#
+>         +# @unknown-protocols: Vhost user device protocol features bitmap that
+>         +#                     have not been decoded
+>         +#
+>         +# Since: 7.0
+>         +##
+>         +
+>         +{ 'struct': 'VhostDeviceProtocols',
+>         +  'data': { 'protocols': [ 'str' ],
+>         +            '*unknown-protocols': 'uint64' } }
+>         +
+>         +##
+>         +# @VirtioDeviceFeatures:
+>         +#
+>         +# The common fields that apply to most Virtio devices. Some devices
+>         +# may not have their own device-specific features (e.g. virtio-rng).
+>         +#
+>         +# @transports: List of transport features of the virtio device
+>         +#
+>         +# @dev-features: List of device-specific features (if the device has
+>         +#                unique features)
+>         +#
+>         +# @unknown-dev-features: Virtio device features bitmap that have not
+>         +#                        been decoded
+>         +#
+>         +# Since: 7.0
+>         +##
+>         +
+>         +{ 'struct': 'VirtioDeviceFeatures',
+>         +  'data': { 'transports': [ 'str' ],
+>         +            '*dev-features': [ 'str' ],
+>         +            '*unknown-dev-features': 'uint64' } }
+>         --
+>         2.35.1
+> 
 
 
