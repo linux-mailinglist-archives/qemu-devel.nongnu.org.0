@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A443B53548F
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 22:38:04 +0200 (CEST)
-Received: from localhost ([::1]:34704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A497C53551C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 22:53:43 +0200 (CEST)
+Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuKF9-0000OG-6f
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 16:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42754)
+	id 1nuKUI-0006Tn-4A
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 16:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nuKCY-0007yT-8V
- for qemu-devel@nongnu.org; Thu, 26 May 2022 16:35:22 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:38528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nuKCV-0006xa-5V
- for qemu-devel@nongnu.org; Thu, 26 May 2022 16:35:20 -0400
-Received: by mail-pl1-x632.google.com with SMTP id n18so2397334plg.5
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 13:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KdoqvWiXBEPNSeEAv5Sf60XOekRwhgfnSHLs+rxW3OE=;
- b=dYY/X64Bjoq3KVy6q4PdXqOMuXBogz3lY3meonoHS2nAp7Bh05+GxY+4PpHKEyehaQ
- iO48eptlCzYNhTsooJ15djZ2673BOqeRiQjJCHDdmRp349can2YC8ZAWCPlvf36vhsMw
- 50GEEMW7/7MaezO+5kWDnZd0sekavgRZjkd3lAL9Y4h3EFlFUwVrVonqt4sZYmvdGfvj
- ZknmHAFYvTKhqK7xriRbMwUFQRhDMTV8bVuOkoie4q40aWP2NXt8yo/lxrtgusMc3P/8
- Vzvb/HKDLEEvg+CXEOpmv2zIwkFZloXXacoexA8jXiK62DFf9/cPRMTMw4lOwBwehGNH
- Gi/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KdoqvWiXBEPNSeEAv5Sf60XOekRwhgfnSHLs+rxW3OE=;
- b=ROwdvCY74nQwuSfG2l1+F19KwS1RYjr6c11cWaubuEQbj/nJh3i7J0blju1xGwqUpW
- Pw0r8VLfhC7l8PncNIFPVmJv+vnWeKgqoJm4dWlGM55bwtpU71wNxR4UcnemCdwkwVov
- 3fE1CarAnS3HEbhlozA3NuQ2ykFjav5wsTOTZhEZUNhFc4iVrYm7CBC2XHHNN1JTH/34
- x4QE7A9p0L0j+yBJ2fUpF/ih2E63wDjhl8NXFNJ1IVsqZv1XVsS4fQVS6fAjQSBbmzr2
- CSNt+Hqw99YrpR9PnHubGMp6TtMje/PooO+WO/5N+xRd4GJkl05N3QXpzPfKtn+65sJ/
- xtHA==
-X-Gm-Message-State: AOAM533RtwqmTyU2tznFXBlXmtqfx5RjmHURah8CVqV7xzKvmlwINZer
- MUGJVcgvQ1bboVTQQZOrJy+qUYkh6iKYFg==
-X-Google-Smtp-Source: ABdhPJwUcTPTySeLklK4qFbBv2zWF8dgABCe/Fwvxbpf/vzvKULC6HA9hKGkYvXtKCxXoLWti9YUxQ==
-X-Received: by 2002:a17:90b:17c4:b0:1df:a60b:1e28 with SMTP id
- me4-20020a17090b17c400b001dfa60b1e28mr4438217pjb.31.1653597316730; 
- Thu, 26 May 2022 13:35:16 -0700 (PDT)
-Received: from atishp.ba.rivosinc.com ([66.220.2.162])
- by smtp.gmail.com with ESMTPSA id
- k14-20020a170902ba8e00b00160c970eeb7sm1997363pls.234.2022.05.26.13.35.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 13:35:15 -0700 (PDT)
-From: Atish Patra <atishp@rivosinc.com>
-To: qemu-devel@nongnu.org
-Cc: Atish Patra <atishp@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Subject: [PATCH] hw/riscv: virt: Generate fw_cfg DT node correctly
-Date: Thu, 26 May 2022 13:35:00 -0700
-Message-Id: <20220526203500.847165-1-atishp@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nuKSX-0005Cf-AR; Thu, 26 May 2022 16:51:53 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:30055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nuKST-0001WB-KE; Thu, 26 May 2022 16:51:51 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C2443746324;
+ Thu, 26 May 2022 22:51:45 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6D34174581A; Thu, 26 May 2022 22:51:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 6B13074579D;
+ Thu, 26 May 2022 22:51:45 +0200 (CEST)
+Date: Thu, 26 May 2022 22:51:45 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Francisco Iglesias <frasse.iglesias@gmail.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, 
+ Cedric Le Goater <clg@kaod.org>
+Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
+ PCIE_MMCFG_SIZE_MAX
+In-Reply-To: <20220526153640-mutt-send-email-mst@kernel.org>
+Message-ID: <29d5144-82e8-e715-e461-c21f7229f30@eik.bme.hu>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-76-mst@redhat.com>
+ <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
+ <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
+ <28f2b859-7ca4-d779-d94b-c9dc3e21ed39@eik.bme.hu>
+ <20220526150859-mutt-send-email-mst@kernel.org>
+ <693fe9cc-ee68-a3dd-3639-81521dd954b@eik.bme.hu>
+ <20220526153640-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=atishp@rivosinc.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,77 +72,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fw_cfg DT node is generated after the create_fdt without any check
-if the DT is being loaded from the commandline. This results in
-FDT_ERR_EXISTS error if dtb is loaded from the commandline.
+On Thu, 26 May 2022, Michael S. Tsirkin wrote:
+> On Thu, May 26, 2022 at 09:34:08PM +0200, BALATON Zoltan wrote:
+>> On Thu, 26 May 2022, Michael S. Tsirkin wrote:
+>>> On Thu, May 26, 2022 at 06:43:25PM +0200, BALATON Zoltan wrote:
+>>>> On Thu, 26 May 2022, BALATON Zoltan wrote:
+>>>>> Hello,
+>>>>>
+>>>>> On Thu, 26 May 2022, Daniel Henrique Barboza wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> This patch broke the boot of the sam460ex ppc machine:
+>>>>>>
+>>>>>> qemu-system-ppc -M sam460ex -kernel
+>>>>>> ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
+>>>>>> -device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
+>>>>>> -nographic -snapshot
+>>>>>> qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init:
+>>>>>> Assertion `size <= PCIE_MMCFG_SIZE_MAX' failed.
+>>>>
+>>>> With just qemu-system-ppc -M sam460ex the assert seems to happen when the
+>>>> guest (board firmware?) writes a value to CFGMSK reg:
+>>>>
+>>>> (gdb) bt
+>>>> #0  0x00007ffff68ff4a0 in raise () at /lib64/libc.so.6
+>>>> #1  0x00007ffff68ea536 in abort () at /lib64/libc.so.6
+>>>> #2  0x00007ffff68ea42f in _nl_load_domain.cold () at /lib64/libc.so.6
+>>>> #3  0x00007ffff68f7ed2 in  () at /lib64/libc.so.6
+>>>> #4  0x000055555596646f in pcie_host_mmcfg_init (e=e@entry=0x5555567942f0, size=size@entry=0x20000000) at ../hw/pci/pcie_host.c:97
+>>>> #5  0x000055555596653b in pcie_host_mmcfg_map (size=0x20000000, addr=0xd20000000, e=0x5555567942f0) at ../hw/pci/pcie_host.c:105
+>>>> #6  pcie_host_mmcfg_update (e=0x5555567942f0, enable=0x1, addr=0xd20000000, size=0x20000000) at ../hw/pci/pcie_host.c:118
+>>>> #7  0x0000555555a70d7c in ppc_dcr_write (dcr_env=0x555556669c10, dcrn=0x122, val=0xe0000001) at ../hw/ppc/ppc.c:1418
+>>>> #8  0x0000555555abdabb in helper_store_dcr (env=0x555556633360, dcrn=0x122, val=0xe0000001) at ../target/ppc/timebase_helper.c:188
+>>>>
+>>>> This is done in the board firmware here:
+>>>>
+>>>> https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD#l963
+>>>>
+>>>> when trying to map config space. Here the size is calculated as 0x20000000
+>>>> which does not fit the assert. I'm not sure what this means though and where
+>>>> is the problem. Any ideas?
+>>>>
+>>>> Regards,
+>>>> BALATON Zoltan
+>>>
+>>>
+>>> It says so, does it not?
+>>>
+>>> 1051         switch (port) {
+>>> 1052         case 0:
+>>> 1053                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE0), high);
+>>> 1054                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE0), low);
+>>> 1055                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE0), 0xe0000001); /* 512MB region, valid */
+>>> 1056                 break;
+>>> 1057         case 1:
+>>> 1058                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE1), high);
+>>> 1059                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE1), low);
+>>> 1060                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE1), 0xe0000001); /* 512MB region, valid */
+>>> 1061                 break;
+>>> 1062 #if CONFIG_SYS_PCIE_NR_PORTS > 2
+>>> 1063         case 2:
+>>> 1064                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE2), high);
+>>> 1065                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE2), low);
+>>> 1066                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE2), 0xe0000001); /* 512MB region, valid */
+>>> 1067                 break;
+>>> 1068 #endif
+>>
+>> Yes, the size matches what the firmware programs it.
+>>
+>>> and basically according to spec max size is 256MB.
+>>
+>> Maybe this SoC does not follow the spec you're referring to? Complies to
+>> some other spec like a newer version or has its own idea? I don't have docs
+>> to tell.
+>>
+>>> we can fix the firmware of course, or we can just drop the assert,
+>>> or force it within range in the ppc code.
+>>
+>> According to this random Cisco IOS dump I've found:
+>>
+>> https://www.hardware.com.br/comunidade/switch-cisco/1128380/
+>>
+>> looks like this value is valid on that hardware so that likely means we
+>> should not "fix" the firmware. (Also not because it's what the real board
+>> uses or at least very close to it so it should work with the emulated board
+>> too and keeping it close to the real hardware ensures the emulation is
+>> accurate.) That means we should either revert this back (why was this
+>> changed back in the first place, did it cause any problems?) or maybe try
+>> restricting the value in the PPC model.
+>
+> It didn't it was just weird behaviour. High bit in the address was
+> ignored, so the config space was mapped many times at offsets
+> 0,256M, etc up to whatever size was.
+>>> Fixing firmware seems cleaner ... want to try?
+>>> Any preference?
+>>
+>> I'd leave making a patch to someone else but can help testing it. As per the
+>> above if we can't revert it maybe we can try restricting size in ppc440_uc.c
+>> where pcie_host_mmcfg_update() is called. Since the PCIe bus on this board
+>> probably does not work now anyway probably nothing will notice this for now.
+>>
+>> Regards,
+>> BALATON Zoltan
+>
+>
+> I am guessing the unused space is just ignored.
+> so I am inclined to restrict in PPC model,
+> where we also have a chance to document what is going on.
+>
 
-Generate fw_cfg node only if the DT is not loaded from the commandline.
+Works for me. Verified that AmigaOS and MorphOS boot with this.
 
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
----
- hw/riscv/virt.c | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index c57617381517..07aeee3bf0c3 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -975,6 +975,23 @@ static void create_fdt_flash(RISCVVirtState *s, const MemMapEntry *memmap)
-     g_free(name);
- }
- 
-+static void create_fdt_fw_cfg(RISCVVirtState *s, const MemMapEntry *memmap)
-+{
-+    char *nodename;
-+    MachineState *mc = MACHINE(s);
-+    hwaddr base = memmap[VIRT_FW_CFG].base;
-+    hwaddr size = memmap[VIRT_FW_CFG].size;
-+
-+    nodename = g_strdup_printf("/fw-cfg@%" PRIx64, base);
-+    qemu_fdt_add_subnode(mc->fdt, nodename);
-+    qemu_fdt_setprop_string(mc->fdt, nodename,
-+                            "compatible", "qemu,fw-cfg-mmio");
-+    qemu_fdt_setprop_sized_cells(mc->fdt, nodename, "reg",
-+                                 2, base, 2, size);
-+    qemu_fdt_setprop(mc->fdt, nodename, "dma-coherent", NULL, 0);
-+    g_free(nodename);
-+}
-+
- static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-                        uint64_t mem_size, const char *cmdline, bool is_32_bit)
- {
-@@ -1023,6 +1040,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-     create_fdt_rtc(s, memmap, irq_mmio_phandle);
- 
-     create_fdt_flash(s, memmap);
-+    create_fdt_fw_cfg(s, memmap);
- 
- update_bootargs:
-     if (cmdline && *cmdline) {
-@@ -1082,22 +1100,12 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
- static FWCfgState *create_fw_cfg(const MachineState *mc)
- {
-     hwaddr base = virt_memmap[VIRT_FW_CFG].base;
--    hwaddr size = virt_memmap[VIRT_FW_CFG].size;
-     FWCfgState *fw_cfg;
--    char *nodename;
- 
-     fw_cfg = fw_cfg_init_mem_wide(base + 8, base, 8, base + 16,
-                                   &address_space_memory);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)mc->smp.cpus);
- 
--    nodename = g_strdup_printf("/fw-cfg@%" PRIx64, base);
--    qemu_fdt_add_subnode(mc->fdt, nodename);
--    qemu_fdt_setprop_string(mc->fdt, nodename,
--                            "compatible", "qemu,fw-cfg-mmio");
--    qemu_fdt_setprop_sized_cells(mc->fdt, nodename, "reg",
--                                 2, base, 2, size);
--    qemu_fdt_setprop(mc->fdt, nodename, "dma-coherent", NULL, 0);
--    g_free(nodename);
-     return fw_cfg;
- }
- 
--- 
-2.25.1
+Thanks.
 
+>
+>
+> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+> index 993e3ba955..a1ecf6dd1c 100644
+> --- a/hw/ppc/ppc440_uc.c
+> +++ b/hw/ppc/ppc440_uc.c
+> @@ -1180,6 +1180,14 @@ static void dcr_write_pcie(void *opaque, int dcrn, uint32_t val)
+>     case PEGPL_CFGMSK:
+>         s->cfg_mask = val;
+>         size = ~(val & 0xfffffffe) + 1;
+> +        /*
+> +         * Firmware sets this register to E0000001. Why we are not sure,
+> +         * but the current guess is anything above PCIE_MMCFG_SIZE_MAX is
+> +         * ignored.
+> +         */
+> +        if (size > PCIE_MMCFG_SIZE_MAX) {
+> +            size = PCIE_MMCFG_SIZE_MAX;
+> +        }
+>         pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base, size);
+>         break;
+>     case PEGPL_MSGBAH:
+>
+>
+>
 
