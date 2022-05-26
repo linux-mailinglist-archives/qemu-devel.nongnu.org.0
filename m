@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBCB5355D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:52:21 +0200 (CEST)
-Received: from localhost ([::1]:35120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE195355DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:54:12 +0200 (CEST)
+Received: from localhost ([::1]:40504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuLP2-0003GD-R9
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:52:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53504)
+	id 1nuLQp-00072i-Qt
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLCR-0001uD-VY; Thu, 26 May 2022 17:39:20 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:41716)
+ id 1nuLCT-0001w7-T4; Thu, 26 May 2022 17:39:22 -0400
+Received: from mail-oo1-xc34.google.com ([2607:f8b0:4864:20::c34]:35623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLCQ-0008AZ-5K; Thu, 26 May 2022 17:39:19 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id e189so3640184oia.8;
- Thu, 26 May 2022 14:39:17 -0700 (PDT)
+ id 1nuLCS-0008Aw-7d; Thu, 26 May 2022 17:39:21 -0400
+Received: by mail-oo1-xc34.google.com with SMTP id
+ a16-20020a4ad1d0000000b0040edb942aa2so124292oos.2; 
+ Thu, 26 May 2022 14:39:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GbAOFTEzfGwyyOg6VT6HcjeZQdbcVx0fCwVonLKzZgc=;
- b=XFyQ6G/ORmsQWvYIWi8tt23azQ23XM7Z53YL4H3PGThGWFXfXbxIK2CnsJC8KKqqYq
- i3xxRa9KUGmsSu0gq6tZBBBrnlgLweONC/c9Tdjccqzg2DXhoiduyYKNSDLwgn5PeY1B
- 9PRUR4LSqPRlou6jco8vqy0CY8VjNnYrka4q4kYRsyiF0r4TGmxXnZWNzU8vXFvoIiII
- 5ZJYMeMvjsh7Dzgs60yrPWZFfU/LWabCCPOzpGoBes+tWAynoOTekFP/RjoI/RV32QRs
- oJ/Ozczlsl8xWDd3ZDCMzAaG+Vc2cYBcGb19QwiRDqONqTqChxVqKcX5oBHN6xJ5JZt8
- GsTQ==
+ bh=9ZPMxauLQzqGZMA2XAOP14VZN+YIw1f6RR3xyPK7LGo=;
+ b=Wx5mgqwwJ/RyT8icdNpQkwyKjDlXiWMwRvZjB6H4Wex531omto/6OuBqn4eDxNr6iW
+ zX8tXh89y2L4+wEmuXriJRkwAG/UZ4zX2j2t9hvdMPm2Td2F/eqzZv+x9ze/soyzoVKA
+ KRJ2AY8VLRE+bpcG1IF83T0FWgJQm5kE5SvB3JnigwAUI3hKdTm12E3CVXiY+OWOJKk7
+ /i7n/68o03PQS+N3ACVIrw2u1Z1/rg+ZjI+LuCQOfMrgX6251DMCgiBu48LqNABctu5O
+ xrSpyGSjrBn5L9jRSzQs0ztCTuwo1OmGJN2qvNNHhCkHJaLi0WGgHaVIHxo7gztTRmwN
+ KIIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GbAOFTEzfGwyyOg6VT6HcjeZQdbcVx0fCwVonLKzZgc=;
- b=LZ2qTWSjXuNk3twskqt6aokzzsmjpEeJ8ofgWvIEoBctxW6I6hG9qnoHthQ66AARJH
- ba5UpMpfTblezPSdcMXwO9MsB2qbP8grclsz8dgawH3kTmFOOrxdnoCmVE+QLpCfpJN2
- P3At7VqVHLlx/kFdwVAMY7Lja5aQAQAx8H+NMmZdk4v4WkZesQX/CCWSiqkFpdZHXENZ
- /n4Ha7VCeLmrDh+UkUgnkTbwPZdJLiqCr344A6fYTo+eKL0lPx63zljtEnVGjyYqaHZ1
- t08iq/GdM20aVoc4sSGH2Tnt8cbknSCXnA6NnoKA0O0u4H3IQtXoK9a8OMM2qIGVIQzX
- 2oRg==
-X-Gm-Message-State: AOAM530CPGHJwR2/tQf/dnQONtKyUNKPORofP/Ety2XJUUPw4/IbMLrA
- CYJxp6g53YR95eserE9T7shZzNVde88=
-X-Google-Smtp-Source: ABdhPJyul5zkTTjPN3ZrySkKW1ii0cYGamL1Gtph7KKrXS8Z6s7ApXfaYdUFkVXVjbeHaze5OUOJZQ==
-X-Received: by 2002:a05:6808:17a8:b0:327:9efa:cf1a with SMTP id
- bg40-20020a05680817a800b003279efacf1amr2202389oib.81.1653601156512; 
- Thu, 26 May 2022 14:39:16 -0700 (PDT)
+ bh=9ZPMxauLQzqGZMA2XAOP14VZN+YIw1f6RR3xyPK7LGo=;
+ b=Hb3b2S1uP9ribNP40LDbqh9AluWN0Mm/Pcd51WTu6f6g6a0r6h/tbGmccwCtePcYAN
+ NGwOgtRgen4xYpQ+mdUW3eWdkfwOlzDKhu85au8KbAU2ZFVeGsCYGSFBf6o30nKEGOzZ
+ ivCVA5kTanxeWoYfCWC9AMxadWbEW+EHO+XrDysCmvbxc4UwyMzrqtIwzx5jCWvaxrEv
+ jnBJRTgtX1sgJ6mWmsXiA4J/umH5soSua9JmZWA4CLpOp+Tr3/lsqtO9Y9cvn/Juqf8C
+ xpOwabmWDZ/GKF0ebkpnjaDKarpAFd86yjiSxXPWhQR91ln/vHX1XT/GOtvHuh7ev/HM
+ WE6w==
+X-Gm-Message-State: AOAM533cBn0P4JgpFE+r+fr2CCYejNkA0mIiSZ6YC2WSp5ZY7b+RYFlU
+ AemFZ51tnsFBtw+F2BzX1lwFfdbsdek=
+X-Google-Smtp-Source: ABdhPJwWRBV8IarwLAe5C7hxFn9Hrajp9rpC5u/t0lFpSGRN/GFYu0mk8pEs475Te17txPaWSbQevA==
+X-Received: by 2002:a4a:2819:0:b0:40e:6f37:1ae8 with SMTP id
+ h25-20020a4a2819000000b0040e6f371ae8mr11695621ooa.44.1653601158792; 
+ Thu, 26 May 2022 14:39:18 -0700 (PDT)
 Received: from balboa.COMFAST (189-46-169-45.dsl.telesp.net.br.
  [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
- l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.39.14
+ l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.39.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 14:39:16 -0700 (PDT)
+ Thu, 26 May 2022 14:39:18 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PULL 15/34] target/ppc: Use TCG_CALL_NO_RWG_SE in fsel helper
-Date: Thu, 26 May 2022 18:37:56 -0300
-Message-Id: <20220526213815.92701-16-danielhb413@gmail.com>
+Subject: [PULL 16/34] target/ppc: declare xscvspdpn helper with call flags
+Date: Thu, 26 May 2022 18:37:57 -0300
+Message-Id: <20220526213815.92701-17-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220526213815.92701-1-danielhb413@gmail.com>
 References: <20220526213815.92701-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,144 +91,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-fsel doesn't change FPSCR and CR1 is handled by gen_set_cr1_from_fpscr,
-so helper_fsel doesn't need the env argument and can be declared with
-TCG_CALL_NO_RWG_SE. We also take this opportunity to move the insn to
-decodetree.
+Move xscvspdpn to decodetree, declare helper_xscvspdpn with
+TCG_CALL_NO_RWG_SE and drop the unused env argument.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220517123929.284511-6-matheus.ferst@eldorado.org.br>
+Message-Id: <20220517123929.284511-7-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/fpu_helper.c            | 15 +++++++--------
- target/ppc/helper.h                |  2 +-
- target/ppc/insn32.decode           |  7 +++++++
- target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++++++--
- target/ppc/translate/fp-ops.c.inc  |  1 -
- 5 files changed, 43 insertions(+), 12 deletions(-)
+ target/ppc/fpu_helper.c             |  2 +-
+ target/ppc/helper.h                 |  2 +-
+ target/ppc/insn32.decode            |  1 +
+ target/ppc/translate/vsx-impl.c.inc | 22 +++++++++++++++++++++-
+ target/ppc/translate/vsx-ops.c.inc  |  1 -
+ 5 files changed, 24 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 8592727792..588448702f 100644
+index 588448702f..55ef4b5d48 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -919,18 +919,17 @@ float64 helper_frsqrtes(CPUPPCState *env, float64 arg)
+@@ -2878,7 +2878,7 @@ uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
+     return (result << 32) | result;
  }
  
- /* fsel - fsel. */
--uint64_t helper_fsel(CPUPPCState *env, uint64_t arg1, uint64_t arg2,
--                     uint64_t arg3)
-+uint64_t helper_FSEL(uint64_t a, uint64_t b, uint64_t c)
+-uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
++uint64_t helper_XSCVSPDPN(uint64_t xb)
  {
--    CPU_DoubleU farg1;
-+    CPU_DoubleU fa;
- 
--    farg1.ll = arg1;
-+    fa.ll = a;
- 
--    if ((!float64_is_neg(farg1.d) || float64_is_zero(farg1.d)) &&
--        !float64_is_any_nan(farg1.d)) {
--        return arg2;
-+    if ((!float64_is_neg(fa.d) || float64_is_zero(fa.d)) &&
-+        !float64_is_any_nan(fa.d)) {
-+        return c;
-     } else {
--        return arg3;
-+        return b;
-     }
+     return helper_todouble(xb >> 32);
  }
- 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index f82c5bd0db..ddfa0308bc 100644
+index ddfa0308bc..9be69fa91e 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -120,7 +120,7 @@ DEF_HELPER_2(fre, i64, env, i64)
- DEF_HELPER_2(fres, i64, env, i64)
- DEF_HELPER_2(frsqrte, i64, env, i64)
- DEF_HELPER_2(frsqrtes, i64, env, i64)
--DEF_HELPER_4(fsel, i64, env, i64, i64, i64)
-+DEF_HELPER_FLAGS_3(FSEL, TCG_CALL_NO_RWG_SE, i64, i64, i64, i64)
- 
- DEF_HELPER_FLAGS_2(ftdiv, TCG_CALL_NO_RWG_SE, i32, i64, i64)
- DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
+@@ -395,7 +395,7 @@ DEF_HELPER_3(XSCVSQQP, void, env, vsr, vsr)
+ DEF_HELPER_3(xscvhpdp, void, env, vsr, vsr)
+ DEF_HELPER_4(xscvsdqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_3(xscvspdp, void, env, vsr, vsr)
+-DEF_HELPER_2(xscvspdpn, i64, env, i64)
++DEF_HELPER_FLAGS_1(XSCVSPDPN, TCG_CALL_NO_RWG_SE, i64, i64)
+ DEF_HELPER_3(xscvdpsxds, void, env, vsr, vsr)
+ DEF_HELPER_3(xscvdpsxws, void, env, vsr, vsr)
+ DEF_HELPER_3(xscvdpuxds, void, env, vsr, vsr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 39372fe673..1d0b55bde3 100644
+index 1d0b55bde3..d4c2615b1a 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -17,6 +17,9 @@
- # License along with this library; if not, see <http://www.gnu.org/licenses/>.
- #
+@@ -708,6 +708,7 @@ XSCVUQQP        111111 ..... 00011 ..... 1101000100 -   @X_tb
+ XSCVSQQP        111111 ..... 01011 ..... 1101000100 -   @X_tb
+ XVCVBF16SPN     111100 ..... 10000 ..... 111011011 ..   @XX2
+ XVCVSPBF16      111100 ..... 10001 ..... 111011011 ..   @XX2
++XSCVSPDPN       111100 ..... ----- ..... 101001011 ..   @XX2
  
-+&A              frt fra frb frc rc:bool
-+@A              ...... frt:5 fra:5 frb:5 frc:5 ..... rc:1       &A
+ ## VSX Vector Test Least-Significant Bit by Byte Instruction
+ 
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 3692740736..9b4f309d9d 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -1045,7 +1045,27 @@ GEN_VSX_HELPER_R2(xscvqpuwz, 0x04, 0x1A, 0x01, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xscvhpdp, 0x16, 0x15, 0x10, PPC2_ISA300)
+ GEN_VSX_HELPER_R2(xscvsdqp, 0x04, 0x1A, 0x0A, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xscvspdp, 0x12, 0x14, 0, PPC2_VSX)
+-GEN_VSX_HELPER_XT_XB_ENV(xscvspdpn, 0x16, 0x14, 0, PPC2_VSX207)
 +
- &D              rt ra si:int64_t
- @D              ...... rt:5 ra:5 si:s16                 &D
- 
-@@ -308,6 +311,10 @@ STFDU           110111 ..... ...... ...............     @D
- STFDX           011111 ..... ...... .... 1011010111 -   @X
- STFDUX          011111 ..... ...... .... 1011110111 -   @X
- 
-+### Floating-Point Select Instruction
-+
-+FSEL            111111 ..... ..... ..... ..... 10111 .  @A
-+
- ### Move To/From System Register Instructions
- 
- SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index cfb27bd020..f9b58b844e 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -222,8 +222,34 @@ static void gen_frsqrtes(DisasContext *ctx)
-     tcg_temp_free_i64(t1);
- }
- 
--/* fsel */
--_GEN_FLOAT_ACB(sel, 0x3F, 0x17, 0, PPC_FLOAT_FSEL);
-+static bool trans_FSEL(DisasContext *ctx, arg_A *a)
++bool trans_XSCVSPDPN(DisasContext *ctx, arg_XX2 *a)
 +{
-+    TCGv_i64 t0, t1, t2;
++    TCGv_i64 tmp;
 +
-+    REQUIRE_INSNS_FLAGS(ctx, FLOAT_FSEL);
-+    REQUIRE_FPU(ctx);
++    REQUIRE_INSNS_FLAGS2(ctx, VSX207);
++    REQUIRE_VSX(ctx);
 +
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    t2 = tcg_temp_new_i64();
++    tmp = tcg_temp_new_i64();
++    get_cpu_vsr(tmp, a->xb, true);
 +
-+    get_fpr(t0, a->fra);
-+    get_fpr(t1, a->frb);
-+    get_fpr(t2, a->frc);
++    gen_helper_XSCVSPDPN(tmp, tmp);
 +
-+    gen_helper_FSEL(t0, t0, t1, t2);
-+    set_fpr(a->frt, t0);
-+    if (a->rc) {
-+        gen_set_cr1_from_fpscr(ctx);
-+    }
++    set_cpu_vsr(a->xt, tmp, true);
++    set_cpu_vsr(a->xt, tcg_constant_i64(0), false);
 +
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(t2);
++    tcg_temp_free_i64(tmp);
 +
 +    return true;
 +}
 +
- /* fsub - fsubs */
- GEN_FLOAT_AB(sub, 0x14, 0x000007C0, 1, PPC_FLOAT);
- /* Optional: */
-diff --git a/target/ppc/translate/fp-ops.c.inc b/target/ppc/translate/fp-ops.c.inc
-index 4260635a12..0538ab2d2d 100644
---- a/target/ppc/translate/fp-ops.c.inc
-+++ b/target/ppc/translate/fp-ops.c.inc
-@@ -24,7 +24,6 @@ GEN_FLOAT_AC(mul, 0x19, 0x0000F800, 1, PPC_FLOAT),
- GEN_FLOAT_BS(re, 0x3F, 0x18, 1, PPC_FLOAT_EXT),
- GEN_FLOAT_BS(res, 0x3B, 0x18, 1, PPC_FLOAT_FRES),
- GEN_FLOAT_BS(rsqrte, 0x3F, 0x1A, 1, PPC_FLOAT_FRSQRTE),
--_GEN_FLOAT_ACB(sel, sel, 0x3F, 0x17, 0, 0, PPC_FLOAT_FSEL),
- GEN_FLOAT_AB(sub, 0x14, 0x000007C0, 1, PPC_FLOAT),
- GEN_FLOAT_ACB(madd, 0x1D, 1, PPC_FLOAT),
- GEN_FLOAT_ACB(msub, 0x1C, 1, PPC_FLOAT),
+ GEN_VSX_HELPER_X2(xscvdpsxds, 0x10, 0x15, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xscvdpsxws, 0x10, 0x05, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xscvdpuxds, 0x10, 0x14, 0, PPC2_VSX)
+diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
+index b8fd116728..52d7ab30cd 100644
+--- a/target/ppc/translate/vsx-ops.c.inc
++++ b/target/ppc/translate/vsx-ops.c.inc
+@@ -200,7 +200,6 @@ GEN_XX2FORM(xscvdpspn, 0x16, 0x10, PPC2_VSX207),
+ GEN_XX2FORM_EO(xscvhpdp, 0x16, 0x15, 0x10, PPC2_ISA300),
+ GEN_VSX_XFORM_300_EO(xscvsdqp, 0x04, 0x1A, 0x0A, 0x00000001),
+ GEN_XX2FORM(xscvspdp, 0x12, 0x14, PPC2_VSX),
+-GEN_XX2FORM(xscvspdpn, 0x16, 0x14, PPC2_VSX207),
+ GEN_XX2FORM(xscvdpsxds, 0x10, 0x15, PPC2_VSX),
+ GEN_XX2FORM(xscvdpsxws, 0x10, 0x05, PPC2_VSX),
+ GEN_XX2FORM(xscvdpuxds, 0x10, 0x14, PPC2_VSX),
 -- 
 2.36.1
 
