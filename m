@@ -2,49 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEC3534CCC
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:56:17 +0200 (CEST)
-Received: from localhost ([::1]:34664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F71534CFB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 12:08:06 +0200 (CEST)
+Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuAE4-0002Tp-C0
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44960)
+	id 1nuAPU-0007yq-LN
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 06:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nuABM-0000aj-4p
- for qemu-devel@nongnu.org; Thu, 26 May 2022 05:53:28 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:59946)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nuABJ-00076Z-EJ
- for qemu-devel@nongnu.org; Thu, 26 May 2022 05:53:27 -0400
-Received: from [10.12.102.111] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id C8EBF40755D0;
- Thu, 26 May 2022 09:53:23 +0000 (UTC)
-Message-ID: <e40126ba-ba2b-614a-36f5-dfdb775ed593@ispras.ru>
-Date: Thu, 26 May 2022 12:53:23 +0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nuAJl-0005Kb-FZ
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 06:02:11 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:33807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nuAJj-0000Ll-UV
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 06:02:09 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-30026b1124bso10475947b3.1
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 03:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8L/z7+JdzQwrECg3wQ2ussJWeybxgaviJDeK56nxHfw=;
+ b=bh/0pqm9QL3pWHAnf1E6LS5npkudK5K9hc46GY0J9TnmRiVLc0sUS7XI9rAl26cQRW
+ u8GLoPnsZ4FYIZWqlkK3qk2tLaXIy+z7maL/voMa2FDii4hevHIPYVsCrndmUX/+fXH9
+ WVJh4NUk8VuTir2eD3Azq+K0R0F+MxbqJ0sKpVgBLBZ8y9Z+hk9j6ryNbA5uAsSUgcnP
+ /Nh6mFGqyAecTlYs5DHnSC7Q8hkVTWjObFvb9mbwPQ1p4gfUB7H26d4lxWxRKl1YoKvk
+ wNkEHh++zEvOhBKRY7rSD2gEVesPryCpZqHLh1fOtqRvcMdZtWnY3L5ylZECuTjRHiP4
+ IrBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8L/z7+JdzQwrECg3wQ2ussJWeybxgaviJDeK56nxHfw=;
+ b=tNnlA3huuiupCPQbdHxtSQv3a0rBQo8TE6XGok5u4MhMTbUIvSKfn3ISjDKIQfYG3x
+ PMSEH4qfXSlUWlxlGSCSCiYDjwFLDHp7gNIF0gJCVoOgu6PQ4NUl9yLCg4aHbMg+bM6H
+ H84vPph+vizDI6xpa1UxeKs+hddpUK+7iFO6HRlqMqCD/p7x2SHT0P+Ft2eIcddv7Q3k
+ BynH1kABWBLf6lfiRNqFXB4rMo4cvtm13dTNbSNBS74gty47MUQnkZCwjOtUjUrWey/F
+ +N8KrVVjeDxRPE/82218wA3KbE2/wJGXm291LanZkx0yI9c2nNPQ+L1WGXoaW88egAyg
+ beyA==
+X-Gm-Message-State: AOAM5307s7oMoDPlIKG3RmoSKPGZZ0JtkXPsjuvqXJ6CgkVSp0lJVxmB
+ nQ70qV3OC0m70U3RfhED4l8r+jpFwUyh+fhvMO2jAqB5NWYKHg==
+X-Google-Smtp-Source: ABdhPJwt94SSs72wt2zIYkV3t6eU28uGsCb2qIgAXHSjjjVuB/a5T7xsU5DEA4CWWbwjWwIBVNmLSFed1924Frzbjzg=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr38488061ywb.257.1653559326634; Thu, 26
+ May 2022 03:02:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3 4/9] replay: simplify async event processing
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, crosa@redhat.com, f4bug@amsat.org
-References: <165355470196.533615.1219754093587154582.stgit@pasha-ThinkPad-X280>
- <165355472374.533615.18197241124455918315.stgit@pasha-ThinkPad-X280>
- <04b4715c-e5e8-038e-e3e1-179ff9085d3a@redhat.com>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-In-Reply-To: <04b4715c-e5e8-038e-e3e1-179ff9085d3a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <AADD58D2-C3BE-40DF-8EE5-3A901F4F8F04@livius.net>
+ <CAFEAcA-n4GMq1_SCdTDp6sQmHzyyzTk5hav4QqOY3-j3Sr86Jg@mail.gmail.com>
+ <EA9AEE55-A416-4819-98FF-E51B2317390F@livius.net>
+In-Reply-To: <EA9AEE55-A416-4819-98FF-E51B2317390F@livius.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 May 2022 11:01:55 +0100
+Message-ID: <CAFEAcA_beHgi7pg+ByW4ufG5qfz5n7o4ZP22WuayTtdGSQ_EQQ@mail.gmail.com>
+Subject: Re: AArch64 semihosting?
+To: Liviu Ionescu <ilg@livius.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,36 +84,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.05.2022 12:40, Paolo Bonzini wrote:
-> On 5/26/22 10:45, Pavel Dovgalyuk wrote:
->> +
->> +typedef enum ReplayAsyncEventKind {
->> +    REPLAY_ASYNC_EVENT_BH,
->> +    REPLAY_ASYNC_EVENT_BH_ONESHOT,
->> +    REPLAY_ASYNC_EVENT_INPUT,
->> +    REPLAY_ASYNC_EVENT_INPUT_SYNC,
->> +    REPLAY_ASYNC_EVENT_CHAR_READ,
->> +    REPLAY_ASYNC_EVENT_BLOCK,
->> +    REPLAY_ASYNC_EVENT_NET,
->> +    REPLAY_ASYNC_COUNT
->> +} ReplayAsyncEventKind;
->> +
->>   /* Any changes to order/number of events will need to bump 
->> REPLAY_VERSION */
->>   enum ReplayEvents {
->>       /* for instruction event */
->> @@ -22,6 +35,7 @@ enum ReplayEvents {
->>       EVENT_EXCEPTION,
->>       /* for async events */
->>       EVENT_ASYNC,
->> +    EVENT_ASYNC_LAST = EVENT_ASYNC + REPLAY_ASYNC_COUNT - 1,
-> 
-> Why not unify the two enums into one?
+On Thu, 26 May 2022 at 09:32, Liviu Ionescu <ilg@livius.net> wrote:
+> > On 26 May 2022, at 11:20, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > ... can you provide us with
+> > a reproduce case (eg the binary you used here)?
+>
+> Sure. I'll try to attach it to this message, it is only 64K.
+>
+> The command I used to run the test is in the previous message.
+>
+> Please confirm that you get the same behaviour on your machine.
 
-ReplayAsyncEventKind is used as a variable type.
-I think narrow type describes the value better than common enum.
+Yes, I can reproduce this. What seems to be happening is that
+QEMU decides to do semihosting via gdb, but then crashes because
+gdbserver_state.c_cpu is NULL (which in turn is probably because
+there is no GDB connected). This is strange given the 'target=native'
+in the command line. I'll investigate further...
 
-> 
-> Paolo
+Did you intend to pass '-s' (allow gdbstub connection) but not
+'-S' (wait on startup for gdb to connect and say "continue"),
+by the way?
 
+-- PMM
 
