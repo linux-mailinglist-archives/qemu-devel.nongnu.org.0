@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E459534D32
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 12:18:31 +0200 (CEST)
-Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E66534D43
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 12:23:57 +0200 (CEST)
+Received: from localhost ([::1]:37272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuAZZ-0004nP-3J
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 06:18:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49650)
+	id 1nuAeq-0007Qi-NW
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 06:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nuAPc-0001X6-Vr
- for qemu-devel@nongnu.org; Thu, 26 May 2022 06:08:13 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39788)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nuAcr-0006dA-Fj
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 06:21:53 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:45832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nuAPY-0001GF-JS
- for qemu-devel@nongnu.org; Thu, 26 May 2022 06:08:12 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- r126-20020a1c4484000000b00397345f2c6fso623886wma.4
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 03:08:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nuAco-00049o-I3
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 06:21:52 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id l32so2094925ybe.12
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 03:21:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Mex3jujLcFnHOX0MHAdq1ojjhSaZFUjaYYrvdwZkXL0=;
- b=IeDnkAFcO+lZOsReTVSfivd8O0/LR/mrtoCdFdrwtRLfYH8rs7NMuph467MMP/cq5E
- UsYNCxrKb6xMBvo3gMS11JMiftpoBfjYXGtRdzaQ3qSIH5vMtt8nWu0V8fzZTgZXdM5t
- xngZ2iFsgRGqJVYNEUI8Mtai0ffwveC3ulkI50V1aWM7XPmehI3MpPNb0EZA8B6gFbTD
- jbHQCpGLVX7mhWivBlRIFohYNTfWc2mODzMjsKHhhh6DtDVWBV4AG7+ext82ZD+XzJDK
- 9ae6YIpRvpf5oVl1HR6u4PMxKpEEoie7SrzGrVpzVGiY5Vn9HbntuInt1W46Aj7rxXs8
- +Wcg==
+ :cc; bh=E70VgOgGMnwXlbQMGZvrpLxj3fECGdC6JZt9q7uQy7k=;
+ b=aIa/rBOE3jRPWO7/gmHChg0f6jBjy+FeOkIX7v0IL2PP9eghujLL/rvqf7k6K+NW7V
+ PXncnOSFeIU3zTxc4FV0R2I+vcdDZtLjQflg9P2GqVjUrdbynVKXI2cXxziy9rJGMs2g
+ 45IpfPG0FhbzjghBWSsEz7v5lcKbtfoYHPbgrK2MCv2qlS5trYmaPtBUUvnJn99Ilyzy
+ nUmttqQozGcJ55kgoMtEG7Un4JuVrp8JDx/idWfnmwAkQNcGhW23rjc+kJ9wHpFnZ0RJ
+ Rz0nHdVBZc+tl5o8iXxg+/0YFN06sLeAv7BLdxMSl0NAIGTPUGxqQcPzDsldDmmWPTIr
+ +NXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Mex3jujLcFnHOX0MHAdq1ojjhSaZFUjaYYrvdwZkXL0=;
- b=w6Ds2gySz/Vq1jIZMZQjrO7Kr46u5O9xNLfGpmMgsdrlfW23/4QY1ExQsuf2rJzSAX
- rCbQhySYiC3iuD1IJBGR8lT38DjOx+jvaWKC7eQ3ZZjN5KjME44E9A8yDf4rz9eB8yxt
- zIbv/OU+tJcvh7FAubpTXvVq6iT3yzJi7Gxu8rgvTWEYOMp5X6tP5/u77Zpp3EFxUQdr
- WXLMPyyel0s6xV7kMmh6o+9TywcHwBb1dBf40M09AiMYVRd0q92lUorb55NV+m5PkEXS
- LSEaY3mCPASL1hNsb/i+JO3oTRF9o61E7Y3Je1cs++AROXQEjtSe6DFYPKhAt3DfQRgo
- 2+BA==
-X-Gm-Message-State: AOAM533GtKgj9KD7mXEpNgwMJfgzYh+5t8+XKOnl6jTzKxC4EtO5eziG
- a5wdSQNDRu0eK8OLHQUSGL87VGWS0zU9ra2BgMN/kA==
-X-Google-Smtp-Source: ABdhPJwV8Oo7ctLu9L2jSzpIUGh8R4Xr/2B0JI1AZhdpA11hLUw7Z4B6tf+aY7fQNI2Sxs06g8xQLkXqrwxkB5Nkt34=
-X-Received: by 2002:a05:600c:5112:b0:397:53f5:e15b with SMTP id
- o18-20020a05600c511200b0039753f5e15bmr1635053wms.93.1653559686754; Thu, 26
- May 2022 03:08:06 -0700 (PDT)
+ bh=E70VgOgGMnwXlbQMGZvrpLxj3fECGdC6JZt9q7uQy7k=;
+ b=Awov5IoIoA+x6Kh9OBgSD4F7yCNT7hqlwrcMxKGVoqESbw3o9IYF76OplDa3HCaJDc
+ Ia4YHCaDeETFn4I9iife3b4d4jKRMMXZDCgOMhpDAUXJa+NzrqigIhlfyb7A9SNpsE4V
+ xi5FsLB0PR0as13AITGQ2Hzx9mQEwOM6UoqpeMNs6XVeTUnk89FRHpxAEDGcOWG6zjHp
+ HcdSYx252Ob3qWQUXqMq5AEwhLn1Sa9oZWDyDOv+OASEMwpqKTfXU5apv+HWDVRcNGO6
+ xj55AKdTAFM3x/BsXkXoc3/yW1uZmuugmtnHdMVXXNDHq131DDRAbzjBlE4JPYIKwr6x
+ lMSA==
+X-Gm-Message-State: AOAM530MBrTkREM9PAw+IjXrGnt4DkeBcgTqyKIaNZQ73adyEH2YLMZS
+ 8m42RYK+L7cr1flqj6aUq1ZvK055t8aHccjhf/yqhg==
+X-Google-Smtp-Source: ABdhPJxzxKlfAZlISpDyygeapuajYuVmTReu+8rd5caCAzju/CYsTabXi6ZwrTbxvkCXi7HjnTOPcLkxy9Zf4H3cvVU=
+X-Received: by 2002:a25:257:0:b0:64e:b1fd:2d54 with SMTP id
+ 84-20020a250257000000b0064eb1fd2d54mr34018923ybc.193.1653560509308; Thu, 26
+ May 2022 03:21:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220526084240.31298-1-nikita.shubin@maquefel.me>
-In-Reply-To: <20220526084240.31298-1-nikita.shubin@maquefel.me>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 26 May 2022 15:37:54 +0530
-Message-ID: <CAAhSdy0YOp8RY+V1hzf9KcdpEnVZpB5PuuSODDgpQ41GChMjxA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix priv enum
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: Atish Patra <atishp@rivosinc.com>, linux <linux@yadro.com>, 
- Nikita Shubin <n.shubin@yadro.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+References: <AADD58D2-C3BE-40DF-8EE5-3A901F4F8F04@livius.net>
+ <CAFEAcA-n4GMq1_SCdTDp6sQmHzyyzTk5hav4QqOY3-j3Sr86Jg@mail.gmail.com>
+ <EA9AEE55-A416-4819-98FF-E51B2317390F@livius.net>
+ <CAFEAcA_beHgi7pg+ByW4ufG5qfz5n7o4ZP22WuayTtdGSQ_EQQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_beHgi7pg+ByW4ufG5qfz5n7o4ZP22WuayTtdGSQ_EQQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 May 2022 11:21:38 +0100
+Message-ID: <CAFEAcA981TZASA4g+Ggi1gmMnXYnu1xoaNdE8NmbC=6kDBBxpA@mail.gmail.com>
+Subject: Re: AArch64 semihosting?
+To: Liviu Ionescu <ilg@livius.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::330;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,47 +85,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 26, 2022 at 2:15 PM Nikita Shubin <nikita.shubin@maquefel.me> wrote:
+On Thu, 26 May 2022 at 11:01, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> From: Nikita Shubin <n.shubin@yadro.com>
+> On Thu, 26 May 2022 at 09:32, Liviu Ionescu <ilg@livius.net> wrote:
+> > > On 26 May 2022, at 11:20, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > ... can you provide us with
+> > > a reproduce case (eg the binary you used here)?
+> >
+> > Sure. I'll try to attach it to this message, it is only 64K.
+> >
+> > The command I used to run the test is in the previous message.
+> >
+> > Please confirm that you get the same behaviour on your machine.
 >
-> Add PRIV_VERSION_UNKNOWN to enum, otherwise PRIV_VERSION_1_10_0 will
-> be overwritten to PRIV_VERSION_1_12_0 in riscv_cpu_realize.
->
-> Fixes: a46d410c5c ("target/riscv: Define simpler privileged spec version numbering")
-> Signed-off-by: Nikita Shubin <n.shubin@yadro.com>
+> Yes, I can reproduce this. What seems to be happening is that
+> QEMU decides to do semihosting via gdb, but then crashes because
+> gdbserver_state.c_cpu is NULL (which in turn is probably because
+> there is no GDB connected). This is strange given the 'target=native'
+> in the command line. I'll investigate further...
 
-This breaks the CSR ops table because with this patch most CSRs
-(not having explicit min_priv_version value) will be associated with
-an unknown priv spec version.
+The failure to honour the 'target=native' option is the result of a
+commandline parsing weirdness/bug. It happens because your command
+line specifies two separate '--semihosting-config x=y,x=y...' option
+groups, and the code was not written to take account of that
+possibility. So in qemu_semihosting_config_options() it looks for
+"did the user specify target=something" with the default being 'auto'.
+This function gets run twice, once per --semihosting-config option
+you have. So the first time around we set semihosting.enabled
+to true and semihosting.target to SEMIHOSTING_TARGET_NATIVE.
+But then the second time around we say "oh, the user didn't
+specify either enabled or target, so default them to true and
+SEMIHOSTING_TARGET_AUTO", overwriting the value that got set up
+by the first call.
 
-Please check "[PATCH v3 1/4] target/riscv: Don't force update priv spec
-version to latest" which I just sent.
+We should fix this (as well as the bug it reveals in the use
+of 'target=auto|gdb' when the gdbstub is initialized but no gdb
+is connected), but in the meantime you can work around it
+by always providing just one --semihosting-config option, like this:
+ --semihosting-config enable=on,target=native,arg=sample-test,arg=one,arg=two
 
-Thanks,
-Anup
+I don't think any of this ought to be target-specific, so perhaps
+the command line you use for 32-bit arm is slightly different
+and avoided the bug by good fortune ?
 
-
-> ---
->  target/riscv/cpu.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index f08c3e8813..1f1d6589a7 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -91,7 +91,8 @@ enum {
->
->  /* Privileged specification version */
->  enum {
-> -    PRIV_VERSION_1_10_0 = 0,
-> +    PRIV_VERSION_UNKNOWN = 0,
-> +    PRIV_VERSION_1_10_0,
->      PRIV_VERSION_1_11_0,
->      PRIV_VERSION_1_12_0,
->  };
-> --
-> 2.35.1
->
->
+thanks
+-- PMM
 
