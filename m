@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40574534E9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 13:52:07 +0200 (CEST)
-Received: from localhost ([::1]:50780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D99A534E69
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 13:45:25 +0200 (CEST)
+Received: from localhost ([::1]:44674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuC2A-0004Gv-2e
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 07:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43100)
+	id 1nuBvf-0007m9-Iq
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 07:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nuBWh-0001iO-VX
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:19:36 -0400
-Received: from mout.gmx.net ([212.227.15.15]:51177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nuBWe-0006Ap-Ts
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:19:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1653563968;
- bh=Xt2yHy9ul/2ceiOLYn7Cudp4EdYsss0CVOqNY9KiYyI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=OXR0bKbv/rWngDSsjMl91teoscPqyGoxOjOKXDDdN9/l7qCJwP/Ba20eRYAx72bGA
- z2Q9hJxGwuPRsoyIEABzqQG+6yw7oLCuUyUJMgfsodYe4lQPyhgo0QLFmTozCpktyM
- shtF4c/UjNOL/AtL7p6YH8Zb6x2Rob3wI/1YJ7ow=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.164.234]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MaJ3n-1oNWlB2eG5-00WDaI; Thu, 26
- May 2022 13:19:28 +0200
-From: Helge Deller <deller@gmx.de>
-To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Helge Deller <deller@gmx.de>
-Subject: [PATCH 2/2] hppa: Fix serial port pass-through
-Date: Thu, 26 May 2022 13:19:26 +0200
-Message-Id: <20220526111926.19603-3-deller@gmx.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220526111926.19603-1-deller@gmx.de>
-References: <20220526111926.19603-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nuBmX-0004mU-1H
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 07:35:59 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42659)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nuBmR-0000tF-Gh
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 07:35:53 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id i27so2388607ejd.9
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 04:35:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5lypPLbvLzzbun8JXdhu4HZa/AJ0MT2zAguXt9h2zAA=;
+ b=hVTP493/EVpFtHKkdy3o5n9kBUh0759iP/QoBo/sbhavwfewwsf00cmBaLrUR3k/4k
+ Vbc29DZmbWpqu/5sTyIv0cbRAU7onge5f9OdKfoVWD6c/Z/CC9tAZmPXJL3YhW2bah7+
+ XrdSrJzRy2fIsGo22fE2IaitNzaCA0qw/j/f/lh3THqd86QEL6F1i1SMCZm/AkyFBLuq
+ MGfbQXMnOWatzuFX47LG1ogOmm/ewMAc1V2MoziWGEvl6DJ15NICgZKV+AAE4nmjmpWm
+ MjvihvzGnCdqJ66YGzrbKmn4joCbAuvEyr1Y6basXRjl8rntZjArrv/paWc0FYReUsH0
+ CvmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5lypPLbvLzzbun8JXdhu4HZa/AJ0MT2zAguXt9h2zAA=;
+ b=lwcet2RvOy2+3SvJo+6FCfO8530Acy4g/6b/QI3YTNC+gnllOFmhSb7LbYj5RV6sqO
+ hrgpaiURc51rZFnSZchzaIzD9dzHQz+h3FXn98Vnsk5yKU/9JmuZrZvHfbwbV+EPzt/Z
+ DNpymh72zD9c0zqfL9tgjGynr8TokyMsFyCdOhWnjnwSt2c2FbXqG0nofL+ktKDh4aT/
+ WnSF7mNMyl8jMBDdy4LVgU9ZCB/rjWRRLWpA9LKgiizy2CP43v2Zx+EgVl2c6nVXzXqS
+ agC8jmoT/RdGvrc/i3am4gBBZ7+XerHSo59XcBTrzl54oY3jjbM7E2yTE/3ylLLtj6uN
+ I3ew==
+X-Gm-Message-State: AOAM532jOnoNVcv91BO02w+uxTxt9Rg3NdEMXEnk1ddGYagUuRTuZUnr
+ WgBgAdHa+xWKJksoffWRoKmBiDeU21n2VLDJmJV6
+X-Google-Smtp-Source: ABdhPJwKnd3+w/YpddzLbUUF5DFGCU4cdIC8yL1t22HUyqJGGhRX4NTIF1HoN+XDSeXEUwoVI2NvO2WUNjVi29eodI8=
+X-Received: by 2002:a17:907:2d23:b0:6fe:8aef:b533 with SMTP id
+ gs35-20020a1709072d2300b006fe8aefb533mr1995586ejc.650.1653564948904; Thu, 26
+ May 2022 04:35:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ByvHp1mVCCf89wrkTBYrq5+IbkX2lWvu3g9r/+OYr1AEwy+IqD2
- syvnNPA48GvR0nUc2M4tszOdEuHaoPEvau5iyUFFgCw1KIqNYw+XVPQxjjQhT4d2x9ky5Pp
- Gs5NcWj6tY3HgqMEM143P0v3YLIxl9v9k+SFda8tNBStItrb2t3FhkpOJrLf+nk+EX4KC0H
- SH4zdEqsUKBD5C2DguUMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Sgdo1zxtHJs=:dxqKUzcLuzqaZB5qxAr8lV
- TSMwJAzbX2CDabLLIH3BPBFZlF/abbvZDxa+QcnUnC4MRYI4yuEw/nq2JZUIMwlk3sr6HytSh
- 7LPU9WLtvCmTmoNPs5Og/L++kC88Q0LjjVP+LdbSUVmsLu9/98r+7adXR9vcyu6I7uLgQmv0K
- 02n7cSX4w8nItZcnznUbS4EHhebk4Yb4Qms2bPkk+QN08Rf3Fz8nN0uV8QFEkdt0u6thtcmO2
- X+00SyZ9K3q/mhsSBadQ4pooMh11m2Vl6rUbNCAyt25Fxu8F7OlJaCECBqeV1VemXCcMSPO9Z
- HN5ablvQ4tZH5Ett6FwQp6hvmIXgWutTFp75fP9OUsvU8uv0XAs1RMajRoz/BbN109+Yr90Ui
- Q/qxz7fkm05FPSQB/i+hL+UtcXV7ilF/JRc5cm4B89+Dw0miR85OlFyP2/ao4T2BC+T2lLVZl
- Vq67WVsNcZWtryCvYL4XGda3V+tzxRSWhBdkgkwr/lmdOEkua4eZHMuQmPMp6DiscqR5NsONJ
- xrAw0aX5YZVP0CWYPtDADN36MkguNULW2uVZ13J2jbnjC6av+7FQ6sAqz86KEpe2gxAmByF28
- Fm8VH1A0kukHJ0IHeE2S4CYEEWJhmXfdvqJWaklUFYmmF/1AQJ21v7lroBCtGPH2+Y2K6/DsX
- 6ZID88ELcCrZ6vxD43o4NwuRr+PwToIBLu0ZHHRX4acFZB7mTTIUx2jo++thfTQ13gMeM+Yom
- 7xR4ZYaSPZ2/sCA5UFBaad+qWETW9jlnedECLwjT5fVOZYlqLph4RVclXeVU84HPaHgEGhOh6
- 4l5A8dMngFq0GabIfEuuNN1AL5DfCMK6z6xY7ZL14ncVQHcWSeATFjjQmrVeQspVWps4mjC5v
- fNkBv5CuyUwjob0zOrtGNogdeQHbcCs3wrIDd+I2W3zJRcCbKoQLytdvMp19eG3lIoxUq8CBV
- yMpJzBmzeUcGOkZiqXG0ucDDJkLiXDFxerMG/gts9GQyCpFW7KaBLUVI2MrL8yWil8SBp7Sqe
- mVcm1beksofPjUEQB+W4X0WSZy8vqDtAmFeUNhydsNsXfW9XQg8gsHjXfPP/oOOcPppzSUfym
- fPxZgFKkX4AU2AI7BdoW/RF2QOHgBhEWYRcZlo+K9dSTWrTwYd4jfHegQ==
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220525121947.859820-1-stefanha@redhat.com>
+In-Reply-To: <20220525121947.859820-1-stefanha@redhat.com>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Thu, 26 May 2022 19:36:35 +0800
+Message-ID: <CACycT3tEDW0ePvRRDuiUNA=5-OshL97WdJGpXsp5xBSkg6FROg@mail.gmail.com>
+Subject: Re: [PATCH] qsd: document vduse-blk exports
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,105 +81,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes the serial ports in the emulation to behave as on original
-hardware.
+On Wed, May 25, 2022 at 8:19 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> Document vduse-blk exports in qemu-storage-daemon --help and the
+> qemu-storage-daemon(1) man page.
+>
+> Based-on: <20220523084611.91-1-xieyongji@bytedance.com>
+> Cc: Xie Yongji <xieyongji@bytedance.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  docs/tools/qemu-storage-daemon.rst   | 21 +++++++++++++++++++++
+>  storage-daemon/qemu-storage-daemon.c |  8 ++++++++
+>  2 files changed, 29 insertions(+)
+>
+> diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
+> index 8b97592663..1b461193e7 100644
+> --- a/docs/tools/qemu-storage-daemon.rst
+> +++ b/docs/tools/qemu-storage-daemon.rst
+> @@ -77,6 +77,7 @@ Standard options:
+>    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
+>    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
+>    --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off][,allow-other=on|off|auto]
+> +  --export [type=]vduse-blk,id=<id>,node-name=<node-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>]
+>
+>    is a block export definition. ``node-name`` is the block node that should be
+>    exported. ``writable`` determines whether or not the export allows write
+> @@ -110,6 +111,26 @@ Standard options:
+>    ``allow-other`` to auto (the default) will try enabling this option, and on
+>    error fall back to disabling it.
+>
+> +  The ``vduse-blk`` export type uses the ``id`` as the VDUSE device name.
+> +  ``num-queues`` sets the number of virtqueues (the default is 1).
+> +  ``queue-size`` sets the virtqueue descriptor table size (the default is 256).
+> +
+> +  The instantiated VDUSE device must then be added to the vDPA bus using the
+> +  vdpa(8) command from the iproute2 project::
+> +
+> +  # vdpa dev add <id> mgmtdev vduse
 
-On the real hardware, the LASI UART is serial port #0 and the DINO UART
-is serial port #1. This is fixed in SEABIOS_HPPA_VERSION >=3D 6, which is
-why the latest firmware is required.
+Should it be:
 
-The serial port addresses in hppa/hppa_hardware.h are swapped and the
-file is synced with the version in SeaBIOS-hppa. Please note that this
-file is shared between qemu and SeaBIOS-hppa, which is why a comment was
-added at the top of the file.
+# vdpa dev add name <id> mgmtdev vduse
 
-When creating the virtual serial ports the correct port addresses are
-now used.
-
-Finally, this patch now allows the user to give:
-    -serial mon:stdio -serial /dev/ttyS4
-to use emulated ttyS0 in the guest for console output, and pass ttyS4
-from the host to ttyS1 in the guest.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/hppa/hppa_hardware.h | 10 ++++++++--
- hw/hppa/machine.c       | 17 +++++++----------
- 2 files changed, 15 insertions(+), 12 deletions(-)
-
-diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
-index 8b6b9222cb..c036d467f3 100644
-=2D-- a/hw/hppa/hppa_hardware.h
-+++ b/hw/hppa/hppa_hardware.h
-@@ -1,4 +1,5 @@
- /* HPPA cores and system support chips.  */
-+/* Be aware: This file is shared as-is with seabios-hppa. */
-
- #ifndef HW_HPPA_HPPA_HARDWARE_H
- #define HW_HPPA_HPPA_HARDWARE_H
-@@ -30,13 +31,18 @@
- #define PCI_HPA         DINO_HPA        /* PCI bus */
- #define IDE_HPA         0xf9000000      /* Boot disc controller */
-
-+/* offsets to DINO HPA: */
-+#define DINO_PCI_ADDR           0x064
-+#define DINO_CONFIG_DATA        0x068
-+#define DINO_IO_DATA            0x06c
-+
- #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
- #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
-
- #define FW_CFG_IO_BASE  0xfffa0000
-
--#define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
--#define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
-+#define PORT_SERIAL1    (LASI_UART_HPA + 0x800)
-+#define PORT_SERIAL2    (DINO_UART_HPA + 0x800)
-
- #define HPPA_MAX_CPUS   16      /* max. number of SMP CPUs */
- #define CPU_CLOCK_MHZ   250     /* emulate a 250 MHz CPU */
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index d1e174b1f4..5d23b9e528 100644
-=2D-- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -32,7 +32,7 @@
-
- #define MAX_IDE_BUS 2
-
--#define MIN_SEABIOS_HPPA_VERSION 1 /* require at least this fw version */
-+#define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
-
- #define HPA_POWER_BUTTON (FIRMWARE_END - 0x10)
-
-@@ -236,18 +236,15 @@ static void machine_hppa_init(MachineState *machine)
-     /* Realtime clock, used by firmware for PDC_TOD call. */
-     mc146818_rtc_init(isa_bus, 2000, NULL);
-
--    /* Serial code setup.  */
-+    /* Serial ports - Lasi and Dino use a 7.272727 MHz clock. */
-     if (serial_hd(0)) {
--        uint32_t addr =3D DINO_UART_HPA + 0x800;
--        serial_mm_init(addr_space, addr, 0,
--                       qdev_get_gpio_in(dino_dev, DINO_IRQ_RS232INT),
--                       115200, serial_hd(0), DEVICE_BIG_ENDIAN);
-+        serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
-+                qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 7272727 / =
-16,
-+                serial_hd(0), DEVICE_BIG_ENDIAN);
-     }
--
-     if (serial_hd(1)) {
--        /* Serial port */
--        serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
--                qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 8000000 / =
-16,
-+        serial_mm_init(addr_space, DINO_UART_HPA + 0x800, 0,
-+                qdev_get_gpio_in(dino_dev, DINO_IRQ_RS232INT), 7272727 / =
-16,
-                 serial_hd(1), DEVICE_BIG_ENDIAN);
-     }
-
-=2D-
-2.35.3
-
+Thanks,
+Yongji
 
