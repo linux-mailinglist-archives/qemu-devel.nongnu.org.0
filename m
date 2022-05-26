@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509135348E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 04:28:13 +0200 (CEST)
-Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D347D534919
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 04:57:23 +0200 (CEST)
+Received: from localhost ([::1]:44768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu3ES-0001zr-1M
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 22:28:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47690)
+	id 1nu3gg-0005NQ-Mz
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 22:57:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu3C4-0001E3-Q2
- for qemu-devel@nongnu.org; Wed, 25 May 2022 22:25:45 -0400
-Received: from mga11.intel.com ([192.55.52.93]:13287)
+ id 1nu3e9-0003l4-56
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 22:54:45 -0400
+Received: from mga11.intel.com ([192.55.52.93]:15224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu3C2-00082r-2z
- for qemu-devel@nongnu.org; Wed, 25 May 2022 22:25:44 -0400
+ id 1nu3e6-0003Gg-Gv
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 22:54:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653531942; x=1685067942;
+ t=1653533682; x=1685069682;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=sv7dvPzxgZU2loEhA73w1Vns5XlLncRcMXnvraJptVQ=;
- b=BjyyfrEqt5Sr3PxN5xmjfSR9cz7IR5cNLzfE/KUVp4Ptj9shaB532Z2O
- 5DUUEgdUPnmzcUzWI93HsYCVJzOqjNoVDinKtapbeKsRNiJQZZwRLI9mj
- 0l64lvZ8jHJJwj0Vxn8uov8aEhFtaN8jlKJU9Z50acOEoqw4UD6V5BNZN
- N2eAMiPYYqgjnsokXXQyd6OlhDwvTb1KgLDrbMieC6MphXHaflpjEphZ1
- 6zF+YqgJOBvfiJCo78p2hMr2hXOhzEzcdUsBpPFkbcDWCjfNoZRz+gjVT
- hY0tQ7ELUF0NCsKou8zlgxBVdnHpMkXM3QmGe7aN7DOADLvFw/t09gicz g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="271572797"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="271572797"
+ bh=ACUvpAw4fP8n3H8/+ddBfvDqIhHF+X4k+5/2EXHVwn8=;
+ b=Ka+pj1LMep533grvMLrIMzCDQuw2gkIkFe9VDrlwEaROx+28xkMZcelm
+ m49o3Ii49THkSITEJj6DF/iHcqb2P/ja7EVp3I+3Xoqa1WfMz6hm6WTNd
+ 0PJGeGHHvsirQOC3PPwepdnR3isqx7SZSY6cy1zoCoG6HhqdiKX0/gKhg
+ gyzc6bMPuMZ1ZUkgI6iDQOQmAC9HLO+A29HhcL1emLiDOUkArjIHOtuoX
+ vlEqVqzy8fV7ND55YWtlCXH5mcZnEZLOXhDNAL/XKOTvo65Tlz9WUugg3
+ vsFbmADALn4dxODoFEAGG0hPQCLq1TEQfSTIh6riyiqQFyyhPy9evr/y1 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="271580061"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="271580061"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 19:25:36 -0700
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="573630666"
+ 25 May 2022 19:49:04 -0700
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="573640580"
 Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.212])
  ([10.255.28.212])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 19:25:31 -0700
-Message-ID: <5f363432-9fcd-c05a-f253-237216716689@intel.com>
-Date: Thu, 26 May 2022 10:25:29 +0800
+ 25 May 2022 19:48:58 -0700
+Message-ID: <b294af31-fe92-f251-5d3e-0e439a59ee1e@intel.com>
+Date: Thu, 26 May 2022 10:48:56 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 16/36] i386/tdvf: Introduce function to parse TDVF
- metadata
+Subject: Re: [RFC PATCH v4 18/36] i386/tdx: Skip BIOS shadowing setup
 Content-Language: en-US
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -62,10 +61,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
 References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-17-xiaoyao.li@intel.com>
- <20220524070258.evtfwwujone36yjx@sirius.home.kraxel.org>
+ <20220512031803.3315890-19-xiaoyao.li@intel.com>
+ <20220524070804.tcrsg7cwlnbkzhjz@sirius.home.kraxel.org>
 From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220524070258.evtfwwujone36yjx@sirius.home.kraxel.org>
+In-Reply-To: <20220524070804.tcrsg7cwlnbkzhjz@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
@@ -93,21 +92,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/2022 3:02 PM, Gerd Hoffmann wrote:
->    Hi,
+On 5/24/2022 3:08 PM, Gerd Hoffmann wrote:
+> On Thu, May 12, 2022 at 11:17:45AM +0800, Xiaoyao Li wrote:
+>> TDX guest cannot go to real mode, so just skip the setup of isa-bios.
 > 
->> +static int tdvf_parse_section_entry(const TdvfSectionEntry *src,
->> +                                     TdxFirmwareEntry *entry)
-> 
->> +    /* sanity check */
-> 
-> That is what the whole function is doing.  So rename it to
-> tdvf_check_section_entry to clarify that?
+> Does isa-bios setup cause any actual problems?
+> (same question for patch #19).
 
-I will rename it to tdvf_parse_and_check_section_entry() since it first 
-parses the section entries from TDVF to software defined data structure 
-TdxFirmwareEntry
+It causes mem_region split and mem_slot deletion on KVM.
 
+TDVF marks pages starting from 0x800000 as TEMP_MEM and TD_HOB, which 
+are TD's private memory and are TDH_MEM_PAGE_ADD'ed to TD via 
+KVM_TDX_INIT_MEM_REGION
+
+However, if isa-bios and pc.rom are not skipped, the memory_region 
+initialization of them is after KVM_TDX_INIT_MEM_REGION in 
+tdx_machine_done_notify(). (I didn't figure out why this order though)
+
+And the it causes memory region split that splits
+	[0, ram_below_4g)
+to
+	[0, 0xc0 000),
+	[0xc0 000, 0xe0 000),
+	[0xe0 000, 0x100 000),
+	[0x100 000, ram_below_4g)
+
+which causes mem_slot deletion on KVM. On KVM side, we lose the page 
+content when mem_slot deletion. Thus, the we lose the content of TD HOB.
+
+Yes, the better solution seems to be ensure KVM_TDX_INIT_MEM_REGION is 
+called after all the mem region is settled down. But I haven't figured 
+out the reason why the isa-bios and pc.rom initialization happens after
+machine_init_done_notifier
+
+on the other hand, to keep isa-bios and pc.rom, we need additional work 
+to copy the content from the end_of_4G to end_of_1M.
+
+I'm not sure if isa-bios and pc.rom are needed from people on TD guest, 
+so I just skip them for simplicity,
+
+> "is not needed" IMHO isn't a good enough reason to special-case tdx
+> here.
+> 
 > take care,
 >    Gerd
 > 
