@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A497C53551C
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 22:53:43 +0200 (CEST)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA0253558F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:36:03 +0200 (CEST)
+Received: from localhost ([::1]:33544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuKUI-0006Tn-4A
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 16:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45778)
+	id 1nuL9F-0007BG-Pz
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:36:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nuKSX-0005Cf-AR; Thu, 26 May 2022 16:51:53 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:30055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nuKST-0001WB-KE; Thu, 26 May 2022 16:51:51 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C2443746324;
- Thu, 26 May 2022 22:51:45 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6D34174581A; Thu, 26 May 2022 22:51:45 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6B13074579D;
- Thu, 26 May 2022 22:51:45 +0200 (CEST)
-Date: Thu, 26 May 2022 22:51:45 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Francisco Iglesias <frasse.iglesias@gmail.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, 
- Cedric Le Goater <clg@kaod.org>
-Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
- PCIE_MMCFG_SIZE_MAX
-In-Reply-To: <20220526153640-mutt-send-email-mst@kernel.org>
-Message-ID: <29d5144-82e8-e715-e461-c21f7229f30@eik.bme.hu>
-References: <20220516204913.542894-1-mst@redhat.com>
- <20220516204913.542894-76-mst@redhat.com>
- <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
- <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
- <28f2b859-7ca4-d779-d94b-c9dc3e21ed39@eik.bme.hu>
- <20220526150859-mutt-send-email-mst@kernel.org>
- <693fe9cc-ee68-a3dd-3639-81521dd954b@eik.bme.hu>
- <20220526153640-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nuL7F-0005Ae-F6; Thu, 26 May 2022 17:33:57 -0400
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f]:36748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nuL7D-0007O3-Q8; Thu, 26 May 2022 17:33:57 -0400
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-edeb6c3642so3757534fac.3; 
+ Thu, 26 May 2022 14:33:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=5DVjK/wX3sR5WZY/hkuBjB8jVLAjNqWF7IL/p8fam14=;
+ b=aJFPGYbZScj7RRfvA9XzvxkJIDuPMCwp9hZSFbnxYJENrOBznIIm/gwLzQaHZMrPmf
+ yThrM/RRUBygLNpHFuciAmXjJfJUnxB6qhkVw2+47Xb6CpdPpAgMJN5wmjDvSisngsgx
+ 6ZL2Bd5H5WuuCdAQoGxHXjPNCHqqr2PYkPvT+t8xdfUlBDaLzhVJIxew8IlVwX51W0bg
+ fUPzsxF0V70fzH1tMm7o4cXNqOKp55El63mUeYolkgFa78AM7HLsjB04BTZkHdiKY+Ei
+ HOb71edo8SQCFWWHCFyufagsskv4PQxSb6q7UXvijPkQP5YlLAj8am4ID5ThYJ35ekO6
+ 7KZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5DVjK/wX3sR5WZY/hkuBjB8jVLAjNqWF7IL/p8fam14=;
+ b=Z/CRkZcSIzkMF8cBfY/mwYRMmI3QGtjSdTWC4vfm1Er7vOblo4AahSL9f2qQEkRb/N
+ wQ9DU5zJKxRho4t5u3nSX0WLqoc/UITnohKNnJs8JQ67ET1MXsDPn/slRbUpKqQhTnac
+ YGH5gnYdyclCBH68ULIxHOL267UZ5+aVqiY4I6Oybae8XRzTMQe8LLaA/9erhTf7r9T3
+ 88VHvAoQqfuJ1xTjpRE/nFs2h8wSwz/OzKGjvcm0ZqHTN4DX++4SEZ5j+Z6Q6TPvj302
+ 2iaihILGanVwlvh75+Y2lgdriQ27Qfy/XZoEjfsBSexf0A6n3iRF8+Ftd5l9uXLkMF3j
+ F5Zg==
+X-Gm-Message-State: AOAM532cz/DcyqaPe/pr2NUyywmxpbcWVZdcQ4hZ6sjja8oXsMDgkYt5
+ qSQgUuCwzlCF4rSbJpkLDd0=
+X-Google-Smtp-Source: ABdhPJwfR2cKGkB8ipeoHyvEJePDTIyEWl1uAp3hSDhb7XP91JOggzEJ9PMv26APMjfGYuoHKbM4FQ==
+X-Received: by 2002:a05:6870:17a6:b0:f1:ccf4:ad53 with SMTP id
+ r38-20020a05687017a600b000f1ccf4ad53mr2374013oae.48.1653600833691; 
+ Thu, 26 May 2022 14:33:53 -0700 (PDT)
+Received: from [192.168.10.102] (189-46-169-45.dsl.telesp.net.br.
+ [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
+ b3-20020a056820134300b0035eb4e5a6ccsm1065063oow.34.2022.05.26.14.33.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 May 2022 14:33:53 -0700 (PDT)
+Message-ID: <dc3ebcca-78e9-ded1-519f-416a3aaf2a11@gmail.com>
+Date: Thu, 26 May 2022 18:33:49 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 06/10] hw/ppc/e500: Remove unused
+ BINARY_DEVICE_TREE_FILE
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, "open list:e500" <qemu-ppc@nongnu.org>
+References: <20220520180109.8224-1-shentey@gmail.com>
+ <20220520180109.8224-7-shentey@gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220520180109.8224-7-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,144 +94,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 May 2022, Michael S. Tsirkin wrote:
-> On Thu, May 26, 2022 at 09:34:08PM +0200, BALATON Zoltan wrote:
->> On Thu, 26 May 2022, Michael S. Tsirkin wrote:
->>> On Thu, May 26, 2022 at 06:43:25PM +0200, BALATON Zoltan wrote:
->>>> On Thu, 26 May 2022, BALATON Zoltan wrote:
->>>>> Hello,
->>>>>
->>>>> On Thu, 26 May 2022, Daniel Henrique Barboza wrote:
->>>>>> Hi,
->>>>>>
->>>>>> This patch broke the boot of the sam460ex ppc machine:
->>>>>>
->>>>>> qemu-system-ppc -M sam460ex -kernel
->>>>>> ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
->>>>>> -device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
->>>>>> -nographic -snapshot
->>>>>> qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init:
->>>>>> Assertion `size <= PCIE_MMCFG_SIZE_MAX' failed.
->>>>
->>>> With just qemu-system-ppc -M sam460ex the assert seems to happen when the
->>>> guest (board firmware?) writes a value to CFGMSK reg:
->>>>
->>>> (gdb) bt
->>>> #0  0x00007ffff68ff4a0 in raise () at /lib64/libc.so.6
->>>> #1  0x00007ffff68ea536 in abort () at /lib64/libc.so.6
->>>> #2  0x00007ffff68ea42f in _nl_load_domain.cold () at /lib64/libc.so.6
->>>> #3  0x00007ffff68f7ed2 in  () at /lib64/libc.so.6
->>>> #4  0x000055555596646f in pcie_host_mmcfg_init (e=e@entry=0x5555567942f0, size=size@entry=0x20000000) at ../hw/pci/pcie_host.c:97
->>>> #5  0x000055555596653b in pcie_host_mmcfg_map (size=0x20000000, addr=0xd20000000, e=0x5555567942f0) at ../hw/pci/pcie_host.c:105
->>>> #6  pcie_host_mmcfg_update (e=0x5555567942f0, enable=0x1, addr=0xd20000000, size=0x20000000) at ../hw/pci/pcie_host.c:118
->>>> #7  0x0000555555a70d7c in ppc_dcr_write (dcr_env=0x555556669c10, dcrn=0x122, val=0xe0000001) at ../hw/ppc/ppc.c:1418
->>>> #8  0x0000555555abdabb in helper_store_dcr (env=0x555556633360, dcrn=0x122, val=0xe0000001) at ../target/ppc/timebase_helper.c:188
->>>>
->>>> This is done in the board firmware here:
->>>>
->>>> https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD#l963
->>>>
->>>> when trying to map config space. Here the size is calculated as 0x20000000
->>>> which does not fit the assert. I'm not sure what this means though and where
->>>> is the problem. Any ideas?
->>>>
->>>> Regards,
->>>> BALATON Zoltan
->>>
->>>
->>> It says so, does it not?
->>>
->>> 1051         switch (port) {
->>> 1052         case 0:
->>> 1053                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE0), high);
->>> 1054                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE0), low);
->>> 1055                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE0), 0xe0000001); /* 512MB region, valid */
->>> 1056                 break;
->>> 1057         case 1:
->>> 1058                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE1), high);
->>> 1059                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE1), low);
->>> 1060                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE1), 0xe0000001); /* 512MB region, valid */
->>> 1061                 break;
->>> 1062 #if CONFIG_SYS_PCIE_NR_PORTS > 2
->>> 1063         case 2:
->>> 1064                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE2), high);
->>> 1065                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE2), low);
->>> 1066                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE2), 0xe0000001); /* 512MB region, valid */
->>> 1067                 break;
->>> 1068 #endif
->>
->> Yes, the size matches what the firmware programs it.
->>
->>> and basically according to spec max size is 256MB.
->>
->> Maybe this SoC does not follow the spec you're referring to? Complies to
->> some other spec like a newer version or has its own idea? I don't have docs
->> to tell.
->>
->>> we can fix the firmware of course, or we can just drop the assert,
->>> or force it within range in the ppc code.
->>
->> According to this random Cisco IOS dump I've found:
->>
->> https://www.hardware.com.br/comunidade/switch-cisco/1128380/
->>
->> looks like this value is valid on that hardware so that likely means we
->> should not "fix" the firmware. (Also not because it's what the real board
->> uses or at least very close to it so it should work with the emulated board
->> too and keeping it close to the real hardware ensures the emulation is
->> accurate.) That means we should either revert this back (why was this
->> changed back in the first place, did it cause any problems?) or maybe try
->> restricting the value in the PPC model.
->
-> It didn't it was just weird behaviour. High bit in the address was
-> ignored, so the config space was mapped many times at offsets
-> 0,256M, etc up to whatever size was.
->>> Fixing firmware seems cleaner ... want to try?
->>> Any preference?
->>
->> I'd leave making a patch to someone else but can help testing it. As per the
->> above if we can't revert it maybe we can try restricting size in ppc440_uc.c
->> where pcie_host_mmcfg_update() is called. Since the PCIe bus on this board
->> probably does not work now anyway probably nothing will notice this for now.
->>
->> Regards,
->> BALATON Zoltan
->
->
-> I am guessing the unused space is just ignored.
-> so I am inclined to restrict in PPC model,
-> where we also have a chance to document what is going on.
->
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
-Works for me. Verified that AmigaOS and MorphOS boot with this.
 
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Daniel
 
-Thanks.
-
->
->
-> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-> index 993e3ba955..a1ecf6dd1c 100644
-> --- a/hw/ppc/ppc440_uc.c
-> +++ b/hw/ppc/ppc440_uc.c
-> @@ -1180,6 +1180,14 @@ static void dcr_write_pcie(void *opaque, int dcrn, uint32_t val)
->     case PEGPL_CFGMSK:
->         s->cfg_mask = val;
->         size = ~(val & 0xfffffffe) + 1;
-> +        /*
-> +         * Firmware sets this register to E0000001. Why we are not sure,
-> +         * but the current guess is anything above PCIE_MMCFG_SIZE_MAX is
-> +         * ignored.
-> +         */
-> +        if (size > PCIE_MMCFG_SIZE_MAX) {
-> +            size = PCIE_MMCFG_SIZE_MAX;
-> +        }
->         pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base, size);
->         break;
->     case PEGPL_MSGBAH:
->
->
->
+On 5/20/22 15:01, Bernhard Beschow wrote:
+> Commit 28290f37e20cda27574f15be9e9499493e3d0fe8 'PPC: E500: Generate
+> device tree on reset' improved device tree generation and made
+> BINARY_DEVICE_TREE_FILE obsolete.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/ppc/e500.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index 2bc3dce1fb..7f7f5b3452 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -47,7 +47,6 @@
+>   #include "hw/irq.h"
+>   
+>   #define EPAPR_MAGIC                (0x45504150)
+> -#define BINARY_DEVICE_TREE_FILE    "mpc8544ds.dtb"
+>   #define DTC_LOAD_PAD               0x1800000
+>   #define DTC_PAD_MASK               0xFFFFF
+>   #define DTB_MAX_SIZE               (8 * MiB)
 
