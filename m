@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691F9534B2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 10:10:04 +0200 (CEST)
-Received: from localhost ([::1]:52602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC4D534B6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 10:17:17 +0200 (CEST)
+Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu8Z4-0005Cf-Et
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 04:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38498)
+	id 1nu8gG-0007Rx-KY
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 04:17:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu8Vb-00047F-Nq
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:06:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu8VZ-00062K-1Z
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:06:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653552371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=t0kOGyweQUN7QB9d3yjE8fMSlC8Eais52VTeMuR12dU=;
- b=ainE/rBFUT2zr14a0x35RyNx53l/oos+X9hBBYiykGVi2nVFZDjW+yFb16QGZvPZT6QcTF
- 62zauTIxbYQbu7KoElTFZwK+PbQFALFjcmqwdumAUNiaCZhNdznU4mot6pKfKwvUjKu6bV
- lhi5A/VDSweaL2mDausQNGqAosN0Va4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-kviUXDUsNrShG82-6cCbmA-1; Thu, 26 May 2022 04:06:08 -0400
-X-MC-Unique: kviUXDUsNrShG82-6cCbmA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BC4A811E75;
- Thu, 26 May 2022 08:06:07 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6551404E4AD;
- Thu, 26 May 2022 08:06:06 +0000 (UTC)
-Date: Thu, 26 May 2022 09:06:05 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, mathieu.poirier@linaro.org,
- viresh.kumar@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH  v2 15/15] tests/qtest: enable tests for virtio-gpio
-Message-ID: <Yo807aga6xuWfy4B@stefanha-x1.localdomain>
-References: <Yo5WsY4Kcr8x8LQj@stefanha-x1.localdomain>
- <878rqp1boj.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="e8dW0wOLB8hI5BcN"
-Content-Disposition: inline
-In-Reply-To: <878rqp1boj.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nu8dg-0006jl-TO
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:14:37 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:37460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nu8de-0007CB-Vo
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:14:36 -0400
+Received: by mail-ed1-x532.google.com with SMTP id d22so899533edj.4
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 01:14:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=from:content-transfer-encoding:mime-version:subject:message-id:date
+ :cc:to; bh=qqdQ8ZfNPx+cNMXFaKI9+yb4ZcSpr6VG4a0KnJNkxME=;
+ b=E1bMAcHAARchXQs0qQozI+Rx7NI/6BhNrZZwJq1bJ93KdeQZk8azLkHH3E84GQ86HK
+ qB3Vku8OfodobxqkfL1THYA1+svkWzL9X5++w3ffKcZ5LpNHPURAtMmrTLbrEglnyZhJ
+ yW4KCxrI0r7ueWPm4nPYaa4QHSbtf0V85746pxLmsJnGoswyj14GHWIXQ6X5TQvar4Zm
+ LweJR86ikLSOSIc/vTnd43dfLgviEHULljWZ2wz5gvb3CiPolendSmBva6EzDnHs60rx
+ GPvzJ2BxTSiu31RilifyFhhanVACtW3CGhpjchqCNLIJGwjjo7Qks+XkEzADcw2T5lSQ
+ bz2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:content-transfer-encoding:mime-version
+ :subject:message-id:date:cc:to;
+ bh=qqdQ8ZfNPx+cNMXFaKI9+yb4ZcSpr6VG4a0KnJNkxME=;
+ b=1lRe1rPyzVQfPZCr7g4iPPUcNMTtPIhfy/unPBtnAXLzNKLT09yz/yq8gbUI7b21BU
+ 4U8dO7FasCVHeIxhbycQXR6jurHDazERs9PZ1hjLK08Hslv0Uf6hq1DEfVkX8/+kNxcr
+ Zne1b77+KM8MJFJUj4MI+dXI6DZevGd7u3Yg0qGCEmNqqkfP9oYEapPIML/Snjue5kl3
+ KLyV9cBi053tod8AbL5bjP8LMZaPigV/kxfWVqIEFd7lP7mgT2iRE7e5mg+mw0zPkB8R
+ mPaDw/Y1hMbE5NSpiISMaPvQwpAddQM4v5xUj2BTCNIX34r056cb3swBo1mDTSexnVBL
+ ivIA==
+X-Gm-Message-State: AOAM533zWBCJAWtC+xp+6KYlQDkpzvatXMTxdGNLJ70Y6pHb8aNGFtY1
+ OtzdYBfcPfHyW3J7zufWA7dpLRKMpn//ZWI2
+X-Google-Smtp-Source: ABdhPJzqHm8cIQhlXPvMt4CSsZo+XA5XEG7VVHQLFfR3XRtkPyWpcm5i61hR6fMy7MB/EhWWbk+JiA==
+X-Received: by 2002:a05:6402:2391:b0:42b:74ef:f164 with SMTP id
+ j17-20020a056402239100b0042b74eff164mr17466310eda.151.1653552872753; 
+ Thu, 26 May 2022 01:14:32 -0700 (PDT)
+Received: from smtpclient.apple ([86.121.23.37])
+ by smtp.gmail.com with ESMTPSA id
+ gj15-20020a170907740f00b006f3ef214da8sm304160ejc.14.2022.05.26.01.14.31
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 26 May 2022 01:14:32 -0700 (PDT)
+From: Liviu Ionescu <ilg@livius.net>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: AArch64 semihosting?
+Message-Id: <AADD58D2-C3BE-40DF-8EE5-3A901F4F8F04@livius.net>
+Date: Thu, 26 May 2022 11:14:31 +0300
+Cc: Peter Maydell <peter.maydell@linaro.org>
+To: QEMU Developers <qemu-devel@nongnu.org>
+X-Mailer: Apple Mail (2.3696.80.82.1.1)
+Received-SPF: none client-ip=2a00:1450:4864:20::532;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,174 +85,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I'm trying to set-up an environment for running unit-tests on AArch64, =
+and I'm constantly getting crashes:
 
---e8dW0wOLB8hI5BcN
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+```
+ilg@wksi ~ % =
+/Users/ilg/Library/xPacks/@xpack-dev-tools/qemu-arm/6.2.0-1.1/.content/bin=
+/qemu-system-aarch64  "--machine" "virt" "--cpu" "cortex-a57" "--kernel" =
+"/Users/ilg/My Files/WKS =
+Projects/micro-os-plus.github/work/aarch64-boot-libgloss/Debug/aarch64-boo=
+t-libgloss.elf" "--nographic" "-d" "unimp,guest_errors" =
+"--semihosting-config" "enable=3Don,target=3Dnative" =
+"--semihosting-config" "arg=3Dsample-test,arg=3Done,arg=3Dtwo" -s
 
-On Wed, May 25, 2022 at 11:35:53PM +0100, Alex Benn=E9e wrote:
->=20
-> Stefan Hajnoczi <stefanha@redhat.com> writes:
->=20
-> > [[PGP Signed Part:Undecided]]
-> > On Tue, May 24, 2022 at 04:40:56PM +0100, Alex Benn=E9e wrote:
-> >> We don't have a virtio-gpio implementation in QEMU and only
-> >> support a vhost-user backend. The QEMU side of the code is minimal so
-> >> it should be enough to instantiate the device and pass some vhost-user
-> >> messages over the control socket. To do this we hook into the existing
-> >> vhost-user-test code and just add the bits required for gpio.
-> >>=20
-> >> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> >> Cc: Viresh Kumar <viresh.kumar@linaro.org>
-> >> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> >> Cc: Eric Auger <eric.auger@redhat.com>
-> >> Message-Id: <20220408155704.2777166-1-alex.bennee@linaro.org>
-> >>=20
-> >> ---
-> >> v2
-> >>   - add more of the missing boilerplate
-> >>   - don't request LOG_SHMD
-> >>   - use get_features op
-> >>   - report VIRTIO_F_VERSION_1
-> >>   - more comments
-> >> ---
-> >>  tests/qtest/libqos/virtio-gpio.h |  35 +++++++
-> >>  tests/qtest/libqos/virtio-gpio.c | 171 +++++++++++++++++++++++++++++++
-> >>  tests/qtest/libqos/virtio.c      |   2 +-
-> >>  tests/qtest/vhost-user-test.c    |  66 ++++++++++++
-> >>  tests/qtest/libqos/meson.build   |   1 +
-> >>  5 files changed, 274 insertions(+), 1 deletion(-)
-> >>  create mode 100644 tests/qtest/libqos/virtio-gpio.h
-> >>  create mode 100644 tests/qtest/libqos/virtio-gpio.c
-> >>=20
-> >> diff --git a/tests/qtest/libqos/virtio-gpio.h b/tests/qtest/libqos/vir=
-tio-gpio.h
-> >> new file mode 100644
-> >> index 0000000000..f11d41bd19
-> >> --- /dev/null
-> >> +++ b/tests/qtest/libqos/virtio-gpio.h
-> >> @@ -0,0 +1,35 @@
-> >> +/*
-> >> + * virtio-gpio structures
-> >> + *
-> >> + * Copyright (c) 2022 Linaro Ltd
-> >> + *
-> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> + */
-> >> +
-> >> +#ifndef TESTS_LIBQOS_VIRTIO_GPIO_H
-> >> +#define TESTS_LIBQOS_VIRTIO_GPIO_H
-> >> +
-> >> +#include "qgraph.h"
-> >> +#include "virtio.h"
-> >> +#include "virtio-pci.h"
-> >> +
-> >> +typedef struct QVhostUserGPIO QVhostUserGPIO;
-> >> +typedef struct QVhostUserGPIOPCI QVhostUserGPIOPCI;
-> >> +typedef struct QVhostUserGPIODevice QVhostUserGPIODevice;
-> >> +
-> >> +struct QVhostUserGPIO {
-> >> +    QVirtioDevice *vdev;
-> >> +    QVirtQueue **queues;
-> >> +};
-> >> +
-> >> +struct QVhostUserGPIOPCI {
-> >> +    QVirtioPCIDevice pci_vdev;
-> >> +    QVhostUserGPIO gpio;
-> >> +};
-> >> +
-> >> +struct QVhostUserGPIODevice {
-> >> +    QOSGraphObject obj;
-> >> +    QVhostUserGPIO gpio;
-> >> +};
-> >> +
-> >> +#endif
-> >> diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/vir=
-tio-gpio.c
-> >> new file mode 100644
-> >> index 0000000000..762aa6695b
-> >> --- /dev/null
-> >> +++ b/tests/qtest/libqos/virtio-gpio.c
-> >> @@ -0,0 +1,171 @@
-> >> +/*
-> >> + * virtio-gpio nodes for testing
-> >> + *
-> >> + * Copyright (c) 2022 Linaro Ltd
-> >> + *
-> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> + */
-> >> +
-> >> +#include "qemu/osdep.h"
-> >> +#include "standard-headers/linux/virtio_config.h"
-> >> +#include "../libqtest.h"
-> >> +#include "qemu/module.h"
-> >> +#include "qgraph.h"
-> >> +#include "virtio-gpio.h"
-> >> +
-> >> +static QGuestAllocator *alloc;
-> >> +
-> >> +static void virtio_gpio_cleanup(QVhostUserGPIO *gpio)
-> >> +{
-> >> +    QVirtioDevice *vdev =3D gpio->vdev;
-> >> +    int i;
-> >> +
-> >> +    for (i =3D 0; i < 2; i++) {
-> >> +        qvirtqueue_cleanup(vdev->bus, gpio->queues[i], alloc);
-> >> +    }
-> >> +    g_free(gpio->queues);
-> >> +}
-> >> +
-> >> +/*
-> >> + * This handles the VirtIO setup from the point of view of the driver
-> >> + * frontend and therefor doesn't present any vhost specific features
-> >> + * and in fact masks of the re-used bit.
-> >> + */
-> >> +static void virtio_gpio_setup(QVhostUserGPIO *gpio)
-> >> +{
-> >> +    QVirtioDevice *vdev =3D gpio->vdev;
-> >> +    uint64_t features;
-> >> +    int i;
-> >> +
-> >> +    features =3D qvirtio_get_features(vdev);
-> >> +    features &=3D ~QVIRTIO_F_BAD_FEATURE;
-> >
-> > This looks questionable. qvirtio_get_features() should return VIRTIO
-> > feature bits. Is QVIRTIO_F_BAD_FEATURE masked out here because
-> > qvirtio_get_features() is returning raw vhost-user feature bits instead
-> > and you want to get rid of VHOST_USER_F_PROTOCOL_FEATURES?
->=20
-> Well it's an invalid bit for the driver/frontend<->hw/backend path -
-> although maybe we should error if we saw it?
+zsh: segmentation fault   "--machine" "virt" "--cpu" "cortex-a57" =
+"--kernel"  "--nographic" "-d"     =20
+ilg@wksi ~ %=20
+```
 
-Thinking about it again, there's an argument for keeping "features &=3D
-~QVIRTIO_F_BAD_FEATURE;". It means the code can be reused with
-virtio-pci virtio-gpio devices.
+The application was built with newlib libgloss and all it does is a =
+series of printfs to display Hello World and the argv array.
 
-I was just afraid that may the vhost-user implementation is exposing
-VHOST_USER_F_PROTOCOL_FEATURES and we're working around that by masking
-QVIRTIO_F_BAD_FEATURE here. An assertion/error would protect against
-that.
+I also tried with a custom semihosting implementation that I use for =
+other projects, and the result is the same, QEMU crashes.
 
-Either way is fine by me.
+However, if I start QEMU with -s (in GDB server mode) and load the =
+application via the GDB client, the application no longer crashes, it =
+passes the command lines arguments properly, it runs through the =
+printfs, it returns, it reaches the semihosting SYS_EXIT_EXTENDED call =
+and emulation terminates normally.
 
-Stefan
+Things are not entirely ok, since the messages expected to be printed by =
+QEMU are not shown; instead, they appear in the GDB trace window, so =
+they are reflected back to GDB.
 
---e8dW0wOLB8hI5BcN
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Are there any known issues with semihosting on AArch64? I'm using a =
+similar configuration for running Cortex-M unit-tests on =
+mps2-an500/mps2-an385 and on those machines semihosting works as =
+expected.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKPNO0ACgkQnKSrs4Gr
-c8jOIgf/eeNqk5ZJNcVbQ6S5WlW0mWAOlQc6T+xO7DkD1LPbqTwU22CubBDISZ3G
-ZVeSX0HFD333aVErHyMp8EEStEB/jJ0J6kiCABQQaFkIQow1VFulEMtTA7WWVetO
-77WwJTDh+umwr20ScW48Yv0PIy9y5TP7DxBQEmNUiLQMrsCoyWo9rwTE6y76xpfw
-yqOftOcx2Spb8R8Ztbm7s71xENYLAkahMaW/7cECICuRipta/iaKg5s1tbYVrw5R
-ecU07P9jkrXUgEl6k7IUNUDGdJUzSzxtx2gNlOjCy0XO7NIqqM7Jl5iishYLXzQQ
-4JHA15HHYG0Fbt3Ja7FwkrL9bA7xfQ==
-=z2C/
------END PGP SIGNATURE-----
+Some time ago I reworked the semihosting implementation in OpenOCD, and =
+there I used a common semihosting implementation for all Arm and RISC-V =
+devices; everything worked fine, so a common approach is realistic.
 
---e8dW0wOLB8hI5BcN--
+My testing environment depends on running semihosted application in =
+QEMU, so I have to find a solution to make it work.
+
+Any thoughts on this?
+
+
+Liviu
+
+
+
+
 
 
