@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B61534F80
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:43:11 +0200 (CEST)
-Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AC4534F99
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:47:15 +0200 (CEST)
+Received: from localhost ([::1]:39310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCpa-0006dQ-8B
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34396)
+	id 1nuCtW-0002bl-6e
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCO9-0004Ao-F9
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:14:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30211)
+ id 1nuCOI-0004Tf-NK
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:14:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCO6-0000O3-OX
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:14:48 -0400
+ id 1nuCOG-0000WA-E7
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:14:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653567285;
+ s=mimecast20190719; t=1653567295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h48iXr/gim/tB6eJkmx01g/AGPpVEukJ5QtBByW3d7s=;
- b=FzRNplr09PICEZV7xvaC/hUasMcEmmCms/WQMF7IXxk078z+H3GvT+g+sLyl18SzUFsrwe
- Zjue/y7SKZTSbgbWsU/BCiIZScVSu3Czrps/ilLr1tPQ9VP0BggLzafm+Wz5dPczNPBfZn
- wlvzUjMrSlON+n7A1X/my1WaOJMZ9N0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kZ9Ap6coot9VoOg8m/sN40Yh56M0MRK1eIi833Q7AMI=;
+ b=JCaQ9Hg28yhvsY6N63/iaxxtUf+bHAZJz9jzu+qaBScna448MS2x6codqj7MEFxNHgmkXJ
+ n5etoi/IJt1rZ44xzdZElkxlNMOhfxiifrO60iYdfawCMqUAzcPXxnyf0xv7PSca0GQbZu
+ o9+r/5crrA0pKBkvNJK5K209s8yWS58=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-508-Wp3XmGQ0NTm-7wopOQ0oPA-1; Thu, 26 May 2022 08:14:43 -0400
-X-MC-Unique: Wp3XmGQ0NTm-7wopOQ0oPA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- j7-20020a056402238700b0042b9c2e9c64so936063eda.19
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:14:43 -0700 (PDT)
+ us-mta-595-uuAZFSF8O0uFDj_vdFkjEg-1; Thu, 26 May 2022 08:14:54 -0400
+X-MC-Unique: uuAZFSF8O0uFDj_vdFkjEg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ bc17-20020a056402205100b0042aa0e072d3so946587edb.17
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:14:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=h48iXr/gim/tB6eJkmx01g/AGPpVEukJ5QtBByW3d7s=;
- b=0wxA2g12DSHYwU7gUiK8UxVEExiyqJOwFVUZgHasKA10t2WhAIoTIw1g+sekjmQDtD
- Nu/YaKH13YmldyZwS4uPg8Qb6x55mdJ09ukcAXIp4LGhnV/9NifGYLJAisKbtkhSa/dz
- ljmb31MKYvDuxYf/zTx7wC+JG6wgpff2I2j+fAvaHBK0ia5aQNMWOT1+eQLMkomR5pD9
- WDRlUEfVwmC+fPSkSr37ZErVVLmGLzs9yGmfKKXIGQnnd8kU+cgOj0le3W/rsk8/kOss
- i2UGw+M/PRCyJ80hucAIya1OMuX0HetgsNRufo3wD22YrrVQ4RKK6olTtICgp1jGz4fj
- N0OA==
-X-Gm-Message-State: AOAM530Oti23KNnnfRDuAGHr3Q/9/oTVqboFwgcMidEVOyL4cnMxX6l3
- dAhQ1eunXPVSp5uatg002Du2Sr+DfauU7tn0UWifv7J+0quvbOKYqu4c9rNDExuXNu1W3r7u8xg
- cz1W0lXyM9w9MhWs=
-X-Received: by 2002:a05:6402:88d:b0:42b:d663:a05 with SMTP id
- e13-20020a056402088d00b0042bd6630a05mr4326004edy.254.1653567282548; 
- Thu, 26 May 2022 05:14:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwV2zeW+tLzVCItp9LeoUk1vqEFflZ/vikgn9bziLQhE5giI4PYykZsAxu/ueQRnU7iapRJow==
-X-Received: by 2002:a05:6402:88d:b0:42b:d663:a05 with SMTP id
- e13-20020a056402088d00b0042bd6630a05mr4325997edy.254.1653567282342; 
- Thu, 26 May 2022 05:14:42 -0700 (PDT)
+ bh=kZ9Ap6coot9VoOg8m/sN40Yh56M0MRK1eIi833Q7AMI=;
+ b=t+GhXyWMxlp3c9YfIrKzPmmqjRMFexKQ4YzUl24kSUDsQccMfgJ0frhIbImYvr3oje
+ v3XC2/RrFLyns1XtVxK9ANk0XQuWTKOxKhxHEfmCu9YmDQ/4oQs4sxu3LCR3V7Mctd6P
+ FTRdXm0Lpzll1mufA3Up/dbT5tFteDGfDe78Rwm6kG0LyPlsaxw6JPzoDujp7GN62RRU
+ 8Zm8ZJOc+M0OvHOivvOAVC/OY/csQhEs1yv7MuQEpl6Gr4v6FD7SRvYmV2lx/Bv4XenY
+ e9SThQp+ks53RZTnIQFvJtWAMh2ACxb+RMqChn0vbA4mKetuCUaeR6b6fQ1Kh5zBrrSU
+ 5daw==
+X-Gm-Message-State: AOAM531LEVuQE3Cfiuyhu9TwBJlqueg2Ze6dHuUlnsVMBy7CHhS1rHfJ
+ hMVpD162qoHp5KZ7tT5BXbOno/uXFCvpkWhALN2kf87jxleBt5NmfjEXWmYGZnntIJ9wPDRPeCA
+ pzlgEDF0kQxpDcYA=
+X-Received: by 2002:a17:906:6a09:b0:6ff:182e:ce33 with SMTP id
+ qw9-20020a1709066a0900b006ff182ece33mr5542987ejc.14.1653567292886; 
+ Thu, 26 May 2022 05:14:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNluaTYjCChOqAz6TUmtKvY402e+vnXPtm/1dKg8I5Rbo8aH23tdnzIJWo8VeH2zpNB1zNow==
+X-Received: by 2002:a17:906:6a09:b0:6ff:182e:ce33 with SMTP id
+ qw9-20020a1709066a0900b006ff182ece33mr5542969ejc.14.1653567292679; 
+ Thu, 26 May 2022 05:14:52 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- d4-20020a50e404000000b0042617ba63c4sm724525edm.78.2022.05.26.05.14.40
+ pg5-20020a170907204500b006f3ef214e6asm455420ejb.208.2022.05.26.05.14.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 May 2022 05:14:41 -0700 (PDT)
-Message-ID: <319df99e-42d8-64dd-fbe8-a6f9311f3630@redhat.com>
-Date: Thu, 26 May 2022 14:14:40 +0200
+ Thu, 26 May 2022 05:14:52 -0700 (PDT)
+Message-ID: <3f697d5a-a62b-5775-5d56-401e858db1c2@redhat.com>
+Date: Thu, 26 May 2022 14:14:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 9/9] tests: run 'device-crash-test' from tests/venv
+Subject: Re: [PATCH 8/9] tests: add python3-venv to debian10.docker
 Content-Language: en-US
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
@@ -79,19 +79,19 @@ Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
 References: <20220526000921.1581503-1-jsnow@redhat.com>
- <20220526000921.1581503-10-jsnow@redhat.com>
+ <20220526000921.1581503-9-jsnow@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220526000921.1581503-10-jsnow@redhat.com>
+In-Reply-To: <20220526000921.1581503-9-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,78 +109,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/26/22 02:09, John Snow wrote:
-> Remove the sys.path hacking from device-crash-test, and add in a little
-> user-friendly message for anyone who was used to running this script
-> directly from the source tree.
-> 
-> Modify the GitLab job recipes to create the tests/venv first, then run
-> device-crash-test from that venv.
+> This is needed to be able to add a venv-building step to 'make check';
+> the clang-user job in particular needs this to be able to run
+> check-unit.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   .gitlab-ci.d/buildtest.yml |  8 +++++---
->   scripts/device-crash-test  | 14 +++++++++++---
->   2 files changed, 16 insertions(+), 6 deletions(-)
+>   tests/docker/dockerfiles/debian10.docker | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index e9620c30748..fde29c35aa3 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -110,7 +110,8 @@ crash-test-debian:
->       IMAGE: debian-amd64
->     script:
->       - cd build
-> -    - scripts/device-crash-test -q ./qemu-system-i386
-> +    - make check-venv
-> +    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-i386
->   
->   build-system-fedora:
->     extends: .native_build_job_template
-> @@ -155,8 +156,9 @@ crash-test-fedora:
->       IMAGE: fedora
->     script:
->       - cd build
-> -    - scripts/device-crash-test -q ./qemu-system-ppc
-> -    - scripts/device-crash-test -q ./qemu-system-riscv32
-> +    - make check-venv
-> +    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-ppc
-> +    - tests/venv/bin/python3 scripts/device-crash-test -q ./qemu-system-riscv32
->   
->   build-system-centos:
->     extends: .native_build_job_template
-> diff --git a/scripts/device-crash-test b/scripts/device-crash-test
-> index a203b3fdea2..73bcb986937 100755
-> --- a/scripts/device-crash-test
-> +++ b/scripts/device-crash-test
-> @@ -33,10 +33,18 @@ import re
->   import random
->   import argparse
->   from itertools import chain
-> +from pathlib import Path
->   
-> -sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
-> -from qemu.machine import QEMUMachine
-> -from qemu.qmp import ConnectError
-> +try:
-> +    from qemu.machine import QEMUMachine
-> +    from qemu.qmp import ConnectError
-> +except ModuleNotFoundError as exc:
-> +    path = Path(__file__).resolve()
-> +    print(f"Module '{exc.name}' not found.")
-> +    print("  Try 'make check-venv' from your build directory,")
-> +    print("  and then one way to run this script is like so:")
-> +    print(f'  > $builddir/tests/venv/bin/python3 "{path}"')
-> +    sys.exit(1)
->   
->   logger = logging.getLogger('device-crash-test')
->   dbg = logger.debug
+> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+> index b414af1b9f7..03be9230664 100644
+> --- a/tests/docker/dockerfiles/debian10.docker
+> +++ b/tests/docker/dockerfiles/debian10.docker
+> @@ -34,4 +34,5 @@ RUN apt update && \
+>           python3 \
+>           python3-sphinx \
+>           python3-sphinx-rtd-theme \
+> +        python3-venv \
+>           $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Even though I'd still prefer the venv to be setup early (so the 
-check-venv change in buildtest.yml and the friendly message in the 
-script will go away), this is a step in the right direction.
-
-Paolo
 
 
