@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACFA534E21
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 13:37:19 +0200 (CEST)
-Received: from localhost ([::1]:38662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C11534E1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 13:35:39 +0200 (CEST)
+Received: from localhost ([::1]:37730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuBnq-0003P9-9N
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 07:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
+	id 1nuBmE-0002f8-7S
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 07:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nuBLq-0000Vp-UF
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:08:24 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:36488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nuBLo-0003Za-L8
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:08:22 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id t26so2330559ybt.3
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 04:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vJvtrtguHiBYBE0gXOQz6BZa1GfeFyg8nDtaaE6/djE=;
- b=Tu/85a6YcltBWdG/sE5wTWypBr8Y1cQUD/s9WawsgvBcmv2A3KwGXWFBUzCVSvRbfY
- 5GRZnFRumdidYnupv/r+3LcnnkrkAmA9FrEqSt5GQAHVt8b/4OCqQ+YcutIEuteMq1to
- uz/sdplWhr/x1Gi6cYUO2xfS+oB3ubew7qMEYzt5bmZeCWc/quxVSMFHhw4/jHbkVFzO
- xCo/8mYRyvil9XhHEZgM1hLv7IDu8S5QsmFSl9M9Iy7y8cmfdPPW9kv8F+ymRVj/XlVY
- M55fAV1TIGCYsTvlM0abFKsAj6dxAzsUdrMZ9BBIE1xhNQmzJy0uQm5iTRSe88Of7Zzj
- /00Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vJvtrtguHiBYBE0gXOQz6BZa1GfeFyg8nDtaaE6/djE=;
- b=Q0KTilqq4I2nMxFx/RfdLwPJifP0c1u2/HYYlbIExjVcKZcky/IihYRuQ674SKYciY
- YHE+ZBFSWxi36GyuxlbewSEVuMd95I4oNOVspvSEmyJwmiRLjMbEwUKpDb//ZgArJRwn
- DvssgY5y9W6C5gmaFOog5XiOQyED7fPtDkJOTiXEnGAChZTzPox2dSRwVMUYtHbwO08R
- YpRxTrJ4WLID2pJfgK83g8nDwz25vHY4cwZyz9S4jtOVhzMNDCQmjSXn6whEupIG32/y
- 5YRqRwXbouGBiMZ0kVjazmzX13z20XQH32b+hJmISRhkfPSsldQlpV0jv4xAu/e51rGH
- cZRw==
-X-Gm-Message-State: AOAM532lj2w0diTBft7EUNgSf9aelzYIKIdaS6PnIRHJnYexO0dZVm+b
- moQcRuhE4ZKWioir+oQjcFQEgprxuJXj5zfzgzPeQg==
-X-Google-Smtp-Source: ABdhPJxAyDJlbvMymUx4dMbAIMUuW2NLKwYJWbQ82q2p5iHQ6cRaLiaGIV+jTTMEx6/e6xRm4+UXOlleVETO6aeHRzM=
-X-Received: by 2002:a5b:c08:0:b0:64f:de42:5ecc with SMTP id
- f8-20020a5b0c08000000b0064fde425eccmr18746645ybq.85.1653563299273; Thu, 26
- May 2022 04:08:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nuBWi-0001j2-MV
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 07:19:38 -0400
+Received: from mout.gmx.net ([212.227.15.18]:39173)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nuBWe-0006AF-SQ
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 07:19:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1653563967;
+ bh=PDkJHlkacvDmSJx967aXw1whJM7JNb0x5C4HDGlemVs=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=DmGvy2XCXw9V00ONjwh3j+dCx30UAThoib4pASq1SQHracOsCMXw8Kwwn736uYx3o
+ CdZjIwt9Itsz0k6s/fAwdo/jLJJCeQFiXsNfXIFXqpeNWNUWz0sADZm8Wg5yEvoy/m
+ f6z3L2sN1rv0vUAFW704zaNmU+h6GuX6NrbALgew=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100.fritz.box ([92.116.164.234]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5wLZ-1nvaIG2ehX-007Usy; Thu, 26
+ May 2022 13:19:27 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Helge Deller <deller@gmx.de>
+Subject: [PATCH 0/2] hppa: Fix serial port pass-through
+Date: Thu, 26 May 2022 13:19:24 +0200
+Message-Id: <20220526111926.19603-1-deller@gmx.de>
+X-Mailer: git-send-email 2.35.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <AADD58D2-C3BE-40DF-8EE5-3A901F4F8F04@livius.net>
- <CAFEAcA-n4GMq1_SCdTDp6sQmHzyyzTk5hav4QqOY3-j3Sr86Jg@mail.gmail.com>
- <EA9AEE55-A416-4819-98FF-E51B2317390F@livius.net>
- <CAFEAcA_beHgi7pg+ByW4ufG5qfz5n7o4ZP22WuayTtdGSQ_EQQ@mail.gmail.com>
- <0B956505-BFF3-4ACD-AAF9-7F939F426274@livius.net>
-In-Reply-To: <0B956505-BFF3-4ACD-AAF9-7F939F426274@livius.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 May 2022 12:08:08 +0100
-Message-ID: <CAFEAcA94DMQA_HeGJenzfPq2+eTv0gnpBd-EnGTjQzGnudNGNw@mail.gmail.com>
-Subject: Re: AArch64 semihosting?
-To: Liviu Ionescu <ilg@livius.net>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6cqCaizy7dfl866o858UlqtNFIk3E9fowVIdlYg/Xh5dK8XISex
+ ah/rK2eMZPX1ZfDTuf4eSQjiJ0nXzxg7FfVLcZjyuk+JueFSTpkMhY8onN7W60urksthIiq
+ lu9Qx788OpdtvXneeG6mksQQoYMKxjcZYkrtncHDVyBcdZ7fJ7TmCLPJv/6WdrsTLwu8HCv
+ gUXtgfdzOwU+4eWhKF1QQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UWYttbrRjac=:7FHhYV36NURZelJ5sOq5MP
+ lnej7eLl7Tmd3348aZCXsbHFXZ/ny0hE6jTCGk7Y9Q2+/zdAX6qj90l3t6PUHuVPR351l4XJo
+ 5VHkbwvCC5ttcbIMf7d/VwpmbQiOQhTr66xaN7zKCLYzSfqb0gvAf4XmD+5gD4gOsqt2OMRCz
+ KO82QrgLSZzuAgFB0mMX/rnW8WTT8+x8YlJTKoiimzpNQEqUQOqr9WojykGVup2RfetclEFlO
+ IRKMW72IpW7ytcXUqB1MVpTFdCY3CiL0KBea2Q3o3NSCzsDIV8qYXcBwuT3/iJjYDtnD8+J6v
+ P0c0ADPHE7ludPKforIlI2UdnogX3ftj9x5wYlmosbMRkxp9PxZBdLuQQQfAXIfGhoGIOs0EC
+ srWjBUDT+DsNw1qfHP+475OIR7o/5+m3/b2cG5RO838+eTZWdGVXLA6BXQs5iOEuw6wqhjBSo
+ 4oEKlCpZYVaVdzGRCwyDipnK/gokvGJ9UZPNbNGDmXfNkolZQWpnrtEbGmn+lvGAh3a3PEDHr
+ AmW9VrY2pDm6+4dvAmD344QZGtIDOs3MdOI7F2mcWYg100LFFwZAF+5CYzuGkdO78KIM4fn4d
+ QN6IjMDc5Sk9bVezlWw98+BQYzuKQkOITd6ak8h6BSRqo6XPVXNsHW5ZBSEeOu3l0tjwrHKNg
+ 6tLxmwU4+VH1OZHjpxKSayCuwSsXGGdBExFWm81bJBzBai3lJgD5DngCtm0B7xi5wcnCYoUUi
+ KJZGeUBTv0WPJC8Zs3N90cQ9hCYrA6QBDn5xcYu6x/4J4I76rnUrIYXSUJFQbQoO0eiclWy2u
+ HvFjsE2X/RyG06BVt7nlxzTHNMV6DA0kHwXePfMvdXkyjLLTnqR9vZCkXReQGPu50SYoVZjqA
+ UoG/rk77XGRyOP8n177dXCX23KdOLusiqG4TRVIxHuM4xjbv77BPk2uFakGYgTuk0F2hB64L1
+ 6+XrYyvpV6H/s1NOIPV/VFjyZ9THaHgtVz6dLSaUYdY3qnOFJ7sdh9JGCZOdoLu+BDp6uxQTu
+ v2IwSI7PFF7KAg1QWljBxP/eNcCR9cq9a0w6GhW7QyQ4MKbCa61Rx28GeqkQ6KrAp01BG7O6K
+ LNViL7wdqWc/+BbhTpLplH0Ti2Mz0K3CJkyueEiqG291H/qI7L0ODj3oA==
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,30 +86,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 May 2022 at 12:03, Liviu Ionescu <ilg@livius.net> wrote:
->
->
->
-> > On 26 May 2022, at 13:01, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > Yes, I can reproduce this.
->
-> Ok, it seems you diagnosed it pretty quickly, great!
->
-> > Did you intend to pass '-s' (allow gdbstub connection) but not
-> > '-S' (wait on startup for gdb to connect and say "continue"),
-> > by the way?
->
-> Oops! I forgot about this. I'll switch to -S.
+This series fixes the SeaBIOS-hppa firmware and the serial ports setup cod=
+e in
+qemu so that it reflects the real hardware and now allows serial
+port-passthrough from the host to guests.
 
-You want both '-s' and '-S', usually (or '-S' and a '-gdb' option;
-'-s' is shorthand for '-gdb tcp::1234'). '-S' is just "don't run
-on startup" -- you can then start the guest using either the monitor
-or the gdb stub.
+Tested with Linux guests.
 
-> If you fix the bug, could you notify me when ready, to make a new xPack release?
+Signed-off-by: Helge Deller <deller@gmx.de>
 
-Sure.
+Helge Deller (2):
+  New SeaBIOS-hppa version 6
+  hppa: Fix serial port pass-through
 
--- PMM
+ hw/hppa/hppa_hardware.h   |  10 ++++++++--
+ hw/hppa/machine.c         |  17 +++++++----------
+ pc-bios/hppa-firmware.img | Bin 719040 -> 719368 bytes
+ roms/seabios-hppa         |   2 +-
+ 4 files changed, 16 insertions(+), 13 deletions(-)
+
+=2D-
+2.35.3
+
 
