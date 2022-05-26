@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D347D534919
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 04:57:23 +0200 (CEST)
-Received: from localhost ([::1]:44768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C182753490D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 04:53:43 +0200 (CEST)
+Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu3gg-0005NQ-Mz
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 22:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50188)
+	id 1nu3d8-00024n-Dr
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 22:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu3e9-0003l4-56
- for qemu-devel@nongnu.org; Wed, 25 May 2022 22:54:45 -0400
-Received: from mga11.intel.com ([192.55.52.93]:15224)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nu3bl-0001NK-A8
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 22:52:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu3e6-0003Gg-Gv
- for qemu-devel@nongnu.org; Wed, 25 May 2022 22:54:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653533682; x=1685069682;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ACUvpAw4fP8n3H8/+ddBfvDqIhHF+X4k+5/2EXHVwn8=;
- b=Ka+pj1LMep533grvMLrIMzCDQuw2gkIkFe9VDrlwEaROx+28xkMZcelm
- m49o3Ii49THkSITEJj6DF/iHcqb2P/ja7EVp3I+3Xoqa1WfMz6hm6WTNd
- 0PJGeGHHvsirQOC3PPwepdnR3isqx7SZSY6cy1zoCoG6HhqdiKX0/gKhg
- gyzc6bMPuMZ1ZUkgI6iDQOQmAC9HLO+A29HhcL1emLiDOUkArjIHOtuoX
- vlEqVqzy8fV7ND55YWtlCXH5mcZnEZLOXhDNAL/XKOTvo65Tlz9WUugg3
- vsFbmADALn4dxODoFEAGG0hPQCLq1TEQfSTIh6riyiqQFyyhPy9evr/y1 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="271580061"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="271580061"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 19:49:04 -0700
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="573640580"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.212])
- ([10.255.28.212])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 19:48:58 -0700
-Message-ID: <b294af31-fe92-f251-5d3e-0e439a59ee1e@intel.com>
-Date: Thu, 26 May 2022 10:48:56 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nu3bh-00036s-Uw
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 22:52:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653533531;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N5EaBoKSlYx2PiWkBNk7Fx3mjZ9MwRJ45dqcCEqJ5Rw=;
+ b=hokEX2/1ujsrsqENPI416QYfpN3/kpnJJHaTbQR89phbveLGm7PRonVPAMci4LJDXlL80c
+ yATjryu533gJlXFa5z7CM+YK4xtdB1pXAZ4qxUE1a1xvWaNNr64TTu7GT5DJf4KY+ml9SM
+ 1pxEzgJYiVqgwiNwjDzh4DWc1553/0c=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-644-DtM_ycuHO9yv6PxAkpJt0A-1; Wed, 25 May 2022 22:52:08 -0400
+X-MC-Unique: DtM_ycuHO9yv6PxAkpJt0A-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ bi27-20020a0565120e9b00b004786caccc7dso179955lfb.11
+ for <qemu-devel@nongnu.org>; Wed, 25 May 2022 19:52:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N5EaBoKSlYx2PiWkBNk7Fx3mjZ9MwRJ45dqcCEqJ5Rw=;
+ b=q9WNzYpSsg1Fufdk6UrswEypQMAiHOEJPb2Pe85KcNS76ISGWzAgfu8sW0uf6zjBPg
+ bqIF5XavQAwijtdo9sk62ks81IrHArx6OVHwi82KuB5yBjBSOa4ddbcY0H87vyp7Wu+9
+ u6v29ouHpJdYIXqXd+do9joKQZcX+wsuHnOujMpkayr8ImMe7MdFiHB/kSWo7Mm7BzFj
+ VAEnS8fiSCZeu5JE3PVyJvXpDcS2DcidlFvO2HnA1iUw5k978vrt+oLmKbWUvmNvCbCU
+ T7wFZugpvb5BofaN2cmpkFdreOBLislPBB4yOkkGhIwA8Cz3gFgch/VeGTy31lcLAgQR
+ C+xg==
+X-Gm-Message-State: AOAM532movDTtdxy7dkRnaMfuC5IP/EtUv//UuO1vpGR1WsWJetwveK3
+ AjmgaTRX2pp6Jn81pDMDLJwziHcCKJYBch5D/klplIhyXuKNFMOpcclWbtcX8bp3sjxYBM9xPWH
+ KRgoK4MWuplIL4DYZ8nF38jaOFUuRtAE=
+X-Received: by 2002:a05:6512:c0e:b0:478:5a91:20bb with SMTP id
+ z14-20020a0565120c0e00b004785a9120bbmr18691411lfu.587.1653533526709; 
+ Wed, 25 May 2022 19:52:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRRlLPnicWxMLKOFyh3QcOEVCzeJFvj2D+ju+Wrb0NhfmvgJMhMvwGOTRpo0I0jZSUu/8QDr1ON1Og/zNhRVQ=
+X-Received: by 2002:a05:6512:c0e:b0:478:5a91:20bb with SMTP id
+ z14-20020a0565120c0e00b004785a9120bbmr18691387lfu.587.1653533526431; Wed, 25
+ May 2022 19:52:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 18/36] i386/tdx: Skip BIOS shadowing setup
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+References: <cover.1646243252.git.huangy81@chinatelecom.cn>
+ <a650dbf80c9415a9d4054b6e1f936170cbfce9ea.1646243447.git.huangy81@chinatelecom.cn>
+ <1e117589-1719-0d11-099f-9f3392e0ba6f@nutanix.com>
+ <f98ae9a1-8d47-7995-ae0d-101c626c3be4@chinatelecom.cn>
+ <f0e09ec4-7d16-b022-0949-4599a5378356@nutanix.com>
+ <fb42912b-e3f4-f0cb-fb16-671ba75bd7ef@chinatelecom.cn>
+ <Yo5RiqKWuwZPY6Iv@xz-m1.local>
+In-Reply-To: <Yo5RiqKWuwZPY6Iv@xz-m1.local>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 26 May 2022 10:51:55 +0800
+Message-ID: <CACGkMEsiLUxEKD=o23aaHzo5AVy-vTRPKhxtT6-cTT+ETtdpaA@mail.gmail.com>
+Subject: Re: [PATCH v17 6/8] softmmu/dirtylimit: Implement virtual CPU throttle
+To: Peter Xu <peterx@redhat.com>
+Cc: Hyman Huang <huangy81@chinatelecom.cn>,
+ "manish.mishra" <manish.mishra@nutanix.com>, 
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <eduardo@habkost.net>, 
+ David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>, 
  Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-19-xiaoyao.li@intel.com>
- <20220524070804.tcrsg7cwlnbkzhjz@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220524070804.tcrsg7cwlnbkzhjz@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ Markus ArmBruster <armbru@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,50 +104,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/2022 3:08 PM, Gerd Hoffmann wrote:
-> On Thu, May 12, 2022 at 11:17:45AM +0800, Xiaoyao Li wrote:
->> TDX guest cannot go to real mode, so just skip the setup of isa-bios.
-> 
-> Does isa-bios setup cause any actual problems?
-> (same question for patch #19).
+On Wed, May 25, 2022 at 11:56 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Wed, May 25, 2022 at 11:38:26PM +0800, Hyman Huang wrote:
+> > > 2. Also this algorithm only control or limits dirty rate by guest
+> > > writes. There can be some memory dirtying done by virtio based devices
+> > > which is accounted only at qemu level so may not be accounted through
+> > > dirty rings so do we have plan for that in future? Those are not issue
+> > > for auto-converge as it slows full VM but dirty rate limit only slows
+> > > guest writes.
+> > >
+> > From the migration point of view, time spent on migrating memory is far
+> > greater than migrating devices emulated by qemu. I think we can do that when
+> > migrating device costs the same magnitude time as migrating memory.
+> >
+> > As to auto-converge, it throttle vcpu by kicking it and force it to sleep
+> > periodically. The two seems has no much difference from the perspective of
+> > internal method but the auto-converge is kind of "offensive" when doing
+> > restraint. I'll read the auto-converge implementation code and figure out
+> > the problem you point out.
+>
+> This seems to be not virtio-specific, but can be applied to any device DMA
+> writting to guest mem (if not including vfio).  But indeed virtio can be
+> normally faster.
+>
+> I'm also curious how fast a device DMA could dirty memories.  This could be
+> a question to answer to all vcpu-based throttling approaches (including the
+> quota based approach that was proposed on KVM list).  Maybe for kernel
+> virtio drivers we can have some easier estimation?
 
-It causes mem_region split and mem_slot deletion on KVM.
+As you said below, it really depends on the speed of the backend.
 
-TDVF marks pages starting from 0x800000 as TEMP_MEM and TD_HOB, which 
-are TD's private memory and are TDH_MEM_PAGE_ADD'ed to TD via 
-KVM_TDX_INIT_MEM_REGION
+>  My guess is it'll be
+> much harder for DPDK-in-guest (aka userspace drivers) because IIUC that
+> could use a large chunk of guest mem.
 
-However, if isa-bios and pc.rom are not skipped, the memory_region 
-initialization of them is after KVM_TDX_INIT_MEM_REGION in 
-tdx_machine_done_notify(). (I didn't figure out why this order though)
+Probably, for vhost-user backend, it could be ~20Mpps or even higher.
 
-And the it causes memory region split that splits
-	[0, ram_below_4g)
-to
-	[0, 0xc0 000),
-	[0xc0 000, 0xe0 000),
-	[0xe0 000, 0x100 000),
-	[0x100 000, ram_below_4g)
+Thanks
 
-which causes mem_slot deletion on KVM. On KVM side, we lose the page 
-content when mem_slot deletion. Thus, the we lose the content of TD HOB.
-
-Yes, the better solution seems to be ensure KVM_TDX_INIT_MEM_REGION is 
-called after all the mem region is settled down. But I haven't figured 
-out the reason why the isa-bios and pc.rom initialization happens after
-machine_init_done_notifier
-
-on the other hand, to keep isa-bios and pc.rom, we need additional work 
-to copy the content from the end_of_4G to end_of_1M.
-
-I'm not sure if isa-bios and pc.rom are needed from people on TD guest, 
-so I just skip them for simplicity,
-
-> "is not needed" IMHO isn't a good enough reason to special-case tdx
-> here.
-> 
-> take care,
->    Gerd
-> 
+>
+> [copy Jason too]
+>
+> --
+> Peter Xu
+>
 
 
