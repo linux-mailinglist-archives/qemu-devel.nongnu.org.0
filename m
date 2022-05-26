@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AD65355BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:41:29 +0200 (CEST)
-Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883B25355C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:44:48 +0200 (CEST)
+Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuLEX-0003I1-0p
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
+	id 1nuLHj-0000uM-Ky
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLBk-0000RF-RJ; Thu, 26 May 2022 17:38:36 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:41718)
+ id 1nuLBn-0000Ye-9w; Thu, 26 May 2022 17:38:39 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:45606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLBj-00083g-4l; Thu, 26 May 2022 17:38:36 -0400
-Received: by mail-oi1-x233.google.com with SMTP id e189so3638331oia.8;
- Thu, 26 May 2022 14:38:34 -0700 (PDT)
+ id 1nuLBl-00084G-O2; Thu, 26 May 2022 17:38:39 -0400
+Received: by mail-oi1-x230.google.com with SMTP id r68so3615290oie.12;
+ Thu, 26 May 2022 14:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=imql0qNKHKBsnAZW2/cMn5l+lNp/68hJx+XCNH1PT5g=;
- b=hgram8tPyBXhzCN7sK2EXkZazUorBtMszRBdN5z9eAaJxvZAi4/+j2LWWJiRfAjMSF
- iKRsf1xCc6wSj4XcwFVIR4Df/QwJLtJgLtF8m1T1dKtRo/TAXydNdiRgAtuaFbpNX0TL
- alyeA3v1Cfx3Seh5ZTp1jphjvKtDLrK4dUI6F8SxL7wef6A9qS+1uxCxHVpJsJXJKHqN
- c7awkp40pOcGPyYRcuSo84TaL8WUAmn9nsfB/9c5OJa7hMpOzcohIR8sBkSkgfPx1xIV
- A+I28qULNHht0ZcI5cyaAGsezuy921thmS8xlUbYZGOwls2e4bVrwMaCUCETu+ofoP6p
- +GcQ==
+ bh=jxq0GoNMOrfMkh7Q+RRv6Q3I0KJxJA5pEEIoBSIidB8=;
+ b=ETxb/kkEy2z5TwHhvuS8c0itwUF+nLPVlcvoXKHEZfwT3p/ji4YAJZGhtlTNz10aJY
+ P2fqAbjfqw6Oqj1nCL45GdSOSETHdxP3XwmRXJqsD6YePrIdsJT68D/dp9bsnOe+rBO4
+ uURFIKx0I0OAKljWLizg910IbUBGJ/t+Zq/8IeBXbj2JI+LscL3t9rNiy585xCG6mfSa
+ kPH6tYwhaH6de1669B1RwBLJEdbnXdCMPNtOF8zhAzmT/jIV+x9s88nX+wmAKGWTaxwM
+ p/VSIfGbq2SHnqm9vhD4SC+1o/KXbJWTAHQWI/XaOXE7SSEYeCC2LfxpweFR76D/wuU+
+ OIaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=imql0qNKHKBsnAZW2/cMn5l+lNp/68hJx+XCNH1PT5g=;
- b=b5Uh+VU1PXkEASrIZZZXmG0sMPvQD3dCftIYgxQvCinoMq1NPTDDIPauHplEa/6CnT
- BbkLIB1wdcTIVJuYGFF1dY+HXZO7cDU1X7oA7W/VZlWnFEjk6NzpyrU8cB2hBeh0852w
- MtWrUVqe9cRYhQuzVxZ+jMrNSxRvqBClqbzvk4TcqhbwRAT71gnEMXDkmuit+HbzaUol
- 1Bz6jCGHRZ7td6Z75PODPTgAkwGXQ2mfKcrznFSScUyQoS/3kKfl9RPJ3UZ8ReyTyVE+
- BNpbRR6IYQoWcUr2h0cki2cVXY1Pao5ef8blgqpQWp6/63P56biRUMfpTcwoievzaDvD
- Rx/A==
-X-Gm-Message-State: AOAM533ptQW/2ZQeitE8qSHhL9PmE762TpFRBvU0Ug6LGhUBJCHYnTYx
- hMCmqf0PGlKSPB2AM3axZWl0OpIWIkA=
-X-Google-Smtp-Source: ABdhPJxKAw773W279WeZGh2AdvbYYtCeDxPi8WsJLRS0qWaSJWO2jZxM9T8J8G7G/fimssJzGl//6w==
-X-Received: by 2002:a05:6808:3087:b0:32b:4961:3bc6 with SMTP id
- bl7-20020a056808308700b0032b49613bc6mr2273504oib.251.1653601113586; 
- Thu, 26 May 2022 14:38:33 -0700 (PDT)
+ bh=jxq0GoNMOrfMkh7Q+RRv6Q3I0KJxJA5pEEIoBSIidB8=;
+ b=ULHSZej6kvMWSRwUh6hgK2SJrLjr/ADIgJOxKBD7QYQ+ygf59H2cKAk12yR55+a3h0
+ psT59q5yLROGgxJs38d6uF/sLeVkUFBuXUzDBYDTO4xfDEr4Av8reDxuONXvqt1uervp
+ h/IsmhPCJGDhyYR4GEEKKNzpbStcmGY03kF8Pv606JDYkiju6atpa470jA3Q6Ysfy803
+ IIhe1RvUQKBwl05OwzMG72dYwWy1rQpB9uTf4hptWQAq6ef044whQ5SzPsgaSeIZJrwH
+ 1V1gl0WkkArDJq3iG49ZJCpxHAeAdbNm54Of2jhl349OXwlX2KVnPAAsiNRKWkk8P9lJ
+ BhxQ==
+X-Gm-Message-State: AOAM533uZYu5wcKnkhmcS5pw5zHRrsuMOzRYluhfg/qaW6pjlKiIPODi
+ jdHV88aOPYkBPd7mRNNWzh0sw/xRTRs=
+X-Google-Smtp-Source: ABdhPJy1FkuciUn8+Brk5Jxam/ibTPHTPNoDlVEOEUp5RTLc2pUacSWIawC+MluoDG2c5paj5wRcog==
+X-Received: by 2002:a54:4f87:0:b0:324:ea60:b97d with SMTP id
+ g7-20020a544f87000000b00324ea60b97dmr2394588oiy.87.1653601116098; 
+ Thu, 26 May 2022 14:38:36 -0700 (PDT)
 Received: from balboa.COMFAST (189-46-169-45.dsl.telesp.net.br.
  [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
- l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.38.31
+ l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.38.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 14:38:33 -0700 (PDT)
+ Thu, 26 May 2022 14:38:35 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 01/34] pseries: allow setting stdout-path even on machines with
- a VGA
-Date: Thu, 26 May 2022 18:37:42 -0300
-Message-Id: <20220526213815.92701-2-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Bernhard Beschow <shentey@gmail.com>
+Subject: [PULL 02/34] hw/ppc/e500: Remove unused BINARY_DEVICE_TREE_FILE
+Date: Thu, 26 May 2022 18:37:43 -0300
+Message-Id: <20220526213815.92701-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220526213815.92701-1-danielhb413@gmail.com>
 References: <20220526213815.92701-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x233.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,85 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Bernhard Beschow <shentey@gmail.com>
 
--machine graphics=off is the usual way to tell the firmware or the OS that the
-user wants a serial console.  The pseries machine however does not support
-this, and never adds the stdout-path node to the device tree if a VGA device
-is provided.  This is in addition to the other magic behavior of VGA devices,
-which is to add a keyboard and mouse to the default USB bus.
+Commit 28290f37e20cda27574f15be9e9499493e3d0fe8 'PPC: E500: Generate
+device tree on reset' improved device tree generation and made
+BINARY_DEVICE_TREE_FILE obsolete.
 
-Split spapr->has_graphics in two variables so that the two behaviors can be
-separated: the USB devices remains the same, but the stdout-path is added
-even with "-device VGA -machine graphics=off".
-
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220507054826.124936-1-pbonzini@redhat.com>
+Message-Id: <20220505161805.11116-8-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c         | 12 ++++++++----
- include/hw/ppc/spapr.h |  2 +-
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ hw/ppc/e500.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6de800524a..d112b85b4f 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1066,7 +1066,7 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
-             _FDT(fdt_setprop_string(fdt, chosen, "qemu,boot-device", boot_device));
-         }
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 2bc3dce1fb..7f7f5b3452 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -47,7 +47,6 @@
+ #include "hw/irq.h"
  
--        if (!spapr->has_graphics && stdout_path) {
-+        if (spapr->want_stdout_path && stdout_path) {
-             /*
-              * "linux,stdout-path" and "stdout" properties are
-              * deprecated by linux kernel. New platforms should only
-@@ -2712,6 +2712,7 @@ static void spapr_machine_init(MachineState *machine)
-     const char *kernel_filename = machine->kernel_filename;
-     const char *initrd_filename = machine->initrd_filename;
-     PCIHostState *phb;
-+    bool has_vga;
-     int i;
-     MemoryRegion *sysmem = get_system_memory();
-     long load_limit, fw_size;
-@@ -2950,9 +2951,12 @@ static void spapr_machine_init(MachineState *machine)
-     }
- 
-     /* Graphics */
--    if (spapr_vga_init(phb->bus, &error_fatal)) {
--        spapr->has_graphics = true;
-+    has_vga = spapr_vga_init(phb->bus, &error_fatal);
-+    if (has_vga) {
-+        spapr->want_stdout_path = !machine->enable_graphics;
-         machine->usb |= defaults_enabled() && !machine->usb_disabled;
-+    } else {
-+        spapr->want_stdout_path = true;
-     }
- 
-     if (machine->usb) {
-@@ -2962,7 +2966,7 @@ static void spapr_machine_init(MachineState *machine)
-             pci_create_simple(phb->bus, -1, "nec-usb-xhci");
-         }
- 
--        if (spapr->has_graphics) {
-+        if (has_vga) {
-             USBBus *usb_bus = usb_bus_find(-1);
- 
-             usb_create_simple(usb_bus, "usb-kbd");
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 14b01c3f59..072dda2c72 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -194,7 +194,7 @@ struct SpaprMachineState {
-     Vof *vof;
-     uint64_t rtc_offset; /* Now used only during incoming migration */
-     struct PPCTimebase tb;
--    bool has_graphics;
-+    bool want_stdout_path;
-     uint32_t vsmt;       /* Virtual SMT mode (KVM's "core stride") */
- 
-     /* Nested HV support (TCG only) */
+ #define EPAPR_MAGIC                (0x45504150)
+-#define BINARY_DEVICE_TREE_FILE    "mpc8544ds.dtb"
+ #define DTC_LOAD_PAD               0x1800000
+ #define DTC_PAD_MASK               0xFFFFF
+ #define DTB_MAX_SIZE               (8 * MiB)
 -- 
 2.36.1
 
