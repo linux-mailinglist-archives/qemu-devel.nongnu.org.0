@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6909534C79
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:24:58 +0200 (CEST)
-Received: from localhost ([::1]:58996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6796534C80
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:28:35 +0200 (CEST)
+Received: from localhost ([::1]:36094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu9jl-0003r7-RZ
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53454)
+	id 1nu9nG-0007fL-VC
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu9HY-0005iT-Ry
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:55:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31269)
+ id 1nu9Iu-0006bG-H0
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:57:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu9HU-00066C-5Q
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:55:46 -0400
+ id 1nu9It-0006HB-3u
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:57:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653555342;
+ s=mimecast20190719; t=1653555429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=lwQUleK8l0JFJTz3ysGAT2B0lUzFV6nQlqeNwz7fo/k=;
- b=ctsM2Ni0hcMzkrqFtWBuk0SFEabveeFr+doJFVMAP41TTYIJnAXuifUV5AxDCo+0MKB6oy
- 9XNpCRMjmnd34ElmT95Sba8Kq5NfqKz8KhRZ3o+EdRBSY+WNUA+/wVu7fRsY5X9jqJz05s
- ubct4Iqm4CcPNkszyQdwuFPSOoJTY7Y=
+ bh=IQyGaFnAzvu0Lmn94rxtTVJg9SwQJeoxt3Vyd66YID0=;
+ b=Mrj2LB/qwG/p9kcPFDraExmGYrG8STUhIO6i2lQax28M4QGB9ebhQwLXKW1ZZ4RjnmH3Dk
+ J+2c73kVRzzi/zxQokJgaAFxZomMmDo9cFgYR1XZ2nVnJA//foaG5FYeGd+bV34G+T13fY
+ JnHUe8lzVQH7Mk59enW8aJ0Syk65maE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-Yz9a4V88NAWN0vYSx3K6Hg-1; Thu, 26 May 2022 04:55:37 -0400
-X-MC-Unique: Yz9a4V88NAWN0vYSx3K6Hg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-393-wJm9m655NrWTXEMIMi1ciQ-1; Thu, 26 May 2022 04:57:05 -0400
+X-MC-Unique: wJm9m655NrWTXEMIMi1ciQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD2F71C0518F;
- Thu, 26 May 2022 08:55:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F26FD3802B8A;
+ Thu, 26 May 2022 08:57:04 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2E0E1410DD5;
- Thu, 26 May 2022 08:55:35 +0000 (UTC)
-Date: Thu, 26 May 2022 09:55:34 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 860DE2026D64;
+ Thu, 26 May 2022 08:57:04 +0000 (UTC)
+Date: Thu, 26 May 2022 09:57:03 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Alberto Faria <afaria@redhat.com>
 Cc: qemu-devel@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
@@ -52,18 +52,17 @@ Cc: qemu-devel@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
  John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Jeff Cody <codyprime@gmail.com>, Fam Zheng <fam@euphon.net>,
- Ari Sundholm <ari@tuxera.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 07/10] block: Implement
- bdrv_{pread,pwrite,pwrite_zeroes}() using generated_co_wrapper
-Message-ID: <Yo9AhsmzrQlzIr/z@stefanha-x1.localdomain>
+ Ari Sundholm <ari@tuxera.com>
+Subject: Re: [PATCH v3 08/10] block: Add bdrv_co_pwrite_sync()
+Message-ID: <Yo9A31CWMXqGai1y@stefanha-x1.localdomain>
 References: <20220519144841.784780-1-afaria@redhat.com>
- <20220519144841.784780-8-afaria@redhat.com>
+ <20220519144841.784780-9-afaria@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jm5GwWzrwIxTy6pr"
+ protocol="application/pgp-signature"; boundary="Bt44Vpf3heptyUlM"
 Content-Disposition: inline
-In-Reply-To: <20220519144841.784780-8-afaria@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+In-Reply-To: <20220519144841.784780-9-afaria@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -89,33 +88,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jm5GwWzrwIxTy6pr
+--Bt44Vpf3heptyUlM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 19, 2022 at 03:48:37PM +0100, Alberto Faria wrote:
-> bdrv_pwrite_zeroes() now also calls trace_bdrv_co_pwrite_zeroes() and
-> clears the BDRV_REQ_MAY_UNMAP flag when appropriate, which it didn't
-> previously.
+On Thu, May 19, 2022 at 03:48:38PM +0100, Alberto Faria wrote:
+> Also convert bdrv_pwrite_sync() to being implemented using
+> generated_co_wrapper.
+>=20
+> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/io.c               | 9 +++++----
+>  include/block/block-io.h | 8 ++++++--
+>  2 files changed, 11 insertions(+), 6 deletions(-)
 
-The bdrv_pread()/bdrv_pwrite() errno for negative bytes changes from
-EINVAL to EIO. Did you audit the code to see if it matters?
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---jm5GwWzrwIxTy6pr
+--Bt44Vpf3heptyUlM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKPQIYACgkQnKSrs4Gr
-c8jxTQf/V9K/kWL5oHEJIwaL1kqD0J+HSMBsAbvE5hVJLaDmIxr/MHzKurJaGBTF
-nmw+FxcJ+tDq2fm83jTDM7GIEyNly6GcoKDMiKXWdV/NcBcUQkWHHSjZVAiIypnj
-+bXNO/toHQ7ZQZQL+tocwjc2WYRCWDU06r8SZL/RsS96orSLrjiEYfWucibA0vOD
-UQ+ctOYNRg5QKPHoXW7+CgbGnb3DEbaSG/vIGEOCTlTQOr8kpQXd67AQ1CNhuULM
-nZCHCBy6QOOB5yq9MjB2M/mie/vtcej9TmAGVky5ynQKg65RnxQb4MqcSxjHe9i1
-pRRX5DTVkbNgO2W9YIgAd1Gp8P84xw==
-=f3/Q
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKPQN8ACgkQnKSrs4Gr
+c8hXJAf/XhyZeWc5KxEgB4aS1SRq/HRJBLSlEEa3/SLMWlZ678ymPVQusMzJDpFg
+aMavM6y+JGX6m6Xz5E3Lw4nhDazJtljacNwul9HIXJBbES4YmY1Mo0/7EWs2exHN
+LeTjgofEzTbt1JmqQG5zJ4QCf9jP0U+XU8gdJriJQBi7E2ZWPwInoSBkdm8LyORw
+WzfCmYAt8BM1hW6aeEfw4rPcoMNv8EH7A2NjI587Lo/wupoju1s34UlsN+w6LAVm
+Y/oiLjzJscONBFORWxzn22nYBewfhHBk/bypXaFE0e2pA+FsI4JYtBvhB5a6ma4l
+TMlBjlfHw+j9JoVHCx/MyyQzcwZwvA==
+=U3jW
 -----END PGP SIGNATURE-----
 
---jm5GwWzrwIxTy6pr--
+--Bt44Vpf3heptyUlM--
 
 
