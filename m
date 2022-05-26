@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA7C534F0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:23:54 +0200 (CEST)
-Received: from localhost ([::1]:37654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7998C534ED1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:08:28 +0200 (CEST)
+Received: from localhost ([::1]:42288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCWv-0004Xn-Az
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
+	id 1nuCHz-0003Xg-7B
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nuC2x-0006ul-KE
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:53:02 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:37516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nuC2r-0003dv-GD
- for qemu-devel@nongnu.org; Thu, 26 May 2022 07:52:52 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- m14-20020a17090a414e00b001df77d29587so4223605pjg.2
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 04:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=D+BwAbtq7PbjJx/zNFP7MiT9jCGBk4mUErsk+pe7pAU=;
- b=7V+NpEmZmO31hpNTsPcLeaBIPx3MvcSG6EnbkzaL75U3Otc6IZ1ys0f0we/rGyTpyu
- Jl5Ore1a1TR9/l9JAvGRvMWCpQfW0DPNg3xPFGLSqQiwCA5wJGbyjG8LAItYcdXAB3lq
- eZr0zp507hgVrYrXJH4rFshV2wAUxobLsrrbHkO1l+RVxcr1U4ceuLJYR1zE6qcIgcTD
- uYSGv71PBWDUHvSRg3jLeTNp9OCfjn6y4Ts7TlnJT/Kjmr+kZhS5FZL/XjiWDu5Y8lwp
- /ltjNyml2nqpwUXioN+V27kDlkKYgbSUOGl7QOvJ78Kqr17CDab4KnQT9693BKgt6E4E
- PeKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=D+BwAbtq7PbjJx/zNFP7MiT9jCGBk4mUErsk+pe7pAU=;
- b=pBo6IK7MAtwyXARQDwzU0r87n3kBJgYCUUInilX+OKsyLK5QHklFR4Qo4pRx9hiUjY
- gUM8gGoAGWbEtskaVmXAHXNLxBYv30KQ4r12Qv5v1fdvMYej+XSOZurjWA9igfMJfKZ6
- oqVzVmDfQJqMcJW/gHsG2FmCNniyTOhhHry4VBdRYJ/WkjxqPZ3ltPk769IBvBVQjkUw
- TGFBIviQ3LzZm/659DupIzer/ZE/70Bm9DeLTcP7Fv42Phg3fjCdWRYm6dsdPz0zlZeS
- 6IwOJT9MnwOL5uEIDybF8Wb4yb+k0vv82rsKzB9i0fUi20JwX/AWqZc+/i7nX/zrGwTJ
- vM4w==
-X-Gm-Message-State: AOAM5332bp4Ok2glUmzuYL4Ws5jvlXqSM8fDnTbJcKr5tS2thB0qs2CZ
- 0eEJpHkjH0516zZ2lWE41Zh90Q==
-X-Google-Smtp-Source: ABdhPJyyiNl52ggLRLeyMuhJGhyoN84cF5I8Az4M7VvEjlwwun1iTUUO9DYQRCWihpO5JhnClxv6bA==
-X-Received: by 2002:a17:90b:4a0f:b0:1e0:edc:c1f with SMTP id
- kk15-20020a17090b4a0f00b001e00edc0c1fmr2167022pjb.93.1653565964631; 
- Thu, 26 May 2022 04:52:44 -0700 (PDT)
-Received: from [10.255.70.20] ([139.177.225.235])
- by smtp.gmail.com with ESMTPSA id
- v68-20020a622f47000000b0050dc76281e3sm1285645pfv.189.2022.05.26.04.52.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 May 2022 04:52:43 -0700 (PDT)
-Message-ID: <0e8a0334-7854-16e2-d108-0a7b6d977e8d@bytedance.com>
-Date: Thu, 26 May 2022 19:48:44 +0800
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nuC5G-00011u-F9; Thu, 26 May 2022 07:55:19 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:59096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nuC58-000415-Is; Thu, 26 May 2022 07:55:14 -0400
+Received: from iva8-c5ee4261001e.qloud-c.yandex.net
+ (iva8-c5ee4261001e.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 8606C2E1F44;
+ Thu, 26 May 2022 14:54:57 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ AcJbBqlL0n-suJSWTlG; Thu, 26 May 2022 14:54:57 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1653566097; bh=96eOjiNTJYUXfnhpJY0Zvj7pCa4uELXFra1uFDf6WrU=;
+ h=Cc:Message-Id:Date:Subject:To:From;
+ b=zoSVKGJc55p9Nqpe6U3hNxPPMZxLs2nGyLtYpCQfe0qJGBnZ201gm4XdVZPjwpe9F
+ K/iaxuFhMKnpd8ERCN1opOVDba03bNWAamTCPK1F+fgY4IzZVd7omf2wYnpu16Ndqu
+ +KkukNGedIjXmk0qzE9RPE2Tpou7ey4p8N0NESyo=
+Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from vsementsov-win.yandex-team.ru (unknown
+ [2a02:6b8:b081:b53f::1:17])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ h3CnA3vyof-suM8GqV0; Thu, 26 May 2022 14:54:56 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, eblake@redhat.com, den@openvz.org, kwolf@redhat.com,
+ stefanha@redhat.com, jsnow@redhat.com, hreitz@redhat.com,
+ pbonzini@redhat.com, den-plotnikov@yandex-team.ru,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PATCH] MAINTAINERS: update Vladimir's address and repositories
+Date: Thu, 26 May 2022 14:54:32 +0300
+Message-Id: <20220526115432.138384-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: Re: [PATCH v7 0/9] Introduce akcipher service for virtio-crypto
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: mst@redhat.com, arei.gonglei@huawei.com,
- Lei He <helei.sig11@bytedance.com>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
- jasowang@redhat.com, cohuck@redhat.com
-References: <20220525090118.43403-1-helei.sig11@bytedance.com>
- <Yo9a50mWNcopioEr@redhat.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <Yo9a50mWNcopioEr@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,177 +79,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Daniel
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+---
 
-Thanks a lot for your review!
+Hi all!
 
-On 5/26/22 18:48, Daniel P. Berrangé wrote:
-> I've sent a pull request containing all the crypto/ changes,
-> as that covers stuff I maintain. ie patches 2-8
-> 
-> Patches 1 and 9, I'll leave for MST to review & queue since the
-> virtual hardware is not my area of knowledge.
-> 
-> On Wed, May 25, 2022 at 05:01:09PM +0800, Lei He wrote:
->> v6 -> v7:
->> - Fix serval build errors for some specific platforms/configurations.
->> - Use '%zu' instead of '%lu' for size_t parameters.
->> - AkCipher-gcrypt: avoid setting wrong error messages when parsing RSA
->>    keys.
->> - AkCipher-benchmark: process constant amount of sign/verify instead
->>   of running sign/verify for a constant duration.
->>
->> v5 -> v6:
->> - Fix build errors and codestyles.
->> - Add parameter 'Error **errp' for qcrypto_akcipher_rsakey_parse.
->> - Report more detailed errors.
->> - Fix buffer length check and return values of akcipher-nettle, allows caller to
->>   pass a buffer with larger size than actual needed.
->>
->> A million thanks to Daniel!
->>
->> v4 -> v5:
->> - Move QCryptoAkCipher into akcipherpriv.h, and modify the related comments.
->> - Rename asn1_decoder.c to der.c.
->> - Code style fix: use 'cleanup' & 'error' lables.
->> - Allow autoptr type to auto-free.
->> - Add test cases for rsakey to handle DER error.
->> - Other minor fixes.
->>
->> v3 -> v4:
->> - Coding style fix: Akcipher -> AkCipher, struct XXX -> XXX, Rsa -> RSA,
->> XXX-alg -> XXX-algo.
->> - Change version info in qapi/crypto.json, from 7.0 -> 7.1.
->> - Remove ecdsa from qapi/crypto.json, it would be introduced with the implemetion later.
->> - Use QCryptoHashAlgothrim instead of QCryptoRSAHashAlgorithm(removed) in qapi/crypto.json.
->> - Rename arguments of qcrypto_akcipher_XXX to keep aligned with qcrypto_cipher_XXX(dec/enc/sign/vefiry -> in/out/in2), and add qcrypto_akcipher_max_XXX APIs.
->> - Add new API: qcrypto_akcipher_supports.
->> - Change the return value of qcrypto_akcipher_enc/dec/sign, these functions return the actual length of result.
->> - Separate ASN.1 source code and test case clean.
->> - Disable RSA raw encoding for akcipher-nettle.
->> - Separate RSA key parser into rsakey.{hc}, and implememts it with builtin-asn1-decoder and nettle respectivly.
->> - Implement RSA(pkcs1 and raw encoding) algorithm by gcrypt. This has higher priority than nettle.
->> - For some akcipher operations(eg, decryption of pkcs1pad(rsa)), the length of returned result maybe less than the dst buffer size, return the actual length of result instead of the buffer length to the guest side. (in function virtio_crypto_akcipher_input_data_helper)
->> - Other minor changes.
->>
->> Thanks to Daniel!
->>
->> Eric pointed out this missing part of use case, send it here again.
->>
->> In our plan, the feature is designed for HTTPS offloading case and other applications which use kernel RSA/ecdsa by keyctl syscall. The full picture shows bellow:
->>
->>
->>                   Nginx/openssl[1] ... Apps
->> Guest   -----------------------------------------
->>                    virtio-crypto driver[2]
->> -------------------------------------------------
->>                    virtio-crypto backend[3]
->> Host    -----------------------------------------
->>                   /          |          \
->>               builtin[4]   vhost     keyctl[5] ...
->>
->>
->> [1] User applications can offload RSA calculation to kernel by keyctl syscall. There is no keyctl engine in openssl currently, we developed a engine and tried to contribute it to openssl upstream, but openssl 1.x does not accept new feature. Link:
->>     https://github.com/openssl/openssl/pull/16689
->>
->> This branch is available and maintained by Lei <helei.sig11@bytedance.com>
->>     https://github.com/TousakaRin/openssl/tree/OpenSSL_1_1_1-kctl_engine
->>
->> We tested nginx(change config file only) with openssl keyctl engine, it works fine.
->>
->> [2] virtio-crypto driver is used to communicate with host side, send requests to host side to do asymmetric calculation.
->>     https://lkml.org/lkml/2022/3/1/1425
->>
->> [3] virtio-crypto backend handles requests from guest side, and forwards request to crypto backend driver of QEMU.
->>
->> [4] Currently RSA is supported only in builtin driver. This driver is supposed to test the full feature without other software(Ex vhost process) and hardware dependence. ecdsa is introduced into qapi type without implementation, this may be implemented in Q3-2022 or later. If ecdsa type definition should be added with the implementation together, I'll remove this in next version.
->>
->> [5] keyctl backend is in development, we will post this feature in Q2-2022. keyctl backend can use hardware acceleration(Ex, Intel QAT).
->>
->> Setup the full environment, tested with Intel QAT on host side, the QPS of HTTPS increase to ~200% in a guest.
->>
->> VS PCI passthrough: the most important benefit of this solution makes the VM migratable.
->>
->> v2 -> v3:
->> - Introduce akcipher types to qapi
->> - Add test/benchmark suite for akcipher class
->> - Seperate 'virtio_crypto: Support virtio crypto asym operation' into:
->>   - crypto: Introduce akcipher crypto class
->>   - virtio-crypto: Introduce RSA algorithm
->>
->> v1 -> v2:
->> - Update virtio_crypto.h from v2 version of related kernel patch.
->>
->> v1:
->> - Support akcipher for virtio-crypto.
->> - Introduce akcipher class.
->> - Introduce ASN1 decoder into QEMU.
->> - Implement RSA backend by nettle/hogweed.
->>
->> Lei He (6):
->>    qapi: crypto-akcipher: Introduce akcipher types to qapi
->>    crypto: add ASN.1 DER decoder
->>    crypto: Implement RSA algorithm by hogweed
->>    crypto: Implement RSA algorithm by gcrypt
->>    test/crypto: Add test suite for crypto akcipher
->>    tests/crypto: Add test suite for RSA keys
->>
->> Zhenwei Pi (3):
->>    virtio-crypto: header update
->>    crypto: Introduce akcipher crypto class
->>    crypto: Introduce RSA algorithm
->>
->>   backends/cryptodev-builtin.c                   | 272 ++++++-
->>   backends/cryptodev-vhost-user.c                |  34 +-
->>   backends/cryptodev.c                           |  32 +-
->>   crypto/akcipher-gcrypt.c.inc                   | 595 +++++++++++++++
->>   crypto/akcipher-nettle.c.inc                   | 451 +++++++++++
->>   crypto/akcipher.c                              | 108 +++
->>   crypto/akcipherpriv.h                          |  55 ++
->>   crypto/der.c                                   | 189 +++++
->>   crypto/der.h                                   |  81 ++
->>   crypto/meson.build                             |   6 +
->>   crypto/rsakey-builtin.c.inc                    | 200 +++++
->>   crypto/rsakey-nettle.c.inc                     | 158 ++++
->>   crypto/rsakey.c                                |  44 ++
->>   crypto/rsakey.h                                |  92 +++
->>   hw/virtio/virtio-crypto.c                      | 323 ++++++--
->>   include/crypto/akcipher.h                      | 158 ++++
->>   include/hw/virtio/virtio-crypto.h              |   5 +-
->>   include/standard-headers/linux/virtio_crypto.h |  82 +-
->>   include/sysemu/cryptodev.h                     |  83 ++-
->>   meson.build                                    |  11 +
->>   qapi/crypto.json                               |  64 ++
->>   tests/bench/benchmark-crypto-akcipher.c        | 137 ++++
->>   tests/bench/meson.build                        |   1 +
->>   tests/bench/test_akcipher_keys.inc             | 537 ++++++++++++++
->>   tests/unit/meson.build                         |   2 +
->>   tests/unit/test-crypto-akcipher.c              | 990 +++++++++++++++++++++++++
->>   tests/unit/test-crypto-der.c                   | 290 ++++++++
->>   27 files changed, 4854 insertions(+), 146 deletions(-)
->>   create mode 100644 crypto/akcipher-gcrypt.c.inc
->>   create mode 100644 crypto/akcipher-nettle.c.inc
->>   create mode 100644 crypto/akcipher.c
->>   create mode 100644 crypto/akcipherpriv.h
->>   create mode 100644 crypto/der.c
->>   create mode 100644 crypto/der.h
->>   create mode 100644 crypto/rsakey-builtin.c.inc
->>   create mode 100644 crypto/rsakey-nettle.c.inc
->>   create mode 100644 crypto/rsakey.c
->>   create mode 100644 crypto/rsakey.h
->>   create mode 100644 include/crypto/akcipher.h
->>   create mode 100644 tests/bench/benchmark-crypto-akcipher.c
->>   create mode 100644 tests/bench/test_akcipher_keys.inc
->>   create mode 100644 tests/unit/test-crypto-akcipher.c
->>   create mode 100644 tests/unit/test-crypto-der.c
->>
->> -- 
->> 2.11.0
->>
-> 
-> With regards,
-> Daniel
+Finally, I'm at Yandex, so that's my new address. I don't think .mailmap
+or contrib/gitdm/aliases really need to be updated.
 
+I send this patch now, but let me send one-two series from new address
+before merging this, to be sure that everything work properly with new
+email.
+
+ MAINTAINERS | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dff0200f70..3fd85d392e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2508,7 +2508,7 @@ F: scsi/*
+ 
+ Block Jobs
+ M: John Snow <jsnow@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: blockjob.c
+@@ -2533,7 +2533,7 @@ F: block/aio_task.c
+ F: util/qemu-co-shared-resource.c
+ F: include/qemu/co-shared-resource.h
+ T: git https://gitlab.com/jsnow/qemu.git jobs
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git jobs
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ Block QAPI, monitor, command line
+ M: Markus Armbruster <armbru@redhat.com>
+@@ -2554,7 +2554,7 @@ F: include/hw/cxl/
+ 
+ Dirty Bitmaps
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ R: John Snow <jsnow@redhat.com>
+ L: qemu-block@nongnu.org
+ S: Supported
+@@ -2568,6 +2568,7 @@ F: util/hbitmap.c
+ F: tests/unit/test-hbitmap.c
+ F: docs/interop/bitmaps.rst
+ T: git https://repo.or.cz/qemu/ericb.git bitmaps
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ Character device backends
+ M: Marc-André Lureau <marcandre.lureau@redhat.com>
+@@ -2778,16 +2779,17 @@ F: scripts/*.py
+ F: tests/*.py
+ 
+ Benchmark util
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ S: Maintained
+ F: scripts/simplebench/
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
++T: git https://gitlab.com/vsementsov/qemu.git simplebench
+ 
+ Transactions helper
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ S: Maintained
+ F: include/qemu/transactions.h
+ F: util/transactions.c
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ QAPI
+ M: Markus Armbruster <armbru@redhat.com>
+@@ -3364,7 +3366,7 @@ F: block/iscsi-opts.c
+ 
+ Network Block Device (NBD)
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ L: qemu-block@nongnu.org
+ S: Maintained
+ F: block/nbd*
+@@ -3376,7 +3378,7 @@ F: docs/interop/nbd.txt
+ F: docs/tools/qemu-nbd.rst
+ F: tests/qemu-iotests/tests/*nbd*
+ T: git https://repo.or.cz/qemu/ericb.git nbd
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git nbd
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ NFS
+ M: Peter Lieven <pl@kamp.de>
+@@ -3461,13 +3463,13 @@ F: block/dmg.c
+ parallels
+ M: Stefan Hajnoczi <stefanha@redhat.com>
+ M: Denis V. Lunev <den@openvz.org>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/parallels.c
+ F: block/parallels-ext.c
+ F: docs/interop/parallels.txt
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git parallels
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ qed
+ M: Stefan Hajnoczi <stefanha@redhat.com>
 -- 
-zhenwei pi
+2.25.1
+
 
