@@ -2,85 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806B153496A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 05:45:30 +0200 (CEST)
-Received: from localhost ([::1]:51682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E6553498B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 05:55:29 +0200 (CEST)
+Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu4RF-0007EX-4m
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 23:45:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55632)
+	id 1nu4au-0000py-FB
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 23:55:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu4QC-0006Zx-9J
- for qemu-devel@nongnu.org; Wed, 25 May 2022 23:44:24 -0400
-Received: from mga05.intel.com ([192.55.52.43]:1477)
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1nu4Zr-00008Y-5K
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 23:54:23 -0400
+Received: from mail-bn8nam12on2067.outbound.protection.outlook.com
+ ([40.107.237.67]:55905 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nu4Q9-00037w-N5
- for qemu-devel@nongnu.org; Wed, 25 May 2022 23:44:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653536661; x=1685072661;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=oLdKtrVWRz08CWT64PN6UcYHzqiEl/ro32pb6xYNL4E=;
- b=jm6BzpG+e26Abe/uDd5g4Bbd7uuZMt4Zly4KSt2C2wJD35KRyD1Ae8EL
- OTe9m0B2+m/3m11rNM9QAxnkqxDHMxH9Atx50zfP4uBHS64je4+jjbFwP
- WlahwzwH89nX8rs9NIsfJYfJOEdg1pfPoCdR8h0rba743Fh+eggsX3dBs
- YoTAeRwjJeLuKJxqo67hGldWyX87yYoTpcqfuVABcwjJq14zuuAMqRLQu
- 4bV9FSy2DoE6rvQ4Q6y2N2i4o/LLLaQLwigtArGdkMcPevnzCU/Un8kuU
- 4fMF9yAXS9Z86T18IYhI1tPXklgw6YFjLTTO5czU8OohysBqBp8tOT/mC w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="360409880"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="360409880"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 20:44:14 -0700
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="573662025"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.212])
- ([10.255.28.212])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 20:44:09 -0700
-Message-ID: <641d640a-398c-3004-382f-f208e779a26e@intel.com>
-Date: Thu, 26 May 2022 11:44:06 +0800
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1nu4Zn-0004T5-H5
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 23:54:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SOmC5dQMVsmMDGe6mVYGnJjG9Zw9UlZFij9+8YQ+BHyolsPOARaY4BwqRsCKtZ9d/J7Dg0hU5gVgmB8ThIw4w9oaG5qAlMmYNrcXREFhJo47ObQkYak7kLNCHH0DSSGzRl9uJRKl60ZEfjsT5QyKHSeE+PrYwgWW1iYlYqF5VzLXseRFenxbM/0wozroXjhH7/tPs56febDpM0yjK6gdYDv3GVmQX0J4eLliLWooGnUUGIcmX81kgMEHCgphoFzksQxfgCPdrwgWNp9uFhBTPe8BwjRC92WZnWfVI/5/MOmV1wBj9dxzA38ec/j4Ws3xU63Zpde9OsynglqbyZnBQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4XbbLkDdbJveCQci06lVDo4aLRlqBdxXBJs3ZKIGAIU=;
+ b=LwwOb0OakoMjkHqPFzSOtVmqz6aEKOQFIatIYQS5cUTTM6UcBNxT1TceXPcv6wkX6mUhQPZ7claRH/iNRt3WyVSTeW6VLUpO8iBy2xSaAYCnOAM6rSioa4f4Kqt9SXp8NtL+xgjiWj7a5FPgQFiu6T6zudvbt9sZZ6kY0U5ZgZ6c8W/I09xH1x0somU4ZWpQYwjDbedcRhup8lj+z7YT0yjNN3N970zFsLYtg+a/8HGyRYTOU8S1mchEB9Oh0eETGLCLb/DN55EgIuMBcqj5Ts+rUJPu5A/pJ5g6jho3/ZZjAvKK6NkhwGmW8e6r3/ZnZ1rwbN+zTWMTYesIP8e0Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4XbbLkDdbJveCQci06lVDo4aLRlqBdxXBJs3ZKIGAIU=;
+ b=ja06BOiKVxlBYCz9/PcOeCMXF4Vop4vY6+xaD9MCqH9nJmOe3axQjCxgHwJ6DITEhWmc9wEgB4Zu5lHEYPjWl9jJMuEshc1KqgCHNFqmOZYB72rOCI+37KfW8vYK/TwLXF6ia1fvR2CAMtHN83vV7twYqDki/Jj8frNx4Q34wxDsm99adgIrCmAz9jMq+734yksu56H826BpPrxkSJYYQSglGaVvftccVKgSvywdszg+99j2+9kwQvC1m/bVG/YRvbMygqpC2hCB/60W8n4r/stmYD1QovYkkM6HRIZYm1wG+qKxy8dA74Mny25kpRPvaS6cfEmH1Kqr1Sn/6YtESw==
+Received: from BN6PR16CA0031.namprd16.prod.outlook.com (2603:10b6:405:14::17)
+ by SJ0PR12MB5633.namprd12.prod.outlook.com (2603:10b6:a03:428::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Thu, 26 May
+ 2022 03:49:12 +0000
+Received: from BN8NAM11FT020.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:405:14:cafe::96) by BN6PR16CA0031.outlook.office365.com
+ (2603:10b6:405:14::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13 via Frontend
+ Transport; Thu, 26 May 2022 03:49:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.236) by
+ BN8NAM11FT020.mail.protection.outlook.com (10.13.176.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5293.13 via Frontend Transport; Thu, 26 May 2022 03:49:11 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
+ (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
+ Thu, 26 May 2022 03:49:09 +0000
+Received: from nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 25 May
+ 2022 20:49:06 -0700
+From: Yajun Wu <yajunw@nvidia.com>
+To: <qemu-devel@nongnu.org>, <mst@redhat.com>, <alex.bennee@linaro.org>,
+ <yajunw@nvidia.com>
+CC: Parav Pandit <parav@nvidia.com>
+Subject: [PATCH] virtio/vhost-user: Fix wrong vhost notifier GPtrArray size
+Date: Thu, 26 May 2022 06:48:51 +0300
+Message-ID: <20220526034851.683258-1-yajunw@nvidia.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 13/36] i386/tdx: Validate TD attributes
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-14-xiaoyao.li@intel.com>
- <20220523093920.o6pk5i7zig6enwnm@sirius.home.kraxel.org>
- <1e0f0051-f7c1-ed3b-be02-d16f0cf9f25d@intel.com>
- <20220524065959.umzmlhwcspfwi7m2@sirius.home.kraxel.org>
- <89534991-1850-be09-8abd-6d29bef5958e@intel.com>
- <20220524082939.2clruwficvkdwnzh@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220524082939.2clruwficvkdwnzh@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4dc6f7d4-d4f9-4082-3c92-08da3ecab234
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5633:EE_
+X-Microsoft-Antispam-PRVS: <SJ0PR12MB5633BDD06CFCD2AEAB04F05EB6D99@SJ0PR12MB5633.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SY8sx4xJxpra1KdODwANgDmBdS5+eN+0R3tx2W7/GsSXDNGQ1MaFy+Ks3wtYQExO1wfl5qRkof7eja8LVd6v8xJ2/eKS+MQWr1WdcBHy6k8Yk9QdunEOUqlizW+HHCbqrhzKUja9So+v2TSxQvF7vYH/PKlFEGYdByLjdhOFTHCKN29tGvFWo6hit0pfaF+xgPp9YaRt9ZbprqlRzHP6Fgu6J56TJk11aN01b20GZyAQvahvVWcESpHkyNJqOLI1G9rG5v1bq0HRtPisrZmN2GPXCiQmN9k4svof0FQJCLexLgIFXrVIJuqt80yQ2hnXOCSL8I+zPoORjbxxg7JarCnQzXZ4IojmVIE2h80CqwJ2pdJUfDpJuleKrxMwdaZGxUkrw9YcRIHIccx4yJDECE1kcmAG2tl3z12dQI10/GueNM0TDgaZeI3q1HFZdAdzunv3P803P/dKsjsuOODayduBxAHDoo/3S+Ffh/UrbbVpTpTpEFwG38ZTj0TXUacAbXqUOIs+SDxwkz4gwbB/hEmjILN7NizfMy+Sd19oddgGGBjpZDfDmjxmM19c/mxiE9XmA57FzuqnfQEBLy0MA7e0PU77e3KjyhJf0t6wIdyNQMYnoXMrTtW9jyfrS0qyrIl+uoT2gDSDo6FobtmKLqsup/ARQxeQka2dRg2VwXYM/TMgq32Gmz+w0iBeBG4ArKUY/NECyykPFoC/VcV14g==
+X-Forefront-Antispam-Report: CIP:12.22.5.236; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(1076003)(36756003)(83380400001)(16526019)(186003)(336012)(508600001)(81166007)(426003)(107886003)(6286002)(82310400005)(5660300002)(110136005)(70206006)(8936002)(2906002)(86362001)(8676002)(6666004)(4326008)(36860700001)(7049001)(47076005)(7696005)(26005)(316002)(356005)(55016003)(40460700003)(70586007)(2616005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2022 03:49:11.8711 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4dc6f7d4-d4f9-4082-3c92-08da3ecab234
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.236];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT020.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5633
+Received-SPF: softfail client-ip=40.107.237.67; envelope-from=yajunw@nvidia.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,46 +122,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/2022 4:29 PM, Gerd Hoffmann wrote:
-> On Tue, May 24, 2022 at 04:11:56PM +0800, Xiaoyao Li wrote:
->> On 5/24/2022 2:59 PM, Gerd Hoffmann wrote:
->>> On Tue, May 24, 2022 at 12:19:51PM +0800, Xiaoyao Li wrote:
->>>> On 5/23/2022 5:39 PM, Gerd Hoffmann wrote:
->>>>> So, how is this supposed to work?  Patch #2 introduces attributes as
->>>>> user-settable property.  So do users have to manually figure and pass
->>>>> the correct value, so the check passes?  Specifically the fixed1 check?
->>>>>
->>>>> I think 'attributes' should not be user-settable in the first place.
->>>>> Each feature-bit which is actually user-settable (and not already
->>>>> covered by another option like pmu) should be a separate attribute for
->>>>> tdx-object.  Then the tdx code can create attributes from hardware
->>>>> capabilities and user settings.
->>>>
->>>> In patch #2, tdx-guest.attributes is defined as a field to hold a 64 bits
->>>> value of attributes but it doesn't provide any getter/setter for it. So it's
->>>> *not* user-settable.
->>>
->>> Ok.  Why it is declared as object property in the first place then?
->>
->> Is there another way to define a member/field of object besides property?
-> 
-> Well, the C object struct is completely independent from the qapi
-> struct.  Typically qapi-generated structs are added as struct fields.
-> Look at ui/input-linux.c for example.
-> 
-> struct InputLinux holds all the object state.  It has a GrabToggleKeys
-> field, that is a qapi-generated enum (see qapi/common.json) and is
-> user-configurable (there are getter and setter for it).
-> 
-> So, you can have a private 'attributes' struct field in your tdx class,
-> but the field doesn't have to be in the qapi struct for that.
+In fetch_or_create_notifier, idx begins with 0. So the GPtrArray size
+should be idx + 1 and g_ptr_array_set_size should be called with idx + 1.
 
-I see. Thanks for the explanation!
+This wrong GPtrArray size causes fetch_or_create_notifier return an invalid
+address. Passing this invalid pointer to vhost_user_host_notifier_remove
+causes assert fail:
 
-I will remove the qom property definition in patch 2.
+    qemu/include/qemu/int128.h:27: int128_get64: Assertion `r == a' failed.
+	shutting down, reason=crashed
 
-> HTH,
->    Gerd
-> 
+Backends like dpdk-vdpa which sends out vhost notifier requests almost always
+hit qemu crash.
+
+Fixes: 503e355465 ("virtio/vhost-user: dynamically assign VhostUserHostNotifiers")
+Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+Acked-by: Parav Pandit <parav@nvidia.com>
+Change-Id: I87e0f7591ca9a59d210879b260704a2d9e9d6bcd
+---
+ hw/virtio/vhost-user.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index b040c1ad2b..dbc690d16c 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1525,7 +1525,7 @@ static VhostUserHostNotifier *fetch_or_create_notifier(VhostUserState *u,
+ {
+     VhostUserHostNotifier *n = NULL;
+     if (idx >= u->notifiers->len) {
+-        g_ptr_array_set_size(u->notifiers, idx);
++        g_ptr_array_set_size(u->notifiers, idx + 1);
+     }
+ 
+     n = g_ptr_array_index(u->notifiers, idx);
+-- 
+2.36.0
 
 
