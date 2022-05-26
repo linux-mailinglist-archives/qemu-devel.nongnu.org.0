@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919155355D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:49:56 +0200 (CEST)
-Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49315355CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:45:59 +0200 (CEST)
+Received: from localhost ([::1]:50118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuLMh-0006r7-IS
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53270)
+	id 1nuLIs-00029F-RD
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLBq-0000ju-Nd; Thu, 26 May 2022 17:38:42 -0400
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a]:41748)
+ id 1nuLBu-0000uR-BG; Thu, 26 May 2022 17:38:46 -0400
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:34931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLBo-00085L-Nc; Thu, 26 May 2022 17:38:42 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-f2c296d320so3735402fac.8; 
- Thu, 26 May 2022 14:38:40 -0700 (PDT)
+ id 1nuLBs-00085m-Gq; Thu, 26 May 2022 17:38:46 -0400
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-f16a3e0529so3773631fac.2; 
+ Thu, 26 May 2022 14:38:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oEG1c2405JUlm6OoEGtqQDpIyJt6yubMZhrta9vUA28=;
- b=OiV/69O2rhTYhMRyTp7AAWSm+Ay2msRi9U0v/96iQkk6Kn1KOA/WWNPRGDfmExy6S8
- zuB7mZr4taHwMXk0+Hi99DS5j5JMsmkjh0TZdg5hCB6T3+CEtTv92GwZJLm3bbabqM4o
- Ic4Ia5dI47U2txmfZaEpzkq2z90PuxhF+DgQguG+MalsYxTf4SVFs9bDIvg4y8RtLKyk
- 7ciPD7JCDrsDK+MtyrvOFeBjyloAD9Wy+gJomGZrjzE2m9qv8VEUhMTPNMrKjXOEFeoQ
- /fucmcTkQEJGqd8+dOpU6hvAy7hRwvRCoy22/iygc3sTwP4VjQPewM3YbiCe7TyENEs2
- JY2w==
+ bh=PyTl8+lSVsVjSgTsn48felgJQ6hKzAQD0I/3SyX7ojk=;
+ b=VE8tbp6HK6wpF6Yfk11fZyap6kAiIZiHiOVqxiSlIdusdiUGMCbyOOS/Of4aKrnJRy
+ gvJc9awGbV/t3ONW7mq6xJ/asiSuXdpr2msyhqT8Q5u7B+6qp3meokn/2fAMjbyAjYUG
+ V2zYyQyLinZi1GjWSRsT4KW03tErs8ahvPNtV4supf25qW6p3QtjfLYG+mbD7hUWo3xL
+ yjbQTVp0tJ2WmRXN2nQUroM546cXDl88IdD87M8GI3fZUNhlrY9aatEBH0WhHtUvI0rK
+ QbvyZ7u7UzpVziUmgo0OnBCuLRZ0mM59c+7O+CovixdxqDaws5lg3+XEVMBhy2lJfTkW
+ kN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oEG1c2405JUlm6OoEGtqQDpIyJt6yubMZhrta9vUA28=;
- b=752AIvBV61R1QT36qRYe0h5rKauNHPE4vhUtesMDLIN8R90s7DQEuD0qezOKaAXyAR
- lKApsg5D36rnBHFXhwCJrs8qxietnffJ+hwVMhfgWytNTZzVGHET/p6WOROr4IF/iRjo
- Kzfn+kc0R/ufOASfrINBXw4rpq7Gu/1kArZcnX5/ZDILCJRZTc/Mb6FsBReX70UaNlCe
- 3BAor4BW9OfQgp8mqk+uyoYBLwJ+z+129upWNDTZhLJfBp0KVqkqDUb2X+9We4twxXOd
- hgIeqwysPkufN3tR1gDBl+pRDKzpI1IkCw8PiLq1cwCk31QefYV9Gp6L6lYiOLnkwxfb
- SCVw==
-X-Gm-Message-State: AOAM5335ie4GoIRRxejBcAihN82KQN8VJRA72T4nfTWUpoGoWZa50RA2
- 4zCmsCS/JhGx9sb4Q/wTNuPndXivYkk=
-X-Google-Smtp-Source: ABdhPJwQQ32y3b/F9SkYaXC1rhMqBmjW3A/tRgrq8kcklEHGKNT8CLwdQfWT9jhdCviTFCYzNd1Isw==
-X-Received: by 2002:a05:6870:5708:b0:db:2ef8:f220 with SMTP id
- k8-20020a056870570800b000db2ef8f220mr2484001oap.198.1653601118930; 
- Thu, 26 May 2022 14:38:38 -0700 (PDT)
+ bh=PyTl8+lSVsVjSgTsn48felgJQ6hKzAQD0I/3SyX7ojk=;
+ b=I7S7ISjruSzldtaVKkCNsZHlOS9USogVLvPuQZhqmtoVsaLlv/bx0G+srMn1GckAMa
+ x3fSARQ5XjNNEB9V71a+v1uGfAqTd9RVNkYWTDh8X7zHZKA/zvxy/BQEXD2JpWxQjKPM
+ VToYqPvkv40N7EpGVqeodj6ls9jHnI2Ut97Kdng6zHWTlI0pLt750Dgn6yLGeuaPCjKX
+ FGydy1ZBU4xCbtH+cMgB3/0Am/rYC6JhRdFklSal3b9oecEBnmAeAXhWqj5CAFqDTo0d
+ 4Ps9ubLLmx4X9CV+uOrCH3GiKoN4whgTNiOQOLAJEj7slETqu5IEJYlfzC2dK2lwe+47
+ vNRg==
+X-Gm-Message-State: AOAM530PlH51MGDPxSQ/3TXHlssXFyPQL1JZUC4WqplRLpGV46Rh9II1
+ DSHpWXEMv9gNqExvqC2FNboHDDuhj88=
+X-Google-Smtp-Source: ABdhPJwuGqjC5FpPEcRM8PUTzPuRnTtPEU+epMKN+XrsvZLtjfLfoYqNvXaAVBvpbDPav7h4DP4ufQ==
+X-Received: by 2002:a05:6870:11cd:b0:e5:e565:9185 with SMTP id
+ 13-20020a05687011cd00b000e5e5659185mr2402305oav.251.1653601122915; 
+ Thu, 26 May 2022 14:38:42 -0700 (PDT)
 Received: from balboa.COMFAST (189-46-169-45.dsl.telesp.net.br.
  [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
- l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.38.36
+ l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.38.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 14:38:38 -0700 (PDT)
+ Thu, 26 May 2022 14:38:41 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Joel Stanley <joel@jms.id.au>, Fabiano Rosas <farosas@linux.ibm.com>
-Subject: [PULL 03/34] spapr: Use address from elf parser for kernel address
-Date: Thu, 26 May 2022 18:37:44 -0300
-Message-Id: <20220526213815.92701-4-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: [PULL 04/34] spapr/docs: Add a few words about x-vof
+Date: Thu, 26 May 2022 18:37:45 -0300
+Message-Id: <20220526213815.92701-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220526213815.92701-1-danielhb413@gmail.com>
 References: <20220526213815.92701-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,78 +92,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-tl;dr: This allows Big Endian zImage booting via -kernel + x-vof=on.
+The alternative small firmware needs a few words of what it can and
+absolutely cannot do; this adds those words.
 
-QEMU loads the kernel at 0x400000 by default which works most of
-the time as Linux kernels are relocatable, 64bit and compiled with "-pie"
-(position independent code). This works for a little endian zImage too.
-
-However a big endian zImage is compiled without -pie, is 32bit, linked to
-0x4000000 so current QEMU ends up loading it at
-0x4400000 but keeps spapr->kernel_addr unchanged so booting fails.
-
-This uses the kernel address returned from load_elf().
-If the default kernel_addr is used, there is no change in behavior (as
-translate_kernel_address() takes care of this), which is:
-LE/BE vmlinux and LE zImage boot, BE zImage does not.
-If the VM created with "-machine kernel-addr=0,x-vof=on", then QEMU
-prints a warning and BE zImage boots.
-
-Note #1: SLOF (x-vof=off) still cannot boot a big endian zImage as
-SLOF enables MSR_SF for everything loaded by QEMU and this leads to early
-crash of 32bit zImage.
-
-Note #2: BE/LE vmlinux images set MSR_SF in early boot so these just work;
-a LE zImage restores MSR_SF after every CI call and we are lucky enough
-not to crash before the first CI call.
-
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-Tested-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20220504065536.3534488-1-aik@ozlabs.ru>
-[danielhb: use PRIx64 instead of lx in warn_report]
+Message-Id: <20220506055124.3822112-1-aik@ozlabs.ru>
+[danielhb: added linebreaks before and after table]
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ docs/system/ppc/pseries.rst | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index d112b85b4f..fd4942e881 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2975,14 +2975,16 @@ static void spapr_machine_init(MachineState *machine)
-     }
+diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+index d9b65ad4e8..3e1bbe6726 100644
+--- a/docs/system/ppc/pseries.rst
++++ b/docs/system/ppc/pseries.rst
+@@ -32,14 +32,43 @@ Missing devices
+ Firmware
+ ========
  
-     if (kernel_filename) {
-+        uint64_t loaded_addr = 0;
++The pSeries platform in QEMU comes with 2 firmwares:
 +
-         spapr->kernel_size = load_elf(kernel_filename, NULL,
-                                       translate_kernel_address, spapr,
--                                      NULL, NULL, NULL, NULL, 1,
-+                                      NULL, &loaded_addr, NULL, NULL, 1,
-                                       PPC_ELF_MACHINE, 0, 0);
-         if (spapr->kernel_size == ELF_LOAD_WRONG_ENDIAN) {
-             spapr->kernel_size = load_elf(kernel_filename, NULL,
-                                           translate_kernel_address, spapr,
--                                          NULL, NULL, NULL, NULL, 0,
-+                                          NULL, &loaded_addr, NULL, NULL, 0,
-                                           PPC_ELF_MACHINE, 0, 0);
-             spapr->kernel_le = spapr->kernel_size > 0;
-         }
-@@ -2992,6 +2994,13 @@ static void spapr_machine_init(MachineState *machine)
-             exit(1);
-         }
+ `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
+ implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
+ Configuration) Firmware: Core Requirements and Practices
+ <https://standards.ieee.org/standard/1275-1994.html>`_.
  
-+        if (spapr->kernel_addr != loaded_addr) {
-+            warn_report("spapr: kernel_addr changed from 0x%"PRIx64
-+                        " to 0x%"PRIx64,
-+                        spapr->kernel_addr, loaded_addr);
-+            spapr->kernel_addr = loaded_addr;
-+        }
++SLOF performs bus scanning, PCI resource allocation, provides the client
++interface to boot from block devices and network.
 +
-         /* load initrd */
-         if (initrd_filename) {
-             /* Try to locate the initrd in the gap between the kernel
+ QEMU includes a prebuilt image of SLOF which is updated when a more recent
+ version is required.
+ 
++VOF (Virtual Open Firmware) is a minimalistic firmware to work with
++``-machine pseries,x-vof=on``. When enabled, the firmware acts as a slim
++shim and QEMU implements parts of the IEEE 1275 Open Firmware interface.
++
++VOF does not have device drivers, does not do PCI resource allocation and
++relies on ``-kernel`` used with Linux kernels recent enough (v5.4+)
++to PCI resource assignment. It is ideal to use with petitboot.
++
++Booting via ``-kernel`` supports the following:
++
+++-------------------+-------------------+------------------+
++| kernel            | pseries,x-vof=off | pseries,x-vof=on |
+++===================+===================+==================+
++| vmlinux BE        |     ✓             |     ✓            |
+++-------------------+-------------------+------------------+
++| vmlinux LE        |     ✓             |     ✓            |
+++-------------------+-------------------+------------------+
++| zImage.pseries BE |     x             |     ✓¹           |
+++-------------------+-------------------+------------------+
++| zImage.pseries LE |     ✓             |     ✓            |
+++-------------------+-------------------+------------------+
++
++¹ must set kernel-addr=0
++
+ Build directions
+ ================
+ 
 -- 
 2.36.1
 
