@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8C6534F88
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:44:14 +0200 (CEST)
-Received: from localhost ([::1]:36042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C134534F28
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:32:38 +0200 (CEST)
+Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCqb-00005M-Ka
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:44:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44302)
+	id 1nuCfN-0005Ya-PN
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nuCal-0001rw-2s; Thu, 26 May 2022 08:27:51 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:51807)
+ id 1nuCWZ-0005ar-Kp; Thu, 26 May 2022 08:23:31 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:34257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nuCaj-0003Sq-GR; Thu, 26 May 2022 08:27:50 -0400
+ id 1nuCW5-0002Vy-Dd; Thu, 26 May 2022 08:23:31 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MNssA-1oDvG01ldo-00ODCZ; Thu, 26 May 2022 14:22:28 +0200
-Message-ID: <fd921d54-aaf0-8d11-6609-fab80433d814@vivier.eu>
-Date: Thu, 26 May 2022 14:22:26 +0200
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MfqCF-1nN3Y42qzJ-00gI6j; Thu, 26 May 2022 14:22:53 +0200
+Message-ID: <22e8b57d-7532-0b97-ea57-8a9bdc4e0750@vivier.eu>
+Date: Thu, 26 May 2022 14:22:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2 11/11] q800: add default vendor and product information
- for scsi-cd devices
+Subject: Re: [PATCH v2 10/11] q800: add default vendor and product information
+ for scsi-hd devices
 Content-Language: fr
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
  fam@euphon.net, qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
- <20220424164935.7339-12-mark.cave-ayland@ilande.co.uk>
+ <20220424164935.7339-11-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220424164935.7339-12-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220424164935.7339-11-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9EQrnF8CVV/kAFM2JDZ0QN7/flCzYQ9cMM61i1hdzJdfaNlcJPM
- xpsXI5ZIyGxJ3GfF3VnvKbZWJn+24IqMG4Zay2Bj4Uoi52m4h13aLgnU4k2lsFndNQfA71j
- pOhfcNxVTQZRODNLz/Hfd1DY/9u6kwwi2N3/XDuogVz8bBqSJtuKRtG39C505aH45rBl8W6
- v8QzBerkgCfnikhWi7RAA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JUsyUMEcxnA=:lBKZ9nQ5QOcRJAmjjRAdFT
- wIOHDFkNpHMbzU30BTcbKPEXmF2DPFC7zon5LBcqHebyV8X4OKh4A5gAE6rH6Lp7QggVVLqfN
- Ebwg03gbgnQwAm3rtWciSaNM1Pq7UEtiPwhVsS46DmsiBE/8dU+rQsNtJSssfBDkPmhbb+VpK
- Od6QuvPHhZFhvJ2k94fBHmpKFHRgn/RWEtydiI+IGPryJlsabUhT2e9/9LMmcn8g8H8JiuwQF
- Ysx0UtbrwrNKqACQOwqTT/T/2yNt0uA4Pesowvs7xz7LN5PEcL1nJY+YXzFk0zz0py2IDep1r
- Tu8NKYw3v7KkO+bwXqRI/okDphH+OBfAwcU4kqkUTUEjiXDqadXHgTe9NjLqK+2L+7S/pw0W8
- rVWkNmz4uT5iY7a4SHpNMEyruY7t0hi+31vQgalXNVaFbqZiIIfYu+Livz9Ld9QknkK2oZ2hK
- +FoLO1vvyagGcepfB9oWv9Xo6eT01jHxewDJg3AhJ+59nC407x59FPtRah+EohaeONGLMXtId
- 7uMbitQecWVgtESdo8HMQywywrWc1tQKwtuU83Qyb6uCRbD1YL8DZnFSvMUEnrV2vU+Lj8fPK
- +Rx7yAWzPVqZLOmJcXswzRB30jLw6ttnna7HqoUT4QB4BF2EtNrGtm4fYoxS8H5YDYXMtXSar
- IizpEuN9jv65DhLFd1IXUzxChI75Ah6z+KHZS7wsYU2RvhHgngX3C/LX19r67HIPoOJ623Ek3
- m8IuJp6VswXVDQsTjK3UtZQ93EyR9RI5V70GEQ==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Qz/F7AVzNL7Iy18DX1FP7ZdNS6YvNZbUXj6AZimdKM9dZj5OZDS
+ aAe+l3tMhxO8fWZuEfaAcRsp6Fw8qrG1FuSvngpxJil6EBqICSFWhDZr7+cx7DD2nx1PA7/
+ rgJKdPaVHoc8wD26jYCtkPpJjMDQuWT/QMA24E9oWmqxckZgqJMaDMscAc11vgFiSLCa8fp
+ acmA+AZwb/ZUu/Ojwb5DA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IR+PVPw0XoE=:3/O9tbZ4vuyhDsob2xI8TJ
+ s5pax+I58yK5EoHrvOCY8QjUbtloK7hQdJ4Yxbu1E+wpMLtxzudxQHnEjLGQBCDyYWH3AKlHT
+ +FslYQbD6WQkCcGOIbKprMMRdzDETBUiMxgxWAANP+4gPCikeXHk3D/lZdeXRukJLaIPXyPDh
+ WIyb1RU5PnHgHv48VuHhNTvPeoMVDqRGTMnRwSI8NZFFs//GVRex5bYnyDjURyp+ghfSqZo8d
+ WExPtwi1MdSOybeSnmwZSgwYLTN/0srC0UZxm41hRE2a9LEHWCjb2J1LT0Tf3UlPg0kTNLFLd
+ 8ou9pQucJroubmhkebiCynULzTjS68o/qv4bW3hHSEkKwjG85fZU318YfYC1WnHFkNxd8CCyJ
+ nNwKCxUCZaK/nPITS8ovi9QEgJPfzJSBFM6wnphZbmFLJKP1YwVX81ewo+003W9O2jtTqHSYc
+ OvWmvtF+bpX4te4jCCdwIuDthPOgLu0FeGnNVxriK7iV0e6lIv6U6aRH1bB3Jctlg4tNkjEM+
+ Cl11PsjASOD4jeI7dNOlIeUkDwvyl4Si3Ojy49RdIhhBRkgKfgIINeaSQKaQY0wXqPJ1Nyfqn
+ mAdz36QucZPHWvYFybLDMT+YRe/7u7l/raj9mrJypOnMT7OjRQo/utAIjEyAOVPxNh9jJO1Bf
+ lMyfDhq0KNZjgYE/Xp16tfgjjInoVp3uWH36vyAjmShdaJKYBtVaUZylmmUI2sZF1LFeY7CbF
+ 2iSAow2w2pvsi7sJuf3245yek3KqxLqu53rqsg==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,9 +76,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 24/04/2022 à 18:49, Mark Cave-Ayland a écrit :
-> The MacOS CDROM driver uses a SCSI INQUIRY command to check that any SCSI CDROMs
-> detected match a whitelist of vendors and products before adding them to the
-> list of available devices.
+> The Apple HD SC Setup program uses a SCSI INQUIRY command to check that any SCSI
+> hard disks detected match a whitelist of vendors and products before allowing
+> the "Initialise" button to prepare an empty disk.
 > 
 > Add known-good default vendor and product information using the existing
 > compat_prop mechanism so the user doesn't have to use long command lines to set
@@ -90,19 +90,19 @@ Le 24/04/2022 à 18:49, Mark Cave-Ayland a écrit :
 >   1 file changed, 3 insertions(+)
 > 
 > diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index abb549f8d8..8b34776c8e 100644
+> index f27ed01785..abb549f8d8 100644
 > --- a/hw/m68k/q800.c
 > +++ b/hw/m68k/q800.c
-> @@ -692,6 +692,9 @@ static GlobalProperty hw_compat_q800[] = {
->       { "scsi-hd", "product", "          ST225N" },
->       { "scsi-hd", "ver", "1.0 " },
+> @@ -688,6 +688,9 @@ static void q800_init(MachineState *machine)
+>   
+>   static GlobalProperty hw_compat_q800[] = {
+>       { "scsi-hd", "quirk_mode_page_apple_vendor", "on"},
+> +    { "scsi-hd", "vendor", " SEAGATE" },
+> +    { "scsi-hd", "product", "          ST225N" },
+> +    { "scsi-hd", "ver", "1.0 " },
 >       { "scsi-cd", "quirk_mode_sense_rom_force_dbd", "on"},
-> +    { "scsi-cd", "vendor", "MATSHITA" },
-> +    { "scsi-cd", "product", "CD-ROM CR-8005" },
-> +    { "scsi-cd", "ver", "1.0k" },
 >   };
 >   static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
->   
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
