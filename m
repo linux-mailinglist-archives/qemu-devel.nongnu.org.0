@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5F15353CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 21:15:15 +0200 (CEST)
-Received: from localhost ([::1]:45276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699BC5353DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 21:21:23 +0200 (CEST)
+Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuIwz-0000gG-PJ
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 15:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55074)
+	id 1nuJ2w-0003L3-6i
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 15:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuIvr-0008Fo-Ch
- for qemu-devel@nongnu.org; Thu, 26 May 2022 15:14:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29446)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuJ0h-00024v-0K
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 15:19:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuIvn-0001n1-K8
- for qemu-devel@nongnu.org; Thu, 26 May 2022 15:14:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuJ0e-0002TL-LS
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 15:19:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653592438;
+ s=mimecast20190719; t=1653592739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dFIgI+dslZkp9J/n5b30FiZAIBknV1UgfFnT4SjMC2E=;
- b=TJHmjrRmcr6VHuNPslsgrR0P517qICXib600obM2NpNcnYhSkWb2b7lznb7hszkHWpJ8+1
- EKq+E5EKRgOIy8hd/eBcBqeyUzViZMcHbe/MoRzT6qAdKuAkNydqouJ1qDtqHpbX+6G8QB
- ZnT4NvBVaCIPoiIDkBNXPf9zghGTdrM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fyUFbFkju6fcdlgLhkLBlS8xfqObP17OZdzXoe7ozug=;
+ b=JE0AJ8JOaWs/8SIWQironU1oRg0Oz9VSP+54PnuJYZHkQ5Hzs+PvBwStKdxn3E686o/U8k
+ 4pcLrA+RSjSOcxEHQVHfuBdkoZvNCU9UlwUXpf+1NQfxf9eSL41mISqWTEMP/r4O3+w2fa
+ dIpxJ/EXPm3vfiJV6+8oRcAxa+Iozwo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-PUpYmRPYNA2_OuY_6soIFQ-1; Thu, 26 May 2022 15:13:57 -0400
-X-MC-Unique: PUpYmRPYNA2_OuY_6soIFQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l31-20020a05600c1d1f00b003974df9b91cso3423980wms.8
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 12:13:56 -0700 (PDT)
+ us-mta-641-r1b6hCg1NPi6QaAWqhg7Pg-1; Thu, 26 May 2022 15:18:58 -0400
+X-MC-Unique: r1b6hCg1NPi6QaAWqhg7Pg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ r13-20020a170906c28d00b006fec5bcd396so1273713ejz.22
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 12:18:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=dFIgI+dslZkp9J/n5b30FiZAIBknV1UgfFnT4SjMC2E=;
- b=nsqNdUHZ+akWF1MYC0227M6VbCUOKMnUO98E1Bag/FdaDtrwriHUd+YH8CnUTDcXFv
- vmspDyvyWmwAR2lqtn5s5HHKaP1rnKUdUccXs42eyE4yEev0Mf89m8wT8f6vTC3kyh/k
- mZb5ZxakNqDEhdn3iETPSlKCWyIkWrAHlUHgMmwM937K6yt7XVfzSxIlnb1LYinPMNzm
- vm2ShID/ZYhBeQJpqpbQitp2x2kZO2D1zxLSC6zIfnaWI91IOJ1oeKxxK1a19aQ3tFRz
- 2tAkqDqV+AsOlRj/veJRIKpBOw7ce9tAynfBWwuiz6FhBGnsH6YRYjap0+nHXQ7sM0sZ
- v+Bw==
-X-Gm-Message-State: AOAM532A+xfku5pocjZ/acOkUJGdo35x3DZmGmSHxOvKesIWTifrg+xe
- ixwIISAJC7OPVN2MfDptQXRcdJ5raR47FBFh/FlVtx/PIZtiX1XRX0TMeZ7iPLjCBVwLlYqjdDd
- aJN358FTlcosoHQs=
-X-Received: by 2002:adf:e7c6:0:b0:210:99e:cf13 with SMTP id
- e6-20020adfe7c6000000b00210099ecf13mr3940273wrn.20.1653592435709; 
- Thu, 26 May 2022 12:13:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrVIeYcrkJah0Ra7TIWvSZXtOC9rnZH4ak0DtJt0H0Ar34ylH3tBhP1I8pWJjsEIvtBACIFg==
-X-Received: by 2002:adf:e7c6:0:b0:210:99e:cf13 with SMTP id
- e6-20020adfe7c6000000b00210099ecf13mr3940257wrn.20.1653592435336; 
- Thu, 26 May 2022 12:13:55 -0700 (PDT)
-Received: from redhat.com ([2.55.29.191]) by smtp.gmail.com with ESMTPSA id
- a5-20020a05600c224500b0039756cdc8e1sm2520810wmm.37.2022.05.26.12.13.53
+ :mime-version:content-disposition:in-reply-to;
+ bh=fyUFbFkju6fcdlgLhkLBlS8xfqObP17OZdzXoe7ozug=;
+ b=8EqrxkYL8IruPpVArA8VbNnsJWjSvpIH77HbkBkSUUa9iwbDd2GbXGcYxfRVsNeR5b
+ 3i8uGq+0O7Xjv08PNfepvCNu2u54AMlaXgDlA+s6iYGK8lwg2OHvn3mS6eQDORSSxOO4
+ /f9/OahaMKl2FG2A5/FOBbdb6IvFIzw6xRRnoVhXih6pDtlqVfnJ0S2vBWAdSz0H7Oqv
+ W6K7i8jTjFAAk1Ds801QVMXicovEfpY2Hs73WTvBu3JJK1P5JCkp/LYbomRD3iyHz0p2
+ RVyAhvVH9wYd547uP/DuLmJAlnCtHIRjsJUUK5hsmipY/yaupm9FZGMH8lMuidaPNb6x
+ RNkw==
+X-Gm-Message-State: AOAM531zY0gldOKCCV9buzIt31jVuEJx7UVSidMThG3DVa9+SYrgr3iF
+ +1r4bjbwBi/MoB7o3BM97yyoZGnzhmwlRCpR8wHlThvOFhJdEj9JMqEBHDZEk/DB9K0cpyiG+WE
+ GNNBL7xaAIKjjjuM=
+X-Received: by 2002:a17:907:3e8d:b0:6fe:d99b:90a with SMTP id
+ hs13-20020a1709073e8d00b006fed99b090amr20706826ejc.416.1653592737223; 
+ Thu, 26 May 2022 12:18:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5y+Z0TuPGB18o6k7alTPdxdPy4itPmkAYi6cWwTiPJlyGiMpV97qNgiMr6KzI8oJqVN5HzQ==
+X-Received: by 2002:a17:907:3e8d:b0:6fe:d99b:90a with SMTP id
+ hs13-20020a1709073e8d00b006fed99b090amr20706802ejc.416.1653592736901; 
+ Thu, 26 May 2022 12:18:56 -0700 (PDT)
+Received: from redhat.com ([2.55.45.143]) by smtp.gmail.com with ESMTPSA id
+ w15-20020a05640234cf00b0042ab1735552sm10039edc.66.2022.05.26.12.18.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 12:13:54 -0700 (PDT)
-Date: Thu, 26 May 2022 15:13:50 -0400
+ Thu, 26 May 2022 12:18:55 -0700 (PDT)
+Date: Thu, 26 May 2022 15:18:51 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Cedric Le Goater <clg@kaod.org>
-Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
- PCIE_MMCFG_SIZE_MAX
-Message-ID: <20220526150859-mutt-send-email-mst@kernel.org>
-References: <20220516204913.542894-1-mst@redhat.com>
- <20220516204913.542894-76-mst@redhat.com>
- <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
- <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
- <28f2b859-7ca4-d779-d94b-c9dc3e21ed39@eik.bme.hu>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: akpm@linux-foundation.org, naoya.horiguchi@nec.com, david@redhat.com,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ jasowang@redhat.com, virtualization@lists.linux-foundation.org,
+ pbonzini@redhat.com, peterx@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 3/3] virtio_balloon: Introduce memory recover
+Message-ID: <20220526151507-mutt-send-email-mst@kernel.org>
+References: <20220520070648.1794132-1-pizhenwei@bytedance.com>
+ <20220520070648.1794132-4-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <28f2b859-7ca4-d779-d94b-c9dc3e21ed39@eik.bme.hu>
+In-Reply-To: <20220520070648.1794132-4-pizhenwei@bytedance.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -91,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,166 +98,442 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 26, 2022 at 06:43:25PM +0200, BALATON Zoltan wrote:
-> On Thu, 26 May 2022, BALATON Zoltan wrote:
-> > Hello,
-> > 
-> > On Thu, 26 May 2022, Daniel Henrique Barboza wrote:
-> > > Hi,
-> > > 
-> > > This patch broke the boot of the sam460ex ppc machine:
-> > > 
-> > > qemu-system-ppc -M sam460ex -kernel
-> > > ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
-> > > -device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
-> > > -nographic -snapshot
-> > > qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init:
-> > > Assertion `size <= PCIE_MMCFG_SIZE_MAX' failed.
+On Fri, May 20, 2022 at 03:06:48PM +0800, zhenwei pi wrote:
+> Introduce a new queue 'recover VQ', this allows guest to recover
+> hardware corrupted page:
 > 
-> With just qemu-system-ppc -M sam460ex the assert seems to happen when the
-> guest (board firmware?) writes a value to CFGMSK reg:
+> Guest              5.MF -> 6.RVQ FE    10.Unpoison page
+>                     /           \            /
+> -------------------+-------------+----------+-----------
+>                    |             |          |
+>                 4.MCE        7.RVQ BE   9.RVQ Event
+>  QEMU             /               \       /
+>              3.SIGBUS              8.Remap
+>                 /
+> ----------------+------------------------------------
+>                 |
+>             +--2.MF
+>  Host       /
+>        1.HW error
 > 
-> (gdb) bt
-> #0  0x00007ffff68ff4a0 in raise () at /lib64/libc.so.6
-> #1  0x00007ffff68ea536 in abort () at /lib64/libc.so.6
-> #2  0x00007ffff68ea42f in _nl_load_domain.cold () at /lib64/libc.so.6
-> #3  0x00007ffff68f7ed2 in  () at /lib64/libc.so.6
-> #4  0x000055555596646f in pcie_host_mmcfg_init (e=e@entry=0x5555567942f0, size=size@entry=0x20000000) at ../hw/pci/pcie_host.c:97
-> #5  0x000055555596653b in pcie_host_mmcfg_map (size=0x20000000, addr=0xd20000000, e=0x5555567942f0) at ../hw/pci/pcie_host.c:105
-> #6  pcie_host_mmcfg_update (e=0x5555567942f0, enable=0x1, addr=0xd20000000, size=0x20000000) at ../hw/pci/pcie_host.c:118
-> #7  0x0000555555a70d7c in ppc_dcr_write (dcr_env=0x555556669c10, dcrn=0x122, val=0xe0000001) at ../hw/ppc/ppc.c:1418
-> #8  0x0000555555abdabb in helper_store_dcr (env=0x555556633360, dcrn=0x122, val=0xe0000001) at ../target/ppc/timebase_helper.c:188
+> The workflow:
+> 1, HardWare page error occurs randomly.
+> 2, host side handles corrupted page by Memory Failure mechanism, sends
+>    SIGBUS to the user process if early-kill is enabled.
+> 3, QEMU handles SIGBUS, if the address belongs to guest RAM, then:
+> 4, QEMU tries to inject MCE into guest.
+> 5, guest handles memory failure again.
 > 
-> This is done in the board firmware here:
+> 1-5 is already supported for a long time, the next steps are supported
+> in this patch(also related driver patch):
+> 6, guest balloon driver gets noticed of the corrupted PFN, and sends
+>    request to host side by Recover VQ FrontEnd.
+> 7, QEMU handles request from Recover VQ BackEnd, then:
+> 8, QEMU remaps the corrupted HVA fo fix the memory failure, then:
+> 9, QEMU acks the guest side the result by Recover VQ.
+> 10, guest unpoisons the page if the corrupted page gets recoverd
+>     successfully.
 > 
-> https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD#l963
+> Then the guest fixes the HW page error dynamiclly without rebooting.
 > 
-> when trying to map config space. Here the size is calculated as 0x20000000
-> which does not fit the assert. I'm not sure what this means though and where
-> is the problem. Any ideas?
+> Emulate MCE by QEMU, the guest works fine:
+>  mce: [Hardware Error]: Machine check events logged
+>  Memory failure: 0x61646: recovery action for dirty LRU page: Recovered
+>  virtio_balloon virtio5: recovered pfn 0x61646
+>  Unpoison: Unpoisoned page 0x61646 by virtio-balloon
+>  MCE: Killing stress:24502 due to hardware memory corruption fault at 7f5be2e5a010
 > 
-> Regards,
-> BALATON Zoltan
+> The 'HardwareCorrupted' in /proc/meminfo also shows 0 kB.
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>  drivers/virtio/virtio_balloon.c     | 243 ++++++++++++++++++++++++++++
+>  include/uapi/linux/virtio_balloon.h |  16 ++
+>  2 files changed, 259 insertions(+)
+> 
+> diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
+> index f4c34a2a6b8e..f9d95d1d8a4d 100644
+> --- a/drivers/virtio/virtio_balloon.c
+> +++ b/drivers/virtio/virtio_balloon.c
+> @@ -52,6 +52,7 @@ enum virtio_balloon_vq {
+>  	VIRTIO_BALLOON_VQ_STATS,
+>  	VIRTIO_BALLOON_VQ_FREE_PAGE,
+>  	VIRTIO_BALLOON_VQ_REPORTING,
+> +	VIRTIO_BALLOON_VQ_RECOVER,
+>  	VIRTIO_BALLOON_VQ_MAX
+>  };
+>  
+> @@ -59,6 +60,12 @@ enum virtio_balloon_config_read {
+>  	VIRTIO_BALLOON_CONFIG_READ_CMD_ID = 0,
+>  };
+>  
+> +/* the request body to commucate with host side */
+> +struct __virtio_balloon_recover {
+> +	struct virtio_balloon_recover vbr;
+> +	__virtio32 pfns[VIRTIO_BALLOON_PAGES_PER_PAGE];
+> +};
+> +
 
 
-It says so, does it not?
+I don't think this idea of passing 32 bit pfns is going to fly.
+What is wrong with just passing the pages normally as a s/g list?
+this is what is done for the hints at the moment.
 
-1051         switch (port) {
-1052         case 0:
-1053                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE0), high);
-1054                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE0), low);
-1055                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE0), 0xe0000001); /* 512MB region, valid */
-1056                 break;
-1057         case 1:
-1058                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE1), high);
-1059                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE1), low);
-1060                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE1), 0xe0000001); /* 512MB region, valid */
-1061                 break;
-1062 #if CONFIG_SYS_PCIE_NR_PORTS > 2
-1063         case 2:
-1064                 mtdcr(DCRN_PEGPL_CFGBAH(PCIE2), high);
-1065                 mtdcr(DCRN_PEGPL_CFGBAL(PCIE2), low);
-1066                 mtdcr(DCRN_PEGPL_CFGMSK(PCIE2), 0xe0000001); /* 512MB region, valid */
-1067                 break;
-1068 #endif
-
-and basically according to spec max size is 256MB.
-
-we can fix the firmware of course, or we can just drop the assert,
-or force it within range in the ppc code.
-
-Fixing firmware seems cleaner ... want to try?
-Any preference? 
+neither should you use __virtio types for new functionality
+(should all be __le), nor use __virtio for the struct name.
 
 
 
-> > Thanks for noticing this. I usually only test it during the freeze.
-> > Wasn't there a test patch submitted by Philippe before? Isn't that yet
-> > merged or included in CI? That should catch these before breaking it.
-> > 
-> > > The reason is that it changed commit 58d5b22bbd5 ("ppc4xx: Add
-> > > device models found in PPC440 core SoCs")) in a way that it wasn't
-> > > expected by the board. The code seems to believe that, for a reason
-> > > that isn't stated in the 58d5b22bbd5 commit message,
-> > > PCIE_MMCFG_SIZE_MAX must be set to 1 << 29.
-> > > 
-> > > I'm CCing BALATON Zoltan since he's the author of 58d5b22bbd5 and
-> > > can provide context of his initial change and why the board seems to
-> > > rely on it. qemu-ppc is being CCed for awareness of the sam460ex
-> > > problem.
-> > 
-> > I'm afraid I don't remember but maybe I did not have a definitive answer
-> > even back then as the docs for this PCIe controller were not available
-> > so I've mostly worked from docs for similar SoCs and U-Boot and Linux
-> > sources so there were a lot of guessing. Maybe it's related to that the
-> > board maps peripheral addresses above 4GB as the first 4GB is reserved
-> > for memory? Or maybe there's some mixup between address spaces and the
-> > PCIe controller should have a separate address space that's mapped in
-> > the system? I did not have any knowledge about this back then and my
-> > understanding may still be lacking on how this should work.
-> > 
-> > > Zoltan, I wasn't able to amend to quickly amend the code in a way
-> > > that I could preserve the current PCIE_MMCFG_SIZE_MAX setting and
-> > > make sam460ex work again. Can you please take a look?
-> > 
-> > The PCIe controllers of the 460EX are implemented at the end of
-> > hw/ppc/ppc440_uc.c (a lot of these 4xx SoCs are sharing components and
-> > the code organisation is a bit messy). As the comment near it says it's
-> > not really fully tested and working. only good enough for firmware and
-> > OSes get past testing it. I think trying to attach any device to it
-> > probably would fail or I would be surprised if the OS could actually
-> > talk to it as there may be some missing parts. So I'm happy with any
-> > solution that keeps the current state of being able to boot the OSes
-> > running on it (some of which like AmigaOS and MorphOS are closed source
-> > though so I don't know what their drivers need; closest open source OS
-> > to them is AROS but not sure that's working on real hardware). Some
-> > advice from somebody more knowledgeable about PCIe emulation in QEMU
-> > would be welcome here.
-> > 
-> > Regards,
-> > BALATON Zoltan
-> > 
-> > > 
-> > > Thanks,
-> > > 
-> > > 
-> > > Daniel
-> > > 
-> > > 
-> > > 
-> > > On 5/16/22 17:55, Michael S. Tsirkin wrote:
-> > > > From: Francisco Iglesias <frasse.iglesias@gmail.com>
-> > > > 
-> > > > According to 7.2.2 in [1] bit 27 is the last bit that can be part of the
-> > > > bus number, this makes the ECAM max size equal to '1 << 28'. This patch
-> > > > restores back this value into the PCIE_MMCFG_SIZE_MAX define (which was
-> > > > changed in commit 58d5b22bbd5 ("ppc4xx: Add device models found in PPC440
-> > > > core SoCs")).
-> > > > 
-> > > > [1] PCI Express® Base Specification Revision 5.0 Version 1.0
-> > > > 
-> > > > Signed-off-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-> > > > Message-Id: <20220411221836.17699-3-frasse.iglesias@gmail.com>
-> > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > ---
-> > > >   include/hw/pci/pcie_host.h | 2 +-
-> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
-> > > > index b3c8ce973c..82d92177da 100644
-> > > > --- a/include/hw/pci/pcie_host.h
-> > > > +++ b/include/hw/pci/pcie_host.h
-> > > > @@ -65,7 +65,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
-> > > >    * bit 12 - 14: function number
-> > > >    * bit  0 - 11: offset in configuration space of a given device
-> > > >    */
-> > > > -#define PCIE_MMCFG_SIZE_MAX             (1ULL << 29)
-> > > > +#define PCIE_MMCFG_SIZE_MAX             (1ULL << 28)
-> > > >   #define PCIE_MMCFG_SIZE_MIN             (1ULL << 20)
-> > > >   #define PCIE_MMCFG_BUS_BIT              20
-> > > >   #define PCIE_MMCFG_BUS_MASK             0xff
-> > > 
-> > 
+>  struct virtio_balloon {
+>  	struct virtio_device *vdev;
+>  	struct virtqueue *inflate_vq, *deflate_vq, *stats_vq, *free_page_vq;
+> @@ -126,6 +133,16 @@ struct virtio_balloon {
+>  	/* Free page reporting device */
+>  	struct virtqueue *reporting_vq;
+>  	struct page_reporting_dev_info pr_dev_info;
+> +
+> +	/* Memory recover VQ - VIRTIO_BALLOON_F_RECOVER */
+> +	struct virtqueue *recover_vq;
+> +	spinlock_t recover_vq_lock;
+> +	struct notifier_block memory_failure_nb;
+> +	struct list_head corrupted_page_list;
+> +	struct list_head recovered_page_list;
+> +	spinlock_t recover_page_list_lock;
+> +	struct __virtio_balloon_recover in_vbr;
+> +	struct work_struct unpoison_memory_work;
+>  };
+>  
+>  static const struct virtio_device_id id_table[] = {
+> @@ -494,6 +511,198 @@ static void update_balloon_size_func(struct work_struct *work)
+>  		queue_work(system_freezable_wq, work);
+>  }
+>  
+> +/*
+> + * virtballoon_memory_failure - notified by memory failure, try to fix the
+> + *                              corrupted page.
+> + * The memory failure notifier is designed to call back when the kernel handled
+> + * successfully only, WARN_ON_ONCE on the unlikely condition to find out any
+> + * error(memory error handling is a best effort, not 100% coverd).
+
+covered
+
+> + */
+> +static int virtballoon_memory_failure(struct notifier_block *notifier,
+> +				      unsigned long pfn, void *parm)
+> +{
+> +	struct virtio_balloon *vb = container_of(notifier, struct virtio_balloon,
+> +						 memory_failure_nb);
+> +	struct page *page;
+> +	struct __virtio_balloon_recover *out_vbr;
+> +	struct scatterlist sg;
+> +	unsigned long flags;
+> +	int err;
+> +
+> +	page = pfn_to_online_page(pfn);
+> +	if (WARN_ON_ONCE(!page))
+> +		return NOTIFY_DONE;
+> +
+> +	if (PageHuge(page))
+> +		return NOTIFY_DONE;
+> +
+> +	if (WARN_ON_ONCE(!PageHWPoison(page)))
+> +		return NOTIFY_DONE;
+> +
+> +	if (WARN_ON_ONCE(page_count(page) != 1))
+> +		return NOTIFY_DONE;
+> +
+> +	get_page(page); /* balloon reference */
+> +
+> +	out_vbr = kzalloc(sizeof(*out_vbr), GFP_KERNEL);
+> +	if (WARN_ON_ONCE(!out_vbr))
+> +		return NOTIFY_BAD;
+> +
+> +	spin_lock(&vb->recover_page_list_lock);
+> +	balloon_page_push(&vb->corrupted_page_list, page);
+> +	spin_unlock(&vb->recover_page_list_lock);
+> +
+> +	out_vbr->vbr.cmd = VIRTIO_BALLOON_R_CMD_RECOVER;
+> +	set_page_pfns(vb, out_vbr->pfns, page);
+> +	sg_init_one(&sg, out_vbr, sizeof(*out_vbr));
+> +
+> +	spin_lock_irqsave(&vb->recover_vq_lock, flags);
+> +	err = virtqueue_add_outbuf(vb->recover_vq, &sg, 1, out_vbr, GFP_KERNEL);
+> +	if (unlikely(err)) {
+> +		spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
+> +		return NOTIFY_DONE;
+> +	}
+> +	virtqueue_kick(vb->recover_vq);
+> +	spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
+> +
+> +	return NOTIFY_OK;
+> +}
+> +
+> +static int recover_vq_get_response(struct virtio_balloon *vb)
+> +{
+> +	struct __virtio_balloon_recover *in_vbr;
+> +	struct scatterlist sg;
+> +	unsigned long flags;
+> +	int err;
+> +
+> +	spin_lock_irqsave(&vb->recover_vq_lock, flags);
+> +	in_vbr = &vb->in_vbr;
+> +	memset(in_vbr, 0x00, sizeof(*in_vbr));
+> +	sg_init_one(&sg, in_vbr, sizeof(*in_vbr));
+> +	err = virtqueue_add_inbuf(vb->recover_vq, &sg, 1, in_vbr, GFP_KERNEL);
+> +	if (unlikely(err)) {
+> +		spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
+> +		return err;
+> +	}
+> +
+> +	virtqueue_kick(vb->recover_vq);
+> +	spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static void recover_vq_handle_response(struct virtio_balloon *vb, unsigned int len)
+> +{
+> +	struct __virtio_balloon_recover *in_vbr;
+> +	struct virtio_balloon_recover *vbr;
+> +	struct page *page;
+> +	unsigned int pfns;
+> +	u32 pfn0, pfn1;
+> +	__u8 status;
+> +
+> +	/* the response is not expected */
+> +	if (unlikely(len != sizeof(struct __virtio_balloon_recover)))
+> +		return;
+> +
+> +	in_vbr = &vb->in_vbr;
+> +	vbr = &in_vbr->vbr;
+> +	if (unlikely(vbr->cmd != VIRTIO_BALLOON_R_CMD_RESPONSE))
+> +		return;
+> +
+> +	/* to make sure the contiguous balloon PFNs */
+> +	for (pfns = 1; pfns < VIRTIO_BALLOON_PAGES_PER_PAGE; pfns++) {
+> +		pfn0 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[pfns - 1]);
+> +		pfn1 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[pfns]);
+> +		if (pfn1 - pfn0 != 1)
+> +			return;
+> +	}
+> +
+> +	pfn0 = virtio32_to_cpu(vb->vdev, in_vbr->pfns[0]);
+> +	if (!pfn_valid(pfn0))
+> +		return;
+> +
+> +	pfn1 = -1;
+> +	spin_lock(&vb->recover_page_list_lock);
+> +	list_for_each_entry(page, &vb->corrupted_page_list, lru) {
+> +		pfn1 = page_to_pfn(page);
+> +		if (pfn1 == pfn0)
+> +			break;
+> +	}
+> +	spin_unlock(&vb->recover_page_list_lock);
+> +
+> +	status = vbr->status;
+> +	switch (status) {
+> +	case VIRTIO_BALLOON_R_STATUS_RECOVERED:
+> +		if (pfn1 == pfn0) {
+> +			spin_lock(&vb->recover_page_list_lock);
+> +			list_del(&page->lru);
+> +			balloon_page_push(&vb->recovered_page_list, page);
+> +			spin_unlock(&vb->recover_page_list_lock);
+> +			queue_work(system_freezable_wq, &vb->unpoison_memory_work);
+> +			dev_info_ratelimited(&vb->vdev->dev, "recovered pfn 0x%x", pfn0);
+> +		}
+> +		break;
+> +	case VIRTIO_BALLOON_R_STATUS_FAILED:
+> +		/* the hypervisor can't fix this corrupted page, balloon puts page */
+> +		if (pfn1 == pfn0) {
+> +			spin_lock(&vb->recover_page_list_lock);
+> +			list_del(&page->lru);
+> +			spin_unlock(&vb->recover_page_list_lock);
+> +			put_page(page);
+> +			dev_info_ratelimited(&vb->vdev->dev, "failed to recover pfn 0x%x", pfn0);
+> +		}
+> +	default:
+> +		break;
+> +	};
+> +
+> +	/* continue to get response from host side if the response gets handled successfully */
+> +	recover_vq_get_response(vb);
+> +}
+> +
+> +static void unpoison_memory_func(struct work_struct *work)
+> +{
+> +	struct virtio_balloon *vb;
+> +	struct page *page;
+> +
+> +	vb = container_of(work, struct virtio_balloon, unpoison_memory_work);
+> +
+> +	do {
+> +		spin_lock(&vb->recover_page_list_lock);
+> +		page = list_first_entry_or_null(&vb->recovered_page_list,
+> +						struct page, lru);
+> +		if (page)
+> +			list_del(&page->lru);
+> +		spin_unlock(&vb->recover_page_list_lock);
+> +
+> +		if (page) {
+> +			put_page(page);
+> +			unpoison_memory(page_to_pfn(page), true, "virtio-balloon");
+> +		}
+> +	} while (page);
+> +}
+> +
+> +static void recover_vq_cb(struct virtqueue *vq)
+> +{
+> +	struct virtio_balloon *vb = vq->vdev->priv;
+> +	struct __virtio_balloon_recover *vbr;
+> +	unsigned long flags;
+> +	unsigned int len;
+> +
+> +	spin_lock_irqsave(&vb->recover_vq_lock, flags);
+> +	do {
+> +		virtqueue_disable_cb(vq);
+> +		while ((vbr = virtqueue_get_buf(vq, &len)) != NULL) {
+> +			spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
+> +			if (vbr == &vb->in_vbr)
+> +				recover_vq_handle_response(vb, len);
+> +			else
+> +				kfree(vbr); /* just free the memory for out vbr request */
+> +			spin_lock_irqsave(&vb->recover_vq_lock, flags);
+> +		}
+> +	} while (!virtqueue_enable_cb(vq));
+> +	spin_unlock_irqrestore(&vb->recover_vq_lock, flags);
+> +}
+> +
+>  static int init_vqs(struct virtio_balloon *vb)
+>  {
+>  	struct virtqueue *vqs[VIRTIO_BALLOON_VQ_MAX];
+> @@ -515,6 +724,7 @@ static int init_vqs(struct virtio_balloon *vb)
+>  	callbacks[VIRTIO_BALLOON_VQ_FREE_PAGE] = NULL;
+>  	names[VIRTIO_BALLOON_VQ_FREE_PAGE] = NULL;
+>  	names[VIRTIO_BALLOON_VQ_REPORTING] = NULL;
+> +	names[VIRTIO_BALLOON_VQ_RECOVER] = NULL;
+>  
+>  	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_STATS_VQ)) {
+>  		names[VIRTIO_BALLOON_VQ_STATS] = "stats";
+> @@ -531,6 +741,11 @@ static int init_vqs(struct virtio_balloon *vb)
+>  		callbacks[VIRTIO_BALLOON_VQ_REPORTING] = balloon_ack;
+>  	}
+>  
+> +	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_RECOVER)) {
+> +		names[VIRTIO_BALLOON_VQ_RECOVER] = "recover_vq";
+> +		callbacks[VIRTIO_BALLOON_VQ_RECOVER] = recover_vq_cb;
+> +	}
+> +
+>  	err = virtio_find_vqs(vb->vdev, VIRTIO_BALLOON_VQ_MAX, vqs,
+>  			      callbacks, names, NULL);
+>  	if (err)
+> @@ -566,6 +781,9 @@ static int init_vqs(struct virtio_balloon *vb)
+>  	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_REPORTING))
+>  		vb->reporting_vq = vqs[VIRTIO_BALLOON_VQ_REPORTING];
+>  
+> +	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_RECOVER))
+> +		vb->recover_vq = vqs[VIRTIO_BALLOON_VQ_RECOVER];
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1015,12 +1233,31 @@ static int virtballoon_probe(struct virtio_device *vdev)
+>  			goto out_unregister_oom;
+>  	}
+>  
+> +	if (virtio_has_feature(vdev, VIRTIO_BALLOON_F_RECOVER)) {
+> +		err = recover_vq_get_response(vb);
+> +		if (err)
+> +			goto out_unregister_reporting;
+> +
+> +		vb->memory_failure_nb.notifier_call = virtballoon_memory_failure;
+> +		spin_lock_init(&vb->recover_page_list_lock);
+> +		spin_lock_init(&vb->recover_vq_lock);
+> +		INIT_LIST_HEAD(&vb->corrupted_page_list);
+> +		INIT_LIST_HEAD(&vb->recovered_page_list);
+> +		INIT_WORK(&vb->unpoison_memory_work, unpoison_memory_func);
+> +		err = register_memory_failure_notifier(&vb->memory_failure_nb);
+> +		if (err)
+> +			goto out_unregister_reporting;
+> +	}
+> +
+>  	virtio_device_ready(vdev);
+>  
+>  	if (towards_target(vb))
+>  		virtballoon_changed(vdev);
+>  	return 0;
+>  
+> +out_unregister_reporting:
+> +	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_REPORTING))
+> +		page_reporting_unregister(&vb->pr_dev_info);
+>  out_unregister_oom:
+>  	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
+>  		unregister_oom_notifier(&vb->oom_nb);
+> @@ -1082,6 +1319,11 @@ static void virtballoon_remove(struct virtio_device *vdev)
+>  		destroy_workqueue(vb->balloon_wq);
+>  	}
+>  
+> +	if (virtio_has_feature(vdev, VIRTIO_BALLOON_F_RECOVER)) {
+> +		unregister_memory_failure_notifier(&vb->memory_failure_nb);
+> +		cancel_work_sync(&vb->unpoison_memory_work);
+> +	}
+> +
+>  	remove_common(vb);
+>  #ifdef CONFIG_BALLOON_COMPACTION
+>  	if (vb->vb_dev_info.inode)
+> @@ -1147,6 +1389,7 @@ static unsigned int features[] = {
+>  	VIRTIO_BALLOON_F_FREE_PAGE_HINT,
+>  	VIRTIO_BALLOON_F_PAGE_POISON,
+>  	VIRTIO_BALLOON_F_REPORTING,
+> +	VIRTIO_BALLOON_F_RECOVER,
+>  };
+>  
+>  static struct virtio_driver virtio_balloon_driver = {
+> diff --git a/include/uapi/linux/virtio_balloon.h b/include/uapi/linux/virtio_balloon.h
+> index ddaa45e723c4..41d0ffa2fb54 100644
+> --- a/include/uapi/linux/virtio_balloon.h
+> +++ b/include/uapi/linux/virtio_balloon.h
+> @@ -37,6 +37,7 @@
+>  #define VIRTIO_BALLOON_F_FREE_PAGE_HINT	3 /* VQ to report free pages */
+>  #define VIRTIO_BALLOON_F_PAGE_POISON	4 /* Guest is using page poisoning */
+>  #define VIRTIO_BALLOON_F_REPORTING	5 /* Page reporting virtqueue */
+> +#define VIRTIO_BALLOON_F_RECOVER	6 /* Memory recover virtqueue */
+>  
+>  /* Size of a PFN in the balloon interface. */
+>  #define VIRTIO_BALLOON_PFN_SHIFT 12
+
+Please get this feature recorded in the spec with the virtio TC.
+They will also ask you to supply minimal documentation.
+
+
+
+> @@ -59,6 +60,8 @@ struct virtio_balloon_config {
+>  	};
+>  	/* Stores PAGE_POISON if page poisoning is in use */
+>  	__le32 poison_val;
+> +	/* Number of hardware corrupted pages, guest read only */
+> +	__le32 corrupted_pages;
+>  };
+>  
+>  #define VIRTIO_BALLOON_S_SWAP_IN  0   /* Amount of memory swapped in */
+> @@ -116,4 +119,17 @@ struct virtio_balloon_stat {
+>  	__virtio64 val;
+>  } __attribute__((packed));
+>  
+> +#define VIRTIO_BALLOON_R_CMD_RECOVER      0
+> +#define VIRTIO_BALLOON_R_CMD_RESPONSE     0x80
+> +
+> +#define VIRTIO_BALLOON_R_STATUS_CORRUPTED 0
+> +#define VIRTIO_BALLOON_R_STATUS_RECOVERED 1
+> +#define VIRTIO_BALLOON_R_STATUS_FAILED    2
+> +
+> +struct virtio_balloon_recover {
+> +	__u8 cmd;
+> +	__u8 status;
+> +	__u8 padding[6];
+> +};
+> +
+>  #endif /* _LINUX_VIRTIO_BALLOON_H */
+> -- 
+> 2.20.1
 
 
