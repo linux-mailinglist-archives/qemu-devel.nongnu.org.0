@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC76A534C34
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:04:58 +0200 (CEST)
-Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334C2534C35
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:05:01 +0200 (CEST)
+Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu9QP-00033Y-I2
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50578)
+	id 1nu9QS-0003Ar-4m
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nu97s-000535-Od
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:45:49 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:49804)
+ id 1nu97y-00058b-Bw
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:45:54 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:49818)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nu97r-0004Ws-6q
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:45:48 -0400
+ id 1nu97w-0004XL-HB
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:45:53 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id A1DFF40D4004;
- Thu, 26 May 2022 08:45:45 +0000 (UTC)
-Subject: [PATCH v3 8/9] tests/avocado: add replay Linux tests for virtio
- machine
+ by mail.ispras.ru (Postfix) with ESMTPSA id 110E240D4004;
+ Thu, 26 May 2022 08:45:51 +0000 (UTC)
+Subject: [PATCH v3 9/9] tests/avocado: add replay Linux test for Aarch64
+ machines
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
 Cc: pavel.dovgalyuk@ispras.ru, pbonzini@redhat.com, alex.bennee@linaro.org,
  crosa@redhat.com, f4bug@amsat.org
-Date: Thu, 26 May 2022 11:45:45 +0300
-Message-ID: <165355474546.533615.3074808683248293380.stgit@pasha-ThinkPad-X280>
+Date: Thu, 26 May 2022 11:45:50 +0300
+Message-ID: <165355475086.533615.16950824071514982834.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <165355470196.533615.1219754093587154582.stgit@pasha-ThinkPad-X280>
 References: <165355470196.533615.1219754093587154582.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -59,46 +59,68 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch adds two tests for replaying Linux boot process
-on x86_64 virtio platform.
+on Aarch64 platform.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
- tests/avocado/replay_linux.py |   26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ tests/avocado/replay_linux.py |   41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linux.py
-index 1099b5647f..3bb1bc8816 100644
+index 3bb1bc8816..e1f9981a34 100644
 --- a/tests/avocado/replay_linux.py
 +++ b/tests/avocado/replay_linux.py
-@@ -123,3 +123,29 @@ def test_pc_q35(self):
+@@ -13,6 +13,7 @@
+ import time
+ 
+ from avocado import skipUnless
++from avocado_qemu import BUILD_DIR
+ from avocado.utils import cloudinit
+ from avocado.utils import network
+ from avocado.utils import vmimage
+@@ -149,3 +150,43 @@ def test_pc_q35(self):
          :avocado: tags=machine:q35
          """
          self.run_rr(shift=3)
 +
 +@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-+class ReplayLinuxX8664Virtio(ReplayLinux):
++class ReplayLinuxAarch64(ReplayLinux):
 +    """
-+    :avocado: tags=arch:x86_64
-+    :avocado: tags=virtio
 +    :avocado: tags=accel:tcg
++    :avocado: tags=arch:aarch64
++    :avocado: tags=machine:virt
++    :avocado: tags=cpu:max
 +    """
 +
-+    hdd = 'virtio-blk-pci'
-+    cd = 'virtio-blk-pci'
++    chksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
++
++    hdd = 'virtio-blk-device'
++    cd = 'virtio-blk-device'
 +    bus = None
 +
-+    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
++    def get_common_args(self):
++        return ('-bios',
++                os.path.join(BUILD_DIR, 'pc-bios', 'edk2-aarch64-code.fd'),
++                "-cpu", "max,lpa2=off",
++                '-device', 'virtio-rng-pci,rng=rng0',
++                '-object', 'rng-builtin,id=rng0')
 +
-+    def test_pc_i440fx(self):
++    def test_virt_gicv2(self):
 +        """
-+        :avocado: tags=machine:pc
++        :avocado: tags=machine:gic-version=2
 +        """
-+        self.run_rr(shift=1)
 +
-+    def test_pc_q35(self):
++        self.run_rr(shift=3,
++                    args=(*self.get_common_args(),
++                          "-machine", "virt,gic-version=2"))
++
++    def test_virt_gicv3(self):
 +        """
-+        :avocado: tags=machine:q35
++        :avocado: tags=machine:gic-version=3
 +        """
-+        self.run_rr(shift=3)
++
++        self.run_rr(shift=3,
++                    args=(*self.get_common_args(),
++                          "-machine", "virt,gic-version=3"))
 
 
