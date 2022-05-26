@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763F053536C
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 20:38:26 +0200 (CEST)
-Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9535353538B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 20:46:57 +0200 (CEST)
+Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuINN-0008QK-5z
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 14:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
+	id 1nuIVc-0001zN-7w
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 14:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nuIMR-0007cW-Em
- for qemu-devel@nongnu.org; Thu, 26 May 2022 14:37:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20540)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nuITN-00015H-Rb
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 14:44:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nuIMO-0004dG-IX
- for qemu-devel@nongnu.org; Thu, 26 May 2022 14:37:26 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nuITL-0006C9-NJ
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 14:44:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653590243;
+ s=mimecast20190719; t=1653590674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iZXZyOBj9K/G+WFDwIrle6dO9n3UzwXZHEEzIr/nzYk=;
- b=EcN/9lvQ2vCfiG/e2xYWoODYOQEkXUaYtUvRX8268CA1WFkXVfs8Auaql9IoYONSvGMBJ2
- 6mBRqFgpr/pG17PrvReBn5zLlg5IX/OcoO4i8GXSCQbuDVXT7FP6pM8DtGv6bu6c+vKTFY
- TgD6/kjuAvbgplcnNHYCZRAbPn5ChMU=
+ bh=CRHkmRTcvTPSWGv65FtwrjcErA+xpKN4ggKr7FDdxbI=;
+ b=LXsuK6DRdhcYzEqYevzK9VyhvbPl40qItOkaCsH2VdPvZtalgvXfS+pes/MbQ9RfH9O2Sg
+ lPX9VtVHEHthwKpOFhZJgVqn5UIJIVAohevlo2HbUhB/W9v5wvyEaZNlyt3mAIeJwqqNZF
+ KiCbgC9n5J/m4m8V7RGuJXuyv00mKdY=
 Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
  [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-o6Y_R8uzO2iFB1pntZjEgA-1; Thu, 26 May 2022 14:37:21 -0400
-X-MC-Unique: o6Y_R8uzO2iFB1pntZjEgA-1
+ us-mta-597-Y8It5EfmMQWknunj6g3CtQ-1; Thu, 26 May 2022 14:44:30 -0400
+X-MC-Unique: Y8It5EfmMQWknunj6g3CtQ-1
 Received: by mail-io1-f71.google.com with SMTP id
- y13-20020a056602164d00b0065a9dec1ef2so1465611iow.23
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 11:37:21 -0700 (PDT)
+ k17-20020a5d9d51000000b006653f2bc513so1494230iok.10
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 11:44:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iZXZyOBj9K/G+WFDwIrle6dO9n3UzwXZHEEzIr/nzYk=;
- b=i7SlwH85A/jWB/IaTOGvPDVb0e1yUhh4egGadLOpXQvAI70Jg49j5ADUIP+9aM+/55
- JlqX/c/zsw2UuDmUZX47fkM9MoJL7SYNXFCPjMh1bcLTAP2Y8+yVFKroZqYsu7iv/gv0
- ScD9VKtWsdNo9cTaRlr8IMivEiOB7ALIGRZAAXckbBzDKp4NYvrUCw8InRA4DJcLr7O7
- dIuI6Dduk1wS5vRvJzzIdw8H70vzBP95TwLdAkvh/pPTa3jKquIdnuf9yOg2PGzAf6jk
- 8ongn/gfSwKQ4C2Z49gcKuUx5LbWWTxbm8C/f2PBBfZ2D0s31AHmIyrvkALyWYQRkSK5
- C1cw==
-X-Gm-Message-State: AOAM533hEb4FZJyCwQE07w+zsnmiiRBH+tT9l/rO2U/e3khiMs4d7rlI
- qXrLzDsS6EspBi51kXxyLtWl1y44tBVTld8EYCGdlQtmlavUNEjubdd09So9VWLrx4bf+78AF7Y
- MGuiMLDKRkL49C2E=
-X-Received: by 2002:a05:6638:4901:b0:32f:d52c:924c with SMTP id
- cx1-20020a056638490100b0032fd52c924cmr6248113jab.8.1653590241277; 
- Thu, 26 May 2022 11:37:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpP2TSvS6e9NpQEMUP3qCECYxWtAnkzb4ugRqwUnJ/Y/Oan//xTqCMVr3HgbEkayorckxxRg==
-X-Received: by 2002:a05:6638:4901:b0:32f:d52c:924c with SMTP id
- cx1-20020a056638490100b0032fd52c924cmr6248102jab.8.1653590241044; 
- Thu, 26 May 2022 11:37:21 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- x89-20020a0294e2000000b0032e43cb7344sm575684jah.146.2022.05.26.11.37.19
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=CRHkmRTcvTPSWGv65FtwrjcErA+xpKN4ggKr7FDdxbI=;
+ b=s2/h6NFjkvT4991VBn88vOQn87vUvjea8b3DRa5JKq1i9rBcuY4unQ8PUwHZiNxyV+
+ ptYmVh5iuDXIpUqY0LNBug4cH1EN6ZXbhAgqYc7SkLaSLyLpAl0WhSm3wtOol9AryJQb
+ WJehEPHWWGxN8wWq7ZW6oSxZfRqMU58px6xkTxIupEoen9SIXwPIiHmdY1CynW98SYs2
+ Bn4B+vUV4GKtM/nImSBuUNcBZq8V9oq871up+tdq9Fqg5Xcr98TQCZKqb3qAe/2HqZfb
+ HkZY5SyHU9gYus8BS3M+XFRlk10OGwvQcmgWB3mWww3SjIFQI2iWTcAru9QeuuxGdgX0
+ Rcow==
+X-Gm-Message-State: AOAM533/WDdA4IuvnCrB/cTdfKrTQhDsQVzqA74oaKIPe8mws5OBZvJE
+ CIQXKFW7pmsQc7YqK7CFAhBNp8mBEoEB6CZgHk12urUvuuFvtxTrHX/rVmMqz5xfqiidFIT4H1t
+ OemVMJcm6ogFYfAk=
+X-Received: by 2002:a05:6e02:1bce:b0:2d1:3fd2:645d with SMTP id
+ x14-20020a056e021bce00b002d13fd2645dmr19225684ilv.299.1653590669523; 
+ Thu, 26 May 2022 11:44:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuAwLgGTBn0DpSCQJoArJx94rU7AS5W4FESJgAI+I9Ow4z8VXfVVbQ5zQYmSnZ9R6NFZAm3Q==
+X-Received: by 2002:a05:6e02:1bce:b0:2d1:3fd2:645d with SMTP id
+ x14-20020a056e021bce00b002d13fd2645dmr19225659ilv.299.1653590668917; 
+ Thu, 26 May 2022 11:44:28 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ y189-20020a6bc8c6000000b006657596977fsm601728iof.4.2022.05.26.11.44.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 11:37:20 -0700 (PDT)
-Date: Thu, 26 May 2022 14:37:18 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jue Wang <juew@google.com>
-Cc: pizhenwei@bytedance.com, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, jasowang@redhat.com,
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- mst@redhat.com,
- HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= <naoya.horiguchi@nec.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
-Message-ID: <Yo/I3oLkd9OU0ice@xz-m1.local>
-References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
+ Thu, 26 May 2022 11:44:28 -0700 (PDT)
+Date: Thu, 26 May 2022 12:44:27 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Lei Rao <lei.rao@intel.com>
+Cc: kevin.tian@intel.com, eddie.dong@intel.com, jason.zeng@intel.com,
+ quintela@redhat.com, dgilbert@redhat.com, yadong.li@intel.com,
+ yi.l.liu@intel.com, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 00/13] Add a plugin to support out-of-band live
+ migration for VFIO pass-through device
+Message-ID: <20220526124427.3f23708f.alex.williamson@redhat.com>
+In-Reply-To: <20220524061848.1615706-1-lei.rao@intel.com>
+References: <20220524061848.1615706-1-lei.rao@intel.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,25 +102,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 25, 2022 at 01:16:34PM -0700, Jue Wang wrote:
-> The hypervisor _must_ emulate poisons identified in guest physical
-> address space (could be transported from the source VM), this is to
-> prevent silent data corruption in the guest. With a paravirtual
-> approach like this patch series, the hypervisor can clear some of the
-> poisoned HVAs knowing for certain that the guest OS has isolated the
-> poisoned page. I wonder how much value it provides to the guest if the
-> guest and workload are _not_ in a pressing need for the extra KB/MB
-> worth of memory.
+On Tue, 24 May 2022 14:18:35 +0800
+Lei Rao <lei.rao@intel.com> wrote:
 
-I'm curious the same on how unpoisoning could help here.  The reasoning
-behind would be great material to be mentioned in the next cover letter.
+> Migration of a VFIO passthrough device can be supported by using a device 
+> specific kernel driver to save/restore the device state thru device specific 
+> interfaces. But this approach doesn't work for devices that lack a state 
+> migration interface, e.g. NVMe.
+> 
+> On the other hand, Infrastructure Process Unit (IPU) or Data Processing Unit 
+> (DPU) vendors may choose to implement an out-of-band interface from the SoC to 
+> help manage the state of such non-migratable devices e.g. via gRPC or JSON-RPC 
+> protocols.
+> 
+> This RFC attempts to support such out-of-band migration interface by introducing
+> the concept of migration backends in vfio. The existing logic around vfio 
+> migration uAPI is now called the 'local' backend while a new 'out-of-band' 
+> backend is further introduced allowing vfio to redirect VMState ops to an 
+> external plugin.
+> 
+> Currently, the backend migration Ops is defined close to SaveVMHandlers. We also
+> considered whether there is value of abstracting it in a lower level e.g. close 
+> to vfio migration uAPI but no clear conclusion. Hence this is one part which 
+> we'd like to hear suggestions.
+> 
+> This proposal adopts a plugin mechanism (an example can be found in [1]) given 
+> that IPU/DPU vendors usually implement proprietary migration interfaces without
+> a standard. But we are also open if an alternative option makes better sense,
+> e.g. via loadable modules (with Qemu supporting gRPC or JSON-RPC support) or an
+> IPC mechanism similar to vhost-user.
 
-Shouldn't we consider migrating serious workloads off the host already
-where there's a sign of more severe hardware issues, instead?
+AFAIU, QEMU is not interested in supporting plugin modules, especially
+proprietary ones.  I don't see that a case has really been made that
+this cannot be done in-band, through a vfio-pci variant driver,
+possibly making use of proprietary interfaces to a userspace agent if
+necessary (though please don't ask such to be accepted in-tree for the
+kernel either).  A vfio-user device server might also host such
+proprietary, device specific agents while supporting the standard,
+in-band migration interface.  Thanks,
 
-Thanks,
+Alex
 
--- 
-Peter Xu
+> 
+> The following graph describes the overall component relationship:
+> 
+>  +----------------------------------------------------+
+>  | QEMU                                               |
+>  | +------------------------------------------------+ |
+>  | |        VFIO Live Migration Framework           | |
+>  | |    +--------------------------------------+    | |
+>  | |    |         VFIOMigrationOps             |    | |
+>  | |    +-------^---------------------^--------+    | |
+>  | |            |                     |             | |
+>  | |    +-------v-------+     +-------v--------+    | |
+>  | |    | LM Backend Via|     | LM Backend Via |    | |
+>  | |    |   Device Fd   |     |    Plugins     |    | |
+>  | |    +-------^-------+     |     +----------+    | |
+>  | |            |             |     |Plugin Ops+----+-+------------+
+>  | |            |             +-----+----------+    | |            |
+>  | |            |                                   | |  +---------v----------+
+>  | +------------+-----------------------------------+ |  |  Vendor Specific   |
+>  |              |                                     |  |    Plugins(.so)    |
+>  +--------------+-------------------------------------+  +----------+---------+
+>   UserSpace     |                                                   |
+> ----------------+---------------------------------------------      |
+>   Kernel        |                                                   |
+>                 |                                                   |
+>      +----------v----------------------+                            |
+>      |        Kernel VFIO Driver       |                            |
+>      |    +-------------------------+  |                            |
+>      |    |                         |  |                            | Network
+>      |    | Vendor-Specific Driver  |  |                            |
+>      |    |                         |  |                            |
+>      |    +----------^--------------+  |                            |
+>      |               |                 |                            |
+>      +---------------+-----------------+                            |
+>                      |                                              |
+>                      |                                              |
+> ---------------------+-----------------------------------------     |
+>   Hardware           |                                              |
+>                      |            +-----+-----+-----+----+-----+    |
+>           +----------v------+     | VF0 | VF1 | VF2 | ...| VFn |    |
+>           |   Traditional   |     +-----+-----+-----+----+-----+    |
+>           |  PCIe Devices   |     |                            |    |
+>           +-----------------+     |   +--------+------------+  |    |
+>                                   |   |        |   Agent    |<-+----+
+>                                   |   |        +------------+  |
+>                                   |   |                     |  |
+>                                   |   | SOC                 |  |
+>                                   |   +---------------------+  |
+>                                   | IPU                        |
+>                                   +----------------------------+
+> 
+> Two command-line parameters (x-plugin-path and x-plugin-arg) are introduced to 
+> enable the out-of-band backend. If specified, vfio will attempt to use the 
+> out-of-band backend.
+> 
+> The following is an example of VFIO command-line parameters for OOB-Approach:
+> 
+>   -device vfio-pci,id=$ID,host=$bdf,x-enable-migration,x-plugin-path=$plugin_path,x-plugin-arg=$plugin_arg
+> 
+> [1] https://github.com/raolei-intel/vfio-lm-plugin-example.git
+> 
+> Lei Rao (13):
+>   vfio/migration: put together checks of migration initialization
+>     conditions
+>   vfio/migration: move migration struct allocation out of
+>     vfio_migration_init
+>   vfio/migration: move vfio_get_dev_region_info out of
+>     vfio_migration_probe
+>   vfio/migration: Separated functions that relate to the In-Band
+>     approach
+>   vfio/migration: rename functions that relate to the In-Band approach
+>   vfio/migration: introduce VFIOMigrationOps layer in VFIO live
+>     migration framework
+>   vfio/migration: move the statistics of bytes_transferred to generic
+>     VFIO migration layer
+>   vfio/migration: split migration handler registering from
+>     vfio_migration_init
+>   vfio/migration: move the functions of In-Band approach to a new file
+>   vfio/pci: introduce command-line parameters to specify migration
+>     method
+>   vfio/migration: add a plugin layer to support out-of-band live
+>     migration
+>   vfio/migration: add some trace-events for vfio migration plugin
+>   vfio/migration: make the region and plugin member of struct
+>     VFIOMigration to be a union
+> 
+>  docs/devel/vfio-migration-plugin.rst    | 165 +++++++
+>  hw/vfio/meson.build                     |   2 +
+>  hw/vfio/migration-local.c               | 456 +++++++++++++++++++
+>  hw/vfio/migration-plugin.c              | 266 +++++++++++
+>  hw/vfio/migration.c                     | 577 ++++++------------------
+>  hw/vfio/pci.c                           |   2 +
+>  hw/vfio/trace-events                    |   9 +-
+>  include/hw/vfio/vfio-common.h           |  37 +-
+>  include/hw/vfio/vfio-migration-plugin.h |  21 +
+>  9 files changed, 1096 insertions(+), 439 deletions(-)
+>  create mode 100644 docs/devel/vfio-migration-plugin.rst
+>  create mode 100644 hw/vfio/migration-local.c
+>  create mode 100644 hw/vfio/migration-plugin.c
+>  create mode 100644 include/hw/vfio/vfio-migration-plugin.h
+> 
 
 
