@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E765348AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 04:15:26 +0200 (CEST)
-Received: from localhost ([::1]:52702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896CC5348D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 04:23:23 +0200 (CEST)
+Received: from localhost ([::1]:56402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu325-0003xb-N2
-	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 22:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45464)
+	id 1nu39m-0007F7-MT
+	for lists+qemu-devel@lfdr.de; Wed, 25 May 2022 22:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6145f87153=irischenlj@fb.com>)
- id 1nu2zQ-0002Jo-BR; Wed, 25 May 2022 22:12:41 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:46210
- helo=mx0a-00082601.pphosted.com)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1nu38d-0006IC-Sv
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 22:22:11 -0400
+Received: from mga14.intel.com ([192.55.52.115]:31507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6145f87153=irischenlj@fb.com>)
- id 1nu2zN-0005mW-1a; Wed, 25 May 2022 22:12:39 -0400
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
- by m0089730.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 24PGtcBj009591;
- Wed, 25 May 2022 19:12:23 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=WSbnnTlds4RsP16cpS/Vp0/pI9z8F1ezgAE8B51dZkM=;
- b=IYOBEd+VlQ1rLmWfO6CHxgSxXHg/2n0BGHXmlAMbzP+3Aon39q8w0yvhO+H1I3mK8JCK
- kXMXaJAnBF52uVi2zbsa00IpKDJEXuFgm5NMbYL28kJxddVG8FJKeWYO6xukf3wyQwot
- vwTPMta8OudscAmqPvqTR0h6TyM8e4tmGeI= 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by m0089730.ppops.net (PPS) with ESMTPS id 3g93tx2bkb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 25 May 2022 19:12:23 -0700
-Received: from snc-exhub201.TheFacebook.com (2620:10d:c085:21d::7) by
- snc-exhub203.TheFacebook.com (2620:10d:c085:21d::6) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Wed, 25 May 2022 19:12:22 -0700
-Received: from localhost (2620:10d:c085:208::f) by mail.thefacebook.com
- (2620:10d:c085:21d::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 25 May
- 2022 19:12:21 -0700
-From: Iris Chen <irischenlj@fb.com>
-To: 
-CC: <irischenlj@fb.com>, <pdel@fb.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <clg@kaod.org>, <patrick@stwcx.xyz>,
- <alistair@alistair23.me>, <kwolf@redhat.com>, <hreitz@redhat.com>,
- <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
- <qemu-block@nongnu.org>, Iris Chen <irischenlj@gmail.com>
-Subject: [PATCH 1/1] hw: m25p80: add W# pin and SRWD bit for write protection
-Date: Wed, 25 May 2022 19:12:16 -0700
-Message-ID: <20220526021216.1031533-1-irischenlj@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <irischenlj@fb.com>
-References: <irischenlj@fb.com>
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1nu38a-0007X6-BA
+ for qemu-devel@nongnu.org; Wed, 25 May 2022 22:22:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653531728; x=1685067728;
+ h=message-id:date:mime-version:from:subject:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=NQsJKoMeAUNpjAUfkABUSjHjSWLsftTswv6b9ntO4VA=;
+ b=EQa3FlXwJhHZWOQMeLhTRib9mdNON6/FDB+rx0iT4k7bKoSKcuvXHDMB
+ P6NO+u97qjxWJLaydyxvxTNRH8R95XDYpGet6IyiWZjRsHTD/g5IUPTW2
+ PoaPJ4Cs6rAdA+4cPb3TGl+C/NUMUqWCohagwqstdJxM+PQtjPtUknQUc
+ zOkEfJjylV7p6HNQqH8Dm6G6Bm6scoIcTL/85RMWl2DcV+OJCNryH9vG0
+ a8H0i1bsEeClLUeMsjI4d1cMyQ/Au1rCjobiAUFEWYZW11yVtzhXgXoEU
+ RxW9hhU11guIdUYlrkwUPfuJzzP9O5NC+bLIIIH7Cq41n1L7reztx9yGr w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="274106619"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="274106619"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 19:22:04 -0700
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="573629575"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.249.175.139])
+ ([10.249.175.139])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 19:21:57 -0700
+Message-ID: <c6d8ca5a-999c-35a9-2ac1-7d71066f5981@intel.com>
+Date: Thu, 26 May 2022 10:21:54 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2620:10d:c085:208::f]
-X-Proofpoint-ORIG-GUID: M50vFdVoJXONlmmHiAL7eRHKA5gSqeVK
-X-Proofpoint-GUID: M50vFdVoJXONlmmHiAL7eRHKA5gSqeVK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-25_07,2022-05-25_02,2022-02-23_01
-Received-SPF: pass client-ip=67.231.153.30;
- envelope-from=prvs=6145f87153=irischenlj@fb.com;
- helo=mx0a-00082601.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.9.1
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: Re: [PATCH v4 3/3] i386: Add notify VM exit support
+To: Yuan Yao <yuan.yao@linux.intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220524140302.23272-1-chenyi.qiang@intel.com>
+ <20220524140302.23272-4-chenyi.qiang@intel.com>
+ <20220525034336.2oxscnus7arrorvy@yy-desk-7060>
+Content-Language: en-US
+In-Reply-To: <20220525034336.2oxscnus7arrorvy@yy-desk-7060>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=chenyi.qiang@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,262 +86,271 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Iris Chen <irischenlj@gmail.com>
 
-Add the W# pin and SRWD bit which control the status register write
-ability.
 
-Signed-off-by: Iris Chen <irischenlj@gmail.com>
----
- hw/block/m25p80.c             | 72 +++++++++++++++++++++++++++++++++++
- tests/qtest/aspeed_smc-test.c | 62 ++++++++++++++++++++++++++++++
- 2 files changed, 134 insertions(+)
+On 5/25/2022 11:43 AM, Yuan Yao wrote:
+> On Tue, May 24, 2022 at 10:03:02PM +0800, Chenyi Qiang wrote:
+>> There are cases that malicious virtual machine can cause CPU stuck (due
+>> to event windows don't open up), e.g., infinite loop in microcode when
+>> nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
+>> IRQ) can be delivered. It leads the CPU to be unavailable to host or
+>> other VMs. Notify VM exit is introduced to mitigate such kind of
+>> attacks, which will generate a VM exit if no event window occurs in VM
+>> non-root mode for a specified amount of time (notify window).
+>>
+>> A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
+>> so that the user can query the capability and set the expected notify
+>> window when creating VMs. The format of the argument when enabling this
+>> capability is as follows:
+>>    Bit 63:32 - notify window specified in qemu command
+>>    Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
+>>                enable the feature.)
+>>
+>> Because there are some concerns, e.g. a notify VM exit may happen with
+>> VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
+>> that would set this bit), which means VM context is corrupted. To avoid
+>> the false positive and a well-behaved guest gets killed, make this
+>> feature disabled by default. Users can enable the feature by a new
+>> machine property:
+>>      qemu -machine notify_vmexit=on,notify_window=0 ...
+>>
+>> A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
+>> it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
+>> inform the fatal case. Then user space can inject a SHUTDOWN event to
+>> the target vcpu. This is implemented by injecting a sythesized triple
+>> fault event.
+>>
+>> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+>> ---
+>>   hw/i386/x86.c         | 45 +++++++++++++++++++++++++++++
+>>   include/hw/i386/x86.h |  5 ++++
+>>   target/i386/kvm/kvm.c | 66 ++++++++++++++++++++++++++++++-------------
+>>   3 files changed, 96 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>> index 4cf107baea..a82f959cb9 100644
+>> --- a/hw/i386/x86.c
+>> +++ b/hw/i386/x86.c
+>> @@ -1296,6 +1296,37 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+>>       qapi_free_SgxEPCList(list);
+>>   }
+>>
+>> +static bool x86_machine_get_notify_vmexit(Object *obj, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +
+>> +    return x86ms->notify_vmexit;
+>> +}
+>> +
+>> +static void x86_machine_set_notify_vmexit(Object *obj, bool value, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +
+>> +    x86ms->notify_vmexit = value;
+>> +}
+>> +
+>> +static void x86_machine_get_notify_window(Object *obj, Visitor *v,
+>> +                                const char *name, void *opaque, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +    uint32_t notify_window = x86ms->notify_window;
+>> +
+>> +    visit_type_uint32(v, name, &notify_window, errp);
+>> +}
+>> +
+>> +static void x86_machine_set_notify_window(Object *obj, Visitor *v,
+>> +                               const char *name, void *opaque, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +
+>> +    visit_type_uint32(v, name, &x86ms->notify_window, errp);
+>> +}
+>> +
+>>   static void x86_machine_initfn(Object *obj)
+>>   {
+>>       X86MachineState *x86ms = X86_MACHINE(obj);
+>> @@ -1306,6 +1337,8 @@ static void x86_machine_initfn(Object *obj)
+>>       x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+>>       x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+>>       x86ms->bus_lock_ratelimit = 0;
+>> +    x86ms->notify_vmexit = false;
+>> +    x86ms->notify_window = 0;
+>>   }
+>>
+>>   static void x86_machine_class_init(ObjectClass *oc, void *data)
+>> @@ -1361,6 +1394,18 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+>>           NULL, NULL);
+>>       object_class_property_set_description(oc, "sgx-epc",
+>>           "SGX EPC device");
+>> +
+>> +    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW, "uint32_t",
+>> +                              x86_machine_get_notify_window,
+>> +                              x86_machine_set_notify_window, NULL, NULL);
+>> +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_WINDOW,
+>> +            "Set the notify window required by notify VM exit");
+>> +
+>> +    object_class_property_add_bool(oc, X86_MACHINE_NOTIFY_VMEXIT,
+>> +                                   x86_machine_get_notify_vmexit,
+>> +                                   x86_machine_set_notify_vmexit);
+>> +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_VMEXIT,
+>> +            "Enable notify VM exit");
+>>   }
+>>
+>>   static const TypeInfo x86_machine_info = {
+>> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+>> index 916cc325ee..571ee8b667 100644
+>> --- a/include/hw/i386/x86.h
+>> +++ b/include/hw/i386/x86.h
+>> @@ -80,6 +80,9 @@ struct X86MachineState {
+>>        * which means no limitation on the guest's bus locks.
+>>        */
+>>       uint64_t bus_lock_ratelimit;
+>> +
+>> +    bool notify_vmexit;
+>> +    uint32_t notify_window;
+>>   };
+>>
+>>   #define X86_MACHINE_SMM              "smm"
+>> @@ -87,6 +90,8 @@ struct X86MachineState {
+>>   #define X86_MACHINE_OEM_ID           "x-oem-id"
+>>   #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+>>   #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
+>> +#define X86_MACHINE_NOTIFY_VMEXIT     "notify-vmexit"
+>> +#define X86_MACHINE_NOTIFY_WINDOW     "notify-window"
+>>
+>>   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+>>   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index 2f2fc18b4f..6aaedf3412 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -2345,6 +2345,10 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>       int ret;
+>>       struct utsname utsname;
+>>       Error *local_err = NULL;
+>> +    X86MachineState *x86ms;
+>> +
+>> +    assert(object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE));
+>> +    x86ms = X86_MACHINE(ms);
+>>
+>>       /*
+>>        * Initialize SEV context, if required
+>> @@ -2450,8 +2454,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>       }
+>>
+>>       if (kvm_check_extension(s, KVM_CAP_X86_SMM) &&
+>> -        object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE) &&
+>> -        x86_machine_is_smm_enabled(X86_MACHINE(ms))) {
+>> +        x86_machine_is_smm_enabled(x86ms)) {
+>>           smram_machine_done.notify = register_smram_listener;
+>>           qemu_add_machine_init_done_notifier(&smram_machine_done);
+>>       }
+>> @@ -2479,25 +2482,34 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>           }
+>>       }
+>>
+>> -    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
+> 
+> The original behavior:
+> 
+> if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
+> ... do some thing }
+> return 0;
+> 
+> Note that it won't throw any exceptions if ms is not
+> instance of TYPE_X86_MACHINE, but now the assert() throws
+> exceptions in this case. In another hand, assert() may
+> become nothing in NDEBUG case.
+> 
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 81ba3da4df..c845fa08d4 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -27,12 +27,14 @@
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "hw/ssi/ssi.h"
-+#include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "qemu/bitops.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-+#include "qapi/visitor.h"
- #include "trace.h"
- #include "qom/object.h"
- 
-@@ -472,11 +474,13 @@ struct Flash {
-     uint8_t spansion_cr2v;
-     uint8_t spansion_cr3v;
-     uint8_t spansion_cr4v;
-+    bool write_protect_pin;
-     bool write_enable;
-     bool four_bytes_address_mode;
-     bool reset_enable;
-     bool quad_enable;
-     bool aai_enable;
-+    bool status_register_write_disabled;
-     uint8_t ear;
- 
-     int64_t dirty_page;
-@@ -723,6 +727,21 @@ static void complete_collecting_data(Flash *s)
-         flash_erase(s, s->cur_addr, s->cmd_in_progress);
-         break;
-     case WRSR:
-+        /*
-+         * If W# is low and status_register_write_disabled is high,
-+         * status register writes are disabled.
-+         * This is also called "hardware protected mode" (HPM). All other
-+         * combinations of the two states are called "software protected mode"
-+         * (SPM), and status register writes are permitted.
-+         */
-+        if ((s->write_protect_pin == 0 && s->status_register_write_disabled)
-+            || !s->write_enable) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "M25P80: Status register write is disabled!\n");
-+            break;
-+        }
-+        s->status_register_write_disabled = extract32(s->data[0], 7, 1);
-+
-         switch (get_man(s)) {
-         case MAN_SPANSION:
-             s->quad_enable = !!(s->data[1] & 0x02);
-@@ -1195,6 +1214,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
- 
-     case RDSR:
-         s->data[0] = (!!s->write_enable) << 1;
-+        s->data[0] |= (!!s->status_register_write_disabled) << 7;
-+
-         if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
-             s->data[0] |= (!!s->quad_enable) << 6;
-         }
-@@ -1484,6 +1505,15 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
-     return r;
- }
- 
-+static void m25p80_write_protect_pin_irq_handler(void *opaque, int n, int level)
-+{
-+    Flash *s = M25P80(opaque);
-+    bool wp = !!level;
-+    /* W# is just a single pin. */
-+    assert(n == 0);
-+    s->write_protect_pin = wp;
-+}
-+
- static void m25p80_realize(SSIPeripheral *ss, Error **errp)
- {
-     Flash *s = M25P80(ss);
-@@ -1515,12 +1545,18 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
-         s->storage = blk_blockalign(NULL, s->size);
-         memset(s->storage, 0xFF, s->size);
-     }
-+
-+    qdev_init_gpio_in_named(DEVICE(s),
-+                            m25p80_write_protect_pin_irq_handler, "W#", 1);
- }
- 
- static void m25p80_reset(DeviceState *d)
- {
-     Flash *s = M25P80(d);
- 
-+    s->write_protect_pin = true;
-+    s->status_register_write_disabled = false;
-+
-     reset_memory(s);
- }
- 
-@@ -1601,6 +1637,7 @@ static const VMStateDescription vmstate_m25p80 = {
-         VMSTATE_UINT8(needed_bytes, Flash),
-         VMSTATE_UINT8(cmd_in_progress, Flash),
-         VMSTATE_UINT32(cur_addr, Flash),
-+        VMSTATE_BOOL(write_protect_pin, Flash),
-         VMSTATE_BOOL(write_enable, Flash),
-         VMSTATE_BOOL(reset_enable, Flash),
-         VMSTATE_UINT8(ear, Flash),
-@@ -1622,6 +1659,38 @@ static const VMStateDescription vmstate_m25p80 = {
-     }
- };
- 
-+static void m25p80_get_write_protect_pin(Object *obj,
-+                                       Visitor *v,
-+                                       const char *name,
-+                                       void *opaque,
-+                                       Error **errp)
-+{
-+    Flash *s = M25P80(obj);
-+    bool value;
-+
-+    value = s->write_protect_pin;
-+
-+    visit_type_bool(v, name, &value, errp);
-+}
-+
-+static void m25p80_set_write_protect_pin(Object *obj,
-+                                       Visitor *v,
-+                                       const char *name,
-+                                       void *opaque,
-+                                       Error **errp)
-+{
-+    Flash *s = M25P80(obj);
-+    bool value;
-+    qemu_irq w;
-+
-+    if (!visit_type_bool(v, name, &value, errp)) {
-+        return;
-+    }
-+
-+    w = qdev_get_gpio_in_named(DEVICE(s), "W#", 0);
-+    qemu_set_irq(w, value);
-+}
-+
- static void m25p80_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -1636,6 +1705,9 @@ static void m25p80_class_init(ObjectClass *klass, void *data)
-     device_class_set_props(dc, m25p80_properties);
-     dc->reset = m25p80_reset;
-     mc->pi = data;
-+
-+    object_class_property_add(klass, "W#", "bool", m25p80_get_write_protect_pin,
-+                              m25p80_set_write_protect_pin, NULL, NULL);
- }
- 
- static const TypeInfo m25p80_info = {
-diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-index ec233315e6..45c0d812c7 100644
---- a/tests/qtest/aspeed_smc-test.c
-+++ b/tests/qtest/aspeed_smc-test.c
-@@ -56,7 +56,9 @@ enum {
-     BULK_ERASE = 0xc7,
-     READ = 0x03,
-     PP = 0x02,
-+    WRSR = 0x1,
-     WREN = 0x6,
-+    SRWD = 0x80,
-     RESET_ENABLE = 0x66,
-     RESET_MEMORY = 0x99,
-     EN_4BYTE_ADDR = 0xB7,
-@@ -390,6 +392,64 @@ static void test_read_status_reg(void)
-     flash_reset();
- }
- 
-+static void test_status_reg_write_protection(void)
-+{
-+    uint8_t r;
-+
-+    spi_conf(CONF_ENABLE_W0);
-+
-+    /* default case: W# is high and SRWD is low -> status register writable */
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    /* test ability to write SRWD */
-+    writeb(ASPEED_FLASH_BASE, WRSR);
-+    writeb(ASPEED_FLASH_BASE, SRWD);
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r = readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+    g_assert_cmphex(r & SRWD, ==, SRWD);
-+
-+    /* W# high and SRWD high -> status register writable */
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    /* test ability to write SRWD */
-+    writeb(ASPEED_FLASH_BASE, WRSR);
-+    writeb(ASPEED_FLASH_BASE, 0);
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r = readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+    g_assert_cmphex(r & SRWD, ==, 0);
-+
-+    /* W# low and SRWD low -> status register writable */
-+    qtest_qom_set_bool(global_qtest,
-+                       "/machine/soc/fmc/ssi.0/child[0]", "W#", false);
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    /* test ability to write SRWD */
-+    writeb(ASPEED_FLASH_BASE, WRSR);
-+    writeb(ASPEED_FLASH_BASE, SRWD);
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r = readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+    g_assert_cmphex(r & SRWD, ==, SRWD);
-+
-+    /* W# low and SRWD high -> status register NOT writable */
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    /* test ability to write SRWD */
-+    writeb(ASPEED_FLASH_BASE, WRSR);
-+    writeb(ASPEED_FLASH_BASE, 0);
-+    writeb(ASPEED_FLASH_BASE, RDSR);
-+    r = readb(ASPEED_FLASH_BASE);
-+    spi_ctrl_stop_user();
-+    /* write is not successful */
-+    g_assert_cmphex(r & SRWD, ==, SRWD);
-+
-+    qtest_qom_set_bool(global_qtest,
-+                       "/machine/soc/fmc/ssi.0/child[0]", "W#", true);
-+    flash_reset();
-+}
-+
- static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
- 
- int main(int argc, char **argv)
-@@ -416,6 +476,8 @@ int main(int argc, char **argv)
-     qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
-     qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
-     qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
-+    qtest_add_func("/ast2400/smc/status_reg_write_protection",
-+                   test_status_reg_write_protection);
- 
-     ret = g_test_run();
- 
--- 
-2.30.2
+Agreed, but since it's for i386, I don't know if in any case, it would 
+assert the exception.
 
+> May move the whole BUS LOCK part and new NOTIFY_VMEXIT part
+> to 2 separate functions and call them from kvm_arch_init()
+> makes the readability better.
+> 
+
+I don't have preference for this. Maybe not deserve to separate the 
+functions as current enabling code is not so complicated.
+
+>> -        X86MachineState *x86ms = X86_MACHINE(ms);
+>> +    if (x86ms->bus_lock_ratelimit > 0) {
+>> +        ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
+>> +        if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
+>> +            error_report("kvm: bus lock detection unsupported");
+>> +            return -ENOTSUP;
+>> +        }
+>> +        ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
+>> +                                KVM_BUS_LOCK_DETECTION_EXIT);
+>> +        if (ret < 0) {
+>> +            error_report("kvm: Failed to enable bus lock detection cap: %s",
+>> +                         strerror(-ret));
+>> +            return ret;
+>> +        }
+>> +        ratelimit_init(&bus_lock_ratelimit_ctrl);
+>> +        ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
+>> +                            x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
+>> +    }
+>>
+>> -        if (x86ms->bus_lock_ratelimit > 0) {
+>> -            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
+>> -            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
+>> -                error_report("kvm: bus lock detection unsupported");
+>> -                return -ENOTSUP;
+>> -            }
+>> -            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
+>> -                                    KVM_BUS_LOCK_DETECTION_EXIT);
+>> -            if (ret < 0) {
+>> -                error_report("kvm: Failed to enable bus lock detection cap: %s",
+>> -                             strerror(-ret));
+>> -                return ret;
+>> -            }
+>> -            ratelimit_init(&bus_lock_ratelimit_ctrl);
+>> -            ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
+>> -                                x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
+>> +    if (x86ms->notify_vmexit && kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
+>> +        uint64_t notify_window_flags = ((uint64_t)x86ms->notify_window << 32) |
+>> +                                        KVM_X86_NOTIFY_VMEXIT_ENABLED |
+>> +                                        KVM_X86_NOTIFY_VMEXIT_USER;
+>> +        ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
+>> +                                notify_window_flags);
+>> +        if (ret < 0) {
+>> +            error_report("kvm: Failed to enable notify vmexit cap: %s",
+>> +                         strerror(-ret));
+>> +            return ret;
+>>           }
+>>       }
+>>
+>> @@ -4940,6 +4952,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>>       X86CPU *cpu = X86_CPU(cs);
+>>       uint64_t code;
+>>       int ret;
+>> +    struct kvm_vcpu_events events = {};
+>>
+>>       switch (run->exit_reason) {
+>>       case KVM_EXIT_HLT:
+>> @@ -4995,6 +5008,19 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>>           /* already handled in kvm_arch_post_run */
+>>           ret = 0;
+>>           break;
+>> +    case KVM_EXIT_NOTIFY:
+>> +        ret = 0;
+>> +        if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
+>> +            warn_report("KVM: invalid context due to notify vmexit");
+>> +            if (has_triple_fault_event) {
+>> +                events.flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
+>> +                events.triple_fault.pending = true;
+>> +                ret = kvm_vcpu_ioctl(cs, KVM_SET_VCPU_EVENTS, &events);
+>> +            } else {
+>> +                ret = -1;
+>> +            }
+>> +        }
+>> +        break;
+>>       default:
+>>           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>>           ret = -1;
+>> --
+>> 2.17.1
+>>
 
