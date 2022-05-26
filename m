@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED121535391
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 20:50:37 +0200 (CEST)
-Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0CF535392
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 20:53:04 +0200 (CEST)
+Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuIZA-0004t6-0j
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 14:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
+	id 1nuIbX-0006y6-Dc
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 14:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1nuIX9-0004Dl-KN
- for qemu-devel@nongnu.org; Thu, 26 May 2022 14:48:31 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:33465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1nuIX8-0006lV-1M
- for qemu-devel@nongnu.org; Thu, 26 May 2022 14:48:31 -0400
-Received: by mail-pg1-x531.google.com with SMTP id r71so2078536pgr.0
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 11:48:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9pDHvj1XxxhOT7SmEuncoL4fkxjfq02ZHdILpMB+Yqk=;
- b=AWyVlkEQOxwNz1MnnmC2HSRXrWV4qLE/tSUFKUA5CxWYEyKYkJ0sYFUxZdGmLkWTU9
- FASK2jAF85CEA9G1j/08T3WJc/HvItteUfELobE3U52nZ8qC8+WVCVl9X/v3TLOVXWLh
- Qibuchji5GBb1ao1goX8DxgVrbTf0PlCwPwZSQfMYmMGF7z7bRYbazfgoZsISrhg6P5W
- edh3l4S4XBB69heiFO8KULJDg0ZDYqhMnGEsZ5aSXKGNn4Or4/HJ3ueFgKSQa3Q0MacJ
- 3SUDb4ZashNOr68XsFixG9EWarxPXXEELibBjbHBPHc4k2LWAOE1n7oHjdVOoiy696vW
- bf+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9pDHvj1XxxhOT7SmEuncoL4fkxjfq02ZHdILpMB+Yqk=;
- b=IHLZlo6NH5BRRA2zcFwqrj9lJSpq2Xnglt3/see9TohhWMPWRaNlDPKAQ71tlx8W9l
- Ps48OEfn/Ztkq6IY+w76lXAmDxozHbEeqvOKDlGnv8oGGOCniQTMO/CCfBxUGJSuXA04
- nK9lmf+mRWmb6QTzBRRKO9CoQi5mTiIHhxOjLiAAcQUayD5m62+66ahI7mWXALm1wLjQ
- iJGqk/pXUWk38QMkyLNoksP+y2RUPjPtc7stfYJu48+LJ7rLs+FVNWAKBIOhDLdMBw+7
- vuPQmZxyG9YLs2CyWtdbxtcV8Q5zyLl75r74kD4ly2K3oNmtHvB7xiXgxYDDI6rqQkld
- V0MQ==
-X-Gm-Message-State: AOAM532loXMnc3ORTYpWodK7se1qjRqbMvachnpXn5y654jG7cANRIhk
- HoraZ26uaC59nYmtPfarAX8=
-X-Google-Smtp-Source: ABdhPJyXkuSg36ceN28P/J4sn1ckXXAif4FzPZkUa/h+vjfeXWI6pf7034wNAaw0jgvjdEUiPX80sA==
-X-Received: by 2002:a63:e516:0:b0:3fa:dc6:7ace with SMTP id
- r22-20020a63e516000000b003fa0dc67acemr22497686pgh.215.1653590908282; 
- Thu, 26 May 2022 11:48:28 -0700 (PDT)
-Received: from localhost ([192.55.54.49]) by smtp.gmail.com with ESMTPSA id
- q3-20020a056a0002a300b0050dc7628167sm1841386pfs.65.2022.05.26.11.48.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 11:48:27 -0700 (PDT)
-Date: Thu, 26 May 2022 11:48:26 -0700
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 22/36] i386/tdx: Track RAM entries for TDX VM
-Message-ID: <20220526184826.GA3413287@ls.amr.corp.intel.com>
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-23-xiaoyao.li@intel.com>
- <20220524073729.xkk6s4tjkzm77wwz@sirius.home.kraxel.org>
- <5e457e0b-dc23-9e5b-de89-0b137e2baf7f@intel.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nuIa1-00069p-Sr; Thu, 26 May 2022 14:51:30 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:52126)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nuIZx-0007As-QZ; Thu, 26 May 2022 14:51:28 -0400
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B55892E0DB6;
+ Thu, 26 May 2022 21:51:14 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ A85ghSEve1-pDJCYFo2; Thu, 26 May 2022 21:51:14 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1653591074; bh=InK2J2RRtFmmWnRAjNEN2Qw4wXzg2DIoyvIPofz/oh0=;
+ h=In-Reply-To:To:From:Subject:Cc:Message-ID:References:Date;
+ b=LMoVcO9g3tf3egkdsujm+ixObdMXPm9m0tPutqulGufW4UnqwSM/luwJM0bBiq+62
+ X7EnV7ND16XmFbkkd19M2QUpel/S2vdyZXxkLh9yigCJH3AuDX7JrXdhxMka4OeSI9
+ 6P7N+zPIvvNBi7nwY5TTG34pzBYdum1ay7sfRXIE=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:b53f::1:17] (unknown
+ [2a02:6b8:b081:b53f::1:17])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 6UzQahj94W-pDMCLZnZ; Thu, 26 May 2022 21:51:13 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <d4f15897-2509-34dc-8b26-8ee2a3f5f2a5@yandex-team.ru>
+Date: Thu, 26 May 2022 21:51:13 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5e457e0b-dc23-9e5b-de89-0b137e2baf7f@intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 0/7] copy-before-write: on-cbw-error and cbw-timeout
+Content-Language: en-US
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
+ stefanha@redhat.com, hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ vsementsov@openvz.org
+References: <20220407132726.85114-1-vsementsov@openvz.org>
+ <e9bb5d3a-edd4-d259-fd9b-ca03e71d0760@yandex-team.ru>
+In-Reply-To: <e9bb5d3a-edd4-d259-fd9b-ca03e71d0760@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,61 +84,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 26, 2022 at 03:33:10PM +0800,
-Xiaoyao Li <xiaoyao.li@intel.com> wrote:
-
-> On 5/24/2022 3:37 PM, Gerd Hoffmann wrote:
-> > I think all this can be simplified, by
-> >    (1) Change the existing entry to cover the accepted ram range.
-> >    (2) If there is room before the accepted ram range add a
-> >        TDX_RAM_UNACCEPTED entry for that.
-> >    (3) If there is room after the accepted ram range add a
-> >        TDX_RAM_UNACCEPTED entry for that.
+On 5/26/22 19:46, Vladimir Sementsov-Ogievskiy wrote:
+> On 4/7/22 16:27, Vladimir Sementsov-Ogievskiy wrote:
+>> Hi all!
+>>
+>> v4: Now based on master
+>> 01: add assertion and r-b
+>> 02: s/7.0/7.1/ and r-b
+>> 03: switch to QEMUMachine, touch-up pylintrc,  drop r-b
+>> 04,05,06: add r-b
+>> 07: switch to QEMUMachine
+>>
+>>
+>> Here are two new options for copy-before-write filter:
+>>
+>> on-cbw-error allows to alter the behavior on copy-before-write operation
+>> failure: not break guest write but break the snapshot (and therefore
+>> backup process)
+>>
+>> cbw-timeout allows to limit cbw operation by some timeout.
+>>
+>> So, for example, using cbw-timeout=60 and on-cbw-error=break-snapshot
+>> you can be sure that guest write will not stuck for more than 60
+>> seconds and will never fail due to backup problems.
+>>
+>> Vladimir Sementsov-Ogievskiy (7):
+>>    block/copy-before-write: refactor option parsing
+>>    block/copy-before-write: add on-cbw-error open parameter
+>>    iotests: add copy-before-write: on-cbw-error tests
+>>    util: add qemu-co-timeout
+>>    block/block-copy: block_copy(): add timeout_ns parameter
+>>    block/copy-before-write: implement cbw-timeout option
+>>    iotests: copy-before-write: add cases for cbw-timeout option
+>>
+>>   qapi/block-core.json                          |  31 ++-
+>>   include/block/block-copy.h                    |   4 +-
+>>   include/qemu/coroutine.h                      |  13 ++
+>>   block/block-copy.c                            |  33 ++-
+>>   block/copy-before-write.c                     | 111 ++++++---
+>>   util/qemu-co-timeout.c                        |  89 ++++++++
+>>   tests/qemu-iotests/pylintrc                   |   5 +
+>>   tests/qemu-iotests/tests/copy-before-write    | 213 ++++++++++++++++++
+>>   .../qemu-iotests/tests/copy-before-write.out  |   5 +
+>>   util/meson.build                              |   1 +
+>>   10 files changed, 466 insertions(+), 39 deletions(-)
+>>   create mode 100644 util/qemu-co-timeout.c
+>>   create mode 100755 tests/qemu-iotests/tests/copy-before-write
+>>   create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
+>>
 > 
-> I implement as below. Please help review.
+> Thanks for review, applied to my new block branch at https://gitlab.com/vsementsov/qemu.git
 > 
-> +static int tdx_accept_ram_range(uint64_t address, uint64_t length)
-> +{
-> +    uint64_t head_start, tail_start, head_length, tail_length;
-> +    uint64_t tmp_address, tmp_length;
-> +    TdxRamEntry *e;
-> +    int i;
-> +
-> +    for (i = 0; i < tdx_guest->nr_ram_entries; i++) {
-> +        e = &tdx_guest->ram_entries[i];
-> +
-> +        if (address + length < e->address ||
-> +            e->address + e->length < address) {
-> +                continue;
-> +        }
-> +
-> +        /*
-> +         * The to-be-accepted ram range must be fully contained by one
-> +         * RAM entries
-> +         */
-> +        if (e->address > address ||
-> +            e->address + e->length < address + length) {
-> +            return -EINVAL;
-> +        }
-> +
-> +        if (e->type == TDX_RAM_ADDED) {
-> +            return -EINVAL;
-> +        }
-> +
-> +        tmp_address = e->address;
-> +        tmp_length = e->length;
-> +
-> +        e->address = address;
-> +        e->length = length;
-> +        e->type = TDX_RAM_ADDED;
-> +
-> +        head_length = address - tmp_address;
-> +        if (head_length > 0) {
-> +            head_start = e->address;
-> +            tdx_add_ram_entry(head_start, head_length, TDX_RAM_UNACCEPTED);
 
-tdx_add_ram_entry() increments tdx_guest->nr_ram_entries.  I think it's worth
-for comments why this is safe regarding to this for-loop.
+Or not. I still need an acc for QAPI interface (Eric or Markus could you please look?).
+
+Also, may be I should rename qemu-co-timeout.c to qemu-coroutine-timeout.c, to match "F: util/*coroutine*" in MAINTAINERS.. Stefan, Kevin, could you please look at it?
+
+
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+Best regards,
+Vladimir
 
