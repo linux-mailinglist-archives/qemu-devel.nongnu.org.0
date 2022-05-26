@@ -2,78 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3FF535342
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 20:19:59 +0200 (CEST)
-Received: from localhost ([::1]:48546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763F053536C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 20:38:26 +0200 (CEST)
+Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuI5W-0002hb-IN
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 14:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
+	id 1nuINN-0008QK-5z
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 14:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nuI42-0001zD-Gd
- for qemu-devel@nongnu.org; Thu, 26 May 2022 14:18:29 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nuI3y-0000t6-W4
- for qemu-devel@nongnu.org; Thu, 26 May 2022 14:18:26 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5704E219B6;
- Thu, 26 May 2022 18:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1653589100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nuIMR-0007cW-Em
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 14:37:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nuIMO-0004dG-IX
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 14:37:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653590243;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=B8pMoiDkvbMETZPECbBmvQxaiDM3LFPf3oekg1cpYTI=;
- b=mn7RZxunF8u17JngeY9uvSLl6YVxsDpeaNVZUFiQlj4K13v3matMB88IscmWndyzE3uwlh
- MSaCjO4EgqYF7lmPuUW9r5UBwdBbzJvurDH/3sbwG7RsjwlC+bHO0nk3Yhe1psCQ0Q5SiD
- eetda7hrL/kxzeX1HE6fZKyDvDxkJ4o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1653589100;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B8pMoiDkvbMETZPECbBmvQxaiDM3LFPf3oekg1cpYTI=;
- b=9O65QfOcX2jAeAt2m90cGGm0LGPCbDhS5IgFT0yIILmdY+MnXWEyouPF5FACqs9LIvrJwq
- JXUnhzgHiCYDnUAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 230A613AE3;
- Thu, 26 May 2022 18:18:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id a4OiBmzEj2LVSAAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 26 May 2022 18:18:20 +0000
-Subject: Re: make -j check failing on master, interesting valgrind errors on
- qos-test vhost-user-blk-test/basic
-From: Claudio Fontana <cfontana@suse.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Dario Faggioli <dfaggioli@suse.com>, Alex Bennee
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <6dad6efd-7cb4-d1e0-d5f1-dbe35f69e545@suse.de>
-Message-ID: <0e831d41-d338-ed6a-7530-a13d24675556@suse.de>
-Date: Thu, 26 May 2022 20:18:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=iZXZyOBj9K/G+WFDwIrle6dO9n3UzwXZHEEzIr/nzYk=;
+ b=EcN/9lvQ2vCfiG/e2xYWoODYOQEkXUaYtUvRX8268CA1WFkXVfs8Auaql9IoYONSvGMBJ2
+ 6mBRqFgpr/pG17PrvReBn5zLlg5IX/OcoO4i8GXSCQbuDVXT7FP6pM8DtGv6bu6c+vKTFY
+ TgD6/kjuAvbgplcnNHYCZRAbPn5ChMU=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-133-o6Y_R8uzO2iFB1pntZjEgA-1; Thu, 26 May 2022 14:37:21 -0400
+X-MC-Unique: o6Y_R8uzO2iFB1pntZjEgA-1
+Received: by mail-io1-f71.google.com with SMTP id
+ y13-20020a056602164d00b0065a9dec1ef2so1465611iow.23
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 11:37:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iZXZyOBj9K/G+WFDwIrle6dO9n3UzwXZHEEzIr/nzYk=;
+ b=i7SlwH85A/jWB/IaTOGvPDVb0e1yUhh4egGadLOpXQvAI70Jg49j5ADUIP+9aM+/55
+ JlqX/c/zsw2UuDmUZX47fkM9MoJL7SYNXFCPjMh1bcLTAP2Y8+yVFKroZqYsu7iv/gv0
+ ScD9VKtWsdNo9cTaRlr8IMivEiOB7ALIGRZAAXckbBzDKp4NYvrUCw8InRA4DJcLr7O7
+ dIuI6Dduk1wS5vRvJzzIdw8H70vzBP95TwLdAkvh/pPTa3jKquIdnuf9yOg2PGzAf6jk
+ 8ongn/gfSwKQ4C2Z49gcKuUx5LbWWTxbm8C/f2PBBfZ2D0s31AHmIyrvkALyWYQRkSK5
+ C1cw==
+X-Gm-Message-State: AOAM533hEb4FZJyCwQE07w+zsnmiiRBH+tT9l/rO2U/e3khiMs4d7rlI
+ qXrLzDsS6EspBi51kXxyLtWl1y44tBVTld8EYCGdlQtmlavUNEjubdd09So9VWLrx4bf+78AF7Y
+ MGuiMLDKRkL49C2E=
+X-Received: by 2002:a05:6638:4901:b0:32f:d52c:924c with SMTP id
+ cx1-20020a056638490100b0032fd52c924cmr6248113jab.8.1653590241277; 
+ Thu, 26 May 2022 11:37:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzpP2TSvS6e9NpQEMUP3qCECYxWtAnkzb4ugRqwUnJ/Y/Oan//xTqCMVr3HgbEkayorckxxRg==
+X-Received: by 2002:a05:6638:4901:b0:32f:d52c:924c with SMTP id
+ cx1-20020a056638490100b0032fd52c924cmr6248102jab.8.1653590241044; 
+ Thu, 26 May 2022 11:37:21 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ x89-20020a0294e2000000b0032e43cb7344sm575684jah.146.2022.05.26.11.37.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 May 2022 11:37:20 -0700 (PDT)
+Date: Thu, 26 May 2022 14:37:18 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jue Wang <juew@google.com>
+Cc: pizhenwei@bytedance.com, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, jasowang@redhat.com,
+ LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+ mst@redhat.com,
+ HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= <naoya.horiguchi@nec.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
+Message-ID: <Yo/I3oLkd9OU0ice@xz-m1.local>
+References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6dad6efd-7cb4-d1e0-d5f1-dbe35f69e545@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Disposition: inline
+In-Reply-To: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,247 +102,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/22 8:06 PM, Claudio Fontana wrote:
-> Hi all,
-> 
-> I am seeing intermittent failures of make -j check on master.
-> 
-> I am using gcc 7.5.0, make 4.2.1, meson 0.61.4, ninja-1.10.0
-> 
-> I tried these two configurations:
-> 
-> $ ../configure
-> 
-> $ ../configure --disable-tcg --enable-kvm
-> 
-> and the errors seem to appear in both cases, saltuarily, triggering in different test paths:
-> 
-> $ make -j
-> $ make -j check
-> 
-> 545/581 ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/i386/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [100495]) failed unexpectedly ERROR
-> 545/581 qemu:qtest+qtest-i386 / qtest-i386/qos-test                                        ERROR          20.74s   killed by signal 6 SIGABRT
->>>> G_TEST_DBUS_DAEMON=/vm_images/gehc/git/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon MALLOC_PERTURB_=140 QTEST_QEMU_BINARY=./qemu-system-i386 /vm_images/gehc/git/qemu/build/tests/qtest/qos-test --tap -k
-> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-> stderr:
-> **
-> ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/i386/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [100495]) failed unexpectedly
-> (test program exited with status code -6)
-> 
-> 
-> or 
-> 
-> 
-> ▶ 208/218 ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [3995]) failed unexpectedly ERROR         
-> 208/218 qemu:qtest+qtest-x86_64 / qtest-x86_64/qos-test                        ERROR          14.19s   killed by signal 6 SIGABRT
->>>> G_TEST_DBUS_DAEMON=/vm_images/gehc/git/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-x86_64 MALLOC_PERTURB_=248 QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon /vm_images/gehc/git/qemu/build/tests/qtest/qos-test --tap -k
-> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-> stderr:
-> **
-> ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [3995]) failed unexpectedly
-> 
-> (test program exited with status code -6)
-> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-> 
-> 
-> 
-> I ran the tests manually a few times directly with:
-> 
-> $ G_TEST_DBUS_DAEMON=/vm_images/gehc/git/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-x86_64 MALLOC_PERTURB_=248 QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon /vm_images/gehc/git/qemu/build/tests/qtest/qos-test --tap -k
-> 
-> and I get (saltuarily again):
-> 
-> # Start of vhost-user tests
-> # GLib-DEBUG: posix_spawn avoided (workdir specified) (fd close requested) 
-> ok 62 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/migrate
-> # GLib-DEBUG: posix_spawn avoided (workdir specified) (fd close requested) 
-> # child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [15058]) exit status: 1 (error)
-> # child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [15058]) stdout: ""
-> # child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [15058]) stderr: "qemu-system-x86_64: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-qvwhvM/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-qvwhvM/reconnect.sock,server=on\nqemu-system-x86_64: Failed to set msg fds.\nqemu-system-x86_64: vhost VQ 0 ring restore failed: -22: Invalid argument (22)\nqemu-system-x86_64: Failed to set msg fds.\nqemu-system-x86_64: vhost VQ 1 ring restore failed: -22: Invalid argument (22)\n**\nERROR:../tests/qtest/vhost-user-test.c:810:wait_for_rings_started: assertion failed (ctpop64(s->rings) == count): (1 == 2)\n"
-> **
-> ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [15058]) failed unexpectedly
-> Bail out! ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [15058]) failed unexpectedly
-> Aborted (core dumped)
-> 
-> 
-> gdb -core, bt:
-> 
-> #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:51
-> #1  0x00007f193e9abadf in __GI_abort () at abort.c:100
-> #2  0x00007f193faf2165 in g_assertion_message (domain=domain@entry=0x0, file=file@entry=0x560e358c3c16 "../tests/qtest/qos-test.c", 
->     line=line@entry=189, func=func@entry=0x560e358c3d50 <__func__.30035> "subprocess_run_one_test", 
->     message=message@entry=0x560e35f82400 "child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [18063]) failed unexpectedly") at ../glib/gtestutils.c:2913
-> #3  0x00007f193faf2b9a in g_test_trap_assertions (domain=0x0, file=0x560e358c3c16 "../tests/qtest/qos-test.c", line=189, 
->     func=0x560e358c3d50 <__func__.30035> "subprocess_run_one_test", assertion_flags=<optimized out>, pattern=<optimized out>)
->     at ../glib/gtestutils.c:3673
-> #4  0x00007f193faf1a66 in test_case_run (tc=0x560e35f6ead0) at ../glib/gtestutils.c:2632
-> #5  g_test_run_suite_internal (suite=suite@entry=0x560e35faae00, path=path@entry=0x0) at ../glib/gtestutils.c:2720
-> #6  0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa9c00, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #7  0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa9ec0, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #8  0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa85a0, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #9  0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa7100, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #10 0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa7140, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #11 0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa7160, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #12 0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa7080, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #13 0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35fa7180, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #14 0x00007f193faf197b in g_test_run_suite_internal (suite=suite@entry=0x560e35f26640, path=path@entry=0x0) at ../glib/gtestutils.c:2732
-> #15 0x00007f193faf1f22 in g_test_run_suite (suite=0x560e35f26640) at ../glib/gtestutils.c:2807
-> #16 0x00007f193faf1f41 in g_test_run () at ../glib/gtestutils.c:2042
-> #17 0x0000560e358191e9 in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at ../tests/qtest/qos-test.c:338
-> 
-> I tried to valgrind a bit the qos-test itself and I got an interesting result for vhost-user-blk-test/basic.
-> I guess some memory corruption in a preceding test could make tests that follow fail?
+On Wed, May 25, 2022 at 01:16:34PM -0700, Jue Wang wrote:
+> The hypervisor _must_ emulate poisons identified in guest physical
+> address space (could be transported from the source VM), this is to
+> prevent silent data corruption in the guest. With a paravirtual
+> approach like this patch series, the hypervisor can clear some of the
+> poisoned HVAs knowing for certain that the guest OS has isolated the
+> poisoned page. I wonder how much value it provides to the guest if the
+> guest and workload are _not_ in a pressing need for the extra KB/MB
+> worth of memory.
 
+I'm curious the same on how unpoisoning could help here.  The reasoning
+behind would be great material to be mentioned in the next cover letter.
 
-Forget about his aspect, I think it is a separate problem.
+Shouldn't we consider migrating serious workloads off the host already
+where there's a sign of more severe hardware issues, instead?
 
-valgind of qos-test when run restricted to those specific paths (-p /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect for example)
-shows all clear,
+Thanks,
 
-and still the test fails when run in a while loop after a few attempts:
-
-while G_TEST_DBUS_DAEMON=/vm_images/gehc/git/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-x86_64 MALLOC_PERTURB_=248 QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon /vm_images/gehc/git/qemu/build/tests/qtest/qos-test --tap -k -p /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect ; do echo "************************"; done
-==23948== Memcheck, a memory error detector
-==23948== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==23948== Using Valgrind-3.17.0 and LibVEX; rerun with -h for copyright info
-==23948== Command: /vm_images/gehc/git/qemu/build/tests/qtest/qos-test-real --tap -k -p /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect
-==23948== 
-# random seed: R02S1d5bde212d220a83538cd14e01480c4a
-# starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-23948.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-23948.qmp,id=char0 -mon chardev=char0,mode=control -display none -machine none -accel qtest
-# Start of x86_64 tests
-# Start of pc tests
-# Start of i440FX-pcihost tests
-# Start of pci-bus-pc tests
-# Start of pci-bus tests
-# Start of virtio-net-pci tests
-# Start of virtio-net tests
-# Start of virtio-net-tests tests
-# Start of vhost-user tests
-# GLib-DEBUG: posix_spawn avoided (workdir specified) (fd close requested) 
-ok 1 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect
-# Start of reconnect tests
-# End of reconnect tests
-# End of vhost-user tests
-# End of virtio-net-tests tests
-# End of virtio-net tests
-# End of virtio-net-pci tests
-# End of pci-bus tests
-# End of pci-bus-pc tests
-# End of i440FX-pcihost tests
-# End of pc tests
-# End of x86_64 tests
-1..1
-==23948== 
-==23948== HEAP SUMMARY:
-==23948==     in use at exit: 140,152 bytes in 1,198 blocks
-==23948==   total heap usage: 151,072 allocs, 149,874 frees, 7,113,381 bytes allocated
-==23948== 
-==23948== For a detailed leak analysis, rerun with: --leak-check=full
-==23948== 
-==23948== For lists of detected and suppressed errors, rerun with: -s
-==23948== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-************************
-
-....
-
-# child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [24153]) exit status: 1 (error)
-# child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [24153]) stdout: ""
-# child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [24153]) stderr: "qemu-system-x86_64: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-aK70bN/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-aK70bN/reconnect.sock,server=on\nqemu-system-x86_64: Failed to set msg fds.\nqemu-system-x86_64: vhost VQ 0 ring restore failed: -22: Invalid argument (22)\nqemu-system-x86_64: Failed to set msg fds.\nqemu-system-x86_64: vhost VQ 1 ring restore failed: -22: Invalid argument (22)\n**\nERROR:../tests/qtest/vhost-user-test.c:810:wait_for_rings_started: assertion failed (ctpop64(s->rings) == count): (1 == 2)\n"
-**
-ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [24153]) failed unexpectedly
-Bail out! ERROR:../tests/qtest/qos-test.c:189:subprocess_run_one_test: child process (/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess [24153]) failed unexpectedly
-==24147== 
-==24147== Process terminating with default action of signal 6 (SIGABRT): dumping core
-
-
-
-
-> 
-> Here:
-> 
-> # starting vhost-user backend: exec ./storage-daemon/qemu-storage-daemon --blockdev driver=file,node-name=disk0,filename=qtest.OkpNv2 --export type=vhost-user-blk,id=disk0,addr.type=fd,addr.str=3,node-name=disk0,writable=on,num-queues=1 
-> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-23786.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-23786.qmp,id=char0 -mon chardev=char0,mode=control -display none -M pc  -device vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object memory-backend-memfd,id=mem,size=256M,share=on  -M memory-backend=mem -m 256M -chardev socket,id=char1,path=/tmp/qtest-23786-sock.RAqTFy  -accel qtest
-> ==23786== Use of uninitialised value of size 8
-> ==23786==    at 0x5EFEE01: _itoa_word (_itoa.c:180)
-> ==23786==    by 0x5F02740: vfprintf (vfprintf.c:1642)
-> ==23786==    by 0x5FBA8FE: __vsprintf_chk (vsprintf_chk.c:83)
-> ==23786==    by 0x5FBA829: __sprintf_chk (sprintf_chk.c:31)
-> ==23786==    by 0x140A25: sprintf (stdio2.h:33)
-> ==23786==    by 0x140A25: qtest_memwrite (libqtest.c:1067)
-> ==23786==    by 0x13642F: virtio_blk_request (vhost-user-blk-test.c:90)
-> ==23786==    by 0x13714D: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:123)
-> ==23786==    by 0x1380CB: test_basic (vhost-user-blk-test.c:357)
-> ==23786==    by 0x1380CB: basic (vhost-user-blk-test.c:452)
-> ==23786==    by 0x121837: run_one_test (qos-test.c:182)
-> ==23786==    by 0x4EBAA65: test_case_run (gtestutils.c:2632)
-> ==23786==    by 0x4EBAA65: g_test_run_suite_internal (gtestutils.c:2720)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==  Uninitialised value was created by a stack allocation
-> ==23786==    at 0x1370B0: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:102)
-> ==23786== 
-> ==23786== Conditional jump or move depends on uninitialised value(s)
-> ==23786==    at 0x5EFEE08: _itoa_word (_itoa.c:180)
-> ==23786==    by 0x5F02740: vfprintf (vfprintf.c:1642)
-> ==23786==    by 0x5FBA8FE: __vsprintf_chk (vsprintf_chk.c:83)
-> ==23786==    by 0x5FBA829: __sprintf_chk (sprintf_chk.c:31)
-> ==23786==    by 0x140A25: sprintf (stdio2.h:33)
-> ==23786==    by 0x140A25: qtest_memwrite (libqtest.c:1067)
-> ==23786==    by 0x13642F: virtio_blk_request (vhost-user-blk-test.c:90)
-> ==23786==    by 0x13714D: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:123)
-> ==23786==    by 0x1380CB: test_basic (vhost-user-blk-test.c:357)
-> ==23786==    by 0x1380CB: basic (vhost-user-blk-test.c:452)
-> ==23786==    by 0x121837: run_one_test (qos-test.c:182)
-> ==23786==    by 0x4EBAA65: test_case_run (gtestutils.c:2632)
-> ==23786==    by 0x4EBAA65: g_test_run_suite_internal (gtestutils.c:2720)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==  Uninitialised value was created by a stack allocation
-> ==23786==    at 0x1370B0: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:102)
-> ==23786== 
-> ==23786== Conditional jump or move depends on uninitialised value(s)
-> ==23786==    at 0x5F027F8: vfprintf (vfprintf.c:1642)
-> ==23786==    by 0x5FBA8FE: __vsprintf_chk (vsprintf_chk.c:83)
-> ==23786==    by 0x5FBA829: __sprintf_chk (sprintf_chk.c:31)
-> ==23786==    by 0x140A25: sprintf (stdio2.h:33)
-> ==23786==    by 0x140A25: qtest_memwrite (libqtest.c:1067)
-> ==23786==    by 0x13642F: virtio_blk_request (vhost-user-blk-test.c:90)
-> ==23786==    by 0x13714D: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:123)
-> ==23786==    by 0x1380CB: test_basic (vhost-user-blk-test.c:357)
-> ==23786==    by 0x1380CB: basic (vhost-user-blk-test.c:452)
-> ==23786==    by 0x121837: run_one_test (qos-test.c:182)
-> ==23786==    by 0x4EBAA65: test_case_run (gtestutils.c:2632)
-> ==23786==    by 0x4EBAA65: g_test_run_suite_internal (gtestutils.c:2720)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==  Uninitialised value was created by a stack allocation
-> ==23786==    at 0x1370B0: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:102)
-> ==23786== 
-> ==23786== Conditional jump or move depends on uninitialised value(s)
-> ==23786==    at 0x5F0324C: vfprintf (vfprintf.c:1642)
-> ==23786==    by 0x5FBA8FE: __vsprintf_chk (vsprintf_chk.c:83)
-> ==23786==    by 0x5FBA829: __sprintf_chk (sprintf_chk.c:31)
-> ==23786==    by 0x140A25: sprintf (stdio2.h:33)
-> ==23786==    by 0x140A25: qtest_memwrite (libqtest.c:1067)
-> ==23786==    by 0x13642F: virtio_blk_request (vhost-user-blk-test.c:90)
-> ==23786==    by 0x13714D: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:123)
-> ==23786==    by 0x1380CB: test_basic (vhost-user-blk-test.c:357)
-> ==23786==    by 0x1380CB: basic (vhost-user-blk-test.c:452)
-> ==23786==    by 0x121837: run_one_test (qos-test.c:182)
-> ==23786==    by 0x4EBAA65: test_case_run (gtestutils.c:2632)
-> ==23786==    by 0x4EBAA65: g_test_run_suite_internal (gtestutils.c:2720)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==    by 0x4EBA97A: g_test_run_suite_internal (gtestutils.c:2732)
-> ==23786==  Uninitialised value was created by a stack allocation
-> ==23786==    at 0x1370B0: test_invalid_discard_write_zeroes (vhost-user-blk-test.c:102)
-> ==23786== 
-> 
-> 
-> Ciao,
-> 
-> Claudio
-> 
+-- 
+Peter Xu
 
 
