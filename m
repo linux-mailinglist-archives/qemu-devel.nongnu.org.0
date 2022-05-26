@@ -2,94 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29874534F5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:39:51 +0200 (CEST)
-Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D47534F9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:53:08 +0200 (CEST)
+Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCmM-0003I1-6v
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
+	id 1nuCzD-0001Yp-JY
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nuCYL-0008Fa-MV
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:25:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26761)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nuCYc-0008P3-Qu; Thu, 26 May 2022 08:25:42 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:35789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nuCYI-00034i-MG
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:25:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653567917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NiK7oLaNyQ97Rr7aPIZFSL6fAgvz9b/oxgmxveTBSqk=;
- b=Sh64cucb/OICSXEMXICcWXRtgHXp+q2evJvbuaWsNYTQMV19eFtiAHJlfyh2QlR7Xkd98f
- Vu2/2IoPRuVwOaNnLicOO8/du9ZSD0xDv6tNRsisaqiJJ5uHcW7XFDYVMmnQ50cxY5qOvr
- GPYwLimzRS+Gk5ADxgnrGC0A+yOqdqo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-m-RO4rPkPsybzHYzIZu69w-1; Thu, 26 May 2022 08:25:16 -0400
-X-MC-Unique: m-RO4rPkPsybzHYzIZu69w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- s9-20020aa7c549000000b0042ab6ab62f0so962769edr.14
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:25:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NiK7oLaNyQ97Rr7aPIZFSL6fAgvz9b/oxgmxveTBSqk=;
- b=N5LOe3zoIFhtSSv3jbvuSgxZHwy20YIxGlxQgL0SgzFmYz/cBS+pVsykMXs27INxYj
- PPUW4b014X1vHa9hXXSLhtdA3yCJgCNiUTXIR7UiXm3U2x09BzclnduCk43AZV2mAh/7
- K0zt9rsfRXnBBA3O7s4v4SZncGLWyYJG9SS7RoMuR2kRnpLDyvgJr/ibI9bM9EvPHxIA
- 65r99MYCnGIAV1Z0iu9lJy1e405CRlY2GXC9YwvFGO4/aCgwivMzt9zV/r9zarA1yvp8
- eY0fuPNp6w/cnwPnwqU/eY41OMLjPiO6/oIAx7FTCtjH7mMq8od3DB2NRKHaPEUUcUuK
- KXZg==
-X-Gm-Message-State: AOAM530SaDbLTanat+i77sd4BE65NkGPtXjVEtA1lOp79xuyXVOxBf+W
- 4zTPt7Fi15LH68ADh+cpVJqx3G8M6fFox/5GKGi9RAKokgJa3+9zioyRkzdZE+Ok3kcLcXzW+yr
- 2xuNxnDD+L0wjQYU=
-X-Received: by 2002:a17:907:9243:b0:6fe:976a:e117 with SMTP id
- kb3-20020a170907924300b006fe976ae117mr32606479ejb.398.1653567915603; 
- Thu, 26 May 2022 05:25:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpVAxpOmBkRwv3Mirr+P30PDtdhpAw7K2opD7X32/cE5trOlvEvqti0LLofhpNzrhnbCHB4w==
-X-Received: by 2002:a17:907:9243:b0:6fe:976a:e117 with SMTP id
- kb3-20020a170907924300b006fe976ae117mr32606454ejb.398.1653567915381; 
- Thu, 26 May 2022 05:25:15 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- k8-20020a170906a38800b006f3ef214de7sm478722ejz.77.2022.05.26.05.25.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 05:25:14 -0700 (PDT)
-Date: Thu, 26 May 2022 14:25:12 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
- ani@anisinha.ca, drjones@redhat.com, wangyanan55@huawei.com,
- Jonathan.Cameron@Huawei.com, peter.maydell@linaro.org, berrange@redhat.com,
- thuth@redhat.com, eduardo@habkost.net, lvivier@redhat.com,
- zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: Re: [PATCH 2/3] hw/acpi/aml-build: Fix {socket, cluster, core} IDs
- in PPTT
-Message-ID: <20220526142512.32129b2e@redhat.com>
-In-Reply-To: <20220518092141.1050852-3-gshan@redhat.com>
-References: <20220518092141.1050852-1-gshan@redhat.com>
- <20220518092141.1050852-3-gshan@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nuCYb-0003FV-6F; Thu, 26 May 2022 08:25:38 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MMGZM-1oA5Xm1vIE-00JHTA; Thu, 26 May 2022 14:25:24 +0200
+Message-ID: <1d4a27b0-a24e-a222-6797-6d2dc150fec1@vivier.eu>
+Date: Thu, 26 May 2022 14:25:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 06/11] q800: implement compat_props to enable
+ quirk_mode_sense_rom_force_dbd for scsi-cd devices
+Content-Language: fr
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
+ fam@euphon.net, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
+ <20220424164935.7339-7-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220424164935.7339-7-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:2u7V5TJZfF1TXQTZOu79rOVbPVMncs385iZbbTyW4z9U+HvocNs
+ p1Gd1XVx3vR648QAn61f4a7Iw2gwIT3xSjcGtYe48q+uQZjBJoXsKL4oInEd0tWZd0DG+TN
+ 80aQc+eFZXYMcSbNBUBIxa9E7Sz16I6wYfNYL55GhDNll9HMmGRq+w/cUWY+O379A44wokf
+ 7KIiSLT8I2RdnHqKEKOSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qnZ8tXEdkZE=:3qCxdzJFO7dT7JaxARFnxy
+ IHCSk+dDFHk+wlQ7tzPF9xnHw8WW8OGKtEseJlmIWkbuzvqBmcqflEmDGBjYa3AGrPNTxcbAw
+ g6H3PbTRmzY3HicZN6fWX2EpV5hsU58QScyYWxriHsU6RplXoW8oCenpcKRD/ACJCnaux0Il3
+ 5R7NwQ0bdij/UD9eG6XAOWZFba7zqGnNj3i8RGLRCYCxndQ9jYVQaAhjy2DWU6wSQemBgINU4
+ xITyzXHXDOuLIrjU8ZTsCaZW7jLztQ7RSFJ+Nf1zN/r1N7V+IM9VTMgGWdCe7cfTDgh6R2DH0
+ dC75v+pSlmQFp1ZtDUhaOkSPbIs3QYsbXSirREOrFbwcLgNzxrGFJKmJJsXD/xO+2CCtEN94t
+ S8DmS1rUX0xfwS3aUdd+1FuG9Bzye6goddVq3L9npRGmeeo0xpqh123Kxbxi8JZMhooWIHmiJ
+ qQ0ThIBm2EH6UMf1IBkEeI7Kb+s22nDlCpnpCXsRWiC2Q43L4xzCDevvLhOMd3/gkPW5V1aIW
+ eoN0mAiT1Mo2J0svFpGSNmr/sdKN7GU9P5oMTWA4xME9COTzpr9R2FfSccJNNIIuQ3k19YVXg
+ 2MXhpNx78txJ7mGSE9Zqw3FSF20i58uRKmxpT3XNUq/3u+eMeXQYxUmg9DsJTXSvR3Ny8mS4h
+ 6FZopoCQMd7Ee8zlxow4BWICZOkb3kz9sj3GRj7pGtCfCaUNLxazki63EqefyQEfVzV0YAbrz
+ JG5BlcW7et8HGZ4VNdncnw7VncJqtVCgVyhf+Q==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,97 +75,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 May 2022 17:21:40 +0800
-Gavin Shan <gshan@redhat.com> wrote:
-
-> The {socket, cluster, core} IDs detected from Linux guest aren't
-> matching with what have been provided in PPTT. The flag used for
-> 'ACPI Processor ID valid' is missed for {socket, cluster, core}
-> nodes.
-
-To permit this flag set  on no leaf nodes we have to have
-a corresponding containers built for them in DSDT so that
-'ACPI Processor ID' could be matched with containers '_UID's.
-If we don not build such containers then setting this flag is
-not correct. And I don't recall QEMU building CPU hierarchy
-in DSDT.
-
-> In this case, Linux guest takes the offset between the
-> node and PPTT header as the corresponding IDs, as the following
-> logs show.
-
-perhaps it's kernel which should be fixed to handle
-not set 'ACPI Processor ID valid' correctly.
-
+Le 24/04/2022 à 18:49, Mark Cave-Ayland a écrit :
+> By default quirk_mode_sense_rom_force_dbd should be enabled for all scsi-cd devices
+> connected to the q800 machine to correctly report the CDROM block descriptor back
+> to A/UX.
 > 
->   /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64    \
->   -accel kvm -machine virt,gic-version=host -cpu host        \
->   -smp 8,sockets=2,clusters=2,cores=2,threads=1
->     :
-> 
->   # cd /sys/devices/system/cpu
->   # for i in `seq 0 15`; do cat cpu$i/topology/physical_package_id; done
->     36  36  36  36  36  36  36  36
->     336 336 336 336 336 336 336 336
->   # for i in `seq 0 15`; do cat cpu$i/topology/cluster_id; done
->     56  56  56  56  196 196 196 196
->     356 356 356 356 496 496 496 496
->   # for i in `seq 0 15`; do cat cpu$i/topology/core_id; done
->     76  76  136 136 216 216 276 276
->     376 376 436 436 516 516 576 576
-> 
-> This fixes the issue by setting 'ACPI Processor ID valid' flag for
-> {socket, cluster, core} nodes. With this applied, the IDs are exactly
-> what have been provided in PPTT.
-> 
->   # for i in `seq 0 15`; do cat cpu$i/topology/physical_package_id; done
->   0 0 0 0 0 0 0 0
->   1 1 1 1 1 1 1 1
->   # for i in `seq 0 15`; do cat cpu$i/topology/cluster_id; done
->   0 0 0 0 1 1 1 1
->   0 0 0 0 1 1 1 1
->   # for i in `seq 0 15`; do cat cpu$i/topology/core_id; done
->   0 0 1 1 0 0 1 1
->   0 0 1 1 0 0 1 1
-> 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/acpi/aml-build.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+>   hw/m68k/q800.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index e6bfac95c7..89f191fd3b 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2026,7 +2026,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->              core_id = -1;
->              socket_offset = table_data->len - pptt_start;
->              build_processor_hierarchy_node(table_data,
-> -                (1 << 0), /* Physical package */
-> +                (1 << 0) | /* Physical package */
-> +                (1 << 1),  /* ACPI Processor ID valid */
->                  0, socket_id, NULL, 0);
->          }
->  
-> @@ -2037,7 +2038,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->                  core_id = -1;
->                  cluster_offset = table_data->len - pptt_start;
->                  build_processor_hierarchy_node(table_data,
-> -                    (0 << 0), /* Not a physical package */
-> +                    (0 << 0) | /* Not a physical package */
-> +                    (1 << 1),  /* ACPI Processor ID valid */
->                      socket_offset, cluster_id, NULL, 0);
->              }
->          } else {
-> @@ -2055,7 +2057,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->                  core_id = cpus->cpus[n].props.core_id;
->                  core_offset = table_data->len - pptt_start;
->                  build_processor_hierarchy_node(table_data,
-> -                    (0 << 0), /* Not a physical package */
-> +                    (0 << 0) | /* Not a physical package */
-> +                    (1 << 1),  /* ACPI Processor ID valid */
->                      cluster_offset, core_id, NULL, 0);
->              }
->  
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index 42bf7bb4f0..f27ed01785 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -688,6 +688,7 @@ static void q800_init(MachineState *machine)
+>   
+>   static GlobalProperty hw_compat_q800[] = {
+>       { "scsi-hd", "quirk_mode_page_apple_vendor", "on"},
+> +    { "scsi-cd", "quirk_mode_sense_rom_force_dbd", "on"},
+>   };
+>   static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
+>   
 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
