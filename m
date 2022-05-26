@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE45D5350BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 16:37:00 +0200 (CEST)
-Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76835350E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 16:42:39 +0200 (CEST)
+Received: from localhost ([::1]:39344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuEbj-0001Nr-Ue
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 10:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
+	id 1nuEhC-0005fm-Hh
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 10:42:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nuEa2-0000OS-IM
- for qemu-devel@nongnu.org; Thu, 26 May 2022 10:35:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56139)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nuEfC-0003xh-Sr
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 10:40:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nuEZz-0004OW-8p
- for qemu-devel@nongnu.org; Thu, 26 May 2022 10:35:13 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nuEf6-0005RF-Ee
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 10:40:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653575710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1653576023;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XGSCbESPGRBOjMwiDVzRc9IXbwYfQ6r+godCgm9R+1U=;
- b=PIKPLtX/wTTt8bQkcykU7T3rKF41PC1MtdCGl7byJK2SCehmEkbKSQTWIq/Dfa9hLIGRzi
- xSrDv5+ccjEZwEEtFYXnFLV9qi6p+gxzIoqzbIOw2LRyRntVUoiO3lkqC51LXXhpxDgCvq
- B4gny7hicHEgZxpQurcSqtE/yRfrRW8=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P3/dNgmMYa5tuREPg72m3E3tPg0365Dry/nESUOCnlU=;
+ b=eLCQMBY39O6gUCY/TPEWzb0XjSA8duy8exyW8UHrcOK7IKuJzE3URFwZVZ3erdUNdLvONu
+ KD7Xc0Y8NGY28K7JlK45qbj1zON+EG398KyRalovGt3Mi7okn2XEgLhAk9c0TJYCE9SJre
+ bzv9OR2DLIg/k3bVLLAVkIfrUV0CiZ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-K2vYvdbIOxOKtcxBAzJPcA-1; Thu, 26 May 2022 10:35:08 -0400
-X-MC-Unique: K2vYvdbIOxOKtcxBAzJPcA-1
-Received: by mail-ua1-f72.google.com with SMTP id
- y15-20020ab0638f000000b00368a2d9b075so933581uao.13
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 07:35:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XGSCbESPGRBOjMwiDVzRc9IXbwYfQ6r+godCgm9R+1U=;
- b=TwOevx8HByjp52WrsVmB17L+6IsoGoFpikZ2idyo9VWiY1OvY43q0ym37HNBIZzFNh
- DrC8mpADwK5d3gILUgLVtAK/fP1hQDcChtga5lHnfmO/aGjDexoxkWfAUMYDomcHRTO+
- kChowKW/OWERWAebqcDkEICOtbGjR6Xsa9DVUOJS4FhhpY8wOYYtFiBuM67DRFAsXYS1
- FkEYuBzlWytw7lcKlThS6tFtRilb6PhVzHINu4gTO3hNMCSaD09X1jYF6HkMacp4A/qi
- TAmdMIF9IJA9wRLljFjLByxnO2N84ae5NuDDYt2Ni5QNF/X2rSVm6N6/lSNA9gK8KHq9
- ixlw==
-X-Gm-Message-State: AOAM531MmRlf4bgce0GvDBH+Thd5JOoZ2aM+Pxv2ztJK0vcV/ZaD7WOr
- eIRVyX9At3glfFTtQliciHZvH2Myi69/S+SCIymsTkYPRm25v2yvIt0J6wd2jM70zkoKnl/KuKa
- aNMixYUf6AfHqC9V6YLmBhwjIyk0H0PA=
-X-Received: by 2002:a67:c21e:0:b0:337:d926:347b with SMTP id
- i30-20020a67c21e000000b00337d926347bmr5501842vsj.11.1653575707894; 
- Thu, 26 May 2022 07:35:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwlX1Lg/RkoTZ9dRaTiEIfLnUViB2rXYH8W/EkrcLqCWuHWjw5AeBiq/4iuevcw3QcZHDS+W+RFzSkOdecAVvI=
-X-Received: by 2002:a67:c21e:0:b0:337:d926:347b with SMTP id
- i30-20020a67c21e000000b00337d926347bmr5501823vsj.11.1653575707661; Thu, 26
- May 2022 07:35:07 -0700 (PDT)
+ us-mta-190-Pi_jdnB4OXWZFteN7OVjpw-1; Thu, 26 May 2022 10:40:17 -0400
+X-MC-Unique: Pi_jdnB4OXWZFteN7OVjpw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC0A2858EED;
+ Thu, 26 May 2022 14:40:16 +0000 (UTC)
+Received: from [10.72.12.91] (ovpn-12-91.pek2.redhat.com [10.72.12.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF32B40CF8EA;
+ Thu, 26 May 2022 14:40:08 +0000 (UTC)
+Subject: Re: [PATCH 2/3] hw/acpi/aml-build: Fix {socket, cluster, core} IDs in
+ PPTT
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
+ ani@anisinha.ca, drjones@redhat.com, wangyanan55@huawei.com,
+ Jonathan.Cameron@Huawei.com, peter.maydell@linaro.org, berrange@redhat.com,
+ thuth@redhat.com, eduardo@habkost.net, lvivier@redhat.com,
+ zhenyzha@redhat.com, shan.gavin@gmail.com
+References: <20220518092141.1050852-1-gshan@redhat.com>
+ <20220518092141.1050852-3-gshan@redhat.com>
+ <20220526142512.32129b2e@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <b2e11fe3-6590-ec7c-a437-7b4c2b66d359@redhat.com>
+Date: Thu, 26 May 2022 22:40:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <20220526000921.1581503-1-jsnow@redhat.com>
-In-Reply-To: <20220526000921.1581503-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 26 May 2022 10:34:57 -0400
-Message-ID: <CAFn=p-bdvwdJY=cKZk9Q_N6CYj+Suetworw2Xa+3kc4bf_4Fug@mail.gmail.com>
-Subject: Re: [PATCH 0/9] tests, python: prepare to expand usage of test venv
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000aa2f4b05dfeb185d"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+In-Reply-To: <20220526142512.32129b2e@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,218 +86,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000aa2f4b05dfeb185d
-Content-Type: text/plain; charset="UTF-8"
+Hi Igor,
 
-On Wed, May 25, 2022, 8:09 PM John Snow <jsnow@redhat.com> wrote:
+On 5/26/22 8:25 PM, Igor Mammedov wrote:
+> On Wed, 18 May 2022 17:21:40 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+> 
+>> The {socket, cluster, core} IDs detected from Linux guest aren't
+>> matching with what have been provided in PPTT. The flag used for
+>> 'ACPI Processor ID valid' is missed for {socket, cluster, core}
+>> nodes.
+> 
+> To permit this flag set  on no leaf nodes we have to have
+> a corresponding containers built for them in DSDT so that
+> 'ACPI Processor ID' could be matched with containers '_UID's.
+> If we don not build such containers then setting this flag is
+> not correct. And I don't recall QEMU building CPU hierarchy
+> in DSDT.
+> 
 
-> GitLab CI: https://gitlab.com/jsnow/qemu/-/pipelines/548326343
->
-> This series collects some of the uncontroversial elements that serve as
-> pre-requisites for a later series that seeks to generate a testing venv
-> by default.
->
-> This series makes the following material changes:
->
-> - Install the 'qemu' package into the avocado testing venv
-> - Use the avocado testing venv to run vm-tests
-> - Use the avocado testing venv to run device-crash-test
->
-> None of these changes impact 'make check'; these are all specialty
-> tests that are not run by default. This series also doesn't change how
-> iotests are run, doesn't add any new dependencies for SRPM builds, etc.
->
-> NOTE: patch 8 isn't strictly required for this series, but including it
-> here "early" helps the subsequent series. Since the debian docker files
-> are layered, testing downstream pipelines can fail because the base
-> image is pulled from the main QEMU repo instead of the downstream.
->
-> In other words: I need this patch in origin/main in order to have the
-> venv module available for later patches that will actually need it in
-> our debian10 derivative images.
->
-> (in other-other-words: the 'clang-user' test *will* need it later.)
->
-> John Snow (9):
->   python: update for mypy 0.950
->   tests: add "TESTS_PYTHON" variable to Makefile
->   tests: use python3 as the python executable name
->   tests: silence pip upgrade warnings during venv creation
->   tests: add quiet-venv-pip macro
->   tests: install "qemu" namespace package into venv
->   tests: use tests/venv to run basevm.py-based scripts
->   tests: add python3-venv to debian10.docker
->   tests: run 'device-crash-test' from tests/venv
->
->  .gitlab-ci.d/buildtest.yml               |  8 +++++---
->  python/qemu/qmp/util.py                  |  4 +++-
->  python/setup.cfg                         |  1 +
->  scripts/device-crash-test                | 14 +++++++++++---
->  tests/Makefile.include                   | 18 ++++++++++--------
->  tests/avocado/avocado_qemu/__init__.py   | 11 +++++------
->  tests/avocado/virtio_check_params.py     |  1 -
->  tests/avocado/virtio_version.py          |  1 -
->  tests/docker/dockerfiles/debian10.docker |  1 +
->  tests/requirements.txt                   |  1 +
->  tests/vm/Makefile.include                | 13 +++++++------
->  tests/vm/basevm.py                       |  6 +++---
->  12 files changed, 47 insertions(+), 32 deletions(-)
->
-> --
-> 2.34.1
->
+It's true that we don't have containers in DSDT. In Linux implementation,
+the corresponding IDs are fetched if 'ACPI Processor ID valid' is set in
+PPTT node (entry), without checking DSDT table.
 
-Paolo: thanks for reviews.
+I don't know how the PPTT entry is linked to DSDT for _UID, after rechecking
+ACPI specification. I was thinking 'Private Resources' fields are used for
+the linking, but I should be wrong after checking PPTT tables on my host.
+I'm not sure if you have idea how PPTT entry (node) is linked with one
+specific device in DSDT table?
 
-I have a follow-up series that does more adventurous things (the pythonized
-bootstrapper, sub-dependency groups, and switching iotests over), but it
-introduces some new problems that are more "rfc" tier again.
+On my host, one of the cluster node resides at offset 10B0h and it's ID
+has been marked as valid. The 'Private Resources' fields point to the
+type-1 cache structures, which resides in PPTT table either. The cluster
+ID ('0x109') isn't appearing in DSDT table.
 
-In short: I allow iotests to bootstrap itself, but this creates two subtle
-problems:
+[C9Ch 3228   1]                Subtable Type : 01 [Cache Type]
+[C9Dh 3229   1]                       Length : 18
+[C9Eh 3230   2]                     Reserved : 0000
+[CA0h 3232   4]        Flags (decoded below) : 0000005F
+                                   Size valid : 1
+                         Number of Sets valid : 1
+                          Associativity valid : 1
+                        Allocation Type valid : 1
+                             Cache Type valid : 1
+                           Write Policy valid : 0
+                              Line Size valid : 1
+                               Cache ID valid : 0
+                                :
+                                :
+[CB4h 3252   1]                Subtable Type : 01 [Cache Type]
+[CB5h 3253   1]                       Length : 18
+[CB6h 3254   2]                     Reserved : 0000
+[CB8h 3256   4]        Flags (decoded below) : 0000007F
+                                   Size valid : 1
+                         Number of Sets valid : 1
+                          Associativity valid : 1
+                        Allocation Type valid : 1
+                             Cache Type valid : 1
+                           Write Policy valid : 1
+                              Line Size valid : 1
+                               Cache ID valid : 0
+[CBCh 3260   4]          Next Level of Cache : 00000CCC
+                                  :
+                                  :
+[10B0h 4272   1]                Subtable Type : 00 [Processor Hierarchy Node]
+[10B1h 4273   1]                       Length : 1C
+[10B2h 4274   2]                     Reserved : 0000
+[10B4h 4276   4]        Flags (decoded below) : 00000002
+                             Physical package : 0
+                      ACPI Processor ID valid : 1
+                        Processor is a thread : 0
+                               Node is a leaf : 0
+                     Identical Implementation : 0
+[10B8h 4280   4]                       Parent : 00000C6C
+[10BCh 4284   4]            ACPI Processor ID : 00000109
+[10C0h 4288   4]      Private Resource Number : 00000002
+[10C4h 4292   4]             Private Resource : 00000C9C
+[10C8h 4296   4]             Private Resource : 00000CB4
 
-(1) If check is engaged without running check-venv first and iotests
-creates its own venv, the python binary it uses will be whichever one is
-your system default, not necessarily the one you configured your build with.
+[gwshan@gshan tmp]$ grep -i 109 dsdt.dsl
+[gwshan@gshan tmp]$ grep -i 265 dsdt.dsl
 
-This is reasonable behavior IMO, but if you later run "make check", there's
-no guarantee that Make will re-make the venv with the correct python
-binary  That's a subtle landmine.
 
-(2) Similarly, if the venv requirements.txt (or python/setup.cfg) change,
-iotests doesn't have the logic to notice it ought to re-make the venv. Only
-the makefile does. However, at least in this case, the makefile is
-guaranteed to notice if/when we run "check block" again. The odds of these
-files changing for most people who aren't *me* are pretty low, so it may
-not really come up much. Still, it's not bullet-proof.
+>> In this case, Linux guest takes the offset between the
+>> node and PPTT header as the corresponding IDs, as the following
+>> logs show.
+> 
+> perhaps it's kernel which should be fixed to handle
+> not set 'ACPI Processor ID valid' correctly.
+> 
 
-(Bonus not-at-all-subtle problem) I need to remove iotest 297, otherwise
-iotests under a venv that doesn't install mypy/pylint will never run. I
-discussed this upstream recently w/ Kevin, but my series to address it
-isn't ready yet. (Just pre-emptively pointing it out to say I'm aware of
-it!)
+This case is already handled by kernel. If 'ACPI Processor ID valid'
+flag is missed, the offset between PPTT node and header is taken as
+the ID. It's correct behaviour because 'ACPI Processor ID valid' flag
+isn't mandatory for PPTT nodes. The problem is that the offset isn't
+the desired ID, which is not understandable and mismatch with the
+ID (value) we feed to PPTT table in QEMU.
 
-WIP. Will send new RFC series today predicated on top of this series.
+>>
+>>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64    \
+>>    -accel kvm -machine virt,gic-version=host -cpu host        \
+>>    -smp 8,sockets=2,clusters=2,cores=2,threads=1
+>>      :
+>>
+>>    # cd /sys/devices/system/cpu
+>>    # for i in `seq 0 15`; do cat cpu$i/topology/physical_package_id; done
+>>      36  36  36  36  36  36  36  36
+>>      336 336 336 336 336 336 336 336
+>>    # for i in `seq 0 15`; do cat cpu$i/topology/cluster_id; done
+>>      56  56  56  56  196 196 196 196
+>>      356 356 356 356 496 496 496 496
+>>    # for i in `seq 0 15`; do cat cpu$i/topology/core_id; done
+>>      76  76  136 136 216 216 276 276
+>>      376 376 436 436 516 516 576 576
+>>
+>> This fixes the issue by setting 'ACPI Processor ID valid' flag for
+>> {socket, cluster, core} nodes. With this applied, the IDs are exactly
+>> what have been provided in PPTT.
+>>
+>>    # for i in `seq 0 15`; do cat cpu$i/topology/physical_package_id; done
+>>    0 0 0 0 0 0 0 0
+>>    1 1 1 1 1 1 1 1
+>>    # for i in `seq 0 15`; do cat cpu$i/topology/cluster_id; done
+>>    0 0 0 0 1 1 1 1
+>>    0 0 0 0 1 1 1 1
+>>    # for i in `seq 0 15`; do cat cpu$i/topology/core_id; done
+>>    0 0 1 1 0 0 1 1
+>>    0 0 1 1 0 0 1 1
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>>   hw/acpi/aml-build.c | 9 ++++++---
+>>   1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index e6bfac95c7..89f191fd3b 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -2026,7 +2026,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>               core_id = -1;
+>>               socket_offset = table_data->len - pptt_start;
+>>               build_processor_hierarchy_node(table_data,
+>> -                (1 << 0), /* Physical package */
+>> +                (1 << 0) | /* Physical package */
+>> +                (1 << 1),  /* ACPI Processor ID valid */
+>>                   0, socket_id, NULL, 0);
+>>           }
+>>   
+>> @@ -2037,7 +2038,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>                   core_id = -1;
+>>                   cluster_offset = table_data->len - pptt_start;
+>>                   build_processor_hierarchy_node(table_data,
+>> -                    (0 << 0), /* Not a physical package */
+>> +                    (0 << 0) | /* Not a physical package */
+>> +                    (1 << 1),  /* ACPI Processor ID valid */
+>>                       socket_offset, cluster_id, NULL, 0);
+>>               }
+>>           } else {
+>> @@ -2055,7 +2057,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>                   core_id = cpus->cpus[n].props.core_id;
+>>                   core_offset = table_data->len - pptt_start;
+>>                   build_processor_hierarchy_node(table_data,
+>> -                    (0 << 0), /* Not a physical package */
+>> +                    (0 << 0) | /* Not a physical package */
+>> +                    (1 << 1),  /* ACPI Processor ID valid */
+>>                       cluster_offset, core_id, NULL, 0);
+>>               }
+>>   
+> 
 
---js
-
->
-
---000000000000aa2f4b05dfeb185d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, May 25, 2022, 8:09 PM John Snow &lt;<a href=3D=
-"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">GitLab CI: <a href=3D"https://gitlab.com/jsnow/qemu/=
--/pipelines/548326343" rel=3D"noreferrer noreferrer" target=3D"_blank">http=
-s://gitlab.com/jsnow/qemu/-/pipelines/548326343</a><br>
-<br>
-This series collects some of the uncontroversial elements that serve as<br>
-pre-requisites for a later series that seeks to generate a testing venv<br>
-by default.<br>
-<br>
-This series makes the following material changes:<br>
-<br>
-- Install the &#39;qemu&#39; package into the avocado testing venv<br>
-- Use the avocado testing venv to run vm-tests<br>
-- Use the avocado testing venv to run device-crash-test<br>
-<br>
-None of these changes impact &#39;make check&#39;; these are all specialty<=
-br>
-tests that are not run by default. This series also doesn&#39;t change how<=
-br>
-iotests are run, doesn&#39;t add any new dependencies for SRPM builds, etc.=
-<br>
-<br>
-NOTE: patch 8 isn&#39;t strictly required for this series, but including it=
-<br>
-here &quot;early&quot; helps the subsequent series. Since the debian docker=
- files<br>
-are layered, testing downstream pipelines can fail because the base<br>
-image is pulled from the main QEMU repo instead of the downstream.<br>
-<br>
-In other words: I need this patch in origin/main in order to have the<br>
-venv module available for later patches that will actually need it in<br>
-our debian10 derivative images.<br>
-<br>
-(in other-other-words: the &#39;clang-user&#39; test *will* need it later.)=
-<br>
-<br>
-John Snow (9):<br>
-=C2=A0 python: update for mypy 0.950<br>
-=C2=A0 tests: add &quot;TESTS_PYTHON&quot; variable to Makefile<br>
-=C2=A0 tests: use python3 as the python executable name<br>
-=C2=A0 tests: silence pip upgrade warnings during venv creation<br>
-=C2=A0 tests: add quiet-venv-pip macro<br>
-=C2=A0 tests: install &quot;qemu&quot; namespace package into venv<br>
-=C2=A0 tests: use tests/venv to run basevm.py-based scripts<br>
-=C2=A0 tests: add python3-venv to debian10.docker<br>
-=C2=A0 tests: run &#39;device-crash-test&#39; from tests/venv<br>
-<br>
-=C2=A0.gitlab-ci.d/buildtest.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 8 +++++---<br>
-=C2=A0python/qemu/qmp/util.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 4 +++-<br>
-=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A0scripts/device-crash-test=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 14 +++++++++++---<br>
-=C2=A0tests/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 18 ++++++++++--------<br>
-=C2=A0tests/avocado/avocado_qemu/__init__.py=C2=A0 =C2=A0| 11 +++++------<b=
-r>
-=C2=A0tests/avocado/virtio_check_params.py=C2=A0 =C2=A0 =C2=A0|=C2=A0 1 -<b=
-r>
-=C2=A0tests/avocado/virtio_version.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 1 -<br>
-=C2=A0tests/docker/dockerfiles/debian10.docker |=C2=A0 1 +<br>
-=C2=A0tests/requirements.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A0tests/vm/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 13 +++++++------<br>
-=C2=A0tests/vm/basevm.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +++---<br>
-=C2=A012 files changed, 47 insertions(+), 32 deletions(-)<br>
-<br>
--- <br>
-2.34.1<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">Paolo: thanks for reviews.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">I have a follow-up series that does more adventurous things (the =
-pythonized bootstrapper, sub-dependency groups, and switching iotests over)=
-, but it introduces some new problems that are more &quot;rfc&quot; tier ag=
-ain.<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">In short: I all=
-ow iotests to bootstrap itself, but this creates two subtle problems:</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">(1) If check is engaged witho=
-ut running check-venv first and iotests creates its own venv, the python bi=
-nary it uses will be whichever one is your system default, not necessarily =
-the one you configured your build with.</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">This is reasonable behavior IMO, but if you later run &quot=
-;make check&quot;, there&#39;s no guarantee that Make will re-make the venv=
- with the correct python binary=C2=A0 That&#39;s a subtle landmine.</div><d=
-iv dir=3D"auto"><br></div><div dir=3D"auto">(2) Similarly, if the venv requ=
-irements.txt (or python/setup.cfg) change, iotests doesn&#39;t have the log=
-ic to notice it ought to re-make the venv. Only the makefile does. However,=
- at least in this case, the makefile is guaranteed to notice if/when we run=
- &quot;check block&quot; again. The odds of these files changing for most p=
-eople who aren&#39;t *me* are pretty low, so it may not really come up much=
-. Still, it&#39;s not bullet-proof.</div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto">(Bonus not-at-all-subtle problem) I need to remove iotest 297, =
-otherwise iotests under a venv that doesn&#39;t install mypy/pylint will ne=
-ver run. I discussed this upstream recently w/ Kevin, but my series to addr=
-ess it isn&#39;t ready yet. (Just pre-emptively pointing it out to say I&#3=
-9;m aware of it!)</div><div dir=3D"auto"><br></div><div dir=3D"auto">WIP. W=
-ill send new RFC series today predicated on top of this series.</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">--js</div><div dir=3D"auto"><div cl=
-ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---000000000000aa2f4b05dfeb185d--
+Thanks,
+Gavin
 
 
