@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B4E534F9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:49:28 +0200 (CEST)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26AA534F0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:26:00 +0200 (CEST)
+Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCvf-00060P-LA
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:49:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34966)
+	id 1nuCYx-0006yQ-MG
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCPL-0004q7-3r
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28752)
+ id 1nuCPV-00055c-Fa
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCPJ-0000v0-Fc
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:02 -0400
+ id 1nuCPT-0000wi-QE
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653567360;
+ s=mimecast20190719; t=1653567371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PRRNfcYPpJ4SxYl3sYEYT8Q9Ta6FJDh7X3HpffVcjAQ=;
- b=PGu5LNko0A42eH+gT+gQNQdjawCOt/+k3bJgTaP274qoMne5KLOV1z0j94gSzlrrUTncqo
- RU+DkrWI20gZT+H7BZ8ciQaSDJk8ZTqaMIb4u8ZtcCmHrtddSiK/I+KvJWkBKKLMZQikZF
- cAM0HwnoKJTT9igKaRNsRR8xQqP+YXg=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6Mk0SQYFx5Ql00nl+livy0QK/LmHtEjfQjmk02bhFWY=;
+ b=OYCoiEM8x64VS2OR4rKCMVG4e9cgy9DJbn0PWU8IBKGD+ZFh3DR55AHUvvxoT4mFtnW9yZ
+ 6otXINEkWwe2HkjcxCHeyVlrKGvwde8Holjo5QH4a/5sww2iwexQ6BFsqmKt5X730WxPjv
+ V+a/VBOmN4WoJrkGva0NeVL0FSZu6o8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-OwmK3VRNMhuTkNgYqW4jsg-1; Thu, 26 May 2022 08:15:58 -0400
-X-MC-Unique: OwmK3VRNMhuTkNgYqW4jsg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sd17-20020a170906ce3100b006ff12a1b982so737895ejb.13
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:15:58 -0700 (PDT)
+ us-mta-363-CtCDtL5wO7Goub2FaNnskA-1; Thu, 26 May 2022 08:16:09 -0400
+X-MC-Unique: CtCDtL5wO7Goub2FaNnskA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ b17-20020a170906491100b006feec47b64bso778070ejq.5
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:16:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PRRNfcYPpJ4SxYl3sYEYT8Q9Ta6FJDh7X3HpffVcjAQ=;
- b=Zs2NuZSNBMChIuWPCFXqRDlPWq0CU0nCVMejSyJOunX8NDLRhoH4/hpHxX+lHsPg0j
- HarsCiAGzd0RpdCELVVv3nEntVZoQCqQ7Q1HZZznuSlIgEdxqMqxrhL/2ody5DwjtRiL
- 65S8lIWLnIg3ueoxPKGqqKF8C7N7AMx/v2BeGHgnsoojXRZVxJCEhsMomXeHqUjUnQ8E
- wF60CUU5TUPcO9LtLMEWUK5FUqU7b/9YMDqamVJC31692Yo2FD7z4HsDHHet9qR6Ct3U
- tCiXfREUKUsuJ8elQ8oa1uAcyaGzc9CFHBq1iYzfx1jDyoWLW/Q4Y1/UFH0PGQ8/r7hF
- Oljw==
-X-Gm-Message-State: AOAM533H8AY/Boo6AdjH2albyoFl4wGh5yA6i5MzLCFLF/gSoblHwZJ0
- 2YnDBYsfKZBdbIwBnLN5EIu/xBVYufngjUSl8aufJdpNA3eY8nZnCYTQRs47xNW4qitJSlxg5xI
- qBdvkU6w8ccddsug=
-X-Received: by 2002:a17:907:10ce:b0:6fe:c527:1f83 with SMTP id
- rv14-20020a17090710ce00b006fec5271f83mr20739364ejb.135.1653567357671; 
- Thu, 26 May 2022 05:15:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXbd3r4Md484QYBi8wUzVs3ZjdjYkACzUpRsJziJ4FEFaDN3nyt1t+eZqvKZmU2nSP7RLDSw==
-X-Received: by 2002:a17:907:10ce:b0:6fe:c527:1f83 with SMTP id
- rv14-20020a17090710ce00b006fec5271f83mr20739349ejb.135.1653567357460; 
- Thu, 26 May 2022 05:15:57 -0700 (PDT)
+ bh=6Mk0SQYFx5Ql00nl+livy0QK/LmHtEjfQjmk02bhFWY=;
+ b=KpG8b0YXRrhOCx+ItiV5LsWPB8wQIqWCI2JtnVIChL4JEGODfyWlIgDjDhJTuybXyd
+ yEO3WIyuDcim2Vi/8XXWlrKL88C/DQJITasBEi6UV2QYHKkwMQigOh1/5Of1pl+KtBAO
+ 7ft4hwTOT03cxtuU945inXlLQOhDUCb23EGQOlKMDUY/Ud06nP5nSRd+ddP7wCYWd+K9
+ F5yh2fiOrEiKGcw0vDdgOZqLvBRFknHAfaeIWsFZD+WPqA3BL2h7ZcFpLz1mgQpwdoS6
+ 0Xkg/rxh1wGHYZuyzWetT0sTleEA11BxoRKkXprWRga+fmcpPkhmycUqR3ueC+h/pzTL
+ WP9A==
+X-Gm-Message-State: AOAM530cEEs23RcGJI+dqvyXcmocx3HUod5he3jreGgwx4uC/lBG8ZfV
+ OegWt2sUv8QkUqGQpTDbzxU6geMRpPjdEifhuVXsTUuaOvaajgG+7eq7zGxdiCcmox2Z+VdhM00
+ I2jz2xLjwX0oUyLo=
+X-Received: by 2002:a05:6402:1007:b0:428:beb6:f483 with SMTP id
+ c7-20020a056402100700b00428beb6f483mr39635719edu.391.1653567368735; 
+ Thu, 26 May 2022 05:16:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxR5JtgEY2Xppc+C7PaR6OJpY2QGka/wortFtQL6LfJhnaMu6SkhTC4PSbd3Pd4hJ/NDb37Tg==
+X-Received: by 2002:a05:6402:1007:b0:428:beb6:f483 with SMTP id
+ c7-20020a056402100700b00428beb6f483mr39635679edu.391.1653567368448; 
+ Thu, 26 May 2022 05:16:08 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- l12-20020a1709060e0c00b006feb479fcb4sm476440eji.44.2022.05.26.05.15.56
+ c23-20020a50f617000000b0042b765c2448sm715934edn.80.2022.05.26.05.16.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 May 2022 05:15:56 -0700 (PDT)
-Message-ID: <fe05defa-4820-489c-200e-36fc0a3f69f6@redhat.com>
-Date: Thu, 26 May 2022 14:15:55 +0200
+ Thu, 26 May 2022 05:16:07 -0700 (PDT)
+Message-ID: <54d84d4a-2c90-7211-3baa-6333c88a24f1@redhat.com>
+Date: Thu, 26 May 2022 14:16:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
@@ -144,10 +144,6 @@ On 5/26/22 02:09, John Snow wrote:
 >   
 >   $(TESTS_RESULTS_DIR):
 
-Sooner or later I'd like quiet-command to be changed to English 
-descriptions like the ones currently emitted during the ninja build, but 
-stuff for later.
-
-Paolo
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
