@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3831C5355EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 00:01:55 +0200 (CEST)
-Received: from localhost ([::1]:57880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF57B5355DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:57:28 +0200 (CEST)
+Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuLYH-0002nD-Ly
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 18:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53622)
+	id 1nuLTz-0002Iu-Qq
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLCi-00023y-Kh; Thu, 26 May 2022 17:39:37 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:38442)
+ id 1nuLCk-00024t-Fk; Thu, 26 May 2022 17:39:39 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:40797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLCg-0008CU-TE; Thu, 26 May 2022 17:39:36 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-e5e433d66dso3759164fac.5; 
- Thu, 26 May 2022 14:39:34 -0700 (PDT)
+ id 1nuLCi-0008CC-Uo; Thu, 26 May 2022 17:39:38 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-f2cd424b9cso3751848fac.7; 
+ Thu, 26 May 2022 14:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7jxNw68GgO6aC67fWTszp7U7UmO9zWSWmGkFzl21a+c=;
- b=KqxgzkJ4qJCWp4Bhre//frjy6vtivseBRcYtjYXWKCyKmSOZLhO450HIbGFwh+xpPD
- eXayWF0tn68F9OsMXhs5KPU5ZB2v7AQIblvlKOgNq0XR+B9oBfd2/ZUAYk394RhM2Ivv
- BqpvP8AGvKYUGNcRPpvtihvUlTYilTciDHodI++LwUPJTCVK2WzjcjIYPRQ1tYEHraFK
- XwDrDs0ElAQrI+bR72GUxyCvBUbBPu+XgkTWrrzdWIRyafSJQnk86uCEWYld6lkIalX4
- WYLOL7wstN8x79AAxEL4Bi4c1MM9qd4XVX70mRtbsiahrTWOGezF8JB+YLLN/4Uy7lbP
- uyfg==
+ bh=etQ/DHgEtaOxRzCgfJL4a60cE/2gkCcNm19XWuRtQUk=;
+ b=PeWe9rAA87M7uVnOJzuyMR924hjKkARQVtm1ij8wAG6LrFZA3pCBMZNL79JSGB1yO2
+ pp8GNuIfdHKbGUyQp+Lz5qvDKBsArrb+QbO8yNOwXjWyZElJw7/N/PyLoHHcL9tj2yQu
+ 0MlyK6/TYq6N8g7UEnQxKRwuznu6Fcz9ajUHajnBiCpgWSum04oHS+lcw3OR6YDYWSwo
+ ceXqnoueK9zn6gvKoqxzTs8CP1cHA//rfJwpidQdLEjjAjWR/wKQUp4qM/Rytv/POr1X
+ k9IlPMPJ1p5MyGw288mtcJNRar2+NxqiuONIB/TuosFEJXmMSE0efEHRQB9JcyCWXp6C
+ Jrmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7jxNw68GgO6aC67fWTszp7U7UmO9zWSWmGkFzl21a+c=;
- b=oLGbHMTZW2JST0SVPMeU+2EPpO2EEXFrGBq/hwflUV/JElyhEqmpFPHv81jp6CrPnL
- NL/RRxaCbu932Zp4g2fq2ii0unHfn9Z946vbHrQlxnfUCbn5xSyQQdm/eh6W5rP6M6Z5
- Aeyr9L4iVQ048LG7hGGf8vWBVGqTOHWtqVguO3qLaaf0II5HhkoW5ZWKF2+E+Qc4/THm
- 5R9ccKfH3ksuVPsECM8JWZqaLHc7OW8wDWBWygrSVxdkf1SjYwbkzlhvGL9vOUOg5mqf
- +E5ymILhbCCuyZN1E+VpG2FsqpOiKPIRbREK9dR3l6sFBgAOvjS+22w8IlZIiMThL5Y9
- WXtw==
-X-Gm-Message-State: AOAM531bQh2fTr1ZSlysV5RGhb59T+d4VPIZGQnTO0sneMUlq8DgamDr
- LaMegX9QjnVo+WKuZql0fGdIHMqgymk=
-X-Google-Smtp-Source: ABdhPJw1D6NcOmQAyaRVRhzjmpMgej6ZPJcGkCzsDCDLfXtfDBj/us6BNBS48XmK5EjSUrZD3ZaWjQ==
-X-Received: by 2002:a05:6870:538d:b0:de:aa91:898e with SMTP id
- h13-20020a056870538d00b000deaa91898emr2380803oan.54.1653601173484; 
- Thu, 26 May 2022 14:39:33 -0700 (PDT)
+ bh=etQ/DHgEtaOxRzCgfJL4a60cE/2gkCcNm19XWuRtQUk=;
+ b=Fp07IoPM4LPonKNaIWIoRirWaqWM9ULZal4YMlXA8WuxVzoDJXJCuZc+ckwXNIa48q
+ Sara6ZXgFedG3IXa91ZuUKkGzhJ4VKcsDsyNz4AjtLXGlyGR8x//BQyTJ9BF+mam3HH3
+ dAyZw8vz/yKsZF26lhHyU6aDzVCN3DsRskdHKeHGREGyKPHa57fM1IhMd0ILzzyzNM+p
+ MNAxP7yEDArquSSmVPCk60nPiLRPniifolFKY1q409tl2siaR6qFC3iC5+yjedhIPFZI
+ PEsrxphwiwEJFFSxPuKGkQwVn15gddwvxyHxqp5ZHZEHaLwhKNUwre5zfQycbgwxBnVZ
+ EVbA==
+X-Gm-Message-State: AOAM530yTqZvPSaWaMrg5Ts9XcseauiXcA1lF74eelgIxMtmk7A2DIB7
+ LhLx6bJ67bNyRA4Hwv3CKMj0TEu79vo=
+X-Google-Smtp-Source: ABdhPJydc/p1aXUjyhRbMl/cFYVEKz0OoTWhbQWLLtQonR7MldYbG9JKr0vZAIyWobGuPj9oEZ63nw==
+X-Received: by 2002:a05:6870:610b:b0:f1:8f35:b9e7 with SMTP id
+ s11-20020a056870610b00b000f18f35b9e7mr2548635oae.19.1653601175880; 
+ Thu, 26 May 2022 14:39:35 -0700 (PDT)
 Received: from balboa.COMFAST (189-46-169-45.dsl.telesp.net.br.
  [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
- l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.39.31
+ l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.39.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 14:39:33 -0700 (PDT)
+ Thu, 26 May 2022 14:39:35 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PULL 22/34] target/ppc: declare vmsumsh[ms] helper with call flags
-Date: Thu, 26 May 2022 18:38:03 -0300
-Message-Id: <20220526213815.92701-23-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Nicholas Piggin <npiggin@gmail.com>
+Subject: [PULL 23/34] target/ppc: Fix eieio memory ordering semantics
+Date: Thu, 26 May 2022 18:38:04 -0300
+Message-Id: <20220526213815.92701-24-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220526213815.92701-1-danielhb413@gmail.com>
 References: <20220526213815.92701-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,109 +89,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Nicholas Piggin <npiggin@gmail.com>
 
-Move vmsumshm and vmsumshs to decodetree, declare vmsumshm helper with
-TCG_CALL_NO_RWG, and drop the unused env argument.
+The generated eieio memory ordering semantics do not match the
+instruction definition in the architecture. Add a big comment to
+explain this strange instruction and correct the memory ordering
+behaviour.
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Signed-off: Nicholas Piggin <npiggin@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220517123929.284511-13-matheus.ferst@eldorado.org.br>
+Message-Id: <20220519135908.21282-2-npiggin@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h                 | 4 ++--
- target/ppc/insn32.decode            | 2 ++
- target/ppc/int_helper.c             | 5 ++---
- target/ppc/translate/vmx-impl.c.inc | 3 ++-
- target/ppc/translate/vmx-ops.c.inc  | 1 -
- 5 files changed, 8 insertions(+), 7 deletions(-)
+ target/ppc/translate.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 5127851f2c..5e43920b9e 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -244,8 +244,8 @@ DEF_HELPER_5(vmhaddshs, void, env, avr, avr, avr, avr)
- DEF_HELPER_5(vmhraddshs, void, env, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_4(VMSUMUHM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
- DEF_HELPER_5(VMSUMUHS, void, env, avr, avr, avr, avr)
--DEF_HELPER_5(vmsumshm, void, env, avr, avr, avr, avr)
--DEF_HELPER_5(vmsumshs, void, env, avr, avr, avr, avr)
-+DEF_HELPER_FLAGS_4(VMSUMSHM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
-+DEF_HELPER_5(VMSUMSHS, void, env, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_4(vmladduhm, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_2(mtvscr, TCG_CALL_NO_RWG, void, env, i32)
- DEF_HELPER_FLAGS_1(mfvscr, TCG_CALL_NO_RWG, i32, env)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 43ea03c3e7..f001c02a8c 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -601,6 +601,8 @@ VMULLD          000100 ..... ..... ..... 00111001001    @VX
- 
- VMSUMUBM        000100 ..... ..... ..... ..... 100100   @VA
- VMSUMMBM        000100 ..... ..... ..... ..... 100101   @VA
-+VMSUMSHM        000100 ..... ..... ..... ..... 101000   @VA
-+VMSUMSHS        000100 ..... ..... ..... ..... 101001   @VA
- VMSUMUHM        000100 ..... ..... ..... ..... 100110   @VA
- VMSUMUHS        000100 ..... ..... ..... ..... 100111   @VA
- 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 9285a1c2a1..b9dd15d607 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -890,8 +890,7 @@ void helper_VMSUMMBM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-     }
- }
- 
--void helper_vmsumshm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
--                     ppc_avr_t *b, ppc_avr_t *c)
-+void helper_VMSUMSHM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index fa34f81c30..eb42f7e459 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -3513,7 +3513,32 @@ static void gen_stswx(DisasContext *ctx)
+ /* eieio */
+ static void gen_eieio(DisasContext *ctx)
  {
-     int32_t prod[8];
-     int i;
-@@ -905,7 +904,7 @@ void helper_vmsumshm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
-     }
- }
+-    TCGBar bar = TCG_MO_LD_ST;
++    TCGBar bar = TCG_MO_ALL;
++
++    /*
++     * eieio has complex semanitcs. It provides memory ordering between
++     * operations in the set:
++     * - loads from CI memory.
++     * - stores to CI memory.
++     * - stores to WT memory.
++     *
++     * It separately also orders memory for operations in the set:
++     * - stores to cacheble memory.
++     *
++     * It also serializes instructions:
++     * - dcbt and dcbst.
++     *
++     * It separately serializes:
++     * - tlbie and tlbsync.
++     *
++     * And separately serializes:
++     * - slbieg, slbiag, and slbsync.
++     *
++     * The end result is that CI memory ordering requires TCG_MO_ALL
++     * and it is not possible to special-case more relaxed ordering for
++     * cacheable accesses. TCG_BAR_SC is required to provide this
++     * serialization.
++     */
  
--void helper_vmsumshs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
-+void helper_VMSUMSHS(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
-                      ppc_avr_t *b, ppc_avr_t *c)
- {
-     int32_t prod[8];
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index da81296b96..d7524c3204 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -2587,9 +2587,9 @@ static bool trans_VSEL(DisasContext *ctx, arg_VA *a)
-     return true;
- }
- 
--GEN_VAFORM_PAIRED(vmsumshm, vmsumshs, 20)
- TRANS_FLAGS(ALTIVEC, VMSUMUBM, do_va_helper, gen_helper_VMSUMUBM)
- TRANS_FLAGS(ALTIVEC, VMSUMMBM, do_va_helper, gen_helper_VMSUMMBM)
-+TRANS_FLAGS(ALTIVEC, VMSUMSHM, do_va_helper, gen_helper_VMSUMSHM)
- TRANS_FLAGS(ALTIVEC, VMSUMUHM, do_va_helper, gen_helper_VMSUMUHM)
- 
- static bool do_va_env_helper(DisasContext *ctx, arg_VA *a,
-@@ -2612,6 +2612,7 @@ static bool do_va_env_helper(DisasContext *ctx, arg_VA *a,
- }
- 
- TRANS_FLAGS(ALTIVEC, VMSUMUHS, do_va_env_helper, gen_helper_VMSUMUHS)
-+TRANS_FLAGS(ALTIVEC, VMSUMSHS, do_va_env_helper, gen_helper_VMSUMSHS)
- 
- GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23)
- 
-diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index 15b3e06410..d7cc57868e 100644
---- a/target/ppc/translate/vmx-ops.c.inc
-+++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -224,7 +224,6 @@ GEN_VXFORM_UIMM(vctsxs, 5, 15),
- #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
-     GEN_HANDLER(name0##_##name1, 0x04, opc2, 0xFF, 0x00000000, PPC_ALTIVEC)
- GEN_VAFORM_PAIRED(vmhaddshs, vmhraddshs, 16),
--GEN_VAFORM_PAIRED(vmsumshm, vmsumshs, 20),
- GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23),
- 
- GEN_VXFORM_DUAL(vclzb, vpopcntb, 1, 28, PPC_NONE, PPC2_ALTIVEC_207),
+     /*
+      * POWER9 has a eieio instruction variant using bit 6 as a hint to
 -- 
 2.36.1
 
