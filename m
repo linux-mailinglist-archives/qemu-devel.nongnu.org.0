@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08F4534C8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:34:12 +0200 (CEST)
-Received: from localhost ([::1]:40520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BD5534CA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:43:45 +0200 (CEST)
+Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu9si-0002Ro-2s
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54938)
+	id 1nuA1w-00020Q-QX
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu9NV-0002Vy-8A
- for qemu-devel@nongnu.org; Thu, 26 May 2022 05:02:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu9NQ-0006yT-5X
- for qemu-devel@nongnu.org; Thu, 26 May 2022 05:01:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653555711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OlfKhKxDa0LPP9IquJEHgIxy2MgceTbW+NUiwfWT3Bc=;
- b=LrZLVnTkWxfwtQisBnuxSoQyhjdhshOCsdd5s+IRoIgnLnYvqPOuMNxtc3PE29o8USmvEY
- mE6ZOlM4OjPD6Mocl5Fz0kkuNM3VlM5RB0nbMRmOC2Q8oXpBsoDS7j9hUP+N/4FNxFjEEW
- qs9C/vtxH2Wk51e928XEJibPkyjoQIs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-AQrI75uHP4eoOg32kn4Hjg-1; Thu, 26 May 2022 05:01:47 -0400
-X-MC-Unique: AQrI75uHP4eoOg32kn4Hjg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 648D43810D3D;
- Thu, 26 May 2022 09:01:47 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED225400F36;
- Thu, 26 May 2022 09:01:46 +0000 (UTC)
-Date: Thu, 26 May 2022 10:01:45 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Jeff Cody <codyprime@gmail.com>, Fam Zheng <fam@euphon.net>,
- Ari Sundholm <ari@tuxera.com>
-Subject: Re: [PATCH v3 10/10] block/qcow2: Use bdrv_pwrite_sync() in
- qcow2_mark_dirty()
-Message-ID: <Yo9B+eVze1zogP5A@stefanha-x1.localdomain>
-References: <20220519144841.784780-1-afaria@redhat.com>
- <20220519144841.784780-11-afaria@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nu9w4-0006gv-HV
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 05:37:40 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nu9vx-00049P-2V
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 05:37:40 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id m20so1860076ejj.10
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 02:37:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hGuyL6Ixwy7jfARGW7TtdGQ4RXXaQ69r5ul6qRueis8=;
+ b=YSijjWgejzAMgSrrDoEr3QdA+B1p9GVbi0bbVVUMPYM+QdRBMd5Avpl4CQtDObUuVV
+ /M7yeeCBvLCkka8pzeIsLQ/AcJqz8JmodJN5uOkQ56yV1REqpIYxKkRUW6J+m8F4AMZR
+ Raa0sz/viOqFeqWzen1+mUQHQiyw7QGa7vpCgpUaLMo2pL9te3lV8V0aXhFKhNuNGptR
+ CMqN/FfQeZ+U7lhw4qBAOKkU+hPlUeZ7L5Swj3H2ttFlkFD6gIqBL/TW/GPHB/+GFbvJ
+ U2cjXJfmRc6rVZ4hneEoXThInqTI941puef9r6duFSQcbalO0X+4/JXCcjl/oNJ1exUa
+ 6VEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hGuyL6Ixwy7jfARGW7TtdGQ4RXXaQ69r5ul6qRueis8=;
+ b=g4xKcyupWnQVERAG8G/3Kn92gEDDHpNtueqld+dXPODvWhQzLebZsZFQjJP962D9dO
+ npXOCqmzRQkDCmWIImOFS2am4bQE2GdWIMKbC61RdJg+6Nq8ELOer20CwsvbddvXTFmo
+ pM8EzpnZhn0B4ttLz3HfLX4bNSWLo/71+eBh34RsmDwkqhLscDx7scYB2YUGd9XmML5M
+ /E/yMvvE6h9CeDbepTtcxSLcqqPfRjsSR2JvNq6vVI7a8MXvgpUyQSBDzzqjLSiWUyFV
+ wJhmD+lbEl5GiQ6BrQhBv3qfFHbwz+TykPyZoEe5ML24rnL4hrfxGa/QPiTkdu4WuTHA
+ Jr3A==
+X-Gm-Message-State: AOAM530J7nCb1Cv5hxA2xYvADA1D+wkCBfmIrhYh2NLIAPb4DMDFiNgI
+ wBWHHt+j0QiHLDFVRolRnSw=
+X-Google-Smtp-Source: ABdhPJygLwkpsiv6EcxbVwMWrB9GUheKdujgok3EdIP3TMDAy/Fti6lz+jejEkoj1p/RYrDaZlR7uA==
+X-Received: by 2002:a17:906:22ce:b0:6fe:9403:a4c0 with SMTP id
+ q14-20020a17090622ce00b006fe9403a4c0mr32616831eja.528.1653557850010; 
+ Thu, 26 May 2022 02:37:30 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ y8-20020a056402358800b0042617ba63b3sm577429edc.61.2022.05.26.02.37.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 May 2022 02:37:29 -0700 (PDT)
+Message-ID: <7a7d78b5-5c8a-3817-ec7c-27789586076f@redhat.com>
+Date: Thu, 26 May 2022 11:37:28 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9XqiHZ8381gj7+xb"
-Content-Disposition: inline
-In-Reply-To: <20220519144841.784780-11-afaria@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 2/9] replay: notify vCPU when BH is scheduled
+Content-Language: en-US
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, crosa@redhat.com, f4bug@amsat.org
+References: <165355470196.533615.1219754093587154582.stgit@pasha-ThinkPad-X280>
+ <165355471287.533615.6762485479325805298.stgit@pasha-ThinkPad-X280>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <165355471287.533615.6762485479325805298.stgit@pasha-ThinkPad-X280>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,39 +96,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/26/22 10:45, Pavel Dovgalyuk wrote:
+> vCPU execution should be suspended when new BH is scheduled.
+> This is needed to avoid guest timeouts caused by the long cycles
+> of the execution. In replay mode execution may hang when
+> vCPU sleeps and block event comes to the queue.
+> This patch adds notification which wakes up vCPU or interrupts
+> execution of guest code.
+> 
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
---9XqiHZ8381gj7+xb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+At least aio_bh_schedule_oneshot_full should have the same effect, so 
+should this be done at a lower level, in aio_bh_enqueue() or even 
+aio_notify()?
 
-On Thu, May 19, 2022 at 03:48:40PM +0100, Alberto Faria wrote:
-> Use bdrv_pwrite_sync() instead of calling bdrv_pwrite() and bdrv_flush()
-> separately.
->=20
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+Paolo
+
+> --
+> 
+> v2: changed first_cpu to current_cpu (suggested by Richard Henderson)
 > ---
->  block/qcow2.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---9XqiHZ8381gj7+xb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKPQfkACgkQnKSrs4Gr
-c8jw/gf9G84yDRCxJ1G07itQQheiWZcmnJUEewHmMIxtFnrEg5bQxQx+Y5haJ0OX
-yLLnrrrM0Pe5aes8e57D68q4GMgRwmex1ZFIeB31JDgg2TF9G7Q0skAcS0cvTHHL
-jE/l15kWV9ej9xxED8bSNnezgbbzqV0ltNUlZsFxhRfI1S+Wuz3tNp7ui/c9Oyl7
-IF9l0HLHj8iJifzx01OYrGzDD6BF2R6LpOQ9wLEG+vm0vCr6fMkosEzTndDtKlG3
-BFkTRmlBQCTYxrBDEPZuQ9vtp4g0niD7wAiRqN6p6U/JGz5XxgwYpLANHOVHyhc7
-Q1Xt1SijJU8X1BR7uIiLhNPQZwoOxw==
-=5/as
------END PGP SIGNATURE-----
-
---9XqiHZ8381gj7+xb--
+>   include/sysemu/cpu-timers.h |    1 +
+>   softmmu/icount.c            |    8 ++++++++
+>   stubs/icount.c              |    4 ++++
+>   util/async.c                |    8 ++++++++
+>   4 files changed, 21 insertions(+)
+> 
+> diff --git a/include/sysemu/cpu-timers.h b/include/sysemu/cpu-timers.h
+> index ed6ee5c46c..2e786fe7fb 100644
+> --- a/include/sysemu/cpu-timers.h
+> +++ b/include/sysemu/cpu-timers.h
+> @@ -59,6 +59,7 @@ int64_t icount_round(int64_t count);
+>   /* if the CPUs are idle, start accounting real time to virtual clock. */
+>   void icount_start_warp_timer(void);
+>   void icount_account_warp_timer(void);
+> +void icount_notify_exit(void);
+>   
+>   /*
+>    * CPU Ticks and Clock
+> diff --git a/softmmu/icount.c b/softmmu/icount.c
+> index 5ca271620d..1cafec5014 100644
+> --- a/softmmu/icount.c
+> +++ b/softmmu/icount.c
+> @@ -486,3 +486,11 @@ void icount_configure(QemuOpts *opts, Error **errp)
+>                      qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+>                      NANOSECONDS_PER_SECOND / 10);
+>   }
+> +
+> +void icount_notify_exit(void)
+> +{
+> +    if (icount_enabled() && current_cpu) {
+> +        qemu_cpu_kick(current_cpu);
+> +        qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+> +    }
+> +}
+> diff --git a/stubs/icount.c b/stubs/icount.c
+> index f13c43568b..6df8c2bf7d 100644
+> --- a/stubs/icount.c
+> +++ b/stubs/icount.c
+> @@ -43,3 +43,7 @@ void icount_account_warp_timer(void)
+>   {
+>       abort();
+>   }
+> +
+> +void icount_notify_exit(void)
+> +{
+> +}
+> diff --git a/util/async.c b/util/async.c
+> index 554ba70cca..75f50f47c4 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -33,6 +33,7 @@
+>   #include "block/raw-aio.h"
+>   #include "qemu/coroutine_int.h"
+>   #include "qemu/coroutine-tls.h"
+> +#include "sysemu/cpu-timers.h"
+>   #include "trace.h"
+>   
+>   /***********************************************************/
+> @@ -185,6 +186,13 @@ void qemu_bh_schedule_idle(QEMUBH *bh)
+>   void qemu_bh_schedule(QEMUBH *bh)
+>   {
+>       aio_bh_enqueue(bh, BH_SCHEDULED);
+> +    /*
+> +     * Workaround for record/replay.
+> +     * vCPU execution should be suspended when new BH is set.
+> +     * This is needed to avoid guest timeouts caused
+> +     * by the long cycles of the execution.
+> +     */
+> +    icount_notify_exit();
+>   }
+>   
+>   /* This func is async.
+> 
+> 
 
 
