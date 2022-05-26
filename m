@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86568534C62
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:17:00 +0200 (CEST)
-Received: from localhost ([::1]:50084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3246534C7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 11:27:44 +0200 (CEST)
+Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu9c3-0005tx-6F
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52096)
+	id 1nu9mR-0007L5-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 05:27:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu9DR-000266-IB
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:51:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nu9DP-0005LW-03
- for qemu-devel@nongnu.org; Thu, 26 May 2022 04:51:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653555090;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hcHBelPwMpoLF5u8j+K6Oqk5uwOni5qvtfOo1fQwOmk=;
- b=f8HDArxFgyfuWamXUGTOq0kQmFRzcHONwVqGffp0OjJk1p18zyrTGdkRd4j7Xj4n6khTU5
- ILl65KAsLsYgmld0DAznBDH+tz50aHE+wCjXrSJh5zB8W0R8LSecZkya5vtDGa3wgWvxLs
- S2AeUd1VAzCv7PvJol6oI2fAp9+2yUU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-a3nVEQaaMvqMChKLiZC3YQ-1; Thu, 26 May 2022 04:51:12 -0400
-X-MC-Unique: a3nVEQaaMvqMChKLiZC3YQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34BCB858EFE;
- Thu, 26 May 2022 08:51:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD8331410DD5;
- Thu, 26 May 2022 08:51:11 +0000 (UTC)
-Date: Thu, 26 May 2022 09:51:10 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Jeff Cody <codyprime@gmail.com>, Fam Zheng <fam@euphon.net>,
- Ari Sundholm <ari@tuxera.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 05/10] block: Make bdrv_co_pwrite() take a const buffer
-Message-ID: <Yo8/fljw/I2p8A2z@stefanha-x1.localdomain>
-References: <20220519144841.784780-1-afaria@redhat.com>
- <20220519144841.784780-6-afaria@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="76Ugpp8h313uenpB"
-Content-Disposition: inline
-In-Reply-To: <20220519144841.784780-6-afaria@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nu9Dw-0002hj-3Z
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:52:04 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nu9Du-0005Tw-6O
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 04:52:03 -0400
+Received: by mail-ed1-x533.google.com with SMTP id p26so999855eds.5
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 01:52:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=JGJTHfDz4hrIsMU/HrOWLMhiAI8S6aeF8FVebg2goXg=;
+ b=7GogCDeyx4G4YrMgPbJP3jpSwrHfifu4stCeuN+FIiUcVJk1/ci/JAbIZ8tmW1tPhU
+ f94FtQnpZBDmOn3mJhN0ZxzXrLwTOFFcEQqQaSQua/utGdI7xzclpegsek6bIXnyLoLw
+ bg8D9ReY7p4g46xWxDHT0McnpmBxmj4OMP5OQHzsaCCdsmx4+dtrq0KYjpMnd/4iUXLm
+ 8iKC2G1oahAa/derA/zxiC2aZ/AeBPuhsm08zA6dkvZ/mmkQ4Gm3SaGucyeC/D7uadVX
+ Zn+ag80FVtwn6nH92eWcm9EYQScs8IFbDATSscwEnuWDjd5A97xcJ0XFYsHa8YT4GqzW
+ B1iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=JGJTHfDz4hrIsMU/HrOWLMhiAI8S6aeF8FVebg2goXg=;
+ b=GcpVKp5FVMX+gC6owmF68dDcdS7IE1gBuPstWQs+1f2uoEqCU68wqDvp8ffGmhVNkf
+ EyePUzhhEOaUc+f65+RC9QsMgMs/+VhvcE9VCjeksuqSwmi/EVIr4uAsu1wwiEgKA+Tq
+ n6R8AE9BGGF8xnh/fyw6YlhWevSdMdyMgsObr3sxd55+/0dqKhgbYzZYaXfYpd4jqnk2
+ h+67jjU1sHTl1SUKqAt4ZX2O5qDdh2fPQdKJ0Ey5Xiwq0305PVGJ4XGBpFH5VusOEaQp
+ oETmpilFlUc6yH+fAZO7Z9EpeCrD7SIYEptpDnMC0LMEK+c20NT8+0ais9rxUahnH6W3
+ XHnA==
+X-Gm-Message-State: AOAM530haRE3idiqRpTihVmrmkmBpXevtsm1U3EUtC9Pn7pPZqe1fq+/
+ aiBfB3uW6UjXavFdpHi6z7w+3Q==
+X-Google-Smtp-Source: ABdhPJwSqeVDs2OFeLYMllSsh+2x3lJx2ib5O62ycWJX2txiqFDkkFHGoIwqMj7IhyMtqrnRE/4QTw==
+X-Received: by 2002:a05:6402:292b:b0:42b:dbc5:c553 with SMTP id
+ ee43-20020a056402292b00b0042bdbc5c553mr1772039edb.297.1653555120681; 
+ Thu, 26 May 2022 01:52:00 -0700 (PDT)
+Received: from smtpclient.apple ([86.121.23.37])
+ by smtp.gmail.com with ESMTPSA id
+ u5-20020a1709064ac500b006fe8b456672sm326448ejt.3.2022.05.26.01.51.59
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 26 May 2022 01:52:00 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: AArch64 semihosting?
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAFEAcA-n4GMq1_SCdTDp6sQmHzyyzTk5hav4QqOY3-j3Sr86Jg@mail.gmail.com>
+Date: Thu, 26 May 2022 11:51:59 +0300
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <877D60FE-4219-4071-A1E2-76EF4E732A59@livius.net>
+References: <AADD58D2-C3BE-40DF-8EE5-3A901F4F8F04@livius.net>
+ <CAFEAcA-n4GMq1_SCdTDp6sQmHzyyzTk5hav4QqOY3-j3Sr86Jg@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: Apple Mail (2.3696.80.82.1.1)
+Received-SPF: none client-ip=2a00:1450:4864:20::533;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,37 +90,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---76Ugpp8h313uenpB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 19, 2022 at 03:48:35PM +0100, Alberto Faria wrote:
-> It does not mutate the buffer.
+> On 26 May 2022, at 11:20, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
 >=20
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/block/block_int-io.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> QEMU also shares code for those two architectures' semihosting
+> implementation.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Then it seems to be a difference between Arm 64-bit and Arm 32-bit =
+(which is fine).
 
---76Ugpp8h313uenpB
-Content-Type: application/pgp-signature; name="signature.asc"
+After fixing the AArch64 tests I'll get to RISC-V, which should run the =
+same tests.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKPP34ACgkQnKSrs4Gr
-c8gYLAf/fkVP7hu0h2lrCnAWnlDPY+VYbeEYliUbP9qWAD1asBtVtlyGkgn1uNpY
-b1YM85PrVuoTwOmS4g0duFPzc3JsjxN9Sqbka+IdzHnFf9OVptqar5+Ervk7HJdB
-i4XeqD6FQZpQZVLeziNQR1XYqySB84O5d6G5VQ/6Xw2d7JjqGKBLP2PX5fVJpFa0
-sNn3qap39sXd5m3+bXinDTnZPOANG2ga7X2oQKY+LYdGW9bjyr8dXwdkoF4Wr+/T
-xQmCu6qGZVhbeM4sk0zcPfN3wZTbvRMpEalfWdE77enIuEPsfPvl7ISisH9L6fkY
-ufec/an/otXKiltufCdaVd93gNCgNA==
-=s6AN
------END PGP SIGNATURE-----
+Liviu
 
---76Ugpp8h313uenpB--
+
+
 
 
