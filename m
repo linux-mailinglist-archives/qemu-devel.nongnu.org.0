@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F71534CFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 12:08:06 +0200 (CEST)
-Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C07534CFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 12:10:50 +0200 (CEST)
+Received: from localhost ([::1]:49850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuAPU-0007yq-LN
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 06:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47758)
+	id 1nuAS8-0003s0-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 06:10:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nuAJl-0005Kb-FZ
- for qemu-devel@nongnu.org; Thu, 26 May 2022 06:02:11 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:33807)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nuANJ-0007Sq-Qe
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 06:05:51 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:41499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nuAJj-0000Ll-UV
- for qemu-devel@nongnu.org; Thu, 26 May 2022 06:02:09 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-30026b1124bso10475947b3.1
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 03:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8L/z7+JdzQwrECg3wQ2ussJWeybxgaviJDeK56nxHfw=;
- b=bh/0pqm9QL3pWHAnf1E6LS5npkudK5K9hc46GY0J9TnmRiVLc0sUS7XI9rAl26cQRW
- u8GLoPnsZ4FYIZWqlkK3qk2tLaXIy+z7maL/voMa2FDii4hevHIPYVsCrndmUX/+fXH9
- WVJh4NUk8VuTir2eD3Azq+K0R0F+MxbqJ0sKpVgBLBZ8y9Z+hk9j6ryNbA5uAsSUgcnP
- /Nh6mFGqyAecTlYs5DHnSC7Q8hkVTWjObFvb9mbwPQ1p4gfUB7H26d4lxWxRKl1YoKvk
- wNkEHh++zEvOhBKRY7rSD2gEVesPryCpZqHLh1fOtqRvcMdZtWnY3L5ylZECuTjRHiP4
- IrBg==
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nuANI-0000ro-2H
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 06:05:49 -0400
+Received: by mail-pl1-x630.google.com with SMTP id s14so1045234plk.8
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 03:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VE2v668IqUByf7s17sWOAVZmiRN8Aq5idPNCbLYWq8Y=;
+ b=TqBpvkT7PdOXKY3j8rpKPHUmZGAEzDOJ1a2kRI/nv/WWtEMymLjXlr2ublYZ12HWXA
+ qe1GgoBfWekwjvY/LVJmGONnwGDkkn3TWo+gjrW6lX7TUJOLiF9rkuvS5M6RuODsULeJ
+ /DyYQDFdknz2pAAtrJ8ji33q1wXVE/OU8vdPR5ksunCqqjL2Ymr9hPm5q/KmVY2+uoEn
+ Cdk/7nhLJselx3HzzaG2GNzc7YPBJWwEYzqP9Zb+RXnoGYt1K1YIC/bneulAC0n+hNot
+ xReIEUdr8XdGVtq+WaJoCyamSzjJ8PBokTDTm1IRPqEYs4QXwYAthWXAXp1kUjbmFqsw
+ RqYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8L/z7+JdzQwrECg3wQ2ussJWeybxgaviJDeK56nxHfw=;
- b=tNnlA3huuiupCPQbdHxtSQv3a0rBQo8TE6XGok5u4MhMTbUIvSKfn3ISjDKIQfYG3x
- PMSEH4qfXSlUWlxlGSCSCiYDjwFLDHp7gNIF0gJCVoOgu6PQ4NUl9yLCg4aHbMg+bM6H
- H84vPph+vizDI6xpa1UxeKs+hddpUK+7iFO6HRlqMqCD/p7x2SHT0P+Ft2eIcddv7Q3k
- BynH1kABWBLf6lfiRNqFXB4rMo4cvtm13dTNbSNBS74gty47MUQnkZCwjOtUjUrWey/F
- +N8KrVVjeDxRPE/82218wA3KbE2/wJGXm291LanZkx0yI9c2nNPQ+L1WGXoaW88egAyg
- beyA==
-X-Gm-Message-State: AOAM5307s7oMoDPlIKG3RmoSKPGZZ0JtkXPsjuvqXJ6CgkVSp0lJVxmB
- nQ70qV3OC0m70U3RfhED4l8r+jpFwUyh+fhvMO2jAqB5NWYKHg==
-X-Google-Smtp-Source: ABdhPJwt94SSs72wt2zIYkV3t6eU28uGsCb2qIgAXHSjjjVuB/a5T7xsU5DEA4CWWbwjWwIBVNmLSFed1924Frzbjzg=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr38488061ywb.257.1653559326634; Thu, 26
- May 2022 03:02:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VE2v668IqUByf7s17sWOAVZmiRN8Aq5idPNCbLYWq8Y=;
+ b=TzT9bK5W41zjOwFqWGQ2NgqENZWvHNbZMvGocNCG8HvxFPd9nQhwi821HD0sfJhRux
+ KewA4ihPUcojfDkanhZWer4+GdPbIcpfeoXc/1uTMzXVUP6mtA12E7/FNp+eppn7u7Uk
+ Fm4Dc+7gskCURFIA6IcjDYpT8s+x8J5vsjNl4z1KXuaaRfFYAt4yEaRzl/V6Q4nossxX
+ U8dvLcHqKIUpM7vWIcC3OsWq50bBeRTIbP6kFdh18y+SK8J/j6+aut6BMA0tGsBG9niF
+ Kr+veCz43fzgOZG//X0dRQVI/pZ6Pfy3SqOyndDks0tYzwhApv/6htZg7gbb1Lbsq9k3
+ mu3Q==
+X-Gm-Message-State: AOAM533fxBvQ3UQiDTK0ndY8TnhZZ8VWqCbrakrcom6mGakDhCbr9Puw
+ BTbtLTcBzxgH2aOEuZhhWM5p5A==
+X-Google-Smtp-Source: ABdhPJwOUAzGVtwzc4aj3iehDRt43vFqR6kJQcdKTXQ7Ycd1+03F/m/aAAgwyXAl0GVnOk4qWzbRdw==
+X-Received: by 2002:a17:90b:4a4a:b0:1df:a250:e583 with SMTP id
+ lb10-20020a17090b4a4a00b001dfa250e583mr1797253pjb.172.1653559545967; 
+ Thu, 26 May 2022 03:05:45 -0700 (PDT)
+Received: from anup-ubuntu64-vm.. ([171.76.94.60])
+ by smtp.gmail.com with ESMTPSA id
+ x26-20020aa793ba000000b0050dc76281e5sm1020126pff.191.2022.05.26.03.05.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 May 2022 03:05:45 -0700 (PDT)
+From: Anup Patel <apatel@ventanamicro.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Anup Patel <apatel@ventanamicro.com>
+Subject: [PATCH v3 0/4] QEMU RISC-V nested virtualization fixes
+Date: Thu, 26 May 2022 15:35:32 +0530
+Message-Id: <20220526100536.49672-1-apatel@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <AADD58D2-C3BE-40DF-8EE5-3A901F4F8F04@livius.net>
- <CAFEAcA-n4GMq1_SCdTDp6sQmHzyyzTk5hav4QqOY3-j3Sr86Jg@mail.gmail.com>
- <EA9AEE55-A416-4819-98FF-E51B2317390F@livius.net>
-In-Reply-To: <EA9AEE55-A416-4819-98FF-E51B2317390F@livius.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 May 2022 11:01:55 +0100
-Message-ID: <CAFEAcA_beHgi7pg+ByW4ufG5qfz5n7o4ZP22WuayTtdGSQ_EQQ@mail.gmail.com>
-Subject: Re: AArch64 semihosting?
-To: Liviu Ionescu <ilg@livius.net>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,27 +92,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 May 2022 at 09:32, Liviu Ionescu <ilg@livius.net> wrote:
-> > On 26 May 2022, at 11:20, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > ... can you provide us with
-> > a reproduce case (eg the binary you used here)?
->
-> Sure. I'll try to attach it to this message, it is only 64K.
->
-> The command I used to run the test is in the previous message.
->
-> Please confirm that you get the same behaviour on your machine.
+This series does fixes and improvements to have nested virtualization
+on QEMU RISC-V.
 
-Yes, I can reproduce this. What seems to be happening is that
-QEMU decides to do semihosting via gdb, but then crashes because
-gdbserver_state.c_cpu is NULL (which in turn is probably because
-there is no GDB connected). This is strange given the 'target=native'
-in the command line. I'll investigate further...
+These patches can also be found in riscv_nested_fixes_v3 branch at:
+https://github.com/avpatel/qemu.git
 
-Did you intend to pass '-s' (allow gdbstub connection) but not
-'-S' (wait on startup for gdb to connect and say "continue"),
-by the way?
+The RISC-V nested virtualization was tested on QEMU RISC-V using
+Xvisor RISC-V which has required hypervisor support to run another
+hypervisor as Guest/VM.
 
--- PMM
+Changes since v2:
+ - Dropped the patch which are already in Alistair's next branch
+ - Set "Addr. Offset" in the transformed instruction for PATCH3
+ - Print warning in riscv_cpu_realize() if we are disabling an
+   extension due to privilege spec verions mismatch for PATCH4
+
+Changes since v1:
+ - Set write_gva to env->two_stage_lookup which ensures that for
+   HS-mode to HS-mode trap write_gva is true only for HLV/HSV
+   instructions
+ - Included "[PATCH 0/3] QEMU RISC-V priv spec version fixes"
+   patches in this series for easy review
+ - Re-worked PATCH7 to force disable extensions if required
+   priv spec version is not staisfied
+ - Added new PATCH8 to fix "aia=aplic-imsic" mode of virt machine
+
+Anup Patel (4):
+  target/riscv: Don't force update priv spec version to latest
+  target/riscv: Add dummy mcountinhibit CSR for priv spec v1.11 or
+    higher
+  target/riscv: Update [m|h]tinst CSR in riscv_cpu_do_interrupt()
+  target/riscv: Force disable extensions if priv spec version does not
+    match
+
+ target/riscv/cpu.c        |  64 ++++++++++--
+ target/riscv/cpu_bits.h   |   3 +
+ target/riscv/cpu_helper.c | 210 +++++++++++++++++++++++++++++++++++++-
+ target/riscv/csr.c        |   2 +
+ target/riscv/instmap.h    |  43 ++++++++
+ 5 files changed, 310 insertions(+), 12 deletions(-)
+
+-- 
+2.34.1
+
 
