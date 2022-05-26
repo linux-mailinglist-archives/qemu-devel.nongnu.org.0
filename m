@@ -2,93 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86554534F22
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:30:47 +0200 (CEST)
-Received: from localhost ([::1]:48076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29AC1534EE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:13:41 +0200 (CEST)
+Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCda-0003ia-CY
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59086)
+	id 1nuCN0-0008H9-0R
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCGf-0002rE-VM
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:07:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30911)
+ id 1nuCIW-0005a3-NS
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:09:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCGW-0006hB-Uw
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:07:03 -0400
+ id 1nuCIU-00071x-VU
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:09:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653566815;
+ s=mimecast20190719; t=1653566938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=molU3ZyI2rAkxDpfNCe3IzWByF+8qaKsMk9BqhEveOc=;
- b=GNH7Run/yFHf9FkUntHH26t8XXoo/Frsjrq5yqYc/exKmcuU3uw5Aup4CvftDgQoSg5L7l
- OQcyfxJKCc4HZGbVuDuLamrGemq9M5+Vo5DRPP7ddjAKH0uRKRdgWTMhgS+fFsI7MnBMBi
- b4dmeQGDEzifHX68Unfq4pItzIz/RDo=
+ bh=+z8BrInXT+x2nri9RWScM8pXvCLeSyebY5XS74YqbnM=;
+ b=L+VIHsYTXRuCXU4w8XmMWUKDI3Ymk7xXU10xGXNCmnuSM60V558zBEu/BxWvtibivv5Ox0
+ 9sLKWFHQRH+qfZBemyiP+sDlDSiGOsa4vC00bvjMjBaxa8stVjPSyP1nEcepKzJUBu/eLF
+ L6z69Vph/ZK1NMxsJ3J7moElUpdHfrw=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-464-mooO73HcMPmHeN5W5qt9qg-1; Thu, 26 May 2022 08:06:54 -0400
-X-MC-Unique: mooO73HcMPmHeN5W5qt9qg-1
+ us-mta-651-ocrfsziKOxWZV6hK5JbTag-1; Thu, 26 May 2022 08:08:55 -0400
+X-MC-Unique: ocrfsziKOxWZV6hK5JbTag-1
 Received: by mail-ed1-f70.google.com with SMTP id
- r10-20020aa7c14a000000b0042bcc99e4cdso935048edp.18
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:06:54 -0700 (PDT)
+ bc17-20020a056402205100b0042aa0e072d3so937680edb.17
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:08:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=molU3ZyI2rAkxDpfNCe3IzWByF+8qaKsMk9BqhEveOc=;
- b=jKufZt271wDbTocij0Z+cQzu3vOn4ooUPxxAldGFxveZz11V8twUsNDLkUdB/9+oNs
- mKwg0EfX1VDTivLQuOUvvRj88AM6jZBZ+JYbEMilBbBKoEmanEsCubIzWL3/1FTRTZ5H
- I6C6XKueVkQJRWz8ca1R+fTxggcVqcYizQaifl70Ri4KHwmnSfmvNJQywAO4fHjEVxLd
- ah0Krsl9eA+vBljUcCKOC9wKufsKmTQe0HPb8ADcYaxWCUwJtuSTR46oCFe94pNZ3o3s
- /fVH/bEADwFYaFU8Aokejz9I6ixApbzsecMEdxmBU37BjLAWi2m+44RzcmORA/MqD8gK
- k4Dw==
-X-Gm-Message-State: AOAM530WBqoStH0+X/OfmpkrRiUtxliz2JXZJOkfRZh1o+nPHgH9SJYf
- aBGXoJn54bovtxL2KBeUWkDNO8K2Al3rq2WyRoPfHZvHgs2zE8DjNROjg5x9nMwuwdZ92DumLK6
- lYwUpWbFozwqztl4=
-X-Received: by 2002:a17:907:9895:b0:6fe:991e:efe3 with SMTP id
- ja21-20020a170907989500b006fe991eefe3mr31983352ejc.74.1653566813242; 
- Thu, 26 May 2022 05:06:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHvq+qq50XvpvK6VzhQbGY3/P7fMDXQAk6r4x1PZBhj7Yzqoc/VQDYQDSapyaKf0BVSOWshQ==
-X-Received: by 2002:a17:907:9895:b0:6fe:991e:efe3 with SMTP id
- ja21-20020a170907989500b006fe991eefe3mr31983329ejc.74.1653566812999; 
- Thu, 26 May 2022 05:06:52 -0700 (PDT)
+ bh=+z8BrInXT+x2nri9RWScM8pXvCLeSyebY5XS74YqbnM=;
+ b=e4GlOI22fcXMxCoTKavG47LdTzkDf95qyZvpg+dDVkdi8V+76bDTkqKBcuqWIyNoS/
+ y+U2PdROReD6gAPsbK9xK0iNY3prB0ge09Cxf6g6lqhbt1VaKWRUagijy6tq3vOP/Tk6
+ uD0RST1rReMzdr8MxEkjMtexHlxj4fB2huFMG/zK/Sfz4DBl+IxWtHbIPpIuwpRmxJrY
+ NnzzI7Et3HO1nWlQEjt2s3PN5wxmMMopE+knhhB+2JBGwat0KLpUN+rfRtTwWsd+/zCp
+ 7XX4T9rCqVv3N3T7wXEfOF0W9hqiTqh5DpQixwS1UB2xuSnTgWFA2BMNI0Kv5QCzueU8
+ KFIg==
+X-Gm-Message-State: AOAM5320KLNsA3+6G3Yt02Y/9VZGxxwfJg9AQqm/9Z8W00zq+WcEDj8W
+ DF2IkM+67UjjavfyYN/Ywm8Ufpp93p+s+lxF5UBws8v5it+EfXWzPOfAk93WToP8gMcSHxfie30
+ p+FK6Jm1DAp7XSrw=
+X-Received: by 2002:a05:6402:e85:b0:41d:121b:f436 with SMTP id
+ h5-20020a0564020e8500b0041d121bf436mr39618774eda.121.1653566933337; 
+ Thu, 26 May 2022 05:08:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyVed6apUyHed0sX9HejeFEpmU1gBN42oWZQbYL1XU+87UsAv6FuM/MJ8dli6n7Rifhlb7RJg==
+X-Received: by 2002:a05:6402:e85:b0:41d:121b:f436 with SMTP id
+ h5-20020a0564020e8500b0041d121bf436mr39618707eda.121.1653566932580; 
+ Thu, 26 May 2022 05:08:52 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- r22-20020a170906365600b006f3ef214dbesm464507ejb.36.2022.05.26.05.06.51
+ 18-20020a508e12000000b0042617ba63c8sm708723edw.82.2022.05.26.05.08.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 May 2022 05:06:52 -0700 (PDT)
-Message-ID: <80765f53-031d-3467-25a1-f5c19648fe6a@redhat.com>
-Date: Thu, 26 May 2022 14:06:51 +0200
+ Thu, 26 May 2022 05:08:52 -0700 (PDT)
+Message-ID: <873eddc7-a18f-2728-14dd-681d951eebbb@redhat.com>
+Date: Thu, 26 May 2022 14:08:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 07/11] scsi-disk: allow truncated MODE SELECT requests
+Subject: Re: [PATCH v2 09/11] scsi-disk: allow MODE SELECT block descriptor to
+ set the ROM device block size
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
  fam@euphon.net, qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
- <20220424164935.7339-8-mark.cave-ayland@ilande.co.uk>
+ <20220424164935.7339-10-mark.cave-ayland@ilande.co.uk>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220424164935.7339-8-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220424164935.7339-10-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,38 +107,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/24/22 18:49, Mark Cave-Ayland wrote:
-> According to [1] this truncated request is accepted on real hardware whereas in
-> QEMU it generates an INVALID_PARAM_LEN sense code which causes A/UX to get stuck
-> in a loop retrying the command in an attempt to succeed.
+> Whilst CDROM drives usually have a 2048 byte sector size, older drives have the
+> ability to switch between 2048 byte and 512 byte sector sizes by specifying a
+> block descriptor in the MODE SELECT command.
+> 
+> If a MODE SELECT block descriptor is provided, update the scsi-cd device block
+> size with the provided value accordingly.
+> 
+> This allows CDROMs to be used with A/UX whose driver only works with a 512 byte
+> sector size.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-That's for MODE SENSE, not MODE SELECT.
-
-Truncated MODE SELECT is a bit more iffy, so I'd rather have a quirk for 
-this as well.
+Why do this only for MMC?
 
 Paolo
 
-> Alter the mode page request length check so that truncated requests are allowed
-> as per real hardware, adding a trace event to enable the condition to be detected.
-> 
-> [1]https://68kmla.org/bb/index.php?threads/scsi2sd-project-anyone-interested.29040/page-7#post-316444
-> 
-> Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
 > ---
->   hw/scsi/scsi-disk.c  | 2 +-
+>   hw/scsi/scsi-disk.c  | 7 +++++++
 >   hw/scsi/trace-events | 1 +
->   2 files changed, 2 insertions(+), 1 deletion(-)
+>   2 files changed, 8 insertions(+)
 > 
 > diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index 71fdf132c1..c657e4f5da 100644
+> index 6991493cf4..41ebbe3045 100644
 > --- a/hw/scsi/scsi-disk.c
 > +++ b/hw/scsi/scsi-disk.c
-> @@ -1525,7 +1525,7 @@ static int mode_select_pages(SCSIDiskReq *r, uint8_t *p, int len, bool change)
->               goto invalid_param;
->           }
->           if (page_len > len) {
-> -            goto invalid_param_len;
-> +            trace_scsi_disk_mode_select_page_truncated(page, page_len, len);
->           }
+> @@ -1583,6 +1583,13 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
+>           goto invalid_param;
+>       }
+>   
+> +    /* Allow changing the block size of ROM devices */
+> +    if (s->qdev.type == TYPE_ROM && bd_len &&
+> +        p[6] != (s->qdev.blocksize >> 8)) {
+> +            s->qdev.blocksize = p[6] << 8;
+> +            trace_scsi_disk_mode_select_rom_set_blocksize(s->qdev.blocksize);
+> +    }
+> +
+>       len -= bd_len;
+>       p += bd_len;
+>   
+> diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
+> index 25eae9f307..1a021ddae9 100644
+> --- a/hw/scsi/trace-events
+> +++ b/hw/scsi/trace-events
+> @@ -340,6 +340,7 @@ scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Write %s(se
+>   scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: lun=%d tag=0x%x data=%s"
+>   scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int len, uint32_t timeout) "disk aio sgio: tag=0x%x cmd=0x%x (sector %" PRId64 ", count %d) timeout=%u"
+>   scsi_disk_mode_select_page_truncated(int page, int len, int page_len) "page %d expected length %d but received length %d"
+> +scsi_disk_mode_select_rom_set_blocksize(int blocksize) "set ROM block size to %d"
+>   
+>   # scsi-generic.c
+>   scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc) "Command complete %p tag=0x%x status=%d"
 
 
