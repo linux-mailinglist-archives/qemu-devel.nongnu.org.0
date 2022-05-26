@@ -2,89 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02192534AA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 09:11:22 +0200 (CEST)
-Received: from localhost ([::1]:52050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B736E534ABE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 09:23:03 +0200 (CEST)
+Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nu7eS-0005Yq-KF
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 03:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45604)
+	id 1nu7pm-0003EA-No
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 03:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nu7Zb-0004Eb-NF
- for qemu-devel@nongnu.org; Thu, 26 May 2022 03:06:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nu7ZX-0003Wp-F3
- for qemu-devel@nongnu.org; Thu, 26 May 2022 03:06:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653548773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=NMBt43MH6+X3fS/UuVRbpkDgNghsZXodff+vZMfwhoZ7qpV+PQ7UWgqUIT+QVfh1Zdz6id
- ev8AMSogo/ACElkRHZ3l+rD1S/hJnqiLUbyrT01cGjq+rbrwfLuN9TNEF34Nb+Na/aDlGr
- 4NVEyYmBsxj086IKXSQVvzs97o0gkbQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-Zrd3HvTGNSml-CtgJ62rzg-1; Thu, 26 May 2022 03:06:12 -0400
-X-MC-Unique: Zrd3HvTGNSml-CtgJ62rzg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- ay24-20020a056402203800b0042a96a76ba5so475067edb.20
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 00:06:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=xYM0tJd4Ci34wFJyVeNasIHXx3mlydG3/uhu2pe/EBochSVJm2jBxd5iJ/TfK3X9YW
- h9pgaGWe4ThA5hG/ljLH6ZDoI6ARrLXyPofSqBbYGwoTHJxzhxdVN6Pi3oWdNmbmQlR7
- NVqctKDc+RuloPpw5CkxszYQ8HTMn8Sd+TF/uArl/VRQBTQmf8Q3/JLBngPfEyHYa6F4
- 8D1vzr2trOsHMyLB4W3/hB5AeJwUtI1NQDB5zvgKzxSVfWfpPFZPjOOv1+Zv4Oj/SKYq
- 80+aFqe5sBAOus45lesE0pBMAmHWTnT2+DY4eRAHp9yoVvpTH3X6sADvXT6ZfCMDfII2
- 2sKQ==
-X-Gm-Message-State: AOAM531iUoULpiC+UwDjEjeKNuakCekLY+FTJfAR4v3npAwFKw1b11GS
- ecq+zXd2F7PlaKa7fX7jTJ4JRlS0gekFA7V04QlcbiRQWt7qXX/OmigPaEIJ0PZs/6zWcPR1vP2
- WqbLot90cvO3Swoc=
-X-Received: by 2002:a17:907:168e:b0:6fe:b705:7e65 with SMTP id
- hc14-20020a170907168e00b006feb7057e65mr25334784ejc.490.1653548771251; 
- Thu, 26 May 2022 00:06:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxEc7F1NV52HMZjAfvAYWOwD5Z8eHRjcrcAvmYg4rnuzi99SvZHav31DVQy+b/8KD3mOqcaA==
-X-Received: by 2002:a17:907:168e:b0:6fe:b705:7e65 with SMTP id
- hc14-20020a170907168e00b006feb7057e65mr25334761ejc.490.1653548770992; 
- Thu, 26 May 2022 00:06:10 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a50c191000000b0042617ba63c2sm385010edf.76.2022.05.26.00.06.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 00:06:10 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Stephen Michael Jothen <sjothen@gmail.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, richard.henderson@linaro.org,
- eduardo@habkost.net
-Subject: Re: [PATCH] target/i386/tcg: Fix masking of real-mode addresses with
- A20 bit
-Date: Thu, 26 May 2022 09:06:08 +0200
-Message-Id: <20220526070608.309971-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <Yo5MUMSz80jXtvt9@air-old.local>
-References: 
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1nu7mq-0001xF-Nr
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 03:20:02 -0400
+Received: from shasxm03.verisilicon.com ([101.89.135.44]:27556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1nu7mo-0006Br-AL
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 03:20:00 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1653548894; h=from:subject:to:date:message-id;
+ bh=tN4Gyap79ebadlVSxmTufxmqonQjP7Za8APA0CHYcYw=;
+ b=KA27GZ0KF9XxYdSnlAu2+CxfsyqMRWs2vQisdkk1f3LdFTSjXK9xXRPv39M+QmjDb2Zpj63o+xS
+ KSZD7+3dCMsJXE3w/d4OPzEvnwKUTj4z4iTi/ZSJ/qPRvPJhC5ZbP4augAzmNOjE2O+Ie0IT+m58w
+ 4McP8YVHN1POwjqBKwU=
+Received: from SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda]) by
+ SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa%14]) with mapi id
+ 14.03.0408.000; Thu, 26 May 2022 15:08:13 +0800
+From: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Gao, Lu"
+ <Lu.Gao@verisilicon.com>
+Subject: [PATCH] ui/console: allow display device to be labeled with given id
+Thread-Topic: [PATCH] ui/console: allow display device to be labeled with
+ given id
+Thread-Index: Adhwz10WhgIRStTES16qcCUu3E8S0w==
+Date: Thu, 26 May 2022 07:08:14 +0000
+Message-ID: <4C23C17B8E87E74E906A25A3254A03F4018FC0021E@SHASXM06.verisilicon.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.166.68]
+x-tm-as-product-ver: SMEX-11.0.0.4283-8.100.1062-25628.004
+x-tm-as-result: No--1.011100-0.000000-31
+x-tm-as-matchedid: 700225-703140-701090-703503-704959-701343-704718-701919-7
+ 01342-700076-862004-703948-702914-701058-701280-702395-188019-701011-702075
+ -63-148004-148133-42000-42003-63
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=101.89.135.44;
+ envelope-from=Jianxian.Wen@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,9 +76,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+The update makes it easier to find and specify devices.
+They can only be found by device type name without the id field,
+for example, devices of the same type have the same label.
+The update also adds a head field,
+which is useful for devices that support multiple heads,
+such as virtio-gpu.
 
-Paolo
+Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
+Signed-off-by: Lu Gao <lu.gao@verisilicon.com>
+---
+How to reproduce it:
+    -display gtk \
+    -device bochs-display,id=3Dbochs0 \
+    -device bochs-display,id=3Dbochs1 \
+    -device virtio-gpu,max_outputs=3D2 \
+    -device virtio-gpu,max_outputs=3D2,id=3Dvgpu1
 
+ ui/console.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
+diff --git a/ui/console.c b/ui/console.c
+index 36c80cd1de..d0226c765e 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -2323,7 +2323,16 @@ char *qemu_console_get_label(QemuConsole *con)
+ {
+     if (con->console_type =3D=3D GRAPHIC_CONSOLE) {
+         if (con->device) {
+-            return g_strdup(object_get_typename(con->device));
++            DeviceState *dev;
++
++            dev =3D DEVICE(con->device);
++            if (dev->id) {
++                return g_strdup_printf("%s.%d", dev->id, con->head);
++            } else {
++                return g_strdup_printf("%s.%d",
++                                       object_get_typename(con->device),
++                                       con->head);
++            }
+         }
+         return g_strdup("VGA");
+     } else {
+--=20
+2.33.0
 
