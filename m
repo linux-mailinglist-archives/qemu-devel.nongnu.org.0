@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418BA5355D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:51:05 +0200 (CEST)
-Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 865E35355D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 23:47:46 +0200 (CEST)
+Received: from localhost ([::1]:54066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuLNn-0000cs-8S
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1nuLKb-0004zo-I6
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 17:47:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLCP-0001rk-4I; Thu, 26 May 2022 17:39:18 -0400
-Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:40947)
+ id 1nuLCP-0001rj-3u; Thu, 26 May 2022 17:39:18 -0400
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:34931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nuLCL-00089E-Tn; Thu, 26 May 2022 17:39:16 -0400
-Received: by mail-oo1-xc32.google.com with SMTP id
- s11-20020a4ab54b000000b0035f0178dfcfso506402ooo.7; 
- Thu, 26 May 2022 14:39:12 -0700 (PDT)
+ id 1nuLCN-00085m-65; Thu, 26 May 2022 17:39:16 -0400
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-f16a3e0529so3773631fac.2; 
+ Thu, 26 May 2022 14:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t1QR62rZfVR+ZIJYCbSorjt2bN524zb9I6F5uFQ8+tw=;
- b=GSZBUFO3yMdSoWOKVBmo+lRV3lVtF5GnMaHJ+syR90pmQEGBDpV3GpsdFi+dYhf+KB
- NQ5iqiHhcxHGiwF3QimHLM6PBihKXjwsS3ixycvgB4pMe7u9Wd6eWUr05dsEv9WZZmEd
- dp8AkbBWFCPh7cp/0aI5j2DTq2BbQAHaEt04hyVPkCja23foRI+UjhK7cBs9iBexHsak
- 7JCy0XggEtmnLUSkMx0gPnXNgkVXGqmT87WEsX6yLzDTERgdplpMmDZ7KWL+N9k7Vhfq
- dhPrCJh9dpdFnwIYMilOsgvXnETbBJ5y2ZOhX3NROYkdnW720HqTYXlSp0Xc6UF653sK
- Lepg==
+ bh=77khqh3eVBXc495ngnvV1+fZAbX8fHobtC8q49sWqn8=;
+ b=q3ISWvxKH0L7xpype0jYOu6cZW8DYKF8N3YwflSk+7cEFYdoJ6+zj4mNAjs0BA7GNf
+ +398av1x/qDclKhfgHqOm25JjU+4LAy9z+mmiuN+i68oEwDmMh9u+W33LImvqdB/gZiP
+ lAXdi2pN8/aJ3cayrMaWiM8QCLr1rljLaWACoo5fXzL8IiK1uzCqHKgn2iPdC1TDryb2
+ eZs8PL+UdoP/VnhAkwRYhUWkpBxasDczBI+IsF9GkuvUHdzNNhEI6V+YXDhIoWaHrE19
+ 300kD1SzDWkCUhgjt9anaCMDSBDnxwPnvCiGvLCzOHphHdkKd5Jgzvhzt0ZQ4NpBiIOj
+ ktew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t1QR62rZfVR+ZIJYCbSorjt2bN524zb9I6F5uFQ8+tw=;
- b=c1PYcTTY7p6XMx0cAGXU5KCduxxEglz6PsdzKEWfThaze9oj1s+CGhO0vRyLHUuxTN
- jy/lrqLHgn60BcS44ev75M2RJFj2+XUJM18Vk/LQOYlDLC6MnSIsR8kGTW+Mryw+wXd9
- 0as+b2JBl4oWfqCkXvo5EWTtqOi4qry9tSwT8mw9JK2XuYjKO2dxiwUt8OdLbSDgG74R
- iFznAbqA0FNpIVdIB7ZP8o3VFLYXCZ9E+6dsLuMfJSyTyLytH3bCjTsh8pYJSvrGWI7M
- ECCzKYwghkeuQ3cdc8KWzU2qh/vh6m3SX+DNDj+8O+aWyxwYex+kHqmEnAzGVNwf7co1
- O4RA==
-X-Gm-Message-State: AOAM533+FGjqei4ZizB1Py2g+XQp6X6WmTXK+cRDPG0WbLA4I1I5fc7R
- hgeVROmdR6ihdiShJa45kq6pZx2xH3I=
-X-Google-Smtp-Source: ABdhPJyrsk4pt2+im5gtayKnRPCLeIfwo6n7VOAvg7XttKrJfj6VTk1PIfz0CgtT10cns9LUwD2wfg==
-X-Received: by 2002:a05:6820:1794:b0:40e:5e86:1dd4 with SMTP id
- bs20-20020a056820179400b0040e5e861dd4mr13400222oob.19.1653601151891; 
- Thu, 26 May 2022 14:39:11 -0700 (PDT)
+ bh=77khqh3eVBXc495ngnvV1+fZAbX8fHobtC8q49sWqn8=;
+ b=wj3+NLC/WjvccffAq210Y65B06wrVl6LxDahv8hvjgrB77We4SA5lhxQVJHpHLuoQX
+ /jmi7z+OAoyZL5JCSA2jCW+jcrHXFdTSjM3DWAZyzp8S2s6Dfk3JFz207d+x3dsMoehL
+ y21j7C4C6+NI4YIFlvRpUH4kSpCTzl/tl5tByuvQ28PL2ioeyCd9Na3xHfGsmaikCwQN
+ 5/sbRHQTo85eF1fUOzlPz5Lre3SQRXMJ6gS9Kf20st5a1fXxBcTH1IsCZb1UYlBEF5Os
+ IZwkGo6nRQAblX9OBOp7HzAKOaK3bpzQK72jjOuryZSLiz2M8DLjy9Aq2lMSZwQVDfxO
+ 51Yw==
+X-Gm-Message-State: AOAM533V1jtv0U7Y/FK+h0klKRtImzJkRw9dvGCWUicC500djfilMkpM
+ eLaYgSjwunvoKw13Zqc4kfW8t4Q/Mjc=
+X-Google-Smtp-Source: ABdhPJxHWnIuMQV2gl/e34HuQkAfkzCeI6Sm1DNGva0B/aOREw0W7LtT57T9J8Ec+14duq/0e+uazg==
+X-Received: by 2002:a05:6870:17a6:b0:f1:ccf4:ad53 with SMTP id
+ r38-20020a05687017a600b000f1ccf4ad53mr2385153oae.48.1653601154172; 
+ Thu, 26 May 2022 14:39:14 -0700 (PDT)
 Received: from balboa.COMFAST (189-46-169-45.dsl.telesp.net.br.
  [189.46.169.45]) by smtp.gmail.com with ESMTPSA id
- l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.39.09
+ l43-20020a0568302b2b00b00606ad72bdcbsm1066999otv.38.2022.05.26.14.39.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 14:39:11 -0700 (PDT)
+ Thu, 26 May 2022 14:39:13 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PULL 13/34] target/ppc: use TCG_CALL_NO_RWG in BCD helpers
-Date: Thu, 26 May 2022 18:37:54 -0300
-Message-Id: <20220526213815.92701-14-danielhb413@gmail.com>
+Subject: [PULL 14/34] target/ppc: use TCG_CALL_NO_RWG in VSX helpers without
+ env
+Date: Thu, 26 May 2022 18:37:55 -0300
+Message-Id: <20220526213815.92701-15-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220526213815.92701-1-danielhb413@gmail.com>
 References: <20220526213815.92701-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc32.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,58 +92,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Helpers of BCD instructions only access the VSRs supplied by the
-TCGv_ptr arguments, no globals are accessed.
+Helpers of VSX instructions without cpu_env as an argument do not access
+globals.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220517123929.284511-4-matheus.ferst@eldorado.org.br>
+Message-Id: <20220517123929.284511-5-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ target/ppc/helper.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index da740ad9af..a02c4be906 100644
+index a02c4be906..f82c5bd0db 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -327,21 +327,21 @@ DEF_HELPER_FLAGS_3(vshasigmaw, TCG_CALL_NO_RWG, void, avr, avr, i32)
- DEF_HELPER_FLAGS_3(vshasigmad, TCG_CALL_NO_RWG, void, avr, avr, i32)
- DEF_HELPER_FLAGS_4(vpermxor, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
+@@ -533,10 +533,10 @@ DEF_HELPER_FLAGS_5(XXPERMX, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, tl)
+ DEF_HELPER_4(xxinsertw, void, env, vsr, vsr, i32)
+ DEF_HELPER_3(xvxsigsp, void, env, vsr, vsr)
+ DEF_HELPER_FLAGS_5(XXEVAL, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, i32)
+-DEF_HELPER_5(XXBLENDVB, void, vsr, vsr, vsr, vsr, i32)
+-DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
+-DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
+-DEF_HELPER_5(XXBLENDVD, void, vsr, vsr, vsr, vsr, i32)
++DEF_HELPER_FLAGS_5(XXBLENDVB, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, i32)
++DEF_HELPER_FLAGS_5(XXBLENDVH, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, i32)
++DEF_HELPER_FLAGS_5(XXBLENDVW, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, i32)
++DEF_HELPER_FLAGS_5(XXBLENDVD, TCG_CALL_NO_RWG, void, vsr, vsr, vsr, vsr, i32)
  
--DEF_HELPER_4(bcdadd, i32, avr, avr, avr, i32)
--DEF_HELPER_4(bcdsub, i32, avr, avr, avr, i32)
--DEF_HELPER_3(bcdcfn, i32, avr, avr, i32)
--DEF_HELPER_3(bcdctn, i32, avr, avr, i32)
--DEF_HELPER_3(bcdcfz, i32, avr, avr, i32)
--DEF_HELPER_3(bcdctz, i32, avr, avr, i32)
--DEF_HELPER_3(bcdcfsq, i32, avr, avr, i32)
--DEF_HELPER_3(bcdctsq, i32, avr, avr, i32)
--DEF_HELPER_4(bcdcpsgn, i32, avr, avr, avr, i32)
--DEF_HELPER_3(bcdsetsgn, i32, avr, avr, i32)
--DEF_HELPER_4(bcds, i32, avr, avr, avr, i32)
--DEF_HELPER_4(bcdus, i32, avr, avr, avr, i32)
--DEF_HELPER_4(bcdsr, i32, avr, avr, avr, i32)
--DEF_HELPER_4(bcdtrunc, i32, avr, avr, avr, i32)
--DEF_HELPER_4(bcdutrunc, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcdadd, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcdsub, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_3(bcdcfn, TCG_CALL_NO_RWG, i32, avr, avr, i32)
-+DEF_HELPER_FLAGS_3(bcdctn, TCG_CALL_NO_RWG, i32, avr, avr, i32)
-+DEF_HELPER_FLAGS_3(bcdcfz, TCG_CALL_NO_RWG, i32, avr, avr, i32)
-+DEF_HELPER_FLAGS_3(bcdctz, TCG_CALL_NO_RWG, i32, avr, avr, i32)
-+DEF_HELPER_FLAGS_3(bcdcfsq, TCG_CALL_NO_RWG, i32, avr, avr, i32)
-+DEF_HELPER_FLAGS_3(bcdctsq, TCG_CALL_NO_RWG, i32, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcdcpsgn, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_3(bcdsetsgn, TCG_CALL_NO_RWG, i32, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcds, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcdus, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcdsr, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcdtrunc, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(bcdutrunc, TCG_CALL_NO_RWG, i32, avr, avr, avr, i32)
- 
- DEF_HELPER_4(xsadddp, void, env, vsr, vsr, vsr)
- DEF_HELPER_5(xsaddqp, void, env, i32, vsr, vsr, vsr)
+ DEF_HELPER_2(efscfsi, i32, env, i32)
+ DEF_HELPER_2(efscfui, i32, env, i32)
 -- 
 2.36.1
 
