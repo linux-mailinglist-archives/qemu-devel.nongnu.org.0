@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26AA534F0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:26:00 +0200 (CEST)
-Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9DC534F24
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 May 2022 14:31:02 +0200 (CEST)
+Received: from localhost ([::1]:48572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuCYx-0006yQ-MG
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
+	id 1nuCdp-00045p-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 08:31:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCPV-00055c-Fa
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51020)
+ id 1nuCPm-0005Tm-DJ
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nuCPT-0000wi-QE
- for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:13 -0400
+ id 1nuCPk-00013B-UH
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 08:16:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653567371;
+ s=mimecast20190719; t=1653567388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Mk0SQYFx5Ql00nl+livy0QK/LmHtEjfQjmk02bhFWY=;
- b=OYCoiEM8x64VS2OR4rKCMVG4e9cgy9DJbn0PWU8IBKGD+ZFh3DR55AHUvvxoT4mFtnW9yZ
- 6otXINEkWwe2HkjcxCHeyVlrKGvwde8Holjo5QH4a/5sww2iwexQ6BFsqmKt5X730WxPjv
- V+a/VBOmN4WoJrkGva0NeVL0FSZu6o8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=U2PY68pzE0zQCzG9F4aUId8IbqOP43U5BFgD+m0L6dU=;
+ b=REjgknjQ3HNLRVGTH6FeBDnmWQeV3ZCpmPUAm6tPA5D3mc3WrdyCtzxBt9p4y8d3fZQa2h
+ VEtUuDd+j+gdwi8x2DJowflgXNL+Ek6m7am3vAhCw48v/QgYwKK5KKv5LAGkVJ+fg6WYw4
+ MZM23kEPHU5Twe1thUzyt2MkNg4NK6k=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-CtCDtL5wO7Goub2FaNnskA-1; Thu, 26 May 2022 08:16:09 -0400
-X-MC-Unique: CtCDtL5wO7Goub2FaNnskA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- b17-20020a170906491100b006feec47b64bso778070ejq.5
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:16:09 -0700 (PDT)
+ us-mta-453-ykXwA1ImPk6L2U2WHvEnLw-1; Thu, 26 May 2022 08:16:27 -0400
+X-MC-Unique: ykXwA1ImPk6L2U2WHvEnLw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ nb10-20020a1709071c8a00b006e8f89863ceso738684ejc.18
+ for <qemu-devel@nongnu.org>; Thu, 26 May 2022 05:16:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6Mk0SQYFx5Ql00nl+livy0QK/LmHtEjfQjmk02bhFWY=;
- b=KpG8b0YXRrhOCx+ItiV5LsWPB8wQIqWCI2JtnVIChL4JEGODfyWlIgDjDhJTuybXyd
- yEO3WIyuDcim2Vi/8XXWlrKL88C/DQJITasBEi6UV2QYHKkwMQigOh1/5Of1pl+KtBAO
- 7ft4hwTOT03cxtuU945inXlLQOhDUCb23EGQOlKMDUY/Ud06nP5nSRd+ddP7wCYWd+K9
- F5yh2fiOrEiKGcw0vDdgOZqLvBRFknHAfaeIWsFZD+WPqA3BL2h7ZcFpLz1mgQpwdoS6
- 0Xkg/rxh1wGHYZuyzWetT0sTleEA11BxoRKkXprWRga+fmcpPkhmycUqR3ueC+h/pzTL
- WP9A==
-X-Gm-Message-State: AOAM530cEEs23RcGJI+dqvyXcmocx3HUod5he3jreGgwx4uC/lBG8ZfV
- OegWt2sUv8QkUqGQpTDbzxU6geMRpPjdEifhuVXsTUuaOvaajgG+7eq7zGxdiCcmox2Z+VdhM00
- I2jz2xLjwX0oUyLo=
-X-Received: by 2002:a05:6402:1007:b0:428:beb6:f483 with SMTP id
- c7-20020a056402100700b00428beb6f483mr39635719edu.391.1653567368735; 
- Thu, 26 May 2022 05:16:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxR5JtgEY2Xppc+C7PaR6OJpY2QGka/wortFtQL6LfJhnaMu6SkhTC4PSbd3Pd4hJ/NDb37Tg==
-X-Received: by 2002:a05:6402:1007:b0:428:beb6:f483 with SMTP id
- c7-20020a056402100700b00428beb6f483mr39635679edu.391.1653567368448; 
- Thu, 26 May 2022 05:16:08 -0700 (PDT)
+ bh=U2PY68pzE0zQCzG9F4aUId8IbqOP43U5BFgD+m0L6dU=;
+ b=GPufjsUhX+hasJC+MFfcVQP3HHTi7v86h5sDjhdJ1FaYIFKzB0VkqPfo5wzSfvF++N
+ oA4W4JebbZcuf3Dh2kKr/MYgLD+MzcIK9lmi7YhJufOGhbkVQbtZeWgGpouyHWFA4ssi
+ UYbxcHJavtlanIdwSnUaSsImOVghHSeraoQepAi45yMomf894GXJSdxAQMHU2VnF6Yvh
+ EoopZowBLGUNi0li2CCd4TL1zOY6apT617Pe5oaY03zSy274J4K6UmLxfmZ1o1T0Sed/
+ jn4q2HDGb9PbsUwo0sfsz7wlap70/HNTGbWmvfUOmB+Exx4GunvGn3V/jpwklBJ7Dj4d
+ O7LQ==
+X-Gm-Message-State: AOAM533jbrLpR8QNfOsrXj1UtkfJqcQf6dVw5JlBhGZ76symXcznPU6R
+ 7H5FZF0ww1D44PXoD2HknJyuWru+5+OA9VVusOqM3TuvFoYVFRGK45eW8UYWaXHXoA53eIgYBK1
+ fvT4pJocVMCIJXjQ=
+X-Received: by 2002:a17:907:3f0d:b0:6ff:43e:bb1a with SMTP id
+ hq13-20020a1709073f0d00b006ff043ebb1amr11716705ejc.52.1653567384994; 
+ Thu, 26 May 2022 05:16:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzy3N7PAeGBsMG+E/Ah1XnItEh5lrYIZdsNmZVe0ymf525BuiEslg9a+YcXRXUXRFDOpszcrA==
+X-Received: by 2002:a17:907:3f0d:b0:6ff:43e:bb1a with SMTP id
+ hq13-20020a1709073f0d00b006ff043ebb1amr11716684ejc.52.1653567384732; 
+ Thu, 26 May 2022 05:16:24 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- c23-20020a50f617000000b0042b765c2448sm715934edn.80.2022.05.26.05.16.06
+ x5-20020a170906804500b006fed99e1143sm479763ejw.61.2022.05.26.05.16.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 May 2022 05:16:07 -0700 (PDT)
-Message-ID: <54d84d4a-2c90-7211-3baa-6333c88a24f1@redhat.com>
-Date: Thu, 26 May 2022 14:16:06 +0200
+ Thu, 26 May 2022 05:16:24 -0700 (PDT)
+Message-ID: <7660d004-f7b8-580e-9721-4d56f1d2ce34@redhat.com>
+Date: Thu, 26 May 2022 14:16:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 5/9] tests: add quiet-venv-pip macro
+Subject: Re: [PATCH 4/9] tests: silence pip upgrade warnings during venv
+ creation
 Content-Language: en-US
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
@@ -79,9 +80,9 @@ Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
 References: <20220526000921.1581503-1-jsnow@redhat.com>
- <20220526000921.1581503-6-jsnow@redhat.com>
+ <20220526000921.1581503-5-jsnow@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220526000921.1581503-6-jsnow@redhat.com>
+In-Reply-To: <20220526000921.1581503-5-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -109,37 +110,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/26/22 02:09, John Snow wrote:
-> Factor out the "test venv pip" macro; rewrite the "check-venv" rule to
-> be a little more compact. Replace the "PIP" pseudo-command output with
-> "VENVPIP" to make it 1% more clear that we are talking about using pip
-> to install something into a venv.
+> Turn off the nag warning coaxing us to upgrade pip. It's not really that
+> interesting to see in CI logs, and as long as nothing is broken --
+> nothing is broken.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   tests/Makefile.include | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+>   tests/Makefile.include | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 839ffde876a..052d7f56e9a 100644
+> index f68adda0650..839ffde876a 100644
 > --- a/tests/Makefile.include
 > +++ b/tests/Makefile.include
-> @@ -104,13 +104,13 @@ else
->   	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
->   endif
->   
-> +quiet-venv-pip = $(quiet-@)$(call quiet-command-run, \
-> +    $(TESTS_PYTHON) -m pip -q --disable-pip-version-check $1, \
-> +    "VENVPIP","$1")
-> +
->   $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
-> -	$(call quiet-command, \
-> -            $(PYTHON) -m venv $@, \
-> -            VENV, $@)
-> -	$(call quiet-command, \
-> -            $(TESTS_PYTHON) -m pip -q --disable-pip-version-check install \
-> -            -r $(TESTS_VENV_REQ), PIP, $(TESTS_VENV_REQ))
-> +	$(call quiet-command, $(PYTHON) -m venv $@, VENV, $@)
-> +	$(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
+> @@ -109,8 +109,8 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+>               $(PYTHON) -m venv $@, \
+>               VENV, $@)
+>   	$(call quiet-command, \
+> -            $(TESTS_PYTHON) -m pip -q install -r $(TESTS_VENV_REQ), \
+> -            PIP, $(TESTS_VENV_REQ))
+> +            $(TESTS_PYTHON) -m pip -q --disable-pip-version-check install \
+> +            -r $(TESTS_VENV_REQ), PIP, $(TESTS_VENV_REQ))
 >   	$(call quiet-command, touch $@)
 >   
 >   $(TESTS_RESULTS_DIR):
