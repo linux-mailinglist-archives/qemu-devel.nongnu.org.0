@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80B453660B
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:35:01 +0200 (CEST)
-Received: from localhost ([::1]:43858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCCF5365C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:11:05 +0200 (CEST)
+Received: from localhost ([::1]:53764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucvU-0001VJ-M5
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42542)
+	id 1nucYK-0001hU-Jz
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nucI3-0004sM-8G
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:54:15 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39724)
+ id 1nuc8d-0003fV-Ao
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:31 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nucHo-0005ig-7P
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:54:02 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id j25so6395919wrb.6
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:53:59 -0700 (PDT)
+ id 1nuc8W-0003u7-1U
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:31 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ c5-20020a1c3505000000b0038e37907b5bso4803258wma.0
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Hgos5Ctr54w/WcWfcrz87OKH7ldahQCsnQtpXZbTNlc=;
- b=iHQ+gLFaaDT6yI6DWIhI1a1Yg44FY2UaO429voEv15EkKIvgCn7D4WmwH5FJQ1Of4T
- GxxPbiCn9g58u551JQ8i3fc4yc0Ma4lPdfXIxkGQnMw/3uIdqgP71rZeLMpUAxP3NDWi
- RBBG+4OljQZS5LbCD0ZDIJUoE12PTamD/tjtYjmQUIWHyXG70kfJNQ3boJt0K1a6+n0/
- x5Nw4gADkX7HCS4CFbGKjchZQfgpFBodIe/JDHzDdzAoJhqS240Xu07pPeJ6iGBV00Ep
- lEfbpCCPPxTQ4Zsjvrby6FNG2xib6q1c93+aLJs2lflogycprV6euXhNDjW7AI0hbgls
- 6egA==
+ bh=wEwhsedMRUwqfo2UAggQd5Om0FzRR5RpVgk+ECH7B4s=;
+ b=OKuhlwBaw1NdhN6KiAYwynI1BZDN88ZI1f506igAM3FA2bFXT8IxUnERPwtIkEiUdn
+ KPGlMEsYMTkpd7fIlArxYPym/raYQxtBE/sISZHOzJV7sUkKvr8qfXxH/hr0UZKHcooz
+ xS+zBIPzkotV0XmFRej+x+vNrLIAlNMtkImLl4IXXYeJGsrArxinnYFRG2WHetHMSPxL
+ cA/u1Nsweufm01Xg5MAbIzaL/Ik+Df4mg1naszgOTwql7UbNs9kn63vT2vfU/7lFCbMv
+ VqoX0/NYBD789NpfsouWu3V20qITlsAdcdBirwKMySPAXGDVZCRVVploIx/iVdy78QH1
+ 1NxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hgos5Ctr54w/WcWfcrz87OKH7ldahQCsnQtpXZbTNlc=;
- b=LLSBOj/aJ1v1Y9nqfkpAZ1pr8MH7S2Hiy5+keuDbRzG5k4z49KRc+qnj+Qxem5/p1M
- XdgMxb/a9TNQtSTghkgOc8omM7oqqkyrMqbgX3aT3U3/Lxl8soOaTFYyWzl+mNwVbzvh
- wWnLsLcWlZObU8TXLzjh/bIr8eHAS9FU+/xXAVlNP5wdJo9Eow/cJlMjdcw0QANjPbsy
- RY9tplT6eSf/Zd/EQasXPK6Ui/PpOrxJDXa8z8jPi+hBiVKe0Onf9EOpFJZzdB6MxfQM
- b6WGeNHVRhZeuSv/CBwTv8i82ud57XgqtQcOtMRHc/d/bf/fZOkDpIFd4kGos/DxPAC3
- 3MSA==
-X-Gm-Message-State: AOAM531Fp7qpmyTXZIe+xi2F5k1OYhA89qPtfOo4M2Fhu3qCupeTjAw6
- fJbepO1c/sI6ENH5t7N+qNtZPw==
-X-Google-Smtp-Source: ABdhPJxx7OFdJbW0ilxkr9gwhvDLJpotWqheH/iDzOXRWWnyJwMdyip/HjpoGXlwx9FA7h/pRHVAGQ==
-X-Received: by 2002:a5d:4b04:0:b0:210:18a:b676 with SMTP id
- v4-20020a5d4b04000000b00210018ab676mr10252543wrq.581.1653666838542; 
- Fri, 27 May 2022 08:53:58 -0700 (PDT)
+ bh=wEwhsedMRUwqfo2UAggQd5Om0FzRR5RpVgk+ECH7B4s=;
+ b=x1NGj+7vtbTw39QkTiUUSseWXYcKjqRm34R+DAqSXdwGj4uB2As0sdRATpc5q0zz4v
+ GJ3FgnrTW+SYga6NPNJPEUc+9UH9CS7BJ0vs3uE6zGDCKHPjl+uyWUZ6WpXV/pJpjXF6
+ q6Y2j6VUk98YHvaEtqPWxo0BxcA0TtMr+W0Wq/h+5ppudiB+V1DNHy8DPrCfyL7KBTfU
+ SQbp8JOpVXc77+HUtfM/FVQI1r/DC9aUYGD86yxvGH3bYonjzqsd8bWit5C7a0kqLTuz
+ /I9kYscQCsQQa4qN71loDKIMRqAIg1AeksIzzLROXzUB1133JmbML7Yzd8oGDDEoVrv1
+ /I+A==
+X-Gm-Message-State: AOAM530Stg92X6VAeCQaAOTTsqVPkhxjF23v6Ds6CZEPLGwW0sF9Y4SW
+ IIkoNkzyCHap980cHokdqUgskw==
+X-Google-Smtp-Source: ABdhPJxJ+zOgLs9V6NrdPKTZycZKosh7VUu1acULRQMBrXNl3MZTIGv0rcTCtNoeNDyxiIUSiWfh2w==
+X-Received: by 2002:a05:600c:1d8b:b0:397:4106:a6d4 with SMTP id
+ p11-20020a05600c1d8b00b003974106a6d4mr7668381wms.25.1653666261172; 
+ Fri, 27 May 2022 08:44:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- 10-20020a5d47aa000000b0020fe35aec4bsm2190544wrb.70.2022.05.27.08.53.57
+ h1-20020a1ccc01000000b00397342e3830sm11394164wmb.0.2022.05.27.08.44.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 08:53:57 -0700 (PDT)
+ Fri, 27 May 2022 08:44:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A89301FFD6;
+ by zen.linaroharston (Postfix) with ESMTP id C22081FFD7;
  Fri, 27 May 2022 16:36:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,18 +65,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v1 31/33] gitlab: convert build/container jobs to
- .base_job_template
-Date: Fri, 27 May 2022 16:36:01 +0100
-Message-Id: <20220527153603.887929-32-alex.bennee@linaro.org>
+Subject: [PATCH  v1 32/33] gitlab: don't run CI jobs in forks by default
+Date: Fri, 27 May 2022 16:36:02 +0100
+Message-Id: <20220527153603.887929-33-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,290 +100,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-This converts the main build and container jobs to use the
-base job rules, defining the following new variables
+To preserve CI shared runner credits we don't want to run
+pipelines on every push.
 
- - QEMU_JOB_SKIPPED - jobs that are known to be currently
-   broken and should not be run. Can still be manually
-   launched if desired.
+This sets up the config so that pipelines are never created
+for contributors by default. To override this the QEMU_CI
+variable can be set to a non-zero value. If set to 1, the
+pipeline will be created but all jobs will remain manually
+started. The contributor can selectively run jobs that they
+care about. If set to 2, the pipeline will be created and
+all jobs will immediately start.
 
- - QEMU_JOB_AVOCADO - jobs that run the Avocado integration
-   test harness.
+This behavior can be controlled using push variables
 
- - QEMU_JOB_PUBLISH - jobs that publish content after the
-   branch is merged upstream
+  git push -o ci.variable=QEMU_CI=1
+
+To make this more convenient define an alias
+
+   git config --local alias.push-ci "push -o ci.variable=QEMU_CI=1"
+   git config --local alias.push-ci-now "push -o ci.variable=QEMU_CI=2"
+
+Which lets you run
+
+  git push-ci
+
+to create the pipeline, or
+
+  git push-ci-now
+
+to create and run the pipeline
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220526110705.59952-5-berrange@redhat.com>
+Message-Id: <20220526110705.59952-6-berrange@redhat.com>
+[AJB: fix typo, replicate alias tips in ci.rst]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/devel/ci-jobs.rst.inc           | 19 +++++++++++++++++++
- .gitlab-ci.d/base.yml                | 22 ++++++++++++++++++++++
- .gitlab-ci.d/buildtest-template.yml  | 16 ++++------------
- .gitlab-ci.d/buildtest.yml           | 28 +++++++++++++---------------
- .gitlab-ci.d/container-cross.yml     |  6 ++----
- .gitlab-ci.d/container-template.yml  |  1 +
- .gitlab-ci.d/crossbuild-template.yml |  3 +++
- .gitlab-ci.d/windows.yml             |  1 +
- 8 files changed, 65 insertions(+), 31 deletions(-)
+ docs/devel/ci-jobs.rst.inc | 38 ++++++++++++++++++++++++++++++++++++++
+ .gitlab-ci.d/base.yml      |  9 +++++++++
+ 2 files changed, 47 insertions(+)
 
 diff --git a/docs/devel/ci-jobs.rst.inc b/docs/devel/ci-jobs.rst.inc
-index 4c7e30ab08..0b4926e537 100644
+index 0b4926e537..13d448b54d 100644
 --- a/docs/devel/ci-jobs.rst.inc
 +++ b/docs/devel/ci-jobs.rst.inc
-@@ -73,6 +73,25 @@ The job results are only of interest to contributors prior to
- submitting code. They are not required as part of the gating
- CI pipeline.
+@@ -28,6 +28,32 @@ For further information about how to set these variables, please refer to::
  
-+QEMU_JOB_SKIPPED
-+~~~~~~~~~~~~~~~~
-+
-+The job is not reliably successsful in general, so is not
-+currently suitable to be run by default. Ideally this should
-+be a temporary marker until the problems can be addressed, or
-+the job permanently removed.
-+
-+QEMU_JOB_PUBLISH
-+~~~~~~~~~~~~~~~~
-+
-+The job is for publishing content after a branch has been
-+merged into the upstream default branch.
-+
-+QEMU_JOB_AVOCADO
-+~~~~~~~~~~~~~~~~
-+
-+The job runs the Avocado integration test suite
-+
- Contributor controlled runtime variables
- ----------------------------------------
+   https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
  
++Setting aliases in your git config
++----------------------------------
++
++You can use aliases to make it easier to push branches with different
++CI configurations. For example define an alias for triggering CI:
++
++.. code::
++
++   git config --local alias.push-ci "push -o ci.variable=QEMU_CI=1"
++   git config --local alias.push-ci-now "push -o ci.variable=QEMU_CI=2"
++
++Which lets you run:
++
++.. code::
++
++   git push-ci
++
++to create the pipeline, or:
++
++.. code::
++
++   git push-ci-now
++
++to create and run the pipeline
++
++  
+ Variable naming and grouping
+ ----------------------------
+ 
+@@ -98,6 +124,18 @@ Contributor controlled runtime variables
+ The following variables may be set by contributors to control
+ job execution
+ 
++QEMU_CI
++~~~~~~~
++
++By default, no pipelines will be created on contributor forks
++in order to preserve CI credits
++
++Set this variable to 1 to create the pipelines, but leave all
++the jobs to be manually started from the UI
++
++Set this variable to 2 to create the pipelines and run all
++the jobs immediately, as was historicaly behaviour
++
+ QEMU_CI_AVOCADO_TESTING
+ ~~~~~~~~~~~~~~~~~~~~~~~
+ By default, tests using the Avocado framework are not run automatically in
 diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-index 9a0b8d7f97..6a918abbda 100644
+index 6a918abbda..62f2a850c3 100644
 --- a/.gitlab-ci.d/base.yml
 +++ b/.gitlab-ci.d/base.yml
-@@ -16,10 +16,22 @@
-     - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == "" || $CIRRUS_API_TOKEN == "")'
-       when: never
- 
-+    # Publishing jobs should only run on the default branch in upstream
-+    - if: '$QEMU_JOB_PUBLISH == "1" && $CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
-+      when: never
-+
-+    # Non-publishing jobs should only run on staging branches in upstream
-+    - if: '$QEMU_JOB_PUBLISH != "1" && $CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH !~ /staging/'
-+      when: never
-+
-     # Jobs only intended for forks should always be skipped on upstram
+@@ -28,6 +28,10 @@
      - if: '$QEMU_JOB_ONLY_FORKS == "1" && $CI_PROJECT_NAMESPACE == "qemu-project"'
        when: never
  
-+    # Avocado jobs don't run in forks unless $QEMU_CI_AVOCADO_TESTING is set
-+    - if: '$QEMU_JOB_AVOCADO && $QEMU_CI_AVOCADO_TESTING != "1" && $CI_PROJECT_NAMESPACE != "qemu-project"'
++    # Forks don't get pipelines unless QEMU_CI=1 or QEMU_CI=2 is set
++    - if: '$QEMU_CI != "1" && $QEMU_CI != "2" && $CI_PROJECT_NAMESPACE != "qemu-project"'
 +      when: never
 +
- 
+     # Avocado jobs don't run in forks unless $QEMU_CI_AVOCADO_TESTING is set
+     - if: '$QEMU_JOB_AVOCADO && $QEMU_CI_AVOCADO_TESTING != "1" && $CI_PROJECT_NAMESPACE != "qemu-project"'
+       when: never
+@@ -59,5 +63,10 @@
+     # an earlier criteria
      #############################################################
-     # Stage 2: fine tune execution of jobs in specific scenarios
-@@ -31,6 +43,16 @@
-       when: manual
-       allow_failure: true
  
-+    # Skipped jobs should not be run unless manually triggered
-+    - if: '$QEMU_JOB_SKIPPED'
++    # Forks pipeline jobs don't start automatically unless
++    # QEMU_CI=2 is set
++    - if: '$QEMU_CI != "2" && $CI_PROJECT_NAMESPACE != "qemu-project"'
 +      when: manual
-+      allow_failure: true
 +
-+    # Avocado jobs can be manually start in forks if $QEMU_CI_AVOCADO_TESTING is unset
-+    - if: '$QEMU_JOB_AVOCADO && $CI_PROJECT_NAMESPACE != "qemu-project"'
-+      when: manual
-+      allow_failure: true
-+
- 
-     #############################################################
-     # Stage 3: catch all logic applying to any job not matching
-diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index b381345dbc..73ecfabb8d 100644
---- a/.gitlab-ci.d/buildtest-template.yml
-+++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -1,4 +1,5 @@
- .native_build_job_template:
-+  extends: .base_job_template
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   before_script:
-@@ -27,6 +28,7 @@
-       fi
- 
- .common_test_job_template:
-+  extends: .base_job_template
-   stage: test
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   script:
-@@ -77,15 +79,5 @@
-   after_script:
-     - cd build
-     - du -chs ${CI_PROJECT_DIR}/avocado-cache
--  rules:
--    # Only run these jobs if running on the mainstream namespace,
--    # or if the user set the QEMU_CI_AVOCADO_TESTING variable (either
--    # in its namespace setting or via git-push option, see documentation
--    # in /.gitlab-ci.yml of this repository).
--    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
--      when: on_success
--    - if: '$QEMU_CI_AVOCADO_TESTING'
--      when: on_success
--    # Otherwise, set to manual (the jobs are created but not run).
--    - when: manual
--      allow_failure: true
-+  variables:
-+    QEMU_JOB_AVOCADO: 1
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index e9620c3074..ecac3ec50c 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -360,12 +360,11 @@ build-cfi-aarch64:
-     expire_in: 2 days
-     paths:
-       - build
--  rules:
-+  variables:
-     # FIXME: This job is often failing, likely due to out-of-memory problems in
-     # the constrained containers of the shared runners. Thus this is marked as
--    # manual until the situation has been solved.
--    - when: manual
--      allow_failure: true
-+    # skipped until the situation has been solved.
-+    QEMU_JOB_SKIPPED: 1
- 
- check-cfi-aarch64:
-   extends: .native_test_job_template
-@@ -402,12 +401,11 @@ build-cfi-ppc64-s390x:
-     expire_in: 2 days
-     paths:
-       - build
--  rules:
-+  variables:
-     # FIXME: This job is often failing, likely due to out-of-memory problems in
-     # the constrained containers of the shared runners. Thus this is marked as
--    # manual until the situation has been solved.
--    - when: manual
--      allow_failure: true
-+    # skipped until the situation has been solved.
-+    QEMU_JOB_SKIPPED: 1
- 
- check-cfi-ppc64-s390x:
-   extends: .native_test_job_template
-@@ -579,6 +577,7 @@ build-without-default-features:
-     MAKE_CHECK_ARGS: check-unit check-qtest SPEED=slow
- 
- build-libvhost-user:
-+  extends: .base_job_template
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
-   needs:
-@@ -595,10 +594,13 @@ build-tools-and-docs-debian:
-   extends: .native_build_job_template
-   needs:
-     job: amd64-debian-container
-+    # when running on 'master' we use pre-existing container
-+    optional: true
-   variables:
-     IMAGE: debian-amd64
-     MAKE_CHECK_ARGS: check-unit check-softfloat ctags TAGS cscope
-     CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
-+    QEMU_JOB_PUBLISH: 1
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -618,6 +620,7 @@ build-tools-and-docs-debian:
- # that users can see the results of their commits, regardless
- # of what topic branch they're currently using
- pages:
-+  extends: .base_job_template
-   image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
-   stage: test
-   needs:
-@@ -635,10 +638,5 @@ pages:
-   artifacts:
-     paths:
-       - public
--  rules:
--    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
--      when: on_success
--    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
--      when: never
--    - if: '$CI_PROJECT_NAMESPACE != "qemu-project"'
--      when: on_success
-+  variables:
-+    QEMU_JOB_PUBLISH: 1
-diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index 147e667744..b7963498a3 100644
---- a/.gitlab-ci.d/container-cross.yml
-+++ b/.gitlab-ci.d/container-cross.yml
-@@ -40,15 +40,13 @@ armhf-debian-cross-container:
- # We never want to build hexagon in the CI system and by default we
- # always want to refer to the master registry where it lives.
- hexagon-cross-container:
-+  extends: .base_job_template
-   image: docker:stable
-   stage: containers
--  rules:
--    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
--      when: never
--    - when: always
-   variables:
-     NAME: debian-hexagon-cross
-     GIT_DEPTH: 1
-+    QEMU_JOB_ONLY_FORKS: 1
-   services:
-     - docker:dind
-   before_script:
-diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
-index 1baecd9460..c434b9c8f3 100644
---- a/.gitlab-ci.d/container-template.yml
-+++ b/.gitlab-ci.d/container-template.yml
-@@ -1,4 +1,5 @@
- .container_job_template:
-+  extends: .base_job_template
-   image: docker:stable
-   stage: containers
-   services:
-diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-index 29c3c2b826..28b2142ec2 100644
---- a/.gitlab-ci.d/crossbuild-template.yml
-+++ b/.gitlab-ci.d/crossbuild-template.yml
-@@ -1,4 +1,5 @@
- .cross_system_build_job:
-+  extends: .base_job_template
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   timeout: 80m
-@@ -24,6 +25,7 @@
- # KVM), and set extra options (such disabling other accelerators) via the
- # $EXTRA_CONFIGURE_OPTS variable.
- .cross_accel_build_job:
-+  extends: .base_job_template
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   timeout: 30m
-@@ -36,6 +38,7 @@
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- .cross_user_build_job:
-+  extends: .base_job_template
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   script:
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index cf7724b8e5..1b2ede49e1 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -1,4 +1,5 @@
- .shared_msys2_builder:
-+  extends: .base_job_template
-   tags:
-   - shared-windows
-   - windows
+     # Jobs can run if any jobs they depend on were successfull
+     - when: on_success
 -- 
 2.30.2
 
