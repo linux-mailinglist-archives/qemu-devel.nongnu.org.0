@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8090D5365AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:07:47 +0200 (CEST)
-Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBAD5365E1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:22:19 +0200 (CEST)
+Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucV8-0005qe-HD
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39852)
+	id 1nucjC-0007qW-TX
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:22:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc8D-0002fc-6h
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:05 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38688)
+ id 1nuc8T-0003Ht-6g
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:21 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc8B-0003rY-L6
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:04 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- f23-20020a7bcc17000000b003972dda143eso4775330wmh.3
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:03 -0700 (PDT)
+ id 1nuc8R-0003tV-IF
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:20 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id 7so1710362wmz.3
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R4ZfyQsK+jLR+M+g/m37Lnp4AtCadWbvQiM1EvX9WTo=;
- b=DObNlR7xnYMKdtAo9Y9ZtNrKhNTkVDfVe4Q3OFsh8X3/eZI8eD5F4J38Y7VMQYB5sX
- 1UIK8cVKsVK1QibTQu92mkh7Hpu5N2rLllRwKIpT6JGNBsoG6dTu1P4C3WkWZ/UHbEwN
- hO7AbmJizLJ0BqO20asv8S4lMPCHv+DK8vGzJHClFHXtnfR3Lijw5KnIGE0Sb0t7SSgG
- rfbAqXh+cWxx6f9F433mKzexjeQxVyYcUa7mtHfZ4lNQEmsmyqFwemBWGdkKeTmFOdld
- i8vSaNesyPoFJPf8RFvt4m1CL5r8e+jz2eh1Lb27uKWPEAli3cpumIjQNoDUIbzGb1G4
- iyMQ==
+ bh=EhcnR5mvK7iggX2nmWmEHPyhR/OcHiHEHOzzq5kXOM4=;
+ b=NbKxZklTmBJa0TOXq2y8eWM5vKBIpoWUquy7STZ2AQoFy9OcvOe+dYOcDOyu/YJYwW
+ uSzaipOqgyrR9Z7COy1ShuDZLuqPZ2TAUQKOY7AOwnwgpSK593rhXgsnoV0ZW59LaLwb
+ +KPg4xBXfVytrD9GB2H8TahuW+8Q3EBall5MHcJYqzp8XY0H4ZFmDzVBk/b3d+gjf1Dp
+ lI9PACev7HbNNltul1EkFNOnZ2aomni1auL04CWxt1Rh2549pL9ig1mEYBuRmfEZym4I
+ ivLtpFuKPOjKIQbnnAHyq1cEKWhjHIM0q5sy1tVDpi8kzPByt8o2NI0F1weVhb7Bm5ST
+ j46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R4ZfyQsK+jLR+M+g/m37Lnp4AtCadWbvQiM1EvX9WTo=;
- b=NyBVj3K9MBffgiRGy6cU/bbPD0pxuaCLSSYXkEe99dsAcjq9gByZb+VGBz4nZ98vLC
- pDBHxG/ORBPd4YI6WyUkQ3KXkY6q9rZ0Vet8dWackFgXEhZEJEi/2u1HCsSDXLXvTGYN
- OMmRFBzopvQhc3wIgPP2cNb6E+MERHz24ID/mI/1Ctp+UAwW3ZduNRKQAZgzGaIEmTQL
- 0SHDIg+YqeBQZZqE0ylmPiyOAQ9EyAuyo7oBvYYBwEmPCkdJZaos32UdHNST3aGcbY7t
- shjSAidbcxGe7L1r/oZ8c+K/BJMOOcsrWvPb2564hHQMq1h5Y7wgeXIaXIyhtxlABu4s
- biew==
-X-Gm-Message-State: AOAM530brUVLK7V9iad9NmNhxFSqrCwHmwtjXtVWwFZbz/7unPfgspqX
- gUs4LSGUd/Q+lHI0ON4zCa4m1g==
-X-Google-Smtp-Source: ABdhPJwT3fN6bEAAKDp5QteW3DNi2mZsqP4iJAtGgvH6cvLfme0GM/IIV+NnazVBD4xmiNSUIdnQQg==
-X-Received: by 2002:a05:600c:2e14:b0:397:5a83:6578 with SMTP id
- o20-20020a05600c2e1400b003975a836578mr7535176wmf.201.1653666242196; 
- Fri, 27 May 2022 08:44:02 -0700 (PDT)
+ bh=EhcnR5mvK7iggX2nmWmEHPyhR/OcHiHEHOzzq5kXOM4=;
+ b=zm7VRCjjFiaTeTZ8oLkyezKUqJqA6j9U/o0iUgnbvLWQfro/7JvNMtA3pq6F7YNyfZ
+ dlGRqWOi+7OEizODs+TtxbCP8l3ms/Z72sdInrkvXMswjdCd/2iiZLw1+OduBWHVPCk9
+ LowVRMRxJK5WVLGKVvZBB3J22Wf45IULDDaHjJZl0sQZvFBi3kyiOcHXHisN9bCCzYXT
+ 7luZ0fyycrR7Ax0xwIMAW++slu17Nn1WSNQWIdfq3tRWlKSpGwvZgxAs4YuVEMvMH33k
+ loes6dUekxRBbsuz5302qZ0Rr/W8XfgxLdbkjiijJX5t8gmeZuhPCOqxvIwJ41vUklb1
+ krAw==
+X-Gm-Message-State: AOAM531ockKOPuyxRMNU+H30p9t5iuz8mktlDhOXEGEqO+TIlVyiQad2
+ /PXINi+0LfW75blV7G2roeoGuQ==
+X-Google-Smtp-Source: ABdhPJycSrs8z49haLVKLnDrFMrMDjwOYijja00eIoJMgy3cdH02+8KZhl5pFuUeZcBzY/JmiUWJPw==
+X-Received: by 2002:a7b:c24c:0:b0:397:3751:2d2a with SMTP id
+ b12-20020a7bc24c000000b0039737512d2amr7639295wmj.51.1653666258245; 
+ Fri, 27 May 2022 08:44:18 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- i11-20020a5d584b000000b0020d106c0386sm1990433wrf.89.2022.05.27.08.43.57
+ h9-20020a7bc929000000b003974a3af623sm2595102wml.17.2022.05.27.08.44.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 08:43:58 -0700 (PDT)
+ Fri, 27 May 2022 08:44:06 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3034B1FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id 482EE1FFC8;
  Fri, 27 May 2022 16:36:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -63,17 +62,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 15/33] build: do a full build before running TCG tests
-Date: Fri, 27 May 2022 16:35:45 +0100
-Message-Id: <20220527153603.887929-16-alex.bennee@linaro.org>
+Subject: [PATCH  v1 16/33] configure, meson: move symlinking of ROMs to meson
+Date: Fri, 27 May 2022 16:35:46 +0100
+Message-Id: <20220527153603.887929-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,38 +97,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-TCG tests need both QEMU and firmware to be built, so do "ninja all" before
-trying to run them.
+This is useful because pc-bios/meson.build already has a list of all ROM
+files, and thus does not need to use wildcards.  The problems with
+wildcards are mentioned above the definition of the LINKS variable,
+but then the recommendation is disattended.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220517092616.1272238-5-pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220517092616.1272238-6-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/Makefile.include | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ configure           | 15 ---------------
+ pc-bios/meson.build | 17 ++++++++++++-----
+ 2 files changed, 12 insertions(+), 20 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index ec84b2ebc0..72ce0561f4 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -57,7 +57,7 @@ $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/
-         "BUILD","$* guest-tests")
+diff --git a/configure b/configure
+index 7a071c161a..2138f61e54 100755
+--- a/configure
++++ b/configure
+@@ -2097,21 +2097,6 @@ LINKS="$LINKS tests/avocado tests/data"
+ LINKS="$LINKS tests/qemu-iotests/check"
+ LINKS="$LINKS python"
+ LINKS="$LINKS contrib/plugins/Makefile "
+-for bios_file in \
+-    $source_path/pc-bios/*.bin \
+-    $source_path/pc-bios/*.elf \
+-    $source_path/pc-bios/*.lid \
+-    $source_path/pc-bios/*.rom \
+-    $source_path/pc-bios/*.dtb \
+-    $source_path/pc-bios/*.img \
+-    $source_path/pc-bios/openbios-* \
+-    $source_path/pc-bios/u-boot.* \
+-    $source_path/pc-bios/palcode-* \
+-    $source_path/pc-bios/qemu_vga.ndrv
+-
+-do
+-    LINKS="$LINKS pc-bios/$(basename $bios_file)"
+-done
+ for f in $LINKS ; do
+     if [ -e "$source_path/$f" ]; then
+         mkdir -p `dirname ./$f`
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index c86dedf7df..41ba1c0ec7 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -23,7 +23,7 @@ if unpack_edk2_blobs
+   endforeach
+ endif
  
- .PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
--$(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-% $(if $(CONFIG_PLUGIN),test-plugins)
-+$(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
- 	$(call quiet-command, \
-            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
-                         TARGET="$*" SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run, \
-@@ -74,6 +74,7 @@ $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
- build-tcg: $(BUILD_TCG_TARGET_RULES)
+-blobs = files(
++blobs = [
+   'bios.bin',
+   'bios-256k.bin',
+   'bios-microvm.bin',
+@@ -83,11 +83,18 @@ blobs = files(
+   'npcm7xx_bootrom.bin',
+   'vof.bin',
+   'vof-nvram.bin',
+-)
++]
  
- .PHONY: check-tcg
-+.ninja-goals.check-tcg = all $(if $(CONFIG_PLUGIN),test-plugins)
- check-tcg: $(RUN_TCG_TARGET_RULES)
+-if get_option('install_blobs')
+-  install_data(blobs, install_dir: qemu_datadir)
+-endif
++ln_s = [find_program('ln', required: true), '-sf']
++foreach f : blobs
++  roms += custom_target(f,
++                build_by_default: have_system,
++                output: f,
++                input: files('meson.build'),            # dummy input
++                install: get_option('install_blobs'),
++                install_dir: qemu_datadir,
++                command: [ ln_s, meson.project_source_root() / 'pc-bios' / f, '@OUTPUT@' ])
++endforeach
  
- .PHONY: clean-tcg
+ subdir('descriptors')
+ subdir('keymaps')
 -- 
 2.30.2
 
