@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4605364E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:47:38 +0200 (CEST)
-Received: from localhost ([::1]:59890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE215364D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:44:08 +0200 (CEST)
+Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucBd-0007nE-1z
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37828)
+	id 1nuc8F-0000jK-CB
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc0f-0000PN-Gt
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:18 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45725)
+ id 1nuc0k-0000aF-A1
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:22 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:33733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc0c-0002PB-VG
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:17 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id jx22so9411759ejb.12
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:36:14 -0700 (PDT)
+ id 1nuc0e-0002Qn-KH
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:22 -0400
+Received: by mail-ej1-x635.google.com with SMTP id f9so9590289ejc.0
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mlFf5+cAO5/IMX6mjeJdfBCz2OpTu8g+EZZGQA1K/6E=;
- b=Zu7KqvAnZGuk88o0oSEZMrNwHh5u9TnDxRAM+J82xZMZCckMvBLuQ23S69b0D1tewS
- Z810rBMMmlp+cBotjusj5YIi+eNf2rq9NTSddBLUEC78aTFQDNFnGXoRZbcbWbwkm1pF
- LSQ/w58xm8oRGmJ0QRgHLDKIZMI4oaK6fl1y0lvnY9l4IRryQWwBxsR4CLzgu1cKjB3B
- auI9KuOS+WdmrzQJr5m/HEQRWOePrMxeOXv22/DRw8WOxVUOJ955+qiZeaVYzy4x+X1n
- O0Lrkqt7NDSFqSugHMu5CA6DjIWD/pze9W6BqjLHXrjHpL3+MN4e9vJd/qTSdRvOUCN6
- KjQQ==
+ bh=w6Nhiu9OdQkcAGgiw21QAiI5TqsKe534R2D5NLjEbIE=;
+ b=YWfjAMqD/ls5BTmWCABc4PLbEw5yS+e+ro+xwShwx34xeV9Kl748g+h8CHtv+OiBwl
+ 1UiigC3vqP5r3i2jmp0rw4+28qFnzFM7WZFa9YVO6EAz2DzI5F2bcg5OwJ1feV4hG0aV
+ PsJ4C+jWqMmmFPzLTzeBuPCD5P9ud936gP4h851bUTw8zZr0Sr9DcEQtR+iWB78Tr9EC
+ qkaQ+8GGe1O1CuC43SFd5Rg48SgIvGpl6d1StiKTZGSTRXqDnlA2dUtr4prKPTt++3jg
+ HkVaR+jEx7ivja7Y0kfxrCtNAzJdyu3JPhSxCgHeXmbupNzaDxzdkwvJAhq31QctdDbF
+ dL9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mlFf5+cAO5/IMX6mjeJdfBCz2OpTu8g+EZZGQA1K/6E=;
- b=iV0Uwz1ClRlYo2n++EEv5zKAWHW1tFcqLkaIwi9whMapfhk3pCS4eJ9jGcjaChC6S9
- t8sXdTceIS52DW4ZHggeDzvorPFATrxL4SYq7Sru5uob2v50PvbQJDN+/3USr1CAGrlc
- pQPJozP/TKR6d2lpzXEVyxx6UA3eVwCXfHi7MsRcCUe9Mko5FSM2V8ZKCZ4uuHc036sq
- tkzhiSFRpX1Ddn34PlGgmWP6sIcHvP4SlZae61JuHQQwdCCquzR3m6rKOl9R8DBIHXtm
- /Ij7u12pKaokUrzasH/FgOEWQUACLaf5mXn2jCIPkoR1gKo4U2ZkAHQvnyqvgDnDv1mD
- jYqw==
-X-Gm-Message-State: AOAM5329HWe3/1aJERP9o06ViOAhrS3nPxfonWxsE3BB9txGenJfEvFg
- NK65vd+Fdz2iX5USWiP+V7v3Cg==
-X-Google-Smtp-Source: ABdhPJwkP2jZLVIBq6QTYkZdHhEgliVHVXWdu+wWm36sru2IY0zI1+GsEKk+8F4N/p776EXJGHFW4w==
-X-Received: by 2002:a17:906:99c2:b0:6f4:a99c:8dfc with SMTP id
- s2-20020a17090699c200b006f4a99c8dfcmr42074310ejn.386.1653665774224; 
+ bh=w6Nhiu9OdQkcAGgiw21QAiI5TqsKe534R2D5NLjEbIE=;
+ b=Nh0K2RG7O2/rfTmcoIyIsPZ4za5n8De08vBdO5IRCemUWkwdMCWD9om8lkEl0SAw+m
+ qAKLvDR9Xr/AQ5VG4UsmO7v5d2xkiB/iu53f/zsSJdCgYQDleq7paGXvrUOVP6f9815g
+ iLsSK88V897W42PQzUECWvGkQHfGsMK6g6sDk884nRn2FyuQgVvlQ922gSM2mjLMTNM3
+ /ZWdV7b6UeVPs8NbypkHRH94O38vWgX2xFn6lx8xLxddzJTqKHNUsEcLvdoj1R2kAEBK
+ QRBvwHbzYN1J60ET7D9tPOfJ7vwQbcUCuhxw06zGlVG52rFZxhouwmU4bLD5zoh/UIOZ
+ pc8w==
+X-Gm-Message-State: AOAM5314EFOMxitBGYyfeDuIuJsMfvOLOaxjzJ0874Q/RaraZXNTes68
+ jYBo7CFb2FafLOfBgtRT2W7vFA==
+X-Google-Smtp-Source: ABdhPJz/gcN6io7gwn8VsliB0n8p0GOykINxEHnwGPiEui14USQih/i40QoD6BaXoVmU1Ebof3kVrg==
+X-Received: by 2002:a17:907:7ea5:b0:6ff:1a57:28de with SMTP id
+ qb37-20020a1709077ea500b006ff1a5728demr9738823ejc.60.1653665774922; 
  Fri, 27 May 2022 08:36:14 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- r25-20020a50aad9000000b0042bda1327ddsm2216304edc.73.2022.05.27.08.36.06
+ rh28-20020a17090720fc00b006f3ef214ddesm1542567ejb.68.2022.05.27.08.36.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 27 May 2022 08:36:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 189F91FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 374771FFBE;
  Fri, 27 May 2022 16:36:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,24 +64,23 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH  v1 05/33] tests/lcitool: fix up indentation to correct style
-Date: Fri, 27 May 2022 16:35:35 +0100
-Message-Id: <20220527153603.887929-6-alex.bennee@linaro.org>
+Subject: [PATCH v1 06/33] tests/docker: update debian-armhf-cross with lcitool
+Date: Fri, 27 May 2022 16:35:36 +0100
+Message-Id: <20220527153603.887929-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,194 +96,252 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-3 space indentation snuck into the initial commit. Clean it up before
-we let it get established. I've also:
-
-  - removed unused os import
-  - added double lines between functions
-  - added some comments and grouped and sorted the generation stanzas
-
-My lint tool is also recommending using f-strings but that requires
-python 3.6.
+Use lcitool to update debian-armhf-cross to a Debian 11 based system.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/lcitool/refresh | 134 ++++++++++++++++++++++++------------------
- 1 file changed, 76 insertions(+), 58 deletions(-)
+ .gitlab-ci.d/container-cross.yml              |   3 +-
+ tests/docker/Makefile.include                 |   1 -
+ .../dockerfiles/debian-armhf-cross.docker     | 184 +++++++++++++++---
+ tests/lcitool/refresh                         |   5 +
+ 4 files changed, 166 insertions(+), 27 deletions(-)
 
+diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+index ac15fce9b6..4d1830f3fc 100644
+--- a/.gitlab-ci.d/container-cross.yml
++++ b/.gitlab-ci.d/container-cross.yml
+@@ -34,8 +34,7 @@ armel-debian-cross-container:
+ 
+ armhf-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
+-  needs: ['amd64-debian10-container']
++  stage: containers
+   variables:
+     NAME: debian-armhf-cross
+ 
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index ca2157db46..d6e0710554 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -90,7 +90,6 @@ endif
+ 
+ docker-image-debian-alpha-cross: docker-image-debian10
+ docker-image-debian-armel-cross: docker-image-debian10
+-docker-image-debian-armhf-cross: docker-image-debian10
+ docker-image-debian-hppa-cross: docker-image-debian10
+ docker-image-debian-m68k-cross: docker-image-debian10
+ docker-image-debian-mips-cross: docker-image-debian10
+diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
+index 25d7618833..a2ebce96f8 100644
+--- a/tests/docker/dockerfiles/debian-armhf-cross.docker
++++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+@@ -1,29 +1,165 @@
++# THIS FILE WAS AUTO-GENERATED
+ #
+-# Docker armhf cross-compiler target
++#  $ lcitool dockerfile --layers all --cross armv7l debian-11 qemu
+ #
+-# This docker target builds on the debian Stretch base image.
+-#
+-FROM qemu/debian10
++# https://gitlab.com/libvirt/libvirt-ci
+ 
+-# Add the foreign architecture we want and install dependencies
+-RUN dpkg --add-architecture armhf
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        crossbuild-essential-armhf
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt build-dep -yy -a armhf --arch-only qemu
++FROM docker.io/library/debian:11-slim
+ 
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
+-ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
+-ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
++RUN export DEBIAN_FRONTEND=noninteractive && \
++    apt-get update && \
++    apt-get install -y eatmydata && \
++    eatmydata apt-get dist-upgrade -y && \
++    eatmydata apt-get install --no-install-recommends -y \
++            bash \
++            bc \
++            bsdextrautils \
++            bzip2 \
++            ca-certificates \
++            ccache \
++            dbus \
++            debianutils \
++            diffutils \
++            exuberant-ctags \
++            findutils \
++            gcovr \
++            genisoimage \
++            gettext \
++            git \
++            hostname \
++            libpcre2-dev \
++            libspice-protocol-dev \
++            llvm \
++            locales \
++            make \
++            meson \
++            ncat \
++            ninja-build \
++            openssh-client \
++            perl-base \
++            pkgconf \
++            python3 \
++            python3-numpy \
++            python3-opencv \
++            python3-pillow \
++            python3-pip \
++            python3-sphinx \
++            python3-sphinx-rtd-theme \
++            python3-venv \
++            python3-yaml \
++            rpm2cpio \
++            sed \
++            sparse \
++            tar \
++            tesseract-ocr \
++            tesseract-ocr-eng \
++            texinfo && \
++    eatmydata apt-get autoremove -y && \
++    eatmydata apt-get autoclean -y && \
++    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
++    dpkg-reconfigure locales
++
++ENV LANG "en_US.UTF-8"
++ENV MAKE "/usr/bin/make"
++ENV NINJA "/usr/bin/ninja"
++ENV PYTHON "/usr/bin/python3"
++ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
+ 
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        libbz2-dev:armhf \
+-        liblzo2-dev:armhf \
+-        librdmacm-dev:armhf \
+-        libsnappy-dev:armhf \
+-        libxen-dev:armhf
++RUN export DEBIAN_FRONTEND=noninteractive && \
++    dpkg --add-architecture armhf && \
++    eatmydata apt-get update && \
++    eatmydata apt-get dist-upgrade -y && \
++    eatmydata apt-get install --no-install-recommends -y dpkg-dev && \
++    eatmydata apt-get install --no-install-recommends -y \
++            g++-arm-linux-gnueabihf \
++            gcc-arm-linux-gnueabihf \
++            libaio-dev:armhf \
++            libasan5:armhf \
++            libasound2-dev:armhf \
++            libattr1-dev:armhf \
++            libbpf-dev:armhf \
++            libbrlapi-dev:armhf \
++            libbz2-dev:armhf \
++            libc6-dev:armhf \
++            libcacard-dev:armhf \
++            libcap-ng-dev:armhf \
++            libcapstone-dev:armhf \
++            libcurl4-gnutls-dev:armhf \
++            libdaxctl-dev:armhf \
++            libdrm-dev:armhf \
++            libepoxy-dev:armhf \
++            libfdt-dev:armhf \
++            libffi-dev:armhf \
++            libfuse3-dev:armhf \
++            libgbm-dev:armhf \
++            libgcrypt20-dev:armhf \
++            libglib2.0-dev:armhf \
++            libglusterfs-dev:armhf \
++            libgnutls28-dev:armhf \
++            libgtk-3-dev:armhf \
++            libibumad-dev:armhf \
++            libibverbs-dev:armhf \
++            libiscsi-dev:armhf \
++            libjemalloc-dev:armhf \
++            libjpeg62-turbo-dev:armhf \
++            liblttng-ust-dev:armhf \
++            liblzo2-dev:armhf \
++            libncursesw5-dev:armhf \
++            libnfs-dev:armhf \
++            libnuma-dev:armhf \
++            libpam0g-dev:armhf \
++            libpixman-1-dev:armhf \
++            libpng-dev:armhf \
++            libpulse-dev:armhf \
++            librbd-dev:armhf \
++            librdmacm-dev:armhf \
++            libsasl2-dev:armhf \
++            libsdl2-dev:armhf \
++            libsdl2-image-dev:armhf \
++            libseccomp-dev:armhf \
++            libselinux1-dev:armhf \
++            libslirp-dev:armhf \
++            libsnappy-dev:armhf \
++            libspice-server-dev:armhf \
++            libssh-gcrypt-dev:armhf \
++            libsystemd-dev:armhf \
++            libtasn1-6-dev:armhf \
++            libubsan1:armhf \
++            libudev-dev:armhf \
++            liburing-dev:armhf \
++            libusb-1.0-0-dev:armhf \
++            libusbredirhost-dev:armhf \
++            libvdeplug-dev:armhf \
++            libvirglrenderer-dev:armhf \
++            libvte-2.91-dev:armhf \
++            libxen-dev:armhf \
++            libzstd-dev:armhf \
++            nettle-dev:armhf \
++            systemtap-sdt-dev:armhf \
++            xfslibs-dev:armhf \
++            zlib1g-dev:armhf && \
++    eatmydata apt-get autoremove -y && \
++    eatmydata apt-get autoclean -y && \
++    mkdir -p /usr/local/share/meson/cross && \
++    echo "[binaries]\n\
++c = '/usr/bin/arm-linux-gnueabihf-gcc'\n\
++ar = '/usr/bin/arm-linux-gnueabihf-gcc-ar'\n\
++strip = '/usr/bin/arm-linux-gnueabihf-strip'\n\
++pkgconfig = '/usr/bin/arm-linux-gnueabihf-pkg-config'\n\
++\n\
++[host_machine]\n\
++system = 'linux'\n\
++cpu_family = 'arm'\n\
++cpu = 'armhf'\n\
++endian = 'little'" > /usr/local/share/meson/cross/arm-linux-gnueabihf && \
++    dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
++    mkdir -p /usr/libexec/ccache-wrappers && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-c++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-cc && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-g++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-gcc
++
++ENV ABI "arm-linux-gnueabihf"
++ENV MESON_OPTS "--cross-file=arm-linux-gnueabihf"
++ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
++ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index fb49bbc441..dc1fc21ef9 100755
+index dc1fc21ef9..7e4a92f630 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
-@@ -13,14 +13,13 @@
- # the top-level directory.
+@@ -105,6 +105,11 @@ try:
+                         trailer=debian_cross_build("aarch64-linux-gnu-",
+                                                    "aarch64-softmmu,aarch64-linux-user"))
  
- import sys
--import os
- import subprocess
- 
- from pathlib import Path
- 
- if len(sys.argv) != 1:
--   print("syntax: %s" % sys.argv[0], file=sys.stderr)
--   sys.exit(1)
-+    print("syntax: %s" % sys.argv[0], file=sys.stderr)
-+    sys.exit(1)
- 
- self_dir = Path(__file__).parent
- src_dir = self_dir.parent.parent
-@@ -30,76 +29,95 @@ lcitool_path = Path(self_dir, "libvirt-ci", "lcitool")
- 
- lcitool_cmd = [lcitool_path, "--data-dir", self_dir]
- 
++    generate_dockerfile("debian-armhf-cross", "debian-11",
++                        cross="armv7l",
++                        trailer=debian_cross_build("arm-linux-gnueabihf-",
++                                                   "arm-softmmu,arm-linux-user"))
 +
- def atomic_write(filename, content):
--   tmp = filename.with_suffix(filename.suffix + ".tmp")
--   try:
--      with tmp.open("w") as fp:
--         print(content, file=fp, end="")
--         tmp.rename(filename)
--   except Exception as ex:
--      tmp.unlink()
--      raise
-+    tmp = filename.with_suffix(filename.suffix + ".tmp")
-+    try:
-+        with tmp.open("w") as fp:
-+            print(content, file=fp, end="")
-+            tmp.rename(filename)
-+    except Exception as ex:
-+        tmp.unlink()
-+        raise
-+
- 
- def generate(filename, cmd, trailer):
--   print("Generate %s" % filename)
--   lcitool=subprocess.run(cmd, capture_output=True)
-+    print("Generate %s" % filename)
-+    lcitool = subprocess.run(cmd, capture_output=True)
- 
--   if lcitool.returncode != 0:
--      raise Exception("Failed to generate %s: %s" % (filename, lcitool.stderr))
-+    if lcitool.returncode != 0:
-+        raise Exception("Failed to generate %s: %s" % (filename, lcitool.stderr))
-+
-+    content = lcitool.stdout.decode("utf8")
-+    if trailer is not None:
-+        content += trailer
-+    atomic_write(filename, content)
- 
--   content = lcitool.stdout.decode("utf8")
--   if trailer is not None:
--      content += trailer
--   atomic_write(filename, content)
- 
- def generate_dockerfile(host, target, cross=None, trailer=None):
--   filename = Path(src_dir, "tests", "docker", "dockerfiles", host + ".docker")
--   cmd = lcitool_cmd + ["dockerfile"]
--   if cross is not None:
--      cmd.extend(["--cross", cross])
--   cmd.extend([target, "qemu"])
--   generate(filename, cmd, trailer)
-+    filename = Path(src_dir, "tests", "docker", "dockerfiles", host + ".docker")
-+    cmd = lcitool_cmd + ["dockerfile"]
-+    if cross is not None:
-+        cmd.extend(["--cross", cross])
-+    cmd.extend([target, "qemu"])
-+    generate(filename, cmd, trailer)
-+
- 
- def generate_cirrus(target, trailer=None):
--   filename = Path(src_dir, ".gitlab-ci.d", "cirrus", target + ".vars")
--   cmd = lcitool_cmd + ["variables", target, "qemu"]
--   generate(filename, cmd, trailer)
-+    filename = Path(src_dir, ".gitlab-ci.d", "cirrus", target + ".vars")
-+    cmd = lcitool_cmd + ["variables", target, "qemu"]
-+    generate(filename, cmd, trailer)
-+
- 
- ubuntu2004_tsanhack = [
--   "# Apply patch https://reviews.llvm.org/D75820\n",
--   "# This is required for TSan in clang-10 to compile with QEMU.\n",
--   "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"
-+    "# Apply patch https://reviews.llvm.org/D75820\n",
-+    "# This is required for TSan in clang-10 to compile with QEMU.\n",
-+    "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"
- ]
- 
-+
- def debian_cross_build(prefix, targets):
--   conf = "ENV QEMU_CONFIGURE_OPTS --cross-prefix=%s\n" % (prefix)
--   targets = "ENV DEF_TARGET_LIST %s\n" % (targets)
--   return "".join([conf, targets])
-+    conf = "ENV QEMU_CONFIGURE_OPTS --cross-prefix=%s\n" % (prefix)
-+    targets = "ENV DEF_TARGET_LIST %s\n" % (targets)
-+    return "".join([conf, targets])
- 
-+#
-+# Update all the various build configurations.
-+# Please keep each group sorted alphabetically for easy reading.
-+#
- 
- try:
--   generate_dockerfile("centos8", "centos-stream-8")
--   generate_dockerfile("fedora", "fedora-35")
--   generate_dockerfile("ubuntu2004", "ubuntu-2004",
--                       trailer="".join(ubuntu2004_tsanhack))
--   generate_dockerfile("opensuse-leap", "opensuse-leap-152")
--   generate_dockerfile("alpine", "alpine-edge")
--
--   generate_dockerfile("debian-arm64-cross", "debian-11",
--                       cross="aarch64",
--                       trailer=debian_cross_build("aarch64-linux-gnu-",
--                                                  "aarch64-softmmu,aarch64-linux-user"))
--
--   generate_dockerfile("debian-s390x-cross", "debian-11",
--                       cross="s390x",
--                       trailer=debian_cross_build("s390x-linux-gnu-",
--                                                  "s390x-softmmu,s390x-linux-user"))
--
--   generate_cirrus("freebsd-12")
--   generate_cirrus("freebsd-13")
--   generate_cirrus("macos-11")
--
--   sys.exit(0)
-+    #
-+    # Standard native builds
-+    #
-+    generate_dockerfile("alpine", "alpine-edge")
-+    generate_dockerfile("centos8", "centos-stream-8")
-+    generate_dockerfile("fedora", "fedora-35")
-+    generate_dockerfile("opensuse-leap", "opensuse-leap-152")
-+    generate_dockerfile("ubuntu2004", "ubuntu-2004",
-+                        trailer="".join(ubuntu2004_tsanhack))
-+
-+    #
-+    # Cross compiling builds
-+    #
-+    generate_dockerfile("debian-arm64-cross", "debian-11",
-+                        cross="aarch64",
-+                        trailer=debian_cross_build("aarch64-linux-gnu-",
-+                                                   "aarch64-softmmu,aarch64-linux-user"))
-+
-+    generate_dockerfile("debian-s390x-cross", "debian-11",
-+                        cross="s390x",
-+                        trailer=debian_cross_build("s390x-linux-gnu-",
-+                                                   "s390x-softmmu,s390x-linux-user"))
-+
-+    #
-+    # Cirrus packages lists for GitLab
-+    #
-+    generate_cirrus("freebsd-12")
-+    generate_cirrus("freebsd-13")
-+    generate_cirrus("macos-11")
-+
-+    sys.exit(0)
- except Exception as ex:
--   print(str(ex), file=sys.stderr)
--   sys.exit(1)
-+    print(str(ex), file=sys.stderr)
-+    sys.exit(1)
+     generate_dockerfile("debian-s390x-cross", "debian-11",
+                         cross="s390x",
+                         trailer=debian_cross_build("s390x-linux-gnu-",
 -- 
 2.30.2
 
