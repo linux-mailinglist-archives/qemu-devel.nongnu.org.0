@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E69A53669C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:34:38 +0200 (CEST)
-Received: from localhost ([::1]:36126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C92F53669E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:38:00 +0200 (CEST)
+Received: from localhost ([::1]:38546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nudrB-0002rc-OS
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33334)
+	id 1nuduR-0004i5-FK
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:37:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nudoa-0001FX-UH
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:31:57 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18390)
+ id 1nudsk-0003x1-0Y
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 13:36:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nudoY-0004lu-LP
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:31:56 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24RHAEEU024651
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:31:51 GMT
+ id 1nudsi-0005OI-8C
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 13:36:13 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24RHEEQi025017
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:36:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=D6YdRQMv3VULE0nMONEX420nT6WznZDEwf3Hvi9gPEs=;
- b=WkRv7jZHznxuztGFhHcR1nPYZJ9TeB5QTujy1/0JFVW6aBKxnsER27e3gIpQtUTX+2vR
- kfbD1aBsXuYbEDQGIuFqrsv8ldE7DGu9x3YGe9GU8u5Id/Rk5d4liOzPjHI6rLsbiJc4
- DrL9pPADPiD4NVC5NSVC8ahGWNhnygchemT7giM6F0QNhOLEN8pRmPOhBbJ9VOeaYBjf
- 7Q+m/omF/38sHO2KjvlqYN0y+SZvP7L65qytTHzp5NvUYiGPUb6lQsnTMdRD/zbtn7eT
- M5ldWfW+aQptyCSYfQGcbiQ6yMDkwiCDF71JIv0z9fUtkeU6k5jBlybyE+8A51HBkaXv DA== 
+ : date : message-id : in-reply-to : references : content-transfer-encoding
+ : mime-version; s=pp1; bh=EzfYsV6AlEHKAFjXxbPrdaK1EDhzGL8JEz+fWnyW/l0=;
+ b=dB1zQGhbOVEUUXUnJABLOtjVV/78Ex2t/3i2YcENMalcklWhhUyAUFoOmhstem1espzs
+ I7QKd9+0lDPFahZ/3DgF9vI5BKfBUycfRh4KdzhnQCTclyIC+bS4GCEXTJIg4QoY6IrZ
+ Tn7cPq+htvFimN1lZZzN+saT3YhXRwC/zlkHCGYj4IMBR/c4aN6xvob3hWZwZMMwA2u4
+ 5WxtW2iLuAT9GBZawITU/Dgp07gnWc/LutOeAAxegb6usNXC7Pd7on+y8JgwwnjlORzx
+ MLRljDusN0NbMQPpY+vJ3ydz+1cAdoEz1FgTFPWYWD9RBzgkiW+vcr07ZKFoYBJGpUVe hw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb2hs8fcr-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb2v48ba9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:31:51 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24RHFGjE012145
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:31:50 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb2hs8f66-1
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:36:10 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24RHWKZa017606
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:36:10 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb2v48b9x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 May 2022 17:31:49 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24RHCBYm014546;
+ Fri, 27 May 2022 17:36:10 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24RHDJtS004439;
  Fri, 27 May 2022 17:31:09 GMT
 Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 3g93uu2j6b-1
+ [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 3g93v9ak3t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 27 May 2022 17:31:09 +0000
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
  [9.57.199.108])
  by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24RHV89B6029950
+ 24RHV8IU4195156
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 27 May 2022 17:31:08 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6520EB205F;
+ by IMSVA (Postfix) with ESMTP id 73E01B206A;
  Fri, 27 May 2022 17:31:08 +0000 (GMT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DDD1B206B;
+ by IMSVA (Postfix) with ESMTP id 668FBB2068;
  Fri, 27 May 2022 17:31:08 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
@@ -69,28 +68,29 @@ Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
 From: Stefan Berger <stefanb@linux.ibm.com>
 To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Cc: Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH 1/2] backends/tpm: Record the last command sent to the TPM
-Date: Fri, 27 May 2022 13:30:57 -0400
-Message-Id: <20220527173058.226210-2-stefanb@linux.ibm.com>
+Subject: [PATCH 2/2] backends/tpm: Send TPM2_Shutdown upon VM reset
+Date: Fri, 27 May 2022 13:30:58 -0400
+Message-Id: <20220527173058.226210-3-stefanb@linux.ibm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220527173058.226210-1-stefanb@linux.ibm.com>
 References: <20220527173058.226210-1-stefanb@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: dGtyWSWkAGwaXySSmX1R8mEUEMzOpY7s
-X-Proofpoint-GUID: Lq52bIE76sRrgiHJLthjZBpRH5dp3BdT
+X-Proofpoint-ORIG-GUID: _Vff29IKuxb6Yyl5UxkRbZ12QPJ1L3am
+X-Proofpoint-GUID: JaNvN94g3Ftq9Rf21DyOkEit2qPkdyU-
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-27_05,2022-05-27_01,2022-02-23_01
+ definitions=2022-05-27_04,2022-05-27_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 impostorscore=0
+ malwarescore=0 adultscore=0
+ priorityscore=1501 mlxlogscore=999 clxscore=1015 spamscore=0 mlxscore=0
+ phishscore=0 impostorscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
  definitions=main-2205270085
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -113,85 +113,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Record the last command sent to the TPM. Knowing the last command sent
-to a TPM 2 will allow us to determine whether we need to send a
-TPM2_Shutdown() command when the VM is reset.
+Send a TPM2_Shutdown(TPM2_SU_CLEAR) command to the TPM emulator when the
+VM is reset. However, this is only necessary for a TPM 2 and only if the
+TPM2_Shutdown command has not been sent by the VM as the last command as
+it would do under normal circumstances. Further, it also doesn't need to
+be sent if the VM was just started.
 
+This fixes a bug where well-timed VM resets may trigger the TPM 2's
+dictionary attack lockout logic due to the TPM 2 not having received a
+TPM2_Shutdown command when it was reset.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2087538
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 ---
- backends/tpm/tpm_emulator.c | 9 +++++++++
- backends/tpm/tpm_util.c     | 9 +++++++++
- include/sysemu/tpm_util.h   | 3 +++
- 3 files changed, 21 insertions(+)
+ backends/tpm/tpm_emulator.c | 35 +++++++++++++++++++++++++++++++++++
+ backends/tpm/tpm_int.h      |  3 +++
+ backends/tpm/trace-events   |  1 +
+ 3 files changed, 39 insertions(+)
 
 diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index 87d061e9bb..89ecb04a2a 100644
+index 89ecb04a2a..c928d7abd1 100644
 --- a/backends/tpm/tpm_emulator.c
 +++ b/backends/tpm/tpm_emulator.c
-@@ -81,6 +81,8 @@ struct TPMEmulator {
-     unsigned int established_flag_cached:1;
- 
-     TPMBlobBuffers state_blobs;
-+
-+    uint32_t last_command; /* last command sent to TPM */
- };
- 
- struct tpm_error {
-@@ -155,6 +157,12 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
- {
-     ssize_t ret;
-     bool is_selftest = false;
-+    uint32_t command;
-+
-+    command = tpm_util_get_ordinal(in, in_len);
-+    if (command != TPM_ORDINAL_NONE) {
-+        tpm_emu->last_command = command;
-+    }
- 
-     if (selftest_done) {
-         *selftest_done = false;
-@@ -910,6 +918,7 @@ static void tpm_emulator_inst_init(Object *obj)
- 
-     tpm_emu->options = g_new0(TPMEmulatorOptions, 1);
-     tpm_emu->cur_locty_number = ~0;
-+    tpm_emu->last_command = TPM_ORDINAL_NONE;
-     qemu_mutex_init(&tpm_emu->mutex);
- 
-     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY,
-diff --git a/backends/tpm/tpm_util.c b/backends/tpm/tpm_util.c
-index a6e6d3e72f..28284940f0 100644
---- a/backends/tpm/tpm_util.c
-+++ b/backends/tpm/tpm_util.c
-@@ -103,6 +103,15 @@ bool tpm_util_is_selftest(const uint8_t *in, uint32_t in_len)
-     return false;
+@@ -389,8 +389,43 @@ err_exit:
+     return -1;
  }
  
-+uint32_t tpm_util_get_ordinal(const uint8_t *in, uint32_t in_len)
++static void tpm_emulator_send_tpm2_shutdown(TPMEmulator *tpm_emu)
 +{
-+    if (in_len >= sizeof(struct tpm_req_hdr)) {
-+        return tpm_cmd_get_ordinal(in);
-+    }
++    const struct tpm2_shutdown {
++        struct tpm_req_hdr hdr;
++        uint16_t shutdownType;
++    } tpm2_shutdown_clear = {
++        .hdr = {
++            .tag = cpu_to_be16(TPM2_ST_NO_SESSIONS),
++            .len = cpu_to_be32(sizeof(tpm2_shutdown_clear)),
++            .ordinal = cpu_to_be32(TPM2_CC_Shutdown),
++        },
++        .shutdownType = cpu_to_be16(TPM2_SU_CLEAR),
++    };
++    Error *local_err = NULL;
++    uint8_t result[10];
 +
-+    return TPM_ORDINAL_NONE;
++    trace_tpm_emulator_send_tpm2_shutdown(tpm_emu->last_command);
++
++    if (tpm_emulator_unix_tx_bufs(tpm_emu, (uint8_t *)&tpm2_shutdown_clear,
++                                  sizeof(tpm2_shutdown_clear),
++                                  result, sizeof(result),
++                                  NULL, &local_err) < 0) {
++        error_report_err(local_err);
++    }
 +}
 +
- /*
-  * Send request to a TPM device. We expect a response within one second.
-  */
-diff --git a/include/sysemu/tpm_util.h b/include/sysemu/tpm_util.h
-index 08f05172a7..7fc238b2a0 100644
---- a/include/sysemu/tpm_util.h
-+++ b/include/sysemu/tpm_util.h
-@@ -29,6 +29,9 @@ void tpm_util_write_fatal_error_response(uint8_t *out, uint32_t out_len);
- 
- bool tpm_util_is_selftest(const uint8_t *in, uint32_t in_len);
- 
-+uint32_t tpm_util_get_ordinal(const uint8_t *in, uint32_t in_len);
-+#define TPM_ORDINAL_NONE 0x0
+ static int tpm_emulator_startup_tpm(TPMBackend *tb, size_t buffersize)
+ {
++    TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
 +
- int tpm_util_test_tpmdev(int tpm_fd, TPMVersion *tpm_version);
++    /* In case of VM reset we may need to send a TPM2_Shutdown command */
++    if (tpm_emu->tpm_version == TPM_VERSION_2_0 &&
++        tpm_emu->last_command != TPM_ORDINAL_NONE &&
++        tpm_emu->last_command != TPM2_CC_Shutdown) {
++        tpm_emulator_send_tpm2_shutdown(tpm_emu);
++    }
++
+     return tpm_emulator_startup_tpm_resume(tb, buffersize, false);
+ }
  
- static inline uint16_t tpm_cmd_get_tag(const void *b)
+diff --git a/backends/tpm/tpm_int.h b/backends/tpm/tpm_int.h
+index ba6109306e..2730d4ff02 100644
+--- a/backends/tpm/tpm_int.h
++++ b/backends/tpm/tpm_int.h
+@@ -64,6 +64,7 @@ struct tpm_resp_hdr {
+ /* TPM2 defines */
+ #define TPM2_ST_NO_SESSIONS       0x8001
+ 
++#define TPM2_CC_Shutdown          0x00000145
+ #define TPM2_CC_ReadClock         0x00000181
+ #define TPM2_CC_GetCapability     0x0000017a
+ 
+@@ -71,6 +72,8 @@ struct tpm_resp_hdr {
+ 
+ #define TPM2_PT_MAX_COMMAND_SIZE  0x11e
+ 
++#define TPM2_SU_CLEAR             0x0
++
+ #define TPM_RC_INSUFFICIENT       0x9a
+ #define TPM_RC_FAILURE            0x101
+ #define TPM_RC_LOCALITY           0x907
+diff --git a/backends/tpm/trace-events b/backends/tpm/trace-events
+index 3298766dd7..cd16d41804 100644
+--- a/backends/tpm/trace-events
++++ b/backends/tpm/trace-events
+@@ -31,3 +31,4 @@ tpm_emulator_set_state_blobs_error(const char *msg) "error while setting state b
+ tpm_emulator_set_state_blobs_done(void) "Done setting state blobs"
+ tpm_emulator_pre_save(void) ""
+ tpm_emulator_inst_init(void) ""
++tpm_emulator_send_tpm2_shutdown(uint32_t ord) "Sending TPM2_Shutdown(TPM2_SU_CLEAR); last ordinal from VM was: 0x%08x"
 -- 
 2.35.3
 
