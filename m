@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4E45365CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:16:04 +0200 (CEST)
-Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DCC5365FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:29:48 +0200 (CEST)
+Received: from localhost ([::1]:33236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucdA-0006Ai-0M
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40766)
+	id 1nucqR-0002aW-3F
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:29:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nucAh-0007iS-J5
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:46:39 -0400
-Received: from mout.gmx.net ([212.227.15.18]:59553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nucAf-0004Vm-Cv
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:46:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1653666394;
- bh=lb6AfMnF5QsVZU0TeMbKS3Aei46S9dmDNUs13+6NAko=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=Ys4v1FbzU46H0rX13FIB+tbTDTbJIHHnsP4ju/6+HLAu5DP/YMauSE599TRdZSK6e
- nbJ2gO+hR8sPSj5h9sBxRve1isk5FGaf8PHUuYbndVf6ns0V1K7KjQbOrREQOnIua3
- B8FDUneBvUJZsQji+nAmcWytAhAe2neQpWrl6Y7k=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.153.1]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUXpK-1oKuSn3Sng-00QSFe; Fri, 27
- May 2022 17:46:33 +0200
-Date: Fri, 27 May 2022 17:46:32 +0200
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Cc: dave.anglin@bell.net
-Subject: [PATCH] linux-user: Adjust child_tidptr on set_tid_address() syscall
-Message-ID: <YpDyWAr/MYl3mizU@p100>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nucBQ-0000jE-BP
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:47:24 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nucBO-0004ZJ-Md
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:47:23 -0400
+Received: by mail-pl1-x631.google.com with SMTP id q18so4453292pln.12
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=R8F9eZX/LWYeuS5LdyUXesARcGKfNDdemj10zI/Wka4=;
+ b=dDz3u0VDmxnmGSq/kDc7+0gINJZppp8B2ZWCMnrsUICRvZ03wZhYAtKliWqWmqe8sA
+ PNoK46yAQbLL5Lb3JWGUglnfG+SoL92nSwgNCqouP0+G/CFyHL6W0NRfBDjG51xIhEG5
+ bNHAnM8fhvovp9zPY+OenXnLRmpnC3LA4nt5qeIupEFq4m5NRMGPRBroD/QRUgUMlNxx
+ 1maUQGR/hCtPHRlsgMS47r+ClWmzalIe7M7l4GEd7smEuyOI6yjxuaLOlv7fpp0biJqG
+ UndFpcj2tA0HdWyF3egu/o4hed6Ow4e2CZl8w9YDVIhngTYM+SGLRnTPRYIkBwgOmqz1
+ H37g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=R8F9eZX/LWYeuS5LdyUXesARcGKfNDdemj10zI/Wka4=;
+ b=sKrxJbwcEnoniaSgIgYnmXNkAkcuTZZQUOFcLfotTTWAa8t4SOB9ySsFWAaJ9MvIK9
+ lwqzwpUeBLcs0PnTqA7Qgid3ym7TVRudEYBv2B9+vMrQLVX5R80Tv9MmPley/yQgKyOC
+ bjgoCKG3gLBZKonBxwtoGqjqo7uaSUGWrKg5WCE2+1YNA01OLIRVmfEjrZnyHQBCfHDb
+ JvITTWCK+mucubhTQQ45AOvWFmCvkuVJkzjv9/mOuaCWc401j5phqN71wPRyi79zZOyO
+ PRr+A7e6UVSSVQdGxvI+m2eHF93SG29nkGSOxdhBcMeTRgSRb+6BFVg1tOPkv3InV9Q3
+ wAwQ==
+X-Gm-Message-State: AOAM533BpVDYenyHAeJTqgv3x1c70LDDX1RY9YM44ftyh5imlz9/HZyz
+ k/EIURGhnIoiSlONfsl0Svu2Qw==
+X-Google-Smtp-Source: ABdhPJyNi7sAPTbeplzz5TgJILy6mg4gtyTVMes63/+lYCXJnATIxBmMw0xTvsbiCUIeDlid6ae2hw==
+X-Received: by 2002:a17:90b:1d8f:b0:1e0:37a5:17e3 with SMTP id
+ pf15-20020a17090b1d8f00b001e037a517e3mr8895195pjb.246.1653666441263; 
+ Fri, 27 May 2022 08:47:21 -0700 (PDT)
+Received: from [192.168.0.4] (174-21-71-225.tukw.qwest.net. [174.21.71.225])
+ by smtp.gmail.com with ESMTPSA id
+ p11-20020a170903248b00b001624b1e1a7bsm3783353plw.250.2022.05.27.08.47.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 May 2022 08:47:20 -0700 (PDT)
+Message-ID: <5dea16f7-f926-4031-1fd2-2e448345eb4b@linaro.org>
+Date: Fri, 27 May 2022 08:47:18 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:Ostij1QK1RaH+U3bpGsbafiKT7lVwUgdMvbAwjzkKrNQoXPlLw3
- yLeRk4S0dumTgb4jJDiXVCozfYpEvXEpElips29SedenKLAJc5YnqqKoLcx6A16x9U5xCFh
- 6aNAUscv5SwK5+3zvEEs59X7fnxOZ5bYtnkBW4zFeAy8k9JcD+Tqb4cNOyWsb8YuWIIkiCO
- ukxUybv1tinc+m6wM4XxA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7N5G3soUaAw=:VAPt1A6ORN3CQsXt9V1M9T
- 3OPQXKbwSvpD5AMd7teYy1YUbMr7ZHVGuw4cVZPmtddEFEQQ65JjA/2BRwH0KXpmkkxPakBvb
- j0LfHYs03PkF41pRZKjlzZKI6tTZZfs0ceESLEnKMdqWD1S1e1zF9udiG3F6XOIGEkUEQ/M38
- hPaqzldCRYDQ9uyTtWSgXanYb96JkNaktC7uA8tL2PNd2Ox4cn7uFG/IH4jRkVR4kY5+vd8Ux
- uiMnxzFxYvMOsO6zhJwh+CwCya3qKXetPP3NAPp23Xm5w9pATHYWMRds4LY/bDb0PBfcWGvWn
- bK40wVzKlz+vOKBdT5Q8tu9A5bwZecjWzkptzHIG/Edsi05F3cc3e5pmjk1OOwLNOu6lFhcE8
- d8mjaQARMR6qZq5rjoZYtN3JLpIDBEJWyw4WKBh7C15StyeNgA+pl9Xg4I5wMyCaHThTnAAib
- dEO2nci45i6FWRsLU/WZzPf/deYqca9qXI1UATsmIAz3jHaephc+i4cWY4LMJ/qnvqJenxEv6
- luwYvjU+egNzosr6k5fp3Xtugo2QZiEAbVi8Ve7CDrxNJS5DkHfS7C2Vj//YPNXJ++FUpDJJH
- 6KzPeKDD8CAEIw9BznOV83bF6QdLYG0S9YVkAIj49JCeQEnWJuFJS4AmQbye1ORDYuW07/ijU
- S0hWKQaxA7JsaZlrMRv5kRZmJq53vSoQdf/1YHsWaITwnXdaGx6UIw6X4axRLdcuFNSlN6zbo
- qKvudLMQ3/pG8FmrWPBZkzAMlSl7P8G0/xGAUq/ZVeUTgI/hsEoxUigut5kDIhKVgINpJfXiP
- Ipb5B7cqbW3PABAZ+f3LFx+aiUMteyP/KoCArOncrT7aQxLrhd9KJRutXnG5gHvCb7sBrgdFx
- 2Vct0U5YPrZL5DjCXYDBRVlCy2LrrVsByu6insinfwNPk+TCS0jy5eGuPfHMOvLtEPE4PIITQ
- XGjqr3BeASRtMxlqan821LDeIdX1aUfbPj2SeeKu1nH39ePG9eeEAGixaUROwEMGcp/Pss5kH
- CJ9hwoH4AVqLc13GEgzooEVKC2SmgFqmgw2H6XVCwbK46nyW04Jx7vUAPfYu9mbB8NSqqoVm9
- abLhvlYqXWTOAw5Ylhv73Gz/A0igNR19J2k5F6bWkJ2s5JyyJRlsGjg+Q==
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 10/17] target/m68k: Implement TRAPcc
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220430175342.370628-1-richard.henderson@linaro.org>
+ <20220430175342.370628-11-richard.henderson@linaro.org>
+ <ce53c8b1-b3fc-1cd4-7c65-58d970df5733@vivier.eu>
+ <6e1fc8f9-b422-ab6a-191f-cc36e404355a@linaro.org>
+ <c8c71525-f517-dbcc-11b1-461569b3392f@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <c8c71525-f517-dbcc-11b1-461569b3392f@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,27 +95,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keep track of the new child tidptr given by a set_tid_address() syscall.
+On 5/25/22 17:15, Laurent Vivier wrote:
+> Le 26/05/2022 à 00:26, Richard Henderson a écrit :
+>> On 5/25/22 14:40, Laurent Vivier wrote:
+>>>> +DISAS_INSN(trapcc)
+>>>> +{
+>>>> +    DisasCompare c;
+>>>> +
+>>>> +    /* Consume and discard the immediate operand. */
+>>>> +    switch (extract32(insn, 0, 3)) {
+>>>> +    case 2: /* trapcc.w */
+>>>> +        (void)read_im16(env, s);
+>>>> +        break;
+>>>> +    case 3: /* trapcc.l */
+>>>> +        (void)read_im32(env, s);
+>>>> +        break;
+>>>
+>>> Do we really need to read the data or do we only need to increment s->pc (as the data 
+>>> are only here to be available for the trap handler)?
+>>
+>> We need to read the data to (1) trigger sigsegv when this insn crosses a page and (2) 
+>> passing to tcg plugins.
+>>
+> 
+> For (1) I was wondering if the real CPU is actually doing it.
+> 
+> Nothing is said about it in the instruction definition.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+Surely the cpu reads cachelines at a time, so of course it would.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f65045efe6..fdf5c1c03e 100644
-=2D-- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -12202,7 +12202,11 @@ static abi_long do_syscall1(void *cpu_env, int nu=
-m, abi_long arg1,
-
- #if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
-     case TARGET_NR_set_tid_address:
--        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
-+    {
-+        TaskState *ts =3D cpu->opaque;
-+        ts->child_tidptr =3D arg1;
-+        return get_errno(set_tid_address((int *)g2h(cpu, ts->child_tidptr=
-)));
-+    }
- #endif
-
-     case TARGET_NR_tkill:
+r~
 
