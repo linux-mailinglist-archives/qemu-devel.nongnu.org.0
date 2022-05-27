@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DCC5365FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:29:48 +0200 (CEST)
-Received: from localhost ([::1]:33236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A81F5365DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:22:08 +0200 (CEST)
+Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucqR-0002aW-3F
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40906)
+	id 1nucj1-0006vi-BP
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:22:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nucBQ-0000jE-BP
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:47:24 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nucBO-0004ZJ-Md
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:47:23 -0400
-Received: by mail-pl1-x631.google.com with SMTP id q18so4453292pln.12
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=R8F9eZX/LWYeuS5LdyUXesARcGKfNDdemj10zI/Wka4=;
- b=dDz3u0VDmxnmGSq/kDc7+0gINJZppp8B2ZWCMnrsUICRvZ03wZhYAtKliWqWmqe8sA
- PNoK46yAQbLL5Lb3JWGUglnfG+SoL92nSwgNCqouP0+G/CFyHL6W0NRfBDjG51xIhEG5
- bNHAnM8fhvovp9zPY+OenXnLRmpnC3LA4nt5qeIupEFq4m5NRMGPRBroD/QRUgUMlNxx
- 1maUQGR/hCtPHRlsgMS47r+ClWmzalIe7M7l4GEd7smEuyOI6yjxuaLOlv7fpp0biJqG
- UndFpcj2tA0HdWyF3egu/o4hed6Ow4e2CZl8w9YDVIhngTYM+SGLRnTPRYIkBwgOmqz1
- H37g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=R8F9eZX/LWYeuS5LdyUXesARcGKfNDdemj10zI/Wka4=;
- b=sKrxJbwcEnoniaSgIgYnmXNkAkcuTZZQUOFcLfotTTWAa8t4SOB9ySsFWAaJ9MvIK9
- lwqzwpUeBLcs0PnTqA7Qgid3ym7TVRudEYBv2B9+vMrQLVX5R80Tv9MmPley/yQgKyOC
- bjgoCKG3gLBZKonBxwtoGqjqo7uaSUGWrKg5WCE2+1YNA01OLIRVmfEjrZnyHQBCfHDb
- JvITTWCK+mucubhTQQ45AOvWFmCvkuVJkzjv9/mOuaCWc401j5phqN71wPRyi79zZOyO
- PRr+A7e6UVSSVQdGxvI+m2eHF93SG29nkGSOxdhBcMeTRgSRb+6BFVg1tOPkv3InV9Q3
- wAwQ==
-X-Gm-Message-State: AOAM533BpVDYenyHAeJTqgv3x1c70LDDX1RY9YM44ftyh5imlz9/HZyz
- k/EIURGhnIoiSlONfsl0Svu2Qw==
-X-Google-Smtp-Source: ABdhPJyNi7sAPTbeplzz5TgJILy6mg4gtyTVMes63/+lYCXJnATIxBmMw0xTvsbiCUIeDlid6ae2hw==
-X-Received: by 2002:a17:90b:1d8f:b0:1e0:37a5:17e3 with SMTP id
- pf15-20020a17090b1d8f00b001e037a517e3mr8895195pjb.246.1653666441263; 
- Fri, 27 May 2022 08:47:21 -0700 (PDT)
-Received: from [192.168.0.4] (174-21-71-225.tukw.qwest.net. [174.21.71.225])
- by smtp.gmail.com with ESMTPSA id
- p11-20020a170903248b00b001624b1e1a7bsm3783353plw.250.2022.05.27.08.47.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 May 2022 08:47:20 -0700 (PDT)
-Message-ID: <5dea16f7-f926-4031-1fd2-2e448345eb4b@linaro.org>
-Date: Fri, 27 May 2022 08:47:18 -0700
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nucCW-0002zm-MC
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:48:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nucCU-0004gE-Pl
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:48:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653666501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ptFKN07WzaZSkB75ssKmvz0ncxq0DmC4gK9vbQcWX08=;
+ b=A2AEQwF7hl0GlvmeKvM3N2G7Oe/te4rIHTQl/YLiXO1x6SgYKx1jCOquXKqkGQ4feftLMO
+ ldFD13QnOB+9rjbxNba+txsNoql1DERoVU2Qz6LLSj8wG9R6ZGQn9TtJ6NafMq8ZGnId1m
+ cs1g/vTcddhUziXNsOHLzj8kdHD4EJY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-342-5JfnatFlN7OYXP6x7dxRCw-1; Fri, 27 May 2022 11:48:14 -0400
+X-MC-Unique: 5JfnatFlN7OYXP6x7dxRCw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED4CB85A5BC;
+ Fri, 27 May 2022 15:48:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D4F48287E;
+ Fri, 27 May 2022 15:48:10 +0000 (UTC)
+Date: Fri, 27 May 2022 17:48:07 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Xie Yongji <xieyongji@bytedance.com>
+Cc: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
+ sgarzare@redhat.com, mreitz@redhat.com, mlureau@redhat.com,
+ jsnow@redhat.com, eblake@redhat.com, Coiby.Xu@gmail.com,
+ hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 0/8] Support exporting BDSs via VDUSE
+Message-ID: <YpDyt/ige24pu7T9@redhat.com>
+References: <20220523084611.91-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4 10/17] target/m68k: Implement TRAPcc
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20220430175342.370628-1-richard.henderson@linaro.org>
- <20220430175342.370628-11-richard.henderson@linaro.org>
- <ce53c8b1-b3fc-1cd4-7c65-58d970df5733@vivier.eu>
- <6e1fc8f9-b422-ab6a-191f-cc36e404355a@linaro.org>
- <c8c71525-f517-dbcc-11b1-461569b3392f@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <c8c71525-f517-dbcc-11b1-461569b3392f@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220523084611.91-1-xieyongji@bytedance.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,34 +79,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/22 17:15, Laurent Vivier wrote:
-> Le 26/05/2022 à 00:26, Richard Henderson a écrit :
->> On 5/25/22 14:40, Laurent Vivier wrote:
->>>> +DISAS_INSN(trapcc)
->>>> +{
->>>> +    DisasCompare c;
->>>> +
->>>> +    /* Consume and discard the immediate operand. */
->>>> +    switch (extract32(insn, 0, 3)) {
->>>> +    case 2: /* trapcc.w */
->>>> +        (void)read_im16(env, s);
->>>> +        break;
->>>> +    case 3: /* trapcc.l */
->>>> +        (void)read_im32(env, s);
->>>> +        break;
->>>
->>> Do we really need to read the data or do we only need to increment s->pc (as the data 
->>> are only here to be available for the trap handler)?
->>
->> We need to read the data to (1) trigger sigsegv when this insn crosses a page and (2) 
->> passing to tcg plugins.
->>
+Am 23.05.2022 um 10:46 hat Xie Yongji geschrieben:
+> Hi all,
 > 
-> For (1) I was wondering if the real CPU is actually doing it.
+> Last few months ago, VDUSE (vDPA Device in Userspace) [1] has
+> been merged into Linux kernel as a framework that make it
+> possible to emulate a vDPA device in userspace. This series
+> aimed at implementing a VDUSE block backend based on the
+> qemu-storage-daemon infrastructure.
 > 
-> Nothing is said about it in the instruction definition.
+> To support that, we firstly introduce a VDUSE library as a
+> subproject (like what libvhost-user does) to help implementing
+> VDUSE backends in QEMU. Then a VDUSE block export is implemented
+> based on this library. At last, we add resize and reconnect support
+> to the VDUSE block export and VDUSE library.
+> 
+> Now this series is based on Stefan's patch [2]. And since we don't
+> support vdpa-blk in QEMU currently, the VM case is tested with my
+> previous patchset [3].
+> 
+> [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
+> [2] https://lore.kernel.org/all/20220518130945.2657905-1-stefanha@redhat.com/
+> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
 
-Surely the cpu reads cachelines at a time, so of course it would.
+Thanks, applied to the block branch.
 
-r~
+Kevin
+
 
