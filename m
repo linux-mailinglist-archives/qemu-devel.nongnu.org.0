@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456EA5367F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:18:29 +0200 (CEST)
-Received: from localhost ([::1]:36594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37F8536818
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:30:04 +0200 (CEST)
+Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nugPk-00068w-Bn
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45860)
+	id 1nugax-0003G9-MR
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:30:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nuefj-000209-Qd
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:53 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:46826)
+ id 1nuefl-00020K-0J
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:55 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:34738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nuefe-0005MB-5Z
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:51 -0400
-Received: by mail-pg1-x536.google.com with SMTP id j21so4555595pga.13
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:26:45 -0700 (PDT)
+ id 1nuefh-0005Oe-9L
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:52 -0400
+Received: by mail-pg1-x536.google.com with SMTP id g184so4613197pgc.1
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JXs4KxlVAWW8+RgYn/YknaXv8pQTUABwGWD2au3w4Q4=;
- b=B7eNq6vx3uovoWiGkD0BUqqNhK+PcQ/toJlZREiuSduw8TzrI5KirGrZTToIAftV4j
- 1gQro3lat4qSTAd+r7w/tkanStuv0dVchqSmHTlI4R1mH/awoYKSfBkTsfIMDdbTrhHq
- oGkHT8JzPutryZnZiLwffECh81FUDp06SUJcnIlTqoKdIwoSRN1m7+kWV2JtBhw71PQv
- XmIv+aez4HSkij++/aIYRDv2A3+nE47S88FaccTz5Grbvp6F7kCzAH+gnYMrDPeAkc22
- s/cweWP7Vso2inkrKYpuPq4UsbPnoZk/4ut2+VmF2rJyg+ZyVCS+1BIeVy+ECeiPfH04
- +RdQ==
+ bh=8ygs+OMGKS8EkLzR53KKeWUpXL1YjpXft8HOELKtpOE=;
+ b=xtaadiONTDEpK0/r/MclG4c04ABx0JREehlVseIyWIWOhe1f1Z7qAaOgLUDNhWc1yB
+ 5tzSAyEoWwM74W/5j97Vx0H47eWs4uTidaP5hf2ss5iARo8Bw9jazZX3vw3ilK/hMoGW
+ mOGVq8o3uA1f6ahpmquynbnuhor+ANAjEZAloNTbLwluQ6no5/oUnfjATkNNwl4pBykm
+ +mp6E9NJ1Houg8KhEL1QP6BlKRpM9htZNwRGRNC/ciYSD8nSEonYoQvmmL/Lp8pcjnX5
+ tXhjopBAR4KOEHb5lRtUyWOLNtGPmNkwu1PizMHaGdud0ZB59CypX2JKoBVaji6qwVnL
+ 0npg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JXs4KxlVAWW8+RgYn/YknaXv8pQTUABwGWD2au3w4Q4=;
- b=thteJHf3+3p5yOWaXM7vNMzRdLkK97JFl/jNdchUD228cbbjfGaZrxLfLoy1bvYJtH
- dN/Jke60m5xMY4kz3bZZfva54Jda/vr2gIGNbi81KSq4RrV/DxC8lROwnuiP3md1SEWI
- XEYIzcjZbcCRFX1CuzdEKWMkD9s8UcC66Zkz0pDaXifTFAc/F4WUI3YE/UbP4TjV7R+6
- IHuaQ9Zw4/o9gQGHD72Eirq8VluRimzAQqy/E3OwYl/6E/BI4TxJiDP3V0jUDRL7KNN4
- ZijmW2YZSTtKyu0/ew/HUzZ6+ELYz4IudTN343TA7W3l6OQvrk+jsmtEjdLqMgwkjbzc
- 0ClQ==
-X-Gm-Message-State: AOAM531hO8wk/gwFavnCK9Y5ohmrde6n1o/cLEuKYA0pNLcd53KsSomm
- V7dbLf3K2y/KvK65+ReUs2D+c9r6E3lD6Q==
-X-Google-Smtp-Source: ABdhPJyav3prroDNtalowr0JRKl+lPmadENowwOt+9cWiyNmZGYyI7NbvLqwN5iSYXbKJfYGrtSyPg==
-X-Received: by 2002:a05:6a00:c85:b0:518:b4a7:cce1 with SMTP id
- a5-20020a056a000c8500b00518b4a7cce1mr23319115pfv.66.1653676005357; 
- Fri, 27 May 2022 11:26:45 -0700 (PDT)
+ bh=8ygs+OMGKS8EkLzR53KKeWUpXL1YjpXft8HOELKtpOE=;
+ b=7nO8ZRyJ8bwhJoZna8lAcnwhnLHrqScdkhq9iIEpLu8Ct4U7USCcb9w/HoThmRAJnF
+ On8DQz0VGxIFZU7BiDp5aQrKG+2Zm2YRiL69hmb32WEgdJ9DxAMqdGfY8I2O6JOL0bnh
+ J89/SaWB+WPEJc+m33nt1DHL/IcKx0MoW4WYfeWIMjGbkfyheZgFuGPhpi1kbC/vNrF5
+ wndvVVFn3bUQotds2czjdT7GGKDCIYyMqVNJwfuTUKz9lrA852FMw3VEFJsxWRgALGVY
+ DoUeutwhdBkfHqHMwrGPsvda+h1S17NNCuEU2Q/QMJLfAbUdy0A9PcDoACikZdOamB0u
+ BeVg==
+X-Gm-Message-State: AOAM532z0ngAY146CBEQhIGkvQORAt/eIZjP6kDTE97lBk2MYwwL79CG
+ 7DjPrY0yVScd2pSOURR0n7ZV8zvv9QvLog==
+X-Google-Smtp-Source: ABdhPJxHL2lvN15c2iGlOh4q2ltDyGGlNa02+ZE18Uk1zxJewVHCh1+O4aPgf4f2zJ8W2k5dHE9Fnw==
+X-Received: by 2002:a63:5a23:0:b0:3f2:678b:8de8 with SMTP id
+ o35-20020a635a23000000b003f2678b8de8mr38176178pgb.226.1653676006307; 
+ Fri, 27 May 2022 11:26:46 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- g13-20020aa7874d000000b0050dc762816fsm3781539pfo.73.2022.05.27.11.26.44
+ g13-20020aa7874d000000b0050dc762816fsm3781539pfo.73.2022.05.27.11.26.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 11:26:44 -0700 (PDT)
+ Fri, 27 May 2022 11:26:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 103/114] target/arm: Move null function and sve check into
- do_fp_imm
-Date: Fri, 27 May 2022 11:18:56 -0700
-Message-Id: <20220527181907.189259-104-richard.henderson@linaro.org>
+Subject: [PATCH 104/114] target/arm: Use TRANS_FEAT for DO_FP_IMM
+Date: Fri, 27 May 2022 11:18:57 -0700
+Message-Id: <20220527181907.189259-105-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220527181907.189259-1-richard.henderson@linaro.org>
 References: <20220527181907.189259-1-richard.henderson@linaro.org>
@@ -91,61 +90,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-sve.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ target/arm/translate-sve.c | 30 ++++++++++++++----------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 75854a7c6c..b47d5d7f21 100644
+index b47d5d7f21..e2ae387d62 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -3911,33 +3911,34 @@ static void do_fp_scalar(DisasContext *s, int zd, int zn, int pg, bool is_fp16,
-     tcg_temp_free_ptr(t_zd);
+@@ -3924,22 +3924,20 @@ static bool do_fp_imm(DisasContext *s, arg_rpri_esz *a, uint64_t imm,
+     return true;
  }
  
--static void do_fp_imm(DisasContext *s, arg_rpri_esz *a, uint64_t imm,
-+static bool do_fp_imm(DisasContext *s, arg_rpri_esz *a, uint64_t imm,
-                       gen_helper_sve_fp2scalar *fn)
- {
--    do_fp_scalar(s, a->rd, a->rn, a->pg, a->esz == MO_16,
--                 tcg_constant_i64(imm), fn);
-+    if (fn == NULL) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        do_fp_scalar(s, a->rd, a->rn, a->pg, a->esz == MO_16,
-+                     tcg_constant_i64(imm), fn);
-+    }
-+    return true;
- }
- 
- #define DO_FP_IMM(NAME, name, const0, const1) \
- static bool trans_##NAME##_zpzi(DisasContext *s, arg_rpri_esz *a)         \
- {                                                                         \
--    static gen_helper_sve_fp2scalar * const fns[3] = {                    \
--        gen_helper_sve_##name##_h,                                        \
-+    static gen_helper_sve_fp2scalar * const fns[4] = {                    \
-+        NULL, gen_helper_sve_##name##_h,                                  \
-         gen_helper_sve_##name##_s,                                        \
-         gen_helper_sve_##name##_d                                         \
-     };                                                                    \
--    static uint64_t const val[3][2] = {                                   \
-+    static uint64_t const val[4][2] = {                                   \
-+        { -1, -1 },                                                       \
-         { float16_##const0, float16_##const1 },                           \
-         { float32_##const0, float32_##const1 },                           \
-         { float64_##const0, float64_##const1 },                           \
-     };                                                                    \
--    if (a->esz == 0) {                                                    \
--        return false;                                                     \
--    }                                                                     \
--    if (sve_access_check(s)) {                                            \
--        do_fp_imm(s, a, val[a->esz - 1][a->imm], fns[a->esz - 1]);        \
--    }                                                                     \
--    return true;                                                          \
-+    return do_fp_imm(s, a, val[a->esz][a->imm], fns[a->esz]);             \
- }
+-#define DO_FP_IMM(NAME, name, const0, const1) \
+-static bool trans_##NAME##_zpzi(DisasContext *s, arg_rpri_esz *a)         \
+-{                                                                         \
+-    static gen_helper_sve_fp2scalar * const fns[4] = {                    \
+-        NULL, gen_helper_sve_##name##_h,                                  \
+-        gen_helper_sve_##name##_s,                                        \
+-        gen_helper_sve_##name##_d                                         \
+-    };                                                                    \
+-    static uint64_t const val[4][2] = {                                   \
+-        { -1, -1 },                                                       \
+-        { float16_##const0, float16_##const1 },                           \
+-        { float32_##const0, float32_##const1 },                           \
+-        { float64_##const0, float64_##const1 },                           \
+-    };                                                                    \
+-    return do_fp_imm(s, a, val[a->esz][a->imm], fns[a->esz]);             \
+-}
++#define DO_FP_IMM(NAME, name, const0, const1)                           \
++    static gen_helper_sve_fp2scalar * const name##_fns[4] = {           \
++        NULL, gen_helper_sve_##name##_h,                                \
++        gen_helper_sve_##name##_s,                                      \
++        gen_helper_sve_##name##_d                                       \
++    };                                                                  \
++    static uint64_t const name##_const[4][2] = {                        \
++        { -1, -1 },                                                     \
++        { float16_##const0, float16_##const1 },                         \
++        { float32_##const0, float32_##const1 },                         \
++        { float64_##const0, float64_##const1 },                         \
++    };                                                                  \
++    TRANS_FEAT(NAME##_zpzi, aa64_sve, do_fp_imm, a,                     \
++               name##_const[a->esz][a->imm], name##_fns[a->esz])
  
  DO_FP_IMM(FADD, fadds, half, one)
+ DO_FP_IMM(FSUB, fsubs, half, one)
 -- 
 2.34.1
 
