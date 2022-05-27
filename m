@@ -2,102 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C92F53669E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:38:00 +0200 (CEST)
-Received: from localhost ([::1]:38546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564DB5366D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 20:08:40 +0200 (CEST)
+Received: from localhost ([::1]:50254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuduR-0004i5-FK
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
+	id 1nueO6-0005uY-SM
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 14:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nudsk-0003x1-0Y
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:36:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35022)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nudsi-0005OI-8C
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:36:13 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24RHEEQi025017
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:36:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-transfer-encoding
- : mime-version; s=pp1; bh=EzfYsV6AlEHKAFjXxbPrdaK1EDhzGL8JEz+fWnyW/l0=;
- b=dB1zQGhbOVEUUXUnJABLOtjVV/78Ex2t/3i2YcENMalcklWhhUyAUFoOmhstem1espzs
- I7QKd9+0lDPFahZ/3DgF9vI5BKfBUycfRh4KdzhnQCTclyIC+bS4GCEXTJIg4QoY6IrZ
- Tn7cPq+htvFimN1lZZzN+saT3YhXRwC/zlkHCGYj4IMBR/c4aN6xvob3hWZwZMMwA2u4
- 5WxtW2iLuAT9GBZawITU/Dgp07gnWc/LutOeAAxegb6usNXC7Pd7on+y8JgwwnjlORzx
- MLRljDusN0NbMQPpY+vJ3ydz+1cAdoEz1FgTFPWYWD9RBzgkiW+vcr07ZKFoYBJGpUVe hw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb2v48ba9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:36:10 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24RHWKZa017606
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 17:36:10 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb2v48b9x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 May 2022 17:36:10 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24RHDJtS004439;
- Fri, 27 May 2022 17:31:09 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 3g93v9ak3t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 May 2022 17:31:09 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24RHV8IU4195156
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 May 2022 17:31:08 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 73E01B206A;
- Fri, 27 May 2022 17:31:08 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 668FBB2068;
- Fri, 27 May 2022 17:31:08 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 27 May 2022 17:31:08 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
-Cc: Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH 2/2] backends/tpm: Send TPM2_Shutdown upon VM reset
-Date: Fri, 27 May 2022 13:30:58 -0400
-Message-Id: <20220527173058.226210-3-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220527173058.226210-1-stefanb@linux.ibm.com>
-References: <20220527173058.226210-1-stefanb@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _Vff29IKuxb6Yyl5UxkRbZ12QPJ1L3am
-X-Proofpoint-GUID: JaNvN94g3Ftq9Rf21DyOkEit2qPkdyU-
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nueM2-00030W-6C
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:06:30 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nueLy-0001cN-7o
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:06:28 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id t28so4533565pga.6
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HLtTUIfOEVBdKbxi4BRnlBcf8mL9fpt6kfR6WD0+IXQ=;
+ b=Giw75pVnwmgoRWs+ZdqHFGNusMfyY/QM0WwRdf7WjEX7XczB2cEP/Z94V7PCDVqFvU
+ r33pZ9umGPGV88IfxSBCz47Xd9Uo6+bEiqZLHe95fBJAvcI5txQplLQjtGO3AtYrvzF3
+ WneKBMagRxVkN7ukxxxlBJZYJDbuHsvWv1htg5HF2Wxcv8rL5+5HoSB6ED3jU+hoN8xG
+ HtNKqFxvB1NOUN8TgNF9cPMOZWrfMcVLNksjakGAnsa0QysHLaIFx2nbii2stjmFqx8e
+ Wx6a7JsOt0aWIkyyxNMG2eaPZUQdbzvNnfQCdWCS9AYPKxT7bh/yR8P1rf+xjhz8iKxa
+ kzyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HLtTUIfOEVBdKbxi4BRnlBcf8mL9fpt6kfR6WD0+IXQ=;
+ b=d8wsAKN8CocLdGWY6BGskgLG5caHch2jXbvkh+RkZB+/qzlXLgGWVoPp/OeklAnN8M
+ CXiDeZheLyk/36zYv2dLRnhWCgF56gU0WoRZyXOMx7GvCibuSHR2Xzi13v70dA6Lz1jj
+ HzLoAE3bVb6PVQnvtJ9rsALRakP4F3f8aHaN2YFZDR4CRWjSGr3YL130n8wC47jz7Q43
+ 0fEFV2zR8BM+mpAvDnjs45mKnSUOgnb8gdUGZHyRp5Qpc9yMslL77pmncqAUPd9A1XEO
+ VSOxNqkpNkGIo7gKgRU5juMC8tvDEZBwNCAiUbPcGnc0YkC3Ycot+L7Hc9sOpLvYJO29
+ CVmA==
+X-Gm-Message-State: AOAM5308mu99STsNHhYMdAMa8192z7BU2XwKRCK0TyaQegYBb6GM0sTW
+ H9CC4Kzp+YyHEYqeiZJ5Y05sw3M/eDpHtQ==
+X-Google-Smtp-Source: ABdhPJwma0qvs2Ub/exJQZSqKkqGM3rTXhbbO9Wc5W7wCijClA1epLnd0rxKdR34M8FHmqvWJwiqvg==
+X-Received: by 2002:a63:5304:0:b0:3fb:92eb:8e90 with SMTP id
+ h4-20020a635304000000b003fb92eb8e90mr5954130pgb.36.1653674784465; 
+ Fri, 27 May 2022 11:06:24 -0700 (PDT)
+Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
+ by smtp.gmail.com with ESMTPSA id
+ e10-20020a170902cf4a00b001618fee3900sm3934492plg.196.2022.05.27.11.06.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 May 2022 11:06:23 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v3 00/15] target/arm: SME prep patches
+Date: Fri, 27 May 2022 11:06:08 -0700
+Message-Id: <20220527180623.185261-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-27_04,2022-05-27_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- priorityscore=1501 mlxlogscore=999 clxscore=1015 spamscore=0 mlxscore=0
- phishscore=0 impostorscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2205270085
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,103 +86,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Send a TPM2_Shutdown(TPM2_SU_CLEAR) command to the TPM emulator when the
-VM is reset. However, this is only necessary for a TPM 2 and only if the
-TPM2_Shutdown command has not been sent by the VM as the last command as
-it would do under normal circumstances. Further, it also doesn't need to
-be sent if the VM was just started.
+Based-on: 20220523204742.740932-1-richard.henderson@linaro.org
+("target/arm: tidy exception routing")
 
-This fixes a bug where well-timed VM resets may trigger the TPM 2's
-dictionary attack lockout logic due to the TPM 2 not having received a
-TPM2_Shutdown command when it was reset.
+Changes for v3:
+  * Two patch upstream,
+  * Have linux-user use the digested SVE_LEN from hflags (pmm)
+  * Use el_is_in_host in sve_vqm1_for_el, mirror how I intend
+    do use it for streaming sve.
+  * Export a bunch of functions which will be used by sme_helper.c.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2087538
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- backends/tpm/tpm_emulator.c | 35 +++++++++++++++++++++++++++++++++++
- backends/tpm/tpm_int.h      |  3 +++
- backends/tpm/trace-events   |  1 +
- 3 files changed, 39 insertions(+)
 
-diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index 89ecb04a2a..c928d7abd1 100644
---- a/backends/tpm/tpm_emulator.c
-+++ b/backends/tpm/tpm_emulator.c
-@@ -389,8 +389,43 @@ err_exit:
-     return -1;
- }
- 
-+static void tpm_emulator_send_tpm2_shutdown(TPMEmulator *tpm_emu)
-+{
-+    const struct tpm2_shutdown {
-+        struct tpm_req_hdr hdr;
-+        uint16_t shutdownType;
-+    } tpm2_shutdown_clear = {
-+        .hdr = {
-+            .tag = cpu_to_be16(TPM2_ST_NO_SESSIONS),
-+            .len = cpu_to_be32(sizeof(tpm2_shutdown_clear)),
-+            .ordinal = cpu_to_be32(TPM2_CC_Shutdown),
-+        },
-+        .shutdownType = cpu_to_be16(TPM2_SU_CLEAR),
-+    };
-+    Error *local_err = NULL;
-+    uint8_t result[10];
-+
-+    trace_tpm_emulator_send_tpm2_shutdown(tpm_emu->last_command);
-+
-+    if (tpm_emulator_unix_tx_bufs(tpm_emu, (uint8_t *)&tpm2_shutdown_clear,
-+                                  sizeof(tpm2_shutdown_clear),
-+                                  result, sizeof(result),
-+                                  NULL, &local_err) < 0) {
-+        error_report_err(local_err);
-+    }
-+}
-+
- static int tpm_emulator_startup_tpm(TPMBackend *tb, size_t buffersize)
- {
-+    TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
-+
-+    /* In case of VM reset we may need to send a TPM2_Shutdown command */
-+    if (tpm_emu->tpm_version == TPM_VERSION_2_0 &&
-+        tpm_emu->last_command != TPM_ORDINAL_NONE &&
-+        tpm_emu->last_command != TPM2_CC_Shutdown) {
-+        tpm_emulator_send_tpm2_shutdown(tpm_emu);
-+    }
-+
-     return tpm_emulator_startup_tpm_resume(tb, buffersize, false);
- }
- 
-diff --git a/backends/tpm/tpm_int.h b/backends/tpm/tpm_int.h
-index ba6109306e..2730d4ff02 100644
---- a/backends/tpm/tpm_int.h
-+++ b/backends/tpm/tpm_int.h
-@@ -64,6 +64,7 @@ struct tpm_resp_hdr {
- /* TPM2 defines */
- #define TPM2_ST_NO_SESSIONS       0x8001
- 
-+#define TPM2_CC_Shutdown          0x00000145
- #define TPM2_CC_ReadClock         0x00000181
- #define TPM2_CC_GetCapability     0x0000017a
- 
-@@ -71,6 +72,8 @@ struct tpm_resp_hdr {
- 
- #define TPM2_PT_MAX_COMMAND_SIZE  0x11e
- 
-+#define TPM2_SU_CLEAR             0x0
-+
- #define TPM_RC_INSUFFICIENT       0x9a
- #define TPM_RC_FAILURE            0x101
- #define TPM_RC_LOCALITY           0x907
-diff --git a/backends/tpm/trace-events b/backends/tpm/trace-events
-index 3298766dd7..cd16d41804 100644
---- a/backends/tpm/trace-events
-+++ b/backends/tpm/trace-events
-@@ -31,3 +31,4 @@ tpm_emulator_set_state_blobs_error(const char *msg) "error while setting state b
- tpm_emulator_set_state_blobs_done(void) "Done setting state blobs"
- tpm_emulator_pre_save(void) ""
- tpm_emulator_inst_init(void) ""
-+tpm_emulator_send_tpm2_shutdown(uint32_t ord) "Sending TPM2_Shutdown(TPM2_SU_CLEAR); last ordinal from VM was: 0x%08x"
+r~
+  
+
+Richard Henderson (15):
+  target/arm: Rename TBFLAG_A64 ZCR_LEN to SVE_LEN
+  linux-user/aarch64: Use SVE_LEN from hflags
+  target/arm: Do not use aarch64_sve_zcr_get_valid_len in reset
+  target/arm: Merge aarch64_sve_zcr_get_valid_len into caller
+  target/arm: Use uint32_t instead of bitmap for sve vq's
+  target/arm: Rename sve_zcr_len_for_el to sve_vqm1_for_el
+  target/arm: Remove fp checks from sve_exception_el
+  target/arm: Add el_is_in_host
+  target/arm: Use el_is_in_host for sve_vqm1_for_el
+  target/arm: Split out load/store primitives to sve_ldst_internal.h
+  target/arm: Export sve contiguous ldst support functions
+  target/arm: Move expand_pred_b to vec_internal.h
+  target/arm: Use expand_pred_b in mve_helper.c
+  target/arm: Move expand_pred_h to vec_internal.h
+  target/arm: Export bfdotadd from vec_helper.c
+
+ linux-user/aarch64/target_prctl.h |  19 ++-
+ target/arm/cpu.h                  |  11 +-
+ target/arm/internals.h            |  18 +--
+ target/arm/kvm_arm.h              |   7 +-
+ target/arm/sve_ldst_internal.h    | 221 ++++++++++++++++++++++++++++
+ target/arm/vec_internal.h         |  17 ++-
+ linux-user/aarch64/signal.c       |   4 +-
+ target/arm/arch_dump.c            |   2 +-
+ target/arm/cpu.c                  |   5 +-
+ target/arm/cpu64.c                | 117 ++++++++-------
+ target/arm/gdbstub64.c            |   2 +-
+ target/arm/helper.c               | 126 ++++++++--------
+ target/arm/kvm64.c                |  36 +----
+ target/arm/mve_helper.c           |   6 +-
+ target/arm/sve_helper.c           | 232 +++---------------------------
+ target/arm/translate-a64.c        |   2 +-
+ target/arm/vec_helper.c           |  28 +++-
+ 17 files changed, 444 insertions(+), 409 deletions(-)
+ create mode 100644 target/arm/sve_ldst_internal.h
+
 -- 
-2.35.3
+2.34.1
 
 
