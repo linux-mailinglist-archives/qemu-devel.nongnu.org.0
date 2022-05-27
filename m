@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCECE5364FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:51:23 +0200 (CEST)
-Received: from localhost ([::1]:40836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CF05364E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:49:58 +0200 (CEST)
+Received: from localhost ([::1]:38824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucFG-0005VS-QR
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
+	id 1nucDt-00049M-9r
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nuc7h-0001Fy-Fq
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:43:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33194)
+ id 1nuc8p-0004Iw-79
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nuc7e-0003p4-Nv
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:43:32 -0400
+ id 1nuc8m-0003vP-Fh
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653666209;
+ s=mimecast20190719; t=1653666279;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9/kwX4My2yu2mutiYFgcYAaI6KGlHNJ3WevqGQChUmE=;
- b=evEzbwh81LqkMsbGYTIa3wr3eFOWgs7GRvux4Tes35jHBPv8+zeBsCR+8CbRct+/bxQeBX
- naQ2LkgJMobq1nlkfbaq5Tmjfp+/RR3Of66Qocw2a593fXnl12k6MjTIT1ttQO1MsY0WGg
- 8Fa+TkqgI5WMyStEqeZHGoHrSFZfe9Q=
+ bh=fPGrMCPj+JFl1Fwgw9trXdy/pTT5MsJ0pX/7MsNdTKE=;
+ b=iJWs/3DZfkqM4bxtaCpiqDGBWhhl8pqgqlZvH2PnHaa7LDBrLV4K8BWO4UZESsBqWCnmXo
+ dxBi6J0gx3x+0eKsqmgeqjkqpOaxuvCc3XtCqJQjMKokhgWqiOouyO6NxD0YTrsO4XAaam
+ 7Y1ZUfbdcxybbyPrRinAlSoxDDIkYOM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-458-50GCuhcYM5KD_Y-S9fOJIA-1; Fri, 27 May 2022 11:43:26 -0400
-X-MC-Unique: 50GCuhcYM5KD_Y-S9fOJIA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-496-tDYEVGvnN52GIU5jmlrMWg-1; Fri, 27 May 2022 11:44:36 -0400
+X-MC-Unique: tDYEVGvnN52GIU5jmlrMWg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A43A858EED;
- Fri, 27 May 2022 15:43:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1A1580A0B5;
+ Fri, 27 May 2022 15:44:35 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D6281121315;
- Fri, 27 May 2022 15:43:24 +0000 (UTC)
-Date: Fri, 27 May 2022 16:43:21 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F9E71410DD5;
+ Fri, 27 May 2022 15:44:33 +0000 (UTC)
+Date: Fri, 27 May 2022 16:44:31 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org, fam@euphon.net, f4bug@amsat.org,
@@ -52,18 +52,18 @@ Cc: qemu-devel@nongnu.org, fam@euphon.net, f4bug@amsat.org,
  crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH  v1 05/33] tests/lcitool: fix up indentation to correct
- style
-Message-ID: <YpDxmRyGQl7PlUAK@redhat.com>
+Subject: Re: [PATCH  v1 06/33] tests/docker: update debian-armhf-cross with
+ lcitool
+Message-ID: <YpDx38RzYdZBIG/I@redhat.com>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
- <20220527153603.887929-6-alex.bennee@linaro.org>
+ <20220527153603.887929-7-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220527153603.887929-6-alex.bennee@linaro.org>
+In-Reply-To: <20220527153603.887929-7-alex.bennee@linaro.org>
 User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -89,22 +89,16 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 27, 2022 at 04:35:35PM +0100, Alex Bennée wrote:
-> 3 space indentation snuck into the initial commit. Clean it up before
-> we let it get established. I've also:
-> 
->   - removed unused os import
->   - added double lines between functions
->   - added some comments and grouped and sorted the generation stanzas
-> 
-> My lint tool is also recommending using f-strings but that requires
-> python 3.6.
+On Fri, May 27, 2022 at 04:35:36PM +0100, Alex Bennée wrote:
+> Use lcitool to update debian-armhf-cross to a Debian 11 based system.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  tests/lcitool/refresh | 134 ++++++++++++++++++++++++------------------
->  1 file changed, 76 insertions(+), 58 deletions(-)
+>  .gitlab-ci.d/container-cross.yml              |   3 +-
+>  tests/docker/Makefile.include                 |   1 -
+>  .../dockerfiles/debian-armhf-cross.docker     | 184 +++++++++++++++---
+>  tests/lcitool/refresh                         |   5 +
+>  4 files changed, 166 insertions(+), 27 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
