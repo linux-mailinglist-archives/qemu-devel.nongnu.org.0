@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355A2536702
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 20:43:11 +0200 (CEST)
-Received: from localhost ([::1]:37532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967BD5366FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 20:38:06 +0200 (CEST)
+Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuevW-0005hd-9k
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 14:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
+	id 1nueqb-0007u1-Mf
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 14:38:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nueYW-0006eC-Sc
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:19:24 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:33537)
+ id 1nueYV-0006aI-Kk
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:19:23 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nueYT-0003YH-2Q
+ id 1nueYT-0003Uj-C0
  for qemu-devel@nongnu.org; Fri, 27 May 2022 14:19:23 -0400
-Received: by mail-pl1-x636.google.com with SMTP id f18so4842962plg.0
+Received: by mail-pg1-x530.google.com with SMTP id g184so4598017pgc.1
  for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wBAvOi2H2aIOEj63Ke1Il3yEi3IVpupbG2NDNvYEwvc=;
- b=PQG7LFtUusX7FZCTgPcreRXjkSim+ZjD7wxHRwJUToIFrZnRhCvRfO4AsRQ9tEz2eW
- KMDdZk56pBDgVizxglXzoQrDo3acDXP8KrmqTMnR3l9oXVq/QK1Mc+k7/Pek2w3b40Ry
- 9KusY/pywBe4AuFdgwlrO+YsKtvCQpub65kxacp1scxcmT/PmPVUmYCQKrcmiY1d7XMn
- 0ASb0dWvMG0HYfpMdh9sz1MUOlLk9JLbg/ICoHqrfWHkN7N/tDL7n8j4etXFJpLhsbcU
- Dj67gETnwWX4ZrzQjuY9yqWS8nW/ugYgfP6qNUfOxNz0ei4gU/iaJVKokDjnLuVBiZPn
- 5FxQ==
+ bh=hh+yVTkfrv20wz04vQt9P4JgpNv6kDUvDG5bwUl77uY=;
+ b=R2y2rgWYxDWmhF6mH+uwZIEo3CIaAVWD7ZRZpx192tw73OJ/IUlIUj7g5Zjj9ipULb
+ sFHjNzfhBt+GFyUGOGIk7DbDDgznsEWemQRerkUQaQIZiIlp/MiNQEXCiLPPfnGpp74F
+ dfLn8oYkw9CNYLsIRnUbYDO4zD7nsqj91ZJiCH1iLfv7ydEduQ7HaF26JvhcfFy/TDUH
+ PV4TOdQH1KhAZGEigBYSYPo/0blSzv8WHiYdGa/sjbDrAh+OXfaxoKbJJwIwSqROJFZn
+ FaB7uL1/1AAhdpJ9MyFfRDfkcMThfQuCxgYy9RdsZ+7nRQdKpUbVcFN5OyrD6iKki+dM
+ FOJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wBAvOi2H2aIOEj63Ke1Il3yEi3IVpupbG2NDNvYEwvc=;
- b=NvWpQJqIoFAEPkbpakAfPr+KWVM8gv5XrPx7eXWWvkUL28SoHkgw1MaSiwrMBlXPC2
- ggfU6yxZ3pYPN/olW9yyIXUXrTSiC/SY8GsuknXM31tP+Wu0aiWYlzUhSVgsjky0b2Iq
- PF1IT0rNBnOqsYjzshwu/7qTH+tgRclQ4DOq0DWflJhz/fy3fD/XuTOVIUcuMkWHv92Y
- MLqNfPlE/jy/DshSmAwDl8WEuzg6UrjhuIXns58FFnSki5WRYCZZDutzemJ3JELAJe5r
- rrFggkLg8LDYudMYupgZlwM4qFXKcJbyFOZ0EG+23xyld5vxiNtWk+uoz/nGjt67Le+K
- eKeg==
-X-Gm-Message-State: AOAM5328xEAfJPyVeGyvponP6MqBJ/LmnKofIfIYhYm/E9zK7fWWrhMR
- BsMW1fkykCqqkxqKpvGwa+O42QKQP35vsw==
-X-Google-Smtp-Source: ABdhPJyjVCtTUaxUy6rhzv/KZolMCrg6GzXHLhpLQimXiVdlke0zATqIdNO5z9BBh67Uh8Uwsb6j6Q==
-X-Received: by 2002:a17:902:eb82:b0:161:f4c5:ec2 with SMTP id
- q2-20020a170902eb8200b00161f4c50ec2mr37510715plg.8.1653675559730; 
- Fri, 27 May 2022 11:19:19 -0700 (PDT)
+ bh=hh+yVTkfrv20wz04vQt9P4JgpNv6kDUvDG5bwUl77uY=;
+ b=tEEKiHzy3mqRQHs89MR2pPZ+t78oqxdxtzpyEURVG1NLCAqa0hDlPzMiXGLxfioOcD
+ rGacIOenD5Q8MKEDTjaNmcBNq9xPPL4elzREyx/5tTkLK/wDWLhbR2tqIhz79svSWKhF
+ 1b5tnI9xvAXcrT1odm1BjzSHGZLl1minkZ1Fvtyb7KSA5BX37AhLxGBKfdGfpMcnn4Z5
+ htcvExsx7NgngCkpI3hA6y6WZFyflYijH7WoTpe5+SDsfzJTgLB+x1t1OzPga1NHFHTY
+ rOV2kk4AJu9ETpcaPXgJg0XexTfxjmbNe1BZn3MrMw8RIFeW0lDCNWRH7ej6o4l8rqzl
+ ZVvA==
+X-Gm-Message-State: AOAM532Xl6uLNclLR8B3ENUHtYWuddvDNPpSS3PMpOjDw8aEgBAD8G4R
+ R4hM2+QK52AiCNlDxW4IALURWFvTnAXD8A==
+X-Google-Smtp-Source: ABdhPJygXU7gtVTunkZ2YGQdxQuJD2Z1n762kt5L7IEaL4LE+LdMfxiKw2dbNYbSNe33QTmcBcAJXw==
+X-Received: by 2002:a63:1724:0:b0:3fb:be5d:dccd with SMTP id
+ x36-20020a631724000000b003fbbe5ddccdmr2112868pgl.625.1653675560477; 
+ Fri, 27 May 2022 11:19:20 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- t5-20020a17090ae50500b001deb3cbd8f1sm1911612pjy.27.2022.05.27.11.19.18
+ t5-20020a17090ae50500b001deb3cbd8f1sm1911612pjy.27.2022.05.27.11.19.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 11:19:19 -0700 (PDT)
+ Fri, 27 May 2022 11:19:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 011/114] target/arm: Use TRANS_FEAT for do_sve2_zzzz_ool
-Date: Fri, 27 May 2022 11:17:24 -0700
-Message-Id: <20220527181907.189259-12-richard.henderson@linaro.org>
+Subject: [PATCH 012/114] target/arm: Use TRANS_FEAT for gen_gvec_ool_arg_zzzz
+Date: Fri, 27 May 2022 11:17:25 -0700
+Message-Id: <20220527181907.189259-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220527181907.189259-1-richard.henderson@linaro.org>
 References: <20220527181907.189259-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,312 +88,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert SVE translation functions using do_sve2_zzzz_ool
-to use TRANS_FEAT and gen_gvec_ool_arg_zzzz.
+Convert SVE translation functions directly using
+gen_gvec_ool_arg_zzzz to TRANS_FEAT.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-sve.c | 263 +++++++++++--------------------------
- 1 file changed, 79 insertions(+), 184 deletions(-)
+ target/arm/translate-sve.c | 47 ++++++++------------------------------
+ 1 file changed, 10 insertions(+), 37 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index e795baf6f9..cae6df705a 100644
+index cae6df705a..f7367a4f62 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -7109,45 +7109,19 @@ static bool trans_SQCADD_rot270(DisasContext *s, arg_rrr_esz *a)
-     return do_cadd(s, a, true, true);
+@@ -8302,37 +8302,15 @@ static bool trans_FMLSLT_zzxw(DisasContext *s, arg_rrxr_esz *a)
+     return do_FMLAL_zzxw(s, a, true, true);
  }
  
--static bool do_sve2_zzzz_ool(DisasContext *s, arg_rrrr_esz *a,
+-static bool do_i8mm_zzzz_ool(DisasContext *s, arg_rrrr_esz *a,
 -                             gen_helper_gvec_4 *fn, int data)
 -{
--    if (!dc_isar_feature(aa64_sve2, s)) {
+-    if (!dc_isar_feature(aa64_sve_i8mm, s)) {
 -        return false;
 -    }
 -    return gen_gvec_ool_arg_zzzz(s, fn, a, data);
 -}
-+static gen_helper_gvec_4 * const sabal_fns[4] = {
-+    NULL,                    gen_helper_sve2_sabal_h,
-+    gen_helper_sve2_sabal_s, gen_helper_sve2_sabal_d,
-+};
-+TRANS_FEAT(SABALB, aa64_sve2, gen_gvec_ool_arg_zzzz, sabal_fns[a->esz], a, 0)
-+TRANS_FEAT(SABALT, aa64_sve2, gen_gvec_ool_arg_zzzz, sabal_fns[a->esz], a, 1)
++TRANS_FEAT(SMMLA, aa64_sve_i8mm, gen_gvec_ool_arg_zzzz,
++           gen_helper_gvec_smmla_b, a, 0)
++TRANS_FEAT(USMMLA, aa64_sve_i8mm, gen_gvec_ool_arg_zzzz,
++           gen_helper_gvec_usmmla_b, a, 0)
++TRANS_FEAT(UMMLA, aa64_sve_i8mm, gen_gvec_ool_arg_zzzz,
++           gen_helper_gvec_ummla_b, a, 0)
  
--static bool do_abal(DisasContext *s, arg_rrrr_esz *a, bool uns, bool sel)
+-static bool trans_SMMLA(DisasContext *s, arg_rrrr_esz *a)
 -{
--    static gen_helper_gvec_4 * const fns[2][4] = {
--        { NULL,                    gen_helper_sve2_sabal_h,
--          gen_helper_sve2_sabal_s, gen_helper_sve2_sabal_d },
--        { NULL,                    gen_helper_sve2_uabal_h,
--          gen_helper_sve2_uabal_s, gen_helper_sve2_uabal_d },
--    };
--    return do_sve2_zzzz_ool(s, a, fns[uns][a->esz], sel);
+-    return do_i8mm_zzzz_ool(s, a, gen_helper_gvec_smmla_b, 0);
 -}
 -
--static bool trans_SABALB(DisasContext *s, arg_rrrr_esz *a)
+-static bool trans_USMMLA(DisasContext *s, arg_rrrr_esz *a)
 -{
--    return do_abal(s, a, false, false);
+-    return do_i8mm_zzzz_ool(s, a, gen_helper_gvec_usmmla_b, 0);
 -}
 -
--static bool trans_SABALT(DisasContext *s, arg_rrrr_esz *a)
+-static bool trans_UMMLA(DisasContext *s, arg_rrrr_esz *a)
 -{
--    return do_abal(s, a, false, true);
+-    return do_i8mm_zzzz_ool(s, a, gen_helper_gvec_ummla_b, 0);
 -}
 -
--static bool trans_UABALB(DisasContext *s, arg_rrrr_esz *a)
+-static bool trans_BFDOT_zzzz(DisasContext *s, arg_rrrr_esz *a)
 -{
--    return do_abal(s, a, true, false);
+-    if (!dc_isar_feature(aa64_sve_bf16, s)) {
+-        return false;
+-    }
+-    return gen_gvec_ool_arg_zzzz(s, gen_helper_gvec_bfdot, a, 0);
 -}
--
--static bool trans_UABALT(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_abal(s, a, true, true);
--}
-+static gen_helper_gvec_4 * const uabal_fns[4] = {
-+    NULL,                    gen_helper_sve2_uabal_h,
-+    gen_helper_sve2_uabal_s, gen_helper_sve2_uabal_d,
-+};
-+TRANS_FEAT(UABALB, aa64_sve2, gen_gvec_ool_arg_zzzz, uabal_fns[a->esz], a, 0)
-+TRANS_FEAT(UABALT, aa64_sve2, gen_gvec_ool_arg_zzzz, uabal_fns[a->esz], a, 1)
++TRANS_FEAT(BFDOT_zzzz, aa64_sve_bf16, gen_gvec_ool_arg_zzzz,
++           gen_helper_gvec_bfdot, a, 0)
  
- static bool do_adcl(DisasContext *s, arg_rrrr_esz *a, bool sel)
+ static bool trans_BFDOT_zzxz(DisasContext *s, arg_rrxr_esz *a)
  {
-@@ -7159,18 +7133,11 @@ static bool do_adcl(DisasContext *s, arg_rrrr_esz *a, bool sel)
-      * Note that in this case the ESZ field encodes both size and sign.
-      * Split out 'subtract' into bit 1 of the data field for the helper.
-      */
--    return do_sve2_zzzz_ool(s, a, fns[a->esz & 1], (a->esz & 2) | sel);
-+    return gen_gvec_ool_arg_zzzz(s, fns[a->esz & 1], a, (a->esz & 2) | sel);
+@@ -8343,13 +8321,8 @@ static bool trans_BFDOT_zzxz(DisasContext *s, arg_rrxr_esz *a)
+                              a->rd, a->rn, a->rm, a->ra, a->index);
  }
  
--static bool trans_ADCLB(DisasContext *s, arg_rrrr_esz *a)
+-static bool trans_BFMMLA(DisasContext *s, arg_rrrr_esz *a)
 -{
--    return do_adcl(s, a, false);
+-    if (!dc_isar_feature(aa64_sve_bf16, s)) {
+-        return false;
+-    }
+-    return gen_gvec_ool_arg_zzzz(s, gen_helper_gvec_bfmmla, a, 0);
 -}
--
--static bool trans_ADCLT(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_adcl(s, a, true);
--}
-+TRANS_FEAT(ADCLB, aa64_sve2, do_adcl, a, false)
-+TRANS_FEAT(ADCLT, aa64_sve2, do_adcl, a, true)
++TRANS_FEAT(BFMMLA, aa64_sve_bf16, gen_gvec_ool_arg_zzzz,
++           gen_helper_gvec_bfmmla, a, 0)
  
- static bool do_sve2_fn2i(DisasContext *s, arg_rri_esz *a, GVecGen2iFn *fn)
+ static bool do_BFMLAL_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sel)
  {
-@@ -8048,149 +8015,77 @@ static bool trans_FMMLA(DisasContext *s, arg_rrrr_esz *a)
-     return true;
- }
- 
--static bool do_sqdmlal_zzzw(DisasContext *s, arg_rrrr_esz *a,
--                            bool sel1, bool sel2)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        NULL,                           gen_helper_sve2_sqdmlal_zzzw_h,
--        gen_helper_sve2_sqdmlal_zzzw_s, gen_helper_sve2_sqdmlal_zzzw_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], (sel2 << 1) | sel1);
--}
-+static gen_helper_gvec_4 * const sqdmlal_zzzw_fns[] = {
-+    NULL,                           gen_helper_sve2_sqdmlal_zzzw_h,
-+    gen_helper_sve2_sqdmlal_zzzw_s, gen_helper_sve2_sqdmlal_zzzw_d,
-+};
-+TRANS_FEAT(SQDMLALB_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqdmlal_zzzw_fns[a->esz], a, 0)
-+TRANS_FEAT(SQDMLALT_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqdmlal_zzzw_fns[a->esz], a, 3)
-+TRANS_FEAT(SQDMLALBT, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqdmlal_zzzw_fns[a->esz], a, 2)
- 
--static bool do_sqdmlsl_zzzw(DisasContext *s, arg_rrrr_esz *a,
--                            bool sel1, bool sel2)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        NULL,                           gen_helper_sve2_sqdmlsl_zzzw_h,
--        gen_helper_sve2_sqdmlsl_zzzw_s, gen_helper_sve2_sqdmlsl_zzzw_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], (sel2 << 1) | sel1);
--}
-+static gen_helper_gvec_4 * const sqdmlsl_zzzw_fns[] = {
-+    NULL,                           gen_helper_sve2_sqdmlsl_zzzw_h,
-+    gen_helper_sve2_sqdmlsl_zzzw_s, gen_helper_sve2_sqdmlsl_zzzw_d,
-+};
-+TRANS_FEAT(SQDMLSLB_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqdmlsl_zzzw_fns[a->esz], a, 0)
-+TRANS_FEAT(SQDMLSLT_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqdmlsl_zzzw_fns[a->esz], a, 3)
-+TRANS_FEAT(SQDMLSLBT, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqdmlsl_zzzw_fns[a->esz], a, 2)
- 
--static bool trans_SQDMLALB_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_sqdmlal_zzzw(s, a, false, false);
--}
-+static gen_helper_gvec_4 * const sqrdmlah_fns[] = {
-+    gen_helper_sve2_sqrdmlah_b, gen_helper_sve2_sqrdmlah_h,
-+    gen_helper_sve2_sqrdmlah_s, gen_helper_sve2_sqrdmlah_d,
-+};
-+TRANS_FEAT(SQRDMLAH_zzzz, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqrdmlah_fns[a->esz], a, 0)
- 
--static bool trans_SQDMLALT_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_sqdmlal_zzzw(s, a, true, true);
--}
-+static gen_helper_gvec_4 * const sqrdmlsh_fns[] = {
-+    gen_helper_sve2_sqrdmlsh_b, gen_helper_sve2_sqrdmlsh_h,
-+    gen_helper_sve2_sqrdmlsh_s, gen_helper_sve2_sqrdmlsh_d,
-+};
-+TRANS_FEAT(SQRDMLSH_zzzz, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           sqrdmlsh_fns[a->esz], a, 0)
- 
--static bool trans_SQDMLALBT(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_sqdmlal_zzzw(s, a, false, true);
--}
-+static gen_helper_gvec_4 * const smlal_zzzw_fns[] = {
-+    NULL,                         gen_helper_sve2_smlal_zzzw_h,
-+    gen_helper_sve2_smlal_zzzw_s, gen_helper_sve2_smlal_zzzw_d,
-+};
-+TRANS_FEAT(SMLALB_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           smlal_zzzw_fns[a->esz], a, 0)
-+TRANS_FEAT(SMLALT_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           smlal_zzzw_fns[a->esz], a, 1)
- 
--static bool trans_SQDMLSLB_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_sqdmlsl_zzzw(s, a, false, false);
--}
-+static gen_helper_gvec_4 * const umlal_zzzw_fns[] = {
-+    NULL,                         gen_helper_sve2_umlal_zzzw_h,
-+    gen_helper_sve2_umlal_zzzw_s, gen_helper_sve2_umlal_zzzw_d,
-+};
-+TRANS_FEAT(UMLALB_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           umlal_zzzw_fns[a->esz], a, 0)
-+TRANS_FEAT(UMLALT_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           umlal_zzzw_fns[a->esz], a, 1)
- 
--static bool trans_SQDMLSLT_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_sqdmlsl_zzzw(s, a, true, true);
--}
-+static gen_helper_gvec_4 * const smlsl_zzzw_fns[] = {
-+    NULL,                         gen_helper_sve2_smlsl_zzzw_h,
-+    gen_helper_sve2_smlsl_zzzw_s, gen_helper_sve2_smlsl_zzzw_d,
-+};
-+TRANS_FEAT(SMLSLB_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           smlsl_zzzw_fns[a->esz], a, 0)
-+TRANS_FEAT(SMLSLT_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           smlsl_zzzw_fns[a->esz], a, 1)
- 
--static bool trans_SQDMLSLBT(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_sqdmlsl_zzzw(s, a, false, true);
--}
--
--static bool trans_SQRDMLAH_zzzz(DisasContext *s, arg_rrrr_esz *a)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        gen_helper_sve2_sqrdmlah_b, gen_helper_sve2_sqrdmlah_h,
--        gen_helper_sve2_sqrdmlah_s, gen_helper_sve2_sqrdmlah_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], 0);
--}
--
--static bool trans_SQRDMLSH_zzzz(DisasContext *s, arg_rrrr_esz *a)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        gen_helper_sve2_sqrdmlsh_b, gen_helper_sve2_sqrdmlsh_h,
--        gen_helper_sve2_sqrdmlsh_s, gen_helper_sve2_sqrdmlsh_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], 0);
--}
--
--static bool do_smlal_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sel)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        NULL,                         gen_helper_sve2_smlal_zzzw_h,
--        gen_helper_sve2_smlal_zzzw_s, gen_helper_sve2_smlal_zzzw_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], sel);
--}
--
--static bool trans_SMLALB_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_smlal_zzzw(s, a, false);
--}
--
--static bool trans_SMLALT_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_smlal_zzzw(s, a, true);
--}
--
--static bool do_umlal_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sel)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        NULL,                         gen_helper_sve2_umlal_zzzw_h,
--        gen_helper_sve2_umlal_zzzw_s, gen_helper_sve2_umlal_zzzw_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], sel);
--}
--
--static bool trans_UMLALB_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_umlal_zzzw(s, a, false);
--}
--
--static bool trans_UMLALT_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_umlal_zzzw(s, a, true);
--}
--
--static bool do_smlsl_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sel)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        NULL,                         gen_helper_sve2_smlsl_zzzw_h,
--        gen_helper_sve2_smlsl_zzzw_s, gen_helper_sve2_smlsl_zzzw_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], sel);
--}
--
--static bool trans_SMLSLB_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_smlsl_zzzw(s, a, false);
--}
--
--static bool trans_SMLSLT_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_smlsl_zzzw(s, a, true);
--}
--
--static bool do_umlsl_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sel)
--{
--    static gen_helper_gvec_4 * const fns[] = {
--        NULL,                         gen_helper_sve2_umlsl_zzzw_h,
--        gen_helper_sve2_umlsl_zzzw_s, gen_helper_sve2_umlsl_zzzw_d,
--    };
--    return do_sve2_zzzz_ool(s, a, fns[a->esz], sel);
--}
--
--static bool trans_UMLSLB_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_umlsl_zzzw(s, a, false);
--}
--
--static bool trans_UMLSLT_zzzw(DisasContext *s, arg_rrrr_esz *a)
--{
--    return do_umlsl_zzzw(s, a, true);
--}
-+static gen_helper_gvec_4 * const umlsl_zzzw_fns[] = {
-+    NULL,                         gen_helper_sve2_umlsl_zzzw_h,
-+    gen_helper_sve2_umlsl_zzzw_s, gen_helper_sve2_umlsl_zzzw_d,
-+};
-+TRANS_FEAT(UMLSLB_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           umlsl_zzzw_fns[a->esz], a, 0)
-+TRANS_FEAT(UMLSLT_zzzw, aa64_sve2, gen_gvec_ool_arg_zzzz,
-+           umlsl_zzzw_fns[a->esz], a, 1)
- 
- static gen_helper_gvec_4 * const cmla_fns[] = {
-     gen_helper_sve2_cmla_zzzz_b, gen_helper_sve2_cmla_zzzz_h,
 -- 
 2.34.1
 
