@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D81E5363A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 15:58:23 +0200 (CEST)
-Received: from localhost ([::1]:49874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FE05363C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 16:07:05 +0200 (CEST)
+Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuaTt-0004oq-RY
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 09:58:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37752)
+	id 1nuacK-0000AP-5F
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 10:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuaQd-0001um-FV
- for qemu-devel@nongnu.org; Fri, 27 May 2022 09:54:59 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuaQb-0000Km-UC
- for qemu-devel@nongnu.org; Fri, 27 May 2022 09:54:59 -0400
-Received: by mail-ej1-x632.google.com with SMTP id q21so8982350ejm.1
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 06:54:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=MhZcm0A3AG5uPxZqXTQWmS4FcwEhf27VPomuYdWZ+qw=;
- b=xZrTzDQBVrpLPIRBTkWTActg7Z8lZ3R8+cifb6sidxQs3ImP/8tAaVbyOd7nVi6Qos
- r6Q1d3QexWjOkS+Lx8SUB7hUWBysrRNGXKIHIBpxwTwF8SUHR8kiOeG/wEogSphbMiDv
- xU2Se7DFfK5eB6DPb3i/eKfN5YY8lTQpwZOyNs+sMnoPIo/MG9oT0VTJawJQmv6226IN
- fEPADWQjnrGPQu85z1QcA+LEgw/jKEpygN4W2PZNnKjD3LuJAk57KzGLJQe9DZDEW9bb
- Of3PaF6TeNOkoKcAG6C4zF1tjoXy3jmkDZtPHBWnM9tAdCJcIP7aDpQ6TyIw6bR1+U6e
- /IKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=MhZcm0A3AG5uPxZqXTQWmS4FcwEhf27VPomuYdWZ+qw=;
- b=dUcRP9v+0/T4r8I1iLL0mQOAp2cO6Z4fZ8E3q9MkKaJcZh/hzd7b21nQi3aFpt7wR2
- tLANdkFeqQLlnJsOtuVjy+Wq5ouHEiKR8IM6ltLFtPBIivWB5j4JP7gbkoZDTc1t3NCI
- l1m0o8LBfwYHzLVbR7dt3ufE43+jk2ofNMNKZbgpH4ZQ+8Gnfs2e0UYPl1M5ifxdmLVc
- Kzvaa8zIpF2pHmzg9AHC7457VNRozAyB5/epvQZy6B8aS+5GSB5NFbmjEfrheH2KIqac
- rNBVQZ6OH1o0/MYgihm2f2jSYwHG1qCg6Zk9kfqzy1pg1lBslhqtMu1rtI5WoKvezogk
- pYvw==
-X-Gm-Message-State: AOAM531zoE9tYcH8qYa3G3Y9mWzAORNiiLodg1AStAqsH+9En08Z+Dhv
- A1Y0KY0h+toCvdZ6PMheuI3JOQ==
-X-Google-Smtp-Source: ABdhPJza+BGka0X4jKGRJNGm5zddw9ad0G/yGNG7zcohkqkayCKi/PPdVEabJ/CuXtoRafCsrkK92Q==
-X-Received: by 2002:a17:907:9612:b0:6fe:e969:e09b with SMTP id
- gb18-20020a170907961200b006fee969e09bmr22622615ejc.767.1653659696505; 
- Fri, 27 May 2022 06:54:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- w15-20020a05640234cf00b0042ab1735552sm1029443edc.66.2022.05.27.06.54.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 06:54:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92EF81FFB7;
- Fri, 27 May 2022 14:54:54 +0100 (BST)
-References: <20220516082310.33876-1-thuth@redhat.com>
-User-agent: mu4e 1.7.23; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Wainer dos Santos
- Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, =?utf-8?Q?Daniel?=
- =?utf-8?Q?_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] gitlab-ci: Switch the container of the
- 'check-patch' & 'check-dco' jobs
-Date: Fri, 27 May 2022 14:54:48 +0100
-In-reply-to: <20220516082310.33876-1-thuth@redhat.com>
-Message-ID: <875ylrytap.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nuaQu-00020o-JL
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 09:55:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nuaQs-0000Xz-1t
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 09:55:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653659713;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4uyhUYzrFnjDWT+g5z6mgIJ9V99c4/wOyIMSSH4rRj0=;
+ b=PGWR+oNq5JZObIOtRxI7NEZxsjSK/rqNHohjUMzJ/jIXZyhKd//gw2biIwCoKD7Gt+iygv
+ UOTlp/Wqz803aZfkptMc2YF87//yFWQGZOdI5bv7Gl56KCi9387V1zsmElhhx8QWrjUA7o
+ 3A4HRiwDynK9EZIz91AUIJN78gSPQ4k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-o70GFMweMPW6dyDEwFf__Q-1; Fri, 27 May 2022 09:55:09 -0400
+X-MC-Unique: o70GFMweMPW6dyDEwFf__Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B339185A7B2;
+ Fri, 27 May 2022 13:55:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 004641121315;
+ Fri, 27 May 2022 13:55:07 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, Michael Roth <michael.roth@amd.com>,
+ peter.maydell@linaro.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 04/15] qga: flatten safe_open_or_create()
+Date: Fri, 27 May 2022 15:54:48 +0200
+Message-Id: <20220527135459.117877-5-marcandre.lureau@redhat.com>
+In-Reply-To: <20220527135459.117877-1-marcandre.lureau@redhat.com>
+References: <20220527135459.117877-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,20 +82,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Thomas Huth <thuth@redhat.com> writes:
+There is a bit too much nesting in the function, this can be simplified
+a bit to improve readability.
 
-> The 'check-patch' and 'check-dco' jobs only need Python and git for
-> checking the patches, so it's not really necessary to use a container
-> here that has all the other build dependencies installed. By using a
-> lightweight Alpine container, we can improve the runtime here quite a
-> bit, cutting it down from ca. 1:30 minutes to ca. 45 seconds.
->
-> Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+This also helps with the following error handling changes.
 
-Queued to testing/next, thanks.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220525144140.591926-5-marcandre.lureau@redhat.com>
+---
+ qga/commands-posix.c | 120 +++++++++++++++++++++----------------------
+ 1 file changed, 60 insertions(+), 60 deletions(-)
 
---=20
-Alex Benn=C3=A9e
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 12b50b7124..3b2392398e 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -339,73 +339,73 @@ find_open_flag(const char *mode_str, Error **errp)
+ static FILE *
+ safe_open_or_create(const char *path, const char *mode, Error **errp)
+ {
+-    Error *local_err = NULL;
+     int oflag;
++    int fd = -1;
++    FILE *f = NULL;
++
++    oflag = find_open_flag(mode, errp);
++    if (oflag < 0) {
++        goto end;
++    }
++
++    /* If the caller wants / allows creation of a new file, we implement it
++     * with a two step process: open() + (open() / fchmod()).
++     *
++     * First we insist on creating the file exclusively as a new file. If
++     * that succeeds, we're free to set any file-mode bits on it. (The
++     * motivation is that we want to set those file-mode bits independently
++     * of the current umask.)
++     *
++     * If the exclusive creation fails because the file already exists
++     * (EEXIST is not possible for any other reason), we just attempt to
++     * open the file, but in this case we won't be allowed to change the
++     * file-mode bits on the preexistent file.
++     *
++     * The pathname should never disappear between the two open()s in
++     * practice. If it happens, then someone very likely tried to race us.
++     * In this case just go ahead and report the ENOENT from the second
++     * open() to the caller.
++     *
++     * If the caller wants to open a preexistent file, then the first
++     * open() is decisive and its third argument is ignored, and the second
++     * open() and the fchmod() are never called.
++     */
++    fd = open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
++    if (fd == -1 && errno == EEXIST) {
++        oflag &= ~(unsigned)O_CREAT;
++        fd = open(path, oflag);
++    }
++    if (fd == -1) {
++        error_setg_errno(errp, errno,
++                         "failed to open file '%s' (mode: '%s')",
++                         path, mode);
++        goto end;
++    }
+ 
+-    oflag = find_open_flag(mode, &local_err);
+-    if (local_err == NULL) {
+-        int fd;
+-
+-        /* If the caller wants / allows creation of a new file, we implement it
+-         * with a two step process: open() + (open() / fchmod()).
+-         *
+-         * First we insist on creating the file exclusively as a new file. If
+-         * that succeeds, we're free to set any file-mode bits on it. (The
+-         * motivation is that we want to set those file-mode bits independently
+-         * of the current umask.)
+-         *
+-         * If the exclusive creation fails because the file already exists
+-         * (EEXIST is not possible for any other reason), we just attempt to
+-         * open the file, but in this case we won't be allowed to change the
+-         * file-mode bits on the preexistent file.
+-         *
+-         * The pathname should never disappear between the two open()s in
+-         * practice. If it happens, then someone very likely tried to race us.
+-         * In this case just go ahead and report the ENOENT from the second
+-         * open() to the caller.
+-         *
+-         * If the caller wants to open a preexistent file, then the first
+-         * open() is decisive and its third argument is ignored, and the second
+-         * open() and the fchmod() are never called.
+-         */
+-        fd = open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
+-        if (fd == -1 && errno == EEXIST) {
+-            oflag &= ~(unsigned)O_CREAT;
+-            fd = open(path, oflag);
+-        }
++    qemu_set_cloexec(fd);
+ 
+-        if (fd == -1) {
+-            error_setg_errno(&local_err, errno, "failed to open file '%s' "
+-                             "(mode: '%s')", path, mode);
+-        } else {
+-            qemu_set_cloexec(fd);
++    if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) == -1) {
++        error_setg_errno(errp, errno, "failed to set permission "
++                         "0%03o on new file '%s' (mode: '%s')",
++                         (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
++        goto end;
++    }
+ 
+-            if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) == -1) {
+-                error_setg_errno(&local_err, errno, "failed to set permission "
+-                                 "0%03o on new file '%s' (mode: '%s')",
+-                                 (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
+-            } else {
+-                FILE *f;
+-
+-                f = fdopen(fd, mode);
+-                if (f == NULL) {
+-                    error_setg_errno(&local_err, errno, "failed to associate "
+-                                     "stdio stream with file descriptor %d, "
+-                                     "file '%s' (mode: '%s')", fd, path, mode);
+-                } else {
+-                    return f;
+-                }
+-            }
++    f = fdopen(fd, mode);
++    if (f == NULL) {
++        error_setg_errno(errp, errno, "failed to associate stdio stream with "
++                         "file descriptor %d, file '%s' (mode: '%s')",
++                         fd, path, mode);
++    }
+ 
+-            close(fd);
+-            if (oflag & O_CREAT) {
+-                unlink(path);
+-            }
++end:
++    if (f == NULL && fd != -1) {
++        close(fd);
++        if (oflag & O_CREAT) {
++            unlink(path);
+         }
+     }
+-
+-    error_propagate(errp, local_err);
+-    return NULL;
++    return f;
+ }
+ 
+ int64_t qmp_guest_file_open(const char *path, bool has_mode, const char *mode,
+-- 
+2.36.1
+
 
