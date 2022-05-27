@@ -2,83 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0778F535622
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 00:45:29 +0200 (CEST)
-Received: from localhost ([::1]:48662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9EFD53580A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 05:26:16 +0200 (CEST)
+Received: from localhost ([::1]:34654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuMER-00005j-8N
-	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 18:45:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35992)
+	id 1nuQcB-0007X2-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 26 May 2022 23:26:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuMCv-0007Lx-6h
- for qemu-devel@nongnu.org; Thu, 26 May 2022 18:43:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuMCs-0002Si-7L
- for qemu-devel@nongnu.org; Thu, 26 May 2022 18:43:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653605029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=DHI9Ww5YYmOhzi49jaGrBH7kwws0GhGaMNiclxcdSlQ=;
- b=PqT3y3OMq/lSj2MFdmtxqXJujvlN8q+1BdEYjRG61ZSwS3E+Nr/6t28YBDw8dabP+pFkHf
- PhJtvAqyDJAgjij1oZyH9s8AMknhAcL8p8el/NQkDztB5Z9ZxBApAgSpkzxWmaQntsNAc6
- /oNz6y2jqF2dmL6Yg9FuugQypwP5i0w=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-XY6CggGdMdqj54hOtdBq_A-1; Thu, 26 May 2022 18:43:48 -0400
-X-MC-Unique: XY6CggGdMdqj54hOtdBq_A-1
-Received: by mail-ej1-f72.google.com with SMTP id
- k7-20020a1709062a4700b006fe92440164so1486353eje.23
- for <qemu-devel@nongnu.org>; Thu, 26 May 2022 15:43:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=DHI9Ww5YYmOhzi49jaGrBH7kwws0GhGaMNiclxcdSlQ=;
- b=hzmc2otd7NOxn+NJtl+IDXhdAE8XD9lWIW+9tBdhpiYXK/inUFxWzT02Ocm6spp8Xv
- s3ihCu9yPrJAyWHqGhMlvJ301EBzXseLBTqTaVnEm2Z40bLetsWvM4i7AQ4mayUNZc68
- J4cB3A8i/tgz+aKC6aoOSGLxj3RYitF6tKOVzU8ui94vs/WIeuXuKSy8P/sRyGNPxU7S
- 7HPOfLZ2jxtEDl2qsfkMr7TxXr37CNhwgQsiJeNdtZQERtPIAvYyIA5eOsg2v9i8Ldhf
- 0dIF/rrVEx0DcS4de3zUrHu1Mdw5+LuTjT7C7J/GHGCN0rqpysoQCFPAyqW/HA6iPlgL
- b1ew==
-X-Gm-Message-State: AOAM5312dh88xus/g3pwmIT+lSHEpFK7DF9oNpfx+5jkdbCC6r8zPPpv
- /E6feDCYy66VFVmaQpwlU6tq9On+tIwsFk0uZGKTruvParBrOFa/UlROd8G9ZQH+eLhEj2Wz4Rt
- TufDWPMS7osChMqOgLxUh5cK5X5EbWTow3EbbKbCUUyqlhoU5tyISkt5jQ81A
-X-Received: by 2002:a05:6402:2994:b0:42b:7c29:dcb with SMTP id
- eq20-20020a056402299400b0042b7c290dcbmr18450234edb.182.1653605026702; 
- Thu, 26 May 2022 15:43:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+dglzmQuRkU9n5u+fWHRtGGr3WCVd3hTQOwocR2w4kaDJD0EjHnpnbPNqAhFGDVUSAvoShw==
-X-Received: by 2002:a05:6402:2994:b0:42b:7c29:dcb with SMTP id
- eq20-20020a056402299400b0042b7c290dcbmr18450211edb.182.1653605026298; 
- Thu, 26 May 2022 15:43:46 -0700 (PDT)
-Received: from redhat.com ([2.55.29.191]) by smtp.gmail.com with ESMTPSA id
- me2-20020a170906aec200b006f3ef214dd0sm897867ejb.54.2022.05.26.15.43.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 15:43:45 -0700 (PDT)
-Date: Thu, 26 May 2022 18:43:43 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: BALATON Zoltan <balaton@eik.bme.hu>, qemu-ppc@nongnu.org
-Subject: [PATCH] ppc: fix boot with sam460ex
-Message-ID: <20220526224229.95183-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <13910382464@139.com>)
+ id 1nuP6b-0004Rk-V4
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 21:49:33 -0400
+Received: from n169-110.mail.139.com ([120.232.169.110]:23529)
+ by eggs.gnu.org with smtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <13910382464@139.com>)
+ id 1nuP6Y-0005xB-KI
+ for qemu-devel@nongnu.org; Thu, 26 May 2022 21:49:33 -0400
+X-RM-SPAM-FLAG: 00000000
+Received: from 13910382464@139.com ( [2408:8207:245d:fe80:25be:1f1f:ff75:194d]
+ ) by ajax-webmail-lg-appmail-01-11055 (Richmail) with HTTP;
+ Fri, 27 May 2022 09:40:10 +0800 (CST)
+Date: Fri, 27 May 2022 09:40:10 +0800 (CST)
+From: =?utf-8?B?5YiY6L6J?= <13910382464@139.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <2b2f6290291d2ec-0001b.Richmail.00025886494432542631@139.com>
+Subject: HELP: I can't get whpx working on ryzen / win11
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_6944_1465461576.1653615610897"
+X-Priority: 3
+X-RM-TRANSID: 2b2f6290291d2ec-0001b
+X-RM-OA-ENC-TYPE: 0
+X-CLIENT-INFO: X-TIMING=0&X-MASSSENT=0&X-SENSITIVE=0
+X-Mailer: Richmail_Webapp(V2.3.30)
+Received-SPF: pass client-ip=120.232.169.110; envelope-from=13910382464@139.com;
+ helo=n169-110.mail.139.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, FROM_LOCAL_DIGITS=0.001, FROM_LOCAL_HEX=0.006,
+ HTML_FONT_FACE_BAD=0.001, HTML_MESSAGE=0.001, NUMERIC_HTTP_ADDR=1.242,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 26 May 2022 23:24:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,67 +62,241 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent changes to pcie_host corrected size of its internal region to
-match what it expects - only the low 28 bits are ever decoded. Previous
-code just ignored bit 29 (if size was 1 << 29) in the address which does
-not make much sense.  We are now asserting on size > 1 << 28 instead,
-but it so happened that ppc actually allows guest to configure as large
-a size as it wants to, and current firmware set it to 1 << 29.
+------=_Part_6944_1465461576.1653615610897
+Content-Type: text/plain;charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-With just qemu-system-ppc -M sam460ex this triggers an assert which
-seems to happen when the guest (board firmware?) writes a value to
-CFGMSK reg:
 
-(gdb) bt
 
-This is done in the board firmware here:
 
-https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD
 
-when trying to map config space.
 
-Note that what firmware does matches
-https://www.hardware.com.br/comunidade/switch-cisco/1128380/
+CPU: AMD Ryzen 7 5800H
 
-So it's not clear what the proper fix should be.
 
-However, allowing guest to trigger an assert in qemu is not good practice anyway.
+Windows Version: Microsoft Windows [Version 10.0.22621.1]
 
-For now let's just force the mask to 256MB on guest write, this way
-anything outside the expected address range is ignored.
 
-Fixes: commit 1f1a7b2269 ("include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX")
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
 
-Affected system is orphan so I guess I will merge the patch unless
-someone objects.
 
- hw/ppc/ppc440_uc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 993e3ba955..a1ecf6dd1c 100644
---- a/hw/ppc/ppc440_uc.c
-+++ b/hw/ppc/ppc440_uc.c
-@@ -1180,6 +1180,14 @@ static void dcr_write_pcie(void *opaque, int dcrn, uint32_t val)
-     case PEGPL_CFGMSK:
-         s->cfg_mask = val;
-         size = ~(val & 0xfffffffe) + 1;
-+        /*
-+         * Firmware sets this register to E0000001. Why we are not sure,
-+         * but the current guess is anything above PCIE_MMCFG_SIZE_MAX is
-+         * ignored.
-+         */
-+        if (size > PCIE_MMCFG_SIZE_MAX) {
-+            size = PCIE_MMCFG_SIZE_MAX;
-+        }
-         pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base, size);
-         break;
-     case PEGPL_MSGBAH:
--- 
-MST
+QEMU Versions
+
+
+
+
+D:\dev\qemu-toby>D:/dev/qemu/qemu-system-x86_64.exe -version
+
+
+QEMU emulator version 7.0.0 (v7.0.0-11902-g1d935f4a02-dirty)
+
+Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
+
+
+
+
+
+D:\dev\qemu-toby>qemu-system-x86_64.exe --version
+
+
+QEMU emulator version 7.0.50 (v7.0.0-1245-g58b53669e8)
+
+Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
+
+
+
+
+Tried Command Line *Same error for both version*
+
+
+COMMAND LINE: D:/dev/qemu-toby/qemu-system-x86_64.exe --name tQEMU --displa=
+y vnc=3D:0 --rtc base=3Dutc,clock=3Dhost --machine q35 --accel whpx --boot =
+order=3Ddc,menu=3Doff,strict=3Doff --cpu max --m 8G --device virtio-gpu --a=
+udiodev none,id=3DQEMUAudio --device intel-hda --device hda-duplex,audiodev=
+=3DQEMUAudio --device virtio-net,netdev=3DQEMUNet --netdev user,id=3DQEMUNe=
+t,smb=3DD:/install/FPGA --blockdev driver=3Dqcow2,node-name=3DQEMUDisk0,fil=
+e.driver=3Dfile,file.filename=3DE:/VM/tqemu/myzynq.qcow2 --device virtio-bl=
+k,drive=3DQEMUDisk0 --cdrom E:/iso/windows7/cn_windows_7_enterprise_with_sp=
+1_x64_dvd_u_677685.iso -drive if=3Dpflash,format=3Draw,file=3Dd:/dev/qemu/s=
+hare/edk2-x86_64-code.fd -smp 4 -usb -device usb-tablet
+
+
+
+
+WHPX: setting APIC emulation mode in the hypervisor
+
+Windows Hypervisor Platform accelerator is operational
+
+whpx: injection failed, MSI (0, 0) delivery: 0, dest_mode: 0, trigger mode:=
+ 0, vector: 0, lost (c0350005)
+
+qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with EmulatorRe=
+turnStatus: 2
+
+qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
+
+
+
+
+
+
+
+
+
+
+
+
+=E5=88=98=E8=BE=89
+
+
+13910382464@139.com
+
+
+
+
+
+
+
+=E7=94=B5=E5=AD=90=E5=90=8D=E7=89=87=E6=96=B0=E5=87=BAVIP=E6=A8=A1=E6=9D=BF=
+=E5=95=A6=EF=BC=8C=E5=BF=AB=E6=9D=A5=E4=BD=93=E9=AA=8C>>
+
+
+
+
+=E6=89=AB=E4=B8=80=E6=89=AB,
+
+
+=E5=BF=AB=E9=80=9F=E6=B7=BB=E5=8A=A0=E5=90=8D=E7=89=87=E5=88=B0=E6=89=8B=E6=
+=9C=BA
+
+
+
+
+------=_Part_6944_1465461576.1653615610897
+Content-Type: text/html;charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"line-height: 1.5; overflow-wrap: break-word; word-break: brea=
+k-word;"><div style=3D"line-height: 1.5; overflow-wrap: break-word; word-br=
+eak: break-word;"><div style=3D"line-height: 1.5; overflow-wrap: break-word=
+; word-break: break-word;"><div style=3D"line-height: 1.5; overflow-wrap: b=
+reak-word; word-break: break-word;"><font face=3D"=E5=BE=AE=E8=BD=AF=E9=9B=
+=85=E9=BB=91" oldel=3D"1"><div style=3D"line-height: 1.5; font-size: 16px; =
+overflow-wrap: break-word; word-break: break-word;">CPU:&nbsp;AMD Ryzen 7 5=
+800H</div></font></div><div style=3D"line-height: 1.5; overflow-wrap: break=
+-word; word-break: break-word;"><font face=3D"=E5=BE=AE=E8=BD=AF=E9=9B=85=
+=E9=BB=91" oldel=3D"1">Windows Version: Microsoft Windows [Version 10.0.226=
+21.1]</font><br></div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=
+=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overf=
+low-wrap: break-word; word-break: break-word;"><br></div><div style=3D"colo=
+r: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-si=
+ze: 16px; line-height: 1.5; overflow-wrap: break-word; word-break: break-wo=
+rd;">QEMU Versions</div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=
+=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overf=
+low-wrap: break-word; word-break: break-word;"><br></div><div style=3D"colo=
+r: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-si=
+ze: 16px; line-height: 1.5; overflow-wrap: break-word; word-break: break-wo=
+rd;">D:\dev\qemu-toby&gt;D:/dev/qemu/qemu-system-x86_64.exe -version<br></d=
+iv><div style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=
+=85=E9=BB=91; font-size: 16px; line-height: 1.5; overflow-wrap: break-word;=
+ word-break: break-word;">QEMU emulator version 7.0.0 (v7.0.0-11902-g1d935f=
+4a02-dirty)</div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=
+=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overflow-wr=
+ap: break-word; word-break: break-word;">Copyright (c) 2003-2022 Fabrice Be=
+llard and the QEMU Project developers</div></div><div style=3D"color: rgb(0=
+, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px=
+; line-height: 1.5; overflow-wrap: break-word; word-break: break-word;"><br=
+></div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=
+=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overflow-wrap: break=
+-word; word-break: break-word;">D:\dev\qemu-toby&gt;qemu-system-x86_64.exe =
+--version<br></div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=
+=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overflow=
+-wrap: break-word; word-break: break-word;">QEMU emulator version 7.0.50 (v=
+7.0.0-1245-g58b53669e8)</div><div style=3D"color: rgb(0, 0, 0); font-family=
+: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; =
+overflow-wrap: break-word; word-break: break-word;">Copyright (c) 2003-2022=
+ Fabrice Bellard and the QEMU Project developers</div><div style=3D"color: =
+rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size:=
+ 16px; line-height: 1.5; overflow-wrap: break-word; word-break: break-word;=
+"><br></div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=
+=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overflow-wrap: br=
+eak-word; word-break: break-word;">Tried Command Line *Same error for both =
+version*</div></div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=
+=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overflow=
+-wrap: break-word; word-break: break-word;">COMMAND LINE: D:/dev/qemu-toby/=
+qemu-system-x86_64.exe --name tQEMU --display vnc=3D:0 --rtc base=3Dutc,clo=
+ck=3Dhost --machine q35 --accel whpx --boot order=3Ddc,menu=3Doff,strict=3D=
+off --cpu max --m 8G --device virtio-gpu --audiodev none,id=3DQEMUAudio --d=
+evice intel-hda --device hda-duplex,audiodev=3DQEMUAudio --device virtio-ne=
+t,netdev=3DQEMUNet --netdev user,id=3DQEMUNet,smb=3DD:/install/FPGA --block=
+dev driver=3Dqcow2,node-name=3DQEMUDisk0,file.driver=3Dfile,file.filename=
+=3DE:/VM/tqemu/myzynq.qcow2 --device virtio-blk,drive=3DQEMUDisk0 --cdrom E=
+:/iso/windows7/cn_windows_7_enterprise_with_sp1_x64_dvd_u_677685.iso -drive=
+ if=3Dpflash,format=3Draw,file=3Dd:/dev/qemu/share/edk2-x86_64-code.fd -smp=
+ 4 -usb -device usb-tablet</div><div style=3D"color: rgb(0, 0, 0); font-fam=
+ily: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.=
+5; overflow-wrap: break-word; word-break: break-word;"><br></div><div style=
+=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;=
+ font-size: 16px; line-height: 1.5; overflow-wrap: break-word; word-break: =
+break-word;">WHPX: setting APIC emulation mode in the hypervisor</div><div =
+style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=
+=BB=91; font-size: 16px; line-height: 1.5; overflow-wrap: break-word; word-=
+break: break-word;">Windows Hypervisor Platform accelerator is operational<=
+/div><div style=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=
+=9B=85=E9=BB=91; font-size: 16px; line-height: 1.5; overflow-wrap: break-wo=
+rd; word-break: break-word;">whpx: injection failed, MSI (0, 0) delivery: 0=
+, dest_mode: 0, trigger mode: 0, vector: 0, lost (c0350005)</div><div style=
+=3D"color: rgb(0, 0, 0); font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;=
+ font-size: 16px; line-height: 1.5; overflow-wrap: break-word; word-break: =
+break-word;">qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access wi=
+th EmulatorReturnStatus: 2</div><div style=3D"color: rgb(0, 0, 0); font-fam=
+ily: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size: 16px; line-height: 1.=
+5; overflow-wrap: break-word; word-break: break-word;">qemu-system-x86_64.e=
+xe: WHPX: Failed to exec a virtual processor</div><br><br><br><br></div><di=
+v id=3D"signContainer"><table id=3D"signTable" style=3D"width: 100%; white-=
+space: initial;"><tbody><tr><td id=3D"dzmp_table" style=3D"width:480px;font=
+-family:'Microsoft Yahei',verdana,'Simun';"><div id=3D"signBgContainer" sty=
+le=3D"background:#fafafa no-repeat;position:relative;height:168px;width:480=
+px;max-width:480px;clear:both;"><div style=3D"position:relative;width:480px=
+;max-width: 480px;"><div style=3D"padding:18px 10px 0 10px;float:left"><img=
+ name=3D"hideEditorBar" class=3D"avatar-ry avatar-image" src=3D"../../image=
+s/global/face.png" style=3D"border-radius:50%;width:80px;height:80px;" oner=
+ror=3D"this.onerror=3Dnull;this.src=3D'../../images/global/face.png';" data=
+-mark=3D"empty" id=3D"img_0.06074379195280133"></div><div class=3D"addrClas=
+s" style=3D"float: left;color:#666;font-size: 12px;width:320px;"><p style=
+=3D"text-align:left;margin: 0;padding: 0;line-height:18px;padding-top: 18px=
+;padding-bottom: 5px;width:365px;font-family: 'Microsoft Yahei',verdana,'Si=
+mun';"><span style=3D"font-size: 16px;padding-right: 23px;display: inline-b=
+lock;line-height: 18px;">=E5=88=98=E8=BE=89</span><span style=3D"font-size:=
+ 12px;"></span></p><p class=3D"otherInfo" style=3D"text-align:left;margin: =
+1px;padding: 0;line-height:22px;width:365px;overflow:hidden;"><i style=3D"b=
+ackground:url(https://appmail.mail.10086.cn/m2015/images/imgsrc/vcard.png) =
+no-repeat 0 0;background-position: -30px 0;display:inline-block;float:left;=
+margin-right: 11px;width:15px;height:18px;"></i><span style=3D"font-size:12=
+px;margin: 0;padding: 0;line-height:18px;width:91%;display: block;float:lef=
+t;font-family: 'Microsoft Yahei',verdana,'Simun';">13910382464@139.com<i cl=
+ass=3D""></i></span></p></div><div style=3D"clear:both"></div></div></div><=
+div contenteditable=3D"false" class=3D"v-hidden" style=3D"margin:0;padding:=
+ 0;height:24px;line-height: 24px;" id=3D"openSign"><a href=3D"javascript:;"=
+ style=3D"display: none; float: right; font-size: 12px; color: rgb(26, 138,=
+ 216); text-decoration: none; cursor: pointer;"><span style=3D"color: #666;=
+">=E7=94=B5=E5=AD=90=E5=90=8D=E7=89=87=E6=96=B0=E5=87=BAVIP=E6=A8=A1=E6=9D=
+=BF=E5=95=A6=EF=BC=8C</span>=E5=BF=AB=E6=9D=A5=E4=BD=93=E9=AA=8C&gt;&gt;</a=
+></div></td><td id=3D"signInfoCode" style=3D"width:auto;display:block;paddi=
+ng:0px 8px 8px 8px;vertical-align: top;"><div style=3D"vertical-align:top;"=
+><img rel=3D"signImg_qcode" name=3D"hideEditorBar" src=3D"https://smsrebuil=
+d1.mail.10086.cn/addr_p3_gw/qrcode/ContactsServlet?type=3D3&amp;name2=3DJUU=
+1JTg4JTk4JUU4JUJFJTg5&amp;email2=3DMTM5MTAzODI0NjQlNDAxMzkuY29t" alt=3D"=E6=
+=89=AB=E6=8F=8F=E4=BA=8C=E7=BB=B4=E7=A0=81=E6=B7=BB=E5=8A=A0=E5=90=8D=E7=89=
+=87=E5=88=B0=E6=89=8B=E6=9C=BA" data-mark=3D"empty" id=3D"img_0.09077799284=
+119936"></div><div style=3D"margin-top:5px;margin-bottom:5px;"><p style=3D"=
+width:146px;font-size:12px;color:#444;text-align:center;line-height: 1.4;ma=
+rgin:0;">=E6=89=AB=E4=B8=80=E6=89=AB,</p><p style=3D"width:146px;font-size:=
+12px;color:#444;text-align:center;line-height: 1.4;margin:0;">=E5=BF=AB=E9=
+=80=9F=E6=B7=BB=E5=8A=A0=E5=90=8D=E7=89=87=E5=88=B0=E6=89=8B=E6=9C=BA</p></=
+div></td></tr></tbody></table><style contenteditable=3D"false">#signContain=
+er{word-wrap:break-word;word-break:break-all;}#signContainer p{margin:0;}</=
+style></div>
+------=_Part_6944_1465461576.1653615610897--
 
 
