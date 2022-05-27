@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C71535F14
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 13:16:59 +0200 (CEST)
-Received: from localhost ([::1]:38894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BCC535F53
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 13:35:02 +0200 (CEST)
+Received: from localhost ([::1]:35320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuXxi-0002Hy-34
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 07:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38012)
+	id 1nuYFB-0003GQ-Nw
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 07:35:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuXnr-0004Nb-Fw
- for qemu-devel@nongnu.org; Fri, 27 May 2022 07:06:52 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52145)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuXnm-00054m-Vs
- for qemu-devel@nongnu.org; Fri, 27 May 2022 07:06:46 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id z17so2452009wmf.1
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 04:06:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=6e89dnr80+EP8ZVPNUpUNHeefw+2KHhxs5yMFqcG0ZA=;
- b=cbs4IGHI3gEOvrzvGo88kiULjzuv1ISsssBra/2AfcUpArXkKuFzadwUSVVMRB/RX0
- TIT7ewmEcgtrLqyJ7cWUbp9R83bhbgtW3HQsJbxX5SwPLaUVMzv1nSpD5msn2plSznhU
- vvvQbHJVX64g00J1CSDbJOiDMgFeTPOPH4rXLT7cVvfSbgVftgqc7Cw8fh9P8vjgY6qo
- UNvIpPHVbRixAeNF8oB9cil+318NYLx97jL2ljHOy9G91blM02Hnonvz2qrcMuPok22r
- 0rG/vcNsO+OePY9qRFp1Pit8qkeS+Ic3i07mY/nwZHTMUoOOTsATuZwtaV0ODbk7vlkd
- KlZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=6e89dnr80+EP8ZVPNUpUNHeefw+2KHhxs5yMFqcG0ZA=;
- b=vGiLZq3b6h4KLvwTpAJ38XzzI79howshszaXnt3fazQ644tYZyGVsX0nsnW7Qbxpdk
- THfvcYF2ZNaxOXZ1ry3035S9Owjfz2G8Se/dXiPcAwvawDXpADtn+gZ97BSeLmuAkSJU
- 2Mo/HOAon5chXlbUmsPp3qIbOwExJA9FR/9Bf+AO2WmyLB/GBMxQ0F5DpfnF67u9AoeK
- NQ7MiB1SREMIekIPSTqLusz6szjf/zfO2n0FPAhtAxI8OA4ikeXl+ly71DN3VmYPJ0jP
- PS7gkDBZet3+ru1imWxj3wdQyeEu4ncxv0TtGdYhmt2pJMqcwDhctiQUfatDDvcA8yew
- PVUQ==
-X-Gm-Message-State: AOAM531Vw0YeMbPuulUPfUPQDDs7Hx2cchGJO2kj87E0naEay0feDdZK
- uNt83Jic8QHm9E6TFSyvsmqFG2Zk5NTEYg==
-X-Google-Smtp-Source: ABdhPJxleLLg9x+vkHjwEp2yEe6ccj411Qnbdb6tGpGqPwgPRC+Lww0ZMNkY96ordgP6fwCVbOOYjA==
-X-Received: by 2002:a05:600c:3d10:b0:397:835e:bf64 with SMTP id
- bh16-20020a05600c3d1000b00397835ebf64mr5094776wmb.167.1653649594497; 
- Fri, 27 May 2022 04:06:34 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- q4-20020adfea04000000b0020d0c48d135sm1506097wrm.15.2022.05.27.04.06.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 04:06:33 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D2A581FFB7;
- Fri, 27 May 2022 12:06:32 +0100 (BST)
-References: <559271048dfe01bf1a77c36321ceb1c5b4f6efe0.camel@suse.com>
-User-agent: mu4e 1.7.23; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Dario Faggioli <dfaggioli@suse.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "cfontana@suse.de"
- <cfontana@suse.de>, "pbonzini@redhat.com" <pbonzini@redhat.com>
-Subject: Re: make -j check failing on master, interesting valgrind errors on
- qos-test vhost-user-blk-test/basic
-Date: Fri, 27 May 2022 12:02:54 +0100
-In-reply-to: <559271048dfe01bf1a77c36321ceb1c5b4f6efe0.camel@suse.com>
-Message-ID: <87ilprz13b.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nuYBI-0008RP-Ou
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 07:31:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nuYBE-0001Wz-VS
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 07:30:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653651054;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j5pYvnLTl1IHKUisfI4aYuN9KNIittDoZVGk2/BDGfU=;
+ b=Dt5qixkmQq38q284rHsHLeu9/JTzJyOTRm+4K+RpWfTMbfgT8UzBlyj4gTmLox8/kiYTeU
+ DC/bkhBDaJKA4xDDHRkC+DQvwO6roA1jeu/Jr1/2Zzw/pTHyJb1Jxs1GvgwpoeGFWkC2qw
+ 1vkiDCechSrFPBki+sv++/YiqKeHilY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-125-O6fdY8ixPg2dkr7aYHoXHw-1; Fri, 27 May 2022 07:30:53 -0400
+X-MC-Unique: O6fdY8ixPg2dkr7aYHoXHw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24E4E29AB45F;
+ Fri, 27 May 2022 11:30:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E523B170E8;
+ Fri, 27 May 2022 11:30:51 +0000 (UTC)
+Date: Fri, 27 May 2022 12:30:49 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Peter Krempa <pkrempa@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [libvirt PATCH] tools: add virt-qmp-proxy for proxying QMP
+ clients to libvirt QEMU guests
+Message-ID: <YpC2aSlEnIKBv59Q@redhat.com>
+References: <20220527094758.604621-1-berrange@redhat.com>
+ <YpCl9/EMwenZUxJs@angien.pipo.sk>
+ <94610f98-9075-83f5-3d4f-b745467171da@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <94610f98-9075-83f5-3d4f-b745467171da@suse.de>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,70 +85,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, May 27, 2022 at 12:35:45PM +0200, Claudio Fontana wrote:
+> On 5/27/22 12:20 PM, Peter Krempa wrote:
+> > On Fri, May 27, 2022 at 10:47:58 +0100, Daniel P. Berrangé wrote:
+> >> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
+> >> exposed in virsh. It is not especially pleasant, however, using the raw
+> >> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
+> >> exposes a human friendly interactive shell. It is not possible to use
+> >> this with libvirt managed guest, however, since only one client can
+> >> attach to he QMP socket at any point in time.
+> >>
+> >> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
+> >> socket and listens for incoming client connections, speaking QMP on
+> >> the connected socket. It will forward any QMP commands received onto
+> >> the running libvirt QEMU guest, and forward any replies back to the
+> >> QMP client.
+> >>
+> >>   $ virsh start demo
+> >>   $ virt-qmp-proxy demo demo.qmp &
+> >>   $ qmp-shell demo.qmp
+> >>   Welcome to the QMP low-level shell!
+> >>   Connected to QEMU 6.2.0
+> >>
+> >>   (QEMU) query-kvm
+> >>   {
+> >>       "return": {
+> >>           "enabled": true,
+> >>           "present": true
+> >>       }
+> >>   }
+> >>
+> >> Note this tool of course has the same risks as the raw libvirt
+> >> QMP passthrough. It is safe to run query commands to fetch information
+> >> but commands which change the QEMU state risk disrupting libvirt's
+> >> management of QEMU, potentially resulting in data loss/corruption in
+> >> the worst case.
+> >>
+> >> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> >> ---
+> >>
+> >> CC'ing QEMU since this is likely of interest to maintainers and users
+> >> who work with QEMU and libvirt
+> >>
+> >> Note this impl is fairly crude in that it assumes it is receiving
+> >> the QMP commands linewise one at a time. None the less it is good
+> >> enough to work with qmp-shell already, so I figured it was worth
+> >> exposing to the world. It also lacks support for forwarding events
+> >> back to the QMP client.
+> > 
+> > I originally wanted to teach the qemu tools to work with libvirt
+> > directly similarly how 'scripts/render_block_graph.py' from the qemu
+> > tree already does but I guess this is also an option.
+> > 
+> > This is an option too albeit a bit more complex to set up, but on the
+> > other hand a bit more universal.
+> > 
+> > I'll have a look at the code a bit later.
+> > 
+> 
+> Would have found it useful, at the time I wrote the multifd save series I ended up just scripting around virsh qemu-monitor-command from either bash or C.
+> 
+> One challenge I had to face was, when doing fd migration doing
+> 
+> "execute": "getfd", "arguments": {"fdname":"migrate"}
+> 
+> in that case we have to use the --pass-fds=N option to pass the FD.
+> 
+> Does the virt-qmp-proxy tool consider the passing of FDs issue?
 
-Dario Faggioli <dfaggioli@suse.com> writes:
+My impl here doesn't try to support FD passing, but it is conceptually
+possible for us to support it given the new libvirt API Peter added
+a few months back to allow monitor passthrough with FDs.
 
-> [[PGP Signed Part:Undecided]]
-> On Fri, 2022-05-27 at 10:18 +0200, Claudio Fontana wrote:
->> On 5/27/22 9:26 AM, Dario Faggioli wrote:
->> > >=20
->> > Yes, this kind of matches what I've also seen and reported about in
->> > <5bcb5ceb44dd830770d66330e27de6a4345fcb69.camel@suse.com>. If
->> > enable/run just one of:
->> > - reconnect
->> > - flags_mismatch
->> > - connect_fail
->> >=20
->> > I see no issues.
->>=20
->> On the countrary, for me just running a single one of those can fail.
->>=20
-> Well, but you said (or at least so I understood) that running the test
-> for the first time, works.
->
-> Then, when you run it multiple times, things start to fail.
->
-> That was, in fact, my point... I was making the parallelism between the
-> fact running only one of those tests works for me and the fact that
-> running the test for the first time works for you too.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Hmm so the qos-test is a bit weird as it:
-
- - forks itself to run a single subtest (g_test_trap_subprocess)
- - forks itself again for provide the dummy vhost-user daemon
- - as well as the fork/execve for qemu itself
-
-while all the paths used for communication should be unique I wouldn't
-be surprised if there is a racey interaction or two in the whole thing.
-We even see a bit of this is the fact we don't cleanly tear stuff down
-so QEMU sees the vhost-user socket disappear under it's feet.
-
->
-> And between the fact that running two tests, one after the other, fails
-> for me and the fact that running the same tests multiple times fails
-> for you too.
->
-> :-)
->
->> > However, Claudio, AFAIUI, you're seeing this with an older GCC and
->> > without LTO, right?
->>=20
->> Yes, to provide a different angle I tried on veteran OpenSUSE Leap
->> 15.2, so gcc is based on 7.5.0.
->>=20
->> I don't think LTO is being used in any way.
->>=20
-> Yep, agreed. Now I don't think it's related to LTO specifically either.
->
-> Although, it's at least a bit of an Heisenbug. I mean, we're seeing it
-> (with two different setups), but for others, things work fine, I guess?
->
-> Regards
-
-
---=20
-Alex Benn=C3=A9e
 
