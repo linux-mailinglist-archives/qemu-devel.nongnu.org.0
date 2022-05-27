@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B995363EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 16:19:10 +0200 (CEST)
-Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254F153640E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 16:29:22 +0200 (CEST)
+Received: from localhost ([::1]:49376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuao1-000883-GA
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 10:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38134)
+	id 1nuaxs-0004UB-Qv
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 10:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nuaRH-0002DS-ML
- for qemu-devel@nongnu.org; Fri, 27 May 2022 09:55:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21404)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1nuajd-00044Y-RG
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 10:14:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nuaRF-0000da-Av
- for qemu-devel@nongnu.org; Fri, 27 May 2022 09:55:39 -0400
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1nuaja-0003pV-Ny
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 10:14:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653659736;
+ s=mimecast20190719; t=1653660873;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J4AgK4+QLNtS4QScVyh2dG4giCX+VTt4UUUUP+4taZ8=;
- b=eR7TAv99qJvB0NbTv+VSt65+Z18o+odsoPHj3/U3cwtP/CQgU6cwXlnBA6sMVxRuIGlz4F
- RSeM+kLjdufR6I3H+fxVn5k7R42qUGVpnCp/m6G4oqd84V7fWc5cVLeCtvlUIjhs/wS39d
- m/12AZjsdSFxn/eAjTAB879wibhC5Iw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kYazQ5djE7Qr1yms8YuU47Mb8PfAUfdywloNC4vuAp0=;
+ b=EsyV51p6RymICAuKdo077Eri6VjttJh70kexAxnzdURkBBodXpt+lcgiN+i8x2h25i0LUI
+ A+5FDreHN5qn8GlKkqj7xP/1Uwe3LFxvyxLr8igAWlgiNvEktuMlIL1sh1z6HYKBfqEwfr
+ Cdb7afocXFLEqDgy2PkykyPfAHFa6Q8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-rPrcACvVPzKff__60VmwKQ-1; Fri, 27 May 2022 09:55:31 -0400
-X-MC-Unique: rPrcACvVPzKff__60VmwKQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-232-HBOKQ2EePDGQGiK2yPPc8Q-1; Fri, 27 May 2022 10:14:31 -0400
+X-MC-Unique: HBOKQ2EePDGQGiK2yPPc8Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E53F28027EE;
- Fri, 27 May 2022 13:55:30 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46B792026D64;
- Fri, 27 May 2022 13:55:30 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, Michael Roth <michael.roth@amd.com>,
- peter.maydell@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 15/15] test/qga: use g_auto wherever sensible
-Date: Fri, 27 May 2022 15:54:59 +0200
-Message-Id: <20220527135459.117877-16-marcandre.lureau@redhat.com>
-In-Reply-To: <20220527135459.117877-1-marcandre.lureau@redhat.com>
-References: <20220527135459.117877-1-marcandre.lureau@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 911A41C14485
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 14:14:31 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D92231121315;
+ Fri, 27 May 2022 14:14:29 +0000 (UTC)
+Date: Fri, 27 May 2022 16:14:27 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [libvirt PATCH] tools: add virt-qmp-proxy for proxying QMP
+ clients to libvirt QEMU guests
+Message-ID: <YpDcw97r7SPnJVfi@angien.pipo.sk>
+References: <20220527094758.604621-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
+In-Reply-To: <20220527094758.604621-1-berrange@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,456 +84,382 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr√© Lureau <marcandre.lureau@redhat.com>
+On Fri, May 27, 2022 at 10:47:58 +0100, Daniel P. BerrangÈ wrote:
+> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
+> exposed in virsh. It is not especially pleasant, however, using the raw
+> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
+> exposes a human friendly interactive shell. It is not possible to use
+> this with libvirt managed guest, however, since only one client can
+> attach to he QMP socket at any point in time.
+> 
+> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
+> socket and listens for incoming client connections, speaking QMP on
+> the connected socket. It will forward any QMP commands received onto
+> the running libvirt QEMU guest, and forward any replies back to the
+> QMP client.
+> 
+>   $ virsh start demo
+>   $ virt-qmp-proxy demo demo.qmp &
+>   $ qmp-shell demo.qmp
+>   Welcome to the QMP low-level shell!
+>   Connected to QEMU 6.2.0
+> 
+>   (QEMU) query-kvm
+>   {
+>       "return": {
+>           "enabled": true,
+>           "present": true
+>       }
+>   }
+> 
+> Note this tool of course has the same risks as the raw libvirt
+> QMP passthrough. It is safe to run query commands to fetch information
+> but commands which change the QEMU state risk disrupting libvirt's
+> management of QEMU, potentially resulting in data loss/corruption in
+> the worst case.
+> 
+> Signed-off-by: Daniel P. BerrangÈ <berrange@redhat.com>
+> ---
+> 
+> CC'ing QEMU since this is likely of interest to maintainers and users
+> who work with QEMU and libvirt
+> 
+> Note this impl is fairly crude in that it assumes it is receiving
+> the QMP commands linewise one at a time. None the less it is good
+> enough to work with qmp-shell already, so I figured it was worth
+> exposing to the world. It also lacks support for forwarding events
+> back to the QMP client.
+> 
+>  docs/manpages/meson.build        |   1 +
+>  docs/manpages/virt-qmp-proxy.rst | 123 ++++++++++++++++++++++++++++
+>  tools/meson.build                |   5 ++
+>  tools/virt-qmp-proxy             | 133 +++++++++++++++++++++++++++++++
+>  4 files changed, 262 insertions(+)
+>  create mode 100644 docs/manpages/virt-qmp-proxy.rst
+>  create mode 100755 tools/virt-qmp-proxy
 
-Signed-off-by: Marc-Andr√© Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Message-Id: <20220525144140.591926-16-marcandre.lureau@redhat.com>
----
- tests/unit/test-qga.c | 121 +++++++++++++++---------------------------
- 1 file changed, 43 insertions(+), 78 deletions(-)
+[...]
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index ab0b12a2dd..530317044b 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -52,7 +52,10 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
- {
-     const gchar *extra_arg = data;
-     GError *error = NULL;
--    gchar *cwd, *path, *cmd, **argv = NULL;
-+    g_autofree char *cwd = NULL;
-+    g_autofree char *path = NULL;
-+    g_autofree char *cmd = NULL;
-+    g_auto(GStrv) argv = NULL;
- 
-     fixture->loop = g_main_loop_new(NULL, FALSE);
- 
-@@ -78,17 +81,12 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
- 
-     fixture->fd = connect_qga(path);
-     g_assert_cmpint(fixture->fd, !=, -1);
--
--    g_strfreev(argv);
--    g_free(cmd);
--    g_free(cwd);
--    g_free(path);
- }
- 
- static void
- fixture_tear_down(TestFixture *fixture, gconstpointer data)
- {
--    gchar *tmp;
-+    g_autofree char *tmp = NULL;
- 
-     kill(fixture->pid, SIGTERM);
- 
-@@ -107,7 +105,6 @@ fixture_tear_down(TestFixture *fixture, gconstpointer data)
- 
-     tmp = g_build_filename(fixture->test_dir, "sock", NULL);
-     g_unlink(tmp);
--    g_free(tmp);
- 
-     g_rmdir(fixture->test_dir);
-     g_free(fixture->test_dir);
-@@ -122,7 +119,7 @@ static void qmp_assertion_message_error(const char     *domain,
-                                         QDict          *dict)
- {
-     const char *class, *desc;
--    char *s;
-+    g_autofree char *s = NULL;
-     QDict *error;
- 
-     error = qdict_get_qdict(dict, "error");
-@@ -131,7 +128,6 @@ static void qmp_assertion_message_error(const char     *domain,
- 
-     s = g_strdup_printf("assertion failed %s: %s %s", expr, class, desc);
-     g_assertion_message(domain, file, line, func, s);
--    g_free(s);
- }
- 
- #define qmp_assert_no_error(err) do {                                   \
-@@ -146,7 +142,7 @@ static void test_qga_sync_delimited(gconstpointer fix)
-     const TestFixture *fixture = fix;
-     guint32 v, r = g_test_rand_int();
-     unsigned char c;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     qmp_fd_send_raw(fixture->fd, "\xff");
-     qmp_fd_send(fixture->fd,
-@@ -180,15 +176,13 @@ static void test_qga_sync_delimited(gconstpointer fix)
- 
-     v = qdict_get_int(ret, "return");
-     g_assert_cmpint(r, ==, v);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_sync(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-     guint32 v, r = g_test_rand_int();
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     /*
-      * TODO guest-sync is inherently limited: we cannot distinguish
-@@ -210,33 +204,27 @@ static void test_qga_sync(gconstpointer fix)
- 
-     v = qdict_get_int(ret, "return");
-     g_assert_cmpint(r, ==, v);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_ping(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
-     g_assert_nonnull(ret);
-     qmp_assert_no_error(ret);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_id(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping', 'id': 1}");
-     g_assert_nonnull(ret);
-     qmp_assert_no_error(ret);
-     g_assert_cmpint(qdict_get_int(ret, "id"), ==, 1);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_invalid_oob(gconstpointer fix)
-@@ -253,7 +241,8 @@ static void test_qga_invalid_oob(gconstpointer fix)
- static void test_qga_invalid_args(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping', "
-@@ -266,14 +255,13 @@ static void test_qga_invalid_args(gconstpointer fix)
- 
-     g_assert_cmpstr(class, ==, "GenericError");
-     g_assert_cmpstr(desc, ==, "Parameter 'foo' is unexpected");
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_invalid_cmd(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-invalid-cmd'}");
-@@ -285,14 +273,13 @@ static void test_qga_invalid_cmd(gconstpointer fix)
- 
-     g_assert_cmpstr(class, ==, "CommandNotFound");
-     g_assert_cmpint(strlen(desc), >, 0);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_info(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     const gchar *version;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-info'}");
-@@ -302,14 +289,12 @@ static void test_qga_info(gconstpointer fix)
-     val = qdict_get_qdict(ret, "return");
-     version = qdict_get_try_str(val, "version");
-     g_assert_cmpstr(version, ==, QEMU_VERSION);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_vcpus(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -322,14 +307,12 @@ static void test_qga_get_vcpus(gconstpointer fix)
-     entry = qlist_first(list);
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "online"));
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "logical-id"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_fsinfo(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -346,14 +329,13 @@ static void test_qga_get_fsinfo(gconstpointer fix)
-         g_assert(qdict_haskey(qobject_to(QDict, entry->value), "type"));
-         g_assert(qdict_haskey(qobject_to(QDict, entry->value), "disk"));
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_memory_block_info(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     int64_t size;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-memory-block-info'}");
-@@ -366,14 +348,12 @@ static void test_qga_get_memory_block_info(gconstpointer fix)
-         size = qdict_get_int(val, "size");
-         g_assert_cmpint(size, >, 0);
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_memory_blocks(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -391,14 +371,12 @@ static void test_qga_get_memory_blocks(gconstpointer fix)
-             g_assert(qdict_haskey(qobject_to(QDict, entry->value), "online"));
-         }
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_network_get_interfaces(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -410,8 +388,6 @@ static void test_qga_network_get_interfaces(gconstpointer fix)
-     list = qdict_get_qlist(ret, "return");
-     entry = qlist_first(list);
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "name"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_file_ops(gconstpointer fix)
-@@ -642,7 +618,7 @@ static void test_qga_file_write_read(gconstpointer fix)
- static void test_qga_get_time(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     int64_t time;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-time'}");
-@@ -651,8 +627,6 @@ static void test_qga_get_time(gconstpointer fix)
- 
-     time = qdict_get_int(ret, "return");
-     g_assert_cmpint(time, >, 0);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_blacklist(gconstpointer data)
-@@ -693,18 +667,22 @@ static void test_qga_blacklist(gconstpointer data)
- static void test_qga_config(gconstpointer data)
- {
-     GError *error = NULL;
--    char *cwd, *cmd, *out, *err, *str, **strv, **argv = NULL;
-+    g_autofree char *out = NULL;
-+    g_autofree char *err = NULL;
-+    g_autofree char *cwd = NULL;
-+    g_autofree char *cmd = NULL;
-+    g_auto(GStrv) argv = NULL;
-+    g_auto(GStrv) strv = NULL;
-+    g_autoptr(GKeyFile) kf = NULL;
-+    char *str;
-     char *env[2];
-     int status;
-     gsize n;
--    GKeyFile *kf;
- 
-     cwd = g_get_current_dir();
-     cmd = g_strdup_printf("%s%cqga%cqemu-ga -D",
-                           cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
--    g_free(cwd);
-     g_shell_parse_argv(cmd, NULL, &argv, &error);
--    g_free(cmd);
-     g_assert_no_error(error);
- 
-     env[0] = g_strdup_printf("QGA_CONF=tests%cdata%ctest-qga-config",
-@@ -712,7 +690,6 @@ static void test_qga_config(gconstpointer data)
-     env[1] = NULL;
-     g_spawn_sync(NULL, argv, env, 0,
-                  NULL, NULL, &out, &err, &status, &error);
--    g_strfreev(argv);
- 
-     g_assert_no_error(error);
-     g_assert_cmpstr(err, ==, "");
-@@ -759,18 +736,14 @@ static void test_qga_config(gconstpointer data)
-     g_assert_true(g_strv_contains((const char * const *)strv,
-                                   "guest-get-time"));
-     g_assert_no_error(error);
--    g_strfreev(strv);
- 
--    g_free(out);
--    g_free(err);
-     g_free(env[0]);
--    g_key_file_free(kf);
- }
- 
- static void test_qga_fsfreeze_status(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     const gchar *status;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-fsfreeze-status'}");
-@@ -779,16 +752,15 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
- 
-     status = qdict_get_try_str(ret, "return");
-     g_assert_cmpstr(status, ==, "thawed");
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_exec(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     const gchar *out;
--    guchar *decoded;
-+    g_autofree guchar *decoded = NULL;
-     int64_t pid, now, exitcode;
-     gsize len;
-     bool exited;
-@@ -827,14 +799,13 @@ static void test_qga_guest_exec(gconstpointer fix)
-     decoded = g_base64_decode(out, &len);
-     g_assert_cmpint(len, ==, 12);
-     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
--    g_free(decoded);
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_exec_invalid(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     /* invalid command */
-@@ -859,13 +830,13 @@ static void test_qga_guest_exec_invalid(gconstpointer fix)
-     desc = qdict_get_str(error, "desc");
-     g_assert_cmpstr(class, ==, "GenericError");
-     g_assert_cmpint(strlen(desc), >, 0);
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_host_name(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-host-name'}");
-     g_assert_nonnull(ret);
-@@ -873,14 +844,13 @@ static void test_qga_guest_get_host_name(gconstpointer fix)
- 
-     val = qdict_get_qdict(ret, "return");
-     g_assert(qdict_haskey(val, "host-name"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_timezone(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-timezone'}");
-     g_assert_nonnull(ret);
-@@ -889,14 +859,12 @@ static void test_qga_guest_get_timezone(gconstpointer fix)
-     /* Make sure there's at least offset */
-     val = qdict_get_qdict(ret, "return");
-     g_assert(qdict_haskey(val, "offset"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_users(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-users'}");
-@@ -906,15 +874,13 @@ static void test_qga_guest_get_users(gconstpointer fix)
-     /* There is not much to test here */
-     val = qdict_get_qlist(ret, "return");
-     g_assert_nonnull(val);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_osinfo(gconstpointer data)
- {
-     TestFixture fixture;
-     const gchar *str;
--    QDict *ret = NULL;
-+    g_autoptr(QDict) ret = NULL;
-     char *env[2];
-     QDict *val;
- 
-@@ -958,7 +924,6 @@ static void test_qga_guest_get_osinfo(gconstpointer data)
-     g_assert_nonnull(str);
-     g_assert_cmpstr(str, ==, "unit-test");
- 
--    qobject_unref(ret);
-     g_free(env[0]);
-     fixture_tear_down(&fixture, NULL);
- }
--- 
-2.36.1
+> diff --git a/docs/manpages/virt-qmp-proxy.rst b/docs/manpages/virt-qmp-proxy.rst
+> new file mode 100644
+> index 0000000000..94679406ab
+> --- /dev/null
+> +++ b/docs/manpages/virt-qmp-proxy.rst
+> @@ -0,0 +1,123 @@
+> +==============
+> +virt-qmp-proxy
+> +==============
+> +
+> +--------------------------------------------------
+> +Expose a QMP proxy server for a libvirt QEMU guest
+> +--------------------------------------------------
+> +
+> +:Manual section: 1
+> +:Manual group: Virtualization Support
+> +
+> +.. contents::
+> +
+> +
+> +SYNOPSIS
+> +========
+> +
+> +``virt-qmp-proxy`` [*OPTION*]... *DOMAIN* *QMP-SOCKET-PATH*
+> +
+> +
+> +DESCRIPTION
+> +===========
+> +
+> +This tool provides a way to expose a QMP proxy server that communicates
+> +with a QEMU guest managed by libvirt. This enables standard QMP client
+> +tools to interact with libvirt managed guests.
+> +
+> +**NOTE: use of this tool will result in the running QEMU guest being
+> +marked as tainted.** It is strongly recommended that this tool *only be
+> +used to send commands which query information* about the running guest.
+> +If this tool is used to make changes to the state of the guest, this
+> +may have negative interactions with the QEMU driver, resulting in an
+> +inability to manage the guest operation thereafter, and in the worst
+> +case **potentially lead to data loss or corruption**.
+> +
+> +The ``virt-qmp-proxy`` program will listen on a UNIX socket for incoming
+> +client connections, and run the QMP protocol over the connection. Any
+> +commands received will be sent to the running libvirt guest, and replies
+> +sent back.
+> +
+> +The ``virt-qemu-proxy`` program may be interrupted (eg Ctrl-C) when it
+> +is no longer required. The libvirt QEMU guest will continue running.
+> +
+> +
+> +OPTIONS
+> +=======
+> +
+> +*DOMAIN*
+> +
+> +The ID or UUID or Name of the libvirt QEMU guest.
+> +
+> +*QMP-SOCKET-PATH*
+> +
+> +The filesystem path at which to run the QMP server, listening for
+> +incoming connections.
+> +
+> +``-c`` *CONNECTION-URI*
+> +``--connect``\ =\ *CONNECTION-URI*
+> +
+> +The URI for the connection to the libvirt QEMU driver. If omitted,
+> +a URI will be auto-detected.
+> +
+> +``-v``, ``--verbose``
+> +
+> +Run in verbose mode, printing all QMP commands and replies that
+> +are handled.
+> +
+> +``-h``, ``--help``
+> +
+> +Display the command line help.
+> +
+> +
+> +EXIT STATUS
+> +===========
+> +
+> +Upon successful shutdown, an exit status of 0 will be set. Upon
+> +failure a non-zero status will be set.
+> +
+> +
+> +AUTHOR
+> +======
+> +
+> +Daniel P. BerrangÈ
+> +
+> +
+> +BUGS
+> +====
+> +
+> +Please report all bugs you discover.  This should be done via either:
+> +
+> +#. the mailing list
+> +
+> +   `https://libvirt.org/contact.html <https://libvirt.org/contact.html>`_
+> +
+> +#. the bug tracker
+> +
+> +   `https://libvirt.org/bugs.html <https://libvirt.org/bugs.html>`_
+> +
+> +Alternatively, you may report bugs to your software distributor / vendor.
+> +
+> +NOTE: at this time there is no support for forwarding QMP events back
+> +to the clients
+
+Also add caveat about FD passing support.
+
+[...]
+
+> diff --git a/tools/virt-qmp-proxy b/tools/virt-qmp-proxy
+> new file mode 100755
+> index 0000000000..57f9759fab
+> --- /dev/null
+> +++ b/tools/virt-qmp-proxy
+> @@ -0,0 +1,133 @@
+> +#!/usr/bin/env python3
+> +
+> +import argparse
+> +import libvirt
+> +import libvirt_qemu
+> +import os
+> +import re
+> +import socket
+> +import sys
+> +import json
+> +
+> +
+> +def get_domain(uri, domstr):
+> +    conn = libvirt.open(uri)
+> +
+> +    dom = None
+> +    if re.match(r'^\d+$', domstr):
+> +        dom = conn.lookupByID(int(domstr))
+> +    elif re.match(r'^[+a-f0-9]+$', domstr):
+
+This works very poorly if you have a VM named for example 'cd' or any
+combination of just letters abcdef.
+
+> +        dom = conn.lookupByUUIDString(domstr)
+> +    else:
+> +        dom = conn.lookupByName(domstr)
+> +
+> +    if not dom.isActive():
+> +        raise Exception(
+> +            "Domain must be running to validate measurement")
+
+This should mention the current usage or a generic error ;)
+
+> +
+> +    return conn, dom
+> +
+> +
+> +def qmp_server(conn, dom, client, verbose):
+> +    ver = conn.getVersion()
+
+So this gets the version of the "default" emulator version, but if your
+VM is using a custom one this will report it wrong.
+
+E.g in my case I have a git qemu for a VM:
+
+ 517 2022-05-27 14:01:09.604+0000: 373562: debug : qemuMonitorJSONIOProcessLine:199 : Line [{"QMP": {"version": {"qemu": {"micro": 50, "minor": 0, "major": 7}, "package": "v7.0.0-1253-g2417cbd591"}, "capabilities": ["oob"]}}]
+
+
+
+> +    major = int(ver / 1000000) % 1000
+> +    minor = int(ver / 1000) % 1000
+> +    micro = ver % 1000
+> +
+> +    greetingobj = {
+> +        "QMP": {
+> +            "version": {
+> +                "qemu": {
+> +                    "major": major,
+> +                    "minor": minor,
+> +                    "micro": micro,
+> +                },
+> +                "package": f"qemu-{major}.{minor}.{micro}",
+> +            },
+> +            "capabilities": [
+> +                "oob"
+> +            ],
+> +        }
+> +    }
+
+But when I conect I get:
+
+{"QMP": {"version": {"qemu": {"major": 7, "minor": 0, "micro": 0}, "package": "qemu-7.0.0"}, "capabilities": ["oob"]}}
+
+
+At the very least this should be documented.
+
+> +    greeting = json.dumps(greetingobj) + "\r\n"
+> +    if verbose:
+> +        print(greeting, end='')
+> +    client.send(greeting.encode("utf-8"))
+> +
+> +    while True:
+> +        # XXX shouldn't blindly assume this one read
+> +        # will fully capture one-and-only-one cmd
+> +        cmd = client.recv(1024).decode('utf8')
+
+IIUC this limits the buffer to 1k max. Libvirt's RPC supports up to 4M.
+1k could be limiting with some commands such as blockdev-add.
+
+> +        if verbose:
+> +            print(cmd)
+> +
+> +        if cmd == "":
+> +            break
+> +
+> +        if "qmp_capabilities" in cmd:
+> +            capabilitiesobj = {
+> +                "return": {},
+> +            }
+> +            capabilities = json.dumps(capabilitiesobj) + "\r\n"
+> +            if verbose:
+> +                print(capabilities, end='')
+> +            client.send(capabilities.encode("utf-8"))
+> +            continue
+> +
+> +        id = None
+> +        if "id" in cmd:
+> +            id = cmd[id]
+> +
+> +        res = libvirt_qemu.qemuMonitorCommand(dom, cmd, 0)
+
+If 'cmd' is not JSON this breaks horribly:
+
+$ tools/virt-qmp-proxy 2 /tmp/asdf
+libvirt:  error : internal error: cannot parse json test
+: lexical error: invalid string in json text.
+                                       test
+                     (right here) ------^
+tools/virt-qmp-proxy: internal error: cannot parse json test
+: lexical error: invalid string in json text.
+                                       test
+                     (right here) ------^
+
+and stops working, while real qemu behaves differently:
+
+$ qemu-system-x86_64 -qmp stdio
+{"QMP": {"version": {"qemu": {"micro": 0, "minor": 0, "major": 7}, "package": "qemu-7.0.0-2.fc35"}, "capabilities": ["oob"]}}
+
+
+help
+{"error": {"class": "GenericError", "desc": "JSON parse error, invalid keyword 'help'"}}
+
+
+Also since it's just a simple loop without event handling from qemu.
+E.g. if I destroy the VM while it's running it simply waits. When I
+issue another command, then the proxy exits:
+
+$ tools/virt-qmp-proxy 2 /tmp/asdf
+libvirt: Domain Config error : Requested operation is not valid: domain is not running
+tools/virt-qmp-proxy: Requested operation is not valid: domain is not running
+
+
+but the client itself just sees a closed socket.
+
+Given the use case it's not a big problem but it should be at least
+mentioned in the docs.
+
+> +
+> +        resobj = json.loads(res)
+> +        del resobj["id"]
+> +        if id is not None:
+> +            resobj["id"] = id
+> +        res = json.dumps(resobj) + "\r\n"
+> +        if verbose:
+> +            print(res, end='')
+> +
+> +        client.send(res.encode('utf8'))
+> +
+> +
+> +def parse_commandline():
+> +    parser = argparse.ArgumentParser(description="Libvirt QMP proxy")
+> +    parser.add_argument("--connect", "-c",
+> +                        help="Libvirt QEMU driver connection URI")
+> +    parser.add_argument("--verbose", "-v", action='store_true',
+> +                        help="Display QMP traffic")
+> +    parser.add_argument("domain", metavar="DOMAIN",
+> +                        help="Libvirt guest domain ID/UUID/Name")
+> +    parser.add_argument("sockpath", metavar="QMP-SOCK-PATH",
+> +                        help="UNIX socket path for QMP server")
+> +
+> +    return parser.parse_args()
+> +
+> +
+> +def main():
+> +    args = parse_commandline()
+> +
+> +    conn, dom = get_domain(args.connect, args.domain)
+> +
+> +    if conn.getType() != "QEMU":
+> +        raise Exception("QMP proxy requires a QEMU driver connection not %s" %
+> +                        conn.getType())
+> +
+> +    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+> +    if os.path.exists(args.sockpath):
+> +        os.unlink(args.sockpath)
+> +    sock.bind(args.sockpath)
+> +    sock.listen(1)
+> +
+> +    while True:
+> +        client, peeraddr = sock.accept()
+> +        qmp_server(conn, dom, client, args.verbose)
+> +
+> +
+> +try:
+> +    main()
+> +    sys.exit(0)
+> +except Exception as e:
+> +    print("%s: %s" % (sys.argv[0], str(e)))
+> +    sys.exit(1)
+> -- 
+> 2.36.1
+> 
 
 
