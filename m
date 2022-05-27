@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F4D536898
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 23:38:08 +0200 (CEST)
-Received: from localhost ([::1]:42164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA2A5368BB
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 00:22:32 +0200 (CEST)
+Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuhep-0007e3-0S
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 17:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51744)
+	id 1nuiLn-0000A1-Hg
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 18:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <superbisquit@gmail.com>)
- id 1nuhdI-0006RY-MT
- for qemu-devel@nongnu.org; Fri, 27 May 2022 17:36:32 -0400
-Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a]:46063)
+ (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
+ id 1nuiJj-0006yf-VS; Fri, 27 May 2022 18:20:24 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:44540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <superbisquit@gmail.com>)
- id 1nuhdG-00027p-8x
- for qemu-devel@nongnu.org; Fri, 27 May 2022 17:36:32 -0400
-Received: by mail-vs1-xe2a.google.com with SMTP id j7so5407826vsp.12
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 14:36:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=+HHW4vQ8WbYPUuwn6Xw8UZTnYW+9EwkeWSORs8Db9zM=;
- b=lHkULsqJl2q7hWvX/l+XymGPIvgCg6WampVn+inLxceWtmoOEgIh9H7JjojHqWiB+K
- awLJ1ewqk478AyeLxFbYNEg0Tubf5MZA1n7rer7brafOychWKQ6zofpyfDvjUvII501B
- EA32KqxGOfXal8mzxtg84Ns7Q1Z5Eh+cNL+weREe88CiNnX4n0CtlMBEDhMOe3TyySsv
- GcE3an6muV0o+aWXXrTopBOW38qBvzzv0T1NweFXvkselwhEjv4CF88+HSRFoFSydmdd
- D5wU7tlaYjVbmqJFsdelKNKz2NWyK68+jckciYwzLWUsxZPWYOsrmMt/0TO+wtiL/Ugt
- HwJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=+HHW4vQ8WbYPUuwn6Xw8UZTnYW+9EwkeWSORs8Db9zM=;
- b=TgkL7HmII25tZrZ47pfm79SpvqAtZL9Gl0IIHpAY2lu6LrUdjcW3WVpHiaed/ay2o4
- hW7viSVJDpuCJ87ybRlVryDBCNs+bNcs+6/8ccJuLkXmQZmfzRAJIp5M83n+RCi29TpT
- /9KOY6OB9VQ60rtUXoYqyVBLOhHNDTE5CVW2zzt3eFMe8dmyTPI7KV8Ct2n0NDi39HUb
- qS8a6EbABIfpwoggNzJvlnejKoqp2qaS+teMY6FhAIITpTNO9mPlNC7ZvqENDGRxQt0o
- 57gMaXBpr4Y29o4SXlTK6zs9s8/oVWOUzSksGj/srIb4ieEb/J236byF50wVxHgsM1AL
- E0eg==
-X-Gm-Message-State: AOAM530SdTI7U5O2mViXM4MO3+WgNrrFgsZ6bfmSt2jidVacjra+nu9V
- iG36gGpojw0y+us2u9kf2+LoOn5sbB8GELFWKvO01CGbDMg=
-X-Google-Smtp-Source: ABdhPJxeu7rlHArjUfxwgX6D5h0I8PraTr/JTZRBnmgFP1jAgm9Nsk4sVFkv+lbudrd2RcK5wLHFExD+b8lNVHPY1x0=
-X-Received: by 2002:a05:6102:3a0b:b0:335:c75f:54ed with SMTP id
- b11-20020a0561023a0b00b00335c75f54edmr20166386vsu.81.1653687388984; Fri, 27
- May 2022 14:36:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
+ id 1nuiJh-0000OY-Hv; Fri, 27 May 2022 18:20:23 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9E4F92199B;
+ Fri, 27 May 2022 22:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1653690018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=23ZjuO4lSmcbTd/a2nW7br+4L+w03qokNw7qq+mhpTs=;
+ b=G2y+SWXcl5fu1I60D/NoY0QpBDiyGXKXoNihnnZd8y92gs0piQFOBTZAEOXHiR6VNsOmbx
+ AVZDWnmb8BIaY9BMaIE/4+n6L8xAJWUY0pEM/zyKgkbNMjFVqNff94G7HxmMn51kt5P1pW
+ vh9Z2CxJQy1v/2A0KAuBIYOFShk+WNY=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4180313A84;
+ Fri, 27 May 2022 22:20:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id u4VfDaJOkWKQJAAAMHmgww
+ (envelope-from <dfaggioli@suse.com>); Fri, 27 May 2022 22:20:18 +0000
+Subject: [RESEND PATCH 0/2] modules: Improve modinfo.c support
+From: Dario Faggioli <dfaggioli@suse.com>
+To: qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, "Jose R. Ziviani" <jziviani@suse.de>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-s390x@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Date: Sat, 28 May 2022 00:20:17 +0200
+Message-ID: <165368982364.5857.13012746434823168062.stgit@work>
+User-Agent: StGit/1.5
 MIME-Version: 1.0
-References: <CA+WntOtM1J2C1607kWW_n9iTBctgMW26iF5JVYaWy9FSt8qqag@mail.gmail.com>
- <CAFEAcA_i5Q-5OEjoHFk=aKZSOB5cA-6i4acUKAeHo_Yx0qznjw@mail.gmail.com>
- <CA+WntOu0w7kNSMfT-2QDL2vVFKjaKG-pXXNQ2aGHA-p3a0-oZg@mail.gmail.com>
- <CAFEAcA8X5bwb0LrABtqF0VBXQPDwN3xirJZds6n8uzZbuqOL-A@mail.gmail.com>
-In-Reply-To: <CAFEAcA8X5bwb0LrABtqF0VBXQPDwN3xirJZds6n8uzZbuqOL-A@mail.gmail.com>
-From: Joe Nosay <superbisquit@gmail.com>
-Date: Fri, 27 May 2022 17:36:17 -0400
-Message-ID: <CA+WntOstQABHiQ_zxFYkwJiS7-uZPWDR9ODGNO+BC_Fh-romcA@mail.gmail.com>
-Subject: Re: building e2k qemu errors
-To: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000063da5805e00519ec"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
- envelope-from=superbisquit@gmail.com; helo=mail-vs1-xe2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=dfaggioli@suse.com;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,45 +76,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000063da5805e00519ec
-Content-Type: text/plain; charset="UTF-8"
+Hello,
 
-Will do, thanks
+This is a RESEND of patch series "[PATCH v3 0/2] modules: Improve modinfo.c
+support", from Sept 2021.
 
-On Fri, May 27, 2022 at 1:42 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+Message-ID: <20210928204628.20001-1-jziviani@suse.de>
+https://lore.kernel.org/qemu-devel/20210928204628.20001-1-jziviani@suse.de/
 
-> On Fri, 27 May 2022 at 16:16, Joe Nosay <superbisquit@gmail.com> wrote:
-> >
-> > Does the newest qemu source at github include the e2k cpu?
-> > And, what is the exact address?
->
-> Please keep emails on the mailing list, not on private email.
->
-> thanks
-> -- PMM
->
+Jose sent it because we were having issues building QEMU in the way we do that
+for openSUSE and SUSE Linux Enterprise.
 
---00000000000063da5805e00519ec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It was, back then, Acked by Gerd (see Message-ID:
+20210929050908.3fqf3wwbk6vrtziu@sirius.home.kraxel.org), but then never picked
+up. Well, since we are still having those building problems without it, I've
+rebased and I'm resending it, as agreed with Gerd himself.
 
-<div dir=3D"ltr">Will do, thanks<br></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Fri, May 27, 2022 at 1:42 PM Peter M=
-aydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro=
-.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On Fri, 27 May 2022 at 16:16, Joe Nosay &lt;<a href=3D"mailto:superbisq=
-uit@gmail.com" target=3D"_blank">superbisquit@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Does the newest qemu source at github include the e2k cpu?<br>
-&gt; And, what is the exact address?<br>
-<br>
-Please keep emails on the mailing list, not on private email.<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div>
+"Rebase" was as easy as just reapplying the patches (no offsets, no fuzz). Yet,
+I removed the ack, assuming that it needs being re-locked at.
 
---00000000000063da5805e00519ec--
+`make check` is happy. The CI, well, it looks fine to me. There's some 'Build'
+jobs that are taking too much to complete, and hence causing failures in the
+'Test' ones, but that seems unrelated to the patches. I'll try to restart them
+in these days, and see if they manage to finish.
+
+ https://gitlab.com/dfaggioli/qemu/-/pipelines/549884208
+
+FWIW, we've also started to use it, as downstream patches, in our packages,
+on top of various versions of QEMU.
+
+Let me know if there's anything more or different that I should do.
+
+Thanks and Regards
+---
+Jose R. Ziviani (2):
+      modules: introduces module_kconfig directive
+      modules: generates per-target modinfo
+
+ hw/display/qxl.c                |  1 +
+ hw/display/vhost-user-gpu-pci.c |  1 +
+ hw/display/vhost-user-gpu.c     |  1 +
+ hw/display/vhost-user-vga.c     |  1 +
+ hw/display/virtio-gpu-base.c    |  1 +
+ hw/display/virtio-gpu-gl.c      |  1 +
+ hw/display/virtio-gpu-pci-gl.c  |  1 +
+ hw/display/virtio-gpu-pci.c     |  1 +
+ hw/display/virtio-gpu.c         |  1 +
+ hw/display/virtio-vga-gl.c      |  1 +
+ hw/display/virtio-vga.c         |  1 +
+ hw/s390x/virtio-ccw-gpu.c       |  1 +
+ hw/usb/ccid-card-emulated.c     |  1 +
+ hw/usb/ccid-card-passthru.c     |  1 +
+ hw/usb/host-libusb.c            |  1 +
+ hw/usb/redirect.c               |  1 +
+ include/qemu/module.h           | 10 ++++++++
+ meson.build                     | 25 +++++++++++++-------
+ scripts/modinfo-generate.py     | 42 ++++++++++++++++++++-------------
+ 19 files changed, 69 insertions(+), 24 deletions(-)
+--
+Signature
+
 
