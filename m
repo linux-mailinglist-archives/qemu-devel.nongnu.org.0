@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260B3536690
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:29:15 +0200 (CEST)
-Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28EFC536691
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:29:18 +0200 (CEST)
+Received: from localhost ([::1]:56064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nudly-0005Fu-20
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60766)
+	id 1nudm1-0005UG-9l
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:29:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nudkV-0003OD-V7
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:27:43 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:36744)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nudkZ-0003RF-Nj
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 13:27:47 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:41500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nudkU-00048s-3e
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:27:43 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- u12-20020a17090a1d4c00b001df78c7c209so7694428pju.1
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 10:27:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nudkX-0004A6-Ex
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 13:27:47 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id p8so4864971pfh.8
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 10:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dKxraNqOZmC1Qjd1FJlCqqyBvierGHSKYTP+opFyWIE=;
- b=Yc87GM7+F/nYRNEVqsZA8OJ4YLOq9NqBGBEzFB8cquToTRhQp/2IwQTPAObKVNRBen
- xy5lEjmV4XzaVbrBtHAUg1XO3xLxRHIP5fZyb5/tSYhuf5/cTJXlcI1MI6R9VCQFm+kk
- nsQhgGVdrkN9gkbegRP7dE0xIgOCZtJV2VTr2SjWv/voxPI012arrt7boo/YVOG0zzpZ
- emX0aElByuwOH8GlpC4xCDC3+CCLuud5vAuMGLeLAyAVIpewPCxqbmx1hOKjAWUYLqPc
- lvWOl8dhzR1OENf86LFVcF5cJssKiY+u0ZIg6qKaLUdyCu4DijCrWFUF5eDSmJOa0HFq
- DHGA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=wGyk9o8Y+uwTh9lPK5GKDrj4v4XTzOVoGpkFAdXL5O4=;
+ b=P3nSeMrU2vMfTS5BIkUKgwrhwQkHf8gvkOqzh6KZDYIawtJ3Tn0v2gUYVXmwwWrGvq
+ 43fmiEsH7LpvuAoUeMInem8yLlbwBkL+QSOqz8pTZmpk1WfqWdbRkFbog4UJDTRzPpYH
+ VkhdMrwhXOw22g82ksMizOpPsDlcoMWqx2+oAlXTLpUM61Nzcn48Hbey8bE1wfOtZTFc
+ Fb6W/jrN4WFQt/TWrg9PGiX7Tt4IN9khmpOGlFbcvwv3b/XaJWYfdSn0DomSDs44KE5s
+ JGbryK8v2Q6BndoBsb9yIkmyNumVjjHL0uEhDUXFdOdUHAmi0/cUPUZiCYuz06V11O4P
+ fnjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dKxraNqOZmC1Qjd1FJlCqqyBvierGHSKYTP+opFyWIE=;
- b=nzR7KdNX84VkxMFCQguwf+Iza4SejKVFq0FucE89+aTIGeNmSi8mbvpn2RhUUj3Sh4
- dcVx3B5SlCxuAO0dd/1sHH7hZGUxczTbyUxgF1AsdW9s/1rITLXd14YCeus8+M53b/lT
- 1xPSwB1/BfCzmVu1jg4ZwfZSWC96RfxnAa9n1ulpxPOWjaV64O9bxopwVanf1SHoVkod
- BPWHtiAk1mckXBOmvQLFMu6jB59vcE/S1L7QJCIDwPrCpZIxTA4ZRmMQevDxWRBuXB6O
- SmGZzR15olkzYLmd0MQSszuyNHJeAXjjhfVlG94+27VJI2K5ynoPnZ2nZqh9Ul45MTQf
- MiCw==
-X-Gm-Message-State: AOAM53035uESX+t3kR8QpwsDq3OqZPuV1aw4NvfdM/zpmF45SU0zXF3/
- PebTCYmPyyD+H8Rc6IIdFdGnszifPXqIeQ==
-X-Google-Smtp-Source: ABdhPJzsjUwA4OHUFiopRUYj+HP+AsaLxQoaYY1U2mrRMfaxsXCSZG9SfCXxNB/Ho0pNZY00xLeG8g==
-X-Received: by 2002:a17:903:244c:b0:162:4b19:a0e7 with SMTP id
- l12-20020a170903244c00b001624b19a0e7mr18380075pls.44.1653672459159; 
- Fri, 27 May 2022 10:27:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wGyk9o8Y+uwTh9lPK5GKDrj4v4XTzOVoGpkFAdXL5O4=;
+ b=8DNjrX+pAUboKEHEq2YQl02iS0Qilhue45fQTL2VOm1B0oIZOHZT84XZvXXjFinIZA
+ CUfEzlh0zAVLaAQRksXBUCE5xiFamoZ6Yw8RGxpiondeh3mFJIGHfiF2nnZCcX/GcCJU
+ O+niXn+nwHRmYimC92CQhq1501vJEASQibzs0hRMAHw6Si82Em10h/xzgKTXJzn7rUMt
+ JzjV+fCIWnPk8H78jdESBw8UMmlyMW67jbnATwlhJ+lDOWU411TB6n+GfvN2sOCGmHfC
+ /dFTitdMSsx3PIC4UHdcBpxYFS8QrLrGJcdK6rUknGIMVzInDEebCpKtHZnRJAIiADIt
+ Qw7A==
+X-Gm-Message-State: AOAM5315ep9hAZZkWLw8Wgmjh+r4xRwPuF0wdKdKTue04c5dGAmyZ3fI
+ rM0rzq9Y8HEYF78ks/HGrCbzA2UCbDbnIw==
+X-Google-Smtp-Source: ABdhPJxTKtZxTGAhWXwbbTSanXiupMpTAQczRwhGIk3ky6FeUpy0ms5sJMUwtWo3DpzwcYNK//UwUg==
+X-Received: by 2002:a05:6a00:1588:b0:518:8ce2:7753 with SMTP id
+ u8-20020a056a00158800b005188ce27753mr30918903pfk.51.1653672462098; 
+ Fri, 27 May 2022 10:27:42 -0700 (PDT)
 Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
  by smtp.gmail.com with ESMTPSA id
- u27-20020a63455b000000b003db0f2d135esm3599647pgk.49.2022.05.27.10.27.38
+ lb14-20020a17090b4a4e00b001d9780b7779sm1903881pjb.15.2022.05.27.10.27.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 10:27:38 -0700 (PDT)
+ Fri, 27 May 2022 10:27:41 -0700 (PDT)
 From: Stafford Horne <shorne@gmail.com>
 To: QEMU Development <qemu-devel@nongnu.org>
 Cc: Openrisc <openrisc@lists.librecores.org>,
  "Jason A. Donenfeld" <Jason@zx2c4.com>, Stafford Horne <shorne@gmail.com>
-Subject: [RFC PATCH 0/3] OpenRISC Semihosting and Virt
-Date: Sat, 28 May 2022 02:27:27 +0900
-Message-Id: <20220527172731.1742837-1-shorne@gmail.com>
+Subject: [RFC PATCH 1/3] target/openrisc: Add basic support for semihosting
+Date: Sat, 28 May 2022 02:27:28 +0900
+Message-Id: <20220527172731.1742837-2-shorne@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220527172731.1742837-1-shorne@gmail.com>
+References: <20220527172731.1742837-1-shorne@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=shorne@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=shorne@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,57 +87,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+For OpenRISC we currently only use semihosting for system exit and
+reset.  This patch implements that.
 
-I provide 2 options here 2 help with OpenRISC CI testing sush as the wireguard
-testing that Jason has been working on.
+The implementation uses a helper to delegate to the semihosting
+facility.  The helper is marked as having side effects but currently
+does not have any.  I have defined it like this as our other
+unimplemented semihosting calls will have side effects and return
+results in register r11.
 
-The two are:
-
- 1. Add semihosting to openrisc to handle l.nop based Halt and Reset
- 2. Define a new virt platform, this includes widing in the sifive test device
-    that provides a syscon interface to allow for shutdown and reboot.
-
-We could upstream both of them or just one. I am leaning toward dropping the
-semi-hosting work and just going ahead with virt.
-
-The semi-hosting stuff was discussed here:
-
- - https://www.mail-archive.com/qemu-devel@nongnu.org/msg884560.html
-
-Also, I started to propose architecture changes here:
-
- - https://github.com/openrisc/openrisc.github.io/pull/18
-
-However, looking at how other platforms define semihosting it seems the openrisc
-requirements are quite different.  We do not use the open/close/write etc
-syscalls as riscv, arm etc do.
-
-Stafford Horne (3):
-  target/openrisc: Add basic support for semihosting
-  hw/openrisc: Split re-usable boot time apis out to boot.c
-  hw/openrisc: Add the OpenRISC virtual machine
-
- configs/devices/or1k-softmmu/default.mak |   3 +
- hw/openrisc/Kconfig                      |   9 +
- hw/openrisc/boot.c                       | 127 +++++++
- hw/openrisc/meson.build                  |   2 +
- hw/openrisc/openrisc_sim.c               | 106 +-----
- hw/openrisc/virt.c                       | 429 +++++++++++++++++++++++
- include/hw/openrisc/boot.h               |  34 ++
- qemu-options.hx                          |  16 +-
- target/openrisc/cpu.h                    |   2 +
- target/openrisc/helper.h                 |   1 +
- target/openrisc/meson.build              |   1 +
- target/openrisc/openrisc-semi.c          |  54 +++
- target/openrisc/sys_helper.c             |   5 +
- target/openrisc/translate.c              |   6 +
- 14 files changed, 690 insertions(+), 105 deletions(-)
- create mode 100644 hw/openrisc/boot.c
- create mode 100644 hw/openrisc/virt.c
- create mode 100644 include/hw/openrisc/boot.h
+Signed-off-by: Stafford Horne <shorne@gmail.com>
+---
+ configs/devices/or1k-softmmu/default.mak |  2 +
+ qemu-options.hx                          | 16 ++++---
+ target/openrisc/cpu.h                    |  2 +
+ target/openrisc/helper.h                 |  1 +
+ target/openrisc/meson.build              |  1 +
+ target/openrisc/openrisc-semi.c          | 54 ++++++++++++++++++++++++
+ target/openrisc/sys_helper.c             |  5 +++
+ target/openrisc/translate.c              |  6 +++
+ 8 files changed, 82 insertions(+), 5 deletions(-)
  create mode 100644 target/openrisc/openrisc-semi.c
 
+diff --git a/configs/devices/or1k-softmmu/default.mak b/configs/devices/or1k-softmmu/default.mak
+index 168101c39a..5b3ac89491 100644
+--- a/configs/devices/or1k-softmmu/default.mak
++++ b/configs/devices/or1k-softmmu/default.mak
+@@ -1,5 +1,7 @@
+ # Default configuration for or1k-softmmu
+ 
++CONFIG_SEMIHOSTING=y
++
+ # Boards:
+ #
+ CONFIG_OR1K_SIM=y
+diff --git a/qemu-options.hx b/qemu-options.hx
+index b484640067..312c68b065 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4566,10 +4566,12 @@ ERST
+ DEF("semihosting", 0, QEMU_OPTION_semihosting,
+     "-semihosting    semihosting mode\n",
+     QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
+-    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
++    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV |
++    QEMU_ARCH_OPENRISC)
+ SRST
+ ``-semihosting``
+-    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V only).
++    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V,
++    OpenRISC only).
+ 
+     Note that this allows guest direct access to the host filesystem, so
+     should only be used with a trusted guest OS.
+@@ -4581,11 +4583,12 @@ DEF("semihosting-config", HAS_ARG, QEMU_OPTION_semihosting_config,
+     "-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,arg=str[,...]]\n" \
+     "                semihosting configuration\n",
+ QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
+-QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
++QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV |
++QEMU_ARCH_OPENRISC)
+ SRST
+ ``-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,arg=str[,...]]``
+-    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V
+-    only).
++    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V,
++    OpenRISC only).
+ 
+     Note that this allows guest direct access to the host filesystem, so
+     should only be used with a trusted guest OS.
+@@ -4601,6 +4604,9 @@ SRST
+ 
+     On RISC-V this implements the standard semihosting API, version 0.2.
+ 
++    On OpenRISC this only supports providing simulation exit and reset
++    facilities.
++
+     ``target=native|gdb|auto``
+         Defines where the semihosting calls will be addressed, to QEMU
+         (``native``) or to GDB (``gdb``). The default is ``auto``, which
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index b9584f10d4..4617f1272b 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -407,4 +407,6 @@ void cpu_set_fpcsr(CPUOpenRISCState *env, uint32_t val);
+ 
+ #define CPU_INTERRUPT_TIMER   CPU_INTERRUPT_TGT_INT_0
+ 
++void do_or1k_semihosting(CPUOpenRISCState *env, uint32_t k);
++
+ #endif /* OPENRISC_CPU_H */
+diff --git a/target/openrisc/helper.h b/target/openrisc/helper.h
+index d847814a28..2fe3e4e4ca 100644
+--- a/target/openrisc/helper.h
++++ b/target/openrisc/helper.h
+@@ -64,3 +64,4 @@ DEF_HELPER_FLAGS_1(rfe, 0, void, env)
+ /* sys */
+ DEF_HELPER_FLAGS_3(mtspr, 0, void, env, tl, tl)
+ DEF_HELPER_FLAGS_3(mfspr, TCG_CALL_NO_WG, tl, env, tl, tl)
++DEF_HELPER_FLAGS_2(nop, 0, void, env, i32)
+diff --git a/target/openrisc/meson.build b/target/openrisc/meson.build
+index 84322086ec..1c1758b846 100644
+--- a/target/openrisc/meson.build
++++ b/target/openrisc/meson.build
+@@ -10,6 +10,7 @@ openrisc_ss.add(files(
+   'fpu_helper.c',
+   'gdbstub.c',
+   'interrupt_helper.c',
++  'openrisc-semi.c',
+   'sys_helper.c',
+   'translate.c',
+ ))
+diff --git a/target/openrisc/openrisc-semi.c b/target/openrisc/openrisc-semi.c
+new file mode 100644
+index 0000000000..97d6aaacdb
+--- /dev/null
++++ b/target/openrisc/openrisc-semi.c
+@@ -0,0 +1,54 @@
++/*
++ *  OpenRISC Semihosting syscall interface.
++ *
++ *  Copyright (c) 2022 Stafford Horne
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++
++#include "cpu.h"
++#include "exec/gdbstub.h"
++#include "sysemu/runstate.h"
++#include "qemu/log.h"
++
++#define HOSTED_EXIT 1
++#define HOSTED_RESET 13
++
++static void or1k_semi_return_u32(CPUOpenRISCState *env, uint32_t ret)
++{
++    cpu_set_gpr(env, 11, ret);
++}
++
++void do_or1k_semihosting(CPUOpenRISCState *env, uint32_t k)
++{
++    uint32_t result;
++
++    switch (k) {
++    case HOSTED_EXIT:
++        gdb_exit(cpu_get_gpr(env, 3));
++        exit(cpu_get_gpr(env, 3));
++    case HOSTED_RESET:
++#ifndef CONFIG_USER_ONLY
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        return;
++#endif
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "or1k-semihosting: unsupported "
++                      "semihosting syscall %d\n", k);
++        result = 0;
++    }
++    or1k_semi_return_u32(env, result);
++}
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index 48674231e7..eb698a527e 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -314,3 +314,8 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+     /* for rd is passed in, if rd unchanged, just keep it back.  */
+     return rd;
+ }
++
++void HELPER(nop)(CPUOpenRISCState *env, target_ulong k)
++{
++    do_or1k_semihosting(env, k);
++}
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index 7b8ad43d5f..ec7b3b46ad 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -28,6 +28,7 @@
+ #include "qemu/qemu-print.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/translator.h"
++#include "semihosting/semihost.h"
+ 
+ #include "exec/helper-proto.h"
+ #include "exec/helper-gen.h"
+@@ -780,6 +781,11 @@ static bool trans_l_sh(DisasContext *dc, arg_store *a)
+ 
+ static bool trans_l_nop(DisasContext *dc, arg_l_nop *a)
+ {
++    if (semihosting_enabled() &&
++        a->k != 0) {
++        gen_helper_nop(cpu_env, tcg_constant_i32(a->k));
++    }
++
+     return true;
+ }
+ 
 -- 
 2.31.1
 
