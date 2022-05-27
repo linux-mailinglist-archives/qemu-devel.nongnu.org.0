@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD07153659E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:03:09 +0200 (CEST)
-Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A264C53659C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:02:40 +0200 (CEST)
+Received: from localhost ([::1]:38050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucQe-0007kY-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40002)
+	id 1nucQB-0006uc-Ji
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:02:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc8R-0003F3-J6
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:19 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39894)
+ id 1nuc8J-00032R-Kj
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:11 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc8P-0003t9-QW
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:19 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- i9-20020a1c3b09000000b00397345f2c6fso378919wma.4
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:16 -0700 (PDT)
+ id 1nuc8H-0003sJ-TN
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:11 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d26so770845wrb.13
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cURQBC1xsuc9L+Q4YyBLWsYow6paKWZDi+FvrPi8TPk=;
- b=E1ip46J3mT+eTfideOUbACnKJmU7cG9M/9qdQfS4oZGgBkIhCwNw3AfuGRfSdmlc2N
- F12MGCft/F8dCymfNy1FY9TRRiydi7TALzmkCX+LOp82PZNHqSvs8CrUf8RBccGMTRCr
- A44xUJgvTYmhLGy3eOqy1QxXJGijNyFfy+MOzZW33MdIqRkbGavMBDjgnKCeexlF8keO
- f1nze7a7PTdVSiIPmK86MLD2xrAOd1ektxEBCNC34219OIc8dub/51fMFq8rvahFU5Wm
- gmNN2raOHc0CM9Rl+hD2YZl5hK7IIev90J29ZB8Uynb1WPGOUHR/CJViI3soMU0tvvJY
- /KkA==
+ bh=Z8XF8iPBZc3R5SAOp42FEF7Tkk/PzFsQPDZ9qsBNAPc=;
+ b=Jh+ikDZKmO3+nDXFe0tUZoxvggeJuzPkOYkZ/6B4nxEDmGtwVhFLgELgKzjacSbXFY
+ rqkagd1zxc71ixSxCHeqqSNxfC4awia2iSiba291jh+BKuXhnaW12oyvDL28iNK1YZA4
+ 4hrBbcQLqzB2+PEkL85mfoWRvPuO4BqBbACVZL88wI8vyDp4oscEqbMrflB4XMQIL65S
+ Tp+zYgxZ4Tkv2a9Wug8lONem7gkV8Km/F2dEPU7+Uh5WrhFtY+HNOtu0UugfSa230OOT
+ S0O/aVeyuJBXGI8DbwbXxuXcOV2ZoUA24fjM4Hz2An5c+TBI8F7CvAW8O6mUV5zgzopb
+ pcNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cURQBC1xsuc9L+Q4YyBLWsYow6paKWZDi+FvrPi8TPk=;
- b=E/0+wMr40f89S0mOh6/2z+yDINcJUpgQMmHujU1M4ILcE+OlzcJNv8W4jy6/01PilN
- SmZVLCp61LPvF8pmuJ/qo8w52429q8/Hjf9lWyQ/lamgkVRKiqVN5XlORSeCFfzRljEx
- Dp8sOuYAKukInTZqrQhYaqfn0WqntEeZQrOphef8tQ4B5Znjjkeik4WT8gqQ4PZJoAKJ
- cSvGdPd7jH4x+peQAwDaa8wfUwGf7ChR4XJtTbP1AIaC9UigCY6VER//qwNFR1H02hE6
- R3HFs8XnwKjSfQ/1BeCoTUOU21N1BloYuU7o5zXhyQr3U7iBPGzxE4sIT83sUT4Ryca1
- aNbw==
-X-Gm-Message-State: AOAM531me2irsLUyUdRvHdqguviCVy5Q/G4QCIi10aAPx6ILogAK+oP3
- P3QDpxKhzJgTzMctAAv1Y7HlCw==
-X-Google-Smtp-Source: ABdhPJyJTYcjnt6sRt3fFw4iP/q5hDimEqxPmNPTZ9DhCwluwdgyykpqf5bySlbk+xDdw3qpoq0f7Q==
-X-Received: by 2002:a05:600c:892:b0:397:7b6c:b59d with SMTP id
- l18-20020a05600c089200b003977b6cb59dmr7378538wmp.85.1653666255574; 
- Fri, 27 May 2022 08:44:15 -0700 (PDT)
+ bh=Z8XF8iPBZc3R5SAOp42FEF7Tkk/PzFsQPDZ9qsBNAPc=;
+ b=bswN4y7JF+udWS7ERwQljfkJhb5I7b/1BM7nLgGepW+W7KUWOoCvpV1ZA+UhJM1cbp
+ yO1p4BbgVCnn64lEmhSmNVwIVZMhn48Z7j75Fff7Cmg177fyvrTBHxX+dIfmdR82rshq
+ Ga/IgrbZgwwsUwq1J2JDYwQ1ghNEYhhxR7/J46ita3ItAkr3QLfcTby+i4Ta8eE27kNw
+ OrxHcrOQfEnDs2Gfxgx7OYnr6dcm6LBmNpOATQaiaZaefCHvClu5VcoDVsxATzJASgBK
+ 9ztInfISHC2RkBj5/OvQ2WfTSVN6cHFwDXvr/yFilTw0nZEihL2Z3ecfYT5jiKWqTZ6E
+ oJCQ==
+X-Gm-Message-State: AOAM530yezHY+g+oa51lbXILZJGHQQFlM5osboCQ7OG2TPX5VLryIACZ
+ J5HLnfm86aXeehZV1I/eL8u+mQ==
+X-Google-Smtp-Source: ABdhPJyUjFB+paDQ4hFc30cMF7hfhnJWWcDNHr8NYFhDRcKUUF7I/0CaY3lti/fzW+RpKdBrIhKL0w==
+X-Received: by 2002:adf:e543:0:b0:210:1ca6:9869 with SMTP id
+ z3-20020adfe543000000b002101ca69869mr2549639wrm.205.1653666248599; 
+ Fri, 27 May 2022 08:44:08 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- m6-20020a5d4a06000000b0020fe280aa96sm1938150wrq.107.2022.05.27.08.44.02
+ x8-20020a5d4448000000b0020fe43fca50sm1871007wrr.91.2022.05.27.08.43.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 27 May 2022 08:44:06 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F05011FFD0;
- Fri, 27 May 2022 16:36:05 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 182DE1FFD1;
+ Fri, 27 May 2022 16:36:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org (open list:S390-ccw boot)
-Subject: [PATCH  v1 24/33] configure: enable cross-compilation of s390-ccw
-Date: Fri, 27 May 2022 16:35:54 +0100
-Message-Id: <20220527153603.887929-25-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 25/33] configure: enable cross-compilation of optionrom
+Date: Fri, 27 May 2022 16:35:55 +0100
+Message-Id: <20220527153603.887929-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,107 +98,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
 
 While container-based cross compilers are not supported, this already makes
-it possible to build s390-ccw on any machine that has s390x GCC and binutils
-installed.
+it possible to build x86 optionroms on any machine that has an installation
+of GCC and binutils for 32- or 64-bit x86.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220517092616.1272238-14-pbonzini@redhat.com>
+Message-Id: <20220517092616.1272238-15-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure                    | 18 +++++++++++++-----
- pc-bios/s390-ccw/netboot.mak |  2 +-
- pc-bios/s390-ccw/Makefile    |  9 +++++----
- 3 files changed, 19 insertions(+), 10 deletions(-)
+ configure                  | 29 +++++++++++++++++++++--------
+ pc-bios/optionrom/Makefile |  2 --
+ 2 files changed, 21 insertions(+), 10 deletions(-)
 
 diff --git a/configure b/configure
-index 82c2ddc79a..99626df869 100755
+index 99626df869..b974db3ebd 100755
 --- a/configure
 +++ b/configure
-@@ -2228,24 +2228,32 @@ if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
-     done
- fi
- 
--# Only build s390-ccw bios if we're on s390x and the compiler has -march=z900
--# or -march=z10 (which is the lowest architecture level that Clang supports)
--if test "$cpu" = "s390x" ; then
-+# Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
-+# (which is the lowest architecture level that Clang supports)
-+probe_target_compiler s390x
-+if test -n "$target_cc" && test "$softmmu" = yes; then
-   write_c_skeleton
--  compile_prog "-march=z900" ""
-+  do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
-   has_z900=$?
--  if [ $has_z900 = 0 ] || compile_object "-march=z10 -msoft-float -Werror"; then
-+  if [ $has_z900 = 0 ] || do_compiler "$target_cc" $target_cc_cflags -march=z10 -msoft-float -Werror -o $TMPO -c $TMPC; then
-     if [ $has_z900 != 0 ]; then
-       echo "WARNING: Your compiler does not support the z900!"
-       echo "         The s390-ccw bios will only work with guest CPUs >= z10."
-     fi
-     roms="$roms s390-ccw"
-+    config_mak=pc-bios/s390-ccw/config-host.mak
-+    echo "# Automatically generated by configure - do not modify" > $config_mak
-+    echo "SRC_PATH=$source_path/pc-bios/s390-ccw" >> $config_mak
-+    write_target_makefile >> $config_mak
-     # SLOF is required for building the s390-ccw firmware on s390x,
-     # since it is using the libnet code from SLOF for network booting.
-     git_submodules="${git_submodules} roms/SLOF"
+@@ -2077,6 +2077,13 @@ probe_target_compiler() {
    fi
- fi
+ }
+ 
++probe_target_compilers() {
++  for i; do
++    probe_target_compiler $i
++    test -n "$target_cc" && return 0
++  done
++}
++
+ write_target_makefile() {
+   if test -n "$target_cc"; then
+     echo "CC=$target_cc"
+@@ -2187,6 +2194,9 @@ fi
+ 
+ QEMU_GA_MSI_MINGW_BIN_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
  
 +#######################################
-+# generate config-host.mak
++# cross-compiled firmware targets
 +
- # Check that the C++ compiler exists and works with the C compiler.
- # All the QEMU_CXXFLAGS are based on QEMU_CFLAGS. Keep this at the end to don't miss any other that could be added.
- if has $cxx; then
-diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
-index 68b4d7edcb..1a06befa4b 100644
---- a/pc-bios/s390-ccw/netboot.mak
-+++ b/pc-bios/s390-ccw/netboot.mak
-@@ -1,5 +1,5 @@
+ # Set up build tree symlinks that point back into the source tree
+ # (these can be both files and directories).
+ # Caution: avoid adding files or directories here using wildcards. This
+@@ -2213,19 +2223,27 @@ done
  
--SLOF_DIR := $(SRC_PATH)/roms/SLOF
-+SLOF_DIR := $(SRC_PATH)/../../roms/SLOF
+ # Mac OS X ships with a broken assembler
+ roms=
+-if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
++probe_target_compilers i386 x86_64
++if test -n "$target_cc" &&
+         test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+         test "$targetos" != "haiku" && test "$softmmu" = yes ; then
+     # Different host OS linkers have different ideas about the name of the ELF
+     # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
+     # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
+     for emu in elf_i386 elf_i386_fbsd elf_i386_obsd i386pe; do
+-        if "$ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
++        if "$target_ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
+             ld_i386_emulation="$emu"
+-            roms="optionrom"
+             break
+         fi
+     done
++    if test -n "$ld_i386_emulation"; then
++        roms="optionrom"
++        config_mak=pc-bios/optionrom/config.mak
++        echo "# Automatically generated by configure - do not modify" > $config_mak
++        echo "TOPSRC_DIR=$source_path" >> $config_mak
++        echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_mak
++        write_target_makefile >> $config_mak
++    fi
+ fi
  
- NETOBJS := start.o sclp.o cio.o virtio.o virtio-net.o jump2ipl.o netmain.o
+ # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
+@@ -2378,7 +2396,6 @@ echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
+ echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
+ echo "GLIB_VERSION=$(pkg-config --modversion glib-2.0)" >> $config_host_mak
+ echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
+-echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
+ echo "STRIP=$strip" >> $config_host_mak
+ echo "EXESUF=$EXESUF" >> $config_host_mak
  
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index 0eb68efc7b..6eb713bf37 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -2,8 +2,9 @@ all: build-all
+@@ -2568,10 +2585,6 @@ for target in $target_list; do
+ done
+ echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> $makefile)
+ 
+-config_mak=pc-bios/optionrom/config.mak
+-echo "# Automatically generated by configure - do not modify" > $config_mak
+-echo "TOPSRC_DIR=$source_path" >> $config_mak
+-
+ if test "$skip_meson" = no; then
+   cross="config-meson.cross.new"
+   meson_quote() {
+diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+index 17ccc76241..f639915b4f 100644
+--- a/pc-bios/optionrom/Makefile
++++ b/pc-bios/optionrom/Makefile
+@@ -6,7 +6,6 @@ all: multiboot.bin multiboot_dma.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bi
  # Dummy command so that make thinks it has done something
  	@true
  
 -include ../../config-host.mak
-+include config-host.mak
  CFLAGS = -O2 -g
-+MAKEFLAGS += -rR
  
  quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
- cc-option = $(if $(shell $(CC) $1 $2 -S -o /dev/null -xc /dev/null \
-@@ -11,7 +12,7 @@ cc-option = $(if $(shell $(CC) $1 $2 -S -o /dev/null -xc /dev/null \
+@@ -44,7 +43,6 @@ Wa = -Wa,
+ override ASFLAGS += -32
+ override CFLAGS += $(call cc-option, $(Wa)-32)
  
- VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
- set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
--$(call set-vpath, $(SRC_PATH)/pc-bios/s390-ccw)
-+$(call set-vpath, $(SRC_PATH))
+-LD_I386_EMULATION ?= elf_i386
+ override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
  
- # Flags for dependency generation
- QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
-@@ -49,8 +50,8 @@ s390-ccw.img: s390-ccw.elf
- 
- $(OBJECTS): Makefile
- 
--ifneq ($(wildcard $(SRC_PATH)/roms/SLOF/lib/libnet),)
--include $(SRC_PATH)/pc-bios/s390-ccw/netboot.mak
-+ifneq ($(wildcard $(SRC_PATH)/../../roms/SLOF/lib/libnet),)
-+include $(SRC_PATH)/netboot.mak
- else
- s390-netboot.img:
- 	@echo "s390-netboot.img not built since roms/SLOF/ is not available."
+ pvh.img: pvh.o pvh_main.o
 -- 
 2.30.2
 
