@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F7A53659D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:03:08 +0200 (CEST)
-Received: from localhost ([::1]:38966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAF45365AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:07:44 +0200 (CEST)
+Received: from localhost ([::1]:47604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucQd-0007ZH-91
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:03:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39842)
+	id 1nucV5-0005da-91
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:07:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc8B-0002aE-TL
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:03 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43523)
+ id 1nuc8d-0003eu-4N
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:31 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc89-0003rK-KK
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:03 -0400
-Received: by mail-wr1-x431.google.com with SMTP id q20so1830265wrc.10
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:01 -0700 (PDT)
+ id 1nuc8W-0003rz-PL
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:30 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id l30so6359511wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fcgdNHYbJF6gNvvfYsIzWrSC0SChPpOVfK1u1mQ60Kk=;
- b=XG8QKu+D0Z+JZ5FalZ3T/dV+8mhwnlnhxhoFxVjoBPPS4X++bVRYylCIOS7Gf4drp/
- rbdYnN/r2lNlU6ZjqMoL1H7K9qgqVgprpdaiiYh9aT0K7W3QP6JC8mAgw5cycsFy90yq
- zutxS2c0xptsv7Dsw6U9M9iA5dvMUWch/fXuze3XycgkR4YqVUaLHRGyqA3hS1D+pj/K
- KCQI/gahyNK0ZH+Lzc1lFxLe7ViumQfDaeGNXxFQpjdsJxoEfu++KhKJfK90yWwyvEwL
- nh8+y8nlt/I9RnNRnI5q0zGvHzVsh222M3Kbu800czUpnDVSPOhvjb/IxClJNv4bB270
- v32w==
+ bh=HdiUEMjMYGrvyNsENub2j4h95C65fH2HJ/5Oupo3Ekk=;
+ b=ugrhx82Wa3PTIi++EvH0WSXXPTeeWFVNXFqMkC6isl/tiimrC4abHwoisP2SEfCQYk
+ zrCN6c2n4DSJqnFqHDdXuxhRheUhI0Ssm6IYI48wHuz42j2cxjJm1bE4c6ltmsiDJz+P
+ mEKrOmc5Zqk4rWcAgW+xqCDZarrdHV859PUFPfr8qHgRK0BCsdpQOrVQvc/sTBcRTCmy
+ Pvc2U9s6Vbrbo7DNQ/bAcTwrF8ykLLdkqKJCHBtlz2KpzsLigLaiAIFEMvJTZ6qdkwKE
+ SzI2UaNrr86CIFrwdFDaNzrZbgItlGza/FysA0Caa2MobMN4OB1jQhNadFLCXZve+BB2
+ fJsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fcgdNHYbJF6gNvvfYsIzWrSC0SChPpOVfK1u1mQ60Kk=;
- b=UjxtaNURfbDwpuhyxGeqs2XBmZ+UVVncckjU30Tw392VVq00iOXaUOvFzqYLaqhO8v
- Aem1TSGbFALlCDt1YKgPTbBklOsTh/HEV+Aw311wEgjMO1C3DOV7JrTYExDFMaka/WYo
- 4yf3oQlV5ll5L0rULHIYcjzCZaNxTbGOoQtSN6hLX7dbGQz3sA4Ql6car2jtt/Vh+ViA
- a1xVtmXRumVJ6C8uEtXhePTnUtXpZfDfJnqpNJVyHFYetyfype/vz+NnqyHG2CjD27R6
- CKtvFYo6w252mqCSO3FveA6U7ssnLoD7reNNVr0bdcTfbZ3i+VpzzzIlxJKF6GordUxL
- R3jg==
-X-Gm-Message-State: AOAM532RDArtopxQT1Uw08MJgO2d62ei5mPd2W9+Sspl6txlUeFfW7hG
- ZuqMrn1BqkR4wzF8VOYrqoaOIg==
-X-Google-Smtp-Source: ABdhPJx+laBlFJpYmkDXDU/yMMjbtRBsKNoSpaYHU/cBcYTNSAkw8tOGA/w5SObk1II3IKQrmFORKw==
-X-Received: by 2002:a5d:5085:0:b0:20d:5f6:63fa with SMTP id
- a5-20020a5d5085000000b0020d05f663famr35347325wrt.679.1653666240093; 
- Fri, 27 May 2022 08:44:00 -0700 (PDT)
+ bh=HdiUEMjMYGrvyNsENub2j4h95C65fH2HJ/5Oupo3Ekk=;
+ b=thJ6oKCEXcsEGvhB0OqrOntkOEhAjqOFaaLe9S3xY6yCeB0m9uzpZHnT+b5DfNgTWN
+ UX/zi1c5rjRqpyYkvM59W18W2uBNR4HKXtkRym1SFanh9KpkmW/HiX4J8OUerxmReM0L
+ 8kTsouAVC+mh37qeQAQyTcElNX1xASJTQF241POHM5MsNL7QhP1toYYSNu/U6MD3Xelr
+ NncbKUlqLV2HxU8EZiAXtqul0+hPQX5JWAEy3a18BA/LELf5tYijWdUBGUveShFVf5xd
+ dBgru3OSGoP/eh8Tv5UzB+1hxhk4EU3KoLSbrJxwboiscBk8dEgvYBCyYtHco8wI3DKU
+ KuDQ==
+X-Gm-Message-State: AOAM530c+YYkL/osTKyUbsw5UlqwBmEMD47/eEhrmowSwJT2kSty+8TP
+ 9RxGxFtMEOQEMN6G/Ulm8vay/Q==
+X-Google-Smtp-Source: ABdhPJxGDEwuVP/oDt3IUsOIeCsMRmkrFHH9b/GDHfNoGEO0Z0k5Ym0Ux+MPHc0kOaTNiCcvDn0eeQ==
+X-Received: by 2002:a05:6000:1210:b0:210:414:ec4 with SMTP id
+ e16-20020a056000121000b0021004140ec4mr9505000wrx.250.1653666264065; 
+ Fri, 27 May 2022 08:44:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- b6-20020adfd1c6000000b0020d0f111241sm2467852wrd.24.2022.05.27.08.43.57
+ g10-20020a5d46ca000000b0020ff9802ee3sm2064680wrs.35.2022.05.27.08.44.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 08:43:57 -0700 (PDT)
+ Fri, 27 May 2022 08:44:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D5291FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 7DED71FFD5;
  Fri, 27 May 2022 16:36:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,17 +64,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH  v1 29/33] gitlab: convert Cirrus jobs to .base_job_template
-Date: Fri, 27 May 2022 16:35:59 +0100
-Message-Id: <20220527153603.887929-30-alex.bennee@linaro.org>
+Subject: [PATCH v1 30/33] gitlab: convert static checks to .base_job_template
+Date: Fri, 27 May 2022 16:36:00 +0100
+Message-Id: <20220527153603.887929-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,129 +99,117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-This folds the Cirrus job rules into the base job
-template, introducing two new variables
+This folds the static checks into using the base job
+template rules, introducing one new variable
 
-  - QEMU_JOB_CIRRUS - identifies the job as making
-    use of Cirrus CI via cirrus-run
-
-  - QEMU_JOB_OPTIONAL - identifies the job as one
-    that is not run by default, primarily due to
-    resource constraints. It can be manually invoked
-    by users if they wish to validate that scenario.
+ - QEMU_JOB_ONLY_FORKS - a job that should never run
+   on an upstream pipeline. The information it reports
+   is only applicable to contributors in a pre-submission
+   scenario, not time of merge.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220526110705.59952-3-berrange@redhat.com>
+Message-Id: <20220526110705.59952-4-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/devel/ci-jobs.rst.inc | 14 ++++++++++++++
- .gitlab-ci.d/base.yml      |  9 +++++++++
- .gitlab-ci.d/cirrus.yml    | 16 ++++++++--------
- 3 files changed, 31 insertions(+), 8 deletions(-)
+ docs/devel/ci-jobs.rst.inc     |  7 +++++++
+ .gitlab-ci.d/base.yml          |  4 ++++
+ .gitlab-ci.d/static_checks.yml | 19 +++++++------------
+ 3 files changed, 18 insertions(+), 12 deletions(-)
 
 diff --git a/docs/devel/ci-jobs.rst.inc b/docs/devel/ci-jobs.rst.inc
-index eb6a9e6122..a539f502da 100644
+index a539f502da..4c7e30ab08 100644
 --- a/docs/devel/ci-jobs.rst.inc
 +++ b/docs/devel/ci-jobs.rst.inc
-@@ -52,6 +52,20 @@ Maintainer controlled job variables
- The following variables may be set when defining a job in the
- CI configuration file.
+@@ -66,6 +66,13 @@ by default due to need to conserve limited CI resources. It is
+ available to be started manually by the contributor in the CI
+ pipelines UI.
  
-+QEMU_JOB_CIRRUS
-+~~~~~~~~~~~~~~~
++QEMU_JOB_ONLY_FORKS
++~~~~~~~~~~~~~~~~~~~
 +
-+The job makes use of Cirrus CI infrastructure, requiring the
-+configuration setup for cirrus-run to be present in the repository
-+
-+QEMU_JOB_OPTIONAL
-+~~~~~~~~~~~~~~~~~
-+
-+The job is expected to be successful in general, but is not run
-+by default due to need to conserve limited CI resources. It is
-+available to be started manually by the contributor in the CI
-+pipelines UI.
++The job results are only of interest to contributors prior to
++submitting code. They are not required as part of the gating
++CI pipeline.
 +
  Contributor controlled runtime variables
  ----------------------------------------
  
 diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-index 10eb6ab8bc..5734caf9fe 100644
+index 5734caf9fe..9a0b8d7f97 100644
 --- a/.gitlab-ci.d/base.yml
 +++ b/.gitlab-ci.d/base.yml
-@@ -12,12 +12,21 @@
-     # want jobs to run
-     #############################################################
+@@ -16,6 +16,10 @@
+     - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == "" || $CIRRUS_API_TOKEN == "")'
+       when: never
  
-+    # Cirrus jobs can't run unless the creds / target repo are set
-+    - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == "" || $CIRRUS_API_TOKEN == "")'
++    # Jobs only intended for forks should always be skipped on upstram
++    - if: '$QEMU_JOB_ONLY_FORKS == "1" && $CI_PROJECT_NAMESPACE == "qemu-project"'
 +      when: never
 +
  
      #############################################################
      # Stage 2: fine tune execution of jobs in specific scenarios
-     # where the catch all logic is inapprorpaite
-     #############################################################
- 
-+    # Optional jobs should not be run unless manually triggered
-+    - if: '$QEMU_JOB_OPTIONAL'
-+      when: manual
-+      allow_failure: true
-+
- 
-     #############################################################
-     # Stage 3: catch all logic applying to any job not matching
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index b96b22e269..609c364308 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -11,6 +11,7 @@
- # special care, because we can't just override it at the GitLab CI job
- # definition level or we risk breaking it completely.
- .cirrus_build_job:
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index 94858e3272..289ad1359e 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -1,4 +1,5 @@
+ check-patch:
 +  extends: .base_job_template
    stage: build
-   image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
+   image: python:3.10-alpine
    needs: []
-@@ -40,11 +41,8 @@
-       <.gitlab-ci.d/cirrus/build.yml >.gitlab-ci.d/cirrus/$NAME.yml
-     - cat .gitlab-ci.d/cirrus/$NAME.yml
-     - cirrus-run -v --show-build-log always .gitlab-ci.d/cirrus/$NAME.yml
+@@ -6,15 +7,13 @@ check-patch:
+     - .gitlab-ci.d/check-patch.py
+   variables:
+     GIT_DEPTH: 1000
++    QEMU_JOB_ONLY_FORKS: 1
+   before_script:
+     - apk -U add git perl
 -  rules:
--    # Allow on 'staging' branch and 'stable-X.Y-staging' branches only
--    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH !~ /staging/'
+-    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
 -      when: never
--    - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
-+  variables:
-+    QEMU_JOB_CIRRUS: 1
+-    - when: on_success
+-      allow_failure: true
++  allow_failure: true
  
- x64-freebsd-12-build:
-   extends: .cirrus_build_job
-@@ -90,11 +88,11 @@ x64-macos-11-base-build:
- 
- # The following jobs run VM-based tests via KVM on a Linux-based Cirrus-CI job
- .cirrus_kvm_job:
+ check-dco:
 +  extends: .base_job_template
    stage: build
-   image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
+   image: python:3.10-alpine
    needs: []
-   timeout: 80m
--  allow_failure: true
+@@ -23,12 +22,9 @@ check-dco:
+     GIT_DEPTH: 1000
+   before_script:
+     - apk -U add git
+-  rules:
+-    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+-      when: never
+-    - when: on_success
+ 
+ check-python-pipenv:
++  extends: .base_job_template
+   stage: test
+   image: $CI_REGISTRY_IMAGE/qemu/python:latest
    script:
-     - sed -e "s|[@]CI_REPOSITORY_URL@|$CI_REPOSITORY_URL|g"
-           -e "s|[@]CI_COMMIT_REF_NAME@|$CI_COMMIT_REF_NAME|g"
-@@ -105,8 +103,10 @@ x64-macos-11-base-build:
-       <.gitlab-ci.d/cirrus/kvm-build.yml >.gitlab-ci.d/cirrus/$NAME.yml
-     - cat .gitlab-ci.d/cirrus/$NAME.yml
-     - cirrus-run -v --show-build-log always .gitlab-ci.d/cirrus/$NAME.yml
+@@ -39,6 +35,7 @@ check-python-pipenv:
+     job: python-container
+ 
+ check-python-tox:
++  extends: .base_job_template
+   stage: test
+   image: $CI_REGISTRY_IMAGE/qemu/python:latest
+   script:
+@@ -46,8 +43,6 @@ check-python-tox:
+   variables:
+     GIT_DEPTH: 1
+     QEMU_TOX_EXTRA_ARGS: --skip-missing-interpreters=false
++    QEMU_JOB_OPTIONAL: 1
+   needs:
+     job: python-container
 -  rules:
 -    - when: manual
-+  variables:
-+    QEMU_JOB_CIRRUS: 1
-+    QEMU_JOB_OPTIONAL: 1
-+
- 
- x86-netbsd:
-   extends: .cirrus_kvm_job
+-  allow_failure: true
 -- 
 2.30.2
 
