@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F2E53667D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:17:52 +0200 (CEST)
-Received: from localhost ([::1]:42138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A887F53666A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:11:28 +0200 (CEST)
+Received: from localhost ([::1]:57578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nudax-0001o9-9K
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:17:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54898)
+	id 1nudUk-0001OJ-Pi
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nudH3-0006PH-Tx
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nudH4-0006Py-5H
  for qemu-devel@nongnu.org; Fri, 27 May 2022 12:57:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57040)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nudH0-00071H-Uh
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nudH1-00071O-1b
  for qemu-devel@nongnu.org; Fri, 27 May 2022 12:57:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653670631;
+ s=mimecast20190719; t=1653670634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=p7zVZfoCFlNsM1dh5SAn5qzh6r7+8o7mtAE1WeGxU9Y=;
- b=J1DDvhjI88RQD03E2b8Jr9vHQWS1dwOcjPR5J2kKwY/x5/2k01Vn3TuZyXvKUW8s72c25/
- clRBUL/b5tOOl5bXETnUEiiV0M4UjO85HBEt+6gafRUSP4udXIJLsZm5KYhzLDCAmhmUFz
- eT8SXyiSS/vVuY8n9mG9k44JdQYHO4I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V/r0fVu3Mm/+J2eo2wSUrqlf4wYDaG8F36USSn1UEcY=;
+ b=bymRuoNpuv1nH7smZL/EAYl23VKO9eHI78XsYVnCuV/2MFWndQa1QiIQ8zafgScPQZ7A6y
+ Xmt2WIsEBS6OD/QG/Opin8Lqnt9yOBfalX3r50DYiCfW6rhBeSBrk4QgSUjXxdyh+4i1hK
+ y+4PdhSyTz/H76eK574izlWsg+BmOes=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-wpzQhioCOQyHqYp-pkPpBg-1; Fri, 27 May 2022 12:57:08 -0400
-X-MC-Unique: wpzQhioCOQyHqYp-pkPpBg-1
+ us-mta-670-9dV2EDGxM2-60v78ESxThQ-1; Fri, 27 May 2022 12:57:12 -0400
+X-MC-Unique: 9dV2EDGxM2-60v78ESxThQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01F37185A79C;
- Fri, 27 May 2022 16:57:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B1573833295;
+ Fri, 27 May 2022 16:57:12 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.192.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF0212026D64;
- Fri, 27 May 2022 16:57:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7900C2026D64;
+ Fri, 27 May 2022 16:57:11 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Ani Sinha <ani@anisinha.ca>, Julia Suvorova <jusual@redhat.com>
-Subject: [PATCH 0/5] hw/smbios: add core_count2 to smbios table type 4
-Date: Fri, 27 May 2022 18:56:46 +0200
-Message-Id: <20220527165651.28092-1-jusual@redhat.com>
+Subject: [PATCH 1/5] hw/smbios: add core_count2 to smbios table type 4
+Date: Fri, 27 May 2022 18:56:47 +0200
+Message-Id: <20220527165651.28092-2-jusual@redhat.com>
+In-Reply-To: <20220527165651.28092-1-jusual@redhat.com>
+References: <20220527165651.28092-1-jusual@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jusual@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jusual@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -74,39 +77,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SMBIOS 3.0 specification provides the ability to reflect over
-255 cores. The 64-bit entry point has been used for a while, but
-structure type 4 has not been updated before, so the dmidecode output
-looked like this (-smp 280):
+In order to use the increased number of cpus, we need to bring smbios
+tables in line with the SMBIOS 3.0 specification. This allows us to
+introduce core_count2 which acts as a duplicate of core_count if we have
+fewer cores than 256, and contains the actual core number per socket if
+we have more.
 
-    Handle 0x0400, DMI type 4, 42 bytes
-    Processor Information
-    ...
-        Core Count: 24
-        Core Enabled: 24
-        Thread Count: 1
-    ...
+core_enabled2 and thread_count2 fields work the same way.
 
-Big update in the bios-tables-test as it couldn't work with SMBIOS 3.0.
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+ include/hw/firmware/smbios.h |  3 +++
+ hw/smbios/smbios.c           | 11 +++++++++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-Julia Suvorova (5):
-  hw/smbios: add core_count2 to smbios table type 4
-  bios-tables-test: teach test to use smbios 3.0 tables
-  tests/acpi: allow changes for core_count2 test
-  bios-tables-test: add test for number of cores > 255
-  tests/acpi: update tables for new core count test
-
- include/hw/firmware/smbios.h         |   3 +
- hw/smbios/smbios.c                   |  11 ++-
- tests/qtest/bios-tables-test.c       | 136 +++++++++++++++++++++------
- tests/data/acpi/q35/APIC.core-count2 | Bin 0 -> 2478 bytes
- tests/data/acpi/q35/DSDT.core-count2 | Bin 0 -> 32429 bytes
- tests/data/acpi/q35/FACP.core-count2 | Bin 0 -> 244 bytes
- 6 files changed, 121 insertions(+), 29 deletions(-)
- create mode 100644 tests/data/acpi/q35/APIC.core-count2
- create mode 100644 tests/data/acpi/q35/DSDT.core-count2
- create mode 100644 tests/data/acpi/q35/FACP.core-count2
-
+diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
+index 4b7ad77a44..c427ae5558 100644
+--- a/include/hw/firmware/smbios.h
++++ b/include/hw/firmware/smbios.h
+@@ -187,6 +187,9 @@ struct smbios_type_4 {
+     uint8_t thread_count;
+     uint16_t processor_characteristics;
+     uint16_t processor_family2;
++    uint16_t core_count2;
++    uint16_t core_enabled2;
++    uint16_t thread_count2;
+ } QEMU_PACKED;
+ 
+ /* SMBIOS type 11 - OEM strings */
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 60349ee402..45d7be6b30 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -709,8 +709,15 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     SMBIOS_TABLE_SET_STR(4, serial_number_str, type4.serial);
+     SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
+     SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
+-    t->core_count = t->core_enabled = ms->smp.cores;
+-    t->thread_count = ms->smp.threads;
++
++    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
++    t->core_enabled = t->core_count;
++
++    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
++
++    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
++    t->thread_count2 = cpu_to_le16(ms->smp.threads);
++
+     t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
+     t->processor_family2 = cpu_to_le16(0x01); /* Other */
+ 
 -- 
 2.35.1
 
