@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8375365D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:18:24 +0200 (CEST)
-Received: from localhost ([::1]:37970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4E45365CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:16:04 +0200 (CEST)
+Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucfP-000252-Mz
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:18:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40752)
+	id 1nucdA-0006Ai-0M
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:16:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nucAe-0007gb-Pn
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:46:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57656)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nucAh-0007iS-J5
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:46:39 -0400
+Received: from mout.gmx.net ([212.227.15.18]:59553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nucAc-0004Vi-Ld
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:46:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653666394;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XZqlDMwsa5et6e8f03qCvCPe7CJeIe851o1XZtoDbc8=;
- b=OlyanX4Pf+k6epZ6HiArNX2G2CiY0pJ1DWQEwwMWcQW/hsA7xSbzmU/t9S3laLKTfnu6p+
- vbW3eBYqQ7NQ3dWD7VG1NCm8P/UM6aYKMHjhMj/T8X9klgDwnri5jU/VWNKF01mLsWpebI
- /PrBvhvmbyVKNU+mdXn5ygxZfnmdxwM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-1ofgHzLqOUywXu3-ARVpyA-1; Fri, 27 May 2022 11:46:31 -0400
-X-MC-Unique: 1ofgHzLqOUywXu3-ARVpyA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6659D185A7A4;
- Fri, 27 May 2022 15:46:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B334C15E72;
- Fri, 27 May 2022 15:46:28 +0000 (UTC)
-Date: Fri, 27 May 2022 16:46:26 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH v1 10/33] tests/docker: update debian-ppc64el-cross with
- lcitool
-Message-ID: <YpDyUnsk1bqfQZqn@redhat.com>
-References: <20220527153603.887929-1-alex.bennee@linaro.org>
- <20220527153603.887929-11-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nucAf-0004Vm-Cv
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:46:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1653666394;
+ bh=lb6AfMnF5QsVZU0TeMbKS3Aei46S9dmDNUs13+6NAko=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=Ys4v1FbzU46H0rX13FIB+tbTDTbJIHHnsP4ju/6+HLAu5DP/YMauSE599TRdZSK6e
+ nbJ2gO+hR8sPSj5h9sBxRve1isk5FGaf8PHUuYbndVf6ns0V1K7KjQbOrREQOnIua3
+ B8FDUneBvUJZsQji+nAmcWytAhAe2neQpWrl6Y7k=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.153.1]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUXpK-1oKuSn3Sng-00QSFe; Fri, 27
+ May 2022 17:46:33 +0200
+Date: Fri, 27 May 2022 17:46:32 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: dave.anglin@bell.net
+Subject: [PATCH] linux-user: Adjust child_tidptr on set_tid_address() syscall
+Message-ID: <YpDyWAr/MYl3mizU@p100>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220527153603.887929-11-alex.bennee@linaro.org>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Provags-ID: V03:K1:Ostij1QK1RaH+U3bpGsbafiKT7lVwUgdMvbAwjzkKrNQoXPlLw3
+ yLeRk4S0dumTgb4jJDiXVCozfYpEvXEpElips29SedenKLAJc5YnqqKoLcx6A16x9U5xCFh
+ 6aNAUscv5SwK5+3zvEEs59X7fnxOZ5bYtnkBW4zFeAy8k9JcD+Tqb4cNOyWsb8YuWIIkiCO
+ ukxUybv1tinc+m6wM4XxA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7N5G3soUaAw=:VAPt1A6ORN3CQsXt9V1M9T
+ 3OPQXKbwSvpD5AMd7teYy1YUbMr7ZHVGuw4cVZPmtddEFEQQ65JjA/2BRwH0KXpmkkxPakBvb
+ j0LfHYs03PkF41pRZKjlzZKI6tTZZfs0ceESLEnKMdqWD1S1e1zF9udiG3F6XOIGEkUEQ/M38
+ hPaqzldCRYDQ9uyTtWSgXanYb96JkNaktC7uA8tL2PNd2Ox4cn7uFG/IH4jRkVR4kY5+vd8Ux
+ uiMnxzFxYvMOsO6zhJwh+CwCya3qKXetPP3NAPp23Xm5w9pATHYWMRds4LY/bDb0PBfcWGvWn
+ bK40wVzKlz+vOKBdT5Q8tu9A5bwZecjWzkptzHIG/Edsi05F3cc3e5pmjk1OOwLNOu6lFhcE8
+ d8mjaQARMR6qZq5rjoZYtN3JLpIDBEJWyw4WKBh7C15StyeNgA+pl9Xg4I5wMyCaHThTnAAib
+ dEO2nci45i6FWRsLU/WZzPf/deYqca9qXI1UATsmIAz3jHaephc+i4cWY4LMJ/qnvqJenxEv6
+ luwYvjU+egNzosr6k5fp3Xtugo2QZiEAbVi8Ve7CDrxNJS5DkHfS7C2Vj//YPNXJ++FUpDJJH
+ 6KzPeKDD8CAEIw9BznOV83bF6QdLYG0S9YVkAIj49JCeQEnWJuFJS4AmQbye1ORDYuW07/ijU
+ S0hWKQaxA7JsaZlrMRv5kRZmJq53vSoQdf/1YHsWaITwnXdaGx6UIw6X4axRLdcuFNSlN6zbo
+ qKvudLMQ3/pG8FmrWPBZkzAMlSl7P8G0/xGAUq/ZVeUTgI/hsEoxUigut5kDIhKVgINpJfXiP
+ Ipb5B7cqbW3PABAZ+f3LFx+aiUMteyP/KoCArOncrT7aQxLrhd9KJRutXnG5gHvCb7sBrgdFx
+ 2Vct0U5YPrZL5DjCXYDBRVlCy2LrrVsByu6insinfwNPk+TCS0jy5eGuPfHMOvLtEPE4PIITQ
+ XGjqr3BeASRtMxlqan821LDeIdX1aUfbPj2SeeKu1nH39ePG9eeEAGixaUROwEMGcp/Pss5kH
+ CJ9hwoH4AVqLc13GEgzooEVKC2SmgFqmgw2H6XVCwbK46nyW04Jx7vUAPfYu9mbB8NSqqoVm9
+ abLhvlYqXWTOAw5Ylhv73Gz/A0igNR19J2k5F6bWkJ2s5JyyJRlsGjg+Q==
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,29 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 27, 2022 at 04:35:40PM +0100, Alex Bennée wrote:
-> Use lcitool to update debian-ppc64el-cross to a Debian 11 based system.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  .gitlab-ci.d/container-cross.yml              |   3 +-
->  tests/docker/Makefile.include                 |   1 -
->  .../dockerfiles/debian-ppc64el-cross.docker   | 178 +++++++++++++++---
->  tests/lcitool/refresh                         |   5 +
->  4 files changed, 163 insertions(+), 24 deletions(-)
+Keep track of the new child tidptr given by a set_tid_address() syscall.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
 
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f65045efe6..fdf5c1c03e 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -12202,7 +12202,11 @@ static abi_long do_syscall1(void *cpu_env, int nu=
+m, abi_long arg1,
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+ #if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
+     case TARGET_NR_set_tid_address:
+-        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
++    {
++        TaskState *ts =3D cpu->opaque;
++        ts->child_tidptr =3D arg1;
++        return get_errno(set_tid_address((int *)g2h(cpu, ts->child_tidptr=
+)));
++    }
+ #endif
 
+     case TARGET_NR_tkill:
 
