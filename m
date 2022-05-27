@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1B053681D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:33:13 +0200 (CEST)
-Received: from localhost ([::1]:51894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4331D536820
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:35:29 +0200 (CEST)
+Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nugdz-0001re-SV
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:33:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55166)
+	id 1nugg9-0007Jm-Ja
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1nufWH-00045E-Iy
- for qemu-devel@nongnu.org; Fri, 27 May 2022 15:21:09 -0400
-Received: from mailgw.felk.cvut.cz ([147.32.82.15]:60702)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nufa9-0003WX-OY
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 15:25:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1nufWC-0005W9-9e
- for qemu-devel@nongnu.org; Fri, 27 May 2022 15:21:09 -0400
-Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTP id B368030ADE7F;
- Fri, 27 May 2022 21:19:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
- :content-type:date:from:from:message-id:mime-version:reply-to
- :subject:subject:to:to; s=felkmail; bh=h9Y0cvZI4+RvSjcessw6yfJWn
- cjIYvn6+xbYSZuUMAM=; b=keaGHQRdU3Ab4Z46PG9ZfypovLrGBziw7G149WcMj
- ZiFMT9lSvHzPKK7Bo1LRghx5me2J25QLRw7CjRcK95LJ8wZgPBgFoaLMPxsYQ1PX
- 6LvgZekmQmEwnUUb45D2GMvPWb6O1QnodtIHAZ5ke7Ew4jHobV2y1Y+51NhD2A8O
- bpuWc4gvc17k6r9gWI43oJq0LyzjT18pRgvgKQOHZWhQrRjCr0a9YBvw2bzBDkAW
- 2K1OnQx3Y44o/bg3KpbbSBClOLrvwR+B0eWjzyydCM8jvKuY6w7Jr2A/IsOBauzu
- 07YswXd+BiD04A3ty3He7w9fJTudFRl/I1AiS3wxpJs8w==
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id E78B230ADE46;
- Fri, 27 May 2022 21:19:47 +0200 (CEST)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 24RJJl7H002542; Fri, 27 May 2022 21:19:47 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 24RJJkwK002541;
- Fri, 27 May 2022 21:19:46 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: linux-can@vger.kernel.org, qemu-devel@nongnu.org,
- Marin Jerabek <martin.jerabek01@gmail.com>,
- Ondrej Ille <ondrej.ille@gmail.com>, Jiri Novak <jnovak@fel.cvut.cz>,
- Jaroslav Beran <jara.beran@gmail.com>,
- Petr Porazil <porazil@pikron.com>, Pavel Machek <pavel@ucw.cz>,
- Drew Fustini <pdp7pdp7@gmail.com>
-Date: Fri, 27 May 2022 21:19:46 +0200
-User-Agent: KMail/1.9.10
-Cc: "Marc Kleine-Budde" <mkl@pengutronix.de>,
- Oliver Hartkopp <socketcan@hartkopp.net>, Carsten Emde <c.emde@osadl.org>,
- Matej Vasilevski <matej.vasilevski@gmail.com>,
- Jan =?utf-8?q?Charv=C3=A1t?= <jancharvat.charvat@gmail.com>,
- Vikram Garhwal <fnu.vikram@xilinx.com>,
- Andrew Dennison <andrew.dennison@motec.com.au>,
- Reiner Zitzmann <zitzmann@can-cia.org>
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nufa6-0006LY-TF
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 15:25:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653679504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E6cDMpoN8oYdU88rrr9g4aWY+7Xpy5obqgUBvwpJgbg=;
+ b=iDnWvJzWlVZMSzBmoIdYp4+ec8adye4oBZyb3xu5BMNWlHrjfEZvfbbkRmE5U2Dz8Ltl8u
+ X8eXwKkgyhX+gZ1voLHqHFAzShHlDXLuYuLMD3XnKcQhiWpiwK60xYM3Hr/nJmZ+gipuq1
+ XfDJJ9ixB7z0DMhJol1Z1HD7c6er0bM=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-518-6x78uGWzNXSK8RNdQYHLWg-1; Fri, 27 May 2022 15:25:03 -0400
+X-MC-Unique: 6x78uGWzNXSK8RNdQYHLWg-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ e81-20020a253754000000b0065be96b9033so1049120yba.12
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 12:25:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E6cDMpoN8oYdU88rrr9g4aWY+7Xpy5obqgUBvwpJgbg=;
+ b=mjaw+GKeCf2X9y7fxoqYY/TtqMqvI4UOxdfsVcxS06w//jODMDYH2N8N3BXmnLCasr
+ JgXGT112WaKxI+mGXRvDSA+yfWQhrKCiWkwA+2tCzVzhtRUbF+eVqdrr+Y+gVtjU0BrM
+ LP3RaxGMOCpVCx4YHnRBzuzO1cSfT2sKr1FEah8Qruy+1LTjbp3eKqQIb+8mpZntXF6g
+ rXGIkD3YqE8AWtBIQIjytGOuaLmpx9Yva7Kd/4+QGvweCAAE6dxb5SddXvox+P0VSHn/
+ 0nk+DpJ+5k75k0pL0vezrGe20E2spnJYM9Sq127qgIxzdU717R30eI+9+Hud/YcHrq5z
+ wq5Q==
+X-Gm-Message-State: AOAM533uOQQDp3WEnUvGrv6vJ+snDUnTCg+SwI4OYnsEspZi0sYPbxtz
+ nrS/1egi7siW+kaeBo/NaqjUNT5XxGDyYPhZqfWCILPwRcMQx+RKOmd6nRo+HR1q56wcUS/WvJr
+ CZbLJav0njJIWOUXPQLs9tit47FaA6Y8=
+X-Received: by 2002:a81:a1d3:0:b0:30b:f7d1:21fa with SMTP id
+ y202-20020a81a1d3000000b0030bf7d121famr1173980ywg.33.1653679502569; 
+ Fri, 27 May 2022 12:25:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx36Yt8ZVNmhQ7cE6MUYT22HfQ1tfCV0rcTmIdKrW20EHYf/VqhiGAlxkj2g5/p2ELPqdxWFlrmZ7aTa67/G2A=
+X-Received: by 2002:a81:a1d3:0:b0:30b:f7d1:21fa with SMTP id
+ y202-20020a81a1d3000000b0030bf7d121famr1173966ywg.33.1653679502401; Fri, 27
+ May 2022 12:25:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-Subject: CTU CAN FD IP core SocketCAN driver - success with mainine Linux
- kernel and mainline QEMU builds
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <202205272119.46182.pisa@cmp.felk.cvut.cz>
-Received-SPF: none client-ip=147.32.82.15; envelope-from=pisa@cmp.felk.cvut.cz;
- helo=mailgw.felk.cvut.cz
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220527173058.226210-1-stefanb@linux.ibm.com>
+In-Reply-To: <20220527173058.226210-1-stefanb@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 27 May 2022 21:24:42 +0200
+Message-ID: <CAMxuvax1PkLZb+Ms6n1wCyd8hHFsPQwi3xaM+RM0c1x7imQAzA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] backend/tpm: Resolve issue with TPM 2 DA lockout
+To: Stefan Berger <stefanb@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,51 +91,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello everybody,
+Hi
 
-I want to report successful build and test of the CTU CAN FD driver
-from actual Linux kernel mainline GIT on actual QEMU build from
-mainline git. Test on HW from net-next has been repeatedly
-run by Matej Vasilevski during his timestamping patches work.
+On Fri, May 27, 2022 at 7:36 PM Stefan Berger <stefanb@linux.ibm.com> wrote:
+>
+> This series of patches resolves an issue with a TPM 2's dictionary attack
+> lockout logic being triggered upon well-timed VM resets. Normally, the OS
+> TPM driver sends a TPM2_Shutdown to the TPM 2 upon reboot and before a VM
+> is reset. However, the OS driver cannot do this when the user resets a VM.
+> In this case QEMU must send the command because otherwise several well-
+> timed VM resets will trigger the TPM 2's dictionary attack (DA) logic and
+> it will then refuse to do certain key-related operations until the DA
+> logic has timed out.
 
-Thanks to all who helped, namely Ondrej Ille for his investment
-in the project and rewrite of registers generator to provide
-headers files acceptable for mainline, Marc Kleine-Budde
-for review, integration and cleanup and together with
-Pavel Machek to provide valuable feeback what is not acceptable.
+How does real hardware deal with that situation? Shouldn't this
+"shutdown"/reset logic be implemented on swtpm side instead, when
+CMD_INIT is received? (when the VM is restarted)
 
-I hope that we will be ready with with timestamping patches
-cleanup for 5.20 merge windows as well as with support
-for HDL sources parameterizable number of Tx buffres.
-
-In the long term, I consider to use mechanism of software
-virtual FIFO to implement multiqueue Tx support which
-is in the fact needed in all serious CAN applications
-to prevent bus level priority inversion.
-
-We plan to visit and present on the Embedded World
-in Nuremberg, so I would be happy to meet you there.
-I hope that Carsten Emde and OSADL will pass over
-information where we are available.
-
-Program for Tuesday afternoon is given already
-Talk QtRvSim =E2=80=93 RISC-V Simulator for Computer Architectures
-Classes, June 21, 2022 Session 10.3 =E2=80=93 System-on-Chip (SoC)
-Design RISC-V Development (16:00 - 16:30) at Embedded World
-Conference. Our toy there https://github.com/cvut/qtrvsim
-
-Best wishes,
-
-                Pavel Pisa
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://control.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-    Open Technologies Research Education and Exchange Services
-    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
+>
+> Regards,
+>   Stefan
+>
+> Stefan Berger (2):
+>   backends/tpm: Record the last command sent to the TPM
+>   backends/tpm: Send TPM2_Shutdown upon VM reset
+>
+>  backends/tpm/tpm_emulator.c | 44 +++++++++++++++++++++++++++++++++++++
+>  backends/tpm/tpm_int.h      |  3 +++
+>  backends/tpm/tpm_util.c     |  9 ++++++++
+>  backends/tpm/trace-events   |  1 +
+>  include/sysemu/tpm_util.h   |  3 +++
+>  5 files changed, 60 insertions(+)
+>
+> --
+> 2.35.3
+>
 
 
