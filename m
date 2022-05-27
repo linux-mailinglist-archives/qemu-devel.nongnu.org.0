@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC394536681
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:21:08 +0200 (CEST)
-Received: from localhost ([::1]:47378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260B3536690
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:29:15 +0200 (CEST)
+Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nude8-00066c-2l
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
+	id 1nudly-0005Fu-20
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nudcg-0004DR-Ki
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:19:38 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:45814)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nudkV-0003OD-V7
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 13:27:43 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:36744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nudcf-0002ut-17
- for qemu-devel@nongnu.org; Fri, 27 May 2022 13:19:38 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- w2-20020a17090ac98200b001e0519fe5a8so4892359pjt.4
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 10:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Rk0CxKhLdf7E2zms/XAXhxoZwTNKnkAX0baUlvVPGTU=;
- b=soFIPHOJKrTw6RkEEgz3G2JFM4dyVKRpvB60ln7YgBsT6WBLgSEEUL79KtCmLAFloe
- lZ4RbqBhdQhLpMb3V60RBranL06cEJXzKoVi/EztEb87Sa7qxvhcNwrNWgPLhBaiPffT
- WHkJRBTdxaBHaTxzpidA9VBU6Ay4iTUz7l9+JPnEOD2hNcDj8IFrN869CyZqlIpeBe1Q
- 1wuKenqkh/1XmFUbhP+lX5cIlMgemSAC98zJy3sHjGPpPFm/sNsM+G71XfZ//gy80Wmt
- ZJtfHO+0LXxwWecxMHYcvfr4XsV7hURZhVGGQkyZ26Zt2ma+jHxWUMfBvSugzCfeyscu
- WgmA==
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nudkU-00048s-3e
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 13:27:43 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ u12-20020a17090a1d4c00b001df78c7c209so7694428pju.1
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 10:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dKxraNqOZmC1Qjd1FJlCqqyBvierGHSKYTP+opFyWIE=;
+ b=Yc87GM7+F/nYRNEVqsZA8OJ4YLOq9NqBGBEzFB8cquToTRhQp/2IwQTPAObKVNRBen
+ xy5lEjmV4XzaVbrBtHAUg1XO3xLxRHIP5fZyb5/tSYhuf5/cTJXlcI1MI6R9VCQFm+kk
+ nsQhgGVdrkN9gkbegRP7dE0xIgOCZtJV2VTr2SjWv/voxPI012arrt7boo/YVOG0zzpZ
+ emX0aElByuwOH8GlpC4xCDC3+CCLuud5vAuMGLeLAyAVIpewPCxqbmx1hOKjAWUYLqPc
+ lvWOl8dhzR1OENf86LFVcF5cJssKiY+u0ZIg6qKaLUdyCu4DijCrWFUF5eDSmJOa0HFq
+ DHGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Rk0CxKhLdf7E2zms/XAXhxoZwTNKnkAX0baUlvVPGTU=;
- b=TJBjT2AZ/8Z/GXF2A/Ci7GdGtoCFq0FBOYQI2RqbjpJp9rcPk0vXbcKtORzADsIoFd
- 8EyBzBHdqvUhMrl5onACeSn8QqfH9+zJySkUelLgshTK99+CuS6WQ8B27PmBeDesA2xs
- GU03JzyMXtAzKBTWR2x8NYRhWpqNvOaPs/ZltutgqJPzd7yvtE7wAt36BgV5OWH9OOWI
- msU4TbXHNBl05AXy944RhX+2s5N1WaYWFyj0ug+MkyT5aNOBDA/uauQ955c2FLtkZvwm
- Er4C1zfRQsZJGumB/62W6Q1iSSjBvdEW4EMbNsoYCFsYIUniyHH9eXg2HAWUtNdLiG0o
- Ik3w==
-X-Gm-Message-State: AOAM531D79wYOg6+For/pwSF4lWszhZQPBM+p0m6DdIyAW3+Q2HMnTHh
- rfMH8e5RZtWmowCOlD//De0oPQ==
-X-Google-Smtp-Source: ABdhPJwmDlaLw1RAsApGgRBQqhpkxCRstyvIxYgD8Z+GSlFbnMU0jYsHUSygsb8hwgvRmoyiqR1+4w==
-X-Received: by 2002:a17:902:da8b:b0:163:6852:39cc with SMTP id
- j11-20020a170902da8b00b00163685239ccmr11811691plx.71.1653671975031; 
- Fri, 27 May 2022 10:19:35 -0700 (PDT)
-Received: from [192.168.0.4] (174-21-71-225.tukw.qwest.net. [174.21.71.225])
+ bh=dKxraNqOZmC1Qjd1FJlCqqyBvierGHSKYTP+opFyWIE=;
+ b=nzR7KdNX84VkxMFCQguwf+Iza4SejKVFq0FucE89+aTIGeNmSi8mbvpn2RhUUj3Sh4
+ dcVx3B5SlCxuAO0dd/1sHH7hZGUxczTbyUxgF1AsdW9s/1rITLXd14YCeus8+M53b/lT
+ 1xPSwB1/BfCzmVu1jg4ZwfZSWC96RfxnAa9n1ulpxPOWjaV64O9bxopwVanf1SHoVkod
+ BPWHtiAk1mckXBOmvQLFMu6jB59vcE/S1L7QJCIDwPrCpZIxTA4ZRmMQevDxWRBuXB6O
+ SmGZzR15olkzYLmd0MQSszuyNHJeAXjjhfVlG94+27VJI2K5ynoPnZ2nZqh9Ul45MTQf
+ MiCw==
+X-Gm-Message-State: AOAM53035uESX+t3kR8QpwsDq3OqZPuV1aw4NvfdM/zpmF45SU0zXF3/
+ PebTCYmPyyD+H8Rc6IIdFdGnszifPXqIeQ==
+X-Google-Smtp-Source: ABdhPJzsjUwA4OHUFiopRUYj+HP+AsaLxQoaYY1U2mrRMfaxsXCSZG9SfCXxNB/Ho0pNZY00xLeG8g==
+X-Received: by 2002:a17:903:244c:b0:162:4b19:a0e7 with SMTP id
+ l12-20020a170903244c00b001624b19a0e7mr18380075pls.44.1653672459159; 
+ Fri, 27 May 2022 10:27:39 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
  by smtp.gmail.com with ESMTPSA id
- 22-20020a17090a19d600b001d954837197sm1877640pjj.22.2022.05.27.10.19.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 May 2022 10:19:34 -0700 (PDT)
-Message-ID: <56d78e1f-1608-116c-a7ce-5643f176a12d@linaro.org>
-Date: Fri, 27 May 2022 10:19:32 -0700
+ u27-20020a63455b000000b003db0f2d135esm3599647pgk.49.2022.05.27.10.27.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 May 2022 10:27:38 -0700 (PDT)
+From: Stafford Horne <shorne@gmail.com>
+To: QEMU Development <qemu-devel@nongnu.org>
+Cc: Openrisc <openrisc@lists.librecores.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Stafford Horne <shorne@gmail.com>
+Subject: [RFC PATCH 0/3] OpenRISC Semihosting and Virt
+Date: Sat, 28 May 2022 02:27:27 +0900
+Message-Id: <20220527172731.1742837-1-shorne@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1 04/33] meson.build: fix summary display of test
- compilers
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com
-References: <20220527153603.887929-1-alex.bennee@linaro.org>
- <20220527153603.887929-5-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220527153603.887929-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=shorne@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,17 +86,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/22 08:35, Alex Bennée wrote:
-> The recent refactoring of configure.sh dropped a number of variables
-> we relied on for printing out information. Make it simpler.
-> 
-> Fixes: eebf199c09 (tests/tcg: invoke Makefile.target directly from QEMU's makefile)
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   meson.build | 8 ++------
->   1 file changed, 2 insertions(+), 6 deletions(-)
+Hello,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I provide 2 options here 2 help with OpenRISC CI testing sush as the wireguard
+testing that Jason has been working on.
 
-r~
+The two are:
+
+ 1. Add semihosting to openrisc to handle l.nop based Halt and Reset
+ 2. Define a new virt platform, this includes widing in the sifive test device
+    that provides a syscon interface to allow for shutdown and reboot.
+
+We could upstream both of them or just one. I am leaning toward dropping the
+semi-hosting work and just going ahead with virt.
+
+The semi-hosting stuff was discussed here:
+
+ - https://www.mail-archive.com/qemu-devel@nongnu.org/msg884560.html
+
+Also, I started to propose architecture changes here:
+
+ - https://github.com/openrisc/openrisc.github.io/pull/18
+
+However, looking at how other platforms define semihosting it seems the openrisc
+requirements are quite different.  We do not use the open/close/write etc
+syscalls as riscv, arm etc do.
+
+Stafford Horne (3):
+  target/openrisc: Add basic support for semihosting
+  hw/openrisc: Split re-usable boot time apis out to boot.c
+  hw/openrisc: Add the OpenRISC virtual machine
+
+ configs/devices/or1k-softmmu/default.mak |   3 +
+ hw/openrisc/Kconfig                      |   9 +
+ hw/openrisc/boot.c                       | 127 +++++++
+ hw/openrisc/meson.build                  |   2 +
+ hw/openrisc/openrisc_sim.c               | 106 +-----
+ hw/openrisc/virt.c                       | 429 +++++++++++++++++++++++
+ include/hw/openrisc/boot.h               |  34 ++
+ qemu-options.hx                          |  16 +-
+ target/openrisc/cpu.h                    |   2 +
+ target/openrisc/helper.h                 |   1 +
+ target/openrisc/meson.build              |   1 +
+ target/openrisc/openrisc-semi.c          |  54 +++
+ target/openrisc/sys_helper.c             |   5 +
+ target/openrisc/translate.c              |   6 +
+ 14 files changed, 690 insertions(+), 105 deletions(-)
+ create mode 100644 hw/openrisc/boot.c
+ create mode 100644 hw/openrisc/virt.c
+ create mode 100644 include/hw/openrisc/boot.h
+ create mode 100644 target/openrisc/openrisc-semi.c
+
+-- 
+2.31.1
+
 
