@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5474536398
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 15:53:33 +0200 (CEST)
-Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81CE5363A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 15:58:30 +0200 (CEST)
+Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuaPE-0008Jc-He
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 09:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37078)
+	id 1nuaU1-0004u7-Dr
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 09:58:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuaND-0007Sv-U3
- for qemu-devel@nongnu.org; Fri, 27 May 2022 09:51:27 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuaNC-0008HI-5p
- for qemu-devel@nongnu.org; Fri, 27 May 2022 09:51:27 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id h11so2246794wrb.0
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 06:51:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=K3suzq6Hj6rKAH6pJMeSBCKhiNyLrktL87e4/i2EkLU=;
- b=e3MhwTI+OKMgcPMxXhGbjJ/skzpA2PbdBbMic/Fn4dIt7RFHa2p1AZa5ts2CjIH8U3
- s3xyGMFRtnlxq11WXU7+e58q4yLRDRD8CbSZF1+3FQeRDrcKmeYwaL4vi8+sAAvxuTps
- DLcD4uUJObUm70chG0oNIgszoCGX5uuUoEen0kK1vmWWVrkKz/yfvvdbvfQ8/MprbMXV
- u+oMI7rwmpDISSkGruaLj/fXXx9JLRldWlzA/JihCOpPvTbD/jkxBfF38bYtIgzoKsdH
- E/y9hDYV5YBqxe5EmKMfiYa8+jJIlFMNN47g/LPEjUfiLpgMuOaTO98Ap/paPfKknLUS
- h5lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=K3suzq6Hj6rKAH6pJMeSBCKhiNyLrktL87e4/i2EkLU=;
- b=iCJ6Tnj0WlCFLFtr6u1Yi9QvC3tAM2peSBG2nwQEDhlEY3XrgqDHtH/Qj84tin2Ksh
- SXqXp97rs+mUQb6PQLno0QySCQ1JQUT+H8kCmaryPl9kVMU9bswnSEwyFR7JOZMLN4Wq
- xMHW6E58fW9BQhbYND9VuFPxSLSf6tnUhs+0d1ob7s/Rj9bKFrjfOjXIxOiKRJBNzWVE
- SEEUgpCn2ohdPPoMvlzLXz0KwMCsUvLdGIp2nTIIOe6uXweSxbFdImLF58IwJV4+Sty+
- cQnYUkzYdAYp5VWRbtScWLabrxGZsQA+SAM2UjY4aX9VqzwW6wc3VkSESliYHUkVMOWM
- 36Vw==
-X-Gm-Message-State: AOAM531diMmjq1Gh1X4Z0mDq0T20QuFbftVwlEEsCtxzy0XcchGCFBIZ
- ZwLgdR2aG7o43yE88MLK/EdnwQ==
-X-Google-Smtp-Source: ABdhPJw1qILO4R/3VezPMy+PSTDvrWNrOjfq7dfkmhm72SHqKrmtYhfIkJzEqcq2Q8SQKwdjIA8dsA==
-X-Received: by 2002:a5d:47ce:0:b0:20f:d6b5:4648 with SMTP id
- o14-20020a5d47ce000000b0020fd6b54648mr22578108wrc.73.1653659484519; 
- Fri, 27 May 2022 06:51:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- w1-20020a5d6081000000b0020fdc90aeabsm1767483wrt.82.2022.05.27.06.51.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 06:51:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9854F1FFB7;
- Fri, 27 May 2022 14:51:22 +0100 (BST)
-References: <20220527101104.26679-1-gautamnagrawal@gmail.com>
-User-agent: mu4e 1.7.23; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gautam Agrawal <gautamnagrawal@gmail.com>
-Cc: qemu-s390x@nongnu.org, thuth@redhat.com, cohuck@redhat.com,
- david@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests/tcg/s390x: Test overflow conditions
-Date: Fri, 27 May 2022 14:51:18 +0100
-In-reply-to: <20220527101104.26679-1-gautamnagrawal@gmail.com>
-Message-ID: <87a6b3ytgl.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nuaQp-000209-3I
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 09:55:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nuaQj-0000WY-M3
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 09:55:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653659704;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OL6/PhVjZTNQa37/GvMrMjZWdUMZ4jncl/OWYlatQp8=;
+ b=PKwxe77ILUXdIN85Vf8enwe+FOsBwSpqNK9g2oK+1hTs3uFwnnlUuc5HfuohOGS3zugN/7
+ RqS9O6GU7WmheIAybpDv6dSQZA6V7MNFEUxS1d0JkYmDiJgMBYdyUR+36gndd8ljSxTEiw
+ 6aBV2KXm7JxCsbw7Tm80vZVFBvzh1Z8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351-ZnvVblX0MLiXTl2al1Smlg-1; Fri, 27 May 2022 09:55:01 -0400
+X-MC-Unique: ZnvVblX0MLiXTl2al1Smlg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6C913810785;
+ Fri, 27 May 2022 13:55:00 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 719892166B26;
+ Fri, 27 May 2022 13:55:00 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, Michael Roth <michael.roth@amd.com>,
+ peter.maydell@linaro.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 00/15] Misc patches
+Date: Fri, 27 May 2022 15:54:44 +0200
+Message-Id: <20220527135459.117877-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,18 +79,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Gautam Agrawal <gautamnagrawal@gmail.com> writes:
+The following changes since commit 2417cbd5916d043e0c56408221fbe9935d0bc8da:
 
-> Add a test to check for overflow conditions in s390x.
-> This patch is based on the following patches :
-> * https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D5a2e67a691501
-> * https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dfc6e0d0f2db51
->=20=20
-> Signed-off-by: Gautam Agrawal <gautamnagrawal@gmail.com>
+  Merge tag 'ak-pull-request' of https://gitlab.com/berrange/qemu into staging (2022-05-26 07:00:04 -0700)
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+are available in the Git repository at:
 
---=20
-Alex Benn=C3=A9e
+  git@gitlab.com:marcandre.lureau/qemu.git tags/misc-pull-request
+
+for you to fetch changes up to 71a56d6afc28b4175fedb0892e088e67f1d603f1:
+
+  test/qga: use g_auto wherever sensible (2022-05-27 15:40:20 +0200)
+
+----------------------------------------------------------------
+Misc cleanups
+
+Mostly qemu-ga related cleanups.
+
+----------------------------------------------------------------
+
+Marc-André Lureau (15):
+  include: move qemu_*_exec_dir() to cutils
+  util/win32: simplify qemu_get_local_state_dir()
+  tests: make libqmp buildable for win32
+  qga: flatten safe_open_or_create()
+  qga: add qga_open_cloexec() helper
+  qga: use qga_open_cloexec() for safe_open_or_create()
+  qga: throw an Error in ga_channel_open()
+  qga: replace qemu_open_old() with qga_open_cloexec()
+  qga: make build_fs_mount_list() return a bool
+  test/qga: use G_TEST_DIR to locate os-release test file
+  qga/wixl: prefer variables over environment
+  qga/wixl: require Mingw_bin
+  qga/wixl: simplify some pre-processing
+  qga/wixl: replace QEMU_GA_MSI_MINGW_BIN_PATH with glib bindir
+  test/qga: use g_auto wherever sensible
+
+ configure                            |   9 +-
+ meson.build                          |   5 +-
+ include/qemu/cutils.h                |   7 ++
+ include/qemu/osdep.h                 |   8 --
+ qga/cutils.h                         |   8 ++
+ tests/qtest/libqmp.h                 |   2 +
+ qemu-io.c                            |   1 +
+ qga/channel-posix.c                  |  55 +++++-----
+ qga/commands-posix.c                 | 154 +++++++++++++--------------
+ qga/cutils.c                         |  33 ++++++
+ storage-daemon/qemu-storage-daemon.c |   1 +
+ tests/qtest/fuzz/fuzz.c              |   1 +
+ tests/qtest/libqmp.c                 |  34 +++++-
+ tests/unit/test-qga.c                | 130 ++++++++--------------
+ util/cutils.c                        | 108 +++++++++++++++++++
+ util/oslib-posix.c                   |  81 --------------
+ util/oslib-win32.c                   |  53 +--------
+ qga/installer/qemu-ga.wxs            |  83 +++++----------
+ qga/meson.build                      |  12 +--
+ 19 files changed, 385 insertions(+), 400 deletions(-)
+ create mode 100644 qga/cutils.h
+ create mode 100644 qga/cutils.c
+
+-- 
+2.36.1
+
 
