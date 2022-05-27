@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE215364D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:44:08 +0200 (CEST)
-Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875AB5364DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:47:17 +0200 (CEST)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuc8F-0000jK-CB
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
+	id 1nucBH-0006eT-VB
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:47:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc0k-0000aF-A1
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:22 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:33733)
+ id 1nuc0r-0000yF-Fy
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:29 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc0e-0002Qn-KH
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:22 -0400
-Received: by mail-ej1-x635.google.com with SMTP id f9so9590289ejc.0
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:36:16 -0700 (PDT)
+ id 1nuc0o-0002Ue-A2
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:28 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id u20so5893988edd.6
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w6Nhiu9OdQkcAGgiw21QAiI5TqsKe534R2D5NLjEbIE=;
- b=YWfjAMqD/ls5BTmWCABc4PLbEw5yS+e+ro+xwShwx34xeV9Kl748g+h8CHtv+OiBwl
- 1UiigC3vqP5r3i2jmp0rw4+28qFnzFM7WZFa9YVO6EAz2DzI5F2bcg5OwJ1feV4hG0aV
- PsJ4C+jWqMmmFPzLTzeBuPCD5P9ud936gP4h851bUTw8zZr0Sr9DcEQtR+iWB78Tr9EC
- qkaQ+8GGe1O1CuC43SFd5Rg48SgIvGpl6d1StiKTZGSTRXqDnlA2dUtr4prKPTt++3jg
- HkVaR+jEx7ivja7Y0kfxrCtNAzJdyu3JPhSxCgHeXmbupNzaDxzdkwvJAhq31QctdDbF
- dL9w==
+ bh=ZEKIIba+5DTGLqJM4LLlrBY0K9lHCHw3dRtdpn4RGOo=;
+ b=xYR71gRaAQJXYDWS6t0U1sqfB9g6Kg5rQTf08D1aVOmfFKHxd4K1CeuuW19K1vi7cT
+ 8h4xjOk8PWe2rePZpbQwBuA4OpRxoX7jkHhgGcWHAZ+INbD44bWuT07YCnoHTeNv3XpT
+ D5A5dKRd2hsnH400vSPb3frnXiySqNmOrDNDKKQgJSTHpsIN0X/LK1Npc5Hx7rkzechn
+ oPg0XM3mIAj07oyLJB/G4RC6nzRTQuf3/GjG060a8c/NGA8BoKOxoIzbKSSiQkxO48J6
+ 8DRBG6ZiV287ePrLaxLZf625o+Y7v9NaR/O7NpTuSKlR6PX9HYffSrVJ2u9vPYD7H/GQ
+ I1FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w6Nhiu9OdQkcAGgiw21QAiI5TqsKe534R2D5NLjEbIE=;
- b=Nh0K2RG7O2/rfTmcoIyIsPZ4za5n8De08vBdO5IRCemUWkwdMCWD9om8lkEl0SAw+m
- qAKLvDR9Xr/AQ5VG4UsmO7v5d2xkiB/iu53f/zsSJdCgYQDleq7paGXvrUOVP6f9815g
- iLsSK88V897W42PQzUECWvGkQHfGsMK6g6sDk884nRn2FyuQgVvlQ922gSM2mjLMTNM3
- /ZWdV7b6UeVPs8NbypkHRH94O38vWgX2xFn6lx8xLxddzJTqKHNUsEcLvdoj1R2kAEBK
- QRBvwHbzYN1J60ET7D9tPOfJ7vwQbcUCuhxw06zGlVG52rFZxhouwmU4bLD5zoh/UIOZ
- pc8w==
-X-Gm-Message-State: AOAM5314EFOMxitBGYyfeDuIuJsMfvOLOaxjzJ0874Q/RaraZXNTes68
- jYBo7CFb2FafLOfBgtRT2W7vFA==
-X-Google-Smtp-Source: ABdhPJz/gcN6io7gwn8VsliB0n8p0GOykINxEHnwGPiEui14USQih/i40QoD6BaXoVmU1Ebof3kVrg==
-X-Received: by 2002:a17:907:7ea5:b0:6ff:1a57:28de with SMTP id
- qb37-20020a1709077ea500b006ff1a5728demr9738823ejc.60.1653665774922; 
- Fri, 27 May 2022 08:36:14 -0700 (PDT)
+ bh=ZEKIIba+5DTGLqJM4LLlrBY0K9lHCHw3dRtdpn4RGOo=;
+ b=wpIxzt7G9NiQ1UMYRoKjHhFDkwU9Xt6JB57rBdiRXDQQcoaikXcl88u7xQU5+3peql
+ llxGbweKQuNIdCCX26Mb5q+mWDpK/z9BOspDvxiLxv7QZNOyp6VCkgK7+x6nOTnYrqlQ
+ HziSpiRn+88tgHtKIc65ZkKBsSf7acrIsUXm6KnjoTBs8r0NWA1XSzrET4ZJV6hBMQfe
+ jNjl523Vwum3GCC56efX8u5F9y+OFYk14WbKKnxZcj65UxtYi511Mx3FAEoG8GBcuhXa
+ LYI8zGjPvNGw/jJvXqRuYU+YbqpEJcg5SUkmv7oXFxmUrRBIrYJ2gPfuzRcp5P2nsGjg
+ 1mmA==
+X-Gm-Message-State: AOAM532RH2ZsyLqu+CQ6mEeUg9s8/O8XARQQH6i4udwd0ddlWgrXwVqC
+ iRmzPyw8np4DvqHJfX75u2sOiA==
+X-Google-Smtp-Source: ABdhPJwVlzKYxTSX4lQB3Wk67fRFccq5bwjQz/YrRF5XQ4XqZwDhslXrRKqdlNfrnh7Q79dqBKFJlA==
+X-Received: by 2002:a05:6402:741:b0:42a:8fad:8f67 with SMTP id
+ p1-20020a056402074100b0042a8fad8f67mr45491042edy.285.1653665784463; 
+ Fri, 27 May 2022 08:36:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- rh28-20020a17090720fc00b006f3ef214ddesm1542567ejb.68.2022.05.27.08.36.06
+ r25-20020a50aad9000000b0042bda1327ddsm2216327edc.73.2022.05.27.08.36.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 08:36:08 -0700 (PDT)
+ Fri, 27 May 2022 08:36:16 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 374771FFBE;
+ by zen.linaroharston (Postfix) with ESMTP id 770871FFBF;
  Fri, 27 May 2022 16:36:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,23 +64,24 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v1 06/33] tests/docker: update debian-armhf-cross with lcitool
-Date: Fri, 27 May 2022 16:35:36 +0100
-Message-Id: <20220527153603.887929-7-alex.bennee@linaro.org>
+Subject: [PATCH v1 07/33] tests/docker: update debian-armel-cross with lcitool
+Date: Fri, 27 May 2022 16:35:37 +0100
+Message-Id: <20220527153603.887929-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,71 +97,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use lcitool to update debian-armhf-cross to a Debian 11 based system.
+Use lcitool to update debian-armel-cross to a Debian 11 based system.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
  .gitlab-ci.d/container-cross.yml              |   3 +-
  tests/docker/Makefile.include                 |   1 -
- .../dockerfiles/debian-armhf-cross.docker     | 184 +++++++++++++++---
+ .../dockerfiles/debian-armel-cross.docker     | 178 ++++++++++++++++--
  tests/lcitool/refresh                         |   5 +
- 4 files changed, 166 insertions(+), 27 deletions(-)
+ 4 files changed, 164 insertions(+), 23 deletions(-)
 
 diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index ac15fce9b6..4d1830f3fc 100644
+index 4d1830f3fc..caef7decf4 100644
 --- a/.gitlab-ci.d/container-cross.yml
 +++ b/.gitlab-ci.d/container-cross.yml
-@@ -34,8 +34,7 @@ armel-debian-cross-container:
+@@ -27,8 +27,7 @@ arm64-debian-cross-container:
  
- armhf-debian-cross-container:
+ armel-debian-cross-container:
    extends: .container_job_template
 -  stage: containers-layer2
 -  needs: ['amd64-debian10-container']
 +  stage: containers
    variables:
-     NAME: debian-armhf-cross
+     NAME: debian-armel-cross
  
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index ca2157db46..d6e0710554 100644
+index d6e0710554..d9109bcc77 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -90,7 +90,6 @@ endif
+@@ -89,7 +89,6 @@ DOCKER_PARTIAL_IMAGES += fedora
+ endif
  
  docker-image-debian-alpha-cross: docker-image-debian10
- docker-image-debian-armel-cross: docker-image-debian10
--docker-image-debian-armhf-cross: docker-image-debian10
+-docker-image-debian-armel-cross: docker-image-debian10
  docker-image-debian-hppa-cross: docker-image-debian10
  docker-image-debian-m68k-cross: docker-image-debian10
  docker-image-debian-mips-cross: docker-image-debian10
-diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
-index 25d7618833..a2ebce96f8 100644
---- a/tests/docker/dockerfiles/debian-armhf-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
-@@ -1,29 +1,165 @@
+diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
+index b7b1a3585f..a6153e5a83 100644
+--- a/tests/docker/dockerfiles/debian-armel-cross.docker
++++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+@@ -1,26 +1,164 @@
 +# THIS FILE WAS AUTO-GENERATED
  #
--# Docker armhf cross-compiler target
-+#  $ lcitool dockerfile --layers all --cross armv7l debian-11 qemu
+-# Docker armel cross-compiler target
++#  $ lcitool dockerfile --layers all --cross armv6l debian-11 qemu
  #
 -# This docker target builds on the debian Stretch base image.
 -#
 -FROM qemu/debian10
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
 +# https://gitlab.com/libvirt/libvirt-ci
- 
--# Add the foreign architecture we want and install dependencies
--RUN dpkg --add-architecture armhf
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt install -y --no-install-recommends \
--        crossbuild-essential-armhf
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt build-dep -yy -a armhf --arch-only qemu
++
 +FROM docker.io/library/debian:11-slim
- 
--# Specify the cross prefix for this image (see tests/docker/common.rc)
--ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
--ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
++
 +RUN export DEBIAN_FRONTEND=noninteractive && \
 +    apt-get update && \
 +    apt-get install -y eatmydata && \
@@ -213,135 +203,141 @@ index 25d7618833..a2ebce96f8 100644
 +    eatmydata apt-get autoclean -y && \
 +    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
 +    dpkg-reconfigure locales
-+
+ 
+-# Add the foreign architecture we want and install dependencies
+-RUN dpkg --add-architecture armel && \
+-    apt update && \
+-    apt install -yy crossbuild-essential-armel && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt build-dep -yy -a armel --arch-only qemu
 +ENV LANG "en_US.UTF-8"
 +ENV MAKE "/usr/bin/make"
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
  
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt install -y --no-install-recommends \
--        libbz2-dev:armhf \
--        liblzo2-dev:armhf \
--        librdmacm-dev:armhf \
--        libsnappy-dev:armhf \
--        libxen-dev:armhf
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
 +RUN export DEBIAN_FRONTEND=noninteractive && \
-+    dpkg --add-architecture armhf && \
++    dpkg --add-architecture armel && \
 +    eatmydata apt-get update && \
 +    eatmydata apt-get dist-upgrade -y && \
 +    eatmydata apt-get install --no-install-recommends -y dpkg-dev && \
 +    eatmydata apt-get install --no-install-recommends -y \
-+            g++-arm-linux-gnueabihf \
-+            gcc-arm-linux-gnueabihf \
-+            libaio-dev:armhf \
-+            libasan5:armhf \
-+            libasound2-dev:armhf \
-+            libattr1-dev:armhf \
-+            libbpf-dev:armhf \
-+            libbrlapi-dev:armhf \
-+            libbz2-dev:armhf \
-+            libc6-dev:armhf \
-+            libcacard-dev:armhf \
-+            libcap-ng-dev:armhf \
-+            libcapstone-dev:armhf \
-+            libcurl4-gnutls-dev:armhf \
-+            libdaxctl-dev:armhf \
-+            libdrm-dev:armhf \
-+            libepoxy-dev:armhf \
-+            libfdt-dev:armhf \
-+            libffi-dev:armhf \
-+            libfuse3-dev:armhf \
-+            libgbm-dev:armhf \
-+            libgcrypt20-dev:armhf \
-+            libglib2.0-dev:armhf \
-+            libglusterfs-dev:armhf \
-+            libgnutls28-dev:armhf \
-+            libgtk-3-dev:armhf \
-+            libibumad-dev:armhf \
-+            libibverbs-dev:armhf \
-+            libiscsi-dev:armhf \
-+            libjemalloc-dev:armhf \
-+            libjpeg62-turbo-dev:armhf \
-+            liblttng-ust-dev:armhf \
-+            liblzo2-dev:armhf \
-+            libncursesw5-dev:armhf \
-+            libnfs-dev:armhf \
-+            libnuma-dev:armhf \
-+            libpam0g-dev:armhf \
-+            libpixman-1-dev:armhf \
-+            libpng-dev:armhf \
-+            libpulse-dev:armhf \
-+            librbd-dev:armhf \
-+            librdmacm-dev:armhf \
-+            libsasl2-dev:armhf \
-+            libsdl2-dev:armhf \
-+            libsdl2-image-dev:armhf \
-+            libseccomp-dev:armhf \
-+            libselinux1-dev:armhf \
-+            libslirp-dev:armhf \
-+            libsnappy-dev:armhf \
-+            libspice-server-dev:armhf \
-+            libssh-gcrypt-dev:armhf \
-+            libsystemd-dev:armhf \
-+            libtasn1-6-dev:armhf \
-+            libubsan1:armhf \
-+            libudev-dev:armhf \
-+            liburing-dev:armhf \
-+            libusb-1.0-0-dev:armhf \
-+            libusbredirhost-dev:armhf \
-+            libvdeplug-dev:armhf \
-+            libvirglrenderer-dev:armhf \
-+            libvte-2.91-dev:armhf \
-+            libxen-dev:armhf \
-+            libzstd-dev:armhf \
-+            nettle-dev:armhf \
-+            systemtap-sdt-dev:armhf \
-+            xfslibs-dev:armhf \
-+            zlib1g-dev:armhf && \
++            g++-arm-linux-gnueabi \
++            gcc-arm-linux-gnueabi \
++            libaio-dev:armel \
++            libasan5:armel \
++            libasound2-dev:armel \
++            libattr1-dev:armel \
++            libbpf-dev:armel \
++            libbrlapi-dev:armel \
++            libbz2-dev:armel \
++            libc6-dev:armel \
++            libcacard-dev:armel \
++            libcap-ng-dev:armel \
++            libcapstone-dev:armel \
++            libcurl4-gnutls-dev:armel \
++            libdaxctl-dev:armel \
++            libdrm-dev:armel \
++            libepoxy-dev:armel \
++            libfdt-dev:armel \
++            libffi-dev:armel \
++            libfuse3-dev:armel \
++            libgbm-dev:armel \
++            libgcrypt20-dev:armel \
++            libglib2.0-dev:armel \
++            libglusterfs-dev:armel \
++            libgnutls28-dev:armel \
++            libgtk-3-dev:armel \
++            libibumad-dev:armel \
++            libibverbs-dev:armel \
++            libiscsi-dev:armel \
++            libjemalloc-dev:armel \
++            libjpeg62-turbo-dev:armel \
++            liblttng-ust-dev:armel \
++            liblzo2-dev:armel \
++            libncursesw5-dev:armel \
++            libnfs-dev:armel \
++            libnuma-dev:armel \
++            libpam0g-dev:armel \
++            libpixman-1-dev:armel \
++            libpng-dev:armel \
++            libpulse-dev:armel \
++            librbd-dev:armel \
++            librdmacm-dev:armel \
++            libsasl2-dev:armel \
++            libsdl2-dev:armel \
++            libsdl2-image-dev:armel \
++            libseccomp-dev:armel \
++            libselinux1-dev:armel \
++            libslirp-dev:armel \
++            libsnappy-dev:armel \
++            libspice-server-dev:armel \
++            libssh-gcrypt-dev:armel \
++            libsystemd-dev:armel \
++            libtasn1-6-dev:armel \
++            libubsan1:armel \
++            libudev-dev:armel \
++            liburing-dev:armel \
++            libusb-1.0-0-dev:armel \
++            libusbredirhost-dev:armel \
++            libvdeplug-dev:armel \
++            libvirglrenderer-dev:armel \
++            libvte-2.91-dev:armel \
++            libzstd-dev:armel \
++            nettle-dev:armel \
++            systemtap-sdt-dev:armel \
++            xfslibs-dev:armel \
++            zlib1g-dev:armel && \
 +    eatmydata apt-get autoremove -y && \
 +    eatmydata apt-get autoclean -y && \
 +    mkdir -p /usr/local/share/meson/cross && \
 +    echo "[binaries]\n\
-+c = '/usr/bin/arm-linux-gnueabihf-gcc'\n\
-+ar = '/usr/bin/arm-linux-gnueabihf-gcc-ar'\n\
-+strip = '/usr/bin/arm-linux-gnueabihf-strip'\n\
-+pkgconfig = '/usr/bin/arm-linux-gnueabihf-pkg-config'\n\
++c = '/usr/bin/arm-linux-gnueabi-gcc'\n\
++ar = '/usr/bin/arm-linux-gnueabi-gcc-ar'\n\
++strip = '/usr/bin/arm-linux-gnueabi-strip'\n\
++pkgconfig = '/usr/bin/arm-linux-gnueabi-pkg-config'\n\
 +\n\
 +[host_machine]\n\
 +system = 'linux'\n\
 +cpu_family = 'arm'\n\
-+cpu = 'armhf'\n\
-+endian = 'little'" > /usr/local/share/meson/cross/arm-linux-gnueabihf && \
++cpu = 'arm'\n\
++endian = 'little'" > /usr/local/share/meson/cross/arm-linux-gnueabi && \
 +    dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
 +    mkdir -p /usr/libexec/ccache-wrappers && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-c++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-cc && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-g++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabihf-gcc
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabi-c++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabi-cc && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabi-g++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/arm-linux-gnueabi-gcc
 +
-+ENV ABI "arm-linux-gnueabihf"
-+ENV MESON_OPTS "--cross-file=arm-linux-gnueabihf"
-+ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
-+ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user
++ENV ABI "arm-linux-gnueabi"
++ENV MESON_OPTS "--cross-file=arm-linux-gnueabi"
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabi-
+ ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
+-
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        libbz2-dev:armel \
+-        liblzo2-dev:armel \
+-        librdmacm-dev:armel \
+-        libsnappy-dev:armel
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index dc1fc21ef9..7e4a92f630 100755
+index 7e4a92f630..4dc5527234 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
 @@ -105,6 +105,11 @@ try:
                          trailer=debian_cross_build("aarch64-linux-gnu-",
                                                     "aarch64-softmmu,aarch64-linux-user"))
  
-+    generate_dockerfile("debian-armhf-cross", "debian-11",
-+                        cross="armv7l",
-+                        trailer=debian_cross_build("arm-linux-gnueabihf-",
-+                                                   "arm-softmmu,arm-linux-user"))
++    generate_dockerfile("debian-armel-cross", "debian-11",
++                        cross="armv6l",
++                        trailer=debian_cross_build("arm-linux-gnueabi-",
++                                                   "arm-softmmu,arm-linux-user,armeb-linux-user"))
 +
-     generate_dockerfile("debian-s390x-cross", "debian-11",
-                         cross="s390x",
-                         trailer=debian_cross_build("s390x-linux-gnu-",
+     generate_dockerfile("debian-armhf-cross", "debian-11",
+                         cross="armv7l",
+                         trailer=debian_cross_build("arm-linux-gnueabihf-",
 -- 
 2.30.2
 
