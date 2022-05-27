@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A81F5365DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:22:08 +0200 (CEST)
-Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B00D5365DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:19:12 +0200 (CEST)
+Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucj1-0006vi-BP
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
+	id 1nucgB-0002rW-IW
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:19:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nucCW-0002zm-MC
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:48:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37122)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nucFQ-000865-JV
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:51:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nucCU-0004gE-Pl
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:48:32 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nucFK-0005Q9-O9
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:51:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653666501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1653666686;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ptFKN07WzaZSkB75ssKmvz0ncxq0DmC4gK9vbQcWX08=;
- b=A2AEQwF7hl0GlvmeKvM3N2G7Oe/te4rIHTQl/YLiXO1x6SgYKx1jCOquXKqkGQ4feftLMO
- ldFD13QnOB+9rjbxNba+txsNoql1DERoVU2Qz6LLSj8wG9R6ZGQn9TtJ6NafMq8ZGnId1m
- cs1g/vTcddhUziXNsOHLzj8kdHD4EJY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ppAwhcz54/VgdXrtIqTFH5ayy5mbevuQZHN6HxgLqa8=;
+ b=DnyebwvUOSXB7LLPqhrmkErFODXXk4k+rcFcn/YgosegsVznetUw09VxBxuDdxXTgEbGfI
+ U2hZ2JMUcZB5Y+rU8P72+QIv+B6lfvSN05iHomHRa0KQ2yTopepRuH30APrFOImDeFXZLK
+ pqK1yk/CYMFiJh8Q8tbsnvBaTAYHUiQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-342-5JfnatFlN7OYXP6x7dxRCw-1; Fri, 27 May 2022 11:48:14 -0400
-X-MC-Unique: 5JfnatFlN7OYXP6x7dxRCw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-600-nM0qFAEbMXKBbmeurNI6dQ-1; Fri, 27 May 2022 11:51:23 -0400
+X-MC-Unique: nM0qFAEbMXKBbmeurNI6dQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED4CB85A5BC;
- Fri, 27 May 2022 15:48:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D4F48287E;
- Fri, 27 May 2022 15:48:10 +0000 (UTC)
-Date: Fri, 27 May 2022 17:48:07 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Xie Yongji <xieyongji@bytedance.com>
-Cc: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
- sgarzare@redhat.com, mreitz@redhat.com, mlureau@redhat.com,
- jsnow@redhat.com, eblake@redhat.com, Coiby.Xu@gmail.com,
- hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 0/8] Support exporting BDSs via VDUSE
-Message-ID: <YpDyt/ige24pu7T9@redhat.com>
-References: <20220523084611.91-1-xieyongji@bytedance.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5896D3801157;
+ Fri, 27 May 2022 15:51:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B51DC1410DD5;
+ Fri, 27 May 2022 15:51:19 +0000 (UTC)
+Date: Fri, 27 May 2022 16:51:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Luigi Rizzo <rizzo@iet.unipi.it>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>,
+ Vincenzo Maffione <v.maffione@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: Re: [PATCH  v1 11/33] tests/docker: update debian-amd64 with lcitool
+Message-ID: <YpDzdb5Lt02PqrJu@redhat.com>
+References: <20220527153603.887929-1-alex.bennee@linaro.org>
+ <20220527153603.887929-12-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220523084611.91-1-xieyongji@bytedance.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220527153603.887929-12-alex.bennee@linaro.org>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -63,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,34 +86,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.05.2022 um 10:46 hat Xie Yongji geschrieben:
-> Hi all,
+On Fri, May 27, 2022 at 04:35:41PM +0100, Alex Bennée wrote:
+> The one minor wrinkle we need to account for is the netmap support
+> still requires building from source. We also include cscope and GNU
+> global as they are used in one of the builds.
 > 
-> Last few months ago, VDUSE (vDPA Device in Userspace) [1] has
-> been merged into Linux kernel as a framework that make it
-> possible to emulate a vDPA device in userspace. This series
-> aimed at implementing a VDUSE block backend based on the
-> qemu-storage-daemon infrastructure.
-> 
-> To support that, we firstly introduce a VDUSE library as a
-> subproject (like what libvhost-user does) to help implementing
-> VDUSE backends in QEMU. Then a VDUSE block export is implemented
-> based on this library. At last, we add resize and reconnect support
-> to the VDUSE block export and VDUSE library.
-> 
-> Now this series is based on Stefan's patch [2]. And since we don't
-> support vdpa-blk in QEMU currently, the VM case is tested with my
-> previous patchset [3].
-> 
-> [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
-> [2] https://lore.kernel.org/all/20220518130945.2657905-1-stefanha@redhat.com/
-> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Cc: Luigi Rizzo <rizzo@iet.unipi.it>
+> Cc: Giuseppe Lettieri <g.lettieri@iet.unipi.it>
+> Cc: Vincenzo Maffione <v.maffione@gmail.com>
+> ---
+>  .gitlab-ci.d/containers.yml                  |   3 +-
+>  tests/docker/dockerfiles/debian-amd64.docker | 194 ++++++++++++++-----
+>  tests/lcitool/refresh                        |  19 ++
+>  3 files changed, 164 insertions(+), 52 deletions(-)
 
-Thanks, applied to the block branch.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Kevin
+
+> +# Netmap still needs to be manually built as it is yet to be packaged
+> +# into a distro. We also add cscope and gtags which are used in the CI
+> +# test
+> +debian11_extras = [
+> +    "# netmap/cscope/global\n",
+> +    "RUN DEBIAN_FRONTEND=noninteractive eatmydata \\\n",
+> +    "  apt install -y --no-install-recommends \\\n",
+> +    "  cscope\\\n",
+> +    "  global\\\n",
+> +    "  linux-headers-amd64\n",
+> +    "RUN git clone https://github.com/luigirizzo/netmap.git /usr/src/netmap\n",
+> +    "RUN cd /usr/src/netmap && git checkout v11.3\n",
+> +    "RUN cd /usr/src/netmap/LINUX && ./configure --no-drivers --no-apps --kernel-dir=$(ls -d /usr/src/linux-headers-*-amd64) && make install\n",
+
+This will result in many layers bloating the image a little.
+
+We could optimize it with approximately
+[
+  RUN export DEBIAN_FRONTEND=noninteractive && \
+  eatmydata apt install -y --no-install-recommends \
+    cscope \
+    global \
+    linux-headers-amd64 &&
+  git clone https://github.com/luigirizzo/netmap.git /usr/src/netmap && \
+  cd /usr/src/netmap && \
+  git checkout v11.3 && \0
+  cd LINUX && \
+  ./configure --no-drivers --no-apps --kernel-dir=$(ls -d /usr/src/linux-headers-*-amd64) && \
+  make install && \
+  cd / && \
+  rm -rf /usr/src/netmap &&
+  eatmydata apt remove cscope global linux-headers-amd64
+
+(untested)
+
+Essentially this means we only add 1 layer to the docker image
+and it only contains the final binary bits
+
+Still, what you have is what already exists in tree, so on
+that basis
+
+  Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+  
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
