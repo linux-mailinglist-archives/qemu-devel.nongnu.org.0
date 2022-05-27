@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10864536651
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:05:14 +0200 (CEST)
-Received: from localhost ([::1]:44514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6856D53662E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:54:33 +0200 (CEST)
+Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nudOi-0000JT-Pf
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:05:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52906)
+	id 1nudEO-0008Jj-Dg
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nud8O-0001Wz-Ks
- for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:20 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43840)
+ id 1nud8P-0001aR-Nz
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:21 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:52841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nud8N-0005Ow-37
- for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:20 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id y189so4764241pfy.10
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 09:48:18 -0700 (PDT)
+ id 1nud8N-0005P2-Uc
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:21 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id gz24so5082372pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 09:48:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CpiwNuN9uaF8J7CUE8swrx6xThfojHeB858pnr3+AiA=;
- b=rF8uUKHFA/lwUj7qslXyRn0RJYth79NoaRGgpwwhDKdk4hhVDBPgesoN/f8peVeQat
- qx92CuaejyNgD7xS8X4sWR7WL4UJv6hlEjXWPN9dxQKCFPVUYF42oYXU9+onBcL0lKbC
- StYPZQ8M8k7XHMesKsSk4XoWTVwYH26g7h3AkXGEREM/AvBclw60rCrvioy6lHy0M9N2
- b8P4ZANC8hQA+96xvl9KNuANr4l6RQhxkHxn1wH0mO7Yes+KxECCwa88EisoPhG+oZh9
- QFoqZ/ZryVT1xnSGrprQQljyJ95z/3XCiXSEJl85KhBk2d8W74DfE3Gxrya2j3QiISDF
- j80w==
+ bh=KyWq1SP5mJS//TtONTeiMPT3+Dc2kCMkrVruGMXnAYM=;
+ b=QKzG4W7P00g32mM+xXM2lPHztptqflVhhOHa9vdkBTs9nQJWg28DWkTHgidt0hrNea
+ nodJ3cGK9DacCdJ/Ks1qS6MJbJcAISgFTOhKyg40ZeyASfPaZzHvaFFKrXFIRN0OTOHB
+ 5bJ2y6Tnnb6xm4XmUAKhW50XbNNdYNrqUy2mboA2xqqIy5VlwPtqLFWt8OHUSrpQ7HHJ
+ G/cu80QU8qwP5xo+NzdpTIsHcI5UAaJSuOEnJ0TfoWRQ2Ei0eK1fwwrIvUHxRlnle9+C
+ p3g/8S0De8S8PUYz25hNuA8RMWJW4ZZ9u+Hf6+Rn8rVR2/PsVYxo81AP1W3rLoV1o/eT
+ GQnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CpiwNuN9uaF8J7CUE8swrx6xThfojHeB858pnr3+AiA=;
- b=Bv7mxG37mxWmHZjipgx/5Xnn/EPCXLAN9QTPCohdNPyEhpSwe/HSy9uwtkvyokHHwC
- 3R7Nt2WG7SvAr/AcD4wXiYWDqUC9OchQifLs1iQvCRmF+LnpGHo0TjHMnlAlcRUJVbEB
- EkPtfq51bo1xxymGqKIF3gx/mFZDx3JQG02y3tex8Lhv+kWoteQauVyx2vbRLLLunpEE
- cYrbViYy9MQDYwKjNOHqKm5UTQQnMr6+UTN4dPLwTsjcWSDaAjZ4IWP03Hk4qxrJFDuu
- TJXi6136NGlEfYOjod6UmotHK5WJcKXzxU8ozixl7c5KzUcws24XzWCTDkAKY2DAki20
- ZoyA==
-X-Gm-Message-State: AOAM5309BSe9gTnGprMwS2cyn1RUADKKXF+kOl98F3MyL2/G0pUFHAPU
- xU9UYnPVfXutqdpXMQMCd4r9DJjQmH5weA==
-X-Google-Smtp-Source: ABdhPJzvPV8I/ZZRi2rGns9v8sWsmI+5jSomss5b3co6MYlAednFOSuv+vhapBbKp68oZ9tpcMUx0A==
-X-Received: by 2002:a63:91ca:0:b0:3fa:e255:5beb with SMTP id
- l193-20020a6391ca000000b003fae2555bebmr11378454pge.70.1653670097786; 
- Fri, 27 May 2022 09:48:17 -0700 (PDT)
+ bh=KyWq1SP5mJS//TtONTeiMPT3+Dc2kCMkrVruGMXnAYM=;
+ b=c+2NZygux6NlS/JvtDo3Zhws5DajvXT7q/ScF4XUxTWIwo4R9Y3ikIOypaf/ylcZbQ
+ LW9+s5P71DFjBMQLa6xbFxZDCa5/98bqY55rjZmiW03xiKA1Gbw6j0eV0VVzcJuCQ1lZ
+ 05sHgP6xwSOKCMnWAXupZE5cSTc00M1mnpS38pgz/BS9KSV8/+3caPCNK4jtLIsMy8sL
+ yx1QWV9ooSX8thjf+Lq8S+ByihUv5ypRu9Q0Y1YA8O8JqIODwxm2yF4vWx8ROt9V/nGf
+ lQ5iYrRwq+41Xs4C72XggmjuC3yirDfI8f819+SCVXgJwAlT7TWRLGQByjgjv62PE4GK
+ Ahew==
+X-Gm-Message-State: AOAM533X1lnH+jnnKrMfbE4RfsvkxONOQAjI8E7JVsKKcvB/k07wOKPB
+ rhzGmlUH80M0E1AlydiIyiMabn8VJx2Pzg==
+X-Google-Smtp-Source: ABdhPJy2GUU2m/bGRKX0VcsDbrLFFi5bKqAmJfX6ktMfeUed2xMq6T5fUTbrM/qqjQ1xo08k+ScFag==
+X-Received: by 2002:a17:90a:d01:b0:1e0:2e32:8650 with SMTP id
+ t1-20020a17090a0d0100b001e02e328650mr9271907pja.156.1653670098634; 
+ Fri, 27 May 2022 09:48:18 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
  j11-20020aa7928b000000b0050dc7628133sm3861420pfa.13.2022.05.27.09.48.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 09:48:17 -0700 (PDT)
+ Fri, 27 May 2022 09:48:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu
-Subject: [PATCH v5 09/17] target/m68k: Fix stack frame for EXCP_ILLEGAL
-Date: Fri, 27 May 2022 09:47:59 -0700
-Message-Id: <20220527164807.135038-10-richard.henderson@linaro.org>
+Subject: [PATCH v5 10/17] target/m68k: Implement TRAPcc
+Date: Fri, 27 May 2022 09:48:00 -0700
+Message-Id: <20220527164807.135038-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220527164807.135038-1-richard.henderson@linaro.org>
 References: <20220527164807.135038-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,36 +88,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the M68040 Users Manual, section 8.4.1, Four word
-stack frame (format 0), includes Illegal Instruction.  Use the
-correct frame format, which does not use the ADDR argument.
-
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/754
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/op_helper.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ target/m68k/cpu.h          |  2 ++
+ linux-user/m68k/cpu_loop.c |  1 +
+ target/m68k/cpu.c          |  1 +
+ target/m68k/op_helper.c    |  6 +----
+ target/m68k/translate.c    | 49 ++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 54 insertions(+), 5 deletions(-)
 
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 558c3c67d6..4d8f48e8c7 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -534,6 +534,8 @@ enum m68k_features {
+     M68K_FEATURE_MOVEC,
+     /* Unaligned data accesses (680[2346]0) */
+     M68K_FEATURE_UNALIGNED_DATA,
++    /* TRAPcc insn. (680[2346]0, and CPU32) */
++    M68K_FEATURE_TRAPCC,
+ };
+ 
+ static inline int m68k_feature(CPUM68KState *env, int feature)
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index fcf9220552..3d3033155f 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -47,6 +47,7 @@ void cpu_loop(CPUM68KState *env)
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->pc);
+             break;
+         case EXCP_CHK:
++        case EXCP_TRAPCC:
+             force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->mmu.ar);
+             break;
+         case EXCP_DIV0:
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index c7aeb7da9c..5f778773d1 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -162,6 +162,7 @@ static void m68020_cpu_initfn(Object *obj)
+     m68k_set_feature(env, M68K_FEATURE_CHK2);
+     m68k_set_feature(env, M68K_FEATURE_MSP);
+     m68k_set_feature(env, M68K_FEATURE_UNALIGNED_DATA);
++    m68k_set_feature(env, M68K_FEATURE_TRAPCC);
+ }
+ 
+ /*
 diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 3cb71c9140..aa62158eb9 100644
+index aa62158eb9..61948d92bb 100644
 --- a/target/m68k/op_helper.c
 +++ b/target/m68k/op_helper.c
-@@ -391,11 +391,14 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-         }
-         break;
- 
-+    case EXCP_ILLEGAL:
-+        do_stack_frame(env, &sp, 0, oldsr, 0, env->pc);
-+        break;
-+
-     case EXCP_ADDRESS:
+@@ -399,14 +399,10 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
          do_stack_frame(env, &sp, 2, oldsr, 0, env->pc);
          break;
  
--    case EXCP_ILLEGAL:
-     case EXCP_TRAPCC:
-         /* FIXME: addr is not only env->pc */
-         do_stack_frame(env, &sp, 2, oldsr, env->pc, env->pc);
+-    case EXCP_TRAPCC:
+-        /* FIXME: addr is not only env->pc */
+-        do_stack_frame(env, &sp, 2, oldsr, env->pc, env->pc);
+-        break;
+-
+     case EXCP_CHK:
+     case EXCP_DIV0:
+     case EXCP_TRACE:
++    case EXCP_TRAPCC:
+         do_stack_frame(env, &sp, 2, oldsr, env->mmu.ar, env->pc);
+         break;
+ 
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 399d9232e4..c4fe8abc03 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -4879,6 +4879,54 @@ DISAS_INSN(trap)
+     gen_exception(s, s->pc, EXCP_TRAP0 + (insn & 0xf));
+ }
+ 
++static void do_trapcc(DisasContext *s, DisasCompare *c)
++{
++    if (c->tcond != TCG_COND_NEVER) {
++        TCGLabel *over = NULL;
++
++        update_cc_op(s);
++
++        if (c->tcond != TCG_COND_ALWAYS) {
++            /* Jump over if !c. */
++            over = gen_new_label();
++            tcg_gen_brcond_i32(tcg_invert_cond(c->tcond), c->v1, c->v2, over);
++        }
++
++        tcg_gen_movi_i32(QREG_PC, s->pc);
++        gen_raise_exception_format2(s, EXCP_TRAPCC, s->base.pc_next);
++
++        if (over != NULL) {
++            gen_set_label(over);
++            s->base.is_jmp = DISAS_NEXT;
++        }
++    }
++    free_cond(c);
++}
++
++DISAS_INSN(trapcc)
++{
++    DisasCompare c;
++
++    /* Consume and discard the immediate operand. */
++    switch (extract32(insn, 0, 3)) {
++    case 2: /* trapcc.w */
++        (void)read_im16(env, s);
++        break;
++    case 3: /* trapcc.l */
++        (void)read_im32(env, s);
++        break;
++    case 4: /* trapcc (no operand) */
++        break;
++    default:
++        /* Illegal insn */
++        disas_undef(env, s, insn);
++        return;
++    }
++
++    gen_cc_cond(&c, s, extract32(insn, 8, 4));
++    do_trapcc(s, &c);
++}
++
+ static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
+ {
+     switch (reg) {
+@@ -6050,6 +6098,7 @@ void register_m68k_insns (CPUM68KState *env)
+     INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
+     INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
+     INSN(dbcc,      50c8, f0f8, M68000);
++    INSN(trapcc,    50f8, f0f8, TRAPCC);
+     INSN(tpf,       51f8, fff8, CF_ISA_A);
+ 
+     /* Branch instructions.  */
 -- 
 2.34.1
 
