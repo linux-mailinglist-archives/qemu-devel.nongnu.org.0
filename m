@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254F153640E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 16:29:22 +0200 (CEST)
-Received: from localhost ([::1]:49376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7521536409
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 16:26:57 +0200 (CEST)
+Received: from localhost ([::1]:44730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuaxs-0004UB-Qv
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 10:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42908)
+	id 1nuavX-000182-AI
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 10:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nuajd-00044Y-RG
- for qemu-devel@nongnu.org; Fri, 27 May 2022 10:14:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42280)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nuas8-0006OC-Oa
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 10:23:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nuaja-0003pV-Ny
- for qemu-devel@nongnu.org; Fri, 27 May 2022 10:14:36 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nuas5-0005dP-6R
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 10:23:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653660873;
+ s=mimecast20190719; t=1653661399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kYazQ5djE7Qr1yms8YuU47Mb8PfAUfdywloNC4vuAp0=;
- b=EsyV51p6RymICAuKdo077Eri6VjttJh70kexAxnzdURkBBodXpt+lcgiN+i8x2h25i0LUI
- A+5FDreHN5qn8GlKkqj7xP/1Uwe3LFxvyxLr8igAWlgiNvEktuMlIL1sh1z6HYKBfqEwfr
- Cdb7afocXFLEqDgy2PkykyPfAHFa6Q8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=d0kcu8PnbUEFVt+t6dQwjKXWNt7hFSxY/0OzR5NRQW0=;
+ b=XRoNsSK0uv3xrKEbiaoVIEY3tq+79kw+6Unl5lST3mAGakeV2EHK5IzDyJ/5bRHgZSOyTD
+ YRxF2YUwzmJ/OnfO+GCcs/TnIwAdYDGcFJrs3OJRaHtPFL+hjJlcye5eWiZ3A/dlRMfkmx
+ J8wxDWLXV5zztQOTFhfV+9DO8aiOAuM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-HBOKQ2EePDGQGiK2yPPc8Q-1; Fri, 27 May 2022 10:14:31 -0400
-X-MC-Unique: HBOKQ2EePDGQGiK2yPPc8Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-556-uPga2e9KMAm_BubPuQ4Xhw-1; Fri, 27 May 2022 10:23:15 -0400
+X-MC-Unique: uPga2e9KMAm_BubPuQ4Xhw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 911A41C14485
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 14:14:31 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D92231121315;
- Fri, 27 May 2022 14:14:29 +0000 (UTC)
-Date: Fri, 27 May 2022 16:14:27 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [libvirt PATCH] tools: add virt-qmp-proxy for proxying QMP
- clients to libvirt QEMU guests
-Message-ID: <YpDcw97r7SPnJVfi@angien.pipo.sk>
-References: <20220527094758.604621-1-berrange@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F157480088A;
+ Fri, 27 May 2022 14:23:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61CDE40EC002;
+ Fri, 27 May 2022 14:23:12 +0000 (UTC)
+Date: Fri, 27 May 2022 09:23:10 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Alberto Faria <afaria@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ Fam Zheng <fam@euphon.net>, Ari Sundholm <ari@tuxera.com>
+Subject: Re: [PATCH v3 06/10] block: Make 'bytes' param of
+ bdrv_co_{pread,pwrite,preadv,pwritev}() an int64_t
+Message-ID: <20220527142310.bhf4gbb4kc6rlxi2@redhat.com>
+References: <20220519144841.784780-1-afaria@redhat.com>
+ <20220519144841.784780-7-afaria@redhat.com>
+ <Yo9BkD5gNPSVwHgn@stefanha-x1.localdomain>
+ <CAELaAXwmOZsJWsUW=aqSHBj_bh-c8mL22JvcX+4+CBKS4ZSsBA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220527094758.604621-1-berrange@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
+In-Reply-To: <CAELaAXwmOZsJWsUW=aqSHBj_bh-c8mL22JvcX+4+CBKS4ZSsBA@mail.gmail.com>
+User-Agent: NeoMutt/20220429-77-e284d5
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -84,382 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 27, 2022 at 10:47:58 +0100, Daniel P. Berrangé wrote:
-> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
-> exposed in virsh. It is not especially pleasant, however, using the raw
-> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
-> exposes a human friendly interactive shell. It is not possible to use
-> this with libvirt managed guest, however, since only one client can
-> attach to he QMP socket at any point in time.
+On Thu, May 26, 2022 at 12:05:55PM +0100, Alberto Faria wrote:
+> On Thu, May 26, 2022 at 10:00 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > Maybe let the existing bdrv_check_request32() call in bdrv_co_preadv()
+
+in bdrv_co_preadv_part()
+
+> > check this? It returns -EIO if bytes is too large.
 > 
-> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
-> socket and listens for incoming client connections, speaking QMP on
-> the connected socket. It will forward any QMP commands received onto
-> the running libvirt QEMU guest, and forward any replies back to the
-> QMP client.
+> I'd be okay with that. Does this warrant changing blk_co_pread() and
+> blk_co_pwrite() as well?
 > 
->   $ virsh start demo
->   $ virt-qmp-proxy demo demo.qmp &
->   $ qmp-shell demo.qmp
->   Welcome to the QMP low-level shell!
->   Connected to QEMU 6.2.0
-> 
->   (QEMU) query-kvm
->   {
->       "return": {
->           "enabled": true,
->           "present": true
->       }
->   }
-> 
-> Note this tool of course has the same risks as the raw libvirt
-> QMP passthrough. It is safe to run query commands to fetch information
-> but commands which change the QEMU state risk disrupting libvirt's
-> management of QEMU, potentially resulting in data loss/corruption in
-> the worst case.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
-> 
-> CC'ing QEMU since this is likely of interest to maintainers and users
-> who work with QEMU and libvirt
-> 
-> Note this impl is fairly crude in that it assumes it is receiving
-> the QMP commands linewise one at a time. None the less it is good
-> enough to work with qmp-shell already, so I figured it was worth
-> exposing to the world. It also lacks support for forwarding events
-> back to the QMP client.
-> 
->  docs/manpages/meson.build        |   1 +
->  docs/manpages/virt-qmp-proxy.rst | 123 ++++++++++++++++++++++++++++
->  tools/meson.build                |   5 ++
->  tools/virt-qmp-proxy             | 133 +++++++++++++++++++++++++++++++
->  4 files changed, 262 insertions(+)
->  create mode 100644 docs/manpages/virt-qmp-proxy.rst
->  create mode 100755 tools/virt-qmp-proxy
+> Eric, what do you think?
+>
 
-[...]
+Yes, reusing the existing function covers more cases with common error
+messages.  All that matters is that we check for overflow before
+trying to populate the qiov.
 
-> diff --git a/docs/manpages/virt-qmp-proxy.rst b/docs/manpages/virt-qmp-proxy.rst
-> new file mode 100644
-> index 0000000000..94679406ab
-> --- /dev/null
-> +++ b/docs/manpages/virt-qmp-proxy.rst
-> @@ -0,0 +1,123 @@
-> +==============
-> +virt-qmp-proxy
-> +==============
-> +
-> +--------------------------------------------------
-> +Expose a QMP proxy server for a libvirt QEMU guest
-> +--------------------------------------------------
-> +
-> +:Manual section: 1
-> +:Manual group: Virtualization Support
-> +
-> +.. contents::
-> +
-> +
-> +SYNOPSIS
-> +========
-> +
-> +``virt-qmp-proxy`` [*OPTION*]... *DOMAIN* *QMP-SOCKET-PATH*
-> +
-> +
-> +DESCRIPTION
-> +===========
-> +
-> +This tool provides a way to expose a QMP proxy server that communicates
-> +with a QEMU guest managed by libvirt. This enables standard QMP client
-> +tools to interact with libvirt managed guests.
-> +
-> +**NOTE: use of this tool will result in the running QEMU guest being
-> +marked as tainted.** It is strongly recommended that this tool *only be
-> +used to send commands which query information* about the running guest.
-> +If this tool is used to make changes to the state of the guest, this
-> +may have negative interactions with the QEMU driver, resulting in an
-> +inability to manage the guest operation thereafter, and in the worst
-> +case **potentially lead to data loss or corruption**.
-> +
-> +The ``virt-qmp-proxy`` program will listen on a UNIX socket for incoming
-> +client connections, and run the QMP protocol over the connection. Any
-> +commands received will be sent to the running libvirt guest, and replies
-> +sent back.
-> +
-> +The ``virt-qemu-proxy`` program may be interrupted (eg Ctrl-C) when it
-> +is no longer required. The libvirt QEMU guest will continue running.
-> +
-> +
-> +OPTIONS
-> +=======
-> +
-> +*DOMAIN*
-> +
-> +The ID or UUID or Name of the libvirt QEMU guest.
-> +
-> +*QMP-SOCKET-PATH*
-> +
-> +The filesystem path at which to run the QMP server, listening for
-> +incoming connections.
-> +
-> +``-c`` *CONNECTION-URI*
-> +``--connect``\ =\ *CONNECTION-URI*
-> +
-> +The URI for the connection to the libvirt QEMU driver. If omitted,
-> +a URI will be auto-detected.
-> +
-> +``-v``, ``--verbose``
-> +
-> +Run in verbose mode, printing all QMP commands and replies that
-> +are handled.
-> +
-> +``-h``, ``--help``
-> +
-> +Display the command line help.
-> +
-> +
-> +EXIT STATUS
-> +===========
-> +
-> +Upon successful shutdown, an exit status of 0 will be set. Upon
-> +failure a non-zero status will be set.
-> +
-> +
-> +AUTHOR
-> +======
-> +
-> +Daniel P. Berrangé
-> +
-> +
-> +BUGS
-> +====
-> +
-> +Please report all bugs you discover.  This should be done via either:
-> +
-> +#. the mailing list
-> +
-> +   `https://libvirt.org/contact.html <https://libvirt.org/contact.html>`_
-> +
-> +#. the bug tracker
-> +
-> +   `https://libvirt.org/bugs.html <https://libvirt.org/bugs.html>`_
-> +
-> +Alternatively, you may report bugs to your software distributor / vendor.
-> +
-> +NOTE: at this time there is no support for forwarding QMP events back
-> +to the clients
-
-Also add caveat about FD passing support.
-
-[...]
-
-> diff --git a/tools/virt-qmp-proxy b/tools/virt-qmp-proxy
-> new file mode 100755
-> index 0000000000..57f9759fab
-> --- /dev/null
-> +++ b/tools/virt-qmp-proxy
-> @@ -0,0 +1,133 @@
-> +#!/usr/bin/env python3
-> +
-> +import argparse
-> +import libvirt
-> +import libvirt_qemu
-> +import os
-> +import re
-> +import socket
-> +import sys
-> +import json
-> +
-> +
-> +def get_domain(uri, domstr):
-> +    conn = libvirt.open(uri)
-> +
-> +    dom = None
-> +    if re.match(r'^\d+$', domstr):
-> +        dom = conn.lookupByID(int(domstr))
-> +    elif re.match(r'^[+a-f0-9]+$', domstr):
-
-This works very poorly if you have a VM named for example 'cd' or any
-combination of just letters abcdef.
-
-> +        dom = conn.lookupByUUIDString(domstr)
-> +    else:
-> +        dom = conn.lookupByName(domstr)
-> +
-> +    if not dom.isActive():
-> +        raise Exception(
-> +            "Domain must be running to validate measurement")
-
-This should mention the current usage or a generic error ;)
-
-> +
-> +    return conn, dom
-> +
-> +
-> +def qmp_server(conn, dom, client, verbose):
-> +    ver = conn.getVersion()
-
-So this gets the version of the "default" emulator version, but if your
-VM is using a custom one this will report it wrong.
-
-E.g in my case I have a git qemu for a VM:
-
- 517 2022-05-27 14:01:09.604+0000: 373562: debug : qemuMonitorJSONIOProcessLine:199 : Line [{"QMP": {"version": {"qemu": {"micro": 50, "minor": 0, "major": 7}, "package": "v7.0.0-1253-g2417cbd591"}, "capabilities": ["oob"]}}]
-
-
-
-> +    major = int(ver / 1000000) % 1000
-> +    minor = int(ver / 1000) % 1000
-> +    micro = ver % 1000
-> +
-> +    greetingobj = {
-> +        "QMP": {
-> +            "version": {
-> +                "qemu": {
-> +                    "major": major,
-> +                    "minor": minor,
-> +                    "micro": micro,
-> +                },
-> +                "package": f"qemu-{major}.{minor}.{micro}",
-> +            },
-> +            "capabilities": [
-> +                "oob"
-> +            ],
-> +        }
-> +    }
-
-But when I conect I get:
-
-{"QMP": {"version": {"qemu": {"major": 7, "minor": 0, "micro": 0}, "package": "qemu-7.0.0"}, "capabilities": ["oob"]}}
-
-
-At the very least this should be documented.
-
-> +    greeting = json.dumps(greetingobj) + "\r\n"
-> +    if verbose:
-> +        print(greeting, end='')
-> +    client.send(greeting.encode("utf-8"))
-> +
-> +    while True:
-> +        # XXX shouldn't blindly assume this one read
-> +        # will fully capture one-and-only-one cmd
-> +        cmd = client.recv(1024).decode('utf8')
-
-IIUC this limits the buffer to 1k max. Libvirt's RPC supports up to 4M.
-1k could be limiting with some commands such as blockdev-add.
-
-> +        if verbose:
-> +            print(cmd)
-> +
-> +        if cmd == "":
-> +            break
-> +
-> +        if "qmp_capabilities" in cmd:
-> +            capabilitiesobj = {
-> +                "return": {},
-> +            }
-> +            capabilities = json.dumps(capabilitiesobj) + "\r\n"
-> +            if verbose:
-> +                print(capabilities, end='')
-> +            client.send(capabilities.encode("utf-8"))
-> +            continue
-> +
-> +        id = None
-> +        if "id" in cmd:
-> +            id = cmd[id]
-> +
-> +        res = libvirt_qemu.qemuMonitorCommand(dom, cmd, 0)
-
-If 'cmd' is not JSON this breaks horribly:
-
-$ tools/virt-qmp-proxy 2 /tmp/asdf
-libvirt:  error : internal error: cannot parse json test
-: lexical error: invalid string in json text.
-                                       test
-                     (right here) ------^
-tools/virt-qmp-proxy: internal error: cannot parse json test
-: lexical error: invalid string in json text.
-                                       test
-                     (right here) ------^
-
-and stops working, while real qemu behaves differently:
-
-$ qemu-system-x86_64 -qmp stdio
-{"QMP": {"version": {"qemu": {"micro": 0, "minor": 0, "major": 7}, "package": "qemu-7.0.0-2.fc35"}, "capabilities": ["oob"]}}
-
-
-help
-{"error": {"class": "GenericError", "desc": "JSON parse error, invalid keyword 'help'"}}
-
-
-Also since it's just a simple loop without event handling from qemu.
-E.g. if I destroy the VM while it's running it simply waits. When I
-issue another command, then the proxy exits:
-
-$ tools/virt-qmp-proxy 2 /tmp/asdf
-libvirt: Domain Config error : Requested operation is not valid: domain is not running
-tools/virt-qmp-proxy: Requested operation is not valid: domain is not running
-
-
-but the client itself just sees a closed socket.
-
-Given the use case it's not a big problem but it should be at least
-mentioned in the docs.
-
-> +
-> +        resobj = json.loads(res)
-> +        del resobj["id"]
-> +        if id is not None:
-> +            resobj["id"] = id
-> +        res = json.dumps(resobj) + "\r\n"
-> +        if verbose:
-> +            print(res, end='')
-> +
-> +        client.send(res.encode('utf8'))
-> +
-> +
-> +def parse_commandline():
-> +    parser = argparse.ArgumentParser(description="Libvirt QMP proxy")
-> +    parser.add_argument("--connect", "-c",
-> +                        help="Libvirt QEMU driver connection URI")
-> +    parser.add_argument("--verbose", "-v", action='store_true',
-> +                        help="Display QMP traffic")
-> +    parser.add_argument("domain", metavar="DOMAIN",
-> +                        help="Libvirt guest domain ID/UUID/Name")
-> +    parser.add_argument("sockpath", metavar="QMP-SOCK-PATH",
-> +                        help="UNIX socket path for QMP server")
-> +
-> +    return parser.parse_args()
-> +
-> +
-> +def main():
-> +    args = parse_commandline()
-> +
-> +    conn, dom = get_domain(args.connect, args.domain)
-> +
-> +    if conn.getType() != "QEMU":
-> +        raise Exception("QMP proxy requires a QEMU driver connection not %s" %
-> +                        conn.getType())
-> +
-> +    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-> +    if os.path.exists(args.sockpath):
-> +        os.unlink(args.sockpath)
-> +    sock.bind(args.sockpath)
-> +    sock.listen(1)
-> +
-> +    while True:
-> +        client, peeraddr = sock.accept()
-> +        qmp_server(conn, dom, client, args.verbose)
-> +
-> +
-> +try:
-> +    main()
-> +    sys.exit(0)
-> +except Exception as e:
-> +    print("%s: %s" % (sys.argv[0], str(e)))
-> +    sys.exit(1)
-> -- 
-> 2.36.1
-> 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
