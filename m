@@ -2,81 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE82535BC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 10:44:04 +0200 (CEST)
-Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851A0535C30
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 10:56:39 +0200 (CEST)
+Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuVZj-0005iW-66
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 04:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60564)
+	id 1nuVlu-0001XH-1j
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 04:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nuVVj-0003Yq-EY
- for qemu-devel@nongnu.org; Fri, 27 May 2022 04:39:55 -0400
-Received: from mga12.intel.com ([192.55.52.136]:43913)
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1nuVZw-0006b9-VG; Fri, 27 May 2022 04:44:17 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:48228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nuVVh-0003Xa-Ey
- for qemu-devel@nongnu.org; Fri, 27 May 2022 04:39:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653640793; x=1685176793;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=bjyDl6kDQro5FK/KVrzr1mqiYtjFN8A1wcFN6EwTDb0=;
- b=IJUKImObZcLxUeX+DvQfRD5iWtRXyoMWVD4OTL1D/3d/bWu533quCsio
- as7K+z4C+b3Tv4wmkf/pyc9ZzxSTtEXddZ6Ss6IR4Ka2ftGEkoI9mjsAa
- qo9ctey1ptmZkxdrnDIUBrUTUbWHJbyOhM0nRGSAx2IFW/qIW/ese5hOz
- 45BDDzmERfFJeo6q+4UM04JfcrU71o09eOujUE/5OsJgLiLBqEbJVyckT
- LXDn3+MbUieHoueYgC6Dd35YLX9bUKX2bfiIdtW5Ct8Ti6n2ODK2AII7G
- 4qrbf/Ws3uggZGzuTgcqEstHnu0Um1BNakNDaz7/hkdjOCpmMet9M+uDg g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="254297779"
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; d="scan'208";a="254297779"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2022 01:39:51 -0700
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; d="scan'208";a="574449080"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.41])
- ([10.255.28.41])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2022 01:39:47 -0700
-Message-ID: <fa75cda1-311d-dcd7-965d-c553700c5303@intel.com>
-Date: Fri, 27 May 2022 16:39:45 +0800
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1nuVZu-0004IJ-8w; Fri, 27 May 2022 04:44:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
+ Content-Type; bh=A7AfDvEKOzcXe2wjynEzvJOR+qT0yw5l49hGQv099JQ=; b=wxsmhDk9MWA6
+ iqOEA1E9gx7K83lGlCpKeEem7q8fJqXhIQLww/hnDueHzd80k0m8so/U8DmsMIQtsxyT3lrhU4Azr
+ tCwyGqfTcetMdytokLjIa+ZfLkyI9gds6BZ5eqQ4f6brYFPPxfBK8vMzKOITlC2R083w0XHFIRBMj
+ RF9Yk=;
+Received: from [192.168.16.194] (helo=iris.sw.ru)
+ by relay.virtuozzo.com with esmtp (Exim 4.94.2)
+ (envelope-from <den@openvz.org>)
+ id 1nuVY5-000C27-Qj; Fri, 27 May 2022 10:43:38 +0200
+From: "Denis V. Lunev" <den@openvz.org>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 1/1] nbd: trace long NBD operations
+Date: Fri, 27 May 2022 10:43:48 +0200
+Message-Id: <20220527084348.68911-1-den@openvz.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 22/36] i386/tdx: Track RAM entries for TDX VM
-Content-Language: en-US
-To: Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- isaku.yamahata@intel.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-23-xiaoyao.li@intel.com>
- <20220524073729.xkk6s4tjkzm77wwz@sirius.home.kraxel.org>
- <5e457e0b-dc23-9e5b-de89-0b137e2baf7f@intel.com>
- <20220526184826.GA3413287@ls.amr.corp.intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220526184826.GA3413287@ls.amr.corp.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=xiaoyao.li@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
+ helo=relay.virtuozzo.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,66 +63,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/2022 2:48 AM, Isaku Yamahata wrote:
-> On Thu, May 26, 2022 at 03:33:10PM +0800,
-> Xiaoyao Li <xiaoyao.li@intel.com> wrote:
-> 
->> On 5/24/2022 3:37 PM, Gerd Hoffmann wrote:
->>> I think all this can be simplified, by
->>>     (1) Change the existing entry to cover the accepted ram range.
->>>     (2) If there is room before the accepted ram range add a
->>>         TDX_RAM_UNACCEPTED entry for that.
->>>     (3) If there is room after the accepted ram range add a
->>>         TDX_RAM_UNACCEPTED entry for that.
->>
->> I implement as below. Please help review.
->>
->> +static int tdx_accept_ram_range(uint64_t address, uint64_t length)
->> +{
->> +    uint64_t head_start, tail_start, head_length, tail_length;
->> +    uint64_t tmp_address, tmp_length;
->> +    TdxRamEntry *e;
->> +    int i;
->> +
->> +    for (i = 0; i < tdx_guest->nr_ram_entries; i++) {
->> +        e = &tdx_guest->ram_entries[i];
->> +
->> +        if (address + length < e->address ||
->> +            e->address + e->length < address) {
->> +                continue;
->> +        }
->> +
->> +        /*
->> +         * The to-be-accepted ram range must be fully contained by one
->> +         * RAM entries
->> +         */
->> +        if (e->address > address ||
->> +            e->address + e->length < address + length) {
->> +            return -EINVAL;
->> +        }
->> +
->> +        if (e->type == TDX_RAM_ADDED) {
->> +            return -EINVAL;
->> +        }
->> +
->> +        tmp_address = e->address;
->> +        tmp_length = e->length;
->> +
->> +        e->address = address;
->> +        e->length = length;
->> +        e->type = TDX_RAM_ADDED;
->> +
->> +        head_length = address - tmp_address;
->> +        if (head_length > 0) {
->> +            head_start = e->address;
->> +            tdx_add_ram_entry(head_start, head_length, TDX_RAM_UNACCEPTED);
-> 
-> tdx_add_ram_entry() increments tdx_guest->nr_ram_entries.  I think it's worth
-> for comments why this is safe regarding to this for-loop.
+At the moment there are 2 sources of lengthy operations if configured:
+* open connection, which could retry inside and
+* reconnect of already opened connection
+These operations could be quite lengthy and cumbersome to catch thus
+it would be quite natural to add trace points for them.
 
-The for-loop is to find the valid existing RAM entry (from E820 table).
-It will update the RAM entry and increment tdx_guest->nr_ram_entries 
-when the initial RAM entry needs to be split. However, once find, the 
-for-loop is certainly stopped since it returns unconditionally.
+This patch is based on the original downstream work made by Vladimir.
+
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Eric Blake <eblake@redhat.com>
+CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Hanna Reitz <hreitz@redhat.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/nbd.c             | 11 ++++++++---
+ block/trace-events      |  2 ++
+ nbd/client-connection.c |  2 ++
+ nbd/trace-events        |  3 +++
+ 4 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/block/nbd.c b/block/nbd.c
+index 6085ab1d2c..f1a473d36b 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -371,6 +371,7 @@ static bool nbd_client_connecting(BDRVNBDState *s)
+ /* Called with s->requests_lock taken.  */
+ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+ {
++    int ret;
+     bool blocking = s->state == NBD_CLIENT_CONNECTING_WAIT;
+ 
+     /*
+@@ -380,6 +381,8 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+     assert(nbd_client_connecting(s));
+     assert(s->in_flight == 1);
+ 
++    trace_nbd_reconnect_attempt(s->bs->in_flight);
++
+     if (blocking && !s->reconnect_delay_timer) {
+         /*
+          * It's the first reconnect attempt after switching to
+@@ -401,7 +404,7 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+     }
+ 
+     qemu_mutex_unlock(&s->requests_lock);
+-    nbd_co_do_establish_connection(s->bs, blocking, NULL);
++    ret = nbd_co_do_establish_connection(s->bs, blocking, NULL);
+     qemu_mutex_lock(&s->requests_lock);
+ 
+     /*
+@@ -410,6 +413,8 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+      * this I/O request (so draining removes all timers).
+      */
+     reconnect_delay_timer_del(s);
++
++    trace_nbd_reconnect_attempt_result(ret, s->bs->in_flight);
+ }
+ 
+ static coroutine_fn int nbd_receive_replies(BDRVNBDState *s, uint64_t handle)
+@@ -1856,8 +1861,8 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
+         goto error;
+     }
+ 
+-    s->reconnect_delay = qemu_opt_get_number(opts, "reconnect-delay", 0);
+-    s->open_timeout = qemu_opt_get_number(opts, "open-timeout", 0);
++    s->reconnect_delay = qemu_opt_get_number(opts, "reconnect-delay", 300);
++    s->open_timeout = qemu_opt_get_number(opts, "open-timeout", 300);
+ 
+     ret = 0;
+ 
+diff --git a/block/trace-events b/block/trace-events
+index 549090d453..caab699c22 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -172,6 +172,8 @@ nbd_read_reply_entry_fail(int ret, const char *err) "ret = %d, err: %s"
+ nbd_co_request_fail(uint64_t from, uint32_t len, uint64_t handle, uint16_t flags, uint16_t type, const char *name, int ret, const char *err) "Request failed { .from = %" PRIu64", .len = %" PRIu32 ", .handle = %" PRIu64 ", .flags = 0x%" PRIx16 ", .type = %" PRIu16 " (%s) } ret = %d, err: %s"
+ nbd_client_handshake(const char *export_name) "export '%s'"
+ nbd_client_handshake_success(const char *export_name) "export '%s'"
++nbd_reconnect_attempt(int in_flight) "in_flight %d"
++nbd_reconnect_attempt_result(int ret, int in_flight) "ret %d in_flight %d"
+ 
+ # ssh.c
+ ssh_restart_coroutine(void *co) "co=%p"
+diff --git a/nbd/client-connection.c b/nbd/client-connection.c
+index 2a632931c3..a5ee82e804 100644
+--- a/nbd/client-connection.c
++++ b/nbd/client-connection.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "trace.h"
+ 
+ #include "block/nbd.h"
+ 
+@@ -210,6 +211,7 @@ static void *connect_thread_func(void *opaque)
+             object_unref(OBJECT(conn->sioc));
+             conn->sioc = NULL;
+             if (conn->do_retry && !conn->detached) {
++                trace_nbd_connect_iteration(timeout);
+                 qemu_mutex_unlock(&conn->mutex);
+ 
+                 sleep(timeout);
+diff --git a/nbd/trace-events b/nbd/trace-events
+index c4919a2dd5..bdadfdc82d 100644
+--- a/nbd/trace-events
++++ b/nbd/trace-events
+@@ -73,3 +73,6 @@ nbd_co_receive_request_decode_type(uint64_t handle, uint16_t type, const char *n
+ nbd_co_receive_request_payload_received(uint64_t handle, uint32_t len) "Payload received: handle = %" PRIu64 ", len = %" PRIu32
+ nbd_co_receive_align_compliance(const char *op, uint64_t from, uint32_t len, uint32_t align) "client sent non-compliant unaligned %s request: from=0x%" PRIx64 ", len=0x%" PRIx32 ", align=0x%" PRIx32
+ nbd_trip(void) "Reading request"
++
++# client-connection.c
++nbd_connect_iteration(int in_flight) "timeout %d"
+-- 
+2.32.0
 
 
