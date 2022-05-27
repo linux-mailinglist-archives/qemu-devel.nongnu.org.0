@@ -2,105 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FD9536821
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:36:37 +0200 (CEST)
-Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39401536834
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:46:55 +0200 (CEST)
+Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nughI-00088L-Pc
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56838)
+	id 1nugrF-0003YO-B4
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:46:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nufgT-0004JM-GH
- for qemu-devel@nongnu.org; Fri, 27 May 2022 15:31:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21072)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nugp1-00022U-Gi
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 16:44:35 -0400
+Received: from mout.gmx.net ([212.227.17.21]:53433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nufgR-0007Ey-8f
- for qemu-devel@nongnu.org; Fri, 27 May 2022 15:31:40 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24RJ7Yng021978
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 19:31:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=mQxkNWxa9TQyIsCngDa9qqIb6UocxuP2tej9FBWOywU=;
- b=JvHHwIFoHx35vX81JZpKqxy+drNkaHQUr+uF6E1pd9ohwLytDkM/ai0esrS6w8kl/kSK
- i6dfA6QdW5wog80iMvdK0YU+lw27wNRZPv9JwGILw93X8uY4Gj1Y8Ojfu4Pu8qQKulYP
- bP8UawllnlJQZbPegVvt6p1zfSY8H2ZlEl8uRujH+lrW2av8nqagvUgQePa7tQsnw/ea
- ZN6cnFr3jaFfdxezbWkHXHzP+1j8ulrhUlAp7674Li1aWWkj//3/fjd5QsYqpfM5QKcg
- 7eqTE7l6aIy4F84ftMWSuMmEfspioxSlP/YBxl79GaXNrjtzwFYGO1oJpzC/rKya9oUb qg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb46trj6h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 19:31:29 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24RJSb3b009697
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 19:31:29 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gb46trj6e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 May 2022 19:31:29 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24RJHFQJ010112;
- Fri, 27 May 2022 19:31:28 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma02dal.us.ibm.com with ESMTP id 3g93v8ubcj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 May 2022 19:31:28 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 24RJVROV31719874
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 May 2022 19:31:27 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6D23378063;
- Fri, 27 May 2022 19:31:27 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3FE3C7805C;
- Fri, 27 May 2022 19:31:27 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 27 May 2022 19:31:27 +0000 (GMT)
-Message-ID: <7b6d1edf-882f-a369-67c9-5ed5f1d7ce51@linux.ibm.com>
-Date: Fri, 27 May 2022 15:31:26 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nugoz-0002E0-0C
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 16:44:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1653684269;
+ bh=gQBvQ3PSfW5tNU0Xh/gUwVZ5KSRw+UVE+dgojsF6mkQ=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=e0y9HHY7a5O9lF6HG0ILcu4frnSqDX2HRVlolhphQRo4/BR/SGitkoshRu2mfwpIm
+ d0AIzWUD2ajEiAKr1GR1OpX/oMR3oP20w54g+z+WQ93D2nausv0qeF8UVmlAAqxtZx
+ 5G5sQaNYJunc3jWVmy0k28ynQN1nVlUixH8oRXho=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.153.1]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Ma24y-1oHoGu3YGa-00Vzu3; Fri, 27
+ May 2022 22:44:28 +0200
+Date: Fri, 27 May 2022 22:44:26 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: dave.anglin@bell.net
+Subject: Re: [PATCH v2] linux-user: Adjust child_tidptr on set_tid_address()
+ syscall
+Message-ID: <YpE4KnMXyg/2hgy4@p100>
+References: <YpDyWAr/MYl3mizU@p100>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 0/2] backend/tpm: Resolve issue with TPM 2 DA lockout
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-References: <20220527173058.226210-1-stefanb@linux.ibm.com>
- <CAMxuvax1PkLZb+Ms6n1wCyd8hHFsPQwi3xaM+RM0c1x7imQAzA@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <CAMxuvax1PkLZb+Ms6n1wCyd8hHFsPQwi3xaM+RM0c1x7imQAzA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 76CL-IuHpbo9cEvNotbflDX0UJznyFZ9
-X-Proofpoint-GUID: Aq9pNjP8hEAYSv8eY_u4D-IFYo7cbFNE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-27_05,2022-05-27_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- mlxlogscore=999 clxscore=1015 lowpriorityscore=0 malwarescore=0
- adultscore=0 phishscore=0 bulkscore=0 suspectscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205270093
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YpDyWAr/MYl3mizU@p100>
+X-Provags-ID: V03:K1:2AfHRCDpmQZkNqQyay3ydBFoqyD1CnlBFQE48zSv5WWElutbQSl
+ yL86j1t8nS0PySkn9jelyEQMJTN4GN0yh6X+C96sAhXSjUweisjmbSldKjoIwHSvCEGvPnp
+ BuWE2opC2B/HV4qmbbFJBVdNEPBJkaX7++pcvsPnznxUYFRucjijy9Onw97AhhTYNNAvuqT
+ FqxeZL3gb9YceeCwcX/vQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FK69DekUdLY=:8Fz8/2WPbF2gqslQJtOpja
+ KOAgwjozUtKK8Xj0oPgnIHegNXX4W6+S9PHX3I0yyx2yzud841sSvFM1PKIGwaF4fvvrWOZI6
+ oItjBKFwPoboKuSzS9r2X7214omLnx4OcQEOdNqt7EGmZQCSkK2EXu2DzlKFoAS9gaRILBDGs
+ o5ONs4NPAFtP4reIEQGABbnz7PTSdsCLzquJHBvc+CsTDjs7Qoo2fJK+m3br+15pvrBPhQAYe
+ 6jeWp+T7psxFJkchL4wgaEv7Fats1hq83l71hwzdLUh8aX23/cQM79RWgWf+ziKkFM/MAPL4q
+ c3bm1FfxEc2eK4FqRrai1jy9/RPzNSbE5EvGbzCtt816KulkFSOW4jnbqiZO5n6BauFxESOzn
+ A2W6lfD+zsBP2g6QeeFBhjZm33giTPQV2gpkLZdTuvmCdqfrcFErHyoXiMe/cZBLukSRlbQFF
+ PHPogXyFJetfb4ynbLVAIUcg04HyZaSw9mGmzYKlIa/bl9gTjswWnJ6bKKCt8Xg5Z/xqVUnTf
+ Sr1o3kHwoH5Z4jHjch5G6Wu5166lTn0f3d1wpX6w5Rc01VvRM03U0VVNQF24FCMIU929JfMTc
+ Ln+JJRa86q1CN1FWY+rAKLINfXd56+I4pQkpB+148VEUzGL8NtBEEs92rFZnv9y4oKIswJ6kO
+ 73dlhkhVDKkzEhvpmQuxRW7Gzkj3rhX6GJMIVlc+zMfnTDNftiaRp/spq758lNMT4G6ueLxFf
+ A/De7ha2PaqxKMXtTGyILcIR34nKM8xXgYA6P2nc7uPOmHMcHWffeDBLUW+CwGC+Jah9IWlPb
+ LCTvQzN+X7bBLxppD3ewkHEi7ZXA0VDDoj9tpmBXTjS/fua3FeOum9o/hHD3i/7RHUx1zeBQ+
+ 1gzGNGYVwLoJ3R50uBHbb68CEHFPol7RqItqdcQmHUQyl+yHyAhQ8DYjGgLUO1uh9yroOWkIb
+ kxZBFY+d3R5pgvAb2Zpzpgf8qVO7N5uIgkOJ/a1RMJl0IrwbVbCcjlEgPNszVqr/0dZKQ032K
+ mepBD82CWZvFt+mytz6sj8d+Fd6mdYpiK/6vruqW7HX2iLfhBrSfKXK46AOzRNC14TNZuNpdq
+ OxMTYkHh5FLasfY4n+OXO2OvcnXH9e3ZmFMJws2pjZuneT+gBIc6G2wrA==
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -118,53 +86,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I think the previous patch was wrong, since we just emulate writing to
+child_tidptr. Below is updated RFC patch.
 
+=2D--
+[PATCH] linux-user: Adjust child_tidptr on set_tid_address()
 
-On 5/27/22 15:24, Marc-André Lureau wrote:
-> Hi
-> 
-> On Fri, May 27, 2022 at 7:36 PM Stefan Berger <stefanb@linux.ibm.com> wrote:
->>
->> This series of patches resolves an issue with a TPM 2's dictionary attack
->> lockout logic being triggered upon well-timed VM resets. Normally, the OS
->> TPM driver sends a TPM2_Shutdown to the TPM 2 upon reboot and before a VM
->> is reset. However, the OS driver cannot do this when the user resets a VM.
->> In this case QEMU must send the command because otherwise several well-
->> timed VM resets will trigger the TPM 2's dictionary attack (DA) logic and
->> it will then refuse to do certain key-related operations until the DA
->> logic has timed out.
-> 
-> How does real hardware deal with that situation? Shouldn't this
-> "shutdown"/reset logic be implemented on swtpm side instead, when
-> CMD_INIT is received? (when the VM is restarted)
-I don't know what real hardware can actually do when the machine is 
-reset, presumably via some reset line, or the power is removed. Probably 
-it has no way to react to this.
+Keep track of the new child tidptr given by a set_tid_address() syscall.
 
-Typically the OS driver has to send the command and since it cannot do 
-this I would defer it to the TPM emulator reset handler code, so the 
-next layer down.
+Signed-off-by: Helge Deller <deller@gmx.de>
 
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f65045efe6..9114c611a0 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -320,9 +320,6 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
+ #ifdef __NR_exit_group
+ _syscall1(int,exit_group,int,error_code)
+ #endif
+-#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
+-_syscall1(int,set_tid_address,int *,tidptr)
+-#endif
+ #if defined(__NR_futex)
+ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+           const struct timespec *,timeout,int *,uaddr2,int,val3)
+@@ -12200,9 +12197,14 @@ static abi_long do_syscall1(void *cpu_env, int nu=
+m, abi_long arg1,
+     }
+ #endif
 
+-#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
++#if defined(TARGET_NR_set_tid_address)
+     case TARGET_NR_set_tid_address:
+-        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
++    {
++        TaskState *ts =3D cpu->opaque;
++        ts->child_tidptr =3D arg1;
++        /* do not call host set_tid_address() syscall, instead return tid=
+() */
++        return get_errno(sys_gettid());
++    }
+ #endif
 
-> 
->>
->> Regards,
->>    Stefan
->>
->> Stefan Berger (2):
->>    backends/tpm: Record the last command sent to the TPM
->>    backends/tpm: Send TPM2_Shutdown upon VM reset
->>
->>   backends/tpm/tpm_emulator.c | 44 +++++++++++++++++++++++++++++++++++++
->>   backends/tpm/tpm_int.h      |  3 +++
->>   backends/tpm/tpm_util.c     |  9 ++++++++
->>   backends/tpm/trace-events   |  1 +
->>   include/sysemu/tpm_util.h   |  3 +++
->>   5 files changed, 60 insertions(+)
->>
->> --
->> 2.35.3
->>
-> 
+     case TARGET_NR_tkill:
 
