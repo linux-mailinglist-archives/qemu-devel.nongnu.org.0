@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9069535DF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 12:14:42 +0200 (CEST)
-Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAD6535E66
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 12:36:28 +0200 (CEST)
+Received: from localhost ([::1]:45482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuWzR-00015e-Ka
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 06:14:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52946)
+	id 1nuXKV-0005RI-HK
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 06:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1nuWw9-00085B-2E; Fri, 27 May 2022 06:11:17 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:41676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1nuWw6-0002Dv-Rn; Fri, 27 May 2022 06:11:16 -0400
-Received: by mail-pg1-x535.google.com with SMTP id e66so3534162pgc.8;
- Fri, 27 May 2022 03:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QgXzX7rqFIzOie8yKk0i9BQTkjHLIySUe6k265LMzP8=;
- b=X2N7rpKLxjBbEwg8nfgR9vOk0fJstVO1rcMShnSOm2QYOWkRWSvWj3pz+RZxvyzR/b
- 5yJRxMrHsJkPOrT3qDYQzv3gEP6BTsKa4lCCe8+4QHFvngpWlEeGHPQxFjij8P49/NYF
- B4ODYfTH7tKfLZt+0DWTS5zprn+vtZk8CBd2W9vHUKBNQ8YV/viTo06kqEo7Vr5I0PCG
- vjoeZNxLNlc10+hPsfCkyZXdZ20UGZSjMb4CugFmHknubi9DZwAxhmLfKwE92T7U/nW2
- zCFr0ppqP65BYE818H5yaF4+/qZqgq85N15HKOk3iPd3itdEew2j4EtEZJnvZKBcQ+ii
- ZaGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QgXzX7rqFIzOie8yKk0i9BQTkjHLIySUe6k265LMzP8=;
- b=OChryv8dmzQ4FnL0Elq0mZfQEpAYNY+aTMZDwrAAHrnNFl6iSifPTTYgWSeDUhfTzf
- l7MurzMPAvRgIOVAJxS5sJ6+8ri2f7bMACaRAj6xYbA4jMywYidda0erMtDE3UR+7swv
- XpPJxdW86FN/eqQb0CzQdHrz/aeWscvvD8W/cJd7GGrJnSIqCbYA7wn4nvfdsDPTT7mO
- 8LWIQihAL9lL90jDm41cC50eohL53//nPClc/OiL/QDM+Y7YUb3g5CUPlhsDxc6zbL9g
- SWDxW38U8hfSU3tvSshBfLOlkCFCgV9804Dk7GSqGpVqc/JwtU5CV5kY0ApRt3Ep3r4b
- cyNg==
-X-Gm-Message-State: AOAM531oC0HyjgKeSroF3g7HH5RGOtQUGQKURsmCi8HOmznZwfEcCwlR
- CZZgQdBehv6z19+d+s8rD5bIM1rM1O8UuCAP
-X-Google-Smtp-Source: ABdhPJxmpxg/sN51/qmD2cqglkcuAs3rVCsKsk3OrhJuX48LfpVN/48lZmJlWJShpIgUNnteuOmiSw==
-X-Received: by 2002:a65:6cc9:0:b0:399:26da:29af with SMTP id
- g9-20020a656cc9000000b0039926da29afmr36483443pgw.489.1653646272239; 
- Fri, 27 May 2022 03:11:12 -0700 (PDT)
-Received: from localhost.localdomain ([14.139.108.62])
- by smtp.gmail.com with ESMTPSA id
- z4-20020a170902708400b00161478027f5sm3183324plk.150.2022.05.27.03.11.09
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 27 May 2022 03:11:11 -0700 (PDT)
-From: Gautam Agrawal <gautamnagrawal@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, thuth@redhat.com, cohuck@redhat.com,
- david@redhat.com, richard.henderson@linaro.org,
- Gautam Agrawal <gautamnagrawal@gmail.com>
-Subject: [PATCH] tests/tcg/s390x: Test overflow conditions
-Date: Fri, 27 May 2022 15:41:04 +0530
-Message-Id: <20220527101104.26679-1-gautamnagrawal@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1nuX6e-0005ve-DE
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 06:22:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1nuX6Y-0004dA-EM
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 06:22:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653646921;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QIxm+cF+GHIGPaStoS+t5g+oKyUQgOtqzjH9oUuXyro=;
+ b=ZD6u/6n78mAZiiSrvkDnUkw4zvYXivSvMQgJcyfLU1BgVAsbNDPyN/xgV1+DxxiTQttK1P
+ OX5jvUjXPfV1oKRJH+FV4Lu//aZCQWNEKmR4rskOTmmGEYuLCTqxklkTp6h/nre0HDJ1rP
+ OLBgdveQQUbHpbNJ+lY2hniLHxI6BoM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-124-ZdmPYtZUOj6L5Q-Da5Wrdg-1; Fri, 27 May 2022 06:20:44 -0400
+X-MC-Unique: ZdmPYtZUOj6L5Q-Da5Wrdg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4729985A5BC
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 10:20:44 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A4909C27E98;
+ Fri, 27 May 2022 10:20:42 +0000 (UTC)
+Date: Fri, 27 May 2022 12:20:39 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [libvirt PATCH] tools: add virt-qmp-proxy for proxying QMP
+ clients to libvirt QEMU guests
+Message-ID: <YpCl9/EMwenZUxJs@angien.pipo.sk>
+References: <20220527094758.604621-1-berrange@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=gautamnagrawal@gmail.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220527094758.604621-1-berrange@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,95 +84,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test to check for overflow conditions in s390x.
-This patch is based on the following patches :
-* https://git.qemu.org/?p=qemu.git;a=commitdiff;h=5a2e67a691501
-* https://git.qemu.org/?p=qemu.git;a=commitdiff;h=fc6e0d0f2db51
- 
-Signed-off-by: Gautam Agrawal <gautamnagrawal@gmail.com>
----
- tests/tcg/s390x/Makefile.target |  1 +
- tests/tcg/s390x/overflow.c      | 58 +++++++++++++++++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 tests/tcg/s390x/overflow.c
+On Fri, May 27, 2022 at 10:47:58 +0100, Daniel P. Berrangé wrote:
+> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
+> exposed in virsh. It is not especially pleasant, however, using the raw
+> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
+> exposes a human friendly interactive shell. It is not possible to use
+> this with libvirt managed guest, however, since only one client can
+> attach to he QMP socket at any point in time.
+> 
+> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
+> socket and listens for incoming client connections, speaking QMP on
+> the connected socket. It will forward any QMP commands received onto
+> the running libvirt QEMU guest, and forward any replies back to the
+> QMP client.
+> 
+>   $ virsh start demo
+>   $ virt-qmp-proxy demo demo.qmp &
+>   $ qmp-shell demo.qmp
+>   Welcome to the QMP low-level shell!
+>   Connected to QEMU 6.2.0
+> 
+>   (QEMU) query-kvm
+>   {
+>       "return": {
+>           "enabled": true,
+>           "present": true
+>       }
+>   }
+> 
+> Note this tool of course has the same risks as the raw libvirt
+> QMP passthrough. It is safe to run query commands to fetch information
+> but commands which change the QEMU state risk disrupting libvirt's
+> management of QEMU, potentially resulting in data loss/corruption in
+> the worst case.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+> 
+> CC'ing QEMU since this is likely of interest to maintainers and users
+> who work with QEMU and libvirt
+> 
+> Note this impl is fairly crude in that it assumes it is receiving
+> the QMP commands linewise one at a time. None the less it is good
+> enough to work with qmp-shell already, so I figured it was worth
+> exposing to the world. It also lacks support for forwarding events
+> back to the QMP client.
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 3124172736..7f86de85b9 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -16,6 +16,7 @@ TESTS+=shift
- TESTS+=trap
- TESTS+=signals-s390x
- TESTS+=branch-relative-long
-+TESTS+=overflow
- 
- VECTOR_TESTS=vxeh2_vs
- VECTOR_TESTS+=vxeh2_vcvt
-diff --git a/tests/tcg/s390x/overflow.c b/tests/tcg/s390x/overflow.c
-new file mode 100644
-index 0000000000..ea8a410b1a
---- /dev/null
-+++ b/tests/tcg/s390x/overflow.c
-@@ -0,0 +1,58 @@
-+#include <stdio.h>
-+
-+int overflow_add_32(int x, int y)
-+{
-+    int sum;
-+    return __builtin_add_overflow(x, y, &sum);
-+}
-+
-+int overflow_add_64(long long x, long long y)
-+{
-+    long sum;
-+    return __builtin_add_overflow(x, y, &sum);
-+}
-+
-+int overflow_sub_32(int x, int y)
-+{
-+    int sum;
-+    return __builtin_sub_overflow(x, y, &sum);
-+}
-+
-+int overflow_sub_64(long long x, long long y)
-+{
-+    long sum;
-+    return __builtin_sub_overflow(x, y, &sum);
-+}
-+
-+int a1_add = -2147483648;
-+int b1_add = -2147483648;
-+long long a2_add = -9223372036854775808ULL;
-+long long b2_add = -9223372036854775808ULL;
-+
-+int a1_sub;
-+int b1_sub = -2147483648;
-+long long a2_sub = 0L;
-+long long b2_sub = -9223372036854775808ULL;
-+
-+int main()
-+{
-+    int ret = 0;
-+
-+    if (!overflow_add_32(a1_add, b1_add)) {
-+        fprintf(stderr, "data overflow while adding 32 bits\n");
-+        ret = 1;
-+    }
-+    if (!overflow_add_64(a2_add, b2_add)) {
-+        fprintf(stderr, "data overflow while adding 64 bits\n");
-+        ret = 1;
-+    }
-+    if (!overflow_sub_32(a1_sub, b1_sub)) {
-+        fprintf(stderr, "data overflow while subtracting 32 bits\n");
-+        ret = 1;
-+    }
-+    if (!overflow_sub_64(a2_sub, b2_sub)) {
-+        fprintf(stderr, "data overflow while subtracting 64 bits\n");
-+        ret = 1;
-+    }
-+    return ret;
-+}
--- 
-2.34.1
+I originally wanted to teach the qemu tools to work with libvirt
+directly similarly how 'scripts/render_block_graph.py' from the qemu
+tree already does but I guess this is also an option.
+
+This is an option too albeit a bit more complex to set up, but on the
+other hand a bit more universal.
+
+I'll have a look at the code a bit later.
 
 
