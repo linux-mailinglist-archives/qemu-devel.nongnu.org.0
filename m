@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADBD5365EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:24:53 +0200 (CEST)
-Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2934536550
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:58:51 +0200 (CEST)
+Received: from localhost ([::1]:59198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuclg-0004Xc-KE
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
+	id 1nucMV-0001yH-0w
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nucI3-0004sN-8c
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:54:15 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54955)
+ id 1nuc8G-0002qH-0V
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:08 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nucHo-0005ii-P2
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:54:02 -0400
-Received: by mail-wm1-x334.google.com with SMTP id bg25so2865320wmb.4
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:54:00 -0700 (PDT)
+ id 1nuc8E-0003rz-FU
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:07 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id l30so6359511wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tmtlpNoCXuBTeKkixtH0g1IEh3T3xvBlICWh/r11jKc=;
- b=qTRDV/8rSM7MTli8sYleKkqUWWasvbglF294hq1Woyf4nDOagKHFVaj+bR/W4C4vfq
- 8qjXhh6Vus6u0FBJwLO/wxDsUfX6i6IVGS4ftbUyBkWUpJX6kpWHXt/PEKviI7TFLQC/
- j1StDFEsdPywV3iD2czcCGYMKb26UHrIPRUd4yeX8aTDLLgChTMz1Ys1ByTpVqHmq6EK
- VRJArKJTF4PYVYgQQUkEsPZjerr32N+OVxL2sUXn1KqrPpExkJmWHsJ4Qo1YIx0Hq2ZY
- eazY8hpPFst7lPMWYZnluXNR+EuMlk8mxRGDR2RxOL9mOBKkuQc+Rkzzu3lj0ABSrUff
- Z8SA==
+ bh=p0qk9B+orXS80H7xnfO/AqbYjsEY7R7F9OwvPTCCFHo=;
+ b=jVJj3dggJleqQYWINNChGQj7V9gNqEh7HQFUi7Y27u9mwB8RFHOR/M85sQxQ8VxcbJ
+ l8Qja3GiEuMUswzhHMqJ7YS1RO7slj8rKUd+dmvHycNjG9kDDWI45iywHtwfaw3wUUQo
+ aZKeY4OAmHL4rmTMiCfbQJWskMYP8I9vRP2mlhzaR0sOc1MSOHRHebe7CsSnxF0u8LWO
+ OH79Z4niAgGj+Iodk7n+mFq2aS1A0NEj5BOKztNhtAGELDoGPuhhQjwhFJvkAKhhSbEm
+ AVCwic149rLSInDIp3lVKOOEGF+SQmCiKggiXYIMaUNrNoRPsL6/G4mqAIZdkCePk4bg
+ 4ycA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tmtlpNoCXuBTeKkixtH0g1IEh3T3xvBlICWh/r11jKc=;
- b=Tlz67zIkFvntogxxDBW4iAufup4gBalIZhaCsQU3PjVx45a3M9yK69mWH8/z4Dt/sK
- 2s5ZV/scV9DSlt1+x+REighDLuUM538GiCATnc6xEF48P/kAodD8WseOSv1xnsw0QAlr
- BMfr33naH0X1kWIzF0SHmp9gM4prAfj/j9ElFvhiDSx/VNJq2gNGM/fwFZFQnyzyCYpx
- GQPeMc08LNSXptR+O7P+zy9/A+sSBBW/3UYyU9PgBcC4PE1Rh9ehlbS5+cri30QzQYUi
- h9cppM1nFPE2BbRHGpDDKyPzuwYIEt9HHmnr4k0BBPjZbRywVmuA8Alj6YVJ9plav7wz
- fUTw==
-X-Gm-Message-State: AOAM531y5XFNSCmwiqNwvu1WjIdz0eW6e43akyEnZ89gxesWYNdDoytH
- 5HcRWeqLzwq69Tdw+HLn+6NvAZI8vNh9tA==
-X-Google-Smtp-Source: ABdhPJwcuYO++Zh5jS38eKUP85irpTFWl1MzPOxC6RKdqGrVFvgTIwIVO5lU2yJ59r5DiXM0phWlsg==
-X-Received: by 2002:a7b:c0c6:0:b0:397:6181:f08a with SMTP id
- s6-20020a7bc0c6000000b003976181f08amr7550902wmh.75.1653666839469; 
- Fri, 27 May 2022 08:53:59 -0700 (PDT)
+ bh=p0qk9B+orXS80H7xnfO/AqbYjsEY7R7F9OwvPTCCFHo=;
+ b=gEmhR/hoIVLks4Ndg/Bge6cl8dRFc/X19egzJKCD862V0rj8bLyGv1O8Wah+kQOJr1
+ 5FdN9vhlCO2EKKfQKDLIFdEes4XxoFYiDe24wQXjWsQh+yDTGpy2m0HvyWyxJJ8NwmOD
+ eKmdV8Mb9xY+cCiyUVAC2JdPCAUzbEjVXoSoRzVqsqXdeGTEULuqRu0nv2PtETMVjXQt
+ EkUIAiDSGc2BlzUTZEUqPaHp81aTzwz2lJztV/b5SsnGNpsmYEIprhb62CFBkHEb5W2N
+ SoTCa59+Du6sXd9keB5lkOSvcTFi2sYR9AytwQ8lpkg+8Vmr9349Afg/jyfLwRHANxyD
+ /vlQ==
+X-Gm-Message-State: AOAM530lP8alFdPpfVZ/1L8RTfrD8sdtPEpVvJhCzsfITXMc5pLGMqRT
+ XYPdBjqGeWGy5wNyLn+R9ivUOA==
+X-Google-Smtp-Source: ABdhPJwEFwt2ij+cOE9TjNMtCS9SKwT0H3KOwOcLzCr729xhzxguwfgluLERM+5n+xCPw4u1vBbSSg==
+X-Received: by 2002:a05:6000:345:b0:210:2227:3ecf with SMTP id
+ e5-20020a056000034500b0021022273ecfmr246637wre.194.1653666245164; 
+ Fri, 27 May 2022 08:44:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- x5-20020a05600c21c500b0039787538c9csm2711558wmj.20.2022.05.27.08.53.57
+ x5-20020a05600c21c500b0039787538c9csm2687120wmj.20.2022.05.27.08.43.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 08:53:57 -0700 (PDT)
+ Fri, 27 May 2022 08:43:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C66F1FFCB;
+ by zen.linaroharston (Postfix) with ESMTP id 979C51FFCC;
  Fri, 27 May 2022 16:36:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -62,17 +62,18 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 19/33] configure: add missing cross compiler fallbacks
-Date: Fri, 27 May 2022 16:35:49 +0100
-Message-Id: <20220527153603.887929-20-alex.bennee@linaro.org>
+Subject: [PATCH v1 20/33] configure: handle host compiler in
+ probe_target_compiler
+Date: Fri, 27 May 2022 16:35:50 +0100
+Message-Id: <20220527153603.887929-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,41 +98,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-The arm compiler can be used for armeb, and the sparc64 compiler
-can be used for sparc.
+In preparation for handling more binaries than just cc, handle
+the case of "probe_target_compiler $cpu" directly in the function,
+setting the target_* variables based on the ones that are used to
+build QEMU.  The clang check also needs to be moved after this
+fallback.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220517092616.1272238-9-pbonzini@redhat.com>
+Message-Id: <20220517092616.1272238-10-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ configure | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index bb05e70bcc..31c1ab2579 100755
+index 31c1ab2579..addbb0fe44 100755
 --- a/configure
 +++ b/configure
-@@ -1822,6 +1822,7 @@ fi
- : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
- : ${cross_cc_alpha="alpha-linux-gnu-gcc"}
- : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
-+: ${cross_cc_armeb="$cross_cc_arm"}
- : ${cross_cc_cflags_armeb="-mbig-endian"}
- : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
- : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
-@@ -1844,9 +1845,10 @@ fi
- : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
- : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
- : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
--: ${cross_cc_cflags_sparc="-m32 -mcpu=supersparc"}
- : ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
-+: ${cross_cc_sparc="$cross_cc_sparc64"}
-+: ${cross_cc_cflags_sparc="-m32 -mcpu=supersparc"}
- : ${cross_cc_x86_64="x86_64-linux-gnu-gcc"}
- : ${cross_cc_cflags_x86_64="-m64"}
+@@ -954,10 +954,6 @@ case $git_submodules_action in
+     ;;
+ esac
  
+-if eval test -z "\${cross_cc_$cpu}"; then
+-    eval "cross_cc_${cpu}=\$cc"
+-fi
+-
+ default_target_list=""
+ mak_wilds=""
+ 
+@@ -2003,13 +1999,6 @@ probe_target_compiler() {
+   if eval test -n "\"\${cross_cc_$1}\""; then
+     if eval has "\"\${cross_cc_$1}\""; then
+       eval "target_cc=\"\${cross_cc_$1}\""
+-      case $1 in
+-        i386|x86_64)
+-          if $target_cc --version | grep -qi "clang"; then
+-            unset target_cc
+-          fi
+-          ;;
+-      esac
+     fi
+   fi
+   if eval test -n "\"\${cross_as_$1}\""; then
+@@ -2022,6 +2011,20 @@ probe_target_compiler() {
+       eval "target_ld=\"\${cross_ld_$1}\""
+     fi
+   fi
++  if test "$1" = $cpu; then
++    : ${target_cc:=$cc}
++    : ${target_as:=$as}
++    : ${target_ld:=$ld}
++  fi
++  if test -n "$target_cc"; then
++    case $1 in
++      i386|x86_64)
++        if $target_cc --version | grep -qi "clang"; then
++          unset target_cc
++        fi
++        ;;
++    esac
++  fi
+ }
+ 
+ write_target_makefile() {
 -- 
 2.30.2
 
