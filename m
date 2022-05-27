@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481955364E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:47:48 +0200 (CEST)
-Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8090D5365AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:07:47 +0200 (CEST)
+Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucBn-0008LU-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37986)
+	id 1nucV8-0005qe-HD
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc0o-0000pc-Gz
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:26 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35337)
+ id 1nuc8D-0002fc-6h
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:05 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc0m-0002TV-Rs
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:26 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id y13so9542179eje.2
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:36:24 -0700 (PDT)
+ id 1nuc8B-0003rY-L6
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:04 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ f23-20020a7bcc17000000b003972dda143eso4775330wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3nC9Ii6G0qVy/KgJCelMhSQ1EJWDkNVLGhKHdxNQ7iE=;
- b=yUSOIFRfT2PnAWtS1Sm0eMsMsjaT/ot9APZveGyNeSXgr+V72LQjGzSxa6vngBuSEe
- raWi7gEzVENdOsqCm/yrFKhm6lNMUZv4wRhs6y++gbYH99qEXC7YGJhkyEyGMY/BNV3o
- 6w0Z9vd5JRov5R1G+gbb4BuWUyYm2VatEkLlpXo7OKqOvSVrUAqbaK7fqVZ3hGS0L81l
- MhkAajRwpqmFiFSp1DUI7uBy41dsP6Uh6c+Kr9i2XPzRtMmYxPAiKqclRK5toWGWWusK
- q1br539OOxGSyrZEdlbhsC3WpIYXr3p+eoo0kGNElccYshVutEyXjq0ceyuMiPIMXu1E
- 33Bg==
+ bh=R4ZfyQsK+jLR+M+g/m37Lnp4AtCadWbvQiM1EvX9WTo=;
+ b=DObNlR7xnYMKdtAo9Y9ZtNrKhNTkVDfVe4Q3OFsh8X3/eZI8eD5F4J38Y7VMQYB5sX
+ 1UIK8cVKsVK1QibTQu92mkh7Hpu5N2rLllRwKIpT6JGNBsoG6dTu1P4C3WkWZ/UHbEwN
+ hO7AbmJizLJ0BqO20asv8S4lMPCHv+DK8vGzJHClFHXtnfR3Lijw5KnIGE0Sb0t7SSgG
+ rfbAqXh+cWxx6f9F433mKzexjeQxVyYcUa7mtHfZ4lNQEmsmyqFwemBWGdkKeTmFOdld
+ i8vSaNesyPoFJPf8RFvt4m1CL5r8e+jz2eh1Lb27uKWPEAli3cpumIjQNoDUIbzGb1G4
+ iyMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3nC9Ii6G0qVy/KgJCelMhSQ1EJWDkNVLGhKHdxNQ7iE=;
- b=2d/i4ihwrHUXq2atN3YrCZpC2OiIfiERTT73i+xMbQ2ab9rqk7bLQSjb0RIQueZeWg
- onwNkbAPS+LMua4JVa/heEL/BNgZ36PX9Huk5CuxnJu4QNggtrE2fpVdGd2wlfChtS1F
- RII2J1+bLU4/mklsXwHDgoHy1LCJtr2SqHQNatiQv8zEdcxnyNmXwbEQ3QZHw79rIIIE
- lbDOoxqFpCJg/4dZ5o6kWyIscALSLPo/OrR91V6/5QsckA7o1oJAiZB6V9j/9FxvryiX
- WYqxEG7S1rW8x/6XaDrc7jO1uCOwbwLUl7k1nyQuZwpA/nVxOnkIeKzqlA2NPbsXZgFz
- 2pyQ==
-X-Gm-Message-State: AOAM530PPtVGG0akL+GZP89Di4DitXGD8c1E/wIfM3XkIYYikM1HHZmB
- 7oPBYGvHeuTDnjd/AzYUXTIIKg==
-X-Google-Smtp-Source: ABdhPJxHZaF1iLLJ2nd9x8UYGcTk8QoTK76LCI10SR2ak5IL1G29P+yUNF33QvX2qLJvh6pje0jl+A==
-X-Received: by 2002:a17:906:478b:b0:6f8:5850:4da9 with SMTP id
- cw11-20020a170906478b00b006f858504da9mr38356085ejc.619.1653665783469; 
- Fri, 27 May 2022 08:36:23 -0700 (PDT)
+ bh=R4ZfyQsK+jLR+M+g/m37Lnp4AtCadWbvQiM1EvX9WTo=;
+ b=NyBVj3K9MBffgiRGy6cU/bbPD0pxuaCLSSYXkEe99dsAcjq9gByZb+VGBz4nZ98vLC
+ pDBHxG/ORBPd4YI6WyUkQ3KXkY6q9rZ0Vet8dWackFgXEhZEJEi/2u1HCsSDXLXvTGYN
+ OMmRFBzopvQhc3wIgPP2cNb6E+MERHz24ID/mI/1Ctp+UAwW3ZduNRKQAZgzGaIEmTQL
+ 0SHDIg+YqeBQZZqE0ylmPiyOAQ9EyAuyo7oBvYYBwEmPCkdJZaos32UdHNST3aGcbY7t
+ shjSAidbcxGe7L1r/oZ8c+K/BJMOOcsrWvPb2564hHQMq1h5Y7wgeXIaXIyhtxlABu4s
+ biew==
+X-Gm-Message-State: AOAM530brUVLK7V9iad9NmNhxFSqrCwHmwtjXtVWwFZbz/7unPfgspqX
+ gUs4LSGUd/Q+lHI0ON4zCa4m1g==
+X-Google-Smtp-Source: ABdhPJwT3fN6bEAAKDp5QteW3DNi2mZsqP4iJAtGgvH6cvLfme0GM/IIV+NnazVBD4xmiNSUIdnQQg==
+X-Received: by 2002:a05:600c:2e14:b0:397:5a83:6578 with SMTP id
+ o20-20020a05600c2e1400b003975a836578mr7535176wmf.201.1653666242196; 
+ Fri, 27 May 2022 08:44:02 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- l11-20020a170906a40b00b006f3ef214ddbsm1580562ejz.65.2022.05.27.08.36.13
+ i11-20020a5d584b000000b0020d106c0386sm1990433wrf.89.2022.05.27.08.43.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 08:36:16 -0700 (PDT)
+ Fri, 27 May 2022 08:43:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 252061FFC6;
+ by zen.linaroharston (Postfix) with ESMTP id 3034B1FFC7;
  Fri, 27 May 2022 16:36:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>
-Subject: [PATCH v1 14/33] build: add a more generic way to specify make->ninja
- dependencies
-Date: Fri, 27 May 2022 16:35:44 +0100
-Message-Id: <20220527153603.887929-15-alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 15/33] build: do a full build before running TCG tests
+Date: Fri, 27 May 2022 16:35:45 +0100
+Message-Id: <20220527153603.887929-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,54 +98,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Let any make target specify ninja goals that needs to be built for it
-(though selecting the goals is _not_ recursive on depending targets)
-instead of having a custom mechanism only for "make check" and "make
-bench".
+TCG tests need both QEMU and firmware to be built, so do "ninja all" before
+trying to run them.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220517092616.1272238-4-pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220517092616.1272238-5-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- Makefile              | 3 +--
- scripts/mtest2make.py | 8 ++++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ tests/Makefile.include | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index fad312040f..3c0d89057e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -145,8 +145,7 @@ NINJAFLAGS = $(if $V,-v) $(if $(MAKE.n), -n) $(if $(MAKE.k), -k0) \
-         $(filter-out -j, $(lastword -j1 $(filter -l% -j%, $(MAKEFLAGS)))) \
-         -d keepdepfile
- ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
--ninja-cmd-goals += $(foreach t, $(.check.build-suites), $(.check-$t.deps))
--ninja-cmd-goals += $(foreach t, $(.bench.build-suites), $(.bench-$t.deps))
-+ninja-cmd-goals += $(foreach g, $(MAKECMDGOALS), $(.ninja-goals.$g))))
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index ec84b2ebc0..72ce0561f4 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -57,7 +57,7 @@ $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/
+         "BUILD","$* guest-tests")
  
- makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
- # "ninja -t targets" also lists all prerequisites.  If build system
-diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index 304634b71e..0fe81efbbc 100644
---- a/scripts/mtest2make.py
-+++ b/scripts/mtest2make.py
-@@ -81,12 +81,12 @@ def emit_prolog(suites, prefix):
+ .PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
+-$(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-% $(if $(CONFIG_PLUGIN),test-plugins)
++$(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
+ 	$(call quiet-command, \
+            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
+                         TARGET="$*" SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run, \
+@@ -74,6 +74,7 @@ $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
+ build-tcg: $(BUILD_TCG_TARGET_RULES)
  
- def emit_suite_deps(name, suite, prefix):
-     deps = ' '.join(suite.deps)
--    targets = f'{prefix}-{name} {prefix}-report-{name}.junit.xml {prefix} {prefix}-report.junit.xml'
-+    targets = [f'{prefix}-{name}', f'{prefix}-report-{name}.junit.xml', f'{prefix}', f'{prefix}-report.junit.xml',
-+               f'{prefix}-build']
-     print()
-     print(f'.{prefix}-{name}.deps = {deps}')
--    print(f'ifneq ($(filter {prefix}-build {targets}, $(MAKECMDGOALS)),)')
--    print(f'.{prefix}.build-suites += {name}')
--    print(f'endif')
-+    for t in targets:
-+        print(f'.ninja-goals.{t} += $(.{prefix}-{name}.deps)')
+ .PHONY: check-tcg
++.ninja-goals.check-tcg = all $(if $(CONFIG_PLUGIN),test-plugins)
+ check-tcg: $(RUN_TCG_TARGET_RULES)
  
- def emit_suite(name, suite, prefix):
-     emit_suite_deps(name, suite, prefix)
+ .PHONY: clean-tcg
 -- 
 2.30.2
 
