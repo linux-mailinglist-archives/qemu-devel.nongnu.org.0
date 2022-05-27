@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C358D5367C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 21:58:54 +0200 (CEST)
-Received: from localhost ([::1]:51976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D0B5367CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:00:51 +0200 (CEST)
+Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nug6n-0002ZB-SO
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 15:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45680)
+	id 1nug8h-00057x-2L
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nueff-0001te-0J
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:47 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:39739)
+ id 1nuefU-0001i0-CI
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:38 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:34730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nuefR-0005KA-67
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:46 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- x2-20020a17090a1f8200b001e07a64c461so7794849pja.4
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:26:32 -0700 (PDT)
+ id 1nuefS-0005KK-35
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:26:36 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id g184so4612705pgc.1
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4ZvF0gCpjgCEEUQm15Do1bYuoKhukCy6DHKNjEq+MH8=;
- b=GtZ5o1cAgAxU8VF6gXTRaVzNjjLv/ZbiQBHqzNyOBg8pBVhlyOGFosdv+BBPCZA4YC
- GZ+TEafQz3F7j6qeY7x1WMS6dq++VYFYcvNnN2Hm+DoBwfR4FndCJRg1LSAFdvmNg8pL
- zrEz1fW5U6jsBtTnYJMgDQHSQOnlmr1FZ1X9r06fHvwRdFgtFDgomKt1gEYs+iewDsbY
- 32clOGvtb2oCtiBqeI9aLTPs+6Yl/X4GZ3avjHWkUh73vXwETIkghfeFrgOnarcyZqFF
- qHruRvpeb9vWLZwwD1qr04J4cJdOdNtbBUGCmXiaAU9G0FppzvhMU6oftqirQsSz/NvL
- PLEQ==
+ bh=LJ/bn0dQ7w7iomM0tHW+Krt40cu7S6e9MMRGqwOxqTY=;
+ b=qh1KE3sbKoOUsqTCc471qnzcuOB0MgoRMwzG7Jq9nEr6Roai2LrxWQZsbhhNhFkqrm
+ Ky1O131vu/Ls1Cfmh8lBb0yQdV1F1rgFyruY08R+8mSs9UmXYnSrH/bJYvB8NjIWnLF/
+ kzBSrkcEuO26t/0Ut5lMUYmoxCPwBdx0bAWo8RbO6Kw/1H2T46VuprS/uFjdnfWGtW8I
+ yDCjOi1OSXBBw4KR2U519/rKhHMU8GFdsQAvxGqj1Q9ax1LKx/iD3C+0IePu7tlJkazo
+ X0TzHNTnhcQkLoYmYsb93HcPwIpgBjeB/2pHM9e479BKXuU8s6snfV0QbsnR7druz4Hp
+ QlhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4ZvF0gCpjgCEEUQm15Do1bYuoKhukCy6DHKNjEq+MH8=;
- b=DVVqxKGrlMnmaarETmXd+rBIzdT3MNwj05I0Dln9K0B1jUDi8vJpQMQOO4c6j7443Q
- lxpyQ/JezCb03asuzw1SwOzW6PcmtGqy2Ka6sjhtNYcx08GfHKJ0C6hdazUtBXkdcM/r
- iYB6VKCaYTPv9CTiiaTdzsR3tQeNeJJDzclENlOgBlrN69N6FH1SLEER4b1EvveYGSaB
- l4RsaV9LPg0L8pV2FfzJpYSOVnBXxtZpdfhn6uLAM49ihPfj7VXTXiVB/Bnapml8XU7/
- +atRWe+QmbuBEk+s/8k0r0etoM2xNoPa8tP/OF55kSE/g0sPJyH6+SMg5FrTIXOJUSb2
- O6aA==
-X-Gm-Message-State: AOAM530zuykZM2F1ACtWbmDOawQt3yp7MH61QqOJ/OYzW7G0wTiHszG+
- TXKc+TuIALctQq1/xd5aK0Nz3gZkRQQMVg==
-X-Google-Smtp-Source: ABdhPJzEFH8WhyHG79MmUqGa8w4SUBLJ7UoUlMpqCiT1WZ9X1rRfm4awPfdR8dhShqqz5kuUzGSBRg==
-X-Received: by 2002:a17:90a:4587:b0:1de:c6ee:80f with SMTP id
- v7-20020a17090a458700b001dec6ee080fmr9645894pjg.196.1653675991919; 
- Fri, 27 May 2022 11:26:31 -0700 (PDT)
+ bh=LJ/bn0dQ7w7iomM0tHW+Krt40cu7S6e9MMRGqwOxqTY=;
+ b=2e8AUlOrheCJ0fbKx+YrRhA5DSQ1YZq79rkiZXMAr63UHstCQca8lJe+OyfTAmvIkp
+ imCArzgHFNHlYyHNJ1PeHt4xrRvT/w5vf0I3L8dVsV/p/ZXGLLqKS0lVUNz4Yuo5kpP+
+ dXGiQPN8y+AjKvoOFFUWUGXhvtThWHSMqbRsC+1c3pU7dfcB+y774WCS0WpTecp7YDo8
+ dAOg9SY87eRyQ1f6/mOU9JuiR2pvS5AS6sxyCqGVRyZ9efuXm+3M30JflzAYTextxtPM
+ anRQHL0UoWxTwq6iL6/5EwOiZeOLuOyi42j3ITLEaka6n6CN9mnUQoYTRKP/0OjOJZi3
+ wrPg==
+X-Gm-Message-State: AOAM532rGEoPtFeqRUwrs9EVAAizdgrzZ+In8vcKzj1W9+8dcupw+T84
+ 60IfA0esZZAQ9dbHZH7HRw9BkvqgwXreMQ==
+X-Google-Smtp-Source: ABdhPJyN6wzydXThhxxBATHEC2zJ1GW02fQcGrovQ+qpdvvogrdd2YO8exwYDXUNrpcPHhywKeiZAA==
+X-Received: by 2002:a63:6507:0:b0:3fa:52de:d3ce with SMTP id
+ z7-20020a636507000000b003fa52ded3cemr22850669pgb.538.1653675992725; 
+ Fri, 27 May 2022 11:26:32 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- g13-20020aa7874d000000b0050dc762816fsm3781539pfo.73.2022.05.27.11.26.31
+ g13-20020aa7874d000000b0050dc762816fsm3781539pfo.73.2022.05.27.11.26.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 11:26:31 -0700 (PDT)
+ Fri, 27 May 2022 11:26:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 089/114] target/arm: Move null function and sve check into
- do_reduce
-Date: Fri, 27 May 2022 11:18:42 -0700
-Message-Id: <20220527181907.189259-90-richard.henderson@linaro.org>
+Subject: [PATCH 090/114] target/arm: Use TRANS_FEAT for do_reduce
+Date: Fri, 27 May 2022 11:18:43 -0700
+Message-Id: <20220527181907.189259-91-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220527181907.189259-1-richard.henderson@linaro.org>
 References: <20220527181907.189259-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,70 +90,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-sve.c | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+ target/arm/translate-sve.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 11e4b4e1e4..0d71072f83 100644
+index 0d71072f83..4a9ecd5e72 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -3572,15 +3572,24 @@ TRANS_FEAT(FMUL_zzx, aa64_sve, gen_gvec_fpst_zzz,
- typedef void gen_helper_fp_reduce(TCGv_i64, TCGv_ptr, TCGv_ptr,
-                                   TCGv_ptr, TCGv_i32);
- 
--static void do_reduce(DisasContext *s, arg_rpr_esz *a,
-+static bool do_reduce(DisasContext *s, arg_rpr_esz *a,
-                       gen_helper_fp_reduce *fn)
- {
--    unsigned vsz = vec_full_reg_size(s);
--    unsigned p2vsz = pow2ceil(vsz);
--    TCGv_i32 t_desc = tcg_constant_i32(simd_desc(vsz, vsz, p2vsz));
-+    unsigned vsz, p2vsz;
-+    TCGv_i32 t_desc;
-     TCGv_ptr t_zn, t_pg, status;
-     TCGv_i64 temp;
- 
-+    if (fn == NULL) {
-+        return false;
-+    }
-+    if (!sve_access_check(s)) {
-+        return true;
-+    }
-+
-+    vsz = vec_full_reg_size(s);
-+    p2vsz = pow2ceil(vsz);
-+    t_desc = tcg_constant_i32(simd_desc(vsz, vsz, p2vsz));
-     temp = tcg_temp_new_i64();
-     t_zn = tcg_temp_new_ptr();
-     t_pg = tcg_temp_new_ptr();
-@@ -3596,23 +3605,18 @@ static void do_reduce(DisasContext *s, arg_rpr_esz *a,
- 
-     write_fp_dreg(s, a->rd, temp);
-     tcg_temp_free_i64(temp);
-+    return true;
+@@ -3609,15 +3609,11 @@ static bool do_reduce(DisasContext *s, arg_rpr_esz *a,
  }
  
  #define DO_VPZ(NAME, name) \
- static bool trans_##NAME(DisasContext *s, arg_rpr_esz *a)                \
- {                                                                        \
--    static gen_helper_fp_reduce * const fns[3] = {                       \
--        gen_helper_sve_##name##_h,                                       \
-+    static gen_helper_fp_reduce * const fns[4] = {                       \
-+        NULL, gen_helper_sve_##name##_h,                                 \
-         gen_helper_sve_##name##_s,                                       \
-         gen_helper_sve_##name##_d,                                       \
+-static bool trans_##NAME(DisasContext *s, arg_rpr_esz *a)                \
+-{                                                                        \
+-    static gen_helper_fp_reduce * const fns[4] = {                       \
+-        NULL, gen_helper_sve_##name##_h,                                 \
+-        gen_helper_sve_##name##_s,                                       \
+-        gen_helper_sve_##name##_d,                                       \
++    static gen_helper_fp_reduce * const name##_fns[4] = {                \
++        NULL,                      gen_helper_sve_##name##_h,            \
++        gen_helper_sve_##name##_s, gen_helper_sve_##name##_d,            \
      };                                                                   \
--    if (a->esz == 0) {                                                   \
--        return false;                                                    \
--    }                                                                    \
--    if (sve_access_check(s)) {                                           \
--        do_reduce(s, a, fns[a->esz - 1]);                                \
--    }                                                                    \
--    return true;                                                         \
-+    return do_reduce(s, a, fns[a->esz]);                                 \
- }
+-    return do_reduce(s, a, fns[a->esz]);                                 \
+-}
++    TRANS_FEAT(NAME, aa64_sve, do_reduce, a, name##_fns[a->esz])
  
  DO_VPZ(FADDV, faddv)
+ DO_VPZ(FMINNMV, fminnmv)
+@@ -3625,6 +3621,8 @@ DO_VPZ(FMAXNMV, fmaxnmv)
+ DO_VPZ(FMINV, fminv)
+ DO_VPZ(FMAXV, fmaxv)
+ 
++#undef DO_VPZ
++
+ /*
+  *** SVE Floating Point Unary Operations - Unpredicated Group
+  */
 -- 
 2.34.1
 
