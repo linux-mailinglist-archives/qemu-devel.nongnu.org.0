@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E3F5368C1
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 00:24:02 +0200 (CEST)
-Received: from localhost ([::1]:37590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BD95368BD
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 00:22:46 +0200 (CEST)
+Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuiNF-0002lH-9g
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 18:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57574)
+	id 1nuiM0-0000gw-Uh
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 18:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nuiJq-00072S-48; Fri, 27 May 2022 18:20:30 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44542)
+ id 1nuiKC-0007PY-15; Fri, 27 May 2022 18:20:52 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:44544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nuiJn-0000Rh-Hz; Fri, 27 May 2022 18:20:29 -0400
+ id 1nuiJy-0000Se-Vt; Fri, 27 May 2022 18:20:50 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5306F2199A;
- Fri, 27 May 2022 22:20:25 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6174C2199A;
+ Fri, 27 May 2022 22:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1653690025; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1653690037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BhmhYdQH9TJ9VFY7ogeLN92IqaqddF5V5hcfRrY1SUQ=;
- b=kCBJkOitO3yKxslO/On693S/6ro0tltG1I1hb0s4R/xp4cKrHYYnom/4yWWKI4BlEwJh1d
- KSWQ0R8VZdm8Tx1PpZtY2BSutUDzAvOA5mx5dqCg/yLjzZNeHequxNNTw6e6kCBgypb5Kf
- XJBcbJsBucj/CajG6AZIQYZjBVy5OFk=
+ bh=JGClF45tEGhZCnJ8RYQx/+Bck2Mtd3EyHLTS+ABjBVg=;
+ b=hVWQLatlwgDNLN9AwO3xUiox4CdKdUtIMl8BUHJxjbZSJBwHd11BfxysryYr2cSvmVPozi
+ qK7MDgjRa3dCQcOC20UnwJ1HXkUKY5gC/UmEDHeeTnNwWNQCTHR618qk36kV+wUZa0c5Ec
+ BC2itnAUUf0KG3mJE4+jkgHzErh/hT8=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E8E7113A84;
- Fri, 27 May 2022 22:20:24 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0863F13A84;
+ Fri, 27 May 2022 22:20:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7nM+NqhOkWKgJAAAMHmgww
- (envelope-from <dfaggioli@suse.com>); Fri, 27 May 2022 22:20:24 +0000
-Subject: [RESEND PATCH 1/2] modules: introduces module_kconfig directive
+ by imap2.suse-dmz.suse.de with ESMTPSA id qxAqO7ROkWKwJAAAMHmgww
+ (envelope-from <dfaggioli@suse.com>); Fri, 27 May 2022 22:20:36 +0000
+Subject: [RESEND PATCH 2/2] modules: generates per-target modinfo
 From: Dario Faggioli <dfaggioli@suse.com>
 To: qemu-devel@nongnu.org
 Cc: "Jose R. Ziviani" <jziviani@suse.de>, Gerd Hoffmann <kraxel@redhat.com>,
  John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-s390x@nongnu.org
-Date: Sat, 28 May 2022 00:20:23 +0200
-Message-ID: <165369002370.5857.12150544416563557322.stgit@work>
+Date: Sat, 28 May 2022 00:20:35 +0200
+Message-ID: <165369003038.5857.13084289285185196779.stgit@work>
 In-Reply-To: <165368982364.5857.13012746434823168062.stgit@work>
 References: <165368982364.5857.13012746434823168062.stgit@work>
 User-Agent: StGit/1.5
@@ -57,13 +57,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=195.135.220.28; envelope-from=dfaggioli@suse.com;
  helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,15 +81,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jose R. Ziviani <jziviani@suse.de>
 
-module_kconfig is a new directive that should be used with module_obj
-whenever that module depends on the Kconfig to be enabled.
-
-When the module is enabled in Kconfig we are sure that its dependencies
-will be enabled as well, thus the module will be loaded without any
-problem.
-
-The correct way to use module_kconfig is by passing the Kconfig option
-to module_kconfig (or the *config-devices.mak without CONFIG_).
+This patch changes the way modinfo is generated and built. Instead of
+one modinfo.c it generates one modinfo-<target>-softmmu.c per target. It
+aims a fine-tune control of modules by configuring Kconfig.
 
 Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
 Signed-off-by: Dario Faggioli <dfaggioli@suse.com>
@@ -100,252 +94,126 @@ Cc: Cleber Rosa <crosa@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-s390x@nongnu.org
 ---
- hw/display/qxl.c                |    1 +
- hw/display/vhost-user-gpu-pci.c |    1 +
- hw/display/vhost-user-gpu.c     |    1 +
- hw/display/vhost-user-vga.c     |    1 +
- hw/display/virtio-gpu-base.c    |    1 +
- hw/display/virtio-gpu-gl.c      |    1 +
- hw/display/virtio-gpu-pci-gl.c  |    1 +
- hw/display/virtio-gpu-pci.c     |    1 +
- hw/display/virtio-gpu.c         |    1 +
- hw/display/virtio-vga-gl.c      |    1 +
- hw/display/virtio-vga.c         |    1 +
- hw/s390x/virtio-ccw-gpu.c       |    1 +
- hw/usb/ccid-card-emulated.c     |    1 +
- hw/usb/ccid-card-passthru.c     |    1 +
- hw/usb/host-libusb.c            |    1 +
- hw/usb/redirect.c               |    1 +
- include/qemu/module.h           |   10 ++++++++++
- scripts/modinfo-generate.py     |    2 ++
- 18 files changed, 28 insertions(+)
+ meson.build                 |   25 +++++++++++++++++--------
+ scripts/modinfo-generate.py |   42 +++++++++++++++++++++++++-----------------
+ 2 files changed, 42 insertions(+), 25 deletions(-)
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 2db34714fb..5b10f697f1 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -2515,6 +2515,7 @@ static const TypeInfo qxl_primary_info = {
-     .class_init    = qxl_primary_class_init,
- };
- module_obj("qxl-vga");
-+module_kconfig(QXL);
+diff --git a/meson.build b/meson.build
+index df7c34b076..3744923aa7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3172,14 +3172,23 @@ foreach d, list : target_modules
+ endforeach
  
- static void qxl_secondary_class_init(ObjectClass *klass, void *data)
- {
-diff --git a/hw/display/vhost-user-gpu-pci.c b/hw/display/vhost-user-gpu-pci.c
-index daefcf7101..d119bcae45 100644
---- a/hw/display/vhost-user-gpu-pci.c
-+++ b/hw/display/vhost-user-gpu-pci.c
-@@ -44,6 +44,7 @@ static const VirtioPCIDeviceTypeInfo vhost_user_gpu_pci_info = {
-     .instance_init = vhost_user_gpu_pci_initfn,
- };
- module_obj(TYPE_VHOST_USER_GPU_PCI);
-+module_kconfig(VHOST_USER_GPU);
- 
- static void vhost_user_gpu_pci_register_types(void)
- {
-diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index 96e56c4467..3340ef9e5f 100644
---- a/hw/display/vhost-user-gpu.c
-+++ b/hw/display/vhost-user-gpu.c
-@@ -606,6 +606,7 @@ static const TypeInfo vhost_user_gpu_info = {
-     .class_init = vhost_user_gpu_class_init,
- };
- module_obj(TYPE_VHOST_USER_GPU);
-+module_kconfig(VHOST_USER_GPU);
- 
- static void vhost_user_gpu_register_types(void)
- {
-diff --git a/hw/display/vhost-user-vga.c b/hw/display/vhost-user-vga.c
-index 072c9c65bc..0c146080fd 100644
---- a/hw/display/vhost-user-vga.c
-+++ b/hw/display/vhost-user-vga.c
-@@ -45,6 +45,7 @@ static const VirtioPCIDeviceTypeInfo vhost_user_vga_info = {
-     .instance_init = vhost_user_vga_inst_initfn,
- };
- module_obj(TYPE_VHOST_USER_VGA);
-+module_kconfig(VHOST_USER_VGA);
- 
- static void vhost_user_vga_register_types(void)
- {
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index 8ba5da4312..790cec333c 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -260,6 +260,7 @@ static const TypeInfo virtio_gpu_base_info = {
-     .abstract = true
- };
- module_obj(TYPE_VIRTIO_GPU_BASE);
-+module_kconfig(VIRTIO_GPU);
- 
- static void
- virtio_register_types(void)
-diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
-index 0bca887703..e06be60dfb 100644
---- a/hw/display/virtio-gpu-gl.c
-+++ b/hw/display/virtio-gpu-gl.c
-@@ -160,6 +160,7 @@ static const TypeInfo virtio_gpu_gl_info = {
-     .class_init = virtio_gpu_gl_class_init,
- };
- module_obj(TYPE_VIRTIO_GPU_GL);
-+module_kconfig(VIRTIO_GPU);
- 
- static void virtio_register_types(void)
- {
-diff --git a/hw/display/virtio-gpu-pci-gl.c b/hw/display/virtio-gpu-pci-gl.c
-index 99b14a0718..a2819e1ca9 100644
---- a/hw/display/virtio-gpu-pci-gl.c
-+++ b/hw/display/virtio-gpu-pci-gl.c
-@@ -47,6 +47,7 @@ static const VirtioPCIDeviceTypeInfo virtio_gpu_gl_pci_info = {
-     .instance_init = virtio_gpu_gl_initfn,
- };
- module_obj(TYPE_VIRTIO_GPU_GL_PCI);
-+module_kconfig(VIRTIO_PCI);
- 
- static void virtio_gpu_gl_pci_register_types(void)
- {
-diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
-index e36eee0c40..93f214ff58 100644
---- a/hw/display/virtio-gpu-pci.c
-+++ b/hw/display/virtio-gpu-pci.c
-@@ -65,6 +65,7 @@ static const TypeInfo virtio_gpu_pci_base_info = {
-     .abstract = true
- };
- module_obj(TYPE_VIRTIO_GPU_PCI_BASE);
-+module_kconfig(VIRTIO_PCI);
- 
- #define TYPE_VIRTIO_GPU_PCI "virtio-gpu-pci"
- typedef struct VirtIOGPUPCI VirtIOGPUPCI;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 529b5246b2..cd4a56056f 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -1452,6 +1452,7 @@ static const TypeInfo virtio_gpu_info = {
-     .class_init = virtio_gpu_class_init,
- };
- module_obj(TYPE_VIRTIO_GPU);
-+module_kconfig(VIRTIO_GPU);
- 
- static void virtio_register_types(void)
- {
-diff --git a/hw/display/virtio-vga-gl.c b/hw/display/virtio-vga-gl.c
-index f22549097c..984faa6b39 100644
---- a/hw/display/virtio-vga-gl.c
-+++ b/hw/display/virtio-vga-gl.c
-@@ -37,6 +37,7 @@ static VirtioPCIDeviceTypeInfo virtio_vga_gl_info = {
-     .instance_init = virtio_vga_gl_inst_initfn,
- };
- module_obj(TYPE_VIRTIO_VGA_GL);
-+module_kconfig(VIRTIO_VGA);
- 
- static void virtio_vga_register_types(void)
- {
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index 7b55c8d0e7..c206b5da38 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -231,6 +231,7 @@ static const TypeInfo virtio_vga_base_info = {
-     .abstract      = true,
- };
- module_obj(TYPE_VIRTIO_VGA_BASE);
-+module_kconfig(VIRTIO_VGA);
- 
- #define TYPE_VIRTIO_VGA "virtio-vga"
- 
-diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
-index 8d995fcb33..0642c5281d 100644
---- a/hw/s390x/virtio-ccw-gpu.c
-+++ b/hw/s390x/virtio-ccw-gpu.c
-@@ -69,6 +69,7 @@ static const TypeInfo virtio_ccw_gpu = {
-     .class_init    = virtio_ccw_gpu_class_init,
- };
- module_obj(TYPE_VIRTIO_GPU_CCW);
-+module_kconfig(VIRTIO_CCW);
- 
- static void virtio_ccw_gpu_register(void)
- {
-diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
-index 6c8c0355e0..1ddf7297f6 100644
---- a/hw/usb/ccid-card-emulated.c
-+++ b/hw/usb/ccid-card-emulated.c
-@@ -613,6 +613,7 @@ static const TypeInfo emulated_card_info = {
-     .class_init    = emulated_class_initfn,
- };
- module_obj(TYPE_EMULATED_CCID);
-+module_kconfig(USB);
- 
- static void ccid_card_emulated_register_types(void)
- {
-diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
-index f530ab2565..07ee42f304 100644
---- a/hw/usb/ccid-card-passthru.c
-+++ b/hw/usb/ccid-card-passthru.c
-@@ -415,6 +415,7 @@ static const TypeInfo passthru_card_info = {
-     .class_init    = passthru_class_initfn,
- };
- module_obj(TYPE_CCID_PASSTHRU);
-+module_kconfig(USB);
- 
- static void ccid_card_passthru_register_types(void)
- {
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 2b35cb6cdd..28f8af8941 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -1809,6 +1809,7 @@ static const TypeInfo usb_host_dev_info = {
-     .instance_init = usb_host_instance_init,
- };
- module_obj(TYPE_USB_HOST_DEVICE);
-+module_kconfig(USB);
- 
- static void usb_host_register_types(void)
- {
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 3bc4dee7fe..fd7df599bc 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -2620,6 +2620,7 @@ static const TypeInfo usbredir_dev_info = {
-     .instance_init = usbredir_instance_init,
- };
- module_obj(TYPE_USB_REDIR);
-+module_kconfig(USB);
- 
- static void usbredir_register_types(void)
- {
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index 5fcc323b2a..bd73607104 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -135,6 +135,16 @@ void module_allow_arch(const char *arch);
-  */
- #define module_opts(name) modinfo(opts, name)
- 
-+/**
-+ * module_kconfig
-+ *
-+ * @name: Kconfig requirement necessary to load the module
-+ *
-+ * This module requires a core module that should be implemented and
-+ * enabled in Kconfig.
-+ */
-+#define module_kconfig(name) modinfo(kconfig, name)
+ if enable_modules
+-  modinfo_src = custom_target('modinfo.c',
+-                              output: 'modinfo.c',
+-                              input: modinfo_files,
+-                              command: [modinfo_generate, '@INPUT@'],
+-                              capture: true)
+-  modinfo_lib = static_library('modinfo', modinfo_src)
+-  modinfo_dep = declare_dependency(link_whole: modinfo_lib)
+-  softmmu_ss.add(modinfo_dep)
++  foreach target : target_dirs
++    if target.endswith('-softmmu')
++      config_target = config_target_mak[target]
++      config_devices_mak = target + '-config-devices.mak'
++      modinfo_src = custom_target('modinfo-' + target + '.c',
++                                  output: 'modinfo-' + target + '.c',
++                                  input: modinfo_files,
++                                  command: [modinfo_generate, '--devices', config_devices_mak, '@INPUT@'],
++                                  capture: true)
 +
- /*
-  * module info database
-  *
++      modinfo_lib = static_library('modinfo-' + target + '.c', modinfo_src)
++      modinfo_dep = declare_dependency(link_with: modinfo_lib)
++
++      arch = config_target['TARGET_NAME'] == 'sparc64' ? 'sparc64' : config_target['TARGET_BASE_ARCH']
++      hw_arch[arch].add(modinfo_dep)
++    endif
++  endforeach
+ endif
+ 
+ nm = find_program('nm')
 diff --git a/scripts/modinfo-generate.py b/scripts/modinfo-generate.py
-index f559eed007..689f33c0f2 100755
+index 689f33c0f2..a0c09edae1 100755
 --- a/scripts/modinfo-generate.py
 +++ b/scripts/modinfo-generate.py
-@@ -48,6 +48,8 @@ def generate(name, lines):
-                 opts.append(data)
+@@ -32,7 +32,7 @@ def parse_line(line):
+             continue
+     return (kind, data)
+ 
+-def generate(name, lines):
++def generate(name, lines, core_modules):
+     arch = ""
+     objs = []
+     deps = []
+@@ -49,7 +49,13 @@ def generate(name, lines):
              elif kind == 'arch':
                  arch = data;
-+            elif kind == 'kconfig':
-+                pass # ignore
+             elif kind == 'kconfig':
+-                pass # ignore
++                # don't add a module which dependency is not enabled
++                # in kconfig
++                if data.strip() not in core_modules:
++                    print("    /* module {} isn't enabled in Kconfig. */"
++                          .format(data.strip()))
++                    print("/* },{ */")
++                    return []
              else:
                  print("unknown:", kind)
                  exit(1)
+@@ -60,7 +66,7 @@ def generate(name, lines):
+     print_array("objs", objs)
+     print_array("deps", deps)
+     print_array("opts", opts)
+-    print("},{");
++    print("},{")
+     return deps
+ 
+ def print_pre():
+@@ -74,26 +80,28 @@ def print_post():
+     print("}};")
+ 
+ def main(args):
++    if len(args) < 3 or args[0] != '--devices':
++        print('Expected: modinfo-generate.py --devices '
++              'config-device.mak [modinfo files]', file=sys.stderr)
++        exit(1)
++
++    # get all devices enabled in kconfig, from *-config-device.mak
++    enabled_core_modules = set()
++    with open(args[1]) as file:
++        for line in file.readlines():
++            config = line.split('=')
++            if config[1].rstrip() == 'y':
++                enabled_core_modules.add(config[0][7:]) # remove CONFIG_
++
+     deps = {}
+     print_pre()
+-    for modinfo in args:
++    for modinfo in args[2:]:
+         with open(modinfo) as f:
+             lines = f.readlines()
+         print("    /* %s */" % modinfo)
+-        (basename, ext) = os.path.splitext(modinfo)
+-        deps[basename] = generate(basename, lines)
++        (basename, _) = os.path.splitext(modinfo)
++        deps[basename] = generate(basename, lines, enabled_core_modules)
+     print_post()
+ 
+-    flattened_deps = {flat.strip('" ') for dep in deps.values() for flat in dep}
+-    error = False
+-    for dep in flattened_deps:
+-        if dep not in deps.keys():
+-            print("Dependency {} cannot be satisfied".format(dep),
+-                  file=sys.stderr)
+-            error = True
+-
+-    if error:
+-        exit(1)
+-
+ if __name__ == "__main__":
+     main(sys.argv[1:])
 
 
 
