@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AB7535F10
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 13:16:13 +0200 (CEST)
-Received: from localhost ([::1]:38330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8556E535F2E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 13:21:42 +0200 (CEST)
+Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuXwy-0001vC-9T
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 07:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33350)
+	id 1nuY2H-0006ZV-57
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 07:21:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nuXWe-0002KF-Q5
- for qemu-devel@nongnu.org; Fri, 27 May 2022 06:49:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41319)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuXYk-00040S-SV
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 06:51:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1nuXWb-0001wb-KA
- for qemu-devel@nongnu.org; Fri, 27 May 2022 06:48:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nuXYi-0002Pd-Sf
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 06:51:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653648536;
+ s=mimecast20190719; t=1653648667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vPQmPDnfqMwLuW32B9ZuTSE4SwjrEYrpQSuUHsViwGE=;
- b=VGZJ6nRfTp7/8Yj/cBfRl45efTCTPSJg5P6NLKnYjhDB6Wx42Yenv+fLB7cLskqM9aICaY
- 1bEM2CjDRWQeIBIv9MGzf3u9QfYXBh/wJb513WKtjLnT57DB0B50yis/7u+6pp5vJhLXRY
- Ik4WluMO0okkcZKoEasSSYTpBNxmmDE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0V7oWLFV9Bd44QFQilDNS/vpADQqC97ZrFLyYkjwfco=;
+ b=SLxO3lKKm4jqZOjjXS+p++aDQhvfqNh9fjVwCJRsbsW8V0aIYqCQEPMtJi8rx/WmN+/lWS
+ Scg13BbkMdkuuNOX4QosINSWZCsWLWNchcIo9Y8SxVKethwPfT+I73+xydY0HEfi+6CzIL
+ TSnbBgoigD2RiL5hhEALKcnkXx6uC1g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-OjyF3sJhNkek62zRYrn9oQ-1; Fri, 27 May 2022 06:48:55 -0400
-X-MC-Unique: OjyF3sJhNkek62zRYrn9oQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1AEC1011637;
- Fri, 27 May 2022 10:48:54 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 430CA40EC002;
- Fri, 27 May 2022 10:48:53 +0000 (UTC)
-Date: Fri, 27 May 2022 12:48:50 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- libvir-list@redhat.com, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [libvirt PATCH] tools: add virt-qmp-proxy for proxying QMP
- clients to libvirt QEMU guests
-Message-ID: <YpCskqbkDVuvp4D+@angien.pipo.sk>
-References: <20220527094758.604621-1-berrange@redhat.com>
- <YpCl9/EMwenZUxJs@angien.pipo.sk>
- <94610f98-9075-83f5-3d4f-b745467171da@suse.de>
+ us-mta-668-l_dDSioqNX2eplh2r5j8xQ-1; Fri, 27 May 2022 06:51:06 -0400
+X-MC-Unique: l_dDSioqNX2eplh2r5j8xQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m19-20020a05600c4f5300b003974eba88c0so2503486wmq.9
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 03:51:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0V7oWLFV9Bd44QFQilDNS/vpADQqC97ZrFLyYkjwfco=;
+ b=qW/CNdyOgZOEEFGCdA3kaPsF1xbIP4JKq12v152YyaQiRWQQAH/SQtz/he8PbwAMZw
+ A5vSU2uxQZcVvX374K9ZNxBtjW1+VMGYNX6LD5tNGMhlW8TgmjEK+m5pIjYWkFt4WXRC
+ KsWfDwIRJwxTChWC5wGrHT8TJhQASYZm7P5A1WpKYGf9XhQR5WavDbkPV48Jb7FbPUVg
+ zno3hVXm1L3MYILerrap3LTouv45+DMR4NFVSNRRNC3oOXRJb2U8GfI3wUoC0YGN7qaK
+ Ytp1PFwGm3ixS5GkGlcOHgGQbOx75QEqJvqjmwCHqUltjRiz+Ha3eYjheJpuOOcSnOir
+ HCww==
+X-Gm-Message-State: AOAM531/v3I+G6n1PGcqHuf+alzbj5MVwyjGuBXgQikjPs9aG0vmJXck
+ Mn6KsqNs4eRMC3IyKmHqQyuR4yMTEKFsPhotfrhPya+6C3ThnKYMBPPXVMXJ843tnYI3q4O5Mm/
+ gS09Vf6Gr6DYc60M=
+X-Received: by 2002:a5d:6987:0:b0:210:131a:9080 with SMTP id
+ g7-20020a5d6987000000b00210131a9080mr3727647wru.14.1653648665324; 
+ Fri, 27 May 2022 03:51:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwnRfu9yIeHxwspRezCaw0XA6uN/OOvV4yuCNqxVyZyJ95ewjT0MgyGo/K1BTpC6lLBmDfkQ==
+X-Received: by 2002:a5d:6987:0:b0:210:131a:9080 with SMTP id
+ g7-20020a5d6987000000b00210131a9080mr3727619wru.14.1653648664983; 
+ Fri, 27 May 2022 03:51:04 -0700 (PDT)
+Received: from redhat.com ([2.55.130.213]) by smtp.gmail.com with ESMTPSA id
+ n5-20020a05600c4f8500b003942a244f2bsm2025756wmq.4.2022.05.27.03.51.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 May 2022 03:51:04 -0700 (PDT)
+Date: Fri, 27 May 2022 06:51:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH] ppc: fix boot with sam460ex
+Message-ID: <20220527065049-mutt-send-email-mst@kernel.org>
+References: <20220526224229.95183-1-mst@redhat.com>
+ <352916f8-efb1-c192-5fc-6df69b559a8@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <94610f98-9075-83f5-3d4f-b745467171da@suse.de>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
+In-Reply-To: <352916f8-efb1-c192-5fc-6df69b559a8@eik.bme.hu>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -71,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,74 +95,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 27, 2022 at 12:35:45 +0200, Claudio Fontana wrote:
-> On 5/27/22 12:20 PM, Peter Krempa wrote:
-> > On Fri, May 27, 2022 at 10:47:58 +0100, Daniel P. Berrangé wrote:
-> >> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
-> >> exposed in virsh. It is not especially pleasant, however, using the raw
-> >> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
-> >> exposes a human friendly interactive shell. It is not possible to use
-> >> this with libvirt managed guest, however, since only one client can
-> >> attach to he QMP socket at any point in time.
-> >>
-> >> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
-> >> socket and listens for incoming client connections, speaking QMP on
-> >> the connected socket. It will forward any QMP commands received onto
-> >> the running libvirt QEMU guest, and forward any replies back to the
-> >> QMP client.
-> >>
-> >>   $ virsh start demo
-> >>   $ virt-qmp-proxy demo demo.qmp &
-> >>   $ qmp-shell demo.qmp
-> >>   Welcome to the QMP low-level shell!
-> >>   Connected to QEMU 6.2.0
-> >>
-> >>   (QEMU) query-kvm
-> >>   {
-> >>       "return": {
-> >>           "enabled": true,
-> >>           "present": true
-> >>       }
-> >>   }
-> >>
-> >> Note this tool of course has the same risks as the raw libvirt
-> >> QMP passthrough. It is safe to run query commands to fetch information
-> >> but commands which change the QEMU state risk disrupting libvirt's
-> >> management of QEMU, potentially resulting in data loss/corruption in
-> >> the worst case.
-> >>
-> >> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> >> ---
-> >>
-> >> CC'ing QEMU since this is likely of interest to maintainers and users
-> >> who work with QEMU and libvirt
-> >>
-> >> Note this impl is fairly crude in that it assumes it is receiving
-> >> the QMP commands linewise one at a time. None the less it is good
-> >> enough to work with qmp-shell already, so I figured it was worth
-> >> exposing to the world. It also lacks support for forwarding events
-> >> back to the QMP client.
-> > 
-> > I originally wanted to teach the qemu tools to work with libvirt
-> > directly similarly how 'scripts/render_block_graph.py' from the qemu
-> > tree already does but I guess this is also an option.
-> > 
-> > This is an option too albeit a bit more complex to set up, but on the
-> > other hand a bit more universal.
-> > 
-> > I'll have a look at the code a bit later.
-> > 
+On Fri, May 27, 2022 at 12:46:57PM +0200, BALATON Zoltan wrote:
+> Hello,
 > 
-> Would have found it useful, at the time I wrote the multifd save series I ended up just scripting around virsh qemu-monitor-command from either bash or C.
+> Some changes to commit message (patch is OK).
 
-I'd consider this to be just something to achieve compatibility with
-tools that already exist and expect monitor socket.
+Want to write the commit message for me then?
 
-If you are writing new software with libvirt connection in mind you can
-use 'virDomainQemuMonitorCommand()' or
-'virDomainQemuMonitorCommandWithFiles()' directly or via the language
-bindings for your language.
 
-Obviously not for bash though.
+> On Thu, 26 May 2022, Michael S. Tsirkin wrote:
+> > Recent changes to pcie_host corrected size of its internal region to
+> > match what it expects - only the low 28 bits are ever decoded. Previous
+> > code just ignored bit 29 (if size was 1 << 29) in the address which does
+> > not make much sense.  We are now asserting on size > 1 << 28 instead,
+> > but it so happened that ppc actually allows guest to configure as large
+> > a size as it wants to, and current firmware set it to 1 << 29.
+> > 
+> > With just qemu-system-ppc -M sam460ex this triggers an assert which
+> > seems to happen when the guest (board firmware?) writes a value to
+> > CFGMSK reg:
+> > 
+> > (gdb) bt
+> 
+> Backtrace is missing but you could just drop this line and replace : with .
+> at end of previous line as we probably don't need the full backtrace, the
+> commit message is already too long in my opinion.
+> 
+> > This is done in the board firmware here:
+> > 
+> > https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD
+> > 
+> > when trying to map config space.
+> > 
+> > Note that what firmware does matches
+> > https://www.hardware.com.br/comunidade/switch-cisco/1128380/
+> 
+> That's not it. It's a different hardware and firmware, just quoted it as an
+> example that this value seems to be common to that SoC even on different
+> hardware/OS/firmware (probably comes from reference hardware/devel board?).
+> The sam460ex is here
+> 
+> https://www.acube-systems.biz/index.php?page=hardware&pid=5
+> 
+> the U-Boot in above repo is matching the firmware from the acube page but I
+> had to fix some bugs in it to make it compile and work.
+> 
+> Otherwise this should be OK.
+> 
+> Regards,
+> BALATON Zoltan
+> 
+> > So it's not clear what the proper fix should be.
+> > 
+> > However, allowing guest to trigger an assert in qemu is not good practice anyway.
+> > 
+> > For now let's just force the mask to 256MB on guest write, this way
+> > anything outside the expected address range is ignored.
+> > 
+> > Fixes: commit 1f1a7b2269 ("include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX")
+> > Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> > 
+> > Affected system is orphan so I guess I will merge the patch unless
+> > someone objects.
+> > 
+> > hw/ppc/ppc440_uc.c | 8 ++++++++
+> > 1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+> > index 993e3ba955..a1ecf6dd1c 100644
+> > --- a/hw/ppc/ppc440_uc.c
+> > +++ b/hw/ppc/ppc440_uc.c
+> > @@ -1180,6 +1180,14 @@ static void dcr_write_pcie(void *opaque, int dcrn, uint32_t val)
+> >     case PEGPL_CFGMSK:
+> >         s->cfg_mask = val;
+> >         size = ~(val & 0xfffffffe) + 1;
+> > +        /*
+> > +         * Firmware sets this register to E0000001. Why we are not sure,
+> > +         * but the current guess is anything above PCIE_MMCFG_SIZE_MAX is
+> > +         * ignored.
+> > +         */
+> > +        if (size > PCIE_MMCFG_SIZE_MAX) {
+> > +            size = PCIE_MMCFG_SIZE_MAX;
+> > +        }
+> >         pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base, size);
+> >         break;
+> >     case PEGPL_MSGBAH:
+> > 
 
 
