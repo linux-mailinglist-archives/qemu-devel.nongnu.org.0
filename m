@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39401536834
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 22:46:55 +0200 (CEST)
-Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F4D536898
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 23:38:08 +0200 (CEST)
+Received: from localhost ([::1]:42164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nugrF-0003YO-B4
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 16:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42282)
+	id 1nuhep-0007e3-0S
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 17:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nugp1-00022U-Gi
- for qemu-devel@nongnu.org; Fri, 27 May 2022 16:44:35 -0400
-Received: from mout.gmx.net ([212.227.17.21]:53433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nugoz-0002E0-0C
- for qemu-devel@nongnu.org; Fri, 27 May 2022 16:44:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1653684269;
- bh=gQBvQ3PSfW5tNU0Xh/gUwVZ5KSRw+UVE+dgojsF6mkQ=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=e0y9HHY7a5O9lF6HG0ILcu4frnSqDX2HRVlolhphQRo4/BR/SGitkoshRu2mfwpIm
- d0AIzWUD2ajEiAKr1GR1OpX/oMR3oP20w54g+z+WQ93D2nausv0qeF8UVmlAAqxtZx
- 5G5sQaNYJunc3jWVmy0k28ynQN1nVlUixH8oRXho=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.153.1]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Ma24y-1oHoGu3YGa-00Vzu3; Fri, 27
- May 2022 22:44:28 +0200
-Date: Fri, 27 May 2022 22:44:26 +0200
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Cc: dave.anglin@bell.net
-Subject: Re: [PATCH v2] linux-user: Adjust child_tidptr on set_tid_address()
- syscall
-Message-ID: <YpE4KnMXyg/2hgy4@p100>
-References: <YpDyWAr/MYl3mizU@p100>
+ (Exim 4.90_1) (envelope-from <superbisquit@gmail.com>)
+ id 1nuhdI-0006RY-MT
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 17:36:32 -0400
+Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a]:46063)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <superbisquit@gmail.com>)
+ id 1nuhdG-00027p-8x
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 17:36:32 -0400
+Received: by mail-vs1-xe2a.google.com with SMTP id j7so5407826vsp.12
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 14:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=+HHW4vQ8WbYPUuwn6Xw8UZTnYW+9EwkeWSORs8Db9zM=;
+ b=lHkULsqJl2q7hWvX/l+XymGPIvgCg6WampVn+inLxceWtmoOEgIh9H7JjojHqWiB+K
+ awLJ1ewqk478AyeLxFbYNEg0Tubf5MZA1n7rer7brafOychWKQ6zofpyfDvjUvII501B
+ EA32KqxGOfXal8mzxtg84Ns7Q1Z5Eh+cNL+weREe88CiNnX4n0CtlMBEDhMOe3TyySsv
+ GcE3an6muV0o+aWXXrTopBOW38qBvzzv0T1NweFXvkselwhEjv4CF88+HSRFoFSydmdd
+ D5wU7tlaYjVbmqJFsdelKNKz2NWyK68+jckciYwzLWUsxZPWYOsrmMt/0TO+wtiL/Ugt
+ HwJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=+HHW4vQ8WbYPUuwn6Xw8UZTnYW+9EwkeWSORs8Db9zM=;
+ b=TgkL7HmII25tZrZ47pfm79SpvqAtZL9Gl0IIHpAY2lu6LrUdjcW3WVpHiaed/ay2o4
+ hW7viSVJDpuCJ87ybRlVryDBCNs+bNcs+6/8ccJuLkXmQZmfzRAJIp5M83n+RCi29TpT
+ /9KOY6OB9VQ60rtUXoYqyVBLOhHNDTE5CVW2zzt3eFMe8dmyTPI7KV8Ct2n0NDi39HUb
+ qS8a6EbABIfpwoggNzJvlnejKoqp2qaS+teMY6FhAIITpTNO9mPlNC7ZvqENDGRxQt0o
+ 57gMaXBpr4Y29o4SXlTK6zs9s8/oVWOUzSksGj/srIb4ieEb/J236byF50wVxHgsM1AL
+ E0eg==
+X-Gm-Message-State: AOAM530SdTI7U5O2mViXM4MO3+WgNrrFgsZ6bfmSt2jidVacjra+nu9V
+ iG36gGpojw0y+us2u9kf2+LoOn5sbB8GELFWKvO01CGbDMg=
+X-Google-Smtp-Source: ABdhPJxeu7rlHArjUfxwgX6D5h0I8PraTr/JTZRBnmgFP1jAgm9Nsk4sVFkv+lbudrd2RcK5wLHFExD+b8lNVHPY1x0=
+X-Received: by 2002:a05:6102:3a0b:b0:335:c75f:54ed with SMTP id
+ b11-20020a0561023a0b00b00335c75f54edmr20166386vsu.81.1653687388984; Fri, 27
+ May 2022 14:36:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YpDyWAr/MYl3mizU@p100>
-X-Provags-ID: V03:K1:2AfHRCDpmQZkNqQyay3ydBFoqyD1CnlBFQE48zSv5WWElutbQSl
- yL86j1t8nS0PySkn9jelyEQMJTN4GN0yh6X+C96sAhXSjUweisjmbSldKjoIwHSvCEGvPnp
- BuWE2opC2B/HV4qmbbFJBVdNEPBJkaX7++pcvsPnznxUYFRucjijy9Onw97AhhTYNNAvuqT
- FqxeZL3gb9YceeCwcX/vQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FK69DekUdLY=:8Fz8/2WPbF2gqslQJtOpja
- KOAgwjozUtKK8Xj0oPgnIHegNXX4W6+S9PHX3I0yyx2yzud841sSvFM1PKIGwaF4fvvrWOZI6
- oItjBKFwPoboKuSzS9r2X7214omLnx4OcQEOdNqt7EGmZQCSkK2EXu2DzlKFoAS9gaRILBDGs
- o5ONs4NPAFtP4reIEQGABbnz7PTSdsCLzquJHBvc+CsTDjs7Qoo2fJK+m3br+15pvrBPhQAYe
- 6jeWp+T7psxFJkchL4wgaEv7Fats1hq83l71hwzdLUh8aX23/cQM79RWgWf+ziKkFM/MAPL4q
- c3bm1FfxEc2eK4FqRrai1jy9/RPzNSbE5EvGbzCtt816KulkFSOW4jnbqiZO5n6BauFxESOzn
- A2W6lfD+zsBP2g6QeeFBhjZm33giTPQV2gpkLZdTuvmCdqfrcFErHyoXiMe/cZBLukSRlbQFF
- PHPogXyFJetfb4ynbLVAIUcg04HyZaSw9mGmzYKlIa/bl9gTjswWnJ6bKKCt8Xg5Z/xqVUnTf
- Sr1o3kHwoH5Z4jHjch5G6Wu5166lTn0f3d1wpX6w5Rc01VvRM03U0VVNQF24FCMIU929JfMTc
- Ln+JJRa86q1CN1FWY+rAKLINfXd56+I4pQkpB+148VEUzGL8NtBEEs92rFZnv9y4oKIswJ6kO
- 73dlhkhVDKkzEhvpmQuxRW7Gzkj3rhX6GJMIVlc+zMfnTDNftiaRp/spq758lNMT4G6ueLxFf
- A/De7ha2PaqxKMXtTGyILcIR34nKM8xXgYA6P2nc7uPOmHMcHWffeDBLUW+CwGC+Jah9IWlPb
- LCTvQzN+X7bBLxppD3ewkHEi7ZXA0VDDoj9tpmBXTjS/fua3FeOum9o/hHD3i/7RHUx1zeBQ+
- 1gzGNGYVwLoJ3R50uBHbb68CEHFPol7RqItqdcQmHUQyl+yHyAhQ8DYjGgLUO1uh9yroOWkIb
- kxZBFY+d3R5pgvAb2Zpzpgf8qVO7N5uIgkOJ/a1RMJl0IrwbVbCcjlEgPNszVqr/0dZKQ032K
- mepBD82CWZvFt+mytz6sj8d+Fd6mdYpiK/6vruqW7HX2iLfhBrSfKXK46AOzRNC14TNZuNpdq
- OxMTYkHh5FLasfY4n+OXO2OvcnXH9e3ZmFMJws2pjZuneT+gBIc6G2wrA==
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <CA+WntOtM1J2C1607kWW_n9iTBctgMW26iF5JVYaWy9FSt8qqag@mail.gmail.com>
+ <CAFEAcA_i5Q-5OEjoHFk=aKZSOB5cA-6i4acUKAeHo_Yx0qznjw@mail.gmail.com>
+ <CA+WntOu0w7kNSMfT-2QDL2vVFKjaKG-pXXNQ2aGHA-p3a0-oZg@mail.gmail.com>
+ <CAFEAcA8X5bwb0LrABtqF0VBXQPDwN3xirJZds6n8uzZbuqOL-A@mail.gmail.com>
+In-Reply-To: <CAFEAcA8X5bwb0LrABtqF0VBXQPDwN3xirJZds6n8uzZbuqOL-A@mail.gmail.com>
+From: Joe Nosay <superbisquit@gmail.com>
+Date: Fri, 27 May 2022 17:36:17 -0400
+Message-ID: <CA+WntOstQABHiQ_zxFYkwJiS7-uZPWDR9ODGNO+BC_Fh-romcA@mail.gmail.com>
+Subject: Re: building e2k qemu errors
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000063da5805e00519ec"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
+ envelope-from=superbisquit@gmail.com; helo=mail-vs1-xe2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,47 +83,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think the previous patch was wrong, since we just emulate writing to
-child_tidptr. Below is updated RFC patch.
+--00000000000063da5805e00519ec
+Content-Type: text/plain; charset="UTF-8"
 
-=2D--
-[PATCH] linux-user: Adjust child_tidptr on set_tid_address()
+Will do, thanks
 
-Keep track of the new child tidptr given by a set_tid_address() syscall.
+On Fri, May 27, 2022 at 1:42 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+> On Fri, 27 May 2022 at 16:16, Joe Nosay <superbisquit@gmail.com> wrote:
+> >
+> > Does the newest qemu source at github include the e2k cpu?
+> > And, what is the exact address?
+>
+> Please keep emails on the mailing list, not on private email.
+>
+> thanks
+> -- PMM
+>
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f65045efe6..9114c611a0 100644
-=2D-- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -320,9 +320,6 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
- #ifdef __NR_exit_group
- _syscall1(int,exit_group,int,error_code)
- #endif
--#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
--_syscall1(int,set_tid_address,int *,tidptr)
--#endif
- #if defined(__NR_futex)
- _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
-           const struct timespec *,timeout,int *,uaddr2,int,val3)
-@@ -12200,9 +12197,14 @@ static abi_long do_syscall1(void *cpu_env, int nu=
-m, abi_long arg1,
-     }
- #endif
+--00000000000063da5805e00519ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
-+#if defined(TARGET_NR_set_tid_address)
-     case TARGET_NR_set_tid_address:
--        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
-+    {
-+        TaskState *ts =3D cpu->opaque;
-+        ts->child_tidptr =3D arg1;
-+        /* do not call host set_tid_address() syscall, instead return tid=
-() */
-+        return get_errno(sys_gettid());
-+    }
- #endif
+<div dir=3D"ltr">Will do, thanks<br></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Fri, May 27, 2022 at 1:42 PM Peter M=
+aydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro=
+.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">On Fri, 27 May 2022 at 16:16, Joe Nosay &lt;<a href=3D"mailto:superbisq=
+uit@gmail.com" target=3D"_blank">superbisquit@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Does the newest qemu source at github include the e2k cpu?<br>
+&gt; And, what is the exact address?<br>
+<br>
+Please keep emails on the mailing list, not on private email.<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div>
 
-     case TARGET_NR_tkill:
+--00000000000063da5805e00519ec--
 
