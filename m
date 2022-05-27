@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A5F536637
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:58:30 +0200 (CEST)
-Received: from localhost ([::1]:57984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F2E53667D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:17:52 +0200 (CEST)
+Received: from localhost ([::1]:42138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nudID-00060H-Ui
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
+	id 1nudax-0001o9-9K
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nudFP-00030K-Hb
- for qemu-devel@nongnu.org; Fri, 27 May 2022 12:55:35 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:39768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nudFM-0006kj-5s
- for qemu-devel@nongnu.org; Fri, 27 May 2022 12:55:33 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nudH3-0006PH-Tx
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 12:57:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nudH0-00071H-Uh
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 12:57:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653670631;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=p7zVZfoCFlNsM1dh5SAn5qzh6r7+8o7mtAE1WeGxU9Y=;
+ b=J1DDvhjI88RQD03E2b8Jr9vHQWS1dwOcjPR5J2kKwY/x5/2k01Vn3TuZyXvKUW8s72c25/
+ clRBUL/b5tOOl5bXETnUEiiV0M4UjO85HBEt+6gafRUSP4udXIJLsZm5KYhzLDCAmhmUFz
+ eT8SXyiSS/vVuY8n9mG9k44JdQYHO4I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-wpzQhioCOQyHqYp-pkPpBg-1; Fri, 27 May 2022 12:57:08 -0400
+X-MC-Unique: wpzQhioCOQyHqYp-pkPpBg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5A4DC1F855
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 16:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1653670529; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type;
- bh=p+CZmcUxJdTqv1QB33KHSWaXjGDPfgfGGgpV6gY6nJY=;
- b=CllRS2kXt5kqr++8Oy7bGnHNL4+s55Bb9Vk7GEvQT/NpjdtPpmVQDSEfhmIKMIv8Gdu/uM
- FtcYKwYqLHEHfzv5f7ayYOz8NyvaqusE4w/YLgb78O7hw2bZarvR7yn7ZDAY/6cxiandMe
- rXoMoX2JEYCxX33rEEi+gUrdF220ZFw=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3572313A84
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 16:55:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 5zB7CoECkWJrKQAAMHmgww
- (envelope-from <dfaggioli@suse.com>)
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 16:55:29 +0000
-Message-ID: <6a6dbfb53f2ea5a9740249c2fdf480be183e6ee8.camel@suse.com>
-Subject: QEMU malfunctioning if built with FORTIFY_SOURCE=3
-From: Dario Faggioli <dfaggioli@suse.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01F37185A79C;
+ Fri, 27 May 2022 16:57:07 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.192.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF0212026D64;
+ Fri, 27 May 2022 16:57:05 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 27 May 2022 18:55:28 +0200
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-ESPbw33E5TwiAp0sfqi8"
-User-Agent: Evolution 3.44.1 (by Flathub.org)) 
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Julia Suvorova <jusual@redhat.com>
+Subject: [PATCH 0/5] hw/smbios: add core_count2 to smbios table type 4
+Date: Fri, 27 May 2022 18:56:46 +0200
+Message-Id: <20220527165651.28092-1-jusual@redhat.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=dfaggioli@suse.com;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,102 +74,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The SMBIOS 3.0 specification provides the ability to reflect over
+255 cores. The 64-bit entry point has been used for a while, but
+structure type 4 has not been updated before, so the dmidecode output
+looked like this (-smp 280):
 
---=-ESPbw33E5TwiAp0sfqi8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+    Handle 0x0400, DMI type 4, 42 bytes
+    Processor Information
+    ...
+        Core Count: 24
+        Core Enabled: 24
+        Thread Count: 1
+    ...
 
-Hello Everyone!
+Big update in the bios-tables-test as it couldn't work with SMBIOS 3.0.
 
-So, I'm not sure how much this would be interesting, but I thought
-about reporting it anyways, then let's see.
+Julia Suvorova (5):
+  hw/smbios: add core_count2 to smbios table type 4
+  bios-tables-test: teach test to use smbios 3.0 tables
+  tests/acpi: allow changes for core_count2 test
+  bios-tables-test: add test for number of cores > 255
+  tests/acpi: update tables for new core count test
 
-A few days ago we started to build openSUSE_Tumbleweed packages with
--D_FORTIFY_SOURCES=3D3 by default (it was =3D2 before, and it's back to =3D=
-2
-again now, at least for QEMU :-/).
+ include/hw/firmware/smbios.h         |   3 +
+ hw/smbios/smbios.c                   |  11 ++-
+ tests/qtest/bios-tables-test.c       | 136 +++++++++++++++++++++------
+ tests/data/acpi/q35/APIC.core-count2 | Bin 0 -> 2478 bytes
+ tests/data/acpi/q35/DSDT.core-count2 | Bin 0 -> 32429 bytes
+ tests/data/acpi/q35/FACP.core-count2 | Bin 0 -> 244 bytes
+ 6 files changed, 121 insertions(+), 29 deletions(-)
+ create mode 100644 tests/data/acpi/q35/APIC.core-count2
+ create mode 100644 tests/data/acpi/q35/DSDT.core-count2
+ create mode 100644 tests/data/acpi/q35/FACP.core-count2
 
-It seemed fine, but then we discovered that a QEMU built that way, does
-not work properly. In fact, it crashes pretty early displaying a
-message like this: "*** buffer overflow detected ***"
+-- 
+2.35.1
 
-I've had a look around, and did not find anything about previous
-attempts of doing that, or things to be aware of, in general, if doing
-it.
-
-Now, for now, I don't have many other info myself either. Just some
-terminal logs from a few users, and from our automated testing system,
-i.e., like this:
-
-$ sudo virsh start VM1
-error: Failed to start domain 'VM1'
-error: internal error: qemu unexpectedly closed the monitor: qxl_send_event=
-s: spice-server bug: guest stopped, ignoring
-*** buffer overflow detected ***: terminated
-
-Or this:
-
-error: Failed to start domain 'vm-swtpm-legacy'
-error: internal error: qemu unexpectedly closed the monitor: 2022-05-25T16:=
-30:05.738186Z qemu-system-x86_64: -accel kvm: warning: Number of SMP cpus r=
-equested (2) exceeds the recommended cpus supported by KVM (1)
-2022-05-25T16:30:05.738259Z qemu-system-x86_64: -accel kvm: warning: Number=
- of hotpluggable cpus requested (2) exceeds the recommended cpus supported =
-by KVM (1)
-2022-05-25T16:30:05.742354Z qemu-system-x86_64: warning: host doesn't suppo=
-rt requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-2022-05-25T16:30:05.742369Z qemu-system-x86_64: warning: host doesn't suppo=
-rt requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-2022-05-25T16:30:05.743989Z qemu-system-x86_64: warning: host doesn't suppo=
-rt requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-2022-05-25T16:30:05.744050Z qemu-system-x86_64: warning: host doesn't suppo=
-rt requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-*** buffer overflow detected ***: terminated
-
-Or this:
-https://openqa.opensuse.org/tests/2375666#step/usr_sbin_dnsmasq/47
-https://xenbits.xen.org/people/dariof/download.png (also here, in case
-the image disappears from OpenQA)
-
-I am planning to try to investigate this more, but not right away. And
-I can't even tell for sure when I'll have time for it. So, this is just
-for letting people know that this has been (quickly) attempted, and
-that it currently does not work, in case it's interesting for anyone
-else.
-
-Of course, in case it's the other way around, i.e., someone already has
-more info on the subject that I've not been able to find, feel free to
-ping me. :-)
-
-Thanks and Regards
---=20
-Dario Faggioli, Ph.D
-http://about.me/dario.faggioli
-Virtualization Software Engineer
-SUSE Labs, SUSE https://www.suse.com/
--------------------------------------------------------------------
-<<This happens because _I_ choose it to happen!>> (Raistlin Majere)
-
---=-ESPbw33E5TwiAp0sfqi8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEES5ssOj3Vhr0WPnOLFkJ4iaW4c+4FAmKRAoAACgkQFkJ4iaW4
-c+6GFhAAhKaTO+lX7Ep6tdK9cxehfZMhw/qCm9j2nBEvPX5Ss2kyfk/trTAORh3u
-onhu0gvF51OzV59Lb90S9ItrNizOBKog8dW/XEtmRBK7TjHN1ANWoAOMa6MJNJzk
-oTpamqzAuTI1IxNqIQVhcrd8XWqy+lemWEqp1q4ECplVMuNEXUMryzFg+69XqfXH
-ewHHEmujycdSLrIewyIpkpyYvqjqE8kCzWSgYWaAROhRQbz0fkzSH8kvdh9gLphC
-5A9HOPVqoHyNacFQg2gWigeV9FxUoi3PfID8k/KBUt5dsrGGSLo7H/w3f0AbSQ2y
-H379Q0H6a8yDHD9pkbsKPLa9sViy9r3uYP61tuHNtiUnozp8Qqn+O5JEBtSzcncQ
-Ovsg8QFiOLgTO+JutiATnyomhY5CbPTWEfhBD0zhWFxqX2oO13LjFt5xChLY92Wv
-z/pn/2B5DbxDZv0m7O8N4j7H6EUNaxNAX97O+ow5kpwt/5Ip5MG7GzV6SJwsOpk6
-MwhtxFkTsiJ/rsdAeiYFBIRMKO0EwWRtsfu3v1MWCe35XpdkgyHqr2zCq/8yt7oD
-6p7XVLQYmY3VnJtLKaAOi4plPk8K0/wm0ZTrPMC6Qc+gZyuE1I3f921sumU7tKAc
-5GZCbknJ9R3Ig7Z9+imEtRHEbqp6d1616WE7MS7MZrdcClyEKec=
-=5lQf
------END PGP SIGNATURE-----
-
---=-ESPbw33E5TwiAp0sfqi8--
 
