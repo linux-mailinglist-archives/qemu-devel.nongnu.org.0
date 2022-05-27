@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4FB535C36
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 11:01:23 +0200 (CEST)
-Received: from localhost ([::1]:35810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE82535BC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 10:44:04 +0200 (CEST)
+Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuVqU-0002SH-FI
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 05:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
+	id 1nuVZj-0005iW-66
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 04:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobyliu415@139.com>)
- id 1nuVea-00075E-Nf
- for qemu-devel@nongnu.org; Fri, 27 May 2022 04:49:09 -0400
-Received: from n169-110.mail.139.com ([120.232.169.110]:36141)
- by eggs.gnu.org with smtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobyliu415@139.com>)
- id 1nuVeN-0004za-A5
- for qemu-devel@nongnu.org; Fri, 27 May 2022 04:48:59 -0400
-X-RM-SPAM-FLAG: 00000000
-Received: from tobyliu415@139.com ( [2408:8207:245d:fe80:25be:1f1f:ff75:194d] )
- by ajax-webmail-lg-appmail-02-11056 (Richmail) with HTTP;
- Fri, 27 May 2022 16:39:23 +0800 (CST)
-Date: Fri, 27 May 2022 16:39:23 +0800 (CST)
-From: =?utf-8?B?5YiY6L6J?= <tobyliu415@139.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Message-ID: <2b3062908bf3bc1-00040.Richmail.00025826991472841621@139.com>
-Subject: HELP: I can't get whpx working on ryzen / win11
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nuVVj-0003Yq-EY
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 04:39:55 -0400
+Received: from mga12.intel.com ([192.55.52.136]:43913)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nuVVh-0003Xa-Ey
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 04:39:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653640793; x=1685176793;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=bjyDl6kDQro5FK/KVrzr1mqiYtjFN8A1wcFN6EwTDb0=;
+ b=IJUKImObZcLxUeX+DvQfRD5iWtRXyoMWVD4OTL1D/3d/bWu533quCsio
+ as7K+z4C+b3Tv4wmkf/pyc9ZzxSTtEXddZ6Ss6IR4Ka2ftGEkoI9mjsAa
+ qo9ctey1ptmZkxdrnDIUBrUTUbWHJbyOhM0nRGSAx2IFW/qIW/ese5hOz
+ 45BDDzmERfFJeo6q+4UM04JfcrU71o09eOujUE/5OsJgLiLBqEbJVyckT
+ LXDn3+MbUieHoueYgC6Dd35YLX9bUKX2bfiIdtW5Ct8Ti6n2ODK2AII7G
+ 4qrbf/Ws3uggZGzuTgcqEstHnu0Um1BNakNDaz7/hkdjOCpmMet9M+uDg g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="254297779"
+X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; d="scan'208";a="254297779"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 01:39:51 -0700
+X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; d="scan'208";a="574449080"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.41])
+ ([10.255.28.41])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 01:39:47 -0700
+Message-ID: <fa75cda1-311d-dcd7-965d-c553700c5303@intel.com>
+Date: Fri, 27 May 2022 16:39:45 +0800
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
- boundary="----=_Part_37989_713806396.1653640763862"
-X-Priority: 3
-X-RM-TRANSID: 2b3062908bf3bc1-00040
-X-RM-OA-ENC-TYPE: 0
-X-CLIENT-INFO: X-TIMING=0&X-MASSSENT=0&X-SENSITIVE=0
-X-Mailer: Richmail_Webapp(V2.3.30)
-Received-SPF: pass client-ip=120.232.169.110; envelope-from=tobyliu415@139.com;
- helo=n169-110.mail.139.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, HTML_FONT_FACE_BAD=0.001, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.9.0
+Subject: Re: [RFC PATCH v4 22/36] i386/tdx: Track RAM entries for TDX VM
+Content-Language: en-US
+To: Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ isaku.yamahata@intel.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-23-xiaoyao.li@intel.com>
+ <20220524073729.xkk6s4tjkzm77wwz@sirius.home.kraxel.org>
+ <5e457e0b-dc23-9e5b-de89-0b137e2baf7f@intel.com>
+ <20220526184826.GA3413287@ls.amr.corp.intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220526184826.GA3413287@ls.amr.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=xiaoyao.li@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,135 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_37989_713806396.1653640763862
-Content-Type: text/plain;charset=UTF-8
-Content-Transfer-Encoding: 7bit
+On 5/27/2022 2:48 AM, Isaku Yamahata wrote:
+> On Thu, May 26, 2022 at 03:33:10PM +0800,
+> Xiaoyao Li <xiaoyao.li@intel.com> wrote:
+> 
+>> On 5/24/2022 3:37 PM, Gerd Hoffmann wrote:
+>>> I think all this can be simplified, by
+>>>     (1) Change the existing entry to cover the accepted ram range.
+>>>     (2) If there is room before the accepted ram range add a
+>>>         TDX_RAM_UNACCEPTED entry for that.
+>>>     (3) If there is room after the accepted ram range add a
+>>>         TDX_RAM_UNACCEPTED entry for that.
+>>
+>> I implement as below. Please help review.
+>>
+>> +static int tdx_accept_ram_range(uint64_t address, uint64_t length)
+>> +{
+>> +    uint64_t head_start, tail_start, head_length, tail_length;
+>> +    uint64_t tmp_address, tmp_length;
+>> +    TdxRamEntry *e;
+>> +    int i;
+>> +
+>> +    for (i = 0; i < tdx_guest->nr_ram_entries; i++) {
+>> +        e = &tdx_guest->ram_entries[i];
+>> +
+>> +        if (address + length < e->address ||
+>> +            e->address + e->length < address) {
+>> +                continue;
+>> +        }
+>> +
+>> +        /*
+>> +         * The to-be-accepted ram range must be fully contained by one
+>> +         * RAM entries
+>> +         */
+>> +        if (e->address > address ||
+>> +            e->address + e->length < address + length) {
+>> +            return -EINVAL;
+>> +        }
+>> +
+>> +        if (e->type == TDX_RAM_ADDED) {
+>> +            return -EINVAL;
+>> +        }
+>> +
+>> +        tmp_address = e->address;
+>> +        tmp_length = e->length;
+>> +
+>> +        e->address = address;
+>> +        e->length = length;
+>> +        e->type = TDX_RAM_ADDED;
+>> +
+>> +        head_length = address - tmp_address;
+>> +        if (head_length > 0) {
+>> +            head_start = e->address;
+>> +            tdx_add_ram_entry(head_start, head_length, TDX_RAM_UNACCEPTED);
+> 
+> tdx_add_ram_entry() increments tdx_guest->nr_ram_entries.  I think it's worth
+> for comments why this is safe regarding to this for-loop.
 
-
-
-
-
-
-CPU: AMD Ryzen 7 5800H
-
-
-Windows Version: Microsoft Windows [Version 10.0.22621.1]
-
-
-
-
-
-QEMU Versions
-
-
-
-
-D:\dev\qemu-toby>D:/dev/qemu/qemu-system-x86_64.exe -version
-
-
-QEMU emulator version 7.0.0 (v7.0.0-11902-g1d935f4a02-dirty)
-
-Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
-
-
-
-
-
-D:\dev\qemu-toby>qemu-system-x86_64.exe --version
-
-
-QEMU emulator version 7.0.50 (v7.0.0-1245-g58b53669e8)
-
-Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
-
-
-
-
-Tried Command Line *Same error for both version*
-
-
-COMMAND LINE: D:/dev/qemu-toby/qemu-system-x86_64.exe --name tQEMU --display vnc=:0 --rtc base=utc,clock=host --machine q35 --accel whpx --boot order=dc,menu=off,strict=off --cpu max --m 8G --device virtio-gpu --audiodev none,id=QEMUAudio --device intel-hda --device hda-duplex,audiodev=QEMUAudio --device virtio-net,netdev=QEMUNet --netdev user,id=QEMUNet,smb=D:/install/FPGA --blockdev driver=qcow2,node-name=QEMUDisk0,file.driver=file,file.filename=E:/VM/tqemu/myzynq.qcow2 --device virtio-blk,drive=QEMUDisk0 --cdrom E:/iso/windows7/cn_windows_7_enterprise_with_sp1_x64_dvd_u_677685.iso -drive if=pflash,format=raw,file=d:/dev/qemu/share/edk2-x86_64-code.fd -smp 4 -usb -device usb-tablet
-
-
-
-
-WHPX: setting APIC emulation mode in the hypervisor
-
-Windows Hypervisor Platform accelerator is operational
-
-whpx: injection failed, MSI (0, 0) delivery: 0, dest_mode: 0, trigger mode: 0, vector: 0, lost (c0350005)
-
-qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with EmulatorReturnStatus: 2
-
-qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
-
-
-
-------=_Part_37989_713806396.1653640763862
-Content-Type: text/html;charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div style=3D"line-height: 1.5; font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=
-=BB=91; font-size: 16px; color: rgb(0, 0, 0); overflow-wrap: break-word; wo=
-rd-break: break-word;"><div style=3D"line-height: 1.5;"><div style=3D"line-=
-height: 1.5;"><div style=3D"line-height: 1.5;"><font face=3D"=E5=BE=AE=E8=
-=BD=AF=E9=9B=85=E9=BB=91" oldel=3D"1"><div style=3D"line-height: 1.5;font-s=
-ize: 16.0px;">CPU:&nbsp;AMD Ryzen 7 5800H</div></font></div><div style=3D"l=
-ine-height: 1.5;"><font face=3D"=E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91" oldel=
-=3D"1">Windows Version: Microsoft Windows [Version 10.0.22621.1]</font><br>=
-</div><div style=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=
-=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;"><br></div><div style=3D"c=
-olor: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-siz=
-e: 16.0px;line-height: 1.5;">QEMU Versions</div><div style=3D"color: rgb(0,=
-0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;li=
-ne-height: 1.5;"><br></div><div style=3D"color: rgb(0,0,0);font-family: =E5=
-=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;">D:\d=
-ev\qemu-toby&gt;D:/dev/qemu/qemu-system-x86_64.exe -version<br></div><div s=
-tyle=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91=
-;font-size: 16.0px;line-height: 1.5;">QEMU emulator version 7.0.0 (v7.0.0-1=
-1902-g1d935f4a02-dirty)</div><div style=3D"color: rgb(0,0,0);font-family: =
-=E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;">C=
-opyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers</div=
-></div><div style=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=
-=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;"><br></div><div style=
-=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;fon=
-t-size: 16.0px;line-height: 1.5;">D:\dev\qemu-toby&gt;qemu-system-x86_64.ex=
-e --version<br></div><div style=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=
-=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;">QEMU emula=
-tor version 7.0.50 (v7.0.0-1245-g58b53669e8)</div><div style=3D"color: rgb(=
-0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;=
-line-height: 1.5;">Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Pro=
-ject developers</div><div style=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=
-=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;"><br></div>=
-<div style=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=
-=BB=91;font-size: 16.0px;line-height: 1.5;">Tried Command Line *Same error =
-for both version*</div></div><div style=3D"color: rgb(0,0,0);font-family: =
-=E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;">C=
-OMMAND LINE: D:/dev/qemu-toby/qemu-system-x86_64.exe --name tQEMU --display=
- vnc=3D:0 --rtc base=3Dutc,clock=3Dhost --machine q35 --accel whpx --boot o=
-rder=3Ddc,menu=3Doff,strict=3Doff --cpu max --m 8G --device virtio-gpu --au=
-diodev none,id=3DQEMUAudio --device intel-hda --device hda-duplex,audiodev=
-=3DQEMUAudio --device virtio-net,netdev=3DQEMUNet --netdev user,id=3DQEMUNe=
-t,smb=3DD:/install/FPGA --blockdev driver=3Dqcow2,node-name=3DQEMUDisk0,fil=
-e.driver=3Dfile,file.filename=3DE:/VM/tqemu/myzynq.qcow2 --device virtio-bl=
-k,drive=3DQEMUDisk0 --cdrom E:/iso/windows7/cn_windows_7_enterprise_with_sp=
-1_x64_dvd_u_677685.iso -drive if=3Dpflash,format=3Draw,file=3Dd:/dev/qemu/s=
-hare/edk2-x86_64-code.fd -smp 4 -usb -device usb-tablet</div><div style=3D"=
-color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-si=
-ze: 16.0px;line-height: 1.5;"><br></div><div style=3D"color: rgb(0,0,0);fon=
-t-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-heigh=
-t: 1.5;">WHPX: setting APIC emulation mode in the hypervisor</div><div styl=
-e=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;fo=
-nt-size: 16.0px;line-height: 1.5;">Windows Hypervisor Platform accelerator =
-is operational</div><div style=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=
-=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;">whpx: inje=
-ction failed, MSI (0, 0) delivery: 0, dest_mode: 0, trigger mode: 0, vector=
-: 0, lost (c0350005)</div><div style=3D"color: rgb(0,0,0);font-family: =E5=
-=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;">qemu=
--system-x86_64.exe: WHPX: Failed to emulate MMIO access with EmulatorReturn=
-Status: 2</div><div style=3D"color: rgb(0,0,0);font-family: =E5=BE=AE=E8=BD=
-=AF=E9=9B=85=E9=BB=91;font-size: 16.0px;line-height: 1.5;">qemu-system-x86_=
-64.exe: WHPX: Failed to exec a virtual processor</div><br></div>
-------=_Part_37989_713806396.1653640763862--
+The for-loop is to find the valid existing RAM entry (from E820 table).
+It will update the RAM entry and increment tdx_guest->nr_ram_entries 
+when the initial RAM entry needs to be split. However, once find, the 
+for-loop is certainly stopped since it returns unconditionally.
 
 
