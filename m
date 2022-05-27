@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23AB53673A
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 20:56:04 +0200 (CEST)
-Received: from localhost ([::1]:35278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB02D53679C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 21:40:46 +0200 (CEST)
+Received: from localhost ([::1]:54012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuf7z-0006tk-Fp
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 14:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43892)
+	id 1nufpE-0005fj-TN
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 15:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nuecL-0003aj-4B
+ id 1nuecL-0003b0-6w
  for qemu-devel@nongnu.org; Fri, 27 May 2022 14:23:21 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38421)
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:47100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nuec1-0004Oq-U4
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:23:13 -0400
-Received: by mail-pl1-x633.google.com with SMTP id n18so4812681plg.5
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:23:01 -0700 (PDT)
+ id 1nuec4-0004Q7-5D
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:23:17 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id j6so4958386pfe.13
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:23:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=waechP+ByDINr6HCfzHbKMzQeI1rNhZB2DxUw4HEIdM=;
- b=oYkLWThCOrshZRgDSBU0OwLLFarLf/yZKr7k+Qsdj5i77+6hZjqD4XNEbwPYCcF4EJ
- sH/wLmUXt9JXE3m+4CDzZALvaghFVHhc6oX7o+USyrFIeLsyvkRPq8jHj0uO8/o9uyus
- vKv6LT23XgzG5EwjNTzYXNZSHBEdI2SGZsg8WENAzvUQ2tYpH0zg/Zm75KVeqs/zfABG
- +tLB3CFElIVSz0n9uqt2PDh/xSnr4I2zjHexzu7GEsVRaogh7HMiB6gRPT2YaGvqARMs
- OY+oBxiMaeT8kxfWNLA6XiwEvvdDYXv6+FY6fhpf7Gmn6JNZiXnwJb2KjRvUlvdJvQQe
- EwUA==
+ bh=0jZwbSGmDVYYUKOSscWs7GEbJo3Q7mHcBlc9ur8AKu8=;
+ b=AcsHLLZDL58b1WREfGXaqo0VcnYB+NUJbFlIUEIhNZL2z5V6D/TAroDGTzDFEj/u/u
+ AHjbowdmlUJD6kqS6nA2xMN4IWRIbTlmxHGX1vbX/AJDZchKdFCJHSQjIoRv0M8iLNOV
+ cmvD6FLH62KJJH7IafMkMbj8sQrf2KIOe79qn2GLf5JW/jor9zWq4CDCUZB4RlNgChYw
+ SbWqf5jzURngI9C8r00PhdqmGBG/5GrGVwiV61eE7RME2tlzbXYoMLjc1se+RBFr1Fuk
+ oHKmUNYj/JwG7Pgo6UvfjbeV08nCoVosTdGKaFFe0Ir9RuC3nLHC3DlSoz8dVaU09zij
+ 5Hcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=waechP+ByDINr6HCfzHbKMzQeI1rNhZB2DxUw4HEIdM=;
- b=jmrMiRMawKfPA+BVcHYf4p5bVrK8ELHSf1PsdtSK/q+3KqZkjB9OyjZSAE+NOUi1fd
- +M8OCdsmc9kaAD0OiITyEa5R2EdfRXuH4EXd9xzy8n0aEjWaKvrv5zJsNX/0IKj5EfZN
- PbLUhAExCMI7VCPYY77JBeSdbJkKHO2QWGdoFIeWL/7gtNg+g2+4QmfEy3NQdnuQCYX3
- +lXUF/oO8FNSt8UrfmRF9Dj/rXV81SFKrlyrTxfRhF7cInL0A5aFO3iITyQxFrS634RJ
- Gs/Z2XL5SkmZ2gswWJiwL9Y2Gn8wNgUDXqb+5kf9A9/mpgS5skcp39gPj78qNWXl+9GB
- O7Aw==
-X-Gm-Message-State: AOAM533qHptbd1V/6IUsZKe5MHWROUDtv2EgjhPl30syR/49CM3axIdM
- bddnMHKLMTwepf9aWefe8IkkTuVpcShqNQ==
-X-Google-Smtp-Source: ABdhPJzTsiPClpJNofWL3wQjz/WHm6JIuaLEAdFTQ4V4AJBg/xg7ekQbzWuA5gDwUxEgQ4PLiKs6GQ==
-X-Received: by 2002:a17:90b:1b48:b0:1e0:ab0:df00 with SMTP id
- nv8-20020a17090b1b4800b001e00ab0df00mr9613615pjb.52.1653675780550; 
- Fri, 27 May 2022 11:23:00 -0700 (PDT)
+ bh=0jZwbSGmDVYYUKOSscWs7GEbJo3Q7mHcBlc9ur8AKu8=;
+ b=wERXq5u2ufAaD8Lk/8eDXkwcOqYEF1W8JVgxWUcM0tPLqpsNUx0vP7oHtcqUZuftAV
+ U3I/z+o4Nf3lf/9RAAKITKfRSHGFW07Rp7nRVy13mGaKt5AkDvTCNrAbknsEULtrg3xV
+ cm0L+FySfO1ZUvLXyWqdQARKqqZ3hb8S3swZF5y4td5zluI3scdO+sEdY7zR/0GoXXKa
+ bMColgsCcgfXwf9wRtxiuKH8fjj3e+BEZQ0GAdPNaawwrgqLYWou1WhDMYkOsyXH3jaX
+ F3G+YyvTNQwtfArQZQNb+yyu9UhZVmq6dVsz81DvE7c29ELPIRsQ0wsicAuUyHmmbGiG
+ 98mQ==
+X-Gm-Message-State: AOAM5312ywp/V1BGlXBLoIaJM1VKOsXH9nv66QNBUY7mKcGLvKrIfsrn
+ cMxq8nB22xoIlZOHw09s+9ZjJbtrtWXSxg==
+X-Google-Smtp-Source: ABdhPJxcBMhVGQ+ok2MNbH4sp6BaF3maPXmCoDzTzl+NEMX37OdVHccgzdZVy951EIuGnNTBpc/I9w==
+X-Received: by 2002:a65:6e0d:0:b0:3c6:12af:15b4 with SMTP id
+ bd13-20020a656e0d000000b003c612af15b4mr38271772pgb.338.1653675781843; 
+ Fri, 27 May 2022 11:23:01 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- b15-20020a170903228f00b00163552a0953sm4033534plh.159.2022.05.27.11.22.59
+ b15-20020a170903228f00b00163552a0953sm4033534plh.159.2022.05.27.11.23.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 11:23:00 -0700 (PDT)
+ Fri, 27 May 2022 11:23:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 056/114] target/arm: Use TRANS_FEAT for do_perm_pred2
-Date: Fri, 27 May 2022 11:18:09 -0700
-Message-Id: <20220527181907.189259-57-richard.henderson@linaro.org>
+Subject: [PATCH 057/114] target/arm: Move sve zip high_ofs into simd_data
+Date: Fri, 27 May 2022 11:18:10 -0700
+Message-Id: <20220527181907.189259-58-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220527181907.189259-1-richard.henderson@linaro.org>
 References: <20220527181907.189259-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,39 +88,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is in line with how we treat uzp, and will
+eliminate the special case code during translation.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-sve.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ target/arm/sve_helper.c    |  6 ++++--
+ target/arm/translate-sve.c | 12 ++++++------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index e0f9aa9983..3bdcd4ce9d 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -3382,6 +3382,7 @@ void HELPER(sve_punpk_p)(void *vd, void *vn, uint32_t pred_desc)
+ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)       \
+ {                                                                    \
+     intptr_t oprsz = simd_oprsz(desc);                               \
++    intptr_t odd_ofs = simd_data(desc);                              \
+     intptr_t i, oprsz_2 = oprsz / 2;                                 \
+     ARMVectorReg tmp_n, tmp_m;                                       \
+     /* We produce output faster than we consume input.               \
+@@ -3393,8 +3394,9 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)       \
+         vm = memcpy(&tmp_m, vm, oprsz_2);                            \
+     }                                                                \
+     for (i = 0; i < oprsz_2; i += sizeof(TYPE)) {                    \
+-        *(TYPE *)(vd + H(2 * i + 0)) = *(TYPE *)(vn + H(i));         \
+-        *(TYPE *)(vd + H(2 * i + sizeof(TYPE))) = *(TYPE *)(vm + H(i)); \
++        *(TYPE *)(vd + H(2 * i + 0)) = *(TYPE *)(vn + odd_ofs + H(i)); \
++        *(TYPE *)(vd + H(2 * i + sizeof(TYPE))) =                    \
++            *(TYPE *)(vm + odd_ofs + H(i));                          \
+     }                                                                \
+     if (sizeof(TYPE) == 16 && unlikely(oprsz & 16)) {                \
+         memset(vd + oprsz - 16, 0, 16);                              \
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 413e89b19c..1e6bcedb9d 100644
+index 1e6bcedb9d..c2ced3e2bb 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -2279,20 +2279,9 @@ TRANS_FEAT(UZP2_p, aa64_sve, do_perm_pred3, a, 1, gen_helper_sve_uzp_p)
- TRANS_FEAT(TRN1_p, aa64_sve, do_perm_pred3, a, 0, gen_helper_sve_trn_p)
- TRANS_FEAT(TRN2_p, aa64_sve, do_perm_pred3, a, 1, gen_helper_sve_trn_p)
- 
--static bool trans_REV_p(DisasContext *s, arg_rr_esz *a)
--{
--    return do_perm_pred2(s, a, 0, gen_helper_sve_rev_p);
--}
--
--static bool trans_PUNPKLO(DisasContext *s, arg_PUNPKLO *a)
--{
--    return do_perm_pred2(s, a, 0, gen_helper_sve_punpk_p);
--}
--
--static bool trans_PUNPKHI(DisasContext *s, arg_PUNPKHI *a)
--{
--    return do_perm_pred2(s, a, 1, gen_helper_sve_punpk_p);
--}
-+TRANS_FEAT(REV_p, aa64_sve, do_perm_pred2, a, 0, gen_helper_sve_rev_p)
-+TRANS_FEAT(PUNPKLO, aa64_sve, do_perm_pred2, a, 0, gen_helper_sve_punpk_p)
-+TRANS_FEAT(PUNPKHI, aa64_sve, do_perm_pred2, a, 1, gen_helper_sve_punpk_p)
- 
- /*
-  *** SVE Permute - Interleaving Group
+@@ -2298,9 +2298,9 @@ static bool do_zip(DisasContext *s, arg_rrr_esz *a, bool high)
+         unsigned vsz = vec_full_reg_size(s);
+         unsigned high_ofs = high ? vsz / 2 : 0;
+         tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn) + high_ofs,
+-                           vec_full_reg_offset(s, a->rm) + high_ofs,
+-                           vsz, vsz, 0, fns[a->esz]);
++                           vec_full_reg_offset(s, a->rn),
++                           vec_full_reg_offset(s, a->rm),
++                           vsz, vsz, high_ofs, fns[a->esz]);
+     }
+     return true;
+ }
+@@ -2324,9 +2324,9 @@ static bool do_zip_q(DisasContext *s, arg_rrr_esz *a, bool high)
+         unsigned vsz = vec_full_reg_size(s);
+         unsigned high_ofs = high ? QEMU_ALIGN_DOWN(vsz, 32) / 2 : 0;
+         tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn) + high_ofs,
+-                           vec_full_reg_offset(s, a->rm) + high_ofs,
+-                           vsz, vsz, 0, gen_helper_sve2_zip_q);
++                           vec_full_reg_offset(s, a->rn),
++                           vec_full_reg_offset(s, a->rm),
++                           vsz, vsz, high_ofs, gen_helper_sve2_zip_q);
+     }
+     return true;
+ }
 -- 
 2.34.1
 
