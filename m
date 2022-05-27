@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2413536638
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:59:05 +0200 (CEST)
-Received: from localhost ([::1]:58722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174CA536648
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 19:02:27 +0200 (CEST)
+Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nudIm-0006Y3-TR
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52842)
+	id 1nudM2-0004B1-4H
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 13:02:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nud8K-0001MY-VB
- for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:16 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:33614)
+ id 1nud8L-0001PL-Sn
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:17 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:50795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nud8J-0005OF-0L
- for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:16 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id f18so4642442plg.0
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 09:48:14 -0700 (PDT)
+ id 1nud8K-0005OO-20
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 12:48:17 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id d20so957662pjr.0
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 09:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dBQmcYvQNWemNoz94qCXnnbynO5dcM+A32yDVQduyko=;
- b=Gy510/cGr9r2KUbeYfyW3JADAKO2l6E+2VBZmM7WHgyL5M9AE7aFpYK7QVKY+nE5RS
- lsddZ3qOLXmgXNJuTu5gY2gnSUDpUVSfqJn2Unf2kIB6H+PjoRjSChuS3iUQwE+8rs0A
- SFyvtwin+uobuZfMa2fxs5oBzEeGJbiTtjTUXrofmOe1csDnuPoEbMhlLO+nhqkkTPrf
- hIOelmG1TBBLsKjCzbaAMF3rIGM4GO8vj/6EWVofbHfC+HHgFSHc3WiacFACXQNfYwJH
- GTxhT+ZxCSrNRx+sSQg0RPZfgvEAHHsvQhrMlg7xEGpX/9GCrvpebJ2u0sK68wsRzmaD
- aC4A==
+ bh=lTUaM+lqbn8KxvXwj+n9JX47C53ZG33aTbTDGh5Ahv4=;
+ b=x0jZrnsnykn8DH2vsjXcBAGjlvSn8h+9PLDgonUdzSjYoDJ4ZGR20NCWTkz3o9+9e1
+ OLtocDcFEaXWsA8YKXeQ2LytaXbuV/eJrey/G3+t6+liWwdP7i60RWwMlBuiYc3s+4hE
+ tach9gCY5jWBMOhv+ufDJ5E9n3B5o73nxUU86eJwQ6LNqHnF+C8w+Di+UznnQ+eEDEWf
+ eHTSQ8iGwoNKgQmLpoNQbepPF+W1LLZFXfpWVYmwaGIKfgdj8CdaSovrMBuCs5CdkqqY
+ bCZHFxi4VnEw17HdXY8N8E2aDhGHGv81ug3KbvW2pnZYpqV1dgDtaxEI/MzsOI20aLW9
+ U9Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dBQmcYvQNWemNoz94qCXnnbynO5dcM+A32yDVQduyko=;
- b=pj43vxBQWbmLa0VK+4uDGgBNQR2ttHEUByF7aDt0abSoGMK9pPj6njUjV8DMFGwVGD
- WHObNakApKvUHGR56sp6VnKJzT/i4GJaIX1lEZhPlwyvTN7/y0Z8Z9tvynMtUkvwiZcs
- G1J+ICgIJSzCoH8k4tWr3n4VDfqk3rbHA8vPO3Fh1hghAgPnkQ0yAyZYaxCLWUSP8Uoh
- y2p6Hfz7Nz9flscPtrruoeztnqqmeP58TsHLDLFNClyqhLfM5qNtetWHJIsstYHXXgdX
- Ze3jvAs8c3T+4bHeWHHNJM/HWyKR7V45xXYWvYzHufPSWOaqEAoPwLQSY7cVB+fgEO3M
- QPKg==
-X-Gm-Message-State: AOAM5330aMQI8nb02cAUmXLSZxrCkwY+TBUvmZGwhstQiEqwLRY65bOW
- 2UziMKcs2QtfxkeQekUFdf/m/31ExfXqXw==
-X-Google-Smtp-Source: ABdhPJz863RbmxE/L9gEPquUM1wjvZSejA6+B93RTXRsVomVOkhf4fDnOaIQbQtiQ+19SVow7ZaHpA==
-X-Received: by 2002:a17:903:244c:b0:162:2037:aacc with SMTP id
- l12-20020a170903244c00b001622037aaccmr27484839pls.46.1653670093632; 
- Fri, 27 May 2022 09:48:13 -0700 (PDT)
+ bh=lTUaM+lqbn8KxvXwj+n9JX47C53ZG33aTbTDGh5Ahv4=;
+ b=fMwi+attXdWK3Xv5qonEpGMHdTb9MP04JySkCza3XmYi3sCa36sGEH4E2g2UXAuuh2
+ iGTJpQ30nP7SPxYX0zRwmS+ZcagrfmzjR/OZjefEZObD5fBTXjCWermwQrUOw2KjEj6+
+ siN6AMBgXxgZYAJ9MM5IM+FftJf7LJ57k+0TlOx2Uw1b12MyKnxPjTZc83HS//PzKPt0
+ 1HHZ39+XG5dCo6IgEoSRJPsG9FOiFNgpvPzlyWjsZxWBI7PE2SLVlmJWvqe/FZA8X0dx
+ Qxr3rMy8ukEobHE5GlT1OQrETVk+Lb0tyP62XF5hIIZ0YpbRPELBDDRKkrSDzcUxHZwl
+ xwdw==
+X-Gm-Message-State: AOAM530ZhFJwaykNVFVpet05lfqTSUlzqmNh5Enee1LUr/IGtCvmRCz9
+ tNSzvqnAMtCiL0Qi3ejHUMEGoJaezvZxPA==
+X-Google-Smtp-Source: ABdhPJzXqQTWZX5sOB+gM0yq7ceO0B/U0iyATwzcEuHb8Rw/zfOPC/jpFy28sjaje/Eqif3y2SdJQg==
+X-Received: by 2002:a17:902:7c96:b0:162:3071:3266 with SMTP id
+ y22-20020a1709027c9600b0016230713266mr23359232pll.119.1653670094684; 
+ Fri, 27 May 2022 09:48:14 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- j11-20020aa7928b000000b0050dc7628133sm3861420pfa.13.2022.05.27.09.48.12
+ j11-20020aa7928b000000b0050dc7628133sm3861420pfa.13.2022.05.27.09.48.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 09:48:13 -0700 (PDT)
+ Fri, 27 May 2022 09:48:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 05/17] target/m68k: Remove retaddr in m68k_interrupt_all
-Date: Fri, 27 May 2022 09:47:55 -0700
-Message-Id: <20220527164807.135038-6-richard.henderson@linaro.org>
+Cc: laurent@vivier.eu
+Subject: [PATCH v5 06/17] target/m68k: Fix address argument for EXCP_CHK
+Date: Fri, 27 May 2022 09:47:56 -0700
+Message-Id: <20220527164807.135038-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220527164807.135038-1-richard.henderson@linaro.org>
 References: <20220527164807.135038-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,81 +88,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only value this variable holds is now env->pc.
+According to the M68040 Users Manual, section 8.4.3,
+Six word stack frame (format 2), CHK, CHK2 (and others)
+are supposed to record the next insn in PC and the
+address of the trapping instruction in ADDRESS.
+
+Create a raise_exception_format2 function to centralize recording
+of the trapping pc in mmu.ar, plus advancing to the next insn.
+
+Update m68k_interrupt_all to pass mmu.ar to do_stack_frame.
+Update cpu_loop to pass mmu.ar to siginfo.si_addr, as the
+kernel does in trap_c().
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/op_helper.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ target/m68k/cpu.h          |  6 +++++
+ linux-user/m68k/cpu_loop.c |  2 +-
+ target/m68k/op_helper.c    | 54 ++++++++++++++++++++------------------
+ 3 files changed, 36 insertions(+), 26 deletions(-)
 
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 9b3bf7a448..558c3c67d6 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -122,6 +122,12 @@ typedef struct CPUArchState {
+ 
+     /* MMU status.  */
+     struct {
++        /*
++         * Holds the "address" value in between raising an exception
++         * and creation of the exception stack frame.
++         * Used for both Format 7 exceptions (Access, i.e. mmu)
++         * and Format 2 exceptions (chk, div0, trapcc, etc).
++         */
+         uint32_t ar;
+         uint32_t ssw;
+         /* 68040 */
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index 12e5d9cd53..e24d17e180 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -47,7 +47,7 @@ void cpu_loop(CPUM68KState *env)
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->pc);
+             break;
+         case EXCP_CHK:
+-            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->pc);
++            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->mmu.ar);
+             break;
+         case EXCP_DIV0:
+             force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
 diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 0f41c2dce3..777869790b 100644
+index 777869790b..750d65576f 100644
 --- a/target/m68k/op_helper.c
 +++ b/target/m68k/op_helper.c
-@@ -287,12 +287,9 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
- {
-     CPUState *cs = env_cpu(env);
-     uint32_t sp;
--    uint32_t retaddr;
-     uint32_t vector;
-     uint16_t sr, oldsr;
- 
--    retaddr = env->pc;
--
-     if (!is_hw) {
-         switch (cs->exception_index) {
-         case EXCP_RTE:
-@@ -385,7 +382,7 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-         sp -= 4;
-         cpu_stl_mmuidx_ra(env, sp, env->mmu.ar, MMU_KERNEL_IDX, 0);
- 
--        do_stack_frame(env, &sp, 7, oldsr, 0, retaddr);
-+        do_stack_frame(env, &sp, 7, oldsr, 0, env->pc);
-         env->mmu.fault = false;
-         if (qemu_loglevel_mask(CPU_LOG_INT)) {
-             qemu_log("            "
-@@ -395,7 +392,7 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-         break;
- 
-     case EXCP_ADDRESS:
--        do_stack_frame(env, &sp, 2, oldsr, 0, retaddr);
-+        do_stack_frame(env, &sp, 2, oldsr, 0, env->pc);
-         break;
+@@ -397,13 +397,16 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
  
      case EXCP_ILLEGAL:
-@@ -404,12 +401,12 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+     case EXCP_DIV0:
+-    case EXCP_CHK:
      case EXCP_TRAPCC:
      case EXCP_TRACE:
          /* FIXME: addr is not only env->pc */
--        do_stack_frame(env, &sp, 2, oldsr, env->pc, retaddr);
-+        do_stack_frame(env, &sp, 2, oldsr, env->pc, env->pc);
+         do_stack_frame(env, &sp, 2, oldsr, env->pc, env->pc);
          break;
  
++    case EXCP_CHK:
++        do_stack_frame(env, &sp, 2, oldsr, env->mmu.ar, env->pc);
++        break;
++
      case EXCP_SPURIOUS ... EXCP_INT_LEVEL_7:
          if (is_hw && (oldsr & SR_M)) {
--            do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
-+            do_stack_frame(env, &sp, 0, oldsr, 0, env->pc);
-             oldsr = sr;
-             env->aregs[7] = sp;
-             cpu_m68k_set_sr(env, sr & ~SR_M);
-@@ -417,13 +414,13 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-             if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
-                 sp &= ~1;
-             }
--            do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
-+            do_stack_frame(env, &sp, 1, oldsr, 0, env->pc);
-             break;
-         }
-         /* fall through */
+             do_stack_frame(env, &sp, 0, oldsr, 0, env->pc);
+@@ -548,6 +551,29 @@ void HELPER(raise_exception)(CPUM68KState *env, uint32_t tt)
+     raise_exception(env, tt);
+ }
  
-     default:
--        do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
-+        do_stack_frame(env, &sp, 0, oldsr, 0, env->pc);
-         break;
++G_NORETURN static void
++raise_exception_format2(CPUM68KState *env, int tt, int ilen, uintptr_t raddr)
++{
++    CPUState *cs = env_cpu(env);
++
++    cs->exception_index = tt;
++
++    /* Recover PC and CC_OP for the beginning of the insn.  */
++    cpu_restore_state(cs, raddr, true);
++
++    /* Flags are current in env->cc_*, or are undefined. */
++    env->cc_op = CC_OP_FLAGS;
++
++    /*
++     * Remember original pc in mmu.ar, for the Format 2 stack frame.
++     * Adjust PC to end of the insn.
++     */
++    env->mmu.ar = env->pc;
++    env->pc += ilen;
++
++    cpu_loop_exit(cs);
++}
++
+ void HELPER(divuw)(CPUM68KState *env, int destr, uint32_t den)
+ {
+     uint32_t num = env->dregs[destr];
+@@ -1065,18 +1091,7 @@ void HELPER(chk)(CPUM68KState *env, int32_t val, int32_t ub)
+     env->cc_c = 0 <= ub ? val < 0 || val > ub : val > ub && val < 0;
+ 
+     if (val < 0 || val > ub) {
+-        CPUState *cs = env_cpu(env);
+-
+-        /* Recover PC and CC_OP for the beginning of the insn.  */
+-        cpu_restore_state(cs, GETPC(), true);
+-
+-        /* flags have been modified by gen_flush_flags() */
+-        env->cc_op = CC_OP_FLAGS;
+-        /* Adjust PC to end of the insn.  */
+-        env->pc += 2;
+-
+-        cs->exception_index = EXCP_CHK;
+-        cpu_loop_exit(cs);
++        raise_exception_format2(env, EXCP_CHK, 2, GETPC());
      }
+ }
  
+@@ -1097,17 +1112,6 @@ void HELPER(chk2)(CPUM68KState *env, int32_t val, int32_t lb, int32_t ub)
+     env->cc_c = lb <= ub ? val < lb || val > ub : val > ub && val < lb;
+ 
+     if (env->cc_c) {
+-        CPUState *cs = env_cpu(env);
+-
+-        /* Recover PC and CC_OP for the beginning of the insn.  */
+-        cpu_restore_state(cs, GETPC(), true);
+-
+-        /* flags have been modified by gen_flush_flags() */
+-        env->cc_op = CC_OP_FLAGS;
+-        /* Adjust PC to end of the insn.  */
+-        env->pc += 4;
+-
+-        cs->exception_index = EXCP_CHK;
+-        cpu_loop_exit(cs);
++        raise_exception_format2(env, EXCP_CHK, 4, GETPC());
+     }
+ }
 -- 
 2.34.1
 
