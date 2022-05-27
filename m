@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488D4535DEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 12:08:26 +0200 (CEST)
-Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F66535DF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 12:13:23 +0200 (CEST)
+Received: from localhost ([::1]:56228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuWtM-00051n-Ro
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 06:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1nuWy9-0000Xd-Cj
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 06:13:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1nuWoI-0002lS-MR; Fri, 27 May 2022 06:03:11 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:51914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1nuWoA-0000kg-Dl; Fri, 27 May 2022 06:03:08 -0400
-Received: from sas1-9c28cd37d27b.qloud-c.yandex.net
- (sas1-9c28cd37d27b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:309b:0:640:9c28:cd37])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 16CD72E119E;
- Fri, 27 May 2022 13:02:45 +0300 (MSK)
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by sas1-9c28cd37d27b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- EKAftqca0t-2hJGqLpo; Fri, 27 May 2022 13:02:45 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1653645765; bh=O9KnMLUe6JwmO3vcsngwzbqAFyeISP+bNPziRLmWiJo=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=Io4jxfa3LJNbFPB3n4/QoteuHKkp2Ox4v7KyMNpuUuSAOAIiHIWkqNkHre3NYbNC6
- 5BSARJSgXToXyY1H0rgW3iahxsKRhTdDyZf2m02/qlWG6q9Y82OcjjfauKnVyKuWOP
- IoKzpvN63gKX4aNdFdtkLP4TPt0ENFAsFE8T3zoE=
-Authentication-Results: sas1-9c28cd37d27b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:b6b0::1:22] (unknown
- [2a02:6b8:b081:b6b0::1:22])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- JviZwoZ57m-2hJCcZEF; Fri, 27 May 2022 13:02:43 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <06a1508b-abf9-6345-8681-67c76c7bf0d0@yandex-team.ru>
-Date: Fri, 27 May 2022 13:02:42 +0300
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nuWvh-0007om-HK
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 06:10:49 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nuWvf-00029r-Qv
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 06:10:49 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0908A1F916;
+ Fri, 27 May 2022 10:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1653646246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jAYQG2Wp9vtNyDWIxR46KwC4S4eO7607BKWinASW+Ts=;
+ b=hChv2wiDTIibiEm0olZsqYj/8X+M2i11WyE91fd5UlXBTRgdhEx8Wrm9Icw5+hgojTgV8E
+ Xj94pPbWkHP78kgr+T++nXzCa+YmEwi/xIJJSbeYwz6QxtVt+Pv0y+8ty9C+54FOx1FK6L
+ RODokNFxwh24BgNKIfM1siBDlQOFKC4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1653646246;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jAYQG2Wp9vtNyDWIxR46KwC4S4eO7607BKWinASW+Ts=;
+ b=giuPlQqfKMgddN1i+9UeBwILE/1PgLFJ2ynBQfqmJBfjGdtJAhwgIkb93RlaG5BQDH+/vC
+ mYrRbu2XocgKw4CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D18F313A84;
+ Fri, 27 May 2022 10:10:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id hs1JMaWjkGKJZgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 27 May 2022 10:10:45 +0000
+Subject: Re: make -j check failing on master, interesting valgrind errors on
+ qos-test vhost-user-blk-test/basic
+From: Claudio Fontana <cfontana@suse.de>
+To: "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: Dario Faggioli <dfaggioli@suse.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+References: <6dad6efd-7cb4-d1e0-d5f1-dbe35f69e545@suse.de>
+ <0e831d41-d338-ed6a-7530-a13d24675556@suse.de>
+ <94ef489c1721bdd741ba71c3fe75b3b66ec400b3.camel@suse.com>
+ <70e033c7-3096-d730-ef6f-1e0e0f052855@suse.de>
+Message-ID: <9da34510-ef68-542a-b7b6-22bcf3b0d5b7@suse.de>
+Date: Fri, 27 May 2022 12:10:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3 01/10] block: Add a 'flags' param to
- bdrv_{pread,pwrite,pwrite_sync}()
+In-Reply-To: <70e033c7-3096-d730-ef6f-1e0e0f052855@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Fam Zheng <fam@euphon.net>, Ari Sundholm <ari@tuxera.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220519144841.784780-1-afaria@redhat.com>
- <20220519144841.784780-2-afaria@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220519144841.784780-2-afaria@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,32 +94,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/22 17:48, Alberto Faria wrote:
-> For consistency with other I/O functions, and in preparation to
-> implement them using generated_co_wrapper.
+On 5/27/22 10:18 AM, Claudio Fontana wrote:
+> On 5/27/22 9:26 AM, Dario Faggioli wrote:
+>> On Thu, 2022-05-26 at 20:18 +0200, Claudio Fontana wrote:
+>>> Forget about his aspect, I think it is a separate problem.
+>>>
+>>> valgind of qos-test when run restricted to those specific paths (-p
+>>> /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-
+>>> net/virtio-net-tests/vhost-user/reconnect for example)
+>>> shows all clear,
+>>>
+>>> and still the test fails when run in a while loop after a few
+>>> attempts:
+>>>
+>> Yes, this kind of matches what I've also seen and reported about in
+>> <5bcb5ceb44dd830770d66330e27de6a4345fcb69.camel@suse.com>. If
+>> enable/run just one of:
+>> - reconnect
+>> - flags_mismatch
+>> - connect_fail
+>>
+>> I see no issues.
 > 
-> Callers were updated using this Coccinelle script:
+> On the countrary, for me just running a single one of those can fail.
 > 
->      @@ expression child, offset, buf, bytes; @@
->      - bdrv_pread(child, offset, buf, bytes)
->      + bdrv_pread(child, offset, buf, bytes, 0)
+> To reproduce this I run in a loop using, as quoted above,
 > 
->      @@ expression child, offset, buf, bytes; @@
->      - bdrv_pwrite(child, offset, buf, bytes)
->      + bdrv_pwrite(child, offset, buf, bytes, 0)
+> -p /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect 
 > 
->      @@ expression child, offset, buf, bytes; @@
->      - bdrv_pwrite_sync(child, offset, buf, bytes)
->      + bdrv_pwrite_sync(child, offset, buf, bytes, 0)
+> for example.
 > 
-> Resulting overly-long lines were then fixed by hand.
+> After a few successful runs I hit the error.
 > 
-> Signed-off-by: Alberto Faria<afaria@redhat.com>
-> Reviewed-by: Paolo Bonzini<pbonzini@redhat.com>
+> 
+>>
+>> As soon as two of those are run, one after the other, the problem
+>> starts to appear.
+> 
+> Not for me: one is enough.
+> 
+>>
+>> However, Claudio, AFAIUI, you're seeing this with an older GCC and
+>> without LTO, right?
+> 
+> Yes, to provide a different angle I tried on veteran OpenSUSE Leap 15.2, so gcc is based on 7.5.0.
+> 
+> I don't think LTO is being used in any way.
+> 
+>>
+>> Regards
+>>
+> 
+> Ciao,
+> 
+> CLaudio
+> 
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Hi Alex, I noticed that the asserts in wait_for_rings_started and such are triggered after
+the timeout of 5 seconds passed (end_time = g_get_monotonic_time() + 5 * G_TIME_SPAN_SECOND).
 
--- 
-Best regards,
-Vladimir
+I tried to increase the timeouts from 5 seconds to 30 seconds (tests/qtest/vhost-user-test.c)
+
+Still the thing timeouts.
+
+Do we have there a problem with the data_mutex or the signaling of the condition variable?
+
+Ciao,
+
+Claudio
+
+
+
+
 
