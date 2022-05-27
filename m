@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735F5536785
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 21:34:08 +0200 (CEST)
-Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5A65367BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 21:56:53 +0200 (CEST)
+Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nufil-0006iY-9w
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 15:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43948)
+	id 1nug4q-00060y-UX
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 15:56:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nuecL-0003c4-Ts
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:23:22 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:40614)
+ id 1nuecQ-0003h2-51
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:23:28 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:34710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nuec9-0004RL-Gf
- for qemu-devel@nongnu.org; Fri, 27 May 2022 14:23:21 -0400
-Received: by mail-pg1-x534.google.com with SMTP id x12so4560796pgj.7
+ id 1nuec9-0004RT-IL
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 14:23:25 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id g184so4605935pgc.1
  for <qemu-devel@nongnu.org>; Fri, 27 May 2022 11:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mOVNnulMY9/cI7p7C/1byK8K0DnOS+U6K67oQeWaeLQ=;
- b=ikO8/36AV7pPnNzZCIXZObumHQrq24CqYwtqsuNR5guYElIIBKyVT76YiiKnqazcaU
- odDJg4N9qseBzQb/JeA+SrZO3FkkQxBDKO0IFNik7PjTD9GeoouhSsiJMgwel+buANpM
- n5JsW82rwDy2NPgb2aAx+92vOaI/qZNWNc/Gw52OON5ONXHGiAvCQL6mgxbqqmYZh6Lc
- awH8/gf8eU18ATaK/WiCH0dk4AtSo5i75Zj5e5b1BsDwA4paPBZccQPd47MJPHN0dSr6
- Cb4YlGer0K9FcqFL0+bAkOPkxU2UzVwI5mkJsV+W21y6lnx5RqkHU8NwGQDc2ANCVh9k
- qPvA==
+ bh=02JdN4H2o9VVqutTBt0Mh0X95ZgODcZg43p8fFQRzHM=;
+ b=OJdTzXZDnRXl5kF7BnDeRyw3dqW5oZx9eRV5aNjMU9GBAjeHIB3iepqhnNaPYhRP6H
+ 91jVFRxaA0jwwM6oRV3nwOtNR+7eEk8WrNfhNE2kBbEqSouwpWMMx1N9xvazkOG9eWtl
+ A4FqTucj0xqOgv7NX+TaZVUKWb6Rrbc08MZq7ti4idlloy++E1BLe12VSJkk5PZSuPsw
+ ntDiXvnN7D/OOoxmRG7liic9npNluLWQ4rpP070SRVpTCTIn3b/K8ocL+Nw26feJhV8n
+ 2PjvseHl6oym7BzJyCmBlBcXB/ineY2XILCYLShBmFiRZSIEytRO0rxzSuUpRxOIp60c
+ Fsdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mOVNnulMY9/cI7p7C/1byK8K0DnOS+U6K67oQeWaeLQ=;
- b=hi0A8igCq06YQGTiLEYLlTqaGGbSS5EzbuF7xtiazoMd+kOP2fJsQ/zpZlJXOv+Ppy
- n02rwLi27LSTq0Mth1C4Eon/uonX52ejGtFMFx3M/Lm8tej11Qwi4LCdysSb/q+Jhvky
- ShYfC0+6NbaXSiZnCDXO9Svgk3kDOVT3T0LPMFtv7NuHgV/AeTvxC6tPNrXaLOiihGbp
- /JZCstgq0f3/Cx9tHA1fXRRvXnRXvyqiliC6Hg+VkRT7qKboMfDPdJcQWBx4RuyV0OsG
- J8qAVbJEmfVzBm7IyQ3V50CJhFOU+/s4qlK6q7/bXkLGuBOZH979ZN5u1c+xLEvFwpRF
- 33aw==
-X-Gm-Message-State: AOAM532+BBRwZSE9WRnrleD14KpK8kGGHyApfuqzvNPwHRp9gPfSjYKa
- TSRib9FqqTYN3VHromh+tBhmQPM52QjD2w==
-X-Google-Smtp-Source: ABdhPJydE2lnOXAWSKW289QWAaSv5QzSrfh0OEOdGjmoDF26oKqQXhzoISefOj9y1/hn2jm9Urt0yQ==
-X-Received: by 2002:a05:6a00:14c8:b0:518:7789:d33b with SMTP id
- w8-20020a056a0014c800b005187789d33bmr35640010pfu.36.1653675784707; 
- Fri, 27 May 2022 11:23:04 -0700 (PDT)
+ bh=02JdN4H2o9VVqutTBt0Mh0X95ZgODcZg43p8fFQRzHM=;
+ b=0DJIHy9qYJ5kKDcqQBJyJFHC/CjYnHVADk2Vj1OO4ZQ8sKow3hhcSm2eINnQOorZn+
+ 3oQhz8sNlAvvaPGpRIJft8WFQx8TCW7cG3LzfwhTQ70W3XOZ4dOZcY893A9rusUa+Aek
+ ZgG5kBBqIvbJoBQqFpOs+FmQ6zAIqImj2SJF6Acr89NihCJHfTJymTYT9uhKTVfJWE3K
+ rsBuGVrBrqRiWyCRnIVaxWCvgWGVtsA9Wcegnfrsbow5I93zrMk9ZQ01MJSfJyeV/he2
+ AUY1etO+7a5x4+XtPQzwHnCnNDEH1LM0ZQn7D2bM3iBdvQpn581Duza8OIOJKm9Lov1u
+ Mtfw==
+X-Gm-Message-State: AOAM533YDWGGtDkmcmEwD4e1gy9lQqGzhq1WsvjRo/YN0eg1uICBFRyU
+ 1A49GGll8h7VpKHgCwsY2Nixzz/GDn8DUA==
+X-Google-Smtp-Source: ABdhPJw/3T80YB45oEM6rTnYJbDFHNUegwRh8PfKgzAenuYxKf++/sU5X7d65UlpUycOblOd9bP+Zw==
+X-Received: by 2002:a05:6a00:3023:b0:518:4721:13c6 with SMTP id
+ ay35-20020a056a00302300b00518472113c6mr41382051pfb.34.1653675785497; 
+ Fri, 27 May 2022 11:23:05 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
  b15-20020a170903228f00b00163552a0953sm4033534plh.159.2022.05.27.11.23.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 11:23:04 -0700 (PDT)
+ Fri, 27 May 2022 11:23:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 060/114] target/arm: Use TRANS_FEAT for do_clast_vector
-Date: Fri, 27 May 2022 11:18:13 -0700
-Message-Id: <20220527181907.189259-61-richard.henderson@linaro.org>
+Subject: [PATCH 061/114] target/arm: Use TRANS_FEAT for do_clast_fp
+Date: Fri, 27 May 2022 11:18:14 -0700
+Message-Id: <20220527181907.189259-62-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220527181907.189259-1-richard.henderson@linaro.org>
 References: <20220527181907.189259-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,27 +93,27 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 7c9deb267f..5135866798 100644
+index 5135866798..21c2bd099d 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -2492,15 +2492,8 @@ static bool do_clast_vector(DisasContext *s, arg_rprr_esz *a, bool before)
+@@ -2542,15 +2542,8 @@ static bool do_clast_fp(DisasContext *s, arg_rpr_esz *a, bool before)
      return true;
  }
  
--static bool trans_CLASTA_z(DisasContext *s, arg_rprr_esz *a)
+-static bool trans_CLASTA_v(DisasContext *s, arg_rpr_esz *a)
 -{
--    return do_clast_vector(s, a, false);
+-    return do_clast_fp(s, a, false);
 -}
 -
--static bool trans_CLASTB_z(DisasContext *s, arg_rprr_esz *a)
+-static bool trans_CLASTB_v(DisasContext *s, arg_rpr_esz *a)
 -{
--    return do_clast_vector(s, a, true);
+-    return do_clast_fp(s, a, true);
 -}
-+TRANS_FEAT(CLASTA_z, aa64_sve, do_clast_vector, a, false)
-+TRANS_FEAT(CLASTB_z, aa64_sve, do_clast_vector, a, true)
++TRANS_FEAT(CLASTA_v, aa64_sve, do_clast_fp, a, false)
++TRANS_FEAT(CLASTB_v, aa64_sve, do_clast_fp, a, true)
  
- /* Compute CLAST for a scalar.  */
- static void do_clast_scalar(DisasContext *s, int esz, int pg, int rm,
+ /* Compute CLAST for a Xreg.  */
+ static bool do_clast_general(DisasContext *s, arg_rpr_esz *a, bool before)
 -- 
 2.34.1
 
