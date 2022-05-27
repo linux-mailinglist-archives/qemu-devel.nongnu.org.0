@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A264C53659C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 18:02:40 +0200 (CEST)
-Received: from localhost ([::1]:38050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A695E53654E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 May 2022 17:57:52 +0200 (CEST)
+Received: from localhost ([::1]:57194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nucQB-0006uc-Ji
-	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 12:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
+	id 1nucLX-0000Vy-P0
+	for lists+qemu-devel@lfdr.de; Fri, 27 May 2022 11:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc8J-00032R-Kj
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:11 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46659)
+ id 1nuc0r-000104-U3
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:29 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nuc8H-0003sJ-TN
- for qemu-devel@nongnu.org; Fri, 27 May 2022 11:44:11 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d26so770845wrb.13
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:44:09 -0700 (PDT)
+ id 1nuc0p-0002PB-IC
+ for qemu-devel@nongnu.org; Fri, 27 May 2022 11:36:29 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id jx22so9411759ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 08:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z8XF8iPBZc3R5SAOp42FEF7Tkk/PzFsQPDZ9qsBNAPc=;
- b=Jh+ikDZKmO3+nDXFe0tUZoxvggeJuzPkOYkZ/6B4nxEDmGtwVhFLgELgKzjacSbXFY
- rqkagd1zxc71ixSxCHeqqSNxfC4awia2iSiba291jh+BKuXhnaW12oyvDL28iNK1YZA4
- 4hrBbcQLqzB2+PEkL85mfoWRvPuO4BqBbACVZL88wI8vyDp4oscEqbMrflB4XMQIL65S
- Tp+zYgxZ4Tkv2a9Wug8lONem7gkV8Km/F2dEPU7+Uh5WrhFtY+HNOtu0UugfSa230OOT
- S0O/aVeyuJBXGI8DbwbXxuXcOV2ZoUA24fjM4Hz2An5c+TBI8F7CvAW8O6mUV5zgzopb
- pcNw==
+ bh=t85avgb/nvmewBFKywhnkuvzPqaOlsTW4/UZSCyAZLE=;
+ b=WkFGbR2B0xw0tzZY84BNpkf7jBfk4FRYYM0Ey8ueLBTAaWAm0WruxtiR2SFSHdAH0T
+ rOEnNR1CIFoDx5yfcko1/GuHk4X46jQL49ry+0Bid04hwJ5g1BN+UISCkezvJqwqmPx+
+ 34aSWCADexwWndQrMBsurvZ9LlDJSPnQREzXURhZw2TtJX3PzsHbPl/q2PN4v1Bd3p3C
+ yDlSak2qyA++0dKhTBsiD4jjRX6piaVBzLDE7PaeAtfJ5ylbY5HcPWCkszOfXEjqLYX6
+ Uwai2/rahKrLRAFOK3oBHE/DNGRP2dj8f+vOeowjluhK6BhfSnhPKOmzQbWRXqzYHyZg
+ meQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z8XF8iPBZc3R5SAOp42FEF7Tkk/PzFsQPDZ9qsBNAPc=;
- b=bswN4y7JF+udWS7ERwQljfkJhb5I7b/1BM7nLgGepW+W7KUWOoCvpV1ZA+UhJM1cbp
- yO1p4BbgVCnn64lEmhSmNVwIVZMhn48Z7j75Fff7Cmg177fyvrTBHxX+dIfmdR82rshq
- Ga/IgrbZgwwsUwq1J2JDYwQ1ghNEYhhxR7/J46ita3ItAkr3QLfcTby+i4Ta8eE27kNw
- OrxHcrOQfEnDs2Gfxgx7OYnr6dcm6LBmNpOATQaiaZaefCHvClu5VcoDVsxATzJASgBK
- 9ztInfISHC2RkBj5/OvQ2WfTSVN6cHFwDXvr/yFilTw0nZEihL2Z3ecfYT5jiKWqTZ6E
- oJCQ==
-X-Gm-Message-State: AOAM530yezHY+g+oa51lbXILZJGHQQFlM5osboCQ7OG2TPX5VLryIACZ
- J5HLnfm86aXeehZV1I/eL8u+mQ==
-X-Google-Smtp-Source: ABdhPJyUjFB+paDQ4hFc30cMF7hfhnJWWcDNHr8NYFhDRcKUUF7I/0CaY3lti/fzW+RpKdBrIhKL0w==
-X-Received: by 2002:adf:e543:0:b0:210:1ca6:9869 with SMTP id
- z3-20020adfe543000000b002101ca69869mr2549639wrm.205.1653666248599; 
- Fri, 27 May 2022 08:44:08 -0700 (PDT)
+ bh=t85avgb/nvmewBFKywhnkuvzPqaOlsTW4/UZSCyAZLE=;
+ b=HSADLQr0pCQ0hWH88JIKlA/oj+I3ZFYNOuQoaF3ulCGqVzDA06oLh5X+dqhBs4Q5Bc
+ PTRoIIw2tXiszl/mzBlFPgxF20QI3sJHR4CWEKcdSB+BeRxIq6RlP98bHlwwc6865BjP
+ 7Qc/nOS/04GWazTwo8P6O5V4KjqKb+bk22ifrpM5RANgCYQAj0Sq2bz9EfZQZ1SGawhv
+ 12cEVvzxP442INXJBFEcrzFsdq1DhuQQnMa4qMp6COBjHw4JUvPkDjuF7CNwjofebnrE
+ KpRoelXQth+ZRZAb2PqJpFy1ZPumSi5YXSqtsu7OMa6B6/j5xMdQE6hvleSjRCQrUWrR
+ Y4VQ==
+X-Gm-Message-State: AOAM5327MBJJaWXiqqz2CC6LGaVJXnqktumiP0lAHdkqTctqkw//0Sa1
+ UwQ3/JWmyh6WINAq3zVf1LPGJA==
+X-Google-Smtp-Source: ABdhPJzQ25WFVJgP+sHy77f9KP12Oe2dbI2iV/Yb2LhkGrl1sb0Wmni9kjoWBGt3qYTGsav7xz8Wmg==
+X-Received: by 2002:a17:907:1c85:b0:6ff:4607:1bb with SMTP id
+ nb5-20020a1709071c8500b006ff460701bbmr1634914ejc.675.1653665786796; 
+ Fri, 27 May 2022 08:36:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- x8-20020a5d4448000000b0020fe43fca50sm1871007wrr.91.2022.05.27.08.43.59
+ d3-20020a17090648c300b006f39ffe23fdsm1580596ejt.0.2022.05.27.08.36.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 08:44:06 -0700 (PDT)
+ Fri, 27 May 2022 08:36:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 182DE1FFD1;
+ by zen.linaroharston (Postfix) with ESMTP id 26E441FFD2;
  Fri, 27 May 2022 16:36:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 25/33] configure: enable cross-compilation of optionrom
-Date: Fri, 27 May 2022 16:35:55 +0100
-Message-Id: <20220527153603.887929-26-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org (open list:Virtual Open Firm...)
+Subject: [PATCH  v1 26/33] configure: enable cross compilation of vof
+Date: Fri, 27 May 2022 16:35:56 +0100
+Message-Id: <20220527153603.887929-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220527153603.887929-1-alex.bennee@linaro.org>
 References: <20220527153603.887929-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,117 +102,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-While container-based cross compilers are not supported, this already makes
-it possible to build x86 optionroms on any machine that has an installation
-of GCC and binutils for 32- or 64-bit x86.
+While container-based cross compilers are not supported, this already
+makes it possible to build vof on any machine that has an installation
+of GCC and binutils for 32- or 64-bit PowerPC.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220517092616.1272238-15-pbonzini@redhat.com>
+Message-Id: <20220517092616.1272238-16-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure                  | 29 +++++++++++++++++++++--------
- pc-bios/optionrom/Makefile |  2 --
- 2 files changed, 21 insertions(+), 10 deletions(-)
+ configure            | 10 ++++++++++
+ pc-bios/vof/Makefile | 17 +++++++++--------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
 diff --git a/configure b/configure
-index 99626df869..b974db3ebd 100755
+index b974db3ebd..89a0470cc2 100755
 --- a/configure
 +++ b/configure
-@@ -2077,6 +2077,13 @@ probe_target_compiler() {
-   fi
- }
- 
-+probe_target_compilers() {
-+  for i; do
-+    probe_target_compiler $i
-+    test -n "$target_cc" && return 0
-+  done
-+}
-+
- write_target_makefile() {
-   if test -n "$target_cc"; then
-     echo "CC=$target_cc"
-@@ -2187,6 +2194,9 @@ fi
- 
- QEMU_GA_MSI_MINGW_BIN_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
- 
-+#######################################
-+# cross-compiled firmware targets
-+
- # Set up build tree symlinks that point back into the source tree
- # (these can be both files and directories).
- # Caution: avoid adding files or directories here using wildcards. This
-@@ -2213,19 +2223,27 @@ done
- 
- # Mac OS X ships with a broken assembler
- roms=
--if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
-+probe_target_compilers i386 x86_64
-+if test -n "$target_cc" &&
-         test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-         test "$targetos" != "haiku" && test "$softmmu" = yes ; then
-     # Different host OS linkers have different ideas about the name of the ELF
-     # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
-     # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
-     for emu in elf_i386 elf_i386_fbsd elf_i386_obsd i386pe; do
--        if "$ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
-+        if "$target_ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
-             ld_i386_emulation="$emu"
--            roms="optionrom"
-             break
-         fi
-     done
-+    if test -n "$ld_i386_emulation"; then
-+        roms="optionrom"
-+        config_mak=pc-bios/optionrom/config.mak
-+        echo "# Automatically generated by configure - do not modify" > $config_mak
-+        echo "TOPSRC_DIR=$source_path" >> $config_mak
-+        echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_mak
-+        write_target_makefile >> $config_mak
-+    fi
+@@ -2209,6 +2209,7 @@ LINKS="Makefile"
+ LINKS="$LINKS tests/tcg/Makefile.target"
+ LINKS="$LINKS pc-bios/optionrom/Makefile"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
++LINKS="$LINKS pc-bios/vof/Makefile"
+ LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
+ LINKS="$LINKS tests/avocado tests/data"
+ LINKS="$LINKS tests/qemu-iotests/check"
+@@ -2246,6 +2247,15 @@ if test -n "$target_cc" &&
+     fi
  fi
  
++probe_target_compilers ppc ppc64
++if test -n "$target_cc" && test "$softmmu" = yes; then
++    roms="$roms vof"
++    config_mak=pc-bios/vof/config.mak
++    echo "# Automatically generated by configure - do not modify" > $config_mak
++    echo "SRC_DIR=$source_path/pc-bios/vof" >> $config_mak
++    write_target_makefile >> $config_mak
++fi
++
  # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
-@@ -2378,7 +2396,6 @@ echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
- echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
- echo "GLIB_VERSION=$(pkg-config --modversion glib-2.0)" >> $config_host_mak
- echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
--echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
- echo "STRIP=$strip" >> $config_host_mak
- echo "EXESUF=$EXESUF" >> $config_host_mak
+ # (which is the lowest architecture level that Clang supports)
+ probe_target_compiler s390x
+diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
+index aa1678c4d8..391ac0d600 100644
+--- a/pc-bios/vof/Makefile
++++ b/pc-bios/vof/Makefile
+@@ -1,11 +1,10 @@
+-all: build-all
++include config.mak
++VPATH=$(SRC_DIR)
++all: vof.bin
  
-@@ -2568,10 +2585,6 @@ for target in $target_list; do
- done
- echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> $makefile)
- 
--config_mak=pc-bios/optionrom/config.mak
--echo "# Automatically generated by configure - do not modify" > $config_mak
--echo "TOPSRC_DIR=$source_path" >> $config_mak
+-build-all: vof.bin
 -
- if test "$skip_meson" = no; then
-   cross="config-meson.cross.new"
-   meson_quote() {
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index 17ccc76241..f639915b4f 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -6,7 +6,6 @@ all: multiboot.bin multiboot_dma.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bi
- # Dummy command so that make thinks it has done something
- 	@true
+-CROSS ?=
+-CC = $(CROSS)gcc
+-LD = $(CROSS)ld
+-OBJCOPY = $(CROSS)objcopy
++CC ?= $(CROSS)gcc
++LD ?= $(CROSS)ld
++OBJCOPY ?= $(CROSS)objcopy
  
--include ../../config-host.mak
- CFLAGS = -O2 -g
+ %.o: %.S
+ 	$(CC) -m32 -mbig-endian -mcpu=power4 -c -o $@ $<
+@@ -14,10 +13,12 @@ OBJCOPY = $(CROSS)objcopy
+ 	$(CC) -m32 -mbig-endian -mcpu=power4 -c -fno-stack-protector -o $@ $<
  
- quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
-@@ -44,7 +43,6 @@ Wa = -Wa,
- override ASFLAGS += -32
- override CFLAGS += $(call cc-option, $(Wa)-32)
+ vof.elf: entry.o main.o ci.o bootmem.o libc.o
+-	$(LD) -nostdlib -e_start -Tvof.lds -EB -o $@ $^
++	$(LD) -nostdlib -e_start -T$(SRC_DIR)/vof.lds -EB -o $@ $^
  
--LD_I386_EMULATION ?= elf_i386
- override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
+ %.bin: %.elf
+ 	$(OBJCOPY) -O binary -j .text -j .data -j .toc -j .got2 $^ $@
  
- pvh.img: pvh.o pvh_main.o
+ clean:
+ 	rm -f *.o vof.bin vof.elf *~
++
++.PHONY: all clean
 -- 
 2.30.2
 
