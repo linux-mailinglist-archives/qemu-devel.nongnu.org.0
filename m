@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C400536C36
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 12:03:02 +0200 (CEST)
-Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D19C536C54
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 12:38:26 +0200 (CEST)
+Received: from localhost ([::1]:59964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nutHh-0007hv-3f
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 06:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
+	id 1nutpw-0006KZ-L7
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 06:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nut9h-0003jY-R9
- for qemu-devel@nongnu.org; Sat, 28 May 2022 05:54:46 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56910)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nutgI-0000ha-Aq
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 06:28:26 -0400
+Received: from mout.gmx.net ([212.227.15.19]:42595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nut9f-0008Ir-8t
- for qemu-devel@nongnu.org; Sat, 28 May 2022 05:54:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YBReQsA+NbP74uH2RBEgleHURp3w/a/Fk6kPcYokKN4=; b=1L3+aI50YVhs4YkttgPfwbPMAm
- JA/E8uTl/x2ECv8zJymg0ExuGvEeTmIsC6RrXxZUernaqvQhuU0AYKnHsJaMZJn4Tnu9J8No0WM9Y
- So2hzsNpoQz7Fmd2O1qjnuikfysD6A1B9LF5ag+YlQoz2s6UyaylO47ri/WSfsLJVE2XBAHX/C01D
- rAqJzO3lPq+SiKjcXrHm6PdgjTFlWkisARCRKwDlcPKKdz2KpfjglUUrQJ94EgPfAyhzxI0pN0UgW
- a/faOD58Jp2IN6p3bg39OiPPUqroU/hRlh4XyCjLyry0OzoWS3u7wybVBBYezhf8qg+2lWIVPKtJi
- Fiugh0d6AuSAxVd0p2ilvbvjHCx45JNdrhL8fm4TZa8VtpWuxKEJbl59KNgusuSmzmPiPuoXhk7Td
- HN8T3jr/Yy8DcCeEgEJXH3OB2N29VLYK7OvpEnjW7TKPWRptJZFBLqHUkAkWCcYLuAvC3BQwk47Uh
- QSXAJcKWxBnAhdZVkdAxbJC2bf5tixZwGtDN7W0+glkKQqjvZoQjeQ8otNGjzguQUiWYqajPzKvqi
- Evpzw0laUd8LZsPnqPQGe+GrA4WGKdS8fgUuumwsMgeTxBiizokh3UTGVi6wo4RLnParPGTI4ww8G
- h9yxCCt/8ZVAyWipwntWubZkpQfkSPuiU5kIEnwkE=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nut8Z-0003Ye-6E; Sat, 28 May 2022 10:53:39 +0100
-Message-ID: <35740c8b-cc7a-b3fd-e5e0-b1330d7f4e9e@ilande.co.uk>
-Date: Sat, 28 May 2022 10:54:36 +0100
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nutgG-0005Xb-3T
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 06:28:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1653733700;
+ bh=n5MKBff6jaNg4gy7HPL1KKwf6y5HhmUMzzvredwSUds=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=NDibqGuqONP3gtR46eE5DpVR4qv7aNJnhR6KRVA35GuIxT+naY0pa+wyaN+JJADg2
+ DCkfI3/bvEh0HcdekGf7f6xZrLvrpcme7Bh3Kh5V6lEFfuGC6M4n2aRefnaJ9zTY/S
+ sSBKoRAi8kqDlKilquQeXNadknIdfCq04Qj8h/HA=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100.fritz.box ([92.116.176.6]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMGRA-1oE5Du1pAM-00JHxU; Sat, 28
+ May 2022 12:28:20 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org
+Cc: Sven Schnelle <svens@stackframe.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 0/3] Hppa serial fix patches
+Date: Sat, 28 May 2022 12:28:16 +0200
+Message-Id: <20220528102819.21983-1-deller@gmx.de>
+X-Mailer: git-send-email 2.35.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Sven Schnelle <svens@stackframe.org>
-References: <20220528094134.16513-1-deller@gmx.de>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220528094134.16513-1-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 0/3] hppa: Fix serial port pass-through
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:OpKthOCbbXDv0uH/KH3pFCDdqkX3uJ5WgNBC2ZJJ6t0I1Rz6ad+
+ MboaSgngGXJJ2Rz80ZUZciBXuNnYS64DX5MkhFiZbonLnuO3j7cgu6HMOZQG7T3I1nFfw/1
+ y73yo+MjLP8A8J7ElDqMvtuXw0JdBWHKXEtS3Q0wdSjCCGsNG4y3i8flvplUOF2q8Qvtmqd
+ cWIfdybngkwCdQ7gR7AIw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:o9HFsAaQHrc=:rgzgRbmhzgunSebqAOAMXJ
+ 1GSSYHiAh3xXO0dSZZeDqM/Kt971AeEFtSEoUdLCwjqo3XFk0bY6KZLQzD76M/0hmbnuSfADP
+ VNygVRTCnsyW2aBy9ZT4swOGCEjyJM1XrIVz22e6LJez/JUz5SNPDXuZLb4qg1WJWoF/uiQWD
+ zutLq3MXPCmWy+mKs0f8oRE+7571vMj/RqvVcLQoCBmx7jDRCDnN1mrDVipB/0J95ibA2sOCK
+ zcyCA3S3qMUOLGwQGeLi/MsdY+X3i282dU/n2gMBgbzH15Bt37/+2tHLz/LiLycKSONkKE9Jq
+ y/OKLkRaFrhlo6iqcQPuKq25W8TrDdcWEBwLEZsP4gsicC2ISNIc4GPHzqC1JPTJw2N+3ADkT
+ syc72yCg/DU2kamOx/10+FyTc4CZLSE/f6WlLwdbjt/dLKqoQvm//YSWGJHHRfziUC96TD9xs
+ x3mBFU2Cla/P5L7GUYg3xVYsZ54c+kXc4hoVFDXvIH5wol9f010HcZVmTOMhePtAKSGQGttWx
+ GR/Dyrqp97GfdGg6m87kXr6KIvecRq5yJRML4e6pRabXZiuP2hEikNjBktSukclxNkkG66MQR
+ pccHTbAPnSwezvojvpjIc//bFcUuMXAEylMoXRa0Lpw0Hd0ENUB94DAfElhsdYMFQyzCtI86H
+ YGQThZb+HgbGcPl0jVTvbgBXghfY3tE2n55XL1+tWxQxpQYcVNpLohzgZlTysompVPFXtJEK1
+ xBFzMhYnZ0PdgZwP+i/0b1VLUTqtZ8iLbUzv1aBfPDNDamVrQQsnMgDi2feKirqv5KjNb/uYK
+ //2rdcCqCmi3PNM6GyWyhKMOkR7SRHimQQbvBrQKUifMMLsFemDZ34ejGkzfqERbopyq+bMpA
+ wZv+sL12acCl/IXSX3xbI0cCHKg5mNZ52jMG2mhLXFGv3jI+dY63hXwJYwaTTU2nL+5szlOK+
+ JFqs8lJ2HfvD0UTZlP2tkthNzPxxykaRNZdzb/z9kdU+O+Hgl7Vbe26pZfQ9KgCXeRFGM+LTg
+ +C5P8vPUyPIpoUBz6fDIbDECyvvV2AE6Xo6QrDMqc32ze2VCntFod5C34cg2wpsi6mLXujJ9V
+ sMCrwn1k6VW+pyLrcMmuy02frvrHMRPG9on
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,37 +86,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/05/2022 10:41, Helge Deller wrote:
+The following changes since commit 58b53669e87fed0d70903e05cd42079fbbdbc19=
+5:
 
-> This series fixes the SeaBIOS-hppa firmware and the serial ports setup code in
-> qemu so that it reflects the real hardware and allows serial port pass-through
-> from the host to guests.
-> 
-> Tested with Linux guests.
-> 
-> v2: Changes suggested by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> - Split out hppa_hardware.h restoration to an own patch
-> - Drop unneccesary checks for serial_hd(x)
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> 
-> Helge Deller (3):
->    New SeaBIOS-hppa version 6
->    hppa: Sync contents of hppa_hardware.h header file with SeaBIOS-hppa
->    hppa: Fix serial port assignments and pass-through
-> 
->   hw/hppa/hppa_hardware.h   |  10 ++++++++--
->   hw/hppa/machine.c         |  22 ++++++++--------------
->   pc-bios/hppa-firmware.img | Bin 719040 -> 719368 bytes
->   roms/seabios-hppa         |   2 +-
->   4 files changed, 17 insertions(+), 17 deletions(-)
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging=
+ (2022-05-25 13:46:29 -0700)
 
-Looks good to me :)
+are available in the Git repository at:
 
+  https://github.com/hdeller/qemu-hppa.git tags/hppa-serial-fix-pull-reque=
+st
+
+for you to fetch changes up to 5079892df5f113c7f2b77f53bf7663f6c7bc6be9:
+
+  hppa: Fix serial port assignments and pass-through (2022-05-28 12:25:42 =
++0200)
+
+=2D---------------------------------------------------------------
+hppa: Fix serial port pass-through
+
+This series fixes the SeaBIOS-hppa firmware and the serial ports setup cod=
+e in
+qemu so that it reflects the real hardware and allows serial port pass-thr=
+ough
+from the host to guests.
+
+Tested with Linux guests.
+
+v2: Changes suggested by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+- Split out hppa_hardware.h restoration to an own patch
+- Drop unneccesary checks for serial_hd(x)
+
+Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
+=2D---------------------------------------------------------------
 
-ATB,
+Helge Deller (3):
+  New SeaBIOS-hppa version 6
+  hppa: Sync contents of hppa_hardware.h header file with SeaBIOS-hppa
+  hppa: Fix serial port assignments and pass-through
 
-Mark.
+ hw/hppa/hppa_hardware.h   |  10 ++++++++--
+ hw/hppa/machine.c         |  22 ++++++++--------------
+ pc-bios/hppa-firmware.img | Bin 719040 -> 719368 bytes
+ roms/seabios-hppa         |   2 +-
+ 4 files changed, 17 insertions(+), 17 deletions(-)
+
+=2D-
+2.35.3
+
 
