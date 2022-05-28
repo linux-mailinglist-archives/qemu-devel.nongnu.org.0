@@ -2,60 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44C4536DC9
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 18:37:59 +0200 (CEST)
-Received: from localhost ([::1]:43964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10ADD536DF1
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 19:24:50 +0200 (CEST)
+Received: from localhost ([::1]:58746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuzRu-00078A-Oh
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 12:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37750)
+	id 1nv0BE-00073j-LI
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 13:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nuzQb-0005ky-V6
- for qemu-devel@nongnu.org; Sat, 28 May 2022 12:36:37 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:56591)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1nv09i-0006Ml-PQ
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 13:23:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nuzQa-0004nN-6O
- for qemu-devel@nongnu.org; Sat, 28 May 2022 12:36:37 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N2m3G-1npa2Q1UMe-0137ZX; Sat, 28 May 2022 18:36:34 +0200
-Message-ID: <87924780-8998-ec03-cb82-db129175ff8d@vivier.eu>
-Date: Sat, 28 May 2022 18:36:33 +0200
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1nv09g-0002pA-T2
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 13:23:14 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24SC1qkA009397
+ for <qemu-devel@nongnu.org>; Sat, 28 May 2022 17:23:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=AzTSHmrZMOd9WqtqCzZmRzLsDMFHNkdlRSBxEexoGw0=;
+ b=X80LB8uTibsCP1yAGmvI0QRCc/xJIqZz4RQ5Im8ImSIPJ36QOaBP6D0D7974H+VLpr8Q
+ Fx2Fb3EhwBls3KDWMQ0SivZZBs7LTBZN33UhRiLM0jo+xUGiBXqDYbrvNsR9oiPDseq3
+ fS12Yk5wVvlc8FfeqrmQGZq8su0WrWbrkxZrXCdSULBTtqFaU9unjfY9hRfPM0fC1eFl
+ MvNXyTMji+hOVMt3Igc18BneRkxpfuuujNTN4O1+KfkB/ZvwDGd9Z2TzpPWidd40dQYB
+ AffbojA2D1/eXF55F0id+GqV+kkw6XmlG+tf5HA2h9OrgeZGvGXK3YuZMZVpukJ2Z442 ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gbkct3k12-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Sat, 28 May 2022 17:23:10 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24SHNAJH022966
+ for <qemu-devel@nongnu.org>; Sat, 28 May 2022 17:23:10 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gbkct3k0r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 28 May 2022 17:23:09 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24SHLR2V025021;
+ Sat, 28 May 2022 17:23:08 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma03wdc.us.ibm.com with ESMTP id 3gbc9uu0yq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 28 May 2022 17:23:08 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 24SHN8ev23200214
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 28 May 2022 17:23:08 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32905124052;
+ Sat, 28 May 2022 17:23:08 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 15C35124054;
+ Sat, 28 May 2022 17:23:08 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Sat, 28 May 2022 17:23:08 +0000 (GMT)
+Message-ID: <1eef83c7-9fb9-1060-a993-5b7d3ac47ffe@linux.ibm.com>
+Date: Sat, 28 May 2022 13:23:07 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v5 00/17] target/m68k: Conditional traps + trap cleanup
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220527164807.135038-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220527164807.135038-1-richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/2] backend/tpm: Resolve issue with TPM 2 DA lockout
+Content-Language: en-US
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+References: <20220527173058.226210-1-stefanb@linux.ibm.com>
+ <CAMxuvax1PkLZb+Ms6n1wCyd8hHFsPQwi3xaM+RM0c1x7imQAzA@mail.gmail.com>
+ <7b6d1edf-882f-a369-67c9-5ed5f1d7ce51@linux.ibm.com>
+In-Reply-To: <7b6d1edf-882f-a369-67c9-5ed5f1d7ce51@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:p49MFk2gpz3XKdb73i2uTIS0UnqnkEyJW5HeotBdddOLonau0EE
- jnsCj0yKh+lKh/xlyEykp/1m/ho7hEzKi3BIxFzsC9DfbIXYCXbr91MWloywfQ4xupmXnV+
- o7XoHPIA0ePBAnWDroZMnPjrUuhms1LZ4t3goRknCChUef9fIrBnnjmne43ho2oa8WNOSpb
- qhvYuyKR3GVdnvBEGDEEw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:k9bo7cU6TAw=:Nz7rQfLV9xdr/HrLrZ4pO9
- euGQxzsNR41g4VKQRRkIhINvvl/vCyuN5F66mFS+J6j3Mnp7uAEhu9usOsoLDoMlXRWLdLI6l
- /CU98HROW/Moe22yo9WgOF+ZXrSBH+7wg/UWELWfHHUhZCAWRzX1O/JNafwnMp2moo4gddfrY
- k74i8ebEHDuzr2ECLxAD8FqHb/GoT8f86Z8bKy9ws1DdW0omIcR/9aQjnJvjVWi1lIj/5TaLl
- er3gS1uifPGVgMMbm/rkDee58/PzqNGXWKENsfxJZCq4eHgZd96/z3Ir5MsXpp2pClKXf1GGA
- 23weXOMUeC2fcPpUJRSRIcuP4DSVJnZKkVdugcy/E393UzQ8TDZOcybQcLgeuOPYTUvxbElAo
- 330hgKc1jC2VXjAz5+OiX+WXWQEa9gfxUEvYHGkoSQB/vGncikLGGTXWS28/X+0TtdlXdiOqQ
- bWkmlVpj/GzIVRwvCtbAfgEEkTWcKDyAaF1gphfRtmOkmhqdBN6+QRbFHnr/B/do7JqkWYFdB
- 6dkxrOY2m7ZsLcT4sMjCi37fI66PvPbwGiMFcYj9k9v/KJzWJUE0W6IH2D9M5GbzN3FDGppzR
- xNHAH1bF+pifChEcnAo5+zyt/IViDDS19ByNewUflv5yITLLau9hC+q5qF3kAf2MrVYcRLRF/
- CuO23Z2f60Nk81aIuliRBCy75n8tB/8pX+RIuo7On30rREhtDImVF4q8sR+6zlEfRocPSPuYW
- C/EDQXLQ+h9wc/VlSUsAa9hF11eB9OE7hN2Ohw==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: bGq_PfSlIOC1xCLDSguEMkVTgHmCKPIW
+X-Proofpoint-ORIG-GUID: 80jMitmaOAqV_kvMBY_XGtf2pzlDhmBz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-28_07,2022-05-27_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ clxscore=1015 phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
+ impostorscore=0 spamscore=0 adultscore=0 priorityscore=1501 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2205280095
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,58 +118,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/05/2022 à 18:47, Richard Henderson a écrit :
-> 
-> Changes for v4:
->    - Use ILLTRP for TRAP1-TRAP14.
->    - Use is_error for print_syscall_err.
-> 
-> 
-> r~
-> 
-> 
-> v1: https://lore.kernel.org/qemu-devel/20211130103752.72099-1-richard.henderson@linaro.org/
-> v2: https://lore.kernel.org/qemu-devel/20211202204900.50973-1-richard.henderson@linaro.org/
-> v3: https://lore.kernel.org/qemu-devel/20220316055840.727571-1-richard.henderson@linaro.org/
-> v4: https://lore.kernel.org/qemu-devel/20220430175342.370628-1-richard.henderson@linaro.org/
-> 
-> 
-> Richard Henderson (17):
->    target/m68k: Raise the TRAPn exception with the correct pc
->    target/m68k: Switch over exception type in m68k_interrupt_all
->    target/m68k: Fix coding style in m68k_interrupt_all
->    linux-user/m68k: Handle EXCP_TRAP1 through EXCP_TRAP15
->    target/m68k: Remove retaddr in m68k_interrupt_all
->    target/m68k: Fix address argument for EXCP_CHK
->    target/m68k: Fix pc, c flag, and address argument for EXCP_DIV0
->    target/m68k: Fix address argument for EXCP_TRACE
->    target/m68k: Fix stack frame for EXCP_ILLEGAL
->    target/m68k: Implement TRAPcc
->    target/m68k: Implement TPF in terms of TRAPcc
->    target/m68k: Implement TRAPV
->    target/m68k: Implement FTRAPcc
->    tests/tcg/m68k: Add trap.c
->    linux-user/strace: Use is_error in print_syscall_err
->    linux-user/strace: Adjust get_thread_area for m68k
->    target/m68k: Mark helper_raise_exception as noreturn
-> 
->   target/m68k/cpu.h              |   8 ++
->   target/m68k/helper.h           |  14 +--
->   linux-user/m68k/cpu_loop.c     |  13 ++-
->   linux-user/strace.c            |   2 +-
->   target/m68k/cpu.c              |   1 +
->   target/m68k/op_helper.c        | 173 ++++++++++++++++--------------
->   target/m68k/translate.c        | 190 ++++++++++++++++++++++++---------
->   tests/tcg/m68k/trap.c          | 129 ++++++++++++++++++++++
->   linux-user/strace.list         |   5 +
->   tests/tcg/m68k/Makefile.target |   3 +
->   10 files changed, 395 insertions(+), 143 deletions(-)
->   create mode 100644 tests/tcg/m68k/trap.c
-> 
 
-Series applied to my m68k-for-7.1 branch
 
-Thanks,
-Laurent
+On 5/27/22 15:31, Stefan Berger wrote:
+> 
+> 
+> On 5/27/22 15:24, Marc-André Lureau wrote:
+>> Hi
+>>
+>> On Fri, May 27, 2022 at 7:36 PM Stefan Berger <stefanb@linux.ibm.com> 
+>> wrote:
+>>>
+>>> This series of patches resolves an issue with a TPM 2's dictionary 
+>>> attack
+>>> lockout logic being triggered upon well-timed VM resets. Normally, 
+>>> the OS
+>>> TPM driver sends a TPM2_Shutdown to the TPM 2 upon reboot and before 
+>>> a VM
+>>> is reset. However, the OS driver cannot do this when the user resets 
+>>> a VM.
+>>> In this case QEMU must send the command because otherwise several well-
+>>> timed VM resets will trigger the TPM 2's dictionary attack (DA) logic 
+>>> and
+>>> it will then refuse to do certain key-related operations until the DA
+>>> logic has timed out.
+>>
+>> How does real hardware deal with that situation? Shouldn't this
+>> "shutdown"/reset logic be implemented on swtpm side instead, when
+>> CMD_INIT is received? (when the VM is restarted)
+> I don't know what real hardware can actually do when the machine is 
+> reset, presumably via some reset line, or the power is removed. Probably 
+> it has no way to react to this.
+> 
+> Typically the OS driver has to send the command and since it cannot do 
+> this I would defer it to the TPM emulator reset handler code, so the 
+> next layer down.
 
+Also, when this is done in QEMU we don't need to do a data channel 
+operation (run TPM2_Shutdown) from within the control channel (upon 
+CMD_INIT) inside of swtpm. This way we can deal with it properly. The 
+usage model for the TPM 2 prescribes that a TPM2_Shutdown must be sent 
+before a shutdown or reset of the system, so let's let QEMU do it if the 
+OS cannot do it.
+
+> 
+> 
+> 
+>>
+>>>
+>>> Regards,
+>>>    Stefan
+>>>
+>>> Stefan Berger (2):
+>>>    backends/tpm: Record the last command sent to the TPM
+>>>    backends/tpm: Send TPM2_Shutdown upon VM reset
+>>>
+>>>   backends/tpm/tpm_emulator.c | 44 +++++++++++++++++++++++++++++++++++++
+>>>   backends/tpm/tpm_int.h      |  3 +++
+>>>   backends/tpm/tpm_util.c     |  9 ++++++++
+>>>   backends/tpm/trace-events   |  1 +
+>>>   include/sysemu/tpm_util.h   |  3 +++
+>>>   5 files changed, 60 insertions(+)
+>>>
+>>> -- 
+>>> 2.35.3
+>>>
+>>
 
