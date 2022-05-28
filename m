@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2FB536E04
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 20:07:03 +0200 (CEST)
-Received: from localhost ([::1]:45522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365E6536E2A
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 21:24:38 +0200 (CEST)
+Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nv0q6-0004Ha-Dw
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 14:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47542)
+	id 1nv23A-00064B-Ph
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 15:24:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nv0oz-0003Xs-Og
- for qemu-devel@nongnu.org; Sat, 28 May 2022 14:05:53 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45782)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nv201-0003Pj-NA; Sat, 28 May 2022 15:21:21 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:46798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nv0ox-0000Pf-Mb
- for qemu-devel@nongnu.org; Sat, 28 May 2022 14:05:53 -0400
-Received: by mail-pf1-x431.google.com with SMTP id b135so7017591pfb.12
- for <qemu-devel@nongnu.org>; Sat, 28 May 2022 11:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sViST7Lt2k7cDt+yPnJ7DGhFpThOWEX4mk/6T9Ca3No=;
- b=QmDe8r40uUmie8W76jb3FfaPtIo5dbz4oeaCQcD9KVaoEqJuOAlmCvIgYG9ozT7SrH
- NzAAgi/bpJRSWUKamv0+SIfi/AC6uy39Bd2of123DWDPNW46UtcRg3f6aTyKV1Jihof+
- N96gYAqd6ILGNlGi3d42umujOz0QsKKUyvIkL3XtgL3v+gystwSJmK3b24RKDLGQLULb
- 0+FNppDvlfepPExqTGuMoN/vDqnvNJaPsq8Kvav1rUjsr05zVVlfGNLZW8FC1LdbglAt
- PAcxu0jZjaWwjqxZOlANQsn81DwZyD+li2JzfcOwZsmbGHrbm3qxWO/XVWqyxTGA/y4/
- TTOg==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nv1zz-00021S-Uq; Sat, 28 May 2022 15:21:21 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ c9-20020a7bc009000000b0039750ec5774so4411616wmb.5; 
+ Sat, 28 May 2022 12:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SQpLfrdO1EwLV7oP418pkgvZKkNvAMuSNnjxAQfX418=;
+ b=pr9K+8IT23Cip8Z8ydckTMXLP9Pd0PoUy0GFeG1U51wE6t9e4CrcFYeil1LW6N2mPc
+ FcFqYZv9TNSMLRaBEXvyYiskoBzWwpSDLThrl3kFzrUdqhP8TnBhcHv7juMetoMg1K7R
+ 3mJaDUA3mTwJAtpFJp1M4m8vOl21n5v0tENHXvHGmo6OlJm8HNpwWgWjw6ipdKw/XNtr
+ 42+I3ad5CPk9T46PwdqKhu2PsdsaPVb2qLbX8l7R1DiuAfKsePSKKH8AWb5RX7htO2Zt
+ V7GvuKjDiBnkBua5v4qNW76Ki7GBBMsP9k1OvcrJFzEBs+QOxQruisiazSypJD764SqP
+ JD1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=sViST7Lt2k7cDt+yPnJ7DGhFpThOWEX4mk/6T9Ca3No=;
- b=CCGI8ThD6v2PxZrv9PUqW1iOBBvcvvBQajTh0+h2/sXSJ/2+Wq1rF8qWkMHig7vKpB
- PyMWHFijaEcme9dxKMoTZkjd9W/lkRDXu4/z/MQgwU8oLyPXNYJAaHlvqAUM+CXk5Xk7
- xB3lWH2b4WnWV3Nv94B6xlDX5bIco+NKDKB/5ZO04IkaV83LVEeSbJd1wrVX78Aqu4vP
- 0WsPZt4Nn3G0O/9HaY52n6XDjwKqdx7T2lUlKsRMyU6Qd8uYAYBxPdjQ7RQvOQjd+c1l
- nqAcJoduZIkxS7DNECL1ozP+vHzyVCZoBocBpn8TGeZTUnn8hLJwuJIu4Pgn/TdnbFyv
- xpHA==
-X-Gm-Message-State: AOAM532DrqJbF38j5fmTAsSi/aDOdYeavmP42c/q/T+utpd0beLMZ55R
- 7aOdA1gH/F5DFjVYgGLKysgDyA==
-X-Google-Smtp-Source: ABdhPJzDJ4kF8PYKDJ2gnSp40sm/p7EK0Y1wPSmuS9aQEmGMjkhbWbJL1NYIJTuNroFK1WTC/RJHRQ==
-X-Received: by 2002:a63:5f43:0:b0:3f6:3a45:d4ca with SMTP id
- t64-20020a635f43000000b003f63a45d4camr41557180pgb.344.1653761149341; 
- Sat, 28 May 2022 11:05:49 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:ebef:c1ac:bb3f:d84c?
- ([2602:ae:1547:e101:ebef:c1ac:bb3f:d84c])
- by smtp.gmail.com with ESMTPSA id
- io17-20020a17090312d100b0015e8d4eb285sm5910545plb.207.2022.05.28.11.05.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 May 2022 11:05:48 -0700 (PDT)
-Message-ID: <b6dbc4b2-7904-dfbe-d3b5-e578cf62d73b@linaro.org>
-Date: Sat, 28 May 2022 11:05:46 -0700
+ bh=SQpLfrdO1EwLV7oP418pkgvZKkNvAMuSNnjxAQfX418=;
+ b=BDPOKZlvbpTnN0PbaAyRsTVthRNQmuZCy6tw6GTSGVkY0S45OAFDW9j+sHtbmj4J83
+ KLyGJPIlGltUfcnN0FZ7UnZEOQFJntQTQycDQ1qCREKZMSwYyD7exAj8lmnH1iQ/lMcC
+ tEhG8Ok1DePoWgdgllTuWNCNUDz5asjo0OVUg2W3SQFXlXyR7dh7bLo7uYkfI0uZn3MF
+ STatiMQTXy+wogX+9yn2Zr6fQ8NvfUyBeNadXhb+/W+N14Oo0PeEucV8AKHkyF/rMqMg
+ /++6lrNLDpijOcfHJgnRc9yY/UvD0pj4pHt8Z7wlol+xPmuU0V3njxsrk+B6Qj4D1TKY
+ v5Uw==
+X-Gm-Message-State: AOAM5323EBh99zBACoukyLxIHUbctCfeF/7k84YpMzUTy9IFXkq99dnM
+ bhpAmnqNH36jJDgvK+bpbcIO/6LOUkewa2vrhvk=
+X-Google-Smtp-Source: ABdhPJyOiZ9mg8Rj7fy6O0GuA30BY8cuUPdLxN1p+JKHbwqK8vNxqV+xm7JI5pTyGXMF5ZWolbJuBQ==
+X-Received: by 2002:a05:600c:a03:b0:395:bb63:b457 with SMTP id
+ z3-20020a05600c0a0300b00395bb63b457mr12147443wmp.192.1653765677036; 
+ Sat, 28 May 2022 12:21:17 -0700 (PDT)
+Received: from osoxes.fritz.box (pd9ed79c4.dip0.t-ipconnect.de.
+ [217.237.121.196]) by smtp.gmail.com with ESMTPSA id
+ a21-20020a05600c069500b003942a244ed7sm5341022wmn.28.2022.05.28.12.21.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 May 2022 12:21:16 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v3 0/7] QOM'ify PIIX southbridge creation
+Date: Sat, 28 May 2022 21:20:49 +0200
+Message-Id: <20220528192057.30910-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 0/3] Hppa serial fix patches
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-Cc: Sven Schnelle <svens@stackframe.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20220528102819.21983-1-deller@gmx.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220528102819.21983-1-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,57 +87,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/22 03:28, Helge Deller wrote:
-> The following changes since commit 58b53669e87fed0d70903e05cd42079fbbdbc195:
-> 
->    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-05-25 13:46:29 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/hdeller/qemu-hppa.git tags/hppa-serial-fix-pull-request
-> 
-> for you to fetch changes up to 5079892df5f113c7f2b77f53bf7663f6c7bc6be9:
-> 
->    hppa: Fix serial port assignments and pass-through (2022-05-28 12:25:42 +0200)
-> 
-> ----------------------------------------------------------------
-> hppa: Fix serial port pass-through
-> 
-> This series fixes the SeaBIOS-hppa firmware and the serial ports setup code in
-> qemu so that it reflects the real hardware and allows serial port pass-through
-> from the host to guests.
-> 
-> Tested with Linux guests.
-> 
-> v2: Changes suggested by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> - Split out hppa_hardware.h restoration to an own patch
-> - Drop unneccesary checks for serial_hd(x)
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+v3:
+* Rebase onto 'hw/acpi/piix4: remove legacy piix4_pm_init() function' (Mark) [1]
+* Use embedded structs for touched PCI devices (Mark)
+* Fix piix4's rtc embedded struct to be initialized by
+  object_initialize_child() (Peter) [2]
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Testing done:
+
+1)
+`make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+Result: All pass.
+
+2)
+* `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+* `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+  debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+
+In both cases the system booted successfully and it was possible to shut down
+the system using the `poweroff` command.
 
 
-r~
+v2:
+* Preserve `DeviceState *` as return value of piix4_create() (Mark)
+* Aggregate all type name movements into first commit (Mark)
+* Have piix4 southbridge rather than malta board instantiate piix4 pm (me)
+
+Testing done:
+
+1)
+`make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+Result: All pass.
+
+2)
+Modify pci_piix3_realize() to start with
+    error_setg(errp, "This is a test");
+Then start `qemu-system-x86_64 -M pc -m 1G -accel kvm -cpu host -cdrom 
+archlinux-2022.05.01-x86_64.iso`.
+Result: qemu-system-x86_64 aborts with: "This is a test"
 
 
-> 
-> ----------------------------------------------------------------
-> 
-> Helge Deller (3):
->    New SeaBIOS-hppa version 6
->    hppa: Sync contents of hppa_hardware.h header file with SeaBIOS-hppa
->    hppa: Fix serial port assignments and pass-through
-> 
->   hw/hppa/hppa_hardware.h   |  10 ++++++++--
->   hw/hppa/machine.c         |  22 ++++++++--------------
->   pc-bios/hppa-firmware.img | Bin 719040 -> 719368 bytes
->   roms/seabios-hppa         |   2 +-
->   4 files changed, 17 insertions(+), 17 deletions(-)
-> 
-> --
-> 2.35.3
-> 
+v1:
+The piix3 and piix4 southbridge devices still rely on create() functions which
+are deprecated. This series resolves these functions piece by piece to
+modernize the code.
+
+Both devices are modified in lockstep where possible to provide more context.
+
+Testing done:
+* `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+* `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+  debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+
+In both cases the system booted successfully and it was possible to shut down
+the system using the `poweroff` command.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg05686.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01128.html
+
+Bernhard Beschow (7):
+  include/hw/southbridge/piix: Aggregate all PIIX soughbridge type names
+  hw/isa/piix4: Use object_initialize_child() for embedded struct
+  hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
+  hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
+  hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
+  hw/isa/piix4: QOM'ify PIIX4 PM creation
+  hw/isa/piix{3,4}: Inline and remove create() functions
+
+ hw/i386/pc_piix.c             |   7 +-
+ hw/isa/piix3.c                |  98 ++++++++++++++-------------
+ hw/isa/piix4.c                | 120 +++++++++++++++++-----------------
+ hw/mips/malta.c               |   7 +-
+ include/hw/isa/isa.h          |   2 -
+ include/hw/southbridge/piix.h |   6 +-
+ 6 files changed, 127 insertions(+), 113 deletions(-)
+
+-- 
+2.36.1
 
 
