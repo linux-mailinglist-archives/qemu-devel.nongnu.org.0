@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F444536AC4
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 06:35:24 +0200 (CEST)
-Received: from localhost ([::1]:36096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAF9536AE7
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 07:23:58 +0200 (CEST)
+Received: from localhost ([::1]:50224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuoAb-0001pp-AE
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 00:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38750)
+	id 1nuovd-0000Cz-Et
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 01:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nuo9S-00019g-CL
- for qemu-devel@nongnu.org; Sat, 28 May 2022 00:34:10 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:32914)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nuou9-0007xK-2f
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 01:22:26 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nuo9Q-0003Qu-EN
- for qemu-devel@nongnu.org; Sat, 28 May 2022 00:34:10 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- qe5-20020a17090b4f8500b001e26126abccso3602797pjb.0
- for <qemu-devel@nongnu.org>; Fri, 27 May 2022 21:34:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nuou7-0001Xt-2P
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 01:22:24 -0400
+Received: by mail-pl1-x630.google.com with SMTP id n18so5840566plg.5
+ for <qemu-devel@nongnu.org>; Fri, 27 May 2022 22:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=Ua/xY9fIYWObANmrAF3MNSR4m35GR/i3WBAs53hTxfA=;
- b=LHtSOBJg1duok7X1zr4VqNMbT392o/cEzIYL00rjsiNd6rTuFSWwi++6nv+/+ZNeRz
- lpwXqIa9p3EDOPXMKCUUISAvvqFfYjT27b0R3RvkuM0o/IqCjHPDNaH+MhMhfc9fmC1w
- VE6mivXYaCD5WVcMszgBsyAEXm9tbrHrjzurQ2oYFvp/OmKEUjWfRyUyZwDUpBRorH3t
- VoDyn9cRtEIriY58mE2H7CayTCRL/g/HjT9PpxBOd94dDafP8ofCZwHnaLsGOdp0Vqw+
- 2goSzmg1S0YwzkuU41nxSLz51bRPoFtJYvTtsJ99EIrUbDVuYDWyn8I/V/IoENTgaBbJ
- qFQw==
+ bh=M7awhN48pezK3Ezitvi64aNfs257vZr4B3g+2N63bLg=;
+ b=B3t9gSt9MK26S3/lSyCMxi6qfha1mVzdQb6bNg3Us7vNNk2E1DvBcCKOaPvIrKKSPE
+ NzLuNHIAZhWnEDmk9b/N7mhg6h/L0gcTVOyZ/iLTVEC3rqZAPuWP+VeB/u8eAgzhAqlF
+ ZQ5wMdqioEQrKCYBPC+DFnXRdh2CaBs/wxYAJb5HMlgdjJNIXnfWJMEcYs5J1nnJ89YO
+ GTapSRLH4M2Czmrir8aBzBTMOB/h2TKXfZuOk8TpLgfro/vgyz02VmaghMmx3cWJ9qiT
+ 0p8AVsEjRRHgYa/O33JZFlQWMO0DlUWjtWcQSFKc4IOMf87KxsipUp+SezF62d2gugwP
+ u+TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=Ua/xY9fIYWObANmrAF3MNSR4m35GR/i3WBAs53hTxfA=;
- b=FoddIgFk5UfIGL847pYJeHmqxRFSRGRXAtIjrNx2HbJwh+jNyYeuB4I2zc45k5AwLT
- mawjVPZ62WJO/vpPJi4Qn8cmMjPCb+WJyAczZecsiqF1XIemAzvx38c1gMD0bMITn/sM
- TkPHq211Olv7LOaEIbthWC+yFM4Eow4YOwjq+tAcqql/p3VSo5nCznM6Z8m2WLSwwkh9
- Aklo5zKTaVLp+VIYdMeAcrsjz/u3nsDDpZnrEVkbKb1c2LDSlf6h6thoyW2JydiowsIE
- 003qixxK+3nGqfI3ozToIeynl6WWCBGPwKyt12id1bwycc+91bEb9Y4kJ1QeCQO1zVIl
- 6I7w==
-X-Gm-Message-State: AOAM530QV/VV63j1PlMshpCmFM7eNhBsQL5M9x4mqYIyS40Ui9Z/6Nb9
- Z7RCh8zgQ+pVwyRZdjm27L802A==
-X-Google-Smtp-Source: ABdhPJwyVmJYqPduNNnooctR+X5ZWIOZTrkVmSqlIr37Jq98CSU+z4laMQcYyXmaUZkVoDMfUU2mRw==
-X-Received: by 2002:a17:903:124a:b0:154:c860:6d52 with SMTP id
- u10-20020a170903124a00b00154c8606d52mr46639704plh.159.1653712446413; 
- Fri, 27 May 2022 21:34:06 -0700 (PDT)
+ bh=M7awhN48pezK3Ezitvi64aNfs257vZr4B3g+2N63bLg=;
+ b=MVSVQJ/CSNavwqh89D3pl/3gxlEz9X4EP0Shj515Ywd+2wGwUADiw5czDUkO+cXwHF
+ of3mZdBYP7y4NSNKnNfvo3coP2aze8gFDPNfnXx5A/ivUCTHWAlOsC+XK4jQ1EwhWDYQ
+ VTHxiYgIulFjZCdw0HYJ4mB8g0xMvMq6qY8vlo0Ln253p8pFuA+TnaILOIh5qkiJnZ59
+ OHD7z44jgZ8BYSGv7XVGg0d6e5zOfcQc2TqzCqHmk4OPSwExr0H2Y17rYGAZC0ZdZm08
+ Y139QJ9ffK3bTuGpUdUZpLHMuLMHJX/I8HgI8rEMr4iXVISWSD3sJViE0u+yqf/vBxyd
+ 8iPQ==
+X-Gm-Message-State: AOAM532eJND1KpS3QDOF1fJRrY8hf9HuxECHb8sYYXv/i3hnh98vvNEB
+ QmEkyCaChQlZrao6z2Gl3aXQ7A==
+X-Google-Smtp-Source: ABdhPJy/Geuu4L1ToFNFOaoVZQvvOdrgsK7LSXXTmxvhre7FTgh2L2gyocPAN/2mFt9s+am+A+XydQ==
+X-Received: by 2002:a17:902:e883:b0:163:7abd:d06b with SMTP id
+ w3-20020a170902e88300b001637abdd06bmr10980458plg.51.1653715341565; 
+ Fri, 27 May 2022 22:22:21 -0700 (PDT)
 Received: from anisinha-lenovo ([116.73.134.210])
  by smtp.googlemail.com with ESMTPSA id
- r4-20020aa79624000000b0050dc76281fdsm4294918pfg.215.2022.05.27.21.34.03
+ 76-20020a62174f000000b0051841842095sm4588485pfx.144.2022.05.27.22.22.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 21:34:05 -0700 (PDT)
+ Fri, 27 May 2022 22:22:21 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Sat, 28 May 2022 10:04:00 +0530 (IST)
+Date: Sat, 28 May 2022 10:52:15 +0530 (IST)
 X-X-Sender: anisinha@anisinha-lenovo
 To: Julia Suvorova <jusual@redhat.com>
 cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 1/5] hw/smbios: add core_count2 to smbios table type 4
-In-Reply-To: <20220527165651.28092-2-jusual@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2205280950260.153682@anisinha-lenovo>
+Subject: Re: [PATCH 4/5] bios-tables-test: add test for number of cores > 255
+In-Reply-To: <20220527165651.28092-5-jusual@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2205281039380.153682@anisinha-lenovo>
 References: <20220527165651.28092-1-jusual@redhat.com>
- <20220527165651.28092-2-jusual@redhat.com>
+ <20220527165651.28092-5-jusual@redhat.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::102a;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,64 +94,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 27 May 2022, Julia Suvorova wrote:
 
-> In order to use the increased number of cpus, we need to bring smbios
-> tables in line with the SMBIOS 3.0 specification. This allows us to
-> introduce core_count2 which acts as a duplicate of core_count if we have
-> fewer cores than 256, and contains the actual core number per socket if
-> we have more.
+> The new test is run with a large number of cpus and checks if the
+> core_count field in smbios_cpu_test (structure type 4) is correct.
 >
-> core_enabled2 and thread_count2 fields work the same way.
+> Choose q35 as it allows to run with -smp > 255.
 >
 > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-
-Other than the comment below,
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-
 > ---
->  include/hw/firmware/smbios.h |  3 +++
->  hw/smbios/smbios.c           | 11 +++++++++--
->  2 files changed, 12 insertions(+), 2 deletions(-)
+>  tests/qtest/bios-tables-test.c | 35 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 34 insertions(+), 1 deletion(-)
 >
-> diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-> index 4b7ad77a44..c427ae5558 100644
-> --- a/include/hw/firmware/smbios.h
-> +++ b/include/hw/firmware/smbios.h
-> @@ -187,6 +187,9 @@ struct smbios_type_4 {
->      uint8_t thread_count;
->      uint16_t processor_characteristics;
->      uint16_t processor_family2;
-> +    uint16_t core_count2;
-> +    uint16_t core_enabled2;
-> +    uint16_t thread_count2;
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 0ba9d749a5..f2464adaa0 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -100,6 +100,8 @@ typedef struct {
+>      smbios_entry_point smbios_ep_table;
+>      uint16_t smbios_cpu_max_speed;
+>      uint16_t smbios_cpu_curr_speed;
+> +    uint8_t smbios_core_count;
+> +    uint16_t smbios_core_count2;
+>      uint8_t *required_struct_types;
+>      int required_struct_types_len;
+>      QTestState *qts;
+> @@ -640,8 +642,9 @@ static inline bool smbios_single_instance(uint8_t type)
+>
+>  static bool smbios_cpu_test(test_data *data, uint32_t addr)
+>  {
+> +    uint8_t real_cc, expect_cc = data->smbios_core_count;
+> +    uint16_t real, real_cc2, expect_cc2 = data->smbios_core_count2;
+>      uint16_t expect_speed[2];
+> -    uint16_t real;
 
-I would add a comment along the lines of
-/* section 7.5, table 21 smbios spec version 3.0.0 */
+while you are at it, I suggest renaming this to real_speed or some such so
+that its better redeable.
 
->  } QEMU_PACKED;
+>      int offset[2];
+>      int i;
 >
->  /* SMBIOS type 11 - OEM strings */
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index 60349ee402..45d7be6b30 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -709,8 +709,15 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
->      SMBIOS_TABLE_SET_STR(4, serial_number_str, type4.serial);
->      SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
->      SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
-> -    t->core_count = t->core_enabled = ms->smp.cores;
-> -    t->thread_count = ms->smp.threads;
-> +
-> +    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
-> +    t->core_enabled = t->core_count;
-> +
-> +    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-> +
-> +    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
-> +    t->thread_count2 = cpu_to_le16(ms->smp.threads);
-> +
->      t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
->      t->processor_family2 = cpu_to_le16(0x01); /* Other */
+> @@ -660,6 +663,20 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
+>          }
+>      }
 >
+> +    real_cc = qtest_readb(data->qts, addr + offsetof(struct smbios_type_4, core_count));
+> +    real_cc2 = qtest_readw(data->qts, addr + offsetof(struct smbios_type_4, core_count2));
+> +
+> +    if (expect_cc && (real_cc != expect_cc)) {
+
+I think better to say if ((expect_cc < 256) && (real_cc != expect_cc))
+
+> +        fprintf(stderr, "Unexpected SMBIOS CPU count: real %u expect %u\n",
+> +                real_cc, expect_cc);
+> +        return false;
+> +    }
+> +    if ((expect_cc == 0xFF) && (real_cc2 != expect_cc2)) {
+> +        fprintf(stderr, "Unexpected SMBIOS CPU count2: real %u expect %u\n",
+> +                real_cc2, expect_cc2);
+> +        return false;
+> +    }
+> +
+>      return true;
+>  }
+>
+> @@ -905,6 +922,21 @@ static void test_acpi_q35_tcg(void)
+>      free_test_data(&data);
+>  }
+>
+> +static void test_acpi_q35_tcg_core_count2(void)
+> +{
+> +    test_data data = {
+> +        .machine = MACHINE_Q35,
+> +        .variant = ".core-count2",
+> +        .required_struct_types = base_required_struct_types,
+> +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
+> +        .smbios_core_count = 0xFF,
+> +        .smbios_core_count2 = 275,
+> +    };
+> +
+> +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_tcg_bridge(void)
+>  {
+>      test_data data;
+> @@ -1787,6 +1819,7 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/piix4/pci-hotplug/off",
+>                         test_acpi_piix4_no_acpi_pci_hotplug);
+>          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
+
+How about checking thread count as well in the same test or in a
+different test?
+
+>          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+>          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+>          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 > --
 > 2.35.1
 >
