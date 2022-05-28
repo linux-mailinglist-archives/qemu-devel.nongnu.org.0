@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A619F536E4D
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 22:11:22 +0200 (CEST)
-Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26800536E6C
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 22:47:32 +0200 (CEST)
+Received: from localhost ([::1]:36858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nv2mP-0007P8-5w
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 16:11:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34976)
+	id 1nv3LO-0001lm-Jz
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 16:47:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <bounces+27129525-197f-qemu-devel=nongnu.org@em894.thefarbeyond.com>)
- id 1nv2em-0005VA-TM
- for qemu-devel@nongnu.org; Sat, 28 May 2022 16:03:29 -0400
-Received: from xtrwkkxd.outbound-mail.sendgrid.net ([167.89.17.173]:19656)
+ id 1nv3Jo-00013o-Rn
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 16:45:52 -0400
+Received: from wrqvnvpf.outbound-mail.sendgrid.net ([149.72.40.63]:1438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
  <bounces+27129525-197f-qemu-devel=nongnu.org@em894.thefarbeyond.com>)
- id 1nv2ek-0007YA-TX
- for qemu-devel@nongnu.org; Sat, 28 May 2022 16:03:28 -0400
+ id 1nv3Ji-0004r7-VE
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 16:45:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thefarbeyond.com;
- h=from:subject:mime-version:content-transfer-encoding:to:cc:
- content-type;
- s=s1; bh=OvifSN2kEIZBcKNsUintOhK+iHcWKFZKyvhWF66CElo=;
- b=mNv1DqvQFirX3rwbIiwB2HA5CTfs2AhDC8/17vYcZb4LFQGxG1JYzaP+YjUrW4sn13re
- j2+ZiXsYyJizOnX25pQFQha+hEkp+mx4d6TE5oglrLp577WNm+LKGVZdeSWXquqyP2rVat
- 4tH+A+cQAflSryF3LBIaqteDgMkqfc+opYyKt71RSqHzu7XHX2ojyHr8P7a2KL/Y0WczQF
- bQAijR/IVGQ13GCN900fJNTVLvOVG/NfaMrRqupkIW7WgdoHDSktcBXi6oALMZIA+/vm8W
- 8BtIegg0NkKGHjs4vradWdw8OcSI0ybXgZ2PDY3Ggl91KrwAxFIgNcqXqkdZeDAw==
-Received: by filterdrecv-57fb89798f-5rhw2 with SMTP id
- filterdrecv-57fb89798f-5rhw2-1-62927DEC-1D
- 2022-05-28 19:54:20.678196528 +0000 UTC m=+4486242.742076986
-Received: from mail.thefarbeyond.com (unknown) by geopod-ismtpd-6-0 (SG)
- with ESMTP id 4P-aFhlmTh6Wg9pf9-79OA
- Sat, 28 May 2022 19:54:20.601 +0000 (UTC)
+ h=subject:in-reply-to:from:mime-version:content-type:
+ content-transfer-encoding:to:cc;
+ s=s1; bh=IOsgbisD3yTpudpg9LCkNDm9/wl+HL1PvsErjY9yaso=;
+ b=Qs+1x9OsF3uHN4TXsD1DgXLXS5f2/vx/ETtLaVdqnu/ZsO2t/kUb1wLIk7PWxBS6u8OC
+ QOFuxnBfFudkSq+qwl3+zp8kH+W/pCimAWuQYhoWrY7mRP1gj/oVPJcoBqHIaaHAGEtkzk
+ wcJZWxvXyeH40o7g1xWQxvloXPHjWf2X5yLif65fvm9oF7vP4z65TmtZPDHjKWib7l8Buq
+ fbBAemB/FITq6hP3vS/V8TQPk+eCCPaMIw7xNrohbgfJ5gByWHXnD7AmQOSIDmWAJhivh5
+ /KM6GsPlwGwTd79K9uA79mTBDjvZAjn1mgK27ll/fAvHNtno1jK7+hKnpt13d6hA==
+Received: by filterdrecv-canary-687d99bc9b-dhxrw with SMTP id
+ filterdrecv-canary-687d99bc9b-dhxrw-1-629289F8-52
+ 2022-05-28 20:45:44.732412362 +0000 UTC m=+153515.608668757
+Received: from mail.thefarbeyond.com (unknown) by geopod-ismtpd-4-6 (SG)
+ with ESMTP id jo9X7JvwSbuNEyNJf47VWw
+ Sat, 28 May 2022 20:45:44.585 +0000 (UTC)
 Received: from mail.thefarbeyond.com (localhost [127.0.0.1])
- by mail.thefarbeyond.com (Postfix) with ESMTP id 14996E1707;
- Sat, 28 May 2022 15:54:20 -0400 (EDT)
-Received: from dev-vm.. (unknown [192.168.1.1])
- by mail.thefarbeyond.com (Postfix) with ESMTPSA id B2DE5E1706;
- Sat, 28 May 2022 15:54:19 -0400 (EDT)
-From: Ben Cohen <ben@thefarbeyond.com>
-Subject: [PATCH] Updating gdbstub to allow safe multithreading in usermode
+ by mail.thefarbeyond.com (Postfix) with ESMTP id C2B0CE1707;
+ Sat, 28 May 2022 16:45:43 -0400 (EDT)
+Received: from [192.168.1.152] (unknown [192.168.1.1])
+ by mail.thefarbeyond.com (Postfix) with ESMTPSA id 57FF1E1706;
+ Sat, 28 May 2022 16:45:43 -0400 (EDT)
+Date: Sat, 28 May 2022 20:45:44 +0000 (UTC)
+Subject: Re: [PATCH] Updating gdbstub to allow safe multithreading in usermode
  emulation
-Date: Sat, 28 May 2022 19:54:20 +0000 (UTC)
-Message-Id: <20220528195344.4160516-1-ben@thefarbeyond.com>
-X-Mailer: git-send-email 2.32.0
+Message-ID: <70514c68-45e1-4511-b6bc-bfb0885941e5@email.android.com>
+X-Android-Message-ID: <70514c68-45e1-4511-b6bc-bfb0885941e5@email.android.com>
+In-Reply-To: <20220528195344.4160516-1-ben@thefarbeyond.com>
+From: BENJAMIN COHEN <ben@thefarbeyond.com>
+Importance: Normal
+X-Priority: 3
+X-MSMail-Priority: Normal
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: base64
 X-Virus-Scanned: ClamAV using ClamSMTP
-X-SG-EID: =?us-ascii?Q?6JWjqFZbb=2FTVZvRdFmpiJhk34u9tiVzkSWus8J6PalP8DalxhEQEiPdnCZ=2FSDg?=
- =?us-ascii?Q?2YjTAAb0TjOe8rXqtTSdyyRsLD+Cz6a4ZvSX6o6?=
- =?us-ascii?Q?UAA+YcYki7sRzWQfo4ic2+FOelw1Rp8CqnM4gKa?=
- =?us-ascii?Q?ZsL9JbKkedDGRfyRlvaec54Nr6dXnqBKLtrrTWa?=
- =?us-ascii?Q?x8MeQyQ39sBbL4vGNbIi+72+JiuWUthI5B67sIv?=
- =?us-ascii?Q?tLnF6DySfIXmGQkR+o5yppdgPdPtzOaeqI5SBB?=
+X-SG-EID: =?us-ascii?Q?68SJOytU9XK07o7llez1N7m0amiY14v3Kx6iJCMR3x5Hu7C8inhm1k5E9lW9F=2F?=
+ =?us-ascii?Q?pLYCPzJQBna1s4ywrsnxzMSjIazcWXy0m9dQKp+?=
+ =?us-ascii?Q?V5QNk9ZRBtNflHU7zmc47EJn2GsH9oW70=2FImTWg?=
+ =?us-ascii?Q?ozgCS6bWO960J2L3InqKFyfq7SDrMzWZLGVEbPX?=
+ =?us-ascii?Q?6FFiqkpUsNK1r5bn8Hp0QTa2l7stGwym3tV1obC?=
+ =?us-ascii?Q?DAuOw0IB2Sh2CYs7xU89tWnOorf+nzChciLd9+w?=
+ =?us-ascii?Q?qiZ0FOLFsPcNed6EMvh2Q=3D=3D?=
 To: qemu-devel@nongnu.org
-Cc: Ben Cohen <ben@thefarbeyond.com>, Alex =?iso-8859-1?q?Benn=E9e?=
- <alex.bennee@linaro.org>, Philippe =?iso-8859-1?q?Mathieu-Daud=E9?=
- <f4bug@amsat.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Alex =?iso-8859-1?q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Philippe =?iso-8859-1?q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Laurent Vivier
+ <laurent@vivier.eu>
 X-Entity-ID: DA2SVfCUNZcNdrSl9vi0hQ==
-Content-Type: text/plain; charset=us-ascii
-Received-SPF: none client-ip=167.89.17.173;
+Received-SPF: none client-ip=149.72.40.63;
  envelope-from=bounces+27129525-197f-qemu-devel=nongnu.org@em894.thefarbeyond.com;
- helo=xtrwkkxd.outbound-mail.sendgrid.net
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
+ helo=wrqvnvpf.outbound-mail.sendgrid.net
+X-Spam_score_int: 15
+X-Spam_score: 1.5
+X-Spam_bar: +
+X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, HTML_MESSAGE=0.001, HTML_MIME_NO_HTML_TAG=0.377,
+ MALF_HTML_B64=1, MIME_BASE64_TEXT=1.741, MIME_HTML_ONLY=0.1,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
  UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 28 May 2022 16:09:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,202 +94,245 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I was testing some multi-threaded code in qemu's usermode and ran into
-issues with the gdbstub because the user mode qemu emulation spawns new
-threads when the process tries to make a new thread but the gdbstub does
-not handle the threads well. The current gdbstub has a single global
-struct which contains all the state data, and multiple threads can write
-to this struct simultaneously, causing gdb packets to be corrupted. The
-different threads can also try to read off the gdb socket at the same
-time causing the packet to be devided between threads. This patch is
-designed to add a single separate thread for the usermode gdbstub which
-will handle all the gdb comms and avoid the multithreading issues.
-
-To demonstrate that the mutlithreading was not working properly before
-and that it hopefully works properlly now, I wrote a small test program
-with some gdb scripts that can be found here:
-http://url6163.thefarbeyond.com/ls/click?upn=dUoerjbXT3NK9PiRMHEMD5Fm1RmJf0eUWTDkIDLODGZSRXu94ynuiGwQ-2FCFcimw5rndUfJbozecGKoOE5zbdfRVgadbVSeCrgP5IlB2UqPU-3DUBT-_E8SO-2FEypfU855L0ybQoiQY4Xaj8Z6NYzBoBK89OH-2BiIJOE8-2BoeErelzsKKZyRONZN5M7Gzw0Zs4K0tnG4gxJSOWW89OLEjRW7ISHPWO2lT6fJJUM88-2BLL6sh4BfexcL-2FKt7KhnEpzqyb9bd5UZ-2FR2iPVIjp7zfshwPtjJEHAHaIGeNZbI4nFw81hhs0N1tt9sAcC1ALVazbgnC5E-2F5ZChA-3D-3D
-
-Signed-off-by: Ben Cohen <ben@thefarbeyond.com>
----
- gdbstub.c              | 105 +++++++++++++++++++++++++++++++++++++++++
- include/exec/gdbstub.h |  13 +++++
- linux-user/signal.c    |   4 ++
- 3 files changed, 122 insertions(+)
-
-diff --git a/gdbstub.c b/gdbstub.c
-index a3ff8702ce..11a76da575 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -29,6 +29,7 @@
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
- #include "qemu/module.h"
-+#include "qemu/thread.h"
- #include "trace/trace-root.h"
- #include "exec/gdbstub.h"
- #ifdef CONFIG_USER_ONLY
-@@ -370,8 +371,103 @@ typedef struct GDBState {
-     int sstep_flags;
-     int supported_sstep_flags;
- } GDBState;
-+typedef struct GDBSignal {
-+    CPUState *cpu;
-+    int sig;
-+} GDBSignal;
- 
- static GDBState gdbserver_state;
-+#ifdef CONFIG_USER_ONLY
-+static GDBSignal *waiting_signal;
-+static QemuMutex signal_wait_mutex;
-+static QemuMutex signal_done_mutex;
-+static QemuMutex another_thread_is_stepping;
-+static int signal_result;
-+#endif
-+
-+static void *gdb_signal_handler_loop(void* args)
-+{
-+    while (TRUE) {
-+        if (NULL != waiting_signal) {
-+            signal_result = gdb_handlesig(waiting_signal->cpu,
-+                    waiting_signal->sig);
-+            waiting_signal = NULL;
-+            qemu_mutex_unlock(&signal_done_mutex);
-+        }
-+    }
-+    /* Should never return */
-+    return NULL;
-+}
-+
-+int gdb_thread_handle_signal(CPUState *cpu, int sig)
-+{
-+    GDBSignal signal = {
-+        .cpu = cpu,
-+        .sig = sig
-+    };
-+    if (!cpu->singlestep_enabled) {
-+        /*
-+         * This mutex is locked by all threads that are not stepping to allow
-+         * only the thread that is currently stepping to handle signals until
-+         * it finished stepping. Without this, pending signals that are queued
-+         * up while the stepping thread handles its signal will race with the
-+         * stepping thread to get the next signal handled. This is bad, because
-+         * the gdb client expects the stepping thread to be the first response
-+         * back to the step command that was sent.
-+         */
-+        qemu_mutex_lock(&another_thread_is_stepping);
-+    }
-+    /*
-+     * This mutex is locked to allow only one thread at a time to be
-+     * handling a signal. This is necessary, because otherwise multiple
-+     * threads will try to talk to the gdb client simultaneously and can
-+     * race each other sending and receiving packets, potentially going
-+     * out of order or simulatenously reading off of the same socket.
-+     */
-+    qemu_mutex_lock(&signal_wait_mutex);
-+    {
-+        /*
-+         * This mutex is first locked here to ensure that it is in a locked
-+         * state before the gdb_signal_handler_loop handles the next signal
-+         * and unlocks it.
-+         */
-+        qemu_mutex_lock(&signal_done_mutex);
-+        waiting_signal = &signal;
-+        /*
-+         * The thread locks this mutex again to wait until the
-+         * gdb_signal_handler_loop is finished handling the signal and has
-+         * unlocked the mutex.
-+         */
-+        qemu_mutex_lock(&signal_done_mutex);
-+        /*
-+         * Finally, unlock this mutex in preparation for the next call to
-+         * this function
-+         */
-+        qemu_mutex_unlock(&signal_done_mutex);
-+        sig = signal_result;
-+        if (!cpu->singlestep_enabled) {
-+            /*
-+             * If this thread is not stepping and is handling its signal
-+             * then it can always safely unlock this mutex.
-+             */
-+            qemu_mutex_unlock(&another_thread_is_stepping);
-+        } else {
-+            /*
-+             * If this thread was already stepping it will already be holding
-+             * this mutex so here try to lock instead of waiting on a lock.
-+             * This lock will prevent other non-stepping threads from handling
-+             * a signal until stepping is done.
-+             */
-+            qemu_mutex_trylock(&another_thread_is_stepping);
-+        }
-+    }
-+    /*
-+     * Unlock here to because we are done handling the signal and
-+     * another thread can now start handling a pending signal.
-+     */
-+    qemu_mutex_unlock(&signal_wait_mutex);
-+    return sig;
-+}
- 
- static void init_gdbserver_state(void)
- {
-@@ -381,6 +477,15 @@ static void init_gdbserver_state(void)
-     gdbserver_state.str_buf = g_string_new(NULL);
-     gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
-     gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
-+#ifdef CONFIG_USER_ONLY
-+    waiting_signal = NULL;
-+    qemu_mutex_init(&signal_wait_mutex);
-+    qemu_mutex_init(&signal_done_mutex);
-+    qemu_mutex_init(&another_thread_is_stepping);
-+    pthread_t signal_thread;
-+    pthread_create(&signal_thread, NULL, gdb_signal_handler_loop, NULL);
-+    pthread_setname_np(signal_thread, "gdbstub_handler");
-+#endif
- 
-     /*
-      * In replay mode all events will come from the log and can't be
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index c35d7334b4..15bfb76cca 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -47,6 +47,19 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
- int use_gdb_syscalls(void);
- 
- #ifdef CONFIG_USER_ONLY
-+/**
-+ * gdb_thread_handle_signal
-+ * @cpu_env: The guest thread's cpu env
-+ * @sig: The signal being handled for the guest thread
-+ *
-+ * This function is a layer in between the gdb_handlesig function and the
-+ * guest cpu threads. Instead of directly handling signals in the guest
-+ * threads, this function passes off a signal to a handler loop thread running
-+ * in the gdbstub that will handle each thread's signal atomically to avoid
-+ * having races between threads to read and send data on the gdb socket. The
-+ * function returns the signal value from gdb_handlesig
-+ */
-+int gdb_thread_handle_signal(CPUState *cpu_env, int sig);
- /**
-  * gdb_handlesig: yield control to gdb
-  * @cpu: CPU
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 8d29bfaa6b..a252791217 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -1068,7 +1068,11 @@ static void handle_pending_signal(CPUArchState *cpu_env, int sig,
-     /* dequeue signal */
-     k->pending = 0;
- 
-+#ifdef CONFIG_USER_ONLY
-+    sig = gdb_thread_handle_signal(cpu, sig);
-+#else
-     sig = gdb_handlesig(cpu, sig);
-+#endif
-     if (!sig) {
-         sa = NULL;
-         handler = TARGET_SIG_IGN;
--- 
-2.32.0
-
+PGRpdiBkaXI9J2F1dG8nPlNvcnJ5LCBteSBlbWFpbCBzZXJ2aWNlIG1hbmdsZWQgdGhlIGxpbmsg
+SSBtZW50IHRvIHNlbmQuIEl0IHNob3VsZCBiZTo8ZGl2IGRpcj0iYXV0byI+PGJyPjxkaXYgZGly
+PSJhdXRvIj48ZGl2IGRpcj0iYXV0byI+aHR0cHM6Ly9naXRodWIuY29tL29kaW5zc2VjcmV0cy9x
+ZW11X2dkYnN0dWJfbXVsdGl0aHJlYWRfdGVzdGluZzxicj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rp
+dj48ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+PGJyPjxkaXYgY2xhc3M9ImdtYWlsX3F1b3RlIj5P
+biBNYXkgMjgsIDIwMjIgMzo1MyBQTSwgQmVuIENvaGVuICZsdDtiZW5AdGhlZmFyYmV5b25kLmNv
+bSZndDsgd3JvdGU6PGJyIHR5cGU9ImF0dHJpYnV0aW9uIiAvPjxibG9ja3F1b3RlIGNsYXNzPSJx
+dW90ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4O2JvcmRlci1sZWZ0OjFweCAjY2NjIHNvbGlk
+O3BhZGRpbmctbGVmdDoxZXgiPjxwIGRpcj0ibHRyIj5JIHdhcyB0ZXN0aW5nIHNvbWUgbXVsdGkt
+dGhyZWFkZWQgY29kZSBpbiBxZW11J3MgdXNlcm1vZGUgYW5kIHJhbiBpbnRvJiMxMzs8YnI+Cmlz
+c3VlcyB3aXRoIHRoZSBnZGJzdHViIGJlY2F1c2UgdGhlIHVzZXIgbW9kZSBxZW11IGVtdWxhdGlv
+biBzcGF3bnMgbmV3JiMxMzs8YnI+CnRocmVhZHMgd2hlbiB0aGUgcHJvY2VzcyB0cmllcyB0byBt
+YWtlIGEgbmV3IHRocmVhZCBidXQgdGhlIGdkYnN0dWIgZG9lcyYjMTM7PGJyPgpub3QgaGFuZGxl
+IHRoZSB0aHJlYWRzIHdlbGwuIFRoZSBjdXJyZW50IGdkYnN0dWIgaGFzIGEgc2luZ2xlIGdsb2Jh
+bCYjMTM7PGJyPgpzdHJ1Y3Qgd2hpY2ggY29udGFpbnMgYWxsIHRoZSBzdGF0ZSBkYXRhLCBhbmQg
+bXVsdGlwbGUgdGhyZWFkcyBjYW4gd3JpdGUmIzEzOzxicj4KdG8gdGhpcyBzdHJ1Y3Qgc2ltdWx0
+YW5lb3VzbHksIGNhdXNpbmcgZ2RiIHBhY2tldHMgdG8gYmUgY29ycnVwdGVkLiBUaGUmIzEzOzxi
+cj4KZGlmZmVyZW50IHRocmVhZHMgY2FuIGFsc28gdHJ5IHRvIHJlYWQgb2ZmIHRoZSBnZGIgc29j
+a2V0IGF0IHRoZSBzYW1lJiMxMzs8YnI+CnRpbWUgY2F1c2luZyB0aGUgcGFja2V0IHRvIGJlIGRl
+dmlkZWQgYmV0d2VlbiB0aHJlYWRzLiBUaGlzIHBhdGNoIGlzJiMxMzs8YnI+CmRlc2lnbmVkIHRv
+IGFkZCBhIHNpbmdsZSBzZXBhcmF0ZSB0aHJlYWQgZm9yIHRoZSB1c2VybW9kZSBnZGJzdHViIHdo
+aWNoJiMxMzs8YnI+CndpbGwgaGFuZGxlIGFsbCB0aGUgZ2RiIGNvbW1zIGFuZCBhdm9pZCB0aGUg
+bXVsdGl0aHJlYWRpbmcgaXNzdWVzLiYjMTM7PGJyPgomIzEzOzxicj4KVG8gZGVtb25zdHJhdGUg
+dGhhdCB0aGUgbXV0bGl0aHJlYWRpbmcgd2FzIG5vdCB3b3JraW5nIHByb3Blcmx5IGJlZm9yZSYj
+MTM7PGJyPgphbmQgdGhhdCBpdCBob3BlZnVsbHkgd29ya3MgcHJvcGVybGx5IG5vdywgSSB3cm90
+ZSBhIHNtYWxsIHRlc3QgcHJvZ3JhbSYjMTM7PGJyPgp3aXRoIHNvbWUgZ2RiIHNjcmlwdHMgdGhh
+dCBjYW4gYmUgZm91bmQgaGVyZTomIzEzOzxicj4KaHR0cHM6Ly9naXRodWIuY29tL29kaW5zc2Vj
+cmV0cy9xZW11X2dkYnN0dWJfbXVsdGl0aHJlYWRfdGVzdGluZyYjMTM7PGJyPgomIzEzOzxicj4K
+U2lnbmVkLW9mZi1ieTogQmVuIENvaGVuICZsdDtiZW5AdGhlZmFyYmV5b25kLmNvbSZndDsmIzEz
+Ozxicj4KLS0tJiMxMzs8YnI+CiBnZGJzdHViLmMmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgfCAxMDUg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysmIzEzOzxicj4KIGluY2x1
+ZGUvZXhlYy9nZGJzdHViLmggfCZuYnNwOyAxMyArKysrKyYjMTM7PGJyPgogbGludXgtdXNlci9z
+aWduYWwuYyZuYnNwOyZuYnNwOyZuYnNwOyB8Jm5ic3A7Jm5ic3A7IDQgKysmIzEzOzxicj4KIDMg
+ZmlsZXMgY2hhbmdlZCwgMTIyIGluc2VydGlvbnMoKykmIzEzOzxicj4KJiMxMzs8YnI+CmRpZmYg
+LS1naXQgYS9nZGJzdHViLmMgYi9nZGJzdHViLmMmIzEzOzxicj4KaW5kZXggYTNmZjg3MDJjZS4u
+MTFhNzZkYTU3NSAxMDA2NDQmIzEzOzxicj4KLS0tIGEvZ2Ric3R1Yi5jJiMxMzs8YnI+CisrKyBi
+L2dkYnN0dWIuYyYjMTM7PGJyPgpAQCAtMjksNiArMjksNyBAQCYjMTM7PGJyPgogI2luY2x1ZGUg
+InFlbXUvY3R5cGUuaCImIzEzOzxicj4KICNpbmNsdWRlICJxZW11L2N1dGlscy5oIiYjMTM7PGJy
+PgogI2luY2x1ZGUgInFlbXUvbW9kdWxlLmgiJiMxMzs8YnI+CisjaW5jbHVkZSAicWVtdS90aHJl
+YWQuaCImIzEzOzxicj4KICNpbmNsdWRlICJ0cmFjZS90cmFjZS1yb290LmgiJiMxMzs8YnI+CiAj
+aW5jbHVkZSAiZXhlYy9nZGJzdHViLmgiJiMxMzs8YnI+CiAjaWZkZWYgQ09ORklHX1VTRVJfT05M
+WSYjMTM7PGJyPgpAQCAtMzcwLDggKzM3MSwxMDMgQEAgdHlwZWRlZiBzdHJ1Y3QgR0RCU3RhdGUg
+eyYjMTM7PGJyPgombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaW50IHNzdGVwX2ZsYWdzOyYjMTM7
+PGJyPgombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaW50IHN1cHBvcnRlZF9zc3RlcF9mbGFnczsm
+IzEzOzxicj4KIH0gR0RCU3RhdGU7JiMxMzs8YnI+Cit0eXBlZGVmIHN0cnVjdCBHREJTaWduYWwg
+eyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IENQVVN0YXRlICpjcHU7JiMxMzs8YnI+Cism
+bmJzcDsmbmJzcDsmbmJzcDsgaW50IHNpZzsmIzEzOzxicj4KK30gR0RCU2lnbmFsOyYjMTM7PGJy
+PgogJiMxMzs8YnI+CiBzdGF0aWMgR0RCU3RhdGUgZ2Ric2VydmVyX3N0YXRlOyYjMTM7PGJyPgor
+I2lmZGVmIENPTkZJR19VU0VSX09OTFkmIzEzOzxicj4KK3N0YXRpYyBHREJTaWduYWwgKndhaXRp
+bmdfc2lnbmFsOyYjMTM7PGJyPgorc3RhdGljIFFlbXVNdXRleCBzaWduYWxfd2FpdF9tdXRleDsm
+IzEzOzxicj4KK3N0YXRpYyBRZW11TXV0ZXggc2lnbmFsX2RvbmVfbXV0ZXg7JiMxMzs8YnI+Citz
+dGF0aWMgUWVtdU11dGV4IGFub3RoZXJfdGhyZWFkX2lzX3N0ZXBwaW5nOyYjMTM7PGJyPgorc3Rh
+dGljIGludCBzaWduYWxfcmVzdWx0OyYjMTM7PGJyPgorI2VuZGlmJiMxMzs8YnI+CismIzEzOzxi
+cj4KK3N0YXRpYyB2b2lkICpnZGJfc2lnbmFsX2hhbmRsZXJfbG9vcCh2b2lkKiBhcmdzKSYjMTM7
+PGJyPgoreyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IHdoaWxlIChUUlVFKSB7JiMxMzs8
+YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaWYgKE5VTEwg
+IT0gd2FpdGluZ19zaWduYWwpIHsmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBzaWduYWxfcmVzdWx0ID0g
+Z2RiX2hhbmRsZXNpZyh3YWl0aW5nX3NpZ25hbC0mZ3Q7Y3B1LCYjMTM7PGJyPgorJm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHdhaXRpbmdf
+c2lnbmFsLSZndDtzaWcpOyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHdhaXRpbmdfc2lnbmFsID0gTlVM
+TDsmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBxZW11X211dGV4X3VubG9jaygmYW1wO3NpZ25hbF9kb25l
+X211dGV4KTsmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyB9JiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsgfSYjMTM7PGJyPgorJm5ic3A7Jm5i
+c3A7Jm5ic3A7IC8qIFNob3VsZCBuZXZlciByZXR1cm4gKi8mIzEzOzxicj4KKyZuYnNwOyZuYnNw
+OyZuYnNwOyByZXR1cm4gTlVMTDsmIzEzOzxicj4KK30mIzEzOzxicj4KKyYjMTM7PGJyPgoraW50
+IGdkYl90aHJlYWRfaGFuZGxlX3NpZ25hbChDUFVTdGF0ZSAqY3B1LCBpbnQgc2lnKSYjMTM7PGJy
+PgoreyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IEdEQlNpZ25hbCBzaWduYWwgPSB7JiMx
+Mzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgLmNwdSA9
+IGNwdSwmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyAuc2lnID0gc2lnJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsgfTsmIzEzOzxicj4KKyZu
+YnNwOyZuYnNwOyZuYnNwOyBpZiAoIWNwdS0mZ3Q7c2luZ2xlc3RlcF9lbmFibGVkKSB7JiMxMzs8
+YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgLyomIzEzOzxi
+cj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAqIFRo
+aXMgbXV0ZXggaXMgbG9ja2VkIGJ5IGFsbCB0aHJlYWRzIHRoYXQgYXJlIG5vdCBzdGVwcGluZyB0
+byBhbGxvdyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7ICogb25seSB0aGUgdGhyZWFkIHRoYXQgaXMgY3VycmVudGx5IHN0ZXBwaW5nIHRv
+IGhhbmRsZSBzaWduYWxzIHVudGlsJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiBpdCBmaW5pc2hlZCBzdGVwcGluZy4gV2l0aG91dCB0
+aGlzLCBwZW5kaW5nIHNpZ25hbHMgdGhhdCBhcmUgcXVldWVkJiMxMzs8YnI+CismbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiB1cCB3aGlsZSB0aGUgc3Rl
+cHBpbmcgdGhyZWFkIGhhbmRsZXMgaXRzIHNpZ25hbCB3aWxsIHJhY2Ugd2l0aCB0aGUmIzEzOzxi
+cj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAqIHN0
+ZXBwaW5nIHRocmVhZCB0byBnZXQgdGhlIG5leHQgc2lnbmFsIGhhbmRsZWQuIFRoaXMgaXMgYmFk
+LCBiZWNhdXNlJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsgKiB0aGUgZ2RiIGNsaWVudCBleHBlY3RzIHRoZSBzdGVwcGluZyB0aHJlYWQg
+dG8gYmUgdGhlIGZpcnN0IHJlc3BvbnNlJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiBiYWNrIHRvIHRoZSBzdGVwIGNvbW1hbmQgdGhh
+dCB3YXMgc2VudC4mIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyAqLyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7IHFlbXVfbXV0ZXhfbG9jaygmYW1wO2Fub3RoZXJfdGhyZWFkX2lzX3N0ZXBw
+aW5nKTsmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyB9JiMxMzs8YnI+CismbmJzcDsmbmJz
+cDsmbmJzcDsgLyomIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAqIFRoaXMgbXV0
+ZXggaXMgbG9ja2VkIHRvIGFsbG93IG9ubHkgb25lIHRocmVhZCBhdCBhIHRpbWUgdG8gYmUmIzEz
+Ozxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAqIGhhbmRsaW5nIGEgc2lnbmFsLiBUaGlz
+IGlzIG5lY2Vzc2FyeSwgYmVjYXVzZSBvdGhlcndpc2UgbXVsdGlwbGUmIzEzOzxicj4KKyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyAqIHRocmVhZHMgd2lsbCB0cnkgdG8gdGFsayB0byB0aGUgZ2Ri
+IGNsaWVudCBzaW11bHRhbmVvdXNseSBhbmQgY2FuJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsgKiByYWNlIGVhY2ggb3RoZXIgc2VuZGluZyBhbmQgcmVjZWl2aW5nIHBhY2tldHMs
+IHBvdGVudGlhbGx5IGdvaW5nJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiBv
+dXQgb2Ygb3JkZXIgb3Igc2ltdWxhdGVub3VzbHkgcmVhZGluZyBvZmYgb2YgdGhlIHNhbWUgc29j
+a2V0LiYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICovJiMxMzs8YnI+CismbmJz
+cDsmbmJzcDsmbmJzcDsgcWVtdV9tdXRleF9sb2NrKCZhbXA7c2lnbmFsX3dhaXRfbXV0ZXgpOyYj
+MTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IHsmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAvKiYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICogVGhpcyBtdXRleCBpcyBmaXJzdCBsb2Nr
+ZWQgaGVyZSB0byBlbnN1cmUgdGhhdCBpdCBpcyBpbiBhIGxvY2tlZCYjMTM7PGJyPgorJm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICogc3RhdGUgYmVmb3Jl
+IHRoZSBnZGJfc2lnbmFsX2hhbmRsZXJfbG9vcCBoYW5kbGVzIHRoZSBuZXh0IHNpZ25hbCYjMTM7
+PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICog
+YW5kIHVubG9ja3MgaXQuJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsgKi8mIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyBxZW11X211dGV4X2xvY2soJmFtcDtzaWduYWxfZG9uZV9tdXRleCk7
+JiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgd2Fp
+dGluZ19zaWduYWwgPSAmYW1wO3NpZ25hbDsmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAvKiYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICogVGhlIHRocmVhZCBsb2NrcyB0aGlzIG11dGV4
+IGFnYWluIHRvIHdhaXQgdW50aWwgdGhlJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiBnZGJfc2lnbmFsX2hhbmRsZXJfbG9vcCBpcyBm
+aW5pc2hlZCBoYW5kbGluZyB0aGUgc2lnbmFsIGFuZCBoYXMmIzEzOzxicj4KKyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAqIHVubG9ja2VkIHRoZSBtdXRl
+eC4mIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyAqLyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7IHFlbXVfbXV0ZXhfbG9jaygmYW1wO3NpZ25hbF9kb25lX211dGV4KTsmIzEzOzxicj4KKyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAvKiYjMTM7PGJyPgorJm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICogRmluYWxseSwg
+dW5sb2NrIHRoaXMgbXV0ZXggaW4gcHJlcGFyYXRpb24gZm9yIHRoZSBuZXh0IGNhbGwgdG8mIzEz
+Ozxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAq
+IHRoaXMgZnVuY3Rpb24mIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyAqLyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7IHFlbXVfbXV0ZXhfdW5sb2NrKCZhbXA7c2lnbmFsX2RvbmVfbXV0ZXgp
+OyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHNp
+ZyA9IHNpZ25hbF9yZXN1bHQ7JiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsgaWYgKCFjcHUtJmd0O3NpbmdsZXN0ZXBfZW5hYmxlZCkgeyYjMTM7PGJy
+PgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7IC8qJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiBJZiB0aGlzIHRocmVh
+ZCBpcyBub3Qgc3RlcHBpbmcgYW5kIGlzIGhhbmRsaW5nIGl0cyBzaWduYWwmIzEzOzxicj4KKyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyAqIHRoZW4gaXQgY2FuIGFsd2F5cyBzYWZlbHkgdW5sb2NrIHRoaXMgbXV0
+ZXguJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKi8mIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBxZW11
+X211dGV4X3VubG9jaygmYW1wO2Fub3RoZXJfdGhyZWFkX2lzX3N0ZXBwaW5nKTsmIzEzOzxicj4K
+KyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB9IGVsc2UgeyYjMTM7
+PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7IC8qJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiBJZiB0aGlzIHRo
+cmVhZCB3YXMgYWxyZWFkeSBzdGVwcGluZyBpdCB3aWxsIGFscmVhZHkgYmUgaG9sZGluZyYjMTM7
+PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICogdGhpcyBtdXRleCBzbyBoZXJlIHRyeSB0byBsb2NrIGlu
+c3RlYWQgb2Ygd2FpdGluZyBvbiBhIGxvY2suJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKiBU
+aGlzIGxvY2sgd2lsbCBwcmV2ZW50IG90aGVyIG5vbi1zdGVwcGluZyB0aHJlYWRzIGZyb20gaGFu
+ZGxpbmcmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAqIGEgc2lnbmFsIHVudGlsIHN0ZXBwaW5n
+IGlzIGRvbmUuJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgKi8mIzEzOzxicj4KKyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyBxZW11X211dGV4X3RyeWxvY2soJmFtcDthbm90aGVyX3RocmVhZF9pc19zdGVwcGluZyk7JiMx
+Mzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgfSYjMTM7
+PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IH0mIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNwOyAv
+KiYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICogVW5sb2NrIGhlcmUgdG8gYmVj
+YXVzZSB3ZSBhcmUgZG9uZSBoYW5kbGluZyB0aGUgc2lnbmFsIGFuZCYjMTM7PGJyPgorJm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7ICogYW5vdGhlciB0aHJlYWQgY2FuIG5vdyBzdGFydCBoYW5kbGlu
+ZyBhIHBlbmRpbmcgc2lnbmFsLiYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICov
+JiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsgcWVtdV9tdXRleF91bmxvY2soJmFtcDtzaWdu
+YWxfd2FpdF9tdXRleCk7JiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsgcmV0dXJuIHNpZzsm
+IzEzOzxicj4KK30mIzEzOzxicj4KICYjMTM7PGJyPgogc3RhdGljIHZvaWQgaW5pdF9nZGJzZXJ2
+ZXJfc3RhdGUodm9pZCkmIzEzOzxicj4KIHsmIzEzOzxicj4KQEAgLTM4MSw2ICs0NzcsMTUgQEAg
+c3RhdGljIHZvaWQgaW5pdF9nZGJzZXJ2ZXJfc3RhdGUodm9pZCkmIzEzOzxicj4KJm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7IGdkYnNlcnZlcl9zdGF0ZS5zdHJfYnVmID0gZ19zdHJpbmdfbmV3KE5V
+TEwpOyYjMTM7PGJyPgombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgZ2Ric2VydmVyX3N0YXRlLm1l
+bV9idWYgPSBnX2J5dGVfYXJyYXlfc2l6ZWRfbmV3KE1BWF9QQUNLRVRfTEVOR1RIKTsmIzEzOzxi
+cj4KJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGdkYnNlcnZlcl9zdGF0ZS5sYXN0X3BhY2tldCA9
+IGdfYnl0ZV9hcnJheV9zaXplZF9uZXcoTUFYX1BBQ0tFVF9MRU5HVEggKyA0KTsmIzEzOzxicj4K
+KyNpZmRlZiBDT05GSUdfVVNFUl9PTkxZJiMxMzs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsgd2Fp
+dGluZ19zaWduYWwgPSBOVUxMOyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IHFlbXVfbXV0
+ZXhfaW5pdCgmYW1wO3NpZ25hbF93YWl0X211dGV4KTsmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZu
+YnNwOyBxZW11X211dGV4X2luaXQoJmFtcDtzaWduYWxfZG9uZV9tdXRleCk7JiMxMzs8YnI+Cism
+bmJzcDsmbmJzcDsmbmJzcDsgcWVtdV9tdXRleF9pbml0KCZhbXA7YW5vdGhlcl90aHJlYWRfaXNf
+c3RlcHBpbmcpOyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IHB0aHJlYWRfdCBzaWduYWxf
+dGhyZWFkOyYjMTM7PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IHB0aHJlYWRfY3JlYXRlKCZhbXA7
+c2lnbmFsX3RocmVhZCwgTlVMTCwgZ2RiX3NpZ25hbF9oYW5kbGVyX2xvb3AsIE5VTEwpOyYjMTM7
+PGJyPgorJm5ic3A7Jm5ic3A7Jm5ic3A7IHB0aHJlYWRfc2V0bmFtZV9ucChzaWduYWxfdGhyZWFk
+LCAiZ2Ric3R1Yl9oYW5kbGVyIik7JiMxMzs8YnI+CisjZW5kaWYmIzEzOzxicj4KICYjMTM7PGJy
+PgombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgLyomIzEzOzxicj4KJm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7ICogSW4gcmVwbGF5IG1vZGUgYWxsIGV2ZW50cyB3aWxsIGNvbWUgZnJvbSB0
+aGUgbG9nIGFuZCBjYW4ndCBiZSYjMTM7PGJyPgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9leGVjL2dk
+YnN0dWIuaCBiL2luY2x1ZGUvZXhlYy9nZGJzdHViLmgmIzEzOzxicj4KaW5kZXggYzM1ZDczMzRi
+NC4uMTViZmI3NmNjYSAxMDA2NDQmIzEzOzxicj4KLS0tIGEvaW5jbHVkZS9leGVjL2dkYnN0dWIu
+aCYjMTM7PGJyPgorKysgYi9pbmNsdWRlL2V4ZWMvZ2Ric3R1Yi5oJiMxMzs8YnI+CkBAIC00Nyw2
+ICs0NywxOSBAQCB2b2lkIGdkYl9kb19zeXNjYWxsdihnZGJfc3lzY2FsbF9jb21wbGV0ZV9jYiBj
+YiwgY29uc3QgY2hhciAqZm10LCB2YV9saXN0IHZhKTsmIzEzOzxicj4KIGludCB1c2VfZ2RiX3N5
+c2NhbGxzKHZvaWQpOyYjMTM7PGJyPgogJiMxMzs8YnI+CiAjaWZkZWYgQ09ORklHX1VTRVJfT05M
+WSYjMTM7PGJyPgorLyoqJiMxMzs8YnI+CisgKiBnZGJfdGhyZWFkX2hhbmRsZV9zaWduYWwmIzEz
+Ozxicj4KKyAqIEBjcHVfZW52OiBUaGUgZ3Vlc3QgdGhyZWFkJ3MgY3B1IGVudiYjMTM7PGJyPgor
+ICogQHNpZzogVGhlIHNpZ25hbCBiZWluZyBoYW5kbGVkIGZvciB0aGUgZ3Vlc3QgdGhyZWFkJiMx
+Mzs8YnI+CisgKiYjMTM7PGJyPgorICogVGhpcyBmdW5jdGlvbiBpcyBhIGxheWVyIGluIGJldHdl
+ZW4gdGhlIGdkYl9oYW5kbGVzaWcgZnVuY3Rpb24gYW5kIHRoZSYjMTM7PGJyPgorICogZ3Vlc3Qg
+Y3B1IHRocmVhZHMuIEluc3RlYWQgb2YgZGlyZWN0bHkgaGFuZGxpbmcgc2lnbmFscyBpbiB0aGUg
+Z3Vlc3QmIzEzOzxicj4KKyAqIHRocmVhZHMsIHRoaXMgZnVuY3Rpb24gcGFzc2VzIG9mZiBhIHNp
+Z25hbCB0byBhIGhhbmRsZXIgbG9vcCB0aHJlYWQgcnVubmluZyYjMTM7PGJyPgorICogaW4gdGhl
+IGdkYnN0dWIgdGhhdCB3aWxsIGhhbmRsZSBlYWNoIHRocmVhZCdzIHNpZ25hbCBhdG9taWNhbGx5
+IHRvIGF2b2lkJiMxMzs8YnI+CisgKiBoYXZpbmcgcmFjZXMgYmV0d2VlbiB0aHJlYWRzIHRvIHJl
+YWQgYW5kIHNlbmQgZGF0YSBvbiB0aGUgZ2RiIHNvY2tldC4gVGhlJiMxMzs8YnI+CisgKiBmdW5j
+dGlvbiByZXR1cm5zIHRoZSBzaWduYWwgdmFsdWUgZnJvbSBnZGJfaGFuZGxlc2lnJiMxMzs8YnI+
+CisgKi8mIzEzOzxicj4KK2ludCBnZGJfdGhyZWFkX2hhbmRsZV9zaWduYWwoQ1BVU3RhdGUgKmNw
+dV9lbnYsIGludCBzaWcpOyYjMTM7PGJyPgogLyoqJiMxMzs8YnI+CiZuYnNwOyAqIGdkYl9oYW5k
+bGVzaWc6IHlpZWxkIGNvbnRyb2wgdG8gZ2RiJiMxMzs8YnI+CiZuYnNwOyAqIEBjcHU6IENQVSYj
+MTM7PGJyPgpkaWZmIC0tZ2l0IGEvbGludXgtdXNlci9zaWduYWwuYyBiL2xpbnV4LXVzZXIvc2ln
+bmFsLmMmIzEzOzxicj4KaW5kZXggOGQyOWJmYWE2Yi4uYTI1Mjc5MTIxNyAxMDA2NDQmIzEzOzxi
+cj4KLS0tIGEvbGludXgtdXNlci9zaWduYWwuYyYjMTM7PGJyPgorKysgYi9saW51eC11c2VyL3Np
+Z25hbC5jJiMxMzs8YnI+CkBAIC0xMDY4LDcgKzEwNjgsMTEgQEAgc3RhdGljIHZvaWQgaGFuZGxl
+X3BlbmRpbmdfc2lnbmFsKENQVUFyY2hTdGF0ZSAqY3B1X2VudiwgaW50IHNpZywmIzEzOzxicj4K
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IC8qIGRlcXVldWUgc2lnbmFsICovJiMxMzs8YnI+CiZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBrLSZndDtwZW5kaW5nID0gMDsmIzEzOzxicj4KICYjMTM7
+PGJyPgorI2lmZGVmIENPTkZJR19VU0VSX09OTFkmIzEzOzxicj4KKyZuYnNwOyZuYnNwOyZuYnNw
+OyBzaWcgPSBnZGJfdGhyZWFkX2hhbmRsZV9zaWduYWwoY3B1LCBzaWcpOyYjMTM7PGJyPgorI2Vs
+c2UmIzEzOzxicj4KJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHNpZyA9IGdkYl9oYW5kbGVzaWco
+Y3B1LCBzaWcpOyYjMTM7PGJyPgorI2VuZGlmJiMxMzs8YnI+CiZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyBpZiAoIXNpZykgeyYjMTM7PGJyPgombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsgc2EgPSBOVUxMOyYjMTM7PGJyPgombmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaGFuZGxlciA9IFRBUkdFVF9TSUdfSUdOOyYj
+MTM7PGJyPgotLSAmIzEzOzxicj4KMi4zMi4wJiMxMzs8YnI+CiYjMTM7PGJyPgo8L3A+CjwvYmxv
+Y2txdW90ZT48L2Rpdj48YnI+PC9kaXY+PGltZyBzcmM9Imh0dHBzOi8vdTI3MTI5NTI1LmN0LnNl
+bmRncmlkLm5ldC93Zi9vcGVuP3Vwbj1LekhkMU5PZUhyY1dBWTdiWjdaQ3N2NXE5S3dyblptSnhl
+dzYtMkJGSGlkblE0OVdKcC0yQkpucTNwWllXaTY0WEZIb0ZjYmVYeWVRM3AxTWMyQXVYMEdDUDF1
+QUdBdHJlMkZoLTJGRTdSbjNpOUpEZjMyUGs5ekE3c2xVV25MSTEtMkJKSEtRWlhReUZIVUhzcFda
+VXF6M0E5cERmd3BlZjhtMlozSjdRclJuNW1nM3hDRUE5c3hod01pcGJrc0twU3QtMkJMbC0yRkhI
+bzBDc3dFakZMaUZOZzhKOGxNR1VzME83TkMtMkYtMkZqS252cFdlcGFQY1Q2TS0zRCIgYWx0PSIi
+IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGJvcmRlcj0iMCIgc3R5bGU9ImhlaWdodDoxcHggIWltcG9y
+dGFudDt3aWR0aDoxcHggIWltcG9ydGFudDtib3JkZXItd2lkdGg6MCAhaW1wb3J0YW50O21hcmdp
+bi10b3A6MCAhaW1wb3J0YW50O21hcmdpbi1ib3R0b206MCAhaW1wb3J0YW50O21hcmdpbi1yaWdo
+dDowICFpbXBvcnRhbnQ7bWFyZ2luLWxlZnQ6MCAhaW1wb3J0YW50O3BhZGRpbmctdG9wOjAgIWlt
+cG9ydGFudDtwYWRkaW5nLWJvdHRvbTowICFpbXBvcnRhbnQ7cGFkZGluZy1yaWdodDowICFpbXBv
+cnRhbnQ7cGFkZGluZy1sZWZ0OjAgIWltcG9ydGFudDsiLz4=
 
