@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4699536BE0
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:25:09 +0200 (CEST)
-Received: from localhost ([::1]:55940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E9A536BE2
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:25:11 +0200 (CEST)
+Received: from localhost ([::1]:55884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nush2-0000TV-7U
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38902)
+	id 1nush4-0000RB-O2
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nusc6-0005zx-Py
- for qemu-devel@nongnu.org; Sat, 28 May 2022 05:20:11 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56650)
+ id 1nusc4-0005zr-K6
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 05:20:09 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nusc2-0003nG-EJ
+ id 1nusc2-0003nI-EO
  for qemu-devel@nongnu.org; Sat, 28 May 2022 05:20:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gbi+ns0E9k3QqlSNvGdnIAhWJyAGVC0cdAw2ra/5jlQ=; b=rCqhTHGId4l+D4NCrzWB7hYsm8
- bFFr4b1rYweV5C6T/5qgtNJ/BJmPrtxl9cAJIwTvSznx13gsxgMu5BDlwmDcNFbmnF7+ky78Mq7ad
- zfEf7ljLXJtpXEpvDHAr5NccXERX76JCpcdF0rYu+3dKu6Q8UP4GThoU2FsqpjOals2XiR5tIKbg1
- aZUHWuJJeIUx/AybXVUTdddu5PxaUZSQzxLUdv2qZLSZzhM/kFAf8L7yCVEon98qkcG6wj0ee1sOR
- n6fDWvhxlyOK/KJIutq4b+s4tGGeR/4547eEJJvbs56aHXreYi3DRCMbZg+7mwrOM5/4+89aBLnDY
- HfuwgCySsgrxqOb9QfX5IxGeyzeHuw5ucoGkU+POAufW/FzBovZ8bscbUIWW0WJ8AZPlRlJ27uh/H
- CbU8pf+Cj4CmlUdII98FO1tvThCLS+vn558fCR+hJsPC8HoKfoNgOSuSrpqt3brVbJUHtNesoiCAm
- wTTftuY4aJb6HhW+M50Ief5gyj+pW2rZciVomje6FTU0ApfN67KGYaGf5I7CjT13D06FtNXWbujlO
- mAt/sO6pSbWtdLW7uHLrmqAuyeA+r5c6JSwm+GR+WTXHESoRqZcgrZe1m17EgiF5Q+n/Dt6SnBPz9
- +ul8EUWkDgBanV0aOg5oJQ8f9LDgY/SV45EK9goJo=;
+ References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=YlhT7yxIkudqF+PbwKXfyutP4g/LayqLZFH7J9UNGfk=; b=rD8CTqvInHW8CLiVoH8MvfqSol
+ IKLlrDShlPKzeGSDxjPIrQL84vei2x/9KXbQONQKW0YBVWnN7k+m7Yx9JtsL3aYjF7NchEEQsJAsK
+ L5zbBw5QnP1kolR8/LhWdz3CIFNy/gJHFN7urX9U8d3MdWqoGgBi70rUIRUqwO6m8Q9ED2ToqiMMd
+ +GaCoA63EPcQIHx1fQllGI6aTc8/n3p7V1lIByeEiHr8jWlMr50vMkz/4ryAiJ2hK7aBfFnX9k8g9
+ B2qMYCdH0dROecmZ1KLUw3+7WBrVhuwskHYZUyQ2UIWUQz8GjPKBnjwoD7p9vvxMyFX4UUNNtpJns
+ l85cUauXCeH9A3DQ2WPeGajVWrONm7Ugd6XPMplfMpS86uWKoOSURR5DRjbkPEsopIDfgJEVbOntV
+ 5zV4PAhal+LaZb8Tgl54QEo9JEzZXqL3RmQeMc0NtP9oP6+0dp5Zzyr0RIyWjJFCiIUq9Uu8LTA+G
+ 5Agpew+uSsmG0RhdBgOIm+0Dq8iualcb/8b8aIxxdS6RPTvJXl5hpfX7PHDifHtYQgzk1vSsYqYea
+ YGoMFqiODiCG9T+yvCmB3bGHTJgsI7qpQHqndtfmId/eClF1qBtmnc8lx7U00bGRskpmxBs0JnYDf
+ wspOnqMh0FxiiW66tRQjQlx7DUSFtgCxQhQgC4gh0=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nusai-0003JL-64; Sat, 28 May 2022 10:18:40 +0100
+ id 1nusam-0003JL-Ii; Sat, 28 May 2022 10:18:44 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: shentey@gmail.com, mst@redhat.com, marcel.apfelbaum@gmail.com,
  imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, richard.henderson@linaro.org,
  eduardo@habkost.net, hpoussin@reactos.org, qemu-devel@nongnu.org
-Date: Sat, 28 May 2022 10:19:22 +0100
-Message-Id: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
+Date: Sat, 28 May 2022 10:19:23 +0100
+Message-Id: <20220528091934.15520-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
+References: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 00/12] hw/acpi/piix4: remove legacy piix4_pm_init() function
+Subject: [PATCH 01/12] hw/acpi/piix4: move xen_enabled() logic from
+ piix4_pm_init() to piix4_pm_realize()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -77,45 +80,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whilst reviewing Bernhard's PIIX Southbridge QOMifcation patches at 
-https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg04329.html, I
-noticed that we should first eliminate the legacy device init function
-piix4_pm_init().
-
-This series moves the outstanding logic from piix4_pm_init() into the
-relevant instance init() and realize() functions, changes the IRQs to
-use qdev gpios, and then finally removes the now-unused piix4_pm_initfn()
-function.
+This logic can be included as part of piix4_pm_realize() and does not need to
+be handled externally.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/acpi/piix4.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-
-Mark Cave-Ayland (12):
-  hw/acpi/piix4: move xen_enabled() logic from piix4_pm_init() to
-    piix4_pm_realize()
-  hw/acpi/piix4: change smm_enabled from int to bool
-  hw/acpi/piix4: convert smm_enabled bool to qdev property
-  hw/acpi/piix4: move PIIX4PMState into separate piix4.h header
-  hw/acpi/piix4: alter piix4_pm_init() to return PIIX4PMState
-  hw/acpi/piix4: rename piix4_pm_init() to piix4_pm_initfn()
-  hw/acpi/piix4: introduce piix4_pm_init() instance init function
-  hw/acpi/piix4: use qdev gpio to wire up sci_irq
-  hw/acpi/piix4: use qdev gpio to wire up smi_irq
-  hw/i386/pc_piix: create PIIX4_PM device directly instead of using
-    piix4_pm_initfn()
-  hw/isa/piix4.c: create PIIX4_PM device directly instead of using
-    piix4_pm_initfn()
-  hw/acpi/piix4: remove unused piix4_pm_initfn() function
-
- hw/acpi/piix4.c               | 77 ++++++-----------------------------
- hw/i386/acpi-build.c          |  1 +
- hw/i386/pc_piix.c             | 16 +++++---
- hw/isa/piix4.c                | 11 +++--
- include/hw/acpi/piix4.h       | 75 ++++++++++++++++++++++++++++++++++
- include/hw/southbridge/piix.h |  6 ---
- 6 files changed, 107 insertions(+), 79 deletions(-)
- create mode 100644 include/hw/acpi/piix4.h
-
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index fe5625d07a..bf20fa139b 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -525,6 +525,10 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
+     s->machine_ready.notify = piix4_pm_machine_ready;
+     qemu_add_machine_init_done_notifier(&s->machine_ready);
+ 
++    if (xen_enabled()) {
++        s->use_acpi_hotplug_bridge = false;
++    }
++
+     piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
+                                    pci_get_bus(dev), s);
+     qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
+@@ -551,9 +555,6 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+     s->irq = sci_irq;
+     s->smi_irq = smi_irq;
+     s->smm_enabled = smm_enabled;
+-    if (xen_enabled()) {
+-        s->use_acpi_hotplug_bridge = false;
+-    }
+ 
+     pci_realize_and_unref(pci_dev, bus, &error_fatal);
+ 
 -- 
 2.20.1
 
