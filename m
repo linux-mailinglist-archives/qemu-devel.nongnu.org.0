@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BC3536D56
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 16:47:35 +0200 (CEST)
-Received: from localhost ([::1]:52942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4590536DC7
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 18:36:05 +0200 (CEST)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nuxj4-0006Gr-DK
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 10:47:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50930)
+	id 1nuzQ3-0004Mq-Tl
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 12:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nuxhj-0005UV-B8
- for qemu-devel@nongnu.org; Sat, 28 May 2022 10:46:11 -0400
-Received: from mout.gmx.net ([212.227.17.20]:36561)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nuzNS-0003E0-I8
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 12:33:23 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:60229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nuxhe-0005zx-4f
- for qemu-devel@nongnu.org; Sat, 28 May 2022 10:46:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1653749163;
- bh=QfTdd6IKIR4VSrWEDLZajc7lI0UWScoCierMrXn5X04=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=FyatSAmU66YcMp58CwsERue3YMGWTxgjQad85PAyekETQKgHdU1QnQr3g8KlEwdVD
- b2tleMdnoHAHtSuczSm86x1ZmBoUCHKnngGROvenB5ICLQkrHxbjtnO1UJkRS000PD
- KFzl9hq86qSMrHkiOxHqOzkYZ4k4vt5ZWXtDdiU4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.176.6]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTAFb-1oOQPE1QP1-00Uctc; Sat, 28
- May 2022 16:46:03 +0200
-Message-ID: <68e9f940-c8f4-2e9b-56f9-cd0d267cf0f0@gmx.de>
-Date: Sat, 28 May 2022 16:45:49 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nuzNQ-0004H9-Rx
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 12:33:22 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MfZ9C-1nJjka1HUO-00fyUy; Sat, 28 May 2022 18:33:16 +0200
+Message-ID: <aa940bf1-cf21-bf5f-dc6b-839776a19b9e@vivier.eu>
+Date: Sat, 28 May 2022 18:33:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 2/2] hppa: Fix serial port pass-through
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220526111926.19603-1-deller@gmx.de>
- <20220526111926.19603-3-deller@gmx.de>
- <CAFEAcA-Lzg_OcEU4gytwCzm-QwVWAqio=xcUC8Lf_zofS1Pi+g@mail.gmail.com>
- <CAFEAcA_1R-Z-KBj4x9g0tzgz=1nzL+qUEa+64MKkZetq5+2E5Q@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAFEAcA_1R-Z-KBj4x9g0tzgz=1nzL+qUEa+64MKkZetq5+2E5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:opYAh1RKD/Mbblrv7/SlPw9iEypkc38VZ06sO/LdB0BNgEBZQfX
- mBZlo11rSnewP+R+56Kfo9ZjLLsPF6QG2A6LELs90qZ+qDQg9DPVnf3zO7AkWkCKnfgeM+6
- jH/Idvod84b18xE7TKD5LQjXOfWKhMGwSEwDhI3ztuRNLsykqXBneguMyrJj+F5VWLFJp/I
- e9yBrOgfNwz2gMIpRorpw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+KYK+uMK1f4=:DkIw/HdTqwuwUTCyUtNzyb
- WlAJa4gL/zPfLnEKaXiZldWYVpTPhlTXdqtrSMCsJczecJLa3KpttzX3QI9tMgxHFMxzfWeg9
- uJn6dVeu+unuq1nT8yECebncau4tmW251fowX/1C2WBCguWYnJKEIGZnKrnAvk3vGTJrbrI7h
- CF0zyxDVX0C14jm1OqZ1dn3XSctWden4gCdcNC9g2gPcrqZSPbdL4MZMLray/flKnxK7iWIN7
- ImahC/8avO+j1Ds7jJGrYeQcXGzxnYvci3SPoI06DXKOZJtJgj2coMoJRBGtTmokBebU58cuv
- shaH9/lmdGxMznwoDdHDc5XY2hmFuie3S92PvC3c8W1VtbNxsCITr3y8XN1u/tUPLYrS0V0Bw
- xAiDzjG7nZaaWwZ0KsJFIeyLasxnh99FMFdz/cEPyWJXAnrf+olVGnPgFtWM7D7z8loyrOcOx
- 49lnEJBeBq8NXjajb2gpHn2LA4aXKTLv8cjTMXf3r8FGnCEKfmYW9mLTMoNR3Q5EWa++DW16P
- pUJk2mJrJ+6J+VnSbaatLs2o5zubD0RqitRXG1fBTsosqblDMahgfSuk1ooPhsrbL/J1tkK7A
- FpZL+1vwT+/J3eBS9HvbRrT8JJ0i1IAM03x4PAqAc09cy0m02dqFTrFYOUpuMQ1WRD7hsrKdh
- ywUGnVP/LKkYWsOGX1uQ6haf1IhE3IVMAYBVG83hE+0T9403HNVVKSHrxNHnr1lhOtAAFe8JB
- vEaebtuGt6tAhkdRaeY6Uq7YlbnKwBCWwKH8X7WgJGaeeWSavUTOwl1RcufUYKJC+cLBXjx3N
- SpawoxiAZQ+Rv2GUvaltbPPbFFKwDBNt+swMnX+qY/Tzjc75ehPwAp4tFGDV1RmPSrOaXQ8Lj
- DpLhDuldR3H8vV5nwjNbD+fB4VG2V/MUtio2e1GxO1pvHaSvAW+1Hc80GE4WAVbwu1/mQndUk
- cPJlPznudxaN463L9fbKKuKSAK43w/0WGtwnp8metjKdAQVOzkFl58n6kxpKNkvjn9pLhHLzy
- NaJkFYwBkvhuw8rCEueDuOJKBBB8ZFRlNrzQa7Byo1Fa37cAOATnYim9+2+w+FZc7N2IjD8tG
- z2/J/EdAR663nXhipvPSvUXDfXLyEg/VZrB
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH v5 04/17] linux-user/m68k: Handle EXCP_TRAP1 through
+ EXCP_TRAP15
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220527164807.135038-1-richard.henderson@linaro.org>
+ <20220527164807.135038-5-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220527164807.135038-5-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:U3q1taP6pBY6HLqa8cYkNhpkCpHT2FzCQnN/C1EksnJGpEquJXT
+ AssmPJm+zHLIgEuDNDG2+QzJvt5VfXW/ZUbJREijH05wPLnzD/FbEaCKGj5fcHPGjLKn8Cx
+ pnzBaUCWmq4etZ0eEqy58vsRpTcM0zEPJDVOJufFSLuQmyJKoUzfYjTabH29pjV4LQ9hBYb
+ 4afNLDHbbxsjR/ixHASfQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vH49mjdkBJQ=:wyTzStA0eKdne2Bx50mrdi
+ 3+iZ3/bs7YUUoz5rx+p0cljr59y+eAYxXpmLPNenDyzyw3dJ5w6IXBObEuyghu2VQxP0dEAe2
+ vJ4ooMHJSPNUXjL5Lkk20nzqmVWH5+0s/hhxwJS53yjHn/hwqbgXCfuDikNt9nXWe1S2aLdSL
+ ameNinF8R1ICuJJ1j/tbC/n4zBHb3dh9tBgu4fIGxJDuIOR+HM8IzSGyilt6oZN7rvn1haMYE
+ shpMTfvDv4mdr8T5ehYMSAJGryWgJfb/3LM3LpOk5WS3wDtS7OaNa/Yrtsyw6fR936Yq2VLQP
+ 9IyBTNQJ9sIArguzzg5w6QvAzNO0GSbCm+XJUS3vFQqfOEzxg4F9r6HAroJdCM/aB0oUO+mwb
+ g/nYvQMw0XBx5Om1oNhT8Mp1Q7883uLxVEma4nr73mck6YIqoWcmjmxEpjEmqxVJH1/yzXUZp
+ K+aSw7s0jzyvmhQa7iBvzyP5Jdselldc5ErvtD+saHLxZ78awENEx3gr+b/DReA1YieWxJYTh
+ qsU92KicUH//FooUb0BU34Y9fI5JLzImMy0A5K+yySmKMZ9I2t5zYaI1TynfV5ShP1F5nE7QV
+ YKu8t3DpGeLVSdZr8hzp8Dx4zPFqugAQO1BZfl7K03CjBxN7TSll/fg9OzyPC06zia1VQD1ZW
+ ymHHX4Kzwp7t2Y1eUymmZvxvC33/zDcx8+jENG+zY5L7dqjyU52OMFZsNPn/Nwu8GI0zcKXRP
+ Ay6KTGSSCqEafeGQoRTx9+KpssyyjgjI9wnWEQ==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,17 +74,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/22 16:25, Peter Maydell wrote:
-> On Sat, 28 May 2022 at 15:24, Peter Maydell <peter.maydell@linaro.org> w=
-rote:
->> Not related to this change, but you should consider removing these
->> "if (serial_hd(n))" conditionals.
->
-> ...oops, I just saw the 3/3 patch in your pullreq which does
-> exactly that, so ignore my email :-)
+Le 27/05/2022 à 18:47, Richard Henderson a écrit :
+> These are raised by guest instructions, and should not
+> fall through into the default abort case.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/m68k/cpu_loop.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+> index 56417f7401..12e5d9cd53 100644
+> --- a/linux-user/m68k/cpu_loop.c
+> +++ b/linux-user/m68k/cpu_loop.c
+> @@ -75,7 +75,11 @@ void cpu_loop(CPUM68KState *env)
+>           case EXCP_INTERRUPT:
+>               /* just indicate that signals should be handled asap */
+>               break;
+> +        case EXCP_TRAP0 + 1 ... EXCP_TRAP0 + 14:
+> +            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLTRP, env->pc);
+> +            break;
+>           case EXCP_DEBUG:
+> +        case EXCP_TRAP15:
+>               force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
+>               break;
+>           case EXCP_ATOMIC:
 
-Yes, in v3 (and the pull request) I fixed that since Mark
-had the same suggestion as you.
-
-Helge
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
