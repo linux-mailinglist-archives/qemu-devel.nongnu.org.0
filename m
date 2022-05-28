@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4502C536BE1
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:25:11 +0200 (CEST)
-Received: from localhost ([::1]:55946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2109536C23
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:47:53 +0200 (CEST)
+Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nush4-0000Tl-3W
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:25:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39064)
+	id 1nut32-0003TS-ER
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:47:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nuscV-00062s-Vf
+ id 1nuscU-00061s-JM
  for qemu-devel@nongnu.org; Sat, 28 May 2022 05:20:31 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56802)
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nuscP-0003zy-K4
- for qemu-devel@nongnu.org; Sat, 28 May 2022 05:20:27 -0400
+ id 1nuscO-0003zv-B3
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 05:20:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KQg+1970Y2PfkdMya/hg3Fz13291p17BdTvgXxy/6Lk=; b=y9UaZmgauIYT3g4kuOtIDHgoVM
- wXktZqetThRxbQFh3TQKvUElRXR1wBSSdAYCzw/95xp/mYUP6mVY3bszWVCua3h9I3pzIWiK19HbO
- 47Y9bVbs6nO3tMukc+18WKDEEMyOaIhEVtALLFVKs7rMWdSSOf6DvvbmhXA2639gF+h0Brim0Ip4d
- AZ3zl6ibXMa4Uv/L3B/EpFxX570WO51b4Jnmk15W8G2yEKmjlcWqdt4l7R3RLAhHJYjkxSj/xZdiW
- zoBbzPzQ+nBA3H2KwWWRjYNQHe15BpVT1wal64E0jTYQbWJkzMGIWePVwYyXf9a9YPA5mB0BvvdHY
- muShTAf2q+FfcAhYdbjXLO1Gh8Gtsmz+o5Sw/c28F8k5FD1LLCr1zEdvjAayezDpLvk0hj8SsYo/e
- BSUBoFfGG8yLXBguQMCanJ4bDrs573efdMSY403PWhKKIGCDweu1M+Aahcf+Ln3EEQ79YVOntqKXu
- aHlLvhg+2rXWPFBs3L8vs6DmkfC6AZ6fnRmkFjjm+B3cpPFWLnjcfaT47YHz2UfwFZfhTQAnyPGpY
- C7fyiTfbuYS1QCYxZsmYYnbxyuUjL9eGslGvVe7AyWx8Qq/OCZOpFztzgWTk7IvkZclbhmgHvx4uD
- 5BVFGcc68nuOPYdMlz0hWUxdgsxN/+GEXP9A/XqRU=;
+ bh=Lru2PmE6GE8hnkukJ7PXqitB0Q/kZdxFvfuDZJnAxFg=; b=Cmj4nkOE7VNjaGFC7X6/Z9i07c
+ Q454CInem20TRXuDBTBcWr6tgF4ViBj7TZGw+IR+JfYXK4HBv5/6CQqLDidoft/WbdFLU2WN9yq/a
+ pPaCfxIo76wp9halAVKpr7iznoV98oCER4RjGX6G7/P61jKl2jx+KawIxFP7d1eYSzIJ/MdiA78km
+ +CdhXHSbCEFVj4j4+i5qquSE3qJVB39XIbpU1qxYExzgpKF6afIICyiAjDeU9qWdVIiJVLN5oHDQU
+ /IlwePkCFLWfkc9xcjv7KZEYUesiejKR0iUWXoXYCxxAmjRgm/eM8c9M45d8vLRZQyh6SWxuHeCFx
+ 4/8tHditKXK94WlIwV0BoMsDbUc2DyIJ5zQRyzS0bxd63YeFIJ/hL2SKWt6cn6zB9fOVPtjm4O9YX
+ F/3rO5iI0JIo3EhCfmmV4HxfFaOS0cHvXLZ4ZP2BBP5DGAKA1ur/6y+1ynClRO9zPDRUOdcRhjo6q
+ Bg4FRAKRYJkFBmjvHkAtVUKBZoTPWAeXqOC2eWjTuXMXzQjU56ZixOATDGfv9kQ5t8FmYNrfurl4x
+ InJQKDw0r+BSltcG1PPR2JuzytmfC4WRW1GWIkeKZueD207e2CU1GemS4t+kluMYkFVkGReFOY6hn
+ HAJpfMuflWXwiv+w8JFSyxvlWuGCumDV3z1+1guJ8=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nusb8-0003JL-Fp; Sat, 28 May 2022 10:19:06 +0100
+ id 1nusbC-0003JL-Ui; Sat, 28 May 2022 10:19:07 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: shentey@gmail.com, mst@redhat.com, marcel.apfelbaum@gmail.com,
  imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, richard.henderson@linaro.org,
  eduardo@habkost.net, hpoussin@reactos.org, qemu-devel@nongnu.org
-Date: Sat, 28 May 2022 10:19:28 +0100
-Message-Id: <20220528091934.15520-7-mark.cave-ayland@ilande.co.uk>
+Date: Sat, 28 May 2022 10:19:29 +0100
+Message-Id: <20220528091934.15520-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
 References: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
@@ -53,8 +53,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 06/12] hw/acpi/piix4: rename piix4_pm_init() to
- piix4_pm_initfn()
+Subject: [PATCH 07/12] hw/acpi/piix4: introduce piix4_pm_init() instance init
+ function
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -80,88 +80,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When QOMifying a device it is typical to use _init() as the suffix for an
-instance_init function, however this name is already in use by the legacy
-piix4_pm_init() wrapper function. Eventually the wrapper function will be
-removed, but for now rename it to piix4_pm_initfn() to avoid a naming
-collision.
+Use the new piix4_pm_init() instance init function to initialise 2 separate qdev
+gpios for the SCI and SMI IRQs.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/acpi/piix4.c               | 6 +++---
- hw/i386/pc_piix.c             | 6 +++---
- hw/isa/piix4.c                | 6 +++---
- include/hw/southbridge/piix.h | 6 +++---
- 4 files changed, 12 insertions(+), 12 deletions(-)
+ hw/acpi/piix4.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 05c129b6af..d897d2dee6 100644
+index d897d2dee6..454fa34df1 100644
 --- a/hw/acpi/piix4.c
 +++ b/hw/acpi/piix4.c
-@@ -497,9 +497,9 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
+@@ -497,6 +497,14 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
      piix4_pm_add_properties(s);
  }
  
--PIIX4PMState *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
--                            qemu_irq sci_irq, qemu_irq smi_irq,
--                            int smm_enabled)
-+PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
-+                              qemu_irq sci_irq, qemu_irq smi_irq,
-+                              int smm_enabled)
- {
-     PCIDevice *pci_dev;
-     DeviceState *dev;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 0300be5ef4..ae21946981 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -285,9 +285,9 @@ static void pc_init1(MachineState *machine,
- 
-         smi_irq = qemu_allocate_irq(pc_acpi_smi_interrupt, first_cpu, 0);
-         /* TODO: Populate SPD eeprom data.  */
--        piix4_pm = piix4_pm_init(pci_bus, piix3_devfn + 3, 0xb100,
--                                 x86ms->gsi[9], smi_irq,
--                                 x86_machine_is_smm_enabled(x86ms));
-+        piix4_pm = piix4_pm_initfn(pci_bus, piix3_devfn + 3, 0xb100,
-+                                   x86ms->gsi[9], smi_irq,
-+                                   x86_machine_is_smm_enabled(x86ms));
-         pcms->smbus = I2C_BUS(qdev_get_child_bus(DEVICE(piix4_pm), "i2c"));
-         smbus_eeprom_init(pcms->smbus, 8, NULL, 0);
- 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 7d9bedd1bb..33a7015ea3 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -311,9 +311,9 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
- 
-     pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
-     if (smbus) {
--        pms = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
--                            qdev_get_gpio_in_named(dev, "isa", 9),
--                            NULL, 0);
-+        pms = piix4_pm_initfn(pci_bus, devfn + 3, 0x1100,
-+                              qdev_get_gpio_in_named(dev, "isa", 9),
-+                              NULL, 0);
-         *smbus = I2C_BUS(qdev_get_child_bus(DEVICE(pms), "i2c"));
-     }
- 
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 108800ab06..479d88e242 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -16,9 +16,9 @@
- #include "qom/object.h"
- #include "hw/acpi/piix4.h"
- 
--PIIX4PMState *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
--                            qemu_irq sci_irq, qemu_irq smi_irq,
--                            int smm_enabled);
-+PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
-+                              qemu_irq sci_irq, qemu_irq smi_irq,
-+                              int smm_enabled);
- 
- /* PIRQRC[A:D]: PIRQx Route Control Registers */
- #define PIIX_PIRQCA 0x60
++static void piix4_pm_init(Object *obj)
++{
++    PIIX4PMState *s = PIIX4_PM(obj);
++
++    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
++    qdev_init_gpio_out_named(DEVICE(obj), &s->smi_irq, "smi-irq", 1);
++}
++
+ PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
+                               qemu_irq sci_irq, qemu_irq smi_irq,
+                               int smm_enabled)
+@@ -663,6 +671,7 @@ static void piix4_pm_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo piix4_pm_info = {
+     .name          = TYPE_PIIX4_PM,
+     .parent        = TYPE_PCI_DEVICE,
++    .instance_init  = piix4_pm_init,
+     .instance_size = sizeof(PIIX4PMState),
+     .class_init    = piix4_pm_class_init,
+     .interfaces = (InterfaceInfo[]) {
 -- 
 2.20.1
 
