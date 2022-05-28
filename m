@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4783536C25
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:50:04 +0200 (CEST)
-Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D4A536C31
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:58:53 +0200 (CEST)
+Received: from localhost ([::1]:42574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nut59-00066L-VL
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
+	id 1nutDg-0005tt-00
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nusx3-0007mM-7M
- for qemu-devel@nongnu.org; Sat, 28 May 2022 05:41:42 -0400
-Received: from mout.gmx.net ([212.227.15.18]:43277)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nusyY-0000qp-V2; Sat, 28 May 2022 05:43:14 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nusx0-0006lN-Uh
- for qemu-devel@nongnu.org; Sat, 28 May 2022 05:41:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1653730896;
- bh=TIoeIMAXLpgNl8wi8olfeJJjctMeiO8INirResQFQGA=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=SvIeGP0U/abkm7X7WVWVSSCVtyvxnpjoG3nCt5TesrEr27InLkLyYKyNkHLjzpL2e
- /+u8luGKoFFQr/hCz9SBqipzYsJ3iRDJRtVlKtx7sa3+oUtzsCCL2/421detKivP+R
- yMRffv3ZgXgQhPRuqi60fb4MXaQIIQDhgI9vzzMo=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.176.6]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPGRz-1oB2tB0g73-00PZhC; Sat, 28
- May 2022 11:41:36 +0200
-From: Helge Deller <deller@gmx.de>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Sven Schnelle <svens@stackframe.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Helge Deller <deller@gmx.de>
-Subject: [PATCH v2 3/3] hppa: Fix serial port assignments and pass-through
-Date: Sat, 28 May 2022 11:41:34 +0200
-Message-Id: <20220528094134.16513-4-deller@gmx.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220528094134.16513-1-deller@gmx.de>
-References: <20220528094134.16513-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nusyW-0006ra-TZ; Sat, 28 May 2022 05:43:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:References:Cc:To:From:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+SNs0J7EW/hoGDF73K/3k6PNyuddyBwP0w0KZ3E1iAk=; b=MAFbztAyYeQersY3Aq9+3TXVGR
+ +sul0R4JsOy1gnkef+SuNSd7CtPaJjzR/SBKk8jxHtTLMwFjLzJCHV8b20EUvptAVhhYJE3s4lgbs
+ mAvOk/8Ednvg6gWTKpICn80HeUDExDVAN3x55LUtqVGKEC9LxvDZT/ogXhzsD682uuQPF8LIVIpZM
+ ZkFLQYtOx3rMrO05eZn0rF1Sx3X7f8udLdgX8sumr1/+xlYzbPS3sSBYR6PPWoQktOKoUxq1bL1Sc
+ JA/AZ0P8tVCVxiNR+js/X0C97x1HbLWmB32B7QhSOsYxpTOckG/ZrA43fpJSxxi0r8jj4Ai50EDmN
+ P0UiL3ZLlrZmhL64eRKg35qlLS7xK+wJgOsOyH/jeIL6zDdG92xycMzNglx9H0EZJCv+aZ4+Cl6F4
+ fAmvvzZEfCf0CcB/2luiC0Yl0N3Qd+XkvGDm/nBHG8fTDRur2deVG2LKFpxedIwsg5VDhwdfUmMEE
+ HvMhBTudogxkIx9CciyvwNfZywO/SzPeOpg3ZVW+VRYfwt3Ex5m9WnwpTwvo6GuwoIirUIwa7z7Gs
+ hsQdV3Q2YLQqZdHQwTtRbsxhPwtu55i1UnwIhY697idPnczg8918JTNe9oZtQURSjD6Tuf0KMxQ/B
+ 8CVp5/yYqX6FY4F/yzyEd186t+oKgjLNbBQ3REhNg=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nusxU-0003Vh-Fm; Sat, 28 May 2022 10:42:08 +0100
+Message-ID: <bdcb5d35-6e4a-a6b9-6faf-c8bc9f6c3260@ilande.co.uk>
+Date: Sat, 28 May 2022 10:43:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pVL08YWjIECE/Q7Sz81H9CuDZnnCx2cVeQ4cA9pl1mdqorsQUFf
- 2IUdyDAYb2r1e8nUcLJ/c1Hp3eEfslzNE+8S4uBCjDW499aAKymaUwKUUd+6CAD7KZUSMhp
- jBx5PzBx6mDFFOfCzgm2vB4J/2IYZrunY3zCku1O3Swrk6vWWbpv24xjylanQpZex2+5Y3l
- oqZsqhzioBBhaWtyxvvYA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KCfdBMO88yU=:DdugYeSpaDreVO4m392N1H
- GrXlwCgq8PZ8ApHzIrhvG+woALNURdcmBRdNW3Heez68hsOC1DHXDY/UrnJv34wgdDhzx3orL
- nRu/PGM6qe0Tlok2/r3uzBlb6zo9iUH6Z9P3hdEkimWnKrz8BHDgUfRdEh40mHoF9SBqjSMhU
- WX703yCXzcp2iq6baCRIHdExx1FO/yXn+O+8nr71BKfmO5oHkznxQdZsODU3FCyffcCd7Gots
- Sw1ufAUyyWXb6n09hJ3mOx6sCN6T4/IjqpJVfU/plJkkBqedxnKYPLajcT0xsWdLbMR29I61I
- I65A/n37NmJ6uYB6u2hYPtsWF2lt2gvreTvYmSn/t+UIR0YqaZ9xmWxP55d0fjZVuE5vKwkW2
- 4cD9oOoItcS74haeez17sdwEL1vCQ6a3m/XGQzi4msnk3++w18w6fWWUQnwCfu47KJfgLqDxe
- vf0lwiFLUDiDW8ot2qQpcuuoB8U66Fa/l+sF8qKA9Kx6GYjOzBc0CS5o1Jl2QqC76eqpZg9JO
- AfBqpk4YBrewSJ8MdL8oo77LNY50VmPW8rodqf3TIc07fGxvkPC9tVx7YCZ6+C0Rn1vMqxiH4
- zFm/n2D74PSxCpRCAw4QxffRdRUrqBZjgtDuHjvs9j4zHXintvIqk958cDuuEV7Vmmrk+I0m7
- Fd/dsDrNgUxygpy8ObqC74U9JaiWg9GmkpgNNPbqKeBg0BfmjzJxjqZ+4+Jg08rXGBuCvd78F
- AEogeL2HgPnE4cZErZJgTpH31E5mmMMnPIg+J6NppOMhM4MKrEcg2d0diaVEkUAF1uIKW4Aqd
- kkmbILPtmti9JgZBgZxH54jaYfiYD136Jusv07HB5UZXbL0d7P5DpgNUe+OCVa4Chn/DSktHZ
- Y0rddxyIjz7M8xA+T4ZJrhkezdMtV/1cTGDP4p5MRMFYCnSAWsjmHpb3ruBMktuz03Sfl5dv4
- ofIygk1rsrURsxed5aOUBl+SAfhToVKzlm6cF7mV60e9bEyhnwpn65HgBeC/6lwJjKNZcSX+H
- 3Pm3ZJplf/lcGAFDuu14dTw1v1ufu3gwX9gnL1rjj21HIvtbboMl8gyBjKzyFBX1TQXcysBsR
- 1NwrLoiH/GN1ARTW1LO1Fm1YtXEuXdrKbYsU6IUYNy0rtqlTtPkTzsLQw==
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20220522212431.14598-1-shentey@gmail.com>
+ <20220522212431.14598-6-shentey@gmail.com>
+ <a1f2e759-0e2c-df44-4a1b-eb2c6429298a@ilande.co.uk>
+In-Reply-To: <a1f2e759-0e2c-df44-4a1b-eb2c6429298a@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 5/6] hw/isa/piix4: QOM'ify PIIX4 PM creation
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,86 +85,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes the serial ports in the emulation to behave as on original
-hardware.
+On 25/05/2022 19:09, Mark Cave-Ayland wrote:
 
-On the real hardware, the LASI UART is serial port #0 and the DINO UART
-is serial port #1. This is fixed in SeaBIOS-hppa firmware v6, which is
-why at least this firmware version is required.
+> On 22/05/2022 22:24, Bernhard Beschow wrote:
+> 
+>> Just like the real hardware, create the PIIX4 ACPI controller as part of
+>> the PIIX4 southbridge. This also mirrors how the IDE and USB functions
+>> are already created.
+>>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>> ---
+>>   hw/isa/piix4.c                | 14 +++++++-------
+>>   hw/mips/malta.c               |  3 ++-
+>>   include/hw/southbridge/piix.h |  2 +-
+>>   3 files changed, 10 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+>> index 4968c69da9..1645f63450 100644
+>> --- a/hw/isa/piix4.c
+>> +++ b/hw/isa/piix4.c
+>> @@ -206,6 +206,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+>>       PIIX4State *s = PIIX4_PCI_DEVICE(dev);
+>>       PCIDevice *pci;
+>>       PCIBus *pci_bus = pci_get_bus(dev);
+>> +    I2CBus *smbus;
+>>       ISABus *isa_bus;
+>>       qemu_irq *i8259_out_irq;
+>> @@ -252,6 +253,11 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+>>       /* USB */
+>>       pci_create_simple(pci_bus, dev->devfn + 2, "piix4-usb-uhci");
+>> +    /* ACPI controller */
+>> +    smbus = piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100, s->isa[9],
+>> +                          NULL, 0, NULL);
+>> +    object_property_add_const_link(OBJECT(s), "smbus", OBJECT(smbus));
+>> +
+> 
+> Interesting hack here to expose the smbus so it is available to qdev_get_child_bus(), 
+> but really this is still really working around the fact that piix4_pm_init() itself 
+> should be removed first. Once that is done, you can then use a standard QOM pattern 
+> to initialise the "internal" PCI devices via object_initialize_child() and realize 
+> them in piix4_realize() instead of using pci_create_simple().
+> 
+> Is that something you could take a look at? If not, I may be able to put something 
+> together towards the end of the week. Other than that I think the rest of the series 
+> looks good.
 
-The serial port addresses in hppa/hppa_hardware.h have to be swapped,
-and when creating the virtual serial ports the correct port addresses
-are used.
+Hi Bernhard,
 
-This patch now for example allows to specify on the qemu command line:
-     -serial mon:stdio -serial /dev/ttyS4
-to use the emulated ttyS0 in the guest for console output, and pass
-ttyS4 from the host to ttyS1 in the guest.
+I've just sent through the series for eliminating the piix4_pm_init() which should 
+allow you to improve the QOMifcation done as part of this series.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/hppa/hppa_hardware.h |  4 ++--
- hw/hppa/machine.c       | 22 ++++++++--------------
- 2 files changed, 10 insertions(+), 16 deletions(-)
+A bit of background as to why this is necessary: when building a container device 
+such as the PIIX southbridge, there should still be 2 distinct init and realize 
+phases. In effect this needs to be done depth-first so when you init the PIIX4 
+southbridge, the instance init function should also init the contained PCI devices 
+such as IDE and USB. Similarly when the PIIX4 device is realized, its realize 
+function should then realize the contained PCI devices using qdev_realize().
 
-diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
-index 37bafff1ed..e4b0b142d9 100644
-=2D-- a/hw/hppa/hppa_hardware.h
-+++ b/hw/hppa/hppa_hardware.h
-@@ -41,8 +41,8 @@
+This is one of the main reasons why legacy global device init functions aren't 
+recommended, since they both init *and* realize the device before returning it which 
+immediately breaks this contract.
 
- #define FW_CFG_IO_BASE  0xfffa0000
+The normal way to initialise a contained device is to use object_initialize_child() 
+in the container's instance init function and to store the the child device instance 
+within the container. But what this also means is that you shouldn't use any _new() 
+functions like pci_new() or pci_create_simple() to instantiated contained devices in 
+a container realize function either. So the next question: how is this done?
 
--#define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
--#define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
-+#define PORT_SERIAL1    (LASI_UART_HPA + 0x800)
-+#define PORT_SERIAL2    (DINO_UART_HPA + 0x800)
+Fortunately there is an existing example of this: take a look at how this is 
+currently done in hw/pci-host/q35.c's q35_host_initfn() and q35_host_realize() for 
+the MCH_PCI_DEVICE device.
 
- #define HPPA_MAX_CPUS   16      /* max. number of SMP CPUs */
- #define CPU_CLOCK_MHZ   250     /* emulate a 250 MHz CPU */
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index d1e174b1f4..63b9dd2396 100644
-=2D-- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -32,7 +32,7 @@
+I hope this gives you all the information you need to produce a v3 of the series: if 
+you have any further questions, do let me know and I will do my best to answer them.
 
- #define MAX_IDE_BUS 2
+>>       pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
+>>   }
+>> @@ -301,7 +307,7 @@ static void piix4_register_types(void)
+>>   type_init(piix4_register_types)
+>> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
+>> +DeviceState *piix4_create(PCIBus *pci_bus)
+>>   {
+>>       PCIDevice *pci;
+>>       DeviceState *dev;
+>> @@ -311,11 +317,5 @@ DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
+>>                                             TYPE_PIIX4_PCI_DEVICE);
+>>       dev = DEVICE(pci);
+>> -    if (smbus) {
+>> -        *smbus = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
+>> -                               qdev_get_gpio_in_named(dev, "isa", 9),
+>> -                               NULL, 0, NULL);
+>> -    }
+>> -
+>>       return dev;
+>>   }
+>> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+>> index e446b25ad0..b0fc84ccbb 100644
+>> --- a/hw/mips/malta.c
+>> +++ b/hw/mips/malta.c
+>> @@ -1399,8 +1399,9 @@ void mips_malta_init(MachineState *machine)
+>>       empty_slot_init("GT64120", 0, 0x20000000);
+>>       /* Southbridge */
+>> -    dev = piix4_create(pci_bus, &smbus);
+>> +    dev = piix4_create(pci_bus);
+>>       isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+>> +    smbus = I2C_BUS(qdev_get_child_bus(dev, "smbus"));
+>>       /* Interrupt controller */
+>>       qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
+>> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+>> index 0bec7f8ca3..2c21359efa 100644
+>> --- a/include/hw/southbridge/piix.h
+>> +++ b/include/hw/southbridge/piix.h
+>> @@ -76,6 +76,6 @@ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+>>   PIIX3State *piix3_create(PCIBus *pci_bus);
+>> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus);
+>> +DeviceState *piix4_create(PCIBus *pci_bus);
+>>   #endif
 
--#define MIN_SEABIOS_HPPA_VERSION 1 /* require at least this fw version */
-+#define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
 
- #define HPA_POWER_BUTTON (FIRMWARE_END - 0x10)
+ATB,
 
-@@ -236,20 +236,14 @@ static void machine_hppa_init(MachineState *machine)
-     /* Realtime clock, used by firmware for PDC_TOD call. */
-     mc146818_rtc_init(isa_bus, 2000, NULL);
-
--    /* Serial code setup.  */
--    if (serial_hd(0)) {
--        uint32_t addr =3D DINO_UART_HPA + 0x800;
--        serial_mm_init(addr_space, addr, 0,
--                       qdev_get_gpio_in(dino_dev, DINO_IRQ_RS232INT),
--                       115200, serial_hd(0), DEVICE_BIG_ENDIAN);
--    }
-+    /* Serial ports: Lasi and Dino use a 7.272727 MHz clock. */
-+    serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
-+        qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 7272727 / 16,
-+        serial_hd(0), DEVICE_BIG_ENDIAN);
-
--    if (serial_hd(1)) {
--        /* Serial port */
--        serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
--                qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 8000000 / =
-16,
--                serial_hd(1), DEVICE_BIG_ENDIAN);
--    }
-+    serial_mm_init(addr_space, DINO_UART_HPA + 0x800, 0,
-+        qdev_get_gpio_in(dino_dev, DINO_IRQ_RS232INT), 7272727 / 16,
-+        serial_hd(1), DEVICE_BIG_ENDIAN);
-
-     /* Parallel port */
-     parallel_mm_init(addr_space, LASI_LPT_HPA + 0x800, 0,
-=2D-
-2.35.3
-
+Mark.
 
