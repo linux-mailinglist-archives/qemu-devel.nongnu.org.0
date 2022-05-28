@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1F7536C0B
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:45:57 +0200 (CEST)
-Received: from localhost ([::1]:52842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4783536C25
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 11:50:04 +0200 (CEST)
+Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nut1A-0001SZ-5E
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41492)
+	id 1nut59-00066L-VL
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 05:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nusx5-0007my-1R
- for qemu-devel@nongnu.org; Sat, 28 May 2022 05:41:43 -0400
-Received: from mout.gmx.net ([212.227.15.15]:36355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nusx1-0006lY-Li
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nusx3-0007mM-7M
  for qemu-devel@nongnu.org; Sat, 28 May 2022 05:41:42 -0400
+Received: from mout.gmx.net ([212.227.15.18]:43277)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nusx0-0006lN-Uh
+ for qemu-devel@nongnu.org; Sat, 28 May 2022 05:41:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1653730896;
- bh=JYtAlOLmaih7hGbg+Gd5FRpraj7Tol897LEhZkZ3LMI=;
+ bh=TIoeIMAXLpgNl8wi8olfeJJjctMeiO8INirResQFQGA=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=DI+p8g4NaFba7NuOMY7jOXm2vGmfvNJycHIx2zrOVb6MDtlDx1wuZ9yh0mDJWy+oG
- worlmFqk9+zM0HDO9lSNCUPpfzYVkQHZsjEUC/mEXK6M8GlMZ+IwgSlovY3w17dub8
- Sga0/nIP6SVDKWT/TPjF/VjPgMr8ytxYC7M3uKmI=
+ b=SvIeGP0U/abkm7X7WVWVSSCVtyvxnpjoG3nCt5TesrEr27InLkLyYKyNkHLjzpL2e
+ /+u8luGKoFFQr/hCz9SBqipzYsJ3iRDJRtVlKtx7sa3+oUtzsCCL2/421detKivP+R
+ yMRffv3ZgXgQhPRuqi60fb4MXaQIIQDhgI9vzzMo=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.176.6]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MowKi-1nTlg142ec-00qUKf; Sat, 28
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPGRz-1oB2tB0g73-00PZhC; Sat, 28
  May 2022 11:41:36 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org
@@ -34,37 +34,36 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Sven Schnelle <svens@stackframe.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Helge Deller <deller@gmx.de>
-Subject: [PATCH v2 2/3] hppa: Sync contents of hppa_hardware.h header file
- with SeaBIOS-hppa
-Date: Sat, 28 May 2022 11:41:33 +0200
-Message-Id: <20220528094134.16513-3-deller@gmx.de>
+Subject: [PATCH v2 3/3] hppa: Fix serial port assignments and pass-through
+Date: Sat, 28 May 2022 11:41:34 +0200
+Message-Id: <20220528094134.16513-4-deller@gmx.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220528094134.16513-1-deller@gmx.de>
 References: <20220528094134.16513-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7PShTDDwmDOQnGWS2MaEM1UGtvkPAT6n/oq7gox5qjObOdmVD/u
- sSMk4+9g55rF9MhThJM9/9oJ1pS/B58SHu3uirJt6VuNW8iE7ACq0E5UoWcmoYyBEY6wdan
- Kgs6rkf7ZxSguyr4RWm43w5FA6EaASqU8Dh2YRXOIB+6b5PppywcRTfkCluwd+VaKRqZQ2m
- Ehsu5g2kCTMdfFexSr11w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DhRqcJSBQDM=:pYHC4qfSBa8vi/eI5KwJvr
- pUTWozyDjeIZSIWieel5Lo3qN6BbyFg3j870SXnKJhH3CN9+y3ejtGoPnggqtT4/oVuK+Jqe0
- xOB3S0NpgPeU8z0FPMBGCLUlcoo0AKT4tfGsBiwh8D8GCpugSue/lwfvvxpZnUmVxoYBSc+hb
- ZsC8GKsvMIL06OTcf49YAYrRWUrZHU7oJSC5MMBS0/tsREi8WpQP3pyUej7ONuCLHMN3pGSVc
- 6WBB6dTvbrdoQRyfL1UVx0h+mEa3jtPakoX5KOnZgK7pVIcP4loCh3uZanXtVBhA6lvjrA70o
- HBXcCjKnAypU1aDWb1GYsbUQrVQUkuHfTub1JJpP8zeoa5hEpJOczb1TcqW5TJCTjzVK6PSqP
- YQ45W/hvSWb8G6BxiYMGBpw+9E9UGblD+exFYgeWTG6EdU44fkcagf3SU/1Fy1+CBGZPv0DiU
- rC1eMONqWEfuLFbuIrhWWY5S23rrwhxX61qMkth9BvRMnhAYcBJtkPKWtRJal+i4vAQvu7Gvq
- TIeA7p/NOhdpKx+LcQjitTWgLpu5uXY6QXozEmmzjV9BoHVZyaVDQaflc/Qqvh5hnB8aTNeVs
- WKwhMPnqpvV0elNwp2DD47aGsXhrza0FZJOsOz1sLmN849+jp8XD0QFvHm4P2raUw899XJYSQ
- WlB35gkneRuKeAHcMErXNs9y6RAtEJ4t/irVHD5Gu1gE5NOFOjPA1qGZbeVzr9AOSfC/PEN1H
- aV9wMCkz49vOEwTy1yrueZsa5GSwY7FLgZG/QzVg4wBQBBJTaM2vxB0AxL7dxu9XOL/HlSIgc
- Vi50hgU5UeA2rKemXzXKkSdvb63mI7Dv9dnXOxA6jPV6FC6UaJhsY6cfTzJrCDNMt9Ms83hlu
- BfMVJlgK3Lu8R2gdd535NelK78JP1rE+hcEzTH5hQZ8Lu1kooi7MFV5L1hDuTJAueLyP+fdE+
- lSbclgKAS1YRIDGhz9DYsWOzth3YiewugCF767CFynJPYjAkNs1ZHJoGeFD3b6rSLLwGcbVR1
- mlpQOlJ2n4KvjcaO7fqVHg9pVcVLY4vHOWBqwkoWPtyfItC/A3IbXHGoLZQbkUlUnE36U8Ie9
- hcLvng+KHxLVi6gGcWleiodtCnLywnMo6AGpaZ0J0bTpmfFmVouxXLvkg==
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:pVL08YWjIECE/Q7Sz81H9CuDZnnCx2cVeQ4cA9pl1mdqorsQUFf
+ 2IUdyDAYb2r1e8nUcLJ/c1Hp3eEfslzNE+8S4uBCjDW499aAKymaUwKUUd+6CAD7KZUSMhp
+ jBx5PzBx6mDFFOfCzgm2vB4J/2IYZrunY3zCku1O3Swrk6vWWbpv24xjylanQpZex2+5Y3l
+ oqZsqhzioBBhaWtyxvvYA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KCfdBMO88yU=:DdugYeSpaDreVO4m392N1H
+ GrXlwCgq8PZ8ApHzIrhvG+woALNURdcmBRdNW3Heez68hsOC1DHXDY/UrnJv34wgdDhzx3orL
+ nRu/PGM6qe0Tlok2/r3uzBlb6zo9iUH6Z9P3hdEkimWnKrz8BHDgUfRdEh40mHoF9SBqjSMhU
+ WX703yCXzcp2iq6baCRIHdExx1FO/yXn+O+8nr71BKfmO5oHkznxQdZsODU3FCyffcCd7Gots
+ Sw1ufAUyyWXb6n09hJ3mOx6sCN6T4/IjqpJVfU/plJkkBqedxnKYPLajcT0xsWdLbMR29I61I
+ I65A/n37NmJ6uYB6u2hYPtsWF2lt2gvreTvYmSn/t+UIR0YqaZ9xmWxP55d0fjZVuE5vKwkW2
+ 4cD9oOoItcS74haeez17sdwEL1vCQ6a3m/XGQzi4msnk3++w18w6fWWUQnwCfu47KJfgLqDxe
+ vf0lwiFLUDiDW8ot2qQpcuuoB8U66Fa/l+sF8qKA9Kx6GYjOzBc0CS5o1Jl2QqC76eqpZg9JO
+ AfBqpk4YBrewSJ8MdL8oo77LNY50VmPW8rodqf3TIc07fGxvkPC9tVx7YCZ6+C0Rn1vMqxiH4
+ zFm/n2D74PSxCpRCAw4QxffRdRUrqBZjgtDuHjvs9j4zHXintvIqk958cDuuEV7Vmmrk+I0m7
+ Fd/dsDrNgUxygpy8ObqC74U9JaiWg9GmkpgNNPbqKeBg0BfmjzJxjqZ+4+Jg08rXGBuCvd78F
+ AEogeL2HgPnE4cZErZJgTpH31E5mmMMnPIg+J6NppOMhM4MKrEcg2d0diaVEkUAF1uIKW4Aqd
+ kkmbILPtmti9JgZBgZxH54jaYfiYD136Jusv07HB5UZXbL0d7P5DpgNUe+OCVa4Chn/DSktHZ
+ Y0rddxyIjz7M8xA+T4ZJrhkezdMtV/1cTGDP4p5MRMFYCnSAWsjmHpb3ruBMktuz03Sfl5dv4
+ ofIygk1rsrURsxed5aOUBl+SAfhToVKzlm6cF7mV60e9bEyhnwpn65HgBeC/6lwJjKNZcSX+H
+ 3Pm3ZJplf/lcGAFDuu14dTw1v1ufu3gwX9gnL1rjj21HIvtbboMl8gyBjKzyFBX1TQXcysBsR
+ 1NwrLoiH/GN1ARTW1LO1Fm1YtXEuXdrKbYsU6IUYNy0rtqlTtPkTzsLQw==
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,42 +87,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hppa_hardware.h header file holds many constants for addresses and
-offsets which are needed while building the firmware (SeaBIOS-hppa) and
-while setting up the virtual machine in QEMU.
+This fixes the serial ports in the emulation to behave as on original
+hardware.
 
-That's why this header file needs to be in sync between both source code
-repositories. This patch adds a comment mentioning this dependency at
-the top of this file and restores some DINO relevant offsets.
+On the real hardware, the LASI UART is serial port #0 and the DINO UART
+is serial port #1. This is fixed in SeaBIOS-hppa firmware v6, which is
+why at least this firmware version is required.
+
+The serial port addresses in hppa/hppa_hardware.h have to be swapped,
+and when creating the virtual serial ports the correct port addresses
+are used.
+
+This patch now for example allows to specify on the qemu command line:
+     -serial mon:stdio -serial /dev/ttyS4
+to use the emulated ttyS0 in the guest for console output, and pass
+ttyS4 from the host to ttyS1 in the guest.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/hppa_hardware.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/hppa/hppa_hardware.h |  4 ++--
+ hw/hppa/machine.c       | 22 ++++++++--------------
+ 2 files changed, 10 insertions(+), 16 deletions(-)
 
 diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
-index 8b6b9222cb..37bafff1ed 100644
+index 37bafff1ed..e4b0b142d9 100644
 =2D-- a/hw/hppa/hppa_hardware.h
 +++ b/hw/hppa/hppa_hardware.h
-@@ -1,4 +1,5 @@
- /* HPPA cores and system support chips.  */
-+/* Be aware: QEMU and seabios-hppa repositories share this files as-is. *=
-/
+@@ -41,8 +41,8 @@
 
- #ifndef HW_HPPA_HPPA_HARDWARE_H
- #define HW_HPPA_HPPA_HARDWARE_H
-@@ -30,6 +31,11 @@
- #define PCI_HPA         DINO_HPA        /* PCI bus */
- #define IDE_HPA         0xf9000000      /* Boot disc controller */
+ #define FW_CFG_IO_BASE  0xfffa0000
 
-+/* offsets to DINO HPA: */
-+#define DINO_PCI_ADDR           0x064
-+#define DINO_CONFIG_DATA        0x068
-+#define DINO_IO_DATA            0x06c
-+
- #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
- #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
+-#define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
+-#define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
++#define PORT_SERIAL1    (LASI_UART_HPA + 0x800)
++#define PORT_SERIAL2    (DINO_UART_HPA + 0x800)
 
+ #define HPPA_MAX_CPUS   16      /* max. number of SMP CPUs */
+ #define CPU_CLOCK_MHZ   250     /* emulate a 250 MHz CPU */
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index d1e174b1f4..63b9dd2396 100644
+=2D-- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -32,7 +32,7 @@
+
+ #define MAX_IDE_BUS 2
+
+-#define MIN_SEABIOS_HPPA_VERSION 1 /* require at least this fw version */
++#define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
+
+ #define HPA_POWER_BUTTON (FIRMWARE_END - 0x10)
+
+@@ -236,20 +236,14 @@ static void machine_hppa_init(MachineState *machine)
+     /* Realtime clock, used by firmware for PDC_TOD call. */
+     mc146818_rtc_init(isa_bus, 2000, NULL);
+
+-    /* Serial code setup.  */
+-    if (serial_hd(0)) {
+-        uint32_t addr =3D DINO_UART_HPA + 0x800;
+-        serial_mm_init(addr_space, addr, 0,
+-                       qdev_get_gpio_in(dino_dev, DINO_IRQ_RS232INT),
+-                       115200, serial_hd(0), DEVICE_BIG_ENDIAN);
+-    }
++    /* Serial ports: Lasi and Dino use a 7.272727 MHz clock. */
++    serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
++        qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 7272727 / 16,
++        serial_hd(0), DEVICE_BIG_ENDIAN);
+
+-    if (serial_hd(1)) {
+-        /* Serial port */
+-        serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
+-                qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 8000000 / =
+16,
+-                serial_hd(1), DEVICE_BIG_ENDIAN);
+-    }
++    serial_mm_init(addr_space, DINO_UART_HPA + 0x800, 0,
++        qdev_get_gpio_in(dino_dev, DINO_IRQ_RS232INT), 7272727 / 16,
++        serial_hd(1), DEVICE_BIG_ENDIAN);
+
+     /* Parallel port */
+     parallel_mm_init(addr_space, LASI_LPT_HPA + 0x800, 0,
 =2D-
 2.35.3
 
