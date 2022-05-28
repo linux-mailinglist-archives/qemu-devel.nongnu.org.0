@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248F4536E6F
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 22:50:23 +0200 (CEST)
-Received: from localhost ([::1]:41774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F38E536E73
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 May 2022 22:52:00 +0200 (CEST)
+Received: from localhost ([::1]:45000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nv3OA-000571-1C
-	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 16:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
+	id 1nv3Pj-0007HV-Gd
+	for lists+qemu-devel@lfdr.de; Sat, 28 May 2022 16:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1nv3Lp-0002jr-Kt; Sat, 28 May 2022 16:47:57 -0400
-Received: from mout-u-107.mailbox.org ([91.198.250.252]:40906)
+ id 1nv3Lz-0003B9-Ga; Sat, 28 May 2022 16:48:07 -0400
+Received: from mout-u-107.mailbox.org ([91.198.250.252]:40910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1nv3Ln-0004yN-QI; Sat, 28 May 2022 16:47:57 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
+ id 1nv3Lx-00050A-WA; Sat, 28 May 2022 16:48:07 -0400
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4L9Ydz5M95z9sQM;
- Sat, 28 May 2022 22:47:51 +0200 (CEST)
+ by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4L9YfB2KPqz9sQM;
+ Sat, 28 May 2022 22:48:02 +0200 (CEST)
 From: Lev Kujawski <lkujaw@member.fsf.org>
 To: qemu-trival@nongnu.org
 Cc: Lev Kujawski <lkujaw@member.fsf.org>, John Snow <jsnow@redhat.com>,
  qemu-block@nongnu.org (open list:IDE),
  qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH 2/4] hw/ide/core: Clear LBA and drive bits for EXECUTE DEVICE
- DIAGNOSTIC
-Date: Sat, 28 May 2022 20:47:00 +0000
-Message-Id: <20220528204702.167912-2-lkujaw@member.fsf.org>
+Subject: [PATCH 3/4] piix_ide_reset: Use pci_set_* functions instead of direct
+ access
+Date: Sat, 28 May 2022 20:47:01 +0000
+Message-Id: <20220528204702.167912-3-lkujaw@member.fsf.org>
 In-Reply-To: <20220528204702.167912-1-lkujaw@member.fsf.org>
 References: <20220528204702.167912-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4L9Ydz5M95z9sQM
+X-Rspamd-Queue-Id: 4L9YfB2KPqz9sQM
 Received-SPF: pass client-ip=91.198.250.252;
  envelope-from=lkujaw@member.fsf.org; helo=mout-u-107.mailbox.org
 X-Spam_score_int: -25
@@ -61,40 +61,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prior to this patch, cmd_exec_dev_diagnostic relied upon
-ide_set_signature to clear the device register.  While the
-preservation of the drive bit by ide_set_signature is necessary for
-the DEVICE RESET, IDENTIFY DEVICE, and READ SECTOR commands,
-ATA/ATAPI-6 specifies that "DEV shall be cleared to zero" for EXECUTE
-DEVICE DIAGNOSTIC.
-
-This deviation was uncovered by the ATACT Device Testing Program
-written by Hale Landis.
+Eliminates the remaining TODOs in hw/ide/piix.c by:
+- Using pci_set_{size} functions to write the PIIX PCI configuration
+  space instead of manipulating it directly as an array; and
+- Documenting default register values by reference to the controlling
+  specification.
 
 Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
 ---
- hw/ide/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/ide/piix.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index c2caa54285..5a24547e49 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -1704,8 +1704,14 @@ static bool cmd_identify_packet(IDEState *s, uint8_t cmd)
-     return false;
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index ce89fd0aa3..76ea8fd9f6 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -21,6 +21,10 @@
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
++ *
++ * References:
++ *  [1] 82371FB (PIIX) AND 82371SB (PIIX3) PCI ISA IDE XCELERATOR,
++ *      290550-002, Intel Corporation, April 1997.
+  */
+ 
+ #include "qemu/osdep.h"
+@@ -114,14 +118,11 @@ static void piix_ide_reset(DeviceState *dev)
+         ide_bus_reset(&d->bus[i]);
+     }
+ 
+-    /* TODO: this is the default. do not override. */
+-    pci_conf[PCI_COMMAND] = 0x00;
+-    /* TODO: this is the default. do not override. */
+-    pci_conf[PCI_COMMAND + 1] = 0x00;
+-    /* TODO: use pci_set_word */
+-    pci_conf[PCI_STATUS] = PCI_STATUS_FAST_BACK;
+-    pci_conf[PCI_STATUS + 1] = PCI_STATUS_DEVSEL_MEDIUM >> 8;
+-    pci_conf[0x20] = 0x01; /* BMIBA: 20-23h */
++    /* PCI command register default value (0000h) per [1, p.48].  */
++    pci_set_word(pci_conf + PCI_COMMAND, 0x0000);
++    pci_set_word(pci_conf + PCI_STATUS,
++                 PCI_STATUS_DEVSEL_MEDIUM | PCI_STATUS_FAST_BACK);
++    pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
  }
  
-+/* EXECUTE DEVICE DIAGNOSTIC */
- static bool cmd_exec_dev_diagnostic(IDEState *s, uint8_t cmd)
- {
-+    /*
-+     * Clear the device register per the ATA (v6) specification,
-+     * because ide_set_signature does not clear LBA or drive bits.
-+     */
-+    s->select = (ATA_DEV_ALWAYS_ON);
-     ide_set_signature(s);
- 
-     if (s->drive_kind == IDE_CD) {
+ static int pci_piix_init_ports(PCIIDEState *d)
 -- 
 2.34.1
 
