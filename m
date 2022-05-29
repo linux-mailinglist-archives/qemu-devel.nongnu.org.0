@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79E8537231
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 20:37:04 +0200 (CEST)
-Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C267537235
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 20:42:32 +0200 (CEST)
+Received: from localhost ([::1]:53754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvNmh-0005Bn-Pp
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 14:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54998)
+	id 1nvNrz-00006A-A2
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 14:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nvNlg-0003yv-Jg
- for qemu-devel@nongnu.org; Sun, 29 May 2022 14:36:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nvNld-0001Ph-Tq
- for qemu-devel@nongnu.org; Sun, 29 May 2022 14:35:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653849357;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ckPJBUVEYZEIHH6RFRAXTUySOQ3KhZo5PB0Z7pswplE=;
- b=ZbNVcywQ9DrAL77reKBwiRuYs3SaUoIRpxKVBo7mXsHsR9ugbHxwNx5wNu6rOpxrPp+Eeo
- TBitpQzzs/8Kohi8Ggu10FFxL0mVGN1tXCVYiwV6Z4e8IhYrRY/Z8Giqin3/URRGhP8a+A
- 5j78GjDDcIwH9f7a9C2w+58sLeWf/Ew=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-iisR_REvMmqP_uvj_HejeA-1; Sun, 29 May 2022 14:35:47 -0400
-X-MC-Unique: iisR_REvMmqP_uvj_HejeA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93248185A79C;
- Sun, 29 May 2022 18:35:47 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3AEA5C27E8F;
- Sun, 29 May 2022 18:35:47 +0000 (UTC)
-Date: Sun, 29 May 2022 19:35:46 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Yongji Xie <xieyongji@bytedance.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Subject: Re: [PATCH] qsd: document vduse-blk exports
-Message-ID: <YpO9Au3HiajvnBnL@stefanha-x1.localdomain>
-References: <20220525121947.859820-1-stefanha@redhat.com>
- <CACycT3tEDW0ePvRRDuiUNA=5-OshL97WdJGpXsp5xBSkg6FROg@mail.gmail.com>
- <YpD0JA69G2R6ZHkN@redhat.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nvNq5-0006aT-75; Sun, 29 May 2022 14:40:33 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nvNq3-0002FH-KP; Sun, 29 May 2022 14:40:32 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d26so6426782wrb.13;
+ Sun, 29 May 2022 11:40:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A9DKwKFr4BttRAjg5sxJylENPhkCHOeKkbPe1bC18QI=;
+ b=TEyl2iYStp2J9X3TVh/UUFh2ART9a7NV9G5SHAu3lpuX0Em2NDPFpuyrGTQpXw8ltY
+ 2vztXKrz2ndxwFufj0YipHHiEGsG9xMDsr92WGwB3pv9sNsKdJBJzAXzPhxLFYzeE/vS
+ cwJaIaHHSch6ESfsDWQPII4NQP/+oNIa2cJsEu0+hL/ynDMf/rq2FvsNnQyOgLrSTDnM
+ gr9D9UF8nGoDHBq5wYAOU91CZFrOPfevgP6SZ3JwfabWV3d9qtGe3OkN0sox6Bx4Quta
+ CY7wiyrXrHUBOTubZAMYBN4WZskB9rR750RG0N2Okyri9/JWfQdwqgZp6Liajo1+wOCs
+ Vn1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A9DKwKFr4BttRAjg5sxJylENPhkCHOeKkbPe1bC18QI=;
+ b=vj4W8eZGFuUqOOwb5vm1uWh/YhYcad04078wyNc3sjjXly6v0JS2uxjV9Z/0as/l6U
+ AsM19jF1MvdAa1NUi17IAGZ9G6Jfb3eFSLbPkyv6gg9qQUAx0BApbzeZxcpUQil4Aqse
+ RsOC7XNUZNS1OB1PIvvO9KIG+dxZ4StG5E/CnjsWo0Zb2VFyopuTInTrkKHCLu3kx1CN
+ DKwm5A/aDll+jBTx2fJDDxIkzVZxZCf3k1SrM2Gg4xi3Sgq+i6nFjiDR9ZqB5AU52zo6
+ VjlSA6GAc6A4oFPlAB4ftCfOVgc/oq/Z0nBwNPjQt2B7nCmcQxiUw8zzgOB5BeThcXDA
+ /GUA==
+X-Gm-Message-State: AOAM532CnLwWytdO4SKY+E8tgy60odc7wfGJnX+20wjxnAxgeKJDWfd+
+ T76FHV7Xfi8eNcnLvSeYlbf2GPHNy2ZnCm4W
+X-Google-Smtp-Source: ABdhPJwR81yqDl92u/aRvWVmH1Cxdn32/i8qym5F+rrhJJWaK/sPRDhBHR2PvCA1VPRaSy3tx5E+Fg==
+X-Received: by 2002:a5d:6dc3:0:b0:210:89d:30bc with SMTP id
+ d3-20020a5d6dc3000000b00210089d30bcmr15079518wrz.272.1653849629514; 
+ Sun, 29 May 2022 11:40:29 -0700 (PDT)
+Received: from osoxes.fritz.box (pd9ed79c4.dip0.t-ipconnect.de.
+ [217.237.121.196]) by smtp.gmail.com with ESMTPSA id
+ g13-20020a5d64ed000000b002100e86319asm7341049wri.78.2022.05.29.11.40.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 May 2022 11:40:29 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v3 0/3] QOM improvements for rtc/mc146818rtc
+Date: Sun, 29 May 2022 20:40:03 +0200
+Message-Id: <20220529184006.10712-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1Z2tIFkKI+61GHRH"
-Content-Disposition: inline
-In-Reply-To: <YpD0JA69G2R6ZHkN@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,67 +86,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+v3:
+* "iobase" is now u16 (Philippe)
 
---1Z2tIFkKI+61GHRH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2:
+* Explicitly fail with &error_abort rather than NULL (Mark)
+* Explicitly fail with &error_abort rather than NULL in existing code (me)
+* Unexport rather than remove RTC_ISA_BASE (Mark)
+* Use object_property_get_*u*int() also for "iobase" (me)
 
-On Fri, May 27, 2022 at 05:54:12PM +0200, Kevin Wolf wrote:
-> Am 26.05.2022 um 13:36 hat Yongji Xie geschrieben:
-> > On Wed, May 25, 2022 at 8:19 PM Stefan Hajnoczi <stefanha@redhat.com> w=
-rote:
-> > >
-> > > Document vduse-blk exports in qemu-storage-daemon --help and the
-> > > qemu-storage-daemon(1) man page.
-> > >
-> > > Based-on: <20220523084611.91-1-xieyongji@bytedance.com>
-> > > Cc: Xie Yongji <xieyongji@bytedance.com>
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> > > @@ -110,6 +111,26 @@ Standard options:
-> > >    ``allow-other`` to auto (the default) will try enabling this optio=
-n, and on
-> > >    error fall back to disabling it.
-> > >
-> > > +  The ``vduse-blk`` export type uses the ``id`` as the VDUSE device =
-name.
-> > > +  ``num-queues`` sets the number of virtqueues (the default is 1).
-> > > +  ``queue-size`` sets the virtqueue descriptor table size (the defau=
-lt is 256).
-> > > +
-> > > +  The instantiated VDUSE device must then be added to the vDPA bus u=
-sing the
-> > > +  vdpa(8) command from the iproute2 project::
-> > > +
-> > > +  # vdpa dev add <id> mgmtdev vduse
-> >=20
-> > Should it be:
-> >=20
-> > # vdpa dev add name <id> mgmtdev vduse
->=20
-> Thanks, fixed this up (as well as a missing "\n" in the help output) and
-> applied to the block branch.
+v1:
+This little series enhances QOM support for mc146818rtc:
+* makes microvm-dt respect mc146818rtc's IRQ number set by QOM property and
+* adds an io_base QOM property similar to other ISA devices
 
-Thanks!
+Bernhard Beschow (3):
+  hw/i386/microvm-dt: Force explicit failure if retrieving QOM property
+    fails
+  hw/i386/microvm-dt: Determine mc146818rtc's IRQ number from QOM
+    property
+  rtc/mc146818rtc: QOM'ify io_base offset
 
-Stefan
+ hw/i386/microvm-dt.c         | 9 +++++----
+ hw/rtc/mc146818rtc.c         | 9 ++++++---
+ include/hw/rtc/mc146818rtc.h | 2 +-
+ 3 files changed, 12 insertions(+), 8 deletions(-)
 
---1Z2tIFkKI+61GHRH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKTvQIACgkQnKSrs4Gr
-c8gxZwf/WTB8tU56qGvOAJz/iO902BsKwB8wOTbYcAqU6h6mxc1Fg2ImHnQ+K8rK
-JheNAeDQOp2/P4XY3dnlAdDbclzlaJAI6bYBIBUkrVAD+Ovl4LMtq9TV7rmQ+eGG
-h1MO7l4sWDTZT+8e6kwh3pKXFi0BkP01RsfnlCmI2SqkjtIcB+UF+/JNr7vjEnSD
-3kEXrSb6kvpoo4JE42qSF5rxaAHJMpNMiF3JDMWyhNCzAN+BMancZeqcI8sFO71a
-fEFqgI9ewDxkv2BnO3C4uWTk7l9AloklnH8TKzV5VuhS7gAsstSu43l2v3jEhHuw
-DWU7ViScJu4nDiGS0o5QAnsaMdmWgw==
-=6Lhg
------END PGP SIGNATURE-----
-
---1Z2tIFkKI+61GHRH--
+-- 
+2.36.1
 
 
