@@ -2,66 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5D4537078
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 11:54:26 +0200 (CEST)
-Received: from localhost ([::1]:40318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6AF537081
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 12:08:09 +0200 (CEST)
+Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvFcv-0007bL-4P
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 05:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46014)
+	id 1nvFqB-00022H-PO
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 06:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvFbF-0006k7-E8; Sun, 29 May 2022 05:52:41 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57516)
+ id 1nvFoP-00018O-B6; Sun, 29 May 2022 06:06:17 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvFbD-0002bg-P6; Sun, 29 May 2022 05:52:41 -0400
+ id 1nvFoN-0004Df-DL; Sun, 29 May 2022 06:06:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ In-Reply-To:References:Cc:To:From:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=SzoUuN3Iny06CaCFlZyLCtdzUHyTQIC0TVcJzcLMCmg=; b=n43jUC1nWB0eRHzwcm4FPb4c74
- ytnCYMKPJKn5roTqQeDUKBFcHpOQDJ57tsJleDWgkBrAbDB/czxrxDmhzMEGhkG17biRZuVIiJaeW
- UBuyuXGZ9MRB69kFXpVborlZN5oXqdtEpcCRPXDKfvnrD0jWy/OcaJCb5HQYOqdOn3O1EQROy4K/b
- U6lhwBqVue99yUxPCK2/G3pPBJcaeYiZPq4HXOZwANeNP8kSiXlvbGUexjsiHf4uaVqV2iUVtmdYK
- 4tHSuWYZWQsIoSmxMIvG8eJBH3hX2wSy//ZbYrV8VJtpERgKP6cUZxKsJ59jhLqa+bEl8o54rMaOx
- XGOTQVk6sT2ZDYfas3wYJWfVP4friIb5AYaTzA2dcuarNccbM8cqdK3eQG2AlM9AofpWgKfGDcsap
- HFfICsuPT4XFIUw28NbBBk06gYSg4UNm2AvilowEu1PPzpPgUeySGQ6PiCtYu9dIBp6rmz4rk2I42
- 3pHUBX6jSYVfXSH1EqQBmebtQGGzLD6n0eWLklbSuPA+E+/H8R+vmXyIGi6ksLqElYaY2cVFqW9D4
- Uk2qEIQjVLgoU5oon6MtJmTLITbJcMAVgqzEpU3lRJHlDA4hD1qAOsFVJ/l7FU5AZ+uJcD3XWpJci
- 9yHMFOLm/YdqYe9uv+9V9Ad6fXvBDZ7k6tQFkKMT0=;
+ bh=eW7XxPedRSHUz/K0oX1ZWWdmB2lwlswuY+GTmsNOr34=; b=zbSomDgqgaB/C8ZEfxpDt367Um
+ DJxfs1okGwUzSpGXy36jgj7liBJrhU6LsFVcwGX57Lgqnbf6WabKRcIkCH2iAqfdy6dUBXcSs6bXo
+ smejA3L/grpqaGNeYNrIaxr3wkEHq5gW3U/w7CY+Hr+3p1yrD+4BCT5fMfZGIlvsDVzCnnvRdXtp8
+ s3jQrOvhvG0dJXR93t8OqA146/lzODSgKgEYy4szA40e79znOhBfhQeKdtCxgCc19SEyyZlP5S6gd
+ wXnQTTObw+0QZ4Vwqo9lKzv3U44KiKOWag6jGz9iyYhL+qx42fxYT46uAvcOxJ3LDSwJLF5ML42o3
+ cQMoM5E0Ss5M3dcdx/5ECrMKvM4sfn/UktvXDJn5LKWNvVVX6TI711gLtnFRRl7uELGMGymhXzY1n
+ IjlvSNC561LhQVjYfpX555opdkZxXiiPTBo/09jazfbTNIR1oXxyJG0nZ9N2MUBcgoRYHOTmS3SlU
+ SpJx2djvQM8SUga7yvhEJz1HL9khE+K8rV1QxBijJVSokc4hV/P5tXi7gg1nsiG6u9M6VW5VVA6se
+ 4ffYXyv5GR8aoRM4G4gJrn6qtaJ1tjnluCIQ3ot3tECDu8or+zjC53NZDJFZL8eIN0PyV89ylwLQ+
+ zwNr7dP53CyJUonivE/mppLWVo034JUAky1nSESu8=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvFa6-000AWe-8y; Sun, 29 May 2022 10:51:34 +0100
-Message-ID: <a29153c4-24df-aedd-c839-8e796ca5231f@ilande.co.uk>
-Date: Sun, 29 May 2022 10:52:30 +0100
+ id 1nvFnH-000AcW-1s; Sun, 29 May 2022 11:05:11 +0100
+Message-ID: <ac5d95b2-8be5-1585-3076-deabe749e926@ilande.co.uk>
+Date: Sun, 29 May 2022 11:06:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
-References: <20220522212431.14598-1-shentey@gmail.com>
- <20220522212431.14598-2-shentey@gmail.com>
- <e1654d8d-53c4-d01c-1288-f74fa4fdfcfd@eik.bme.hu>
- <CAG4p6K4Kfek2PgH7-=CDqfKLGFddU=5YYmnqpaM-0rhTrFqe7g@mail.gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAG4p6K4Kfek2PgH7-=CDqfKLGFddU=5YYmnqpaM-0rhTrFqe7g@mail.gmail.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+References: <20220528192057.30910-1-shentey@gmail.com>
+ <110e160e-19bd-dd7a-1b4e-1a0e7437b782@ilande.co.uk>
+In-Reply-To: <110e160e-19bd-dd7a-1b4e-1a0e7437b782@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 1/6] include/hw/southbridge/piix: Aggregate all PIIX
- soughbridge type names
+Subject: Re: [PATCH v3 0/7] QOM'ify PIIX southbridge creation
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -88,90 +80,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/05/2022 10:23, Bernhard Beschow wrote:
+On 29/05/2022 10:46, Mark Cave-Ayland wrote:
 
-> Am 22. Mai 2022 22:32:06 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Sun, 22 May 2022, Bernhard Beschow wrote:
->>> TYPE_PIIX3_PCI_DEVICE resides there as already, so add the remaining
->>> ones, too.
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>> hw/isa/piix3.c                | 3 ---
->>> include/hw/isa/isa.h          | 2 --
->>> include/hw/southbridge/piix.h | 4 ++++
->>> 3 files changed, 4 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
->>> index dab901c9ad..d96ce2b788 100644
->>> --- a/hw/isa/piix3.c
->>> +++ b/hw/isa/piix3.c
->>> @@ -35,9 +35,6 @@
->>>
->>> #define XEN_PIIX_NUM_PIRQS      128ULL
->>>
->>> -#define TYPE_PIIX3_DEVICE "PIIX3"
->>> -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
->>> -
->>> static void piix3_set_irq_pic(PIIX3State *piix3, int pic_irq)
->>> {
->>>      qemu_set_irq(piix3->pic[pic_irq],
->>> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
->>> index 034d706ba1..e9fa2f5cea 100644
->>> --- a/include/hw/isa/isa.h
->>> +++ b/include/hw/isa/isa.h
->>> @@ -144,6 +144,4 @@ static inline ISABus *isa_bus_from_device(ISADevice *d)
->>>      return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));
->>> }
->>>
->>> -#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
->>> -
->>> #endif
->>> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
->>> index f63f83e5c6..4d17400dfd 100644
->>> --- a/include/hw/southbridge/piix.h
->>> +++ b/include/hw/southbridge/piix.h
->>> @@ -70,6 +70,10 @@ typedef struct PIIXState PIIX3State;
->>> DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
->>>                           TYPE_PIIX3_PCI_DEVICE)
->>>
->>> +#define TYPE_PIIX3_DEVICE "PIIX3"
->>> +#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
->>> +#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
->>
->> This naming seems to go back to 9b74b190d6c so it's not directly related to this series but there seems to be a bit of a confusion here that I wonder could be cleaned up now. We have:
->>
->> #define TYPE_PIIX3_PCI_DEVICE "pci-piix3"
->> and
->> #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
->>
->> and both of these have mismatched #define and device name. These are not user creatable so so the device names don't appear anywhere (except maybe in info qtree output) but this could still be confusing as normally type defines should match device names. If these are the ISA bridges then maybe piix?-isa is a good name so maybe we should have
->>
->> #define TYPE_PIIX3_ISA "piix3-isa"
->> #defint TYPE_PIIX4_ISA "piix4-isa"
->>
->> (then also matching e.g. "via-isa") but I'm not sure changing "pci-piix3" to "piix3-isa" could break anything (I don't expect changing the defines themselces could cause any problem).
->>
->> It's just something I've noticed and brought up for consideration but I have no strong opinion on it so up to you what you do with it.
+> On 28/05/2022 20:20, Bernhard Beschow wrote:
 > 
-> Hi Zoltan,
+>> v3:
+>> * Rebase onto 'hw/acpi/piix4: remove legacy piix4_pm_init() function' (Mark) [1]
+>> * Use embedded structs for touched PCI devices (Mark)
+>> * Fix piix4's rtc embedded struct to be initialized by
+>>    object_initialize_child() (Peter) [2]
+>>
+>> Testing done:
+>>
+>> 1)
+>> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+>> Result: All pass.
+>>
+>> 2)
+>> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+>> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+>>    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+>>
+>> In both cases the system booted successfully and it was possible to shut down
+>> the system using the `poweroff` command.
+>>
+>>
+>> v2:
+>> * Preserve `DeviceState *` as return value of piix4_create() (Mark)
+>> * Aggregate all type name movements into first commit (Mark)
+>> * Have piix4 southbridge rather than malta board instantiate piix4 pm (me)
+>>
+>> Testing done:
+>>
+>> 1)
+>> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+>> Result: All pass.
+>>
+>> 2)
+>> Modify pci_piix3_realize() to start with
+>>      error_setg(errp, "This is a test");
+>> Then start `qemu-system-x86_64 -M pc -m 1G -accel kvm -cpu host -cdrom
+>> archlinux-2022.05.01-x86_64.iso`.
+>> Result: qemu-system-x86_64 aborts with: "This is a test"
+>>
+>>
+>> v1:
+>> The piix3 and piix4 southbridge devices still rely on create() functions which
+>> are deprecated. This series resolves these functions piece by piece to
+>> modernize the code.
+>>
+>> Both devices are modified in lockstep where possible to provide more context.
+>>
+>> Testing done:
+>> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+>> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+>>    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+>>
+>> In both cases the system booted successfully and it was possible to shut down
+>> the system using the `poweroff` command.
+>>
+>> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg05686.html
+>> [2] https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01128.html
+>>
+>> Bernhard Beschow (7):
+>>    include/hw/southbridge/piix: Aggregate all PIIX soughbridge type names
+>>    hw/isa/piix4: Use object_initialize_child() for embedded struct
+>>    hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
+>>    hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
+>>    hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
+>>    hw/isa/piix4: QOM'ify PIIX4 PM creation
+>>    hw/isa/piix{3,4}: Inline and remove create() functions
+>>
+>>   hw/i386/pc_piix.c             |   7 +-
+>>   hw/isa/piix3.c                |  98 ++++++++++++++-------------
+>>   hw/isa/piix4.c                | 120 +++++++++++++++++-----------------
+>>   hw/mips/malta.c               |   7 +-
+>>   include/hw/isa/isa.h          |   2 -
+>>   include/hw/southbridge/piix.h |   6 +-
+>>   6 files changed, 127 insertions(+), 113 deletions(-)
 > 
-> yeah, I noticed the naming when moving the defines. I couldn't come up
-> with better names which were worth the effort because I can imagine
-> where the names are coming from. I also didn't want to go down the
-> rabbithole of backwards compatibility (which is a topic I haven't
-> covered yet). I think that *-isa is too narrow a name for the
-> container device since it bridges a couple of buses to PCI, but other
-> than that I don't have strong opinions about the names.
+> Hi Bernhard,
+> 
+> I've spotted a couple of small things, but once those are fixed this series looks 
+> good to me so I'm happy to give a:
+> 
+> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> 
+> Thanks for your patience with these series too: you've done some good work here, 
+> however patchsets like this can sometimes take a while to get reviewed because they 
+> both i) touch legacy code/APIs and ii) cut across multiple machines and maintainers. 
+> I'd really like to get this work, along with your RTC updates, merged soon as it is a 
+> great improvement.
+> 
+> One reason that you may not get many reviews is because you've not added the relevant 
+> maintainers on To/CC. Due to the large volume of emails on qemu-devel, quite a few 
+> maintainers will filter based upon their own email address so it is definitely worth 
+> adding them in.
+> 
+> Fortunately you can easily find the relevant maintainer email addresses by running 
+> "./scripts/get_maintainer.pl <path-to-git-patch-dir>" on your git format-patch 
+> directory. I'd recommend doing this, and also dropping qemu-trivial since I would say 
+> these patches are now beyond the trivial threshold.
 
-Agreed. They certainly aren't the best of names, but my worry would be that someone 
-has done some magic with -global to override the defaults and so renaming them would 
-cause something to break.
-
-Certainly this could be discussed as a separate topic with the PC machine maintainers 
-if someone feels strongly about it, but I wouldn't want this to hold up the patch 
-series unnecessarily.
+Oh wait - I see now it's just the cover letter which is missing the additional 
+maintainer addresses :)  If you could add them into the cover letter for your next 
+revision that would be great, since it gives context for maintainers to help with the 
+review process.
 
 
 ATB,
