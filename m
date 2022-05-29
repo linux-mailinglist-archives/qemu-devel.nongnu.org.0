@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C369537053
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 10:30:51 +0200 (CEST)
-Received: from localhost ([::1]:48456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DDA537067
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 11:08:06 +0200 (CEST)
+Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvEK0-0004Pt-Uk
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 04:30:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38018)
+	id 1nvEu4-0003AX-NP
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 05:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nvEGf-0003A3-51; Sun, 29 May 2022 04:27:21 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nvEGd-0000D8-GZ; Sun, 29 May 2022 04:27:20 -0400
-Received: by mail-pl1-x631.google.com with SMTP id q18so7757905pln.12;
- Sun, 29 May 2022 01:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kdL09LF0wEk8mBmd/CcNhvuPXhBu3MYDhubty9TYOPA=;
- b=p4l19WG0ICgNwt/E8ONZnRcuZMuZ2M5tgRM1W19fe5z9sN8yalCiSP+6lUHJjfPFMb
- G1pc8AorNtpczE/D3C1zkB0/23FNTIoyJATM2sFjqquMWGtmWBA0CgMzf9mOalrBFAzJ
- 1SULlouzkxCCg16XWxF07cYP/elmSegDqzE4Oo3VRNOaGNtUijmHLzjR7jssWNw7oI/Z
- t48uOECQrY6hiLJo2Iazgy2kcdz6p6LtXhd5wJCsp96eCSuEXjITRoMnZsx8cNvm+APD
- 0sFUfvL1/FaSbvMxs4qDB1Cgbbp4AI7s1uH7Qrs/EK/3nzmyTxUSDkun4n9g/P1ORiBf
- ZdtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kdL09LF0wEk8mBmd/CcNhvuPXhBu3MYDhubty9TYOPA=;
- b=qBJofpedEL2BYk3zE4NJs/yi1X13iwmEZ3F5ojW0/3vU4rqHvgLanWRMI/30oCrCs6
- 16Vf98rn4GHobjKl0bUbOW7K4lNOjQMbfg+7i0Z3cf/hOGlLNwy82SYTLn9Mrjwu676E
- PMExAq7/Gm2fqRSHElo/dHzBBrlYeGOZ+MDm6gKOjmL5/ty3OC2ijehn7ct4+/81UAy+
- 7SHkEEJIFXfzwESZAx/Svb0apkK9cnQLuRMSU9PazbRhazf0M50aTXA0cJyK/FN/SHq8
- tj27n5kP2jz+5qt+Wy/p94J2lhLwslREIT/cepxX1rqXakSe+BuBW/cXLMKgk+0r8Tdx
- pKTg==
-X-Gm-Message-State: AOAM532xTSnpCJfpaM+3oQalE9pdAvLDCL8fvjQ8TBjmO2RAotAYJpMJ
- tCshFkksUNwgNdhVkhiaocI=
-X-Google-Smtp-Source: ABdhPJyUsq32X5Is3b8yTU+3I43v5nmlaMo7uI2gSSTs/f6ESbRHcxkFSlA/BN4jZY1y9Icq2RZheg==
-X-Received: by 2002:a17:902:e9d3:b0:161:aa01:b956 with SMTP id
- 19-20020a170902e9d300b00161aa01b956mr51024684plk.110.1653812836980; 
- Sun, 29 May 2022 01:27:16 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:2838:873c:bfb7:88bb])
- by smtp.gmail.com with ESMTPSA id
- w20-20020a170902a71400b0016232dbd01fsm6756921plq.292.2022.05.29.01.27.14
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 29 May 2022 01:27:16 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Cc: Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH] hvf: arm: Include target/arm/cpregs.h
-Date: Sun, 29 May 2022 17:27:09 +0900
-Message-Id: <20220529082709.89190-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvEry-0001oq-CO; Sun, 29 May 2022 05:05:58 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvErw-0005Cb-KT; Sun, 29 May 2022 05:05:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=d21h+hULPY07Ye4c3rPmemr8o685mqyN99TjfXux7wQ=; b=ppv0sAIbhXcaUtgLTwKtKooRTo
+ 2ZZEE9NySU0j3k1Gfjdkj1u5HGq1f8caESmjgZcYbCbHs5r7pIyMS+/jUGv55WaHWPlZpD9f/rIC/
+ NdnogNy64I99iULBSKnytJEHHa100nc+fVvgl1FHEH0uIllMqh96153211+WbHolsWTC1cGJ3VrEX
+ S26Abv8RX3cRMKMF9cRP92TLPrB7gfiUi4ECTapcsiTCQ/Ou5IgalRkT/gd64MCAkela0mpCGf21r
+ y5IWzyHBqrwpDlnRbl3s3KrH4V4rVAGq4OSmjhoBK2/Tg0/SU9Y/GZKM8+2uH6KsWDgjHO2mve+CT
+ Yd9uhiilTyVbSuCGPe2ip63oASsk4H3rlmrzRQjwbo7n7ofwqa+dIqhBVOCFhufJQyrvmKoWjIOXU
+ EBxWBX71oRI0O6Ljs6lY1nA0mg+csMsIkhK72aTPjlw5TI3kc63OFrDDnWCEYLXZsyYk9f2Uhvfdt
+ pnB8oGc1hQqHZvtuzpsNA9MywsyZ3mscx3yKnF3+Tvh8yLtYq+RD7iOMaA5SBfk1nvGJAgtWDGDWt
+ kzdG2ugnbcdysPOeWmOmOU89t3VZ6v/WNtUAkHihmxGatIf3vLhgObZkjB8Vcahh/0spijp/VV3Li
+ TyxgMpgLZc4a0+As6X6MQZGxEw9KofvCUxpX67Qoo=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvEqb-000AHz-O7; Sun, 29 May 2022 10:04:33 +0100
+Message-ID: <c62dad6a-9bd9-a2ef-ab24-c65912baa8bd@ilande.co.uk>
+Date: Sun, 29 May 2022 10:05:26 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+References: <20220528192057.30910-1-shentey@gmail.com>
+ <20220528192057.30910-2-shentey@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220528192057.30910-2-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x631.google.com
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v3 1/7] include/hw/southbridge/piix: Aggregate all PIIX
+ soughbridge type names
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,26 +85,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hvf was missed when cpregs.h was split out.
+On 28/05/2022 20:20, Bernhard Beschow wrote:
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- target/arm/hvf/hvf.c | 1 +
- 1 file changed, 1 insertion(+)
+> TYPE_PIIX3_PCI_DEVICE resides there as already, so add the remaining
+> ones, too.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   hw/isa/piix3.c                | 3 ---
+>   include/hw/isa/isa.h          | 2 --
+>   include/hw/southbridge/piix.h | 4 ++++
+>   3 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+> index dab901c9ad..d96ce2b788 100644
+> --- a/hw/isa/piix3.c
+> +++ b/hw/isa/piix3.c
+> @@ -35,9 +35,6 @@
+>   
+>   #define XEN_PIIX_NUM_PIRQS      128ULL
+>   
+> -#define TYPE_PIIX3_DEVICE "PIIX3"
+> -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+> -
+>   static void piix3_set_irq_pic(PIIX3State *piix3, int pic_irq)
+>   {
+>       qemu_set_irq(piix3->pic[pic_irq],
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index 034d706ba1..e9fa2f5cea 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -144,6 +144,4 @@ static inline ISABus *isa_bus_from_device(ISADevice *d)
+>       return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));
+>   }
+>   
+> -#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> -
+>   #endif
+> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+> index 976b4da582..3b97186f75 100644
+> --- a/include/hw/southbridge/piix.h
+> +++ b/include/hw/southbridge/piix.h
+> @@ -64,6 +64,10 @@ typedef struct PIIXState PIIX3State;
+>   DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+>                            TYPE_PIIX3_PCI_DEVICE)
+>   
+> +#define TYPE_PIIX3_DEVICE "PIIX3"
+> +#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+> +#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> +
+>   PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
+>   
+>   DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 86710509d20..e595da31b9e 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -25,6 +25,7 @@
- #include "qemu/main-loop.h"
- #include "sysemu/cpus.h"
- #include "arm-powerctl.h"
-+#include "target/arm/cpregs.h"
- #include "target/arm/cpu.h"
- #include "target/arm/internals.h"
- #include "trace/trace-target_arm_hvf.h"
--- 
-2.32.0 (Apple Git-132)
+One tiny nit here: there's a typo in the subject line which I missed when reviewing v2.
 
+s/soughbridge/southbridge/
+
+
+ATB,
+
+Mark.
 
