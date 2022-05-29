@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300D85372DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 00:55:30 +0200 (CEST)
-Received: from localhost ([::1]:50608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6575B5372E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 00:58:08 +0200 (CEST)
+Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvRon-00011H-9c
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 18:55:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59938)
+	id 1nvRrL-0006iA-GF
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 18:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nvRlF-0006fM-Su
- for qemu-devel@nongnu.org; Sun, 29 May 2022 18:51:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55147)
+ id 1nvRlH-0006fn-PQ
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 18:51:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nvRlE-00029z-9c
- for qemu-devel@nongnu.org; Sun, 29 May 2022 18:51:49 -0400
+ id 1nvRlG-0002A9-23
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 18:51:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653864707;
+ s=mimecast20190719; t=1653864709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8H6zuIE2egFMsrCZQdzyyYMVCVg5xyLLQ8xu1FmSUtc=;
- b=dUVRW7F/M1yg0hY0SlZw2Dm2Tr5MKg2EhhhmH+QZXjFLo6fLBXimp5VeQon4kYKEV/nXPA
- vMW3uL2xSnQInO+i9WN2NMN34OKpGm+hO0+UDQ/mrZiGkeAVx1IQHz1bRxsuYxI217u57n
- ZBO+npMRkfFd1z8QH5RclBwg57Kg8qU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4uyhUYzrFnjDWT+g5z6mgIJ9V99c4/wOyIMSSH4rRj0=;
+ b=hhqyOQSHpmDc3Cjt364F8Y7Y+HBqEj/xlQiBQAm4XTdvPtmomPkhpNPXb5HEzBN1PkjsjN
+ YXWU+CfOz0QIhZ/B3pKpgejfiUER7flmW6OnykaSxwsmBZj7/wUrD+4bJE8wtJemWRX+wq
+ pXoxI+F9BbJY0LxhO+4nLK7LnoXQeiA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-SLNwj3uHNhi9pCHm-uNTzw-1; Sun, 29 May 2022 18:51:44 -0400
-X-MC-Unique: SLNwj3uHNhi9pCHm-uNTzw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-473-RJHIvN7VP6yY9_BSElyTxQ-1; Sun, 29 May 2022 18:51:45 -0400
+X-MC-Unique: RJHIvN7VP6yY9_BSElyTxQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F9C23C025B9;
- Sun, 29 May 2022 22:51:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB29D811E81;
+ Sun, 29 May 2022 22:51:44 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 19D2A40CF8F0;
- Sun, 29 May 2022 22:51:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D34D40E80E0;
+ Sun, 29 May 2022 22:51:44 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>, richard.henderson@linaro.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL v2 03/15] tests: make libqmp buildable for win32
-Date: Mon, 30 May 2022 00:51:25 +0200
-Message-Id: <20220529225137.232359-4-marcandre.lureau@redhat.com>
+Subject: [PULL v2 04/15] qga: flatten safe_open_or_create()
+Date: Mon, 30 May 2022 00:51:26 +0200
+Message-Id: <20220529225137.232359-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20220529225137.232359-1-marcandre.lureau@redhat.com>
 References: <20220529225137.232359-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -84,121 +84,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220525144140.591926-4-marcandre.lureau@redhat.com>
----
- tests/qtest/libqmp.h |  2 ++
- tests/qtest/libqmp.c | 34 +++++++++++++++++++++++++++++-----
- 2 files changed, 31 insertions(+), 5 deletions(-)
+There is a bit too much nesting in the function, this can be simplified
+a bit to improve readability.
 
-diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
-index 5cb7eeaa18..3445b753ff 100644
---- a/tests/qtest/libqmp.h
-+++ b/tests/qtest/libqmp.h
-@@ -21,8 +21,10 @@
- #include "qapi/qmp/qdict.h"
- 
- QDict *qmp_fd_receive(int fd);
-+#ifndef _WIN32
- void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-                       const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
-+#endif
- void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
- void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
- void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
-index 0358b8313d..ade26c15f0 100644
---- a/tests/qtest/libqmp.c
-+++ b/tests/qtest/libqmp.c
-@@ -18,6 +18,11 @@
- 
- #include "libqmp.h"
- 
-+#ifndef _WIN32
-+#include <sys/socket.h>
-+#endif
-+
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "qapi/qmp/json-parser.h"
- #include "qapi/qmp/qjson.h"
-@@ -87,6 +92,7 @@ QDict *qmp_fd_receive(int fd)
-     return qmp.response;
- }
- 
-+#ifndef _WIN32
- /* Sends a message and file descriptors to the socket.
-  * It's needed for qmp-commands like getfd/add-fd */
- static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
-@@ -120,17 +126,23 @@ static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
-     } while (ret < 0 && errno == EINTR);
-     g_assert_cmpint(ret, >, 0);
- }
-+#endif
- 
- /**
-  * Allow users to send a message without waiting for the reply,
-  * in the case that they choose to discard all replies up until
-  * a particular EVENT is received.
-  */
--void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
--                      const char *fmt, va_list ap)
-+static void
-+_qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                  const char *fmt, va_list ap)
+This also helps with the following error handling changes.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220525144140.591926-5-marcandre.lureau@redhat.com>
+---
+ qga/commands-posix.c | 120 +++++++++++++++++++++----------------------
+ 1 file changed, 60 insertions(+), 60 deletions(-)
+
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 12b50b7124..3b2392398e 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -339,73 +339,73 @@ find_open_flag(const char *mode_str, Error **errp)
+ static FILE *
+ safe_open_or_create(const char *path, const char *mode, Error **errp)
  {
-     QObject *qobj;
- 
-+#ifdef _WIN32
-+    assert(fds_num == 0);
-+#endif
+-    Error *local_err = NULL;
+     int oflag;
++    int fd = -1;
++    FILE *f = NULL;
 +
-     /* Going through qobject ensures we escape strings properly */
-     qobj = qobject_from_vjsonf_nofail(fmt, ap);
- 
-@@ -148,10 +160,14 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-         if (log) {
-             fprintf(stderr, "%s", str->str);
-         }
++    oflag = find_open_flag(mode, errp);
++    if (oflag < 0) {
++        goto end;
++    }
 +
-+#ifndef _WIN32
-         /* Send QMP request */
-         if (fds && fds_num > 0) {
-             socket_send_fds(fd, fds, fds_num, str->str, str->len);
++    /* If the caller wants / allows creation of a new file, we implement it
++     * with a two step process: open() + (open() / fchmod()).
++     *
++     * First we insist on creating the file exclusively as a new file. If
++     * that succeeds, we're free to set any file-mode bits on it. (The
++     * motivation is that we want to set those file-mode bits independently
++     * of the current umask.)
++     *
++     * If the exclusive creation fails because the file already exists
++     * (EEXIST is not possible for any other reason), we just attempt to
++     * open the file, but in this case we won't be allowed to change the
++     * file-mode bits on the preexistent file.
++     *
++     * The pathname should never disappear between the two open()s in
++     * practice. If it happens, then someone very likely tried to race us.
++     * In this case just go ahead and report the ENOENT from the second
++     * open() to the caller.
++     *
++     * If the caller wants to open a preexistent file, then the first
++     * open() is decisive and its third argument is ignored, and the second
++     * open() and the fchmod() are never called.
++     */
++    fd = open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
++    if (fd == -1 && errno == EEXIST) {
++        oflag &= ~(unsigned)O_CREAT;
++        fd = open(path, oflag);
++    }
++    if (fd == -1) {
++        error_setg_errno(errp, errno,
++                         "failed to open file '%s' (mode: '%s')",
++                         path, mode);
++        goto end;
++    }
+ 
+-    oflag = find_open_flag(mode, &local_err);
+-    if (local_err == NULL) {
+-        int fd;
+-
+-        /* If the caller wants / allows creation of a new file, we implement it
+-         * with a two step process: open() + (open() / fchmod()).
+-         *
+-         * First we insist on creating the file exclusively as a new file. If
+-         * that succeeds, we're free to set any file-mode bits on it. (The
+-         * motivation is that we want to set those file-mode bits independently
+-         * of the current umask.)
+-         *
+-         * If the exclusive creation fails because the file already exists
+-         * (EEXIST is not possible for any other reason), we just attempt to
+-         * open the file, but in this case we won't be allowed to change the
+-         * file-mode bits on the preexistent file.
+-         *
+-         * The pathname should never disappear between the two open()s in
+-         * practice. If it happens, then someone very likely tried to race us.
+-         * In this case just go ahead and report the ENOENT from the second
+-         * open() to the caller.
+-         *
+-         * If the caller wants to open a preexistent file, then the first
+-         * open() is decisive and its third argument is ignored, and the second
+-         * open() and the fchmod() are never called.
+-         */
+-        fd = open(path, oflag | ((oflag & O_CREAT) ? O_EXCL : 0), 0);
+-        if (fd == -1 && errno == EEXIST) {
+-            oflag &= ~(unsigned)O_CREAT;
+-            fd = open(path, oflag);
+-        }
++    qemu_set_cloexec(fd);
+ 
+-        if (fd == -1) {
+-            error_setg_errno(&local_err, errno, "failed to open file '%s' "
+-                             "(mode: '%s')", path, mode);
 -        } else {
-+        } else
-+#endif
-+        {
-             socket_send(fd, str->str, str->len);
+-            qemu_set_cloexec(fd);
++    if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) == -1) {
++        error_setg_errno(errp, errno, "failed to set permission "
++                         "0%03o on new file '%s' (mode: '%s')",
++                         (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
++        goto end;
++    }
+ 
+-            if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) == -1) {
+-                error_setg_errno(&local_err, errno, "failed to set permission "
+-                                 "0%03o on new file '%s' (mode: '%s')",
+-                                 (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
+-            } else {
+-                FILE *f;
+-
+-                f = fdopen(fd, mode);
+-                if (f == NULL) {
+-                    error_setg_errno(&local_err, errno, "failed to associate "
+-                                     "stdio stream with file descriptor %d, "
+-                                     "file '%s' (mode: '%s')", fd, path, mode);
+-                } else {
+-                    return f;
+-                }
+-            }
++    f = fdopen(fd, mode);
++    if (f == NULL) {
++        error_setg_errno(errp, errno, "failed to associate stdio stream with "
++                         "file descriptor %d, file '%s' (mode: '%s')",
++                         fd, path, mode);
++    }
+ 
+-            close(fd);
+-            if (oflag & O_CREAT) {
+-                unlink(path);
+-            }
++end:
++    if (f == NULL && fd != -1) {
++        close(fd);
++        if (oflag & O_CREAT) {
++            unlink(path);
          }
- 
-@@ -160,15 +176,23 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
      }
+-
+-    error_propagate(errp, local_err);
+-    return NULL;
++    return f;
  }
  
-+#ifndef _WIN32
-+void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                      const char *fmt, va_list ap)
-+{
-+    _qmp_fd_vsend_fds(fd, fds, fds_num, fmt, ap);
-+}
-+#endif
-+
- void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
- {
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
- }
- 
- 
- QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
- {
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
- 
-     return qmp_fd_receive(fd);
- }
+ int64_t qmp_guest_file_open(const char *path, bool has_mode, const char *mode,
 -- 
 2.36.1
 
