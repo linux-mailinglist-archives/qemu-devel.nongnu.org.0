@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EB0537070
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 11:28:57 +0200 (CEST)
-Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D4A537077
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 11:49:34 +0200 (CEST)
+Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvFEH-0001TZ-1v
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 05:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43508)
+	id 1nvFYC-0005KQ-Ng
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 05:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvFBE-0000DA-O3; Sun, 29 May 2022 05:25:49 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57488)
+ id 1nvFV7-0004Qz-9i; Sun, 29 May 2022 05:46:21 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvFBC-0007wm-UE; Sun, 29 May 2022 05:25:48 -0400
+ id 1nvFV5-0001q2-FD; Sun, 29 May 2022 05:46:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9aA820tbaUQvHjsYfKGWg+a25ygd8aRp/OvQ7tNYSjA=; b=xhTTIuFBX+Jo5rcbQMWTcieoLB
- W11UWdFnBKxW0m+ySzs9TpWExnZxcxB0CaOhrGUbF/PzizoPjzepSNk6xQfow6Pd1WC6gnp2AR9ZW
- mLoGir5mknIIS4pWNdMLt8cEbxpnGV4XgrsnRL6A+2hTnqiRPQYRiU+gR/6afClRtaRF2kEs5HSJH
- 10NQ4pTqUZ2Cw75r4DW0lgdQA+yf8i7iJu8120ScYf7Cfr9BH4aXw47CA4dd3sJPO0NOW0PpA+w7B
- OMIfnLp5or9Hlw0rRnYeRs6Dm+3by0hLhHd4soyEqJdTXyNTxSyWZc2Isfzh66shdExIrqoSwT7vq
- j0zD1HYAajAon4oRActF3JZqI8IiLChvOWbUYb8hdqRqwRCcmot2M3j7XbQ2sJ1OFzUN9w5F6+kV8
- 5oLEQwZ9qTfPBTUfFE+4NAe2RWc/67ySG85Zw0XmoxY0eK1aofMs1/nms8pUziORroovyh7CzLt3v
- gFae5/lnF2jXBQ1elQQfWKsLqAU6pvQfAu2k4PinbwM3wNo9M34r0fpO+NX+7IyIiq4Q3Sq9YBgDp
- E6UsgXEyo2ArRHYQIwKFHXbSIrqB40WJlvAeSNG0EUqZ7h0izO+upwSujHn2fBr0ZD0wVm8CdbPJ5
- CrTngApnKHtpbxVoaAEz5iAwgXe1KsCIxPPN9xv2U=;
+ bh=EAJyMhLYfCzffUKPV146n935Ya+6Cj/Mo/VN/sxuREg=; b=rhleUAoKpAni/zz02+e4/vXtQ0
+ z7FvBYGdBIuhgkDFuP6hGiVxK3augq9rWrpI/BA7bTYykHQeO0PIi6uhznCOS4Ay8UQ/sd5wWzU4C
+ NutN+jJA3+j6jXJfGnmBWxJpVirF64b/GH0/rq01ymhHGW2Flu1HXQTyL6Exi/w2k2LjaimPC1wq3
+ SbVJaCllSeMYR8M+fklNHh2oEqCkqH0aaJ1ViTn0iXl814XpFlBnv3DXV9DhoMDYp/HO3fD7+pw6i
+ NnV6dpdpq64AjDgUSBPqlLLXymMHXNRhJwgITDx8IRmDG3rm0koWmltXfdrB6LyR1PqyNQJqaofb6
+ vjj24whgu6ey/xIRJtOj2vYdiOclq6eBd56LXcvxHKoFsH7wzX1QVJCfOPFE9UZtd86jNYfGb85lD
+ LmvhGB9CF3uk4f7Ape1lPOMcsu/l1Zbxeb+VvLMsd1a4fXaHd1yjHmbo/9mEEwE2fiFMfo1+QKQUJ
+ F0sFaKdhHgJCWkSpqK+rFjyjAccF2yfDHJIglAlss6Nby1EFwFUGFDVsgFObADusoS6NNAzu/O2t8
+ bqfjAk5kVW3iF9S1C9O2dhwDxN3jtrlLkinvwHKzapmzVWgTKufqk2u4mYxqN7K1uDPGyj9ZXxmQJ
+ wRk3rdnqDMk6VLYA0WZOmwdIQCv8HJn5TyNxBHcqY=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvFAA-000AOr-21; Sun, 29 May 2022 10:24:42 +0100
-Message-ID: <f3428e7e-f3f5-b933-a279-7da6e056dd5e@ilande.co.uk>
-Date: Sun, 29 May 2022 10:25:43 +0100
+ id 1nvFTz-000AUn-7h; Sun, 29 May 2022 10:45:15 +0100
+Message-ID: <110e160e-19bd-dd7a-1b4e-1a0e7437b782@ilande.co.uk>
+Date: Sun, 29 May 2022 10:46:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Aurelien Jarno <aurelien@aurel32.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: qemu-trivial@nongnu.org
 References: <20220528192057.30910-1-shentey@gmail.com>
- <20220528192057.30910-7-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220528192057.30910-7-shentey@gmail.com>
+In-Reply-To: <20220528192057.30910-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 6/7] hw/isa/piix4: QOM'ify PIIX4 PM creation
+Subject: Re: [PATCH v3 0/7] QOM'ify PIIX southbridge creation
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -86,121 +81,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 28/05/2022 20:20, Bernhard Beschow wrote:
 
-> Just like the real hardware, create the PIIX4 ACPI controller as part of
-> the PIIX4 southbridge. This also mirrors how the IDE and USB functions
-> are already created.
+> v3:
+> * Rebase onto 'hw/acpi/piix4: remove legacy piix4_pm_init() function' (Mark) [1]
+> * Use embedded structs for touched PCI devices (Mark)
+> * Fix piix4's rtc embedded struct to be initialized by
+>    object_initialize_child() (Peter) [2]
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/isa/piix4.c                | 25 ++++++++++++++-----------
->   hw/mips/malta.c               |  3 ++-
->   include/hw/southbridge/piix.h |  2 +-
->   3 files changed, 17 insertions(+), 13 deletions(-)
+> Testing done:
 > 
-> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 96df21a610..217989227d 100644
-> --- a/hw/isa/piix4.c
-> +++ b/hw/isa/piix4.c
-> @@ -49,6 +49,7 @@ struct PIIX4State {
->       RTCState rtc;
->       PCIIDEState ide;
->       UHCIState uhci;
-> +    PIIX4PMState pm;
->       /* Reset Control Register */
->       MemoryRegion rcr_mem;
->       uint8_t rcr;
-> @@ -261,6 +262,14 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
->           return;
->       }
->   
-> +    /* ACPI controller */
-> +    qdev_prop_set_int32(DEVICE(&s->pm), "addr", dev->devfn + 3);
-> +    if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
-> +        return;
-> +    }
-> +    qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
-> +    object_property_add_alias(OBJECT(s), "smbus", OBJECT(&s->pm), "i2c");
+> 1)
+> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+> Result: All pass.
+> 
+> 2)
+> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+>    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+> 
+> In both cases the system booted successfully and it was possible to shut down
+> the system using the `poweroff` command.
+> 
+> 
+> v2:
+> * Preserve `DeviceState *` as return value of piix4_create() (Mark)
+> * Aggregate all type name movements into first commit (Mark)
+> * Have piix4 southbridge rather than malta board instantiate piix4 pm (me)
+> 
+> Testing done:
+> 
+> 1)
+> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+> Result: All pass.
+> 
+> 2)
+> Modify pci_piix3_realize() to start with
+>      error_setg(errp, "This is a test");
+> Then start `qemu-system-x86_64 -M pc -m 1G -accel kvm -cpu host -cdrom
+> archlinux-2022.05.01-x86_64.iso`.
+> Result: qemu-system-x86_64 aborts with: "This is a test"
+> 
+> 
+> v1:
+> The piix3 and piix4 southbridge devices still rely on create() functions which
+> are deprecated. This series resolves these functions piece by piece to
+> modernize the code.
+> 
+> Both devices are modified in lockstep where possible to provide more context.
+> 
+> Testing done:
+> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+>    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+> 
+> In both cases the system booted successfully and it was possible to shut down
+> the system using the `poweroff` command.
+> 
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg05686.html
+> [2] https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01128.html
+> 
+> Bernhard Beschow (7):
+>    include/hw/southbridge/piix: Aggregate all PIIX soughbridge type names
+>    hw/isa/piix4: Use object_initialize_child() for embedded struct
+>    hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
+>    hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
+>    hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
+>    hw/isa/piix4: QOM'ify PIIX4 PM creation
+>    hw/isa/piix{3,4}: Inline and remove create() functions
+> 
+>   hw/i386/pc_piix.c             |   7 +-
+>   hw/isa/piix3.c                |  98 ++++++++++++++-------------
+>   hw/isa/piix4.c                | 120 +++++++++++++++++-----------------
+>   hw/mips/malta.c               |   7 +-
+>   include/hw/isa/isa.h          |   2 -
+>   include/hw/southbridge/piix.h |   6 +-
+>   6 files changed, 127 insertions(+), 113 deletions(-)
 
-Now that the PM device is QOMified you don't actually need this alias anymore (see 
-below). In general aliasing parts of contained devices onto the container isn't 
-recommended, since it starts to blur the line between individual devices and then you 
-find some wiring gets done to the container, some directly to the contained device 
-and then it starts to get confusing quite quickly.
+Hi Bernhard,
 
->       pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
->   }
->   
-> @@ -271,6 +280,10 @@ static void piix4_init(Object *obj)
->       object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
->       object_initialize_child(obj, "ide", &s->ide, "piix4-ide");
->       object_initialize_child(obj, "uhci", &s->uhci, "piix4-usb-uhci");
-> +
-> +    object_initialize_child(obj, "pm", &s->pm, TYPE_PIIX4_PM);
-> +    qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", 0x1100);
-> +    qdev_prop_set_bit(DEVICE(&s->pm), "smm-enabled", 0);
->   }
->   
->   static void piix4_class_init(ObjectClass *klass, void *data)
-> @@ -312,7 +325,7 @@ static void piix4_register_types(void)
->   
->   type_init(piix4_register_types)
->   
-> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
-> +DeviceState *piix4_create(PCIBus *pci_bus)
->   {
->       PCIDevice *pci;
->       DeviceState *dev;
-> @@ -322,15 +335,5 @@ DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus)
->                                             TYPE_PIIX4_PCI_DEVICE);
->       dev = DEVICE(pci);
->   
-> -    if (smbus) {
-> -        pci = pci_new(devfn + 3, TYPE_PIIX4_PM);
-> -        qdev_prop_set_uint32(DEVICE(pci), "smb_io_base", 0x1100);
-> -        qdev_prop_set_bit(DEVICE(pci), "smm-enabled", 0);
-> -        pci_realize_and_unref(pci, pci_bus, &error_fatal);
-> -        qdev_connect_gpio_out(DEVICE(pci), 0,
-> -                              qdev_get_gpio_in_named(dev, "isa", 9));
-> -        *smbus = I2C_BUS(qdev_get_child_bus(DEVICE(pci), "i2c"));
-> -    }
-> -
->       return dev;
->   }
-> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> index e446b25ad0..b0fc84ccbb 100644
-> --- a/hw/mips/malta.c
-> +++ b/hw/mips/malta.c
-> @@ -1399,8 +1399,9 @@ void mips_malta_init(MachineState *machine)
->       empty_slot_init("GT64120", 0, 0x20000000);
->   
->       /* Southbridge */
-> -    dev = piix4_create(pci_bus, &smbus);
-> +    dev = piix4_create(pci_bus);
->       isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-> +    smbus = I2C_BUS(qdev_get_child_bus(dev, "smbus"));
+I've spotted a couple of small things, but once those are fixed this series looks 
+good to me so I'm happy to give a:
 
-It should now be possible to do something like this:
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-     pm_dev = DEVICE(object_resolve_path_component(OBJECT(dev), "pm"));
-     smbus = I2C_BUS(qdev_get_child_bus(pm_dev, "i2c"));
+Thanks for your patience with these series too: you've done some good work here, 
+however patchsets like this can sometimes take a while to get reviewed because they 
+both i) touch legacy code/APIs and ii) cut across multiple machines and maintainers. 
+I'd really like to get this work, along with your RTC updates, merged soon as it is a 
+great improvement.
 
-whereby we grab the reference to the PIIX4_PM device by resolving the "pm" child 
-object and then use that to obtain the reference to smbus.
+One reason that you may not get many reviews is because you've not added the relevant 
+maintainers on To/CC. Due to the large volume of emails on qemu-devel, quite a few 
+maintainers will filter based upon their own email address so it is definitely worth 
+adding them in.
 
->       /* Interrupt controller */
->       qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-> index 0a2ef0c7b6..e1f5d6d5c8 100644
-> --- a/include/hw/southbridge/piix.h
-> +++ b/include/hw/southbridge/piix.h
-> @@ -70,6 +70,6 @@ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
->   
->   PIIX3State *piix3_create(PCIBus *pci_bus);
->   
-> -DeviceState *piix4_create(PCIBus *pci_bus, I2CBus **smbus);
-> +DeviceState *piix4_create(PCIBus *pci_bus);
->   
->   #endif
+Fortunately you can easily find the relevant maintainer email addresses by running 
+"./scripts/get_maintainer.pl <path-to-git-patch-dir>" on your git format-patch 
+directory. I'd recommend doing this, and also dropping qemu-trivial since I would say 
+these patches are now beyond the trivial threshold.
 
 
 ATB,
