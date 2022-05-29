@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A0F5372EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 01:04:31 +0200 (CEST)
-Received: from localhost ([::1]:51122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FF05372E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 01:00:41 +0200 (CEST)
+Received: from localhost ([::1]:39580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvRxW-0003Ra-FP
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 19:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60066)
+	id 1nvRto-00045H-RX
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 19:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nvRlT-0006s3-5W
- for qemu-devel@nongnu.org; Sun, 29 May 2022 18:52:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25996)
+ id 1nvRlX-00073b-4C
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 18:52:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nvRlR-0002BY-PJ
- for qemu-devel@nongnu.org; Sun, 29 May 2022 18:52:02 -0400
+ id 1nvRlV-0002CH-Hc
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 18:52:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653864721;
+ s=mimecast20190719; t=1653864725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xo/YgDT7Dtg9tBXeh0aC/xzD0SY9Q7YYmGfa4881CLc=;
- b=dYQ38kv/pk/TLKdaFER8Qi2V2TQbC19SKTBCVe+vCRlwE/azkK0RVFgInnpEo50qgKBJ0G
- CM6jeioi61buhnsBegdkdGBwJZtU6Fldqchpss4io+P9o0jzJZ2AoaLJW7zM/C71OiydcD
- 0JVGP9+vTIGcbCoWedoP7nJu40ZuAkc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cGmqS90ikSsvVoQsSXjoby1IpMvvHrYoxBGo2U1opnI=;
+ b=QLCW5+kzSLjz9B2Np2e8+Bs+Gai1oopLj+rRcx/rxvdCIRL894UqbbtL3UFKNfBdtGI57M
+ R/AD6L46FpEu6lKTBzcZypbTMqoLVuUkFVrmcWPhNEyLYBe3NMh23+hVmO86XtACtmJ0Yt
+ kZrBXGZSyR8lZzKQ+DC2jydikqfHEfY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-HrEXb2viPO2ogpZO9ZvnnA-1; Sun, 29 May 2022 18:52:00 -0400
-X-MC-Unique: HrEXb2viPO2ogpZO9ZvnnA-1
+ us-mta-520-vWcqmDt0NwuUoEFZ41jKtg-1; Sun, 29 May 2022 18:52:01 -0400
+X-MC-Unique: vWcqmDt0NwuUoEFZ41jKtg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B089D80418B;
- Sun, 29 May 2022 22:51:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C16A29AA3BD;
+ Sun, 29 May 2022 22:52:01 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 622D540E80E0;
- Sun, 29 May 2022 22:51:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE59040E80E0;
+ Sun, 29 May 2022 22:52:00 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
  Michael Roth <michael.roth@amd.com>, richard.henderson@linaro.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL v2 12/15] qga/wixl: require Mingw_bin
-Date: Mon, 30 May 2022 00:51:34 +0200
-Message-Id: <20220529225137.232359-13-marcandre.lureau@redhat.com>
+Subject: [PULL v2 13/15] qga/wixl: simplify some pre-processing
+Date: Mon, 30 May 2022 00:51:35 +0200
+Message-Id: <20220529225137.232359-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20220529225137.232359-1-marcandre.lureau@redhat.com>
 References: <20220529225137.232359-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -84,35 +84,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-No clear reason to make guesses here.
+Sadly, wixl doesn't have 'elif'.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Message-Id: <20220525144140.591926-13-marcandre.lureau@redhat.com>
+Message-Id: <20220525144140.591926-14-marcandre.lureau@redhat.com>
 ---
- qga/installer/qemu-ga.wxs | 9 ---------
- 1 file changed, 9 deletions(-)
+ qga/installer/qemu-ga.wxs | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
 diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-index 8a19aa1656..651db6e51c 100644
+index 651db6e51c..e5b0958e18 100644
 --- a/qga/installer/qemu-ga.wxs
 +++ b/qga/installer/qemu-ga.wxs
-@@ -4,15 +4,6 @@
-     <?error Define Arch to 32 or 64?>
-   <?endif?>
- 
--  <?ifndef var.Mingw_bin?>
--    <?if $(var.Arch) = "64"?>
--      <?define Mingw_bin=/usr/x86_64-w64-mingw32/sys-root/mingw/bin ?>
--    <?endif?>
--    <?if $(var.Arch) = "32"?>
--      <?define Mingw_bin=/usr/i686-w64-mingw32/sys-root/mingw/bin ?>
--    <?endif?>
+@@ -1,21 +1,15 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+-  <?ifndef var.Arch?>
+-    <?error Define Arch to 32 or 64?>
 -  <?endif?>
 -
    <?if $(var.Arch) = "64"?>
      <?define ArchLib=libgcc_s_seh-1.dll?>
      <?define GaProgramFilesFolder="ProgramFiles64Folder" ?>
+-  <?endif?>
+-
+-  <?if $(var.Arch) = "32"?>
+-    <?define ArchLib=libgcc_s_dw2-1.dll?>
+-    <?define GaProgramFilesFolder="ProgramFilesFolder" ?>
+-  <?endif?>
+-
+-  <?ifndef var.ArchLib ?>
+-    <?error Unexpected Arch value $(var.Arch)?>
++  <?else?>
++    <?if $(var.Arch) = "32"?>
++      <?define ArchLib=libgcc_s_dw2-1.dll?>
++      <?define GaProgramFilesFolder="ProgramFilesFolder" ?>
++    <?else?>
++      <?error Unexpected Arch value $(var.Arch)?>
++    <?endif?>
+   <?endif?>
+ 
+   <Product
 -- 
 2.36.1
 
