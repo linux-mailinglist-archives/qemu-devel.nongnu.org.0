@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C267537235
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 20:42:32 +0200 (CEST)
-Received: from localhost ([::1]:53754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CE4537236
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 20:44:32 +0200 (CEST)
+Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvNrz-00006A-A2
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 14:42:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55874)
+	id 1nvNtw-0002TN-1X
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 14:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nvNq5-0006aT-75; Sun, 29 May 2022 14:40:33 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46679)
+ id 1nvNq5-0006aa-Le; Sun, 29 May 2022 14:40:33 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nvNq3-0002FH-KP; Sun, 29 May 2022 14:40:32 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d26so6426782wrb.13;
- Sun, 29 May 2022 11:40:30 -0700 (PDT)
+ id 1nvNq4-0002Fg-7c; Sun, 29 May 2022 14:40:33 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d26so6426798wrb.13;
+ Sun, 29 May 2022 11:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A9DKwKFr4BttRAjg5sxJylENPhkCHOeKkbPe1bC18QI=;
- b=TEyl2iYStp2J9X3TVh/UUFh2ART9a7NV9G5SHAu3lpuX0Em2NDPFpuyrGTQpXw8ltY
- 2vztXKrz2ndxwFufj0YipHHiEGsG9xMDsr92WGwB3pv9sNsKdJBJzAXzPhxLFYzeE/vS
- cwJaIaHHSch6ESfsDWQPII4NQP/+oNIa2cJsEu0+hL/ynDMf/rq2FvsNnQyOgLrSTDnM
- gr9D9UF8nGoDHBq5wYAOU91CZFrOPfevgP6SZ3JwfabWV3d9qtGe3OkN0sox6Bx4Quta
- CY7wiyrXrHUBOTubZAMYBN4WZskB9rR750RG0N2Okyri9/JWfQdwqgZp6Liajo1+wOCs
- Vn1A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Nropo1Wp2345M6NB97Ef+VG++lmlRDODnalFkapLlxk=;
+ b=GXfdhs0YHbcPDfiB8suGc3oKh1EXxqIVLA5eUBaUS5oxb2alENrBx3Jv21jJ5/MoD/
+ eU9Dylt9uBFa0RIMYVvZaLfUlTGf8VNzSHY2Qo5lrslHYLIiTlV2w0Jyy+RkXJGTOSjF
+ +GO2bYmKCdZRHtVBsQY2wZXvuDcob9lCr0yT56O8iuN9C6n0hedrnyO4VcvNuQLzS+xv
+ CAiJaV9N2Xs689O6tN1f7RRguBepF3x8Ht3hft7454qN6Cw9ubyKP5+FI0m5PesMVZPy
+ WsR3cD944JE2+2hlYFOp5icTRWkSJ1K0LqVb2e65WjFv6LvUUC4azglh3psOpq5Xqip2
+ Dv1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A9DKwKFr4BttRAjg5sxJylENPhkCHOeKkbPe1bC18QI=;
- b=vj4W8eZGFuUqOOwb5vm1uWh/YhYcad04078wyNc3sjjXly6v0JS2uxjV9Z/0as/l6U
- AsM19jF1MvdAa1NUi17IAGZ9G6Jfb3eFSLbPkyv6gg9qQUAx0BApbzeZxcpUQil4Aqse
- RsOC7XNUZNS1OB1PIvvO9KIG+dxZ4StG5E/CnjsWo0Zb2VFyopuTInTrkKHCLu3kx1CN
- DKwm5A/aDll+jBTx2fJDDxIkzVZxZCf3k1SrM2Gg4xi3Sgq+i6nFjiDR9ZqB5AU52zo6
- VjlSA6GAc6A4oFPlAB4ftCfOVgc/oq/Z0nBwNPjQt2B7nCmcQxiUw8zzgOB5BeThcXDA
- /GUA==
-X-Gm-Message-State: AOAM532CnLwWytdO4SKY+E8tgy60odc7wfGJnX+20wjxnAxgeKJDWfd+
- T76FHV7Xfi8eNcnLvSeYlbf2GPHNy2ZnCm4W
-X-Google-Smtp-Source: ABdhPJwR81yqDl92u/aRvWVmH1Cxdn32/i8qym5F+rrhJJWaK/sPRDhBHR2PvCA1VPRaSy3tx5E+Fg==
-X-Received: by 2002:a5d:6dc3:0:b0:210:89d:30bc with SMTP id
- d3-20020a5d6dc3000000b00210089d30bcmr15079518wrz.272.1653849629514; 
- Sun, 29 May 2022 11:40:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Nropo1Wp2345M6NB97Ef+VG++lmlRDODnalFkapLlxk=;
+ b=JmJMa+lJq9vE2kLrJhiCgoxidicrJbul/pdKwMS/671tGYuc2VeVNktyfcCLZDSfGR
+ DhtonjlGsq1W6C96S5L35Mg5JYSANaWpnjH5eVgyGeK+eT3m7jk4U+LxLNB2OA8x6yB6
+ sbHf62APM+axdKKW/VX1VeujyslkjT+Yhi7vHfZw490i/joxGhX41Q8SHXpjLNgtS+O8
+ EpYnNLjXmIjxLvC3t9NgGzbz/B6YidPx5j6wGKLGL9StXLsjQG/L3m+CNl0w9A8C/rpD
+ 4ha0cfgSghL9cm+XeyK0vp3LpscXNUg+TDYVg0EhodDA0wkal0rF1y2g5ddctS8NBzvX
+ tUOw==
+X-Gm-Message-State: AOAM532eC4uh6nSEL7X3GgRPB5KEF8ehJoEZEmcFc2Vi902TBBdfiWyW
+ kHTPMYFXcj2PnAbyrcSKGv5vdGtg8ibbM8NA
+X-Google-Smtp-Source: ABdhPJxobdueCnX1hxRrooqg2we/iagGe39QUT6vBhzZ2w1yNpdIKNFlzZT0WnKjQGCs4ySOLhzp2g==
+X-Received: by 2002:a5d:4344:0:b0:20c:cad4:9e9b with SMTP id
+ u4-20020a5d4344000000b0020ccad49e9bmr43000570wrr.187.1653849630353; 
+ Sun, 29 May 2022 11:40:30 -0700 (PDT)
 Received: from osoxes.fritz.box (pd9ed79c4.dip0.t-ipconnect.de.
  [217.237.121.196]) by smtp.gmail.com with ESMTPSA id
- g13-20020a5d64ed000000b002100e86319asm7341049wri.78.2022.05.29.11.40.28
+ g13-20020a5d64ed000000b002100e86319asm7341049wri.78.2022.05.29.11.40.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 May 2022 11:40:29 -0700 (PDT)
+ Sun, 29 May 2022 11:40:30 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org,
-	Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v3 0/3] QOM improvements for rtc/mc146818rtc
-Date: Sun, 29 May 2022 20:40:03 +0200
-Message-Id: <20220529184006.10712-1-shentey@gmail.com>
+Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH v3 1/3] hw/i386/microvm-dt: Force explicit failure if
+ retrieving QOM property fails
+Date: Sun, 29 May 2022 20:40:04 +0200
+Message-Id: <20220529184006.10712-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220529184006.10712-1-shentey@gmail.com>
+References: <20220529184006.10712-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,32 +94,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3:
-* "iobase" is now u16 (Philippe)
+New code will be added where this is best practice. So update existing code
+as well.
 
-v2:
-* Explicitly fail with &error_abort rather than NULL (Mark)
-* Explicitly fail with &error_abort rather than NULL in existing code (me)
-* Unexport rather than remove RTC_ISA_BASE (Mark)
-* Use object_property_get_*u*int() also for "iobase" (me)
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/i386/microvm-dt.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-v1:
-This little series enhances QOM support for mc146818rtc:
-* makes microvm-dt respect mc146818rtc's IRQ number set by QOM property and
-* adds an io_base QOM property similar to other ISA devices
-
-Bernhard Beschow (3):
-  hw/i386/microvm-dt: Force explicit failure if retrieving QOM property
-    fails
-  hw/i386/microvm-dt: Determine mc146818rtc's IRQ number from QOM
-    property
-  rtc/mc146818rtc: QOM'ify io_base offset
-
- hw/i386/microvm-dt.c         | 9 +++++----
- hw/rtc/mc146818rtc.c         | 9 ++++++---
- include/hw/rtc/mc146818rtc.h | 2 +-
- 3 files changed, 12 insertions(+), 8 deletions(-)
-
+diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
+index 9c3c4995b4..fde74819f2 100644
+--- a/hw/i386/microvm-dt.c
++++ b/hw/i386/microvm-dt.c
+@@ -32,6 +32,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
++#include "qapi/error.h"
+ #include "sysemu/device_tree.h"
+ #include "hw/char/serial.h"
+ #include "hw/i386/fw_cfg.h"
+@@ -187,8 +188,8 @@ static void dt_add_ioapic(MicrovmMachineState *mms, SysBusDevice *dev)
+ static void dt_add_isa_serial(MicrovmMachineState *mms, ISADevice *dev)
+ {
+     const char compat[] = "ns16550";
+-    uint32_t irq = object_property_get_int(OBJECT(dev), "irq", NULL);
+-    hwaddr base = object_property_get_int(OBJECT(dev), "iobase", NULL);
++    uint32_t irq = object_property_get_int(OBJECT(dev), "irq", &error_fatal);
++    hwaddr base = object_property_get_int(OBJECT(dev), "iobase", &error_fatal);
+     hwaddr size = 8;
+     char *nodename;
+ 
 -- 
 2.36.1
 
