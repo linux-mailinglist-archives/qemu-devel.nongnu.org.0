@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBB3537239
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 20:47:17 +0200 (CEST)
-Received: from localhost ([::1]:59426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BD7537246
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 May 2022 21:03:51 +0200 (CEST)
+Received: from localhost ([::1]:35090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvNwa-00043D-AT
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 14:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55904)
+	id 1nvOCc-0007bB-LN
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 15:03:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nvNq7-0006b4-O7; Sun, 29 May 2022 14:40:35 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44929)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nvOBQ-0006vP-HF
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 15:02:36 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nvNq6-0002GU-47; Sun, 29 May 2022 14:40:35 -0400
-Received: by mail-wr1-x430.google.com with SMTP id e25so1407064wra.11;
- Sun, 29 May 2022 11:40:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nvOBO-0005cl-J0
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 15:02:36 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id p10so12043335wrg.12
+ for <qemu-devel@nongnu.org>; Sun, 29 May 2022 12:02:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6HztDJBzf0Fp93vOy8s8PCk7aEO7ZIXWGwPqPqGSnVI=;
- b=n+r5zsoMkA2VBM/JHXzix9H1JrPIjwGyaoggXxwzVDrOUt+YfqO6+WAtlEAjRH0kOf
- 075p0QA5Wi9Ws7OjCSD4CP3GygnOHDJrEF5uwdkRyGNgj/85PNSKV3lBG4r+rGX2eSyI
- 1bMiNpIXiDNzn0oS5LNidT95pNcHolL7gC3WWDkV3lJKEvG1fg09RIetiDgvdP0IK5ln
- b0ZLqikMlLjAClXEfNllvDzGWeb5/d08+mkyyShephru5Oq+xrlf0Fhq3O5OxGSzI0wD
- 5az1OgG7y0uSUwQ8kk3xvKZJaoOKhjFJMURW1LjlZTUA31AFvEpkcwQedGKmyDJVL81O
- bM+w==
+ h=date:from:to:subject:in-reply-to:references:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/OiD8JFoO0ckSoSPpaWahGlzJ5qnZtJR3Vfmsdj3QG8=;
+ b=W/Z5uwixVX3Ul/1ulUAxwrDlnXPoOh9Jvu6CHrwWpNvqGDK0vI3DAQoNieapAJHGC9
+ XVpEU9CUhiMdKZnRpA+tHchTYuNoG4eDZ70O4ZHRKf9eRAeMbPr6EMY8A17EVPZxU9ev
+ BWu62gWX/n0xOvo+4v8iH8Qoun4GYECK3S5b8vh3K9BJV6m54zzVvXFUPD8UAg7G2R1Y
+ X+CdTydIlVgJHMunlScdSpkS2LQEnxXVznzVfpmJWh4og98EOjDvs4PCViDtEavZNmZh
+ FJbRz38GH3hrzDTLOmqX79fQS5NHSTKHTMfFMUR8JN5S683smHivZlqSA3oulXh6w5fI
+ /fEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6HztDJBzf0Fp93vOy8s8PCk7aEO7ZIXWGwPqPqGSnVI=;
- b=s/nE8/OiPOsf1p1kvWOkOqRcSLc+Mp6MSdSPOb/Z0JCM6gxvMn2rxyh//WxSOXYoMo
- 4/3sch+TfXr0GL1lAbSj2CHtnz9Lnl4eu0ke/wqc923LVdz/my+Xw01kFva5TPyU0d0m
- XMpUBT4vTZgYhUteVJP0DX4QhnXYqG+bTjwyS8oM1H04AsDrezbWAeOq+Ad9XLY6gzsq
- HvfN+Mc7ggCR1m8xOacd0YNrCcPKGpX4PZwRwy1SmQT/XckxSG1KRVOU32xp29lXu2Tl
- zgndy4Ku3DXTFQNVu076ljKB8h791/wgPHcFNs57tmgi8xkFigWUyYqUEOc3KZHhbIZy
- vpow==
-X-Gm-Message-State: AOAM533GH1oh5j5xQRIr7kD9sCzw/ykBW2FunNpjOmTdOjrfXKDYGU23
- XNRrGOdrehaQBsE3GB998affk9VyA/4g4b1S
-X-Google-Smtp-Source: ABdhPJyRW8Xty5Fa7nezA5eIZQx/lUnuy3WP1gCaAdlOdA5Q5w/dl0d1dV3WtSJ8W7M0UXze91j6UA==
-X-Received: by 2002:adf:9cc2:0:b0:20f:e59a:ec41 with SMTP id
- h2-20020adf9cc2000000b0020fe59aec41mr26732038wre.124.1653849632255; 
- Sun, 29 May 2022 11:40:32 -0700 (PDT)
-Received: from osoxes.fritz.box (pd9ed79c4.dip0.t-ipconnect.de.
- [217.237.121.196]) by smtp.gmail.com with ESMTPSA id
- g13-20020a5d64ed000000b002100e86319asm7341049wri.78.2022.05.29.11.40.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 May 2022 11:40:32 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=/OiD8JFoO0ckSoSPpaWahGlzJ5qnZtJR3Vfmsdj3QG8=;
+ b=FQoPOkTI8FIVgWKr+PdyJCeYd8VikDMAB40L2z5ebERb1Sdlx7EbtGlUgurDzn9AxM
+ syqRNyI+D72wjCl9oVq2bkn5OTsEl1NZnYVG6+RIwZwYuC5oKnMs/F/s//3HarWDNsxN
+ p0uUkKS2ebEXYpqAbNAtOoCFCKcOIBS6WlbqI7FG/HCgjo2QkTqb3/rwdD+j4wczXYIY
+ phPwkgrYqvenTW9iHQPnzOsUbA7ToSkIv0QPm2Hh88oG1L4et7atJON7JHnlksMQoUFW
+ NzFSZY5+cOuHJGRL2RIrG7EhjPvr58JKhqr8vMa1REDZl47vgz5sH6FlMgDdg18nlfbW
+ G3lA==
+X-Gm-Message-State: AOAM533w+xDXcLjlTjt5ZI5qiUSNIrTtCKvbsjSc1xwzFY78yEtI4XOB
+ 4rcvbEv4b6M/A1PuASGSld4=
+X-Google-Smtp-Source: ABdhPJzKGYcZ8LvRLWYWDk71BtXUs3wFe/YduBLccSGHGzT8YGaqodA38OmmOfObBsUkH5f8cvj60g==
+X-Received: by 2002:adf:fb03:0:b0:20a:e253:b8c7 with SMTP id
+ c3-20020adffb03000000b0020ae253b8c7mr42636009wrr.119.1653850953039; 
+ Sun, 29 May 2022 12:02:33 -0700 (PDT)
+Received: from ?IPv6:::1?
+ (p200300faaf303d00154dd35d8bf95fb4.dip0.t-ipconnect.de.
+ [2003:fa:af30:3d00:154d:d35d:8bf9:5fb4])
+ by smtp.gmail.com with ESMTPSA id
+ f18-20020a05600c4e9200b003942a244f40sm9228834wmq.25.2022.05.29.12.02.32
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 29 May 2022 12:02:32 -0700 (PDT)
+Date: Sun, 29 May 2022 19:02:29 +0000
 From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v3 3/3] rtc/mc146818rtc: QOM'ify io_base offset
-Date: Sun, 29 May 2022 20:40:06 +0200
-Message-Id: <20220529184006.10712-4-shentey@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220529184006.10712-1-shentey@gmail.com>
-References: <20220529184006.10712-1-shentey@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
+ richard.henderson@linaro.org, eduardo@habkost.net, hpoussin@reactos.org,
+ qemu-devel@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_04/12=5D_hw/acpi/piix4=3A_move_P?=
+ =?US-ASCII?Q?IIX4PMState_into_separate_piix4=2Eh_header?=
+In-Reply-To: <20220528091934.15520-5-mark.cave-ayland@ilande.co.uk>
+References: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
+ <20220528091934.15520-5-mark.cave-ayland@ilande.co.uk>
+Message-ID: <40368C33-2392-49F3-A072-B6E21E426B05@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x430.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,119 +94,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Exposing the io_base offset as a QOM property not only allows it to be
-configurable but also to be displayed in HMP:
+Am 28=2E Mai 2022 09:19:26 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayland=
+@ilande=2Eco=2Euk>:
+>This allows the QOM types in hw/acpi/piix4=2Ec to be used elsewhere by si=
+mply including
+>hw/acpi/piix4=2Eh=2E
+>
+>Signed-off-by: Mark Cave-Ayland <mark=2Ecave-ayland@ilande=2Eco=2Euk>
+>---
+> hw/acpi/piix4=2Ec               | 43 +-------------------
+> hw/i386/acpi-build=2Ec          |  1 +
+> include/hw/acpi/piix4=2Eh       | 75 +++++++++++++++++++++++++++++++++++
+> include/hw/southbridge/piix=2Eh |  2 -
+> 4 files changed, 78 insertions(+), 43 deletions(-)
+> create mode 100644 include/hw/acpi/piix4=2Eh
+>
+>diff --git a/hw/acpi/piix4=2Ec b/hw/acpi/piix4=2Ec
+>index 2735ff375e=2E=2E7ee65b1bff 100644
+>--- a/hw/acpi/piix4=2Ec
+>+++ b/hw/acpi/piix4=2Ec
+>@@ -28,6 +28,8 @@
+> #include "hw/pci/pci=2Eh"
+> #include "hw/qdev-properties=2Eh"
+> #include "hw/acpi/acpi=2Eh"
+>+#include "hw/acpi/pcihp=2Eh"
 
-Before:
+No need to be included twice=2E
 
-(qemu) info qtree
-       ...
-          dev: mc146818rtc, id ""
-            gpio-out "" 1
-            base_year = 0 (0x0)
-            irq = 8 (0x8)
-            lost_tick_policy = "discard"
+>+#include "hw/acpi/piix4=2Eh"
+> #include "sysemu/runstate=2Eh"
+> #include "sysemu/sysemu=2Eh"
+> #include "sysemu/xen=2Eh"
+>@@ -56,47 +58,6 @@ struct pci_status {
+>     uint32_t down;
+> };
+>=20
+>-struct PIIX4PMState {
+>-    /*< private >*/
+>-    PCIDevice parent_obj;
+>-    /*< public >*/
+>-
+>-    MemoryRegion io;
+>-    uint32_t io_base;
+>-
+>-    MemoryRegion io_gpe;
+>-    ACPIREGS ar;
+>-
+>-    APMState apm;
+>-
+>-    PMSMBus smb;
+>-    uint32_t smb_io_base;
+>-
+>-    qemu_irq irq;
+>-    qemu_irq smi_irq;
+>-    bool smm_enabled;
+>-    bool smm_compat;
+>-    Notifier machine_ready;
+>-    Notifier powerdown_notifier;
+>-
+>-    AcpiPciHpState acpi_pci_hotplug;
+>-    bool use_acpi_hotplug_bridge;
+>-    bool use_acpi_root_pci_hotplug;
+>-    bool not_migrate_acpi_index;
+>-
+>-    uint8_t disable_s3;
+>-    uint8_t disable_s4;
+>-    uint8_t s4_val;
+>-
+>-    bool cpu_hotplug_legacy;
+>-    AcpiCpuHotplug gpe_cpu;
+>-    CPUHotplugState cpuhp_state;
+>-
+>-    MemHotplugState acpi_memory_hotplug;
+>-};
+>-
+>-OBJECT_DECLARE_SIMPLE_TYPE(PIIX4PMState, PIIX4_PM)
+>-
+> static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+>                                            PCIBus *bus, PIIX4PMState *s)=
+;
+>=20
+>diff --git a/hw/i386/acpi-build=2Ec b/hw/i386/acpi-build=2Ec
+>index c125939ed6=2E=2E89ac326d7f 100644
+>--- a/hw/i386/acpi-build=2Ec
+>+++ b/hw/i386/acpi-build=2Ec
+>@@ -46,6 +46,7 @@
+> #include "hw/acpi/tpm=2Eh"
+> #include "hw/acpi/vmgenid=2Eh"
+> #include "hw/acpi/erst=2Eh"
+>+#include "hw/acpi/piix4=2Eh"
+> #include "sysemu/tpm_backend=2Eh"
+> #include "hw/rtc/mc146818rtc_regs=2Eh"
+> #include "migration/vmstate=2Eh"
+>diff --git a/include/hw/acpi/piix4=2Eh b/include/hw/acpi/piix4=2Eh
+>new file mode 100644
+>index 0000000000=2E=2E32686a75c5
+>--- /dev/null
+>+++ b/include/hw/acpi/piix4=2Eh
+>@@ -0,0 +1,75 @@
+>+/*
+>+ * ACPI implementation
+>+ *
+>+ * Copyright (c) 2006 Fabrice Bellard
+>+ *
+>+ * This library is free software; you can redistribute it and/or
+>+ * modify it under the terms of the GNU Lesser General Public
+>+ * License version 2=2E1 as published by the Free Software Foundation=2E
+>+ *
+>+ * This library is distributed in the hope that it will be useful,
+>+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE=2E  See the GNU
+>+ * Lesser General Public License for more details=2E
+>+ *
+>+ * You should have received a copy of the GNU Lesser General Public
+>+ * License along with this library; if not, see <http://www=2Egnu=2Eorg/=
+licenses/>
+>+ *
+>+ * Contributions after 2012-01-13 are licensed under the terms of the
+>+ * GNU GPL, version 2 or (at your option) any later version=2E
+>+ */
+>+
+>+#ifndef HW_ACPI_PIIX4_H
+>+#define HW_ACPI_PIIX4_H
+>+
+>+#include "hw/pci/pci=2Eh"
+>+#include "hw/acpi/acpi=2Eh"
+>+#include "hw/acpi/cpu_hotplug=2Eh"
+>+#include "hw/acpi/memory_hotplug=2Eh"
+>+#include "hw/acpi/pcihp=2Eh"
+>+#include "hw/i2c/pm_smbus=2Eh"
+>+#include "hw/isa/apm=2Eh"
 
-After:
+These headers don't need to be included in the =2Ec file any more=2E
 
-          dev: mc146818rtc, id ""
-            gpio-out "" 1
-            base_year = 0 (0x0)
-            iobase = 112 (0x70)
-            irq = 8 (0x8)
-            lost_tick_policy = "discard"
-
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/i386/microvm-dt.c         | 2 +-
- hw/rtc/mc146818rtc.c         | 9 ++++++---
- include/hw/rtc/mc146818rtc.h | 2 +-
- 3 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
-index 287818c641..b3049e4f9f 100644
---- a/hw/i386/microvm-dt.c
-+++ b/hw/i386/microvm-dt.c
-@@ -210,7 +210,7 @@ static void dt_add_isa_rtc(MicrovmMachineState *mms, ISADevice *dev)
- {
-     const char compat[] = "motorola,mc146818";
-     uint32_t irq = object_property_get_uint(OBJECT(dev), "irq", &error_fatal);
--    hwaddr base = RTC_ISA_BASE;
-+    hwaddr base = object_property_get_uint(OBJECT(dev), "iobase", &error_fatal);
-     hwaddr size = 8;
-     char *nodename;
- 
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index f235c2ddbe..5f458a881e 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -74,6 +74,8 @@
- #define RTC_CLOCK_RATE            32768
- #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
- 
-+#define RTC_ISA_BASE 0x70
-+
- static void rtc_set_time(RTCState *s);
- static void rtc_update_time(RTCState *s);
- static void rtc_set_cmos(RTCState *s, const struct tm *tm);
-@@ -941,7 +943,7 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     qemu_register_suspend_notifier(&s->suspend_notifier);
- 
-     memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
--    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
-+    isa_register_ioport(isadev, &s->io, s->io_base);
- 
-     /* register rtc 0x70 port for coalesced_pio */
-     memory_region_set_flush_coalesced(&s->io);
-@@ -950,7 +952,7 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
-     memory_region_add_coalescing(&s->coalesced_io, 0, 1);
- 
--    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
-+    qdev_set_legacy_instance_id(dev, s->io_base, 3);
- 
-     object_property_add_tm(OBJECT(s), "date", rtc_get_date);
- 
-@@ -983,6 +985,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
- 
- static Property mc146818rtc_properties[] = {
-     DEFINE_PROP_INT32("base_year", RTCState, base_year, 1980),
-+    DEFINE_PROP_UINT16("iobase", RTCState, io_base, RTC_ISA_BASE),
-     DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
-     DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
-                                lost_tick_policy, LOST_TICK_POLICY_DISCARD),
-@@ -1028,7 +1031,7 @@ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
-      * does, even though qemu only responds to the first two ports.
-      */
-     crs = aml_resource_template();
--    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
-+    aml_append(crs, aml_io(AML_DECODE16, s->io_base, s->io_base,
-                            0x01, 0x08));
-     aml_append(crs, aml_irq_no_flags(s->isairq));
- 
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 33d85753c0..1db0fcee92 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -26,6 +26,7 @@ struct RTCState {
-     uint8_t cmos_data[128];
-     uint8_t cmos_index;
-     uint8_t isairq;
-+    uint16_t io_base;
-     int32_t base_year;
-     uint64_t base_rtc;
-     uint64_t last_update;
-@@ -49,7 +50,6 @@ struct RTCState {
- };
- 
- #define RTC_ISA_IRQ 8
--#define RTC_ISA_BASE 0x70
- 
- ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
--- 
-2.36.1
+>+
+>+#define TYPE_PIIX4_PM "PIIX4_PM"
+>+OBJECT_DECLARE_SIMPLE_TYPE(PIIX4PMState, PIIX4_PM)
+>+
+>+struct PIIX4PMState {
+>+    /*< private >*/
+>+    PCIDevice parent_obj;
+>+    /*< public >*/
+>+
+>+    MemoryRegion io;
+>+    uint32_t io_base;
+>+
+>+    MemoryRegion io_gpe;
+>+    ACPIREGS ar;
+>+
+>+    APMState apm;
+>+
+>+    PMSMBus smb;
+>+    uint32_t smb_io_base;
+>+
+>+    qemu_irq irq;
+>+    qemu_irq smi_irq;
+>+    bool smm_enabled;
+>+    bool smm_compat;
+>+    Notifier machine_ready;
+>+    Notifier powerdown_notifier;
+>+
+>+    AcpiPciHpState acpi_pci_hotplug;
+>+    bool use_acpi_hotplug_bridge;
+>+    bool use_acpi_root_pci_hotplug;
+>+    bool not_migrate_acpi_index;
+>+
+>+    uint8_t disable_s3;
+>+    uint8_t disable_s4;
+>+    uint8_t s4_val;
+>+
+>+    bool cpu_hotplug_legacy;
+>+    AcpiCpuHotplug gpe_cpu;
+>+    CPUHotplugState cpuhp_state;
+>+
+>+    MemHotplugState acpi_memory_hotplug;
+>+};
+>+
+>+#endif
+>diff --git a/include/hw/southbridge/piix=2Eh b/include/hw/southbridge/pii=
+x=2Eh
+>index f63f83e5c6=2E=2Ec5b842b45d 100644
+>--- a/include/hw/southbridge/piix=2Eh
+>+++ b/include/hw/southbridge/piix=2Eh
+>@@ -15,8 +15,6 @@
+> #include "hw/pci/pci=2Eh"
+> #include "qom/object=2Eh"
+>=20
+>-#define TYPE_PIIX4_PM "PIIX4_PM"
+>-
+> I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+>                       qemu_irq sci_irq, qemu_irq smi_irq,
+>                       int smm_enabled, DeviceState **piix4_pm);
 
 
