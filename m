@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC445372EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 01:04:32 +0200 (CEST)
-Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C265553736F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 03:59:26 +0200 (CEST)
+Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvRxX-0003WH-O8
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 19:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60156)
+	id 1nvUgn-0007J9-Bb
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 21:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nvRla-0007C9-9D
- for qemu-devel@nongnu.org; Sun, 29 May 2022 18:52:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nvRlY-0002Cc-3E
- for qemu-devel@nongnu.org; Sun, 29 May 2022 18:52:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653864727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J4AgK4+QLNtS4QScVyh2dG4giCX+VTt4UUUUP+4taZ8=;
- b=LQeolCJvSUwUEJ8YBQ8z+KVwbnA89Lntl1DDdp6/aaX2DPbfpr2SuZniuDumBpRugvOLLw
- SIOLA3/W9T2Xl9zX01uWbAK/wP4tYv9oAYa7CQWym2nyA6RPhdBRNHCQoosLiaO+jR9vyv
- t/Lv4RaSCy3TzVsseiCFGX77OOhiSZQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-qGlai_FTMG68QQJsoHZLzw-1; Sun, 29 May 2022 18:52:06 -0400
-X-MC-Unique: qGlai_FTMG68QQJsoHZLzw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A617F1C0513F;
- Sun, 29 May 2022 22:52:05 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A19D2026D64;
- Sun, 29 May 2022 22:52:04 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
- Michael Roth <michael.roth@amd.com>, richard.henderson@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL v2 15/15] test/qga: use g_auto wherever sensible
-Date: Mon, 30 May 2022 00:51:37 +0200
-Message-Id: <20220529225137.232359-16-marcandre.lureau@redhat.com>
-In-Reply-To: <20220529225137.232359-1-marcandre.lureau@redhat.com>
-References: <20220529225137.232359-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nvUfY-0006d7-HT
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 21:58:08 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:38509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nvUfW-0001LW-Nb
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 21:58:08 -0400
+Received: by mail-pg1-x532.google.com with SMTP id 137so8901359pgb.5
+ for <qemu-devel@nongnu.org>; Sun, 29 May 2022 18:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=NONVSfxb0qgNuDVPOylR/5fm5N15+lTnSdBbMZIEWC8=;
+ b=PDHNXoth2c9wGHeNLyjLXL4S9ocPj2SURAiC+Gl8f3G66/VD8pKbjHFIMmt/lEoY+C
+ 7a3IZiZLGOf2CY7keSXM5tnkWDt+spPihdFbvYimCOtbTRIx9DHMzuSdZYB+Lx0+DMuX
+ +m+RJiDX3E3iF4jCsp/MRICuc1OFzvhTykpIm2GIsu3Sr7U/TOFqKepOaz9HlthoJVuz
+ bXKTRC1IJ1wTaoKVllZTsRjDpWbMUoPorABSRd4wbr2qeoTMxZMiyN0fkn2JGPgjEE5K
+ 9Puq8dsPa6CcO7ETlqNln6D8oGq20hJmNAp2TKBwPsdgX4II7j2Ft6Sze1TjYnZWgTuK
+ QSDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NONVSfxb0qgNuDVPOylR/5fm5N15+lTnSdBbMZIEWC8=;
+ b=o1Fd0zPPn15ZgA8YVz6SlxkjhUY5S1+B+w3t3wMV6e8Vfq8NYBUx2V6FRhr4izdaCq
+ mbZbHXSvk4ctCNxvbyxyzl6dE0HU/gcm432TtW0+1TUClWJFlYqPWreMbnwxO12J9N3E
+ Ny5JQSAEN6n6txu/w0LuOqPnJ1hKTaUzLvi2qdRYo7OjoQjt8jeV8F3Tmkae9+GhIFbU
+ 8edn2hUaJaNQod6majcE4hfP9uXdmfikXiJuhmuS13fW2xA4GdNO70tw77k0u86jsURs
+ Hwu6Jrt+Og2LsYRerA4naMNPRxP8W4aPeZt0SfAkNSA0ATZe2J37fvvEEe8vucLfdNS1
+ L0Ig==
+X-Gm-Message-State: AOAM532fsaMHeSZPgQbAdAlFfz8CjtvRyTDq4ZFYAMXUDg1/Cf9ZS4qD
+ +Zw9Rm9MIk28gvIMSOuHVpZ15w==
+X-Google-Smtp-Source: ABdhPJx6Kr0Enb/vr6vx6ARrHud0Ex7r5tXPdeMJFN51uG8PgN92D8NJuEzwtLFN0OHIWbXtKjmYGw==
+X-Received: by 2002:a63:184d:0:b0:3fb:74ce:effa with SMTP id
+ 13-20020a63184d000000b003fb74ceeffamr14666620pgy.621.1653875884305; 
+ Sun, 29 May 2022 18:58:04 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:6923:e77f:e88f:1dd3?
+ ([2602:ae:1547:e101:6923:e77f:e88f:1dd3])
+ by smtp.gmail.com with ESMTPSA id
+ q13-20020a170902f34d00b00163d6249a62sm1512344ple.196.2022.05.29.18.58.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 29 May 2022 18:58:03 -0700 (PDT)
+Message-ID: <3fb4b54c-04d6-da23-f914-0516343f8e7d@linaro.org>
+Date: Sun, 29 May 2022 18:58:01 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL v2 00/15] Misc patches
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+References: <20220529225137.232359-1-marcandre.lureau@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220529225137.232359-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,456 +94,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 5/29/22 15:51, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> The following changes since commit 2417cbd5916d043e0c56408221fbe9935d0bc8da:
+> 
+>    Merge tag 'ak-pull-request' of https://gitlab.com/berrange/qemu into staging (2022-05-26 07:00:04 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git@gitlab.com:marcandre.lureau/qemu.git tags/misc-pull-request
+> 
+> for you to fetch changes up to bb6960a11ae9c9d727bab45c22cb4a9eb12cde55:
+> 
+>    test/qga: use g_auto wherever sensible (2022-05-28 11:42:56 +0200)
+> 
+> ----------------------------------------------------------------
+> Misc cleanups
+> 
+> Mostly qemu-ga related cleanups.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Message-Id: <20220525144140.591926-16-marcandre.lureau@redhat.com>
----
- tests/unit/test-qga.c | 121 +++++++++++++++---------------------------
- 1 file changed, 43 insertions(+), 78 deletions(-)
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index ab0b12a2dd..530317044b 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -52,7 +52,10 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
- {
-     const gchar *extra_arg = data;
-     GError *error = NULL;
--    gchar *cwd, *path, *cmd, **argv = NULL;
-+    g_autofree char *cwd = NULL;
-+    g_autofree char *path = NULL;
-+    g_autofree char *cmd = NULL;
-+    g_auto(GStrv) argv = NULL;
- 
-     fixture->loop = g_main_loop_new(NULL, FALSE);
- 
-@@ -78,17 +81,12 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
- 
-     fixture->fd = connect_qga(path);
-     g_assert_cmpint(fixture->fd, !=, -1);
--
--    g_strfreev(argv);
--    g_free(cmd);
--    g_free(cwd);
--    g_free(path);
- }
- 
- static void
- fixture_tear_down(TestFixture *fixture, gconstpointer data)
- {
--    gchar *tmp;
-+    g_autofree char *tmp = NULL;
- 
-     kill(fixture->pid, SIGTERM);
- 
-@@ -107,7 +105,6 @@ fixture_tear_down(TestFixture *fixture, gconstpointer data)
- 
-     tmp = g_build_filename(fixture->test_dir, "sock", NULL);
-     g_unlink(tmp);
--    g_free(tmp);
- 
-     g_rmdir(fixture->test_dir);
-     g_free(fixture->test_dir);
-@@ -122,7 +119,7 @@ static void qmp_assertion_message_error(const char     *domain,
-                                         QDict          *dict)
- {
-     const char *class, *desc;
--    char *s;
-+    g_autofree char *s = NULL;
-     QDict *error;
- 
-     error = qdict_get_qdict(dict, "error");
-@@ -131,7 +128,6 @@ static void qmp_assertion_message_error(const char     *domain,
- 
-     s = g_strdup_printf("assertion failed %s: %s %s", expr, class, desc);
-     g_assertion_message(domain, file, line, func, s);
--    g_free(s);
- }
- 
- #define qmp_assert_no_error(err) do {                                   \
-@@ -146,7 +142,7 @@ static void test_qga_sync_delimited(gconstpointer fix)
-     const TestFixture *fixture = fix;
-     guint32 v, r = g_test_rand_int();
-     unsigned char c;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     qmp_fd_send_raw(fixture->fd, "\xff");
-     qmp_fd_send(fixture->fd,
-@@ -180,15 +176,13 @@ static void test_qga_sync_delimited(gconstpointer fix)
- 
-     v = qdict_get_int(ret, "return");
-     g_assert_cmpint(r, ==, v);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_sync(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-     guint32 v, r = g_test_rand_int();
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     /*
-      * TODO guest-sync is inherently limited: we cannot distinguish
-@@ -210,33 +204,27 @@ static void test_qga_sync(gconstpointer fix)
- 
-     v = qdict_get_int(ret, "return");
-     g_assert_cmpint(r, ==, v);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_ping(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
-     g_assert_nonnull(ret);
-     qmp_assert_no_error(ret);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_id(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping', 'id': 1}");
-     g_assert_nonnull(ret);
-     qmp_assert_no_error(ret);
-     g_assert_cmpint(qdict_get_int(ret, "id"), ==, 1);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_invalid_oob(gconstpointer fix)
-@@ -253,7 +241,8 @@ static void test_qga_invalid_oob(gconstpointer fix)
- static void test_qga_invalid_args(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping', "
-@@ -266,14 +255,13 @@ static void test_qga_invalid_args(gconstpointer fix)
- 
-     g_assert_cmpstr(class, ==, "GenericError");
-     g_assert_cmpstr(desc, ==, "Parameter 'foo' is unexpected");
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_invalid_cmd(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-invalid-cmd'}");
-@@ -285,14 +273,13 @@ static void test_qga_invalid_cmd(gconstpointer fix)
- 
-     g_assert_cmpstr(class, ==, "CommandNotFound");
-     g_assert_cmpint(strlen(desc), >, 0);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_info(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     const gchar *version;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-info'}");
-@@ -302,14 +289,12 @@ static void test_qga_info(gconstpointer fix)
-     val = qdict_get_qdict(ret, "return");
-     version = qdict_get_try_str(val, "version");
-     g_assert_cmpstr(version, ==, QEMU_VERSION);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_vcpus(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -322,14 +307,12 @@ static void test_qga_get_vcpus(gconstpointer fix)
-     entry = qlist_first(list);
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "online"));
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "logical-id"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_fsinfo(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -346,14 +329,13 @@ static void test_qga_get_fsinfo(gconstpointer fix)
-         g_assert(qdict_haskey(qobject_to(QDict, entry->value), "type"));
-         g_assert(qdict_haskey(qobject_to(QDict, entry->value), "disk"));
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_memory_block_info(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     int64_t size;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-memory-block-info'}");
-@@ -366,14 +348,12 @@ static void test_qga_get_memory_block_info(gconstpointer fix)
-         size = qdict_get_int(val, "size");
-         g_assert_cmpint(size, >, 0);
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_get_memory_blocks(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -391,14 +371,12 @@ static void test_qga_get_memory_blocks(gconstpointer fix)
-             g_assert(qdict_haskey(qobject_to(QDict, entry->value), "online"));
-         }
-     }
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_network_get_interfaces(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *list;
-     const QListEntry *entry;
- 
-@@ -410,8 +388,6 @@ static void test_qga_network_get_interfaces(gconstpointer fix)
-     list = qdict_get_qlist(ret, "return");
-     entry = qlist_first(list);
-     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "name"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_file_ops(gconstpointer fix)
-@@ -642,7 +618,7 @@ static void test_qga_file_write_read(gconstpointer fix)
- static void test_qga_get_time(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     int64_t time;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-time'}");
-@@ -651,8 +627,6 @@ static void test_qga_get_time(gconstpointer fix)
- 
-     time = qdict_get_int(ret, "return");
-     g_assert_cmpint(time, >, 0);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_blacklist(gconstpointer data)
-@@ -693,18 +667,22 @@ static void test_qga_blacklist(gconstpointer data)
- static void test_qga_config(gconstpointer data)
- {
-     GError *error = NULL;
--    char *cwd, *cmd, *out, *err, *str, **strv, **argv = NULL;
-+    g_autofree char *out = NULL;
-+    g_autofree char *err = NULL;
-+    g_autofree char *cwd = NULL;
-+    g_autofree char *cmd = NULL;
-+    g_auto(GStrv) argv = NULL;
-+    g_auto(GStrv) strv = NULL;
-+    g_autoptr(GKeyFile) kf = NULL;
-+    char *str;
-     char *env[2];
-     int status;
-     gsize n;
--    GKeyFile *kf;
- 
-     cwd = g_get_current_dir();
-     cmd = g_strdup_printf("%s%cqga%cqemu-ga -D",
-                           cwd, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
--    g_free(cwd);
-     g_shell_parse_argv(cmd, NULL, &argv, &error);
--    g_free(cmd);
-     g_assert_no_error(error);
- 
-     env[0] = g_strdup_printf("QGA_CONF=tests%cdata%ctest-qga-config",
-@@ -712,7 +690,6 @@ static void test_qga_config(gconstpointer data)
-     env[1] = NULL;
-     g_spawn_sync(NULL, argv, env, 0,
-                  NULL, NULL, &out, &err, &status, &error);
--    g_strfreev(argv);
- 
-     g_assert_no_error(error);
-     g_assert_cmpstr(err, ==, "");
-@@ -759,18 +736,14 @@ static void test_qga_config(gconstpointer data)
-     g_assert_true(g_strv_contains((const char * const *)strv,
-                                   "guest-get-time"));
-     g_assert_no_error(error);
--    g_strfreev(strv);
- 
--    g_free(out);
--    g_free(err);
-     g_free(env[0]);
--    g_key_file_free(kf);
- }
- 
- static void test_qga_fsfreeze_status(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     const gchar *status;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-fsfreeze-status'}");
-@@ -779,16 +752,15 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
- 
-     status = qdict_get_try_str(ret, "return");
-     g_assert_cmpstr(status, ==, "thawed");
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_exec(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-     const gchar *out;
--    guchar *decoded;
-+    g_autofree guchar *decoded = NULL;
-     int64_t pid, now, exitcode;
-     gsize len;
-     bool exited;
-@@ -827,14 +799,13 @@ static void test_qga_guest_exec(gconstpointer fix)
-     decoded = g_base64_decode(out, &len);
-     g_assert_cmpint(len, ==, 12);
-     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
--    g_free(decoded);
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_exec_invalid(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *error;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *error;
-     const gchar *class, *desc;
- 
-     /* invalid command */
-@@ -859,13 +830,13 @@ static void test_qga_guest_exec_invalid(gconstpointer fix)
-     desc = qdict_get_str(error, "desc");
-     g_assert_cmpstr(class, ==, "GenericError");
-     g_assert_cmpint(strlen(desc), >, 0);
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_host_name(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-host-name'}");
-     g_assert_nonnull(ret);
-@@ -873,14 +844,13 @@ static void test_qga_guest_get_host_name(gconstpointer fix)
- 
-     val = qdict_get_qdict(ret, "return");
-     g_assert(qdict_haskey(val, "host-name"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_timezone(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret, *val;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-timezone'}");
-     g_assert_nonnull(ret);
-@@ -889,14 +859,12 @@ static void test_qga_guest_get_timezone(gconstpointer fix)
-     /* Make sure there's at least offset */
-     val = qdict_get_qdict(ret, "return");
-     g_assert(qdict_haskey(val, "offset"));
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_users(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    QDict *ret;
-+    g_autoptr(QDict) ret = NULL;
-     QList *val;
- 
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-get-users'}");
-@@ -906,15 +874,13 @@ static void test_qga_guest_get_users(gconstpointer fix)
-     /* There is not much to test here */
-     val = qdict_get_qlist(ret, "return");
-     g_assert_nonnull(val);
--
--    qobject_unref(ret);
- }
- 
- static void test_qga_guest_get_osinfo(gconstpointer data)
- {
-     TestFixture fixture;
-     const gchar *str;
--    QDict *ret = NULL;
-+    g_autoptr(QDict) ret = NULL;
-     char *env[2];
-     QDict *val;
- 
-@@ -958,7 +924,6 @@ static void test_qga_guest_get_osinfo(gconstpointer data)
-     g_assert_nonnull(str);
-     g_assert_cmpstr(str, ==, "unit-test");
- 
--    qobject_unref(ret);
-     g_free(env[0]);
-     fixture_tear_down(&fixture, NULL);
- }
--- 
-2.36.1
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> 
+> Marc-André Lureau (15):
+>    include: move qemu_*_exec_dir() to cutils
+>    util/win32: simplify qemu_get_local_state_dir()
+>    tests: make libqmp buildable for win32
+>    qga: flatten safe_open_or_create()
+>    qga: add qga_open_cloexec() helper
+>    qga: use qga_open_cloexec() for safe_open_or_create()
+>    qga: throw an Error in ga_channel_open()
+>    qga: replace qemu_open_old() with qga_open_cloexec()
+>    qga: make build_fs_mount_list() return a bool
+>    test/qga: use G_TEST_DIR to locate os-release test file
+>    qga/wixl: prefer variables over environment
+>    qga/wixl: require Mingw_bin
+>    qga/wixl: simplify some pre-processing
+>    qga/wixl: replace QEMU_GA_MSI_MINGW_BIN_PATH with glib bindir
+>    test/qga: use g_auto wherever sensible
+> 
+>   configure                            |   9 +-
+>   meson.build                          |   5 +-
+>   include/qemu/cutils.h                |   7 ++
+>   include/qemu/osdep.h                 |   8 --
+>   qga/cutils.h                         |   8 ++
+>   tests/qtest/libqmp.h                 |   2 +
+>   qemu-io.c                            |   1 +
+>   qga/channel-posix.c                  |  55 +++++-----
+>   qga/commands-posix.c                 | 154 +++++++++++++--------------
+>   qga/cutils.c                         |  33 ++++++
+>   storage-daemon/qemu-storage-daemon.c |   1 +
+>   tests/qtest/fuzz/fuzz.c              |   1 +
+>   tests/qtest/libqmp.c                 |  34 +++++-
+>   tests/unit/test-qga.c                | 130 ++++++++--------------
+>   util/cutils.c                        | 117 ++++++++++++++++++++
+>   util/oslib-posix.c                   |  86 +--------------
+>   util/oslib-win32.c                   |  53 +--------
+>   qga/installer/qemu-ga.wxs            |  83 +++++----------
+>   qga/meson.build                      |  12 +--
+>   19 files changed, 396 insertions(+), 403 deletions(-)
+>   create mode 100644 qga/cutils.h
+>   create mode 100644 qga/cutils.c
+> 
 
 
