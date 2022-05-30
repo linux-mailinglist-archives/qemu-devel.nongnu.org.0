@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B4D5373C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 05:46:49 +0200 (CEST)
-Received: from localhost ([::1]:33062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7515373C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 05:43:40 +0200 (CEST)
+Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvWMi-0004m1-RN
-	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 23:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40264)
+	id 1nvWJe-0007ho-UH
+	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 23:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nvWH3-00051M-Dm
- for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:57 -0400
-Received: from mga14.intel.com ([192.55.52.115]:36558)
+ id 1nvWH4-00051q-Rr
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:58 -0400
+Received: from mga14.intel.com ([192.55.52.115]:36561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nvWH1-0006wX-CG
- for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:56 -0400
+ id 1nvWH1-0006wb-M1
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1653882055; x=1685418055;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3HysGTG5BKJ/q3qUeWLum+k4xx1MNT2xlgtUg5jXhpQ=;
- b=JfJvUldRRCAbmCLZoggRerA/1cnHIyc3YcAP3wf8stvqH8iSeHNJNCL6
- P7h9UcW80lw2Tl0fIvLEf1/DlW8Zkm8re6uxowG5dcaamGtV6HHY+juEG
- Sqnsr9IPij/b/uRDXEATnusKGntwIPGMKl+0g+o2hrtBhjCSra4CFnRsr
- 6r7fGnR1tyRHsrRPWUuh232Vw1Q+tmZcHbEI/2p0jSzAGWZnu95bQzyNH
- ofznI94DDwngo7/OLK1mxAbPrCw9YVqobaZGQLpAr3rmybaO+G1+CAthe
- tyVKFgfboTpn/bMLcPz2oBXlUWBBUBGwbWUvV902IMWGbfSi1A6IPIXGJ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="274974836"
-X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="274974836"
+ bh=LqufKj/Ys5thQqQmxH2lkTZN7JbW/gS9ajhvR+4AwM0=;
+ b=lT0K6jf/IOW5FE01JNrJPZMr/GSETRJS4YxWizhDKF2CIOB/LwwFpaMJ
+ UVNywFrWaFmDHKgwIzV0AqxuAY7v6yIFF8ikXkKBNYk/UPeoJETFLBEeC
+ uU4wLSeHOlW0ZB1EWVOvffbhaxb2kYsotJ8KvvpI2+XeG7ijJkKpHq87T
+ 8cekBAu0oJPlPe7oYk8wkGVSgh5HtjLppwd6iOUr9I7qwySbB1FOqPXSJ
+ vx/KU08ZHHSrJTfkKrTbgz3gM16qVrckUznCy/CZpKzFaWyzPzNYOom1S
+ 78xEKAEMOt5XagwhM7q4J2GXapSbJpGSFBwlDauW7QyhcAOKo/0mDWm++ Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="274974839"
+X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="274974839"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2022 20:40:52 -0700
+ 29 May 2022 20:40:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="528993775"
+X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="528993788"
 Received: from sqa-gate.sh.intel.com (HELO robert-clx2.tsp.org)
  ([10.239.48.212])
- by orsmga003.jf.intel.com with ESMTP; 29 May 2022 20:40:50 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 May 2022 20:40:52 -0700
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: imammedo@redhat.com, mst@redhat.com, xiaoguangrong.eric@gmail.com,
  ani@anisinha.ca, dan.j.williams@intel.com, jingqi.liu@intel.com
 Cc: qemu-devel@nongnu.org,
 	robert.hu@intel.com
-Subject: [QEMU PATCH v2 1/6] tests/acpi: allow SSDT changes
-Date: Mon, 30 May 2022 11:40:42 +0800
-Message-Id: <20220530034047.730356-2-robert.hu@linux.intel.com>
+Subject: [QEMU PATCH v2 2/6] acpi/ssdt: Fix aml_or() and aml_and() in if clause
+Date: Mon, 30 May 2022 11:40:43 +0800
+Message-Id: <20220530034047.730356-3-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220530034047.730356-1-robert.hu@linux.intel.com>
 References: <20220530034047.730356-1-robert.hu@linux.intel.com>
@@ -78,20 +78,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In If condition, using bitwise and/or, rather than logical and/or.
+
+The result change in AML code:
+
+If (((Local6 == Zero) | (Arg0 != Local0)))
+==>
+If (((Local6 == Zero) || (Arg0 != Local0)))
+
+If (((ObjectType (Arg3) == 0x04) & (SizeOf (Arg3) == One)))
+==>
+If (((ObjectType (Arg3) == 0x04) && (SizeOf (Arg3) == One)))
+
+Fixes: 90623ebf603 ("nvdimm acpi: check UUID")
+Fixes: 4568c948066 ("nvdimm acpi: save arg3 of _DSM method")
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
 Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/acpi/nvdimm.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..eb8bae1407 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/SSDT.dimmpxm",
-+"tests/data/acpi/q35/SSDT.dimmpxm",
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index 0d43da19ea..0ab247a870 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -1040,7 +1040,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+ 
+     uuid_invalid = aml_lnot(aml_equal(uuid, expected_uuid));
+ 
+-    unsupport = aml_if(aml_or(unpatched, uuid_invalid, NULL));
++    unsupport = aml_if(aml_lor(unpatched, uuid_invalid));
+ 
+     /*
+      * function 0 is called to inquire what functions are supported by
+@@ -1072,10 +1072,9 @@ static void nvdimm_build_common_dsm(Aml *dev,
+      * in the DSM Spec.
+      */
+     pckg = aml_arg(3);
+-    ifctx = aml_if(aml_and(aml_equal(aml_object_type(pckg),
++    ifctx = aml_if(aml_land(aml_equal(aml_object_type(pckg),
+                    aml_int(4 /* Package */)) /* It is a Package? */,
+-                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */,
+-                   NULL));
++                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */));
+ 
+     pckg_index = aml_local(2);
+     pckg_buf = aml_local(3);
 -- 
 2.31.1
 
