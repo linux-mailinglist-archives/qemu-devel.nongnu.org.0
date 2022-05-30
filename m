@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3D953860B
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 18:23:24 +0200 (CEST)
-Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5400A53861C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 18:27:46 +0200 (CEST)
+Received: from localhost ([::1]:51442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nviAt-0005R4-GZ
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 12:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
+	id 1nviF7-0004mV-ES
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 12:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvO-0002hU-M2
+ id 1nvhvP-0002hX-6g
  for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:23 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37410)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvL-0007BN-Oe
+ id 1nvhvM-0007BT-OT
  for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:22 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id t6so15296903wra.4
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:07:19 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id
+ 129-20020a1c0287000000b003974edd7c56so5306756wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9CzY0zw48B06TS4ojQ0QWMwIQnZzNT7tYdJ0jpRgrIM=;
- b=CWZbRgKP33MDSkb7tTXUEroHC5ZXiQQoCRRqUmFj4ur29fKX0G3HfKzz+4fzBk+jYl
- /dYQWHZjyzzQdtZ5RKOyxlGqDqGBQKW77uaSJQi1iUjigHepuZMEhz4YFvXZKyxlQxo6
- QVBOIZd7daM3bqMzXi1eTkucs4gPrsew/Gg4FXhDV28X9INHeL4WebyRIqsLgYphuBk/
- t44Gebp8UGVdyRZOZGnRg/d8wh7VeZLLhVDBUGwD96/DTED8Hx+gKeg7SaV3mRCQZ9Wp
- NZuAi1r+n5pQeLmAPf8HevAabSz6C1H0cKcTlJOC79hEoHEYdlucyfopn3euFy/wsNTl
- mPQA==
+ bh=+av7Nfa96shW5223AokMt8Y0sDU9JlT7w2ffhuy9fI8=;
+ b=q8Zen59gph0Zzk/+t92brDvop774TFMFUlcnNMtnIsx66kozf2jNe7T5YoQyBEqGqn
+ RJsCEpUTdccGnURT3Wr3jUoN1KK9wwBHuNqvgpxIcgpZQF/LZgsim/+luvfVV+Do2VKL
+ jkIP3O3fCM+2xt7NV/4y9bPWcrPP7fsgZA+wC5bNUy2fP8AgGpXZl1nk2FJ9cC0S1MWg
+ imVGAX8dSOphkcqcgcZlS5GJ52DtF9K/5lEkbThBMOydjhbBS9pz1UdGPVBhvNWX29KY
+ dIq1mZVM/eAQswB9DPPrR/QphhLMHa/gvD5GgD14Q0VSJ+FZD4pnMDosXrs4wSsipjlW
+ LLKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9CzY0zw48B06TS4ojQ0QWMwIQnZzNT7tYdJ0jpRgrIM=;
- b=lC3dgweNFnmI2gn1nwr7s8j1S9Bin65939tkoUuPbXsbjoWgLekn71OYv5u1EmDBgS
- 8HE2SUkMuReuQ97J8P6SaT2+z7amDeGAzKT9i+NR/CcRSRP7sLEyIKlGVfS8Uzf5PUEe
- 4S6/B1AufUgiFVV33g3Xfd75YeZW55DDCKzPlObVxSg7haVq/CKgrmfBLF91GN2E3OSe
- SLXXvqfMpour1+tR/JZkMb2LsLhBG3uhQK3n5L138dT2NNeVVozBXmAPEp2sxsftsmGP
- /kqjkgcZMDbzrAIg5dtxus5O5pg5M+c+zEwwTxDbLNuEcN5gFICCeWtR8GbhF44eQYbH
- aaUw==
-X-Gm-Message-State: AOAM530fiyDMbQ+QAeQC4wPpkV15mpXxofNrqFdfG8r0PMdzitxy5j3H
- bq+b4BoJWsoS/04kPL6IYfJrS/n30dOThw==
-X-Google-Smtp-Source: ABdhPJyUFLdj+pwW4AqNYG7/n0vFDBt0pZPoSHp+ivsRBC0wi8lA1UPCrZAaAppEZAxTsUYEjukvfw==
-X-Received: by 2002:a5d:5150:0:b0:210:1d71:3dcb with SMTP id
- u16-20020a5d5150000000b002101d713dcbmr13140122wrt.412.1653926838416; 
- Mon, 30 May 2022 09:07:18 -0700 (PDT)
+ bh=+av7Nfa96shW5223AokMt8Y0sDU9JlT7w2ffhuy9fI8=;
+ b=CNmXHv1tjCYaCevYnqd287g01+XXtftFAYeEp5q2bqsznX9YBEMVWDQPR/30ylyRKJ
+ 8cvvbvKRSWOdZ4LhUANfx4cNaGJleyFp66TUjZVE8gNA7j0v13autlqjEfjs3jEn8UlG
+ gvJcNwxOVdrhWnMk6H5sIGqHahiinmRTudGXgK5InLdXq6uzKhgpkizg/cEZh6Ljg8wx
+ lBjBVZzJ2QuWbmzj99nQDKgLXnK8JTrM1Ov+cU5cdMuTKIGsT0Z0350zmGRlMFBtBvru
+ 6Hd2n++U23lmXX3aNT2V8uUl9yGasxojywdxhjkfeU3sver8Y0r2bBr7/2zRGLze3lnU
+ Hzcw==
+X-Gm-Message-State: AOAM532dz/eQNT8y9HP0tEVJ2FCinIlY1SSVBqDOc1jqpHrHHf1i7hh5
+ +DU6xVEIvc6igS73BtbHnRUQdRs3vTQQcQ==
+X-Google-Smtp-Source: ABdhPJyZyP6srtnpD4mwnWlYE00TA2Q8IWDaIwR/XxuI2tIwkqvtRbQvHA9B3XpLfLsUAGC206HqcA==
+X-Received: by 2002:a7b:c00a:0:b0:397:475b:1ad7 with SMTP id
+ c10-20020a7bc00a000000b00397475b1ad7mr20025824wmb.42.1653926839235; 
+ Mon, 30 May 2022 09:07:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.07.17
+ bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.07.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 30 May 2022 09:07:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 010/117] target/arm: Use TRANS_FEAT for do_sve2_zzz_ool
-Date: Mon, 30 May 2022 17:05:21 +0100
-Message-Id: <20220530160708.726466-11-peter.maydell@linaro.org>
+Subject: [PULL 011/117] target/arm: Move null function and sve check into
+ gen_gvec_ool_zzzz
+Date: Mon, 30 May 2022 17:05:22 +0100
+Message-Id: <20220530160708.726466-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,137 +92,207 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Convert SVE translation functions using do_sve2_zzz_ool
-to use TRANS_FEAT and gen_gvec_ool_arg_zzz.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220527181907.189259-8-richard.henderson@linaro.org
+Message-id: 20220527181907.189259-9-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 88 ++++++++++++++------------------------
- 1 file changed, 31 insertions(+), 57 deletions(-)
+ target/arm/translate-sve.c | 102 ++++++++++++++-----------------------
+ 1 file changed, 38 insertions(+), 64 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index c89c25166c3..6ec996e7f2c 100644
+index 6ec996e7f2c..5aaef5b18f6 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -6617,55 +6617,36 @@ static bool trans_MUL_zzz(DisasContext *s, arg_rrr_esz *a)
-     return true;
+@@ -176,15 +176,21 @@ static bool gen_gvec_ool_arg_zzz(DisasContext *s, gen_helper_gvec_3 *fn,
  }
  
--static bool do_sve2_zzz_ool(DisasContext *s, arg_rrr_esz *a,
--                            gen_helper_gvec_3 *fn)
--{
--    if (!dc_isar_feature(aa64_sve2, s)) {
--        return false;
+ /* Invoke an out-of-line helper on 4 Zregs. */
+-static void gen_gvec_ool_zzzz(DisasContext *s, gen_helper_gvec_4 *fn,
++static bool gen_gvec_ool_zzzz(DisasContext *s, gen_helper_gvec_4 *fn,
+                               int rd, int rn, int rm, int ra, int data)
+ {
+-    unsigned vsz = vec_full_reg_size(s);
+-    tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
+-                       vec_full_reg_offset(s, rn),
+-                       vec_full_reg_offset(s, rm),
+-                       vec_full_reg_offset(s, ra),
+-                       vsz, vsz, data, fn);
++    if (fn == NULL) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        unsigned vsz = vec_full_reg_size(s);
++        tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
++                           vec_full_reg_offset(s, rn),
++                           vec_full_reg_offset(s, rm),
++                           vec_full_reg_offset(s, ra),
++                           vsz, vsz, data, fn);
++    }
++    return true;
+ }
+ 
+ /* Invoke an out-of-line helper on 2 Zregs and a predicate. */
+@@ -2421,11 +2427,8 @@ static bool trans_TBL_sve2(DisasContext *s, arg_rrr_esz *a)
+     if (!dc_isar_feature(aa64_sve2, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fns[a->esz], a->rd, a->rn,
+-                          (a->rn + 1) % 32, a->rm, 0);
 -    }
--    return gen_gvec_ool_arg_zzz(s, fn, a, 0);
--}
-+static gen_helper_gvec_3 * const smulh_zzz_fns[4] = {
-+    gen_helper_gvec_smulh_b, gen_helper_gvec_smulh_h,
-+    gen_helper_gvec_smulh_s, gen_helper_gvec_smulh_d,
-+};
-+TRANS_FEAT(SMULH_zzz, aa64_sve2, gen_gvec_ool_arg_zzz,
-+           smulh_zzz_fns[a->esz], a, 0)
+-    return true;
++    return gen_gvec_ool_zzzz(s, fns[a->esz], a->rd, a->rn,
++                             (a->rn + 1) % 32, a->rm, 0);
+ }
  
--static bool trans_SMULH_zzz(DisasContext *s, arg_rrr_esz *a)
--{
--    static gen_helper_gvec_3 * const fns[4] = {
--        gen_helper_gvec_smulh_b, gen_helper_gvec_smulh_h,
--        gen_helper_gvec_smulh_s, gen_helper_gvec_smulh_d,
--    };
--    return do_sve2_zzz_ool(s, a, fns[a->esz]);
--}
-+static gen_helper_gvec_3 * const umulh_zzz_fns[4] = {
-+    gen_helper_gvec_umulh_b, gen_helper_gvec_umulh_h,
-+    gen_helper_gvec_umulh_s, gen_helper_gvec_umulh_d,
-+};
-+TRANS_FEAT(UMULH_zzz, aa64_sve2, gen_gvec_ool_arg_zzz,
-+           umulh_zzz_fns[a->esz], a, 0)
- 
--static bool trans_UMULH_zzz(DisasContext *s, arg_rrr_esz *a)
--{
--    static gen_helper_gvec_3 * const fns[4] = {
--        gen_helper_gvec_umulh_b, gen_helper_gvec_umulh_h,
--        gen_helper_gvec_umulh_s, gen_helper_gvec_umulh_d,
--    };
--    return do_sve2_zzz_ool(s, a, fns[a->esz]);
--}
-+TRANS_FEAT(PMUL_zzz, aa64_sve2, gen_gvec_ool_arg_zzz,
-+           gen_helper_gvec_pmul_b, a, 0)
- 
--static bool trans_PMUL_zzz(DisasContext *s, arg_rrr_esz *a)
--{
--    return do_sve2_zzz_ool(s, a, gen_helper_gvec_pmul_b);
--}
-+static gen_helper_gvec_3 * const sqdmulh_zzz_fns[4] = {
-+    gen_helper_sve2_sqdmulh_b, gen_helper_sve2_sqdmulh_h,
-+    gen_helper_sve2_sqdmulh_s, gen_helper_sve2_sqdmulh_d,
-+};
-+TRANS_FEAT(SQDMULH_zzz, aa64_sve2, gen_gvec_ool_arg_zzz,
-+           sqdmulh_zzz_fns[a->esz], a, 0)
- 
--static bool trans_SQDMULH_zzz(DisasContext *s, arg_rrr_esz *a)
--{
--    static gen_helper_gvec_3 * const fns[4] = {
--        gen_helper_sve2_sqdmulh_b, gen_helper_sve2_sqdmulh_h,
--        gen_helper_sve2_sqdmulh_s, gen_helper_sve2_sqdmulh_d,
--    };
--    return do_sve2_zzz_ool(s, a, fns[a->esz]);
--}
+ static gen_helper_gvec_3 * const tbx_fns[4] = {
+@@ -3813,11 +3816,8 @@ static bool trans_DOT_zzzz(DisasContext *s, arg_DOT_zzzz *a)
+         { gen_helper_gvec_sdot_b, gen_helper_gvec_sdot_h },
+         { gen_helper_gvec_udot_b, gen_helper_gvec_udot_h }
+     };
 -
--static bool trans_SQRDMULH_zzz(DisasContext *s, arg_rrr_esz *a)
--{
--    static gen_helper_gvec_3 * const fns[4] = {
--        gen_helper_sve2_sqrdmulh_b, gen_helper_sve2_sqrdmulh_h,
--        gen_helper_sve2_sqrdmulh_s, gen_helper_sve2_sqrdmulh_d,
--    };
--    return do_sve2_zzz_ool(s, a, fns[a->esz]);
--}
-+static gen_helper_gvec_3 * const sqrdmulh_zzz_fns[4] = {
-+    gen_helper_sve2_sqrdmulh_b, gen_helper_sve2_sqrdmulh_h,
-+    gen_helper_sve2_sqrdmulh_s, gen_helper_sve2_sqrdmulh_d,
-+};
-+TRANS_FEAT(SQRDMULH_zzz, aa64_sve2, gen_gvec_ool_arg_zzz,
-+           sqrdmulh_zzz_fns[a->esz], a, 0)
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fns[a->u][a->sz], a->rd, a->rn, a->rm, a->ra, 0);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, fns[a->u][a->sz],
++                             a->rd, a->rn, a->rm, a->ra, 0);
+ }
  
  /*
-  * SVE2 Integer - Predicated
-@@ -7964,14 +7945,12 @@ static bool trans_UQRSHRNT(DisasContext *s, arg_rri_esz *a)
- }
- 
- #define DO_SVE2_ZZZ_NARROW(NAME, name)                                    \
--static bool trans_##NAME(DisasContext *s, arg_rrr_esz *a)                 \
--{                                                                         \
--    static gen_helper_gvec_3 * const fns[4] = {                           \
-+    static gen_helper_gvec_3 * const name##_fns[4] = {                    \
-         NULL,                       gen_helper_sve2_##name##_h,           \
-         gen_helper_sve2_##name##_s, gen_helper_sve2_##name##_d,           \
-     };                                                                    \
--    return do_sve2_zzz_ool(s, a, fns[a->esz]);                            \
--}
-+    TRANS_FEAT(NAME, aa64_sve2, gen_gvec_ool_arg_zzz,                     \
-+               name##_fns[a->esz], a, 0)
- 
- DO_SVE2_ZZZ_NARROW(ADDHNB, addhnb)
- DO_SVE2_ZZZ_NARROW(ADDHNT, addhnt)
-@@ -8016,13 +7995,8 @@ static bool trans_HISTCNT(DisasContext *s, arg_rprr_esz *a)
-     return do_sve2_zpzz_ool(s, a, fns[a->esz - 2]);
- }
- 
--static bool trans_HISTSEG(DisasContext *s, arg_rrr_esz *a)
--{
--    if (a->esz != 0) {
+@@ -3827,13 +3827,7 @@ static bool trans_DOT_zzzz(DisasContext *s, arg_DOT_zzzz *a)
+ static bool do_zzxz_ool(DisasContext *s, arg_rrxr_esz *a,
+                         gen_helper_gvec_4 *fn)
+ {
+-    if (fn == NULL) {
 -        return false;
 -    }
--    return do_sve2_zzz_ool(s, a, gen_helper_sve2_histseg);
--}
-+TRANS_FEAT(HISTSEG, aa64_sve2, gen_gvec_ool_arg_zzz,
-+           a->esz == 0 ? gen_helper_sve2_histseg : NULL, a, 0)
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, a->index);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, a->index);
+ }
  
- static bool do_sve2_zpzz_fp(DisasContext *s, arg_rprr_esz *a,
-                             gen_helper_gvec_4_ptr *fn)
+ #define DO_RRXR(NAME, FUNC) \
+@@ -7122,13 +7116,10 @@ static bool trans_SQCADD_rot270(DisasContext *s, arg_rrr_esz *a)
+ static bool do_sve2_zzzz_ool(DisasContext *s, arg_rrrr_esz *a,
+                              gen_helper_gvec_4 *fn, int data)
+ {
+-    if (fn == NULL || !dc_isar_feature(aa64_sve2, s)) {
++    if (!dc_isar_feature(aa64_sve2, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, data);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, data);
+ }
+ 
+ static bool do_abal(DisasContext *s, arg_rrrr_esz *a, bool uns, bool sel)
+@@ -8215,24 +8206,21 @@ static bool trans_CMLA_zzzz(DisasContext *s, arg_CMLA_zzzz *a)
+     if (!dc_isar_feature(aa64_sve2, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fns[a->esz], a->rd, a->rn, a->rm, a->ra, a->rot);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, fns[a->esz], a->rd, a->rn,
++                             a->rm, a->ra, a->rot);
+ }
+ 
+ static bool trans_CDOT_zzzz(DisasContext *s, arg_CMLA_zzzz *a)
+ {
+-    if (!dc_isar_feature(aa64_sve2, s) || a->esz < MO_32) {
++    static gen_helper_gvec_4 * const fns[] = {
++        NULL, NULL, gen_helper_sve2_cdot_zzzz_s, gen_helper_sve2_cdot_zzzz_d
++    };
++
++    if (!dc_isar_feature(aa64_sve2, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_helper_gvec_4 *fn = (a->esz == MO_32
+-                                 ? gen_helper_sve2_cdot_zzzz_s
+-                                 : gen_helper_sve2_cdot_zzzz_d);
+-        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, a->rot);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, fns[a->esz], a->rd, a->rn,
++                             a->rm, a->ra, a->rot);
+ }
+ 
+ static bool trans_SQRDCMLAH_zzzz(DisasContext *s, arg_SQRDCMLAH_zzzz *a)
+@@ -8245,10 +8233,8 @@ static bool trans_SQRDCMLAH_zzzz(DisasContext *s, arg_SQRDCMLAH_zzzz *a)
+     if (!dc_isar_feature(aa64_sve2, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fns[a->esz], a->rd, a->rn, a->rm, a->ra, a->rot);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, fns[a->esz], a->rd, a->rn,
++                             a->rm, a->ra, a->rot);
+ }
+ 
+ static bool trans_USDOT_zzzz(DisasContext *s, arg_USDOT_zzzz *a)
+@@ -8452,10 +8438,7 @@ static bool do_i8mm_zzzz_ool(DisasContext *s, arg_rrrr_esz *a,
+     if (!dc_isar_feature(aa64_sve_i8mm, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, data);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, data);
+ }
+ 
+ static bool trans_SMMLA(DisasContext *s, arg_rrrr_esz *a)
+@@ -8478,11 +8461,8 @@ static bool trans_BFDOT_zzzz(DisasContext *s, arg_rrrr_esz *a)
+     if (!dc_isar_feature(aa64_sve_bf16, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, gen_helper_gvec_bfdot,
+-                          a->rd, a->rn, a->rm, a->ra, 0);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, gen_helper_gvec_bfdot,
++                             a->rd, a->rn, a->rm, a->ra, 0);
+ }
+ 
+ static bool trans_BFDOT_zzxz(DisasContext *s, arg_rrxr_esz *a)
+@@ -8490,11 +8470,8 @@ static bool trans_BFDOT_zzxz(DisasContext *s, arg_rrxr_esz *a)
+     if (!dc_isar_feature(aa64_sve_bf16, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, gen_helper_gvec_bfdot_idx,
+-                          a->rd, a->rn, a->rm, a->ra, a->index);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, gen_helper_gvec_bfdot_idx,
++                             a->rd, a->rn, a->rm, a->ra, a->index);
+ }
+ 
+ static bool trans_BFMMLA(DisasContext *s, arg_rrrr_esz *a)
+@@ -8502,11 +8479,8 @@ static bool trans_BFMMLA(DisasContext *s, arg_rrrr_esz *a)
+     if (!dc_isar_feature(aa64_sve_bf16, s)) {
+         return false;
+     }
+-    if (sve_access_check(s)) {
+-        gen_gvec_ool_zzzz(s, gen_helper_gvec_bfmmla,
+-                          a->rd, a->rn, a->rm, a->ra, 0);
+-    }
+-    return true;
++    return gen_gvec_ool_zzzz(s, gen_helper_gvec_bfmmla,
++                             a->rd, a->rn, a->rm, a->ra, 0);
+ }
+ 
+ static bool do_BFMLAL_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sel)
 -- 
 2.25.1
 
