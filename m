@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AB1538488
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 17:16:33 +0200 (CEST)
-Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40B753849D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 17:19:08 +0200 (CEST)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvh8C-0003oB-9o
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 11:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
+	id 1nvhAi-0001OF-1a
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 11:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nvgzi-0003g1-DJ
- for qemu-devel@nongnu.org; Mon, 30 May 2022 11:07:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nvgzg-000641-OQ
- for qemu-devel@nongnu.org; Mon, 30 May 2022 11:07:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653923263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GLhXjY6rKgLe+f59XTcBR4qtIYCyiwXQPvmwiUxl0zo=;
- b=bVVTZWi2Kx8Hk9QNrP+g8NEnllVm8PXVRL/MltSRtv0W52w87PWVRGXCxiRrBZA+9o2GwH
- YWpNleHh2saLWlO6BHMbsGunW+cmieUNfzcSskHR1ot7Cue4kTKuxdEASgeICzKouZ62Ij
- xaQbsCJj8AmkE8UhgYybwB/C15eMHds=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-GltYjDEePd2iqbDZKThbjw-1; Mon, 30 May 2022 11:07:39 -0400
-X-MC-Unique: GltYjDEePd2iqbDZKThbjw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k124-20020a1ca182000000b003973db7d1a0so70090wme.1
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 08:07:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvh2p-0007oZ-Eu; Mon, 30 May 2022 11:11:04 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40475)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvh2l-0006Zx-Vx; Mon, 30 May 2022 11:10:58 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id i18so10792642pfk.7;
+ Mon, 30 May 2022 08:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wCZVEtHHcf54bfYPLovv548Nuh8agfnEWrBdVvw8/Os=;
+ b=GL/f3w+5vd5cjYg6dyNiF/a1rzk9QP+AmDxOAkxFPm7ogxpakbNqvWANqQlkY1U4Yq
+ aDQyPplCC+YP7zIhlqxwgq6gaYNk27prHZZi8yJRvO26VHYYBrrf4vATsYLjJAhc9cYK
+ DL1v62mEzyTa4j8Q/+Pofq+RSxko35CLvAM2P2K7Qzw3u1dF9ElN+0EEFEhGyQDhOGYP
+ uvmZh8OSGWSawI7VMwsL92zVc6t36/Yfe1eup5EbRPUHuRw5cn6Xdrc1LPFbm9w91sHd
+ UnSy1aIqDEIt0tMlxkAr7CZ+lnMssdEXbZEpTL0EBDYIaZbW3NQM0I6Ho7BMYNB1guly
+ 1UUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GLhXjY6rKgLe+f59XTcBR4qtIYCyiwXQPvmwiUxl0zo=;
- b=d2aLoNBgJsOudffJLeyaXsg0KlOkGjSo9ElVWdpOWFw6kQzfQzzke4kDUVcE0Ks17T
- cyn4JvQzrQ4KY2twFZR5uqu4VSuo+F9nyExbUzb//7HEVI4+ZQaK0V5c5773Zv4DSZ7G
- y6T6sUcamASgDdlharzO7pad2fSH2nthEuQpulVbUx4eBbOX3W/Wj9X4EmsW2zTYuMU4
- mmMgg/MCqY00wusJwx2A5yT3woG4Z8gkeYWeiH0kweXPZvwXexKxeA2fE+OYHXka22uX
- vVRhwSnPFjp3IyIamWBNrJUd003vwfYrM+qpStq4poPuHUstIhseo1iqfu59iOUBPjmE
- bGfw==
-X-Gm-Message-State: AOAM530sfb/hSCCgpULUwAfY4qKc1KemsNvpjnREGH4ylF6gWfMlRHf+
- l4a88a9lsQwxDIW/xjMynMDwgqPZk3RthHYN/NbV3vMfCZWAeYXtbGnB/72nkCErbMmkcBD94oy
- LOnHY8XJPx9Q3+tFZ4HK270PuvXkBQ/uAhn7u0FFx2kqLNdL7qnVPAlVWPzg6YbCaiqY=
-X-Received: by 2002:a05:600c:502a:b0:397:44d1:d5b6 with SMTP id
- n42-20020a05600c502a00b0039744d1d5b6mr19478088wmr.57.1653923257770; 
- Mon, 30 May 2022 08:07:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz581ND6eiMY6tUg2a7yaPZD61xnbooWnNVxbIjVCNOO/9tFeBE2Fz9w38H9RU44BSwYrfk9w==
-X-Received: by 2002:a05:600c:502a:b0:397:44d1:d5b6 with SMTP id
- n42-20020a05600c502a00b0039744d1d5b6mr19478050wmr.57.1653923257301; 
- Mon, 30 May 2022 08:07:37 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wCZVEtHHcf54bfYPLovv548Nuh8agfnEWrBdVvw8/Os=;
+ b=ts9QRqgmHFgPr2som7BvhjiQ7tiPeLA3N1fYTSHMGpEdbL9VlIqMIXfBNQh+ljIya3
+ HWBODdk+6U1VF3WuV6nu4dQr07mE089BDDwFDn1MnXe87RNtw8YVpYiAA01/f7tEyxYH
+ sQEB3zGOOBUHCTsFPKeicCpZ7UJ0q1fBJSFrLw9lfPCjwI560Sr2z/6Z31fpq8a191jD
+ 62nzsEnixvHB/DLGI40DlADtbzk12EngrL3zhaK3bn/LWUIWciRJtXns5GBvdFpc1ZjM
+ iJVB4DIEfhMm4MjxOCV0ju7EQ2awuFmN8SjIPDRNxTDwmWokALd3+64LTHGIgMBvLZ6I
+ HEPw==
+X-Gm-Message-State: AOAM5313iazJFjE6/mZM391Xmc3fg+QpqoB3UYWcmzZuEtvmRToZYt/4
+ wz6ALILMsNvFVNjC6n8Mitw=
+X-Google-Smtp-Source: ABdhPJywVXh51lAVKM7eRBn1DSPWixCXcG+Bl9oDTp5UZ9XNg/uyt/VLXBap0Sfrn3N8JBGI1jAWDw==
+X-Received: by 2002:a63:2cd:0:b0:3fc:4a27:a985 with SMTP id
+ 196-20020a6302cd000000b003fc4a27a985mr60650pgc.64.1653923453562; 
+ Mon, 30 May 2022 08:10:53 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t22-20020a05600c41d600b003942a244ebesm10436682wmh.3.2022.05.30.08.07.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 08:07:36 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com,
-	dgilbert@redhat.com
-Subject: [PATCH v5 10/10] hmp: add filtering of statistics by name
-Date: Mon, 30 May 2022 17:07:14 +0200
-Message-Id: <20220530150714.756954-11-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220530150714.756954-1-pbonzini@redhat.com>
-References: <20220530150714.756954-1-pbonzini@redhat.com>
+ e12-20020a170902b78c00b00163daef3dc2sm2754875pls.84.2022.05.30.08.10.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 08:10:52 -0700 (PDT)
+Message-ID: <e22c20ff-d6dd-66e6-4143-d60f81609261@amsat.org>
+Date: Mon, 30 May 2022 17:10:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH] tcg: Special case split barriers before/after load
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: redha.gouicem@gmail.com, qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+References: <20220430234534.446733-1-richard.henderson@linaro.org>
+In-Reply-To: <20220430234534.446733-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,115 +90,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Allow the user to request only a specific subset of statistics.
-This can be useful when working on a feature or optimization that is
-known to affect that statistic.
+Hi Richard,
 
-Extracted from a patch by Mark Kanda.
+On 1/5/22 01:45, Richard Henderson wrote:
+> When st:ld is not required by the guest but ld:st is, we can
+> put ld:ld+ld:st barriers after loads, and then st:st barriers
+> before stores to enforce all required barriers.
+> 
+> The st:st barrier is often special cased by hosts, and that
+> is expected to be more efficient than a full barrier.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> 
+> Redha, I expect this to produce exactly the same barriers as you
+> did with your 'fix guest memory ordering enforcement' patch.
+> 
+> While this compiles, it does not fix the failures that I see
+> occasionally with our private gitlab runner.  The standalone
+> version of this failure is
+> 
+>    export QTEST_QEMU_BINARY=./qemu-system-i386
+>    for i in `seq 1 100`; do
+>      ./tests/qtest/ahci-test > /dev/null &
+>    done
+>    wait
+> 
+> About 10 to 15% of the runs will fail with
+> 
+> ERROR:../src/tests/qtest/ahci-test.c:92:verify_state: assertion failed (ahci_fingerprint == ahci->fingerprint): (0xe0000000 == 0x29228086)
+> 
+> Note that this test never seems to fail unless the system is under
+> load, thus starting 100 tests on my 80 core neoverse-n1 system.
+> 
+> 
+> r~
+> 
+> 
+> ---
+>   tcg/tcg-op.c | 55 +++++++++++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 48 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+> index 5d48537927..4c568a2592 100644
+> --- a/tcg/tcg-op.c
+> +++ b/tcg/tcg-op.c
+> @@ -2834,9 +2834,6 @@ static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
+>   
+>   static void tcg_gen_req_mo(TCGBar type)
+>   {
+> -#ifdef TCG_GUEST_DEFAULT_MO
+> -    type &= TCG_GUEST_DEFAULT_MO;
+> -#endif
+>       type &= ~TCG_TARGET_DEFAULT_MO;
+>       if (type) {
+>           tcg_gen_mb(type | TCG_BAR_SC);
+> @@ -2868,12 +2865,49 @@ static void plugin_gen_mem_callbacks(TCGv vaddr, MemOpIdx oi,
+>   #endif
+>   }
+>   
+> +typedef enum {
+> +    BAR_LD_BEFORE,
+> +    BAR_LD_AFTER,
+> +    BAR_ST_BEFORE,
+> +} ChooseBarrier;
+> +
+> +static TCGBar choose_barrier(ChooseBarrier which)
+> +{
+> +#ifdef TCG_GUEST_DEFAULT_MO
+> +    const TCGBar guest_mo = TCG_GUEST_DEFAULT_MO;
+> +#else
+> +    const TCGBar guest_mo = TCG_MO_ALL;
+> +#endif
+> +    TCGBar ret[3];
+> +
+> +    if (guest_mo == 0) {
+> +        return 0;
+> +    }
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hmp-commands-info.hx |  8 ++++----
- monitor/hmp-cmds.c   | 35 ++++++++++++++++++++++++++---------
- 2 files changed, 30 insertions(+), 13 deletions(-)
+This part ...:
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index a67040443b..3ffa24bd67 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -897,10 +897,10 @@ ERST
- 
-     {
-         .name       = "stats",
--        .args_type  = "target:s,provider:s?",
--        .params     = "target [provider]",
--        .help       = "show statistics for the given target (vm or vcpu); optionally filter by "
--                      "provider",
-+        .args_type  = "target:s,names:s?,provider:s?",
-+        .params     = "target [names] [provider]",
-+        .help       = "show statistics for the given target (vm or vcpu); optionally filter by"
-+                      "name (comma-separated list, or * for all) and provider",
-         .cmd        = hmp_info_stats,
-     },
- 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index a71887e54c..8775f69ff1 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2359,10 +2359,12 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
- }
- 
- /* Create the StatsFilter that is needed for an "info stats" invocation.  */
--static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
--                                 StatsProvider provider)
-+static StatsFilter *stats_filter(StatsTarget target, const char *names,
-+                                 int cpu_index, StatsProvider provider)
- {
-     StatsFilter *filter = g_malloc0(sizeof(*filter));
-+    StatsProvider provider_idx;
-+    StatsRequestList *request_list = NULL;
- 
-     filter->target = target;
-     switch (target) {
-@@ -2383,15 +2385,29 @@ static StatsFilter *stats_filter(StatsTarget target, int cpu_index,
-         break;
-     }
- 
--    if (provider == STATS_PROVIDER__MAX) {
-+    if (!names && provider == STATS_PROVIDER__MAX) {
-         return filter;
-     }
- 
--    /* "info stats" can only query either one or all the providers.  */
-+    /*
-+     * "info stats" can only query either one or all the providers.  Querying
-+     * by name, but not by provider, requires the creation of one filter per
-+     * provider.
-+     */
-+    for (provider_idx = 0; provider_idx < STATS_PROVIDER__MAX; provider_idx++) {
-+        if (provider == STATS_PROVIDER__MAX || provider == provider_idx) {
-+            StatsRequest *request = g_new0(StatsRequest, 1);
-+            request->provider = provider_idx;
-+            if (names && !g_str_equal(names, "*")) {
-+                request->has_names = true;
-+                request->names = strList_from_comma_list(names);
-+            }
-+            QAPI_LIST_PREPEND(request_list, request);
-+        }
-+    }
-+
-     filter->has_providers = true;
--    filter->providers = g_new0(StatsRequestList, 1);
--    filter->providers->value = g_new0(StatsRequest, 1);
--    filter->providers->value->provider = provider;
-+    filter->providers = request_list;
-     return filter;
- }
- 
-@@ -2399,6 +2415,7 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
- {
-     const char *target_str = qdict_get_str(qdict, "target");
-     const char *provider_str = qdict_get_try_str(qdict, "provider");
-+    const char *names = qdict_get_try_str(qdict, "names");
- 
-     StatsProvider provider = STATS_PROVIDER__MAX;
-     StatsTarget target;
-@@ -2429,11 +2446,11 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
- 
-     switch (target) {
-     case STATS_TARGET_VM:
--        filter = stats_filter(target, -1, provider);
-+        filter = stats_filter(target, names, -1, provider);
-         break;
-     case STATS_TARGET_VCPU: {}
-         int cpu_index = monitor_get_cpu_index(mon);
--        filter = stats_filter(target, cpu_index, provider);
-+        filter = stats_filter(target, names, cpu_index, provider);
-         break;
-     default:
-         abort();
--- 
-2.36.1
+> +    /*
+> +     * Special case for i386 and s390x.  Because store-load is not
+> +     * required by the guest, we can split the barriers such that we
+> +     * wind up with a store-store barrier, which is expected to be
+> +     * quicker on some hosts.
+> +     */
+> +    if (guest_mo == (TCG_MO_ALL & ~TCG_MO_ST_LD)) {
+> +        ret[BAR_LD_BEFORE] = 0;
+> +        ret[BAR_LD_AFTER]  = TCG_MO_LD_LD | TCG_MO_LD_ST;
+> +        ret[BAR_ST_BEFORE] = TCG_MO_ST_ST;
+> +    } else {
 
+... could deserve another patch.
+
+> +        ret[BAR_LD_BEFORE] = (TCG_MO_LD_LD | TCG_MO_ST_LD) & guest_mo;
+> +        ret[BAR_ST_BEFORE] = (TCG_MO_LD_ST | TCG_MO_ST_ST) & guest_mo;
+> +        ret[BAR_LD_AFTER]  = 0;
+> +    }
+> +    return ret[which];
+> +}
+> +
+>   void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+>   {
+>       MemOp orig_memop;
+>       MemOpIdx oi;
+>   
+> -    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+> +    tcg_gen_req_mo(choose_barrier(BAR_LD_BEFORE));
+> +
+>       memop = tcg_canonicalize_memop(memop, 0, 0);
+>       oi = make_memop_idx(memop, idx);
+>   
+> @@ -2904,6 +2938,8 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+>               g_assert_not_reached();
+>           }
+>       }
+> +
+> +    tcg_gen_req_mo(choose_barrier(BAR_LD_AFTER));
+>   }
+>   
+>   void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+> @@ -2911,7 +2947,8 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+>       TCGv_i32 swap = NULL;
+>       MemOpIdx oi;
+>   
+> -    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+> +    tcg_gen_req_mo(choose_barrier(BAR_ST_BEFORE));
+> +
+>       memop = tcg_canonicalize_memop(memop, 0, 1);
+>       oi = make_memop_idx(memop, idx);
+>   
+> @@ -2959,7 +2996,8 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+>           return;
+>       }
+>   
+> -    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+> +    tcg_gen_req_mo(choose_barrier(BAR_LD_BEFORE));
+> +
+>       memop = tcg_canonicalize_memop(memop, 1, 0);
+>       oi = make_memop_idx(memop, idx);
+>   
+> @@ -2994,6 +3032,8 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+>               g_assert_not_reached();
+>           }
+>       }
+> +
+> +    tcg_gen_req_mo(choose_barrier(BAR_LD_AFTER));
+>   }
+>   
+>   void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+> @@ -3006,7 +3046,8 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+>           return;
+>       }
+>   
+> -    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+> +    tcg_gen_req_mo(choose_barrier(BAR_ST_BEFORE));
+> +
+>       memop = tcg_canonicalize_memop(memop, 1, 1);
+>       oi = make_memop_idx(memop, idx);
+>   
+
+Redha, could you test this patch?
+
+Regards,
+
+Phil.
 
