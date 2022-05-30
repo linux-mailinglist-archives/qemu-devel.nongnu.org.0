@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634595377BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:40:19 +0200 (CEST)
-Received: from localhost ([::1]:36636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF2D5377BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:41:02 +0200 (CEST)
+Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvbsm-00010N-5H
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:40:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
+	id 1nvbtU-0001ML-RJ
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:41:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvbp4-0007ng-V3
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:28 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:39694)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvbp3-0004N2-8y
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:26 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id f34so5055127ybj.6
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 02:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fokwcmOkaG3PZymgpDcbv2T+l3kkUhPgHBsJOE6liqo=;
- b=VH5NXWFODsKPh4CC0mqkMI7yx7bnnpyWe7PVIMP43QUBwZMfAGPh5NUZd6wkXZ9JRk
- XoO2QtEPOiimG4liYvDCesbqQ/Y+ODgeSMqBInxYXHQcig41MpUArBkbqK7PMNOomtPV
- qmIOYgRsKASI6B0pqT+UNS3JG08xtnFYTDs6NXpyh5h8D0QKXoGIeGtAyj5cZU00Rd9h
- f9vSmtD4hfy3iiEvlDYVLBy5c5h+SoytwWt1IsHpcfxj3ZYbhQ9U52/AJIx6uz50bH6N
- VLTi5D6nYUJsmT5q28p2igAiMEbIV0aGza2BYzKUf5in69zjeyASmTjjWZCfTwOKY3LB
- IJMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fokwcmOkaG3PZymgpDcbv2T+l3kkUhPgHBsJOE6liqo=;
- b=zfGMttijJJw6NskhgO/xXbKuB2FvlXOkgsSMRLErJIBQF59zIhGgZA1Tnj1kdCLk/0
- RmfhP69h9UHurgYv6gKkAfdKuMrBmjYFIf7rpVPFR6Xqk3ueYlvXYxmH/cxTkYz9tAd6
- MYNSM3cIBr3M7GavR+GGl5zRibMbtl1m+pYl3agL+DpgKBnFB4L6o4gJYgZ3hgmcw43r
- Yvbzm76YUKI4dXQ27q42TAdSISw5q/mj7C37LOmOxNLgzHa1TN2LatP3pEcv6E0WVLw/
- LxNUQ0DXd/qEwTVk9sNaQZUNvHvvPsddZYYeqAzxAoeCHaqh/6lCE65h7MHtoUL/P8Gb
- EQAA==
-X-Gm-Message-State: AOAM530xjP/F+xXkwJVFV+12PC9cAGy9xdZ2zTdF1batiXP7aZoYr0oI
- MCnb0ZxQEacLOzhoo2AsYgxI7Raa5jnqGcmJiAA2yg==
-X-Google-Smtp-Source: ABdhPJzNElStC+9b0JNHfN8eqKH4cnjNVU10BgaISHznb8NIYLT8N0uaYXPK4HbQIzwSdftLS1nVgMxOfr42M9awHk0=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr52520937ybq.67.1653903383993; Mon, 30
- May 2022 02:36:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbpX-00088S-1y
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:57 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:55635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbpU-0004QO-GK
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:54 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A80921055A137
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 11:36:41 +0200 (CEST)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 30 May
+ 2022 11:36:41 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0040700c047-1954-44a7-af91-5de6670c4479,
+ F546FDD43062DFA02F07D69E2A3A1257FC48A684) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7a9467e7-b5ce-056d-b012-11541be1c0f1@kaod.org>
+Date: Mon, 30 May 2022 11:36:40 +0200
 MIME-Version: 1.0
-References: <20220525161926.34233-1-philmd@fungible.com>
-In-Reply-To: <20220525161926.34233-1-philmd@fungible.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 May 2022 10:36:13 +0100
-Message-ID: <CAFEAcA9cxo+uyb-hXGi0m2+8bcKakmq2U7reG=e2fHtwyppw2Q@mail.gmail.com>
-Subject: Re: [PATCH] target/arm/hvf: Include missing "cpregs.h"
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@fungible.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Alexander Graf <agraf@csgraf.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Duncan Bayne <duncan@bayne.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] ppc: fix boot with sam460ex
+Content-Language: en-US
+To: <qemu-devel@nongnu.org>
+References: <20220526224229.95183-1-mst@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220526224229.95183-1-mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 5af65c27-6993-44c4-8cb3-e494d922bae1
+X-Ovh-Tracer-Id: 10387834015775623959
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeffvdfgteekiedtteeffeetgeellefhvefhtdffteffvdehvdehleeuiedugefhnecuffhomhgrihhnpehqvghmuhdrohhrghdphhgrrhgufigrrhgvrdgtohhmrdgsrhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,17 +72,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 May 2022 at 17:19, Philippe Mathieu-Daud=C3=A9
-<philmd@fungible.com> wrote:
->
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> Fix when building HVF on macOS Aarch64:
->
+On 5/27/22 00:43, Michael S. Tsirkin wrote:
+> Recent changes to pcie_host corrected size of its internal region to
+> match what it expects - only the low 28 bits are ever decoded. Previous
+> code just ignored bit 29 (if size was 1 << 29) in the address which does
+> not make much sense.  We are now asserting on size > 1 << 28 instead,
+> but it so happened that ppc actually allows guest to configure as large
+> a size as it wants to, and current firmware set it to 1 << 29.
+> 
+> With just qemu-system-ppc -M sam460ex this triggers an assert which
+> seems to happen when the guest (board firmware?) writes a value to
+> CFGMSK reg:
+> 
+> (gdb) bt
+> 
+> This is done in the board firmware here:
+> 
+> https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD
+> 
+> when trying to map config space.
+> 
+> Note that what firmware does matches
+> https://www.hardware.com.br/comunidade/switch-cisco/1128380/
+> 
+> So it's not clear what the proper fix should be.
+> 
+> However, allowing guest to trigger an assert in qemu is not good practice anyway.
+> 
+> For now let's just force the mask to 256MB on guest write, this way
+> anything outside the expected address range is ignored.
+> 
+> Fixes: commit 1f1a7b2269 ("include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX")
+> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+> 
+> Affected system is orphan so I guess I will merge the patch unless
+> someone objects.
+
+Fine with me.
+
+Acked-by: Cédric Le Goater <clg@kaod.org>
 
 
+On the orphan status,
 
-Applied to target-arm.next, thanks.
+MAINTAINERS file says the sam460ex machine is maintained. I understand that
+these files :
 
--- PMM
+   hw/ppc/ppc440_uc.c
+   hw/ppc/ppc440.h
+   hw/ppc/ppc440_pcix.c
+   hw/ppc/ppc4xx_devs.c
+   include/hw/ppc/ppc4xx.h
+
+and these
+
+   include/hw/i2c/ppc4xx_i2c.h
+   hw/i2c/ppc4xx_i2c.c
+   hw/intc/ppc-uic.c
+   include/hw/intc/ppc-uic.h
+
+should be under the same entry since sam460ex depends on it.
+
+The ppc440 support is a bit of a mess to be honest. We have two 440
+machines bamboo and sam460ex which have a lot in common a part from
+the PCI host bridge.
+
+Thanks,
+
+C.
+
+> 
+>   hw/ppc/ppc440_uc.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+> index 993e3ba955..a1ecf6dd1c 100644
+> --- a/hw/ppc/ppc440_uc.c
+> +++ b/hw/ppc/ppc440_uc.c
+> @@ -1180,6 +1180,14 @@ static void dcr_write_pcie(void *opaque, int dcrn, uint32_t val)
+>       case PEGPL_CFGMSK:
+>           s->cfg_mask = val;
+>           size = ~(val & 0xfffffffe) + 1;
+> +        /*
+> +         * Firmware sets this register to E0000001. Why we are not sure,
+> +         * but the current guess is anything above PCIE_MMCFG_SIZE_MAX is
+> +         * ignored.
+> +         */
+> +        if (size > PCIE_MMCFG_SIZE_MAX) {
+> +            size = PCIE_MMCFG_SIZE_MAX;
+> +        }
+>           pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base, size);
+>           break;
+>       case PEGPL_MSGBAH:
+
 
