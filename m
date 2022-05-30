@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7509537E52
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 15:59:31 +0200 (CEST)
-Received: from localhost ([::1]:53880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BABCF537E4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 15:58:27 +0200 (CEST)
+Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvfve-0008S2-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 09:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35470)
+	id 1nvfuc-0007ap-Rh
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 09:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nvflN-0001h8-28
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:48:55 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2586)
+ id 1nvfln-0001xG-Ot
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 09:49:20 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nvflJ-0000u1-Qi
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:48:52 -0400
-Received: from fraeml736-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LBc8T55MTz6GD83;
- Mon, 30 May 2022 21:44:25 +0800 (CST)
+ id 1nvflm-0000xI-65
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 09:49:19 -0400
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LBc942Y5kz6GD8p;
+ Mon, 30 May 2022 21:44:56 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml736-chm.china.huawei.com (10.206.15.217) with Microsoft SMTP Server
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 30 May 2022 15:48:45 +0200
+ 15.1.2375.24; Mon, 30 May 2022 15:49:16 +0200
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 30 May 2022 14:48:44 +0100
+ 15.1.2375.24; Mon, 30 May 2022 14:49:15 +0100
 To: Paolo Bonzini <pbonzini@redhat.com>, <qemu-devel@nongnu.org>, "Michael S .
  Tsirkin" <mst@redhat.com>
 CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
@@ -39,10 +39,9 @@ CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
  <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>, Ben Widawsky
  <ben.widawsky@intel.com>, Shameerali Kolothum Thodi
  <shameerali.kolothum.thodi@huawei.com>
-Subject: [PATCH 7/8] hw/cxl: Move the CXLState from MachineState to machine
- type specific state.
-Date: Mon, 30 May 2022 14:45:13 +0100
-Message-ID: <20220530134514.31664-8-Jonathan.Cameron@huawei.com>
+Subject: [PATCH 8/8] hw/machine: Drop cxl_supported flag as no longer useful
+Date: Mon, 30 May 2022 14:45:14 +0100
+Message-ID: <20220530134514.31664-9-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220530134514.31664-1-Jonathan.Cameron@huawei.com>
 References: <20220530134514.31664-1-Jonathan.Cameron@huawei.com>
@@ -78,210 +77,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-This removes the last of the CXL code from the MachineState where it
-is visible to all Machines to only those that support CXL (currently i386/pc)
-As i386/pc always support CXL now, stop allocating the state independently.
+As all the CXL elements have moved to boards that support
+CXL, there is no need to maintain a top level flag.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/core/machine.c    |  6 ------
- hw/i386/acpi-build.c |  6 +++---
- hw/i386/pc.c         | 32 +++++++++++++++-----------------
- include/hw/boards.h  |  1 -
- include/hw/i386/pc.h |  2 ++
- 5 files changed, 20 insertions(+), 27 deletions(-)
+ hw/i386/pc.c        | 1 -
+ include/hw/boards.h | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 87787b5604..eb3f1b5302 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -33,7 +33,6 @@
- #include "sysemu/qtest.h"
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
--#include "hw/cxl/cxl.h"
- #include "migration/global_state.h"
- #include "migration/vmstate.h"
- #include "exec/confidential-guest-support.h"
-@@ -1074,10 +1073,6 @@ static void machine_initfn(Object *obj)
-                                         "Valid values are cpu, mem-ctrl");
-     }
- 
--    if (mc->cxl_supported) {
--        ms->cxl_devices_state = g_new0(CXLState, 1);
--    }
--
-     if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
-         ms->numa_state = g_new0(NumaState, 1);
-         object_property_add_bool(obj, "hmat",
-@@ -1115,7 +1110,6 @@ static void machine_finalize(Object *obj)
-     g_free(ms->device_memory);
-     g_free(ms->nvdimms_state);
-     g_free(ms->numa_state);
--    g_free(ms->cxl_devices_state);
- }
- 
- bool machine_usb(MachineState *machine)
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 2e3b1dd9a2..e8b7844841 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1633,7 +1633,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
- 
-             /* Handle the ranges for the PXB expanders */
-             if (pci_bus_is_cxl(bus)) {
--                MemoryRegion *mr = &machine->cxl_devices_state->host_mr;
-+                MemoryRegion *mr = &pcms->cxl_devices_state.host_mr;
-                 uint64_t base = mr->addr;
- 
-                 cxl_present = true;
-@@ -2711,9 +2711,9 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-                           machine->nvdimms_state, machine->ram_slots,
-                           x86ms->oem_id, x86ms->oem_table_id);
-     }
--    if (machine->cxl_devices_state->is_enabled) {
-+    if (pcms->cxl_devices_state.is_enabled) {
-         cxl_build_cedt(table_offsets, tables_blob, tables->linker,
--                       x86ms->oem_id, x86ms->oem_table_id, machine->cxl_devices_state);
-+                       x86ms->oem_id, x86ms->oem_table_id, &pcms->cxl_devices_state);
-     }
- 
-     acpi_add_table(table_offsets, tables_blob);
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 88b5454aaf..19420b043b 100644
+index 19420b043b..d530d9eac8 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -733,7 +733,6 @@ void pc_machine_done(Notifier *notifier, void *data)
-     PCMachineState *pcms = container_of(notifier,
-                                         PCMachineState, machine_done);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
--    MachineState *ms = MACHINE(pcms);
-     PCIBus *bus = pcms->bus;
+@@ -1817,7 +1817,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = true;
+     mc->smp_props.dies_supported = true;
+-    mc->cxl_supported = true;
+     mc->default_ram_id = "pc.ram";
  
-     /* Walk the pci busses looking for pxb busses to hook up */
-@@ -743,16 +742,16 @@ void pc_machine_done(Notifier *notifier, void *data)
-                 continue;
-             }
-             if (pci_bus_is_cxl(bus)) {
--                if (!ms->cxl_devices_state->is_enabled) {
-+                if (!pcms->cxl_devices_state.is_enabled) {
-                     error_report("CXL host bridges present, but cxl=off");
-                     exit(EXIT_FAILURE);
-                 }
--                pxb_cxl_hook_up_registers(ms->cxl_devices_state, bus, &error_fatal);
-+                pxb_cxl_hook_up_registers(&pcms->cxl_devices_state, bus, &error_fatal);
-             }
-         }
-     }
--    if (ms->cxl_devices_state) {
--        cxl_fmws_link_targets(ms->cxl_devices_state, &error_fatal);
-+    if (pcms->cxl_devices_state.is_enabled) {
-+        cxl_fmws_link_targets(&pcms->cxl_devices_state, &error_fatal);
-     }
- 
-     /* set the number of CPUs */
-@@ -922,8 +921,8 @@ void pc_memory_init(PCMachineState *pcms,
-                                     &machine->device_memory->mr);
-     }
- 
--    if (machine->cxl_devices_state->is_enabled) {
--        MemoryRegion *mr = &machine->cxl_devices_state->host_mr;
-+    if (pcms->cxl_devices_state.is_enabled) {
-+        MemoryRegion *mr = &pcms->cxl_devices_state.host_mr;
-         hwaddr cxl_size = MiB;
- 
-         if (pcmc->has_reserved_memory && machine->device_memory->base) {
-@@ -941,12 +940,12 @@ void pc_memory_init(PCMachineState *pcms,
-         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
-         memory_region_add_subregion(system_memory, cxl_base, mr);
-         cxl_resv_end = cxl_base + cxl_size;
--        if (machine->cxl_devices_state->fixed_windows) {
-+        if (pcms->cxl_devices_state.fixed_windows) {
-             hwaddr cxl_fmw_base;
-             GList *it;
- 
-             cxl_fmw_base = ROUND_UP(cxl_base + cxl_size, 256 * MiB);
--            for (it = machine->cxl_devices_state->fixed_windows; it; it = it->next) {
-+            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
-                 CXLFixedWindow *fw = it->data;
- 
-                 fw->base = cxl_fmw_base;
-@@ -988,7 +987,7 @@ void pc_memory_init(PCMachineState *pcms,
-             res_mem_end += memory_region_size(&machine->device_memory->mr);
-         }
- 
--        if (machine->cxl_devices_state->is_enabled) {
-+        if (pcms->cxl_devices_state.is_enabled) {
-             res_mem_end = cxl_resv_end;
-         }
-         *val = cpu_to_le64(ROUND_UP(res_mem_end, 1 * GiB));
-@@ -1024,12 +1023,12 @@ uint64_t pc_pci_hole64_start(void)
-     X86MachineState *x86ms = X86_MACHINE(pcms);
-     uint64_t hole64_start = 0;
- 
--    if (ms->cxl_devices_state->host_mr.addr) {
--        hole64_start = ms->cxl_devices_state->host_mr.addr +
--            memory_region_size(&ms->cxl_devices_state->host_mr);
--        if (ms->cxl_devices_state->fixed_windows) {
-+    if (pcms->cxl_devices_state.host_mr.addr) {
-+        hole64_start = pcms->cxl_devices_state.host_mr.addr +
-+            memory_region_size(&pcms->cxl_devices_state.host_mr);
-+        if (pcms->cxl_devices_state.fixed_windows) {
-             GList *it;
--            for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
-+            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
-                 CXLFixedWindow *fw = it->data;
-                 hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
-             }
-@@ -1705,7 +1704,6 @@ static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
- static void pc_machine_initfn(Object *obj)
- {
-     PCMachineState *pcms = PC_MACHINE(obj);
--    MachineState *ms = MACHINE(obj);
- 
- #ifdef CONFIG_VMPORT
-     pcms->vmport = ON_OFF_AUTO_AUTO;
-@@ -1730,7 +1728,7 @@ static void pc_machine_initfn(Object *obj)
-     pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
-     object_property_add_alias(OBJECT(pcms), "pcspk-audiodev",
-                               OBJECT(pcms->pcspk), "audiodev");
--    cxl_machine_init(obj, ms->cxl_devices_state);
-+    cxl_machine_init(obj, &pcms->cxl_devices_state);
- }
- 
- static void pc_machine_reset(MachineState *machine)
+     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index dd9fc56df2..031f5f884d 100644
+index 031f5f884d..d94edcef28 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -360,7 +360,6 @@ struct MachineState {
-     CPUArchIdList *possible_cpus;
-     CpuTopology smp;
-     struct NVDIMMState *nvdimms_state;
--    struct CXLState *cxl_devices_state;
-     struct NumaState *numa_state;
-     CXLFixedMemoryWindowOptionsList *cfmws_list;
- };
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index ffcac5121e..21be7aff26 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -14,6 +14,7 @@
- #include "qom/object.h"
- #include "hw/i386/sgx-epc.h"
- #include "hw/firmware/smbios.h"
-+#include "hw/cxl/cxl.h"
- 
- #define HPET_INTCAP "hpet-intcap"
- 
-@@ -55,6 +56,7 @@ typedef struct PCMachineState {
-     hwaddr memhp_io_base;
- 
-     SGXEPCState sgx_epc;
-+    CXLState cxl_devices_state;
- } PCMachineState;
- 
- #define PC_MACHINE_ACPI_DEVICE_PROP "acpi-device"
+@@ -269,7 +269,6 @@ struct MachineClass {
+     bool ignore_boot_device_suffixes;
+     bool smbus_no_migration_support;
+     bool nvdimm_supported;
+-    bool cxl_supported;
+     bool numa_mem_supported;
+     bool auto_enable_numa;
+     SMPCompatProps smp_props;
 -- 
 2.32.0
 
