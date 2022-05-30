@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF2D5377BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:41:02 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676825377C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:43:41 +0200 (CEST)
+Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvbtU-0001ML-RJ
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:41:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42474)
+	id 1nvbw4-0003kz-0j
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:43:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbpX-00088S-1y
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:57 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:55635)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbqa-0000K6-Sk
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:38:00 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:33773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbpU-0004QO-GK
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:54 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A80921055A137
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 11:36:41 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbqY-0004b7-4R
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:38:00 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EB66B1055A41C;
+ Mon, 30 May 2022 11:37:54 +0200 (CEST)
 Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 30 May
- 2022 11:36:41 +0200
+ 2022 11:37:54 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0040700c047-1954-44a7-af91-5de6670c4479,
+ (GARM-102R004bb88b765-2301-420d-a777-38a0d2b78db9,
  F546FDD43062DFA02F07D69E2A3A1257FC48A684) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7a9467e7-b5ce-056d-b012-11541be1c0f1@kaod.org>
-Date: Mon, 30 May 2022 11:36:40 +0200
+Message-ID: <397f565c-590b-bcf2-a647-a1e9a0de1218@kaod.org>
+Date: Mon, 30 May 2022 11:37:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Subject: Re: [PATCH] ppc: fix boot with sam460ex
 Content-Language: en-US
-To: <qemu-devel@nongnu.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>
+CC: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-ppc@nongnu.org>
 References: <20220526224229.95183-1-mst@redhat.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 In-Reply-To: <20220526224229.95183-1-mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 5af65c27-6993-44c4-8cb3-e494d922bae1
-X-Ovh-Tracer-Id: 10387834015775623959
+X-Ovh-Tracer-GUID: 342ab5e7-99fb-4b97-acd3-abb3f659e50f
+X-Ovh-Tracer-Id: 10408381689401281504
 X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeffvdfgteekiedtteeffeetgeellefhvefhtdffteffvdehvdehleeuiedugefhnecuffhomhgrihhnpehqvghmuhdrohhrghdphhgrrhgufigrrhgvrdgtohhmrdgsrhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdduffdtteffgffggeehteeuleeiheekffdvveeuffegffdtheeiveduheeviedunecuffhomhgrihhnpehqvghmuhdrohhrghdphhgrrhgufigrrhgvrdgtohhmrdgsrhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,6 +72,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+[ resend with a reply-all ]
 
 On 5/27/22 00:43, Michael S. Tsirkin wrote:
 > Recent changes to pcie_host corrected size of its internal region to
