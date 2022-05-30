@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6B2537A6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:12:54 +0200 (CEST)
-Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FCD537A5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:06:28 +0200 (CEST)
+Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nveGT-0000bY-D7
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
+	id 1nveAG-0007WA-1F
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvdaJ-0001Rl-8T
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:29:22 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:47007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvdaH-0001UB-IU
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:29:18 -0400
-Received: by mail-pl1-x635.google.com with SMTP id w3so10053011plp.13
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=i4vm5jZ9TRldGyYRbAdinFtRSddzUKOPwSaq3LzDjBM=;
- b=e9Th+fdPFELEG7YJlF/DvBFBnnkeUuMXyctZZwHB0MqIS3NYzYwFsS7O8zV/0npK33
- NkxunkyiLkEfiiCMywEKEOSA5+ESIqAw4iPh1SSo1dqh0xoy087OYW96HR6b1WK2qvA0
- 799t3yhcksYEFkC2P7BTZPoyd++9tntGcHJ9NpzZ1QqQJDfcaPwB/sHDJr1JaxjM2Bcp
- /9W7X9Qpodp9UzBgYjW4AXC83IHG0lEeGTnp0eUJvPEzql7BC4VyzTd/1XLK3P7Y3P83
- 52nstE2Mlc/cZKgYkiW4jOxKddd2DU43lsKmD/cmmUYfKR/IrhtGeX7Z9j+ngoLis8T5
- j6jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=i4vm5jZ9TRldGyYRbAdinFtRSddzUKOPwSaq3LzDjBM=;
- b=jbH9qlBuGtTI9KHC8DfbVX4nuoDptjW2kRnYrtQuYOdOV5E7fNWVHP/0zDUgu6Io1U
- rM9Ut2x16wcEA92lF50/YU49n1MvwRUbU0ZV3wA6McmltHhv6cjsuPaYISc2LJQssRK+
- TaqZaVLy9bdb8t0DGikG+iBGa/n3kwmDjPdmi6zCffYjRjatHl4wCncMzYcTvMY/5y6b
- jMUyKtEuGGW3yHq3O9HgNNXZsmWtHLcW8jooJtr5SbQ7ITBvqGOaevYCn+ZUYbj7pyLN
- no/taKxBt1tPfDO+2gwJYJsPGD+l9lCS95jjewInPC+isyfuwQA+8TisLTuQIgzKGav7
- Ynpg==
-X-Gm-Message-State: AOAM533t2SYpucrzsdZfKUF9AIsYgvlxexsWTulNPk24rhtUHeZ8BrcS
- oAe5Dx7Is5ee7hpvOqaMUz0=
-X-Google-Smtp-Source: ABdhPJxQFvnkdQavuCvbtMim8A8I6uQhCbNVHc25YZDrn97CIzJS2LzVhBYcf+xrAzEW0LKALnLZJA==
-X-Received: by 2002:a17:902:d582:b0:161:c681:c326 with SMTP id
- k2-20020a170902d58200b00161c681c326mr55495618plh.84.1653910155269; 
- Mon, 30 May 2022 04:29:15 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- r4-20020a17090a1bc400b001e2d2235176sm3189215pjr.51.2022.05.30.04.29.11
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 30 May 2022 04:29:14 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Bernhard Beschow <shentey@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 11/11] hw/acpi/piix4: remove unused piix4_pm_initfn()
- function
-Date: Mon, 30 May 2022 13:27:18 +0200
-Message-Id: <20220530112718.26582-12-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220530112718.26582-1-philippe.mathieu.daude@gmail.com>
-References: <20220530112718.26582-1-philippe.mathieu.daude@gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nvdZT-0000we-A9
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:28:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nvdZR-0001Po-GN
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:28:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653910103;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=w0sGM+4gQRLpD1Tt+Rl+5miRxSOPP0CiBfk8pHqhUOY=;
+ b=B+9Sc1BKaUkc9ojk0jHzj1CmBi0l9NteaIUnSIiiTFGPcvSF9smyMi0JM0Q03Cd7sUlPXe
+ PiHAyPiBylPrcrHVD7gqqF+a6ReY43eHw7OmZSev7vLoklhD6J8aZ2DPEk6NHguiy+PNI7
+ DQl8jmvC/7borVlMZ2sdjxpellwQ5Qk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-8-evB_h3u8OFyODWHji7P9cw-1; Mon, 30 May 2022 07:28:19 -0400
+X-MC-Unique: evB_h3u8OFyODWHji7P9cw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB41529AA3BE;
+ Mon, 30 May 2022 11:28:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A46B540EC003;
+ Mon, 30 May 2022 11:28:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9D1DB21E688C; Mon, 30 May 2022 13:28:17 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Roman Kagan <rvkagan@yandex-team.ru>
+Cc: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+ qemu-devel@nongnu.org,  yc-core@yandex-team.ru,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Eduardo
+ Habkost <ehabkost@gmail.com>,  Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 1/4] qdev: add DEVICE_RUNTIME_ERROR event
+References: <165296995578.196133.16183155555450040914.stgit@buzz>
+ <87zgj5hog8.fsf@pond.sub.org> <YpDI5IMRzTbDu93A@rvkaganb>
+Date: Mon, 30 May 2022 13:28:17 +0200
+In-Reply-To: <YpDI5IMRzTbDu93A@rvkaganb> (Roman Kagan's message of "Fri, 27
+ May 2022 15:49:40 +0300")
+Message-ID: <87sforb6pa.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,65 +84,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Roman Kagan <rvkagan@yandex-team.ru> writes:
 
-This function is now unused and so can be completely removed.
+> On Wed, May 25, 2022 at 12:54:47PM +0200, Markus Armbruster wrote:
+>> Konstantin Khlebnikov <khlebnikov@yandex-team.ru> writes:
+>> 
+>> > This event represents device runtime errors to give time and
+>> > reason why device is broken.
+>> 
+>> Can you give an or more examples of the "device runtime errors" you have
+>> in mind?
+>
+> Initially we wanted to address a situation when a vhost device
+> discovered an inconsistency during virtqueue processing and silently
+> stopped the virtqueue.  This resulted in device stall (partial for
+> multiqueue devices) and we were the last to notice that.
+>
+> The solution appeared to be to employ errfd and, upon receiving a
+> notification through it, to emit a QMP event which is actionable in the
+> management layer or further up the stack.
+>
+> Then we observed that virtio (non-vhost) devices suffer from the same
+> issue: they only log the error but don't signal it to the management
+> layer.  The case was very similar so we thought it would make sense to
+> share the infrastructure and the QMP event between virtio and vhost.
+>
+> Then Konstantin went a bit further and generalized the concept into
+> generic "device runtime error".  I'm personally not completely convinced
+> this generalization is appropriate here; we'd appreciate the opinions
+> from the community on the matter.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220528091934.15520-13-mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/acpi/piix4.c               | 19 -------------------
- include/hw/southbridge/piix.h |  4 ----
- 2 files changed, 23 deletions(-)
+"Device emulation sending an even on entering certain error states, so
+that a management application can do something about it" feels
+reasonable enough to me as a general concept.
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 32033bc9d7..0a81f1ad93 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -505,25 +505,6 @@ static void piix4_pm_init(Object *obj)
-     qdev_init_gpio_out_named(DEVICE(obj), &s->smi_irq, "smi-irq", 1);
- }
- 
--PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
--                              bool smm_enabled)
--{
--    PCIDevice *pci_dev;
--    DeviceState *dev;
--    PIIX4PMState *s;
--
--    pci_dev = pci_new(devfn, TYPE_PIIX4_PM);
--    dev = DEVICE(pci_dev);
--    qdev_prop_set_uint32(dev, "smb_io_base", smb_io_base);
--    qdev_prop_set_bit(dev, "smm-enabled", smm_enabled);
--
--    s = PIIX4_PM(dev);
--
--    pci_realize_and_unref(pci_dev, bus, &error_fatal);
--
--    return s;
--}
--
- static uint64_t gpe_readb(void *opaque, hwaddr addr, unsigned width)
- {
-     PIIX4PMState *s = opaque;
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index b69e0dfb04..976b4da582 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -14,10 +14,6 @@
- 
- #include "hw/pci/pci.h"
- #include "qom/object.h"
--#include "hw/acpi/piix4.h"
--
--PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
--                              bool smm_enabled);
- 
- /* PIRQRC[A:D]: PIRQx Route Control Registers */
- #define PIIX_PIRQCA 0x60
--- 
-2.36.1
+The key point is of course "can do something": the event needs to be
+actionable.  Can you describe possible actions for the cases you
+implement?
+
+Once we all have a better idea of the event's purpose, usage, and
+limitations, we should revisit its documentation.
 
 
