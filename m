@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9760353853F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 17:47:59 +0200 (CEST)
-Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63F6538563
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 17:50:59 +0200 (CEST)
+Received: from localhost ([::1]:52682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvhcc-0003rt-5S
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 11:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34454)
+	id 1nvhfW-0007He-L4
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 11:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvhaZ-00023m-D6; Mon, 30 May 2022 11:45:52 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:45729)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvhaX-0003l9-9Q; Mon, 30 May 2022 11:45:50 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id a63so4276349pge.12;
- Mon, 30 May 2022 08:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9oCr9pstjxODTn35PtKBbG9xZujwAQvv8auV4KOmykk=;
- b=ZAT1/DyL6xm+ovo5paYLFnEF6gc54R8Y2VbLWRBQKTcjeyFrREIsSjXY125QXasaXC
- HRmRiD5HmpmQoetJ4IN3huYahA40hnM3bHlqeSkqMANM4ZTH7i/428rWAv/z9XSd2YaK
- ywhzYLN2HfVEDhKs+TErSf0LkL7ZvfwItQT/mpgA1x1K+69gq1nrDtjHEi1FcQnnEZde
- 2XvgJ7Ce0DuhbZyXN32oAYdILufMkiwJrnjIHUq7IVe/l1yuLqt0ypp64U03vxvJmj2/
- O8DbDfoWJ9f41r47/ZucV6oEoyuGkD8jEhl7IxuAWkpDfinKJmwrbwA1RN3NCO4bm61u
- wv6w==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nvhe6-0006VD-QA
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 11:49:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nvhe3-0004Hq-FW
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 11:49:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653925765;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3rYstiXH+DFFxpN0eJSYZFfNb9vwPKdu6j6eGmXRMcc=;
+ b=M2cuTkNMQteUJHFEgHcyE+jcpA5EHymk6THJWjRxBeQNvw+Kd5RBbidrImObkV8A/rAmtd
+ dB7Wrr/azt/ilBQxc5TKJvQdB6I+5rX7RMUeJ25fJiO8Qhx3CKdZneAEYHTECNNSyLlj0T
+ E8no5hIgnFW3e7igApGwel4+ecSMRn0=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-643-V3QwgW8kNyW3mKD-BdoMYg-1; Mon, 30 May 2022 11:49:24 -0400
+X-MC-Unique: V3QwgW8kNyW3mKD-BdoMYg-1
+Received: by mail-io1-f71.google.com with SMTP id
+ ay41-20020a5d9da9000000b006685ce50214so3130077iob.22
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 08:49:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9oCr9pstjxODTn35PtKBbG9xZujwAQvv8auV4KOmykk=;
- b=dDdK8YVe4/YfBz8piSSN5kI6IulozEYDHKufmwYLwKQHn2zI0LA8yDGXKS4wT3mWod
- 4JBy/jIifguKqgvw8Y+q6EyIvXjTQ+yphjNS6Cz1L9z7MG9n1sOLGlMBOCBgxY87sA8C
- xIq4VDV1aJKZZdmlSLZCvd7C5wcU/PrFU2KMdoAB4jRrV/gHknQVbCyIyL+VDJuKVse8
- h9CrXl6/NwtH/XGd7QI6BilM5SKU3AeOYe1YgXQxz7HvJYg81Y2a35C5V2oAQYQOhiEc
- Nm0OtaOfT+aZf3wJS5Q3HaLaVdoNMy/gFTGKiFIZFMTNj5xKoz6PcdJ8ckziTsUFdpDt
- Rcsw==
-X-Gm-Message-State: AOAM533hqgDyiqOmOdlTZQbkChGaWBk48UhSAK40wL2EzCtStwnR9ACL
- ND1ZPKRFxueL+NH9/Br4ymo=
-X-Google-Smtp-Source: ABdhPJw8QuvetJ3oI4SVwOj1B8qRiYtF9xdOWR4OPQTH5kalt6GHCkheW1hu4+QsLnGyQ582FZE56w==
-X-Received: by 2002:a63:1661:0:b0:3fa:5855:989a with SMTP id
- 33-20020a631661000000b003fa5855989amr33381545pgw.451.1653925547150; 
- Mon, 30 May 2022 08:45:47 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3rYstiXH+DFFxpN0eJSYZFfNb9vwPKdu6j6eGmXRMcc=;
+ b=aE1LdBmkp5wYdv/88UALJSqzE6BojgTqHf9yqdcmU8GUjDdsoKNRO5GxalRjaEK7nf
+ CSYmczvIm9Qqa3DvjEJImx7mYXAoPqFj+Hwuo+mkMjQ2S1MNMANuvWV22Eu2/Mrbq1+c
+ leMBVdqR//uDTXhTJw0FSsWMTtrrD+Rlmy5d2KXK4Ca8zto7O52+r0Ho4R6KZz3EIVq9
+ ovPSzg8Dp7nVND7KbCcBOuAJ5eFgIIzlglbqToEfKpMaR6bVORlqo4fgUHgm4q0P58+W
+ 2BchbJdLdhMvi0rva4bxJg9Q0wWN1Zheo8+Zp3l5Z0ivmWYBOuZGKk2pkJ3X7o3+XC3o
+ 6lUw==
+X-Gm-Message-State: AOAM530hBk92d+Q7QYM6R1w5uo12XEAyT+fB9N6pWF73WK/diUSFeHdf
+ r9avh8NclmQNV42XauRQyiXsgVa3kL0RQrTr2ixhiq7wZ0wO4Rr2mQtz3pcAXqLy1ew1y7jbV1E
+ edwH1KgTZdxmwH1w=
+X-Received: by 2002:a05:6e02:1c4e:b0:2d1:a8d:e94d with SMTP id
+ d14-20020a056e021c4e00b002d10a8de94dmr29213934ilg.194.1653925763930; 
+ Mon, 30 May 2022 08:49:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyavXgOOvyHvCgnhXUybuBh2qRd2Dsuuan5kKliX95y7YWU6WnNJ4Q63813uIsXDGIP+OZk1Q==
+X-Received: by 2002:a05:6e02:1c4e:b0:2d1:a8d:e94d with SMTP id
+ d14-20020a056e021c4e00b002d10a8de94dmr29213912ilg.194.1653925763620; 
+ Mon, 30 May 2022 08:49:23 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- w63-20020a627b42000000b0050dc76281ccsm8923705pfc.166.2022.05.30.08.45.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 08:45:46 -0700 (PDT)
-Message-ID: <da48e613-18a3-4fa6-a9ce-ebcfc2c4d79e@amsat.org>
-Date: Mon, 30 May 2022 17:45:41 +0200
+ u20-20020a926014000000b002cde6e35302sm3764514ilb.76.2022.05.30.08.49.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 08:49:22 -0700 (PDT)
+Date: Mon, 30 May 2022 11:49:21 -0400
+From: Peter Xu <peterx@redhat.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: David Hildenbrand <david@redhat.com>, Jue Wang <juew@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, jasowang@redhat.com,
+ LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+ mst@redhat.com,
+ HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= <naoya.horiguchi@nec.com>, 
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org
+Subject: Re: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
+Message-ID: <YpTngZ5Qr0KIvL0H@xz-m1.local>
+References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
+ <Yo/I3oLkd9OU0ice@xz-m1.local>
+ <24a95dea-9ea6-a904-7c0b-197961afa1d1@bytedance.com>
+ <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
+ <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH] hw/sd/sdcard: Return ILLEGAL for CMD19/CMD23 prior SD
- spec v3.01
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>
-References: <20220509141320.98374-1-philippe.mathieu.daude@gmail.com>
- <CAEUhbmVfREvoi57nexHtPY59ieP3=Tk-73TG81pX7PXGwb0OeQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmVfREvoi57nexHtPY59ieP3=Tk-73TG81pX7PXGwb0OeQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,60 +105,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 9/5/22 16:29, Bin Meng wrote:
-> On Mon, May 9, 2022 at 10:13 PM Philippe Mathieu-Daudé
-> <philippe.mathieu.daude@gmail.com> wrote:
->>
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> CMD19 (SEND_TUNING_BLOCK) and CMD23 (SET_BLOCK_COUNT) were
->> added in the Physical SD spec v3.01. When earlier spec version
+On Mon, May 30, 2022 at 07:33:35PM +0800, zhenwei pi wrote:
+> A VM uses RAM of 2M huge page. Once a MCE(@HVAy in [HVAx,HVAz)) occurs, the
+> 2M([HVAx,HVAz)) of hypervisor becomes unaccessible, but the guest poisons 4K
+> (@GPAy in [GPAx, GPAz)) only, it may hit another 511 MCE ([GPAx, GPAz)
+> except GPAy). This is the worse case, so I want to add
+>  '__le32 corrupted_pages' in struct virtio_balloon_config, it is used in the
+> next step: reporting 512 * 4K 'corrupted_pages' to the guest, the guest has
+> a chance to isolate the other 511 pages ahead of time. And the guest
+> actually loses 2M, fixing 512*4K seems to help significantly.
+
+It sounds hackish to teach a virtio device to assume one page will always
+be poisoned in huge page granule.  That's only a limitation to host kernel
+not virtio itself.
+
+E.g. there're upstream effort ongoing with enabling doublemap on hugetlbfs
+pages so hugetlb pages can be mapped in 4k with it.  It provides potential
+possibility to do page poisoning with huge pages in 4k too.  When that'll
+be ready the assumption can go away, and that does sound like a better
+approach towards this problem.
+
 > 
-> nits: it should be spec v3.00, despite the fact that in QEMU we have
-> been using a name v3.01 to indicate v3.00.
-
-Only the "Physical Layer Simplified Specification"s are public:
-https://www.sdcard.org/downloads/pls/archives/
-
-I'll rename to "Physical Layer Simplified Specification v3.01"
-so it is clearer.
-
+> > 
+> > I assume when talking about "the performance memory drops a lot", you
+> > imply that this patch set can mitigate that performance drop?
+> > 
+> > But why do you see a performance drop? Because we might lose some
+> > possible THP candidates (in the host or the guest) and you want to plug
+> > does holes? I assume you'll see a performance drop simply because
+> > poisoning memory is expensive, including migrating pages around on CE.
+> > 
+> > If you have some numbers to share, especially before/after this change,
+> > that would be great.
+> > 
 > 
->> is requested, we should return ILLEGAL.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/sd/sd.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
->> index 8e6fa09151..7e3bb12b1a 100644
->> --- a/hw/sd/sd.c
->> +++ b/hw/sd/sd.c
->> @@ -1263,7 +1263,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->>
->>       case 19:    /* CMD19: SEND_TUNING_BLOCK (SD) */
->>           if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
->> -            break;
->> +            goto bad_cmd;
->>           }
->>           if (sd->state == sd_transfer_state) {
->>               sd->state = sd_sendingdata_state;
->> @@ -1274,7 +1274,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->>
->>       case 23:    /* CMD23: SET_BLOCK_COUNT */
->>           if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
->> -            break;
->> +            goto bad_cmd;
->>           }
->>           switch (sd->state) {
->>           case sd_transfer_state:
->> --
-> 
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> The CE storm leads 2 problems I have even seen:
+> 1, the memory bandwidth slows down to 10%~20%, and the cycles per
+> instruction of CPU increases a lot.
+> 2, the THR (/proc/interrupts) interrupts frequently, the CPU has to use a
+> lot time to handle IRQ.
 
-Thanks! Queued.
+Totally no good knowledge on CMCI, but if 2) is true then I'm wondering
+whether it's necessary to handle the interrupts that frequently.  When I
+was reading the Intel CMCI vector handler I stumbled over this comment:
+
+/*
+ * The interrupt handler. This is called on every event.
+ * Just call the poller directly to log any events.
+ * This could in theory increase the threshold under high load,
+ * but doesn't for now.
+ */
+static void intel_threshold_interrupt(void)
+
+I think that matches with what I was thinking..  I mean for 2) not sure
+whether it can be seen as a CMCI problem and potentially can be optimized
+by adjust the cmci threshold dynamically.
+
+-- 
+Peter Xu
+
 
