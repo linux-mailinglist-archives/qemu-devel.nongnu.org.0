@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A367538836
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 22:27:08 +0200 (CEST)
-Received: from localhost ([::1]:59352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0F1538877
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 23:02:47 +0200 (CEST)
+Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlyk-0002wm-QG
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 16:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44040)
+	id 1nvmXF-0004EN-S3
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 17:02:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvlwu-0002A5-KB
- for qemu-devel@nongnu.org; Mon, 30 May 2022 16:25:12 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59214)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvlwt-0006t9-0b
- for qemu-devel@nongnu.org; Mon, 30 May 2022 16:25:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VYC9rdqhvsbZTrNyT3FK7ygYXqL3U/5rS3rYvxJzfh4=; b=fnnj37sukVk2B5CK7Ol2LrxJ/v
- RoFvfUtv23ZlC6LqLKQvOTMxpsJHVIkVTR8i0hr7reyYziy/1GnyStqWFzYg2dFDs2YcPE3A75Awz
- vcUfatHNe9GV9BBjgOanMU5w+KLqA5lOpx25rflsRzFWkOISzdVua8i2uos3R+DLjhBSLZWWp7Hke
- KRQfwvPjwmEIzrE6j+VAD2eolVbUfCfAeskf1bBaB7K++5U7gU8zq5UUXxHmSC0wZnBrikLCTQxE/
- Kp6kyfvgCZq9naB8Kf770ZudmCIQFlJnXW116vFvjrZBFWQYBbVT1m+ym1DF+Tip5jU2pw927l6Fr
- 9tvsGRe/cY3HwWzlFKzmGQWFsCkCCfFlcUL6tykk9JhC4UATU7Gw1G7TUjsA0piLcFrPRJqb2Bjl7
- qfqzOwqNeGyVa11AWoR/N4CmNEiWVapaTs4e52Hq/vNtWy0zbwmNGy+EXV1Y3lYXK+7uv+GucguIE
- GhbUD0UlJsnduZTtENwvw+Tk+Vo09/QBJc11pRQNNJFiZAiz2GFt2e5wAz4Wl58OIDYQkNiMckUTd
- GUHjkPzuRoW9yfozPQZEd0XKosz8jIT3gEXUlD/v+9XtyG4SHYWCHpAm42ZzODaG+3fzN4GVBBlh8
- Lq7vwqoW33W5UyQBoDwEKBn+O8qauUj9l05tOAElE=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvlva-0009U5-WC; Mon, 30 May 2022 21:23:55 +0100
-Message-ID: <5d9f75bb-a559-ef8d-0bcb-9c594deea76a@ilande.co.uk>
-Date: Mon, 30 May 2022 21:24:51 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, mst@redhat.com,
- marcel.apfelbaum@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- richard.henderson@linaro.org, eduardo@habkost.net, hpoussin@reactos.org,
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nvmUm-0002bW-Ca; Mon, 30 May 2022 17:00:12 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39853)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nvmUk-0003La-Uf; Mon, 30 May 2022 17:00:12 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id x17so7057582wrg.6;
+ Mon, 30 May 2022 14:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:references:message-id
+ :mime-version:content-transfer-encoding;
+ bh=j+LNb3AW6qPqPsw248a48oDxCuHb1EqC8yS+mWaN6+w=;
+ b=UotWSFmxgiGbz8lo4VBHe5SE0ylneR631bz8CsommG2XV485+92ccEgR29CGULoXxd
+ f27hVlLRa3fvz/XkRGiB6JeLhT7uMTLQDX12cwzkGg7VPeZWVwkX9g+n70HG/z0vduoa
+ wcceX9LSV8JVff4kOrFabY3HpEqjjbZ9+92vOv2aEr6P5CRWSC3KiFPDZ6zr9ud1q88W
+ kVWkEpEgIYcwbxfkRf1Ov5yH0c4xqovCpDUvBXhL8RL4Q/lUGkp78XcSVOS8bWTW+AUw
+ fTdG15T3cBMM8pkWHvFYFeuZQrjpDcj2uLwoU6VXP84+X/C237eV8FPphZCbI4dAZrSA
+ sN+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=j+LNb3AW6qPqPsw248a48oDxCuHb1EqC8yS+mWaN6+w=;
+ b=R7JMk5yqqMg65TvjAQxVDAAJyVkXyNYXeei0UKV6Y+QM/728QGf7Kb5ifoJtfs75VW
+ nINRKV+mOvO8C61ZOJzIQ+FVAdzYpNvIIwK0I1RB3omuKKFpoXywT1Pkldkf8/Qm9kMs
+ YAa2l9o80ExQcofDNg/EXBkyv5B5y6LRbciKdt8Djlj0KWD9l9nZXJf20cI0MhEk+iG0
+ +9A1me9Dr846iV8Bupn34MJt/SbGiCZXx6o05DQ56j/zk2KZwqEcs61GaTdNpAAMMB8N
+ uPVaIYY8PtFqXBChuqTvZ+Fc6iS4F8iI4Q00VDy1Bcd5G6SfI41zdn95GXyc/w4CAOKp
+ ThVg==
+X-Gm-Message-State: AOAM530l6WvCE4JkC+9K/k5xqJxIjMai77x5qySaf9I7JSk0BUHs6NfW
+ xiA2xE/Tbxhd3NPFIrc3gGg=
+X-Google-Smtp-Source: ABdhPJz7yaeyg7WY7xalYnbo+nbbuwd1td6x/VA9zf4P9Ui9kYKVycVrwkbUltEw/bm0R1EZatzQjQ==
+X-Received: by 2002:a5d:6943:0:b0:210:2f76:93ff with SMTP id
+ r3-20020a5d6943000000b002102f7693ffmr7614483wrw.377.1653944408604; 
+ Mon, 30 May 2022 14:00:08 -0700 (PDT)
+Received: from ?IPv6:::1?
+ (p200300faaf303d00ad33f34241f66c9c.dip0.t-ipconnect.de.
+ [2003:fa:af30:3d00:ad33:f342:41f6:6c9c])
+ by smtp.gmail.com with ESMTPSA id
+ f6-20020a05600c154600b00397402ae674sm391738wmg.11.2022.05.30.14.00.07
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 30 May 2022 14:00:08 -0700 (PDT)
+Date: Mon, 30 May 2022 21:00:04 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
- <20220528091934.15520-8-mark.cave-ayland@ilande.co.uk>
- <4BDCA8D0-F8C1-4C0D-8EFB-E003E1444AAA@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <4BDCA8D0-F8C1-4C0D-8EFB-E003E1444AAA@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 07/12] hw/acpi/piix4: introduce piix4_pm_init() instance
- init function
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+CC: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_4/7=5D_hw/isa/piix=7B3=2C4=7D=3A_?=
+ =?US-ASCII?Q?QOM=27ify_PCI_device_creation_and_wiring?=
+In-Reply-To: <8a1584fe-68a5-9176-f8d5-c4ed2d9f745c@amsat.org>
+References: <20220528192057.30910-1-shentey@gmail.com>
+ <20220528192057.30910-5-shentey@gmail.com>
+ <8a1584fe-68a5-9176-f8d5-c4ed2d9f745c@amsat.org>
+Message-ID: <FF9408A7-883D-4666-9F07-5597A9139651@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,54 +96,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/05/2022 20:06, Bernhard Beschow wrote:
+Am 30=2E Mai 2022 13:17:12 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <f4bug=
+@amsat=2Eorg>:
+>Hi Bernhard,
 
-> Am 28. Mai 2022 09:19:29 UTC schrieb Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>:
->> Use the new piix4_pm_init() instance init function to initialise 2 separate qdev
->> gpios for the SCI and SMI IRQs.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Hi Philippe,
+
+>On 28/5/22 21:20, Bernhard Beschow wrote:
+>> PCI interrupt wiring and device creation (piix4 only) were performed
+>> in create() functions which are obsolete=2E Move these tasks into QOM
+>> functions to modernize the code=2E
+>>=20
+>> In order to avoid duplicate checking for xen_enabled() the piix3 realiz=
+e
+>> methods are now split=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 >> ---
->> hw/acpi/piix4.c | 9 +++++++++
->> 1 file changed, 9 insertions(+)
->>
->> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
->> index d897d2dee6..454fa34df1 100644
->> --- a/hw/acpi/piix4.c
->> +++ b/hw/acpi/piix4.c
->> @@ -497,6 +497,14 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
->>      piix4_pm_add_properties(s);
->> }
->>
->> +static void piix4_pm_init(Object *obj)
->> +{
->> +    PIIX4PMState *s = PIIX4_PM(obj);
->> +
->> +    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
->> +    qdev_init_gpio_out_named(DEVICE(obj), &s->smi_irq, "smi-irq", 1);
->> +}
-> 
-> The two IRQs still get connected internally. Doesn't this create the risk of double connections until patches 8 and 9 are applied?
+>>   hw/isa/piix3=2Ec | 67 +++++++++++++++++++++++++++++++++--------------=
+---
+>>   hw/isa/piix4=2Ec | 30 ++++++++++++++++------
+>>   2 files changed, 67 insertions(+), 30 deletions(-)
+>
+>While this is the same chipset family, these models are maintained by
+>different people=2E=2E=2E Do you mind splitting?
 
-No, that should be fine. Here the address of the IRQ is being made available as a 
-qdev gpio for use by qdev_connect_gpio_out(). Since that isn't being used yet, and 
-the 2 IRQs are still being set afterwards in piix4_pm_initfn(), everything should 
-still work just as before.
+Will do=2E I'd split the whole series then=2E
 
->> +
->> PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
->>                                qemu_irq sci_irq, qemu_irq smi_irq,
->>                                int smm_enabled)
->> @@ -663,6 +671,7 @@ static void piix4_pm_class_init(ObjectClass *klass, void *data)
->> static const TypeInfo piix4_pm_info = {
->>      .name          = TYPE_PIIX4_PM,
->>      .parent        = TYPE_PCI_DEVICE,
->> +    .instance_init  = piix4_pm_init,
->>      .instance_size = sizeof(PIIX4PMState),
->>      .class_init    = piix4_pm_class_init,
->>      .interfaces = (InterfaceInfo[]) {
+>For PIIX4 part:
+>Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
+>
 
-ATB,
-
-Mark.
 
