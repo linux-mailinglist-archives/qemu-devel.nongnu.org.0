@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65D55387E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:56:37 +0200 (CEST)
-Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0DD53880C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 22:09:22 +0200 (CEST)
+Received: from localhost ([::1]:60630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlVE-0007Tg-Qr
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35806)
+	id 1nvlhZ-0002Od-NJ
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 16:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlH5-0003Wt-36; Mon, 30 May 2022 15:41:59 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:37449)
+ id 1nvlH7-0003gc-Fo; Mon, 30 May 2022 15:42:01 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlH2-0000RP-BJ; Mon, 30 May 2022 15:41:58 -0400
-Received: by mail-pl1-x629.google.com with SMTP id t2so3442186pld.4;
- Mon, 30 May 2022 12:41:50 -0700 (PDT)
+ id 1nvlH5-0000S7-OS; Mon, 30 May 2022 15:42:01 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id g205so178656pfb.11;
+ Mon, 30 May 2022 12:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pAi4+p0wY1bxzBZ24y5yNQYY9Xt3OVGw4T6z/yPKKqA=;
- b=JdHOckjFr+5bOy6bBcsfc00oIP5BCbQrmKojFaAaKo42wJmKmL28LCtegJfH7MOznD
- SSxEWGl118FLB11GnqRUu9ZxQ++K/x4MWC7TMcAXVfH5nWHjyxA8cO2H7Q2VFcGpQP0f
- f2B+RLJBP7Pi3NWs3+DOVk9RBx67uyPqMxlI7LchpMzFnuGZeHFgmuFeLMpbDLZdF50A
- GzvlM2Ezslwhby34Q0I1NVbnm8O8HX/BUP/lZEJ+9gJLxfju6N8LZeI8c8ckLUDu3U2E
- fUD3SDrdWUyWyMzMWcWLPx9woLucMgUi67HDA9TcvDocO7L5RPADvlRgbqbh+hcbT8fn
- cHqQ==
+ bh=nD26OrZMOffcOx8taOCGM7PEMXeUpfdyuSmg9FQvc1w=;
+ b=qK9Pi323Hk/L9pv5+CmybvlhFJHYhsVRFp0nap1f1IGUfVsUQQuaM9V56eOZY9rkhW
+ kMerMvz++RWOfUDwZ0xqyiWYUmVe44M3kJrL75xQQXnOtd9oCi8ZyBaQUrBHxzjNGLFT
+ L/JrXcSUNc4sh0p4eW4DhvH28pJF/f/32UH2CgrRTWg9JK6F50XME/C/QIyF+e07HOfl
+ Z8NJWaxfYb14wHOi6lFfOJE5NiDj5ror84Xs1n+GhzeeUhWoOYExMEfA5ItyIFGmTyPF
+ tm7bQTID1FHp7gNQdREMks0aM7mHRGPNDx5R/tZoFq5V5KZD5xorzNhXypF4OXXMhCx6
+ 0q7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pAi4+p0wY1bxzBZ24y5yNQYY9Xt3OVGw4T6z/yPKKqA=;
- b=gh+d7amlzPNNd5RcAqFIaBNSpxmM1aUDcAE8FJLLcZFfpi5gDagJlJlZnJY1VxkLXR
- kIqeiAz07HDtDY7AKGJrD5gKx5Dh9A7CqUbXmwGQX8grCDfkUgP3EOVNNF7wzExtA2dX
- mkYSIN8FC2ZqhLyR0KaPH5FIrGUfijzPHp/SN8MKPfxV75M+yO/wRD88xZ55z6CwCqnW
- pYQH2AbPbJeEjOcoHf+awvVBxk7AWxbHPRwWMkYXFnT3woqFA3dZOfyeENB+cDzK7OOi
- Z6yTtw9RoCgGQokW4Pm53nvAMFKGcGbQAd/4eeRrnjLfDNHyDpFOGK2WqW8b1LZ+LvbU
- Mwlg==
-X-Gm-Message-State: AOAM5336TgfyJdTVDvZMtAvPo1iBDDI8S1yylQAIhModNwtjthIt0LjZ
- tI/vQpHOhICfRJjEBHcpgj+up2dnnNE=
-X-Google-Smtp-Source: ABdhPJxzs0uy6ZsYQddbalLZzXfoSfqq5l6e83ir29YZgH/QGlkEIp93lpCxLV/tPS2NXegKqNdfiA==
-X-Received: by 2002:a17:903:249:b0:163:6dc0:b8b3 with SMTP id
- j9-20020a170903024900b001636dc0b8b3mr24582273plh.24.1653939709645; 
- Mon, 30 May 2022 12:41:49 -0700 (PDT)
+ bh=nD26OrZMOffcOx8taOCGM7PEMXeUpfdyuSmg9FQvc1w=;
+ b=y88VefsKSrKPDKNV1Lrs1GdHpEWeFAsJpk1lAbJDxA20JzpV9d6Hfpc+gzqSiEw6/I
+ isn0QzRyLB8TgxjpQtaRes2ZsPbxb12cLNfGakeWh4Ej1K8TYNumXuCfjpzdxVc4kfcP
+ KbXDlkRtoaIonCmcFkvvxmmQpvP76HZhPEhqhuPGwmh3Xi2pxWq2sR/0n4VDmtJEH/q4
+ 6iBiTK8H3cUNsiiopApLSI1XaGrBpPCdKdHB5nJtgj8OxWOceALIJogK+qkrHKImjmoz
+ VrJbkHa1z8+5llKwNpdm/UL8nBTdlnfJCW3E+OpzXaD8mioG273EO9eLYtK/p6AEw3yk
+ y5Rg==
+X-Gm-Message-State: AOAM531Yc2vV/GvhI5k8gw08A/Up2Nk/oQSDTojAgY27ALR7ti8rgU+w
+ SbVJ/9qZFbirEy84Lo+5zi1Tw2h1giQ=
+X-Google-Smtp-Source: ABdhPJzdfw3gxMLx9bHabC2NztCyc69EM+f86b6pOjvLW4L+7ivkEy8H6B/kc2u36RbaRRQsfDni5Q==
+X-Received: by 2002:a62:8206:0:b0:518:3c6a:21ba with SMTP id
+ w6-20020a628206000000b005183c6a21bamr57096113pfd.63.1653939717997; 
+ Mon, 30 May 2022 12:41:57 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n13-20020a170902968d00b001621c48d6c2sm9474077plp.221.2022.05.30.12.41.47
+ o7-20020a634107000000b003c644b2180asm9071910pga.77.2022.05.30.12.41.55
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 30 May 2022 12:41:49 -0700 (PDT)
+ Mon, 30 May 2022 12:41:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -59,17 +59,17 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: [PATCH v2 24/25] hw/sd: Subtract bootarea size from blk
-Date: Mon, 30 May 2022 21:38:15 +0200
-Message-Id: <20220530193816.45841-25-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v2 25/25] hw/sd: Add boot config support
+Date: Mon, 30 May 2022 21:38:16 +0200
+Message-Id: <20220530193816.45841-26-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,39 +94,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-The userdata size is derived from the file the user passes on the
-command line, but we must take into account the boot areas.
+Introduced "boot-config" property to set CSD 179, the boot config
+register.
+
+With this correctly set we can use the enable bit to detect if partition
+support is enabled.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/sd/sd.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 05e77f128f..26ddf3e92d 100644
+index 26ddf3e92d..da909ec59f 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -668,6 +668,7 @@ static unsigned sd_boot_capacity_bytes(SDState *sd)
- static void sd_reset(DeviceState *dev)
+@@ -116,6 +116,7 @@ struct SDState {
+     uint8_t spec_version;
+     BlockBackend *blk;
+     bool spi;
++    uint8_t boot_config;
+ 
+     /* Runtime changeables */
+ 
+@@ -453,6 +454,8 @@ static void mmc_set_ext_csd(SDState *sd, uint64_t size)
+     sd->ext_csd[159] = 0x00; /* Max enhanced area size */
+     sd->ext_csd[158] = 0x00; /* ... */
+     sd->ext_csd[157] = 0xEC; /* ... */
++
++    sd->ext_csd[EXT_CSD_PART_CONFIG] = sd->boot_config;
+ }
+ 
+ static void sd_emmc_set_csd(SDState *sd, uint64_t size)
+@@ -878,8 +881,14 @@ static uint32_t sd_emmc_bootpart_offset(SDState *sd)
  {
-     SDState *sd = SD_CARD(dev);
-+    SDCardClass *sc = SD_CARD_GET_CLASS(sd);
-     uint64_t size;
-     uint64_t sect;
+     unsigned int access = sd->ext_csd[EXT_CSD_PART_CONFIG] &
+         EXT_CSD_PART_CONFIG_ACC_MASK;
++    unsigned int enable = sd->ext_csd[EXT_CSD_PART_CONFIG] &
++         EXT_CSD_PART_CONFIG_EN_MASK;
+     unsigned int boot_capacity = sd_boot_capacity_bytes(sd);
  
-@@ -679,6 +680,10 @@ static void sd_reset(DeviceState *dev)
-     }
-     size = sect << 9;
- 
-+    if (sc->bootpart_offset) {
-+        size -= sd_boot_capacity_bytes(sd) * 2;
++    if (!enable) {
++        return 0;
 +    }
 +
-     sect = sd_addr_to_wpnum(size) + 1;
+     switch (access) {
+     case EXT_CSD_PART_CONFIG_ACC_DEFAULT:
+         return boot_capacity * 2;
+@@ -2548,6 +2557,7 @@ static Property sd_properties[] = {
+      * board to ensure that ssi transfers only occur when the chip select
+      * is asserted.  */
+     DEFINE_PROP_BOOL("spi", SDState, spi, false),
++    DEFINE_PROP_UINT8("boot-config", SDState, boot_config, 0x0),
+     DEFINE_PROP_END_OF_LIST()
+ };
  
-     sd->state = sd_idle_state;
 -- 
 2.36.1
 
