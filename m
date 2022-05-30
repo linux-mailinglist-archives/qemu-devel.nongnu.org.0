@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16902537CC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 15:41:17 +0200 (CEST)
-Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A33C537CBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 15:39:45 +0200 (CEST)
+Received: from localhost ([::1]:45592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvfe0-0001OB-6M
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 09:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54492)
+	id 1nvfcV-0007hu-Tk
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 09:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nvfT2-00061o-Vj
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:30:01 -0400
-Received: from mga14.intel.com ([192.55.52.115]:2209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nvfSz-0004Q0-UV
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:29:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653917393; x=1685453393;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=I21a6ClKGB+lq1NfhYRQ0tz6+Os23OEzwGczNY+MKwY=;
- b=iCzkhkNXpL5QBtMUAfvrhxfPlTF+Mt7+oyv9b4tMsGfgtVtmPPOwyUm5
- Lal/vqkaVm0WJ0fQDx6EzhvbOKEwjl0c4z9dHjK6FC+gr8GT05zg50qyz
- mZWuHs/IlVQ8MStcelTCICl8AQ9aDyPuA1EujgHblqtQXhrr2BCq4Wwlp
- LE085YzGwS1tcnTyC+c5As+G0i+WoF+Ye4IRWAwYRh9SfP0lCUfG0nGY2
- G5n/DwRQLwwnFfSvEAnbySSbdUTgJyz66m/H8qIQqubBBjb1BxGwkduDt
- txzdxCvuguCT687+cFlbcMChczbOp/afAZFkqRfOus6mKToFKANvBmWvT w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="275088842"
-X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; d="scan'208";a="275088842"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 06:29:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; d="scan'208";a="529175229"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga003.jf.intel.com with ESMTP; 30 May 2022 06:29:39 -0700
-Date: Mon, 30 May 2022 21:26:13 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20220530132613.GA1200843@chaop.bj.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
- <YofeZps9YXgtP3f1@google.com>
- <20220523132154.GA947536@chaop.bj.intel.com>
- <YoumuHUmgM6TH20S@google.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvfPu-0001mR-KZ; Mon, 30 May 2022 09:26:42 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:36556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvfPs-0003oQ-Hv; Mon, 30 May 2022 09:26:42 -0400
+Received: by mail-pl1-x632.google.com with SMTP id u18so4161970plb.3;
+ Mon, 30 May 2022 06:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4IMWzaAccAZaQboaarG0+IEaKH1TLVyjoEuJ0FQ3gKQ=;
+ b=A7t4OATQ4wGy2u3cb2Xw1ada8Kme/DWk+ab4DO/YL2HzMfnNsxAntK/dbm5LyYjYWe
+ hT5oNoNhkqEhd9eUW0uQeWZ0EETa4+V/O/GJ03Uq59blZsF9lqb4Wey62r2aLnKlWjRS
+ 5VonUCPT9ZtChu1XgBba5xpHVmo0un3lPgVBmIfiTAfxomO/icdggptYbhCBuTgJfaMM
+ COJt9j7pXGuVRZvno3q515cQ0exWzIPxFRpOUkrOMS+UvF5xN0GTn24YXgtVWWySV84c
+ 8r4wv3nMXC0mYzIoZjk78tc5ZXmhYN2dAW3y4WSc4K3+g6wGeGLcUBbJof+cdnL79syA
+ pW/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4IMWzaAccAZaQboaarG0+IEaKH1TLVyjoEuJ0FQ3gKQ=;
+ b=miOzpdebT0ZCH8fOgt+i5t9+ev6xwE30dccpheCIo4Hcw0IX7JZLSkGlSD3ZBEJELQ
+ yMdnkTSR8i9dRCuHYRtNQ6lz529ZKIoG3m+Z1QxYmaCrIEvkVJBfn9Ze3hSlyoSDW/KS
+ Fh9NJLSbeNDLHD0G5syt/z/Ju2OtPfpx7K2NEM/jc8DCxH4vebASiVM/m2rRBCRmd2Er
+ CBI+InYeU9ytlpgykwEZ+dTk2BWNFpICsRzNJeHZpvFzgiSXkUPSnTKg6FEw9oIyJ190
+ Pwyq/JXinbUGuHmHmd65PfHddWnOn89nlzHSJL4a9k5w5mBPP2prBjBO2fAn/t8ex+6i
+ 7FMg==
+X-Gm-Message-State: AOAM531zqRA03XKuwgCj0Kpq6M7DqsC1d4C0plIRDgLVQUa01QltnzqU
+ rKNcwfRPYRDMHm4UkUxEbcY=
+X-Google-Smtp-Source: ABdhPJxkysSx3UF6ue/eLqMBOIZnB0KJNF+U+ONyUj5bXYlvC/tqhvgOzFzUHTOneu1bcMHlRcVjLA==
+X-Received: by 2002:a17:902:7d8e:b0:162:22ff:495b with SMTP id
+ a14-20020a1709027d8e00b0016222ff495bmr39563348plm.1.1653917198176; 
+ Mon, 30 May 2022 06:26:38 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ v20-20020a1709028d9400b0016378bfeb90sm9110249plo.227.2022.05.30.06.26.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 06:26:37 -0700 (PDT)
+Message-ID: <6f1b1177-67ec-981e-100c-feb98d990f41@amsat.org>
+Date: Mon, 30 May 2022 15:26:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoumuHUmgM6TH20S@google.com>
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH 1/4] hw/ide/atapi.c: Correct typos (CD-CDROM -> CD-ROM)
+Content-Language: en-US
+To: Lev Kujawski <lkujaw@member.fsf.org>, qemu-trival@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, "open list:IDE" <qemu-block@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220528204702.167912-1-lkujaw@member.fsf.org>
+In-Reply-To: <20220528204702.167912-1-lkujaw@member.fsf.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,99 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
-> On Mon, May 23, 2022, Chao Peng wrote:
-> > On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
-> > > On Fri, May 20, 2022, Andy Lutomirski wrote:
-> > > > The alternative would be to have some kind of separate table or bitmap (part
-> > > > of the memslot?) that tells KVM whether a GPA should map to the fd.
-> > > > 
-> > > > What do you all think?
-> > > 
-> > > My original proposal was to have expolicit shared vs. private memslots, and punch
-> > > holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
-> > > handle memslot updates, conversions would be painfully slow.  That's how we ended
-> > > up with the current propsoal.
-> > > 
-> > > But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
-> > > and wouldn't necessarily even need to interact with the memslots.  It could be a
-> > > consumer of memslots, e.g. if we wanted to disallow registering regions without an
-> > > associated memslot, but I think we'd want to avoid even that because things will
-> > > get messy during memslot updates, e.g. if dirty logging is toggled or a shared
-> > > memory region is temporarily removed then we wouldn't want to destroy the tracking.
-> > 
-> > Even we don't tight that to memslots, that info can only be effective
-> > for private memslot, right? Setting this ioctl to memory ranges defined
-> > in a traditional non-private memslots just makes no sense, I guess we can
-> > comment that in the API document.
-> 
-> Hrm, applying it universally would be funky, e.g. emulated MMIO would need to be
-> declared "shared".  But, applying it selectively would arguably be worse, e.g.
-> letting userspace map memory into the guest as shared for a region that's registered
-> as private...
-> 
-> On option to that mess would be to make memory shared by default, and so userspace
-> must declare regions that are private.  Then there's no weirdness with emulated MMIO
-> or "legacy" memslots.
-> 
-> On page fault, KVM does a lookup to see if the GPA is shared or private.  If the
-> GPA is private, but there is no memslot or the memslot doesn't have a private fd,
-> KVM exits to userspace.  If there's a memslot with a private fd, the shared/private
-> flag is used to resolve the 
-> 
-> And to handle the ioctl(), KVM can use kvm_zap_gfn_range(), which will bump the
-> notifier sequence, i.e. force the page fault to retry if the GPA may have been
-> (un)registered between checking the type and acquiring mmu_lock.
+On 28/5/22 22:46, Lev Kujawski wrote:
+> Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
+> ---
+>   hw/ide/atapi.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Yeah, that makes sense.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-> 
-> > > I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-> > > should be far more efficient.
-> > 
-> > What about the mis-behaved guest? I don't want to design for the worst
-> > case, but people may raise concern on the attack from such guest.
-> 
-> That's why cgroups exist.  E.g. a malicious/broken L1 can similarly abuse nested
-> EPT/NPT to generate a large number of shadow page tables.
-
-I havn't seen we had that in KVM. Is there any plan/discussion to add that?
-
-> 
-> > > One benefit to explicitly tracking this in KVM is that it might be useful for
-> > > software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
-> > > based on guest hypercalls to share/unshare memory, and then complete the transaction
-> > > when userspace invokes the ioctl() to complete the share/unshare.
-> > 
-> > OK, then this can be another field of states/flags/attributes. Let me
-> > dig up certain level of details:
-> > 
-> > First, introduce below KVM ioctl
-> > 
-> > KVM_SET_MEMORY_ATTR
-> 
-> Actually, if the semantics are that userspace declares memory as private, then we
-> can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
-> be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
-> and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
-> memslot.  But I think it'd work...
-
-These existing ioctls looks good for TDX and probably SNP as well. For
-softrware-protected VM types, it may not be enough. Maybe for the first
-step we can reuse this for all hardware based solutions and invent new
-interface when software-protected solution gets really supported.
-
-There is semantics difference for fd-based private memory. Current above
-two ioctls() use userspace addreess(hva) while for fd-based it should be
-fd+offset, and probably it's better to use gpa in this case. Then we
-will need change existing semantics and break backward-compatibility.
-
-Chao
-
-> 
-> I'll think more on this...
 
