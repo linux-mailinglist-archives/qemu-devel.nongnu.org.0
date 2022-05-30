@@ -2,104 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6B1537A86
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:18:07 +0200 (CEST)
-Received: from localhost ([::1]:52184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E886537AB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:36:48 +0200 (CEST)
+Received: from localhost ([::1]:41528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nveLV-0005wI-Ux
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
+	id 1nvedb-0002eu-6t
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nveH4-0002l6-Ny
- for qemu-devel@nongnu.org; Mon, 30 May 2022 08:13:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52999)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nveS2-0005JJ-44
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 08:24:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nveH1-0001yI-Pb
- for qemu-devel@nongnu.org; Mon, 30 May 2022 08:13:29 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nveRy-0005L7-KL
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 08:24:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653912806;
+ s=mimecast20190719; t=1653913485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G92K6FlfsUZNlAMUZMuXO1o5ECVf3BwnoLYlotS3v9w=;
- b=G3+2kFexebr7td8kBxxCLURF8zPzEF5umNk9LZbVUieyFvm3I6RII45hufbcKkiYY3kjBY
- nsqngSI5LE+ttaIyAstS9GeWS/6L0E5NFPel0K8KTEMduSe7nhm93g4sSzJ6xcGDCDpZKM
- U38hFGalcd2A+9JQpxWx0GozAVu71Lg=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sZruPTrWkHwg0W5O133lP94Uy4ZzezhJ3tHgsYNhd90=;
+ b=OPXSFgUg+0haFVmKPT2Ep5r//lJB0Ahrjy9aZQt6XC2MbxWQ7rQ6dQ4ao7rX7tmr5EiRZc
+ uz9NJQIUlms5eezSNLAj7YFk8g0ITimqAJqFuvFE33+4Cv2kDunV62U5QfzL2tkvJcLtD5
+ P6ohMmYZcovssgGd7Dxtid+ZkcLnHz4=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-UMHv1DQVPJO0YO6Pqq8Q4g-1; Mon, 30 May 2022 08:13:25 -0400
-X-MC-Unique: UMHv1DQVPJO0YO6Pqq8Q4g-1
+ us-mta-663-IOMb08nmNqyjU7YwDGPmcQ-1; Mon, 30 May 2022 08:24:43 -0400
+X-MC-Unique: IOMb08nmNqyjU7YwDGPmcQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- bg40-20020a05600c3ca800b00394779649b1so9633490wmb.3
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 05:13:25 -0700 (PDT)
+ m10-20020a05600c3b0a00b003948b870a8dso9656158wms.2
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 05:24:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=G92K6FlfsUZNlAMUZMuXO1o5ECVf3BwnoLYlotS3v9w=;
- b=eczcYXvrE0MlXPKeU8mIyhU5NibDfgd8wYhJSCxrTyVmyREGzgPF1iBcrR2SESMM6h
- WW5yzkuaLSkbFqzDEFY+4k04IkOLeN0PalSeb4ZwzFUE7K2alPOK6ziOqOOXLICeHyKR
- KxtgMN3jz6/8bHholy489qZW9egj8pXl/iaQstVwyU1FqMb0g8gPNkl5nxlsOO1zOUbb
- k8JBRshL+gvnxZQVPQGmtwNNNKBUcDZFEHJV93UAc7AKI0mYd+wCPpvmwB5WLBHFlxdd
- ZT5B7U+EW20r4m5fgJMVj4X5+M1PdA2vHqI1XRc4XmCg5ZxVTfX8UD2jdtDTzlVGKunr
- scWA==
-X-Gm-Message-State: AOAM530kIHTGU/U6wFwcfblrvR+NAFP34r1dE7vefWdNN+GKhbOuYXs6
- PzcZMkuQFiseeu1VdFjUv4vON+ZFWEjmfjwhdY2acKPOcBUFCXcQ2HhvJNkxwoMiMW67/DTH9TN
- t0Jbs4uUc70C0mDI=
-X-Received: by 2002:adf:db8b:0:b0:20f:fb4f:c3da with SMTP id
- u11-20020adfdb8b000000b0020ffb4fc3damr22621282wri.163.1653912804221; 
- Mon, 30 May 2022 05:13:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtFXlDfdCOGmATmL+w5DzFPuQB2V8FGDEKHU2lxib/d66Jdhv7Fp+6i0kOEaWUEC2Fx9QWfg==
-X-Received: by 2002:adf:db8b:0:b0:20f:fb4f:c3da with SMTP id
- u11-20020adfdb8b000000b0020ffb4fc3damr22621253wri.163.1653912803984; 
- Mon, 30 May 2022 05:13:23 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:7c00:aaa9:2ce5:5aa0:f736?
- (p200300cbc7047c00aaa92ce55aa0f736.dip0.t-ipconnect.de.
- [2003:cb:c704:7c00:aaa9:2ce5:5aa0:f736])
- by smtp.gmail.com with ESMTPSA id
- c12-20020a5d4ccc000000b0020fe61acd09sm8918321wrt.12.2022.05.30.05.13.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 05:13:23 -0700 (PDT)
-Message-ID: <82fc8909-bf73-f2e6-0810-eea8761a417b@redhat.com>
-Date: Mon, 30 May 2022 14:13:22 +0200
+ bh=sZruPTrWkHwg0W5O133lP94Uy4ZzezhJ3tHgsYNhd90=;
+ b=1xORcLtF/WQS+uIwdyPDBe7JtOlOrY4u2bNmpIKIGQ8KFpcmLF5b1FubDWGuU04zJ9
+ CI1k5DECLHnOzyLvPu0mVxNsHz8eVg+MGub+cj0aImvnTZZcDrs4fFBM1mAgPsQsGo0Y
+ S4eIA/S653QBX+ZevygUT2cFtRsF9RBLxM9f5x7J7LC+p/1+URqGSLttSUHH9W8Ry2T0
+ A5qaCGfPE3Hw2rsCfkndgwtJ9b9LiYYnOeO9eiYQXKewtsS3TevCMPxCmGw/IVOvggH/
+ Rwmz+hNPgtxMk32C6Cy7pG8CX3B7OGSg0zTtzt0UVTrS3ufkkhrtW0wUTQxtGFN+YVlY
+ jeUg==
+X-Gm-Message-State: AOAM532twKj4M4/mkH4RP33D7loBvRTPntSxbTkWpxJpr7e9Zt7X8SPu
+ xQ/l1XJyxKC71WkOOctpOlbwPQ/B2HgNebhM9YCfiSQn1qVsCN2mRIQ4HrNO8kdB6kuXXE4HKAF
+ MqXrriUDap6DZiFmx0+Td91KBNH8CSRWzrQwZy/KeLYehq9tOPkcG/nT2bnre5sVz4zU=
+X-Received: by 2002:a05:600c:3595:b0:399:fd8f:2c00 with SMTP id
+ p21-20020a05600c359500b00399fd8f2c00mr9762679wmq.97.1653913482136; 
+ Mon, 30 May 2022 05:24:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZn9B4BgczMByiHCnrFmlN4RN54HzvK+GZbC7EDFqRE84J7X0+iVsSL5SfnXilDS8vPNBE5A==
+X-Received: by 2002:a05:600c:3595:b0:399:fd8f:2c00 with SMTP id
+ p21-20020a05600c359500b00399fd8f2c00mr9762639wmq.97.1653913481577; 
+ Mon, 30 May 2022 05:24:41 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ g12-20020adfd1ec000000b0020c5253d8f2sm5562846wrd.62.2022.05.30.05.24.40
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 05:24:41 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] build: add a "make modules" target
+Date: Mon, 30 May 2022 14:24:40 +0200
+Message-Id: <20220530122440.683780-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 1/3] memory: Track whether a Device is engaged in IO
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <20220527161937.328754-1-alxndr@bu.edu>
- <20220527161937.328754-2-alxndr@bu.edu>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220527161937.328754-2-alxndr@bu.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,34 +95,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.05.22 18:19, Alexander Bulekov wrote:
-> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> This flag should be set/checked prior to calling a device's MemoryRegion
-> handlers, and set when device code initiates DMA.  The purpose of this
-> flag is to prevent DMA reentrancy issues. E.g.:
-> sdhci pio -> dma write -> sdhci mmio
-> nvme bh -> dma write -> nvme mmio
-> 
-> These issues have led to problems such as stack-exhaustion and
-> use-after-frees.
-> 
-> Assumptions:
->  * Devices do not interact with their own PIO/MMIO memory-regions using
->    DMA.
-> 
->  * There is now way for there to be multiple simultaneous accesses to a
->    device's PIO/MMIO memory-regions, or for multiple threads to perform
->    DMA accesses simultaneously on behalf of a single device.
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 1 +
+ 1 file changed, 1 insertion(+)
 
-I think this patch should be squashed into the other ones, it doesn't
-make particular sense without any actual users.
-
-
+diff --git a/meson.build b/meson.build
+index bf318d9cbb..011cd2ff6b 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3285,6 +3285,7 @@ foreach m : block_mods + softmmu_mods
+                 install: true,
+                 install_dir: qemu_moddir)
+ endforeach
++alias_target('modules', emulator_modules)
+ 
+ softmmu_ss.add(authz, blockdev, chardev, crypto, io, qmp)
+ common_ss.add(qom, qemuutil)
 -- 
-Thanks,
-
-David / dhildenb
+2.36.1
 
 
