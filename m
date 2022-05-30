@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0F1538877
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 23:02:47 +0200 (CEST)
-Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11584538878
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 23:02:55 +0200 (CEST)
+Received: from localhost ([::1]:41874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvmXF-0004EN-S3
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 17:02:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50288)
+	id 1nvmXO-0004MU-6e
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 17:02:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nvmUm-0002bW-Ca; Mon, 30 May 2022 17:00:12 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nvmUk-0003La-Uf; Mon, 30 May 2022 17:00:12 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id x17so7057582wrg.6;
- Mon, 30 May 2022 14:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=j+LNb3AW6qPqPsw248a48oDxCuHb1EqC8yS+mWaN6+w=;
- b=UotWSFmxgiGbz8lo4VBHe5SE0ylneR631bz8CsommG2XV485+92ccEgR29CGULoXxd
- f27hVlLRa3fvz/XkRGiB6JeLhT7uMTLQDX12cwzkGg7VPeZWVwkX9g+n70HG/z0vduoa
- wcceX9LSV8JVff4kOrFabY3HpEqjjbZ9+92vOv2aEr6P5CRWSC3KiFPDZ6zr9ud1q88W
- kVWkEpEgIYcwbxfkRf1Ov5yH0c4xqovCpDUvBXhL8RL4Q/lUGkp78XcSVOS8bWTW+AUw
- fTdG15T3cBMM8pkWHvFYFeuZQrjpDcj2uLwoU6VXP84+X/C237eV8FPphZCbI4dAZrSA
- sN+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=j+LNb3AW6qPqPsw248a48oDxCuHb1EqC8yS+mWaN6+w=;
- b=R7JMk5yqqMg65TvjAQxVDAAJyVkXyNYXeei0UKV6Y+QM/728QGf7Kb5ifoJtfs75VW
- nINRKV+mOvO8C61ZOJzIQ+FVAdzYpNvIIwK0I1RB3omuKKFpoXywT1Pkldkf8/Qm9kMs
- YAa2l9o80ExQcofDNg/EXBkyv5B5y6LRbciKdt8Djlj0KWD9l9nZXJf20cI0MhEk+iG0
- +9A1me9Dr846iV8Bupn34MJt/SbGiCZXx6o05DQ56j/zk2KZwqEcs61GaTdNpAAMMB8N
- uPVaIYY8PtFqXBChuqTvZ+Fc6iS4F8iI4Q00VDy1Bcd5G6SfI41zdn95GXyc/w4CAOKp
- ThVg==
-X-Gm-Message-State: AOAM530l6WvCE4JkC+9K/k5xqJxIjMai77x5qySaf9I7JSk0BUHs6NfW
- xiA2xE/Tbxhd3NPFIrc3gGg=
-X-Google-Smtp-Source: ABdhPJz7yaeyg7WY7xalYnbo+nbbuwd1td6x/VA9zf4P9Ui9kYKVycVrwkbUltEw/bm0R1EZatzQjQ==
-X-Received: by 2002:a5d:6943:0:b0:210:2f76:93ff with SMTP id
- r3-20020a5d6943000000b002102f7693ffmr7614483wrw.377.1653944408604; 
- Mon, 30 May 2022 14:00:08 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf303d00ad33f34241f66c9c.dip0.t-ipconnect.de.
- [2003:fa:af30:3d00:ad33:f342:41f6:6c9c])
- by smtp.gmail.com with ESMTPSA id
- f6-20020a05600c154600b00397402ae674sm391738wmg.11.2022.05.30.14.00.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 30 May 2022 14:00:08 -0700 (PDT)
-Date: Mon, 30 May 2022 21:00:04 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-CC: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_4/7=5D_hw/isa/piix=7B3=2C4=7D=3A_?=
- =?US-ASCII?Q?QOM=27ify_PCI_device_creation_and_wiring?=
-In-Reply-To: <8a1584fe-68a5-9176-f8d5-c4ed2d9f745c@amsat.org>
-References: <20220528192057.30910-1-shentey@gmail.com>
- <20220528192057.30910-5-shentey@gmail.com>
- <8a1584fe-68a5-9176-f8d5-c4ed2d9f745c@amsat.org>
-Message-ID: <FF9408A7-883D-4666-9F07-5597A9139651@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvmVB-0002k4-5y; Mon, 30 May 2022 17:00:37 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59290)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvmV9-0003Z3-GV; Mon, 30 May 2022 17:00:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=lGjVpSkUXcIFL2elPBQ2FmTjJJYe4kaohC24yC6d3mE=; b=dX5PxLTpL24444lXFvRIu2cyMQ
+ Y3J1PNvcq54PkW//jZuhclETf5MscYYlKM+nmMdutYK+aLZT3EEHD6AnEDE5KWKhkNLkCRUiBAtLO
+ 7XBtECH3geUZpulKBY0SHbuYSTRB4b41GonLoEe4oY7gqXlGCOUkctnwbDHVsrL+DpVXqJEcavnlX
+ ooIqR8uaycaXiDHoTYn9s8QdrKhzYBXWeVYI9dbVBVPAqI3iPNmSrmJ1QIPc6b62UBSOP0dJuvD/s
+ 8E+19R/AscigoW/SUOoVb0qjItxmAT1XhMaDRMnSsK2nqouSnNydlzotGbP0lh1MA43d5cHrepeOk
+ GEe28buD3Skc94az636tolRzmYLpti+y/fIbjPNM3jnhxM4vQIKfIoZ97djnaN8pHbhnImURGZNNG
+ JP4v75f9twsbff/DprusfqS1w9fkooqWNj6GhfRocwMihUZJx5yULXrHHOO8o60RUmwnbTHRt2KW8
+ MRhX2dYi+DDlOiJKyVuXmNg7ZfS1FTk+PfPcGdVAFOMMJ7LMqKG57QQZn1l0yzgfhc4q5cm4zKSti
+ 0j+tWeBRafRqYB5v2c9kr7QLTng+qNvES6e5hRR1/Ok8QZaOOzAKTWe2er6s+QK7/dM+7DT8oENtx
+ bj3EH9+QmqdeLdBgq7BZnDoXNQ4HfaZHEARDMwP6I=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvmTy-0009iF-K7; Mon, 30 May 2022 21:59:26 +0100
+Message-ID: <ba44b211-8d96-e42e-e56d-1f7b5013747a@ilande.co.uk>
+Date: Mon, 30 May 2022 22:00:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x42d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, laurent@vivier.eu, fam@euphon.net,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
+ <20220424164935.7339-8-mark.cave-ayland@ilande.co.uk>
+ <80765f53-031d-3467-25a1-f5c19648fe6a@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <80765f53-031d-3467-25a1-f5c19648fe6a@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 07/11] scsi-disk: allow truncated MODE SELECT requests
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,35 +81,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30=2E Mai 2022 13:17:12 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <f4bug=
-@amsat=2Eorg>:
->Hi Bernhard,
+On 26/05/2022 13:06, Paolo Bonzini wrote:
 
-Hi Philippe,
+> On 4/24/22 18:49, Mark Cave-Ayland wrote:
+>> According to [1] this truncated request is accepted on real hardware whereas in
+>> QEMU it generates an INVALID_PARAM_LEN sense code which causes A/UX to get stuck
+>> in a loop retrying the command in an attempt to succeed.
+> 
+> That's for MODE SENSE, not MODE SELECT.
+> 
+> Truncated MODE SELECT is a bit more iffy, so I'd rather have a quirk for this as well.
 
->On 28/5/22 21:20, Bernhard Beschow wrote:
->> PCI interrupt wiring and device creation (piix4 only) were performed
->> in create() functions which are obsolete=2E Move these tasks into QOM
->> functions to modernize the code=2E
->>=20
->> In order to avoid duplicate checking for xen_enabled() the piix3 realiz=
-e
->> methods are now split=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+Okay let me double-check this again to confirm whether the issue is with MODE SENSE, 
+MODE SELECT or both. Adding a quirk to control the behaviour is fairly easy to do.
+
+> Paolo
+> 
+>> Alter the mode page request length check so that truncated requests are allowed
+>> as per real hardware, adding a trace event to enable the condition to be detected.
+>>
+>> [1]https://68kmla.org/bb/index.php?threads/scsi2sd-project-anyone-interested.29040/page-7#post-316444 
+>>
+>>
+>> Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
 >> ---
->>   hw/isa/piix3=2Ec | 67 +++++++++++++++++++++++++++++++++--------------=
----
->>   hw/isa/piix4=2Ec | 30 ++++++++++++++++------
->>   2 files changed, 67 insertions(+), 30 deletions(-)
->
->While this is the same chipset family, these models are maintained by
->different people=2E=2E=2E Do you mind splitting?
+>>   hw/scsi/scsi-disk.c  | 2 +-
+>>   hw/scsi/trace-events | 1 +
+>>   2 files changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+>> index 71fdf132c1..c657e4f5da 100644
+>> --- a/hw/scsi/scsi-disk.c
+>> +++ b/hw/scsi/scsi-disk.c
+>> @@ -1525,7 +1525,7 @@ static int mode_select_pages(SCSIDiskReq *r, uint8_t *p, int 
+>> len, bool change)
+>>               goto invalid_param;
+>>           }
+>>           if (page_len > len) {
+>> -            goto invalid_param_len;
+>> +            trace_scsi_disk_mode_select_page_truncated(page, page_len, len);
+>>           }
+> 
 
-Will do=2E I'd split the whole series then=2E
+ATB,
 
->For PIIX4 part:
->Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
->
-
+Mark.
 
