@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC33537AD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:52:43 +0200 (CEST)
-Received: from localhost ([::1]:36854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D61537AEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:58:58 +0200 (CEST)
+Received: from localhost ([::1]:46340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvesz-0002KB-MX
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36626)
+	id 1nvez3-0000Ya-Dx
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:58:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nveqE-0008UD-BP
- for qemu-devel@nongnu.org; Mon, 30 May 2022 08:49:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20381)
+ id 1nvewi-0007QW-Ci
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 08:56:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nveqB-0003nE-AY
- for qemu-devel@nongnu.org; Mon, 30 May 2022 08:49:48 -0400
+ id 1nvewe-0005Ht-42
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 08:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653914986;
+ s=mimecast20190719; t=1653915386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vKrr0rSHqOkoPIonUyDdTEmGvLG69uCV8jCSX2P96Ys=;
- b=AEYym4s5CFBZQflPW4IoRNVmUEl4TASnK+d6rYZNy6rKDiit0+wWHaAdWWUWkdHbSrMQaA
- QuqLejQriKj7lOraA6E45zYZ/eRGDnMJ403Kwp7XwERlrsW5ngHsgTFjIGAntATq2XbVOp
- 2Mp1Xh6ouEl15f9YX1pEjQ4CDrp1WwI=
+ bh=de+nQyqCQiWPfW8kM6nAt4FpbCMwhFpx5mEOj07O0Dc=;
+ b=c7stgy0UXe2Ghf27LYklhA1ShbyezmcBWr/QSZ7veQVjJsZu935pMl2S+FQAZGae1g3UWT
+ iRSVKIEzqmgliYuEaEw5U6TckDy+7CiyWDASLGYfPCTKVel9VANSMoDSyrDUpLbL++HRqo
+ /DHkssjM/ScKWNpTZ1EHYxe03qz8X6w=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-7gv2YRayNjC3NFMBuwykFw-1; Mon, 30 May 2022 08:49:43 -0400
-X-MC-Unique: 7gv2YRayNjC3NFMBuwykFw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-659-HHVyfRFfOLiYybwUwvxP5g-1; Mon, 30 May 2022 08:56:22 -0400
+X-MC-Unique: HHVyfRFfOLiYybwUwvxP5g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95E003C7B127;
- Mon, 30 May 2022 12:49:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5040B1C05EAB;
+ Mon, 30 May 2022 12:56:22 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC50B40EC002;
- Mon, 30 May 2022 12:49:40 +0000 (UTC)
-Date: Mon, 30 May 2022 13:49:39 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDA5363F54;
+ Mon, 30 May 2022 12:56:21 +0000 (UTC)
+Date: Mon, 30 May 2022 13:56:20 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Eric Blake <eblake@redhat.com>
 Cc: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org,
@@ -56,7 +56,7 @@ Cc: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
 Subject: Re: [PATCH v3 07/10] block: Implement
  bdrv_{pread,pwrite,pwrite_zeroes}() using generated_co_wrapper
-Message-ID: <YpS9Y0p18HJSNFsq@stefanha-x1.localdomain>
+Message-ID: <YpS+9OL6TNeTJqem@stefanha-x1.localdomain>
 References: <20220519144841.784780-1-afaria@redhat.com>
  <20220519144841.784780-8-afaria@redhat.com>
  <Yo9AhsmzrQlzIr/z@stefanha-x1.localdomain>
@@ -64,11 +64,11 @@ References: <20220519144841.784780-1-afaria@redhat.com>
  <20220527142506.wkl2al5vtle45qji@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aWR8Cru0uE+wBG2v"
+ protocol="application/pgp-signature"; boundary="AfZXbiLhgSrF3U8o"
 Content-Disposition: inline
 In-Reply-To: <20220527142506.wkl2al5vtle45qji@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -76,7 +76,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,8 +93,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---aWR8Cru0uE+wBG2v
-Content-Type: text/plain; charset=us-ascii
+--AfZXbiLhgSrF3U8o
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
@@ -119,29 +119,48 @@ rote:
 > identifying a programming error (whereas EIO tends to mean hardware
 > failure), so making that sort of cleanup seems reasonable.
 
-I'm surprised -EIO is being returned but all the more reason to check
-what effect changing to -EINVAL has.
+=46rom IRC:
 
-If you find it's safe to change to -EINVAL then that's consistent with
-how file I/O syscalls work and I think it would be nice.
+13:50 < stefanha> kwolf hreitz: Is there a reason why bdrv_check_qiov_reque=
+st() fails with -EIO instead of -EINVAL when parameters are invalid?
+13:51 < hreitz> I think the reason is =E2=80=9CEIO is kind of the default e=
+rror value in the block layer=E2=80=9D
+13:53 < stefanha> bdrv_pwrite() has its own if (bytes < 0) return -EINVAL c=
+heck, duplicating the input validation (but returning a different errno).
+13:54 < hreitz> I think I=E2=80=99m only responsible for blk_check_byte_req=
+uest(), but AFAIR that was my reasoning there
+13:54 < stefanha> That makes me wonder if something depends on the exact er=
+rno.
+13:54 < hreitz> I hope not
+13:54 < stefanha> ...and what would break if it was changed to be EINVAL (c=
+onsistent with file I/O syscalls).
+13:55 < hreitz> Speaking for myself, I don=E2=80=99t think I=E2=80=99ve eve=
+r spent much consideration on what error codes to use in the block layer=E2=
+=80=A6
+13:55 < kwolf> My guess is that it has always been EIO and nobody was bothe=
+red enough to check whether returning EINVAL instead would break anything
+13:55 < stefanha> Thanks!
+13:55 < hreitz> E2BIG might be special, and EAGAIN might do funny things so=
+metimes, but other than that I=E2=80=99d=E2=80=99ve hoped everything=E2=80=
+=99s treated equally
+13:55 < stefanha> I'll add this information to the afaria's patch series di=
+scussion.
 
-Stefan
-
---aWR8Cru0uE+wBG2v
+--AfZXbiLhgSrF3U8o
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKUvWMACgkQnKSrs4Gr
-c8jU2wgAkM1Vrb0y+7ylz4rkYXryOANGCVeJ973csYexi3T6smmMp74RCrh7JP72
-1m9MSKO5LExKjH27TLRR/wy14OQCLx9zx1Z+Gdk0MJvROGOZ2CX2HudX2VxXgcJv
-AsQStVBbtTe1bIbHqiIslByOvDF1vVj0RhGbZmpYPwdMBd5MwgmudOxtI3FAK3hO
-Zl67DGGgdiUehB0BHNtn9br/xFD+2E2Y8TsxEavDvmFbwFoaXP0eZ2MueeyaWAg9
-RVG+4vHbztq4DT9N/KirQ4yly87W1vt4prIhneJN3DAd+LUT0reUu9vH7yxjfU8v
-KVu7BaLfH3q83F1DY/EFcw0b87Z0Xg==
-=Fkhr
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKUvvQACgkQnKSrs4Gr
+c8hbTQgAwgxxXDC3M024QxHzr0NhkRcx+tk9mfwFPaGewakz/C5jMtoqK7rYB3GS
+kzJ1eHpJWZUYlAQ7uiulgX8JOzercQJKw7DMrqPbXQ+ck1Dpsy6406NVBCd8CZ3/
+bv5ru4paT3j8l3qvuSAByiOIgR2v8hOLY04+8mixF5e4nsLQ91OChCNalnPECyUd
+4Ev0P02Y1aIkm4MQqQ3+8cyhRQetFXPaw14jFFpZMglJg/BsbgakHywSGBh9X1Zr
+dzHfzRfIRjZx/+YsavMIoqyZEUFn4cQdCQLk0R0lf6GsnK6sCZ9yNAjsHarNjH/Z
+jL/fx4QAF3Nh/aHSUAxSSfhe3/aVZA==
+=20Mh
 -----END PGP SIGNATURE-----
 
---aWR8Cru0uE+wBG2v--
+--AfZXbiLhgSrF3U8o--
 
 
