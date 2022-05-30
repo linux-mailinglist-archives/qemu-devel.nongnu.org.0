@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8175B5387D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:46:42 +0200 (CEST)
-Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D324E5387EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:57:20 +0200 (CEST)
+Received: from localhost ([::1]:35880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlLd-0007x8-JQ
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:46:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
+	id 1nvlVv-0001R5-VG
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlEn-0007RE-QQ; Mon, 30 May 2022 15:39:39 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:42776)
+ id 1nvlEv-0007ll-Af; Mon, 30 May 2022 15:39:45 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlEl-0008KT-3H; Mon, 30 May 2022 15:39:37 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- d12-20020a17090abf8c00b001e2eb431ce4so183668pjs.1; 
- Mon, 30 May 2022 12:39:34 -0700 (PDT)
+ id 1nvlEt-0008LQ-EX; Mon, 30 May 2022 15:39:44 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id q18so11038372pln.12;
+ Mon, 30 May 2022 12:39:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rg50Y+o/eUBM4CXukBeXYZLp2dR7HPz/PEGiozmLP6Y=;
- b=JPSP8o0dKou9uVyq3AFeQ53pDBjfFbAHq27cLZmArPZK3vKbM8UZV568fS6TntPiHX
- IqPqUEm/ZBRzkWUpiuS8txARfpAMGovGYwEl1LBXZDHJ3Xdnz88PcfXLaQ3ObWj386yX
- rcaSMMt9tsbxneEuAjrmmiGfY949MixeVMWFDn3AvEdiFVFMrIFZvKhZvwU1DugkgC1t
- f5kg7kwYUuPpUPj2nI6OAFothiVLyLkx5mWklRLmylAdVsIwOfXt86OzVZodctm14BJt
- Qkp+E1hknZEZuRJSFkxxXjB0CpURzNNqBSBieqsdsqTWt4lH/tfHHUCeRHKtyc2FNDhx
- 2RXQ==
+ bh=hc8op+xHNyF3R11bJslh7S9ghBerJPL5Ix/mS+aQ9B4=;
+ b=fdxSyGd1UgkkzqAw3L2L5Kn8Gmt8ogMwHczY9a/B9f+RO+eJA3XduNjAolN0clPBHR
+ mDKvM8bP9zMGLX+zgd3NCztjw/0Is/YasqhPJjAum9HFZn8DqnCtdtYPNxWTS2cQuW6o
+ 3wsDbl8GhzsmGrQkPSdHyMy8rQsppKgSn3AIANFwRlKNev0IIM+oIUQx3iY/HFVm92mA
+ 6H7lDPTxmS7pmopG9xU4CVM/SFMXLE0UC1Ss+JZSTlxYC+EhoxBoYipaKE0H3h/3dZe+
+ NqNRht43+QOl4LV60l5S0aJAIRkVNBLThTDh/TW0zkVJICqVRID3E2yO+SVbclanpdsw
+ PZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rg50Y+o/eUBM4CXukBeXYZLp2dR7HPz/PEGiozmLP6Y=;
- b=EV9zO1k8EQPmFMui+x+6MoVOX12NlnGjTTxNqzbnN9cIi0dLwKa+YZmIgd2nXnLeIH
- mM6qyOKPcEh1Wc/IqEBiTQ9uqo01kS4Rgk4OO5U4jw1ojNiioeylYguvvL9ChxES+ySI
- 1NP91P7cO4KfqXXVRqgwuvLcV5LGruopA1tCjY3Du08ZhilP1GJ/DYQ+FaiHg9dEBWS3
- dy75ABGq+7w+t9Zcgo4ufdasOxECRvuJc8GW6x5D6e/LFcRTsqL0lP6bHESb4jLfA/SA
- v86MIfrH0DUPJFFSfiyaCl8m3onwfoFQr9WuQsbS1Mbe7qhbA9thIt6KOjrao9LXtrtk
- afJw==
-X-Gm-Message-State: AOAM532CYLpgzKjtZ/CzhLiXbJyqZda9ktzvc21r9IQ4g0o9ijVdix3o
- 6eJZ/K6/vAlTJWd/zOboXX11Co5PtU4=
-X-Google-Smtp-Source: ABdhPJwSa4+x/hTMTq1v9eukOa3b88lWiYE7ogSHRQG5YPR/DBvH1+u/FxvGr04IMmiaaZkgsqZ4kQ==
-X-Received: by 2002:a17:903:249:b0:163:6dc0:b8b3 with SMTP id
- j9-20020a170903024900b001636dc0b8b3mr24575333plh.24.1653939573124; 
- Mon, 30 May 2022 12:39:33 -0700 (PDT)
+ bh=hc8op+xHNyF3R11bJslh7S9ghBerJPL5Ix/mS+aQ9B4=;
+ b=HVEAx+WrSeeKknGVpeNkT2VQEcsOYho6aDT2LauD1z7BMod48+W3K/RUWSHWG0xdui
+ 2Fd+WI7fYZResLk/l/O7KUPTPeqCmMamPpFs9KkaZU2w4suzfYXqYnO59lO1MF0YSAEE
+ NHZpQCeHMI7JUHFNKOYZGEcsU8q+PefFNUDOYYheBJf5CMX+i/fiWfCYwBWgmMqOGFOB
+ 9WEIAwWmUSyMOckuOwI5yBP51BFfAmDhjzHhgL+IpHiSjG04+Fgrr7qTt1uIeT4MsCOr
+ t4V7rNTvmb97O/BjnTHFnJ8z+6m6lfVz7oQKqllPkeENcv8v2xuCJayrUMLoK7FL4Y/Y
+ E1SQ==
+X-Gm-Message-State: AOAM531hONA/DnBX46HW9wEfvK94RTbgBHIosq3iMWYGnaDelr0CItmh
+ R+jlEm0U1sZe+/fBX3nKs+EKdGTRIao=
+X-Google-Smtp-Source: ABdhPJyRP1OBTChenIjMfYlytpYOtwSGQET7+2rDpEFKHqnsSIC/1/2fvh/4gXQ9M8vSUgcNoAWxOg==
+X-Received: by 2002:a17:90a:5b03:b0:1df:86d4:ba27 with SMTP id
+ o3-20020a17090a5b0300b001df86d4ba27mr24372368pji.124.1653939581677; 
+ Mon, 30 May 2022 12:39:41 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q44-20020a17090a17af00b001cd4989ff41sm85671pja.8.2022.05.30.12.39.30
+ a21-20020a170903101500b0015e8d4eb26bsm5184960plb.181.2022.05.30.12.39.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 30 May 2022 12:39:32 -0700 (PDT)
+ Mon, 30 May 2022 12:39:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -59,18 +58,18 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v2 08/25] hw/sd: Add sd_cmd_GO_IDLE_STATE() handler
-Date: Mon, 30 May 2022 21:37:59 +0200
-Message-Id: <20220530193816.45841-9-philippe.mathieu.daude@gmail.com>
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v2 09/25] hw/sd: Add sd_cmd_SEND_OP_CMD() handler
+Date: Mon, 30 May 2022 21:38:00 +0200
+Message-Id: <20220530193816.45841-10-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,69 +95,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20210624142209.1193073-8-f4bug@amsat.org>
+[ clg: Update cmd_abbrev ]
+Message-Id: <20210624142209.1193073-9-f4bug@amsat.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/sd/sd.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ hw/sd/sd.c             | 18 +++++++++---------
+ hw/sd/sdmmc-internal.c |  2 +-
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index e018498b10..22405e8bb6 100644
+index 22405e8bb6..ac81e1c667 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1020,6 +1020,16 @@ static sd_rsp_type_t sd_cmd_unimplemented(SDState *sd, SDRequest req)
-     return sd_illegal;
+@@ -1030,6 +1030,13 @@ static sd_rsp_type_t sd_cmd_GO_IDLE_STATE(SDState *sd, SDRequest req)
+     return sd->spi ? sd_r1 : sd_r0;
  }
  
-+static sd_rsp_type_t sd_cmd_GO_IDLE_STATE(SDState *sd, SDRequest req)
++static sd_rsp_type_t sd_cmd_SEND_OP_CMD(SDState *sd, SDRequest req)
 +{
-+    if (sd->state != sd_inactive_state) {
-+        sd->state = sd_idle_state;
-+        sd_reset(DEVICE(sd));
-+    }
++    sd->state = sd_transfer_state;
 +
-+    return sd->spi ? sd_r1 : sd_r0;
++    return sd_r1;
 +}
 +
  static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
  {
      uint32_t rca = 0x0000;
-@@ -1059,18 +1069,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+@@ -1069,10 +1076,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
  
      switch (req.cmd) {
      /* Basic commands (Class 0 and Class 1) */
--    case 0:	/* CMD0:   GO_IDLE_STATE */
--        switch (sd->state) {
--        case sd_inactive_state:
--            return sd->spi ? sd_r1 : sd_r0;
+-    case 1:	/* CMD1:   SEND_OP_CMD */
+-        sd->state = sd_transfer_state;
+-        return sd_r1;
 -
--        default:
--            sd->state = sd_idle_state;
--            sd_reset(DEVICE(sd));
--            return sd->spi ? sd_r1 : sd_r0;
+     case 2:	/* CMD2:   ALL_SEND_CID */
+         switch (sd->state) {
+         case sd_ready_state:
+@@ -1622,11 +1625,6 @@ static sd_rsp_type_t sd_app_command(SDState *sd,
+         break;
+ 
+     case 41:	/* ACMD41: SD_APP_OP_COND */
+-        if (sd->spi) {
+-            /* SEND_OP_CMD */
+-            sd->state = sd_transfer_state;
+-            return sd_r1;
 -        }
--        break;
--
-     case 1:	/* CMD1:   SEND_OP_CMD */
-         sd->state = sd_transfer_state;
-         return sd_r1;
-@@ -2132,6 +2130,7 @@ void sd_enable(SDState *sd, bool enable)
- static const SDProto sd_proto_spi = {
+         if (sd->state != sd_idle_state) {
+             break;
+         }
+@@ -2131,6 +2129,7 @@ static const SDProto sd_proto_spi = {
      .name = "SPI",
      .cmd = {
-+        [0]         = sd_cmd_GO_IDLE_STATE,
+         [0]         = sd_cmd_GO_IDLE_STATE,
++        [1]         = sd_cmd_SEND_OP_CMD,
          [2 ... 4]   = sd_cmd_illegal,
          [5]         = sd_cmd_illegal,
          [7]         = sd_cmd_illegal,
-@@ -2147,6 +2146,7 @@ static const SDProto sd_proto_spi = {
- static const SDProto sd_proto_sd = {
-     .name = "SD",
-     .cmd = {
-+        [0]         = sd_cmd_GO_IDLE_STATE,
-         [1]         = sd_cmd_illegal,
-         [5]         = sd_cmd_illegal,
-         [52 ... 54] = sd_cmd_illegal,
+@@ -2140,6 +2139,7 @@ static const SDProto sd_proto_spi = {
+     },
+     .acmd = {
+         [6]         = sd_cmd_unimplemented,
++        [41]        = sd_cmd_SEND_OP_CMD,
+     },
+ };
+ 
+diff --git a/hw/sd/sdmmc-internal.c b/hw/sd/sdmmc-internal.c
+index 2053def3f1..8648a7808d 100644
+--- a/hw/sd/sdmmc-internal.c
++++ b/hw/sd/sdmmc-internal.c
+@@ -14,7 +14,7 @@
+ const char *sd_cmd_name(uint8_t cmd)
+ {
+     static const char *cmd_abbrev[SDMMC_CMD_MAX] = {
+-         [0]    = "GO_IDLE_STATE",
++         [0]    = "GO_IDLE_STATE",           [1]    = "SEND_OP_CMD",
+          [2]    = "ALL_SEND_CID",            [3]    = "SEND_RELATIVE_ADDR",
+          [4]    = "SET_DSR",                 [5]    = "IO_SEND_OP_COND",
+          [6]    = "SWITCH_FUNC",             [7]    = "SELECT/DESELECT_CARD",
 -- 
 2.36.1
 
