@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80D05379F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:33:19 +0200 (CEST)
-Received: from localhost ([::1]:44884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CB45379E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:29:30 +0200 (CEST)
+Received: from localhost ([::1]:42372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvdeA-0001Ms-Pg
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49292)
+	id 1nvdaS-0007fX-TP
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nvdR8-0003eQ-WA; Mon, 30 May 2022 07:19:51 -0400
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:35592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nvdR7-0007wk-F6; Mon, 30 May 2022 07:19:50 -0400
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-f16a3e0529so13913161fac.2; 
- Mon, 30 May 2022 04:19:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3H2iYouxFWt++sIm/itjpChdBBg/580KfBGehbn1GbU=;
- b=iOcSDcSbfCKpIy11c3H/ZrugMD3r/SSyT8vCx8qW41pyqTx523lMn6W75nsHERVAO2
- K8uWdOMmst9GhrYfbe2XMhaXi7bGKhZ7Cb/FJUE5vk9HkpVaXEYlLK5kyDzjWx+j/X55
- Z8aOR55igC7w9DRC9Er1JI8peXDtBOs5qmQrYYo+HUnHrm2m1X+wQmwNOj6IEKGDoi9X
- uorS6Cl7q6CIuHyNE0z46zlMEYESRX+CpYsNlt4XCK5rG9JUYLoIFLFqFrdxH4wBEWzU
- c0IcZVVml5XEzkd3UjiiVYG/eybqF2EJPDmOLEhUXp7eYmgOS+SEkcWk9iHgZPrJ5M1k
- dsEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3H2iYouxFWt++sIm/itjpChdBBg/580KfBGehbn1GbU=;
- b=Mrqzg8e5A0+sc1SECMkU0nJNumgh4n6S6y7wDNgshVQ49CUmsrcW72a+aW3ZwICKqJ
- henEjCyQNu6XGD/botaMpy/lBa8FQjxQxQZZAWYleS5RO2+YU57Gj/+VwL5z5bsX9UO+
- 776NZB4WFJL1DaZtqI3flyD5xQRvWamCFxx3RSKmr7+F/Ml9ltMYtredFDgpweNQxZNY
- 17t9ERJx1spysWwqy26i50PoMKyKc+zu0nZcFW1S3E53x5KHmjgt3hy2yZA4maiGqiKs
- gYjQmjCAA4ebos7BCG4/ReXGZ+5pRrzn+vtMFq6aqUx1ceSRcrnzGWqcP4UJlCQv0ZnU
- fGwA==
-X-Gm-Message-State: AOAM533zs5gSt/xtMOV6s0pPmSC28WLhVoMd1lOoobs4htZhaTO9iqvp
- cHDGTnyNyauzu5ij4fVCWbwX25SiGc1zOBi2JuA=
-X-Google-Smtp-Source: ABdhPJx5wTpDM9swwMAo4CZ43oZ0spfokKD8sb2hCNHM4DOnZoW/ZwAcXIfmbqASmq5Ho/+j9xoFmMcMIW6D9WW3kuM=
-X-Received: by 2002:a05:6870:e30e:b0:de:ab76:eed7 with SMTP id
- z14-20020a056870e30e00b000deab76eed7mr10034099oad.101.1653909587506; Mon, 30
- May 2022 04:19:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nvdSs-0004m7-Fa
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:21:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nvdSp-00007p-Rm
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:21:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653909695;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zj3ZkiP5ytmwUgaA2lgK7WJSeIsF7uLjKFY0siRpgCs=;
+ b=G83Qit4clTrRStOh6Qp2ZWplVYl41zrOTezVvveQLd6cEyx3KchOLNm0zmCLkC3nj+jbr6
+ 8Sh6ZU5sS3JUCbV8gxjPuvTRgyZ6bi84ARhEmvdD1JNByIpMKPEdmkPqYhfhyD6Zb8VCkf
+ rtkNHhG/lw771c8XF9VViOKbkZkDCb0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-101-bLi1NUEFPguhqbKvVzX9Ng-1; Mon, 30 May 2022 07:21:29 -0400
+X-MC-Unique: bLi1NUEFPguhqbKvVzX9Ng-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBA5680A0AD;
+ Mon, 30 May 2022 11:21:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94E57492C3B;
+ Mon, 30 May 2022 11:21:27 +0000 (UTC)
+Date: Mon, 30 May 2022 13:21:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
+ Ilya Dryomov <idryomov@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
+ Tingting Mao <timao@redhat.com>, qemu-block@nongnu.org
+Subject: Re: [PATCH v2] block/rbd: report a better error when namespace does
+ not exist
+Message-ID: <YpSotiJdS6MEwwyT@redhat.com>
+References: <20220517071012.6120-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-References: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
-In-Reply-To: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 30 May 2022 12:19:35 +0100
-Message-ID: <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
-Subject: Re: Outreachy project task: Adding QEMU block layer APIs resembling
- Linux ZBD ioctls.
-To: Sam Li <faithilikerun@gmail.com>
-Cc: Damien Le Moal <damien.lemoal@wdc.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
- Hannes Reinecke <hare@suse.de>, qemu-devel <qemu-devel@nongnu.org>,
- qemu block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=stefanha@gmail.com; helo=mail-oa1-x34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220517071012.6120-1-sgarzare@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,30 +79,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 May 2022 at 06:09, Sam Li <faithilikerun@gmail.com> wrote:
->
-> Hi everyone,
-> I'm Sam Li, working on the Outreachy project which is to add zoned
-> device support to QEMU's virtio-blk emulation.
->
-> For the first goal, adding QEMU block layer APIs resembling Linux ZBD
-> ioctls, I think the naive approach would be to introduce a new stable
-> struct zbd_zone descriptor for the library function interface. More
-> specifically, what I'd like to add to the BlockDriver struct are:
-> 1. zbd_info as zone block device information: includes numbers of
-> zones, size of logical blocks, and physical blocks.
-> 2. zbd_zone_type and zbd_zone_state
-> 3. zbd_dev_model: host-managed zbd, host-aware zbd
-> With those basic structs, we can start to implement new functions as
-> bdrv*() APIs for BLOCK*ZONE ioctls.
->
-> I'll start to finish this task based on the above description. If
-> there is any problem or something I may miss in the design, please let
-> me know.
+Am 17.05.2022 um 09:10 hat Stefano Garzarella geschrieben:
+> If the namespace does not exist, rbd_create() fails with -ENOENT and
+> QEMU reports a generic "error rbd create: No such file or directory":
+> 
+>     $ qemu-img create rbd:rbd/namespace/image 1M
+>     Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
+>     qemu-img: rbd:rbd/namespace/image: error rbd create: No such file or directory
+> 
+> Unfortunately rados_ioctx_set_namespace() does not fail if the namespace
+> does not exist, so let's use rbd_namespace_exists() in qemu_rbd_connect()
+> to check if the namespace exists, reporting a more understandable error:
+> 
+>     $ qemu-img create rbd:rbd/namespace/image 1M
+>     Formatting 'rbd:rbd/namespace/image', fmt=raw size=1048576
+>     qemu-img: rbd:rbd/namespace/image: namespace 'namespace' does not exist
+> 
+> Reported-by: Tingting Mao <timao@redhat.com>
+> Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 
-Hi Sam,
-Can you propose function prototypes for the new BlockDriver callbacks
-needed for zoned devices?
+Thanks, applied to the block branch.
 
-Stefan
+Kevin
+
 
