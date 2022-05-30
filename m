@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CD95387B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:22:14 +0200 (CEST)
-Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811D55387C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:36:19 +0200 (CEST)
+Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvkxx-0000fD-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59734)
+	id 1nvlBa-0004ur-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1nvkwC-00080D-FB; Mon, 30 May 2022 15:20:24 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:46233)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1nvkwA-0005bK-Md; Mon, 30 May 2022 15:20:24 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so15411685fac.13; 
- Mon, 30 May 2022 12:20:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UJYvyiQx06E5M2Hcff8fAOotWcTjfgerTiMzF//OTj0=;
- b=ETjtyim2pSo97QT06wv4Sj2vhWmDuvBajcZoPWo1SxS4PRIrdBhFmkZugSlgVc0+yH
- xx5aDZXYgIhGZP70+lCvfKRImPTZi/QuHll8uXSClLbV7H1P6NarOkBBaT4on9A01a4Z
- /BpyDuHFyhD/TqWTMrWWlDTte8R3zJbWiu/SOX8QF82IXpALhY2EebGsW/VFjYWnFrYr
- iAMXMVaM/XU6CNyDZzyl0QR1hLvxSaKO+HryZgTBoyihRp3i5YOROwvlW79pvn9/5sFq
- e8SPqmuBMmsAplO4Dr64LhrLOHykNJYQUutXolfhx7JaF4abmWF/yUvb30UFDNfUEyhC
- uKxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UJYvyiQx06E5M2Hcff8fAOotWcTjfgerTiMzF//OTj0=;
- b=Kipp5FCLKjgPChUynLo6mYjft68n5wae83wSdvr+5WqfeCMUYo9O7kwkc6XB+QUQCl
- DiDGzw417hmRFHzNT/gYj7Ip1htzvVB6Y8NgP0hKWMlEGxhxl6TK8D8uIyCmTbFpLj0n
- 8D8NWSbvQXU55g2oNewPvzRNt6akDLewkynMvryoZ5SSJD96CV5uKFXWHrr4RMHwiQSA
- nn5Xmg+7uXqfKOlalsByFCRfjDX8uXYk9Oz1Ocna5b3eRVtbcKTUO/wivlOt3CDy9/2z
- NCQXZIsk/V3oIn/ootCe21ZiZ5kc6GxB+Aa0S+mq/nfl+EJi2zoYFdgLP2LN1SnmBlou
- l33Q==
-X-Gm-Message-State: AOAM5306H78MKsVBm2qFECOAO1hyRS6EQ/yo3oQwq97Uo697b6BPV91w
- z7AJj8Whngl5YA82KtUFlhjZAV+67lWQgS7WhCY=
-X-Google-Smtp-Source: ABdhPJwX6DR3Z2dM6N3tLKzpcMGLEztPKdWMKmgvmwXHSz2mZjQ1E+GjEc4XaWBxS6CH9BxJkQfZy+hCbEfTdgZxvV4=
-X-Received: by 2002:a05:6870:b408:b0:dd:ed4f:b1c7 with SMTP id
- x8-20020a056870b40800b000dded4fb1c7mr11783389oap.41.1653938420534; Mon, 30
- May 2022 12:20:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nvl75-0003Ad-O0; Mon, 30 May 2022 15:31:40 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:37795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nvl73-0007BS-MZ; Mon, 30 May 2022 15:31:39 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 07E2F5C01AD;
+ Mon, 30 May 2022 15:31:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 30 May 2022 15:31:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1653939092; x=1654025492; bh=fD
+ XnaNudkg0FCqSyqoFHblaNjjzIKSyPhByQ8zNxPFo=; b=ZmYRLNXhV/MhXuQIHb
+ qTAN73gF/VortcKe6SIeiGlKapWTVtB0tTLc5KxlOIyhX+iJDwLX7y37aGk8Z2v+
+ rRILku8ygWJ3w54qXGILUPc38J4rgv6PPV9BF7ImrKlwg2l3KHxCWmiynnzTw2yk
+ EEmB0PzSKu6o2P5nIs2edC8zaNjyY+/BVk+XZ5Wbahsy1DtdHDJ7XWHi5eBcV/O3
+ 1xHoi+fEKFuM/aMdo5Kr7BJCVSWrVRshZkJbzP6FdBuZB2Wj1PWTUYOJ84MxgL1C
+ uBiFOEEU9G/Q/jKcq8B9HhhMr19Cj8GbG05ltxOSUkY54cHTa00zRUccxg9wA0F5
+ vqJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1653939092; x=1654025492; bh=fDXnaNudkg0FCqSyqoFHblaNjjzI
+ KSyPhByQ8zNxPFo=; b=CY/otzmvlEdWWJRXJMzSAej159Eg3Ohmpeqiywm4a+oJ
+ 56uHlJXHSw2aSd4Hy+ogTYSK1yARoKx6lja28aSuG3E0Ed2oJ18dMKGDkSV8AW0L
+ OVn6ZkNmzUg2ZCNKXXZ0pqI4pMkCFei1GH0s7ZCrtk5tWALK6jc+bQEwd/ktRiZs
+ opE8pjcC6cDI/WjaFP2JNj4abYoZDdozCLGklI7qIFKPO+eWFLKxW6KGbfXWO1Jg
+ Dz4vJbE9umk3t3WYBX1ByFunXFb2ZHHQaeoK/cWW2+SAG4kcSrIlUgItJfHkbuOv
+ cTy7oWN4Mc3iVNRS/XLldk7ShT7beijJt7X4T/oYRQ==
+X-ME-Sender: <xms:khuVYorZfjV4SFAGt-osEMI6EXCTSCM1w5mEyn4XOnjhyYbc0Q-gZw>
+ <xme:khuVYuq3oj0UOnjT38UvFKhHQJ51Xch_kgzEUUrif_bK3mTkZ4S9TWw_UVaUcYome
+ DqL2ftVGl9MBAjM6Ek>
+X-ME-Received: <xmr:khuVYtPinN497sUXX9ZAYbyXYiwQ1hVrkQxXPw6sPy7LFz0HNyb5ZV9ZAbi7inJgYc73AbSFQdXJ5csypw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigddufeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:khuVYv6R_RWXCN5K1pyqF23lXqaD9M-4QyLj8CUJqP8l-_HIfHI_Tw>
+ <xmx:khuVYn4hjUSeCfGnyL2aamxUXyfFjTQYRjpB_kW0E43d2496Wfp87A>
+ <xmx:khuVYvgSPaExe8lNuUiIiukh22UgUkFzt5SKVY87-al0M-yo3VBOhg>
+ <xmx:lBuVYtTCTrVN9QV8FmKz2YxGJJCkHagNDgafVG46OCOdATJFMkiaRg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 May 2022 15:31:29 -0400 (EDT)
+Date: Mon, 30 May 2022 21:31:27 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, libvir-list@redhat.com,
+ Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH] hw/nvme: deprecate the use-intel-id compatibility
+ parameter
+Message-ID: <YpUbj1WDrGDBFc8d@apples>
+References: <20220429054149.2169473-1-its@irrelevant.dk>
+ <fc24ead8-4495-f67d-6fb0-c2d11bf94684@amsat.org>
 MIME-Version: 1.0
-References: <20220527101104.26679-1-gautamnagrawal@gmail.com>
- <9337daf2-57bf-d2ee-6731-8f10251fbf17@redhat.com>
- <65ab5613-7fe8-038b-b011-eb16b8728a2c@redhat.com>
-In-Reply-To: <65ab5613-7fe8-038b-b011-eb16b8728a2c@redhat.com>
-From: Gautam Agrawal <gautamnagrawal@gmail.com>
-Date: Tue, 31 May 2022 00:50:09 +0530
-Message-ID: <CAG-ETXv+rTpnbRkB4zhXjygAHVMYFLFKtajV-u-3RFG-s1zreQ@mail.gmail.com>
-Subject: Re: [PATCH] tests/tcg/s390x: Test overflow conditions
-To: Thomas Huth <thuth@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, cohuck@redhat.com, richard.henderson@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=gautamnagrawal@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="awec9+3QSjqRXJOL"
+Content-Disposition: inline
+In-Reply-To: <fc24ead8-4495-f67d-6fb0-c2d11bf94684@amsat.org>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,86 +105,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-On Mon, 30 May 2022 at 16:05, Thomas Huth <thuth@redhat.com> wrote:
->
->   Hi!
->
-> On 30/05/2022 11.50, David Hildenbrand wrote:
-> > On 27.05.22 12:11, Gautam Agrawal wrote:
-> >> Add a test to check for overflow conditions in s390x.
-> >> This patch is based on the following patches :
-> >> * https://git.qemu.org/?p=qemu.git;a=commitdiff;h=5a2e67a691501
-> >> * https://git.qemu.org/?p=qemu.git;a=commitdiff;h=fc6e0d0f2db51
-> >>
-> >> Signed-off-by: Gautam Agrawal <gautamnagrawal@gmail.com>
-> >> ---
-> >>   tests/tcg/s390x/Makefile.target |  1 +
-> >>   tests/tcg/s390x/overflow.c      | 58 +++++++++++++++++++++++++++++++++
-> >>   2 files changed, 59 insertions(+)
-> >>   create mode 100644 tests/tcg/s390x/overflow.c
-> >>
-> >> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-> >> index 3124172736..7f86de85b9 100644
-> >> --- a/tests/tcg/s390x/Makefile.target
-> >> +++ b/tests/tcg/s390x/Makefile.target
-> >> @@ -16,6 +16,7 @@ TESTS+=shift
-> >>   TESTS+=trap
-> >>   TESTS+=signals-s390x
-> >>   TESTS+=branch-relative-long
-> >> +TESTS+=overflow
-> >>
-> >>   VECTOR_TESTS=vxeh2_vs
-> >>   VECTOR_TESTS+=vxeh2_vcvt
-> >> diff --git a/tests/tcg/s390x/overflow.c b/tests/tcg/s390x/overflow.c
-> >> new file mode 100644
-> >> index 0000000000..ea8a410b1a
-> >> --- /dev/null
-> >> +++ b/tests/tcg/s390x/overflow.c
-> >> @@ -0,0 +1,58 @@
-> >> +#include <stdio.h>
-> >> +
-> >> +int overflow_add_32(int x, int y)
-> >> +{
-> >> +    int sum;
-> >> +    return __builtin_add_overflow(x, y, &sum);
-> >> +}
-> >> +
-> >> +int overflow_add_64(long long x, long long y)
-> >> +{
-> >> +    long sum;
-> >
-> > Just wondering, why "long long" in input and "long" in output?
 
-> It's been like this in the original test program that has been supplied in
-> https://gitlab.com/qemu-project/qemu/-/issues/616 and .../618 - but I agree
-> it likely makes more sense to use the same type everywhere (i.e. switch sum
-> from long to long long).
+--awec9+3QSjqRXJOL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I will correct the type in next patch.
+On May 30 16:37, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 29/4/22 07:41, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Since version 5.2 commit 6eb7a071292a ("hw/block/nvme: change controller
+> > pci id"), the emulated NVMe controller has defaulted to a non-Intel PCI
+> > identifier.
+> >=20
+> > Deprecate the compatibility parameter so we can get rid of it once and
+> > for all.
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >   docs/about/deprecated.rst | 8 ++++++++
+> >   1 file changed, 8 insertions(+)
+> >=20
+> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > index 896e5a97abbd..450f945ac25f 100644
+> > --- a/docs/about/deprecated.rst
+> > +++ b/docs/about/deprecated.rst
+> > @@ -356,6 +356,14 @@ contains native support for this feature and thus =
+use of the option
+> >   ROM approach is obsolete. The native SeaBIOS support can be activated
+> >   by using ``-machine graphics=3Doff``.
+> > +``-device nvme,use-intel-id=3Don|off`` (since 7.1)
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +The ``nvme`` device originally used a PCI Vendor/Device Identifier com=
+bination
+> > +from Intel that was not properly allocated. Since version 5.2, the con=
+troller
+> > +has used a properly allocated identifier. Deprecate the ``use-intel-id=
+``
+> > +machine compatibility parameter.
+> > +
+> >   Block device options
+> >   ''''''''''''''''''''
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
->
-> >> +    return __builtin_add_overflow(x, y, &sum);
-> >> +}
-> >> +
-> >> +int overflow_sub_32(int x, int y)
-> >> +{
-> >> +    int sum;
-> >> +    return __builtin_sub_overflow(x, y, &sum);
-> >> +}
-> >> +
-> >> +int overflow_sub_64(long long x, long long y)
-> >> +{
-> >> +    long sum;
-> >> +    return __builtin_sub_overflow(x, y, &sum);
-> >
-> > nit: I'd call all local variables "ret" or "res".
->
-> Well, "sum" is not the return value here, so "ret" could be confusing, too.
-> "res" or "diff" might be a good choice here, though. Gautam, what do you think?
+Thanks!
 
-I agree "res" sounds better.
+Applied to nvme-next.
 
-Regards,
-Gautam Agrawal
+--awec9+3QSjqRXJOL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKVG3kACgkQTeGvMW1P
+DenNSQf/fn677Avk9WrJ9QWHctFRqkv7TPcrnhfW1GD5gtiX0gErnQB9FxtEZTmS
+gQW4ffB7kOP6Itw89NMh6E99Mz+STLl6fVfEH61oOOlh+ZGdAT1WoS9NW/uEWI/S
+AZDzOLkBYLDjebjhnBd7sOTJluUb7wHu2Q+rsOPkTVFR/9O4QbQ7D4LSPtNovD/r
+IzFPhVbXhQ4kNb8fHKgqKfoteM0EcnWF9B5u554Rnpt6qqAg009Qu8fwUrtbY3pq
+RZv6NjUZizab4BOHArkYmGoXnK1gulSmq50RFtB4VQSFDrjAXI6LTzEWPtCKXMRF
+/QnvEX9nDWhH1mvVxSqUlkaBlZdtjA==
+=5Jnm
+-----END PGP SIGNATURE-----
+
+--awec9+3QSjqRXJOL--
 
