@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F665386DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:41:12 +0200 (CEST)
-Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F164A5386D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:36:14 +0200 (CEST)
+Received: from localhost ([::1]:44606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvjOA-0006Uj-P5
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
+	id 1nvjJO-0000jp-34
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:36:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwV-0003yl-Q5
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:32 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:41905)
+ id 1nvhwU-0003xW-Mh
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:31 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:32840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwS-0007Qy-0a
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:31 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- p5-20020a1c2905000000b003970dd5404dso6726064wmp.0
+ id 1nvhwS-0007Lc-0p
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:30 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ o29-20020a05600c511d00b00397697f172dso202732wms.0
  for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=N7dS28ODWWgUWcDQHKDWdPICO+TR3n4iZCzHtMO59e4=;
- b=Ax+ZEDwErrDy6Z+rFC3J5/wSWdEOhadDgItfNuBlsSAz2CLxHIbZqG8ISf84fl7rfS
- TswPoeqONfolL00CTG2mjgA3LLzjc619Rim/H4NivrvjXrlht/GoSiJPYzRCEJY0KAst
- xyWyN6lvDMTr/2U35iuh4dasxNcNNb0Yq9c31BGMiP3U9CZ4uiyvjOgKVCbqwUIlsIl6
- UazKGz6hemmOGVRO9janm4BCUg5SBwicrhvZJfZoWcal5gMOKgKhh0CZT5nMs66Egmi5
- 7HjdGPhdOO2NpMv5E67v37wySy9ik1pMLBWQHm7+0dvREpG/vltW0cRIsuz0l9jkQT41
- UJzg==
+ bh=8FfE1VcOazzOS1uCYip/LEQfgsBGZ40XQqaUaIsLZxc=;
+ b=uvv8rk8GsFkj74jheJF2qRGd905awQUghdRF4j6NaJzSdMHYlLI4LYTm0OPma0x/0p
+ BMyEwNdzoQghxNIhjEPmPOCnnmQZYNGtZN/Vo/44J++2sInkkmw6m4eCsIP2D37mFUaY
+ roPqtmqhfw/NQWSUKrmJIa5A7+FfQDO6k0X2msZoOHZO/NDSxpp0sgIgsiIGdTSZTn2G
+ f9NtQ6P8NsW5dBQsWLod4VpvRVFbwgphA8YyCOZ9HRNZATcja8omDoogERpQ9T9C61F6
+ V9+P0XLIN3HQoh0D/engyHetbSCSH0KrrifF/l1qI6zQZBkMhS3chqpQ590/YMa0+Yc5
+ /C6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N7dS28ODWWgUWcDQHKDWdPICO+TR3n4iZCzHtMO59e4=;
- b=cD1caz5kWo2GznyIfIV/Jdow/fc8xk2Yf61v0ua6RRfP2Avm4XZkqpDaGqWBDcDqO6
- 5lkIcRDNxEbGmxlETcCg2bYwvG5cmRXdQche/ggswW2y6PrS89499O6MbO7DlFEs537+
- GG9Rwzb0dJjXdvmmxCYDTCtWS7kzrpQGJTdpr/FykImQCH4DF+nXY+Vm5rBCewfY6etl
- gZGU3+3mu5vzQzSgM8zmXlpFViA/0oNtgYFMa928Dq/Ma7oA4IIFTZIw9OpdfYX2gp46
- IvqEvJprw8+gR4NY+2dLRlVnMbtTj+CwQAu7DjXXjMIAjwlDB/sBEu9WGeVTrkhYAPQP
- PIUQ==
-X-Gm-Message-State: AOAM532qLmMLd0srPCXDPt3St5V1mTVPeea65YZg/MspRNgXM7hHDhFH
- 6gidI8QFqOpdNC21Lwjg7cjPqgww2BxnIQ==
-X-Google-Smtp-Source: ABdhPJx2UD5uOT7uoiYpICyMgyA6Zg+CryF8vqzKBn16/36+NF0jy4r0tkIh6kQl3fQiJSgKo6YTOA==
-X-Received: by 2002:a7b:c1d9:0:b0:397:335d:4d9f with SMTP id
- a25-20020a7bc1d9000000b00397335d4d9fmr20043315wmj.55.1653926906357; 
- Mon, 30 May 2022 09:08:26 -0700 (PDT)
+ bh=8FfE1VcOazzOS1uCYip/LEQfgsBGZ40XQqaUaIsLZxc=;
+ b=rBTM6bWAv7C+zrj1Nu8YlBli1zI3D2+1cVpeKwF9b6HLXJ7oDX6MxwUC0JmEtcFVuv
+ KeO0jvnRjpEiCwGWdzWjnYL4XbFV4H/kkhlHfWAuuaSgroo2RYhxGh9bGFycw3o6WTlr
+ xJZVuuMqEkJOU5NbNoH17qTscUwxCr9qJRoIiu5k/zHKb4lAYKZZuy+9GR+2yPcp04+F
+ sS4HwYBOVgRjRip8NmX7SDuh0pSJy5Jl8wuYpCvL0uaQSecEPFhVbi/LiSFLK8HWEB0q
+ 6oz4pp7SYznART8nUn1yD9Taqf4fzP50W+BvfjFp52PD+Ey5loa3vSBv7skASecCyTEe
+ 8cyg==
+X-Gm-Message-State: AOAM531xYyDonC7ggJbHdq3CuhR3xgIXisG/oR6Ao5pxGnbBwcdlCjMD
+ iLtWjcU8HbnP5avKiDVcL1gi9qrpPaithA==
+X-Google-Smtp-Source: ABdhPJzrOBtewK2O8+U3A9+FWs3RtTXlilIFihXCpYJ9iaXxcomF7nM4ZKuQ14AeEqLO1f39tm1E9g==
+X-Received: by 2002:a05:600c:20c6:b0:397:408f:effb with SMTP id
+ y6-20020a05600c20c600b00397408feffbmr19795845wmm.1.1653926907190; 
+ Mon, 30 May 2022 09:08:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.25
+ bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 30 May 2022 09:08:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 083/117] target/arm: Implement NOT (prediates) alias
-Date: Mon, 30 May 2022 17:06:34 +0100
-Message-Id: <20220530160708.726466-84-peter.maydell@linaro.org>
+Subject: [PULL 084/117] target/arm: Use TRANS_FEAT for SEL_zpzz
+Date: Mon, 30 May 2022 17:06:35 +0100
+Message-Id: <20220530160708.726466-85-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,34 +91,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This alias is defined on EOR (prediates).  While the
-same operation could be performed with NAND or NOR,
-only bother with the official alias.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220527181907.189259-81-richard.henderson@linaro.org
+Message-id: 20220527181907.189259-82-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/arm/translate-sve.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index f33bc9d480b..b6b5980e2db 100644
+index b6b5980e2db..a040d694eab 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -1381,6 +1381,11 @@ static bool trans_EOR_pppp(DisasContext *s, arg_rprr_s *a)
-         .fno = gen_helper_sve_eor_pppp,
-         .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-     };
-+
-+    /* Alias NOT (predicate) is EOR Pd.B, Pg/Z, Pn.B, Pg.B */
-+    if (!a->s && a->pg == a->rm) {
-+        return gen_gvec_fn_ppp(s, tcg_gen_gvec_andc, a->rd, a->pg, a->rn);
-+    }
-     return do_pppp_flags(s, a, &op);
- }
+@@ -795,10 +795,7 @@ static gen_helper_gvec_4 * const udiv_fns[4] = {
+ };
+ TRANS_FEAT(UDIV_zpzz, aa64_sve, gen_gvec_ool_arg_zpzz, udiv_fns[a->esz], a, 0)
  
+-static bool trans_SEL_zpzz(DisasContext *s, arg_rprr_esz *a)
+-{
+-    return do_sel_z(s, a->rd, a->rn, a->rm, a->pg, a->esz);
+-}
++TRANS_FEAT(SEL_zpzz, aa64_sve, do_sel_z, a->rd, a->rn, a->rm, a->pg, a->esz)
+ 
+ /*
+  *** SVE Integer Arithmetic - Unary Predicated Group
 -- 
 2.25.1
 
