@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C157C53811A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:28:36 +0200 (CEST)
-Received: from localhost ([::1]:35516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1E45381A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:32:18 +0200 (CEST)
+Received: from localhost ([::1]:43682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvgNn-0002bv-Rv
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45572)
+	id 1nvgRN-0007wK-IS
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvgJU-0006ZI-HY; Mon, 30 May 2022 10:24:08 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:42828)
+ id 1nvgPL-0006rn-6F
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 10:30:11 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:44871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvgJR-0007Uf-Uq; Mon, 30 May 2022 10:24:08 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id d22so10443446plr.9;
- Mon, 30 May 2022 07:23:56 -0700 (PDT)
+ id 1nvgPH-0000CA-KZ
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 10:30:10 -0400
+Received: by mail-pg1-x530.google.com with SMTP id v15so10282319pgk.11
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 07:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+WN2dPLjajdxoxlDEPAe48WHdI7YxWkHxPbjnUYOOO8=;
- b=cq9hxC6OFV+LV79KVkV0feOEYNeOVYwYRg0Q/v1QkI8js1LA6xHLV9WX0XL66XcG1C
- G6K8YHpGLKPSkMpqd3adXJKTy2X5OF4jr6tF+zcySDhz8UJi9kinc+6DB6SQFAygstXF
- 5+cjhsB71ULopJ8yG/XDZ+o5ocxTrIsgAG2u6EtSbrynAtUJjdMVJh8qYDeekaG1dBYP
- yfJgqHgTG0sYFyFpniRxqFDJMPYw25wi8PPuV83Y+LKxmd/GemUpkxj82n6CrDT8LzVz
- otUSS6POKkmm7B21e5V+7mN7XjPXvL39QfJZxyAvwjYVe5R7T6/0+MHk9S1XjVJuRmrc
- 9t0g==
+ bh=i3/OxlO7oGqE0PkfDEtin6NtfkIr9GswQp4bWAf5Uic=;
+ b=isSUMQR8bVna8hpXp2dZ2CkMwf4afhearxUbbP9a5n9MvqolOGy/yMV0FZPCSS/DZd
+ upzN1W+GX4wffM2u/uTMKxqVRcdR5AJ5KVE/Ce77lMe/n2XcGW6NAAcXkpdIdCuAhp8r
+ YqRRcqEokcAMpGoFrTK1ql43P7vwjqSbLffFKgxLb0/Yq64zy7LjtrWX3wKRpCwbG1Bj
+ J516o0LpxAqGLZyyReGzUypZK/kakYdn3hSFIIe08HaD/08SN0XdRRbbRBFqmg7O1x/M
+ IVuN3bnHj8/7WTLSpfbSfotOoWaApaW9sTZvjwOwxszjiZRfLq9m8mMdocBm9wytNvr8
+ WGBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+WN2dPLjajdxoxlDEPAe48WHdI7YxWkHxPbjnUYOOO8=;
- b=pSK1sVwdNVmlCduDzZWW24vs2IqaiCsIKAZ+9b/sgXhIKI+tQDyQ2Z/H3PUfqOJRa3
- YjJhvINGA6se1x0Ji6DLNhH4Cwx70okrGvakFkna2A9XfbzhKenSzurdO8aD5hMVoSI7
- 8Jps5hBd8oLf1PniSQfMdIv0pEuNqiA7RnDsf25FRI8Lz0qma4CRwbnB6eyICJjdaDIF
- cpBfGDDdltEvalEO53qOArqvDPxU+pOSwszPr/N5s6x9v3M25ihsblhKd/SJnWVfeuTl
- LHYUEafpYwJr8MxCa0t7DxO/V87pcSdNb98xH2aJYYYoguuit8wOH0CkzhVSPiqh7Aqs
- TT6w==
-X-Gm-Message-State: AOAM531KxqNJcfbggTM+ilQPIMngBwrw3dcuqBZWpyYJtBTj28G1VJMr
- SKgbYX7Gln7GndwdEzb+WqY=
-X-Google-Smtp-Source: ABdhPJwXzoiEobr3I+/srAGCySALidXaV9bC9pj4HUyR5CtlIE4+V+P5H5+venad+aeJ6RJeUHKASw==
-X-Received: by 2002:a17:90b:c85:b0:1e2:e645:a8c9 with SMTP id
- o5-20020a17090b0c8500b001e2e645a8c9mr7931311pjz.185.1653920635767; 
- Mon, 30 May 2022 07:23:55 -0700 (PDT)
+ bh=i3/OxlO7oGqE0PkfDEtin6NtfkIr9GswQp4bWAf5Uic=;
+ b=pHX28LvVNPR1wKJWsHGWyDx2GKc36id4WX+upZKSX2E1hOwoOUCaU/YsuHbVkx/cnL
+ jjluyhQ5pe9DazPrr7VcURLM2JOqE3bsLskEeA49ce02qQbkAonfsouFWICXt0zQ47ZG
+ jx86fvFs61XXpVKp0NCIcF/i1zmQ8Ic+rZ6B+gwRdK2fZMZ0lEcS+YJu7IWrTkVxv/yq
+ HRMYrb8Ec4ZGer7p5a+Y0UpsDwcz/pw1KrNCkE9u/w0Q68WNNw0L8uG+/x9u+d6x2b5z
+ 351EJMc26iLloVIyCaPdErjegtU9hyzHR1ni8aU2MLPFDTTXvQPtcYQ7UmKe/GufvqfY
+ uC3Q==
+X-Gm-Message-State: AOAM532O0jffy7RSRN/j5hFIykAV38VZwQcJcvyE5Hp5e8f2NL4Y05GU
+ RX+tUs8DLcs1YIbIBC1saLU=
+X-Google-Smtp-Source: ABdhPJxqOijYmlLKO7UkqDDyejHm0HiCZUlu6eEtI3a/D06n6GQqSar/JpJrxQZCo4T8Jbq2AA3Sow==
+X-Received: by 2002:a65:694a:0:b0:3fb:9d3b:431b with SMTP id
+ w10-20020a65694a000000b003fb9d3b431bmr15813368pgq.276.1653921006234; 
+ Mon, 30 May 2022 07:30:06 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- c124-20020a621c82000000b0050dc762815asm6759128pfc.52.2022.05.30.07.23.53
+ r4-20020aa79624000000b0050dc76281fdsm8888920pfg.215.2022.05.30.07.30.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 07:23:55 -0700 (PDT)
-Message-ID: <ef17b7bd-421a-8999-21af-e98be80df9b3@amsat.org>
-Date: Mon, 30 May 2022 16:23:51 +0200
+ Mon, 30 May 2022 07:30:05 -0700 (PDT)
+Message-ID: <56ddc6f3-8ce5-c2f6-1dba-5b0c22b0bf35@amsat.org>
+Date: Mon, 30 May 2022 16:30:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH 1/6] scsi-disk: add FORMAT UNIT command
+Subject: Re: [PATCH] target/xtensa: add clock input to xtensa CPU
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- laurent@vivier.eu, fam@euphon.net, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-References: <20220421065155.31276-1-mark.cave-ayland@ilande.co.uk>
- <20220421065155.31276-2-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220421065155.31276-2-mark.cave-ayland@ilande.co.uk>
+To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
+References: <20220422191542.415701-1-jcmvbkbc@gmail.com>
+In-Reply-To: <20220422191542.415701-1-jcmvbkbc@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,28 +94,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 21/4/22 08:51, Mark Cave-Ayland wrote:
-> When initialising a drive ready to install MacOS, Apple HD SC Setup first attempts
-> to format the drive. Add a simple FORMAT UNIT command which simply returns success
-> to allow the format to succeed.
+On 22/4/22 21:15, Max Filippov wrote:
+> Create clock input for the xtensa CPU device and initialize its
+> frequency to the default core frequency specified in the config.
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 > ---
->   hw/scsi/scsi-disk.c  | 4 ++++
->   hw/scsi/trace-events | 1 +
->   2 files changed, 5 insertions(+)
+>   target/xtensa/cpu.c       | 15 +++++++++++++++
+>   target/xtensa/cpu.h       |  5 +++++
+>   target/xtensa/op_helper.c |  7 ++++---
+>   3 files changed, 24 insertions(+), 3 deletions(-)
 
-> diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
-> index 20fb0dc162..e91b55a961 100644
-> --- a/hw/scsi/trace-events
-> +++ b/hw/scsi/trace-events
-> @@ -334,6 +334,7 @@ scsi_disk_emulate_command_UNMAP(size_t xfer) "Unmap (len %zd)"
->   scsi_disk_emulate_command_VERIFY(int bytchk) "Verify (bytchk %d)"
->   scsi_disk_emulate_command_WRITE_SAME(int cmd, size_t xfer) "WRITE SAME %d (len %zd)"
->   scsi_disk_emulate_command_UNKNOWN(int cmd, const char *name) "Unknown SCSI command (0x%2.2x=%s)"
-> +scsi_disk_emulate_command_FORMAT_UNIT(size_t xfer) "Format Unit (len %zd)"
-
-%zu (%zd is for ssize_t), otherwise:
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Thanks.
 
