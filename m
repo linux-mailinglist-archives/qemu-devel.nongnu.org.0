@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73922537A8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:19:27 +0200 (CEST)
-Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC133537A3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:57:24 +0200 (CEST)
+Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nveMo-0006jh-9M
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
+	id 1nve1T-0003V5-V2
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nvdiS-0000KK-0C
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:37:44 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:43969)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvdh5-0006ZO-TE
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:36:19 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:38513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nvdiL-00037w-4G
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:37:40 -0400
-Received: by mail-pg1-x532.google.com with SMTP id s68so9902317pgs.10
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=oTn7xiqfMVG/Ets8BTsPYZb54RZ76weVWzmNwY5pPOo=;
- b=Sh2IF70NIweZY1YxFBbcJj+h+93R3gV45P301sqtBAYvTC1LNCDTVqNx/GSSKFseWa
- 036lnyaVMqBdidXXcWzlLqYbAfPD0hzUxzNox8v3xnfLv+i5LbHZhjiNZ8yWdpfNl3G3
- r4C4g95JJpHGovTumWZYkpfVmrLEopIK4AehBE72PgZl8X4XClsrN0lOOBRnalM+mC5d
- udC0XbG5Vm4ceV5WRHq5u07rZcJdbZW27bvY8sxba93MwzgTx74f1gLC1QMyximZtc/J
- RpJdnh0P03nLKATKs+sTq8cow6FQuGkrgwkTOkS8kMXQexvE3T4U5h29KV6xAdOofSnn
- Saxg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvdh2-0002ti-QZ
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:36:18 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-2ff7b90e635so106827677b3.5
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pkdHI4NJNJSXNWzDlACMC9GVsPurwUFSLWfoGEV/dJQ=;
+ b=gCEjQOz+G9O+UzkXnxAouBzkoW61yy4mYyMaEQ7mw+zqejzyQvBh0hQajduZIumWQv
+ R4Ujo+/jdeuCQFb4QLgsvHCfKS3grM1MqZAF6gmo/SoBfC5PtexjCMg6FmHw5JxYpGM+
+ xOUueGDuz21jlq4cXdEzI9tyofZESs0D9UWVVMIEPm/CXwrIteCG6uosQENbzJ8A3IDY
+ gzR7ukp2q0VFwdQFMVVhVnmI0XETyp0lz6n+NPODtVjK+cWq2yxSyN2paaiFLF1LEFDr
+ my7WlcKOqaBJtBV2RjjdLmfUWVEvrrYkISeZ3vqNA4k2y29tF5Pwczb1UdqcbyLCTnMd
+ 3taA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oTn7xiqfMVG/Ets8BTsPYZb54RZ76weVWzmNwY5pPOo=;
- b=pZAJ/g4GkKA0JT+oiZ8aYL3GBDXavgpUrVEdD82jQCCxXpSDJ5kYNplCOuLIUj28bv
- PGYa2Ikh9YgcoKc0RI7r/UL5xqdudCBC2/Yb17ZWpfUNf+b654wlbz0aC3vQBHK0NOxS
- 0XcM275BiOM39r8MlEu0glJWlgTJeZlyl2KS3lw0APY1YJLJuydIWQsk4qCQJ3VKwIB0
- i+28CRRs0dofyZIffrEzQnzmWTCk0U1BpHfFfuIWgopqsnDQxD9oyEmjoGVz59Qu/WW2
- 9RobGZPx8E++SGCibbCXjUNM8ap04hUri/cl09oDT/LkE/MYY0+GMnQNKoYS1dzumLOl
- 620g==
-X-Gm-Message-State: AOAM530npCscqnF8uE+BbofuMMz5i0T1DYQAAPqMKE4/C+B41Vknh0bG
- whU0qOc9GgrSjRBdQY+jKcqI9w==
-X-Google-Smtp-Source: ABdhPJzonQ9UZ2K3KajjLc5t3cYmEGAE0YbTTOskwZ6mVqc54jbu+C/Juy1kTZLlt6QZEc2VPOnxMQ==
-X-Received: by 2002:a65:618e:0:b0:3fb:177f:d365 with SMTP id
- c14-20020a65618e000000b003fb177fd365mr17788413pgv.265.1653910655546; 
- Mon, 30 May 2022 04:37:35 -0700 (PDT)
-Received: from [10.255.89.136] ([139.177.225.249])
- by smtp.gmail.com with ESMTPSA id
- i1-20020a17090a718100b001e2608203d4sm4426742pjk.5.2022.05.30.04.37.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 04:37:34 -0700 (PDT)
-Message-ID: <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
-Date: Mon, 30 May 2022 19:33:35 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pkdHI4NJNJSXNWzDlACMC9GVsPurwUFSLWfoGEV/dJQ=;
+ b=wacT/YJ0Fdxy3bYB8CyT5pXzkQJvubOt6Qfdlm1RsZUm/jJPOWBWPZuRjTkAi3RvW+
+ sGdpl+wHSx4uquuaqUeL2HLdqj/Io1gKxFjq1NisfNKLzAlvLW2IgGingwzWSz30aP/i
+ YU2WBYOsgb2lrcDfxTwMAyBLK1GZ1BfsUbhCXhMylmPVA63Mf/5AeiuAzKbd24NhMX1q
+ FSmu+iMoPEX3vFDOMx4OA+Cqs2hIqILZ8teOlb845wRteRSNJYDi2GrpPzb//nbIqQsb
+ 7QIR+JfPVI1TpCxO4RZ2Vi5bBfsbMhd/gCWdD6eTdMSpdD0ywuA7QRg1JukB/FxS0c8A
+ h8iA==
+X-Gm-Message-State: AOAM533a0WlZ85VbOH/zdvenjWRvuKGNDoD6KIev8SK8B5V3cbTo6tMR
+ XswNtmgJRu5p1bG/Pdpxe1FLeSSQFJzXHekQnQzX+g==
+X-Google-Smtp-Source: ABdhPJwpE0LDECB6SZicTisT3OOxR+/rRtTEVuiOGLIqN6O0LHmmx269mDp0D0yc1XR/1j3smV4CtdKlU4ycB/tDMF4=
+X-Received: by 2002:a81:1a4c:0:b0:30c:8363:e170 with SMTP id
+ a73-20020a811a4c000000b0030c8363e170mr1050240ywa.455.1653910575291; Mon, 30
+ May 2022 04:36:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jue Wang <juew@google.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, jasowang@redhat.com,
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- mst@redhat.com, =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?=
- <naoya.horiguchi@nec.com>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
-References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
- <Yo/I3oLkd9OU0ice@xz-m1.local>
- <24a95dea-9ea6-a904-7c0b-197961afa1d1@bytedance.com>
- <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220520124200.2112699-1-uwu@icenowy.me>
+ <CAFEAcA-5CxTPdzbwubjRvw-KwOAnW1vPP3O+acvURPD0kwXfMg@mail.gmail.com>
+ <a7bdef698925136964b2215b94bcd53e1f153048.camel@icenowy.me>
+In-Reply-To: <a7bdef698925136964b2215b94bcd53e1f153048.camel@icenowy.me>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 May 2022 12:36:04 +0100
+Message-ID: <CAFEAcA-sNz-ajuAC6=Qbu0nW-zau3csK+33PJ6EyH5+=D2g29w@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd/allwinner-sdhost: report FIFO water level as 1 when
+ data ready
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Beniamino Galvani <b.galvani@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,89 +89,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 23 May 2022 at 17:40, Icenowy Zheng <uwu@icenowy.me> wrote:
+>
+> =E5=9C=A8 2022-05-23=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 15:14 +0100=EF=
+=BC=8CPeter Maydell=E5=86=99=E9=81=93=EF=BC=9A
+> > On Fri, 20 May 2022 at 13:42, Icenowy Zheng <uwu@icenowy.me> wrote:
+> > >
+> > > U-Boot queries the FIFO water level to reduce checking status
+> > > register
+> > > when doing PIO SD card operation.
+> > >
+> > > Report a FIFO water level of 1 when data is ready, to prevent the
+> > > code
+> > > from trying to read 0 words from the FIFO each time.
+> > >
+> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > ---
+> > >  hw/sd/allwinner-sdhost.c | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+> > > index 041e45c680..b66fd9bce7 100644
+> > > --- a/hw/sd/allwinner-sdhost.c
+> > > +++ b/hw/sd/allwinner-sdhost.c
+> > > @@ -114,7 +114,9 @@ enum {
+> > >  };
+> > >
+> > >  enum {
+> > > +    SD_STAR_FIFO_EMPTY      =3D (1 << 2),
+> > >      SD_STAR_CARD_PRESENT    =3D (1 << 8),
+> > > +    SD_STAR_FIFO_LEVEL_1    =3D (1 << 17),
+> > >  };
+> >
+> > Is there documentation on this hardware available somewhere?
+> > The Linux kernel driver for it doesn't seem to have a #define
+> > for this bit 17.
+>
+> For the specific version on H3,
+> https://linux-sunxi.org/File:Allwinner_H3_Datasheet_V1.2.pdf .
 
+Thanks. Since this patch fixes u-boot and is a reasonable
+approximation to correct device behaviour assuming we don't
+want to bother emulating the FIFO properly, I've applied
+it to my target-arm.next tree.
 
-On 5/30/22 15:41, David Hildenbrand wrote:
-> On 27.05.22 08:32, zhenwei pi wrote:
->> On 5/27/22 02:37, Peter Xu wrote:
->>> On Wed, May 25, 2022 at 01:16:34PM -0700, Jue Wang wrote:
->>>> The hypervisor _must_ emulate poisons identified in guest physical
->>>> address space (could be transported from the source VM), this is to
->>>> prevent silent data corruption in the guest. With a paravirtual
->>>> approach like this patch series, the hypervisor can clear some of the
->>>> poisoned HVAs knowing for certain that the guest OS has isolated the
->>>> poisoned page. I wonder how much value it provides to the guest if the
->>>> guest and workload are _not_ in a pressing need for the extra KB/MB
->>>> worth of memory.
->>>
->>> I'm curious the same on how unpoisoning could help here.  The reasoning
->>> behind would be great material to be mentioned in the next cover letter.
->>>
->>> Shouldn't we consider migrating serious workloads off the host already
->>> where there's a sign of more severe hardware issues, instead?
->>>
->>> Thanks,
->>>
->>
->> I'm maintaining 1000,000+ virtual machines, from my experience:
->> UE is quite unusual and occurs randomly, and I did not hit UE storm case
->> in the past years. The memory also has no obvious performance drop after
->> hitting UE.
->>
->> I hit several CE storm case, the performance memory drops a lot. But I
->> can't find obvious relationship between UE and CE.
->>
->> So from the point of my view, to fix the corrupted page for VM seems
->> good enough. And yes, unpoisoning several pages does not help
->> significantly, but it is still a chance to make the virtualization better.
->>
-> 
-> I'm curious why we should care about resurrecting a handful of poisoned
-> pages in a VM. The cover letter doesn't touch on that.
-> 
-> IOW, I'm missing the motivation why we should add additional
-> code+complexity to unpoison pages at all.
-> 
-> If we're talking about individual 4k pages, it's certainly sub-optimal,
-> but does it matter in practice? I could understand if we're losing
-> megabytes of memory. But then, I assume the workload might be seriously
-> harmed either way already?
-> 
-
-Yes, resurrecting a handful of poisoned pages does not help 
-significantly. And, in some ways, it seems nice to have. :D
-
-A VM uses RAM of 2M huge page. Once a MCE(@HVAy in [HVAx,HVAz)) occurs, 
-the 2M([HVAx,HVAz)) of hypervisor becomes unaccessible, but the guest 
-poisons 4K (@GPAy in [GPAx, GPAz)) only, it may hit another 511 MCE 
-([GPAx, GPAz) except GPAy). This is the worse case, so I want to add
-  '__le32 corrupted_pages' in struct virtio_balloon_config, it is used 
-in the next step: reporting 512 * 4K 'corrupted_pages' to the guest, the 
-guest has a chance to isolate the other 511 pages ahead of time. And the 
-guest actually loses 2M, fixing 512*4K seems to help significantly.
-
-> 
-> I assume when talking about "the performance memory drops a lot", you
-> imply that this patch set can mitigate that performance drop?
-> 
-> But why do you see a performance drop? Because we might lose some
-> possible THP candidates (in the host or the guest) and you want to plug
-> does holes? I assume you'll see a performance drop simply because
-> poisoning memory is expensive, including migrating pages around on CE.
-> 
-> If you have some numbers to share, especially before/after this change,
-> that would be great.
-> 
-
-The CE storm leads 2 problems I have even seen:
-1, the memory bandwidth slows down to 10%~20%, and the cycles per 
-instruction of CPU increases a lot.
-2, the THR (/proc/interrupts) interrupts frequently, the CPU has to use 
-a lot time to handle IRQ.
-
-But no corrupted page occurs. Migrating VM to another healthy host seems 
-a good choice. This patch does not handle CE storm case.
-
--- 
-zhenwei pi
+-- PMM
 
