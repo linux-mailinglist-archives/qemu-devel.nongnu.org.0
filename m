@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964775379F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:35:21 +0200 (CEST)
-Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D94537A21
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:44:22 +0200 (CEST)
+Received: from localhost ([::1]:55634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvdg8-0003ZS-Gp
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:35:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
+	id 1nvdor-0001CM-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvdYt-00006y-Le
+ id 1nvdYw-00007X-Er
  for qemu-devel@nongnu.org; Mon, 30 May 2022 07:27:55 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43780)
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvdYg-0001KN-MI
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:27:51 -0400
-Received: by mail-pl1-x632.google.com with SMTP id b5so10049442plx.10
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:27:37 -0700 (PDT)
+ id 1nvdYp-0001Kq-Pc
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:27:54 -0400
+Received: by mail-pf1-x432.google.com with SMTP id f21so10336939pfa.3
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4s3AwNuRr6rszDvvIyp9DCkPdUSckHh0rwFtRF3kLVg=;
- b=MyverThzPUgDt29aKnzMJ8Gq/UKB3OfFKLgzIRn00IjpK5II/ujLMNeWl7CLiGqN+T
- NHtfMR4vMH2boDjaOOOYudMfqX26I/XEZJU16MER1DSPIh1TkKGAzTjpqh4y8m+Lwq1+
- o9h+4jrawdFePMI9n7XLjNjAsIGVo4oOrxdYHL426WEwHiR8StrYwjx6J2B0K7/V9mVi
- iXeu4qats729MrBRjZZrsPMDNur+v5i16RhTIwlggf/2HxqDlPKavqZXmBJeMvvg9c49
- zEN8H2K9ZCpq24vc/9SZo3zxQ4O+JkLblMWmc4iv53vVxo1pvQ5bLviR93v8enYRnxfT
- Qz2A==
+ bh=OIu+NoT4gZ0qR5vroZwrG3oH+d1OSRS6QV1jDSTNRMk=;
+ b=mgzQsmjVk5neRxzN/NbKBMjCI8JQj+BhEKxodL89IhVkaAN277YuKYzfrftAD+H+3q
+ kHkijyy5/8TQuMWrxtawwKtm/3+tGzpSPsIX2wjfTM4drldVt9XsHq6K4tmsLtDDb5ay
+ 6RiPV/YZRfB8OsO2JbSq4sUVGW+Ituh07TlLp4kyodmCLs3LreyByaTqRewc8B2EZcE/
+ qy6BTcVfU29IMhq6vE65t/IE4ZzPY7FyWugnjBhj4UmLUPnB8L0n5q5gX4TFpLhbFXta
+ WOEplecgwzrhjYpgt1giBZ/7ellJfcdLxpFFI2To/j5090H6p0qsvlrfbR1htzsBAzY1
+ O46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4s3AwNuRr6rszDvvIyp9DCkPdUSckHh0rwFtRF3kLVg=;
- b=ESxrzJtgszjwCUGeMYxUw04LtOsjehp2WGmj7StNCNhqDkiRb2uYJACXpYDezBOsWc
- Pjf8ebNGAc2o6qbfnrbWBJjAtb4u4YPHXBP5t6AA+0dpS9iZ/j8ZuoLkU289n3nUgj+k
- gP6vqFXIodrhyR2KBxPzhkaSJ419jESUyq19vxvYKnOp6S5r1WmapBe1NEMws1Kj9M/2
- S1h/BNae2tyrfGNNfHDwWn3h3d7UP8ggWBisgxxspsa0D+xt7j4a8h2TUboeWh98rAjJ
- uPId7WXUjMTk9ksCmKoIhAfdC2vK8OAG7X6BsLBWmyM0wfR94MiqaVsU/KsUJsDUj1+t
- ckuA==
-X-Gm-Message-State: AOAM533ntPutPRDm3bHlxt0W70ZLTad/WvB2rVVeWac609EMYx30NjEy
- BCPkQHnqdWQ24UZ0SRrgNDk=
-X-Google-Smtp-Source: ABdhPJxaUYJxb0xd/snoKDj34DHYyJqTuk9JMBzP9c4EHRSAo9ZT+YakFC0T3DxfiPjRN1nidjsjvA==
-X-Received: by 2002:a17:90b:4ac9:b0:1e3:1dca:d995 with SMTP id
- mh9-20020a17090b4ac900b001e31dcad995mr1354585pjb.111.1653910056694; 
- Mon, 30 May 2022 04:27:36 -0700 (PDT)
+ bh=OIu+NoT4gZ0qR5vroZwrG3oH+d1OSRS6QV1jDSTNRMk=;
+ b=izGqMF2EAwYGk2qwBBTwBu7ZUdj0ex8zPlBytbggLgmaKO+L1DulXmY+XFP99DePqB
+ Ul7woI2CAsNzbDK+4EnaXMB3TZMo8Etog9YmdB3ZNU/NVwwEflCK82q8JEMA/ID62mma
+ 7/XxbfeE+05D8RMrw9gGsSk72wrcS1HMrrLL9Qeqkw4uFMiTA1+pA/BawpVUAVKstTTf
+ aU6mJB+CRRv3iALsgEulBSlKLXPx96mq2kIgz/DB1Tb6rMB7eqcEUlBrP5/LB5uf7eTV
+ BT0TQHDCxKFplpJ4jYYjhFr1ytEF3JEhxfI+JD/ALSf/1ESrF9RxsNMVx6VcP5AdHhhP
+ 2ugw==
+X-Gm-Message-State: AOAM533vnMN8Ym+OVkhijta52uDGjTsuSq0x3x7bzrqMqZQs6Wxt5Duy
+ Ckcj6+5LR6cFap1dlMjFhRk=
+X-Google-Smtp-Source: ABdhPJzbvP0MiHkjffrVpRJp6/UFD6cfPAOGikD4W2qGtGBjLHLCtXJr0PXT6IbOJQ2eEYltLvVFyg==
+X-Received: by 2002:aa7:888c:0:b0:505:7832:98fc with SMTP id
+ z12-20020aa7888c000000b00505783298fcmr56211210pfe.0.1653910066470; 
+ Mon, 30 May 2022 04:27:46 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- x26-20020aa7941a000000b0050dc7628158sm8647896pfo.50.2022.05.30.04.27.32
+ c22-20020a170902c2d600b0015e8d4eb2e8sm8849963pla.306.2022.05.30.04.27.42
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 30 May 2022 04:27:36 -0700 (PDT)
+ Mon, 30 May 2022 04:27:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
@@ -66,24 +66,23 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 01/11] hw/acpi/piix4: move xen_enabled() logic from
- piix4_pm_init() to piix4_pm_realize()
-Date: Mon, 30 May 2022 13:27:08 +0200
-Message-Id: <20220530112718.26582-2-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v2 02/11] hw/acpi/piix4: change smm_enabled from int to bool
+Date: Mon, 30 May 2022 13:27:09 +0200
+Message-Id: <20220530112718.26582-3-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220530112718.26582-1-philippe.mathieu.daude@gmail.com>
 References: <20220530112718.26582-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,43 +101,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This logic can be included as part of piix4_pm_realize() and does not need to
-be handled externally.
+This is in preparation for conversion to a qdev property.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20220528091934.15520-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220528091934.15520-3-mark.cave-ayland@ilande.co.uk>
+[PMD: Change simm_enabled from int to bool, suggested by Ani Sinha]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/acpi/piix4.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/acpi/piix4.c               | 4 ++--
+ include/hw/southbridge/piix.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index fe5625d07a..bf20fa139b 100644
+index bf20fa139b..558c250884 100644
 --- a/hw/acpi/piix4.c
 +++ b/hw/acpi/piix4.c
-@@ -525,6 +525,10 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
-     s->machine_ready.notify = piix4_pm_machine_ready;
-     qemu_add_machine_init_done_notifier(&s->machine_ready);
+@@ -74,7 +74,7 @@ struct PIIX4PMState {
  
-+    if (xen_enabled()) {
-+        s->use_acpi_hotplug_bridge = false;
-+    }
-+
-     piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
-                                    pci_get_bus(dev), s);
-     qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
-@@ -551,9 +555,6 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-     s->irq = sci_irq;
-     s->smi_irq = smi_irq;
-     s->smm_enabled = smm_enabled;
--    if (xen_enabled()) {
--        s->use_acpi_hotplug_bridge = false;
--    }
+     qemu_irq irq;
+     qemu_irq smi_irq;
+-    int smm_enabled;
++    bool smm_enabled;
+     bool smm_compat;
+     Notifier machine_ready;
+     Notifier powerdown_notifier;
+@@ -538,7 +538,7 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
  
-     pci_realize_and_unref(pci_dev, bus, &error_fatal);
+ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+                       qemu_irq sci_irq, qemu_irq smi_irq,
+-                      int smm_enabled, DeviceState **piix4_pm)
++                      bool smm_enabled, DeviceState **piix4_pm)
+ {
+     PCIDevice *pci_dev;
+     DeviceState *dev;
+diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+index f63f83e5c6..ff8d96ae8c 100644
+--- a/include/hw/southbridge/piix.h
++++ b/include/hw/southbridge/piix.h
+@@ -19,7 +19,7 @@
  
+ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+                       qemu_irq sci_irq, qemu_irq smi_irq,
+-                      int smm_enabled, DeviceState **piix4_pm);
++                      bool smm_enabled, DeviceState **piix4_pm);
+ 
+ /* PIRQRC[A:D]: PIRQx Route Control Registers */
+ #define PIIX_PIRQCA 0x60
 -- 
 2.36.1
 
