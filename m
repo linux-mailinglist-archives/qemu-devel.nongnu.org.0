@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B90C5380DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:27:17 +0200 (CEST)
-Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387E3537F80
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:20:20 +0200 (CEST)
+Received: from localhost ([::1]:49324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvgMW-00013C-Ey
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
+	id 1nvgFm-0000ws-Gg
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvgDA-0006C7-4v
- for qemu-devel@nongnu.org; Mon, 30 May 2022 10:17:36 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:41552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvfzS-0003gY-5H
- for qemu-devel@nongnu.org; Mon, 30 May 2022 10:03:27 -0400
-Received: by mail-pg1-x530.google.com with SMTP id e66so10226253pgc.8
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 07:03:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7hvxTJ99l4INuE29lawaNujKBhlVAzGeSSqOh8Do6F8=;
- b=UM4dH5NPI/vWqhPCRmVFoVYWbYsOYImFKqQd2ravkOPAU7KanVddvCU7162YeMMZWU
- zfCzVPYJEX/W76d2bHC/YZcSaDvED0A39tsq8gStqfVLWtgdl1uqaUPout1hFbrMUpMw
- PP7ruHvGz2RS+9mpqKuiQ/e4YYbShonEUNzPdPARdbaAtRnm82kM0X7gksm2vu6koH6C
- S/PNe6DQn53Tpms8Et1UkIdb+9oIXHghXY+fj/LWdA3Br0rnNAgRPj+sYJtURzhTyQSI
- imVwX6AcZ5eauszUlIJFXzQ40klr9jTba0FKEdILqnF2uZyz2DTpbSOnczKNoa1mV2gs
- TjiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7hvxTJ99l4INuE29lawaNujKBhlVAzGeSSqOh8Do6F8=;
- b=COhdInZHH10m/gE6I/YPxtxKu2sx5SsuxpGmAZ8VKB1R2xhOM3DGI1oz1Qm76vGOCO
- BEqQxGcAKPcoRpobP9pKYj0zZbafSHbfQo1szoSNR7VujysZE4nRCvdYWd8GAYF33dMT
- fW/Jkl2A19VntBNk4+PJMdQoCqw46fmXG6oJIdN5Yd+oqguvCiO30m/vXfQPytaJ3wJh
- /K7t8AiOXPfo6PrOsM9R99ruNGjMnSoFur9hWKK5fgIL0q/QXVGdl+2zMqwVylihkadA
- ajLiT0DhMY9yc7mpQB7ANtxtASGiXDv4ci8LCqyOH/TQvlkxe16LUVHJR55RR2laYLxx
- KpEw==
-X-Gm-Message-State: AOAM531pakb2MXhEmC7DClGTQeK6bhERfmB6cBAQ1W76fQaRIcxplSoq
- XOKxWIMTBJzkg/O4cnlm27I=
-X-Google-Smtp-Source: ABdhPJxuOcqGCcCqn8LCl7FUevbOa/tzSRbYLjVR2TlfGJrB1cjNJVUEfUUJ9pvclN7T+4wpOGlqtQ==
-X-Received: by 2002:a63:68c4:0:b0:3fb:984f:6779 with SMTP id
- d187-20020a6368c4000000b003fb984f6779mr16009190pgc.444.1653919403776; 
- Mon, 30 May 2022 07:03:23 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- l64-20020a638843000000b003fc439410f1sm302238pgd.94.2022.05.30.07.03.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 07:03:22 -0700 (PDT)
-Message-ID: <6f9b4cc9-2d3d-7a6f-8d76-bfc9b940cb9a@amsat.org>
-Date: Mon, 30 May 2022 16:03:19 +0200
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nvgD8-00069u-JO
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 10:17:34 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:47343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nvg10-0003nk-C2
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 10:05:05 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 24UE44ZL009737
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 30 May 2022 10:04:06 -0400
+Date: Mon, 30 May 2022 10:04:04 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH v2 1/3] memory: Track whether a Device is engaged in IO
+Message-ID: <20220530140404.utwfunhvpiqqj4ca@mozz.bu.edu>
+References: <20220527161937.328754-1-alxndr@bu.edu>
+ <20220527161937.328754-2-alxndr@bu.edu>
+ <CAFEAcA-PXO8ZGS_DA6E65MK2pvnnepbpA-vc_90xdARLj73=iA@mail.gmail.com>
+ <20220530130944.27md44gr2yp7gx5i@mozz.bu.edu>
+ <CAFEAcA_uNwY582GuCw6xqiDqyG3K6uqZB-ojB-Qcn5Hkzp4ZRg@mail.gmail.com>
+ <13077fc2-4b9b-f4a8-1a24-651043416727@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH 3/4] target/mips: Fix msa checking condition in
- trans_msa_elm_fn()
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- nihui <shuizhuyuanluo@126.com>, qemu-devel@nongnu.org
-References: <20220503130708.272850-1-shuizhuyuanluo@126.com>
- <20220503130708.272850-3-shuizhuyuanluo@126.com>
- <9724000f-6a78-36ad-5a39-1d2b2298a919@linaro.org>
-In-Reply-To: <9724000f-6a78-36ad-5a39-1d2b2298a919@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <13077fc2-4b9b-f4a8-1a24-651043416727@amsat.org>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,47 +76,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 3/5/22 17:12, Richard Henderson wrote:
-> On 5/3/22 06:07, nihui wrote:
->> From: Ni Hui <shuizhuyuanluo@126.com>
->>
->> Fix issue that condition of check_msa_enabled(ctx) is reversed
->> that causes segfault when msa elm_fn op encountered.
->>
->> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
->> ---
->>   target/mips/tcg/msa_translate.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/target/mips/tcg/msa_translate.c 
->> b/target/mips/tcg/msa_translate.c
->> index aa45bae0aa..92ccc6f921 100644
->> --- a/target/mips/tcg/msa_translate.c
->> +++ b/target/mips/tcg/msa_translate.c
->> @@ -599,7 +599,7 @@ static bool trans_msa_elm_fn(DisasContext *ctx, 
->> arg_msa_elm_df *a,
->>           return false;
->>       }
->> -    if (check_msa_enabled(ctx)) {
->> +    if (!check_msa_enabled(ctx)) {
->>           return true;
->>       }
+On 220530 1539, Philippe Mathieu-Daudé wrote:
+> On 30/5/22 15:28, Peter Maydell wrote:
+> > On Mon, 30 May 2022 at 14:10, Alexander Bulekov <alxndr@bu.edu> wrote:
+> > > 
+> > > On 220530 1219, Peter Maydell wrote:
+> > > > On Fri, 27 May 2022 at 17:19, Alexander Bulekov <alxndr@bu.edu> wrote:
+> > > > > 
+> > > > > Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
+> > > > > This flag should be set/checked prior to calling a device's MemoryRegion
+> > > > > handlers, and set when device code initiates DMA.  The purpose of this
+> > > > > flag is to prevent DMA reentrancy issues. E.g.:
+> > > > > sdhci pio -> dma write -> sdhci mmio
+> > > > > nvme bh -> dma write -> nvme mmio
+> > > > > 
+> > > > > These issues have led to problems such as stack-exhaustion and
+> > > > > use-after-frees.
+> > > > > 
+> > > > > Assumptions:
+> > > > >   * Devices do not interact with their own PIO/MMIO memory-regions using
+> > > > >     DMA.
+> > > > 
+> > > > If you're trying to protect against malicious guest-controlled
+> > > > DMA operations, you can't assume that. The guest can program
+> > > > a DMA controller to DMA to its own MMIO register bank if it likes.
+> > > 
+> > > If this is the case, then it seems the only way to fix this class of
+> > > problems is to rewrite device code so that it is safe for re-entrancy.
+> > > That seems to require significant upfront work to support behavior that
+> > > is often not even specified.
+> > > Simply spot-fixing the fuzzer re-entracy bugs seems like a dangerous,
+> > > incomplete solution.
+> > > 
+> > > Can we disable re-entracy by default, to fix the security issues, and
+> > > allow device code to "opt-in" to re-entrancy?
+> > 
+> > That's a different question, ie "are there legitimate cases where
+> > devices try to DMA to themselves?". I don't know the answer, but
+> > I suspect not.
 > 
-> Cc: phil
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> There is a niche where it might not be legitimate, but it is (ab)used
+> and Paolo wants to keep such cases working. I already responded to
+> Alexander here:
+> https://lore.kernel.org/qemu-devel/380ea0e5-a006-c570-4ec8-d67e837547ee@redhat.com/
 
-Clearly this path is not exercised in TCG tests.
+I'm not sure we confirmed that this is actually an example of a device
+performing DMA to its own MMIO. Unless I am missing something, the BLOAD
+example simply performs repeated writes to VRAM?
 
-Ni, could you contribute tests for the ELM MSA opcodes?
-
-Fixes: 2f2745c81a ("target/mips: Convert MSA COPY_U opcode to decodetree")
-Fixes: 97fe675519 ("target/mips: Convert MSA COPY_S and INSERT opcodes 
-to decodetree")
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Queued.
+That said video-related devices seem like possible candidates where such
+behavior is conceivable. But even in those cases, the memory regions
+would likely be ram/rom devices (which are excluded from the re-entrancy
+check). 
 
