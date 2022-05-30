@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1B65384F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 17:32:32 +0200 (CEST)
-Received: from localhost ([::1]:55654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8100538521
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 17:41:47 +0200 (CEST)
+Received: from localhost ([::1]:38622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvhNe-0007Fm-I0
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 11:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
+	id 1nvhWa-0005S5-Nz
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 11:41:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvhKt-00068H-0w; Mon, 30 May 2022 11:29:39 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:36558)
+ id 1nvhTt-0003Qk-6n; Mon, 30 May 2022 11:38:57 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:35826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvhKr-00011s-D6; Mon, 30 May 2022 11:29:38 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- u12-20020a17090a1d4c00b001df78c7c209so14118723pju.1; 
- Mon, 30 May 2022 08:29:36 -0700 (PDT)
+ id 1nvhTr-0002aN-Ko; Mon, 30 May 2022 11:38:56 -0400
+Received: by mail-pg1-x530.google.com with SMTP id 129so6164847pgc.2;
+ Mon, 30 May 2022 08:38:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IoEwGgaRXjxWpWtIlBIJDyO3c674/kFk5FYSyq8mUPk=;
- b=l9iWIUO/BxER60gSNCu9h5jZYSyno/cF6WD0Yc8XZMu62H/wkC3eVBKbFKJZVpClx5
- 0bXuZc5ukAlrvSgPxoleyEapDtAmgpDJttuwkQOEHZsk8bLmaY1sHqnCGh0Rn/MbdOFE
- 6R3PYi0Ma2YEliczgemC0gGRC9ZW4LQN1nteN3Mjcz5NX7DcYbZZ5HjqxwFSV4D5CdoS
- Z4F8qSYavPCZmBPzMSzPAf/16g/mXJnGQZgKfd88eaMgy5NqWt6RbjB1Ofg0PwuopTUm
- GcqbarjBZ1/yZmiMh6RtnG+GetXipBo7/Hcr43oTteLW01U72N/zq5g5hXV8LTtgBKq9
- gNpA==
+ bh=nsQr7paZ4+ABfpJ5g+YTTOZjCMP6VmacVjzhsOv8WOA=;
+ b=YH17kO9qicy2pUuItThi1dSuluyOwbrQ/aM4VbuLWKRYHF8dbkgCDqU9gfl2nUaEDD
+ kXgckaFMAeojgtOhdjuciIJmVdF4sdYjc+XRRGSok20DKYosSY66dPR+65inhgQCf574
+ jpnZAV/VPBlcDdzldVaY1Z2TQnVKO04OKNHFCS4QzA4C7lakSIZKf5v41wmzj3a5GXP5
+ 1tPvhlO+ZZFAU5FzqYibpnl107nnnRmj3Ew+cGPqrDT8ZX4nFR5cNNQVgaqwWHIJfpnu
+ jJGrs9zB9zNrPYZUuSq/QU0iVQ/ib/u3ckODBzPExqTNxsnVmvDi2MOGxjdn2ZF3rAxm
+ ZnEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IoEwGgaRXjxWpWtIlBIJDyO3c674/kFk5FYSyq8mUPk=;
- b=sCQefC/viVA+573bZxibemcdnVj+HVTV/coPcrXChKVtNclp/yn5CfAUK7wDy7vzO/
- LPuufhW/6dDqqoZbVdir8UEe7G7ybu0SUSvpoGbtKeskGyzwnyKkXNTHypiWiPSvqljL
- LSCsxqj+UFg9a4eExo37PEbgsFbBQy9Cj9zSdhA5ZA1o9jVKV+6HGstZ1HKXSdxUIHeE
- 0AwF3B+30GFMzPxVa/v0HUR1EGjIp8GplQQudDOuu/8lbtKqYhkNr8F07vzU7kU4Qzqp
- EaEfaBhagL2y/GmQeUAwjmZa/2Q07WaCz/vrdiVeVcJ3CiTxb7i/iUhq2H6aclbeXdXo
- kHSQ==
-X-Gm-Message-State: AOAM531Ux7ZdgogjtWbm8Q3mcLwNRnmsglctCdthUaKJkFeEPGv2ey68
- VhG8Qe34jUEXSBirA2hwM/I=
-X-Google-Smtp-Source: ABdhPJwVXNeZ3RDeR/8Z6VtU6wLXDmNbEel2FlNA0UXBo6q77RzEE3ocCTOEdPsRNKo4I+k3Sz1WwQ==
-X-Received: by 2002:a17:902:ce82:b0:163:f215:e3b6 with SMTP id
- f2-20020a170902ce8200b00163f215e3b6mr2669110plg.51.1653924575751; 
- Mon, 30 May 2022 08:29:35 -0700 (PDT)
+ bh=nsQr7paZ4+ABfpJ5g+YTTOZjCMP6VmacVjzhsOv8WOA=;
+ b=y6NdfCK+YCUDAMnrTuszwVCt/AGNmLkGZh9A4nYoF8Wi4MJ8wEXvgPSza+2jHjx1qm
+ EyrP+RtQlK7tz45LZ2kUlsWxOnkRSKd+7dCLGoGjlLtUMcqDJQX2G9fmZ8ci+ZnRVJAN
+ 3FCRy6mrB1TeC/PegoNF02lM/0aLqa28T72feC0NgTMKsQIGx2rq4nteoJy//sxla8Gr
+ Q5lK8wTVpc2UrhDiVHpUmNP1CsysTG5gDZW0t3/SLpzZGLaL29VvqHQ91Z3Xr1haaMKj
+ wSzm/tNKgunAyxBOv48BmBV1h27xW4HtBnxocLADtsGnGSEVLifS6dcIyMRS4y4Sx5gK
+ b4Cg==
+X-Gm-Message-State: AOAM531Eti8AFGR4bcWKhfse3+lZRG/kCFfvN5XWx5ZSgZWhX7jXNr23
+ uicIE2uiECI89zTy59OHbkw=
+X-Google-Smtp-Source: ABdhPJwf2qsmzX+TMRcGtYTf9KNDsACrF0pv+Z0LXrpxpieGa35Syh2q8defsvLpLConkLq67IhYkg==
+X-Received: by 2002:a63:6a87:0:b0:3f9:c829:796d with SMTP id
+ f129-20020a636a87000000b003f9c829796dmr42121178pgc.232.1653925133588; 
+ Mon, 30 May 2022 08:38:53 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- be3-20020a170902aa0300b001621cdf7172sm9536096plb.58.2022.05.30.08.29.33
+ h2-20020a62b402000000b0050dc762818csm8946702pfn.102.2022.05.30.08.38.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 08:29:35 -0700 (PDT)
-Message-ID: <13cfe1ad-63dc-dc5b-7955-67f7f70f160b@amsat.org>
-Date: Mon, 30 May 2022 17:29:30 +0200
+ Mon, 30 May 2022 08:38:53 -0700 (PDT)
+Message-ID: <e8feb9d9-b9da-c1d7-a978-5966a6bd30f8@amsat.org>
+Date: Mon, 30 May 2022 17:38:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH 0/1] hw/arm/aspeed: Add fby35 machine type
+Subject: Re: [PATCH] MAINTAINERS: Add myself as hw/core/uboot_image.h
+ maintainer
 Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>
-Cc: "patrick@stwcx.xyz" <patrick@stwcx.xyz>, qemu-arm <qemu-arm@nongnu.org>,
- Cameron Esfahani via <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goat?=
- =?UTF-8?Q?er?= <clg@kaod.org>
-References: <20220503204451.1257898-1-pdel@fb.com>
- <f0143ab9-54e9-09cd-d203-e779f9d8d6e4@kaod.org>
- <A0BF3AA6-C57B-4A95-BCE2-92CE7A3733A8@fb.com>
-In-Reply-To: <A0BF3AA6-C57B-4A95-BCE2-92CE7A3733A8@fb.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: alistair23@gmail.com, palmer@dabbelt.com, bmeng.cn@gmail.com
+References: <20220509091339.26016-1-alistair.francis@wdc.com>
+In-Reply-To: <20220509091339.26016-1-alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,44 +95,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 4/5/22 00:47, Peter Delevoryas wrote:
+On 9/5/22 11:13, Alistair Francis via wrote:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> 
->> On May 3, 2022, at 2:35 PM, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> On 5/3/22 22:44, Peter Delevoryas wrote:
->>> Hey everyone,
->>> I'm submitting another Facebook (Meta Platforms) machine type: this time I'm
->>> including an acceptance test too.
->>> Unfortunately, this machine boots _very_ slowly. 300+ seconds.
->>
->> This is too much for avocado tests.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 662ec47246..9ba30cec8a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2173,6 +2173,7 @@ Generic Loader
+>   M: Alistair Francis <alistair@alistair23.me>
+>   S: Maintained
+>   F: hw/core/generic-loader.c
+> +F: hw/core/uboot_image.h
+>   F: include/hw/core/generic-loader.h
+>   F: docs/system/generic-loader.rst
+>   
 
-Use:
+Alternative patch subject:
 
-   @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-   @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'),
-               'Big initramfs and run from flash')
+"MAINTAINERS: Cover hw/core/uboot_image.h within Generic Loader section"
 
-> Erg, yeah I figured as much. I’ll just resubmit it without the avocado test then,
-> if that sounds ok to you.
-
-No, please keep the test. While it won't run on CI, we can run it 
-locally, very useful to bisect.
-
->>> I'm not sure why this is (so I don't know how to fix it easily)
->>
->> The fuji has the same kind of problem. It takes ages to load the lzma ramdisk.
->> Could it be a modeling issue ? or how the FW image is compiled ?
-> 
-> Yeah, one reason is that Facebook OpenBMC machines have an unnecessarily
-> big initramfs that includes all the rootfs stuff, whereas regular OpenBMC
-> machines have a smaller initramfs right? I don’t entirely know what I’m talking
-> about though.
-> 
-> I think most FB machines have moved to zstd compression recently though,
-> but this one may have been missed: I can fix that on the image side. I’ll
-> also experiment more to see if it’s something wrong with the image, or possibly
-> a regression in QEMU. It would really be super awesome if it could boot faster,
-> so I’m very motivated to find a solution.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
