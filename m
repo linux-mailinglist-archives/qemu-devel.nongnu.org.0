@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2AC5387E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:52:22 +0200 (CEST)
-Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DF55387DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:51:13 +0200 (CEST)
+Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlR7-00012O-2B
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35384)
+	id 1nvlQ0-00062k-MN
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlFU-0000sp-3B; Mon, 30 May 2022 15:40:23 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:39935)
+ id 1nvlFc-0000y7-53; Mon, 30 May 2022 15:40:31 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:35501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlFR-000073-Ug; Mon, 30 May 2022 15:40:19 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- q12-20020a17090a304c00b001e2d4fb0eb4so191036pjl.4; 
- Mon, 30 May 2022 12:40:16 -0700 (PDT)
+ id 1nvlFa-0000FA-IN; Mon, 30 May 2022 15:40:27 -0400
+Received: by mail-pg1-x533.google.com with SMTP id 129so6610682pgc.2;
+ Mon, 30 May 2022 12:40:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1/tjSehVrju13SeKU3/brCs7CeK81NyQsNDYvTYF194=;
- b=XeUS6LzmKdm6RCg3TBdJ50jab9Fj1lCRbShIjf7suxdqDuRuLJFxJLdE1q1Q3zQRin
- Q0p7PDBWYmv3rglt7ywKQacdPUDJHl0+XqbMTWAdBOnRT5Z+Er37FfbmU1iuM5ms50+U
- LDFAfVodoPvmV9aFZbSSAMZH59R+NkAUF+pc5mbN2cOR4kg2goppZ6galyzYHXpIODSL
- 5XHQaxXLYXb/XqHyBlT9XzcwlzoNgx14UIj29k/TKwkPi5zRq+GUEYQ8Nuc9EpVfEU3G
- 7pdXPyV+TgOzuXyzerX5kca5mrGqirOepwM6kWmBm+Iy5FJ3Xg5N2TOzdossef9WaNcT
- tD3Q==
+ bh=MSS6iC8IugQOuzyUFIXMiVvOv251XPyXPK3tC9x4hyc=;
+ b=H3qxdWwfvp1zQ5AW6Tg017juJR+zl9WAyu9URFuZ8EII4r963Bql+/ncYsMdER51cy
+ OREd1RD6NTZZo9uZANgW96JwnLD6+5Qnr/VEias5IT8osibLSuhHilSbbDak3/OI2Pf2
+ ETEWby9Sc8u1YtvBNSTSTd1VTkV4lb+4E14pHqWdUHnhSCV1swPvpgq1kYahdP4Ho1i6
+ S+PHZuBcSOXM5kShRI94UDzJTRDKrWOeedxMBg0RbOZqBUL4Yt90oJZsUZcbmL8p4Z8a
+ fVP4X8bIPlZyGAarugtP9oWmrCKaht9lyfiRdZOJh569cdzJwccfuX+4n6gaX2p5v5qK
+ GV0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1/tjSehVrju13SeKU3/brCs7CeK81NyQsNDYvTYF194=;
- b=PY7VYMuRVBNkvW1miP9zQG/skGWHbjTG2MlxMbtVxvaGmOiX+78qOZYhCg8gP3sXQ2
- 1c3zono9+/cEyyC4MewDmnFlR+I44onHvoMcRQxnHbWyIqeXSu9w1Rn7N1LPqke7aC86
- P7Q5efgmMAxM1QmOjHsXDXfg4OzdOKErErYepfMyIUb4kgDJnsegf31jQuJkNRNdc+pn
- CcoRRtpVhKyXu9dq6tja4I3baOwqK2N4dJy/JEAOTYSqzTVqWcbY7arWJyzy1I+Swzd6
- s7DKvThen4crgrPekqP7JZvKWBJxnAsiMj916IMjkM19+pzJcC/yuBp0ZcJLr4SqSZDZ
- XI4Q==
-X-Gm-Message-State: AOAM530c/ZRk5FGEKwa6rOUaTWidFjCSMGEb8l+TxJuoiK3XfNVWljl2
- XOGk4STUfIngdWbaWvLWo3u4Hme/JgU=
-X-Google-Smtp-Source: ABdhPJwLVvMsIzgxijS36RTcjazBZamT7M5hvMYu2ak8PHiFSnanhifV1lia71trQ6Nta9E5aWwZvw==
-X-Received: by 2002:a17:90b:1bcd:b0:1e2:c8da:7c29 with SMTP id
- oa13-20020a17090b1bcd00b001e2c8da7c29mr11537386pjb.4.1653939615919; 
- Mon, 30 May 2022 12:40:15 -0700 (PDT)
+ bh=MSS6iC8IugQOuzyUFIXMiVvOv251XPyXPK3tC9x4hyc=;
+ b=lpooyJkCJk7M2Kv6F844Cc31+ofKHfm8MJ42NzFC7UQVKwg5dOsR27dtC+zxfCoP26
+ HkVbirGCrhYhY0ECAjzsAtXKBRsat9V8NfEESfSVIlmm6rskSsfLrufmjTQhF5YCF55N
+ 26jxOZkVj0oyE1IRlqb7nKguCptoDKE9TC2a3jO0tPrqYlxO2ixllbj76avvAQUMeHfR
+ NalP1hWbecaN9BI22/ZsRDijJv5Qvldf9unDRkolnyDEKwUxr8viXr5l1sgefJkCZKlw
+ uNxyddjN7+JNu6vEr0qju492CvD32acBiEfH497ecpbYh+GVLlHfJiskq5WTAy+r021r
+ y/Jw==
+X-Gm-Message-State: AOAM533/09sxt8WtBAWKua5EGjZVQ7ow7jWkTF8aE3I5I2sUpWt4Iq8T
+ 1m1sehJuaspJh93+SOZs++VYgt5lOVI=
+X-Google-Smtp-Source: ABdhPJz60kRxQuKzV0irftgtixR8zFDaCiQ5NndPu8QVcwtLj1VIJW6SBm72l3QxEXpJv+BM7cuRkQ==
+X-Received: by 2002:a05:6a00:1a91:b0:518:7bca:d095 with SMTP id
+ e17-20020a056a001a9100b005187bcad095mr48085587pfv.13.1653939624542; 
+ Mon, 30 May 2022 12:40:24 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q1-20020a170903204100b00163f35bd8f5sm1677040pla.289.2022.05.30.12.40.13
+ w20-20020a170902a71400b0016232dbd01fsm9572052plq.292.2022.05.30.12.40.21
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 30 May 2022 12:40:15 -0700 (PDT)
+ Mon, 30 May 2022 12:40:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -60,17 +59,17 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: [PATCH v2 13/25] hw/sd: Add sd_cmd_SET_BLOCK_COUNT() handler
-Date: Mon, 30 May 2022 21:38:04 +0200
-Message-Id: <20220530193816.45841-14-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v2 14/25] hw/sd: Basis for eMMC support
+Date: Mon, 30 May 2022 21:38:05 +0200
+Message-Id: <20220530193816.45841-15-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,66 +94,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+The initial eMMC support from Vincent Palatin was largely reworked to
+match the current SD framework.
+
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+TODO: Do not inherit TYPE_SD_CARD, duplicate sd_class_init()
+---
+ hw/sd/sd.c         | 42 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/sd/sd.h |  3 +++
+ 2 files changed, 45 insertions(+)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index a9130155be..b2f16dbb73 100644
+index b2f16dbb73..8b178aa261 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1078,6 +1078,21 @@ static sd_rsp_type_t sd_cmd_SEND_TUNING_BLOCK(SDState *sd, SDRequest req)
-         return sd_r1;
- }
+@@ -2166,6 +2166,19 @@ static const SDProto sd_proto_sd = {
+     },
+ };
  
-+static sd_rsp_type_t sd_cmd_SET_BLOCK_COUNT(SDState *sd, SDRequest req)
++static const SDProto sd_proto_emmc = {
++    .name = "eMMC",
++    .cmd = {
++        [0]         = sd_cmd_GO_IDLE_STATE,
++        [5]         = sd_cmd_illegal,
++        [19]        = sd_cmd_SEND_TUNING_BLOCK,
++        [41]        = sd_cmd_illegal,
++        [52 ... 54] = sd_cmd_illegal,
++        [58]        = sd_cmd_illegal,
++        [59]        = sd_cmd_illegal,
++    },
++};
++
+ static void sd_instance_init(Object *obj)
+ {
+     SDState *sd = SD_CARD(obj);
+@@ -2284,9 +2297,38 @@ static const TypeInfo sd_info = {
+     .instance_finalize = sd_instance_finalize,
+ };
+ 
++static void emmc_realize(DeviceState *dev, Error **errp)
 +{
-+        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
-+            return sd_cmd_illegal(sd, req);
-+        }
++    SDState *sd = SD_CARD(dev);
 +
-+        if (sd->state != sd_transfer_state) {
-+            return sd_invalid_state_for_cmd(sd, req);
-+        }
++    if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
++            error_setg(errp, "Minimum spec for eMMC is v3.01");
++            return;
++    }
 +
-+        sd->multi_blk_cnt = req.arg;
-+
-+        return sd_r1;
++    sd_realize(dev, errp);
 +}
 +
- static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
++static void emmc_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    SDCardClass *sc = SD_CARD_CLASS(klass);
++
++    dc->desc = "eMMC";
++    dc->realize = emmc_realize;
++    sc->proto = &sd_proto_emmc;
++}
++
++static const TypeInfo emmc_info = {
++    .name = TYPE_EMMC,
++    .parent = TYPE_SD_CARD,
++    .class_init = emmc_class_init,
++ };
++
+ static void sd_register_types(void)
  {
-     uint32_t rca = 0x0000;
-@@ -1321,20 +1336,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         }
-         break;
+     type_register_static(&sd_info);
++    type_register_static(&emmc_info);
+ }
  
--    case 23:    /* CMD23: SET_BLOCK_COUNT */
--        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
--            return sd_invalid_state_for_cmd(sd, req);
--        }
--        switch (sd->state) {
--        case sd_transfer_state:
--            sd->multi_blk_cnt = req.arg;
--            return sd_r1;
--
--        default:
--            break;
--        }
--        break;
--
-     /* Block write commands (Class 4) */
-     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
-     case 25:	/* CMD25:  WRITE_MULTIPLE_BLOCK */
-@@ -2158,6 +2159,7 @@ static const SDProto sd_proto_sd = {
-         [3]         = sd_cmd_SEND_RELATIVE_ADDR,
-         [5]         = sd_cmd_illegal,
-         [19]        = sd_cmd_SEND_TUNING_BLOCK,
-+        [23]        = sd_cmd_SET_BLOCK_COUNT,
-         [52 ... 54] = sd_cmd_illegal,
-         [58]        = sd_cmd_illegal,
-         [59]        = sd_cmd_illegal,
+ type_init(sd_register_types)
+diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
+index 0d94e1f346..e52436b7a5 100644
+--- a/include/hw/sd/sd.h
++++ b/include/hw/sd/sd.h
+@@ -93,6 +93,9 @@ typedef struct {
+ #define TYPE_SD_CARD "sd-card"
+ OBJECT_DECLARE_TYPE(SDState, SDCardClass, SD_CARD)
+ 
++#define TYPE_EMMC "emmc"
++DECLARE_INSTANCE_CHECKER(SDState, EMMC, TYPE_EMMC)
++
+ struct SDCardClass {
+     /*< private >*/
+     DeviceClass parent_class;
 -- 
 2.36.1
 
