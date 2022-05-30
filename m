@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC8E537FA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:20:40 +0200 (CEST)
-Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C92D538095
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:24:20 +0200 (CEST)
+Received: from localhost ([::1]:55784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvgG8-0000p3-1P
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43846)
+	id 1nvgJf-0005VD-4K
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:24:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvgCw-00060G-99; Mon, 30 May 2022 10:17:22 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38534)
+ id 1nvgDJ-0006m5-So
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 10:17:46 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:35533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvgBT-0005qQ-Nc; Mon, 30 May 2022 10:15:53 -0400
-Received: by mail-pl1-x633.google.com with SMTP id n18so10438808plg.5;
- Mon, 30 May 2022 07:15:49 -0700 (PDT)
+ id 1nvgDI-0006Or-B8
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 10:17:45 -0400
+Received: by mail-pl1-x632.google.com with SMTP id c2so10453043plh.2
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 07:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BeR/EBa5CLDEb/6lOX09B17u5yGihJlg0E5dXFOSID4=;
- b=URSRbLFq+XP7WcZgOnoROV2EV/1IZ1qp+lHlHQlCi7I8YLE8S1oyXPeJ0yoWV6tAHn
- OsRETXM+R0Sz+4X/A6oC8cMjjxmGn+xqZjheK68TMk6BjTAFbJJLrnXEuAPoJsIyS2XQ
- Y3o0TYgqXDk9rKNFN/NEX5p8o9KCoxC366AEUBpyTCJik2DeosRcW8MP58H/r4wQsuVN
- rNflo4Tid26ktj+N0JJtNmpedRLtCCcdN1Snex00xH8w2fjKmQxd5QCR2tRap7jCxBUQ
- UJkHQw2CkEO7kpt4EIlB50/x9HlmHccwdvap8lZKiCEr67e1bXi+Lwg86YUzRhrfPRVB
- 7ong==
+ bh=JgqYqm9yEQ7lN1Jl2NPxURKikphqMlTiT7Ll4ForkUk=;
+ b=AzmBZBq3QSYDZPbg8xjhsu/j8fJo13uq8ppwt9Dd2xbrbTSK/1IcRZ5sw8nTI6LCkX
+ Ex16AfvDg/fFz/pbmI4JJ/V4JjOvAk2Fc9lb6urYenn2jbxMu8R9f1U4+7EIjpmvHkXT
+ M4yRR68SPKNnYXa/gA8HJp4+ueZIxBObdrdDADE9TnPaUCvBSN7FnQQDwVUSOAZIZlcv
+ pOeGq1bXvJlVgwq5oSFfyLJt5NBxb/81O1l5kwGr9CYxgISV5Sz6pz3MeV9LeOLy1NMa
+ nZNLZC1ZYHsU4ytCVp33HphFGYwIcp+7MlwxC83E9WCkAGEbCuZvE9+/Kxl2Xh6aXHnR
+ +nug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BeR/EBa5CLDEb/6lOX09B17u5yGihJlg0E5dXFOSID4=;
- b=jxGbCrGdQN3UyvaXl7GHHFMo+y5N9jYYpN4iiuhH1VQXl8+qN4p84FHonUFz2pXBij
- tsNPJyikFVj2IGuK8ANIuv9EM7LWzqSxYe6xrRHvGnvDo6nCNpodrMnP5E9xY0SvAfQP
- wbIhyEkGvUV0uZKFdVh5mQ8OnDn6ZajHgb6fJd0/iJQjFUvJ7WKW+gb9+vabuZwkyFso
- tEoKnOo9SsMamY4vgNs+5cEwqhT5LFEE7+qqgVErTcK0AZ3SRuypWaFbMgKwiEqOAKK4
- erUDsbtL1TwPqpmddCPS/THUsWspBfNN7ZVAIo9Hw5roL+Mm3wtjjvQEZNy3s3PJvc2/
- BQRg==
-X-Gm-Message-State: AOAM530DMw0Aed4U5tP98F7GfvQZ/oXC9FjPardtwFyVjG6S8DFSFNvh
- Wr7H25Gu03kg1xwSnraIC9c=
-X-Google-Smtp-Source: ABdhPJzFbXoZXbfImsm7uUjtLYHAwLS8QbyrOPT+BYMMWpxiHySbHCpD/6k7rxRA/Sb36tRJdln8WA==
-X-Received: by 2002:a17:902:cf4c:b0:161:e3aa:2708 with SMTP id
- e12-20020a170902cf4c00b00161e3aa2708mr52714082plg.127.1653920148195; 
- Mon, 30 May 2022 07:15:48 -0700 (PDT)
+ bh=JgqYqm9yEQ7lN1Jl2NPxURKikphqMlTiT7Ll4ForkUk=;
+ b=IP9kWYUEXD2Kxfa0pXQVScoMcP9bch2fdW2QERDCcqAJqNdtsUYlWFpfKjC1PlUOXs
+ I1vTFaGbk8h4TybMrl8JwiFI9wgJLPkPTiQNlrt7wf/hXi2D5TyRhGMDlceyjIHVZAIp
+ S0iecr2zuRQMncnrsGn9LhWO4I8Ip/6yH6iG+cByV1MXsIOLCsKkasn0ZPx2tPpu6azz
+ Dgsz+cXPqCQ4DRQ6XpvmqI4OCXoBwA2Sa0EpniNrs8xCNejwG6aEZXTkxxJzNucZI9Vc
+ 8eUCv19zMaYw/1GOnpxEAipB/gp+Mc4tbodpb9jDGOvY490Mtk308Oi3l01knkrrcmMD
+ 20UA==
+X-Gm-Message-State: AOAM533N2/B/VmKrkSvXIkz3EvAz81gNBHQuxJCl56XUYdDp7wZBx2g3
+ FXnqXWg3wTgm6miKHTJN5LmS/e3ZOTU=
+X-Google-Smtp-Source: ABdhPJzsUYu9cM037bg9Qj9hKeHQj7qDnCpRqrteWf67e18I2psFEAnK6kCpNsbAwjbjfBWprXdJcw==
+X-Received: by 2002:a17:902:cf05:b0:156:9d:ca01 with SMTP id
+ i5-20020a170902cf0500b00156009dca01mr55954926plg.111.1653920261516; 
+ Mon, 30 May 2022 07:17:41 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- ck20-20020a17090afe1400b001e0a8ef9f84sm7190808pjb.26.2022.05.30.07.15.45
+ a10-20020a17090a480a00b001e29a2a4abesm5251729pjh.31.2022.05.30.07.17.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 07:15:47 -0700 (PDT)
-Message-ID: <0a6f58f4-007b-94ff-00d3-cde752f6a41a@amsat.org>
-Date: Mon, 30 May 2022 16:15:42 +0200
+ Mon, 30 May 2022 07:17:40 -0700 (PDT)
+Message-ID: <e35b5332-7bc5-1f44-d8c5-2193718ad592@amsat.org>
+Date: Mon, 30 May 2022 16:17:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH v2] hw/block/fdc-sysbus: Always mark sysbus floppy
- controllers as not having DMA
+Subject: Re: [PATCH] target/mips: Fix store adress of high 64bit in
+ helper_msa_st_b()
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- John Snow <jsnow@redhat.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- qemu-block@nongnu.org
-References: <20220505101842.2757905-1-peter.maydell@linaro.org>
-In-Reply-To: <20220505101842.2757905-1-peter.maydell@linaro.org>
+To: nihui <shuizhuyuanluo@126.com>, qemu-devel@nongnu.org
+References: <20220504023319.12923-1-shuizhuyuanluo@126.com>
+In-Reply-To: <20220504023319.12923-1-shuizhuyuanluo@126.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,41 +95,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/5/22 12:18, Peter Maydell wrote:
-> The sysbus floppy controllers (devices sysbus-fdc and sun-fdtwo)
-> don't support DMA.  The core floppy controller code expects this to
-> be indicated by setting FDCtrl::dma_chann to -1.  This used to be
-> done in the device instance_init functions sysbus_fdc_initfn() and
-> sun4m_fdc_initfn(), but in commit 1430759ec3e we refactored this code
-> and accidentally lost the setting of dma_chann.
+On 4/5/22 04:33, nihui wrote:
+> This patch fix the issue that helper_msa_st_b() write high 64bit
+> data to where the low 64bit resides, leaving high 64bit undefined.
 > 
-> For sysbus-fdc this has no ill effects because we were redundantly
-> also setting dma_chann in fdctrl_init_sysbus(), but for sun-fdtwo
-> this means that guests which try to enable DMA on the floppy
-> controller will cause QEMU to crash because FDCtrl::dma is NULL.
-> 
-> Set dma_chann to -1 in the common instance init, and remove the
-> redundant code in fdctrl_init_sysbus() that is also setting it.
-> 
-> There is a six-year-old FIXME comment in the jazz board code to the
-> effect that in theory it should support doing DMA via a custom DMA
-> controller.  If anybody ever chooses to fix that they can do it by
-> adding support for setting both FDCtrl::dma_chann and FDCtrl::dma.
-> (A QOM link property 'dma-controller' on the sysbus device which can
-> be set to an instance of IsaDmaClass is probably the way to go.)
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/958
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
 > ---
-> Changes v1->v2: remove now-unused 'fdctrl' local variable
->   from fdctrl_init_sysbus()
-> ---
->   include/hw/block/fdc.h |  3 +--
->   hw/block/fdc-sysbus.c  | 16 +++++++++++-----
->   hw/mips/jazz.c         |  2 +-
->   3 files changed, 13 insertions(+), 8 deletions(-)
+>   target/mips/tcg/msa_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
+> index 4dde5d639a..736283e2af 100644
+> --- a/target/mips/tcg/msa_helper.c
+> +++ b/target/mips/tcg/msa_helper.c
+> @@ -8329,7 +8329,7 @@ void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
+>   
+>       /* Store 8 bytes at a time.  Vector element ordering makes this LE.  */
+>       cpu_stq_le_data_ra(env, addr + 0, pwd->d[0], ra);
+> -    cpu_stq_le_data_ra(env, addr + 0, pwd->d[1], ra);
+> +    cpu_stq_le_data_ra(env, addr + 8, pwd->d[1], ra);
+>   }
+>   
+>   void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
 
-Queued to mips-next, thanks.
+Fixes: 68ad9260e0 ("target/mips: Use 8-byte memory ops for msa load/store")
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Queued to mips-next.
 
