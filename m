@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B74537991
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:07:52 +0200 (CEST)
-Received: from localhost ([::1]:60872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AAB5379B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:23:53 +0200 (CEST)
+Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvdFW-0007Qw-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
+	id 1nvdV0-0004S9-Sa
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nvdCZ-0006Ie-Ew
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:04:47 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:41725)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvdQy-0003TX-OL
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:19:40 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:35383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nvdCX-0003sK-Dj
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:04:47 -0400
-Received: by mail-ed1-x536.google.com with SMTP id h11so13017866eda.8
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:04:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvdQx-0007ux-3h
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:19:40 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id t31so5594070ybi.2
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ay4PnBo2TWkuTSUvQEQ13njBxz+EJird8GALZmDhVjo=;
- b=O6llzG0yQxwbaqV3SGTFd8W42b/fOL3Nk2HjUk/HEWTyxT2Suv4Uup3nlegHUlLCgk
- URoFVwSN+wdvk7JhxWk6lzXoIeM7NT1Lsl7lZ4qzKyCJAIKcIkXpQqXlgdOPGYJOm8bv
- TmnxqNk3WrFyoXDGbvqljpeqbfn0FTKCPc96zJwHLHRQGHDKM23jDq0lWiBy5cGeentg
- sLDHrPiZG9XOiwKzzFT6Jnzj0iNUROzRO75fGArLsbB6hYYZIc/3cE66FUKrY+ZAt5hq
- 0vRKgpLck4gqzsvQZz/pmhizuLog07GkhcR7I/IhjjFYfp55BQoIL9fFFzExX+7XqkYr
- AJvA==
+ :cc; bh=lGPsnghm9faBazpQisd5dDDrpru0dMiB4kg9OE76A8A=;
+ b=qogxBTgQwmX7XvBvWUaHyABM7LRDdog/X9ajw/ptrJpmMmqZhsn+Ry7gINDzZJ2oC5
+ 1RUplR2JaNkIpgDD8FQ/eM1Q+ncYvATCXlh+1giB+9OpTfJF0NxOcs8XERK7gSjpJgwj
+ G48ikFSTj3j+V4kwejMVoR3kLejrI/m/OxTe4nJwp0nvGFQ7XzpVno8eZI1Y/j1mPQbw
+ 549cNUoMjk5TkUhA9rSdSJzZS+aRfw8LafNFthQjGMI0pSTB2Oo4XLmvrJLa3o6IE9kZ
+ F0d1Ad5B1pHPvI8XdDiOQEzLvQWyzRfbTslKSZuPh0wBkfBW9pvBPmeLxvToHJHFBL8a
+ HMYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ay4PnBo2TWkuTSUvQEQ13njBxz+EJird8GALZmDhVjo=;
- b=DUtNqOFChz8RIm7AKuolmFW55DZql7MQ+WZoCTtfKcQgWdhe6yqEWKlqTEP3DXfb6p
- Ax5t0Y3AngYCV6It8vwKaLXk+K/wNXhFm36Y0Nr/ddeHLDiivcWLD9eF91G76vs31miC
- m/hivPSsWOFb/towR24H01zwoEOPQr54rjkHws3zht3eBxA5cEtfEb5V2k+WYoexPwy+
- OjzEZsvqkkFPv88EjbQjmq4Kw26aiVHIMI0kEMYRUWq06n5e3czsrPQFFFkbF8OvfFxi
- iyq3ZRNTtl7XHGo7aqNzYKsE4B2riT+FKle7vU/9R9ZQLoGLWmeC7w5gpgU18Wh1z0pH
- vN+w==
-X-Gm-Message-State: AOAM5322MDZQlRo6ukzNHq7y4/ywTYew4CTVxqj0HmsRyAEiMde5AXOs
- BxlB9W+ShWv8Pba6aG38WIZ951BKH4HXqLhrLlK5Ng==
-X-Google-Smtp-Source: ABdhPJzDduYS2rDGushvU5jrE94rrPO0+0GWW7iTv20W3ZTku9pDHCsQZhzZnfrtQVJpLv/92SNvPFJEDd29yul+ybY=
-X-Received: by 2002:a05:6402:3293:b0:42b:aef6:7d3 with SMTP id
- f19-20020a056402329300b0042baef607d3mr29318491eda.371.1653908683233; Mon, 30
- May 2022 04:04:43 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=lGPsnghm9faBazpQisd5dDDrpru0dMiB4kg9OE76A8A=;
+ b=M1yq8OUUKq/VvKoieF7cSKvDUBAw+omgthbTo1EynfZUkv86Xj3Ok+8DbHFTQCb2Jn
+ 9bvGRnycTJnvJOahIeB35RPEN/VP5fxrvsc4itGAqbP/t2t1v1g9BaYfwH+Yb68XUqE3
+ BeSBUbgfbs/Bueo0mPDac9WkcQZOHL5LyLSzB7eG3XPuRUZM9pkRVufMbGn1K3a/9GH6
+ OT5FFWz3bYSXwCKGoLh3dPWmXJKK79XoSaMf+eeQHUyTrUC9DC4oF5vzY4/F5sxjm2Xs
+ 7Ec6UBM6w43nmM4F5lgeavRxjrAWSohZidMWdcoJztA0p9xVqTjj67OiYIlSrXkC21sm
+ Aovw==
+X-Gm-Message-State: AOAM5312uz+ksch8jkuXBCxU+CKriI9c17x4qm9DLz/3sGXabN4y4tmm
+ ALsFZ3vlneawY0i2eymuTQWHdNbJyQ3bdPI6iSBhFg==
+X-Google-Smtp-Source: ABdhPJxg0pz/h6ARoXswNPUrTkqdM9qqfka6jz9o+BbB2WP/d0/lSgTZs+YVolds9FZN/PYIqZ5YYyXOLfGLe9lBbno=
+X-Received: by 2002:a25:41ce:0:b0:65b:3723:f73f with SMTP id
+ o197-20020a2541ce000000b0065b3723f73fmr14392583yba.288.1653909576772; Mon, 30
+ May 2022 04:19:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <alpine.DEB.2.22.394.2205191553440.3608174@anisinha-lenovo>
-In-Reply-To: <alpine.DEB.2.22.394.2205191553440.3608174@anisinha-lenovo>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 30 May 2022 16:34:32 +0530
-Message-ID: <CAARzgwwkB3LsEJ8HLJPqei-p+M3phFz2rS370gGvy-8Fxhyjbg@mail.gmail.com>
-Subject: Re: bios bits for QEMU acpi tests
-To: Josh Triplett <josh@joshtriplett.org>
-Cc: Igor Mammedov <imammedo@redhat.com>, Qemu devel <qemu-devel@nongnu.org>
+References: <20220527161937.328754-1-alxndr@bu.edu>
+ <20220527161937.328754-2-alxndr@bu.edu>
+In-Reply-To: <20220527161937.328754-2-alxndr@bu.edu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 May 2022 12:19:25 +0100
+Message-ID: <CAFEAcA-PXO8ZGS_DA6E65MK2pvnnepbpA-vc_90xdARLj73=iA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] memory: Track whether a Device is engaged in IO
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::536;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,85 +95,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have gotten past this issue and I was able to successfully build
-bits using the latest gcc v9.4.0 available on ubuntu 20.04.2. I have
-also tested the generated iso and it seems to work fine.
-I am going to clean up my changes and send PRs. Some of the changes
-are bug fixes to existing code as well.
+On Fri, 27 May 2022 at 17:19, Alexander Bulekov <alxndr@bu.edu> wrote:
+>
+> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
+> This flag should be set/checked prior to calling a device's MemoryRegion
+> handlers, and set when device code initiates DMA.  The purpose of this
+> flag is to prevent DMA reentrancy issues. E.g.:
+> sdhci pio -> dma write -> sdhci mmio
+> nvme bh -> dma write -> nvme mmio
+>
+> These issues have led to problems such as stack-exhaustion and
+> use-after-frees.
+>
+> Assumptions:
+>  * Devices do not interact with their own PIO/MMIO memory-regions using
+>    DMA.
 
-On Thu, May 19, 2022 at 4:06 PM Ani Sinha <ani@anisinha.ca> wrote:
->
-> Hi Josh:
-> I am looking into integrating bios bits into Qemu functional tests for
-> acpi. Towards that end, I am trying to compile the code on a newer
-> compiler as we might need to make some changes, for example, update acpic=
-a
-> so that it can recognize newer tables etc.
->
-> gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
->
->
-> Since grub/python etc are quite old in the tree, on the newer copiler it
-> does not build out of the box (it does however build fine on my centos 7.=
-9
-> vm with gcc version 4.8.5 20150623 (Red Hat 4.8.5-44)).
->
-> I have resolved a number of issues and warnings when compiling it on the
-> new version of gcc. I will at some point clean then up and share the
-> changes through my github (most are cosmetic). However, there is one last
-> issue which I am not
-> able to get past:
->
-> _GLOBAL_OFFSET_TABLE_ in python is not defined
->
-> $ nm -g -P -p --undefined build/grub-build-i386-pc/grub-core/python.modul=
-e
-> | grep -i global
-> _GLOBAL_OFFSET_TABLE_ U
->
-> I have made the following change in rc/python/Makefile.core.def but with
-> no help:
->
->
-> --- a/rc/python/Makefile.core.def
-> +++ b/rc/python/Makefile.core.def
-> @@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DA=
-MAGE.
->  module =3D {
->          name =3D python;
->          cppflags =3D '-I$(top_srcdir)/contrib/python -I$(srcdir)/contrib=
--deps/python/Include -D_IEEE_LIBM -D__LITTLE_ENDIAN=3D -I$(srcdir)/contrib-=
-deps/fdlibm $(CONTRIB_CPPFLAGS) -include contrib/acpica/acenv.h -DGRUB2 -DA=
-CPI_LIBRARY -I$(top_srcdir)/contrib/acpica -I$(srcdir)/contrib-deps/acpica/=
-source/include -U__ELF__ -I$(srcdir)/contrib-deps/libffi/include -I$(srcdir=
-)/contrib-deps/libffi/src/x86 -I$(srcdir)/contrib-deps/python/Modules/zlib'=
-;
-> -        cflags =3D '$(CONTRIB_CFLAGS) -fshort-wchar -maccumulate-outgoin=
-g-args -Wno-empty-body -Wno-float-equal -Wno-maybe-uninitialized -Wno-missi=
-ng-field-initializers -Wno-missing-declarations -Wno-missing-format-attribu=
-te -Wno-missing-noreturn -Wno-missing-prototypes -Wno-nested-externs -Wno-o=
-ld-style-definition -Wno-parentheses -Wno-redundant-decls -Wno-sign-compare=
- -Wno-shadow -Wno-shift-negative-value -Wno-type-limits -Wno-undef -Wno-uni=
-nitialized -Wno-unused -Wno-unused-parameter -Wno-unused-value -Wno-unused-=
-variable -Wno-write-strings';
-> +        cflags =3D '$(CONTRIB_CFLAGS) -fshort-wchar -fno-pie -no-pie -ma=
-ccumulate-outgoing-args -Wno-empty-body -Wno-float-equal -Wno-maybe-uniniti=
-alized -Wno-missing-field-initializers -Wno-missing-declarations -Wno-missi=
-ng-format-attribute -Wno-missing-noreturn -Wno-missing-prototypes -Wno-nest=
-ed-externs -Wno-old-style-definition -Wno-parentheses -Wno-redundant-decls =
--Wno-sign-compare -Wno-shadow -Wno-shift-negative-value -Wno-type-limits -W=
-no-undef -Wno-uninitialized -Wno-unused -Wno-unused-parameter -Wno-unused-v=
-alue -Wno-unused-variable -Wno-write-strings';
->          enable =3D i386_pc;
->          enable =3D i386_efi;
->
->
-> I have ensured that the cflags are infact getting used by gcc. I am not
-> sure how to resolve this.
->
-> Do you have any ideas?
->
-> Thanks,
-> ani
->
+If you're trying to protect against malicious guest-controlled
+DMA operations, you can't assume that. The guest can program
+a DMA controller to DMA to its own MMIO register bank if it likes.
+
+>  * There is now way for there to be multiple simultaneous accesses to a
+>    device's PIO/MMIO memory-regions, or for multiple threads to perform
+>    DMA accesses simultaneously on behalf of a single device.
+
+This one is generally true because device code runs with
+the iothread lock held.
+
+-- PMM
 
