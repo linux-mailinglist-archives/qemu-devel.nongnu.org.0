@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4E253870A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 20:08:38 +0200 (CEST)
-Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2388A538750
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 20:31:42 +0200 (CEST)
+Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvjoj-0001uN-Js
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 14:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57268)
+	id 1nvkB2-0005fC-Oa
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 14:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvj9H-0001uG-VT; Mon, 30 May 2022 13:25:47 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:46661)
+ id 1nvjNf-0000C6-FP; Mon, 30 May 2022 13:40:42 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:46848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvj9F-0002dx-HL; Mon, 30 May 2022 13:25:47 -0400
-Received: by mail-pl1-x632.google.com with SMTP id w3so10795478plp.13;
- Mon, 30 May 2022 10:25:44 -0700 (PDT)
+ id 1nvjNd-00054G-Kp; Mon, 30 May 2022 13:40:39 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id j6so11064364pfe.13;
+ Mon, 30 May 2022 10:40:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vIU/tcRIvWpa510J8v1aoI/lE+Q4+6HS0eP9iypyi5w=;
- b=YGABNdhsqs0lWb3N91u/onJ3zdXXULzH05/OrbgwSTfQT8eZs1ZINBR61pbezfS8Vi
- u7LcV7aazk7SgVo4m9FSq5ugJBUCKfstJqGFxkfaxjtiE+uVagnobhPEO+EEC68yFY1H
- GJn3HoY6Mcc1BwYVYrOHXAgVn6JAyJk6kvr6GWeiqp9S/kRgZKfQpn0oQ6m0PF+7ozhq
- f/2SrR8Cf/AYKEDGDgJuCFev3ATeRklaCukudM3kkTy7lywRFWcjqQy3OAOOvUYVku0A
- vePy10tmzXf+i+NEBh/6lg5/DINgW2D1/ZQntXL4GKEAVTBXOrbNzjgRUgeUrgrlkqTA
- Ewug==
+ bh=fsjL9jyPpQ6LCmLFCrwYCqtM2ZVnjgs4WTjxA9p/ilA=;
+ b=Yn16/tv94zkVPQJ3DEd0C3/iByhrvAPvvsUB2JsMRIvHb633VcNVJL7Cn2D2DZoRdx
+ 9Ev/nmyMc1dHPj0ZfAgqg77erJvfXmR4fK4WhquNq7XM15zHaiTKCReBkcOJTHT4DrPc
+ x1Kak494pgac2dW7mHHHKGwhRg8yqyOAzA4AyYFT/3mL12kJAlRGTieiaKzd6WEaq67E
+ BLPxmTo24eMGkxczsP9ixe6J1CwW6A9FtjaymuUgGOSrvznza5r4YZGlV7QtmAxnn1Yq
+ RIh17u59F4UKHJ3UTS/eVEenbBmWCCko+BhQoEmuQKMvvuqSQbVEylKMP/TaCurggWc4
+ Eqyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vIU/tcRIvWpa510J8v1aoI/lE+Q4+6HS0eP9iypyi5w=;
- b=P3XYoDVchan8a+ooc8mjxkLDmsecIZ9YMCng/Tv86R0Qvr79FRnCOPWNw2MKOZeCcZ
- VYIsJVTozcANj/Jqvcj7oDYJWW04eDSvJsOhwFGYbqQbHrshXHoZwlN+jECMHEvnsryh
- +y9J/EVZGYSgz64PHXHzdkWYUJoadau0i2jUEhkFfTvpcnoh3FG/Tx29BkFB8EBH/snj
- HPPg8KOv6jUM2KEwmdMmW08nvAGK7kehFU4O/kUE9zKkWK/xWKpK1Ihz5HbhJ8FH57ye
- EDoUekptAuD3yB43ymh5xwuR2CaDyUqtWaWs5f+h97RNbWV+i4x1isltQaeCzZ8EHMO5
- 8Pwg==
-X-Gm-Message-State: AOAM530I+Mb7nNIJw6WiPVQOq9MF180DLsUZqlFSi7LxHw4JZo1f5vhY
- dVH52es0fFRr/O/berdRwi27AGsv2n8=
-X-Google-Smtp-Source: ABdhPJw23g3QH5ixaSvMPRJ+6KnhvILK5U10x+bO3jWKnLi46jBb3539KE8PUpUrBsoE8ntdWVskMQ==
-X-Received: by 2002:a17:90b:4d90:b0:1e3:3025:66fe with SMTP id
- oj16-20020a17090b4d9000b001e3302566femr467936pjb.145.1653931543939; 
- Mon, 30 May 2022 10:25:43 -0700 (PDT)
+ bh=fsjL9jyPpQ6LCmLFCrwYCqtM2ZVnjgs4WTjxA9p/ilA=;
+ b=N1JQTFzo2oDLuAu86k+PeNplVJb71PMW7EdoIGnfn75SKfoy00JG6sv0L251hQB0CE
+ DVyE608offpyFof6Ehz6T6isRQevVauSQs3O1bNSxxrQRp1Xr/ML48N4+CmSXu0WriQF
+ FyGxdYy/UGwX5pODQLiRyg1jQtP6+XQQDUN3QKfmJRwBZQoANYigvR0DkrvDZPhN5Sn+
+ EesIOaZyU0s7iu7beUq9Qb8XAazbr19JqdEa8ssL+bBrhWtKIPkLJYzjJd0/u+7nttXZ
+ oHiBV9UNIqkDPuDvFs+nXtDQbXshnEkHzzH/UcHWKZApQYNAm4G3rH+QrDpuCtLQiw3I
+ 0+bg==
+X-Gm-Message-State: AOAM532DQ/voRvkyLZCN8xafK3Hce/KS2UbmAtkoUtmUjVOD6R0Uav8T
+ S98BPBpiNoHaweMUgWDLQqc=
+X-Google-Smtp-Source: ABdhPJwrcLgDvsmWm/VJvMogCI5iDxPqvTwTx/4z+Siwkq3FRydMltuG3w6AcIQqeGLzIz66oFzwIQ==
+X-Received: by 2002:a05:6a00:a94:b0:4fd:c14b:21cb with SMTP id
+ b20-20020a056a000a9400b004fdc14b21cbmr58003786pfl.53.1653932435766; 
+ Mon, 30 May 2022 10:40:35 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- a67-20020a624d46000000b0050dc7628168sm9156232pfb.66.2022.05.30.10.25.41
+ 7-20020a621407000000b0050dc76281bfsm8991880pfu.153.2022.05.30.10.40.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 10:25:43 -0700 (PDT)
-Message-ID: <e7359f27-edf1-602b-7225-a14f03d10271@amsat.org>
-Date: Mon, 30 May 2022 19:25:38 +0200
+ Mon, 30 May 2022 10:40:35 -0700 (PDT)
+Message-ID: <bd3df6e1-62f9-04b6-f288-b12e6860ddaa@amsat.org>
+Date: Mon, 30 May 2022 19:40:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [RFC PATCH 07/17] hw/sd: Add sd_cmd_SEND_OP_CMD() handler
+Subject: Re: [RFC PATCH 11/17] hw/sd: Add eMMC support
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Cc: Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Vincent Palatin <vpalatin@chromium.org>, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ Joel Stanley <joel@jms.id.au>
 References: <20220318132824.1134400-1-clg@kaod.org>
- <20220318132824.1134400-8-clg@kaod.org>
- <c3a65543-e50c-c927-842a-9634f4d562fa@amsat.org>
- <283c1d01-f986-b20a-5ee7-984e18f9101d@kaod.org>
-In-Reply-To: <283c1d01-f986-b20a-5ee7-984e18f9101d@kaod.org>
+ <20220318132824.1134400-12-clg@kaod.org>
+In-Reply-To: <20220318132824.1134400-12-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,37 +97,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 10/5/22 08:57, Cédric Le Goater wrote:
-> On 5/9/22 23:12, Philippe Mathieu-Daudé wrote:
->> On 18/3/22 14:28, Cédric Le Goater wrote:
->>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> Message-Id: <20210624142209.1193073-9-f4bug@amsat.org>
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>>   hw/sd/sd.c | 18 +++++++++---------
->>>   1 file changed, 9 insertions(+), 9 deletions(-)
->>
->>> @@ -2111,6 +2109,7 @@ static const SDProto sd_proto_spi = {
->>>       .name = "SPI",
->>>       .cmd = {
->>>           [0]         = sd_cmd_GO_IDLE_STATE,
->>> +        [1]         = sd_cmd_SEND_OP_CMD,
->>>           [2 ... 4]   = sd_cmd_illegal,
->>>           [5]         = sd_cmd_illegal,
->>>           [7]         = sd_cmd_illegal,
->>> @@ -2120,6 +2119,7 @@ static const SDProto sd_proto_spi = {
->>>       },
->>>       .cmd = {
->>>           [6]         = sd_cmd_unimplemented,
->>> +        [41]        = sd_cmd_SEND_OP_CMD,
->>>       },
->>>   };
->>
->> I missed adding the cmd_abbrev[1] entry.
+On 18/3/22 14:28, Cédric Le Goater wrote:
+> The initial eMMC support from Vincent Palatin was largely reworked to
+> match the current SD framework. The parameters mimick a real 4GB eMMC,
+> but it can be set to various sizes.
 > 
-> Will you resend ?
+> This adds a new QOM object class for EMMC devices.
+> 
+> Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
+> Link: https://lore.kernel.org/r/1311635951-11047-5-git-send-email-vpalatin@chromium.org
+> [ jms: - Forward ported to QEMU 5.2 ]
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> [ clg: - ported on aspeed-7.0 patchset
+>         - HPI activation ]
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   hw/sd/sdmmc-internal.h |  97 +++++++++++++++++++
+>   include/hw/sd/sd.h     |   9 ++
+>   hw/sd/sd.c             | 205 ++++++++++++++++++++++++++++++++++++++++-
+>   hw/sd/sdmmc-internal.c |   2 +-
+>   4 files changed, 311 insertions(+), 2 deletions(-)
 
-Yes.
+
+> +static void emmc_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    SDCardClass *sc = SD_CARD_CLASS(klass);
+> +
+> +    dc->desc = "eMMC";
+> +    sc->proto = &sd_proto_emmc;
+> +    sc->spec_version = SD_PHY_SPECv3_01_VERS; /* eMMC requirement */
+> +    sc->set_csd = sd_emmc_set_csd;
+> +}
+> +
+> +static const TypeInfo emmc_info = {
+> +    .name = TYPE_EMMC,
+> +    .parent = TYPE_SD_CARD,
+
+Hmm this is odd to have the model inheriting features from SD_CARD but 
+then behaving differently (one could enumerate QDEV objects implementing
+TYPE_SD_CARD then use them expecting they match the SD card protocol).
+
+Why do you need to have TYPE_SD_CARD as parent?
+
+Could we simply duplicate sd_class_init() assignations instead? That
+would likely make it easier to modify eMMC handlers.
+
+> +    .class_init = emmc_class_init,
+> + };
 
