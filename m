@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9205382A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:36:48 +0200 (CEST)
-Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CB753831B
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:39:02 +0200 (CEST)
+Received: from localhost ([::1]:50222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvgVj-0001UJ-VM
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47764)
+	id 1nvgXr-0004M2-VG
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:39:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvgTC-0000j8-CC
- for qemu-devel@nongnu.org; Mon, 30 May 2022 10:34:10 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:34012)
+ id 1nvgWM-0002yS-UZ; Mon, 30 May 2022 10:37:26 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:46598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvgTA-0000lh-QN
- for qemu-devel@nongnu.org; Mon, 30 May 2022 10:34:10 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- nn3-20020a17090b38c300b001e0e091cf03so69561pjb.1
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 07:34:08 -0700 (PDT)
+ id 1nvgWL-0001PY-DA; Mon, 30 May 2022 10:37:26 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id j21so10282683pga.13;
+ Mon, 30 May 2022 07:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WFtoBP3iaBSWIVsrIpkUpGqBsIHmASmMhyBDoaai1TQ=;
- b=Mvbt5IIQiUd0hMcLL12tyeJ8NLMC5ZIMVAE2lfwkoFU5b8OfR/B5vYEVGX369exl90
- rdmBWLyxMvBqZ9gadAXMsxVSylXfepgK22HNVcU44evGd9hc7mDm3g7sd2eoEGnWQIr5
- eRBHrqcar5S3T5ZmjN1Vi0QpemVNsL35NdnoOYy5O/pBBqQJt3hOkpcNCRysRNumCmjJ
- 8YlCHYI2fcYvl/kerVYiuWnafXm8JgtyRwOlBcMWoVaiz8AdH8A37m2c+aJzAGyIRucK
- /eVn9dgh9oBK2KuJJtjPTO2HjbQTaiFVnF+h/rvhz6idtpjL5mR1rAmCoEDa+GjmSBcJ
- axLA==
+ bh=NKNow5A3ksz52FcE3MHi4f0tgVQ1FKvW0Hktqw8N9KU=;
+ b=bPaivOxI+NijZDR6ALEBQrpnlH/9l8yd39n9BcNvfq1RgY4i0+QUfqRzSV1MvycgA5
+ P4x0DrZfcNWyyRmul36ukRhk38OUSKAvJ/kqP/x7+pLQfO7QD2Vt83JlVRXscka7xz4Z
+ jVNKXIsROhxoWGy1xqp4qRPvRdiApIcjF+KlQgU9Q0aUjk18lFFrko526i+FL2yqWL3y
+ BWxYXhdPaNq92eAEAdanARpa+hbjHdRVberjrHyN5pgGzWeVPkirXbF8Vgrcp4XtWJpK
+ afgQja6w9AkmE2M7/XcO2/mJNwI6eSySh8NYZGMR0ffZH+H77iWJWvnO1uS6wzy208GI
+ d96w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WFtoBP3iaBSWIVsrIpkUpGqBsIHmASmMhyBDoaai1TQ=;
- b=IBbyQujsl03Xarz/aiTrSj4fyiBR9hvyr/RgLlgyeZ3GYipyy3nSFPIWOtQ3HLX6iz
- rta/bQzYGrdgAkd3Y0qsQ84swpaJuKyZZvNWs9fIH+OAqVQ8lyycczomoe331EgENXpB
- xXuNQH9GQbSKSMpuK8FAg+TXFrAcVy4gD9OgV2rVvOdeVm6ZUyfT+P9Dl2f3v/xc8rCs
- abuZhlx7jb+nbC32uxEIP1P0JhsBtqrIS/kXPNm9ZiFhajQmtDlTK/0wNP6sn9m9vVO6
- 8ipEibHcULzBSJxkZCVAd86N4DZz1fJXA05fgw6fQIQ9BPgozemSlHxvd0z+onvOBdPP
- UpEw==
-X-Gm-Message-State: AOAM531qGwwxwVdOH06atF13KObeNlknSz+T0Ga/7pigo+Fy0zXXrG9S
- X8IYeeHODDAQC9okk2nJkj0252qOd1s=
-X-Google-Smtp-Source: ABdhPJzU2ZO3sftnJNAaJSuBYnQrPvZIiuVwb8qc0OzRGrfWftBbnHOV5qfhHB/ngmzBd2W/hPalsQ==
-X-Received: by 2002:a17:902:9f8e:b0:163:bda9:ccb1 with SMTP id
- g14-20020a1709029f8e00b00163bda9ccb1mr10372170plq.124.1653921247199; 
- Mon, 30 May 2022 07:34:07 -0700 (PDT)
+ bh=NKNow5A3ksz52FcE3MHi4f0tgVQ1FKvW0Hktqw8N9KU=;
+ b=ufqelBF2RujFiVkpgReUrj+21H9WHbMGEH0exd7HR1Eh06tyVqrTtB9OOASQVVnFBq
+ Eg6n3VMfWPDNWPz02O0KeEtrLUEd24vGN0obj9ajM8KuOrDNyzHSY0LRjLtW/4+SDpdw
+ hqsQt11cVgwu4bHrMFHbFi8hBgdu8lD76SPesj6kENKLRwoaEiJxegt7wl5mjNupIG2w
+ fUA33QUDj6+r5vqzWtlTF17uG6dChtrJD/YJruwfSYj8/P61Libou51b+jWCpBXfRvrS
+ rR+DlQiJs/JcfBYnyUe5mFAHh0CtDY7s/LOTAkz2xALX7SqQcWliRC0uTZdj5Wp4MwMc
+ VocQ==
+X-Gm-Message-State: AOAM530tpdwxe2GztjBlaJiOJ3qnLUG9mwer3o9yfA1zKI6QlyLyBuCY
+ qkZ6ddiv1RmMrWH0HePopsU=
+X-Google-Smtp-Source: ABdhPJzKkmrGgRsHpJSsZ5V0mxzmmH5mCzwyOhJwO50HEaWvGqcrEfFr2f1oCBEjjM9DCz6o1rqY2Q==
+X-Received: by 2002:a63:6685:0:b0:3fb:fe7d:b5f4 with SMTP id
+ a127-20020a636685000000b003fbfe7db5f4mr6597799pgc.275.1653921443836; 
+ Mon, 30 May 2022 07:37:23 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- b15-20020a17090a10cf00b001dd11e4b927sm5839320pje.39.2022.05.30.07.34.03
+ p7-20020a170902bd0700b001637fd08a75sm4782124pls.63.2022.05.30.07.37.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 07:34:06 -0700 (PDT)
-Message-ID: <021746df-c8d0-d93f-5844-8c8fc8afab2f@amsat.org>
-Date: Mon, 30 May 2022 16:34:01 +0200
+ Mon, 30 May 2022 07:37:23 -0700 (PDT)
+Message-ID: <fc24ead8-4495-f67d-6fb0-c2d11bf94684@amsat.org>
+Date: Mon, 30 May 2022 16:37:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
+Subject: Re: [PATCH] hw/nvme: deprecate the use-intel-id compatibility
+ parameter
 Content-Language: en-US
-To: Tong Zhang <t.zhang2@samsung.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "ztong0001@gmail.com" <ztong0001@gmail.com>,
- Francisco Londono <f.londono@samsung.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <CGME20220427205118uscas1p25031437c0cdd4363c104be13033f366a@uscas1p2.samsung.com>
- <20220427205056.2522-1-t.zhang2@samsung.com>
-In-Reply-To: <20220427205056.2522-1-t.zhang2@samsung.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, Keith Busch <kbusch@kernel.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+References: <20220429054149.2169473-1-its@irrelevant.dk>
+In-Reply-To: <20220429054149.2169473-1-its@irrelevant.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -102,37 +95,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-+Emanuele / Alexander / Stefan
-
-On 27/4/22 22:51, Tong Zhang wrote:
-> assert(dbs->acb) is meant to check the return value of io_func per
-> documented in commit 6bee44ea34 ("dma: the passed io_func does not
-> return NULL"). However, there is a chance that after calling
-> aio_context_release(dbs->ctx); the dma_blk_cb function is called before
-> the assertion and dbs->acb is set to NULL again at line 121. Thus when
-> we run assert at line 181 it will fail.
+On 29/4/22 07:41, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
->    softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
+> Since version 5.2 commit 6eb7a071292a ("hw/block/nvme: change controller
+> pci id"), the emulated NVMe controller has defaulted to a non-Intel PCI
+> identifier.
 > 
-> Reported-by: Francisco Londono <f.londono@samsung.com>
-> Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
+> Deprecate the compatibility parameter so we can get rid of it once and
+> for all.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->   softmmu/dma-helpers.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   docs/about/deprecated.rst | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-> index 7820fec54c..cb81017928 100644
-> --- a/softmmu/dma-helpers.c
-> +++ b/softmmu/dma-helpers.c
-> @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
->       aio_context_acquire(dbs->ctx);
->       dbs->acb = dbs->io_func(dbs->offset, &dbs->iov,
->                               dma_blk_cb, dbs, dbs->io_func_opaque);
-> -    aio_context_release(dbs->ctx);
->       assert(dbs->acb);
-> +    aio_context_release(dbs->ctx);
->   }
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 896e5a97abbd..450f945ac25f 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -356,6 +356,14 @@ contains native support for this feature and thus use of the option
+>   ROM approach is obsolete. The native SeaBIOS support can be activated
+>   by using ``-machine graphics=off``.
 >   
->   static void dma_aio_cancel(BlockAIOCB *acb)
+> +``-device nvme,use-intel-id=on|off`` (since 7.1)
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +The ``nvme`` device originally used a PCI Vendor/Device Identifier combination
+> +from Intel that was not properly allocated. Since version 5.2, the controller
+> +has used a properly allocated identifier. Deprecate the ``use-intel-id``
+> +machine compatibility parameter.
+> +
+>   
+>   Block device options
+>   ''''''''''''''''''''
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
