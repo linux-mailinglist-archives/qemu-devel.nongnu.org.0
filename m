@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0ED5387A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:02:45 +0200 (CEST)
-Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355925387AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:13:53 +0200 (CEST)
+Received: from localhost ([::1]:38642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvkf4-0008EP-V1
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:02:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54948)
+	id 1nvkpr-0004qF-Tc
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvkdf-0007CL-TK
- for qemu-devel@nongnu.org; Mon, 30 May 2022 15:01:15 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:40479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvkde-0002mN-5g
- for qemu-devel@nongnu.org; Mon, 30 May 2022 15:01:15 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id z7so20326107ybf.7
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 12:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7BnUTAt872dtCS7tKctwL+YpoBLVhZEQFwqz14hxo3U=;
- b=Xr1nKKov3as2F8skh9jfCyO5BESGOCAwCxF+sGvk21pPv/pWMRbKOx8XwkIlc4e2/F
- TKekIfvYzQR8mCZfgUQ1XerGYG7YAE1P0hu+0/qC+Kf//40oFWOAqhem3IZdBL4Xs2rd
- I7FLs/N7CwWCGScLgomAnMOwwH93dhbmnynPdTqrNPuUkuiWN/kmE1aGTCZVPMPkme8n
- jS3joqP9cj3bce7mjWhm0lpFgotZcd8ZgcuQ1ISY+kYXdOi/VHI+6lP/mwZrAenLpkor
- gX75obOryfjD+hjOMSkuwV2CctU4uJTdDJTbVUhTo1tIW9+b7Yr31b0v+vpUqa6kExlG
- wQuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7BnUTAt872dtCS7tKctwL+YpoBLVhZEQFwqz14hxo3U=;
- b=PWTQxprWJ4jF83gVGGuEPwSbxmmvOrAO/QYSITCVCeK40QERTsVCqIXCFAOvqSeARK
- 9ungh3P4FHsq4ftJ6iMB+aq9SGhd5nHB5O/2O5kflCNqee39oJFapsWcSHNBh9xNOO8R
- wa9bZOF/5iagOE07O1wQDbkZKAkkme6kOTrcMcQsmWRb8V/VvDvz/Q3hUOn0n+kQYDLP
- Em6AReUT1KRMOl94QnWM10gu2CtUPPoe4lFuMUdn4IKq/PC9zHLt9UikHX63/QWCzUBU
- c2Fi6lEsGd/yXHO2O/jz91eUUvbs1uoHN31MDPysTxH5nUiOskOhmwu5PFTe2tyHmVmE
- 2jBA==
-X-Gm-Message-State: AOAM531nxhSbUeg55i3XMTurLpA6JNJ2aVP3nh09NflyrT74YV6qf/T3
- IO6KBoB3qtn90knGpJj1zrtf4Gb/WrLsjoc6w8ZYdw==
-X-Google-Smtp-Source: ABdhPJzbvepR90M389B4jdTE8jPULuQw+Gkr93yF0sfxgOYYiN9yw9dYf7NImQfzitFD/NB8HptfKSy538VddPPmz5E=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr54986622ybq.67.1653937272933; Mon, 30
- May 2022 12:01:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvknu-00036n-B3; Mon, 30 May 2022 15:11:53 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvkns-0004JJ-AW; Mon, 30 May 2022 15:11:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=k7/aaf0LECyYsI6vlWtpUBVubShsusUR2YPLHvyMB2A=; b=cb+SUrW9sFcb8MJHiKhG/Fyt9c
+ bNpfTw7mCDGO59eHEQxKVjxgw6a2O7ICvXGNu74OBViDleiAf56QiFo1ORg4/7LJDesXgmzalmVQl
+ N+pAmp8lVpDiEt3c7JFzWhUObPfuj46GY9x5+klDfks7iijL+Urqm8+dxfg/PhY2PXFHr9og1YAeM
+ fG0fJs7OMMctuCGijaTQo8Gax46d3Uy68uwwjhnG+dt56vXtmUHDud7inFSNQ8zzGfBuD9LBLAehg
+ IMpOYOsHTUHxqZgC32FNu0jB/JkNEczR9TMPc+H25WKyyueOIdkadXeu46f2uifed3HpaGwovFr2K
+ 4Cu/+o5pkqnOJ5ocs7rJnYf/X3ST7tB2Zij9/+b0BlS5H1NIFBVN0FhZekiGf4jv/MEQtGlMVfAHx
+ vMjI1aP2jY0165/yOOBLi/qw889sxjr9outQdasauyOZ0H9ITuiBg+9QxudaJzWFPd/w+k0rfviP+
+ +6entjVmhRGjtE7UUtqdcrfBMVrjc8HL8q6gbOeB07I4sptHIjI3S001pS0b33TnV1ShO5T32lFZ6
+ p2DqSSZW6R+pKrPXLV7WCmU6UWiJRvEZG5VJ5G61T4qmprXBDeajP/VSrtvexKm7ivaFaQXBnbb5M
+ q437/XsHhr/Tshnrpu7ba/eAoisex7AVud8g23tGY=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nvkmj-0008uH-Sm; Mon, 30 May 2022 20:10:42 +0100
+Message-ID: <5ef86c6c-719b-f197-3ccb-462e453dffa5@ilande.co.uk>
+Date: Mon, 30 May 2022 20:11:36 +0100
 MIME-Version: 1.0
-References: <20220523204742.740932-1-richard.henderson@linaro.org>
- <20220523204742.740932-2-richard.henderson@linaro.org>
- <CAFEAcA9Q8FQpG6RF4rnMS3EXZqBXzOs=n-3oH8iq5gU2wV4Emw@mail.gmail.com>
- <da0ad208-948b-1da0-5c61-039c084d50dc@linaro.org>
-In-Reply-To: <da0ad208-948b-1da0-5c61-039c084d50dc@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 May 2022 20:01:01 +0100
-Message-ID: <CAFEAcA9bT0_tKH7vS+gt05rr+tskPh4JuzRTMvTN=CokQfFUdw@mail.gmail.com>
-Subject: Re: [PATCH 01/18] target/arm: Allow raise_exception to handle finding
- target EL
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20220528192057.30910-1-shentey@gmail.com>
+ <110e160e-19bd-dd7a-1b4e-1a0e7437b782@ilande.co.uk>
+ <ac5d95b2-8be5-1585-3076-deabe749e926@ilande.co.uk>
+ <CAG4p6K7DzHVsp8425-O4uvb46XT9nzw-A2CK_jK8Nm+Xt8wsbw@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAG4p6K7DzHVsp8425-O4uvb46XT9nzw-A2CK_jK8Nm+Xt8wsbw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v3 0/7] QOM'ify PIIX southbridge creation
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,31 +83,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 May 2022 at 17:39, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/30/22 05:44, Peter Maydell wrote:
-> >>   G_NORETURN void raise_exception(CPUARMState *env, uint32_t excp,
-> >> -                                uint32_t syndrome, uint32_t target_el);
-> >> +                                uint32_t syndrome, uint32_t cur_or_target_el);
-> >
-> > "cur_or_target_el" is odd, because it's mixing what the architecture
-> > sets up as two distinct things: the state the exception is
-> > "taken from", and the state the exception is "taken to". I was
-> > hoping this was just a temporary thing for the purposes of the
-> > refactoring and it would go away near the end of the series, but
-> > it doesn't seem to.
->
-> No, sorry.  Most of the time it's cur_el, except from cpregs, where we get directed to a
-> specific higher el.  There may be some way to split the helpers...
->
-> I'll have another go at this reorg this week.  If it still doesn't feel cleaner, we can
-> drop it, and I'll make some changes to the SME patch set building on this.
+On 29/05/2022 14:02, Bernhard Beschow wrote:
 
-I was wondering if it would work better the other way around, so that
-raise_exception() doesn't mess with the target_el at all, and all the
-"work out which EL to take the exception to" is done in
-target_exception_el() and similar ?
+> On Sun, May 29, 2022 at 12:06 PM Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk 
+> <mailto:mark.cave-ayland@ilande.co.uk>> wrote:
+> 
+>     On 29/05/2022 10:46, Mark Cave-Ayland wrote:
+> 
+>      > On 28/05/2022 20:20, Bernhard Beschow wrote:
+>      >
+>      >> v3:
+>      >> * Rebase onto 'hw/acpi/piix4: remove legacy piix4_pm_init() function' (Mark) [1]
+>      >> * Use embedded structs for touched PCI devices (Mark)
+>      >> * Fix piix4's rtc embedded struct to be initialized by
+>      >>    object_initialize_child() (Peter) [2]
+>      >>
+>      >> Testing done:
+>      >>
+>      >> 1)
+>      >> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+>      >> Result: All pass.
+>      >>
+>      >> 2)
+>      >> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+>      >> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+>      >>    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+>      >>
+>      >> In both cases the system booted successfully and it was possible to shut down
+>      >> the system using the `poweroff` command.
+>      >>
+>      >>
+>      >> v2:
+>      >> * Preserve `DeviceState *` as return value of piix4_create() (Mark)
+>      >> * Aggregate all type name movements into first commit (Mark)
+>      >> * Have piix4 southbridge rather than malta board instantiate piix4 pm (me)
+>      >>
+>      >> Testing done:
+>      >>
+>      >> 1)
+>      >> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
+>      >> Result: All pass.
+>      >>
+>      >> 2)
+>      >> Modify pci_piix3_realize() to start with
+>      >>      error_setg(errp, "This is a test");
+>      >> Then start `qemu-system-x86_64 -M pc -m 1G -accel kvm -cpu host -cdrom
+>      >> archlinux-2022.05.01-x86_64.iso`.
+>      >> Result: qemu-system-x86_64 aborts with: "This is a test"
+>      >>
+>      >>
+>      >> v1:
+>      >> The piix3 and piix4 southbridge devices still rely on create() functions which
+>      >> are deprecated. This series resolves these functions piece by piece to
+>      >> modernize the code.
+>      >>
+>      >> Both devices are modified in lockstep where possible to provide more context.
+>      >>
+>      >> Testing done:
+>      >> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
+>      >> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
+>      >>    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
+>      >>
+>      >> In both cases the system booted successfully and it was possible to shut down
+>      >> the system using the `poweroff` command.
+>      >>
+>      >> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg05686.html
+>     <https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg05686.html>
+>      >> [2] https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01128.html
+>     <https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01128.html>
+>      >>
+>      >> Bernhard Beschow (7):
+>      >>    include/hw/southbridge/piix: Aggregate all PIIX soughbridge type names
+>      >>    hw/isa/piix4: Use object_initialize_child() for embedded struct
+>      >>    hw/isa/piix{3,4}: Move pci_map_irq_fn's near pci_set_irq_fn's
+>      >>    hw/isa/piix{3,4}: QOM'ify PCI device creation and wiring
+>      >>    hw/isa/piix{3,4}: Factor out ISABus retrieval from create() functions
+>      >>    hw/isa/piix4: QOM'ify PIIX4 PM creation
+>      >>    hw/isa/piix{3,4}: Inline and remove create() functions
+>      >>
+>      >>   hw/i386/pc_piix.c             |   7 +-
+>      >>   hw/isa/piix3.c                |  98 ++++++++++++++-------------
+>      >>   hw/isa/piix4.c                | 120 +++++++++++++++++-----------------
+>      >>   hw/mips/malta.c               |   7 +-
+>      >>   include/hw/isa/isa.h          |   2 -
+>      >>   include/hw/southbridge/piix.h |   6 +-
+>      >>   6 files changed, 127 insertions(+), 113 deletions(-)
+>      >
+>      > Hi Bernhard,
+>      >
+>      > I've spotted a couple of small things, but once those are fixed this series looks
+>      > good to me so I'm happy to give a:
+>      >
+>      > Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk
+>     <mailto:mark.cave-ayland@ilande.co.uk>>
+>      >
+>      > Thanks for your patience with these series too: you've done some good work here,
+>      > however patchsets like this can sometimes take a while to get reviewed because
+>     they
+>      > both i) touch legacy code/APIs and ii) cut across multiple machines and
+>     maintainers.
+>      > I'd really like to get this work, along with your RTC updates, merged soon as
+>     it is a
+>      > great improvement.
+>      >
+>      > One reason that you may not get many reviews is because you've not added the
+>     relevant
+>      > maintainers on To/CC. Due to the large volume of emails on qemu-devel, quite a
+>     few
+>      > maintainers will filter based upon their own email address so it is definitely
+>     worth
+>      > adding them in.
+>      >
+>      > Fortunately you can easily find the relevant maintainer email addresses by
+>     running
+>      > "./scripts/get_maintainer.pl <http://get_maintainer.pl>
+>     <path-to-git-patch-dir>" on your git format-patch
+>      > directory. I'd recommend doing this, and also dropping qemu-trivial since I
+>     would say
+>      > these patches are now beyond the trivial threshold.
+> 
+>     Oh wait - I see now it's just the cover letter which is missing the additional
+>     maintainer addresses :)  If you could add them into the cover letter for your next
+>     revision that would be great, since it gives context for maintainers to help with
+>     the
+>     review process.
+> 
+> 
+> Hi Mark,
+> 
+> Thanks for your great work you put into reviews and the useful insights! It seems to 
+> me that the time it takes for patches to be queued depends on the subsystem - some 
+> are faster, some are slower...
+> 
+> I've automated my setup as described in [1]. However, it doesn't seem to work for the 
+> cover letter which I'd expect to be sent to the union of all reviewers of all 
+> patches. Any idea how to fix this?
+> 
+> Best regards,
+> Bernhard
+> 
+> [1] 
+> https://www.qemu.org/docs/master/devel/submitting-a-patch.html#cc-the-relevant-maintainer 
+> <https://www.qemu.org/docs/master/devel/submitting-a-patch.html#cc-the-relevant-maintainer> 
 
--- PMM
+Good question. I tend to do "git format-patch -o /tmp/foo --cover-letter" to generate 
+the series, fill in the cover letter, and then use "git send-email /tmp/foo" to send 
+out the emails (entering in the results of get_maintainer.pl by hand). I'm not sure 
+why the cover letter isn't being generated correctly in your case I'm afraid.
+
+
+ATB,
+
+Mark.
 
