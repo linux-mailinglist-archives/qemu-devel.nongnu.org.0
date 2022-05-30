@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A44D5388BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 23:59:04 +0200 (CEST)
-Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1A85388C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 00:01:52 +0200 (CEST)
+Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvnPj-0008E0-24
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 17:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
+	id 1nvnSR-0001zR-KZ
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 18:01:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvnNX-0006nV-CI
- for qemu-devel@nongnu.org; Mon, 30 May 2022 17:56:47 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:37421)
+ id 1nvnQe-0001CM-Jv
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 18:00:00 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:35669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvnNT-0002sl-L9
- for qemu-devel@nongnu.org; Mon, 30 May 2022 17:56:46 -0400
-Received: by mail-pf1-x434.google.com with SMTP id bo5so11533420pfb.4
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 14:56:43 -0700 (PDT)
+ id 1nvnQd-000328-4S
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 18:00:00 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ o6-20020a17090a0a0600b001e2c6566046so523298pjo.0
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 14:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NzNDSmeL8nvNkBFuSyUq0ydqiv5Ih7dY6o1qG4UyCK8=;
- b=jCEIRcXIGIyQ0pzutRGhWExmCHypwv+/8BP0GjcALJaiEp0j7jSITcgYvDb2ywEvm2
- wEQ3UuSAJYKYrdYVDrR4lTHqEnCGiSlUX8h4RmOE1gOOGJjokWQa+8sU2iAZ79OPCs4l
- JRdYoclTQ3b74ZWDrvky4mdexPVfXLECvlrOQmV/jZNFOclWRc5WejrHzee7y7h8Le9f
- pzOBPL4AcYZ/V9fsS2Iix5eX8LDXK5KphFJ/IyK8E9XAgfGxWpYTYNFJIk7pt95ZZ0ez
- sSDBX3Z9ZUH01WHIW7z3G9VzRt/1p2C7krSSNKrkBqmmM7Vw/SoVpL9WurSPOF2GvTFc
- SaVQ==
+ bh=3+QdlzmQZxY+XEC+xwkFSoqg2a70WZ9XcQUmx9oSlv4=;
+ b=d+LnmuytVeloMmN5pxfCSI4mD7yT8d2ZIiDv5q6td/FqORbgr9Dr9p0aSuuFHtWJSF
+ Xn3yGEeYnlsOc1ynkrE4WNxBnXZZplpG5nWfpYmicralST1K4qqXsUALx5z4yVpmzUAm
+ IRl6BhpHJA7psELuxaNw6TzVzHrX8PIFmNEbbnqF9Sk/wQEftRcP0Jpb+HlOLel3EFWW
+ rFdCIGbS06MkZo2ysO2uYsJI5DuXr8R6phGxX6i33Ieraz1d5tRTuei0KdEMCLLD5GcD
+ 8uA9bpSTkLC1E1SZcOp0tb84EqBdQbfh96xfN014gqtPc5EbSf6TPt+oJIs6VsVonOy9
+ Z57g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NzNDSmeL8nvNkBFuSyUq0ydqiv5Ih7dY6o1qG4UyCK8=;
- b=gZ3gEQs9YTvL9ewyXZKLjZPDH/B8laAzKhueFsMa7CH9qgFHVwCaDDEvoLOVwGBgwJ
- GP3L1ifBH4HmHrd/eTMGnFfVyD4so4W7xmOP5MTdA6f+uuX6upb+m6E/gt1k9y6oU9q2
- qtgPo476vg7qVF++60crFgp9iDKyCKdcnfyjSTbpPvSkhqQFsK1lu/w8MNtfTR1NxBe5
- tCgivZ6gHMnauGuzYmsl94uTNx3SdGBFXzyLKf3rPKOrf5FK56Mk1cwJ66A7T1y8Z4zr
- PtcEOGUm5/Thh7XR68smWNL23kI+JBpx20PHlGp4xcSBXg3pMHEtf0406P7s24/cNcJ6
- 4zxw==
-X-Gm-Message-State: AOAM532mtv0On9iyGbtpxyyNuHCU6zECkfLULrZi1U+LDkrszrDym3+k
- sg2gXxy707oY7M0N/f74ubA=
-X-Google-Smtp-Source: ABdhPJwibZNtry33fYtZ3Fgd/huvxOsKKWaS7UBkFYUhOicq3shfQIFUXXQAKeYSOBP2pjLS0ydRqA==
-X-Received: by 2002:a05:6a00:849:b0:518:bcbb:a6e1 with SMTP id
- q9-20020a056a00084900b00518bcbba6e1mr35907633pfk.86.1653947802335; 
- Mon, 30 May 2022 14:56:42 -0700 (PDT)
+ bh=3+QdlzmQZxY+XEC+xwkFSoqg2a70WZ9XcQUmx9oSlv4=;
+ b=KLtuRV4hpE02aOfUbWlJAGDwi4/6+BgpsRbAjJto37FuQ7wwbjTTFPfHc4qlbRgF6u
+ 7wS3KSyPk14GkFly8cuYAVNw7C6x0cC6wfqFDKeGvcIylu0BhwlcfiDgI7/Z0P955toP
+ citLTTYeqlW+8jcGsden1nMQIRfGYDmgh7u7oz2QNhzUBcD1UF8crPXdv4qPfrO1Ne9e
+ M5gAjxriiRuk1kvFivm06aO0e3Nh4IMqR7jLaj1GqnRP2bjeJnKg7n2LDVCOLSd8jDAs
+ Hn63PLChqUX6JJpeAl/0lb/hfO7APOSknyi6+uAjUuxe++Zf2BrMtP9LYmzArVjSXa+y
+ 8EAQ==
+X-Gm-Message-State: AOAM533xyEqEQITMH+H2lxW7bRHAeShW+5SfgaWBRo0eF4S5xCZyhyDT
+ P4gm9hMobzKibr9LElLyHF4=
+X-Google-Smtp-Source: ABdhPJwRWIhcGj8JiGzKL/YngKrv8Moozu3nQ6jv47nENTm34G0lMYsclHCFVy1ijmOHIPpz+Ft+pQ==
+X-Received: by 2002:a17:90a:fa5:b0:1e2:ee1b:8f85 with SMTP id
+ 34-20020a17090a0fa500b001e2ee1b8f85mr8991092pjz.216.1653947997715; 
+ Mon, 30 May 2022 14:59:57 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n18-20020a17090aab9200b001d92e2e5694sm193414pjq.1.2022.05.30.14.56.40
+ g18-20020a170902d5d200b0015edc07dcf3sm8992830plh.21.2022.05.30.14.59.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 14:56:41 -0700 (PDT)
-Message-ID: <ee61f925-8323-9d16-86a0-14ab9e4f3236@amsat.org>
-Date: Mon, 30 May 2022 23:56:38 +0200
+ Mon, 30 May 2022 14:59:57 -0700 (PDT)
+Message-ID: <5207e134-b00e-11c3-2046-8717aca6ccbc@amsat.org>
+Date: Mon, 30 May 2022 23:59:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH v5 04/10] cutils: fix case for "kilo" and "kibi"
+Subject: Re: [PATCH v5 05/10] cutils: add functions for IEC and SI prefixes
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: armbru@redhat.com, dgilbert@redhat.com
 References: <20220530150714.756954-1-pbonzini@redhat.com>
- <20220530150714.756954-5-pbonzini@redhat.com>
-In-Reply-To: <20220530150714.756954-5-pbonzini@redhat.com>
+ <20220530150714.756954-6-pbonzini@redhat.com>
+In-Reply-To: <20220530150714.756954-6-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,14 +98,48 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 30/5/22 17:07, Paolo Bonzini wrote:
-> The correct abbreviations use a lowercase k, so adjust freq_to_str
-> and size_to_str accordingly and add tests.
+> Extract the knowledge of IEC and SI prefixes out of size_to_str and
+> freq_to_str, so that it can be reused when printing statistics.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   tests/unit/test-cutils.c | 20 ++++++++++++++++++++
->   util/cutils.c            |  6 +++---
->   2 files changed, 23 insertions(+), 3 deletions(-)
+>   include/qemu/cutils.h    | 18 ++++++++++++++++++
+>   tests/unit/test-cutils.c | 32 ++++++++++++++++++++++++++++++++
+>   util/cutils.c            | 34 +++++++++++++++++++++++++---------
+>   3 files changed, 75 insertions(+), 9 deletions(-)
+
+> diff --git a/util/cutils.c b/util/cutils.c
+> index 19fb4d04f8..485e9b0cea 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -872,6 +872,25 @@ int parse_debug_env(const char *name, int max, int initial)
+>       return debug;
+>   }
+>   
+> +const char *si_prefix(unsigned int exp10)
+> +{
+> +    static const char *prefixes[] = {
+> +        "a", "f", "p", "n", "u", "m", "", "k", "M", "G", "T", "P", "E"
+> +    };
+> +
+> +    exp10 += 18;
+> +    assert(exp10 % 3 == 0 && exp10 / 3 < ARRAY_SIZE(prefixes));
+
+Can we add parenthesis to ease code review?
+
+> +    return prefixes[exp10 / 3];
+> +}
+> +
+> +const char *iec_binary_prefix(unsigned int exp2)
+> +{
+> +    static const char *prefixes[] = { "", "ki", "Mi", "Gi", "Ti", "Pi", "Ei" };
+> +
+> +    assert(exp2 % 10 == 0 && exp2 / 10 < ARRAY_SIZE(prefixes));
+
+Ditto.
+
+> +    return prefixes[exp2 / 10];
+> +}
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
