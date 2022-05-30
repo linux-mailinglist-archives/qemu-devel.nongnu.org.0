@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C5A538729
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 20:17:38 +0200 (CEST)
-Received: from localhost ([::1]:38440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C6A5386F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:59:06 +0200 (CEST)
+Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvjxQ-0005k0-L3
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 14:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54278)
+	id 1nvjfV-0003Yr-NJ
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1nvisB-0003tI-V7
- for qemu-devel@nongnu.org; Mon, 30 May 2022 13:08:07 -0400
-Received: from mail-co1nam11on2060e.outbound.protection.outlook.com
- ([2a01:111:f400:7eab::60e]:5216
- helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ id 1nvisF-00049y-K8
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 13:08:11 -0400
+Received: from mail-dm6nam10on20611.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::611]:46689
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1nvisA-0008MJ-9u
- for qemu-devel@nongnu.org; Mon, 30 May 2022 13:08:07 -0400
+ id 1nvisD-0008MT-5P
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 13:08:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M5C3ICtLYHIUykVC7v40z6avDB5IaThnwxJrIczOcmqOA3a/Xau3XBit+zXreoW92iJH1MktQeM7kZTs6NU7zHLi1b82gERzaIl6F2Y1j9+Fa+DRHUKHUkz3EX+en1V4LfvtSvbTgK51wktNVrQBOFGMG6jpo+t72AzfzWuaVGYZ0nbPuNRty6KFagt2s4KDIBLTgaJ6WRjADv5DCYlgH3YR9MdcQ9kXmUSxr4A4DkSrfU2Z+a+y3FXkioV2jYIOvIMvAnQMv1wAiLfiDLetVwXkpdlCaI3iqdi6LzCJS427wY4ko0sPRDsHNUPZjN0gFZPh7e9qU/Ssj8UD/jymig==
+ b=FSW6oANBiCDkEAh7KVmNV34FupFOe+8Kgu916NIGnMjeR1mZJvjdKPptL84uQC+5fWif83UyHAycAY9lJp1VkPkdPb9NO9hCUO3Xfs77c0gS/QNU3Ddel9IxC+B5M6MLCD5gEPugD60SOT9ObwHHTUWU145mZXNsYUw1Aa0d/s3BZ1Ul2MVmfqq1cAMifDj/8Uxks83H3xJCPyNj5frYt6T0ToCvSsc9K2YFJiVum7SdLUFo38YRkPc8SGpu/z1wXP/csSh6IIKTtHmmJri0q8NJH2T5G+knBX6DYnqqVUqvrFdWQGAopVe+ZzTnJKrtCoWmXeg5muwuXVrAUf5TZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DjlscHecdcMpLoybC6kEB/IIni+Nsq0JItrk38p+xG8=;
- b=YV9kUbdr1QQ/R0y+wJIeo9qD+IeAgzhIkJdOjAhYk0oe4kAwwUISExvQu11Oor5wNP0J2gOTytmJFhUelGKhyhy9dU+Dtp+TULw+Xk6PegTOuGeUCfc1gP8yXOKvP+nz9a+jz0hvzKuY+cbOAVPhMUNVw+U80SyD27o+Xp2M8rWyI42F1C9m4BMsdZsyD4mMhGrymvS7/52Vx4Bq2vPDCbVu+Ur1M/5UE1pWOg9rCXLoq7+xowW1yzJF0eLqWTwYZLrhyBwDARwGVJWsW0QGOvYcnVIbzr8eHqMYBvAJvBENOevbtaXA2s660eA1LjztAPOW4FbgZIfABa/VtIKiSA==
+ bh=TAcKiWMX79rHiJ0N+9JONfz6MYJ8RIJrv7lY5JEVzKA=;
+ b=fH4R7SgwWx5ddFzh4GFmON/dZE1hBCpuoD7YS+7eNcrWfsPe5cHUPFKIk9hPQnACIoWzF/RDSyzj4nG6ufRt/ols5CINjoYOZGNtej2SQ+vwiUn8n6D0E/ay1DHD4HkJOuZDw+pCMRGXJADG9rhniSf4k5ch2GdqFuZ5s6OOJAyepYfF7sMe/S/Qit8sLIJucJNoPuazfqfFceG4iAwjr8qSLYRErU4DwAu72U661dDT8bH8B0w/ZwNvOgXl9+gPqDjwZiocPUeHfEcCDY1gt+dDvk6mLdGNH+Cm8xdnOuoUoXL+ytg+hgwFpaSdlAiY6vU/Yhk7Um+7wGko73P2DA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ 12.22.5.236) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DjlscHecdcMpLoybC6kEB/IIni+Nsq0JItrk38p+xG8=;
- b=p1KA81HzPakd1eUDtv9MYv3Hj0l964Xb2DX3SpQG7GP1akssFn0GA8Yc5STF31sFz7OMhJhPBlOcTQyP5IKjFxG/6M1MQ9XOh5zmiRpCpqDOfRyL1vJxixhQrSqzv9YmMO5nWdXuzhu/yDPjRKOC5JduELptamIgWS77av+yNIUMCjKe4ojbWqU2xGQlCB6aWYk88UWkvIpBMwqKElGlRhKa3g/YBcEldf1xScgYJ/oCh//qZkey+ZcN2rAwFj/uMZ3P4aFCCYpbuftrEFYtoFVW/HgBhtDEGx6u4MFgHsamTeW24ooUzPkrHnn/1MHkSG1Nzv1AP26FuKPh425CRQ==
-Received: from MW4PR04CA0314.namprd04.prod.outlook.com (2603:10b6:303:82::19)
- by BYAPR12MB4775.namprd12.prod.outlook.com (2603:10b6:a03:107::10)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=TAcKiWMX79rHiJ0N+9JONfz6MYJ8RIJrv7lY5JEVzKA=;
+ b=cnS5mJF9GAPK59C32rAPRSIN0HHn6KlfL9vxg8VfTsztdajetkwi/LoZb8Jv7DrbD8Kfmzkmpk55eQaM2sF8snK2PO1jp04M9aSJtJlnCydhUA9denRS30m95d8jN0U668fFnL6SpLy1nxLJUsU4gYMopuQDRrVr4Z1RGw4JEPJYuxlwAXXJn8w+WiVWlHU4D6y0CQzDX+Z/zZ00iebAFOi6adiRIbhqhiqHjbcnfQrYcMBVkiai0kuYajMaDULBf1jkYPyB6MWOzhlkGoEKTtyOPuPevoXglrs5LpgQXIFQL85Rjmo7PBsgvbLzSG73CLBCGBGC38I8t77Fsrn7TQ==
+Received: from MWHPR10CA0069.namprd10.prod.outlook.com (2603:10b6:300:2c::31)
+ by MWHPR12MB1360.namprd12.prod.outlook.com (2603:10b6:300:12::7) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Mon, 30 May
- 2022 17:08:02 +0000
-Received: from CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:82:cafe::d6) by MW4PR04CA0314.outlook.office365.com
- (2603:10b6:303:82::19) with Microsoft SMTP Server (version=TLS1_2,
+ 2022 17:08:05 +0000
+Received: from CO1NAM11FT024.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:2c:cafe::e6) by MWHPR10CA0069.outlook.office365.com
+ (2603:10b6:300:2c::31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13 via Frontend
- Transport; Mon, 30 May 2022 17:08:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ Transport; Mon, 30 May 2022 17:08:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.238) by
- CO1NAM11FT059.mail.protection.outlook.com (10.13.174.160) with Microsoft SMTP
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.236) by
+ CO1NAM11FT024.mail.protection.outlook.com (10.13.174.162) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5293.13 via Frontend Transport; Mon, 30 May 2022 17:08:01 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- DRHQMAIL105.nvidia.com (10.27.9.14) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Mon, 30 May 2022 17:08:01 +0000
+ 15.20.5293.13 via Frontend Transport; Mon, 30 May 2022 17:08:05 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ DRHQMAIL109.nvidia.com (10.27.9.19) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.32; Mon, 30 May 2022 17:08:05 +0000
 Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 30 May 2022 10:08:01 -0700
+ 15.2.986.22; Mon, 30 May 2022 10:08:04 -0700
 Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.180)
  with Microsoft SMTP Server id 15.2.986.22 via Frontend Transport;
- Mon, 30 May 2022 10:07:58 -0700
+ Mon, 30 May 2022 10:08:01 -0700
 From: Avihai Horon <avihaih@nvidia.com>
 To: <qemu-devel@nongnu.org>, Cornelia Huck <cohuck@redhat.com>, "Alex
  Williamson" <alex.williamson@redhat.com>, Juan Quintela
@@ -76,10 +76,10 @@ CC: Joao Martins <joao.m.martins@oracle.com>, Yishai Hadas
  <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
  <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Avihai Horon
  <avihaih@nvidia.com>
-Subject: [PATCH v2 05/11] vfio/migration: Move migration v1 logic to
- vfio_migration_init()
-Date: Mon, 30 May 2022 20:07:33 +0300
-Message-ID: <20220530170739.19072-6-avihaih@nvidia.com>
+Subject: [PATCH v2 06/11] vfio/migration: Rename functions/structs related to
+ v1 protocol
+Date: Mon, 30 May 2022 20:07:34 +0300
+Message-ID: <20220530170739.19072-7-avihaih@nvidia.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20220530170739.19072-1-avihaih@nvidia.com>
 References: <20220530170739.19072-1-avihaih@nvidia.com>
@@ -88,30 +88,30 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bfb53061-0f4a-4b08-67c8-08da425ef462
-X-MS-TrafficTypeDiagnostic: BYAPR12MB4775:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB47759B7130539992F4D10ED7DEDD9@BYAPR12MB4775.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 50a572a4-143a-4b83-e4aa-08da425ef69a
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1360:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB136099233B8E6C1BD5F92195DEDD9@MWHPR12MB1360.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FskSo0/GV3UtBtFwRCcnBZLb7VsUrtSFfSjUy0TwzS9kARXRqAtWnsu+AAx52pOt/2KSXgqweJkGKp9iRCrgMKm4tN3xzfS2fLRpv+WpvfIEM/IQYeajNuOszHqYZAC3sQmkyX5cKQjLTe7YfxyTEqxosnHVANFB2lRXcWiJrKzBpzW3Ud5fvse20rTYQt7S239vEPSGGeyo+AqT3eiHRxw7XJokOSkns9WXp4Xi/laDYdNzgc8qlj2G7DFCT3BebbPWQLY1EIyDDep/nTONavIDLOpRIN53qM01zm+ct1yEAfRPzi6he0GVH+WWtxF/iMfbTc2md9xZBWPTP+BONClS4zJLt59IggPC+xy2HwAdpV9HorXkCdoLESxF64Yi9+di3n/xoHPqwUqI2BLgwZde85SK93eAUhk6JlbdU/uwoPVJidWtEoz8dzq2GCupiDrvtCAtWX44H+oYkPpXB9SJp7E/7C8FbI9zO+p0VMBNinA4/L0myyQPacdhbF0LHrS/taWPVf+MWtvau02X7qh8fUufOvl2D9OUXbnMkPcRpEOuAJ038oE8aiB+Tv3qIXfRR9BVzrPrCY5AOsVIoiHBW8jXanQDS01B5nVWI772k8mEJNXFQURw5Wmg05eHbynX8dSwvtfRbjNtknpdpKlToBFjfc7WIpDMeaBc86fdTzlrYdmwnW3q0eX7YOu9HGryxr+9eFfdZcvV2fOH0A==
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+X-Microsoft-Antispam-Message-Info: 14GiJsw5JtDs5YFpNx65qBCNPXJuOkUUYSV4RSTtgiukMS5KqxKI0LSlnY+ZaFwuY+t4H70Wr5Rfegs1lF5KZktJPu/p2NsWkIjeUDtSHTwSmEWiWnuuGaxW1Lc3nojqUME09ZfqYuYMO71ousFTbMdRjLN91c4kV26bT9wYkF3Q4pqo55S2jyEelJXYgyw46/kR7AwenYamhgOkUEsCWFEkEm6L1FyjmsdDBBSTnVx08VrHYNibnZyzQJk5vzDouqo6lUDuNZrQ8dvvyQJ6GnC1aLLdMAXQ5AA5AXZ/tLluibrpHoyVLIN9BYKzi4OdH8OXkDGmTVipH9HitXXNwKzlSaSFSffZ2MhVNjcfhqvbG3DWFhrcS2237A17Bm81E2P1ddbwvUAhPdDataCOOyCiuO5hbCCk1NnVObLe751/uwXjIMGTGZ2ZI0HsSa6vhJO/YDVA3omKMXSIqOGR1zkPbUNG2zYV8LO0FdwYz6opZsKOcgXgghlcsryRcxZ0oFfY1hBdGsp7cEGceaBON5bz/H0VbADUUdQZws50tPiYnQJur9EQFtxkOUn3x1gjGe3Ars/HeeLAuSF4yDIh4xHVrkkqdZzA1ymZzN7ftXe3aJDfJCuC0nqTYzCFUzx9V/zIxJBeeAxSAJ8AOWwP47BT1WJNW5LUH1SHaTGbMHMl+cMoP4FBN6vghlwXcRJz0Ohta3foe3nYBUQ46S83yA==
+X-Forefront-Antispam-Report: CIP:12.22.5.236; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(2616005)(26005)(2906002)(110136005)(54906003)(356005)(8676002)(316002)(36860700001)(7696005)(508600001)(47076005)(86362001)(6666004)(81166007)(336012)(186003)(40460700003)(82310400005)(8936002)(36756003)(426003)(83380400001)(107886003)(70206006)(70586007)(4326008)(1076003)(5660300002)(36900700001);
+ SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(40460700003)(186003)(86362001)(82310400005)(6666004)(81166007)(336012)(70206006)(107886003)(5660300002)(4326008)(70586007)(1076003)(426003)(36756003)(83380400001)(8936002)(30864003)(356005)(8676002)(2906002)(110136005)(54906003)(316002)(26005)(2616005)(508600001)(47076005)(36860700001)(7696005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2022 17:08:01.9545 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfb53061-0f4a-4b08-67c8-08da425ef462
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2022 17:08:05.6801 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50a572a4-143a-4b83-e4aa-08da425ef69a
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.236];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT024.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB4775
-Received-SPF: softfail client-ip=2a01:111:f400:7eab::60e;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1360
+Received-SPF: softfail client-ip=2a01:111:f400:7e88::611;
  envelope-from=avihaih@nvidia.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -134,121 +134,314 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move vfio_dev_get_region_info() logic from vfio_migration_probe() to
-vfio_migration_init(). This logic is specific to v1 protocol and moving
-it will make it easier to add the v2 protocol implementation later.
-No functional changes intended.
+To avoid name collisions, rename functions and structs related to VFIO
+migration protocol v1. This will allow the two protocols to co-exist
+when v2 protocol is added, until v1 is removed. No functional changes
+intended.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 ---
- hw/vfio/migration.c  | 30 +++++++++++++++---------------
- hw/vfio/trace-events |  2 +-
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ hw/vfio/common.c              |  6 +--
+ hw/vfio/migration.c           | 82 +++++++++++++++++------------------
+ hw/vfio/trace-events          |  2 +-
+ include/hw/vfio/vfio-common.h |  2 +-
+ 4 files changed, 46 insertions(+), 46 deletions(-)
 
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index bbc6d375de..a3dd8221ed 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -355,8 +355,8 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+                 return false;
+             }
+ 
+-            if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
+-                && (migration->device_state & VFIO_DEVICE_STATE_V1_RUNNING)) {
++            if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF) &&
++                (migration->device_state_v1 & VFIO_DEVICE_STATE_V1_RUNNING)) {
+                 return false;
+             }
+         }
+@@ -385,7 +385,7 @@ static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
+                 return false;
+             }
+ 
+-            if (migration->device_state & VFIO_DEVICE_STATE_V1_RUNNING) {
++            if (migration->device_state_v1 & VFIO_DEVICE_STATE_V1_RUNNING) {
+                 continue;
+             } else {
+                 return false;
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index d8f9b086c2..8a0deed0e4 100644
+index 8a0deed0e4..e40aa0ad80 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -789,14 +789,14 @@ static void vfio_migration_exit(VFIODevice *vbasedev)
-     vbasedev->migration = NULL;
- }
+@@ -107,8 +107,8 @@ static int vfio_mig_rw(VFIODevice *vbasedev, __u8 *buf, size_t count,
+  * an error is returned.
+  */
  
--static int vfio_migration_init(VFIODevice *vbasedev,
--                               struct vfio_region_info *info)
-+static int vfio_migration_init(VFIODevice *vbasedev)
+-static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+-                                    uint32_t value)
++static int vfio_migration_v1_set_state(VFIODevice *vbasedev, uint32_t mask,
++                                       uint32_t value)
  {
-     int ret;
-     Object *obj;
-     VFIOMigration *migration;
-     char id[256] = "";
-     g_autofree char *path = NULL, *oid = NULL;
-+    struct vfio_region_info *info = NULL;
- 
-     if (!vbasedev->ops->vfio_get_object) {
-         return -EINVAL;
-@@ -807,6 +807,14 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-         return -EINVAL;
+     VFIOMigration *migration = vbasedev->migration;
+     VFIORegion *region = &migration->region;
+@@ -145,7 +145,7 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+         return ret;
      }
  
-+    ret = vfio_get_dev_region_info(vbasedev,
-+                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
-+                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
-+                                   &info);
-+    if (ret) {
-+        return ret;
-+    }
-+
-     vbasedev->migration = g_new0(VFIOMigration, 1);
- 
-     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
-@@ -824,6 +832,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-         goto err;
-     }
- 
-+    g_free(info);
-+
-     migration = vbasedev->migration;
-     migration->vbasedev = vbasedev;
- 
-@@ -846,6 +856,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+-    migration->device_state = device_state;
++    migration->device_state_v1 = device_state;
+     trace_vfio_migration_set_state(vbasedev->name, device_state);
      return 0;
- 
- err:
-+    g_free(info);
-     vfio_migration_exit(vbasedev);
+ }
+@@ -260,8 +260,8 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
      return ret;
  }
-@@ -860,7 +871,6 @@ int64_t vfio_mig_bytes_transferred(void)
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+ 
+-static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
+-                            uint64_t data_size)
++static int vfio_v1_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
++                               uint64_t data_size)
  {
-     VFIOContainer *container = vbasedev->group->container;
--    struct vfio_region_info *info = NULL;
-     int ret = -ENOTSUP;
+     VFIORegion *region = &vbasedev->migration->region;
+     uint64_t data_offset = 0, size, report_size;
+@@ -288,7 +288,7 @@ static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
+             data_size = 0;
+         }
  
-     if (!vbasedev->enable_migration) {
-@@ -874,27 +884,17 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-         migrate_get_current()->skip_precopy = true;
+-        trace_vfio_load_state_device_data(vbasedev->name, data_offset, size);
++        trace_vfio_v1_load_state_device_data(vbasedev->name, data_offset, size);
+ 
+         while (size) {
+             void *buf;
+@@ -394,7 +394,7 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+     return qemu_file_get_error(f);
+ }
+ 
+-static void vfio_migration_cleanup(VFIODevice *vbasedev)
++static void vfio_migration_v1_cleanup(VFIODevice *vbasedev)
+ {
+     VFIOMigration *migration = vbasedev->migration;
+ 
+@@ -405,7 +405,7 @@ static void vfio_migration_cleanup(VFIODevice *vbasedev)
+ 
+ /* ---------------------------------------------------------------------- */
+ 
+-static int vfio_save_setup(QEMUFile *f, void *opaque)
++static int vfio_v1_save_setup(QEMUFile *f, void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+     VFIOMigration *migration = vbasedev->migration;
+@@ -431,8 +431,8 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+         }
      }
  
--    ret = vfio_get_dev_region_info(vbasedev,
--                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
--                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
--                                   &info);
-+    ret = vfio_migration_init(vbasedev);
+-    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
+-                                   VFIO_DEVICE_STATE_V1_SAVING);
++    ret = vfio_migration_v1_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
++                                      VFIO_DEVICE_STATE_V1_SAVING);
      if (ret) {
-         goto add_blocker;
+         error_report("%s: Failed to set state SAVING", vbasedev->name);
+         return ret;
+@@ -448,11 +448,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+     return 0;
+ }
+ 
+-static void vfio_save_cleanup(void *opaque)
++static void vfio_v1_save_cleanup(void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+ 
+-    vfio_migration_cleanup(vbasedev);
++    vfio_migration_v1_cleanup(vbasedev);
+     trace_vfio_save_cleanup(vbasedev->name);
+ }
+ 
+@@ -524,15 +524,15 @@ static int vfio_save_iterate(QEMUFile *f, void *opaque)
+     return 0;
+ }
+ 
+-static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
++static int vfio_v1_save_complete_precopy(QEMUFile *f, void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+     VFIOMigration *migration = vbasedev->migration;
+     uint64_t data_size;
+     int ret;
+ 
+-    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_RUNNING,
+-                                   VFIO_DEVICE_STATE_V1_SAVING);
++    ret = vfio_migration_v1_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_RUNNING,
++                                      VFIO_DEVICE_STATE_V1_SAVING);
+     if (ret) {
+         error_report("%s: Failed to set state STOP and SAVING",
+                      vbasedev->name);
+@@ -569,7 +569,8 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+         return ret;
      }
  
--    ret = vfio_migration_init(vbasedev, info);
--    if (ret) {
--        goto add_blocker;
--    }
--
--    trace_vfio_migration_probe(vbasedev->name, info->index);
--    g_free(info);
-+    trace_vfio_migration_probe(vbasedev->name);
+-    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_SAVING, 0);
++    ret = vfio_migration_v1_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_SAVING,
++                                      0);
+     if (ret) {
+         error_report("%s: Failed to set state STOPPED", vbasedev->name);
+         return ret;
+@@ -592,7 +593,7 @@ static void vfio_save_state(QEMUFile *f, void *opaque)
+     }
+ }
+ 
+-static int vfio_load_setup(QEMUFile *f, void *opaque)
++static int vfio_v1_load_setup(QEMUFile *f, void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+     VFIOMigration *migration = vbasedev->migration;
+@@ -608,8 +609,8 @@ static int vfio_load_setup(QEMUFile *f, void *opaque)
+         }
+     }
+ 
+-    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
+-                                   VFIO_DEVICE_STATE_V1_RESUMING);
++    ret = vfio_migration_v1_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
++                                      VFIO_DEVICE_STATE_V1_RESUMING);
+     if (ret) {
+         error_report("%s: Failed to set state RESUMING", vbasedev->name);
+         if (migration->region.mmaps) {
+@@ -619,11 +620,11 @@ static int vfio_load_setup(QEMUFile *f, void *opaque)
+     return ret;
+ }
+ 
+-static int vfio_load_cleanup(void *opaque)
++static int vfio_v1_load_cleanup(void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+ 
+-    vfio_migration_cleanup(vbasedev);
++    vfio_migration_v1_cleanup(vbasedev);
+     trace_vfio_load_cleanup(vbasedev->name);
      return 0;
+ }
+@@ -661,7 +662,7 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+             uint64_t data_size = qemu_get_be64(f);
  
- add_blocker:
-     error_setg(&vbasedev->migration_blocker,
-                "VFIO device doesn't support migration");
--    g_free(info);
+             if (data_size) {
+-                ret = vfio_load_buffer(f, vbasedev, data_size);
++                ret = vfio_v1_load_buffer(f, vbasedev, data_size);
+                 if (ret < 0) {
+                     return ret;
+                 }
+@@ -682,21 +683,21 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+     return ret;
+ }
  
-     ret = migrate_add_blocker(vbasedev->migration_blocker, errp);
-     if (ret < 0) {
+-static SaveVMHandlers savevm_vfio_handlers = {
+-    .save_setup = vfio_save_setup,
+-    .save_cleanup = vfio_save_cleanup,
++static SaveVMHandlers savevm_vfio_v1_handlers = {
++    .save_setup = vfio_v1_save_setup,
++    .save_cleanup = vfio_v1_save_cleanup,
+     .save_live_pending = vfio_save_pending,
+     .save_live_iterate = vfio_save_iterate,
+-    .save_live_complete_precopy = vfio_save_complete_precopy,
++    .save_live_complete_precopy = vfio_v1_save_complete_precopy,
+     .save_state = vfio_save_state,
+-    .load_setup = vfio_load_setup,
+-    .load_cleanup = vfio_load_cleanup,
++    .load_setup = vfio_v1_load_setup,
++    .load_cleanup = vfio_v1_load_cleanup,
+     .load_state = vfio_load_state,
+ };
+ 
+ /* ---------------------------------------------------------------------- */
+ 
+-static void vfio_vmstate_change(void *opaque, bool running, RunState state)
++static void vfio_v1_vmstate_change(void *opaque, bool running, RunState state)
+ {
+     VFIODevice *vbasedev = opaque;
+     VFIOMigration *migration = vbasedev->migration;
+@@ -736,21 +737,21 @@ static void vfio_vmstate_change(void *opaque, bool running, RunState state)
+         }
+     }
+ 
+-    ret = vfio_migration_set_state(vbasedev, mask, value);
++    ret = vfio_migration_v1_set_state(vbasedev, mask, value);
+     if (ret) {
+         /*
+          * Migration should be aborted in this case, but vm_state_notify()
+          * currently does not support reporting failures.
+          */
+         error_report("%s: Failed to set device state 0x%x", vbasedev->name,
+-                     (migration->device_state & mask) | value);
++                     (migration->device_state_v1 & mask) | value);
+         if (migrate_get_current()->to_dst_file) {
+             qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+         }
+     }
+     vbasedev->migration->vm_running = running;
+     trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
+-            (migration->device_state & mask) | value);
++            (migration->device_state_v1 & mask) | value);
+ }
+ 
+ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+@@ -769,10 +770,10 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+     case MIGRATION_STATUS_CANCELLED:
+     case MIGRATION_STATUS_FAILED:
+         bytes_transferred = 0;
+-        ret = vfio_migration_set_state(vbasedev,
+-                                       ~(VFIO_DEVICE_STATE_V1_SAVING |
+-                                         VFIO_DEVICE_STATE_V1_RESUMING),
+-                                       VFIO_DEVICE_STATE_V1_RUNNING);
++        ret = vfio_migration_v1_set_state(vbasedev,
++                                          ~(VFIO_DEVICE_STATE_V1_SAVING |
++                                            VFIO_DEVICE_STATE_V1_RESUMING),
++                                          VFIO_DEVICE_STATE_V1_RUNNING);
+         if (ret) {
+             error_report("%s: Failed to set state RUNNING", vbasedev->name);
+         }
+@@ -845,12 +846,11 @@ static int vfio_migration_init(VFIODevice *vbasedev)
+     }
+     strpadcpy(id, sizeof(id), path, '\0');
+ 
+-    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
+-                         vbasedev);
++    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
++                         &savevm_vfio_v1_handlers, vbasedev);
+ 
+-    migration->vm_state = qdev_add_vm_change_state_handler(vbasedev->dev,
+-                                                           vfio_vmstate_change,
+-                                                           vbasedev);
++    migration->vm_state = qdev_add_vm_change_state_handler(
++        vbasedev->dev, vfio_v1_vmstate_change, vbasedev);
+     migration->migration_state.notify = vfio_migration_state_notifier;
+     add_migration_state_change_notifier(&migration->migration_state);
+     return 0;
 diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 582882db91..438402b619 100644
+index 438402b619..ac8b04f52a 100644
 --- a/hw/vfio/trace-events
 +++ b/hw/vfio/trace-events
-@@ -148,7 +148,7 @@ vfio_display_edid_update(uint32_t prefx, uint32_t prefy) "%ux%u"
- vfio_display_edid_write_error(void) ""
- 
- # migration.c
--vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
-+vfio_migration_probe(const char *name) " (%s)"
- vfio_migration_set_state(const char *name, uint32_t state) " (%s) state %d"
- vfio_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
- vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
+@@ -162,7 +162,7 @@ vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
+ vfio_save_complete_precopy(const char *name) " (%s)"
+ vfio_load_device_config_state(const char *name) " (%s)"
+ vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
+-vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
++vfio_v1_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+ vfio_load_cleanup(const char *name) " (%s)"
+ vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
+ vfio_iommu_map_dirty_notify(uint64_t iova_start, uint64_t iova_end) "iommu dirty @ 0x%"PRIx64" - 0x%"PRIx64
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index e573f5a9f1..bbaf72ba00 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -62,7 +62,7 @@ typedef struct VFIOMigration {
+     struct VFIODevice *vbasedev;
+     VMChangeStateEntry *vm_state;
+     VFIORegion region;
+-    uint32_t device_state;
++    uint32_t device_state_v1;
+     int vm_running;
+     Notifier migration_state;
+     uint64_t pending_bytes;
 -- 
 2.21.3
 
