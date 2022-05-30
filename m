@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFFF538600
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 18:20:49 +0200 (CEST)
-Received: from localhost ([::1]:60146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FCE5385FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 18:18:51 +0200 (CEST)
+Received: from localhost ([::1]:57344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvi8M-0008IO-TF
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 12:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38534)
+	id 1nvi6U-0006MR-2k
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 12:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvN-0002e5-6V
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:21 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:46991)
+ id 1nvhvI-0002dr-NG
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:20 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvG-0007AW-4g
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:20 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- r123-20020a1c2b81000000b0039c1439c33cso1164091wmr.5
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:07:12 -0700 (PDT)
+ id 1nvhvG-0007Aa-53
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:15 -0400
+Received: by mail-wr1-x430.google.com with SMTP id p10so15256837wrg.12
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=z/EiYIg0W6+dtf+QTbWYS+jOx0Pk8vnVY1fISas01J4=;
- b=kSps6zC81cchITJlV9DqAehU8MN3pIWwZPfsVjI7CHGg0KTNXSFt0PLL+VDy+viEwp
- O5CGVwwvXs5dactB0ZpTQt66sjKLvbjdwys8Cvjei+A43GXxlXauMLK3QUMtsiQJLKQ2
- o4ssVn/5TpOtc32cNEtFgs+TFpugIHAZV+NSv4F3WSf3orwSZ3hSusSQpWc2qldguifx
- XgSR8RS5VAxnkWPUbTr0YoUjwrP1N5Dyt9EwV0rS9/YHDrOx1vTXzP6/lBtMufq+E8JZ
- q9P8h62b5r9oH20DDQhGHt7SGVTHQeHLj9xp+FuHpzW+9WCOHm7WAyGWMb8LLhs2tM2A
- HWNA==
+ bh=lKRJrIgeaUwwXJZeQ6utUWAPa0M3UoWr4zCBZlSuKrQ=;
+ b=nnGJUoR1pe2AtKF4AS+uHIpw3GvqBm7CcyZQ7HecJvP5Tlgwq+NzJk2BjJDNZuNo6J
+ czMpOxWFymuvMV8VOrskc7GEH5hECZy1Rj8nMjNIyGPlBZOPspmc5lMW4rn47ijVr0QW
+ FKpVRx7Vnh9vlTB5XXa7Anz8Z9Pb3qvvSAjXa975DxRUzW4S49sVUNU7KbRHqg4DOtmF
+ iI5AmF5MpE9kMXMSSYSugJSXx+QnX+fMw8TpdeRYeFVy+3X3cnCvfP5SJfrbep6QZfjN
+ 9VM3+McwbOpzZdATkJGPeqrxj7UCKPfOnRQlJq6fGFe9qqLpgv/kHz7QAhxXTj3XH2Ox
+ CMJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z/EiYIg0W6+dtf+QTbWYS+jOx0Pk8vnVY1fISas01J4=;
- b=VEFscJm7mVNyi9qxMY3P6E7ful3qLTCVf8H/oU+FSC0Ho1rhvacpXJCShnXUMRXuuq
- zIPQEPwr4F3ae0Ly42/I/yXs50B/fvZXHfj7AqNucnEQQX8rcO4VlIjx47f14K7rhNrH
- DfnA/uCFzAKFpa38ptJK2/KjyMpssA0Upu/sn1jpNNPgg5SqbdRGfQAIxdnxL2CnWZaV
- 06/333rin7KZm7jDw9QropKwNDmrqoI3KxNtWGSJIzpw4wtXi4fbkNzawX/p7FyTfSiE
- h4NnlsfSujxKSb53bm6SzdQgVUPRlcaobOnyMV7NGKcMmyB7xPftztBy6unu3JV8Lmvm
- JGcA==
-X-Gm-Message-State: AOAM533OT7OCN3i8yIKZyLzxZooOxTDxgCTXTw1OqDkVXRucEfSHqL+e
- oBuZeoYTtPXTcT2ZkXQAYzvES3J1y7pzow==
-X-Google-Smtp-Source: ABdhPJyB9CqeTJVs1JdK7xmkI63FPpxiRldpRCNvLlY6fIKFHN1ha13ET4Ig4x3v4xUNstKX/M/X7Q==
-X-Received: by 2002:a05:600c:3ac7:b0:397:5cb4:a2b5 with SMTP id
- d7-20020a05600c3ac700b003975cb4a2b5mr19592605wms.5.1653926831789; 
- Mon, 30 May 2022 09:07:11 -0700 (PDT)
+ bh=lKRJrIgeaUwwXJZeQ6utUWAPa0M3UoWr4zCBZlSuKrQ=;
+ b=WgG35KXKgpXro9jyrRNEvQBaPcYt80zFxB4xbN/vJY7348ZkCnI65whmOJi68LvG2s
+ lvRCq7yTlZlcQNH3tyjyIZemYhIKKFc0onFMuRWqeeYlLR6KGDYZaBQBWsMhmWyjiVKL
+ IWawKnwMNHZucyvRBJDIuP5ZQ1udFPcBdaxGL3szaW1CXB4QSkRPmpYIf5mvRowsywIk
+ epCc4hzaUYHzwfrptVpq0ZG8Es3UMe8QEBw0mnjp+TL/aCsef9FexqP1XpZFFGIExWge
+ K4pI6uHEAWEEK23pKY1CAbxiZQUpNbZiAUmkB4uIp+eABOHjq7PjrRYI+TJ+ekq3Vd6Q
+ p1ww==
+X-Gm-Message-State: AOAM533eVlUvcogDbrnbwpCfzYeT/v43hZHA2FTogwp8nejfHOXUoJsg
+ 1cz0YeIoaTNt8WwJU8s31rMJ0rZNzt6xCA==
+X-Google-Smtp-Source: ABdhPJxCTBETsum1AOL/Ay90ZyuunO+7KbiiE/fyk73ocQUV7/zSWakVXABYq2ifaEXvQfLaIS/Luw==
+X-Received: by 2002:a5d:6c66:0:b0:20f:86f3:ea05 with SMTP id
+ r6-20020a5d6c66000000b0020f86f3ea05mr40690832wrz.154.1653926832550; 
+ Mon, 30 May 2022 09:07:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.07.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 09:07:11 -0700 (PDT)
+ Mon, 30 May 2022 09:07:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 002/117] target/arm/hvf: Include missing "cpregs.h"
-Date: Mon, 30 May 2022 17:05:13 +0100
-Message-Id: <20220530160708.726466-3-peter.maydell@linaro.org>
+Subject: [PULL 003/117] hw/sd/allwinner-sdhost: report FIFO water level as 1
+ when data ready
+Date: Mon, 30 May 2022 17:05:14 +0100
+Message-Id: <20220530160708.726466-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,58 +89,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Icenowy Zheng <uwu@icenowy.me>
 
-Fix when building HVF on macOS Aarch64:
+U-Boot queries the FIFO water level to reduce checking status register
+when doing PIO SD card operation.
 
-  target/arm/hvf/hvf.c:586:15: error: unknown type name 'ARMCPRegInfo'; did you mean 'ARMCPUInfo'?
-          const ARMCPRegInfo *ri;
-                ^~~~~~~~~~~~
-                ARMCPUInfo
-  target/arm/cpu-qom.h:38:3: note: 'ARMCPUInfo' declared here
-  } ARMCPUInfo;
-    ^
-  target/arm/hvf/hvf.c:589:14: error: implicit declaration of function 'get_arm_cp_reginfo' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-          ri = get_arm_cp_reginfo(arm_cpu->cp_regs, key);
-               ^
-  target/arm/hvf/hvf.c:589:12: warning: incompatible integer to pointer conversion assigning to 'const ARMCPUInfo *' (aka 'const struct ARMCPUInfo *') from 'int' [-Wint-conversion]
-          ri = get_arm_cp_reginfo(arm_cpu->cp_regs, key);
-             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  target/arm/hvf/hvf.c:591:26: error: no member named 'type' in 'struct ARMCPUInfo'
-              assert(!(ri->type & ARM_CP_NO_RAW));
-                       ~~  ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h:99:25: note: expanded from macro 'assert'
-      (__builtin_expect(!(e), 0) ? __assert_rtn(__func__, __ASSERT_FILE_NAME, __LINE__, #e) : (void)0)
-                          ^
-  target/arm/hvf/hvf.c:591:33: error: use of undeclared identifier 'ARM_CP_NO_RAW'
-              assert(!(ri->type & ARM_CP_NO_RAW));
-                                  ^
-  1 warning and 4 errors generated.
+Report a FIFO water level of 1 when data is ready, to prevent the code
+from trying to read 0 words from the FIFO each time.
 
-Fixes: cf7c6d1004 ("target/arm: Split out cpregs.h")
-Reported-by: Duncan Bayne <duncan@bayne.id.au>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220525161926.34233-1-philmd@fungible.com
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1029
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+Message-id: 20220520124200.2112699-1-uwu@icenowy.me
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/hvf/hvf.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/sd/allwinner-sdhost.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 86710509d20..1fdc5eef92b 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -17,6 +17,7 @@
- #include "sysemu/hvf_int.h"
- #include "sysemu/hw_accel.h"
- #include "hvf_arm.h"
-+#include "cpregs.h"
+diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+index 041e45c6804..455d6eabf64 100644
+--- a/hw/sd/allwinner-sdhost.c
++++ b/hw/sd/allwinner-sdhost.c
+@@ -114,7 +114,9 @@ enum {
+ };
  
- #include <mach/mach_time.h>
+ enum {
++    SD_STAR_FIFO_EMPTY      = (1 << 2),
+     SD_STAR_CARD_PRESENT    = (1 << 8),
++    SD_STAR_FIFO_LEVEL_1    = (1 << 17),
+ };
  
+ enum {
+@@ -467,6 +469,11 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
+         break;
+     case REG_SD_STAR:      /* Status */
+         res = s->status;
++        if (sdbus_data_ready(&s->sdbus)) {
++            res |= SD_STAR_FIFO_LEVEL_1;
++        } else {
++            res |= SD_STAR_FIFO_EMPTY;
++        }
+         break;
+     case REG_SD_FWLR:      /* FIFO Water Level */
+         res = s->fifo_wlevel;
 -- 
 2.25.1
 
