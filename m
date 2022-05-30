@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B758D5387E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:53:58 +0200 (CEST)
-Received: from localhost ([::1]:54894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2310453880E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 22:10:47 +0200 (CEST)
+Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlSf-0003Vv-OV
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:53:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35140)
+	id 1nvlit-000561-9D
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 16:10:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nvlEc-0007Iy-Po
- for qemu-devel@nongnu.org; Mon, 30 May 2022 15:39:26 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:53882)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvlKZ-0000Of-7b; Mon, 30 May 2022 15:45:35 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:42688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nvlEa-0008Jj-Ev
- for qemu-devel@nongnu.org; Mon, 30 May 2022 15:39:26 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id a10so2484743pju.3
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 12:39:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=0cKeDOBF+dDzWeKdWapccONDVkOHpuiY7pxrNuDTNGg=;
- b=PaUNNuHEZDg0hbQG1R6/RdpvRA9cDN+zIYgXae6dHpVTfvN01CR+ryCgSQSBaMqKUg
- r0gyIJro4NSj670l381RV/pBmP9ehgpkmcDoc+tNvnC8UHJgopO4gfbq+W1qscqzYpsq
- 6jHk+ISwkkDqU2itRwLE9UK4+owlVG2gu7Rbrr8PaIZJn1rsKFt4KZOKYxeOESDTHlUL
- 40rDLkxt22XmppA+1HiMphEcRYBShfU9gCxf2BeVRzzepMpo4Ab7x7xEPDkTIul3Iwf/
- oNW3D6IfDGSdXOUVMwYE9HHMreoEzvHrtK/dfgo3e/bWVAXUiJxGKUsR4ZPyJ5ikHh8P
- xCcA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvlKW-00019C-HX; Mon, 30 May 2022 15:45:34 -0400
+Received: by mail-pf1-x431.google.com with SMTP id y199so11290257pfb.9;
+ Mon, 30 May 2022 12:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pmEKjF0FDQWu8TTBw2Kikm43RbrRCZ9ffxzbcJUfkFI=;
+ b=ktGa5yTG9DSGdcgmCKhH6yVZZ2qbxGM4w8WS1DmxE/meo813iKnPphIFTNdGqyrPEY
+ eRhRDUBKjbDpjvRqE995FCJ3jk6CGVun/OEcylnNjQYMR/ObnId65+37nz0KOIYJsg03
+ yQGru0nrK3ym2TaBJAM3sXdXMk1hIstzuC2iOUagHob8xDMfqNpkpkcJkVHfYOhq+YFu
+ h9jqxVeQBIlDRXkrtc9XfsAxdj1ab7whCBLrDoz0emhFXKyodO5bBTSGObV+UuE0Cp6a
+ g0X8joz3Iu2H9WdfDxZRp0K5aA0hiduwafOkyMDwT93z8p4jlhSYyoh+o5uIvIL8Irzq
+ +KBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0cKeDOBF+dDzWeKdWapccONDVkOHpuiY7pxrNuDTNGg=;
- b=YcDLankecXU7zpjg43EWJM2LARPygZ0uzDYO9UiFa0AuTdNKfrvNsH9bk5WTmVATLi
- whwn6V6xObMkv8uaPw8I3dKNu1Q+jviC/rRh4yUgvWsWbJXSF8a7+YkHXCwG74fh1l3S
- eGMbBKkRnhxm0SN3Ru1byfhKZR52HKsT+IwaBvDzdQP02x97uNaCWQcMMVe40676Dgt/
- kxgRoJ94pn2+8if0zkup348qCn3+IxuTf3zTfNVm2i6e7/fb+cPu89orjxpRdqJ49BF+
- m5WIZzWmTHw4SjqpI40svLiawZ6ZUoLsmae3mKpu7IrQgRB/04Ye7RsyyxaULJYo/4TP
- nMfQ==
-X-Gm-Message-State: AOAM533iTjfWWqtySU/5xjPl6g2sIxss/2kip1/n9Ka9Isl/BphYj7Sg
- jm3+RU5yrhAZN/umPazWyzvdsDEfIPgJIA==
-X-Google-Smtp-Source: ABdhPJyJzbq6yPJyBIxE49DawCizjVg42cD58DUcIjlX+JXx8QCi6NA/VpHBLh2oFZaGAYkkvJ1K2Q==
-X-Received: by 2002:a17:90b:4ace:b0:1df:cb33:5e7e with SMTP id
- mh14-20020a17090b4ace00b001dfcb335e7emr24349163pjb.5.1653939562323; 
- Mon, 30 May 2022 12:39:22 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:feab:28bd:b064:f797?
- ([2602:ae:1547:e101:feab:28bd:b064:f797])
+ bh=pmEKjF0FDQWu8TTBw2Kikm43RbrRCZ9ffxzbcJUfkFI=;
+ b=Tk/W7C08dCRlLkaojag+3v3toHeB8+AMWCxtETWeDLA/13UhZcKBhq1c3d1aLVvu5e
+ DrdDW8+6T5yIwMAoHEk59NBEYkxMIl648Ttpi79PB6MpQilnq/4inQuM49KRXr7Z1S+I
+ WXIAzebZW/bQQ3cONIAN3ta98pZLp2HIiT5M0v8FKlOJNnTHcgmk070JHAFiKV+5VOyR
+ Xl7/bL3J/WBGaxEf128bfqKSyxphBdU+wtBpxugV0u7fElsPrs4ve5jrbMTF1EfhYvGk
+ Q7dnx/2Je/nHu9N1+sWwYq52+Pkl4Nde1EVcT7rFcDpUNkHe3+pPBOVEhtvEzeaJvFQ0
+ BxdA==
+X-Gm-Message-State: AOAM5313VRCx4+U/8Gb5aMHYewZbDeXQQrGN+erSG0qde7T5Xkx8te1I
+ PGoC5ngs86vxFSFcF3/R0SE=
+X-Google-Smtp-Source: ABdhPJyp+27XYd4IBow4oMCcjuFGkTkOZI+aaytoY2ECvLZwidnXBlqdd+heZ1KoabiQBHbOtLnU7w==
+X-Received: by 2002:a05:6a00:1253:b0:518:7c1f:2a17 with SMTP id
+ u19-20020a056a00125300b005187c1f2a17mr47870688pfi.72.1653939930804; 
+ Mon, 30 May 2022 12:45:30 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a170902a50400b0016168e90f2dsm9432265plq.219.2022.05.30.12.39.21
+ b3-20020a170902a9c300b0015f2b3bc97asm6393266plr.13.2022.05.30.12.45.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 12:39:21 -0700 (PDT)
-Message-ID: <216ae952-cf52-255a-31c3-4573b5019f36@linaro.org>
-Date: Mon, 30 May 2022 12:39:20 -0700
+ Mon, 30 May 2022 12:45:30 -0700 (PDT)
+Message-ID: <c5fd32b5-fe22-a55b-de06-a6eac908bca2@amsat.org>
+Date: Mon, 30 May 2022 21:45:26 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 000/117] target-arm queue
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH v3 0/7] QOM'ify PIIX southbridge creation
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220530160708.726466-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Bernhard Beschow <shentey@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20220528192057.30910-1-shentey@gmail.com>
+ <110e160e-19bd-dd7a-1b4e-1a0e7437b782@ilande.co.uk>
+ <ac5d95b2-8be5-1585-3076-deabe749e926@ilande.co.uk>
+ <CAG4p6K7DzHVsp8425-O4uvb46XT9nzw-A2CK_jK8Nm+Xt8wsbw@mail.gmail.com>
+ <5ef86c6c-719b-f197-3ccb-462e453dffa5@ilande.co.uk>
+In-Reply-To: <5ef86c6c-719b-f197-3ccb-462e453dffa5@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,177 +96,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/30/22 09:05, Peter Maydell wrote:
-> Massive pullreq but almost all of that is RTH's SVE
-> refactoring patchset. The other interesting thing here is
-> the fix for compiling on aarch64 macos.
-> 
-> thanks
-> -- PMM
-> 
-> The following changes since commit f7a1ea403e0282a7f57edd4298c4f65f24165da5:
-> 
->    Merge tag 'misc-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-05-29 16:34:56 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220530
-> 
-> for you to fetch changes up to b1071174d2a2ab371082b7d4b5f19e98edc61ac6:
-> 
->    target/arm: Remove aa64_sve check from before disas_sve (2022-05-30 17:05:12 +0100)
-> 
-> ----------------------------------------------------------------
-> target-arm queue:
->   * docs/system/arm: Add FEAT_HCX to list of emulated features
->   * target/arm/hvf: Include missing "cpregs.h"
->   * hw/sd/allwinner-sdhost: report FIFO water level as 1 when data ready
->   * SVE: refactor to use TRANS/TRANS_FEAT macros and push
->     SVE feature check down to individual insn level
+On 30/5/22 21:11, Mark Cave-Ayland wrote:
+> On 29/05/2022 14:02, Bernhard Beschow wrote:
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+>>     Oh wait - I see now it's just the cover letter which is missing 
+>> the additional
+>>     maintainer addresses :)  If you could add them into the cover 
+>> letter for your next
+>>     revision that would be great, since it gives context for 
+>> maintainers to help with
+>>     the
+>>     review process.
+>>
+>>
+>> Hi Mark,
+>>
+>> Thanks for your great work you put into reviews and the useful 
+>> insights! It seems to me that the time it takes for patches to be 
+>> queued depends on the subsystem - some are faster, some are slower...
+>>
+>> I've automated my setup as described in [1]. However, it doesn't seem 
+>> to work for the cover letter which I'd expect to be sent to the union 
+>> of all reviewers of all patches. Any idea how to fix this?
+>>
+>> Best regards,
+>> Bernhard
+>>
+>> [1] 
+>> https://www.qemu.org/docs/master/devel/submitting-a-patch.html#cc-the-relevant-maintainer 
+>> <https://www.qemu.org/docs/master/devel/submitting-a-patch.html#cc-the-relevant-maintainer> 
+> 
+> 
+> Good question. I tend to do "git format-patch -o /tmp/foo 
+> --cover-letter" to generate the series, fill in the cover letter, and 
+> then use "git send-email /tmp/foo" to send out the emails (entering in 
+> the results of get_maintainer.pl by hand). I'm not sure why the cover 
+> letter isn't being generated correctly in your case I'm afraid.
 
+Or try git-publish :) It does a first pass collecting Cc for each patch
+(calling get_maintainer.pl) then use that set on the cover.
 
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> Icenowy Zheng (1):
->        hw/sd/allwinner-sdhost: report FIFO water level as 1 when data ready
-> 
-> Peter Maydell (1):
->        docs/system/arm: Add FEAT_HCX to list of emulated features
-> 
-> Philippe Mathieu-Daudé (1):
->        target/arm/hvf: Include missing "cpregs.h"
-> 
-> Richard Henderson (114):
->        target/arm: Introduce TRANS, TRANS_FEAT
->        target/arm: Move null function and sve check into gen_gvec_ool_zz
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_zz
->        target/arm: Move null function and sve check into gen_gvec_ool_zzz
->        target/arm: Introduce gen_gvec_ool_arg_zzz
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_arg_zzz
->        target/arm: Use TRANS_FEAT for do_sve2_zzz_ool
->        target/arm: Move null function and sve check into gen_gvec_ool_zzzz
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_zzzz
->        target/arm: Introduce gen_gvec_ool_arg_zzzz
->        target/arm: Use TRANS_FEAT for do_sve2_zzzz_ool
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_arg_zzzz
->        target/arm: Rename do_zzxz_ool to gen_gvec_ool_arg_zzxz
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_arg_zzxz
->        target/arm: Use TRANS_FEAT for do_sve2_zzz_data
->        target/arm: Use TRANS_FEAT for do_sve2_zzzz_data
->        target/arm: Use TRANS_FEAT for do_sve2_zzw_data
->        target/arm: Use TRANS_FEAT for USDOT_zzzz
->        target/arm: Move null function and sve check into gen_gvec_ool_zzp
->        target/arm: Introduce gen_gvec_ool_arg_zpz
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_arg_zpz
->        target/arm: Use TRANS_FEAT for do_sve2_zpz_data
->        target/arm: Rename do_zpzi_ool to gen_gvec_ool_arg_zpzi
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_arg_zpzi
->        target/arm: Move null function and sve check into gen_gvec_ool_zzzp
->        target/arm: Introduce gen_gvec_ool_arg_zpzz
->        target/arm: Use TRANS_FEAT for gen_gvec_ool_arg_zpzz
->        target/arm: Use TRANS_FEAT for do_sve2_zpzz_ool
->        target/arm: Merge gen_gvec_fn_zz into do_mov_z
->        target/arm: Move null function and sve check into gen_gvec_fn_zzz
->        target/arm: Rename do_zzz_fn to gen_gvec_fn_arg_zzz
->        target/arm: More use of gen_gvec_fn_arg_zzz
->        target/arm: Use TRANS_FEAT for gen_gvec_fn_arg_zzz
->        target/arm: Use TRANS_FEAT for do_sve2_fn_zzz
->        target/arm: Use TRANS_FEAT for RAX1
->        target/arm: Introduce gen_gvec_fn_arg_zzzz
->        target/arm: Use TRANS_FEAT for do_sve2_zzzz_fn
->        target/arm: Introduce gen_gvec_fn_zzi
->        target/arm: Use TRANS_FEAT for do_zz_dbm
->        target/arm: Hoist sve access check through do_sel_z
->        target/arm: Introduce gen_gvec_fn_arg_zzi
->        target/arm: Use TRANS_FEAT for do_sve2_fn2i
->        target/arm: Use TRANS_FEAT for do_vpz_ool
->        target/arm: Use TRANS_FEAT for do_shift_imm
->        target/arm: Introduce do_shift_zpzi
->        target/arm: Use TRANS_FEAT for do_shift_zpzi
->        target/arm: Use TRANS_FEAT for do_zpzzz_ool
->        target/arm: Move sve check into do_index
->        target/arm: Use TRANS_FEAT for do_index
->        target/arm: Use TRANS_FEAT for do_adr
->        target/arm: Use TRANS_FEAT for do_predset
->        target/arm: Use TRANS_FEAT for RDFFR, WRFFR
->        target/arm: Use TRANS_FEAT for do_pfirst_pnext
->        target/arm: Use TRANS_FEAT for do_EXT
->        target/arm: Use TRANS_FEAT for do_perm_pred3
->        target/arm: Use TRANS_FEAT for do_perm_pred2
->        target/arm: Move sve zip high_ofs into simd_data
->        target/arm: Use gen_gvec_ool_arg_zzz for do_zip, do_zip_q
->        target/arm: Use TRANS_FEAT for do_zip, do_zip_q
->        target/arm: Use TRANS_FEAT for do_clast_vector
->        target/arm: Use TRANS_FEAT for do_clast_fp
->        target/arm: Use TRANS_FEAT for do_clast_general
->        target/arm: Use TRANS_FEAT for do_last_fp
->        target/arm: Use TRANS_FEAT for do_last_general
->        target/arm: Use TRANS_FEAT for SPLICE
->        target/arm: Use TRANS_FEAT for do_ppzz_flags
->        target/arm: Use TRANS_FEAT for do_sve2_ppzz_flags
->        target/arm: Use TRANS_FEAT for do_ppzi_flags
->        target/arm: Use TRANS_FEAT for do_brk2, do_brk3
->        target/arm: Use TRANS_FEAT for MUL_zzi
->        target/arm: Reject dup_i w/ shifted byte early
->        target/arm: Reject add/sub w/ shifted byte early
->        target/arm: Reject copy w/ shifted byte early
->        target/arm: Use TRANS_FEAT for ADD_zzi
->        target/arm: Use TRANS_FEAT for do_zzi_sat
->        target/arm: Use TRANS_FEAT for do_zzi_ool
->        target/arm: Introduce gen_gvec_{ptr,fpst}_zzzz
->        target/arm: Use TRANS_FEAT for FMMLA
->        target/arm: Move sve check into gen_gvec_fn_ppp
->        target/arm: Implement NOT (prediates) alias
->        target/arm: Use TRANS_FEAT for SEL_zpzz
->        target/arm: Use TRANS_FEAT for MOVPRFX
->        target/arm: Use TRANS_FEAT for FMLA
->        target/arm: Use TRANS_FEAT for BFMLA
->        target/arm: Rename do_zzz_fp to gen_gvec_ool_fpst_arg_zzz
->        target/arm: Use TRANS_FEAT for DO_FP3
->        target/arm: Use TRANS_FEAT for FMUL_zzx
->        target/arm: Use TRANS_FEAT for FTMAD
->        target/arm: Move null function and sve check into do_reduce
->        target/arm: Use TRANS_FEAT for do_reduce
->        target/arm: Use TRANS_FEAT for FRECPE, FRSQRTE
->        target/arm: Expand frint_fns for MO_8
->        target/arm: Rename do_zpz_ptr to gen_gvec_ool_fpst_arg_zpz
->        target/arm: Move null function and sve check into do_frint_mode
->        target/arm: Use TRANS_FEAT for do_frint_mode
->        target/arm: Use TRANS_FEAT for FLOGB
->        target/arm: Use TRANS_FEAT for do_ppz_fp
->        target/arm: Rename do_zpzz_ptr to gen_gvec_fpst_arg_zpzz
->        target/arm: Use TRANS_FEAT for gen_gvec_fpst_arg_zpzz
->        target/arm: Use TRANS_FEAT for FCADD
->        target/arm: Introduce gen_gvec_fpst_zzzzp
->        target/arm: Use TRANS_FEAT for gen_gvec_fpst_zzzzp
->        target/arm: Move null function and sve check into do_fp_imm
->        target/arm: Use TRANS_FEAT for DO_FP_IMM
->        target/arm: Use TRANS_FEAT for DO_FPCMP
->        target/arm: Remove assert in trans_FCMLA_zzxz
->        target/arm: Use TRANS_FEAT for FCMLA_zzxz
->        target/arm: Use TRANS_FEAT for do_narrow_extract
->        target/arm: Use TRANS_FEAT for do_shll_tb
->        target/arm: Use TRANS_FEAT for do_shr_narrow
->        target/arm: Use TRANS_FEAT for do_FMLAL_zzzw
->        target/arm: Use TRANS_FEAT for do_FMLAL_zzxw
->        target/arm: Add sve feature check for remaining trans_* functions
->        target/arm: Remove aa64_sve check from before disas_sve
-> 
->   docs/system/arm/emulation.rst |    1 +
->   target/arm/translate.h        |   11 +
->   target/arm/sve.decode         |   57 +-
->   hw/sd/allwinner-sdhost.c      |    7 +
->   target/arm/hvf/hvf.c          |    1 +
->   target/arm/sve_helper.c       |    6 +-
->   target/arm/translate-a64.c    |    2 +-
->   target/arm/translate-sve.c    | 5367 +++++++++++++++--------------------------
->   8 files changed, 2067 insertions(+), 3385 deletions(-)
-> 
-
+https://github.com/stefanha/git-publish
 
