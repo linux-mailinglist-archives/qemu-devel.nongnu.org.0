@@ -2,64 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F77E537E47
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 15:57:06 +0200 (CEST)
-Received: from localhost ([::1]:47008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D54537E5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:02:09 +0200 (CEST)
+Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvftI-0003i5-Th
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 09:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60362)
+	id 1nvfyC-00029T-2N
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:02:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nvffh-000562-Jx
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:43:02 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:37235)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nvffe-0007uz-L0
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:43:00 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 24UDfeM9027190
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 30 May 2022 09:41:43 -0400
-Date: Mon, 30 May 2022 09:41:40 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v2 1/3] memory: Track whether a Device is engaged in IO
-Message-ID: <20220530134140.aznuzsssbxsbdzgo@mozz.bu.edu>
-References: <20220527161937.328754-1-alxndr@bu.edu>
- <20220527161937.328754-2-alxndr@bu.edu>
- <CAFEAcA-PXO8ZGS_DA6E65MK2pvnnepbpA-vc_90xdARLj73=iA@mail.gmail.com>
- <20220530130944.27md44gr2yp7gx5i@mozz.bu.edu>
- <CAFEAcA_uNwY582GuCw6xqiDqyG3K6uqZB-ojB-Qcn5Hkzp4ZRg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvfgt-00068I-Ur
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 09:44:20 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:45902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvfgr-00086J-7X
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 09:44:15 -0400
+Received: by mail-pl1-x636.google.com with SMTP id q18so10354771pln.12
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 06:44:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3b6EMPsr1IKzfI5YQRokggkI+409xt4xv+LnX/mLFKg=;
+ b=O/B7PQifY+DGEVJnNbrzvy3wfTB0ARH1peinXq8XxWsl2qCNwBwWRONgz7Suajp/p6
+ yLjksZc+wgVk975TCEDlNe3pSRKp9JtX/RUO5ZnLLtIrTa3OMvonpOk4xIYE/s8YBt0j
+ 50e/pcE/U88adPDFNISS2dulvgxXQMgwky7W+pHQoclBbXfWCkvSWpUC/wjTPpz3Dkbx
+ keZJrLtOGkKwn4X86mSr2DPEeE1Ucf1TxI+angOt6QWBBr+kAmrgXDXUY8Tki5HkMxks
+ mQhw1r6RlkGBFv1TIgrYnZiFmHGapifiOtujT9u1j4ZsXIPkWjEPiX2pB8Kcy44csAqy
+ 361Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3b6EMPsr1IKzfI5YQRokggkI+409xt4xv+LnX/mLFKg=;
+ b=p5X1zULGBSgK5Sn5OFAg3yk9rdSNS3ST+AX1E2fFxt6ESHad4PZoYrvs4dXJrL/Ogf
+ +O+gTMhGZ4ktQ2gx4eO+jbeaRfhyDGCHs4Az4ctlViX67ifdRyfVBgP4YAj7P0Mr0JJw
+ 4LcRXvD3ukjf3/bpBMQLy+8lCiiv5xFIP6xf/9bmAC6Kk+KFHDjbklh0tuFb99ox2Tae
+ wmNli0/TEps+DTDfUDr8BTOyWVfOTcEGq7TWS1SimXXq9g7vwkGRJzacoGUkHOWwzbGl
+ C0PMRVPWBIXxAi0sJJqv/4L48IkWf2IQBpTsIK+ivUPabtjawEknynTYP7H1kmnGbTaI
+ G4Tw==
+X-Gm-Message-State: AOAM533LgL9+32Yo0Rxfdc2hc/cyUbCLMeavB698YskQQxpXp3wWMwfj
+ odUEWabg2PCt/rEnkf4if5A=
+X-Google-Smtp-Source: ABdhPJxlVL+mbKKh3ukctf3HUkxrb1qZeqBlYncLIvINDMXty1fSjcyI5+YbkgZoQlfUf4m70cV3JA==
+X-Received: by 2002:a17:90a:ec03:b0:1e0:d890:f74 with SMTP id
+ l3-20020a17090aec0300b001e0d8900f74mr22959607pjy.136.1653918251878; 
+ Mon, 30 May 2022 06:44:11 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a056a00000400b005182fd977e4sm8859689pfk.108.2022.05.30.06.44.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 06:44:11 -0700 (PDT)
+Message-ID: <8f3a094c-defa-c97e-acba-7a58dcd3e5e6@amsat.org>
+Date: Mon, 30 May 2022 15:44:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_uNwY582GuCw6xqiDqyG3K6uqZB-ojB-Qcn5Hkzp4ZRg@mail.gmail.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH v2 3/3] hppa: Fix serial port assignments and pass-through
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Sven Schnelle <svens@stackframe.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20220528094134.16513-1-deller@gmx.de>
+ <20220528094134.16513-4-deller@gmx.de>
+In-Reply-To: <20220528094134.16513-4-deller@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,49 +95,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 220530 1428, Peter Maydell wrote:
-> On Mon, 30 May 2022 at 14:10, Alexander Bulekov <alxndr@bu.edu> wrote:
-> >
-> > On 220530 1219, Peter Maydell wrote:
-> > > On Fri, 27 May 2022 at 17:19, Alexander Bulekov <alxndr@bu.edu> wrote:
-> > > >
-> > > > Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> > > > This flag should be set/checked prior to calling a device's MemoryRegion
-> > > > handlers, and set when device code initiates DMA.  The purpose of this
-> > > > flag is to prevent DMA reentrancy issues. E.g.:
-> > > > sdhci pio -> dma write -> sdhci mmio
-> > > > nvme bh -> dma write -> nvme mmio
-> > > >
-> > > > These issues have led to problems such as stack-exhaustion and
-> > > > use-after-frees.
-> > > >
-> > > > Assumptions:
-> > > >  * Devices do not interact with their own PIO/MMIO memory-regions using
-> > > >    DMA.
-> > >
-> > > If you're trying to protect against malicious guest-controlled
-> > > DMA operations, you can't assume that. The guest can program
-> > > a DMA controller to DMA to its own MMIO register bank if it likes.
-> >
-> > If this is the case, then it seems the only way to fix this class of
-> > problems is to rewrite device code so that it is safe for re-entrancy.
-> > That seems to require significant upfront work to support behavior that
-> > is often not even specified.
-> > Simply spot-fixing the fuzzer re-entracy bugs seems like a dangerous,
-> > incomplete solution.
-> >
-> > Can we disable re-entracy by default, to fix the security issues, and
-> > allow device code to "opt-in" to re-entrancy?
+On 28/5/22 11:41, Helge Deller wrote:
+> This fixes the serial ports in the emulation to behave as on original
+> hardware.
 > 
-> That's a different question, ie "are there legitimate cases where
-> devices try to DMA to themselves?". I don't know the answer, but
-> I suspect not.
-
-Ah, I worded the assumption incorrectly. Should be
- * There is no valid use-case for a device to interact with its own
-   PIO/MMIO memory-regions using DMA.
-
+> On the real hardware, the LASI UART is serial port #0 and the DINO UART
+> is serial port #1. This is fixed in SeaBIOS-hppa firmware v6, which is
+> why at least this firmware version is required.
 > 
-> -- PMM
+> The serial port addresses in hppa/hppa_hardware.h have to be swapped,
+> and when creating the virtual serial ports the correct port addresses
+> are used.
+> 
+> This patch now for example allows to specify on the qemu command line:
+>       -serial mon:stdio -serial /dev/ttyS4
+> to use the emulated ttyS0 in the guest for console output, and pass
+> ttyS4 from the host to ttyS1 in the guest.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> ---
+>   hw/hppa/hppa_hardware.h |  4 ++--
+>   hw/hppa/machine.c       | 22 ++++++++--------------
+>   2 files changed, 10 insertions(+), 16 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
 
