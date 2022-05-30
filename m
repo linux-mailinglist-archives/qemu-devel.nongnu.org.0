@@ -2,97 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7EB553777E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:08:33 +0200 (CEST)
-Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634595377BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:40:19 +0200 (CEST)
+Received: from localhost ([::1]:36636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvbO4-0000Qd-Gt
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:08:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
+	id 1nvbsm-00010N-5H
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:40:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvbJS-0006iO-P6
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:03:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvbJQ-0005zN-W1
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:03:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653901424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RtslE/53gQjx4uHTAhdIPdl0Ch4DYe83TCaUKyWwUQU=;
- b=AR30GMi/pVYjUIwrfHRYttEP8/UiNsp8uID+Dv2+32ETg57MePaFppjvPLTDWB6UJR1/7L
- luhi2G+bLhM+DhJlJFLrb5I/l+M6dhmcVrKW8oMzXEgRrNo//hCDZnsgwSBzzuuxMPRIGq
- YYn8lLXkVeNFDkX0OGVgB8BnJDfjKZ0=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-RfCYc69SMvyjjbgDOHq8pg-1; Mon, 30 May 2022 05:03:43 -0400
-X-MC-Unique: RfCYc69SMvyjjbgDOHq8pg-1
-Received: by mail-qk1-f199.google.com with SMTP id
- z13-20020a05620a100d00b006a3870a404bso8277198qkj.17
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 02:03:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvbp4-0007ng-V3
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:28 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:39694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvbp3-0004N2-8y
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:36:26 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id f34so5055127ybj.6
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 02:36:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fokwcmOkaG3PZymgpDcbv2T+l3kkUhPgHBsJOE6liqo=;
+ b=VH5NXWFODsKPh4CC0mqkMI7yx7bnnpyWe7PVIMP43QUBwZMfAGPh5NUZd6wkXZ9JRk
+ XoO2QtEPOiimG4liYvDCesbqQ/Y+ODgeSMqBInxYXHQcig41MpUArBkbqK7PMNOomtPV
+ qmIOYgRsKASI6B0pqT+UNS3JG08xtnFYTDs6NXpyh5h8D0QKXoGIeGtAyj5cZU00Rd9h
+ f9vSmtD4hfy3iiEvlDYVLBy5c5h+SoytwWt1IsHpcfxj3ZYbhQ9U52/AJIx6uz50bH6N
+ VLTi5D6nYUJsmT5q28p2igAiMEbIV0aGza2BYzKUf5in69zjeyASmTjjWZCfTwOKY3LB
+ IJMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RtslE/53gQjx4uHTAhdIPdl0Ch4DYe83TCaUKyWwUQU=;
- b=JIs6SX3UcWhID5suCug/7DIH+6dbyinFgPq7fzaLlAN4uPtv40TjGonj+LzpKti64W
- Ak500OFRPYtg4jmn7BQEwIw0JnC2vIT5vKsrcvdnGbVVCPRhWuMU7BBPr9UIQmZ8SLoo
- aTb2DkeZ94H6ZAB6rKdLF+8OY0iqKE6h4GIHljYukXo7des8qp+yPerwNcJGr6BOTCZT
- qCVZsI5L/eXjMu8XMLMG4+CUXqfpM2569vcCJ1KXFU2KW4Npj+c8Ga1sMgLwzcGY3nLV
- hQg+j1IakbyXfY7sGG7z8OeXg0WIKDcVCZpFCOm5MhXBm4BXWJFXK3Lxr/6m8Hrrm99H
- pBgA==
-X-Gm-Message-State: AOAM531uR9Lt68wfSivokZXW7ioFPvUV+7CGOX/8DyvUvZzXI/p21LHj
- 3RW/B3vglf6OF3M8S3qsSu9xyw3aTTf/lsHaqWH6duJqAcjHIfrJesgQP5ZYImKVOU/Dvsk5FWX
- gJmRzc9lNj4OgSOM=
-X-Received: by 2002:a37:a285:0:b0:6a5:c3e4:59a1 with SMTP id
- l127-20020a37a285000000b006a5c3e459a1mr12727340qke.346.1653901421745; 
- Mon, 30 May 2022 02:03:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywKCYwAh4FhIdGRPix0b/0eHyDwTeOUAcBZ4Lr7W2wMwTBWU6fvcxA0kH56NPwCakivabRsA==
-X-Received: by 2002:a37:a285:0:b0:6a5:c3e4:59a1 with SMTP id
- l127-20020a37a285000000b006a5c3e459a1mr12727317qke.346.1653901421530; 
- Mon, 30 May 2022 02:03:41 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-179-216.web.vodafone.de.
- [109.43.179.216]) by smtp.gmail.com with ESMTPSA id
- m21-20020ac84455000000b002f906fc8530sm6973495qtn.46.2022.05.30.02.03.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 02:03:41 -0700 (PDT)
-Message-ID: <07eae71b-9219-850e-7c41-79d91e977ac1@redhat.com>
-Date: Mon, 30 May 2022 11:03:37 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fokwcmOkaG3PZymgpDcbv2T+l3kkUhPgHBsJOE6liqo=;
+ b=zfGMttijJJw6NskhgO/xXbKuB2FvlXOkgsSMRLErJIBQF59zIhGgZA1Tnj1kdCLk/0
+ RmfhP69h9UHurgYv6gKkAfdKuMrBmjYFIf7rpVPFR6Xqk3ueYlvXYxmH/cxTkYz9tAd6
+ MYNSM3cIBr3M7GavR+GGl5zRibMbtl1m+pYl3agL+DpgKBnFB4L6o4gJYgZ3hgmcw43r
+ Yvbzm76YUKI4dXQ27q42TAdSISw5q/mj7C37LOmOxNLgzHa1TN2LatP3pEcv6E0WVLw/
+ LxNUQ0DXd/qEwTVk9sNaQZUNvHvvPsddZYYeqAzxAoeCHaqh/6lCE65h7MHtoUL/P8Gb
+ EQAA==
+X-Gm-Message-State: AOAM530xjP/F+xXkwJVFV+12PC9cAGy9xdZ2zTdF1batiXP7aZoYr0oI
+ MCnb0ZxQEacLOzhoo2AsYgxI7Raa5jnqGcmJiAA2yg==
+X-Google-Smtp-Source: ABdhPJzNElStC+9b0JNHfN8eqKH4cnjNVU10BgaISHznb8NIYLT8N0uaYXPK4HbQIzwSdftLS1nVgMxOfr42M9awHk0=
+X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
+ r1-20020a5b06c1000000b00633b5c7b9b7mr52520937ybq.67.1653903383993; Mon, 30
+ May 2022 02:36:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v1 03/33] gitlab-ci: add meson JUnit test result into
- report
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220527153603.887929-1-alex.bennee@linaro.org>
- <20220527153603.887929-4-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220527153603.887929-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220525161926.34233-1-philmd@fungible.com>
+In-Reply-To: <20220525161926.34233-1-philmd@fungible.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 May 2022 10:36:13 +0100
+Message-ID: <CAFEAcA9cxo+uyb-hXGi0m2+8bcKakmq2U7reG=e2fHtwyppw2Q@mail.gmail.com>
+Subject: Re: [PATCH] target/arm/hvf: Include missing "cpregs.h"
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@fungible.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Alexander Graf <agraf@csgraf.de>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Duncan Bayne <duncan@bayne.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,34 +88,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/05/2022 17.35, Alex Bennée wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Wed, 25 May 2022 at 17:19, Philippe Mathieu-Daud=C3=A9
+<philmd@fungible.com> wrote:
+>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> Fix when building HVF on macOS Aarch64:
+>
 
-Please add the patch description that Marc-André provided here:
 
-https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg05797.html
 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Message-Id: <20220525173411.612224-1-marcandre.lureau@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .gitlab-ci.d/buildtest-template.yml | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-> index dc6d67aacf..b381345dbc 100644
-> --- a/.gitlab-ci.d/buildtest-template.yml
-> +++ b/.gitlab-ci.d/buildtest-template.yml
-> @@ -44,6 +44,8 @@
->       expire_in: 7 days
->       paths:
->         - build/meson-logs/testlog.txt
-> +    reports:
-> +      junit: build/meson-logs/testlog.junit.xml
->   
->   .avocado_test_job_template:
->     extends: .common_test_job_template
+Applied to target-arm.next, thanks.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+-- PMM
 
