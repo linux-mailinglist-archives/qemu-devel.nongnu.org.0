@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 383A353887E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 23:05:50 +0200 (CEST)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D11C538884
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 23:07:33 +0200 (CEST)
+Received: from localhost ([::1]:48558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvmaD-0007E4-BM
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 17:05:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51040)
+	id 1nvmbr-00016p-TN
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 17:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvmYD-0006CS-PW; Mon, 30 May 2022 17:03:45 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvmYC-0003lo-32; Mon, 30 May 2022 17:03:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=kNZNQC/9NNc43UbcSkBwRnmXwTjYDzT5BNvWpnX2AY8=; b=vUZZCUY1MBtFnDUu19u3jUPQ0i
- 0rWZT7b9aKJQ9dQ7zqfUVmq8iYZ6ZsWRTdKZN16797/nRScCG6MfBNQ4hdu3iLSsYwF7uOhbYsqsd
- CxLDKtU8X5uhTmHXMnaa46c9tBkwV6ri1XY/26dI+IVQwEdN5GP2VUZdjHbl5qNdjQ2VyyyySxWHa
- jLdLawv1Q9WY/ZfjuodK38sJvSHB4zvNMXaonrIDZdEf69U79b3QlylhGDW+hrQzlCq2eX6q/3FQS
- 6wA9mcmlZKav+UAidBEZbTTprHT/Vtyi67oMs3lR0gbvsXDmcDcuWwhJ7ez9qJ+u/a+qvXg8/Pl8y
- UHI2wO1TCNlehl33LDDFQqTwnJXoTk0DMSrVXCM/zBcwfIjdtYo4JCO+Ktxnz1IsA3XJTZkHMK930
- hLbNiZJDeyT86MOQip9gCuABSfYxktJknpt3UJnKEUBiHU8AinQhYiYX5xQk/teffxK9ON/J/Ttzn
- /fQvYmW2layNPlCK56nYWdNMgHnPuBzzOOYjs+ruVI6X2uavV12I+ajqnwIHdvCo8nswojyyx2EET
- imWje0JX62IDQ12l2Kpf930LUjmjTWKju92F0aXy1fhWgsQA7MknybefteEegXfEc4d2iqOXmDqpG
- PQyAF6+UKpzYp2FoCPn+3fvbpLdqgG4Ce1rnqRSZA=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nvmX3-0009jf-Bm; Mon, 30 May 2022 22:02:37 +0100
-Message-ID: <7c3c203c-c83c-a270-b193-6ae587078faf@ilande.co.uk>
-Date: Mon, 30 May 2022 22:03:33 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nvmap-0000SB-Vn
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 17:06:28 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:39596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nvmah-0004EU-6U
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 17:06:27 -0400
+Received: by mail-pl1-x633.google.com with SMTP id o17so815864pla.6
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 14:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=9DVfnIh9gCQOtlUaye7IuQUtucgcZy6Pq8ZMUir6l/E=;
+ b=AIuZu3iOZ/Y0PUr8PNbTGpUer+339WtsR3+EjrvpAIMcenif0/+jst+FuTb9xFmpCA
+ jmeCqhCwFu3W5jXb7oftGeuOMVZYQRfP2ERxr0Ifzvvgu/WFB+oK5frzuAaxkasmWEuW
+ LgmbukU7pqrPdg8YpEM284zU+lskZYiulKJFZ+DG7hcPOgwoAKUuoWK/GgO4iKCv2Icn
+ Y1jFxSRGarxOS0TPb3NBXFKHjaH4yZCVWTTPG2mYmx4rt4klDRD/Eu1XoPLNa2YG1kBm
+ xywS+fyQgjDq7t6h06mIZ+ZcK+51jb2wNgAPf9DdmokhPf3xcDZ1DxiTRIusKP1D+s3D
+ LdoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9DVfnIh9gCQOtlUaye7IuQUtucgcZy6Pq8ZMUir6l/E=;
+ b=qnyb4Euxnex1mxNiyiiFrSFA4WvaUOdkn0OJd0rsFhqp4B759xJI9kpgmKIvfZS12p
+ lWuYMz7yeiQETmACmZU5oxg3apFgMdcxyNaAFCJr/5DSd7ZOEDS5tnvwIBw0DPUq1qVJ
+ JPYWjcs91FWkYpdHSz+nQQhx5A1s0rKBNPZKb6RBALsl6NTkrvs7uaOdoDoqtobogHW/
+ M2oB2HzoezRt7wqPK8+AOsTPhxf+J0MpqkBtz7Cko1vbJAsru3u9wbVsJ52iaaY3nXOA
+ WNrw7HpFUXyIEhjekQXDN423wuy7ch8xbXvB4fFPnrKJA6lAUj5EEBr6h+3xZLJBLncO
+ T2KQ==
+X-Gm-Message-State: AOAM532X/6aER+GXQWVRBwqcBK0xno3QU5+vd5hsO5tLDneEdGmv0kxg
+ QPQNI/nhy9pGl1PCrVMKXMT0D2dnK5V9WQ==
+X-Google-Smtp-Source: ABdhPJwjckElcKD41oxXGp1TF5YJRIgMXcHIoSomstM4FFSiK+aax8K6E0b/MqZYIU1JYSCjwUGX0Q==
+X-Received: by 2002:a17:902:eb4d:b0:15e:d25c:4e0a with SMTP id
+ i13-20020a170902eb4d00b0015ed25c4e0amr58991484pli.8.1653944777286; 
+ Mon, 30 May 2022 14:06:17 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:feab:28bd:b064:f797?
+ ([2602:ae:1547:e101:feab:28bd:b064:f797])
+ by smtp.gmail.com with ESMTPSA id
+ h190-20020a6383c7000000b003fc52b8400bsm110981pge.33.2022.05.30.14.06.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 14:06:16 -0700 (PDT)
+Message-ID: <48c50e1f-7e2e-38ab-ab28-c08be5ae0136@linaro.org>
+Date: Mon, 30 May 2022 14:06:15 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.9.1
+Subject: Re: [PULL 0/2] Add myself as the maintainer for Hyper-V VMBus
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, laurent@vivier.eu, fam@euphon.net,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
- <20220424164935.7339-10-mark.cave-ayland@ilande.co.uk>
- <873eddc7-a18f-2728-14dd-681d951eebbb@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <873eddc7-a18f-2728-14dd-681d951eebbb@redhat.com>
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
+References: <cover.1653934780.git.mail@maciej.szmigiero.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <cover.1653934780.git.mail@maciej.szmigiero.name>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 09/11] scsi-disk: allow MODE SELECT block descriptor to
- set the ROM device block size
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,71 +93,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/05/2022 13:08, Paolo Bonzini wrote:
-
-> On 4/24/22 18:49, Mark Cave-Ayland wrote:
->> Whilst CDROM drives usually have a 2048 byte sector size, older drives have the
->> ability to switch between 2048 byte and 512 byte sector sizes by specifying a
->> block descriptor in the MODE SELECT command.
->>
->> If a MODE SELECT block descriptor is provided, update the scsi-cd device block
->> size with the provided value accordingly.
->>
->> This allows CDROMs to be used with A/UX whose driver only works with a 512 byte
->> sector size.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On 5/30/22 11:41, Maciej S. Szmigiero wrote:
+> The following changes since commit f7a1ea403e0282a7f57edd4298c4f65f24165da5:
 > 
-> Why do this only for MMC?
-
-No good reason other than I only have an guest OS that does this for CDROMs :)  I can 
-easily drop the TYPE_ROM check if you don't think it will cause any unexpected issues 
-with other SCSI devices?
-
-> Paolo
+>    Merge tag 'misc-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-05-29 16:34:56 -0700)
 > 
->> ---
->>   hw/scsi/scsi-disk.c  | 7 +++++++
->>   hw/scsi/trace-events | 1 +
->>   2 files changed, 8 insertions(+)
->>
->> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
->> index 6991493cf4..41ebbe3045 100644
->> --- a/hw/scsi/scsi-disk.c
->> +++ b/hw/scsi/scsi-disk.c
->> @@ -1583,6 +1583,13 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, 
->> uint8_t *inbuf)
->>           goto invalid_param;
->>       }
->> +    /* Allow changing the block size of ROM devices */
->> +    if (s->qdev.type == TYPE_ROM && bd_len &&
->> +        p[6] != (s->qdev.blocksize >> 8)) {
->> +            s->qdev.blocksize = p[6] << 8;
->> +            trace_scsi_disk_mode_select_rom_set_blocksize(s->qdev.blocksize);
->> +    }
->> +
->>       len -= bd_len;
->>       p += bd_len;
->> diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
->> index 25eae9f307..1a021ddae9 100644
->> --- a/hw/scsi/trace-events
->> +++ b/hw/scsi/trace-events
->> @@ -340,6 +340,7 @@ scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int 
->> len) "Write %s(se
->>   scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: 
->> lun=%d tag=0x%x data=%s"
->>   scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int len, 
->> uint32_t timeout) "disk aio sgio: tag=0x%x cmd=0x%x (sector %" PRId64 ", count %d) 
->> timeout=%u"
->>   scsi_disk_mode_select_page_truncated(int page, int len, int page_len) "page %d 
->> expected length %d but received length %d"
->> +scsi_disk_mode_select_rom_set_blocksize(int blocksize) "set ROM block size to %d"
->>   # scsi-generic.c
->>   scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc) "Command 
->> complete %p tag=0x%x status=%d"
+> are available in the Git repository at:
+> 
+>    https://github.com/maciejsszmigiero/qemu.git tags/vmbus-maint-20220530
+> 
+> for you to fetch changes up to 6ede46b910ac66fd10bc169fb0a6f681429a9c5c:
+> 
+>    hw/hyperv/vmbus: Remove unused vmbus_load/save_req() (2022-05-30 19:49:42 +0200)
+> 
+> ----------------------------------------------------------------
+> 
+> As discussed in https://lore.kernel.org/qemu-devel/4e03945d-fb92-494d-53a8-f22ee91501c9@redhat.com/
+> I am adding myself as the maintainer for Hyper-V VMBus, so there is some
+> contact point for incoming patches and somebody to review and pick up them.
+> 
+> The VMBus code is currently in a good shape, this pull request also
+> includes a single patch that has been waiting for being picked up since
+> November last year.
+
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
-ATB,
+r~
 
-Mark.
+
+> 
+> ----------------------------------------------------------------
+> 
+> Maciej S. Szmigiero (1):
+>        MAINTAINERS: Add myself as the maintainer for Hyper-V VMBus
+> 
+> Philippe Mathieu-Daudé (1):
+>        hw/hyperv/vmbus: Remove unused vmbus_load/save_req()
+> 
+>   MAINTAINERS               |  6 +++
+>   hw/hyperv/vmbus.c         | 99 -----------------------------------------------
+>   include/hw/hyperv/vmbus.h |  3 --
+>   3 files changed, 6 insertions(+), 102 deletions(-)
+> 
+
 
