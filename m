@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9EF5386B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:22:13 +0200 (CEST)
-Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09805386DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:43:43 +0200 (CEST)
+Received: from localhost ([::1]:55430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvj5o-0002Js-R8
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:22:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39314)
+	id 1nvjQc-0008I8-QN
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvx-0003fY-83
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:57 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35640)
+ id 1nvhvx-0003fZ-HH
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:58 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvs-0007KA-8q
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:56 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- c5-20020a1c3505000000b0038e37907b5bso8727882wma.0
+ id 1nvhvs-0007Be-8x
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:57 -0400
+Received: by mail-wr1-x430.google.com with SMTP id p10so15257378wrg.12
  for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fVKZfwcoeJPyXn1w5X+7uQCN+3aL75LkdQVHhPvOLoM=;
- b=niqIJi/9U1cu6KXKuP/xPx+xrfqgAbdBFvdAotJJ8zh54VmcRpIk34887D/8MJM78C
- 5kshkY5VBXJHOeKKGaAqKp8m1acWhKuOZSN/BN0Vfok9EO9j2fv4peIy11APJDlnBb0T
- e4MYqHqAFkT3ofF+mMlXt4VY+EVE6UdYjN/+A+U8b9quGJEqJiy4aL/XI4FlZxKRvKLJ
- qy5ofwzuoaoDrbwouaGe4uR7AURLYWQ0yxbwZgpgM+xpMsyq2qs75DfhzMKELGewwPTk
- Aiv2O1gsU3ZDhJo5xZl3GkKserWiMuz66Qtc/B1cv06HcVuC91JoQbTcsm4uXmSgfnSn
- +xSg==
+ bh=HtWHT2QceLlo70uOLMS5xYP71haF5rXQwIihn1cEbPM=;
+ b=VNmKFleTB4XdSxku2YP4UjymrcIUjGbgJtj3xN3ry9SGTyuYymXq4QgQgqH0AuyOmZ
+ Gl/LuJPYgG+U3mbu1YP0ziral88cYUFxRZ3wgZwlvekFwwF8AailMp2jmKg/Fv9kZ///
+ VGtAue6ir0RD1KxZ16kndnijSEPI/B95QVYD75t0jpw7YPitvz/zj0NDDd1F9sl31e9W
+ enlc1e4RsLZPS7BQhW/uBqtslP6sUeRvZ16G8jrZ5Uv9dY1QQ1QK+Vl/W9pFnR9zCSRO
+ pt8B/L/GIM3tU44Cs4t43ztAvGF4QQmRfpFK7tkbMvo63zaWIVFI0yqHRozzPtfUIwqc
+ Utxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fVKZfwcoeJPyXn1w5X+7uQCN+3aL75LkdQVHhPvOLoM=;
- b=NpOMuEfgRE2Z9DvQLEu0V7tVHeN+3qa2I7AWWTbtGKbWtUU5aXcoa4bXR2e1OryMPZ
- OnKyIHgbK/E5l4alIZrIIU/rR8+PUHPxL6ATQPwSRVP5Wn++7JYxqk8mxMIQ1ak2eEvI
- dR4EPKUKwIloxQgHMvfpiJRKAfhVDxA0i630sdGIxqXcHF6kmy9Un4cqc5O6bXQraU1o
- VBPfr9x9EmZ+mZa34uHWu9DBE4n3UHUQ0489rfg1VKospnN19PEyP3UwwA4DyLHlS/zF
- XOxwEBc9rwGIaouumVnhcsLX1QpIusBrqDo6SDT6NtbFnF8qIwZrtAqT23iGN2DS9PxB
- NLcQ==
-X-Gm-Message-State: AOAM53324AgnKkBC/2Ubj+L4RHyToCjNK+CKWq0WVi5Skg7FrH0ENlL1
- yXe28ccMV2EU+Qx/fka0mkMfQJjjsf24Fg==
-X-Google-Smtp-Source: ABdhPJxhb78stg2VnMslJ3wHaG8EsPzr5Eszr9Vm+TumBh46btlYA+hp0JpdXJEpz1JlszchGWU35g==
-X-Received: by 2002:a05:600c:3d10:b0:397:835e:bf64 with SMTP id
- bh16-20020a05600c3d1000b00397835ebf64mr18209279wmb.167.1653926869953; 
- Mon, 30 May 2022 09:07:49 -0700 (PDT)
+ bh=HtWHT2QceLlo70uOLMS5xYP71haF5rXQwIihn1cEbPM=;
+ b=6cnnr9Vyn4jRieGunzfBx70dk2ttBvxV1nYn8Afkm9gBvyQ1Vr12x7iOL8hkEwA+ic
+ 3g2ZAis+3CKe7sZQUubMVW1EgNGhNWDc2aw+2b+29Hz4iKwjY1xs8wDOIaBs/2FBHeux
+ T76PgJuWBSugQR5+oHrUPWNWxgzej/jMGT34iegtbID6sv2bYPYuV+XDaF12L7TLNAlF
+ MDlTMOjNn2cjvA3S+C7ElfV+N/qaWOwXe/BY5fmm4fATPiPI2l/QLme6Cxzyuj3TCUbE
+ 6c/rT9xC8pMbYb/uIIA1fEbUrJ+ARGaEFNdC/5GeWzMXQ/u8RbP/E3eWz4ntKc4+m5Vz
+ lwOQ==
+X-Gm-Message-State: AOAM531jmWBigVS4HP/z8H75LuINewncDfniCbpTEEbyjlv20Mweykla
+ WYxTUtkHvftVCHLhBQj6xD9W9hcqeg/+hw==
+X-Google-Smtp-Source: ABdhPJzm5+iMmHiSlvEkBSgGBAmKyP/j4ehINfuUZ1P7Avdo6t8Uxr4dryJxJXplZYsJVhbyLzsxUw==
+X-Received: by 2002:adf:ed49:0:b0:210:2b98:a539 with SMTP id
+ u9-20020adfed49000000b002102b98a539mr8536292wro.118.1653926870791; 
+ Mon, 30 May 2022 09:07:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.07.49
+ bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.07.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 09:07:49 -0700 (PDT)
+ Mon, 30 May 2022 09:07:50 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 050/117] target/arm: Use TRANS_FEAT for do_zpzzz_ool
-Date: Mon, 30 May 2022 17:06:01 +0100
-Message-Id: <20220530160708.726466-51-peter.maydell@linaro.org>
+Subject: [PULL 051/117] target/arm: Move sve check into do_index
+Date: Mon, 30 May 2022 17:06:02 +0100
+Message-Id: <20220530160708.726466-52-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,51 +90,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Remove the DO_ZPZZZ macro, as it had just the two uses.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220527181907.189259-48-richard.henderson@linaro.org
+Message-id: 20220527181907.189259-49-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+ target/arm/translate-sve.c | 53 ++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 28 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 98f9cfa86c9..52bbd1a4faa 100644
+index 52bbd1a4faa..44c23429232 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -1071,20 +1071,17 @@ static bool do_zpzzz_ool(DisasContext *s, arg_rprrr_esz *a,
-     return true;
+@@ -1087,12 +1087,20 @@ TRANS_FEAT(MLS, aa64_sve, do_zpzzz_ool, a, mls_fns[a->esz])
+  *** SVE Index Generation Group
+  */
+ 
+-static void do_index(DisasContext *s, int esz, int rd,
++static bool do_index(DisasContext *s, int esz, int rd,
+                      TCGv_i64 start, TCGv_i64 incr)
+ {
+-    unsigned vsz = vec_full_reg_size(s);
+-    TCGv_i32 desc = tcg_constant_i32(simd_desc(vsz, vsz, 0));
+-    TCGv_ptr t_zd = tcg_temp_new_ptr();
++    unsigned vsz;
++    TCGv_i32 desc;
++    TCGv_ptr t_zd;
++
++    if (!sve_access_check(s)) {
++        return true;
++    }
++
++    vsz = vec_full_reg_size(s);
++    desc = tcg_constant_i32(simd_desc(vsz, vsz, 0));
++    t_zd = tcg_temp_new_ptr();
+ 
+     tcg_gen_addi_ptr(t_zd, cpu_env, vec_full_reg_offset(s, rd));
+     if (esz == 3) {
+@@ -1115,46 +1123,35 @@ static void do_index(DisasContext *s, int esz, int rd,
+         tcg_temp_free_i32(i32);
+     }
+     tcg_temp_free_ptr(t_zd);
++    return true;
  }
  
--#define DO_ZPZZZ(NAME, name) \
--static bool trans_##NAME(DisasContext *s, arg_rprrr_esz *a)          \
--{                                                                    \
--    static gen_helper_gvec_5 * const fns[4] = {                      \
--        gen_helper_sve_##name##_b, gen_helper_sve_##name##_h,        \
--        gen_helper_sve_##name##_s, gen_helper_sve_##name##_d,        \
--    };                                                               \
--    return do_zpzzz_ool(s, a, fns[a->esz]);                          \
--}
-+static gen_helper_gvec_5 * const mla_fns[4] = {
-+    gen_helper_sve_mla_b, gen_helper_sve_mla_h,
-+    gen_helper_sve_mla_s, gen_helper_sve_mla_d,
-+};
-+TRANS_FEAT(MLA, aa64_sve, do_zpzzz_ool, a, mla_fns[a->esz])
+ static bool trans_INDEX_ii(DisasContext *s, arg_INDEX_ii *a)
+ {
+-    if (sve_access_check(s)) {
+-        TCGv_i64 start = tcg_constant_i64(a->imm1);
+-        TCGv_i64 incr = tcg_constant_i64(a->imm2);
+-        do_index(s, a->esz, a->rd, start, incr);
+-    }
+-    return true;
++    TCGv_i64 start = tcg_constant_i64(a->imm1);
++    TCGv_i64 incr = tcg_constant_i64(a->imm2);
++    return do_index(s, a->esz, a->rd, start, incr);
+ }
  
--DO_ZPZZZ(MLA, mla)
--DO_ZPZZZ(MLS, mls)
--
--#undef DO_ZPZZZ
-+static gen_helper_gvec_5 * const mls_fns[4] = {
-+    gen_helper_sve_mls_b, gen_helper_sve_mls_h,
-+    gen_helper_sve_mls_s, gen_helper_sve_mls_d,
-+};
-+TRANS_FEAT(MLS, aa64_sve, do_zpzzz_ool, a, mls_fns[a->esz])
+ static bool trans_INDEX_ir(DisasContext *s, arg_INDEX_ir *a)
+ {
+-    if (sve_access_check(s)) {
+-        TCGv_i64 start = tcg_constant_i64(a->imm);
+-        TCGv_i64 incr = cpu_reg(s, a->rm);
+-        do_index(s, a->esz, a->rd, start, incr);
+-    }
+-    return true;
++    TCGv_i64 start = tcg_constant_i64(a->imm);
++    TCGv_i64 incr = cpu_reg(s, a->rm);
++    return do_index(s, a->esz, a->rd, start, incr);
+ }
+ 
+ static bool trans_INDEX_ri(DisasContext *s, arg_INDEX_ri *a)
+ {
+-    if (sve_access_check(s)) {
+-        TCGv_i64 start = cpu_reg(s, a->rn);
+-        TCGv_i64 incr = tcg_constant_i64(a->imm);
+-        do_index(s, a->esz, a->rd, start, incr);
+-    }
+-    return true;
++    TCGv_i64 start = cpu_reg(s, a->rn);
++    TCGv_i64 incr = tcg_constant_i64(a->imm);
++    return do_index(s, a->esz, a->rd, start, incr);
+ }
+ 
+ static bool trans_INDEX_rr(DisasContext *s, arg_INDEX_rr *a)
+ {
+-    if (sve_access_check(s)) {
+-        TCGv_i64 start = cpu_reg(s, a->rn);
+-        TCGv_i64 incr = cpu_reg(s, a->rm);
+-        do_index(s, a->esz, a->rd, start, incr);
+-    }
+-    return true;
++    TCGv_i64 start = cpu_reg(s, a->rn);
++    TCGv_i64 incr = cpu_reg(s, a->rm);
++    return do_index(s, a->esz, a->rd, start, incr);
+ }
  
  /*
-  *** SVE Index Generation Group
 -- 
 2.25.1
 
