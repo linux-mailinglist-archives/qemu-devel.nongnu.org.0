@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299525373DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 06:18:29 +0200 (CEST)
-Received: from localhost ([::1]:38998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702CE537426
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 06:50:14 +0200 (CEST)
+Received: from localhost ([::1]:42508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvWrL-0001xg-Ok
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 00:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45388)
+	id 1nvXM4-000647-RI
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 00:50:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nvWpr-0001Hj-VT
- for qemu-devel@nongnu.org; Mon, 30 May 2022 00:16:56 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:4510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nvWpo-0003LX-5R
- for qemu-devel@nongnu.org; Mon, 30 May 2022 00:16:55 -0400
-Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LBMWR6tQgzbc8P;
- Mon, 30 May 2022 12:14:59 +0800 (CST)
-Received: from [10.174.148.223] (10.174.148.223) by
- kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 30 May 2022 12:16:36 +0800
-Message-ID: <5dcfcf36-8907-f781-0990-edf255bc2425@huawei.com>
-Date: Mon, 30 May 2022 12:16:35 +0800
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nvXKK-0005Kg-Lb
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 00:48:24 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nvXKI-0007bB-GK
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 00:48:24 -0400
+Received: by mail-ej1-x634.google.com with SMTP id q1so2014816ejz.9
+ for <qemu-devel@nongnu.org>; Sun, 29 May 2022 21:48:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DffWV3OBcMrVLEsYH+no5y40pqvrbHQxxP5xBpN0V3Q=;
+ b=g4QeW4O/4suYsTdoFG0vXjGs2hoa969euUUKtuo4oQwmWvuG8gV7SR+KLcGlSrJET/
+ OGSfrqLxVGMMCgjRlwW3iITnuXFurVdyIWaiAAag0Bkm0TcPG1fftYOzOLN8vEOGlKWq
+ MAez/l1GdoianuRNwcO5tgTzLRkn1dekdinnC0uKV74BP1HBJs8oJG1gedD+BhbZzbDo
+ jJzFe3bh47jUZMKJMMZuqHeBOrehhgl8q8ovVuLstG88TL1M/QBbTsc4DsfUb6d+U5XK
+ kief788PTMBRXrucgF58QQHTtScOpoj7iF01jtl/D2cI6P2bybqs+YJsxhBQcKObD2qA
+ IE2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DffWV3OBcMrVLEsYH+no5y40pqvrbHQxxP5xBpN0V3Q=;
+ b=VqK0IuBmoZd+at6N3WU2xosK/fhtp3NZIdugAULwz83Pi5OHZWjc7T0rXfvIZ3BCo2
+ U0+UO5Cf57mZx3pUfFzQu/eGr2DBLGjhQCG3DID0uy4phiSKbe+0KnDgLg/+T6fvyIJz
+ qh1prFijgeMN1Vvo6g6uSvArur9vS2+Va1JavViSG+gaxzsRxkDUVMyCTD3NJLCPQCyX
+ zDONAU+jcEXM7fi/pzTDOdCqLA/LJNbfSMXrV0bYDumpFsslhAdu3pfarkMAaQjc2zSD
+ 66gDZL0bm8JVRKrX72W8W5zqrC9Zh5xKy+ZeZ4zZziAS4R4KkNKV5Ca249KEMY9E67nA
+ ZhyQ==
+X-Gm-Message-State: AOAM533xfzG1PK95v3NOUgLoNg6PtSFT7pOAqriIG82N7902MpysYE0o
+ yXoWsbq0Al6u1EVSDt4YQHSlbGInZKCIroW+RqIozA==
+X-Google-Smtp-Source: ABdhPJzH4J36j0Atr1+VT+0UT8tu5jzRwKwEMaT9+OxJxrDGVyn2b9ccBnrwrwP1DcHY1NrYpV3W0HraJRiheVGKQCE=
+X-Received: by 2002:a17:906:9c82:b0:6e1:2c94:1616 with SMTP id
+ fj2-20020a1709069c8200b006e12c941616mr47164066ejc.64.1653886098400; Sun, 29
+ May 2022 21:48:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v6 resend 0/4] add generic vDPA device support
-To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
- <sgarzare@redhat.com>
-CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
- <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
-References: <20220514041107.1980-1-longpeng2@huawei.com>
-In-Reply-To: <20220514041107.1980-1-longpeng2@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500025.china.huawei.com (7.221.188.170)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220528091934.15520-1-mark.cave-ayland@ilande.co.uk>
+ <20220528091934.15520-2-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220528091934.15520-2-mark.cave-ayland@ilande.co.uk>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 30 May 2022 10:18:07 +0530
+Message-ID: <CAARzgwxmA14af=sKmv2RF8xGwCapVcjGiF9e22Q2TjuaXye+ng@mail.gmail.com>
+Subject: Re: [PATCH 01/12] hw/acpi/piix4: move xen_enabled() logic from
+ piix4_pm_init() to piix4_pm_realize()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: shentey@gmail.com, mst@redhat.com, marcel.apfelbaum@gmail.com, 
+ imammedo@redhat.com, f4bug@amsat.org, aurelien@aurel32.net, 
+ pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net, 
+ hpoussin@reactos.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::634;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,99 +83,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 
-Hi guys,
+On Sat, May 28, 2022 at 2:49 PM Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> This logic can be included as part of piix4_pm_realize() and does not need to
+> be handled externally.
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Ping...Any other comments?
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-在 2022/5/14 12:11, Longpeng(Mike) 写道:
-> From: Longpeng <longpeng2@huawei.com>
+> ---
+>  hw/acpi/piix4.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
-> Hi guys,
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index fe5625d07a..bf20fa139b 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -525,6 +525,10 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
+>      s->machine_ready.notify = piix4_pm_machine_ready;
+>      qemu_add_machine_init_done_notifier(&s->machine_ready);
 >
-> With the generic vDPA device, QEMU won't need to touch the device
-> types any more, such like vfio.
+> +    if (xen_enabled()) {
+> +        s->use_acpi_hotplug_bridge = false;
+> +    }
+> +
+>      piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
+>                                     pci_get_bus(dev), s);
+>      qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
+> @@ -551,9 +555,6 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+>      s->irq = sci_irq;
+>      s->smi_irq = smi_irq;
+>      s->smm_enabled = smm_enabled;
+> -    if (xen_enabled()) {
+> -        s->use_acpi_hotplug_bridge = false;
+> -    }
 >
-> We can use the generic vDPA device as follow:
->    -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
->    Or
->    -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
->    vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
+>      pci_realize_and_unref(pci_dev, bus, &error_fatal);
 >
-> I've done some simple tests on Huawei's offloading card (net, 0.95).
->
-> Changes v5 -> v6:
->    Patch 2:
->      - Turn to the original approach in the RFC to initialize the
->        virtio_pci_id_info array. [Michael]
-> 	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
->    Patch 3:
->      - Fix logical error of exception handler around the post_init.
->        [Stefano]
->      - Fix some coding style warnings. [Stefano]
->    Patch 4:
->      - Fix some coding style warnings. [Stefano]
->
-> Changes v4 -> v5:
->    Patch 3:
->      - remove vhostfd [Jason]
->      - support virtio-mmio [Jason]
->
-> Changes v3 -> v4:
->    v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
->    - reorganize the series [Stefano]
->    - fix some typos [Stefano]
->    - fix logical error in vhost_vdpa_device_realize [Stefano]
->
-> Changes v2 -> v3
->    Patch 4 & 5:
->      - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
->      - s/VQS_NUM/VQS_COUNT  [Stefano]
->      - check both vdpa_dev_fd and vdpa_dev [Stefano]
->    Patch 6:
->      - move all steps into vhost_vdpa_device_unrealize. [Stefano]
->
-> Changes RFC -> v2
->    Patch 1:
->      - rename 'pdev_id' to 'trans_devid'  [Michael]
->      - only use transitional device id for the devices
->        listed in the spec  [Michael]
->      - use macros to make the id_info table clearer  [Longpeng]
->      - add some modern devices in the id_info table  [Longpeng]
->    Patch 2:
->      - remove the GET_VECTORS_NUM command  [Jason]
->    Patch 4:
->      - expose vdpa_dev_fd as a QOM preperty  [Stefan]
->      - introduce vhost_vdpa_device_get_u32 as a common
->        function to make the code clearer  [Stefan]
->      - fix the misleading description of 'dc->desc'  [Stefano]
->    Patch 5:
->      - check returned number of virtqueues  [Stefan]
->    Patch 6:
->      - init s->num_queues  [Stefano]
->      - free s->dev.vqs  [Stefano]
->
->
-> Longpeng (Mike) (4):
->    linux-headers: Update headers to Linux 5.18-rc6
->    virtio: get class_id and pci device id by the virtio id
->    vdpa: add vdpa-dev support
->    vdpa: add vdpa-dev-pci support
->
->   hw/virtio/Kconfig            |   5 +
->   hw/virtio/meson.build        |   2 +
->   hw/virtio/vdpa-dev-pci.c     | 102 ++++++++++
->   hw/virtio/vdpa-dev.c         | 377 +++++++++++++++++++++++++++++++++++
->   hw/virtio/virtio-pci.c       |  88 ++++++++
->   hw/virtio/virtio-pci.h       |   5 +
->   include/hw/virtio/vdpa-dev.h |  43 ++++
->   linux-headers/linux/vhost.h  |   7 +
->   8 files changed, 629 insertions(+)
->   create mode 100644 hw/virtio/vdpa-dev-pci.c
->   create mode 100644 hw/virtio/vdpa-dev.c
->   create mode 100644 include/hw/virtio/vdpa-dev.h
+> --
+> 2.20.1
 >
 
