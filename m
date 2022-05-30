@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AAB5379B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:23:53 +0200 (CEST)
-Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80D05379F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:33:19 +0200 (CEST)
+Received: from localhost ([::1]:44884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvdV0-0004S9-Sa
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49186)
+	id 1nvdeA-0001Ms-Pg
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvdQy-0003TX-OL
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:19:40 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:35383)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nvdR8-0003eQ-WA; Mon, 30 May 2022 07:19:51 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:35592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvdQx-0007ux-3h
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:19:40 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id t31so5594070ybi.2
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:19:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nvdR7-0007wk-F6; Mon, 30 May 2022 07:19:50 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-f16a3e0529so13913161fac.2; 
+ Mon, 30 May 2022 04:19:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lGPsnghm9faBazpQisd5dDDrpru0dMiB4kg9OE76A8A=;
- b=qogxBTgQwmX7XvBvWUaHyABM7LRDdog/X9ajw/ptrJpmMmqZhsn+Ry7gINDzZJ2oC5
- 1RUplR2JaNkIpgDD8FQ/eM1Q+ncYvATCXlh+1giB+9OpTfJF0NxOcs8XERK7gSjpJgwj
- G48ikFSTj3j+V4kwejMVoR3kLejrI/m/OxTe4nJwp0nvGFQ7XzpVno8eZI1Y/j1mPQbw
- 549cNUoMjk5TkUhA9rSdSJzZS+aRfw8LafNFthQjGMI0pSTB2Oo4XLmvrJLa3o6IE9kZ
- F0d1Ad5B1pHPvI8XdDiOQEzLvQWyzRfbTslKSZuPh0wBkfBW9pvBPmeLxvToHJHFBL8a
- HMYQ==
+ :cc; bh=3H2iYouxFWt++sIm/itjpChdBBg/580KfBGehbn1GbU=;
+ b=iOcSDcSbfCKpIy11c3H/ZrugMD3r/SSyT8vCx8qW41pyqTx523lMn6W75nsHERVAO2
+ K8uWdOMmst9GhrYfbe2XMhaXi7bGKhZ7Cb/FJUE5vk9HkpVaXEYlLK5kyDzjWx+j/X55
+ Z8aOR55igC7w9DRC9Er1JI8peXDtBOs5qmQrYYo+HUnHrm2m1X+wQmwNOj6IEKGDoi9X
+ uorS6Cl7q6CIuHyNE0z46zlMEYESRX+CpYsNlt4XCK5rG9JUYLoIFLFqFrdxH4wBEWzU
+ c0IcZVVml5XEzkd3UjiiVYG/eybqF2EJPDmOLEhUXp7eYmgOS+SEkcWk9iHgZPrJ5M1k
+ dsEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lGPsnghm9faBazpQisd5dDDrpru0dMiB4kg9OE76A8A=;
- b=M1yq8OUUKq/VvKoieF7cSKvDUBAw+omgthbTo1EynfZUkv86Xj3Ok+8DbHFTQCb2Jn
- 9bvGRnycTJnvJOahIeB35RPEN/VP5fxrvsc4itGAqbP/t2t1v1g9BaYfwH+Yb68XUqE3
- BeSBUbgfbs/Bueo0mPDac9WkcQZOHL5LyLSzB7eG3XPuRUZM9pkRVufMbGn1K3a/9GH6
- OT5FFWz3bYSXwCKGoLh3dPWmXJKK79XoSaMf+eeQHUyTrUC9DC4oF5vzY4/F5sxjm2Xs
- 7Ec6UBM6w43nmM4F5lgeavRxjrAWSohZidMWdcoJztA0p9xVqTjj67OiYIlSrXkC21sm
- Aovw==
-X-Gm-Message-State: AOAM5312uz+ksch8jkuXBCxU+CKriI9c17x4qm9DLz/3sGXabN4y4tmm
- ALsFZ3vlneawY0i2eymuTQWHdNbJyQ3bdPI6iSBhFg==
-X-Google-Smtp-Source: ABdhPJxg0pz/h6ARoXswNPUrTkqdM9qqfka6jz9o+BbB2WP/d0/lSgTZs+YVolds9FZN/PYIqZ5YYyXOLfGLe9lBbno=
-X-Received: by 2002:a25:41ce:0:b0:65b:3723:f73f with SMTP id
- o197-20020a2541ce000000b0065b3723f73fmr14392583yba.288.1653909576772; Mon, 30
- May 2022 04:19:36 -0700 (PDT)
+ bh=3H2iYouxFWt++sIm/itjpChdBBg/580KfBGehbn1GbU=;
+ b=Mrqzg8e5A0+sc1SECMkU0nJNumgh4n6S6y7wDNgshVQ49CUmsrcW72a+aW3ZwICKqJ
+ henEjCyQNu6XGD/botaMpy/lBa8FQjxQxQZZAWYleS5RO2+YU57Gj/+VwL5z5bsX9UO+
+ 776NZB4WFJL1DaZtqI3flyD5xQRvWamCFxx3RSKmr7+F/Ml9ltMYtredFDgpweNQxZNY
+ 17t9ERJx1spysWwqy26i50PoMKyKc+zu0nZcFW1S3E53x5KHmjgt3hy2yZA4maiGqiKs
+ gYjQmjCAA4ebos7BCG4/ReXGZ+5pRrzn+vtMFq6aqUx1ceSRcrnzGWqcP4UJlCQv0ZnU
+ fGwA==
+X-Gm-Message-State: AOAM533zs5gSt/xtMOV6s0pPmSC28WLhVoMd1lOoobs4htZhaTO9iqvp
+ cHDGTnyNyauzu5ij4fVCWbwX25SiGc1zOBi2JuA=
+X-Google-Smtp-Source: ABdhPJx5wTpDM9swwMAo4CZ43oZ0spfokKD8sb2hCNHM4DOnZoW/ZwAcXIfmbqASmq5Ho/+j9xoFmMcMIW6D9WW3kuM=
+X-Received: by 2002:a05:6870:e30e:b0:de:ab76:eed7 with SMTP id
+ z14-20020a056870e30e00b000deab76eed7mr10034099oad.101.1653909587506; Mon, 30
+ May 2022 04:19:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220527161937.328754-1-alxndr@bu.edu>
- <20220527161937.328754-2-alxndr@bu.edu>
-In-Reply-To: <20220527161937.328754-2-alxndr@bu.edu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 May 2022 12:19:25 +0100
-Message-ID: <CAFEAcA-PXO8ZGS_DA6E65MK2pvnnepbpA-vc_90xdARLj73=iA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] memory: Track whether a Device is engaged in IO
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Mauro Matteo Cascella <mcascell@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, 
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, 
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, 
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>
+References: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
+In-Reply-To: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 30 May 2022 12:19:35 +0100
+Message-ID: <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
+Subject: Re: Outreachy project task: Adding QEMU block layer APIs resembling
+ Linux ZBD ioctls.
+To: Sam Li <faithilikerun@gmail.com>
+Cc: Damien Le Moal <damien.lemoal@wdc.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
+ Hannes Reinecke <hare@suse.de>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=stefanha@gmail.com; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,32 +84,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 May 2022 at 17:19, Alexander Bulekov <alxndr@bu.edu> wrote:
+On Mon, 30 May 2022 at 06:09, Sam Li <faithilikerun@gmail.com> wrote:
 >
-> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> This flag should be set/checked prior to calling a device's MemoryRegion
-> handlers, and set when device code initiates DMA.  The purpose of this
-> flag is to prevent DMA reentrancy issues. E.g.:
-> sdhci pio -> dma write -> sdhci mmio
-> nvme bh -> dma write -> nvme mmio
+> Hi everyone,
+> I'm Sam Li, working on the Outreachy project which is to add zoned
+> device support to QEMU's virtio-blk emulation.
 >
-> These issues have led to problems such as stack-exhaustion and
-> use-after-frees.
+> For the first goal, adding QEMU block layer APIs resembling Linux ZBD
+> ioctls, I think the naive approach would be to introduce a new stable
+> struct zbd_zone descriptor for the library function interface. More
+> specifically, what I'd like to add to the BlockDriver struct are:
+> 1. zbd_info as zone block device information: includes numbers of
+> zones, size of logical blocks, and physical blocks.
+> 2. zbd_zone_type and zbd_zone_state
+> 3. zbd_dev_model: host-managed zbd, host-aware zbd
+> With those basic structs, we can start to implement new functions as
+> bdrv*() APIs for BLOCK*ZONE ioctls.
 >
-> Assumptions:
->  * Devices do not interact with their own PIO/MMIO memory-regions using
->    DMA.
+> I'll start to finish this task based on the above description. If
+> there is any problem or something I may miss in the design, please let
+> me know.
 
-If you're trying to protect against malicious guest-controlled
-DMA operations, you can't assume that. The guest can program
-a DMA controller to DMA to its own MMIO register bank if it likes.
+Hi Sam,
+Can you propose function prototypes for the new BlockDriver callbacks
+needed for zoned devices?
 
->  * There is now way for there to be multiple simultaneous accesses to a
->    device's PIO/MMIO memory-regions, or for multiple threads to perform
->    DMA accesses simultaneously on behalf of a single device.
-
-This one is generally true because device code runs with
-the iothread lock held.
-
--- PMM
+Stefan
 
