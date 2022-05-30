@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94945387D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:44:25 +0200 (CEST)
-Received: from localhost ([::1]:33746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5DE5387CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:42:00 +0200 (CEST)
+Received: from localhost ([::1]:55680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlJQ-0005kH-Ky
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
+	id 1nvlH6-0001G0-1b
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlDx-0006Un-3N; Mon, 30 May 2022 15:38:45 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:41787)
+ id 1nvlE5-0006o6-FE; Mon, 30 May 2022 15:38:53 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:44589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlDv-0008CN-JF; Mon, 30 May 2022 15:38:44 -0400
-Received: by mail-pg1-x530.google.com with SMTP id e66so10876351pgc.8;
- Mon, 30 May 2022 12:38:41 -0700 (PDT)
+ id 1nvlE4-0008D6-0f; Mon, 30 May 2022 15:38:53 -0400
+Received: by mail-pf1-x431.google.com with SMTP id g205so172891pfb.11;
+ Mon, 30 May 2022 12:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bJO2kVCczmXNji68pRuyrx67SZ6xs6b+pC/1wsj0JMU=;
- b=Mw0WMZI/hpylm9nOZIm9BtHTXHLXQ3Ckj7kMDOLKLaNTGP4rJg7dvpcxohvgbN6DuY
- bakrmetn2e/k1rYQKmXwcDMdPOL5L0YkU/Ya+cnJhpO9DRyYSqN9uvD4Ae8NabAe8GHU
- pMwhlh/UPv1yr33/SoFdoKlfxwWGtYgdPBKiBaw4kxL6wLew1vaU/DfAcQCtmGOFxr6u
- 5MSp3jjI4Bkb8nYgbfSa6602LaTGB9bbhsMBruEZWTfk/dYhnPF99deCxRnNp7F/cYWt
- lTXwLROPRO7uIGl21YwVoOpGSl9SsSs4ScIQ41ybAtEVoxx1YkYrGVotcmD/mM1BgGT5
- FGnA==
+ bh=Tzxi57a4Nyv9nQAXUie7IHq8uaYskXtrhIjYfuzd22k=;
+ b=M8yLfIuJ3ksZ/wr+M/5k4Xb0oCnurH1kaDaJ2LuLJ47ntv2uG6mDcDPpvds4YMFQUm
+ INcu1c5rmFlWVHDqUjPVhe1u1EBsrQRBYYUdtlFREtvYESelBhT3pw6Eq1dgdKCaDo++
+ naPdM5yyPUAP2W86kbBA27dFp+oHDn+y/MA2eIte03gpu6RxxJWzAIwYwsh+ugNaDkZu
+ pFJRkuGj2uFI5MkiC5dvXkfBP3R4UkyDVDUi8hHyg5V9GBNFc7eF/68IcOXJJnh1aB7j
+ 3EZzu+abmB5STE6ENrMi1f8EbpUjwTvImpI7r6MnG9HVwmp09+edx1vw/aBZuBvlAW/o
+ DQhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bJO2kVCczmXNji68pRuyrx67SZ6xs6b+pC/1wsj0JMU=;
- b=sg11wwq1iqQHZIe+GAHW6Rbmcrl2nawgRkTNhxQFVONToj+hMEcn0+3BIeaaHzmoY1
- EXDmxS6/MsvFZthr4xYXrSdQded4jQymIHSxMMpDgAeqvhgqAYHtpmZ2dXLsiVwMX18Z
- 52lu+uWgRoHTXrWbiUehNXpBdi/Hry/RvMs1q3eWFzKLQJL0oen1oUKsHJpuiCFP5jxw
- VMjE+bHrAGWIIeu1nZXFj/zrTVi/joNQrUfDaPHBvHcTwVWviLqzLkzhjQ/KeRRb/6Ou
- MdJc2xVbKwqclVkupDe6hreyYl3QXwr4VUVKHFD3HjvZwd239VsyHufLzfCm9BwQy8tN
- xzcA==
-X-Gm-Message-State: AOAM5328LuhwTGcnaucoWmhR+XExcVyBcAT/uAGtiVIue6lLG51GIWDt
- WNXSDlp5zd8MGO1QJE8zn6cqoN3uoLc=
-X-Google-Smtp-Source: ABdhPJz32BLkdJl/6evjL9tbbPcjZrBvpRbm9mKaLvTqeu04Dzb0b8KAVF+MOEGC/OiUhYQQCtR2dg==
-X-Received: by 2002:a05:6a00:889:b0:510:91e6:6463 with SMTP id
- q9-20020a056a00088900b0051091e66463mr58666738pfj.58.1653939520514; 
- Mon, 30 May 2022 12:38:40 -0700 (PDT)
+ bh=Tzxi57a4Nyv9nQAXUie7IHq8uaYskXtrhIjYfuzd22k=;
+ b=jjaiBPzxYHdKvpWsLc8HgVQlft7CkMZRJ0UYXnmi0mqyyKs3q1iF9cTby9CLl1rSWV
+ ComkWzCQha/trJtg/A7nhWoIVv+kofXLP9Cy++2Mpbr057C9Sg0EN8bGTHZS+J4bEozU
+ 4oXimsGQoCP9p0ByUjpnPxaAHWmvjKVxm/YJyeMdVhNszevn2K0NfHpwwruJVgPi67FT
+ pnUTonDCXYKmAgd3cIyh7rG2bNYbukEguBV+hrqG8J2DSGKkGfG2/07cTTXf6oTvlIJk
+ zx2fj5PG0n6rswcsNs92T63k8cK5Pm75if2ABE3Vb5A1IeJ+B7bwIaRbvezybaLh3JEC
+ T7zQ==
+X-Gm-Message-State: AOAM532mpslumo2TvQbXa4vyBQoowT6OERB05I6ws1YHLpq3mdNQ0zQk
+ dBF2253WxXjzW5y5TZ3lPaIeEf4nFok=
+X-Google-Smtp-Source: ABdhPJx35Vqyd0g0GUNppHz38SHtmi66jAjv+t2d71+q/aU3WMhnmNowjlTgtLXLoerMDc35607Ckg==
+X-Received: by 2002:a05:6a00:1690:b0:517:cc9e:3e2d with SMTP id
+ k16-20020a056a00169000b00517cc9e3e2dmr58202395pfc.0.1653939529254; 
+ Mon, 30 May 2022 12:38:49 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- ij30-20020a170902ab5e00b00163cdf1a200sm3514900plb.38.2022.05.30.12.38.37
+ v189-20020a6389c6000000b003c14af50607sm9011233pgd.31.2022.05.30.12.38.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 30 May 2022 12:38:40 -0700 (PDT)
+ Mon, 30 May 2022 12:38:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -58,19 +58,19 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v2 02/25] hw/sd: When card is in wrong state,
- log which state it is
-Date: Mon, 30 May 2022 21:37:53 +0200
-Message-Id: <20220530193816.45841-3-philippe.mathieu.daude@gmail.com>
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v2 03/25] hw/sd: When card is in wrong state,
+ log which spec version is used
+Date: Mon, 30 May 2022 21:37:54 +0200
+Message-Id: <20220530193816.45841-4-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,51 +95,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We report the card is in an inconsistent state, but don't precise
-in which state it is. Add this information, as it is useful when
-debugging problems.
-
-Since we will reuse this code, extract as sd_invalid_state_for_cmd()
-helper.
+Add the sd_version_str() helper.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20210624142209.1193073-2-f4bug@amsat.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/sd/sd.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ hw/sd/sd.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 7e3bb12b1a..b0e7a7e6d0 100644
+index b0e7a7e6d0..b3e61b9f84 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -966,6 +966,14 @@ static bool address_in_range(SDState *sd, const char *desc,
-     return true;
- }
+@@ -145,6 +145,19 @@ struct SDState {
  
-+static sd_rsp_type_t sd_invalid_state_for_cmd(SDState *sd, SDRequest req)
+ static void sd_realize(DeviceState *dev, Error **errp);
+ 
++static const char *sd_version_str(enum SDPhySpecificationVersion version)
 +{
-+    qemu_log_mask(LOG_GUEST_ERROR, "SD: CMD%i in a wrong state: %s\n",
-+                  req.cmd, sd_state_name(sd->state));
-+
-+    return sd_illegal;
++    static const char *sdphy_version[] = {
++        [SD_PHY_SPECv1_10_VERS]     = "v1.10",
++        [SD_PHY_SPECv2_00_VERS]     = "v2.00",
++        [SD_PHY_SPECv3_01_VERS]     = "v3.01",
++    };
++    if (version >= ARRAY_SIZE(sdphy_version)) {
++        return "unsupported version";
++    }
++    return sdphy_version[version];
 +}
 +
- static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+ static const char *sd_state_name(enum SDCardStates state)
  {
-     uint32_t rca = 0x0000;
-@@ -1534,9 +1542,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         return sd_illegal;
-     }
+     static const char *state_name[] = {
+@@ -968,8 +981,9 @@ static bool address_in_range(SDState *sd, const char *desc,
  
+ static sd_rsp_type_t sd_invalid_state_for_cmd(SDState *sd, SDRequest req)
+ {
 -    qemu_log_mask(LOG_GUEST_ERROR, "SD: CMD%i in a wrong state: %s\n",
 -                  req.cmd, sd_state_name(sd->state));
--    return sd_illegal;
-+    return sd_invalid_state_for_cmd(sd, req);
- }
++    qemu_log_mask(LOG_GUEST_ERROR, "SD: CMD%i in a wrong state: %s (spec %s)\n",
++                  req.cmd, sd_state_name(sd->state),
++                  sd_version_str(sd->spec_version));
  
- static sd_rsp_type_t sd_app_command(SDState *sd,
+     return sd_illegal;
+ }
 -- 
 2.36.1
 
