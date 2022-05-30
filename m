@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC133537A3D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 13:57:24 +0200 (CEST)
-Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488B1537A51
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:02:42 +0200 (CEST)
+Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nve1T-0003V5-V2
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 07:57:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56882)
+	id 1nve6b-00029F-BZ
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:02:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvdh5-0006ZO-TE
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:36:19 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:38513)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvdjN-0000rG-He; Mon, 30 May 2022 07:38:43 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:39626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvdh2-0002ti-QZ
- for qemu-devel@nongnu.org; Mon, 30 May 2022 07:36:18 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2ff7b90e635so106827677b3.5
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 04:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pkdHI4NJNJSXNWzDlACMC9GVsPurwUFSLWfoGEV/dJQ=;
- b=gCEjQOz+G9O+UzkXnxAouBzkoW61yy4mYyMaEQ7mw+zqejzyQvBh0hQajduZIumWQv
- R4Ujo+/jdeuCQFb4QLgsvHCfKS3grM1MqZAF6gmo/SoBfC5PtexjCMg6FmHw5JxYpGM+
- xOUueGDuz21jlq4cXdEzI9tyofZESs0D9UWVVMIEPm/CXwrIteCG6uosQENbzJ8A3IDY
- gzR7ukp2q0VFwdQFMVVhVnmI0XETyp0lz6n+NPODtVjK+cWq2yxSyN2paaiFLF1LEFDr
- my7WlcKOqaBJtBV2RjjdLmfUWVEvrrYkISeZ3vqNA4k2y29tF5Pwczb1UdqcbyLCTnMd
- 3taA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvdjK-0003FS-Sj; Mon, 30 May 2022 07:38:41 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id q123so4893892pgq.6;
+ Mon, 30 May 2022 04:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fhO+vZLDHA7albDwv32BqtMGmy87QnZPPW1NVQ048W4=;
+ b=fpmquVJOrCt7CPQ0g0RPe/3ySy9MyEb6uC/BNZM4mltRq2Uil7JyGyEN0i2qCfxdkm
+ RnrOiayN6Qz1D8PRSdFNQemhBVuo5H0NZDFn/mQnQYw+zeE5AsaxrRlAN8EVkUKPJ5Ab
+ aK98asP6ag4btzcJFw8TfPCR9VvmVswIhJGR6tu1TRtnjvL3UbjJCb/hveee0y3Q2nRD
+ vEXqleq2EheDZy0+QLKADaus0cS4tIZuLW6kz8de4Z+H3ReCyfFTFScg9pAVLwlReFiS
+ 9xlalIAfdWqqLNC4Z2vQTofyEAV/slHxBiXtovHmwL81V9XWgc1QhZUdGcHVkpvmX0Ds
+ Pddg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pkdHI4NJNJSXNWzDlACMC9GVsPurwUFSLWfoGEV/dJQ=;
- b=wacT/YJ0Fdxy3bYB8CyT5pXzkQJvubOt6Qfdlm1RsZUm/jJPOWBWPZuRjTkAi3RvW+
- sGdpl+wHSx4uquuaqUeL2HLdqj/Io1gKxFjq1NisfNKLzAlvLW2IgGingwzWSz30aP/i
- YU2WBYOsgb2lrcDfxTwMAyBLK1GZ1BfsUbhCXhMylmPVA63Mf/5AeiuAzKbd24NhMX1q
- FSmu+iMoPEX3vFDOMx4OA+Cqs2hIqILZ8teOlb845wRteRSNJYDi2GrpPzb//nbIqQsb
- 7QIR+JfPVI1TpCxO4RZ2Vi5bBfsbMhd/gCWdD6eTdMSpdD0ywuA7QRg1JukB/FxS0c8A
- h8iA==
-X-Gm-Message-State: AOAM533a0WlZ85VbOH/zdvenjWRvuKGNDoD6KIev8SK8B5V3cbTo6tMR
- XswNtmgJRu5p1bG/Pdpxe1FLeSSQFJzXHekQnQzX+g==
-X-Google-Smtp-Source: ABdhPJwpE0LDECB6SZicTisT3OOxR+/rRtTEVuiOGLIqN6O0LHmmx269mDp0D0yc1XR/1j3smV4CtdKlU4ycB/tDMF4=
-X-Received: by 2002:a81:1a4c:0:b0:30c:8363:e170 with SMTP id
- a73-20020a811a4c000000b0030c8363e170mr1050240ywa.455.1653910575291; Mon, 30
- May 2022 04:36:15 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fhO+vZLDHA7albDwv32BqtMGmy87QnZPPW1NVQ048W4=;
+ b=jLjfeyvqTkHkJKMT2l1xeUBxv2+fVt+B+2fOYmB/21gWk1ddbdy1lPuTWgFQv1XkIF
+ I6cdUPD7pMmLtc/hgYHFQyuwpzj8RvQG+I4vCnVoB9rSOwSFdKy7fKUZyatyf60z/fS+
+ h939akRfFXx2RBXHaHDvwn30aaAHNrF46n2z9x0orW83HHVwSx1BkRgiiAEewIIqN1tS
+ 6WmsBFCRD+mURAwFQbn2bCyAEsH50pJgQsUcFOF40dwNfkn/USxr+TYjlFDAcSNv1aVZ
+ QBWiJfilyY4C3BaRNTvWPToKJllA/FJZwNat7j9nP+5gPZWzEatC/z3gcW5Jcxl2PP1b
+ niKA==
+X-Gm-Message-State: AOAM531mcA5fm6k2NSSMcXl01FfriGQcALX9ZOOMmHxLfoashDFFEDSA
+ x2eiY7Wjw8oQDXtoeCtSbhE=
+X-Google-Smtp-Source: ABdhPJwVDvMybIBhhizPld0xpz6bEUzmhUI7C5zaHM7IR5Qir8+7Klf84jhF8eMcXBoSu2L2q9XTFw==
+X-Received: by 2002:a62:1dcc:0:b0:519:17be:89be with SMTP id
+ d195-20020a621dcc000000b0051917be89bemr20799189pfd.30.1653910714935; 
+ Mon, 30 May 2022 04:38:34 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ ie17-20020a17090b401100b001e31474c0c1sm1300151pjb.47.2022.05.30.04.38.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 04:38:34 -0700 (PDT)
+Message-ID: <80574d02-8434-db8f-ab1b-61c530cb12ea@amsat.org>
+Date: Mon, 30 May 2022 13:38:30 +0200
 MIME-Version: 1.0
-References: <20220520124200.2112699-1-uwu@icenowy.me>
- <CAFEAcA-5CxTPdzbwubjRvw-KwOAnW1vPP3O+acvURPD0kwXfMg@mail.gmail.com>
- <a7bdef698925136964b2215b94bcd53e1f153048.camel@icenowy.me>
-In-Reply-To: <a7bdef698925136964b2215b94bcd53e1f153048.camel@icenowy.me>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 May 2022 12:36:04 +0100
-Message-ID: <CAFEAcA-sNz-ajuAC6=Qbu0nW-zau3csK+33PJ6EyH5+=D2g29w@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd/allwinner-sdhost: report FIFO water level as 1 when
- data ready
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH v3 2/7] hw/isa/piix4: Use object_initialize_child() for
+ embedded struct
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+References: <20220528192057.30910-1-shentey@gmail.com>
+ <20220528192057.30910-3-shentey@gmail.com>
+In-Reply-To: <20220528192057.30910-3-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,50 +94,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Mon, 23 May 2022 at 17:40, Icenowy Zheng <uwu@icenowy.me> wrote:
->
-> =E5=9C=A8 2022-05-23=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 15:14 +0100=EF=
-=BC=8CPeter Maydell=E5=86=99=E9=81=93=EF=BC=9A
-> > On Fri, 20 May 2022 at 13:42, Icenowy Zheng <uwu@icenowy.me> wrote:
-> > >
-> > > U-Boot queries the FIFO water level to reduce checking status
-> > > register
-> > > when doing PIO SD card operation.
-> > >
-> > > Report a FIFO water level of 1 when data is ready, to prevent the
-> > > code
-> > > from trying to read 0 words from the FIFO each time.
-> > >
-> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > ---
-> > >  hw/sd/allwinner-sdhost.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-> > > index 041e45c680..b66fd9bce7 100644
-> > > --- a/hw/sd/allwinner-sdhost.c
-> > > +++ b/hw/sd/allwinner-sdhost.c
-> > > @@ -114,7 +114,9 @@ enum {
-> > >  };
-> > >
-> > >  enum {
-> > > +    SD_STAR_FIFO_EMPTY      =3D (1 << 2),
-> > >      SD_STAR_CARD_PRESENT    =3D (1 << 8),
-> > > +    SD_STAR_FIFO_LEVEL_1    =3D (1 << 17),
-> > >  };
-> >
-> > Is there documentation on this hardware available somewhere?
-> > The Linux kernel driver for it doesn't seem to have a #define
-> > for this bit 17.
->
-> For the specific version on H3,
-> https://linux-sunxi.org/File:Allwinner_H3_Datasheet_V1.2.pdf .
+On 28/5/22 21:20, Bernhard Beschow wrote:
+> Found-by: Peter Maydell <peter.maydell@linaro.org>
 
-Thanks. Since this patch fixes u-boot and is a reasonable
-approximation to correct device behaviour assuming we don't
-want to bother emulating the FIFO properly, I've applied
-it to my target-arm.next tree.
+I suppose you refer to this thread:
+https://lore.kernel.org/qemu-devel/CAFEAcA_y69=iXMH75dHeNkxMa038Z7Xk63GW9fdcAFHJSWS=sA@mail.gmail.com/
 
--- PMM
+I'm going to change the tag to "Reported-by".
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/isa/piix4.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index 9a6d981037..1d04fb6a55 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -224,7 +224,7 @@ static void piix4_init(Object *obj)
+>   {
+>       PIIX4State *s = PIIX4_PCI_DEVICE(obj);
+>   
+> -    object_initialize(&s->rtc, sizeof(s->rtc), TYPE_MC146818_RTC);
+> +    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+>   }
+>   
+>   static void piix4_class_init(ObjectClass *klass, void *data)
 
