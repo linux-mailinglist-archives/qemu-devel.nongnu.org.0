@@ -2,61 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676825377C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:43:41 +0200 (CEST)
-Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E565377CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 11:47:29 +0200 (CEST)
+Received: from localhost ([::1]:42962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvbw4-0003kz-0j
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42752)
+	id 1nvbzk-0005bL-Eb
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 05:47:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbqa-0000K6-Sk
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:38:00 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:33773)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvbvK-00048S-T1
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:42:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvbqY-0004b7-4R
- for qemu-devel@nongnu.org; Mon, 30 May 2022 05:38:00 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EB66B1055A41C;
- Mon, 30 May 2022 11:37:54 +0200 (CEST)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 30 May
- 2022 11:37:54 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004bb88b765-2301-420d-a777-38a0d2b78db9,
- F546FDD43062DFA02F07D69E2A3A1257FC48A684) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <397f565c-590b-bcf2-a647-a1e9a0de1218@kaod.org>
-Date: Mon, 30 May 2022 11:37:48 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvbvE-0005Q4-Tm
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 05:42:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653903767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JLG0vMQyB3kN8UxXmaBOKAyrSQXzPwwTK+tMaBfVSTQ=;
+ b=BNd2ySX5AuabCFDIYFbDqo/RbgEtVoKSktyxDvn8Yca/cjc/xn7uqCM1sXMTjxR/WSjE8N
+ M7UKs9iXwEOd/avEIuD9SyueaMn2eV4kUDeI9hCHwjqfJmFSbtZnHJKFpSDJlE2QGjHPuW
+ PJwhrmAIoFtinO3gepZ0gUCsZbUpnhM=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-37-zrVCU40yPTu4Lt56hlw6uA-1; Mon, 30 May 2022 05:42:46 -0400
+X-MC-Unique: zrVCU40yPTu4Lt56hlw6uA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ kl23-20020a056214519700b0046200065604so7921594qvb.19
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 02:42:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=JLG0vMQyB3kN8UxXmaBOKAyrSQXzPwwTK+tMaBfVSTQ=;
+ b=ZGzvNYLR09InypYafXQZ4e+bOJWDUaBGZMw9koJpBhfxMYQ9Y8IrHnBWXC0ltZNNUr
+ rsLjMFgsOSGnjD1yCA4UPEJwthSjBCY2/IdtCM3DIHOOkBjmCEzwSitlkqNWTDs4LYwT
+ +BMHSZG/0JS8WxphO4QSGySjW6r3xBLDk5629Dvg7OVRUx/anGZXZUitxSn/muWgfdp0
+ 2P60RHzFTmWOdP0iUXX6ThBy84m9ccd3XWFmzvTKPMeL0YVqL43wnXE1fjPWHB/tqlvu
+ iYoLyX688+82HXyzE6r7aXEQiuLlGOJs0EewLfQBKVGE5T57Wx23hqVGEkKCZ4ert5I/
+ crVw==
+X-Gm-Message-State: AOAM533aqRWiCoC290GOZKNWzXpxaEIr8GrpYx4nTqwkkEeWfF8xvoWt
+ 2kfBu/liIiCfRTXQgPn0l1Hq8QerELESNhqy+JXnKkGRXu7AwwJWHI3GjdbLQ5WlkcGT76CzIsh
+ Xv1IOqniRBbKJxtM=
+X-Received: by 2002:a05:620a:28c3:b0:6a2:f6b8:d7a with SMTP id
+ l3-20020a05620a28c300b006a2f6b80d7amr36215314qkp.440.1653903765824; 
+ Mon, 30 May 2022 02:42:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9/oSNL1z4IIe5Q95xwn/00M4f2//P4Xx/QQxWgEDgmtSuzdwiLnV4MpEeu7kmQB3M3pqsYw==
+X-Received: by 2002:a05:620a:28c3:b0:6a2:f6b8:d7a with SMTP id
+ l3-20020a05620a28c300b006a2f6b80d7amr36215301qkp.440.1653903765578; 
+ Mon, 30 May 2022 02:42:45 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-179-216.web.vodafone.de.
+ [109.43.179.216]) by smtp.gmail.com with ESMTPSA id
+ h8-20020ac87d48000000b00304b3c600bbsm1156449qtb.65.2022.05.30.02.42.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 02:42:45 -0700 (PDT)
+Message-ID: <bbab97ff-c24f-7318-ed83-218e52481451@redhat.com>
+Date: Mon, 30 May 2022 11:42:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH] ppc: fix boot with sam460ex
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>
-CC: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-ppc@nongnu.org>
-References: <20220526224229.95183-1-mst@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220526224229.95183-1-mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 342ab5e7-99fb-4b97-acd3-abb3f659e50f
-X-Ovh-Tracer-Id: 10408381689401281504
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdduffdtteffgffggeehteeuleeiheekffdvveeuffegffdtheeiveduheeviedunecuffhomhgrihhnpehqvghmuhdrohhrghdphhgrrhgufigrrhgvrdgtohhmrdgsrhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, Cedric Le Goater <clg@kaod.org>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-76-mst@redhat.com>
+ <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
+ <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
+ PCIE_MMCFG_SIZE_MAX
+In-Reply-To: <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,102 +111,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[ resend with a reply-all ]
-
-On 5/27/22 00:43, Michael S. Tsirkin wrote:
-> Recent changes to pcie_host corrected size of its internal region to
-> match what it expects - only the low 28 bits are ever decoded. Previous
-> code just ignored bit 29 (if size was 1 << 29) in the address which does
-> not make much sense.  We are now asserting on size > 1 << 28 instead,
-> but it so happened that ppc actually allows guest to configure as large
-> a size as it wants to, and current firmware set it to 1 << 29.
+On 26/05/2022 17.54, BALATON Zoltan wrote:
+> Hello,
 > 
-> With just qemu-system-ppc -M sam460ex this triggers an assert which
-> seems to happen when the guest (board firmware?) writes a value to
-> CFGMSK reg:
+> On Thu, 26 May 2022, Daniel Henrique Barboza wrote:
+>> Hi,
+>>
+>> This patch broke the boot of the sam460ex ppc machine:
+>>
+>> qemu-system-ppc -M sam460ex -kernel 
+>> ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
+>> -device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
+>> -nographic -snapshot
+>> qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init: Assertion 
+>> `size <= PCIE_MMCFG_SIZE_MAX' failed.
 > 
-> (gdb) bt
-> 
-> This is done in the board firmware here:
-> 
-> https://git.qemu.org/?p=u-boot-sam460ex.git;a=blob;f=arch/powerpc/cpu/ppc4xx/4xx_pcie.c;h=13348be93dccc74c13ea043d6635a7f8ece4b5f0;hb=HEAD
-> 
-> when trying to map config space.
-> 
-> Note that what firmware does matches
-> https://www.hardware.com.br/comunidade/switch-cisco/1128380/
-> 
-> So it's not clear what the proper fix should be.
-> 
-> However, allowing guest to trigger an assert in qemu is not good practice anyway.
-> 
-> For now let's just force the mask to 256MB on guest write, this way
-> anything outside the expected address range is ignored.
-> 
-> Fixes: commit 1f1a7b2269 ("include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX")
-> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
-> 
-> Affected system is orphan so I guess I will merge the patch unless
-> someone objects.
+> Thanks for noticing this. I usually only test it during the freeze. Wasn't 
+> there a test patch submitted by Philippe before? Isn't that yet merged or 
+> included in CI? That should catch these before breaking it.
 
-Fine with me.
+Seems like there is only the (primitive) boot-serial test so far:
 
-Acked-by: Cédric Le Goater <clg@kaod.org>
+$ grep -r sam460ex tests/
+tests/qtest/boot-serial-test.c:    { "ppc", "sam460ex", "-m 256", "DRAM:  256 MiB" },
+tests/qtest/boot-serial-test.c:    { "ppc64", "sam460ex", "-device e1000", "8086  100e" },
 
+If there is a guest kernel available for public download somewhere,
+it would be great if you could add an avocado test for this machine
+(see e.g. the tests/avocado/ppc_*.py files for a template).
 
-On the orphan status,
-
-MAINTAINERS file says the sam460ex machine is maintained. I understand that
-these files :
-
-   hw/ppc/ppc440_uc.c
-   hw/ppc/ppc440.h
-   hw/ppc/ppc440_pcix.c
-   hw/ppc/ppc4xx_devs.c
-   include/hw/ppc/ppc4xx.h
-
-and these
-
-   include/hw/i2c/ppc4xx_i2c.h
-   hw/i2c/ppc4xx_i2c.c
-   hw/intc/ppc-uic.c
-   include/hw/intc/ppc-uic.h
-
-should be under the same entry since sam460ex depends on it.
-
-The ppc440 support is a bit of a mess to be honest. We have two 440
-machines bamboo and sam460ex which have a lot in common a part from
-the PCI host bridge.
-
-Thanks,
-
-C.
-
-> 
->   hw/ppc/ppc440_uc.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-> index 993e3ba955..a1ecf6dd1c 100644
-> --- a/hw/ppc/ppc440_uc.c
-> +++ b/hw/ppc/ppc440_uc.c
-> @@ -1180,6 +1180,14 @@ static void dcr_write_pcie(void *opaque, int dcrn, uint32_t val)
->       case PEGPL_CFGMSK:
->           s->cfg_mask = val;
->           size = ~(val & 0xfffffffe) + 1;
-> +        /*
-> +         * Firmware sets this register to E0000001. Why we are not sure,
-> +         * but the current guess is anything above PCIE_MMCFG_SIZE_MAX is
-> +         * ignored.
-> +         */
-> +        if (size > PCIE_MMCFG_SIZE_MAX) {
-> +            size = PCIE_MMCFG_SIZE_MAX;
-> +        }
->           pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base, size);
->           break;
->       case PEGPL_MSGBAH:
+  Thomas
 
 
