@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E886537AB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:36:48 +0200 (CEST)
-Received: from localhost ([::1]:41528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01652537ABE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:44:58 +0200 (CEST)
+Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvedb-0002eu-6t
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51038)
+	id 1nvelT-0008UK-IH
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nveS2-0005JJ-44
- for qemu-devel@nongnu.org; Mon, 30 May 2022 08:24:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38690)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nveRy-0005L7-KL
- for qemu-devel@nongnu.org; Mon, 30 May 2022 08:24:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653913485;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sZruPTrWkHwg0W5O133lP94Uy4ZzezhJ3tHgsYNhd90=;
- b=OPXSFgUg+0haFVmKPT2Ep5r//lJB0Ahrjy9aZQt6XC2MbxWQ7rQ6dQ4ao7rX7tmr5EiRZc
- uz9NJQIUlms5eezSNLAj7YFk8g0ITimqAJqFuvFE33+4Cv2kDunV62U5QfzL2tkvJcLtD5
- P6ohMmYZcovssgGd7Dxtid+ZkcLnHz4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-IOMb08nmNqyjU7YwDGPmcQ-1; Mon, 30 May 2022 08:24:43 -0400
-X-MC-Unique: IOMb08nmNqyjU7YwDGPmcQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m10-20020a05600c3b0a00b003948b870a8dso9656158wms.2
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 05:24:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nveix-0006tg-5u
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 08:42:20 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:37931)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nveit-0001xR-Vd
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 08:42:18 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2ff7b90e635so108670147b3.5
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 05:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hFSZCRu3hejMfLKNwEnpdml9rAf5cwSmm0i+frA3vMs=;
+ b=gPSU+/9wVkn31IE8kogAk+gYkIDIOSJB1gSlk7NR9XiU73ySqcv0WjyERaJtLn0nPM
+ Cglfbb9etXF32nNsyeuqPB91zUb+UDURXc1vyi0HLn0Jz7bFla11BqBNvQuLW4H5ZCVL
+ T8jI1JTiZaYNK759DArsuiVNOfHxTO3L31LW+WRl5WMlLVQlu1UmhT0qhSphyXCt0xzx
+ 8oYGFiRPI1+fOsnxi7QUoY9Solh+deKnoy6Zfrqe33RkhBLdpXvPjhj+GMHIIMOMs4lF
+ rFncmT4Bp8Z+0vhLd2cvVSxy5FNmf7AmN5F4DlYZyBDgSVekq+FiT1uKF9mui5pHzO/f
+ HMhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sZruPTrWkHwg0W5O133lP94Uy4ZzezhJ3tHgsYNhd90=;
- b=1xORcLtF/WQS+uIwdyPDBe7JtOlOrY4u2bNmpIKIGQ8KFpcmLF5b1FubDWGuU04zJ9
- CI1k5DECLHnOzyLvPu0mVxNsHz8eVg+MGub+cj0aImvnTZZcDrs4fFBM1mAgPsQsGo0Y
- S4eIA/S653QBX+ZevygUT2cFtRsF9RBLxM9f5x7J7LC+p/1+URqGSLttSUHH9W8Ry2T0
- A5qaCGfPE3Hw2rsCfkndgwtJ9b9LiYYnOeO9eiYQXKewtsS3TevCMPxCmGw/IVOvggH/
- Rwmz+hNPgtxMk32C6Cy7pG8CX3B7OGSg0zTtzt0UVTrS3ufkkhrtW0wUTQxtGFN+YVlY
- jeUg==
-X-Gm-Message-State: AOAM532twKj4M4/mkH4RP33D7loBvRTPntSxbTkWpxJpr7e9Zt7X8SPu
- xQ/l1XJyxKC71WkOOctpOlbwPQ/B2HgNebhM9YCfiSQn1qVsCN2mRIQ4HrNO8kdB6kuXXE4HKAF
- MqXrriUDap6DZiFmx0+Td91KBNH8CSRWzrQwZy/KeLYehq9tOPkcG/nT2bnre5sVz4zU=
-X-Received: by 2002:a05:600c:3595:b0:399:fd8f:2c00 with SMTP id
- p21-20020a05600c359500b00399fd8f2c00mr9762679wmq.97.1653913482136; 
- Mon, 30 May 2022 05:24:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZn9B4BgczMByiHCnrFmlN4RN54HzvK+GZbC7EDFqRE84J7X0+iVsSL5SfnXilDS8vPNBE5A==
-X-Received: by 2002:a05:600c:3595:b0:399:fd8f:2c00 with SMTP id
- p21-20020a05600c359500b00399fd8f2c00mr9762639wmq.97.1653913481577; 
- Mon, 30 May 2022 05:24:41 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- g12-20020adfd1ec000000b0020c5253d8f2sm5562846wrd.62.2022.05.30.05.24.40
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 05:24:41 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build: add a "make modules" target
-Date: Mon, 30 May 2022 14:24:40 +0200
-Message-Id: <20220530122440.683780-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hFSZCRu3hejMfLKNwEnpdml9rAf5cwSmm0i+frA3vMs=;
+ b=EwN98Ozgx3EbCJD1/RuLzmcEf1kn2G9gTpuEyO2ARbVK/7WXcmsVehV5P/ZW8HpnMs
+ nIcL8TXIxxULdC6xqy1eOn7FsC9LKIBYoe43ttTlFVdVRUXuxW1SNM5H7zL5oaGe8uF1
+ jIfutpP8BqNcK4jGXdspkIY1Zvhs8HkO+21eXNEWejWg1c4Rmkp8dg7Favk5L6lUBIzo
+ 3BsFK2IkLhtjGTNJIYDMKfHUc7hOqV5/cm18Zcp7+zjsGqcyubeq/cZnSEFkkfhTIfSe
+ AWve/1Ibd3vFk8VZt6WjkGf2eMJyGwldNDaSljdESg/qQPi9LdA9OilQeZXeP3wVu4RZ
+ hkyw==
+X-Gm-Message-State: AOAM532SC3Sq2IC/ouMbm34WJ5ca2jbECYEKxdvucCyhv6pNSQeG06iZ
+ yLew962vjftIEVtJDc9R1v5r75XAKHrc7JyTL1ye5A==
+X-Google-Smtp-Source: ABdhPJziucl+ehz8bumj0qGRtg9hlPYLE49rUR9Yzk8G2HBeQ2dbaUBvxe4+EpHNecjDA7oGH71XuqxmwvxIFfYz/d4=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr59186286ywf.347.1653914533542; Mon, 30
+ May 2022 05:42:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220523204742.740932-1-richard.henderson@linaro.org>
+ <20220523204742.740932-3-richard.henderson@linaro.org>
+In-Reply-To: <20220523204742.740932-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 May 2022 13:42:02 +0100
+Message-ID: <CAFEAcA-LSsie827BDdwjikBSsWrp5=XFD67_Gfx1D+eE55viUA@mail.gmail.com>
+Subject: Re: [PATCH 02/18] target/arm: Use arm_current_el for simple exceptions
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,24 +83,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, 23 May 2022 at 21:49, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> For these cases, the syndrome does not depend on the
+> origin or target EL, so we can simply defer selection
+> of the target EL to raise_exception.
 
-diff --git a/meson.build b/meson.build
-index bf318d9cbb..011cd2ff6b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3285,6 +3285,7 @@ foreach m : block_mods + softmmu_mods
-                 install: true,
-                 install_dir: qemu_moddir)
- endforeach
-+alias_target('modules', emulator_modules)
- 
- softmmu_ss.add(authz, blockdev, chardev, crypto, io, qmp)
- common_ss.add(qom, qemuutil)
--- 
-2.36.1
+The commit message says "defer to raise_exception()", but
+that would mean passing 0 as the cur_or_target_el, which
+mostly these changes aren't doing.
 
+Instead it looks like what we're relying on is that
+if arm_current_el() != 0 then exception_target_el() == arm_current_el(),
+and if arm_current_el() is 0 then raise_exception() will
+call exception_target_el() for us. Which is true, but not
+really what the commit message is saying.
+
+-- PMM
 
