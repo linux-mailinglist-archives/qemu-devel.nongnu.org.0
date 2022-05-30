@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811D55387C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:36:19 +0200 (CEST)
-Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9B95387CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:41:17 +0200 (CEST)
+Received: from localhost ([::1]:53464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlBa-0004ur-3Q
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33134)
+	id 1nvlGN-000809-5c
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nvl75-0003Ad-O0; Mon, 30 May 2022 15:31:40 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:37795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nvl73-0007BS-MZ; Mon, 30 May 2022 15:31:39 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 07E2F5C01AD;
- Mon, 30 May 2022 15:31:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 30 May 2022 15:31:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1653939092; x=1654025492; bh=fD
- XnaNudkg0FCqSyqoFHblaNjjzIKSyPhByQ8zNxPFo=; b=ZmYRLNXhV/MhXuQIHb
- qTAN73gF/VortcKe6SIeiGlKapWTVtB0tTLc5KxlOIyhX+iJDwLX7y37aGk8Z2v+
- rRILku8ygWJ3w54qXGILUPc38J4rgv6PPV9BF7ImrKlwg2l3KHxCWmiynnzTw2yk
- EEmB0PzSKu6o2P5nIs2edC8zaNjyY+/BVk+XZ5Wbahsy1DtdHDJ7XWHi5eBcV/O3
- 1xHoi+fEKFuM/aMdo5Kr7BJCVSWrVRshZkJbzP6FdBuZB2Wj1PWTUYOJ84MxgL1C
- uBiFOEEU9G/Q/jKcq8B9HhhMr19Cj8GbG05ltxOSUkY54cHTa00zRUccxg9wA0F5
- vqJw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1653939092; x=1654025492; bh=fDXnaNudkg0FCqSyqoFHblaNjjzI
- KSyPhByQ8zNxPFo=; b=CY/otzmvlEdWWJRXJMzSAej159Eg3Ohmpeqiywm4a+oJ
- 56uHlJXHSw2aSd4Hy+ogTYSK1yARoKx6lja28aSuG3E0Ed2oJ18dMKGDkSV8AW0L
- OVn6ZkNmzUg2ZCNKXXZ0pqI4pMkCFei1GH0s7ZCrtk5tWALK6jc+bQEwd/ktRiZs
- opE8pjcC6cDI/WjaFP2JNj4abYoZDdozCLGklI7qIFKPO+eWFLKxW6KGbfXWO1Jg
- Dz4vJbE9umk3t3WYBX1ByFunXFb2ZHHQaeoK/cWW2+SAG4kcSrIlUgItJfHkbuOv
- cTy7oWN4Mc3iVNRS/XLldk7ShT7beijJt7X4T/oYRQ==
-X-ME-Sender: <xms:khuVYorZfjV4SFAGt-osEMI6EXCTSCM1w5mEyn4XOnjhyYbc0Q-gZw>
- <xme:khuVYuq3oj0UOnjT38UvFKhHQJ51Xch_kgzEUUrif_bK3mTkZ4S9TWw_UVaUcYome
- DqL2ftVGl9MBAjM6Ek>
-X-ME-Received: <xmr:khuVYtPinN497sUXX9ZAYbyXYiwQ1hVrkQxXPw6sPy7LFz0HNyb5ZV9ZAbi7inJgYc73AbSFQdXJ5csypw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigddufeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:khuVYv6R_RWXCN5K1pyqF23lXqaD9M-4QyLj8CUJqP8l-_HIfHI_Tw>
- <xmx:khuVYn4hjUSeCfGnyL2aamxUXyfFjTQYRjpB_kW0E43d2496Wfp87A>
- <xmx:khuVYvgSPaExe8lNuUiIiukh22UgUkFzt5SKVY87-al0M-yo3VBOhg>
- <xmx:lBuVYtTCTrVN9QV8FmKz2YxGJJCkHagNDgafVG46OCOdATJFMkiaRg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 May 2022 15:31:29 -0400 (EDT)
-Date: Mon, 30 May 2022 21:31:27 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Cc: qemu-devel@nongnu.org, libvir-list@redhat.com,
- Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH] hw/nvme: deprecate the use-intel-id compatibility
- parameter
-Message-ID: <YpUbj1WDrGDBFc8d@apples>
-References: <20220429054149.2169473-1-its@irrelevant.dk>
- <fc24ead8-4495-f67d-6fb0-c2d11bf94684@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvlDf-0005yg-FC; Mon, 30 May 2022 15:38:27 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:45869)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvlDd-0008AO-GY; Mon, 30 May 2022 15:38:27 -0400
+Received: by mail-pg1-x529.google.com with SMTP id a63so4704429pge.12;
+ Mon, 30 May 2022 12:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vRWqlDxP9/kx8Mzwjk8k/mZThb7Cmqy3AeRT8l+rQ0M=;
+ b=DftO1eVJJ9QcFl4RYKCoGxndfhvYgkD9TAlyLTgNymrw7rN5fL5ODH/OK8ZHmEsXxj
+ Gmulx4s2rx4oiGfCZthH8cjMZG6L8ogPNLlg+EJH+A8OOSot+axdBz3lGV7f4BenGpkm
+ xU7wJx8BDKjhtZ2lj6+IYFgBNAGZ0AvhGA6r204zCwD/ky+378ZcvwGWoHpMEfWzM4z+
+ yuNu/X8WLcK0VUsHQVqDeCHODwaSStVABNdsGVlkxe90dGXCopEgF4kvuD60Iqx2Chrv
+ ozRGRbtgoouwa2eunzV5dUUiGn4E06CyhFlcmaH/swYxPZfikjWjCIHhJoVu3S15SRIj
+ FnkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vRWqlDxP9/kx8Mzwjk8k/mZThb7Cmqy3AeRT8l+rQ0M=;
+ b=jtOMs1j/CBF/WiW4YpScUSBkxkwCIAy+N8UGrAQt6FxddxF44xiDaL05IbGoZV24ep
+ CS/IzykX+SJSiTwnP8SCt9miDLnRSsp5Y0RopRA2u7NErDFt5tcUJEtuqPmibMgFk2mR
+ A5acFnsLFdtHvTB+gmk35rXboitDPaKNEJuAsEQ8pamPjB7bhdPqDdpgxKssBzpwHbUM
+ TXD/6rTBPY8D8Yk033ammw08LaautWL+UWsXChT7BcbZB+5etov9P5mPJHei51VB6rTL
+ +aCJ9WG6GzSL4WkkKT5EQm9q0igpElnsCg8svAjkAnwl9VmIDEDLBxFt7h2DXkC2SCHq
+ 8Gng==
+X-Gm-Message-State: AOAM531itnoHjmusRBlyTDyxPDovaNDFbYR1y/9Gp756gHpOjwGpyFTh
+ H1m0DOgBGo1eIG5ph89X5228gYD6Gxg=
+X-Google-Smtp-Source: ABdhPJy+OhODP1vbQXOw/W39Q/z2xFmKEbFdiCXQSPZ7VLYYWuOqYGt2I7m+yd0PWpEOuOSE4ygMZw==
+X-Received: by 2002:a65:5c0c:0:b0:3fa:b2c0:7935 with SMTP id
+ u12-20020a655c0c000000b003fab2c07935mr27921923pgr.600.1653939503379; 
+ Mon, 30 May 2022 12:38:23 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ m3-20020a17090a2c0300b001cd4989ff42sm84137pjd.9.2022.05.30.12.38.20
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 30 May 2022 12:38:22 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v2 00/25] hw/sd: Rework models for eMMC support
+Date: Mon, 30 May 2022 21:37:51 +0200
+Message-Id: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="awec9+3QSjqRXJOL"
-Content-Disposition: inline
-In-Reply-To: <fc24ead8-4495-f67d-6fb0-c2d11bf94684@amsat.org>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,70 +90,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
---awec9+3QSjqRXJOL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Rebase/respin of Cédric RFC:
+https://lore.kernel.org/qemu-devel/20220318132824.1134400-1-clg@kaod.org/
+(sorry it took me so long guys...)
 
-On May 30 16:37, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 29/4/22 07:41, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Since version 5.2 commit 6eb7a071292a ("hw/block/nvme: change controller
-> > pci id"), the emulated NVMe controller has defaulted to a non-Intel PCI
-> > identifier.
-> >=20
-> > Deprecate the compatibility parameter so we can get rid of it once and
-> > for all.
-> >=20
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >   docs/about/deprecated.rst | 8 ++++++++
-> >   1 file changed, 8 insertions(+)
-> >=20
-> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> > index 896e5a97abbd..450f945ac25f 100644
-> > --- a/docs/about/deprecated.rst
-> > +++ b/docs/about/deprecated.rst
-> > @@ -356,6 +356,14 @@ contains native support for this feature and thus =
-use of the option
-> >   ROM approach is obsolete. The native SeaBIOS support can be activated
-> >   by using ``-machine graphics=3Doff``.
-> > +``-device nvme,use-intel-id=3Don|off`` (since 7.1)
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +The ``nvme`` device originally used a PCI Vendor/Device Identifier com=
-bination
-> > +from Intel that was not properly allocated. Since version 5.2, the con=
-troller
-> > +has used a properly allocated identifier. Deprecate the ``use-intel-id=
-``
-> > +machine compatibility parameter.
-> > +
-> >   Block device options
-> >   ''''''''''''''''''''
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Pushed at https://gitlab.com/philmd/qemu/-/commits/emmc-v2
 
-Thanks!
+I plan to queue patches 1-12 via sdmmc-next later this week.
 
-Applied to nvme-next.
+Cédric, if you are happy with this series, it should be easy to rebase
+your other patches on top and address the comments I left on the RFC :)
 
---awec9+3QSjqRXJOL
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Phil.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKVG3kACgkQTeGvMW1P
-DenNSQf/fn677Avk9WrJ9QWHctFRqkv7TPcrnhfW1GD5gtiX0gErnQB9FxtEZTmS
-gQW4ffB7kOP6Itw89NMh6E99Mz+STLl6fVfEH61oOOlh+ZGdAT1WoS9NW/uEWI/S
-AZDzOLkBYLDjebjhnBd7sOTJluUb7wHu2Q+rsOPkTVFR/9O4QbQ7D4LSPtNovD/r
-IzFPhVbXhQ4kNb8fHKgqKfoteM0EcnWF9B5u554Rnpt6qqAg009Qu8fwUrtbY3pq
-RZv6NjUZizab4BOHArkYmGoXnK1gulSmq50RFtB4VQSFDrjAXI6LTzEWPtCKXMRF
-/QnvEX9nDWhH1mvVxSqUlkaBlZdtjA==
-=5Jnm
------END PGP SIGNATURE-----
+Cédric Le Goater (6):
+  hw/sd: Add sd_emmc_cmd_SEND_OP_CMD() handler
+  hw/sd: Add sd_emmc_cmd_ALL_SEND_CID() handler
+  hw/sd: Add sd_emmc_cmd_SEND_RELATIVE_ADDR() handler
+  hw/sd: Add sd_emmc_cmd_APP_CMD() handler
+  hw/sd: add sd_emmc_cmd_SEND_TUNING_BLOCK() handler
+  hw/sd: Add sd_emmc_cmd_SEND_EXT_CSD() handler
 
---awec9+3QSjqRXJOL--
+Joel Stanley (4):
+  hw/sd: Add sd_cmd_SEND_TUNING_BLOCK() handler
+  hw/sd: Support boot area in emmc image
+  hw/sd: Subtract bootarea size from blk
+  hw/sd: Add boot config support
+
+Philippe Mathieu-Daudé (13):
+  hw/sd/sdcard: Return ILLEGAL for CMD19/CMD23 prior SD spec v3.01
+  hw/sd: When card is in wrong state, log which state it is
+  hw/sd: When card is in wrong state, log which spec version is used
+  hw/sd: Move proto_name to SDProto structure
+  hw/sd: Introduce sd_cmd_handler type
+  hw/sd: Add sd_cmd_illegal() handler
+  hw/sd: Add sd_cmd_unimplemented() handler
+  hw/sd: Add sd_cmd_GO_IDLE_STATE() handler
+  hw/sd: Add sd_cmd_SEND_OP_CMD() handler
+  hw/sd: Add sd_cmd_ALL_SEND_CID() handler
+  hw/sd: Add sd_cmd_SEND_RELATIVE_ADDR() handler
+  hw/sd: Add sd_cmd_SET_BLOCK_COUNT() handler
+  hw/sd: Basis for eMMC support
+
+Sai Pavan Boddu (2):
+  hw/sd: Add CMD21 tuning sequence
+  hw/sd: Add mmc switch function support
+
+ hw/sd/sd.c             | 645 +++++++++++++++++++++++++++++++++--------
+ hw/sd/sdmmc-internal.c |   2 +-
+ hw/sd/sdmmc-internal.h |  97 +++++++
+ include/hw/sd/sd.h     |   7 +
+ 4 files changed, 627 insertions(+), 124 deletions(-)
+
+-- 
+2.36.1
+
 
