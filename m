@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2388A538750
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 20:31:42 +0200 (CEST)
-Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4472853873C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 20:25:40 +0200 (CEST)
+Received: from localhost ([::1]:52068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvkB2-0005fC-Oa
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 14:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
+	id 1nvk5C-00072O-R2
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 14:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvjNf-0000C6-FP; Mon, 30 May 2022 13:40:42 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:46848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvjNd-00054G-Kp; Mon, 30 May 2022 13:40:39 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id j6so11064364pfe.13;
- Mon, 30 May 2022 10:40:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fsjL9jyPpQ6LCmLFCrwYCqtM2ZVnjgs4WTjxA9p/ilA=;
- b=Yn16/tv94zkVPQJ3DEd0C3/iByhrvAPvvsUB2JsMRIvHb633VcNVJL7Cn2D2DZoRdx
- 9Ev/nmyMc1dHPj0ZfAgqg77erJvfXmR4fK4WhquNq7XM15zHaiTKCReBkcOJTHT4DrPc
- x1Kak494pgac2dW7mHHHKGwhRg8yqyOAzA4AyYFT/3mL12kJAlRGTieiaKzd6WEaq67E
- BLPxmTo24eMGkxczsP9ixe6J1CwW6A9FtjaymuUgGOSrvznza5r4YZGlV7QtmAxnn1Yq
- RIh17u59F4UKHJ3UTS/eVEenbBmWCCko+BhQoEmuQKMvvuqSQbVEylKMP/TaCurggWc4
- Eqyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fsjL9jyPpQ6LCmLFCrwYCqtM2ZVnjgs4WTjxA9p/ilA=;
- b=N1JQTFzo2oDLuAu86k+PeNplVJb71PMW7EdoIGnfn75SKfoy00JG6sv0L251hQB0CE
- DVyE608offpyFof6Ehz6T6isRQevVauSQs3O1bNSxxrQRp1Xr/ML48N4+CmSXu0WriQF
- FyGxdYy/UGwX5pODQLiRyg1jQtP6+XQQDUN3QKfmJRwBZQoANYigvR0DkrvDZPhN5Sn+
- EesIOaZyU0s7iu7beUq9Qb8XAazbr19JqdEa8ssL+bBrhWtKIPkLJYzjJd0/u+7nttXZ
- oHiBV9UNIqkDPuDvFs+nXtDQbXshnEkHzzH/UcHWKZApQYNAm4G3rH+QrDpuCtLQiw3I
- 0+bg==
-X-Gm-Message-State: AOAM532DQ/voRvkyLZCN8xafK3Hce/KS2UbmAtkoUtmUjVOD6R0Uav8T
- S98BPBpiNoHaweMUgWDLQqc=
-X-Google-Smtp-Source: ABdhPJwrcLgDvsmWm/VJvMogCI5iDxPqvTwTx/4z+Siwkq3FRydMltuG3w6AcIQqeGLzIz66oFzwIQ==
-X-Received: by 2002:a05:6a00:a94:b0:4fd:c14b:21cb with SMTP id
- b20-20020a056a000a9400b004fdc14b21cbmr58003786pfl.53.1653932435766; 
- Mon, 30 May 2022 10:40:35 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 7-20020a621407000000b0050dc76281bfsm8991880pfu.153.2022.05.30.10.40.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 10:40:35 -0700 (PDT)
-Message-ID: <bd3df6e1-62f9-04b6-f288-b12e6860ddaa@amsat.org>
-Date: Mon, 30 May 2022 19:40:30 +0200
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nvjXO-0001Xk-Ma
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 13:50:42 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nvjXL-0006Vd-8W
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 13:50:42 -0400
+Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LBjbc4Z61z6H6qH;
+ Tue, 31 May 2022 01:49:48 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 30 May 2022 19:50:35 +0200
+Received: from localhost (10.81.211.14) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 30 May
+ 2022 18:50:34 +0100
+Date: Mon, 30 May 2022 18:50:32 +0100
+To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, <alex.bennee@linaro.org>, 
+ Marcel Apfelbaum <marcel@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Adam Manzanares
+ <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>
+CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>, <f4bug@amsat.org>, Peter Xu
+ <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah
+ <shreyas.shah@elastics.cloud>, Chris Browy <cbrowy@avery-design.com>,
+ "Samarth Saxena" <samarths@cadence.com>, Dan Williams
+ <dan.j.williams@intel.com>, <k.jensen@samsung.com>, <dave@stgolabs.net>,
+ Alison Schofield <alison.schofield@intel.com>
+Subject: Re: [PATCH v10 02/45] hw/cxl/component: Introduce CXL components
+ (8.1.x, 8.2.5)
+Message-ID: <20220530185032.00003723@Huawei.com>
+In-Reply-To: <20220429144110.25167-3-Jonathan.Cameron@huawei.com>
+References: <20220429144110.25167-1-Jonathan.Cameron@huawei.com>
+ <20220429144110.25167-3-Jonathan.Cameron@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [RFC PATCH 11/17] hw/sd: Add eMMC support
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Cc: Vincent Palatin <vpalatin@chromium.org>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- Joel Stanley <joel@jms.id.au>
-References: <20220318132824.1134400-1-clg@kaod.org>
- <20220318132824.1134400-12-clg@kaod.org>
-In-Reply-To: <20220318132824.1134400-12-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.81.211.14]
+X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,55 +83,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 18/3/22 14:28, Cédric Le Goater wrote:
-> The initial eMMC support from Vincent Palatin was largely reworked to
-> match the current SD framework. The parameters mimick a real 4GB eMMC,
-> but it can be set to various sizes.
-> 
-> This adds a new QOM object class for EMMC devices.
-> 
-> Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
-> Link: https://lore.kernel.org/r/1311635951-11047-5-git-send-email-vpalatin@chromium.org
-> [ jms: - Forward ported to QEMU 5.2 ]
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> [ clg: - ported on aspeed-7.0 patchset
->         - HPI activation ]
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   hw/sd/sdmmc-internal.h |  97 +++++++++++++++++++
->   include/hw/sd/sd.h     |   9 ++
->   hw/sd/sd.c             | 205 ++++++++++++++++++++++++++++++++++++++++-
->   hw/sd/sdmmc-internal.c |   2 +-
->   4 files changed, 311 insertions(+), 2 deletions(-)
+On Fri, 29 Apr 2022 15:40:27 +0100
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
+> From: Ben Widawsky <ben.widawsky@intel.com>
+>=20
+> A CXL 2.0 component is any entity in the CXL topology. All components
+> have a analogous function in PCIe. Except for the CXL host bridge, all
+> have a PCIe config space that is accessible via the common PCIe
+> mechanisms. CXL components are enumerated via DVSEC fields in the
+> extended PCIe header space. CXL components will minimally implement some
+> subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
+> 2.0 specification. Two headers and a utility library are introduced to
+> support the minimum functionality needed to enumerate components.
+>=20
+> The cxl_pci header manages bits associated with PCI, specifically the
+> DVSEC and related fields. The cxl_component.h variant has data
+> structures and APIs that are useful for drivers implementing any of the
+> CXL 2.0 components. The library takes care of making use of the DVSEC
+> bits and the CXL.[mem|cache] registers. Per spec, the registers are
+> little endian.
+>=20
+> None of the mechanisms required to enumerate a CXL capable hostbridge
+> are introduced at this point.
+>=20
+> Note that the CXL.mem and CXL.cache registers used are always 4B wide.
+> It's possible in the future that this constraint will not hold.
+>=20
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> Reviewed-by: Adam Manzanares <a.manzanares@samsung.com>
 
-> +static void emmc_class_init(ObjectClass *klass, void *data)
+FYI on a bug, in case anyone else hits it.
+
+> +static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk)
 > +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    SDCardClass *sc = SD_CARD_CLASS(klass);
+> +    int decoder_count =3D 1;
+> +    int i;
 > +
-> +    dc->desc = "eMMC";
-> +    sc->proto = &sd_proto_emmc;
-> +    sc->spec_version = SD_PHY_SPECv3_01_VERS; /* eMMC requirement */
-> +    sc->set_csd = sd_emmc_set_csd;
-> +}
-> +
-> +static const TypeInfo emmc_info = {
-> +    .name = TYPE_EMMC,
-> +    .parent = TYPE_SD_CARD,
+> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, DECODER_COUN=
+T,
+> +                     cxl_decoder_count_enc(decoder_count));
+> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT=
+, 1);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, INTERLEAVE_2=
+56B, 1);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, INTERLEAVE_4=
+K, 1);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, POISON_ON_ER=
+R_CAP, 0);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_GLOBAL_CONTROL,
+> +                     HDM_DECODER_ENABLE, 0);
+> +    write_msk[R_CXL_HDM_DECODER_GLOBAL_CONTROL] =3D 0x3;
+> +    for (i =3D 0; i < decoder_count; i++) {
+> +        write_msk[R_CXL_HDM_DECODER0_BASE_LO + i * 0x20] =3D 0xf0000000;
+> +        write_msk[R_CXL_HDM_DECODER0_BASE_HI + i * 0x20] =3D 0xffffffff;
+> +        write_msk[R_CXL_HDM_DECODER0_SIZE_LO + i * 0x20] =3D 0xf0000000;
+> +        write_msk[R_CXL_HDM_DECODER0_SIZE_HI + i * 0x20] =3D 0xffffffff;
+> +        write_msk[R_CXL_HDM_DECODER0_CTRL + i * 0x20] =3D 0x13ff;
 
-Hmm this is odd to have the model inheriting features from SD_CARD but 
-then behaving differently (one could enumerate QDEV objects implementing
-TYPE_SD_CARD then use them expecting they match the SD card protocol).
+For some unknown reason I missed write masks for the target lists in here.
+It was hidden from superficial testing by a bug in the kernel code I was us=
+ing
+that mean these were mostly written to 0.
 
-Why do you need to have TYPE_SD_CARD as parent?
+I'll send a fix out tomorrow (just adds 0xffffffff masks for each of the
+target registers).
 
-Could we simply duplicate sd_class_init() assignations instead? That
-would likely make it easier to modify eMMC handlers.
+Given issues I'm seeing in testing around HDM decoder programming I'll look
+to follow that up with a patch adding some more rigorous checking of the
+values on commit.
 
-> +    .class_init = emmc_class_init,
-> + };
+Jonathan
 
