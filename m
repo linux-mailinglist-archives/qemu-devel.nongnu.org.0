@@ -2,64 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABCF537E4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 15:58:27 +0200 (CEST)
-Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2170E537E64
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 16:06:22 +0200 (CEST)
+Received: from localhost ([::1]:59434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvfuc-0007ap-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 09:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35632)
+	id 1nvg2H-0004EA-7t
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 10:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nvfln-0001xG-Ot
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:49:20 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nvflm-0000xI-65
- for qemu-devel@nongnu.org; Mon, 30 May 2022 09:49:19 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LBc942Y5kz6GD8p;
- Mon, 30 May 2022 21:44:56 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 30 May 2022 15:49:16 +0200
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 30 May 2022 14:49:15 +0100
-To: Paolo Bonzini <pbonzini@redhat.com>, <qemu-devel@nongnu.org>, "Michael S .
- Tsirkin" <mst@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>, "Mark
- Cave-Ayland" <mark.cave-ayland@ilande.co.uk>, Adam Manzanares
- <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>, Ben Widawsky
- <ben.widawsky@intel.com>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>
-Subject: [PATCH 8/8] hw/machine: Drop cxl_supported flag as no longer useful
-Date: Mon, 30 May 2022 14:45:14 +0100
-Message-ID: <20220530134514.31664-9-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220530134514.31664-1-Jonathan.Cameron@huawei.com>
-References: <20220530134514.31664-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvfqc-0001Wq-AH
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 09:54:18 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:45035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvfqa-0001s6-PC
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 09:54:17 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ pq9-20020a17090b3d8900b001df622bf81dso10799018pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 06:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LGem/3S3lEGDL2XWa7VFTGF8gOogoc6MjaLmOlIx2Cc=;
+ b=nClSZvmhgewrkRhWTnJyCPr83kJZCuu6QKkv8FNdcfd5pMPTCPNgmXqy5TnrBX9ydE
+ Y/V8A/bKLpLnAoJfbLvAxJ9MQKQg7tbNCk7BKWX8JVCHQCQKa1xd1HMOrwj21VR7fGV2
+ /TfxJSa0YIJePhOuFGgeP78LRT4LIYLeOhWDU8ZrzogyFRp4RzO3epAchHFAeMTgINGA
+ uV8+2PwMjPQjsuLjocwKljcqpc0HA6iGPvgFWHAHUnDMUNWjzPwZmjFILXZeFo/8nKYX
+ HWR8GZBBWk95jmTN9fKxnaCry+hZ6S6odZiUdkyeArOigeA4Fpt4Zb0ZLna0DggvkNGt
+ TEEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LGem/3S3lEGDL2XWa7VFTGF8gOogoc6MjaLmOlIx2Cc=;
+ b=TA/Gh2rUiuXNSsW694wqvoRKtmlPIFAgNVxiFfF9kvkuNUknskArNtv87t13eDZkR9
+ rXmscCKrw2C6hlMbEiCPSzPQZENj/063mQZcxWv8R7gJPBI8QCHd2Vo73PU29AF+z/uM
+ c66hx8oxO4kh40RJtmUgcbXE5UZWBsp5rlIIeZqPi2UoCQid47wdrmK/HeV5Ty2TVjEQ
+ 6iD5fsfjFyj40+fayW29BTR8wPPWjTkgd9yClKZN4tGHemQHxXfLrChR7Q/mzNkkjBt2
+ ymguzur/TjzFuHpPSk/NaAjCg7VnZFwm3lxFlP1Gu6IqSmv/c3SiGs4beKJbGIATATMh
+ F7Nw==
+X-Gm-Message-State: AOAM531l1G0CSgKCMR5vg36HmemEyCfzBzHu3nu7Dki9utoIMfjyFFu8
+ FgeAHyAumcOX42qT9+XTx8U=
+X-Google-Smtp-Source: ABdhPJwsfTOmTwFmzhCxBJPTkl3f52A9XJfsXYSnc2+i2n48/xfIg4MFLeBInfzK0a26pubsMJwnCw==
+X-Received: by 2002:a17:90b:3884:b0:1df:d9d5:314b with SMTP id
+ mu4-20020a17090b388400b001dfd9d5314bmr23660834pjb.221.1653918855428; 
+ Mon, 30 May 2022 06:54:15 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ a186-20020a624dc3000000b0050dc7628171sm3288277pfb.75.2022.05.30.06.54.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 06:54:14 -0700 (PDT)
+Message-ID: <d01e2c78-eb41-d112-6f70-8694f24887ee@amsat.org>
+Date: Mon, 30 May 2022 15:54:11 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH 1/4] target/mips: Fix SAT_S trans helper
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ nihui <shuizhuyuanluo@126.com>, qemu-devel@nongnu.org
+References: <20220503130708.272850-1-shuizhuyuanluo@126.com>
+ <e263efa0-58ea-25f2-7132-849fdbdfc2b4@linaro.org>
+In-Reply-To: <e263efa0-58ea-25f2-7132-849fdbdfc2b4@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml713-chm.china.huawei.com (10.201.108.64) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,43 +94,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-As all the CXL elements have moved to boards that support
-CXL, there is no need to maintain a top level flag.
+On 3/5/22 17:11, Richard Henderson wrote:
+> On 5/3/22 06:07, nihui wrote:
+>> From: Ni Hui <shuizhuyuanluo@126.com>
+>>
+>> Fix the SAT_S and SAT_U trans helper confusion.
+>>
+>> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+>> ---
+>>   target/mips/tcg/msa_translate.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/mips/tcg/msa_translate.c 
+>> b/target/mips/tcg/msa_translate.c
+>> index 7576b3ed86..76307102f2 100644
+>> --- a/target/mips/tcg/msa_translate.c
+>> +++ b/target/mips/tcg/msa_translate.c
+>> @@ -399,7 +399,7 @@ TRANS(BSETI,    trans_msa_bit, 
+>> gen_helper_msa_bseti_df);
+>>   TRANS(BNEGI,    trans_msa_bit, gen_helper_msa_bnegi_df);
+>>   TRANS(BINSLI,   trans_msa_bit, gen_helper_msa_binsli_df);
+>>   TRANS(BINSRI,   trans_msa_bit, gen_helper_msa_binsri_df);
+>> -TRANS(SAT_S,    trans_msa_bit, gen_helper_msa_sat_u_df);
+>> +TRANS(SAT_S,    trans_msa_bit, gen_helper_msa_sat_s_df);
+>>   TRANS(SAT_U,    trans_msa_bit, gen_helper_msa_sat_u_df);
+>>   TRANS(SRARI,    trans_msa_bit, gen_helper_msa_srari_df);
+>>   TRANS(SRLRI,    trans_msa_bit, gen_helper_msa_srlri_df);
+> 
+> Cc: phil
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/i386/pc.c        | 1 -
- include/hw/boards.h | 1 -
- 2 files changed, 2 deletions(-)
+Oops my bad...
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 19420b043b..d530d9eac8 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1817,7 +1817,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported = true;
-     mc->smp_props.dies_supported = true;
--    mc->cxl_supported = true;
-     mc->default_ram_id = "pc.ram";
- 
-     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 031f5f884d..d94edcef28 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -269,7 +269,6 @@ struct MachineClass {
-     bool ignore_boot_device_suffixes;
-     bool smbus_no_migration_support;
-     bool nvdimm_supported;
--    bool cxl_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
-     SMPCompatProps smp_props;
--- 
-2.32.0
+Fixes: 4701d23aef ("target/mips: Convert MSA BIT instruction format to 
+decodetree")
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+And queued to mips-next.
 
