@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15D05386B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:20:21 +0200 (CEST)
-Received: from localhost ([::1]:32772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F002B5386C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:33:06 +0200 (CEST)
+Received: from localhost ([::1]:35850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvj40-0006hL-SJ
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39474)
+	id 1nvjGL-0002kD-Po
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:33:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwF-0003qo-CY
+ id 1nvhwI-0003r9-Em
  for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:26 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35748)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwA-0007MD-RS
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:12 -0400
-Received: by mail-wr1-x434.google.com with SMTP id q21so4089541wra.2
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:08:10 -0700 (PDT)
+ id 1nvhwC-0007MM-9k
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:17 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id u3so15272110wrg.3
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SRfsh9/+yXCD5jUQIGsKMcU3hZ/ekrvMQwtiv+KkcFk=;
- b=ujQCyAmi4fJVD4dJIP+ZMLXpesCmkk0totjYTb3kKum22CNSwQkX6jnVaxVLmGTBkx
- pavztesEPWQ2g0tRGkT6twoQLfjiJSwustwfwp6//w7GcKPG1/dWZD6s56ZmWW2FbDfl
- T7AA/spjxwv2RTmcj0EU4nq2+UX38cJSjzO7IUsePZZql0/RtDF7XCPErNZzohYajaUU
- D75MA+VrMpF+vBLbLtj+0nAqqOxUwgHRVBoS4n6xzbwhZLNp80YfJgJ6m125QJUpGU1b
- 8oJMG5y3jvd6uN5hiPOze2qgyFkSlisopf9qEaLowp/ZkAS94Py7RRrXziXLa0iw44I5
- +OqA==
+ bh=Eb1liHNMAWKwhqUeBid/UlGEz6S97F/+Fydx9EWhKYI=;
+ b=kUU2O71QXH3mhvWa1KUr6cz4zQKIzY+gVXOE2o70+yQNWzCkvlAw0DxbVhPntHQktD
+ KJqYfqH9u85mIot4fw0xNH26dqLqxQPxBAnUyBG5tViGbAXHOd3hzAdsZEit7v38x6Fr
+ cAWcbP320EDg6a3VaHo86aJAxlN6EV+Tgta6jKmD168asEOzd8UshhxB/7dPLBHaK4I3
+ xncFPc1YVsasnZ8EoUF5ro3ULZFD+lSc1uEx+cdvJA1+NBs0v5CkcCnS37md1oCZ5IRB
+ ZoloZDatz7TUzhoqiqFyn7igbxAQotimGYii6Yjqnw5fTws3rGLbIXGLo4cAZLOJPeUk
+ kYeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SRfsh9/+yXCD5jUQIGsKMcU3hZ/ekrvMQwtiv+KkcFk=;
- b=MqwhUT8QEmR+UcouShKmKDwr7gY3KVxXL8fcBt8ajb8bHo5oAKIbMyQbJydKjiSyqi
- WRQ3CLHWqJrYiEsQa6thF3jh1Lq0sBsxy5Q7hVKZohMQQFjxKpjbR4Bk2j8/5aL7AwyJ
- xEqc2deAoBPI6D04q11hDpyMl6vVtYcoCMnQtkapm4AwLrGrVcRI+4NrLSkHiQNO0xRO
- NV5PTVv4E+zStjtb3Sgg5GS8I7RBT7GiJwZeu25gF41Yj9Y8u/XPVzfbqEstxf0Lopzs
- Vrr55R3FjoTr1jLroTdOdnIkF9quHhUMfbEu31NkWtn/8Sjl/2jNzc/0TO0pj7hDq/GE
- q01w==
-X-Gm-Message-State: AOAM5309q3pgrFaq2+WG5eMNdMnD8ZihJmbfZo9Q1UkM7+0TRujx+Fa8
- f9l27IyMnDMHKC+VtlvVwH7t/fxeDTTw/Q==
-X-Google-Smtp-Source: ABdhPJyVHq3kO4WYUoOAxv3RyyHRI6xQnDkq4QThpXMdqGCuL/ait6i2qJOEKbYJ9CHz6GrQaKSG+A==
-X-Received: by 2002:adf:e0c3:0:b0:20c:5672:9577 with SMTP id
- m3-20020adfe0c3000000b0020c56729577mr45681556wri.466.1653926889475; 
- Mon, 30 May 2022 09:08:09 -0700 (PDT)
+ bh=Eb1liHNMAWKwhqUeBid/UlGEz6S97F/+Fydx9EWhKYI=;
+ b=jajR7anAhWB8J7tbZF/DxujSwAYbZJx9TbhBz6PtfbhTnN2idfuzRAXAtrYxG1k1n0
+ wuzBA1T0aJ7SP1NBlMzk+yX27aKEnHv5okmr70wen20iOWisk5iK5VLgPEkImJfsVbMW
+ 2sHYRZpzV3Jp0QZUAGPH9C0RGaJHjKpRVzkREZzRF9BntKG4xRV9ovYfvgiS9FM+voCR
+ GHnV4H+QLGcTY78OrswVDd6PIyKYBG85WjNkaPBhNRExEUNCbCPEd79pagZvko4IfbJR
+ 1e+fXRMF+ovAStLENxC1eb5j0+2HPLG0GWgE5Qk6jMWl2AcVNPoFdKCem7Jb3AWsLvlG
+ TGSA==
+X-Gm-Message-State: AOAM530CNSfqq8lV8ZCDZIgQu1XWXr+DyiASZBxAcTj83R0S+MBJvUg4
+ R8CZScOmSjC6IkGWa6mxF/Cs+w3vEthjQA==
+X-Google-Smtp-Source: ABdhPJxg80Yd5DmXY4Mrc5dvLCm3LL9U3eizDxoHmmg8BozyAzRaebqcnVJN26d74i2LGUglJuD4Bw==
+X-Received: by 2002:a5d:5847:0:b0:20f:dc2d:d6c8 with SMTP id
+ i7-20020a5d5847000000b0020fdc2dd6c8mr32475893wrf.644.1653926890250; 
+ Mon, 30 May 2022 09:08:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.08
+ bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 30 May 2022 09:08:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 061/117] target/arm: Use gen_gvec_ool_arg_zzz for do_zip,
- do_zip_q
-Date: Mon, 30 May 2022 17:06:12 +0100
-Message-Id: <20220530160708.726466-62-peter.maydell@linaro.org>
+Subject: [PULL 062/117] target/arm: Use TRANS_FEAT for do_zip, do_zip_q
+Date: Mon, 30 May 2022 17:06:13 +0100
+Message-Id: <20220530160708.726466-63-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,61 +90,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+Convert SVE translation functions using do_zip*
+to use TRANS_FEAT and gen_gvec_ool_arg_zzz.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220527181907.189259-59-richard.henderson@linaro.org
+Message-id: 20220527181907.189259-60-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ target/arm/translate-sve.c | 54 +++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 41 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index c2ced3e2bb1..75c52d8ce1e 100644
+index 75c52d8ce1e..7c9deb267fa 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -2293,16 +2293,10 @@ static bool do_zip(DisasContext *s, arg_rrr_esz *a, bool high)
-         gen_helper_sve_zip_b, gen_helper_sve_zip_h,
-         gen_helper_sve_zip_s, gen_helper_sve_zip_d,
-     };
-+    unsigned vsz = vec_full_reg_size(s);
-+    unsigned high_ofs = high ? vsz / 2 : 0;
+@@ -2287,48 +2287,20 @@ TRANS_FEAT(PUNPKHI, aa64_sve, do_perm_pred2, a, 1, gen_helper_sve_punpk_p)
+  *** SVE Permute - Interleaving Group
+  */
  
--    if (sve_access_check(s)) {
--        unsigned vsz = vec_full_reg_size(s);
--        unsigned high_ofs = high ? vsz / 2 : 0;
--        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
--                           vec_full_reg_offset(s, a->rn),
--                           vec_full_reg_offset(s, a->rm),
--                           vsz, vsz, high_ofs, fns[a->esz]);
+-static bool do_zip(DisasContext *s, arg_rrr_esz *a, bool high)
+-{
+-    static gen_helper_gvec_3 * const fns[4] = {
+-        gen_helper_sve_zip_b, gen_helper_sve_zip_h,
+-        gen_helper_sve_zip_s, gen_helper_sve_zip_d,
+-    };
+-    unsigned vsz = vec_full_reg_size(s);
+-    unsigned high_ofs = high ? vsz / 2 : 0;
++static gen_helper_gvec_3 * const zip_fns[4] = {
++    gen_helper_sve_zip_b, gen_helper_sve_zip_h,
++    gen_helper_sve_zip_s, gen_helper_sve_zip_d,
++};
++TRANS_FEAT(ZIP1_z, aa64_sve, gen_gvec_ool_arg_zzz,
++           zip_fns[a->esz], a, 0)
++TRANS_FEAT(ZIP2_z, aa64_sve, gen_gvec_ool_arg_zzz,
++           zip_fns[a->esz], a, vec_full_reg_size(s) / 2)
+ 
+-    return gen_gvec_ool_arg_zzz(s, fns[a->esz], a, high_ofs);
+-}
+-
+-static bool trans_ZIP1_z(DisasContext *s, arg_rrr_esz *a)
+-{
+-    return do_zip(s, a, false);
+-}
+-
+-static bool trans_ZIP2_z(DisasContext *s, arg_rrr_esz *a)
+-{
+-    return do_zip(s, a, true);
+-}
+-
+-static bool do_zip_q(DisasContext *s, arg_rrr_esz *a, bool high)
+-{
+-    unsigned vsz = vec_full_reg_size(s);
+-    unsigned high_ofs = high ? QEMU_ALIGN_DOWN(vsz, 32) / 2 : 0;
+-
+-    if (!dc_isar_feature(aa64_sve_f64mm, s)) {
+-        return false;
 -    }
--    return true;
-+    return gen_gvec_ool_arg_zzz(s, fns[a->esz], a, high_ofs);
- }
+-    return gen_gvec_ool_arg_zzz(s, gen_helper_sve2_zip_q, a, high_ofs);
+-}
+-
+-static bool trans_ZIP1_q(DisasContext *s, arg_rrr_esz *a)
+-{
+-    return do_zip_q(s, a, false);
+-}
+-
+-static bool trans_ZIP2_q(DisasContext *s, arg_rrr_esz *a)
+-{
+-    return do_zip_q(s, a, true);
+-}
++TRANS_FEAT(ZIP1_q, aa64_sve_f64mm, gen_gvec_ool_arg_zzz,
++           gen_helper_sve2_zip_q, a, 0)
++TRANS_FEAT(ZIP2_q, aa64_sve_f64mm, gen_gvec_ool_arg_zzz,
++           gen_helper_sve2_zip_q, a,
++           QEMU_ALIGN_DOWN(vec_full_reg_size(s), 32) / 2)
  
- static bool trans_ZIP1_z(DisasContext *s, arg_rrr_esz *a)
-@@ -2317,18 +2311,13 @@ static bool trans_ZIP2_z(DisasContext *s, arg_rrr_esz *a)
- 
- static bool do_zip_q(DisasContext *s, arg_rrr_esz *a, bool high)
- {
-+    unsigned vsz = vec_full_reg_size(s);
-+    unsigned high_ofs = high ? QEMU_ALIGN_DOWN(vsz, 32) / 2 : 0;
-+
-     if (!dc_isar_feature(aa64_sve_f64mm, s)) {
-         return false;
-     }
--    if (sve_access_check(s)) {
--        unsigned vsz = vec_full_reg_size(s);
--        unsigned high_ofs = high ? QEMU_ALIGN_DOWN(vsz, 32) / 2 : 0;
--        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
--                           vec_full_reg_offset(s, a->rn),
--                           vec_full_reg_offset(s, a->rm),
--                           vsz, vsz, high_ofs, gen_helper_sve2_zip_q);
--    }
--    return true;
-+    return gen_gvec_ool_arg_zzz(s, gen_helper_sve2_zip_q, a, high_ofs);
- }
- 
- static bool trans_ZIP1_q(DisasContext *s, arg_rrr_esz *a)
+ static gen_helper_gvec_3 * const uzp_fns[4] = {
+     gen_helper_sve_uzp_b, gen_helper_sve_uzp_h,
 -- 
 2.25.1
 
