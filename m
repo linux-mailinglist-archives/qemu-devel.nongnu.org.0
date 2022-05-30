@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677955386B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:22:18 +0200 (CEST)
-Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA6B5386CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:33:48 +0200 (CEST)
+Received: from localhost ([::1]:38478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvj5t-0002dD-H2
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:22:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
+	id 1nvjH1-0004f6-Rv
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwW-0003zs-9B
+ id 1nvhwa-00040U-B4
  for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:36 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35748)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwS-0007MD-Qu
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:31 -0400
-Received: by mail-wr1-x434.google.com with SMTP id q21so4089541wra.2
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:08:28 -0700 (PDT)
+ id 1nvhwU-0007Rd-34
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:32 -0400
+Received: by mail-wr1-x432.google.com with SMTP id k16so10945408wrg.7
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FD6w/7DiE3v3KE01pXoBFAU8YKoTVucpdCsqwe263ok=;
- b=rEiUAKorCPqUR4n/l2Emgzm3UblNYrzx/Zk6TqdMw3MCDx62+68my3+OoMt0TeZent
- iwN9wtBi3Qmekyd0Ls4hJD8wWfPc0gYEm5+kbH/bYECTi+G2TVgpH8VRjOTfdHvHvyZ/
- KlFSWtaIMxzOJ0pv4PBuP1CPeEcyw/x8v+K5NxY2buZnSw8nFppH2kkTiluu1XC7Hyjz
- ubrOVbRlLseKGdTzSp0Ph8H+nxDcdEg01YNlLt/NbSzNYorI5YnOPxrYAxXb6UGg3Asw
- nIgguL/TWQpISkuPOI4Wfbyg1wp3YwA1ojVZg4vHR8WPpuycn7pb+qei3uU/+RQ4AWfA
- FJ9A==
+ bh=j38rR0DmUpKr03zUziWy7jqA4Zq/6/O7kU6iERnZ0VY=;
+ b=ONex172p7fAE9jfJ78t4A3M5zu6w14nYPJpaGBSowjoSjsweH3ctJhGHPVXipbwByb
+ zPcOdk1aT4Kc6p3zfgf0dbhGx+S/uvb8LoGSnoGx9i4MsD+InvEL2dtPN5g2us/T7Hax
+ MDiXAD9ztna+csu5gKqej7tiWkLA0R3RMTeOhnCBmJRwZnpgSrnsc3vu1kHr7Fvy3EEZ
+ aDW/KVy+1To1queUzXk9Q9NVnDFRaZxGQwJX9iq9VkBDFwHU5TGC87nc339SyxmqyXGJ
+ /mGkGDiX4jztjxJHB41V0FKDkMOv0U5hL4OXYuapftUDUw3KZij7DD0ZB5/25mEP0p1y
+ vTXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FD6w/7DiE3v3KE01pXoBFAU8YKoTVucpdCsqwe263ok=;
- b=2gX/h7y8BnyNkQmjmzM5tHilv8m0gb3g4GOW2fBySE0KJXuahufPC9rOjCxyTcfia7
- ZYjPNIr3/apGIvMB2uBwcaGXLaAUiE9NsxoOyG4PKAvdVNztXDD0fpP2lQsC6YIt5ilp
- 9b/j8yfi/70SL+d7ycEo9FWBm38mJkg6f0O/n9LZpkiFzKHntu6I6gbancQ153OgybCP
- rrSwNzHHDoZxT1DdpjGoYvuwQZnM3VeJLHnKe6H99zRUVk3llBBvV50FYVQY1E1AILY2
- z6ypKKsXh/I0nSN1qSfNzj8yjG5uga6s9Jf7OVo+ZiRzU3C0J0ivFXFXmiwjsGDbwu0K
- ZRuw==
-X-Gm-Message-State: AOAM533oZG/28gLX9ybmr2cbmH8Y5ZhX5asdaao8WyNgcbKjYDJJcOTO
- +/4HzRnpZnsyEmnSBh69fpDyCqURx1nymQ==
-X-Google-Smtp-Source: ABdhPJz6BD4Ey+mYRubvxRIQOZa/dIucfq08WTddPmTkJV0gYXyi00YEpWh1gkXHgriDqN4AnI6nhQ==
-X-Received: by 2002:adf:e0c3:0:b0:20c:5672:9577 with SMTP id
- m3-20020adfe0c3000000b0020c56729577mr45682568wri.466.1653926907875; 
- Mon, 30 May 2022 09:08:27 -0700 (PDT)
+ bh=j38rR0DmUpKr03zUziWy7jqA4Zq/6/O7kU6iERnZ0VY=;
+ b=nH5Ck5Z6cLzwfNeJ4EMI6Chftn3vsuz1OeHGc7CVNFf28O6GfYv7OyhLQw19JGuUBB
+ EyDeGriPSpd1j0qT+Ay4dQ/BnI6J3V+H2hHbMMALLLiUJXnmp7RGMrYy6xv9brHOhlAs
+ JmrvCDTb86Jca8xgjIJBAjUy2hVy07lyhsV1BgprFIPIo7zOik9rItmfTAKcG4tPsiBP
+ 2XtbXWpV8VvSL/n7/iKwewC403pERB7PxlnxHkJwqcVE7bUQoIG6utucXttNZ7tZ0oV1
+ pBJ9uudSpvzM4hnFeC8xV38b167ifcgjPAnFDzOzDXyA4DRCJInuZvH7Z1Tq90Ccv1h4
+ b45A==
+X-Gm-Message-State: AOAM53152Bo8VM5sm4fgagPF/NiDR2vKSTl/De5VY6snI+RJdLnJGkxi
+ Ux3EIjWwdODCUmF+r9bmyWhSEo1SXbJDDA==
+X-Google-Smtp-Source: ABdhPJx9aUbi7eq+bnc8F2IFxcW1bFqbDls44jJTJnus6qYO8CA1NFZ3xaRYfW9tlnzN3EzW6rb3lA==
+X-Received: by 2002:adf:fbcb:0:b0:20e:674f:9364 with SMTP id
+ d11-20020adffbcb000000b0020e674f9364mr48143144wrs.430.1653926908608; 
+ Mon, 30 May 2022 09:08:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.27
+ bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 09:08:27 -0700 (PDT)
+ Mon, 30 May 2022 09:08:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 085/117] target/arm: Use TRANS_FEAT for MOVPRFX
-Date: Mon, 30 May 2022 17:06:36 +0100
-Message-Id: <20220530160708.726466-86-peter.maydell@linaro.org>
+Subject: [PULL 086/117] target/arm: Use TRANS_FEAT for FMLA
+Date: Mon, 30 May 2022 17:06:37 +0100
+Message-Id: <20220530160708.726466-87-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,41 +91,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220527181907.189259-83-richard.henderson@linaro.org
+Message-id: 20220527181907.189259-84-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ target/arm/translate-sve.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index a040d694eab..6e8d8d54bfe 100644
+index 6e8d8d54bfe..5aa3e477cfb 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -6054,20 +6054,9 @@ static bool trans_PRF_rr(DisasContext *s, arg_PRF_rr *a)
-  * In the meantime, just emit the moves.
-  */
+@@ -3521,15 +3521,8 @@ static bool do_FMLA_zzxz(DisasContext *s, arg_rrxr_esz *a, bool sub)
+                               a->esz == MO_16 ? FPST_FPCR_F16 : FPST_FPCR);
+ }
  
--static bool trans_MOVPRFX(DisasContext *s, arg_MOVPRFX *a)
+-static bool trans_FMLA_zzxz(DisasContext *s, arg_FMLA_zzxz *a)
 -{
--    return do_mov_z(s, a->rd, a->rn);
+-    return do_FMLA_zzxz(s, a, false);
 -}
 -
--static bool trans_MOVPRFX_m(DisasContext *s, arg_rpr_esz *a)
+-static bool trans_FMLS_zzxz(DisasContext *s, arg_FMLA_zzxz *a)
 -{
--    return do_sel_z(s, a->rd, a->rn, a->rd, a->pg, a->esz);
+-    return do_FMLA_zzxz(s, a, true);
 -}
--
--static bool trans_MOVPRFX_z(DisasContext *s, arg_rpr_esz *a)
--{
--    return do_movz_zpz(s, a->rd, a->rn, a->pg, a->esz, false);
--}
-+TRANS_FEAT(MOVPRFX, aa64_sve, do_mov_z, a->rd, a->rn)
-+TRANS_FEAT(MOVPRFX_m, aa64_sve, do_sel_z, a->rd, a->rn, a->rd, a->pg, a->esz)
-+TRANS_FEAT(MOVPRFX_z, aa64_sve, do_movz_zpz, a->rd, a->rn, a->pg, a->esz, false)
++TRANS_FEAT(FMLA_zzxz, aa64_sve, do_FMLA_zzxz, a, false)
++TRANS_FEAT(FMLS_zzxz, aa64_sve, do_FMLA_zzxz, a, true)
  
  /*
-  * SVE2 Integer Multiply - Unpredicated
+  *** SVE Floating Point Multiply Indexed Group
 -- 
 2.25.1
 
