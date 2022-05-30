@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63F6538563
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 17:50:59 +0200 (CEST)
-Received: from localhost ([::1]:52682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185C85385F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 18:16:56 +0200 (CEST)
+Received: from localhost ([::1]:54572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvhfW-0007He-L4
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 11:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
+	id 1nvi4b-0004R4-Hk
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 12:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nvhe6-0006VD-QA
- for qemu-devel@nongnu.org; Mon, 30 May 2022 11:49:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50954)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nvhoz-0002tj-5Y
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:00:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nvhe3-0004Hq-FW
- for qemu-devel@nongnu.org; Mon, 30 May 2022 11:49:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nvhou-00067q-SV
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:00:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653925765;
+ s=mimecast20190719; t=1653926439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3rYstiXH+DFFxpN0eJSYZFfNb9vwPKdu6j6eGmXRMcc=;
- b=M2cuTkNMQteUJHFEgHcyE+jcpA5EHymk6THJWjRxBeQNvw+Kd5RBbidrImObkV8A/rAmtd
- dB7Wrr/azt/ilBQxc5TKJvQdB6I+5rX7RMUeJ25fJiO8Qhx3CKdZneAEYHTECNNSyLlj0T
- E8no5hIgnFW3e7igApGwel4+ecSMRn0=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R+xjmwKX/xnIfuylASj1wtZMEMM4a9E3qy+0crvTQ/A=;
+ b=Xn17VAFuelb4q2juod/Yp/NT/q9zFfSsmPHTyUxR4B4YzvHUmfgitBDV/jXgLr4PYJsVzp
+ ZUdfFu6Vg+X5U2IRpjvV00hufEfI73FS76/t3QeDHTGXJt/a7S6PLoupL01pj63jmqEyT5
+ Hl9Asp236mN8/W5C3NGLMbrPVVw/6RM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-V3QwgW8kNyW3mKD-BdoMYg-1; Mon, 30 May 2022 11:49:24 -0400
-X-MC-Unique: V3QwgW8kNyW3mKD-BdoMYg-1
-Received: by mail-io1-f71.google.com with SMTP id
- ay41-20020a5d9da9000000b006685ce50214so3130077iob.22
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 08:49:24 -0700 (PDT)
+ us-mta-641-niCeSg6nMQWtTcXAVScCCA-1; Mon, 30 May 2022 12:00:37 -0400
+X-MC-Unique: niCeSg6nMQWtTcXAVScCCA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m26-20020a05600c3b1a00b00397220d6329so7187807wms.5
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:00:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=3rYstiXH+DFFxpN0eJSYZFfNb9vwPKdu6j6eGmXRMcc=;
- b=aE1LdBmkp5wYdv/88UALJSqzE6BojgTqHf9yqdcmU8GUjDdsoKNRO5GxalRjaEK7nf
- CSYmczvIm9Qqa3DvjEJImx7mYXAoPqFj+Hwuo+mkMjQ2S1MNMANuvWV22Eu2/Mrbq1+c
- leMBVdqR//uDTXhTJw0FSsWMTtrrD+Rlmy5d2KXK4Ca8zto7O52+r0Ho4R6KZz3EIVq9
- ovPSzg8Dp7nVND7KbCcBOuAJ5eFgIIzlglbqToEfKpMaR6bVORlqo4fgUHgm4q0P58+W
- 2BchbJdLdhMvi0rva4bxJg9Q0wWN1Zheo8+Zp3l5Z0ivmWYBOuZGKk2pkJ3X7o3+XC3o
- 6lUw==
-X-Gm-Message-State: AOAM530hBk92d+Q7QYM6R1w5uo12XEAyT+fB9N6pWF73WK/diUSFeHdf
- r9avh8NclmQNV42XauRQyiXsgVa3kL0RQrTr2ixhiq7wZ0wO4Rr2mQtz3pcAXqLy1ew1y7jbV1E
- edwH1KgTZdxmwH1w=
-X-Received: by 2002:a05:6e02:1c4e:b0:2d1:a8d:e94d with SMTP id
- d14-20020a056e021c4e00b002d10a8de94dmr29213934ilg.194.1653925763930; 
- Mon, 30 May 2022 08:49:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyavXgOOvyHvCgnhXUybuBh2qRd2Dsuuan5kKliX95y7YWU6WnNJ4Q63813uIsXDGIP+OZk1Q==
-X-Received: by 2002:a05:6e02:1c4e:b0:2d1:a8d:e94d with SMTP id
- d14-20020a056e021c4e00b002d10a8de94dmr29213912ilg.194.1653925763620; 
- Mon, 30 May 2022 08:49:23 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- u20-20020a926014000000b002cde6e35302sm3764514ilb.76.2022.05.30.08.49.21
+ bh=R+xjmwKX/xnIfuylASj1wtZMEMM4a9E3qy+0crvTQ/A=;
+ b=nPZZebfbCwr6DuBGZOOqGraU/26DA2cmYKirpnlSOxQG6sP2/7Kr3e+sX9VzYpenYa
+ j2vaDI0ugutm92VFKvvvUlCIhvoOMsprdosf4adHVUWPM7RmXu8LWWhcHK2nzSE0MWDU
+ 1B1vwCA0RaK1OnD7qOh1k4pedRNXO2hbetDkrcm95I77huFgGPPxyc+6QmUdi73LshYo
+ qm7BF4eva7fNnIu1gg0iJlnNpT0HGR+S/Svnt/nN4dotms7ZmCOn+mpxYGwNIqyIAqgb
+ 3mzRvMlBPDHCdQnRmGXXF2YA2E76npIK0stbQ0C+0JqAyW1GYh01XKccCKUvQq2XTBlY
+ +QGQ==
+X-Gm-Message-State: AOAM531KfCTsYqKg2XTSXowwJ0InTwLNsmv4PxaNHozgp+kzXqIeLJED
+ SbbEh5aaRzV2h1urfAreluhmTsMALBXiO3kveXS7jLj9chRK3VddPghtHTkNqs3E+4lR3ZlXn9E
+ uiYTPhqmyQElw53U=
+X-Received: by 2002:adf:e190:0:b0:20d:e98:e366 with SMTP id
+ az16-20020adfe190000000b0020d0e98e366mr47310131wrb.472.1653926436596; 
+ Mon, 30 May 2022 09:00:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxm5G/dEq1swV+awwRivwIskKYC/u1qI9gOxfexY8GyiB7XpTCmOeiid+R14HYRBCnfWgwdUg==
+X-Received: by 2002:adf:e190:0:b0:20d:e98:e366 with SMTP id
+ az16-20020adfe190000000b0020d0e98e366mr47310110wrb.472.1653926436333; 
+ Mon, 30 May 2022 09:00:36 -0700 (PDT)
+Received: from redhat.com ([2.53.142.172]) by smtp.gmail.com with ESMTPSA id
+ f15-20020a5d58ef000000b0020d117a4e00sm9163980wrd.105.2022.05.30.09.00.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 08:49:22 -0700 (PDT)
-Date: Mon, 30 May 2022 11:49:21 -0400
-From: Peter Xu <peterx@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: David Hildenbrand <david@redhat.com>, Jue Wang <juew@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, jasowang@redhat.com,
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- mst@redhat.com,
- HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= <naoya.horiguchi@nec.com>, 
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org
-Subject: Re: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
-Message-ID: <YpTngZ5Qr0KIvL0H@xz-m1.local>
-References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
- <Yo/I3oLkd9OU0ice@xz-m1.local>
- <24a95dea-9ea6-a904-7c0b-197961afa1d1@bytedance.com>
- <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
- <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
+ Mon, 30 May 2022 09:00:35 -0700 (PDT)
+Date: Mon, 30 May 2022 12:00:30 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Cedric Le Goater <clg@kaod.org>
+Subject: Re: [PULL v2 75/86] include/hw/pci/pcie_host: Correct
+ PCIE_MMCFG_SIZE_MAX
+Message-ID: <20220530115950-mutt-send-email-mst@kernel.org>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-76-mst@redhat.com>
+ <96abb644-4031-7d7f-db45-6376f8f74161@gmail.com>
+ <de56b35-c77-e979-b8bd-17c439f4b56d@eik.bme.hu>
+ <bbab97ff-c24f-7318-ed83-218e52481451@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <bbab97ff-c24f-7318-ed83-218e52481451@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -106,63 +106,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 30, 2022 at 07:33:35PM +0800, zhenwei pi wrote:
-> A VM uses RAM of 2M huge page. Once a MCE(@HVAy in [HVAx,HVAz)) occurs, the
-> 2M([HVAx,HVAz)) of hypervisor becomes unaccessible, but the guest poisons 4K
-> (@GPAy in [GPAx, GPAz)) only, it may hit another 511 MCE ([GPAx, GPAz)
-> except GPAy). This is the worse case, so I want to add
->  '__le32 corrupted_pages' in struct virtio_balloon_config, it is used in the
-> next step: reporting 512 * 4K 'corrupted_pages' to the guest, the guest has
-> a chance to isolate the other 511 pages ahead of time. And the guest
-> actually loses 2M, fixing 512*4K seems to help significantly.
-
-It sounds hackish to teach a virtio device to assume one page will always
-be poisoned in huge page granule.  That's only a limitation to host kernel
-not virtio itself.
-
-E.g. there're upstream effort ongoing with enabling doublemap on hugetlbfs
-pages so hugetlb pages can be mapped in 4k with it.  It provides potential
-possibility to do page poisoning with huge pages in 4k too.  When that'll
-be ready the assumption can go away, and that does sound like a better
-approach towards this problem.
-
+On Mon, May 30, 2022 at 11:42:41AM +0200, Thomas Huth wrote:
+> On 26/05/2022 17.54, BALATON Zoltan wrote:
+> > Hello,
+> > 
+> > On Thu, 26 May 2022, Daniel Henrique Barboza wrote:
+> > > Hi,
+> > > 
+> > > This patch broke the boot of the sam460ex ppc machine:
+> > > 
+> > > qemu-system-ppc -M sam460ex -kernel
+> > > ./buildroot/qemu_ppc_sam460ex-latest/vmlinux \
+> > > -device virtio-net-pci,netdev=net0 -netdev user,id=net0 -serial mon:stdio \
+> > > -nographic -snapshot
+> > > qemu-system-ppc: ../hw/pci/pcie_host.c:97: pcie_host_mmcfg_init:
+> > > Assertion `size <= PCIE_MMCFG_SIZE_MAX' failed.
+> > 
+> > Thanks for noticing this. I usually only test it during the freeze.
+> > Wasn't there a test patch submitted by Philippe before? Isn't that yet
+> > merged or included in CI? That should catch these before breaking it.
 > 
-> > 
-> > I assume when talking about "the performance memory drops a lot", you
-> > imply that this patch set can mitigate that performance drop?
-> > 
-> > But why do you see a performance drop? Because we might lose some
-> > possible THP candidates (in the host or the guest) and you want to plug
-> > does holes? I assume you'll see a performance drop simply because
-> > poisoning memory is expensive, including migrating pages around on CE.
-> > 
-> > If you have some numbers to share, especially before/after this change,
-> > that would be great.
-> > 
+> Seems like there is only the (primitive) boot-serial test so far:
 > 
-> The CE storm leads 2 problems I have even seen:
-> 1, the memory bandwidth slows down to 10%~20%, and the cycles per
-> instruction of CPU increases a lot.
-> 2, the THR (/proc/interrupts) interrupts frequently, the CPU has to use a
-> lot time to handle IRQ.
+> $ grep -r sam460ex tests/
+> tests/qtest/boot-serial-test.c:    { "ppc", "sam460ex", "-m 256", "DRAM:  256 MiB" },
+> tests/qtest/boot-serial-test.c:    { "ppc64", "sam460ex", "-device e1000", "8086  100e" },
 
-Totally no good knowledge on CMCI, but if 2) is true then I'm wondering
-whether it's necessary to handle the interrupts that frequently.  When I
-was reading the Intel CMCI vector handler I stumbled over this comment:
+Hmm why don't these tests catch the issue?
 
-/*
- * The interrupt handler. This is called on every event.
- * Just call the poller directly to log any events.
- * This could in theory increase the threshold under high load,
- * but doesn't for now.
- */
-static void intel_threshold_interrupt(void)
-
-I think that matches with what I was thinking..  I mean for 2) not sure
-whether it can be seen as a CMCI problem and potentially can be optimized
-by adjust the cmci threshold dynamically.
-
--- 
-Peter Xu
+> If there is a guest kernel available for public download somewhere,
+> it would be great if you could add an avocado test for this machine
+> (see e.g. the tests/avocado/ppc_*.py files for a template).
+> 
+>  Thomas
 
 
