@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAAB5387F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 21:59:16 +0200 (CEST)
-Received: from localhost ([::1]:41072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969675387F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 22:00:26 +0200 (CEST)
+Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvlXm-0004sT-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 15:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35498)
+	id 1nvlYv-0006Os-JO
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 16:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlFt-00016j-0Q; Mon, 30 May 2022 15:40:46 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38894)
+ id 1nvlG1-0001CL-Mo; Mon, 30 May 2022 15:40:55 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:51937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvlFr-0000GJ-B4; Mon, 30 May 2022 15:40:44 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- v11-20020a17090a4ecb00b001e2c5b837ccso196264pjl.3; 
- Mon, 30 May 2022 12:40:42 -0700 (PDT)
+ id 1nvlFz-0000H0-QN; Mon, 30 May 2022 15:40:53 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id cx11so3377665pjb.1;
+ Mon, 30 May 2022 12:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0cBhYgoYW3zeyEDvoShgTC1bQ+P+Lr18CMCPV7PbY6I=;
- b=dfzjvQNF+BJ9jF23fsxtvqb8TouysTJUVYXk2LuiacMI9Q5aBggqWXZW0s2Q1JA4iA
- sdj+UheYHFez2V5n7t+k4PW1+CIfqd8XK9yfLHfOEg7+afx72FKezl7pWRcQqdTxKY0o
- a0y7Y3G1IK4ayg8aXjrxkoEVitrIR70bGSax87c7XJ25LGNmJIYk8fPzJa/12XS8HaII
- nhLFpo09VrlmvGgXA1YL3oFN8lThk8LThAAXpuumMbAKr4tCNjed2rWyN+LnwH2Qlh/C
- Fo0rV06SXPfiodEogvTKlZzpKJ6xHviDLlhuh+X43iF38CyddPDpdpMZciql/HKGAArB
- WJkA==
+ bh=IeIpypgJ4YsP/dCbKUVkwF0x+mKlRm0S64Ii1oPkA/s=;
+ b=p4vBVKgA8V7P1wmOuCS9T0WiClGDgnqSRSrbdyvegMc1/v/HLtyMzfytf0l27DgoZK
+ BAeeYWZCmdiRkNG+0f0mo1CY/MpzGKNrfNsV5N5OyYWwfE71pc8Fojnb1t9sIr+28Hzx
+ HwWMmIZ9n7xZ53rmfuJV+fia6yegq+as9WUtJn2wmkRmBWkHyktzCJ6T0oduZxbh/0xM
+ gpiy0bK9JgC2IA7gfQacuWkJUDplEahuWK2OibGYNi2L42tDjWKMeYVTou6gOFS9WH9n
+ kZ8KzeL7NXdlT6gKbuMHe+M6FbwrMEa1gKifRXjQnXgqUMzm3I7XYnf1Viq+SNPmFT0F
+ on+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0cBhYgoYW3zeyEDvoShgTC1bQ+P+Lr18CMCPV7PbY6I=;
- b=7kH+LpSHx194zfTeseuLp3N0L0Ufqu1AD9DaWJk3kmb06iNa0lgNMK8pTClHr/b2Xw
- eocYQvJKGNMFUPzp9PS59j4Wv17fix0Z4+AHdEwkwGXUe4hw2AStn72s7AvDWuEhuEKM
- MGYZQM6mZZj/9h3Y1q7zRcSpOkLBqPzGT3jeHJoswwIEx6adi0Uim73MrIJLJY9ZYKjv
- WGYPc7OHKoQXuUOAFqbnVW7F/D863r/Sbb3NVrPHWT3TU/WJRJw49aRbMcKkt2K5UP9+
- vg2eSgVRz+TKaikQUwNNn0dx1hpquUGAPtv53TasGzIYHgliskTo9tqP5h+n7c21zJAf
- H4fA==
-X-Gm-Message-State: AOAM5313nMccY9D1KFa9LhUUIhZFOS23XRrwFFbgtefAgswoITxQK83v
- TrLwuw1utCAyxb7VQ9BowbQw8ZjNGoE=
-X-Google-Smtp-Source: ABdhPJxcEbcSKXh2QDUpmpnVv8nZqujjlTp1ibVnPiCkEsCMe6c/RFMi5CU77rK+ZlPLLKq0HNtvXA==
-X-Received: by 2002:a17:90a:df16:b0:1e3:1cd:6c6f with SMTP id
- gp22-20020a17090adf1600b001e301cd6c6fmr6147308pjb.10.1653939641573; 
- Mon, 30 May 2022 12:40:41 -0700 (PDT)
+ bh=IeIpypgJ4YsP/dCbKUVkwF0x+mKlRm0S64Ii1oPkA/s=;
+ b=MWIyyxa91UZWv4oO1lgDEqlKfC4X8fjTSCEv9kQ5lwolCJaCaW+7YT8SEd1XCREUOn
+ HvBCpfnZ5FZ8bwcrYhmaUXL5dXYGOyGVWR79U7069jv3eW3gGzxHYBMltwqnmRxUdWpd
+ Eqf65Ii9c5R4buK/mUNGpNKm2nag3uzU4QdZY77uMcFM86p7q8wusVWvkhWDbjfbedRm
+ IYOJn1HlQ/FuYbyjGv8OVaT6A+cCzRNJ+96AGgen4UVztB0s4YfRohgBMpbDCEa5sy5b
+ 21bPQd29GlkkByHhNoONwhLvavTbtMHhzxUvBxmTP+DG0oNhM026o886ra9/nF/CwmsW
+ 87bg==
+X-Gm-Message-State: AOAM531Zqd5hG/iQUn6NZyTPuiILRRdNJP8hExCfQYVNKTecyeY3nd2T
+ juHzrlJzReGKgsPjnnXlHliEchf1HGM=
+X-Google-Smtp-Source: ABdhPJwaRFJaITyF0RHybTcZ2BpQmF9ptjOMGw5BC15W0kqZsO2Q0rZJNYhC0yY6M7N3q7T06Y+qhQ==
+X-Received: by 2002:a17:903:2304:b0:162:ed1:ed9c with SMTP id
+ d4-20020a170903230400b001620ed1ed9cmr43212316plh.122.1653939650029; 
+ Mon, 30 May 2022 12:40:50 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n2-20020a63ee42000000b003f61c311e79sm4901832pgk.56.2022.05.30.12.40.39
+ pf5-20020a17090b1d8500b001e2a36fb4aasm65644pjb.43.2022.05.30.12.40.47
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 30 May 2022 12:40:41 -0700 (PDT)
+ Mon, 30 May 2022 12:40:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -60,17 +59,17 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: [PATCH v2 16/25] hw/sd: Add sd_emmc_cmd_ALL_SEND_CID() handler
-Date: Mon, 30 May 2022 21:38:07 +0200
-Message-Id: <20220530193816.45841-17-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v2 17/25] hw/sd: Add sd_emmc_cmd_SEND_RELATIVE_ADDR() handler
+Date: Mon, 30 May 2022 21:38:08 +0200
+Message-Id: <20220530193816.45841-18-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,34 +97,44 @@ From: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/sd/sd.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 538231dbab..5e315f171c 100644
+index 5e315f171c..100fe191a7 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -2172,11 +2172,23 @@ static sd_rsp_type_t sd_emmc_cmd_SEND_OP_CMD(SDState *sd, SDRequest req)
-     return sd_r3;
+@@ -1048,6 +1048,25 @@ static sd_rsp_type_t sd_cmd_ALL_SEND_CID(SDState *sd, SDRequest req)
+     return sd_r2_i;
  }
  
-+static sd_rsp_type_t sd_emmc_cmd_ALL_SEND_CID(SDState *sd, SDRequest req)
++static void sd_emmc_set_rca(SDState *sd, uint16_t value)
 +{
-+    if (sd->state != sd_ready_state && sd->state != sd_idle_state) {
-+        return sd_invalid_state_for_cmd(sd, req);
-+    }
-+
-+    sd->state = sd_identification_state;
-+
-+    return sd_r2_i;
++    sd->rca = value;
 +}
 +
- static const SDProto sd_proto_emmc = {
-     .name = "eMMC",
-     .cmd = {
++static sd_rsp_type_t sd_emmc_cmd_SEND_RELATIVE_ADDR(SDState *sd, SDRequest req)
++{
++    switch (sd->state) {
++    case sd_identification_state:
++    case sd_standby_state:
++        sd->state = sd_standby_state;
++        sd_emmc_set_rca(sd, req.arg >> 16);
++        return sd_r1;
++
++    default:
++        return sd_invalid_state_for_cmd(sd, req);
++    }
++}
++
+ static sd_rsp_type_t sd_cmd_SEND_RELATIVE_ADDR(SDState *sd, SDRequest req)
+ {
+     switch (sd->state) {
+@@ -2189,6 +2208,7 @@ static const SDProto sd_proto_emmc = {
          [0]         = sd_cmd_GO_IDLE_STATE,
          [1]         = sd_emmc_cmd_SEND_OP_CMD,
-+        [2]         = sd_emmc_cmd_ALL_SEND_CID,
+         [2]         = sd_emmc_cmd_ALL_SEND_CID,
++        [3]         = sd_emmc_cmd_SEND_RELATIVE_ADDR,
          [5]         = sd_cmd_illegal,
          [19]        = sd_cmd_SEND_TUNING_BLOCK,
          [41]        = sd_cmd_illegal,
