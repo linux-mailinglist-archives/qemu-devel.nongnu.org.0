@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7515373C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 05:43:40 +0200 (CEST)
-Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E6D5373C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 05:43:39 +0200 (CEST)
+Received: from localhost ([::1]:53114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvWJe-0007ho-UH
+	id 1nvWJe-0007is-GO
 	for lists+qemu-devel@lfdr.de; Sun, 29 May 2022 23:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40292)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nvWH4-00051q-Rr
- for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:58 -0400
-Received: from mga14.intel.com ([192.55.52.115]:36561)
+ id 1nvWH5-000521-Md
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:59 -0400
+Received: from mga14.intel.com ([192.55.52.115]:36558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nvWH1-0006wb-M1
- for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:58 -0400
+ id 1nvWH3-0006wX-Gw
+ for qemu-devel@nongnu.org; Sun, 29 May 2022 23:40:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653882055; x=1685418055;
+ t=1653882057; x=1685418057;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LqufKj/Ys5thQqQmxH2lkTZN7JbW/gS9ajhvR+4AwM0=;
- b=lT0K6jf/IOW5FE01JNrJPZMr/GSETRJS4YxWizhDKF2CIOB/LwwFpaMJ
- UVNywFrWaFmDHKgwIzV0AqxuAY7v6yIFF8ikXkKBNYk/UPeoJETFLBEeC
- uU4wLSeHOlW0ZB1EWVOvffbhaxb2kYsotJ8KvvpI2+XeG7ijJkKpHq87T
- 8cekBAu0oJPlPe7oYk8wkGVSgh5HtjLppwd6iOUr9I7qwySbB1FOqPXSJ
- vx/KU08ZHHSrJTfkKrTbgz3gM16qVrckUznCy/CZpKzFaWyzPzNYOom1S
- 78xEKAEMOt5XagwhM7q4J2GXapSbJpGSFBwlDauW7QyhcAOKo/0mDWm++ Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="274974839"
-X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="274974839"
+ bh=mKqNvHjGeoxS+aXxDCIjDV9OBVOE1uvThYOFAHUogmo=;
+ b=SpcnV8cwcm+MLdRBARl6UgHqSkvDve7DS+Vf42oMiB910Ki279neRBZ+
+ s8PyKOU3VdnC8S5fmiEeG5zRbt3jHU9i0de3hC+Zm7PvvMbAJVVkHo43z
+ E7gjmHwWR8qh2BtOxr3Oi3usv0Y2xfbmeviYfhNXS5pQy0UZxDum8am/H
+ BP5S7Vw9/c+9VHf+9qCS9O8pqDS6B0r3DFo11c+dzh7GlUVOsKvDb6CMh
+ dqfuc/o12Zv5WCpHedX2b7rE1DXTJH4SeMOmn4TJ2zShlrasKt0F8HK14
+ bVv/Yue/NgVLCd3e47EdJbAOIpH72doAVduxuFI5UWTYHk4QoR65wPWgQ Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="274974840"
+X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="274974840"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2022 20:40:54 -0700
+ 29 May 2022 20:40:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="528993788"
+X-IronPort-AV: E=Sophos;i="5.91,261,1647327600"; d="scan'208";a="528993796"
 Received: from sqa-gate.sh.intel.com (HELO robert-clx2.tsp.org)
  ([10.239.48.212])
- by orsmga003.jf.intel.com with ESMTP; 29 May 2022 20:40:52 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 May 2022 20:40:54 -0700
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: imammedo@redhat.com, mst@redhat.com, xiaoguangrong.eric@gmail.com,
  ani@anisinha.ca, dan.j.williams@intel.com, jingqi.liu@intel.com
 Cc: qemu-devel@nongnu.org,
 	robert.hu@intel.com
-Subject: [QEMU PATCH v2 2/6] acpi/ssdt: Fix aml_or() and aml_and() in if clause
-Date: Mon, 30 May 2022 11:40:43 +0800
-Message-Id: <20220530034047.730356-3-robert.hu@linux.intel.com>
+Subject: [QEMU PATCH v2 3/6] acpi/nvdimm: NVDIMM _DSM Spec supports revision 2
+Date: Mon, 30 May 2022 11:40:44 +0800
+Message-Id: <20220530034047.730356-4-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220530034047.730356-1-robert.hu@linux.intel.com>
 References: <20220530034047.730356-1-robert.hu@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=192.55.52.115;
  envelope-from=robert.hu@linux.intel.com; helo=mga14.intel.com
@@ -78,53 +79,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In If condition, using bitwise and/or, rather than logical and/or.
+The Intel Optane PMem DSM Interface, Version 2.0 [1], is the up-to-date
+spec for NVDIMM _DSM definition, which supports revision_id == 2.
 
-The result change in AML code:
+Nevertheless, Rev.2 of NVDIMM _DSM has no functional change on those Label
+Data _DSM Functions, which are the only ones implemented for vNVDIMM.
+So, simple change to support this revision_id == 2 case.
 
-If (((Local6 == Zero) | (Arg0 != Local0)))
-==>
-If (((Local6 == Zero) || (Arg0 != Local0)))
+[1] https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
 
-If (((ObjectType (Arg3) == 0x04) & (SizeOf (Arg3) == One)))
-==>
-If (((ObjectType (Arg3) == 0x04) && (SizeOf (Arg3) == One)))
-
-Fixes: 90623ebf603 ("nvdimm acpi: check UUID")
-Fixes: 4568c948066 ("nvdimm acpi: save arg3 of _DSM method")
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
 Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/nvdimm.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/acpi/nvdimm.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 0d43da19ea..0ab247a870 100644
+index 0ab247a870..59b42afcf1 100644
 --- a/hw/acpi/nvdimm.c
 +++ b/hw/acpi/nvdimm.c
-@@ -1040,7 +1040,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+@@ -849,9 +849,13 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+     nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
+                  in->handle, in->function);
  
-     uuid_invalid = aml_lnot(aml_equal(uuid, expected_uuid));
- 
--    unsupport = aml_if(aml_or(unpatched, uuid_invalid, NULL));
-+    unsupport = aml_if(aml_lor(unpatched, uuid_invalid));
- 
-     /*
-      * function 0 is called to inquire what functions are supported by
-@@ -1072,10 +1072,9 @@ static void nvdimm_build_common_dsm(Aml *dev,
-      * in the DSM Spec.
-      */
-     pckg = aml_arg(3);
--    ifctx = aml_if(aml_and(aml_equal(aml_object_type(pckg),
-+    ifctx = aml_if(aml_land(aml_equal(aml_object_type(pckg),
-                    aml_int(4 /* Package */)) /* It is a Package? */,
--                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */,
--                   NULL));
-+                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */));
- 
-     pckg_index = aml_local(2);
-     pckg_buf = aml_local(3);
+-    if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
+-        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
+-                     in->revision, 0x1);
++    /*
++     * Current NVDIMM _DSM Spec supports Rev1 and Rev2
++     * Intel® OptanePersistent Memory Module DSM Interface, Revision 2.0
++     */
++    if (in->revision != 0x1 && in->revision != 0x2) {
++        nvdimm_debug("Revision 0x%x is not supported, expect 0x1 or 0x2.\n",
++                     in->revision);
+         nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
+         goto exit;
+     }
 -- 
 2.31.1
 
