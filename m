@@ -2,68 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA81537759
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 10:52:23 +0200 (CEST)
-Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08A0537761
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 10:57:03 +0200 (CEST)
+Received: from localhost ([::1]:49090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvb8Q-0002Fe-No
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 04:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49514)
+	id 1nvbCw-0004Jz-Mg
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 04:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nvb4O-0001LW-GL
- for qemu-devel@nongnu.org; Mon, 30 May 2022 04:48:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39484)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvbA5-0003O1-73
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 04:54:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nvb4L-00037Z-ET
- for qemu-devel@nongnu.org; Mon, 30 May 2022 04:48:12 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvbA3-000450-6I
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 04:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653900488;
+ s=mimecast20190719; t=1653900842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P/3Vtg0nuwvbnG9CN2A0esuTXP3tqVLkb0wItrDB6MM=;
- b=Jkwsg1wRimLKVSCrxmAjsUI3g7z+r47s2DJlDYRjbulrGKKnjix9n4DmjOqXAESIrPON82
- ZTTuR9AU09klyTz9XNGau/rzbLTJ+1WhooBb6lHUUhyov7wRLpvD7wXupA+owAQSoKdITk
- Oboa4IZyox/67C+UcL1unZakWhyG4II=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yz475zedJoZxNkUh09SIwjQOeYBl3EGaHOOXS2fZCzw=;
+ b=QlRw/GTwLMHR6CWXxJUsRSXx5qiGKE49B9do6doj+cgNZuW2OEl91JM6EgBWjNBglOQn4Y
+ 1NOfu57tZ8Zpc1kEaPG1AFCJbLqTNTjjkRhED14Bl8do9YWaZpmMDg9ETyRnUzy/12UEDL
+ u3X4bnqpTwYE7Rc4lAkvG1xUlTnmvAo=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-KPHyXWnOM6Cjh-s_1umvsg-1; Mon, 30 May 2022 04:48:03 -0400
-X-MC-Unique: KPHyXWnOM6Cjh-s_1umvsg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 298C0801228;
- Mon, 30 May 2022 08:48:03 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC4AC40EC003;
- Mon, 30 May 2022 08:48:02 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, Eric Farman
- <farman@linux.ibm.com>
-Subject: Re: [PATCH] MAINTAINERS: Update s390 vhost entries
-In-Reply-To: <20220525145814.2750501-1-farman@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20220525145814.2750501-1-farman@linux.ibm.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Mon, 30 May 2022 10:48:01 +0200
-Message-ID: <877d63v22m.fsf@redhat.com>
+ us-mta-342-ZLtgiKBAPlWZ-CpBxSPHqw-1; Mon, 30 May 2022 04:54:00 -0400
+X-MC-Unique: ZLtgiKBAPlWZ-CpBxSPHqw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ m18-20020a05622a119200b00304b4e57cbfso860872qtk.18
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 01:54:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=yz475zedJoZxNkUh09SIwjQOeYBl3EGaHOOXS2fZCzw=;
+ b=h7fmJOnI+tnNAzeEcUmN+MPJHBWPx1LOXir4n+x+PIC2sr1NeYcDZPCW4MceLUKi3p
+ d4oAL/6Z0vKNPkpumohe3ehz1T3Vib3HISVlcbUeAp8fNVB5kILEWlnMdWKZm1JcmwdT
+ n3DvkJJHn9VtaHdW7eAAMoHWqfxw7JOhxddE4Kw+LJfVYncs4/dLlvzGvprf5n2eCebf
+ unArL/QCejeVFcy2QT9yCxIxhlG3hPUNFgyNTX5Olnxsuzp2WiSSXQzn4lT1Uqmt1l63
+ bcIm8plK/t/QDOgJcZtciOcER2kYOirKQKNj3ltq+ikI5z0RgEb2bDOwuDbSAKXFqgKJ
+ AkVA==
+X-Gm-Message-State: AOAM530GC9KUqeqy4In4ZXaMaHOJKHukjKbddYzmMVgKccWWxzszvVhm
+ zvOwMr2IAix0J5T1QyffY98W/JpP4ihaUi1ZhqKjuBByug/LhafNZXkFVDG5ZHLiarx3UV+v5dU
+ ukzyi2Otv6ijttPY=
+X-Received: by 2002:a05:620a:784:b0:6a3:596b:d9a3 with SMTP id
+ 4-20020a05620a078400b006a3596bd9a3mr30962124qka.394.1653900840139; 
+ Mon, 30 May 2022 01:54:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaY+QS2ToKwWWWMr2DjOQCSuYd6O0UH7Q6ja9IZ8B3xiSpBR6s7D4qb884gChbww5kkrpCjQ==
+X-Received: by 2002:a05:620a:784:b0:6a3:596b:d9a3 with SMTP id
+ 4-20020a05620a078400b006a3596bd9a3mr30962116qka.394.1653900839908; 
+ Mon, 30 May 2022 01:53:59 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-179-216.web.vodafone.de.
+ [109.43.179.216]) by smtp.gmail.com with ESMTPSA id
+ n76-20020a37274f000000b0069fc13ce1dasm7001623qkn.11.2022.05.30.01.53.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 01:53:59 -0700 (PDT)
+Message-ID: <0b1b41d8-d8f9-1b5a-bc3c-67557ecbdde7@redhat.com>
+Date: Mon, 30 May 2022 10:53:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220527153603.887929-1-alex.bennee@linaro.org>
+ <20220527153603.887929-32-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v1 31/33] gitlab: convert build/container jobs to
+ .base_job_template
+In-Reply-To: <20220527153603.887929-32-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,40 +106,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 25 2022, Eric Farman <farman@linux.ibm.com> wrote:
-
-> Commit 7a523d96a0 ("virtio-ccw: move vhost_ccw_scsi to a separate file")
-> introduced a new file hw/s390x/vhost-scsi-ccw.c, which received a
-> couple comments [1][2] to update MAINTAINERS that were missed.
->
-> Fix that by making the vhost CCW entries a wildcard.
->
-> [1] https://lore.kernel.org/r/d8d2bbd5021076bdba444d31a6da74f507baede3.camel@linux.ibm.com/
-> [2] https://lore.kernel.org/r/87k0c4gb9f.fsf@redhat.com/
->
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+On 27/05/2022 17.36, Alex Bennée wrote:
+> From: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> This converts the main build and container jobs to use the
+> base job rules, defining the following new variables
+> 
+>   - QEMU_JOB_SKIPPED - jobs that are known to be currently
+>     broken and should not be run. Can still be manually
+>     launched if desired.
+> 
+>   - QEMU_JOB_AVOCADO - jobs that run the Avocado integration
+>     test harness.
+> 
+>   - QEMU_JOB_PUBLISH - jobs that publish content after the
+>     branch is merged upstream
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Message-Id: <20220526110705.59952-5-berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  MAINTAINERS | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index dff0200f70..77238c9338 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2012,8 +2012,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
->  M: Eric Farman <farman@linux.ibm.com>
->  S: Supported
->  F: hw/s390x/virtio-ccw*.[hc]
-> -F: hw/s390x/vhost-vsock-ccw.c
-> -F: hw/s390x/vhost-user-fs-ccw.c
-> +F: hw/s390x/vhost-*-ccw.c
+...
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index e9620c3074..ecac3ec50c 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -360,12 +360,11 @@ build-cfi-aarch64:
+>       expire_in: 2 days
+>       paths:
+>         - build
+> -  rules:
+> +  variables:
+>       # FIXME: This job is often failing, likely due to out-of-memory problems in
+>       # the constrained containers of the shared runners. Thus this is marked as
+> -    # manual until the situation has been solved.
+> -    - when: manual
+> -      allow_failure: true
+> +    # skipped until the situation has been solved.
+> +    QEMU_JOB_SKIPPED: 1
+>   
+>   check-cfi-aarch64:
+>     extends: .native_test_job_template
+> @@ -402,12 +401,11 @@ build-cfi-ppc64-s390x:
+>       expire_in: 2 days
+>       paths:
+>         - build
+> -  rules:
+> +  variables:
+>       # FIXME: This job is often failing, likely due to out-of-memory problems in
+>       # the constrained containers of the shared runners. Thus this is marked as
+> -    # manual until the situation has been solved.
+> -    - when: manual
+> -      allow_failure: true
+> +    # skipped until the situation has been solved.
+> +    QEMU_JOB_SKIPPED: 1
+>   
+>   check-cfi-ppc64-s390x:
+>     extends: .native_test_job_template
+> @@ -579,6 +577,7 @@ build-without-default-features:
+>       MAKE_CHECK_ARGS: check-unit check-qtest SPEED=slow
+>   
+>   build-libvhost-user:
+> +  extends: .base_job_template
+>     stage: build
+>     image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
+>     needs:
+> @@ -595,10 +594,13 @@ build-tools-and-docs-debian:
+>     extends: .native_build_job_template
+>     needs:
+>       job: amd64-debian-container
+> +    # when running on 'master' we use pre-existing container
+> +    optional: true
 
-Catch them all! :)
+This change doesn't look like it's related to the other changes in here? 
+Maybe mention it in the patch description at least?
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
->  T: git https://gitlab.com/cohuck/qemu.git s390-next
->  T: git https://github.com/borntraeger/qemu.git s390-next
->  L: qemu-s390x@nongnu.org
+Apart from that:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
