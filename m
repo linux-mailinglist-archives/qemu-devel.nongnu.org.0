@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488B1537A51
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:02:42 +0200 (CEST)
-Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C1F537A60
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 14:09:39 +0200 (CEST)
+Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nve6b-00029F-BZ
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57904)
+	id 1nveDK-0004QW-Fe
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 08:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvdjN-0000rG-He; Mon, 30 May 2022 07:38:43 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:39626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvdjK-0003FS-Sj; Mon, 30 May 2022 07:38:41 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id q123so4893892pgq.6;
- Mon, 30 May 2022 04:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fhO+vZLDHA7albDwv32BqtMGmy87QnZPPW1NVQ048W4=;
- b=fpmquVJOrCt7CPQ0g0RPe/3ySy9MyEb6uC/BNZM4mltRq2Uil7JyGyEN0i2qCfxdkm
- RnrOiayN6Qz1D8PRSdFNQemhBVuo5H0NZDFn/mQnQYw+zeE5AsaxrRlAN8EVkUKPJ5Ab
- aK98asP6ag4btzcJFw8TfPCR9VvmVswIhJGR6tu1TRtnjvL3UbjJCb/hveee0y3Q2nRD
- vEXqleq2EheDZy0+QLKADaus0cS4tIZuLW6kz8de4Z+H3ReCyfFTFScg9pAVLwlReFiS
- 9xlalIAfdWqqLNC4Z2vQTofyEAV/slHxBiXtovHmwL81V9XWgc1QhZUdGcHVkpvmX0Ds
- Pddg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fhO+vZLDHA7albDwv32BqtMGmy87QnZPPW1NVQ048W4=;
- b=jLjfeyvqTkHkJKMT2l1xeUBxv2+fVt+B+2fOYmB/21gWk1ddbdy1lPuTWgFQv1XkIF
- I6cdUPD7pMmLtc/hgYHFQyuwpzj8RvQG+I4vCnVoB9rSOwSFdKy7fKUZyatyf60z/fS+
- h939akRfFXx2RBXHaHDvwn30aaAHNrF46n2z9x0orW83HHVwSx1BkRgiiAEewIIqN1tS
- 6WmsBFCRD+mURAwFQbn2bCyAEsH50pJgQsUcFOF40dwNfkn/USxr+TYjlFDAcSNv1aVZ
- QBWiJfilyY4C3BaRNTvWPToKJllA/FJZwNat7j9nP+5gPZWzEatC/z3gcW5Jcxl2PP1b
- niKA==
-X-Gm-Message-State: AOAM531mcA5fm6k2NSSMcXl01FfriGQcALX9ZOOMmHxLfoashDFFEDSA
- x2eiY7Wjw8oQDXtoeCtSbhE=
-X-Google-Smtp-Source: ABdhPJwVDvMybIBhhizPld0xpz6bEUzmhUI7C5zaHM7IR5Qir8+7Klf84jhF8eMcXBoSu2L2q9XTFw==
-X-Received: by 2002:a62:1dcc:0:b0:519:17be:89be with SMTP id
- d195-20020a621dcc000000b0051917be89bemr20799189pfd.30.1653910714935; 
- Mon, 30 May 2022 04:38:34 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- ie17-20020a17090b401100b001e31474c0c1sm1300151pjb.47.2022.05.30.04.38.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 04:38:34 -0700 (PDT)
-Message-ID: <80574d02-8434-db8f-ab1b-61c530cb12ea@amsat.org>
-Date: Mon, 30 May 2022 13:38:30 +0200
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nvdte-0006ZW-D0
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:49:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nvdtY-0005Fv-Lm
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 07:49:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653911349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1jBLgUxgHH8kcMeU83Uqv8BeFNU4gu6zKWN29kUJs70=;
+ b=LD1lJ4TXO2K/pkaPk41Ddm1CCIhr04bDJJb4yHh3mslW9Fcrr3xKlMmAASo2UVpPtUx50w
+ iq/EAI+/cRuwJsNE4XVKLMh5DqrAaKcqTkneVhDMJgeWKr6j8OhJqRrfZsgwwOXJJ81QRL
+ ZJBFNcrRaBIKYvxcemQcHTkTjyAJPnQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-375-2pVTSCIONnyhIaPVCzKfUA-1; Mon, 30 May 2022 07:49:06 -0400
+X-MC-Unique: 2pVTSCIONnyhIaPVCzKfUA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 208D7811E75;
+ Mon, 30 May 2022 11:49:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9387492CA2;
+ Mon, 30 May 2022 11:49:05 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2AD82180039F; Mon, 30 May 2022 13:49:04 +0200 (CEST)
+Date: Mon, 30 May 2022 13:49:04 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+Subject: Re: [RFC PATCH v4 18/36] i386/tdx: Skip BIOS shadowing setup
+Message-ID: <20220530114904.242xqql3xfugy2a7@sirius.home.kraxel.org>
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-19-xiaoyao.li@intel.com>
+ <20220524070804.tcrsg7cwlnbkzhjz@sirius.home.kraxel.org>
+ <b294af31-fe92-f251-5d3e-0e439a59ee1e@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH v3 2/7] hw/isa/piix4: Use object_initialize_child() for
- embedded struct
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>
-References: <20220528192057.30910-1-shentey@gmail.com>
- <20220528192057.30910-3-shentey@gmail.com>
-In-Reply-To: <20220528192057.30910-3-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b294af31-fe92-f251-5d3e-0e439a59ee1e@intel.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,35 +90,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 28/5/22 21:20, Bernhard Beschow wrote:
-> Found-by: Peter Maydell <peter.maydell@linaro.org>
-
-I suppose you refer to this thread:
-https://lore.kernel.org/qemu-devel/CAFEAcA_y69=iXMH75dHeNkxMa038Z7Xk63GW9fdcAFHJSWS=sA@mail.gmail.com/
-
-I'm going to change the tag to "Reported-by".
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/isa/piix4.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, May 26, 2022 at 10:48:56AM +0800, Xiaoyao Li wrote:
+> On 5/24/2022 3:08 PM, Gerd Hoffmann wrote:
+> > On Thu, May 12, 2022 at 11:17:45AM +0800, Xiaoyao Li wrote:
+> > > TDX guest cannot go to real mode, so just skip the setup of isa-bios.
+> > 
+> > Does isa-bios setup cause any actual problems?
+> > (same question for patch #19).
 > 
-> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 9a6d981037..1d04fb6a55 100644
-> --- a/hw/isa/piix4.c
-> +++ b/hw/isa/piix4.c
-> @@ -224,7 +224,7 @@ static void piix4_init(Object *obj)
->   {
->       PIIX4State *s = PIIX4_PCI_DEVICE(obj);
->   
-> -    object_initialize(&s->rtc, sizeof(s->rtc), TYPE_MC146818_RTC);
-> +    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
->   }
->   
->   static void piix4_class_init(ObjectClass *klass, void *data)
+> It causes mem_region split and mem_slot deletion on KVM.
+> 
+> TDVF marks pages starting from 0x800000 as TEMP_MEM and TD_HOB, which are
+> TD's private memory and are TDH_MEM_PAGE_ADD'ed to TD via
+> KVM_TDX_INIT_MEM_REGION
+> 
+> However, if isa-bios and pc.rom are not skipped, the memory_region
+> initialization of them is after KVM_TDX_INIT_MEM_REGION in
+> tdx_machine_done_notify(). (I didn't figure out why this order though)
+> 
+> And the it causes memory region split that splits
+> 	[0, ram_below_4g)
+> to
+> 	[0, 0xc0 000),
+> 	[0xc0 000, 0xe0 000),
+> 	[0xe0 000, 0x100 000),
+> 	[0x100 000, ram_below_4g)
+> 
+> which causes mem_slot deletion on KVM. On KVM side, we lose the page content
+> when mem_slot deletion.  Thus, the we lose the content of TD HOB.
+
+Hmm, removing and re-creating memory slots shouldn't cause page content
+go away.   I'm wondering what the *real* problem is?  Maybe you loose
+tdx-specific state, i.e. this removes TDH_MEM_PAGE_ADD changes?
+
+> Yes, the better solution seems to be ensure KVM_TDX_INIT_MEM_REGION is
+> called after all the mem region is settled down.
+
+Yes, especially if tdx can't tolerate memory slots coming and going.
+
+> But I haven't figured out the reason why the isa-bios and pc.rom
+> initialization happens after machine_init_done_notifier
+
+Probably happens when a flatview is created from the address space.
+
+Maybe that is delayed somehow for machine creation, so all the address
+space updates caused by device creation don't lead to lots of flatviews
+being created and thrown away.
+
+> on the other hand, to keep isa-bios and pc.rom, we need additional work to
+> copy the content from the end_of_4G to end_of_1M.
+
+There is no need for copying, end_of_1M is a alias memory region for
+end_of_4G, so the backing storage is the same.
+
+> I'm not sure if isa-bios and pc.rom are needed from people on TD guest, so I
+> just skip them for simplicity,
+
+Given that TDX guests start in 32bit mode not in real mode everything
+should work fine without isa-bios.
+
+I'd prefer to avoid creating a special case for tdx though.  Should make
+long-term maintenance a bit easier when this is not needed.
+
+take care,
+  Gerd
+
 
