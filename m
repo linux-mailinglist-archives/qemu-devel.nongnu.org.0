@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4472853873C
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 20:25:40 +0200 (CEST)
-Received: from localhost ([::1]:52068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05AB53872E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 20:20:33 +0200 (CEST)
+Received: from localhost ([::1]:44538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvk5C-00072O-R2
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 14:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33960)
+	id 1nvk0G-0001oJ-Op
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 14:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nvjXO-0001Xk-Ma
- for qemu-devel@nongnu.org; Mon, 30 May 2022 13:50:42 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2588)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nvjrJ-0006ld-8Z
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 14:11:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nvjXL-0006Vd-8W
- for qemu-devel@nongnu.org; Mon, 30 May 2022 13:50:42 -0400
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LBjbc4Z61z6H6qH;
- Tue, 31 May 2022 01:49:48 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 30 May 2022 19:50:35 +0200
-Received: from localhost (10.81.211.14) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 30 May
- 2022 18:50:34 +0100
-Date: Mon, 30 May 2022 18:50:32 +0100
-To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, <alex.bennee@linaro.org>, 
- Marcel Apfelbaum <marcel@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Adam Manzanares
- <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>, <f4bug@amsat.org>, Peter Xu
- <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah
- <shreyas.shah@elastics.cloud>, Chris Browy <cbrowy@avery-design.com>,
- "Samarth Saxena" <samarths@cadence.com>, Dan Williams
- <dan.j.williams@intel.com>, <k.jensen@samsung.com>, <dave@stgolabs.net>,
- Alison Schofield <alison.schofield@intel.com>
-Subject: Re: [PATCH v10 02/45] hw/cxl/component: Introduce CXL components
- (8.1.x, 8.2.5)
-Message-ID: <20220530185032.00003723@Huawei.com>
-In-Reply-To: <20220429144110.25167-3-Jonathan.Cameron@huawei.com>
-References: <20220429144110.25167-1-Jonathan.Cameron@huawei.com>
- <20220429144110.25167-3-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nvjrG-0001Rm-8M
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 14:11:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653934273;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZkEpUe96pcu1BI7Yq5ji82kGAJ1FCgHW/YEY0wcKBNU=;
+ b=OgL1lMXyXa5NDWaqSph4AJ28CJK2RMH6eb122u8FM6dXrk+bolXtGKCArtcMe66bGO7qdL
+ h0t5WbG5fbLk7Wkh5UiBcV9e4V7lTAwA4hrkB8xPEPI4o+qh9q9IA/3iF0f6uVdH4jigGi
+ 4xfr2NweDN45Xqw+Tt7I4pKobFRFXR8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-459-GZ04yXb_PiSqfzXJiWNMSg-1; Mon, 30 May 2022 14:11:10 -0400
+X-MC-Unique: GZ04yXb_PiSqfzXJiWNMSg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg7-20020a05600c3c8700b0039468585269so4905247wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 11:11:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ZkEpUe96pcu1BI7Yq5ji82kGAJ1FCgHW/YEY0wcKBNU=;
+ b=4QGzXzScamkUwFG/A8mNNaAArlyokYKNj2QDedDiVAaudyKJ7OjHCs4OvXb/7fxM1L
+ pPd/fELIDu+Zh0Q/wG5SklBOD91vfWPvBmKk/hkFB8QjUfjEBBmcBEenHOZWByx7tkdW
+ 6W1GHwz7qUSRxFbLS6fA3WAlg+w1VaFZZnWORhYPVOCTP+DXmuAQXcenNlTH+zDrWawy
+ hiVZGxIP3kdnyAjDYDMtWUXMsymtRpCML19VuZqYlk9lX/yExhvU1YlQm30OfuQwnb/f
+ TUGnL+UpVB+Zh0ri5o7rJofXrkxxUSs+e+OT5M/KPU96hc1TsiDS1x4NcKTkOglKz9W/
+ M3KA==
+X-Gm-Message-State: AOAM532FgBMWYq8T31bY9TEWmCZ5ZUIei2KaQ2u4cBvW/yeOeSYDa2Fw
+ rT7BV1oawBtgyUuh1TG7sjxrQELtt7B0e4PwlIqfxC4ZrpKjEzWvEMkkXBOV0B2oRFkdk6UmJXn
+ jql1wENAabwmZo8k=
+X-Received: by 2002:a05:600c:34d4:b0:394:91a8:104b with SMTP id
+ d20-20020a05600c34d400b0039491a8104bmr20035103wmq.134.1653934268500; 
+ Mon, 30 May 2022 11:11:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDqPkt75/BuT6mnIxYRkPcrYhHUtUA117LtA6Iyphcohw8qrINvgLM6twGpHmzF1Vu9P05nw==
+X-Received: by 2002:a05:600c:34d4:b0:394:91a8:104b with SMTP id
+ d20-20020a05600c34d400b0039491a8104bmr20035078wmq.134.1653934268182; 
+ Mon, 30 May 2022 11:11:08 -0700 (PDT)
+Received: from redhat.com ([2.52.157.68]) by smtp.gmail.com with ESMTPSA id
+ l17-20020a05600c4f1100b003973c4bb19bsm20921wmq.16.2022.05.30.11.11.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 11:11:07 -0700 (PDT)
+Date: Mon, 30 May 2022 14:11:02 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Lev Kujawski <lkujaw@member.fsf.org>, qemu-trival@nongnu.org,
+ John Snow <jsnow@redhat.com>, "open list:IDE" <qemu-block@nongnu.org>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Bernhard Beschow <shentey@gmail.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 4/4] hw/ide/piix: Ignore writes of hardwired PCI command
+ register bits
+Message-ID: <20220530140956-mutt-send-email-mst@kernel.org>
+References: <20220528204702.167912-1-lkujaw@member.fsf.org>
+ <20220528204702.167912-4-lkujaw@member.fsf.org>
+ <d80d1bbe-982c-90d8-4a54-ebab6dd36e4a@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.81.211.14]
-X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d80d1bbe-982c-90d8-4a54-ebab6dd36e4a@amsat.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,80 +103,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, 29 Apr 2022 15:40:27 +0100
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+On Mon, May 30, 2022 at 03:33:18PM +0200, Philippe Mathieu-Daudé wrote:
+> On 28/5/22 22:47, Lev Kujawski wrote:
+> > One method to enable PCI bus mastering for IDE controllers, often used
+> > by x86 firmware, is to write 0x7 to the PCI command register.  Neither
+> > the PIIX3 specification nor actual hardware (a Tyan S1686D system)
+> > permit modification of the Memory Space Enable (MSE) bit, 1, and thus
+> > the command register would be left in an unspecified state without
+> > this patch.
+> > 
+> > Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
+> > ---
+> >   hw/ide/piix.c | 25 +++++++++++++++++++++++++
+> >   1 file changed, 25 insertions(+)
+> > 
+> > diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+> > index 76ea8fd9f6..f1d1168ecd 100644
+> > --- a/hw/ide/piix.c
+> > +++ b/hw/ide/piix.c
+> > @@ -25,6 +25,8 @@
+> >    * References:
+> >    *  [1] 82371FB (PIIX) AND 82371SB (PIIX3) PCI ISA IDE XCELERATOR,
+> >    *      290550-002, Intel Corporation, April 1997.
+> > + *  [2] 82371AB PCI-TO-ISA / IDE XCELERATOR (PIIX4), 290562-001,
+> > + *      Intel Corporation, April 1997.
+> >    */
+> >   #include "qemu/osdep.h"
+> > @@ -32,6 +34,7 @@
+> >   #include "migration/vmstate.h"
+> >   #include "qapi/error.h"
+> >   #include "qemu/module.h"
+> > +#include "qemu/range.h"
+> >   #include "sysemu/block-backend.h"
+> >   #include "sysemu/blockdev.h"
+> >   #include "sysemu/dma.h"
+> > @@ -220,6 +223,26 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
+> >       }
+> >   }
+> > +static void piix_pci_config_write(PCIDevice *d, uint32_t addr,
+> > +                                  uint32_t val, int l)
+> > +{
+> > +    /*
+> > +     * Mask all IDE PCI command register bits except for Bus Master
+> > +     * Function Enable (bit 2) and I/O Space Enable (bit 1), as the
+> > +     * remainder are hardwired to 0 [1, p.48] [2, p.89-90].
+> > +     *
+> > +     * NOTE: According to the PIIX3 datasheet [1], the Memory Space
+> > +     * Enable (MSE bit) is hardwired to 1, but this is contradicted by
+> > +     * actual PIIX3 hardware, the datasheet itself (viz., Default
+> > +     * Value: 0000h), and the PIIX4 datasheet [2].
+> > +     */
+> > +    if (range_covers_byte(addr, l, PCI_COMMAND)) {
+> > +        val &= ~(0xfffa << ((PCI_COMMAND - addr) << 3));
+> 
+> Watch out, len can be 1/2/4.
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->=20
-> A CXL 2.0 component is any entity in the CXL topology. All components
-> have a analogous function in PCIe. Except for the CXL host bridge, all
-> have a PCIe config space that is accessible via the common PCIe
-> mechanisms. CXL components are enumerated via DVSEC fields in the
-> extended PCIe header space. CXL components will minimally implement some
-> subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
-> 2.0 specification. Two headers and a utility library are introduced to
-> support the minimum functionality needed to enumerate components.
->=20
-> The cxl_pci header manages bits associated with PCI, specifically the
-> DVSEC and related fields. The cxl_component.h variant has data
-> structures and APIs that are useful for drivers implementing any of the
-> CXL 2.0 components. The library takes care of making use of the DVSEC
-> bits and the CXL.[mem|cache] registers. Per spec, the registers are
-> little endian.
->=20
-> None of the mechanisms required to enumerate a CXL capable hostbridge
-> are introduced at this point.
->=20
-> Note that the CXL.mem and CXL.cache registers used are always 4B wide.
-> It's possible in the future that this constraint will not hold.
->=20
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> Reviewed-by: Adam Manzanares <a.manzanares@samsung.com>
 
-FYI on a bug, in case anyone else hits it.
+If there are bits hardwired to 0 the right way to do it is
+by clearing a bit in wmask. Might need machine compat machinery
+for this.
 
-> +static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk)
-> +{
-> +    int decoder_count =3D 1;
-> +    int i;
-> +
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, DECODER_COUN=
-T,
-> +                     cxl_decoder_count_enc(decoder_count));
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT=
-, 1);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, INTERLEAVE_2=
-56B, 1);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, INTERLEAVE_4=
-K, 1);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, POISON_ON_ER=
-R_CAP, 0);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_GLOBAL_CONTROL,
-> +                     HDM_DECODER_ENABLE, 0);
-> +    write_msk[R_CXL_HDM_DECODER_GLOBAL_CONTROL] =3D 0x3;
-> +    for (i =3D 0; i < decoder_count; i++) {
-> +        write_msk[R_CXL_HDM_DECODER0_BASE_LO + i * 0x20] =3D 0xf0000000;
-> +        write_msk[R_CXL_HDM_DECODER0_BASE_HI + i * 0x20] =3D 0xffffffff;
-> +        write_msk[R_CXL_HDM_DECODER0_SIZE_LO + i * 0x20] =3D 0xf0000000;
-> +        write_msk[R_CXL_HDM_DECODER0_SIZE_HI + i * 0x20] =3D 0xffffffff;
-> +        write_msk[R_CXL_HDM_DECODER0_CTRL + i * 0x20] =3D 0x13ff;
+> > +    }
+> > +
+> > +    pci_default_write_config(d, addr, val, l);
+> > +}
+> > +
+> >   /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+> >   static void piix3_ide_class_init(ObjectClass *klass, void *data)
+> >   {
+> > @@ -232,6 +255,7 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+> >       k->vendor_id = PCI_VENDOR_ID_INTEL;
+> >       k->device_id = PCI_DEVICE_ID_INTEL_82371SB_1;
+> >       k->class_id = PCI_CLASS_STORAGE_IDE;
+> > +    k->config_write = piix_pci_config_write;
+> >       set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+> >       dc->hotpluggable = false;
+> >   }
+> > @@ -260,6 +284,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
+> >       k->vendor_id = PCI_VENDOR_ID_INTEL;
+> >       k->device_id = PCI_DEVICE_ID_INTEL_82371AB;
+> >       k->class_id = PCI_CLASS_STORAGE_IDE;
+> > +    k->config_write = piix_pci_config_write;
+> >       set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+> >       dc->hotpluggable = false;
+> >   }
 
-For some unknown reason I missed write masks for the target lists in here.
-It was hidden from superficial testing by a bug in the kernel code I was us=
-ing
-that mean these were mostly written to 0.
-
-I'll send a fix out tomorrow (just adds 0xffffffff masks for each of the
-target registers).
-
-Given issues I'm seeing in testing around HDM decoder programming I'll look
-to follow that up with a patch adding some more rigorous checking of the
-values on commit.
-
-Jonathan
 
