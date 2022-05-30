@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67CA5385F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 18:15:58 +0200 (CEST)
-Received: from localhost ([::1]:52524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFFF538600
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 18:20:49 +0200 (CEST)
+Received: from localhost ([::1]:60146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvi3h-000326-2N
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 12:15:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38500)
+	id 1nvi8M-0008IO-TF
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 12:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvM-0002dv-4F
+ id 1nvhvN-0002e5-6V
  for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:21 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35739)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:46991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhvF-0007AS-6Z
- for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:19 -0400
-Received: by mail-wr1-x436.google.com with SMTP id q21so4085428wra.2
+ id 1nvhvG-0007AW-4g
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 12:07:20 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ r123-20020a1c2b81000000b0039c1439c33cso1164091wmr.5
  for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jmdSDi7OZ3CLw863mo3YNTbjzT20pYO5UsVwQ0Hh3hM=;
- b=pPonqTdhlY5Iu5hOCS1urVfiJOleXxk6jYICjBI6A8ZyC/NvW8jwwtcFI0E3kJH86U
- XurGISrJAe/Z7dPv/W5MQmRyZN/JedVg5XV2RimqmOM1RHU6PhH+M5+vGpxo+IXcVSzi
- Qab7UD7ddGl+/VHoskQzG1av4G2kKVRvfkrA4y4n3HSap906ACxw4PDP48KA2o79Db3A
- eo1OZ22BGaRNL8npllydCQ8PJlS9fB4atFNJJ0NE4KJFggQZcAE18hLJ/V9jJC6eQEmf
- KkUTsOHb56J7pY624QGhiZJjHZJIMuqWdKcBd9h+fu5fyuH1vogDZPwHdqDXarJD2skH
- t64w==
+ bh=z/EiYIg0W6+dtf+QTbWYS+jOx0Pk8vnVY1fISas01J4=;
+ b=kSps6zC81cchITJlV9DqAehU8MN3pIWwZPfsVjI7CHGg0KTNXSFt0PLL+VDy+viEwp
+ O5CGVwwvXs5dactB0ZpTQt66sjKLvbjdwys8Cvjei+A43GXxlXauMLK3QUMtsiQJLKQ2
+ o4ssVn/5TpOtc32cNEtFgs+TFpugIHAZV+NSv4F3WSf3orwSZ3hSusSQpWc2qldguifx
+ XgSR8RS5VAxnkWPUbTr0YoUjwrP1N5Dyt9EwV0rS9/YHDrOx1vTXzP6/lBtMufq+E8JZ
+ q9P8h62b5r9oH20DDQhGHt7SGVTHQeHLj9xp+FuHpzW+9WCOHm7WAyGWMb8LLhs2tM2A
+ HWNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jmdSDi7OZ3CLw863mo3YNTbjzT20pYO5UsVwQ0Hh3hM=;
- b=Q5hh8M5HXFa0jeLGhW5d3s29q1xB4tuXb3qDpLsfdPPsq57J5l5I0Gar02zVPCmneC
- tLpHcLM0TFE+4ufa5j8Jft3Gltuix0aHfnH8IHiX4E6dm11+MzGKk9qXBM7uYnWzhyrT
- BTOYWwrRT8lYez6Ms3TBgm/4hXEeeXhCrpVidrPX2NL8L8WJGJCe9P1ZzV05IUenkfL/
- n7deWE5XF42tmWQcyYhUgT7v8UEShYb7POoQBMvxGsEyxlxpDjpT6mg8tbppR6zCrEoZ
- 9hKlfItsRlr+dHzeq0nMahJK3mCbNmE2jgrPmH9MpVYQ/ANNWvbVyg4KEvV5SV+Z5u3i
- Ke6w==
-X-Gm-Message-State: AOAM5330vQ076BqOo5c/SrT48r6mH4kAnw2y9GzV2C8bA8+wr5sn434l
- YVd0q4MI/nyrRpwb4EWCrVNUqZfy5zarBw==
-X-Google-Smtp-Source: ABdhPJx8s17Evjdt2ctSObOuJFBjGaEUoK5vpTUEVWaUDX1A2SAe7nfAspR19y1B7Ol/M95I87bg/g==
-X-Received: by 2002:adf:f80a:0:b0:210:32ed:35bf with SMTP id
- s10-20020adff80a000000b0021032ed35bfmr5341015wrp.51.1653926831101; 
+ bh=z/EiYIg0W6+dtf+QTbWYS+jOx0Pk8vnVY1fISas01J4=;
+ b=VEFscJm7mVNyi9qxMY3P6E7ful3qLTCVf8H/oU+FSC0Ho1rhvacpXJCShnXUMRXuuq
+ zIPQEPwr4F3ae0Ly42/I/yXs50B/fvZXHfj7AqNucnEQQX8rcO4VlIjx47f14K7rhNrH
+ DfnA/uCFzAKFpa38ptJK2/KjyMpssA0Upu/sn1jpNNPgg5SqbdRGfQAIxdnxL2CnWZaV
+ 06/333rin7KZm7jDw9QropKwNDmrqoI3KxNtWGSJIzpw4wtXi4fbkNzawX/p7FyTfSiE
+ h4NnlsfSujxKSb53bm6SzdQgVUPRlcaobOnyMV7NGKcMmyB7xPftztBy6unu3JV8Lmvm
+ JGcA==
+X-Gm-Message-State: AOAM533OT7OCN3i8yIKZyLzxZooOxTDxgCTXTw1OqDkVXRucEfSHqL+e
+ oBuZeoYTtPXTcT2ZkXQAYzvES3J1y7pzow==
+X-Google-Smtp-Source: ABdhPJyB9CqeTJVs1JdK7xmkI63FPpxiRldpRCNvLlY6fIKFHN1ha13ET4Ig4x3v4xUNstKX/M/X7Q==
+X-Received: by 2002:a05:600c:3ac7:b0:397:5cb4:a2b5 with SMTP id
+ d7-20020a05600c3ac700b003975cb4a2b5mr19592605wms.5.1653926831789; 
  Mon, 30 May 2022 09:07:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.07.10
+ bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.07.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 09:07:10 -0700 (PDT)
+ Mon, 30 May 2022 09:07:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 001/117] docs/system/arm: Add FEAT_HCX to list of emulated
- features
-Date: Mon, 30 May 2022 17:05:12 +0100
-Message-Id: <20220530160708.726466-2-peter.maydell@linaro.org>
+Subject: [PULL 002/117] target/arm/hvf: Include missing "cpregs.h"
+Date: Mon, 30 May 2022 17:05:13 +0100
+Message-Id: <20220530160708.726466-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,31 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 5814d587fe861fe9 we added support for emulating
-FEAT_HCX (Support for the HCRX_EL2 register). However we
-forgot to add it to the list in emulated.rst. Correct the
-omission.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fixes: 5814d587fe861fe9 ("target/arm: Enable FEAT_HCX for -cpu max")
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Fix when building HVF on macOS Aarch64:
+
+  target/arm/hvf/hvf.c:586:15: error: unknown type name 'ARMCPRegInfo'; did you mean 'ARMCPUInfo'?
+          const ARMCPRegInfo *ri;
+                ^~~~~~~~~~~~
+                ARMCPUInfo
+  target/arm/cpu-qom.h:38:3: note: 'ARMCPUInfo' declared here
+  } ARMCPUInfo;
+    ^
+  target/arm/hvf/hvf.c:589:14: error: implicit declaration of function 'get_arm_cp_reginfo' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+          ri = get_arm_cp_reginfo(arm_cpu->cp_regs, key);
+               ^
+  target/arm/hvf/hvf.c:589:12: warning: incompatible integer to pointer conversion assigning to 'const ARMCPUInfo *' (aka 'const struct ARMCPUInfo *') from 'int' [-Wint-conversion]
+          ri = get_arm_cp_reginfo(arm_cpu->cp_regs, key);
+             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  target/arm/hvf/hvf.c:591:26: error: no member named 'type' in 'struct ARMCPUInfo'
+              assert(!(ri->type & ARM_CP_NO_RAW));
+                       ~~  ^
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h:99:25: note: expanded from macro 'assert'
+      (__builtin_expect(!(e), 0) ? __assert_rtn(__func__, __ASSERT_FILE_NAME, __LINE__, #e) : (void)0)
+                          ^
+  target/arm/hvf/hvf.c:591:33: error: use of undeclared identifier 'ARM_CP_NO_RAW'
+              assert(!(ri->type & ARM_CP_NO_RAW));
+                                  ^
+  1 warning and 4 errors generated.
+
+Fixes: cf7c6d1004 ("target/arm: Split out cpregs.h")
+Reported-by: Duncan Bayne <duncan@bayne.id.au>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220520084320.424166-1-peter.maydell@linaro.org
+Message-id: 20220525161926.34233-1-philmd@fungible.com
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1029
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/emulation.rst | 1 +
+ target/arm/hvf/hvf.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 3e95bba0d24..49cc3e8340e 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -29,6 +29,7 @@ the following architecture extensions:
- - FEAT_FRINTTS (Floating-point to integer instructions)
- - FEAT_FlagM (Flag manipulation instructions v2)
- - FEAT_FlagM2 (Enhancements to flag manipulation instructions)
-+- FEAT_HCX (Support for the HCRX_EL2 register)
- - FEAT_HPDS (Hierarchical permission disables)
- - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
- - FEAT_IDST (ID space trap handling)
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index 86710509d20..1fdc5eef92b 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -17,6 +17,7 @@
+ #include "sysemu/hvf_int.h"
+ #include "sysemu/hw_accel.h"
+ #include "hvf_arm.h"
++#include "cpregs.h"
+ 
+ #include <mach/mach_time.h>
+ 
 -- 
 2.25.1
 
