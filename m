@@ -2,85 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238ED53760A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 09:53:46 +0200 (CEST)
-Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1994537626
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 09:58:11 +0200 (CEST)
+Received: from localhost ([::1]:50700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvaDg-0003mx-W8
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 03:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36370)
+	id 1nvaHy-0000aA-T4
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 03:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nvaA1-0001bv-N2
- for qemu-devel@nongnu.org; Mon, 30 May 2022 03:49:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38445)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvaAq-00028l-Em
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 03:50:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nva9z-0002Cd-1n
- for qemu-devel@nongnu.org; Mon, 30 May 2022 03:49:56 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nvaAo-0002X2-QK
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 03:50:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653896994;
+ s=mimecast20190719; t=1653897046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IjE+4OyPR50YkcNltrvDbHHxmJMQcqCZk9WFZCehurw=;
- b=dMnGior4h7t9vkChlVNTeFh4M52unk67PAeeWYhPYVzZpQ1FV/SbM4lbWMCBWJL8E/Mp8Q
- GnK0nuCN9xSq8cLYTYYirl+NWl5gVRSr8hJXZWurJ0wxQxirtwd3QxXbY0vMP/BLmN9CeP
- ksoKfSknCCOAp/OGgvmxvU5xyJuRvmE=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Nru7Gl44mheu3lhjgA82SqpEabV6NbndrpFfvEhJ3qE=;
+ b=Mjnup/rCVhZrOvvBbmVDujIT6qzUtDxSSrqHZkRsXKYmGC9lA5boutFL6MvZd2FuGxJFD2
+ bGyrsZidEwsMiD4XFTKXn8sVO0yal6Wf/zH9NcjPmX4slEpi/dLE0k0XXyOaymduMTvi0s
+ JJEP6y/fL+zT1Yk6ntTo/27e0Ljj+IQ=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-TLUVsDIeNLKRozOh5cTynA-1; Mon, 30 May 2022 03:49:52 -0400
-X-MC-Unique: TLUVsDIeNLKRozOh5cTynA-1
-Received: by mail-yb1-f200.google.com with SMTP id
- y139-20020a253291000000b0065cff9ce37aso822708yby.23
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 00:49:52 -0700 (PDT)
+ us-mta-477-FIHSm3vcPx2B4lejFMp8Xg-1; Mon, 30 May 2022 03:50:44 -0400
+X-MC-Unique: FIHSm3vcPx2B4lejFMp8Xg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ az40-20020a05620a172800b006a5faff65c8so3887325qkb.7
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 00:50:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IjE+4OyPR50YkcNltrvDbHHxmJMQcqCZk9WFZCehurw=;
- b=fQ0uH25hne+7tjSQXGvDBLp+mQKuCEPZDSxLRkIlmalHWp7Z6htRvQ6Znp7lphH+e1
- +LfFna9NqrQ2hx8ma3JXUD4mPXmswss/vOzoOnH55kzo1TcGCwkHpQ7ezIsqmK+zqmzg
- iDNAFRzxTvmSEzQBfubenkasCAPUkKP6it+osUN2VJfLm2Pr2zbbu3kIcvmY6PzQRpmR
- rqociWZER8fSod18M13ciY4s+MQNrAXTBlIpG+pQ/dx9GnU0WI3p6FUQ5a4q65ulh6Gc
- LPi5K/Vpr0zVjeO6NGIBi76E5nGsTD28tzaDTfDzkp22h+4UEsd5uu2cTO//IDh+qhHk
- TU3g==
-X-Gm-Message-State: AOAM532xvQ1HZHVLo6BRSdHx8twOh3NPH+wlbSaAIy/5U9AwrwRtunTV
- C8QpA1lAY95k1vpAjbDj8SJySwZYz2WLnsfPGVQl3H66bGuMfB5YWLNdY3kfc7t6KvfTfehletN
- cQm633fsxZhQBiatUkJy3HnNpFVSlQUU=
-X-Received: by 2002:a81:e8b:0:b0:30c:32af:74f with SMTP id
- 133-20020a810e8b000000b0030c32af074fmr6561391ywo.33.1653896992125; 
- Mon, 30 May 2022 00:49:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6SGAVyjKui/fTPHegXzCs0mK2r3TUCrwn21s80jEhapaSY1b5rQK5g9elKFbSsAuNv9SGImZSVSUNGSTFKZk=
-X-Received: by 2002:a81:e8b:0:b0:30c:32af:74f with SMTP id
- 133-20020a810e8b000000b0030c32af074fmr6561380ywo.33.1653896991908; 
- Mon, 30 May 2022 00:49:51 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Nru7Gl44mheu3lhjgA82SqpEabV6NbndrpFfvEhJ3qE=;
+ b=w/9M1Xtv5VbKf4MC+TaTBw9Aq0NXbp7puiHEla9Q6RZpPsGokr6X5ScqwHO2vygIo3
+ vXSSHfuM19Hn/Ikn5Idzuf77gJ73jC3Wj2aDbRL1xXljgUbhAu8TKII7rjM/yAgjCTY0
+ ccQ3rZHsOKnzcJYDIkJNgZ3xTRKNPBBuhxI5bDISgmzEY54E4m+TavTx9ddquGNdQ5P+
+ nihBb8LfKEat8Yyw9jrtjtAmGr7+q1xMKMw2g+4lfatDTDZMf6JZiHmA8FhGnxvWrqAl
+ mKE8PiN3hmtbAovNWKORGqGlvUA4tjgQpjQhDh4rO0rcyNxRVLghiFraDzkQ6Q1aazL3
+ pzWw==
+X-Gm-Message-State: AOAM5339B6xhEMVUqoMvVg78y0VYYavFwjZEeScPx8N14TZXgLpJpZR3
+ +dVsct01S50hKwi9RwOQTgO+RlfF9a0KYnO882gNipf4RXy7e2p/mdMdxPhNhDUGFFTJsBtzeql
+ q1C03eqWpvLmIUg8=
+X-Received: by 2002:ac8:5852:0:b0:304:b65b:ac29 with SMTP id
+ h18-20020ac85852000000b00304b65bac29mr132927qth.238.1653897044343; 
+ Mon, 30 May 2022 00:50:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9xjPYOv6+eYpsN0eNgb8oldwZaVGyHNK4Yu1aMUdMZ6Y8xcSQ+85XuhlefUUhgpr58S4nTw==
+X-Received: by 2002:ac8:5852:0:b0:304:b65b:ac29 with SMTP id
+ h18-20020ac85852000000b00304b65bac29mr132914qth.238.1653897044119; 
+ Mon, 30 May 2022 00:50:44 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-179-216.web.vodafone.de.
+ [109.43.179.216]) by smtp.gmail.com with ESMTPSA id
+ e11-20020ac8064b000000b002f940c06d93sm6871008qth.16.2022.05.30.00.50.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 00:50:43 -0700 (PDT)
+Message-ID: <33179ad5-e4bd-7fc4-c742-76387042459c@redhat.com>
+Date: Mon, 30 May 2022 09:50:41 +0200
 MIME-Version: 1.0
-References: <20220527173058.226210-1-stefanb@linux.ibm.com>
- <CAMxuvax1PkLZb+Ms6n1wCyd8hHFsPQwi3xaM+RM0c1x7imQAzA@mail.gmail.com>
- <7b6d1edf-882f-a369-67c9-5ed5f1d7ce51@linux.ibm.com>
- <1eef83c7-9fb9-1060-a993-5b7d3ac47ffe@linux.ibm.com>
-In-Reply-To: <1eef83c7-9fb9-1060-a993-5b7d3ac47ffe@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 30 May 2022 09:49:41 +0200
-Message-ID: <CAMxuvazTLvO2evMmxGP+S+RN7VinM97mo81U8MVF0mSmYqLHSQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] backend/tpm: Resolve issue with TPM 2 DA lockout
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v1 28/33] gitlab: introduce a common base job template
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220527153603.887929-1-alex.bennee@linaro.org>
+ <20220527153603.887929-29-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220527153603.887929-29-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,90 +105,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 27/05/2022 17.35, Alex Bennée wrote:
+> From: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> Currently job rules are spread across the various templates
+> and jobs, making it hard to understand exactly what runs in
+> what scenario. This leads to inconsistency in the rules and
+> increased maint burden.
+> 
+> The intent is that we introduce a common '.base_job_template'
+> which will have a general purpose 'rules:' block. No other
+> template or job should define 'rules:', but instead they must
+> rely on the inherited rules. To allow behaviour to be tweaked,
+> rules will be influenced by a number of variables with the
+> naming scheme 'QEMU_JOB_nnnn'.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Message-Id: <20220526110705.59952-2-berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   docs/devel/ci-jobs.rst.inc    | 36 ++++++++++++++++++++++++++++++++++-
+>   .gitlab-ci.d/base.yml         | 28 +++++++++++++++++++++++++++
+>   .gitlab-ci.d/qemu-project.yml |  1 +
+>   3 files changed, 64 insertions(+), 1 deletion(-)
+>   create mode 100644 .gitlab-ci.d/base.yml
 
-On Sat, May 28, 2022 at 7:23 PM Stefan Berger <stefanb@linux.ibm.com> wrote=
-:
->
->
->
-> On 5/27/22 15:31, Stefan Berger wrote:
-> >
-> >
-> > On 5/27/22 15:24, Marc-Andr=C3=A9 Lureau wrote:
-> >> Hi
-> >>
-> >> On Fri, May 27, 2022 at 7:36 PM Stefan Berger <stefanb@linux.ibm.com>
-> >> wrote:
-> >>>
-> >>> This series of patches resolves an issue with a TPM 2's dictionary
-> >>> attack
-> >>> lockout logic being triggered upon well-timed VM resets. Normally,
-> >>> the OS
-> >>> TPM driver sends a TPM2_Shutdown to the TPM 2 upon reboot and before
-> >>> a VM
-> >>> is reset. However, the OS driver cannot do this when the user resets
-> >>> a VM.
-> >>> In this case QEMU must send the command because otherwise several wel=
-l-
-> >>> timed VM resets will trigger the TPM 2's dictionary attack (DA) logic
-> >>> and
-> >>> it will then refuse to do certain key-related operations until the DA
-> >>> logic has timed out.
-> >>
-> >> How does real hardware deal with that situation? Shouldn't this
-> >> "shutdown"/reset logic be implemented on swtpm side instead, when
-> >> CMD_INIT is received? (when the VM is restarted)
-> > I don't know what real hardware can actually do when the machine is
-> > reset, presumably via some reset line, or the power is removed. Probabl=
-y
-> > it has no way to react to this.
-> >
-> > Typically the OS driver has to send the command and since it cannot do
-> > this I would defer it to the TPM emulator reset handler code, so the
-> > next layer down.
->
-> Also, when this is done in QEMU we don't need to do a data channel
-> operation (run TPM2_Shutdown) from within the control channel (upon
-> CMD_INIT) inside of swtpm. This way we can deal with it properly. The
-> usage model for the TPM 2 prescribes that a TPM2_Shutdown must be sent
-> before a shutdown or reset of the system, so let's let QEMU do it if the
-> OS cannot do it.
-
-What if qemu is killed or crashed, and a new instance is connected to
-swtpm? Or more subtle, the VM reboots without qemu help (no reset
-handler). It feels like it would be more robust to handle the
-situation in swtpm. Why not have the same last operation tracking and
-shutdown logic there? If CMD_INIT is received and the last operation
-is not shutdown, I'd have a warning and do it (if this is compliant
-with the spec, I am trying to find relevant text).
-
-
->
-> >
-> >
-> >
-> >>
-> >>>
-> >>> Regards,
-> >>>    Stefan
-> >>>
-> >>> Stefan Berger (2):
-> >>>    backends/tpm: Record the last command sent to the TPM
-> >>>    backends/tpm: Send TPM2_Shutdown upon VM reset
-> >>>
-> >>>   backends/tpm/tpm_emulator.c | 44 ++++++++++++++++++++++++++++++++++=
-+++
-> >>>   backends/tpm/tpm_int.h      |  3 +++
-> >>>   backends/tpm/tpm_util.c     |  9 ++++++++
-> >>>   backends/tpm/trace-events   |  1 +
-> >>>   include/sysemu/tpm_util.h   |  3 +++
-> >>>   5 files changed, 60 insertions(+)
-> >>>
-> >>> --
-> >>> 2.35.3
-> >>>
-> >>
->
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
