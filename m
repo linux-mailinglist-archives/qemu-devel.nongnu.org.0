@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA60E5386A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:14:52 +0200 (CEST)
-Received: from localhost ([::1]:49840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C0B5386F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 May 2022 19:58:00 +0200 (CEST)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nviyi-0007CC-0A
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
+	id 1nvjeR-0000bk-TQ
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 13:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwQ-0003tb-Q3
+ id 1nvhwQ-0003tf-Ql
  for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:27 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:32840)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvhwL-0007Lc-5F
+ id 1nvhwL-0007Hl-91
  for qemu-devel@nongnu.org; Mon, 30 May 2022 12:08:22 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- o29-20020a05600c511d00b00397697f172dso202732wms.0
+Received: by mail-wr1-x42a.google.com with SMTP id d26so9674574wrb.13
  for <qemu-devel@nongnu.org>; Mon, 30 May 2022 09:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4gTS1bWEJsIqym+/C3vEStpf2vM3YV4EhLGnvt8Rclo=;
- b=OQDYSOWS5wl8hIS9U3T1Wr1bTSsMHPqeY9nkZvlc23w9wFOgXr3JniNDqVzMICBqeD
- VXNkMqbKpdjbY+YtQGtrx/fJsfxu7UvFnyZbQMBYBqmgCJ9+BUNCJT3o2GZzsmtwDp2M
- Rj2XzI2XDYlkP9hkwtoMs+/oZU9jkbxAr82hoQsU30XBd+mFTRY01v4sZKu6uZoiufly
- bO/tD58AakKDH0KiUzcwgeyMAgUAv/rlVTYA5xz0/W5G2ZcQectHl/X/Yhkf5EqNh34x
- Elr13FDgqYCKeXRSbfLzuoipvcKtbFjfuYWu8wDLVhQPHM0NOhDTSXhrs4KWh8FqoGeD
- NgOQ==
+ bh=8H0O7WP3fZTtNdQhbGwYgO4FNCF8NZfiJ1G4q6YMIBY=;
+ b=Ejgy9Odk7RQgM+lYdey81GLfLI6jByNCStGlV0JycTj+aBFEmfwziTnP7DmSft2T3m
+ VBQ81/7/ezeCs4C7k4YNjrwtCNuK4QNerI5WBlz335E6ULpbyR9Uk35fyfdX2OrNX2Vl
+ cnfcnXfskNOYfNHlgjYsIto9tMQd9Q5euAY6aX0TSx19d/qTvhFze8JvQucjPGAHF5JE
+ DXy71C0fmgk2U68MBz7Z7DYpgFPJVLLQuzmUa6yUJLLAE3KWgG/zJcXkVh4CvCVoD20z
+ 8c2TSNLVagQiQzKXW/RXENeIa2QYdcyKnL0S1qV3IairgNb4JZ7Jaa8nbVnC8UGtZS8l
+ U9EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4gTS1bWEJsIqym+/C3vEStpf2vM3YV4EhLGnvt8Rclo=;
- b=rbNLfbiGqva1+1FnUcRpMO174sA2Qhfs9ffduX8smx2cR3w2DsiogI+5M1QiPViSPE
- DFs260VP60EzPdF1WJ5j7ndEZJ3D3o/U8qoz/CLvpAX1sr5hyrgD4AMGRMLMv3KqAMKo
- kIlMoUTjevK1cK/q5b8UIgFQLXh9EhQSDne6eaBnrkJ2A8mQkQgzgnXiSFUoXcznB9uf
- Ir6fJyB2Dyp1NUfJRdnCkl4Fe4AiSt6GC7SlquW7knzorz3/ZLTR7HGBXeUqn7TjgAMR
- mqDKW0DgddM27bbOWqiEOr0C6vcBaJ8zaw8WpIi0fDtyhhshqytOK7t9uPv+i2PXRi34
- oXAA==
-X-Gm-Message-State: AOAM531pYgRKJ2qMbOX1o1CwYfFtFYDiwSYEoKqK13Y2Ea79A9pRYhKn
- meJHuo2pOGD/64nTTLTVNXuqUoXWv93fGQ==
-X-Google-Smtp-Source: ABdhPJxiG+IoLWpJ9dQSNxJgnbmEAHe3ASHE7x2+TldAfXAzsESgc6g1aek3p5dnkaXfJBjb5wLL6Q==
-X-Received: by 2002:a7b:c00a:0:b0:397:475b:1ad7 with SMTP id
- c10-20020a7bc00a000000b00397475b1ad7mr20029604wmb.42.1653926899597; 
- Mon, 30 May 2022 09:08:19 -0700 (PDT)
+ bh=8H0O7WP3fZTtNdQhbGwYgO4FNCF8NZfiJ1G4q6YMIBY=;
+ b=P3Blvjs105SuAs86/PajHoGU3qXraLAi9hUxwWuXXB2Oka2q9so3vdcuNdeqGW2S3i
+ B2fUCyEzNJoW5Nn9DwwEu5eQZvNa7dmCfyorkVPOak0h6tY9bz67J3GtxnH1rULMJIzY
+ PI7nSO/glLTUOjdPzlwJgrJl4imui5OaO4lorlmGp+KgtYNjpPdgeLvrZMsEx/oQ7gnk
+ 8lsKeLNHKlYZVAio9kbU1bO+wMEIHC7aM4UOy0k4vQreWy9X0DqvbKQyp236vXp2zicN
+ pKPq2nwTT8n9FJfq3GAxSwRMaE8vexo20HTEXitO+1m1g63cU5dhJpyMfmRgtBkAPqPQ
+ 0n5g==
+X-Gm-Message-State: AOAM533aj2g5x5sJEJ0MbOR/WJzvIIVMwB1li4z6jd3qi6aJJOIybksk
+ D68aoYqI8GKHe2E1wMgevqCOkQNP4Z9H/A==
+X-Google-Smtp-Source: ABdhPJx0095ta/5gVz+t+b7TLZVQBaWEfA+nepGV/8MJAPhJJboJPUTAyp/8hNibld4IhAIuluavnw==
+X-Received: by 2002:a5d:6847:0:b0:20f:c0b6:d783 with SMTP id
+ o7-20020a5d6847000000b0020fc0b6d783mr40465321wrw.101.1653926900397; 
+ Mon, 30 May 2022 09:08:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.18
+ bi12-20020a05600c3d8c00b003974b95d897sm10232152wmb.37.2022.05.30.09.08.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 09:08:19 -0700 (PDT)
+ Mon, 30 May 2022 09:08:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 074/117] target/arm: Reject dup_i w/ shifted byte early
-Date: Mon, 30 May 2022 17:06:25 +0100
-Message-Id: <20220530160708.726466-75-peter.maydell@linaro.org>
+Subject: [PULL 075/117] target/arm: Reject add/sub w/ shifted byte early
+Date: Mon, 30 May 2022 17:06:26 +0100
+Message-Id: <20220530160708.726466-76-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220530160708.726466-1-peter.maydell@linaro.org>
 References: <20220530160708.726466-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,66 +90,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Remove the unparsed extraction in trans_DUP_i,
-which is intended to reject an 8-bit shift of
-an 8-bit constant for 8-bit element.
+Remove the unparsed extractions in trans_ADD_zzi, trans_SUBR_zzi,
+and do_zzi_sat which are intended to reject an 8-bit shift of an
+8-bit constant for 8-bit element.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220527181907.189259-72-richard.henderson@linaro.org
+Message-id: 20220527181907.189259-73-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sve.decode      |  5 ++++-
- target/arm/translate-sve.c | 10 ++++++----
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ target/arm/sve.decode      | 35 ++++++++++++++++++++++++++++-------
+ target/arm/translate-sve.c |  9 ---------
+ 2 files changed, 28 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 0388cce3bd9..c02da0a0829 100644
+index c02da0a0829..8cff63cf257 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -787,7 +787,10 @@ WHILE_ptr       00100101 esz:2 1 rm:5 001 100 rn:5 rw:1 rd:4
- FDUP            00100101 esz:2 111 00 1110 imm:8 rd:5
- 
- # SVE broadcast integer immediate (unpredicated)
--DUP_i           00100101 esz:2 111 00 011 . ........ rd:5       imm=%sh8_i8s
-+{
-+  INVALID       00100101 00    111 00 011 1 -------- -----
-+  DUP_i         00100101 esz:2 111 00 011 . ........ rd:5       imm=%sh8_i8s
-+}
+@@ -793,13 +793,34 @@ FDUP            00100101 esz:2 111 00 1110 imm:8 rd:5
+ }
  
  # SVE integer add/subtract immediate (unpredicated)
- ADD_zzi         00100101 .. 100 000 11 . ........ .....         @rdn_sh_i8u
+-ADD_zzi         00100101 .. 100 000 11 . ........ .....         @rdn_sh_i8u
+-SUB_zzi         00100101 .. 100 001 11 . ........ .....         @rdn_sh_i8u
+-SUBR_zzi        00100101 .. 100 011 11 . ........ .....         @rdn_sh_i8u
+-SQADD_zzi       00100101 .. 100 100 11 . ........ .....         @rdn_sh_i8u
+-UQADD_zzi       00100101 .. 100 101 11 . ........ .....         @rdn_sh_i8u
+-SQSUB_zzi       00100101 .. 100 110 11 . ........ .....         @rdn_sh_i8u
+-UQSUB_zzi       00100101 .. 100 111 11 . ........ .....         @rdn_sh_i8u
++{
++  INVALID       00100101 00 100 000 11 1 -------- -----
++  ADD_zzi       00100101 .. 100 000 11 . ........ .....         @rdn_sh_i8u
++}
++{
++  INVALID       00100101 00 100 001 11 1 -------- -----
++  SUB_zzi       00100101 .. 100 001 11 . ........ .....         @rdn_sh_i8u
++}
++{
++  INVALID       00100101 00 100 011 11 1 -------- -----
++  SUBR_zzi      00100101 .. 100 011 11 . ........ .....         @rdn_sh_i8u
++}
++{
++  INVALID       00100101 00 100 100 11 1 -------- -----
++  SQADD_zzi     00100101 .. 100 100 11 . ........ .....         @rdn_sh_i8u
++}
++{
++  INVALID       00100101 00 100 101 11 1 -------- -----
++  UQADD_zzi     00100101 .. 100 101 11 . ........ .....         @rdn_sh_i8u
++}
++{
++  INVALID       00100101 00 100 110 11 1 -------- -----
++  SQSUB_zzi     00100101 .. 100 110 11 . ........ .....         @rdn_sh_i8u
++}
++{
++  INVALID       00100101 00 100 111 11 1 -------- -----
++  UQSUB_zzi     00100101 .. 100 111 11 . ........ .....         @rdn_sh_i8u
++}
+ 
+ # SVE integer min/max immediate (unpredicated)
+ SMAX_zzi        00100101 .. 101 000 110 ........ .....          @rdn_i8s
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index c0781ecf601..14faef05641 100644
+index 14faef05641..bf988cab3eb 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -403,6 +403,12 @@ const uint64_t pred_esz_masks[4] = {
-     0x1111111111111111ull, 0x0101010101010101ull
- };
+@@ -3262,9 +3262,6 @@ static bool trans_DUP_i(DisasContext *s, arg_DUP_i *a)
  
-+static bool trans_INVALID(DisasContext *s, arg_INVALID *a)
-+{
-+    unallocated_encoding(s);
-+    return true;
-+}
-+
- /*
-  *** SVE Logical - Unpredicated Group
-  */
-@@ -3246,13 +3252,9 @@ static bool trans_FDUP(DisasContext *s, arg_FDUP *a)
- 
- static bool trans_DUP_i(DisasContext *s, arg_DUP_i *a)
+ static bool trans_ADD_zzi(DisasContext *s, arg_rri_esz *a)
  {
+-    if (a->esz == 0 && extract32(s->insn, 13, 1)) {
+-        return false;
+-    }
+     return gen_gvec_fn_arg_zzi(s, tcg_gen_gvec_addi, a);
+ }
+ 
+@@ -3305,9 +3302,6 @@ static bool trans_SUBR_zzi(DisasContext *s, arg_rri_esz *a)
+           .scalar_first = true }
+     };
+ 
 -    if (a->esz == 0 && extract32(s->insn, 13, 1)) {
 -        return false;
 -    }
      if (sve_access_check(s)) {
          unsigned vsz = vec_full_reg_size(s);
-         int dofs = vec_full_reg_offset(s, a->rd);
--
-         tcg_gen_gvec_dup_imm(a->esz, dofs, vsz, vsz, a->imm);
-     }
-     return true;
+         tcg_gen_gvec_2s(vec_full_reg_offset(s, a->rd),
+@@ -3321,9 +3315,6 @@ TRANS_FEAT(MUL_zzi, aa64_sve, gen_gvec_fn_arg_zzi, tcg_gen_gvec_muli, a)
+ 
+ static bool do_zzi_sat(DisasContext *s, arg_rri_esz *a, bool u, bool d)
+ {
+-    if (a->esz == 0 && extract32(s->insn, 13, 1)) {
+-        return false;
+-    }
+     if (sve_access_check(s)) {
+         do_sat_addsub_vec(s, a->esz, a->rd, a->rn,
+                           tcg_constant_i64(a->imm), u, d);
 -- 
 2.25.1
 
