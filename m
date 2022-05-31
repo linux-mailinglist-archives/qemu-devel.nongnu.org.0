@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9127E538DDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:38:27 +0200 (CEST)
-Received: from localhost ([::1]:54666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2C9538DD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:37:42 +0200 (CEST)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvyKX-0006uh-80
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54322)
+	id 1nvyJp-0005SF-BM
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:37:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nvyBb-0002ET-9g
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:29:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nvyBZ-0000KW-NF
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:29:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653989348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/KsrAlA+cUzyY84FVZIvJ6NG3hfTuJ4yXZoPL+B3/xg=;
- b=Esiqs6bnWQnek8NXTuuAelMD4kfdtjpmSeqRsaqvzrXXkhy/8/30X93YatIIqdvdHVLouo
- BZ02bNsvKrnn5H0t7dAeATJ4kqQ3Ci8B0Y6X4iRkXYPUBCPx0pAvmRqE8GBJascs2VkXZi
- hp3m1SDN7Xh/fvz/tMPO9Jnhzr5+d3A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-uqqkWcxkPGCZX_7_NZKlZQ-1; Tue, 31 May 2022 05:29:05 -0400
-X-MC-Unique: uqqkWcxkPGCZX_7_NZKlZQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvyC4-0002OJ-37
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:29:41 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39848)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvyBz-0000PA-Oh
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:29:38 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 388A1811E7A;
- Tue, 31 May 2022 09:29:04 +0000 (UTC)
-Received: from localhost (dhcp-192-194.str.redhat.com [10.33.192.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F40672166B2B;
- Tue, 31 May 2022 09:29:03 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth
- <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-Subject: Re: [PATCH RFC 0/2] arm: enable MTE for QEMU + kvm
-In-Reply-To: <20220512131146.78457-1-cohuck@redhat.com>
-Organization: Red Hat GmbH
-References: <20220512131146.78457-1-cohuck@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Tue, 31 May 2022 11:29:02 +0200
-Message-ID: <871qwacaox.fsf@redhat.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9B1971F981;
+ Tue, 31 May 2022 09:29:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1653989374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t1xXxkXRYp/WYFjpXgHr3Y+jYKjzNMhWAVpPSrIScU0=;
+ b=uSuKtC4oCj/1rm+0pnHk8wTohdFT9mpb1ZbCR3ymNVmL+M8+38r/vKdYkkeN9nDTrhpjw5
+ tGnKxlGFjm9t4s806aow6irsN8MpuS8JiLHHb4GEd1PjBNB3PpoJfn7ouuXI5EK1nBpxss
+ p+eHrR1qj2my4QNH/tjhDkdTKvNMpeE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1653989374;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t1xXxkXRYp/WYFjpXgHr3Y+jYKjzNMhWAVpPSrIScU0=;
+ b=DrThUR8UmqWonQoFHiMcUBJET4NY4IFl5yVJKEtPu1BGGENls1PV9LmfeT9M2R85nN+rCm
+ 5+il+ZwIIqdEEnAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 77915132F9;
+ Tue, 31 May 2022 09:29:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QvN8G/7flWK+EgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 31 May 2022 09:29:34 +0000
+Message-ID: <31c26a0f-04d8-35fb-acf3-29814df19ee9@suse.de>
+Date: Tue, 31 May 2022 11:29:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: QEMU malfunctioning if built with FORTIFY_SOURCE=3
+Content-Language: en-US
+To: Dario Faggioli <dfaggioli@suse.com>
+References: <6a6dbfb53f2ea5a9740249c2fdf480be183e6ee8.camel@suse.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <6a6dbfb53f2ea5a9740249c2fdf480be183e6ee8.camel@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,50 +88,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Friendly ping :)
+On 5/27/22 18:55, Dario Faggioli wrote:
+> Hello Everyone!
+> 
+> So, I'm not sure how much this would be interesting, but I thought
+> about reporting it anyways, then let's see.
+> 
+> A few days ago we started to build openSUSE_Tumbleweed packages with
+> -D_FORTIFY_SOURCES=3 by default (it was =2 before, and it's back to =2
+> again now, at least for QEMU :-/).
+> 
+> It seemed fine, but then we discovered that a QEMU built that way, does
+> not work properly. In fact, it crashes pretty early displaying a
+> message like this: "*** buffer overflow detected ***"
 
-On Thu, May 12 2022, Cornelia Huck <cohuck@redhat.com> wrote:
+Hi Dario and all,
 
-> This series enables MTE for kvm guests, if the kernel supports it.
-> Lightly tested while running under the simulator (the arm64/mte/
-> kselftests pass... if you wait patiently :)
->
-> A new cpu property "mte" (defaulting to on if possible) is introduced;
-> for tcg, you still need to enable mte at the machine as well.
->
-> I've hacked up some very basic qtests; not entirely sure if I'm going
-> about it the right way.
->
-> Some things to look out for:
-> - Migration is not (yet) supported. I added a migration blocker if we
->   enable mte in the kvm case. AFAIK, there isn't any hardware available
->   yet that allows mte + kvm to be used (I think the latest Gravitons
->   implement mte, but no bare metal instances seem to be available), so
->   that should not have any impact on real world usage.
-> - I'm not at all sure about the interaction between the virt machine 'mte'
->   prop and the cpu 'mte' prop. To keep things working with tcg as before,
->   a not-specified mte for the cpu should simply give us a guest without
->   mte if it wasn't specified for the machine. However, mte on the cpu
->   without mte on the machine should probably generate an error, but I'm not
->   sure how to detect that without breaking the silent downgrade to preserve
->   existing behaviour.
-> - As I'm still new to arm, please don't assume that I know what I'm doing :)
->
->
-> Cornelia Huck (2):
->   arm/kvm: enable MTE if available
->   qtests/arm: add some mte tests
->
->  target/arm/cpu.c               | 18 +++-----
->  target/arm/cpu.h               |  4 ++
->  target/arm/cpu64.c             | 78 ++++++++++++++++++++++++++++++++++
->  target/arm/kvm64.c             |  5 +++
->  target/arm/kvm_arm.h           | 12 ++++++
->  target/arm/monitor.c           |  1 +
->  tests/qtest/arm-cpu-features.c | 31 ++++++++++++++
->  7 files changed, 137 insertions(+), 12 deletions(-)
->
-> -- 
-> 2.34.3
+I just sent a fix to the list,
+
+with the Subject
+
+"[PATCH] pci: fix overflow in printf string formatting"
+
+That should fix the issue,
+
+Thanks,
+
+Claudio
+
+> 
+> I've had a look around, and did not find anything about previous
+> attempts of doing that, or things to be aware of, in general, if doing
+> it.
+> 
+> Now, for now, I don't have many other info myself either. Just some
+> terminal logs from a few users, and from our automated testing system,
+> i.e., like this:
+> 
+> $ sudo virsh start VM1
+> error: Failed to start domain 'VM1'
+> error: internal error: qemu unexpectedly closed the monitor: qxl_send_events: spice-server bug: guest stopped, ignoring
+> *** buffer overflow detected ***: terminated
+> 
+> Or this:
+> 
+> error: Failed to start domain 'vm-swtpm-legacy'
+> error: internal error: qemu unexpectedly closed the monitor: 2022-05-25T16:30:05.738186Z qemu-system-x86_64: -accel kvm: warning: Number of SMP cpus requested (2) exceeds the recommended cpus supported by KVM (1)
+> 2022-05-25T16:30:05.738259Z qemu-system-x86_64: -accel kvm: warning: Number of hotpluggable cpus requested (2) exceeds the recommended cpus supported by KVM (1)
+> 2022-05-25T16:30:05.742354Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+> 2022-05-25T16:30:05.742369Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+> 2022-05-25T16:30:05.743989Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+> 2022-05-25T16:30:05.744050Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+> *** buffer overflow detected ***: terminated
+> 
+> Or this:
+> https://openqa.opensuse.org/tests/2375666#step/usr_sbin_dnsmasq/47
+> https://xenbits.xen.org/people/dariof/download.png (also here, in case
+> the image disappears from OpenQA)
+> 
+> I am planning to try to investigate this more, but not right away. And
+> I can't even tell for sure when I'll have time for it. So, this is just
+> for letting people know that this has been (quickly) attempted, and
+> that it currently does not work, in case it's interesting for anyone
+> else.
+> 
+> Of course, in case it's the other way around, i.e., someone already has
+> more info on the subject that I've not been able to find, feel free to
+> ping me. :-)
+> 
+> Thanks and Regards
 
 
