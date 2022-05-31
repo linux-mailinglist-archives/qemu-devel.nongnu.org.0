@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32ECD53908B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 14:19:03 +0200 (CEST)
-Received: from localhost ([::1]:36468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71705390B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 14:27:30 +0200 (CEST)
+Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw0py-0007h2-9Z
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 08:19:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38002)
+	id 1nw0y9-0005pP-Ln
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 08:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nw0mQ-0004iu-7B
- for qemu-devel@nongnu.org; Tue, 31 May 2022 08:15:22 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:40741)
+ id 1nw0nH-0005lS-Eg
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 08:16:15 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:33312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nw0mO-0003rt-HI
- for qemu-devel@nongnu.org; Tue, 31 May 2022 08:15:21 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id w2so1854338ybi.7
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 05:15:20 -0700 (PDT)
+ id 1nw0nB-00040q-TW
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 08:16:15 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-300312ba5e2so137731127b3.0
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 05:16:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0JqNDM0y09jDN37H9dZQU9BKuW7rzMSlSwl7tUG0g/4=;
- b=TtVvADnWTMKIMcq04y3HWxdVw4CRrUqoeyjI+mu6e6bHh50wbr96ICE7ans0Dj9+SR
- lMpUJgkOw5YoVvwyGF8dUuB31hsW11hTVvUoG4TDUf4uOZihaLBh2Ic/n30kGF6JNSpE
- dba5GLywbxYKFojvtafri0j5093lvXjjePjfAZP6anncC0DG9PgcxqnHcVsuK3OuvRwO
- pYz0tXnr2GhUcsh3iMwUlao1o8MVdMcKNQ4aNfo6dolxnZI2TOHtGLHXvQ3DTrzWRA2+
- AQuOCyzOUao+jdVorVi986RU36+HcdNLFjzczv87KltkasZjB0kfjIVBhDKuUVjy2Pc4
- 8+5A==
+ :cc; bh=V26HY/9VF8ODuHXz9F+jHlygqpe2qt7pIzbunt/RCXc=;
+ b=J4b6w8cTRvLcK1yfeIwJcpCe2Owi7O/zEgAHUgw/4340dsgt4x0QjbwBlSDjAp9seb
+ EkixUI0sGVkFePimNzzS2Y3kxGST/ERRyU70bUTNglPJ3l4MLUFUWUqhnt4lQi3RKCLz
+ mqnsPN9URHB4B0KtkWVCV48bN/mZzMjtQaF34vGVYGeolOKyvvU6ZnltXnl21XAD9+Ve
+ MVRfdJU6daqOtIVAB2mHL3IiDs7GAVk8GX1vFH7qlO3kxAtfMZe/KZOyyYecXjxHEvHT
+ t5XTRnwNFMGML7j4wyqA6NPdUMaxP/r0HHpp51+tQPhEoRgFxiqh5OyDwwNFkypgDChx
+ 8EQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0JqNDM0y09jDN37H9dZQU9BKuW7rzMSlSwl7tUG0g/4=;
- b=MIggcGHZ/o7lZhdiLBqdAXsyOCVhA81Rf0qOJ4asZnuxlt8teZvtof2hJPGUI3N4q6
- lmZdlTb1sO76KPBp44gVw8T1xMGHnKdpod1ZA71gBsUBQMK6V3UB4lctfKs+OrOyPugE
- KI9SqY3dRaPzVwlNsbIs2N4nQDLJbjliH9A/68K0oxXEboRBPpikRBWg1yPVbuyVY0J5
- y6cSUgzxF31fS40NF36eKw/AOBoDwpw60HOyoF4UXP6L5uMEQoXZ1N92BWt+d/iQ8MTN
- ggVBKhzRVuG2gHGxoee8Pivpn+9lrTmQgMneyg6b9HbluPhEdicMphwblAMpw3tTgWd+
- aoIg==
-X-Gm-Message-State: AOAM533onGyOtG05EmGsun3FjQJIfTcfoT99FvPk7aKaEjwpOZwk9wBL
- f5Op3gnJmHHVxeYyhF73OO0uhddkrSclkRTVDFf1Jg==
-X-Google-Smtp-Source: ABdhPJwnabjv5i4fU6s15YdJvDoeoucKBgMlnaOa31SMMlKCs/C6iN7XR9DX4ipq014Zo7GzFk1jPTMcoisyXjVEcBY=
-X-Received: by 2002:a5b:d42:0:b0:65c:a0d7:4c6 with SMTP id
- f2-20020a5b0d42000000b0065ca0d704c6mr15217682ybr.193.1653999319416; 
- Tue, 31 May 2022 05:15:19 -0700 (PDT)
+ bh=V26HY/9VF8ODuHXz9F+jHlygqpe2qt7pIzbunt/RCXc=;
+ b=T2VMK57/LcXvjLPiWusZKFpP399VkUkaTiuC4dzQ7n6WtSxBG8aU6fh9VsnG6MOM6n
+ PoUOtwjwXw+DIMxAhFCofrp/Ozpc/QyokAHAJQeaeyOnVInW8u37tWhldOOdV8DSr7gb
+ PwEhzW+XmpOPpcweI+xMW8iQXNip/KPEvmsoByRh7LuggzNvZCNKIJKxKutecLispubg
+ 4faCuqu6Rb22j72V08bvc8yoyS2uKMsKBnoiUqqwcr++lh0IvmlEDBJiGv8eVOv8tYJ5
+ Kh0sIcjDeRrHVeMTZX49MTdUB+5c7eoig26y21gmufYi2eZseJswC0kcrUTnGzkWDFjg
+ sEjQ==
+X-Gm-Message-State: AOAM533om/i0R4gIG5p2OWs0xjjILDab5z6EGVyDxyu3RoTMAWPJX0iN
+ rvKcfm2/DdZV5VshR/1BE5y3YmQaVGBIsPVpHBYJJw==
+X-Google-Smtp-Source: ABdhPJwgEF1Ea80ZBUcA/6Bz5Fb2k5PJWTDjW744e77kmTwqUc4af3LE0L3gP1nv3Mn3T5/6i1EyyflrbHk9E3LvPsE=
+X-Received: by 2002:a05:690c:808:b0:30c:4f5c:b319 with SMTP id
+ bx8-20020a05690c080800b0030c4f5cb319mr10554112ywb.64.1653999369029; Tue, 31
+ May 2022 05:16:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220527180623.185261-1-richard.henderson@linaro.org>
- <20220527180623.185261-3-richard.henderson@linaro.org>
-In-Reply-To: <20220527180623.185261-3-richard.henderson@linaro.org>
+ <20220527180623.185261-4-richard.henderson@linaro.org>
+In-Reply-To: <20220527180623.185261-4-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 31 May 2022 13:15:08 +0100
-Message-ID: <CAFEAcA-O7wCcgOE8XMWF0HqDg95TaLnzEnxzGF4a8F84L9NE2g@mail.gmail.com>
-Subject: Re: [PATCH v3 02/15] linux-user/aarch64: Use SVE_LEN from hflags
+Date: Tue, 31 May 2022 13:15:58 +0100
+Message-ID: <CAFEAcA8XTYwjshU1cUNtW0uzFQBa2rBJd+5JbraFP6iJ3g1Fwg@mail.gmail.com>
+Subject: Re: [PATCH v3 03/15] target/arm: Do not use
+ aarch64_sve_zcr_get_valid_len in reset
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,31 +87,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 27 May 2022 at 19:07, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Use the digested vector length rather than the raw zcr_el[1] value.
->
-> This fixes an incorrect return from do_prctl_set_vl where we didn't
-> take into account the set of vector lengths supported by the cpu.
-> It also prepares us for Streaming SVE mode, where the vector length
-> comes from a different cpreg.
+> We don't need to constrain the value set in zcr_el[1],
+> because it will be done by sve_zcr_len_for_el.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  target/arm/cpu.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index d2bd74c2ed..0621944167 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -208,8 +208,7 @@ static void arm_cpu_reset(DeviceState *dev)
+>                                           CPACR_EL1, ZEN, 3);
+>          /* with reasonable vector length */
+>          if (cpu_isar_feature(aa64_sve, cpu)) {
+> -            env->vfp.zcr_el[1] =
+> -                aarch64_sve_zcr_get_valid_len(cpu, cpu->sve_default_vq - 1);
+> +            env->vfp.zcr_el[1] = cpu->sve_default_vq - 1;
+>          }
 
-> diff --git a/linux-user/aarch64/target_prctl.h b/linux-user/aarch64/target_prctl.h
-> index 3f5a5d3933..fcbb90e881 100644
-> --- a/linux-user/aarch64/target_prctl.h
-> +++ b/linux-user/aarch64/target_prctl.h
-> @@ -10,7 +10,7 @@ static abi_long do_prctl_get_vl(CPUArchState *env)
->  {
->      ARMCPU *cpu = env_archcpu(env);
->      if (cpu_isar_feature(aa64_sve, cpu)) {
-> -        return ((cpu->env.vfp.zcr_el[1] & 0xf) + 1) * 16;
-> +        return (EX_TBFLAG_A64(env->hflags, SVE_LEN) + 1) * 16;
-
-I think env->hflags should be a private implementation detail
-to target/arm and it's a bit odd to see linux-user fishing
-around in it directly. Can we hide this behind a suitably
-named function, please ?
+I'm still not a fan of the zcr_el[] value not actually being
+a valid one. I'd rather we constrained it when we write the
+value into the field.
 
 thanks
 -- PMM
