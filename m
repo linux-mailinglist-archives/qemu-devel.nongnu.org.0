@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574A3538C85
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:09:33 +0200 (CEST)
-Received: from localhost ([::1]:42816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6899538C8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:11:41 +0200 (CEST)
+Received: from localhost ([::1]:43618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvwwW-000680-71
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:09:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33058)
+	id 1nvwya-0006hz-VE
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nvwp5-0001Kz-6G
- for qemu-devel@nongnu.org; Tue, 31 May 2022 04:01:53 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:58149)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvwpc-0001wT-Uq
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:02:24 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:43037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nvwow-0002x6-SJ
- for qemu-devel@nongnu.org; Tue, 31 May 2022 04:01:45 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MoNu2-1nTFuI4AqO-00ojo7; Tue, 31 May 2022 10:01:35 +0200
-Message-ID: <34af03f0-6c53-17a3-b91f-d368fd2ef7c3@vivier.eu>
-Date: Tue, 31 May 2022 10:01:34 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvwpa-000319-T8
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:02:24 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.195])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 0A98826846;
+ Tue, 31 May 2022 08:02:19 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 31 May
+ 2022 10:02:16 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0029a4c1ad0-d548-4493-8312-729ba588692d,
+ 3316B4EBA022AA703420095FA15BAC10F99B744A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <dc1a1210-2265-c997-2cac-70794b9a3c63@kaod.org>
+Date: Tue, 31 May 2022 10:02:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
+Subject: Re: [PATCH v2 13/25] hw/sd: Add sd_cmd_SET_BLOCK_COUNT() handler
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20220527164807.135038-1-richard.henderson@linaro.org>
- <20220527164807.135038-11-richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v5 10/17] target/m68k: Implement TRAPcc
-In-Reply-To: <20220527164807.135038-11-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, <qemu-devel@nongnu.org>
+CC: Bin Meng <bin.meng@windriver.com>, <qemu-block@nongnu.org>, Joel Stanley
+ <joel@jms.id.au>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
+ <20220530193816.45841-14-philippe.mathieu.daude@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220530193816.45841-14-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:M1QLpIvyN4CaOWRbLUepzcwg5jCUdBSymE/uHf2vyQtdltyBVdp
- YRvjY7nDcIQJFAdhy27qNKPwXl9tGLKfwue37i+7ALQH/vZmCp3HLuRW9wlk7a26bhIeiB1
- I04Uxb+Z0IiDH4EJBf3xaLZQpWhn6I/0axuXiv8is6lrVWvX+rs6IscVoBkZbgo5I4LsFTm
- 9YcSeR/TXiQMEOQtfIpBw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eQv5m4XcJ60=:6CQylE4irnjo8vlU792H9N
- aT6xc69rGgeCfYRIem+re9fNyyJfTUd/xg/PRwhMbHG/6OQQWOyWUcfGujQZhkWN6XLGmnbMg
- fMLCqJ69xQcptxsMwoPru/PDvpYSX0qhMwFhaUAocjqZTn6mUvGWAU+OeiaKX4NJbvRn6S5au
- OpG0l2AJ/7qlniSCT97a01F45UanVTesRVefMYOXCYRI5PyDx9zC33dVK/c+iFx/NJva6QATo
- CPP8r1sSfHOrO7l1QzQyhSl3k5wpziUGJSiHlX9b/VDBCnkj0g1tIhAUGehyBQC1sbMvYIE1f
- 92zW1FGBDeYKXWR6D/uvekhl+9dSr717zNVIKYZaPQe1WvHVTh/DT2o4xm1/BYMWPVhwEEaXN
- xLD90qIIib/UAaCbkVK4x7KRhMSi8ywm2X+CmSatPbL1h+fbswuwOxnkIqlkm5vCug/vC7HU2
- YE0oub7AH1dsh2/Rv7KL6EuzV0OhhUXK5n2PaP4VMy2clLBYIyrrbmd0U+FbF1jGftg7M3S/Y
- 1Mg8ofZv3sv8JwT8aLdBrt0nyWX2tx+y/SUJc+peCUSzK1bsL0dzBZKOCEhO/kdoiihObLy8W
- 2ST1Ds8Hj2Fx3cnCdlQEdG4aBrhQPelZIfXJknpicIYl72H5xRd35iDsdhuS44O5oXKvRfYYY
- a7nmrq3EQsMD+EkHY1KY5pIgdbBCA30nclAyX4btd1oc/JIfxw2FDp9hRSuToh8odEqlUyhZc
- Nscez7iexYJwTzEd/8k9ADkefMmc2CrPmfWzYw==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 335800a0-bf40-4340-ab99-266815033c6f
+X-Ovh-Tracer-Id: 14666535139943156585
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgdduvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshgrihdrphgrvhgrnhdrsghougguuhesgihilhhinhigrdgtohhm
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,61 +77,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/05/2022 à 18:48, Richard Henderson a écrit :
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/754
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/m68k/cpu.h          |  2 ++
->   linux-user/m68k/cpu_loop.c |  1 +
->   target/m68k/cpu.c          |  1 +
->   target/m68k/op_helper.c    |  6 +----
->   target/m68k/translate.c    | 49 ++++++++++++++++++++++++++++++++++++++
->   5 files changed, 54 insertions(+), 5 deletions(-)
+On 5/30/22 21:38, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-...
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index 399d9232e4..c4fe8abc03 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-...
-> @@ -6050,6 +6098,7 @@ void register_m68k_insns (CPUM68KState *env)
->       INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
->       INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
->       INSN(dbcc,      50c8, f0f8, M68000);
-> +    INSN(trapcc,    50f8, f0f8, TRAPCC);
->       INSN(tpf,       51f8, fff8, CF_ISA_A);
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+
+> ---
+>   hw/sd/sd.c | 30 ++++++++++++++++--------------
+>   1 file changed, 16 insertions(+), 14 deletions(-)
+> 
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index a9130155be..b2f16dbb73 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -1078,6 +1078,21 @@ static sd_rsp_type_t sd_cmd_SEND_TUNING_BLOCK(SDState *sd, SDRequest req)
+>           return sd_r1;
+>   }
 >   
->       /* Branch instructions.  */
+> +static sd_rsp_type_t sd_cmd_SET_BLOCK_COUNT(SDState *sd, SDRequest req)
+> +{
+> +        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
+> +            return sd_cmd_illegal(sd, req);
+> +        }
+> +
+> +        if (sd->state != sd_transfer_state) {
+> +            return sd_invalid_state_for_cmd(sd, req);
+> +        }
+> +
+> +        sd->multi_blk_cnt = req.arg;
+> +
+> +        return sd_r1;
+> +}
+> +
+>   static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>   {
+>       uint32_t rca = 0x0000;
+> @@ -1321,20 +1336,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>           }
+>           break;
+>   
+> -    case 23:    /* CMD23: SET_BLOCK_COUNT */
+> -        if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
+> -            return sd_invalid_state_for_cmd(sd, req);
+> -        }
+> -        switch (sd->state) {
+> -        case sd_transfer_state:
+> -            sd->multi_blk_cnt = req.arg;
+> -            return sd_r1;
+> -
+> -        default:
+> -            break;
+> -        }
+> -        break;
+> -
+>       /* Block write commands (Class 4) */
+>       case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
+>       case 25:	/* CMD25:  WRITE_MULTIPLE_BLOCK */
+> @@ -2158,6 +2159,7 @@ static const SDProto sd_proto_sd = {
+>           [3]         = sd_cmd_SEND_RELATIVE_ADDR,
+>           [5]         = sd_cmd_illegal,
+>           [19]        = sd_cmd_SEND_TUNING_BLOCK,
+> +        [23]        = sd_cmd_SET_BLOCK_COUNT,
+>           [52 ... 54] = sd_cmd_illegal,
+>           [58]        = sd_cmd_illegal,
+>           [59]        = sd_cmd_illegal,
 
-This one breaks Mark's series to support MacOS.
-
-I think the new opcode short-circuits Scc one:
-
-   ----------------
-   IN: INITRSRCMGR
-   0x408011d0:  st 0xa58
-   Disassembler disagrees with translator over instruction decoding
-   Please report this to qemu-devel@nongnu.org
-
-The following patch seems to fix the problem:
-
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index d5d73401b7cc..3b0e3d0b58f6 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -6119,9 +6119,9 @@ void register_m68k_insns (CPUM68KState *env)
-      INSN(addsubq,   5000, f080, M68000);
-      BASE(addsubq,   5080, f0c0);
-      INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
-+    INSN(trapcc,    50f8, f0f8, TRAPCC);
-      INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
-      INSN(dbcc,      50c8, f0f8, M68000);
--    INSN(trapcc,    50f8, f0f8, TRAPCC);
-      INSN(trapcc,    51f8, fff8, CF_ISA_A); /* TPF (trapf) */
-
-      /* Branch instructions.  */
-
-Thanks,
-Laurent
 
