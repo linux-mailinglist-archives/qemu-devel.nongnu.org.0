@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2C9538DD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:37:42 +0200 (CEST)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C59538E0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:53:33 +0200 (CEST)
+Received: from localhost ([::1]:38200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvyJp-0005SF-BM
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54718)
+	id 1nvyZA-0007Z8-BE
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvyC4-0002OJ-37
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:29:41 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:39848)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvyTd-00055v-TA
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:47:51 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvyBz-0000PA-Oh
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:29:38 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9B1971F981;
- Tue, 31 May 2022 09:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1653989374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t1xXxkXRYp/WYFjpXgHr3Y+jYKjzNMhWAVpPSrIScU0=;
- b=uSuKtC4oCj/1rm+0pnHk8wTohdFT9mpb1ZbCR3ymNVmL+M8+38r/vKdYkkeN9nDTrhpjw5
- tGnKxlGFjm9t4s806aow6irsN8MpuS8JiLHHb4GEd1PjBNB3PpoJfn7ouuXI5EK1nBpxss
- p+eHrR1qj2my4QNH/tjhDkdTKvNMpeE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1653989374;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t1xXxkXRYp/WYFjpXgHr3Y+jYKjzNMhWAVpPSrIScU0=;
- b=DrThUR8UmqWonQoFHiMcUBJET4NY4IFl5yVJKEtPu1BGGENls1PV9LmfeT9M2R85nN+rCm
- 5+il+ZwIIqdEEnAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 77915132F9;
- Tue, 31 May 2022 09:29:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QvN8G/7flWK+EgAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 31 May 2022 09:29:34 +0000
-Message-ID: <31c26a0f-04d8-35fb-acf3-29814df19ee9@suse.de>
-Date: Tue, 31 May 2022 11:29:34 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nvyTc-00046s-0a
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:47:49 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id z186so18703718ybz.3
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 02:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CDtP/tyVgBjM5do7RDzQ0jtvO/DZKSu3NcvevMrgYRw=;
+ b=CveQXVeF1A0QtrjrmsAlV3n+4X85YiRf3TmO+42df+AHOPJ950tzJ9FdQN9xLHH6Ci
+ sAKkM9PPWBbVLDWxqG2xYN2hlgV2pjV7IF1Na++z3PO2r+ZLFCi1KArp97eTz47ofNw+
+ x8+kAhSolH12aEenGx6xFh2eZtT032qot3FGf2suQUDkGt5e7llhfWjfyoq3KK8kqtcB
+ cqfmX+3Dom59lGep8UAlo5MKSQRxua5iszsrfS82xFSjrOCNKBwN0j69BWN4r1cXfa1x
+ IMvhmUTnvjK/CHpaoObRlM96j/GJR1LEkrkl6VZQ+kibP7sDqw3wiOBfLWMWpTYKwyug
+ BA1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CDtP/tyVgBjM5do7RDzQ0jtvO/DZKSu3NcvevMrgYRw=;
+ b=ZX6QL1q32DIpGzjNLblsK/Oo4xMOAnUMtCGBCCHZTgC39Xqz7aBcFPh2Sap9/cLELF
+ v5o7xBHXWVDX+YvbtQShiWePUKFwS8+UPN1dFkwPF5K4aDP2xFXkCTAHMpYVSLHHpMWX
+ VsAMR+pyvmn96r46eB54aXCL5qh1bUSPs3Von0ZFtUjmtW3zMCHCyHdDsEjxZb12Ik6z
+ Gvu7tlRTD4vqQULOkOlzAukBI2Fuh23UnFyKrC/u+GYpDqI+kTaY7eRlUMFovrIaW7aM
+ dcAyvrt3vu/nfVzii8PZZ0rqtRB6V5jkwN7TgfmUcKBIKhx07qwEc6xykwkNnXAX+r59
+ q/Ig==
+X-Gm-Message-State: AOAM533hBa1h+dIQPlpsvYKu4udy+BWJuvQgQsduGNCfBcgBKnTdmWkV
+ RqACBIq2+NCVSAwRDAuAs+EgHUQgSQO1ZVBMKffL2Q==
+X-Google-Smtp-Source: ABdhPJwf17k8z44Va18+F1aLIi4MVrSa/ZKDNGjf8yFy31e4X5tLHrR486VTLshhqseRcD2czmrWgDYvgomN8zJtRqU=
+X-Received: by 2002:a25:41ce:0:b0:65b:3723:f73f with SMTP id
+ o197-20020a2541ce000000b0065b3723f73fmr19264711yba.288.1653990466342; Tue, 31
+ May 2022 02:47:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: QEMU malfunctioning if built with FORTIFY_SOURCE=3
-Content-Language: en-US
-To: Dario Faggioli <dfaggioli@suse.com>
-References: <6a6dbfb53f2ea5a9740249c2fdf480be183e6ee8.camel@suse.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <6a6dbfb53f2ea5a9740249c2fdf480be183e6ee8.camel@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220531092540.10151-1-cfontana@suse.de>
+ <20220531092540.10151-2-cfontana@suse.de>
+In-Reply-To: <20220531092540.10151-2-cfontana@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 31 May 2022 10:47:35 +0100
+Message-ID: <CAFEAcA8ENs6P6WU8iaPty7-QfZrBAZrhm4DeegUUjGuL4f3UUQ@mail.gmail.com>
+Subject: Re: [PATCH] pci: fix overflow in printf string formatting
+To: Claudio Fontana <cfontana@suse.de>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org, 
+ Dario Faggioli <dfaggioli@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,74 +84,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/22 18:55, Dario Faggioli wrote:
-> Hello Everyone!
-> 
-> So, I'm not sure how much this would be interesting, but I thought
-> about reporting it anyways, then let's see.
-> 
-> A few days ago we started to build openSUSE_Tumbleweed packages with
-> -D_FORTIFY_SOURCES=3 by default (it was =2 before, and it's back to =2
-> again now, at least for QEMU :-/).
-> 
-> It seemed fine, but then we discovered that a QEMU built that way, does
-> not work properly. In fact, it crashes pretty early displaying a
-> message like this: "*** buffer overflow detected ***"
+On Tue, 31 May 2022 at 10:34, Claudio Fontana <cfontana@suse.de> wrote:
+>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 
-Hi Dario and all,
+It would be helpful to note in the commit message how
+bad the overflow is, in what situations it can happen,
+and how it was detected.
 
-I just sent a fix to the list,
-
-with the Subject
-
-"[PATCH] pci: fix overflow in printf string formatting"
-
-That should fix the issue,
-
-Thanks,
-
-Claudio
-
-> 
-> I've had a look around, and did not find anything about previous
-> attempts of doing that, or things to be aware of, in general, if doing
-> it.
-> 
-> Now, for now, I don't have many other info myself either. Just some
-> terminal logs from a few users, and from our automated testing system,
-> i.e., like this:
-> 
-> $ sudo virsh start VM1
-> error: Failed to start domain 'VM1'
-> error: internal error: qemu unexpectedly closed the monitor: qxl_send_events: spice-server bug: guest stopped, ignoring
-> *** buffer overflow detected ***: terminated
-> 
-> Or this:
-> 
-> error: Failed to start domain 'vm-swtpm-legacy'
-> error: internal error: qemu unexpectedly closed the monitor: 2022-05-25T16:30:05.738186Z qemu-system-x86_64: -accel kvm: warning: Number of SMP cpus requested (2) exceeds the recommended cpus supported by KVM (1)
-> 2022-05-25T16:30:05.738259Z qemu-system-x86_64: -accel kvm: warning: Number of hotpluggable cpus requested (2) exceeds the recommended cpus supported by KVM (1)
-> 2022-05-25T16:30:05.742354Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-> 2022-05-25T16:30:05.742369Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-> 2022-05-25T16:30:05.743989Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-> 2022-05-25T16:30:05.744050Z qemu-system-x86_64: warning: host doesn't support requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-> *** buffer overflow detected ***: terminated
-> 
-> Or this:
-> https://openqa.opensuse.org/tests/2375666#step/usr_sbin_dnsmasq/47
-> https://xenbits.xen.org/people/dariof/download.png (also here, in case
-> the image disappears from OpenQA)
-> 
-> I am planning to try to investigate this more, but not right away. And
-> I can't even tell for sure when I'll have time for it. So, this is just
-> for letting people know that this has been (quickly) attempted, and
-> that it currently does not work, in case it's interesting for anyone
-> else.
-> 
-> Of course, in case it's the other way around, i.e., someone already has
-> more info on the subject that I've not been able to find, feel free to
-> ping me. :-)
-> 
-> Thanks and Regards
-
+thanks
+-- PMM
 
