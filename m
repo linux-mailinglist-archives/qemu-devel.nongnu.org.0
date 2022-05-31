@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80A3538EF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 12:30:34 +0200 (CEST)
-Received: from localhost ([::1]:39826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2014D538F1B
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 12:34:46 +0200 (CEST)
+Received: from localhost ([::1]:45500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvz8y-0003Z4-3M
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 06:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
+	id 1nvzD3-0007Rs-7f
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 06:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nvz4r-0001IO-HW; Tue, 31 May 2022 06:26:22 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:42749)
+ id 1nvz6k-0002i6-CB
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 06:28:19 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nvz4o-0001gd-KI; Tue, 31 May 2022 06:26:16 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id n28so8057319edb.9;
- Tue, 31 May 2022 03:26:11 -0700 (PDT)
+ id 1nvz6i-00021f-VP
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 06:28:14 -0400
+Received: by mail-ej1-x632.google.com with SMTP id q21so25762826ejm.1
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 03:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FviAagMNdDvuLc4JYJYUJyz8tMbkqIkPtoqB1O3UUqM=;
- b=Du3Mh2gtFnzRHR63RuMgsyjItCeTS3Z6yNeLVwlLJXppxiz7FngzODYQ1imblsM6QE
- hMJBbZxzSrMrJUHenE1sn5m0BMLJwGt01zSIcBTm9Oc6AKnxzJ5lN1IoQGkdMZBSMOzO
- HCeXo7WAYj8FOrL4IyE4eeDU30R8NhAvAn2KO5s8+80WOe8/xqTX/EDqtir7plReHjwI
- ZYzLxQCDHaUrAJlVHf1LosN8b7Xwf6KLMbVaD0IczVnayFLA+dsYdog1HUdpdO1T9mIk
- AcrdaSB2kL7WyzxFdqvKcXfPnNP3QhiJLdxHe4muHW0a2I9IDoF5XhI38MUE5WZVWGkL
- 92vA==
+ bh=2Gm+neZj0Jy09JTZxRnVXBNyybRZalocMV3wfMnMTeA=;
+ b=KCg758ZhwRVZmau1P87JwuJiMQ+kL2CQb+EYknMrMpQ77gnUnxjXVV6vYSWKO7oPpo
+ 4skLGhkXCsMoPpI7FR8iQbcA7yl/qaTPug6Z6uCqBCZDAT4pmDPQnRLf9PoR4ISkadbU
+ c7N4qsmu6Xzyr5EE7EoeodlXTQjIkTdSvTebdtioMp9JlrbvX1hCNfj7YYeBnXyZIbUu
+ lPrGvtMhIv1zASOmJeIClbhFK8tCAEn6rAMBpaskGpbhYJSxpEz8gaMIf34s1d4G0n8S
+ skKDhY0MyNyVBoNPS8iX6zZrz/h57BAZgTfTbj2MxQwOxJZeT/rLxZJMfruHW0cjKZuV
+ nenQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FviAagMNdDvuLc4JYJYUJyz8tMbkqIkPtoqB1O3UUqM=;
- b=ROKWTIwVzjZvW+LOHi1pq9fQIvmP03eR93nw3ODmEAH2/JcsOCW6dFBswyh0EAvWYT
- acxNmgWU/Vtu2RtwKpF6LdT2tdfiGrFLKY43nlL3DH9O8bzymtdd7772LN7n5U5AIZuD
- 7xMv0QhFLbM1CIo+FYorTAd1zVQo8mmKZHw0xGXu5P81J3f70D4Em750Q+bTaufh2MxB
- gyfKiMeMyQyJgTV47/UMLecvjdlS8IHksKwTG/dnqXliIunfI/T8u8/5OGMe4VhLJ9a/
- 7fes/BGgF7qV8RClMQU9RSlBjGYiRq7FdqVqkFPhJHU1VZyCelW7Z/T2DXjkO6F5KAIR
- EdaA==
-X-Gm-Message-State: AOAM532PcGpOvq0c8pYzgnhcSVcDBYIbmnJWnpfvBGfOSLwy03aovcsQ
- h3QJAK2ch8vLNwor1K8nDqU=
-X-Google-Smtp-Source: ABdhPJwD74w6Y5rt7yAaSVSrWs8SMCrTfmtjc3X+SV9Jd8Eh01ZS84Rj/1jAeOUcAXpU7D1u40s87g==
-X-Received: by 2002:a05:6402:390b:b0:42a:acb3:bb5 with SMTP id
- fe11-20020a056402390b00b0042aacb30bb5mr61436755edb.236.1653992769362; 
- Tue, 31 May 2022 03:26:09 -0700 (PDT)
+ bh=2Gm+neZj0Jy09JTZxRnVXBNyybRZalocMV3wfMnMTeA=;
+ b=q7P/M/JhkWgVOP9wzkFS+QfmcJ08VQ2lsLKyzQuhXGDOrl6sqJ85ppTiL2fpPMHgmJ
+ mEgJjtB/5GPS3W3eUs76KOf/iXnLhC/NK1B0UnXC1IIRmY7MAxNY625ONGIso0WtyxYC
+ TFIOaS75INRBP/okJ1PfoFlPMCSURZF8kJrkQrLW4fcfx10B09iK7kqPa7ECsd9nTfnI
+ eRj7oPQu88d/aNSaBro9avbx2/MTP3tPej4qDg/haKOcrS3sprBlUR5Q7bXkCfFbZw6z
+ u2Oku/bW3fvyAsMc/HHNSleOTn5jcUstvyuh8sLMpvdiJRlmhxf+Pg+CgOhg6Ywn9gB6
+ E1nw==
+X-Gm-Message-State: AOAM533ptr7RdcapZz9sdCcXSe7KKUZCDKQzlMUAyb8IFJN/n/6b87+A
+ NI6XdMitsQUrKHZJwtIw9h7YwyV9x8qE0A==
+X-Google-Smtp-Source: ABdhPJw7mISm/KLt0RRKfqRHJDVZNUWVAnuiCDO7fvXt59VRoKbdQv5QNYZkWuJgYZoP/jXiREA9fA==
+X-Received: by 2002:a17:906:9b8d:b0:6ff:16a1:19c0 with SMTP id
+ dd13-20020a1709069b8d00b006ff16a119c0mr25112366ejc.122.1653992891422; 
+ Tue, 31 May 2022 03:28:11 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- ga11-20020a170906b84b00b006fec56a80a8sm4713783ejb.115.2022.05.31.03.26.07
+ by21-20020a170906a2d500b00703671ebe65sm255566ejb.198.2022.05.31.03.28.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 03:26:08 -0700 (PDT)
-Message-ID: <91374d96-bc7e-4bc9-de50-fe1d228ec96c@redhat.com>
-Date: Tue, 31 May 2022 12:26:07 +0200
+ Tue, 31 May 2022 03:28:11 -0700 (PDT)
+Message-ID: <bf87f61f-b2de-909c-c2df-5dee0459bfde@redhat.com>
+Date: Tue, 31 May 2022 12:28:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] pci: fix overflow in printf string formatting
+Subject: Re: [PATCH v5 05/10] cutils: add functions for IEC and SI prefixes
 Content-Language: en-US
-To: Claudio Fontana <cfontana@suse.de>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org,
- Dario Faggioli <dfaggioli@suse.com>, qemu-stable <qemu-stable@nongnu.org>
-References: <20220531092540.10151-1-cfontana@suse.de>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Cc: armbru@redhat.com, dgilbert@redhat.com
+References: <20220530150714.756954-1-pbonzini@redhat.com>
+ <20220530150714.756954-6-pbonzini@redhat.com>
+ <5207e134-b00e-11c3-2046-8717aca6ccbc@amsat.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220531092540.10151-1-cfontana@suse.de>
+In-Reply-To: <5207e134-b00e-11c3-2046-8717aca6ccbc@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,41 +98,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/22 11:25, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->   hw/pci/pci.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+On 5/30/22 23:59, Philippe Mathieu-Daudé via wrote:
+>>
+>> +    assert(exp10 % 3 == 0 && exp10 / 3 < ARRAY_SIZE(prefixes));
 > 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index a9b37f8000..6e7015329c 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -2640,15 +2640,15 @@ static char *pci_dev_fw_name(DeviceState *dev, char *buf, int len)
->   static char *pcibus_get_fw_dev_path(DeviceState *dev)
->   {
->       PCIDevice *d = (PCIDevice *)dev;
-> -    char path[50], name[33];
-> -    int off;
-> -
-> -    off = snprintf(path, sizeof(path), "%s@%x",
-> -                   pci_dev_fw_name(dev, name, sizeof name),
-> -                   PCI_SLOT(d->devfn));
-> -    if (PCI_FUNC(d->devfn))
-> -        snprintf(path + off, sizeof(path) + off, ",%x", PCI_FUNC(d->devfn));
-> -    return g_strdup(path);
-> +    char name[33];
-> +    int has_func = !!PCI_FUNC(d->devfn);
-> +
-> +    return g_strdup_printf("%s@%x%s%.*x",
-> +                           pci_dev_fw_name(dev, name, sizeof(name)),
-> +                           PCI_SLOT(d->devfn),
-> +                           has_func ? "," : "",
-> +                           has_func,
-> +                           PCI_FUNC(d->devfn));
->   }
->   
->   static char *pcibus_get_dev_path(DeviceState *dev)
+> Can we add parenthesis to ease code review?
+I'm not sure where...  I thought about using two asserts too, but 
+checking both % and / seems clear enough.
 
-Cc: qemu-stable@nongnu.org
+Paolo
 
