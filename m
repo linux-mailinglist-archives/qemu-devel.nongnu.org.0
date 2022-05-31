@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCEC53900E
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 13:50:10 +0200 (CEST)
-Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D8753901C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 13:54:45 +0200 (CEST)
+Received: from localhost ([::1]:39340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw0O1-0003JG-C8
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 07:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58788)
+	id 1nw0SR-000657-Vj
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 07:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1nw0LP-0000hk-6X; Tue, 31 May 2022 07:47:27 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44744)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nw0OY-0004AI-4a
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 07:50:42 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:40895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1nw0LM-0007E7-CL; Tue, 31 May 2022 07:47:26 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4CBEA210E1;
- Tue, 31 May 2022 11:47:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1653997642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Mz9g4w2bBPvQLSWxmvn1i4Zt/DeX8fagIS5HruqoZuU=;
- b=UD900wM6/4ncA8JL2wQRI5cXjlcuhMKRSMhc0tfAia472pzOEfMoizeDU5wxhnBdvBTK/e
- a90hNTgq6lYsEaCgXPqqMLtJpO4dCr4UArIlOgg9YYl8/JLm2jL3cWGtSdkuAUx8PgGr3m
- 7rJPGUV670KbF1KEaf9reW+ubLo1Dj0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1653997642;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Mz9g4w2bBPvQLSWxmvn1i4Zt/DeX8fagIS5HruqoZuU=;
- b=Qbk9IB75Bmvr035CPcBHGP/1BKf/4/0vbZ7VbTwn/OOjkQJoEd0R7R7GQ8bLD0FBGtJ6k2
- acO973MjOQ0e10Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E96AB132F9;
- Tue, 31 May 2022 11:47:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id omdUN0kAlmJ8WQAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 31 May 2022 11:47:21 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org,
- Dario Faggioli <dfaggioli@suse.com>,
- =?UTF-8?q?Martin=20Li=C5=A1ka?= <martin.liska@suse.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Dario Faggioli <DarioFaggiolidfaggioli@suse.com>, qemu-stable@nongnu.org
-Subject: [PATCH] pci: fix overflow in snprintf string formatting
-Date: Tue, 31 May 2022 13:47:07 +0200
-Message-Id: <20220531114707.18830-1-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nw0OU-0007wp-Ol
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 07:50:41 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id t144so17084692oie.7
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 04:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4hYITiYKW2ZuM7e/hsRBhkWX/HRyxowl9lsYAKahB7w=;
+ b=cJEC4QmEIB+lEv3NdrCDhLkwYR17HCP84yoOymYcz9IrY0l+ZVh0SUmsi3chP6t7KD
+ S94EE/+TouigTADR4o9aNxDaYWwcOv5fE0s9CEnO46Sz+Bh7epG4e+2jUOpHt2Reknq2
+ uBUj4XLjj2wwwB3kOpGdwvmLaKbw/iqdSbJfIG07aA7TDdpbHqzM/mN93JBiqTMIIL5k
+ hxAQwDBZ9FrK0RhiK1FBeuP2bmU/fCkFWNqkiqdso4kA355ycz3lbFc8UHxwfZolSYJd
+ +3A/SWWxL5mjMqqkSZrQbZxTY9fuLpklAs5XT/CVb4kHu3pRE8fnY4NpziuriW3SwZkE
+ I7/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4hYITiYKW2ZuM7e/hsRBhkWX/HRyxowl9lsYAKahB7w=;
+ b=H8mpuILvltVpF2Tf7DeQkPDLMQC2wCb15tDw/Wx5EgTgf3jP5d1zF2vtWvOXvO8gL1
+ q8WAhjb+Lmsaj3xRfM5uycVpxTkITVB/Y4bHB4mgALIER6KdOcZqCdIkAYAaPem+4oEi
+ D4DcNKhexqMDvs1CS5pZ6yvUMyVJgtd6IHUi+d3jvUefl5kybgdNWiYHGlrjxnvBL4V+
+ TLPT3Ke7TNGDuPDp8Nl99dIfXPorMPYMqhzNzvWmUWkzv8GC8JKkeLdmBMB4Ufh7Nl1+
+ uX+VjQhIi+DBw6vjWsIOlbM2bLxArVMVMbvlY0BQE/N4d8WfrpPacnJ4pCKybfdhhOSm
+ jbGw==
+X-Gm-Message-State: AOAM5307R61a2hn6sUzP/iHlytc5tce4aUvthfkDxHRATiAPWYGpXn3F
+ 9vMxRqoEKXUIsJa8lUGsyUxvS4PJJRop68RHXz4=
+X-Google-Smtp-Source: ABdhPJyF9utnFIgRV7o41VDnNCI3F/OpuOpUOG9iqXu/A0GZmlt6TwvalaM1iSkxWO2IMzd2NI5eoTDsX+r7TGQZzYg=
+X-Received: by 2002:a05:6808:3099:b0:32b:30de:d14e with SMTP id
+ bl25-20020a056808309900b0032b30ded14emr11125548oib.212.1653997837560; Tue, 31
+ May 2022 04:50:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220531105011.111082-1-faithilikerun@gmail.com>
+ <YpX8q9XrnTehFu7N@stefanha-x1.localdomain>
+ <CAAAx-8KBk2tzaJRfYtAbsAGSAvY4z+SsV2BxtRBO7mqVvmLW_w@mail.gmail.com>
+In-Reply-To: <CAAAx-8KBk2tzaJRfYtAbsAGSAvY4z+SsV2BxtRBO7mqVvmLW_w@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 31 May 2022 12:50:25 +0100
+Message-ID: <CAJSP0QX-HDee_mDxSF_vgPrUBVFUP0gj+SUECQW+dqrXywR2Yg@mail.gmail.com>
+Subject: Re: [PATCH v6] Use io_uring_register_ring_fd() to skip fd operations
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=stefanha@gmail.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,95 +87,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the code in pcibus_get_fw_dev_path contained the potential for a
-stack buffer overflow of 1 byte, potentially writing to the stack an
-extra NUL byte.
+On Tue, 31 May 2022 at 12:34, Sam Li <faithilikerun@gmail.com> wrote:
+>
+> Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B45=E6=9C=8831=
+=E6=97=A5=E5=91=A8=E4=BA=8C 19:31=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Tue, May 31, 2022 at 06:50:11PM +0800, Sam Li wrote:
+> > > Linux recently added a new io_uring(7) optimization API that QEMU
+> > > doesn't take advantage of yet. The liburing library that QEMU uses
+> > > has added a corresponding new API calling io_uring_register_ring_fd()=
+.
+> > > When this API is called after creating the ring, the io_uring_submit(=
+)
+> > > library function passes a flag to the io_uring_enter(2) syscall
+> > > allowing it to skip the ring file descriptor fdget()/fdput()
+> > > operations. This saves some CPU cycles.
+> > >
+> > > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > > ---
+> > >  block/io_uring.c | 12 +++++++++++-
+> > >  meson.build      |  1 +
+> > >  2 files changed, 12 insertions(+), 1 deletion(-)
+> >
+> > Thanks, applied to my block tree:
+> > https://gitlab.com/stefanha/qemu/commits/block
+> >
+>
+> Great! Sorry about the mistake before. I'm flushed.
 
-This overflow could happen if the PCI slot is >= 0x10000000,
-and the PCI function is >= 0x10000000, due to the size parameter
-of snprintf being incorrectly calculated in the call:
+Don't worry, it's easy for #ifdef issues to slip through. Two
+techniques for testing #ifdefs:
+1. To check whether compilation works both when the macro is defined
+and also when it is undefined, edit the #ifdef to force the compiler
+to take or not take the #ifdef. For example, if #ifdef FOO is compiled
+but you want to test the case where FOO is undefined, temporarily
+change it to #ifdef FOOX.
+2. Add "#error foo" inside the #ifdef to test whether the compiler is
+parsing the code. If you expect the #ifdef to be compiled but there is
+no compilation error then there is a problem.
 
-    if (PCI_FUNC(d->devfn))
-        snprintf(path + off, sizeof(path) + off, ",%x", PCI_FUNC(d->devfn));
-
-since the off obtained from a previous call to snprintf is added
-instead of subtracted from the total available size of the buffer.
-
-Without the accurate size guard from snprintf, we end up writing in the
-worst case:
-
-name (32) + "@" (1) + SLOT (8) + "," (1) + FUNC (8) + term NUL (1) = 51 bytes
-
-In order to provide something more robust, replace all of the code in
-pcibus_get_fw_dev_path with a single call to g_strdup_printf,
-so there is no need to rely on manual calculations.
-
-Found by compiling QEMU with FORTIFY_SOURCE=3 as the error:
-
-*** buffer overflow detected ***: terminated
-
-Thread 1 "qemu-system-x86" received signal SIGABRT, Aborted.
-[Switching to Thread 0x7ffff642c380 (LWP 121307)]
-0x00007ffff71ff55c in __pthread_kill_implementation () from /lib64/libc.so.6
-(gdb) bt
- #0  0x00007ffff71ff55c in __pthread_kill_implementation () at /lib64/libc.so.6
- #1  0x00007ffff71ac6f6 in raise () at /lib64/libc.so.6
- #2  0x00007ffff7195814 in abort () at /lib64/libc.so.6
- #3  0x00007ffff71f279e in __libc_message () at /lib64/libc.so.6
- #4  0x00007ffff729767a in __fortify_fail () at /lib64/libc.so.6
- #5  0x00007ffff7295c36 in  () at /lib64/libc.so.6
- #6  0x00007ffff72957f5 in __snprintf_chk () at /lib64/libc.so.6
- #7  0x0000555555b1c1fd in pcibus_get_fw_dev_path ()
- #8  0x0000555555f2bde4 in qdev_get_fw_dev_path_helper.constprop ()
- #9  0x0000555555f2bd86 in qdev_get_fw_dev_path_helper.constprop ()
- #10 0x00005555559a6e5d in get_boot_device_path ()
- #11 0x00005555559a712c in get_boot_devices_list ()
- #12 0x0000555555b1a3d0 in fw_cfg_machine_reset ()
- #13 0x0000555555bf4c2d in pc_machine_reset ()
- #14 0x0000555555c66988 in qemu_system_reset ()
- #15 0x0000555555a6dff6 in qdev_machine_creation_done ()
- #16 0x0000555555c79186 in qmp_x_exit_preconfig.part ()
- #17 0x0000555555c7b459 in qemu_init ()
- #18 0x0000555555960a29 in main ()
-
-Found-by: Dario Faggioli <Dario Faggioli <dfaggioli@suse.com>
-Found-by: Martin Liška <martin.liska@suse.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- hw/pci/pci.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index a9b37f8000..6e7015329c 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2640,15 +2640,15 @@ static char *pci_dev_fw_name(DeviceState *dev, char *buf, int len)
- static char *pcibus_get_fw_dev_path(DeviceState *dev)
- {
-     PCIDevice *d = (PCIDevice *)dev;
--    char path[50], name[33];
--    int off;
--
--    off = snprintf(path, sizeof(path), "%s@%x",
--                   pci_dev_fw_name(dev, name, sizeof name),
--                   PCI_SLOT(d->devfn));
--    if (PCI_FUNC(d->devfn))
--        snprintf(path + off, sizeof(path) + off, ",%x", PCI_FUNC(d->devfn));
--    return g_strdup(path);
-+    char name[33];
-+    int has_func = !!PCI_FUNC(d->devfn);
-+
-+    return g_strdup_printf("%s@%x%s%.*x",
-+                           pci_dev_fw_name(dev, name, sizeof(name)),
-+                           PCI_SLOT(d->devfn),
-+                           has_func ? "," : "",
-+                           has_func,
-+                           PCI_FUNC(d->devfn));
- }
- 
- static char *pcibus_get_dev_path(DeviceState *dev)
--- 
-2.26.2
-
+Stefan
 
