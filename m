@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE6053893C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 02:21:47 +0200 (CEST)
-Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D7B53893D
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 02:21:48 +0200 (CEST)
+Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvpdq-0001WT-Ce
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 20:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
+	id 1nvpdr-0001ZR-8k
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 20:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nvpaf-00072G-8I
- for qemu-devel@nongnu.org; Mon, 30 May 2022 20:18:29 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:37586)
+ id 1nvpcF-0008NU-Ke; Mon, 30 May 2022 20:20:07 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:46369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nvpad-0005KN-C4
- for qemu-devel@nongnu.org; Mon, 30 May 2022 20:18:29 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-f3381207a5so4992591fac.4
- for <qemu-devel@nongnu.org>; Mon, 30 May 2022 17:18:27 -0700 (PDT)
+ id 1nvpcE-0005eK-4D; Mon, 30 May 2022 20:20:07 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-d39f741ba0so16205455fac.13; 
+ Mon, 30 May 2022 17:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=p+E0+uE2lXtNLKuoVdNN7EHk5K32D3/loaRf0Upgg3k=;
- b=nN5wfyh3X7f4LWPXevZY6t2l+pqY5HiXOlbNPvNYTKfnmu/OzFhIBcZI6oz4XWImXd
- 32V6MwNcC0OdVpK6D9zMUJDrHyZBOAeuGh0C5yJmWvLnjiqp5M20hBDyCITSU+pKL6ie
- CW1t1MQdbr68g6EIblws0dA0ApfUuMuOtOeAYGlMj6bSt32pKPkjFEBHisr0G43IYqcL
- 06MzHJSbvDLQPeBqlOaBC09pMyP4It45jRHM42/0vsPP4n3qd9BGVYFVml4OB2Sus7cH
- DhUPNHf9dPw7fXlMnKkc79CNrbPgXTYhE4jKwdw3XFc22kB+MMKonLTpooqD9HhQ5N+j
- ljew==
+ bh=v9yLNrG6l0TFkQ92L+tL5tHOH+nEKsuWiWBDUxEUOcQ=;
+ b=YAmYy+oTwdG4KZ5yC9DlMXmeTakI4pAid8fmGHo8fvnhQwt9kGG7Z7om2rv3KyPN34
+ q9xRDIi5/9l/GeWAEDlxg5QvFjSv3DFBp+hWSMQDxou1SeUoEvkXzz60xZI5IIi3pu0I
+ 3b4EaBj+IxJqBM618FsLE5qyE43aKR7u8+kDNwWDdg9fcID45+e5OztUl75t+QVAbh6g
+ yIIPY/D1lmAH9uneAglS8z/IOf9sfZhGhmWJKDzvGGpLwaAIjT4iafeGNXr7EeI3OuWo
+ rZltBVxNw5bfPZs3DAImMPlrR6PpemXhLIDn83P/CqKDR/7n/FYKyiHYh0NT5hlcidal
+ IQug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=p+E0+uE2lXtNLKuoVdNN7EHk5K32D3/loaRf0Upgg3k=;
- b=J80qrnXYMwqRUv49v9JakAuYsbuFq8hPi414XMNq4DWn9ild38wkJMYIgJHmVPvt6J
- p3+/3/rMDdECjQ3zIA231sc6BPaEzyjor6zNNHBWKVzIdltCQaSu4HtkziCaGb5FOQ9A
- qeZLuZw1GFuuLeGzwFAFlvf05WpO66fcujDpX5nKBBmvLYlLgrLNxHn31VUcWiTmXz8w
- /TQ4ywvjlFjQh8b6ThgSNe1vCwqipX3qTbcnGN6QcXTPiJAPbU2EeCu9LXEcjzuximEB
- C6Qf3RZH3hbFDXRybTrc8Omx+oyBI9KorEoVOD+d/mQK5Q2IFtsuFNJyMhJW7hGD+ngf
- b0Mw==
-X-Gm-Message-State: AOAM530Ogq25MaTkKM0q2bTeZJCCXOJzQ109J57raBiv3b9fCaInJWZd
- 91cG7W9Gw9AW7hOz/XbAq6aY8Oy6pzCFzxVGMEM=
-X-Google-Smtp-Source: ABdhPJyFX7aZUnxtr67BuwBeZYCEU0aeulm8VfnsZwb6qld+bJ3ulaFAhym3p1Mg3LG6OdO2xqrgH4eDWL2TzGVHrNU=
+ bh=v9yLNrG6l0TFkQ92L+tL5tHOH+nEKsuWiWBDUxEUOcQ=;
+ b=HAdr7jw1LK/AhweAn5ipsJJj6uYiD7Ga9KeZ6dLxpa/m8zgH2Z0RjiK4BU+tt+ohMv
+ YM4gMb1myUYeSxGZ2MqLQzh/vd1rPJN7690SdXu3KKugK1jG9V52fmkXBb7gS2G2IHZv
+ UL8eSsYff8y8CcStUEWV3I5cYGDpAVB7JH3PsvfO+cD7BdxRYIYBwN7iWcnRbDGtuQPO
+ H2tHL1DTt7FTPbK1J+uV5XR3VeHKH9mLIkBAoOhC/XHQ5d4H6H9PugeKU4VvCN99+LTj
+ WcMuK/MlDMuZAO36lfJVZIUrrhpnUr82ryCKjBSfoOqmO6IIgH/gVJYAZ24OBeFKFgkz
+ KVgQ==
+X-Gm-Message-State: AOAM53002k579NJ3epHHBr/NYbCYUkQFPTUlLxq2RxA80aaZ1mQZWOyZ
+ JZ+/1vwTbeihMjH1sLTTIlIo0cCLoI8idjQDG6M4ogzMs5j1bXTU
+X-Google-Smtp-Source: ABdhPJyuw1KcbBAW1IyIAwO2Ds6rFXL/+th2oi+B1768m00GNuoE5uVaqVi67evQA394woBSm8qbGZ2OKaXmaDMCicA=
 X-Received: by 2002:a05:6870:b00a:b0:f1:7f07:8c36 with SMTP id
- y10-20020a056870b00a00b000f17f078c36mr11745560oae.278.1653956306310; Mon, 30
- May 2022 17:18:26 -0700 (PDT)
+ y10-20020a056870b00a00b000f17f078c36mr11748958oae.278.1653956404719; Mon, 30
+ May 2022 17:20:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220527153603.887929-1-alex.bennee@linaro.org>
- <20220527153603.887929-2-alex.bennee@linaro.org>
-In-Reply-To: <20220527153603.887929-2-alex.bennee@linaro.org>
+References: <20220509091339.26016-1-alistair.francis@wdc.com>
+ <e8feb9d9-b9da-c1d7-a978-5966a6bd30f8@amsat.org>
+In-Reply-To: <e8feb9d9-b9da-c1d7-a978-5966a6bd30f8@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 31 May 2022 10:18:00 +1000
-Message-ID: <CAKmqyKNbiZK-WOXKXX2z3-1ofU_V5TRrGL08cohpBfTFoSiUUg@mail.gmail.com>
-Subject: Re: [PATCH v1 01/33] .gitlab-ci.d/container-cross: Fix RISC-V
- container dependencies / stages
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Date: Tue, 31 May 2022 10:19:38 +1000
+Message-ID: <CAKmqyKMukniKikfExp0KCpUkDLECfifuq4x6X1WzKTWXJjFRqQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add myself as hw/core/uboot_image.h
+ maintainer
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=alistair23@gmail.com; helo=mail-oa1-x36.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=alistair23@gmail.com; helo=mail-oa1-x32.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,54 +88,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 28, 2022 at 1:36 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On Tue, May 31, 2022 at 1:38 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> From: Thomas Huth <thuth@redhat.com>
+> On 9/5/22 11:13, Alistair Francis via wrote:
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >   MAINTAINERS | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 662ec47246..9ba30cec8a 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2173,6 +2173,7 @@ Generic Loader
+> >   M: Alistair Francis <alistair@alistair23.me>
+> >   S: Maintained
+> >   F: hw/core/generic-loader.c
+> > +F: hw/core/uboot_image.h
+> >   F: include/hw/core/generic-loader.h
+> >   F: docs/system/generic-loader.rst
+> >
 >
-> The "riscv64-debian-cross-container" job does not depend on any other
-> container job from the first stage, so we can move it to the first
-> stage, too.
+> Alternative patch subject:
 >
-> The "riscv64-debian-test-cross-container" job needs the debian11
-> container, so we should add a proper "needs:" statement here.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20220524093141.91012-1-thuth@redhat.com>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> "MAINTAINERS: Cover hw/core/uboot_image.h within Generic Loader section"
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks!
+
+Applied to riscv-to-apply.next with the updated commit message
 
 Alistair
 
-> ---
->  .gitlab-ci.d/container-cross.yml | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cr=
-oss.yml
-> index e622ac2d21..ac15fce9b6 100644
-> --- a/.gitlab-ci.d/container-cross.yml
-> +++ b/.gitlab-ci.d/container-cross.yml
-> @@ -125,7 +125,7 @@ ppc64el-debian-cross-container:
->
->  riscv64-debian-cross-container:
->    extends: .container_job_template
-> -  stage: containers-layer2
-> +  stage: containers
->    # as we are currently based on 'sid/unstable' we may break so...
->    allow_failure: true
->    variables:
-> @@ -135,6 +135,7 @@ riscv64-debian-cross-container:
->  riscv64-debian-test-cross-container:
->    extends: .container_job_template
->    stage: containers-layer2
-> +  needs: ['amd64-debian11-container']
->    variables:
->      NAME: debian-riscv64-test-cross
->
-> --
-> 2.30.2
->
->
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
