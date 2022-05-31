@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9A1539660
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 20:41:16 +0200 (CEST)
-Received: from localhost ([::1]:40116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AFD5396C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 21:12:23 +0200 (CEST)
+Received: from localhost ([::1]:38394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw6nq-00022p-Vd
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 14:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
+	id 1nw7Hx-0005Wl-TB
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 15:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1nw6iR-0007jG-Kt; Tue, 31 May 2022 14:35:39 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42869)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nw7DM-0003Vy-04; Tue, 31 May 2022 15:07:36 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:44924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1nw6iO-0008Uq-Bc; Tue, 31 May 2022 14:35:39 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id d129so13585284pgc.9;
- Tue, 31 May 2022 11:35:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nw7DK-000515-4t; Tue, 31 May 2022 15:07:35 -0400
+Received: by mail-pl1-x629.google.com with SMTP id h1so4465126plf.11;
+ Tue, 31 May 2022 12:07:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=af7lqGtYARSp3nCBiYdoAnbEGuLpUQ6yE0duFC4iDu4=;
- b=CMe9hosCtiqXUkAtVUVOLXl9EBI8S4Jghnef5/dG4x2UBrneDj9FJzmWMFuTy0uL65
- Z9DqLX0P5aeN7loVrFKgnvT5eDuW82JSXXaYV56KhU/7OjdqbmdaTbaMZpar0MY9hrdb
- Xvq9y+zMhz/p6KSJRuiYuACVUe4WmZYhxGMUpdNaKgRKKwXf+JBzgNwSlxMH8gaLQYeK
- FdQG7Vmsmm7XEc1wyFH/4FzPHQ0Qo58XfjmFIbfIv+VizHXFK8+E+w+D9NBatnR+XYMS
- U1p0bj4oWuel2Dhih7LPgVl+CaUBipcPLQ8+nWw80LUQWI4xuvNu3C15yS5jaBqWELkZ
- NEmQ==
+ bh=IsrV0z+oTObhUMOinSX9dk2RI7tCuck2hDq/t/yuK7k=;
+ b=gbulYDxn+DBqcQtRzQb1cnGapM7j9cWTKMyJDZcyuXvV1QcHkD7Y+A2CIyNjqHqgmE
+ oF8E23UkzowU5ECcaTmptFmL5P7rYlZxcpGP7CBCJgcP9kBdC5Ahmm4OYGek/HcSUS1w
+ QNCJ+CwdiLkRiKzOT57bwCooIIZpeEKwvtCC7dpSxhmQZANm9zH1AVb1mOHUA9TeZzfG
+ BE4Eu+TgoV2OCt6/ZnQn3zAk7CPXvlWUbH1y02r+u/ZdHA5waHQzP3aCBONiUCHjZ3h8
+ D7C8PPWoeUpUcz6CbYFv3Y9onFYaae3mpDfDwtWkzFnpXpn5uuOvWs9VH+3yI0jwlixv
+ uFDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=af7lqGtYARSp3nCBiYdoAnbEGuLpUQ6yE0duFC4iDu4=;
- b=sl+gHvSiWSfzZaM39lp1OAuyjo4ckuRjpWYP6e3ktspko2Ds9mAEQISi27oGVfMogS
- JukY1GEVQuSngT1yU44DP98OXFgdIAaIdAWnL82i6OKtb06yJy1pYTjaERYVxQ3GA9Cw
- I/px97tre3LgnQeaCNpREyd8Nyvqt9OQhqZyduK77O9C9R0sQuw6lipLnDOSKPnZpzye
- wi1SKCO9JYrXgwLIbE0jo3ISBjQsYhJusuSP8UTe8UelVUbbjcMP+2jOzkdirQ3vy+lF
- v/6px0c1uVRoKqs6FM5BvKNpEMigTxaCQOo71SEGHrFGWd9u/ZpB0EdeYjBarc+jizc+
- fXkw==
-X-Gm-Message-State: AOAM531EiLtA8ZWSJ7XUAzmgMWJAd5OKhYvZ7U61V02UNvY4BVQsDke5
- MNFpqfJzyIlJiSoTtRlyGp1Mb7k2YnJNMFIg
-X-Google-Smtp-Source: ABdhPJyHWVrbfOE8n7sX3TViAq6DWqHRZ9D8amEoaSTqGEjrD5ALmci95Uz8NMEiuRwLVVYIvDpmTw==
-X-Received: by 2002:a65:5688:0:b0:3c2:1015:988e with SMTP id
- v8-20020a655688000000b003c21015988emr53862686pgs.280.1654022134085; 
- Tue, 31 May 2022 11:35:34 -0700 (PDT)
-Received: from localhost.localdomain ([2409:4040:e14:de30:918d:3d12:382f:45df])
+ bh=IsrV0z+oTObhUMOinSX9dk2RI7tCuck2hDq/t/yuK7k=;
+ b=OzgCXTQtB8Z2J09USD1c87iVjeWykRzmeF90BdV/1mpfQ06J3ryeTcM3Y/j4PrjLBq
+ w8/S0UxwulsyZ0r11Gfg5+8HRG+HzPgkqD9XIBmNkFrCk0dBWIaJAx63Uk47/pwSRX0I
+ H9f86hMMXL8X2wa7FlHOLxKCiF753W/uPQ4ByZzt9mcP1PZ0f6Zd/cFwSUdzuQG/gQFf
+ sXFqYwDKEZnYTrkavTD658kobbZBwpAyiN+IF7M6KxEyQnluLRvwhx7mKmHLoY5QqC4w
+ 5eqe4hhipUJew1Rdyahv/osbhF3XoF3fLPy2fR5JdIgkiGyViGL9r9LCIq+hlh1h8JAt
+ SY5g==
+X-Gm-Message-State: AOAM532ApM/JmW2lENfts0zJZfKU115cbwdLgT8wHGa69m0wT61KXHl/
+ IHIaGxltsh0ouJcUQXFqr/4=
+X-Google-Smtp-Source: ABdhPJyjcwsGqb31QscB6VIr0XN+HBB1vwhVSRGdK1u/PGGTH8u2bDJZED4d5NF4EUSUZsP6SQ/3qg==
+X-Received: by 2002:a17:903:209:b0:161:7f66:b9e0 with SMTP id
+ r9-20020a170903020900b001617f66b9e0mr46215437plh.73.1654024051764; 
+ Tue, 31 May 2022 12:07:31 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- fh6-20020a17090b034600b001cd4989fec6sm2301749pjb.18.2022.05.31.11.35.30
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 May 2022 11:35:33 -0700 (PDT)
-From: Gautam Agrawal <gautamnagrawal@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, thuth@redhat.com, cohuck@redhat.com,
- david@redhat.com, richard.henderson@linaro.org, gautamnagrawal@gmail.com
-Subject: [PATCH v2] tests/tcg/s390x: Test overflow conditions
-Date: Wed,  1 Jun 2022 00:05:24 +0530
-Message-Id: <20220531183524.40948-1-gautamnagrawal@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ f11-20020a170902860b00b0015e8d4eb248sm11393869plo.146.2022.05.31.12.07.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 May 2022 12:07:31 -0700 (PDT)
+Message-ID: <9a265410-49f1-ba56-6c9b-d58e641e71b4@amsat.org>
+Date: Tue, 31 May 2022 21:07:25 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH v2 00/25] hw/sd: Rework models for eMMC support
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
+ <28f1b244-d1f9-c490-4b33-ca40824b5a19@kaod.org>
+In-Reply-To: <28f1b244-d1f9-c490-4b33-ca40824b5a19@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=gautamnagrawal@gmail.com; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,100 +94,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Add a test to check for overflow conditions in s390x.
-This patch is based on the following patches :
-* https://git.qemu.org/?p=qemu.git;a=commitdiff;h=5a2e67a691501
-* https://git.qemu.org/?p=qemu.git;a=commitdiff;h=fc6e0d0f2db51
+On 31/5/22 11:19, Cédric Le Goater wrote:
+> On 5/30/22 21:37, Philippe Mathieu-Daudé wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> Rebase/respin of Cédric RFC:
+>> https://lore.kernel.org/qemu-devel/20220318132824.1134400-1-clg@kaod.org/
+>> (sorry it took me so long guys...)
+>>
+>> Pushed at https://gitlab.com/philmd/qemu/-/commits/emmc-v2
+>>
+>> I plan to queue patches 1-12 via sdmmc-next later this week.
+>>
+>> Cédric, if you are happy with this series, it should be easy to rebase
+>> your other patches on top and address the comments I left on the RFC :)
+> 
+> I pushed an update on :
+> 
+>    https://github.com/legoater/qemu/commits/aspeed-7.1
+> 
+> Here is an image :
+> 
+>    https://www.kaod.org/qemu/aspeed/mmc-p10bmc.qcow2
+> 
+> run with :
+> 
+>   qemu-system-arm -M rainier-bmc -net nic -net user -drive 
+> file=./mmc-p10bmc.qcow2,format=qcow2,if=sd,id=sd0,index=2 -nographic 
+> -nodefaults -snapshot -serial mon:stdio
 
-Signed-off-by: Gautam Agrawal <gautamnagrawal@gmail.com>
----
-Changes since v1:
-- Corrected the "long" data type to "long long"
-- Changed local variable name in overflow function to "res" 
+Useful, thanks.
 
- tests/tcg/s390x/Makefile.target |  1 +
- tests/tcg/s390x/overflow.c      | 58 +++++++++++++++++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 tests/tcg/s390x/overflow.c
+I see in hw/arm/aspeed_ast2600.c:
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 3124172736..7f86de85b9 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -16,6 +16,7 @@ TESTS+=shift
- TESTS+=trap
- TESTS+=signals-s390x
- TESTS+=branch-relative-long
-+TESTS+=overflow
- 
- VECTOR_TESTS=vxeh2_vs
- VECTOR_TESTS+=vxeh2_vcvt
-diff --git a/tests/tcg/s390x/overflow.c b/tests/tcg/s390x/overflow.c
-new file mode 100644
-index 0000000000..1c59c2cb70
---- /dev/null
-+++ b/tests/tcg/s390x/overflow.c
-@@ -0,0 +1,58 @@
-+#include <stdio.h>
-+
-+int overflow_add_32(int x, int y)
-+{
-+    int res;
-+    return __builtin_add_overflow(x, y, &res);
-+}
-+
-+int overflow_add_64(long long x, long long y)
-+{
-+    long long res;
-+    return __builtin_add_overflow(x, y, &res);
-+}
-+
-+int overflow_sub_32(int x, int y)
-+{
-+    int res;
-+    return __builtin_sub_overflow(x, y, &res);
-+}
-+
-+int overflow_sub_64(long long x, long long y)
-+{
-+    long long res;
-+    return __builtin_sub_overflow(x, y, &res);
-+}
-+
-+int a1_add = -2147483648;
-+int b1_add = -2147483648;
-+long long a2_add = -9223372036854775808ULL;
-+long long b2_add = -9223372036854775808ULL;
-+
-+int a1_sub;
-+int b1_sub = -2147483648;
-+long long a2_sub = 0L;
-+long long b2_sub = -9223372036854775808ULL;
-+
-+int main()
-+{
-+    int ret = 0;
-+
-+    if (!overflow_add_32(a1_add, b1_add)) {
-+        fprintf(stderr, "data overflow while adding 32 bits\n");
-+        ret = 1;
-+    }
-+    if (!overflow_add_64(a2_add, b2_add)) {
-+        fprintf(stderr, "data overflow while adding 64 bits\n");
-+        ret = 1;
-+    }
-+    if (!overflow_sub_32(a1_sub, b1_sub)) {
-+        fprintf(stderr, "data overflow while subtracting 32 bits\n");
-+        ret = 1;
-+    }
-+    if (!overflow_sub_64(a2_sub, b2_sub)) {
-+        fprintf(stderr, "data overflow while subtracting 64 bits\n");
-+        ret = 1;
-+    }
-+    return ret;
-+}
--- 
-2.34.1
+     /* Init sd card slot class here so that they're under the correct 
+parent */
+     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
+         object_initialize_child(obj, "sd-controller.sdhci[*]",
+                                 &s->sdhci.slots[i], TYPE_SYSBUS_SDHCI);
+     }
 
+     object_initialize_child(obj, "emmc-controller.sdhci", 
+&s->emmc.slots[0],
+                             TYPE_SYSBUS_SDHCI);
+
+     /* eMMC Boot Controller stub */
+     create_unimplemented_device("aspeed.emmc-boot-controller",
+                                 sc->memmap[ASPEED_DEV_EMMC_BC],
+                                 0x1000);
+
+     /* eMMC */
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->emmc), errp)) {
+         return;
+     }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->emmc), 0, 
+sc->memmap[ASPEED_DEV_EMMC]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
+                        aspeed_soc_get_irq(s, ASPEED_DEV_EMMC));
+
+Where is 'emmc-controller.sdhci' realized?
+
+In aspeed_sdhci_realize() you set sd-spec-version" = 2, is that OK
+with eMMC?
+
+What expects the real hw?
+
+Thanks,
+
+Phil.
 
