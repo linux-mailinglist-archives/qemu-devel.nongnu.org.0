@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1F1538F72
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 13:08:44 +0200 (CEST)
-Received: from localhost ([::1]:46582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40509538F54
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 12:54:32 +0200 (CEST)
+Received: from localhost ([::1]:34296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvzjv-0003bq-48
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 07:08:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
+	id 1nvzWA-00030D-Qh
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 06:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nvzLq-0003YI-Dj
+ id 1nvzLq-0003YO-De
  for qemu-devel@nongnu.org; Tue, 31 May 2022 06:43:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47948)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nvzLo-0004fE-LM
- for qemu-devel@nongnu.org; Tue, 31 May 2022 06:43:49 -0400
+ id 1nvzLo-0004fP-RO
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 06:43:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1653993828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oxTASCIcBA5iquuLNS4rUrcwGQ05et4haViEzl1TLb8=;
- b=iYajH1Ds4QLoj9vj9NwTCQzyvW5F6g6Tu38pX77/MBQhIVFgZxQ9ahKCZ6Dd4n397fUo6d
- dscFkvQSLofUCnaKAF9bn5g4NnWH8gVJeIJ34/gmYVJJB8aAwVBD9djElOsdNn8onpNrrF
- j6WTPGOyOozWDKovdlVbujXf4sZUByo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SxF195sGwkezALJ6dYZJZALZ/ukTIeSsQu0q5lm1GGE=;
+ b=EvFgaGAPm7AR0dCXNJkrQuemKUL7FgV+aebcwmH9ioz4pkb6QAChIECHwOouPaBE56KycH
+ 1C6Z0QJU31AcRGdRiPfP1DG37dipI5tSkpj7zxZWsFCizQMLyPFgfPe7MRYNiK0QH5gI/p
+ jOzzI6LLysm6ovIveOK9MEDvJ+7IT9o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-464-VNIRHoQsN7yQ08XVcn900Q-1; Tue, 31 May 2022 06:43:42 -0400
-X-MC-Unique: VNIRHoQsN7yQ08XVcn900Q-1
+ us-mta-524-SomwDmoDPvumo8mAFiahSA-1; Tue, 31 May 2022 06:43:44 -0400
+X-MC-Unique: SomwDmoDPvumo8mAFiahSA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 537B680A0B5;
- Tue, 31 May 2022 10:43:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F5273C11058;
+ Tue, 31 May 2022 10:43:44 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70CA01131A;
- Tue, 31 May 2022 10:43:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4F7B5F245;
+ Tue, 31 May 2022 10:43:42 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -51,9 +51,9 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Peter Xu <peterx@redhat.com>, Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH v7 09/13] multifd: Add property to enable/disable zero_page
-Date: Tue, 31 May 2022 12:43:14 +0200
-Message-Id: <20220531104318.7494-10-quintela@redhat.com>
+Subject: [PATCH v7 10/13] migration: Export ram_release_page()
+Date: Tue, 31 May 2022 12:43:15 +0200
+Message-Id: <20220531104318.7494-11-quintela@redhat.com>
 In-Reply-To: <20220531104318.7494-1-quintela@redhat.com>
 References: <20220531104318.7494-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -84,75 +84,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.h |  3 +++
- hw/core/machine.c     |  1 +
- migration/migration.c | 11 +++++++++++
- 3 files changed, 15 insertions(+)
+ migration/ram.h | 1 +
+ migration/ram.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index 485d58b95f..1017c1bf4a 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -332,6 +332,8 @@ struct MigrationState {
-      * This save hostname when out-going migration starts
-      */
-     char *hostname;
-+    /* Use multifd channel to send zero pages */
-+    bool multifd_zero_pages;
- };
+diff --git a/migration/ram.h b/migration/ram.h
+index 7b641adc55..aee08de2a5 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -66,6 +66,7 @@ int ram_load_postcopy(QEMUFile *f);
+ void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
  
- void migrate_set_state(int *state, int old_state, int new_state);
-@@ -374,6 +376,7 @@ int migrate_multifd_channels(void);
- MultiFDCompression migrate_multifd_compression(void);
- int migrate_multifd_zlib_level(void);
- int migrate_multifd_zstd_level(void);
-+bool migrate_use_multifd_zero_page(void);
+ void ram_transferred_add(uint64_t bytes);
++void ram_release_page(const char *rbname, uint64_t offset);
  
- #ifdef CONFIG_LINUX
- bool migrate_use_zero_copy_send(void);
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index bb0dc8f6a9..a5b5f87329 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -43,6 +43,7 @@
- 
- GlobalProperty hw_compat_7_0[] = {
-     { "arm-gicv3-common", "force-8-bit-prio", "on" },
-+    { "migration", "multifd-zero-pages", "false" },
- };
- const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
- 
-diff --git a/migration/migration.c b/migration/migration.c
-index 31739b2af9..224abe2555 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2540,6 +2540,15 @@ bool migrate_use_multifd(void)
-     return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
+ int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
+ bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
+diff --git a/migration/ram.c b/migration/ram.c
+index 71506b1b20..3b2af07341 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1182,7 +1182,7 @@ static void migration_bitmap_sync_precopy(RAMState *rs)
+     }
  }
  
-+bool migrate_use_multifd_zero_page(void)
-+{
-+    MigrationState *s;
-+
-+    s = migrate_get_current();
-+
-+    return s->multifd_zero_pages;
-+}
-+
- bool migrate_pause_before_switchover(void)
+-static void ram_release_page(const char *rbname, uint64_t offset)
++void ram_release_page(const char *rbname, uint64_t offset)
  {
-     MigrationState *s;
-@@ -4207,6 +4216,8 @@ static Property migration_properties[] = {
-                       clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
- 
-     /* Migration parameters */
-+    DEFINE_PROP_BOOL("multifd-zero-pages", MigrationState,
-+                      multifd_zero_pages, true),
-     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
-                       parameters.compress_level,
-                       DEFAULT_MIGRATE_COMPRESS_LEVEL),
+     if (!migrate_release_ram() || !migration_in_postcopy()) {
+         return;
 -- 
 2.35.3
 
