@@ -2,185 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2833753938D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 17:05:54 +0200 (CEST)
-Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20215393A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 17:09:02 +0200 (CEST)
+Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw3RR-00058Z-2f
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 11:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57006)
+	id 1nw3UT-0007g5-Gi
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 11:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nw3On-0003na-06
- for qemu-devel@nongnu.org; Tue, 31 May 2022 11:03:09 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:6722)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nw3R3-0005cE-TL
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 11:05:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nw3Oh-0000zH-SH
- for qemu-devel@nongnu.org; Tue, 31 May 2022 11:03:08 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24VEaH5a024906;
- Tue, 31 May 2022 15:02:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=gvV9WPa4EQwTyMWkHbk4+AV9ulwsbw+jSvttTra82ac=;
- b=hhntTZZkcyJGhktlJkQEICVq6rOSuZeFsgC81CNlXoIUtdBDwKd8SE6O04rAiHoj9fKl
- k5Z/5grL++K5f1hYNl0AK0CpLARYjWqmn0dTfXOrS5sR8xjSPkyRovoH0pjZDFKJ3Hb9
- o3V0molR5ek4DBlzgjMZ97yVyu/a2kz0cvvNrAb+6TTSCOqjA3LriI5BDJA/JrXJZy0N
- zjif/DW65mquzHT+c5yJRZ8zx3wb9vgliCWv7q7SDjl18itdI/O0lOtTxBfIGwGNe1dU
- /XAkpvZ+jWNYOB9g2SUXn7+P4JgT8iH3QuV2S/twsqOnfqppNcsrEjlnVH/JFlZFQPJQ bQ== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gbgwm51ta-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 31 May 2022 15:02:42 +0000
-Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 24VF2A1B033273; Tue, 31 May 2022 15:02:24 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3gc8kheh7r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 31 May 2022 15:02:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bwxjPtC1j6BjplfzGKBNKEHualpUgYQdcTmtxE7wnRVBC8H+PGku2ePMqWZ1qujGUlABeEycE6SpILNXip6WqW9AKKBUxWBqyzMpzBLhJcy2nGjJ1qOLbtt/p7D91atpfHf0OWIqEpx5MPqbQfbCmXZtaZgUfuAIgNHQLyaBT1saRCbNGLGQepYjm+G2Fz8v1OSz/VY6cXcKIaee2tIUZW1W3M0UOojoiB3plENRS1mjT9MGXbXEAdiZJBFTMtt8KGUEu3y6DGsmA2nEA54iDGjfGF0dcouVzdcVQNyR/6mmLQlPOpWIHpgY+se18UyYt5Ujm9l33sBHAVaogCYZxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gvV9WPa4EQwTyMWkHbk4+AV9ulwsbw+jSvttTra82ac=;
- b=UIqOy5dQ4ALusXU24gUztEFdioROqvFkDowA1j32vqqra5rucEoEBJ4sq0/15qfy/NNvw3qpwXnjjjNBGcZpKhuUaUZ/xkit3vTbjYTZAQXKLQ9OCk+UdiEOmBnPRwY6DdXV2mShrst2XpPiLr/9u0kl80Tmpu7njk4q+pLKIaejP63/EBaIds8OvctBGFjWjWvCBmgLLy2iHUK42WhPbLTfypYCL+TKRpd8rUJwGRPDOdj7X8Yx1fJgqPXp/l3iRYB2e46PDu6iMFPN/gLHjTkrGwTbIBkxkuvQFdX5IqAOWZXlVboGS1uMQ6xfWDzRFCA+7UwF5K20VkAtK8k3bA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gvV9WPa4EQwTyMWkHbk4+AV9ulwsbw+jSvttTra82ac=;
- b=z6WY9POBn6gFMKavL6Ckz1m5hNCvyPB1QoWufAzA5LQ+eNfcEQ45cWo18ctcRGm+2KnHGJMfb587nO5PFpI7VCVejKXsyRZKDbi+LP6AaLpyP26x50FXpBq3la9KWVRVOHR9NzdthQOCY4llIcbzhba3hUvcH5ggygmc/EdS2ts=
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
- by MW5PR10MB5828.namprd10.prod.outlook.com (2603:10b6:303:190::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.19; Tue, 31 May
- 2022 15:01:58 +0000
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::e9cb:e1ca:8189:f191]) by MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::e9cb:e1ca:8189:f191%7]) with mapi id 15.20.5293.019; Tue, 31 May 2022
- 15:01:58 +0000
-From: Jag Raman <jag.raman@oracle.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-CC: qemu-devel <qemu-devel@nongnu.org>, "f4bug@amsat.org" <f4bug@amsat.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "marcandre.lureau@redhat.com"
- <marcandre.lureau@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "eduardo@habkost.net" <eduardo@habkost.net>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "eblake@redhat.com" <eblake@redhat.com>, Markus Armbruster
- <armbru@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "imammedo@redhat.com"
- <imammedo@redhat.com>, "peterx@redhat.com" <peterx@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, Elena Ufimtseva
- <elena.ufimtseva@oracle.com>, John Johnson <john.g.johnson@oracle.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>
-Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
-Thread-Topic: [PATCH v10 13/14] vfio-user: handle device interrupts
-Thread-Index: AQHYb4NRI47IPGjvqEq+Oet+ENycma0vr36AgAlwOAA=
-Date: Tue, 31 May 2022 15:01:57 +0000
-Message-ID: <E6AB9FA3-6580-44C6-93FA-AFC19477C296@oracle.com>
-References: <cover.1653404595.git.jag.raman@oracle.com>
- <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
- <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
-In-Reply-To: <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.80.82.1.1)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bfac03ef-b134-4ea2-0b2d-08da4316823b
-x-ms-traffictypediagnostic: MW5PR10MB5828:EE_
-x-microsoft-antispam-prvs: <MW5PR10MB5828B0EC1F49EABB22F1BE6F90DC9@MW5PR10MB5828.namprd10.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hsKK6a6Ds+VpF95dj8YCRzS8IunnlMtxLhrzzmImztQY9IsIxQXvYWnAkP3CvXHZNj3fCMUCVghen0VuqCuuO72h0eFLAajdZYrJUBqw4R/vAMbHQG0IquYqIY29gCYFuv5MEO1X50CdeAiDYM7qBeZ3JV4dcog89czSTg2x2nAPKTGNTxteWenUaDDbDRD6x4IVC97Vqus5Z6DsgeiIJp1ZKMwAKTbFO383KrxTOvQIYt2DUiAw/X18NX0WWqfIt6jWm/AiJppTTO1ClsCmBv59k9PzDgTcCoC1WtIzJsxtUWkcMdmsRcZ1jeq2UXaz9K9aZGl83YDMilE8Vl/0yuOENLVQtHiPKpz8fkEJWUvoPhr/DwdLDS62nucsczmF+6wJI10YBdnByEiDpdkUROKvo1ZAM5F/lWruv3lzfAzoT6X7G3YvxVYMevSGOAk5ewUUFCRVBJzGX6XKr7qnwndljRUt+OyvLPcGByGN9tF3MFMiL2CMUsGQnlqWl62qArs+XkQ7bkOzQUCMN0GgAHVFuhkoBu4b4oqD1e/lrIXzB+0UMwL6C/C/yXf+KxIluTIpx13htW9fCTPNCMC4aM8w5sXHkwibSeTpaNr+0/UCLHIk+fIkGosjY3YCLdkKwfPHf9twtQWzHYmrYlT0Qq7BSdzRxL8nPfNyHY0cOyLkThmX5JJCBUkEfv83r1YXb52Je4n1aGbr7x5Bg9L6ojT2C4EMFHYSWcYLRSnUFUg=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(44832011)(8676002)(38100700002)(66946007)(66556008)(4326008)(66476007)(91956017)(76116006)(66446008)(64756008)(54906003)(36756003)(316002)(122000001)(71200400001)(38070700005)(110136005)(6486002)(5660300002)(2616005)(86362001)(508600001)(107886003)(8936002)(6512007)(26005)(83380400001)(53546011)(2906002)(186003)(6506007)(7416002)(33656002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?se2Gpvmm4ihwZY7evckM/H82D0vyHVNkNWD39gZ3q3OckIGmFjpdu24yaJ?=
- =?iso-8859-1?Q?D2Wi8Z20/exL6vbhJketG+ipFcnZK2mVtZeGlqrPwlwpELdTMjqFIOTkT3?=
- =?iso-8859-1?Q?HqufalwirriUhx6XJI6jLOAI4WnvC5JsXMABh1cBpFRzf9p8JjuRAqe5LP?=
- =?iso-8859-1?Q?llYVbAdfnbpAfVt5++dF/XpHMZ/U5IHkfztJxEGLsPdx2nCFci9xW9n9mK?=
- =?iso-8859-1?Q?yMFn2OZ5bT4vqRSB76vj5e04rtHLGdro1uIx9jA1ZSd1aCK1e98YphtoRe?=
- =?iso-8859-1?Q?+CP/T7PrQ+UJ0Wpw1NJ4wijiE8vSFeaBZPcKfuXYw8beBL2k2UHSQuksyA?=
- =?iso-8859-1?Q?2bUIwYGY5IHQNBXUrJ69i9XH9O7NqxsEMgNfF5d83/99GVAem55jA6gYIu?=
- =?iso-8859-1?Q?WrJSmwkMP37Yu1BIsjE23tbz7cxwUC2dCSVj5qp70EpmO8v0aEvIKY/1I8?=
- =?iso-8859-1?Q?VIRueF6DvcQw1nh4DsG5j/hBgxTmKSK3hcdBpsHYS+GHUtNux3eGb0bNFH?=
- =?iso-8859-1?Q?7fSx1f7VpKqL6Tfyfg0skm092VotdfHVjgy7S8ImedQpQiWbhdxOJm14m1?=
- =?iso-8859-1?Q?JQmYjFNcnGMs2Xwbq21K7FpGj4lzUwc0KIEqsEGtYcvPUAHBIP7AuBJnl/?=
- =?iso-8859-1?Q?+anjUS2/iEtjSQNDBXL6tm89m1usTNbjQr9N7PNLCi8dPldUiEj1Tp+ZwX?=
- =?iso-8859-1?Q?1RjlRYJgyXao0EKgs7zXU/2m22Aj1Pg+q4r3GlcBStCoF3B2Ubl5Vd2Uyq?=
- =?iso-8859-1?Q?I8m999JUx75TQh2411Z0uqG3S2PhK1ocLrCQXIF3M7U0waK1qXOtfvLYBL?=
- =?iso-8859-1?Q?kntByFv5LoTK+uFBqFVZEs4uWfIW3cBVloLrQuBLB82SqgUbAmmHm02kmR?=
- =?iso-8859-1?Q?z6zmF7S80EgUDpn9p3Zj/lqv3r1pFXfgmOmj205Uc1XlqY0mDRFpwR8DEX?=
- =?iso-8859-1?Q?P/A/7LaqDgS6CZqjw0q9QPAmwNBdOOzJotX2cmuqxNVLuCBn0+OMZUIAuY?=
- =?iso-8859-1?Q?CSj7CqfQD63c75uJn1qK6ThXo7UaI35YANtXLuWtRQH0LULYlcmQnyiQbT?=
- =?iso-8859-1?Q?RIkXZTQN9ktNxJIvKuzaBLVPZJ+WGxn3jP1miJBzjUv4/B9BvV2tuPgbS3?=
- =?iso-8859-1?Q?MWjN9Bzurx+orZ4wNBMIRqMUaZHsxzBu9mWtnP30c0u7vj8vOUFnH0//9I?=
- =?iso-8859-1?Q?GNzkaiqTqVnu6aBYSglvWMCoS1eF3u5z2zi12JAyEVSNf8FiD0XPvQGzwo?=
- =?iso-8859-1?Q?W5FXhrOhJswvJI0if8fCyUxrLQzM/reChRJCIvfybzb35dz3CACIXBJssh?=
- =?iso-8859-1?Q?WvJnXB3SVdXAyhgzs7CNxiqL4kbLREde3ASHrXiIGNCLpLRbd1AmkjXf0r?=
- =?iso-8859-1?Q?PHA/FWJvXqbSqdIB/3NqkRHbm0sv9vfnZj73BPbVBuG50FZNwNNFjojzey?=
- =?iso-8859-1?Q?RkDeemv88yCOtl5HMOZX3rrdZbpUMG2P5gx6q1fvySFWexuyowZ+0bqD0O?=
- =?iso-8859-1?Q?H9ruienFNo4AbB9c2tbBLztyPO1UKZqhj3Y1KPnQAPxr3louqu/J628cRa?=
- =?iso-8859-1?Q?By7dPWlFf9bQUnqfBllPTB62pTxI61mdPicVZPkPgyYdIjJE60DvcEu0gC?=
- =?iso-8859-1?Q?JIkXknTttvV03MOhsi4386G2VoAVkVTj/3ZMwEgXZFJh+xWTot0eZp1UDI?=
- =?iso-8859-1?Q?Z1oB21tcaWgR4wTcMLpK/lPXobmL9hp8u8TnnRXhbXOZ+I51nXp5WOY2xw?=
- =?iso-8859-1?Q?IsluP5OamSQWFALDJl7+Z55NnFYb5zr0v6hGnOFHRzDYzKl956dWkMc92V?=
- =?iso-8859-1?Q?1CvBPE40Ng=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C750707C74D17046A5EC7D3B815B2131@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nw3Qz-0001P5-5Y
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 11:05:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654009522;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qy/rlrdTz0BqFPYv3bCf/dvZ34jzqsHCJWUKQEd1BDk=;
+ b=YfPbyYbAejlMvAiFRCELJwO3/KE5FWa+QQmRhWF6m+zFGwevMbD06AZRKCb7WjQ8rr/ZqJ
+ XGdEHX7ePSX9KOUuqaO+U0eMlGHvZ/s2aaYWvBPyOj/MwgMi+27WkPsaY4+pv4XXAD5rjp
+ j411dEG585qoQ1v1ms4TDMNPXRkC3NQ=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-331-iEUags9VNtupmLGHRoEpAg-1; Tue, 31 May 2022 11:05:21 -0400
+X-MC-Unique: iEUags9VNtupmLGHRoEpAg-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ t206-20020aca5fd7000000b0032b53f108d3so5063615oib.5
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 08:05:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qy/rlrdTz0BqFPYv3bCf/dvZ34jzqsHCJWUKQEd1BDk=;
+ b=VmOypWrkWDqa+JBDidcaRKwUD9IuG2GAggvn2HeVCrcwrImHJVdjiqBAeMsLYAWjJ8
+ A3ERCI6Sqiwtf9rf7FHrtSqtUNlyi5VoTPjwhgN3CHPMZRyOMVyZTNw/i+GSDtiP6ENC
+ kmS39HPuWvSu6RPy27uAlDYfNapQQlvBTrtEAiICYeOHV/c9msrle0esgG1D4+l9tiCq
+ Hlx5wLOObW97eV7Ul9wK+GtJapwKsBqnNzT9Rbj1ZakmIbfotxKYEpPEFnAZYNC17T8W
+ hduhrXY+GbA6ebHkpz6iZU2d061aqlPXLDJrMoIvY5vnWZieI1OkA+jQ2eVSFgh/Ad9G
+ H/pA==
+X-Gm-Message-State: AOAM530QhFuE383xz+JWVXGBx0p43vj/XrDp1SKRk/SWe5cVo1XANM8m
+ XwU+f7HtOTJZyWULfTZBKLMeCI+JNMMXHkn/llj8R0i3Thvkr1BYWPHJahuX0KRe65c/i/jPoLM
+ zfMObkyViu3zCHQx1HnDEMbeFW+OmE1s=
+X-Received: by 2002:a05:6870:5702:b0:e2:9f03:dae1 with SMTP id
+ k2-20020a056870570200b000e29f03dae1mr14009076oap.201.1654009520397; 
+ Tue, 31 May 2022 08:05:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLbR6tXMZLyFa/fJgC6WSt5yh/lysr12Z7uuEYV00lk/iqn30hgHDqiyAKLJaAT6GJFxh1BPctTGZtiZBBtSY=
+X-Received: by 2002:a05:6870:5702:b0:e2:9f03:dae1 with SMTP id
+ k2-20020a056870570200b000e29f03dae1mr14009007oap.201.1654009519118; Tue, 31
+ May 2022 08:05:19 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfac03ef-b134-4ea2-0b2d-08da4316823b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2022 15:01:57.9126 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ac6Ao2USZMRkyY5Jad9CzkWx8r9o0l+ClydhlRC8GveYh3fNc+5kSHmLWgVwQaEpzeMXDY0xMvDdkQg0DYrEQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5828
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.874
- definitions=2022-05-31_06:2022-05-30,
- 2022-05-31 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- suspectscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205310076
-X-Proofpoint-GUID: bRUgw7llWj6Vy778e2uKjHfvwAwfbvqh
-X-Proofpoint-ORIG-GUID: bRUgw7llWj6Vy778e2uKjHfvwAwfbvqh
-Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
- helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220527165651.28092-1-jusual@redhat.com>
+ <20220527165651.28092-5-jusual@redhat.com>
+ <alpine.DEB.2.22.394.2205281039380.153682@anisinha-lenovo>
+ <CAMDeoFVbjhKvAdNrn5xJ+g3Vk_vr48byPhP2KZpYQGCjEZNNsA@mail.gmail.com>
+ <CAARzgwxgq8d2qPTvzm7wsYU0LfYY9D+euSo84+ieBCqQpmaEDw@mail.gmail.com>
+In-Reply-To: <CAARzgwxgq8d2qPTvzm7wsYU0LfYY9D+euSo84+ieBCqQpmaEDw@mail.gmail.com>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Tue, 31 May 2022 17:05:08 +0200
+Message-ID: <CAMDeoFV_0pm1enEe+gn5rbx-8_GA40dH0R3Qj8fwS2tKDkG7MA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] bios-tables-test: add test for number of cores > 255
+To: Ani Sinha <ani@anisinha.ca>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsuvorov@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -196,45 +96,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, May 31, 2022 at 3:14 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> On Tue, May 31, 2022 at 5:53 PM Julia Suvorova <jusual@redhat.com> wrote:
+> >
+> > On Sat, May 28, 2022 at 7:22 AM Ani Sinha <ani@anisinha.ca> wrote:
+> > >
+> > >
+> > >
+> > > On Fri, 27 May 2022, Julia Suvorova wrote:
+> > >
+> > > > The new test is run with a large number of cpus and checks if the
+> > > > core_count field in smbios_cpu_test (structure type 4) is correct.
+> > > >
+> > > > Choose q35 as it allows to run with -smp > 255.
+> > > >
+> > > > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > > > ---
+> > > >  tests/qtest/bios-tables-test.c | 35 +++++++++++++++++++++++++++++++++-
+> > > >  1 file changed, 34 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > > > index 0ba9d749a5..f2464adaa0 100644
+> > > > --- a/tests/qtest/bios-tables-test.c
+> > > > +++ b/tests/qtest/bios-tables-test.c
+> > > > @@ -100,6 +100,8 @@ typedef struct {
+> > > >      smbios_entry_point smbios_ep_table;
+> > > >      uint16_t smbios_cpu_max_speed;
+> > > >      uint16_t smbios_cpu_curr_speed;
+> > > > +    uint8_t smbios_core_count;
+> > > > +    uint16_t smbios_core_count2;
+> > > >      uint8_t *required_struct_types;
+> > > >      int required_struct_types_len;
+> > > >      QTestState *qts;
+> > > > @@ -640,8 +642,9 @@ static inline bool smbios_single_instance(uint8_t type)
+> > > >
+> > > >  static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> > > >  {
+> > > > +    uint8_t real_cc, expect_cc = data->smbios_core_count;
+> > > > +    uint16_t real, real_cc2, expect_cc2 = data->smbios_core_count2;
+> > > >      uint16_t expect_speed[2];
+> > > > -    uint16_t real;
+> > >
+> > > while you are at it, I suggest renaming this to real_speed or some such so
+> > > that its better redeable.
+> >
+> > Ok
+> >
+> > > >      int offset[2];
+> > > >      int i;
+> > > >
+> > > > @@ -660,6 +663,20 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> > > >          }
+> > > >      }
+> > > >
+> > > > +    real_cc = qtest_readb(data->qts, addr + offsetof(struct smbios_type_4, core_count));
+> > > > +    real_cc2 = qtest_readw(data->qts, addr + offsetof(struct smbios_type_4, core_count2));
+> > > > +
+> > > > +    if (expect_cc && (real_cc != expect_cc)) {
+> > >
+> > > I think better to say if ((expect_cc < 256) && (real_cc != expect_cc))
+> >
+> > The check is not whether it fits into the field, but whether the field
+> > is initialized.
+>
+> yes so the real_cc will contain the actual value of core count only
+> when the core count value is less than 256. This value should be the
+> same as the expect_cc (the cc value we pass). Is this not what is
+> being tested?
 
+The real_cc should always be equal to expect_cc (which is 0xFF with
+-smp 275). So if the core count is less than 256, this checks for the
+actual core counter, and if it's over, it checks if real_cc is equal
+to 0xFF, which eliminates several unnecessary comparisons. If we
+didn't initialize expect_cc in the test, the value is undefined, and
+we shouldn't check anything.
 
-> On May 25, 2022, at 10:53 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
->=20
-> On Tue, May 24, 2022 at 11:30:32AM -0400, Jagannathan Raman wrote:
->> Forward remote device's interrupts to the guest
->>=20
->> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
->> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
->> ---
->> include/hw/pci/pci.h              |  13 ++++
->> include/hw/remote/vfio-user-obj.h |   6 ++
->> hw/pci/msi.c                      |  16 ++--
->> hw/pci/msix.c                     |  10 ++-
->> hw/pci/pci.c                      |  13 ++++
->> hw/remote/machine.c               |  14 +++-
->> hw/remote/vfio-user-obj.c         | 123 ++++++++++++++++++++++++++++++
->> stubs/vfio-user-obj.c             |   6 ++
->> MAINTAINERS                       |   1 +
->> hw/remote/trace-events            |   1 +
->> stubs/meson.build                 |   1 +
->> 11 files changed, 193 insertions(+), 11 deletions(-)
->> create mode 100644 include/hw/remote/vfio-user-obj.h
->> create mode 100644 stubs/vfio-user-obj.c
->=20
-> It would be great if Michael Tsirkin and Alex Williamson would review
-> this.
+Best regards, Julia Suvorova.
 
-Hi Michael and Alex,
-
-Do you have any thoughts on this patch?
-
-Thank you!
---
-Jag
-
->=20
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> >
+> > > > +        fprintf(stderr, "Unexpected SMBIOS CPU count: real %u expect %u\n",
+> > > > +                real_cc, expect_cc);
+> > > > +        return false;
+> > > > +    }
+> > > > +    if ((expect_cc == 0xFF) && (real_cc2 != expect_cc2)) {
+> > > > +        fprintf(stderr, "Unexpected SMBIOS CPU count2: real %u expect %u\n",
+> > > > +                real_cc2, expect_cc2);
+> > > > +        return false;
+> > > > +    }
+> > > > +
+> > > >      return true;
+> > > >  }
+> > > >
+> > > > @@ -905,6 +922,21 @@ static void test_acpi_q35_tcg(void)
+> > > >      free_test_data(&data);
+> > > >  }
+> > > >
+> > > > +static void test_acpi_q35_tcg_core_count2(void)
+> > > > +{
+> > > > +    test_data data = {
+> > > > +        .machine = MACHINE_Q35,
+> > > > +        .variant = ".core-count2",
+> > > > +        .required_struct_types = base_required_struct_types,
+> > > > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
+> > > > +        .smbios_core_count = 0xFF,
+> > > > +        .smbios_core_count2 = 275,
+> > > > +    };
+> > > > +
+> > > > +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
+> > > > +    free_test_data(&data);
+> > > > +}
+> > > > +
+> > > >  static void test_acpi_q35_tcg_bridge(void)
+> > > >  {
+> > > >      test_data data;
+> > > > @@ -1787,6 +1819,7 @@ int main(int argc, char *argv[])
+> > > >          qtest_add_func("acpi/piix4/pci-hotplug/off",
+> > > >                         test_acpi_piix4_no_acpi_pci_hotplug);
+> > > >          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> > > > +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
+> > >
+> > > How about checking thread count as well in the same test or in a
+> > > different test?
+> >
+> > Maybe a different test.
+> >
+> > Best regards, Julia Suvorova.
+> >
+> > > >          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+> > > >          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+> > > >          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+> > > > --
+> > > > 2.35.1
+> > > >
+> > > >
+> > >
+> >
+>
 
 
