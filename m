@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357A2538FF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 13:40:48 +0200 (CEST)
-Received: from localhost ([::1]:50660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56295538FF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 13:38:04 +0200 (CEST)
+Received: from localhost ([::1]:50002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw0Ew-0002Xs-RI
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 07:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55292)
+	id 1nw0CJ-00026q-3h
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 07:38:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nw06R-00061E-Dh; Tue, 31 May 2022 07:31:59 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:44597)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nw06O-0004k3-Vw; Tue, 31 May 2022 07:31:59 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 968C35C0113;
- Tue, 31 May 2022 07:31:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 31 May 2022 07:31:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1653996715; x=1654083115; bh=5r
- yN9xh+7cL7FzcLMzXUlE8F/AWyCpYYfYk+FJgaKdM=; b=A7JnFVQhOe8CVK3eXV
- 1cbVN/tu7S9QlMwpTAVZ5KNZEGXe9vhhb1TZnEu+8AWqFTvrBrAFIchXL6YrC5rB
- +kC2UB3tf7HxGhgHMNJCzQRKXI+Cxx6q9cRvM9Z6U0LgLp3tONUccwUKZEUq+5DI
- KtCSKGgXamT7zONv/hY9lv9fdiHQZE7UnyHV34yQ01eSDFSly649PD1sC4vEy81E
- vb+0A+uP/7J5t3fk+1oDdgc68ThNC32RT1y9ea9YvY2J1+NfzaP/bzjt6ifWJH1I
- HYGuj3j/hfkj9PxswWFHtRIaJIOiO95obQjM9WgtHDKI9+7gr9/AFP+Fne0To3yQ
- R9kw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1653996715; x=1654083115; bh=5ryN9xh+7cL7FzcLMzXUlE8F/AWy
- CpYYfYk+FJgaKdM=; b=IFfTfZho+6if4dWd6UYnP90om3bQaapMRI6OW7TRnCAn
- 4jPPq5FcL1OhcESWfk2d4nRCrbJPsFF4XiyZjWljWE/m0rVV5j+8PAWPEyEZ4Xhj
- 0jShRM0F1B1Yclwsq6feD1GeQkA4q1gYjLeIFfMKHDkuWIlJv8NUgt9prQoJ6M9/
- 0B94qQDu/lKk+pJvpB6Nk33/KTJT6F4OK5zuTVap3f8Ce1daJ7NX7Tuz0zV9TmcH
- OMzURTVFv3Y2b/Tg9tXtIhW9QSacpG8gAxzQO6+VkTofA6XXzDn1aWPqKgoRNn0Q
- tOQ5ydueGGqk3FYDjaKiJujCeE9r5gd3V3+2zga00Q==
-X-ME-Sender: <xms:q_yVYkmC19XVn6ZbEfr_ps05IFZTmK1kuF3A6ucrMG3aZXEGvRvCvw>
- <xme:q_yVYj0rEl3axRTkx8Xj7AiPPuvM5EeXoCtWOINM2HXM4eNkwA08R519gs7wMSU4w
- hgf80wZY-Xka7t9VMo>
-X-ME-Received: <xmr:q_yVYiqPMa2KORH6-u1UH0b-PziTg-X2w_PLBon1xNZq2oNowgC0BdDhbwzIevOt2_fwMF7pdvxxCshqfQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgdegtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesghdtre
- ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
- vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjeejueeikefgueduffdufeellefhte
- fghfefhfdvteejjeefffduteduteeuhedtnecuffhomhgrihhnpeefugdrhihouhenucev
- lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirh
- hrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:q_yVYgkdVfAYREHiPQBWyR2hXsgyenNSRU3T2ZVgyM4suo0I3Yq8vQ>
- <xmx:q_yVYi0345pX9EhslJ_EmrXxJK6T-q-FLEi06j4TaksFf9kJ-aDeiw>
- <xmx:q_yVYnuIs3qN7rdgWOc5-x2ZcgVM1be89hgN2U-ro_nCyV21irnsjw>
- <xmx:q_yVYu9PcXPhzWgyMqKOr6ijPcAjmf--9oMF436LVLTINpFyExPMVw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 May 2022 07:31:54 -0400 (EDT)
-Date: Tue, 31 May 2022 13:31:52 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Tikhov <d.tihov@yadro.com>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, qemu-block@nongnu.org,
- ddtikhov@gmail.com, linux@yadro.com
-Subject: Re: [PATCH] hw/nvme: add new command abort case
-Message-ID: <YpX8qCKyoxq2xi2t@apples>
-References: <20220420082044.n6orslk2aukj2jai@localhost.localdomain>
- <Yl/csehng+W0gfQD@apples> <Yl/iRnvEj+tDycUI@apples>
- <20220420104126.iy5b4exyqh62m632@localhost.localdomain>
- <Yl/mdOnDzOE6Fdza@apples>
- <20220420123156.jnw4c3s66ikcl6df@localhost.localdomain>
- <YmABFkPP4Guj0F90@apples> <YpX4X2caQeC2G6SZ@apples>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nw06T-00063W-Pk
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 07:32:01 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nw06R-0004kI-Vw
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 07:32:01 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id e25so7636794wra.11
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 04:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=OEdqZXs2+aCYN+Vi0lkieD3yB4spAUYOqyF6OCLT2eY=;
+ b=TIj35Z+8+8+wMi7QEPX7irEk4Wj9xKNysntxPKSlBSCymU3sIYD3zg6eNFlOYUB8cC
+ hLGAgP93+1LBb6Fd6ZKP5uozRJ53pR/f+JJCgko6/ERCZBPAOuyMDC/ts548ksEcC5jD
+ ipkiAiHrG2r65gmqGfpWFa4yzMff6nQyHWTlj12jI9kW8T2lD+xdsBTAFVg3CgQXUnZh
+ oD/Ko5dUYTc8tRkkBVJvmvmiHScDchuwAXpOfi6gj4yGejNAgf+b4dLQZuiQNWEHzRKR
+ izCXpBYwrThcXgz2EYiQWLLtkZPNGapKThTZJBDSfHRVbGj5KZV/7is7mNmH7yvKIyNR
+ 3g/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OEdqZXs2+aCYN+Vi0lkieD3yB4spAUYOqyF6OCLT2eY=;
+ b=pAzDV8meECQC6Uy7/WQPrOjGdpQUWvPO1EvJQE1GWpy2oRfj1jB6kLvrSuuI6Bmzwt
+ fZN1bh7+z1jGqlPVIo2Y5uR0soqvJjp2+/PSc22lZ6PodpiKaQiHTfaZKtFM009xFVRp
+ 6jy5NxsbEOdcG5iRBdmyLowwsfS2XSSGuom3pVb58WEk2cTphX9hQBCz56yC2ULgzB9l
+ YWX8OMMBnQi+vr7IueORHnXK39SHmC5AEUUxbg+HOl38AhcqjycQjAWmRalfwKSJz6c4
+ RD6qfMMZZXPCmV2BJttGqg6S1DqXxQr+qvBpq4IP67oI/jl7fRV73YGppmx4bqpUS2zE
+ 10sw==
+X-Gm-Message-State: AOAM533xHX7ezcDutGPG5OVoTWysAHRyVhmiKXFHq70uDI5nG+DXwK59
+ rJ07x34jX0TahizBtawk1PI=
+X-Google-Smtp-Source: ABdhPJy6VfGJzzX0dUeTwTeJGoD8+pUzqWrFoYUotee/uB1xZLLgW8LzplCiTP+ruU3Xc1OVlXzPIg==
+X-Received: by 2002:a5d:5942:0:b0:210:131c:a81 with SMTP id
+ e2-20020a5d5942000000b00210131c0a81mr18652702wri.306.1653996717855; 
+ Tue, 31 May 2022 04:31:57 -0700 (PDT)
+Received: from localhost (109.9.90.146.dyn.plus.net. [146.90.9.109])
+ by smtp.gmail.com with ESMTPSA id
+ m129-20020a1ca387000000b003948f4e750fsm1870599wme.23.2022.05.31.04.31.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 May 2022 04:31:56 -0700 (PDT)
+Date: Tue, 31 May 2022 12:31:55 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH v6] Use io_uring_register_ring_fd() to skip fd operations
+Message-ID: <YpX8q9XrnTehFu7N@stefanha-x1.localdomain>
+References: <20220531105011.111082-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="43PWkM3IZgmd/tC2"
+ protocol="application/pgp-signature"; boundary="nSygUC1ixIQlGCY4"
 Content-Disposition: inline
-In-Reply-To: <YpX4X2caQeC2G6SZ@apples>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20220531105011.111082-1-faithilikerun@gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,119 +92,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---43PWkM3IZgmd/tC2
-Content-Type: text/plain; charset=utf-8
+--nSygUC1ixIQlGCY4
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On May 31 13:13, Klaus Jensen wrote:
-> On Apr 20 14:48, Klaus Jensen wrote:
-> > On Apr 20 15:31, Dmitry Tikhov wrote:
-> > > On Wed, Apr 20, 2022 at 12:54:44, Klaus Jensen wrote:
-> > > >=20
-> > > > NVM Command Set Specification v1.0b, Section 5.2.3. It is exactly w=
-hat
-> > > > you quoted above.
-> > > >=20
-> > > > I think you are interpreting
-> > > >=20
-> > > >   "If a command is aborted as a result of the Reference Tag Check b=
-it of
-> > > >   the PRCHK field being set to '1', ..."
-> > > >=20
-> > > > as
-> > > >=20
-> > > >    "If a command is aborted *because* the Reference Tag Check bit o=
-f the
-> > > >    PRCHK field being set to '1', ...".
-> > > Yeah, i was interpreting it exactly this way.
-> > >=20
-> > > >=20
-> > > > But that is not what it is saying. IMO, the only meaningful
-> > > > interpretation is that "If the command is aborted *as a result of* =
-the
-> > > > check being done *because* the bit is set, *then* return an error".
-> > > Ok, but return error in this context still means to return either
-> > > Invalid Protection Information or Invalid Field in Command, isn't it?
-> > > Or why would it specify
-> > >     ...then that command should be aborted with a status code of Inva=
-lid
-> > > 	Protection Information, but may be aborted with a status code of
-> > > 	Invalid Field in Command
-> > > exactly this 2 status codes?
-> > >=20
-> > > >=20
-> > > > Your interpretation would break existing hosts that set the bit.
-> > >=20
-> > > I also opened NVM Express 1.4 "8.3.1.5 Control of Protection Informat=
-ion
-> > > Checking - PRCHK" and it says
-> > >     For Type 3 protection, if bit 0 of the PRCHK field is set to =E2=
-=80=981=E2=80=99, then
-> > > 	the command should be aborted with status Invalid Protection
-> > > 	Information, but may be aborted with status Invalid Field in Command.
-> > > 	The controller may ignore the ILBRT and EILBRT fields when Type 3
-> > > 	protection is used because the computed reference tag remains
-> > > 	unchanged.
-> > > I think it marks clear intent to abort cmd with "Invalid Protection
-> > > Information" or "Invalid Field in Command" status codes exactly in ca=
-se
-> > > reftag check bit is set. Also isn't "may ignore the ILBRT and EILBRT=
-=20
-> > > fields" means not to compare reftag with ILBRT/EILBRT? If it is not=
-=20
-> > > compared then reftag check error can't be returned.
-> >=20
-> > What the heck. This is a pretty major difference between v1.4 and v1.4b.
-> > v1.4b does not include that wording (but it *is* present in v1.3d). You
-> > are absolutely right that this conveys the intent to abort the command.
-> > Looks like this was lost in the changes in that section between v1.4 and
-> > v1.4b. This explains the wording in v2.0 - the spec people realized they
-> > screwed up and now they have to accept both behaviors.
-> >=20
-> > >=20
-> > > But anyways, spec says that "should" and "may" indicates flexibility =
-of
-> > > choice and not mandatory behavior. So if you think that current behav=
-ior
-> > > is right i don't insist.
-> >=20
-> > I'm not so sure now. Another question for the spec people... I'll get
-> > back to you.
+On Tue, May 31, 2022 at 06:50:11PM +0800, Sam Li wrote:
+> Linux recently added a new io_uring(7) optimization API that QEMU
+> doesn't take advantage of yet. The liburing library that QEMU uses
+> has added a corresponding new API calling io_uring_register_ring_fd().
+> When this API is called after creating the ring, the io_uring_submit()
+> library function passes a flag to the io_uring_enter(2) syscall
+> allowing it to skip the ring file descriptor fdget()/fdput()
+> operations. This saves some CPU cycles.
 >=20
-> I got a long an exhaustive description of this issue from the spec
-> people, and it all boils down to, well, a mistake basically.
->=20
-> The bottom line is that both behaviors *are* acceptable as of now, but
-> this may change. Not sure how ;) However, I think this might be brough
-> up with the NVMe TWG, and I'll make sure to follow that discussion.
->=20
-> For now, I think we leave the behavior of *this* device as-is. It's not
-> that I think anyone really relies on this behavior, but better not to
-> break it as long as we report v1.4.
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> ---
+>  block/io_uring.c | 12 +++++++++++-
+>  meson.build      |  1 +
+>  2 files changed, 12 insertions(+), 1 deletion(-)
 
-Sigh. I just got a correction on that email and the intention *is* to
-remove this. So, I'll queue this up so QEMU can be a front-runner for
-compliance ;)
+Thanks, applied to my block tree:
+https://gitlab.com/stefanha/qemu/commits/block
 
-Sorry for the noise.
+Stefan
 
-Thanks, applied to nvme-next!
-
---43PWkM3IZgmd/tC2
+--nSygUC1ixIQlGCY4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKV/KYACgkQTeGvMW1P
-Del4FwgAvmrmV61/6hGasMKswSHJll/gqfhZnCXdnfShlxheYxcZtQJDCBgoIZcR
-8mRzl3oAn+qOtDiQDyyM+CbIkHwlmF8jlznrmP6+8vSkPfJhyRROSk9N6nS8PgP3
-f7aUkal4DUk2ODe1+11B53YGkp/slywH9aXbPNqAkw2MhST92PiVoe0RzMWwlO8S
-iupsYKV+e6BxhksUCpZEMk6DBx+sp3nBuP7/ZQUw/jbtdOBXmG71QZv5eLQt7aVu
-nsxhb1I9tyji4cE2I+P9hwVmlVXiZblj9RxIQUs+QyTvU6CYtWDE0NKi4WDF4AIa
-AWOXA+4jHX9/ZVQ9MeAZ1RnN+/GiPg==
-=jJT2
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKV/KsACgkQnKSrs4Gr
+c8gaOgf/RZPTaJ0q3b+7phkuwD/qMpbTnToy2fOet1Qn+/YdKcfABLjVBst2qpXC
+qW4LL3mKPrbpHFJw0oErZpBSb50NpVbdMIH161/aFbOOPfv7ta9UqVVjaPQc6kVR
+BX4kWC7CAIDXb0dkFzTorIoDeuMgjluC54Eqq85b8eZYw3ptlNjLe6yyMOYa2+6C
+SD5XziW0Yaxv9naIxSFZrqZU8uGBJeRuUZkjKGZ6y0gejaRH1j/bstMISUXxUgwq
+FNWXfYDDMWPdp0apXsIyO1ofjMBYbK/U2RX42+JLly4H6dhgBz2mmI4emr2UUPX0
+dnKfFh+xsCLGimaN7xYY5I0VYo6MHQ==
+=TC1w
 -----END PGP SIGNATURE-----
 
---43PWkM3IZgmd/tC2--
+--nSygUC1ixIQlGCY4--
 
