@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5052539921
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 23:55:50 +0200 (CEST)
-Received: from localhost ([::1]:39150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25C6539955
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 00:07:06 +0200 (CEST)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw9q9-0000y9-U9
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 17:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53186)
+	id 1nwA14-0008KH-3y
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 18:07:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nw9kK-0001Bp-V4; Tue, 31 May 2022 17:49:48 -0400
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f]:46364)
+ id 1nw9kN-0001IA-MV; Tue, 31 May 2022 17:49:51 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:39735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nw9kJ-0003NI-Ek; Tue, 31 May 2022 17:49:48 -0400
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so157540fac.13; 
- Tue, 31 May 2022 14:49:46 -0700 (PDT)
+ id 1nw9kM-0003La-3M; Tue, 31 May 2022 17:49:51 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id y131so187532oia.6;
+ Tue, 31 May 2022 14:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aVYHleY9lqsPK6rCR5/x5XotnJ/qLXEhT8k9XA3yAF0=;
- b=GgkX4LWvlJvG5wnFYesAm4TTOdpzZGh4mvkJ4BAAbwEgRjaZJ5CfANsxFO5sXtU7Fr
- +N1PYAkvYQ252N6cy0fF5nemxOkbn0jXpWdqC70lsrcFaFX7y19R9PFtwAtXjBUfl7Jd
- ssGc7TXXWC8uvPXSPjfE5b5haLuPd0RJx1cWO9xr+kVJk6a8WsADDrjmxn7NZnmq/3DD
- crBOWP4fTlbCbFE0d3QIvrXXCMJEa8J4qE1kRAs6PujtILPs5j2XgAXtgnN1TEo17tAC
- WZBCEGkmPkdZdJFWMW9vYbeSNz7MjnCi2GyevFef3aF6m2o8K8TGJUbP2Eg2AZ1FVXFp
- etvA==
+ bh=EYwRgrfp2jDsmjKY4q+HaGJtVpSXvdhqen5h2JILt0g=;
+ b=dFWROts1/hyD9Koht0YgU0hy4ymsQBSrKOJnuErBtARHzvYL85oNyVPyLujojaWBJS
+ oaaGirx0pHBOZufdl3SpDnoyii6WNjVs/e1qbF/Y6GXZuvKzLQllH08pgr64dYrfYtz8
+ JF7kMLrk+HEEAvSrTLrBC1s2kMIHGEZEHJENDRgXcJF5ivIhFUCV6FkIkBCAS6J3oyqH
+ YTJklVMM0eiH9P8wibUi3SWSylsGiigstTSyzWTfkzi+c8OrFtCE00g7bNUBhknAamc4
+ Owk1gNYniBKg95dkBVMGYSLjIW8hakhROwKSf/We1Z2UtISMtK9iMCM8urxpYhQssgl3
+ hLXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aVYHleY9lqsPK6rCR5/x5XotnJ/qLXEhT8k9XA3yAF0=;
- b=Ay4+vX+qrDE0G3Xq6MU91F2LoDsr5PN53VDSFd9a8EvG01OzBK45xRplpkX37tHMDV
- wcHj1ouScAvJVdF6ThakpmJbZTvr9LMG+V4T7pYnZe0/4Pt+AdaGXX/pMhhIpchp14e4
- vpoP21rFwHr2gyXTLcbWWZAYFXvXVrr19KMFVdMrpg5JFixDtMfEXqC+/VWsZEbf8Rf9
- T86AjvvOnSExaS+wIXvPV3CFWdZsfRpGZzIOdwBvDEs+/4h4mBEnfy2mhRPzO9j1IatG
- mT1n+Slnsk+FXkROlY9IMN19KmsVTofuUJUmQAcWoNTFDBUOnxesn9DQFAqrdMekYRvE
- sBLg==
-X-Gm-Message-State: AOAM532mH3o9QVXJPfRiwY4svp/OEXKxDS1kUZN7wO5vJVSbb3guxNU+
- IUh51Y5yg3rGt1vYq00vjXM1o1VWzFD/tw==
-X-Google-Smtp-Source: ABdhPJw5HXulKjloX4dyOir1Le9y+B10K1oSa5LGBQAi0k/IJ1I93pMIwpjEkhgFz1tslPasOqYy9w==
-X-Received: by 2002:a05:6871:88d:b0:f3:3341:77e2 with SMTP id
- r13-20020a056871088d00b000f3334177e2mr6978579oaq.124.1654033785783; 
- Tue, 31 May 2022 14:49:45 -0700 (PDT)
+ bh=EYwRgrfp2jDsmjKY4q+HaGJtVpSXvdhqen5h2JILt0g=;
+ b=MGR2wPU+omSmnS1XbIbvQKa0z3DXn9ERmaknu+LJ4tjy7i/uakuBCgLtJsPg/xQnQL
+ ywPHguUbJ1vB7/gHLw3zk8yS+LmKTIxgQ11nEAARl8WM/7Or2opdRuhoCslhZhI8Ncz1
+ IwFPUe2Tnu4zQ/tti+xwtV3/BkpYqfnv9vMAjeG0e3ZsI/c8W3V8wg8CfJ8V89vvmX38
+ EvbgGkXdmAxJULO6NKkFjQhuhESAPVRtjDgQdJtRai+nJ3dlH+tuTVjGBux2k1mYiCQn
+ xtUVVJGk2VzLtRfoHDjAa+nFHwt7Xg4mnl3bEajuwIxTllN8UIbSvsSYeGnhWnWSJG0x
+ d34A==
+X-Gm-Message-State: AOAM530VCJ37QvZ/ayczw0MH1AMNbEeJPrlPWo3jZIhuFKXqQyc03oru
+ 8FivcozUtU7+TME+8AUV8TahAtbEbIYzGw==
+X-Google-Smtp-Source: ABdhPJwmJ5geswipPUULOaRPkxYvBJmLhzPiyCCpY8v9AjdlD1WL2gCiF46g/o7JxqQ2f9LjTGFekQ==
+X-Received: by 2002:a05:6808:179e:b0:32b:7c3d:f431 with SMTP id
+ bg30-20020a056808179e00b0032b7c3df431mr13750174oib.299.1654033788440; 
+ Tue, 31 May 2022 14:49:48 -0700 (PDT)
 Received: from balboa.COMFAST ([152.250.93.219])
  by smtp.gmail.com with ESMTPSA id
- pd19-20020a0568701f1300b000f333ac991fsm3476988oab.27.2022.05.31.14.49.43
+ pd19-20020a0568701f1300b000f333ac991fsm3476988oab.27.2022.05.31.14.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 14:49:45 -0700 (PDT)
+ Tue, 31 May 2022 14:49:48 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
  mark.cave-ayland@ilande.co.uk, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v2 09/16] ppc/pnv: change pnv_phb4_get_pec() to also retrieve
- chip10->pecs
-Date: Tue, 31 May 2022 18:49:10 -0300
-Message-Id: <20220531214917.31668-10-danielhb413@gmail.com>
+Subject: [PATCH v2 10/16] ppc/pnv: user creatable pnv-phb for powernv10
+Date: Tue, 31 May 2022 18:49:11 -0300
+Message-Id: <20220531214917.31668-11-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220531214917.31668-1-danielhb413@gmail.com>
 References: <20220531214917.31668-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2f;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,55 +89,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function assumes that we're always dealing with a PNV9_CHIP()
-object. This is not the case when the pnv-phb device belongs to a
-powernv10 machine.
-
-Change pnv_phb4_get_pec() to be able to work with PNV10_CHIP() if
-necessary.
+Given that powernv9 and powernv10 uses the same pnv-phb backend, the
+logic to allow user created pnv-phbs for powernv10 is already in place.
+This patch just flips the switch.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ hw/pci-host/pnv_phb4.c | 2 +-
+ hw/ppc/pnv.c           | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index a5c8ae494b..e953aabcbe 100644
+index e953aabcbe..8a907a77a7 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -1574,17 +1574,30 @@ void pnv_phb4_bus_init(DeviceState *dev, PnvPHB4 *phb)
- static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
-                                          Error **errp)
- {
--    Pnv9Chip *chip9 = PNV9_CHIP(chip);
-+    PnvPHB *phb_base = phb->phb_base;
-+    PnvPhb4PecState *pecs = NULL;
-     int chip_id = phb->chip_id;
-     int index = phb->phb_id;
-     int i, j;
+@@ -1902,7 +1902,7 @@ static void pnv_phb5_root_port_class_init(ObjectClass *klass, void *data)
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
  
-+    if (phb_base->version == 4) {
-+        Pnv9Chip *chip9 = PNV9_CHIP(chip);
-+
-+        pecs = chip9->pecs;
-+    } else if (phb_base->version == 5) {
-+        Pnv10Chip *chip10 = PNV10_CHIP(chip);
-+
-+        pecs = chip10->pecs;
-+    } else {
-+        return NULL;
-+    }
-+
-     for (i = 0; i < chip->num_pecs; i++) {
-         /*
-          * For each PEC, check the amount of phbs it supports
-          * and see if the given phb4 index matches an index.
-          */
--        PnvPhb4PecState *pec = &chip9->pecs[i];
-+        PnvPhb4PecState *pec = &pecs[i];
+     dc->desc     = "IBM PHB5 PCIE Root Port";
+-    dc->user_creatable = false;
++    dc->user_creatable = true;
  
-         for (j = 0; j < pec->num_phbs; j++) {
-             if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
+     k->vendor_id = PCI_VENDOR_ID_IBM;
+     k->device_id = PNV_PHB5_DEVICE_ID;
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 697a2b5302..4d2ea405db 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -2210,6 +2210,8 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
+     pmc->dt_power_mgt = pnv_dt_power_mgt;
+ 
+     xfc->match_nvt = pnv10_xive_match_nvt;
++
++    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB);
+ }
+ 
+ static bool pnv_machine_get_hb(Object *obj, Error **errp)
 -- 
 2.36.1
 
