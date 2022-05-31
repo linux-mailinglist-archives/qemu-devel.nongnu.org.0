@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D03A53986C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 23:10:02 +0200 (CEST)
-Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB4A539885
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 23:16:32 +0200 (CEST)
+Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw97p-0002w1-BP
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 17:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45952)
+	id 1nw9E7-0005h3-3b
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 17:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abrestic@rivosinc.com>)
- id 1nw93s-0000Ni-LP
- for qemu-devel@nongnu.org; Tue, 31 May 2022 17:05:58 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:36480)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nw9Cc-0004vt-Nc
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 17:14:58 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:54249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <abrestic@rivosinc.com>)
- id 1nw93q-0005m8-Rz
- for qemu-devel@nongnu.org; Tue, 31 May 2022 17:05:56 -0400
-Received: by mail-qk1-x735.google.com with SMTP id l82so14151193qke.3
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 14:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ye8xCwyuZUSR5LAVXT9k7eRWTSq5Jn5Xg6V04rS1bxY=;
- b=pQdjwUHfXY8jjcS/x2lDcY3HS3HcVIILZGUwXWfWctWocQEd0frI13IP+hJdZxJjES
- MLFKCUS/2bPWZvrhLmGQ9ARSw2s+fd/VUbWiHAXasJME7KsgtsI2t+POA0y5K0DyJaIU
- grQijTXlRzjp4epnuO6Ae34tb6J4AcZ4lr+4sy479Qz2oQ7DUpQATjDAgM/wvfmZJXH8
- h7goe8uasmiAeIBDmG0pxgOAPHZztQNx7n7Ee8qfoxkLKg1VPBu2uqbjpfY0U6kbN6a0
- JpHljRx7Q1cihSL6qQnB4Xrq/ehQHdIPCF4BJfm7Lmaeyk26DGFfPo+S1vYYG9steM1M
- iYeA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nw9Cb-0006xj-5m
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 17:14:58 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id a10so63086pju.3
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 14:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=PzBT5Or+dF30bmkFYcPq8483GzO8qgXHPIR6+G2IzdM=;
+ b=d2ulXakIqxynUpilviQrNRUjenre5G8daB/mGuzG2ulGSUJRVaN0/kqQOm+CMEtxJd
+ TDg++0DbIN2oo9CmO5HLj7B2xG49awtMuOk9Qp8IS64P8vLTCNgDOBXfJEldW++SiwVq
+ u5lB5dwOvJjun0x29WxvNYlYOoSQCaKngn0+RKM96Fq+RK9j0Es5RvunyUhuDJ4+r/yW
+ sbnTIO90fVBLZn8SVLfkDLK4YntlKVFcZcN1R+B5HOD9b9EfJR+MWuzeHdYR3hwOZ5uK
+ dnaQDIF1Hld2pNQB0A1NYTRvUmJ7kBmL2q+TqcSoIrnc18z6S4iLdZxDkGwXq7FW6w/3
+ V5Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ye8xCwyuZUSR5LAVXT9k7eRWTSq5Jn5Xg6V04rS1bxY=;
- b=HCfRFsXKMshwczyXULM8c3VMPNYalxvDrmSHcq/tHnfAsO6hYmwWMtK/yS84sWPbAI
- S1yDAEteGTyCRBXPorJPoMP5GTIVVJmvUfyPU11kDqHpdJcn1oMJpv0IfsGUWZ6paQy1
- 6DCBdQyDbljMSgunG0Fm3fylFZz2eSg58XTgs9DefLq+8x2zEOGEaUJaExjuvWEdHWmt
- bNkbxCxsPFwMkKV9YdlIeaKJ7WK2klo+B9AXQ+5QdQFaT7k1pAmgtzBczJn5lZuOyFFI
- YrW0XcBcXdGDLcgtoynnS19JqekgfwzPjrz2dpIvw/xiMckJGpb4WFHrSYEKmogXoldg
- jtKQ==
-X-Gm-Message-State: AOAM531A3rM5kTPIl6FS9ddH6se+JnwIJc2Brqy6taLUqGlcOswSjgra
- SmLYn0eCp9QeBTDWwMnEkLOljA==
-X-Google-Smtp-Source: ABdhPJws7NR+1rheyH5eJQBga7NsgVjQwsI7qBi+2lKx7BWnn+0D0g0bhSvFyIstzvJq5uCWVzq5cA==
-X-Received: by 2002:a37:a1c1:0:b0:6a3:4139:1397 with SMTP id
- k184-20020a37a1c1000000b006a341391397mr38775183qke.443.1654031152711; 
- Tue, 31 May 2022 14:05:52 -0700 (PDT)
-Received: from abrestic-xps.ba.rivosinc.com ([71.247.37.191])
+ bh=PzBT5Or+dF30bmkFYcPq8483GzO8qgXHPIR6+G2IzdM=;
+ b=ejtk219qf0Id35ow4f+N/waSR8hxHOgJD8rdZXJKvChVWeWcyasn9MvpscijAs8fKE
+ LPlqiDsW+auVcmq2BfsR9ydGKGRd1sUPV/+Gwiqgzd1fYcx072JlwGBpjOWHUSPh3mEB
+ yUQ37Q9ZxvKQNd0Kb1sVur1JeumYcLkGSxI7gBsJCAlmeSbqKSEsrysLEtpOJqRIQwGC
+ L1LwzLQ0kxiQ0bfYqsUed480/aOS37AUuh58QiTndTtQYjtTCBiH2CQJuEiQr5r1xxe7
+ Q9FGRx9IwBmCZl7tQ6sfIm5R856Q2L5pacxXJqcoKlaBCsw9iUiE5pI2D0PamcDDgRfb
+ /vKw==
+X-Gm-Message-State: AOAM531LTCuMN9kNY3ZnZOfubiitRQOxCPCF0bkPZXgBSScdkLYULad2
+ ENphCn5girX3dDKc2+/ktFjf8A==
+X-Google-Smtp-Source: ABdhPJxzGRQK9+XH0VdyS2shw8J8y9blgR/V71Q4E9A+coYeLz5xQcjdGn3GpVCW2uFqW4xx7K9+zA==
+X-Received: by 2002:a17:90a:4cc2:b0:1dd:1010:d10d with SMTP id
+ k60-20020a17090a4cc200b001dd1010d10dmr30535274pjh.205.1654031695504; 
+ Tue, 31 May 2022 14:14:55 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:4ae9:ceee:85cc:a70c?
+ ([2602:ae:1547:e101:4ae9:ceee:85cc:a70c])
  by smtp.gmail.com with ESMTPSA id
- c13-20020ac8054d000000b002f3e127be41sm9457674qth.20.2022.05.31.14.05.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 14:05:52 -0700 (PDT)
-From: Andrew Bresticker <abrestic@rivosinc.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Andrew Bresticker <abrestic@rivosinc.com>
-Subject: [PATCH] target/riscv: Wake on VS-level external interrupts
-Date: Tue, 31 May 2022 17:05:44 -0400
-Message-Id: <20220531210544.181322-1-abrestic@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
+ u19-20020a170902e21300b00162529828aesm2902plb.109.2022.05.31.14.14.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 May 2022 14:14:54 -0700 (PDT)
+Message-ID: <058461d7-904d-d027-2d2c-8ee09a3ab1c4@linaro.org>
+Date: Tue, 31 May 2022 14:14:53 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v5 10/17] target/m68k: Implement TRAPcc
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20220527164807.135038-1-richard.henderson@linaro.org>
+ <20220527164807.135038-11-richard.henderson@linaro.org>
+ <34af03f0-6c53-17a3-b91f-d368fd2ef7c3@vivier.eu>
+ <f8f38e0b-e99f-40d7-d4c7-7e2dc047d4c8@linaro.org>
+ <1ff07914-426c-63d9-c18e-393213c30a72@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <1ff07914-426c-63d9-c18e-393213c30a72@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=abrestic@rivosinc.com; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,58 +97,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whether or not VSEIP is pending isn't reflected in env->mip and must
-instead be determined from hstatus.vgein and hgeip. As a result a
-CPU in WFI won't wake on a VSEIP, which violates the WFI behavior as
-specified in the privileged ISA. Just use riscv_cpu_all_pending()
-instead, which already accounts for VSEIP.
+On 5/31/22 11:05, Laurent Vivier wrote:
+>> Hmm.  That will completely hide trapcc -- you should have seen the new test case fail 
+>> (and if not, the test case needs fixing).
+> 
+> I ran "make check", thinking the test is run, and saw no failure...
+> and if I run "make check-tcg", I have:
+>    make: Nothing to be done for 'check-tcg'.
+> so what is the command to run the test?
 
-Signed-off-by: Andrew Bresticker <abrestic@rivosinc.com>
----
- target/riscv/cpu.c        | 2 +-
- target/riscv/cpu.h        | 1 +
- target/riscv/cpu_helper.c | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+make check-tcg.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index a91253d4bd..c6cc08c355 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -391,7 +391,7 @@ static bool riscv_cpu_has_work(CPUState *cs)
-      * Definition of the WFI instruction requires it to ignore the privilege
-      * mode and delegation registers, but respect individual enables
-      */
--    return (env->mip & env->mie) != 0;
-+    return riscv_cpu_all_pending(env) != 0;
- #else
-     return true;
- #endif
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f08c3e8813..758ab6c90b 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -488,6 +488,7 @@ int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- int riscv_cpu_hviprio_index2irq(int index, int *out_irq, int *out_rdzero);
- uint8_t riscv_cpu_default_priority(int irq);
-+uint64_t riscv_cpu_all_pending(CPURISCVState *env);
- int riscv_cpu_mirq_pending(CPURISCVState *env);
- int riscv_cpu_sirq_pending(CPURISCVState *env);
- int riscv_cpu_vsirq_pending(CPURISCVState *env);
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index d99fac9d2d..16c6045459 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -340,7 +340,7 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
-     return best_irq;
- }
- 
--static uint64_t riscv_cpu_all_pending(CPURISCVState *env)
-+uint64_t riscv_cpu_all_pending(CPURISCVState *env)
- {
-     uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
-     uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
--- 
-2.25.1
+If you get "nothing to be done", configure has not detected any cross-compilers (via 
+docker or installed locally).  We usually list detected cross compilers at configure time. 
+That's currently broken, but I saw Alex has a fix queued.
 
+
+r~
 
