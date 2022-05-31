@@ -2,96 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5EF8539867
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 23:06:44 +0200 (CEST)
-Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D03A53986C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 23:10:02 +0200 (CEST)
+Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw94d-0000Fr-Ed
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 17:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
+	id 1nw97p-0002w1-BP
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 17:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nw91a-0007PR-Q9
- for qemu-devel@nongnu.org; Tue, 31 May 2022 17:03:34 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:41435)
+ (Exim 4.90_1) (envelope-from <abrestic@rivosinc.com>)
+ id 1nw93s-0000Ni-LP
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 17:05:58 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:36480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nw91T-0005Fw-Vq
- for qemu-devel@nongnu.org; Tue, 31 May 2022 17:03:30 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-f33f0f5b1dso36440fac.8
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 14:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=45IJ6b3w/g/LPQ7i0uQb5k2aI1IGkb2JirU07MWWxBM=;
- b=b99u5VUZk8ys0X4+q+Ao4Ird2M/J/h+HWKF0OrBPqELr+sPHDv7pIVhBq25ByTXAtw
- Q/Pesf6CN7uxk4JLPwvaRe+9qsVSMVUjsAMT6gHijk+7YXec2WIRMX9ZdTJ4u2SuKWmM
- eG2Fry/l8ZbEV7ma/2hiwMj7HB7pg4W779MpQZOy3NtW5NbD+mHIE7TQnHmC6ADwypTE
- 6zc4hk/lkADnws2Rr3L0/Rx4UO2hcDo/kWUUCGuzhNkrAaNEzEKYPFtpQxRGViJRHpVd
- vg7uVVflijluKTDCg4wZxdLhJyMRXTCzykOjpMcPMqYEwEWwQYDtB2x/xv7qxAoWnAYb
- 6uLg==
+ (Exim 4.90_1) (envelope-from <abrestic@rivosinc.com>)
+ id 1nw93q-0005m8-Rz
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 17:05:56 -0400
+Received: by mail-qk1-x735.google.com with SMTP id l82so14151193qke.3
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 14:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ye8xCwyuZUSR5LAVXT9k7eRWTSq5Jn5Xg6V04rS1bxY=;
+ b=pQdjwUHfXY8jjcS/x2lDcY3HS3HcVIILZGUwXWfWctWocQEd0frI13IP+hJdZxJjES
+ MLFKCUS/2bPWZvrhLmGQ9ARSw2s+fd/VUbWiHAXasJME7KsgtsI2t+POA0y5K0DyJaIU
+ grQijTXlRzjp4epnuO6Ae34tb6J4AcZ4lr+4sy479Qz2oQ7DUpQATjDAgM/wvfmZJXH8
+ h7goe8uasmiAeIBDmG0pxgOAPHZztQNx7n7Ee8qfoxkLKg1VPBu2uqbjpfY0U6kbN6a0
+ JpHljRx7Q1cihSL6qQnB4Xrq/ehQHdIPCF4BJfm7Lmaeyk26DGFfPo+S1vYYG9steM1M
+ iYeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=45IJ6b3w/g/LPQ7i0uQb5k2aI1IGkb2JirU07MWWxBM=;
- b=pX4ZxbM/mXlbXS4XhN7vkkVGLxBdgcjv7L6Z6Y48iowflc9OuRYJ3lEAQdDgQQbUrO
- dnLoE673S9/FqMYn7i7zWU+7Zl64qvFwqVWlDbNr3rtqw46ndgRi0k7h0t520+n9CSU8
- meh8awFtyjiM50L1zEYm8vkPxgCXqem+6VihqzAVu76PADgljPiLMmvduvoWOS7N8e0f
- quLF8SRdiB1bKtnJMtOTS4CUaiY9rJOnYjpvzD+d9Hv3RYRIlSNHykbwvtrYiUNMLYgJ
- 2+aGqQADJpb9/dI+oGkE8P5AUZwzsVYLb8eTTUvr9Wb5o41TvnZWKinPd03bv5W/ehee
- jAaw==
-X-Gm-Message-State: AOAM533dQihyQItAbzLW1ByWkz+M9GtUWIzsPgK1vRhAwknLJ4chOgjo
- E2uGJP+1Un4uatWo1sEmMU/aOEWqM/V2HsYZrgM=
-X-Google-Smtp-Source: ABdhPJz/BTPNyhZfGR6FsGMdoozfc3rFF4r1s+tYG8WOwpzSpP5/bjPKI0LD8C1g043O5S9K4juGYv08v9ZRU5y41L0=
-X-Received: by 2002:a05:6870:e30e:b0:de:ab76:eed7 with SMTP id
- z14-20020a056870e30e00b000deab76eed7mr14550263oad.101.1654031006243; Tue, 31
- May 2022 14:03:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ye8xCwyuZUSR5LAVXT9k7eRWTSq5Jn5Xg6V04rS1bxY=;
+ b=HCfRFsXKMshwczyXULM8c3VMPNYalxvDrmSHcq/tHnfAsO6hYmwWMtK/yS84sWPbAI
+ S1yDAEteGTyCRBXPorJPoMP5GTIVVJmvUfyPU11kDqHpdJcn1oMJpv0IfsGUWZ6paQy1
+ 6DCBdQyDbljMSgunG0Fm3fylFZz2eSg58XTgs9DefLq+8x2zEOGEaUJaExjuvWEdHWmt
+ bNkbxCxsPFwMkKV9YdlIeaKJ7WK2klo+B9AXQ+5QdQFaT7k1pAmgtzBczJn5lZuOyFFI
+ YrW0XcBcXdGDLcgtoynnS19JqekgfwzPjrz2dpIvw/xiMckJGpb4WFHrSYEKmogXoldg
+ jtKQ==
+X-Gm-Message-State: AOAM531A3rM5kTPIl6FS9ddH6se+JnwIJc2Brqy6taLUqGlcOswSjgra
+ SmLYn0eCp9QeBTDWwMnEkLOljA==
+X-Google-Smtp-Source: ABdhPJws7NR+1rheyH5eJQBga7NsgVjQwsI7qBi+2lKx7BWnn+0D0g0bhSvFyIstzvJq5uCWVzq5cA==
+X-Received: by 2002:a37:a1c1:0:b0:6a3:4139:1397 with SMTP id
+ k184-20020a37a1c1000000b006a341391397mr38775183qke.443.1654031152711; 
+ Tue, 31 May 2022 14:05:52 -0700 (PDT)
+Received: from abrestic-xps.ba.rivosinc.com ([71.247.37.191])
+ by smtp.gmail.com with ESMTPSA id
+ c13-20020ac8054d000000b002f3e127be41sm9457674qth.20.2022.05.31.14.05.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 May 2022 14:05:52 -0700 (PDT)
+From: Andrew Bresticker <abrestic@rivosinc.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Bresticker <abrestic@rivosinc.com>
+Subject: [PATCH] target/riscv: Wake on VS-level external interrupts
+Date: Tue, 31 May 2022 17:05:44 -0400
+Message-Id: <20220531210544.181322-1-abrestic@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1653404595.git.jag.raman@oracle.com>
- <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
- <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
- <E6AB9FA3-6580-44C6-93FA-AFC19477C296@oracle.com>
- <20220531141046.04b448e5.alex.williamson@redhat.com>
-In-Reply-To: <20220531141046.04b448e5.alex.williamson@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 31 May 2022 22:03:14 +0100
-Message-ID: <CAJSP0QU13=fLTVEjE1JbkOef5im4Dwb8x3xhpYYd7KPRJjav_Q@mail.gmail.com>
-Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Jag Raman <jag.raman@oracle.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- "f4bug@amsat.org" <f4bug@amsat.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, 
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>, 
- "bleal@redhat.com" <bleal@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>,
- "eduardo@habkost.net" <eduardo@habkost.net>, 
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "eblake@redhat.com" <eblake@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>, 
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>, 
- "peterx@redhat.com" <peterx@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>, 
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, 
- John Johnson <john.g.johnson@oracle.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=stefanha@gmail.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=abrestic@rivosinc.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,63 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 31 May 2022 at 21:11, Alex Williamson
-<alex.williamson@redhat.com> wrote:
->
-> On Tue, 31 May 2022 15:01:57 +0000
-> Jag Raman <jag.raman@oracle.com> wrote:
->
-> > > On May 25, 2022, at 10:53 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > On Tue, May 24, 2022 at 11:30:32AM -0400, Jagannathan Raman wrote:
-> > >> Forward remote device's interrupts to the guest
-> > >>
-> > >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> > >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> > >> ---
-> > >> include/hw/pci/pci.h              |  13 ++++
-> > >> include/hw/remote/vfio-user-obj.h |   6 ++
-> > >> hw/pci/msi.c                      |  16 ++--
-> > >> hw/pci/msix.c                     |  10 ++-
-> > >> hw/pci/pci.c                      |  13 ++++
-> > >> hw/remote/machine.c               |  14 +++-
-> > >> hw/remote/vfio-user-obj.c         | 123 ++++++++++++++++++++++++++++++
-> > >> stubs/vfio-user-obj.c             |   6 ++
-> > >> MAINTAINERS                       |   1 +
-> > >> hw/remote/trace-events            |   1 +
-> > >> stubs/meson.build                 |   1 +
-> > >> 11 files changed, 193 insertions(+), 11 deletions(-)
-> > >> create mode 100644 include/hw/remote/vfio-user-obj.h
-> > >> create mode 100644 stubs/vfio-user-obj.c
-> > >
-> > > It would be great if Michael Tsirkin and Alex Williamson would review
-> > > this.
-> >
-> > Hi Michael and Alex,
-> >
-> > Do you have any thoughts on this patch?
->
-> Ultimately this is just how to insert callbacks to replace the default
-> MSI/X triggers so you can send a vector# over the wire for a remote
-> machine, right?  I'll let the code owners, Michael and Marcel, comment
-> if they have grand vision how to architect this differently.  Thanks,
+Whether or not VSEIP is pending isn't reflected in env->mip and must
+instead be determined from hstatus.vgein and hgeip. As a result a
+CPU in WFI won't wake on a VSEIP, which violates the WFI behavior as
+specified in the privileged ISA. Just use riscv_cpu_all_pending()
+instead, which already accounts for VSEIP.
 
-An earlier version of the patch intercepted MSI-X at the msix_notify()
-level, replacing the entire function. This patch replaces
-msix_get_message() and msi_send_message(), leaving the masking logic
-in place.
+Signed-off-by: Andrew Bresticker <abrestic@rivosinc.com>
+---
+ target/riscv/cpu.c        | 2 +-
+ target/riscv/cpu.h        | 1 +
+ target/riscv/cpu_helper.c | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-I haven't seen the latest vfio-user client implementation for QEMU,
-but if the idea is to allow the guest to directly control the
-vfio-user device's MSI-X table's mask bits, then I think this is a
-different design from VFIO kernel where masking is emulated by QEMU
-and not passed through to the PCI device.
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index a91253d4bd..c6cc08c355 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -391,7 +391,7 @@ static bool riscv_cpu_has_work(CPUState *cs)
+      * Definition of the WFI instruction requires it to ignore the privilege
+      * mode and delegation registers, but respect individual enables
+      */
+-    return (env->mip & env->mie) != 0;
++    return riscv_cpu_all_pending(env) != 0;
+ #else
+     return true;
+ #endif
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index f08c3e8813..758ab6c90b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -488,6 +488,7 @@ int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ int riscv_cpu_hviprio_index2irq(int index, int *out_irq, int *out_rdzero);
+ uint8_t riscv_cpu_default_priority(int irq);
++uint64_t riscv_cpu_all_pending(CPURISCVState *env);
+ int riscv_cpu_mirq_pending(CPURISCVState *env);
+ int riscv_cpu_sirq_pending(CPURISCVState *env);
+ int riscv_cpu_vsirq_pending(CPURISCVState *env);
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d99fac9d2d..16c6045459 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -340,7 +340,7 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
+     return best_irq;
+ }
+ 
+-static uint64_t riscv_cpu_all_pending(CPURISCVState *env)
++uint64_t riscv_cpu_all_pending(CPURISCVState *env)
+ {
+     uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
+     uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
+-- 
+2.25.1
 
-It's been a while since I looked at how this works in QEMU's hw/vfio/
-code, so I may not be explaining it correctly, but I think there is a
-design difference here between VFIO kernel and vfio-user that's worth
-evaluating.
-
-Stefan
 
