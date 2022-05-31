@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1001538D84
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:13:07 +0200 (CEST)
-Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A494C538DAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:25:25 +0200 (CEST)
+Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvxw2-0000el-HH
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:13:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46068)
+	id 1nvy7w-00074N-8X
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nvxov-00043D-Tm; Tue, 31 May 2022 05:05:46 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:38893)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvy2A-0004LL-1V
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:19:26 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:37739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nvxot-0004Kq-IK; Tue, 31 May 2022 05:05:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id EEAC922C7C;
- Tue, 31 May 2022 09:05:37 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvy27-0006Vt-8j
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:19:25 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.108])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6F2DD26643;
+ Tue, 31 May 2022 09:19:18 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 31 May
- 2022 11:05:37 +0200
+ 2022 11:19:17 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001301cfe7f-9f82-4d51-8e5d-7250450c9e19,
+ (GARM-103G005aa4c62a8-3079-4c92-bb84-b1a10d43ee98,
  3316B4EBA022AA703420095FA15BAC10F99B744A) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ad706330-0103-cad4-6782-d5482a69adaa@kaod.org>
-Date: Tue, 31 May 2022 11:05:36 +0200
+Message-ID: <28f1b244-d1f9-c490-4b33-ca40824b5a19@kaod.org>
+Date: Tue, 31 May 2022 11:19:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2 14/25] hw/sd: Basis for eMMC support
+Subject: Re: [PATCH v2 00/25] hw/sd: Rework models for eMMC support
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>, <qemu-devel@nongnu.org>
@@ -41,27 +41,26 @@ CC: Bin Meng <bin.meng@windriver.com>, <qemu-block@nongnu.org>, Joel Stanley
  <joel@jms.id.au>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
- <20220530193816.45841-15-philippe.mathieu.daude@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220530193816.45841-15-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 4877540f-02a5-4473-a0be-d4a3bd2dd618
-X-Ovh-Tracer-Id: 15735858577153493865
+X-Ovh-Tracer-GUID: 11e742de-b3de-491e-9e9a-b5edf4835c49
+X-Ovh-Tracer-Id: 15966949532922710889
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshgrihdrphgrvhgrnhdrsghougguuhesgihilhhinhigrdgtohhm
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleeuueduhedutedvudfgtdegtdelgedvudeftdeuieefleevtdevieffhfeffeevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmpdhgihhthhhusgdrtghomhdpkhgrohgurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshgrihdrphgrvhgrnhdrsghougguuhesgihilhhinhigrdgtohhm
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,109 +76,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/30/22 21:38, Philippe Mathieu-Daudé wrote:
+On 5/30/22 21:37, Philippe Mathieu-Daudé wrote:
 > From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> The initial eMMC support from Vincent Palatin was largely reworked to
-> match the current SD framework.
+> Rebase/respin of Cédric RFC:
+> https://lore.kernel.org/qemu-devel/20220318132824.1134400-1-clg@kaod.org/
+> (sorry it took me so long guys...)
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> TODO: Do not inherit TYPE_SD_CARD, duplicate sd_class_init()
-> ---
->   hw/sd/sd.c         | 42 ++++++++++++++++++++++++++++++++++++++++++
->   include/hw/sd/sd.h |  3 +++
->   2 files changed, 45 insertions(+)
+> Pushed at https://gitlab.com/philmd/qemu/-/commits/emmc-v2
 > 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index b2f16dbb73..8b178aa261 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -2166,6 +2166,19 @@ static const SDProto sd_proto_sd = {
->       },
->   };
->   
-> +static const SDProto sd_proto_emmc = {
-> +    .name = "eMMC",
-> +    .cmd = {
-> +        [0]         = sd_cmd_GO_IDLE_STATE,
-> +        [5]         = sd_cmd_illegal,
+> I plan to queue patches 1-12 via sdmmc-next later this week.
+> 
+> Cédric, if you are happy with this series, it should be easy to rebase
+> your other patches on top and address the comments I left on the RFC :)
 
+I pushed an update on :
 
-And this needed an extra :
+   https://github.com/legoater/qemu/commits/aspeed-7.1
 
-+        [23]        = sd_cmd_SET_BLOCK_COUNT,
+Here is an image :
 
+   https://www.kaod.org/qemu/aspeed/mmc-p10bmc.qcow2
+
+run with :
+
+  qemu-system-arm -M rainier-bmc -net nic -net user -drive file=./mmc-p10bmc.qcow2,format=qcow2,if=sd,id=sd0,index=2 -nographic -nodefaults -snapshot -serial mon:stdio
 
 Thanks,
 
 C.
 
-
-> +        [19]        = sd_cmd_SEND_TUNING_BLOCK,
-> +        [41]        = sd_cmd_illegal,
-> +        [52 ... 54] = sd_cmd_illegal,
-> +        [58]        = sd_cmd_illegal,
-> +        [59]        = sd_cmd_illegal,
-> +    },
-> +};
-> +
->   static void sd_instance_init(Object *obj)
->   {
->       SDState *sd = SD_CARD(obj);
-> @@ -2284,9 +2297,38 @@ static const TypeInfo sd_info = {
->       .instance_finalize = sd_instance_finalize,
->   };
->   
-> +static void emmc_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SDState *sd = SD_CARD(dev);
-> +
-> +    if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
-> +            error_setg(errp, "Minimum spec for eMMC is v3.01");
-> +            return;
-> +    }
-> +
-> +    sd_realize(dev, errp);
-> +}
-> +
-> +static void emmc_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    SDCardClass *sc = SD_CARD_CLASS(klass);
-> +
-> +    dc->desc = "eMMC";
-> +    dc->realize = emmc_realize;
-> +    sc->proto = &sd_proto_emmc;
-> +}
-> +
-> +static const TypeInfo emmc_info = {
-> +    .name = TYPE_EMMC,
-> +    .parent = TYPE_SD_CARD,
-> +    .class_init = emmc_class_init,
-> + };
-> +
->   static void sd_register_types(void)
->   {
->       type_register_static(&sd_info);
-> +    type_register_static(&emmc_info);
->   }
->   
->   type_init(sd_register_types)
-> diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-> index 0d94e1f346..e52436b7a5 100644
-> --- a/include/hw/sd/sd.h
-> +++ b/include/hw/sd/sd.h
-> @@ -93,6 +93,9 @@ typedef struct {
->   #define TYPE_SD_CARD "sd-card"
->   OBJECT_DECLARE_TYPE(SDState, SDCardClass, SD_CARD)
->   
-> +#define TYPE_EMMC "emmc"
-> +DECLARE_INSTANCE_CHECKER(SDState, EMMC, TYPE_EMMC)
-> +
->   struct SDCardClass {
->       /*< private >*/
->       DeviceClass parent_class;
+> Regards,
+> 
+> Phil.
+> 
+> Cédric Le Goater (6):
+>    hw/sd: Add sd_emmc_cmd_SEND_OP_CMD() handler
+>    hw/sd: Add sd_emmc_cmd_ALL_SEND_CID() handler
+>    hw/sd: Add sd_emmc_cmd_SEND_RELATIVE_ADDR() handler
+>    hw/sd: Add sd_emmc_cmd_APP_CMD() handler
+>    hw/sd: add sd_emmc_cmd_SEND_TUNING_BLOCK() handler
+>    hw/sd: Add sd_emmc_cmd_SEND_EXT_CSD() handler
+> 
+> Joel Stanley (4):
+>    hw/sd: Add sd_cmd_SEND_TUNING_BLOCK() handler
+>    hw/sd: Support boot area in emmc image
+>    hw/sd: Subtract bootarea size from blk
+>    hw/sd: Add boot config support
+> 
+> Philippe Mathieu-Daudé (13):
+>    hw/sd/sdcard: Return ILLEGAL for CMD19/CMD23 prior SD spec v3.01
+>    hw/sd: When card is in wrong state, log which state it is
+>    hw/sd: When card is in wrong state, log which spec version is used
+>    hw/sd: Move proto_name to SDProto structure
+>    hw/sd: Introduce sd_cmd_handler type
+>    hw/sd: Add sd_cmd_illegal() handler
+>    hw/sd: Add sd_cmd_unimplemented() handler
+>    hw/sd: Add sd_cmd_GO_IDLE_STATE() handler
+>    hw/sd: Add sd_cmd_SEND_OP_CMD() handler
+>    hw/sd: Add sd_cmd_ALL_SEND_CID() handler
+>    hw/sd: Add sd_cmd_SEND_RELATIVE_ADDR() handler
+>    hw/sd: Add sd_cmd_SET_BLOCK_COUNT() handler
+>    hw/sd: Basis for eMMC support
+> 
+> Sai Pavan Boddu (2):
+>    hw/sd: Add CMD21 tuning sequence
+>    hw/sd: Add mmc switch function support
+> 
+>   hw/sd/sd.c             | 645 +++++++++++++++++++++++++++++++++--------
+>   hw/sd/sdmmc-internal.c |   2 +-
+>   hw/sd/sdmmc-internal.h |  97 +++++++
+>   include/hw/sd/sd.h     |   7 +
+>   4 files changed, 627 insertions(+), 124 deletions(-)
+> 
 
 
