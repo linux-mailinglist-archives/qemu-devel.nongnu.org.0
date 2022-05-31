@@ -2,58 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E84053965A
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 20:37:42 +0200 (CEST)
-Received: from localhost ([::1]:35012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9A45395FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 20:14:36 +0200 (CEST)
+Received: from localhost ([::1]:40566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw6kP-0006sV-E9
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 14:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
+	id 1nw6O3-0007FI-6h
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 14:14:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nw6Ef-0003Dg-8X; Tue, 31 May 2022 14:04:53 -0400
-Received: from [187.72.171.209] (port=1497 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nw6Ed-0003hZ-3T; Tue, 31 May 2022 14:04:52 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 31 May 2022 15:04:40 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 98AB4800094;
- Tue, 31 May 2022 15:04:39 -0300 (-03)
-Message-ID: <3b96fc19-8857-8a63-8ab0-5f37ef1177ce@eldorado.org.br>
-Date: Tue, 31 May 2022 15:04:39 -0300
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nw6Ey-0003Nj-H4
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 14:05:30 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:41503)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nw6Eu-0003ua-Nl
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 14:05:10 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MCJvA-1o4Nyl494c-009Nat; Tue, 31 May 2022 20:05:06 +0200
+Message-ID: <1ff07914-426c-63d9-c18e-393213c30a72@vivier.eu>
+Date: Tue, 31 May 2022 20:05:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
-Content-Language: en-US
-To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- mopsfelder@gmail.com, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220531172711.94564-1-muriloo@linux.ibm.com>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <20220531172711.94564-1-muriloo@linux.ibm.com>
+ Thunderbird/91.9.0
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20220527164807.135038-1-richard.henderson@linaro.org>
+ <20220527164807.135038-11-richard.henderson@linaro.org>
+ <34af03f0-6c53-17a3-b91f-d368fd2ef7c3@vivier.eu>
+ <f8f38e0b-e99f-40d7-d4c7-7e2dc047d4c8@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v5 10/17] target/m68k: Implement TRAPcc
+In-Reply-To: <f8f38e0b-e99f-40d7-d4c7-7e2dc047d4c8@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 31 May 2022 18:04:40.0445 (UTC)
- FILETIME=[E5EA92D0:01D87518]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:GrcjIbvWFqq5X6YJ/o0hz1dzB8Xej/dq7szb8bBwpnUlt2tzlkY
+ VchOeEgBfT/X3FRPvL/kk6U6LXJEW+K5yDlmeGz/94PsK6O9PBpFAzDPkqUDMy+280/3ssj
+ DwVHfGrNbCS4ZSH52Bb+WoolxGddVcBYQH9/q7EaFy8mS9xb6BFQubQOvZb5NJCmzM/Ez1k
+ eMVsAP+B0bSSiGOV4sFyQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bKoLUFZd/cE=:sIkxaPV57DmidD2u6xs3Hn
+ gar7ysaGsj+x2k6K+OzMx4GjprO1UrpBHr/e6qtuaW/c/RBaOMoNoqGFn4efF1nbHLl+18o6D
+ 6tD3OY8txSHAd7I2Pm/1WC7lLDrnH627C3d7InLsDNyIMcUGHlazd7PWU4vBix7QoGd484/pk
+ HRWrm85xMDUZiXHu97NYUJ93/Ll0oH1XpJ25UMThUegbHEg7+Ol7n0Lt3t0DPWlOf7Iyy6T5k
+ Bdo2YKcETInlCGh1+sslwX/KjMvCyM0/C31ltU/vWyK/lEap3lSib97rIWoPsYIgVvTZzSE2f
+ iH5rEGoufmTCe06rReWcwKxbOED8zG9G9b10OTiiwsn3nkgnEvzHQIga+1b4eITCbtxxthDca
+ LbG9rBJoG6bs5vaJr5liYNMsrzHvkoR9ksACC3GkHHIVWiVABQcD3R9ZburIVUCO0hFyDI16P
+ QQX9U9TiAAuPVMviR4VfnawC6Fe391/bBYPXD3oYgGS0sEJELmWSnvMHK8ptv4y6+A+E9uPD2
+ 9IJThOzqlkY8DbNPNlTCC0WXVMC2Xk4FFUEZyTkT0n3S6PbsA9zSrV5IWi3DQArWJV7VJIFd/
+ pOO1J2TcykXGkM6adBTZECUHyGSU3kFMJBE0S0Efz4mrr00yj1WgBkQrp5LfBFOMtNTowjxOD
+ +rNTSD/OzOIDlcMzrjVBZeUd9QPeH+sgLKu4hQASdeNPxxHEfMlX9tmK5I0YT5R1g8aHNkGnl
+ Fd2A3Zx9GbuEjXtoE6fAxUgP+AS39vbJWZRRqg==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,41 +76,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMzEvMDUvMjAyMiAxNDoyNywgTXVyaWxvIE9wc2ZlbGRlciBBcmF1am8gd3JvdGU6DQo+
-IFVwZGF0ZSBtYXggYWxpYXMgdG8gcG93ZXIxMCBzbyB1c2VycyBjYW4gdGFrZSBhZHZhbnRh
-Z2Ugb2YgYSBtb3JlDQo+IHJlY2VudCBDUFUgbW9kZWwgd2hlbiAnLWNwdSBtYXgnIGlzIHBy
-b3ZpZGVkLg0KPiANCj4gUmVzb2x2ZXM6IGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2pl
-Y3QvcWVtdS8tL2lzc3Vlcy8xMDM4DQo+IENjOiBEYW5pZWwgUC4gQmVycmFuZ8OpIDxiZXJy
-YW5nZUByZWRoYXQuY29tPg0KPiBDYzogVGhvbWFzIEh1dGggPHRodXRoQHJlZGhhdC5jb20+
-DQo+IENjOiBDw6lkcmljIExlIEdvYXRlciA8Y2xnQGthb2Qub3JnPg0KPiBDYzogRGFuaWVs
-IEhlbnJpcXVlIEJhcmJvemEgPGRhbmllbGhiNDEzQGdtYWlsLmNvbT4NCj4gQ2M6IEZhYmlh
-bm8gUm9zYXMgPGZhcm9zYXNAbGludXguaWJtLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogTXVy
-aWxvIE9wc2ZlbGRlciBBcmF1am8gPG11cmlsb29AbGludXguaWJtLmNvbT4NCj4gLS0tDQo+
-ICAgdGFyZ2V0L3BwYy9jcHUtbW9kZWxzLmMgfCAzICsrLQ0KPiAgIDEgZmlsZSBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90
-YXJnZXQvcHBjL2NwdS1tb2RlbHMuYyBiL3RhcmdldC9wcGMvY3B1LW1vZGVscy5jDQo+IGlu
-ZGV4IDk3NmJlNWUwZDEuLmMxNWZjYjQzYTEgMTAwNjQ0DQo+IC0tLSBhL3RhcmdldC9wcGMv
-Y3B1LW1vZGVscy5jDQo+ICsrKyBiL3RhcmdldC9wcGMvY3B1LW1vZGVscy5jDQo+IEBAIC04
-NzksNyArODc5LDYgQEAgUG93ZXJQQ0NQVUFsaWFzIHBwY19jcHVfYWxpYXNlc1tdID0gew0K
-PiAgICAgICB7ICI3NTUiLCAiNzU1X3YyLjgiIH0sDQo+ICAgICAgIHsgImdvbGRmaW5nZXIi
-LCAiNzU1X3YyLjgiIH0sDQo+ICAgICAgIHsgIjc0MDAiLCAiNzQwMF92Mi45IiB9LA0KPiAt
-ICAgIHsgIm1heCIsICI3NDAwX3YyLjkiIH0sDQo+ICAgICAgIHsgImc0IiwgICI3NDAwX3Yy
-LjkiIH0sDQo+ICAgICAgIHsgIjc0MTAiLCAiNzQxMF92MS40IiB9LA0KPiAgICAgICB7ICJu
-aXRybyIsICI3NDEwX3YxLjQiIH0sDQo+IEBAIC05MTAsNiArOTA5LDggQEAgUG93ZXJQQ0NQ
-VUFsaWFzIHBwY19jcHVfYWxpYXNlc1tdID0gew0KPiAgICAgICB7ICJwb3dlcjhudmwiLCAi
-cG93ZXI4bnZsX3YxLjAiIH0sDQo+ICAgICAgIHsgInBvd2VyOSIsICJwb3dlcjlfdjIuMCIg
-fSwNCj4gICAgICAgeyAicG93ZXIxMCIsICJwb3dlcjEwX3YyLjAiIH0sDQo+ICsgICAgLyog
-VXBkYXRlIHRoZSAnbWF4JyBhbGlhcyB0byB0aGUgbGF0ZXN0IENQVSBtb2RlbCAqLw0KPiAr
-ICAgIHsgIm1heCIsICJwb3dlcjEwX3YyLjAiIH0sDQo+ICAgI2VuZGlmDQo+IA0KPiAgICAg
-ICAvKiBHZW5lcmljIFBvd2VyUENzICovDQo+IC0tDQo+IDIuMzYuMQ0KPiANCj4gDQoNCkhp
-IE11cmlsbywNCg0KSSBndWVzcyB3ZSBuZWVkIGEgIm1heCIgZm9yIHFlbXUtc3lzdGVtLXBw
-YyB0b28sIHNvIG1heWJlIHNvbWV0aGluZyBsaWtlDQoNCiA+ICAgICAvKiBVcGRhdGUgdGhl
-ICdtYXgnIGFsaWFzIHRvIHRoZSBsYXRlc3QgQ1BVIG1vZGVsICovDQogPiAjaWYgZGVmaW5l
-ZChUQVJHRVRfUFBDNjQpDQogPiAgICAgeyAibWF4IiwgInBvd2VyMTBfdjIuMCIgfSwNCiA+
-ICNlbHNlDQogPiAgICAgeyAibWF4IiwgIjc0NTdhX3YxLjIiIH0sDQogPiAjZW5kaWYNCg0K
-T3Igc29tZSBvdGhlciBDUFUgd2hpY2ggaXMgY29uc2lkZXJlZCB0aGUgbWF4IGZvciAzMi1i
-aXQuLi4NCg0KVGhhbmtzLA0KTWF0aGV1cyBLLiBGZXJzdA0KSW5zdGl0dXRvIGRlIFBlc3F1
-aXNhcyBFTERPUkFETyA8aHR0cDovL3d3dy5lbGRvcmFkby5vcmcuYnIvPg0KQW5hbGlzdGEg
-ZGUgU29mdHdhcmUNCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxk
-b3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
+Le 31/05/2022 à 16:59, Richard Henderson a écrit :
+> On 5/31/22 01:01, Laurent Vivier wrote:
+>> Le 27/05/2022 à 18:48, Richard Henderson a écrit :
+>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/754
+>>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   target/m68k/cpu.h          |  2 ++
+>>>   linux-user/m68k/cpu_loop.c |  1 +
+>>>   target/m68k/cpu.c          |  1 +
+>>>   target/m68k/op_helper.c    |  6 +----
+>>>   target/m68k/translate.c    | 49 ++++++++++++++++++++++++++++++++++++++
+>>>   5 files changed, 54 insertions(+), 5 deletions(-)
+>>>
+>> ...
+>>> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+>>> index 399d9232e4..c4fe8abc03 100644
+>>> --- a/target/m68k/translate.c
+>>> +++ b/target/m68k/translate.c
+>> ...
+>>> @@ -6050,6 +6098,7 @@ void register_m68k_insns (CPUM68KState *env)
+>>>       INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
+>>>       INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
+>>>       INSN(dbcc,      50c8, f0f8, M68000);
+>>> +    INSN(trapcc,    50f8, f0f8, TRAPCC);
+>>>       INSN(tpf,       51f8, fff8, CF_ISA_A);
+>>>       /* Branch instructions.  */
+>>
+>> This one breaks Mark's series to support MacOS.
+>>
+>> I think the new opcode short-circuits Scc one:
+>>
+>>    ----------------
+>>    IN: INITRSRCMGR
+>>    0x408011d0:  st 0xa58
+>>    Disassembler disagrees with translator over instruction decoding
+>>    Please report this to qemu-devel@nongnu.org
+>>
+>> The following patch seems to fix the problem:
+>>
+>> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+>> index d5d73401b7cc..3b0e3d0b58f6 100644
+>> --- a/target/m68k/translate.c
+>> +++ b/target/m68k/translate.c
+>> @@ -6119,9 +6119,9 @@ void register_m68k_insns (CPUM68KState *env)
+>>       INSN(addsubq,   5000, f080, M68000);
+>>       BASE(addsubq,   5080, f0c0);
+>>       INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
+>> +    INSN(trapcc,    50f8, f0f8, TRAPCC);
+>>       INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
+>>       INSN(dbcc,      50c8, f0f8, M68000);
+>> -    INSN(trapcc,    50f8, f0f8, TRAPCC);
+> 
+> Hmm.  That will completely hide trapcc -- you should have seen the new test case fail (and if not, 
+> the test case needs fixing).
+
+I ran "make check", thinking the test is run, and saw no failure...
+and if I run "make check-tcg", I have:
+   make: Nothing to be done for 'check-tcg'.
+so what is the command to run the test?
+
+Thanks,
+Laurent
 
