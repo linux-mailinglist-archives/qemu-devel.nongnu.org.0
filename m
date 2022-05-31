@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25877538C7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:05:00 +0200 (CEST)
-Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574A3538C85
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:09:33 +0200 (CEST)
+Received: from localhost ([::1]:42816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvws7-0003JB-94
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32932)
+	id 1nvwwW-000680-71
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvwon-0001Bx-8C
- for qemu-devel@nongnu.org; Tue, 31 May 2022 04:01:33 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:57247)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nvwp5-0001Kz-6G
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:01:53 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvwol-0002vQ-0Y
- for qemu-devel@nongnu.org; Tue, 31 May 2022 04:01:32 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 83B51105BCA13;
- Tue, 31 May 2022 10:01:26 +0200 (CEST)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 31 May
- 2022 10:01:25 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003b7035c53-0da3-4f8f-8e15-54b66267723d,
- 3316B4EBA022AA703420095FA15BAC10F99B744A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <2b13de23-5a03-2dfc-20c7-2db4ad93429f@kaod.org>
-Date: Tue, 31 May 2022 10:01:25 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nvwow-0002x6-SJ
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:01:45 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MoNu2-1nTFuI4AqO-00ojo7; Tue, 31 May 2022 10:01:35 +0200
+Message-ID: <34af03f0-6c53-17a3-b91f-d368fd2ef7c3@vivier.eu>
+Date: Tue, 31 May 2022 10:01:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2 03/25] hw/sd: When card is in wrong state, log which
- spec version is used
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, <qemu-devel@nongnu.org>
-CC: Bin Meng <bin.meng@windriver.com>, <qemu-block@nongnu.org>, Joel Stanley
- <joel@jms.id.au>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
- <20220530193816.45841-4-philippe.mathieu.daude@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220530193816.45841-4-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <20220527164807.135038-1-richard.henderson@linaro.org>
+ <20220527164807.135038-11-richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v5 10/17] target/m68k: Implement TRAPcc
+In-Reply-To: <20220527164807.135038-11-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: cf2de227-959e-4877-ac9c-aaa2bc0d8a47
-X-Ovh-Tracer-Id: 14651898439367363433
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgdduvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehsrghirdhprghvrghnrdgsohguughuseigihhlihhngidrtghomh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
+X-Provags-ID: V03:K1:M1QLpIvyN4CaOWRbLUepzcwg5jCUdBSymE/uHf2vyQtdltyBVdp
+ YRvjY7nDcIQJFAdhy27qNKPwXl9tGLKfwue37i+7ALQH/vZmCp3HLuRW9wlk7a26bhIeiB1
+ I04Uxb+Z0IiDH4EJBf3xaLZQpWhn6I/0axuXiv8is6lrVWvX+rs6IscVoBkZbgo5I4LsFTm
+ 9YcSeR/TXiQMEOQtfIpBw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eQv5m4XcJ60=:6CQylE4irnjo8vlU792H9N
+ aT6xc69rGgeCfYRIem+re9fNyyJfTUd/xg/PRwhMbHG/6OQQWOyWUcfGujQZhkWN6XLGmnbMg
+ fMLCqJ69xQcptxsMwoPru/PDvpYSX0qhMwFhaUAocjqZTn6mUvGWAU+OeiaKX4NJbvRn6S5au
+ OpG0l2AJ/7qlniSCT97a01F45UanVTesRVefMYOXCYRI5PyDx9zC33dVK/c+iFx/NJva6QATo
+ CPP8r1sSfHOrO7l1QzQyhSl3k5wpziUGJSiHlX9b/VDBCnkj0g1tIhAUGehyBQC1sbMvYIE1f
+ 92zW1FGBDeYKXWR6D/uvekhl+9dSr717zNVIKYZaPQe1WvHVTh/DT2o4xm1/BYMWPVhwEEaXN
+ xLD90qIIib/UAaCbkVK4x7KRhMSi8ywm2X+CmSatPbL1h+fbswuwOxnkIqlkm5vCug/vC7HU2
+ YE0oub7AH1dsh2/Rv7KL6EuzV0OhhUXK5n2PaP4VMy2clLBYIyrrbmd0U+FbF1jGftg7M3S/Y
+ 1Mg8ofZv3sv8JwT8aLdBrt0nyWX2tx+y/SUJc+peCUSzK1bsL0dzBZKOCEhO/kdoiihObLy8W
+ 2ST1Ds8Hj2Fx3cnCdlQEdG4aBrhQPelZIfXJknpicIYl72H5xRd35iDsdhuS44O5oXKvRfYYY
+ a7nmrq3EQsMD+EkHY1KY5pIgdbBCA30nclAyX4btd1oc/JIfxw2FDp9hRSuToh8odEqlUyhZc
+ Nscez7iexYJwTzEd/8k9ADkefMmc2CrPmfWzYw==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,54 +74,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/30/22 21:37, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> Add the sd_version_str() helper.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
+Le 27/05/2022 à 18:48, Richard Henderson a écrit :
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/754
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/sd/sd.c | 18 ++++++++++++++++--
->   1 file changed, 16 insertions(+), 2 deletions(-)
+>   target/m68k/cpu.h          |  2 ++
+>   linux-user/m68k/cpu_loop.c |  1 +
+>   target/m68k/cpu.c          |  1 +
+>   target/m68k/op_helper.c    |  6 +----
+>   target/m68k/translate.c    | 49 ++++++++++++++++++++++++++++++++++++++
+>   5 files changed, 54 insertions(+), 5 deletions(-)
 > 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index b0e7a7e6d0..b3e61b9f84 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -145,6 +145,19 @@ struct SDState {
+...
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index 399d9232e4..c4fe8abc03 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+...
+> @@ -6050,6 +6098,7 @@ void register_m68k_insns (CPUM68KState *env)
+>       INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
+>       INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
+>       INSN(dbcc,      50c8, f0f8, M68000);
+> +    INSN(trapcc,    50f8, f0f8, TRAPCC);
+>       INSN(tpf,       51f8, fff8, CF_ISA_A);
 >   
->   static void sd_realize(DeviceState *dev, Error **errp);
->   
-> +static const char *sd_version_str(enum SDPhySpecificationVersion version)
-> +{
-> +    static const char *sdphy_version[] = {
-> +        [SD_PHY_SPECv1_10_VERS]     = "v1.10",
-> +        [SD_PHY_SPECv2_00_VERS]     = "v2.00",
-> +        [SD_PHY_SPECv3_01_VERS]     = "v3.01",
-> +    };
-> +    if (version >= ARRAY_SIZE(sdphy_version)) {
-> +        return "unsupported version";
-> +    }
-> +    return sdphy_version[version];
-> +}
-> +
->   static const char *sd_state_name(enum SDCardStates state)
->   {
->       static const char *state_name[] = {
-> @@ -968,8 +981,9 @@ static bool address_in_range(SDState *sd, const char *desc,
->   
->   static sd_rsp_type_t sd_invalid_state_for_cmd(SDState *sd, SDRequest req)
->   {
-> -    qemu_log_mask(LOG_GUEST_ERROR, "SD: CMD%i in a wrong state: %s\n",
-> -                  req.cmd, sd_state_name(sd->state));
-> +    qemu_log_mask(LOG_GUEST_ERROR, "SD: CMD%i in a wrong state: %s (spec %s)\n",
-> +                  req.cmd, sd_state_name(sd->state),
-> +                  sd_version_str(sd->spec_version));
->   
->       return sd_illegal;
->   }
+>       /* Branch instructions.  */
 
+This one breaks Mark's series to support MacOS.
+
+I think the new opcode short-circuits Scc one:
+
+   ----------------
+   IN: INITRSRCMGR
+   0x408011d0:  st 0xa58
+   Disassembler disagrees with translator over instruction decoding
+   Please report this to qemu-devel@nongnu.org
+
+The following patch seems to fix the problem:
+
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index d5d73401b7cc..3b0e3d0b58f6 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -6119,9 +6119,9 @@ void register_m68k_insns (CPUM68KState *env)
+      INSN(addsubq,   5000, f080, M68000);
+      BASE(addsubq,   5080, f0c0);
+      INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
++    INSN(trapcc,    50f8, f0f8, TRAPCC);
+      INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
+      INSN(dbcc,      50c8, f0f8, M68000);
+-    INSN(trapcc,    50f8, f0f8, TRAPCC);
+      INSN(trapcc,    51f8, fff8, CF_ISA_A); /* TPF (trapf) */
+
+      /* Branch instructions.  */
+
+Thanks,
+Laurent
 
