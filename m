@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF0B538B1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 07:56:12 +0200 (CEST)
-Received: from localhost ([::1]:43666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E01E538B29
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 08:03:53 +0200 (CEST)
+Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvurU-000332-0Z
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 01:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
+	id 1nvuyt-0004yD-Uq
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 02:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvulh-0001Ds-Az
- for qemu-devel@nongnu.org; Tue, 31 May 2022 01:50:20 -0400
-Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:45517)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvuu3-00045I-8J
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 01:58:51 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:40731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvulM-00006F-MB
- for qemu-devel@nongnu.org; Tue, 31 May 2022 01:49:54 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 3F038257C8;
- Tue, 31 May 2022 05:49:48 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvuu1-0001I4-C7
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 01:58:50 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id D63E7105B0965;
+ Tue, 31 May 2022 07:58:45 +0200 (CEST)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 31 May
- 2022 07:49:47 +0200
+ 2022 07:58:45 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004efd9a04e-3a45-4d2d-a72d-ba1f77210aa6,
- 3316B4EBA022AA703420095FA15BAC10F99B744A) smtp.auth=clg@kaod.org
+ (GARM-96R001398db51b-0341-4f16-b9fe-1d04f759f6d8,
+ 46298A2EECAFD3CFAF4B3306687FD1921EC6068D) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3afcc642-686a-c477-7dfa-ae5376f34715@kaod.org>
-Date: Tue, 31 May 2022 07:49:41 +0200
+Message-ID: <c3201b35-1679-d14e-01c4-64573d790762@kaod.org>
+Date: Tue, 31 May 2022 07:58:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Subject: Re: [RFC PATCH 11/17] hw/sd: Add eMMC support
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 CC: Vincent Palatin <vpalatin@chromium.org>, <qemu-block@nongnu.org>, Bin Meng
  <bin.meng@windriver.com>, <qemu-devel@nongnu.org>, Joel Stanley
  <joel@jms.id.au>
 References: <20220318132824.1134400-1-clg@kaod.org>
  <20220318132824.1134400-12-clg@kaod.org>
- <12033fbf-e511-f0ac-4078-e8e532b698a1@amsat.org>
+ <bd3df6e1-62f9-04b6-f288-b12e6860ddaa@amsat.org>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <12033fbf-e511-f0ac-4078-e8e532b698a1@amsat.org>
+In-Reply-To: <bd3df6e1-62f9-04b6-f288-b12e6860ddaa@amsat.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 6cbf7513-7f05-40e2-863a-4dc7d165a28e
-X-Ovh-Tracer-Id: 12428809072401419046
+X-Ovh-Tracer-GUID: 3aa5b9b7-ecfb-4877-95be-912b3d590ecc
+X-Ovh-Tracer-Id: 12579961134549732201
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgddutdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedtheekleeitedvtdelgfevueehudehteelvddtgfefffelvdejkeejgeelvdekueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghu
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
- helo=5.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedtheekleeitedvtdelgfevueehudehteelvddtgfefffelvdejkeejgeelvdekueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,9 +78,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/30/22 19:02, Philippe Mathieu-Daudé wrote:
-> Hi Cédric,
-> 
+On 5/30/22 19:40, Philippe Mathieu-Daudé wrote:
 > On 18/3/22 14:28, Cédric Le Goater wrote:
 >> The initial eMMC support from Vincent Palatin was largely reworked to
 >> match the current SD framework. The parameters mimick a real 4GB eMMC,
@@ -101,43 +100,46 @@ On 5/30/22 19:02, Philippe Mathieu-Daudé wrote:
 >>   hw/sd/sdmmc-internal.c |   2 +-
 >>   4 files changed, 311 insertions(+), 2 deletions(-)
 > 
->> +static const SDProto sd_proto_emmc = {
 > 
-> What about renaming as:
+>> +static void emmc_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>> +    SDCardClass *sc = SD_CARD_CLASS(klass);
+>> +
+>> +    dc->desc = "eMMC";
+>> +    sc->proto = &sd_proto_emmc;
+>> +    sc->spec_version = SD_PHY_SPECv3_01_VERS; /* eMMC requirement */
+>> +    sc->set_csd = sd_emmc_set_csd;
+>> +}
+>> +
+>> +static const TypeInfo emmc_info = {
+>> +    .name = TYPE_EMMC,
+>> +    .parent = TYPE_SD_CARD,
 > 
->                      ... emmc_proto = {
+> Hmm this is odd to have the model inheriting features from SD_CARD but then behaving differently (one could enumerate QDEV objects implementing
+> TYPE_SD_CARD then use them expecting they match the SD card protocol).
+> 
+> Why do you need to have TYPE_SD_CARD as parent?
 
-yes. These are internal functions. Fine with me.
+Simply for the initialization.
+> Could we simply duplicate sd_class_init() assignations instead? That
+> would likely make it easier to modify eMMC handlers.
+
+May be we lack a base abstract class ?
+
+It would clean up this section in the realize routine :
+
+    sd->proto = sd->spi ? &sd_proto_spi : &sd_proto_sd;
+
+     if (sc->proto) {
+         sd->proto = sc->proto;
+     }
 
 Thanks,
 
 C.
 
-> 
->> +    .name = "eMMC",
->> +    .cmd = {
->> +        [0]         = sd_cmd_GO_IDLE_STATE,
->> +        [1]         = sd_emmc_cmd_SEND_OP_CMD,
-> 
->                         = emmc_cmd_SEND_OP_CMD,
-> 
->> +        [2]         = sd_emmc_cmd_ALL_SEND_CID,
-> 
->                           ...
-> 
-> ?
-> 
->> +        [3]         = sd_emmc_cmd_SEND_RELATIVE_ADDR,
->> +        [5]         = sd_cmd_illegal,
->> +        [8]         = sd_emmc_cmd_SEND_EXT_CSD,
->> +        [19]        = sd_cmd_SEND_TUNING_BLOCK,
->> +        [21]        = sd_emmc_cmd_SEND_TUNING_BLOCK,
->> +        [41]        = sd_cmd_illegal,
->> +        [52 ... 54] = sd_cmd_illegal,
->> +        [55]        = sd_emmc_cmd_APP_CMD,
->> +        [58]        = sd_cmd_illegal,
->> +        [59]        = sd_cmd_illegal,
->> +    },
->> +};
+>> +    .class_init = emmc_class_init,
+>> + };
 
 
