@@ -2,144 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9780538A90
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 06:31:29 +0200 (CEST)
-Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0CB538AD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 07:24:07 +0200 (CEST)
+Received: from localhost ([::1]:35992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvtXU-0003rD-Fl
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 00:31:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56386)
+	id 1nvuMQ-0004Tj-5a
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 01:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1nvtVX-00032Z-J6
- for qemu-devel@nongnu.org; Tue, 31 May 2022 00:29:29 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:4512)
+ id 1nvuKJ-0003jh-03
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 01:21:55 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:65394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1nvtVT-00069F-Qv
- for qemu-devel@nongnu.org; Tue, 31 May 2022 00:29:25 -0400
+ id 1nvuKG-00051o-Dx
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 01:21:54 -0400
 Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24V2tLku030285;
- Mon, 30 May 2022 21:29:18 -0700
+ by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24V2tLpP030285;
+ Mon, 30 May 2022 22:21:45 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=rewdtj4eMHNFoUlBg1raIhkI/+t0WFQ1NNIDmuXivE8=;
- b=fPsRXed61lZ3TS/R+tk0/VrSqRcO+29G77RTXja+qcef7H9vo8S5smebSyJKW0xDqaoK
- ltiOYzmrF6SG2TvlFrqn8azKzt9KILgEsmbuIM4iB8RCb20YO3nrsxzHC46s+15yJWWw
- BnBjqzkDMNlZwyCRm6kqpCvKu2XguD6NlmL/cR5P32uFLa6ElekWSv4LsroMJ4EuD0C6
- OQfx1m+oX9otCbEJPVdKzcv8zXnPbqY/qTf/sGM+cZC0VuehxcDfVhAIuyEQi4BgEsf6
- LEUWapUupJoM+THJZ9H10v/4OPneL9dwsbbSOpR+n4/OD6nCSPf/iLZ6yjtsLltj5w6o hA== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3gbjtev81x-1
+ s=proofpoint20171006; bh=ABe+wJ3lQc/u8CLL0jWywxbxv+wErRa4l+AIxKWqG/M=;
+ b=w/D0u2x8mrFr+0b96CJ387H/+BhJGJSIb6w39Xz/iARMkJcMp5B5Nb73pYmd4T24ERKg
+ LPpzEv++T5kn3AHCtxJxmpHI5lc/RafKimc6RA+g1Hx5S/K9LuEyHaeHhbmAR2tb1K/r
+ 9XXwiM0jM7zQIJBxUCcz9isoUX8VbDftLPYy8wjn4C2tBiyYExzBZcMr4TuXvbmZR8sy
+ 6IaqcqWc4cB2v4pfkFP1MPcKCv8QK6FJcyFRcr+snYxQz6JjgT2OgCsBIQkNURhisL3m
+ kbytWjyMeT0xdIjw4exWCb8RBF10E1nBCzVDGdLAuUM5d0VxqNudt5JOR41ijWb8cXjo 7A== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3gbjteva5v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 May 2022 21:29:18 -0700
+ Mon, 30 May 2022 22:21:45 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ASSirnycU0AAMUU5rV2LAFi2XXF6+rThyHR7oiUt5vfo97BXPo2SiKIE0+XbrishFNJKHsZ5416QfulUMi8paimWPyE7MywuAugWs53iUYuUjjCmpSIY2K/tkGuCcyMLCtg7oQ9NDDNyf+lFbe24LoJcbSJ2V5bd9VwNlPkucVynaKqvVl8TdMmbEoAuXxF2gmILhUceI8WNUxjujUfXgyc0NMT0bVObkzZJWUExa2uzb6IxhX5pWDm/AVUwsKc2r1ZiC/5P29WrhtCpV2I+cbnaeIkVlxH9+SGkNswt/NucEAyk2V6293Av9ugFXV0jWG4pjqZx0XlE6xuczYji3w==
+ b=DJMHUY0sFbYuOOuKyHiLxkqWpGyjwCPrNIaVtVPteOXfKQDIYc5pPCPATz+o2ce6KtDkeLZQVKvNcq4+1ny2uS+lXn4rqPaMFkrjokpY2hoiRyIeYrwNzBF/UbPtl3nva6aw6WJYh7OWTeLvmlExN2xLHv7Mvm8VUzshbRngQvdpM9i5K0Md21UemZN8Oo6ir/ZVG9d/IOuo9tBlp90VpEoaTQ9vbFHzfWkrzjOZQEe5GGn9niNOLP3S33Mj1u4BGKgSnqex3/JDez/X0MVuBH/YqwvWXjkbS7gtn60WlDF1iATwyU13tN+0NZCip9mLICORBGQZ/z4FxtPmg3TJHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rewdtj4eMHNFoUlBg1raIhkI/+t0WFQ1NNIDmuXivE8=;
- b=aPjD+f2a5XU2QBiwzgyJZqGNH8NZs8w3mwcVtAqhQMm3mrhfaDZi8sO01tUySaR2fFp9H27fF46cAJvMqDMablFEZWzzxxvh2Nf60E2ymgYITzeUPXFuX+i6bDdSPI6+XZ2Gc0c/VJx7TrSJkq9EPNUsze36Ldbnm/JKI/YMusOZIGhC7neyG7ilPyzdn3cSXpK58/jV/quKmN0jO0KKZ3hooQ1aEOrK81RXFOUeFFyBgboqJHFgqOi9DNb4g3IB+40QeffFJiKoDorKQZ47RjZjV0wVQ53cQT/wjq6sIvMUpjfgGmBxTX46NWP5OPvq/M6KWQ5b+325uaVzGfGNfg==
+ bh=ABe+wJ3lQc/u8CLL0jWywxbxv+wErRa4l+AIxKWqG/M=;
+ b=WOYQmjN8SfNFznyq+Nma7OlJ7tAWBOVl6/Yog2UU6t4yhss7fRQmsblV+lOheUN5JiVGgbAbxTwNw+/NIOwDuL+IQXVExMY1fTKgDQJcewGWYe9ihbvYjNgHzDFLVbZmeblFYiH9n33IvkLqGFE6OPavakRqvhlnJCKeWVS920UlHXa0MRjelXKbquKiB5JW6lEwmmkpmRHtSll3Aex5sK05D63W1VV9HBU7iAJd5jAtoVvtsUuFB9gT+bolQh3Bvs+lxFaJx0mCEt7pl8LI9bddTrVUEVq3kXMO9WfY9kP0YuD3pTF8eGGfxSTbvye/E+NJRCi4ZGAI5Y9GPEk5oQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
 Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by SN6PR02MB3934.namprd02.prod.outlook.com (2603:10b6:805:2c::22)
+ by BYAPR02MB4454.namprd02.prod.outlook.com (2603:10b6:a03:5f::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.16; Tue, 31 May
- 2022 04:29:16 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Tue, 31 May
+ 2022 05:21:42 +0000
 Received: from BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::c123:e4ca:ea71:d40e]) by BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::c123:e4ca:ea71:d40e%9]) with mapi id 15.20.5293.019; Tue, 31 May 2022
- 04:29:16 +0000
+ 05:21:42 +0000
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "slp@redhat.com"
- <slp@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>, "mathieu.poirier@linaro.org"
- <mathieu.poirier@linaro.org>, "viresh.kumar@linaro.org"
- <viresh.kumar@linaro.org>, Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH  v2 01/15] contrib/vhost-user-blk: fix 32 bit build and
- enable
-Thread-Topic: [PATCH  v2 01/15] contrib/vhost-user-blk: fix 32 bit build and
- enable
-Thread-Index: AQHYb4SvEqSEFQChw0yNXIoTE7iK7q04buyA
-Date: Tue, 31 May 2022 04:29:16 +0000
-Message-ID: <20220531042913.GB8262@raphael-debian-dev>
-References: <20220524154056.2896913-1-alex.bennee@linaro.org>
- <20220524154056.2896913-2-alex.bennee@linaro.org>
-In-Reply-To: <20220524154056.2896913-2-alex.bennee@linaro.org>
+To: Changpeng Liu <changpeng.liu@intel.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "alex.bennee@linaro.org"
+ <alex.bennee@linaro.org>
+Subject: Re: [PATCH 1/2] hw/virtio/vhost-user: don't use uninitialized variable
+Thread-Topic: [PATCH 1/2] hw/virtio/vhost-user: don't use uninitialized
+ variable
+Thread-Index: AQHYcEEXKaZZNxmyVU2jp87U9Yc84K04fBsA
+Date: Tue, 31 May 2022 05:21:42 +0000
+Message-ID: <20220531052140.GC8262@raphael-debian-dev>
+References: <20220525125540.50979-1-changpeng.liu@intel.com>
+In-Reply-To: <20220525125540.50979-1-changpeng.liu@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 user-agent: Mutt/1.10.1 (2018-07-13)
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dee54dec-1225-4b80-103c-08da42be1f60
-x-ms-traffictypediagnostic: SN6PR02MB3934:EE_
-x-microsoft-antispam-prvs: <SN6PR02MB393414E332B0530716806EF3EADC9@SN6PR02MB3934.namprd02.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 420c5ecf-7773-452d-00b0-08da42c57274
+x-ms-traffictypediagnostic: BYAPR02MB4454:EE_
+x-microsoft-antispam-prvs: <BYAPR02MB4454056C0F9BCAB33C148765EADC9@BYAPR02MB4454.namprd02.prod.outlook.com>
 x-proofpoint-crosstenant: true
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5x8RPYKtD/n9GBTofX5dUibcswkc3e8vaWLvLDZWgwCVzL6GsjOcxrmFeMnwbrM8SNQpKQ+t2Wh/BLof4TaBt8oNgxa7EJLiFiTxc+UV575NDFqTRhAf77pGdOs1L8emLTVQpyEpd4X4QVLb7U7G8g+t/3uxT1FEOlNmSklXXlUIVV2HK71+ATf1zqjKMV/dGlQ3RUdS2vhZbQoqNLYay84h9+LfkZghH2xypZllNm8tqXkq/oHs9u9zzbK1sTsFTi0JoqtA6v1eh2gy5v6wCd957mwkjwevEYmAWTHrcVcLF3tmzsq0Zqi8nM6Q9vSzKcRHolh/mzk6uIsdbaopsy7jT3UnjXisObfb4a3Xs9KxqfUC40oQvjxsVcSWfE9d4jl2o8+W5Mzc0tURcEipVkyQKoR/zg+OzZi8GysRdd84ev7XQGsReP/j7fviVtXEkkxAwryKQ3SXr/wycTDTPaANmQmFN1CcbDhYs6Zcyay0mxrmdSm0cY0DdptMo3yz4C+4T0LzLRVUSU76hbQ7qTOOPpB7gksPsBZyX2qBU0ZJUC5AmTb5z/5RAw9IRVbZp26RhaA73iP0cI3fvKO9ejTXCR0FfF3yYAGo+SGTIyIEcVzdTaZun525xc7zid5RGhzlex+H5ARMVhMq+WN93Kzow/uBfOPVQz9kK7CRYrD3VBgJmPK6UFVpZK2/YOfTQj/ZVEOSlnxIiyP3LNNFgg==
+x-microsoft-antispam-message-info: sHXPuA8tAIgPoxGDgNy6QR4ieYiNB/vjyCcv7AvFa+RgCoW+CxD8CaRdF/BSG3UoUePQneoxaW7u+v2cFBnBRejqdcmwUCjD5pQzmQP5KXsro/2zU4+kzp0roE9tJRLPQOPcb+W1ceW+QBE3QSNMAGNS3S0RiyzM/ijh53SxAJJsp6z+sbCUoH8G+EqF675DJjMJoL13ThtfLojlFrnRh40VHEIQr2f/IgLqIqSo79sl9ORrjVCrdRATUumow2dlQs1O04ZOQDIe1KTd8mH7X4p8hscAOy041IuluDQzn165/B+ILuQofRJQG+UyPaxw7MQw8hs0FYxw4G9kMKQ02ufHgKzAPF9bdEK/AQqldI4lpSpSjhlXB6qUT9UU+7lCCT+74ZyfA4mCEqXJVX31pMjt91az0QWEuqiU/8bFcffhMWEoMm7ojxdJzJuh0HhmTIClQeFScaC4wz7nBOmKcVoYsOfCOwlNsyHzjUU1srUwWxkJtCIoZEAgp5bJU61QvJIp4m2RoulPgtAGQvWKsk9eKUy3/BNhvRNdAKNaCyAOHJM+gcFRxeuIkSWhRS3yGvnTLLtO8tfrAZ9cy6lk1spBKpJE39dI6OHOx15hq+8D0YYv09w0bUQuWVDnE9h2q2CEXtLMMks6Wm3UaznOv/UzJ5VQNU6VjXFMPcThDMVPwUhShREmJVAjTzZyVby0F99SeZ6+bQ8TgVUqOXUTCg==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(91956017)(316002)(6916009)(54906003)(66556008)(66476007)(83380400001)(64756008)(71200400001)(66446008)(8676002)(38100700002)(66946007)(66574015)(76116006)(33716001)(4326008)(1076003)(508600001)(44832011)(186003)(107886003)(6486002)(86362001)(8936002)(26005)(6512007)(9686003)(5660300002)(38070700005)(122000001)(2906002)(33656002)(6506007);
+ SFS:(13230001)(7916004)(366004)(76116006)(91956017)(4326008)(66946007)(66556008)(66476007)(8676002)(66446008)(64756008)(1076003)(6506007)(6512007)(26005)(9686003)(8936002)(86362001)(44832011)(5660300002)(83380400001)(122000001)(6916009)(508600001)(54906003)(6486002)(38100700002)(33656002)(71200400001)(316002)(38070700005)(186003)(2906002)(33716001);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?Yy5hUpoarOAFnAEV4aaVJsIGxxBna9m9+TChRxexpM2FoPkZnswLDmQ+PH?=
- =?iso-8859-1?Q?8CSz6pIN46AMDMQX0bCP6IQVTRA4CNUDZZjMADTkHTGRervwDh77GUkcIK?=
- =?iso-8859-1?Q?ekYi0jmy21ojNeofU3Q8hMjH2YVSgIhxUl498EEzAt6cSiYGQK9ExCWV04?=
- =?iso-8859-1?Q?c8/vXD9/2tv/9Gdp4kX+dLJT0IQR55cAq9xn15OsuQNu4JiCG3oOWmimV7?=
- =?iso-8859-1?Q?OHSPVKkj5YaMuMEIq3lIPhj4GWUaKXQgi4G3D1zaSQcDJvOSxSzFGEybxv?=
- =?iso-8859-1?Q?UwXgLfuW14+7O43FJUgKudJUF5wtFnApI6YyLk2l6dFL+/GeksSdbPZzas?=
- =?iso-8859-1?Q?kaGyjvpgSPirE3RT4GCSfIEM2WAq1hrJB1iJW2yt7B1Wno0fISCYPcVMdW?=
- =?iso-8859-1?Q?4keEILCfvDwcNpx0tmTUj6VOL8/Ps4IUtFdNf6iM6dCOI48bu2oqWWHV5R?=
- =?iso-8859-1?Q?4o/3JbkgvJnHNLMvhN8fvRpyzy8B7I4DjeTyXHuqnfskdxZT5PImsea/Mo?=
- =?iso-8859-1?Q?zXJqXDEu49o4BfXQTJFsuimysgZKWgE+3ODEIVgROZq2piDWdcBcSjOwNd?=
- =?iso-8859-1?Q?5Ex+eg2yrCG6Rk8snQlyiWItTufeUETdImayZzvRM0iMhOj5dF2ME9/HvC?=
- =?iso-8859-1?Q?hAy/Ma7PTYetzF4DFJiazgsqsph3plkauE7BBJnCRyjMXEdBtFX6XVd7zz?=
- =?iso-8859-1?Q?OaLDXPpKUC9uFXXVV9ltFdNkWL1iHrPLmEb50grGgzKdtujS8MFh3nX3Mg?=
- =?iso-8859-1?Q?OGn0xKfps2qEYEEwmU39la4cQoKjN47RbKcliilFIkTKS5gDaENH3qZHbI?=
- =?iso-8859-1?Q?UBjpPeOdew7lYrOjQJBsMYEhVGSvrGe3C5HGNEjbmGkLoPC07r6jR3Tkh7?=
- =?iso-8859-1?Q?LwQGQbdhHKcz8eygoJGIYGGnkGqITTdgMssvcILxEBm9k4IDsxmJWL8St9?=
- =?iso-8859-1?Q?YVmOO25k/lTZZoknAJprNYHcXNqwyaiOf2LN43WAd6N9+fZL+vyZPDPWy/?=
- =?iso-8859-1?Q?WWvp0dW8pXDUwfBe3dhj9rYpCNRPVivHytEYTPsK58QD01HgYutwaTpIrF?=
- =?iso-8859-1?Q?TsNrBnbG4HKd0SwdB414nxn2+Z8cF+gxssqZIbwybLyj4+L6LHlGADwrd9?=
- =?iso-8859-1?Q?s+X6Folw61R+z3+idPruG636rg/9MqAGQcCfV5lA6UXrHX+MOUdXrZgyiu?=
- =?iso-8859-1?Q?ymwGnAhlQP+M4Na/YtQsPPlHMtCmdaDPPPDp8I0KOGClrWX/k9LObmWOQG?=
- =?iso-8859-1?Q?+k+yU/UthXdmUGPPQFVFiZrLN3YSmG7jrlfB3EqRxxUK62mtnwOI7euiUh?=
- =?iso-8859-1?Q?kTQX2W6wbGt+5vfwAfEZ1n8KDp2vn2xf8fQubi/FrD6Qd9IOGu7wzxG74W?=
- =?iso-8859-1?Q?Ez0iKeEabPJeMsY/9b3sMh0tvhBO9r1pSpPgkOjszlYs+fe0ghTgmR1j7l?=
- =?iso-8859-1?Q?czu6cs0fWayGw2sufsrtOoodSbyz72YhErrZ04KAck/nracYVoWXfoFKoy?=
- =?iso-8859-1?Q?0+V7bqV4FROFeLJR7fb4wVCtsCPah8maig2yGiHSN/11QJHgArmuqn57rC?=
- =?iso-8859-1?Q?+vjWZ94TfNQOHcXDgoLQiNmoUwELPuL1D6+GDjBSbmP75L12NqvEM+mRrH?=
- =?iso-8859-1?Q?CixvBY8Iy2ESsiBhUFKqRKkOIXOaK+cNmpLcVOxbvShr6f3nwBcFTUQU8k?=
- =?iso-8859-1?Q?lUMCqvhXGHc3ZO9cvLSdV7nJ2yPwbr6KnbLyTU5OFOkby5zbzBO7jMWe9T?=
- =?iso-8859-1?Q?c+Pj9OzMnkxuU1im3pzzjfovPxK3Ojd5xyHzbF0ylkc/wbt6N+fnsrRJ7v?=
- =?iso-8859-1?Q?TKSew5htBs5A+aOkQ6LyL6dMnAsOp6QaM2QCgysXvyuZoimdlXKZ?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <0D8623350717FA438954560909AE9DFA@namprd02.prod.outlook.com>
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2cM9bfAUxeCxSBx9DQXPQ9qxAz4OhqUYnSTUJBgs4aSHjaVym4pTUzeUyQco?=
+ =?us-ascii?Q?S1P9H7arOb+CUK39dW9HquvG0+QK0Vf5Kvxb0/ZBCvgpKM/qrWyqYwLLDlid?=
+ =?us-ascii?Q?5U9zMjTP+RvvC44j/KhwSBF72BxWjmx/RL+thZbavMX62jL3AXBPJGvYKZOV?=
+ =?us-ascii?Q?Lkbe87T83upaeLfHF6VKuiwKhq1k5zIzW5z0QjA0NKs7cKR5Cr8B4MOi1TOe?=
+ =?us-ascii?Q?DMa4MPFCjDx53/KP5MWEnVj5tXhBNbHQ8f/VOZtXXWRMIM5Bo9P6lfDqF6Fu?=
+ =?us-ascii?Q?TqkPD4wSXmE12mbAnX8XYVugB7Ki+EK/eKNDCmzu8KMvUjrshs5/PGNlhHWQ?=
+ =?us-ascii?Q?Ovw7P1DP7LDOonrBE8/+ovkD2ilsr2kEmI53KqDdA3gKwGzwbTnP+DfWGtHV?=
+ =?us-ascii?Q?Y6TLBuHJaq0ewPeJlXlgBlQuxMfq+hiWkacUjbcaJomAZPsOYsa53ZbDk1Nw?=
+ =?us-ascii?Q?cQdpIa/0ctUIyvGofD238drkxy+G6BZZST3cR1DpVIDG2BiZRYaAeKTME+yh?=
+ =?us-ascii?Q?eYptxnie3K80PNS3hZu4nQXqXXNu+UhgBFBKaVgrDE3nhDA9r2yo21Hb8kaU?=
+ =?us-ascii?Q?KtlB/Yxf0dKFsMq8lb6gQ83AcWGjLf0OiK91deYzLFkMuQbmvtxy7GprYJ8Q?=
+ =?us-ascii?Q?BGPtGhyvyFgHEdpwf8+WWER7RYdkH7PN5hzm1BCYqYGOsFQWojkWWrIvykpS?=
+ =?us-ascii?Q?2TJ8B8DaEju9gLtNKZvVJe24UhUN9DOwMepIWrvAPWD+/vlhJWigvjN4jt7M?=
+ =?us-ascii?Q?TW4eSxg0Cmw1AXJ8CI2ajeW6/DPiV+qD3oOTqOyNLVtgebLrm85+4JZ2OVUM?=
+ =?us-ascii?Q?L4dVn0f1ngdQRNg5bGITIxYrLewPQT5ucynT9y3MCu/4ciEhwoBfWcoPHUdI?=
+ =?us-ascii?Q?B5iloKvGoUvue54MkCnUgS+utBsGqYODLVdepIS/Y5+pGF/IlntoVlh/lbtT?=
+ =?us-ascii?Q?fDqUum0DVxhEc92bA3+Vu2QQcvfFoqwHuEXqOvfujiOkgIbdrLzgtrvKUqrd?=
+ =?us-ascii?Q?v0bYWRH9PA6qZ0NBrL9HY4ZBefbnjPLonePfxJH1PBFoN9TOFJx7lhIFWvET?=
+ =?us-ascii?Q?yWOSsN8CQohwtiS7TxFo43bAnjnFphmU/uXm6DRRDyH8yZSwjpr30+CtPXnQ?=
+ =?us-ascii?Q?dndlLolFBXCRSFrEYm+U4nirbC9jarw+JPkMzTYTbIBdKBp+hq8vBAYUzUxR?=
+ =?us-ascii?Q?yrx8Drv0kn8PoAmM4MP+HgAce0L1itC3rNJkSYseHd4X+pUjhIAH72UwBXFi?=
+ =?us-ascii?Q?EBRxkqAszMiIuZBpevG7ssVDHQ1EM2kwHLHt3GiTWKXOo6SysBnhhH7XNCIL?=
+ =?us-ascii?Q?QT8fWCTilsMoy1AgdqoEav37szAklpphiTRXMTbalW0szRcHM/JFFrTwF2RP?=
+ =?us-ascii?Q?gjmKunyPOU3cn7LV893BQJPTaDF8ITZYpi0uuq8GPDF+CXMxFg46Ll7e5tmg?=
+ =?us-ascii?Q?xeXmrEsWD9moB6+psOW7jXg3qorytkIJAOmhVUBvgFz8uLi5lEGgZSVrzkHo?=
+ =?us-ascii?Q?5vn2d1ap5JDkDKmV7MVRO+J7Vwphjb4oPFSY3rdlm017pWsCqMrv/bndz3Ah?=
+ =?us-ascii?Q?xrDxnVxH3s+X1aTvGWosJZxMmzZ5jYTJ4RREsp8yfyHTefIGwnUtIgplRSwR?=
+ =?us-ascii?Q?unT461bDpYxq7k6RKRpJYZ8kFOWsYLO/2vKoZjaALhPTn1EQyhPAtqXk/yAm?=
+ =?us-ascii?Q?8vcrRmBFGrK2LSVL11Tdhig0OhL4NmVMo1UokmcGCjINEfhuqrutQ1cx7dUw?=
+ =?us-ascii?Q?TnpAHkfAHMSkjlJMvUZ0SD2rxhBcmIfNOE7imzpm8z8gcBtv7P5e?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <11E6CD1370D4F14C853F55A90FF6A6B2@namprd02.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dee54dec-1225-4b80-103c-08da42be1f60
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2022 04:29:16.3486 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 420c5ecf-7773-452d-00b0-08da42c57274
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2022 05:21:42.2072 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lRM6AieABumjnPOpXqvYz4mDQ3pufl7cO3BOfujL8ScEak0Jd4/UhRnj2oPZmxAevQdKKoRNW8i+PIgCVez2TR6bT5E4koj/KMd0gfKgj9U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB3934
-X-Proofpoint-ORIG-GUID: VwIv9yD8S9rc8KjPSa90iMtqgTDIvAHs
-X-Proofpoint-GUID: VwIv9yD8S9rc8KjPSa90iMtqgTDIvAHs
+X-MS-Exchange-CrossTenant-userprincipalname: VWy/dUb2pkEUH91y56CccnmWIzlsI0rgql1IOCEGRIG5n5/v3VAtQg3iaRPxy71T7IXlY29nxYntxfADnaPO9FFp3bhL8nz2429sXo0hNU4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4454
+X-Proofpoint-ORIG-GUID: cNds902gYbshpbr__SXWY7JLOqwyLxeE
+X-Proofpoint-GUID: cNds902gYbshpbr__SXWY7JLOqwyLxeE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-05-31_01,2022-05-30_03,2022-02-23_01
@@ -168,93 +161,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 24, 2022 at 04:40:42PM +0100, Alex Benn=E9e wrote:
-> We were not building the vhost-user-blk server due to 32 bit
-> compilation problems. The problem was due to format string types so
-> fix that and then enable the build. Tweak the rule to follow the same
-> rules as other vhost-user daemons.
+On Wed, May 25, 2022 at 08:55:39PM +0800, Changpeng Liu wrote:
+> Variable `vdev` in `struct vhost_dev` will not be ready
+> until start the device, so let's not use it for the error
+> output here.
 >=20
-> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> Message-Id: <20220321153037.3622127-12-alex.bennee@linaro.org>
+> Fixes: 5653493 ("hw/virtio/vhost-user: don't suppress F_CONFIG when suppo=
+rted")
+>=20
+> Signed-off-by: Changpeng Liu <changpeng.liu@intel.com>
 
 Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
 > ---
->  meson.build                             | 2 +-
->  contrib/vhost-user-blk/vhost-user-blk.c | 6 +++---
->  contrib/vhost-user-blk/meson.build      | 3 +--
->  3 files changed, 5 insertions(+), 6 deletions(-)
+>  hw/virtio/vhost-user.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/meson.build b/meson.build
-> index 9ebc00f032..a33ed52b7a 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1489,7 +1489,7 @@ have_vhost_user_blk_server =3D get_option('vhost_us=
-er_blk_server') \
->             error_message: 'vhost_user_blk_server requires linux') \
->    .require(have_vhost_user,
->             error_message: 'vhost_user_blk_server requires vhost-user sup=
-port') \
-> -  .disable_auto_if(not have_system) \
-> +  .disable_auto_if(not have_tools and not have_system) \
->    .allowed()
-> =20
->  if get_option('fuse').disabled() and get_option('fuse_lseek').enabled()
-> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user=
--blk/vhost-user-blk.c
-> index cd4a5d7335..9cb78ca1d0 100644
-> --- a/contrib/vhost-user-blk/vhost-user-blk.c
-> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
-> @@ -146,7 +146,7 @@ vub_readv(VubReq *req, struct iovec *iov, uint32_t io=
-vcnt)
->      req->size =3D vub_iov_size(iov, iovcnt);
->      rc =3D preadv(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512);
->      if (rc < 0) {
-> -        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n=
-",
-> +        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n=
-",
->                  vdev_blk->blk_name, req->sector_num, req->size,
->                  strerror(errno));
->          return -1;
-> @@ -169,7 +169,7 @@ vub_writev(VubReq *req, struct iovec *iov, uint32_t i=
-ovcnt)
->      req->size =3D vub_iov_size(iov, iovcnt);
->      rc =3D pwritev(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512)=
-;
->      if (rc < 0) {
-> -        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n=
-",
-> +        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n=
-",
->                  vdev_blk->blk_name, req->sector_num, req->size,
->                  strerror(errno));
->          return -1;
-> @@ -188,7 +188,7 @@ vub_discard_write_zeroes(VubReq *req, struct iovec *i=
-ov, uint32_t iovcnt,
-> =20
->      size =3D vub_iov_size(iov, iovcnt);
->      if (size !=3D sizeof(*desc)) {
-> -        fprintf(stderr, "Invalid size %ld, expect %ld\n", size, sizeof(*=
-desc));
-> +        fprintf(stderr, "Invalid size %zd, expect %zd\n", size, sizeof(*=
-desc));
->          return -1;
->      }
->      buf =3D g_new0(char, size);
-> diff --git a/contrib/vhost-user-blk/meson.build b/contrib/vhost-user-blk/=
-meson.build
-> index 601ea15ef5..dcb9e2ffcd 100644
-> --- a/contrib/vhost-user-blk/meson.build
-> +++ b/contrib/vhost-user-blk/meson.build
-> @@ -1,5 +1,4 @@
-> -# FIXME: broken on 32-bit architectures
->  executable('vhost-user-blk', files('vhost-user-blk.c'),
->             dependencies: [qemuutil, vhost_user],
-> -           build_by_default: false,
-> +           build_by_default: targetos =3D=3D 'linux',
->             install: false)
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index b040c1ad2b..0594178224 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -2031,18 +2031,16 @@ static int vhost_user_backend_init(struct vhost_d=
+ev *dev, void *opaque,
+>          if (supports_f_config) {
+>              if (!virtio_has_feature(protocol_features,
+>                                      VHOST_USER_PROTOCOL_F_CONFIG)) {
+> -                error_setg(errp, "vhost-user device %s expecting "
+> +                error_setg(errp, "vhost-user device expecting "
+>                             "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-u=
+ser backend does "
+> -                           "not support it.", dev->vdev->name);
+> +                           "not support it.");
+>                  return -EPROTO;
+>              }
+>          } else {
+>              if (virtio_has_feature(protocol_features,
+>                                     VHOST_USER_PROTOCOL_F_CONFIG)) {
+>                  warn_reportf_err(*errp, "vhost-user backend supports "
+> -                                 "VHOST_USER_PROTOCOL_F_CONFIG for "
+> -                                 "device %s but QEMU does not.",
+> -                                 dev->vdev->name);
+> +                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU =
+does not.");
+>                  protocol_features &=3D ~(1ULL << VHOST_USER_PROTOCOL_F_C=
+ONFIG);
+>              }
+>          }
 > --=20
-> 2.30.2
+> 2.21.3
+>=20
 > =
 
