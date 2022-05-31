@@ -2,90 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09057538B36
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 08:12:21 +0200 (CEST)
-Received: from localhost ([::1]:50964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAA7538B76
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 08:38:45 +0200 (CEST)
+Received: from localhost ([::1]:55300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvv75-0000LB-UF
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 02:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1nvvWd-0004u9-Vg
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 02:38:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nvuyw-0006NC-3W; Tue, 31 May 2022 02:03:54 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:44601)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvvPy-0002xK-9V
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 02:31:50 -0400
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:48393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nvuyq-0001xM-09; Tue, 31 May 2022 02:03:53 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id EAF845C01C6;
- Tue, 31 May 2022 02:03:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 31 May 2022 02:03:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1653977025; x=1654063425; bh=4CcOpKUhm/
- 8teOUrv9OL1sKYmouyEtHzdm2U/qmEo6Q=; b=Z9EpAbnc+lCwbizhZVGgKKTyxj
- WAzu9jJEGDM7Swe+H1NAqKxU83vI1bcD5DIUeiAAYtJpk3bhZ0uYxPVV10zLsmY6
- 9HcJbhmTu3Vr5AxC8e5bV+H5oMuB4q+BlqfhIWL6E/S64yI1jvnnEJNxRb5Ou2et
- LMUrQgPAZsR+9/2aI3IaXaK5hhh4gOwSxpg+WlzWuc3FOmeyoPl2ykw0KpsNkRB8
- ZFu/vOSUIk3VnLtJYJnChmciyINeuWrZ1rooid98G/vatexjyg9qt1hzrgurpB7j
- xuK0Ctq0U+SwGBxdVPeNEg32opnxBIfGLODFo0cWeC62+efm7qjk8HdYEl0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1653977025; x=1654063425; bh=4CcOpKUhm/8teOUrv9OL1sKYmouyEtHzdm2
- U/qmEo6Q=; b=QxyQV1koN9S13lG2kDkNQ2SwU6Q9QBkK7B+mb8dqgOv/k7XmyHB
- 0NEREKXpx4DqfxVRPk7hnJWJ/cOSBBAJF2kjSOBXqxiIYSJ+i2xWs3FBrS4fiEBc
- zVWfVmofwJFcrmiKVUhDR/Q+Ijrlo2Y607Co/8nGJoltbIR6XokmXljB/LTwyKWB
- c8pSQ8e3xP8sdTwKCxeDCjcJ02IIoYR2o9JcX0/7WT/HUP06Aj0V+x1swpAWTB9Q
- lNT1XU67HH6zmrQksN2OkJYx2H+Mh6c+boz4KfWp6p6Qx3DqYuJcumqOrggc8s1C
- vHhr7sIfqTCV2q+IVkcuvMo0wG+G6a/waBQ==
-X-ME-Sender: <xms:wa-VYsrLZ9g-Jo2tLSxvG7JqIQve44CMz2zFaHxyBt6SKbprWsiBgA>
- <xme:wa-VYipdd7eK6YfuH_ncwf6aIKL9pm6pt8F7jKPXYj726hXLpjtw-9_GvY_HS-E7C
- 9_tQOcVO8fzk_mI_mQ>
-X-ME-Received: <xmr:wa-VYhO_nqG4lQSCpIT70WKd1Bfcr4xZVZBczXPp5DtRg-mpK5ezCWm1rri9ecrTqYrebxbyx04KPBHZ9sgY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgddutdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnheptdeludfhgeelheelledtjefffeejtdeluedvgfetveffgeetvdevkeehieeikeet
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:wa-VYj7ZqVSKlyrLkPbIPMeEr8N6Dw_E_kCCAwx0TiPaEjSLA09OsQ>
- <xmx:wa-VYr736uqpAL1Qv_n-c3UGf_QEc4_6sdn2yBSH5vE7ebOH0rBbLQ>
- <xmx:wa-VYjjMrsg44ilRfwwBFuz26Dk73b6ms220cvXIRwnKnjGI-nKksA>
- <xmx:wa-VYluSFzM-4M4TTHgZYjKpELYHAos8Ew-MS0lFnmrazn8DO_1qMw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 May 2022 02:03:43 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, Klaus Jensen <its@irrelevant.dk>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH] hw/nvme: add command set independent identify namespace
-Date: Tue, 31 May 2022 08:03:42 +0200
-Message-Id: <20220531060342.2556973-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.36.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nvvPv-0005r8-HD
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 02:31:49 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.10])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 46FB9212DF;
+ Tue, 31 May 2022 06:31:43 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 31 May
+ 2022 08:31:42 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0020d0c090d-1106-4020-9720-ce18badb13cd,
+ 3316B4EBA022AA703420095FA15BAC10F99B744A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a4496a43-3332-76b7-e4c5-7ab27a7b988c@kaod.org>
+Date: Tue, 31 May 2022 08:31:36 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 00/25] hw/sd: Rework models for eMMC support
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, <qemu-devel@nongnu.org>
+CC: Bin Meng <bin.meng@windriver.com>, <qemu-block@nongnu.org>, Joel Stanley
+ <joel@jms.id.au>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: fc410515-0bc0-425b-b335-a0ae630c7580
+X-Ovh-Tracer-Id: 13136718641791011689
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgddutdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekjeevfefhfeehkeegleehkeejtdeikefhffegjefhvdekgfduveehffdttefhgeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhtlhgrsgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshgrihdrphgrvhgrnhdrsghougguuhesgihilhhinhigrdgtohhm
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,118 +76,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 5/30/22 21:37, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Rebase/respin of Cédric RFC:
+> https://lore.kernel.org/qemu-devel/20220318132824.1134400-1-clg@kaod.org/
+> (sorry it took me so long guys...)
+> 
+> Pushed at https://gitlab.com/philmd/qemu/-/commits/emmc-v2
+> 
+> I plan to queue patches 1-12 via sdmmc-next later this week.
+> 
+> Cédric, if you are happy with this series, it should be easy to rebase
+> your other patches on top and address the comments I left on the RFC :)
 
-Add support for the command set independent identify namespace data
-structure (CNS 0x8).
+Sure. I will for the first patches to be merged and I might introduce
+a base class.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c       | 28 ++++++++++++++++++++++++++++
- hw/nvme/trace-events |  1 +
- include/block/nvme.h | 16 ++++++++++++++++
- 3 files changed, 45 insertions(+)
+Thanks,
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 1e6e0fcad918..1da99a3c2f23 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -4793,6 +4793,32 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n, NvmeRequest *req,
-     return nvme_c2h(n, (uint8_t *)list, sizeof(list), req);
- }
- 
-+static uint16_t nvme_identify_ns_ind(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeNamespace *ns;
-+    NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
-+    uint32_t nsid = le32_to_cpu(c->nsid);
-+    NvmeIdNsIndependent id;
-+
-+    trace_pci_nvme_identify_ns_ind(nsid);
-+
-+    if (!nvme_nsid_valid(n, nsid)) {
-+        return NVME_INVALID_NSID | NVME_DNR;
-+    }
-+
-+    ns = nvme_ns(n, nsid);
-+    if (unlikely(!ns)) {
-+        return nvme_rpt_empty_id_struct(n, req);
-+    }
-+
-+    id = (NvmeIdNsIndependent) {
-+        .nmic = ns->params.shared ? 0x1 : 0x0,
-+        .nstat = 0x1,
-+    };
-+
-+    return nvme_c2h(n, &id, sizeof(id), req);
-+}
-+
- static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
-                                      bool active)
- {
-@@ -5011,6 +5037,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_identify_ctrl_list(n, req, false);
-     case NVME_ID_CNS_CS_NS:
-         return nvme_identify_ns_csi(n, req, true);
-+    case NVME_ID_CNS_CS_IND_NS:
-+        return nvme_identify_ns_ind(n, req);
-     case NVME_ID_CNS_CS_NS_PRESENT:
-         return nvme_identify_ns_csi(n, req, false);
-     case NVME_ID_CNS_CTRL:
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index ff1b4589692b..2a7a3ab2756e 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -55,6 +55,7 @@ pci_nvme_identify(uint16_t cid, uint8_t cns, uint16_t ctrlid, uint8_t csi) "cid
- pci_nvme_identify_ctrl(void) "identify controller"
- pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
- pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
-+pci_nvme_identify_ns_ind(uint32_t nsid) "nsid %"PRIu32""
- pci_nvme_identify_ctrl_list(uint8_t cns, uint16_t cntid) "cns 0x%"PRIx8" cntid %"PRIu16""
- pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
- pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 3737351cc815..3888fb804619 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1029,6 +1029,7 @@ enum NvmeIdCns {
-     NVME_ID_CNS_CS_NS                 = 0x05,
-     NVME_ID_CNS_CS_CTRL               = 0x06,
-     NVME_ID_CNS_CS_NS_ACTIVE_LIST     = 0x07,
-+    NVME_ID_CNS_CS_IND_NS             = 0x08,
-     NVME_ID_CNS_NS_PRESENT_LIST       = 0x10,
-     NVME_ID_CNS_NS_PRESENT            = 0x11,
-     NVME_ID_CNS_NS_ATTACHED_CTRL_LIST = 0x12,
-@@ -1346,6 +1347,20 @@ typedef struct QEMU_PACKED NvmeIdNsNvm {
-     uint8_t     rsvd268[3828];
- } NvmeIdNsNvm;
- 
-+typedef struct QEMU_PACKED NvmeIdNsIndependent {
-+    uint8_t     nsfeat;
-+    uint8_t     nmic;
-+    uint8_t     rescap;
-+    uint8_t     fpi;
-+    uint32_t    anagrpid;
-+    uint8_t     nsattr;
-+    uint8_t     rsvd9;
-+    uint16_t    nvmsetid;
-+    uint16_t    endgrpid;
-+    uint8_t     nstat;
-+    uint8_t     rsvd15[4081];
-+} NvmeIdNsIndependent;
-+
- typedef struct QEMU_PACKED NvmeIdNsDescr {
-     uint8_t nidt;
-     uint8_t nidl;
-@@ -1582,6 +1597,7 @@ static inline void _nvme_check_size(void)
-     QEMU_BUILD_BUG_ON(sizeof(NvmeLBAF) != 4);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeLBAFE) != 16);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsIndependent) != 4096);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsNvm) != 4096);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsZoned) != 4096);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
--- 
-2.36.1
+C.
+
+> 
+> Regards,
+> 
+> Phil.
+> 
+> Cédric Le Goater (6):
+>    hw/sd: Add sd_emmc_cmd_SEND_OP_CMD() handler
+>    hw/sd: Add sd_emmc_cmd_ALL_SEND_CID() handler
+>    hw/sd: Add sd_emmc_cmd_SEND_RELATIVE_ADDR() handler
+>    hw/sd: Add sd_emmc_cmd_APP_CMD() handler
+>    hw/sd: add sd_emmc_cmd_SEND_TUNING_BLOCK() handler
+>    hw/sd: Add sd_emmc_cmd_SEND_EXT_CSD() handler
+> 
+> Joel Stanley (4):
+>    hw/sd: Add sd_cmd_SEND_TUNING_BLOCK() handler
+>    hw/sd: Support boot area in emmc image
+>    hw/sd: Subtract bootarea size from blk
+>    hw/sd: Add boot config support
+> 
+> Philippe Mathieu-Daudé (13):
+>    hw/sd/sdcard: Return ILLEGAL for CMD19/CMD23 prior SD spec v3.01
+>    hw/sd: When card is in wrong state, log which state it is
+>    hw/sd: When card is in wrong state, log which spec version is used
+>    hw/sd: Move proto_name to SDProto structure
+>    hw/sd: Introduce sd_cmd_handler type
+>    hw/sd: Add sd_cmd_illegal() handler
+>    hw/sd: Add sd_cmd_unimplemented() handler
+>    hw/sd: Add sd_cmd_GO_IDLE_STATE() handler
+>    hw/sd: Add sd_cmd_SEND_OP_CMD() handler
+>    hw/sd: Add sd_cmd_ALL_SEND_CID() handler
+>    hw/sd: Add sd_cmd_SEND_RELATIVE_ADDR() handler
+>    hw/sd: Add sd_cmd_SET_BLOCK_COUNT() handler
+>    hw/sd: Basis for eMMC support
+> 
+> Sai Pavan Boddu (2):
+>    hw/sd: Add CMD21 tuning sequence
+>    hw/sd: Add mmc switch function support
+> 
+>   hw/sd/sd.c             | 645 +++++++++++++++++++++++++++++++++--------
+>   hw/sd/sdmmc-internal.c |   2 +-
+>   hw/sd/sdmmc-internal.h |  97 +++++++
+>   include/hw/sd/sd.h     |   7 +
+>   4 files changed, 627 insertions(+), 124 deletions(-)
+> 
 
 
