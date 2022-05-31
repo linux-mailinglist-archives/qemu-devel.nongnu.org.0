@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C59538E0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:53:33 +0200 (CEST)
-Received: from localhost ([::1]:38200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F62538E17
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:59:07 +0200 (CEST)
+Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvyZA-0007Z8-BE
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33684)
+	id 1nvyeY-0005CK-De
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvyTd-00055v-TA
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:47:51 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nvyTc-00046s-0a
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:47:49 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id z186so18703718ybz.3
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 02:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CDtP/tyVgBjM5do7RDzQ0jtvO/DZKSu3NcvevMrgYRw=;
- b=CveQXVeF1A0QtrjrmsAlV3n+4X85YiRf3TmO+42df+AHOPJ950tzJ9FdQN9xLHH6Ci
- sAKkM9PPWBbVLDWxqG2xYN2hlgV2pjV7IF1Na++z3PO2r+ZLFCi1KArp97eTz47ofNw+
- x8+kAhSolH12aEenGx6xFh2eZtT032qot3FGf2suQUDkGt5e7llhfWjfyoq3KK8kqtcB
- cqfmX+3Dom59lGep8UAlo5MKSQRxua5iszsrfS82xFSjrOCNKBwN0j69BWN4r1cXfa1x
- IMvhmUTnvjK/CHpaoObRlM96j/GJR1LEkrkl6VZQ+kibP7sDqw3wiOBfLWMWpTYKwyug
- BA1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CDtP/tyVgBjM5do7RDzQ0jtvO/DZKSu3NcvevMrgYRw=;
- b=ZX6QL1q32DIpGzjNLblsK/Oo4xMOAnUMtCGBCCHZTgC39Xqz7aBcFPh2Sap9/cLELF
- v5o7xBHXWVDX+YvbtQShiWePUKFwS8+UPN1dFkwPF5K4aDP2xFXkCTAHMpYVSLHHpMWX
- VsAMR+pyvmn96r46eB54aXCL5qh1bUSPs3Von0ZFtUjmtW3zMCHCyHdDsEjxZb12Ik6z
- Gvu7tlRTD4vqQULOkOlzAukBI2Fuh23UnFyKrC/u+GYpDqI+kTaY7eRlUMFovrIaW7aM
- dcAyvrt3vu/nfVzii8PZZ0rqtRB6V5jkwN7TgfmUcKBIKhx07qwEc6xykwkNnXAX+r59
- q/Ig==
-X-Gm-Message-State: AOAM533hBa1h+dIQPlpsvYKu4udy+BWJuvQgQsduGNCfBcgBKnTdmWkV
- RqACBIq2+NCVSAwRDAuAs+EgHUQgSQO1ZVBMKffL2Q==
-X-Google-Smtp-Source: ABdhPJwf17k8z44Va18+F1aLIi4MVrSa/ZKDNGjf8yFy31e4X5tLHrR486VTLshhqseRcD2czmrWgDYvgomN8zJtRqU=
-X-Received: by 2002:a25:41ce:0:b0:65b:3723:f73f with SMTP id
- o197-20020a2541ce000000b0065b3723f73fmr19264711yba.288.1653990466342; Tue, 31
- May 2022 02:47:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1nvyWJ-0006uu-Nj
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:50:35 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:6082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1nvyWG-0004SH-Hp
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:50:35 -0400
+Received: from kwepemi500025.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LC6rM281DzDqMQ;
+ Tue, 31 May 2022 17:47:15 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi500025.china.huawei.com (7.221.188.170) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 31 May 2022 17:50:20 +0800
+Message-ID: <e4d2b84e-8213-3628-f11f-36efe4c695ae@huawei.com>
+Date: Tue, 31 May 2022 17:50:18 +0800
 MIME-Version: 1.0
-References: <20220531092540.10151-1-cfontana@suse.de>
- <20220531092540.10151-2-cfontana@suse.de>
-In-Reply-To: <20220531092540.10151-2-cfontana@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 31 May 2022 10:47:35 +0100
-Message-ID: <CAFEAcA8ENs6P6WU8iaPty7-QfZrBAZrhm4DeegUUjGuL4f3UUQ@mail.gmail.com>
-Subject: Re: [PATCH] pci: fix overflow in printf string formatting
-To: Claudio Fontana <cfontana@suse.de>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org, 
- Dario Faggioli <dfaggioli@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v6 resend 0/4] add generic vDPA device support
+To: Jason Wang <jasowang@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>, mst <mst@redhat.com>, Stefano
+ Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>, pbonzini
+ <pbonzini@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, Yechuan
+ <yechuan@huawei.com>, Huangzhichao <huangzhichao@huawei.com>, qemu-devel
+ <qemu-devel@nongnu.org>
+References: <20220514041107.1980-1-longpeng2@huawei.com>
+ <5dcfcf36-8907-f781-0990-edf255bc2425@huawei.com>
+ <CACGkMEvdm_fNKdFY-TRkq5sy6_bdLL=WKv6hN_cmWefrsS2zZA@mail.gmail.com>
+In-Reply-To: <CACGkMEvdm_fNKdFY-TRkq5sy6_bdLL=WKv6hN_cmWefrsS2zZA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500025.china.huawei.com (7.221.188.170)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,15 +70,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 
-On Tue, 31 May 2022 at 10:34, Claudio Fontana <cfontana@suse.de> wrote:
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 
-It would be helpful to note in the commit message how
-bad the overflow is, in what situations it can happen,
-and how it was detected.
 
-thanks
--- PMM
+在 2022/5/31 16:50, Jason Wang 写道:
+> On Mon, May 30, 2022 at 12:16 PM Longpeng (Mike, Cloud Infrastructure
+> Service Product Dept.) <longpeng2@huawei.com> wrote:
+>>
+>> Hi guys,
+>>
+>> Ping...Any other comments?
+> 
+> Looks good to me.
+> 
+> Acked-by: Jason Wang <jasowang@redhat.com>
+> 
+> (This probably requires a rebase since it doesn't apply cleanly on master).
+> 
+
+Okay, I'll rebase in next version.
+Thanks.
+
+> Thanks
+> 
+>>
+>> 在 2022/5/14 12:11, Longpeng(Mike) 写道:
+>>> From: Longpeng <longpeng2@huawei.com>
+>>>
+>>> Hi guys,
+>>>
+>>> With the generic vDPA device, QEMU won't need to touch the device
+>>> types any more, such like vfio.
+>>>
+>>> We can use the generic vDPA device as follow:
+>>>     -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+>>>     Or
+>>>     -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+>>>     vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
+>>>
+>>> I've done some simple tests on Huawei's offloading card (net, 0.95).
+>>>
+>>> Changes v5 -> v6:
+>>>     Patch 2:
+>>>       - Turn to the original approach in the RFC to initialize the
+>>>         virtio_pci_id_info array. [Michael]
+>>>          https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+>>>     Patch 3:
+>>>       - Fix logical error of exception handler around the post_init.
+>>>         [Stefano]
+>>>       - Fix some coding style warnings. [Stefano]
+>>>     Patch 4:
+>>>       - Fix some coding style warnings. [Stefano]
+>>>
+>>> Changes v4 -> v5:
+>>>     Patch 3:
+>>>       - remove vhostfd [Jason]
+>>>       - support virtio-mmio [Jason]
+>>>
+>>> Changes v3 -> v4:
+>>>     v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+>>>     - reorganize the series [Stefano]
+>>>     - fix some typos [Stefano]
+>>>     - fix logical error in vhost_vdpa_device_realize [Stefano]
+>>>
+>>> Changes v2 -> v3
+>>>     Patch 4 & 5:
+>>>       - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+>>>       - s/VQS_NUM/VQS_COUNT  [Stefano]
+>>>       - check both vdpa_dev_fd and vdpa_dev [Stefano]
+>>>     Patch 6:
+>>>       - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+>>>
+>>> Changes RFC -> v2
+>>>     Patch 1:
+>>>       - rename 'pdev_id' to 'trans_devid'  [Michael]
+>>>       - only use transitional device id for the devices
+>>>         listed in the spec  [Michael]
+>>>       - use macros to make the id_info table clearer  [Longpeng]
+>>>       - add some modern devices in the id_info table  [Longpeng]
+>>>     Patch 2:
+>>>       - remove the GET_VECTORS_NUM command  [Jason]
+>>>     Patch 4:
+>>>       - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+>>>       - introduce vhost_vdpa_device_get_u32 as a common
+>>>         function to make the code clearer  [Stefan]
+>>>       - fix the misleading description of 'dc->desc'  [Stefano]
+>>>     Patch 5:
+>>>       - check returned number of virtqueues  [Stefan]
+>>>     Patch 6:
+>>>       - init s->num_queues  [Stefano]
+>>>       - free s->dev.vqs  [Stefano]
+>>>
+>>>
+>>> Longpeng (Mike) (4):
+>>>     linux-headers: Update headers to Linux 5.18-rc6
+>>>     virtio: get class_id and pci device id by the virtio id
+>>>     vdpa: add vdpa-dev support
+>>>     vdpa: add vdpa-dev-pci support
+>>>
+>>>    hw/virtio/Kconfig            |   5 +
+>>>    hw/virtio/meson.build        |   2 +
+>>>    hw/virtio/vdpa-dev-pci.c     | 102 ++++++++++
+>>>    hw/virtio/vdpa-dev.c         | 377 +++++++++++++++++++++++++++++++++++
+>>>    hw/virtio/virtio-pci.c       |  88 ++++++++
+>>>    hw/virtio/virtio-pci.h       |   5 +
+>>>    include/hw/virtio/vdpa-dev.h |  43 ++++
+>>>    linux-headers/linux/vhost.h  |   7 +
+>>>    8 files changed, 629 insertions(+)
+>>>    create mode 100644 hw/virtio/vdpa-dev-pci.c
+>>>    create mode 100644 hw/virtio/vdpa-dev.c
+>>>    create mode 100644 include/hw/virtio/vdpa-dev.h
+>>>
+>>
+> 
+> .
 
