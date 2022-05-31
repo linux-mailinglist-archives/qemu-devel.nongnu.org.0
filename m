@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE191538DC9
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:34:26 +0200 (CEST)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB48538DF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:43:44 +0200 (CEST)
+Received: from localhost ([::1]:60770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvyGf-0001qg-RP
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52670)
+	id 1nvyPf-00037T-QS
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvy8e-0008CN-P7
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:26:08 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvy8X-0008AE-MU
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:26:08 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 48DBF21BED;
- Tue, 31 May 2022 09:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1653989158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nvyAO-0001Or-4M
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:27:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32377)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nvyAL-0000Cc-08
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:27:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653989271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BMyW7YvYfdXoUUQ6CLwB02Lx4UJvEtP1magnfsvicy0=;
- b=wGso+cZrc/xaI3ePVVWmrAV/QeUA3mDZn0gTbQdkUoSBSBI/xxSZZUotQARZwIX+Pp2lIf
- ytpC4kwwVGycGoMLpQ0bXtM9CHSw0x8QTrK5/HTmFdBw+CSCh+SjR5kEfVpsdkggDNNzx9
- 8Xj1qowm7AIL+/2ypsZGMQURGTqrIsc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1653989158;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BMyW7YvYfdXoUUQ6CLwB02Lx4UJvEtP1magnfsvicy0=;
- b=Ja8R4v7gobTEmEiA2F++FWzotT6dgLJGf357VtX6fBixWAPB/j02hKLcDy/t0radCtxfBb
- I5oCPMZElvnsdMBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=pPcjM0HDeC2bAQmCb0L71BQmH5PIqdDo6Gy+wrJy8kg=;
+ b=grY2gEIzCv0jCcujx3AdkPkD0CTcQxNJ/QQ2GPP1deHvYvC5Rh7Y4T14R67jWhggTW8Jh0
+ XNNEeG/QuYa32rJ68M6WtrqHvu+piH8q2eyzhYQnMvPEgaq5EXcyc4e2jgmlxYWisZrII4
+ BAgLzpAaUT22QPgLCHr5FEK7A2sZYI0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-e5IspqUoMkmBpnmmlJ5dqA-1; Tue, 31 May 2022 05:27:48 -0400
+X-MC-Unique: e5IspqUoMkmBpnmmlJ5dqA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 16089132F9;
- Tue, 31 May 2022 09:25:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aN7OAybflWIBEQAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 31 May 2022 09:25:58 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org,
- Dario Faggioli <dfaggioli@suse.com>, Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH] pci: fix overflow in printf string formatting
-Date: Tue, 31 May 2022 11:25:40 +0200
-Message-Id: <20220531092540.10151-2-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220531092540.10151-1-cfontana@suse.de>
-References: <20220531092540.10151-1-cfontana@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF7FD101A54E;
+ Tue, 31 May 2022 09:27:47 +0000 (UTC)
+Received: from localhost (dhcp-192-194.str.redhat.com [10.33.192.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 955E2492CA2;
+ Tue, 31 May 2022 09:27:47 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ eric.auger@redhat.com, qemu-devel@nongnu.org, alex.williamson@redhat.com
+Subject: Re: [PATCH] vfio/common: remove spurious warning on
+ vfio_listener_region_del
+In-Reply-To: <20220524091405.416256-1-eric.auger@redhat.com>
+Organization: Red Hat GmbH
+References: <20220524091405.416256-1-eric.auger@redhat.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date: Tue, 31 May 2022 11:27:46 +0200
+Message-ID: <874k16car1.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,41 +78,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- hw/pci/pci.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+On Tue, May 24 2022, Eric Auger <eric.auger@redhat.com> wrote:
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index a9b37f8000..6e7015329c 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2640,15 +2640,15 @@ static char *pci_dev_fw_name(DeviceState *dev, char *buf, int len)
- static char *pcibus_get_fw_dev_path(DeviceState *dev)
- {
-     PCIDevice *d = (PCIDevice *)dev;
--    char path[50], name[33];
--    int off;
--
--    off = snprintf(path, sizeof(path), "%s@%x",
--                   pci_dev_fw_name(dev, name, sizeof name),
--                   PCI_SLOT(d->devfn));
--    if (PCI_FUNC(d->devfn))
--        snprintf(path + off, sizeof(path) + off, ",%x", PCI_FUNC(d->devfn));
--    return g_strdup(path);
-+    char name[33];
-+    int has_func = !!PCI_FUNC(d->devfn);
-+
-+    return g_strdup_printf("%s@%x%s%.*x",
-+                           pci_dev_fw_name(dev, name, sizeof(name)),
-+                           PCI_SLOT(d->devfn),
-+                           has_func ? "," : "",
-+                           has_func,
-+                           PCI_FUNC(d->devfn));
- }
- 
- static char *pcibus_get_dev_path(DeviceState *dev)
--- 
-2.26.2
+> 851d6d1a0f ("vfio/common: remove spurious tpm-crb-cmd misalignment
+> warning") removed the warning on vfio_listener_region_add() path.
+>
+> However the same warning also hits on region_del path. Let's remove
+> it and reword the dynamic trace as this can be called on both
+> map and unmap path.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  hw/vfio/common.c     | 10 +++++++++-
+>  hw/vfio/trace-events |  2 +-
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
