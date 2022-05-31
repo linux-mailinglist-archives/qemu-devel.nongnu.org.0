@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616F2538C5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 09:57:56 +0200 (CEST)
-Received: from localhost ([::1]:57644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDEA1538C5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 09:58:44 +0200 (CEST)
+Received: from localhost ([::1]:60846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvwlH-0004i6-08
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 03:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
+	id 1nvwm3-0006vB-Qy
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 03:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvwi0-0003wG-FQ; Tue, 31 May 2022 03:54:32 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:36675)
+ id 1nvwkD-00055J-07; Tue, 31 May 2022 03:56:49 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:43857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvwhv-0001iz-4n; Tue, 31 May 2022 03:54:32 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id u18so5994925plb.3;
- Tue, 31 May 2022 00:54:26 -0700 (PDT)
+ id 1nvwkB-00029t-Bu; Tue, 31 May 2022 03:56:48 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ l7-20020a17090aaa8700b001dd1a5b9965so1517731pjq.2; 
+ Tue, 31 May 2022 00:56:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E/VjZs7NLUGu3kYgf4nLXOfmwuZzQrDH3rYw9is3F6s=;
- b=BNgoqDva3CSYtgGTLkPreFAr1gA8bZBfGryHXLl2FwPXjUuVRNWYXI2EPyI+l1buId
- C2VCqhwAdL+DdGJ7uttgWJw5PeK+jWYINQNkpXAtCLm1iWfkiM4Urw2Y1R2Lo0ehH0qL
- NIYNpDBFWhrGOSypFV6V/ogKHK1PsUlPFmDtFIgXZr1/A1drje4gVm8rCA4yfgrcYfcK
- DnWqC9FHKEARMv2ynBVejGbAHmYNtsz9zn7h+sJbUVA+z0NmKhPd2HG63zpEb5XweBh0
- fCM+etKuytvDfj3H5eDkMkmgVApD3pUZEBM6umlk+W8O7jME8BRzv/Eo3f2ANruCPtIf
- 5tGw==
+ bh=OxgTX07XLwQ1qt89MWReO9EHg1AGoMSluz2uN1rxANY=;
+ b=AHpiESlXTvgImwcQo8SSRtUsRPoAC1Pt5yuIsso5XCbnCP4CklA7WUoTeTsAbKs3Ds
+ 6jRqvR2ucQQmYdsa0wSaCWfftUDJ8x+ZARuQHHl8nc/TIajQLCl5Gh+d9En9zMlh83dK
+ v2QSVEIUXQ31pZr7Vkq4zUfBZWhCNr85K+0tYJQ7Xwr5iaE/rv/KnP1MfhFKjpzD+PQl
+ 3fVA0BXX+gyuEURAgh9oiSXIhXb1i+K5PqA07FB8YAY2anmBh5LvrmXT9CKVxfeAQv5c
+ WQe0TOcRWThmoIcjBicfCplXZV8eXDg9pbLtfdonvXnwdAbcR39eOWMqnX5CBX4VTk8X
+ GPeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E/VjZs7NLUGu3kYgf4nLXOfmwuZzQrDH3rYw9is3F6s=;
- b=zmCuLjXdOc1R23gPWu/wsdmDUoKXH8B3kKf2IDsHv4hK19MsStHbx4sed1Cv6QEWrD
- EK2ZR4sY3+35FFXLBQsOs4TSMNz4IRRik5HKi2fDef30+rcgb2ijsnYHyD7kz8pcUiiz
- 1M4o158kk0cSR8nRLggMf7k8gronFXlyDpPwLsCknSHO2fnyQXWLWzn0EEtHAXQSLvH8
- 2DWPY2tIQEtxx/nFTwlwNYxGnqqlctOfrw44I6Q/D/FS0wK/l4zK5FZNFzCds1DppcIg
- GdGQq5bYgqtCqQp8BFnLdyCqyAC/NTVNPXZHrWqqe20Z6Z//QwUiL9euuqroWuzq7mNT
- 5F+w==
-X-Gm-Message-State: AOAM530AuxsDdEUdrDh/uF5C/spC0sr8yhfRvwllrdEtj05858gKJhzM
- dJQGda0FqvTP170eA6lhMhuS6jYLLUA=
-X-Google-Smtp-Source: ABdhPJxB/qqs21r7x7L0zZCUYTCFRJf+psgam4GV8gGVKyA8roYs4U4TTXzXvl9J4xnG9tAg8qF9/Q==
-X-Received: by 2002:a17:903:186:b0:161:f394:3e75 with SMTP id
- z6-20020a170903018600b00161f3943e75mr53136270plg.113.1653983665179; 
- Tue, 31 May 2022 00:54:25 -0700 (PDT)
+ bh=OxgTX07XLwQ1qt89MWReO9EHg1AGoMSluz2uN1rxANY=;
+ b=ynojdQ6q5tN4uiKQQ3nWGYxRpVZwMjmfOc4jSTtiARiRMfyNzD7BoBPGj+XBdIASw8
+ pCtmjvvZCa41MQm6QOCgpKPU2NYoxPatVhlzQ4iiSzm0FnfSfOJf+OyJVkDdLy/OSdod
+ nTlVnAti8xRX0hR9TyQvXA+3F2GJy0GZcGhN486rdUqvK9XOr+tNnTgS7AsZ5tMb9v3T
+ yYX2WZSvADDLsff8Np6vthtEd3AAZUwnZqFzSDuxUTQyQaA7M+eGWpBnmDj8jnCypFDA
+ yCMzUBzTW/FU58iGpjQ9vYbyNvco08WRxurmqnkRXEmsuKPEiV/pUQ+kuBAsHAkWA38g
+ C2Qw==
+X-Gm-Message-State: AOAM530qcFXVAhE1HBqoizGSJgdyHUYSsnmHOBJ+7X/OfsyiXn29IAhp
+ SMnQnoe1ga0XdsHYNK9zOV0=
+X-Google-Smtp-Source: ABdhPJx58C7w/d/H6cnoFG58ZhkVHtR92oreURyK57/WkixQjpeIIOgFZcqU7+TCrU77EzG7q4eSLQ==
+X-Received: by 2002:a17:90a:1d1:b0:1dd:220a:c433 with SMTP id
+ 17-20020a17090a01d100b001dd220ac433mr27824647pjd.196.1653983803749; 
+ Tue, 31 May 2022 00:56:43 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v129-20020a626187000000b0050dc762814asm10147973pfb.36.2022.05.31.00.54.22
+ z3-20020a17090a8b8300b001e2afd35791sm1122384pjn.18.2022.05.31.00.56.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 00:54:24 -0700 (PDT)
-Message-ID: <a652e973-8166-8d9b-adfa-2ac08c6dc770@amsat.org>
-Date: Tue, 31 May 2022 09:54:19 +0200
+ Tue, 31 May 2022 00:56:43 -0700 (PDT)
+Message-ID: <9dcf841f-2608-b815-f651-31ccff0ba055@amsat.org>
+Date: Tue, 31 May 2022 09:56:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH v2 14/25] hw/sd: Basis for eMMC support
+Subject: Re: [PATCH v2 00/25] hw/sd: Rework models for eMMC support
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org,
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org,
  Joel Stanley <joel@jms.id.au>, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
- <20220530193816.45841-15-philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220530193816.45841-15-philippe.mathieu.daude@gmail.com>
+ <a4496a43-3332-76b7-e4c5-7ab27a7b988c@kaod.org>
+In-Reply-To: <a4496a43-3332-76b7-e4c5-7ab27a7b988c@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,101 +96,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 30/5/22 21:38, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-I missed something during the cherry-pick, this should be:
-
-From: Cédric Le Goater <clg@kaod.org>
-
-> The initial eMMC support from Vincent Palatin was largely reworked to
-> match the current SD framework.
+On 31/5/22 08:31, Cédric Le Goater wrote:
+> On 5/30/22 21:37, Philippe Mathieu-Daudé wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> Rebase/respin of Cédric RFC:
+>> https://lore.kernel.org/qemu-devel/20220318132824.1134400-1-clg@kaod.org/
+>> (sorry it took me so long guys...)
+>>
+>> Pushed at https://gitlab.com/philmd/qemu/-/commits/emmc-v2
+>>
+>> I plan to queue patches 1-12 via sdmmc-next later this week.
+>>
+>> Cédric, if you are happy with this series, it should be easy to rebase
+>> your other patches on top and address the comments I left on the RFC :)
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> TODO: Do not inherit TYPE_SD_CARD, duplicate sd_class_init()
-> ---
->   hw/sd/sd.c         | 42 ++++++++++++++++++++++++++++++++++++++++++
->   include/hw/sd/sd.h |  3 +++
->   2 files changed, 45 insertions(+)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index b2f16dbb73..8b178aa261 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -2166,6 +2166,19 @@ static const SDProto sd_proto_sd = {
->       },
->   };
->   
-> +static const SDProto sd_proto_emmc = {
-> +    .name = "eMMC",
-> +    .cmd = {
-> +        [0]         = sd_cmd_GO_IDLE_STATE,
-> +        [5]         = sd_cmd_illegal,
-> +        [19]        = sd_cmd_SEND_TUNING_BLOCK,
-> +        [41]        = sd_cmd_illegal,
-> +        [52 ... 54] = sd_cmd_illegal,
-> +        [58]        = sd_cmd_illegal,
-> +        [59]        = sd_cmd_illegal,
-> +    },
-> +};
-> +
->   static void sd_instance_init(Object *obj)
->   {
->       SDState *sd = SD_CARD(obj);
-> @@ -2284,9 +2297,38 @@ static const TypeInfo sd_info = {
->       .instance_finalize = sd_instance_finalize,
->   };
->   
-> +static void emmc_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SDState *sd = SD_CARD(dev);
-> +
-> +    if (sd->spec_version < SD_PHY_SPECv3_01_VERS) {
-> +            error_setg(errp, "Minimum spec for eMMC is v3.01");
-> +            return;
-> +    }
-> +
-> +    sd_realize(dev, errp);
-> +}
-> +
-> +static void emmc_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    SDCardClass *sc = SD_CARD_CLASS(klass);
-> +
-> +    dc->desc = "eMMC";
-> +    dc->realize = emmc_realize;
-> +    sc->proto = &sd_proto_emmc;
-> +}
-> +
-> +static const TypeInfo emmc_info = {
-> +    .name = TYPE_EMMC,
-> +    .parent = TYPE_SD_CARD,
-> +    .class_init = emmc_class_init,
-> + };
-> +
->   static void sd_register_types(void)
->   {
->       type_register_static(&sd_info);
-> +    type_register_static(&emmc_info);
->   }
->   
->   type_init(sd_register_types)
-> diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-> index 0d94e1f346..e52436b7a5 100644
-> --- a/include/hw/sd/sd.h
-> +++ b/include/hw/sd/sd.h
-> @@ -93,6 +93,9 @@ typedef struct {
->   #define TYPE_SD_CARD "sd-card"
->   OBJECT_DECLARE_TYPE(SDState, SDCardClass, SD_CARD)
->   
-> +#define TYPE_EMMC "emmc"
-> +DECLARE_INSTANCE_CHECKER(SDState, EMMC, TYPE_EMMC)
-> +
->   struct SDCardClass {
->       /*< private >*/
->       DeviceClass parent_class;
+> Sure. I will for the first patches to be merged and I might introduce
+> a base class.
 
+Then consider patches 1-13 queued.
+
+> Thanks,
+> 
+> C.
+> 
+>>
+>> Regards,
+>>
+>> Phil.
 
