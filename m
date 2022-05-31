@@ -2,84 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64AFD5396C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 21:12:23 +0200 (CEST)
-Received: from localhost ([::1]:38394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D0E5396E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 21:21:33 +0200 (CEST)
+Received: from localhost ([::1]:44840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw7Hx-0005Wl-TB
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 15:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
+	id 1nw7Qp-0002bi-M5
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 15:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nw7DM-0003Vy-04; Tue, 31 May 2022 15:07:36 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:44924)
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1nw7Kn-000075-DR
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 15:15:17 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:41699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nw7DK-000515-4t; Tue, 31 May 2022 15:07:35 -0400
-Received: by mail-pl1-x629.google.com with SMTP id h1so4465126plf.11;
- Tue, 31 May 2022 12:07:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IsrV0z+oTObhUMOinSX9dk2RI7tCuck2hDq/t/yuK7k=;
- b=gbulYDxn+DBqcQtRzQb1cnGapM7j9cWTKMyJDZcyuXvV1QcHkD7Y+A2CIyNjqHqgmE
- oF8E23UkzowU5ECcaTmptFmL5P7rYlZxcpGP7CBCJgcP9kBdC5Ahmm4OYGek/HcSUS1w
- QNCJ+CwdiLkRiKzOT57bwCooIIZpeEKwvtCC7dpSxhmQZANm9zH1AVb1mOHUA9TeZzfG
- BE4Eu+TgoV2OCt6/ZnQn3zAk7CPXvlWUbH1y02r+u/ZdHA5waHQzP3aCBONiUCHjZ3h8
- D7C8PPWoeUpUcz6CbYFv3Y9onFYaae3mpDfDwtWkzFnpXpn5uuOvWs9VH+3yI0jwlixv
- uFDQ==
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1nw7Kl-0006CK-Lq
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 15:15:17 -0400
+Received: by mail-pf1-x433.google.com with SMTP id p8so14051380pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 12:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9LEQ/FAYXiOycH5Pgki0a9z4cyO6Zt9xfMoijJMruHE=;
+ b=aoYECPuBKU7Lwlucej90ckQ541ZhjI9tXfhwwrKcylKXIDWfCbS506NUkmQoPpFtjp
+ SxY2BDwXcLrnVWuj1tlKZZFXX3boTF7L4/UbiNTvLgRbtbDkTU4iJj5rlChLdWN+AXW9
+ /8uU6E9xZwRmy7lGao0XRqc/MNAqTYJl5P/hqXTOYZPGOYjzn/bAAgwSrZzoRfJDN/cT
+ SuEfeHBBPefKlsfPtsSVZxWgXtnCDoM36KPdTqy2nZJEgrImggnACjHpxleCCtC3++o9
+ yxDwtO9/7vBZwXZmJ1VhyZ/Ls48fokKREiBfE3hRzy/o9DlM+JugKxkM4Tz9Yq/hcS03
+ 4NUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IsrV0z+oTObhUMOinSX9dk2RI7tCuck2hDq/t/yuK7k=;
- b=OzgCXTQtB8Z2J09USD1c87iVjeWykRzmeF90BdV/1mpfQ06J3ryeTcM3Y/j4PrjLBq
- w8/S0UxwulsyZ0r11Gfg5+8HRG+HzPgkqD9XIBmNkFrCk0dBWIaJAx63Uk47/pwSRX0I
- H9f86hMMXL8X2wa7FlHOLxKCiF753W/uPQ4ByZzt9mcP1PZ0f6Zd/cFwSUdzuQG/gQFf
- sXFqYwDKEZnYTrkavTD658kobbZBwpAyiN+IF7M6KxEyQnluLRvwhx7mKmHLoY5QqC4w
- 5eqe4hhipUJew1Rdyahv/osbhF3XoF3fLPy2fR5JdIgkiGyViGL9r9LCIq+hlh1h8JAt
- SY5g==
-X-Gm-Message-State: AOAM532ApM/JmW2lENfts0zJZfKU115cbwdLgT8wHGa69m0wT61KXHl/
- IHIaGxltsh0ouJcUQXFqr/4=
-X-Google-Smtp-Source: ABdhPJyjcwsGqb31QscB6VIr0XN+HBB1vwhVSRGdK1u/PGGTH8u2bDJZED4d5NF4EUSUZsP6SQ/3qg==
-X-Received: by 2002:a17:903:209:b0:161:7f66:b9e0 with SMTP id
- r9-20020a170903020900b001617f66b9e0mr46215437plh.73.1654024051764; 
- Tue, 31 May 2022 12:07:31 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- f11-20020a170902860b00b0015e8d4eb248sm11393869plo.146.2022.05.31.12.07.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 12:07:31 -0700 (PDT)
-Message-ID: <9a265410-49f1-ba56-6c9b-d58e641e71b4@amsat.org>
-Date: Tue, 31 May 2022 21:07:25 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9LEQ/FAYXiOycH5Pgki0a9z4cyO6Zt9xfMoijJMruHE=;
+ b=FFyXzhPhKidhG3k0TEf0ORt6C5T2Ru2IYZxcbnrkdB1n945G/sNcEAm1h1WvAGER3X
+ OK6RKuXkrsTB/AWYg9OA53VAAvo41sxtSJnXWp1j5uzZqheGOeFkrCs5POafkDK/LkHx
+ 7iLny3qBQuFQ6uo9gC4/AO/nvjRCY7Y8+CMB1tnwx5lj0u3aYbpxfEnvvb2zMXidc0u6
+ yWjIFYPargUu/eXEPTzaQqSbI8dsC21cwk0m4qWjVuBxQBwQ6Q3d5sro88HU/j4ZTTYh
+ rbOeEDfyzhnlb9ybJ/DGsgQqS6eyO2shQYNcXiG+EkZ3sLUtzujYdyjH/RSnzKgD4py/
+ tz5Q==
+X-Gm-Message-State: AOAM533KHjL104Dx+7n8PPEeNZHfK8/2lD+zbLk71i33yQGN4qIiuEXP
+ bzIGxN1ZEsLJXeRoFbjqT26UTYxbMat8ln5tWmYrJg==
+X-Google-Smtp-Source: ABdhPJxAPLjjLuJnMkOUKZFNo6VjJcW6gX615tv0A0PeV8j4hPGz6HEz6HuE5g9ZfRLMUWFpXLfK3l0Q4MwhwgPaQrE=
+X-Received: by 2002:a63:2ad6:0:b0:3f9:d9fa:2713 with SMTP id
+ q205-20020a632ad6000000b003f9d9fa2713mr44449690pgq.512.1654024511581; Tue, 31
+ May 2022 12:15:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH v2 00/25] hw/sd: Rework models for eMMC support
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-References: <20220530193816.45841-1-philippe.mathieu.daude@gmail.com>
- <28f1b244-d1f9-c490-4b33-ca40824b5a19@kaod.org>
-In-Reply-To: <28f1b244-d1f9-c490-4b33-ca40824b5a19@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-4-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220519153713.819591-4-chao.p.peng@linux.intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Tue, 31 May 2022 12:15:00 -0700
+Message-ID: <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
+Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, 
+ Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+ ak@linux.intel.com, 
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=vannapurve@google.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,75 +104,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 31/5/22 11:19, Cédric Le Goater wrote:
-> On 5/30/22 21:37, Philippe Mathieu-Daudé wrote:
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> Rebase/respin of Cédric RFC:
->> https://lore.kernel.org/qemu-devel/20220318132824.1134400-1-clg@kaod.org/
->> (sorry it took me so long guys...)
->>
->> Pushed at https://gitlab.com/philmd/qemu/-/commits/emmc-v2
->>
->> I plan to queue patches 1-12 via sdmmc-next later this week.
->>
->> Cédric, if you are happy with this series, it should be easy to rebase
->> your other patches on top and address the comments I left on the RFC :)
-> 
-> I pushed an update on :
-> 
->    https://github.com/legoater/qemu/commits/aspeed-7.1
-> 
-> Here is an image :
-> 
->    https://www.kaod.org/qemu/aspeed/mmc-p10bmc.qcow2
-> 
-> run with :
-> 
->   qemu-system-arm -M rainier-bmc -net nic -net user -drive 
-> file=./mmc-p10bmc.qcow2,format=qcow2,if=sd,id=sd0,index=2 -nographic 
-> -nodefaults -snapshot -serial mon:stdio
+On Thu, May 19, 2022 at 8:41 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> Introduce a new memfd_create() flag indicating the content of the
+> created memfd is inaccessible from userspace through ordinary MMU
+> access (e.g., read/write/mmap). However, the file content can be
+> accessed via a different mechanism (e.g. KVM MMU) indirectly.
+>
 
-Useful, thanks.
+SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
+initial guest boot memory with the needed blobs.
+TDX already supports a KVM IOCTL to transfer contents to private
+memory using the TDX module but rest of the implementations will need
+to invent
+a way to do this.
 
-I see in hw/arm/aspeed_ast2600.c:
+Is there a plan to support a common implementation for either allowing
+initial write access from userspace to private fd or adding a KVM
+IOCTL to transfer contents to such a file,
+as part of this series through future revisions?
 
-     /* Init sd card slot class here so that they're under the correct 
-parent */
-     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
-         object_initialize_child(obj, "sd-controller.sdhci[*]",
-                                 &s->sdhci.slots[i], TYPE_SYSBUS_SDHCI);
-     }
-
-     object_initialize_child(obj, "emmc-controller.sdhci", 
-&s->emmc.slots[0],
-                             TYPE_SYSBUS_SDHCI);
-
-     /* eMMC Boot Controller stub */
-     create_unimplemented_device("aspeed.emmc-boot-controller",
-                                 sc->memmap[ASPEED_DEV_EMMC_BC],
-                                 0x1000);
-
-     /* eMMC */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->emmc), errp)) {
-         return;
-     }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->emmc), 0, 
-sc->memmap[ASPEED_DEV_EMMC]);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
-                        aspeed_soc_get_irq(s, ASPEED_DEV_EMMC));
-
-Where is 'emmc-controller.sdhci' realized?
-
-In aspeed_sdhci_realize() you set sd-spec-version" = 2, is that OK
-with eMMC?
-
-What expects the real hw?
-
-Thanks,
-
-Phil.
+Regards,
+Vishal
 
