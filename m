@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F73538DC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:33:30 +0200 (CEST)
-Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDF5538DDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 11:38:54 +0200 (CEST)
+Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvyFk-0000K9-UN
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50828)
+	id 1nvyKz-0007YK-Fg
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 05:38:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nvy59-0006EH-AQ
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:22:33 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:48072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nvy56-0007OF-H0
- for qemu-devel@nongnu.org; Tue, 31 May 2022 05:22:30 -0400
-Received: from [192.168.15.104] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id EEC6E21C36;
- Tue, 31 May 2022 09:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1653988943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fOSNx3XyHm2QCikYp+llXMbZjIQ1k48RjZ2rtjVqzg4=;
- b=kKfVVmg2G+tKq/5AZuA4S60e56YBVIlWV6lAlUPTvnwbR0JzQphVNqUcg4ZikwCgTTO8m7
- xtdkvl0ayj3wBsY+Io6zpyk4xhp0LBsZIG0W/Y/jQwVdWNiMBaW25xhXR0BIvTI9XtHjve
- J7zUc9s6K89Ha01gPdVSeSAi9o78l9o=
-Message-ID: <bd5caf26-6e34-725e-60a4-018b1a3f905a@greensocs.com>
-Date: Tue, 31 May 2022 11:22:20 +0200
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvy8h-0008Ix-W3
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:26:12 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39846)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nvy8X-0008AD-MO
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 05:26:11 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0D4241F97B;
+ Tue, 31 May 2022 09:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1653989158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=BMyW7YvYfdXoUUQ6CLwB02Lx4UJvEtP1magnfsvicy0=;
+ b=S4X4Sp86n4Rf+1C0G1UB0pVtVXjdJzy4HIK6rQ7K6HYIm/g7dEL7Oy3g5/XahfgnwRyI8/
+ ymru9s2CTZ/yUDQVeDav5lM294q9SqrCmufKPI32NbUVLc5TNjQA1GjqXUJi28tgLVwjnn
+ i/YzBpToA+c7e45+EEdT1sZuY12KopQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1653989158;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=BMyW7YvYfdXoUUQ6CLwB02Lx4UJvEtP1magnfsvicy0=;
+ b=0Nbyj5bIxkZV8zmwh4WYZ+/FLzBP10GC3LvqAmDQ7BA2vWGW0E2Rtuyz97sQ0EiFkSvAPp
+ AyfXuoBocLdKqzDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CCA3A132F9;
+ Tue, 31 May 2022 09:25:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nNtaMCXflWIBEQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 31 May 2022 09:25:57 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org,
+ Dario Faggioli <dfaggioli@suse.com>, Claudio Fontana <cfontana@suse.de>
+Subject: [PATCH] pci: fix overflow in printf string formatting
+Date: Tue, 31 May 2022 11:25:39 +0200
+Message-Id: <20220531092540.10151-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v5 0/3] Sysbus device generic QAPI plug support
-Content-Language: en-US-large
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, David Hildenbrand <david@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Mark Burton <mark.burton@greensocs.com>
-References: <20220524134809.40732-1-damien.hedde@greensocs.com>
- <e494e267-acbf-e6bd-5590-22b6ae2d2a55@ilande.co.uk>
- <1a71b7ee-aac6-a191-5a9c-472d46999ff1@greensocs.com>
- <CAFEAcA8UTLiab5Tg19y7pdJwyuqqxcrxL-9QmzK9r9skGVVGYQ@mail.gmail.com>
- <7fbee09c-449d-a6a5-3616-d8839df1b7a6@ilande.co.uk>
- <732960bf-f3ab-6b61-7e6e-967fe4360280@greensocs.com>
- <CAFEAcA_BinJMmqdTBoCs3V-dqSRQ_jjL7FpdMxCr1etZgn0i_A@mail.gmail.com>
- <5a7b14fa-15ef-42c2-1072-d0aec0795718@greensocs.com>
- <e1547885-1d46-f083-520a-087518e2eb6c@ilande.co.uk>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <e1547885-1d46-f083-520a-087518e2eb6c@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,107 +80,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ hw/pci/pci.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index a9b37f8000..6e7015329c 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2640,15 +2640,15 @@ static char *pci_dev_fw_name(DeviceState *dev, char *buf, int len)
+ static char *pcibus_get_fw_dev_path(DeviceState *dev)
+ {
+     PCIDevice *d = (PCIDevice *)dev;
+-    char path[50], name[33];
+-    int off;
+-
+-    off = snprintf(path, sizeof(path), "%s@%x",
+-                   pci_dev_fw_name(dev, name, sizeof name),
+-                   PCI_SLOT(d->devfn));
+-    if (PCI_FUNC(d->devfn))
+-        snprintf(path + off, sizeof(path) + off, ",%x", PCI_FUNC(d->devfn));
+-    return g_strdup(path);
++    char name[33];
++    int has_func = !!PCI_FUNC(d->devfn);
++
++    return g_strdup_printf("%s@%x%s%.*x",
++                           pci_dev_fw_name(dev, name, sizeof(name)),
++                           PCI_SLOT(d->devfn),
++                           has_func ? "," : "",
++                           has_func,
++                           PCI_FUNC(d->devfn));
+ }
+ 
+ static char *pcibus_get_dev_path(DeviceState *dev)
+-- 
+2.26.2
 
-On 5/31/22 10:00, Mark Cave-Ayland wrote:
-> On 30/05/2022 15:05, Damien Hedde wrote:
-> 
->> On 5/30/22 12:25, Peter Maydell wrote:
->>> On Mon, 30 May 2022 at 10:50, Damien Hedde 
->>> <damien.hedde@greensocs.com> wrote:
->>>> TYPE_SYS_BUS_DEVICE also comes with reset support.
->>>> If a device is on not on any bus it is not reached by the root sysbus
->>>> reset which propagates to every device (and other sub-buses).
->>>> Even if we move all the mmio/sysbus-irq logic into TYPE_DEVICE, we will
->>>> still miss that. The bus is needed to handle the reset.
->>>> For devices created in machine init code, we have the option to do 
->>>> it in
->>>> the machine reset handler. But for user created device, this is an 
->>>> issue.
->>>
->>> Yes, the missing reset support in TYPE_DEVICE is a design
->>> flaw that we really should try to address.
-> 
-> I think the easiest way to handle this would be just after calling 
-> dc->realize; if the device has bus == NULL and dc->reset != NULL then 
-> manually call qemu_register_reset() for dc->reset. In a qdev world 
-> dc->reset is intended to be a bus-level reset, but I can't see an issue 
-> with manual registration for individual devices in this way, 
-> particularly as there are no reset ordering guarantees for sysbus.
-
-I'm a bit afraid calling qemu_register_reset() outside dc->realize might 
-modify the behavior for existing devices. Does any device end up having 
-a non-NULL bus right now when using "-device" CLI ?
-
-> 
->>>> If we end up putting in TYPE_DEVICE support for mmios, interrupts and
->>>> some way to do the bus reset. What would be the difference between the
->>>> current TYPE_SYS_BUS_DEVICE ?
->>>
->>> There would be none, and the idea would be to get rid of
->>> TYPE_SYS_BUS_DEVICE entirely...
->>>
->> Do you expect the bus object to disappear in the process (bus-less 
->> system) or transforming the sysbus into a ~TYPE_BUS thing ?
-> 
-> I'd probably lean towards removing sysbus completely since in real life 
-> devices can exist outside of a bus. If a device needs a bus then it 
-> should already be modelled in QEMU, and anything that requires a 
-> hierarchy can already be represented via QOM children
-
-For me, a "memory bus" is a bus. But I understand in QEMU, this is 
-modeled by a memory region and we do not want to represent it anymore by 
-a qdev/qbus hierarchy.
-
-> 
->> Assuming we manage to sort out this does cold plugging using the 
->> following scenario looks ok ? (regarding having to issue one command 
->> to create the device AND some commands to handle memory-region and 
->> interrupt lines)
->>
->>  > device_add driver=ibex-uart id=uart chardev=serial0
->>  > sysbus-mmio-map device=uart addr=1073741824
->>  > qom-set path=uart property=sysbus-irq[0] value=plic/unnamed-gpio-in[1]
->>
->> TYPE_DEVICE or TYPE_SYS_BUS_DEVICE, my goal is still to be able to 
->> cold-plug a "ibex-uart" define its memory map and choose which irq I 
->> wire where.
-> 
-> Anyhow getting back on topic: my main objection here is that you're 
-> adding a command "sysbus-mmio-map" when we don't want the concept of 
-> SysBusDevice to be exposed outside of QEMU at all. Referring back to my 
-> last email I think we should extend the device concept in the monitor to 
-> handle the additional functionality perhaps along the lines of:
-> 
-> - A monitor command such as "device_map" which is effectively a wrapper 
-> around
->    memory_region_add_subregion(). Do we also want a "device_unmap"? We 
-> should
->    consider allow mapping to other memory regions other than the system 
-> root.
-> 
-> - A monitor command such as "device_connect" which can be used to 
-> simplify your IRQ
->    wiring, perhaps also with a "device_disconnect"?
-> 
-> - An outline of the monitor commands showing the complete workflow from 
-> introspection
->    of a device to mapping its memory region(s) and connecting its gpios
-> 
-> Does that give you enough information to come up with a more detailed 
-> proposal?
-> 
-
-Yes. Sorry for being not clear enough. I did not wanted to insist on 
-specific command names. I've no issues regarding the modifications you 
-request about having a device_connect or a device_map.
-
-My question was more about the workflow which does not rely on issuing a 
-single 'device_add' command handling mapping/connection using 
-parameters. Note that since we are talking supporting of map/connect for 
-the base type TYPE_DEVICE, I don't really see how we could have 
-parameters for these without impacting subtypes.
-
-Thanks,
-Damien
 
