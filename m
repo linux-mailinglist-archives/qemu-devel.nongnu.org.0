@@ -2,94 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D0E5396E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 21:21:33 +0200 (CEST)
-Received: from localhost ([::1]:44840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74245397D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 22:12:27 +0200 (CEST)
+Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw7Qp-0002bi-M5
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 15:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
+	id 1nw8E4-0006V6-L7
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 16:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1nw7Kn-000075-DR
- for qemu-devel@nongnu.org; Tue, 31 May 2022 15:15:17 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:41699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1nw7Kl-0006CK-Lq
- for qemu-devel@nongnu.org; Tue, 31 May 2022 15:15:17 -0400
-Received: by mail-pf1-x433.google.com with SMTP id p8so14051380pfh.8
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 12:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9LEQ/FAYXiOycH5Pgki0a9z4cyO6Zt9xfMoijJMruHE=;
- b=aoYECPuBKU7Lwlucej90ckQ541ZhjI9tXfhwwrKcylKXIDWfCbS506NUkmQoPpFtjp
- SxY2BDwXcLrnVWuj1tlKZZFXX3boTF7L4/UbiNTvLgRbtbDkTU4iJj5rlChLdWN+AXW9
- /8uU6E9xZwRmy7lGao0XRqc/MNAqTYJl5P/hqXTOYZPGOYjzn/bAAgwSrZzoRfJDN/cT
- SuEfeHBBPefKlsfPtsSVZxWgXtnCDoM36KPdTqy2nZJEgrImggnACjHpxleCCtC3++o9
- yxDwtO9/7vBZwXZmJ1VhyZ/Ls48fokKREiBfE3hRzy/o9DlM+JugKxkM4Tz9Yq/hcS03
- 4NUg==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nw8Cc-0005h2-Cf
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 16:10:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nw8CZ-0006Hs-NC
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 16:10:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654027850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8hHVyEAQxBkrAEoQoJO4ho4T7qHQSD5hH6S88q4XwgQ=;
+ b=MPZU0b29Qnt2dmxAfGEdgH6CoPtciswm7whA55EE0eEYS/9He+wiQuSvmjxrtwG0zhEvCc
+ 2yqwLKPunDC5SYBHV/EMv8fqXzzJbv0VDxwcmdTBLWqHKpP+6ELXRWayHGnX3q10afMC4r
+ /klxwXBTLvlr3rwMqcR1ZnUYDNcVpUU=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-529-cDmC14_3NOiTm5yk_SslSA-1; Tue, 31 May 2022 16:10:49 -0400
+X-MC-Unique: cDmC14_3NOiTm5yk_SslSA-1
+Received: by mail-io1-f72.google.com with SMTP id
+ z22-20020a5e8616000000b0066576918849so7456786ioj.1
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 13:10:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9LEQ/FAYXiOycH5Pgki0a9z4cyO6Zt9xfMoijJMruHE=;
- b=FFyXzhPhKidhG3k0TEf0ORt6C5T2Ru2IYZxcbnrkdB1n945G/sNcEAm1h1WvAGER3X
- OK6RKuXkrsTB/AWYg9OA53VAAvo41sxtSJnXWp1j5uzZqheGOeFkrCs5POafkDK/LkHx
- 7iLny3qBQuFQ6uo9gC4/AO/nvjRCY7Y8+CMB1tnwx5lj0u3aYbpxfEnvvb2zMXidc0u6
- yWjIFYPargUu/eXEPTzaQqSbI8dsC21cwk0m4qWjVuBxQBwQ6Q3d5sro88HU/j4ZTTYh
- rbOeEDfyzhnlb9ybJ/DGsgQqS6eyO2shQYNcXiG+EkZ3sLUtzujYdyjH/RSnzKgD4py/
- tz5Q==
-X-Gm-Message-State: AOAM533KHjL104Dx+7n8PPEeNZHfK8/2lD+zbLk71i33yQGN4qIiuEXP
- bzIGxN1ZEsLJXeRoFbjqT26UTYxbMat8ln5tWmYrJg==
-X-Google-Smtp-Source: ABdhPJxAPLjjLuJnMkOUKZFNo6VjJcW6gX615tv0A0PeV8j4hPGz6HEz6HuE5g9ZfRLMUWFpXLfK3l0Q4MwhwgPaQrE=
-X-Received: by 2002:a63:2ad6:0:b0:3f9:d9fa:2713 with SMTP id
- q205-20020a632ad6000000b003f9d9fa2713mr44449690pgq.512.1654024511581; Tue, 31
- May 2022 12:15:11 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=8hHVyEAQxBkrAEoQoJO4ho4T7qHQSD5hH6S88q4XwgQ=;
+ b=TMftB4VROTdS9kgD+uP4Zwy6ETEUlpt8mSJw9FgBvLHd3g33JWZ0HCK0haoS7YeicD
+ a4qEK/SZ4u45zHn1O4AwVO4ZczD1khXdNEq3mun/pecVRdcGStrbQBJIk0sVsWxN3nJ/
+ yeKJrM8PqUrwjtilimZTXLTdYOIZFC7ZLgQ4kLfYYgdh64vsaDaErnE8Tj8zNT4VMJQ2
+ DcgEkXSp6qAy3I2TR7+EhEXvyqEIrvs7Bx5CDirwawgE6QnQdL2wqA8jFpxaRsrAAwsW
+ 3HtWzlbmr9sljfCaTH1SUFWxJBEkcEr2QEWPsvtEwnLjIWD5oMSCR1WqxSxi7JATRHhB
+ IJKA==
+X-Gm-Message-State: AOAM532NSZ9u4T9RSqjvHr4BLy7OZE5toPhesksxU8n6+PqFJYO44RfN
+ YuhPbCygLitsMN9pXvQO7G+xnO14RdIHcenzDPsBpbVUDOOzPZHkEisnDTzPnt8pBGomGSfkrCr
+ bd1WX+d5Ij6MUPcc=
+X-Received: by 2002:a05:6e02:198e:b0:2cf:4a7a:faf8 with SMTP id
+ g14-20020a056e02198e00b002cf4a7afaf8mr30566386ilf.206.1654027848531; 
+ Tue, 31 May 2022 13:10:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2g3oZ5JhehjGT55Swhf8H4DRc/C3kEUH/R045griqnz8HehhIMF8iSElNgjXsfxTTtzmrhA==
+X-Received: by 2002:a05:6e02:198e:b0:2cf:4a7a:faf8 with SMTP id
+ g14-20020a056e02198e00b002cf4a7afaf8mr30566356ilf.206.1654027848271; 
+ Tue, 31 May 2022 13:10:48 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ o12-20020a056e02102c00b002d18e3dcb67sm4820649ilj.46.2022.05.31.13.10.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 May 2022 13:10:47 -0700 (PDT)
+Date: Tue, 31 May 2022 14:10:46 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, "f4bug@amsat.org"
+ <f4bug@amsat.org>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, "bleal@redhat.com"
+ <bleal@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "eduardo@habkost.net" <eduardo@habkost.net>, "marcel.apfelbaum@gmail.com"
+ <marcel.apfelbaum@gmail.com>, "eblake@redhat.com" <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "quintela@redhat.com"
+ <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, "peterx@redhat.com"
+ <peterx@redhat.com>, "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, Elena Ufimtseva
+ <elena.ufimtseva@oracle.com>, John Johnson <john.g.johnson@oracle.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
+Message-ID: <20220531141046.04b448e5.alex.williamson@redhat.com>
+In-Reply-To: <E6AB9FA3-6580-44C6-93FA-AFC19477C296@oracle.com>
+References: <cover.1653404595.git.jag.raman@oracle.com>
+ <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
+ <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
+ <E6AB9FA3-6580-44C6-93FA-AFC19477C296@oracle.com>
+Organization: Red Hat
 MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-4-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220519153713.819591-4-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Tue, 31 May 2022 12:15:00 -0700
-Message-ID: <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
-Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, 
- Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
- ak@linux.intel.com, 
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=vannapurve@google.com; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,26 +117,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 19, 2022 at 8:41 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> Introduce a new memfd_create() flag indicating the content of the
-> created memfd is inaccessible from userspace through ordinary MMU
-> access (e.g., read/write/mmap). However, the file content can be
-> accessed via a different mechanism (e.g. KVM MMU) indirectly.
->
+On Tue, 31 May 2022 15:01:57 +0000
+Jag Raman <jag.raman@oracle.com> wrote:
 
-SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
-initial guest boot memory with the needed blobs.
-TDX already supports a KVM IOCTL to transfer contents to private
-memory using the TDX module but rest of the implementations will need
-to invent
-a way to do this.
+> > On May 25, 2022, at 10:53 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > 
+> > On Tue, May 24, 2022 at 11:30:32AM -0400, Jagannathan Raman wrote:  
+> >> Forward remote device's interrupts to the guest
+> >> 
+> >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> >> ---
+> >> include/hw/pci/pci.h              |  13 ++++
+> >> include/hw/remote/vfio-user-obj.h |   6 ++
+> >> hw/pci/msi.c                      |  16 ++--
+> >> hw/pci/msix.c                     |  10 ++-
+> >> hw/pci/pci.c                      |  13 ++++
+> >> hw/remote/machine.c               |  14 +++-
+> >> hw/remote/vfio-user-obj.c         | 123 ++++++++++++++++++++++++++++++
+> >> stubs/vfio-user-obj.c             |   6 ++
+> >> MAINTAINERS                       |   1 +
+> >> hw/remote/trace-events            |   1 +
+> >> stubs/meson.build                 |   1 +
+> >> 11 files changed, 193 insertions(+), 11 deletions(-)
+> >> create mode 100644 include/hw/remote/vfio-user-obj.h
+> >> create mode 100644 stubs/vfio-user-obj.c  
+> > 
+> > It would be great if Michael Tsirkin and Alex Williamson would review
+> > this.  
+> 
+> Hi Michael and Alex,
+> 
+> Do you have any thoughts on this patch?
 
-Is there a plan to support a common implementation for either allowing
-initial write access from userspace to private fd or adding a KVM
-IOCTL to transfer contents to such a file,
-as part of this series through future revisions?
+Ultimately this is just how to insert callbacks to replace the default
+MSI/X triggers so you can send a vector# over the wire for a remote
+machine, right?  I'll let the code owners, Michael and Marcel, comment
+if they have grand vision how to architect this differently.  Thanks,
 
-Regards,
-Vishal
+Alex
+
 
