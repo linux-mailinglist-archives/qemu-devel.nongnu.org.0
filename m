@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B046D539915
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 23:52:54 +0200 (CEST)
-Received: from localhost ([::1]:58566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DEA53991A
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 23:53:34 +0200 (CEST)
+Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw9nJ-0003Tj-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 17:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52992)
+	id 1nw9nx-0004Je-7u
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 17:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nw9k3-0000Ea-5p; Tue, 31 May 2022 17:49:31 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:33963)
+ id 1nw9k5-0000PZ-H7; Tue, 31 May 2022 17:49:33 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:37777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nw9k1-0003Kf-GV; Tue, 31 May 2022 17:49:30 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-f314077115so232078fac.1; 
- Tue, 31 May 2022 14:49:28 -0700 (PDT)
+ id 1nw9k3-0003Kv-Kc; Tue, 31 May 2022 17:49:33 -0400
+Received: by mail-oi1-x235.google.com with SMTP id s188so198370oie.4;
+ Tue, 31 May 2022 14:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1XLQXA2zIOXa8yl+dwEEXPr3as/VYtJrfGwXifLwIjM=;
- b=OrxyjbLJVnhS6BWG2fF8oEJ1xsQRstxk67hmyJe63G1qTjLDOHLI6E5VbEliLjBXaR
- mxfDDQqWCQzaUm0IV22OlMQEswBBIf46bR2jFh10WoAsUuTPDb+nUVG/GA6Ja0KHNvU5
- IeWURvmz9JBOZ+L0s3OoSB7SrD69qzFOFrEQ51O/toeau2hqP6N3SHRh1w7tQUWscYIM
- 1fBw4sd5POWwjzBDDsfFf5QAuRoT3+omXAGq/J089THXhgiqKsxGL7NS8Hmeh6HJ7NDs
- Upl8n/VFjUTWhdfkQJ4I3HikHsP5x4+o9brAqeLaYgRulIAUBQ8el0vKNHD2TaRYF75Y
- KazA==
+ bh=Y/l3aFhWfMgz1DksEB6yo5ZEcVK6bbfjAh8obfrgZsc=;
+ b=BCYEJXE/5hjVGv5Cf8cmo/lsbzUinF08memQqS5uvOpxtZiV1A2KLMzl8bs1Yt/zj6
+ yETBd5zJO/vjmBkSq+A8VsK/jPya9vnmW49OPiUomuw19rzzOW+3wcqzZMnOuNJYswJS
+ LOmi6nN8GpCCU/PSd2g4jYLkECl94xVc75xnSbc5qm6RIV3/EjTjJnIA+FG7oFx6eHm9
+ Hzg4yF6ezkNG7TNZPGtRLLXUhS+pT6H61eA1YdiEcCFSeB6MLr16JfVZykYpX0SC2bYA
+ +Txfhq9BHlJzsvib3LRPdUpBR3h5HcXeQfltHvZ9hn6SblpO5HRpoQlc2E1xG9d9MYTS
+ 2nxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1XLQXA2zIOXa8yl+dwEEXPr3as/VYtJrfGwXifLwIjM=;
- b=MfZ1o/nGZsl4Gu97UKlLFa7vgCFTYQLD2FJ0+ESLg5fyMGpGi1JnloMlDa0evmb/ix
- dnE9cCEWJVbDMKNV2l13U4CceZNcrR50dvz4QErWk1Fa52jHQbNM9rl536lE9A9QXGSv
- LMjm4YD9UEE7AG2DQJXCKYXVpOFCVMlvaGUnnKa/nwbxAko3L2b9JF4AXz8pzTPWUC4d
- BP6gsh+Ceg+BQoXxap6iCfHtJ9fPz0hD4f/KtFD9+QeP92mv/OfburFYTZwKoQMKjeoi
- AkGAKdcWIDNDamlehPAUJ6Roy3i3YcvX5/WA2R0FFpd8RwbdvYeqBULF1iP0lagOseeQ
- mPjA==
-X-Gm-Message-State: AOAM532xC7iOvGRFf7u7oSYjefpA15dUcUcOFijzq0x860Ov71HxuKCT
- q3T51WP6r2GEbmo8janTtR4Y3dfN2d0v8Q==
-X-Google-Smtp-Source: ABdhPJzROxIgbc2tK/iKSHv8JzSlm4sNTzDy4k+RJq2BIdsnAV/B0j/Wm9qxBHnxslGHk3B8P6iKFA==
-X-Received: by 2002:a05:6870:340b:b0:ee:37af:2722 with SMTP id
- g11-20020a056870340b00b000ee37af2722mr14447387oah.91.1654033767682; 
- Tue, 31 May 2022 14:49:27 -0700 (PDT)
+ bh=Y/l3aFhWfMgz1DksEB6yo5ZEcVK6bbfjAh8obfrgZsc=;
+ b=nG+ck79AONIk889nsaut/X3iajRDhNbCwXsF//7vN+UO+sS8ijZzfF4ifu5Fa9UgAf
+ al1mQn4ov9+TXH+qm5zH2ID+WLOYf5oa+qaVmJIvdto+4CWA9DQr+zHXrYqHWBTvBICO
+ QJKXrzNl1I/qJa2ZQAGki2Dtp7R0lqppnE/E3lfoTK7+70Bj7u3JxD46n2Q48IeQ268P
+ u7tCuxLwzREDNAQTjAKSlNLfjT5FH/cSYezJE+sgjAl1JPNRtAGkttUZEFGNt6xz4+PV
+ zfetMyQWEPx41QCg6kHIHG20N21uxDtE97lqYitF3Cd3oYYQ8NSPuwn3xBe4ZeYuFAZz
+ 2IVA==
+X-Gm-Message-State: AOAM530s0H5t2FZjATecuUtLhx7CTcbQRV1Jn8mYU+05ybQtiqG3ZFye
+ YocTeF1RN8ZnYuxT8nxyJzFyub5obXi9yw==
+X-Google-Smtp-Source: ABdhPJyyfQ0gvr8AoWGqnJdShYpPQwzMzesP3Mr2T6JO2XtyCMLOmFlXUt8WpyxmnnmEXFoZWh40YQ==
+X-Received: by 2002:a05:6808:1246:b0:2c9:efa5:7209 with SMTP id
+ o6-20020a056808124600b002c9efa57209mr13613065oiv.62.1654033770176; 
+ Tue, 31 May 2022 14:49:30 -0700 (PDT)
 Received: from balboa.COMFAST ([152.250.93.219])
  by smtp.gmail.com with ESMTPSA id
- pd19-20020a0568701f1300b000f333ac991fsm3476988oab.27.2022.05.31.14.49.25
+ pd19-20020a0568701f1300b000f333ac991fsm3476988oab.27.2022.05.31.14.49.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 14:49:27 -0700 (PDT)
+ Tue, 31 May 2022 14:49:29 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
  mark.cave-ayland@ilande.co.uk, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v2 02/16] ppc/pnv: add pnv_get_phb3_child()
-Date: Tue, 31 May 2022 18:49:03 -0300
-Message-Id: <20220531214917.31668-3-danielhb413@gmail.com>
+Subject: [PATCH v2 03/16] ppc/pnv: add PnvPHB base/proxy device
+Date: Tue, 31 May 2022 18:49:04 -0300
+Message-Id: <20220531214917.31668-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220531214917.31668-1-danielhb413@gmail.com>
 References: <20220531214917.31668-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,60 +89,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ics and pic related functions in pnv.c relies in the fact that the
-child device of the chip is always a PnvPHB3 object. This will change in
-the next patches, and the PHB3 will be a child of another device that
-will be attached to the pnv8 chip.
+The PnvPHB device is going to be the base device for all other powernv
+PHBs. It consists of a device that has the same user API as the other
+PHB, namely being a PCIHostBridge and having chip-id and index
+properties. It also has a 'backend' pointer that will be initialized
+with the PHB implementation that the device is going to use.
 
-To ease the amount of changes done later, on let's create a helper that
-retrieves the PnvPHB3 pointer from the child object in these functions.
-After that we'll have a single place to change when the chip starts
-using the upcoming device instead.
+The initialization of the PHB backend is done by checking the PHB
+version via a 'version' attribute that can be set via a global machine
+property.  The 'version' field will be used to make adjustments based on
+the running version, e.g. PHB3 uses a 'chip' reference while PHB4 uses
+'pec'. To init the PnvPHB bus we'll rely on helpers for each version.
+The version 3 helper is already added (pnv_phb3_bus_init), the PHB4
+helper will be added later on.
+
+For now let's add the basic logic of the PnvPHB object, which consists
+mostly of pnv_phb_realize() doing all the work of checking the
+phb->version set, initializing the proper backend, passing through its
+attributes to the chosen backend, finalizing the backend realize and
+adding a root port in the end.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ hw/pci-host/meson.build |   3 +-
+ hw/pci-host/pnv_phb.c   | 123 ++++++++++++++++++++++++++++++++++++++++
+ hw/pci-host/pnv_phb.h   |  39 +++++++++++++
+ 3 files changed, 164 insertions(+), 1 deletion(-)
+ create mode 100644 hw/pci-host/pnv_phb.c
+ create mode 100644 hw/pci-host/pnv_phb.h
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 7c08a78d6c..aaf4d241c3 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -652,10 +652,15 @@ static ISABus *pnv_isa_create(PnvChip *chip, Error **errp)
-     return PNV_CHIP_GET_CLASS(chip)->isa_create(chip, errp);
- }
- 
-+static PnvPHB3 *pnv_get_phb3_child(Object *child)
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index c07596d0d1..e832babc9d 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -35,5 +35,6 @@ specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
+   'pnv_phb3_msi.c',
+   'pnv_phb3_pbcq.c',
+   'pnv_phb4.c',
+-  'pnv_phb4_pec.c'
++  'pnv_phb4_pec.c',
++  'pnv_phb.c',
+ ))
+diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+new file mode 100644
+index 0000000000..fa8472622f
+--- /dev/null
++++ b/hw/pci-host/pnv_phb.c
+@@ -0,0 +1,123 @@
++/*
++ * QEMU PowerPC PowerNV Proxy PHB model
++ *
++ * Copyright (c) 2022, IBM Corporation.
++ *
++ * This code is licensed under the GPL version 2 or later. See the
++ * COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qapi/visitor.h"
++#include "qapi/error.h"
++#include "hw/pci-host/pnv_phb.h"
++#include "hw/pci-host/pnv_phb3.h"
++#include "hw/pci-host/pnv_phb4.h"
++#include "hw/ppc/pnv.h"
++#include "hw/qdev-properties.h"
++#include "qom/object.h"
++
++
++static void pnv_phb_realize(DeviceState *dev, Error **errp)
 +{
-+    return (PnvPHB3 *)object_dynamic_cast(child, TYPE_PNV_PHB3);
++    PnvPHB *phb = PNV_PHB(dev);
++    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++    g_autofree char *phb_typename = NULL;
++    g_autofree char *phb_rootport_typename = NULL;
++
++    if (!phb->version) {
++        error_setg(errp, "version not specified");
++        return;
++    }
++
++    switch (phb->version) {
++    case 3:
++        phb_typename = g_strdup(TYPE_PNV_PHB3);
++        phb_rootport_typename = g_strdup(TYPE_PNV_PHB3_ROOT_PORT);
++        break;
++    case 4:
++        phb_typename = g_strdup(TYPE_PNV_PHB4);
++        phb_rootport_typename = g_strdup(TYPE_PNV_PHB4_ROOT_PORT);
++        break;
++    case 5:
++        phb_typename = g_strdup(TYPE_PNV_PHB5);
++        phb_rootport_typename = g_strdup(TYPE_PNV_PHB5_ROOT_PORT);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    phb->backend = object_new(phb_typename);
++    object_property_add_child(OBJECT(dev), "phb-device", phb->backend);
++
++    /* Passthrough child device properties to the proxy device */
++    object_property_set_uint(phb->backend, "index", phb->phb_id, errp);
++    object_property_set_uint(phb->backend, "chip-id", phb->chip_id, errp);
++    object_property_set_link(phb->backend, "phb-base", OBJECT(phb), errp);
++
++    if (phb->version == 3) {
++        object_property_set_link(phb->backend, "chip",
++                                 OBJECT(phb->chip), errp);
++    } else {
++        object_property_set_link(phb->backend, "pec", OBJECT(phb->pec), errp);
++    }
++
++    if (!qdev_realize(DEVICE(phb->backend), NULL, errp)) {
++        return;
++    }
++
++    if (phb->version == 3) {
++        pnv_phb3_bus_init(dev, (PnvPHB3 *)phb->backend);
++    }
++
++    pnv_phb_attach_root_port(pci, phb_rootport_typename);
 +}
 +
- static int pnv_chip_power8_pic_print_info_child(Object *child, void *opaque)
- {
-     Monitor *mon = opaque;
--    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
-+    PnvPHB3 *phb3 = pnv_get_phb3_child(child);
- 
-     if (phb3) {
-         pnv_phb3_msi_pic_print_info(&phb3->msis, mon);
-@@ -1942,7 +1947,7 @@ typedef struct ForeachPhb3Args {
- static int pnv_ics_get_child(Object *child, void *opaque)
- {
-     ForeachPhb3Args *args = opaque;
--    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
-+    PnvPHB3 *phb3 = pnv_get_phb3_child(child);
- 
-     if (phb3) {
-         if (ics_valid_irq(&phb3->lsis, args->irq)) {
-@@ -1992,7 +1997,7 @@ PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
- 
- static int pnv_ics_resend_child(Object *child, void *opaque)
- {
--    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
-+    PnvPHB3 *phb3 = pnv_get_phb3_child(child);
- 
-     if (phb3) {
-         ics_resend(&phb3->lsis);
++static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
++                                         PCIBus *rootbus)
++{
++    PnvPHB *phb = PNV_PHB(host_bridge);
++
++    snprintf(phb->bus_path, sizeof(phb->bus_path), "00%02x:%02x",
++             phb->chip_id, phb->phb_id);
++    return phb->bus_path;
++}
++
++static Property pnv_phb_properties[] = {
++        DEFINE_PROP_UINT32("index", PnvPHB, phb_id, 0),
++        DEFINE_PROP_UINT32("chip-id", PnvPHB, chip_id, 0),
++        DEFINE_PROP_UINT32("version", PnvPHB, version, 0),
++
++        DEFINE_PROP_LINK("chip", PnvPHB, chip, TYPE_PNV_CHIP, PnvChip *),
++
++        DEFINE_PROP_LINK("pec", PnvPHB, pec, TYPE_PNV_PHB4_PEC,
++                         PnvPhb4PecState *),
++
++        DEFINE_PROP_END_OF_LIST(),
++};
++
++static void pnv_phb_class_init(ObjectClass *klass, void *data)
++{
++    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    hc->root_bus_path = pnv_phb_root_bus_path;
++    dc->realize = pnv_phb_realize;
++    device_class_set_props(dc, pnv_phb_properties);
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->user_creatable = true;
++}
++
++static void pnv_phb_register_type(void)
++{
++    static const TypeInfo pnv_phb_type_info = {
++        .name          = TYPE_PNV_PHB,
++        .parent        = TYPE_PCIE_HOST_BRIDGE,
++        .instance_size = sizeof(PnvPHB),
++        .class_init    = pnv_phb_class_init,
++    };
++
++    type_register_static(&pnv_phb_type_info);
++}
++type_init(pnv_phb_register_type)
+diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
+new file mode 100644
+index 0000000000..a7cc8610e2
+--- /dev/null
++++ b/hw/pci-host/pnv_phb.h
+@@ -0,0 +1,39 @@
++/*
++ * QEMU PowerPC PowerNV Proxy PHB model
++ *
++ * Copyright (c) 2022, IBM Corporation.
++ *
++ * This code is licensed under the GPL version 2 or later. See the
++ * COPYING file in the top-level directory.
++ */
++
++#ifndef PCI_HOST_PNV_PHB_H
++#define PCI_HOST_PNV_PHB_H
++
++#include "hw/pci/pcie_host.h"
++#include "hw/pci/pcie_port.h"
++#include "qom/object.h"
++
++typedef struct PnvChip PnvChip;
++typedef struct PnvPhb4PecState PnvPhb4PecState;
++
++struct PnvPHB {
++    PCIExpressHost parent_obj;
++
++    uint32_t chip_id;
++    uint32_t phb_id;
++    uint32_t version;
++    char bus_path[8];
++
++    PnvChip *chip;
++
++    PnvPhb4PecState *pec;
++
++    /* The PHB backend (PnvPHB3, PnvPHB4 ...) being used */
++    Object *backend;
++};
++
++#define TYPE_PNV_PHB "pnv-phb"
++OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
++
++#endif /* PCI_HOST_PNV_PHB_H */
 -- 
 2.36.1
 
