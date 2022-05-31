@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56295538FF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 13:38:04 +0200 (CEST)
-Received: from localhost ([::1]:50002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658DD538FF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 13:44:14 +0200 (CEST)
+Received: from localhost ([::1]:55476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw0CJ-00026q-3h
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 07:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55312)
+	id 1nw0IH-0005v8-EK
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 07:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nw06T-00063W-Pk
- for qemu-devel@nongnu.org; Tue, 31 May 2022 07:32:01 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44909)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nw08Y-0008BB-QP
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 07:34:11 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:35380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nw06R-0004kI-Vw
- for qemu-devel@nongnu.org; Tue, 31 May 2022 07:32:01 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id e25so7636794wra.11
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 04:31:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nw08X-0004yI-5P
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 07:34:10 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-30c1b401711so72415027b3.2
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 04:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=OEdqZXs2+aCYN+Vi0lkieD3yB4spAUYOqyF6OCLT2eY=;
- b=TIj35Z+8+8+wMi7QEPX7irEk4Wj9xKNysntxPKSlBSCymU3sIYD3zg6eNFlOYUB8cC
- hLGAgP93+1LBb6Fd6ZKP5uozRJ53pR/f+JJCgko6/ERCZBPAOuyMDC/ts548ksEcC5jD
- ipkiAiHrG2r65gmqGfpWFa4yzMff6nQyHWTlj12jI9kW8T2lD+xdsBTAFVg3CgQXUnZh
- oD/Ko5dUYTc8tRkkBVJvmvmiHScDchuwAXpOfi6gj4yGejNAgf+b4dLQZuiQNWEHzRKR
- izCXpBYwrThcXgz2EYiQWLLtkZPNGapKThTZJBDSfHRVbGj5KZV/7is7mNmH7yvKIyNR
- 3g/A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=w07ch0NmnKw0xz+Yt3G+fFHZQnedwOtICFPhkLdoc6M=;
+ b=BmVFc8+yUGt1RgO5hQK3KWq5suCy4lCf91Yb+Db92iFlmxBpxI32sjTd7C8Fqlqmr9
+ nz5gUA0H2rFp+vAtDBI6YuyfvoORvnG5pbsm6qHwPgXlgZrEixblpnmsaDCoZ7fTSZTt
+ XhrtBA5Jco9LuMFKfJQ2I5SE/lWyMx81IC6HIbpdwwfh6D3j/lueDKTIHMwL6F/hcUfQ
+ gb466C7Dsc83wgbBRN0VAWnb6ufEGMJSo+uccmwvHV8JXkWPgiG/n7Ent4o0eIa87ys1
+ M7Fwmyz/vjfjOxe3G7UqRWvT8DB1j8iJXynBgRbbWaRMxJheOTjP3m9IWPkzUHUlndBt
+ ROtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OEdqZXs2+aCYN+Vi0lkieD3yB4spAUYOqyF6OCLT2eY=;
- b=pAzDV8meECQC6Uy7/WQPrOjGdpQUWvPO1EvJQE1GWpy2oRfj1jB6kLvrSuuI6Bmzwt
- fZN1bh7+z1jGqlPVIo2Y5uR0soqvJjp2+/PSc22lZ6PodpiKaQiHTfaZKtFM009xFVRp
- 6jy5NxsbEOdcG5iRBdmyLowwsfS2XSSGuom3pVb58WEk2cTphX9hQBCz56yC2ULgzB9l
- YWX8OMMBnQi+vr7IueORHnXK39SHmC5AEUUxbg+HOl38AhcqjycQjAWmRalfwKSJz6c4
- RD6qfMMZZXPCmV2BJttGqg6S1DqXxQr+qvBpq4IP67oI/jl7fRV73YGppmx4bqpUS2zE
- 10sw==
-X-Gm-Message-State: AOAM533xHX7ezcDutGPG5OVoTWysAHRyVhmiKXFHq70uDI5nG+DXwK59
- rJ07x34jX0TahizBtawk1PI=
-X-Google-Smtp-Source: ABdhPJy6VfGJzzX0dUeTwTeJGoD8+pUzqWrFoYUotee/uB1xZLLgW8LzplCiTP+ruU3Xc1OVlXzPIg==
-X-Received: by 2002:a5d:5942:0:b0:210:131c:a81 with SMTP id
- e2-20020a5d5942000000b00210131c0a81mr18652702wri.306.1653996717855; 
- Tue, 31 May 2022 04:31:57 -0700 (PDT)
-Received: from localhost (109.9.90.146.dyn.plus.net. [146.90.9.109])
- by smtp.gmail.com with ESMTPSA id
- m129-20020a1ca387000000b003948f4e750fsm1870599wme.23.2022.05.31.04.31.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 04:31:56 -0700 (PDT)
-Date: Tue, 31 May 2022 12:31:55 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v6] Use io_uring_register_ring_fd() to skip fd operations
-Message-ID: <YpX8q9XrnTehFu7N@stefanha-x1.localdomain>
-References: <20220531105011.111082-1-faithilikerun@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=w07ch0NmnKw0xz+Yt3G+fFHZQnedwOtICFPhkLdoc6M=;
+ b=bLnESD/ApGAbz3WWgb5tRMZSWDBmdxSp+5lT68A7NZu+5iXZ/+xAeIgdtAr43rpcYY
+ dl5P+iijYMcV3UeOOLkggqXUWEdetx22UdLw8ckwhx+1PEs6hjnGSAXW3r8Dy+LnmTZe
+ aVPWuoAPd/aKnIzltIbXfFokEaRrfR3Tbh3WkgtgcMN23ovzN71EGK+QuGX7GqRvOQoS
+ jGOXsvDOsJWcBTcwo9FtVHQsUm9DPDhNaTu3SZyIy0E4ud7pen4LZravbk4K/uKmzOQX
+ 7sJvH8rJO3trfMp7+QV1pn53f2KcodS8prYw1QVkgrjm6WAAZS2ouxQiTCSVRNxJTEBo
+ jfHQ==
+X-Gm-Message-State: AOAM531fQqlzzDZuy6F0AL1WHzFq8d9ne3h1mHEbBocg+ix4yVtuNufG
+ FqvMbohXEGIcwmEyVXaCFI4LGnn3nxK6GQRuanQ=
+X-Google-Smtp-Source: ABdhPJx4QE1Fx9QESQT/4QmWfLDZcCwvbaKUXO+rrYGZEykSESgEh2/8rd8iYl91+O5ByQFm9rFwKN4HSfM1uRiK5Qg=
+X-Received: by 2002:a0d:cd04:0:b0:300:4784:caa3 with SMTP id
+ p4-20020a0dcd04000000b003004784caa3mr34881289ywd.231.1653996847838; Tue, 31
+ May 2022 04:34:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nSygUC1ixIQlGCY4"
-Content-Disposition: inline
-In-Reply-To: <20220531105011.111082-1-faithilikerun@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x42c.google.com
+References: <20220531105011.111082-1-faithilikerun@gmail.com>
+ <YpX8q9XrnTehFu7N@stefanha-x1.localdomain>
+In-Reply-To: <YpX8q9XrnTehFu7N@stefanha-x1.localdomain>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Tue, 31 May 2022 19:34:03 +0800
+Message-ID: <CAAAx-8KBk2tzaJRfYtAbsAGSAvY4z+SsV2BxtRBO7mqVvmLW_w@mail.gmail.com>
+Subject: Re: [PATCH v6] Use io_uring_register_ring_fd() to skip fd operations
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,46 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B45=E6=9C=8831=E6=
+=97=A5=E5=91=A8=E4=BA=8C 19:31=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Tue, May 31, 2022 at 06:50:11PM +0800, Sam Li wrote:
+> > Linux recently added a new io_uring(7) optimization API that QEMU
+> > doesn't take advantage of yet. The liburing library that QEMU uses
+> > has added a corresponding new API calling io_uring_register_ring_fd().
+> > When this API is called after creating the ring, the io_uring_submit()
+> > library function passes a flag to the io_uring_enter(2) syscall
+> > allowing it to skip the ring file descriptor fdget()/fdput()
+> > operations. This saves some CPU cycles.
+> >
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > ---
+> >  block/io_uring.c | 12 +++++++++++-
+> >  meson.build      |  1 +
+> >  2 files changed, 12 insertions(+), 1 deletion(-)
+>
+> Thanks, applied to my block tree:
+> https://gitlab.com/stefanha/qemu/commits/block
+>
 
---nSygUC1ixIQlGCY4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Great! Sorry about the mistake before. I'm flushed.
 
-On Tue, May 31, 2022 at 06:50:11PM +0800, Sam Li wrote:
-> Linux recently added a new io_uring(7) optimization API that QEMU
-> doesn't take advantage of yet. The liburing library that QEMU uses
-> has added a corresponding new API calling io_uring_register_ring_fd().
-> When this API is called after creating the ring, the io_uring_submit()
-> library function passes a flag to the io_uring_enter(2) syscall
-> allowing it to skip the ring file descriptor fdget()/fdput()
-> operations. This saves some CPU cycles.
->=20
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> ---
->  block/io_uring.c | 12 +++++++++++-
->  meson.build      |  1 +
->  2 files changed, 12 insertions(+), 1 deletion(-)
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
-
-Stefan
-
---nSygUC1ixIQlGCY4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKV/KsACgkQnKSrs4Gr
-c8gaOgf/RZPTaJ0q3b+7phkuwD/qMpbTnToy2fOet1Qn+/YdKcfABLjVBst2qpXC
-qW4LL3mKPrbpHFJw0oErZpBSb50NpVbdMIH161/aFbOOPfv7ta9UqVVjaPQc6kVR
-BX4kWC7CAIDXb0dkFzTorIoDeuMgjluC54Eqq85b8eZYw3ptlNjLe6yyMOYa2+6C
-SD5XziW0Yaxv9naIxSFZrqZU8uGBJeRuUZkjKGZ6y0gejaRH1j/bstMISUXxUgwq
-FNWXfYDDMWPdp0apXsIyO1ofjMBYbK/U2RX42+JLly4H6dhgBz2mmI4emr2UUPX0
-dnKfFh+xsCLGimaN7xYY5I0VYo6MHQ==
-=TC1w
------END PGP SIGNATURE-----
-
---nSygUC1ixIQlGCY4--
+> Stefan
 
