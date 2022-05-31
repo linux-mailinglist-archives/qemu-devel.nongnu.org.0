@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA4B538C91
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:13:45 +0200 (CEST)
-Received: from localhost ([::1]:48244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C097538C9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:17:48 +0200 (CEST)
+Received: from localhost ([::1]:52980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvx0a-0001aF-D7
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34560)
+	id 1nvx4V-0004wt-HM
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:17:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvwwc-0007Bh-UR
- for qemu-devel@nongnu.org; Tue, 31 May 2022 04:09:38 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:46629)
+ id 1nvx1I-0003kx-Qv
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:14:28 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:45054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nvwwX-00042f-1u
- for qemu-devel@nongnu.org; Tue, 31 May 2022 04:09:34 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id j21so12118036pga.13
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 01:09:32 -0700 (PDT)
+ id 1nvx1F-0004xj-6Z
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:14:28 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id h1so2990461plf.11
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 01:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oJ4gKt7Ci+YHDgvPxg/nKqAtUxoWSTmcTJBoeAxJqQM=;
- b=dOcFJXwxYAPHGwTSu+Au+AH6DjJYlxBTTcFtVrLQIy4Rjs++rWt80K/jwoKmDx0JCv
- fW4uvBmOpnHba81/ONb9GxBgYb0MNoAeKoQ/w/p/AfhyrKkmGDTj6wqpdB1eeFtjC3D4
- 60YxBBqca9OcfdCFY1v4Qas/l0uTreb86q2ETwuESbnNKPoK14c07Z4MqgCdhDEMiaZB
- WWROPCZ2VbUmFU4JRTfr/5csvIC0hmdc99jtzpOimTNSFJ/ur2I1a2OIAQmmmGrHQMbR
- aiENg1kYfnty/iEnPAPDpw5ZCo5dLF4jlqtow01r6cLEIPnQxO7f8/GCFI1vg7jDuKMO
- O2HA==
+ bh=cx6ZJevI88UT9ZYq3Kr2Cp7hPm+m5GoGiusr8BW9Ml4=;
+ b=GTQgWE8+w2AwpOPZQcJ/++jNNRKkmZQlORpS20a0369JWVrAqGyBozhMCICwY2pc9J
+ zSO/EPem0rE9hF0FU/JsbqJdw9CZqD+F3sJ7et0m8Fkkpz/GdEtt7A7C6+BUeBGsyUCE
+ UolIPHkMBWFjPeVD0VCOBUi7nzzr98ulbvbhXnFTKz8/yOewlW8L0xmF+t8uPmb4MUab
+ EYA70TgvgxzHkQSxRsQ8JW++a2IpBz9J9ZDvhXXv28Vgj2d0g1GS2zFSUMkzL3dFQ4wE
+ 35i0eha31IQnFK/F/yD7bxCyNny2yKucU85TAGMRBPdGa1Qy52y4GAuZYLcSreBbJSD6
+ 0IJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:cc:from:in-reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oJ4gKt7Ci+YHDgvPxg/nKqAtUxoWSTmcTJBoeAxJqQM=;
- b=uJJQ+KT+0PkH6zRYSm4dIFfDPJWOFIAgBeyEIGj2aGSBeEqS4GVVvNK8k8Jw0O9RKS
- iWAxEcxhaKooT8MXkYnYQPjNxhRV6URQyNiSp+W8dDlKtNNaVWnIKT9oDu/GVvaDWm1n
- R0vaBQ5fFarpKKgU8ipqsl2TAiAYImXpMP50ZSmDCl9ED9jIf7knJHC51xdaqKa/ljTu
- x6Ql2AX+CQVYiuL8CaC1z/5OAEqnh097Dhy3wrr9AisH7EyYvsp9obnCv12rshoxhiLj
- PPBHPbetom3gWX0inAUWojUKcmUqPsW0h4ctEQooWWZiWtta+KSkL4hPh+u5fhyGE5Ew
- ajZg==
-X-Gm-Message-State: AOAM532CSSJu3GKvJ7gWpuM8b9wZCICvue8X1USydZIak49rk/Nl7wwh
- xjtJ0g8pFuGrVHlMxOQpDho4N8p1ies=
-X-Google-Smtp-Source: ABdhPJxJ1CgyjEBXBOATev53VcgxkeNvkfmkXSvhCCnme/1UG6tp5Hb4313JDB947vLs+Cncv/25qg==
-X-Received: by 2002:a63:834a:0:b0:3fc:5536:20c2 with SMTP id
- h71-20020a63834a000000b003fc553620c2mr2150047pge.27.1653984571294; 
- Tue, 31 May 2022 01:09:31 -0700 (PDT)
+ bh=cx6ZJevI88UT9ZYq3Kr2Cp7hPm+m5GoGiusr8BW9Ml4=;
+ b=MeKBBmvXA2KdXHxjoNwD2MVe4ONUfQhxjNDBugq0K7cbYF7NlcXjZ2s4k4HZCY8dI5
+ tSZTvdZWOgX3P/70MBti1IUv9rcvVUuKAY/lEHefy2BqVutIdzt0CHNXLfLT2XG2GZXJ
+ L/TGZ3bIR4lyUChoaMGARDU2ER7xZk7xpC4mHM710YDOpYmlg6Ddx2jo2PKFVfgXMbX2
+ /vvxib4YtWt4O3OLo1BjbEICW2PPuoQ+c72NVd2h/MZDPcBMSYAfz5xC2fNPBD5c4tgm
+ 4I+EuMO+iV2T9UhiR6leur6+l3yV10guLL6lPJvlak68ygd+ckKFC1QvHhDxitUZpDtm
+ Iu1g==
+X-Gm-Message-State: AOAM532AoSVhzEfGK19IZOfmpENOH4ruLJ7gI+vMfAf9LowN0yWJXsny
+ ucuvrMtDLNtBNPDNJ/fohwc=
+X-Google-Smtp-Source: ABdhPJx1TUfBF5IYXv21HMppZnA+mfaP1zqYW/Upe1570Ss0as7Lf8BjtaC4Z+YO4sRWho7m8lJ5zw==
+X-Received: by 2002:a17:902:f605:b0:14d:9e11:c864 with SMTP id
+ n5-20020a170902f60500b0014d9e11c864mr59957359plg.54.1653984863847; 
+ Tue, 31 May 2022 01:14:23 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- r22-20020a635d16000000b003db580384d6sm9641106pgb.60.2022.05.31.01.09.29
+ u9-20020a17090282c900b0015e8d4eb269sm4355306plz.179.2022.05.31.01.14.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 01:09:30 -0700 (PDT)
-Message-ID: <53fe7f0b-9dae-029b-f282-75be1fea1e83@amsat.org>
-Date: Tue, 31 May 2022 10:09:26 +0200
+ Tue, 31 May 2022 01:14:23 -0700 (PDT)
+Message-ID: <36390846-ca71-54e7-e799-834e57e5ce89@amsat.org>
+Date: Tue, 31 May 2022 10:14:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH 4/4] target/mips: Do not treat msa INSERT as NOP when wd
- is zero
+Subject: Re: CTU CAN FD IP core SocketCAN driver - success with mainine Linux
+ kernel and mainline QEMU builds
 Content-Language: en-US
-To: nihui <shuizhuyuanluo@126.com>, qemu-devel@nongnu.org
-References: <20220503130708.272850-1-shuizhuyuanluo@126.com>
- <20220503130708.272850-4-shuizhuyuanluo@126.com>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20220503130708.272850-4-shuizhuyuanluo@126.com>
+To: Pavel Pisa <pisa@cmp.felk.cvut.cz>, linux-can@vger.kernel.org,
+ qemu-devel@nongnu.org, Marin Jerabek <martin.jerabek01@gmail.com>,
+ Ondrej Ille <ondrej.ille@gmail.com>, Jiri Novak <jnovak@fel.cvut.cz>,
+ Jaroslav Beran <jara.beran@gmail.com>, Petr Porazil <porazil@pikron.com>,
+ Pavel Machek <pavel@ucw.cz>, Drew Fustini <pdp7pdp7@gmail.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, Carsten Emde <c.emde@osadl.org>,
+ Matej Vasilevski <matej.vasilevski@gmail.com>,
+ =?UTF-8?Q?Jan_Charv=c3=a1t?= <jancharvat.charvat@gmail.com>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Andrew Dennison <andrew.dennison@motec.com.au>,
+ Reiner Zitzmann <zitzmann@can-cia.org>
+References: <202205272119.46182.pisa@cmp.felk.cvut.cz>
+In-Reply-To: <202205272119.46182.pisa@cmp.felk.cvut.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,62 +106,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 3/5/22 15:07, nihui wrote:
-> From: Ni Hui <shuizhuyuanluo@126.com>
+On 27/5/22 21:19, Pavel Pisa wrote:
+> Hello everybody,
 > 
-> Only for msa COPY_U/COPY_S with wd zero, we treat it as NOP.
+> I want to report successful build and test of the CTU CAN FD driver
+> from actual Linux kernel mainline GIT on actual QEMU build from
+> mainline git. Test on HW from net-next has been repeatedly
+> run by Matej Vasilevski during his timestamping patches work.
 > 
-> Move this special rule into COPY_U and COPY_S trans function.
+> Thanks to all who helped, namely Ondrej Ille for his investment
+> in the project and rewrite of registers generator to provide
+> headers files acceptable for mainline, Marc Kleine-Budde
+> for review, integration and cleanup and together with
+> Pavel Machek to provide valuable feeback what is not acceptable.
 
-Fixes: 97fe675519 ("target/mips: Convert MSA COPY_S and INSERT opcodes 
-to decodetree")
+Nice team work, congratulation! :)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
-> ---
->   target/mips/tcg/msa_translate.c | 15 ++++++++++-----
->   1 file changed, 10 insertions(+), 5 deletions(-)
+> I hope that we will be ready with with timestamping patches
+> cleanup for 5.20 merge windows as well as with support
+> for HDL sources parameterizable number of Tx buffres.
 > 
-> diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-> index 92ccc6f921..0b3dd0957c 100644
-> --- a/target/mips/tcg/msa_translate.c
-> +++ b/target/mips/tcg/msa_translate.c
-> @@ -603,11 +603,6 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
->           return true;
->       }
->   
-> -    if (a->wd == 0) {
-> -        /* Treat as NOP. */
-> -        return true;
-> -    }
-> -
->       gen_msa_elm[a->df](cpu_env,
->                          tcg_constant_i32(a->wd),
->                          tcg_constant_i32(a->ws),
-> @@ -624,6 +619,11 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
->   
->   static bool trans_COPY_U(DisasContext *ctx, arg_msa_elm_df *a)
->   {
-> +    if (a->wd == 0) {
-> +        /* Treat as NOP. */
-> +        return true;
-> +    }
-> +
->       static gen_helper_piii * const gen_msa_copy_u[4] = {
->           gen_helper_msa_copy_u_b, gen_helper_msa_copy_u_h,
->           NULL_IF_MIPS32(gen_helper_msa_copy_u_w), NULL
-> @@ -634,6 +634,11 @@ static bool trans_COPY_U(DisasContext *ctx, arg_msa_elm_df *a)
->   
->   static bool trans_COPY_S(DisasContext *ctx, arg_msa_elm_df *a)
->   {
-> +    if (a->wd == 0) {
-> +        /* Treat as NOP. */
-> +        return true;
-> +    }
-> +
->       static gen_helper_piii * const gen_msa_copy_s[4] = {
->           gen_helper_msa_copy_s_b, gen_helper_msa_copy_s_h,
->           gen_helper_msa_copy_s_w, NULL_IF_MIPS32(gen_helper_msa_copy_s_d)
+> In the long term, I consider to use mechanism of software
+> virtual FIFO to implement multiqueue Tx support which
+> is in the fact needed in all serious CAN applications
+> to prevent bus level priority inversion.
+> 
+> We plan to visit and present on the Embedded World
+> in Nuremberg, so I would be happy to meet you there.
+> I hope that Carsten Emde and OSADL will pass over
+> information where we are available.
+> 
+> Program for Tuesday afternoon is given already
+> Talk QtRvSim – RISC-V Simulator for Computer Architectures
+> Classes, June 21, 2022 Session 10.3 – System-on-Chip (SoC)
+> Design RISC-V Development (16:00 - 16:30) at Embedded World
+> Conference. Our toy there https://github.com/cvut/qtrvsim
+> 
+> Best wishes,
+> 
+>                  Pavel Pisa
+>      phone:      +420 603531357
+>      e-mail:     pisa@cmp.felk.cvut.cz
+>      Department of Control Engineering FEE CVUT
+>      Karlovo namesti 13, 121 35, Prague 2
+>      university: http://control.fel.cvut.cz/
+>      personal:   http://cmp.felk.cvut.cz/~pisa
+>      projects:   https://www.openhub.net/accounts/ppisa
+>      CAN related:http://canbus.pages.fel.cvut.cz/
+>      Open Technologies Research Education and Exchange Services
+>      https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
+> 
+> 
 
 
