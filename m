@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC0D539350
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 16:48:46 +0200 (CEST)
-Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E12953937F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 17:01:33 +0200 (CEST)
+Received: from localhost ([::1]:36692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw3Ar-0006zb-1U
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 10:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53996)
+	id 1nw3NE-0000Yw-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 11:01:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nw39d-00062d-T1
- for qemu-devel@nongnu.org; Tue, 31 May 2022 10:47:30 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54070)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nw39b-0007Hp-N9
- for qemu-devel@nongnu.org; Tue, 31 May 2022 10:47:29 -0400
-Received: by mail-wm1-x332.google.com with SMTP id r129so2881641wmr.3
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 07:47:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=XEghIOWS/SpUWzYSR8ao8AiWDacwRBzOQZVfxKvO904=;
- b=KPDmvRkNQA3yg6lrRyKvAk+PXL8Sez1LbJ4G5zjubq1CcW9/Epz6qDDiCJoZEZin2S
- NyNtRQYHQr5esKApWogzuRvTDc4BpvqXCqofBPM6gudku0ias4zFMg63giij8S87+ynM
- iTiRXUZZJjMm2dy67Owr9CpSNnooMc5h35fmz8qJ0BCTLtVsKX1lqKGXv+Whcz1ScCtA
- 6fshzkCAqQWdisZv3yBvs66xcd90Y82oLgvtsikA+PZ0MnGrDWJsZXPNvfYW8K0Le36P
- 8qC6gQybxu37IJWw4iATAMcY2UlNgNmvH4FVJ+j4MT0uELaRg0i2ajTkHQOwtW2gbmiy
- VIMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=XEghIOWS/SpUWzYSR8ao8AiWDacwRBzOQZVfxKvO904=;
- b=kcfHhPiQTEIz1xS0cVLpb/ZCi9MLcWRS9StSWrm/XIu8zg7TkIV1+8TjtF13ggCeMs
- 27gr4qjs5EX9pnO8PEXDj2Hy5mjGUKGUXHOKzvtUINa1fYeRKIXC3RsH8Ag8fr4PE0Ku
- ZuUQ6FUPY220F1+cb8KSKDuWUQ5ToQ01KLRhUNG300uTZp0Xa0JcbrjRqukhUrqlZNzd
- iywNaRnCc9fm/D59eqzmkW1dq0fgSDpAhdh60SUhO0nH9AfLxTp0a5wuGdBBCl00R6S6
- vvAI9IrVIkbE6viU47//8j/i0EtmjzLb2jCklgHihkVgFp/0+qFoxjy8+VXHP6qI5hHl
- dX/g==
-X-Gm-Message-State: AOAM532mq2JLYeEyicGYNUq15vt7nEuRuaEA9tweZivs0DTODtvhaDZV
- eFpI97eQ0CltFXmAuL3ggE5D4hmkiL9WuQ==
-X-Google-Smtp-Source: ABdhPJzlrAlmb8qP25VV/9WNgC6201ircg2FK1PYovyYF50UmAm4F4LwRW33tW8Fnmyahcx1cdOdGQ==
-X-Received: by 2002:a05:600c:3ac3:b0:399:323:3a8d with SMTP id
- d3-20020a05600c3ac300b0039903233a8dmr10620031wms.101.1654008445145; 
- Tue, 31 May 2022 07:47:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- y4-20020a056000168400b0020fd392df33sm11659112wrd.29.2022.05.31.07.47.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 07:47:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 88DC21FFB7;
- Tue, 31 May 2022 15:47:23 +0100 (BST)
-References: <20220525125540.50979-1-changpeng.liu@intel.com>
-User-agent: mu4e 1.7.25; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Changpeng Liu <changpeng.liu@intel.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/2] hw/virtio/vhost-user: don't use uninitialized variable
-Date: Tue, 31 May 2022 15:45:57 +0100
-In-reply-to: <20220525125540.50979-1-changpeng.liu@intel.com>
-Message-ID: <87ee09wyh0.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nw3Jx-00080O-2j
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 10:58:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1nw3Ju-0000Ku-0C
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 10:58:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654009083;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AiLph97Q913tZ/Q87m5wOxPfOmnJpxebZn8inFq50HA=;
+ b=gadG++ELzD1pDudCzNzH2Xo+bcRXF6L9K5w3EhSq/ItU11o8DXKRRq2eZL6BdOdLIPf1pN
+ D8iGjgfxbrXRcKKVx9iuDD8Mc/l2jQTbHqCoijBZNECoNbrfIvZdJ/kyESYcdnM/omCX3c
+ rM2SUvrYnUJnpJAOQ+608XiAxvvvewk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-135-MF1zy5vWN82-ZWV_s0Jxow-1; Tue, 31 May 2022 10:51:54 -0400
+X-MC-Unique: MF1zy5vWN82-ZWV_s0Jxow-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81F78101A54E;
+ Tue, 31 May 2022 14:51:54 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.192.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EA8D492C3B;
+ Tue, 31 May 2022 14:51:52 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>
+Subject: [PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
+Date: Tue, 31 May 2022 16:51:47 +0200
+Message-Id: <20220531145147.61112-1-jusual@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,58 +75,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In the ACPI specification [1], the 'unarmed' bit is set when a device
+cannot accept a persistent write. This means that when a memdev is
+read-only, the 'unarmed' flag must be turned on. The logic is correct,
+just changing the error message.
 
-Changpeng Liu <changpeng.liu@intel.com> writes:
+[1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
 
-> Variable `vdev` in `struct vhost_dev` will not be ready
-> until start the device, so let's not use it for the error
-> output here.
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+ hw/mem/nvdimm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This seems to be one of the areas where vhost_user_backend_dev_init and
-vhost_dev_init do things differently. Is there any particular reason why
-we couldn't initialise hdev->vdev consistently at init time?
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 7c7d777781..bfb76818c1 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -149,7 +149,7 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
+     if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
+         HostMemoryBackend *hostmem = dimm->hostmem;
+ 
+-        error_setg(errp, "'unarmed' property must be off since memdev %s "
++        error_setg(errp, "'unarmed' property must be on since memdev %s "
+                    "is read-only",
+                    object_get_canonical_path_component(OBJECT(hostmem)));
+         return;
+-- 
+2.35.1
 
->
-> Fixes: 5653493 ("hw/virtio/vhost-user: don't suppress F_CONFIG when suppo=
-rted")
->
-> Signed-off-by: Changpeng Liu <changpeng.liu@intel.com>
-> ---
->  hw/virtio/vhost-user.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index b040c1ad2b..0594178224 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -2031,18 +2031,16 @@ static int vhost_user_backend_init(struct vhost_d=
-ev *dev, void *opaque,
->          if (supports_f_config) {
->              if (!virtio_has_feature(protocol_features,
->                                      VHOST_USER_PROTOCOL_F_CONFIG)) {
-> -                error_setg(errp, "vhost-user device %s expecting "
-> +                error_setg(errp, "vhost-user device expecting "
->                             "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-u=
-ser backend does "
-> -                           "not support it.", dev->vdev->name);
-> +                           "not support it.");
->                  return -EPROTO;
->              }
->          } else {
->              if (virtio_has_feature(protocol_features,
->                                     VHOST_USER_PROTOCOL_F_CONFIG)) {
->                  warn_reportf_err(*errp, "vhost-user backend supports "
-> -                                 "VHOST_USER_PROTOCOL_F_CONFIG for "
-> -                                 "device %s but QEMU does not.",
-> -                                 dev->vdev->name);
-> +                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU =
-does not.");
->                  protocol_features &=3D ~(1ULL << VHOST_USER_PROTOCOL_F_C=
-ONFIG);
->              }
->          }
-
-
---=20
-Alex Benn=C3=A9e
 
