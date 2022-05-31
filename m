@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B47253893B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 02:19:59 +0200 (CEST)
-Received: from localhost ([::1]:43104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE6053893C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 02:21:47 +0200 (CEST)
+Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvpc6-0007ea-En
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 20:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51036)
+	id 1nvpdq-0001WT-Ce
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 20:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nvpa1-0006SF-5i; Mon, 30 May 2022 20:17:49 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:36419)
+ id 1nvpaf-00072G-8I
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 20:18:29 -0400
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:37586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nvpZy-0005He-Si; Mon, 30 May 2022 20:17:48 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- e11-20020a9d6e0b000000b0060afcbafa80so8652940otr.3; 
- Mon, 30 May 2022 17:17:46 -0700 (PDT)
+ id 1nvpad-0005KN-C4
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 20:18:29 -0400
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-f3381207a5so4992591fac.4
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 17:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hcUgNuzqArG0QGiVAeXGSViI5GFA7PdWmV+WynLyscE=;
- b=RDoJW6zEUuELMA74J8XK6PZKQtDvxQ1DQ4THEIzZzZWW6hXhD8KBHbR19PZ4y/xCWg
- N7qHxSEJhmZYoyOjgRKb3kPw5P/clLPJwkKB6+3JehqZwNlgMrJ74Or3izGYog0CtSEt
- JJEeJO1lYfJdi9+7WamLbETt9Hhhyrfpv+rfLNGFwxYCV0QwJCKufsNvS1cdbH654Yly
- h293x6go7NdipvW1b0Y4iJ6TadNHsFlxF2Zppm0gnngxU9jlzxHPG9XWDNoc5Nkt6Tit
- fRMqMmFaS1s/L+MKrgMpfPRgI7+/yA4Kam5L1lG0NtdYqViCKeCWm025EG1w42SsR7o/
- KoDQ==
+ :cc:content-transfer-encoding;
+ bh=p+E0+uE2lXtNLKuoVdNN7EHk5K32D3/loaRf0Upgg3k=;
+ b=nN5wfyh3X7f4LWPXevZY6t2l+pqY5HiXOlbNPvNYTKfnmu/OzFhIBcZI6oz4XWImXd
+ 32V6MwNcC0OdVpK6D9zMUJDrHyZBOAeuGh0C5yJmWvLnjiqp5M20hBDyCITSU+pKL6ie
+ CW1t1MQdbr68g6EIblws0dA0ApfUuMuOtOeAYGlMj6bSt32pKPkjFEBHisr0G43IYqcL
+ 06MzHJSbvDLQPeBqlOaBC09pMyP4It45jRHM42/0vsPP4n3qd9BGVYFVml4OB2Sus7cH
+ DhUPNHf9dPw7fXlMnKkc79CNrbPgXTYhE4jKwdw3XFc22kB+MMKonLTpooqD9HhQ5N+j
+ ljew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hcUgNuzqArG0QGiVAeXGSViI5GFA7PdWmV+WynLyscE=;
- b=ehhvVfF2lnJ7LABAvxcTkmYejaG6gEsrTg6MZckBQRQBLmDJgNTcyatelZVgGrz8jU
- aO8bJyWjXfKZo9029D/dOrE9LyEEYRYGN+yrdJLynZ5/IT73b72ogK/26CZ2zbO1zNIU
- +BNvQ3ToJDKaBfFRIUZJvMlmjfgSGv+nLiSS15Qz6Dn/QhIwOFmGQbZtQ+W8wp10yi+X
- kkuDatJ4ZvwCGHDg7Qnzvy45DNXN+Fp4dOdUKEXNVG0tyyZGuf6GLNfcodqQ26/3FsaH
- Zr3RSlCwUH/M4JER4jlcKakd9skoYH+a2IJAE1GAmqq8OnOLl519LtL6WzueaEk6WiMK
- AQMw==
-X-Gm-Message-State: AOAM530JUc92S2amlFYygkMbSk8iuCO/bYCk1QesCzcb0ZUsMby80x9n
- Tn05MyFCXWABBiTtSQUI4fV/5oj9Vdct89P/7rI=
-X-Google-Smtp-Source: ABdhPJxCm3mEwV/w8YrB2WqRSgacz1XQtnySf2oqKwRw7ZLQO3v1zP8g53wakTRmEhn8ZGk2llhnRyykQd17F8kwi64=
-X-Received: by 2002:a05:6830:448e:b0:60b:254e:7439 with SMTP id
- r14-20020a056830448e00b0060b254e7439mr12495066otv.338.1653956265158; Mon, 30
- May 2022 17:17:45 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=p+E0+uE2lXtNLKuoVdNN7EHk5K32D3/loaRf0Upgg3k=;
+ b=J80qrnXYMwqRUv49v9JakAuYsbuFq8hPi414XMNq4DWn9ild38wkJMYIgJHmVPvt6J
+ p3+/3/rMDdECjQ3zIA231sc6BPaEzyjor6zNNHBWKVzIdltCQaSu4HtkziCaGb5FOQ9A
+ qeZLuZw1GFuuLeGzwFAFlvf05WpO66fcujDpX5nKBBmvLYlLgrLNxHn31VUcWiTmXz8w
+ /TQ4ywvjlFjQh8b6ThgSNe1vCwqipX3qTbcnGN6QcXTPiJAPbU2EeCu9LXEcjzuximEB
+ C6Qf3RZH3hbFDXRybTrc8Omx+oyBI9KorEoVOD+d/mQK5Q2IFtsuFNJyMhJW7hGD+ngf
+ b0Mw==
+X-Gm-Message-State: AOAM530Ogq25MaTkKM0q2bTeZJCCXOJzQ109J57raBiv3b9fCaInJWZd
+ 91cG7W9Gw9AW7hOz/XbAq6aY8Oy6pzCFzxVGMEM=
+X-Google-Smtp-Source: ABdhPJyFX7aZUnxtr67BuwBeZYCEU0aeulm8VfnsZwb6qld+bJ3ulaFAhym3p1Mg3LG6OdO2xqrgH4eDWL2TzGVHrNU=
+X-Received: by 2002:a05:6870:b00a:b0:f1:7f07:8c36 with SMTP id
+ y10-20020a056870b00a00b000f17f078c36mr11745560oae.278.1653956306310; Mon, 30
+ May 2022 17:18:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220524045320.18606-1-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220524045320.18606-1-liweiwei@iscas.ac.cn>
+References: <20220527153603.887929-1-alex.bennee@linaro.org>
+ <20220527153603.887929-2-alex.bennee@linaro.org>
+In-Reply-To: <20220527153603.887929-2-alex.bennee@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 31 May 2022 10:17:19 +1000
-Message-ID: <CAKmqyKPK9jmBNF_FMw+xGcwDXXkUssw0hV3E7Tw8yd9pLAn4rw@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: add support for zmmul extension v0.1
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, 
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
+Date: Tue, 31 May 2022 10:18:00 +1000
+Message-ID: <CAKmqyKNbiZK-WOXKXX2z3-1ofU_V5TRrGL08cohpBfTFoSiUUg@mail.gmail.com>
+Subject: Re: [PATCH v1 01/33] .gitlab-ci.d/container-cross: Fix RISC-V
+ container dependencies / stages
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=alistair23@gmail.com; helo=mail-ot1-x331.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=alistair23@gmail.com; helo=mail-oa1-x36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,144 +94,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 24, 2022 at 2:54 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+On Sat, May 28, 2022 at 1:36 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
->  - includes all multiplication operations for M extension
+> From: Thomas Huth <thuth@redhat.com>
 >
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> The "riscv64-debian-cross-container" job does not depend on any other
+> container job from the first stage, so we can move it to the first
+> stage, too.
+>
+> The "riscv64-debian-test-cross-container" job needs the debian11
+> container, so we should add a proper "needs:" statement here.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20220524093141.91012-1-thuth@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Do you mind rebasing this on the latest master branch and sending a v3?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
->
-> v2:
-> * disable M when both M and Zmmul are enabled
->
 > ---
->  target/riscv/cpu.c                      |  7 +++++++
->  target/riscv/cpu.h                      |  1 +
->  target/riscv/insn_trans/trans_rvm.c.inc | 18 ++++++++++++------
->  3 files changed, 20 insertions(+), 6 deletions(-)
+>  .gitlab-ci.d/container-cross.yml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index e373c61ba2..aec6882c5f 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -598,6 +598,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              cpu->cfg.ext_ifencei = true;
->          }
+> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cr=
+oss.yml
+> index e622ac2d21..ac15fce9b6 100644
+> --- a/.gitlab-ci.d/container-cross.yml
+> +++ b/.gitlab-ci.d/container-cross.yml
+> @@ -125,7 +125,7 @@ ppc64el-debian-cross-container:
 >
-> +        if (cpu->cfg.ext_m && cpu->cfg.ext_zmmul) {
-> +            warn_report("Zmmul will override M");
-> +            cpu->cfg.ext_m = false;
-> +        }
-> +
->          if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
->              error_setg(errp,
->                         "I and E extensions are incompatible");
-> @@ -903,6 +908,7 @@ static Property riscv_cpu_properties[] = {
+>  riscv64-debian-cross-container:
+>    extends: .container_job_template
+> -  stage: containers-layer2
+> +  stage: containers
+>    # as we are currently based on 'sid/unstable' we may break so...
+>    allow_failure: true
+>    variables:
+> @@ -135,6 +135,7 @@ riscv64-debian-cross-container:
+>  riscv64-debian-test-cross-container:
+>    extends: .container_job_template
+>    stage: containers-layer2
+> +  needs: ['amd64-debian11-container']
+>    variables:
+>      NAME: debian-riscv64-test-cross
 >
->      /* These are experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-> +    DEFINE_PROP_BOOL("x-zmmul", RISCVCPU, cfg.ext_zmmul, false),
->      /* ePMP 0.9.3 */
->      DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
->      DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
-> @@ -1027,6 +1033,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->       *    extensions by an underscore.
->       */
->      struct isa_ext_data isa_edata_arr[] = {
-> +        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
->          ISA_EDATA_ENTRY(zfh, ext_zfh),
->          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
->          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index f5ff7294c6..68177eae12 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -405,6 +405,7 @@ struct RISCVCPUConfig {
->      bool ext_zhinxmin;
->      bool ext_zve32f;
->      bool ext_zve64f;
-> +    bool ext_zmmul;
->
->      uint32_t mvendorid;
->      uint64_t marchid;
-> diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
-> index 16b029edf0..ec7f705aab 100644
-> --- a/target/riscv/insn_trans/trans_rvm.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvm.c.inc
-> @@ -18,6 +18,12 @@
->   * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
->
-> +#define REQUIRE_M_OR_ZMMUL(ctx) do {                      \
-> +    if (!ctx->cfg_ptr->ext_zmmul && !has_ext(ctx, RVM)) { \
-> +        return false;                                     \
-> +    }                                                     \
-> +} while (0)
-> +
->  static void gen_mulhu_i128(TCGv r2, TCGv r3, TCGv al, TCGv ah, TCGv bl, TCGv bh)
->  {
->      TCGv tmpl = tcg_temp_new();
-> @@ -65,7 +71,7 @@ static void gen_mul_i128(TCGv rl, TCGv rh,
->
->  static bool trans_mul(DisasContext *ctx, arg_mul *a)
->  {
-> -    REQUIRE_EXT(ctx, RVM);
-> +    REQUIRE_M_OR_ZMMUL(ctx);
->      return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, gen_mul_i128);
->  }
->
-> @@ -109,7 +115,7 @@ static void gen_mulh_w(TCGv ret, TCGv s1, TCGv s2)
->
->  static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
->  {
-> -    REQUIRE_EXT(ctx, RVM);
-> +    REQUIRE_M_OR_ZMMUL(ctx);
->      return gen_arith_per_ol(ctx, a, EXT_SIGN, gen_mulh, gen_mulh_w,
->                              gen_mulh_i128);
->  }
-> @@ -161,7 +167,7 @@ static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
->
->  static bool trans_mulhsu(DisasContext *ctx, arg_mulhsu *a)
->  {
-> -    REQUIRE_EXT(ctx, RVM);
-> +    REQUIRE_M_OR_ZMMUL(ctx);
->      return gen_arith_per_ol(ctx, a, EXT_NONE, gen_mulhsu, gen_mulhsu_w,
->                              gen_mulhsu_i128);
->  }
-> @@ -176,7 +182,7 @@ static void gen_mulhu(TCGv ret, TCGv s1, TCGv s2)
->
->  static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
->  {
-> -    REQUIRE_EXT(ctx, RVM);
-> +    REQUIRE_M_OR_ZMMUL(ctx);
->      /* gen_mulh_w works for either sign as input. */
->      return gen_arith_per_ol(ctx, a, EXT_ZERO, gen_mulhu, gen_mulh_w,
->                              gen_mulhu_i128);
-> @@ -349,7 +355,7 @@ static bool trans_remu(DisasContext *ctx, arg_remu *a)
->  static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
->  {
->      REQUIRE_64_OR_128BIT(ctx);
-> -    REQUIRE_EXT(ctx, RVM);
-> +    REQUIRE_M_OR_ZMMUL(ctx);
->      ctx->ol = MXL_RV32;
->      return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, NULL);
->  }
-> @@ -389,7 +395,7 @@ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
->  static bool trans_muld(DisasContext *ctx, arg_muld *a)
->  {
->      REQUIRE_128BIT(ctx);
-> -    REQUIRE_EXT(ctx, RVM);
-> +    REQUIRE_M_OR_ZMMUL(ctx);
->      ctx->ol = MXL_RV64;
->      return gen_arith(ctx, a, EXT_SIGN, tcg_gen_mul_tl, NULL);
->  }
 > --
-> 2.17.1
+> 2.30.2
 >
 >
 
