@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258F5539158
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 15:06:48 +0200 (CEST)
-Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54DE5390EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 14:41:50 +0200 (CEST)
+Received: from localhost ([::1]:59878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw1aA-0003j2-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 09:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43404)
+	id 1nw1C0-0000WG-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 08:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nw119-00021p-TY
- for qemu-devel@nongnu.org; Tue, 31 May 2022 08:30:37 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:40935)
+ id 1nw13z-0004KH-6A
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 08:33:31 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:45929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nw117-0006ks-SC
- for qemu-devel@nongnu.org; Tue, 31 May 2022 08:30:35 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id w2so1921627ybi.7
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 05:30:33 -0700 (PDT)
+ id 1nw13x-00077b-Oj
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 08:33:30 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id g4so9964926ybf.12
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 05:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KOZPr6pnJOadb2f21OyYgxBGVyrLDjhAlrrSN+4kWCs=;
- b=y2c05ZOL+C7VFF06jMd9osB1nC2AjYo3FvCQ3tThdiEk32rM8s3sByJSS8hsdmnOeC
- 0uTkkNH/nYv4oHlVT0uUW14MrwloaeSulEFTHYM/DSWl+yezLgDpselY1LTQT7Ok330P
- 1/dMFUMh1Mz3TakSC3S8F63YcIdNWu9Pw8WGb+KXqp61utHWyxqZrJY6aXQHIHX018Hj
- H3/X+KusyP2if2q0ECkylPKcU1braBV7C8Xjm94j9OGktGfue3aVBYVvZpyf80tga16V
- Ck1dS8SrwC6Yb1rcInNaeZ+mWjy/XXbMBRxHsRmQpsk4GlFEXdrv5knyZdcFCCSfLEv+
- TMAw==
+ :cc; bh=NEf65WokzAk1VQ6lMdWEUUnrHXinmYkcRgsE39WLyKc=;
+ b=PMVG1rtFhzngwICuvMhuh104JRj+ttO8W4UOUkeksbjd8t9Q3/5/0eyLHu8/SEEYp5
+ BpME6VYAAsyfyKtgLC37vDUAUdg/uYqWK2pIhM2UAImeOkjwGIwZTFnY7vYxpHIV0oy+
+ ckoB3a3p3y3HX1TMOMNK6f5Xe50k6aM/3/c04DjDHgQtYeLUK1Xwds1iVip/2CZnMbaQ
+ nrJgq0UYCSeyKkXa8IN+/ZbaR4InBU+zUTh+yyaQptXJ2mRuJ191c9dfnuc4Yzp4qsDa
+ U/gdO2jfjq8wpHYOrg8ec+v5NqLOLO48PRDfKqJHzEK5z5JD6s+QTl+2GhVOQgpeMZas
+ FbvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KOZPr6pnJOadb2f21OyYgxBGVyrLDjhAlrrSN+4kWCs=;
- b=DtIGul2rKtpKN/9Y3qo29o+bV4WLTed6Cu/6GCMekkoenjiDPJ3DRdYYWBg4vlopxQ
- +XRoKJI9oqS8HnTt7DWv+X/KwRp032s2KZYiBUzisi7xYyPnhUtOYn8odkCmO9tQ2RYz
- eYwSJJkL1NqDtvV4w0TZZ8njzSXwh66N4Qr4zoAtOGxahMvgk87n3T7SQV5RuJ5rCx2b
- OvfvbnkXC8cYH6AtM3xdc0HZno6xl29zW2PcnsMC2zJaEmyoehKCEJyPKOq7dCRJWx+9
- Kco+PwwT2QGK3bSaMpTWhUymRWNCDwc0zSsvpZB6RtIYwalfn8NXL4dev0pzFWgS7TTO
- slmQ==
-X-Gm-Message-State: AOAM533x0HuDFYhnd7Pw3FAJY/Por1X+AvueexlaB3QbL7cI3FrH/9XY
- 2W/79+BebKZBh7RRneU5cirVk3/fv3NxlT6ua81A1g==
-X-Google-Smtp-Source: ABdhPJxp3FHagiumBTnhGqBHdi1s9FDmj+hIJcquLdZPjYBY4gGE2RXzNN1Pqfkg9yKRDbpiWgD2gZia5Mubigot6oU=
-X-Received: by 2002:a25:ab2a:0:b0:65c:bdcf:44be with SMTP id
- u39-20020a25ab2a000000b0065cbdcf44bemr12079455ybi.85.1654000232759; Tue, 31
- May 2022 05:30:32 -0700 (PDT)
+ bh=NEf65WokzAk1VQ6lMdWEUUnrHXinmYkcRgsE39WLyKc=;
+ b=pJbg2YhQq3orRMu7psSSqSYNY6L8ugYZT2Lc5lyO/Q/ANycdrAMSZRldHTeMPZwAYr
+ vxZ1v1VNnHTsPEj3nzg6oX4gEq5F0qYf/T5wc7GxmAaW+7BTpzKLNouBWkuzu97boDCM
+ tpHzCZd5g9YmeSiMw07pVqzTaHDyV+iQpIRaO7EDlrF8BmZlS3+QqBKRO0XaaJ4Kh2Ra
+ ItBZw9MZ2NBmowjwPKaqV71mL4+lUMWc95svfW7A7b97dkuBM8bxJR8D2Csw46OKL2S6
+ LVYUlX9zxNLnQ1n67JgWTatG+T1ZH6qaYU00GvgfUrgbSk3IBFtqnpN1hdAd0//lVt9o
+ hoxA==
+X-Gm-Message-State: AOAM532SpcqnYonumOcll66RHwHXmyyUseTHnVHrryDX6i/Ym4QthLRI
+ NKi9M44rb0prCt3gK70c2y9a++OHnYsqWAAE2X0wZQ==
+X-Google-Smtp-Source: ABdhPJzl9gstmti5KM5mn4QHsUH0Hq2RUMoijRL6mSu9dazjP8bR5bWfDB2Xg9HThoT9Wc83vPPBvF0KG5ogaPhVYbM=
+X-Received: by 2002:a25:41ce:0:b0:65b:3723:f73f with SMTP id
+ o197-20020a2541ce000000b0065b3723f73fmr19965303yba.288.1654000407233; Tue, 31
+ May 2022 05:33:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220527180623.185261-1-richard.henderson@linaro.org>
- <20220527180623.185261-13-richard.henderson@linaro.org>
-In-Reply-To: <20220527180623.185261-13-richard.henderson@linaro.org>
+ <20220527180623.185261-14-richard.henderson@linaro.org>
+In-Reply-To: <20220527180623.185261-14-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 31 May 2022 13:30:21 +0100
-Message-ID: <CAFEAcA_8-a_15iAOgxJckdmtmRnteTbS2-ZjnikNgP+7=Pd80g@mail.gmail.com>
-Subject: Re: [PATCH v3 12/15] target/arm: Move expand_pred_b to vec_internal.h
+Date: Tue, 31 May 2022 13:33:16 +0100
+Message-ID: <CAFEAcA8rwQPXSZkLo-1mYjipPRvzazfLrfE4vLP27dq5ic9cnA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/15] target/arm: Use expand_pred_b in mve_helper.c
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,35 +82,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 May 2022 at 19:11, Richard Henderson
+On Fri, 27 May 2022 at 19:14, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Put the inline function near the array declaration.
+> Use the function instead of the array directly.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/vec_internal.h | 8 +++++++-
->  target/arm/sve_helper.c   | 9 ---------
->  2 files changed, 7 insertions(+), 10 deletions(-)
->
-> diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
-> index 1d63402042..d1a1ea4a66 100644
-> --- a/target/arm/vec_internal.h
-> +++ b/target/arm/vec_internal.h
-> @@ -50,8 +50,14 @@
->  #define H8(x)   (x)
->  #define H1_8(x) (x)
->
-> -/* Data for expanding active predicate bits to bytes, for byte elements. */
-> +/*
-> + * Expand active predicate bits to bytes, for byte elements.
-> + */
->  extern const uint64_t expand_pred_b_data[256];
-> +static inline uint64_t expand_pred_b(uint8_t byte)
-> +{
-> +    return expand_pred_b_data[byte];
-> +}
+> Because the function performs its own masking, via the uint8_t
+> parameter, we need to nothing extra within the users: the bits
 
+"to do"
+
+> above the first 2 (_uh) or 4 (_uw) will be discarded by assignment
+> to the local bmask variables, and of course _uq uses the entire
+> uint64_t result.
+
+Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
