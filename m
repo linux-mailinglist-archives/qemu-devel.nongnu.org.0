@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DB453905B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 14:11:06 +0200 (CEST)
-Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F66B53905F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 14:12:02 +0200 (CEST)
+Received: from localhost ([::1]:52120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw0iF-0006UT-KV
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 08:11:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35198)
+	id 1nw0jB-0007D0-AO
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 08:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nw0bY-0003ba-Jy
- for qemu-devel@nongnu.org; Tue, 31 May 2022 08:04:09 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:56282)
+ id 1nw0cb-0004JQ-H5
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 08:05:14 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:39463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nw0bU-0001gg-S5
- for qemu-devel@nongnu.org; Tue, 31 May 2022 08:04:08 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id n10so13531436pjh.5
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 05:04:04 -0700 (PDT)
+ id 1nw0ca-0001sx-1g
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 08:05:13 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-2f83983782fso136728947b3.6
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 05:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c23+p0Wp3qkRJ+JZFgBrUFvUk0UkRN22ccsyr4/FQLU=;
- b=nmT/j8Mwanp6RS9+xGsPNGofixwNz2pJuYGu9IvAArGO4LdWiRyTZkDlB1oozHAoyH
- YA/3T3odMcl5DT0f7iBIDAv7O+uydugywaSQTkwYjGhhor1SRH5pVcBF1EPWkSgnos9j
- s/EnwEgoUS8nYi/wlGHA8uJYWaE6rIxxJQ3+r/9i4q3/afmrjm+KJ5EyWkPy17DO5i4I
- /U0qmabLMuG6GGZgF9E8TbgcYvITcp0Oi+7pGaZFJl/u+p2JWBhYVCG9DjTycQB3IDDX
- 7dafM9iN6O62c+R/RbbZ2x0YgqmaqkPMDokiCQ9lYNq1doGoF3Z20U649TiMSjIQ/54+
- wxnQ==
+ :cc; bh=0Cj9EWwrPDX8iADDfXa2oAbn0w+auohUB82Pt7zdoyc=;
+ b=tTMWZ9l2l8H4VpHBSmxja7akVEj/Ux0+lwHHy9MJgg3aXRYon4NqorZDxYcYfBmMjS
+ 8mlxMddnXHkxop0AzOqWR0sqYL0kVZ2zCtJQgvTUvIM/Ei6qfUC7Fs4clCR+mAZY2f6e
+ zTLzu2uqQds9zHm2tsm9Q328JKIjtIRHnDbUhO7BaTza3PQ5cYuI0pRnj04TlaQFXZtE
+ 4jXTxT+ertEKFy/iV0V3OyeQmzlGYR83j4TXjwdBI9Y2YkZ2T0EGZnY0JQpO3hr1p8bE
+ graRWxNNK+YYl2wLCjXXfuO9sc2bDTgK+v/Sn7qje9mEBxbEanv9Qe8uiPbrT4x9mlIS
+ gKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=c23+p0Wp3qkRJ+JZFgBrUFvUk0UkRN22ccsyr4/FQLU=;
- b=l2ZSzgKtT5QCV4XQIovZCjNWJxdr1D5GK11RwJq9RS0XNI8zCOGXQSss16JVzur2Vz
- xQ8wXhON8c09c7vr6TMfGWc48jPv03sWs5uK7VF53zkLw1f9V8iVABCRmYMmwguFp+kf
- 9g2qGIlj4MVYeqSzGc81xCZ6WwzVTSZDCdVUFx57vOv+FV+xeh+o7wDa0YUEQ7Y2vRIA
- BCVE8l+2yErDfD+LIx/veDXv6SPmsvNflIZNxhEt/NKPFNQbeMnYjt3rpg0Zo+L5ELRS
- O/0LKBq9gSnC54dPcC40lDh1hOvzENTHowVa4mtNBvYYZp76jbh1C3qy/IKMRo92rnHz
- nhlQ==
-X-Gm-Message-State: AOAM530Anak99epqdY09LCCQ5felxXuznvs7BKkPARSwllJo9EHKHLnN
- AavY7XBVCDWVGgHSlva86YiNfRbCQ7HjkL/QbKpvjQ==
-X-Google-Smtp-Source: ABdhPJwBrJDaLv8f3BPBm+gPYcGNYfd/Y7WjnjdQsTZQB7JOBqStHS+B5p9tcVhwvnRLIIpN46C2YrxDSzUvXGcx01E=
-X-Received: by 2002:a17:902:d4c1:b0:162:dd2:407 with SMTP id
- o1-20020a170902d4c100b001620dd20407mr48111678plg.15.1653998643477; Tue, 31
- May 2022 05:04:03 -0700 (PDT)
+ bh=0Cj9EWwrPDX8iADDfXa2oAbn0w+auohUB82Pt7zdoyc=;
+ b=3RcCCrrNHC6CThr/aZsRgO+mvvVQCvPt6aY6Ga4oYuxz2MbFAu245EVHX8E3cQOgCV
+ 2syNajndh6lYCIAiFPFVz7c1AKzxuXLrDMsABZjIA6l9uDiVvxjSCDwBiC3dEYUhZPDX
+ uo8R98wSNyX6vMQtYeHYazMz+em81jsAICwVEp8m/YSQRn+oBMF6htmtSBeSOwjSb514
+ h3p7WFBvzXjxDREhtoKuBruFaF064XIGq1SR3ql+cnltF8LRyrEd9iiNGKmKzynySc6O
+ cN01viY+eM99rJVBCcpCqxNFSvWHndxt90XxdQNvxSpUbbS6Lnn6Ve0iA+CHa7O+5t2/
+ puXA==
+X-Gm-Message-State: AOAM531GV/n37lvrNW0UueXEHf+oHUO+Wa5iHo1hHA4osnXipIlLT286
+ Ik3sg2Lpz85IhMuA26/MMK0ZeBq1vBQ0r7+t2J4FyA==
+X-Google-Smtp-Source: ABdhPJxrCBo0P6S/CIQnWxGzJOb/4p6B8aP8lyovd7MqpSrtY4jd6Nvp74bRpfLTqxUdDSkSJ1iRe8MloP3Q10yR3pk=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr66044299ywb.257.1653998711081; Tue, 31
+ May 2022 05:05:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220523204742.740932-1-richard.henderson@linaro.org>
- <20220523204742.740932-7-richard.henderson@linaro.org>
-In-Reply-To: <20220523204742.740932-7-richard.henderson@linaro.org>
+ <20220523204742.740932-8-richard.henderson@linaro.org>
+In-Reply-To: <20220523204742.740932-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 31 May 2022 13:03:52 +0100
-Message-ID: <CAFEAcA9xAKTL5nwZ+mLMwbMeunfmvPtAia-PRbGAz96Q+w-aNA@mail.gmail.com>
-Subject: Re: [PATCH 06/18] target/arm: Move arm_generate_debug_exceptions out
- of line
+Date: Tue, 31 May 2022 13:04:59 +0100
+Message-ID: <CAFEAcA9Z9cc_K+JC9z2K5qKJ=zOUcGJSwznsaX=7t+5edjNMiA@mail.gmail.com>
+Subject: Re: [PATCH 07/18] target/arm: Hoist arm_current_el in
+ arm_generate_debug_exceptions
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,17 +84,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 May 2022 at 21:53, Richard Henderson
+On Mon, 23 May 2022 at 21:58, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Move arm_generate_debug_exceptions and its two subroutines,
-> {aa32,aa64}_generate_debug_exceptions into debug_helper.c,
-> and the one interface declaration to internals.h.
+> Read this value once in the main function, and pass it
+> around between the subroutines.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+What's the benefit from doing this ?
 
 thanks
 -- PMM
