@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D7B53893D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 02:21:48 +0200 (CEST)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8A05389B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 03:53:03 +0200 (CEST)
+Received: from localhost ([::1]:59092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvpdr-0001ZR-8k
-	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 20:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
+	id 1nvr4A-0007y7-B9
+	for lists+qemu-devel@lfdr.de; Mon, 30 May 2022 21:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nvpcF-0008NU-Ke; Mon, 30 May 2022 20:20:07 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:46369)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nvr32-0007Ik-Fq
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 21:51:52 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:40821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nvpcE-0005eK-4D; Mon, 30 May 2022 20:20:07 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so16205455fac.13; 
- Mon, 30 May 2022 17:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=v9yLNrG6l0TFkQ92L+tL5tHOH+nEKsuWiWBDUxEUOcQ=;
- b=YAmYy+oTwdG4KZ5yC9DlMXmeTakI4pAid8fmGHo8fvnhQwt9kGG7Z7om2rv3KyPN34
- q9xRDIi5/9l/GeWAEDlxg5QvFjSv3DFBp+hWSMQDxou1SeUoEvkXzz60xZI5IIi3pu0I
- 3b4EaBj+IxJqBM618FsLE5qyE43aKR7u8+kDNwWDdg9fcID45+e5OztUl75t+QVAbh6g
- yIIPY/D1lmAH9uneAglS8z/IOf9sfZhGhmWJKDzvGGpLwaAIjT4iafeGNXr7EeI3OuWo
- rZltBVxNw5bfPZs3DAImMPlrR6PpemXhLIDn83P/CqKDR/7n/FYKyiHYh0NT5hlcidal
- IQug==
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nvr2u-0000gf-Q9
+ for qemu-devel@nongnu.org; Mon, 30 May 2022 21:51:46 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ n13-20020a17090a394d00b001e30a60f82dso959988pjf.5
+ for <qemu-devel@nongnu.org>; Mon, 30 May 2022 18:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=KmXOhOKHGR1vGePMG8VRHG4c52PZJ9+TG/+1WQ5Zjj0=;
+ b=YmA+1r+7grFxgBZ5EytDPadjP2fm3hIUtwTniDELQlZ6ExHSvcawoPiSH3Y2RTcnBX
+ K7+uewQxw0kPMMtcrAldq8FWWgIbkThUbuKbcvai2Kyj3r12iKoGgxuT66aDUcZntK1f
+ mqVATkfwMFjmQMIFqcWgBFe1UM3/bwMQNd4hFXE7wsG39F4OUgGjJBQjOcK9gNjJ11E6
+ nRPa01iGVXeWgR4gUbs89f1HlVNWGJaQ2KUssLseIZm2RbQBztd+9ZqkTAH+5BHxl4fv
+ PwoGM/txw0J/T3P1Y4Q/L8gSSjkh18E3pP8AlPPeayRFbbXw1T3kxn+OQTsc650SPXQV
+ uTDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=v9yLNrG6l0TFkQ92L+tL5tHOH+nEKsuWiWBDUxEUOcQ=;
- b=HAdr7jw1LK/AhweAn5ipsJJj6uYiD7Ga9KeZ6dLxpa/m8zgH2Z0RjiK4BU+tt+ohMv
- YM4gMb1myUYeSxGZ2MqLQzh/vd1rPJN7690SdXu3KKugK1jG9V52fmkXBb7gS2G2IHZv
- UL8eSsYff8y8CcStUEWV3I5cYGDpAVB7JH3PsvfO+cD7BdxRYIYBwN7iWcnRbDGtuQPO
- H2tHL1DTt7FTPbK1J+uV5XR3VeHKH9mLIkBAoOhC/XHQ5d4H6H9PugeKU4VvCN99+LTj
- WcMuK/MlDMuZAO36lfJVZIUrrhpnUr82ryCKjBSfoOqmO6IIgH/gVJYAZ24OBeFKFgkz
- KVgQ==
-X-Gm-Message-State: AOAM53002k579NJ3epHHBr/NYbCYUkQFPTUlLxq2RxA80aaZ1mQZWOyZ
- JZ+/1vwTbeihMjH1sLTTIlIo0cCLoI8idjQDG6M4ogzMs5j1bXTU
-X-Google-Smtp-Source: ABdhPJyuw1KcbBAW1IyIAwO2Ds6rFXL/+th2oi+B1768m00GNuoE5uVaqVi67evQA394woBSm8qbGZ2OKaXmaDMCicA=
-X-Received: by 2002:a05:6870:b00a:b0:f1:7f07:8c36 with SMTP id
- y10-20020a056870b00a00b000f17f078c36mr11748958oae.278.1653956404719; Mon, 30
- May 2022 17:20:04 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KmXOhOKHGR1vGePMG8VRHG4c52PZJ9+TG/+1WQ5Zjj0=;
+ b=epPtXeZNwQ93D70MbmdexKKQECxX8mGN16dzzhgOA4oQ7TXnKcXaWih1ss4Kar3ooZ
+ facRqXdlwi4iEyQvY+hDjzOMmx0VCY1+XS373rkGrGhNbqdjanqyUInbvNiUB8a/t/5S
+ APDrux9kNusnUqofz7XkRGOnZqxO7lIEybvdzPjgph1VLak2O2TcCUOkj/XM6wN4yFst
+ neNEP4pPIg0IvtJ3Ui64tZTnxfd0WojL6gWzMlHdTbgnPn5liK9WwFEeZB35vFMwhGRa
+ LZ9n/1kirih+vQ/2sSqmJaqTTlzuetXhsY38RlqB2sBzv27sxqPdZq8q7+C59CDF6fpQ
+ aaqg==
+X-Gm-Message-State: AOAM533KjRJKZufSMkcjFX04OeKs29ZBilCqJDft6LzFXo9//IwvB9Ti
+ WzuRtDtQ+ugzxapPoP+aQhCaqw==
+X-Google-Smtp-Source: ABdhPJx+3iY92taAy6pVX7D+ECDjEuy9jyUENbikEfIoPMi5rinonne48/JeuRQmz5BxgnmUPTMY3A==
+X-Received: by 2002:a17:90a:2c43:b0:1e0:b3fe:1bf5 with SMTP id
+ p3-20020a17090a2c4300b001e0b3fe1bf5mr26049348pjm.27.1653961902534; 
+ Mon, 30 May 2022 18:51:42 -0700 (PDT)
+Received: from [10.255.89.136] ([139.177.225.233])
+ by smtp.gmail.com with ESMTPSA id
+ m2-20020a170902bb8200b0016191b843e2sm9792155pls.235.2022.05.30.18.51.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 May 2022 18:51:41 -0700 (PDT)
+Message-ID: <b2ee77ae-2044-32b4-20c5-43fa78e8213c@bytedance.com>
+Date: Tue, 31 May 2022 09:47:43 +0800
 MIME-Version: 1.0
-References: <20220509091339.26016-1-alistair.francis@wdc.com>
- <e8feb9d9-b9da-c1d7-a978-5966a6bd30f8@amsat.org>
-In-Reply-To: <e8feb9d9-b9da-c1d7-a978-5966a6bd30f8@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 31 May 2022 10:19:38 +1000
-Message-ID: <CAKmqyKMukniKikfExp0KCpUkDLECfifuq4x6X1WzKTWXJjFRqQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add myself as hw/core/uboot_image.h
- maintainer
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Alistair Francis <alistair.francis@wdc.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=alistair23@gmail.com; helo=mail-oa1-x32.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: RE: [PATCH v8 1/1] crypto: Introduce RSA algorithm
+Content-Language: en-US
+To: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "helei.sig11@bytedance.com" <helei.sig11@bytedance.com>,
+ "berrange@redhat.com" <berrange@redhat.com>
+References: <20220527084734.2649594-1-pizhenwei@bytedance.com>
+ <20220527084734.2649594-2-pizhenwei@bytedance.com>
+ <848d579e2c504ba493cd57510a7ff3b0@huawei.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <848d579e2c504ba493cd57510a7ff3b0@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,38 +101,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 31, 2022 at 1:38 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 9/5/22 11:13, Alistair Francis via wrote:
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >   MAINTAINERS | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 662ec47246..9ba30cec8a 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -2173,6 +2173,7 @@ Generic Loader
-> >   M: Alistair Francis <alistair@alistair23.me>
-> >   S: Maintained
-> >   F: hw/core/generic-loader.c
-> > +F: hw/core/uboot_image.h
-> >   F: include/hw/core/generic-loader.h
-> >   F: docs/system/generic-loader.rst
-> >
->
-> Alternative patch subject:
->
-> "MAINTAINERS: Cover hw/core/uboot_image.h within Generic Loader section"
+On 5/30/22 21:31, Gonglei (Arei) wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: zhenwei pi [mailto:pizhenwei@bytedance.com]
+>> Sent: Friday, May 27, 2022 4:48 PM
+>> To: mst@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>
+>> Cc: qemu-devel@nongnu.org; virtualization@lists.linux-foundation.org;
+>> helei.sig11@bytedance.com; berrange@redhat.com; zhenwei pi
+>> <pizhenwei@bytedance.com>
+>> Subject: [PATCH v8 1/1] crypto: Introduce RSA algorithm
+>>
+>>
+> Skip...
+> 
+>> +static int64_t
+>> +virtio_crypto_create_asym_session(VirtIOCrypto *vcrypto,
+>> +               struct virtio_crypto_akcipher_create_session_req
+>> *sess_req,
+>> +               uint32_t queue_id, uint32_t opcode,
+>> +               struct iovec *iov, unsigned int out_num) {
+>> +    VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
+>> +    CryptoDevBackendSessionInfo info = {0};
+>> +    CryptoDevBackendAsymSessionInfo *asym_info;
+>> +    int64_t session_id;
+>> +    int queue_index;
+>> +    uint32_t algo, keytype, keylen;
+>> +    g_autofree uint8_t *key = NULL;
+>> +    Error *local_err = NULL;
+>> +
+>> +    algo = ldl_le_p(&sess_req->para.algo);
+>> +    keytype = ldl_le_p(&sess_req->para.keytype);
+>> +    keylen = ldl_le_p(&sess_req->para.keylen);
+>> +
+>> +    if ((keytype != VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PUBLIC)
+>> +         && (keytype != VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PRIVATE)) {
+>> +        error_report("unsupported asym keytype: %d", keytype);
+>> +        return -VIRTIO_CRYPTO_NOTSUPP;
+>> +    }
+>> +
+>> +    if (keylen) {
+>> +        key = g_malloc(keylen);
+>> +        if (iov_to_buf(iov, out_num, 0, key, keylen) != keylen) {
+>> +            virtio_error(vdev, "virtio-crypto asym key incorrect");
+>> +            return -EFAULT;
+> 
+> Memory leak.
+> 
+>> +        }
+>> +        iov_discard_front(&iov, &out_num, keylen);
+>> +    }
+>> +
+>> +    info.op_code = opcode;
+>> +    asym_info = &info.u.asym_sess_info;
+>> +    asym_info->algo = algo;
+>> +    asym_info->keytype = keytype;
+>> +    asym_info->keylen = keylen;
+>> +    asym_info->key = key;
+>> +    switch (asym_info->algo) {
+>> +    case VIRTIO_CRYPTO_AKCIPHER_RSA:
+>> +        asym_info->u.rsa.padding_algo =
+>> +            ldl_le_p(&sess_req->para.u.rsa.padding_algo);
+>> +        asym_info->u.rsa.hash_algo =
+>> +            ldl_le_p(&sess_req->para.u.rsa.hash_algo);
+>> +        break;
+>> +
+>> +    /* TODO DSA&ECDSA handling */
+>> +
+>> +    default:
+>> +        return -VIRTIO_CRYPTO_ERR;
+>> +    }
+>> +
+>> +    queue_index = virtio_crypto_vq2q(queue_id);
+>> +    session_id = cryptodev_backend_create_session(vcrypto->cryptodev,
+>> &info,
+>> +                     queue_index, &local_err);
+>> +    if (session_id < 0) {
+>> +        if (local_err) {
+>> +            error_report_err(local_err);
+>> +        }
+>> +        return -VIRTIO_CRYPTO_ERR;
+>> +    }
+>> +
+>> +    return session_id;
+> 
+> Where to free the key at both normal and exceptional paths?
+> 
 
-Thanks!
+Hi, Lei
 
-Applied to riscv-to-apply.next with the updated commit message
+The key is declared with g_autofree:
+g_autofree uint8_t *key = NULL;
 
-Alistair
+> 
+> Regards,
+> -Gonglei
+> 
+> 
 
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+-- 
+zhenwei pi
 
