@@ -2,64 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9A45395FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 20:14:36 +0200 (CEST)
-Received: from localhost ([::1]:40566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D40539655
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 20:34:36 +0200 (CEST)
+Received: from localhost ([::1]:33388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nw6O3-0007FI-6h
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 14:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41396)
+	id 1nw6hP-0005mL-AG
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 14:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nw6Ey-0003Nj-H4
- for qemu-devel@nongnu.org; Tue, 31 May 2022 14:05:30 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:41503)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nw6bL-00024w-Br
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 14:28:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nw6Eu-0003ua-Nl
- for qemu-devel@nongnu.org; Tue, 31 May 2022 14:05:10 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MCJvA-1o4Nyl494c-009Nat; Tue, 31 May 2022 20:05:06 +0200
-Message-ID: <1ff07914-426c-63d9-c18e-393213c30a72@vivier.eu>
-Date: Tue, 31 May 2022 20:05:05 +0200
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nw6bH-0007IB-Qh
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 14:28:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654021693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ba3lV7ToBu+giVwETb98gOVMzisxKl1urHOcAERpKQg=;
+ b=BqJDDjmmtUyz3C47FVKUnpyM1Deo6hNx+9MrrOzj0oBj/B3cm0VxnbNe1SfNdhfSVlQLCO
+ QFMunZHDbotTOFPDtEZDt4s7/Kfnt8xotQGoeg+Fs6ZKGMe7gzuiesM1ucNQ5WU17fFCxw
+ HtxKK3s7ONbAJAozGXJItdKm3oJWOAQ=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-47-3rlkeCyoMgGmz_1sH0BWcQ-1; Tue, 31 May 2022 14:28:11 -0400
+X-MC-Unique: 3rlkeCyoMgGmz_1sH0BWcQ-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ by3-20020a056102504300b0033219f9bc12so1511005vsb.3
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 11:28:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ba3lV7ToBu+giVwETb98gOVMzisxKl1urHOcAERpKQg=;
+ b=MT76cofdtX/cavqnsTBkPr7fyvfq3569gEEme4WQstfQekt9p2B32tp9DxoPBgW8oD
+ EvJGAVvfY93rC+RXePjBjlrEus2iWBagwhNb2CKpClLBUoE3Ciwk8ybxeYqymRENjN+E
+ RljOWyU1D0NilcNXPzgOA0b5n1GbPH5eQB+kQ5Kq9dpNucETseUGT8JTPiYoZnKwcdPM
+ ddtzBUJEBtAiF9sfj9oAnZh34LuxPLBH31lMOSHPcW1A7IT+pQE5lSPmjy7GBpy2TRRJ
+ a5sZytRTUvucWy5y94fetg+QjwcGK8iSb5imEvp+QBXRUsmdQDcPdJ4ajtPTE5z9dJqd
+ kwJg==
+X-Gm-Message-State: AOAM531ZrnU7rp2anPp5jgbRiIjTcRlW0626UMAAbAbZfNJRvf4Y1Msb
+ oKdTC5Xihjj96GT05W4haRr8XiVXo5kc0Qxq4QnItaVlXMfvbofRsX2Tw6NSY8cAa0Q/D7YR56e
+ VyEsEVVPeehxOhgb6rUYt0fPaLW3c6sg=
+X-Received: by 2002:a1f:f288:0:b0:35d:20f:ffc with SMTP id
+ q130-20020a1ff288000000b0035d020f0ffcmr822677vkh.1.1654021690939; 
+ Tue, 31 May 2022 11:28:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWf8xHLM0Rd8wiMzQTIQ9Cmw8mxSxtdYxcIhZijC7BP0QBq1m1kOMkfm2seYF3wAsb5YxRYEpL1+Rwb0dAJ2Y=
+X-Received: by 2002:a1f:f288:0:b0:35d:20f:ffc with SMTP id
+ q130-20020a1ff288000000b0035d020f0ffcmr822664vkh.1.1654021690755; 
+ Tue, 31 May 2022 11:28:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20220527164807.135038-1-richard.henderson@linaro.org>
- <20220527164807.135038-11-richard.henderson@linaro.org>
- <34af03f0-6c53-17a3-b91f-d368fd2ef7c3@vivier.eu>
- <f8f38e0b-e99f-40d7-d4c7-7e2dc047d4c8@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v5 10/17] target/m68k: Implement TRAPcc
-In-Reply-To: <f8f38e0b-e99f-40d7-d4c7-7e2dc047d4c8@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GrcjIbvWFqq5X6YJ/o0hz1dzB8Xej/dq7szb8bBwpnUlt2tzlkY
- VchOeEgBfT/X3FRPvL/kk6U6LXJEW+K5yDlmeGz/94PsK6O9PBpFAzDPkqUDMy+280/3ssj
- DwVHfGrNbCS4ZSH52Bb+WoolxGddVcBYQH9/q7EaFy8mS9xb6BFQubQOvZb5NJCmzM/Ez1k
- eMVsAP+B0bSSiGOV4sFyQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bKoLUFZd/cE=:sIkxaPV57DmidD2u6xs3Hn
- gar7ysaGsj+x2k6K+OzMx4GjprO1UrpBHr/e6qtuaW/c/RBaOMoNoqGFn4efF1nbHLl+18o6D
- 6tD3OY8txSHAd7I2Pm/1WC7lLDrnH627C3d7InLsDNyIMcUGHlazd7PWU4vBix7QoGd484/pk
- HRWrm85xMDUZiXHu97NYUJ93/Ll0oH1XpJ25UMThUegbHEg7+Ol7n0Lt3t0DPWlOf7Iyy6T5k
- Bdo2YKcETInlCGh1+sslwX/KjMvCyM0/C31ltU/vWyK/lEap3lSib97rIWoPsYIgVvTZzSE2f
- iH5rEGoufmTCe06rReWcwKxbOED8zG9G9b10OTiiwsn3nkgnEvzHQIga+1b4eITCbtxxthDca
- LbG9rBJoG6bs5vaJr5liYNMsrzHvkoR9ksACC3GkHHIVWiVABQcD3R9ZburIVUCO0hFyDI16P
- QQX9U9TiAAuPVMviR4VfnawC6Fe391/bBYPXD3oYgGS0sEJELmWSnvMHK8ptv4y6+A+E9uPD2
- 9IJThOzqlkY8DbNPNlTCC0WXVMC2Xk4FFUEZyTkT0n3S6PbsA9zSrV5IWi3DQArWJV7VJIFd/
- pOO1J2TcykXGkM6adBTZECUHyGSU3kFMJBE0S0Efz4mrr00yj1WgBkQrp5LfBFOMtNTowjxOD
- +rNTSD/OzOIDlcMzrjVBZeUd9QPeH+sgLKu4hQASdeNPxxHEfMlX9tmK5I0YT5R1g8aHNkGnl
- Fd2A3Zx9GbuEjXtoE6fAxUgP+AS39vbJWZRRqg==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+References: <20220526000921.1581503-1-jsnow@redhat.com>
+ <20220526000921.1581503-9-jsnow@redhat.com>
+ <3a0913d7-c148-2619-bdee-7f70b091a6a9@redhat.com>
+In-Reply-To: <3a0913d7-c148-2619-bdee-7f70b091a6a9@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 31 May 2022 14:28:05 -0400
+Message-ID: <CAFn=p-bnd54uvF38Xqexi9T+P0CHo1seLYoBpwCi2V0e-unkSg@mail.gmail.com>
+Subject: Re: [PATCH 8/9] tests: add python3-venv to debian10.docker
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,67 +96,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 31/05/2022 à 16:59, Richard Henderson a écrit :
-> On 5/31/22 01:01, Laurent Vivier wrote:
->> Le 27/05/2022 à 18:48, Richard Henderson a écrit :
->>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/754
->>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   target/m68k/cpu.h          |  2 ++
->>>   linux-user/m68k/cpu_loop.c |  1 +
->>>   target/m68k/cpu.c          |  1 +
->>>   target/m68k/op_helper.c    |  6 +----
->>>   target/m68k/translate.c    | 49 ++++++++++++++++++++++++++++++++++++++
->>>   5 files changed, 54 insertions(+), 5 deletions(-)
->>>
->> ...
->>> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
->>> index 399d9232e4..c4fe8abc03 100644
->>> --- a/target/m68k/translate.c
->>> +++ b/target/m68k/translate.c
->> ...
->>> @@ -6050,6 +6098,7 @@ void register_m68k_insns (CPUM68KState *env)
->>>       INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
->>>       INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
->>>       INSN(dbcc,      50c8, f0f8, M68000);
->>> +    INSN(trapcc,    50f8, f0f8, TRAPCC);
->>>       INSN(tpf,       51f8, fff8, CF_ISA_A);
->>>       /* Branch instructions.  */
->>
->> This one breaks Mark's series to support MacOS.
->>
->> I think the new opcode short-circuits Scc one:
->>
->>    ----------------
->>    IN: INITRSRCMGR
->>    0x408011d0:  st 0xa58
->>    Disassembler disagrees with translator over instruction decoding
->>    Please report this to qemu-devel@nongnu.org
->>
->> The following patch seems to fix the problem:
->>
->> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
->> index d5d73401b7cc..3b0e3d0b58f6 100644
->> --- a/target/m68k/translate.c
->> +++ b/target/m68k/translate.c
->> @@ -6119,9 +6119,9 @@ void register_m68k_insns (CPUM68KState *env)
->>       INSN(addsubq,   5000, f080, M68000);
->>       BASE(addsubq,   5080, f0c0);
->>       INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
->> +    INSN(trapcc,    50f8, f0f8, TRAPCC);
->>       INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
->>       INSN(dbcc,      50c8, f0f8, M68000);
->> -    INSN(trapcc,    50f8, f0f8, TRAPCC);
-> 
-> Hmm.  That will completely hide trapcc -- you should have seen the new test case fail (and if not, 
-> the test case needs fixing).
+On Mon, May 30, 2022 at 3:33 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 26/05/2022 02.09, John Snow wrote:
+> > This is needed to be able to add a venv-building step to 'make check';
+> > the clang-user job in particular needs this to be able to run
+> > check-unit.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >   tests/docker/dockerfiles/debian10.docker | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+> > index b414af1b9f7..03be9230664 100644
+> > --- a/tests/docker/dockerfiles/debian10.docker
+> > +++ b/tests/docker/dockerfiles/debian10.docker
+> > @@ -34,4 +34,5 @@ RUN apt update && \
+> >           python3 \
+> >           python3-sphinx \
+> >           python3-sphinx-rtd-theme \
+> > +        python3-venv \
+> >           $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+>
+> Note that we'll (hopefully) drop the debian 10 container soon, since Debian
+> 10 is EOL by the time we publish the next QEMU release.
+>
 
-I ran "make check", thinking the test is run, and saw no failure...
-and if I run "make check-tcg", I have:
-   make: Nothing to be done for 'check-tcg'.
-so what is the command to run the test?
+Noted -- do you think it'd be OK to sneak this change in first and
+have you move the requisite to the new container? :)
 
-Thanks,
-Laurent
 
