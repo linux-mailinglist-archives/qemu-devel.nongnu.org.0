@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2C0538C90
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:13:26 +0200 (CEST)
-Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA4B538C91
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 May 2022 10:13:45 +0200 (CEST)
+Received: from localhost ([::1]:48244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nvx0H-00014y-2U
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
+	id 1nvx0a-0001aF-D7
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 04:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linmq006@gmail.com>)
- id 1nvwwd-0007C0-3M; Tue, 31 May 2022 04:09:39 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44019)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvwwc-0007Bh-UR
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:09:38 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:46629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <linmq006@gmail.com>)
- id 1nvwwX-00042L-K0; Tue, 31 May 2022 04:09:38 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id b5so12169091plx.10;
- Tue, 31 May 2022 01:09:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nvwwX-00042f-1u
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 04:09:34 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id j21so12118036pga.13
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 01:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=FCF6KghIDt9EGw/B8pqxiXLLOoIe30Ih2/8Txn0PfA4=;
- b=o20G3jEULT3SsjLuEbIIKsTVANMlm0qhUvgm58Zq6up40UQ73wrPy+W+saIYbQfEQT
- OSn6BdPyJK1vbyYplZGnuuCNTbYFrF+hxH0UI4w2hom7CpjdkdDP9h+sAnGRJWjpGdiw
- KEfZQB36Lz2mNKQNCvO5qhIO3ciYhh9vttbGG1BvYCdDTJaY74YvIYhhUqWow4yVRa0E
- V6K4pKO4bf6ivsHPgqHYBJVIkg7DJm7gDBjVHkP3DG6i2S55Td+WpFV1tUcw6whAcmYr
- ASLNMQ06xnCPKwgP6qUrBBHnULU29Inf7iAtHTc07nFCbZlRz+k4+P2cXRUIOlzmz6UV
- ilzQ==
+ bh=oJ4gKt7Ci+YHDgvPxg/nKqAtUxoWSTmcTJBoeAxJqQM=;
+ b=dOcFJXwxYAPHGwTSu+Au+AH6DjJYlxBTTcFtVrLQIy4Rjs++rWt80K/jwoKmDx0JCv
+ fW4uvBmOpnHba81/ONb9GxBgYb0MNoAeKoQ/w/p/AfhyrKkmGDTj6wqpdB1eeFtjC3D4
+ 60YxBBqca9OcfdCFY1v4Qas/l0uTreb86q2ETwuESbnNKPoK14c07Z4MqgCdhDEMiaZB
+ WWROPCZ2VbUmFU4JRTfr/5csvIC0hmdc99jtzpOimTNSFJ/ur2I1a2OIAQmmmGrHQMbR
+ aiENg1kYfnty/iEnPAPDpw5ZCo5dLF4jlqtow01r6cLEIPnQxO7f8/GCFI1vg7jDuKMO
+ O2HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=FCF6KghIDt9EGw/B8pqxiXLLOoIe30Ih2/8Txn0PfA4=;
- b=mNC2OdJ4xfnBnzhaiCCQk4rldil7yaKkwfugKitZeOxA6C3PS40xto9RBONPYs9qpb
- TQ2SsoWoY9FN13DwSDid2B6BPmEIDzlYO3USZahIiQOZqOR6MRG2treaJacJJD5eBcLD
- 0sfSJXVDTQLtJXpYxAMoa+kpetixGSFGIyFsZAUgEjFiUU+F4JPZpLJsv3lVWJ96WPda
- 21Oz5x60b2kRI8SdjjD1oU8taClBl0MV4/LnxjrQYUS+H7R9j0wWuEOBtcNvpyJJxH9k
- 8JPoxmUICk6vCR3PVYN2vV3ViydevZnGCcrQxyQOVx3nSFLRoypmYbC67UsfPndmKKPm
- Ksig==
-X-Gm-Message-State: AOAM5306d61UW1zJXY+H0Bv+zd1iVlXSVtJPCqW7K3+AC+/r2UNiQ8fC
- RWRGSH177yM/ArALHYr1Gz8=
-X-Google-Smtp-Source: ABdhPJxqgHpZgNoNg0DL6U58rEJTOaVuzOd16RK2fOP28ZP6lOX+Qs/MQsF3MopNRAQKnRWVeBfAvg==
-X-Received: by 2002:a17:902:f34c:b0:163:fa4f:2ff5 with SMTP id
- q12-20020a170902f34c00b00163fa4f2ff5mr4365633ple.174.1653984570653; 
+ bh=oJ4gKt7Ci+YHDgvPxg/nKqAtUxoWSTmcTJBoeAxJqQM=;
+ b=uJJQ+KT+0PkH6zRYSm4dIFfDPJWOFIAgBeyEIGj2aGSBeEqS4GVVvNK8k8Jw0O9RKS
+ iWAxEcxhaKooT8MXkYnYQPjNxhRV6URQyNiSp+W8dDlKtNNaVWnIKT9oDu/GVvaDWm1n
+ R0vaBQ5fFarpKKgU8ipqsl2TAiAYImXpMP50ZSmDCl9ED9jIf7knJHC51xdaqKa/ljTu
+ x6Ql2AX+CQVYiuL8CaC1z/5OAEqnh097Dhy3wrr9AisH7EyYvsp9obnCv12rshoxhiLj
+ PPBHPbetom3gWX0inAUWojUKcmUqPsW0h4ctEQooWWZiWtta+KSkL4hPh+u5fhyGE5Ew
+ ajZg==
+X-Gm-Message-State: AOAM532CSSJu3GKvJ7gWpuM8b9wZCICvue8X1USydZIak49rk/Nl7wwh
+ xjtJ0g8pFuGrVHlMxOQpDho4N8p1ies=
+X-Google-Smtp-Source: ABdhPJxJ1CgyjEBXBOATev53VcgxkeNvkfmkXSvhCCnme/1UG6tp5Hb4313JDB947vLs+Cncv/25qg==
+X-Received: by 2002:a63:834a:0:b0:3fc:5536:20c2 with SMTP id
+ h71-20020a63834a000000b003fc553620c2mr2150047pge.27.1653984571294; 
+ Tue, 31 May 2022 01:09:31 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ r22-20020a635d16000000b003db580384d6sm9641106pgb.60.2022.05.31.01.09.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
  Tue, 31 May 2022 01:09:30 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- e1-20020aa798c1000000b0050dc76281b8sm10423926pfm.146.2022.05.31.01.09.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 01:09:30 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Havard Skinnemoen <hskinnemoen@google.com>,
- Tyrone Ting <kfting@nuvoton.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Cc: linmq006@gmail.com
-Subject: [PATCH] qtest/npcm7xx_pwm-test: Fix memory leak in mft_qom_set
-Date: Tue, 31 May 2022 12:09:21 +0400
-Message-Id: <20220531080921.4704-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Message-ID: <53fe7f0b-9dae-029b-f282-75be1fea1e83@amsat.org>
+Date: Tue, 31 May 2022 10:09:26 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH 4/4] target/mips: Do not treat msa INSERT as NOP when wd
+ is zero
+Content-Language: en-US
+To: nihui <shuizhuyuanluo@126.com>, qemu-devel@nongnu.org
+References: <20220503130708.272850-1-shuizhuyuanluo@126.com>
+ <20220503130708.272850-4-shuizhuyuanluo@126.com>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20220503130708.272850-4-shuizhuyuanluo@126.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=linmq006@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,30 +94,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-g_strdup_printf() allocated memory for path, we should free it with
-g_free() when no longer needed.
+On 3/5/22 15:07, nihui wrote:
+> From: Ni Hui <shuizhuyuanluo@126.com>
+> 
+> Only for msa COPY_U/COPY_S with wd zero, we treat it as NOP.
+> 
+> Move this special rule into COPY_U and COPY_S trans function.
 
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- tests/qtest/npcm7xx_pwm-test.c | 3 +++
- 1 file changed, 3 insertions(+)
+Fixes: 97fe675519 ("target/mips: Convert MSA COPY_S and INSERT opcodes 
+to decodetree")
 
-diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
-index c4a5fdcacd79..e320a625c4b6 100644
---- a/tests/qtest/npcm7xx_pwm-test.c
-+++ b/tests/qtest/npcm7xx_pwm-test.c
-@@ -268,6 +268,9 @@ static void mft_qom_set(QTestState *qts, int index, const char *name,
-             path, name, value);
-     /* The qom set message returns successfully. */
-     g_assert_true(qdict_haskey(response, "return"));
-+
-+    qobject_unref(response);
-+    g_free(path);
- }
- 
- static uint32_t get_pll(uint32_t con)
--- 
-2.25.1
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+> ---
+>   target/mips/tcg/msa_translate.c | 15 ++++++++++-----
+>   1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
+> index 92ccc6f921..0b3dd0957c 100644
+> --- a/target/mips/tcg/msa_translate.c
+> +++ b/target/mips/tcg/msa_translate.c
+> @@ -603,11 +603,6 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
+>           return true;
+>       }
+>   
+> -    if (a->wd == 0) {
+> -        /* Treat as NOP. */
+> -        return true;
+> -    }
+> -
+>       gen_msa_elm[a->df](cpu_env,
+>                          tcg_constant_i32(a->wd),
+>                          tcg_constant_i32(a->ws),
+> @@ -624,6 +619,11 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
+>   
+>   static bool trans_COPY_U(DisasContext *ctx, arg_msa_elm_df *a)
+>   {
+> +    if (a->wd == 0) {
+> +        /* Treat as NOP. */
+> +        return true;
+> +    }
+> +
+>       static gen_helper_piii * const gen_msa_copy_u[4] = {
+>           gen_helper_msa_copy_u_b, gen_helper_msa_copy_u_h,
+>           NULL_IF_MIPS32(gen_helper_msa_copy_u_w), NULL
+> @@ -634,6 +634,11 @@ static bool trans_COPY_U(DisasContext *ctx, arg_msa_elm_df *a)
+>   
+>   static bool trans_COPY_S(DisasContext *ctx, arg_msa_elm_df *a)
+>   {
+> +    if (a->wd == 0) {
+> +        /* Treat as NOP. */
+> +        return true;
+> +    }
+> +
+>       static gen_helper_piii * const gen_msa_copy_s[4] = {
+>           gen_helper_msa_copy_s_b, gen_helper_msa_copy_s_h,
+>           gen_helper_msa_copy_s_w, NULL_IF_MIPS32(gen_helper_msa_copy_s_d)
 
 
