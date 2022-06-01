@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A39553A3BC
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 13:21:55 +0200 (CEST)
-Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13BF53A419
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 13:31:07 +0200 (CEST)
+Received: from localhost ([::1]:49366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwMQE-0004Ra-CG
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 07:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52886)
+	id 1nwMZ8-00010t-Fd
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 07:31:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwLrW-0004K0-BB
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:46:40 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwLrU-0003eu-8L
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sUozozXdn9MRNEky9zw8znV+AGayOYNYfX2q8My2H64=; b=Yil6xCB4gvwQ389hGpwZ5Qjd2Y
- KqsHTPnrBO29JQA40A7r602VqbfPT+vgsHj0GmEHuiS+RtrjZpRxLqHnot3S+4PX95m5KMlu7W8zD
- /xeyawzV4fVln4VtQMAeVZVrmcp/D5CtD1OAzkkfp1apLZJTriAYdK2cxyC8uTPZaCrhf77xOPRXn
- 96fKC1MCyqjNCM1uzuoR1aKrzasRfmwc7NqUcj3PW99VDhpIPl8Sd+JlZ9tFOzCJ8u9FQQMOz8D/B
- HnhWS4rfrb1mANmnT/Du83xZTF0Ke9CXrT6asKECFPPF1KLX0VZLKoXGJsnutK5+R/Ct/lseSsKGI
- CLAq2g9JyvGGNsPUn/irxbnj9AKSCis889dawp0a45nDGqFg6Wbs7lxsfWKLVtaZXe+UWlLvHqq2U
- E+a9R2g8xZ2GRL0oO1Vnk0X6OOM2LGV32nerZ6JWkI2ep59gmJRuXCvR6gIF2bGzBjI4vcxihOn/F
- W6ddUrqV33sJWtbj5rWKvcncLdx3MnDvckW+6Whd/6lPTQKDu1MLWJ7ABDhxsS5lQIcNCnZYqajCd
- oOxVg5YMDAffBlyhtuv3e6MmMRtLHN7cH4ox5rKJQ2mfOYEvtUzrQM9msaBr6KihZvqZrWhlzEFbZ
- 4GORpWnLH7T3vr5U4MpAg09SCAULCoRQb+bh5ukX4=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwLqJ-0008fo-PT; Wed, 01 Jun 2022 11:44:52 +0100
-Message-ID: <a36e68b6-f21a-dd91-6c94-e07c03863d46@ilande.co.uk>
-Date: Wed, 1 Jun 2022 11:45:48 +0100
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nwMIM-0005Nq-Nv
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 07:13:52 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39888)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nwMII-0008Qe-9Z
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 07:13:45 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4A56B1F897;
+ Wed,  1 Jun 2022 11:13:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1654082018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XzS36bU0dicJVAPM6fAa/1S0kaQVvYzX5xYND5nsW5I=;
+ b=ZE7OHhyykMgxOQj5FWoTqcGeqicPU/8tEfLqOUgpKlukudsEkbbHwoLQu+P7nZreXG9DAD
+ Nxb6bqTXsBW15JSQOTa8yXKm/fE+BJoSJPmDD+g1V4IFEXnU303cSbZhpLSLwEyRtM6bv2
+ Dr6hO8lzV7AKqUGydWiD1jKnsijtPW0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1654082018;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XzS36bU0dicJVAPM6fAa/1S0kaQVvYzX5xYND5nsW5I=;
+ b=sxLGxISV15UG6MjdU/sKnwPr0eE7odVUIT/d8weQ4vDy3Hw9P8MWm51VfMdsrWGI1g3rlQ
+ zs+Uq9WRdFFaNhBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3FE881330F;
+ Wed,  1 Jun 2022 11:13:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Z1tkD+JJl2ICKgAAMHmgww
+ (envelope-from <lizhang@suse.de>); Wed, 01 Jun 2022 11:13:38 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>,
- Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Alistair Francis <alistair.francis@wdc.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Mark Burton <mark.burton@greensocs.com>
-References: <20220524134809.40732-1-damien.hedde@greensocs.com>
- <e494e267-acbf-e6bd-5590-22b6ae2d2a55@ilande.co.uk>
- <1a71b7ee-aac6-a191-5a9c-472d46999ff1@greensocs.com>
- <CAFEAcA8UTLiab5Tg19y7pdJwyuqqxcrxL-9QmzK9r9skGVVGYQ@mail.gmail.com>
- <7fbee09c-449d-a6a5-3616-d8839df1b7a6@ilande.co.uk>
- <732960bf-f3ab-6b61-7e6e-967fe4360280@greensocs.com>
- <CAFEAcA_BinJMmqdTBoCs3V-dqSRQ_jjL7FpdMxCr1etZgn0i_A@mail.gmail.com>
- <5a7b14fa-15ef-42c2-1072-d0aec0795718@greensocs.com>
- <e1547885-1d46-f083-520a-087518e2eb6c@ilande.co.uk>
- <bd5caf26-6e34-725e-60a4-018b1a3f905a@greensocs.com>
- <7700fd59-c005-a575-3c2c-ae078b0be534@ilande.co.uk>
- <35806422-e4e4-9a73-ab9f-412858517508@greensocs.com>
- <6a770c57-6fb5-e709-7d80-4387116678df@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <6a770c57-6fb5-e709-7d80-4387116678df@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v5 0/3] Sysbus device generic QAPI plug support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Date: Wed, 01 Jun 2022 13:13:38 +0200
+From: lizhang <lizhang@suse.de>
+To: eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/1] Fix the coredump when memory backend id conflicts
+ with default_ram_id
+In-Reply-To: <20220520095602.17379-1-lizhang@suse.de>
+References: <20220520095602.17379-1-lizhang@suse.de>
+User-Agent: Roundcube Webmail
+Message-ID: <7e96f483f53b20ddf1a3e198f747f7d7@suse.de>
+X-Sender: lizhang@suse.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,150 +89,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/06/2022 10:07, David Hildenbrand wrote:
 
-> On 01.06.22 10:39, Damien Hedde wrote:
->>
->>
->> On 5/31/22 22:43, Mark Cave-Ayland wrote:
->>> On 31/05/2022 10:22, Damien Hedde wrote:
->>>
->>>> On 5/31/22 10:00, Mark Cave-Ayland wrote:
->>>>> On 30/05/2022 15:05, Damien Hedde wrote:
->>>>>
->>>>>> On 5/30/22 12:25, Peter Maydell wrote:
->>>>>>> On Mon, 30 May 2022 at 10:50, Damien Hedde
->>>>>>> <damien.hedde@greensocs.com> wrote:
->>>>>>>> TYPE_SYS_BUS_DEVICE also comes with reset support.
->>>>>>>> If a device is on not on any bus it is not reached by the root sysbus
->>>>>>>> reset which propagates to every device (and other sub-buses).
->>>>>>>> Even if we move all the mmio/sysbus-irq logic into TYPE_DEVICE, we
->>>>>>>> will
->>>>>>>> still miss that. The bus is needed to handle the reset.
->>>>>>>> For devices created in machine init code, we have the option to do
->>>>>>>> it in
->>>>>>>> the machine reset handler. But for user created device, this is an
->>>>>>>> issue.
->>>>>>>
->>>>>>> Yes, the missing reset support in TYPE_DEVICE is a design
->>>>>>> flaw that we really should try to address.
->>>>>
->>>>> I think the easiest way to handle this would be just after calling
->>>>> dc->realize; if the device has bus == NULL and dc->reset != NULL then
->>>>> manually call qemu_register_reset() for dc->reset. In a qdev world
->>>>> dc->reset is intended to be a bus-level reset, but I can't see an
->>>>> issue with manual registration for individual devices in this way,
->>>>> particularly as there are no reset ordering guarantees for sysbus.
->>>>
->>>> I'm a bit afraid calling qemu_register_reset() outside dc->realize
->>>> might modify the behavior for existing devices. Does any device end up
->>>> having a non-NULL bus right now when using "-device" CLI ?
->>>
->>> If you take a look at "info qtree" then that will show you all devices
->>> that are attached to a bus i.e. ones where bus is not NULL.
->>>
->>>>>>>> If we end up putting in TYPE_DEVICE support for mmios, interrupts and
->>>>>>>> some way to do the bus reset. What would be the difference between
->>>>>>>> the
->>>>>>>> current TYPE_SYS_BUS_DEVICE ?
->>>>>>>
->>>>>>> There would be none, and the idea would be to get rid of
->>>>>>> TYPE_SYS_BUS_DEVICE entirely...
->>>>>>>
->>>>>> Do you expect the bus object to disappear in the process (bus-less
->>>>>> system) or transforming the sysbus into a ~TYPE_BUS thing ?
->>>>>
->>>>> I'd probably lean towards removing sysbus completely since in real
->>>>> life devices can exist outside of a bus. If a device needs a bus then
->>>>> it should already be modelled in QEMU, and anything that requires a
->>>>> hierarchy can already be represented via QOM children
->>>>
->>>> For me, a "memory bus" is a bus. But I understand in QEMU, this is
->>>> modeled by a memory region and we do not want to represent it anymore
->>>> by a qdev/qbus hierarchy.
->>>>
->>>>>
->>>>>> Assuming we manage to sort out this does cold plugging using the
->>>>>> following scenario looks ok ? (regarding having to issue one command
->>>>>> to create the device AND some commands to handle memory-region and
->>>>>> interrupt lines)
->>>>>>
->>>>>>   > device_add driver=ibex-uart id=uart chardev=serial0
->>>>>>   > sysbus-mmio-map device=uart addr=1073741824
->>>>>>   > qom-set path=uart property=sysbus-irq[0]
->>>>>> value=plic/unnamed-gpio-in[1]
->>>>>>
->>>>>> TYPE_DEVICE or TYPE_SYS_BUS_DEVICE, my goal is still to be able to
->>>>>> cold-plug a "ibex-uart" define its memory map and choose which irq I
->>>>>> wire where.
->>>>>
->>>>> Anyhow getting back on topic: my main objection here is that you're
->>>>> adding a command "sysbus-mmio-map" when we don't want the concept of
->>>>> SysBusDevice to be exposed outside of QEMU at all. Referring back to
->>>>> my last email I think we should extend the device concept in the
->>>>> monitor to handle the additional functionality perhaps along the
->>>>> lines of:
->>>>>
->>>>> - A monitor command such as "device_map" which is effectively a
->>>>> wrapper around
->>>>>     memory_region_add_subregion(). Do we also want a "device_unmap"?
->>>>> We should
->>>>>     consider allow mapping to other memory regions other than the
->>>>> system root.
->>>>>
->>>>> - A monitor command such as "device_connect" which can be used to
->>>>> simplify your IRQ
->>>>>     wiring, perhaps also with a "device_disconnect"?
->>>>>
->>>>> - An outline of the monitor commands showing the complete workflow
->>>>> from introspection
->>>>>     of a device to mapping its memory region(s) and connecting its gpios
->>>>>
->>>>> Does that give you enough information to come up with a more detailed
->>>>> proposal?
->>>>>
->>>>
->>>> Yes. Sorry for being not clear enough. I did not wanted to insist on
->>>> specific command names. I've no issues regarding the modifications you
->>>> request about having a device_connect or a device_map.
->>>>
->>>> My question was more about the workflow which does not rely on issuing
->>>> a single 'device_add' command handling mapping/connection using
->>>> parameters. Note that since we are talking supporting of map/connect
->>>> for the base type TYPE_DEVICE, I don't really see how we could have
->>>> parameters for these without impacting subtypes.
->>>
->>> I'm not sure I understand what you are saying here? Can you give an
->>> example?
->>
->> There are 2 possible workflows:
->> 1. several commands
->>   > device_add ...
->>   > device_map ...
->>   > device_connect ...
->>
->> 2. single command
->>   > device_add ... map={...} connect={...}
->>
->> The 2nd one is more like how we connect devices with '-device': all is
->> done at once. But if this is supposed to apply to TYPE_DEVICE (versus
->> TYPE_SYS_BUS_DEVICE), it becomes IMHO hard to prevent using them on
->> devices where it does not makes sense (for example: a virtio or pci
->> device for which everything is already handled).
+ping
+
+On 2022-05-20 11:56, Li Zhang wrote:
+> When no memory backend is specified in machine options,
+> a default memory device will be added with default_ram_id.
+> However, if a memory backend object is added in QEMU options
+> and id is the same as default_ram_id, a coredump happens.
 > 
-> Can't we flag devices for which map/connect is supported in the device
-> class somehow?
-
-I don't think we actually need to do this: if someone is using the monitor to 
-wire/rewire or map/remap a device in an invalid way then ultimately that is their choice.
-
-However given that this is a new feature, we can initially restrict it to 
-SYS_BUS_DEVICEs before expanding it out to a generic DEVICE later once the feature 
-has been proved. The key part for me is to try and do it in a way that such a change 
-won't require future changes to the monitor client.
-
-
-ATB,
-
-Mark.
+> Command line:
+> qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
+> -machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
+> -smp 16,sockets=16,cores=1,threads=1 \
+> -m 4G \
+> -object memory-backend-ram,id=pc.ram,size=4G \
+> -no-user-config -nodefaults -nographic
+> 
+> Stack trace of thread 16903:
+>     #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
+>     #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
+>     #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 
+> 0x9c89be)
+>     #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
+>     #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 
+> 0x9c8ccf)
+>     #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64
+> + 0x7f6899)
+>     #6  0x0000558c349f7df8 object_property_try_add_child
+> (qemu-system-x86_64 + 0x7f7df8)
+>     #7  0x0000558c349f7e91 object_property_add_child
+> (qemu-system-x86_64 + 0x7f7e91)
+>     #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 
+> 0x34686d)
+>     #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 
+> 0x346f58)
+>     #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 
+> 0x3471b9)
+>     #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
+>     #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
+>     #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
+>     #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
+> 
+> Signed-off-by: Li Zhang <lizhang@suse.de>
+> ---
+>  hw/core/machine.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index b03d9192ba..3867af7a8a 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1290,9 +1290,17 @@ MemoryRegion
+> *machine_consume_memdev(MachineState *machine,
+>  static bool create_default_memdev(MachineState *ms, const char *path,
+> Error **errp)
+>  {
+>      Object *obj;
+> +    ObjectProperty *prop;
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+>      bool r = false;
+> 
+> +    prop = object_property_find(object_get_objects_root(), 
+> mc->default_ram_id);
+> +    if (prop) {
+> +        error_report("Memory backend id conflicts with default_ram_id 
+> %s",
+> +                     mc->default_ram_id);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+>      obj = object_new(path ? TYPE_MEMORY_BACKEND_FILE :
+> TYPE_MEMORY_BACKEND_RAM);
+>      if (path) {
+>          if (!object_property_set_str(obj, "mem-path", path, errp)) {
 
