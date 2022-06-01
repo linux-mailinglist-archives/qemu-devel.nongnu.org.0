@@ -2,95 +2,201 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F2F53AC6C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:03:12 +0200 (CEST)
-Received: from localhost ([::1]:39352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACEB53AC6F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:03:43 +0200 (CEST)
+Received: from localhost ([::1]:40238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwSgZ-0007FQ-EQ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:03:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49956)
+	id 1nwSh4-0007q5-R4
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nwSeu-00069Z-7p
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:01:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58824)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nwSfJ-0006Ob-Ng
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:01:54 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:29684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nwSer-0004IL-67
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:01:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654106483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n6MUmgMd/KCn3s8zFwGcSUV+BPq9yGtIZvzbMpaBtec=;
- b=Q8RhWgkROGnMBD3lS0t8QIpqaszXlsiHTdzhY6MzOydOxkmMULiuYXnH9j/boF7I4go1nM
- AIg5EvZN1RjaYERVzyWev4p6zquPecZ6h8+05QqAqmrB/s6lhj2FrRoDCi9cEA2OyEgw+e
- m2MiGkraWQwWYNj1pfw9weRXGRcTizs=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-hxIGFYQbMP2QsEQNB6hdvg-1; Wed, 01 Jun 2022 14:01:22 -0400
-X-MC-Unique: hxIGFYQbMP2QsEQNB6hdvg-1
-Received: by mail-io1-f71.google.com with SMTP id
- ay41-20020a5d9da9000000b006685ce50214so1311095iob.22
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 11:01:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=n6MUmgMd/KCn3s8zFwGcSUV+BPq9yGtIZvzbMpaBtec=;
- b=UeQuquE0+wr5g7tjs4HjBAAxspSS4nmEh44bEhwhJYDJ+iNMh7fepxZHvb5oGa5QPN
- lbqGuUDzKSaNXR8sPDUjuLNmYt80wWDFhv8iW6HEUxA7G758mlCQ+TH3tBqgxrNEdJPC
- O9wivvF5eK4joqmoL+eicNzn7TYenQXUsnIlhVeT/fXqdslcoP4q71AEchXyBWaN5Xic
- lj8/LjDQlXUb0GtWnDdET9e5izH2jGVuDQtcqPc1izmbalJHY6T2CXxrwD7V63bYQMjk
- BeVavU9rF41r9j0Cq2JO4JIDq52KDpn6kh26xO/bVNf5en6d/nQoGxhN3LTGj67mipue
- tW5g==
-X-Gm-Message-State: AOAM532sULCBAuwYMqcDOQx2/yqgC+q/WqoCCprYUOq8V86zGQ3HtHJU
- V4prd0oLymzZtTszDKiA4hL6JaqLDcSXHRTy8DNQ9DJw6yVvnlO2AYxLc/Fvw2rNiv3esO0V+Ai
- 7tzsiJbuKGUE552Q=
-X-Received: by 2002:a05:6e02:1608:b0:2d1:b86c:5b6b with SMTP id
- t8-20020a056e02160800b002d1b86c5b6bmr791884ilu.304.1654106482045; 
- Wed, 01 Jun 2022 11:01:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw78IdotcS3eOfLXqVoU/auEYUqxcV8mb0KDZUlQF7hOR8WdInavrbGD808CiqfJFPwpgy2ew==
-X-Received: by 2002:a05:6e02:1608:b0:2d1:b86c:5b6b with SMTP id
- t8-20020a056e02160800b002d1b86c5b6bmr791865ilu.304.1654106481794; 
- Wed, 01 Jun 2022 11:01:21 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- i8-20020a02ca08000000b0032e779b6b8csm605124jak.179.2022.06.01.11.01.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 11:01:21 -0700 (PDT)
-Date: Wed, 1 Jun 2022 12:01:20 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Dong, Eddie" <eddie.dong@intel.com>
-Cc: "Rao, Lei" <lei.rao@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
- "Zeng, Jason" <jason.zeng@intel.com>, "quintela@redhat.com"
- <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>, "Li,
- Yadong" <yadong.li@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [RFC PATCH 00/13] Add a plugin to support out-of-band live
- migration for VFIO pass-through device
-Message-ID: <20220601120120.46c7a057.alex.williamson@redhat.com>
-In-Reply-To: <BL0PR11MB30424D25A1C7C5544AF643868ADF9@BL0PR11MB3042.namprd11.prod.outlook.com>
-References: <20220524061848.1615706-1-lei.rao@intel.com>
- <20220526124427.3f23708f.alex.williamson@redhat.com>
- <BL0PR11MB30424D25A1C7C5544AF643868ADF9@BL0PR11MB3042.namprd11.prod.outlook.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nwSfG-0004KJ-Fb
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:01:52 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 251GNZg7020279;
+ Wed, 1 Jun 2022 18:01:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=A5fbWeEOjeH29UhjHC2ZhF3IhM9h8g354uTBDRWUSl4=;
+ b=GyURAoF/GP03FYokaIrJA8UBBYL0upJIBEd6MpJ2xh8Inb8KtUIbx84D5osUTKrVs/mF
+ aLK/xmWGqBg542cWu8d6iev/AmyRruic2e0yg6WMyMBaXzSCERC6xNss7dWtFZC8NBX9
+ 7F3ZlcwJ1NrYRIsDUVvJizXo4dVNfbXdUv9DBjYyfQ6MfLaG5QqMz3nCUNZYsisBpSDp
+ YRXLAz7NqR7NWcIEiqUezGOheRvwp2OB8w7l7nElpodzEy9OmsiSGE/WQGFABnEYwIht
+ Jj9jRcTiYACIOj940UjkIrgYbEh/ar5reFkSLd92nX7KAPWDX5EOzkh1V1o9H0MqnD7/ lQ== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gbcaurkg8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 01 Jun 2022 18:01:42 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 251Htxwh015039; Wed, 1 Jun 2022 18:01:41 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3gc8huaw3c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 01 Jun 2022 18:01:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VmG//LKJhxQJAxRnFH5+BdGh8CLlrQHbT0RQiy04/1+qzv5P0x3rMM1AF+d7IrBLX7Cve5CRaOMU7GqRfb7eA+7lw9d4+y9R4043LHNloDyF5GDMqsk2PxsUrRSpa4dYGs8GaCG+0x1bPKqHopl0UUNyEU4DEYBybX2Ej2W+l0S+6e8cYwWN2W6VvNSG70hGWlHxJWG6CmYp3f/2e+hOcLcht994P6vr4xSmxjF9/ykrf8iGGyTnaKeDAwgxTFdj9gZBxGgl6TpbEbzrB14lLKR4w67xj9ebY5fzTupu3DKJW1AQTUNjge+RsfGLjY6qetNS4TroDv20p8htNtII/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A5fbWeEOjeH29UhjHC2ZhF3IhM9h8g354uTBDRWUSl4=;
+ b=DPfYY7DYicgWrNX/6lZzP+L+FxilYzyiumShOt2cWAOwgzB79U2IFdjGj3NM6cyGUT5lcd/bmNqhtOITvU5FtJ9yfa/bPJ9XrSH+fiCeRQ3a+doiZ0sJxs8AbF2gL622Ryl6Kmc3lmS+jf3yRUPaoZhir4S7RT+B9hNElXg7SSn9EyNv5C2lOp43WbsrFE3I2vLlB2IpSsPFftprp2ta7qRLl3mSSktnedG+PV6jflZpjMY1uel1TRipnloaI6hILM7BTiINCannXdhZ+ZYjRiT8zZCjt/7bvrQryGOxXXS9j/z3TVQIS/cm5vzH0eZlFi+UwxDvNyaqBQqWdBbiGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A5fbWeEOjeH29UhjHC2ZhF3IhM9h8g354uTBDRWUSl4=;
+ b=xntnVr1I9B9a1HI9XSLk3EE+qfAA+1/hoEGvGRD1K78ErUrskM6SsY2DMGjEti4Z1Anq3wX6YkmH8F3FSvbhqXkPSVZQwYGFTu6FATqNJBfRz3YVfZVbVhxOk2SHV6z3Nk+v7H0081ArU91Udk0GDg/+j5aLjqT7STHhprbDUjw=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by DS7PR10MB5102.namprd10.prod.outlook.com (2603:10b6:5:38c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Wed, 1 Jun
+ 2022 18:01:39 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::e9cb:e1ca:8189:f191]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::e9cb:e1ca:8189:f191%7]) with mapi id 15.20.5293.019; Wed, 1 Jun 2022
+ 18:01:39 +0000
+From: Jag Raman <jag.raman@oracle.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>, John Johnson
+ <john.g.johnson@oracle.com>, Stefan Hajnoczi <stefanha@gmail.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "f4bug@amsat.org" <f4bug@amsat.org>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>, "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "eduardo@habkost.net" <eduardo@habkost.net>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "imammedo@redhat.com"
+ <imammedo@redhat.com>, "peterx@redhat.com" <peterx@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, Elena Ufimtseva
+ <elena.ufimtseva@oracle.com>, Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
+Thread-Topic: [PATCH v10 13/14] vfio-user: handle device interrupts
+Thread-Index: AQHYb4NRI47IPGjvqEq+Oet+ENycma0vr36AgAlwOACAAFZKAIAADqgAgAAL2QCAAULHAIAAB0gAgAAJr4A=
+Date: Wed, 1 Jun 2022 18:01:39 +0000
+Message-ID: <ACEAC13E-C1E2-4E4B-86F8-2A56D56151AF@oracle.com>
+References: <cover.1653404595.git.jag.raman@oracle.com>
+ <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
+ <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
+ <E6AB9FA3-6580-44C6-93FA-AFC19477C296@oracle.com>
+ <20220531141046.04b448e5.alex.williamson@redhat.com>
+ <CAJSP0QU13=fLTVEjE1JbkOef5im4Dwb8x3xhpYYd7KPRJjav_Q@mail.gmail.com>
+ <20220531154538.6d002124.alex.williamson@redhat.com>
+ <B3FC4541-1DB2-4C1F-8CB5-01D8771C8803@oracle.com>
+ <20220601112658.07f97a9a.alex.williamson@redhat.com>
+In-Reply-To: <20220601112658.07f97a9a.alex.williamson@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.80.82.1.1)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 75164a5a-6b17-4f1e-ad7d-08da43f8c6e7
+x-ms-traffictypediagnostic: DS7PR10MB5102:EE_
+x-microsoft-antispam-prvs: <DS7PR10MB5102297ED0CCCA6FD1E4E0DF90DF9@DS7PR10MB5102.namprd10.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4J7LUSd99AlINEOnp/RBi4cfZ+573poOhg/INFQNcz0luLoUp5CIYuqDjFiHRtwJjHhXAsHrTXtM7v8/sTP8wiTUGCb76V8FoHz323ds/sAGdoJNcExlXJQ6rLNG73biVbb4oHAWsvy0hnOUW2BiX00GDWH9pOeOwfZdnmGJpWEz2u28wMa1dKuJS5L8nmmqBF097wdNfgCA1Npx4lJvQdr0xAxA32fq4R7ECExXKbsHGSeaQrkwJzjq8baf7X1/g8530ihl5Gn3SUqZ9lyeaIlV/4ghw4fMSga2ygzB+X0x3NXGKPrnJtSdwJCf5je2UWW8Fs2FTdmlY2ZbfnUXwZdXfrx1O3BqtUsVgw/CD2H8ZoDCO8bSXC+WMloGRUhnGheIbM6fWMaK4UJQarR/d8n9MHjJqn/iRGjBHDEfJyVHt6BLTX4woF9PQ0spJQYmLbXuxb7k54a4PfWrd/LPACTm5xfa0Sq3uQXSHvRona2IisMKLFEyv6PDA8S5rJpq+bCKEx2DerHDwyVsqu9NtDSF9RnI6Mz/e/XcmUN+933pEZ+1jpPhGkd8uIh7aGq8kamExsFBrkKAMjZ7DTTPyTHFJJ3OlSiksDszfaGFk5c1KWnwg3pC6q+xMWxYV7gDOIOtW25f3uIkp15VpDAMeuZCpDhhX462oVaMVPs5zD9RtPvL1AB7VCzXMCUxSFh/bd9ba5chQ/jzNYyoWuvLtxtJYiKc9w1ngqfQgb1t9CQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(38100700002)(76116006)(66446008)(66476007)(64756008)(66556008)(107886003)(66946007)(4326008)(6506007)(8676002)(122000001)(53546011)(91956017)(6486002)(2906002)(508600001)(8936002)(38070700005)(33656002)(6512007)(7416002)(186003)(44832011)(36756003)(71200400001)(6916009)(83380400001)(86362001)(5660300002)(54906003)(2616005)(316002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YmhVNHd0UEFEUHpGdjREc0NqaDJ1RW5KQnFOQ3p5ZVFYZWZoZ1FqUzlORlBX?=
+ =?utf-8?B?MlFxdDRZUWQ4NnpRT1Y5NVJVdStDeUF0QUFKUThoVVZRZis1WUJzb3Myd0JG?=
+ =?utf-8?B?SjZ4MEhnN3lnOEZBMVBmZGxNNDhoT1dtYTNqT3l3azBnK0JldmJIbSs4Rkkx?=
+ =?utf-8?B?UThoQm4vV24yR3RnWTZWM3BpVjlLbzl0d2w3dnMvK081NFNZNkJCQklUMW5P?=
+ =?utf-8?B?UW82SUd1SVZrU3hEWTN6QVBSQjNaRUFMdFJKdi9SSVd6UG1XOW5Sb1BwSjNO?=
+ =?utf-8?B?NXRjckgvYWdmQ2s4Rjl6Mi90WjM0bzNTNGZUWnZ3SWs0bFlPT3pHTTBEdVhN?=
+ =?utf-8?B?S2N4WTBjTkxQTjJkTjVLLzhieHU1Z1ROOW5Jc01FSGtmZzAvdFVRalpleTNM?=
+ =?utf-8?B?Rk01SjBWMUcrTEJ2eVhPNFJHTlZ0WW93QzVEM3BOMFBFUjhGWitKcGdiYVZY?=
+ =?utf-8?B?Mm1ZQWRGa0twRDhMVTBXd0gxVk9rbEJwYUVYRytvRWNtaXZDWW9LSEZlcVVP?=
+ =?utf-8?B?Q2Nsb3BuSXY4TjFRTGdhSkNFaFZGb1RrMmR1TXNHL2Z1S2h4NGdiaUphL3hh?=
+ =?utf-8?B?WDlzQ2tMSENjODVNT2h6RzJIRVNuMkxwOWdZeEdmT3RVVEM5bjdLN3podnRv?=
+ =?utf-8?B?MDgyOW1BZ0VuRXppWklKaFVkUHRMQ2FkZFdobnBQQUIrNjhwaHQ5SC9hMi9O?=
+ =?utf-8?B?K0tkS1ltK2ZHa2xTVTRBMm5aeTZVajZ0RFQ4RGp0R1FOa2FnM0RYM3k0b2dh?=
+ =?utf-8?B?S1M2a0cvQncyTVZYeTQ4ZjRuZWxpSldkMlN4MHJqZzBodGx5V2J1QXUzUlNC?=
+ =?utf-8?B?eURYczdpS2JrTGJxaXU0QWYzVkZzU0FZWTVGZFVMd0hMRkJxblhTL3RLRFBM?=
+ =?utf-8?B?aWZvaUVhR2ZsZ24wMWFPR3I5cTBYZlZOWWF5eCtUeDJYQ1orajU1S0tCNWtZ?=
+ =?utf-8?B?TGRQNlgyOE44SGRWRTFnTFZYb2duV0pjWG9sSzJaSU9CVkEvR2tBSjR3THpx?=
+ =?utf-8?B?Z09UY05LSFZLSjNjdDYvK2pwSjA4V3dGZWtIVy9Pd0d0TnBzQ3Y0VlJpb1Zy?=
+ =?utf-8?B?dzU2cC9QSHNrd2VlbnNMUTZPL0k3Qm9YQ1QzMDg4ZE1hSUxab0Y3WkdlK2Vj?=
+ =?utf-8?B?UHRmSnFmRlRWN3hYUHFnTVdNK0hSRWVKUE1iV0UrMGdiWkxETC9zUHpqLzFQ?=
+ =?utf-8?B?eE5iSWRVcmNTbGJNN1hwNFhyaXNldUNTbmRkalA2S1ZnNXkvenlScXZvVEpl?=
+ =?utf-8?B?aGRwNmo3eDBiODM2eTlLMWMwQy9vTzM4VDBWOVkvcjVVa1NhSVduSUlpb1JL?=
+ =?utf-8?B?TDZIYndGT2NFODZzdHpvUHhkVVBtcXFhNHIzMVo3bGJzdWFoTlJIV1UzNkZa?=
+ =?utf-8?B?Q2tWZGVqQkgyN3ZPelRmczh5cGZiaFNhRDZGLzQ4dWJyRXM0T3hvQTdvMEN3?=
+ =?utf-8?B?NkRYczFCS3BxRlgwdURXK0RkVHgxZ3dpOTJwQjNNbjVZVHc5Rjk0V3hXSENC?=
+ =?utf-8?B?NE4yN2FUazRqbTM5WlNEZkxwaWNpdzE5a0dHbzlSQjFBbUJKZWcwZVI3WnlM?=
+ =?utf-8?B?UGRWb2tKa3ZrLzdERlZwa1lSeldHRVlEQlpZMVdzS3lDdWpvMmVpQUdwZ0tm?=
+ =?utf-8?B?dmpsd2NOVmFpTVlNN3hoazZMNUU0M21qQ3pDNmlBSzNVMDdyN0hEZTVzNUNp?=
+ =?utf-8?B?ODE3SkFBNE5YT2hVSlQzS2hLODl1aW9Dd2xpR0RIblZWVktDUHp4RFJscW9q?=
+ =?utf-8?B?Y1JIZEtrc3NMUnBhb3pNMnV1SFRxc1lnbUtGVC9BcGUyMFhuekFVakZ5RjF0?=
+ =?utf-8?B?eGxuUkVncWJZMzNScXRkQWVtMW1CdkpxMFBSTWJSUFBuZVRCZEMrWk9qODEv?=
+ =?utf-8?B?cURnaVd4dER1K3p0TlR4cFdtQU9RN29zb0JzRnNySk5LdUk5K0tIUnEwNDBr?=
+ =?utf-8?B?b2VWRFhsZk4vNisvTVBqc0pFSkxzMkh5Zncra0JHTDJydnI1QjdkY1hjcnVM?=
+ =?utf-8?B?Y2ttM3lLc09IOFF6S1hiaGx4TVJ5ODd6akFSKzB5SWVzOTVud2UxRW5PWis0?=
+ =?utf-8?B?QXZ2K3VaaDB4ZUc5Q2hoOWdNVlo0N0JrNWx0Q1NwZ2tYWEx3SVBJUHphekhY?=
+ =?utf-8?B?NXcrM2l5NitTbWV1R1RMZ0tMNHVUNzkzQitRU2Nldjl2Tnd3TUlpZG5DVFlL?=
+ =?utf-8?B?VEJIVFA4VVp2RlV6OEFVckxIRVlBRnIvN2dqRmF2RnVJZzlFNlhsQVVZSFFW?=
+ =?utf-8?B?OVkrM0dGNlk2M3JFQmpQT0J0ZE4wYzhxTlQxamxwbE9SaVRKVkpaeitFdDVm?=
+ =?utf-8?B?SXJ3UEZVVllNa0lRQU1ENWEzRzZTcU1WRlkwUmZwT000TkZoYlBaeTU2MmxR?=
+ =?utf-8?Q?JMXIBZA5WJvgvgDLoyh83oP9v4Ci+JB/uVwuc?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4F632E023C0FB6478C159E4F2273DB9A@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75164a5a-6b17-4f1e-ad7d-08da43f8c6e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2022 18:01:39.4212 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZUaOIojx0VfVgyURYaXpxK4BNdmaktOzYEZv25n9wmb7uzIW0B1Ag8SAD4OCl58WW0gXAv3P08suTOf2B7PtLw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5102
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.874
+ definitions=2022-06-01_06:2022-06-01,
+ 2022-06-01 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ bulkscore=0
+ mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206010077
+X-Proofpoint-ORIG-GUID: arNz_YPVzW2YnslypbjiYDJ4wTqinLZA
+X-Proofpoint-GUID: arNz_YPVzW2YnslypbjiYDJ4wTqinLZA
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,63 +212,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 1 Jun 2022 17:09:25 +0000
-"Dong, Eddie" <eddie.dong@intel.com> wrote:
-
-> > -----Original Message-----
-> > From: Qemu-devel <qemu-devel-  
-> > bounces+eddie.dong=intel.com@nongnu.org> On Behalf Of Alex Williamson  
-> > On Tue, 24 May 2022 14:18:35 +0800
-> > Lei Rao <lei.rao@intel.com> wrote:
-> > > This proposal adopts a plugin mechanism (an example can be found in
-> > > [1]) given that IPU/DPU vendors usually implement proprietary
-> > > migration interfaces without a standard. But we are also open if an
-> > > alternative option makes better sense, e.g. via loadable modules (with
-> > > Qemu supporting gRPC or JSON-RPC support) or an IPC mechanism similar  
-> > to vhost-user.
-> > 
-> > AFAIU, QEMU is not interested in supporting plugin modules, especially
-> > proprietary ones.  I don't see that a case has really been made that this
-> > cannot be done in-band, through a vfio-pci variant driver, possibly making
-> > use of proprietary interfaces to a userspace agent if necessary (though
-> > please don't ask such to be accepted in-tree for the kernel either).  A vfio-
-> > user device server might also host such proprietary, device specific agents
-> > while supporting the standard, in-band migration interface.  Thanks,
-> >   
-> 
-> Thanks Alex. Removing plug-in module is not a problem.
-> 
-> Do you mean to implement the migration and protocol handling inside
-> Qemu-client (probably vfio-client after the VFIO-user is merged)? Or
-> to build as part of libvfio-user? We can also build it as a separate
-> process of Qemu-server as part of Multi-Process Qemu.
-
-AIUI, the QEMU "client" in a vfio-user configuration is simply QEMU
-itself.  The vfio-user "server" provides the actual device
-implementation, which could support different license models, depending
-on what libraries or existing code is incorporated to implement that
-server.  The QEMU remote machine type is simply a QEMU-based
-implementation of a vfio-user server.  The vfio-user server is analogous
-to a vfio-pci variant driver in the kernel/ioctl interface model.  The
-vfio-user client should be device agnostic, possibly with similar
-exceptions we have today via device specific quirk handling for the
-vfio kernel interface.
-
-> In here, the protocol between host CPU and SoC is based on gRPC,
-> which support Rust code in client (Host CPU side here) more than
-> C/C++. Do you have any suggestion to better support Rust code with
-> Qemu C/C++ code? 
-
-I'm not qualified to provide suggestions regarding Rust code
-integration with QEMU, but I think that's only required if the device
-specific migration support is on the "client".  As above, I don't think
-that's the correct model, the vfio migration protocol is meant to
-support any device specific requirements on the device end of the
-connection, ie. the "server" end for vfio-user, which can be an
-entirely separate, non-QEMU based process.  I think there are also ways
-to write kernel drivers in Rust, so possibly a kernel interface
-vfio-pci variant driver could also work.  Thanks,
-
-Alex
-
+DQoNCj4gT24gSnVuIDEsIDIwMjIsIGF0IDE6MjYgUE0sIEFsZXggV2lsbGlhbXNvbiA8YWxleC53
+aWxsaWFtc29uQHJlZGhhdC5jb20+IHdyb3RlOg0KPiANCj4gT24gV2VkLCAxIEp1biAyMDIyIDE3
+OjAwOjU0ICswMDAwDQo+IEphZyBSYW1hbiA8amFnLnJhbWFuQG9yYWNsZS5jb20+IHdyb3RlOg0K
+Pj4gDQo+PiBIaSBBbGV4LA0KPj4gDQo+PiBKdXN0IHRvIGFkZCBzb21lIG1vcmUgZGV0YWlsLCB0
+aGUgZW11bGF0ZWQgUENJIGRldmljZSBpbiBRRU1VIHByZXNlbnRseQ0KPj4gbWFpbnRhaW5zIGEg
+TVNJeCB0YWJsZSAoUENJRGV2aWNlLT5tc2l4X3RhYmxlKSBhbmQgUGVuZGluZyBCaXQgQXJyYXku
+IEluIHRoZQ0KPj4gcHJlc2VudCBWRklPIFBDSSBkZXZpY2UgaW1wbGVtZW50YXRpb24sIFFFTVUg
+bGV2ZXJhZ2VzIHRoZSBzYW1lDQo+PiBNU0l4IHRhYmxlIGZvciBpbnRlcnJ1cHQgbWFza2luZy91
+bm1hc2tpbmcuIFRoZSBiYWNrZW5kIFBDSSBkZXZpY2UgKHN1Y2ggYXMNCj4+IHRoZSBwYXNzdGhy
+dSBkZXZpY2UpIGFsd2F5cyB0aGlua3MgdGhhdCB0aGUgaW50ZXJydXB0IGlzIHVubWFza2VkIGFu
+ZCBsZXRzDQo+PiBRRU1VIG1hbmFnZSBtYXNraW5nLg0KPj4gDQo+PiBXaGVyZWFzIGluIHRoZSB2
+ZmlvLXVzZXIgY2FzZSwgdGhlIGNsaWVudCBhZGRpdGlvbmFsbHkgcHVzaGVzIGEgY29weSBvZg0K
+Pj4gZW11bGF0ZWQgUENJIGRldmljZeKAmXMgdGFibGUgZG93bnN0cmVhbSB0byB0aGUgcmVtb3Rl
+IGRldmljZS4gV2UgZGlkIHRoaXMNCj4+IHRvIGFsbG93IGEgc21hbGwgc2V0IG9mIGRldmljZXMg
+KHN1Y2ggYXMgZTEwMDBlKSB0byBjbGVhciB0aGUNCj4+IFBCQSAobXNpeF9jbHJfcGVuZGluZygp
+KS4gU2Vjb25kbHksIHRoZSByZW1vdGUgZGV2aWNlIHVzZXMgaXRzIGNvcHkgb2YgdGhlDQo+PiBN
+U0l4IHRhYmxlIHRvIGRldGVybWluZSBpZiBpbnRlcnJ1cHQgc2hvdWxkIGJlIHRyaWdnZXJlZCAt
+IHRoaXMgd291bGQgcHJldmVudA0KPj4gYW4gaW50ZXJydXB0IGZyb20gYmVpbmcgc2VudCB0byB0
+aGUgY2xpZW50IHVubmVjZXNzYXJpbHkgaWYgaXQncyBtYXNrZWQuDQo+PiANCj4+IFdlIGFyZSB3
+b25kZXJpbmcgaWYgcHVzaGluZyB0aGUgTVNJeCB0YWJsZSB0byB0aGUgcmVtb3RlIGRldmljZSBh
+bmQNCj4+IHJlYWRpbmcgUEJBIGZyb20gaXQgd291bGQgZGl2ZXJnZSBmcm9tIHRoZSBWRklPIHBy
+b3RvY29sIHNwZWNpZmljYXRpb24/DQo+PiANCj4+IEZyb20geW91ciBjb21tZW50LCBJIHVuZGVy
+c3RhbmQgaXTigJlzIHNpbWlsYXIgdG8gVkZJTyBwcm90b2NvbCBiZWNhdXNlIFZGSU8NCj4+IGNs
+aWVudHMgY291bGQgbWFzayBhbiBpbnRlcnJ1cHQgdXNpbmcgVkZJT19ERVZJQ0VfU0VUX0lSUVMg
+aW9jdGwgKw0KPj4gVkZJT19JUlFfU0VUX0FDVElPTl9NQVNLIC8gX1VOTUFTSyBmbGFncy4gSSBv
+YnNlcnZlZCB0aGF0IFFFTVUgcHJlc2VudGx5DQo+PiBkb2VzIG5vdCB1c2UgdGhpcyBhcHByb2Fj
+aCBhbmQgdGhlIGtlcm5lbCBkb2VzIG5vdCBzdXBwb3J0IGl0IGZvciBNU0kuDQo+IA0KPiBJIGJl
+bGlldmUgdGhlIFNFVF9JUlFTIGlvY3RsIGRlZmluaXRpb24gaXMgcHJlLWVuYWJsZWQgdG8gc3Vw
+cG9ydA0KPiBtYXNraW5nIGFuZCB1bm1hc2tpbmcsIHdlJ3ZlIGp1c3QgbGFja2VkIGtlcm5lbCBz
+dXBwb3J0IHRvIG1hc2sgYXQgdGhlDQo+IGRldmljZSB3aGljaCBsZWFkcyB0byB0aGUgaHlicmlk
+IGFwcHJvYWNoIHdlIGhhdmUgdG9kYXkuICBPdXIgaW50ZW50aW9uDQo+IHdvdWxkIGJlIHRvIHVz
+ZSB0aGUgY3VycmVudCB1QVBJLCB0byBwcm92aWRlIHRoYXQgbWFza2luZyBzdXBwb3J0LCBhdA0K
+PiB3aGljaCBwb2ludCB3ZSdkIGxlYXZlIHRoZSBQQkEgbWFwcGVkIHRvIHRoZSBkZXZpY2UuDQoN
+ClRoYW5rIHlvdSBmb3IgY2xhcmlmeWluZyENCg0KPiANCj4gU28gd2hldGhlciB5b3VyIHByb3Bv
+c2FsIGRpdmVyZ2VzIGZyb20gdGhlIFZGSU8gdUFQSSBkZXBlbmRzIG9uIHdoYXQNCj4geW91IG1l
+YW4gYnkgInB1c2hpbmcgdGhlIE1TSXggdGFibGUgdG8gdGhlIHJlbW90ZSBkZXZpY2UiLiAgSWYg
+dGhhdCdzDQo+IGRvbmUgYnkgaW1wbGVtZW50aW5nIHRoZSBleGlzdGluZyBTRVRfSVJRUyBtYXNr
+aW5nIHN1cHBvcnQsIHRoZW4geW91J3JlDQo+IHNwb3Qgb24uICBPVE9ILCBpZiB5b3UncmUgYWN0
+dWFsbHkgcHVzaGluZyBhIGNvcHkgb2YgdGhlIE1TSXggdGFibGUNCj4gZnJvbSB0aGUgY2xpZW50
+LCB0aGF0J3MgY2VydGFpbmx5IG5vdCBob3cgSSBoYWQgZW52aXNpb25lZCB0aGUga2VybmVsDQoN
+CkluIHRoZSBjdXJyZW50IGltcGxlbWVudGF0aW9uIC0gd2hlbiB0aGUgZ3Vlc3QgYWNjZXNzZXMg
+dGhlIE1TSXggdGFibGUgYW5kDQpQQkEsIHRoZSBjbGllbnQgcGFzc2VzIHRoZXNlIGFjY2Vzc2Vz
+IHRocm91Z2ggdG8gdGhlIHJlbW90ZSBkZXZpY2UuDQoNCklmIHdlIHN3aXRjaCB0byB1c2luZyBT
+RVRfSVJRUyBhcHByb2FjaCwgd2UgY291bGQgdXNlIFNFVF9JUlFTDQptZXNzYWdlIGZvciBtYXNr
+aW5nL3VubWFza2luZywgYnV0IHN0aWxsIHBhc3MgdGhyb3VnaCB0aGUgdGhlIFBCQQ0KYWNjZXNz
+IHRvIHRoZSBiYWNrZW5kIFBDSSBkZXZpY2UuDQoNClNvIEkgdGhpbmsgdGhlIHF1ZXN0aW9uIGlz
+LCBpZiB3ZSBzaG91bGQgc3dpdGNoIHZmaW8tdXNlciB0byBTRVRfSVJRUw0Kbm93IGZvciBtYXNr
+aW5nIG9yIHVubWFza2luZywgb3Igd2hlbmV2ZXIgUUVNVSBkb2VzIGl0IGluIHRoZSBmdXR1cmU/
+DQpUaGUgUEJBIGFjY2VzcyB3b3VsZCByZW1haW4gdGhlIHNhbWUgYXMgaXTigJlzIG5vdyAtIHZp
+YSBkZXZpY2UgQkFSLg0KDQpUaGFuayB5b3UhDQotLQ0KSmFnDQoNCj4gaW50ZXJmYWNlLiAgVGhh
+bmtzLA0KPiANCj4gQWxleA0KPiANCg0K
 
