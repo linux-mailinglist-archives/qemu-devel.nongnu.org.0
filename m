@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE3D53AE72
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 23:16:52 +0200 (CEST)
-Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CB353AE70
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 23:15:17 +0200 (CEST)
+Received: from localhost ([::1]:42404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwVhx-0005v1-8R
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 17:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59806)
+	id 1nwVgS-0004xs-3V
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 17:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nwVa7-0000nN-CW; Wed, 01 Jun 2022 17:08:43 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:35143)
+ id 1nwVa7-0000nW-HI; Wed, 01 Jun 2022 17:08:43 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:59423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nwVa4-00021C-FW; Wed, 01 Jun 2022 17:08:43 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id D45645C01A8;
- Wed,  1 Jun 2022 17:08:38 -0400 (EDT)
+ id 1nwVa5-000224-Sq; Wed, 01 Jun 2022 17:08:43 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 229FA5C01C2;
+ Wed,  1 Jun 2022 17:08:41 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 01 Jun 2022 17:08:38 -0400
+ by compute4.internal (MEProxy); Wed, 01 Jun 2022 17:08:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1654117718; x=
- 1654204118; bh=j1dmRX6JdLQttZNIrKMK0p1ihYzMGVycd1ijhAJTMXs=; b=T
- jZ2dhZ4smax/0vrZ6PoowGNCCeJ7ZOgbkSNHvMkCpD11nLhngI8nE4g+zeitGzp3
- rIOVT4FcTmpG4pmOUaNTcQTdbq1zPoAJV4lsYM9ccz4WqQs9LZnzbqf4U6UHgBml
- Pszn8kq7fCTfC0nldJ9Thj6Oz1eYUxsqmTQbF2AfVnWC4njEYMfdACoA5VmC2SUA
- Dt++iAKhwC86YXMrZlw0WuIvLSsGsY4UwD2zPKcqE1/s1Qb7irBXel/B/s2VL4ry
- JJY8aNl+olF69s7eiVjyW1XlKl7bxrE14AUOU82vMiD0f5fsRvC0Yy7/AZajJbPg
- 67vkfcZLYsRr6dOvrcicg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
+ h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654117718; x=
- 1654204118; bh=j1dmRX6JdLQttZNIrKMK0p1ihYzMGVycd1ijhAJTMXs=; b=Z
- veSG0lmZtRFj9TGA9TLiBueYIvbW7N7g0+4cWK187voL+JtPf1ixyQYHtdQKRnKu
- HQ8TwbdOdYaNOn/n2LvhrHYEOcf+ElS1Bw3VlX1XIvNiGdw1Nvt/dIFBHpA9L0BX
- 6hsVlrMKa1GNYad5asbskldoBDqC+v/l3aT9G3GAHc1tXqD7f98/bek01nLi8a7x
- EMxeaJvUvoDOPb3frFvei+1n8u2reOt1kGHiNiarYycSt5uY6XmlfDiMj88O/I0B
- f4OAZF5nmM7xZ3QCliGeAdIkYT9VM0V74r+Q+jryDFUT5dcifD3M8BZ4RFDu2CeB
- Kcn5DW++k0Nr54O72M4jw==
-X-ME-Sender: <xms:VtWXYhyBUO1Btk7utIi0mEd50oVJ29UCZnPjdyXC43F9DjPrNtS3xA>
- <xme:VtWXYhQ9DPXJ9eokWFujjeSxpaUaeBMcioI8cIPqan-E8DIbqKxbWogaq0_CAM4Ko
- 6uKXVlmh7sLWm39HMY>
-X-ME-Received: <xmr:VtWXYrVR5vJDTInygCNCPvk0xwshiZ9iNk2eN07n7ySOsSvbgwgcKMLWOepU75iTDckdtIuEnFZqY9kVWFYa>
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1654117721; x=
+ 1654204121; bh=agWTpPN5g6Ngdn7NFU5D5UXTWDyetqvjbfAd0JxUuP4=; b=F
+ 85+IZzJceowG7EBMiKYT8UBAPYq/YcUcyio8x35QnjVN0MOli1h+2nwO4+vJWXSC
+ olOpALkgMiRCJvxQLyk0/XAbrM6BSXz06VcFsEPhsruFP6pBx3c3b/Yl/GGOCTO0
+ +Rx5hcWdmHswSGm2JM0yNWxEvwNNqt7imrf0cbcYLYjA7TuUKq44q/OR/CZ1pIlt
+ 2vvIQygjgtuczuCOswmHeBhPLiy3CDxYEJBy0j21oK8T5UdYWHsHmdeaY1LCGRfq
+ jY5ZJ0MQVtQKX0iqe9DavO5VmjeqijdRsokF1wcmAiE2d7KaAX5rTCXrE441weLr
+ HB+MZOoNV1yqE/EapiHCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1654117721; x=1654204121; bh=agWTpPN5g6Ngd
+ n7NFU5D5UXTWDyetqvjbfAd0JxUuP4=; b=T5Kyr2MFvQqkXpvxni5staFBcVQLX
+ DFPMdBwdzUsaWu0YEXrzdqHtgX6amTeoZ5Bhxy69yPFoKyDXSm/1LsQmvfloSAWb
+ 4xZRVlhp+Tb2VxDEJNIzwxvh35dVNNyjZ12SUi8ZQZfVsIsz4natJXMXoYM3gTAk
+ RKufZh6jnh9sokhlnWlFnOjIRgorSMcjTSQm1Xyf0/k3/pE7Wsgg43+2hLjE9CXq
+ A07Y4o5okxFSDU4lxr0MXDooYM7A5eln1u9InNZeOZL3/Z1H0I/qt23iyuKNtlZ1
+ Sf3YAW6kn6J85hQOwnfPO4ub+xn4YVlxLQzx5I4QJHodYdwE1sr1G2Q2Q==
+X-ME-Sender: <xms:WNWXYvPcDFolrt1q0nDuYCJuKYRzr-c7n8Nbuov-z1JXxFGfHex98Q>
+ <xme:WNWXYp-B9pfviKOZGZmiAGEf5wcCVGY7dml45YOO942Yg9Kl-ZXEVbAQgoR3_T0ji
+ Mz-4DUrk-rMuwfGW5o>
+X-ME-Received: <xmr:WNWXYuRiXoQQjWYrWK5bzS5QIz0FXac4nLziw23EfK_sJu_vmHN9HmlaQSDFiVKItlvJ0oe3Itbimy7-AE4_>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledtgdduheehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeefvedtueetueduffevgffgtdeftdeuleffhfeigeffkeegfeejfeffteej
- iefhvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:VtWXYjjUOOdnfx-hjzaxJ68daX4n3Dip0BmT-XHCdsQpl_LCoCsk0w>
- <xmx:VtWXYjBwwPGdiGoztkhtmYXnMPjUqJGXWWV-fqam_-TvgBXpu4zjqg>
- <xmx:VtWXYsKA4WD-eUi4hqcTZi7FsKHno7P5-SUxkytfRfAbLhocwzUV9w>
- <xmx:VtWXYgJIwbLy3icFIgOQTKWkcgp0-Wo-nDEwflP0JXevjEteMxN65w>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
+ udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:WNWXYjtfHFDQwAfC1M44kBuew_D_B7QHMBZNb_G9ONwOIjIf7ppuFQ>
+ <xmx:WNWXYndSS8q3_bQdCiOlbPRjtkICnw62QA_2v6t5Z3UrZ75iE1SFnw>
+ <xmx:WNWXYv2iw4bzrabnX2NOzODE_r2KPDr-LINYn_5TmyeudZ0JBDuZzw>
+ <xmx:WdWXYv1uLLg1bHqCIkjBoMVA67yKDHh96p_242YAB29v8ouRM_J-7Q>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jun 2022 17:08:36 -0400 (EDT)
+ 1 Jun 2022 17:08:39 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
@@ -77,14 +76,13 @@ Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
  Joel Stanley <joel@jms.id.au>,
  Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [RFC PATCH v2 1/6] hw/i2c/aspeed: rework raise interrupt trace event
-Date: Wed,  1 Jun 2022 23:08:26 +0200
-Message-Id: <20220601210831.67259-2-its@irrelevant.dk>
+Subject: [RFC PATCH v2 2/6] hw/i2c/aspeed: add DEV_ADDR in old register mode
+Date: Wed,  1 Jun 2022 23:08:27 +0200
+Message-Id: <20220601210831.67259-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601210831.67259-1-its@irrelevant.dk>
 References: <20220601210831.67259-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
  helo=out2-smtp.messagingengine.com
@@ -113,114 +111,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Build a single string instead of having several parameters on the trace
-event.
+Add support for writing and reading the device address register in old
+register mode.
 
-Suggested-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/i2c/aspeed_i2c.c | 55 +++++++++++++++++++++++++++++++++++----------
- hw/i2c/trace-events |  2 +-
- 2 files changed, 44 insertions(+), 13 deletions(-)
+ hw/i2c/aspeed_i2c.c         | 5 +++--
+ include/hw/i2c/aspeed_i2c.h | 8 ++++++++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 5fce516517a5..576425898b09 100644
+index 576425898b09..5a7eb5579b01 100644
 --- a/hw/i2c/aspeed_i2c.c
 +++ b/hw/i2c/aspeed_i2c.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-+#include "qemu/cutils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/error-report.h"
-@@ -31,6 +32,9 @@
- #include "hw/registerfields.h"
- #include "trace.h"
+@@ -104,6 +104,7 @@ static uint64_t aspeed_i2c_bus_old_read(AspeedI2CBus *bus, hwaddr offset,
+     case A_I2CD_AC_TIMING2:
+     case A_I2CD_INTR_CTRL:
+     case A_I2CD_INTR_STS:
++    case A_I2CD_DEV_ADDR:
+     case A_I2CD_POOL_CTRL:
+     case A_I2CD_BYTE_BUF:
+         /* Value is already set, don't do anything. */
+@@ -741,8 +742,7 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bus, hwaddr offset,
+         }
+         break;
+     case A_I2CD_DEV_ADDR:
+-        qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
+-                      __func__);
++        bus->regs[R_I2CD_DEV_ADDR] = value;
+         break;
+     case A_I2CD_POOL_CTRL:
+         bus->regs[R_I2CD_POOL_CTRL] &= ~0xffffff;
+@@ -1060,6 +1060,7 @@ static void aspeed_i2c_bus_reset(DeviceState *dev)
  
-+#define ASPEED_I2C_TRACE_INTR_TEMPLATE \
-+    "pktdone|nak|ack|done|normal|abnormal|"
-+
- static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
- {
-     AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
-@@ -38,23 +42,50 @@ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
-     uint32_t intr_ctrl_reg = aspeed_i2c_bus_intr_ctrl_offset(bus);
-     bool raise_irq;
+     s->regs[R_I2CD_INTR_CTRL] = 0;
+     s->regs[R_I2CD_INTR_STS] = 0;
++    s->regs[R_I2CD_DEV_ADDR] = 0;
+     s->regs[R_I2CD_CMD] = 0;
+     s->regs[R_I2CD_BYTE_BUF] = 0;
+     s->regs[R_I2CD_DMA_ADDR] = 0;
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 79c6779c6c1e..03fe829a3a57 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -297,6 +297,14 @@ static inline uint32_t aspeed_i2c_bus_cmd_offset(AspeedI2CBus *bus)
+     return R_I2CD_CMD;
+ }
  
--    trace_aspeed_i2c_bus_raise_interrupt(bus->regs[reg_intr_sts],
--        aspeed_i2c_bus_pkt_mode_en(bus) &&
--        ARRAY_FIELD_EX32(bus->regs, I2CM_INTR_STS, PKT_CMD_DONE) ?
--                                                               "pktdone|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_NAK) ? "nak|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_ACK) ? "ack|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, RX_DONE) ? "done|"
--                                                                  : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, NORMAL_STOP) ?
--                                                                "normal|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, ABNORMAL) ? "abnormal"
--                                                                   : "");
-+    if (trace_event_get_state_backends(TRACE_ASPEED_I2C_BUS_RAISE_INTERRUPT)) {
-+        static const size_t BUF_SIZE = strlen(ASPEED_I2C_TRACE_INTR_TEMPLATE);
-+        g_autofree char *buf = g_malloc0(BUF_SIZE);
-+
-+        /*
-+         * Remember to update ASPEED_I2C_TRACE_INTR_TEMPLATE if you add a new
-+         * status string.
-+         */
-+
-+        if (aspeed_i2c_bus_pkt_mode_en(bus) &&
-+            ARRAY_FIELD_EX32(bus->regs, I2CM_INTR_STS, PKT_CMD_DONE)) {
-+            pstrcat(buf, BUF_SIZE, "pktdone|");
-+        }
-+
-+        if (SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_NAK)) {
-+            pstrcat(buf, BUF_SIZE, "nak|");
-+        }
-+
-+        if (SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_ACK)) {
-+            pstrcat(buf, BUF_SIZE, "ack|");
-+        }
-+
-+        if (SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, RX_DONE)) {
-+            pstrcat(buf, BUF_SIZE, "done|");
-+        }
-+
-+        if (SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, NORMAL_STOP)) {
-+            pstrcat(buf, BUF_SIZE, "normal|");
-+        }
-+
-+        if (SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, ABNORMAL)) {
-+            pstrcat(buf, BUF_SIZE, "abnormal|");
-+        }
-+
-+        trace_aspeed_i2c_bus_raise_interrupt(bus->regs[reg_intr_sts], buf);
++static inline uint32_t aspeed_i2c_bus_dev_addr_offset(AspeedI2CBus *bus)
++{
++    if (aspeed_i2c_is_new_mode(bus->controller)) {
++        return R_I2CS_DEV_ADDR;
 +    }
++    return R_I2CD_DEV_ADDR;
++}
 +
-     raise_irq = bus->regs[reg_intr_sts] & bus->regs[intr_ctrl_reg];
-+
-     /* In packet mode we don't mask off INTR_STS */
-     if (!aspeed_i2c_bus_pkt_mode_en(bus)) {
-         bus->regs[reg_intr_sts] &= bus->regs[intr_ctrl_reg];
-     }
-+
-     if (raise_irq) {
-         bus->controller->intr_status |= 1 << bus->id;
-         qemu_irq_raise(aic->bus_get_irq(bus));
-diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
-index 85e4bddff936..209275ed2dc8 100644
---- a/hw/i2c/trace-events
-+++ b/hw/i2c/trace-events
-@@ -9,7 +9,7 @@ i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
- # aspeed_i2c.c
- 
- aspeed_i2c_bus_cmd(uint32_t cmd, const char *cmd_flags, uint32_t count, uint32_t intr_status) "handling cmd=0x%x %s count=%d intr=0x%x"
--aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *str1, const char *str2, const char *str3, const char *str4, const char *str5, const char *str6) "handled intr=0x%x %s%s%s%s%s%s"
-+aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *s) "handled intr=0x%x %s"
- aspeed_i2c_bus_read(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
- aspeed_i2c_bus_write(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
- aspeed_i2c_bus_send(const char *mode, int i, int count, uint8_t byte) "%s send %d/%d 0x%02x"
+ static inline uint32_t aspeed_i2c_bus_intr_ctrl_offset(AspeedI2CBus *bus)
+ {
+     if (aspeed_i2c_is_new_mode(bus->controller)) {
 -- 
 2.36.1
 
