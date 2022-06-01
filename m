@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486A753A27E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 12:23:44 +0200 (CEST)
-Received: from localhost ([::1]:43518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6929353A27B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 12:22:06 +0200 (CEST)
+Received: from localhost ([::1]:40950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwLVv-0001Ys-3z
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 06:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48004)
+	id 1nwLUK-0008Cg-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 06:22:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nwLTy-00008l-Tc
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:21:43 -0400
-Received: from mga04.intel.com ([192.55.52.120]:6850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nwLTw-0008Dc-OG
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:21:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654078900; x=1685614900;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=MPDfwkz64kDPQGnp5LEYEWHtzrsbbGi1CtkgkpVVQ9g=;
- b=nKEbt1Be/vrGuOCO5QKHXla1cojrVpbOtrHcpX9um21OSVR9znaLnm4N
- N0gsHdT6HBgJQNaP0677iv5dDthDtuvzBlxaPJrjx3mnpgHDW1rrQCW2D
- 8k6zHE/iHmAP7TUJwtlff2EkTwvZgGbnmS5VhmMwiAcCDMEMT06XIUl/C
- y+MyDV+FutSzjsv79VQGgOQnYcd1gQn30YJGC7E+0kFmnmEMXkixKQ5hN
- 7RIuIpp1ZSInPB7xC9UKlyyIuCUA+ITafC1gEzgqz99fMCmssl16fjQEH
- URL4tqoNN69vAmolsO17s21yXdXXCW5TawX9Z6fmmFegLpdvtsM2G2pgG w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="274343234"
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="274343234"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 03:21:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="755837829"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga005.jf.intel.com with ESMTP; 01 Jun 2022 03:21:12 -0700
-Date: Wed, 1 Jun 2022 18:17:47 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Vishal Annapurve <vannapurve@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>,
- Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220601101747.GA1255243@chaop.bj.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-4-chao.p.peng@linux.intel.com>
- <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nwLRy-0005wH-4b; Wed, 01 Jun 2022 06:19:39 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:34600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nwLRj-0007ak-1q; Wed, 01 Jun 2022 06:19:37 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id p13so2083112ybm.1;
+ Wed, 01 Jun 2022 03:19:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qMhV1GxbuMlUaxR0FkXkrQbbUKHhrQzcruSdoP5nf1w=;
+ b=F5IShNi8HpTX5EaRFJ8KNxaTDBjIYQuo873ux/hB6wIlNDn8nLnRiEadtQRHUyEaIw
+ TZnZVOgxN79d4r/0j9aw/ayzVyZJpzjGqPbVjx1oNbJDRdPnc+nZ8wMus1WcJA7Y7EJL
+ 7eOhgHoCCim7Nu+o1nvNxZUjWwyW6D5ZnbMYOgjftmEzwNt/tK2uL8bxaNar8gudbxeI
+ Sjd4M8CMuOvKwGjtl7CD+jjqOkS9Kf7m1tGsDLUrNDT2FfnGnUJdcU4Ow1aAssgf4nPW
+ 7plozEnyagJcLRJDXsnCiBU2kOg3YiG4htz9vn8ivYi76Ukuyz6m4mBvrJb2wmnrC4gI
+ fY6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qMhV1GxbuMlUaxR0FkXkrQbbUKHhrQzcruSdoP5nf1w=;
+ b=stWmtOEKJCIJQ29WOkS4uDca5wylFrV5ExiARaumJ+VqX2/Eoq1IjiQ3EugqFC4kJi
+ YbmIyYiEH2gIap1pcX6GOMDVTv3MJd+sWaA20U7+RyNX3eI4c3UiMw9hTOXFVLa+ECFb
+ GozaVGjZ5yBg7M3VS5H2xnYiR9cN0PLbemU3y5hSjboPrXpkk+e6ljfFk8BRGpI13vtc
+ +IXZVKZTCw3ALJu9p/OvqD/wGlkS0Nb1D1DbOpbvBsIjWEhgNUmyPStV10G+3uBpyd2i
+ pAaqFGUOQJfcr8JK984mBJniI6Z49GX7QMTu9LjzuPOpWARGXv3U3TBLKPIEov/szV5H
+ vykA==
+X-Gm-Message-State: AOAM532mAeJto96sl2eTmt/S6XhwP1pdVd86lfC51aEzPX7ivGBetb6f
+ /e9q2uotrKMq7bRSSZkOOEg9oCOtKLl3MThDg0g=
+X-Google-Smtp-Source: ABdhPJxbliZFFWswfBzhEmxvk1oRtxvkdX8G80+TMqM7vZYcLQQbltz7gZbnxF3R31wlzj8G2naEE1CmPGj32g2hOuE=
+X-Received: by 2002:a25:2c02:0:b0:65d:354f:f8f3 with SMTP id
+ s2-20020a252c02000000b0065d354ff8f3mr8596530ybs.102.1654078759821; Wed, 01
+ Jun 2022 03:19:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
+ <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
+ <CAAAx-8LsXQ=w7QTz0JHfGp6gbgY5najE0N7K0yBwhdqqH+E6Eg@mail.gmail.com>
+ <be663d15-6db3-1777-0830-60dcc6aa394e@opensource.wdc.com>
+In-Reply-To: <be663d15-6db3-1777-0830-60dcc6aa394e@opensource.wdc.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Wed, 1 Jun 2022 18:19:15 +0800
+Message-ID: <CAAAx-8JxWYBN1Zk6Vk-WHTzYnGE6b_PXHsoVY=gnUcuikW7JCg@mail.gmail.com>
+Subject: Re: Outreachy project task: Adding QEMU block layer APIs resembling
+ Linux ZBD ioctls.
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
+ Hannes Reinecke <hare@suse.de>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,49 +84,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 31, 2022 at 12:15:00PM -0700, Vishal Annapurve wrote:
-> On Thu, May 19, 2022 at 8:41 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+Hi Damien,
+
+Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B46=
+=E6=9C=881=E6=97=A5=E5=91=A8=E4=B8=89 13:47=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 6/1/22 11:57, Sam Li wrote:
+> > Hi Stefan,
 > >
-> > Introduce a new memfd_create() flag indicating the content of the
-> > created memfd is inaccessible from userspace through ordinary MMU
-> > access (e.g., read/write/mmap). However, the file content can be
-> > accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> > Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B45=E6=9C=8830=
+=E6=97=A5=E5=91=A8=E4=B8=80 19:19=E5=86=99=E9=81=93=EF=BC=9A
 > >
-> 
-> SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
-> initial guest boot memory with the needed blobs.
-> TDX already supports a KVM IOCTL to transfer contents to private
-> memory using the TDX module but rest of the implementations will need
-> to invent
-> a way to do this.
+> >
+> >>
+> >> On Mon, 30 May 2022 at 06:09, Sam Li <faithilikerun@gmail.com> wrote:
+> >>>
+> >>> Hi everyone,
+> >>> I'm Sam Li, working on the Outreachy project which is to add zoned
+> >>> device support to QEMU's virtio-blk emulation.
+> >>>
+> >>> For the first goal, adding QEMU block layer APIs resembling Linux ZBD
+> >>> ioctls, I think the naive approach would be to introduce a new stable
+> >>> struct zbd_zone descriptor for the library function interface. More
+> >>> specifically, what I'd like to add to the BlockDriver struct are:
+> >>> 1. zbd_info as zone block device information: includes numbers of
+> >>> zones, size of logical blocks, and physical blocks.
+> >>> 2. zbd_zone_type and zbd_zone_state
+> >>> 3. zbd_dev_model: host-managed zbd, host-aware zbd
+> >>> With those basic structs, we can start to implement new functions as
+> >>> bdrv*() APIs for BLOCK*ZONE ioctls.
+> >>>
+> >>> I'll start to finish this task based on the above description. If
+> >>> there is any problem or something I may miss in the design, please le=
+t
+> >>> me know.
+> >>
+> >> Hi Sam,
+> >> Can you propose function prototypes for the new BlockDriver callbacks
+> >> needed for zoned devices?
+> >
+> > I have made some modifications based on Damien's device in design part
+> > 1 and added the function prototypes in design part 2. If there is any
+> > problem or part I missed, please let me know.
+> >
+> > Design of Block Layer APIs in BlockDriver:
+> > 1. introduce a new stable struct zbd_zone descriptor for the library
+> > function interface.
+> >   a. zbd_info as zone block device information: includes numbers of
+> > zones, size of blocks, write granularity in byte(minimal write size
+> > and alignment
+> >     - write granularity: 512e SMRs: writes in units of physical block
+> > size, 4096 bytes; NVMe ZNS write granularity is equal to the block
+> > size.
+> >     - zone descriptor: start, length, capacity, write pointer, zone typ=
+e
+> >   b. zbd_zone_type
+> >     - zone type: conventional, sequential write required, sequential
+> > write preferred
+> >   c. zbd_dev_model: host-managed zbd, host-aware zbd
+>
+> This explanation is a little hard to understand. It seems to be mixing up
+> device level information and per-zone information. I think it would be a
+> lot simpler to write a struct definition to directly illustrate what you
+> are planning.
+>
+> It is something like this ?
+>
+> struct zbd_zone {
+>         enum zone_type  type;
+>         enum zone_cond  cond;
+>         uint64_t        start;
+>         uint32_t        length;
+>         uint32_t        cap;
+>         uint64_t        wp;
+> };
+>
+> strcut zbd_dev {
+>         enum zone_model model;
+>         uint32_t        block_size;
+>         uint32_t        write_granularity;
+>         uint32_t        nr_zones
+>         struct zbd_zone *zones; /* array of zones */
+> };
+>
 
-There are some discussions in https://lkml.org/lkml/2022/5/9/1292
-already. I somehow agree with Sean. TDX is using an dedicated ioctl to
-copy guest boot memory to private fd so the rest can do that similarly.
-The concern is the performance (extra memcpy) but it's trivial since the
-initial guest payload is usually optimized in size.
+Yes! Sorry that I was not very clear in the descriptions.
 
-> 
-> Is there a plan to support a common implementation for either allowing
-> initial write access from userspace to private fd or adding a KVM
-> IOCTL to transfer contents to such a file,
-> as part of this series through future revisions?
+> If yes, then my comments are as follows.
+>
+> For the device struct: It may be good to have also the maximum number of
+> open zones and the maximum number of active zones.
+>
+> For the zone struct: You may need to add a read-write lock per zone to be
+> able to write lock zones to ensure a sequential write pattern (virtio
+> devices can be multi-queue and so writes may be coming in from different
+> contexts) and to correctly emulate zone append operations with an atomic
+> update of the wp field.
+>
 
-Indeed, adding pre-boot private memory populating on current design
-isn't impossible, but there are still some opens, e.g. how to expose
-private fd to userspace for access, pKVM and CC usages may have
-different requirements. Before that's well-studied I would tend to not
-add that and instead use an ioctl to copy. Whether we need a generic
-ioctl or feature-specific ioctl, I don't have strong opinion here.
-Current TDX uses a feature-specific ioctl so it's not covered in this
-series.
+Yes, I haven't thought through the thread-safety problem but I'll come
+up with an approach.
 
-Chao
-> 
-> Regards,
-> Vishal
+> These need to be integrated into the generic block driver interface in
+> include/block/block_int-common.h or include/block/block-common.h.
+>
+> >
+> >  2. implement new functions as bdrv*() APIs for BLK*ZONE ioctls
+> >    a. support basic operations: get the APIs working when executing
+> > the zone operations from a guest
+> >     - zone information access: report
+> >     - zone manipulation: reset,open,close,finish
+>
+> These operations are generally referred to as "zone management" operation=
+s.
+>
+> >   b. support zone append operation: zone capacity, write pointer
+> > positions of all zones(excluded for now)
+> >     - can track the zone state we need: zone is full or not.
+> >
+> > More specifically, the function prototypes for 2a are as follows:
+> >
+> > int zbd_report_zones(int fd, off_t offset, off_t len, enum
+> > zbd_report_opetion ro, struct zbd_zone *zones, unsigned int
+> > *nr_zones);
+>
+> The current virtio zone specification draft does not have a reporting
+> option field for the report zones command. However, it has a "partial"
+> field that will need to be passed to this function so that the correct
+> report zones reply can be built by the driver.
+>
+> > int zbd_reset_zones(int fd, off_t offset, off_t len);
+> > int zbd_open_zones(int fd, off_t offset, off_t len);
+> > int zbd_close_zones(int fd, off_t offset, off_t len);
+> > int zbd_finish_zones(int fd, off_t offset, off_t len);
+>
+> These 4 functions have the exact same signature, modulo the function name=
+.
+> So we should simplify here to reduce the number of functions. Something l=
+ike:
+>
+> int zbd_zone_mgmt(int fd, enum zone_op op, off_t offset, off_t len);
+>
+> where op can be BDRV_ZONE_RESET, BDRV_ZONE_OPEN, etc can aggregate all 4
+> functions into one.
+>
+
+Thanks for the suggestions. It would be better to use one general
+function supporting four operations rather than four.
+
+> In any case, if you look at how block drivers are defined (an example is
+> the one for raw files in qemu/block/file-posix.c) using the BlockDriver
+> data type (defined as a struct in qemu/include/block/block_int-common.h),
+> you will see that the driver callback functions do not use a file
+> descriptor (fd) but a pointer to some data structure (most of the time a
+> BlockDriverState pointer).
+>
+
+Yes, I'll use it instead.
+
+Meanwhile, the BlockDriver callbacks can be(with Damien's suggestion):
+-> virtio_blk_handle_zone_mngmt() -> blk_aio_zone_mngmt() ->
+blk_aio_prwv() + blk_aio_zone_mngmt_entry() -> bdrv_co_do_zone_mngmt() ->
+bdrv_co_zone_mngmt().
+
+I am still on the way to understand the BlockDriver structures. So the
+above may need a second thought.
+
+
+> Another thing: you will need one more callback to get the device
+> information related to zones: maximum number of open and active zones at
+> least (the number of zones can be discovered with a report zones call).
+>
+
+Is this callback zbd_get_sysfs_attrr(char *devname, const char *attr,
+char *str, int str_len) in libzbd?
+
+Thanks for reviewing! Have a good night.
+
+Sam
+
+> Cheers.
+>
+> --
+> Damien Le Moal
+> Western Digital Research
 
