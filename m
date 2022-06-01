@@ -2,103 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC44153A7B5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 16:03:10 +0200 (CEST)
-Received: from localhost ([::1]:55292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE6D53A7EC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 16:04:27 +0200 (CEST)
+Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwOwI-0004ZR-0A
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 10:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40176)
+	id 1nwOxV-0006Ks-Os
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 10:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nwOrd-0001WG-Qv
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:58:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24295)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nwOrX-0005eB-FL
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:58:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654091894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JqdnPVvlS3aXddE/MoykgsZrPmdQS3f5KA1vvhCxnNA=;
- b=TkEZxR6K9AkdPBnuHbVdZ1fuqL+XVN2l/mFcAxER3O8ZFTtfUMiFYq8ExiDXOA9CYaAkOC
- suxRsKUxVAUPwRdsCWECnXvspYzicAHM7iggUFdYJeNVEP40sDFoA+7ABdi4RgNimd1gdf
- L0gOslRUWzJJ3+owBTG9IAyFMy6AJ8U=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-NOa1--6_NA6veDdOuprMaA-1; Wed, 01 Jun 2022 09:58:13 -0400
-X-MC-Unique: NOa1--6_NA6veDdOuprMaA-1
-Received: by mail-il1-f200.google.com with SMTP id
- x5-20020a923005000000b002d1a91c4d13so1238562ile.4
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 06:58:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nwOsF-0001xW-3A; Wed, 01 Jun 2022 09:58:59 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nwOsD-0005gH-8I; Wed, 01 Jun 2022 09:58:58 -0400
+Received: by mail-wr1-x431.google.com with SMTP id d26so2463662wrb.13;
+ Wed, 01 Jun 2022 06:58:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0jZy12IUXwWtor+oG1IlIHHVauVqeLvUb8eW0vlezeM=;
+ b=Eg3uamI0qjnQ74GQBcQfSVU/dxtbV5o56AyQOCwV7klormy+qIM0FkvgHcIq3GuUM0
+ oJVXA1SMyEm8Q+fdAOXq80Ok/CL92NCLxGYPLcxfXFT8FSHoX7n1w7WpwYMEZ4Fll6YZ
+ KfUPdbX2P09yqof+1rBF8AjkOcwW27p3VC9Sb6fETaGDPQXi+D0S4mB3yzRl5lpk8UBB
+ gXl60FQ/WVdTW+g6OGw6Ehq3phrcqB3KXq1wHqk7quGbuGI5lrcj63h5csPOV3cptBZr
+ eyRNuRQ22DaHCLqDkIFn/WmYx1MFf6ym6qHBdElSrOuHbBHZHbfexloKn/rI07iZMQUN
+ YoSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=JqdnPVvlS3aXddE/MoykgsZrPmdQS3f5KA1vvhCxnNA=;
- b=t0pMbLIcoHIdTEe45fCkb6k/MibqAp+CR7/NDgLIWWLjGjqkjRXyUbkaxl4B+uE7iF
- H85QP7twDgV5IOGx11bl0U6xExUbHgdxnjmG43NJHof6lst7sPb5OgoZX6s5wBJmTpNJ
- 0EwE6ApF1Cze0/Qttbkc5Ni7yUqRayrEPobDqObd96V84+NXZADvZu8fi6ngx/18//dt
- w9pHOeqHGX1LqtVfoEHn08ugLTpDObS7QX0G5V6fSdhhK2e+/15BijvrPmHFisVNtMKj
- aO3dJlMKgOGoQdfm/8tEST3Ed6ZY3ZW6rlG+N5rDkmKmV15FtB115IWgE7tTo6Fn2Rbo
- la7g==
-X-Gm-Message-State: AOAM530GizkSEstWGHvxYI1v9d6gcyX6xSioC039sHY5wQsc2YH+hIQs
- d1Bb/lp05bGiDnrCeF2ayoY2QXtHa6t0cAzLokP+UUeiZy7f8dq8bg0Vl9g5I6Olru934L13qNe
- 14a+7nwOYletKSCQ=
-X-Received: by 2002:a02:cb51:0:b0:32e:b80e:d40a with SMTP id
- k17-20020a02cb51000000b0032eb80ed40amr1147jap.241.1654091892074; 
- Wed, 01 Jun 2022 06:58:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTFpr4zJVr1KH2KLojhxz1WAI6i3JGwubUvnruGLzhDw7X6SFSln4dCLIHxlSfw7IUFYqdsw==
-X-Received: by 2002:a02:cb51:0:b0:32e:b80e:d40a with SMTP id
- k17-20020a02cb51000000b0032eb80ed40amr1128jap.241.1654091891754; 
- Wed, 01 Jun 2022 06:58:11 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- n12-20020a02cc0c000000b0032e42cd4274sm480168jap.89.2022.06.01.06.58.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 06:58:11 -0700 (PDT)
-Date: Wed, 1 Jun 2022 09:58:08 -0400
-From: Peter Xu <peterx@redhat.com>
-To: =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- lizefan.x@bytedance.com, zhouyibo@bytedance.com
-Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
- zero copy flag & io_flush for CONFIG_LINUX
-Message-ID: <YpdwcHu7I8dGDimt@xz-m1.local>
-References: <20220513062836.965425-1-leobras@redhat.com>
- <20220513062836.965425-4-leobras@redhat.com>
- <b2fae41c-7f47-9bf1-21b9-1b123818a262@bytedance.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0jZy12IUXwWtor+oG1IlIHHVauVqeLvUb8eW0vlezeM=;
+ b=WDFGYYSKNqEqCuVmKdICtuBo2y7x2VWRegirMQrNmi4wer8kfPQXcQh9nq6yZMOkGG
+ eIpfhZAmUTgLavAdz1j3WJHDhvBj/pkqXWZSbOZS35rQPoe2dx6DI+Fnd8n0VAS3AP14
+ H5CEx7NLW7CMSIdhE/rRiI0sBK3pmCKnbc84ClGsMg6GCgAm2hgugQuas9alnmbRAd3m
+ oOH9Ye8P8B6ZSMWSHEbcHENMz4bMDQxAA6mzHgpN9aojWkgNTAp7EwIfOENNL/10sRe1
+ +R+Zv6IxyIbc+AtTIYmATL7lTCWc2PDMWgav9IUoXfPfWBywRIey6Xm5dkzgnHzjgkU8
+ Ax0Q==
+X-Gm-Message-State: AOAM533fsHOI+5dnTa9vRCOUcwyJ4T1Dr8sf3GMHefHbUFR1UDPSZ7CB
+ OtcvIp3TCO2mdVafxqZZBWI=
+X-Google-Smtp-Source: ABdhPJzGazLZcO8Uv+Y6J1xULASF2wm5QTJf7TRJLt8fp5ZMIXT+eKLMKHPyTr6IxbOgBRMs/3Aq9Q==
+X-Received: by 2002:a05:6000:388:b0:20e:7a31:8f5e with SMTP id
+ u8-20020a056000038800b0020e7a318f5emr50025179wrf.201.1654091933023; 
+ Wed, 01 Jun 2022 06:58:53 -0700 (PDT)
+Received: from [192.168.1.82] (26.red-83-50-226.dynamicip.rima-tde.net.
+ [83.50.226.26]) by smtp.gmail.com with ESMTPSA id
+ g20-20020a05600c4c9400b0039749b01ea7sm2439661wmp.32.2022.06.01.06.58.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 06:58:52 -0700 (PDT)
+Message-ID: <c8454b04-fbea-3750-3819-6f292b20de7b@amsat.org>
+Date: Wed, 1 Jun 2022 15:58:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH] hw/intc: sifive_plic: Avoid overflowing the addr_config
+ buffer
+Content-Language: en-US
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ jiangyifei@huawei.com, limingwang@huawei.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: thuth@redhat.com, Bin Meng <bin.meng@windriver.com>,
+ alistair23@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com
+References: <20220601013631.196854-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220601013631.196854-1-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b2fae41c-7f47-9bf1-21b9-1b123818a262@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,82 +95,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Wed, Jun 01, 2022 at 05:37:10PM +0800, 徐闯 wrote:
+On 1/6/22 03:36, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> On 2022/5/13 下午2:28, Leonardo Bras wrote:
-> > For CONFIG_LINUX, implement the new zero copy flag and the optional callback
-> > io_flush on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
-> > feature is available in the host kernel, which is checked on
-> > qio_channel_socket_connect_sync()
-> > 
-> > qio_channel_socket_flush() was implemented by counting how many times
-> > sendmsg(...,MSG_ZEROCOPY) was successfully called, and then reading the
-> > socket's error queue, in order to find how many of them finished sending.
-> > Flush will loop until those counters are the same, or until some error occurs.
-> > 
-> > Notes on using writev() with QIO_CHANNEL_WRITE_FLAG_ZERO_COPY:
-> > 1: Buffer
-> > - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid copying,
-> > some caution is necessary to avoid overwriting any buffer before it's sent.
-> > If something like this happen, a newer version of the buffer may be sent instead.
-> > - If this is a problem, it's recommended to call qio_channel_flush() before freeing
-> > or re-using the buffer.
-> > 
-> > 2: Locked memory
-> > - When using MSG_ZERCOCOPY, the buffer memory will be locked after queued, and
-> > unlocked after it's sent.
-> > - Depending on the size of each buffer, and how often it's sent, it may require
-> > a larger amount of locked memory than usually available to non-root user.
-> > - If the required amount of locked memory is not available, writev_zero_copy
-> > will return an error, which can abort an operation like migration,
-> > - Because of this, when an user code wants to add zero copy as a feature, it
-> > requires a mechanism to disable it, so it can still be accessible to less
-> > privileged users.
-> > 
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> > Reviewed-by: Juan Quintela <quintela@redhat.com>
-> > ---
-> >   include/io/channel-socket.h |   2 +
-> >   io/channel-socket.c         | 116 ++++++++++++++++++++++++++++++++++--
-> >   2 files changed, 114 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-> > index e747e63514..513c428fe4 100644
-> > --- a/include/io/channel-socket.h
-> > +++ b/include/io/channel-socket.h
-> > @@ -47,6 +47,8 @@ struct QIOChannelSocket {
-> >       socklen_t localAddrLen;
-> >       struct sockaddr_storage remoteAddr;
-> >       socklen_t remoteAddrLen;
-> > +    ssize_t zero_copy_queued;
-> > +    ssize_t zero_copy_sent;
-> >   };
-> Hi, Leonardo. I'm also paying attention to the application of MSG_ZEROCOPY
-> in live migration recently. I noticed that you defined a member
-> `zero_copy_queued` in the struct QIOChannelSocket, but I can't find out
-> where the value of this member has been changed in your patch. Can you
-> answer it for me?
+> Since commit ad40be27 "target/riscv: Support start kernel directly by
+> KVM" we have been overflowing the addr_config on "M,MS..."
+> configurations, as reported https://gitlab.com/qemu-project/qemu/-/issues/1050.
 > 
+> This commit changes the loop in sifive_plic_create() from iterating over
+> the number of harts to just iterating over the addr_config. The
+> addr_config is based on the hart_config, and will contain interrup details
+> for all harts. This way we can't iterate past the end of addr_config.
+> 
+> Fixes: ad40be27084536 ("target/riscv: Support start kernel directly by KVM")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1050
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>   hw/intc/sifive_plic.c | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index eebbcf33d4..56d60e9ac9 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -431,7 +431,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+>       uint32_t context_stride, uint32_t aperture_size)
+>   {
+>       DeviceState *dev = qdev_new(TYPE_SIFIVE_PLIC);
+> -    int i, j = 0;
+> +    int i;
+>       SiFivePLICState *plic;
+>   
+>       assert(enable_stride == (enable_stride & -enable_stride));
+> @@ -451,18 +451,17 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+>       sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+>   
+>       plic = SIFIVE_PLIC(dev);
+> -    for (i = 0; i < num_harts; i++) {
+> -        CPUState *cpu = qemu_get_cpu(hartid_base + i);
+>   
+> -        if (plic->addr_config[j].mode == PLICMode_M) {
+> -            j++;
+> -            qdev_connect_gpio_out(dev, num_harts + i,
+> +    for (i = 0; i < plic->num_addrs; i++) {
+> +        int cpu_num = plic->addr_config[i].hartid;
+> +        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
+> +
+> +        if (plic->addr_config[i].mode == PLICMode_M) {
+> +            qdev_connect_gpio_out(dev, num_harts + cpu_num,
+>                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
+>           }
+> -
+> -        if (plic->addr_config[j].mode == PLICMode_S) {
+> -            j++;
+> -            qdev_connect_gpio_out(dev, i,
+> +        if (plic->addr_config[i].mode == PLICMode_S) {
+> +            qdev_connect_gpio_out(dev, cpu_num,
+>                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
+>           }
+>       }
 
-Good point.. it should probably be increased when queuing the pages. We'd
-better fix it up or it seems the flush() will be literally an no-op..
+The logic is much easier to follow now, thanks.
 
-Two things in qio_channel_socket_flush() we can do to make sure it'll work
-as expected, imo:
-
-  1) make ret=-1 as initial value, rather than 1 - we only check negative
-     errors in the caller so we could have missed a positive "1"
-
-  2) add a tracepoint into the loop of updating zero_copy_sent
-
-Leo, what's your take?
-
-Thanks,
-
--- 
-Peter Xu
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
