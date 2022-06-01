@@ -2,108 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444FB53AE64
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 22:57:47 +0200 (CEST)
-Received: from localhost ([::1]:34346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABDE53AE6E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 23:14:28 +0200 (CEST)
+Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwVPV-0005ey-U1
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 16:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57608)
+	id 1nwVff-00041d-BB
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 17:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nwVNa-0004qN-CE
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 16:55:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9740)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwVa7-0000nM-C0; Wed, 01 Jun 2022 17:08:43 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:54177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nwVNY-000095-FT
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 16:55:46 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 251KrUIu026156;
- Wed, 1 Jun 2022 20:55:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=0iTWoSE51/PREZi/t5d0dG+sJedHS5Cv4kidrRNYJFw=;
- b=LYDIxGkrf33zxCBdNpZ9H5nTeXocDNJWPEjv0IQJl3nBtGn+YS0zoPmhRUk790qs5NLw
- Ird76LCQ7IACuilKZPnb6DbSZg3u+eJ/S32oSalDO/rt9nPwM7/Q9ZFFRaj5UHzbAgX7
- +NiHHplzoezLUy7FrKT0A4BoOsVdxNRKyMpOIhjVD95SB7FvCjP7y6nT/bHqTXLHdBGL
- 8IPUGzh02RSEdYmNWnfn90cV6UHY4HuvyraQc7JzZDXpqaADd5WT86ed8XpunaHmZnh0
- 9d1MUu4+wzIRBIcju12bUliE6XBMDmJ7+igCDByo4hnhnVD/uRQ0m59UdpdqmvzoTGRV yw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gefhx80r7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Jun 2022 20:55:39 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 251KsQ72032340;
- Wed, 1 Jun 2022 20:55:39 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gefhx80qy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Jun 2022 20:55:39 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 251Ka1k0029821;
- Wed, 1 Jun 2022 20:55:38 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02wdc.us.ibm.com with ESMTP id 3gbc92x43n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Jun 2022 20:55:38 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 251Ktbch13042120
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 1 Jun 2022 20:55:37 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 49CA3BE054;
- Wed,  1 Jun 2022 20:55:37 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E349ABE051;
- Wed,  1 Jun 2022 20:55:36 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  1 Jun 2022 20:55:36 +0000 (GMT)
-Message-ID: <db22a238-0b10-20d2-616d-53094098a465@linux.ibm.com>
-Date: Wed, 1 Jun 2022 16:55:36 -0400
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwVa4-00020a-6u; Wed, 01 Jun 2022 17:08:43 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 851F45C01B4;
+ Wed,  1 Jun 2022 17:08:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 01 Jun 2022 17:08:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1654117716; x=1654204116; bh=dd
+ /M8x+cO5fVJXYnQdacCEg1x3ITfzjZFn9e+e5c7RA=; b=JIm9tMhumgvpCSSNOW
+ xWFwtdZdLbfqRi1xIiuM+od4oGG9psp2wrKU18TAKkKB3DEMl4q/7p5DbA1+EPCx
+ PUoXgHuUBoyM5pntPHpuYoWP7XQyyjJdaaNTHCPoXvydqsLiQXFHKDYMMH7/21QJ
+ M/aw5+kb8zJ25qzjXvhzqS1+Vxym1YR3UPYMZq/xWPr2QsrwoLwz7vUFCpMvwQvH
+ 2WzndtIfRugbSYWwrymlkGdBaBfgYH9GjLrw+Kut6x8hQkCBSsBYpJ+HlTux4kRL
+ PN1KZfZkswLLB40ZOPNtv9Qk1TpgcWulFdcX7Kd2ge4t/Qi4bDY33iDtEwNcNrl4
+ o8aA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1654117716; x=1654204116; bh=dd/M8x+cO5fVJ
+ XYnQdacCEg1x3ITfzjZFn9e+e5c7RA=; b=KJICCMBnBZ9BbTvYh0XjVe0FNyPvz
+ EX1xY8kwwZ3L9gsACCiITXlTJaOX062njWITAEhEcunqZzd9PJmSJbBTYmHT450O
+ 3MObWmccfRW5doPPSkId0KEPSJ1xUhu0CFjyjV7PkGvbSLYNSfdviNfhVACAEseQ
+ 6u4zCyIrj1Jkr2W65GGjeIT0mFyuihJ0x1yB/Tjvz5V4E5dGtl7oV6rEimjb5qXH
+ 3nMPCEAjHj70Ih0V8bWM178vB+1lpPWPvwKenGvkUuLtYTM/ZKGzpUWKVDnVobgO
+ vd/r6HwsD/+GqiCZBtxr5TiHUTMPh/dF1J3NKP5KtDTIHz6X6K7fgH8QQ==
+X-ME-Sender: <xms:U9WXYo_qt5xCfcrhp65iHmFreaDpGev5qpZv9b_hr8Ty9ybw3FYKyA>
+ <xme:U9WXYgt11XzdloS_R2_nQ_pg3LmqTOxYtoe5VsTXWzZ-FctE-PKKG3D0mhvL1MBFj
+ 0DMLcWViuDmTt2NdNc>
+X-ME-Received: <xmr:U9WXYuAPj1Uzce0t9oVqRPrtsEDj79CMbz8EWNLPbtoR74suKyrnqZvY8bLH8x9nKD5ibzvXEH5tqV30azaY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledtgdduheeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofggtgfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgfevvdevgffghfeggfehheekueevhfeigffgfeetfffghfeiueekleduuedv
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:U9WXYodukB2nlruVkXxvfCQ2SKxEMx7HJiP6kDfLJiI6elRIdfoqDg>
+ <xmx:U9WXYtMdhIwkUMhCR-_KMNQJ47PvJh6QjLxrsPAJXN53Tj4WnZ4f-Q>
+ <xmx:U9WXYinhdoBtxnHvnitTs9N-dg-OaMG_mL80nm8IvA1csy05ZhVtIQ>
+ <xmx:VNWXYimQGzE5wiEwewi02RCO6JOaQIa5CXBygvJ4INyMLxBelgt6NA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Jun 2022 17:08:33 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
+ Peter Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>,
+ Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>,
+ Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
+Date: Wed,  1 Jun 2022 23:08:25 +0200
+Message-Id: <20220601210831.67259-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] tpm_crb: mark command buffer as dirty on request
- completion
-Content-Language: en-US
-To: Anthony PERARD <anthony.perard@citrix.com>, qemu-devel@nongnu.org
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20220411144749.47185-1-anthony.perard@citrix.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220411144749.47185-1-anthony.perard@citrix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: CnBbxQEOwaB_NstD46GeyY6BoUw9SUnU
-X-Proofpoint-ORIG-GUID: pc6qf_S-dnjUULUgrDx8TUn40sdTEK5b
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-01_08,2022-06-01_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- mlxlogscore=999 spamscore=0 malwarescore=0 bulkscore=0 impostorscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206010083
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,49 +108,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-
-On 4/11/22 10:47, Anthony PERARD via wrote:
-> From: Anthony PERARD <anthony.perard@citrix.com>
-> 
-> At the moment, there doesn't seems to be any way to know that QEMU
-> made modification to the command buffer. This is potentially an issue
-> on Xen while migrating a guest, as modification to the buffer after
-> the migration as started could be ignored and not transfered to the
-> destination.
-> 
-> Mark the memory region of the command buffer as dirty once a request
-> is completed.
-> 
-> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-
-
-
-> ---
-> 
-> I have only read code to find out whether the tpm-crb device was fine
-> with regards to migration, and I don't think there's anything that
-> could mark the memory region as dirty once a request is completed.
-> 
-> There is one call to memory_region_get_ram_ptr(), but nothing seems to
-> be done with the pointer is regards to ram migration. Am I wrong?
-> 
-> Thanks.
-> ---
->   hw/tpm/tpm_crb.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-> index aa9c00aad3..67db594c48 100644
-> --- a/hw/tpm/tpm_crb.c
-> +++ b/hw/tpm/tpm_crb.c
-> @@ -197,6 +197,7 @@ static void tpm_crb_request_completed(TPMIf *ti, int ret)
->           ARRAY_FIELD_DP32(s->regs, CRB_CTRL_STS,
->                            tpmSts, 1); /* fatal error */
->       }
-> +    memory_region_set_dirty(&s->cmdmem, 0, CRB_CTRL_CMD_SIZE);
->   }
-> 
->   static enum TPMVersion tpm_crb_get_version(TPMIf *ti)
+Hi all,=0D
+=0D
+This RFC series adds I2C "slave mode" support for the Aspeed I2C=0D
+controller as well as the necessary infrastructure in the i2c core to=0D
+support this.=0D
+=0D
+v2 changes=0D
+~~~~~~~~~~=0D
+I finally got around to working on this again. I'm sorry for not=0D
+bringing a v2 to the table earlier.=0D
+=0D
+Mad props to Peter and Jonathan for putting this series to work and=0D
+pushing it forward! Thanks!=0D
+=0D
+This series is based off C=C3=A9dric's aspeed-7.1 tree, so it includes the=
+=0D
+register fields. This is all "old register mode", but Peter seems to=0D
+have added support in new mode.=0D
+=0D
+There are some loose ends of course, i.e send_async doesn't handle=0D
+broadcast and asynchronous slaves being sent stuff can't nack. But I=0D
+wanted to get some feedback on the interface before I tackle that.=0D
+=0D
+This series=0D
+~~~~~~~~~~~=0D
+Patch 1 and 2 are small Aspeed I2C changes/additions.=0D
+=0D
+Patch 3 adds support for multiple masters in the i2c core, allowing=0D
+slaves to master the bus and (safely) issue i2c_send/recv().=0D
+=0D
+Patch 4 adds an asynchronous send i2c_send_async(I2CBus *, uint8) on the=0D
+bus that must be paired with an explicit ack using i2c_ack(I2CBus *). We=0D
+have previously discussed how we wanted to handle the issue that some=0D
+slaves implement this and some do not. Using a QOM interface was up, but=0D
+couldn't figure out a good way to do it. I ended up decided against it=0D
+since I believe this have to be a run-time check anyway. The problem is=0D
+that a slave can master the bus and try to communicate with *anyone* on=0D
+the bus - and there is no reason why we should only allow asynchronous=0D
+slaves on the bus in that case, or whatever we would want to do when=0D
+devices are plugged. So, instead, the current master can issue an=0D
+i2c_start_send() and if that fails (because it isnt implemented by the=0D
+target slave) it can either bail out or use i2c_start_send_async() if it=0D
+itself supports it. This works the other way around as well of course,=0D
+but it is probably simpler to handle slaves that respond to=0D
+i2c_start_send(). This approach relies on adding a new i2c_event, which=0D
+is why a bunch of other devices needs changes in their event handling.=0D
+=0D
+Patch 5 adds *partial* slave mode functionality to the emulated Aspeed=0D
+I2C controller, that is, it only supports asynchronous sends started by=0D
+another slave that is currently mastering the bus. No asynchronous=0D
+receive.=0D
+=0D
+Finally, patch 6 adds an example device using this new API. The device=0D
+is a simple "echo" device that upon being sent a set of bytes uses the=0D
+first byte as the address of the slave to echo to.=0D
+=0D
+With this combined I am able to boot up Linux on an emulated Aspeed 2600=0D
+evaluation board and have the i2c echo device write into a Linux slave=0D
+EEPROM. Assuming the echo device is on address 0x42:=0D
+=0D
+  # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-15/new_device=0D
+  i2c i2c-15: new_device: Instantiated device slave-24c02 at 0x64=0D
+  # i2cset -y 15 0x42 0x64 0x00 0xaa i=0D
+  # hexdump /sys/bus/i2c/devices/15-1064/slave-eeprom=0D
+  0000000 ffaa ffff ffff ffff ffff ffff ffff ffff=0D
+  0000010 ffff ffff ffff ffff ffff ffff ffff ffff=0D
+  *=0D
+  0000100=0D
+=0D
+Klaus Jensen (6):=0D
+  hw/i2c/aspeed: rework raise interrupt trace event=0D
+  hw/i2c/aspeed: add DEV_ADDR in old register mode=0D
+  hw/i2c: support multiple masters=0D
+  hw/i2c: add asynchronous send=0D
+  hw/i2c/aspeed: add slave device in old register mode=0D
+  hw/misc: add a toy i2c echo device [DO NOT PULL]=0D
+=0D
+ hw/arm/pxa2xx.c             |   2 +=0D
+ hw/display/sii9022.c        |   2 +=0D
+ hw/display/ssd0303.c        |   2 +=0D
+ hw/i2c/aspeed_i2c.c         | 152 ++++++++++++++++++++++++++++-----=0D
+ hw/i2c/core.c               |  70 +++++++++++++++-=0D
+ hw/i2c/smbus_slave.c        |   4 +=0D
+ hw/i2c/trace-events         |   4 +-=0D
+ hw/misc/i2c-echo.c          | 162 ++++++++++++++++++++++++++++++++++++=0D
+ hw/misc/ibm-cffps.c         |   2 +=0D
+ hw/misc/ir35221.c           |   2 +=0D
+ hw/misc/meson.build         |   2 +=0D
+ hw/nvram/eeprom_at24c.c     |   2 +=0D
+ hw/sensor/lsm303dlhc_mag.c  |   2 +=0D
+ include/hw/i2c/aspeed_i2c.h |  16 ++++=0D
+ include/hw/i2c/i2c.h        |  30 +++++++=0D
+ 15 files changed, 428 insertions(+), 26 deletions(-)=0D
+ create mode 100644 hw/misc/i2c-echo.c=0D
+=0D
+-- =0D
+2.36.1=0D
+=0D
 
