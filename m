@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC61753AD04
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:48:37 +0200 (CEST)
-Received: from localhost ([::1]:40310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CC253AC83
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:11:33 +0200 (CEST)
+Received: from localhost ([::1]:55150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwTOW-0000UV-LO
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:48:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54522)
+	id 1nwSoe-0001KR-4S
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwT0n-0005iQ-4B
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:24:06 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37767)
+ id 1nwSjO-0001Ov-6r
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:06:06 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:36549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwT0l-0007wD-6R
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:24:04 -0400
-Received: by mail-ed1-x529.google.com with SMTP id v19so3334341edd.4
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 11:24:02 -0700 (PDT)
+ id 1nwSjM-00050z-2B
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:06:05 -0400
+Received: by mail-ej1-x631.google.com with SMTP id gi33so5383989ejc.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 11:06:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l6wSZzTZH+UuAV+xIj6vY8Z6NNL8CvUpk5/yn56lmqI=;
- b=mApJFjRtRc6t+LdcNDmbDQTxRUi37aDor5R2UTUkqOx4JBeFFXs6A3sjVqsztjprwK
- 74LOzlRGCaIqdmZXfvojWAf+bdJtyGlckJhOvs9Txjt0FTpms2kjo527BLdJL8lWXFhJ
- TxSC1f5YHxZR0fWakzE8PtdoOKTvqbe2Sg4IDl7ldNXUXRXnH163K2ISpqHVSGPdJvgA
- hmLjoN8X2mKy8Th1zbUyAm6lQx4tbgACCc8cNXVjmPd93lSANV9BjWK9isUQ8W3C5vHQ
- cXvkGPGLgxKExTrN/buCEHmU8YZFw+OwTUzZr6GEoyjlbDoKL+p9nEN57KjCq9m/FUJ1
- M1uQ==
+ bh=iBL0XOSODfEHetIjDjNAdTd949wca33dTCbjN+2/aeY=;
+ b=AQ84CWsb40CljUzLnmy+UvruBgW71tBMKDPl7py9+2sturyAz5QFkuyjkBUOBwj32k
+ 7WVPR1lFS3uO+obSe0A4yA6RQpBUpBlYI3OPIe1HSz2x9N1VSr7O7d084dAhm0430cCo
+ HgrcawUvIPAFAFTpQg+lxEnJnUpVkT26AiQlJv1YkE1n+StuI8ux7iA2ov0B66KtxwLB
+ yWWauqsVika+9+RjyFMH3+POT08u6WHbOKiJRoPMni+gHfcUpfEWUdf9oHoKeXhEDNJR
+ YoakoTvFtlYdnvyyz7FnILz8alyPSbhlC1VrJSUSzwHiBmE94KseUIt+7WOrNrWqm5Gg
+ l98w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l6wSZzTZH+UuAV+xIj6vY8Z6NNL8CvUpk5/yn56lmqI=;
- b=y5UQ7G1QIxC1S2J5JrJR0RIfIaEFSI4EhW2QRBAS14G/3OOErSx+zUq9V0ap95kHDY
- m106eQ+OsfWYF81KHz//ZXUo0aRF/GLu9+EtKsIOpbfwgjWpoq+dOehdoXr53pOVrRVK
- 5n7S3RuauEuP6gOhiyDhU1OS/hy27188Jx6WQJfcOxfvMwDtvEZ5ymVkipDabEH38ZlY
- vpLfWyFhqTAfTuQDWVlBaA8EAmOB79oIIbVOHmOtv211Q/+pjUcQDaaQdcKQt0QXYBFT
- sOk7/CYNY7jg/RUzO3gMAxbd+9BrpEn1CLXvUZbQ/29XDClhdwTDXIANfKkkxahlGUM+
- fMkw==
-X-Gm-Message-State: AOAM531BF86Egnx8L5ZZTVZ8aBRBL2sdFo7V5m2B7PmShk5wAD6BmyXF
- EX9tqRB+dVXhe58tWWW1Jy+LaA==
-X-Google-Smtp-Source: ABdhPJw5fCaHFpbaMPM3TM+dtievc3wr7DRPxRO/cIU4jagsUiGz2oJ/qvq47XfcoMQ7m5S2OeewTA==
-X-Received: by 2002:a05:6402:2696:b0:42d:e816:8378 with SMTP id
- w22-20020a056402269600b0042de8168378mr1106178edd.143.1654107841668; 
- Wed, 01 Jun 2022 11:24:01 -0700 (PDT)
+ bh=iBL0XOSODfEHetIjDjNAdTd949wca33dTCbjN+2/aeY=;
+ b=sHektZZ3PZoUU3NDl8KFrMXlc4Gz4i68Ksd4GA+OJV2nVKwIrITQbYa/GYeKVbr8Sc
+ hiWyxEddCk4DM1FCD7iD8wIi4jE1uxIVz13Oh+qfo3I6iFXagVofQDroHLVmhXJRQnES
+ VOiYvG/u2nfKxKgWC0YUFxx2Oab3UuhpO5orRSGc5qVstBAGRbqTxBxKx8K8G1Qx29m1
+ JUnoSi0S7eS2KMnu8lHqcZJV21C7u7DnkFQnHzee5Qwef5qS78blD2lf5nWqXrq0w/ic
+ 24gEMqjRT1LKSVSTEvDhn6PmEDZTDv8QJxy5GIQMFcHmqhjjKVB5ELMqG05dVC9p6jfa
+ HdCw==
+X-Gm-Message-State: AOAM532M+8QkHtwSRmgt/J4/HSYopEG23C+OSBI9kuL6bB1y/M5Q8pzx
+ Hi+geJXQ7R2zshn/XOEl2L1PpQ==
+X-Google-Smtp-Source: ABdhPJzgA+zcaoykSwr9uFjhVRDWh+dxgRUPmeh7aBoJ8m9p78LYn+GBO5MtGsG0OnIeEyM2ENnFSg==
+X-Received: by 2002:a17:907:8a1f:b0:6fe:f4fc:750f with SMTP id
+ sc31-20020a1709078a1f00b006fef4fc750fmr657508ejc.399.1654106761654; 
+ Wed, 01 Jun 2022 11:06:01 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- p3-20020aa7c4c3000000b0042db87b5ff4sm1340647edr.88.2022.06.01.11.23.57
+ r23-20020a170906365700b006fef51aa566sm960786ejb.2.2022.06.01.11.05.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 11:23:57 -0700 (PDT)
+ Wed, 01 Jun 2022 11:06:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 880091FFCB;
+ by zen.linaroharston (Postfix) with ESMTP id 9E5471FFCC;
  Wed,  1 Jun 2022 19:05:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 20/33] configure: handle host compiler in probe_target_compiler
-Date: Wed,  1 Jun 2022 19:05:24 +0100
-Message-Id: <20220601180537.2329566-21-alex.bennee@linaro.org>
+Subject: [PULL 21/33] configure: introduce --cross-prefix-*=
+Date: Wed,  1 Jun 2022 19:05:25 +0100
+Message-Id: <20220601180537.2329566-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220601180537.2329566-1-alex.bennee@linaro.org>
 References: <20220601180537.2329566-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,68 +96,301 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-In preparation for handling more binaries than just cc, handle
-the case of "probe_target_compiler $cpu" directly in the function,
-setting the target_* variables based on the ones that are used to
-build QEMU.  The clang check also needs to be moved after this
-fallback.
+Also in preparation for handling more binaries from the cross binutils,
+support an option --cross-prefix-ARCH.  All cross_cc_* defaults are
+replaced with cross_prefix_*; the cross_cc_* fallbacks are extended
+to the cross-compilation prefix, but the compiler fallbacks remain
+as well.  This way, for example, --cross-cc-arm=arm-linux-gnueabihf-clang
+also applies to armeb binaries.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220517092616.1272238-10-pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220517092616.1272238-11-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220527153603.887929-21-alex.bennee@linaro.org>
+Message-Id: <20220527153603.887929-22-alex.bennee@linaro.org>
 
 diff --git a/configure b/configure
-index fbf6d39f96..217c8b3cac 100755
+index 217c8b3cac..f55ae82a5d 100755
 --- a/configure
 +++ b/configure
-@@ -954,10 +954,6 @@ case $git_submodules_action in
-     ;;
- esac
+@@ -363,6 +363,11 @@ for opt do
+   --cross-cc-*) cc_arch=${opt#--cross-cc-}; cc_arch=${cc_arch%%=*}
+                 eval "cross_cc_${cc_arch}=\$optarg"
+   ;;
++  --cross-prefix-*[!a-zA-Z0-9_-]*=*) error_exit "Passed bad --cross-prefix-FOO option"
++  ;;
++  --cross-prefix-*) cc_arch=${opt#--cross-prefix-}; cc_arch=${cc_arch%%=*}
++                    eval "cross_prefix_${cc_arch}=\$optarg"
++  ;;
+   esac
+ done
+ # OS specific
+@@ -728,6 +733,8 @@ for opt do
+   ;;
+   --cross-cc-*)
+   ;;
++  --cross-prefix-*)
++  ;;
+   --enable-debug-info) meson_option_add -Ddebug=true
+   ;;
+   --disable-debug-info) meson_option_add -Ddebug=false
+@@ -1016,6 +1023,7 @@ Advanced options (experts only):
+   --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
+   --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
+   --cross-cc-cflags-ARCH=  use compiler flags when building ARCH guest tests
++  --cross-prefix-ARCH=PREFIX cross compiler prefix when building ARCH guest test cases
+   --make=MAKE              use specified make [$make]
+   --python=PYTHON          use specified python [$python]
+   --meson=MESON            use specified meson [$meson]
+@@ -1818,44 +1826,54 @@ if test $use_containers = "yes"; then
+ fi
  
--if eval test -z "\${cross_cc_$cpu}"; then
--    eval "cross_cc_${cpu}=\$cc"
--fi
--
- default_target_list=""
- mak_wilds=""
+ # cross compilers defaults, can be overridden with --cross-cc-ARCH
+-: ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
++: ${cross_prefix_aarch64="aarch64-linux-gnu-"}
++: ${cross_prefix_aarch64_be="$cross_prefix_aarch64"}
++: ${cross_prefix_alpha="alpha-linux-gnu-"}
++: ${cross_prefix_arm="arm-linux-gnueabihf-"}
++: ${cross_prefix_armeb="$cross_prefix_arm"}
++: ${cross_prefix_hexagon="hexagon-unknown-linux-musl-"}
++: ${cross_prefix_hppa="hppa-linux-gnu-"}
++: ${cross_prefix_i386="i686-linux-gnu-"}
++: ${cross_prefix_m68k="m68k-linux-gnu-"}
++: ${cross_prefix_microblaze="microblaze-linux-musl-"}
++: ${cross_prefix_mips64el="mips64el-linux-gnuabi64-"}
++: ${cross_prefix_mips64="mips64-linux-gnuabi64-"}
++: ${cross_prefix_mipsel="mipsel-linux-gnu-"}
++: ${cross_prefix_mips="mips-linux-gnu-"}
++: ${cross_prefix_nios2="nios2-linux-gnu-"}
++: ${cross_prefix_ppc="powerpc-linux-gnu-"}
++: ${cross_prefix_ppc64="powerpc64-linux-gnu-"}
++: ${cross_prefix_ppc64le="$cross_prefix_ppc64"}
++: ${cross_prefix_riscv64="riscv64-linux-gnu-"}
++: ${cross_prefix_s390x="s390x-linux-gnu-"}
++: ${cross_prefix_sh4="sh4-linux-gnu-"}
++: ${cross_prefix_sparc64="sparc64-linux-gnu-"}
++: ${cross_prefix_sparc="$cross_prefix_sparc64"}
++: ${cross_prefix_x86_64="x86_64-linux-gnu-"}
++
+ : ${cross_cc_aarch64_be="$cross_cc_aarch64"}
+ : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
+-: ${cross_cc_alpha="alpha-linux-gnu-gcc"}
+-: ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
+ : ${cross_cc_armeb="$cross_cc_arm"}
+ : ${cross_cc_cflags_armeb="-mbig-endian"}
+ : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
+ : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
+-: ${cross_cc_hppa="hppa-linux-gnu-gcc"}
+-: ${cross_cc_i386="i686-linux-gnu-gcc"}
+ : ${cross_cc_cflags_i386="-m32"}
+-: ${cross_cc_m68k="m68k-linux-gnu-gcc"}
+-: ${cross_cc_microblaze="microblaze-linux-musl-gcc"}
+-: ${cross_cc_mips64el="mips64el-linux-gnuabi64-gcc"}
+-: ${cross_cc_mips64="mips64-linux-gnuabi64-gcc"}
+-: ${cross_cc_mipsel="mipsel-linux-gnu-gcc"}
+-: ${cross_cc_mips="mips-linux-gnu-gcc"}
+-: ${cross_cc_nios2="nios2-linux-gnu-gcc"}
+-: ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_ppc="-m32"}
+-: ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
+ : ${cross_cc_cflags_ppc64="-m64 -mbig-endian"}
+ : ${cross_cc_ppc64le="$cross_cc_ppc64"}
+ : ${cross_cc_cflags_ppc64le="-m64 -mlittle-endian"}
+-: ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
+-: ${cross_cc_s390x="s390x-linux-gnu-gcc"}
+-: ${cross_cc_sh4="sh4-linux-gnu-gcc"}
+-: ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
+ : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
+ : ${cross_cc_sparc="$cross_cc_sparc64"}
+ : ${cross_cc_cflags_sparc="-m32 -mcpu=supersparc"}
+-: ${cross_cc_x86_64="x86_64-linux-gnu-gcc"}
+ : ${cross_cc_cflags_x86_64="-m64"}
  
-@@ -2008,13 +2004,6 @@ probe_target_compiler() {
-   if eval test -n "\"\${cross_cc_$1}\""; then
+-# tricore is special as it doesn't have a compiler
+-: ${cross_as_tricore="tricore-as"}
+-: ${cross_ld_tricore="tricore-ld"}
++compute_target_variable() {
++  if eval test -n "\"\${cross_prefix_$1}\""; then
++    if eval has "\"\${cross_prefix_$1}\$3\""; then
++      eval "$2=\"\${cross_prefix_$1}\$3\""
++    fi
++  fi
++}
+ 
+ probe_target_compiler() {
+   # reset all output variables
+@@ -1901,93 +1919,99 @@ probe_target_compiler() {
+       aarch64)
+         # We don't have any bigendian build tools so we only use this for AArch64
+         container_image=debian-arm64-cross
+-        container_cross_cc=aarch64-linux-gnu-gcc-10
++        container_cross_prefix=aarch64-linux-gnu-
++        container_cross_cc=${container_cross_prefix}gcc-10
+         ;;
+       alpha)
+         container_image=debian-alpha-cross
+-        container_cross_cc=alpha-linux-gnu-gcc
++        container_cross_prefix=alpha-linux-gnu-
+         ;;
+       arm)
+         # We don't have any bigendian build tools so we only use this for ARM
+         container_image=debian-armhf-cross
+-        container_cross_cc=arm-linux-gnueabihf-gcc
++        container_cross_prefix=arm-linux-gnueabihf-
+         ;;
+       cris)
+         container_image=fedora-cris-cross
+-        container_cross_cc=cris-linux-gnu-gcc
++        container_cross_prefix=cris-linux-gnu-
+         ;;
+       hexagon)
+         container_image=debian-hexagon-cross
+-        container_cross_cc=hexagon-unknown-linux-musl-clang
++        container_cross_prefix=hexagon-unknown-linux-musl-
++        container_cross_cc=${container_cross_prefix}clang
+         ;;
+       hppa)
+         container_image=debian-hppa-cross
+-        container_cross_cc=hppa-linux-gnu-gcc
++        container_cross_prefix=hppa-linux-gnu-
+         ;;
+       i386)
+         container_image=fedora-i386-cross
+-        container_cross_cc=gcc
++        container_cross_prefix=
+         ;;
+       m68k)
+         container_image=debian-m68k-cross
+-        container_cross_cc=m68k-linux-gnu-gcc
++        container_cross_prefix=m68k-linux-gnu-
+         ;;
+       microblaze)
+         container_image=debian-microblaze-cross
+-        container_cross_cc=microblaze-linux-musl-gcc
++        container_cross_prefix=microblaze-linux-musl-
+         ;;
+       mips64el)
+         container_image=debian-mips64el-cross
+-        container_cross_cc=mips64el-linux-gnuabi64-gcc
++        container_cross_prefix=mips64el-linux-gnuabi64-
+         ;;
+       mips64)
+         container_image=debian-mips64-cross
+-        container_cross_cc=mips64-linux-gnuabi64-gcc
++        container_cross_prefix=mips64-linux-gnuabi64-
+         ;;
+       mipsel)
+         container_image=debian-mipsel-cross
+-        container_cross_cc=mipsel-linux-gnu-gcc
++        container_cross_prefix=mipsel-linux-gnu-
+         ;;
+       mips)
+         container_image=debian-mips-cross
+-        container_cross_cc=mips-linux-gnu-gcc
++        container_cross_prefix=mips-linux-gnu-
+         ;;
+       nios2)
+         container_image=debian-nios2-cross
+-        container_cross_cc=nios2-linux-gnu-gcc
++        container_cross_prefix=nios2-linux-gnu-
+         ;;
+       ppc)
+         container_image=debian-powerpc-test-cross
+-        container_cross_cc=powerpc-linux-gnu-gcc-10
++        container_cross_prefix=powerpc-linux-gnu-
++        container_cross_cc=${container_cross_prefix}gcc-10
+         ;;
+       ppc64|ppc64le)
+         container_image=debian-powerpc-test-cross
+-        container_cross_cc=powerpc${1#ppc}-linux-gnu-gcc-10
++        container_cross_prefix=powerpc${1#ppc}-linux-gnu-
++        container_cross_cc=${container_cross_prefix}gcc-10
+         ;;
+       riscv64)
+         container_image=debian-riscv64-test-cross
+-        container_cross_cc=riscv64-linux-gnu-gcc
++        container_cross_prefix=riscv64-linux-gnu-
+         ;;
+       s390x)
+         container_image=debian-s390x-cross
+-        container_cross_cc=s390x-linux-gnu-gcc
++        container_cross_prefix=s390x-linux-gnu-
+         ;;
+       sh4)
+         container_image=debian-sh4-cross
+-        container_cross_cc=sh4-linux-gnu-gcc
++        container_cross_prefix=sh4-linux-gnu-
+         ;;
+       sparc64)
+         container_image=debian-sparc64-cross
+-        container_cross_cc=sparc64-linux-gnu-gcc
++        container_cross_prefix=sparc64-linux-gnu-
+         ;;
+       tricore)
+         container_image=debian-tricore-cross
++        container_cross_prefix=tricore-
+         container_cross_as=tricore-as
+         container_cross_ld=tricore-ld
++        break
+         ;;
+       x86_64)
+         container_image=debian-amd64-cross
+-        container_cross_cc=x86_64-linux-gnu-gcc
++        container_cross_prefix=x86_64-linux-gnu-
+         ;;
+       xtensa*)
+         # FIXME: xtensa-linux-user?
+@@ -1995,9 +2019,12 @@ probe_target_compiler() {
+         container_image=debian-xtensa-cross
+ 
+         # default to the dc232b cpu
+-        container_cross_cc=/opt/2020.07/xtensa-dc232b-elf/bin/xtensa-dc232b-elf-gcc
++        container_cross_prefix=/opt/2020.07/xtensa-dc232b-elf/bin/xtensa-dc232b-elf-
+         ;;
+     esac
++    : ${container_cross_cc:=${container_cross_prefix}gcc}
++    : ${container_cross_as:=${container_cross_prefix}as}
++    : ${container_cross_ld:=${container_cross_prefix}ld}
+   done
+ 
+   eval "target_cflags=\${cross_cc_cflags_$1}"
+@@ -2005,17 +2032,11 @@ probe_target_compiler() {
      if eval has "\"\${cross_cc_$1}\""; then
        eval "target_cc=\"\${cross_cc_$1}\""
--      case $1 in
--        i386|x86_64)
--          if $target_cc --version | grep -qi "clang"; then
--            unset target_cc
--          fi
--          ;;
--      esac
      fi
++  else
++    compute_target_variable $1 target_cc gcc
    fi
-   if eval test -n "\"\${cross_as_$1}\""; then
-@@ -2027,6 +2016,20 @@ probe_target_compiler() {
-       eval "target_ld=\"\${cross_ld_$1}\""
-     fi
+-  if eval test -n "\"\${cross_as_$1}\""; then
+-    if eval has "\"\${cross_as_$1}\""; then
+-      eval "target_as=\"\${cross_as_$1}\""
+-    fi
+-  fi
+-  if eval test -n "\"\${cross_ld_$1}\""; then
+-    if eval has "\"\${cross_ld_$1}\""; then
+-      eval "target_ld=\"\${cross_ld_$1}\""
+-    fi
+-  fi
++  compute_target_variable $1 target_as as
++  compute_target_variable $1 target_ld ld
+   if test "$1" = $cpu; then
+     : ${target_cc:=$cc}
+     : ${target_as:=$as}
+@@ -2048,12 +2069,8 @@ write_container_target_makefile() {
+   if test -n "$container_cross_cc"; then
+     echo "CC=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
    fi
-+  if test "$1" = $cpu; then
-+    : ${target_cc:=$cc}
-+    : ${target_as:=$as}
-+    : ${target_ld:=$ld}
-+  fi
-+  if test -n "$target_cc"; then
-+    case $1 in
-+      i386|x86_64)
-+        if $target_cc --version | grep -qi "clang"; then
-+          unset target_cc
-+        fi
-+        ;;
-+    esac
-+  fi
+-  if test -n "$container_cross_as"; then
+-    echo "AS=\$(DOCKER_SCRIPT) cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
+-  fi
+-  if test -n "$container_cross_ld"; then
+-    echo "LD=\$(DOCKER_SCRIPT) cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
+-  fi
++  echo "AS=\$(DOCKER_SCRIPT) cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
++  echo "LD=\$(DOCKER_SCRIPT) cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
  }
  
- write_target_makefile() {
+ 
 -- 
 2.30.2
 
