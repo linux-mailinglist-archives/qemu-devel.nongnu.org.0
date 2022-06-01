@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090D553A913
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 16:23:26 +0200 (CEST)
-Received: from localhost ([::1]:42514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6C553A95B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 16:46:57 +0200 (CEST)
+Received: from localhost ([::1]:58032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwPFs-00005F-HM
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 10:23:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44932)
+	id 1nwPce-0004oV-LW
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 10:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nwPED-0007dy-JX; Wed, 01 Jun 2022 10:21:41 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37530)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nwPaU-0003CR-6r
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 10:44:43 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nwPEC-0000qV-07; Wed, 01 Jun 2022 10:21:41 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t6so2594956wra.4;
- Wed, 01 Jun 2022 07:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x3KlGq2dfA8Wz8DxMYol/+JMkMuX6W/QyUylqa7MlM0=;
- b=j61akj6urnq+EBjh6/pu/mSUs1smDIn7YVFv5ZDvSruORoc3Fn1KA3W39AwX4mvu5w
- H5OGJ4Kwi/TNSoyHzdZDHSv4XD3wlhEXMB2ApB9DnerVToiCepOfcxWNbzcjDZxpk31D
- H65/L1eM9iEJCMYrVBpwxAdGjqU2ZMw5jiOd2A/9u4r6STFJsEZjmd/Yo3UKP80YxX+C
- LWqmlILRYLdl3Wits1pyX8dGSXlcNNlC0Ioqb5hwyxX+sjKT+WbopRPuK9rxHGXSvVRW
- H9KJdvl+NYSP0Ok/AmwZqiuOZXbayRJFlZal2KDgJf9a94OG/wlhBwUohnzxacbRIwSM
- mJTw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nwPaQ-0004SZ-53
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 10:44:41 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id q1so4231682ejz.9
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 07:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=6H43hb5mpxnnUqjJY0zb4QOeFabfLkmVAXt1ZXBua88=;
+ b=OOC7ssWcVvaBvpnm/rKpjzZ79WuadnNExOKhkb2q4KD/nlmDeUYpGNodLSDULnPY47
+ BGTBJZjw5PBGDV+3pwOJYYUI0eLkRlluBJyllm/8r5jProuDsO0ZTzpfg7Yyj5TH0sNE
+ NC3e26PT2lQaRjvf2L3ACbIJ23889tlyc1JjqNm03tkKM1RfBFKnO3LPfd729Fepcns7
+ t35/g11iYhUf8S6Xb9jikaki1S2XTRFL+cdhcrsOs4H1U3JBDuhOJtZlZ52mmU8ne651
+ +lJ8jwZWZMP3IuW6t40OyUl0Yq5HhFS/jNaCoOG5CC9kJW0dbYpqTGWjNjLkfhbgwM2j
+ Eoxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x3KlGq2dfA8Wz8DxMYol/+JMkMuX6W/QyUylqa7MlM0=;
- b=qe9HPYkZQXBd67Ew5EH++RUcIaNd5Xu3T9a7DWzTb98gjUVsqESlGGLQy4yPm/7S/E
- hBWAiTazcjEM1oKUBMbGuemg+6u17jdikSBe3dP6EFM3+HVrViltRUpdT1St39AfDt5W
- WTy40MxuzUxrOcAtOMWBlx4w8d8CdksaU9i/FiYz+oI5vlQ3uB8AbHvkMkAxLZ5IyGhG
- 9XHdFS8CvnA9Yv5nzUutTRUBMMdAHZsfNYfIrdb0AI7FpNOHqIB00pOmtiM7ehRY6MJe
- Xji4H+yqVPPUNj5KWIyfEeQedhIl+GobMGZBZhkrw4XQ2CHhLoS39Yqb2B9XmDsY9Sje
- zmWw==
-X-Gm-Message-State: AOAM530TV8iOpoVp/McH1TA6d6L1wkHSAs3mD3a6fNmIKMf4Vdfrc1WQ
- i6if/1M+a8jGdCY4aU5HtG8=
-X-Google-Smtp-Source: ABdhPJyboJyOfqYmFypJrraP5gS7T6453Kk0t7X7G0VeqQdke0TLewPV478Q/MqCiRjmx/qAUD8uwQ==
-X-Received: by 2002:a5d:64e9:0:b0:20f:dcf7:2173 with SMTP id
- g9-20020a5d64e9000000b0020fdcf72173mr54511wri.332.1654093298091; 
- Wed, 01 Jun 2022 07:21:38 -0700 (PDT)
-Received: from [192.168.1.82] (26.red-83-50-226.dynamicip.rima-tde.net.
- [83.50.226.26]) by smtp.gmail.com with ESMTPSA id
- c6-20020adffb46000000b0020c5253d90asm1782496wrs.86.2022.06.01.07.21.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 07:21:37 -0700 (PDT)
-Message-ID: <ffe922c2-f833-cce4-2da4-03fac5fb458c@amsat.org>
-Date: Wed, 1 Jun 2022 16:21:36 +0200
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=6H43hb5mpxnnUqjJY0zb4QOeFabfLkmVAXt1ZXBua88=;
+ b=w1Hrv4uNfqEQXUHOMHwbbgwCUGCGvDnjt1W1YboEjFytYFRyZyjlbgfAZPPmhOIBL2
+ /kkNOlKaZVgW4OVMr/HDt27KTBf1URPdPUXBQhOAU3LSyjYUhJGSlRSQl+jmDG4f0Q2V
+ cHNm3gMmueJ8gJaavFItQUnwF3JLDYDobe2peG/u1Ii5Is7ytz0AsPdxqbVP5ljuPj8Q
+ 9D1y0QTL/Pw1iWqSVuu09b+iYcngjasUaJvEftiG+ztCVLH/331MRmq69Ku1IyfW9Wtc
+ TQKTTd7jIe1cOHjgdGQh3lmZ2MIWMxW7J+T9QuTWgaaJuNd1PMRYNYTb1tH7OUMWkyIo
+ MwnA==
+X-Gm-Message-State: AOAM531GBo6sNAnEkKt9v+qqmPZxxdIAUo9fzG2MvKXcupyBNAngaGM0
+ BqKznYxpK1CNbStc+3D+M9t7pg==
+X-Google-Smtp-Source: ABdhPJxSljkS/oot7jSn2Q9lTR8flCRco9FeAxSpWX5hqPNUV4FVglM5v1O/my9D6Pone2iCWi50cg==
+X-Received: by 2002:a17:907:3e15:b0:6fe:f10e:6337 with SMTP id
+ hp21-20020a1709073e1500b006fef10e6337mr209650ejc.209.1654094675806; 
+ Wed, 01 Jun 2022 07:44:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ j15-20020a170906430f00b006f3ef214dc7sm839892ejm.45.2022.06.01.07.44.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jun 2022 07:44:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 37EE51FFB7;
+ Wed,  1 Jun 2022 15:44:34 +0100 (BST)
+References: <20220527153603.887929-1-alex.bennee@linaro.org>
+ <20220527153603.887929-32-alex.bennee@linaro.org>
+ <0b1b41d8-d8f9-1b5a-bc3c-67557ecbdde7@redhat.com>
+User-agent: mu4e 1.7.25; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [PATCH v1 31/33] gitlab: convert build/container jobs to
+ .base_job_template
+Date: Wed, 01 Jun 2022 15:43:46 +0100
+In-reply-to: <0b1b41d8-d8f9-1b5a-bc3c-67557ecbdde7@redhat.com>
+Message-ID: <87y1ygv3xp.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH] target/ppc: fix vbpermd in big endian hosts
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20220601125355.1266165-1-matheus.ferst@eldorado.org.br>
-In-Reply-To: <20220601125355.1266165-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,51 +97,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-+Mark for commit ef96e3ae96.
 
-On 1/6/22 14:53, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> The extract64 arguments are not endian dependent as they are only used
-> for bitwise operations. The current behavior in little-endian hosts is
-> correct; since the indexes in VRB are in PowerISA-ordering, we should
-> always invert the value before calling extract64. Also, using the VsrD
-> macro, we can have a single EXTRACT_BIT definition for big and
-> little-endian with the correct behavior.
-> 
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
-> Found this bug while refactoring VECTOR_FOR_INORDER_I uses. The
-> complete patch series will also use Vsr[DB] instead of VBPERM[DQ]_INDEX,
-> but it will need more testing. For now, we're just changing what is
-> necessary to fix the instruction.
-> ---
->   target/ppc/int_helper.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index 105b626d1b..4c5d3f03f8 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -1307,14 +1307,13 @@ XXGENPCV(XXGENPCVDM, 8)
->   #define VBPERMQ_INDEX(avr, i) ((avr)->u8[(i)])
->   #define VBPERMD_INDEX(i) (i)
->   #define VBPERMQ_DW(index) (((index) & 0x40) != 0)
-> -#define EXTRACT_BIT(avr, i, index) (extract64((avr)->u64[i], index, 1))
->   #else
->   #define VBPERMQ_INDEX(avr, i) ((avr)->u8[15 - (i)])
->   #define VBPERMD_INDEX(i) (1 - i)
->   #define VBPERMQ_DW(index) (((index) & 0x40) == 0)
-> -#define EXTRACT_BIT(avr, i, index) \
-> -        (extract64((avr)->u64[1 - i], 63 - index, 1))
->   #endif
-> +#define EXTRACT_BIT(avr, i, index) \
-> +        (extract64((avr)->VsrD(i), 63 - index, 1))
->   
->   void helper_vbpermd(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
->   {
+Thomas Huth <thuth@redhat.com> writes:
 
+> On 27/05/2022 17.36, Alex Benn=C3=A9e wrote:
+>> From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> This converts the main build and container jobs to use the
+>> base job rules, defining the following new variables
+>>   - QEMU_JOB_SKIPPED - jobs that are known to be currently
+>>     broken and should not be run. Can still be manually
+>>     launched if desired.
+>>   - QEMU_JOB_AVOCADO - jobs that run the Avocado integration
+>>     test harness.
+>>   - QEMU_JOB_PUBLISH - jobs that publish content after the
+>>     branch is merged upstream
+>> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> Message-Id: <20220526110705.59952-5-berrange@redhat.com>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+> ...
+>> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+>> index e9620c3074..ecac3ec50c 100644
+>> --- a/.gitlab-ci.d/buildtest.yml
+>> +++ b/.gitlab-ci.d/buildtest.yml
+>> @@ -360,12 +360,11 @@ build-cfi-aarch64:
+>>       expire_in: 2 days
+>>       paths:
+>>         - build
+>> -  rules:
+>> +  variables:
+>>       # FIXME: This job is often failing, likely due to out-of-memory pr=
+oblems in
+>>       # the constrained containers of the shared runners. Thus this is m=
+arked as
+>> -    # manual until the situation has been solved.
+>> -    - when: manual
+>> -      allow_failure: true
+>> +    # skipped until the situation has been solved.
+>> +    QEMU_JOB_SKIPPED: 1
+>>     check-cfi-aarch64:
+>>     extends: .native_test_job_template
+>> @@ -402,12 +401,11 @@ build-cfi-ppc64-s390x:
+>>       expire_in: 2 days
+>>       paths:
+>>         - build
+>> -  rules:
+>> +  variables:
+>>       # FIXME: This job is often failing, likely due to out-of-memory pr=
+oblems in
+>>       # the constrained containers of the shared runners. Thus this is m=
+arked as
+>> -    # manual until the situation has been solved.
+>> -    - when: manual
+>> -      allow_failure: true
+>> +    # skipped until the situation has been solved.
+>> +    QEMU_JOB_SKIPPED: 1
+>>     check-cfi-ppc64-s390x:
+>>     extends: .native_test_job_template
+>> @@ -579,6 +577,7 @@ build-without-default-features:
+>>       MAKE_CHECK_ARGS: check-unit check-qtest SPEED=3Dslow
+>>     build-libvhost-user:
+>> +  extends: .base_job_template
+>>     stage: build
+>>     image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
+>>     needs:
+>> @@ -595,10 +594,13 @@ build-tools-and-docs-debian:
+>>     extends: .native_build_job_template
+>>     needs:
+>>       job: amd64-debian-container
+>> +    # when running on 'master' we use pre-existing container
+>> +    optional: true
+>
+> This change doesn't look like it's related to the other changes in
+> here? Maybe mention it in the patch description at least?
+
+It is because the QEMU_JOB_PUBLISH stage is run on master so we don't
+really need to rebuild the container from staging to run it. I've
+mentioned it in the commit.
+
+>
+> Apart from that:
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+
+--=20
+Alex Benn=C3=A9e
 
