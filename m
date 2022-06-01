@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1405953A11C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 11:47:02 +0200 (CEST)
-Received: from localhost ([::1]:38246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D137D53A14E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 11:53:49 +0200 (CEST)
+Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwKwP-0002iS-6B
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 05:47:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
+	id 1nwL2y-0004iy-P2
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 05:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwKtL-0001jl-8w
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:43:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56602)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwL1d-00041J-Tb
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:52:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwKtI-00023c-Lx
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:43:50 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwL1O-0003IE-0Z
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:52:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654076627;
+ s=mimecast20190719; t=1654077129;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D7RWbBFZ9h8KgCTFbbImkFGjh0dsKJBByuiAlE3+oMY=;
- b=icgi/ST1bysaq9GtRmg8VCN9sP5Oa3KIX4ted/J9iuTpyliHoAKOSsp7SzF7LkDwfCg7r/
- DQEYwXmTvKmfBhX7lLul5tvzboSbQH6DBo4mOx2M9DJjJN1CxZOSG8K7oaEO4vMDQGge+/
- Y4mSrIcMl62CmghZ4BZnRYUhVSGYTAs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S8SLZ/gpBAnuu2nonvDs04H2zRpGtTgk07BIA/nAZcg=;
+ b=U9u0NCv6wt+HRBDAP5+7APgPVlJbuWH0EWVgDPT7aHOvCVmxozuYqGr3FKAviyXEciZDHG
+ rut4xc+G1CdKDSTqFFOeYcc2cVhvupJT+Kuh9c1GEceswfaa/nNoHvrpwSa0KgTXa0tPUE
+ sJozVDP7Uh2cieOdLlm3CNjHw55l8Zo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-60-Qxq5wZLWOVicKwi1dfFIuA-1; Wed, 01 Jun 2022 05:43:46 -0400
-X-MC-Unique: Qxq5wZLWOVicKwi1dfFIuA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o2-20020a05600c510200b0039747b0216fso3101652wms.0
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 02:43:46 -0700 (PDT)
+ us-mta-495-93o6yLVhMomEgTyX9SxEfA-1; Wed, 01 Jun 2022 05:52:08 -0400
+X-MC-Unique: 93o6yLVhMomEgTyX9SxEfA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ bt14-20020a056000080e00b002100d89c219so184626wrb.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 02:52:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=D7RWbBFZ9h8KgCTFbbImkFGjh0dsKJBByuiAlE3+oMY=;
- b=TNJ2lkI2uEnuv4n85lf6rhQgPO5Nz48Z2fzFdKm3ZJatki8kxXZFB3BsaX4KP+QLLE
- kN/GPzCrGFdT1Ih/Qss8SrV1gVkgKt2+kPF46QkhDXAmcTwiVf3gsNdsmIM/lNQTPeot
- yIAX8V1gX/E+a7FTWTuvRm8sAVtb2rn/oFkHpgQf8xC0jHJ2b/iaXMSbRy2mPlfZqueF
- kKjc80rQMqqXAAu96HhJJOcDTsGGZU60BRulGwIRQDgLpre48LlKAoQj0WNh224OlHU8
- xX+loqWfTlIUEaIm9d9MiNUV29YQKL8iziFYg6tclC8JFQfuToBKIsYt2nm494Ab1BmY
- KKXA==
-X-Gm-Message-State: AOAM530QwvOx77fsuiVwTKS/nxy5Mk8uqZQz0Qyf3uqaLyzjAlQhl0OG
- kt5p76vc1sp1jg2T2URqDSz5Lr3NTyBZ8QZqROgNVZA/6+ZWSbeWyesvqPFIA685XdDdKXm75Zq
- BQw2Jdpel6l32p3g=
-X-Received: by 2002:a05:6000:1f8c:b0:20e:5d60:17a2 with SMTP id
- bw12-20020a0560001f8c00b0020e5d6017a2mr52263937wrb.515.1654076625267; 
- Wed, 01 Jun 2022 02:43:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxP4t3pfSZqFd0wIUkK26rej+SDuKZSny5NE5lG0SNc86R+xym4ZOqg7zCgOTZRecYMGOE9w==
-X-Received: by 2002:a05:6000:1f8c:b0:20e:5d60:17a2 with SMTP id
- bw12-20020a0560001f8c00b0020e5d6017a2mr52263914wrb.515.1654076625038; 
- Wed, 01 Jun 2022 02:43:45 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=S8SLZ/gpBAnuu2nonvDs04H2zRpGtTgk07BIA/nAZcg=;
+ b=j+BolYVPjJVjanjBWclRn0lUyjahZcXohhGWLbd/ESIKxgoPuMwW0F5T2K5hsuypIY
+ tWHAke+Cq7/9H+3vzHX/mdZi4Uffxs3EAfe1LulFnqbX4Do/iJV2zhD/69EgFoc1HaFD
+ oTVP2hU0OFMMteAIgj0WTz3pMcXMsENDOQ+1tTDClIjVQgUdNfAMzkL1abMZV4xNOrWV
+ eg00IGQSwlRTQLIlRHLWoEMEq6s7UGYhSW1HTkb3CDDeEMevJgp/qwV26oqaRNLgZQrU
+ MHB6KYeGL/TzKqYHY1nq3seFSDHUe1TXPR3v4plmejP5QHldA7kqzMxVdo3UDPwc8+S+
+ eL9g==
+X-Gm-Message-State: AOAM533w7goGs5x0AJKqv7fTesqfEzTzVIN1+vknNWVm0cFil9aOs/rN
+ 3XmpXdHLFIk2ZAXAx8k+Ca4izacYzAOes7AtTbXaJ8ejB2IusUsjPbspkTNO/YpnnS1XVQCAVBG
+ guKvU3P+z71oLRyE=
+X-Received: by 2002:a5d:6f07:0:b0:20f:e7b6:60e9 with SMTP id
+ ay7-20020a5d6f07000000b0020fe7b660e9mr36876424wrb.452.1654077126995; 
+ Wed, 01 Jun 2022 02:52:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfmJEhuKto8dWe9djv8V0HWrJDK7LLd/Gekw/NvZ02056FHNaptIVSZJ7/IPYBN3KebVhicw==
+X-Received: by 2002:a5d:6f07:0:b0:20f:e7b6:60e9 with SMTP id
+ ay7-20020a5d6f07000000b0020fe7b660e9mr36876408wrb.452.1654077126724; 
+ Wed, 01 Jun 2022 02:52:06 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c705:2600:951d:63df:c091:3b45?
  (p200300cbc7052600951d63dfc0913b45.dip0.t-ipconnect.de.
  [2003:cb:c705:2600:951d:63df:c091:3b45])
  by smtp.gmail.com with ESMTPSA id
- n6-20020a05600c4f8600b0039b006bd6d9sm5526288wmq.6.2022.06.01.02.43.44
+ v19-20020a1cf713000000b0039c18d3fe27sm1361545wmh.19.2022.06.01.02.52.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 02:43:44 -0700 (PDT)
-Message-ID: <b3016857-775a-bc22-a337-bbaec76e5023@redhat.com>
-Date: Wed, 1 Jun 2022 11:43:43 +0200
+ Wed, 01 Jun 2022 02:52:06 -0700 (PDT)
+Message-ID: <5b19dd64-d6be-0371-da63-0dd0b78a3a5c@redhat.com>
+Date: Wed, 1 Jun 2022 11:52:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2] tests/tcg/s390x: Test overflow conditions
 Content-Language: en-US
-To: Gautam Agrawal <gautamnagrawal@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, thuth@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org
-References: <20220531183524.40948-1-gautamnagrawal@gmail.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+ richard.henderson@linaro.org, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220524190305.140717-1-mjrosato@linux.ibm.com>
+ <20220524190305.140717-3-mjrosato@linux.ibm.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220531183524.40948-1-gautamnagrawal@gmail.com>
+Subject: Re: [PATCH v6 2/8] target/s390x: add zpci-interp to cpu models
+In-Reply-To: <20220524190305.140717-3-mjrosato@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -105,16 +109,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31.05.22 20:35, Gautam Agrawal wrote:
-> Add a test to check for overflow conditions in s390x.
-> This patch is based on the following patches :
-> * https://git.qemu.org/?p=qemu.git;a=commitdiff;h=5a2e67a691501
-> * https://git.qemu.org/?p=qemu.git;a=commitdiff;h=fc6e0d0f2db51
+On 24.05.22 21:02, Matthew Rosato wrote:
+> The zpci-interp feature is used to specify whether zPCI interpretation is
+> to be used for this guest.
+
+We have
+
+DEF_FEAT(SIE_PFMFI, "pfmfi", SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF
+interpretation facility")
+
+and
+
+DEF_FEAT(SIE_SIGPIF, "sigpif", SCLP_CPU, 12, "SIE: SIGP interpretation
+facility")
+
+
+Should we call this simply "zpcii" or "zpciif" (if the official name
+includes "Facility")
+
 > 
-> Signed-off-by: Gautam Agrawal <gautamnagrawal@gmail.com>
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c          | 1 +
+>  target/s390x/cpu_features_def.h.inc | 1 +
+>  target/s390x/gen-features.c         | 2 ++
+>  target/s390x/kvm/kvm.c              | 1 +
+>  4 files changed, 5 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 047cca0487..b33310a135 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -806,6 +806,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
+>      static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
+>  
+>      ccw_machine_7_1_instance_options(machine);
+> +    s390_cpudef_featoff_greater(14, 1, S390_FEAT_ZPCI_INTERP);
+>      s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+>  }
+>  
+> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
+> index e86662bb3b..4ade3182aa 100644
+> --- a/target/s390x/cpu_features_def.h.inc
+> +++ b/target/s390x/cpu_features_def.h.inc
+> @@ -146,6 +146,7 @@ DEF_FEAT(SIE_CEI, "cei", SCLP_CPU, 43, "SIE: Conditional-external-interception f
+>  DEF_FEAT(DAT_ENH_2, "dateh2", MISC, 0, "DAT-enhancement facility 2")
+>  DEF_FEAT(CMM, "cmm", MISC, 0, "Collaborative-memory-management facility")
+>  DEF_FEAT(AP, "ap", MISC, 0, "AP instructions installed")
+> +DEF_FEAT(ZPCI_INTERP, "zpci-interp", MISC, 0, "zPCI interpretation")
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+How is this feature exposed to the guest, meaning, how can the guest
+sense support?
 
+Just a gut feeling: does this toggle enable the host to use
+interpretation and the guest cannot really determine the difference
+whether it's enabled or not? Then, it's not a guest CPU feature. But
+let's hear first what this actually enables :)
+
+>  
+>  /* Features exposed via the PLO instruction. */
+>  DEF_FEAT(PLO_CL, "plo-cl", PLO, 0, "PLO Compare and load (32 bit in general registers)")
+> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+> index c03ec2c9a9..f991646c01 100644
+> --- a/target/s390x/gen-features.c
+> +++ b/target/s390x/gen-features.c
+> @@ -554,6 +554,7 @@ static uint16_t full_GEN14_GA1[] = {
+>      S390_FEAT_HPMA2,
+>      S390_FEAT_SIE_KSS,
+>      S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
+> +    S390_FEAT_ZPCI_INTERP,
+>  };
+>  
+>  #define full_GEN14_GA2 EmptyFeat
+> @@ -650,6 +651,7 @@ static uint16_t default_GEN14_GA1[] = {
+>      S390_FEAT_GROUP_MSA_EXT_8,
+>      S390_FEAT_MULTIPLE_EPOCH,
+>      S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
+> +    S390_FEAT_ZPCI_INTERP,
+
+I'm curious, should we really add this to the default model?
+
+This implies that on any setup where we don't have zpci interpretation
+support (including missing kernel support), that a basic "-cpu z14" will
+no longer work with the new machine type.
+
+If, OTOH, we expect this feature to be around in any sane installation,
+then it's good to include it in the
 
 -- 
 Thanks,
