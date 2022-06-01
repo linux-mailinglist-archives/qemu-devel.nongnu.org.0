@@ -2,84 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6432539E1F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 09:22:35 +0200 (CEST)
-Received: from localhost ([::1]:33544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41226539E36
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 09:29:59 +0200 (CEST)
+Received: from localhost ([::1]:37702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwIgc-0005Kf-NK
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 03:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39822)
+	id 1nwInk-0008GM-Pb
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 03:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nwIf7-0004ZV-0j
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:21:01 -0400
-Received: from mga04.intel.com ([192.55.52.120]:56255)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwIlX-0007Wc-Pa
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:27:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nwIf4-0004yJ-4R
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:21:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654068058; x=1685604058;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=l+XiHh7anBduFpnJiS88+SjvrMYYjtp3avkrqqQLOEw=;
- b=I5G7ooQ7ZPoKcKeeF8ks74JKomTgI82a2PZtJGuPJjx2DRq0go4b9s2P
- faOpL2q1hzqFH0FkRpwMsjoq8ScIc8AbfN6LigVYYkTuCNeYm9Z7uCd5Q
- M5SivGI/KD3GDUc/JV1iSQ4vVf4E2K9vHSGSupp9uOz1xvk0NedHsPruk
- 3TkiS6jkf51VUTaDQgbzBQNp6r42O07H7CdBlej9+eloFBngePetRhsLw
- 1drsKFq2qw+GInnG5LQ/DanIhoXohT44WVwQeIcSZty8eMyfKFfQApETW
- sgCibxQMsV0NxMBr5SuVAAzmq+DNXP33u/N7PboWAprtyO0ZS16yFtmmu A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="274302568"
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="274302568"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 00:20:53 -0700
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="576804072"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.172.148])
- ([10.249.172.148])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 00:20:48 -0700
-Message-ID: <39341481-67b6-aba4-a25a-10abb398bec4@intel.com>
-Date: Wed, 1 Jun 2022 15:20:46 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwIlV-0005lw-0t
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:27:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654068455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R2skycOu0OWWUuBAeEnfk3uTGwVFoxmuqJtb4/zWbsg=;
+ b=CIbDnPF6l+m0INqhcL7CUUccbLO0GvTvg1MqkkZajo/YRx1wtdlqrsg/NkDXdYEWRRYbyb
+ enCM4veafrnrUHi0K1qlBvXqd1QUZx9L8JDpsvhzFJewBR9XnB2jTWFD1LBMG1uvEyAXib
+ IqL0HTJPjNOgfFD5CtId3cEeEI/6biI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-22-HIq9J4dpNCWAuyRgNVdoLQ-1; Wed, 01 Jun 2022 03:27:34 -0400
+X-MC-Unique: HIq9J4dpNCWAuyRgNVdoLQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q14-20020a5d61ce000000b00210353e32b0so87364wrv.12
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 00:27:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=R2skycOu0OWWUuBAeEnfk3uTGwVFoxmuqJtb4/zWbsg=;
+ b=CLigD1HAcNjyihGuVMQMw0mE9u4VzFNTTb/yJKzNphpCKTpUa4zPhi6fHYqCc/OvEN
+ ruq1+zwHZ62Obbp4o9M7XofjzClSBsnmE6aJhS08bgtfZC5AnEbreXrbkD2Pbf6aZ3OP
+ z3ZP0tHDaaJ6KbOsZsKy/wGpNJdEdUj0EInRR3JCP2qsZF7s3vbJhRe9asOsUTz8/FD5
+ R/4KEtUpGW5WsLutcl37ZYJIAbYqQRQDsR85TjwUrYwwPNAemnkJeYQUa4CskzElBWl2
+ I0XZyyg/Dd5kBkcMBUl31w32Ee5A4K1ljilV0AJWLMjJUTu49Tih9KvwmWB32W8upb4U
+ ulEA==
+X-Gm-Message-State: AOAM533DjYJ4UyL8+65YqEMltxnJfhLLlJbTUtKB6cPy0peoNEmH3M1e
+ aVqzf1li8HtD2tgN1n0QprrLK2piL/UVYIzY8EGtL4LiV72ZvYLOIXyeJVcfZXnQ7c5VD0NkeIo
+ Tajya45kwwjMGWMY=
+X-Received: by 2002:a5d:5590:0:b0:210:fb90:a2db with SMTP id
+ i16-20020a5d5590000000b00210fb90a2dbmr744838wrv.418.1654068452852; 
+ Wed, 01 Jun 2022 00:27:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx6IcWLDm2cJ6JvqKjG4/ubMuYOxy5L4gGxbX8FgZVyfcZy2V1rXe1V/9b5hoBSHfW407LnfA==
+X-Received: by 2002:a5d:5590:0:b0:210:fb90:a2db with SMTP id
+ i16-20020a5d5590000000b00210fb90a2dbmr744825wrv.418.1654068452630; 
+ Wed, 01 Jun 2022 00:27:32 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ o10-20020adfeaca000000b0020c5253d8c2sm755809wrn.14.2022.06.01.00.27.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 00:27:32 -0700 (PDT)
+Message-ID: <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
+Date: Wed, 1 Jun 2022 09:27:31 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 11/36] i386/tdx: Initialize TDX before creating TD
- vcpus
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-12-xiaoyao.li@intel.com>
- <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
- <d3e967f3-917f-27ce-1367-2dba23e5c241@intel.com>
- <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ mopsfelder@gmail.com, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220531172711.94564-1-muriloo@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220531172711.94564-1-muriloo@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,46 +105,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/2022 2:57 PM, Gerd Hoffmann wrote:
->    Hi,
+On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
+> Update max alias to power10 so users can take advantage of a more
+> recent CPU model when '-cpu max' is provided.
 > 
->>> Hmm, hooking *vm* initialization into *vcpu* creation looks wrong to me.
->>
->> That's because for TDX, it has to do VM-scope (feature) initialization
->> before creating vcpu. This is new to KVM and QEMU, that every feature is
->> vcpu-scope and configured per-vcpu before.
->>
->> To minimize the change to QEMU, we want to utilize @cpu and @cpu->env to
->> grab the configuration info. That's why it goes this way.
->>
->> Do you have any better idea on it?
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Cédric Le Goater <clg@kaod.org>
+> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Cc: Fabiano Rosas <farosas@linux.ibm.com>
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> ---
+>   target/ppc/cpu-models.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Maybe it's a bit more work to add VM-scope initialization support to
-> qemu.  
+> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
+> index 976be5e0d1..c15fcb43a1 100644
+> --- a/target/ppc/cpu-models.c
+> +++ b/target/ppc/cpu-models.c
+> @@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
+>       { "755", "755_v2.8" },
+>       { "goldfinger", "755_v2.8" },
+>       { "7400", "7400_v2.9" },
+> -    { "max", "7400_v2.9" },
+>       { "g4",  "7400_v2.9" },
+>       { "7410", "7410_v1.4" },
+>       { "nitro", "7410_v1.4" },
+> @@ -910,6 +909,8 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
+>       { "power8nvl", "power8nvl_v1.0" },
+>       { "power9", "power9_v2.0" },
+>       { "power10", "power10_v2.0" },
+> +    /* Update the 'max' alias to the latest CPU model */
+> +    { "max", "power10_v2.0" },
+>   #endif
 
-If just introducing VM-scope initialization to QEMU, it would be easy. 
-What matters is what needs to be done inside VM-scope initialization.
+I'm not sure whether "max" should really be fixed alias in this list here? 
+What if a user runs with KVM on a POWER8 host - then "max" won't work this 
+way, will it?
 
-For TDX, we need to settle down the features that configured for the TD. 
-Typically, the features are attributes of cpu object, parsed from "-cpu" 
-option and stored in cpu object.
+And in the long run, it would also be good if this would work with other 
+machines like the "g3beige", too (which don't support the new 64-bit POWER 
+CPUs), so you should at least mention in the commit description that this is 
+only a temporary hack for the pseries machine, I think.
 
-I cannot think up a clean solution for it, other than
-1) implement the same attributes from cpu object to machine object, or
-2) create a CPU object when initializing machine object and collect all 
-the info from "-cpu" and drop it in the end; then why not do it when 
-creating 1st vcpu like this patch.
-
-That's what I can think up. Let's see if anyone has better idea.
-
-> But I expect that approach will work better long-term.  You need
-> this mutex and the 'initialized' variable in your code to make sure it
-> runs only once because the way you hook it in is not ideal ...
-> 
-> [ disclaimer: I'm not that familiar with the kvm interface in qemu ]
-> 
-> take care,
->    Gerd
-> 
+  Thomas
 
 
