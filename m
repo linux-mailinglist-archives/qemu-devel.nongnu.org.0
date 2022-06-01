@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C83E53AB3F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 18:46:13 +0200 (CEST)
-Received: from localhost ([::1]:57000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAEB53AB46
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 18:48:23 +0200 (CEST)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwRU4-0004Do-8k
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 12:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34792)
+	id 1nwRWA-0007PH-RX
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 12:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nwRRZ-00027K-Aw
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 12:43:37 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2592)
+ id 1nwRS2-0003P2-Iu
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 12:44:06 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nwRRW-00018Y-JM
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 12:43:36 -0400
-Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LCw1B5p97z67bv9;
- Thu,  2 Jun 2022 00:42:38 +0800 (CST)
+ id 1nwRS0-0001Ah-Fs
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 12:44:06 -0400
+Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LCvxh4mfLz6802M;
+ Thu,  2 Jun 2022 00:39:36 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
+ fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 1 Jun 2022 18:43:31 +0200
+ 15.1.2375.24; Wed, 1 Jun 2022 18:44:02 +0200
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 1 Jun 2022 17:43:31 +0100
+ 15.1.2375.24; Wed, 1 Jun 2022 17:44:01 +0100
 To: Paolo Bonzini <pbonzini@redhat.com>, <qemu-devel@nongnu.org>, "Michael S .
  Tsirkin" <mst@redhat.com>
 CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
@@ -39,10 +39,10 @@ CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
  <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>, Ben Widawsky
  <ben.widawsky@intel.com>, Shameerali Kolothum Thodi
  <shameerali.kolothum.thodi@huawei.com>
-Subject: [PATCH v2 2/8] hw/acpi/cxl: Pass in the CXLState directly rather than
- MachineState
-Date: Wed, 1 Jun 2022 17:42:29 +0100
-Message-ID: <20220601164235.2117-3-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 3/8] hw/cxl: Push linking of CXL targets into i386/pc
+ rather than in machine.c
+Date: Wed, 1 Jun 2022 17:42:30 +0100
+Message-ID: <20220601164235.2117-4-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220601164235.2117-1-Jonathan.Cameron@huawei.com>
 References: <20220601164235.2117-1-Jonathan.Cameron@huawei.com>
@@ -78,85 +78,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Refactoring step on path to moving all CXL state out of
-MachineState.
+Whilst here take the oportunity to shorten the function name.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/acpi/cxl.c         | 9 ++++-----
- hw/i386/acpi-build.c  | 4 ++--
- include/hw/acpi/cxl.h | 5 +++--
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ hw/cxl/cxl-host-stubs.c   | 2 +-
+ hw/cxl/cxl-host.c         | 8 +++-----
+ hw/i386/pc.c              | 5 +++++
+ include/hw/cxl/cxl.h      | 2 --
+ include/hw/cxl/cxl_host.h | 1 +
+ softmmu/vl.c              | 2 --
+ 6 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-index 31d5235136..2bf8c07993 100644
---- a/hw/acpi/cxl.c
-+++ b/hw/acpi/cxl.c
-@@ -65,9 +65,8 @@ static void cedt_build_chbs(GArray *table_data, PXBDev *cxl)
-  * Interleave ways encoding in CXL 2.0 ECN: 3, 6, 12 and 16-way memory
-  * interleaving.
-  */
--static void cedt_build_cfmws(GArray *table_data, MachineState *ms)
-+static void cedt_build_cfmws(GArray *table_data, CXLState *cxls)
- {
--    CXLState *cxls = ms->cxl_devices_state;
-     GList *it;
+diff --git a/hw/cxl/cxl-host-stubs.c b/hw/cxl/cxl-host-stubs.c
+index de3e8894d5..e0d5ec8ad5 100644
+--- a/hw/cxl/cxl-host-stubs.c
++++ b/hw/cxl/cxl-host-stubs.c
+@@ -8,7 +8,7 @@
+ #include "hw/cxl/cxl.h"
+ #include "hw/cxl/cxl_host.h"
  
-     for (it = cxls->fixed_windows; it; it = it->next) {
-@@ -129,9 +128,9 @@ static int cxl_foreach_pxb_hb(Object *obj, void *opaque)
-     return 0;
+-void cxl_fixed_memory_window_link_targets(Error **errp) {};
++void cxl_fmws_link_targets(CXLState *stat, Error **errp) {};
+ void cxl_machine_init(Object *obj, CXLState *state) {};
+ 
+ const MemoryRegionOps cfmws_ops;
+diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
+index 3a79c32b42..8e7738a65b 100644
+--- a/hw/cxl/cxl-host.c
++++ b/hw/cxl/cxl-host.c
+@@ -68,14 +68,12 @@ static void cxl_fixed_memory_window_config(CXLState *cxl_state,
+     return;
  }
  
--void cxl_build_cedt(MachineState *ms, GArray *table_offsets, GArray *table_data,
-+void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
-                     BIOSLinker *linker, const char *oem_id,
--                    const char *oem_table_id)
-+                    const char *oem_table_id, CXLState *cxl_state)
+-void cxl_fixed_memory_window_link_targets(Error **errp)
++void cxl_fmws_link_targets(CXLState *cxl_state, Error **errp)
  {
-     Aml *cedt;
-     AcpiTable table = { .sig = "CEDT", .rev = 1, .oem_id = oem_id,
-@@ -144,7 +143,7 @@ void cxl_build_cedt(MachineState *ms, GArray *table_offsets, GArray *table_data,
-     /* reserve space for CEDT header */
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-
+-    if (ms->cxl_devices_state && ms->cxl_devices_state->fixed_windows) {
++    if (cxl_state && cxl_state->fixed_windows) {
+         GList *it;
  
-     object_child_foreach_recursive(object_get_root(), cxl_foreach_pxb_hb, cedt);
--    cedt_build_cfmws(cedt->buf, ms);
-+    cedt_build_cfmws(cedt->buf, cxl_state);
+-        for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
++        for (it = cxl_state->fixed_windows; it; it = it->next) {
+             CXLFixedWindow *fw = it->data;
+             int i;
  
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, cedt->buf->data, cedt->buf->len);
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index c125939ed6..2e3b1dd9a2 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2712,8 +2712,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-                           x86ms->oem_id, x86ms->oem_table_id);
-     }
-     if (machine->cxl_devices_state->is_enabled) {
--        cxl_build_cedt(machine, table_offsets, tables_blob, tables->linker,
--                       x86ms->oem_id, x86ms->oem_table_id);
-+        cxl_build_cedt(table_offsets, tables_blob, tables->linker,
-+                       x86ms->oem_id, x86ms->oem_table_id, machine->cxl_devices_state);
-     }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 98e63347f2..6cecd74d58 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -732,6 +732,11 @@ void pc_machine_done(Notifier *notifier, void *data)
+     PCMachineState *pcms = container_of(notifier,
+                                         PCMachineState, machine_done);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
++    MachineState *ms = MACHINE(pcms);
++
++    if (ms->cxl_devices_state) {
++        cxl_fmws_link_targets(ms->cxl_devices_state, &error_fatal);
++    }
  
-     acpi_add_table(table_offsets, tables_blob);
-diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
-index 0c496538c0..acf4418886 100644
---- a/include/hw/acpi/cxl.h
-+++ b/include/hw/acpi/cxl.h
-@@ -19,10 +19,11 @@
- #define HW_ACPI_CXL_H
+     /* set the number of CPUs */
+     x86_rtc_set_cpus_count(x86ms->rtc, x86ms->boot_cpus);
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 84078a484d..134b295b40 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -53,6 +53,4 @@ struct CXLHost {
+ #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+ OBJECT_DECLARE_SIMPLE_TYPE(CXLHost, PXB_CXL_HOST)
  
- #include "hw/acpi/bios-linker-loader.h"
-+#include "hw/cxl/cxl.h"
- 
--void cxl_build_cedt(MachineState *ms, GArray *table_offsets, GArray *table_data,
-+void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
-                     BIOSLinker *linker, const char *oem_id,
--                    const char *oem_table_id);
-+                    const char *oem_table_id, CXLState *cxl_state);
- void build_cxl_osc_method(Aml *dev);
- 
+-void cxl_fixed_memory_window_link_targets(Error **errp);
+-
  #endif
+diff --git a/include/hw/cxl/cxl_host.h b/include/hw/cxl/cxl_host.h
+index 87a6933de2..4d642a81fa 100644
+--- a/include/hw/cxl/cxl_host.h
++++ b/include/hw/cxl/cxl_host.h
+@@ -15,6 +15,7 @@
+ #define CXL_HOST_H
+ 
+ void cxl_machine_init(Object *obj, CXLState *state);
++void cxl_fmws_link_targets(CXLState *stat, Error **errp);
+ 
+ extern const MemoryRegionOps cfmws_ops;
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 10d50a2af1..ecef75b77b 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -93,7 +93,6 @@
+ #include "qemu/config-file.h"
+ #include "qemu/qemu-options.h"
+ #include "qemu/main-loop.h"
+-#include "hw/cxl/cxl.h"
+ #ifdef CONFIG_VIRTFS
+ #include "fsdev/qemu-fsdev.h"
+ #endif
+@@ -2665,7 +2664,6 @@ void qmp_x_exit_preconfig(Error **errp)
+ 
+     qemu_init_board();
+     qemu_create_cli_devices();
+-    cxl_fixed_memory_window_link_targets(errp);
+     qemu_machine_creation_done();
+ 
+     if (loadvm) {
 -- 
 2.32.0
 
