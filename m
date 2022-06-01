@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15ED4539B3F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 04:25:04 +0200 (CEST)
-Received: from localhost ([::1]:38276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C14539B55
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 04:45:49 +0200 (CEST)
+Received: from localhost ([::1]:50220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwE2g-00072a-Nf
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 22:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52968)
+	id 1nwEMl-0000Ar-Qr
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 22:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nwDzq-0003rT-Qk
- for qemu-devel@nongnu.org; Tue, 31 May 2022 22:22:06 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nwDzh-000454-Vb
- for qemu-devel@nongnu.org; Tue, 31 May 2022 22:22:02 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id 187so625926pfu.9
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 19:21:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2okyrQI7zzxx6armVnSyvWo3k8iS+WCjiSoArjw0fEE=;
- b=lNtCXz826IraqgepKCt/0lBy+mvMAaE2ivM/1NtE1GDoY942T5NsfhN91WTgx4ANjM
- 0xSVtO126oHxAM52jRDdWZORous5WBraQcL6dZQ8Ia53sJcte67lY7MPex9Z5MtwU/t3
- gxaV3/h3l0sz5h8It0hfiUZ5SYwVEdE3yMgblQkT9Y7FDq3ZPzr1CjWqoNE8KqzydtL7
- /271RuA8uiEl61xA0JyyHu0VZm0P0a/V1g89g4LrVnV+p4AgH0064N0SDE9eU5hfMl7g
- VE5X+2RmPw9fzhPqM6nWyZPLMWd+FDtQhwGBuRG5GGmVbXw2C45XfOEmviQBpXcD90GI
- aq4w==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nwEKg-0007Bz-Pq
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 22:43:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nwEKd-0007HW-TA
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 22:43:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654051414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mc0XlBXezEOWTYYs0ArYqoUft7LWjnc/1pRxneoxFjM=;
+ b=fWm4BQgWZHfRi/O1Ju8z9ykA50Uk9mkJ8dKysCJLRt4vRmJFUNWHOrqNVbj5LFLowUoo0m
+ 0oXBvoCUcDU4cVm4gwDOw9SFHet7ZQ9VCxzjwWEIoYQhWqqPhpq7Nplox4z+S9aF7LuY6r
+ U8/W2DtnG8IK45+RZWH+yAKxT0P2bdE=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-558-a6U3HvYZN66DhQAscJJQoQ-1; Tue, 31 May 2022 22:43:33 -0400
+X-MC-Unique: a6U3HvYZN66DhQAscJJQoQ-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ j4-20020a056512398400b0047866b0b823so199409lfu.19
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 19:43:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2okyrQI7zzxx6armVnSyvWo3k8iS+WCjiSoArjw0fEE=;
- b=nsaF+O1QcN8hiEsIavYMYNTYH849EW5hjHjusMXkaU/zUa44vVkKarcClCqZuakOg2
- 1mBN70Ix0StkreuuNRt/wl9o23v4+Pt8ZCnJ2vPg7zd059CnxkTI3uTZpBCRDA6C5EEe
- +7+mK3kpURrOYRH5GZBboF9XWcTFS06Z0WUKvu8b6Xzn/jBSOL88WWpOM7xiFQN8e1MV
- nMC1aK14pN5DgEn1C+i/6yjeR7rVvINjSxAOjgQ1kr2R9Cb3suuANKc2IjKfA3kV/T3T
- oRwFWDAvE60NDVzWMOZ4b5+P6BokDZPF5cEH9AkRqp6It1BBgKgsxpkFjrovBJumnPaX
- +Ghw==
-X-Gm-Message-State: AOAM530BkXjqJrf22042JAuu/XXRUCfw0+sZdo+9knhHlS0yQMeNuQPu
- GoOxb52ZSUGllqJ9LgsHGDHn7A==
-X-Google-Smtp-Source: ABdhPJzW0LFXWu1OWiBefZkXNcr/MWs15wzhND3amhX9Ouk0RYJnIvws91AeF3f0YhsM1ih2w98Iwg==
-X-Received: by 2002:a05:6a00:23ce:b0:50d:823f:981 with SMTP id
- g14-20020a056a0023ce00b0050d823f0981mr65646297pfc.10.1654050116005; 
- Tue, 31 May 2022 19:21:56 -0700 (PDT)
-Received: from [10.255.89.136] ([139.177.225.233])
- by smtp.gmail.com with ESMTPSA id
- r4-20020a170902ea4400b001641a68f1c7sm190180plg.273.2022.05.31.19.21.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 19:21:55 -0700 (PDT)
-Message-ID: <5f622a65-8348-8825-a167-414f2a8cd2eb@bytedance.com>
-Date: Wed, 1 Jun 2022 10:17:54 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mc0XlBXezEOWTYYs0ArYqoUft7LWjnc/1pRxneoxFjM=;
+ b=q9jx/4ybA1OIKSqVWCNf4Tc4WNST3P86qUlpAo9ewl80C6zgorhikaAzhZwadGJ+6O
+ pBlIdwamMt+4SXKrdzBkEUMiKG79uckqld9Qe+kcoE13gjfVirUKY2ayu053khjFutpo
+ Wki5d4TmUrKkIp4RGSFZC1bm5xYxkATFgxeSFwPegKW9wvC1bm7Bw1Yh5kS98Oj4BTld
+ 7f9t9PYTcJGorXYRbYAZlaJSbMCdYY1yu1Mapuj+2S8ogPRFEsGy2GFKoI37ef/2N3Bv
+ InJzoEHLMYQcSWeCN2KawfVLOIQQo9V5g09e1L0jx+SnYxxbJlrIG5GsXQ6XAeoo0BzV
+ FWMw==
+X-Gm-Message-State: AOAM531eYN7wUcaN8uTZajLy9K077G68v4DC8VCjYI0EF2ueP6GRNf8E
+ +RbpfqNdF04770UzfYSy1VBxpvVoDywZDhZRoxFPQzCoXyKNdj3rYRuEL6w5Zljy4mPS6cq/rRG
+ m36/kTZeES5myh34U6GO5RTKbTma+XXI=
+X-Received: by 2002:a05:6512:a95:b0:478:82fb:7783 with SMTP id
+ m21-20020a0565120a9500b0047882fb7783mr30223338lfu.471.1654051411929; 
+ Tue, 31 May 2022 19:43:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzW9puqoqXeeq8REaEC0PuzfIqxSj342fgov38abfGummzzJGkjKUDjuJlH9zOcptMJC8y/aPQyKS992i5keRE=
+X-Received: by 2002:a05:6512:a95:b0:478:82fb:7783 with SMTP id
+ m21-20020a0565120a9500b0047882fb7783mr30223327lfu.471.1654051411685; Tue, 31
+ May 2022 19:43:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: Re: Re: [PATCH 0/3] recover hardware corrupted page by virtio
- balloon
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?=
- <naoya.horiguchi@nec.com>
-Cc: Peter Xu <peterx@redhat.com>, Jue Wang <juew@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, jasowang@redhat.com,
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- mst@redhat.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
-References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
- <Yo/I3oLkd9OU0ice@xz-m1.local>
- <24a95dea-9ea6-a904-7c0b-197961afa1d1@bytedance.com>
- <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
- <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
- <YpTngZ5Qr0KIvL0H@xz-m1.local>
- <CAPcxDJ5UMfpys8KyLQVnkV9BPO1vaubxbhc7f4XC_TdNO7jr7g@mail.gmail.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <CAPcxDJ5UMfpys8KyLQVnkV9BPO1vaubxbhc7f4XC_TdNO7jr7g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <CACGkMEvhBWkcQwJD3eqY7f2=nqxC6RPBdhMq0iq=qi7NpuJ_3w@mail.gmail.com>
+ <21248AC5-C4D2-43DB-B096-DDFE9312BBE1@ispras.ru>
+In-Reply-To: <21248AC5-C4D2-43DB-B096-DDFE9312BBE1@ispras.ru>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 1 Jun 2022 10:43:20 +0800
+Message-ID: <CACGkMEtj5LdnAJW+QXU1xn64e9_mhXXtNq=9reqqkrngJZLYQA@mail.gmail.com>
+Subject: Re: [PATCH v2] net: fix multicast support with BSD (macOS) socket
+ implementations
+To: Vitaly Cheptsov <cheptsov@ispras.ru>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,107 +97,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/22 12:08, Jue Wang wrote:
-> On Mon, May 30, 2022 at 8:49 AM Peter Xu <peterx@redhat.com> wrote:
->>
->> On Mon, May 30, 2022 at 07:33:35PM +0800, zhenwei pi wrote:
->>> A VM uses RAM of 2M huge page. Once a MCE(@HVAy in [HVAx,HVAz)) occurs, the
->>> 2M([HVAx,HVAz)) of hypervisor becomes unaccessible, but the guest poisons 4K
->>> (@GPAy in [GPAx, GPAz)) only, it may hit another 511 MCE ([GPAx, GPAz)
->>> except GPAy). This is the worse case, so I want to add
->>>   '__le32 corrupted_pages' in struct virtio_balloon_config, it is used in the
->>> next step: reporting 512 * 4K 'corrupted_pages' to the guest, the guest has
->>> a chance to isolate the other 511 pages ahead of time. And the guest
->>> actually loses 2M, fixing 512*4K seems to help significantly.
->>
->> It sounds hackish to teach a virtio device to assume one page will always
->> be poisoned in huge page granule.  That's only a limitation to host kernel
->> not virtio itself.
->>
->> E.g. there're upstream effort ongoing with enabling doublemap on hugetlbfs
->> pages so hugetlb pages can be mapped in 4k with it.  It provides potential
->> possibility to do page poisoning with huge pages in 4k too.  When that'll
->> be ready the assumption can go away, and that does sound like a better
->> approach towards this problem.
-> 
-> +1.
-> 
-> A hypervisor should always strive to minimize the guest memory loss.
-> 
-> The HugeTLB double mapping enlightened memory poisoning behavior (only
-> poison 4K out of a 2MB huge page and 4K in guest) is a much better
-> solution here. To be completely transparent, it's not _strictly_
-> required to poison the page (whatever the granularity it is) on the
-> host side, as long as the following are true:
-> 
-> 1. A hypervisor can emulate the _minimized_ (e.g., 4K) the poison to the guest.
-> 2. The host page with the UC error is "isolated" (could be PG_HWPOISON
-> or in some other way) and prevented from being reused by other
-> processes.
-> 
-> For #2, PG_HWPOISON and HugeTLB double mapping enlightened memory
-> poisoning is a good solution.
-> 
->>
->>>
->>>>
->>>> I assume when talking about "the performance memory drops a lot", you
->>>> imply that this patch set can mitigate that performance drop?
->>>>
->>>> But why do you see a performance drop? Because we might lose some
->>>> possible THP candidates (in the host or the guest) and you want to plug
->>>> does holes? I assume you'll see a performance drop simply because
->>>> poisoning memory is expensive, including migrating pages around on CE.
->>>>
->>>> If you have some numbers to share, especially before/after this change,
->>>> that would be great.
->>>>
->>>
->>> The CE storm leads 2 problems I have even seen:
->>> 1, the memory bandwidth slows down to 10%~20%, and the cycles per
->>> instruction of CPU increases a lot.
->>> 2, the THR (/proc/interrupts) interrupts frequently, the CPU has to use a
->>> lot time to handle IRQ.
->>
->> Totally no good knowledge on CMCI, but if 2) is true then I'm wondering
->> whether it's necessary to handle the interrupts that frequently.  When I
->> was reading the Intel CMCI vector handler I stumbled over this comment:
->>
->> /*
->>   * The interrupt handler. This is called on every event.
->>   * Just call the poller directly to log any events.
->>   * This could in theory increase the threshold under high load,
->>   * but doesn't for now.
->>   */
->> static void intel_threshold_interrupt(void)
->>
->> I think that matches with what I was thinking..  I mean for 2) not sure
->> whether it can be seen as a CMCI problem and potentially can be optimized
->> by adjust the cmci threshold dynamically.
-> 
-> The CE storm caused performance drop is caused by the extra cycles
-> spent by the ECC steps in memory controller, not in CMCI handling.
-> This is observed in the Google fleet as well. A good solution is to
-> monitor the CE rate closely in user space via /dev/mcelog and migrate
-> all VMs to another host once the CE rate exceeds some threshold.
-> 
-> CMCI is a _background_ interrupt that is not handled in the process
-> execution context and its handler is setup to switch to poll (1 / 5
-> min) mode if there are more than ~ a dozen CEs reported via CMCI per
-> second.
->>
->> --
->> Peter Xu
->>
+On Tue, May 31, 2022 at 7:28 PM Vitaly Cheptsov <cheptsov@ispras.ru> wrote:
+>
+> Hi Jason,
+>
+> This patch fixes socket communication with QEMU -> host and QEMU <--> QEM=
+U on macOS, which was originally impossible due to QEMU and host program ha=
+ving to bind to the same ip/port in a way not supported by BSD sockets. The=
+ change was tested on both Linux and macOS.
+>
+> Basically after applying this patch one will be able to communicate with =
+QEMU when using "-nic socket,mcast=3D230.0.0.1:1234,model=3Dvirtio-net-pci"=
+ from QEMU or macOS itself.
+>
+> Best regards,
+> Vitaly
 
-Hi, Andrew, David, Naoya
+Would you mind resending the patch with the above as the changelog?
 
-According to the suggestions, I'd give up the improvement of memory 
-failure on huge page in this series.
+Thanks
 
-Is it worth recovering corrupted pages for the guest kernel? I'd follow 
-your decision.
+>
+> > On 31 May 2022, at 10:02, Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > =EF=BB=BFOn Wed, May 18, 2022 at 3:40 PM Vitaly Cheptsov <cheptsov@ispr=
+as.ru> wrote:
+> >>
+> >
+> > Hi Vitaly:
+> >
+> > We need a changelog to describe why we need this.
+> >
+> > Thanks
+> >
+> >> Cc: Jason Wang <jasowang@redhat.com>
+> >> Cc: Daniel P. Berrange <berrange@redhat.com>
+> >> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
+> >> ---
+> >> net/socket.c | 18 ++++++++++++++++++
+> >> 1 file changed, 18 insertions(+)
+> >>
+> >> diff --git a/net/socket.c b/net/socket.c
+> >> index bfd8596250..583f788a22 100644
+> >> --- a/net/socket.c
+> >> +++ b/net/socket.c
+> >> @@ -239,6 +239,22 @@ static int net_socket_mcast_create(struct sockadd=
+r_in *mcastaddr,
+> >>         return -1;
+> >>     }
+> >>
+> >> +#ifdef __APPLE__
+> >> +    val =3D 1;
+> >> +    ret =3D qemu_setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &val, sizeo=
+f(val));
+> >> +    if (ret < 0) {
+> >> +        error_setg_errno(errp, errno,
+> >> +                         "can't set socket option SO_REUSEPORT");
+> >> +        goto fail;
+> >> +    }
+> >> +
+> >> +    struct sockaddr_in bindaddr;
+> >> +    memset(&bindaddr, 0, sizeof(bindaddr));
+> >> +    bindaddr.sin_family =3D AF_INET;
+> >> +    bindaddr.sin_addr.s_addr =3D htonl(INADDR_ANY);
+> >> +    bindaddr.sin_port =3D mcastaddr->sin_port;
+> >> +    ret =3D bind(fd, (struct sockaddr *)&bindaddr, sizeof(bindaddr));
+> >> +#else
+> >>     /* Allow multiple sockets to bind the same multicast ip and port b=
+y setting
+> >>      * SO_REUSEADDR. This is the only situation where SO_REUSEADDR sho=
+uld be set
+> >>      * on windows. Use socket_set_fast_reuse otherwise as it sets SO_R=
+EUSEADDR
+> >> @@ -253,6 +269,8 @@ static int net_socket_mcast_create(struct sockaddr=
+_in *mcastaddr,
+> >>     }
+> >>
+> >>     ret =3D bind(fd, (struct sockaddr *)mcastaddr, sizeof(*mcastaddr))=
+;
+> >> +#endif
+> >> +
+> >>     if (ret < 0) {
+> >>         error_setg_errno(errp, errno, "can't bind ip=3D%s to socket",
+> >>                          inet_ntoa(mcastaddr->sin_addr));
+> >> --
+> >> 2.32.1 (Apple Git-133)
+> >>
+> >
+>
 
--- 
-zhenwei pi
 
