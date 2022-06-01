@@ -2,85 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE6D53A7EC
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 16:04:27 +0200 (CEST)
-Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D80B53A8C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 16:12:58 +0200 (CEST)
+Received: from localhost ([::1]:34540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwOxV-0006Ks-Os
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 10:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40240)
+	id 1nwP5k-0002Nf-Od
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 10:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nwOsF-0001xW-3A; Wed, 01 Jun 2022 09:58:59 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nwOsD-0005gH-8I; Wed, 01 Jun 2022 09:58:58 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d26so2463662wrb.13;
- Wed, 01 Jun 2022 06:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0jZy12IUXwWtor+oG1IlIHHVauVqeLvUb8eW0vlezeM=;
- b=Eg3uamI0qjnQ74GQBcQfSVU/dxtbV5o56AyQOCwV7klormy+qIM0FkvgHcIq3GuUM0
- oJVXA1SMyEm8Q+fdAOXq80Ok/CL92NCLxGYPLcxfXFT8FSHoX7n1w7WpwYMEZ4Fll6YZ
- KfUPdbX2P09yqof+1rBF8AjkOcwW27p3VC9Sb6fETaGDPQXi+D0S4mB3yzRl5lpk8UBB
- gXl60FQ/WVdTW+g6OGw6Ehq3phrcqB3KXq1wHqk7quGbuGI5lrcj63h5csPOV3cptBZr
- eyRNuRQ22DaHCLqDkIFn/WmYx1MFf6ym6qHBdElSrOuHbBHZHbfexloKn/rI07iZMQUN
- YoSg==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwP3G-0001BL-Kk
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 10:10:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwP3E-0007Qw-21
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 10:10:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654092616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S2X6ZLww40zxUixUPhRD9wzJWBrQ/cDCEdxGhyIfOss=;
+ b=R28m4v3w9ZZAhJ48lV1ehPJWWrV6na1xwMlx7A5u/Vj+hvsX0NfmNNgSbCxlkbcFnOciQ2
+ qfNRjQkN7eeK9M5+U7mfxj+WhcIS5mWlvY6V9kz7bchYAtukdZbSHFK3vGpE+Rlhul+9tI
+ ztjANIsMDUkfauf5LELu/hp3pbexf1U=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-651--2N_KnB2PKCXfwbSJmCVtw-1; Wed, 01 Jun 2022 10:10:15 -0400
+X-MC-Unique: -2N_KnB2PKCXfwbSJmCVtw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n18-20020a05600c3b9200b00397335edc7dso3427385wms.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 07:10:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0jZy12IUXwWtor+oG1IlIHHVauVqeLvUb8eW0vlezeM=;
- b=WDFGYYSKNqEqCuVmKdICtuBo2y7x2VWRegirMQrNmi4wer8kfPQXcQh9nq6yZMOkGG
- eIpfhZAmUTgLavAdz1j3WJHDhvBj/pkqXWZSbOZS35rQPoe2dx6DI+Fnd8n0VAS3AP14
- H5CEx7NLW7CMSIdhE/rRiI0sBK3pmCKnbc84ClGsMg6GCgAm2hgugQuas9alnmbRAd3m
- oOH9Ye8P8B6ZSMWSHEbcHENMz4bMDQxAA6mzHgpN9aojWkgNTAp7EwIfOENNL/10sRe1
- +R+Zv6IxyIbc+AtTIYmATL7lTCWc2PDMWgav9IUoXfPfWBywRIey6Xm5dkzgnHzjgkU8
- Ax0Q==
-X-Gm-Message-State: AOAM533fsHOI+5dnTa9vRCOUcwyJ4T1Dr8sf3GMHefHbUFR1UDPSZ7CB
- OtcvIp3TCO2mdVafxqZZBWI=
-X-Google-Smtp-Source: ABdhPJzGazLZcO8Uv+Y6J1xULASF2wm5QTJf7TRJLt8fp5ZMIXT+eKLMKHPyTr6IxbOgBRMs/3Aq9Q==
-X-Received: by 2002:a05:6000:388:b0:20e:7a31:8f5e with SMTP id
- u8-20020a056000038800b0020e7a318f5emr50025179wrf.201.1654091933023; 
- Wed, 01 Jun 2022 06:58:53 -0700 (PDT)
-Received: from [192.168.1.82] (26.red-83-50-226.dynamicip.rima-tde.net.
- [83.50.226.26]) by smtp.gmail.com with ESMTPSA id
- g20-20020a05600c4c9400b0039749b01ea7sm2439661wmp.32.2022.06.01.06.58.51
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=S2X6ZLww40zxUixUPhRD9wzJWBrQ/cDCEdxGhyIfOss=;
+ b=GX2RcV8cLRpJS8mYVa/a5XRPmpCKDSpLhcY/ZudfpCzq30o5/Ewuxg2JvnEev1yMPW
+ LS5wx61orcopxgvWTCYwM+N+XtEv8rOsby1X2GjiV6szHc7w+1tyrvKxAY0ZgsV73gbs
+ 2pHrK7FUL0Aa8GiLMyYWN9ZykXppruA5wi4PomjVFHUPFg8D/+W4qYovMjictSCN+640
+ v4ekRd4FmP4jHtqCHfPL2/r02baHxjoDSbrUGpI+KBRON6oIHOwJWpV81M8sCsyBewHz
+ 9A/NBJc7iNZjPJEAc/MAIOqXh8pEJfdU/ccNxEeD+OBrLuWEw3Gxvj6RVgPtmly6ZMCV
+ fkEQ==
+X-Gm-Message-State: AOAM533PElUQI/LvtvjCVqhIeEBywX9eMA7xnIOcl+L0+Cn6xK6gwnco
+ yf2uPgdQeFX8O9OnjT93uTYhZDu6pV44g5m6GulW7SklZaPnUiz61peRWN1FTGq3Wv79b24rSye
+ UkHVnCWcJrAYUXnI=
+X-Received: by 2002:a7b:c7c3:0:b0:398:934f:a415 with SMTP id
+ z3-20020a7bc7c3000000b00398934fa415mr85707wmk.27.1654092614255; 
+ Wed, 01 Jun 2022 07:10:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxTl9uz/zNJ7sFJjgk3LU0l5DtUJXTuFkUOmh3MJcMb06+pAEbmVWGUAy326g7/E53rzbtIYg==
+X-Received: by 2002:a7b:c7c3:0:b0:398:934f:a415 with SMTP id
+ z3-20020a7bc7c3000000b00398934fa415mr85677wmk.27.1654092613934; 
+ Wed, 01 Jun 2022 07:10:13 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:2600:951d:63df:c091:3b45?
+ (p200300cbc7052600951d63dfc0913b45.dip0.t-ipconnect.de.
+ [2003:cb:c705:2600:951d:63df:c091:3b45])
+ by smtp.gmail.com with ESMTPSA id
+ h12-20020a5d6e0c000000b0020ff877cfbdsm1645548wrz.87.2022.06.01.07.10.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 06:58:52 -0700 (PDT)
-Message-ID: <c8454b04-fbea-3750-3819-6f292b20de7b@amsat.org>
-Date: Wed, 1 Jun 2022 15:58:50 +0200
+ Wed, 01 Jun 2022 07:10:13 -0700 (PDT)
+Message-ID: <f8d128d2-e58a-e0a0-ff8a-7ff2b2ffa31e@redhat.com>
+Date: Wed, 1 Jun 2022 16:10:12 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH] hw/intc: sifive_plic: Avoid overflowing the addr_config
- buffer
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
 Content-Language: en-US
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- jiangyifei@huawei.com, limingwang@huawei.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: thuth@redhat.com, Bin Meng <bin.meng@windriver.com>,
- alistair23@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com
-References: <20220601013631.196854-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220601013631.196854-1-alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+ richard.henderson@linaro.org, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220524190305.140717-1-mjrosato@linux.ibm.com>
+ <20220524190305.140717-3-mjrosato@linux.ibm.com>
+ <5b19dd64-d6be-0371-da63-0dd0b78a3a5c@redhat.com>
+ <6030c7e6-479d-660c-9198-1c65c74735a1@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v6 2/8] target/s390x: add zpci-interp to cpu models
+In-Reply-To: <6030c7e6-479d-660c-9198-1c65c74735a1@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,70 +109,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/6/22 03:36, Alistair Francis wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
+On 01.06.22 15:48, Matthew Rosato wrote:
+> On 6/1/22 5:52 AM, David Hildenbrand wrote:
+>> On 24.05.22 21:02, Matthew Rosato wrote:
+>>> The zpci-interp feature is used to specify whether zPCI interpretation is
+>>> to be used for this guest.
+>>
+>> We have
+>>
+>> DEF_FEAT(SIE_PFMFI, "pfmfi", SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF
+>> interpretation facility")
+>>
+>> and
+>>
+>> DEF_FEAT(SIE_SIGPIF, "sigpif", SCLP_CPU, 12, "SIE: SIGP interpretation
+>> facility")
+>>
+>>
+>> Should we call this simply "zpcii" or "zpciif" (if the official name
+>> includes "Facility")
+>>
 > 
-> Since commit ad40be27 "target/riscv: Support start kernel directly by
-> KVM" we have been overflowing the addr_config on "M,MS..."
-> configurations, as reported https://gitlab.com/qemu-project/qemu/-/issues/1050.
+> This actually controls the use of 2 facilities which really only make 
+> sense together - Maybe just zpcii
 > 
-> This commit changes the loop in sifive_plic_create() from iterating over
-> the number of harts to just iterating over the addr_config. The
-> addr_config is based on the hart_config, and will contain interrup details
-> for all harts. This way we can't iterate past the end of addr_config.
+>>>
+>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>> ---
+>>>   hw/s390x/s390-virtio-ccw.c          | 1 +
+>>>   target/s390x/cpu_features_def.h.inc | 1 +
+>>>   target/s390x/gen-features.c         | 2 ++
+>>>   target/s390x/kvm/kvm.c              | 1 +
+>>>   4 files changed, 5 insertions(+)
+>>>
+>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>>> index 047cca0487..b33310a135 100644
+>>> --- a/hw/s390x/s390-virtio-ccw.c
+>>> +++ b/hw/s390x/s390-virtio-ccw.c
+>>> @@ -806,6 +806,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
+>>>       static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
+>>>   
+>>>       ccw_machine_7_1_instance_options(machine);
+>>> +    s390_cpudef_featoff_greater(14, 1, S390_FEAT_ZPCI_INTERP);
+>>>       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+>>>   }
+>>>   
+>>> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
+>>> index e86662bb3b..4ade3182aa 100644
+>>> --- a/target/s390x/cpu_features_def.h.inc
+>>> +++ b/target/s390x/cpu_features_def.h.inc
+>>> @@ -146,6 +146,7 @@ DEF_FEAT(SIE_CEI, "cei", SCLP_CPU, 43, "SIE: Conditional-external-interception f
+>>>   DEF_FEAT(DAT_ENH_2, "dateh2", MISC, 0, "DAT-enhancement facility 2")
+>>>   DEF_FEAT(CMM, "cmm", MISC, 0, "Collaborative-memory-management facility")
+>>>   DEF_FEAT(AP, "ap", MISC, 0, "AP instructions installed")
+>>> +DEF_FEAT(ZPCI_INTERP, "zpci-interp", MISC, 0, "zPCI interpretation")
+>>
+>> How is this feature exposed to the guest, meaning, how can the guest
+>> sense support?
+>>
+>> Just a gut feeling: does this toggle enable the host to use
+>> interpretation and the guest cannot really determine the difference
+>> whether it's enabled or not? Then, it's not a guest CPU feature. But
+>> let's hear first what this actually enables :)
 > 
-> Fixes: ad40be27084536 ("target/riscv: Support start kernel directly by KVM")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1050
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   hw/intc/sifive_plic.c | 19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
+> This has changed a few times, but collectively we can determine on the 
+> host kernel if it is allowable based upon the availability of certain 
+> facility/sclp bits + the availability of an ioctl interface.
 > 
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index eebbcf33d4..56d60e9ac9 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -431,7 +431,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
->       uint32_t context_stride, uint32_t aperture_size)
->   {
->       DeviceState *dev = qdev_new(TYPE_SIFIVE_PLIC);
-> -    int i, j = 0;
-> +    int i;
->       SiFivePLICState *plic;
->   
->       assert(enable_stride == (enable_stride & -enable_stride));
-> @@ -451,18 +451,17 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
->       sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
->   
->       plic = SIFIVE_PLIC(dev);
-> -    for (i = 0; i < num_harts; i++) {
-> -        CPUState *cpu = qemu_get_cpu(hartid_base + i);
->   
-> -        if (plic->addr_config[j].mode == PLICMode_M) {
-> -            j++;
-> -            qdev_connect_gpio_out(dev, num_harts + i,
-> +    for (i = 0; i < plic->num_addrs; i++) {
-> +        int cpu_num = plic->addr_config[i].hartid;
-> +        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
-> +
-> +        if (plic->addr_config[i].mode == PLICMode_M) {
-> +            qdev_connect_gpio_out(dev, num_harts + cpu_num,
->                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
->           }
-> -
-> -        if (plic->addr_config[j].mode == PLICMode_S) {
-> -            j++;
-> -            qdev_connect_gpio_out(dev, i,
-> +        if (plic->addr_config[i].mode == PLICMode_S) {
-> +            qdev_connect_gpio_out(dev, cpu_num,
->                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
->           }
->       }
+> If all of these are available, the host kernel allows zPCI 
+> interpretation, with userspace able to toggle it on/off for the guest 
+> via this feature.  When allowed and enabled, 2 ECB bits then get set for 
+> each guest vcpu that enable the associated facilities.  The guest 
+> continues to use zPCI instructions in the same manner as before; the 
+> function handles it receives from CLP instructions will look different 
+> but are still used in the same manner.
+> 
+> We don't yet add vsie support of the facilities with this series, so the 
+> corresponding facility and sclp bits aren't forwarded to the guest.
 
-The logic is much easier to follow now, thanks.
+That's exactly my point:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+sigpif and pfmfi are actually vsie features. I'd have expected that
+zpcii would be a vsie feature as well.
+
+If interpretation is really more an implementation detail in the
+hypervisor to implement zpci, than an actual guest feature (meaning, the
+guest is able to observe it as if it were a real CPU feature), then we
+most probably want some other way to toggle it (maybe via the machine?).
+
+Example: KVM uses SIGP interpretation based on availability. However, we
+don't toggle it via sigpif. sigpif actually tells the guest that it can
+use the SIGP interpretation facility along with vsie.
+
+You mention "CLP instructions will look different", I'm not sure if that
+should actually be handled via the CPU model. From my gut feeling, zpcii
+should actually be the vsie zpcii support to be implemented in the future.
+
+
+So I wonder if we could simply always enable zPCI interpretation if
+HW+kernel support is around and we're on a new compat machine? I there
+is a way that migration could break (from old kernel to new kernel),
+we'd have to think about alternatives.
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
