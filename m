@@ -2,86 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6C553A95B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 16:46:57 +0200 (CEST)
-Received: from localhost ([::1]:58032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0491F53A9B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 17:13:23 +0200 (CEST)
+Received: from localhost ([::1]:40674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwPce-0004oV-LW
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 10:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
+	id 1nwQ2D-0006TA-L0
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 11:13:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwPaU-0003CR-6r
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 10:44:43 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwPaQ-0004SZ-53
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 10:44:41 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id q1so4231682ejz.9
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 07:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=6H43hb5mpxnnUqjJY0zb4QOeFabfLkmVAXt1ZXBua88=;
- b=OOC7ssWcVvaBvpnm/rKpjzZ79WuadnNExOKhkb2q4KD/nlmDeUYpGNodLSDULnPY47
- BGTBJZjw5PBGDV+3pwOJYYUI0eLkRlluBJyllm/8r5jProuDsO0ZTzpfg7Yyj5TH0sNE
- NC3e26PT2lQaRjvf2L3ACbIJ23889tlyc1JjqNm03tkKM1RfBFKnO3LPfd729Fepcns7
- t35/g11iYhUf8S6Xb9jikaki1S2XTRFL+cdhcrsOs4H1U3JBDuhOJtZlZ52mmU8ne651
- +lJ8jwZWZMP3IuW6t40OyUl0Yq5HhFS/jNaCoOG5CC9kJW0dbYpqTGWjNjLkfhbgwM2j
- Eoxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=6H43hb5mpxnnUqjJY0zb4QOeFabfLkmVAXt1ZXBua88=;
- b=w1Hrv4uNfqEQXUHOMHwbbgwCUGCGvDnjt1W1YboEjFytYFRyZyjlbgfAZPPmhOIBL2
- /kkNOlKaZVgW4OVMr/HDt27KTBf1URPdPUXBQhOAU3LSyjYUhJGSlRSQl+jmDG4f0Q2V
- cHNm3gMmueJ8gJaavFItQUnwF3JLDYDobe2peG/u1Ii5Is7ytz0AsPdxqbVP5ljuPj8Q
- 9D1y0QTL/Pw1iWqSVuu09b+iYcngjasUaJvEftiG+ztCVLH/331MRmq69Ku1IyfW9Wtc
- TQKTTd7jIe1cOHjgdGQh3lmZ2MIWMxW7J+T9QuTWgaaJuNd1PMRYNYTb1tH7OUMWkyIo
- MwnA==
-X-Gm-Message-State: AOAM531GBo6sNAnEkKt9v+qqmPZxxdIAUo9fzG2MvKXcupyBNAngaGM0
- BqKznYxpK1CNbStc+3D+M9t7pg==
-X-Google-Smtp-Source: ABdhPJxSljkS/oot7jSn2Q9lTR8flCRco9FeAxSpWX5hqPNUV4FVglM5v1O/my9D6Pone2iCWi50cg==
-X-Received: by 2002:a17:907:3e15:b0:6fe:f10e:6337 with SMTP id
- hp21-20020a1709073e1500b006fef10e6337mr209650ejc.209.1654094675806; 
- Wed, 01 Jun 2022 07:44:35 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- j15-20020a170906430f00b006f3ef214dc7sm839892ejm.45.2022.06.01.07.44.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 07:44:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 37EE51FFB7;
- Wed,  1 Jun 2022 15:44:34 +0100 (BST)
-References: <20220527153603.887929-1-alex.bennee@linaro.org>
- <20220527153603.887929-32-alex.bennee@linaro.org>
- <0b1b41d8-d8f9-1b5a-bc3c-67557ecbdde7@redhat.com>
-User-agent: mu4e 1.7.25; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH v1 31/33] gitlab: convert build/container jobs to
- .base_job_template
-Date: Wed, 01 Jun 2022 15:43:46 +0100
-In-reply-to: <0b1b41d8-d8f9-1b5a-bc3c-67557ecbdde7@redhat.com>
-Message-ID: <87y1ygv3xp.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nwQ0U-0005h7-Ec; Wed, 01 Jun 2022 11:11:34 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nwQ0S-0003ad-5I; Wed, 01 Jun 2022 11:11:34 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 251Ewk05029898;
+ Wed, 1 Jun 2022 15:11:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=iPngrm32Xb7mJ01st+3s4Sqm2DbIkBrtaCiTXg/Ry6I=;
+ b=cV8xygwPrPF9XFuOCiJzHxIDjSQ1Ib6AaRwL6mIeg12BwLUxg1x+wVz1zoUrktC1ZRB/
+ jQFWXBskAB9QnuCyjaVWfOZ6IWomCbPUkpEikHJG9DMrWS//6+nc4Yv2bLUbCoBb9Ml1
+ c1JedBbZm3TDXL+2V5U/7/+/VLGVjCMJp+QU96ZxMapufrQ69a3Bu5rntRKMgMRTfEIz
+ SDyk9KfRJ9cOlpau8s9VojSLAKJVUEv/JvsunYy8BAJ8sYaFAjbWTXt5+IdYGAPsIKgK
+ iQOt/H3cdICxfCc2vM383YuTcIyqgcTyT7nZ2bw1+YXDVaP6NSCjynjFTCm4WR1w/1DF LQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3geabq8bfh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jun 2022 15:11:27 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 251Ex9bm030415;
+ Wed, 1 Jun 2022 15:11:27 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3geabq8bev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jun 2022 15:11:27 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 251F6Deu019213;
+ Wed, 1 Jun 2022 15:11:25 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01wdc.us.ibm.com with ESMTP id 3gbcbj4a1u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jun 2022 15:11:25 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 251FBO9I22217010
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Jun 2022 15:11:24 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3EC5078063;
+ Wed,  1 Jun 2022 15:11:24 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF91678067;
+ Wed,  1 Jun 2022 15:11:22 +0000 (GMT)
+Received: from [9.211.104.178] (unknown [9.211.104.178])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Jun 2022 15:11:22 +0000 (GMT)
+Message-ID: <535b79a5-372d-9bca-d7c7-bac263277230@linux.ibm.com>
+Date: Wed, 1 Jun 2022 11:11:22 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 2/8] target/s390x: add zpci-interp to cpu models
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+ richard.henderson@linaro.org, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220524190305.140717-1-mjrosato@linux.ibm.com>
+ <20220524190305.140717-3-mjrosato@linux.ibm.com>
+ <5b19dd64-d6be-0371-da63-0dd0b78a3a5c@redhat.com>
+ <6030c7e6-479d-660c-9198-1c65c74735a1@linux.ibm.com>
+ <f8d128d2-e58a-e0a0-ff8a-7ff2b2ffa31e@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <f8d128d2-e58a-e0a0-ff8a-7ff2b2ffa31e@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Gw7e0XfOIPYYTGhq37wfT8-ZgAKk5hro
+X-Proofpoint-ORIG-GUID: ulJ2A0S5VsbiiqZKQBCFuB6nOMhuC-D1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-01_05,2022-06-01_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 malwarescore=0 suspectscore=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206010070
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,89 +123,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/1/22 10:10 AM, David Hildenbrand wrote:
+> On 01.06.22 15:48, Matthew Rosato wrote:
+>> On 6/1/22 5:52 AM, David Hildenbrand wrote:
+>>> On 24.05.22 21:02, Matthew Rosato wrote:
+>>>> The zpci-interp feature is used to specify whether zPCI interpretation is
+>>>> to be used for this guest.
+>>>
+>>> We have
+>>>
+>>> DEF_FEAT(SIE_PFMFI, "pfmfi", SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF
+>>> interpretation facility")
+>>>
+>>> and
+>>>
+>>> DEF_FEAT(SIE_SIGPIF, "sigpif", SCLP_CPU, 12, "SIE: SIGP interpretation
+>>> facility")
+>>>
+>>>
+>>> Should we call this simply "zpcii" or "zpciif" (if the official name
+>>> includes "Facility")
+>>>
+>>
+>> This actually controls the use of 2 facilities which really only make
+>> sense together - Maybe just zpcii
+>>
+>>>>
+>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>>> ---
+>>>>    hw/s390x/s390-virtio-ccw.c          | 1 +
+>>>>    target/s390x/cpu_features_def.h.inc | 1 +
+>>>>    target/s390x/gen-features.c         | 2 ++
+>>>>    target/s390x/kvm/kvm.c              | 1 +
+>>>>    4 files changed, 5 insertions(+)
+>>>>
+>>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>>>> index 047cca0487..b33310a135 100644
+>>>> --- a/hw/s390x/s390-virtio-ccw.c
+>>>> +++ b/hw/s390x/s390-virtio-ccw.c
+>>>> @@ -806,6 +806,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
+>>>>        static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
+>>>>    
+>>>>        ccw_machine_7_1_instance_options(machine);
+>>>> +    s390_cpudef_featoff_greater(14, 1, S390_FEAT_ZPCI_INTERP);
+>>>>        s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+>>>>    }
+>>>>    
+>>>> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
+>>>> index e86662bb3b..4ade3182aa 100644
+>>>> --- a/target/s390x/cpu_features_def.h.inc
+>>>> +++ b/target/s390x/cpu_features_def.h.inc
+>>>> @@ -146,6 +146,7 @@ DEF_FEAT(SIE_CEI, "cei", SCLP_CPU, 43, "SIE: Conditional-external-interception f
+>>>>    DEF_FEAT(DAT_ENH_2, "dateh2", MISC, 0, "DAT-enhancement facility 2")
+>>>>    DEF_FEAT(CMM, "cmm", MISC, 0, "Collaborative-memory-management facility")
+>>>>    DEF_FEAT(AP, "ap", MISC, 0, "AP instructions installed")
+>>>> +DEF_FEAT(ZPCI_INTERP, "zpci-interp", MISC, 0, "zPCI interpretation")
+>>>
+>>> How is this feature exposed to the guest, meaning, how can the guest
+>>> sense support?
+>>>
+>>> Just a gut feeling: does this toggle enable the host to use
+>>> interpretation and the guest cannot really determine the difference
+>>> whether it's enabled or not? Then, it's not a guest CPU feature. But
+>>> let's hear first what this actually enables :)
+>>
+>> This has changed a few times, but collectively we can determine on the
+>> host kernel if it is allowable based upon the availability of certain
+>> facility/sclp bits + the availability of an ioctl interface.
+>>
+>> If all of these are available, the host kernel allows zPCI
+>> interpretation, with userspace able to toggle it on/off for the guest
+>> via this feature.  When allowed and enabled, 2 ECB bits then get set for
+>> each guest vcpu that enable the associated facilities.  The guest
+>> continues to use zPCI instructions in the same manner as before; the
+>> function handles it receives from CLP instructions will look different
+>> but are still used in the same manner.
+>>
+>> We don't yet add vsie support of the facilities with this series, so the
+>> corresponding facility and sclp bits aren't forwarded to the guest.
+> 
+> That's exactly my point:
+> 
+> sigpif and pfmfi are actually vsie features. I'd have expected that
+> zpcii would be a vsie feature as well.
+> 
+> If interpretation is really more an implementation detail in the
+> hypervisor to implement zpci, than an actual guest feature (meaning, the
+> guest is able to observe it as if it were a real CPU feature), then we
+> most probably want some other way to toggle it (maybe via the machine?).
+> 
+> Example: KVM uses SIGP interpretation based on availability. However, we
+> don't toggle it via sigpif. sigpif actually tells the guest that it can
+> use the SIGP interpretation facility along with vsie.
+> 
+> You mention "CLP instructions will look different", I'm not sure if that
+> should actually be handled via the CPU model. From my gut feeling, zpcii
+> should actually be the vsie zpcii support to be implemented in the future.
+> 
 
-Thomas Huth <thuth@redhat.com> writes:
+Well, what I meant was that the CLP response data looks different, 
+primarily because when interpretation is enabled the guest would get 
+passthrough of the function handle (which in turn has bits turned off 
+that force hypervisor intercepts) rather than one that QEMU fabricated.
 
-> On 27/05/2022 17.36, Alex Benn=C3=A9e wrote:
->> From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> This converts the main build and container jobs to use the
->> base job rules, defining the following new variables
->>   - QEMU_JOB_SKIPPED - jobs that are known to be currently
->>     broken and should not be run. Can still be manually
->>     launched if desired.
->>   - QEMU_JOB_AVOCADO - jobs that run the Avocado integration
->>     test harness.
->>   - QEMU_JOB_PUBLISH - jobs that publish content after the
->>     branch is merged upstream
->> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> Message-Id: <20220526110705.59952-5-berrange@redhat.com>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
-> ...
->> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
->> index e9620c3074..ecac3ec50c 100644
->> --- a/.gitlab-ci.d/buildtest.yml
->> +++ b/.gitlab-ci.d/buildtest.yml
->> @@ -360,12 +360,11 @@ build-cfi-aarch64:
->>       expire_in: 2 days
->>       paths:
->>         - build
->> -  rules:
->> +  variables:
->>       # FIXME: This job is often failing, likely due to out-of-memory pr=
-oblems in
->>       # the constrained containers of the shared runners. Thus this is m=
-arked as
->> -    # manual until the situation has been solved.
->> -    - when: manual
->> -      allow_failure: true
->> +    # skipped until the situation has been solved.
->> +    QEMU_JOB_SKIPPED: 1
->>     check-cfi-aarch64:
->>     extends: .native_test_job_template
->> @@ -402,12 +401,11 @@ build-cfi-ppc64-s390x:
->>       expire_in: 2 days
->>       paths:
->>         - build
->> -  rules:
->> +  variables:
->>       # FIXME: This job is often failing, likely due to out-of-memory pr=
-oblems in
->>       # the constrained containers of the shared runners. Thus this is m=
-arked as
->> -    # manual until the situation has been solved.
->> -    - when: manual
->> -      allow_failure: true
->> +    # skipped until the situation has been solved.
->> +    QEMU_JOB_SKIPPED: 1
->>     check-cfi-ppc64-s390x:
->>     extends: .native_test_job_template
->> @@ -579,6 +577,7 @@ build-without-default-features:
->>       MAKE_CHECK_ARGS: check-unit check-qtest SPEED=3Dslow
->>     build-libvhost-user:
->> +  extends: .base_job_template
->>     stage: build
->>     image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
->>     needs:
->> @@ -595,10 +594,13 @@ build-tools-and-docs-debian:
->>     extends: .native_build_job_template
->>     needs:
->>       job: amd64-debian-container
->> +    # when running on 'master' we use pre-existing container
->> +    optional: true
->
-> This change doesn't look like it's related to the other changes in
-> here? Maybe mention it in the patch description at least?
+As far as a machine option, well we still need a mechanism by which 
+userspace can decide whether it's OK to enable interpretation in the 
+first place.  I guess we can take advantage of the fact that the 
+capability associated with the ioctl interface can indicate both that 
+the kernel interface is available + all of the necessary hardware 
+facilities are available to that host kernel.
 
-It is because the QEMU_JOB_PUBLISH stage is run on master so we don't
-really need to rebuild the container from staging to run it. I've
-mentioned it in the commit.
+So I guess we could use that to make a decision to default a machine 
+setting based upon that (yes if everything is available, no if not).
 
->
-> Apart from that:
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+> So I wonder if we could simply always enable zPCI interpretation if
+> HW+kernel support is around and we're on a new compat machine? I there
+> is a way that migration could break (from old kernel to new kernel),
+> we'd have to think about alternatives.
 
-
---=20
-Alex Benn=C3=A9e
+zpci devices are currently marked unmigratable, so if you want to 
+migrate you need to detach all of them first anyway today.
 
