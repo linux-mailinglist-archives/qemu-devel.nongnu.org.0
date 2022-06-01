@@ -2,119 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D0F53ABED
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 19:31:45 +0200 (CEST)
-Received: from localhost ([::1]:50586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7A853AC0D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 19:35:55 +0200 (CEST)
+Received: from localhost ([::1]:56248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwSC8-0001bk-7M
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 13:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43586)
+	id 1nwSGA-0005l7-Ph
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 13:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1nwS4x-0000xA-Oe; Wed, 01 Jun 2022 13:24:19 -0400
-Received: from mail-mw2nam10on20617.outbound.protection.outlook.com
- ([2a01:111:f400:7e89::617]:33120
- helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nwS7e-0006Qc-Bg
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 13:27:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1nwS4v-00073v-3W; Wed, 01 Jun 2022 13:24:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LOeYMhuGNywE8oTESq/zdhNVtzfl04zyiz8x44LKcpWoC/t82hw9gXacIdI1L+g/lVdQN7co4FnlTucon6MPsY7h/GYle7Jdi5hUf3wnZ3q3aGJgmyD8r4QNDiKL4rscG8McCCZs/O/sh3kqA1HNirESqwuFJKyEc2zN/ZkYF8rNQqsQimitWvHUiHJqXqcURFwXec9pVYY7Iv8yxxmcanTjmS27lQu12uBQeOkICmj7IEfY2Q2bU2+oJPudJTwnT5tWQzkGKW36QTBPWIeYl/3ryfFCIpkxtNQq4iBqsBIz5w4qcc2uo8eb4s/1a0aUTd8HXtA83mRSHiE9MB/hDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=40e6uGXZHzMJvmc3JzOaz9ERIYW0+lPfTKNCnEvlhvg=;
- b=bmOBWiQ2DPYog8ZyB7fZHO6vDswZqPWY/xRv+SD53qIlM/3f5A+YaD4xJ8QXWsdGu94HDCfZaZOATMPRycSP/wT/PIHs6t/BexqBDqtvLk3niK45zBSOGx+U0B7slxquioeM31SwsX1QlXwomUOzSvsSO6pEl4U+VNMh+j7NB+4IJ5NXa5eqbEDGee+/W2MpHtTKd8gHKZ80c85RpXUWCyvmB99GRQGVcx8CSyh4rmhDUB6pXdh1c3K57xqL9u4FqY+ci1Z6VXp9VqCwxNz7fNFNx3XQLnBMF38cWwyxkBaCayFOGc7fygweM/tmnII2076JpEiwHdzDughu25L/pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.80.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=40e6uGXZHzMJvmc3JzOaz9ERIYW0+lPfTKNCnEvlhvg=;
- b=XBUyzIzTYsTIID2CgjrxyGE4rUpLpF7sjlux615Yj5/M9hrxpnx5OcKLGdWcqaMu1QTxeXqk46/7u6xc+EIAGcrHUr4NOSO5FB2DkoLJum6rakcV7OT5r/HweHqml3J4Djal59CYA54UMZv53+gQxuvOCqZljruDRTPLmRh98k8=
-Received: from DM6PR06CA0040.namprd06.prod.outlook.com (2603:10b6:5:54::17) by
- CH2PR02MB6229.namprd02.prod.outlook.com (2603:10b6:610:1::25) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5314.13; Wed, 1 Jun 2022 17:24:13 +0000
-Received: from DM3NAM02FT057.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:54:cafe::c1) by DM6PR06CA0040.outlook.office365.com
- (2603:10b6:5:54::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13 via Frontend
- Transport; Wed, 1 Jun 2022 17:24:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.80.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.80.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.80.198; helo=xir-pvapexch02.xlnx.xilinx.com; pr=C
-Received: from xir-pvapexch02.xlnx.xilinx.com (149.199.80.198) by
- DM3NAM02FT057.mail.protection.outlook.com (10.13.5.64) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5314.12 via Frontend Transport; Wed, 1 Jun 2022 17:24:12 +0000
-Received: from xir-pvapexch01.xlnx.xilinx.com (172.21.17.15) by
- xir-pvapexch02.xlnx.xilinx.com (172.21.17.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 1 Jun 2022 18:24:11 +0100
-Received: from smtp.xilinx.com (172.21.105.197) by
- xir-pvapexch01.xlnx.xilinx.com (172.21.17.15) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 1 Jun 2022 18:24:11 +0100
-Received: from [172.21.132.221] (port=53720 helo=xdcsswbld02.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <frederic.konrad@xilinx.com>)
- id 1nwS4o-0004Ck-6M; Wed, 01 Jun 2022 18:24:11 +0100
-From: <frederic.konrad@xilinx.com>
-To: <qemu-devel@nongnu.org>
-CC: <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
- <edgar.iglesias@gmail.com>, <alistair@alistair23.me>, <saipava@xilinx.com>,
- <edgari@xilinx.com>, <fkonrad@amd.com>, "Edgar E . Iglesias"
- <edgar.iglesias@amd.com>
-Subject: [PATCH v3 4/4] xlnx-zynqmp: fix the irq mapping for the display port
- and its dma
-Date: Wed, 1 Jun 2022 18:23:53 +0100
-Message-ID: <20220601172353.3220232-5-fkonrad@xilinx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220601172353.3220232-1-fkonrad@xilinx.com>
-References: <20220601172353.3220232-1-fkonrad@xilinx.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nwS7b-0007iM-It
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 13:27:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654104421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jzDkg+2fph5fI45ClL3UDtfIFKAFJHtGwVGpKIepteg=;
+ b=QG/PkK1wY6Se8Anaxq7U5wlQHjWqShA16qq4D/hnGV4gkjZ2gU+WSFiBeVpPcsFZ0E+qoo
+ fqPG+Mi8vXiOjsCQR3JW3bXfLp9E608SQ6MbJTpyt0dOSiSZE66so2piCk//94YIQUYrGP
+ 3cFL5LtuaYNhX/CdItqfCjyxKVj45/Y=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-474--2_Ml617POG-9dKjByGfbw-1; Wed, 01 Jun 2022 13:27:00 -0400
+X-MC-Unique: -2_Ml617POG-9dKjByGfbw-1
+Received: by mail-il1-f197.google.com with SMTP id
+ j18-20020a056e02219200b002d3aff22b4cso1637282ila.9
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 10:27:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=jzDkg+2fph5fI45ClL3UDtfIFKAFJHtGwVGpKIepteg=;
+ b=RpyEZKZruFYY/QpJKlpYBYtOrAj1oRkhbcYERut81n5jB5ID/bAaMdyd6y6PV+jvj2
+ EsuMInbVNyuU/oN6thmVKSKSrct8RMfqoas7CMFusIToCg4bmmOhjnT9LbB0EMJ7tE6O
+ 6thIN04F7XtYMtOGRHKkL0SXAbWovPTeji3rzOnftXJcOu0MIAmNy96MgquPDGgFTbrL
+ SihStBYD3OvztUCvCrhJoOrEVORjN8Mm9F/doFScpmNQhPl7pEgGoIKKqzR8vVoecf1c
+ kR2j9F1b+s+WoCigoT6Keyk6X9pfoe5TIah/TsHv4KKPUorEWZQefhNUiqrQDVuHVKEY
+ pGSQ==
+X-Gm-Message-State: AOAM531+qnb9BaXcCUuZstfpXa/Ji/RmYbChf/sPIvPYqaSLfVgGcKVE
+ oApafFKghdLhJNthwd73EDsvi/7lJYFTxNrR7Ih4u9VObPGjtIIeOsnGZPWb3g5SqsnqMN1speS
+ j+mlNjDQTcanxfQY=
+X-Received: by 2002:a05:6638:2687:b0:331:6c4:891b with SMTP id
+ o7-20020a056638268700b0033106c4891bmr663864jat.166.1654104420096; 
+ Wed, 01 Jun 2022 10:27:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwwalOnyJV6m6NqCAuByl6bePSICjgt112ETaVmSU9OWXCQHI1gA4T950+4uG0BHQW0Jzh4rA==
+X-Received: by 2002:a05:6638:2687:b0:331:6c4:891b with SMTP id
+ o7-20020a056638268700b0033106c4891bmr663826jat.166.1654104419836; 
+ Wed, 01 Jun 2022 10:26:59 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ k11-20020a928e4b000000b002cde6e352c7sm709542ilh.17.2022.06.01.10.26.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jun 2022 10:26:59 -0700 (PDT)
+Date: Wed, 1 Jun 2022 11:26:58 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, John Johnson
+ <john.g.johnson@oracle.com>, Stefan Hajnoczi <stefanha@gmail.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "f4bug@amsat.org" <f4bug@amsat.org>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>, "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "eduardo@habkost.net" <eduardo@habkost.net>, "marcel.apfelbaum@gmail.com"
+ <marcel.apfelbaum@gmail.com>, "eblake@redhat.com" <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "quintela@redhat.com"
+ <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, "peterx@redhat.com"
+ <peterx@redhat.com>, "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, Elena Ufimtseva
+ <elena.ufimtseva@oracle.com>, Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
+Message-ID: <20220601112658.07f97a9a.alex.williamson@redhat.com>
+In-Reply-To: <B3FC4541-1DB2-4C1F-8CB5-01D8771C8803@oracle.com>
+References: <cover.1653404595.git.jag.raman@oracle.com>
+ <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
+ <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
+ <E6AB9FA3-6580-44C6-93FA-AFC19477C296@oracle.com>
+ <20220531141046.04b448e5.alex.williamson@redhat.com>
+ <CAJSP0QU13=fLTVEjE1JbkOef5im4Dwb8x3xhpYYd7KPRJjav_Q@mail.gmail.com>
+ <20220531154538.6d002124.alex.williamson@redhat.com>
+ <B3FC4541-1DB2-4C1F-8CB5-01D8771C8803@oracle.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fdad54b4-cbab-40a0-4808-08da43f38bfe
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6229:EE_
-X-Microsoft-Antispam-PRVS: <CH2PR02MB6229AB29EAAD5B26DDA1B2CACCDF9@CH2PR02MB6229.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QROWk8btfgO5AjhnSu/4m4RbaLNZCGxMv+Psz7k2jhVo+DRsno21mdy+gwW4g+AKJKkIoLm8j4U+KOpHD+RKx7SZlAsBmEgaWiL6sJh0OA2+/XY11VsvpDyJVaZyF/9/RYUS9OxOPCMor8J/tSDcIYo2KCbSlaNukxJphu1rSTTa4Z7fhd+M555D5/0P//3M5ZQ73cpWSqNFu1wafEyMvi4QfD3VWQHu9roRKRF3njUOl1kBeJBLX7eoOGHwiG3TSh6iTyqvjfxTBwKVdB+QljkCIwHSET0l9vTd9bckJ5w5lqrd1begolHlf8e/uCC1Z1/yNlBL9hlg6N5vaYyAmeKQqONiYa4cltS2irB7Ne2AgVoCibgs8P1bbHaJFgNsIK5jFh7sunjM8AY2ygdQJb/MumlbqUNQBV592KAHEFbR8Rfh1kGGL1dAmm3aCjrwT4bUBqBWuejlwnEZmXzRtMmvmZ5GnNnpWuIXIMjiYt2nNcs2cZFbOOc8ySLdR5s4p+qpJ/5Bke9rKLTupGhfIbYVZmSOlJVrcqj4Smyp8UQ4ZrzlnANAPv8FcWRo8hWZeKMcc1bfVASjXhFY3JQkMaplc2WAqsHrnAuGbyxfEKJYRm7e46pcQHt4vAgcRmweUs/MvzRxNDDSQBjO68JjWqQqszONJWekkKt4sbLLAk9dIFeBjuEO3a9hYzYDhy9WeEP0gsN3hQEjIvUscFO2eQ==
-X-Forefront-Antispam-Report: CIP:149.199.80.198; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:xir-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-80-198.xilinx.com; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(2876002)(36756003)(40460700003)(36860700001)(336012)(426003)(47076005)(186003)(1076003)(2906002)(7636003)(8676002)(2616005)(4744005)(83380400001)(82310400005)(8936002)(9786002)(356005)(6666004)(70206006)(26005)(316002)(7696005)(70586007)(4326008)(508600001)(6916009)(54906003)(5660300002)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2022 17:24:12.8970 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdad54b4-cbab-40a0-4808-08da43f38bfe
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.80.198];
- Helo=[xir-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT057.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6229
-Received-SPF: pass client-ip=2a01:111:f400:7e89::617;
- envelope-from=fkonrad@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -131,37 +121,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frederic Konrad <fkonrad@amd.com>
+On Wed, 1 Jun 2022 17:00:54 +0000
+Jag Raman <jag.raman@oracle.com> wrote:
+>=20
+> Hi Alex,
+>=20
+> Just to add some more detail, the emulated PCI device in QEMU presently
+> maintains a MSIx table (PCIDevice->msix_table) and Pending Bit Array. In =
+the
+> present VFIO PCI device implementation, QEMU leverages the same
+> MSIx table for interrupt masking/unmasking. The backend PCI device (such =
+as
+> the passthru device) always thinks that the interrupt is unmasked and lets
+> QEMU manage masking.
+>=20
+> Whereas in the vfio-user case, the client additionally pushes a copy of
+> emulated PCI device=E2=80=99s table downstream to the remote device. We d=
+id this
+> to allow a small set of devices (such as e1000e) to clear the
+> PBA (msix_clr_pending()). Secondly, the remote device uses its copy of the
+> MSIx table to determine if interrupt should be triggered - this would pre=
+vent
+> an interrupt from being sent to the client unnecessarily if it's masked.
+>=20
+> We are wondering if pushing the MSIx table to the remote device and
+> reading PBA from it would diverge from the VFIO protocol specification?
+>=20
+> From your comment, I understand it=E2=80=99s similar to VFIO protocol bec=
+ause VFIO
+> clients could mask an interrupt using VFIO_DEVICE_SET_IRQS ioctl +
+> VFIO_IRQ_SET_ACTION_MASK / _UNMASK flags. I observed that QEMU presently
+> does not use this approach and the kernel does not support it for MSI.
 
-When the display port has been initially implemented the device driver wasn't
-using interrupts.  Now that the display port driver waits for vblank interrupt
-it has been noticed that the irq mapping is wrong.  So use the value from the
-linux device tree and the ultrascale+ reference manual.
+I believe the SET_IRQS ioctl definition is pre-enabled to support
+masking and unmasking, we've just lacked kernel support to mask at the
+device which leads to the hybrid approach we have today.  Our intention
+would be to use the current uAPI, to provide that masking support, at
+which point we'd leave the PBA mapped to the device.
 
-Signed-off-by: Frederic Konrad <fkonrad@amd.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
----
- hw/arm/xlnx-zynqmp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So whether your proposal diverges from the VFIO uAPI depends on what
+you mean by "pushing the MSIx table to the remote device".  If that's
+done by implementing the existing SET_IRQS masking support, then you're
+spot on.  OTOH, if you're actually pushing a copy of the MSIx table
+from the client, that's certainly not how I had envisioned the kernel
+interface.  Thanks,
 
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 375309e68e..383e177a00 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -60,10 +60,10 @@
- #define SERDES_SIZE         0x20000
- 
- #define DP_ADDR             0xfd4a0000
--#define DP_IRQ              113
-+#define DP_IRQ              0x77
- 
- #define DPDMA_ADDR          0xfd4c0000
--#define DPDMA_IRQ           116
-+#define DPDMA_IRQ           0x7a
- 
- #define APU_ADDR            0xfd5c0000
- #define APU_IRQ             153
--- 
-2.25.1
+Alex
 
 
