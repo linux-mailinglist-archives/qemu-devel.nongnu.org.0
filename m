@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E3753A3A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 13:12:14 +0200 (CEST)
-Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A6353A3BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 13:21:55 +0200 (CEST)
+Received: from localhost ([::1]:57708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwMGs-0001Es-1F
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 07:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51310)
+	id 1nwMQE-0004IW-DZ
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 07:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nwLh7-0008JY-CI; Wed, 01 Jun 2022 06:35:17 -0400
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a]:37843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nwLh5-00021t-Cr; Wed, 01 Jun 2022 06:35:16 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-f3381207a5so2139506fac.4; 
- Wed, 01 Jun 2022 03:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+0UGt23KosgLkQ+8TDWzY7iCosFcHec3SN1EQ+2sXIQ=;
- b=AojKYd9bSkJsjR/wsOmRUW+hnNl5NVMtdunUPBbmTzF1wYdjA+GWXf5ZHJA3e1K0TX
- kwxtnHLKi8GECUPO+AXZyU4vqD1vxXA6RPfKVsOoVEtxTuljAo9abGETGtxcVY3mZuk2
- OW9T76jP4SS1SCOWGHJlV+D+avwgcY7qyq0SsNI/qSRF4ysnW6MVKEgauVAwl8WQhDUE
- Bqfj6F7lnJ4+oVlLcklRDzb+JV3d2eIlSqpUUknOFjKeOrySWE08Y/h/nbXp9I/zgUyp
- +noGhzMlEYoJP6K5hJBxjk2Xbjm2bDFnTdYKyt83r3Rbo7fV79yZcg5As7siMMfmNOiu
- cvMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+0UGt23KosgLkQ+8TDWzY7iCosFcHec3SN1EQ+2sXIQ=;
- b=CoN3oQB9stqRJRqD68QUm0X4BxiCcwz2JbsMBhTBgLq0muuXWhNMJO0L7Z7/XEohBD
- 8tAyVhswvV1kwM4oBmqwmDUzRQdC65KyOPXSWKU/sXToyd2kdBDotNVp0gB4ElvhZ9hx
- tF6qIfMxnPc+3M8CTktToVL9SqDSt9PJAm6g4tFx66rn0U3GuWZHJEe/CIYxSM1ouK/Y
- 8svtgmr5Vq4pNNfUeSUaDGrhOQNyBs/+VW6arDfboRXHkBcDa2cNzVFr0TnzcBooCyHF
- QKlvcKoFSfwdlJft2Z6VXu/MjxYHtk1SMKCimSQbud0AlfH7MjubTTEs8b2bPxyf/gul
- WwJA==
-X-Gm-Message-State: AOAM5328/eS99AdtsLwHhCsUbIGJ1rnyhU/Spk+LlS+J2Rg+hAAqyGZ3
- DkYf+ZmRLZqBZApm9077gyI=
-X-Google-Smtp-Source: ABdhPJx75j7g4qjoLYahfOPmT0W7C/QVgrcS+whXIUuqrmuVbLaCugZNlJAbUYTVRJSyFmEN9uIp1Q==
-X-Received: by 2002:a05:6870:9594:b0:f2:db67:be52 with SMTP id
- k20-20020a056870959400b000f2db67be52mr16449295oao.222.1654079713415; 
- Wed, 01 Jun 2022 03:35:13 -0700 (PDT)
-Received: from [192.168.10.102] ([152.250.93.219])
- by smtp.gmail.com with ESMTPSA id
- r20-20020a056870415400b000f5ce48efb2sm437410oad.58.2022.06.01.03.35.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 03:35:12 -0700 (PDT)
-Message-ID: <d3a0baba-57d7-2086-d866-beb3099830e1@gmail.com>
-Date: Wed, 1 Jun 2022 07:35:07 -0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwLi8-0000qV-8O
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:36:22 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33290)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwLi5-0002AI-R4
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:36:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=BcWeZd6I5nLvaZ5UT7hyD+Spi14TofDSOnXQgjWHAxs=; b=cpx1ayTQ2RUNwphvz41D1X6mrT
+ 4AWxU2mlxGZ5MqPfjEeOblzZCq650fq8Umx04Vtal4ZrKpKiG+I+syGG81bvkLrX4ecR4dtBKSnUB
+ GtwEFtc2p69H3iDD7FJBIfJqS+kge+4IJR0/l3Jpd2vlweuyulBljVHX3sSjKoqyIrJ1Et/UbQCx8
+ 1XKSxeDLy+wMfeYQytf51r4juWzWsX1SOlYUicD32CCCse37FhEYINu+tzaNSP6byovQXEOCkVh9T
+ YBDwf+y3X0/EMHFJ5zz10TV30bPnl2TEP3ZU35iYfv6IzJToHvwh7cBiNlDZ+JYfRk5hyw+hOvmvU
+ mtA//myd0A7FEmMQNQbC5pVb/YAi+HZljFAONQdjZh6ea0ZM7bIMLHbEYyp4FnYFlhYKew24VIioh
+ fnU5/QCDwv3y8DQYfX7Ggz988HLN5HbxBDjz78WPqrNgHeprWzSu15d6CYpgVNZ+rjj6Ro6K8c9Cd
+ oqpuo47Vgw/1FC/yqNqtRoynJaNn4EXdnL8lGz5VIpuy1TonbbHRZq5LBKlvCjprUB984pGplYuOi
+ CnQzrLq7KwA4w1oDKhwn0rYhFvDd3+3SwDCCPbXxhOMsZ3rzT4HFch/1m2iGBOu+081S5GPRm1JCB
+ cLOQL5IR1pXfrqxhiwBXgdH4BQpo1j17IsadB+dSs=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwLgu-0008cB-7S; Wed, 01 Jun 2022 11:35:08 +0100
+Message-ID: <2bffc944-9747-05ac-a22f-98eadcdb1803@ilande.co.uk>
+Date: Wed, 1 Jun 2022 11:36:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
+ Thunderbird/91.9.0
 Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>
-Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, mopsfelder@gmail.com,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220531172711.94564-1-muriloo@linux.ibm.com>
- <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
- <20220601103825.498c378f@bahia>
- <5076ea8a-428d-5aa2-1a8c-cd38bf67c7f9@redhat.com>
- <20220601120324.66c77571@bahia>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220601120324.66c77571@bahia>
+To: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, David Hildenbrand <david@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Mark Burton <mark.burton@greensocs.com>
+References: <20220524134809.40732-1-damien.hedde@greensocs.com>
+ <e494e267-acbf-e6bd-5590-22b6ae2d2a55@ilande.co.uk>
+ <1a71b7ee-aac6-a191-5a9c-472d46999ff1@greensocs.com>
+ <CAFEAcA8UTLiab5Tg19y7pdJwyuqqxcrxL-9QmzK9r9skGVVGYQ@mail.gmail.com>
+ <7fbee09c-449d-a6a5-3616-d8839df1b7a6@ilande.co.uk>
+ <732960bf-f3ab-6b61-7e6e-967fe4360280@greensocs.com>
+ <CAFEAcA_BinJMmqdTBoCs3V-dqSRQ_jjL7FpdMxCr1etZgn0i_A@mail.gmail.com>
+ <5a7b14fa-15ef-42c2-1072-d0aec0795718@greensocs.com>
+ <e1547885-1d46-f083-520a-087518e2eb6c@ilande.co.uk>
+ <bd5caf26-6e34-725e-60a4-018b1a3f905a@greensocs.com>
+ <7700fd59-c005-a575-3c2c-ae078b0be534@ilande.co.uk>
+ <35806422-e4e4-9a73-ab9f-412858517508@greensocs.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <35806422-e4e4-9a73-ab9f-412858517508@greensocs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v5 0/3] Sysbus device generic QAPI plug support
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,99 +103,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 01/06/2022 09:39, Damien Hedde wrote:
 
-
-On 6/1/22 07:03, Greg Kurz wrote:
-> On Wed, 1 Jun 2022 11:25:43 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> On 01/06/2022 10.38, Greg Kurz wrote:
->>> On Wed, 1 Jun 2022 09:27:31 +0200
->>> Thomas Huth <thuth@redhat.com> wrote:
+> On 5/31/22 22:43, Mark Cave-Ayland wrote:
+>> On 31/05/2022 10:22, Damien Hedde wrote:
+>>
+>>> On 5/31/22 10:00, Mark Cave-Ayland wrote:
+>>>> On 30/05/2022 15:05, Damien Hedde wrote:
+>>>>
+>>>>> On 5/30/22 12:25, Peter Maydell wrote:
+>>>>>> On Mon, 30 May 2022 at 10:50, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>>>>>>> TYPE_SYS_BUS_DEVICE also comes with reset support.
+>>>>>>> If a device is on not on any bus it is not reached by the root sysbus
+>>>>>>> reset which propagates to every device (and other sub-buses).
+>>>>>>> Even if we move all the mmio/sysbus-irq logic into TYPE_DEVICE, we will
+>>>>>>> still miss that. The bus is needed to handle the reset.
+>>>>>>> For devices created in machine init code, we have the option to do it in
+>>>>>>> the machine reset handler. But for user created device, this is an issue.
+>>>>>>
+>>>>>> Yes, the missing reset support in TYPE_DEVICE is a design
+>>>>>> flaw that we really should try to address.
+>>>>
+>>>> I think the easiest way to handle this would be just after calling dc->realize; 
+>>>> if the device has bus == NULL and dc->reset != NULL then manually call 
+>>>> qemu_register_reset() for dc->reset. In a qdev world dc->reset is intended to be 
+>>>> a bus-level reset, but I can't see an issue with manual registration for 
+>>>> individual devices in this way, particularly as there are no reset ordering 
+>>>> guarantees for sysbus.
 >>>
->>>> On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
->>>>> Update max alias to power10 so users can take advantage of a more
->>>>> recent CPU model when '-cpu max' is provided.
->> ...
->>> We already have the concept of default CPU for the spapr
->>> machine types, that is usually popped up to the newer
->>> CPU model that is going to be supported in production.
->>> This goes with a bump of the machine type version as
->>> well for the sake of migration. This seems a lot more
->>> reliable than the "max" thingy IMHO.
+>>> I'm a bit afraid calling qemu_register_reset() outside dc->realize might modify 
+>>> the behavior for existing devices. Does any device end up having a non-NULL bus 
+>>> right now when using "-device" CLI ?
+>>
+>> If you take a look at "info qtree" then that will show you all devices that are 
+>> attached to a bus i.e. ones where bus is not NULL.
+>>
+>>>>>>> If we end up putting in TYPE_DEVICE support for mmios, interrupts and
+>>>>>>> some way to do the bus reset. What would be the difference between the
+>>>>>>> current TYPE_SYS_BUS_DEVICE ?
+>>>>>>
+>>>>>> There would be none, and the idea would be to get rid of
+>>>>>> TYPE_SYS_BUS_DEVICE entirely...
+>>>>>>
+>>>>> Do you expect the bus object to disappear in the process (bus-less system) or 
+>>>>> transforming the sysbus into a ~TYPE_BUS thing ?
+>>>>
+>>>> I'd probably lean towards removing sysbus completely since in real life devices 
+>>>> can exist outside of a bus. If a device needs a bus then it should already be 
+>>>> modelled in QEMU, and anything that requires a hierarchy can already be 
+>>>> represented via QOM children
 >>>
->>> Unless there's a very important use case I'm missing,
->>> I'd rather kill the thing instead of trying to resurrect
->>> it.
+>>> For me, a "memory bus" is a bus. But I understand in QEMU, this is modeled by a 
+>>> memory region and we do not want to represent it anymore by a qdev/qbus hierarchy.
+>>>
+>>>>
+>>>>> Assuming we manage to sort out this does cold plugging using the following 
+>>>>> scenario looks ok ? (regarding having to issue one command to create the device 
+>>>>> AND some commands to handle memory-region and interrupt lines)
+>>>>>
+>>>>>  > device_add driver=ibex-uart id=uart chardev=serial0
+>>>>>  > sysbus-mmio-map device=uart addr=1073741824
+>>>>>  > qom-set path=uart property=sysbus-irq[0] value=plic/unnamed-gpio-in[1]
+>>>>>
+>>>>> TYPE_DEVICE or TYPE_SYS_BUS_DEVICE, my goal is still to be able to cold-plug a 
+>>>>> "ibex-uart" define its memory map and choose which irq I wire where.
+>>>>
+>>>> Anyhow getting back on topic: my main objection here is that you're adding a 
+>>>> command "sysbus-mmio-map" when we don't want the concept of SysBusDevice to be 
+>>>> exposed outside of QEMU at all. Referring back to my last email I think we should 
+>>>> extend the device concept in the monitor to handle the additional functionality 
+>>>> perhaps along the lines of:
+>>>>
+>>>> - A monitor command such as "device_map" which is effectively a wrapper around
+>>>>    memory_region_add_subregion(). Do we also want a "device_unmap"? We should
+>>>>    consider allow mapping to other memory regions other than the system root.
+>>>>
+>>>> - A monitor command such as "device_connect" which can be used to simplify your IRQ
+>>>>    wiring, perhaps also with a "device_disconnect"?
+>>>>
+>>>> - An outline of the monitor commands showing the complete workflow from 
+>>>> introspection
+>>>>    of a device to mapping its memory region(s) and connecting its gpios
+>>>>
+>>>> Does that give you enough information to come up with a more detailed proposal?
+>>>>
+>>>
+>>> Yes. Sorry for being not clear enough. I did not wanted to insist on specific 
+>>> command names. I've no issues regarding the modifications you request about having 
+>>> a device_connect or a device_map.
+>>>
+>>> My question was more about the workflow which does not rely on issuing a single 
+>>> 'device_add' command handling mapping/connection using parameters. Note that since 
+>>> we are talking supporting of map/connect for the base type TYPE_DEVICE, I don't 
+>>> really see how we could have parameters for these without impacting subtypes.
 >>
->> It's about making ppc similar to other architectures, which
->> have "-cpu max" as well, see:
->>
->>    https://gitlab.com/qemu-project/qemu/-/issues/1038
->>
->> It would be nice to get something similar on ppc.
->>
+>> I'm not sure I understand what you are saying here? Can you give an example?
 > 
-> Problem is that on ppc, given the variety of models and boards,
-> the concept of "max" is quite fuzzy... i.e. a lot of cases to
-> consider for a benefit that is unclear to me. Hence my questioning.
-> If the idea is just to match what other targets do without a specific
-> use case in mind, this looks quite useless to me.
-
-I mean, yes, the use case is that users/tooling are using -cpu max with x86
-and arm. We'd rather not increase the gap between them and ppc64 because we
-ended up removing -cpu max.
-
-Even if the concept might not be applicable to every machine we have we can alias
--cpu max to the default machine CPU.
-
+> There are 2 possible workflows:
+> 1. several commands
+>  > device_add ...
+>  > device_map ...
+>  > device_connect ...
 > 
->> By the way, the warnings that you currently get when running with
->> TCG are quite ugly, too:
->>
->> $ ./qemu-system-ppc64
->> qemu-system-ppc64: warning: TCG doesn't support requested feature,
->> cap-cfpc=workaround
->> qemu-system-ppc64: warning: TCG doesn't support requested feature,
->> cap-sbbc=workaround
->> qemu-system-ppc64: warning: TCG doesn't support requested feature,
->> cap-ibs=workaround
->> qemu-system-ppc64: warning: TCG doesn't support requested feature,
->> cap-ccf-assist=on
->>
->> Maybe these could get fixed with a proper "max" CPU in TCG
->> mode, too?
->>
+> 2. single command
+>  > device_add ... map={...} connect={...}
 > 
-> I don't think so. These warnings are the consequence of pseries
-> being the default machine for ppc64, and the default pseries
-> machine decides on the default CPU model and default values for
-> features (in this case, these are mitigations for spectre/meltdown).
-> TCG doesn't support them but we certainly don't want to add more
-> divergence between TCG and KVM.
+> The 2nd one is more like how we connect devices with '-device': all is done at once. 
+> But if this is supposed to apply to TYPE_DEVICE (versus TYPE_SYS_BUS_DEVICE), it 
+> becomes IMHO hard to prevent using them on devices where it does not makes sense (for 
+> example: a virtio or pci device for which everything is already handled).
 
-I sent a patch last year trying to suppress the warning:
-
-https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05029.html
-
-I proposed to suppress these warnings when the user didn't specifically
-set those caps to true (which TCG doesn't support). David thought that
-this was also a bad idea and we reached an impasse. Back then seemed like
-I was the only one severely aggravated by these messages so I gave up :)
+My initial feeling is that 1) is the better approach, since you can report errors at 
+each stage. Once you have the id for a specific device you can them attempt to 
+device_map it, reporting an error if there is a region overlap. Similarly for 
+device_connect can you report an error if the input gpio is already connected.
 
 
-Thanks,
+ATB,
 
-
-Daniel
-
-> 
-> Cheers,
-> 
-> --
-> Greg
-> 
->>    Thomas
->>
-> 
+Mark.
 
