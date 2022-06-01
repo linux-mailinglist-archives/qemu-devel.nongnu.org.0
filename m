@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA0C539DF1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 09:16:13 +0200 (CEST)
-Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6432539E1F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 09:22:35 +0200 (CEST)
+Received: from localhost ([::1]:33544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwIaS-0002yV-3t
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 03:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
+	id 1nwIgc-0005Kf-NK
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 03:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nwIUx-0001nG-IZ
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:10:31 -0400
-Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:43941)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nwIf7-0004ZV-0j
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:21:01 -0400
+Received: from mga04.intel.com ([192.55.52.120]:56255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nwIUv-0003Ia-Bo
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:10:31 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.147])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id DC1F827C20;
- Wed,  1 Jun 2022 07:10:21 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 1 Jun 2022
- 09:10:21 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0033362c8d4-2b5f-4d26-b275-f84bed73a068,
- A963F33A9D1A618F9A1E828761F10BD73193B711) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <983fc0e3-6166-74d4-1164-161c277e4a96@kaod.org>
-Date: Wed, 1 Jun 2022 09:10:15 +0200
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nwIf4-0004yJ-4R
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:21:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654068058; x=1685604058;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=l+XiHh7anBduFpnJiS88+SjvrMYYjtp3avkrqqQLOEw=;
+ b=I5G7ooQ7ZPoKcKeeF8ks74JKomTgI82a2PZtJGuPJjx2DRq0go4b9s2P
+ faOpL2q1hzqFH0FkRpwMsjoq8ScIc8AbfN6LigVYYkTuCNeYm9Z7uCd5Q
+ M5SivGI/KD3GDUc/JV1iSQ4vVf4E2K9vHSGSupp9uOz1xvk0NedHsPruk
+ 3TkiS6jkf51VUTaDQgbzBQNp6r42O07H7CdBlej9+eloFBngePetRhsLw
+ 1drsKFq2qw+GInnG5LQ/DanIhoXohT44WVwQeIcSZty8eMyfKFfQApETW
+ sgCibxQMsV0NxMBr5SuVAAzmq+DNXP33u/N7PboWAprtyO0ZS16yFtmmu A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="274302568"
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="274302568"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2022 00:20:53 -0700
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="576804072"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.172.148])
+ ([10.249.172.148])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2022 00:20:48 -0700
+Message-ID: <39341481-67b6-aba4-a25a-10abb398bec4@intel.com>
+Date: Wed, 1 Jun 2022 15:20:46 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC 0/1] i2c/aspeed: Add slave device handling in new register
- mode
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.9.0
+Subject: Re: [RFC PATCH v4 11/36] i386/tdx: Initialize TDX before creating TD
+ vcpus
 Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>
-CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, <zhdaniel@fb.com>,
- <troy_lee@aspeedtech.com>, <jamin_lin@aspeedtech.com>,
- <steven_lee@aspeedtech.com>, <k.jensen@samsung.com>, Joe Komlodi
- <komlodi@google.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@aj.id.au>
-References: <20220525205024.1158075-1-pdel@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220525205024.1158075-1-pdel@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-12-xiaoyao.li@intel.com>
+ <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
+ <d3e967f3-917f-27ce-1367-2dba23e5c241@intel.com>
+ <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: fe5d5f81-22b4-463b-9fdc-867078678a5a
-X-Ovh-Tracer-Id: 1215127476620987381
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrkeelgdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeutdeltdeggeeludehteeuvddtjeefudeglefhffdttddvudetkefgleetvdfffeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghnughrvgifsegrjhdrihgurdgruh
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
- helo=5.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,63 +95,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[ Adding Joe ]
-
-On 5/25/22 22:50, Peter Delevoryas wrote:
-> The AST2600/AST1030 new register mode patches[1] and the I2C slave device
-> patches[2] will be really useful, but we still need DMA slave device
-> handling in the new register mode too for the use-cases I'm thinking of
-> (OpenBIC Zephyr kernel using Aspeed SDK drivers[3]).
+On 5/24/2022 2:57 PM, Gerd Hoffmann wrote:
+>    Hi,
 > 
-> My test images are on Github[4]. They can be used with the ast1030-evb, or
-> the oby35-cl and oby35-bb machines in the fb qemu branch[5].
+>>> Hmm, hooking *vm* initialization into *vcpu* creation looks wrong to me.
+>>
+>> That's because for TDX, it has to do VM-scope (feature) initialization
+>> before creating vcpu. This is new to KVM and QEMU, that every feature is
+>> vcpu-scope and configured per-vcpu before.
+>>
+>> To minimize the change to QEMU, we want to utilize @cpu and @cpu->env to
+>> grab the configuration info. That's why it goes this way.
+>>
+>> Do you have any better idea on it?
 > 
-> I'm submitting this as an RFC cause I just want to see how other people
-> expect these changes to be made based on the previously submitted "new
-> register mode" and "old register mode slave device" patches.
+> Maybe it's a bit more work to add VM-scope initialization support to
+> qemu.  
 
+If just introducing VM-scope initialization to QEMU, it would be easy. 
+What matters is what needs to be done inside VM-scope initialization.
 
-Currently, my preferred approach would be to start with Joe's patchset
-because the registerfields conversion is a huge effort and it's adding
-new mode support which should cover the needs for the AST1030 SoC [1].
+For TDX, we need to settle down the features that configured for the TD. 
+Typically, the features are attributes of cpu object, parsed from "-cpu" 
+option and stored in cpu object.
 
-Troy, could you please confirm this is OK with you ? I have pushed
-the patches on :
+I cannot think up a clean solution for it, other than
+1) implement the same attributes from cpu object to machine object, or
+2) create a CPU object when initializing machine object and collect all 
+the info from "-cpu" and drop it in the end; then why not do it when 
+creating 1st vcpu like this patch.
 
-   https://github.com/legoater/qemu/commits/aspeed-7.1
+That's what I can think up. Let's see if anyone has better idea.
 
-Then, adding slave support for old [2] and new mode (this patch)
-shouldn't be too much of a problem since they are small.
-
-we lack a test case for this controller and writing a I2C Aspeed bus
-driver for qtest is not an easy task.
-
-It might be easier to start an ast2600-evb machine with a lightweight
-userspace (buildroot, I can host that somewhere on GH) and run some I2C
-get/set/detect commands from a python/expect framework, like avocado.
-I2C devices can be added on the command line for the purpose.
-
-
-Thanks,
-
-C.
-
-  
-> Thanks,
-> Peter
+> But I expect that approach will work better long-term.  You need
+> this mutex and the 'initialized' variable in your code to make sure it
+> runs only once because the way you hook it in is not ideal ...
 > 
-> [1] https://patchwork.kernel.org/project/qemu-devel/list/?series=626028&archive=both
-> [2] https://patchwork.kernel.org/project/qemu-devel/list/?series=627914&archive=both
-> [3] https://github.com/AspeedTech-BMC/zephyr/blob/db3dbcc9c52e67a47180890ac938ed380b33f91c/drivers/i2c/i2c_aspeed.c#L1362-L1368
-> [4] https://github.com/peterdelevoryas/OpenBIC/releases/tag/oby35-cl-2022.13.01
-> [5] https://github.com/facebook/openbmc-qemu
+> [ disclaimer: I'm not that familiar with the kvm interface in qemu ]
 > 
-> Peter Delevoryas (1):
->    i2c/aspeed: Add slave device handling in new register mode
-> 
->   hw/i2c/aspeed_i2c.c         | 118 ++++++++++++++++++++++++++++++++++--
->   include/hw/i2c/aspeed_i2c.h |  14 +++--
->   2 files changed, 124 insertions(+), 8 deletions(-)
+> take care,
+>    Gerd
 > 
 
 
