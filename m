@@ -2,98 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94533539EFF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 10:06:45 +0200 (CEST)
-Received: from localhost ([::1]:57452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6686539F0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 10:09:35 +0200 (CEST)
+Received: from localhost ([::1]:32976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwJNM-0005rm-9b
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 04:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45124)
+	id 1nwJQ6-0000CM-OB
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 04:09:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJHn-0003T2-Ot
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 04:01:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJHj-000214-SE
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 04:00:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654070455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Aj7SEq/+8A/upQ3HHJMYSDggfy+gpVpZpGyNgHhO+nE=;
- b=GcSC4K9K7i/K2i/Lv3fGR9q13NxUXF/2V/ztZCR+i90v3rvSQvrOAnaudM5SHliDBNc1EI
- VmCP5f5NOzP3OYTvGJM2Mvk7ggMMN0xPQ5Ax9dSbxM9i2qI11aNw9lTLBL8+3uF6k+IGmf
- D8ak4niDnZsyHe0ONKaWphhUcG1i2Lc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-Dvfw41bpPV-CYfausm6A0w-1; Wed, 01 Jun 2022 04:00:54 -0400
-X-MC-Unique: Dvfw41bpPV-CYfausm6A0w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f6-20020a5d5686000000b0020ffb1157f4so102487wrv.9
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 01:00:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nwJLK-0006Ol-CA; Wed, 01 Jun 2022 04:04:45 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:36483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nwJLE-0002RP-KH; Wed, 01 Jun 2022 04:04:35 -0400
+Received: by mail-oi1-x232.google.com with SMTP id u140so1687655oie.3;
+ Wed, 01 Jun 2022 01:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/7xq4gu/iq2wXv8D6cUrO7XJ2z/gFBo6TylonUB12nM=;
+ b=lulHLT+oDASG83dES38nHzUyXVKnJBh0RU5PT8LH5bIs2StnCBaK95VD91AZG9EO4l
+ T1ZUy93XDqV2wF9KmCU1T3+SKFGeTE07suhtZIGoZYrUcNvfY+oIzKZ5t8OiUo0dcfHN
+ hxS+xhNbwoP0YvI0c/U+ls1+mxQkr5TtjrAAtNUmyqPwsRnY8NR8sZHEfZpWmJMBRP3U
+ +fxBavoGkUHA0t63rAd6aXXtm2uRUprSi/uxTB4EsedPzSyfeZt6FqNWbCQPlExYAtpy
+ a+4r2pJr2Gl6prOFRTH4XL0w0QwvZIayTKhQzM7DbxX6Z57OSgOeP6Yf6plZTVEiXBZw
+ 2YRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Aj7SEq/+8A/upQ3HHJMYSDggfy+gpVpZpGyNgHhO+nE=;
- b=Ej1H+HXmtfazR2Xs7E144RIQqInM/usQ0E2Svrwve0bBrXpeCZde0PKBlkodxMMgQf
- 6eG83okWvUyPv/EdJlNTcpUPSoWfd3OLUn3TyzLdPJQSX8w7LueiTMRKGjvGlZcwcA3b
- a0yAM7GQkW9WK753yA6AfNbE7agUBt+oheuTxmCFHFo4pEANLU6hTj2Mk+wQkGzjib+T
- 0R+8d2ML/RXxkaWh5BLBxiOOsZFOyAb3R+gdwcBohCiBWIf7EumNyK+A/r0A0ZsNeIsX
- AZ84fHS8RVJmC+DNryl3BXhuY1wV/HKqRO0s+4kMD/zAmGJN/FeXWmrL/DFoRwjkkb6J
- GT5A==
-X-Gm-Message-State: AOAM530Tow817MVsvNLBvc//K0z11ErzdT8apzaVsE2o0tBzP/PCPFxW
- sn1G4S5oLCuPM8gCmNddydg3Ne0n8RlsVxG+D5xO876ePUVIm6F2vTpVTYoNodiPepTAzHxlrzr
- iqEuHdnj2780epms=
-X-Received: by 2002:a05:600c:3384:b0:397:6443:5343 with SMTP id
- o4-20020a05600c338400b0039764435343mr26335381wmp.124.1654070452964; 
- Wed, 01 Jun 2022 01:00:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfMxSqk4XcBkPSAUIIVJ2bw6GH7NqCwsd62uNn5oraWIOk6eV1QRmODg75TW+6QX95p5neMw==
-X-Received: by 2002:a05:600c:3384:b0:397:6443:5343 with SMTP id
- o4-20020a05600c338400b0039764435343mr26335360wmp.124.1654070452644; 
- Wed, 01 Jun 2022 01:00:52 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:2600:951d:63df:c091:3b45?
- (p200300cbc7052600951d63dfc0913b45.dip0.t-ipconnect.de.
- [2003:cb:c705:2600:951d:63df:c091:3b45])
+ bh=/7xq4gu/iq2wXv8D6cUrO7XJ2z/gFBo6TylonUB12nM=;
+ b=IT+JI8Sfyk/CEOJKcGePlVm8MMXLnfZjaTv81FRTPIZ+t4Nj7zVnq6+55WwTABVUrH
+ Z5xFzRpgBSkBQ7GA2Jznw6oQ5RTHeoYhe8BRaTcXHL8mxbUO3gXvtXtcqLnWD61LtKJN
+ qLibGvGZ0KI5+Ez7rtMvh+O7BAks8d84g1zHXA++ERsj9ir9EmYRu7qo4n/qyiTQSJ1/
+ fszbFzeMoc1GPJ0ipve8N9ATHpcBmOr2p/s+ererbEKrlbfvtBgf7fweHGkmt7ySf+b2
+ FzOLQuKKJm6Y8KpIRPkn2un4ysKqpLVZLgbDX06fyjQtGDlmHzZ/p5PKjIm1FCrq7tgw
+ S6HA==
+X-Gm-Message-State: AOAM531bVgG9OIL8BjwFU4ubCZB0eblaRWFt5gE3t2MDvHa2JpWo9sxC
+ RX6EHzgWslOLkdLmkpSMKcE=
+X-Google-Smtp-Source: ABdhPJx54HCL8vWEC5Hh9iJsgjdmtY4WA7kzHiPtyOdm70PVNFVobZbGpt5dkRxJN3Pwr3FfkpRPzQ==
+X-Received: by 2002:a05:6808:1407:b0:32e:1ad1:2d4 with SMTP id
+ w7-20020a056808140700b0032e1ad102d4mr1355977oiv.235.1654070670526; 
+ Wed, 01 Jun 2022 01:04:30 -0700 (PDT)
+Received: from [192.168.10.102] ([152.250.93.219])
  by smtp.gmail.com with ESMTPSA id
- o14-20020a05600c378e00b003974d0d981dsm4177167wmr.35.2022.06.01.01.00.51
+ i23-20020a056808055700b00325cda1ff9fsm588070oig.30.2022.06.01.01.04.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 01:00:51 -0700 (PDT)
-Message-ID: <0b54d6c7-f56d-1ad2-80b7-d75d1033d67e@redhat.com>
-Date: Wed, 1 Jun 2022 10:00:50 +0200
+ Wed, 01 Jun 2022 01:04:30 -0700 (PDT)
+Message-ID: <867a5313-14f0-0b7f-a46c-7b7516d9a4c2@gmail.com>
+Date: Wed, 1 Jun 2022 05:04:26 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 11/16] ppc/pnv: add pnv-phb-root-port device
 Content-Language: en-US
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: Tong Zhang <t.zhang2@samsung.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Francisco Londono <f.londono@samsung.com>
-References: <CGME20220427205118uscas1p25031437c0cdd4363c104be13033f366a@uscas1p2.samsung.com>
- <20220427205056.2522-1-t.zhang2@samsung.com>
- <b675b817-7b7c-06ee-b971-3df2d7374622@redhat.com>
- <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
+ mark.cave-ayland@ilande.co.uk, fbarrat@linux.ibm.com
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+ <20220531214917.31668-12-danielhb413@gmail.com>
+ <9b633a09-f79f-0a5c-7073-ec1a92d47fb5@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <9b633a09-f79f-0a5c-7073-ec1a92d47fb5@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,58 +94,269 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.06.22 02:20, Tong Zhang wrote:
-> Hi David,
-> 
-> On Mon, May 30, 2022 at 9:19 AM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 27.04.22 22:51, Tong Zhang wrote:
->>> assert(dbs->acb) is meant to check the return value of io_func per
->>> documented in commit 6bee44ea34 ("dma: the passed io_func does not
->>> return NULL"). However, there is a chance that after calling
->>> aio_context_release(dbs->ctx); the dma_blk_cb function is called before
->>> the assertion and dbs->acb is set to NULL again at line 121. Thus when
->>> we run assert at line 181 it will fail.
->>>
->>>   softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
->>>
->>> Reported-by: Francisco Londono <f.londono@samsung.com>
->>> Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
->>> ---
->>>  softmmu/dma-helpers.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
->>> index 7820fec54c..cb81017928 100644
->>> --- a/softmmu/dma-helpers.c
->>> +++ b/softmmu/dma-helpers.c
->>> @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
->>>      aio_context_acquire(dbs->ctx);
->>>      dbs->acb = dbs->io_func(dbs->offset, &dbs->iov,
->>>                              dma_blk_cb, dbs, dbs->io_func_opaque);
->>> -    aio_context_release(dbs->ctx);
->>>      assert(dbs->acb);
->>> +    aio_context_release(dbs->ctx);
->>>  }
->>>
->>>  static void dma_aio_cancel(BlockAIOCB *acb)
->>
->> I'm fairly new to that code, but I wonder what prevents dma_blk_cb() to
->> run after you reshuffled the code?
->>
-> 
-> IMO if the assert is to test whether io_func returns a non-NULL value
-> shouldn't it be immediately after calling io_func.
-> Also... as suggested by commit 6bee44ea346aed24e12d525daf10542d695508db
->   >     dma: the passed io_func does not return NULL
 
-Yes, but I just don't see how it would fix the assertion you document in
-the patch description. The locking change to fix the assertion doesn't
-make any sense to me, and most probably I am missing something important :)
 
--- 
+On 6/1/22 02:56, Cédric Le Goater wrote:
+> On 5/31/22 23:49, Daniel Henrique Barboza wrote:
+>> We have two very similar root-port devices, pnv-phb3-root-port and
+>> pnv-phb4-root-port. Both consist of a wrapper around the PCIESlot device
+>> that, until now, has no additional attributes.
+>>
+>> The main difference between the PHB3 and PHB4 root ports is that
+>> pnv-phb4-root-port has the pnv_phb4_root_port_reset() callback. All
+>> other differences can be merged in a single device without too much
+>> trouble.
+>>
+>> This patch introduces the unified pnv-phb-root-port that, in time, will
+>> be used as the default root port for the pnv-phb device.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/pci-host/pnv_phb.c | 107 ++++++++++++++++++++++++++++++++++++++----
+>>   hw/pci-host/pnv_phb.h |  17 +++++++
+>>   2 files changed, 116 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+>> index 321c4e768a..5047e90d3a 100644
+>> --- a/hw/pci-host/pnv_phb.c
+>> +++ b/hw/pci-host/pnv_phb.c
+>> @@ -114,15 +114,106 @@ static void pnv_phb_class_init(ObjectClass *klass, void *data)
+>>       dc->user_creatable = true;
+>>   }
+>> -static void pnv_phb_register_type(void)
+>> +static void pnv_phb_root_port_reset(DeviceState *dev)
+>>   {
+>> -    static const TypeInfo pnv_phb_type_info = {
+>> -        .name          = TYPE_PNV_PHB,
+>> -        .parent        = TYPE_PCIE_HOST_BRIDGE,
+>> -        .instance_size = sizeof(PnvPHB),
+>> -        .class_init    = pnv_phb_class_init,
+>> -    };
+>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>> +    PnvPHBRootPort *rootport = PNV_PHB_ROOT_PORT(dev);
+>> +    PCIDevice *d = PCI_DEVICE(dev);
+>> +    uint8_t *conf = d->config;
+>> +    rpc->parent_reset(dev);
+>> +
+>> +    if (rootport->version == 3) {
+>> +        return;
+>> +    }
+>> +
+>> +    /* PHB4 and later requires these extra reset steps */
+>> +    pci_byte_test_and_set_mask(conf + PCI_IO_BASE,
+>> +                               PCI_IO_RANGE_MASK & 0xff);
+>> +    pci_byte_test_and_clear_mask(conf + PCI_IO_LIMIT,
+>> +                                 PCI_IO_RANGE_MASK & 0xff);
+>> +    pci_set_word(conf + PCI_MEMORY_BASE, 0);
+>> +    pci_set_word(conf + PCI_MEMORY_LIMIT, 0xfff0);
+>> +    pci_set_word(conf + PCI_PREF_MEMORY_BASE, 0x1);
+>> +    pci_set_word(conf + PCI_PREF_MEMORY_LIMIT, 0xfff1);
+>> +    pci_set_long(conf + PCI_PREF_BASE_UPPER32, 0x1); /* Hack */
+>> +    pci_set_long(conf + PCI_PREF_LIMIT_UPPER32, 0xffffffff);
+>> +    pci_config_set_interrupt_pin(conf, 0);
+>> +}
+>> +
+>> +static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>> +    PCIDevice *pci = PCI_DEVICE(dev);
+>> +    PCIBus *bus = pci_get_bus(pci);
+>> +    PnvPHB *phb = NULL;
+>> +    Error *local_err = NULL;
+>> +
+>> +    phb = (PnvPHB *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+>> +                                          TYPE_PNV_PHB);
+>> +
+>> +    if (!phb) {
+>> +        error_setg(errp,
+>> +"pnv_phb_root_port devices must be connected to pnv-phb buses");
+>> +        return;
+>> +    }
+>> +
+>> +    /* Set unique chassis/slot values for the root port */
+>> +    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
+>> +    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
+>> +
+>> +    rpc->parent_realize(dev, &local_err);
+>> +    if (local_err) {
+>> +        error_propagate(errp, local_err);
+>> +        return;
+>> +    }
+>> +    pci_config_set_interrupt_pin(pci->config, 0);
+>> +}
+>> +
+>> +static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
+>> +
+>> +    dc->desc     = "IBM PHB PCIE Root Port";
+>> +
+>> +    device_class_set_parent_realize(dc, pnv_phb_root_port_realize,
+>> +                                    &rpc->parent_realize);
+>> +
+>> +    device_class_set_parent_reset(dc, pnv_phb_root_port_reset,
+>> +                                  &rpc->parent_reset);
+>> +    dc->reset = &pnv_phb_root_port_reset;
+>> +
+>> +    dc->user_creatable = true;
+>> +
+>> +    k->vendor_id = PCI_VENDOR_ID_IBM;
+>> +    /* device_id represents the latest PHB root port version supported */
+>> +    k->device_id = PNV_PHB5_DEVICE_ID;
+> 
+> does that mean powernv8 machines will see phb devices as phb5 devices ?
+
+
+I had something like this in this patch that would set device_id properly:
+
+
+diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+index 5d66264a96..d468e8d44a 100644
+--- a/hw/pci-host/pnv_phb.c
++++ b/hw/pci-host/pnv_phb.c
+@@ -144,6 +144,22 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+      PCIBus *bus = pci_get_bus(pci);
+      PnvPHB *phb = NULL;
+      Error *local_err = NULL;
++    PnvPHBRootPort *phb_rp = PNV_PHB_ROOT_PORT(dev);
++    PCIDeviceClass *k = PCI_DEVICE_GET_CLASS(pci);
++
++    switch (phb_rp->version) {
++    case 3:
++        k->device_id = PNV_PHB3_DEVICE_ID;
++        break;
++    case 4:
++        k->device_id = PNV_PHB4_DEVICE_ID;
++        break;
++    case 5:
++        k->device_id = PNV_PHB5_DEVICE_ID;
++        break;
++    default:
++        g_assert_not_reached();
++    }
+  
+      phb = (PnvPHB *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+                                            TYPE_PNV_PHB);
+@@ -166,6 +182,11 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+      pci_config_set_interrupt_pin(pci->config, 0);
+  }
+  
++static Property pnv_phb_root_port_properties[] = {
++    DEFINE_PROP_UINT32("version", PnvPHBRootPort, version, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+  static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
+  {
+      DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -181,6 +202,7 @@ static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
+                                    &rpc->parent_reset);
+      dc->reset = &pnv_phb_root_port_reset;
+  
++    device_class_set_props(dc, pnv_phb_root_port_properties);
+      dc->user_creatable = true;
+  
+      k->vendor_id = PCI_VENDOR_ID_IBM;
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 4d2ea405db..13c8753eb2 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -2148,6 +2148,7 @@ static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
+  
+      static GlobalProperty phb_compat[] = {
+          { TYPE_PNV_PHB, "version", "3" },
++        { TYPE_PNV_PHB_ROOT_PORT, "version", "3" },
+      };
+  
+      mc->desc = "IBM PowerNV (Non-Virtualized) POWER8";
+@@ -2173,6 +2174,7 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+  
+      static GlobalProperty phb_compat[] = {
+          { TYPE_PNV_PHB, "version", "4" },
++        { TYPE_PNV_PHB_ROOT_PORT, "version", "4" },
+      };
+  
+      mc->desc = "IBM PowerNV (Non-Virtualized) POWER9";
+@@ -2199,6 +2201,7 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
+  
+      static GlobalProperty phb_compat[] = {
+          { TYPE_PNV_PHB, "version", "5" },
++        { TYPE_PNV_PHB_ROOT_PORT, "version", "5" },
+      };
+  
+      mc->desc = "IBM PowerNV (Non-Virtualized) POWER10";
+
+
+The reason I didn't follow it through is because I wasn't sure if setting k->device_id
+during realize() time was acceptable. Everyone else seems to set k->device_id during
+class_init() or via an extra attribute 'device_id' that is written directly into
+the PCI header.
+
+If this is something that we can do then I'm fine with fixing this up in this patch.
+
+
 Thanks,
 
-David / dhildenb
 
+Daniel
+
+> 
+> C.
+> 
+>> +    k->revision  = 0;
+>> +
+>> +    rpc->exp_offset = 0x48;
+>> +    rpc->aer_offset = 0x100;
+>> +}
+>> +
+>> +static const TypeInfo pnv_phb_type_info = {
+>> +    .name          = TYPE_PNV_PHB,
+>> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
+>> +    .instance_size = sizeof(PnvPHB),
+>> +    .class_init    = pnv_phb_class_init,
+>> +};
+>> +
+>> +static const TypeInfo pnv_phb_root_port_info = {
+>> +    .name          = TYPE_PNV_PHB_ROOT_PORT,
+>> +    .parent        = TYPE_PCIE_ROOT_PORT,
+>> +    .instance_size = sizeof(PnvPHBRootPort),
+>> +    .class_init    = pnv_phb_root_port_class_init,
+>> +};
+>> +
+>> +static void pnv_phb_register_types(void)
+>> +{
+>>       type_register_static(&pnv_phb_type_info);
+>> +    type_register_static(&pnv_phb_root_port_info);
+>>   }
+>> -type_init(pnv_phb_register_type)
+>> +
+>> +type_init(pnv_phb_register_types)
+>> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
+>> index a7cc8610e2..c8eab4b767 100644
+>> --- a/hw/pci-host/pnv_phb.h
+>> +++ b/hw/pci-host/pnv_phb.h
+>> @@ -36,4 +36,21 @@ struct PnvPHB {
+>>   #define TYPE_PNV_PHB "pnv-phb"
+>>   OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
+>> +/*
+>> + * PHB PCIe Root port
+>> + */
+>> +#define PNV_PHB3_DEVICE_ID         0x03dc
+>> +#define PNV_PHB4_DEVICE_ID         0x04c1
+>> +#define PNV_PHB5_DEVICE_ID         0x0652
+>> +
+>> +typedef struct PnvPHBRootPort {
+>> +    PCIESlot parent_obj;
+>> +
+>> +    uint32_t version;
+>> +} PnvPHBRootPort;
+>> +
+>> +#define TYPE_PNV_PHB_ROOT_PORT "pnv-phb-root-port"
+>> +#define PNV_PHB_ROOT_PORT(obj) \
+>> +    OBJECT_CHECK(PnvPHBRootPort, obj, TYPE_PNV_PHB_ROOT_PORT)
+>> +
+>>   #endif /* PCI_HOST_PNV_PHB_H */
+> 
 
