@@ -2,95 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229F0539EE9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 10:02:12 +0200 (CEST)
-Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94533539EFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 10:06:45 +0200 (CEST)
+Received: from localhost ([::1]:57452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwJIw-0003QO-UM
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 04:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
+	id 1nwJNM-0005rm-9b
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 04:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJGG-0002E0-Ri
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:59:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55961)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJHn-0003T2-Ot
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 04:01:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJGD-0001ga-CD
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:59:22 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJHj-000214-SE
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 04:00:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654070360;
+ s=mimecast20190719; t=1654070455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X57AV1JS1Mqn7vo0Jw9w21QgY8DunEV7ImYYwrtqE0c=;
- b=LTSi4cSNBI3BjEicrOTscznyjcjl+kovVb5zCQCmlkGosr8tLL/sInjxdQvPOoGoOVnRGq
- 5V7Dv3mo9GobwGK19620yq0F9O0lGNhqy6oJLwnFbsrffZTmDF3qZ67FYn+g7dCm/yIOY5
- nLZ3vqKiVGs3RJx7mc1jivT/j2hHLmU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Aj7SEq/+8A/upQ3HHJMYSDggfy+gpVpZpGyNgHhO+nE=;
+ b=GcSC4K9K7i/K2i/Lv3fGR9q13NxUXF/2V/ztZCR+i90v3rvSQvrOAnaudM5SHliDBNc1EI
+ VmCP5f5NOzP3OYTvGJM2Mvk7ggMMN0xPQ5Ax9dSbxM9i2qI11aNw9lTLBL8+3uF6k+IGmf
+ D8ak4niDnZsyHe0ONKaWphhUcG1i2Lc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-S_C1tuGdMa2U6UbaRjYexA-1; Wed, 01 Jun 2022 03:59:19 -0400
-X-MC-Unique: S_C1tuGdMa2U6UbaRjYexA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i1-20020a05600c354100b003976fc71579so730427wmq.8
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 00:59:18 -0700 (PDT)
+ us-mta-245-Dvfw41bpPV-CYfausm6A0w-1; Wed, 01 Jun 2022 04:00:54 -0400
+X-MC-Unique: Dvfw41bpPV-CYfausm6A0w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ f6-20020a5d5686000000b0020ffb1157f4so102487wrv.9
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 01:00:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=X57AV1JS1Mqn7vo0Jw9w21QgY8DunEV7ImYYwrtqE0c=;
- b=M2bB4djHmZ1zOataF52kkfFUdl/oajuo0F8yBX7TMbjRrn0jjnTeOm/uQrVseci4Yo
- TTzB6AqudnEiYjKQinFrmAREBEhz66hAW/oAJGQkgKrjx1JUCqnmhFz9y83WaFut1o7h
- gCsf5cUmhZIbCG1wCQ4yapNACCxXO6etubXQdGV3Ew++qJpGgV66OqpCrkguTaxntkK1
- i+yfZMUtuxjf+8z7CJDu4rsoT9sOIb5kvVTESDlawDTIOSIsGdomML2o2ZUCgDqQwXx6
- +E2YRV6f+gKLstq2aAJXb4idKVZyjqH5drmOpP9yoG4UQgUxjLneEPJ3xENC9uWca8Lz
- Tkrg==
-X-Gm-Message-State: AOAM532ETJp1LNw2IwmvY6UmlCHbQOUjMicO15xuc8Mf21Np5DV9tRL7
- pGD9HgiPIo2giOG/AO4tOdgW7R/2K7TwUGWax5qZ7vVXcxoVk8sbxut0CttJAA9rUqIPCh6nYaE
- aD4Wa94rhDbssB0c=
-X-Received: by 2002:a05:6000:1d86:b0:20f:fcae:57f8 with SMTP id
- bk6-20020a0560001d8600b0020ffcae57f8mr29128558wrb.262.1654070357987; 
- Wed, 01 Jun 2022 00:59:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRXopFFdxewjiXZogv3wBRsP/bd8pMpOz5TV6kA8hkaTRFy4NC/B3PyodLYhUx84ns8W9osQ==
-X-Received: by 2002:a05:6000:1d86:b0:20f:fcae:57f8 with SMTP id
- bk6-20020a0560001d8600b0020ffcae57f8mr29128536wrb.262.1654070357654; 
- Wed, 01 Jun 2022 00:59:17 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=Aj7SEq/+8A/upQ3HHJMYSDggfy+gpVpZpGyNgHhO+nE=;
+ b=Ej1H+HXmtfazR2Xs7E144RIQqInM/usQ0E2Svrwve0bBrXpeCZde0PKBlkodxMMgQf
+ 6eG83okWvUyPv/EdJlNTcpUPSoWfd3OLUn3TyzLdPJQSX8w7LueiTMRKGjvGlZcwcA3b
+ a0yAM7GQkW9WK753yA6AfNbE7agUBt+oheuTxmCFHFo4pEANLU6hTj2Mk+wQkGzjib+T
+ 0R+8d2ML/RXxkaWh5BLBxiOOsZFOyAb3R+gdwcBohCiBWIf7EumNyK+A/r0A0ZsNeIsX
+ AZ84fHS8RVJmC+DNryl3BXhuY1wV/HKqRO0s+4kMD/zAmGJN/FeXWmrL/DFoRwjkkb6J
+ GT5A==
+X-Gm-Message-State: AOAM530Tow817MVsvNLBvc//K0z11ErzdT8apzaVsE2o0tBzP/PCPFxW
+ sn1G4S5oLCuPM8gCmNddydg3Ne0n8RlsVxG+D5xO876ePUVIm6F2vTpVTYoNodiPepTAzHxlrzr
+ iqEuHdnj2780epms=
+X-Received: by 2002:a05:600c:3384:b0:397:6443:5343 with SMTP id
+ o4-20020a05600c338400b0039764435343mr26335381wmp.124.1654070452964; 
+ Wed, 01 Jun 2022 01:00:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfMxSqk4XcBkPSAUIIVJ2bw6GH7NqCwsd62uNn5oraWIOk6eV1QRmODg75TW+6QX95p5neMw==
+X-Received: by 2002:a05:600c:3384:b0:397:6443:5343 with SMTP id
+ o4-20020a05600c338400b0039764435343mr26335360wmp.124.1654070452644; 
+ Wed, 01 Jun 2022 01:00:52 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c705:2600:951d:63df:c091:3b45?
  (p200300cbc7052600951d63dfc0913b45.dip0.t-ipconnect.de.
  [2003:cb:c705:2600:951d:63df:c091:3b45])
  by smtp.gmail.com with ESMTPSA id
- z13-20020a5d44cd000000b0020e6c51f070sm818410wrr.112.2022.06.01.00.59.15
+ o14-20020a05600c378e00b003974d0d981dsm4177167wmr.35.2022.06.01.01.00.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 00:59:16 -0700 (PDT)
-Message-ID: <484546da-16cc-8070-2a2c-868717b8a75a@redhat.com>
-Date: Wed, 1 Jun 2022 09:59:15 +0200
+ Wed, 01 Jun 2022 01:00:51 -0700 (PDT)
+Message-ID: <0b54d6c7-f56d-1ad2-80b7-d75d1033d67e@redhat.com>
+Date: Wed, 1 Jun 2022 10:00:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
+Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
 Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?=
- <naoya.horiguchi@nec.com>
-Cc: Peter Xu <peterx@redhat.com>, Jue Wang <juew@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, jasowang@redhat.com,
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- mst@redhat.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
-References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
- <Yo/I3oLkd9OU0ice@xz-m1.local>
- <24a95dea-9ea6-a904-7c0b-197961afa1d1@bytedance.com>
- <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
- <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
- <YpTngZ5Qr0KIvL0H@xz-m1.local>
- <CAPcxDJ5UMfpys8KyLQVnkV9BPO1vaubxbhc7f4XC_TdNO7jr7g@mail.gmail.com>
- <5f622a65-8348-8825-a167-414f2a8cd2eb@bytedance.com>
+To: Tong Zhang <ztong0001@gmail.com>
+Cc: Tong Zhang <t.zhang2@samsung.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Francisco Londono <f.londono@samsung.com>
+References: <CGME20220427205118uscas1p25031437c0cdd4363c104be13033f366a@uscas1p2.samsung.com>
+ <20220427205056.2522-1-t.zhang2@samsung.com>
+ <b675b817-7b7c-06ee-b971-3df2d7374622@redhat.com>
+ <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
-In-Reply-To: <5f622a65-8348-8825-a167-414f2a8cd2eb@bytedance.com>
+In-Reply-To: <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
@@ -117,122 +109,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.06.22 04:17, zhenwei pi wrote:
-> On 5/31/22 12:08, Jue Wang wrote:
->> On Mon, May 30, 2022 at 8:49 AM Peter Xu <peterx@redhat.com> wrote:
->>>
->>> On Mon, May 30, 2022 at 07:33:35PM +0800, zhenwei pi wrote:
->>>> A VM uses RAM of 2M huge page. Once a MCE(@HVAy in [HVAx,HVAz)) occurs, the
->>>> 2M([HVAx,HVAz)) of hypervisor becomes unaccessible, but the guest poisons 4K
->>>> (@GPAy in [GPAx, GPAz)) only, it may hit another 511 MCE ([GPAx, GPAz)
->>>> except GPAy). This is the worse case, so I want to add
->>>>   '__le32 corrupted_pages' in struct virtio_balloon_config, it is used in the
->>>> next step: reporting 512 * 4K 'corrupted_pages' to the guest, the guest has
->>>> a chance to isolate the other 511 pages ahead of time. And the guest
->>>> actually loses 2M, fixing 512*4K seems to help significantly.
->>>
->>> It sounds hackish to teach a virtio device to assume one page will always
->>> be poisoned in huge page granule.  That's only a limitation to host kernel
->>> not virtio itself.
->>>
->>> E.g. there're upstream effort ongoing with enabling doublemap on hugetlbfs
->>> pages so hugetlb pages can be mapped in 4k with it.  It provides potential
->>> possibility to do page poisoning with huge pages in 4k too.  When that'll
->>> be ready the assumption can go away, and that does sound like a better
->>> approach towards this problem.
->>
->> +1.
->>
->> A hypervisor should always strive to minimize the guest memory loss.
->>
->> The HugeTLB double mapping enlightened memory poisoning behavior (only
->> poison 4K out of a 2MB huge page and 4K in guest) is a much better
->> solution here. To be completely transparent, it's not _strictly_
->> required to poison the page (whatever the granularity it is) on the
->> host side, as long as the following are true:
->>
->> 1. A hypervisor can emulate the _minimized_ (e.g., 4K) the poison to the guest.
->> 2. The host page with the UC error is "isolated" (could be PG_HWPOISON
->> or in some other way) and prevented from being reused by other
->> processes.
->>
->> For #2, PG_HWPOISON and HugeTLB double mapping enlightened memory
->> poisoning is a good solution.
->>
->>>
->>>>
->>>>>
->>>>> I assume when talking about "the performance memory drops a lot", you
->>>>> imply that this patch set can mitigate that performance drop?
->>>>>
->>>>> But why do you see a performance drop? Because we might lose some
->>>>> possible THP candidates (in the host or the guest) and you want to plug
->>>>> does holes? I assume you'll see a performance drop simply because
->>>>> poisoning memory is expensive, including migrating pages around on CE.
->>>>>
->>>>> If you have some numbers to share, especially before/after this change,
->>>>> that would be great.
->>>>>
->>>>
->>>> The CE storm leads 2 problems I have even seen:
->>>> 1, the memory bandwidth slows down to 10%~20%, and the cycles per
->>>> instruction of CPU increases a lot.
->>>> 2, the THR (/proc/interrupts) interrupts frequently, the CPU has to use a
->>>> lot time to handle IRQ.
->>>
->>> Totally no good knowledge on CMCI, but if 2) is true then I'm wondering
->>> whether it's necessary to handle the interrupts that frequently.  When I
->>> was reading the Intel CMCI vector handler I stumbled over this comment:
->>>
->>> /*
->>>   * The interrupt handler. This is called on every event.
->>>   * Just call the poller directly to log any events.
->>>   * This could in theory increase the threshold under high load,
->>>   * but doesn't for now.
->>>   */
->>> static void intel_threshold_interrupt(void)
->>>
->>> I think that matches with what I was thinking..  I mean for 2) not sure
->>> whether it can be seen as a CMCI problem and potentially can be optimized
->>> by adjust the cmci threshold dynamically.
->>
->> The CE storm caused performance drop is caused by the extra cycles
->> spent by the ECC steps in memory controller, not in CMCI handling.
->> This is observed in the Google fleet as well. A good solution is to
->> monitor the CE rate closely in user space via /dev/mcelog and migrate
->> all VMs to another host once the CE rate exceeds some threshold.
->>
->> CMCI is a _background_ interrupt that is not handled in the process
->> execution context and its handler is setup to switch to poll (1 / 5
->> min) mode if there are more than ~ a dozen CEs reported via CMCI per
->> second.
->>>
->>> --
->>> Peter Xu
->>>
+On 01.06.22 02:20, Tong Zhang wrote:
+> Hi David,
 > 
-> Hi, Andrew, David, Naoya
+> On Mon, May 30, 2022 at 9:19 AM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> On 27.04.22 22:51, Tong Zhang wrote:
+>>> assert(dbs->acb) is meant to check the return value of io_func per
+>>> documented in commit 6bee44ea34 ("dma: the passed io_func does not
+>>> return NULL"). However, there is a chance that after calling
+>>> aio_context_release(dbs->ctx); the dma_blk_cb function is called before
+>>> the assertion and dbs->acb is set to NULL again at line 121. Thus when
+>>> we run assert at line 181 it will fail.
+>>>
+>>>   softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
+>>>
+>>> Reported-by: Francisco Londono <f.londono@samsung.com>
+>>> Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
+>>> ---
+>>>  softmmu/dma-helpers.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
+>>> index 7820fec54c..cb81017928 100644
+>>> --- a/softmmu/dma-helpers.c
+>>> +++ b/softmmu/dma-helpers.c
+>>> @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
+>>>      aio_context_acquire(dbs->ctx);
+>>>      dbs->acb = dbs->io_func(dbs->offset, &dbs->iov,
+>>>                              dma_blk_cb, dbs, dbs->io_func_opaque);
+>>> -    aio_context_release(dbs->ctx);
+>>>      assert(dbs->acb);
+>>> +    aio_context_release(dbs->ctx);
+>>>  }
+>>>
+>>>  static void dma_aio_cancel(BlockAIOCB *acb)
+>>
+>> I'm fairly new to that code, but I wonder what prevents dma_blk_cb() to
+>> run after you reshuffled the code?
+>>
 > 
-> According to the suggestions, I'd give up the improvement of memory 
-> failure on huge page in this series.
-> 
-> Is it worth recovering corrupted pages for the guest kernel? I'd follow 
-> your decision.
+> IMO if the assert is to test whether io_func returns a non-NULL value
+> shouldn't it be immediately after calling io_func.
+> Also... as suggested by commit 6bee44ea346aed24e12d525daf10542d695508db
+>   >     dma: the passed io_func does not return NULL
 
-Well, as I said, I am not sure if we really need/want this for a handful
-of 4k poisoned pages in a VM. As I suspected, doing so might primarily
-be interesting for some sort of de-fragmentation (allow again a higher
-order page to be placed at the affected PFNs), not because of the slight
-reduction of available memory. A simple VM reboot would get the job
-similarly done.
-
-As the poisoning refcount code is already a bit shaky as I learned
-recently in the context of memory offlining, I do wonder if we really
-want to expose the unpoisoning code outside of debugfs (hwpoison) usage.
-
-Interestingly, unpoison_memory() documents: "This is only done on the
-software-level, so it only works for linux injected failures, not real
-hardware failures" -- ehm?
+Yes, but I just don't see how it would fix the assertion you document in
+the patch description. The locking change to fix the assertion doesn't
+make any sense to me, and most probably I am missing something important :)
 
 -- 
 Thanks,
