@@ -2,83 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF78539ED0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 09:57:49 +0200 (CEST)
-Received: from localhost ([::1]:50828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229F0539EE9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 10:02:12 +0200 (CEST)
+Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwJEi-0001Do-OJ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 03:57:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44060)
+	id 1nwJIw-0003QO-UM
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 04:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nwJC2-0000NU-Vu
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:55:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25042)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJGG-0002E0-Ri
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:59:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nwJC0-00015G-HI
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:55:01 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwJGD-0001ga-CD
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:59:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654070098;
+ s=mimecast20190719; t=1654070360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ektNvZ5f4NVTyT0W6eboUrdKdy7sGj8EOeyn5QtPw8I=;
- b=EUSDzazTnAIjcWaUrpxMRTvZH3ahbCcRT6vcLKqOs3WikaymWJMqBMwZmdHXRRPHpZi74y
- YzF1BfmIoQSsFDumy1sJJuE6Lww2z0DMCtlQFmU1AouGxBDxoWmD9+n1SbSz2xrXMBqgTj
- yFvuCxtazfnQd+pK+7V9liZMrwFSE2A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=X57AV1JS1Mqn7vo0Jw9w21QgY8DunEV7ImYYwrtqE0c=;
+ b=LTSi4cSNBI3BjEicrOTscznyjcjl+kovVb5zCQCmlkGosr8tLL/sInjxdQvPOoGoOVnRGq
+ 5V7Dv3mo9GobwGK19620yq0F9O0lGNhqy6oJLwnFbsrffZTmDF3qZ67FYn+g7dCm/yIOY5
+ nLZ3vqKiVGs3RJx7mc1jivT/j2hHLmU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-154-Psw_Tb8pP9ek7Jym9Wwc0A-1; Wed, 01 Jun 2022 03:54:55 -0400
-X-MC-Unique: Psw_Tb8pP9ek7Jym9Wwc0A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C776801E80;
- Wed,  1 Jun 2022 07:54:55 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B728B1121314;
- Wed,  1 Jun 2022 07:54:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0DB321800623; Wed,  1 Jun 2022 09:54:53 +0200 (CEST)
-Date: Wed, 1 Jun 2022 09:54:53 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-Subject: Re: [RFC PATCH v4 11/36] i386/tdx: Initialize TDX before creating TD
- vcpus
-Message-ID: <20220601075453.7qyd5z22ejgp37iz@sirius.home.kraxel.org>
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-12-xiaoyao.li@intel.com>
- <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
- <d3e967f3-917f-27ce-1367-2dba23e5c241@intel.com>
- <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
- <39341481-67b6-aba4-a25a-10abb398bec4@intel.com>
+ us-mta-381-S_C1tuGdMa2U6UbaRjYexA-1; Wed, 01 Jun 2022 03:59:19 -0400
+X-MC-Unique: S_C1tuGdMa2U6UbaRjYexA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i1-20020a05600c354100b003976fc71579so730427wmq.8
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 00:59:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=X57AV1JS1Mqn7vo0Jw9w21QgY8DunEV7ImYYwrtqE0c=;
+ b=M2bB4djHmZ1zOataF52kkfFUdl/oajuo0F8yBX7TMbjRrn0jjnTeOm/uQrVseci4Yo
+ TTzB6AqudnEiYjKQinFrmAREBEhz66hAW/oAJGQkgKrjx1JUCqnmhFz9y83WaFut1o7h
+ gCsf5cUmhZIbCG1wCQ4yapNACCxXO6etubXQdGV3Ew++qJpGgV66OqpCrkguTaxntkK1
+ i+yfZMUtuxjf+8z7CJDu4rsoT9sOIb5kvVTESDlawDTIOSIsGdomML2o2ZUCgDqQwXx6
+ +E2YRV6f+gKLstq2aAJXb4idKVZyjqH5drmOpP9yoG4UQgUxjLneEPJ3xENC9uWca8Lz
+ Tkrg==
+X-Gm-Message-State: AOAM532ETJp1LNw2IwmvY6UmlCHbQOUjMicO15xuc8Mf21Np5DV9tRL7
+ pGD9HgiPIo2giOG/AO4tOdgW7R/2K7TwUGWax5qZ7vVXcxoVk8sbxut0CttJAA9rUqIPCh6nYaE
+ aD4Wa94rhDbssB0c=
+X-Received: by 2002:a05:6000:1d86:b0:20f:fcae:57f8 with SMTP id
+ bk6-20020a0560001d8600b0020ffcae57f8mr29128558wrb.262.1654070357987; 
+ Wed, 01 Jun 2022 00:59:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwRXopFFdxewjiXZogv3wBRsP/bd8pMpOz5TV6kA8hkaTRFy4NC/B3PyodLYhUx84ns8W9osQ==
+X-Received: by 2002:a05:6000:1d86:b0:20f:fcae:57f8 with SMTP id
+ bk6-20020a0560001d8600b0020ffcae57f8mr29128536wrb.262.1654070357654; 
+ Wed, 01 Jun 2022 00:59:17 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:2600:951d:63df:c091:3b45?
+ (p200300cbc7052600951d63dfc0913b45.dip0.t-ipconnect.de.
+ [2003:cb:c705:2600:951d:63df:c091:3b45])
+ by smtp.gmail.com with ESMTPSA id
+ z13-20020a5d44cd000000b0020e6c51f070sm818410wrr.112.2022.06.01.00.59.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 00:59:16 -0700 (PDT)
+Message-ID: <484546da-16cc-8070-2a2c-868717b8a75a@redhat.com>
+Date: Wed, 1 Jun 2022 09:59:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <39341481-67b6-aba4-a25a-10abb398bec4@intel.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: zhenwei pi <pizhenwei@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?=
+ <naoya.horiguchi@nec.com>
+Cc: Peter Xu <peterx@redhat.com>, Jue Wang <juew@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, jasowang@redhat.com,
+ LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+ mst@redhat.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org
+References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
+ <Yo/I3oLkd9OU0ice@xz-m1.local>
+ <24a95dea-9ea6-a904-7c0b-197961afa1d1@bytedance.com>
+ <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
+ <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
+ <YpTngZ5Qr0KIvL0H@xz-m1.local>
+ <CAPcxDJ5UMfpys8KyLQVnkV9BPO1vaubxbhc7f4XC_TdNO7jr7g@mail.gmail.com>
+ <5f622a65-8348-8825-a167-414f2a8cd2eb@bytedance.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
+In-Reply-To: <5f622a65-8348-8825-a167-414f2a8cd2eb@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,33 +117,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 01, 2022 at 03:20:46PM +0800, Xiaoyao Li wrote:
-> On 5/24/2022 2:57 PM, Gerd Hoffmann wrote:
-> >    Hi,
-> > Maybe it's a bit more work to add VM-scope initialization support to
-> > qemu.
+On 01.06.22 04:17, zhenwei pi wrote:
+> On 5/31/22 12:08, Jue Wang wrote:
+>> On Mon, May 30, 2022 at 8:49 AM Peter Xu <peterx@redhat.com> wrote:
+>>>
+>>> On Mon, May 30, 2022 at 07:33:35PM +0800, zhenwei pi wrote:
+>>>> A VM uses RAM of 2M huge page. Once a MCE(@HVAy in [HVAx,HVAz)) occurs, the
+>>>> 2M([HVAx,HVAz)) of hypervisor becomes unaccessible, but the guest poisons 4K
+>>>> (@GPAy in [GPAx, GPAz)) only, it may hit another 511 MCE ([GPAx, GPAz)
+>>>> except GPAy). This is the worse case, so I want to add
+>>>>   '__le32 corrupted_pages' in struct virtio_balloon_config, it is used in the
+>>>> next step: reporting 512 * 4K 'corrupted_pages' to the guest, the guest has
+>>>> a chance to isolate the other 511 pages ahead of time. And the guest
+>>>> actually loses 2M, fixing 512*4K seems to help significantly.
+>>>
+>>> It sounds hackish to teach a virtio device to assume one page will always
+>>> be poisoned in huge page granule.  That's only a limitation to host kernel
+>>> not virtio itself.
+>>>
+>>> E.g. there're upstream effort ongoing with enabling doublemap on hugetlbfs
+>>> pages so hugetlb pages can be mapped in 4k with it.  It provides potential
+>>> possibility to do page poisoning with huge pages in 4k too.  When that'll
+>>> be ready the assumption can go away, and that does sound like a better
+>>> approach towards this problem.
+>>
+>> +1.
+>>
+>> A hypervisor should always strive to minimize the guest memory loss.
+>>
+>> The HugeTLB double mapping enlightened memory poisoning behavior (only
+>> poison 4K out of a 2MB huge page and 4K in guest) is a much better
+>> solution here. To be completely transparent, it's not _strictly_
+>> required to poison the page (whatever the granularity it is) on the
+>> host side, as long as the following are true:
+>>
+>> 1. A hypervisor can emulate the _minimized_ (e.g., 4K) the poison to the guest.
+>> 2. The host page with the UC error is "isolated" (could be PG_HWPOISON
+>> or in some other way) and prevented from being reused by other
+>> processes.
+>>
+>> For #2, PG_HWPOISON and HugeTLB double mapping enlightened memory
+>> poisoning is a good solution.
+>>
+>>>
+>>>>
+>>>>>
+>>>>> I assume when talking about "the performance memory drops a lot", you
+>>>>> imply that this patch set can mitigate that performance drop?
+>>>>>
+>>>>> But why do you see a performance drop? Because we might lose some
+>>>>> possible THP candidates (in the host or the guest) and you want to plug
+>>>>> does holes? I assume you'll see a performance drop simply because
+>>>>> poisoning memory is expensive, including migrating pages around on CE.
+>>>>>
+>>>>> If you have some numbers to share, especially before/after this change,
+>>>>> that would be great.
+>>>>>
+>>>>
+>>>> The CE storm leads 2 problems I have even seen:
+>>>> 1, the memory bandwidth slows down to 10%~20%, and the cycles per
+>>>> instruction of CPU increases a lot.
+>>>> 2, the THR (/proc/interrupts) interrupts frequently, the CPU has to use a
+>>>> lot time to handle IRQ.
+>>>
+>>> Totally no good knowledge on CMCI, but if 2) is true then I'm wondering
+>>> whether it's necessary to handle the interrupts that frequently.  When I
+>>> was reading the Intel CMCI vector handler I stumbled over this comment:
+>>>
+>>> /*
+>>>   * The interrupt handler. This is called on every event.
+>>>   * Just call the poller directly to log any events.
+>>>   * This could in theory increase the threshold under high load,
+>>>   * but doesn't for now.
+>>>   */
+>>> static void intel_threshold_interrupt(void)
+>>>
+>>> I think that matches with what I was thinking..  I mean for 2) not sure
+>>> whether it can be seen as a CMCI problem and potentially can be optimized
+>>> by adjust the cmci threshold dynamically.
+>>
+>> The CE storm caused performance drop is caused by the extra cycles
+>> spent by the ECC steps in memory controller, not in CMCI handling.
+>> This is observed in the Google fleet as well. A good solution is to
+>> monitor the CE rate closely in user space via /dev/mcelog and migrate
+>> all VMs to another host once the CE rate exceeds some threshold.
+>>
+>> CMCI is a _background_ interrupt that is not handled in the process
+>> execution context and its handler is setup to switch to poll (1 / 5
+>> min) mode if there are more than ~ a dozen CEs reported via CMCI per
+>> second.
+>>>
+>>> --
+>>> Peter Xu
+>>>
 > 
-> If just introducing VM-scope initialization to QEMU, it would be easy. What
-> matters is what needs to be done inside VM-scope initialization.
+> Hi, Andrew, David, Naoya
 > 
-> For TDX, we need to settle down the features that configured for the TD.
-> Typically, the features are attributes of cpu object, parsed from "-cpu"
-> option and stored in cpu object.
+> According to the suggestions, I'd give up the improvement of memory 
+> failure on huge page in this series.
+> 
+> Is it worth recovering corrupted pages for the guest kernel? I'd follow 
+> your decision.
 
-> 2) create a CPU object when initializing machine object and collect all the
-> info from "-cpu" and drop it in the end; then why not do it when creating
-> 1st vcpu like this patch.
+Well, as I said, I am not sure if we really need/want this for a handful
+of 4k poisoned pages in a VM. As I suspected, doing so might primarily
+be interesting for some sort of de-fragmentation (allow again a higher
+order page to be placed at the affected PFNs), not because of the slight
+reduction of available memory. A simple VM reboot would get the job
+similarly done.
 
-Do VM-scope tdx initialization late enough that cpu objects are already
-created at that point, so you can collect the info you need without a
-dummy cpu?
+As the poisoning refcount code is already a bit shaky as I learned
+recently in the context of memory offlining, I do wonder if we really
+want to expose the unpoisoning code outside of debugfs (hwpoison) usage.
 
-I guess it could be helpful for the discussion when you can outine the
-'big picture' for tdx initialization.  How does kvm accel setup look
-like without TDX, and what additional actions are needed for TDX?  What
-ordering requirements and other constrains exist?
+Interestingly, unpoison_memory() documents: "This is only done on the
+software-level, so it only works for linux injected failures, not real
+hardware failures" -- ehm?
 
-take care,
-  Gerd
+-- 
+Thanks,
+
+David / dhildenb
 
 
