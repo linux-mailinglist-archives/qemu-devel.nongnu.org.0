@@ -2,98 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D137D53A14E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 11:53:49 +0200 (CEST)
-Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B52453A1A6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 12:02:58 +0200 (CEST)
+Received: from localhost ([::1]:47228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwL2y-0004iy-P2
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 05:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41022)
+	id 1nwLBp-00015F-8e
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 06:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwL1d-00041J-Tb
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:52:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwL1O-0003IE-0Z
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:52:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654077129;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S8SLZ/gpBAnuu2nonvDs04H2zRpGtTgk07BIA/nAZcg=;
- b=U9u0NCv6wt+HRBDAP5+7APgPVlJbuWH0EWVgDPT7aHOvCVmxozuYqGr3FKAviyXEciZDHG
- rut4xc+G1CdKDSTqFFOeYcc2cVhvupJT+Kuh9c1GEceswfaa/nNoHvrpwSa0KgTXa0tPUE
- sJozVDP7Uh2cieOdLlm3CNjHw55l8Zo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-495-93o6yLVhMomEgTyX9SxEfA-1; Wed, 01 Jun 2022 05:52:08 -0400
-X-MC-Unique: 93o6yLVhMomEgTyX9SxEfA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- bt14-20020a056000080e00b002100d89c219so184626wrb.2
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 02:52:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nwL8k-0007cb-Mp; Wed, 01 Jun 2022 05:59:46 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:45620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nwL8i-000485-R8; Wed, 01 Jun 2022 05:59:46 -0400
+Received: by mail-oi1-x230.google.com with SMTP id k11so1939605oia.12;
+ Wed, 01 Jun 2022 02:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=XttoVUO90FAY6RMSblaoILEdEx/5rt4uyEIdiqVinMQ=;
+ b=b6+E7ig7gR9E96W1wqg8sLl/9krzAsE4kR98TEOBWHupnr945BjfghpKzd4QljCRza
+ lrhcPimTjJzuXv0eyg+PMboAJYMfpv9NHZ3cLyIiVQtXSjbyYvN++dzIzh8Q4MbqGHhp
+ uTvzudJr5678rgR+6v+g1ljZaP48z0ZH8wOXe6D8w6Fr83RD9jDPDDLTlgqBS4n7eFTD
+ gFNpUQ187zx7SxlOfIOQoTwsyTPkRvb6LcRJ6oRdF6p/D0digjnC2xMatvmufafO/YIW
+ +C2ByDs+i+2D39JYiQVCfKLd1REop734uyV7bHfZkCF06Liv+ESq7quym4NruY0ifK8o
+ mBtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=S8SLZ/gpBAnuu2nonvDs04H2zRpGtTgk07BIA/nAZcg=;
- b=j+BolYVPjJVjanjBWclRn0lUyjahZcXohhGWLbd/ESIKxgoPuMwW0F5T2K5hsuypIY
- tWHAke+Cq7/9H+3vzHX/mdZi4Uffxs3EAfe1LulFnqbX4Do/iJV2zhD/69EgFoc1HaFD
- oTVP2hU0OFMMteAIgj0WTz3pMcXMsENDOQ+1tTDClIjVQgUdNfAMzkL1abMZV4xNOrWV
- eg00IGQSwlRTQLIlRHLWoEMEq6s7UGYhSW1HTkb3CDDeEMevJgp/qwV26oqaRNLgZQrU
- MHB6KYeGL/TzKqYHY1nq3seFSDHUe1TXPR3v4plmejP5QHldA7kqzMxVdo3UDPwc8+S+
- eL9g==
-X-Gm-Message-State: AOAM533w7goGs5x0AJKqv7fTesqfEzTzVIN1+vknNWVm0cFil9aOs/rN
- 3XmpXdHLFIk2ZAXAx8k+Ca4izacYzAOes7AtTbXaJ8ejB2IusUsjPbspkTNO/YpnnS1XVQCAVBG
- guKvU3P+z71oLRyE=
-X-Received: by 2002:a5d:6f07:0:b0:20f:e7b6:60e9 with SMTP id
- ay7-20020a5d6f07000000b0020fe7b660e9mr36876424wrb.452.1654077126995; 
- Wed, 01 Jun 2022 02:52:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyfmJEhuKto8dWe9djv8V0HWrJDK7LLd/Gekw/NvZ02056FHNaptIVSZJ7/IPYBN3KebVhicw==
-X-Received: by 2002:a5d:6f07:0:b0:20f:e7b6:60e9 with SMTP id
- ay7-20020a5d6f07000000b0020fe7b660e9mr36876408wrb.452.1654077126724; 
- Wed, 01 Jun 2022 02:52:06 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:2600:951d:63df:c091:3b45?
- (p200300cbc7052600951d63dfc0913b45.dip0.t-ipconnect.de.
- [2003:cb:c705:2600:951d:63df:c091:3b45])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XttoVUO90FAY6RMSblaoILEdEx/5rt4uyEIdiqVinMQ=;
+ b=wW0L2ZOFSHsPjlSMKDdRX2p0q+l+0P//pwVRsB5aXitRjDKw6vbO/irvA62RZBKHBF
+ aQTYl+a2cnuFAlmsrg5gl1z/XXVynHNXRZhtww0xfOrp8n33mISY3iCTHpEouLMReG1h
+ EKj8RVfEZfpCaqDghabj0r6KLZrbPURky8/0caRZjLlHF4K0VKC3v+eDFZkS/15P6pC+
+ 8QSClxmND21CwPNrQD5tsHlu+Ht0xzXapFMC+UDdREcMK6sy8h+OIE77XonGPzlRfmcQ
+ yAmipTyQskh1f7WsCJR7RczM7MKkPbLT++o3HKz2BpngL5MfMbacA01NxXHk+nFY5Cjf
+ GYDQ==
+X-Gm-Message-State: AOAM530UhwEWY2nfeOx495QKmaLNsOc0Md7H6nASRDCUPddg3qUSgJWj
+ G/ECOiOfDzJCLPq88LOvxm8=
+X-Google-Smtp-Source: ABdhPJxw2UpAsNm+WfOA5dYVLRiojLhbW/f/AviXPqVwAv1dlhm8XnmZ5DIk8/DgQ0TL7JbcAVmXXQ==
+X-Received: by 2002:a05:6808:19a6:b0:32b:fc85:e0a7 with SMTP id
+ bj38-20020a05680819a600b0032bfc85e0a7mr9094974oib.48.1654077582472; 
+ Wed, 01 Jun 2022 02:59:42 -0700 (PDT)
+Received: from [192.168.10.102] ([152.250.93.219])
  by smtp.gmail.com with ESMTPSA id
- v19-20020a1cf713000000b0039c18d3fe27sm1361545wmh.19.2022.06.01.02.52.05
+ p14-20020a54460e000000b003289f51c2d7sm654751oip.34.2022.06.01.02.59.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 02:52:06 -0700 (PDT)
-Message-ID: <5b19dd64-d6be-0371-da63-0dd0b78a3a5c@redhat.com>
-Date: Wed, 1 Jun 2022 11:52:05 +0200
+ Wed, 01 Jun 2022 02:59:42 -0700 (PDT)
+Message-ID: <28d5e774-c097-99ee-356c-2aa59602f181@gmail.com>
+Date: Wed, 1 Jun 2022 06:59:38 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
 Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
- thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
- richard.henderson@linaro.org, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220524190305.140717-1-mjrosato@linux.ibm.com>
- <20220524190305.140717-3-mjrosato@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v6 2/8] target/s390x: add zpci-interp to cpu models
-In-Reply-To: <20220524190305.140717-3-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+To: Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, mopsfelder@gmail.com,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220531172711.94564-1-muriloo@linux.ibm.com>
+ <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
+ <20220601103825.498c378f@bahia>
+ <5076ea8a-428d-5aa2-1a8c-cd38bf67c7f9@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <5076ea8a-428d-5aa2-1a8c-cd38bf67c7f9@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,96 +98,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.05.22 21:02, Matthew Rosato wrote:
-> The zpci-interp feature is used to specify whether zPCI interpretation is
-> to be used for this guest.
-
-We have
-
-DEF_FEAT(SIE_PFMFI, "pfmfi", SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF
-interpretation facility")
-
-and
-
-DEF_FEAT(SIE_SIGPIF, "sigpif", SCLP_CPU, 12, "SIE: SIGP interpretation
-facility")
 
 
-Should we call this simply "zpcii" or "zpciif" (if the official name
-includes "Facility")
-
+On 6/1/22 06:25, Thomas Huth wrote:
+> On 01/06/2022 10.38, Greg Kurz wrote:
+>> On Wed, 1 Jun 2022 09:27:31 +0200
+>> Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>> On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
+>>>> Update max alias to power10 so users can take advantage of a more
+>>>> recent CPU model when '-cpu max' is provided.
+> ...
+>> We already have the concept of default CPU for the spapr
+>> machine types, that is usually popped up to the newer
+>> CPU model that is going to be supported in production.
+>> This goes with a bump of the machine type version as
+>> well for the sake of migration. This seems a lot more
+>> reliable than the "max" thingy IMHO.
+>>
+>> Unless there's a very important use case I'm missing,
+>> I'd rather kill the thing instead of trying to resurrect
+>> it.
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->  hw/s390x/s390-virtio-ccw.c          | 1 +
->  target/s390x/cpu_features_def.h.inc | 1 +
->  target/s390x/gen-features.c         | 2 ++
->  target/s390x/kvm/kvm.c              | 1 +
->  4 files changed, 5 insertions(+)
+> It's about making ppc similar to other architectures, which
+> have "-cpu max" as well, see:
 > 
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 047cca0487..b33310a135 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -806,6 +806,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
->      static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
->  
->      ccw_machine_7_1_instance_options(machine);
-> +    s390_cpudef_featoff_greater(14, 1, S390_FEAT_ZPCI_INTERP);
->      s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
->  }
->  
-> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
-> index e86662bb3b..4ade3182aa 100644
-> --- a/target/s390x/cpu_features_def.h.inc
-> +++ b/target/s390x/cpu_features_def.h.inc
-> @@ -146,6 +146,7 @@ DEF_FEAT(SIE_CEI, "cei", SCLP_CPU, 43, "SIE: Conditional-external-interception f
->  DEF_FEAT(DAT_ENH_2, "dateh2", MISC, 0, "DAT-enhancement facility 2")
->  DEF_FEAT(CMM, "cmm", MISC, 0, "Collaborative-memory-management facility")
->  DEF_FEAT(AP, "ap", MISC, 0, "AP instructions installed")
-> +DEF_FEAT(ZPCI_INTERP, "zpci-interp", MISC, 0, "zPCI interpretation")
+>   https://gitlab.com/qemu-project/qemu/-/issues/1038
+> 
+> It would be nice to get something similar on ppc.
 
-How is this feature exposed to the guest, meaning, how can the guest
-sense support?
 
-Just a gut feeling: does this toggle enable the host to use
-interpretation and the guest cannot really determine the difference
-whether it's enabled or not? Then, it's not a guest CPU feature. But
-let's hear first what this actually enables :)
+I agree that it's preferable to fix it.
 
->  
->  /* Features exposed via the PLO instruction. */
->  DEF_FEAT(PLO_CL, "plo-cl", PLO, 0, "PLO Compare and load (32 bit in general registers)")
-> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-> index c03ec2c9a9..f991646c01 100644
-> --- a/target/s390x/gen-features.c
-> +++ b/target/s390x/gen-features.c
-> @@ -554,6 +554,7 @@ static uint16_t full_GEN14_GA1[] = {
->      S390_FEAT_HPMA2,
->      S390_FEAT_SIE_KSS,
->      S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
-> +    S390_FEAT_ZPCI_INTERP,
->  };
->  
->  #define full_GEN14_GA2 EmptyFeat
-> @@ -650,6 +651,7 @@ static uint16_t default_GEN14_GA1[] = {
->      S390_FEAT_GROUP_MSA_EXT_8,
->      S390_FEAT_MULTIPLE_EPOCH,
->      S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
-> +    S390_FEAT_ZPCI_INTERP,
+This is how I would implement -cpu max today:
 
-I'm curious, should we really add this to the default model?
+pseries (default ppc64 machine):
+  - kvm: equal to -cpu host
+  - tcg: the latest IBM chip available (POWER10 today)
 
-This implies that on any setup where we don't have zpci interpretation
-support (including missing kernel support), that a basic "-cpu z14" will
-no longer work with the new machine type.
+powernv8: POWER8E
+powernv9: POWER9
+powernv10: POWER10
 
-If, OTOH, we expect this feature to be around in any sane installation,
-then it's good to include it in the
+pseries requires more work because the -cpu max varies with the host CPU
+when running with KVM.
 
--- 
+About the implementation, for the bug fix it's fine to just hardcode the alias
+for each machine-CPU pair. In the long run I would add more code to make -cpu max
+always point to the current default CPU of the chosen machine by default, with
+each machine overwriting it if needed. This would prevent this alias to be
+deprecated over time because we forgot to change it after adding new CPUs.
+
+For qemu-system-ppc the default machine seems to be g3beige and its default
+CPU is PowerPC 750. I would set -cpu max to this CPU in this case. Matter of
+fact I would attempt to set -cpu max = default cpu for all 32 bits CPUs for
+simplicity. This is also outside of gitlab 1038 as well since the bug isn't
+mentioning 32 bit machines, hence can be done later.
+
+
 Thanks,
 
-David / dhildenb
+Daniel
+
+
+> 
+> By the way, the warnings that you currently get when running with
+> TCG are quite ugly, too:
+> 
+> $ ./qemu-system-ppc64
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-cfpc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-sbbc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ibs=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ccf-assist=on
+> 
+> Maybe these could get fixed with a proper "max" CPU in TCG
+> mode, too?
+> 
+>   Thomas
+> 
 
 
