@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFFD53AE6F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 23:14:32 +0200 (CEST)
-Received: from localhost ([::1]:41450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FB253AE81
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 23:25:55 +0200 (CEST)
+Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwVfi-0004BI-PI
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 17:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59876)
+	id 1nwVqk-00046d-5f
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 17:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nwVaE-0000vR-Cm; Wed, 01 Jun 2022 17:08:50 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:41055)
+ id 1nwVaG-0000yj-KT; Wed, 01 Jun 2022 17:08:52 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:35037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nwVaC-00023B-J9; Wed, 01 Jun 2022 17:08:50 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id C48BE5C0189;
- Wed,  1 Jun 2022 17:08:47 -0400 (EDT)
+ id 1nwVaE-00023Z-Od; Wed, 01 Jun 2022 17:08:52 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id F30FE5C01C7;
+ Wed,  1 Jun 2022 17:08:49 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 01 Jun 2022 17:08:47 -0400
+ by compute3.internal (MEProxy); Wed, 01 Jun 2022 17:08:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1654117727; x=
- 1654204127; bh=32MG30NPQIOLOGllSPhwBfN4MhZO0P+vsJU93AjFWio=; b=g
- /VsnLoBPjd1zXrAa0oRXCZFfQtrDvhaOFc6BoKt/Cuancveu2DxZT65/udHq3Yat
- oG7m/zBbomJC6V2qFNzsEq+//w4YfPtdsYnDx8LY+nGmM1mD5ncdZF38lSVR71q7
- +8xSQ2zDdUkjVjCJj5ElKErqAWxmRhfthgJCfDVShU4hanPKEEE/CLJ7tTGtYAkz
- KdRH8/dl6XobnQIMH2BhBc9mAeyNL9LZQGchYKzzwWwDB0WXCD9WlFnZ8fSmH4Hw
- wBk9LYvIluJeiLLUGl2X4pPccL/LkWGm+fPa3QOlGs3lpaclgSzCMZcKD0Fs+eeP
- lM/CsUZwv97m1nJdP+Vpw==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1654117729; x=
+ 1654204129; bh=60NMw08L2ryECnMFT4jorObfQQnqhXdOTETyqAobztw=; b=q
+ 6yY6WdSTT33aC9n9K9qWg5bdk5PRZX0NGvZMv0G/144haYGrGWoX5/lC9G80jVUf
+ evY/y4DFYRtVGpKZlN7+IEywxM2Wb4yrjGptGi8sYEEaH29xPmiPbAAS80WEULOW
+ fk6ZEJac339OP17HZs5pGdIDge4OiRG0Ky5Ub14Yacwj3NKDtS8bx24ofcrCDlsc
+ dWLiLWrPTTA0Zs4etGjINnRwg8nAfSJtu4xVP6UYMFo+tsz1fFyndM03zAPCwBE8
+ +X/VvGrL4EQ5X8tOqmPiO9wECPo8XvHXl11Th4SfmQqd68ntfo3jJn+wuLg3901S
+ +8hYARPbV1n9gFDrHF2yw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1654117727; x=1654204127; bh=32MG30NPQIOLO
- GllSPhwBfN4MhZO0P+vsJU93AjFWio=; b=uBLHB19sSIhBUzqkU5P8C38jQ2QgF
- gzMySXMnijV1nDWQy9Yj0sOw5eDLd0hzx+mH3yEZn28nFNLR51u2CVOg6XeDJuUv
- MuevGw1mL/r5uPfnLwlrkriBef4CGjp1eJDwF5fEiEmjR1y/wLv8A+9j0MFWELts
- fJR9ltI31Ch5uyYfRPqytxfEtZq55zodhvme1ggNCJ/nBAUmXHBcNFc8F3t/r5/Q
- HFncs6e/9ltAXP28I4H9M+cfdr/WXPrku+EBamdrturPYGW/b0mmKxNO5xCoEWBD
- KVx/ZVGr2jlgiA/eLN/ddmbo+4/T1dYKrR4rcwsEUtXyxmNarDZFS7SxQ==
-X-ME-Sender: <xms:X9WXYhvsRzb3DRtRQKJERQdwNOMbSZhTLD5ta8fmjMvUftCBtKL1lw>
- <xme:X9WXYqflmRUV8H4NZbyA7bwV58SjSgGfQJqIBD0sD1mwBBuYkbJZO-7DOwZrDZcHU
- jnLaIURGUfG4BDXhQU>
-X-ME-Received: <xmr:X9WXYkwqL_Zqbzg3w41IicRNhGMY0WvgRyUZ3-MiJjA_Yt06jFGyb904oN_dT22Dd_595MIHt111XMjaMtm4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledtgdduheeiucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm1; t=1654117729; x=1654204129; bh=60NMw08L2ryEC
+ nMFT4jorObfQQnqhXdOTETyqAobztw=; b=Ouai+9FojQZQD7FJqAJ9p+IeazM7i
+ rIaQsPqWx28eX1851IURUqow45zjjUUchtb2pqi0viYN9WJHL64Fk2JDOVXftWF+
+ JCGdfT5QmIGZezWi1mh6yQcCoCYIvT+1xYb9qDq0dalj0bz4zJOWiAuj+WCzHAi9
+ uF1KDpzDRIeftzVju1EiY3aAg1GxQakU2uyexU3UYJKi1ry3+TMor50CQnr22UsS
+ 3hrIH5T+s7xMdultVtTNTQ2O0hGhAnAfoZIbzMcxIN11QCAvNdD7UVc93+/36fK3
+ luLwbfxu8We2WYmvHhFH2aJWTW9wQvtZJPFSOn8RG5fwwGyWTxtJGu6jw==
+X-ME-Sender: <xms:YdWXYqkTTzcilhkxg8KX4Yzyqd3L3JdmEz64ufPuuUrGSG2EdyKoaA>
+ <xme:YdWXYh1RF44KhCeV1WY9MWr_nUEkn2V4EiRMoMLm9Cx-1i9N0sWOSkqLm95qokkkr
+ aF4EYkLmZlQD-xwr3o>
+X-ME-Received: <xmr:YdWXYorv6VYxRz6y7YWdeOpkI9FeJUpJM2x5BMfk9RYtIA2VwSynN2iL0LEsFzXlWIVdd9PRTZLkitXagLvp>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledtgdduheehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
- udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ udegnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:X9WXYoO2CF0N3orW1K0nH39RFlRn1CSeiPuMmi-GU0xa3vUwkEPwnQ>
- <xmx:X9WXYh8st4cMRBCweGXdEHmlotVzZ_rEBpp6xOcXVtTNbzSn6-HLKw>
- <xmx:X9WXYoU_HGo_B1iRbFdAVBFAs4XGJUJ2hGvJcaGpJyXkd_9wuwnlrg>
- <xmx:X9WXYoU9hRCJT1VJvsh6eiX5etbYNevzw4q7SwLZOg3PjyP7yO8r7Q>
+X-ME-Proxy: <xmx:YdWXYull7PJWTjYngd2KiPAWYS2m0ysloB7fZBxuZ46YPTS1qqrHkQ>
+ <xmx:YdWXYo1-Rg9rj_k1ei6X8LmxaJ_iqsXq9lKacWHfuPJWRzPZ0S_b6A>
+ <xmx:YdWXYlssmUcMEcyUHgcRMvHHQGU-eSaKOrwZi2sbBZIl-sienP4UqA>
+ <xmx:YdWXYtsLD9iddB95wJ4uouYWKXeeH2lBIi1KUBil_kjzLGQmX9bm0w>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jun 2022 17:08:45 -0400 (EDT)
+ 1 Jun 2022 17:08:47 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
@@ -76,10 +76,9 @@ Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
  Joel Stanley <joel@jms.id.au>,
  Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [RFC PATCH v2 5/6] hw/i2c/aspeed: add slave device in old register
- mode
-Date: Wed,  1 Jun 2022 23:08:30 +0200
-Message-Id: <20220601210831.67259-6-its@irrelevant.dk>
+Subject: [RFC PATCH v2 6/6] hw/misc: add a toy i2c echo device [DO NOT PULL]
+Date: Wed,  1 Jun 2022 23:08:31 +0200
+Message-Id: <20220601210831.67259-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601210831.67259-1-its@irrelevant.dk>
 References: <20220601210831.67259-1-its@irrelevant.dk>
@@ -112,192 +111,200 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add slave mode functionality for the Aspeed I2C controller in old
-register mode. This is implemented by realizing an I2C slave device
-owned by the I2C controller and attached to its own bus.
+Add an example I2C device to demonstrate how a slave may master the bus
+and send data asynchronously to another slave.
 
-The I2C slave device only implements asynchronous sends on the bus, so
-slaves not supporting that will not be able to communicate with it.
+The device will echo whatever it is sent to the device identified by the
+first byte received.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/i2c/aspeed_i2c.c         | 94 +++++++++++++++++++++++++++++++++----
- include/hw/i2c/aspeed_i2c.h |  8 ++++
- 2 files changed, 92 insertions(+), 10 deletions(-)
+ hw/misc/i2c-echo.c  | 162 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build |   2 +
+ 2 files changed, 164 insertions(+)
+ create mode 100644 hw/misc/i2c-echo.c
 
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 5a7eb5579b01..5904d5567bd2 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -33,7 +33,7 @@
- #include "trace.h"
- 
- #define ASPEED_I2C_TRACE_INTR_TEMPLATE \
--    "pktdone|nak|ack|done|normal|abnormal|"
-+    "pktdone|nak|ack|done|slave-match|normal|abnormal|"
- 
- static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
- {
-@@ -68,6 +68,10 @@ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
-             pstrcat(buf, BUF_SIZE, "done|");
-         }
- 
-+        if (ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, SLAVE_ADDR_RX_MATCH)) {
-+            pstrcat(buf, BUF_SIZE, "slave-match|");
+diff --git a/hw/misc/i2c-echo.c b/hw/misc/i2c-echo.c
+new file mode 100644
+index 000000000000..27992eff8c5b
+--- /dev/null
++++ b/hw/misc/i2c-echo.c
+@@ -0,0 +1,162 @@
++#include "qemu/osdep.h"
++#include "qemu/timer.h"
++#include "qemu/main-loop.h"
++#include "block/aio.h"
++#include "hw/i2c/i2c.h"
++
++#define TYPE_I2C_ECHO "i2c-echo"
++OBJECT_DECLARE_SIMPLE_TYPE(I2CEchoState, I2C_ECHO)
++
++enum i2c_echo_state {
++    I2C_ECHO_STATE_IDLE,
++    I2C_ECHO_STATE_REQUEST_MASTER,
++    I2C_ECHO_STATE_START_SEND,
++    I2C_ECHO_STATE_ACK,
++};
++
++typedef struct I2CEchoState {
++    I2CSlave parent_obj;
++
++    I2CBus *bus;
++
++    enum i2c_echo_state state;
++    QEMUBH *bh;
++
++    unsigned int pos;
++    uint8_t data[3];
++} I2CEchoState;
++
++static void i2c_echo_bh(void *opaque)
++{
++    I2CEchoState *state = opaque;
++
++    switch (state->state) {
++    case I2C_ECHO_STATE_IDLE:
++        return;
++
++    case I2C_ECHO_STATE_REQUEST_MASTER:
++        i2c_bus_master(state->bus, state->bh);
++        state->state = I2C_ECHO_STATE_START_SEND;
++        return;
++
++    case I2C_ECHO_STATE_START_SEND:
++        if (i2c_start_send_async(state->bus, state->data[0])) {
++            goto release_bus;
 +        }
 +
-         if (SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, NORMAL_STOP)) {
-             pstrcat(buf, BUF_SIZE, "normal|");
-         }
-@@ -710,9 +714,7 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bus, hwaddr offset,
-     switch (offset) {
-     case A_I2CD_FUN_CTRL:
-         if (SHARED_FIELD_EX32(value, SLAVE_EN)) {
--            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
--                          __func__);
--            break;
-+            i2c_slave_set_address(bus->slave, bus->regs[R_I2CD_DEV_ADDR]);
-         }
-         bus->regs[R_I2CD_FUN_CTRL] = value & 0x0071C3FF;
-         break;
-@@ -733,12 +735,14 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bus, hwaddr offset,
-             bus->controller->intr_status &= ~(1 << bus->id);
-             qemu_irq_lower(aic->bus_get_irq(bus));
-         }
--        if (handle_rx && (SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD,
--                                                  M_RX_CMD) ||
--                      SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD,
--                                              M_S_RX_CMD_LAST))) {
--            aspeed_i2c_handle_rx_cmd(bus);
--            aspeed_i2c_bus_raise_interrupt(bus);
-+        if (handle_rx) {
-+            if (SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD, M_RX_CMD) ||
-+                SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD, M_S_RX_CMD_LAST)) {
-+                aspeed_i2c_handle_rx_cmd(bus);
-+                aspeed_i2c_bus_raise_interrupt(bus);
-+            } else if (aspeed_i2c_get_state(bus) == I2CD_STXD) {
-+                i2c_ack(bus->bus);
-+            }
-         }
-         break;
-     case A_I2CD_DEV_ADDR:
-@@ -1054,6 +1058,73 @@ static const TypeInfo aspeed_i2c_info = {
-     .abstract   = true,
- };
- 
-+static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event event)
++        state->pos++;
++        state->state = I2C_ECHO_STATE_ACK;
++        return;
++
++    case I2C_ECHO_STATE_ACK:
++        if (state->pos > 2) {
++            break;
++        }
++
++        if (i2c_send_async(state->bus, state->data[state->pos++])) {
++            break;
++        }
++
++        return;
++    }
++
++
++    i2c_end_transfer(state->bus);
++release_bus:
++    i2c_bus_release(state->bus);
++
++    state->state = I2C_ECHO_STATE_IDLE;
++}
++
++static int i2c_echo_event(I2CSlave *s, enum i2c_event event)
 +{
-+    BusState *qbus = qdev_get_parent_bus(DEVICE(slave));
-+    AspeedI2CBus *bus = ASPEED_I2C_BUS(qbus->parent);
-+    uint32_t reg_intr_sts = aspeed_i2c_bus_intr_sts_offset(bus);
-+    uint32_t reg_byte_buf = aspeed_i2c_bus_byte_buf_offset(bus);
-+    uint32_t value;
++    I2CEchoState *state = I2C_ECHO(s);
 +
 +    switch (event) {
-+    case I2C_START_SEND_ASYNC:
-+        value = SHARED_ARRAY_FIELD_EX32(bus->regs, reg_byte_buf, TX_BUF);
-+        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, value << 1);
++    case I2C_START_RECV:
++        state->pos = 0;
 +
-+        ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, SLAVE_ADDR_RX_MATCH, 1);
-+        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, RX_DONE, 1);
++        break;
 +
-+        aspeed_i2c_set_state(bus, I2CD_STXD);
++    case I2C_START_SEND:
++        state->pos = 0;
 +
 +        break;
 +
 +    case I2C_FINISH:
-+        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, NORMAL_STOP, 1);
++        state->pos = 0;
++        state->state = I2C_ECHO_STATE_REQUEST_MASTER;
++        qemu_bh_schedule(state->bh);
 +
-+        aspeed_i2c_set_state(bus, I2CD_IDLE);
++        break;
 +
++    case I2C_NACK:
 +        break;
 +
 +    default:
 +        return -1;
 +    }
 +
-+    aspeed_i2c_bus_raise_interrupt(bus);
++    return 0;
++}
++
++static uint8_t i2c_echo_recv(I2CSlave *s)
++{
++    I2CEchoState *state = I2C_ECHO(s);
++
++    if (state->pos > 2) {
++        return 0xff;
++    }
++
++    return state->data[state->pos++];
++}
++
++static int i2c_echo_send(I2CSlave *s, uint8_t data)
++{
++    I2CEchoState *state = I2C_ECHO(s);
++
++    if (state->pos > 2) {
++        return -1;
++    }
++
++    state->data[state->pos++] = data;
 +
 +    return 0;
 +}
 +
-+static void aspeed_i2c_bus_slave_send_async(I2CSlave *slave, uint8_t data)
++static void i2c_echo_realize(DeviceState *dev, Error **errp)
 +{
-+    BusState *qbus = qdev_get_parent_bus(DEVICE(slave));
-+    AspeedI2CBus *bus = ASPEED_I2C_BUS(qbus->parent);
-+    uint32_t reg_intr_sts = aspeed_i2c_bus_intr_sts_offset(bus);
-+    uint32_t reg_byte_buf = aspeed_i2c_bus_byte_buf_offset(bus);
++    I2CEchoState *state = I2C_ECHO(dev);
++    BusState *bus = qdev_get_parent_bus(dev);
 +
-+    SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, data);
-+    SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, RX_DONE, 1);
++    state->bus = I2C_BUS(bus);
++    state->bh = qemu_bh_new(i2c_echo_bh, state);
 +
-+    aspeed_i2c_bus_raise_interrupt(bus);
++    return;
 +}
 +
-+static void aspeed_i2c_bus_slave_class_init(ObjectClass *klass, void *data)
++static void i2c_echo_class_init(ObjectClass *oc, void *data)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    I2CSlaveClass *sc = I2C_SLAVE_CLASS(klass);
++    I2CSlaveClass *sc = I2C_SLAVE_CLASS(oc);
++    DeviceClass *dc = DEVICE_CLASS(oc);
 +
-+    dc->desc = "Aspeed I2C Bus Slave";
++    dc->realize = i2c_echo_realize;
 +
-+    sc->event = aspeed_i2c_bus_slave_event;
-+    sc->send_async = aspeed_i2c_bus_slave_send_async;
++    sc->event = i2c_echo_event;
++    sc->recv = i2c_echo_recv;
++    sc->send = i2c_echo_send;
 +}
 +
-+static const TypeInfo aspeed_i2c_bus_slave_info = {
-+    .name           = TYPE_ASPEED_I2C_BUS_SLAVE,
-+    .parent         = TYPE_I2C_SLAVE,
-+    .instance_size  = sizeof(AspeedI2CBusSlave),
-+    .class_init     = aspeed_i2c_bus_slave_class_init,
++static const TypeInfo i2c_echo = {
++    .name = TYPE_I2C_ECHO,
++    .parent = TYPE_I2C_SLAVE,
++    .instance_size = sizeof(I2CEchoState),
++    .class_init = i2c_echo_class_init,
 +};
 +
- static void aspeed_i2c_bus_reset(DeviceState *dev)
- {
-     AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
-@@ -1084,6 +1155,8 @@ static void aspeed_i2c_bus_realize(DeviceState *dev, Error **errp)
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- 
-     s->bus = i2c_init_bus(dev, name);
-+    s->slave = i2c_slave_create_simple(s->bus, TYPE_ASPEED_I2C_BUS_SLAVE,
-+                                       0xff);
- 
-     memory_region_init_io(&s->mr, OBJECT(s), &aspeed_i2c_bus_ops,
-                           s, name, aic->reg_size);
-@@ -1243,6 +1316,7 @@ static const TypeInfo aspeed_1030_i2c_info = {
- static void aspeed_i2c_register_types(void)
- {
-     type_register_static(&aspeed_i2c_bus_info);
-+    type_register_static(&aspeed_i2c_bus_slave_info);
-     type_register_static(&aspeed_i2c_info);
-     type_register_static(&aspeed_2400_i2c_info);
-     type_register_static(&aspeed_2500_i2c_info);
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index 03fe829a3a57..9e88f086131a 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -223,6 +223,9 @@ struct AspeedI2CBus {
- 
-     struct AspeedI2CState *controller;
- 
-+    /* slave mode */
-+    I2CSlave *slave;
++static void register_types(void)
++{
++    type_register_static(&i2c_echo);
++}
 +
-     MemoryRegion mr;
++type_init(register_types);
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 0135d1975ceb..4132fe5e0bf7 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -125,6 +125,8 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
  
-     I2CBus *bus;
-@@ -251,6 +254,11 @@ struct AspeedI2CState {
-     AddressSpace dram_as;
- };
+ softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
  
-+#define TYPE_ASPEED_I2C_BUS_SLAVE "aspeed.i2c.slave"
-+OBJECT_DECLARE_SIMPLE_TYPE(AspeedI2CBusSlave, ASPEED_I2C_BUS_SLAVE)
-+struct AspeedI2CBusSlave {
-+    I2CSlave i2c;
-+};
++softmmu_ss.add(when: 'CONFIG_I2C', if_true: files('i2c-echo.c'))
++
+ specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
  
- struct AspeedI2CClass {
-     SysBusDeviceClass parent_class;
+ specific_ss.add(when: 'CONFIG_IMX', if_true: files('imx6_src.c'))
 -- 
 2.36.1
 
