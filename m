@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9AA53AC91
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:15:36 +0200 (CEST)
-Received: from localhost ([::1]:41988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C3853ACA5
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:21:58 +0200 (CEST)
+Received: from localhost ([::1]:50574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwSsZ-0003Pn-Rf
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:15:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51088)
+	id 1nwSyj-0001bj-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwSjH-000150-7u
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:05:59 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40881)
+ id 1nwSjG-000121-Bz
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:05:58 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:33585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwSjF-0004wj-Iq
+ id 1nwSjE-0004xW-Sc
  for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:05:58 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id fu3so3885470ejc.7
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 11:05:57 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id h19so3311435edj.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 11:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nq8yzeDa35nazBz+vDIGk+SXL2jvpKA5lHmDy5gS1Bw=;
- b=CrBQ0TrlEEV9NsWJg2YhbEt04hD0irzVXkhXQVhGvGQeWKEKKCqIGAzeU4zYDbNGe1
- ZcpP/JEHCJjwuxAag226puq+kAZQiOVNQfDmszckMIVFv/UsR/du0b6DJ44EsWz76y8T
- kjNfj4pX9B0o7NFZbqJcy8s2aLBNRjeixG89t8MZquW/Bq+QlhOqxqqs87V0IPq47War
- MmB4Awok2sXCDVAInBYCH+dOsT201dT7FHIEkFsWY5+gfPAm2sOOYFOgHpWXfnP5K6fM
- Uak9+vLLvjDFeytckczFwgZ49l0jwEuugy+lIJSDhTdU59a1FORhD7AcqjzDlCANyZfo
- IwwA==
+ bh=TX18g1pcfM6buz+YOOCEd0sWaEbIpDVPFIvDk4QPCv8=;
+ b=diOmfRqB0bQcMgD53dOozqbj7Q7eOIp0a1Yrf9ZQIn9CBGKuz7wvZbpeqCWggV9n9s
+ EzHo1SEnFe5biw3aYceQa6uHN1cbe7bY9E53O3UrZG1QJGP3e2A3HjsE6smL4uiDBAsj
+ OtbrWZA9l5nBnzsyxfON0uUMwk7p8fmEr4Vbqayy9O2UwRYQa2+6as7d5SgBTD0mfB/0
+ RrL22lPirw/vnJgGm1XLIBtNM24U43zPrvUE5qEkgCMu86iyKyqHNkn+k5DsLpJUKbt1
+ 7aq81Cv4oZ0/byFpZPWAqff0vxubEr5TJTXl0XGCp2OcB6zfxM80BiyymOd8F+/DlEDL
+ yKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Nq8yzeDa35nazBz+vDIGk+SXL2jvpKA5lHmDy5gS1Bw=;
- b=W7YC1fCt3d4UOVWO23xgqk0aBBy/d9RzrUtZA2PiKHOZJSp9Dw+dUCFu0l9n7ZZ+5c
- xdmXG1MfewTmEnFEsvSaitJ0vxv9xmTySZE4xa8ynSXx2Oi/hoTqYpfv1XqeQlVumKMF
- 1cYV+gjBwZgdDlKdkksgyaw1EGBI38pmun44L3rNhiYZp10aTQeAG2ySbLP/vVsJjhvc
- 5Yiu4FdNPRiVIksz9+qSUEF46q/K+ZZLv15yRKhXX8eTb1XEIKlc3B8+UHtYrGlX33Ok
- 933OmjOI0Fl9ptYY6DN7TGib4QSAsk6DZ8z48vgPktJbpw3rhPGvh2JlOlq/NtdJUQ86
- LS2g==
-X-Gm-Message-State: AOAM530qdlU2lNsI1epIBfuzUhGtJPaGIwi7X93q0YBUzyqKopBOTBWc
- l6NCany2EZJchQiWDQ/Oi33aWg==
-X-Google-Smtp-Source: ABdhPJwdGZKQmoh+6Ua2GnMiWXuMNU++OA4QcHjLrS9WLn9+5WZzRe0DYFap/TSVvW7UU5KZqkkgsw==
-X-Received: by 2002:a17:907:1b1a:b0:703:a290:98f1 with SMTP id
- mp26-20020a1709071b1a00b00703a29098f1mr701896ejc.418.1654106756917; 
+ bh=TX18g1pcfM6buz+YOOCEd0sWaEbIpDVPFIvDk4QPCv8=;
+ b=T28IKDuxeOLmfih4qiLPl0bKk6xU2FfT0vv04E9rsU7+heIh0cigNusNHraxvl4LMo
+ Fgo3BC8kZ9UPhTFLSf0dUsga+k7qbH8H0zfOJPIBhumQ3FJg2F0kkki+6YeUkQ3mNKEC
+ h0Jmrx4MP7CZEIfLb26pFLntFOwHEpexZ7zw9P4Dz/LBmlhtYFXopC8xB5dQ0xsNh0Oh
+ g11euoHoZ7aW+ysibsfBxAX12zF3eQSSjK2mXKx8ERSj0T9zSJuFVdyNs15gRztyGZCl
+ atNGoCVYhhxT+l6JgumP19vf0Yu75ZqnAePjmexYbAlEJUGe/JZiDbj+CKxXpUQYKzpm
+ s5nw==
+X-Gm-Message-State: AOAM531KLsMQBq5+2jxwN71jkSMsM223v5jw1ma9gZq/VNpdjo86LmpM
+ yKy1huGvP1uFrp+xQ39bqux3qMdqpHG75w==
+X-Google-Smtp-Source: ABdhPJwfWvSCI5uMwQaNQBHlc+qySFoS6ZVKpYCjI3Ygog6jjjdeFs0XwkPISGX6KRQZvArz6aoa7w==
+X-Received: by 2002:a05:6402:4307:b0:42d:e4eb:5b6b with SMTP id
+ m7-20020a056402430700b0042de4eb5b6bmr1007395edc.411.1654106756185; 
  Wed, 01 Jun 2022 11:05:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- e11-20020a056402104b00b0042dea3390cdsm1314880edu.49.2022.06.01.11.05.44
+ c18-20020a056402101200b0042dc6e250e3sm1303801edu.81.2022.06.01.11.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 01 Jun 2022 11:05:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E8B9B1FFC4;
- Wed,  1 Jun 2022 19:05:38 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0A40B1FFC5;
+ Wed,  1 Jun 2022 19:05:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 12/33] configure: do not define or use the CPP variable
-Date: Wed,  1 Jun 2022 19:05:16 +0100
-Message-Id: <20220601180537.2329566-13-alex.bennee@linaro.org>
+Subject: [PULL 13/33] build: clean up ninja invocation
+Date: Wed,  1 Jun 2022 19:05:17 +0100
+Message-Id: <20220601180537.2329566-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220601180537.2329566-1-alex.bennee@linaro.org>
 References: <20220601180537.2329566-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,55 +96,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Just hardcode $(CC) -E, it should be enough.
+Fix an incorrect "@@:" and move "-d keepdepfile" to the NINJAFLAGS variable.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220517092616.1272238-2-pbonzini@redhat.com>
+Message-Id: <20220517092616.1272238-3-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220527153603.887929-13-alex.bennee@linaro.org>
+Message-Id: <20220527153603.887929-14-alex.bennee@linaro.org>
 
-diff --git a/configure b/configure
-index f2baf2f526..c88ef94fec 100755
---- a/configure
-+++ b/configure
-@@ -376,7 +376,6 @@ fi
- ar="${AR-${cross_prefix}ar}"
- as="${AS-${cross_prefix}as}"
- ccas="${CCAS-$cc}"
--cpp="${CPP-$cc -E}"
- objcopy="${OBJCOPY-${cross_prefix}objcopy}"
- ld="${LD-${cross_prefix}ld}"
- ranlib="${RANLIB-${cross_prefix}ranlib}"
-@@ -2014,7 +2013,6 @@ echo "CC=$cc" >> $config_host_mak
- echo "AR=$ar" >> $config_host_mak
- echo "AS=$as" >> $config_host_mak
- echo "CCAS=$ccas" >> $config_host_mak
--echo "CPP=$cpp" >> $config_host_mak
- echo "OBJCOPY=$objcopy" >> $config_host_mak
- echo "LD=$ld" >> $config_host_mak
- echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
-@@ -2257,7 +2255,6 @@ preserve_env() {
- preserve_env AR
- preserve_env AS
- preserve_env CC
--preserve_env CPP
- preserve_env CFLAGS
- preserve_env CXX
- preserve_env CXXFLAGS
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index 2494ad9c25..17ccc76241 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -50,7 +50,7 @@ override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
- pvh.img: pvh.o pvh_main.o
+diff --git a/Makefile b/Makefile
+index b842dbccdb..fad312040f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -143,7 +143,7 @@ MAKE.q = $(findstring q,$(firstword $(filter-out --%,$(MAKEFLAGS))))
+ MAKE.nq = $(if $(word 2, $(MAKE.n) $(MAKE.q)),nq)
+ NINJAFLAGS = $(if $V,-v) $(if $(MAKE.n), -n) $(if $(MAKE.k), -k0) \
+         $(filter-out -j, $(lastword -j1 $(filter -l% -j%, $(MAKEFLAGS)))) \
+-
++        -d keepdepfile
+ ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
+ ninja-cmd-goals += $(foreach t, $(.check.build-suites), $(.check-$t.deps))
+ ninja-cmd-goals += $(foreach t, $(.bench.build-suites), $(.bench-$t.deps))
+@@ -160,8 +160,8 @@ $(ninja-targets): run-ninja
+ # --output-sync line.
+ run-ninja: config-host.mak
+ ifneq ($(filter $(ninja-targets), $(ninja-cmd-goals)),)
+-	+$(quiet-@)$(if $(MAKE.nq),@:, $(NINJA) -d keepdepfile \
+-	   $(NINJAFLAGS) $(sort $(filter $(ninja-targets), $(ninja-cmd-goals))) | cat)
++	+$(if $(MAKE.nq),@:,$(quiet-@)$(NINJA) $(NINJAFLAGS) \
++	   $(sort $(filter $(ninja-targets), $(ninja-cmd-goals))) | cat)
+ endif
+ endif
  
- %.o: %.S
--	$(call quiet-command,$(CPP) $(CPPFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
-+	$(call quiet-command,$(CC) $(CPPFLAGS) -E -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
- 
- %.o: %.c
- 	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
 -- 
 2.30.2
 
