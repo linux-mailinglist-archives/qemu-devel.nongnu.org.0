@@ -2,48 +2,197 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EF753ABA0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 19:16:42 +0200 (CEST)
-Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB78A53ABD1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 19:25:41 +0200 (CEST)
+Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwRxZ-0005Vp-Tq
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 13:16:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37874)
+	id 1nwS6G-0000YD-Vi
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 13:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nwRiA-0003TB-AB
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 13:00:46 -0400
-Received: from rev.ng ([5.9.113.41]:42659)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nwRiq-00047l-6s
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 13:01:28 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:18000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nwRi6-0003Tx-2e
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 13:00:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=n1wrPYpkMWUMFBl7ZjllqJVhJ4aM57+bfOngoV/pz/8=; b=qguXAZUCjdXs3jzuATG7JM5OxJ
- h4WDljy/gx0h9Qkjh8zB4Uk/eGak5lYuUYpErVptyxKSiKQt2lVRbB1jXHurVEjXxxIkSWqeYh+bQ
- j65vlULcJI9A+SorqI+mUc8QrgK1xBSIWbKAKALuKQK4hFhGFKOkho3lFKdDd35xof48=;
-To: qemu-devel@nongnu.org
-Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
- babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org,
- alex.bennee@linaro.org
-Subject: [PATCH v10 16/16] target/hexagon: import additional tests
-Date: Wed,  1 Jun 2022 19:00:13 +0200
-Message-Id: <20220601170013.160531-17-anjo@rev.ng>
-In-Reply-To: <20220601170013.160531-1-anjo@rev.ng>
-References: <20220601170013.160531-1-anjo@rev.ng>
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nwRim-0003Z1-Ik
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 13:01:27 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 251GNl8P021743;
+ Wed, 1 Jun 2022 17:00:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=0P0TZ+Ze1XmzG9xyd7M7Pl7d+NX5RSVk6u0kNu98c+w=;
+ b=XOyQyHd5iBhlM9XTkCX4MJzExQ6q5wPIdJvWLE2Ltlg9nrVlzKIfHvrA+lt4b9KxcAQH
+ Lw6IbocorB1EVS9YElEgUtfKsf4TQWoRTywZsy0Fawm+jBc/fN4tV3rkQ2oVEpKd8qg0
+ w3BgCmyBuMDKuNOo3rz9l8wCRIzaemPAp9yXrc29dUwaf8r+JLJ5m8YoJLuYnB9N10Wj
+ e6ezT3CCl39mjcqGHoaLZK5/q/rWYoHBSWXGdFuASMCgU/q7OT1Ogw0719CD99222RvS
+ j+zmnuNEEno0BPqvLBZlbbxrRr/+osyoMUJO/Mq+ohXN7sGwJinivp5HXKYPh9u7kZ5E gg== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gbgwm80d1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 01 Jun 2022 17:00:59 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 251H09px022593; Wed, 1 Jun 2022 17:00:57 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3gc8p42xux-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 01 Jun 2022 17:00:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=apI4fgdX9M2FpI1naJJlhjUsgq8KMYO+bu/QtqRxFuK9pHHG0atxw5ROA/1fE8dVfsA5OZ/ve2kk9a/q7YmBrGcLM/4Z1obwfo4xOInLUaVHBSGP8PgUA6NbZ8gJf4S2eGPLvqz72FwKpSlHXgM6ffBadU7hLQ7n/91qccgu02bI2oiVWVOBxieB4gZmAzy89ee/ABvLw1DLbHg3V06z4qFFb47YTr3n4to6u3c2BdrdPZfD0mqE3ms9coUFRHvrYJgpRweKeMCxUcYFGuzB7/WPu+69/rCLcPlr+AF2Abkb9ZWkIJzLymVpr0gcsfKTGWS2IExPd4JGdWlY0kKMfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0P0TZ+Ze1XmzG9xyd7M7Pl7d+NX5RSVk6u0kNu98c+w=;
+ b=Hw7Kt1bs5kSSnEvbLy52/Vksrr+K93lBerXp6heUKFYqT/XNlaB5XYM17duKUXxrNZRja38o5SXddvYk29iMys5iFOuEZEu9kWWdvT9tpO8V9MXQ9eWgbQLkI/K9SeCEIc6TeKKMNIX6OMSlWyGBhydeS8ULIX+GqnmCLoaGPtTQBQvlFQ9Eqv9Age+R0+DXhu5NvT2T4i/gEb6y0DkfC7HD+wGb5LTCj4P/2A2D3VF8vzsAyPrtR7hemsA4q5pc2Ql9zIT3gSDp83uRBXsgZ5zCbZaqQhhIJRlepr2iqPf/Lgbl97cZ7oUTxfO+aI1UeJFqJFmfOJDylF90meQNkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0P0TZ+Ze1XmzG9xyd7M7Pl7d+NX5RSVk6u0kNu98c+w=;
+ b=WzVakXW0yMIdC4lihHTJdTsa/7xMP8ugjRuWGDg/l1atCN+M28XPf5XxXJQzhBUiCocQCsmflXw4P0adoSZDgiCdiX9NoU2dEIWrgzs/K/JBJP8CtrORH1qnAushx2vBAveB1Z1Zb/o65OdOR5h+byWG2kXyJN83Np6sJ0fKMNA=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by CH2PR10MB4263.namprd10.prod.outlook.com (2603:10b6:610:a6::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Wed, 1 Jun
+ 2022 17:00:55 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::e9cb:e1ca:8189:f191]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::e9cb:e1ca:8189:f191%7]) with mapi id 15.20.5293.019; Wed, 1 Jun 2022
+ 17:00:55 +0000
+From: Jag Raman <jag.raman@oracle.com>
+To: Alex Williamson <alex.williamson@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, John Johnson <john.g.johnson@oracle.com>
+CC: Stefan Hajnoczi <stefanha@gmail.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel
+ <qemu-devel@nongnu.org>, "f4bug@amsat.org" <f4bug@amsat.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "marcandre.lureau@redhat.com"
+ <marcandre.lureau@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "eduardo@habkost.net" <eduardo@habkost.net>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "imammedo@redhat.com"
+ <imammedo@redhat.com>, "peterx@redhat.com" <peterx@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, Elena Ufimtseva
+ <elena.ufimtseva@oracle.com>, Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
+Thread-Topic: [PATCH v10 13/14] vfio-user: handle device interrupts
+Thread-Index: AQHYb4NRI47IPGjvqEq+Oet+ENycma0vr36AgAlwOACAAFZKAIAADqgAgAAL2QCAAULHAA==
+Date: Wed, 1 Jun 2022 17:00:54 +0000
+Message-ID: <B3FC4541-1DB2-4C1F-8CB5-01D8771C8803@oracle.com>
+References: <cover.1653404595.git.jag.raman@oracle.com>
+ <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
+ <Yo5DBb8i5SMbDKnq@stefanha-x1.localdomain>
+ <E6AB9FA3-6580-44C6-93FA-AFC19477C296@oracle.com>
+ <20220531141046.04b448e5.alex.williamson@redhat.com>
+ <CAJSP0QU13=fLTVEjE1JbkOef5im4Dwb8x3xhpYYd7KPRJjav_Q@mail.gmail.com>
+ <20220531154538.6d002124.alex.williamson@redhat.com>
+In-Reply-To: <20220531154538.6d002124.alex.williamson@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.80.82.1.1)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 85fb7366-db73-490d-0a56-08da43f04aa3
+x-ms-traffictypediagnostic: CH2PR10MB4263:EE_
+x-microsoft-antispam-prvs: <CH2PR10MB4263EE64F5BB31C8FD0D22A090DF9@CH2PR10MB4263.namprd10.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: w2QZ84yNyr3h+LVxUS6XvL+ySP8tuOqLIV6MJ3JvjwbffBX12xYPQMLlIcmGScoJMfFW+sDBAD22OyS7svBSaVctUndLB9z1olQ18SZFUz7K754hMD4lTq0uqBTud/2gZ0Km18PUEwS0AorfI899E3PaaOvrf62kaftI21sfFFXePGD9n9aM2y8IlTsM6vHSaKYJQvf319fNy8XEoNpgpf94CtKfTKbyZTUbtCpWQ8NL9PcVH0IjQgOTqWkjdVjaZQRPj+lrLmXSHe7B1iRqs970o6azewIw8h4hg324djS8EUl4QAqOV8c4umlw3GbjA477DUew0fssNyKSAk/wxIdaU4O9O1pdOgAbRIgxQ3+q88YNbqeDPWcAAmAO7OmUOZnshNhu6L88fnRj3hZmYzp9RkjcO3iF/yv872fri32es3R4QbwuknD1QEX/5yGtBnr/EFfe2J4+OQeVCi2qx5NId2veyvhFPkRFhRqq3SHI1jejcFnJjjK9cuWELOXcaU2aywkQocJQHNlslBuWPUn4376Nih3rShSKLUhLaU07+vxBgHjlngbmfhqlSosnXAJ5ELiJENRhz8tbDUhqKadetyZ6nQmTG8wQ8HVKfWEflJjoVKFvFlmPGVqy6FEUvUnzHIpvnnzpEmkBaw6aKICTJEwXbFVfQTMm7R1X88QTCwd2ZuqiOHtSvmxHvjo0/PEOMRKhSZr7KaEftULZTHhnKNxuIgwELPdFjB/gPLc=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(110136005)(91956017)(6636002)(66556008)(64756008)(66446008)(6486002)(54906003)(66476007)(8676002)(4326008)(186003)(44832011)(86362001)(508600001)(76116006)(36756003)(66946007)(71200400001)(33656002)(38070700005)(122000001)(6506007)(316002)(2906002)(107886003)(53546011)(7416002)(8936002)(2616005)(38100700002)(6512007)(83380400001)(5660300002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MDZjN2xPanBnQjgydGJ3VXpVTllGZXB3VDAwV09PdkZLSC93VU1DL1BqeW1k?=
+ =?utf-8?B?L2dkTm9aS2xuRUhOMEFhejc2LzRMMVJnaUx2eWxwcnJQOVN0UU9vTG9INmJZ?=
+ =?utf-8?B?Yy9uUWFnM1FmMkJEOUhQbm5Gak5aMHpwWnZTUWViUGp5ZEV5NHAwNTArVzht?=
+ =?utf-8?B?cnhVMHJqNm5obWRNSVNpaC90dW83SWRyUldNanVLdDZzcnlJSFVlNmQxaGlt?=
+ =?utf-8?B?ZEFHY3RyOHdQT1UwUjZWZndELzhwdjhwWjhuLzBTa1lnd2EwTmVwU1MxSUhT?=
+ =?utf-8?B?RlZYZHVOb3B4RVVTQys2S1NBMTFxSVN1cjhMcWI1VG5YYU5pbzFZVkhCclBx?=
+ =?utf-8?B?Wlo0NUE0L1VZMWNCY2dYaFNhMWtKd1B1MGRLajltSlBFT1NmV2xOSHhPZ01i?=
+ =?utf-8?B?V1N6enM1Y1VzRWpkdGgyK09FWkwzelYzaDE1ajFheUJORlFhR2krMXV0MlJi?=
+ =?utf-8?B?RWJQa3ZMcFlvamxybnhlblljZVdTMXVLQUR1RDEzc3IyYllEM29iakNVQ09S?=
+ =?utf-8?B?M0kyVXZyb0hZRmxrdllRY1VCdzJoK294R0VLZ01BNnlJc1RVUmRCYnREU0g4?=
+ =?utf-8?B?bStmSlZMNGNnYXNRUHNuS3U2Q1dZSUZ4SzUyWUM0TWhXVmVpUzJqZDNhR1hG?=
+ =?utf-8?B?OWFscFF3WmFNTXFwSVdKK2xsdFczTS9CUUhJcFJuZFBCM01RajAxWjg1YWJJ?=
+ =?utf-8?B?emVvcUJibExNeEhoclp3Y3FIcWJYQzJJYS9tN24vU2Z2VDRPNm82MW9wa2JP?=
+ =?utf-8?B?aXBDV3NNMFh3Q3NkZmpGN0ZITWdneWh1RFNjR1ZFRU1JTnUxbnlsd2tucURN?=
+ =?utf-8?B?bFIzTkFma2ltOVV2L0F1UUozaGN3U2w0dEZKdStOZU05OHNBN2JDVE8vZDI3?=
+ =?utf-8?B?bXNlcTZCdllhQldoaHZhK09DRlV1cWcyT25BZGVsUGwxazlzaStIK29mbFlS?=
+ =?utf-8?B?MVh2aE12Szhic0RwbzJLZDF1UWRNNi9Wc1lpYnBrVytnMkk4WTMyUlFWR3Bv?=
+ =?utf-8?B?bkZCU2habjQrTkw3Y3h1Y3Vsdmg0dlVGWjMvQm9wVmlqbEkxUnN5OCtQOFow?=
+ =?utf-8?B?aFpWM1U3VHJodmtxdjBUUDB2eVBIMVJyb2tEdXRtNHBSVVYvdlB6bDh6YVQw?=
+ =?utf-8?B?L0ROZkNuMnI0dk5JdW9MSEhrVWRxenQxZWNSVTZ5N1VWY2E3c3BEZmo5bkJ1?=
+ =?utf-8?B?SmZTUXFuTHVNZE94aDhvN284VWpNbmZ3MXJRcWFSUzZ6a3BQZzZITE54cDdn?=
+ =?utf-8?B?SFhUdCtIZ3NEc1J4Q1E4bHJPTUVhcHZ5SVRkVnJ4eFZaSHY1MklaME92V2dI?=
+ =?utf-8?B?NTJ4RXhHa0xhanUzRzVEdE95cjRZNmZ6bFZ3ZlBJTW1zZm5nZXBoMTI0S2RD?=
+ =?utf-8?B?ZS9wU2xXckpUekpmT29VSWh6Qjd6LzBhak9RZHg4QldqSTF6RkdNNXJWaG9T?=
+ =?utf-8?B?bUM5NXdvdUhwYlkvWEhwdXFBQXpxVE5lU3o5VVFHbHQyQmFEN1I4UnRKQ2Jt?=
+ =?utf-8?B?ZVVGSzZ4UzJ6Q2dlQmdrbG43bWhwOWFLa0dKQzBPN2dwdllzcFpQRGdLa2th?=
+ =?utf-8?B?VkNRVytrOG9kNi9ZWHpaYXJZc0l5Vm52cHJQeXZkVVo2MkZiSVN4ZW5Sdm1Y?=
+ =?utf-8?B?ZXFmNksxL3AyVm5ZL1dsS01ibHdYVTVMMjdNZCtOWVJBVUR6MkI5RWUxZDJD?=
+ =?utf-8?B?M0NxV3lQM3dZaWdJTXBpMmd4akp6U1o0M2JLNUVjaDRGLzdUMW1ablVDc29V?=
+ =?utf-8?B?Z0ZGMU1kdGZPVUFtUk5Fd0ppWG0zYytZYkloNTQxTXhJTExXb3BOSThJblNx?=
+ =?utf-8?B?dDkvUmYxb1grWGMxTHVuMGZ6c1llMGU5dlZZeW42MklnNXRHYTRDblBsZXFC?=
+ =?utf-8?B?OXNMUjBJQ3VuQUNQQlpxdlE1ZXlTc1d1Q1JkSDdsVWZFNWhNQVVPRnNHUllt?=
+ =?utf-8?B?VlkwcWpjSHQ4bzZHekdSOENzbmlvY2ZjdXFLVEJtY0U4emtidGc2V1VVc01u?=
+ =?utf-8?B?NWRzLzB6V0pBUStGSEYvM1huV01tZDB5TXR1SDVMNEZvTDFyQWd3TTd6eFhu?=
+ =?utf-8?B?MTVWMldYSmgrdmlMcVIzZjArZk93RXR4MDFWK0xSd2NuWUJCYTNHb2RLa3l6?=
+ =?utf-8?B?c1ZSTklXMGdGSll0N01YSHVlRjM2N3Nzd3VZUzMzb042ckI2ZzZlUUkxeHlH?=
+ =?utf-8?B?dHFGVVhsREVmbW1JM0tjS0dCQmZzR3BGbmEvajdVL3N2NC9RVkxLU2FGRWw3?=
+ =?utf-8?B?S0FHWCtSdzMxTEZCLzQ0U2dIU3BUQllOTXc4eWEzYVhBL3RBeHlPQk9OZXUv?=
+ =?utf-8?B?R1Q0UmF2SlNpdVZibHp0dWdXK3pHY1pqQ1ZKMGdtM3RHWGorekNlNE5hM21v?=
+ =?utf-8?Q?BAQsMt/A9O7E0k7uUyzAAhFEYG65+lJ31RyCa?=
+Content-Type: multipart/alternative;
+ boundary="_000_B3FC45411DB24C1F8CB501D8771C8803oraclecom_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85fb7366-db73-490d-0a56-08da43f04aa3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2022 17:00:54.9288 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xguZnLzzA8e61tAUX49+dbqhbx628xcyCqI3OIMmFqir79z9Gcav1gzReZSi+jIUZhm32tmvrDeJDxWxchpH5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4263
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.874
+ definitions=2022-06-01_06:2022-06-01,
+ 2022-06-01 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=999
+ phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206010075
+X-Proofpoint-GUID: zn2C3pbc4VoXN64cfL5S5BmOlntrvxxg
+X-Proofpoint-ORIG-GUID: zn2C3pbc4VoXN64cfL5S5BmOlntrvxxg
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,1013 +208,262 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-From: Niccolò Izzo <nizzo@rev.ng>
+--_000_B3FC45411DB24C1F8CB501D8771C8803oraclecom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-Signed-off-by: Niccolò Izzo <nizzo@rev.ng>
-Signed-off-by: Anton Johansson <anjo@rev.ng>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
----
- tests/tcg/hexagon/Makefile.target  | 28 ++++++++++++-
- tests/tcg/hexagon/crt.S            | 14 +++++++
- tests/tcg/hexagon/test_abs.S       | 17 ++++++++
- tests/tcg/hexagon/test_bitcnt.S    | 40 +++++++++++++++++++
- tests/tcg/hexagon/test_bitsplit.S  | 22 ++++++++++
- tests/tcg/hexagon/test_call.S      | 64 ++++++++++++++++++++++++++++++
- tests/tcg/hexagon/test_clobber.S   | 29 ++++++++++++++
- tests/tcg/hexagon/test_cmp.S       | 31 +++++++++++++++
- tests/tcg/hexagon/test_dotnew.S    | 38 ++++++++++++++++++
- tests/tcg/hexagon/test_ext.S       | 13 ++++++
- tests/tcg/hexagon/test_fibonacci.S | 30 ++++++++++++++
- tests/tcg/hexagon/test_hl.S        | 16 ++++++++
- tests/tcg/hexagon/test_hwloops.S   | 19 +++++++++
- tests/tcg/hexagon/test_jmp.S       | 22 ++++++++++
- tests/tcg/hexagon/test_lsr.S       | 36 +++++++++++++++++
- tests/tcg/hexagon/test_mpyi.S      | 17 ++++++++
- tests/tcg/hexagon/test_packet.S    | 29 ++++++++++++++
- tests/tcg/hexagon/test_reorder.S   | 33 +++++++++++++++
- tests/tcg/hexagon/test_round.S     | 29 ++++++++++++++
- tests/tcg/hexagon/test_vavgw.S     | 31 +++++++++++++++
- tests/tcg/hexagon/test_vcmpb.S     | 30 ++++++++++++++
- tests/tcg/hexagon/test_vcmpw.S     | 30 ++++++++++++++
- tests/tcg/hexagon/test_vlsrw.S     | 20 ++++++++++
- tests/tcg/hexagon/test_vmaxh.S     | 35 ++++++++++++++++
- tests/tcg/hexagon/test_vminh.S     | 35 ++++++++++++++++
- tests/tcg/hexagon/test_vpmpyh.S    | 28 +++++++++++++
- tests/tcg/hexagon/test_vspliceb.S  | 31 +++++++++++++++
- 27 files changed, 766 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/hexagon/crt.S
- create mode 100644 tests/tcg/hexagon/test_abs.S
- create mode 100644 tests/tcg/hexagon/test_bitcnt.S
- create mode 100644 tests/tcg/hexagon/test_bitsplit.S
- create mode 100644 tests/tcg/hexagon/test_call.S
- create mode 100644 tests/tcg/hexagon/test_clobber.S
- create mode 100644 tests/tcg/hexagon/test_cmp.S
- create mode 100644 tests/tcg/hexagon/test_dotnew.S
- create mode 100644 tests/tcg/hexagon/test_ext.S
- create mode 100644 tests/tcg/hexagon/test_fibonacci.S
- create mode 100644 tests/tcg/hexagon/test_hl.S
- create mode 100644 tests/tcg/hexagon/test_hwloops.S
- create mode 100644 tests/tcg/hexagon/test_jmp.S
- create mode 100644 tests/tcg/hexagon/test_lsr.S
- create mode 100644 tests/tcg/hexagon/test_mpyi.S
- create mode 100644 tests/tcg/hexagon/test_packet.S
- create mode 100644 tests/tcg/hexagon/test_reorder.S
- create mode 100644 tests/tcg/hexagon/test_round.S
- create mode 100644 tests/tcg/hexagon/test_vavgw.S
- create mode 100644 tests/tcg/hexagon/test_vcmpb.S
- create mode 100644 tests/tcg/hexagon/test_vcmpw.S
- create mode 100644 tests/tcg/hexagon/test_vlsrw.S
- create mode 100644 tests/tcg/hexagon/test_vmaxh.S
- create mode 100644 tests/tcg/hexagon/test_vminh.S
- create mode 100644 tests/tcg/hexagon/test_vpmpyh.S
- create mode 100644 tests/tcg/hexagon/test_vspliceb.S
+DQoNCk9uIE1heSAzMSwgMjAyMiwgYXQgNTo0NSBQTSwgQWxleCBXaWxsaWFtc29uIDxhbGV4Lndp
+bGxpYW1zb25AcmVkaGF0LmNvbTxtYWlsdG86YWxleC53aWxsaWFtc29uQHJlZGhhdC5jb20+PiB3
+cm90ZToNCg0KT24gVHVlLCAzMSBNYXkgMjAyMiAyMjowMzoxNCArMDEwMA0KU3RlZmFuIEhham5v
+Y3ppIDxzdGVmYW5oYUBnbWFpbC5jb208bWFpbHRvOnN0ZWZhbmhhQGdtYWlsLmNvbT4+IHdyb3Rl
+Og0KDQpPbiBUdWUsIDMxIE1heSAyMDIyIGF0IDIxOjExLCBBbGV4IFdpbGxpYW1zb24NCjxhbGV4
+LndpbGxpYW1zb25AcmVkaGF0LmNvbTxtYWlsdG86YWxleC53aWxsaWFtc29uQHJlZGhhdC5jb20+
+PiB3cm90ZToNCg0KT24gVHVlLCAzMSBNYXkgMjAyMiAxNTowMTo1NyArMDAwMA0KSmFnIFJhbWFu
+IDxqYWcucmFtYW5Ab3JhY2xlLmNvbTxtYWlsdG86amFnLnJhbWFuQG9yYWNsZS5jb20+PiB3cm90
+ZToNCg0KT24gTWF5IDI1LCAyMDIyLCBhdCAxMDo1MyBBTSwgU3RlZmFuIEhham5vY3ppIDxzdGVm
+YW5oYUByZWRoYXQuY29tPG1haWx0bzpzdGVmYW5oYUByZWRoYXQuY29tPj4gd3JvdGU6DQoNCk9u
+IFR1ZSwgTWF5IDI0LCAyMDIyIGF0IDExOjMwOjMyQU0gLTA0MDAsIEphZ2FubmF0aGFuIFJhbWFu
+IHdyb3RlOg0KRm9yd2FyZCByZW1vdGUgZGV2aWNlJ3MgaW50ZXJydXB0cyB0byB0aGUgZ3Vlc3QN
+Cg0KU2lnbmVkLW9mZi1ieTogRWxlbmEgVWZpbXRzZXZhIDxlbGVuYS51ZmltdHNldmFAb3JhY2xl
+LmNvbTxtYWlsdG86ZWxlbmEudWZpbXRzZXZhQG9yYWNsZS5jb20+Pg0KU2lnbmVkLW9mZi1ieTog
+Sm9obiBHIEpvaG5zb24gPGpvaG4uZy5qb2huc29uQG9yYWNsZS5jb208bWFpbHRvOmpvaG4uZy5q
+b2huc29uQG9yYWNsZS5jb20+Pg0KU2lnbmVkLW9mZi1ieTogSmFnYW5uYXRoYW4gUmFtYW4gPGph
+Zy5yYW1hbkBvcmFjbGUuY29tPG1haWx0bzpqYWcucmFtYW5Ab3JhY2xlLmNvbT4+DQotLS0NCmlu
+Y2x1ZGUvaHcvcGNpL3BjaS5oICAgICAgICAgICAgICB8ICAxMyArKysrDQppbmNsdWRlL2h3L3Jl
+bW90ZS92ZmlvLXVzZXItb2JqLmggfCAgIDYgKysNCmh3L3BjaS9tc2kuYyAgICAgICAgICAgICAg
+ICAgICAgICB8ICAxNiArKy0tDQpody9wY2kvbXNpeC5jICAgICAgICAgICAgICAgICAgICAgfCAg
+MTAgKystDQpody9wY2kvcGNpLmMgICAgICAgICAgICAgICAgICAgICAgfCAgMTMgKysrKw0KaHcv
+cmVtb3RlL21hY2hpbmUuYyAgICAgICAgICAgICAgIHwgIDE0ICsrKy0NCmh3L3JlbW90ZS92Zmlv
+LXVzZXItb2JqLmMgICAgICAgICB8IDEyMyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysN
+CnN0dWJzL3ZmaW8tdXNlci1vYmouYyAgICAgICAgICAgICB8ICAgNiArKw0KTUFJTlRBSU5FUlMg
+ICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsNCmh3L3JlbW90ZS90cmFjZS1ldmVudHMgICAg
+ICAgICAgICB8ICAgMSArDQpzdHVicy9tZXNvbi5idWlsZCAgICAgICAgICAgICAgICAgfCAgIDEg
+Kw0KMTEgZmlsZXMgY2hhbmdlZCwgMTkzIGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQ0K
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvaHcvcmVtb3RlL3ZmaW8tdXNlci1vYmouaA0KY3Jl
+YXRlIG1vZGUgMTAwNjQ0IHN0dWJzL3ZmaW8tdXNlci1vYmouYw0KDQpJdCB3b3VsZCBiZSBncmVh
+dCBpZiBNaWNoYWVsIFRzaXJraW4gYW5kIEFsZXggV2lsbGlhbXNvbiB3b3VsZCByZXZpZXcNCnRo
+aXMuDQoNCkhpIE1pY2hhZWwgYW5kIEFsZXgsDQoNCkRvIHlvdSBoYXZlIGFueSB0aG91Z2h0cyBv
+biB0aGlzIHBhdGNoPw0KDQpVbHRpbWF0ZWx5IHRoaXMgaXMganVzdCBob3cgdG8gaW5zZXJ0IGNh
+bGxiYWNrcyB0byByZXBsYWNlIHRoZSBkZWZhdWx0DQpNU0kvWCB0cmlnZ2VycyBzbyB5b3UgY2Fu
+IHNlbmQgYSB2ZWN0b3IjIG92ZXIgdGhlIHdpcmUgZm9yIGEgcmVtb3RlDQptYWNoaW5lLCByaWdo
+dD8gIEknbGwgbGV0IHRoZSBjb2RlIG93bmVycywgTWljaGFlbCBhbmQgTWFyY2VsLCBjb21tZW50
+DQppZiB0aGV5IGhhdmUgZ3JhbmQgdmlzaW9uIGhvdyB0byBhcmNoaXRlY3QgdGhpcyBkaWZmZXJl
+bnRseS4gIFRoYW5rcywNCg0KQW4gZWFybGllciB2ZXJzaW9uIG9mIHRoZSBwYXRjaCBpbnRlcmNl
+cHRlZCBNU0ktWCBhdCB0aGUgbXNpeF9ub3RpZnkoKQ0KbGV2ZWwsIHJlcGxhY2luZyB0aGUgZW50
+aXJlIGZ1bmN0aW9uLiBUaGlzIHBhdGNoIHJlcGxhY2VzDQptc2l4X2dldF9tZXNzYWdlKCkgYW5k
+IG1zaV9zZW5kX21lc3NhZ2UoKSwgbGVhdmluZyB0aGUgbWFza2luZyBsb2dpYw0KaW4gcGxhY2Uu
+DQoNCkkgaGF2ZW4ndCBzZWVuIHRoZSBsYXRlc3QgdmZpby11c2VyIGNsaWVudCBpbXBsZW1lbnRh
+dGlvbiBmb3IgUUVNVSwNCmJ1dCBpZiB0aGUgaWRlYSBpcyB0byBhbGxvdyB0aGUgZ3Vlc3QgdG8g
+ZGlyZWN0bHkgY29udHJvbCB0aGUNCnZmaW8tdXNlciBkZXZpY2UncyBNU0ktWCB0YWJsZSdzIG1h
+c2sgYml0cywgdGhlbiBJIHRoaW5rIHRoaXMgaXMgYQ0KZGlmZmVyZW50IGRlc2lnbiBmcm9tIFZG
+SU8ga2VybmVsIHdoZXJlIG1hc2tpbmcgaXMgZW11bGF0ZWQgYnkgUUVNVQ0KYW5kIG5vdCBwYXNz
+ZWQgdGhyb3VnaCB0byB0aGUgUENJIGRldmljZS4NCg0KRXNzZW50aWFsbHkgd2hhdCdzIGhhcHBl
+bmluZyBoZXJlIGlzIGFuIGltcGxlbWVudGF0aW9uIG9mIGFuIGludGVycnVwdA0KaGFuZGxlciBj
+YWxsYmFjayBpbiB0aGUgcmVtb3RlIFFFTVUgaW5zdGFuY2UuICBUaGUgZGVmYXVsdCBoYW5kbGVy
+IGlzDQp0byBzaW1wbHkgd3JpdGUgdGhlIE1TSSBtZXNzYWdlIGRhdGEgYXQgdGhlIE1TSSBtZXNz
+YWdlIGFkZHJlc3Mgb2YgdGhlDQp2Q1BVLCB2ZmlvLXVzZXIgcmVwbGFjZXMgdGhhdCB3aXRoIGhp
+amFja2luZyB0aGUgTVNJIG1lc3NhZ2UgaXRzZWxmIHRvDQpzaW1wbHkgcmVwb3J0IHRoZSB2ZWN0
+b3IjIHNvIHRoYXQgdGhlICJoYW5kbGVyIiwgaWUuIHRyaWdnZXIsIGNhbg0KZm9yd2FyZCBpdCB0
+byB0aGUgY2xpZW50LiAgVGhhdCdzIHZlcnkgYW5hbG9nb3VzIHRvIHRoZSBrZXJuZWwNCmltcGxl
+bWVudGF0aW9uLg0KDQpUaGUgZXF1aXZhbGVudCBtYXNraW5nIHdlIGhhdmUgdG9kYXkgd2l0aCB2
+ZmlvIGtlcm5lbCB3b3VsZCBoYXBwZW4gb24NCnRoZSBjbGllbnQgc2lkZSwgd2hlcmUgdGhlIE1T
+SS9YIGNvZGUgbWlnaHQgaW5zdGVhZCBzZXQgYSBwZW5kaW5nIGJpdA0KaWYgdGhlIHZlY3RvciBp
+cyBtYXNrZWQgb24gdGhlIGNsaWVudC4gIExpa2V3aXNlIHRoZSBwb3NzaWJpbGl0eQ0KcmVtYWlu
+cywganVzdCBhcyBpdCBkb2VzIG9uIHRoZSBrZXJuZWwgc2lkZSwgdGhhdCB0aGUgZ3Vlc3QgbWFz
+a2luZyBhDQp2ZWN0b3IgY291bGQgYmUgcmVsYXllZCBvdmVyIGlvY3RsL3NvY2tldCB0byBzZXQg
+dGhlIGVxdWl2YWxlbnQgbWFzayBvbg0KdGhlIGhvc3QvcmVtb3RlLg0KDQpIaSBBbGV4LA0KDQpK
+dXN0IHRvIGFkZCBzb21lIG1vcmUgZGV0YWlsLCB0aGUgZW11bGF0ZWQgUENJIGRldmljZSBpbiBR
+RU1VIHByZXNlbnRseQ0KbWFpbnRhaW5zIGEgTVNJeCB0YWJsZSAoUENJRGV2aWNlLT5tc2l4X3Rh
+YmxlKSBhbmQgUGVuZGluZyBCaXQgQXJyYXkuIEluIHRoZQ0KcHJlc2VudCBWRklPIFBDSSBkZXZp
+Y2UgaW1wbGVtZW50YXRpb24sIFFFTVUgbGV2ZXJhZ2VzIHRoZSBzYW1lDQpNU0l4IHRhYmxlIGZv
+ciBpbnRlcnJ1cHQgbWFza2luZy91bm1hc2tpbmcuIFRoZSBiYWNrZW5kIFBDSSBkZXZpY2UgKHN1
+Y2ggYXMNCnRoZSBwYXNzdGhydSBkZXZpY2UpIGFsd2F5cyB0aGlua3MgdGhhdCB0aGUgaW50ZXJy
+dXB0IGlzIHVubWFza2VkIGFuZCBsZXRzDQpRRU1VIG1hbmFnZSBtYXNraW5nLg0KDQpXaGVyZWFz
+IGluIHRoZSB2ZmlvLXVzZXIgY2FzZSwgdGhlIGNsaWVudCBhZGRpdGlvbmFsbHkgcHVzaGVzIGEg
+Y29weSBvZg0KZW11bGF0ZWQgUENJIGRldmljZeKAmXMgdGFibGUgZG93bnN0cmVhbSB0byB0aGUg
+cmVtb3RlIGRldmljZS4gV2UgZGlkIHRoaXMNCnRvIGFsbG93IGEgc21hbGwgc2V0IG9mIGRldmlj
+ZXMgKHN1Y2ggYXMgZTEwMDBlKSB0byBjbGVhciB0aGUNClBCQSAobXNpeF9jbHJfcGVuZGluZygp
+KS4gU2Vjb25kbHksIHRoZSByZW1vdGUgZGV2aWNlIHVzZXMgaXRzIGNvcHkgb2YgdGhlDQpNU0l4
+IHRhYmxlIHRvIGRldGVybWluZSBpZiBpbnRlcnJ1cHQgc2hvdWxkIGJlIHRyaWdnZXJlZCAtIHRo
+aXMgd291bGQgcHJldmVudA0KYW4gaW50ZXJydXB0IGZyb20gYmVpbmcgc2VudCB0byB0aGUgY2xp
+ZW50IHVubmVjZXNzYXJpbHkgaWYgaXQncyBtYXNrZWQuDQoNCldlIGFyZSB3b25kZXJpbmcgaWYg
+cHVzaGluZyB0aGUgTVNJeCB0YWJsZSB0byB0aGUgcmVtb3RlIGRldmljZSBhbmQNCnJlYWRpbmcg
+UEJBIGZyb20gaXQgd291bGQgZGl2ZXJnZSBmcm9tIHRoZSBWRklPIHByb3RvY29sIHNwZWNpZmlj
+YXRpb24/DQoNCkZyb20geW91ciBjb21tZW50LCBJIHVuZGVyc3RhbmQgaXTigJlzIHNpbWlsYXIg
+dG8gVkZJTyBwcm90b2NvbCBiZWNhdXNlIFZGSU8NCmNsaWVudHMgY291bGQgbWFzayBhbiBpbnRl
+cnJ1cHQgdXNpbmcgVkZJT19ERVZJQ0VfU0VUX0lSUVMgaW9jdGwgKw0KVkZJT19JUlFfU0VUX0FD
+VElPTl9NQVNLIC8gX1VOTUFTSyBmbGFncy4gSSBvYnNlcnZlZCB0aGF0IFFFTVUgcHJlc2VudGx5
+DQpkb2VzIG5vdCB1c2UgdGhpcyBhcHByb2FjaCBhbmQgdGhlIGtlcm5lbCBkb2VzIG5vdCBzdXBw
+b3J0IGl0IGZvciBNU0kuDQoNClRoYW5rIHlvdSENCi0tDQpKYWcNCg==
 
-diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
-index 23b9870534..44ffa1337d 100644
---- a/tests/tcg/hexagon/Makefile.target
-+++ b/tests/tcg/hexagon/Makefile.target
-@@ -24,7 +24,7 @@ CFLAGS += -fno-unroll-loops
- HEX_SRC=$(SRC_PATH)/tests/tcg/hexagon
- VPATH += $(HEX_SRC)
- 
--first: $(HEX_SRC)/first.S
-+%: $(HEX_SRC)/%.S $(HEX_SRC)/crt.S
- 	$(CC) -static -mv67 -nostdlib $^ -o $@
- 
- HEX_TESTS = first
-@@ -43,6 +43,32 @@ HEX_TESTS += atomics
- HEX_TESTS += fpstuff
- HEX_TESTS += overflow
- 
-+HEX_TESTS += test_abs
-+HEX_TESTS += test_bitcnt
-+HEX_TESTS += test_bitsplit
-+HEX_TESTS += test_call
-+HEX_TESTS += test_clobber
-+HEX_TESTS += test_cmp
-+HEX_TESTS += test_dotnew
-+HEX_TESTS += test_ext
-+HEX_TESTS += test_fibonacci
-+HEX_TESTS += test_hl
-+HEX_TESTS += test_hwloops
-+HEX_TESTS += test_jmp
-+HEX_TESTS += test_lsr
-+HEX_TESTS += test_mpyi
-+HEX_TESTS += test_packet
-+HEX_TESTS += test_reorder
-+HEX_TESTS += test_round
-+HEX_TESTS += test_vavgw
-+HEX_TESTS += test_vcmpb
-+HEX_TESTS += test_vcmpw
-+HEX_TESTS += test_vlsrw
-+HEX_TESTS += test_vmaxh
-+HEX_TESTS += test_vminh
-+HEX_TESTS += test_vpmpyh
-+HEX_TESTS += test_vspliceb
-+
- TESTS += $(HEX_TESTS)
- 
- # This test has to be compiled for the -mv67t target
-diff --git a/tests/tcg/hexagon/crt.S b/tests/tcg/hexagon/crt.S
-new file mode 100644
-index 0000000000..f9e6bc80f7
---- /dev/null
-+++ b/tests/tcg/hexagon/crt.S
-@@ -0,0 +1,14 @@
-+#define SYS_exit_group 94
-+
-+    .text
-+    .globl pass
-+pass:
-+    r0 = #0
-+    r6 = #SYS_exit_group
-+    trap0(#1)
-+
-+    .globl fail
-+fail:
-+    r0 = #1
-+    r6 = #SYS_exit_group
-+    trap0(#1)
-diff --git a/tests/tcg/hexagon/test_abs.S b/tests/tcg/hexagon/test_abs.S
-new file mode 100644
-index 0000000000..d68aea6f64
---- /dev/null
-+++ b/tests/tcg/hexagon/test_abs.S
-@@ -0,0 +1,17 @@
-+/* Purpose: test example, verify the soundness of the abs operation */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r1 = #-2
-+        r2 = #2
-+    }
-+    {
-+        r3 = abs(r1)
-+    }
-+    {
-+        p0 = cmp.eq(r3, r2); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_bitcnt.S b/tests/tcg/hexagon/test_bitcnt.S
-new file mode 100644
-index 0000000000..624460488e
---- /dev/null
-+++ b/tests/tcg/hexagon/test_bitcnt.S
-@@ -0,0 +1,40 @@
-+/*
-+ * Purpose: test example, verify the soundness of the cl[01] operations.
-+ *
-+ * The number 0x000001aa has 23 leading zeroes
-+ * they become 55 when considered as 64 bit register
-+ * and it has 1 trailing zero.
-+ */
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #426
-+        r1 = #0
-+    }
-+    {
-+        r2 = cl0(r0)
-+    }
-+    {
-+        p0 = cmp.eq(r2, #23); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        r2 = cl0(r1:0)
-+    }
-+    {
-+        p0 = cmp.eq(r2, #55); if (p0.new) jump:t test3
-+        jump fail
-+    }
-+
-+test3:
-+    {
-+        r2 = ct0(r0)
-+    }
-+    {
-+        p0 = cmp.eq(r2, #1); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_bitsplit.S b/tests/tcg/hexagon/test_bitsplit.S
-new file mode 100644
-index 0000000000..275658e613
---- /dev/null
-+++ b/tests/tcg/hexagon/test_bitsplit.S
-@@ -0,0 +1,22 @@
-+/* Purpose: test example, verify the soundness of the bitsplit operation */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r1 = #187
-+    }
-+    {
-+        r3:2 = bitsplit(r1, #3)
-+    }
-+    {
-+        p0 = cmp.eq(r2, #3); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        p0 = cmp.eq(r3, #23); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_call.S b/tests/tcg/hexagon/test_call.S
-new file mode 100644
-index 0000000000..338cd04e40
---- /dev/null
-+++ b/tests/tcg/hexagon/test_call.S
-@@ -0,0 +1,64 @@
-+/*
-+ * Purpose: test function calls and duplex instructions.
-+ * The string "Hello there, I'm a test string!" with the first letter replaced
-+ * with a capital L should be printed out.
-+ */
-+
-+#define SYS_write 64
-+#define FD_STDOUT 1
-+
-+    .text
-+    .globl    test
-+test:
-+    {
-+        jumpr r31
-+        memb(r0+#0) = #76
-+    }
-+.Lfunc_end0:
-+.Ltmp0:
-+    .size    test, .Ltmp0-test
-+
-+    .globl    _start
-+_start:
-+    {
-+        r0 = ##dummy_buffer
-+        allocframe(#0)
-+        call test
-+    }
-+    {
-+        call write
-+    }
-+    {
-+        deallocframe
-+        jump pass
-+    }
-+.Lfunc_end1:
-+.Ltmp1:
-+    .size    _start, .Ltmp1-_start
-+
-+write:
-+    {
-+        r6 = #SYS_write
-+        r0 = #FD_STDOUT
-+        r1 = ##dummy_buffer
-+        r2 = #33
-+    }
-+    {
-+        trap0(#1)
-+    }
-+    {
-+        jumpr r31
-+    }
-+
-+.Lfunc_end2:
-+.Ltmp2:
-+    .size    write, .Ltmp2-write
-+
-+    .type    dummy_buffer,@object
-+    .data
-+    .globl    dummy_buffer
-+    .p2align    3
-+dummy_buffer:
-+    .string    "Hello there, I'm a test string!\n"
-+    .space 223
-+    .size    dummy_buffer, 256
-diff --git a/tests/tcg/hexagon/test_clobber.S b/tests/tcg/hexagon/test_clobber.S
-new file mode 100644
-index 0000000000..a7aeb2b60c
---- /dev/null
-+++ b/tests/tcg/hexagon/test_clobber.S
-@@ -0,0 +1,29 @@
-+/*
-+ * Purpose: demonstrate the succesful operation of the register save mechanism,
-+ * in which the caller saves the registers that will be clobbered, and restores
-+ * them after the call.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    allocframe(#8)
-+    {
-+        r16 = #47
-+        r17 = #155
-+    }
-+    memd(sp+#0) = r17:16
-+    {
-+        r16 = #255
-+        r17 = #42
-+    }
-+    {
-+        deallocframe
-+        r17:16 = memd(sp+#0)
-+    }
-+    {
-+        p0 = cmp.eq(r16, #47)
-+        p0 = cmp.eq(r17, #155); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_cmp.S b/tests/tcg/hexagon/test_cmp.S
-new file mode 100644
-index 0000000000..1db87d3db5
---- /dev/null
-+++ b/tests/tcg/hexagon/test_cmp.S
-@@ -0,0 +1,31 @@
-+/* Purpose: test a signed and unsigned comparison */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        jump signed
-+    }
-+
-+    .globl signed
-+signed:
-+    {
-+        r0 = #-2
-+        r1 = #0
-+    }
-+    {
-+        p0 = cmp.lt(r0, r1); if (p0.new) jump:t unsigned
-+        jump fail
-+    }
-+
-+    .globl unsigned
-+unsigned:
-+    {
-+        r0 = #-2
-+        r1 = #0
-+    }
-+    {
-+        p0 = cmp.gtu(r0, r1); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_dotnew.S b/tests/tcg/hexagon/test_dotnew.S
-new file mode 100644
-index 0000000000..b18b6a72e2
---- /dev/null
-+++ b/tests/tcg/hexagon/test_dotnew.S
-@@ -0,0 +1,38 @@
-+/* Purpose: test the .new operator while performing memory stores. */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        allocframe(#16)
-+    }
-+    {
-+        r0 = #1
-+        memw(sp+#0) = r0.new
-+    }
-+    {
-+        r1 = #2
-+        memw(sp+#4) = r1.new
-+    }
-+    {
-+        r2 = #3
-+        memw(sp+#8) = r2.new
-+    }
-+    {
-+        r0 = memw(sp+#8)
-+    }
-+    {
-+        r1 = memw(sp+#4)
-+    }
-+    {
-+        r2 = memw(sp+#0)
-+    }
-+    {
-+        r3 = mpyi(r1, r2)
-+    }
-+    {
-+        deallocframe
-+        p0 = cmp.eq(r3, #2); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_ext.S b/tests/tcg/hexagon/test_ext.S
-new file mode 100644
-index 0000000000..03e7bce2a7
---- /dev/null
-+++ b/tests/tcg/hexagon/test_ext.S
-@@ -0,0 +1,13 @@
-+/* Purpose: test immediate extender instructions. */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r2 = ##-559038737
-+    }
-+    {
-+        p0 = cmp.eq(r2, ##-559038737); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_fibonacci.S b/tests/tcg/hexagon/test_fibonacci.S
-new file mode 100644
-index 0000000000..4ef2c3896e
---- /dev/null
-+++ b/tests/tcg/hexagon/test_fibonacci.S
-@@ -0,0 +1,30 @@
-+/* Purpose: computes the Fibonacci series up to a constant number. */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r2 = #100
-+    }
-+    {
-+        p0 = cmp.gt(r2, #0); if (!p0.new) jump:nt .LBB0_3
-+    }
-+    {
-+        r3 = #0
-+        r4 = #1
-+    }
-+.LBB0_2:
-+    {
-+        r5 = r4
-+    }
-+    {
-+        p0 = cmp.gt(r2, r5); if (p0.new) jump:nt .LBB0_2
-+        r4 = add(r3, r4)
-+        r3 = r5
-+    }
-+.LBB0_3:
-+    {
-+        p0 = cmp.eq(r3, #144); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_hl.S b/tests/tcg/hexagon/test_hl.S
-new file mode 100644
-index 0000000000..93ace46aeb
---- /dev/null
-+++ b/tests/tcg/hexagon/test_hl.S
-@@ -0,0 +1,16 @@
-+/* Purpose: test example, verify the soundness of the high/low assignment */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0.H = #42
-+    }
-+    {
-+        r0.L = #69
-+    }
-+    {
-+        p0 = cmp.eq(r0, #2752581); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_hwloops.S b/tests/tcg/hexagon/test_hwloops.S
-new file mode 100644
-index 0000000000..42785e6f25
---- /dev/null
-+++ b/tests/tcg/hexagon/test_hwloops.S
-@@ -0,0 +1,19 @@
-+/* Purpose: simple C Program to test hardware loops. */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        loop0(.LBB0_1, #10)
-+        r2 = #0
-+    }
-+.LBB0_1:
-+    {
-+        r2 = add(r2, #1)
-+        nop
-+    }:endloop0
-+    {
-+        p0 = cmp.eq(r2, #10); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_jmp.S b/tests/tcg/hexagon/test_jmp.S
-new file mode 100644
-index 0000000000..5be25c52b2
---- /dev/null
-+++ b/tests/tcg/hexagon/test_jmp.S
-@@ -0,0 +1,22 @@
-+/* Purpose: test example, verify the soundness of the jump operation */
-+
-+#define SYS_exit_group 94
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        jump pass
-+    }
-+    /*
-+     * Inlined fail label in crt.S so we can fail without
-+     * having a functioning jump
-+     */
-+    {
-+        r0 = #1
-+        r6 = #SYS_exit_group
-+    }
-+    {
-+        trap0(#1)
-+    }
-diff --git a/tests/tcg/hexagon/test_lsr.S b/tests/tcg/hexagon/test_lsr.S
-new file mode 100644
-index 0000000000..b30aa64673
---- /dev/null
-+++ b/tests/tcg/hexagon/test_lsr.S
-@@ -0,0 +1,36 @@
-+/* Purpose: test the soundness of the lsr operation */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #-56984
-+        r1 = #2147483647
-+    }
-+    {
-+        r2 = #0x19
-+    }
-+    {
-+        r0 &= lsr(r1, r2)
-+    }
-+    {
-+        p0  =  cmp.eq(r0, #0x28); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        r0 = #0x0000000a
-+        r1 = #0x00000000
-+    }
-+    {
-+        r2 = #-1
-+    }
-+    {
-+        r1:0 = lsl(r1:0, r2)
-+    }
-+    {
-+        p0  =  cmp.eq(r0, #0x5); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_mpyi.S b/tests/tcg/hexagon/test_mpyi.S
-new file mode 100644
-index 0000000000..953b46e57e
---- /dev/null
-+++ b/tests/tcg/hexagon/test_mpyi.S
-@@ -0,0 +1,17 @@
-+/* Purpose: test a simple multiplication operation */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r1 = #4
-+        r2 = #6
-+    }
-+    {
-+        r3 = mpyi(r1, r2)
-+    }
-+    {
-+        p0 = cmp.eq(r3, #24); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_packet.S b/tests/tcg/hexagon/test_packet.S
-new file mode 100644
-index 0000000000..9ec9d8d6fb
---- /dev/null
-+++ b/tests/tcg/hexagon/test_packet.S
-@@ -0,0 +1,29 @@
-+/*
-+ * Purpose: test that writes of a register in a packet are performed only after
-+ * that packet has finished its execution.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        allocframe(#8)
-+    }
-+    {
-+        r2 = #4
-+        r3 = #6
-+    }
-+    {
-+        memw(sp+#0) = r2
-+    }
-+    {
-+        r3 = memw(sp+#0)
-+        r0 = add(r2, r3)
-+    }
-+    {
-+        deallocframe
-+        p0 = cmp.eq(r3, #4)
-+        p0 = cmp.eq(r0, #10); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_reorder.S b/tests/tcg/hexagon/test_reorder.S
-new file mode 100644
-index 0000000000..5ee0539836
---- /dev/null
-+++ b/tests/tcg/hexagon/test_reorder.S
-@@ -0,0 +1,33 @@
-+/*
-+ * Purpose: demonstrate handling of .new uses appearing before the associated
-+ * definition.
-+ * Here we perform a jump that skips the code resetting R2 from 0xDEADBEEF to 0,
-+ * only if P0.new is true, but P0 is assigned to 1 (R4) in the next instruction
-+ * in the packet.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r2 = #-559038737
-+    }
-+    {
-+        r4 = #1
-+    }
-+    {
-+        if (p0.new) jump:nt skip
-+        p0 = r4;
-+    }
-+
-+fallthrough:
-+    {
-+        r2 = #0
-+    }
-+
-+skip:
-+    {
-+        p0 = cmp.eq(r2, #-559038737); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_round.S b/tests/tcg/hexagon/test_round.S
-new file mode 100644
-index 0000000000..3c83812fe8
---- /dev/null
-+++ b/tests/tcg/hexagon/test_round.S
-@@ -0,0 +1,29 @@
-+/*
-+ * Purpose: test example, verify the soundness of the cround operation
-+ * 106 = 0b1101010 with the comma at third digit is 12.5 which is crounded to 12
-+ * but rounded to 13.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r1 = #200
-+    }
-+    {
-+        r2 = round(r1, #4)
-+    }
-+    {
-+        p0 = cmp.eq(r2, #13); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        r2 = cround(r1, #4)
-+    }
-+    {
-+        p0 = cmp.eq(r2, #12); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vavgw.S b/tests/tcg/hexagon/test_vavgw.S
-new file mode 100644
-index 0000000000..53c9df706a
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vavgw.S
-@@ -0,0 +1,31 @@
-+/*
-+ * Purpose: test example, verify the soundness of the vavgw operation.
-+ *
-+ * 0x00030001 averaged with 0x00010003 results 0x00020002.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #3
-+        r1 = #1
-+    }
-+    {
-+        r2 = #1
-+        r3 = #3
-+    }
-+    {
-+        r1:0 = vavgw(r1:0, r3:2):crnd
-+    }
-+    {
-+        p0 = cmp.eq(r0, #2); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        p0 = cmp.eq(r1, #2); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vcmpb.S b/tests/tcg/hexagon/test_vcmpb.S
-new file mode 100644
-index 0000000000..66d253eb48
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vcmpb.S
-@@ -0,0 +1,30 @@
-+/*
-+ * Purpose: test example, verify the soundness of the vector compare bytes
-+ * operation.
-+ *
-+ * Vector byte comparison between 0x1234567887654321 and 0x1234567800000000
-+ * should result in 0b11110000 in binary, or 0xf0 in hex.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #0x87654321
-+        r1 = #0x12345678
-+    }
-+    {
-+        r2 = #0x00000000
-+        r3 = #0x12345678
-+    }
-+    {
-+        p2 = vcmpb.eq(r1:0, r3:2)
-+    }
-+    {
-+        r4 = p2
-+    }
-+    {
-+        p0 = cmp.eq(r4, #0xf0); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vcmpw.S b/tests/tcg/hexagon/test_vcmpw.S
-new file mode 100644
-index 0000000000..5be88d1e2e
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vcmpw.S
-@@ -0,0 +1,30 @@
-+/*
-+ * Purpose: test example, verify the soundness of the vector compare words
-+ * operation.
-+ *
-+ * Vector word comparison between 0x1234567887654321 and 0x1234567800000000
-+ * should result in 0b11110000 in binary, or 0xf0 in hex.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #0x87654321
-+        r1 = #0x12345678
-+    }
-+    {
-+        r2 = #0x00000000
-+        r3 = #0x12345678
-+    }
-+    {
-+        p2 = vcmpw.eq(r1:0, r3:2)
-+    }
-+    {
-+        r4 = p2
-+    }
-+    {
-+        p0 = cmp.eq(r4, #0xf0); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vlsrw.S b/tests/tcg/hexagon/test_vlsrw.S
-new file mode 100644
-index 0000000000..912e49aa0b
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vlsrw.S
-@@ -0,0 +1,20 @@
-+/* Purpose: test the soundness of the vlsrw operation */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #0x00000001
-+        r1 = #0x00000001
-+    }
-+    {
-+        r1:0 = vlsrw(r1:0, #1)
-+    }
-+    {
-+        r0 = add(r0, r1)
-+    }
-+    {
-+        p0 = cmp.eq(r0, #0); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vmaxh.S b/tests/tcg/hexagon/test_vmaxh.S
-new file mode 100644
-index 0000000000..4ea6bd9d96
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vmaxh.S
-@@ -0,0 +1,35 @@
-+/*
-+ * Purpose: test example, verify the soundness of the vrmaxh operation.
-+ *
-+ * The maximum between  0x0002000300010005 and 0x0003000200020007 is
-+ * 0x0003000300020007.
-+ *
-+ *      input:  r1 = 0x00010003 r0 = 0x00010005 r3 = 0x00030002 r2 = 0x00020007
-+ *     output:  r1 = 0x00030003 r0 = 0x00020007
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #65541
-+        r1 = #65539
-+    }
-+    {
-+        r2 = #131079
-+        r3 = #196610
-+    }
-+    {
-+        r1:0 = vmaxh(r1:0, r3:2)
-+    }
-+    {
-+        p0 = cmp.eq(r0, #131079); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        p0 = cmp.eq(r1, #196611); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vminh.S b/tests/tcg/hexagon/test_vminh.S
-new file mode 100644
-index 0000000000..e5fcf2eb94
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vminh.S
-@@ -0,0 +1,35 @@
-+/*
-+ * Purpose: test example, verify the soundness of the vrmaxh operation.
-+ *
-+ * The minimum between  0x0002000300010005 and 0x0003000200020007 is
-+ * 0x0003000300020007.
-+ *
-+ *      input:  r1 = 0x00010003 r0 = 0x00010005 r3 = 0x00030002 r2 = 0x00020007
-+ *     output:  r1 = 0x00010002 r0 = 0x00010005
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #65541
-+        r1 = #65539
-+    }
-+    {
-+        r2 = #131079
-+        r3 = #196610
-+    }
-+    {
-+        r1:0 = vminh(r1:0, r3:2)
-+    }
-+    {
-+        p0 = cmp.eq(r0, #65541); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        p0 = cmp.eq(r1, #65538); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vpmpyh.S b/tests/tcg/hexagon/test_vpmpyh.S
-new file mode 100644
-index 0000000000..f02758e449
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vpmpyh.S
-@@ -0,0 +1,28 @@
-+/*
-+ * Purpose: test example, verify the soundness of the vpmpyh operator.
-+ *
-+ * 0x01020304 vector polynomial multiplied with 0x04030201 results
-+ * 0x000400060b060b04.
-+ */
-+
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #16909060
-+        r1 = #67305985
-+    }
-+    {
-+        r1:0 = vpmpyh(r0, r1)
-+    }
-+    {
-+        p0 = cmp.eq(r0, #184945412); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        p0 = cmp.eq(r1, #262150); if (p0.new) jump:t pass
-+        jump fail
-+    }
-diff --git a/tests/tcg/hexagon/test_vspliceb.S b/tests/tcg/hexagon/test_vspliceb.S
-new file mode 100644
-index 0000000000..53c4a91c51
---- /dev/null
-+++ b/tests/tcg/hexagon/test_vspliceb.S
-@@ -0,0 +1,31 @@
-+/*
-+ * Purpose: test example, verify the soundness of the vspliceb operation
-+ * the operation is a binary splice of two 64bit operators.
-+ *
-+ *  vspliceb(0xffffffffffffffff,0x0000000000000000,5) = 0x000000ffffffffff.
-+ */
-+    .text
-+    .globl _start
-+
-+_start:
-+    {
-+        r0 = #-1
-+        r1 = #-1
-+    }
-+    {
-+        r2 = #0
-+        r3 = #0
-+    }
-+    {
-+        r5:4 = vspliceb(r1:0, r3:2, #5)
-+    }
-+    {
-+        p0 = cmp.eq(r4, #-1); if (p0.new) jump:t test2
-+        jump fail
-+    }
-+
-+test2:
-+    {
-+        p0 = cmp.eq(r5, #255); if (p0.new) jump:t pass
-+        jump fail
-+    }
--- 
-2.36.1
+--_000_B3FC45411DB24C1F8CB501D8771C8803oraclecom_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <D4A7834AC890EA429347FFFA6F8D16BD@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IHN0eWxlPSJ3b3JkLXdy
+YXA6IGJyZWFrLXdvcmQ7IC13ZWJraXQtbmJzcC1tb2RlOiBzcGFjZTsgbGluZS1icmVhazogYWZ0
+ZXItd2hpdGUtc3BhY2U7IiBjbGFzcz0iIj4NCjxiciBjbGFzcz0iIj4NCjxkaXY+PGJyIGNsYXNz
+PSIiPg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgY2xhc3M9IiI+DQo8ZGl2IGNsYXNzPSIiPk9u
+IE1heSAzMSwgMjAyMiwgYXQgNTo0NSBQTSwgQWxleCBXaWxsaWFtc29uICZsdDs8YSBocmVmPSJt
+YWlsdG86YWxleC53aWxsaWFtc29uQHJlZGhhdC5jb20iIGNsYXNzPSIiPmFsZXgud2lsbGlhbXNv
+bkByZWRoYXQuY29tPC9hPiZndDsgd3JvdGU6PC9kaXY+DQo8YnIgY2xhc3M9IkFwcGxlLWludGVy
+Y2hhbmdlLW5ld2xpbmUiPg0KPGRpdiBjbGFzcz0iIj4NCjxkaXYgY2xhc3M9IiI+T24gVHVlLCAz
+MSBNYXkgMjAyMiAyMjowMzoxNCArMDEwMDxiciBjbGFzcz0iIj4NClN0ZWZhbiBIYWpub2N6aSAm
+bHQ7PGEgaHJlZj0ibWFpbHRvOnN0ZWZhbmhhQGdtYWlsLmNvbSIgY2xhc3M9IiI+c3RlZmFuaGFA
+Z21haWwuY29tPC9hPiZndDsgd3JvdGU6PGJyIGNsYXNzPSIiPg0KPGJyIGNsYXNzPSIiPg0KPGJs
+b2NrcXVvdGUgdHlwZT0iY2l0ZSIgY2xhc3M9IiI+T24gVHVlLCAzMSBNYXkgMjAyMiBhdCAyMTox
+MSwgQWxleCBXaWxsaWFtc29uPGJyIGNsYXNzPSIiPg0KJmx0OzxhIGhyZWY9Im1haWx0bzphbGV4
+LndpbGxpYW1zb25AcmVkaGF0LmNvbSIgY2xhc3M9IiI+YWxleC53aWxsaWFtc29uQHJlZGhhdC5j
+b208L2E+Jmd0OyB3cm90ZTo8YnIgY2xhc3M9IiI+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBj
+bGFzcz0iIj48YnIgY2xhc3M9IiI+DQpPbiBUdWUsIDMxIE1heSAyMDIyIDE1OjAxOjU3ICswMDAw
+PGJyIGNsYXNzPSIiPg0KSmFnIFJhbWFuICZsdDs8YSBocmVmPSJtYWlsdG86amFnLnJhbWFuQG9y
+YWNsZS5jb20iIGNsYXNzPSIiPmphZy5yYW1hbkBvcmFjbGUuY29tPC9hPiZndDsgd3JvdGU6PGJy
+IGNsYXNzPSIiPg0KPGJyIGNsYXNzPSIiPg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgY2xhc3M9
+IiI+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBjbGFzcz0iIj5PbiBNYXkgMjUsIDIwMjIsIGF0
+IDEwOjUzIEFNLCBTdGVmYW4gSGFqbm9jemkgJmx0OzxhIGhyZWY9Im1haWx0bzpzdGVmYW5oYUBy
+ZWRoYXQuY29tIiBjbGFzcz0iIj5zdGVmYW5oYUByZWRoYXQuY29tPC9hPiZndDsgd3JvdGU6PGJy
+IGNsYXNzPSIiPg0KPGJyIGNsYXNzPSIiPg0KT24gVHVlLCBNYXkgMjQsIDIwMjIgYXQgMTE6MzA6
+MzJBTSAtMDQwMCwgSmFnYW5uYXRoYW4gUmFtYW4gd3JvdGU6ICZuYnNwOzxiciBjbGFzcz0iIj4N
+CjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIGNsYXNzPSIiPkZvcndhcmQgcmVtb3RlIGRldmljZSdz
+IGludGVycnVwdHMgdG8gdGhlIGd1ZXN0PGJyIGNsYXNzPSIiPg0KPGJyIGNsYXNzPSIiPg0KU2ln
+bmVkLW9mZi1ieTogRWxlbmEgVWZpbXRzZXZhICZsdDs8YSBocmVmPSJtYWlsdG86ZWxlbmEudWZp
+bXRzZXZhQG9yYWNsZS5jb20iIGNsYXNzPSIiPmVsZW5hLnVmaW10c2V2YUBvcmFjbGUuY29tPC9h
+PiZndDs8YnIgY2xhc3M9IiI+DQpTaWduZWQtb2ZmLWJ5OiBKb2huIEcgSm9obnNvbiAmbHQ7PGEg
+aHJlZj0ibWFpbHRvOmpvaG4uZy5qb2huc29uQG9yYWNsZS5jb20iIGNsYXNzPSIiPmpvaG4uZy5q
+b2huc29uQG9yYWNsZS5jb208L2E+Jmd0OzxiciBjbGFzcz0iIj4NClNpZ25lZC1vZmYtYnk6IEph
+Z2FubmF0aGFuIFJhbWFuICZsdDs8YSBocmVmPSJtYWlsdG86amFnLnJhbWFuQG9yYWNsZS5jb20i
+IGNsYXNzPSIiPmphZy5yYW1hbkBvcmFjbGUuY29tPC9hPiZndDs8YnIgY2xhc3M9IiI+DQotLS08
+YnIgY2xhc3M9IiI+DQppbmNsdWRlL2h3L3BjaS9wY2kuaCAmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDt8
+ICZuYnNwOzEzICsrKys8YnIgY2xhc3M9IiI+DQppbmNsdWRlL2h3L3JlbW90ZS92ZmlvLXVzZXIt
+b2JqLmggfCAmbmJzcDsmbmJzcDs2ICsrPGJyIGNsYXNzPSIiPg0KaHcvcGNpL21zaS5jICZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwO3wgJm5ic3A7MTYgKystLTxiciBjbGFzcz0iIj4NCmh3L3BjaS9tc2l4LmMgJm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+fCAmbmJzcDsxMCArKy08YnIgY2xhc3M9IiI+DQpody9wY2kvcGNpLmMgJm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7fCAm
+bmJzcDsxMyArKysrPGJyIGNsYXNzPSIiPg0KaHcvcmVtb3RlL21hY2hpbmUuYyAmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDt8ICZuYnNwOzE0ICsrKy08YnIgY2xhc3M9IiI+DQpody9yZW1vdGUv
+dmZpby11c2VyLW9iai5jICZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwO3wgMTIzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKzxiciBjbGFzcz0iIj4N
+CnN0dWJzL3ZmaW8tdXNlci1vYmouYyAmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDt8ICZuYnNwOyZuYnNwOzYgKys8
+YnIgY2xhc3M9IiI+DQpNQUlOVEFJTkVSUyAmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDt8ICZuYnNwOyZuYnNw
+OzEgKzxiciBjbGFzcz0iIj4NCmh3L3JlbW90ZS90cmFjZS1ldmVudHMgJm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7fCAmbmJz
+cDsmbmJzcDsxICs8YnIgY2xhc3M9IiI+DQpzdHVicy9tZXNvbi5idWlsZCAmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDt8ICZuYnNwOyZuYnNwOzEgKzxiciBjbGFzcz0iIj4N
+CjExIGZpbGVzIGNoYW5nZWQsIDE5MyBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSk8YnIg
+Y2xhc3M9IiI+DQpjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9ody9yZW1vdGUvdmZpby11c2Vy
+LW9iai5oPGJyIGNsYXNzPSIiPg0KY3JlYXRlIG1vZGUgMTAwNjQ0IHN0dWJzL3ZmaW8tdXNlci1v
+YmouYyAmbmJzcDs8YnIgY2xhc3M9IiI+DQo8L2Jsb2NrcXVvdGU+DQo8YnIgY2xhc3M9IiI+DQpJ
+dCB3b3VsZCBiZSBncmVhdCBpZiBNaWNoYWVsIFRzaXJraW4gYW5kIEFsZXggV2lsbGlhbXNvbiB3
+b3VsZCByZXZpZXc8YnIgY2xhc3M9IiI+DQp0aGlzLiAmbmJzcDs8YnIgY2xhc3M9IiI+DQo8L2Js
+b2NrcXVvdGU+DQo8YnIgY2xhc3M9IiI+DQpIaSBNaWNoYWVsIGFuZCBBbGV4LDxiciBjbGFzcz0i
+Ij4NCjxiciBjbGFzcz0iIj4NCkRvIHlvdSBoYXZlIGFueSB0aG91Z2h0cyBvbiB0aGlzIHBhdGNo
+PyAmbmJzcDs8YnIgY2xhc3M9IiI+DQo8L2Jsb2NrcXVvdGU+DQo8YnIgY2xhc3M9IiI+DQpVbHRp
+bWF0ZWx5IHRoaXMgaXMganVzdCBob3cgdG8gaW5zZXJ0IGNhbGxiYWNrcyB0byByZXBsYWNlIHRo
+ZSBkZWZhdWx0PGJyIGNsYXNzPSIiPg0KTVNJL1ggdHJpZ2dlcnMgc28geW91IGNhbiBzZW5kIGEg
+dmVjdG9yIyBvdmVyIHRoZSB3aXJlIGZvciBhIHJlbW90ZTxiciBjbGFzcz0iIj4NCm1hY2hpbmUs
+IHJpZ2h0PyAmbmJzcDtJJ2xsIGxldCB0aGUgY29kZSBvd25lcnMsIE1pY2hhZWwgYW5kIE1hcmNl
+bCwgY29tbWVudDxiciBjbGFzcz0iIj4NCmlmIHRoZXkgaGF2ZSBncmFuZCB2aXNpb24gaG93IHRv
+IGFyY2hpdGVjdCB0aGlzIGRpZmZlcmVudGx5LiAmbmJzcDtUaGFua3MsICZuYnNwOzxiciBjbGFz
+cz0iIj4NCjwvYmxvY2txdW90ZT4NCjxiciBjbGFzcz0iIj4NCkFuIGVhcmxpZXIgdmVyc2lvbiBv
+ZiB0aGUgcGF0Y2ggaW50ZXJjZXB0ZWQgTVNJLVggYXQgdGhlIG1zaXhfbm90aWZ5KCk8YnIgY2xh
+c3M9IiI+DQpsZXZlbCwgcmVwbGFjaW5nIHRoZSBlbnRpcmUgZnVuY3Rpb24uIFRoaXMgcGF0Y2gg
+cmVwbGFjZXM8YnIgY2xhc3M9IiI+DQptc2l4X2dldF9tZXNzYWdlKCkgYW5kIG1zaV9zZW5kX21l
+c3NhZ2UoKSwgbGVhdmluZyB0aGUgbWFza2luZyBsb2dpYzxiciBjbGFzcz0iIj4NCmluIHBsYWNl
+LjxiciBjbGFzcz0iIj4NCjxiciBjbGFzcz0iIj4NCkkgaGF2ZW4ndCBzZWVuIHRoZSBsYXRlc3Qg
+dmZpby11c2VyIGNsaWVudCBpbXBsZW1lbnRhdGlvbiBmb3IgUUVNVSw8YnIgY2xhc3M9IiI+DQpi
+dXQgaWYgdGhlIGlkZWEgaXMgdG8gYWxsb3cgdGhlIGd1ZXN0IHRvIGRpcmVjdGx5IGNvbnRyb2wg
+dGhlPGJyIGNsYXNzPSIiPg0KdmZpby11c2VyIGRldmljZSdzIE1TSS1YIHRhYmxlJ3MgbWFzayBi
+aXRzLCB0aGVuIEkgdGhpbmsgdGhpcyBpcyBhPGJyIGNsYXNzPSIiPg0KZGlmZmVyZW50IGRlc2ln
+biBmcm9tIFZGSU8ga2VybmVsIHdoZXJlIG1hc2tpbmcgaXMgZW11bGF0ZWQgYnkgUUVNVTxiciBj
+bGFzcz0iIj4NCmFuZCBub3QgcGFzc2VkIHRocm91Z2ggdG8gdGhlIFBDSSBkZXZpY2UuPGJyIGNs
+YXNzPSIiPg0KPC9ibG9ja3F1b3RlPg0KPGJyIGNsYXNzPSIiPg0KRXNzZW50aWFsbHkgd2hhdCdz
+IGhhcHBlbmluZyBoZXJlIGlzIGFuIGltcGxlbWVudGF0aW9uIG9mIGFuIGludGVycnVwdDxiciBj
+bGFzcz0iIj4NCmhhbmRsZXIgY2FsbGJhY2sgaW4gdGhlIHJlbW90ZSBRRU1VIGluc3RhbmNlLiAm
+bmJzcDtUaGUgZGVmYXVsdCBoYW5kbGVyIGlzPGJyIGNsYXNzPSIiPg0KdG8gc2ltcGx5IHdyaXRl
+IHRoZSBNU0kgbWVzc2FnZSBkYXRhIGF0IHRoZSBNU0kgbWVzc2FnZSBhZGRyZXNzIG9mIHRoZTxi
+ciBjbGFzcz0iIj4NCnZDUFUsIHZmaW8tdXNlciByZXBsYWNlcyB0aGF0IHdpdGggaGlqYWNraW5n
+IHRoZSBNU0kgbWVzc2FnZSBpdHNlbGYgdG88YnIgY2xhc3M9IiI+DQpzaW1wbHkgcmVwb3J0IHRo
+ZSB2ZWN0b3IjIHNvIHRoYXQgdGhlICZxdW90O2hhbmRsZXImcXVvdDssIGllLiB0cmlnZ2VyLCBj
+YW48YnIgY2xhc3M9IiI+DQpmb3J3YXJkIGl0IHRvIHRoZSBjbGllbnQuICZuYnNwO1RoYXQncyB2
+ZXJ5IGFuYWxvZ291cyB0byB0aGUga2VybmVsPGJyIGNsYXNzPSIiPg0KaW1wbGVtZW50YXRpb24u
+PGJyIGNsYXNzPSIiPg0KPGJyIGNsYXNzPSIiPg0KVGhlIGVxdWl2YWxlbnQgbWFza2luZyB3ZSBo
+YXZlIHRvZGF5IHdpdGggdmZpbyBrZXJuZWwgd291bGQgaGFwcGVuIG9uPGJyIGNsYXNzPSIiPg0K
+dGhlIGNsaWVudCBzaWRlLCB3aGVyZSB0aGUgTVNJL1ggY29kZSBtaWdodCBpbnN0ZWFkIHNldCBh
+IHBlbmRpbmcgYml0PGJyIGNsYXNzPSIiPg0KaWYgdGhlIHZlY3RvciBpcyBtYXNrZWQgb24gdGhl
+IGNsaWVudC4gJm5ic3A7TGlrZXdpc2UgdGhlIHBvc3NpYmlsaXR5PGJyIGNsYXNzPSIiPg0KcmVt
+YWlucywganVzdCBhcyBpdCBkb2VzIG9uIHRoZSBrZXJuZWwgc2lkZSwgdGhhdCB0aGUgZ3Vlc3Qg
+bWFza2luZyBhPGJyIGNsYXNzPSIiPg0KdmVjdG9yIGNvdWxkIGJlIHJlbGF5ZWQgb3ZlciBpb2N0
+bC9zb2NrZXQgdG8gc2V0IHRoZSBlcXVpdmFsZW50IG1hc2sgb248YnIgY2xhc3M9IiI+DQp0aGUg
+aG9zdC9yZW1vdGUuPGJyIGNsYXNzPSIiPg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4N
+CjxkaXY+PGJyIGNsYXNzPSIiPg0KPC9kaXY+DQo8ZGl2PkhpIEFsZXgsPC9kaXY+DQo8ZGl2Pjxi
+ciBjbGFzcz0iIj4NCjwvZGl2Pg0KPGRpdj5KdXN0IHRvIGFkZCBzb21lIG1vcmUgZGV0YWlsLCB0
+aGUgZW11bGF0ZWQgUENJIGRldmljZSBpbiBRRU1VIHByZXNlbnRseTwvZGl2Pg0KPGRpdj5tYWlu
+dGFpbnMgYSBNU0l4IHRhYmxlICg8c3BhbiBzdHlsZT0iY2FyZXQtY29sb3I6IHJnYigwLCAwLCAw
+KTsgY29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSIiPlBDSURldmljZS0mZ3Q7bXNpeF90YWJs
+ZSk8L3NwYW4+Jm5ic3A7YW5kIFBlbmRpbmcgQml0IEFycmF5LiBJbiB0aGU8L2Rpdj4NCjxkaXY+
+cHJlc2VudCBWRklPIFBDSSBkZXZpY2UgaW1wbGVtZW50YXRpb24sIFFFTVUgbGV2ZXJhZ2VzIHRo
+ZSBzYW1lPC9kaXY+DQo8ZGl2Pk1TSXggdGFibGUgZm9yIGludGVycnVwdCBtYXNraW5nL3VubWFz
+a2luZy4gVGhlIGJhY2tlbmQgUENJIGRldmljZSAoc3VjaCBhczwvZGl2Pg0KPGRpdj50aGUgcGFz
+c3RocnUgZGV2aWNlKSBhbHdheXMgdGhpbmtzIHRoYXQgdGhlIGludGVycnVwdCBpcyB1bm1hc2tl
+ZCBhbmQgbGV0czwvZGl2Pg0KPGRpdj5RRU1VIG1hbmFnZSBtYXNraW5nLjwvZGl2Pg0KPGRpdj48
+YnIgY2xhc3M9IiI+DQo8L2Rpdj4NCjxkaXY+V2hlcmVhcyZuYnNwOzxmb250IGNvbG9yPSIjMDAw
+MDAwIiBjbGFzcz0iIj48c3BhbiBzdHlsZT0iY2FyZXQtY29sb3I6IHJnYigwLCAwLCAwKTsiIGNs
+YXNzPSIiPmluIHRoZSB2ZmlvLXVzZXIgY2FzZSwgdGhlIGNsaWVudCBhZGRpdGlvbmFsbHkgcHVz
+aGVzIGEgY29weSBvZjwvc3Bhbj48L2ZvbnQ+PC9kaXY+DQo8ZGl2Pjxmb250IGNvbG9yPSIjMDAw
+MDAwIiBjbGFzcz0iIj48c3BhbiBzdHlsZT0iY2FyZXQtY29sb3I6IHJnYigwLCAwLCAwKTsiIGNs
+YXNzPSIiPmVtdWxhdGVkIFBDSSZuYnNwOzwvc3Bhbj48L2ZvbnQ+PGZvbnQgY29sb3I9IiMwMDAw
+MDAiIGNsYXNzPSIiPmRldmljZeKAmXMmbmJzcDs8L2ZvbnQ+PHNwYW4gc3R5bGU9ImNhcmV0LWNv
+bG9yOiByZ2IoMCwgMCwgMCk7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IiBjbGFzcz0iIj50YWJsZQ0K
+PC9zcGFuPjxmb250IGNvbG9yPSIjMDAwMDAwIiBjbGFzcz0iIj5kb3duc3RyZWFtIHRvIHRoZSBy
+ZW1vdGUgZGV2aWNlLiBXZSBkaWQgdGhpczwvZm9udD48L2Rpdj4NCjxkaXY+PGZvbnQgY29sb3I9
+IiMwMDAwMDAiIGNsYXNzPSIiPnRvIGFsbG93Jm5ic3A7YSBzbWFsbCBzZXQgb2YgZGV2aWNlcyAo
+c3VjaCBhcyBlMTAwMGUpIHRvIGNsZWFyIHRoZTwvZm9udD48L2Rpdj4NCjxkaXY+PGZvbnQgY29s
+b3I9IiMwMDAwMDAiIGNsYXNzPSIiPlBCQSAobXNpeF9jbHJfcGVuZGluZygpPC9mb250PjxzcGFu
+IHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyIgY2xhc3M9IiI+KS4gU2Vjb25kbHksIHQ8L3Nw
+YW4+PGZvbnQgY29sb3I9IiMwMDAwMDAiIGNsYXNzPSIiPmhlIHJlbW90ZSZuYnNwOzwvZm9udD48
+c3BhbiBzdHlsZT0iY2FyZXQtY29sb3I6IHJnYigwLCAwLCAwKTsgY29sb3I6IHJnYigwLCAwLCAw
+KTsiIGNsYXNzPSIiPmRldmljZSZuYnNwOzwvc3Bhbj48c3BhbiBzdHlsZT0iY2FyZXQtY29sb3I6
+IHJnYigwLCAwLCAwKTsgY29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSIiPnVzZXMNCiBpdHMg
+Y29weSBvZiB0aGU8L3NwYW4+PC9kaXY+DQo8ZGl2PjxzcGFuIHN0eWxlPSJjYXJldC1jb2xvcjog
+cmdiKDAsIDAsIDApOyBjb2xvcjogcmdiKDAsIDAsIDApOyIgY2xhc3M9IiI+TVNJeCB0YWJsZSB0
+byBkZXRlcm1pbmUgaWYgaW50ZXJydXB0IHNob3VsZCZuYnNwOzwvc3Bhbj48c3BhbiBzdHlsZT0i
+Y2FyZXQtY29sb3I6IHJnYigwLCAwLCAwKTsgY29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSIi
+PmJlIHRyaWdnZXJlZCAtIHRoaXMgd291bGQgcHJldmVudDwvc3Bhbj48L2Rpdj4NCjxkaXY+PGZv
+bnQgY29sb3I9IiMwMDAwMDAiIGNsYXNzPSIiPmFuJm5ic3A7aW50ZXJydXB0IGZyb20gYmVpbmcg
+c2VudCB0byB0aGUgY2xpZW50Jm5ic3A7dW5uZWNlc3NhcmlseSBpZiBpdCdzIG1hc2tlZC48L2Zv
+bnQ+PC9kaXY+DQo8ZGl2PjxiciBjbGFzcz0iIj4NCjwvZGl2Pg0KPGRpdj5XZSBhcmUgd29uZGVy
+aW5nIGlmIHB1c2hpbmcgdGhlIE1TSXggdGFibGUgdG8gdGhlIHJlbW90ZSBkZXZpY2UgYW5kPC9k
+aXY+DQo8ZGl2PnJlYWRpbmcgUEJBIGZyb20gaXQgd291bGQgZGl2ZXJnZSBmcm9tIHRoZSBWRklP
+IHByb3RvY29sIHNwZWNpZmljYXRpb24/PC9kaXY+DQo8ZGl2PjxiciBjbGFzcz0iIj4NCjwvZGl2
+Pg0KPGRpdj5Gcm9tIHlvdXIgY29tbWVudCwgSSB1bmRlcnN0YW5kIGl04oCZcyBzaW1pbGFyIHRv
+IFZGSU8gcHJvdG9jb2wgYmVjYXVzZSBWRklPPC9kaXY+DQo8ZGl2PmNsaWVudHMgY291bGQgbWFz
+ayBhbiBpbnRlcnJ1cHQgdXNpbmcmbmJzcDs8c3BhbiBzdHlsZT0iY2FyZXQtY29sb3I6IHJnYigw
+LCAwLCAwKTsgY29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSIiPlZGSU9fREVWSUNFX1NFVF9J
+UlFTIGlvY3RsICs8L3NwYW4+PC9kaXY+DQo8ZGl2PjxzcGFuIHN0eWxlPSJjYXJldC1jb2xvcjog
+cmdiKDAsIDAsIDApOyBjb2xvcjogcmdiKDAsIDAsIDApOyIgY2xhc3M9IiI+VkZJT19JUlFfU0VU
+X0FDVElPTl9NQVNLIC8gX1VOTUFTSyBmPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjogcmdiKDAs
+IDAsIDApOyIgY2xhc3M9IiI+bGFncy4gSSBvYnNlcnZlZCB0aGF0IFFFTVUmbmJzcDs8L3NwYW4+
+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMCwgMCwgMCk7IiBjbGFzcz0iIj5wcmVzZW50bHk8L3Nw
+YW4+PC9kaXY+DQo8ZGl2PjxzcGFuIHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyIgY2xhc3M9
+IiI+ZG9lcyBub3QgdXNlIHRoaXMmbmJzcDthcHByb2FjaCBhbmQgdGhlJm5ic3A7PC9zcGFuPjxz
+cGFuIHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyIgY2xhc3M9IiI+a2VybmVsIGRvZXMgbm90
+IHN1cHBvcnQgaXQgZm9yIE1TSS48L3NwYW4+PC9kaXY+DQo8ZGl2PjxiciBjbGFzcz0iIj4NCjwv
+ZGl2Pg0KPGRpdj5UaGFuayB5b3UhPC9kaXY+DQo8ZGl2Pi0tPC9kaXY+DQo8ZGl2PkphZzwvZGl2
+Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+
+--_000_B3FC45411DB24C1F8CB501D8771C8803oraclecom_--
 
