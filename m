@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E64053AC8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:13:35 +0200 (CEST)
-Received: from localhost ([::1]:34560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2EE53AC92
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 20:15:42 +0200 (CEST)
+Received: from localhost ([::1]:42412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwSqc-0006iR-MH
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:13:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51076)
+	id 1nwSsg-0003hs-2o
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 14:15:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwSjG-00010h-0h
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:05:58 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34728)
+ id 1nwSjE-0000uN-1x
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:05:56 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwSjD-0004yF-ML
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:05:57 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id q21so5405098ejm.1
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 11:05:55 -0700 (PDT)
+ id 1nwSjB-0004xz-Nd
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 14:05:55 -0400
+Received: by mail-ed1-x534.google.com with SMTP id h19so3311661edj.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 11:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ecc3mXE6mp8N/4GPnB4052TSKmG288rQCUrww9LGKCw=;
- b=pUp7NmB/xOpNq+oYxq0Pzd7r3f4zPvoc61YZAR4Jd7zrJhFIosv9QwL8nfI42YUhon
- r8UGSySE5imtYjwKtj8g3cvbFlquY3qhwd/pwfUp3xYvTzH7B/PVqqEGEOJddprScGI5
- CTkcGoADFkL7rNWOOnz0n0UPJ4eqnMQe74fbvt3SepiutZFVYZjUdfrIvVDEFekzp4vb
- dlVA32fAjWXvEUIG8ZR8y/ZMXxlXAq14+LFbXhrD4iLX0gV7vY53M7gpVfkRbi66GkET
- Fzy/AQGExfMMl0bGBsYPO36liQMtdx4n3zpJgQA+RzKZ6K/MlIRX+ZNbJVcVftm/T5cS
- cFLA==
+ bh=SQR59DMqwPOT0qSX8m8/1TGZYe/OKygjP/K41gMQuSc=;
+ b=yM/qwNvU20GNKLTYzX0dx3aZlJ6vbYCSNjmiFOMKfDSB2nbLNnRHr69eb2WL/aTJfV
+ gitmdV3zl61jEY77WYRn/8QabV9IGHeFlKv/FJtarVdZrFrp8s3ClDH4bcs8tSxBXVBa
+ BXCe4hwVGY0ZHRGT2KCGnBvV1FMtSKyJEHb0XUld9Q15Bex0K7IHikpZsKHcYfu2XGXm
+ QC6NNvw7WzLcPTLCulDCHBQsG1RN5vNOQeq6jIe15fMQE9NWaPmHWQUs1V8h8j4qa/xf
+ mehSd30MKOjgfyYXzG6eC44WzA5CCt9/sBCdWbZ5DYRrkx2L9xA9pT6IJtyDyk4FDQMd
+ LkkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ecc3mXE6mp8N/4GPnB4052TSKmG288rQCUrww9LGKCw=;
- b=JhgvihtX+eDivRD3MDscFnrnLgQKAd+58KrjJ8Ad4sdTWdWw88FCP2mWLzqDZGAeu8
- gKYwXGc/T+6SujsCg8KZOEzDurCWtkmGx7fE40d3wgdfQYc9DhbNn8aLSkqPkIv44rCo
- b9w4EcvPILlkul+hNV/HWRwoCZ9zUS+LRqr5OApMAsCXlWKUP4sQEMkPBKc5FHFxiPHO
- r9zB9sRLn84ThZB32EX4o1GSZvS/hcYsERzVeAT1L8lhpwoYXP620V5SzldYzkxr86WM
- PjYn2An1RT/NDVoDHqcTaJ/38fiEm+bBWMJ+UYNDkFSjk8Xol4UMGDBFYJkL/04bIGIJ
- Y30Q==
-X-Gm-Message-State: AOAM5311XXnYKC3XC7Dfim2ZUNXa6rXhiSZU20QJeuVtpt+EW5RVpdZE
- P3XV46CZ3BgWVXLs1tIHut++og==
-X-Google-Smtp-Source: ABdhPJyfkunjv979cuJn00yT8j5i7ek/NoYnpsvjCj6aEWY4liDhlooqFbH+EoTRr+94SLE+NrZrYw==
-X-Received: by 2002:a17:907:1b1c:b0:6fe:f1a9:ef5a with SMTP id
- mp28-20020a1709071b1c00b006fef1a9ef5amr679851ejc.233.1654106754258; 
- Wed, 01 Jun 2022 11:05:54 -0700 (PDT)
+ bh=SQR59DMqwPOT0qSX8m8/1TGZYe/OKygjP/K41gMQuSc=;
+ b=J5cTp/ySkkOfyoztbIjiKCZ0w5OCss1bMeMCsyUHol9ukGBoCAmdnbIYaIazOD8Ldg
+ UxA5ee1in2fOmcgYIu8M9RvaRavgm5UAgGmBmaPJOh7A1SEAr8YADSUb4IT6BE9axW34
+ JQyFMF9mLeb0WEGiEAdK+TPAjheFgiGNlGL2EerHISdtnFfPix5nUAcHXts+SXjylaBQ
+ 20D2MUQf4CmxcletB6e7xDeJ6XEn/wrWRuI4c8DW7uqBmU15KyzP6S8W9ywP4w2qv3W9
+ /w8qSeS1b58NLMezspRpWBUGqQSCeRGU3npn4ZFM15p7d+HycjIIIVyY8+k4R/aHrRuK
+ PBcg==
+X-Gm-Message-State: AOAM5310NxxdgpZboIRCo21Q0z+u5AOfvycNxsiCmlxKj8zPB6z0MfmW
+ USrM7lf8fib+ALENy9QlpXYpJ0uVQMtmmQ==
+X-Google-Smtp-Source: ABdhPJxeD6DXeQeSYHyzeiErmhxZl7Icu8R8yj+zdaS/OQMKV3VXxh6eNd1TrbblLEQYMOejAeloUw==
+X-Received: by 2002:a05:6402:2945:b0:41d:aad:c824 with SMTP id
+ ed5-20020a056402294500b0041d0aadc824mr1040296edb.364.1654106752356; 
+ Wed, 01 Jun 2022 11:05:52 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- k11-20020a056402048b00b0042ab02e3485sm1296731edv.44.2022.06.01.11.05.41
+ v7-20020aa7d647000000b0042bd2012196sm1319623edr.85.2022.06.01.11.05.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 01 Jun 2022 11:05:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7C5F81FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 9C5CE1FFC1;
  Wed,  1 Jun 2022 19:05:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
@@ -66,17 +66,17 @@ Cc: qemu-devel@nongnu.org,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PULL 08/33] tests/docker: update debian-mipsel-cross with lcitool
-Date: Wed,  1 Jun 2022 19:05:12 +0100
-Message-Id: <20220601180537.2329566-9-alex.bennee@linaro.org>
+Subject: [PULL 09/33] tests/docker: update debian-mips64el-cross with lcitool
+Date: Wed,  1 Jun 2022 19:05:13 +0100
+Message-Id: <20220601180537.2329566-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220601180537.2329566-1-alex.bennee@linaro.org>
 References: <20220601180537.2329566-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,62 +99,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use lcitool to update debian-mipsel-cross to a Debian 11 based system.
+Use lcitool to update debian-mips64el-cross to a Debian 11 based system.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220527153603.887929-9-alex.bennee@linaro.org>
+Message-Id: <20220527153603.887929-10-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index caef7decf4..1a533e6fc0 100644
+index 1a533e6fc0..411dc06bf8 100644
 --- a/.gitlab-ci.d/container-cross.yml
 +++ b/.gitlab-ci.d/container-cross.yml
-@@ -102,8 +102,7 @@ mips-debian-cross-container:
+@@ -88,8 +88,7 @@ mips64-debian-cross-container:
  
- mipsel-debian-cross-container:
+ mips64el-debian-cross-container:
    extends: .container_job_template
 -  stage: containers-layer2
 -  needs: ['amd64-debian10-container']
 +  stage: containers
    variables:
-     NAME: debian-mipsel-cross
+     NAME: debian-mips64el-cross
  
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index d9109bcc77..0ac5975419 100644
+index 0ac5975419..d9f37ae8fa 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -94,7 +94,6 @@ docker-image-debian-m68k-cross: docker-image-debian10
+@@ -93,7 +93,6 @@ docker-image-debian-hppa-cross: docker-image-debian10
+ docker-image-debian-m68k-cross: docker-image-debian10
  docker-image-debian-mips-cross: docker-image-debian10
  docker-image-debian-mips64-cross: docker-image-debian10
- docker-image-debian-mips64el-cross: docker-image-debian10
--docker-image-debian-mipsel-cross: docker-image-debian10
+-docker-image-debian-mips64el-cross: docker-image-debian10
  docker-image-debian-ppc64el-cross: docker-image-debian10
  docker-image-debian-sh4-cross: docker-image-debian10
  docker-image-debian-sparc64-cross: docker-image-debian10
-diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-index 0e5dd42d3c..b6d99ae324 100644
---- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-@@ -1,31 +1,162 @@
+diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+index c990b683b7..b02dcb7fd9 100644
+--- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+@@ -1,33 +1,162 @@
 +# THIS FILE WAS AUTO-GENERATED
  #
--# Docker mipsel cross-compiler target
-+#  $ lcitool dockerfile --layers all --cross mipsel debian-11 qemu
- #
--# This docker target builds on the debian Stretch base image.
+-# Docker mips64el cross-compiler target
 -#
--FROM qemu/debian10
+-# This docker target builds on the debian Stretch base image.
++#  $ lcitool dockerfile --layers all --cross mips64el debian-11 qemu
+ #
 +# https://gitlab.com/libvirt/libvirt-ci
  
--MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-FROM qemu/debian10
 +FROM docker.io/library/debian:11-slim
  
--# Add the foreign architecture we want and install dependencies
--RUN dpkg --add-architecture mipsel
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt install -y --no-install-recommends \
--        gcc-mipsel-linux-gnu
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
 +RUN export DEBIAN_FRONTEND=noninteractive && \
 +    apt-get update && \
 +    apt-get install -y eatmydata && \
@@ -208,136 +202,142 @@ index 0e5dd42d3c..b6d99ae324 100644
 +    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
 +    dpkg-reconfigure locales
  
--RUN apt update && \
+-# Add the foreign architecture we want and install dependencies
+-RUN dpkg --add-architecture mips64el && \
+-    apt update && \
 -    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt build-dep -yy -a mipsel --arch-only qemu
+-    apt install -y --no-install-recommends \
+-        gcc-mips64el-linux-gnuabi64
 +ENV LANG "en_US.UTF-8"
 +ENV MAKE "/usr/bin/make"
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
  
--# Specify the cross prefix for this image (see tests/docker/common.rc)
--ENV QEMU_CONFIGURE_OPTS --cross-prefix=mipsel-linux-gnu-
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt build-dep -yy -a mips64el --arch-only qemu
 +RUN export DEBIAN_FRONTEND=noninteractive && \
-+    dpkg --add-architecture mipsel && \
++    dpkg --add-architecture mips64el && \
 +    eatmydata apt-get update && \
 +    eatmydata apt-get dist-upgrade -y && \
 +    eatmydata apt-get install --no-install-recommends -y dpkg-dev && \
 +    eatmydata apt-get install --no-install-recommends -y \
-+            g++-mipsel-linux-gnu \
-+            gcc-mipsel-linux-gnu \
-+            libaio-dev:mipsel \
-+            libasound2-dev:mipsel \
-+            libattr1-dev:mipsel \
-+            libbpf-dev:mipsel \
-+            libbrlapi-dev:mipsel \
-+            libbz2-dev:mipsel \
-+            libc6-dev:mipsel \
-+            libcacard-dev:mipsel \
-+            libcap-ng-dev:mipsel \
-+            libcapstone-dev:mipsel \
-+            libcurl4-gnutls-dev:mipsel \
-+            libdaxctl-dev:mipsel \
-+            libdrm-dev:mipsel \
-+            libepoxy-dev:mipsel \
-+            libfdt-dev:mipsel \
-+            libffi-dev:mipsel \
-+            libfuse3-dev:mipsel \
-+            libgbm-dev:mipsel \
-+            libgcrypt20-dev:mipsel \
-+            libglib2.0-dev:mipsel \
-+            libglusterfs-dev:mipsel \
-+            libgnutls28-dev:mipsel \
-+            libgtk-3-dev:mipsel \
-+            libibumad-dev:mipsel \
-+            libibverbs-dev:mipsel \
-+            libiscsi-dev:mipsel \
-+            libjemalloc-dev:mipsel \
-+            libjpeg62-turbo-dev:mipsel \
-+            liblttng-ust-dev:mipsel \
-+            liblzo2-dev:mipsel \
-+            libncursesw5-dev:mipsel \
-+            libnfs-dev:mipsel \
-+            libnuma-dev:mipsel \
-+            libpam0g-dev:mipsel \
-+            libpixman-1-dev:mipsel \
-+            libpng-dev:mipsel \
-+            libpulse-dev:mipsel \
-+            librbd-dev:mipsel \
-+            librdmacm-dev:mipsel \
-+            libsasl2-dev:mipsel \
-+            libsdl2-dev:mipsel \
-+            libsdl2-image-dev:mipsel \
-+            libseccomp-dev:mipsel \
-+            libselinux1-dev:mipsel \
-+            libslirp-dev:mipsel \
-+            libsnappy-dev:mipsel \
-+            libspice-server-dev:mipsel \
-+            libssh-gcrypt-dev:mipsel \
-+            libsystemd-dev:mipsel \
-+            libtasn1-6-dev:mipsel \
-+            libudev-dev:mipsel \
-+            liburing-dev:mipsel \
-+            libusb-1.0-0-dev:mipsel \
-+            libusbredirhost-dev:mipsel \
-+            libvdeplug-dev:mipsel \
-+            libvirglrenderer-dev:mipsel \
-+            libvte-2.91-dev:mipsel \
-+            libzstd-dev:mipsel \
-+            nettle-dev:mipsel \
-+            systemtap-sdt-dev:mipsel \
-+            xfslibs-dev:mipsel \
-+            zlib1g-dev:mipsel && \
++            g++-mips64el-linux-gnuabi64 \
++            gcc-mips64el-linux-gnuabi64 \
++            libaio-dev:mips64el \
++            libasound2-dev:mips64el \
++            libattr1-dev:mips64el \
++            libbpf-dev:mips64el \
++            libbrlapi-dev:mips64el \
++            libbz2-dev:mips64el \
++            libc6-dev:mips64el \
++            libcacard-dev:mips64el \
++            libcap-ng-dev:mips64el \
++            libcapstone-dev:mips64el \
++            libcurl4-gnutls-dev:mips64el \
++            libdaxctl-dev:mips64el \
++            libdrm-dev:mips64el \
++            libepoxy-dev:mips64el \
++            libfdt-dev:mips64el \
++            libffi-dev:mips64el \
++            libfuse3-dev:mips64el \
++            libgbm-dev:mips64el \
++            libgcrypt20-dev:mips64el \
++            libglib2.0-dev:mips64el \
++            libglusterfs-dev:mips64el \
++            libgnutls28-dev:mips64el \
++            libgtk-3-dev:mips64el \
++            libibumad-dev:mips64el \
++            libibverbs-dev:mips64el \
++            libiscsi-dev:mips64el \
++            libjemalloc-dev:mips64el \
++            libjpeg62-turbo-dev:mips64el \
++            liblttng-ust-dev:mips64el \
++            liblzo2-dev:mips64el \
++            libncursesw5-dev:mips64el \
++            libnfs-dev:mips64el \
++            libnuma-dev:mips64el \
++            libpam0g-dev:mips64el \
++            libpixman-1-dev:mips64el \
++            libpng-dev:mips64el \
++            libpulse-dev:mips64el \
++            librbd-dev:mips64el \
++            librdmacm-dev:mips64el \
++            libsasl2-dev:mips64el \
++            libsdl2-dev:mips64el \
++            libsdl2-image-dev:mips64el \
++            libseccomp-dev:mips64el \
++            libselinux1-dev:mips64el \
++            libslirp-dev:mips64el \
++            libsnappy-dev:mips64el \
++            libspice-server-dev:mips64el \
++            libssh-gcrypt-dev:mips64el \
++            libsystemd-dev:mips64el \
++            libtasn1-6-dev:mips64el \
++            libudev-dev:mips64el \
++            liburing-dev:mips64el \
++            libusb-1.0-0-dev:mips64el \
++            libusbredirhost-dev:mips64el \
++            libvdeplug-dev:mips64el \
++            libvirglrenderer-dev:mips64el \
++            libvte-2.91-dev:mips64el \
++            libzstd-dev:mips64el \
++            nettle-dev:mips64el \
++            systemtap-sdt-dev:mips64el \
++            xfslibs-dev:mips64el \
++            zlib1g-dev:mips64el && \
 +    eatmydata apt-get autoremove -y && \
 +    eatmydata apt-get autoclean -y && \
 +    mkdir -p /usr/local/share/meson/cross && \
 +    echo "[binaries]\n\
-+c = '/usr/bin/mipsel-linux-gnu-gcc'\n\
-+ar = '/usr/bin/mipsel-linux-gnu-gcc-ar'\n\
-+strip = '/usr/bin/mipsel-linux-gnu-strip'\n\
-+pkgconfig = '/usr/bin/mipsel-linux-gnu-pkg-config'\n\
++c = '/usr/bin/mips64el-linux-gnuabi64-gcc'\n\
++ar = '/usr/bin/mips64el-linux-gnuabi64-gcc-ar'\n\
++strip = '/usr/bin/mips64el-linux-gnuabi64-strip'\n\
++pkgconfig = '/usr/bin/mips64el-linux-gnuabi64-pkg-config'\n\
 +\n\
 +[host_machine]\n\
 +system = 'linux'\n\
-+cpu_family = 'mips'\n\
-+cpu = 'mipsel'\n\
-+endian = 'little'" > /usr/local/share/meson/cross/mipsel-linux-gnu && \
++cpu_family = 'mips64'\n\
++cpu = 'mips64el'\n\
++endian = 'little'" > /usr/local/share/meson/cross/mips64el-linux-gnuabi64 && \
 +    dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
 +    mkdir -p /usr/libexec/ccache-wrappers && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mipsel-linux-gnu-c++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mipsel-linux-gnu-cc && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mipsel-linux-gnu-g++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mipsel-linux-gnu-gcc
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mips64el-linux-gnuabi64-c++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mips64el-linux-gnuabi64-cc && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mips64el-linux-gnuabi64-g++ && \
++    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/mips64el-linux-gnuabi64-gcc
  
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
++ENV ABI "mips64el-linux-gnuabi64"
++ENV MESON_OPTS "--cross-file=mips64el-linux-gnuabi64"
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips64el-linux-gnuabi64-
+ ENV DEF_TARGET_LIST mips64el-softmmu,mips64el-linux-user
+-
 -# Install extra libraries to increase code coverage
 -RUN apt update && \
 -    DEBIAN_FRONTEND=noninteractive eatmydata \
 -    apt install -y --no-install-recommends \
--        libbz2-dev:mipsel \
--        liblzo2-dev:mipsel \
--        librdmacm-dev:mipsel \
--        libsnappy-dev:mipsel
-+ENV ABI "mipsel-linux-gnu"
-+ENV MESON_OPTS "--cross-file=mipsel-linux-gnu"
-+ENV QEMU_CONFIGURE_OPTS --cross-prefix=mipsel-linux-gnu-
-+ENV DEF_TARGET_LIST mipsel-softmmu,mipsel-linux-user
+-        libbz2-dev:mips64el \
+-        liblzo2-dev:mips64el \
+-        librdmacm-dev:mips64el \
+-        libsnappy-dev:mips64el
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 4dc5527234..a4b7452189 100755
+index a4b7452189..341a07e677 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
 @@ -115,6 +115,11 @@ try:
                          trailer=debian_cross_build("arm-linux-gnueabihf-",
                                                     "arm-softmmu,arm-linux-user"))
  
-+    generate_dockerfile("debian-mipsel-cross", "debian-11",
-+                        cross="mipsel",
-+                        trailer=debian_cross_build("mipsel-linux-gnu-",
-+                                                   "mipsel-softmmu,mipsel-linux-user"))
++    generate_dockerfile("debian-mips64el-cross", "debian-11",
++                        cross="mips64el",
++                        trailer=debian_cross_build("mips64el-linux-gnuabi64-",
++                                                  "mips64el-softmmu,mips64el-linux-user"))
 +
-     generate_dockerfile("debian-s390x-cross", "debian-11",
-                         cross="s390x",
-                         trailer=debian_cross_build("s390x-linux-gnu-",
+     generate_dockerfile("debian-mipsel-cross", "debian-11",
+                         cross="mipsel",
+                         trailer=debian_cross_build("mipsel-linux-gnu-",
 -- 
 2.30.2
 
