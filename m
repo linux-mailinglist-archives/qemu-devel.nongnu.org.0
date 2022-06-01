@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C14539B55
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 04:45:49 +0200 (CEST)
-Received: from localhost ([::1]:50220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF27539B6C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 04:58:22 +0200 (CEST)
+Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwEMl-0000Ar-Qr
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 22:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57122)
+	id 1nwEYv-0004QH-DK
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 22:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nwEKg-0007Bz-Pq
- for qemu-devel@nongnu.org; Tue, 31 May 2022 22:43:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nwEKd-0007HW-TA
- for qemu-devel@nongnu.org; Tue, 31 May 2022 22:43:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654051414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mc0XlBXezEOWTYYs0ArYqoUft7LWjnc/1pRxneoxFjM=;
- b=fWm4BQgWZHfRi/O1Ju8z9ykA50Uk9mkJ8dKysCJLRt4vRmJFUNWHOrqNVbj5LFLowUoo0m
- 0oXBvoCUcDU4cVm4gwDOw9SFHet7ZQ9VCxzjwWEIoYQhWqqPhpq7Nplox4z+S9aF7LuY6r
- U8/W2DtnG8IK45+RZWH+yAKxT0P2bdE=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-a6U3HvYZN66DhQAscJJQoQ-1; Tue, 31 May 2022 22:43:33 -0400
-X-MC-Unique: a6U3HvYZN66DhQAscJJQoQ-1
-Received: by mail-lf1-f69.google.com with SMTP id
- j4-20020a056512398400b0047866b0b823so199409lfu.19
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 19:43:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nwEY1-0003dZ-7a; Tue, 31 May 2022 22:57:25 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:35706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nwEXz-00015i-EB; Tue, 31 May 2022 22:57:24 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-30c1b401711so4649197b3.2; 
+ Tue, 31 May 2022 19:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NeKEryMZMiPW5TRBJ7PF5fRAdiF42Wk8L4lJG25lgxY=;
+ b=TpOifCtBFA647nlq2p7qyUhkgMhZRTaYwCdoa66jQo1DZr3Ob8fX/BHa6ERZjuCayM
+ VyMOeTG+h48wry7d/ePKAR3flwo2dHoCNFsAn9Mzj+JVE7R+vakS8MPATczLXfeYAO16
+ W9bgqVwRNXvkub8Fz0vRYvZ2k5W3CbO8hGAHIz/PM7VwxA4d2YGvan1YQcex6U9yknks
+ H/ztMvsO5Q4aattXNusJWUzznvxmS4JoYgnd9yM0w8S3yQ/D8y8DU+ATFZ6Mv22d1mDN
+ RVTPfqwpv4fu96SLFNhUhzj0OdEjmLcLlK8CznGVVl8QIKwqoyfL8qRPCV+hBozSa3xC
+ lTtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=mc0XlBXezEOWTYYs0ArYqoUft7LWjnc/1pRxneoxFjM=;
- b=q9jx/4ybA1OIKSqVWCNf4Tc4WNST3P86qUlpAo9ewl80C6zgorhikaAzhZwadGJ+6O
- pBlIdwamMt+4SXKrdzBkEUMiKG79uckqld9Qe+kcoE13gjfVirUKY2ayu053khjFutpo
- Wki5d4TmUrKkIp4RGSFZC1bm5xYxkATFgxeSFwPegKW9wvC1bm7Bw1Yh5kS98Oj4BTld
- 7f9t9PYTcJGorXYRbYAZlaJSbMCdYY1yu1Mapuj+2S8ogPRFEsGy2GFKoI37ef/2N3Bv
- InJzoEHLMYQcSWeCN2KawfVLOIQQo9V5g09e1L0jx+SnYxxbJlrIG5GsXQ6XAeoo0BzV
- FWMw==
-X-Gm-Message-State: AOAM531eYN7wUcaN8uTZajLy9K077G68v4DC8VCjYI0EF2ueP6GRNf8E
- +RbpfqNdF04770UzfYSy1VBxpvVoDywZDhZRoxFPQzCoXyKNdj3rYRuEL6w5Zljy4mPS6cq/rRG
- m36/kTZeES5myh34U6GO5RTKbTma+XXI=
-X-Received: by 2002:a05:6512:a95:b0:478:82fb:7783 with SMTP id
- m21-20020a0565120a9500b0047882fb7783mr30223338lfu.471.1654051411929; 
- Tue, 31 May 2022 19:43:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzW9puqoqXeeq8REaEC0PuzfIqxSj342fgov38abfGummzzJGkjKUDjuJlH9zOcptMJC8y/aPQyKS992i5keRE=
-X-Received: by 2002:a05:6512:a95:b0:478:82fb:7783 with SMTP id
- m21-20020a0565120a9500b0047882fb7783mr30223327lfu.471.1654051411685; Tue, 31
- May 2022 19:43:31 -0700 (PDT)
+ bh=NeKEryMZMiPW5TRBJ7PF5fRAdiF42Wk8L4lJG25lgxY=;
+ b=jkR0MJ50520OWbb1rBw6md1PoLWcgL1K0M6ATgoJWGrHk7UHBMclMY40q8kvREe7FT
+ KYuifNwNQFpsteaqi1jLd58IjecuDrj0KJdSIRcu304ewAmB7yYDnM16d3AaolwLVdBK
+ QHHI/ZbtfA23pM2iYuThL/BzjTIiwuZZfybRj1rw62q8xx1YYb2QBOniakMl960XRQeP
+ tCxsssBFow3kUYGxmJwL1IiCyRmLuMH7vZn3wvlB+1Ef87bbo2qi7VjyN7e1mGqK3wxD
+ maNyCEvUWTIMiplBMdtvTycbpPLC8a/FNFekaxrzQHtUj2jtlQNeiJS47EPxbbI4+Qfu
+ V/GA==
+X-Gm-Message-State: AOAM531X1/4DZFlA28luQj4Qd5DyL3+2rA2AftmRacC6faKrqNPRJAkf
+ wR9Q7cHpm6Jl+iswLorhu+4rgC4YNjSCE++C5yg=
+X-Google-Smtp-Source: ABdhPJwB4/eGm3M9djnvJ2YGY3C6VMWoFTks5KY2j1Z4H5ZEaiDUcLWukrn0TBctEYvyrtfihSo1BkP9WYarLYjKOyA=
+X-Received: by 2002:a0d:cd04:0:b0:300:4784:caa3 with SMTP id
+ p4-20020a0dcd04000000b003004784caa3mr39093234ywd.231.1654052241890; Tue, 31
+ May 2022 19:57:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <CACGkMEvhBWkcQwJD3eqY7f2=nqxC6RPBdhMq0iq=qi7NpuJ_3w@mail.gmail.com>
- <21248AC5-C4D2-43DB-B096-DDFE9312BBE1@ispras.ru>
-In-Reply-To: <21248AC5-C4D2-43DB-B096-DDFE9312BBE1@ispras.ru>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 1 Jun 2022 10:43:20 +0800
-Message-ID: <CACGkMEtj5LdnAJW+QXU1xn64e9_mhXXtNq=9reqqkrngJZLYQA@mail.gmail.com>
-Subject: Re: [PATCH v2] net: fix multicast support with BSD (macOS) socket
- implementations
-To: Vitaly Cheptsov <cheptsov@ispras.ru>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Daniel P . Berrange" <berrange@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+References: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
+ <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
+In-Reply-To: <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Wed, 1 Jun 2022 10:57:17 +0800
+Message-ID: <CAAAx-8LsXQ=w7QTz0JHfGp6gbgY5najE0N7K0yBwhdqqH+E6Eg@mail.gmail.com>
+Subject: Re: Outreachy project task: Adding QEMU block layer APIs resembling
+ Linux ZBD ioctls.
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Damien Le Moal <damien.lemoal@wdc.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
+ Hannes Reinecke <hare@suse.de>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,94 +87,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 31, 2022 at 7:28 PM Vitaly Cheptsov <cheptsov@ispras.ru> wrote:
->
-> Hi Jason,
->
-> This patch fixes socket communication with QEMU -> host and QEMU <--> QEM=
-U on macOS, which was originally impossible due to QEMU and host program ha=
-ving to bind to the same ip/port in a way not supported by BSD sockets. The=
- change was tested on both Linux and macOS.
->
-> Basically after applying this patch one will be able to communicate with =
-QEMU when using "-nic socket,mcast=3D230.0.0.1:1234,model=3Dvirtio-net-pci"=
- from QEMU or macOS itself.
->
-> Best regards,
-> Vitaly
+Hi Stefan,
 
-Would you mind resending the patch with the above as the changelog?
+Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B45=E6=9C=8830=E6=
+=97=A5=E5=91=A8=E4=B8=80 19:19=E5=86=99=E9=81=93=EF=BC=9A
 
-Thanks
 
 >
-> > On 31 May 2022, at 10:02, Jason Wang <jasowang@redhat.com> wrote:
+> On Mon, 30 May 2022 at 06:09, Sam Li <faithilikerun@gmail.com> wrote:
 > >
-> > =EF=BB=BFOn Wed, May 18, 2022 at 3:40 PM Vitaly Cheptsov <cheptsov@ispr=
-as.ru> wrote:
-> >>
+> > Hi everyone,
+> > I'm Sam Li, working on the Outreachy project which is to add zoned
+> > device support to QEMU's virtio-blk emulation.
 > >
-> > Hi Vitaly:
+> > For the first goal, adding QEMU block layer APIs resembling Linux ZBD
+> > ioctls, I think the naive approach would be to introduce a new stable
+> > struct zbd_zone descriptor for the library function interface. More
+> > specifically, what I'd like to add to the BlockDriver struct are:
+> > 1. zbd_info as zone block device information: includes numbers of
+> > zones, size of logical blocks, and physical blocks.
+> > 2. zbd_zone_type and zbd_zone_state
+> > 3. zbd_dev_model: host-managed zbd, host-aware zbd
+> > With those basic structs, we can start to implement new functions as
+> > bdrv*() APIs for BLOCK*ZONE ioctls.
 > >
-> > We need a changelog to describe why we need this.
-> >
-> > Thanks
-> >
-> >> Cc: Jason Wang <jasowang@redhat.com>
-> >> Cc: Daniel P. Berrange <berrange@redhat.com>
-> >> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >> Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
-> >> ---
-> >> net/socket.c | 18 ++++++++++++++++++
-> >> 1 file changed, 18 insertions(+)
-> >>
-> >> diff --git a/net/socket.c b/net/socket.c
-> >> index bfd8596250..583f788a22 100644
-> >> --- a/net/socket.c
-> >> +++ b/net/socket.c
-> >> @@ -239,6 +239,22 @@ static int net_socket_mcast_create(struct sockadd=
-r_in *mcastaddr,
-> >>         return -1;
-> >>     }
-> >>
-> >> +#ifdef __APPLE__
-> >> +    val =3D 1;
-> >> +    ret =3D qemu_setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &val, sizeo=
-f(val));
-> >> +    if (ret < 0) {
-> >> +        error_setg_errno(errp, errno,
-> >> +                         "can't set socket option SO_REUSEPORT");
-> >> +        goto fail;
-> >> +    }
-> >> +
-> >> +    struct sockaddr_in bindaddr;
-> >> +    memset(&bindaddr, 0, sizeof(bindaddr));
-> >> +    bindaddr.sin_family =3D AF_INET;
-> >> +    bindaddr.sin_addr.s_addr =3D htonl(INADDR_ANY);
-> >> +    bindaddr.sin_port =3D mcastaddr->sin_port;
-> >> +    ret =3D bind(fd, (struct sockaddr *)&bindaddr, sizeof(bindaddr));
-> >> +#else
-> >>     /* Allow multiple sockets to bind the same multicast ip and port b=
-y setting
-> >>      * SO_REUSEADDR. This is the only situation where SO_REUSEADDR sho=
-uld be set
-> >>      * on windows. Use socket_set_fast_reuse otherwise as it sets SO_R=
-EUSEADDR
-> >> @@ -253,6 +269,8 @@ static int net_socket_mcast_create(struct sockaddr=
-_in *mcastaddr,
-> >>     }
-> >>
-> >>     ret =3D bind(fd, (struct sockaddr *)mcastaddr, sizeof(*mcastaddr))=
-;
-> >> +#endif
-> >> +
-> >>     if (ret < 0) {
-> >>         error_setg_errno(errp, errno, "can't bind ip=3D%s to socket",
-> >>                          inet_ntoa(mcastaddr->sin_addr));
-> >> --
-> >> 2.32.1 (Apple Git-133)
-> >>
-> >
+> > I'll start to finish this task based on the above description. If
+> > there is any problem or something I may miss in the design, please let
+> > me know.
 >
+> Hi Sam,
+> Can you propose function prototypes for the new BlockDriver callbacks
+> needed for zoned devices?
 
+I have made some modifications based on Damien's device in design part
+1 and added the function prototypes in design part 2. If there is any
+problem or part I missed, please let me know.
+
+Design of Block Layer APIs in BlockDriver:
+1. introduce a new stable struct zbd_zone descriptor for the library
+function interface.
+  a. zbd_info as zone block device information: includes numbers of
+zones, size of blocks, write granularity in byte(minimal write size
+and alignment
+    - write granularity: 512e SMRs: writes in units of physical block
+size, 4096 bytes; NVMe ZNS write granularity is equal to the block
+size.
+    - zone descriptor: start, length, capacity, write pointer, zone type
+  b. zbd_zone_type
+    - zone type: conventional, sequential write required, sequential
+write preferred
+  c. zbd_dev_model: host-managed zbd, host-aware zbd
+
+ 2. implement new functions as bdrv*() APIs for BLK*ZONE ioctls
+   a. support basic operations: get the APIs working when executing
+the zone operations from a guest
+    - zone information access: report
+    - zone manipulation: reset,open,close,finish
+  b. support zone append operation: zone capacity, write pointer
+positions of all zones(excluded for now)
+    - can track the zone state we need: zone is full or not.
+
+More specifically, the function prototypes for 2a are as follows:
+
+int zbd_report_zones(int fd, off_t offset, off_t len, enum
+zbd_report_opetion ro, struct zbd_zone *zones, unsigned int
+*nr_zones);
+int zbd_reset_zones(int fd, off_t offset, off_t len);
+int zbd_open_zones(int fd, off_t offset, off_t len);
+int zbd_close_zones(int fd, off_t offset, off_t len);
+int zbd_finish_zones(int fd, off_t offset, off_t len);
+
+>
+> Stefan
 
