@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6248953A5B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 15:14:07 +0200 (CEST)
-Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FA853A5B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 15:15:32 +0200 (CEST)
+Received: from localhost ([::1]:33962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwOAo-0008Vb-0t
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 09:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56104)
+	id 1nwOCB-0001Qr-8v
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 09:15:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nwO4I-0001U3-Qh
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nwO4G-00052R-HI
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:07:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654088837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=E95rwZryU1gShB68H3svn4DEQ2WC889JCZpEFUGOzO0=;
- b=QhhqoQUJuieICpi8PkEvOq3u6pf0vxIo0zxl173+p2GACC/PZK+SNUH+Z3kGpoBSb473FC
- E6NvZHmkOJOwIYotQr6jBnizAPs+SXHNGsI4gpgBW1m7bKTd/9vH9VMZNW9VffwyruCZWY
- o/5SHBa8XN5tVW1yO8LqNB8jhXzBIOc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-265-EH78i22OMZ6KsHno55y8CQ-1; Wed, 01 Jun 2022 09:07:14 -0400
-X-MC-Unique: EH78i22OMZ6KsHno55y8CQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 97B7F8C194A;
- Wed,  1 Jun 2022 13:06:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E00F8288A;
- Wed,  1 Jun 2022 13:06:48 +0000 (UTC)
-Date: Wed, 1 Jun 2022 14:06:47 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- John Levon <john.levon@nutanix.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- Alexis Lescouet <alexis.lescouet@nutanix.com>,
- Felipe Franciosi <felipe@nutanix.com>, "mst@redhat.com" <mst@redhat.com>
-Subject: Re: Accelerating non-standard disk types
-Message-ID: <YpdkZ/cCCrym/rZf@stefanha-x1.localdomain>
-References: <20220516173831.GB13284@raphael-debian-dev>
- <fb522282-c750-2652-2e27-87c68819100b@redhat.com>
- <20220519183938.GB13470@raphael-debian-dev>
- <Yo5ShDNRTEPcBz1c@stefanha-x1.localdomain>
- <20220530173722.GA8262@raphael-debian-dev>
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nwO76-0005qw-7A
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:10:17 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nwO70-0005RS-1A
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:10:12 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id f21so3628893ejh.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 06:10:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IcJ+TjQKS7OPPkWupqK4+jCeZycStF4uCdtDJm7Cq9k=;
+ b=U0sf9+6amVFtgcYUR6fH794cmyxeNUP7JqQ/RifE2t60vvxAwDZcyBt7jx7dh3yN7U
+ lT9vOPFgTuk9urhmMWdGbLkuZH0fwOlOVFH4CO6QkP2CVowDdt82GsFe2dwF04SeV+C5
+ RdjAc0h+KJphglWLcfuF4TfFeldKoXBN/E/B/GbSGxkaUEnlN+ZNzEW7AYmlISJMkCKx
+ FUHM2YwpWGxJ8c07On6249uFjIbIeOiSE1Xz4lDIYAhmxTkVDUeRA6JfukoqJJjPo/pE
+ jpxDdEnwoxLrt2zaZob3QQOzGf9SAP9CVyfpCzNZJVhTMeK/4DKVrenvHYjH49rf96j4
+ DBiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IcJ+TjQKS7OPPkWupqK4+jCeZycStF4uCdtDJm7Cq9k=;
+ b=OUJHxCMkVYyBLpmQaFW24lqoPzZ34mm7PisMcLIABioO4H5sHR2xqbshO2QqnPkymX
+ 1CN2iO2kyRqgqaqTfGMlFs7A7M3XbV3w1LjB2vbR0Xkcvjdw8B207x9V/tdDZdXQkRuo
+ kTB8Q3cDiBVWXIcWTe7B5jOatMJWPmWD2Oheca6H3WaCmkz1HjS2rLwcQgy4q5f3JjgU
+ KnwKxJK48HLgucVw2BEjHZjP+jpe53kfTC63c1LVah3uMD78VF14mzQG91lUUajPRc1j
+ ccvrZIwmYpZrzfcrZ75kseuN6OVXnKjPLVhgXKeFYsdgha2aa/dMPnoeHv8Cs4pFjEnT
+ fUbg==
+X-Gm-Message-State: AOAM533XXMq2y92UMCTKpkRUs0D32hNOXdBIcP4Yu95zW5GWh1TDQ7Xp
+ 9VXTHa5uLorfNkWLcN80s+aY2bbh1JMvuRPDLk5z
+X-Google-Smtp-Source: ABdhPJzSfgn3RgqosVWTLgjHyI9Yp0D6qsazkxEAlsKtELVLGWRRIad2AV8N1C6gGukMV0GRhD/DhqaDTSnQiy6Vb6A=
+X-Received: by 2002:a17:907:97c7:b0:6fe:f7eb:be67 with SMTP id
+ js7-20020a17090797c700b006fef7ebbe67mr41178882ejc.559.1654089007629; Wed, 01
+ Jun 2022 06:10:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YWsTFi0DfblktZOO"
-Content-Disposition: inline
-In-Reply-To: <20220530173722.GA8262@raphael-debian-dev>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220531095221.114-1-xieyongji@bytedance.com>
+ <Ypdjr4UO+XrBbM09@stefanha-x1.localdomain>
+In-Reply-To: <Ypdjr4UO+XrBbM09@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Wed, 1 Jun 2022 21:10:58 +0800
+Message-ID: <CACycT3vR4rb+R5Z-SYMW1q1S1hhFZPPDJAVb82_5vnxgVr7WiA@mail.gmail.com>
+Subject: Re: [PATCH v2] vduse-blk: Add name option
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,135 +83,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 1, 2022 at 9:03 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Tue, May 31, 2022 at 05:52:21PM +0800, Xie Yongji wrote:
+> > Currently we use 'id' option as the name of VDUSE device.
+> > It's a bit confusing since we use one value for two different
+> > purposes: the ID to identfy the export within QEMU (must be
+> > distinct from any other exports in the same QEMU process, but
+> > can overlap with names used by other processes), and the VDUSE
+> > name to uniquely identify it on the host (must be distinct from
+> > other VDUSE devices on the same host, but can overlap with other
+> > export types like NBD in the same process). To make it clear,
+> > this patch adds a separate 'name ' option to specify the VDUSE
+> > name for the vduse-blk export instead.
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > ---
+> >  block/export/vduse-blk.c             | 9 ++++++---
+> >  docs/tools/qemu-storage-daemon.rst   | 5 +++--
+> >  qapi/block-export.json               | 7 ++++---
+> >  storage-daemon/qemu-storage-daemon.c | 8 ++++----
+> >  4 files changed, 17 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+> > index 3b10349173..d96993bdf5 100644
+> > --- a/block/export/vduse-blk.c
+> > +++ b/block/export/vduse-blk.c
+> > @@ -245,7 +245,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+> >      }
+> >      vblk_exp->num_queues = num_queues;
+> >      vblk_exp->handler.blk = exp->blk;
+> > -    vblk_exp->handler.serial = exp->id;
+> > +    vblk_exp->handler.serial = g_strdup(vblk_opts->name);
+>
+> Do we want to expose the VDUSE device name to the guest? Maybe the
+> serial string should be a separate parameter.
+>
 
---YWsTFi0DfblktZOO
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, it makes sense to me. But we might need a default value. Any suggestions?
 
-On Tue, May 31, 2022 at 03:06:20AM +0000, Raphael Norwitz wrote:
-> On Wed, May 25, 2022 at 05:00:04PM +0100, Stefan Hajnoczi wrote:
-> > On Thu, May 19, 2022 at 06:39:39PM +0000, Raphael Norwitz wrote:
-> > > On Tue, May 17, 2022 at 03:53:52PM +0200, Paolo Bonzini wrote:
-> > > > On 5/16/22 19:38, Raphael Norwitz wrote:
-> > > > > [1] Keep using the SCSI translation in QEMU but back vDisks with a
-> > > > > vhost-user-scsi or vhost-user-blk backend device.
-> > > > > [2] Implement SATA and IDE emulation with vfio-user (likely with =
-an SPDK
-> > > > > client?).
-> > > > > [3] We've also been looking at your libblkio library. From your
-> > > > > description in
-> > > > > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.gnu.=
-org_archive_html_qemu-2Ddevel_2021-2D04_msg06146.html&d=3DDwICaQ&c=3Ds883Gp=
-UCOChKOHiocYtGcg&r=3DIn4gmR1pGzKB8G5p6LUrWqkSMec2L5EtXZow_FZNJZk&m=3DwBSqcw=
-0cal3wPP87YIKgFgmqMHjGCC3apYf4wCn1SIrX6GW_FR-J9wO68v-cyrpn&s=3DCP-6ZY-gqgQ2=
-zLAJdR8WVTrMBoqmFHilGvW_qnf2myU&e=3D   it
-> > > > > sounds like it may definitely play a role here, and possibly prov=
-ide the
-> > > > > nessesary abstractions to back I/O from these emulated disks to a=
-ny
-> > > > > backends we may want?
-> > > >=20
-> > > > First of all: have you benchmarked it?  How much time is spent on M=
-MIO vs.
-> > > > disk I/O?
-> > > >
-> > >=20
-> > > Good point - we haven=E2=80=99t benchmarked the emulation, exit and t=
-ranslation
-> > > overheads - it is very possible speeding up disk I/O may not have a h=
-uge
-> > > impact. We would definitely benchmark this before exploring any of the
-> > > options seriously, but as you rightly note, performance is not the on=
-ly
-> > > motivation here.
-> > >=20
-> > > > Of the options above, the most interesting to me is to implement a
-> > > > vhost-user-blk/vhost-user-scsi backend in QEMU, similar to the NVMe=
- one,
-> > > > that would translate I/O submissions to virtqueue (including pollin=
-g and the
-> > > > like) and could be used with SATA.
-> > > >
-> > >=20
-> > > We were certainly eyeing [1] as the most viable in the immediate futu=
-re.
-> > > That said, since a vhost-user-blk driver has been added to libblkio, =
-[3]
-> > > also sounds like a strong option. Do you see any long term benefit to
-> > > translating SATA/IDE submissions to virtqueues in a world where libbl=
-kio
-> > > is to be adopted?
-> > >
-> > > > For IDE specifically, I'm not sure how much it can be sped up since=
- it has
-> > > > only 1 in-flight operation.  I think using KVM coalesced I/O could =
-provide
-> > > > an interesting boost (assuming instant or near-instant reply from t=
-he
-> > > > backend).  If all you're interested in however is not really perfor=
-mance,
-> > > > but rather having a single "connection" to your back end, vhost-use=
-r is
-> > > > certainly an option.
-> > > >=20
-> > >=20
-> > > Interesting - I will take a look at KVM coalesced I/O.
-> > >=20
-> > > You=E2=80=99re totally right though, performance is not our main inte=
-rest for
-> > > these disk types. I should have emphasized offload rather than
-> > > acceleration and performance. We would prefer to QA and support as few
-> > > data paths as possible, and a vhost-user offload mechanism would allow
-> > > us to use the same path for all I/O. I imagine other QEMU users who
-> > > offload to backends like SPDK and use SATA/IDE disk types may feel
-> > > similarly?
-> >=20
-> > It's nice to have a single target (e.g. vhost-user-blk in SPDK) that
-> > handles all disk I/O. On the other hand, QEMU would still have the
-> > IDE/SATA emulation and libblkio vhost-user-blk driver, so in the end it
-> > may not reduce the amount of code that you need to support.
-> >=20
->=20
-> Apologies for the late reply - I was on PTO.
->=20
-> For us it=E2=80=99s not so much about the overall LOC we support. We have=
- our
-> own iSCSI client implementation with embedded business logic which we
-> use for SCSI disks. Continuing to support SATA and IDE disks without our
-> implementation has been really troublesome so, even if it means more
-> LOC, we would really like to unify our data path at least at the iSCSI
-> layer.
->=20
-> While the overall code may not be reduced so much for many others today,
-> it may make a significant difference in the future. I can imagine some
-> QEMU users may want to deprecate (or not implement) iSCSI target support
-> in favor of NVMe over fabrics and still support these disk types. Being
-> able to offload the transport layer via vhost-user-blk (either with some
-> added logic on top of the existing SCSI translation layer or with
-> libblkio) would make this easy.
->=20
-> Does that sound reasonable?
+> >      vblk_exp->handler.logical_block_size = logical_block_size;
+> >      vblk_exp->handler.writable = opts->writable;
+> >
+> > @@ -279,22 +279,24 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+> >          features |= 1ULL << VIRTIO_BLK_F_RO;
+> >      }
+> >
+> > -    vblk_exp->dev = vduse_dev_create(exp->id, VIRTIO_ID_BLOCK, 0,
+> > +    vblk_exp->dev = vduse_dev_create(vblk_opts->name, VIRTIO_ID_BLOCK, 0,
+> >                                       features, num_queues,
+> >                                       sizeof(struct virtio_blk_config),
+> >                                       (char *)&config, &vduse_blk_ops,
+> >                                       vblk_exp);
+> >      if (!vblk_exp->dev) {
+> >          error_setg(errp, "failed to create vduse device");
+> > +        g_free((void *)vblk_exp->handler.serial);
+>
+> serial isn't const char * anymore, it's char *. Please update the struct
+> field and then these casts won't be necessary anymore.
 
-Yes.
+OK.
 
-Stefan
-
---YWsTFi0DfblktZOO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKXZGcACgkQnKSrs4Gr
-c8iM2gf/ZmVdexT2qKb+uFz0OQSXp//HVOuNBlLaZYpmXEH9Phrp9NKyUV5aGSQ0
-6mXwBdz1gwZdwy8eDSkC1EFfPTCPk+SOQn8L8TLzh8/CENwmyRLNNSun8v3NEfAp
-ePYoc7ItzDoKE2JuktZ32SBVPQBMjq1MZ6CwiW2EIIe4tu/TUqnS4gJS3bCpuYWt
-+Ohbi3xiJa6Yu9ziKA2ZVDqDxk6/KMHvY0Yg+HyXcma4samsOMZMRH2WuQMA5YjR
-lqCtqBhkqkybmXo3T1xVFhjD67GnDz3MvGf+6X6w2O85W7i2NU1uWStAqkjXXgUA
-0xhcRF6Pp5AfrsMHDTAn2CCP7GQkoQ==
-=tNb8
------END PGP SIGNATURE-----
-
---YWsTFi0DfblktZOO--
-
+Thanks,
+Yongji
 
