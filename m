@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E802053A1A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 12:03:32 +0200 (CEST)
-Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4417153A1EB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 12:07:15 +0200 (CEST)
+Received: from localhost ([::1]:52766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwLCN-0001Z5-Rv
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 06:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
+	id 1nwLFy-0004yB-Ct
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 06:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nwL9f-00083p-AL
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:00:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43322)
+ id 1nwLAo-0000X9-M9
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:01:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nwL9Z-0004QN-Va
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:00:41 -0400
+ id 1nwLAm-0004jf-PS
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:01:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654077633;
+ s=mimecast20190719; t=1654077712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=FFKfQYb36MvKHJRWVqO3mcfyluNNhm/nbOkeCBC3r9zW43YLakDQOCZ3eJbblC+US9I6qu
- Rt7svZBYVebm4V2u5E4/8WIBRyjGswEA+QB/Y40O7Tlz5kB4UEvnPG3did9q8WmWvtwBRb
- dN/MG9PLawRc4n5heJ3EgGHqh7sx4GI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bIG8bMhXqTqs0NjJNq80PgU/0+dWMLSGWLfEwYzevpU=;
+ b=bBJKXyKkJZgpJYPkw9hDYba6pisPKHJ0OrXYWVNwlWu3ikRX4XHbD5d5jTEHS/mT/avU+t
+ D6yK3IDh7r4jo74721R7r7UgOVA03grEMMvn05tGR1w7ShG4qDCbhEEoFiDcDNvzVRmuQl
+ c1ApRqL4wrGPmSXPJSk/0nCq1aC/YDU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-jI179goeMq2aTAfPQlHqiQ-1; Wed, 01 Jun 2022 06:00:32 -0400
-X-MC-Unique: jI179goeMq2aTAfPQlHqiQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- l2-20020a170906078200b006fed42bfeacso681242ejc.16
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 03:00:32 -0700 (PDT)
+ us-mta-255-ugAQaoHgOc2CtBgi0462bQ-1; Wed, 01 Jun 2022 06:01:50 -0400
+X-MC-Unique: ugAQaoHgOc2CtBgi0462bQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ eh10-20020a0564020f8a00b0042dd9bf7c57so901993edb.17
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 03:01:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=Qr5oQ9TGuXEKvhGsTjs09jwTfOdjQE+muKVZCP00u++fqYt2jMdRAggfyzRdIp1ROH
- 5umgKHF4RVi2ZKBrA0n96b7xLfQIqg9aeO3aekR6e1vtuQRo97QO1MNMK79Hx3J7uceI
- dW2tcGcm1aiwpiLbiWeIVOqKgjjtnnFQVa4OmgRz79zeHe+bS5vQLzaGL/K5ebrfXLdA
- fcguPnRrltMgsqLfIvpfKTu+iCNmVGptWnAtdOYuC2oZQZPjBsoJphEwtX7kvVQeZoTr
- gVHqCB8MvRIYf4ThtEPyuHspqq0cG13Sbo7C0L0vGPULh4n1/gJwH/4CplqHNSX2Z4Ur
- 6oDQ==
-X-Gm-Message-State: AOAM532FFXoT9lEM9Uay/anAC6hllqqzVvCFUTdolUbStGdJsxAAPqCM
- LyLczDe2NU2gmcANuO1jQh8xaLB/b8eZHKEi4mXej82ngT0cm5YQ5/qS9kSsqbtKmCetJuuSsoj
- /UNPhEBveE1bU0oc=
-X-Received: by 2002:a05:6402:e0d:b0:42d:c786:72fa with SMTP id
- h13-20020a0564020e0d00b0042dc78672famr20028590edh.312.1654077631188; 
- Wed, 01 Jun 2022 03:00:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzMXHhmwpC9aBonJL4kzNlpRHCokJFRWpOsq/jhMEeKhqBH598VY3k5fiZ1mXfKJ/ryMH9iSg==
-X-Received: by 2002:a05:6402:e0d:b0:42d:c786:72fa with SMTP id
- h13-20020a0564020e0d00b0042dc78672famr20028556edh.312.1654077630900; 
- Wed, 01 Jun 2022 03:00:30 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- a1-20020a170906368100b006fec69696a0sm513092ejc.220.2022.06.01.03.00.29
+ bh=bIG8bMhXqTqs0NjJNq80PgU/0+dWMLSGWLfEwYzevpU=;
+ b=MgRaB5oAlb5Kg3r/jITHDXx9BcVqHLNR2NU640VSd6kI4Y8AoDrBjnhKWC0TAU+Imr
+ Lvo7xk7OQaJq+LgG8YWoq3o2KzPPTpXUlO8G8ArkX2e47Yj9YY+wG5hGe+7Qk3CjAS2R
+ aiYORW58Nyb2we1UDl9zHoe35OiMV8wv+FhqRJCgVi5Fi4KgbcfI8KjCRVTtgF9vfQ8N
+ jDLb/LLtFVEM0gN7uFOOAjK9WA2wqiOhsIVE6trqx4BW5nY7KG2+kCKDZ0XQZvTj1rco
+ Lx7RTXAC0AryZ3DakaL+CvDXHZQtTT1nzl/0NM8nQuH0tJfQcJIFz9ryi3ugOi28WgHl
+ n9hw==
+X-Gm-Message-State: AOAM531mrBijdjMyhChLervMcsDYmvZC+6sdEB2o61i/nFRfPNr6YtKG
+ TVmndx1ctcADOuXjlBhyEkMdo6tp26v8fijI2QbD5HrxPOiU1wVwMHDNhRaDfXh6NAOzAA+wWM4
+ hMM8YL79dm5RKyLA=
+X-Received: by 2002:a17:907:8a01:b0:6ff:3eab:9dfa with SMTP id
+ sc1-20020a1709078a0100b006ff3eab9dfamr20888260ejc.467.1654077709570; 
+ Wed, 01 Jun 2022 03:01:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwS1ZKN7BHBKxf9WO/D0TfEtGsddouJ6RGycZNdwq4aQZOy0MKgvLz3icOWsnKvb1a4e3rQ+w==
+X-Received: by 2002:a17:907:8a01:b0:6ff:3eab:9dfa with SMTP id
+ sc1-20020a1709078a0100b006ff3eab9dfamr20888142ejc.467.1654077708092; 
+ Wed, 01 Jun 2022 03:01:48 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ o9-20020a170906600900b006fec8e5b8a9sm519501ejj.152.2022.06.01.03.01.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 03:00:30 -0700 (PDT)
+ Wed, 01 Jun 2022 03:01:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, alex.bennee@linaro.org,
- crosa@redhat.com, f4bug@amsat.org
-Subject: Re: [PATCH v4 0/9] Record/replay refactoring and stuff
-Date: Wed,  1 Jun 2022 12:00:22 +0200
-Message-Id: <20220601100022.973996-1-pbonzini@redhat.com>
+To: Dario Faggioli <dfaggioli@suse.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/Makefile.include: Fix 'make check-help' output
+Date: Wed,  1 Jun 2022 12:01:10 +0200
+Message-Id: <20220601100109.974137-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <165364836050.688121.11980415709895333098.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <165366545439.6869.11633009118019728798.stgit@work>
 References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -99,7 +97,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+> +	@echo " $(MAKE) check-report.junit.xml Generates an aggregated TAP test report"
+
+XML now rather than TAP; tweaked and queued, thanks.
 
 Paolo
 
