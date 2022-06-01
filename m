@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AE453A6DA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 15:56:23 +0200 (CEST)
-Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285CF53A73E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 15:59:21 +0200 (CEST)
+Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwOph-0005zg-B9
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 09:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39338)
+	id 1nwOsa-0001H4-3u
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 09:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nwOn8-0005Hl-Ry
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1nwOn5-0004wJ-Uz
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:53:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654091618;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xufGZKrJO5lHuFG9zFX1MVIZLTEMjX9N1PfF3c0L1h0=;
- b=ihf8LFYt+31KZAZ/r/geNglAQSsed75AqXUDkugZV2S335icpoZ4CBWAVAtyFYdhuZKEc+
- O5BnU0W/UEP0CYccL0lcvC69awwh87c7xniAInK0lObiT3Hq3iSPehSyKr3dF2S9R1Vgik
- JR8KYbLZrjdJF3bMZ6MGopUz3tWbYUE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-ff2MilhCNnevOHrXEInm8g-1; Wed, 01 Jun 2022 09:53:36 -0400
-X-MC-Unique: ff2MilhCNnevOHrXEInm8g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06B03185A7BA
- for <qemu-devel@nongnu.org>; Wed,  1 Jun 2022 13:53:36 +0000 (UTC)
-Received: from localhost (unknown [10.40.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9517610725;
- Wed,  1 Jun 2022 13:53:35 +0000 (UTC)
-Date: Wed, 1 Jun 2022 15:53:34 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-Message-ID: <20220601135334.sp23ow5qo22uja2a@tapioca>
-References: <20220401224104.145961-1-victortoso@redhat.com>
- <87bkwonlkb.fsf@pond.sub.org> <Ynon8Y8uwfL1bDyN@redhat.com>
- <87lev9mw7j.fsf@pond.sub.org> <YnpbuzKo681VwDkn@redhat.com>
- <87r150dugw.fsf@pond.sub.org>
- <20220518085548.gri7ojvp5ezrstsj@tapioca>
- <87mtffm3ak.fsf@pond.sub.org>
- <CABJz62Oi4Yq3n8Mf4uikycD_BZrDhCj8zG1pFVNhv+N2-Q8naw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nwOpQ-0007Bl-Hl
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:56:04 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:44566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nwOpO-0005Sr-NW
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:56:04 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id i66so2707549oia.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 06:56:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6C5JLVDiqpCl6oFWfBe/CKuPrkjOksmDo4BSfEo9Fs4=;
+ b=RX+j5W8peOhxqFQ7xQgy9jtxYkR/yZ7w3kZMyviguJPGl9aZyhTxiIh9/M1De7WAxz
+ t7s7eENUdYMK85zgsBR32dVbJofwYK4JRZHFx0/rvESVcSbTvtPTrsv1u+xoS/uf42dV
+ C9+uBizFQ6qkHy7N6bjKFpnqgHwPjihTsRKQ+nrBsvE75TeT3fzGp5M9hbyj2/78mJmL
+ N7Bh20HQpwyorrSR3fbCOnYRp1HehFxbg3KX9/0615yPYxtK0iqi1Om/KKufBgP6lnzx
+ EJhp5bsA3DAKfuKW79CrsHTBeqlu48jBOQJJP9LrWoxqpsL2FaN40xKEGl0GIMrneGYD
+ Fxyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6C5JLVDiqpCl6oFWfBe/CKuPrkjOksmDo4BSfEo9Fs4=;
+ b=aH1siSZrO6KsaCb1ud/diMo+bR/szkb5gtq27B9G7QCAnkw9Nik6Ad4IPrD6kyHVap
+ pgnTyLyTkGWEdLPZIGQdqCY4xSrKBujsWztSgR8xPwQLbgikWfTgMy8HtCqtLSq0ztIL
+ 5kh0BLASfCBqWfA+fI07AWd0b+AYermf1pAYFHWY0OUbr7o3paEwD+7DNg8kuZxXUxRv
+ tv2qZdSmSara/yQL5rD7nYRh4W8AM8kGmZVNPYS07M8BxDD1k4MdRcW01lomXikaBZUk
+ +E2fC6TUHq2UnzqRNMXygNB/bbXepPoi9rx18jFPWdwsMg+sEDYAoKfjNG/DrBklFJfc
+ q96w==
+X-Gm-Message-State: AOAM533CoxtCLyZzw/sMGYU73oNganAFyW8HXz9ukLI30P+868uFmKbB
+ DaNEjrUkood+DhG1yuj7Zm+W4tMUgqI+MH+A/yU=
+X-Google-Smtp-Source: ABdhPJy0iNJu57CNVxqda28Bl46qctjRQqio6I/tZH5ZKEs4XGtTbRlWKlHkWFGQW15zl1Pd0N38JEFII86N/LGzpoI=
+X-Received: by 2002:a05:6808:3099:b0:32b:30de:d14e with SMTP id
+ bl25-20020a056808309900b0032b30ded14emr18785oib.212.1654091761574; Wed, 01
+ Jun 2022 06:56:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vhf6svftzd2krdfv"
-Content-Disposition: inline
-In-Reply-To: <CABJz62Oi4Yq3n8Mf4uikycD_BZrDhCj8zG1pFVNhv+N2-Q8naw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <CGME20220427205118uscas1p25031437c0cdd4363c104be13033f366a@uscas1p2.samsung.com>
+ <20220427205056.2522-1-t.zhang2@samsung.com>
+ <b675b817-7b7c-06ee-b971-3df2d7374622@redhat.com>
+ <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
+ <0b54d6c7-f56d-1ad2-80b7-d75d1033d67e@redhat.com>
+ <YpdoqgpGloiPIxBk@stefanha-x1.localdomain>
+ <b7eff284-fb61-6a66-dd9a-893b64dd5311@redhat.com>
+In-Reply-To: <b7eff284-fb61-6a66-dd9a-893b64dd5311@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 1 Jun 2022 14:55:49 +0100
+Message-ID: <CAJSP0QUBJdmT47fvCQ=A6faL8sTFLHGgfNp5U8p7QiRY+EwGJA@mail.gmail.com>
+Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
+To: David Hildenbrand <david@redhat.com>
+Cc: Tong Zhang <ztong0001@gmail.com>, Tong Zhang <t.zhang2@samsung.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Francisco Londono <f.londono@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=stefanha@gmail.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,85 +91,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---vhf6svftzd2krdfv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, May 25, 2022 at 08:49:19AM -0500, Andrea Bolognani wrote:
-> On Wed, May 18, 2022 at 02:30:11PM +0200, Markus Armbruster wrote:
-> > Victor Toso <victortoso@redhat.com> writes:
-> > > IMHO, at this moment, qapi-go is targeting communicating with
-> > > QEMU and handling multiple QEMU versions seems reasonable to me.
-> >
-> > It's targeting communicating in *QMP*.  QMP is designed to support
-> > communicating with a range of QEMU versions.  Full compatibility is
-> > promised for a narrow range.  Outside that range, graceful degradation.
-> >
-> > *If* you want to widen the full compatibility range, do it in *QMP*.  Or
-> > do it on top of QEMU, e.g. in libvirt.
-> >
-> > > Perhaps libvirt can use qapi-go in the future or other generated
-> > > interface. That would be cool.
-> >
-> > "Would be cool" and a dollar buys you a cup of bad coffee.
-> >
-> > Is it a good use of our limited resources?
-> >
-> > How much will it delay delivery of Go bindings compared to less
-> > ambitious version?
->=20
-> Yeah, this thread has basically branched to cover three topics:
->=20
->   1. what an MVP Go interface for QMP should look like;
->   2. how to make sure said interface uses pretty names;
->   3. how to make it work across multiple QEMU versions.
->=20
-> All of these are important in the long run, but as far as I'm
-> concerned only 1. is an actual blocker to making progress.
-
-I agree although (1) and (3) are holding hands a bit.
-
-> If we get to the point where we can generate a reasonably
-> complete and well-typed Go interface that can be used to
-> communicate with a single version of QEMU, we should just
-> plaster EXPERIMENTAL all over it and get it merged.
->=20
-> Basically get the MVP done and then iterate over it in-tree
-> rather than trying to get everything perfect from the start.
+On Wed, 1 Jun 2022 at 14:29, David Hildenbrand <david@redhat.com> wrote:
 >
-> Sounds reasonable?
+> On 01.06.22 15:24, Stefan Hajnoczi wrote:
+> > On Wed, Jun 01, 2022 at 10:00:50AM +0200, David Hildenbrand wrote:
+> >> On 01.06.22 02:20, Tong Zhang wrote:
+> >>> Hi David,
+> >>>
+> >>> On Mon, May 30, 2022 at 9:19 AM David Hildenbrand <david@redhat.com> wrote:
+> >>>>
+> >>>> On 27.04.22 22:51, Tong Zhang wrote:
+> >>>>> assert(dbs->acb) is meant to check the return value of io_func per
+> >>>>> documented in commit 6bee44ea34 ("dma: the passed io_func does not
+> >>>>> return NULL"). However, there is a chance that after calling
+> >>>>> aio_context_release(dbs->ctx); the dma_blk_cb function is called before
+> >>>>> the assertion and dbs->acb is set to NULL again at line 121. Thus when
+> >>>>> we run assert at line 181 it will fail.
+> >>>>>
+> >>>>>   softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
+> >>>>>
+> >>>>> Reported-by: Francisco Londono <f.londono@samsung.com>
+> >>>>> Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
+> >>>>> ---
+> >>>>>  softmmu/dma-helpers.c | 2 +-
+> >>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
+> >>>>> index 7820fec54c..cb81017928 100644
+> >>>>> --- a/softmmu/dma-helpers.c
+> >>>>> +++ b/softmmu/dma-helpers.c
+> >>>>> @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
+> >>>>>      aio_context_acquire(dbs->ctx);
+> >>>>>      dbs->acb = dbs->io_func(dbs->offset, &dbs->iov,
+> >>>>>                              dma_blk_cb, dbs, dbs->io_func_opaque);
+> >>>>> -    aio_context_release(dbs->ctx);
+> >>>>>      assert(dbs->acb);
+> >>>>> +    aio_context_release(dbs->ctx);
+> >>>>>  }
+> >>>>>
+> >>>>>  static void dma_aio_cancel(BlockAIOCB *acb)
+> >>>>
+> >>>> I'm fairly new to that code, but I wonder what prevents dma_blk_cb() to
+> >>>> run after you reshuffled the code?
+> >>>>
+> >>>
+> >>> IMO if the assert is to test whether io_func returns a non-NULL value
+> >>> shouldn't it be immediately after calling io_func.
+> >>> Also... as suggested by commit 6bee44ea346aed24e12d525daf10542d695508db
+> >>>   >     dma: the passed io_func does not return NULL
+> >>
+> >> Yes, but I just don't see how it would fix the assertion you document in
+> >> the patch description. The locking change to fix the assertion doesn't
+> >> make any sense to me, and most probably I am missing something important :)
+> >
+> > The other thread will invoke dma_blk_cb(), which modifies dbs->acb, when
+> > it can take the lock. Therefore dbs->acb may contain a value different
+> > from our io_func()'s return value by the time we perform the assertion
+> > check (that's the race).
+> >
+> > This patch makes sense to me. Can you rephrase your concern?
+>
+> The locking is around dbs->io_func().
+>
+> aio_context_acquire(dbs->ctx);
+> dbs->acb = dbs->io_func()
+> aio_context_release(dbs->ctx);
+>
+>
+> So where exactly would the lock that's now still held stop someone from
+> modifying dbs->acb = NULL at the beginning of the function, which seems
+> to be not protected by that lock?
+>
+> Maybe I'm missing some locking magic due to the lock being a recursive lock.
 
-Yep. The whole discussion has been great as to clarify
-limitations and possible goals but not aiming to get it perfect
-all at once seems reasonable.
+Tong Zhang: Can you share a backtrace of all threads when the
+assertion failure occurs?
 
-Cheers,
-Victor
-
---vhf6svftzd2krdfv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmKXb10ACgkQl9kSPeN6
-SE+7EQ//S1OZ0X6xefZZijs+why1d1f8UtIZp37Lm0972hA+w/+h8bW2EJj+3/lk
-v8a0bWREcAkIpZGD5wP5T4XPgTmGf7Rt9nBPFFtwJODE6DzqHVWJRyR6i9GoYikv
-Olm5DCCsOPJSUS2eb+fznoVimFdDBwD7dve3uSyPN7S7HuSkWzLBWdFj8qUHO7yZ
-jBOCbHT68BicWtvjvVssyirgisMCNgvsY5uARIvF/xSx4ugsM2BCKKW+KJbQrOd/
-9eNdYQTycYwNPIJBbNjjnpl8pVm/vD13OYUsdLmAo76pjYIPJspmThuvSzmio3NF
-pxxz/bnjoFICHx/OtWygILI3TAvMImkEKMuvZYsiLOi5wWLK5Jg4EhBH2pPwKGvM
-WC3hud2JYPBmNoXRQ2a6pl2gkEm6bsEfTD4vmM4bRyDt9UYBu/iHJVB/er5lC4OV
-tYTvLZ2bPYgR/QYADGCco70hAdl4qVqL2Z+g+Vv+axv5aSZMrGYqG+CpXMgXxFi3
-qAPQvu9larglh27OpQsI8Bmy3eeQSkQC8pE1p39M5Ge+QSlPJNGC3sRlu9xSBsMp
-aWcU33+ZeNLCntwAUJjcet/2t+3dV7EUOW135nd4fn15qcyRcjrwoOUFLTKFi5DF
-e2654JVkhqQc1ouNYHI1wby262JSyvj8SjnncCeXOdXy6XAd01M=
-=ISjq
------END PGP SIGNATURE-----
-
---vhf6svftzd2krdfv--
-
+Stefan
 
