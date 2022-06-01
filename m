@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41226539E36
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 09:29:59 +0200 (CEST)
-Received: from localhost ([::1]:37702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593BA539E3B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 09:33:38 +0200 (CEST)
+Received: from localhost ([::1]:40852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwInk-0008GM-Pb
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 03:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
+	id 1nwIrJ-00025X-9X
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 03:33:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwIlX-0007Wc-Pa
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:27:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58769)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwIn8-0008V6-5t
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:29:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwIlV-0005lw-0t
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:27:38 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwIn6-0005rj-I4
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 03:29:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654068455;
+ s=mimecast20190719; t=1654068555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R2skycOu0OWWUuBAeEnfk3uTGwVFoxmuqJtb4/zWbsg=;
- b=CIbDnPF6l+m0INqhcL7CUUccbLO0GvTvg1MqkkZajo/YRx1wtdlqrsg/NkDXdYEWRRYbyb
- enCM4veafrnrUHi0K1qlBvXqd1QUZx9L8JDpsvhzFJewBR9XnB2jTWFD1LBMG1uvEyAXib
- IqL0HTJPjNOgfFD5CtId3cEeEI/6biI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rhAhJS7pdilL+5Tvz3JfPzKAQz4+POge+Hngh83xLCM=;
+ b=Zsa/Wf1YZIdzDOJjeXWv7jpjG+8s71QVEXlDb6giGzuFAKJBTgaBJhU9QVJghurkJ0Jfk9
+ o4eEjjUbwKczKRjDUx4qwBWSmzyg3BpOTBI32HAiVSgaZEn+cQtpgmae6STyPYmQu2sGOo
+ XPdUT4+upgxRK7v3C1hxra/7gtn45L0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-HIq9J4dpNCWAuyRgNVdoLQ-1; Wed, 01 Jun 2022 03:27:34 -0400
-X-MC-Unique: HIq9J4dpNCWAuyRgNVdoLQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q14-20020a5d61ce000000b00210353e32b0so87364wrv.12
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 00:27:33 -0700 (PDT)
+ us-mta-657-TbhfPNzNMIKy5jH0c1fgjQ-1; Wed, 01 Jun 2022 03:29:14 -0400
+X-MC-Unique: TbhfPNzNMIKy5jH0c1fgjQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o3-20020a05600c4fc300b003946a9764baso2897863wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 00:29:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=R2skycOu0OWWUuBAeEnfk3uTGwVFoxmuqJtb4/zWbsg=;
- b=CLigD1HAcNjyihGuVMQMw0mE9u4VzFNTTb/yJKzNphpCKTpUa4zPhi6fHYqCc/OvEN
- ruq1+zwHZ62Obbp4o9M7XofjzClSBsnmE6aJhS08bgtfZC5AnEbreXrbkD2Pbf6aZ3OP
- z3ZP0tHDaaJ6KbOsZsKy/wGpNJdEdUj0EInRR3JCP2qsZF7s3vbJhRe9asOsUTz8/FD5
- R/4KEtUpGW5WsLutcl37ZYJIAbYqQRQDsR85TjwUrYwwPNAemnkJeYQUa4CskzElBWl2
- I0XZyyg/Dd5kBkcMBUl31w32Ee5A4K1ljilV0AJWLMjJUTu49Tih9KvwmWB32W8upb4U
- ulEA==
-X-Gm-Message-State: AOAM533DjYJ4UyL8+65YqEMltxnJfhLLlJbTUtKB6cPy0peoNEmH3M1e
- aVqzf1li8HtD2tgN1n0QprrLK2piL/UVYIzY8EGtL4LiV72ZvYLOIXyeJVcfZXnQ7c5VD0NkeIo
- Tajya45kwwjMGWMY=
-X-Received: by 2002:a5d:5590:0:b0:210:fb90:a2db with SMTP id
- i16-20020a5d5590000000b00210fb90a2dbmr744838wrv.418.1654068452852; 
- Wed, 01 Jun 2022 00:27:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6IcWLDm2cJ6JvqKjG4/ubMuYOxy5L4gGxbX8FgZVyfcZy2V1rXe1V/9b5hoBSHfW407LnfA==
-X-Received: by 2002:a5d:5590:0:b0:210:fb90:a2db with SMTP id
- i16-20020a5d5590000000b00210fb90a2dbmr744825wrv.418.1654068452630; 
- Wed, 01 Jun 2022 00:27:32 -0700 (PDT)
+ bh=rhAhJS7pdilL+5Tvz3JfPzKAQz4+POge+Hngh83xLCM=;
+ b=rkj1A61z309/Vgqd8qh5QZaG52s1eeK8IL868RW1VCApMv7xtGNF31AhnzJjAzCWX2
+ HQaBFBSoQMGF7k+qu4FbzPbtij8PycCrN/yGPP3rqVFrUGgPH6SH4JQlpqM3kxsZQgG8
+ a5Zk5fnb3RWrZYdfEsWqcZOGcL0BxwVLusEaqe3fpTdu38dlSzu9NcuCg4ZKncIYZmFf
+ 7i82gtOS/7obJhS3P8+9prqEtYBliokO3G+feRsSCcJWJTQgJFepktlTZJwKTMu114S1
+ l6y9K3Qdp3hd2H8GR/mcy0jjjB43HHOoV92TN+kIHtlQYoaEhhWEDE/Z+5gVoV/HSu7s
+ Yf4Q==
+X-Gm-Message-State: AOAM531lCP5BasfJHk3uTGb6y8dRe43Qbxrg5nSffwCwgdQAX59oVBa7
+ 2q2Tp8311GyFEPKk4ecfTs1ZFJ4fG5o9O9kxCxDr8e66NoTk/TEzt90VRg/XDke2YUi6b0+flD3
+ qfDnjzBcS+gHn44Y=
+X-Received: by 2002:a05:600c:2218:b0:397:3932:7c21 with SMTP id
+ z24-20020a05600c221800b0039739327c21mr27226155wml.44.1654068553630; 
+ Wed, 01 Jun 2022 00:29:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw40GGvw73pke77WueNvxiIckhaASVu3bffhnVbO0F0oNxT5RCIB04JL1bfyVgppjNV7zFjrA==
+X-Received: by 2002:a05:600c:2218:b0:397:3932:7c21 with SMTP id
+ z24-20020a05600c221800b0039739327c21mr27226139wml.44.1654068553429; 
+ Wed, 01 Jun 2022 00:29:13 -0700 (PDT)
 Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- o10-20020adfeaca000000b0020c5253d8c2sm755809wrn.14.2022.06.01.00.27.31
+ o18-20020a05600c4fd200b0039744bd664esm4598938wmq.13.2022.06.01.00.29.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 00:27:32 -0700 (PDT)
-Message-ID: <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
-Date: Wed, 1 Jun 2022 09:27:31 +0200
+ Wed, 01 Jun 2022 00:29:12 -0700 (PDT)
+Message-ID: <67280754-2b19-c9e4-1b7c-2a22348915ae@redhat.com>
+Date: Wed, 1 Jun 2022 09:29:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
+Subject: Re: [PATCH 8/9] tests: add python3-venv to debian10.docker
 Content-Language: en-US
-To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- mopsfelder@gmail.com, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220531172711.94564-1-muriloo@linux.ibm.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
+References: <20220526000921.1581503-1-jsnow@redhat.com>
+ <20220526000921.1581503-9-jsnow@redhat.com>
+ <3a0913d7-c148-2619-bdee-7f70b091a6a9@redhat.com>
+ <CAFn=p-bnd54uvF38Xqexi9T+P0CHo1seLYoBpwCi2V0e-unkSg@mail.gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220531172711.94564-1-muriloo@linux.ibm.com>
+In-Reply-To: <CAFn=p-bnd54uvF38Xqexi9T+P0CHo1seLYoBpwCi2V0e-unkSg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -105,50 +107,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
-> Update max alias to power10 so users can take advantage of a more
-> recent CPU model when '-cpu max' is provided.
+On 31/05/2022 20.28, John Snow wrote:
+> On Mon, May 30, 2022 at 3:33 AM Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 26/05/2022 02.09, John Snow wrote:
+>>> This is needed to be able to add a venv-building step to 'make check';
+>>> the clang-user job in particular needs this to be able to run
+>>> check-unit.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>    tests/docker/dockerfiles/debian10.docker | 1 +
+>>>    1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+>>> index b414af1b9f7..03be9230664 100644
+>>> --- a/tests/docker/dockerfiles/debian10.docker
+>>> +++ b/tests/docker/dockerfiles/debian10.docker
+>>> @@ -34,4 +34,5 @@ RUN apt update && \
+>>>            python3 \
+>>>            python3-sphinx \
+>>>            python3-sphinx-rtd-theme \
+>>> +        python3-venv \
+>>>            $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+>>
+>> Note that we'll (hopefully) drop the debian 10 container soon, since Debian
+>> 10 is EOL by the time we publish the next QEMU release.
+>>
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Fabiano Rosas <farosas@linux.ibm.com>
-> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> ---
->   target/ppc/cpu-models.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-> index 976be5e0d1..c15fcb43a1 100644
-> --- a/target/ppc/cpu-models.c
-> +++ b/target/ppc/cpu-models.c
-> @@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
->       { "755", "755_v2.8" },
->       { "goldfinger", "755_v2.8" },
->       { "7400", "7400_v2.9" },
-> -    { "max", "7400_v2.9" },
->       { "g4",  "7400_v2.9" },
->       { "7410", "7410_v1.4" },
->       { "nitro", "7410_v1.4" },
-> @@ -910,6 +909,8 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
->       { "power8nvl", "power8nvl_v1.0" },
->       { "power9", "power9_v2.0" },
->       { "power10", "power10_v2.0" },
-> +    /* Update the 'max' alias to the latest CPU model */
-> +    { "max", "power10_v2.0" },
->   #endif
+> Noted -- do you think it'd be OK to sneak this change in first and
+> have you move the requisite to the new container? :)
 
-I'm not sure whether "max" should really be fixed alias in this list here? 
-What if a user runs with KVM on a POWER8 host - then "max" won't work this 
-way, will it?
-
-And in the long run, it would also be good if this would work with other 
-machines like the "g3beige", too (which don't support the new 64-bit POWER 
-CPUs), so you should at least mention in the commit description that this is 
-only a temporary hack for the pseries machine, I think.
+I don't mind - whatever comes first ... I just wanted to make you aware that 
+there might be conflicts ;-)
 
   Thomas
+
 
 
