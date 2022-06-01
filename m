@@ -2,97 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76F453A04D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 11:27:41 +0200 (CEST)
-Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BD453A066
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 11:31:25 +0200 (CEST)
+Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwKdg-0008Qg-E7
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 05:27:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35042)
+	id 1nwKhG-0002dz-0f
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 05:31:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwKc2-0007W5-8o
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:25:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwKbu-0007PT-LJ
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:25:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654075547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wi7LGPuKoSKTMGYEITbqM+7Kb4De29hJjrQRxKloc1o=;
- b=PpW9GIeaHcTNFtF2pUk3Syrmmi/tL2qrcGS4nyStiUDjYO1u9RjxV882mRQifBkiOrnOgD
- AA4qlUjoQLxTE0ouwvDz/Yx1CRS+Z7o0XUNY11ZVEmGJkc8R8VoVgsinceJUf6ILiG+pjg
- UkJwnFdyrpMn3/h0y1g9gT8SfvkDDSA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-dhJ3mpWmMTuMGA9FCd5ukQ-1; Wed, 01 Jun 2022 05:25:46 -0400
-X-MC-Unique: dhJ3mpWmMTuMGA9FCd5ukQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- bv12-20020a0560001f0c00b0020e359b3852so163244wrb.14
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 02:25:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1nwKeo-0001p7-SC
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:28:50 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:46617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1nwKen-0007ob-95
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 05:28:50 -0400
+Received: by mail-ot1-x334.google.com with SMTP id
+ r3-20020a9d5cc3000000b0060ae1789875so814627oti.13
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 02:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=0K53pSjT6eN/0tFTyxz235dckCu3kdIUOIdB1gEcfGQ=;
+ b=VKd6AzDRxWfQQ54/9lxGoe4nx+7gAEAcBBY3Tzao37grg+5fzT8JkNh7di2IF2nBml
+ 2dyYenlMe7Zdu5dwaBpB4OA+HXKdyk0yfywwidOZGDMUaFHLbIpM6se09AmIVbgc/faK
+ I06FFu9ceFN2S31oT9AZcPh9VBgrivp4kywPPkyqU2i4LbdqKUh9tFblooL540BAi61/
+ IMb/EFjO+UJHoKYhWw4zjQZ/HrW1x62LnmuTFqQNgYV6xrdQ8ME+kQTFqDwnYH2l9c6A
+ 0rwvtbXN8S5Pdr8cIf8coQtwaoFORJYSkEz8ey19cMvyHmHIuq9nmk2Bdmx7tjDcUF3Z
+ wbpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=wi7LGPuKoSKTMGYEITbqM+7Kb4De29hJjrQRxKloc1o=;
- b=CAFaiomfcsJGDdIbm96kdBm8nqNemsONG68f7tn68209JjVzLB0BfuCGngCIqJI8O7
- lcfoYmy7t2LdhrX2W0MJm5HCR2PGhH5OcspAlloJo9mvB4k2kK1z/Un2C9+gYdC62qEE
- rQMGZ8Qc2QKJ6/aTHRh6TNkWZcGdEAlabxVZaUrL5O4skP2ii2LHZsHknlabf9pqR/B4
- 0jqGC6fQJ3NGDrueqUm9a1MXHzllAHb6fchADoyTeaGbbeafhfr4sqFg/604r5cToIxb
- 9Lvmm9LFEJuQBf/UxQYTNmoiMiwcDB+/UHoD4P4tx8jK4lvL1Yrj9tBKyLogTDCVxDMh
- lnJQ==
-X-Gm-Message-State: AOAM531CZIMJWx5ZwZCxGYa9+p5G8eNVyINsn8/JU4CmjoXNnL3H/l4O
- TDC5t9GF4WJqczDVFFJz0MZxQqGhJZDR4/V7bFY33wTNj/X7W67hixzj2wv9tOl1vBf73gyAWJ/
- Ee1VmU2DepXolaIY=
-X-Received: by 2002:a05:600c:600d:b0:397:3801:3787 with SMTP id
- az13-20020a05600c600d00b0039738013787mr28129431wmb.113.1654075544785; 
- Wed, 01 Jun 2022 02:25:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrPVsWCDCmbpa8VDE1Wtdjw540OleXheeq+y13Aqm6ZFtZpn452SQ+reEinfbCQleBBM+Yfg==
-X-Received: by 2002:a05:600c:600d:b0:397:3801:3787 with SMTP id
- az13-20020a05600c600d00b0039738013787mr28129412wmb.113.1654075544532; 
- Wed, 01 Jun 2022 02:25:44 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- p9-20020adf9d89000000b0020d10a249eesm1220973wre.13.2022.06.01.02.25.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 02:25:44 -0700 (PDT)
-Message-ID: <5076ea8a-428d-5aa2-1a8c-cd38bf67c7f9@redhat.com>
-Date: Wed, 1 Jun 2022 11:25:43 +0200
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=0K53pSjT6eN/0tFTyxz235dckCu3kdIUOIdB1gEcfGQ=;
+ b=G6A2Qylwm8Z61ozJmLNwPlLGI6qRrbWtDRyNXri9D8bsKbD5isp/9VEBBDqhW6Qo1a
+ xTNPkBhZIwPziEvSHjfxFxsk9It88RNhIPqtiqmveFgC6He0y3piiiwEAFDuerQrJ73D
+ ELX7gR/eCG+NjGw+SQKlla3pfBY4nJeSCX2UGtuDb92ohSBNMFPnw4jkMFTRa5Nv9TGT
+ H1kJphVfwHO2OjWJsWorPD97kT6CN76Rxya4l5IH8GIugFNAucagVP0NPhMW4xpHLGOq
+ 941ADJcBnWJ17na/pk7/5ZJxc8m50HjdP5oMUBK8hoFe8Vo+0vkOtT9Uztv14HORQHaz
+ 6hWQ==
+X-Gm-Message-State: AOAM530vcvAJKaojjn074uosoJv/UAXb43BAJEJbOJHN7Dc30HYJ63fC
+ fp76tCSttIrbYIQI4K2+z1JcStU/Qi5S1LW5sxwdWHIL
+X-Google-Smtp-Source: ABdhPJxPLBu6Y7lGHD4H4Rkd2IqjsXB5I6vqulaajyQG9PK614wq7kIp+9zKhtBF3rrsQew/8c6mWUwEAf9KCXn9X8E=
+X-Received: by 2002:a9d:761a:0:b0:60b:6c4d:414e with SMTP id
+ k26-20020a9d761a000000b0060b6c4d414emr7710893otl.25.1654075727290; Wed, 01
+ Jun 2022 02:28:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>
-Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, mopsfelder@gmail.com,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220531172711.94564-1-muriloo@linux.ibm.com>
- <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
- <20220601103825.498c378f@bahia>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
-In-Reply-To: <20220601103825.498c378f@bahia>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+From: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Wed, 1 Jun 2022 05:28:36 -0400
+Message-ID: <CAK7rcp8ukcpWLgcDozdMBnzrOh-qq_b9bkukBNqXYb=XbUYr+Q@mail.gmail.com>
+Subject: Types?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000002828c305e05f84e4"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=kennethadammiller@gmail.com; helo=mail-ot1-x334.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_05=-0.5, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,48 +78,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/06/2022 10.38, Greg Kurz wrote:
-> On Wed, 1 Jun 2022 09:27:31 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
->>> Update max alias to power10 so users can take advantage of a more
->>> recent CPU model when '-cpu max' is provided.
-...
-> We already have the concept of default CPU for the spapr
-> machine types, that is usually popped up to the newer
-> CPU model that is going to be supported in production.
-> This goes with a bump of the machine type version as
-> well for the sake of migration. This seems a lot more
-> reliable than the "max" thingy IMHO.
-> 
-> Unless there's a very important use case I'm missing,
-> I'd rather kill the thing instead of trying to resurrect
-> it.
+--0000000000002828c305e05f84e4
+Content-Type: text/plain; charset="UTF-8"
 
-It's about making ppc similar to other architectures, which
-have "-cpu max" as well, see:
+Hello,
 
-  https://gitlab.com/qemu-project/qemu/-/issues/1038
+I am working on a qemu target under development. and I am wondering how I
+should differentiate the MachineState from the MachineClass.
 
-It would be nice to get something similar on ppc.
+--0000000000002828c305e05f84e4
+Content-Type: text/html; charset="UTF-8"
 
-By the way, the warnings that you currently get when running with
-TCG are quite ugly, too:
+<div dir="ltr">Hello,<br><br>I am working on a qemu target under development. and I am wondering how I should differentiate the MachineState from the MachineClass.</div>
 
-$ ./qemu-system-ppc64
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-cfpc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-sbbc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-ibs=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-ccf-assist=on
-
-Maybe these could get fixed with a proper "max" CPU in TCG
-mode, too?
-
-  Thomas
-
+--0000000000002828c305e05f84e4--
 
