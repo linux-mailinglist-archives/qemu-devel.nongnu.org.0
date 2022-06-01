@@ -2,94 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B034353A1EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 12:06:32 +0200 (CEST)
-Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3C453A207
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 12:09:28 +0200 (CEST)
+Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwLFH-0004Fo-RN
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 06:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
+	id 1nwLI7-0008I1-GL
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 06:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nwLC2-0002QI-Ad
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:03:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26159)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nwLCR-0002nM-F5
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:03:36 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:52047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nwLBx-0004sR-04
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:03:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654077783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DSvOTCX5zEjp2Gq6BzngIjkHNH93Xez2WNZHTt4ZoZI=;
- b=Og0AtX9/kkAVc+hsq4JDt8MSwVhCP5E9lSF9/rvxxyf0aKLFYKJXgbGjviYOaTZZdiq9nm
- FnvE1R/nbCZV3kAkt3u04x/TubKLkj0wwRCh0XyfUAVPdSh/3RitQrrqJOU4CAW0pAFWgK
- JPfVe/xqgBP/To+J7/FZTNXHqa8wSQ0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nwLCP-0004tl-Jk
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 06:03:35 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-F3ZIikvCO5KAq2kIKdziTQ-1; Wed, 01 Jun 2022 06:03:02 -0400
-X-MC-Unique: F3ZIikvCO5KAq2kIKdziTQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m6-20020aa7c2c6000000b0042dc237d9e7so909806edp.15
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 03:03:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DSvOTCX5zEjp2Gq6BzngIjkHNH93Xez2WNZHTt4ZoZI=;
- b=sytrG8JJ6YPOqpjgR6Nf9QUGkR0BGsaVH72/Rh37cnvJMUnLsupFXBW/vSs0f/26rG
- 3FUmYI3PiNXibTeZc/ec96zk+6A5JVzxn0bUHijdqUiPUEWDu5eqWgCsOFr0xqB6O28F
- ZdlT4wOkaht+tJhsKxIQ8Pz5sZ/ArVyvbCIC5tGThJhTlL0zAYMyjqbmsE3dR40xRI0R
- d0MYS+/rmqAKqA3XUvex6DbF5UzfajXKVExtZkBogC5pGF//7T3wNq4RbzivxLPUPbD/
- p+dS+7pDTev2EkiSuKsj5TABKYUMmsCz2Bfr33qC+5tQ4liWBcgOrL91Ho2lMrwrklXR
- kjgw==
-X-Gm-Message-State: AOAM530D+FtkPG9RUPgEzoVLxuGHdvulESUoGxHmkX2pfYdU1CcA4yea
- pw0+ejk9kd/My0w3XgjLlaedTanT6SGMnFqSCwp4Mm+rh06HH6cn0aeKB4rvJiygbB+/SfmJSeE
- LzdFiWcjoRmwjjbQ=
-X-Received: by 2002:a05:6402:3551:b0:42b:6d38:9485 with SMTP id
- f17-20020a056402355100b0042b6d389485mr49817292edd.234.1654077780693; 
- Wed, 01 Jun 2022 03:03:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwERA14cwPQPUsoujCHH07PdOOkAZdRqKW7cmpFPOtyR0umDd4TM7ilq2sE0xDgkCsXMG2NdA==
-X-Received: by 2002:a05:6402:3551:b0:42b:6d38:9485 with SMTP id
- f17-20020a056402355100b0042b6d389485mr49817269edd.234.1654077780439; 
- Wed, 01 Jun 2022 03:03:00 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- s23-20020a170906bc5700b006fec9cf9237sm516588ejv.130.2022.06.01.03.02.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 03:02:59 -0700 (PDT)
-Message-ID: <e39f2adc-1391-1b2d-f809-dc114bea4df8@redhat.com>
-Date: Wed, 1 Jun 2022 12:02:59 +0200
+ us-mta-327-rGNGMXxFOUKcBVieCHC67w-1; Wed, 01 Jun 2022 06:03:29 -0400
+X-MC-Unique: rGNGMXxFOUKcBVieCHC67w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1155D833976;
+ Wed,  1 Jun 2022 10:03:28 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B838182894;
+ Wed,  1 Jun 2022 10:03:25 +0000 (UTC)
+Date: Wed, 1 Jun 2022 12:03:24 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, David Gibson
+ <david@gibson.dropbear.id.au>, mopsfelder@gmail.com, "Daniel P .
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Fabiano Rosas
+ <farosas@linux.ibm.com>
+Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
+Message-ID: <20220601120324.66c77571@bahia>
+In-Reply-To: <5076ea8a-428d-5aa2-1a8c-cd38bf67c7f9@redhat.com>
+References: <20220531172711.94564-1-muriloo@linux.ibm.com>
+ <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
+ <20220601103825.498c378f@bahia>
+ <5076ea8a-428d-5aa2-1a8c-cd38bf67c7f9@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 0/2] i386: fixup number of logical CPUs when
- host-cache-info=on
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220524151020.2541698-1-imammedo@redhat.com>
- <20220531144417.73eb53b1@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220531144417.73eb53b1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,26 +74,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/22 14:44, Igor Mammedov wrote:
-> Paolo,
->   can you pick this up if it looks fine, please?
+On Wed, 1 Jun 2022 11:25:43 +0200
+Thomas Huth <thuth@redhat.com> wrote:
+
+> On 01/06/2022 10.38, Greg Kurz wrote:
+> > On Wed, 1 Jun 2022 09:27:31 +0200
+> > Thomas Huth <thuth@redhat.com> wrote:
+> > 
+> >> On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
+> >>> Update max alias to power10 so users can take advantage of a more
+> >>> recent CPU model when '-cpu max' is provided.
+> ...
+> > We already have the concept of default CPU for the spapr
+> > machine types, that is usually popped up to the newer
+> > CPU model that is going to be supported in production.
+> > This goes with a bump of the machine type version as
+> > well for the sake of migration. This seems a lot more
+> > reliable than the "max" thingy IMHO.
+> > 
+> > Unless there's a very important use case I'm missing,
+> > I'd rather kill the thing instead of trying to resurrect
+> > it.
 > 
-> On Tue, 24 May 2022 11:10:18 -0400
-> Igor Mammedov <imammedo@redhat.com> wrote:
+> It's about making ppc similar to other architectures, which
+> have "-cpu max" as well, see:
 > 
->> Igor Mammedov (2):
->>    x86: cpu: make sure number of addressable IDs for processor cores
->>      meets the spec
->>    x86: cpu: fixup number of addressable IDs for logical processors
->>      sharing cache
->>
->>   target/i386/cpu.c | 20 ++++++++++++++++----
->>   1 file changed, 16 insertions(+), 4 deletions(-)
->>
+>   https://gitlab.com/qemu-project/qemu/-/issues/1038
+> 
+> It would be nice to get something similar on ppc.
 > 
 
-Yup, queued now.  Thanks,
+Problem is that on ppc, given the variety of models and boards,
+the concept of "max" is quite fuzzy... i.e. a lot of cases to
+consider for a benefit that is unclear to me. Hence my questioning.
+If the idea is just to match what other targets do without a specific
+use case in mind, this looks quite useless to me.
 
-Paolo
+> By the way, the warnings that you currently get when running with
+> TCG are quite ugly, too:
+> 
+> $ ./qemu-system-ppc64
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+> cap-cfpc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+> cap-sbbc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+> cap-ibs=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+> cap-ccf-assist=on
+> 
+> Maybe these could get fixed with a proper "max" CPU in TCG
+> mode, too?
+> 
+
+I don't think so. These warnings are the consequence of pseries
+being the default machine for ppc64, and the default pseries
+machine decides on the default CPU model and default values for
+features (in this case, these are mitigations for spectre/meltdown).
+TCG doesn't support them but we certainly don't want to add more
+divergence between TCG and KVM.
+
+Cheers,
+
+--
+Greg
+
+>   Thomas
+> 
 
 
