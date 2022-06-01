@@ -2,90 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891AA539AD6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 03:42:48 +0200 (CEST)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDD4539ACC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 03:39:10 +0200 (CEST)
+Received: from localhost ([::1]:44970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwDNn-0001zf-Mv
-	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 21:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46880)
+	id 1nwDKH-0006Uv-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 31 May 2022 21:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nwDM0-0001Gm-1r
- for qemu-devel@nongnu.org; Tue, 31 May 2022 21:40:56 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nwDLw-0006Nr-6T
- for qemu-devel@nongnu.org; Tue, 31 May 2022 21:40:54 -0400
-Received: by mail-pl1-x634.google.com with SMTP id s12so422483plp.0
- for <qemu-devel@nongnu.org>; Tue, 31 May 2022 18:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jFvwYwPJCY6k0di+i6nL1/XGJtBAlgbdq8lOQ9mtj3Q=;
- b=imgRJrFZSHLe6lO2zmh5r0EUVQKmP5XUldXw07mbKIhXPvCYkq3hRTr6NDY/S/9Xuq
- +CHuquruv+4BXW/Oxm0lr6vXR5mOMwblPj4a9FEb0E5xzqanj0y/1TZLXuGphHrYu4Fp
- t5Rfn8wSPc3UPIkR+FM3fo5SJxUDLo+U93YEWTSeP3uyz457NYmf86aIcdBtQoSy5eUI
- pC6H9k5onjbkwC73/18YNImeZDfeT3O9BP+l+bVE0PhdhBusx8crbLVx9sErEnUDvi1z
- qel24NElsXerHeDYi5jNW4LYdLtiJrkVwjgp/dfWterqvC8bX5nawa4aLQ0M8dFJ5aKf
- aiQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jFvwYwPJCY6k0di+i6nL1/XGJtBAlgbdq8lOQ9mtj3Q=;
- b=ffXJ0CBs7E9GTzZHJi5++0uhYYPwnDBj9tquN0cBDPxU5Bsl173ivmh+iyZsdJuv41
- i53YchVfaYW2PtWhN5HROWIVSjCEVUkkyiOldrEvNxVMyUPqV/quXmfKAeRThjxfzfv/
- +bq5iKfAQITgMGmcxT/jpH/UjF0lPa6B39et15rh0Pr1AsGSS2Esld1FxR4gQYuTFv8y
- MDJCuORhNtmFDz3kCyl4wW9sifGeGHZSsg9E9Nqw5p6rnkImg2QDCAV6BtLvs+u5T0o8
- ONSdnmjz30nLvDH+3Jecmu+5FQOEjcjnXjBQ27K2SBoHo/o+nnMtrA5X4t7OjHHT5+p5
- QV+g==
-X-Gm-Message-State: AOAM531tR0evDZjf3LnhDMTKOwfYqk/08c9t6zWmVRAgKm2AJjWG3z0F
- NvKUMxMgrALtBbRPGbClegvMTw==
-X-Google-Smtp-Source: ABdhPJxL9+zVLo1Fe4n5GfInEgl1mETUHn6X4Lrss5tFCnux/FCRgTY28hJgW0D1nHV7FYQXjlwMuA==
-X-Received: by 2002:a17:90a:df91:b0:1e3:4dc8:46e7 with SMTP id
- p17-20020a17090adf9100b001e34dc846e7mr3726446pjv.106.1654047648994; 
- Tue, 31 May 2022 18:40:48 -0700 (PDT)
-Received: from [10.255.89.136] ([139.177.225.233])
- by smtp.gmail.com with ESMTPSA id
- ru12-20020a17090b2bcc00b001cb6527ca39sm2639407pjb.0.2022.05.31.18.40.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 18:40:48 -0700 (PDT)
-Message-ID: <f59a879a-3526-4da3-7546-3e719f070504@bytedance.com>
-Date: Wed, 1 Jun 2022 09:36:49 +0800
+ (Exim 4.90_1)
+ (envelope-from <prvs=144e506c5=alistair.francis@opensource.wdc.com>)
+ id 1nwDIL-0004jd-CK
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 21:37:09 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:58711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=144e506c5=alistair.francis@opensource.wdc.com>)
+ id 1nwDIJ-0005fD-AP
+ for qemu-devel@nongnu.org; Tue, 31 May 2022 21:37:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1654047427; x=1685583427;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MoMN5a+5Z45WDlR+td3uUDC50gkKJzMY+X8zjTOYaFM=;
+ b=KCimZF85u5j5A71q81bjbI/wysvN/oYaKC9pFbfR0w8hGIUcf2bv4fGD
+ Q3OEls+V0llHorihyaPsH4cHs3HUfLk5zMju4DFmZ1L15OyRI/Se923P0
+ cUSJ/DQ7T4RYBFCARosAvYKYrcp6rAScRcX6Uh1Uzcz9Pu4GMqHzOIDgV
+ MFHGWuVzNyU4xu6fDIIZW5aug76UAYkghnAv1uOjYk4+8EYKzQiucSQKd
+ LmaHyhBq2F/Kkod/emssy/1D6JS4E3rnH99mHTCNwTj/F3swPWGes7pbk
+ pfn+fqd4zwq2T01eIGfOSCgY6ihsSbxGwB5AVrkuLquP61m39IS8UFI+C Q==;
+X-IronPort-AV: E=Sophos;i="5.91,266,1647273600"; d="scan'208";a="313964947"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Jun 2022 09:37:05 +0800
+IronPort-SDR: f+6E7sCVQ8R2+gch3PlhZoN3JjWf2NGKQsgCSqbDKgv88JWMZSSu3fDeHL25ddmMN1ns1NuCBq
+ Xjzj1HB66APJm33mfpaz3XQr3Rc6TRCby5X+vhR3easNFkDuP47+mFuKaGzf3teFxNgIScoF+N
+ osYaEHM9mfH5IZ6vfuLgRXJCbqDpw6/i7vcJFhxMSKf131miW+XAnnGZdDoy51kWCuX6/KwxKj
+ NJdInYZ5WaLOjrnBTt9zjEM02cCnuWpTuhoqmljJVbRZs22HTM1WJ3i1pF2VsEBXW12KSBePqQ
+ jtKV4MsXTAG24q4ykHgN/5A7
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 31 May 2022 17:56:25 -0700
+IronPort-SDR: hnFrdG+kdMeQbetST9FaAZN0MLl8UNnNjHu7Bxe6XCsW0aU7sJN+HHsA1pOb33VMhQ38FjGBno
+ 1qj6pRcjSk77dx+w2zK0h3Kf8Yj6EujqqfxwzlCU0PKvFbeUd6ZqewXg7B5QgiodMFA5O4HNvW
+ ygVfDmqTygzgBpfNodC43UHOfQ0fO2ai7P/ldCx33xIGsW7CgQj1Cux4yXpgQxB8VKW0MmpV/a
+ vj1vzAT90g42067iVO25gaJFnBeNoF4RTSAqWSr5yullY2kh2tMg6+iH2KolzHyptsP/tGo5hs
+ HLg=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 31 May 2022 18:37:05 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LCWwJ3kkHz1SVp0
+ for <qemu-devel@nongnu.org>; Tue, 31 May 2022 18:37:04 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1654047423;
+ x=1656639424; bh=MoMN5a+5Z45WDlR+td3uUDC50gkKJzMY+X8zjTOYaFM=; b=
+ FSIEG0iAOEwaF1dk3F6pkEeNDy13+7Ei7xmB8iwv1nNI/p1rWjslAwUgm8TGt4CG
+ kMMcfRaI8zOjkNEj/pbgBnLIbJbpmbQ4nkZDfTlsgGBmHr2b8upevIJJzrAgWj6t
+ ZrlNwjyqvzfzertF/4OvZzhkrL0xYaSUJfyK+ARN09KaaLuhYTIQud3mw8TZyleM
+ Ms5AQ0gavdUgfV0o8O3g18C1S/E8WM1760lPG5Hb3e5G7HC+9KxKyRgS6clfPjTE
+ qA/uWkHGdqWRspAWo/HosriKJLrQxAKg37ScxLsJv5ak01f0ah4yTUi2ESscO3FP
+ 3Ak1juRH2vBooXsNkdNEFw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id PYW_5BFbguAp for <qemu-devel@nongnu.org>;
+ Tue, 31 May 2022 18:37:03 -0700 (PDT)
+Received: from toolbox.alistair23.me (unknown [10.225.165.8])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LCWwD5Rb1z1Rvlc;
+ Tue, 31 May 2022 18:37:00 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v2] target/riscv: Don't expose the CPU properties on names CPUs
+Date: Wed,  1 Jun 2022 11:36:57 +1000
+Message-Id: <20220601013657.197358-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: RE: RE: [PATCH v8 1/1] crypto: Introduce RSA algorithm
-Content-Language: en-US
-To: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "mst@redhat.com" <mst@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "helei.sig11@bytedance.com" <helei.sig11@bytedance.com>,
- "berrange@redhat.com" <berrange@redhat.com>
-References: <20220527084734.2649594-1-pizhenwei@bytedance.com>
- <20220527084734.2649594-2-pizhenwei@bytedance.com>
- <848d579e2c504ba493cd57510a7ff3b0@huawei.com>
- <b2ee77ae-2044-32b4-20c5-43fa78e8213c@bytedance.com>
- <39f884dbc25d4b0cbec510ab090e6778@huawei.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <39f884dbc25d4b0cbec510ab090e6778@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=144e506c5=alistair.francis@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,53 +115,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/22 20:08, Gonglei (Arei) wrote:
-> 
-> 
->> -----Original Message-----
->> From: zhenwei pi [mailto:pizhenwei@bytedance.com]
->> Sent: Tuesday, May 31, 2022 9:48 AM
->> To: Gonglei (Arei) <arei.gonglei@huawei.com>
->> Cc: qemu-devel@nongnu.org; mst@redhat.com;
->> virtualization@lists.linux-foundation.org; helei.sig11@bytedance.com;
->> berrange@redhat.com
->> Subject: Re: RE: [PATCH v8 1/1] crypto: Introduce RSA algorithm
->>
->> On 5/30/22 21:31, Gonglei (Arei) wrote:
->>>
->>>
->>>> -----Original Message-----
->>>> From: zhenwei pi [mailto:pizhenwei@bytedance.com]
->>>> Sent: Friday, May 27, 2022 4:48 PM
->>>> To: mst@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>
->>>> Cc: qemu-devel@nongnu.org; virtualization@lists.linux-foundation.org;
->>>> helei.sig11@bytedance.com; berrange@redhat.com; zhenwei pi
->>>> <pizhenwei@bytedance.com>
->>>> Subject: [PATCH v8 1/1] crypto: Introduce RSA algorithm
->>>>
->>>>
->>> Skip...
->>>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-> 
-> OK. For the patch:
-> 
-> Reviewed-by: Gonglei <arei.gonglei@huawei.com>
-> 
-> 
-> Regards,
-> -Gonglei
->      
-> 
+There are currently two types of RISC-V CPUs:
+ - Generic CPUs (base or any) that allow complete custimisation
+ - "Named" CPUs that match existing hardware
 
-Hi, Michael & Lei,
+Users can use the base CPUs to custimise the extensions that they want, f=
+or
+example -cpu rv64,v=3Dtrue.
 
-The other patches of this series has been already merged into QEMU, this 
-patch is the last one. With this patch, we can test virtio-crypto 
-akcipher end-to-end.
+We originally exposed these as part of the named CPUs as well, but that w=
+as
+by accident.
 
-Thanks a lot!
+Exposing the CPU properties to named CPUs means that we accidently
+enable extensinos that don't exist on the CPUs by default. For example
+the SiFive E CPU currently support the zba extension, which is a bug.
 
--- 
-zhenwei pi
+This patch instead only expose the CPU extensions to the generic CPUs.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.c | 57 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 46 insertions(+), 11 deletions(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index a91253d4bd..c0c0f7e71f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -118,6 +118,8 @@ static const char * const riscv_intr_names[] =3D {
+     "reserved"
+ };
+=20
++static void register_cpu_props(DeviceState *dev);
++
+ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+ {
+     if (async) {
+@@ -161,6 +163,7 @@ static void riscv_any_cpu_init(Object *obj)
+     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+ #endif
+     set_priv_version(env, PRIV_VERSION_1_12_0);
++    register_cpu_props(DEVICE(obj));
+ }
+=20
+ #if defined(TARGET_RISCV64)
+@@ -169,6 +172,7 @@ static void rv64_base_cpu_init(Object *obj)
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV64, 0);
++    register_cpu_props(DEVICE(obj));
+ }
+=20
+ static void rv64_sifive_u_cpu_init(Object *obj)
+@@ -181,9 +185,11 @@ static void rv64_sifive_u_cpu_init(Object *obj)
+ static void rv64_sifive_e_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++    cpu->cfg.mmu =3D false;
+ }
+=20
+ static void rv128_base_cpu_init(Object *obj)
+@@ -197,6 +203,7 @@ static void rv128_base_cpu_init(Object *obj)
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV128, 0);
++    register_cpu_props(DEVICE(obj));
+ }
+ #else
+ static void rv32_base_cpu_init(Object *obj)
+@@ -204,6 +211,7 @@ static void rv32_base_cpu_init(Object *obj)
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV32, 0);
++    register_cpu_props(DEVICE(obj));
+ }
+=20
+ static void rv32_sifive_u_cpu_init(Object *obj)
+@@ -216,27 +224,33 @@ static void rv32_sifive_u_cpu_init(Object *obj)
+ static void rv32_sifive_e_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++    cpu->cfg.mmu =3D false;
+ }
+=20
+ static void rv32_ibex_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+-    qdev_prop_set_bit(DEVICE(obj), "x-epmp", true);
++    cpu->cfg.mmu =3D false;
++    cpu->cfg.epmp =3D true;
+ }
+=20
+ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+     set_resetvec(env, DEFAULT_RSTVEC);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++    cpu->cfg.mmu =3D false;
+ }
+ #endif
+=20
+@@ -249,6 +263,7 @@ static void riscv_host_cpu_init(Object *obj)
+ #elif defined(TARGET_RISCV64)
+     set_misa(env, MXL_RV64, 0);
+ #endif
++    register_cpu_props(DEVICE(obj));
+ }
+ #endif
+=20
+@@ -831,6 +846,12 @@ static void riscv_cpu_init(Object *obj)
+ {
+     RISCVCPU *cpu =3D RISCV_CPU(obj);
+=20
++    cpu->cfg.ext_counters =3D true;
++    cpu->cfg.ext_ifencei =3D true;
++    cpu->cfg.ext_icsr =3D true;
++    cpu->cfg.mmu =3D true;
++    cpu->cfg.pmp =3D true;
++
+     cpu_set_cpustate_pointers(cpu);
+=20
+ #ifndef CONFIG_USER_ONLY
+@@ -839,7 +860,7 @@ static void riscv_cpu_init(Object *obj)
+ #endif /* CONFIG_USER_ONLY */
+ }
+=20
+-static Property riscv_cpu_properties[] =3D {
++static Property riscv_cpu_extensions[] =3D {
+     /* Defaults for standard extensions */
+     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
+     DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
+@@ -862,17 +883,12 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+-    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+=20
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+=20
+-    DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
+-    DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCH=
+ID),
+-    DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID)=
+,
+-
+     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+@@ -909,6 +925,25 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+=20
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void register_cpu_props(DeviceState *dev)
++{
++    Property *prop;
++
++    for (prop =3D riscv_cpu_extensions; prop && prop->name; prop++) {
++        qdev_property_add_static(dev, prop);
++    }
++}
++
++static Property riscv_cpu_properties[] =3D {
++    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
++
++    DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
++    DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCH=
+ID),
++    DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID)=
+,
++
+     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVE=
+C),
+=20
+     DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string,=
+ false),
+--=20
+2.35.3
+
 
