@@ -2,101 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FD253A5F9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 15:34:27 +0200 (CEST)
-Received: from localhost ([::1]:58780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBA653A62A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jun 2022 15:50:34 +0200 (CEST)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwOUU-0002hn-4j
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 09:34:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34166)
+	id 1nwOk5-0003A0-9w
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 09:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwOPS-0000Q2-Nz
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:29:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47510)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nwOhv-0002M4-JG; Wed, 01 Jun 2022 09:48:19 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37408
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nwOPO-0000ec-VC
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 09:29:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654090149;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8Z+b3FAmn8oPv1ij7VRlLlO2ybOemGY/YduHNSU7g7I=;
- b=SmuszuZhI8aai2aIBNyfOjjE92yTG7hdCTtGC7nivASp/n26YkSzLpl7t/hyXN13JjQIQs
- Enw89XRF3zDi8+wMucRlu/bxeEZQcUTr7wa57ygdjHjyZ1jYDgsR6eB0PggrjYA0aS8LKh
- bG3iDQKZDFVfinLAyjcYslOVvjfNK4A=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-nzIV7WwiNp6rsxDERcLM6g-1; Wed, 01 Jun 2022 09:29:08 -0400
-X-MC-Unique: nzIV7WwiNp6rsxDERcLM6g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i30-20020a1c541e000000b0039c1bf9739fso905786wmb.6
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 06:29:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=8Z+b3FAmn8oPv1ij7VRlLlO2ybOemGY/YduHNSU7g7I=;
- b=p81wPo0Lyx823tYEqFe8Gn/HtCC+YDAmW6VZvUhs/8hWfTmVnsRGSHa80BZFnWCtdI
- 2WxmODXMAWTysI7rYNjDRG1biR42inVsqA96eBb/DmWUP065bj+uPz+4D+EdlWRl8AoR
- 57fpKZgTvk0r1q96YH9+xqa4X/PQG8BciKQPNy/UmCV5qYziBWz3ARpmMQQbQSYihWZm
- 3Ww3utPEf7l+Fd3KZ72ECoznEpgNWAsiS326D07+fEcxTiLT1MEGvJzdgve6EfUhu5Ms
- Biypt31GMCYMQl+j0s0TdBE20yY4OTYb0Nd6YzYVavQaxkBkeiHCWE6kOIjK5qZtooY0
- 1tIw==
-X-Gm-Message-State: AOAM533ZWTEFbBlABY5ssvm1+4jEUI7pMn4l29HpoSu1ro4hS7NLr3CX
- 6ElYVARuHgN5/6Yk8yVWyVs5l/ZpraBGUuZte/P20dP7xs8en+HAR/NG1Dp8CsndJ6eGPw5Ffy5
- XKebnkOTqeY1Jc80=
-X-Received: by 2002:adf:fc01:0:b0:20c:ff9a:2c53 with SMTP id
- i1-20020adffc01000000b0020cff9a2c53mr53790062wrr.142.1654090147286; 
- Wed, 01 Jun 2022 06:29:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6C0vJsg6TmMOLzeL6V6hYJZdLVt5LVckkkZtOF8UWFHKL/RnixSdmvuq2poLuwpXN4q9PBw==
-X-Received: by 2002:adf:fc01:0:b0:20c:ff9a:2c53 with SMTP id
- i1-20020adffc01000000b0020cff9a2c53mr53790043wrr.142.1654090146996; 
- Wed, 01 Jun 2022 06:29:06 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:2600:951d:63df:c091:3b45?
- (p200300cbc7052600951d63dfc0913b45.dip0.t-ipconnect.de.
- [2003:cb:c705:2600:951d:63df:c091:3b45])
- by smtp.gmail.com with ESMTPSA id
- 184-20020a1c02c1000000b0039482d95ab7sm2129791wmc.24.2022.06.01.06.29.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 06:29:06 -0700 (PDT)
-Message-ID: <b7eff284-fb61-6a66-dd9a-893b64dd5311@redhat.com>
-Date: Wed, 1 Jun 2022 15:29:05 +0200
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nwOht-0004G0-C9; Wed, 01 Jun 2022 09:48:19 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 251C1Jib003127;
+ Wed, 1 Jun 2022 13:48:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UErtf5KaoMBpfs/dBKHYGT2Orwww6J81RpTk2o0y5+s=;
+ b=PVD64m5/DfLcyCUNuGm0WU3J5MzBlcbfRF7rjLzteON4eROlA06Q32cOeJdP6ph9n98N
+ MiRENSGrZJ8lI8U/hEpDDyuTomHqzUiP9aTSuPI7dD/pDxoBjQG/NdoLtEoHLt6EqKUy
+ 34sTftQ0ZpAvIFuF3YVoV706Xz4YDYSH20gdojCipGfEuDJ+8Oyl/c1kHerIC/njpNR0
+ J9LFY/mHKmss0rEm8kDyB6egZgKsoY59ddMQ4NOqSlyh9mHvFb8LVvnQtjufNG6q0Svx
+ qvQwbndcDf8imfaAeEKzUdclxyB143FAU0Sieq8Qwh+PSrjB0K8VCb/nhs/y8w4E9/8n pQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ge7g9at9j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jun 2022 13:48:13 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 251Ci6iO023682;
+ Wed, 1 Jun 2022 13:48:12 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ge7g9at99-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jun 2022 13:48:12 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 251DbpH9014733;
+ Wed, 1 Jun 2022 13:48:11 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma03wdc.us.ibm.com with ESMTP id 3gbc9vku1s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jun 2022 13:48:11 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 251DmAon29163790
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Jun 2022 13:48:10 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC0257805C;
+ Wed,  1 Jun 2022 13:48:10 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3AC7478063;
+ Wed,  1 Jun 2022 13:48:09 +0000 (GMT)
+Received: from [9.211.104.178] (unknown [9.211.104.178])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Jun 2022 13:48:09 +0000 (GMT)
+Message-ID: <6030c7e6-479d-660c-9198-1c65c74735a1@linux.ibm.com>
+Date: Wed, 1 Jun 2022 09:48:08 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
+Subject: Re: [PATCH v6 2/8] target/s390x: add zpci-interp to cpu models
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Tong Zhang <ztong0001@gmail.com>, Tong Zhang <t.zhang2@samsung.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Francisco Londono <f.londono@samsung.com>
-References: <CGME20220427205118uscas1p25031437c0cdd4363c104be13033f366a@uscas1p2.samsung.com>
- <20220427205056.2522-1-t.zhang2@samsung.com>
- <b675b817-7b7c-06ee-b971-3df2d7374622@redhat.com>
- <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
- <0b54d6c7-f56d-1ad2-80b7-d75d1033d67e@redhat.com>
- <YpdoqgpGloiPIxBk@stefanha-x1.localdomain>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <YpdoqgpGloiPIxBk@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
+To: David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+ richard.henderson@linaro.org, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220524190305.140717-1-mjrosato@linux.ibm.com>
+ <20220524190305.140717-3-mjrosato@linux.ibm.com>
+ <5b19dd64-d6be-0371-da63-0dd0b78a3a5c@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <5b19dd64-d6be-0371-da63-0dd0b78a3a5c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ITSr7sL0Jtzx0mJL9F-H2AuDh_q40EKW
+X-Proofpoint-ORIG-GUID: jqSrgzTPTA1CPEqGkq5KnLyMhhXP6Qr0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-01_04,2022-06-01_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ phishscore=0 spamscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206010062
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,80 +122,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.06.22 15:24, Stefan Hajnoczi wrote:
-> On Wed, Jun 01, 2022 at 10:00:50AM +0200, David Hildenbrand wrote:
->> On 01.06.22 02:20, Tong Zhang wrote:
->>> Hi David,
->>>
->>> On Mon, May 30, 2022 at 9:19 AM David Hildenbrand <david@redhat.com> wrote:
->>>>
->>>> On 27.04.22 22:51, Tong Zhang wrote:
->>>>> assert(dbs->acb) is meant to check the return value of io_func per
->>>>> documented in commit 6bee44ea34 ("dma: the passed io_func does not
->>>>> return NULL"). However, there is a chance that after calling
->>>>> aio_context_release(dbs->ctx); the dma_blk_cb function is called before
->>>>> the assertion and dbs->acb is set to NULL again at line 121. Thus when
->>>>> we run assert at line 181 it will fail.
->>>>>
->>>>>   softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
->>>>>
->>>>> Reported-by: Francisco Londono <f.londono@samsung.com>
->>>>> Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
->>>>> ---
->>>>>  softmmu/dma-helpers.c | 2 +-
->>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
->>>>> index 7820fec54c..cb81017928 100644
->>>>> --- a/softmmu/dma-helpers.c
->>>>> +++ b/softmmu/dma-helpers.c
->>>>> @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
->>>>>      aio_context_acquire(dbs->ctx);
->>>>>      dbs->acb = dbs->io_func(dbs->offset, &dbs->iov,
->>>>>                              dma_blk_cb, dbs, dbs->io_func_opaque);
->>>>> -    aio_context_release(dbs->ctx);
->>>>>      assert(dbs->acb);
->>>>> +    aio_context_release(dbs->ctx);
->>>>>  }
->>>>>
->>>>>  static void dma_aio_cancel(BlockAIOCB *acb)
->>>>
->>>> I'm fairly new to that code, but I wonder what prevents dma_blk_cb() to
->>>> run after you reshuffled the code?
->>>>
->>>
->>> IMO if the assert is to test whether io_func returns a non-NULL value
->>> shouldn't it be immediately after calling io_func.
->>> Also... as suggested by commit 6bee44ea346aed24e12d525daf10542d695508db
->>>   >     dma: the passed io_func does not return NULL
+On 6/1/22 5:52 AM, David Hildenbrand wrote:
+> On 24.05.22 21:02, Matthew Rosato wrote:
+>> The zpci-interp feature is used to specify whether zPCI interpretation is
+>> to be used for this guest.
+> 
+> We have
+> 
+> DEF_FEAT(SIE_PFMFI, "pfmfi", SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF
+> interpretation facility")
+> 
+> and
+> 
+> DEF_FEAT(SIE_SIGPIF, "sigpif", SCLP_CPU, 12, "SIE: SIGP interpretation
+> facility")
+> 
+> 
+> Should we call this simply "zpcii" or "zpciif" (if the official name
+> includes "Facility")
+> 
+
+This actually controls the use of 2 facilities which really only make 
+sense together - Maybe just zpcii
+
 >>
->> Yes, but I just don't see how it would fix the assertion you document in
->> the patch description. The locking change to fix the assertion doesn't
->> make any sense to me, and most probably I am missing something important :)
+>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>> ---
+>>   hw/s390x/s390-virtio-ccw.c          | 1 +
+>>   target/s390x/cpu_features_def.h.inc | 1 +
+>>   target/s390x/gen-features.c         | 2 ++
+>>   target/s390x/kvm/kvm.c              | 1 +
+>>   4 files changed, 5 insertions(+)
+>>
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index 047cca0487..b33310a135 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -806,6 +806,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
+>>       static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
+>>   
+>>       ccw_machine_7_1_instance_options(machine);
+>> +    s390_cpudef_featoff_greater(14, 1, S390_FEAT_ZPCI_INTERP);
+>>       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+>>   }
+>>   
+>> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
+>> index e86662bb3b..4ade3182aa 100644
+>> --- a/target/s390x/cpu_features_def.h.inc
+>> +++ b/target/s390x/cpu_features_def.h.inc
+>> @@ -146,6 +146,7 @@ DEF_FEAT(SIE_CEI, "cei", SCLP_CPU, 43, "SIE: Conditional-external-interception f
+>>   DEF_FEAT(DAT_ENH_2, "dateh2", MISC, 0, "DAT-enhancement facility 2")
+>>   DEF_FEAT(CMM, "cmm", MISC, 0, "Collaborative-memory-management facility")
+>>   DEF_FEAT(AP, "ap", MISC, 0, "AP instructions installed")
+>> +DEF_FEAT(ZPCI_INTERP, "zpci-interp", MISC, 0, "zPCI interpretation")
 > 
-> The other thread will invoke dma_blk_cb(), which modifies dbs->acb, when
-> it can take the lock. Therefore dbs->acb may contain a value different
-> from our io_func()'s return value by the time we perform the assertion
-> check (that's the race).
+> How is this feature exposed to the guest, meaning, how can the guest
+> sense support?
 > 
-> This patch makes sense to me. Can you rephrase your concern?
+> Just a gut feeling: does this toggle enable the host to use
+> interpretation and the guest cannot really determine the difference
+> whether it's enabled or not? Then, it's not a guest CPU feature. But
+> let's hear first what this actually enables :)
 
-The locking is around dbs->io_func().
+This has changed a few times, but collectively we can determine on the 
+host kernel if it is allowable based upon the availability of certain 
+facility/sclp bits + the availability of an ioctl interface.
 
-aio_context_acquire(dbs->ctx);
-dbs->acb = dbs->io_func()
-aio_context_release(dbs->ctx);
+If all of these are available, the host kernel allows zPCI 
+interpretation, with userspace able to toggle it on/off for the guest 
+via this feature.  When allowed and enabled, 2 ECB bits then get set for 
+each guest vcpu that enable the associated facilities.  The guest 
+continues to use zPCI instructions in the same manner as before; the 
+function handles it receives from CLP instructions will look different 
+but are still used in the same manner.
+
+We don't yet add vsie support of the facilities with this series, so the 
+corresponding facility and sclp bits aren't forwarded to the guest.
+
+> 
+>>   
+>>   /* Features exposed via the PLO instruction. */
+>>   DEF_FEAT(PLO_CL, "plo-cl", PLO, 0, "PLO Compare and load (32 bit in general registers)")
+>> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+>> index c03ec2c9a9..f991646c01 100644
+>> --- a/target/s390x/gen-features.c
+>> +++ b/target/s390x/gen-features.c
+>> @@ -554,6 +554,7 @@ static uint16_t full_GEN14_GA1[] = {
+>>       S390_FEAT_HPMA2,
+>>       S390_FEAT_SIE_KSS,
+>>       S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
+>> +    S390_FEAT_ZPCI_INTERP,
+>>   };
+>>   
+>>   #define full_GEN14_GA2 EmptyFeat
+>> @@ -650,6 +651,7 @@ static uint16_t default_GEN14_GA1[] = {
+>>       S390_FEAT_GROUP_MSA_EXT_8,
+>>       S390_FEAT_MULTIPLE_EPOCH,
+>>       S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
+>> +    S390_FEAT_ZPCI_INTERP,
+> 
+> I'm curious, should we really add this to the default model?
+> 
+> This implies that on any setup where we don't have zpci interpretation
+> support (including missing kernel support), that a basic "-cpu z14" will
+> no longer work with the new machine type.
+> 
+> If, OTOH, we expect this feature to be around in any sane installation,
+> then it's good to include it in the
+> 
+
+ From a hardware perspective, everything will be available on z14 and 
+later so it's only a question of missing host kernel support (or, you 
+aren't running in a z14 LPAR).  As far as host kernel support, the 
+expectation is that for a distro release where this QEMU support lands 
+the associated kernel support would also be backported.  I guess that 
+leaves some awkwardness if one upgrades their distro qemu to a new 
+release version without picking up the kernel upgrade for some reason.. 
+In that case, you're not totally stuck, you could still use -cpu 
+z14,zpcii=off (or better yet pick up the associated kernel upgrade...) 
+The intent is for exploitation of interpretation facilities to become 
+the default on z14 and later, with the ability to turn it off offered as 
+a fall-back / backwards compatibility.
+
+If there's a better way to accomplish that, I'm open to suggestion.
 
 
-So where exactly would the lock that's now still held stop someone from
-modifying dbs->acb = NULL at the beginning of the function, which seems
-to be not protected by that lock?
 
-Maybe I'm missing some locking magic due to the lock being a recursive lock.
-
--- 
-Thanks,
-
-David / dhildenb
 
 
