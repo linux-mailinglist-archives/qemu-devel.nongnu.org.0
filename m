@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104B453C08E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:03:01 +0200 (CEST)
-Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6D553C0AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:17:38 +0200 (CEST)
+Received: from localhost ([::1]:50222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwsuC-0005fC-5J
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36686)
+	id 1nwt8K-0005Tk-U6
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgm-0004bz-05
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:08 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:38803)
+ id 1nwsgs-0004li-MB
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:15 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:40476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsge-0008Uu-CQ
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:07 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- v11-20020a17090a4ecb00b001e2c5b837ccso10610722pjl.3
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:48:59 -0700 (PDT)
+ id 1nwsgf-0008VH-0f
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:14 -0400
+Received: by mail-pf1-x430.google.com with SMTP id z17so5795452pff.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bgSSWj3FWGjqqOHg3NGXEoGoqiXuSmAzBvkeO1FtIzY=;
- b=U4SDgABtc7qf5g49OVWbGQJvO3x2QaH5yFiFAOEre0YLKzh7rpPy5ZXMabsrBz2dlv
- sFRfNlKnLRbH+LJIIfg27obrmm2Zn1eiWBThBo07GsdMkkBVw7OupjcV4h1KCYxvuvKp
- hBMiYfvru7XdZg4IeWIZ2K9hUKsTo2JU8N9Pdzg7EAAMheqbdvQh3jDTKq2GrWmSqUFf
- +UXP/F6Wn30jKevcgQTuh/jF2jNJsml868X+ZtQ4bVGvVowWTyVxlu7eM7eKv85/U0Um
- c+cjtHr0rmklsIpsaCSr9lEymhwUCyB6oXTvkgXoL/v/JSrNcC1R4yn9THAP0dFwnPaV
- UwYA==
+ bh=gadtRptqMEMWzO7/udpBazlKdbGTM/FsnG+P+qdCdG4=;
+ b=oaEB+KhtZc1zLhG/G4M45S21gRBhcnC6h1BoqWq7DFhO+a3mUG88XRWbsFwjjRcnNy
+ opfJJzBqlqkirgFODo2TQyyo0Hnkbp97pvJqTOXQwEApv5zBX06Zm3QGL9a33k0jAAcv
+ 7CwA57mmRw4JULmmmGsakVtZZjPDb9BxoYnR+9zy+syXEQgGznO+TnMIsi+teazVU76v
+ DfvVF5Das5j5GmJdQLepyTQyrVx2UQHACaaXyveMyqK7liouukb/wslF89tMjGpStWl5
+ im9D+Tfqb8ubztacgBAVQh6qZ9sbt9Fems6Tdga32lw/awWABGl4CmuBND1eNmeE6Eem
+ ivLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bgSSWj3FWGjqqOHg3NGXEoGoqiXuSmAzBvkeO1FtIzY=;
- b=1zlcXjKDjZyd9RgGPlkp53FQlhUKfELGBF3oqMoiols5gjOH800gW1LgY0JqU/e8hv
- IoBQvUBJ3h/MNtwoS5qSAsSXG/cJeEhFK5XftS0YWSLfITY6vQTnfKGwox0X3K3hJf/n
- 8VkSBixxA9MEdTj+6xDc8rix5X7+ZcFCA7afwlLyjZnzXnEo5o5IM3Sd+krc9jwv19um
- UIdZISYCt6kBj7j+Q3iO/bPEgVv5jjE5A0ACwtMPWQdEk+Y+7iP4+bIwzQvu5j5XxHqK
- m0esPJ43TyGlWrvMrMcfERrz3g0JBLKtvy7WVAZWFQOyuAebVNHDUPqNoUNcYDpncODl
- Usfg==
-X-Gm-Message-State: AOAM530/yuyIdhwyHW37fMSSGhZViWxQuXaDjDby59CbK/5Gg9xmqOsC
- tOzuc5OqmuJDf4samgb1y9pC4POl43rG5A==
-X-Google-Smtp-Source: ABdhPJy3HSjPFjSmoHdsCoxs8SZpG+RBuE6WJLGRvO5sPqAq6euvQZWNdo/Kvhvgnmn4MD22jczEiQ==
-X-Received: by 2002:a17:90b:1a8a:b0:1e0:3630:19f0 with SMTP id
- ng10-20020a17090b1a8a00b001e0363019f0mr42099725pjb.89.1654206539020; 
+ bh=gadtRptqMEMWzO7/udpBazlKdbGTM/FsnG+P+qdCdG4=;
+ b=iW3dPvuuTMdgsFkmyhHiA5kQX19PzFNvtN2tQFXndaoyeRaXjGDtB3r9XNQ7UXZbil
+ mTH21mBrQhVfQZWJF2UAD8px0cagiCDMFohavL7uzjVzp6zpw9lfcd3ipac1FWds3DZU
+ r1bplzymZWhRbUa9hnfI92YsIh8uHExU0X80025evYMKPyX+ZNnAfqVrFe2Jlv4Qp9sp
+ 3qq9zjbcjDgbXgo642bjATbCklDH0QaU/XPKsYc5PJhFSaHSYCT9Ioeed2F5MY800bsx
+ X3mCEMi/d+9oJkF6YBQXEqnNgGzW77z8plc1ljX0m0W+HguGu00e2rB4hnMOBsd94AQF
+ +FoA==
+X-Gm-Message-State: AOAM530s8RihJ8ebCoK1+liFrfVvz3wA4+xPgFnltxljgqaLKP1yDKhx
+ KVtHDrNfwYzL2r+m1Kz1nh0Covh6++yC9w==
+X-Google-Smtp-Source: ABdhPJy+beCHN/eyvTtmfn+f7JH6WNwr5R93uJ6MIKgm3sTvr7IkTaLvsO2cw7ckAOI2i0QJYDd5dg==
+X-Received: by 2002:a63:2c15:0:b0:3f6:6a5f:8f0a with SMTP id
+ s21-20020a632c15000000b003f66a5f8f0amr5891187pgs.76.1654206539702; 
  Thu, 02 Jun 2022 14:48:59 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.48.58
+ bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.48.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:48:58 -0700 (PDT)
+ Thu, 02 Jun 2022 14:48:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 05/71] target/arm: Add el_is_in_host
-Date: Thu,  2 Jun 2022 14:47:47 -0700
-Message-Id: <20220602214853.496211-6-richard.henderson@linaro.org>
+Subject: [PATCH 06/71] target/arm: Use el_is_in_host for sve_zcr_len_for_el
+Date: Thu,  2 Jun 2022 14:47:48 -0700
+Message-Id: <20220602214853.496211-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,69 +89,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This (newish) ARM pseudocode function is easier to work with
-than open-coded tests for HCR_E2H etc.  Use of the function
-will be staged into the code base in parts.
+The ARM pseudocode function NVL uses this predicate now,
+and I think it's a bit clearer.  Simplify the pseudocode
+condition by noting that IsInHost is always false for EL1.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h |  2 ++
- target/arm/helper.c    | 28 ++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ target/arm/helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index b654bee468..a73f2a94c5 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1328,6 +1328,8 @@ static inline void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu) { }
- void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
- #endif
- 
-+bool el_is_in_host(CPUARMState *env, int el);
-+
- void aa32_max_features(ARMCPU *cpu);
- 
- #endif
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index bcf48f1b11..839d6401b0 100644
+index 839d6401b0..135c3e790c 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5292,6 +5292,34 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
-     return ret;
- }
+@@ -6248,8 +6248,7 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+     ARMCPU *cpu = env_archcpu(env);
+     uint32_t zcr_len = cpu->sve_max_vq - 1;
  
-+/*
-+ * Corresponds to ARM pseudocode function ELIsInHost().
-+ */
-+bool el_is_in_host(CPUARMState *env, int el)
-+{
-+    uint64_t mask;
-+
-+    /*
-+     * Since we only care about E2H and TGE, we can skip arm_hcr_el2_eff().
-+     * Perform the simplest bit tests first, and validate EL2 afterward.
-+     */
-+    if (el & 1) {
-+        return false; /* EL1 or EL3 */
-+    }
-+
-+    /*
-+     * Note that hcr_write() checks isar_feature_aa64_vh(),
-+     * aka HaveVirtHostExt(), in allowing HCR_E2H to be set.
-+     */
-+    mask = el ? HCR_E2H : HCR_E2H | HCR_TGE;
-+    if ((env->cp15.hcr_el2 & mask) != mask) {
-+        return false;
-+    }
-+
-+    /* TGE and/or E2H set: double check those bits are currently legal. */
-+    return arm_is_el2_enabled(env) && arm_el_is_aa64(env, 2);
-+}
-+
- static void hcrx_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                        uint64_t value)
- {
+-    if (el <= 1 &&
+-        (arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
++    if (el <= 1 && !el_is_in_host(env, el)) {
+         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+     }
+     if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
 -- 
 2.34.1
 
