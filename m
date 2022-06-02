@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8739753BB88
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:26:10 +0200 (CEST)
-Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4718F53BBC2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:30 +0200 (CEST)
+Received: from localhost ([::1]:50198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwmi9-00071s-3e
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
+	id 1nwmyu-0008RW-Ut
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nwmcV-0000n3-TV
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:20:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nwmcO-0007QN-8z
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:20:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654183211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ONHmbaO2S/00X2VuF3+3J/xtQPom6UHExPuJloh8qJI=;
- b=SwJk6GNBnoH+OPcaxLTD13/nBbSOwQQ7jb4pEGLFSpN3Pq5qGqqMhJ/11ycnGjmCYiabI2
- 2jlXW3EF/zy1Ujwtrn2KffPoIx4OIwBoOJp9BfReqs4eoXpM5CJNNLBo3vwh2n3PGuBH+I
- pQ8W3wkZk0O+8KU6qLHqtyD6ET8uq/8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-SLf0V6wpPkiE1ffnaxtSXg-1; Thu, 02 Jun 2022 11:20:10 -0400
-X-MC-Unique: SLf0V6wpPkiE1ffnaxtSXg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- eh10-20020a0564020f8a00b0042dd9bf7c57so3684824edb.17
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 08:20:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nwmv2-0007lP-7v
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:39:28 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:41543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nwmv0-0003Bt-Gj
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:39:27 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ l20-20020a17090a409400b001dd2a9d555bso5179627pjg.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 08:39:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=MLra2y3RjsABUVe7MidEC48KVDjyFBheFABj2kqJzj8=;
+ b=k5lwNeZLwLoOvb++hS1XYKwMF2baoEnxCW23QSQs7hvuecW8h3VD0T/GH17WhwhJ1Z
+ 9M1eEjDJtWMq0hwpbT3VFzO5wlvFAEQDnxlUTesJ301woDAdQDVdp52/wZDdRHRI9aqc
+ xlL5dka7EMMGgqAqqgu/1dAUOZ62BF+PbQASbjXhOBjM6JcTHreKjgg6GCtFjE/HsTr6
+ /vpX6m7IlbzN4/FzS4QJjjQnhQHqi2jHvzqROzqoXqlOhN1z9YZwBCq/f2mKRi+ZOIgP
+ xCuUWuJdO8rywpU2zhMQ7y7bNKuzjFTDiG7G9zTY58ub6J/I3WvKjGuUbUsdhiBgq7TO
+ EGbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ONHmbaO2S/00X2VuF3+3J/xtQPom6UHExPuJloh8qJI=;
- b=u7Cj49L4Zu38cEV3xd1Z3dP1AJ5iUAWm9wBnfg9znVLshCYfR8GjH0Ks874zJwqDX6
- OoD7u0NNx/f+sZC7xJbZKo1McO/ItNRmfrMGRTdMuaoFhaZ0eMCbiALAaWiVDBPuEnBc
- RhzU+OA7T7740esCJ+K+pvkSZlM4RynyF6SfOUs8VqcfKzq2iT9PeQuT5yuwHYezGjZ+
- jAXnSIbNATm5GqLSAlRY/1o/o1VeN1GPfqWcFpJQKzF4inzrRAWYeCP9uy9CzXGYMVjn
- T75hAftXW/+GvQB320D2NaMMGpg7bHRsCHrKQzN693FQzXn8vvx6iRq8KS5MxzR+s0qj
- SOWA==
-X-Gm-Message-State: AOAM531aKHdflKjPxRaR4/XqhT/kyvWAHRiMPgZg20CkAjWpWIQtZs/D
- vGY1TUzyjcS91DpqR4iiw0mJ3dBAB4BV2KeV+efUP89siET7Ti2QsBuHfeNVQ2kvfFBXpBfjViU
- /mSVJNXqWXbhd1Ek=
-X-Received: by 2002:a05:6402:3585:b0:42d:d6d9:385d with SMTP id
- y5-20020a056402358500b0042dd6d9385dmr5996034edc.334.1654183208901; 
- Thu, 02 Jun 2022 08:20:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSZpGdhxX/5trssFw7uMXWAzdbv7x/UQWcG8BKK2o88RTxV00dUsKLqxHNp1JyL/FgArSUEw==
-X-Received: by 2002:a05:6402:3585:b0:42d:d6d9:385d with SMTP id
- y5-20020a056402358500b0042dd6d9385dmr5996001edc.334.1654183208661; 
- Thu, 02 Jun 2022 08:20:08 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MLra2y3RjsABUVe7MidEC48KVDjyFBheFABj2kqJzj8=;
+ b=HbHGycuDmHSzXaDhJMk1U59TOj/tZt34vrnscyIiBMQskiS13wTTxO1dkyhr+v8Vj1
+ ibewvcAjBMecNQ4/Yv1+93Pi9hWdJ2wlqxMTwnfvlhmfSiNRj2xa6wuhO0wwRYbRoWDn
+ z1/AYl5BsczPoYPmA/1RKA5Kpscn0iu/PB6V5F00Ygj+46kqIJ9djE8ao5KMxOD88l1W
+ tHYCUdygdjYAmoR0/tEDF/dOvMeyQUFD/MmT+r/bDXys0D5TGThcAXVbaF6u4BzPitEQ
+ PHV4Vhunip4ynEjVgK7lCH7milrqmKK/DGALOkDgeUA59fNVFGAtf4mDWKpiOgXi6odd
+ UGyQ==
+X-Gm-Message-State: AOAM5305Ac1kwJgpIa+nXztMubKjxisN7l7pIFm+lt+RBh6WuafKGrK7
+ itJrFtAl/2y7wDdpnU41eseS3g==
+X-Google-Smtp-Source: ABdhPJwy2YkV3/aKXqUlF7GdqpTQPI674ntibqTKQTfKHTn4KzSVBad/OBTTPdq4qQYXNHjEcMVNBQ==
+X-Received: by 2002:a17:902:b683:b0:163:4ef2:3c40 with SMTP id
+ c3-20020a170902b68300b001634ef23c40mr5318537pls.123.1654184364977; 
+ Thu, 02 Jun 2022 08:39:24 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:80cd:3d17:bb90:8dda:8cb2:7569?
+ ([2607:fb90:80cd:3d17:bb90:8dda:8cb2:7569])
  by smtp.gmail.com with ESMTPSA id
- n16-20020aa7c790000000b0042bced44061sm2619160eds.10.2022.06.02.08.20.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 08:20:08 -0700 (PDT)
-Date: Thu, 2 Jun 2022 17:20:07 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
- <ani@anisinha.ca>
-Subject: Re: [PATCH 4/5] bios-tables-test: add test for number of cores > 255
-Message-ID: <20220602172007.27cd7e81@redhat.com>
-In-Reply-To: <20220527165651.28092-5-jusual@redhat.com>
-References: <20220527165651.28092-1-jusual@redhat.com>
- <20220527165651.28092-5-jusual@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ e23-20020aa79817000000b00518a473265csm3717401pfl.217.2022.06.02.08.39.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jun 2022 08:39:24 -0700 (PDT)
+Message-ID: <0a1051aa-f2f5-02de-693c-2c8b5e002998@linaro.org>
+Date: Thu, 2 Jun 2022 08:39:21 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC PATCH 1/3] target/openrisc: Add basic support for semihosting
+Content-Language: en-US
+To: Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
+Cc: Openrisc <openrisc@lists.librecores.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>
+References: <20220527172731.1742837-1-shorne@gmail.com>
+ <20220527172731.1742837-2-shorne@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220527172731.1742837-2-shorne@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,107 +96,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 May 2022 18:56:50 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+On 5/27/22 10:27, Stafford Horne wrote:
+> +void do_or1k_semihosting(CPUOpenRISCState *env, uint32_t k);
+...
+> +DEF_HELPER_FLAGS_2(nop, 0, void, env, i32)
 
-> The new test is run with a large number of cpus and checks if the
-> core_count field in smbios_cpu_test (structure type 4) is correct.
-> 
-> Choose q35 as it allows to run with -smp > 255.
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> ---
->  tests/qtest/bios-tables-test.c | 35 +++++++++++++++++++++++++++++++++-
->  1 file changed, 34 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 0ba9d749a5..f2464adaa0 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -100,6 +100,8 @@ typedef struct {
->      smbios_entry_point smbios_ep_table;
->      uint16_t smbios_cpu_max_speed;
->      uint16_t smbios_cpu_curr_speed;
-> +    uint8_t smbios_core_count;
-> +    uint16_t smbios_core_count2;
->      uint8_t *required_struct_types;
->      int required_struct_types_len;
->      QTestState *qts;
-> @@ -640,8 +642,9 @@ static inline bool smbios_single_instance(uint8_t type)
->  
->  static bool smbios_cpu_test(test_data *data, uint32_t addr)
->  {
-> +    uint8_t real_cc, expect_cc = data->smbios_core_count;
+Just call the helper "semihosting" and be done with it.
+And the helper wants an ifdef for system mode.
 
-%s/expect/expected/
-also I'd s/real_cc/core_count/
+> @@ -10,6 +10,7 @@ openrisc_ss.add(files(
+>     'fpu_helper.c',
+>     'gdbstub.c',
+>     'interrupt_helper.c',
+> +  'openrisc-semi.c',
+>     'sys_helper.c',
+>     'translate.c',
+>   ))
 
-> +    uint16_t real, real_cc2, expect_cc2 = data->smbios_core_count2;
-ditto
+You want to add the new file for system mode only.
+Or, now that I think of it, conditional on CONFIG_SEMIHOSTING itself.
 
->      uint16_t expect_speed[2];
-> -    uint16_t real;
->      int offset[2];
->      int i;
->  
-> @@ -660,6 +663,20 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
->          }
->      }
->  
-> +    real_cc = qtest_readb(data->qts, addr + offsetof(struct smbios_type_4, core_count));
-> +    real_cc2 = qtest_readw(data->qts, addr + offsetof(struct smbios_type_4, core_count2));
-> +
-> +    if (expect_cc && (real_cc != expect_cc)) {
-> +        fprintf(stderr, "Unexpected SMBIOS CPU count: real %u expect %u\n",
-> +                real_cc, expect_cc);
-> +        return false;
-
-since you are rewriting it anyways, how about 
-if (expect_cc) {
-  g_assert_cmpuint(...)
-}
-
-instead of printing/propagating error
-
-> +    }
-> +    if ((expect_cc == 0xFF) && (real_cc2 != expect_cc2)) {
-> +        fprintf(stderr, "Unexpected SMBIOS CPU count2: real %u expect %u\n",
-> +                real_cc2, expect_cc2);
-> +        return false;
-> +    }
-> +
->      return true;
->  }
->  
-> @@ -905,6 +922,21 @@ static void test_acpi_q35_tcg(void)
->      free_test_data(&data);
->  }
->  
-> +static void test_acpi_q35_tcg_core_count2(void)
+> +static void or1k_semi_return_u32(CPUOpenRISCState *env, uint32_t ret)
 > +{
-> +    test_data data = {
-> +        .machine = MACHINE_Q35,
-> +        .variant = ".core-count2",
-> +        .required_struct_types = base_required_struct_types,
-> +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
-> +        .smbios_core_count = 0xFF,
-> +        .smbios_core_count2 = 275,
-> +    };
-> +
-> +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
-> +    free_test_data(&data);
+> +    cpu_set_gpr(env, 11, ret);
 > +}
-> +
->  static void test_acpi_q35_tcg_bridge(void)
->  {
->      test_data data;
-> @@ -1787,6 +1819,7 @@ int main(int argc, char *argv[])
->          qtest_add_func("acpi/piix4/pci-hotplug/off",
->                         test_acpi_piix4_no_acpi_pci_hotplug);
->          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
-> +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
->          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
->          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
->          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 
+Let's drop this until you actually use it.  This appears to be attempting to mirror other, 
+more complete semihosting, but missing the third "error" argument.
+
+
+> +void do_or1k_semihosting(CPUOpenRISCState *env, uint32_t k)
+> +{
+> +    uint32_t result;
+> +
+> +    switch (k) {
+> +    case HOSTED_EXIT:
+> +        gdb_exit(cpu_get_gpr(env, 3));
+> +        exit(cpu_get_gpr(env, 3));
+> +    case HOSTED_RESET:
+> +#ifndef CONFIG_USER_ONLY
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> +        return;
+> +#endif
+
+Do you in fact want to exit to the main loop after asking for reset?
+That's the only way that "no return value" makes sense to me...
+
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "or1k-semihosting: unsupported "
+> +                      "semihosting syscall %d\n", k);
+
+%u.
+
+>   static bool trans_l_nop(DisasContext *dc, arg_l_nop *a)
+>   {
+> +    if (semihosting_enabled() &&
+> +        a->k != 0) {
+> +        gen_helper_nop(cpu_env, tcg_constant_i32(a->k));
+> +    }
+
+Perhaps cleaner to move the semihosting dispatch switch here, instead of leaving it to the 
+runtime?  The reason we have a runtime switch for other guests is that the semihosting 
+syscall number is in a register.  This would then be
+
+     if (semihosting_enabled()) {
+         switch (a->k) {
+         case 0:
+             break; /* normal nop */
+         case HOSTED_EXIT:
+             gen_helper_semihost_exit(cpu_R(dc, 3));
+             break;
+         case HOSTED_RESET:
+             gen_helper_semihost_reset();
+             tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
+
+             dc->base.is_jmp = DISAS_EXIT;
+             break;
+         ...
+         }
+     }
+
+
+r~
 
