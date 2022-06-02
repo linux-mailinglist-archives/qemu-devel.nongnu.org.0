@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDCC53B78A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 12:57:12 +0200 (CEST)
-Received: from localhost ([::1]:39534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BCD53B827
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 13:51:14 +0200 (CEST)
+Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwiVr-0008Qt-6l
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 06:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35330)
+	id 1nwjM8-0002Wb-Gm
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 07:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nwiPR-0002w1-4d; Thu, 02 Jun 2022 06:50:33 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:35480)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1nwjEx-0001LQ-RP
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:43:47 -0400
+Received: from mail-wr1-f51.google.com ([209.85.221.51]:35631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nwiPP-0003OC-6h; Thu, 02 Jun 2022 06:50:32 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- o6-20020a17090a0a0600b001e2c6566046so9033540pjo.0; 
- Thu, 02 Jun 2022 03:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4YSM8DA23j8zeytGq1H9aHR8ft1JlFCHLYxg9iQLISY=;
- b=kTf0+RevKZl75rq49zcEbcMviE5/DJq709ht+oQbRFPIEoWcOESH1v+l/PxRAm1zrE
- zGBzKNi1u5eN5tG97+2m5dhJoP/undfizM35Ozao7Rcu32EC5D7eRJqSxszg4uM3y+VN
- y4bN4UELqjtycShiRtmULGH2Y+zF6fHbabvzgbaYCJzC+mkjYr8niHtWbZOX+SoLu3hO
- 4Dr4d4PIVO0sam+lgeGdGa81ggRcgXRWGMBLIDMu2XR+FUBOlcoOEy7Jm5dSBrwcl6rc
- pk0yHTmMd5LnLErbsETb8bgNaJ/xWvFq3JSm+Fdvtah26z6oICR+agVIOH6pNW1jYuwp
- xcNQ==
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1nwjEu-00072e-Ui
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:43:47 -0400
+Received: by mail-wr1-f51.google.com with SMTP id q21so6128763wra.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 04:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FEp9beiefvRaVBrOt/ntscjwiQ2tI8ugnnCH+ZhXlY8=;
+ b=bkABMwmXVOXZQKVGjW/bMKSLoL2hcIybVRF9kZih+tQd3Eeye4X9irDVvIR5QRqIhh
+ yyg+PULd435pRDEV0ElUMJJeXpgMUNPx5VWzakGS0GPsqxzjUUxx572KJRUJkw5Dxahb
+ R4+Zs02H+DvYlehGxhQznybGyL0a6mZ6ag6n0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4YSM8DA23j8zeytGq1H9aHR8ft1JlFCHLYxg9iQLISY=;
- b=zLtSV79bzKq+DI+gwYwpi463Dh/Ko0UnvwFKK0QpwPR1YVzinCMCpl8s6LVoGlZAj2
- AMAVsPt4EAbTz/PAQX/TJdbn5v1Tq5lti5oQHpyW1EMxrsoOaIFHvufQt5vK3mjOxluQ
- FaV5lpjSlWvMdfBpTNdVaVrFQ2N8Gb4p7mEWj65VCNfDFO99yxtooBUhs4oEKhBe/mpw
- a7zNEsUR7a6JuzZ/Wag3F9R7Y9tE50zyHOcDGsOZ+2hIZfY2UuYYnBShmaAulYrFKCmG
- P+Kgxlg8WG0HkEjjvmAcb0kuaXh+Jbkqq+HXd02sHKUd60485BfCCwmXtsYUaPaEp7hr
- 7k+A==
-X-Gm-Message-State: AOAM532kVqNV7JTTNX0QQ1RFyzeQkivB5dsZ7XM26wPWRxB+Yp5wLkrH
- ZM/2hoMgsagBuC1uMvm0Lxg=
-X-Google-Smtp-Source: ABdhPJzUWyVRGuoHGMNTDNTFsH6vf7H4mUPgF/Y2DHSzh7v1fDvJPSWHHZb1gDZ7Fx1huhfE0RjKOA==
-X-Received: by 2002:a17:902:c40e:b0:162:4b86:8dc5 with SMTP id
- k14-20020a170902c40e00b001624b868dc5mr4331682plk.144.1654167028004; 
- Thu, 02 Jun 2022 03:50:28 -0700 (PDT)
-Received: from [192.168.109.175] (32.red-88-29-183.dynamicip.rima-tde.net.
- [88.29.183.32]) by smtp.gmail.com with ESMTPSA id
- i10-20020a17090332ca00b001664bc2e2e6sm238369plr.154.2022.06.02.03.50.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jun 2022 03:50:27 -0700 (PDT)
-Message-ID: <279dc7dd-9423-ce0e-788f-6cebce8878b1@amsat.org>
-Date: Thu, 2 Jun 2022 12:50:21 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FEp9beiefvRaVBrOt/ntscjwiQ2tI8ugnnCH+ZhXlY8=;
+ b=cmHmrHdmmRThgLyIuePVLyVLJAkYY3SD6ldHPwpKOgncDn9TFv/j/9lN3mUendBoYD
+ A+HgoEIT0GvOIJiGig1wj09WKtNVoXe5DUAzU2DRU8FmqlHVr1fOvm6cPb4FIOo6Pc+6
+ ZQzNgONmcNowE5A6E/NsHI+CXGExAUFTWk7WHSfXwq2dycvhAapzO6rK/uUIvy0wKdr5
+ ofAWqRv9JJRIX+22yYIy0k2ERKQN7bPCAZwb+m9ZwzddhjiWHeTuojWfKql/m8J1/i3x
+ Q3yD1fEpLDqdwMGITG6lvZGNU1kmY8aM+xA97LT/MSb/txYNz391fQbg69Zs13Iz+Kg8
+ Em4w==
+X-Gm-Message-State: AOAM532ECVr0Q1b/qqQIAXiChqU//IkdAWrRV3Ac1sVD77hEl/LA20uk
+ /9GtFz/tKOW8MCS4tzv2AAzCxIHpU9bx4Vl4cfE=
+X-Google-Smtp-Source: ABdhPJzGeeXhBHcR26JRZu0XlouhaTx4wQB6ctw+pwVatBQcOGMc3esOArfWm3ZY2c5SYayOlVnLPJ3lFWaZUYJ6oHQ=
+X-Received: by 2002:a5d:428f:0:b0:210:30cd:3753 with SMTP id
+ k15-20020a5d428f000000b0021030cd3753mr3284678wrq.549.1654170163078; Thu, 02
+ Jun 2022 04:42:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PULL 32/33] gitlab: don't run CI jobs in forks by default
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-stable@nongnu.org
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220601180537.2329566-1-alex.bennee@linaro.org>
- <20220601180537.2329566-33-alex.bennee@linaro.org>
-In-Reply-To: <20220601180537.2329566-33-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
+References: <20220527172731.1742837-1-shorne@gmail.com>
+ <20220527172731.1742837-4-shorne@gmail.com>
+In-Reply-To: <20220527172731.1742837-4-shorne@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 2 Jun 2022 11:42:30 +0000
+Message-ID: <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
+To: Stafford Horne <shorne@gmail.com>
+Cc: QEMU Development <qemu-devel@nongnu.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ Openrisc <openrisc@lists.librecores.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.221.51; envelope-from=joel.stan@gmail.com;
+ helo=mail-wr1-f51.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,134 +81,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Cc'ing qemu-stable@
+Hi Stafford,
 
-Thank you Daniel / Thomas / Alex!
+On Fri, 27 May 2022 at 17:27, Stafford Horne <shorne@gmail.com> wrote:
+>
+> This patch add the OpenRISC virtual machine 'virt' for OpenRISC.  This
+> platform allows for a convenient CI platform for toolchain, software
+> ports and the OpenRISC linux kernel port.
+>
+> Much of this has been sourced from the m68k and riscv virt platforms.
 
-On 1/6/22 20:05, Alex Bennée wrote:
-> From: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> To preserve CI shared runner credits we don't want to run
-> pipelines on every push.
-> 
-> This sets up the config so that pipelines are never created
-> for contributors by default. To override this the QEMU_CI
-> variable can be set to a non-zero value. If set to 1, the
-> pipeline will be created but all jobs will remain manually
-> started. The contributor can selectively run jobs that they
-> care about. If set to 2, the pipeline will be created and
-> all jobs will immediately start.
-> 
-> This behavior can be controlled using push variables
-> 
->    git push -o ci.variable=QEMU_CI=1
-> 
-> To make this more convenient define an alias
-> 
->     git config --local alias.push-ci "push -o ci.variable=QEMU_CI=1"
->     git config --local alias.push-ci-now "push -o ci.variable=QEMU_CI=2"
-> 
-> Which lets you run
-> 
->    git push-ci
-> 
-> to create the pipeline, or
-> 
->    git push-ci-now
-> 
-> to create and run the pipeline
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> Message-Id: <20220526110705.59952-6-berrange@redhat.com>
-> [AJB: fix typo, replicate alias tips in ci.rst]
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20220527153603.887929-33-alex.bennee@linaro.org>
-> 
-> diff --git a/docs/devel/ci-jobs.rst.inc b/docs/devel/ci-jobs.rst.inc
-> index 0b4926e537..9118a61a17 100644
-> --- a/docs/devel/ci-jobs.rst.inc
-> +++ b/docs/devel/ci-jobs.rst.inc
-> @@ -28,6 +28,32 @@ For further information about how to set these variables, please refer to::
->   
->     https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
->   
-> +Setting aliases in your git config
-> +----------------------------------
-> +
-> +You can use aliases to make it easier to push branches with different
-> +CI configurations. For example define an alias for triggering CI:
-> +
-> +.. code::
-> +
-> +   git config --local alias.push-ci "push -o ci.variable=QEMU_CI=1"
-> +   git config --local alias.push-ci-now "push -o ci.variable=QEMU_CI=2"
-> +
-> +Which lets you run:
-> +
-> +.. code::
-> +
-> +   git push-ci
-> +
-> +to create the pipeline, or:
-> +
-> +.. code::
-> +
-> +   git push-ci-now
-> +
-> +to create and run the pipeline
-> +
-> +
->   Variable naming and grouping
->   ----------------------------
->   
-> @@ -98,6 +124,18 @@ Contributor controlled runtime variables
->   The following variables may be set by contributors to control
->   job execution
->   
-> +QEMU_CI
-> +~~~~~~~
-> +
-> +By default, no pipelines will be created on contributor forks
-> +in order to preserve CI credits
-> +
-> +Set this variable to 1 to create the pipelines, but leave all
-> +the jobs to be manually started from the UI
-> +
-> +Set this variable to 2 to create the pipelines and run all
-> +the jobs immediately, as was historicaly behaviour
-> +
->   QEMU_CI_AVOCADO_TESTING
->   ~~~~~~~~~~~~~~~~~~~~~~~
->   By default, tests using the Avocado framework are not run automatically in
-> diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-> index 4f091d5aad..f334f3ded7 100644
-> --- a/.gitlab-ci.d/base.yml
-> +++ b/.gitlab-ci.d/base.yml
-> @@ -28,6 +28,10 @@
->       - if: '$QEMU_JOB_ONLY_FORKS == "1" && $CI_PROJECT_NAMESPACE == "qemu-project"'
->         when: never
->   
-> +    # Forks don't get pipelines unless QEMU_CI=1 or QEMU_CI=2 is set
-> +    - if: '$QEMU_CI != "1" && $QEMU_CI != "2" && $CI_PROJECT_NAMESPACE != "qemu-project"'
-> +      when: never
-> +
->       # Avocado jobs don't run in forks unless $QEMU_CI_AVOCADO_TESTING is set
->       - if: '$QEMU_JOB_AVOCADO && $QEMU_CI_AVOCADO_TESTING != "1" && $CI_PROJECT_NAMESPACE != "qemu-project"'
->         when: never
-> @@ -59,5 +63,10 @@
->       # an earlier criteria
->       #############################################################
->   
-> +    # Forks pipeline jobs don't start automatically unless
-> +    # QEMU_CI=2 is set
-> +    - if: '$QEMU_CI != "2" && $CI_PROJECT_NAMESPACE != "qemu-project"'
-> +      when: manual
-> +
->       # Jobs can run if any jobs they depend on were successfull
->       - when: on_success
+It's a good idea! I did some playing around with your patch today.
 
+I'd suggest adding something to docs/system/target-openrsic.rst,
+including an example command lines.
+
+>
+> The platform provides:
+>  - OpenRISC SMP with up to 8 cpus
+
+You have this:
+
+#define VIRT_CPUS_MAX 4
+
+I tried booting with -smp 4 and it locked up when starting userspace
+(or I stopped getting serial output?):
+
+[    0.060000] smp: Brought up 1 node, 4 CPUs
+...
+[    0.960000] Run /init as init process
+
+Running with -smp 2 and 3 worked. It does make booting much much slower.
+
+>  - A virtio bus with up to 8 devices
+
+How do we go about adding a virtio-net-device to this bus?
+
+I tried this:
+
+$ ./qemu-system-or1k -M virt  -nographic -kernel
+~/dev/kernels/shenki/or1ksim/vmlinux -initrd
+~/dev/buildroot/openrisc/images/rootfs.cpio -device
+virtio-net-device,netdev=net0 -netdev user,id=net0
+
+I thought it wasn't working, but I just needed to enable the drivers,
+and from there it worked:
+
+CONFIG_VIRTIO_NET=y
+CONFIG_VIRTIO_MMIO=y
+
+I also tested the virtio rng device which appeared to work.
+
+# CONFIG_HW_RANDOM is not set
+CONFIG_HW_RANDOM=y
+CONFIG_HW_RANDOM_VIRTIO=y
+
+>  - Standard ns16550a serial
+>  - Goldfish RTC
+
+-device virtio-rng-device,rng=rng0 -object rng-builtin,id=rng0
+
+I enabled the options:
+
+CONFIG_RTC_CLASS=y
+# CONFIG_RTC_SYSTOHC is not set
+# CONFIG_RTC_NVMEM is not set
+CONFIG_RTC_DRV_GOLDFISH=y
+
+But it didn't work. It seems the goldfish rtc model doesn't handle a
+big endian guest running on my little endian host.
+
+Doing this fixes it:
+
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_HOST_ENDIAN,
+
+[    0.190000] goldfish_rtc 96005000.rtc: registered as rtc0
+[    0.190000] goldfish_rtc 96005000.rtc: setting system clock to
+2022-06-02T11:16:04 UTC (1654168564)
+
+But literally no other model in the tree does this, so I suspect it's
+not the right fix.
+
+>  - SiFive TEST device for poweroff and reboot
+
+CONFIG_POWER_RESET=y
+CONFIG_POWER_RESET_SYSCON=y
+CONFIG_POWER_RESET_SYSCON_POWEROFF=y
+CONFIG_SYSCON_REBOOT_MODE=y
+
+Adding the syscon/mfd cruft to the kernel adds about 43KB just for
+rebooting. I guess that's okay as we're only dealing with a virtual
+platform.
+
+>  - Generated RTC to automatically configure the guest kernel
+
+Did you mean device tree?
+
+>
+> Signed-off-by: Stafford Horne <shorne@gmail.com>
+> ---
+>  configs/devices/or1k-softmmu/default.mak |   1 +
+>  hw/openrisc/Kconfig                      |   9 +
+>  hw/openrisc/meson.build                  |   1 +
+>  hw/openrisc/virt.c                       | 429 +++++++++++++++++++++++
+>  4 files changed, 440 insertions(+)
+>  create mode 100644 hw/openrisc/virt.c
+>
+> diff --git a/configs/devices/or1k-softmmu/default.mak b/configs/devices/or1k-softmmu/default.mak
+> index 5b3ac89491..f3bf816067 100644
+> --- a/configs/devices/or1k-softmmu/default.mak
+> +++ b/configs/devices/or1k-softmmu/default.mak
+> @@ -5,3 +5,4 @@ CONFIG_SEMIHOSTING=y
+>  # Boards:
+>  #
+>  CONFIG_OR1K_SIM=y
+> +CONFIG_OR1K_VIRT=y
+> diff --git a/hw/openrisc/Kconfig b/hw/openrisc/Kconfig
+> index 8f284f3ba0..202134668e 100644
+> --- a/hw/openrisc/Kconfig
+> +++ b/hw/openrisc/Kconfig
+> @@ -4,3 +4,12 @@ config OR1K_SIM
+>      select OPENCORES_ETH
+>      select OMPIC
+>      select SPLIT_IRQ
+> +
+> +config OR1K_VIRT
+> +    bool
+> +    imply VIRTIO_VGA
+> +    imply TEST_DEVICES
+> +    select GOLDFISH_RTC
+> +    select SERIAL
+> +    select SIFIVE_TEST
+> +    select VIRTIO_MMIO
+
+You could include the liteeth device too if we merged that.
+
+> diff --git a/hw/openrisc/virt.c b/hw/openrisc/virt.c
+> new file mode 100644
+> index 0000000000..147196fda3
+> --- /dev/null
+> +++ b/hw/openrisc/virt.c
+> @@ -0,0 +1,429 @@
+> +/*
+> + * OpenRISC QEMU virtual machine.
+> + *
+> + * Copyright (c) 2022 Stafford Horne <shorne@gmail.com>
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+
+I think you can use the SPDX tag here instead of writing out the text.
+
+> +static void openrisc_virt_init(MachineState *machine)
+> +{
+> +    ram_addr_t ram_size = machine->ram_size;
+> +    const char *kernel_filename = machine->kernel_filename;
+> +    OpenRISCCPU *cpus[VIRT_CPUS_MAX] = {};
+> +    OR1KVirtState *state = VIRT_MACHINE(machine);
+> +    MemoryRegion *ram;
+> +    hwaddr load_addr;
+> +    int n;
+> +    unsigned int smp_cpus = machine->smp.cpus;
+> +
+
+> +    openrisc_virt_rtc_init(state, virt_memmap[VIRT_RTC].base,
+> +                           virt_memmap[VIRT_RTC].size, smp_cpus, cpus,
+> +                           VIRT_RTC_IRQ);
+> +
+> +    for (n = 0; n < VIRTIO_COUNT; n++) {
+
+This would make more sense to me if you constructed the IRQ and base
+here, and then passed the actual base and irq number to your
+_virtio_init:
+
+        size_t size = virt_memmap[VIRT_VIRTIO].size;
+        openrisc_virt_virtio_init(state, virt_memmap[VIRT_VIRTIO].base
++ size * n,
+                                  size, smp_cpus, cpus, VIRT_VIRTIO_IRQ + n);
+
+
+> +        openrisc_virt_virtio_init(state, virt_memmap[VIRT_VIRTIO].base,
+> +                                  virt_memmap[VIRT_VIRTIO].size,
+> +                                  smp_cpus, cpus, VIRT_VIRTIO_IRQ, n);
+> +    }
+> +
 
