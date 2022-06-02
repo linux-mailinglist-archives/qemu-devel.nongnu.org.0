@@ -2,61 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8090053B474
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 09:39:52 +0200 (CEST)
-Received: from localhost ([::1]:37852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE58B53B489
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 09:47:41 +0200 (CEST)
+Received: from localhost ([::1]:45758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwfQt-00053l-3U
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 03:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48024)
+	id 1nwfYO-0002W7-25
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 03:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwfMb-0002Ns-Lb
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 03:35:25 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:51751)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwfMt-0002Qr-GC; Thu, 02 Jun 2022 03:35:44 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:54487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwfMZ-0005dM-UX
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 03:35:25 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N6bwO-1niy1A3UNC-0183OB; Thu, 02 Jun 2022 09:35:18 +0200
-Message-ID: <0d599003-e329-8406-cae0-7501da40f3f7@vivier.eu>
-Date: Thu, 2 Jun 2022 09:35:17 +0200
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwfMr-0005f9-NI; Thu, 02 Jun 2022 03:35:42 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 03791320094B;
+ Thu,  2 Jun 2022 03:35:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 02 Jun 2022 03:35:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1654155338; x=1654241738; bh=es
+ xvLE4BPWDGsMBZkG7nPL192IjbXXvsfGvQR0oA+7g=; b=Ep9fmehQ13gNNMHGYJ
+ MzkVihVDjtbo4e25jGj+8KfSuD7wFdOhzQz62M/lwTIu0Y4WHEcy1cAx3lvzrLBd
+ wYFldt0YkBPF2Q/QQbZyOclf9eAITyDgGuX4Vl+XG5kphHfjO1wZOPmLFk9GZsvV
+ wJp6ZWVsiDsptvVwJNprL0Ng23yifgn6wvhxI7a6Zt5P2gQWNxN1z3x9e4Pp97y+
+ +Qu/e0NakKv6WscDC4H4m/9DOp8PGIMpeTKbFvZ2MSv+ovJ/T8BsfmasAmgkF/xW
+ ECbSuxguCFX2+czM/3tzn9RgpKXUiwyS8DdxYfUXSvvwxnZSyYnuRFs1Yvb/o/rj
+ ++Hw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1654155338; x=1654241738; bh=esxvLE4BPWDGsMBZkG7nPL192Ijb
+ XXvsfGvQR0oA+7g=; b=TgBxXs1VtqYRRyN03EFclwooHWOPeEmD0eqD4Beq6zPd
+ q9AyuXJydevOO4npFIN+FK12O3WlT0sQleTDQUWgs/WNJpew1Ia+6BALWsVkinFj
+ si+XQxSnFIw8FEHMeWNxEtqlRcmu8j/j0IlGz9fNSVY6jSauX07kfOmM1IJ2r0d/
+ RVXhe5oJE3VAdodN/Bpv56OSXgV9d/hlY9Xy6Yv4dOy4UTUysu6aLUMTXywUm83t
+ NT9m6lf3u/SUEL/iasJ2nelfVkmOgtNgz86uLj9rQ7pwDmrCnn9Gmk1lMzP75D+o
+ AkxXzs86eRoXVx93FraCPT7nN+mNkKmDMYEbIRR9MA==
+X-ME-Sender: <xms:SWiYYnUxGfiArmt4V7TxDKaOCNQnGysCFEZkF70pm1nkzwtJNz1h8A>
+ <xme:SWiYYvlI-5rHw_5Tlp9mn4LwvpsgmkECTQRNHNSeArsco7bFS3haZDevbDmntsQiV
+ PsBuv5ilK3SAJ5MO7o>
+X-ME-Received: <xmr:SWiYYjYgeusm2QqKvTR-uZLM1ufhYL7u-VxVzs70RbGBTWiUhFpKoOACv82K2_XqRi99G09FpndymsE4UQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledugdduudejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:SWiYYiWnm8b86dEBsgGLAtvYDdSkIEVu2S8b_OezCn81P3MLWzu0IA>
+ <xmx:SWiYYhkt0dBKMqj0qvcZLJm-6F_V580Ml9rT8whgrUPopuguCE9wAg>
+ <xmx:SWiYYvdFh5lvzZGTJqwSSAap1P4nIvqhaLOMi75_joNdgQ-e7cOazw>
+ <xmx:SmiYYk8UwySRLvXRH3A5qH4rIYZoPw-yu8QOSqwVnOpOzxDJnykvTQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jun 2022 03:35:35 -0400 (EDT)
+Date: Thu, 2 Jun 2022 09:35:34 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: cminyard@mvista.com, qemu-devel@nongnu.org,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
+ Peter Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [RFC PATCH v2 4/6] hw/i2c: add asynchronous send
+Message-ID: <YphoRhdvNHyuV8+N@apples>
+References: <20220601210831.67259-1-its@irrelevant.dk>
+ <20220601210831.67259-5-its@irrelevant.dk>
+ <20220601220521.GS2554462@minyard.net>
+ <fc01e3f2-1533-0ff7-6294-b3f7cf3cb351@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v6 00/17] target/m68k: Conditional traps + trap cleanup
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220602013401.303699-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220602013401.303699-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:asU/JczfAGN3lB5+NMnat3mob6wEaisEAfABHtazVjc8Ampr4y+
- xtp17/u325+yv5rEG7+Ap7qG+QP61tn0JQOfAq2unyG8qK+JM/VvyzN22S6tFAAbLBT1/BL
- VReOHOZRK0bTOKP1x+mwWtIJG5XVndPE6q5XWbfPHvbCPZY+PCja4aeg0f6uuW5Ov68YokF
- dSRYYkpuQpZSEY4m85kaA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:g6DtolQOMw4=:6L1LUxAoRWLBba2Jlmg66d
- FjFpcMIGpovF7g8iJ0UUQfbru+JNRsTVNxP5GxXuMiex6Lwx3N7I+UPJAkpgC88Lvloih5wfw
- Yp3+bnSRI+6zvniaHiZ3TjpUhAbjvqsYBb4jM8mCxzhKC4az6ALoEFvR3y/YyBcwQdpXMqfL2
- tG2qgFPSg/1ePmgkwtgrrzRN3w0iMh1eBSWmev9D3MoaJWPvTXlQ96xSLJ7OkkutwZuBpZlNN
- RMzk3hJu/QW6iTLbFt8OZwpnQ9KTfoaFbuQzE75BetF1ZwQET28eElJifsL8BmpW3f9W8PHSK
- 2FipQPSgTqu+ZyOGZHMLJCh1JVC0/ie1FbPMwgSFzOWEvRrG7LYWHk8kSrNn3uHHSrVrhtTM9
- a+5MWolCu8VnmH+hZDlUZH6k73KyTwJNYk9PAzql74bT8Q7+Ay3DrU58uKZvtewCi9CrUpKLU
- BpPZDsxFi6Ji1+a5BYGXtPFZvC2f/p0njKOfQcu5nyguAdWPyyGSJA7p+slWC85czDSckjDOF
- P54hUrsPBQ9HirM2vOuubioDFId4ZgATDnsQR5Qao6sTZvMxKh5WZI90z7CHywjFfjXkFfenR
- hGUw/H805OBNNEpMQ8Wy/hnU5SSOTl0mS2Pd9TpSPZ2Qew4q+bRDtTXmAsa+STPd80I8UmGkk
- aLDSTsgJBnKXq1eX9nE4DKyii2kY6pcddeT8d7ECyrvFQUX1QL0ObbpsOBmYHVnCFN1F5AfK2
- EqTsXuNXOyd+n4apZE/xmVUq/2afzxLJVR88cw==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wd0o59QLkii3PIZN"
+Content-Disposition: inline
+In-Reply-To: <fc01e3f2-1533-0ff7-6294-b3f7cf3cb351@kaod.org>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,52 +110,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/06/2022 à 03:33, Richard Henderson a écrit :
-> Changes for v6:
->    * Use exact masks for registering trapcc and ftrapcc.
->      These insn overlap illegal scc and fscc operands,
->      so we need to be exact about the registration.
-> 
-> 
-> r~
-> 
-> 
-> Richard Henderson (17):
->    target/m68k: Raise the TRAPn exception with the correct pc
->    target/m68k: Switch over exception type in m68k_interrupt_all
->    target/m68k: Fix coding style in m68k_interrupt_all
->    linux-user/m68k: Handle EXCP_TRAP1 through EXCP_TRAP15
->    target/m68k: Remove retaddr in m68k_interrupt_all
->    target/m68k: Fix address argument for EXCP_CHK
->    target/m68k: Fix pc, c flag, and address argument for EXCP_DIV0
->    target/m68k: Fix address argument for EXCP_TRACE
->    target/m68k: Fix stack frame for EXCP_ILLEGAL
->    target/m68k: Implement TRAPcc
->    target/m68k: Implement TPF in terms of TRAPcc
->    target/m68k: Implement TRAPV
->    target/m68k: Implement FTRAPcc
->    tests/tcg/m68k: Add trap.c
->    linux-user/strace: Use is_error in print_syscall_err
->    linux-user/strace: Adjust get_thread_area for m68k
->    target/m68k: Mark helper_raise_exception as noreturn
-> 
->   target/m68k/cpu.h              |   8 ++
->   target/m68k/helper.h           |  14 +--
->   linux-user/m68k/cpu_loop.c     |  13 ++-
->   linux-user/strace.c            |   2 +-
->   target/m68k/cpu.c              |   1 +
->   target/m68k/op_helper.c        | 173 +++++++++++++++--------------
->   target/m68k/translate.c        | 191 ++++++++++++++++++++++++---------
->   tests/tcg/m68k/trap.c          | 129 ++++++++++++++++++++++
->   linux-user/strace.list         |   5 +
->   tests/tcg/m68k/Makefile.target |   3 +
->   10 files changed, 396 insertions(+), 143 deletions(-)
->   create mode 100644 tests/tcg/m68k/trap.c
-> 
 
-Applied to my m68k-for-7.1 branch
+--wd0o59QLkii3PIZN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Laurent
+On Jun  2 09:32, C=C3=A9dric Le Goater wrote:
+> On 6/2/22 00:05, Corey Minyard wrote:
+> > On Wed, Jun 01, 2022 at 11:08:29PM +0200, Klaus Jensen wrote:
+> > > From: Klaus Jensen <k.jensen@samsung.com>
+> > >=20
+> > > Add an asynchronous version of i2c_send() that requires the slave to
+> > > explicitly acknowledge on the bus with i2c_ack().
+> > >=20
+> > > The current master must use the new i2c_start_send_async() to indicate
+> > > that it wants to do an asynchronous transfer. This allows the i2c core
+> > > to check if the target slave supports this or not. This approach reli=
+es
+> > > on adding a new enum i2c_event member, which is why a bunch of other
+> > > devices needs changes in their event handling switches.
+> >=20
+> > This would be easier to read if you split out the default return of -1
+> > in all the devices to a separate patch.
+>=20
+> yes and please drop ibm-cffps.c and ir35221.c which are not in mainline.
+> I will address them myself.
+>=20
 
+Roger.
+
+--wd0o59QLkii3PIZN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKYaEQACgkQTeGvMW1P
+DemkkwgAlrlwQ2jD0ei9cmKWMWePCjYb87nmJEhpxy3OIBdyDGsEHPoQ2DgrY89l
+XXSIkJKrejQVB5J7dIRmUTJ98Mc32U4AEyRQxU/NkFWzBXHTWjpyRxeVuYCdre01
+srv7KI5W4rJWxTPpfzMNVGGKZvttwpCWkqHvl24TvDZ509mIYbg5JS0hf/0BBgKK
+Ghg9Y2huKXM7hNtURxTk11OgoAv20IjXS0V8Vx2kdbxFxizevgI9SL2VKgmqZuch
+gsB2VwIf7i2+yDiq8VvYMhuBWzpYbKCFj9nUxeehqMVFfkFXKM7yvU6sMCG1wLKz
+zmgPv7Ujs3PBAzSuHnkxmJj48U2ynA==
+=EUzg
+-----END PGP SIGNATURE-----
+
+--wd0o59QLkii3PIZN--
 
