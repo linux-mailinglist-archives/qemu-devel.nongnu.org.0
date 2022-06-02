@@ -2,82 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1D453B610
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 11:29:47 +0200 (CEST)
-Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1C553B61A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 11:34:00 +0200 (CEST)
+Received: from localhost ([::1]:53484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwh9F-0006Tg-SN
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 05:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46072)
+	id 1nwhDL-0000KG-Ne
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 05:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nwh75-0005CQ-9L
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 05:27:31 -0400
-Received: from mga18.intel.com ([134.134.136.126]:13481)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nwh6x-00050C-0d
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 05:27:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654162043; x=1685698043;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=N6PpjBk4nvg7Ou/iJNU4Gw3B97lPMNDnS0Fdgi2ltQk=;
- b=eboYNpYvqGwtwTuFBW40c/DMxw4Igfr17CQADGi6YO7jKYfQimRwKgVS
- N4/22omhOFRx50AJ/nfmBGdHFu+yV8eoIAp9wciP89gM22D29AuD9hTc0
- BLYSvrrlCWgHZh0rnjR8amaIBH2QYOO1rrGAlGUdxCYDSYLBKJYT9slnt
- dnEYSqjspUfpgPjqJyRr2w+OlejZrOkkFgstJZLyn4Lz9mH35M7FkzQP4
- 9OCw/RVrM2qRRgj3jamv1NLOef1pdeEQMa84v/Xlx8FY2QlDilK2GgyfZ
- R+kBkx0IRXjyzY8UpeVRZL5qJWLmxT6yMX5Anr405pSlbj8zx8wk+X0rD A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="257960875"
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="257960875"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 02:27:13 -0700
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="606752208"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.171.226])
- ([10.249.171.226])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 02:27:08 -0700
-Message-ID: <115674c7-8316-0d13-5dc0-ab680590c59b@intel.com>
-Date: Thu, 2 Jun 2022 17:27:06 +0800
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nwhBb-0007t1-Ja
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 05:32:11 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nwhBV-0006sh-6Y
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 05:32:07 -0400
+Received: by mail-pg1-x530.google.com with SMTP id g184so4307134pgc.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 02:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7I3ikvFHTI+6AcR3ilkUpnEXgPD/1szD0jLieUltRxk=;
+ b=ItV3NywPYNHm1FfgUjBMRW09NCS6oZOMYKz9eWsHEfWk8NyiBKqb/2k4YL46y5CYnS
+ blv+H/a7RyNuy6xKLlhF3jjuJhJr5mcHOPtnbO/jkk6avb7yQjCS4MILmz0LsS5C90bQ
+ 2bi6vOnb22JDvS3GDo/U2ag2yMtw9pvUFAWAPHoaf6ogV7rhYjAH7RVXa4ug20vRoC1q
+ 8sbl0XOZqCq4DQ7fsF6gXfURhOy2h7n3cxn2UDORy08kinTTXUX3gSKIz5tIRQXutU96
+ sjFjTgmRcpZ0ybdSelwgQIopM8JAAX5NjwYRPfgweHy78H1EOXprtzPilNT8DlE6W4nQ
+ Jpzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7I3ikvFHTI+6AcR3ilkUpnEXgPD/1szD0jLieUltRxk=;
+ b=Fg0HUkSGZXZnAq6PfcCZC7lzqddkBQca+4bVH0UfAMi+r7SE9AAB+iqnPxxYH+4w44
+ QB2Chi9/ShL/5CbA+mLJDIESIRUlv2hePRCLHE20LdLFWTXSVAl07Nbb1NNUCq6Vffax
+ +lDPzFCppLEjgiGajKGlWKOzErddXWcQ53q4ASVtLcau4JBURiOwogapen6nTkSJO9GU
+ 2C7rGXsI2mnN1xk/CirKIMUz1/fnN0/VJohd0zW4GEs3UJ4HR5YTWb63+UCPHivRFoI6
+ /I9SDJnZ+Npr5KAU4/VTBuetYZ8kjnJzhRtyc4DOlYLSQjfy/5Ooaf8eD08PK3Huf7At
+ 7M4Q==
+X-Gm-Message-State: AOAM533pmyjOt+xDY9zYRURPX0OQUUxcv8WFTo+/FN9LMJexzvgjq+i0
+ 9Qb1CHtk7UIOdOGu3Vvh1xP0Yg==
+X-Google-Smtp-Source: ABdhPJyGhLUAVF5lUAJbWPQRaAlP5yR+8T7MH5RjDJxKjPQKPSggZoMgr0IYcNvpnD6X4KJsg11e7w==
+X-Received: by 2002:a63:754b:0:b0:3fb:2109:e4d2 with SMTP id
+ f11-20020a63754b000000b003fb2109e4d2mr3421775pgn.447.1654162321444; 
+ Thu, 02 Jun 2022 02:32:01 -0700 (PDT)
+Received: from [10.255.89.136] ([139.177.225.233])
+ by smtp.gmail.com with ESMTPSA id
+ d15-20020a056a0024cf00b00512ee2f2363sm3131645pfv.99.2022.06.02.02.31.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jun 2022 02:32:00 -0700 (PDT)
+Message-ID: <fc4ade80-a40a-d24d-d44d-16b48232b89f@bytedance.com>
+Date: Thu, 2 Jun 2022 17:28:00 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 23/36] i386/tdx: Setup the TD HOB list
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: Re: [PATCH 0/3] recover hardware corrupted page by virtio balloon
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
- "Xu, Min M" <min.m.xu@intel.com>
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-24-xiaoyao.li@intel.com>
- <20220524075626.l7rgyjz3jhojhds2@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220524075626.l7rgyjz3jhojhds2@sirius.home.kraxel.org>
+To: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?=
+ <naoya.horiguchi@nec.com>
+Cc: Peter Xu <peterx@redhat.com>, Jue Wang <juew@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, jasowang@redhat.com,
+ LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+ mst@redhat.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org
+References: <CAPcxDJ5pduUyMA0rf+-aTjK_2eBvig05UTiTptX1nVkWE-_g8w@mail.gmail.com>
+ <Yo/I3oLkd9OU0ice@xz-m1.local>
+ <24a95dea-9ea6-a904-7c0b-197961afa1d1@bytedance.com>
+ <0d266c61-605d-ce0c-4274-b0c7e10f845a@redhat.com>
+ <4b0c3e37-b882-681a-36fc-16cee7e1fff0@bytedance.com>
+ <YpTngZ5Qr0KIvL0H@xz-m1.local>
+ <CAPcxDJ5UMfpys8KyLQVnkV9BPO1vaubxbhc7f4XC_TdNO7jr7g@mail.gmail.com>
+ <5f622a65-8348-8825-a167-414f2a8cd2eb@bytedance.com>
+ <484546da-16cc-8070-2a2c-868717b8a75a@redhat.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <484546da-16cc-8070-2a2c-868717b8a75a@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=xiaoyao.li@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,74 +108,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/2022 3:56 PM, Gerd Hoffmann wrote:
->    Hi,
+On 6/1/22 15:59, David Hildenbrand wrote:
+> On 01.06.22 04:17, zhenwei pi wrote:
+>> On 5/31/22 12:08, Jue Wang wrote:
+>>> On Mon, May 30, 2022 at 8:49 AM Peter Xu <peterx@redhat.com> wrote:
+>>>>
+>>>> On Mon, May 30, 2022 at 07:33:35PM +0800, zhenwei pi wrote:
+>>>>> A VM uses RAM of 2M huge page. Once a MCE(@HVAy in [HVAx,HVAz)) occurs, the
+>>>>> 2M([HVAx,HVAz)) of hypervisor becomes unaccessible, but the guest poisons 4K
+>>>>> (@GPAy in [GPAx, GPAz)) only, it may hit another 511 MCE ([GPAx, GPAz)
+>>>>> except GPAy). This is the worse case, so I want to add
+>>>>>    '__le32 corrupted_pages' in struct virtio_balloon_config, it is used in the
+>>>>> next step: reporting 512 * 4K 'corrupted_pages' to the guest, the guest has
+>>>>> a chance to isolate the other 511 pages ahead of time. And the guest
+>>>>> actually loses 2M, fixing 512*4K seems to help significantly.
+>>>>
+>>>> It sounds hackish to teach a virtio device to assume one page will always
+>>>> be poisoned in huge page granule.  That's only a limitation to host kernel
+>>>> not virtio itself.
+>>>>
+>>>> E.g. there're upstream effort ongoing with enabling doublemap on hugetlbfs
+>>>> pages so hugetlb pages can be mapped in 4k with it.  It provides potential
+>>>> possibility to do page poisoning with huge pages in 4k too.  When that'll
+>>>> be ready the assumption can go away, and that does sound like a better
+>>>> approach towards this problem.
+>>>
+>>> +1.
+>>>
+>>> A hypervisor should always strive to minimize the guest memory loss.
+>>>
+>>> The HugeTLB double mapping enlightened memory poisoning behavior (only
+>>> poison 4K out of a 2MB huge page and 4K in guest) is a much better
+>>> solution here. To be completely transparent, it's not _strictly_
+>>> required to poison the page (whatever the granularity it is) on the
+>>> host side, as long as the following are true:
+>>>
+>>> 1. A hypervisor can emulate the _minimized_ (e.g., 4K) the poison to the guest.
+>>> 2. The host page with the UC error is "isolated" (could be PG_HWPOISON
+>>> or in some other way) and prevented from being reused by other
+>>> processes.
+>>>
+>>> For #2, PG_HWPOISON and HugeTLB double mapping enlightened memory
+>>> poisoning is a good solution.
+>>>
+>>>>
+>>>>>
+>>>>>>
+>>>>>> I assume when talking about "the performance memory drops a lot", you
+>>>>>> imply that this patch set can mitigate that performance drop?
+>>>>>>
+>>>>>> But why do you see a performance drop? Because we might lose some
+>>>>>> possible THP candidates (in the host or the guest) and you want to plug
+>>>>>> does holes? I assume you'll see a performance drop simply because
+>>>>>> poisoning memory is expensive, including migrating pages around on CE.
+>>>>>>
+>>>>>> If you have some numbers to share, especially before/after this change,
+>>>>>> that would be great.
+>>>>>>
+>>>>>
+>>>>> The CE storm leads 2 problems I have even seen:
+>>>>> 1, the memory bandwidth slows down to 10%~20%, and the cycles per
+>>>>> instruction of CPU increases a lot.
+>>>>> 2, the THR (/proc/interrupts) interrupts frequently, the CPU has to use a
+>>>>> lot time to handle IRQ.
+>>>>
+>>>> Totally no good knowledge on CMCI, but if 2) is true then I'm wondering
+>>>> whether it's necessary to handle the interrupts that frequently.  When I
+>>>> was reading the Intel CMCI vector handler I stumbled over this comment:
+>>>>
+>>>> /*
+>>>>    * The interrupt handler. This is called on every event.
+>>>>    * Just call the poller directly to log any events.
+>>>>    * This could in theory increase the threshold under high load,
+>>>>    * but doesn't for now.
+>>>>    */
+>>>> static void intel_threshold_interrupt(void)
+>>>>
+>>>> I think that matches with what I was thinking..  I mean for 2) not sure
+>>>> whether it can be seen as a CMCI problem and potentially can be optimized
+>>>> by adjust the cmci threshold dynamically.
+>>>
+>>> The CE storm caused performance drop is caused by the extra cycles
+>>> spent by the ECC steps in memory controller, not in CMCI handling.
+>>> This is observed in the Google fleet as well. A good solution is to
+>>> monitor the CE rate closely in user space via /dev/mcelog and migrate
+>>> all VMs to another host once the CE rate exceeds some threshold.
+>>>
+>>> CMCI is a _background_ interrupt that is not handled in the process
+>>> execution context and its handler is setup to switch to poll (1 / 5
+>>> min) mode if there are more than ~ a dozen CEs reported via CMCI per
+>>> second.
+>>>>
+>>>> --
+>>>> Peter Xu
+>>>>
+>>
+>> Hi, Andrew, David, Naoya
+>>
+>> According to the suggestions, I'd give up the improvement of memory
+>> failure on huge page in this series.
+>>
+>> Is it worth recovering corrupted pages for the guest kernel? I'd follow
+>> your decision.
 > 
->> +static void tdvf_hob_add_mmio_resources(TdvfHob *hob)
->> +{
->> +    MachineState *ms = MACHINE(qdev_get_machine());
->> +    X86MachineState *x86ms = X86_MACHINE(ms);
->> +    PCIHostState *pci_host;
->> +    uint64_t start, end;
->> +    uint64_t mcfg_base, mcfg_size;
->> +    Object *host;
->> +
->> +    /* Effectively PCI hole + other MMIO devices. */
->> +    tdvf_hob_add_mmio_resource(hob, x86ms->below_4g_mem_size,
->> +                               APIC_DEFAULT_ADDRESS);
->> +
->> +    /* Stolen from acpi_get_i386_pci_host(), there's gotta be an easier way. */
->> +    pci_host = OBJECT_CHECK(PCIHostState,
->> +                            object_resolve_path("/machine/i440fx", NULL),
->> +                            TYPE_PCI_HOST_BRIDGE);
->> +    if (!pci_host) {
->> +        pci_host = OBJECT_CHECK(PCIHostState,
->> +                                object_resolve_path("/machine/q35", NULL),
->> +                                TYPE_PCI_HOST_BRIDGE);
->> +    }
->> +    g_assert(pci_host);
->> +
->> +    host = OBJECT(pci_host);
->> +
->> +    /* PCI hole above 4gb. */
->> +    start = object_property_get_uint(host, PCI_HOST_PROP_PCI_HOLE64_START,
->> +                                     NULL);
->> +    end = object_property_get_uint(host, PCI_HOST_PROP_PCI_HOLE64_END, NULL);
->> +    tdvf_hob_add_mmio_resource(hob, start, end);
->> +
->> +    /* MMCFG region */
->> +    mcfg_base = object_property_get_uint(host, PCIE_HOST_MCFG_BASE, NULL);
->> +    mcfg_size = object_property_get_uint(host, PCIE_HOST_MCFG_SIZE, NULL);
->> +    if (mcfg_base && mcfg_base != PCIE_BASE_ADDR_UNMAPPED && mcfg_size) {
->> +        tdvf_hob_add_mmio_resource(hob, mcfg_base, mcfg_base + mcfg_size);
->> +    }
->> +}
+> Well, as I said, I am not sure if we really need/want this for a handful
+> of 4k poisoned pages in a VM. As I suspected, doing so might primarily
+> be interesting for some sort of de-fragmentation (allow again a higher
+> order page to be placed at the affected PFNs), not because of the slight
+> reduction of available memory. A simple VM reboot would get the job
+> similarly done.
 > 
-> That looks suspicious.  I think you need none of this, except for the
-> first tdvf_hob_add_mmio_resource() call which adds the below-4G hole.
 
-for below-4G hole, it seems can be removed as well since I notice that 
-OVMF will prepare that mmio hob for TD, in OVMF. Is it correct?
+Sure, Let's drop this idea. Thanks to all for the suggestions.
 
-> It is the firmware which places the mmio resources into the address
-> space by programming the pci config space of the devices.  qemu doesn't
-> dictate any of this, and I doubt you get any useful values here.  The
-> core runs before the firmware had the chance to do any setup here ...
-> 
->> new file mode 100644
->> index 000000000000..b15aba796156
->> --- /dev/null
->> +++ b/hw/i386/uefi.h
-> 
-> Separate patch please.
-> 
-> Also this should probably go somewhere below
-> include/standard-headers/
+Hi, Naoya
+It seems that memory failure notifier is not required currently, so I'll 
+not push the next version of:
+[PATCH 1/3] memory-failure: Introduce memory failure notifier
+[PATCH 2/3] mm/memory-failure.c: support reset PTE during unpoison
 
-I will do it in next post.
+Thanks you for review work!
 
-> take care,
->    Gerd
+> As the poisoning refcount code is already a bit shaky as I learned
+> recently in the context of memory offlining, I do wonder if we really
+> want to expose the unpoisoning code outside of debugfs (hwpoison) usage.
+> 
+> Interestingly, unpoison_memory() documents: "This is only done on the
+> software-level, so it only works for linux injected failures, not real
+> hardware failures" -- ehm?
 > 
 
+I guess unpoison_memory() is designed/tested by hwpoison-inject only, I 
+have no idea to fix memory failure on a hardware platform. I suppose 
+it's the first time that unpoison_memory() is required by hardware-level 
+(balloon VQ).
+
+-- 
+zhenwei pi
 
