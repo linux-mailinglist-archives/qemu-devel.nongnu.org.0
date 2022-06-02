@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9D953BD8B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 19:47:44 +0200 (CEST)
-Received: from localhost ([::1]:49590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C764553BDA6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 19:56:24 +0200 (CEST)
+Received: from localhost ([::1]:52306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwov9-0000XG-5o
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 13:47:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47350)
+	id 1nwp3X-0003Ko-D0
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 13:56:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nwosZ-0007b1-Mg
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 13:45:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48472)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nwosX-0000lv-09
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 13:45:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654191900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+30dcsCMgSHbOFHyLp7zzwMbIjNonYI3DOw6Q3K4UGA=;
- b=OZYU1pMiOWOLmiGbiVtK3dgxvFJPqA7+sfLg9THwhLxW/NxHQ46lMy6yVSc9dtynq+MeYo
- SfzKcXHejCQ0QQ7dcmBpYRdKsw2RPc6NJxWSHaGm2DfldUu3eQycdMgKN9ozJAbGPuBwht
- VUgE1nNGJmTVh6mSGY/kJG8haHfHPG4=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-Q_1G-6v8M9Wr99pbgOajPg-1; Thu, 02 Jun 2022 13:44:59 -0400
-X-MC-Unique: Q_1G-6v8M9Wr99pbgOajPg-1
-Received: by mail-vs1-f70.google.com with SMTP id
- w1-20020a67c901000000b003379b87dc81so446889vsk.6
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 10:44:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nwp1F-0002QJ-Af; Thu, 02 Jun 2022 13:54:01 -0400
+Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b]:41952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nwp19-0003Ml-Lg; Thu, 02 Jun 2022 13:54:01 -0400
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ s4-20020a4ac804000000b0040e93a35508so1032088ooq.8; 
+ Thu, 02 Jun 2022 10:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=mW1OL3g4UcetIzr++LJ2ieXJRqwif+8iSOWbuSUim8g=;
+ b=OkqQBA2Ll01nasAtCM33lWzmYmNdnCvw8wlsew3LG4I+rGsGxrKGxm2antQyJSP5++
+ 705d2Gw+jIMkTwcr1aBkPr77sKa7YW/UGTsJrVlLe9cjdTNaeGfZpaxIVBaTIhwLyWsn
+ Xo8Jq3q9//PRLIL5SYVNbUCbbU6ZmbNL/OYNlTL7FacVr2Vxwov+HJlqnEOpILZuJVcR
+ 0u8004p38aRn7redsf+Jqqm+59vjSbP56OwzbZ30z+5FIToGicO9Lx/b1maUTuY29gPt
+ g0kyZVCFdaCxjF9EhUd5TnCjhrnCJAGCeF4RhLEzULDM83emWlszSz+Ot07NwG2sc0fx
+ H1eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+30dcsCMgSHbOFHyLp7zzwMbIjNonYI3DOw6Q3K4UGA=;
- b=O4JLWXMKz3m9gakuDWdYmeMOL/buh8kEP+ZHbfc1RM7fjsVk0Am8SITdGuL6UOxKVz
- O4x0e+AnzR4aO/7UNfc9LX5mDeJNOYlYXLjQqOiw93QonhZjegNuIbf+/3NAdhxJwfCW
- SJAyZBwKFoB3o3pN3FBDm0bb5sEJb46B7RiwOtCFcdqQ/ptXGqOZtYhjCgn/NcU4HY4v
- xIjYnuEhX2a6ugj5DQikpv3C4l7Ogkxh4u+16qpKlwYtxV2s7DaYHY8Xa/7YNZ/I74tm
- 1LSY4Ggc5jzeKlLACoBfgZq4YJOHrl9X3x7XWCVdyjR0v9SrY7Zg1zLtqXOO4HP4MER8
- 3Smw==
-X-Gm-Message-State: AOAM531fRSs5uzMU0j2/aMSW8mvEF0Kg5RT+tU0b1akzp1KPnb7uwZlU
- c6HhqrP+yErCkX0bfLusc642ZN0ODVPBRL4zkkMllKydPvuXRBLwkjlju3WY03sw0r3tbVoOKvE
- 5OJ/yB4B+e//C3PezO6Fzh9a8zVjJdXI=
-X-Received: by 2002:a1f:46:0:b0:35d:4de2:5ada with SMTP id
- 67-20020a1f0046000000b0035d4de25adamr1418659vka.26.1654191898679; 
- Thu, 02 Jun 2022 10:44:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyW4IZgEFPECPnnD6+H0pVy3gpHnHlN9zK25MoQeauZdUjWRsQOtOahpvqamPJtM34UEqoTZXkdnrd4Av5+EQ0=
-X-Received: by 2002:a1f:46:0:b0:35d:4de2:5ada with SMTP id
- 67-20020a1f0046000000b0035d4de25adamr1418650vka.26.1654191898499; 
- Thu, 02 Jun 2022 10:44:58 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mW1OL3g4UcetIzr++LJ2ieXJRqwif+8iSOWbuSUim8g=;
+ b=g/goVGPAKUiUSWc8E8U6DZc9YuW72rJfA31L3DlsWqPBsu6pptDIyfsUrgwLtEtOm2
+ O3JSbhycwD9x8j14d3nCXtK0G1poIlaPxMMIi0r/w2YCg4+TZbT2YXztCyKMTxNmBTvw
+ Cia1P9J8wi3G9bw/0VIR5dJvQb9he4pA6zJT9awrTwmGR0NG2nR+SowNAZmgvqAOGEkY
+ +vl6bc25Wp4dnSV+ZuN8UDPhSN/fEMcMWBr6URdBKZ16qHykltRIMpLO6VCpDpuT29Il
+ TXo7xBN7vetcxnNk6a/LDBs/+hcG3hCHQkP8s2L+q1RWOHbSoA6J2cttjDF7Wg0FU/bO
+ T1Tw==
+X-Gm-Message-State: AOAM530K3nVeqp6hxsouAPgDiGp1cI5QN/m9MMMyPI2e9oOa5nX/NxLv
+ EY4bnDKF9zQbaRD4bYb37Vk=
+X-Google-Smtp-Source: ABdhPJyjyLGx+b8lLgUdEUdggfPyh5kxO/1QXx27eWJwFscChXGBzVPjFgvi7Uys69e9IzlVW/Fv3A==
+X-Received: by 2002:a4a:b401:0:b0:35e:de93:43a9 with SMTP id
+ y1-20020a4ab401000000b0035ede9343a9mr2576465oon.80.1654192434048; 
+ Thu, 02 Jun 2022 10:53:54 -0700 (PDT)
+Received: from [192.168.10.102] ([152.250.93.219])
+ by smtp.gmail.com with ESMTPSA id
+ k21-20020a9d7015000000b0060b0ee6685csm2451409otj.33.2022.06.02.10.53.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jun 2022 10:53:53 -0700 (PDT)
+Message-ID: <bc3e70ad-94d6-34ff-d6f2-5f21fff70055@gmail.com>
+Date: Thu, 2 Jun 2022 14:53:50 -0300
 MIME-Version: 1.0
-References: <20220526000921.1581503-1-jsnow@redhat.com>
- <20220526000921.1581503-9-jsnow@redhat.com>
- <3a0913d7-c148-2619-bdee-7f70b091a6a9@redhat.com>
- <CAFn=p-bnd54uvF38Xqexi9T+P0CHo1seLYoBpwCi2V0e-unkSg@mail.gmail.com>
- <67280754-2b19-c9e4-1b7c-2a22348915ae@redhat.com>
-In-Reply-To: <67280754-2b19-c9e4-1b7c-2a22348915ae@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 2 Jun 2022 13:44:47 -0400
-Message-ID: <CAFn=p-bpZ5jKcVsZFnDG7tAtVo=TnUb0wkX=ZYss0E6vRcxqcA@mail.gmail.com>
-Subject: Re: [PATCH 8/9] tests: add python3-venv to debian10.docker
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000802db905e07a900a"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] pnv/xive2: Access direct mapped thread contexts from all
+ chips
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220602165310.558810-1-fbarrat@linux.ibm.com>
+ <3f4bbf08-36b0-170b-2166-be1cda6888b1@kaod.org>
+ <9af5aa25-6a32-6144-497d-2215187a96e2@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <9af5aa25-6a32-6144-497d-2215187a96e2@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,117 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000802db905e07a900a
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 1, 2022, 3:29 AM Thomas Huth <thuth@redhat.com> wrote:
 
-> On 31/05/2022 20.28, John Snow wrote:
-> > On Mon, May 30, 2022 at 3:33 AM Thomas Huth <thuth@redhat.com> wrote:
-> >>
-> >> On 26/05/2022 02.09, John Snow wrote:
-> >>> This is needed to be able to add a venv-building step to 'make check';
-> >>> the clang-user job in particular needs this to be able to run
-> >>> check-unit.
-> >>>
-> >>> Signed-off-by: John Snow <jsnow@redhat.com>
-> >>> ---
-> >>>    tests/docker/dockerfiles/debian10.docker | 1 +
-> >>>    1 file changed, 1 insertion(+)
-> >>>
-> >>> diff --git a/tests/docker/dockerfiles/debian10.docker
-> b/tests/docker/dockerfiles/debian10.docker
-> >>> index b414af1b9f7..03be9230664 100644
-> >>> --- a/tests/docker/dockerfiles/debian10.docker
-> >>> +++ b/tests/docker/dockerfiles/debian10.docker
-> >>> @@ -34,4 +34,5 @@ RUN apt update && \
-> >>>            python3 \
-> >>>            python3-sphinx \
-> >>>            python3-sphinx-rtd-theme \
-> >>> +        python3-venv \
-> >>>            $(apt-get -s build-dep --arch-only qemu | egrep ^Inst |
-> fgrep '[all]' | cut -d\  -f2)
-> >>
-> >> Note that we'll (hopefully) drop the debian 10 container soon, since
-> Debian
-> >> 10 is EOL by the time we publish the next QEMU release.
-> >>
-> >
-> > Noted -- do you think it'd be OK to sneak this change in first and
-> > have you move the requisite to the new container? :)
->
-> I don't mind - whatever comes first ... I just wanted to make you aware
-> that
-> there might be conflicts ;-)
->
->   Thomas
->
+On 6/2/22 14:06, Frederic Barrat wrote:
+> 
+> 
+> On 02/06/2022 19:00, Cédric Le Goater wrote:
+>> On 6/2/22 18:53, Frederic Barrat wrote:
+>>> When accessing a thread context through the IC BAR, the offset of the
+>>> page in the BAR identifies the CPU. From that offset, we can compute
+>>> the PIR (processor ID register) of the CPU to do the data structure
+>>> lookup. On P10, the current code assumes an access for node 0 when
+>>> computing the PIR. Everything is almost in place to allow access for
+>>> other nodes though. So this patch reworks how the PIR value is
+>>> computed so that we can access all thread contexts through the IC BAR.
+>>>
+>>> The PIR is already correct on P9, so no need to modify anything there.
+>>>
+>>> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+>>
+>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>>
+>> Is that a P10 bug ? If so, a fixes tag is needed.
+> 
+> 
+> Fixes: da71b7e3ed45 ("ppc/pnv: Add a XIVE2 controller to the POWER10 chip")
+> 
+> Daniel, good enough or you prefer a resend?
 
-Yep, got it! No problem at all. Thanks ~~
+I can fixup the tag, don't worry about it.
 
->
 
---000000000000802db905e07a900a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Daniel
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Jun 1, 2022, 3:29 AM Thomas Huth &lt;<a href=
-=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">On 31/05/2022 20.28, John Snow wrote:<br>
-&gt; On Mon, May 30, 2022 at 3:33 AM Thomas Huth &lt;<a href=3D"mailto:thut=
-h@redhat.com" target=3D"_blank" rel=3D"noreferrer">thuth@redhat.com</a>&gt;=
- wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On 26/05/2022 02.09, John Snow wrote:<br>
-&gt;&gt;&gt; This is needed to be able to add a venv-building step to &#39;=
-make check&#39;;<br>
-&gt;&gt;&gt; the clang-user job in particular needs this to be able to run<=
-br>
-&gt;&gt;&gt; check-unit.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.co=
-m" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
-&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 tests/docker/dockerfiles/debian10.docker | 1 +<br=
->
-&gt;&gt;&gt;=C2=A0 =C2=A0 1 file changed, 1 insertion(+)<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/=
-docker/dockerfiles/debian10.docker<br>
-&gt;&gt;&gt; index b414af1b9f7..03be9230664 100644<br>
-&gt;&gt;&gt; --- a/tests/docker/dockerfiles/debian10.docker<br>
-&gt;&gt;&gt; +++ b/tests/docker/dockerfiles/debian10.docker<br>
-&gt;&gt;&gt; @@ -34,4 +34,5 @@ RUN apt update &amp;&amp; \<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 python3 \<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 python3-sphinx \<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 python3-sphinx-rtd-th=
-eme \<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 python3-venv \<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(apt-get -s build-de=
-p --arch-only qemu | egrep ^Inst | fgrep &#39;[all]&#39; | cut -d\=C2=A0 -f=
-2)<br>
-&gt;&gt;<br>
-&gt;&gt; Note that we&#39;ll (hopefully) drop the debian 10 container soon,=
- since Debian<br>
-&gt;&gt; 10 is EOL by the time we publish the next QEMU release.<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; Noted -- do you think it&#39;d be OK to sneak this change in first and=
-<br>
-&gt; have you move the requisite to the new container? :)<br>
-<br>
-I don&#39;t mind - whatever comes first ... I just wanted to make you aware=
- that <br>
-there might be conflicts ;-)<br>
-<br>
-=C2=A0 Thomas<br></blockquote></div></div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">Yep, got it! No problem at all. Thanks ~~</div><div dir=3D"aut=
-o"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---000000000000802db905e07a900a--
-
+> 
+>    Fred
 
