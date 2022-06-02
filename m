@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A5D53B0E2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:03:01 +0200 (CEST)
-Received: from localhost ([::1]:59488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E965353B0E4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:08:39 +0200 (CEST)
+Received: from localhost ([::1]:34054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwZEq-0004HH-L0
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38626)
+	id 1nwZKI-0006p2-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nwZDV-0003Zx-Kh
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:01:38 -0400
-Received: from mga05.intel.com ([192.55.52.43]:8663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nwZDS-0004YY-El
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:01:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654131694; x=1685667694;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=0m+FnQJzo+uEfWhksV9YCoYcKMswjsWrEgsyM6SgwCc=;
- b=FPC76zJbMdd34iUYXwiRZUjP2SVLSVAiNLQWjUYK+RLgTn+v4FkzP9BU
- caPiGRXzd2iuGYpqpKJppIYsT+rfKznzCyD7v7v6oDOc8U+VLAooaDiG9
- SBWa9pVE85yL8olXFind67zkYjnp6Rw6dlD2Jb8YZ+H7Zl6tDW35GlqZu
- llQ6Cm+9Cw5lkaxV7Xv8Thf0NXyeiCEIw4oHcARM5YdAmTGfyOJDStLfA
- kngVSDC7Aam63GVUOonIcQbjrYo0zgQZEOAxY31eLRWjWG3vPJQVywMp0
- sMarDFHkVHvy5ke9lRoE9UbyDwROVkUM7Kd5QyG1p+mZqj3WG+vmHSg5+ Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="362153817"
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="362153817"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 18:01:30 -0700
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="606565402"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.168.138])
- ([10.249.168.138])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 18:01:25 -0700
-Message-ID: <9d00fd58-b957-3b8e-22ab-12214dcbbe97@intel.com>
-Date: Thu, 2 Jun 2022 09:01:23 +0800
+ (Exim 4.90_1) (envelope-from <ztong0001@gmail.com>)
+ id 1nwZGb-0005Fd-H6
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:04:49 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:46002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ztong0001@gmail.com>)
+ id 1nwZGa-0004nk-0w
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:04:49 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id g4so5771578ybf.12
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 18:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aRHZ2b7GchnNMEpcnNW9PNRCve29IKGCLlpfdviYqsY=;
+ b=Y0DpKor/O8hQSkkjy6GijMtsCn+y2OK33ltAWeXU2oqXZiEA4sFcVEUqoi5wYkPPo2
+ EM4klCTZUBlz1qWqGNwQzLsajYhelRq8ve8rejQXuWrIMlH51WD5k7FOMn4WCJwx26Yl
+ qedisuGWWtBEUFS3HMdbwPUEo0QFIH+UTjBPKKpOHsuL69NPRUcsvgjC/OBfjb8OW67y
+ 1l28R7/mhaUiDRYrC8aTfTsxmZB1aIh+23XYRPhVm84i9YTraZFhhFY1P5sDHteZb0Y2
+ mo//K7JC4JoFWoKIjSRE0KWIKuHOo1jJCBAmSi2ZgUzy5k3z15DMDwOvNpMsCXvDqXxf
+ w2Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aRHZ2b7GchnNMEpcnNW9PNRCve29IKGCLlpfdviYqsY=;
+ b=zvkXLI0hjcs1xJgHHcqlll7rrlBga1m0sxYVTHUu3S3jr/iXshVc7fIdRfj6Kaw7EQ
+ x17mP+mWrmKUg9DpfrH8TPpdMHSozXRIrQhzli3VIfsl6pnGQ4xne+gMNxuFqlqaeFnm
+ VRJiAs2BjNS+7kN3iWe8Q1j5FXx8q6KcwrItV/OOlbdIWm7EfJsN0VR6F0bCSuYA7Qzf
+ RpSUVirf6eQAvid0mEe33iZHDdregjl9LAUsJUs3xj+aY4JxMUyNp/JuaM9dFiHGltns
+ eiV3KajiBs9iMi260BhFzAs5KSlDbmaN2XXZpXJYmAq2vdGT7ORGI3rfJR1NFX1yuexj
+ +UIA==
+X-Gm-Message-State: AOAM531r1OV8983kaFg8WIUms3ZJCS7IsuW9CAaApAmrcT4dhs2RqfxE
+ KvkZVKWW90ZpQ/8JSJmPZBr5z/SGWEqYyUVDFq4=
+X-Google-Smtp-Source: ABdhPJxTgwwnDprBVHaD6Vo7GJ37rVhAPXc+YvZhlBW8Aa8wHCHlIH51pdxbsELvBHA9Z3mQnM9JUrrWhPt9u+E6Xqo=
+X-Received: by 2002:a25:868a:0:b0:65c:c463:24fc with SMTP id
+ z10-20020a25868a000000b0065cc46324fcmr2837332ybk.393.1654131886612; Wed, 01
+ Jun 2022 18:04:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 11/36] i386/tdx: Initialize TDX before creating TD
- vcpus
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-12-xiaoyao.li@intel.com>
- <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
- <d3e967f3-917f-27ce-1367-2dba23e5c241@intel.com>
- <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
- <39341481-67b6-aba4-a25a-10abb398bec4@intel.com>
- <20220601075453.7qyd5z22ejgp37iz@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220601075453.7qyd5z22ejgp37iz@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <CGME20220427205118uscas1p25031437c0cdd4363c104be13033f366a@uscas1p2.samsung.com>
+ <20220427205056.2522-1-t.zhang2@samsung.com>
+ <b675b817-7b7c-06ee-b971-3df2d7374622@redhat.com>
+ <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
+ <0b54d6c7-f56d-1ad2-80b7-d75d1033d67e@redhat.com>
+ <YpdoqgpGloiPIxBk@stefanha-x1.localdomain>
+ <b7eff284-fb61-6a66-dd9a-893b64dd5311@redhat.com>
+ <CAJSP0QUBJdmT47fvCQ=A6faL8sTFLHGgfNp5U8p7QiRY+EwGJA@mail.gmail.com>
+In-Reply-To: <CAJSP0QUBJdmT47fvCQ=A6faL8sTFLHGgfNp5U8p7QiRY+EwGJA@mail.gmail.com>
+From: Tong Zhang <ztong0001@gmail.com>
+Date: Wed, 1 Jun 2022 18:04:35 -0700
+Message-ID: <CAA5qM4AD-s9qxPy8QSgeCAXvVFC=zOKuawBHsSti7nzg3Gr=iA@mail.gmail.com>
+Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>, Tong Zhang <t.zhang2@samsung.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Francisco Londono <f.londono@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=ztong0001@gmail.com; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,77 +93,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/1/2022 3:54 PM, Gerd Hoffmann wrote:
-> On Wed, Jun 01, 2022 at 03:20:46PM +0800, Xiaoyao Li wrote:
->> On 5/24/2022 2:57 PM, Gerd Hoffmann wrote:
->>>     Hi,
->>> Maybe it's a bit more work to add VM-scope initialization support to
->>> qemu.
->>
->> If just introducing VM-scope initialization to QEMU, it would be easy. What
->> matters is what needs to be done inside VM-scope initialization.
->>
->> For TDX, we need to settle down the features that configured for the TD.
->> Typically, the features are attributes of cpu object, parsed from "-cpu"
->> option and stored in cpu object.
-> 
->> 2) create a CPU object when initializing machine object and collect all the
->> info from "-cpu" and drop it in the end; then why not do it when creating
->> 1st vcpu like this patch.
-> 
-> Do VM-scope tdx initialization late enough that cpu objects are already
-> created at that point, so you can collect the info you need without a
-> dummy cpu?
+Hi Stefan,
 
-new CPU object is created during creating each vcpu. So we have to use 
-mutex and flag to ensure VM-scope initialization is executed only once.
+On Wed, Jun 1, 2022 at 6:56 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> > > This patch makes sense to me. Can you rephrase your concern?
+> >
+> > The locking is around dbs->io_func().
+> >
+> > aio_context_acquire(dbs->ctx);
+> > dbs->acb = dbs->io_func()
+> > aio_context_release(dbs->ctx);
+> >
+> >
+> > So where exactly would the lock that's now still held stop someone from
+> > modifying dbs->acb = NULL at the beginning of the function, which seems
+> > to be not protected by that lock?
+> >
+> > Maybe I'm missing some locking magic due to the lock being a recursive lock.
+>
+> Tong Zhang: Can you share a backtrace of all threads when the
+> assertion failure occurs?
+>
+Sorry I couldn't get the trace now -- but I can tell that we have some
+internal code uses
+this dma related code and will grab dbs->ctx lock in another thread
+and could overwrite dbs->acb.
 
-And it's werid to hook  VM-scope initialization in the middle of the 
-vcpu creating phase to satisfy "late enough", so we choose to do it just 
-before calling KVM API to initializing vcpu.
+From my understanding, one of the reasons that the lock is required
+here is to protect dbs->acb,
+we could not reliably test io_func()'s return value after releasing
+the lock here.
 
-> I guess it could be helpful for the discussion when you can outine the
-> 'big picture' for tdx initialization.  How does kvm accel setup look
-> like without TDX, and what additional actions are needed for TDX?  What
-> ordering requirements and other constrains exist?
+Since this code affects our internal code base and I did not reproduce
+on master branch,
+feel free to ignore it.
 
-To boot a TDX VM, it requires several changes/additional steps in the flow:
+- Tong
 
-  1. specify the vm type KVM_X86_TDX_VM when creating VM with
-     IOCTL(KVM_CREATE_VM);
-	- When initializing KVM accel
-
-  2. initialize VM scope configuration before creating any VCPU;
-
-  3. initialize VCPU scope configuration;
-	- done inside machine_init_done_notifier;
-
-  4. initialize virtual firmware in guest private memory before vcpu 
-running;
-	- done inside machine_init_done_notifier;
-
-  5. finalize the TD's measurement;
-	- done inside machine init_done_notifier;
-
-
-And we are discussing where to do step 2).
-
-We can find from the code of tdx_pre_create_vcpu(), that it needs
-cpuid entries[] and attributes as input to KVM.
-
-   cpuid entries[] is set up by kvm_x86_arch_cpuid() mainly based on
-   'CPUX86State *env'
-
-   attributes.pks is retrieved from env->features[]
-   and attributes.pmu is retrieved from x86cpu->enable_pmu
-
-to make VM-socpe data is consistent with VCPU data, we do choose the 
-point late enough to ensure all the info/configurations from VCPU are 
-settle down, that just before calling KVM API to do VCPU-scope 
-configuration.
-
-> take care,
->    Gerd
-> 
-
+> Stefan
 
