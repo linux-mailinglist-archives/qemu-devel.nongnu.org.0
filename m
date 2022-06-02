@@ -2,71 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BCD53B827
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 13:51:14 +0200 (CEST)
-Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F7C53B838
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 13:54:38 +0200 (CEST)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwjM8-0002Wb-Gm
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 07:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
+	id 1nwjPR-0004Hp-LK
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 07:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nwjEx-0001LQ-RP
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:43:47 -0400
-Received: from mail-wr1-f51.google.com ([209.85.221.51]:35631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nwjEu-00072e-Ui
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:43:47 -0400
-Received: by mail-wr1-f51.google.com with SMTP id q21so6128763wra.2
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 04:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FEp9beiefvRaVBrOt/ntscjwiQ2tI8ugnnCH+ZhXlY8=;
- b=bkABMwmXVOXZQKVGjW/bMKSLoL2hcIybVRF9kZih+tQd3Eeye4X9irDVvIR5QRqIhh
- yyg+PULd435pRDEV0ElUMJJeXpgMUNPx5VWzakGS0GPsqxzjUUxx572KJRUJkw5Dxahb
- R4+Zs02H+DvYlehGxhQznybGyL0a6mZ6ag6n0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FEp9beiefvRaVBrOt/ntscjwiQ2tI8ugnnCH+ZhXlY8=;
- b=cmHmrHdmmRThgLyIuePVLyVLJAkYY3SD6ldHPwpKOgncDn9TFv/j/9lN3mUendBoYD
- A+HgoEIT0GvOIJiGig1wj09WKtNVoXe5DUAzU2DRU8FmqlHVr1fOvm6cPb4FIOo6Pc+6
- ZQzNgONmcNowE5A6E/NsHI+CXGExAUFTWk7WHSfXwq2dycvhAapzO6rK/uUIvy0wKdr5
- ofAWqRv9JJRIX+22yYIy0k2ERKQN7bPCAZwb+m9ZwzddhjiWHeTuojWfKql/m8J1/i3x
- Q3yD1fEpLDqdwMGITG6lvZGNU1kmY8aM+xA97LT/MSb/txYNz391fQbg69Zs13Iz+Kg8
- Em4w==
-X-Gm-Message-State: AOAM532ECVr0Q1b/qqQIAXiChqU//IkdAWrRV3Ac1sVD77hEl/LA20uk
- /9GtFz/tKOW8MCS4tzv2AAzCxIHpU9bx4Vl4cfE=
-X-Google-Smtp-Source: ABdhPJzGeeXhBHcR26JRZu0XlouhaTx4wQB6ctw+pwVatBQcOGMc3esOArfWm3ZY2c5SYayOlVnLPJ3lFWaZUYJ6oHQ=
-X-Received: by 2002:a5d:428f:0:b0:210:30cd:3753 with SMTP id
- k15-20020a5d428f000000b0021030cd3753mr3284678wrq.549.1654170163078; Thu, 02
- Jun 2022 04:42:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nwjKy-0002re-JR; Thu, 02 Jun 2022 07:50:01 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nwjKv-0007vs-1u; Thu, 02 Jun 2022 07:49:58 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 252Bg7wu002144;
+ Thu, 2 Jun 2022 11:49:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ reply-to : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding : mime-version; s=pp1;
+ bh=s2P3+uXvKMBEhnk2gAKGLANMCuwQBS9BIwN1SvP+xig=;
+ b=bSaxhe/zCwFrYpnPyGUy4BQsDFsKMEZ08S6/gkaWgztxKIzY8PioHoygwtHWwG06CmhN
+ h6r068Dcqzd7JEr1oO4Fjh4xgVhJoJMGs9Piu+URw4oePHunZYGV5HTnGn4oeCivUH3K
+ xN9JKaMS/8gK7SsGedsWG5nWvQkRwbRPAK2IdZ8tLxXexWAQ2l5H6lqkcVMYsYosYjWi
+ 6OqryQSl8T1vd1AQC2YPNOiSNgdvaWWLRx8uJKSm/VB9iWzyA+WUhGTYaBAtRFsfy2cQ
+ DmHgfhKplA2a/hKkaC7E35UmUU536Uf92YoSPMGCUMI1QJ/W/gVtLof/zsnOkJ76o0I/ fg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gevjbg3ra-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Jun 2022 11:49:41 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 252BkTGU017465;
+ Thu, 2 Jun 2022 11:49:40 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gevjbg3qx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Jun 2022 11:49:40 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 252BKc8w020964;
+ Thu, 2 Jun 2022 11:49:39 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 3gd3ymyjbj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Jun 2022 11:49:39 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 252Bnc1A7013274
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 2 Jun 2022 11:49:38 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CCB46AC05E;
+ Thu,  2 Jun 2022 11:49:38 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 44995AC05B;
+ Thu,  2 Jun 2022 11:49:37 +0000 (GMT)
+Received: from [9.160.111.240] (unknown [9.160.111.240])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Thu,  2 Jun 2022 11:49:37 +0000 (GMT)
+Message-ID: <07d70117-6ede-673d-fb5e-422398ee8fd1@linux.ibm.com>
+Date: Thu, 2 Jun 2022 08:49:35 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.10.0
+Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ mopsfelder@gmail.com, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220531172711.94564-1-muriloo@linux.ibm.com>
+ <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
+From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
+Organization: IBM
+In-Reply-To: <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1dkrSFIroABCGnfu8Cg2ujppLckK5ebc
+X-Proofpoint-GUID: zxlrcyc7u4gk1b0Rt4Ry12-LiliDSOV-
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20220527172731.1742837-1-shorne@gmail.com>
- <20220527172731.1742837-4-shorne@gmail.com>
-In-Reply-To: <20220527172731.1742837-4-shorne@gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 2 Jun 2022 11:42:30 +0000
-Message-ID: <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
-To: Stafford Horne <shorne@gmail.com>
-Cc: QEMU Development <qemu-devel@nongnu.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- Openrisc <openrisc@lists.librecores.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.221.51; envelope-from=joel.stan@gmail.com;
- helo=mail-wr1-f51.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-02_02,2022-06-02_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 mlxscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206020049
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,202 +118,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: muriloo@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stafford,
+Hi, Thomas.
 
-On Fri, 27 May 2022 at 17:27, Stafford Horne <shorne@gmail.com> wrote:
+On 6/1/22 04:27, Thomas Huth wrote:
+> On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
+>> Update max alias to power10 so users can take advantage of a more
+>> recent CPU model when '-cpu max' is provided.
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
+>> Cc: Daniel P. Berrangé <berrange@redhat.com>
+>> Cc: Thomas Huth <thuth@redhat.com>
+>> Cc: Cédric Le Goater <clg@kaod.org>
+>> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> Cc: Fabiano Rosas <farosas@linux.ibm.com>
+>> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+>> ---
+>>   target/ppc/cpu-models.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
+>> index 976be5e0d1..c15fcb43a1 100644
+>> --- a/target/ppc/cpu-models.c
+>> +++ b/target/ppc/cpu-models.c
+>> @@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
+>>       { "755", "755_v2.8" },
+>>       { "goldfinger", "755_v2.8" },
+>>       { "7400", "7400_v2.9" },
+>> -    { "max", "7400_v2.9" },
+>>       { "g4",  "7400_v2.9" },
+>>       { "7410", "7410_v1.4" },
+>>       { "nitro", "7410_v1.4" },
+>> @@ -910,6 +909,8 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
+>>       { "power8nvl", "power8nvl_v1.0" },
+>>       { "power9", "power9_v2.0" },
+>>       { "power10", "power10_v2.0" },
+>> +    /* Update the 'max' alias to the latest CPU model */
+>> +    { "max", "power10_v2.0" },
+>>   #endif
 >
-> This patch add the OpenRISC virtual machine 'virt' for OpenRISC.  This
-> platform allows for a convenient CI platform for toolchain, software
-> ports and the OpenRISC linux kernel port.
->
-> Much of this has been sourced from the m68k and riscv virt platforms.
+> I'm not sure whether "max" should really be fixed alias in this list here? What if a user runs with KVM on a POWER8 host - then "max" won't work this way, will it?
 
-It's a good idea! I did some playing around with your patch today.
+"-cpu max" as an alias to power10 running with KVM on a P8 host won't
+work.  It's already broken with the current 7400_v2.9, anyway.
 
-I'd suggest adding something to docs/system/target-openrsic.rst,
-including an example command lines.
+> And in the long run, it would also be good if this would work with other machines like the "g3beige", too (which don't support the new 64-bit POWER CPUs), so you should at least mention in the commit description that this is only a temporary hack for the pseries machine, I think.
 
->
-> The platform provides:
->  - OpenRISC SMP with up to 8 cpus
+I agree.  I'll mention that if I end up respining the patch.
 
-You have this:
+Thank you!
 
-#define VIRT_CPUS_MAX 4
+--
+Murilo
 
-I tried booting with -smp 4 and it locked up when starting userspace
-(or I stopped getting serial output?):
-
-[    0.060000] smp: Brought up 1 node, 4 CPUs
-...
-[    0.960000] Run /init as init process
-
-Running with -smp 2 and 3 worked. It does make booting much much slower.
-
->  - A virtio bus with up to 8 devices
-
-How do we go about adding a virtio-net-device to this bus?
-
-I tried this:
-
-$ ./qemu-system-or1k -M virt  -nographic -kernel
-~/dev/kernels/shenki/or1ksim/vmlinux -initrd
-~/dev/buildroot/openrisc/images/rootfs.cpio -device
-virtio-net-device,netdev=net0 -netdev user,id=net0
-
-I thought it wasn't working, but I just needed to enable the drivers,
-and from there it worked:
-
-CONFIG_VIRTIO_NET=y
-CONFIG_VIRTIO_MMIO=y
-
-I also tested the virtio rng device which appeared to work.
-
-# CONFIG_HW_RANDOM is not set
-CONFIG_HW_RANDOM=y
-CONFIG_HW_RANDOM_VIRTIO=y
-
->  - Standard ns16550a serial
->  - Goldfish RTC
-
--device virtio-rng-device,rng=rng0 -object rng-builtin,id=rng0
-
-I enabled the options:
-
-CONFIG_RTC_CLASS=y
-# CONFIG_RTC_SYSTOHC is not set
-# CONFIG_RTC_NVMEM is not set
-CONFIG_RTC_DRV_GOLDFISH=y
-
-But it didn't work. It seems the goldfish rtc model doesn't handle a
-big endian guest running on my little endian host.
-
-Doing this fixes it:
-
--    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .endianness = DEVICE_HOST_ENDIAN,
-
-[    0.190000] goldfish_rtc 96005000.rtc: registered as rtc0
-[    0.190000] goldfish_rtc 96005000.rtc: setting system clock to
-2022-06-02T11:16:04 UTC (1654168564)
-
-But literally no other model in the tree does this, so I suspect it's
-not the right fix.
-
->  - SiFive TEST device for poweroff and reboot
-
-CONFIG_POWER_RESET=y
-CONFIG_POWER_RESET_SYSCON=y
-CONFIG_POWER_RESET_SYSCON_POWEROFF=y
-CONFIG_SYSCON_REBOOT_MODE=y
-
-Adding the syscon/mfd cruft to the kernel adds about 43KB just for
-rebooting. I guess that's okay as we're only dealing with a virtual
-platform.
-
->  - Generated RTC to automatically configure the guest kernel
-
-Did you mean device tree?
-
->
-> Signed-off-by: Stafford Horne <shorne@gmail.com>
-> ---
->  configs/devices/or1k-softmmu/default.mak |   1 +
->  hw/openrisc/Kconfig                      |   9 +
->  hw/openrisc/meson.build                  |   1 +
->  hw/openrisc/virt.c                       | 429 +++++++++++++++++++++++
->  4 files changed, 440 insertions(+)
->  create mode 100644 hw/openrisc/virt.c
->
-> diff --git a/configs/devices/or1k-softmmu/default.mak b/configs/devices/or1k-softmmu/default.mak
-> index 5b3ac89491..f3bf816067 100644
-> --- a/configs/devices/or1k-softmmu/default.mak
-> +++ b/configs/devices/or1k-softmmu/default.mak
-> @@ -5,3 +5,4 @@ CONFIG_SEMIHOSTING=y
->  # Boards:
->  #
->  CONFIG_OR1K_SIM=y
-> +CONFIG_OR1K_VIRT=y
-> diff --git a/hw/openrisc/Kconfig b/hw/openrisc/Kconfig
-> index 8f284f3ba0..202134668e 100644
-> --- a/hw/openrisc/Kconfig
-> +++ b/hw/openrisc/Kconfig
-> @@ -4,3 +4,12 @@ config OR1K_SIM
->      select OPENCORES_ETH
->      select OMPIC
->      select SPLIT_IRQ
-> +
-> +config OR1K_VIRT
-> +    bool
-> +    imply VIRTIO_VGA
-> +    imply TEST_DEVICES
-> +    select GOLDFISH_RTC
-> +    select SERIAL
-> +    select SIFIVE_TEST
-> +    select VIRTIO_MMIO
-
-You could include the liteeth device too if we merged that.
-
-> diff --git a/hw/openrisc/virt.c b/hw/openrisc/virt.c
-> new file mode 100644
-> index 0000000000..147196fda3
-> --- /dev/null
-> +++ b/hw/openrisc/virt.c
-> @@ -0,0 +1,429 @@
-> +/*
-> + * OpenRISC QEMU virtual machine.
-> + *
-> + * Copyright (c) 2022 Stafford Horne <shorne@gmail.com>
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-
-I think you can use the SPDX tag here instead of writing out the text.
-
-> +static void openrisc_virt_init(MachineState *machine)
-> +{
-> +    ram_addr_t ram_size = machine->ram_size;
-> +    const char *kernel_filename = machine->kernel_filename;
-> +    OpenRISCCPU *cpus[VIRT_CPUS_MAX] = {};
-> +    OR1KVirtState *state = VIRT_MACHINE(machine);
-> +    MemoryRegion *ram;
-> +    hwaddr load_addr;
-> +    int n;
-> +    unsigned int smp_cpus = machine->smp.cpus;
-> +
-
-> +    openrisc_virt_rtc_init(state, virt_memmap[VIRT_RTC].base,
-> +                           virt_memmap[VIRT_RTC].size, smp_cpus, cpus,
-> +                           VIRT_RTC_IRQ);
-> +
-> +    for (n = 0; n < VIRTIO_COUNT; n++) {
-
-This would make more sense to me if you constructed the IRQ and base
-here, and then passed the actual base and irq number to your
-_virtio_init:
-
-        size_t size = virt_memmap[VIRT_VIRTIO].size;
-        openrisc_virt_virtio_init(state, virt_memmap[VIRT_VIRTIO].base
-+ size * n,
-                                  size, smp_cpus, cpus, VIRT_VIRTIO_IRQ + n);
-
-
-> +        openrisc_virt_virtio_init(state, virt_memmap[VIRT_VIRTIO].base,
-> +                                  virt_memmap[VIRT_VIRTIO].size,
-> +                                  smp_cpus, cpus, VIRT_VIRTIO_IRQ, n);
-> +    }
-> +
 
