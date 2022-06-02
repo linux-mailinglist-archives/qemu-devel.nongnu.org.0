@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE8E53C08F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:03:30 +0200 (CEST)
-Received: from localhost ([::1]:44034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA6853C092
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:05:09 +0200 (CEST)
+Received: from localhost ([::1]:50364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwsuf-0007As-4I
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:03:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36758)
+	id 1nwswG-00039q-T7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgo-0004en-NQ
+ id 1nwsgo-0004fr-Hc
  for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:10 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:44705)
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:33133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgk-00005u-EV
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:09 -0400
-Received: by mail-pf1-x433.google.com with SMTP id g205so5773136pfb.11
+ id 1nwsgk-0008UD-Ky
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:10 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ hv24-20020a17090ae41800b001e33eebdb5dso6070513pjb.0
  for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X907WscUJ/vcZY0rjH59HojFCAmIiYCNZ0u3IiREgKo=;
- b=vpnDYxlYuZYLgYNpIYFkkT24zO6YkyrtA8Gc1rtudDgRGZfMAiBLme/WfIVuCdy/MA
- Bexr6gWCUxz61KB4H71Ijv3dAKTFgmHeEn7nwY12nHBLMiUl3BwZITTUincJ0OIZwHaG
- MzD8Cf0VyIycjteSUUEuwgG8FgITh2Hjb93DuonlFzf4z2m3cLBIoBicgW1O5q6834yh
- qrH6eP2vZv+mvirXdE57/UJvN/Hazqsc4ALeAglWiZfGzApVWTq6RmY/Z4TJGJUQvh2h
- aVJ05WKTtNKNMNWDHZuYIDqXhHzgdmhHMRWChsz4cPej9V5WGBA8FxrsE03tvq0P7AVJ
- gHAA==
+ bh=F4rHpbD5Ee0Gqq7jh/rhx4dfJgd9LnpoppwR09o1CsY=;
+ b=NWY0ctmtTpDldBeAWXB8jEGJcYtIubk5aMg3PW6/k3GtBw+HYdfEJBNnfmbRRDa8B3
+ uESckvfxNOoxel7Pu/E/+PramxgrR7qjz+gJkul9KLugCOeEjuaYgfxoQxNDQki0JgEU
+ y/3LXTcW3I0CUCb9yeNWQBXec/GySElBb0AvfZaeRBBFWEkv/myo2wDW9KzqOB2jQ/qP
+ 2Jqeo6kUIdcrH9bR9HviMOZ9qKEBmKvNN+cKU6+TOq2Q6IgHaDype8VIJzYTxAUPLmmP
+ Tkd7D8AiIn3aRkIiYa5bvW1FxP9zqSDLf6CpodtZy5RiI4lhmDB2S84OeosJYTupyl4y
+ iXBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X907WscUJ/vcZY0rjH59HojFCAmIiYCNZ0u3IiREgKo=;
- b=CPdyzPDLuBW+QhLalEk888HV3mYKlUGM1lPCR9b83DJczxzwvH31BdHVLQjS1lkibe
- ZizYtbW4xRSQpL7LIkEqoJ+j7Qpb8rnRUkJWJ6jOwKQbI9u067vMacaA9usW4lBxUo35
- FUD+NFBj8hlSYhspZr4qsXndFfL5CVB+QQIYIAa3ImC+8n0tcfOzVVxFtP+AxCdm7IYl
- AcX2xhzF7GKVRg9+HBNjT5k4el04A69XJ///P7maiy5EWcYw/8hTec9VG6vT+OudiJ/q
- XngsxJh86ddg6olh8cR9oU2UUuwX0s1pnAwga0fdNBZq5QQg5VFSwJOIBk39+S8A50BE
- cy8w==
-X-Gm-Message-State: AOAM532oT3f2QIg+7aBw9q5TYun7GXHOkIyDpB2pj2PjVlDsXXf9hKs+
- sABFEBP/TsmWf81FUFUy6g5htBubUA8okQ==
-X-Google-Smtp-Source: ABdhPJwQ6DBMhl5awfoK4T3GPqjPSSTuCHoHuKle7vsDGM5VQLeJCdsmX994gvesHmCtZItRblwruQ==
-X-Received: by 2002:aa7:90d5:0:b0:4e1:307c:d94a with SMTP id
- k21-20020aa790d5000000b004e1307cd94amr7127556pfk.38.1654206545025; 
+ bh=F4rHpbD5Ee0Gqq7jh/rhx4dfJgd9LnpoppwR09o1CsY=;
+ b=vTtjCFpPqDznNqzm6KE2UuOXr/+BOmtgURPwUnLuS4AFLMeJmbzzazxLqxkfsLDG1/
+ fQwtFnQGpp5Fbp0iHTdGX8fh3+8GR1JX0OJ3I0OKwnkIUpaKBtAKtPNFZAQSpzU0bdeH
+ iEkNhFMged3PMaapyzZewMRsmdD4Nh+PC9XXMQRuaXJgYjU3vloEhwGLKN9bB6QUEbFh
+ 7IHywjYVrvO7fv+6s4q3xP7qsMpT8d+E6+L8NzzJd7Bk04jwiZ7v6diVbz351KU7CMSs
+ B53EOb9E963cx8jaai7F0wsrJcLiyt0BtXgTVo1O+36ATouvIvKn+Pb+QXrc6BKxTvFQ
+ W/Ig==
+X-Gm-Message-State: AOAM531v6dPv3gR2/fDBwV4kIubiBTJANkKLtaxY+jvKdWpVI8RHa3E5
+ xw8HzF8NGgSQEzWpFUXrNnXweD/TS2tqdw==
+X-Google-Smtp-Source: ABdhPJwr5S7krxvxKnEqJyrPR1tIKEtG71IMeskEMu1DqU+ucsaLhpebcrO38xb5ggNbXUCVX8zvFg==
+X-Received: by 2002:a17:90b:4c8c:b0:1df:c760:e4af with SMTP id
+ my12-20020a17090b4c8c00b001dfc760e4afmr7576996pjb.78.1654206545819; 
  Thu, 02 Jun 2022 14:49:05 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.49.04
+ bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.49.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:49:04 -0700 (PDT)
+ Thu, 02 Jun 2022 14:49:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 12/71] target/arm: Rename sve_zcr_len_for_el to sve_vqm1_for_el
-Date: Thu,  2 Jun 2022 14:47:54 -0700
-Message-Id: <20220602214853.496211-13-richard.henderson@linaro.org>
+Subject: [PATCH 13/71] target/arm: Split out load/store primitives to
+ sve_ldst_internal.h
+Date: Thu,  2 Jun 2022 14:47:55 -0700
+Message-Id: <20220602214853.496211-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,140 +91,280 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be used for both Normal and Streaming SVE, and the value
-does not necessarily come from ZCR_ELx.  While we're at it, emphasize
-the units in which the value is returned.
-
-Patch produced by
-    git grep -l sve_zcr_len_for_el | \
-    xargs -n1 sed -i 's/sve_zcr_len_for_el/sve_vqm1_for_el/g'
-
-and then adding a function comment.
+Begin creation of sve_ldst_internal.h by moving the primitives
+that access host and tlb memory.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h       | 11 ++++++++++-
- target/arm/arch_dump.c |  2 +-
- target/arm/cpu.c       |  2 +-
- target/arm/gdbstub64.c |  2 +-
- target/arm/helper.c    | 12 ++++++------
- 5 files changed, 19 insertions(+), 10 deletions(-)
+ target/arm/sve_ldst_internal.h | 127 +++++++++++++++++++++++++++++++++
+ target/arm/sve_helper.c        | 107 +--------------------------
+ 2 files changed, 128 insertions(+), 106 deletions(-)
+ create mode 100644 target/arm/sve_ldst_internal.h
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ef51c3774e..cb37787c35 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1132,7 +1132,16 @@ void aarch64_sync_64_to_32(CPUARMState *env);
- 
- int fp_exception_el(CPUARMState *env, int cur_el);
- int sve_exception_el(CPUARMState *env, int cur_el);
--uint32_t sve_zcr_len_for_el(CPUARMState *env, int el);
-+
-+/**
-+ * sve_vqm1_for_el:
-+ * @env: CPUARMState
-+ * @el: exception level
+diff --git a/target/arm/sve_ldst_internal.h b/target/arm/sve_ldst_internal.h
+new file mode 100644
+index 0000000000..ef9117e84c
+--- /dev/null
++++ b/target/arm/sve_ldst_internal.h
+@@ -0,0 +1,127 @@
++/*
++ * ARM SVE Load/Store Helpers
 + *
-+ * Compute the current SVE vector length for @el, in units of
-+ * Quadwords Minus 1 -- the same scale used for ZCR_ELx.LEN.
++ * Copyright (c) 2018-2022 Linaro
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
-+uint32_t sve_vqm1_for_el(CPUARMState *env, int el);
++
++#ifndef TARGET_ARM_SVE_LDST_INTERNAL_H
++#define TARGET_ARM_SVE_LDST_INTERNAL_H
++
++#include "exec/cpu_ldst.h"
++
++/*
++ * Load one element into @vd + @reg_off from @host.
++ * The controlling predicate is known to be true.
++ */
++typedef void sve_ldst1_host_fn(void *vd, intptr_t reg_off, void *host);
++
++/*
++ * Load one element into @vd + @reg_off from (@env, @vaddr, @ra).
++ * The controlling predicate is known to be true.
++ */
++typedef void sve_ldst1_tlb_fn(CPUARMState *env, void *vd, intptr_t reg_off,
++                              target_ulong vaddr, uintptr_t retaddr);
++
++/*
++ * Generate the above primitives.
++ */
++
++#define DO_LD_HOST(NAME, H, TYPEE, TYPEM, HOST)                              \
++static inline void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host) \
++{ TYPEM val = HOST(host); *(TYPEE *)(vd + H(reg_off)) = val; }
++
++#define DO_ST_HOST(NAME, H, TYPEE, TYPEM, HOST)                              \
++static inline void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host) \
++{ TYPEM val = *(TYPEE *)(vd + H(reg_off)); HOST(host, val); }
++
++#define DO_LD_TLB(NAME, H, TYPEE, TYPEM, TLB)                              \
++static inline void sve_##NAME##_tlb(CPUARMState *env, void *vd,            \
++                        intptr_t reg_off, target_ulong addr, uintptr_t ra) \
++{                                                                          \
++    TYPEM val = TLB(env, useronly_clean_ptr(addr), ra);                    \
++    *(TYPEE *)(vd + H(reg_off)) = val;                                     \
++}
++
++#define DO_ST_TLB(NAME, H, TYPEE, TYPEM, TLB)                              \
++static inline void sve_##NAME##_tlb(CPUARMState *env, void *vd,            \
++                        intptr_t reg_off, target_ulong addr, uintptr_t ra) \
++{                                                                          \
++    TYPEM val = *(TYPEE *)(vd + H(reg_off));                               \
++    TLB(env, useronly_clean_ptr(addr), val, ra);                           \
++}
++
++#define DO_LD_PRIM_1(NAME, H, TE, TM)                   \
++    DO_LD_HOST(NAME, H, TE, TM, ldub_p)                 \
++    DO_LD_TLB(NAME, H, TE, TM, cpu_ldub_data_ra)
++
++DO_LD_PRIM_1(ld1bb,  H1,   uint8_t,  uint8_t)
++DO_LD_PRIM_1(ld1bhu, H1_2, uint16_t, uint8_t)
++DO_LD_PRIM_1(ld1bhs, H1_2, uint16_t,  int8_t)
++DO_LD_PRIM_1(ld1bsu, H1_4, uint32_t, uint8_t)
++DO_LD_PRIM_1(ld1bss, H1_4, uint32_t,  int8_t)
++DO_LD_PRIM_1(ld1bdu, H1_8, uint64_t, uint8_t)
++DO_LD_PRIM_1(ld1bds, H1_8, uint64_t,  int8_t)
++
++#define DO_ST_PRIM_1(NAME, H, TE, TM)                   \
++    DO_ST_HOST(st1##NAME, H, TE, TM, stb_p)             \
++    DO_ST_TLB(st1##NAME, H, TE, TM, cpu_stb_data_ra)
++
++DO_ST_PRIM_1(bb,   H1,  uint8_t, uint8_t)
++DO_ST_PRIM_1(bh, H1_2, uint16_t, uint8_t)
++DO_ST_PRIM_1(bs, H1_4, uint32_t, uint8_t)
++DO_ST_PRIM_1(bd, H1_8, uint64_t, uint8_t)
++
++#define DO_LD_PRIM_2(NAME, H, TE, TM, LD) \
++    DO_LD_HOST(ld1##NAME##_be, H, TE, TM, LD##_be_p)    \
++    DO_LD_HOST(ld1##NAME##_le, H, TE, TM, LD##_le_p)    \
++    DO_LD_TLB(ld1##NAME##_be, H, TE, TM, cpu_##LD##_be_data_ra) \
++    DO_LD_TLB(ld1##NAME##_le, H, TE, TM, cpu_##LD##_le_data_ra)
++
++#define DO_ST_PRIM_2(NAME, H, TE, TM, ST) \
++    DO_ST_HOST(st1##NAME##_be, H, TE, TM, ST##_be_p)    \
++    DO_ST_HOST(st1##NAME##_le, H, TE, TM, ST##_le_p)    \
++    DO_ST_TLB(st1##NAME##_be, H, TE, TM, cpu_##ST##_be_data_ra) \
++    DO_ST_TLB(st1##NAME##_le, H, TE, TM, cpu_##ST##_le_data_ra)
++
++DO_LD_PRIM_2(hh,  H1_2, uint16_t, uint16_t, lduw)
++DO_LD_PRIM_2(hsu, H1_4, uint32_t, uint16_t, lduw)
++DO_LD_PRIM_2(hss, H1_4, uint32_t,  int16_t, lduw)
++DO_LD_PRIM_2(hdu, H1_8, uint64_t, uint16_t, lduw)
++DO_LD_PRIM_2(hds, H1_8, uint64_t,  int16_t, lduw)
++
++DO_ST_PRIM_2(hh, H1_2, uint16_t, uint16_t, stw)
++DO_ST_PRIM_2(hs, H1_4, uint32_t, uint16_t, stw)
++DO_ST_PRIM_2(hd, H1_8, uint64_t, uint16_t, stw)
++
++DO_LD_PRIM_2(ss,  H1_4, uint32_t, uint32_t, ldl)
++DO_LD_PRIM_2(sdu, H1_8, uint64_t, uint32_t, ldl)
++DO_LD_PRIM_2(sds, H1_8, uint64_t,  int32_t, ldl)
++
++DO_ST_PRIM_2(ss, H1_4, uint32_t, uint32_t, stl)
++DO_ST_PRIM_2(sd, H1_8, uint64_t, uint32_t, stl)
++
++DO_LD_PRIM_2(dd, H1_8, uint64_t, uint64_t, ldq)
++DO_ST_PRIM_2(dd, H1_8, uint64_t, uint64_t, stq)
++
++#undef DO_LD_TLB
++#undef DO_ST_TLB
++#undef DO_LD_HOST
++#undef DO_LD_PRIM_1
++#undef DO_ST_PRIM_1
++#undef DO_LD_PRIM_2
++#undef DO_ST_PRIM_2
++
++#endif /* TARGET_ARM_SVE_LDST_INTERNAL_H */
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 3bdcd4ce9d..0c6dde00aa 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -21,12 +21,12 @@
+ #include "cpu.h"
+ #include "internals.h"
+ #include "exec/exec-all.h"
+-#include "exec/cpu_ldst.h"
+ #include "exec/helper-proto.h"
+ #include "tcg/tcg-gvec-desc.h"
+ #include "fpu/softfloat.h"
+ #include "tcg/tcg.h"
+ #include "vec_internal.h"
++#include "sve_ldst_internal.h"
  
- static inline bool is_a64(CPUARMState *env)
- {
-diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
-index 0184845310..b1f040e69f 100644
---- a/target/arm/arch_dump.c
-+++ b/target/arm/arch_dump.c
-@@ -166,7 +166,7 @@ static off_t sve_fpcr_offset(uint32_t vq)
  
- static uint32_t sve_current_vq(CPUARMState *env)
- {
--    return sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
-+    return sve_vqm1_for_el(env, arm_current_el(env)) + 1;
- }
- 
- static size_t sve_size_vq(uint32_t vq)
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 0621944167..1b5d535788 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -925,7 +925,7 @@ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  vfp_get_fpcr(env), vfp_get_fpsr(env));
- 
-     if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
--        int j, zcr_len = sve_zcr_len_for_el(env, el);
-+        int j, zcr_len = sve_vqm1_for_el(env, el);
- 
-         for (i = 0; i <= FFR_PRED_NUM; i++) {
-             bool eol;
-diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
-index 596878666d..07a6746944 100644
---- a/target/arm/gdbstub64.c
-+++ b/target/arm/gdbstub64.c
-@@ -152,7 +152,7 @@ int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-          * We report in Vector Granules (VG) which is 64bit in a Z reg
-          * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
-          */
--        int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
-+        int vq = sve_vqm1_for_el(env, arm_current_el(env)) + 1;
-         return gdb_get_reg64(buf, vq * 2);
-     }
-     default:
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7b6f31e9c8..cb44d528c0 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6225,7 +6225,7 @@ int sve_exception_el(CPUARMState *env, int el)
- /*
-  * Given that SVE is enabled, return the vector length for EL.
+ /* Return a value for NZCV as per the ARM PredTest pseudofunction.
+@@ -5301,111 +5301,6 @@ void HELPER(sve_fcmla_zpzzz_d)(void *vd, void *vn, void *vm, void *va,
+  * Load contiguous data, protected by a governing predicate.
   */
--uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
-+uint32_t sve_vqm1_for_el(CPUARMState *env, int el)
- {
-     ARMCPU *cpu = env_archcpu(env);
-     uint32_t len = cpu->sve_max_vq - 1;
-@@ -6248,7 +6248,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                       uint64_t value)
- {
-     int cur_el = arm_current_el(env);
--    int old_len = sve_zcr_len_for_el(env, cur_el);
-+    int old_len = sve_vqm1_for_el(env, cur_el);
-     int new_len;
  
-     /* Bits other than [3:0] are RAZ/WI.  */
-@@ -6259,7 +6259,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-      * Because we arrived here, we know both FP and SVE are enabled;
-      * otherwise we would have trapped access to the ZCR_ELn register.
-      */
--    new_len = sve_zcr_len_for_el(env, cur_el);
-+    new_len = sve_vqm1_for_el(env, cur_el);
-     if (new_len < old_len) {
-         aarch64_sve_narrow_vq(env, new_len + 1);
-     }
-@@ -13683,7 +13683,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-                 sve_el = 0;
-             }
-         } else if (sve_el == 0) {
--            DP_TBFLAG_A64(flags, VL, sve_zcr_len_for_el(env, el));
-+            DP_TBFLAG_A64(flags, VL, sve_vqm1_for_el(env, el));
-         }
-         DP_TBFLAG_A64(flags, SVEEXC_EL, sve_el);
-     }
-@@ -14049,10 +14049,10 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
-      */
-     old_a64 = old_el ? arm_el_is_aa64(env, old_el) : el0_a64;
-     old_len = (old_a64 && !sve_exception_el(env, old_el)
--               ? sve_zcr_len_for_el(env, old_el) : 0);
-+               ? sve_vqm1_for_el(env, old_el) : 0);
-     new_a64 = new_el ? arm_el_is_aa64(env, new_el) : el0_a64;
-     new_len = (new_a64 && !sve_exception_el(env, new_el)
--               ? sve_zcr_len_for_el(env, new_el) : 0);
-+               ? sve_vqm1_for_el(env, new_el) : 0);
- 
-     /* When changing vector length, clear inaccessible state.  */
-     if (new_len < old_len) {
+-/*
+- * Load one element into @vd + @reg_off from @host.
+- * The controlling predicate is known to be true.
+- */
+-typedef void sve_ldst1_host_fn(void *vd, intptr_t reg_off, void *host);
+-
+-/*
+- * Load one element into @vd + @reg_off from (@env, @vaddr, @ra).
+- * The controlling predicate is known to be true.
+- */
+-typedef void sve_ldst1_tlb_fn(CPUARMState *env, void *vd, intptr_t reg_off,
+-                              target_ulong vaddr, uintptr_t retaddr);
+-
+-/*
+- * Generate the above primitives.
+- */
+-
+-#define DO_LD_HOST(NAME, H, TYPEE, TYPEM, HOST) \
+-static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
+-{                                                                      \
+-    TYPEM val = HOST(host);                                            \
+-    *(TYPEE *)(vd + H(reg_off)) = val;                                 \
+-}
+-
+-#define DO_ST_HOST(NAME, H, TYPEE, TYPEM, HOST) \
+-static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
+-{ HOST(host, (TYPEM)*(TYPEE *)(vd + H(reg_off))); }
+-
+-#define DO_LD_TLB(NAME, H, TYPEE, TYPEM, TLB) \
+-static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
+-                             target_ulong addr, uintptr_t ra)               \
+-{                                                                           \
+-    *(TYPEE *)(vd + H(reg_off)) =                                           \
+-        (TYPEM)TLB(env, useronly_clean_ptr(addr), ra);                      \
+-}
+-
+-#define DO_ST_TLB(NAME, H, TYPEE, TYPEM, TLB) \
+-static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
+-                             target_ulong addr, uintptr_t ra)               \
+-{                                                                           \
+-    TLB(env, useronly_clean_ptr(addr),                                      \
+-        (TYPEM)*(TYPEE *)(vd + H(reg_off)), ra);                            \
+-}
+-
+-#define DO_LD_PRIM_1(NAME, H, TE, TM)                   \
+-    DO_LD_HOST(NAME, H, TE, TM, ldub_p)                 \
+-    DO_LD_TLB(NAME, H, TE, TM, cpu_ldub_data_ra)
+-
+-DO_LD_PRIM_1(ld1bb,  H1,   uint8_t,  uint8_t)
+-DO_LD_PRIM_1(ld1bhu, H1_2, uint16_t, uint8_t)
+-DO_LD_PRIM_1(ld1bhs, H1_2, uint16_t,  int8_t)
+-DO_LD_PRIM_1(ld1bsu, H1_4, uint32_t, uint8_t)
+-DO_LD_PRIM_1(ld1bss, H1_4, uint32_t,  int8_t)
+-DO_LD_PRIM_1(ld1bdu, H1_8, uint64_t, uint8_t)
+-DO_LD_PRIM_1(ld1bds, H1_8, uint64_t,  int8_t)
+-
+-#define DO_ST_PRIM_1(NAME, H, TE, TM)                   \
+-    DO_ST_HOST(st1##NAME, H, TE, TM, stb_p)             \
+-    DO_ST_TLB(st1##NAME, H, TE, TM, cpu_stb_data_ra)
+-
+-DO_ST_PRIM_1(bb,   H1,  uint8_t, uint8_t)
+-DO_ST_PRIM_1(bh, H1_2, uint16_t, uint8_t)
+-DO_ST_PRIM_1(bs, H1_4, uint32_t, uint8_t)
+-DO_ST_PRIM_1(bd, H1_8, uint64_t, uint8_t)
+-
+-#define DO_LD_PRIM_2(NAME, H, TE, TM, LD) \
+-    DO_LD_HOST(ld1##NAME##_be, H, TE, TM, LD##_be_p)    \
+-    DO_LD_HOST(ld1##NAME##_le, H, TE, TM, LD##_le_p)    \
+-    DO_LD_TLB(ld1##NAME##_be, H, TE, TM, cpu_##LD##_be_data_ra) \
+-    DO_LD_TLB(ld1##NAME##_le, H, TE, TM, cpu_##LD##_le_data_ra)
+-
+-#define DO_ST_PRIM_2(NAME, H, TE, TM, ST) \
+-    DO_ST_HOST(st1##NAME##_be, H, TE, TM, ST##_be_p)    \
+-    DO_ST_HOST(st1##NAME##_le, H, TE, TM, ST##_le_p)    \
+-    DO_ST_TLB(st1##NAME##_be, H, TE, TM, cpu_##ST##_be_data_ra) \
+-    DO_ST_TLB(st1##NAME##_le, H, TE, TM, cpu_##ST##_le_data_ra)
+-
+-DO_LD_PRIM_2(hh,  H1_2, uint16_t, uint16_t, lduw)
+-DO_LD_PRIM_2(hsu, H1_4, uint32_t, uint16_t, lduw)
+-DO_LD_PRIM_2(hss, H1_4, uint32_t,  int16_t, lduw)
+-DO_LD_PRIM_2(hdu, H1_8, uint64_t, uint16_t, lduw)
+-DO_LD_PRIM_2(hds, H1_8, uint64_t,  int16_t, lduw)
+-
+-DO_ST_PRIM_2(hh, H1_2, uint16_t, uint16_t, stw)
+-DO_ST_PRIM_2(hs, H1_4, uint32_t, uint16_t, stw)
+-DO_ST_PRIM_2(hd, H1_8, uint64_t, uint16_t, stw)
+-
+-DO_LD_PRIM_2(ss,  H1_4, uint32_t, uint32_t, ldl)
+-DO_LD_PRIM_2(sdu, H1_8, uint64_t, uint32_t, ldl)
+-DO_LD_PRIM_2(sds, H1_8, uint64_t,  int32_t, ldl)
+-
+-DO_ST_PRIM_2(ss, H1_4, uint32_t, uint32_t, stl)
+-DO_ST_PRIM_2(sd, H1_8, uint64_t, uint32_t, stl)
+-
+-DO_LD_PRIM_2(dd, H1_8, uint64_t, uint64_t, ldq)
+-DO_ST_PRIM_2(dd, H1_8, uint64_t, uint64_t, stq)
+-
+-#undef DO_LD_TLB
+-#undef DO_ST_TLB
+-#undef DO_LD_HOST
+-#undef DO_LD_PRIM_1
+-#undef DO_ST_PRIM_1
+-#undef DO_LD_PRIM_2
+-#undef DO_ST_PRIM_2
+-
+ /*
+  * Skip through a sequence of inactive elements in the guarding predicate @vg,
+  * beginning at @reg_off bounded by @reg_max.  Return the offset of the active
 -- 
 2.34.1
 
