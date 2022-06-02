@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B5353B544
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:42:13 +0200 (CEST)
-Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D2253B554
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:44:51 +0200 (CEST)
+Received: from localhost ([::1]:55126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwgPE-0003bJ-1u
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:42:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36086)
+	id 1nwgRm-0005DT-3h
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwgMk-0002la-5r
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 04:39:38 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nwgMi-0003vs-6u
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 04:39:37 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id s12so1352455ejx.3
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 01:39:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=BgxDmflc0PC/0Mf94t4ro5pjMIF7pBWBQGTETuN7BtI=;
- b=r1OMep5jdBoa8XgXiKkyit5/7pLWDGRq/VLeMpUvz46ggYo+GSS2mhRFWNIbaP5Alj
- AC1PwvQAvgbbRmG/jA5dqeEOubcYOMSMIdeUczNlhOFMpSjfBnjPsKP9TkxjLyPEwf5V
- JBRceCOwIaJb3Nq9E5rzmfaK9nLbY69S7q1DdimQG5yuxZgzuwnQ3WZJCtwl0E+FghSf
- 0ooG7LiFqGcCnMhTdG2VkWNA3EeuXqtbSeI+fBP74GeMNV81hSeC4Vcfvi8Ve3M/urKM
- LlfaMWsRMmE/0Brde0f/ddiQvebClKiQ9aqq60iumSIjP3bg8T16UETWTjsfEZPWRC+I
- ZJWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=BgxDmflc0PC/0Mf94t4ro5pjMIF7pBWBQGTETuN7BtI=;
- b=zSDuJxK4ov453hDhhuvzk3Pq00mUwbJChPTYiyuOsQeNdSqgflNRAYKmUVs2pcdWMI
- IJQKlHCrOVKK+00KyM+BJeQ821LO/0iNWwg67I/wKrnZeY+7EHk4CcfVr3Ub5uio7elv
- RrAYSaTqx9vqfgZ9A554GDM8FrWkpkRniCUE98mJgwJRQh5sv9foVK8Kqd5+gl1YfGof
- 3Yh1pVT+oCXF4XcnsGAOFpwg1TdggPJzBGtKcyd/u+OjY+4JrvGNKAc93FMgHZtfQr4l
- uQc5t9vIrJlkEIeO8P+t2IXxMFXDNU7KHFmP8d+2D/qPcPxjVR4MYGapvj80BxiumRPW
- N61w==
-X-Gm-Message-State: AOAM531Fs6PsLWucfqDf56WEUBNzOS7eOjAh6kuw54ArUQ2oYnB0EmS7
- CnmzlvCNGkd2umJ38V26Rtrb9A==
-X-Google-Smtp-Source: ABdhPJx3Icy164JusxYugvMGViFoTJJcZuosdJmk6JLg80iuciqdoffwGX4LfGLzXDQc6sN5UpQvdg==
-X-Received: by 2002:a17:907:9895:b0:6fe:991e:efe3 with SMTP id
- ja21-20020a170907989500b006fe991eefe3mr3288846ejc.74.1654159174147; 
- Thu, 02 Jun 2022 01:39:34 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- c24-20020a056402159800b0042617ba63c2sm2164466edv.76.2022.06.02.01.39.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 01:39:33 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CB25C1FFB7;
- Thu,  2 Jun 2022 09:39:32 +0100 (BST)
-References: <20220525125540.50979-1-changpeng.liu@intel.com>
- <87ee09wyh0.fsf@linaro.org>
- <PH0PR11MB50934D0391B918A38DD2488EEEDF9@PH0PR11MB5093.namprd11.prod.outlook.com>
-User-agent: mu4e 1.7.25; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Liu, Changpeng" <changpeng.liu@intel.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Jason Wang
- <jasowang@redhat.com>, Michael S. Tsirkin <mst@redhat.com>
-Subject: Re: [PATCH 1/2] hw/virtio/vhost-user: don't use uninitialized variable
-Date: Thu, 02 Jun 2022 09:27:38 +0100
-In-reply-to: <PH0PR11MB50934D0391B918A38DD2488EEEDF9@PH0PR11MB5093.namprd11.prod.outlook.com>
-Message-ID: <87tu93v4qj.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwgPo-0004SS-Uq; Thu, 02 Jun 2022 04:42:48 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35210)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwgPn-0006jy-85; Thu, 02 Jun 2022 04:42:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=VaRsS9mLjCUnTm4Z0jqPtO9CVte0/sAuhFsUGoRSLeA=; b=UCGzCm13x5VQYYuGYUutpOL5Oi
+ t4HKIoCaOE4YNZnOhwajPY8nffd2pqa4/uQffIjPfAbN5XP9dUw9emNa+cwsZyo6i5wYVxeHyfosC
+ h5/MW1kFzNhIpyzzKHHnALtR/nrUCns5i1jwup60ZOk8QMPOgzxEs+3cGuooxGGHi6A3mrNnTAcBe
+ OkJWAMC4Md5Lv7pSSJtc9m1bm0wn8q1QP5VHe6oOhNZylUzeGHeG1XYDr58ztvrUIO/2kOZb9yTar
+ I9uA0sth1kPtu3/RhHw51SagoUt048ZEFZu7QwsmPi3NXAYpZt+uMJc4QeUARfSe37WCi+MRfPzdy
+ 6j1eeXowxqk6uv6cm2zSr+BlOmRjz4jBo2Nd8jflBcdZoFa2lDnlkKhM6LpDGmMtD1mcXdmQE+zPc
+ l9zw0uch2nTu96HL2WF6fvxRXYK6Qo+GiE8blr17Cja+bc/Hxf1bIOm6a/OwTJeYhrpxcauipGVA2
+ HzeJLWSkPHwBo36IMx0oKmFzELynq0VFEcvG6T/HFut47qkcqBoU0/31/G/hNtIVT4MANX9acgxIp
+ YoUmg80SXnkSNrbttqkl7rvucwnZ7Jae0f3Qs6MXOVsBoysx50rzv9K6ENUlL/+8t+CRwVTXF9w1W
+ GhIxBMgNPeV6MGs7oouVEFWQV+O1vmcgGOdvlb7uI=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwgOd-0003Os-IC; Thu, 02 Jun 2022 09:41:39 +0100
+Message-ID: <c5d209d1-b6df-4447-1bb7-43d19e30104d@ilande.co.uk>
+Date: Thu, 2 Jun 2022 09:42:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
+ fbarrat@linux.ibm.com
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220531214917.31668-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 00/16] powernv: introduce pnv-phb base/proxy devices
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,88 +80,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 31/05/2022 22:49, Daniel Henrique Barboza wrote:
 
-"Liu, Changpeng" <changpeng.liu@intel.com> writes:
+> Hi,
+> 
+> This v2 is considerable different from the first version due to the
+> review provided by Mark Cave-Ayland.
+> 
+> We're now preserving all PnvPHB3/4/5 implementations already in place.
+> The PnvPHB device now acts as a base/proxy of the existing PHBs, which
+> are turned into backends of the base PnvPHB device.
+> 
+> QOM is being more used this time by passing through properties to the
+> PHB backends from the base device, and by setting the phb->version
+> via global machine properties in each machine.
+> 
+> The changes made impact both user creatable and default devices, meaning
+> that now the powernv machines are using the PnvPHB base device in all
+> circunstances.
+> 
+> The one thing that I didn't change from v1 is the root port revamp. I
+> didn't find enough reason to do the same thing we did with the PnvPHBs,
+> given that all that differs them is the reset() callback of
+> phb4_root_port. This means that patches 14-17 from v1 are still mostly
+> the same.
+> 
+> 
+> Changes from v1:
+> - lots of changes in patches 1-6 and 7 due to the change of direction
+> - patch 10 from v1: removed
+> - PnvPHB.version is now being removed in patch 16
+> - several other minor changes due to changes in the initial patches
+> - v1 link: https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg01410.html
+> 
+> Daniel Henrique Barboza (16):
+>    ppc/pnv: add PHB3 bus init helper
+>    ppc/pnv: add pnv_get_phb3_child()
+>    ppc/pnv: add PnvPHB base/proxy device
+>    ppc/pnv: change PnvPHB3 to be a PnvPHB backend
+>    ppc/pnv: user created pnv-phb for powernv8
+>    ppc/pnv: add PHB4 bus init helper
+>    ppc/pnv: change PnvPHB4 to be a PnvPHB backend
+>    ppc/pnv: user created pnv-phb for powernv9
+>    ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
+>    ppc/pnv: user creatable pnv-phb for powernv10
+>    ppc/pnv: add pnv-phb-root-port device
+>    ppc/pnv: remove pnv-phb3-root-port
+>    ppc/pnv: remove pnv-phb4-root-port
+>    ppc/pnv: remove 'phb_rootport_typename' in pnv_phb_realize()
+>    ppc/pnv: remove pecc->rp_model
+>    ppc/pnv: remove PnvPHB4.version
+> 
+>   hw/pci-host/meson.build        |   3 +-
+>   hw/pci-host/pnv_phb.c          | 219 ++++++++++++++++++++++++++++++++
+>   hw/pci-host/pnv_phb.h          |  56 ++++++++
+>   hw/pci-host/pnv_phb3.c         | 144 ++++++++-------------
+>   hw/pci-host/pnv_phb4.c         | 226 ++++++++++++++-------------------
+>   hw/pci-host/pnv_phb4_pec.c     |  14 +-
+>   hw/ppc/pnv.c                   |  78 ++++++++++--
+>   include/hw/pci-host/pnv_phb3.h |  12 +-
+>   include/hw/pci-host/pnv_phb4.h |  18 +--
+>   include/hw/ppc/pnv.h           |   4 +-
+>   10 files changed, 512 insertions(+), 262 deletions(-)
+>   create mode 100644 hw/pci-host/pnv_phb.c
+>   create mode 100644 hw/pci-host/pnv_phb.h
 
->> -----Original Message-----
->> From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Sent: Tuesday, May 31, 2022 10:46 PM
->> To: Liu, Changpeng <changpeng.liu@intel.com>
->> Cc: qemu-devel@nongnu.org
->> Subject: Re: [PATCH 1/2] hw/virtio/vhost-user: don't use uninitialized v=
-ariable
->>=20
->>=20
->> Changpeng Liu <changpeng.liu@intel.com> writes:
->>=20
->> > Variable `vdev` in `struct vhost_dev` will not be ready
->> > until start the device, so let's not use it for the error
->> > output here.
->>=20
->> This seems to be one of the areas where vhost_user_backend_dev_init and
->> vhost_dev_init do things differently. Is there any particular reason why
->> we couldn't initialise hdev->vdev consistently at init time?
-> vhost_dev_init() set hdev->vdev to NULL, and vhost_dev_start() set it to =
-VirtIODevice,
-> it's consistent, they are common APIs designed for vhost-kernel and
-> vhost-user.
-
-Ahh vhost_user_backend_dev_init actually sets VhostUserBackend->vdev
-right before calling vhost_dev_init during it's realize phase.
-
-There is definitely some scope for rationalisation here given we know
-the type at realize. Why delay setting it?
-
-It looks like this all came in with c471ad0e9b (vhost_net: device IOTLB
-support).
-
->>=20
->> >
->> > Fixes: 5653493 ("hw/virtio/vhost-user: don't suppress F_CONFIG when
->> supported")
->> >
->> > Signed-off-by: Changpeng Liu <changpeng.liu@intel.com>
->> > ---
->> >  hw/virtio/vhost-user.c | 8 +++-----
->> >  1 file changed, 3 insertions(+), 5 deletions(-)
->> >
->> > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->> > index b040c1ad2b..0594178224 100644
->> > --- a/hw/virtio/vhost-user.c
->> > +++ b/hw/virtio/vhost-user.c
->> > @@ -2031,18 +2031,16 @@ static int vhost_user_backend_init(struct
->> vhost_dev *dev, void *opaque,
->> >          if (supports_f_config) {
->> >              if (!virtio_has_feature(protocol_features,
->> >                                      VHOST_USER_PROTOCOL_F_CONFIG)) {
->> > -                error_setg(errp, "vhost-user device %s expecting "
->> > +                error_setg(errp, "vhost-user device expecting "
->> >                             "VHOST_USER_PROTOCOL_F_CONFIG but the vhos=
-t-user
->> backend does "
->> > -                           "not support it.", dev->vdev->name);
->> > +                           "not support it.");
->> >                  return -EPROTO;
->> >              }
->> >          } else {
->> >              if (virtio_has_feature(protocol_features,
->> >                                     VHOST_USER_PROTOCOL_F_CONFIG)) {
->> >                  warn_reportf_err(*errp, "vhost-user backend supports "
->> > -                                 "VHOST_USER_PROTOCOL_F_CONFIG for "
->> > -                                 "device %s but QEMU does not.",
->> > -                                 dev->vdev->name);
->> > +                                 "VHOST_USER_PROTOCOL_F_CONFIG but QE=
-MU does not.");
->> >                  protocol_features &=3D ~(1ULL << VHOST_USER_PROTOCOL_=
-F_CONFIG);
->> >              }
->> >          }
->>=20
->>=20
->> --
->> Alex Benn=C3=A9e
+I've had a quick look over the series, and whilst I'm not overly familiar with the 
+PMV PHB side, this looks much better to me from a QOM/qdev modelling perspective. 
+I've added a few comments but in general I'm fairly happy with the way this is going.
 
 
---=20
-Alex Benn=C3=A9e
+ATB,
+
+Mark.
 
