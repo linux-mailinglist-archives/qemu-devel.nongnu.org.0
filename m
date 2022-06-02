@@ -2,105 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6563753BCAB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 18:41:53 +0200 (CEST)
-Received: from localhost ([::1]:39944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6069B53BCAD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 18:43:42 +0200 (CEST)
+Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwntQ-0003Lf-3c
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 12:41:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
+	id 1nwnvB-0005Oy-Gm
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 12:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nwnlx-0005ne-Sx; Thu, 02 Jun 2022 12:34:10 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nwnlv-0003TC-KM; Thu, 02 Jun 2022 12:34:09 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 252F2OVn013401;
- Thu, 2 Jun 2022 16:33:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Xx/S3ZAS7bBZAis7NRy6d1fGd/lxCqrMcRn7m/1Yxs4=;
- b=iLKq091gT3y+HKGsFQXq36NFTv6h/lxrsBLzuArrrQk9Wi+6Ou/zR6EdPdnLwDCPWv50
- eTGJnadPZO0HH0FispxZSfYUy0tcK6i7Ayg8NAsAa5CVNATHWUKaoRfmd6N4piQkcILn
- n/ZQs2X4SUwrte6v6xueH1tjnGVco4jwqHpn5FuZk7x7ZeOuY+DM74OMY0E+DTa6BC8Y
- Ir09RfdzFeHYPUz38GsTi61Q0HETuBd3VSQ/w/pd8NHniX7G8/QnZwzF8Kob64OcU9xT
- 4f3w7Mx+3mgbmrFeJn8zbgEJtu9GU8NI71AXOrkKLoslyuL++ub4xw3XSbzfsGNdFzEP Uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3geyg6sq7x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jun 2022 16:33:50 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 252FfxrU005345;
- Thu, 2 Jun 2022 16:33:50 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3geyg6sq72-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jun 2022 16:33:50 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 252GL5DX011813;
- Thu, 2 Jun 2022 16:33:47 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3gbc7h7asj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jun 2022 16:33:47 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 252GXjU140436062
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Jun 2022 16:33:45 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4F156AE04D;
- Thu,  2 Jun 2022 16:33:45 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D3DFEAE045;
- Thu,  2 Jun 2022 16:33:44 +0000 (GMT)
-Received: from [9.101.4.17] (unknown [9.101.4.17])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  2 Jun 2022 16:33:44 +0000 (GMT)
-Message-ID: <d2ae2236-7a49-22e7-3950-cb635697721a@linux.ibm.com>
-Date: Thu, 2 Jun 2022 18:33:44 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nwntU-0004EY-2z
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 12:41:56 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:44776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nwntS-0008M5-CO
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 12:41:55 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ gc3-20020a17090b310300b001e33092c737so5283672pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 09:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=EzqV4fv74+30cpOk/7AsSvGe0o13UoFI8OwMS3EIy1g=;
+ b=oDtq6HTaGWykMKTVXmWfT93TFcq0TqNv+rv5PFq84yOr5ihfQJFRoTTz+oqev/1Mdl
+ Dt6lRfeFjh6DjpuPvtfCU9GRpT3mCxhdkbImhe8MYix6P3C9+BXv/jS126vjph9z+TJp
+ 11UqUjZS1ZSoyZfoYdxZGkTee748pcfe4LPPTmSKF3pvOkl0QMcnUFYLp0VhF+YxH3Mb
+ m0EDQIZ+9tl9r+5UwjdkoQKwlH4+wl2F3fmKkOYYmmbhBs7JkrHo6gJQ9i6NmTQfMaE8
+ TTS6Ionx6gua4vyWxL4ckyl4UiuHRZAt5MvADsWRfSxji85ObTSfMAdJjLs021c4EJVx
+ qlPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=EzqV4fv74+30cpOk/7AsSvGe0o13UoFI8OwMS3EIy1g=;
+ b=cQM4LMRK+EFIuSAjdfReR1kwGhmTKOn+ftMCj9uiYn2b+iTjIiaEcBvJdb3SDakDz9
+ WB7q6joS3ad54kqBB15w1TYDAoPb6EdzXvyHk1UAJYQhgq7ydgYcTAwnlqi115MYY9gd
+ 9nFH4SrAQPCuJeCQj6USKeS/VDTCflWZBETU4b8HzM9zSywXlmd5VjXbvumEkgNExPuh
+ nBe8efDQPQ7F3p5m2EMfmO1ZyWOvUSbkrD5TlrBvfIHIxchSZYasxKnLLwgDeg1StSpt
+ QzOl56MOYDlGKhQCP9aybB0M5mKDEicb3sv6907aanhl/ibYaC3ppT9OeR1QXFvOozPo
+ 9FAg==
+X-Gm-Message-State: AOAM5320GEbnSH1+EOVOFWbr0AFjOo2qXBH9ditVBnKHY84k5fkroyjU
+ EHHeMijoWIPaGuIi1ALaZcP1nXpFDCDq7A==
+X-Google-Smtp-Source: ABdhPJxIHPH5TdaBLfYop8eFpCh5i1Z1dZbW4hjYuPGZbKlvKW7cGFLWgjKUB9jpe/+nDU6vfdxUZg==
+X-Received: by 2002:a17:902:cf4c:b0:161:e3aa:2708 with SMTP id
+ e12-20020a170902cf4c00b00161e3aa2708mr5681646plg.127.1654188112708; 
+ Thu, 02 Jun 2022 09:41:52 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:80cd:3d17:bb90:8dda:8cb2:7569?
+ ([2607:fb90:80cd:3d17:bb90:8dda:8cb2:7569])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020aa7998e000000b0050dc7628137sm3892246pfh.17.2022.06.02.09.41.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jun 2022 09:41:52 -0700 (PDT)
+Message-ID: <5d93033a-6bdf-290f-9a8a-cc80e013154b@linaro.org>
+Date: Thu, 2 Jun 2022 09:41:49 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 08/16] ppc/pnv: user created pnv-phb for powernv9
+ Thunderbird/91.9.1
+Subject: Re: [PULL 0/3] tcg patch queue
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
- mark.cave-ayland@ilande.co.uk
-References: <20220531214917.31668-1-danielhb413@gmail.com>
- <20220531214917.31668-9-danielhb413@gmail.com>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220531214917.31668-9-danielhb413@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20220602151312.477967-1-richard.henderson@linaro.org>
+In-Reply-To: <20220602151312.477967-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: TPEmR_W0r8YH67Va-WPv1SDPnQKvZNvL
-X-Proofpoint-ORIG-GUID: R02O63nfJiE4ZmqfTbFnQm9pFT7LIlja
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-02_05,2022-06-02_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 spamscore=0 mlxlogscore=728 bulkscore=0 clxscore=1015
- phishscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206020068
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,161 +94,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 31/05/2022 23:49, Daniel Henrique Barboza wrote:
-> To enable user creatable PnvPHB devices for powernv9 we'll revert the
-> powernv9 related changes made in 9c10d86fee "ppc/pnv: Remove
-> user-created PHB{3,4,5} devices".
+On 6/2/22 08:13, Richard Henderson wrote:
+> The following changes since commit 1e62a82574fc28e64deca589a23cf55ada2e1a7d:
 > 
-> This change alone isn't enough to enable user creatable devices for powernv10
-> due to how pnv_phb4_get_pec() currently works. For now let's just enable it
-> for powernv9 alone.
+>    Merge tag 'm68k-for-7.1-pull-request' of https://github.com/vivier/qemu-m68k into staging (2022-06-02 06:30:24 -0700)
 > 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   hw/pci-host/pnv_phb4.c     | 58 +++++++++++++++++++++++++++++++++++++-
->   hw/pci-host/pnv_phb4_pec.c |  6 ++--
->   hw/ppc/pnv.c               |  2 ++
->   3 files changed, 63 insertions(+), 3 deletions(-)
+> are available in the Git repository at:
 > 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 22cf1c2a5e..a5c8ae494b 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1571,13 +1571,69 @@ void pnv_phb4_bus_init(DeviceState *dev, PnvPHB4 *phb)
->       pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
->   }
->   
-> +static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
-> +                                         Error **errp)
-> +{
-> +    Pnv9Chip *chip9 = PNV9_CHIP(chip);
-> +    int chip_id = phb->chip_id;
-> +    int index = phb->phb_id;
-> +    int i, j;
-> +
-> +    for (i = 0; i < chip->num_pecs; i++) {
-> +        /*
-> +         * For each PEC, check the amount of phbs it supports
-> +         * and see if the given phb4 index matches an index.
-> +         */
-> +        PnvPhb4PecState *pec = &chip9->pecs[i];
-> +
-> +        for (j = 0; j < pec->num_phbs; j++) {
-> +            if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
-> +                return pec;
-> +            }
-> +        }
-> +    }
-> +
-> +    error_setg(errp,
-> +               "pnv-phb4 chip-id %d index %d didn't match any existing PEC",
-> +               chip_id, index);
-> +
-> +    return NULL;
-> +}
-> +
->   static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->   {
->       PnvPHB4 *phb = PNV_PHB4(dev);
-> +    PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
-> +    PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
->       XiveSource *xsrc = &phb->xsrc;
-> +    BusState *s;
-> +    Error *local_err = NULL;
->       int nr_irqs;
->       char name[32];
->   
-> +    if (!chip) {
-> +        error_setg(errp, "invalid chip id: %d", phb->chip_id);
-> +        return;
-> +    }
-> +
-> +    /* User created PHBs need to be assigned to a PEC */
-> +    if (!phb->pec) {
-> +        phb->pec = pnv_phb4_get_pec(chip, phb, &local_err);
-> +        if (local_err) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
-> +    }
-> +
-> +    /* Reparent the PHB to the chip to build the device tree */
-> +    pnv_chip_parent_fixup(chip, OBJECT(phb->phb_base), phb->phb_id);
+>    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220602
+> 
+> for you to fetch changes up to 94bcc91b2e95e02ec57ed18d5a5e7cb75aa19a50:
+> 
+>    tcg/aarch64: Fix illegal insn from out-of-range shli (2022-06-02 08:09:46 -0700)
+> 
+> ----------------------------------------------------------------
+> Add tcg_gen_mov_ptr.
+> Fix tcg/i386 encoding of avx512 vpsraq.
+> Fix tcg/aarch64 handling of out-of-range shli.
+
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
-Didn't you mean to do that only for the user-created case? And why not 
-attaching the PHB to the PEC instead of the chip, like in 
-pnv_pec_default_phb_realize() ? I think it makes more sense to keep the 
-chip->PEC->PHB parenting in the qom tree (and incidentally, that's where 
-I'd prefer to have the phb3 model move to).
-Also, the comment seems wrong to me. The qom parenting doesn't matter 
-when building the device tree. We only iterate over the PHBs found in 
-the array of the PEC object (cf. pnv_pec_dt_xscom())
+r~
 
 
 
-> +    s = qdev_get_parent_bus(DEVICE(chip));
-> +    if (!qdev_set_parent_bus(DEVICE(phb->phb_base), s, &local_err)) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
+> 
+> ----------------------------------------------------------------
+> Richard Henderson (3):
+>        tcg: Add tcg_gen_mov_ptr
+>        tcg/i386: Fix encoding of OPC_VPSRAQ for INDEX_op_sars_vec
+>        tcg/aarch64: Fix illegal insn from out-of-range shli
+> 
+>   include/tcg/tcg-op.h         | 5 +++++
+>   tcg/aarch64/tcg-target.c.inc | 2 +-
+>   tcg/i386/tcg-target.c.inc    | 2 +-
+>   3 files changed, 7 insertions(+), 2 deletions(-)
 
-
-Same comment, I think that's only desirable for user-created devices. 
-We're already calling sysbus_realize() for the default case.
-
-
-Silly question: where does it break if a user tries to create 2 PHBs 
-with the same index?
-
-
-   Fred
-
-
-
-
->       /* Set the "big_phb" flag */
->       phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
->   
-> @@ -1803,7 +1859,7 @@ static void pnv_phb4_root_port_class_init(ObjectClass *klass, void *data)
->       PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
->   
->       dc->desc     = "IBM PHB4 PCIE Root Port";
-> -    dc->user_creatable = false;
-> +    dc->user_creatable = true;
->   
->       device_class_set_parent_realize(dc, pnv_phb4_root_port_realize,
->                                       &rpc->parent_realize);
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 888ecbe8f3..0e67f3a338 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -146,8 +146,10 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->       pec->num_phbs = pecc->num_phbs[pec->index];
->   
->       /* Create PHBs if running with defaults */
-> -    for (i = 0; i < pec->num_phbs; i++) {
-> -        pnv_pec_default_phb_realize(pec, i, errp);
-> +    if (defaults_enabled()) {
-> +        for (i = 0; i < pec->num_phbs; i++) {
-> +            pnv_pec_default_phb_realize(pec, i, errp);
-> +        }
->       }
->   
->       /* Initialize the XSCOM regions for the PEC registers */
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 3b0b230e49..697a2b5302 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -2186,6 +2186,8 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
->       pmc->compat = compat;
->       pmc->compat_size = sizeof(compat);
->       pmc->dt_power_mgt = pnv_dt_power_mgt;
-> +
-> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB);
->   }
->   
->   static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
 
