@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D2253B554
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:44:51 +0200 (CEST)
-Received: from localhost ([::1]:55126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8981F53B590
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:59:58 +0200 (CEST)
+Received: from localhost ([::1]:60218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwgRm-0005DT-3h
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
+	id 1nwggP-0000w3-4l
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwgPo-0004SS-Uq; Thu, 02 Jun 2022 04:42:48 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35210)
+ id 1nwgdz-0008ON-C6; Thu, 02 Jun 2022 04:57:27 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwgPn-0006jy-85; Thu, 02 Jun 2022 04:42:48 -0400
+ id 1nwgdx-0003jQ-Q3; Thu, 02 Jun 2022 04:57:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VaRsS9mLjCUnTm4Z0jqPtO9CVte0/sAuhFsUGoRSLeA=; b=UCGzCm13x5VQYYuGYUutpOL5Oi
- t4HKIoCaOE4YNZnOhwajPY8nffd2pqa4/uQffIjPfAbN5XP9dUw9emNa+cwsZyo6i5wYVxeHyfosC
- h5/MW1kFzNhIpyzzKHHnALtR/nrUCns5i1jwup60ZOk8QMPOgzxEs+3cGuooxGGHi6A3mrNnTAcBe
- OkJWAMC4Md5Lv7pSSJtc9m1bm0wn8q1QP5VHe6oOhNZylUzeGHeG1XYDr58ztvrUIO/2kOZb9yTar
- I9uA0sth1kPtu3/RhHw51SagoUt048ZEFZu7QwsmPi3NXAYpZt+uMJc4QeUARfSe37WCi+MRfPzdy
- 6j1eeXowxqk6uv6cm2zSr+BlOmRjz4jBo2Nd8jflBcdZoFa2lDnlkKhM6LpDGmMtD1mcXdmQE+zPc
- l9zw0uch2nTu96HL2WF6fvxRXYK6Qo+GiE8blr17Cja+bc/Hxf1bIOm6a/OwTJeYhrpxcauipGVA2
- HzeJLWSkPHwBo36IMx0oKmFzELynq0VFEcvG6T/HFut47qkcqBoU0/31/G/hNtIVT4MANX9acgxIp
- YoUmg80SXnkSNrbttqkl7rvucwnZ7Jae0f3Qs6MXOVsBoysx50rzv9K6ENUlL/+8t+CRwVTXF9w1W
- GhIxBMgNPeV6MGs7oouVEFWQV+O1vmcgGOdvlb7uI=;
+ bh=szyadflqR7ySDwx7RvkZsu9iQ3ugW9rftJeUlScyEbw=; b=fcIUQSPBj2gVVsBvmegU2Q4aye
+ eZdDslFyErs6NJ2gnARAJdQaC+JyYXohB863OIvg4ehc7WfJzdePpNwAYSRL5Fdvt2nHFtOCNtAIF
+ Cj+F7Sb5fxTnJ6cjFKtLoyxD2S7/kV2w6SlV2iS1rPbcB2EA+NPO00y7D5LR1AJLlg6pltpHd8efC
+ klEvlW2DgW+0ZQSq7qTPm6QotL1pIJK+LZyXeu0KKo9KbbNuitjaDPFyeVV1V9/EbHSb5iJd2XXxl
+ ljG7QvCejhY0vAoDwo5GTrLa/U4QBAWcIDFqV0bailcOdmClaIMoxh5O8AWLiwraaNPBzfr5cqrEU
+ 2OwlD2Taa+SSmkMpJ0wUnTGozSJVjBLyxCnR/y0PNgEoChCDGrAP/Czgp5LR6c6zm39VWtPVaqXPC
+ xLJskOJJTowUCH1o4OPCERjRLTiHtE7SYun9cFr1Nx/6E7AnQyiGPmkok6tTtDR4cL9nno4j15VH9
+ Ui3SAq5AV7CJPYc7q7KoizfHv4rwQFW2YZgBMWXX5kASPFEGWBmW4JhvrZ/5FtfFIaGwo+v/3TCML
+ 8U/jPnE63uv75ccGAeEeMFq0hJUSEwxrLlh02shrlYiPc7Ty5mC7omK5c97Dvj1kLz44yli2y8KTI
+ 20TZxcpbLnSW9vcqZMUHJXUSRz+8Yit2nMCgAxf84=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwgOd-0003Os-IC; Thu, 02 Jun 2022 09:41:39 +0100
-Message-ID: <c5d209d1-b6df-4447-1bb7-43d19e30104d@ilande.co.uk>
-Date: Thu, 2 Jun 2022 09:42:37 +0100
+ id 1nwgck-0003UI-15; Thu, 02 Jun 2022 09:56:14 +0100
+Message-ID: <7d9715a5-0f46-10cd-2288-ac86c1e12e8a@ilande.co.uk>
+Date: Thu, 2 Jun 2022 09:57:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
- fbarrat@linux.ibm.com
-References: <20220531214917.31668-1-danielhb413@gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org
+References: <20220601125355.1266165-1-matheus.ferst@eldorado.org.br>
+ <ffe922c2-f833-cce4-2da4-03fac5fb458c@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220531214917.31668-1-danielhb413@gmail.com>
+In-Reply-To: <ffe922c2-f833-cce4-2da4-03fac5fb458c@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 00/16] powernv: introduce pnv-phb base/proxy devices
+Subject: Re: [PATCH] target/ppc: fix vbpermd in big endian hosts
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -80,74 +82,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/05/2022 22:49, Daniel Henrique Barboza wrote:
+On 01/06/2022 15:21, Philippe Mathieu-Daudé via wrote:
 
-> Hi,
+> +Mark for commit ef96e3ae96.
 > 
-> This v2 is considerable different from the first version due to the
-> review provided by Mark Cave-Ayland.
-> 
-> We're now preserving all PnvPHB3/4/5 implementations already in place.
-> The PnvPHB device now acts as a base/proxy of the existing PHBs, which
-> are turned into backends of the base PnvPHB device.
-> 
-> QOM is being more used this time by passing through properties to the
-> PHB backends from the base device, and by setting the phb->version
-> via global machine properties in each machine.
-> 
-> The changes made impact both user creatable and default devices, meaning
-> that now the powernv machines are using the PnvPHB base device in all
-> circunstances.
-> 
-> The one thing that I didn't change from v1 is the root port revamp. I
-> didn't find enough reason to do the same thing we did with the PnvPHBs,
-> given that all that differs them is the reset() callback of
-> phb4_root_port. This means that patches 14-17 from v1 are still mostly
-> the same.
-> 
-> 
-> Changes from v1:
-> - lots of changes in patches 1-6 and 7 due to the change of direction
-> - patch 10 from v1: removed
-> - PnvPHB.version is now being removed in patch 16
-> - several other minor changes due to changes in the initial patches
-> - v1 link: https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg01410.html
-> 
-> Daniel Henrique Barboza (16):
->    ppc/pnv: add PHB3 bus init helper
->    ppc/pnv: add pnv_get_phb3_child()
->    ppc/pnv: add PnvPHB base/proxy device
->    ppc/pnv: change PnvPHB3 to be a PnvPHB backend
->    ppc/pnv: user created pnv-phb for powernv8
->    ppc/pnv: add PHB4 bus init helper
->    ppc/pnv: change PnvPHB4 to be a PnvPHB backend
->    ppc/pnv: user created pnv-phb for powernv9
->    ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
->    ppc/pnv: user creatable pnv-phb for powernv10
->    ppc/pnv: add pnv-phb-root-port device
->    ppc/pnv: remove pnv-phb3-root-port
->    ppc/pnv: remove pnv-phb4-root-port
->    ppc/pnv: remove 'phb_rootport_typename' in pnv_phb_realize()
->    ppc/pnv: remove pecc->rp_model
->    ppc/pnv: remove PnvPHB4.version
-> 
->   hw/pci-host/meson.build        |   3 +-
->   hw/pci-host/pnv_phb.c          | 219 ++++++++++++++++++++++++++++++++
->   hw/pci-host/pnv_phb.h          |  56 ++++++++
->   hw/pci-host/pnv_phb3.c         | 144 ++++++++-------------
->   hw/pci-host/pnv_phb4.c         | 226 ++++++++++++++-------------------
->   hw/pci-host/pnv_phb4_pec.c     |  14 +-
->   hw/ppc/pnv.c                   |  78 ++++++++++--
->   include/hw/pci-host/pnv_phb3.h |  12 +-
->   include/hw/pci-host/pnv_phb4.h |  18 +--
->   include/hw/ppc/pnv.h           |   4 +-
->   10 files changed, 512 insertions(+), 262 deletions(-)
->   create mode 100644 hw/pci-host/pnv_phb.c
->   create mode 100644 hw/pci-host/pnv_phb.h
+> On 1/6/22 14:53, matheus.ferst@eldorado.org.br wrote:
+>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>
+>> The extract64 arguments are not endian dependent as they are only used
+>> for bitwise operations. The current behavior in little-endian hosts is
+>> correct; since the indexes in VRB are in PowerISA-ordering, we should
+>> always invert the value before calling extract64. Also, using the VsrD
+>> macro, we can have a single EXTRACT_BIT definition for big and
+>> little-endian with the correct behavior.
+>>
+>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>> ---
+>> Found this bug while refactoring VECTOR_FOR_INORDER_I uses. The
+>> complete patch series will also use Vsr[DB] instead of VBPERM[DQ]_INDEX,
+>> but it will need more testing. For now, we're just changing what is
+>> necessary to fix the instruction.
+>> ---
+>>   target/ppc/int_helper.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+>> index 105b626d1b..4c5d3f03f8 100644
+>> --- a/target/ppc/int_helper.c
+>> +++ b/target/ppc/int_helper.c
+>> @@ -1307,14 +1307,13 @@ XXGENPCV(XXGENPCVDM, 8)
+>>   #define VBPERMQ_INDEX(avr, i) ((avr)->u8[(i)])
+>>   #define VBPERMD_INDEX(i) (i)
+>>   #define VBPERMQ_DW(index) (((index) & 0x40) != 0)
+>> -#define EXTRACT_BIT(avr, i, index) (extract64((avr)->u64[i], index, 1))
+>>   #else
+>>   #define VBPERMQ_INDEX(avr, i) ((avr)->u8[15 - (i)])
+>>   #define VBPERMD_INDEX(i) (1 - i)
+>>   #define VBPERMQ_DW(index) (((index) & 0x40) == 0)
+>> -#define EXTRACT_BIT(avr, i, index) \
+>> -        (extract64((avr)->u64[1 - i], 63 - index, 1))
+>>   #endif
+>> +#define EXTRACT_BIT(avr, i, index) \
+>> +        (extract64((avr)->VsrD(i), 63 - index, 1))
+>>   void helper_vbpermd(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+>>   {
 
-I've had a quick look over the series, and whilst I'm not overly familiar with the 
-PMV PHB side, this looks much better to me from a QOM/qdev modelling perspective. 
-I've added a few comments but in general I'm fairly happy with the way this is going.
+I'm not too familiar with vbpermd, however in general the use of the VsrX() macros is 
+the right way to ensure things work correctly on both big-endian and little-endian 
+hosts, so it looks fine to me.
+
+FWIW with all the great improvements being done in this area, I think that Matheus 
+and Daniel have picked things up really quickly and have a much better test setup 
+than the G4 Mac Mini I used to do the original gvec work. If I happen to spot 
+something on the mailing list then I'll likely reply, but otherwise I'm happy to 
+allow things to progress without requiring an explicit Ack from me (these days my 
+testing is mostly confined to checking that MacOS 9/X boot okay).
 
 
 ATB,
