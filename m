@@ -2,77 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170FF53BE72
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 21:12:52 +0200 (CEST)
-Received: from localhost ([::1]:39912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB5753BEA9
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 21:23:59 +0200 (CEST)
+Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwqFX-0003Q3-0e
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 15:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35254)
+	id 1nwqQH-0007a3-UB
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 15:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nwqDh-0001ix-NP; Thu, 02 Jun 2022 15:10:57 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:40766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nwqDf-00043M-R7; Thu, 02 Jun 2022 15:10:57 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-f2cd424b9cso7937733fac.7; 
- Thu, 02 Jun 2022 12:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DCPIn/2eQw1cUfP7alZxGtkDHu/v05BRFfK1JW6940g=;
- b=Qy314tLZzFCwKlH3+yGmO/hO/gZfanEdWU3MZOedR8ayac8FxptjxiiOVgKNfng9m/
- ssKQZSlSfnuuc93TBILuszIaKnzqw9cvmRk1uzrWXbdaeuNj/evvwFoUBoHURd7rwyhO
- qdWdX7XPCNv3fxo5j2FWnwEUjRltlajBsxHWXGDz25ZVECbnC4OuyHTT3imYYVNxxme/
- 1UsQWl1f1hPnTjqOxUvqaZf6DlyeV2nqGWM8bMg4hu+/KiKvKQqGtYkPCM1bTvQZWQqA
- vV7fTNviqH7223jfQ9maqou+HO6xhVxkLQ0wHUzbaAqOv/xEiEL3/FWVTLKJ2JQyLaK3
- ABRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DCPIn/2eQw1cUfP7alZxGtkDHu/v05BRFfK1JW6940g=;
- b=R74vTp1UvLZPHT2qfO0FJ/bgqsJNeE3P1f2uCds4RIRYj/JRyYT4lhQxbRZ8T5BUys
- UIVnsYg4Cm80ax3W6ozw2t6wIppwEmQC3qnenyq90Cl+4I/7I4BkobOk10RshAQG8z3k
- EoFpXWz6jyPWwF7oI+PI8Dt+hYDdqZvKB2mbc6LWBvASpBcdFDqyEpKQlJ4Hdump/Q/v
- X0M/WBXWdMhb1ze53aT7CJMKZv9FUXoxtjYHij73S0yq+6OVOl5VBSJprfyxisP9ZAz1
- 7aYSwbSrzdDyVYxON17Ilar1WZIIWFYizF32VZ1uB1sFwT0ba29BJiXT93BQMlJ9UnCx
- 9T/w==
-X-Gm-Message-State: AOAM533YklC0xu/EC5pK/0vIhJIV9dBh8Gk6AoSra9CM3uTN5fy59Lkq
- TSdYiqrVUmftZ5HXZ6i4kDZnts/ZVpUZ/w==
-X-Google-Smtp-Source: ABdhPJw04WmHb1mlXnlsZjT8DTWPJE5gNlj8U2Bf4IsB5Ui2iobuaOInY8uwbsGncthxZpd5+1QSwg==
-X-Received: by 2002:a05:6870:d211:b0:f2:91f4:3dfb with SMTP id
- g17-20020a056870d21100b000f291f43dfbmr3661711oac.226.1654197053912; 
- Thu, 02 Jun 2022 12:10:53 -0700 (PDT)
-Received: from balboa.ibmuc.com ([152.250.93.219])
- by smtp.gmail.com with ESMTPSA id
- a30-20020a9d725e000000b0060603221262sm2539567otk.50.2022.06.02.12.10.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 12:10:53 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH] target/ppc: fix unreachable code in fpu_helper.c
-Date: Thu,  2 Jun 2022 16:10:48 -0300
-Message-Id: <20220602191048.137511-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwqMZ-0005mg-P0; Thu, 02 Jun 2022 15:20:10 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:38859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwqMX-0005HE-E7; Thu, 02 Jun 2022 15:20:07 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 03A595C024F;
+ Thu,  2 Jun 2022 15:20:03 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 02 Jun 2022 15:20:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1654197602; x=1654284002; bh=mr
+ 012aGW6nT4gBeC642BNtp2RVJElYSvK9sVFfDJC/A=; b=jJLh6O/UGomNn++nLS
+ /cNHPxejfyZuMDjpDIMDNaXBDl2bL7NshXlr5Kvpck2ZBnXkl/AZo02wBkO8bJCg
+ cFkOfDrDI1VrSlJS/pd5AwFyR9LBRnD0Cvdd1zKYuXqE86ya91K/ipK7fgH10CBc
+ gGyByEP5tZQt7RnEE+WeKdLWieBSWNIUIgoFBiOFIc+TnCaXcT6gdfT6EnXrjNfo
+ TTLnaEN9yc7VB9Qk1UxCBHvEHWS3h7hRF4M+UQiqw3jcXA+Avnc03qbm3dUNk4gl
+ jqCBM/wVF+HvZuV4J/iaUZP/UArIe6JV/E/8nIuZy7yj2LbNb/4XBUrdHEggJNKA
+ SMYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1654197602; x=1654284002; bh=mr012aGW6nT4gBeC642BNtp2RVJE
+ lYSvK9sVFfDJC/A=; b=ZaEq8gldZmoxKuE9ZM3oHGy7kN+zNDuNhSF3pAgrDnkM
+ Wh1FdeZ0+ejxnJkzUhUnNVCrN1u8ng6jMpE8uBsWHC2LwmsrPHgykFVjfEnFsS93
+ rpxtchUuF0mf1ioF1t7G9kqgfryatzUNbuubJq0/4Mqd0/vFSF4LpmjU1wa9Cy9C
+ 9EhjUNQkiEqZvdL4roHNFf+AN0kUkgTHvJxQr1p4rZbYpSoUJd0jkpa9sOEkI9HQ
+ +vquIhRaM3TKcf73YaTZxvBuw6MV+hD6l8+r2NYGcvJ+hzLNMH7HPLi2L+NchSIz
+ xbQg54q8XBaFHif3Fc2WxGK8wNoN4OXHYiKGR3+J7A==
+X-ME-Sender: <xms:YQ2ZYj6xNR_UTdmom8dkLBUstMpo3ILA6D8b_VnkgJS1ZCLRuoRgmQ>
+ <xme:YQ2ZYo5HOPj2Zk9Razn3vpECHF15Na1K4yJ7FGK6pSjgfJP5Bygf83sEbVpToVQn4
+ dO4YjedkEbJ0p1UZxU>
+X-ME-Received: <xmr:YQ2ZYqdjiFKLfv6Td4Tz0n3Qh47uf6ueYMM-J2v2v-XYl1sIUsd099BNIFVAovmrEVMCw0G-Atsv7lqcgA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeggddthecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeffuddvhfehjedugfeijeeuieelgeevuddvlefhkefhgfettefftddvkeevieel
+ feenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:YQ2ZYkLkcaJfCAu9a4f8OjdgMksY6SwUoq2XMyUt4QQW4RDH2W86Gg>
+ <xmx:YQ2ZYnJArWLIfHEEGv2WG8ga4F3Szy9cbMwfDzpHae_CDXqlPg25DQ>
+ <xmx:YQ2ZYtx4qXEuC2nCjR66XnyADwi5GP6EWRFrUOfZ1pUu-jk9AQoS5A>
+ <xmx:Yg2ZYphq8eBbw-bX8f6aGA7OByCVYHdGpT2uciOJMEDdcJaoHf1gOQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jun 2022 15:19:59 -0400 (EDT)
+Date: Thu, 2 Jun 2022 21:19:57 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, qemu-devel@nongnu.org,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
+ Peter Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>,
+ Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Zev Weiss <zev@bewilderbeest.net>
+Subject: Re: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
+Message-ID: <YpkNXUkafYQ3ZSpT@apples>
+References: <20220601210831.67259-1-its@irrelevant.dk>
+ <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org>
+ <YphzHGNYErSMEfPw@apples>
+ <00e2d10a-20f5-8357-5b13-41791940ce19@kaod.org>
+ <5683a737-8a15-20c5-5716-f5216d6c33c8@quicinc.com>
+ <c796202d-2e57-32b3-3007-343d37dcdb84@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8agfdVEGsKIvyPAb"
+Content-Disposition: inline
+In-Reply-To: <c796202d-2e57-32b3-3007-343d37dcdb84@kaod.org>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,44 +113,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit c29018cc7395 added an env->fpscr OR operation using a ternary
-that checks if 'error' is not zero:
 
-    env->fpscr |= error ? FP_FEX : 0;
+--8agfdVEGsKIvyPAb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, in the current body of do_fpscr_check_status(), 'error' is
-granted to be always non-zero at that point. The result is that Coverity
-is less than pleased:
+On Jun  2 17:40, C=C3=A9dric Le Goater wrote:
+> On 6/2/22 16:29, Jae Hyun Yoo wrote:
+> > Hi Klaus,
+> >=20
+> > On 6/2/2022 6:50 AM, C=C3=A9dric Le Goater wrote:
+> > > On 6/2/22 10:21, Klaus Jensen wrote:
+> > > >=20
+> > > > There is an outstanding issue with the SLAVE_ADDR_RX_MATCH interrup=
+t bit
+> > > > (bit 7). Remember from my first series I had a workaround to make s=
+ure
+> > > > it wasnt masked.
+> > > >=20
+> > > > I posted this upstream to linux
+> > > >=20
+> > > > https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant=
+=2Edk/
+> > > >=20
+> > > > Not sure if that is the right way to fix it.
+> > >=20
+> > > That's weird. I would have thought it was already enabled [ Adding Ja=
+e ]
+> >=20
+> > Slave mode support in Aspeed I2C driver is already enabled and it has
+> > worked well so far. The fix Klaus made in the link is incorrect.
+> >=20
+> > https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant.dk/
+> >=20
+> > The patch is adding ASPEED_I2CD_INTR_SLAVE_MATCH as a mask bit for
+> > I2CD0C (Interrupt Control Register) but actually this bit is part of
+> > I2CD10 (Interrupt Status Register). Means that the slave match interrupt
+> > can be enabled without enabling any mask bit in I2CD0C.
+>=20
+> Thanks Jae.
+>=20
+> So we should enable this interrupt always independently of the
+> Interrupt Control Register value.
+>=20
+> I would simply extend the mask value (bus->regs[intr_ctrl_reg])
+> with the SLAVE_ADDR_RX_MATCH bit when interrupts are raised in
+> aspeed_i2c_bus_raise_interrupt().
+>=20
 
-  Control flow issues  (DEADCODE)
-Execution cannot reach the expression "0ULL" inside this statement:
-"env->fpscr |= (error ? 1073...".
+Alright, so my "workaround" from v1 was actually the right fix - I'll
+re-add it ;)
 
-Remove the ternary and always make env->fpscr |= FP_FEX.
 
-Cc: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Fixes: Coverity CID 1489442
-Fixes: c29018cc7395 ("target/ppc: Implemented xvf*ger*")
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/fpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--8agfdVEGsKIvyPAb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index fed0ce420a..7ab6beadad 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -464,7 +464,7 @@ static void do_fpscr_check_status(CPUPPCState *env, uintptr_t raddr)
-     }
-     cs->exception_index = POWERPC_EXCP_PROGRAM;
-     env->error_code = error | POWERPC_EXCP_FP;
--    env->fpscr |= error ? FP_FEX : 0;
-+    env->fpscr |= FP_FEX;
-     /* Deferred floating-point exception after target FPSCR update */
-     if (fp_exceptions_enabled(env)) {
-         raise_exception_err_ra(env, cs->exception_index,
--- 
-2.36.1
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKZDVwACgkQTeGvMW1P
+DeljdQf/Vdk3O/anDVQinA92Q3vkMYEvRWn+KSsqIU9n4UKz6MhJ+2qFvbm1M4YU
+SKvk8Vuf1EFlUJrCwoeP03x8xulPWa3u2XTzfqFTsxZ74ctT0bHdcWJ/Jyxjpz9U
+uoyj0lycPIYUddU2g9OoRQPKdqOwiPSHEWkya5AdbCgCoUPf/vHPlFf7HWmCMMuj
+YsFLNrYPV17d3uJrOvJh3eG6kMLjW70MICl/dfvnwTLnEmiuCDVUEKa3b8lAmmO4
+8HkUPACIpj6RDoRrJP9Zt2aIGaazW4BXs4QTBdb0Zv/2qzNvQIbve1QoZSsqvb1B
+7aP9L8DckfkhjLdWmhGqR0BewjgURw==
+=vfwT
+-----END PGP SIGNATURE-----
+
+--8agfdVEGsKIvyPAb--
 
