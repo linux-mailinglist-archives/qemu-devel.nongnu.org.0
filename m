@@ -2,177 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8722A53B685
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 12:03:33 +0200 (CEST)
-Received: from localhost ([::1]:40308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3075753B6B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 12:13:28 +0200 (CEST)
+Received: from localhost ([::1]:47448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwhfw-0003QR-5h
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 06:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53418)
+	id 1nwhpW-0000Ly-FO
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 06:13:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wenchao.wang@intel.com>)
- id 1nwhc8-0002Jx-Hu
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 05:59:36 -0400
-Received: from mga09.intel.com ([134.134.136.24]:9084)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nwhnR-0007Wl-6J
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 06:11:17 -0400
+Received: from mga14.intel.com ([192.55.52.115]:25251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wenchao.wang@intel.com>)
- id 1nwhc6-0006ug-3y
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 05:59:35 -0400
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nwhnO-00070G-Ma
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 06:11:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654163974; x=1685699974;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=IQ4lWhzp/3l+oq39UD60ewWp1WLwiTiNFAcVoUISjI0=;
- b=leNQOCYLdaFlD/G1eVvOw/rqgh57BKxlmB9T24Xbzr5nzFuA8Scr8Rc2
- OnL2M9jWxJ8/X7AeR/JIb+D0LXy0Sy581S4YNVvs3NUx8tNPQOwj2gYFw
- U9AvAUJm3AxFUJWluEjrb2NfzJ+2djB3YEglMgmZQVCCYjDSCqmKXlL16
- k8ZDMwUhPM22rlPFHpEpzAD0/x/HRTjTM7AdtYF0+efIdfX8gc0anVaiC
- MqUbKWAeqTm48L4F00SD1uY0BOSunQPYB3H6OYPDVgXtzLLtHYVWzfsEf
- b8GaqQrAnEBhPL7M6H1Lxx1D/7fOvSpK4RDUZ42lJJlHFGY1fMAqXW/os Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="275626880"
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="275626880"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 02:59:28 -0700
+ t=1654164674; x=1685700674;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=da86tUUULUVat8HuHmdIwGDy5StYU/aEj+aL1ESVKiM=;
+ b=CsqCMxNtk3ss3cdDELKoNfk+Qj1/8yQHPg/CtTEuSCiMfMbsabu2wZJc
+ WhOvYs/tmEVurMzXCFxvUm7utp+zJPy9TvojrOvI0FTXyP7/tmTA5apk5
+ zgOig3qQfV3XJ+9AKktBZJb037xN0Q397zMjtOXqyZhdxKgj2ZJ1imaCb
+ kScJxsMQ8jlOI2Sr6qs7XQoJ9hgB5/uj1wstnqJoR1u/NbZ8yf2j4IfOY
+ DGkLmDzvRdY7GQ2SalS4vwNiVCivZMjjul85b4TXxTz+PGNBST+NcRhqD
+ KjLQDqejYw3SS25LVDJFOkZfmbLcJ0OsGwFw0sWlGbhEHSveXwhjJpUTu g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="275977337"
+X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="275977337"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 03:11:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="530503813"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga003.jf.intel.com with ESMTP; 02 Jun 2022 02:59:27 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 2 Jun 2022 02:59:27 -0700
-Received: from orsmsx606.amr.corp.intel.com (10.22.229.19) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 2 Jun 2022 02:59:27 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 2 Jun 2022 02:59:27 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.102)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 2 Jun 2022 02:59:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JliZ02DcbO4XXzXG3jJeGNyQtl1EH8xeZDg56kHPlfv+GKtN+caEx8jmTH4aPRCGf+AQm+VtfyqizhEaKPrefesDC6et0UaXZh4gXx22ZsR1O7iIT3SqkIs0IPwuAKkNBsdgVatNWp8ptRzd5LvP0E2KEPdkv4Vy0k8gP4BZCvRyzVyyyUe/h8x0x1lpIccmysppBhoBnQVWKZeKO6t6ntUgyys/r6Ru2O/zgUExBgZhDidZ+vHr5/efI+rLX5jUw9XBxo4O7yueFze3qey9cwth+9UsG6K3hsxs+RE7c7rbrWBFD65JRToVDRlQ2HK1Sne8kmV/vLawDyxd7k3Jiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IQ4lWhzp/3l+oq39UD60ewWp1WLwiTiNFAcVoUISjI0=;
- b=BMsZZHBjxdzE+a73ZDtkQq+5V3CGOkR0pWw6Oo6LXEKi9Nc6clb2MW5xsfxiIyQC7DyGpVGKk9z17FQ98/SA6aJaXW9vsFybejubERB9FvEV0iasjwyfemeC3frL/RNB0IKtCmA9lwiNABHacBjibz2RW/dsWK0JOORvpOpfR6nV6bJ0Lbr2rZuSD+lSm+A96NTgw0B1haeWL0Y9yQwCfxczxHTGeXSXVTCBQz2QXaqm4eEJqsvajwSANZPG0vV1xfudNVuy9zhcyBUs0hcTxsU7cyKC70xh9YCCxLqNORIGslox3yAN+eMa2WKJhO0sclORyGl3M+TxXRgdU1iLKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4090.namprd11.prod.outlook.com (2603:10b6:5:195::10)
- by DM5PR1101MB2154.namprd11.prod.outlook.com (2603:10b6:4:4e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Thu, 2 Jun
- 2022 09:59:25 +0000
-Received: from DM6PR11MB4090.namprd11.prod.outlook.com
- ([fe80::9107:8a79:eb69:ac00]) by DM6PR11MB4090.namprd11.prod.outlook.com
- ([fe80::9107:8a79:eb69:ac00%7]) with mapi id 15.20.5293.019; Thu, 2 Jun 2022
- 09:59:25 +0000
-From: "Wang, Wenchao" <wenchao.wang@intel.com>
-To: Thomas Huth <thuth@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: haxm-team <haxm-team@intel.com>
-Subject: RE: [PATCH] Remove Colin Xu's mail address from QEMU's MAINTAINERS
- files
-Thread-Topic: [PATCH] Remove Colin Xu's mail address from QEMU's MAINTAINERS
- files
-Thread-Index: AQHYdmKQzQYZ084+O0203ckYFNoUSa072wLAgAAEtYCAAAIusA==
-Date: Thu, 2 Jun 2022 09:59:25 +0000
-Message-ID: <DM6PR11MB4090207B59CB3C12F26D3F8787DE9@DM6PR11MB4090.namprd11.prod.outlook.com>
-References: <20220602092337.235765-1-thuth@redhat.com>
- <DM6PR11MB40905093667839742D4C600C87DE9@DM6PR11MB4090.namprd11.prod.outlook.com>
- <6fedf5ab-a156-255d-9ee0-766e165b4be2@redhat.com>
-In-Reply-To: <6fedf5ab-a156-255d-9ee0-766e165b4be2@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e68e207b-794c-4438-64b1-08da447e9387
-x-ms-traffictypediagnostic: DM5PR1101MB2154:EE_
-x-microsoft-antispam-prvs: <DM5PR1101MB21544A7353124A5FB646765B87DE9@DM5PR1101MB2154.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4B3Nwz3v69Ltn2D0VI/m1kN9ErmFuzmm8vRjFJwdqn8HSuz/ZNj81iqPiAxWyLey0tW/FlyOGF21+QHIG7N5dOTZUjhcIVmdeKJ3TfRpLvcDLUrh1SMDxAScQDgX6KwMYESPMmMmI10cYjgZxeGo5rIRjX+Ey3dCBBiLPdNWdgjrMERRe0mEWngVfwtEpQI03SNVs2+LbAMOly559YF1k2CQEZ19SJYYRuxcU8NrLijM6BB1mpyIT2KdMKjhaACVFnY/6vDtjOAkbIGc1EQUjYROk+G6dsbzvFk3OaTP2sVen0/HWGJQcFpRdX8Y2C+zEUrpWlpcKY0mMIt15egYy0YoF8hI4wOj/opVyNPUUxbuio3F+YcmacOvkKIoVWlNMnP1G/mLgsYwwNnIq7up4AVsJ9AQ2rhVh5a5m8qLN3cR87gGnWTOq4Gq4xzgzvVXoTBf1ixrSDIxjSfTVNa6mbq6dCPv3OA3enXuNK5bFFCqC3p9nmFWpMy3fZgit1rg6U0RZnAf4usPVzo3sBQmXsx1UCaUKByIEzXt37rk1WgtL9KmJtczhEKza31PpLPtHha8vjLTcJKfTogb7QlPmin97jVgwFDCYy4nyqlT/8MVzmcPTUzhB0N96RU9F9sZ5t6EZ5TD+qfRKkMsvK9C7J4kkOIoh2Isfy7gn/sK5tYPl8jPFyFbY1GSpx+7/5p0r/zQ3YjE+RTXd9schuBTzA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB4090.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(5660300002)(53546011)(7696005)(38100700002)(110136005)(6506007)(83380400001)(71200400001)(66556008)(66446008)(76116006)(66946007)(33656002)(66476007)(4744005)(2906002)(82960400001)(8676002)(4326008)(186003)(64756008)(122000001)(26005)(9686003)(55016003)(38070700005)(316002)(86362001)(52536014)(8936002)(508600001)(107886003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eWpvSDdEUjJxSDRQYW9sbjc2eGVoRzlsakRqMFNuUEUwb3VBNnVnU25QcEFk?=
- =?utf-8?B?NVdwclkvenpkb2owTDlvejZFMHNnSFB1REVmME1xOFZTMHVoNy9YWmNBbVFa?=
- =?utf-8?B?ckphZzNwUVBHVklaUkRBcElTRjloKzUxdTEycVBSVlQwbWw3dXNYZGRlWUJk?=
- =?utf-8?B?K2xlamx6TFhaQTlJU1ZQZVBiN1VPYWF0M001VzZocEVBMCtDUXJteXFuaGhq?=
- =?utf-8?B?ZTdJMVVRRU9vNTVWeCtFdjBzYVRiMXlQYVpXZHVCb0tDdUFMSEZjeithVm1M?=
- =?utf-8?B?NXorT2hFY0R0SGwrbG85cUF3RnRkSVFPbkg4V0I3YkNBQ1dtUGw2K2FFTnRH?=
- =?utf-8?B?QS9iT2VGbk5OWXMyR2tHS2NjVWFQb250dHZDejh2ZVdCNkt2dXp3UVF0NFo3?=
- =?utf-8?B?WGhRUnV2SGw2VkFKaitmbUpaaTIxZ09HVVRVeVRVUTlPN28vSmNtczZ3STNT?=
- =?utf-8?B?L1Y4a0tDbzV2VFZvTmordThDb3dOTXhuNDRwNEtaWmtIWjZBUWdxU1hEenln?=
- =?utf-8?B?dWFZRmpaT2EzVmtVenlnUGsyeWMvSUNqRjFKV3ByQmRQQXMrY1VoZXNIcVZW?=
- =?utf-8?B?aGZOY3VKNFF5cXVmUlpEOGNMYUlSOXNCNHd5cGNkK1VWWWZxc1RpYUM1OVNy?=
- =?utf-8?B?bjdIVWh4cWE1QkhOcnA5ZFl3UllsL3pjV1dnVTVVSEFkZ0cybnc3RWNMOTlp?=
- =?utf-8?B?cmc2VGVNVGpNWnkzcHAvZWpaUTZTVUpEWGtzcks1VmJkaTRTL0hTcytWbXQ3?=
- =?utf-8?B?TzNNTnpmNllKQmFPeEFZMFNOdFhTUEppVWxIMzZMUXdaS3A0K1YvWk9mdlVH?=
- =?utf-8?B?Q2dOakF1R1ZzZDY3VG1ZZ2h3cnhnQysxNXp4U2tTcGxBeERtME14S1ZpTWNG?=
- =?utf-8?B?aHVYZUdpYnhtbW9oWWZmM2M3UVN3UWRRZVdLaEdtM1dKUWliWlJPLzRWZUdx?=
- =?utf-8?B?ZTh0ZkpvbmFmWDZhMGFtUlkwd01nemNaRnFEb2VMMFQ4UnRUWGo1c0k1Ni9I?=
- =?utf-8?B?akVwVUhpWHRqT2FiZzErM3oyUGs4My9rWFJRNmFqNUNPaXNIMHFQZ1dhdkpT?=
- =?utf-8?B?bkQyUS9mM0xBYmV2SllnbWc3NGRYNjFQS3dwVTZwbDM1bHlBMkd3eTNNNjZO?=
- =?utf-8?B?V1B0cUlMMHhlelR1MHlyYmFvSVV5YnQ5T3U0NC9PbkwzdVF4d3BvcDhRM3Ix?=
- =?utf-8?B?dk1SYWFxNENNSzZtUWVYY0FnbjVxV2hMSnNTUXdDOHZHTzhxR3FxSnpXc3JR?=
- =?utf-8?B?by9ZT3U5cUVhUDVQNmhkZndTS0ZERm01blZJRUExRFhLWk13UjJzdWl4aEE1?=
- =?utf-8?B?N1hyclFMamNlTjNuMlRLVlhjQVhRQ0lhT24wa3R6NFdQcFJQWTlYV0ZDS3Aw?=
- =?utf-8?B?NVdTZXhVa0I2dkd1bGpzbXUxcnczcCttM3FUendLM2tXbmtsYjVQeVpUQVMv?=
- =?utf-8?B?ZnlDOUl1TGJlQmlWNTM5QlNuMk9EK1h4VTZBZ3oxOUxqVUpkRTZEcG1LZWN4?=
- =?utf-8?B?Z1hncko0Vmx3TXpzMlRHNnZDQUhTblJNanhqaXVOSXNzVU5CZGJlY2R1aG5U?=
- =?utf-8?B?emlkZWV6UUVCV0FtbnowV3oyeTlEZTlFWUhkVDkrbUNEdlNvTXE1VUhSTFl0?=
- =?utf-8?B?TkMvemlGc0g3MWhWUUM4YWlxTkRNVElBUjFYRjVZWExXeWk2MkxCRXl4bVkz?=
- =?utf-8?B?N0NkbVQ0UWlXUTU0OG1yc1RuRXlCZy9jM3dFc2NCMGFuZCt1SzJKKzkwOVFW?=
- =?utf-8?B?R0UwbUh6SU93dVRhd0FDN0d5bGNla3Vsd2ZoZUpLbkJzS2o1VVlXSEF2Vkh4?=
- =?utf-8?B?ZVI3SGdnWjFjUjlaU1BId3Z3L1hiMFlPSjRUYzhieFFhb3NzSXRmV21hVkwx?=
- =?utf-8?B?NWNRTGVadWlNNzFpV1orSy9UYmtjKy9JaDhnSmkxYkpRQWFqTUtBQVdpRVBJ?=
- =?utf-8?B?WHBuYS8reGZhSEs5VnJPYnd6d1VaN0w0R0gvVHMrQnlKbThxaGRLa0t6VFlk?=
- =?utf-8?B?bW1xZytJWUdBenZpdjROM0d0b0hZdVpYeWZ1anBTb3Y5NnAycG9YVlhhemxW?=
- =?utf-8?B?OUpKWWd4Mk5ndlk4cEdkajBUb2V0OE1pVHN6eG5ncWVwTUZrWnI0MEFDRnUv?=
- =?utf-8?B?bzlZWmZLZURjL3hSNUpreGU5S0pxV1doZHo5b3JaMFZBS3VNT3BrVXVQeWRj?=
- =?utf-8?B?YzhsSTZYTnFhdmdzdjFUQUl4dkFSRjlzWGNzdWtFV0JETGQvM0d1Sm9rT0F1?=
- =?utf-8?B?N3JCYzQvZHBTT0wwWjZOUXlibEJKOHdYNHJqUzR6cGRnbjIwQ0l0Mmd5THQr?=
- =?utf-8?B?L2tIbzdXWGJ1djdvbXhKak1TdDA5WnpwdUN0N2VLQVE4dW5vaGVKdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="721237238"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2022 03:10:58 -0700
+Date: Thu, 2 Jun 2022 18:07:33 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc: Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>,
+ Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Message-ID: <20220602100733.GA1296997@chaop.bj.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-4-chao.p.peng@linux.intel.com>
+ <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
+ <20220601101747.GA1255243@chaop.bj.intel.com>
+ <1f1b17e8-a16d-c029-88e0-01f522cc077a@amd.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4090.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e68e207b-794c-4438-64b1-08da447e9387
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2022 09:59:25.7882 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ToIBrKRGbCiDu6hCNHNXKFX9PgMKxNy4VTk25TcYesQCDi9BY+O/lncuhUmHeeUI7DJLtRZrN0CK1As4dqxJhA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2154
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=wenchao.wang@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1f1b17e8-a16d-c029-88e0-01f522cc077a@amd.com>
+Received-SPF: none client-ip=192.55.52.115;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -186,21 +99,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGksIFRob21hcywNCg0KVGhhdCdzIGdyZWF0LiBUaGFua3MgZm9yIHlvdXIgaGVscC4NCg0KDQpC
-ZXN0IFJlZ2FyZHMsDQpXZW5jaGFvDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9t
-OiBUaG9tYXMgSHV0aCA8dGh1dGhAcmVkaGF0LmNvbT4gDQpTZW50OiBUaHVyc2RheSwgSnVuZSAy
-LCAyMDIyIDE3OjUxDQpUbzogV2FuZywgV2VuY2hhbyA8d2VuY2hhby53YW5nQGludGVsLmNvbT47
-IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KQ2M6IGhheG0tdGVhbSA8aGF4bS10ZWFtQGludGVsLmNv
-bT4NClN1YmplY3Q6IFJlOiBbUEFUQ0hdIFJlbW92ZSBDb2xpbiBYdSdzIG1haWwgYWRkcmVzcyBm
-cm9tIFFFTVUncyBNQUlOVEFJTkVSUyBmaWxlcw0KDQpPbiAwMi8wNi8yMDIyIDExLjQxLCBXYW5n
-LCBXZW5jaGFvIHdyb3RlOg0KPiBIaSwgVGhvbWFzLA0KPiANCj4gVGhhbmtzIGZvciB5b3VyIG1h
-aWwuIEkgb25jZSBzdWJtaXR0ZWQgdGhlIGJlbG93IHBhdGNoIHRvIHFlbXUtZGV2ZWxAbm9uZ251
-Lm9yZyBidXQgaXQgaGFzIG5vdCBiZWVuIG1lcmdlZC4gSSBoYXZlIHBhc3RlZCBpdCBhcyBiZWxv
-dyBhbmQgYXR0YWNoZWQgaXQgaW4gbG9vcC4gVGhhbmtzLg0KDQpBaCwgZ3JlYXQsIHNvIHRoZXJl
-IGlzIGFscmVhZHkgYSBwYXRjaCAtIHRoZW4gcGxlYXNlIGRpc3JlZ2FyZCBtaW5lLiBBbmQgaWYg
-bm9ib2R5IGVsc2Ugd2FudHMgdG8gcXVldWUgdGhpcywgSSBjYW4gcGljayBpdCB1cCBmb3IgbXkg
-bmV4dCBwdWxsIHJlcXVlc3QuDQoNCiAgVGhhbmtzLA0KICAgVGhvbWFzDQoNCg==
+On Wed, Jun 01, 2022 at 02:11:42PM +0200, Gupta, Pankaj wrote:
+> 
+> > > > Introduce a new memfd_create() flag indicating the content of the
+> > > > created memfd is inaccessible from userspace through ordinary MMU
+> > > > access (e.g., read/write/mmap). However, the file content can be
+> > > > accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> > > > 
+> > > 
+> > > SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
+> > > initial guest boot memory with the needed blobs.
+> > > TDX already supports a KVM IOCTL to transfer contents to private
+> > > memory using the TDX module but rest of the implementations will need
+> > > to invent
+> > > a way to do this.
+> > 
+> > There are some discussions in https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F5%2F9%2F1292&amp;data=05%7C01%7Cpankaj.gupta%40amd.com%7Cb81ef334e2dd44c6143308da43b87d17%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637896756895977587%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=oQbM2Hj7GlhJTwnTM%2FPnwsfJlmTL7JR9ULBysAqm6V8%3D&amp;reserved=0
+> > already. I somehow agree with Sean. TDX is using an dedicated ioctl to
+> > copy guest boot memory to private fd so the rest can do that similarly.
+> > The concern is the performance (extra memcpy) but it's trivial since the
+> > initial guest payload is usually optimized in size.
+> > 
+> > > 
+> > > Is there a plan to support a common implementation for either allowing
+> > > initial write access from userspace to private fd or adding a KVM
+> > > IOCTL to transfer contents to such a file,
+> > > as part of this series through future revisions?
+> > 
+> > Indeed, adding pre-boot private memory populating on current design
+> > isn't impossible, but there are still some opens, e.g. how to expose
+> > private fd to userspace for access, pKVM and CC usages may have
+> > different requirements. Before that's well-studied I would tend to not
+> > add that and instead use an ioctl to copy. Whether we need a generic
+> > ioctl or feature-specific ioctl, I don't have strong opinion here.
+> > Current TDX uses a feature-specific ioctl so it's not covered in this
+> > series.
+> 
+> Common function or ioctl to populate preboot private memory actually makes
+> sense.
+> 
+> Sorry, did not follow much of TDX code yet, Is it possible to filter out
+> the current TDX specific ioctl to common function so that it can be used by
+> other technologies?
+
+TDX code is here:
+https://patchwork.kernel.org/project/kvm/patch/70ed041fd47c1f7571aa259450b3f9244edda48d.1651774250.git.isaku.yamahata@intel.com/
+
+AFAICS It might be possible to filter that out to a common function. But
+would like to hear from Paolo/Sean for their opinion.
+
+Chao
+> 
+> Thanks,
+> Pankaj
 
