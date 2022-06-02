@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E7453C061
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 23:32:46 +0200 (CEST)
-Received: from localhost ([::1]:59964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A77653C064
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 23:33:18 +0200 (CEST)
+Received: from localhost ([::1]:33624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwsQu-0003cw-AU
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 17:32:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60916)
+	id 1nwsRR-0004ue-91
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 17:33:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nwsP3-0002TB-9N; Thu, 02 Jun 2022 17:30:49 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:33551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nwsP1-0001ai-Jq; Thu, 02 Jun 2022 17:30:49 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id br33so2916288qkb.0;
- Thu, 02 Jun 2022 14:30:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=B/1eqqbHZnQqzfEJFI/2PMisMT8zWNIw4xhukZQmi8Q=;
- b=lCFMpTN4exoAZQ9n/fx4VXIwJwyfRwqE2Ui1VGvznjFtxo36qExWwecmrmeIgu1rWI
- wasYI8C7LdH7k2CbE5KZcax5XZ2KdWW1DhVtZuzYr6oF1bxYxV2q1xZqN4h6oupP/xhL
- /twg9f9HSpWVKu3wwePcw469DdYLgyoezQhu6WLRPAGCktT2J1gjYxr/HHVaL97zCpEu
- Utn+OIrLmERFLHOdnrIP/l9xkj2edr3Aeb7C4N948mC9oDCNlaS6jpTcazDuPFiCYRYr
- ofvBGZA+pG5+BUJebadb52KJsh26TZ2g1U+oJwvebpXd2JFfBYrjyiGKVg4Wbw/OVtJN
- UJGw==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nwsQ0-0003S1-4S
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:31:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nwsPw-0001ks-Lz
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:31:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654205503;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hw4MgKQNblF9l4pE31H16oHL4jg05yW+PrT3Pnr9MLY=;
+ b=e4DfR8sTMMrgjzHMT+koP1UZiA0tpl1PYm9INwBIbR99RHCXdcbkp+/CANbCKn7ANy4VSQ
+ SVMAyEBYmFr/O0fpM81+Z9eCxAKS5SSVFEW23XaZ5kn4Rlq8G4tx7tascriH0pqn04YnoY
+ SqrnXutMGDHn2A3mBOlt+SjfpQT0xsg=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-448-7Y7oDSIDMjG0smPaLXsYHA-1; Thu, 02 Jun 2022 17:31:42 -0400
+X-MC-Unique: 7Y7oDSIDMjG0smPaLXsYHA-1
+Received: by mail-io1-f71.google.com with SMTP id
+ y12-20020a5e920c000000b006657a63c653so3369743iop.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:31:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=B/1eqqbHZnQqzfEJFI/2PMisMT8zWNIw4xhukZQmi8Q=;
- b=MQNFvUNUjRkF5+Oj/k8aQM2nSeT5D+pYyK//gH1gCh56Bf5v4JTyrLjC4U0+JA577Y
- xKRSTQsWs7v5SPvGTGKi6r46prTAvMelusRUtylRoXGlvG4ck1qrEpeJ2IPslVh/6HVn
- 8FB8EJHR0bODNejSMHGZVvE7LgeuxLe/h9TAXUcphpMBfM3Jh/m3mqtQS0W+dQT/uKFU
- jew2P+jum5Xgn/8y8tPtBwNyHRWsbImtq+7Bli4Yn8+A6bs5sQXanPfYXDOUi4djDKCF
- mRiElk16ci0lyGQXC9PGc12RMk0w9ixZxAWhmDdlRuS8/MdTd83HkaSbdRa/Tpd+E/lS
- x7gw==
-X-Gm-Message-State: AOAM531aCF/cczbFYexYt7Ne+QQt+8+Krhr1dyCct8c94G79OAT3gAQl
- uJBp1MGo62gLxIN+H7vvFqX8fhe8njxovHYQfFSbOwWno9E=
-X-Google-Smtp-Source: ABdhPJwKW4JeFyoI54chyz2cWk2dZWekJhToO/7Dlpc/klI1T3tB3WkKbgxiJUpS1AAmIe1zrgsVE0eNKAnElADl81c=
-X-Received: by 2002:a37:917:0:b0:6a6:9a14:b542 with SMTP id
- 23-20020a370917000000b006a69a14b542mr458042qkj.562.1654205445841; Thu, 02 Jun
- 2022 14:30:45 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=hw4MgKQNblF9l4pE31H16oHL4jg05yW+PrT3Pnr9MLY=;
+ b=1CQbOSTG1N4ZNcKDzo/xm40y3VGhvYWI92Dm61Bxt7ZglgFkoQQwAeyjRfAh6r3+LZ
+ iKqJ3WVob7Nrc2X3KlA0O3wBMoACmvH1dAPQGIDCbBDd2DL1FVc4tQXn4LhrtuDa1nLR
+ tNOH1eMzl2IScz73R1OEQPNKZd7mNzzmvCZ9d+6etU1/UIgHRECOP/iyKA5oikBfosP0
+ qbAA2sxM3ElvJDt3MhX1QWjXx07rf6nj36di0wJebwVw7nMjvx2dyeFEUURdmqRD3nUk
+ A43lLDYTbjchirkw8cmZXroGG6YT3rqaFryeGIfPPXwCu4MVbJY9PmDIb1keXAKhs3Ig
+ W4gQ==
+X-Gm-Message-State: AOAM531uvCcYyr9lGJX7L+Vukcr6hY5eoW16nwDHuWNfdCT9XT7OlGea
+ yWBIoma1yMjAkCJWr7XKilXnajqYVYmmhRKAhUX7naUOofSxRKedci6IcM1Bb8oZjE2BMi3+Qjk
+ pqc89AMD34ABE0hE=
+X-Received: by 2002:a05:6638:f95:b0:314:58f9:5896 with SMTP id
+ h21-20020a0566380f9500b0031458f95896mr4125493jal.228.1654205500427; 
+ Thu, 02 Jun 2022 14:31:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMks+/qH2dHQbFrGhkKzNRzqVt+GhjhbFehqxIgKXi7DRT5jhG43dYTFUyx0A+u71ow5wEkQ==
+X-Received: by 2002:a05:6638:f95:b0:314:58f9:5896 with SMTP id
+ h21-20020a0566380f9500b0031458f95896mr4125484jal.228.1654205500193; 
+ Thu, 02 Jun 2022 14:31:40 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ c3-20020a056e020bc300b002d3a8969dd4sm1891064ilu.28.2022.06.02.14.31.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jun 2022 14:31:39 -0700 (PDT)
+Date: Thu, 2 Jun 2022 15:31:38 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Eric Auger
+ <eric.auger@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
+ qemu-devel@nongnu.org, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>
+Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
+Message-ID: <20220602153138.1624ddb5.alex.williamson@redhat.com>
+In-Reply-To: <6ae31bd1-2890-968c-a9b3-5ad4633d8bfd@redhat.com>
+References: <164392758602.1683127.4327439310436541025.stgit@omen>
+ <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
+ <20220207085045.1de46df1.alex.williamson@redhat.com>
+ <6ae31bd1-2890-968c-a9b3-5ad4633d8bfd@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Received: by 2002:ac8:7f14:0:0:0:0:0 with HTTP;
- Thu, 2 Jun 2022 14:30:45 -0700 (PDT)
-In-Reply-To: <43BCAA1E-7499-4584-AB60-C5004AA0643B@gmail.com>
-References: <20220513180957.90514-1-shentey@gmail.com>
- <43BCAA1E-7499-4584-AB60-C5004AA0643B@gmail.com>
-From: Bernhard Beschow <shentey@gmail.com>
-Date: Thu, 2 Jun 2022 23:30:45 +0200
-Message-ID: <CAG4p6K6kZHfC6KLoioozmGWomUoUZwceUQcU+Y9qDo9FraXfyQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] PIIX3-IDE XEN cleanup
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: qemu-trivial@nongnu.org, sstabellini@kernel.org, anthony.perard@citrix.com,
- paul@xen.org, xen-devel@lists.xenproject.org, 
- Bernhard Beschow <shentey@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, 
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000fc28c705e07db752"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=shentey@gmail.com; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,81 +105,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fc28c705e07db752
-Content-Type: text/plain; charset="UTF-8"
+On Mon, 7 Feb 2022 17:20:02 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-On Saturday, May 28, 2022, Bernhard Beschow <shentey@gmail.com> wrote:
-> Am 13. Mai 2022 18:09:54 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
->>v2:
->>* Have pci_xen_ide_unplug() return void (Paul Durrant)
->>* CC Xen maintainers (Michael S. Tsirkin)
->>
->>v1:
->>This patch series first removes the redundant "piix3-ide-xen" device
-class and
->>then moves a XEN-specific helper function from PIIX3 code to XEN code.
-The idea
->>is to decouple PIIX3-IDE and XEN and to compile XEN-specific bits only if
-XEN
->>support is enabled.
->>
->>Testing done:
->>'qemu-system-x86_64 -M pc -m 1G -cdrom archlinux-2022.05.01-x86_64.iso"
-boots
->>successfully and a 'poweroff' inside the VM also shuts it down correctly.
->>
->>XEN mode wasn't tested for the time being since its setup procedure seems
-quite
->>sophisticated. Please let me know in case this is an obstacle.
->>
->>Bernhard Beschow (3):
->>  hw/ide/piix: Remove redundant "piix3-ide-xen" device class
->>  hw/ide/piix: Add some documentation to pci_piix3_xen_ide_unplug()
->>  include/hw/ide: Unexport pci_piix3_xen_ide_unplug()
->>
->> hw/i386/pc_piix.c          |  3 +--
->> hw/i386/xen/xen_platform.c | 48 +++++++++++++++++++++++++++++++++++++-
->> hw/ide/piix.c              | 42 ---------------------------------
->> include/hw/ide.h           |  3 ---
->> 4 files changed, 48 insertions(+), 48 deletions(-)
->>
->
-> Ping
->
-> Whole series is reviewed/acked.
+> On 07/02/2022 16.50, Alex Williamson wrote:
+> > On Sat, 5 Feb 2022 10:49:35 +0000
+> > Peter Maydell <peter.maydell@linaro.org> wrote:
+> >  =20
+> >> On Thu, 3 Feb 2022 at 22:38, Alex Williamson <alex.williamson@redhat.c=
+om> wrote: =20
+> >>>
+> >>> The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb=
+3b359f:
+> >>>
+> >>>    Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pu=
+ll-request' into staging (2022-02-02 19:54:30 +0000)
+> >>>
+> >>> are available in the Git repository at:
+> >>>
+> >>>    git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203.0
+> >>>
+> >>> for you to fetch changes up to 36fe5d5836c8d5d928ef6d34e999d6991a2f73=
+2e:
+> >>>
+> >>>    hw/vfio/common: Silence ram device offset alignment error traces (=
+2022-02-03 15:05:05 -0700)
+> >>>
+> >>> ----------------------------------------------------------------
+> >>> VFIO fixes 2022-02-03
+> >>>
+> >>>   * Fix alignment warnings when using TPM CRB with vfio-pci devices
+> >>>     (Eric Auger & Philippe Mathieu-Daud=C3=A9) =20
+> >>
+> >> Hi; this has a format-string issue that means it doesn't build
+> >> on 32-bit systems:
+> >>
+> >> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
+> >>
+> >> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
+> >> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
+> >> type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
+> >> 'int'} [-Werror=3Dformat=3D]
+> >> error_report("%s received unaligned region %s iova=3D0x%"PRIx64
+> >> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> ../hw/vfio/common.c:899:26:
+> >> qemu_real_host_page_mask);
+> >> ~~~~~~~~~~~~~~~~~~~~~~~~
+> >>
+> >> For intptr_t you want PRIxPTR. =20
+> >=20
+> > Darn.  Well, let me use this opportunity to ask, how are folks doing
+> > 32-bit cross builds on Fedora?  I used to keep an i686 PAE VM for this
+> > purpose, but I was eventually no longer able to maintain the build
+> > dependencies.  Looks like this failed on a mipsel cross build, but I
+> > don't see such a cross compiler in Fedora.  I do mingw32/64 cross
+> > builds, but they leave a lot to be desired for code coverage.  Thanks, =
+=20
+>=20
+> The easiest way for getting more test coverage is likely to move your qem=
+u=20
+> repository from github to gitlab - then you get most of the CI for free,=
+=20
+> which should catch such issues before sending pull requests.
 
-Ping 2
+Well, it worked for a few months, but now pushing a tag to gitlab runs
+a whole 4 jobs vs the 124 jobs that it previously ran, so that's
+useless now :(  Thanks,
 
---000000000000fc28c705e07db752
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-On Saturday, May 28, 2022, Bernhard Beschow &lt;<a href=3D"mailto:shentey@g=
-mail.com">shentey@gmail.com</a>&gt; wrote:<br>&gt; Am 13. Mai 2022 18:09:54=
- UTC schrieb Bernhard Beschow &lt;<a href=3D"mailto:shentey@gmail.com">shen=
-tey@gmail.com</a>&gt;:<br>&gt;&gt;v2:<br>&gt;&gt;* Have pci_xen_ide_unplug(=
-) return void (Paul Durrant)<br>&gt;&gt;* CC Xen maintainers (Michael S. Ts=
-irkin)<br>&gt;&gt;<br>&gt;&gt;v1:<br>&gt;&gt;This patch series first remove=
-s the redundant &quot;piix3-ide-xen&quot; device class and<br>&gt;&gt;then =
-moves a XEN-specific helper function from PIIX3 code to XEN code. The idea<=
-br>&gt;&gt;is to decouple PIIX3-IDE and XEN and to compile XEN-specific bit=
-s only if XEN<br>&gt;&gt;support is enabled.<br>&gt;&gt;<br>&gt;&gt;Testing=
- done:<br>&gt;&gt;&#39;qemu-system-x86_64 -M pc -m 1G -cdrom archlinux-2022=
-.05.01-x86_64.iso&quot; boots<br>&gt;&gt;successfully and a &#39;poweroff&#=
-39; inside the VM also shuts it down correctly.<br>&gt;&gt;<br>&gt;&gt;XEN =
-mode wasn&#39;t tested for the time being since its setup procedure seems q=
-uite<br>&gt;&gt;sophisticated. Please let me know in case this is an obstac=
-le.<br>&gt;&gt;<br>&gt;&gt;Bernhard Beschow (3):<br>&gt;&gt;=C2=A0 hw/ide/p=
-iix: Remove redundant &quot;piix3-ide-xen&quot; device class<br>&gt;&gt;=C2=
-=A0 hw/ide/piix: Add some documentation to pci_piix3_xen_ide_unplug()<br>&g=
-t;&gt;=C2=A0 include/hw/ide: Unexport pci_piix3_xen_ide_unplug()<br>&gt;&gt=
-;<br>&gt;&gt; hw/i386/pc_piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3=
- +--<br>&gt;&gt; hw/i386/xen/xen_platform.c | 48 ++++++++++++++++++++++++++=
-+++++++++++-<br>&gt;&gt; hw/ide/piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 42 ---------------------------------<br>&gt;&gt; include/hw=
-/ide.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 ---<br>&gt;&gt; 4 =
-files changed, 48 insertions(+), 48 deletions(-)<br>&gt;&gt;<br>&gt;<br>&gt=
-; Ping<br>&gt;<br>&gt; Whole series is reviewed/acked.<br><br>Ping 2
-
---000000000000fc28c705e07db752--
 
