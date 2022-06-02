@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C376153B8D5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 14:13:20 +0200 (CEST)
-Received: from localhost ([::1]:45812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212D953B8CD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 14:10:33 +0200 (CEST)
+Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwjhX-0003vZ-RX
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 08:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46862)
+	id 1nwjeq-00018p-71
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 08:10:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTS-0000Uf-0W
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:58:46 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:52839)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTT-0000Yf-EZ
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:58:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:44991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTQ-0001DC-6z
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:58:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTR-0001Dy-OX
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:58:47 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MacWq-1nLl1u2Qwc-00c8yo; Thu, 02
- Jun 2022 13:58:40 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mk0BK-1nTyDx0Jgm-00kMAq; Thu, 02
+ Jun 2022 13:58:41 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 03/19] target/m68k: Raise the TRAPn exception with the correct
- pc
-Date: Thu,  2 Jun 2022 13:58:21 +0200
-Message-Id: <20220602115837.2013918-4-laurent@vivier.eu>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 04/19] target/m68k: Switch over exception type in
+ m68k_interrupt_all
+Date: Thu,  2 Jun 2022 13:58:22 +0200
+Message-Id: <20220602115837.2013918-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220602115837.2013918-1-laurent@vivier.eu>
 References: <20220602115837.2013918-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ltkQRhIAjDRTaKjTXT+IRcKvQIyZQsLXbUR9bDbhZ79QlzA6Q4m
- gB0AQaMf/3s0NKG/VvSD6eANX2L/uUX+nvGLfPSfMQCOL4veC0hFuDi1buNZtS/Yz3vpI17
- u+YtGWIthZgFUkQzC1oorZRbXUkjj67P1B/0Pb2cpKd20IpwWRpgp+buOVk2j9snmb1OFhN
- 0k3Gt9dVFf1evam+NG8pg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rajuMxlQMPg=:COhWzAfA/M6RrO2jQH0iqv
- 4jfxgAeixx48fK2tQ+hnyuLJQ34+AfafOT7LDYbk3Wlk2xKcgDVYckbHuJ/Xs3mmbNbfJ6HRK
- IHg+93U8VsVuD9MTCDXErkDseb+lnOIjMApBP96NOFRvIvxg2T8WqNhj34LofaYSUSIAqNqBM
- jt8IjCQmVY/+U19kieBAaou0IGJN5OB6fsEwnmDNXouiuQHcXBIFw6IuggwcYh63vA3J+SdHw
- HHMzxB9VfX3nLFYAFXjv31g5WrElk2Zc/jwMFxD0zxh1Jp84ABrR7rAwUVaGCuyasNYPasYMa
- vPLrOkVvrNtXkdi3WWT+4LNqfzkZi1CyzvYV5rf520n4p4cuWoaiphe9ic1Avly4mLSpiBtQH
- UQgpiQK11H+QxpB1uyiIfj3tmqG3BBwLF/Y6hdqFtigl4ckiFuLn+PGKpsnwYID4PotOAka8K
- aHr1qGqk8u1wQbLZoztl+i0HZkILDlGAobZGaDtuNYIaFZI3Gek2hJUrGbUG2U4HQWwHciH1P
- DFjm6OC+m2pgiJWhMtefTnGo/ucJBYvEHu8cFYR1V9TSZwdCd0q0vZ1N5CXg/aw5n1vztDF3s
- KdRJJTlEoOrWxggBvLPHA2emiciMqT8XYQG8UIRrl+Y0ODccTunCEYX/npWZToEGNon92sVeE
- 9+CbvqLkfEFuxIz2jVWqbDrscSvg5SN1daFr3mHQko+o9IfLJf5H2f3nqxWyRBA+CkEOthFxW
- EqzPVkyV7LAp4Q7W+2PpGjXQRv2/bh3O3ytfjQ==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:3yy/6cRXLahJTt3MX413aSaYxSs4uxAnqC7280jofzISyv8LfxY
+ JkJzon5lj5U7e21UtFV6Iv7NsQcJcQZBDOZcMCA0NRWaxZOeTyz4bpUOZw4zXPIn5KVmlXu
+ vEmlj8TOa5HbGyEyOZZITK+zcJm8XqEK4o2JUBCJVb9Ek4NzjIOsr2lwS20anu14NNGWtKl
+ vSzDfccZw+JPQGlhYtpcA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tnIFgJhjMcw=:enrsHJTck8WR1NsvOqhQDV
+ AL8QzDXCpPiWPZQhAYWLR70bjBXKfogyMRt6+KUqAYhI9JS+4lp45BLhe7ybLFU3FMOp057Xk
+ pCr2xK1SHmYOQXvUYe0Uxkxf7j7a4rzF8iXACpPSrK0svtDiWOXVMW6Dt/Q99EQunGNurGCVz
+ AqC8XyMT1KU6KzYRuRrv6lPCG/wbO/OrDLZtWZvL09p31OUTyN3ndUIOePvY7w9f13AMuNWqb
+ /swPXCzndP+PrX3gwLUQp8lMfJbFI0d+GqzEgtka87Ga1WM3wfPzlyoKduCq+sMTk7VKVK1cR
+ 2iJku8ETamL5L1K0t3SCJ8h/ZuXrgloemd93fKWCSJsOJAZV5ISTJUmWKOCoc9rE0BC7hDYBn
+ drtyaTEPtGIUaTqK6mvIK0NkDWqwiN3zQkk5cVfybO1Sd96xNN1kh5qfVxHNPWCbheuGFd57U
+ pPgqcG8UmNJNKqJOTtytHda2Aw7UC4qrv+zNtCNHn+Q+m1A0d76tJHFpH67sdjaVTX4SLAIPg
+ w6ntxmIEez2bbDLY7aB5+CdFjPI1P492JD+c4lHKfmsP/zIahFUuCkO51eok8gN7prh6B35ST
+ o47DI91Y4vygzRoRHxz58KPJx9/nra7xwSu55GaLMemI3rCqf1/LavsqQOrpYK1CnqVx/T8zh
+ aqHW8HllYYAi4JP49hWYTtTqHqpju4JS1V4Gj7BvgwQJ4AjdBFBLYlSfXnO/D0/3gcMnvkMwE
+ 9ZgFPojmwi8xYzmSFhldDlrnyNcpEgkp9XAypA==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,71 +76,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Rather than adjust the PC in all of the consumers, raise
-the exception with the correct PC in the first place.
+Replace an if ladder with a switch for clarity.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220602013401.303699-2-richard.henderson@linaro.org>
+Message-Id: <20220602013401.303699-3-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/m68k/cpu_loop.c | 1 -
- target/m68k/op_helper.c    | 9 ---------
- target/m68k/translate.c    | 2 +-
- 3 files changed, 1 insertion(+), 11 deletions(-)
+ target/m68k/op_helper.c | 49 +++++++++++++++++++++++++----------------
+ 1 file changed, 30 insertions(+), 19 deletions(-)
 
-diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
-index d1bf8548b747..56417f7401dd 100644
---- a/linux-user/m68k/cpu_loop.c
-+++ b/linux-user/m68k/cpu_loop.c
-@@ -56,7 +56,6 @@ void cpu_loop(CPUM68KState *env)
-             {
-                 abi_long ret;
-                 n = env->dregs[0];
--                env->pc += 2;
-                 ret = do_syscall(env,
-                                  n,
-                                  env->dregs[1],
 diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 8decc612409c..d30f988ae089 100644
+index d30f988ae089..2b94a6ec84de 100644
 --- a/target/m68k/op_helper.c
 +++ b/target/m68k/op_helper.c
-@@ -217,11 +217,6 @@ static void cf_interrupt_all(CPUM68KState *env, int is_hw)
-             cpu_loop_exit(cs);
-             return;
-         }
--        if (cs->exception_index >= EXCP_TRAP0
--            && cs->exception_index <= EXCP_TRAP15) {
--            /* Move the PC after the trap instruction.  */
--            retaddr += 2;
--        }
+@@ -333,7 +333,8 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+         sp &= ~1;
      }
  
-     vector = cs->exception_index << 2;
-@@ -304,10 +299,6 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-             /* Return from an exception.  */
-             m68k_rte(env);
-             return;
--        case EXCP_TRAP0 ...  EXCP_TRAP15:
--            /* Move the PC after the trap instruction.  */
--            retaddr += 2;
--            break;
+-    if (cs->exception_index == EXCP_ACCESS) {
++    switch (cs->exception_index) {
++    case EXCP_ACCESS:
+         if (env->mmu.fault) {
+             cpu_abort(cs, "DOUBLE MMU FAULT\n");
          }
+@@ -391,29 +392,39 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+                      "ssw:  %08x ea:   %08x sfc:  %d    dfc: %d\n",
+                      env->mmu.ssw, env->mmu.ar, env->sfc, env->dfc);
+         }
+-    } else if (cs->exception_index == EXCP_ADDRESS) {
++        break;
++
++    case EXCP_ADDRESS:
+         do_stack_frame(env, &sp, 2, oldsr, 0, retaddr);
+-    } else if (cs->exception_index == EXCP_ILLEGAL ||
+-               cs->exception_index == EXCP_DIV0 ||
+-               cs->exception_index == EXCP_CHK ||
+-               cs->exception_index == EXCP_TRAPCC ||
+-               cs->exception_index == EXCP_TRACE) {
++        break;
++
++    case EXCP_ILLEGAL:
++    case EXCP_DIV0:
++    case EXCP_CHK:
++    case EXCP_TRAPCC:
++    case EXCP_TRACE:
+         /* FIXME: addr is not only env->pc */
+         do_stack_frame(env, &sp, 2, oldsr, env->pc, retaddr);
+-    } else if (is_hw && oldsr & SR_M &&
+-               cs->exception_index >= EXCP_SPURIOUS &&
+-               cs->exception_index <= EXCP_INT_LEVEL_7) {
+-        do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
+-        oldsr = sr;
+-        env->aregs[7] = sp;
+-        cpu_m68k_set_sr(env, sr &= ~SR_M);
+-        sp = env->aregs[7];
+-        if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
+-            sp &= ~1;
++        break;
++
++    case EXCP_SPURIOUS ... EXCP_INT_LEVEL_7:
++        if (is_hw && oldsr & SR_M) {
++            do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
++            oldsr = sr;
++            env->aregs[7] = sp;
++            cpu_m68k_set_sr(env, sr &= ~SR_M);
++            sp = env->aregs[7];
++            if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
++                sp &= ~1;
++            }
++            do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
++            break;
+         }
+-        do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
+-    } else {
++        /* fall through */
++
++    default:
+         do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
++        break;
      }
  
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index e4efd988d2db..22e5379d3c64 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -4860,7 +4860,7 @@ DISAS_INSN(wdebug)
- 
- DISAS_INSN(trap)
- {
--    gen_exception(s, s->base.pc_next, EXCP_TRAP0 + (insn & 0xf));
-+    gen_exception(s, s->pc, EXCP_TRAP0 + (insn & 0xf));
- }
- 
- static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
+     env->aregs[7] = sp;
 -- 
 2.36.1
 
