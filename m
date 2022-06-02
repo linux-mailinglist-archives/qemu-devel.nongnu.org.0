@@ -2,70 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF28A53B4DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:18:07 +0200 (CEST)
-Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC3E53B515
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:26:54 +0200 (CEST)
+Received: from localhost ([::1]:47138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwg1u-0000Vy-7d
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:18:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
+	id 1nwgAP-0007Mx-8I
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwfwH-0005qC-0b; Thu, 02 Jun 2022 04:12:17 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35182)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwg5j-0004EA-24; Thu, 02 Jun 2022 04:22:03 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:60179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwfwB-0004ec-Tf; Thu, 02 Jun 2022 04:12:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Vp+QJrwgr/aQupeFGotl5JzKWoU6mmMEhWgTnHh6gQg=; b=a0rpUNPkPnSK9OJUf5FCII4TPq
- lXm3Gf/7uxqp5y+8mgR5xkxyhdg4BjP4SSgecdbubntPq57j2uQ0B6ybya4HazVCjCJDKFCfoRlw5
- wWmkNv3c6gTV4FdRcZevYQjgUxb6JuN2XvgAuCuOFcIpaCGm02tg3FypWZclIiBpNGjsWVbkF51LV
- 4ZoCjSQMxSZ2qktBrxot8IH7Asrb3mwbMd1rZ3JutTT8hAb80/YR25zBIXdH0p/7IN4mDU2L8suwM
- SJggtZLKRsd6T+3Q/cs1C7qF5i1kQFmP4yIRc+teT37GFTLjTjnYR9p5vD4wTslHB78UN015GaJSX
- Z0nSSXtCCO3YSi12TSISaD/0AN2mJc8yssCKvR4Eu1qq5AnLSf8DzHcE711R+giCdSSkng81szhCK
- 7tn46RKh4P7hP0ASYfK3s5kajs2Jx4OQ2oLSw6+xPdkklk3Q64P0pKK8rmLIdaEtSjM4qiSIgrel/
- gj8SK4mLubH2nMitJ+dyejruB3QwiW63rt5CmNueSOH82d777rjFSOOFzQ9D7vDF6JBFGk3pR9n3M
- LsIJbs1yaJ2lUAi/tdL87/YYIm0rRLWU5CkN2R8302ZvpOb4nwLV8da8Z+iwas6h+hnMlAzZ50zdj
- eqR0n/FTx7HSf0EbJ2RGt+oxJaTdrMc2ptcP9IkH8=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nwfv6-0003E9-Mu; Thu, 02 Jun 2022 09:11:05 +0100
-Message-ID: <84beb434-af3c-d882-bce8-869754828a04@ilande.co.uk>
-Date: Thu, 2 Jun 2022 09:12:06 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nwg5g-0000C8-CV; Thu, 02 Jun 2022 04:22:02 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 2BC04320083A;
+ Thu,  2 Jun 2022 04:21:54 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 02 Jun 2022 04:21:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1654158113; x=1654244513; bh=hZ
+ ErQfnGoKLmWjUV63hZgghgsRf/BW5z8nnzt25JSOM=; b=m1s7uI7Mx8vfzGuhBP
+ /IyUTIpEPzaXX4W5V64GXiv0B58TO3GlKut1Yasf+HXo8RY1saV93liP9eUYSSE6
+ H9ZwpJCsGZK6rTBT71yFfj3cOs4qioTuU0RMQrWsEVhHcUt2AvyzgaLPnR8+BKdk
+ OLLNZ+7eiAsfil50uN31Ksfnkz9V7uH14yIEANQ65pbBcXRSgEPucKQc0IKg5eka
+ LUdqbW27GgYBMc+cUlIbmC8LUM9kNKMr26FpMKUxzKwTFtyD0aEusSCQ1T0ge6uF
+ s1/yVOWS47hCw0oR/NBS2Y8z5V6slm0i0geKOFCSGRxPjFaxaEXwCxNFf/fW5x7I
+ t57Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1654158113; x=1654244513; bh=hZErQfnGoKLmWjUV63hZgghgsRf/
+ BW5z8nnzt25JSOM=; b=r9v0zjVzvVh/o1USHBWQx2GmN5TvorefoBaKQBTQ38rZ
+ fThSBptN1sDnamDUhLKPl2Ci3Gvt365OhsAKbE46Exp0TzfFD5rvd9RRsFPROoaN
+ dlJCMMoFCysIYBMwSUZJ6n557APqtxA/LMUlQ8NMjFp3qP/IZg08K0FsZlykRRMM
+ YiFmosJ7bf21v34h7w17cflCTwzp9l8YLJ4tXyfI3ntQIsDDWVT0yw7GhuMPs4HU
+ 8yc4JgI1MiJswY7PFGcTwSB6S9WYKJCx+brpzEHU3I1ExXAbJjiYlaVf7RaLu0E5
+ KCHsKH0df71/jyOe6Q1oZRxBk5PjNfWk63jAYC/lTw==
+X-ME-Sender: <xms:IHOYYo5sCWnTceiYj434OZXjIMDQxzjVSk_FQEu6k53tNbeQxproSw>
+ <xme:IHOYYp7oaK8AxaHN7rN1rmQQjkcy4YmENWPy1cbgKBqcG_OyM0AeMfDrikkWS7g_1
+ HWZcitTV9f7a-sugK4>
+X-ME-Received: <xmr:IHOYYndXsV2t4Z4WngbdqfzfEfaLVFqJl-Ja31Tb8xy9IKwyKr-fyDfY8IrRrqWLchxKPCvB8AKi2agPiw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledvgddtudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeetvddtteeiffekgfelffdvjeehhffgvdfhgeejfeejteelvefhkeetlefffeek
+ vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenucevlh
+ hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhr
+ vghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:IHOYYtKTrlFnzX-eckxHmLBsKGVZH31R8qnYkOTYzjpsLJlRZX1pcQ>
+ <xmx:IHOYYsJg_z0pEPkZGENlzw2pLdEmRS4qPxvR85XyTfA2mTbGNRcN9A>
+ <xmx:IHOYYuwaacbULPwp8Sl189St086kxBD1MG7pfGHhVm4WFykz_EC1jg>
+ <xmx:IXOYYuAUVgDiT08laKTIjWk_bsNBWiMtQaHWS7nu9glvld_bKKFjDg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jun 2022 04:21:50 -0400 (EDT)
+Date: Thu, 2 Jun 2022 10:21:48 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ qemu-arm@nongnu.org, Peter Delevoryas <pdel@fb.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>,
+ Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
+Message-ID: <YphzHGNYErSMEfPw@apples>
+References: <20220601210831.67259-1-its@irrelevant.dk>
+ <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
- fbarrat@linux.ibm.com
-References: <20220531214917.31668-1-danielhb413@gmail.com>
- <20220531214917.31668-12-danielhb413@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220531214917.31668-12-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 11/16] ppc/pnv: add pnv-phb-root-port device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sARqXn+SLAwKtpH8"
+Content-Disposition: inline
+In-Reply-To: <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,181 +110,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/05/2022 22:49, Daniel Henrique Barboza wrote:
 
-> We have two very similar root-port devices, pnv-phb3-root-port and
-> pnv-phb4-root-port. Both consist of a wrapper around the PCIESlot device
-> that, until now, has no additional attributes.
-> 
-> The main difference between the PHB3 and PHB4 root ports is that
-> pnv-phb4-root-port has the pnv_phb4_root_port_reset() callback. All
-> other differences can be merged in a single device without too much
-> trouble.
-> 
-> This patch introduces the unified pnv-phb-root-port that, in time, will
-> be used as the default root port for the pnv-phb device.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   hw/pci-host/pnv_phb.c | 107 ++++++++++++++++++++++++++++++++++++++----
->   hw/pci-host/pnv_phb.h |  17 +++++++
->   2 files changed, 116 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-> index 321c4e768a..5047e90d3a 100644
-> --- a/hw/pci-host/pnv_phb.c
-> +++ b/hw/pci-host/pnv_phb.c
-> @@ -114,15 +114,106 @@ static void pnv_phb_class_init(ObjectClass *klass, void *data)
->       dc->user_creatable = true;
->   }
->   
-> -static void pnv_phb_register_type(void)
-> +static void pnv_phb_root_port_reset(DeviceState *dev)
->   {
-> -    static const TypeInfo pnv_phb_type_info = {
-> -        .name          = TYPE_PNV_PHB,
-> -        .parent        = TYPE_PCIE_HOST_BRIDGE,
-> -        .instance_size = sizeof(PnvPHB),
-> -        .class_init    = pnv_phb_class_init,
-> -    };
-> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
-> +    PnvPHBRootPort *rootport = PNV_PHB_ROOT_PORT(dev);
-> +    PCIDevice *d = PCI_DEVICE(dev);
-> +    uint8_t *conf = d->config;
->   
-> +    rpc->parent_reset(dev);
-> +
-> +    if (rootport->version == 3) {
-> +        return;
-> +    }
-> +
-> +    /* PHB4 and later requires these extra reset steps */
-> +    pci_byte_test_and_set_mask(conf + PCI_IO_BASE,
-> +                               PCI_IO_RANGE_MASK & 0xff);
-> +    pci_byte_test_and_clear_mask(conf + PCI_IO_LIMIT,
-> +                                 PCI_IO_RANGE_MASK & 0xff);
-> +    pci_set_word(conf + PCI_MEMORY_BASE, 0);
-> +    pci_set_word(conf + PCI_MEMORY_LIMIT, 0xfff0);
-> +    pci_set_word(conf + PCI_PREF_MEMORY_BASE, 0x1);
-> +    pci_set_word(conf + PCI_PREF_MEMORY_LIMIT, 0xfff1);
-> +    pci_set_long(conf + PCI_PREF_BASE_UPPER32, 0x1); /* Hack */
-> +    pci_set_long(conf + PCI_PREF_LIMIT_UPPER32, 0xffffffff);
-> +    pci_config_set_interrupt_pin(conf, 0);
-> +}
-> +
-> +static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
-> +{
-> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
-> +    PCIDevice *pci = PCI_DEVICE(dev);
-> +    PCIBus *bus = pci_get_bus(pci);
-> +    PnvPHB *phb = NULL;
-> +    Error *local_err = NULL;
-> +
-> +    phb = (PnvPHB *) object_dynamic_cast(OBJECT(bus->qbus.parent),
-> +                                          TYPE_PNV_PHB);
+--sARqXn+SLAwKtpH8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Same here too.
+On Jun  2 09:52, C=C3=A9dric Le Goater wrote:
+> On 6/1/22 23:08, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Hi all,
+> >=20
+> > This RFC series adds I2C "slave mode" support for the Aspeed I2C
+>=20
+> I think you can remove the RFC prefix.
+>=20
+> > controller as well as the necessary infrastructure in the i2c core to
+> > support this.
+> >=20
+> > v2 changes
+> > ~~~~~~~~~~
+> > I finally got around to working on this again. I'm sorry for not
+> > bringing a v2 to the table earlier.
+> >=20
+> > Mad props to Peter and Jonathan for putting this series to work and
+> > pushing it forward! Thanks!
+> >=20
+> > This series is based off C=C3=A9dric's aspeed-7.1 tree, so it includes =
+the
+> > register fields. This is all "old register mode", but Peter seems to
+> > have added support in new mode.
+> >=20
+> > There are some loose ends of course, i.e send_async doesn't handle
+> > broadcast and asynchronous slaves being sent stuff can't nack. But I
+> > wanted to get some feedback on the interface before I tackle that.
+> >=20
+> > This series
+> > ~~~~~~~~~~~
+> > Patch 1 and 2 are small Aspeed I2C changes/additions.
+> >=20
+> > Patch 3 adds support for multiple masters in the i2c core, allowing
+> > slaves to master the bus and (safely) issue i2c_send/recv().
+> >=20
+> > Patch 4 adds an asynchronous send i2c_send_async(I2CBus *, uint8) on the
+> > bus that must be paired with an explicit ack using i2c_ack(I2CBus *). We
+> > have previously discussed how we wanted to handle the issue that some
+> > slaves implement this and some do not. Using a QOM interface was up, but
+> > couldn't figure out a good way to do it. I ended up decided against it
+> > since I believe this have to be a run-time check anyway. The problem is
+> > that a slave can master the bus and try to communicate with *anyone* on
+> > the bus - and there is no reason why we should only allow asynchronous
+> > slaves on the bus in that case, or whatever we would want to do when
+> > devices are plugged. So, instead, the current master can issue an
+> > i2c_start_send() and if that fails (because it isnt implemented by the
+> > target slave) it can either bail out or use i2c_start_send_async() if it
+> > itself supports it. This works the other way around as well of course,
+> > but it is probably simpler to handle slaves that respond to
+> > i2c_start_send(). This approach relies on adding a new i2c_event, which
+> > is why a bunch of other devices needs changes in their event handling.
+> >=20
+> > Patch 5 adds *partial* slave mode functionality to the emulated Aspeed
+> > I2C controller, that is, it only supports asynchronous sends started by
+> > another slave that is currently mastering the bus. No asynchronous
+> > receive.
+>=20
+> If there are no objections, I think this is a good way to move forward
+> and improve this initial implementation when the need arises.
+>=20
 
-> +    if (!phb) {
-> +        error_setg(errp,
-> +"pnv_phb_root_port devices must be connected to pnv-phb buses");
-> +        return;
-> +    }
-> +
-> +    /* Set unique chassis/slot values for the root port */
-> +    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
-> +    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
+There is an outstanding issue with the SLAVE_ADDR_RX_MATCH interrupt bit
+(bit 7). Remember from my first series I had a workaround to make sure
+it wasnt masked.
 
-Again this is from older code, but we already have dev so these could be:
+I posted this upstream to linux
 
-     qdev_prop_set_uint8(dev, "chassis", phb->chip_id);
-     qdev_prop_set_uint16(dev, "slot", phb->phb_id);
+  https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant.dk/
 
-> +    rpc->parent_realize(dev, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +    pci_config_set_interrupt_pin(pci->config, 0);
-> +}
-> +
-> +static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
-> +
-> +    dc->desc     = "IBM PHB PCIE Root Port";
-> +
-> +    device_class_set_parent_realize(dc, pnv_phb_root_port_realize,
-> +                                    &rpc->parent_realize);
-> +
-> +    device_class_set_parent_reset(dc, pnv_phb_root_port_reset,
-> +                                  &rpc->parent_reset);
-> +    dc->reset = &pnv_phb_root_port_reset;
-> +
-> +    dc->user_creatable = true;
-> +
-> +    k->vendor_id = PCI_VENDOR_ID_IBM;
-> +    /* device_id represents the latest PHB root port version supported */
-> +    k->device_id = PNV_PHB5_DEVICE_ID;
-> +    k->revision  = 0;
-> +
-> +    rpc->exp_offset = 0x48;
-> +    rpc->aer_offset = 0x100;
-> +}
-> +
-> +static const TypeInfo pnv_phb_type_info = {
-> +    .name          = TYPE_PNV_PHB,
-> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
-> +    .instance_size = sizeof(PnvPHB),
-> +    .class_init    = pnv_phb_class_init,
-> +};
-> +
-> +static const TypeInfo pnv_phb_root_port_info = {
-> +    .name          = TYPE_PNV_PHB_ROOT_PORT,
-> +    .parent        = TYPE_PCIE_ROOT_PORT,
-> +    .instance_size = sizeof(PnvPHBRootPort),
-> +    .class_init    = pnv_phb_root_port_class_init,
-> +};
-> +
-> +static void pnv_phb_register_types(void)
-> +{
->       type_register_static(&pnv_phb_type_info);
-> +    type_register_static(&pnv_phb_root_port_info);
->   }
-> -type_init(pnv_phb_register_type)
-> +
-> +type_init(pnv_phb_register_types)
-> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
-> index a7cc8610e2..c8eab4b767 100644
-> --- a/hw/pci-host/pnv_phb.h
-> +++ b/hw/pci-host/pnv_phb.h
-> @@ -36,4 +36,21 @@ struct PnvPHB {
->   #define TYPE_PNV_PHB "pnv-phb"
->   OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
->   
-> +/*
-> + * PHB PCIe Root port
-> + */
-> +#define PNV_PHB3_DEVICE_ID         0x03dc
-> +#define PNV_PHB4_DEVICE_ID         0x04c1
-> +#define PNV_PHB5_DEVICE_ID         0x0652
-> +
-> +typedef struct PnvPHBRootPort {
-> +    PCIESlot parent_obj;
-> +
-> +    uint32_t version;
-> +} PnvPHBRootPort;
-> +
-> +#define TYPE_PNV_PHB_ROOT_PORT "pnv-phb-root-port"
-> +#define PNV_PHB_ROOT_PORT(obj) \
-> +    OBJECT_CHECK(PnvPHBRootPort, obj, TYPE_PNV_PHB_ROOT_PORT)
-> +
->   #endif /* PCI_HOST_PNV_PHB_H */
+Not sure if that is the right way to fix it. You mentioned something
+about "fixing" a mask on the ast2600?
 
+But with the above patch, all works an intended and no "workaround"
+required.
 
-ATB,
+> > Finally, patch 6 adds an example device using this new API. The device
+> > is a simple "echo" device that upon being sent a set of bytes uses the
+> > first byte as the address of the slave to echo to.
+> >=20
+> > With this combined I am able to boot up Linux on an emulated Aspeed 2600
+> > evaluation board and have the i2c echo device write into a Linux slave
+> > EEPROM. Assuming the echo device is on address 0x42:
+> >=20
+> >    # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-15/new_device
+> >    i2c i2c-15: new_device: Instantiated device slave-24c02 at 0x64
+> >    # i2cset -y 15 0x42 0x64 0x00 0xaa i
+> >    # hexdump /sys/bus/i2c/devices/15-1064/slave-eeprom
+> >    0000000 ffaa ffff ffff ffff ffff ffff ffff ffff
+> >    0000010 ffff ffff ffff ffff ffff ffff ffff ffff
+> >    *
+> >    0000100
+>=20
+> I have started working on buildroot images  :
+>=20
+>   https://github.com/legoater/buildroot/commits/aspeed
+>=20
+> The resulting files are quite small :
+>=20
+>     $ ll output/images/
+>     total 86040
+>     drwxr-xr-x 2 legoater legoater     4096 Jun  1 20:01 ./
+>     drwxrwxr-x 6 legoater legoater     4096 Jun  1 19:40 ../
+>     -rwxr-xr-x 1 legoater legoater    36837 Jun  1 20:01 aspeed-ast2600-e=
+vb.dtb*
+>     -rw-r--r-- 1 legoater legoater 67108864 Jun  1 20:01 flash.img
+>     -rw-r--r-- 1 legoater legoater  6682796 Jun  1 20:01 image.itb
+>     -rw-r--r-- 1 legoater legoater     1846 Jun  1 20:01 image.its
+>     -rw-r--r-- 1 legoater legoater  3168768 Jun  1 20:01 rootfs.cpio
+>     -rw-r--r-- 1 legoater legoater  1026660 Jun  1 20:01 rootfs.cpio.xz
+>     -rw-r--r-- 1 legoater legoater  3788800 Jun  1 20:01 rootfs.tar
+>     -rw-r--r-- 1 legoater legoater   653777 Jun  1 20:00 u-boot.bin
+>     -rw-r--r-- 1 legoater legoater  5617280 Jun  1 20:01 zImage
+>=20
+> I will probably host them on GH and we could use them under avocado
+> to extend the tests.
+>=20
+>=20
+> They should boot real HW. I will submit the defconfigs to buildroot
+> after more tests and cleanups.
+>=20
 
-Mark.
+Nice!
+
+--sARqXn+SLAwKtpH8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKYcxsACgkQTeGvMW1P
+DelkRgf/eX0z6D4zW0//xLTH2/VyVw/qz0cw8UFDkmmBjQc9PkNzMDTCbdJpovMI
+h/nhE/LlM933mGt1GJtlBrftPiE1ffrtUA/RrqbWPZHc44pNOFpa5XuNXUxHp8gh
+cJW0KXcyTb4QmCTFu3o8jHIy/U91ib0HqUPdOx6t2jivQSNmvw6n6wRkDBzTetQr
+F6lmd1q4qXIqiSDCCdyYOKEoskHVg4vKwJnWH0z07YoRCJ7Jh+m7MOzxbTsH42QI
+GDlSj0TESa1ShR7GLxJdNdZg0z0bs92REQqJbQJ92hJtiB0CYW5NTIdVoheHDY1j
+QCxNavdQuHu5es8EkyOd6LNHDqbbLQ==
+=xNxy
+-----END PGP SIGNATURE-----
+
+--sARqXn+SLAwKtpH8--
 
