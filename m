@@ -2,46 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA92153C071
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 23:41:55 +0200 (CEST)
-Received: from localhost ([::1]:41032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC1C53C07F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 23:52:41 +0200 (CEST)
+Received: from localhost ([::1]:48520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwsZn-0001t0-02
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 17:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
+	id 1nwskC-0007iR-El
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 17:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1nwsXU-0008Ib-G6; Thu, 02 Jun 2022 17:39:32 -0400
-Received: from mout-u-107.mailbox.org ([2001:67c:2050:101:465::107]:35908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1nwsXS-00070y-Hi; Thu, 02 Jun 2022 17:39:32 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LDfYC1S9Wz9sSr;
- Thu,  2 Jun 2022 23:39:27 +0200 (CEST)
-From: Lev Kujawski <lkujaw@member.fsf.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nwsgc-0004P9-Vb
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:48:58 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nwsgb-0008Tw-4n
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:48:58 -0400
+Received: by mail-pl1-x631.google.com with SMTP id h1so5510463plf.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OitQ2SIT8JxOXgi8ExKWXndeS9DSsD7obLpaP8kADgM=;
+ b=w4eHUhhNiLNhw8bPvnHInRKMQrctc6eok8ivDZSlP2k1cnFOyb2IZALnWirN6eaygc
+ 6e+YbLM8rUU+EYIDfcv6aJczjp9CkmAQqmr/UIhcaf0sNar8bAbz1MjBEGGafkPdXXlt
+ A9Vah5b7oOkq9mPaTZJszw9nZswxQKbbsD+/+e1WGyxPaUt+KTcG1YF3Gc/vnEW4cJr2
+ MheL/nV7yC7GchFHGsN69xPZ/hafkivbEVz4Ml0gFN5CJJdduV9TV5WOLmDpGktrZvgs
+ QiST8DMVU8oVaWhgL54D4KfDzB5bvXsTZL1UUm1fSU30J8+NVX6oQTK9VDXe1US2T8zm
+ KcLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OitQ2SIT8JxOXgi8ExKWXndeS9DSsD7obLpaP8kADgM=;
+ b=Kp0hrcDUlQ+Y5nySfpI2r2y1P0B5G8ps1LGAuTvPrnJjqKZpwXKKASbJBOhHMsu4qd
+ +zrxkBGLvNvJBrYhQuu/ow5iFJYoOjA56495B7VwIGlWM6QXCdDoXCbWLZsVhAM4aVBT
+ IIqfei2OevZndIQ9U7+HvdMEl5sZYitGfipFoXkdCgXY8GzsKP9PRupDEAC6W/gUAdIv
+ yDad8sH1Krh+nGQ97EdymniLU39pBBiQvJc7c2pXSNVgd0fyG0TJsswMO2rhbGRXNGaR
+ mYxehIxy5e7CTiom2Hr+G6J/tKeXPricA7G20gZxxmMbe5zRUuzrX7M/MzTn+BLkSAk+
+ EZ0w==
+X-Gm-Message-State: AOAM532JzkXp2/xTm6vyq/Q4/24Zvjxbw5NFiML/a8OlVBQfDWJT3gJG
+ pbell9KShqtydjPaFJ3zuYxpUskQGbU35A==
+X-Google-Smtp-Source: ABdhPJxuBIvFbHnvCwvyZRLSFxTjoq6RctF7fugrXKx/dIYAjSW2i0Flvnn9Or9SAYUbMI2OvB7E/Q==
+X-Received: by 2002:a17:90b:33ca:b0:1dc:e5b8:482b with SMTP id
+ lk10-20020a17090b33ca00b001dce5b8482bmr42242549pjb.165.1654206534729; 
+ Thu, 02 Jun 2022 14:48:54 -0700 (PDT)
+Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
+ by smtp.gmail.com with ESMTPSA id
+ bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.48.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jun 2022 14:48:54 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Lev Kujawski <lkujaw@member.fsf.org>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org (open list:IDE)
-Subject: [PATCH 1/1] hw/ide/core: Accumulate PIO output within io_buffer prior
- to pwritev
-Date: Thu,  2 Jun 2022 21:39:04 +0000
-Message-Id: <20220602213904.19533-2-lkujaw@member.fsf.org>
-In-Reply-To: <20220602213904.19533-1-lkujaw@member.fsf.org>
-References: <20220602213904.19533-1-lkujaw@member.fsf.org>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH 00/71] target/arm: Scalable Matrix Extension
+Date: Thu,  2 Jun 2022 14:47:42 -0700
+Message-Id: <20220602214853.496211-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2050:101:465::107;
- envelope-from=lkujaw@member.fsf.org; helo=mout-u-107.mailbox.org
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,179 +86,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Delay writing PIO output until io_buffer is filled or ATA command
-completion, rather than when interrupts are generated.  As an example
-of the new behavior, issuing WRITE SECTOR(S) with a sector count of
-256 will result in only a single call to blk_aio_pwritev rather than
-after each of the 256 sectors are transferred.  Up to a 50% increase
-in PIO throughput can be achieved thanks to the reduction in system
-call overhead and writing larger blocks (up to 128 KiB, with the size
-limited by IDE_DMA_BUF_SECTORS).
+Implement FEAT_SME and most optional extensions, which are really
+pretty trivial compared to the main feature.  FEAT_EBF16 is still
+on the to-do list.
 
-Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
----
- hw/ide/core.c             | 62 ++++++++++++++++++++++++---------------
- include/hw/ide/internal.h |  1 +
- 2 files changed, 39 insertions(+), 24 deletions(-)
+Includes linux-user support, based on Mark Brown's code that has been
+merged into linux 5.19-rc1.
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 5a24547e49..b178584bc3 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -1025,23 +1025,20 @@ static void ide_sector_write_cb(void *opaque, int ret)
- 
-     block_acct_done(blk_get_stats(s->blk), &s->acct);
- 
--    n = s->nsector;
--    if (n > s->req_nb_sectors) {
--        n = s->req_nb_sectors;
--    }
--    s->nsector -= n;
--
-+    n = (s->data_end - s->io_buffer) >> BDRV_SECTOR_BITS;
-     ide_set_sector(s, ide_get_sector(s) + n);
-+    n %= s->req_nb_sectors;
-+    s->nsector -= n ? n : s->req_nb_sectors;
-+
-     if (s->nsector == 0) {
-         /* no more sectors to write */
-         ide_transfer_stop(s);
-     } else {
--        int n1 = s->nsector;
--        if (n1 > s->req_nb_sectors) {
--            n1 = s->req_nb_sectors;
--        }
--        ide_transfer_start(s, s->io_buffer, n1 * BDRV_SECTOR_SIZE,
--                           ide_sector_write);
-+        const int n1 =
-+            (MIN(IDE_DMA_BUF_SECTORS, s->nsector)) << BDRV_SECTOR_BITS;
-+        s->octets_until_irq =
-+            (MIN(s->nsector, s->req_nb_sectors)) << BDRV_SECTOR_BITS;
-+        ide_transfer_start(s, s->io_buffer, n1, ide_sector_write);
-     }
- 
-     if (win2k_install_hack && ((++s->irq_count % 16) == 0)) {
-@@ -1063,14 +1060,21 @@ static void ide_sector_write(IDEState *s)
-     int64_t sector_num;
-     int n;
- 
--    s->status = READY_STAT | SEEK_STAT | BUSY_STAT;
--    sector_num = ide_get_sector(s);
-+    assert(s->octets_until_irq == 0);
- 
--    n = s->nsector;
--    if (n > s->req_nb_sectors) {
--        n = s->req_nb_sectors;
-+    if (s->data_ptr < s->data_end) {
-+        s->nsector -= s->req_nb_sectors;
-+        s->octets_until_irq =
-+            (MIN(s->nsector, s->req_nb_sectors)) << BDRV_SECTOR_BITS;
-+        s->status = READY_STAT | SEEK_STAT | DRQ_STAT;
-+        ide_set_irq(s->bus);
-+        return;
-     }
- 
-+    s->status = READY_STAT | SEEK_STAT | BUSY_STAT;
-+    sector_num = ide_get_sector(s);
-+    n = (s->data_end - s->io_buffer) >> BDRV_SECTOR_BITS;
-+
-     trace_ide_sector_write(sector_num, n);
- 
-     if (!ide_sect_range_ok(s, sector_num, n)) {
-@@ -1378,6 +1382,7 @@ static void ide_reset(IDEState *s)
-     /* ATA DMA state */
-     s->io_buffer_size = 0;
-     s->req_nb_sectors = 0;
-+    s->octets_until_irq = 0;
- 
-     ide_set_signature(s);
-     /* init the transfer handler so that 0xffff is returned on data
-@@ -1500,10 +1505,11 @@ static bool cmd_write_multiple(IDEState *s, uint8_t cmd)
-     ide_cmd_lba48_transform(s, lba48);
- 
-     s->req_nb_sectors = s->mult_sectors;
--    n = MIN(s->nsector, s->req_nb_sectors);
--
-+    n = (MIN(IDE_DMA_BUF_SECTORS, s->nsector)) << BDRV_SECTOR_BITS;
-+    s->octets_until_irq =
-+        (MIN(s->nsector, s->req_nb_sectors)) << BDRV_SECTOR_BITS;
-     s->status = SEEK_STAT | READY_STAT;
--    ide_transfer_start(s, s->io_buffer, 512 * n, ide_sector_write);
-+    ide_transfer_start(s, s->io_buffer, n, ide_sector_write);
- 
-     s->media_changed = 1;
- 
-@@ -1535,6 +1541,7 @@ static bool cmd_read_pio(IDEState *s, uint8_t cmd)
- static bool cmd_write_pio(IDEState *s, uint8_t cmd)
- {
-     bool lba48 = (cmd == WIN_WRITE_EXT);
-+    int n;
- 
-     if (!s->blk) {
-         ide_abort_command(s);
-@@ -1544,8 +1551,10 @@ static bool cmd_write_pio(IDEState *s, uint8_t cmd)
-     ide_cmd_lba48_transform(s, lba48);
- 
-     s->req_nb_sectors = 1;
-+    n = (MIN(IDE_DMA_BUF_SECTORS, s->nsector)) << BDRV_SECTOR_BITS;
-+    s->octets_until_irq = BDRV_SECTOR_SIZE;
-     s->status = SEEK_STAT | READY_STAT;
--    ide_transfer_start(s, s->io_buffer, 512, ide_sector_write);
-+    ide_transfer_start(s, s->io_buffer, n, ide_sector_write);
- 
-     s->media_changed = 1;
- 
-@@ -1699,7 +1708,7 @@ static bool cmd_identify_packet(IDEState *s, uint8_t cmd)
- {
-     ide_atapi_identify(s);
-     s->status = READY_STAT | SEEK_STAT;
--    ide_transfer_start(s, s->io_buffer, 512, ide_transfer_stop);
-+    ide_transfer_start(s, s->io_buffer, BDRV_SECTOR_SIZE, ide_transfer_stop);
-     ide_set_irq(s->bus);
-     return false;
- }
-@@ -1745,6 +1754,7 @@ static bool cmd_packet(IDEState *s, uint8_t cmd)
-         s->dma_cmd = IDE_DMA_ATAPI;
-     }
-     s->nsector = 1;
-+    s->octets_until_irq = ATAPI_PACKET_SIZE;
-     ide_transfer_start(s, s->io_buffer, ATAPI_PACKET_SIZE,
-                        ide_atapi_cmd);
-     return false;
-@@ -2358,7 +2368,9 @@ void ide_data_writew(void *opaque, uint32_t addr, uint32_t val)
-     *(uint16_t *)p = le16_to_cpu(val);
-     p += 2;
-     s->data_ptr = p;
--    if (p >= s->data_end) {
-+    s->octets_until_irq -= 2;
-+
-+    if (s->octets_until_irq == 0) {
-         s->status &= ~DRQ_STAT;
-         s->end_transfer_func(s);
-     }
-@@ -2416,7 +2428,9 @@ void ide_data_writel(void *opaque, uint32_t addr, uint32_t val)
-     *(uint32_t *)p = le32_to_cpu(val);
-     p += 4;
-     s->data_ptr = p;
--    if (p >= s->data_end) {
-+    s->octets_until_irq -= 4;
-+
-+    if (s->octets_until_irq == 0) {
-         s->status &= ~DRQ_STAT;
-         s->end_transfer_func(s);
-     }
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 97e7e59dc5..3f79fbaf32 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -428,6 +428,7 @@ struct IDEState {
-     QEMUSGList sg;
-     /* PIO transfer handling */
-     int req_nb_sectors; /* number of sectors per interrupt */
-+    int octets_until_irq;
-     EndTransferFunc *end_transfer_func;
-     uint8_t *data_ptr;
-     uint8_t *data_end;
+Mark's kselftest suite is in fact all of the testing that I have done,
+since the current public Arm FVP does not include support for SME.
+On the bright side, Mark's tests handle all of the new mode switching,
+which IMO is the hairy part, and wouldn't be tested by RISU anyway.
+
+All prerequisites are either merged or dropped.
+
+Supercedes: 20220527180623.185261-1-richard.henderson@linaro.org
+("[PATCH v3 00/15] target/arm: SME prep patches")
+
+
+r~
+
+
+Richard Henderson (71):
+  target/arm: Rename TBFLAG_A64 ZCR_LEN to VL
+  linux-user/aarch64: Introduce sve_vq_cached
+  target/arm: Remove route_to_el2 check from sve_exception_el
+  target/arm: Remove fp checks from sve_exception_el
+  target/arm: Add el_is_in_host
+  target/arm: Use el_is_in_host for sve_zcr_len_for_el
+  target/arm: Use el_is_in_host for sve_exception_el
+  target/arm: Hoist arm_is_el2_enabled check in sve_exception_el
+  target/arm: Do not use aarch64_sve_zcr_get_valid_len in reset
+  target/arm: Merge aarch64_sve_zcr_get_valid_len into caller
+  target/arm: Use uint32_t instead of bitmap for sve vq's
+  target/arm: Rename sve_zcr_len_for_el to sve_vqm1_for_el
+  target/arm: Split out load/store primitives to sve_ldst_internal.h
+  target/arm: Export sve contiguous ldst support functions
+  target/arm: Move expand_pred_b to vec_internal.h
+  target/arm: Use expand_pred_b in mve_helper.c
+  target/arm: Move expand_pred_h to vec_internal.h
+  target/arm: Export bfdotadd from vec_helper.c
+  target/arm: Add isar_feature_aa64_sme
+  target/arm: Add ID_AA64SMFR0_EL1
+  target/arm: Implement TPIDR2_EL0
+  target/arm: Add SMEEXC_EL to TB flags
+  target/arm: Add syn_smetrap
+  target/arm: Add ARM_CP_SME
+  target/arm: Add SVCR
+  target/arm: Add SMCR_ELx
+  target/arm: Add SMIDR_EL1, SMPRI_EL1, SMPRIMAP_EL2
+  target/arm: Add PSTATE.{SM,ZA} to TB flags
+  target/arm: Add the SME ZA storage to CPUARMState
+  target/arm: Implement SMSTART, SMSTOP
+  target/arm: Move error for sve%d property to arm_cpu_sve_finalize
+  target/arm: Create ARMVQMap
+  target/arm: Generalize cpu_arm_{get,set}_vq
+  target/arm: Generalize cpu_arm_{get,set}_default_vec_len
+  target/arm: Move arm_cpu_*_finalize to internals.h
+  target/arm: Unexport aarch64_add_*_properties
+  target/arm: Add cpu properties for SME
+  target/arm: Introduce sve_vqm1_for_el_sm
+  target/arm: Add SVL to TB flags
+  target/arm: Move pred_{full,gvec}_reg_{offset,size} to translate-a64.h
+  target/arm: Add infrastructure for disas_sme
+  target/arm: Trap AdvSIMD usage when Streaming SVE is active
+  target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
+  target/arm: Implement SME ZERO
+  target/arm: Implement SME MOVA
+  target/arm: Implement SME LD1, ST1
+  target/arm: Export unpredicated ld/st from translate-sve.c
+  target/arm: Implement SME LDR, STR
+  target/arm: Implement SME ADDHA, ADDVA
+  target/arm: Implement FMOPA, FMOPS (non-widening)
+  target/arm: Implement BFMOPA, BFMOPS
+  target/arm: Implement FMOPA, FMOPS (widening)
+  target/arm: Implement SME integer outer product
+  target/arm: Implement PSEL
+  target/arm: Implement REVD
+  target/arm: Implement SCLAMP, UCLAMP
+  target/arm: Reset streaming sve state on exception boundaries
+  target/arm: Enable SME for -cpu max
+  linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
+  linux-user/aarch64: Reset PSTATE.SM on syscalls
+  linux-user/aarch64: Add SM bit to SVE signal context
+  linux-user/aarch64: Tidy target_restore_sigframe error return
+  linux-user/aarch64: Do not allow duplicate or short sve records
+  linux-user/aarch64: Verify extra record lock succeeded
+  linux-user/aarch64: Move sve record checks into restore
+  linux-user/aarch64: Implement SME signal handling
+  linux-user: Rename sve prctls
+  linux-user/aarch64: Implement PR_SME_GET_VL, PR_SME_SET_VL
+  target/arm: Only set ZEN in reset if SVE present
+  target/arm: Enable SME for user-only
+  linux-user/aarch64: Add SME related hwcap entries
+
+ docs/system/arm/emulation.rst     |    4 +
+ linux-user/aarch64/target_cpu.h   |    5 +-
+ linux-user/aarch64/target_prctl.h |   76 +-
+ target/arm/cpregs.h               |    5 +
+ target/arm/cpu.h                  |  146 +++-
+ target/arm/helper-sme.h           |  146 ++++
+ target/arm/helper-sve.h           |    4 +
+ target/arm/helper.h               |   19 +
+ target/arm/internals.h            |   22 +-
+ target/arm/kvm_arm.h              |    7 +-
+ target/arm/sve_ldst_internal.h    |  221 ++++++
+ target/arm/syndrome.h             |   13 +
+ target/arm/translate-a64.h        |   55 +-
+ target/arm/translate.h            |   16 +-
+ target/arm/vec_internal.h         |   28 +-
+ target/arm/sme-fa64.decode        |   89 +++
+ target/arm/sme.decode             |   88 +++
+ target/arm/sve.decode             |   31 +-
+ linux-user/aarch64/cpu_loop.c     |    9 +
+ linux-user/aarch64/signal.c       |  238 +++++-
+ linux-user/elfload.c              |   20 +
+ linux-user/syscall.c              |   28 +-
+ target/arm/arch_dump.c            |    2 +-
+ target/arm/cpu.c                  |   39 +-
+ target/arm/cpu64.c                |  311 +++++---
+ target/arm/gdbstub64.c            |    2 +-
+ target/arm/helper.c               |  395 ++++++++--
+ target/arm/kvm64.c                |   45 +-
+ target/arm/machine.c              |   36 +
+ target/arm/mve_helper.c           |    6 +-
+ target/arm/sme_helper.c           | 1173 +++++++++++++++++++++++++++++
+ target/arm/sve_helper.c           |  260 ++-----
+ target/arm/translate-a64.c        |  147 +++-
+ target/arm/translate-sme.c        |  353 +++++++++
+ target/arm/translate-sve.c        |  283 +++++--
+ target/arm/translate-vfp.c        |   13 +
+ target/arm/translate.c            |    1 +
+ target/arm/vec_helper.c           |   52 +-
+ target/arm/meson.build            |    4 +
+ 39 files changed, 3800 insertions(+), 592 deletions(-)
+ create mode 100644 target/arm/helper-sme.h
+ create mode 100644 target/arm/sve_ldst_internal.h
+ create mode 100644 target/arm/sme-fa64.decode
+ create mode 100644 target/arm/sme.decode
+ create mode 100644 target/arm/sme_helper.c
+ create mode 100644 target/arm/translate-sme.c
+
 -- 
 2.34.1
 
