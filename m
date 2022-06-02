@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571F053B8D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 14:14:11 +0200 (CEST)
-Received: from localhost ([::1]:45992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE7953B8CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 14:10:42 +0200 (CEST)
+Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwjiM-00044f-EN
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 08:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46900)
+	id 1nwjez-0001GQ-GC
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 08:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTT-0000Xl-2Z
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTT-0000a0-Qq
  for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:58:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:37981)
+Received: from mout.kundenserver.de ([217.72.192.75]:45559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTR-0001Df-5Y
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:58:46 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nwjTR-0001Du-KI
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 07:58:47 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MeD1l-1nPJnZ3nip-00bK23; Thu, 02
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MYNS0-1oJKmf1PXO-00VQrC; Thu, 02
  Jun 2022 13:58:43 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 08/19] target/m68k: Fix address argument for EXCP_CHK
-Date: Thu,  2 Jun 2022 13:58:26 +0200
-Message-Id: <20220602115837.2013918-9-laurent@vivier.eu>
+Subject: [PULL 09/19] target/m68k: Fix pc, c flag,
+ and address argument for EXCP_DIV0
+Date: Thu,  2 Jun 2022 13:58:27 +0200
+Message-Id: <20220602115837.2013918-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220602115837.2013918-1-laurent@vivier.eu>
 References: <20220602115837.2013918-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:WnZLBWQ7LjeNtl2oz0PAPlylRE93UJuVhVrCe/LcWs5UC3SopHt
- jeZH6ADRHay4qmMoXcSHlvhLwGmp+pb9Jhyhslv01ciWT4ZDFKaY5aTeIf13q8tQGUs6Obf
- OZQS30bhcMiLBlXjc7eJoVyAOcovR1Xc3SWUHe1gN61y9pvjpR6kB6bFZsC2ZqNWIJeudIl
- Tq9sYnlNW8JYNeuZEXt/A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BUwLszaAd1Y=:r4zbB+hGInrflnqv7MC727
- rGQpmOLaiAvQGvULoAd/zlTgT6yots3+Bx2ApOHtz9dk4Fx/y8J89UQliMgNmCaGK4Ors0lUg
- m43tfzS0mYsGsqN6hwqt1r+NiCo59/VsNLHwq5d8s1eDgszLM3vLrqVYyV490d0frTmeo99YB
- hVkVD5DQqKeMZRUXKBV7kbOQ32rzux2UMRdN5Of3lF8eM8Wk+FNaykwSGDQzQTlOd1NbLZdyV
- QvydcL8VCVGkKWEHciZ55REUrOKKh2oReoIzUYC/buGmaeaxtiBRNX8N5rLAWI+9k2RC9/bn3
- f9aJkN6voGRG2NMNfh0ehhvhedY2KdSbMv3u8RKBiXGIvKiyaQANi5yvRWDNEee78YCT38200
- ekJo0WCZ4OyhZ1/cISOgCG/M3Ga1xfeubyeIHn7Kf2iAqRGJC+HNDHmRUvc4GPdvxO7FH76rS
- cNjXfS2fRHdacLByf2ITiABM1Ddm/mgjekDczXW5HFP1KNFFeikToqiwrn+s7wOUSZtlvR2fT
- yfUj4bsDreF1tGnFom3unDRPa9CcaXbYuVbkE1liET2X6Kn0paJepSlm025Yl1CnRx7CGUG9j
- 0TPeDTQkCtbeg+qq2ByoBZXihm0zYAyw1bdSfE69ou7B5YNHI40PR3VlPuIcgzAl/GucvsivW
- Q0tzAs49zNMIVnyMyT6r5ZFvFJu0ZKb+sJxRk8Mh1zDQqd5UXVu9olognwtppTn5U2Wi/sMJW
- pCfp0wKXBLzPTKJOYuKhR1IhDnInhvyN5PyvlQ==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:pqc3r/HEB15/YeH/OaPtISXwt4qva2YCyTOCRbDbVawZj59XmzQ
+ O3AlyN0GRnYutLWTZtWJd0zRMPSGk+Q2jzBANdBPUmP4IuPbz24ej81cgBp5GuaPKZfPI2W
+ xlcgSZa1G9vwDaRuLkopr9g/4VNXij0CXcXzlOMFXS5CukHKNVigUOcCrOad2WCW5rV1/WJ
+ xCq1aPTcq+nztONkUz2zQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9Mm51OlHIT8=:nwUQ7CT/u7ms67LH1ooe3n
+ Agiwga5I9dKBEuMhtxE0AJrZ/BYZYvaA7u1grzfb5WFBsrsRG7Gqf+Xe/AseiVanMLBX9Fzf/
+ SpIzryrXtfof0++b00YqF7ClF4vPGkiA6kPLnafhxUCHAPpGZ3e9PR/qTgOl0XGha6jjKLu7V
+ X7KzXPxwvG+spIFocdcQw4SxXmvostcH+5WA3YvG9kt8+A0+r56rPn+npu5iO3hT1yRJPnlxH
+ tA5HWKy/LkzSsWCpW7bPD6WMoCCJIASNj9Sz2vfWfb63zo3SwqFSEaP4btO0zt9ueN0x+VymG
+ 3BFECwcB2ld40CXIu7yCg+QqoAF2RS7zRvRg3wgdp+AhDXosbvu6MeAHvx1ZXq9qPO493ACgT
+ HlJF/05R7C0giDPHdz7hMftgTsA3hhwXFuNbLXautJPnEAGujhjHt2OQBwHUnAeWO3wNkB7EF
+ ahvyZ8aiRZxvLTF7gYZWQy++YpOV1BjRTpKdyLVRXLsqo3SQ5C5RkRg78be+xK60nTXaYji9K
+ PjAdKYgieDnauKzwLE8Q92YTl8LfIKOG4nr0bezLN8RJEo18Ga9Gpr263HvUu+XKJMcswtyRL
+ ImlE+3L9oV7/FqJnMx+q+2zn8IGJvdzNSHq3KiXi2CQ2qnD05sxTcN5Pzwy+PbKhNcmcKBHYs
+ QasxSDvCLmES2RDhKuVDidVJ64eq9iTer36qyA8uEI6Ceb3MbJGVpZEdjR98A7drUmfNHHEjD
+ AGUAGzHmxAIumQ+Dv89oOoirPFzxRyY3M9pCpw==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,12 +75,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 According to the M68040 Users Manual, section 8.4.3,
-Six word stack frame (format 2), CHK, CHK2 (and others)
-are supposed to record the next insn in PC and the
+Six word stack frame (format 2), Zero Div (and others)
+is supposed to record the next insn in PC and the
 address of the trapping instruction in ADDRESS.
 
-Create a raise_exception_format2 function to centralize recording
-of the trapping pc in mmu.ar, plus advancing to the next insn.
+While the N, Z and V flags are documented to be undefine on DIV0,
+the C flag is documented as always cleared.
+
+Update helper_div* to take the instruction length as an argument
+and use raise_exception_format2.  Hoist the reset of the C flag
+above the division by zero check.
 
 Update m68k_interrupt_all to pass mmu.ar to do_stack_frame.
 Update cpu_loop to pass mmu.ar to siginfo.si_addr, as the
@@ -87,134 +92,294 @@ kernel does in trap_c().
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220602013401.303699-7-richard.henderson@linaro.org>
+Message-Id: <20220602013401.303699-8-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/cpu.h          |  6 +++++
+ target/m68k/helper.h       | 12 +++++-----
  linux-user/m68k/cpu_loop.c |  2 +-
- target/m68k/op_helper.c    | 54 ++++++++++++++++++++------------------
- 3 files changed, 36 insertions(+), 26 deletions(-)
+ target/m68k/op_helper.c    | 48 +++++++++++++++++++++++---------------
+ target/m68k/translate.c    | 33 +++++++++++++-------------
+ 4 files changed, 52 insertions(+), 43 deletions(-)
 
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 9b3bf7a44819..558c3c67d607 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -122,6 +122,12 @@ typedef struct CPUArchState {
- 
-     /* MMU status.  */
-     struct {
-+        /*
-+         * Holds the "address" value in between raising an exception
-+         * and creation of the exception stack frame.
-+         * Used for both Format 7 exceptions (Access, i.e. mmu)
-+         * and Format 2 exceptions (chk, div0, trapcc, etc).
-+         */
-         uint32_t ar;
-         uint32_t ssw;
-         /* 68040 */
+diff --git a/target/m68k/helper.h b/target/m68k/helper.h
+index 0a6b4146f635..f016c4c1c226 100644
+--- a/target/m68k/helper.h
++++ b/target/m68k/helper.h
+@@ -1,12 +1,12 @@
+ DEF_HELPER_1(bitrev, i32, i32)
+ DEF_HELPER_1(ff1, i32, i32)
+ DEF_HELPER_FLAGS_2(sats, TCG_CALL_NO_RWG_SE, i32, i32, i32)
+-DEF_HELPER_3(divuw, void, env, int, i32)
+-DEF_HELPER_3(divsw, void, env, int, s32)
+-DEF_HELPER_4(divul, void, env, int, int, i32)
+-DEF_HELPER_4(divsl, void, env, int, int, s32)
+-DEF_HELPER_4(divull, void, env, int, int, i32)
+-DEF_HELPER_4(divsll, void, env, int, int, s32)
++DEF_HELPER_4(divuw, void, env, int, i32, int)
++DEF_HELPER_4(divsw, void, env, int, s32, int)
++DEF_HELPER_5(divul, void, env, int, int, i32, int)
++DEF_HELPER_5(divsl, void, env, int, int, s32, int)
++DEF_HELPER_5(divull, void, env, int, int, i32, int)
++DEF_HELPER_5(divsll, void, env, int, int, s32, int)
+ DEF_HELPER_2(set_sr, void, env, i32)
+ DEF_HELPER_3(cf_movec_to, void, env, i32, i32)
+ DEF_HELPER_3(m68k_movec_to, void, env, i32, i32)
 diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
-index 12e5d9cd5363..e24d17e180e3 100644
+index e24d17e180e3..6598bce3c4e7 100644
 --- a/linux-user/m68k/cpu_loop.c
 +++ b/linux-user/m68k/cpu_loop.c
-@@ -47,7 +47,7 @@ void cpu_loop(CPUM68KState *env)
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->pc);
-             break;
-         case EXCP_CHK:
--            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->pc);
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->mmu.ar);
+@@ -50,7 +50,7 @@ void cpu_loop(CPUM68KState *env)
+             force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->mmu.ar);
              break;
          case EXCP_DIV0:
-             force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
+-            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
++            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->mmu.ar);
+             break;
+         case EXCP_TRAP0:
+             {
 diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 777869790b66..750d65576fcf 100644
+index 750d65576fcf..729ee0e93482 100644
 --- a/target/m68k/op_helper.c
 +++ b/target/m68k/op_helper.c
-@@ -397,13 +397,16 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+@@ -396,7 +396,6 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+         break;
  
      case EXCP_ILLEGAL:
-     case EXCP_DIV0:
--    case EXCP_CHK:
+-    case EXCP_DIV0:
      case EXCP_TRAPCC:
      case EXCP_TRACE:
          /* FIXME: addr is not only env->pc */
-         do_stack_frame(env, &sp, 2, oldsr, env->pc, env->pc);
+@@ -404,6 +403,7 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
          break;
  
-+    case EXCP_CHK:
-+        do_stack_frame(env, &sp, 2, oldsr, env->mmu.ar, env->pc);
-+        break;
-+
-     case EXCP_SPURIOUS ... EXCP_INT_LEVEL_7:
-         if (is_hw && (oldsr & SR_M)) {
-             do_stack_frame(env, &sp, 0, oldsr, 0, env->pc);
-@@ -548,6 +551,29 @@ void HELPER(raise_exception)(CPUM68KState *env, uint32_t tt)
-     raise_exception(env, tt);
+     case EXCP_CHK:
++    case EXCP_DIV0:
+         do_stack_frame(env, &sp, 2, oldsr, env->mmu.ar, env->pc);
+         break;
+ 
+@@ -574,18 +574,19 @@ raise_exception_format2(CPUM68KState *env, int tt, int ilen, uintptr_t raddr)
+     cpu_loop_exit(cs);
  }
  
-+G_NORETURN static void
-+raise_exception_format2(CPUM68KState *env, int tt, int ilen, uintptr_t raddr)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->exception_index = tt;
-+
-+    /* Recover PC and CC_OP for the beginning of the insn.  */
-+    cpu_restore_state(cs, raddr, true);
-+
-+    /* Flags are current in env->cc_*, or are undefined. */
-+    env->cc_op = CC_OP_FLAGS;
-+
-+    /*
-+     * Remember original pc in mmu.ar, for the Format 2 stack frame.
-+     * Adjust PC to end of the insn.
-+     */
-+    env->mmu.ar = env->pc;
-+    env->pc += ilen;
-+
-+    cpu_loop_exit(cs);
-+}
-+
- void HELPER(divuw)(CPUM68KState *env, int destr, uint32_t den)
+-void HELPER(divuw)(CPUM68KState *env, int destr, uint32_t den)
++void HELPER(divuw)(CPUM68KState *env, int destr, uint32_t den, int ilen)
  {
      uint32_t num = env->dregs[destr];
-@@ -1065,18 +1091,7 @@ void HELPER(chk)(CPUM68KState *env, int32_t val, int32_t ub)
-     env->cc_c = 0 <= ub ? val < 0 || val > ub : val > ub && val < 0;
+     uint32_t quot, rem;
  
-     if (val < 0 || val > ub) {
--        CPUState *cs = env_cpu(env);
--
--        /* Recover PC and CC_OP for the beginning of the insn.  */
--        cpu_restore_state(cs, GETPC(), true);
--
--        /* flags have been modified by gen_flush_flags() */
--        env->cc_op = CC_OP_FLAGS;
--        /* Adjust PC to end of the insn.  */
--        env->pc += 2;
--
--        cs->exception_index = EXCP_CHK;
--        cpu_loop_exit(cs);
-+        raise_exception_format2(env, EXCP_CHK, 2, GETPC());
++    env->cc_c = 0; /* always cleared, even if div0 */
++
+     if (den == 0) {
+-        raise_exception_ra(env, EXCP_DIV0, GETPC());
++        raise_exception_format2(env, EXCP_DIV0, ilen, GETPC());
+     }
+     quot = num / den;
+     rem = num % den;
+ 
+-    env->cc_c = 0; /* always cleared, even if overflow */
+     if (quot > 0xffff) {
+         env->cc_v = -1;
+         /*
+@@ -601,18 +602,19 @@ void HELPER(divuw)(CPUM68KState *env, int destr, uint32_t den)
+     env->cc_v = 0;
+ }
+ 
+-void HELPER(divsw)(CPUM68KState *env, int destr, int32_t den)
++void HELPER(divsw)(CPUM68KState *env, int destr, int32_t den, int ilen)
+ {
+     int32_t num = env->dregs[destr];
+     uint32_t quot, rem;
+ 
++    env->cc_c = 0; /* always cleared, even if overflow/div0 */
++
+     if (den == 0) {
+-        raise_exception_ra(env, EXCP_DIV0, GETPC());
++        raise_exception_format2(env, EXCP_DIV0, ilen, GETPC());
+     }
+     quot = num / den;
+     rem = num % den;
+ 
+-    env->cc_c = 0; /* always cleared, even if overflow */
+     if (quot != (int16_t)quot) {
+         env->cc_v = -1;
+         /* nothing else is modified */
+@@ -629,18 +631,20 @@ void HELPER(divsw)(CPUM68KState *env, int destr, int32_t den)
+     env->cc_v = 0;
+ }
+ 
+-void HELPER(divul)(CPUM68KState *env, int numr, int regr, uint32_t den)
++void HELPER(divul)(CPUM68KState *env, int numr, int regr,
++                   uint32_t den, int ilen)
+ {
+     uint32_t num = env->dregs[numr];
+     uint32_t quot, rem;
+ 
++    env->cc_c = 0; /* always cleared, even if div0 */
++
+     if (den == 0) {
+-        raise_exception_ra(env, EXCP_DIV0, GETPC());
++        raise_exception_format2(env, EXCP_DIV0, ilen, GETPC());
+     }
+     quot = num / den;
+     rem = num % den;
+ 
+-    env->cc_c = 0;
+     env->cc_z = quot;
+     env->cc_n = quot;
+     env->cc_v = 0;
+@@ -657,18 +661,20 @@ void HELPER(divul)(CPUM68KState *env, int numr, int regr, uint32_t den)
      }
  }
  
-@@ -1097,17 +1112,6 @@ void HELPER(chk2)(CPUM68KState *env, int32_t val, int32_t lb, int32_t ub)
-     env->cc_c = lb <= ub ? val < lb || val > ub : val > ub && val < lb;
+-void HELPER(divsl)(CPUM68KState *env, int numr, int regr, int32_t den)
++void HELPER(divsl)(CPUM68KState *env, int numr, int regr,
++                   int32_t den, int ilen)
+ {
+     int32_t num = env->dregs[numr];
+     int32_t quot, rem;
  
-     if (env->cc_c) {
--        CPUState *cs = env_cpu(env);
--
--        /* Recover PC and CC_OP for the beginning of the insn.  */
--        cpu_restore_state(cs, GETPC(), true);
--
--        /* flags have been modified by gen_flush_flags() */
--        env->cc_op = CC_OP_FLAGS;
--        /* Adjust PC to end of the insn.  */
--        env->pc += 4;
--
--        cs->exception_index = EXCP_CHK;
--        cpu_loop_exit(cs);
-+        raise_exception_format2(env, EXCP_CHK, 4, GETPC());
++    env->cc_c = 0; /* always cleared, even if overflow/div0 */
++
+     if (den == 0) {
+-        raise_exception_ra(env, EXCP_DIV0, GETPC());
++        raise_exception_format2(env, EXCP_DIV0, ilen, GETPC());
      }
+     quot = num / den;
+     rem = num % den;
+ 
+-    env->cc_c = 0;
+     env->cc_z = quot;
+     env->cc_n = quot;
+     env->cc_v = 0;
+@@ -685,19 +691,21 @@ void HELPER(divsl)(CPUM68KState *env, int numr, int regr, int32_t den)
+     }
+ }
+ 
+-void HELPER(divull)(CPUM68KState *env, int numr, int regr, uint32_t den)
++void HELPER(divull)(CPUM68KState *env, int numr, int regr,
++                    uint32_t den, int ilen)
+ {
+     uint64_t num = deposit64(env->dregs[numr], 32, 32, env->dregs[regr]);
+     uint64_t quot;
+     uint32_t rem;
+ 
++    env->cc_c = 0; /* always cleared, even if overflow/div0 */
++
+     if (den == 0) {
+-        raise_exception_ra(env, EXCP_DIV0, GETPC());
++        raise_exception_format2(env, EXCP_DIV0, ilen, GETPC());
+     }
+     quot = num / den;
+     rem = num % den;
+ 
+-    env->cc_c = 0; /* always cleared, even if overflow */
+     if (quot > 0xffffffffULL) {
+         env->cc_v = -1;
+         /*
+@@ -720,19 +728,21 @@ void HELPER(divull)(CPUM68KState *env, int numr, int regr, uint32_t den)
+     env->dregs[numr] = quot;
+ }
+ 
+-void HELPER(divsll)(CPUM68KState *env, int numr, int regr, int32_t den)
++void HELPER(divsll)(CPUM68KState *env, int numr, int regr,
++                    int32_t den, int ilen)
+ {
+     int64_t num = deposit64(env->dregs[numr], 32, 32, env->dregs[regr]);
+     int64_t quot;
+     int32_t rem;
+ 
++    env->cc_c = 0; /* always cleared, even if overflow/div0 */
++
+     if (den == 0) {
+-        raise_exception_ra(env, EXCP_DIV0, GETPC());
++        raise_exception_format2(env, EXCP_DIV0, ilen, GETPC());
+     }
+     quot = num / den;
+     rem = num % den;
+ 
+-    env->cc_c = 0; /* always cleared, even if overflow */
+     if (quot != (int32_t)quot) {
+         env->cc_v = -1;
+         /*
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 22e5379d3c64..6075f4993031 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -1601,6 +1601,7 @@ DISAS_INSN(divw)
+     int sign;
+     TCGv src;
+     TCGv destr;
++    TCGv ilen;
+ 
+     /* divX.w <EA>,Dn    32/16 -> 16r:16q */
+ 
+@@ -1609,20 +1610,20 @@ DISAS_INSN(divw)
+     /* dest.l / src.w */
+ 
+     SRC_EA(env, src, OS_WORD, sign, NULL);
+-    destr = tcg_const_i32(REG(insn, 9));
++    destr = tcg_constant_i32(REG(insn, 9));
++    ilen = tcg_constant_i32(s->pc - s->base.pc_next);
+     if (sign) {
+-        gen_helper_divsw(cpu_env, destr, src);
++        gen_helper_divsw(cpu_env, destr, src, ilen);
+     } else {
+-        gen_helper_divuw(cpu_env, destr, src);
++        gen_helper_divuw(cpu_env, destr, src, ilen);
+     }
+-    tcg_temp_free(destr);
+ 
+     set_cc_op(s, CC_OP_FLAGS);
+ }
+ 
+ DISAS_INSN(divl)
+ {
+-    TCGv num, reg, den;
++    TCGv num, reg, den, ilen;
+     int sign;
+     uint16_t ext;
+ 
+@@ -1639,15 +1640,14 @@ DISAS_INSN(divl)
+         /* divX.l <EA>, Dr:Dq    64/32 -> 32r:32q */
+ 
+         SRC_EA(env, den, OS_LONG, 0, NULL);
+-        num = tcg_const_i32(REG(ext, 12));
+-        reg = tcg_const_i32(REG(ext, 0));
++        num = tcg_constant_i32(REG(ext, 12));
++        reg = tcg_constant_i32(REG(ext, 0));
++        ilen = tcg_constant_i32(s->pc - s->base.pc_next);
+         if (sign) {
+-            gen_helper_divsll(cpu_env, num, reg, den);
++            gen_helper_divsll(cpu_env, num, reg, den, ilen);
+         } else {
+-            gen_helper_divull(cpu_env, num, reg, den);
++            gen_helper_divull(cpu_env, num, reg, den, ilen);
+         }
+-        tcg_temp_free(reg);
+-        tcg_temp_free(num);
+         set_cc_op(s, CC_OP_FLAGS);
+         return;
+     }
+@@ -1656,15 +1656,14 @@ DISAS_INSN(divl)
+     /* divXl.l <EA>, Dr:Dq    32/32 -> 32r:32q */
+ 
+     SRC_EA(env, den, OS_LONG, 0, NULL);
+-    num = tcg_const_i32(REG(ext, 12));
+-    reg = tcg_const_i32(REG(ext, 0));
++    num = tcg_constant_i32(REG(ext, 12));
++    reg = tcg_constant_i32(REG(ext, 0));
++    ilen = tcg_constant_i32(s->pc - s->base.pc_next);
+     if (sign) {
+-        gen_helper_divsl(cpu_env, num, reg, den);
++        gen_helper_divsl(cpu_env, num, reg, den, ilen);
+     } else {
+-        gen_helper_divul(cpu_env, num, reg, den);
++        gen_helper_divul(cpu_env, num, reg, den, ilen);
+     }
+-    tcg_temp_free(reg);
+-    tcg_temp_free(num);
+ 
+     set_cc_op(s, CC_OP_FLAGS);
  }
 -- 
 2.36.1
