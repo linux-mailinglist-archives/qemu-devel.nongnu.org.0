@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE1253B907
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 14:36:51 +0200 (CEST)
-Received: from localhost ([::1]:52654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DFCB53B8FD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 14:29:54 +0200 (CEST)
+Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwk4I-0002g0-Df
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 08:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47726)
+	id 1nwjxY-0002iw-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 08:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1nwjWN-0003jT-5Y; Thu, 02 Jun 2022 08:01:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43260
- helo=mx0a-001b2d01.pphosted.com)
+ id 1nwjfU-0003g6-VJ; Thu, 02 Jun 2022 08:11:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1nwjWJ-0001xj-Th; Thu, 02 Jun 2022 08:01:46 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 252Bhwpv024903;
- Thu, 2 Jun 2022 12:01:32 GMT
+ id 1nwjfS-0005cc-FZ; Thu, 02 Jun 2022 08:11:12 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 252Bft08005441;
+ Thu, 2 Jun 2022 12:11:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  reply-to : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding : mime-version; s=pp1;
- bh=fWwbZpwkewaA//9W3DI8CyQGi+oyj6jfRCsU02zlj4Y=;
- b=r1pb0qAe18Gh74iu752e95s9hP+JWJqGDPzAVAe6vl6hzbbyhlK0wnFQP6Ds3Wy4pzxv
- 4Z1KXl67wPg/Tc+vmBNlhbvwbpI100FQ4NRjeVxbQh2wHkoh2vhcsQ4HCQCR8SKCI93Z
- 39VIpcim/X+AjbkwQAve29KBJ2+/DAIed/S9jaVqWtDou7pcyUW6XPKVvSJsnhmsw3kv
- fOEURrmY+1wZO7iOoWzS7R7uskiuHoyHQIy2YcyMV0Hh6hqB7wH4SyhSOAye0jRgjA+n
- 5v5B0xV54tuYW4lqromlxEgXa36efVb/rgDkI/K6cF3HiLccQNReY+2WUH80vde+4QI+ ZQ== 
+ bh=/ig58Gsi/XkKsj7yA/iuIp2cRFIWQhJMcEcRcqF2MkQ=;
+ b=nEY6nhik0STE461oVDsWqlK9AquZ0wehD2oCl8lCP+gTjzep01ZhWqUIFkfV8ClwFD8J
+ K83DexHXGXDFuEVhL5NDzMDBDuEA14xsAUHpClN+Bs4e3JiEHTr09P7EKeICKa2E1nsv
+ OpGjrS+/9RX8bM1UnJuYeqAw6svNBoT2guTi0Cfu+X8LqgHtut4ecMSE1rk03C/ZKZtA
+ C539XaCd51OqI1EcKZ5uXf96YQKiLDQc5brM1XmFspy9b0n2uw1a8N9m3uIa1JHUx44I
+ GfTwyrnRqVN1Eb7TFeUjwMWDzxxkctVYOzAhOq46l7iFQHSgaynPHy7Nm6ls721VzWC0 5g== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gevk389k3-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gesqgby0j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jun 2022 12:01:31 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 252BkRjf002725;
- Thu, 2 Jun 2022 12:01:30 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gevk389gx-1
+ Thu, 02 Jun 2022 12:11:02 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 252C3LLf001481;
+ Thu, 2 Jun 2022 12:11:01 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gesqgby07-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jun 2022 12:01:29 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 252Bp2QP025989;
- Thu, 2 Jun 2022 12:01:25 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02dal.us.ibm.com with ESMTP id 3gd1ad8pp2-1
+ Thu, 02 Jun 2022 12:11:01 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 252C6NgY002128;
+ Thu, 2 Jun 2022 12:11:00 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 3gd4n5yd50-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jun 2022 12:01:25 +0000
+ Thu, 02 Jun 2022 12:11:00 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 252C1ORD16450042
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 252CB0K763504828
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Jun 2022 12:01:24 GMT
+ Thu, 2 Jun 2022 12:11:00 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BEB85AC065;
- Thu,  2 Jun 2022 12:01:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 05D1EAC06A;
+ Thu,  2 Jun 2022 12:11:00 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 359A5AC059;
- Thu,  2 Jun 2022 12:01:23 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6E87FAC05E;
+ Thu,  2 Jun 2022 12:10:58 +0000 (GMT)
 Received: from [9.160.111.240] (unknown [9.160.111.240])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Thu,  2 Jun 2022 12:01:23 +0000 (GMT)
-Message-ID: <39dbde9e-1287-c6f2-32aa-c2a575791ef1@linux.ibm.com>
-Date: Thu, 2 Jun 2022 09:01:21 -0300
+ Thu,  2 Jun 2022 12:10:58 +0000 (GMT)
+Message-ID: <a1a8e133-9a28-7ac7-de32-86c3048ca99c@linux.ibm.com>
+Date: Thu, 2 Jun 2022 09:10:57 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.10.0
 Subject: Re: [PATCH] target/ppc/cpu-models: Update max alias to power10
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- mopsfelder@gmail.com, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>
+To: Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, mopsfelder@gmail.com,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>
 References: <20220531172711.94564-1-muriloo@linux.ibm.com>
  <475c2f40-8c58-8d51-4cc5-da5b9db814f2@redhat.com>
- <5435bc6f-70c4-4a18-72b7-147ada5f6a1b@kaod.org>
+ <20220601103825.498c378f@bahia>
 From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
 Organization: IBM
-In-Reply-To: <5435bc6f-70c4-4a18-72b7-147ada5f6a1b@kaod.org>
+In-Reply-To: <20220601103825.498c378f@bahia>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: i3VDFNR1uvfnZBBI6NeKehYuHeJVPUlJ
-X-Proofpoint-ORIG-GUID: LRuCTKyinMXVAPw2D2NMgwas9LcAuWCh
+X-Proofpoint-GUID: 0S_pMI-RPtTd250TYBwxJgDWfr0JAm_Y
+X-Proofpoint-ORIG-GUID: l6Xy6-H8xiN-uJwRBOoMZxNykBgPw84S
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
@@ -94,12 +94,12 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-02_02,2022-06-02_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 mlxscore=0 suspectscore=0 phishscore=0 spamscore=0
- bulkscore=0 adultscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=999
+ malwarescore=0 spamscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 phishscore=0 clxscore=1015
+ impostorscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206020049
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
+ engine=8.12.0-2204290000 definitions=main-2206020052
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=muriloo@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -124,10 +124,12 @@ Reply-To: muriloo@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Cédric.
+Hi, Greg.
 
-On 6/1/22 04:44, Cédric Le Goater wrote:
-> On 6/1/22 09:27, Thomas Huth wrote:
+On 6/1/22 05:38, Greg Kurz wrote:
+> On Wed, 1 Jun 2022 09:27:31 +0200
+> Thomas Huth <thuth@redhat.com> wrote:
+>
 >> On 31/05/2022 19.27, Murilo Opsfelder Araujo wrote:
 >>> Update max alias to power10 so users can take advantage of a more
 >>> recent CPU model when '-cpu max' is provided.
@@ -140,45 +142,68 @@ On 6/1/22 04:44, Cédric Le Goater wrote:
 >>> Cc: Fabiano Rosas <farosas@linux.ibm.com>
 >>> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 >>> ---
->>>   target/ppc/cpu-models.c | 3 ++-
->>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>    target/ppc/cpu-models.c | 3 ++-
+>>>    1 file changed, 2 insertions(+), 1 deletion(-)
 >>>
 >>> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
 >>> index 976be5e0d1..c15fcb43a1 100644
 >>> --- a/target/ppc/cpu-models.c
 >>> +++ b/target/ppc/cpu-models.c
 >>> @@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
->>>       { "755", "755_v2.8" },
->>>       { "goldfinger", "755_v2.8" },
->>>       { "7400", "7400_v2.9" },
+>>>        { "755", "755_v2.8" },
+>>>        { "goldfinger", "755_v2.8" },
+>>>        { "7400", "7400_v2.9" },
 >>> -    { "max", "7400_v2.9" },
->>>       { "g4",  "7400_v2.9" },
->>>       { "7410", "7410_v1.4" },
->>>       { "nitro", "7410_v1.4" },
+>>>        { "g4",  "7400_v2.9" },
+>>>        { "7410", "7410_v1.4" },
+>>>        { "nitro", "7410_v1.4" },
 >>> @@ -910,6 +909,8 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
->>>       { "power8nvl", "power8nvl_v1.0" },
->>>       { "power9", "power9_v2.0" },
->>>       { "power10", "power10_v2.0" },
+>>>        { "power8nvl", "power8nvl_v1.0" },
+>>>        { "power9", "power9_v2.0" },
+>>>        { "power10", "power10_v2.0" },
 >>> +    /* Update the 'max' alias to the latest CPU model */
 >>> +    { "max", "power10_v2.0" },
->>>   #endif
+>>>    #endif
 >>
->> I'm not sure whether "max" should really be fixed alias in this list here? What if a user runs with KVM on a POWER8 host - then "max" won't work this way, will it?
+>> I'm not sure whether "max" should really be fixed alias in this list here?
+>> What if a user runs with KVM on a POWER8 host - then "max" won't work this
+>> way, will it?
 >>
->> And in the long run, it would also be good if this would work with other machines like the "g3beige", too (which don't support the new 64-bit POWER CPUs), so you should at least mention in the commit description that this is only a temporary hack for the pseries machine, I think.
+>> And in the long run, it would also be good if this would work with other
+>> machines like the "g3beige", too (which don't support the new 64-bit POWER
+>> CPUs), so you should at least mention in the commit description that this is
+>> only a temporary hack for the pseries machine, I think.
+>>
 >
-> Yes. You are right, Thomas.
+> I didn't even know there was a "max" alias :-)
+
+Me too.  :)
+
+> This was introduced by commit:
 >
-> s390 and x86 have a nice way to address "max".
+> commit 3fc6c082e3aad85addf25d36740030982963c0c8
+> Author: Fabrice Bellard <fabrice@bellard.org>
+> Date:   Sat Jul 2 20:59:34 2005 +0000
+>
+>      preliminary patch to support more PowerPC CPUs (Jocelyn Mayer)
+>
+> This was already a 7400 model at the time. Obviously we've never
+> maintained that and I hardly see how it is useful... As Thomas
+> noted, "max" has implicit semantics that depend on the host.
+> This isn't migration friendly and I'm pretty sure libvirt
+> doesn't use it (Daniel ?)
+>
+> We already have the concept of default CPU for the spapr
+> machine types, that is usually popped up to the newer
+> CPU model that is going to be supported in production.
+> This goes with a bump of the machine type version as
+> well for the sake of migration. This seems a lot more
+> reliable than the "max" thingy IMHO.
 
-If I understood the code correctly, they implement "-cpu max" based on
-a CPU model with additional CPU features enabled.  The resulting
-emulated CPU is not necessarily a CPU model that exists as a hardware.
-So, the "-cpu max" never gets any CPU feature dropped.  Features are
-only added in.
+We can use the default CPU type of the sPAPR machine as the "-cpu
+max".  That would be a safer choice, I think.
 
-I'm not keen on this idea of having a CPU model that doesn't even
-exist as a hardware.
+Cheers!
 
 --
 Murilo
