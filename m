@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F71753B4E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:22:49 +0200 (CEST)
-Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF28A53B4DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 10:18:07 +0200 (CEST)
+Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwg6S-0004HH-22
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55648)
+	id 1nwg1u-0000Vy-7d
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 04:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nwfq8-0003b2-B8; Thu, 02 Jun 2022 04:06:06 -0400
-Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d]:34002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nwfq5-0008NU-Ee; Thu, 02 Jun 2022 04:05:55 -0400
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-f314077115so5845204fac.1; 
- Thu, 02 Jun 2022 01:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=b4rsqS+O27LFsrL+YXuxygrGDdOtKVNIEwmYDUnDs1Q=;
- b=kfYoYzgbtcvqAWM3Gfj8luSWNVlCl2uMY4eMoHokqmK6kmtdW6yWk4xtnUS9l7pqB2
- Lne9ugedJp9hnqKWn1Zj3xcpx0dZFG53UY4CPrmyzbPuTz+tLZ3yiJWtbIuvlgpGNDjx
- WSAUOi6GvsGXzBwA3E/PwN14FxmreeXUv8FyYGPXYfBvig638Z4SwMraWEWMl/p8aDkD
- cETtP3HAkHJiWndN6eHQXNm+tDXPhfiEY5E8CIqH9QR1BJabCkCZaYK29cXeZFSS6Yeb
- 6atk7ksRkWPZwGVEnn6TC1etEGLp1Jz7p71WZieZ9cXEwL9u5LaPG6xWUYLWBuf913ez
- B8hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=b4rsqS+O27LFsrL+YXuxygrGDdOtKVNIEwmYDUnDs1Q=;
- b=YaoxeROXsoioYUJpB3y2c8iCK2rqo4YsPwg7+y/T80WkDgr/Q4jK4TGA3Lh6cR8PAS
- P+PhQUukUKQLkO0VHY0dRsERVGNnahqDI/vnInSUoVf3SeZw/DReVTcITFuKkJvInhxI
- iuU/w5WzWB1CBA84k8YEeerz8+RsPp5dpcTd61E+3vHki4F+DsOgEkM5sYGZZULtaSZP
- bwWHguUoACt4voCH0vewyl/9KcX3Bdn+lm6WwsPZmkUZoKkHOsEnIkX7ccealOt6NnsB
- NM6f3vrHcySE5mEnokWJq6yTYkQ+V4dQq2oZapkbg13HvV/wu2uEk6qVKe1yP9XE1ypp
- OCzQ==
-X-Gm-Message-State: AOAM532/FHlAUpiTkyvklqFFITQjVGj7X1GZszpglNznWSv4Aqq9ReH0
- AbzeNVCYCj0b8bvD8W1SnQC92Fib1YXxde+jLvY=
-X-Google-Smtp-Source: ABdhPJy9pM2uHw2EgmtDPIiWYT0dcLEbT/oMQImjwziIaHawzr70kdWX7PRMrAeRCliaN1+wv9rjw6IwEjcqGULVyoQ=
-X-Received: by 2002:a05:6870:e30e:b0:de:ab76:eed7 with SMTP id
- z14-20020a056870e30e00b000deab76eed7mr18933740oad.101.1654157151020; Thu, 02
- Jun 2022 01:05:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwfwH-0005qC-0b; Thu, 02 Jun 2022 04:12:17 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwfwB-0004ec-Tf; Thu, 02 Jun 2022 04:12:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Vp+QJrwgr/aQupeFGotl5JzKWoU6mmMEhWgTnHh6gQg=; b=a0rpUNPkPnSK9OJUf5FCII4TPq
+ lXm3Gf/7uxqp5y+8mgR5xkxyhdg4BjP4SSgecdbubntPq57j2uQ0B6ybya4HazVCjCJDKFCfoRlw5
+ wWmkNv3c6gTV4FdRcZevYQjgUxb6JuN2XvgAuCuOFcIpaCGm02tg3FypWZclIiBpNGjsWVbkF51LV
+ 4ZoCjSQMxSZ2qktBrxot8IH7Asrb3mwbMd1rZ3JutTT8hAb80/YR25zBIXdH0p/7IN4mDU2L8suwM
+ SJggtZLKRsd6T+3Q/cs1C7qF5i1kQFmP4yIRc+teT37GFTLjTjnYR9p5vD4wTslHB78UN015GaJSX
+ Z0nSSXtCCO3YSi12TSISaD/0AN2mJc8yssCKvR4Eu1qq5AnLSf8DzHcE711R+giCdSSkng81szhCK
+ 7tn46RKh4P7hP0ASYfK3s5kajs2Jx4OQ2oLSw6+xPdkklk3Q64P0pKK8rmLIdaEtSjM4qiSIgrel/
+ gj8SK4mLubH2nMitJ+dyejruB3QwiW63rt5CmNueSOH82d777rjFSOOFzQ9D7vDF6JBFGk3pR9n3M
+ LsIJbs1yaJ2lUAi/tdL87/YYIm0rRLWU5CkN2R8302ZvpOb4nwLV8da8Z+iwas6h+hnMlAzZ50zdj
+ eqR0n/FTx7HSf0EbJ2RGt+oxJaTdrMc2ptcP9IkH8=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nwfv6-0003E9-Mu; Thu, 02 Jun 2022 09:11:05 +0100
+Message-ID: <84beb434-af3c-d882-bce8-869754828a04@ilande.co.uk>
+Date: Thu, 2 Jun 2022 09:12:06 +0100
 MIME-Version: 1.0
-References: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
- <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
- <CAAAx-8LsXQ=w7QTz0JHfGp6gbgY5najE0N7K0yBwhdqqH+E6Eg@mail.gmail.com>
- <be663d15-6db3-1777-0830-60dcc6aa394e@opensource.wdc.com>
- <CAJSP0QWLn5i9at7vhFdgOysZ0+voKFYRQqRquVaxh_EoZXRDRg@mail.gmail.com>
- <CAAAx-8JWexta+c396Os_YGAOicf8j6d6A8QVf1n5Su8fHiiGwQ@mail.gmail.com>
-In-Reply-To: <CAAAx-8JWexta+c396Os_YGAOicf8j6d6A8QVf1n5Su8fHiiGwQ@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 2 Jun 2022 09:05:39 +0100
-Message-ID: <CAJSP0QXfUeeGgq7RoXWRpcf-5Yob9BgoJPv4tBwav+xsn_R9OQ@mail.gmail.com>
-Subject: Re: Outreachy project task: Adding QEMU block layer APIs resembling
- Linux ZBD ioctls.
-To: Sam Li <faithilikerun@gmail.com>
-Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>, 
- qemu-devel <qemu-devel@nongnu.org>, qemu block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:4860:4864:20::2d;
- envelope-from=stefanha@gmail.com; helo=mail-oa1-x2d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
+ fbarrat@linux.ibm.com
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+ <20220531214917.31668-12-danielhb413@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220531214917.31668-12-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 11/16] ppc/pnv: add pnv-phb-root-port device
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,237 +81,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Jun 2022 at 06:43, Sam Li <faithilikerun@gmail.com> wrote:
->
-> Hi Stefan,
->
-> Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=881=E6=
-=97=A5=E5=91=A8=E4=B8=89 19:43=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Wed, 1 Jun 2022 at 06:47, Damien Le Moal
-> > <damien.lemoal@opensource.wdc.com> wrote:
-> > >
-> > > On 6/1/22 11:57, Sam Li wrote:
-> > > > Hi Stefan,
-> > > >
-> > > > Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B45=E6=9C=
-=8830=E6=97=A5=E5=91=A8=E4=B8=80 19:19=E5=86=99=E9=81=93=EF=BC=9A
-> > > >
-> > > >
-> > > >>
-> > > >> On Mon, 30 May 2022 at 06:09, Sam Li <faithilikerun@gmail.com> wro=
-te:
-> > > >>>
-> > > >>> Hi everyone,
-> > > >>> I'm Sam Li, working on the Outreachy project which is to add zone=
-d
-> > > >>> device support to QEMU's virtio-blk emulation.
-> > > >>>
-> > > >>> For the first goal, adding QEMU block layer APIs resembling Linux=
- ZBD
-> > > >>> ioctls, I think the naive approach would be to introduce a new st=
-able
-> > > >>> struct zbd_zone descriptor for the library function interface. Mo=
-re
-> > > >>> specifically, what I'd like to add to the BlockDriver struct are:
-> > > >>> 1. zbd_info as zone block device information: includes numbers of
-> > > >>> zones, size of logical blocks, and physical blocks.
-> > > >>> 2. zbd_zone_type and zbd_zone_state
-> > > >>> 3. zbd_dev_model: host-managed zbd, host-aware zbd
-> > > >>> With those basic structs, we can start to implement new functions=
- as
-> > > >>> bdrv*() APIs for BLOCK*ZONE ioctls.
-> > > >>>
-> > > >>> I'll start to finish this task based on the above description. If
-> > > >>> there is any problem or something I may miss in the design, pleas=
-e let
-> > > >>> me know.
-> > > >>
-> > > >> Hi Sam,
-> > > >> Can you propose function prototypes for the new BlockDriver callba=
-cks
-> > > >> needed for zoned devices?
-> > > >
-> > > > I have made some modifications based on Damien's device in design p=
-art
-> > > > 1 and added the function prototypes in design part 2. If there is a=
-ny
-> > > > problem or part I missed, please let me know.
-> > > >
-> > > > Design of Block Layer APIs in BlockDriver:
-> > > > 1. introduce a new stable struct zbd_zone descriptor for the librar=
-y
-> > > > function interface.
-> > > >   a. zbd_info as zone block device information: includes numbers of
-> > > > zones, size of blocks, write granularity in byte(minimal write size
-> > > > and alignment
-> > > >     - write granularity: 512e SMRs: writes in units of physical blo=
-ck
-> > > > size, 4096 bytes; NVMe ZNS write granularity is equal to the block
-> > > > size.
-> > > >     - zone descriptor: start, length, capacity, write pointer, zone=
- type
-> > > >   b. zbd_zone_type
-> > > >     - zone type: conventional, sequential write required, sequentia=
-l
-> > > > write preferred
-> > > >   c. zbd_dev_model: host-managed zbd, host-aware zbd
-> > >
-> > > This explanation is a little hard to understand. It seems to be mixin=
-g up
-> > > device level information and per-zone information. I think it would b=
-e a
-> > > lot simpler to write a struct definition to directly illustrate what =
-you
-> > > are planning.
-> > >
-> > > It is something like this ?
-> > >
-> > > struct zbd_zone {
-> > >         enum zone_type  type;
-> > >         enum zone_cond  cond;
-> > >         uint64_t        start;
-> > >         uint32_t        length;
-> > >         uint32_t        cap;
-> > >         uint64_t        wp;
-> > > };
-> > >
-> > > strcut zbd_dev {
-> > >         enum zone_model model;
-> > >         uint32_t        block_size;
-> > >         uint32_t        write_granularity;
-> > >         uint32_t        nr_zones
-> > >         struct zbd_zone *zones; /* array of zones */
-> > > };
-> > >
-> > > If yes, then my comments are as follows.
-> > >
-> > > For the device struct: It may be good to have also the maximum number=
- of
-> > > open zones and the maximum number of active zones.
-> > >
-> > > For the zone struct: You may need to add a read-write lock per zone t=
-o be
-> > > able to write lock zones to ensure a sequential write pattern (virtio
-> > > devices can be multi-queue and so writes may be coming in from differ=
-ent
-> > > contexts) and to correctly emulate zone append operations with an ato=
-mic
-> > > update of the wp field.
-> > >
-> > > These need to be integrated into the generic block driver interface i=
-n
-> > > include/block/block_int-common.h or include/block/block-common.h.
-> >
-> > QEMU's block layer has a few ways of exposing information about block d=
-evices:
-> >
-> >     int (*bdrv_get_info)(BlockDriverState *bs, BlockDriverInfo *bdi);
-> >     ImageInfoSpecific *(*bdrv_get_specific_info)(BlockDriverState *bs,
-> > Error **errp);
-> >
-> > These fetch information from the BlockDriver and are good when a small
-> > amount of data is reported occassionally and consumed by the caller.
-> >
-> > For data that is continuously accessed or that could be large, it may
-> > be necessary for the data to reside inside BlockDriverState so that it
-> > can be accessed in place (without copying):
-> >
-> >     void (*bdrv_refresh_limits)(BlockDriverState *bs, Error **errp);
-> >
-> > QEMU uses this for the BlockLimits struct (BlockDriverState::bl) that
-> > is continuously accessed by the block layer while processing I/O
-> > requests. The "refresh" function updates the data in case the
-> > underlying storage device has changed somehow. If no update function
-> > is necessary then data can simply be populated during .bdrv_open() and
-> > no new BlockDriver callback needs to be added.
-> >
-> > So in the simplest case BlockDriverState can be extended with a struct
-> > zbd_dev field that is populated during .bdrv_open(). If the
-> > BlockDriver doesn't support zones then the zbd_dev.nr_zones field is 0
-> > or the model field indicates that this is not a zoned storage device.
-> >
-> > However, a BlockBackend (not BlockDriverState!) API will be needed to
-> > expose this data to users like the hw/block/virtio-blk.c emulation
-> > code or the qemu-io-cmds.c utility that can be used for testing. A
-> > BlockBackend has a root pointer to a BlockDriverState graph (for
-> > example, qcow2 on top of file-posix). It will be necessary to
-> > propagate zoned storage information from the leaf BlockDriverState all
-> > the way up to the BlockBackend. In simple cases the BB root points
-> > directly to the file-posix BDS that has Linux ZBD support but the
-> > design needs to account for additional BDS graph nodes.
->
-> I think a simple way to think BlockBackend APIs is to use following
-> callbacks: blk_aio_zone_mgmt() -> blk_aio_prwv() +
-> blk_aio_zone_mgmt_entry() -> blk_co_do_zone_mgmt() -> blk_zone_mgmt().
-> The last function call will call bdrv_co_zone_mgmt() in
-> block/file-posix.c. If I understand the additional case correctly, the
-> BlockBackend API can expose the zone information to the virtio-blk
-> emulation now.
+On 31/05/2022 22:49, Daniel Henrique Barboza wrote:
 
-Yes!
+> We have two very similar root-port devices, pnv-phb3-root-port and
+> pnv-phb4-root-port. Both consist of a wrapper around the PCIESlot device
+> that, until now, has no additional attributes.
+> 
+> The main difference between the PHB3 and PHB4 root ports is that
+> pnv-phb4-root-port has the pnv_phb4_root_port_reset() callback. All
+> other differences can be merged in a single device without too much
+> trouble.
+> 
+> This patch introduces the unified pnv-phb-root-port that, in time, will
+> be used as the default root port for the pnv-phb device.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/pci-host/pnv_phb.c | 107 ++++++++++++++++++++++++++++++++++++++----
+>   hw/pci-host/pnv_phb.h |  17 +++++++
+>   2 files changed, 116 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+> index 321c4e768a..5047e90d3a 100644
+> --- a/hw/pci-host/pnv_phb.c
+> +++ b/hw/pci-host/pnv_phb.c
+> @@ -114,15 +114,106 @@ static void pnv_phb_class_init(ObjectClass *klass, void *data)
+>       dc->user_creatable = true;
+>   }
+>   
+> -static void pnv_phb_register_type(void)
+> +static void pnv_phb_root_port_reset(DeviceState *dev)
+>   {
+> -    static const TypeInfo pnv_phb_type_info = {
+> -        .name          = TYPE_PNV_PHB,
+> -        .parent        = TYPE_PCIE_HOST_BRIDGE,
+> -        .instance_size = sizeof(PnvPHB),
+> -        .class_init    = pnv_phb_class_init,
+> -    };
+> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+> +    PnvPHBRootPort *rootport = PNV_PHB_ROOT_PORT(dev);
+> +    PCIDevice *d = PCI_DEVICE(dev);
+> +    uint8_t *conf = d->config;
+>   
+> +    rpc->parent_reset(dev);
+> +
+> +    if (rootport->version == 3) {
+> +        return;
+> +    }
+> +
+> +    /* PHB4 and later requires these extra reset steps */
+> +    pci_byte_test_and_set_mask(conf + PCI_IO_BASE,
+> +                               PCI_IO_RANGE_MASK & 0xff);
+> +    pci_byte_test_and_clear_mask(conf + PCI_IO_LIMIT,
+> +                                 PCI_IO_RANGE_MASK & 0xff);
+> +    pci_set_word(conf + PCI_MEMORY_BASE, 0);
+> +    pci_set_word(conf + PCI_MEMORY_LIMIT, 0xfff0);
+> +    pci_set_word(conf + PCI_PREF_MEMORY_BASE, 0x1);
+> +    pci_set_word(conf + PCI_PREF_MEMORY_LIMIT, 0xfff1);
+> +    pci_set_long(conf + PCI_PREF_BASE_UPPER32, 0x1); /* Hack */
+> +    pci_set_long(conf + PCI_PREF_LIMIT_UPPER32, 0xffffffff);
+> +    pci_config_set_interrupt_pin(conf, 0);
+> +}
+> +
+> +static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+> +{
+> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+> +    PCIDevice *pci = PCI_DEVICE(dev);
+> +    PCIBus *bus = pci_get_bus(pci);
+> +    PnvPHB *phb = NULL;
+> +    Error *local_err = NULL;
+> +
+> +    phb = (PnvPHB *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+> +                                          TYPE_PNV_PHB);
 
-block/raw-format.c also needs to implement .bdrv_co_zone_mgmt() by
-calling bdrv_co_zone_mgmt(bs->file, ...). This is because the
-raw-format.c driver usually sits on top of file-posix.c and has to
-pass through requests.
+Same here too.
 
-There are filter block drivers like block/throttle.c,
-block/blkdebug.c, etc (git grep is_filter block/) that will also need
-to be modified to pass through requests in the same way.
+> +    if (!phb) {
+> +        error_setg(errp,
+> +"pnv_phb_root_port devices must be connected to pnv-phb buses");
+> +        return;
+> +    }
+> +
+> +    /* Set unique chassis/slot values for the root port */
+> +    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
+> +    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
 
-Based on what I've read in Dmitry's virtio-blk spec proposal, the
-BlockBackend API could look something like:
+Again this is from older code, but we already have dev so these could be:
 
-typedef struct { ...model, zone_sectors, max_open_zones, etc... } BlockZone=
-Info;
-void blk_get_zone_info(BlockBackend *blk, BlockZoneInfo *info);
+     qdev_prop_set_uint8(dev, "chassis", phb->chip_id);
+     qdev_prop_set_uint16(dev, "slot", phb->phb_id);
 
-virtio-blk.c calls this to fill out configuration space fields and
-determine whether the BlockBackend is a zoned device.
+> +    rpc->parent_realize(dev, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +    pci_config_set_interrupt_pin(pci->config, 0);
+> +}
+> +
+> +static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
+> +
+> +    dc->desc     = "IBM PHB PCIE Root Port";
+> +
+> +    device_class_set_parent_realize(dc, pnv_phb_root_port_realize,
+> +                                    &rpc->parent_realize);
+> +
+> +    device_class_set_parent_reset(dc, pnv_phb_root_port_reset,
+> +                                  &rpc->parent_reset);
+> +    dc->reset = &pnv_phb_root_port_reset;
+> +
+> +    dc->user_creatable = true;
+> +
+> +    k->vendor_id = PCI_VENDOR_ID_IBM;
+> +    /* device_id represents the latest PHB root port version supported */
+> +    k->device_id = PNV_PHB5_DEVICE_ID;
+> +    k->revision  = 0;
+> +
+> +    rpc->exp_offset = 0x48;
+> +    rpc->aer_offset = 0x100;
+> +}
+> +
+> +static const TypeInfo pnv_phb_type_info = {
+> +    .name          = TYPE_PNV_PHB,
+> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
+> +    .instance_size = sizeof(PnvPHB),
+> +    .class_init    = pnv_phb_class_init,
+> +};
+> +
+> +static const TypeInfo pnv_phb_root_port_info = {
+> +    .name          = TYPE_PNV_PHB_ROOT_PORT,
+> +    .parent        = TYPE_PCIE_ROOT_PORT,
+> +    .instance_size = sizeof(PnvPHBRootPort),
+> +    .class_init    = pnv_phb_root_port_class_init,
+> +};
+> +
+> +static void pnv_phb_register_types(void)
+> +{
+>       type_register_static(&pnv_phb_type_info);
+> +    type_register_static(&pnv_phb_root_port_info);
+>   }
+> -type_init(pnv_phb_register_type)
+> +
+> +type_init(pnv_phb_register_types)
+> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
+> index a7cc8610e2..c8eab4b767 100644
+> --- a/hw/pci-host/pnv_phb.h
+> +++ b/hw/pci-host/pnv_phb.h
+> @@ -36,4 +36,21 @@ struct PnvPHB {
+>   #define TYPE_PNV_PHB "pnv-phb"
+>   OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
+>   
+> +/*
+> + * PHB PCIe Root port
+> + */
+> +#define PNV_PHB3_DEVICE_ID         0x03dc
+> +#define PNV_PHB4_DEVICE_ID         0x04c1
+> +#define PNV_PHB5_DEVICE_ID         0x0652
+> +
+> +typedef struct PnvPHBRootPort {
+> +    PCIESlot parent_obj;
+> +
+> +    uint32_t version;
+> +} PnvPHBRootPort;
+> +
+> +#define TYPE_PNV_PHB_ROOT_PORT "pnv-phb-root-port"
+> +#define PNV_PHB_ROOT_PORT(obj) \
+> +    OBJECT_CHECK(PnvPHBRootPort, obj, TYPE_PNV_PHB_ROOT_PORT)
+> +
+>   #endif /* PCI_HOST_PNV_PHB_H */
 
-Then there are 3 commands that happen in the I/O code path:
 
-typedef struct { ... } BlockZoneDescriptor;
-BlockAIOCB *blk_aio_zone_report(BlockBackend *blk, int64_t offset,
-BlockZoneDescriptor *zones, size_t max_zones, BlockCompletionFunc *cb,
-void *opaque);
+ATB,
 
-typedef enum { ... } BlockZoneMgmtCmd;
-BlockAIOCB *blk_aio_zone_mgmt_send(BlockBackend *blk, int64_t offset,
-BlockZoneMgmtCmd cmd, bool all, BlockCompletionFunc *cb, void
-*opaque);
-
-typedef void BlockZoneAppendCompletionFunc(void *opaque, int ret,
-int64_t new_wp);
-BlockAIOCB *blk_aio_zone_append(BlockBackend *blk, int64_t offset,
-QEMUIOVector *qiov, BlockZoneAppendCompletionFunc *cb, void *opaque);
-
-> Besides, comparing blk_aio_flush() with blk_flush() in block-backend.c
-> which lead to include/block/block-io.h, we may need consider the case
-> when calling block layer API from non-coroutine context. Meanwhile,
-> using bdrv_co_writev()/bdrv_co_readv() instead of read-write lock per
-> zone may be a option too.
-
-Yes, device emulation code usually uses the aio versions of the
-BlockBackend I/O functions (read, write, flush). The QEMU block layer
-runs the aio I/O request inside a coroutine and usually also exposes
-coroutine versions of the same functions. For example, block jobs
-(e.g. storage mirroring, backup, and migration background tasks)
-usually call the coroutine versions of the BlockBackend APIs instead
-of the aio ones.
-
-qemu-io-cmds.c will want synchronous versions of the aio commands
-(blk_zone_report(), blk_zone_mgmt_send(), blk_zone_append()) that
-block until the command completes. This is because the qemu-io utility
-typically executes one command at a time and it's written mostly in
-blocking style rather than async callbacks or coroutines.
-docs/devel/block-coroutine-wrapper.rst describes how to generate
-synchronous versions of coroutine functions.
-
-Do you want to start implementing blk_get_zone_info()? This will
-require blk_*(), bdrv_*(), and BlockDriver (block/file-posix.c)
-functions.
-
-Stefan
+Mark.
 
