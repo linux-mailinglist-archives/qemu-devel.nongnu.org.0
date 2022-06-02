@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7AD53B0EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:22:02 +0200 (CEST)
-Received: from localhost ([::1]:43698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C284D53B0ED
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:21:48 +0200 (CEST)
+Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwZXF-0006C5-Ky
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40792)
+	id 1nwZX1-0005fL-SI
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nwZRD-00023E-Fl
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:15:47 -0400
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a]:43021)
+ id 1nwZTJ-0003Xg-0e; Wed, 01 Jun 2022 21:18:00 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:46922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nwZRB-0006tr-Cp
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:15:47 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-f2bb84f9edso4942247fac.10
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 18:15:45 -0700 (PDT)
+ id 1nwZTH-0007l7-7R; Wed, 01 Jun 2022 21:17:56 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id m82so4809200oif.13;
+ Wed, 01 Jun 2022 18:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=vewSSbETMJWOQ9WV8qtV7QxGQVf23zqkgbi1ckFc0fE=;
- b=jq1fD9fwsMXOzx02AW+9pvL9ARRvg8kO8xgv5ewYwGlqHgs5q8BP64qC+BdNx9RONG
- p7FhtNxuUGz8r/b8AaKiSajZqwFN0L59Jf2PdgjuuY2L53Ql4X2/fvFSntyKCuWcspR5
- pfeJEgFRyibz4w4DthWG3m0YbAFUuwrzafq1lwzejqkmeA5mpulIBSW608R7T1izDMkb
- zyDX7Os/iL54+wyOUr2eeHG8mc0VlH6TxUqTmGamIF9GYiF+4OTBz8sx7unCNvgGO7Ew
- HzQjDPCGxh+Z5e9ckaye+DasmszzPU8lzeKPvRv/FtKYPwMU7p6eZjTfaLMuLmYc7w8c
- fHDQ==
+ bh=agBzy9oGVqBrNwMTJRPae7+XYvuXgxgNqp4Kr4rZ5/w=;
+ b=qp5Xpn3bqaHvllACYJbLAPQk5qLf1LjgG0RGEOMShIMOJZLqr3TQhsh9PxqM+Y7LvJ
+ 2aStpCpk59JI/rk7SBwgLwKnw47xc3+tTweNhs2lnJtM1p3uhvHpV57tBLPe3xF473KS
+ dHQJA8Dz67Ahn0DG9W7m4Td9Y5cicpzC/H95jDfRwHcU/EwdGYfyH88Z7ji3JJiNgQsx
+ KJ60EjU1xJ+VjiNp/b552Rsc0PUf+bvTJbCsNslr9xFCcPOh7Rr04I9xjGdAxMj8XxA7
+ b6wTLjRmkEruNJ23Nt3LxplQCEtQDBHn2Ix1wGcZ0WtKdbkGbv0rQCU2gK2tfBQxnlvR
+ 3aUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=vewSSbETMJWOQ9WV8qtV7QxGQVf23zqkgbi1ckFc0fE=;
- b=rI/enNcwshLVOyjovf/idDOf7wDIEc1h1fovNAFwYjRO9iIK1P5GuM5uQiRUKQwkXB
- pVEwhU/Ypw/5oboD6P+Xr/0YSfYzt3jUMMYkqUCe4uX47nFA7QQqsvFSZ9ceiA7VvKuT
- uQRNsWijW0lw2jPWXgAaz5F2YFqFrgI8c4aoKJHAcMZj79S5P279JkBSMHmGrRvcBf+c
- W/IuP+F7QHBLZGxK1fBuJOB5DFl19PYiutFJUwbytBgePgN74pOagqOhHciBqa2gqVh7
- dJv7tYO6YOFumHosgBzA0f4VDmExgZetcYeU1Y/G4tm+oNK6sCRIqWhEzvF1+TqtTbVU
- GL0w==
-X-Gm-Message-State: AOAM533fJ/603CeHszK4xogLasHVBHKPHWniXb/er2GKtjPm5uQVMZyw
- 7hNMovSs9atogC5YfLGbUCpjekRGgERx4WwN/NY=
-X-Google-Smtp-Source: ABdhPJyUDAv2m6s6lq5Zhe75Qt8J0BkbbE3L3SAjJ592oSFn+MFCuyuD0f2n6+dph5oJIDrm69g5PTFKCec4tvOK1a4=
-X-Received: by 2002:a05:6870:2047:b0:e9:1b34:fbe with SMTP id
- l7-20020a056870204700b000e91b340fbemr18671579oad.64.1654132544069; Wed, 01
- Jun 2022 18:15:44 -0700 (PDT)
+ bh=agBzy9oGVqBrNwMTJRPae7+XYvuXgxgNqp4Kr4rZ5/w=;
+ b=0Vrx3bZDR90i+ZBLY9o0OglcA/0TaGAnuKJD2O8UhCIQvm9P/M1MsYWvpnS485ZhPb
+ UbJ+alG18kSNesETCvAZPaBSbJgD34+Omtlam7cc1YsVeFZ/y5GHLk116Zmg4+ZjIetk
+ C9rO4LYYnEW7gt2NkUkj366izDJKt4yoU/aQJM5uJfGmG1VZe1YRqWFLLiBkgNZunAgs
+ Q+1/mSC7DHvV7MMbz6iMppxkR+NUgRiRioFGmbVhKcDMY0TRt7IV2hWl5Z8XcfTL4IrW
+ OdSFXYOum/SPphhMLM/8T+7lqb3CyQgRFlp6O/gK6Vb083IcOstqyjWW9N+BLFMLIsH3
+ XSuQ==
+X-Gm-Message-State: AOAM533GGUPcMxfgdmI4bf11+0XmhYXVHtQvIn/CsfJF7eqq6m3BQDJ6
+ lQD10vIXZMygzjZGfAZvXACZeAXG9HcgJZ0ls4U=
+X-Google-Smtp-Source: ABdhPJxcq3v6i7BVQUJh3hVin6Vg5XwSsMr/Cquj0XQqCDM9edw3etyy8pAoysNL47Z8LQHGJn7xbTfRwB8fQUljv2U=
+X-Received: by 2002:a05:6808:1817:b0:32b:6b00:e9a8 with SMTP id
+ bh23-20020a056808181700b0032b6b00e9a8mr1302103oib.278.1654132672659; Wed, 01
+ Jun 2022 18:17:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220427230716.2158127-1-pcc@google.com>
- <282e67cb-53b8-c7b9-a496-eda44d8a5e2b@amsat.org>
-In-Reply-To: <282e67cb-53b8-c7b9-a496-eda44d8a5e2b@amsat.org>
+References: <cover.1652435208.git.research_trasio@irq.a4lg.com>
+ <cover.1653472385.git.research_trasio@irq.a4lg.com>
+ <dd7579a2a8b81632827d42a137c7f7720cc7ab5f.1653472385.git.research_trasio@irq.a4lg.com>
+ <95b64f27-25e1-d2ad-f894-c890c3a1ffbb@eldorado.org.br>
+ <347a7bef-9545-b715-de77-0bc80823d9cc@irq.a4lg.com>
+In-Reply-To: <347a7bef-9545-b715-de77-0bc80823d9cc@irq.a4lg.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 2 Jun 2022 11:15:18 +1000
-Message-ID: <CAKmqyKP_OaR9CWzMWqvbuqbuXF6ex8kBFiiZtnxa4xAimh9Gpg@mail.gmail.com>
-Subject: Re: [PATCH] loader: support loading large files (>=2GB)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Peter Collingbourne <pcc@google.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
+Date: Thu, 2 Jun 2022 11:17:26 +1000
+Message-ID: <CAKmqyKMBDPS+JbFXLf3YxNOUyYBksCn-52c+CZWs6xVJ2nyU6A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] target/riscv: Make CPU property names lowercase
+To: Tsukasa OI <research_trasio@irq.a4lg.com>
+Cc: =?UTF-8?Q?V=C3=ADctor_Colombo?= <victor.colombo@eldorado.org.br>, 
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jamie Iles <jamie@nuviainc.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Luc Michel <lmichel@kalray.eu>, Alistair Francis <alistair@alistair23.me>
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=alistair23@gmail.com; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=alistair23@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,239 +88,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 31, 2022 at 12:59 AM Philippe Mathieu-Daud=C3=A9 via
-<qemu-devel@nongnu.org> wrote:
+On Thu, May 26, 2022 at 1:27 AM Tsukasa OI <research_trasio@irq.a4lg.com> w=
+rote:
 >
-> Hi Peter,
->
-> On 28/4/22 01:07, Peter Collingbourne wrote:
-> > Currently the loader uses int as the return type for various APIs
-> > that deal with file sizes, which leads to an error if the file
-> > size is >=3D2GB, as it ends up being interpreted as a negative error
-> > code. Furthermore, we do not tolerate short reads, which are possible
-> > at least on Linux when attempting to read such large files in one
-> > syscall.
+> On 2022/05/25 21:10, V=C3=ADctor Colombo wrote:
+> > On 25/05/2022 06:54, Tsukasa OI wrote:
+> >> Many CPU properties for RISC-V are in lowercase except those with
+> >> "capitalized" (or CamelCase) names:
+> >>
+> >> -   Counters
+> >> -   Zifencei
+> >> -   Zicsr
+> >> -   Zfh
+> >> -   Zfhmin
+> >> -   Zve32f
+> >> -   Zve64f
+> >>
+> >> This commit makes lowercase names primary but keeps capitalized names
+> >> as aliases (for backward comatibility, but with deprecated status).
 > >
-> > Fix the first problem by switching to 64-bit types for file sizes,
-> > and fix the second by introducing a loop around the read syscall.
+> > 'compatibility'
 >
-> Hmm maybe worth rebasing on this patch from Jamie which also
-> fixes the format on 32-bit hosts:
-> https://lore.kernel.org/qemu-devel/20211111141141.3295094-2-jamie@nuviain=
-c.com/
+> I think I somehow pressed a backspace while finalizing.
+> I submitted v2.1 (PATCH 2/3 only) and that should be fine.
 >
-> (Personally I prefer to read ssize_t while reviewing instead
-> of int64_t).
+> https://lists.gnu.org/archive/html/qemu-riscv/2022-05/msg00417.html
 
-I agree with ssize_t as well, I have applied the patch from Jamie
-which had fallen through the cracks.
+Do you mind re-sending the series, it's difficult to keep track of
+single patch increments like this
 
-If you can rebase this on top of the RISC-V queue and re-send it I'll
-apply the other changes
+>
+> Thanks!
+> Tsukasa
+>
+> >
+> >>
+> >> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+> >
+> > Tested-by: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
->
-> While here, please have a look at this other patch from Jamie:
-> https://lore.kernel.org/qemu-devel/20211111141141.3295094-3-jamie@nuviain=
-c.com/
->
-> Also, Cc'ing the maintainer:
->
-> $ ./scripts/get_maintainer.pl -f hw/core/generic-loader.c
-> Alistair Francis <alistair@alistair23.me> (maintainer:Generic Loader)
->
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > ---
-> >   hw/core/generic-loader.c |  2 +-
-> >   hw/core/loader.c         | 44 ++++++++++++++++++++++++---------------=
--
-> >   include/hw/loader.h      | 13 ++++++------
-> >   3 files changed, 34 insertions(+), 25 deletions(-)
 > >
-> > diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-> > index c666545aa0..0891fa73c3 100644
-> > --- a/hw/core/generic-loader.c
-> > +++ b/hw/core/generic-loader.c
-> > @@ -67,7 +67,7 @@ static void generic_loader_realize(DeviceState *dev, =
-Error **errp)
-> >       GenericLoaderState *s =3D GENERIC_LOADER(dev);
-> >       hwaddr entry;
-> >       int big_endian;
-> > -    int size =3D 0;
-> > +    int64_t size =3D 0;
+> >> ---
+> >>   target/riscv/cpu.c | 27 ++++++++++++++++++++-------
+> >>   1 file changed, 20 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> >> index 3f21563f2d..83262586e4 100644
+> >> --- a/target/riscv/cpu.c
+> >> +++ b/target/riscv/cpu.c
+> >> @@ -840,6 +840,10 @@ static void riscv_cpu_init(Object *obj)
+> >>   }
+> >>
+> >>   static Property riscv_cpu_properties[] =3D {
+> >> +    /*
+> >> +     * Names for ISA extensions and features should be in lowercase.
+> >> +     */
+> >> +
+> >>       /* Base ISA and single-letter standard extensions */
+> >>       DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
+> >>       DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
+> >> @@ -855,11 +859,11 @@ static Property riscv_cpu_properties[] =3D {
+> >>       DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
+> >>
+> >>       /* Standard unprivileged extensions */
+> >> -    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> >> -    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> >> +    DEFINE_PROP_BOOL("zicsr", RISCVCPU, cfg.ext_icsr, true),
+> >> +    DEFINE_PROP_BOOL("zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> >>
+> >> -    DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+> >> -    DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+> >> +    DEFINE_PROP_BOOL("zfh", RISCVCPU, cfg.ext_zfh, false),
+> >> +    DEFINE_PROP_BOOL("zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+> >>       DEFINE_PROP_BOOL("zfinx", RISCVCPU, cfg.ext_zfinx, false),
+> >>       DEFINE_PROP_BOOL("zdinx", RISCVCPU, cfg.ext_zdinx, false),
+> >>       DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
+> >> @@ -884,8 +888,8 @@ static Property riscv_cpu_properties[] =3D {
+> >>       DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
+> >>       DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
+> >>
+> >> -    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> >> -    DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+> >> +    DEFINE_PROP_BOOL("zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> >> +    DEFINE_PROP_BOOL("zve64f", RISCVCPU, cfg.ext_zve64f, false),
+> >>
+> >>       /* Standard supervisor-level extensions */
+> >>       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+> >> @@ -893,7 +897,7 @@ static Property riscv_cpu_properties[] =3D {
+> >>       DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+> >>
+> >>       /* Base features */
+> >> -    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> >> +    DEFINE_PROP_BOOL("counters", RISCVCPU, cfg.ext_counters, true),
+> >>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+> >>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> >>       DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+> >> @@ -922,6 +926,15 @@ static Property riscv_cpu_properties[] =3D {
+> >>       /* Other options */
+> >>       DEFINE_PROP_BOOL("short-isa-string", RISCVCPU,
+> >> cfg.short_isa_string, false),
+> >>
+> >> +    /* Capitalized aliases (deprecated and will be removed) */
+> >> +    DEFINE_PROP("Counters", RISCVCPU, cfg.ext_counters,
+> >> qdev_prop_bool, bool),
+> >> +    DEFINE_PROP("Zifencei", RISCVCPU, cfg.ext_ifencei,
+> >> qdev_prop_bool, bool),
+> >> +    DEFINE_PROP("Zicsr", RISCVCPU, cfg.ext_icsr, qdev_prop_bool, bool=
+),
+> >> +    DEFINE_PROP("Zfh", RISCVCPU, cfg.ext_zfh, qdev_prop_bool, bool),
+> >> +    DEFINE_PROP("Zfhmin", RISCVCPU, cfg.ext_zfhmin, qdev_prop_bool,
+> >> bool),
+> >> +    DEFINE_PROP("Zve32f", RISCVCPU, cfg.ext_zve32f, qdev_prop_bool,
+> >> bool),
+> >> +    DEFINE_PROP("Zve64f", RISCVCPU, cfg.ext_zve64f, qdev_prop_bool,
+> >> bool),
+> >> +
+> >>       DEFINE_PROP_END_OF_LIST(),
+> >>   };
+> >>
+> >> --
+> >> 2.34.1
+> >>
+> >>
 > >
-> >       s->set_pc =3D false;
+> > Best regards,
 > >
-> > diff --git a/hw/core/loader.c b/hw/core/loader.c
-> > index ca2f2431fb..d07c79c400 100644
-> > --- a/hw/core/loader.c
-> > +++ b/hw/core/loader.c
-> > @@ -115,17 +115,17 @@ ssize_t read_targphys(const char *name,
-> >       return did;
-> >   }
-> >
-> > -int load_image_targphys(const char *filename,
-> > -                        hwaddr addr, uint64_t max_sz)
-> > +int64_t load_image_targphys(const char *filename,
-> > +                            hwaddr addr, uint64_t max_sz)
-> >   {
-> >       return load_image_targphys_as(filename, addr, max_sz, NULL);
-> >   }
-> >
-> >   /* return the size or -1 if error */
-> > -int load_image_targphys_as(const char *filename,
-> > -                           hwaddr addr, uint64_t max_sz, AddressSpace =
-*as)
-> > +int64_t load_image_targphys_as(const char *filename,
-> > +                               hwaddr addr, uint64_t max_sz, AddressSp=
-ace *as)
-> >   {
-> > -    int size;
-> > +    int64_t size;
-> >
-> >       size =3D get_image_size(filename);
-> >       if (size < 0 || size > max_sz) {
-> > @@ -139,9 +139,9 @@ int load_image_targphys_as(const char *filename,
-> >       return size;
-> >   }
-> >
-> > -int load_image_mr(const char *filename, MemoryRegion *mr)
-> > +int64_t load_image_mr(const char *filename, MemoryRegion *mr)
-> >   {
-> > -    int size;
-> > +    int64_t size;
-> >
-> >       if (!memory_access_is_direct(mr, false)) {
-> >           /* Can only load an image into RAM or ROM */
-> > @@ -963,7 +963,8 @@ int rom_add_file(const char *file, const char *fw_d=
-ir,
-> >   {
-> >       MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
-> >       Rom *rom;
-> > -    int rc, fd =3D -1;
-> > +    int fd =3D -1;
-> > +    size_t bytes_read =3D 0;
-> >       char devpath[100];
-> >
-> >       if (as && mr) {
-> > @@ -1003,11 +1004,17 @@ int rom_add_file(const char *file, const char *=
-fw_dir,
-> >       rom->datasize =3D rom->romsize;
-> >       rom->data     =3D g_malloc0(rom->datasize);
-> >       lseek(fd, 0, SEEK_SET);
-> > -    rc =3D read(fd, rom->data, rom->datasize);
-> > -    if (rc !=3D rom->datasize) {
-> > -        fprintf(stderr, "rom: file %-20s: read error: rc=3D%d (expecte=
-d %zd)\n",
-> > -                rom->name, rc, rom->datasize);
-> > -        goto err;
-> > +    while (bytes_read < rom->datasize) {
-> > +        ssize_t rc =3D
-> > +            read(fd, rom->data + bytes_read, rom->datasize - bytes_rea=
-d);
-> > +        if (rc <=3D 0) {
-> > +            fprintf(stderr,
-> > +                    "rom: file %-20s: read error: rc=3D%zd at position=
- %zd "
-> > +                    "(expected size %zd)\n",
-> > +                    rom->name, rc, bytes_read, rom->datasize);
-> > +            goto err;
-> > +        }
-> > +        bytes_read +=3D rc;
-> >       }
-> >       close(fd);
-> >       rom_insert(rom);
-> > @@ -1671,7 +1678,7 @@ typedef struct {
-> >       HexLine line;
-> >       uint8_t *bin_buf;
-> >       hwaddr *start_addr;
-> > -    int total_size;
-> > +    int64_t total_size;
-> >       uint32_t next_address_to_write;
-> >       uint32_t current_address;
-> >       uint32_t current_rom_index;
-> > @@ -1767,8 +1774,8 @@ static int handle_record_type(HexParser *parser)
-> >   }
-> >
-> >   /* return size or -1 if error */
-> > -static int parse_hex_blob(const char *filename, hwaddr *addr, uint8_t =
-*hex_blob,
-> > -                          size_t hex_blob_size, AddressSpace *as)
-> > +static int64_t parse_hex_blob(const char *filename, hwaddr *addr, uint=
-8_t *hex_blob,
-> > +                              size_t hex_blob_size, AddressSpace *as)
-> >   {
-> >       bool in_process =3D false; /* avoid re-enter and
-> >                                 * check whether record begin with ':' *=
-/
-> > @@ -1832,11 +1839,12 @@ out:
-> >   }
-> >
-> >   /* return size or -1 if error */
-> > -int load_targphys_hex_as(const char *filename, hwaddr *entry, AddressS=
-pace *as)
-> > +int64_t load_targphys_hex_as(const char *filename, hwaddr *entry,
-> > +                             AddressSpace *as)
-> >   {
-> >       gsize hex_blob_size;
-> >       gchar *hex_blob;
-> > -    int total_size =3D 0;
-> > +    int64_t total_size =3D 0;
-> >
-> >       if (!g_file_get_contents(filename, &hex_blob, &hex_blob_size, NUL=
-L)) {
-> >           return -1;
-> > diff --git a/include/hw/loader.h b/include/hw/loader.h
-> > index 5572108ba5..7b09705940 100644
-> > --- a/include/hw/loader.h
-> > +++ b/include/hw/loader.h
-> > @@ -40,8 +40,8 @@ ssize_t load_image_size(const char *filename, void *a=
-ddr, size_t size);
-> >    *
-> >    * Returns the size of the loaded image on success, -1 otherwise.
-> >    */
-> > -int load_image_targphys_as(const char *filename,
-> > -                           hwaddr addr, uint64_t max_sz, AddressSpace =
-*as);
-> > +int64_t load_image_targphys_as(const char *filename,
-> > +                               hwaddr addr, uint64_t max_sz, AddressSp=
-ace *as);
-> >
-> >   /**load_targphys_hex_as:
-> >    * @filename: Path to the .hex file
-> > @@ -53,14 +53,15 @@ int load_image_targphys_as(const char *filename,
-> >    *
-> >    * Returns the size of the loaded .hex file on success, -1 otherwise.
-> >    */
-> > -int load_targphys_hex_as(const char *filename, hwaddr *entry, AddressS=
-pace *as);
-> > +int64_t load_targphys_hex_as(const char *filename, hwaddr *entry,
-> > +                             AddressSpace *as);
-> >
-> >   /** load_image_targphys:
-> >    * Same as load_image_targphys_as(), but doesn't allow the caller to =
-specify
-> >    * an AddressSpace.
-> >    */
-> > -int load_image_targphys(const char *filename, hwaddr,
-> > -                        uint64_t max_sz);
-> > +int64_t load_image_targphys(const char *filename, hwaddr,
-> > +                            uint64_t max_sz);
-> >
-> >   /**
-> >    * load_image_mr: load an image into a memory region
-> > @@ -73,7 +74,7 @@ int load_image_targphys(const char *filename, hwaddr,
-> >    * If the file is larger than the memory region's size the call will =
-fail.
-> >    * Returns -1 on failure, or the size of the file.
-> >    */
-> > -int load_image_mr(const char *filename, MemoryRegion *mr);
-> > +int64_t load_image_mr(const char *filename, MemoryRegion *mr);
-> >
-> >   /* This is the limit on the maximum uncompressed image size that
-> >    * load_image_gzipped_buffer() and load_image_gzipped() will read. It=
- prevents
->
 >
 
