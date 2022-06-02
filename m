@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1F453B05F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 01:31:05 +0200 (CEST)
-Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5333C53B0D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 02:40:27 +0200 (CEST)
+Received: from localhost ([::1]:51024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwXnr-0003b9-Se
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 19:31:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55372)
+	id 1nwYsz-0005Er-Hu
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 20:40:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwXk6-0002r5-EP
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 19:27:11 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:40648)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nwYop-0003o8-J4; Wed, 01 Jun 2022 20:36:10 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:39886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwXk4-00083w-Lg
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 19:27:10 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- n13-20020a17090a394d00b001e30a60f82dso7716531pjf.5
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 16:27:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9pazjDNhxS4z0NmOrBsgRIL8mzZfsAVnJBL6W/2yfw0=;
- b=N28nEPG3EchaY0RZ2uwNRbxzbFD8aotmQZHZdBtbu4d6l79hCYH0upleREPUaBxtdU
- SzQIZbXuEXhGoBsJlxsFfhcK1dgeIe4omH00YSQFPrOTLV7indylufWVM6zOyo+FNJ95
- 0NLR+dwuPWa2yUdpxMvD0zc1NGGoOtdL2hBrKki6NKuOcTLXu9sO4swbQdYNZRSsey7l
- BydRSlZx1sJAwQpgQHbOdyRPuVfBhnInFESU1EKdnQwEHStrTPkrUkEnrfk/j8XE0JV1
- WpIXVCg6WkTvjjtmCR9Je3EFnZv9SUG5ymaxqoqRzRn5TOSmF6bVi9yiAAGq67LP7EmP
- hyNA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nwYon-00040X-PQ; Wed, 01 Jun 2022 20:36:07 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ w19-20020a9d6393000000b0060aeb359ca8so2407857otk.6; 
+ Wed, 01 Jun 2022 17:36:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2h7+pDxxHVmgE2R/UdwCACCYRRU9YglMv2eX0ZE7HWM=;
+ b=icchz9qVEzjES+Tn3jqWz/ngfLCLr9k3rWPIZLtIMsXtcvZej02IxW4QUpYYfMgVxY
+ ZiNQGJpfDGzbhJC4MPbwBiRDOhNGradZE0PxQulBf5gDQew94w5PDtIkXkHS8rjoAftz
+ KoyM1jOmRV6Y2pAUFU4tU+4lX12waqfcoJ5ENEw0SLmGcedgQiroLNPgESkG1JbrRcSX
+ WmaKYCFQlOaAaBXhem9BU6/HvU5EnA3BR0pb79GQsMEp8QjTS1sNvPm0yeUtARO2b0lv
+ glE/ifi/P0YVgN/hBY5TudwxuH9AXCnr1FWF7Y1ILaa4nOzpe/Bg2IHQ/eBYXIQYmOza
+ jw5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9pazjDNhxS4z0NmOrBsgRIL8mzZfsAVnJBL6W/2yfw0=;
- b=IgwGPLMflJ65PIac8qt4mJLOb3Gm9iOAmcGobIxo26P8v77jBl3f60X7OW8TFAPNNk
- oLLivtWhUtkw2QUH//8kC3+d+EMxe6Fj5yNYi72UuZmCDRMY7JtQD7hLq87EXfIAf60t
- NCYEXkKJECPisdc5bfg6u7UBsl0JsZPyKoNEy+jwofWP9rl5dZMXTv69DBgsz49zonCl
- 7r2NiKF6dqZXpb+efC7ETFwiHinjpIROZKjqdmaxNmnx9Lssx3V4TjtpSymmPZQ7M6Yg
- osrBg6WS51MM6iAZJdWJ0OF1/EbzXvmINsXjg1r+cwFVOiolTFDyK7RMxHHC8AQEDcDq
- t1IQ==
-X-Gm-Message-State: AOAM533xSqOtRx4WnHBlf5evlgNl1jyhK4DNsLDNAkGLzzGRpDZjLKZ6
- Lz6VIEZNNHRUowYUgO8G6t5RVnWJevbEpg==
-X-Google-Smtp-Source: ABdhPJwB8dXBFt0sozn6+3EanCSyhYAqyceCI9QTjJCC+qteuNeIX33aFn2epZfr7wEpUvXbk46XqA==
-X-Received: by 2002:a17:902:f612:b0:14c:e978:f99e with SMTP id
- n18-20020a170902f61200b0014ce978f99emr1829820plg.23.1654126027057; 
- Wed, 01 Jun 2022 16:27:07 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1547:e101:1eca:8ee3:9269:e00c])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a1709028c8600b001636c0b98a7sm2073491plo.226.2022.06.01.16.27.05
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 16:27:06 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/i386: Fix encoding of OPC_VPSRAQ for INDEX_op_sars_vec
-Date: Wed,  1 Jun 2022 16:27:04 -0700
-Message-Id: <20220601232704.39667-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2h7+pDxxHVmgE2R/UdwCACCYRRU9YglMv2eX0ZE7HWM=;
+ b=UKpnFWM0rfp9UPRuglKiaVnB/uBOsC8AnZY29YLpVVqCVwb7TAgKb4UaXHrbLnAyly
+ vw3hOoqONDxSJPrSR9VvVfsEO7IyUcAtvzmxROuCYWUAM7JGovyWb5dJBbLeX/akRfoB
+ b5X/3CJNIyne3klphH5dlooBVDdNrXSkw3LJa0jMhhHnkU4KAI0ImOolUpwLK0xTQHLN
+ f8rzq/JJLoWh2AU/5aUL3oBw9qjK6DKcRwIZEB+ZdBV+gb/4kWbM11ZR/jggxDv7/0Fn
+ +sSy8MPS5t34O01d7SEiMFWZ8u0xuLJoZlANUTYbjGezJ9K2BYCyVhwEwJKZhnfGe09g
+ Jcjg==
+X-Gm-Message-State: AOAM532avQh06mreISVEvW2O3/9OPMwDrFRUMhvIVQYbfRs/cyES+scx
+ 4dMtwGvUIve7Dsa/tKmWNoLLp4DYq2Rrf+JZkkE=
+X-Google-Smtp-Source: ABdhPJwj2MhOsBUZL2WI3eKB4CBuQyx3X13kkZYJl/RjeLxYKDWYE9qtMTH5cLsV6r7GlL8WJ5xNQCFoC+FZQMWfYYw=
+X-Received: by 2002:a05:6830:18dc:b0:60a:e7a3:dbe7 with SMTP id
+ v28-20020a05683018dc00b0060ae7a3dbe7mr1071853ote.186.1654130164264; Wed, 01
+ Jun 2022 17:36:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220601172353.3220232-1-fkonrad@xilinx.com>
+ <20220601172353.3220232-3-fkonrad@xilinx.com>
+In-Reply-To: <20220601172353.3220232-3-fkonrad@xilinx.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Jun 2022 10:35:38 +1000
+Message-ID: <CAKmqyKMCHDTOd4Qenmd3K2LNk-OZ89rtETvTK3UHAJH57jPxSQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] xlnx_dp: Introduce a vblank signal
+To: frederic.konrad@xilinx.com
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Edgar Iglesias <edgar.iglesias@gmail.com>, 
+ Alistair Francis <alistair@alistair23.me>, Sai Pavan Boddu <saipava@xilinx.com>,
+ Edgar Iglesias <edgari@xilinx.com>, fkonrad@amd.com, 
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=alistair23@gmail.com; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,30 +88,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We wanted the VPSRAQ variant with the scalar vector shift operand,
-not the variant with an immediate operand.
+On Thu, Jun 2, 2022 at 3:29 AM <frederic.konrad@xilinx.com> wrote:
+>
+> From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+>
+> Add a periodic timer which raises vblank at a frequency of 30Hz.
+>
+> Signed-off-by: Sai Pavan Boddu <saipava@xilinx.com>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Changes by fkonrad:
+>   - Switched to transaction-based ptimer API.
+>   - Added the DP_INT_VBLNK_START macro.
+> Signed-off-by: Frederic Konrad <fkonrad@amd.com>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1022
-Fixes: 47b331b2a8da ("tcg/i386: Implement avx512 scalar shift")
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/i386/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index b5c6159853..d52206ba4d 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -375,7 +375,7 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- #define OPC_PSLLQ       (0xf3 | P_EXT | P_DATA16)
- #define OPC_PSRAW       (0xe1 | P_EXT | P_DATA16)
- #define OPC_PSRAD       (0xe2 | P_EXT | P_DATA16)
--#define OPC_VPSRAQ      (0x72 | P_EXT | P_DATA16 | P_VEXW | P_EVEX)
-+#define OPC_VPSRAQ      (0xe2 | P_EXT | P_DATA16 | P_VEXW | P_EVEX)
- #define OPC_PSRLW       (0xd1 | P_EXT | P_DATA16)
- #define OPC_PSRLD       (0xd2 | P_EXT | P_DATA16)
- #define OPC_PSRLQ       (0xd3 | P_EXT | P_DATA16)
--- 
-2.34.1
+Alistair
 
+> ---
+>  hw/display/xlnx_dp.c         | 28 +++++++++++++++++++++++++---
+>  include/hw/display/xlnx_dp.h |  3 +++
+>  2 files changed, 28 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+> index 0378570459..d0bea512bd 100644
+> --- a/hw/display/xlnx_dp.c
+> +++ b/hw/display/xlnx_dp.c
+> @@ -114,6 +114,7 @@
+>  #define DP_TX_N_AUD                         (0x032C >> 2)
+>  #define DP_TX_AUDIO_EXT_DATA(n)             ((0x0330 + 4 * n) >> 2)
+>  #define DP_INT_STATUS                       (0x03A0 >> 2)
+> +#define DP_INT_VBLNK_START                  (1 << 13)
+>  #define DP_INT_MASK                         (0x03A4 >> 2)
+>  #define DP_INT_EN                           (0x03A8 >> 2)
+>  #define DP_INT_DS                           (0x03AC >> 2)
+> @@ -270,10 +271,15 @@ static const VMStateDescription vmstate_dp = {
+>                               DP_VBLEND_REG_ARRAY_SIZE),
+>          VMSTATE_UINT32_ARRAY(audio_registers, XlnxDPState,
+>                               DP_AUDIO_REG_ARRAY_SIZE),
+> +        VMSTATE_PTIMER(vblank, XlnxDPState),
+>          VMSTATE_END_OF_LIST()
+>      }
+>  };
+>
+> +#define DP_VBLANK_PTIMER_POLICY (PTIMER_POLICY_WRAP_AFTER_ONE_PERIOD | \
+> +                                 PTIMER_POLICY_CONTINUOUS_TRIGGER |    \
+> +                                 PTIMER_POLICY_NO_IMMEDIATE_TRIGGER)
+> +
+>  static void xlnx_dp_update_irq(XlnxDPState *s);
+>
+>  static uint64_t xlnx_dp_audio_read(void *opaque, hwaddr offset, unsigned size)
+> @@ -773,6 +779,13 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
+>          break;
+>      case DP_TRANSMITTER_ENABLE:
+>          s->core_registers[offset] = value & 0x01;
+> +        ptimer_transaction_begin(s->vblank);
+> +        if (value & 0x1) {
+> +            ptimer_run(s->vblank, 0);
+> +        } else {
+> +            ptimer_stop(s->vblank);
+> +        }
+> +        ptimer_transaction_commit(s->vblank);
+>          break;
+>      case DP_FORCE_SCRAMBLER_RESET:
+>          /*
+> @@ -1177,9 +1190,6 @@ static void xlnx_dp_update_display(void *opaque)
+>          return;
+>      }
+>
+> -    s->core_registers[DP_INT_STATUS] |= (1 << 13);
+> -    xlnx_dp_update_irq(s);
+> -
+>      xlnx_dpdma_trigger_vsync_irq(s->dpdma);
+>
+>      /*
+> @@ -1275,6 +1285,14 @@ static void xlnx_dp_finalize(Object *obj)
+>      fifo8_destroy(&s->rx_fifo);
+>  }
+>
+> +static void vblank_hit(void *opaque)
+> +{
+> +    XlnxDPState *s = XLNX_DP(opaque);
+> +
+> +    s->core_registers[DP_INT_STATUS] |= DP_INT_VBLNK_START;
+> +    xlnx_dp_update_irq(s);
+> +}
+> +
+>  static void xlnx_dp_realize(DeviceState *dev, Error **errp)
+>  {
+>      XlnxDPState *s = XLNX_DP(dev);
+> @@ -1309,6 +1327,10 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
+>                                             &as);
+>      AUD_set_volume_out(s->amixer_output_stream, 0, 255, 255);
+>      xlnx_dp_audio_activate(s);
+> +    s->vblank = ptimer_init(vblank_hit, s, DP_VBLANK_PTIMER_POLICY);
+> +    ptimer_transaction_begin(s->vblank);
+> +    ptimer_set_freq(s->vblank, 30);
+> +    ptimer_transaction_commit(s->vblank);
+>  }
+>
+>  static void xlnx_dp_reset(DeviceState *dev)
+> diff --git a/include/hw/display/xlnx_dp.h b/include/hw/display/xlnx_dp.h
+> index 1ef5a89ee7..e86a87f235 100644
+> --- a/include/hw/display/xlnx_dp.h
+> +++ b/include/hw/display/xlnx_dp.h
+> @@ -35,6 +35,7 @@
+>  #include "hw/dma/xlnx_dpdma.h"
+>  #include "audio/audio.h"
+>  #include "qom/object.h"
+> +#include "hw/ptimer.h"
+>
+>  #define AUD_CHBUF_MAX_DEPTH                 (32 * KiB)
+>  #define MAX_QEMU_BUFFER_SIZE                (4 * KiB)
+> @@ -107,6 +108,8 @@ struct XlnxDPState {
+>       */
+>      DPCDState *dpcd;
+>      I2CDDCState *edid;
+> +
+> +    ptimer_state *vblank;
+>  };
+>
+>  #define TYPE_XLNX_DP "xlnx.v-dp"
+> --
+> 2.25.1
+>
+>
 
