@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7BC53C10C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:49:22 +0200 (CEST)
-Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7D053C10B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:48:31 +0200 (CEST)
+Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwtd3-0003pN-QW
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
+	id 1nwtcE-0001KT-G2
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwskM-0001h6-SA
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:53 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:43746)
+ id 1nwskQ-0001if-2Z
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:59 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwskJ-0000re-Hz
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:50 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- l7-20020a17090aaa8700b001dd1a5b9965so5882494pjq.2
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:52:46 -0700 (PDT)
+ id 1nwskL-0000tx-Dp
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:51 -0400
+Received: by mail-pl1-x634.google.com with SMTP id w3so5508758plp.13
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:52:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h8NNZqBa/oaHcQdJifd9wVEds8arqW1sbQgko9Vs+gQ=;
- b=bg3Fli44Ic1XJqkc889xc/WCNbVx6q3cClYbT99/y1umLsyQXql+DpCCpHpPlhzSW+
- mPSGgEAhDZr9iIRxvoMctOimn5t7XqDribZ9c1eDlDUsLZX7n9hObxcqI46o7lJZ+S4X
- wYKyezrm5dF1G/WJmSZMRP9xgDwa1EruQyOzZw3MjFKZbRTkByXK7eWIPuqehCEn9d4w
- AnOg+g8h/SY0A/pfBSZDAxbG7cm/rK5Wiuj3f/CiSpNaTeDD7wofv9yLS6DljbPiJrTJ
- nzaHETacJiE1q6MPzGC8b8IqoyAVxeLiIvwFKJDKG6p48ustslK8j52XTV+urESTL2vc
- 4QWw==
+ bh=VJKQ6WoqB0EGYqa/ELNpHbDiJmRFJHnsDZvzPsZOiDk=;
+ b=gsZz0TyimC007DcePY8I4GsBFmI0xvPR19BY6g6qfL4iDKpXqKeSnoz60taOm6W96y
+ DLGXYn16Pmu4jO5i1j5DG6ptDnC75rVssLmu3xOJH3iE9rIKbaBcJpORN6U0n6cXOQM6
+ MlPArFcCsLiOdHLDaotSJgLO9WY6QwrZVqRJaPhYsw9ORC5PCGk+Wh8lo11C+SXIC+je
+ KGe5XJuVnWF9fxux019CeFbK98oOvMGCD9ihw8rNg9/5OPLSxJYVdupzq9B1IeMII03X
+ 0aDaHaa4i3+MO55Ud3EPCvoWV+Y2F1yY8z40rQWcVDRJBb/L+8p4yosNdrzbsuVqjriC
+ n3SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h8NNZqBa/oaHcQdJifd9wVEds8arqW1sbQgko9Vs+gQ=;
- b=csCxg6zZipOu127HEb6CT3HTHsPIWEYEO+Lwmem8lPTu9IYDIACig4A9vrTrOLFsJM
- D6FdRMtKz8vLQVQr1gg+AnezvrxENyTbrgs5OXgCotvzXk6NrcgdjQQYbTuKqv4ElLYp
- fAlPz3z6MvkcQJVBKm8Ag432NkdR2vvNYKFVxqVH4EF/bTo1XIdI/92jvLycTVT/IsPZ
- 6BPKZoIdgGb71yGj7zlwcV+30KX3HbTluOROcukk/0O7dM+QGf6b3mYox/gY7HmqoiZn
- RWq9taPEDu2EkV3/SAxvDN1i+YpnxK3Dv5xnsnQ+y/GZnbwj698jLNBvXeCK3cjG2Vtl
- G0vA==
-X-Gm-Message-State: AOAM531NT9Ju37dIUv4wdVFtoqQpt5JLAbLBKLTiz+eAo0FmFppn2ES0
- 1t3mgTRKnq81TW9E3JqiU7J0lVInWHCIuQ==
-X-Google-Smtp-Source: ABdhPJw8j9fDaO61rwVKjNwBa7b69M5yiPqQQTZ6/3ik1Jb8P9MWHoNUJnz9jImR3Kg9x9B0E3cxmQ==
-X-Received: by 2002:a17:90a:cb8c:b0:1e6:715f:ed28 with SMTP id
- a12-20020a17090acb8c00b001e6715fed28mr7447100pju.69.1654206765945; 
- Thu, 02 Jun 2022 14:52:45 -0700 (PDT)
+ bh=VJKQ6WoqB0EGYqa/ELNpHbDiJmRFJHnsDZvzPsZOiDk=;
+ b=h62XPSVqEBz/OPXMgwi3CzZpmjD8c0HrMz74Wwaad5oxapo10i4C/1makWwBv3KeDh
+ dN5FwUlSw13ldZfi9fZSWv5ISzLZU1ZMWNTBtNEjYdT/eyZQUAskiGWAgXBiSNXA0rxP
+ yqbAUrdAv8vxvAIhX6maQeXhkFc4g88bRW0KrwlekWS9wI33Yy5RSkGb+dXR+rhkys5U
+ ewYR4eZU46XAvIHePyV0O3/jrGsBB3+I8hZ6zSGlLPklPknlQrShU2dw0gZAA9DNeP3L
+ SXUFmdZAWhkPd1gpyj65o2l4g2rrFN2OPdsyX2Kvca7jMDDi971MJg5i/BYxEFPAlKk6
+ 4wdw==
+X-Gm-Message-State: AOAM533Hn6Q6rcPYNOFAfmW00+wtdckvDEp7h2mbFQqs51HWnIodazLe
+ JHssuTSaheTlSLzy2yywf3lwzopHdVIQ+A==
+X-Google-Smtp-Source: ABdhPJwdz7AgvrHWWyQcjaFEGJiQZKJPHfn7BzN+sQTgmBqUUNESFNxLfmfMrg+jPWWREPAAlDAW3Q==
+X-Received: by 2002:a17:902:ef43:b0:156:9c5d:b0fe with SMTP id
+ e3-20020a170902ef4300b001569c5db0femr6923626plx.158.1654206766667; 
+ Thu, 02 Jun 2022 14:52:46 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- e14-20020a170902ed8e00b0015edfccfdb5sm4039605plj.50.2022.06.02.14.52.45
+ e14-20020a170902ed8e00b0015edfccfdb5sm4039605plj.50.2022.06.02.14.52.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:52:45 -0700 (PDT)
+ Thu, 02 Jun 2022 14:52:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 59/71] linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
-Date: Thu,  2 Jun 2022 14:48:41 -0700
-Message-Id: <20220602214853.496211-60-richard.henderson@linaro.org>
+Subject: [PATCH 60/71] linux-user/aarch64: Reset PSTATE.SM on syscalls
+Date: Thu,  2 Jun 2022 14:48:42 -0700
+Message-Id: <20220602214853.496211-61-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,28 +90,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_cpu.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ linux-user/aarch64/cpu_loop.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/linux-user/aarch64/target_cpu.h b/linux-user/aarch64/target_cpu.h
-index 97a477bd3e..f90359faf2 100644
---- a/linux-user/aarch64/target_cpu.h
-+++ b/linux-user/aarch64/target_cpu.h
-@@ -34,10 +34,13 @@ static inline void cpu_clone_regs_parent(CPUARMState *env, unsigned flags)
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index 3b273f6299..4af6996d57 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -89,6 +89,15 @@ void cpu_loop(CPUARMState *env)
  
- static inline void cpu_set_tls(CPUARMState *env, target_ulong newtls)
- {
--    /* Note that AArch64 Linux keeps the TLS pointer in TPIDR; this is
-+    /*
-+     * Note that AArch64 Linux keeps the TLS pointer in TPIDR; this is
-      * different from AArch32 Linux, which uses TPIDRRO.
-      */
-     env->cp15.tpidr_el[0] = newtls;
-+    /* TPIDR2_EL0 is cleared with CLONE_SETTLS. */
-+    env->cp15.tpidr2_el0 = 0;
- }
- 
- static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)
+         switch (trapnr) {
+         case EXCP_SWI:
++            /*
++             * On syscall, PSTATE.ZA is preserved, along with the ZA matrix.
++             * PSTATE.SM is cleared, per SMSTOP, which does ResetSVEState.
++             */
++            if (FIELD_EX64(env->svcr, SVCR, SM)) {
++                env->svcr = FIELD_DP64(env->svcr, SVCR, SM, 0);
++                arm_rebuild_hflags(env);
++                arm_reset_sve_state(env);
++            }
+             ret = do_syscall(env,
+                              env->xregs[8],
+                              env->xregs[0],
 -- 
 2.34.1
 
