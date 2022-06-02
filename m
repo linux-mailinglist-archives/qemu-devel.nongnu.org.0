@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77AB653C0A2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:10:10 +0200 (CEST)
-Received: from localhost ([::1]:58932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D15C53C09A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:07:33 +0200 (CEST)
+Received: from localhost ([::1]:52734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwt17-0000eD-F1
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:10:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36820)
+	id 1nwsyZ-0004ma-1q
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgp-0004hy-Q7
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:11 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:53061)
+ id 1nwsgr-0004jc-K6
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:13 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:39778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgm-0008U5-HP
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:11 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id gd1so6024314pjb.2
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:49:07 -0700 (PDT)
+ id 1nwsgo-00007f-5q
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:12 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id y196so5796170pfb.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XuOHiX6D0El6nNEd2Jyo7d9eF8KMwz8jltCon2kVgiU=;
- b=MwxX3pufgmoBkSuklsbXMX4fKzczM0WS5VRsi27d15kggwaf9opVpHVEkLUoI2AeW2
- LhX7WOd9KoTHsD9JTXYVtCFL/YS9ntRAMcsrxNoV/2L36eRONV7lSG2kR9x5fPdJ3PAo
- frizYBhAcOMG1JU4ruXGd4e14Htbpg1ddLS2kuzQbAhKYCZ6sS+y395UTv7Ll7XE3hH2
- lPevEGg+0R494Y0FrlPANnxz1hCyuwzuVVekTGtMP/WNNhD2XMTKyLaSjiULzonzl9hi
- w6BDok25WjPLKDhETbOHiQ1mEA0VH30kC+AOS/2JKaoSU3ylQVaLrjXAVJoR6clqh2xm
- dSuA==
+ bh=OVdCbtqKJB+BGb16fkMGEP1znoVx5B0GA093B8K9G20=;
+ b=KNfZlP6yJZDFXACTPRfi4EbrMfgsEzutIG3+fbyxZpaeovls7niVdVVVFPRttkO2pP
+ il04JEDcxu5V3N5cZVWv6D2fXZOo2XRamhbwInmkP/D9EXd29zLvLf5p9j9pdb8VnLD/
+ E0eLyUkhmHynlSVaT1ZokQIQ7viKhJM/69ttuE7JFVWKnkhkCl0RhocqBwyX3yk6a000
+ 7Iz6nBXaEMSxCRQoT7QEfhQELIgrGBCoFXFJ2/Cb+wIP87rX2giACzYxO1ZBnSqbb+8X
+ uudmtc0p3QLvNTTovmYjAvgi+DAUIYkD5ntN/uT1tHic0xZiQzfhr8OzxA1A0bmtQHfX
+ lt4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XuOHiX6D0El6nNEd2Jyo7d9eF8KMwz8jltCon2kVgiU=;
- b=2YrlzG4+ptjZi/R+4Hd+vdZJ0Izt82nOEnLocUH7PsyHx0r3J6LzXobehB03HIkP5L
- P7NAGl6XnNg86kfFipZ7LVDVHrug1yARIeTelCg8mq+C1L1aRlJU/+0Yo4+bEV58tYqW
- RnSJQxvPIWKHE10zJ2zc1vvKYY6TTEli4KMqqMzTgT/qgfm9wKgSS/jQ3Wi/ytf6oaUP
- el3Wsr4YSM1vzzXuESdlRLvj9Ci8MjyG6tb/bFZNIse1LVEt+xU4jUXGYBRDABLk4ip1
- lPAmBCw/F0IcwrYTE8eI/fak7RsG12ZnH3rC7RmYKQOBwEFY1oE5OtyK6wX9uGRUQ+Xx
- yshA==
-X-Gm-Message-State: AOAM533TA+55UR93ZLW6XpQzjnuGVZQ3atWA/AQorzONOXEp70ymeRA6
- hITgWZkQ/kRCaRa+nkUfE09TR5JtyNvx/Q==
-X-Google-Smtp-Source: ABdhPJzO2hhmoaxuW6Dnk8BHU6M2G/C/uhj/3o/2sFJpqxHSZ8d2YkUN3pZ2pCEa3K1AIHLTlbuhMg==
-X-Received: by 2002:a17:90a:10f:b0:1e3:3f45:796a with SMTP id
- b15-20020a17090a010f00b001e33f45796amr7406799pjb.136.1654206547562; 
- Thu, 02 Jun 2022 14:49:07 -0700 (PDT)
+ bh=OVdCbtqKJB+BGb16fkMGEP1znoVx5B0GA093B8K9G20=;
+ b=aV7Q83qKPw8xrjb12gO/7wBfXLGs2g9okdEM9gZyv7NzsSZI1ClBLjdlEowA8r3rGL
+ E2j55FpaEzQr+tqvgYfJEKYHuBVP9G2lod+Bk87g4Ti4dAjLOFRw1b8DzWzy12j4Phfe
+ rO2f9R0XNBMoirmbDLVyka/h7aKC5oGeY625qOu1I96mmRgQUP7SFCNKqm+shnbPt6Di
+ hzmg+MZL1+sYEB56rBV185dW2c8nJatXhAP8XKmohPRRUG7QVpu1YDoudoXa10+usZu2
+ Fo1ibh5JFI3mwrZeMp03acMvNw7psx/tICDsKZCPxpaiNvSxs4/rCuafSLL/0F+aoO5N
+ 7AKA==
+X-Gm-Message-State: AOAM531a+CYVygZzGM6DZ9pBmcXPpALw0gkEw02yuGCDC2u5/BQf25zU
+ 38xqNIrRCuxmAoRRa9p037aYnIRwFi2dgg==
+X-Google-Smtp-Source: ABdhPJxijk1ucxea59Kl2mepk90PCk+ARkva2AN01ieXBptqQVHZ4NB4vawI4WlwK4CZAghJy27Tbg==
+X-Received: by 2002:a62:1784:0:b0:51b:bc40:28a7 with SMTP id
+ 126-20020a621784000000b0051bbc4028a7mr7108669pfx.55.1654206548406; 
+ Thu, 02 Jun 2022 14:49:08 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.49.06
+ bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.49.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:49:07 -0700 (PDT)
+ Thu, 02 Jun 2022 14:49:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 15/71] target/arm: Move expand_pred_b to vec_internal.h
-Date: Thu,  2 Jun 2022 14:47:57 -0700
-Message-Id: <20220602214853.496211-16-richard.henderson@linaro.org>
+Subject: [PATCH 16/71] target/arm: Use expand_pred_b in mve_helper.c
+Date: Thu,  2 Jun 2022 14:47:58 -0700
+Message-Id: <20220602214853.496211-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,55 +89,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Put the inline function near the array declaration.
+Use the function instead of the array directly.
+
+Because the function performs its own masking, via the uint8_t
+parameter, we need to do nothing extra within the users: the bits
+above the first 2 (_uh) or 4 (_uw) will be discarded by assignment
+to the local bmask variables, and of course _uq uses the entire
+uint64_t result.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/vec_internal.h | 8 +++++++-
- target/arm/sve_helper.c   | 9 ---------
- 2 files changed, 7 insertions(+), 10 deletions(-)
+ target/arm/mve_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
-index 1d63402042..d1a1ea4a66 100644
---- a/target/arm/vec_internal.h
-+++ b/target/arm/vec_internal.h
-@@ -50,8 +50,14 @@
- #define H8(x)   (x)
- #define H1_8(x) (x)
+diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
+index 846962bf4c..403b345ea3 100644
+--- a/target/arm/mve_helper.c
++++ b/target/arm/mve_helper.c
+@@ -726,7 +726,7 @@ static void mergemask_sb(int8_t *d, int8_t r, uint16_t mask)
  
--/* Data for expanding active predicate bits to bytes, for byte elements. */
-+/*
-+ * Expand active predicate bits to bytes, for byte elements.
-+ */
- extern const uint64_t expand_pred_b_data[256];
-+static inline uint64_t expand_pred_b(uint8_t byte)
-+{
-+    return expand_pred_b_data[byte];
-+}
- 
- static inline void clear_tail(void *vd, uintptr_t opr_sz, uintptr_t max_sz)
+ static void mergemask_uh(uint16_t *d, uint16_t r, uint16_t mask)
  {
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 8cd371e3e3..e865c12527 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -103,15 +103,6 @@ uint32_t HELPER(sve_predtest)(void *vd, void *vg, uint32_t words)
-     return flags;
+-    uint16_t bmask = expand_pred_b_data[mask & 3];
++    uint16_t bmask = expand_pred_b(mask);
+     *d = (*d & ~bmask) | (r & bmask);
  }
  
--/*
-- * Expand active predicate bits to bytes, for byte elements.
-- * (The data table itself is in vec_helper.c as MVE also needs it.)
-- */
--static inline uint64_t expand_pred_b(uint8_t byte)
--{
--    return expand_pred_b_data[byte];
--}
--
- /* Similarly for half-word elements.
-  *  for (i = 0; i < 256; ++i) {
-  *      unsigned long m = 0;
+@@ -737,7 +737,7 @@ static void mergemask_sh(int16_t *d, int16_t r, uint16_t mask)
+ 
+ static void mergemask_uw(uint32_t *d, uint32_t r, uint16_t mask)
+ {
+-    uint32_t bmask = expand_pred_b_data[mask & 0xf];
++    uint32_t bmask = expand_pred_b(mask);
+     *d = (*d & ~bmask) | (r & bmask);
+ }
+ 
+@@ -748,7 +748,7 @@ static void mergemask_sw(int32_t *d, int32_t r, uint16_t mask)
+ 
+ static void mergemask_uq(uint64_t *d, uint64_t r, uint16_t mask)
+ {
+-    uint64_t bmask = expand_pred_b_data[mask & 0xff];
++    uint64_t bmask = expand_pred_b(mask);
+     *d = (*d & ~bmask) | (r & bmask);
+ }
+ 
 -- 
 2.34.1
 
