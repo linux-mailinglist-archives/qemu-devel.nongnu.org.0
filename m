@@ -2,86 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD00453BBE7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:54:50 +0200 (CEST)
-Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EDD53BBE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:54:51 +0200 (CEST)
+Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwn9t-0002kZ-B4
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
+	id 1nwn9u-00029f-6G
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwn4Q-0006GY-Ku
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:49:11 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:38828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwn4O-0005pq-Pv
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:49:10 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id e11so5077861pfj.5
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 08:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=60jZEeHoJJFarlFwej5Au2+WVBkuqZyZmYxYhvqIQfI=;
- b=uqqqNBuYb/rsp/1/DM87vTZCiq21UaRLRJ2Ixm4spnDDcWZ+QuVAnmEoZS+Smt0ASb
- HEupO/V5cbYbb1ula02oblzTC5vV8NjHnYJx0q8iP/QrXrAwr2/vmXx3Qm9eiMy8A6y0
- e28pI4SBmwxNgtRIJ4rq9g+Yq9OvV2R3pIt1h2BwR8RrgI1PaWPeySfLpu66kTGJ6XxC
- xix6PASWBFLosZ9Lic4XGyIHBveUeehzFn6ZcSrUPnawGCbqA4MHF/fq0nbvlsx1FOSG
- /oOA/uc7jdeOF+56XGieDuBomLe1WLZ5GnRtHrmT7uCveCniuGoToxagVjDX5Jt8+G7S
- uWWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=60jZEeHoJJFarlFwej5Au2+WVBkuqZyZmYxYhvqIQfI=;
- b=I/KWQxkFwlRWaUvc1qNOiWXyHI00zX53B0+8L4fO7j2ga5ZAvdUCFNdhP5vqWSSe6M
- GX9BmZXCCCZv8HU2zxza9tmI6YXmfRrL+WqPCID00tVcHXpz0yjJelB2sirNBQIE6bNL
- c5Ftn/nhi3GvbNjUAYpGfCUUiyb0EFq9BkpFapP01w+y0srU+CebS7vkVfRVVvvCmdd+
- x673CIu2mkJ1GFEuKmyt1ZstEUKxm8hsiUVSJPdsutiVopsJDUb1s2YEZSIwW+rkZUsD
- J59sYHgcMEqCfMhKcCIm+Jt9q3bLZgKYpmg3OpEstxtaIXIvHRSmVNMrKnsJ8TyHnFR+
- pvgA==
-X-Gm-Message-State: AOAM532yFM8PqVIWKCyi//DRywihgMPOcWKqrYYJaXJvg8h/DVqfgnfT
- ZwO5Pb/eIcq/C4pum287dBkaDQ==
-X-Google-Smtp-Source: ABdhPJzk4VJfFEhkAdd8Li9ob81nWvjb3l2HRxX2Hem0F1PUio8YpXR7/nEOzYDROwsR4j9YEtgAtA==
-X-Received: by 2002:a63:cc09:0:b0:3fb:aae7:4964 with SMTP id
- x9-20020a63cc09000000b003fbaae74964mr4752662pgf.118.1654184947210; 
- Thu, 02 Jun 2022 08:49:07 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:80cd:3d17:bb90:8dda:8cb2:7569?
- ([2607:fb90:80cd:3d17:bb90:8dda:8cb2:7569])
- by smtp.gmail.com with ESMTPSA id
- bf7-20020a170902b90700b00163c6ac211fsm3692094plb.111.2022.06.02.08.49.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jun 2022 08:49:06 -0700 (PDT)
-Message-ID: <8c34270f-9fdc-3e94-0984-29d9a5e5542f@linaro.org>
-Date: Thu, 2 Jun 2022 08:49:03 -0700
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nwn5d-0007UX-8A; Thu, 02 Jun 2022 11:50:25 -0400
+Received: from [187.72.171.209] (port=12413 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nwn5a-0006ER-SA; Thu, 02 Jun 2022 11:50:24 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 2 Jun 2022 12:49:18 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 3AD39800491;
+ Thu,  2 Jun 2022 12:49:18 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------30gmPeziKKJAWn3D4BW0yzGd"
+Message-ID: <1b7846ac-2e87-ee27-3bbf-c6e5a4912f5b@eldorado.org.br>
+Date: Thu, 2 Jun 2022 12:49:17 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
+Subject: Re: [PATCH] target/ppc: avoid int32 multiply overflow in int_helper.c
 Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, Stafford Horne <shorne@gmail.com>
-Cc: QEMU Development <qemu-devel@nongnu.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Openrisc <openrisc@lists.librecores.org>
-References: <20220527172731.1742837-1-shorne@gmail.com>
- <20220527172731.1742837-4-shorne@gmail.com>
- <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220602141449.118173-1-danielhb413@gmail.com>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220602141449.118173-1-danielhb413@gmail.com>
+X-OriginalArrivalTime: 02 Jun 2022 15:49:18.0454 (UTC)
+ FILETIME=[51A89960:01D87698]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,79 +65,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/22 04:42, Joel Stanley wrote:
-> Hi Stafford,
-> 
-> On Fri, 27 May 2022 at 17:27, Stafford Horne <shorne@gmail.com> wrote:
->>
->> This patch add the OpenRISC virtual machine 'virt' for OpenRISC.  This
->> platform allows for a convenient CI platform for toolchain, software
->> ports and the OpenRISC linux kernel port.
->>
->> Much of this has been sourced from the m68k and riscv virt platforms.
-> 
-> It's a good idea! I did some playing around with your patch today.
-> 
-> I'd suggest adding something to docs/system/target-openrsic.rst,
-> including an example command lines.
-> 
->>
->> The platform provides:
->>   - OpenRISC SMP with up to 8 cpus
-> 
-> You have this:
-> 
-> #define VIRT_CPUS_MAX 4
-> 
-> I tried booting with -smp 4 and it locked up when starting userspace
-> (or I stopped getting serial output?):
-> 
-> [    0.060000] smp: Brought up 1 node, 4 CPUs
-> ...
-> [    0.960000] Run /init as init process
-> 
-> Running with -smp 2 and 3 worked. It does make booting much much slower.
-
-target/openrisc/cpu.h is missing
-
-#define TCG_GUEST_DEFAULT_MO      (0)
+This is a multi-part message in MIME format.
+--------------30gmPeziKKJAWn3D4BW0yzGd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-to tell the JIT about the weakly ordered guest memory model, and to enable MTTCG by default.
+On 02/06/2022 11:14, Daniel Henrique Barboza wrote:
+> Coverity is not thrilled about the multiply operations being done in
+> ger_rank8() and ger_rank2(), giving an error like the following:
+>
+> Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
+>      Potentially overflowing expression "sextract32(a, 4 * i, 4) *
+> sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
+> using 32-bit arithmetic, and then used in a context that expects an
+> expression of type "int64_t" (64 bits, signed).
+>
+> Fix both instances where this occur by adding an int64_t cast in the
+> first operand, forcing the result to be 64 bit.
+>
+> Fixes: Coverity CID 1489444, 1489443
+> Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
+> Cc: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> Cc: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Daniel Henrique Barboza<danielhb413@gmail.com>
+> ---
+Reviewed-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--------------30gmPeziKKJAWn3D4BW0yzGd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> I enabled the options:
-> 
-> CONFIG_RTC_CLASS=y
-> # CONFIG_RTC_SYSTOHC is not set
-> # CONFIG_RTC_NVMEM is not set
-> CONFIG_RTC_DRV_GOLDFISH=y
-> 
-> But it didn't work. It seems the goldfish rtc model doesn't handle a
-> big endian guest running on my little endian host.
-> 
-> Doing this fixes it:
-> 
-> -    .endianness = DEVICE_NATIVE_ENDIAN,
-> +    .endianness = DEVICE_HOST_ENDIAN,
-> 
-> [    0.190000] goldfish_rtc 96005000.rtc: registered as rtc0
-> [    0.190000] goldfish_rtc 96005000.rtc: setting system clock to
-> 2022-06-02T11:16:04 UTC (1654168564)
-> 
-> But literally no other model in the tree does this, so I suspect it's
-> not the right fix.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 02/06/2022 11:14, Daniel Henrique
+      Barboza wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20220602141449.118173-1-danielhb413@gmail.com">
+      <pre class="moz-quote-pre" wrap="">
+Coverity is not thrilled about the multiply operations being done in
+ger_rank8() and ger_rank2(), giving an error like the following:
 
-Correct.  The model might require
+Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
+    Potentially overflowing expression "sextract32(a, 4 * i, 4) *
+sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
+using 32-bit arithmetic, and then used in a context that expects an
+expression of type "int64_t" (64 bits, signed).
 
-     .endianness = DEVICE_LITTLE_ENDIAN,
+Fix both instances where this occur by adding an int64_t cast in the
+first operand, forcing the result to be 64 bit.
 
-if that is the actual specification, or it may simply require fixes to handle a big-endian 
-guest.
+Fixes: Coverity CID 1489444, 1489443
+Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
+Cc: Lucas Mateus Castro (alqotel) <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
+Cc: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+Signed-off-by: Daniel Henrique Barboza <a class="moz-txt-link-rfc2396E" href="mailto:danielhb413@gmail.com">&lt;danielhb413@gmail.com&gt;</a>
+---
+</pre>
+    </blockquote>
+    Reviewed-by: Lucas Mateus Castro (alqotel)
+    <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a><br>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
 
-All that said, if we're going to make up a new virt platform, it should use PCI not 
-virtio.  See the recent discussion about RISC-V virtual machines, where they made exactly 
-this mistake several years ago.
-
-
-r~
+--------------30gmPeziKKJAWn3D4BW0yzGd--
 
