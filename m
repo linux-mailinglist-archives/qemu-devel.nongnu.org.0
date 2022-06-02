@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F66A53B305
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 07:32:47 +0200 (CEST)
-Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAFB53B325
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 07:50:26 +0200 (CEST)
+Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwdRt-0003Y6-RQ
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 01:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58846)
+	id 1nwdiz-0000u9-La
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 01:50:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nwdOi-0002ci-W6
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 01:29:30 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:37391)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nwdcV-0007FB-AZ; Thu, 02 Jun 2022 01:43:46 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:40638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nwdOh-0006OA-CR
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 01:29:28 -0400
-Received: by mail-oi1-x231.google.com with SMTP id s188so5354964oie.4
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 22:29:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nwdcR-0001I0-AM; Thu, 02 Jun 2022 01:43:41 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-30c2f288f13so40623387b3.7; 
+ Wed, 01 Jun 2022 22:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F5fBRFrnBVpf+JbDoEEehlTAd2av/mXWMuYJ9gzbg+w=;
- b=fQm070U+14OCOGDLw9jrFAAphCHXkurJkuFlhlavxQWSHb+41m0/GB/9Qf1LdANNon
- 2hnmv0OpRb/I/M6e/g2mMy3uB0pf/427HNOemr2LdWEM4/EFobmxhSxZYpEVqaP5zW73
- LgtHP4KKhXKy9v2mQTlhgPNNvWTbOF7LwkE1ivdhE22bslNNxddjZ9ATBU1WtBXwODYv
- LlQ6Ar1ytAGJT5/PCLQvKiOAgALrKugSyuPZ/ObkEIeiGyG8EHVqK9F/O4IVLxSqH3xd
- s6GXWvrLnn5FympAYaeIKU1ZIhjeXHEqhy3JL06/76tMMuY6328XnU9uFni3gVwKQ4lC
- c6Ow==
+ :cc:content-transfer-encoding;
+ bh=Mk3xyIqrcSkAV3k0j9w3FlZSmz5xkhToqljuBNxN278=;
+ b=icNohZO81BfUTA3WDP0+c59C3BowDMsJqIJs7XHsBHUo3F8BS7maqpmEs40Bs39dgk
+ 5lb5PLCfrGbsEIfz9vwL3w+a+OSWpR150jDe2rOBttDuTb3OqAdP2YTGyGy48q263nB1
+ hTJeakZnUxjwNKMRvE/w9+WJMgHXH0a16FQC8LT0lGopBoWLa+lQSILi0jbn+QhkM/OW
+ QafmIX9A9W7aiKgkcawVjWYa4SrViKGMn92obo7V1S6p3OSkSyYb+1K9+JbKcvs4N3PQ
+ DM2p7TZPsV13Oi8kwewhwRNzWwEwDH7LrVTCGph55oH1JbXOi7AgRQOw4FDoJ4OQEw44
+ aEzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F5fBRFrnBVpf+JbDoEEehlTAd2av/mXWMuYJ9gzbg+w=;
- b=GMXKL0Gr2ay+YLSxswSS3TnZDA3tw1gv+p7IpsjvGUCNjIQKXC++yRkwdG70N0EY1f
- Q/JDbK82dQZg1KjZdzyRaw2s9ToSDabHAiV0A7oWA8KlVwyTedSyBNEgFqAVR/TiSr77
- hp60qVmVzVv9NfM5QUnPkhIbiKaHa2lrUG1gbsvisO5UlAQMEnpAY8IghCFToEhyVJF0
- YhUr2NqUyD3eDo3FC8GIa+fjWolisCd5/d8kEKi4jrVIAF4vcqLlpepcYMrNiL0ioa4W
- EmHnruK1O6Q8nnFRk44LfJqaSz6R8ceqtHDlkhVm+NP82i5z69kqbIWLMA2WWGpLt98f
- NvGw==
-X-Gm-Message-State: AOAM533tMqSMwtR5Qv63BvsZqY3kGwEKZjb+oXSm4T+V/ROwzsOABv2v
- 08oCEY40F6rezylp6c61GdQ2JEtceScWodzBqNM=
-X-Google-Smtp-Source: ABdhPJzi/u2hz32g6oxdQhdOxmtgz8tKZP15gpRfp65VbPNsq0mD67SrU9Y0y8DtqnDP27CND+MIAmlypieGVBMzf7Y=
-X-Received: by 2002:a05:6808:3099:b0:32b:30de:d14e with SMTP id
- bl25-20020a056808309900b0032b30ded14emr1589931oib.212.1654147765382; Wed, 01
- Jun 2022 22:29:25 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Mk3xyIqrcSkAV3k0j9w3FlZSmz5xkhToqljuBNxN278=;
+ b=Oknr5DyQfVnH69m7LXs31ed/ocQoGSL8xPJ0H3qdObNBbEXlVeT3uEmdy4S4mVzrZk
+ OE365JoR0cabesWckevWGcFgPDkI+xtaIOvfdOptapoaQm293bFhXT0DbsFp9APG51xi
+ CxjVKDvLQDgClwb/vMeRAgxF6vJo9HL6Nwf+QMQXQ6Gfs/bmfara8YLyPcC2G84ojx9o
+ 0d6orsrMdj9LIHPwd5Aeo2BiYgnUCmVoSzLci+OjUE4cQyxp4MAYpRlxoW3eqfkHI49p
+ lcaRb5R2rvcFdD5zhsAnT/grya3SHtLgZqbSvCXk9s6t6W5G4a5c2QNKp+nD799yp+y9
+ SieA==
+X-Gm-Message-State: AOAM530rNDVV6NK4pWKpKJ7rhzLTxfdpYvOr797Xu+SAJfLTtj8ZiHsq
+ DhoWwA6dY4m/Q8xFnn1+s/n7uEIqOhqsRnOfigc=
+X-Google-Smtp-Source: ABdhPJyNUUpnm0C2TAlEEiLkNR5vpVfVcpsDkMUMTukaCFpeRz/nLw3sC0aO+BZKicjUM14WlIcRFZDADYbM5qMZCyg=
+X-Received: by 2002:a0d:ff45:0:b0:2fe:bec9:ac20 with SMTP id
+ p66-20020a0dff45000000b002febec9ac20mr3662745ywf.486.1654148615367; Wed, 01
+ Jun 2022 22:43:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20220427205118uscas1p25031437c0cdd4363c104be13033f366a@uscas1p2.samsung.com>
- <20220427205056.2522-1-t.zhang2@samsung.com>
- <b675b817-7b7c-06ee-b971-3df2d7374622@redhat.com>
- <CAA5qM4ARbFV_cc+R6R-q_mdv0hbmki5pK03U5XGYH7xfvEoOMQ@mail.gmail.com>
- <0b54d6c7-f56d-1ad2-80b7-d75d1033d67e@redhat.com>
- <YpdoqgpGloiPIxBk@stefanha-x1.localdomain>
- <b7eff284-fb61-6a66-dd9a-893b64dd5311@redhat.com>
- <CAJSP0QUBJdmT47fvCQ=A6faL8sTFLHGgfNp5U8p7QiRY+EwGJA@mail.gmail.com>
- <CAA5qM4AD-s9qxPy8QSgeCAXvVFC=zOKuawBHsSti7nzg3Gr=iA@mail.gmail.com>
-In-Reply-To: <CAA5qM4AD-s9qxPy8QSgeCAXvVFC=zOKuawBHsSti7nzg3Gr=iA@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 2 Jun 2022 06:29:12 +0100
-Message-ID: <CAJSP0QW396RY_g8LS1mncDZcOv5GamURy+xv+s8zMcdq03OOMA@mail.gmail.com>
-Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: David Hildenbrand <david@redhat.com>, Tong Zhang <t.zhang2@samsung.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-devel <qemu-devel@nongnu.org>, Francisco Londono <f.londono@samsung.com>
+References: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
+ <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
+ <CAAAx-8LsXQ=w7QTz0JHfGp6gbgY5najE0N7K0yBwhdqqH+E6Eg@mail.gmail.com>
+ <be663d15-6db3-1777-0830-60dcc6aa394e@opensource.wdc.com>
+ <CAJSP0QWLn5i9at7vhFdgOysZ0+voKFYRQqRquVaxh_EoZXRDRg@mail.gmail.com>
+In-Reply-To: <CAJSP0QWLn5i9at7vhFdgOysZ0+voKFYRQqRquVaxh_EoZXRDRg@mail.gmail.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Thu, 2 Jun 2022 13:43:31 +0800
+Message-ID: <CAAAx-8JWexta+c396Os_YGAOicf8j6d6A8QVf1n5Su8fHiiGwQ@mail.gmail.com>
+Subject: Re: Outreachy project task: Adding QEMU block layer APIs resembling
+ Linux ZBD ioctls.
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>, 
+ qemu-devel <qemu-devel@nongnu.org>, qemu block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=stefanha@gmail.com; helo=mail-oi1-x231.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1133.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,58 +89,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 2, 2022, 02:04 Tong Zhang <ztong0001@gmail.com> wrote:
+Hi Stefan,
+
+Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=881=E6=
+=97=A5=E5=91=A8=E4=B8=89 19:43=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Hi Stefan,
->
-> On Wed, Jun 1, 2022 at 6:56 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> On Wed, 1 Jun 2022 at 06:47, Damien Le Moal
+> <damien.lemoal@opensource.wdc.com> wrote:
 > >
-> > > > This patch makes sense to me. Can you rephrase your concern?
+> > On 6/1/22 11:57, Sam Li wrote:
+> > > Hi Stefan,
 > > >
-> > > The locking is around dbs->io_func().
-> > >
-> > > aio_context_acquire(dbs->ctx);
-> > > dbs->acb = dbs->io_func()
-> > > aio_context_release(dbs->ctx);
+> > > Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B45=E6=9C=88=
+30=E6=97=A5=E5=91=A8=E4=B8=80 19:19=E5=86=99=E9=81=93=EF=BC=9A
 > > >
 > > >
-> > > So where exactly would the lock that's now still held stop someone from
-> > > modifying dbs->acb = NULL at the beginning of the function, which seems
-> > > to be not protected by that lock?
+> > >>
+> > >> On Mon, 30 May 2022 at 06:09, Sam Li <faithilikerun@gmail.com> wrote=
+:
+> > >>>
+> > >>> Hi everyone,
+> > >>> I'm Sam Li, working on the Outreachy project which is to add zoned
+> > >>> device support to QEMU's virtio-blk emulation.
+> > >>>
+> > >>> For the first goal, adding QEMU block layer APIs resembling Linux Z=
+BD
+> > >>> ioctls, I think the naive approach would be to introduce a new stab=
+le
+> > >>> struct zbd_zone descriptor for the library function interface. More
+> > >>> specifically, what I'd like to add to the BlockDriver struct are:
+> > >>> 1. zbd_info as zone block device information: includes numbers of
+> > >>> zones, size of logical blocks, and physical blocks.
+> > >>> 2. zbd_zone_type and zbd_zone_state
+> > >>> 3. zbd_dev_model: host-managed zbd, host-aware zbd
+> > >>> With those basic structs, we can start to implement new functions a=
+s
+> > >>> bdrv*() APIs for BLOCK*ZONE ioctls.
+> > >>>
+> > >>> I'll start to finish this task based on the above description. If
+> > >>> there is any problem or something I may miss in the design, please =
+let
+> > >>> me know.
+> > >>
+> > >> Hi Sam,
+> > >> Can you propose function prototypes for the new BlockDriver callback=
+s
+> > >> needed for zoned devices?
 > > >
-> > > Maybe I'm missing some locking magic due to the lock being a recursive lock.
+> > > I have made some modifications based on Damien's device in design par=
+t
+> > > 1 and added the function prototypes in design part 2. If there is any
+> > > problem or part I missed, please let me know.
+> > >
+> > > Design of Block Layer APIs in BlockDriver:
+> > > 1. introduce a new stable struct zbd_zone descriptor for the library
+> > > function interface.
+> > >   a. zbd_info as zone block device information: includes numbers of
+> > > zones, size of blocks, write granularity in byte(minimal write size
+> > > and alignment
+> > >     - write granularity: 512e SMRs: writes in units of physical block
+> > > size, 4096 bytes; NVMe ZNS write granularity is equal to the block
+> > > size.
+> > >     - zone descriptor: start, length, capacity, write pointer, zone t=
+ype
+> > >   b. zbd_zone_type
+> > >     - zone type: conventional, sequential write required, sequential
+> > > write preferred
+> > >   c. zbd_dev_model: host-managed zbd, host-aware zbd
 > >
-> > Tong Zhang: Can you share a backtrace of all threads when the
-> > assertion failure occurs?
+> > This explanation is a little hard to understand. It seems to be mixing =
+up
+> > device level information and per-zone information. I think it would be =
+a
+> > lot simpler to write a struct definition to directly illustrate what yo=
+u
+> > are planning.
 > >
-> Sorry I couldn't get the trace now -- but I can tell that we have some
-> internal code uses
-> this dma related code and will grab dbs->ctx lock in another thread
-> and could overwrite dbs->acb.
+> > It is something like this ?
+> >
+> > struct zbd_zone {
+> >         enum zone_type  type;
+> >         enum zone_cond  cond;
+> >         uint64_t        start;
+> >         uint32_t        length;
+> >         uint32_t        cap;
+> >         uint64_t        wp;
+> > };
+> >
+> > strcut zbd_dev {
+> >         enum zone_model model;
+> >         uint32_t        block_size;
+> >         uint32_t        write_granularity;
+> >         uint32_t        nr_zones
+> >         struct zbd_zone *zones; /* array of zones */
+> > };
+> >
+> > If yes, then my comments are as follows.
+> >
+> > For the device struct: It may be good to have also the maximum number o=
+f
+> > open zones and the maximum number of active zones.
+> >
+> > For the zone struct: You may need to add a read-write lock per zone to =
+be
+> > able to write lock zones to ensure a sequential write pattern (virtio
+> > devices can be multi-queue and so writes may be coming in from differen=
+t
+> > contexts) and to correctly emulate zone append operations with an atomi=
+c
+> > update of the wp field.
+> >
+> > These need to be integrated into the generic block driver interface in
+> > include/block/block_int-common.h or include/block/block-common.h.
 >
-> From my understanding, one of the reasons that the lock is required
-> here is to protect dbs->acb,
-> we could not reliably test io_func()'s return value after releasing
-> the lock here.
+> QEMU's block layer has a few ways of exposing information about block dev=
+ices:
 >
-> Since this code affects our internal code base and I did not reproduce
-> on master branch,
-> feel free to ignore it.
+>     int (*bdrv_get_info)(BlockDriverState *bs, BlockDriverInfo *bdi);
+>     ImageInfoSpecific *(*bdrv_get_specific_info)(BlockDriverState *bs,
+> Error **errp);
+>
+> These fetch information from the BlockDriver and are good when a small
+> amount of data is reported occassionally and consumed by the caller.
+>
+> For data that is continuously accessed or that could be large, it may
+> be necessary for the data to reside inside BlockDriverState so that it
+> can be accessed in place (without copying):
+>
+>     void (*bdrv_refresh_limits)(BlockDriverState *bs, Error **errp);
+>
+> QEMU uses this for the BlockLimits struct (BlockDriverState::bl) that
+> is continuously accessed by the block layer while processing I/O
+> requests. The "refresh" function updates the data in case the
+> underlying storage device has changed somehow. If no update function
+> is necessary then data can simply be populated during .bdrv_open() and
+> no new BlockDriver callback needs to be added.
+>
+> So in the simplest case BlockDriverState can be extended with a struct
+> zbd_dev field that is populated during .bdrv_open(). If the
+> BlockDriver doesn't support zones then the zbd_dev.nr_zones field is 0
+> or the model field indicates that this is not a zoned storage device.
+>
+> However, a BlockBackend (not BlockDriverState!) API will be needed to
+> expose this data to users like the hw/block/virtio-blk.c emulation
+> code or the qemu-io-cmds.c utility that can be used for testing. A
+> BlockBackend has a root pointer to a BlockDriverState graph (for
+> example, qcow2 on top of file-posix). It will be necessary to
+> propagate zoned storage information from the leaf BlockDriverState all
+> the way up to the BlockBackend. In simple cases the BB root points
+> directly to the file-posix BDS that has Linux ZBD support but the
+> design needs to account for additional BDS graph nodes.
 
-If this patch is unnecessary on qemu.git/master it raises the question
-whether aio_context_acquire/release() should be removed from
-dma_blk_cb(). It was added by:
+I think a simple way to think BlockBackend APIs is to use following
+callbacks: blk_aio_zone_mgmt() -> blk_aio_prwv() +
+blk_aio_zone_mgmt_entry() -> blk_co_do_zone_mgmt() -> blk_zone_mgmt().
+The last function call will call bdrv_co_zone_mgmt() in
+block/file-posix.c. If I understand the additional case correctly, the
+BlockBackend API can expose the zone information to the virtio-blk
+emulation now.
 
-commit 1919631e6b5562e474690853eca3c35610201e16
-Author: Paolo Bonzini <pbonzini@redhat.com>
-Date:   Mon Feb 13 14:52:31 2017 +0100
+Besides, comparing blk_aio_flush() with blk_flush() in block-backend.c
+which lead to include/block/block-io.h, we may need consider the case
+when calling block layer API from non-coroutine context. Meanwhile,
+using bdrv_co_writev()/bdrv_co_readv() instead of read-write lock per
+zone may be a option too.
 
-    block: explicitly acquire aiocontext in bottom halves that need it
+If there is any problem, please let me know.
 
-Paolo: Is dma_blk_cb() called without the AioContext lock (by
-virtio-scsi or any code path with IOThreads)? David pointed out that
-if that's the case then the dbs->acb is accessed without the lock at
-the start of dma_blk_cb().
+Best regards,
+Sam
 
-Stefan
+>
+> In order to make progress on this interface I suggest looking at the
+> virtio-blk spec extension for zoned storage and thinking what the
+> BlockBackend API should look like that hw/block/virtio-blk.c will use.
+> Then it may be easier to decide how to report zone information from
+> BlockDriverState.
+>
+>
+> Stefan
 
