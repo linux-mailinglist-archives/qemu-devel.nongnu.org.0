@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3BC53C144
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 01:11:48 +0200 (CEST)
-Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4DE253C134
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 01:02:51 +0200 (CEST)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwtym-00016Y-45
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 19:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
+	id 1nwtq6-0006dJ-81
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 19:02:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nwslT-0002R0-KY; Thu, 02 Jun 2022 17:53:59 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:46731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nwslS-00016G-3b; Thu, 02 Jun 2022 17:53:59 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id m82so8165525oif.13;
- Thu, 02 Jun 2022 14:53:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wNVbmP1WhTFSB4clVhdWhdOjjlMZzI2jKr0q+Ao2Uwk=;
- b=LJXJo6Ypv1uuUiKDe9g5PLAUxcfspBAD6fCZrtzzz3P06XhyJ8s5jPCoYjgbNL2fb5
- ppDi42r2tn3aPofID237R11aF5J7oE2nOFUn50032BEy0PixYdDg4b650zPZI534ARW9
- LHUCMnBc7wWNN/pLleZ6ENRLxcw4D2gwhAtyAJUgIUefkPjv34CKx3/brCf45yDWN8IK
- UHBgwRyW9mVbeMzY78x6lgrOuggxoPAsasNzKoe7GqzmR9WnuMMjfERiACPStSis1+S8
- 9i8nsSxCUA7qlrt5gqnXKyrm0Fbg2e5bJRuFOn3+kmfxVWwWy0Exass8pkHYezXXRQM2
- DsMA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nwt6M-0004jA-0O
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 18:15:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nwt6I-0006Uk-KM
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 18:15:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654208128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ciPwEqi8TPTKxYt3Ur7kt71PXiifF18NxP3XMpPpYxU=;
+ b=d1Gj5e/4HKkZuqD9bUx7qDrGMjDhEKFBgRsBAyoe+UyEhtLdlik8FCG+JHNztJ0vqwjgcH
+ gyulS5JefgV6G+IXeYLuwgS7+Zyweqx77Q18kYaWBlR3AUo7g06Nj8hZTnSgVxCAPUsbpW
+ AgZVPqNaSkhRFfXkuy8QFVmyfpj6xjc=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-397-fZE_2smLPk-QEKInhIAxvQ-1; Thu, 02 Jun 2022 18:15:23 -0400
+X-MC-Unique: fZE_2smLPk-QEKInhIAxvQ-1
+Received: by mail-il1-f198.google.com with SMTP id
+ q15-20020a056e0220ef00b002d15dcd2750so4158455ilv.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 15:15:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wNVbmP1WhTFSB4clVhdWhdOjjlMZzI2jKr0q+Ao2Uwk=;
- b=uAG0KettqE9iGxfhP84sWaaXjqkz+5fK6jbU3i8E9MJFWQM0bFV5SCO2BHG3iGaQ7G
- yEYBUoTPCEVll2QS7CHIOHxaSCwE2lgqZLNse5qypCjX1Uzp8+YepqZkZzzeDzVrcXaI
- TzPfhKSTudjgtgNCyT5AnJxKkU5rVBFenMpbBoBwm/NGDnQxbmz78SRYzU5qhf0CFkSL
- LkkJa5cA2YRjevjq77UnIU3c15IzWB7L9rYJ6HrL4mYyb8faya8DY/llyTDcVc/QVxeM
- hKu2ohdYyRVRc7nUSGLlt3EIY9E79zXdmIKKrs8MnHaBgD5us6aqDQx8NjYDF5yn5yEB
- yEuQ==
-X-Gm-Message-State: AOAM530r0K4CiCZgF807qS0t6FQNqvXSfSCIyrmH/LPwYzNPVPVz22xu
- ZagPQLsQ+QvPec1oVe2ShrwDdegp1fa+Rw==
-X-Google-Smtp-Source: ABdhPJxRvD3itDt+SO+PMNt25uRVYcRmkZe4fTpD6W9sSyslSf4VGldlN6AUBgD8RrBMTglT5Uctcw==
-X-Received: by 2002:a05:6808:2206:b0:32b:5303:442f with SMTP id
- bd6-20020a056808220600b0032b5303442fmr19588988oib.23.1654206836495; 
- Thu, 02 Jun 2022 14:53:56 -0700 (PDT)
-Received: from balboa.ibmuc.com ([152.250.93.219])
- by smtp.gmail.com with ESMTPSA id
- r19-20020a056820039300b00333220959b9sm2774884ooj.1.2022.06.02.14.53.54
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=ciPwEqi8TPTKxYt3Ur7kt71PXiifF18NxP3XMpPpYxU=;
+ b=D1ZufYoIU4NsO4XEFnV5jR+E+Ij87nxyDnL9Pn4JiOHWFoB7h1PwSwMAZotRLc2zmZ
+ 9hNMJiOgNMWaEnKEFqaXKtmqN9K6ul5kPqINxoxa806+SspCs7jBt45Vz+xnximuSdf0
+ N7lLYsJcxZ9eKFAAK3Ml+yoZ/ymmDGO9VUNbv7TI6YD+ZxDne57Ve20tFUrirA3yGcwi
+ Zr8ymRm5Pocb1K+Tjv6Jgsrepbq7lx2oDApnS+VyMhJwcFJZGrWMrHHq3E5vS2Zoh7Tk
+ 9ASPr3sAy+niv4ZhReukEi4JoKp9KXaAJqCQ+dQMzGXX1AB76VVz1xfBmBidMdFsN4Fj
+ +yjw==
+X-Gm-Message-State: AOAM530ObVwNNgGJgrMikZBtqkH+laG+gDb75gszbqjQMhJIO51xta5O
+ LhDGVUYsUSHdQuup1MbqZbhgkUwOj5a1+E2ykpn2lFu1ffEFgh4azSEwWlvyYN7uGP7GPNDoRJy
+ 99i3DNv5g1U+84TQ=
+X-Received: by 2002:a05:6e02:1c89:b0:2d1:b0ae:88a1 with SMTP id
+ w9-20020a056e021c8900b002d1b0ae88a1mr4198915ill.311.1654208122543; 
+ Thu, 02 Jun 2022 15:15:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwd+fh5sILfKFHAqlLUkzTYDzO2LisLhzgi96fLQd3+xfdgF7yUW5irkzRm782QU9IuI/xpvA==
+X-Received: by 2002:a05:6e02:1c89:b0:2d1:b0ae:88a1 with SMTP id
+ w9-20020a056e021c8900b002d1b0ae88a1mr4198903ill.311.1654208122252; 
+ Thu, 02 Jun 2022 15:15:22 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ g14-20020a92520e000000b002d3ba224e25sm1921494ilb.10.2022.06.02.15.15.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:53:56 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH] ppc/pnv: fix extra indent spaces with DEFINE_PROP*
-Date: Thu,  2 Jun 2022 18:53:51 -0300
-Message-Id: <20220602215351.149910-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ Thu, 02 Jun 2022 15:15:21 -0700 (PDT)
+Date: Thu, 2 Jun 2022 16:15:20 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Eric Auger
+ <eric.auger@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
+ qemu-devel@nongnu.org, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>
+Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
+Message-ID: <20220602161520.10930abf.alex.williamson@redhat.com>
+In-Reply-To: <20220602153138.1624ddb5.alex.williamson@redhat.com>
+References: <164392758602.1683127.4327439310436541025.stgit@omen>
+ <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
+ <20220207085045.1de46df1.alex.williamson@redhat.com>
+ <6ae31bd1-2890-968c-a9b3-5ad4633d8bfd@redhat.com>
+ <20220602153138.1624ddb5.alex.williamson@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,79 +106,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DEFINE_PROP* macros in pnv files are using extra spaces for no good
-reason.
+On Thu, 2 Jun 2022 15:31:38 -0600
+Alex Williamson <alex.williamson@redhat.com> wrote:
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/pci-host/pnv_phb3.c     |  8 ++++----
- hw/pci-host/pnv_phb4.c     | 10 +++++-----
- hw/pci-host/pnv_phb4_pec.c | 10 +++++-----
- 3 files changed, 14 insertions(+), 14 deletions(-)
+> On Mon, 7 Feb 2022 17:20:02 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
+>=20
+> > On 07/02/2022 16.50, Alex Williamson wrote: =20
+> > > On Sat, 5 Feb 2022 10:49:35 +0000
+> > > Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >    =20
+> > >> On Thu, 3 Feb 2022 at 22:38, Alex Williamson <alex.williamson@redhat=
+.com> wrote:   =20
+> > >>>
+> > >>> The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98b=
+bb3b359f:
+> > >>>
+> > >>>    Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-=
+pull-request' into staging (2022-02-02 19:54:30 +0000)
+> > >>>
+> > >>> are available in the Git repository at:
+> > >>>
+> > >>>    git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203=
+.0
+> > >>>
+> > >>> for you to fetch changes up to 36fe5d5836c8d5d928ef6d34e999d6991a2f=
+732e:
+> > >>>
+> > >>>    hw/vfio/common: Silence ram device offset alignment error traces=
+ (2022-02-03 15:05:05 -0700)
+> > >>>
+> > >>> ----------------------------------------------------------------
+> > >>> VFIO fixes 2022-02-03
+> > >>>
+> > >>>   * Fix alignment warnings when using TPM CRB with vfio-pci devices
+> > >>>     (Eric Auger & Philippe Mathieu-Daud=C3=A9)   =20
+> > >>
+> > >> Hi; this has a format-string issue that means it doesn't build
+> > >> on 32-bit systems:
+> > >>
+> > >> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
+> > >>
+> > >> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
+> > >> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
+> > >> type 'long long unsigned int', but argument 6 has type 'intptr_t' {a=
+ka
+> > >> 'int'} [-Werror=3Dformat=3D]
+> > >> error_report("%s received unaligned region %s iova=3D0x%"PRIx64
+> > >> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >> ../hw/vfio/common.c:899:26:
+> > >> qemu_real_host_page_mask);
+> > >> ~~~~~~~~~~~~~~~~~~~~~~~~
+> > >>
+> > >> For intptr_t you want PRIxPTR.   =20
+> > >=20
+> > > Darn.  Well, let me use this opportunity to ask, how are folks doing
+> > > 32-bit cross builds on Fedora?  I used to keep an i686 PAE VM for this
+> > > purpose, but I was eventually no longer able to maintain the build
+> > > dependencies.  Looks like this failed on a mipsel cross build, but I
+> > > don't see such a cross compiler in Fedora.  I do mingw32/64 cross
+> > > builds, but they leave a lot to be desired for code coverage.  Thanks=
+,   =20
+> >=20
+> > The easiest way for getting more test coverage is likely to move your q=
+emu=20
+> > repository from github to gitlab - then you get most of the CI for free=
+,=20
+> > which should catch such issues before sending pull requests. =20
+>=20
+> Well, it worked for a few months, but now pushing a tag to gitlab runs
+> a whole 4 jobs vs the 124 jobs that it previously ran, so that's
+> useless now :(  Thanks,
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 3f03467dde..26ac9b7123 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1088,10 +1088,10 @@ static const char *pnv_phb3_root_bus_path(PCIHostState *host_bridge,
- }
- 
- static Property pnv_phb3_properties[] = {
--        DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
--        DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
--        DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
--        DEFINE_PROP_END_OF_LIST(),
-+    DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
-+    DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
-+    DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
-+    DEFINE_PROP_END_OF_LIST(),
- };
- 
- static void pnv_phb3_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 13ba9e45d8..6594016121 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1692,11 +1692,11 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
- }
- 
- static Property pnv_phb4_properties[] = {
--        DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
--        DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
--        DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
--                         PnvPhb4PecState *),
--        DEFINE_PROP_END_OF_LIST(),
-+    DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
-+    DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
-+    DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
-+                     PnvPhb4PecState *),
-+    DEFINE_PROP_END_OF_LIST(),
- };
- 
- static void pnv_phb4_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 61bc0b503e..8b7e823fa5 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -215,11 +215,11 @@ static int pnv_pec_dt_xscom(PnvXScomInterface *dev, void *fdt,
- }
- 
- static Property pnv_pec_properties[] = {
--        DEFINE_PROP_UINT32("index", PnvPhb4PecState, index, 0),
--        DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
--        DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
--                         PnvChip *),
--        DEFINE_PROP_END_OF_LIST(),
-+    DEFINE_PROP_UINT32("index", PnvPhb4PecState, index, 0),
-+    DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
-+    DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
-+                     PnvChip *),
-+    DEFINE_PROP_END_OF_LIST(),
- };
- 
- static uint32_t pnv_pec_xscom_pci_base(PnvPhb4PecState *pec)
--- 
-2.36.1
+And Richard has now sent me the link to your announcement, including
+the git push variables to get things back to normal:
+
+https://lists.nongnu.org/archive/html/qemu-devel/2022-06/msg00256.html
+
+Thanks,
+Alex
 
 
