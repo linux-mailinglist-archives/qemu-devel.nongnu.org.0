@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA1153C0DB
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:37:25 +0200 (CEST)
-Received: from localhost ([::1]:43202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416E753C0F3
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:46:59 +0200 (CEST)
+Received: from localhost ([::1]:42222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwtRU-0005Z6-2g
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38260)
+	id 1nwtaf-00071u-2y
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwskC-0001TT-LU
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:40 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40598)
+ id 1nwskE-0001b0-TK
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:43 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:45784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsk8-0000qT-Mk
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:40 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- n13-20020a17090a394d00b001e30a60f82dso10614059pjf.5
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:52:34 -0700 (PDT)
+ id 1nwsk8-0000sf-Ru
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:52:42 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ w2-20020a17090ac98200b001e0519fe5a8so5873444pjt.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=POeVk+hfEvx7ltKdq2kmOTkuXQTiT662Cy9z7ypTMh0=;
- b=Xwb9WB+ntDolt1+5X0Tctwokhg2QmqTDTLmRhqP4htV20G7pMwB2302Z+WmRF9Oz2A
- +9XYDGGyLrX+HsDNNWNiU/M0lzdyEHSIDY/9xQMQ0pTVZQQf9r/uvcPBBRxCyowbhWZC
- 3vwa/fjLr2nTlMy5AWl3aXBO03Ov4R7a6YmbAjBpa6Uv0ynMIO0IYQG9g1YVl9PNVknP
- OyVlXhBfN+ugkpW/GYGLx+olaR2n05V2usZYDkVS4Sg6lHLPN8A57mgulBOh/ndSrBAz
- 467aCoGJeG0yntBFNreA5t0shry4ShuP5+g4Sds8La+hMLxqaBZh6hnfubo/i6XtmV4R
- dCpQ==
+ bh=5ZzL8eNwZ6dBHRMmV56sbr0xTmiAeYrckiJr08uE6wo=;
+ b=ozilF+ub4zkh/ZUjyHsF9Z4ggyWQh/dcfqF2pKsLdkTzxMaL1jXmhBYigOcvz52xXI
+ zAMElZHN0mQNP0b9w4FuncPAyqt2o1n4KmKkEVdWjiGtY1L3JJnxugpZ26ly0A3WuqbC
+ Ho8v0oHo2SBY/vfmvm95p+MsrqKbDKLRRNPrkYQ26xOFzBctd+QLhhsNPB9ji+raGBZJ
+ mJH0MlZq93SkRhIPvzsoLVSGxRl1b/DCg4091or1wNfKPwl9LWEuJP2fkvAwvisbR7To
+ aeFmDOsm9we7gyTI2nMqCYjJiIwVksmI3FzgC81PmTzmV+Kwk7ee0EHZM+eDvhF3RDcn
+ rLPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=POeVk+hfEvx7ltKdq2kmOTkuXQTiT662Cy9z7ypTMh0=;
- b=UtiU5p/RnOaCjS0qfqRlJf/blHlr5QNmnDNP4wSRNaXhqR9jDQijy2ZyAPKH/Jugdp
- iZwuv86tWaiOF7dNgcc3w/mVhNtzLTNVtyAbRXdZnCIHoboO17RisYb0YisYt2x5kEVy
- 2r5diEJHbaB0NXghzRjLpSBBBbZ+FT1yM/h8QBsll+pdm/X7ozr98snZBqHiOhDaXoWh
- Cfvka9U9uaXs5z8DFBXOeabP0+VZKgLcZV1QNp6dMh8CXb06nWmX9Qoz2cLywqe8qQsZ
- e4mWVcdLYdt5AzYts2ENM5KAeKb2YT+6aJJgPTWd3CIO7gCc1ujvcXGu9TTJC3IP12/c
- NPuw==
-X-Gm-Message-State: AOAM5313K9k5dW+/OH8LHUf55bjU6qnShWxW1KGauRO2NcogXT0J9Xje
- KCHsFdryecg7x4z1aAJ6N/Dlrlu3mARL4A==
-X-Google-Smtp-Source: ABdhPJzk1qVuw2bW9keoYc/oBACw166SZ3465Zue2FExdZkoE4Xh/ZNFtCUitbPrm+AwEsB7G6Yleg==
-X-Received: by 2002:a17:903:485:b0:163:e1be:52b3 with SMTP id
- jj5-20020a170903048500b00163e1be52b3mr6790785plb.134.1654206754301; 
- Thu, 02 Jun 2022 14:52:34 -0700 (PDT)
+ bh=5ZzL8eNwZ6dBHRMmV56sbr0xTmiAeYrckiJr08uE6wo=;
+ b=oSUHMysPAMMP83xGbASD95AIqc8XsTKSs8EFtNLRnsSrJqFn3qBS+uOf0UF2gzcobe
+ tUHB+uUtgzgE1l5D11+HKy9LKg3XJBf33cBE7dVmiRKqaYzbdbtnPJsgxXu82hNPL+h6
+ 2vuZEiLI4qcjgyTpVTFyq9hrXZ934MaBXJND3+apOYLpiNCdnTwE6+j/LJqP/S79BZy0
+ Cz4NvjepE/jI4/fv1xB8zEycESbfHTSdLfHKeO/U8fCWDpKkETF8PmpCQ9+u3bWmdBN0
+ ivCpWLaAw+RDLAk7xhl4otLEbh5DaPKjPdMRDIQQW5mPszBcp/TPqnohsAbmM84Cwzy7
+ PBcQ==
+X-Gm-Message-State: AOAM532mOnR7zW3bOIfYjrWpi5MXySqu0rqu5/J1OMrup13vh53wWbhX
+ ew/rt8CbMwDYT2ItvXHNBJdc7wcv8FPJWA==
+X-Google-Smtp-Source: ABdhPJzsbCu+jtMKdpWfcrBCpiiLMywvkBvGtP0Xp80TRfNVNM/tQpX2atSK/iXskLNJgSBznbHtsA==
+X-Received: by 2002:a17:90a:df91:b0:1e3:4dc8:46e7 with SMTP id
+ p17-20020a17090adf9100b001e34dc846e7mr14516162pjv.106.1654206755287; 
+ Thu, 02 Jun 2022 14:52:35 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- e14-20020a170902ed8e00b0015edfccfdb5sm4039605plj.50.2022.06.02.14.52.33
+ e14-20020a170902ed8e00b0015edfccfdb5sm4039605plj.50.2022.06.02.14.52.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:52:33 -0700 (PDT)
+ Thu, 02 Jun 2022 14:52:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 45/71] target/arm: Implement SME MOVA
-Date: Thu,  2 Jun 2022 14:48:27 -0700
-Message-Id: <20220602214853.496211-46-richard.henderson@linaro.org>
+Subject: [PATCH 46/71] target/arm: Implement SME LD1, ST1
+Date: Thu,  2 Jun 2022 14:48:28 -0700
+Message-Id: <20220602214853.496211-47-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,386 +89,801 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can reuse the SVE functions for implementing moves to/from
-horizontal tile slices, but we need new ones for moves to/from
-vertical tile slices.
+We cannot reuse the SVE functions for LD[1-4] and ST[1-4],
+because those functions accept only a Zreg register number.
+For SME, we want to pass a pointer into ZA storage.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sme.h    |  11 ++++
- target/arm/helper-sve.h    |   2 +
- target/arm/translate-a64.h |   9 +++
- target/arm/translate.h     |   5 ++
- target/arm/sme.decode      |  15 +++++
- target/arm/sme_helper.c    | 110 ++++++++++++++++++++++++++++++++++++-
- target/arm/sve_helper.c    |  12 ++++
- target/arm/translate-a64.c |  21 +++++++
- target/arm/translate-sme.c | 105 +++++++++++++++++++++++++++++++++++
- 9 files changed, 289 insertions(+), 1 deletion(-)
+ target/arm/helper-sme.h    |  82 +++++
+ target/arm/sme.decode      |   9 +
+ target/arm/sme_helper.c    | 615 +++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sme.c |  69 +++++
+ 4 files changed, 775 insertions(+)
 
 diff --git a/target/arm/helper-sme.h b/target/arm/helper-sme.h
-index c4ee1f09e4..600346e08c 100644
+index 600346e08c..5cca01f372 100644
 --- a/target/arm/helper-sme.h
 +++ b/target/arm/helper-sme.h
-@@ -21,3 +21,14 @@ DEF_HELPER_FLAGS_2(set_pstate_sm, TCG_CALL_NO_RWG, void, env, i32)
- DEF_HELPER_FLAGS_2(set_pstate_za, TCG_CALL_NO_RWG, void, env, i32)
- 
- DEF_HELPER_FLAGS_3(sme_zero, TCG_CALL_NO_RWG, void, env, i32, i32)
+@@ -32,3 +32,85 @@ DEF_HELPER_FLAGS_4(sme_mova_avz_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(sme_mova_zav_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(sme_mova_avz_q, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(sme_mova_zav_q, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_4(sme_mova_avz_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_zav_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_avz_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_zav_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_avz_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_zav_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_avz_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_zav_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_avz_q, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sme_mova_zav_q, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index dc629f851a..ab0333400f 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -325,6 +325,8 @@ DEF_HELPER_FLAGS_5(sve_sel_zpzz_s, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve_sel_zpzz_d, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve_sel_zpzz_q, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
- 
- DEF_HELPER_FLAGS_5(sve2_addp_zpzz_b, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index ec5d580ba0..c341c95582 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -31,6 +31,7 @@ bool logic_imm_decode_wmask(uint64_t *result, unsigned int immn,
- bool sve_access_check(DisasContext *s);
- bool sme_enabled_check(DisasContext *s);
- bool sme_za_enabled_check(DisasContext *s);
-+bool sme_smza_enabled_check(DisasContext *s);
- TCGv_i64 clean_data_tbi(DisasContext *s, TCGv_i64 addr);
- TCGv_i64 gen_mte_check1(DisasContext *s, TCGv_i64 addr, bool is_write,
-                         bool tag_checked, int log2_size);
-@@ -147,6 +148,14 @@ static inline int pred_gvec_reg_size(DisasContext *s)
-     return size_for_gvec(pred_full_reg_size(s));
- }
- 
-+/* Return a newly allocated pointer to the predicate register.  */
-+static inline TCGv_ptr pred_full_reg_ptr(DisasContext *s, int regno)
-+{
-+    TCGv_ptr ret = tcg_temp_new_ptr();
-+    tcg_gen_addi_ptr(ret, cpu_env, pred_full_reg_offset(s, regno));
-+    return ret;
-+}
++DEF_HELPER_FLAGS_5(sme_ld1b_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1b_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1b_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1b_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
 +
- bool disas_sve(DisasContext *, uint32_t);
- bool disas_sme(DisasContext *, uint32_t);
- 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 775297aa40..d03afd0034 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -159,6 +159,11 @@ static inline int plus_2(DisasContext *s, int x)
-     return x + 2;
- }
- 
-+static inline int plus_12(DisasContext *s, int x)
-+{
-+    return x + 12;
-+}
++DEF_HELPER_FLAGS_5(sme_ld1h_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1h_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1h_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1h_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1h_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1h_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1h_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1h_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
 +
- static inline int times_2(DisasContext *s, int x)
- {
-     return x * 2;
++DEF_HELPER_FLAGS_5(sme_ld1s_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1s_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1s_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1s_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1s_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1s_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1s_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1s_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++
++DEF_HELPER_FLAGS_5(sme_ld1d_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1d_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1d_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1d_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1d_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1d_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1d_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1d_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++
++DEF_HELPER_FLAGS_5(sme_ld1q_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1q_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1q_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1q_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1q_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1q_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1q_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_ld1q_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++
++DEF_HELPER_FLAGS_5(sme_st1b_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1b_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1b_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1b_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++
++DEF_HELPER_FLAGS_5(sme_st1h_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1h_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1h_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1h_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1h_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1h_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1h_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1h_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++
++DEF_HELPER_FLAGS_5(sme_st1s_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1s_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1s_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1s_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1s_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1s_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1s_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1s_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++
++DEF_HELPER_FLAGS_5(sme_st1d_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1d_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1d_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1d_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1d_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1d_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1d_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1d_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++
++DEF_HELPER_FLAGS_5(sme_st1q_be_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1q_le_h, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1q_be_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1q_le_v, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1q_be_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1q_le_h_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1q_be_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
++DEF_HELPER_FLAGS_5(sme_st1q_le_v_mte, TCG_CALL_NO_WG, void, env, ptr, ptr, tl, i32)
 diff --git a/target/arm/sme.decode b/target/arm/sme.decode
-index 6e4483fdce..241b4895b7 100644
+index 241b4895b7..900e3f2a07 100644
 --- a/target/arm/sme.decode
 +++ b/target/arm/sme.decode
-@@ -22,3 +22,18 @@
- ### SME Misc
- 
- ZERO            11000000 00 001 00000000000 imm:8
+@@ -37,3 +37,12 @@ MOVA            11000000 esz:2 00001 0 v:1 .. pg:3 0 za_imm:4 zr:5  \
+                 &mova to_vec=1 rs=%mova_rs
+ MOVA            11000000 11    00001 1 v:1 .. pg:3 0 za_imm:4 zr:5  \
+                 &mova to_vec=1 rs=%mova_rs esz=4
 +
-+### SME Move into/from Array
++### SME Memory
 +
-+%mova_rs        13:2 !function=plus_12
-+&mova           esz rs pg zr za_imm v:bool to_vec:bool
++&ldst           esz rs pg rn rm za_imm v:bool st:bool
 +
-+MOVA            11000000 esz:2 00000 0 v:1 .. pg:3 zr:5 0 za_imm:4  \
-+                &mova to_vec=0 rs=%mova_rs
-+MOVA            11000000 11    00000 1 v:1 .. pg:3 zr:5 0 za_imm:4  \
-+                &mova to_vec=0 rs=%mova_rs esz=4
-+
-+MOVA            11000000 esz:2 00001 0 v:1 .. pg:3 0 za_imm:4 zr:5  \
-+                &mova to_vec=1 rs=%mova_rs
-+MOVA            11000000 11    00001 1 v:1 .. pg:3 0 za_imm:4 zr:5  \
-+                &mova to_vec=1 rs=%mova_rs esz=4
++LDST1           1110000 0 esz:2 st:1 rm:5 v:1 .. pg:3 rn:5 0 za_imm:4  \
++                &ldst rs=%mova_rs
++LDST1           1110000 111     st:1 rm:5 v:1 .. pg:3 rn:5 0 za_imm:4  \
++                &ldst esz=4 rs=%mova_rs
 diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
-index 4172b788f9..8b73474eb0 100644
+index 8b73474eb0..b32c8435cb 100644
 --- a/target/arm/sme_helper.c
 +++ b/target/arm/sme_helper.c
-@@ -19,8 +19,10 @@
+@@ -19,10 +19,14 @@
  
  #include "qemu/osdep.h"
  #include "cpu.h"
--#include "internals.h"
-+#include "tcg/tcg-gvec-desc.h"
++#include "internals.h"
+ #include "tcg/tcg-gvec-desc.h"
  #include "exec/helper-proto.h"
-+#include "qemu/int128.h"
-+#include "vec_internal.h"
++#include "exec/cpu_ldst.h"
++#include "exec/exec-all.h"
+ #include "qemu/int128.h"
+ #include "vec_internal.h"
++#include "sve_ldst_internal.h"
  
  /* ResetSVEState */
  void arm_reset_sve_state(CPUARMState *env)
-@@ -83,3 +85,109 @@ void helper_sme_zero(CPUARMState *env, uint32_t imm, uint32_t svl)
+@@ -191,3 +195,614 @@ void HELPER(sme_mova_zav_q)(void *za, void *vn, void *vg, uint32_t desc)
          }
      }
  }
 +
-+#define DO_MOVA_A(NAME, TYPE, H)                                        \
-+void HELPER(NAME)(void *za, void *vn, void *vg, uint32_t desc)          \
-+{                                                                       \
-+    int i, oprsz = simd_oprsz(desc);                                    \
-+    for (i = 0; i < oprsz; ) {                                          \
-+        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));                 \
-+        do {                                                            \
-+            if (pg & 1) {                                               \
-+                *(TYPE *)za = *(TYPE *)(vn + H(i));                     \
-+            }                                                           \
-+            za += sizeof(ARMVectorReg) * sizeof(TYPE);                  \
-+            i += sizeof(TYPE);                                          \
-+            pg >>= sizeof(TYPE);                                        \
-+        } while (i & 15);                                               \
-+    }                                                                   \
-+}
++/*
++ * Clear elements in a tile slice comprising len bytes.
++ */
 +
-+#define DO_MOVA_Z(NAME, TYPE, H)                                        \
-+void HELPER(NAME)(void *vd, void *za, void *vg, uint32_t desc)          \
-+{                                                                       \
-+    int i, oprsz = simd_oprsz(desc);                                    \
-+    for (i = 0; i < oprsz; ) {                                          \
-+        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));                 \
-+        do {                                                            \
-+            if (pg & 1) {                                               \
-+                *(TYPE *)(vd + H(i)) = *(TYPE *)za;                     \
-+            }                                                           \
-+            za += sizeof(ARMVectorReg) * sizeof(TYPE);                  \
-+            i += sizeof(TYPE);                                          \
-+            pg >>= sizeof(TYPE);                                        \
-+        } while (i & 15);                                               \
-+    }                                                                   \
-+}
++typedef void ClearFn(void *ptr, size_t off, size_t len);
 +
-+DO_MOVA_A(sme_mova_avz_b, uint8_t, H1)
-+DO_MOVA_A(sme_mova_avz_h, uint16_t, H2)
-+DO_MOVA_A(sme_mova_avz_s, uint32_t, H4)
-+
-+DO_MOVA_Z(sme_mova_zav_b, uint8_t, H1)
-+DO_MOVA_Z(sme_mova_zav_h, uint16_t, H2)
-+DO_MOVA_Z(sme_mova_zav_s, uint32_t, H4)
-+
-+void HELPER(sme_mova_avz_d)(void *za, void *vn, void *vg, uint32_t desc)
++static void clear_horizontal(void *ptr, size_t off, size_t len)
 +{
-+    int i, oprsz = simd_oprsz(desc) / 8;
-+    uint8_t *pg = vg;
-+    uint64_t *n = vn;
-+    uint64_t *a = za;
++    memset(ptr + off, 0, len);
++}
++
++static void clear_vertical_b(void *vptr, size_t off, size_t len)
++{
++    uint8_t *ptr = vptr;
++    size_t i;
++
++    for (i = 0; i < len; ++i) {
++        ptr[(i + off) * sizeof(ARMVectorReg)] = 0;
++    }
++}
++
++static void clear_vertical_h(void *vptr, size_t off, size_t len)
++{
++    uint16_t *ptr = vptr;
++    size_t i;
++
++    for (i = 0; i < len / 2; ++i) {
++        ptr[(i + off) * sizeof(ARMVectorReg)] = 0;
++    }
++}
++
++static void clear_vertical_s(void *vptr, size_t off, size_t len)
++{
++    uint32_t *ptr = vptr;
++    size_t i;
++
++    for (i = 0; i < len / 4; ++i) {
++        ptr[(i + off) * sizeof(ARMVectorReg)] = 0;
++    }
++}
++
++static void clear_vertical_d(void *vptr, size_t off, size_t len)
++{
++    uint64_t *ptr = vptr;
++    size_t i;
++
++    for (i = 0; i < len / 8; ++i) {
++        ptr[(i + off) * sizeof(ARMVectorReg)] = 0;
++    }
++}
++
++static void clear_vertical_q(void *vptr, size_t off, size_t len)
++{
++    Int128 *ptr = vptr, zero = int128_zero();
++    size_t i;
++
++    for (i = 0; i < len / 16; ++i) {
++        ptr[(i + off) * sizeof(ARMVectorReg)] = zero;
++    }
++}
++
++/*
++ * Copy elements from an array into a tile slice comprising len bytes.
++ */
++
++typedef void CopyFn(void *dst, const void *src, size_t len);
++
++static void copy_horizontal(void *dst, const void *src, size_t len)
++{
++    memcpy(dst, src, len);
++}
++
++static void copy_vertical_b(void *vdst, const void *vsrc, size_t len)
++{
++    const uint8_t *src = vsrc;
++    uint8_t *dst = vdst;
++    size_t i;
++
++    for (i = 0; i < len; ++i) {
++        dst[i * sizeof(ARMVectorReg)] = src[i];
++    }
++}
++
++static void copy_vertical_h(void *vdst, const void *vsrc, size_t len)
++{
++    const uint16_t *src = vsrc;
++    uint16_t *dst = vdst;
++    size_t i;
++
++    for (i = 0; i < len / 2; ++i) {
++        dst[i * sizeof(ARMVectorReg)] = src[i];
++    }
++}
++
++static void copy_vertical_s(void *vdst, const void *vsrc, size_t len)
++{
++    const uint32_t *src = vsrc;
++    uint32_t *dst = vdst;
++    size_t i;
++
++    for (i = 0; i < len / 4; ++i) {
++        dst[i * sizeof(ARMVectorReg)] = src[i];
++    }
++}
++
++static void copy_vertical_d(void *vdst, const void *vsrc, size_t len)
++{
++    const uint64_t *src = vsrc;
++    uint64_t *dst = vdst;
++    size_t i;
++
++    for (i = 0; i < len / 8; ++i) {
++        dst[i * sizeof(ARMVectorReg)] = src[i];
++    }
++}
++
++static void copy_vertical_q(void *vdst, const void *vsrc, size_t len)
++{
++    const Int128 *src = vsrc;
++    Int128 *dst = vdst;
++    size_t i;
++
++    for (i = 0; i < len / 16; ++i) {
++        dst[i * sizeof(ARMVectorReg)] = src[i];
++    }
++}
++
++/*
++ * Host and TLB primitives for vertical tile slice addressing.
++ */
++
++#define DO_LD(NAME, TYPE, HOST, TLB)                                        \
++static inline void sme_##NAME##_v_host(void *za, intptr_t off, void *host)  \
++{                                                                           \
++    TYPE val = HOST(host);                                                  \
++    *(TYPE *)(za + off * sizeof(ARMVectorReg)) = val;                       \
++}                                                                           \
++static inline void sme_##NAME##_v_tlb(CPUARMState *env, void *za,           \
++                        intptr_t off, target_ulong addr, uintptr_t ra)      \
++{                                                                           \
++    TYPE val = TLB(env, useronly_clean_ptr(addr), ra);                      \
++    *(TYPE *)(za + off * sizeof(ARMVectorReg)) = val;                       \
++}
++
++#define DO_ST(NAME, TYPE, HOST, TLB)                                        \
++static inline void sme_##NAME##_v_host(void *za, intptr_t off, void *host)  \
++{                                                                           \
++    TYPE val = *(TYPE *)(za + off * sizeof(ARMVectorReg));                  \
++    HOST(host, val);                                                        \
++}                                                                           \
++static inline void sme_##NAME##_v_tlb(CPUARMState *env, void *za,           \
++                        intptr_t off, target_ulong addr, uintptr_t ra)      \
++{                                                                           \
++    TYPE val = *(TYPE *)(za + off * sizeof(ARMVectorReg));                  \
++    TLB(env, useronly_clean_ptr(addr), val, ra);                            \
++}
++
++/*
++ * FIXME: The ARMVectorReg elements are stored in host-endian 64-bit units.
++ * We do not have a defined ordering of the 64-bit units for host-endian
++ * 128-bit quantities.  For now, just leave the host words in little-endian
++ * order and hope for the best.
++ */
++#define DO_LDQ(HNAME, VNAME, BE, HOST, TLB)                                 \
++static inline void HNAME##_host(void *za, intptr_t off, void *host)         \
++{                                                                           \
++    uint64_t val0 = HOST(host), val1 = HOST(host + 8);                      \
++    uint64_t *ptr = za + off;                                               \
++    ptr[0] = BE ? val1 : val0, ptr[1] = BE ? val0 : val1;                   \
++}                                                                           \
++static inline void VNAME##_v_host(void *za, intptr_t off, void *host)       \
++{                                                                           \
++    HNAME##_host(za, off * sizeof(ARMVectorReg), host);                     \
++}                                                                           \
++static inline void HNAME##_tlb(CPUARMState *env, void *za, intptr_t off,    \
++                               target_ulong addr, uintptr_t ra)             \
++{                                                                           \
++    uint64_t val0 = TLB(env, useronly_clean_ptr(addr), ra);                 \
++    uint64_t val1 = TLB(env, useronly_clean_ptr(addr + 8), ra);             \
++    uint64_t *ptr = za + off;                                               \
++    ptr[0] = BE ? val1 : val0, ptr[1] = BE ? val0 : val1;                   \
++}                                                                           \
++static inline void VNAME##_v_tlb(CPUARMState *env, void *za, intptr_t off,  \
++                               target_ulong addr, uintptr_t ra)             \
++{                                                                           \
++    HNAME##_tlb(env, za, off * sizeof(ARMVectorReg), addr, ra);             \
++}
++
++#define DO_STQ(HNAME, VNAME, BE, HOST, TLB)                                 \
++static inline void HNAME##_host(void *za, intptr_t off, void *host)         \
++{                                                                           \
++    uint64_t *ptr = za + off;                                               \
++    HOST(host, ptr[BE]);                                                    \
++    HOST(host + 1, ptr[!BE]);                                               \
++}                                                                           \
++static inline void VNAME##_v_host(void *za, intptr_t off, void *host)       \
++{                                                                           \
++    HNAME##_host(za, off * sizeof(ARMVectorReg), host);                     \
++}                                                                           \
++static inline void HNAME##_tlb(CPUARMState *env, void *za, intptr_t off,    \
++                               target_ulong addr, uintptr_t ra)             \
++{                                                                           \
++    uint64_t *ptr = za + off;                                               \
++    TLB(env, useronly_clean_ptr(addr), ptr[BE], ra);                        \
++    TLB(env, useronly_clean_ptr(addr + 8), ptr[!BE], ra);                   \
++}                                                                           \
++static inline void VNAME##_v_tlb(CPUARMState *env, void *za, intptr_t off,  \
++                               target_ulong addr, uintptr_t ra)             \
++{                                                                           \
++    HNAME##_tlb(env, za, off * sizeof(ARMVectorReg), addr, ra);             \
++}
++
++DO_LD(ld1b, uint8_t, ldub_p, cpu_ldub_data_ra)
++DO_LD(ld1h_be, uint16_t, lduw_be_p, cpu_lduw_be_data_ra)
++DO_LD(ld1h_le, uint16_t, lduw_le_p, cpu_lduw_le_data_ra)
++DO_LD(ld1s_be, uint32_t, ldl_be_p, cpu_ldl_be_data_ra)
++DO_LD(ld1s_le, uint32_t, ldl_le_p, cpu_ldl_le_data_ra)
++DO_LD(ld1d_be, uint64_t, ldq_be_p, cpu_ldq_be_data_ra)
++DO_LD(ld1d_le, uint64_t, ldq_le_p, cpu_ldq_le_data_ra)
++
++DO_LDQ(sve_ld1qq_be, sme_ld1q_be, 1, ldq_be_p, cpu_ldq_be_data_ra)
++DO_LDQ(sve_ld1qq_le, sme_ld1q_le, 0, ldq_le_p, cpu_ldq_le_data_ra)
++
++DO_ST(st1b, uint8_t, stb_p, cpu_stb_data_ra)
++DO_ST(st1h_be, uint16_t, stw_be_p, cpu_stw_be_data_ra)
++DO_ST(st1h_le, uint16_t, stw_le_p, cpu_stw_le_data_ra)
++DO_ST(st1s_be, uint32_t, stl_be_p, cpu_stl_be_data_ra)
++DO_ST(st1s_le, uint32_t, stl_le_p, cpu_stl_le_data_ra)
++DO_ST(st1d_be, uint64_t, stq_be_p, cpu_stq_be_data_ra)
++DO_ST(st1d_le, uint64_t, stq_le_p, cpu_stq_le_data_ra)
++
++DO_STQ(sve_st1qq_be, sme_st1q_be, 1, stq_be_p, cpu_stq_be_data_ra)
++DO_STQ(sve_st1qq_le, sme_st1q_le, 0, stq_le_p, cpu_stq_le_data_ra)
++
++#undef DO_LD
++#undef DO_ST
++#undef DO_LDQ
++#undef DO_STQ
++
++/*
++ * Common helper for all contiguous predicated loads.
++ */
++
++static inline QEMU_ALWAYS_INLINE
++void sme_ld1(CPUARMState *env, void *za, uint64_t *vg,
++             const target_ulong addr, uint32_t desc, const uintptr_t ra,
++             const int esz, uint32_t mtedesc, bool vertical,
++             sve_ldst1_host_fn *host_fn,
++             sve_ldst1_tlb_fn *tlb_fn,
++             ClearFn *clr_fn,
++             CopyFn *cpy_fn)
++{
++    const intptr_t reg_max = simd_oprsz(desc);
++    const intptr_t esize = 1 << esz;
++    intptr_t reg_off, reg_last;
++    SVEContLdSt info;
++    void *host;
++    int flags;
++
++    /* Find the active elements.  */
++    if (!sve_cont_ldst_elements(&info, addr, vg, reg_max, esz, esize)) {
++        /* The entire predicate was false; no load occurs.  */
++        clr_fn(za, 0, reg_max);
++        return;
++    }
++
++    /* Probe the page(s).  Exit with exception for any invalid page. */
++    sve_cont_ldst_pages(&info, FAULT_ALL, env, addr, MMU_DATA_LOAD, ra);
++
++    /* Handle watchpoints for all active elements. */
++    sve_cont_ldst_watchpoints(&info, env, vg, addr, esize, esize,
++                              BP_MEM_READ, ra);
 +
 +    /*
-+     * Note that the rows of the ZAV.D tile are 8 absolute rows apart,
-+     * so while the address arithmetic below looks funny, it is right.
++     * Handle mte checks for all active elements.
++     * Since TBI must be set for MTE, !mtedesc => !mte_active.
 +     */
-+    for (i = 0; i < oprsz; i++) {
-+        if (pg[H1_2(i)] & 1) {
-+            a[i * sizeof(ARMVectorReg)] = n[i];
-+        }
++    if (mtedesc) {
++        sve_cont_ldst_mte_check(&info, env, vg, addr, esize, esize,
++                                mtedesc, ra);
 +    }
-+}
 +
-+void HELPER(sme_mova_zav_d)(void *vd, void *za, void *vg, uint32_t desc)
-+{
-+    int i, oprsz = simd_oprsz(desc) / 8;
-+    uint8_t *pg = vg;
-+    uint64_t *d = vd;
-+    uint64_t *a = za;
++    flags = info.page[0].flags | info.page[1].flags;
++    if (unlikely(flags != 0)) {
++#ifdef CONFIG_USER_ONLY
++        g_assert_not_reached();
++#else
++        /*
++         * At least one page includes MMIO.
++         * Any bus operation can fail with cpu_transaction_failed,
++         * which for ARM will raise SyncExternal.  Perform the load
++         * into scratch memory to preserve register state until the end.
++         */
++        ARMVectorReg scratch = { };
 +
-+    for (i = 0; i < oprsz; i++) {
-+        if (pg[H1_2(i)] & 1) {
-+            d[i] = a[i * sizeof(ARMVectorReg)];
++        reg_off = info.reg_off_first[0];
++        reg_last = info.reg_off_last[1];
++        if (reg_last < 0) {
++            reg_last = info.reg_off_split;
++            if (reg_last < 0) {
++                reg_last = info.reg_off_last[0];
++            }
 +        }
-+    }
-+}
 +
-+void HELPER(sme_mova_avz_q)(void *za, void *vn, void *vg, uint32_t desc)
-+{
-+    int i, oprsz = simd_oprsz(desc) / 16;
-+    uint16_t *pg = vg;
-+    Int128 *n = vn;
-+    Int128 *a = za;
++        do {
++            uint64_t pg = vg[reg_off >> 6];
++            do {
++                if ((pg >> (reg_off & 63)) & 1) {
++                    tlb_fn(env, &scratch, reg_off, addr + reg_off, ra);
++                }
++                reg_off += esize;
++            } while (reg_off & 63);
++        } while (reg_off <= reg_last);
++
++        cpy_fn(za, &scratch, reg_max);
++        return;
++#endif
++    }
++
++    /* The entire operation is in RAM, on valid pages. */
++
++    reg_off = info.reg_off_first[0];
++    reg_last = info.reg_off_last[0];
++    host = info.page[0].host;
++
++    if (!vertical) {
++        memset(za, 0, reg_max);
++    } else if (reg_off) {
++        clr_fn(za, 0, reg_off);
++    }
++
++    while (reg_off <= reg_last) {
++        uint64_t pg = vg[reg_off >> 6];
++        do {
++            if ((pg >> (reg_off & 63)) & 1) {
++                host_fn(za, reg_off, host + reg_off);
++            } else if (vertical) {
++                clr_fn(za, reg_off, esize);
++            }
++            reg_off += esize;
++        } while (reg_off <= reg_last && (reg_off & 63));
++    }
 +
 +    /*
-+     * Note that the rows of the ZAV.Q tile are 16 absolute rows apart,
-+     * so while the address arithmetic below looks funny, it is right.
++     * Use the slow path to manage the cross-page misalignment.
++     * But we know this is RAM and cannot trap.
 +     */
-+    for (i = 0; i < oprsz; i++) {
-+        if (pg[H2(i)] & 1) {
-+            a[i * sizeof(ARMVectorReg)] = n[i];
++    reg_off = info.reg_off_split;
++    if (unlikely(reg_off >= 0)) {
++        tlb_fn(env, za, reg_off, addr + reg_off, ra);
++    }
++
++    reg_off = info.reg_off_first[1];
++    if (unlikely(reg_off >= 0)) {
++        reg_last = info.reg_off_last[1];
++        host = info.page[1].host;
++
++        do {
++            uint64_t pg = vg[reg_off >> 6];
++            do {
++                if ((pg >> (reg_off & 63)) & 1) {
++                    host_fn(za, reg_off, host + reg_off);
++                } else if (vertical) {
++                    clr_fn(za, reg_off, esize);
++                }
++                reg_off += esize;
++            } while (reg_off & 63);
++        } while (reg_off <= reg_last);
++    }
++}
++
++static inline QEMU_ALWAYS_INLINE
++void sme_ld1_mte(CPUARMState *env, void *za, uint64_t *vg,
++                 target_ulong addr, uint32_t desc, uintptr_t ra,
++                 const int esz, bool vertical,
++                 sve_ldst1_host_fn *host_fn,
++                 sve_ldst1_tlb_fn *tlb_fn,
++                 ClearFn *clr_fn,
++                 CopyFn *cpy_fn)
++{
++    uint32_t mtedesc = desc >> (SIMD_DATA_SHIFT + SVE_MTEDESC_SHIFT);
++    int bit55 = extract64(addr, 55, 1);
++
++    /* Remove mtedesc from the normal sve descriptor. */
++    desc = extract32(desc, 0, SIMD_DATA_SHIFT + SVE_MTEDESC_SHIFT);
++
++    /* Perform gross MTE suppression early. */
++    if (!tbi_check(desc, bit55) ||
++        tcma_check(desc, bit55, allocation_tag_from_addr(addr))) {
++        mtedesc = 0;
++    }
++
++    sme_ld1(env, za, vg, addr, desc, ra, esz, mtedesc, vertical,
++            host_fn, tlb_fn, clr_fn, cpy_fn);
++}
++
++#define DO_LD(L, END, ESZ)                                                 \
++void HELPER(sme_ld1##L##END##_h)(CPUARMState *env, void *za, void *vg,     \
++                                 target_ulong addr, uint32_t desc)         \
++{                                                                          \
++    sme_ld1(env, za, vg, addr, desc, GETPC(), ESZ, 0, false,               \
++            sve_ld1##L##L##END##_host, sve_ld1##L##L##END##_tlb,           \
++            clear_horizontal, copy_horizontal);                            \
++}                                                                          \
++void HELPER(sme_ld1##L##END##_v)(CPUARMState *env, void *za, void *vg,     \
++                                 target_ulong addr, uint32_t desc)         \
++{                                                                          \
++    sme_ld1(env, za, vg, addr, desc, GETPC(), ESZ, 0, true,                \
++            sme_ld1##L##END##_v_host, sme_ld1##L##END##_v_tlb,             \
++            clear_vertical_##L, copy_vertical_##L);                        \
++}                                                                          \
++void HELPER(sme_ld1##L##END##_h_mte)(CPUARMState *env, void *za, void *vg, \
++                                     target_ulong addr, uint32_t desc)     \
++{                                                                          \
++    sme_ld1_mte(env, za, vg, addr, desc, GETPC(), ESZ, false,              \
++                sve_ld1##L##L##END##_host, sve_ld1##L##L##END##_tlb,       \
++                clear_horizontal, copy_horizontal);                        \
++}                                                                          \
++void HELPER(sme_ld1##L##END##_v_mte)(CPUARMState *env, void *za, void *vg, \
++                                     target_ulong addr, uint32_t desc)     \
++{                                                                          \
++    sme_ld1_mte(env, za, vg, addr, desc, GETPC(), ESZ, true,               \
++                sme_ld1##L##END##_v_host, sme_ld1##L##END##_v_tlb,         \
++                clear_vertical_##L, copy_vertical_##L);                    \
++}
++
++DO_LD(b, , MO_8)
++DO_LD(h, _be, MO_16)
++DO_LD(h, _le, MO_16)
++DO_LD(s, _be, MO_32)
++DO_LD(s, _le, MO_32)
++DO_LD(d, _be, MO_64)
++DO_LD(d, _le, MO_64)
++DO_LD(q, _be, MO_128)
++DO_LD(q, _le, MO_128)
++
++#undef DO_LD
++
++/*
++ * Common helper for all contiguous predicated stores.
++ */
++
++static inline QEMU_ALWAYS_INLINE
++void sme_st1(CPUARMState *env, void *za, uint64_t *vg,
++             const target_ulong addr, uint32_t desc, const uintptr_t ra,
++             const int esz, uint32_t mtedesc, bool vertical,
++             sve_ldst1_host_fn *host_fn,
++             sve_ldst1_tlb_fn *tlb_fn)
++{
++    const intptr_t reg_max = simd_oprsz(desc);
++    const intptr_t esize = 1 << esz;
++    intptr_t reg_off, reg_last;
++    SVEContLdSt info;
++    void *host;
++    int flags;
++
++    /* Find the active elements.  */
++    if (!sve_cont_ldst_elements(&info, addr, vg, reg_max, esz, esize)) {
++        /* The entire predicate was false; no store occurs.  */
++        return;
++    }
++
++    /* Probe the page(s).  Exit with exception for any invalid page. */
++    sve_cont_ldst_pages(&info, FAULT_ALL, env, addr, MMU_DATA_STORE, ra);
++
++    /* Handle watchpoints for all active elements. */
++    sve_cont_ldst_watchpoints(&info, env, vg, addr, esize, esize,
++                              BP_MEM_WRITE, ra);
++
++    /*
++     * Handle mte checks for all active elements.
++     * Since TBI must be set for MTE, !mtedesc => !mte_active.
++     */
++    if (mtedesc) {
++        sve_cont_ldst_mte_check(&info, env, vg, addr, esize, esize,
++                                mtedesc, ra);
++    }
++
++    flags = info.page[0].flags | info.page[1].flags;
++    if (unlikely(flags != 0)) {
++#ifdef CONFIG_USER_ONLY
++        g_assert_not_reached();
++#else
++        /*
++         * At least one page includes MMIO.
++         * Any bus operation can fail with cpu_transaction_failed,
++         * which for ARM will raise SyncExternal.  We cannot avoid
++         * this fault and will leave with the store incomplete.
++         */
++        reg_off = info.reg_off_first[0];
++        reg_last = info.reg_off_last[1];
++        if (reg_last < 0) {
++            reg_last = info.reg_off_split;
++            if (reg_last < 0) {
++                reg_last = info.reg_off_last[0];
++            }
 +        }
++
++        do {
++            uint64_t pg = vg[reg_off >> 6];
++            do {
++                if ((pg >> (reg_off & 63)) & 1) {
++                    tlb_fn(env, za, reg_off, addr + reg_off, ra);
++                }
++                reg_off += esize;
++            } while (reg_off & 63);
++        } while (reg_off <= reg_last);
++        return;
++#endif
++    }
++
++    reg_off = info.reg_off_first[0];
++    reg_last = info.reg_off_last[0];
++    host = info.page[0].host;
++
++    while (reg_off <= reg_last) {
++        uint64_t pg = vg[reg_off >> 6];
++        do {
++            if ((pg >> (reg_off & 63)) & 1) {
++                host_fn(za, reg_off, host + reg_off);
++            }
++            reg_off += 1 << esz;
++        } while (reg_off <= reg_last && (reg_off & 63));
++    }
++
++    /*
++     * Use the slow path to manage the cross-page misalignment.
++     * But we know this is RAM and cannot trap.
++     */
++    reg_off = info.reg_off_split;
++    if (unlikely(reg_off >= 0)) {
++        tlb_fn(env, za, reg_off, addr + reg_off, ra);
++    }
++
++    reg_off = info.reg_off_first[1];
++    if (unlikely(reg_off >= 0)) {
++        reg_last = info.reg_off_last[1];
++        host = info.page[1].host;
++
++        do {
++            uint64_t pg = vg[reg_off >> 6];
++            do {
++                if ((pg >> (reg_off & 63)) & 1) {
++                    host_fn(za, reg_off, host + reg_off);
++                }
++                reg_off += 1 << esz;
++            } while (reg_off & 63);
++        } while (reg_off <= reg_last);
 +    }
 +}
 +
-+void HELPER(sme_mova_zav_q)(void *za, void *vn, void *vg, uint32_t desc)
++static inline QEMU_ALWAYS_INLINE
++void sme_st1_mte(CPUARMState *env, void *za, uint64_t *vg, target_ulong addr,
++                 uint32_t desc, uintptr_t ra, int esz, bool vertical,
++                 sve_ldst1_host_fn *host_fn,
++                 sve_ldst1_tlb_fn *tlb_fn)
 +{
-+    int i, oprsz = simd_oprsz(desc) / 16;
-+    uint16_t *pg = vg;
-+    Int128 *n = vn;
-+    Int128 *a = za;
++    uint32_t mtedesc = desc >> (SIMD_DATA_SHIFT + SVE_MTEDESC_SHIFT);
++    int bit55 = extract64(addr, 55, 1);
 +
-+    for (i = 0; i < oprsz; i++, za += sizeof(ARMVectorReg)) {
-+        if (pg[H2(i)] & 1) {
-+            n[i] = a[i * sizeof(ARMVectorReg)];
-+        }
-+    }
-+}
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 1654c0bbf9..9a26f253e0 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -3565,6 +3565,18 @@ void HELPER(sve_sel_zpzz_d)(void *vd, void *vn, void *vm,
-     }
- }
- 
-+void HELPER(sve_sel_zpzz_q)(void *vd, void *vn, void *vm,
-+                            void *vg, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc) / 16;
-+    Int128 *d = vd, *n = vn, *m = vm;
-+    uint16_t *pg = vg;
++    /* Remove mtedesc from the normal sve descriptor. */
++    desc = extract32(desc, 0, SIMD_DATA_SHIFT + SVE_MTEDESC_SHIFT);
 +
-+    for (i = 0; i < opr_sz; i += 1) {
-+        d[i] = (pg[H2(i)] & 1 ? n : m)[i];
++    /* Perform gross MTE suppression early. */
++    if (!tbi_check(desc, bit55) ||
++        tcma_check(desc, bit55, allocation_tag_from_addr(addr))) {
++        mtedesc = 0;
 +    }
++
++    sme_st1(env, za, vg, addr, desc, ra, esz, mtedesc,
++            vertical, host_fn, tlb_fn);
 +}
 +
- /* Two operand comparison controlled by a predicate.
-  * ??? It is very tempting to want to be able to expand this inline
-  * with x86 instructions, e.g.
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 660c5dbf5b..2b4baa2684 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1246,6 +1246,27 @@ bool sme_za_enabled_check(DisasContext *s)
-     return true;
- }
- 
-+/* Note that this function corresponds to CheckStreamingSVEAndZAEnabled. */
-+bool sme_smza_enabled_check(DisasContext *s)
-+{
-+    if (!sme_enabled_check(s)) {
-+        return false;
-+    }
-+    if (!s->pstate_sm) {
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-+                           syn_smetrap(SME_ET_NotStreaming, false),
-+                           default_exception_el(s));
-+        return false;
-+    }
-+    if (!s->pstate_za) {
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-+                           syn_smetrap(SME_ET_InactiveZA, false),
-+                           default_exception_el(s));
-+        return false;
-+    }
-+    return true;
++#define DO_ST(L, END, ESZ)                                                 \
++void HELPER(sme_st1##L##END##_h)(CPUARMState *env, void *za, void *vg,     \
++                                 target_ulong addr, uint32_t desc)         \
++{                                                                          \
++    sme_st1(env, za, vg, addr, desc, GETPC(), ESZ, 0, false,               \
++            sve_st1##L##L##END##_host, sve_st1##L##L##END##_tlb);          \
++}                                                                          \
++void HELPER(sme_st1##L##END##_v)(CPUARMState *env, void *za, void *vg,     \
++                                 target_ulong addr, uint32_t desc)         \
++{                                                                          \
++    sme_st1(env, za, vg, addr, desc, GETPC(), ESZ, 0, true,                \
++            sme_st1##L##END##_v_host, sme_st1##L##END##_v_tlb);            \
++}                                                                          \
++void HELPER(sme_st1##L##END##_h_mte)(CPUARMState *env, void *za, void *vg, \
++                                     target_ulong addr, uint32_t desc)     \
++{                                                                          \
++    sme_st1_mte(env, za, vg, addr, desc, GETPC(), ESZ, false,              \
++                sve_st1##L##L##END##_host, sve_st1##L##L##END##_tlb);      \
++}                                                                          \
++void HELPER(sme_st1##L##END##_v_mte)(CPUARMState *env, void *za, void *vg, \
++                                     target_ulong addr, uint32_t desc)     \
++{                                                                          \
++    sme_st1_mte(env, za, vg, addr, desc, GETPC(), ESZ, true,               \
++                sme_st1##L##END##_v_host, sme_st1##L##END##_v_tlb);        \
 +}
 +
- /*
-  * This utility function is for doing register extension with an
-  * optional shift. You will likely want to pass a temporary for the
++DO_ST(b, , MO_8)
++DO_ST(h, _be, MO_16)
++DO_ST(h, _le, MO_16)
++DO_ST(s, _be, MO_32)
++DO_ST(s, _le, MO_32)
++DO_ST(d, _be, MO_64)
++DO_ST(d, _le, MO_64)
++DO_ST(q, _be, MO_128)
++DO_ST(q, _le, MO_128)
++
++#undef DO_ST
 diff --git a/target/arm/translate-sme.c b/target/arm/translate-sme.c
-index d526c74456..d2a7232491 100644
+index d2a7232491..978af74d1d 100644
 --- a/target/arm/translate-sme.c
 +++ b/target/arm/translate-sme.c
-@@ -35,6 +35,54 @@
- #include "decode-sme.c.inc"
+@@ -151,3 +151,72 @@ static bool trans_MOVA(DisasContext *s, arg_MOVA *a)
  
- 
-+static TCGv_ptr get_tile_rowcol(DisasContext *s, int esz, int rs,
-+                                int tile_index, bool vertical)
-+{
-+    int tile = tile_index >> (4 - esz);
-+    int index = esz == MO_128 ? 0 : extract32(tile_index, 0, 4 - esz);
-+    int pos, len, offset;
-+    TCGv_i32 t_index;
-+    TCGv_ptr addr;
-+
-+    /* Resolve tile.size[index] to an untyped ZA slice index. */
-+    t_index = tcg_temp_new_i32();
-+    tcg_gen_trunc_tl_i32(t_index, cpu_reg(s, rs));
-+    tcg_gen_addi_i32(t_index, t_index, index);
-+
-+    len = ctz32(s->svl) - esz;
-+    pos = esz;
-+    offset = tile;
-+
-+    /*
-+     * Horizontal slice.  Index row N, column 0.
-+     * The helper will iterate by the element size.
-+     */
-+    if (!vertical) {
-+        pos += ctz32(sizeof(ARMVectorReg));
-+        offset *= sizeof(ARMVectorReg);
-+    }
-+    offset += offsetof(CPUARMState, zarray);
-+
-+    tcg_gen_deposit_z_i32(t_index, t_index, pos, len);
-+    tcg_gen_addi_i32(t_index, t_index, offset);
-+
-+    /*
-+     * Vertical tile slice.  Index row 0, column N.
-+     * The helper will iterate by the row spacing in the array.
-+     * Need to adjust addressing for elements smaller than uint64_t for BE.
-+     */
-+    if (HOST_BIG_ENDIAN && vertical && esz < MO_64) {
-+        tcg_gen_xori_i32(t_index, t_index, 8 - (1 << esz));
-+    }
-+
-+    addr = tcg_temp_new_ptr();
-+    tcg_gen_ext_i32_ptr(addr, t_index);
-+    tcg_temp_free_i32(t_index);
-+    tcg_gen_add_ptr(addr, addr, cpu_env);
-+
-+    return addr;
-+}
-+
- static bool trans_ZERO(DisasContext *s, arg_ZERO *a)
- {
-     if (!dc_isar_feature(aa64_sme, s)) {
-@@ -46,3 +94,60 @@ static bool trans_ZERO(DisasContext *s, arg_ZERO *a)
-     }
      return true;
  }
 +
-+static bool trans_MOVA(DisasContext *s, arg_MOVA *a)
++static bool trans_LDST1(DisasContext *s, arg_LDST1 *a)
 +{
-+    static gen_helper_gvec_4 * const h_fns[5] = {
-+        gen_helper_sve_sel_zpzz_b, gen_helper_sve_sel_zpzz_h,
-+        gen_helper_sve_sel_zpzz_s, gen_helper_sve_sel_zpzz_d,
-+        gen_helper_sve_sel_zpzz_q
-+    };
-+    static gen_helper_gvec_3 * const avz_fns[5] = {
-+        gen_helper_sme_mova_avz_b, gen_helper_sme_mova_avz_h,
-+        gen_helper_sme_mova_avz_s, gen_helper_sme_mova_avz_d,
-+        gen_helper_sme_mova_avz_q,
-+    };
-+    static gen_helper_gvec_3 * const zav_fns[5] = {
-+        gen_helper_sme_mova_zav_b, gen_helper_sme_mova_zav_h,
-+        gen_helper_sme_mova_zav_s, gen_helper_sme_mova_zav_d,
-+        gen_helper_sme_mova_zav_q,
++    typedef void GenLdSt1(TCGv_env, TCGv_ptr, TCGv_ptr, TCGv, TCGv_i32);
++
++    /*
++     * Indexed by [esz][be][v][mte][st], which is (except for load/store)
++     * also the order in which the elements appear in the function names,
++     * and so how we must concatenate the pieces.
++     */
++
++#define FN_LS(F)     { gen_helper_sme_ld1##F, gen_helper_sme_st1##F }
++#define FN_MTE(F)    { FN_LS(F), FN_LS(F##_mte) }
++#define FN_HV(F)     { FN_MTE(F##_h), FN_MTE(F##_v) }
++#define FN_END(L, B) { FN_HV(L), FN_HV(B) }
++
++    static GenLdSt1 * const fns[5][2][2][2][2] = {
++        FN_END(b, b),
++        FN_END(h_le, h_be),
++        FN_END(s_le, s_be),
++        FN_END(d_le, d_be),
++        FN_END(q_le, q_be),
 +    };
 +
-+    TCGv_ptr t_za, t_zr, t_pg;
-+    TCGv_i32 t_desc;
++#undef FN_LS
++#undef FN_MTE
++#undef FN_HV
++#undef FN_END
++
++    TCGv_ptr t_za, t_pg;
++    TCGv_i64 addr;
++    int desc = 0;
++    bool be = s->be_data == MO_BE;
++    bool mte = s->mte_active[0];
 +
 +    if (!dc_isar_feature(aa64_sme, s)) {
 +        return false;
@@ -478,31 +893,30 @@ index d526c74456..d2a7232491 100644
 +    }
 +
 +    t_za = get_tile_rowcol(s, a->esz, a->rs, a->za_imm, a->v);
-+    t_zr = vec_full_reg_ptr(s, a->zr);
 +    t_pg = pred_full_reg_ptr(s, a->pg);
++    addr = tcg_temp_new_i64();
 +
-+    t_desc = tcg_constant_i32(simd_desc(s->svl, s->svl, 0));
++    tcg_gen_shli_i64(addr, cpu_reg(s, a->rn), a->esz);
++    tcg_gen_add_i64(addr, addr, cpu_reg_sp(s, a->rm));
 +
-+    if (a->v) {
-+        /* Vertical slice -- use sme mova helpers. */
-+        if (a->to_vec) {
-+            zav_fns[a->esz](t_za, t_zr, t_pg, t_desc);
-+        } else {
-+            avz_fns[a->esz](t_zr, t_za, t_pg, t_desc);
-+        }
++    if (mte) {
++        desc = FIELD_DP32(desc, MTEDESC, MIDX, get_mem_index(s));
++        desc = FIELD_DP32(desc, MTEDESC, TBI, s->tbid);
++        desc = FIELD_DP32(desc, MTEDESC, TCMA, s->tcma);
++        desc = FIELD_DP32(desc, MTEDESC, WRITE, a->st);
++        desc = FIELD_DP32(desc, MTEDESC, SIZEM1, (1 << a->esz) - 1);
++        desc <<= SVE_MTEDESC_SHIFT;
 +    } else {
-+        /* Horizontal slice -- reuse sve sel helpers. */
-+        if (a->to_vec) {
-+            h_fns[a->esz](t_zr, t_za, t_zr, t_pg, t_desc);
-+        } else {
-+            h_fns[a->esz](t_za, t_zr, t_za, t_pg, t_desc);
-+        }
++        addr = clean_data_tbi(s, addr);
 +    }
++    desc = simd_desc(s->svl, s->svl, desc);
++
++    fns[a->esz][be][a->v][mte][a->st](cpu_env, t_za, t_pg, addr,
++                                      tcg_constant_i32(desc));
 +
 +    tcg_temp_free_ptr(t_za);
-+    tcg_temp_free_ptr(t_zr);
 +    tcg_temp_free_ptr(t_pg);
-+
++    tcg_temp_free_i64(addr);
 +    return true;
 +}
 -- 
